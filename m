@@ -1,35 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 480522A6158
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 11:15:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D672A61D1
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 11:37:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE1F6E0C1;
-	Wed,  4 Nov 2020 10:15:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC3E6E062;
+	Wed,  4 Nov 2020 10:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8E3856E0C1
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 10:15:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F301A13D5;
- Wed,  4 Nov 2020 02:15:51 -0800 (PST)
-Received: from [10.57.54.223] (unknown [10.57.54.223])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BDDB3F66E;
- Wed,  4 Nov 2020 02:15:50 -0800 (PST)
-Subject: Re: use of dma_direct_set_offset in (allwinner) drivers
-To: Maxime Ripard <maxime@cerno.tech>, Christoph Hellwig <hch@lst.de>
-References: <20201103095538.GA19136@lst.de>
- <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
-From: Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9623c346-c86c-e3ce-332b-95492576a859@arm.com>
-Date: Wed, 4 Nov 2020 10:15:49 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E0216E062
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 10:37:26 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20201104103714euoutp02b90023c792958e31eb55a78a27ed9a71~ER7qibl5F2967329673euoutp02K
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 10:37:14 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20201104103714euoutp02b90023c792958e31eb55a78a27ed9a71~ER7qibl5F2967329673euoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1604486234;
+ bh=thak1VuiILQ9qLLBa+Eo4p8aVTr6CXxVj9tuUnboVls=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=hioP553BWuqhEASSoUW5U1LPz735qznvvygizr+7rreHwBhjyELqv+QSz2KFyrQ8B
+ T7dTv0uKPadiLlDPdD8E2oyDtTkdG8QUNRlBGJxYG8cGkpx4kvX5zZlsFJTmiPcJR8
+ DAn8RXHH35neYpEJ0rAMF+7XYFBFhIUOaw2yY2ko=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20201104103713eucas1p1b379de904e02ab5a1e1d7ba1f03b02ad~ER7qRyPFU1357613576eucas1p1v;
+ Wed,  4 Nov 2020 10:37:13 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id 2E.7F.06456.95482AF5; Wed,  4
+ Nov 2020 10:37:13 +0000 (GMT)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e~ER7p2CQG81145311453eucas1p2d;
+ Wed,  4 Nov 2020 10:37:13 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201104103713eusmtrp12b68274578a64866f37f519a352e07b8~ER7p1Pkt70575105751eusmtrp16;
+ Wed,  4 Nov 2020 10:37:13 +0000 (GMT)
+X-AuditID: cbfec7f2-809ff70000001938-ec-5fa284598647
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 85.75.06314.95482AF5; Wed,  4
+ Nov 2020 10:37:13 +0000 (GMT)
+Received: from AMDC3061.digital.local (unknown [106.120.51.75]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201104103712eusmtip2a7e64e22b4f6a8b6a1b63c7175319f8c~ER7pJJUCC1010110101eusmtip2g;
+ Wed,  4 Nov 2020 10:37:12 +0000 (GMT)
+From: Sylwester Nawrocki <s.nawrocki@samsung.com>
+To: georgi.djakov@linaro.org, cw00.choi@samsung.com, krzk@kernel.org
+Subject: [PATCH v8 0/7] Exynos: Simple QoS for exynos-bus using interconnect
+Date: Wed,  4 Nov 2020 11:36:50 +0100
+Message-Id: <20201104103657.18007-1-s.nawrocki@samsung.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
-Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfyyUcRzH+95z9zyPm+NxbD6RaldttIVbP/YtTWX+uJWt/qg/aNLJMxTH
+ 7ol+rJYmKr+GWi4piorD6HCk/Ng5nRgXmW5hajGj1OTHiJLz6Md/78/r+/58vu/Pd1+akPaK
+ XOhI1VlWrVJGyUixUP9q3rwt8NqjEO/+aTkeepCE8DNNhQi/mx4V4Xxjlwj3znwjcU6DjsTZ
+ Q5lCbDZXUlj3qU+E39bnkXgq3YiwxtwowOXGQQr3Xy0mcVKDkcItX66LsObWGLnfQaHT3iQV
+ A30vScVQqkmgqCq6osio1iLFlG79ETJIvDeMjYqMZ9VevifFEU3dbwSxd9zPGxMSiQRUuDEF
+ 2dDA7IDF0SwyBYlpKVOMoL3oM8UX0wh6xudEVpeUmUKQbiH+dIxrOwS86SmC6pIi8m9HpaYC
+ WV0kI4f01owV7cT4Q/LIA6HVRDA3CNDXZa+McmQCoN7StmyiaSGzBW4bva1YwvhAe3cjxd+2
+ AUormwmeO8Dru8NCqyaWeWLNvdVE7ynIGl3La39oe56yyh1h3FS9OmcddNxKW8kATCKCtBf9
+ FF9kIhgyFSDe5QMDXT9IayCC8YCKei8eH4Cm1jaBFQNjB5YJBz6DHWTrcwgeS+BGspR3b4YF
+ bY6A1y6QOrwk5LUCHucPkvyDBsN9TRWViTbm/rdZ7n+b5f7LUIAILXJm47jocJaTq9hznpwy
+ motThXueionWoeW/1vHL9L0OzfSEGhBDI5mtpFn/MEQqUsZzF6INCGhC5iTx6+w4IZWEKS9c
+ ZNUxIeq4KJYzIFdaKHOWbH80FixlwpVn2TMsG8uq/5wKaBuXBFQu2JTsMWvcRYUb/I6YLLF5
+ Y+naD575tjYo+/BlU1Bk2rFj7nP2XjrXhpHagIn+sksttm5y34LqyTU7i5tm5fGVqGohVRka
+ dumd/+5a/R7dwcDFNHGYoR0lK+YtXbRdHHe0pvRjyaTef12Z/cVOt69Lp6ueHC/M+LkvoPPQ
+ F2OATMhFKOVbCTWn/A16NRyQZwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrPIsWRmVeSWpSXmKPExsVy+t/xe7qRLYviDZa/FbO4P6+V0WLjjPWs
+ Fte/PGe1mH/kHKvFla/v2Sym793EZjHp/gQWi/PnN7BbbHp8jdXi8q45bBafe48wWsw4v4/J
+ Yu2Ru+wWtxtXsFm07j3CbnH4TTurxYzJL9kcBD02repk87hzbQ+bx/3u40wem5fUe/RtWcXo
+ 8XmTXABblJ5NUX5pSapCRn5xia1StKGFkZ6hpYWekYmlnqGxeayVkamSvp1NSmpOZllqkb5d
+ gl7G/osXmAqmaVQcaWhmbmBcrNDFyMkhIWAi8WrVaaYuRi4OIYGljBKTznxk72LkAEpIScxv
+ UYKoEZb4c62LDaLmE6PEwz2v2UASbAKGEr1H+xhBbBEBD4lTrWtZQWxmgRnMEqdnmYLYwgI+
+ ErtunGAEmckioCox5YgBSJhXwFri1MV97BDz5SVWbzjADBEXlDg58wkLSDmzgLrE+nlCEBPl
+ JZq3zmaewMg/C0nVLISqWUiqFjAyr2IUSS0tzk3PLTbUK07MLS7NS9dLzs/dxAiMvG3Hfm7e
+ wXhpY/AhRgEORiUe3gPbFsYLsSaWFVfmHmKU4GBWEuF1Ons6Tog3JbGyKrUoP76oNCe1+BCj
+ KdAHE5mlRJPzgUkhryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFMHxMHp1QD
+ owlf+DdRhkz9Pxv/8mr1r5/P98rk7Ysr67qkznHkd66p1O56zWLKX7tgyQ5+X2/dSZ/mX9V9
+ 4ej6+pO3iV7VpNkTS9K+tEn2fd7vw1OQLtj49Y1rSNteU7XCY2wLyk2eK5353yU791aBLw9X
+ +h6F43MUdJXWxG/0fzV74X2vb+Vz+VtNDlxpVWIpzkg01GIuKk4EAKX2bjfSAgAA
+X-CMS-MailID: 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e
+X-Msg-Generator: CA
+X-RootMTR: 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e
+References: <CGME20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e@eucas1p2.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,95 +103,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, iommu@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Yong Deng <yong.deng@magewell.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
+ a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+ myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
+ s.nawrocki@samsung.com, linux-arm-kernel@lists.infradead.org,
+ m.szyprowski@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-04 08:14, Maxime Ripard wrote:
-> Hi Christoph,
-> 
-> On Tue, Nov 03, 2020 at 10:55:38AM +0100, Christoph Hellwig wrote:
->> Linux 5.10-rc1 switched from having a single dma offset in struct device
->> to a set of DMA ranges, and introduced a new helper to set them,
->> dma_direct_set_offset.
->>
->> This in fact surfaced that a bunch of drivers that violate our layering
->> and set the offset from drivers, which meant we had to reluctantly
->> export the symbol to set up the DMA range.
->>
->> The drivers are:
->>
->> drivers/gpu/drm/sun4i/sun4i_backend.c
->>
->>    This just use dma_direct_set_offset as a fallback.  Is there any good
->>    reason to not just kill off the fallback?
->>
->> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
->>
->>    Same as above.
-> 
-> So, the history of this is:
-> 
->    - We initially introduced the support for those two controllers
->      assuming that there was a direct mapping between the physical and
->      DMA addresses. It turns out it didn't and the DMA accesses were
->      going through a secondary, dedicated, bus that didn't have the same
->      mapping of the RAM than the CPU.
-> 
->      4690803b09c6 ("drm/sun4i: backend: Offset layer buffer address by DRAM starting address")
-> 
->    - This dedicated bus is undocumented and barely used in the vendor
->      kernel so this was overlooked, and it's fairly hard to get infos on
->      it for all the SoCs we support. We added the DT support for it
->      though on some SoCs we had enough infos to do so:
-> 
->      c43a4469402f ("dt-bindings: interconnect: Add a dma interconnect name")
->      22f88e311399 ("ARM: dts: sun5i: Add the MBUS controller")
-> 
->      This explains the check on the interconnect property
-> 
->    - However, due to the stable DT rule, we still need to operate without
->      regressions on older DTs that wouldn't have that property (and for
->      SoCs we haven't figured out). Hence the fallback.
-
-How about having something in the platform code that keys off the 
-top-level SoC compatible and uses a bus notifier to create offsets for 
-the relevant devices if an MBUS description is missing? At least that 
-way the workaround could be confined to a single dedicated place and 
-look somewhat similar to other special cases like sta2x11, rather than 
-being duplicated all over the place.
-
-Robin.
-
->> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
->>
->>    This driver unconditionally sets the offset.  Why can't we do this
->>    in the device tree?
->>
->> drivers/staging/media/sunxi/cedrus/cedrus_hw.c
->>
->>    Same as above.
->>
-> 
-> We should make those two match the previous ones, but we'll have the
-> same issue here eventually. Most likely they were never ran on an SoC
-> for which we have the MBUS figured out.
-> 
-> Maxime
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBwYXRjaHNldCBhZGRzIGludGVyY29ubmVjdCBBUEkgc3VwcG9ydCBmb3IgdGhlIEV4eW5v
+cyBTb0MgInNhbXN1bmcsCmV4eW5vcy1idXMiIGNvbXBhdGlibGUgZGV2aWNlcywgd2hpY2ggYWxy
+ZWFkeSBoYXZlIHRoZWlyIGNvcnJlc3BvbmRpbmcKZXh5bm9zLWJ1cyBkcml2ZXIgaW4gdGhlIGRl
+dmZyZXEgc3Vic3lzdGVtLiAgQ29tcGxlbWVudGluZyB0aGUgZGV2ZnJlcQpkcml2ZXIgd2l0aCBh
+biBpbnRlcmNvbm5lY3QgZnVuY3Rpb25hbGl0eSBhbGxvd3MgdG8gZW5zdXJlIHRoZSBRb1MKcmVx
+dWlyZW1lbnRzIG9mIGRldmljZXMgYWNjZXNzaW5nIHRoZSBzeXN0ZW0gbWVtb3J5IChlLmcuIHZp
+ZGVvIHByb2Nlc3NpbmcKZGV2aWNlcykgYXJlIGZ1bGZpbGxlZCBhbmQgYWFsbG93cyB0byBhdm9p
+ZCBpc3N1ZXMgbGlrZSB0aGUgb25lIGRpc2N1c3NlZAppbiB0aHJlYWQgWzFdLgoKVGhpcyBwYXRj
+aCBzZXJpZXMgYWRkcyBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgaW50ZXJjb25uZWN0IHByb3ZpZGVy
+IHBlciBlYWNoCiJzYW1zdW5nLGV4eW5vcy1idXMiIGNvbXBhdGlibGUgRFQgbm9kZSwgd2l0aCBv
+bmUgaW50ZXJjb25uZWN0IG5vZGUgcGVyCnByb3ZpZGVyLiAgVGhlIGludGVyY29ubmVjdCBjb2Rl
+IHdoaWNoIHdhcyBwcmV2aW91c2x5IGFkZGVkIGFzIGEgcGFydCBvZgp0aGUgZGV2ZnJlcSBkcml2
+ZXIgaGFzIGJlZW4gY29udmVydGVkIHRvIGEgc2VwYXJhdGUgcGxhdGZvcm0gZHJpdmVyLgpJbiB0
+aGUgZGV2ZnJlcSBhIGNvcnJlc3BvbmRpbmcgdmlydHVhbCBjaGlsZCBwbGF0Zm9ybSBkZXZpY2Ug
+aXMgcmVnaXN0ZXJlZC4KSW50ZWdyYXRpb24gb2YgZGV2ZnJlcSBhbmQgaW50ZXJjb25uZWN0IGZy
+YW1ld29ya3MgaXMgYWNoaWV2ZWQgdGhyb3VnaAp0aGUgUE0gUW9TIEFQSS4KCkEgc2FtcGxlIGlu
+dGVyY29ubmVjdCBjb25zdW1lciBmb3IgZXh5bm9zLW1peGVyIGlzIGFkZGVkIGluIHBhdGNoZXMg
+Ni83LAo3LzcsIGl0IGlzIGN1cnJlbnRseSBhZGRlZCBvbmx5IGZvciBleHlub3M0NDEyIGFuZCBh
+bGxvd3MgdG8gYWRkcmVzcyB0aGUKbWl4ZXIgRE1BIHVuZGVycnVuIGVycm9yIGlzc3VlcyBbMV0u
+CgpDaGFuZ2VzIHNpbmNlIHY3OgogLSBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MgcmVuYW1l
+ZCB0byBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nLAogLSBhZGRlZCBJTlRFUkNPTk5FQ1Rf
+U0FNU1VORyBLY29uZmlnIHN5bWJvbCwKIC0gYWRkZWQgbWlzc2luZyBkcml2ZXIgc3luY19zdGF0
+ZSBjYWxsYmFjaywKIC0gaW1wcm92ZWQgdGhlIERUIGJpbmRpbmcgZGVzY3JpcHRpb24sCiAtIGFk
+ZGVkIGEgcGF0Y2ggYWRkaW5nIG1haW50YWluZXJzIGVudHJ5LAogLSB1cGRhdGVkIGNvbW1lbnQg
+aW4gcGF0Y2ggNy83LCB0eXBvIGZpeCAocGF0Y2ggMS83KS4KClRoZSBzZXJpZXMgaGFzIGJlZW4g
+dGVzdGVkIG9uIE9kcm9pZCBVMyBib2FyZC4gSXQgaXMgYmFzZWQgb24gdjUuMTAtcmMxLgoKLS0K
+UmVnYXJkcywKU3lsd2VzdGVyCgpDaGFuZ2VzIHNpbmNlIHY2OgogLSB0aGUgaW50ZXJjb25uZWN0
+IGNvbnN1bWVyIERUIGJpbmRpbmdzIGFyZSBub3cgdXNlZCB0byBkZXNjcmliZSBkZXBlbmRlbmNp
+ZXMKICAgb2YgdGhlIGludGVyY29ubmVjdHMgKHNhbXN1bmcsZXh5bm9zLWJ1cyBub2RlcyksCiAt
+IGJ1cy13aWR0aCBwcm9wZXJ0eSByZXBsYWNlZCB3aXRoIHNhbXN1bmcsZGF0YS1jbGstcmF0aW8s
+CiAtIGFkYXB0YXRpb24gdG8gcmVjZW50IGNoYW5nZXMgaW4gdGhlIGludGVyY29ubmVjdCBjb2Rl
+CiAgIChvZl9pY2NfZ2V0X2Zyb21fcHJvdmlkZXIoKSwgaWNjX25vZGVfYWRkKCkpLgoKQ2hhbmdl
+cyBzaW5jZSB2NToKIC0gYWRkaXRpb24gb2YgImJ1cy13aWR0aDogRFQgcHJvcGVydHksIHdoaWNo
+IHNwZWNpZmllcyBkYXRhIHdpZHRoCiAgIG9mIHRoZSBpbnRlcmNvbm5lY3QgYnVzIChwYXRjaGVz
+IDEuLi4yLzYpLAogLSBhZGRpdGlvbiBvZiBzeW5jaHJvbml6YXRpb24gb2YgdGhlIGludGVyY29u
+bmVjdCBiYW5kd2lkdGggc2V0dGluZwogICB3aXRoIFZTWU5DIChwYXRjaCA2LzYpLgoKQ2hhbmdl
+cyBzaW5jZSB2MyBbNF0gKHY0IHNraXBwZWQgdG8gYWxpZ24gd2l0aCBwYXRjaHNldCBbMV0pLCBk
+ZXRhaWxlZApjaGFuZ2VzIGFyZSBsaXN0ZWQgaW4gcGF0Y2hlczoKIC0gY29udmVyc2lvbiB0byBh
+IHNlcGFyYXRlIGludGVyY29ubmVjdCAocGxhdGZvcm0pIGRyaXZlciwKIC0gYW4gdXBkYXRlIG9m
+IHRoZSBEVCBiaW5kaW5nIGRvY3VtZW50aW5nIG5ldyBvcHRpb25hbCBwcm9wZXJ0aWVzOgogICAj
+aW50ZXJjb25uZWN0LWNlbGxzLCBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQgaW4gInNhbXN1
+bmcsZXh5bm9zLWJ1cyIKICAgbm9kZXMsCiAtIG5ldyBEVCBwcm9wZXJ0aWVzIGFkZGVkIHRvIHRo
+ZSBTb0MsIHJhdGhlciB0aGFuIHRvIHRoZSBib2FyZCBzcGVjaWZpYwogICBmaWxlcy4KCkNoYW5n
+ZXMgc2luY2UgdjIgWzVdOgogLSBVc2UgaWNjX3N0ZF9hZ2dyZWdhdGUoKS4KIC0gSW1wbGVtZW50
+IGEgZGlmZmVyZW50IG1vZGlmaWNhdGlvbiBvZiBhcHBseV9jb25zdHJhaW50cygpIGluCiAgIGRy
+aXZlcnMvaW50ZXJjb25uZWN0L2NvcmUuYyAocGF0Y2ggMDMpLgogLSBVc2UgJ2V4eW5vcyxpbnRl
+cmNvbm5lY3QtcGFyZW50LW5vZGUnIGluIHRoZSBEVCBpbnN0ZWFkIG9mCiAgICdkZXZmcmVxJy8n
+cGFyZW50JywgZGVwZW5kaW5nIG9uIHRoZSBidXMuCiAtIFJlYmFzZSBvbiBEVCBwYXRjaGVzIHRo
+YXQgZGVwcmVjYXRlIHRoZSAnZGV2ZnJlcScgRFQgcHJvcGVydHkuCiAtIEltcHJvdmUgZXJyb3Ig
+aGFuZGxpbmcsIGluY2x1ZGluZyBmcmVlaW5nIGdlbmVyYXRlZCBJRHMgb24gZmFpbHVyZS4KIC0g
+UmVtb3ZlIGV4eW5vc19idXNfaWNjX2Nvbm5lY3QoKSBhbmQgYWRkIGV4eW5vc19idXNfaWNjX2dl
+dF9wYXJlbnQoKS4KCkNoYW5nZXMgc2luY2UgdjEgWzZdOgogLSBSZWJhc2Ugb24gY291cGxlZCBy
+ZWd1bGF0b3JzIHBhdGNoZXMuCiAtIFVzZSBkZXZfcG1fcW9zXyooKSBBUEkgaW5zdGVhZCBvZiBv
+dmVycmlkaW5nIGZyZXF1ZW5jeSBpbgogICBleHlub3NfYnVzX3RhcmdldCgpLgogLSBVc2UgSURS
+IGZvciBub2RlIElEIGFsbG9jYXRpb24uCiAtIFJldmVyc2Ugb3JkZXIgb2YgbXVsdGlwbGljYXRp
+b24gYW5kIGRpdmlzaW9uIGluCiAgIG1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKCkgKHBhdGNo
+IDA3KSB0byBhdm9pZCBpbnRlZ2VyIG92ZXJmbG93LgoKClJlZmVyZW5jZXM6ClsxXSBodHRwczov
+L3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwODYxNzU3LyAob3JpZ2luYWwgaXNzdWUpClsy
+XSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9saW51eC1zYW1zdW5nLXNvYy9tc2c3MDAx
+NC5odG1sClszXSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9hcm0ta2VybmVsL21zZzgx
+MDcyMi5odG1sCls0XSBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1wbS8yMDE5MTIyMDEx
+NTY1My42NDg3LTEtYS5zd2lnb25Ac2Ftc3VuZy5jb20KWzVdIGh0dHBzOi8vcGF0Y2h3b3JrLmtl
+cm5lbC5vcmcvY292ZXIvMTEwNTQ0MTcvICh2MSBvZiB0aGlzIFJGQykKWzZdIGh0dHBzOi8vcGF0
+Y2h3b3JrLmtlcm5lbC5vcmcvY292ZXIvMTExNTI1OTUvICh2MiBvZiB0aGlzIFJGQykKCgpBcnR1
+ciDFmndpZ2/FhCAoMSk6CiAgQVJNOiBkdHM6IGV4eW5vczogQWRkIGludGVyY29ubmVjdHMgdG8g
+RXh5bm9zNDQxMiBtaXhlcgoKU3lsd2VzdGVyIE5hd3JvY2tpICg2KToKICBkdC1iaW5kaW5nczog
+ZGV2ZnJlcTogQWRkIGRvY3VtZW50YXRpb24gZm9yIHRoZSBpbnRlcmNvbm5lY3QKICAgIHByb3Bl
+cnRpZXMKICBpbnRlcmNvbm5lY3Q6IEFkZCBnZW5lcmljIGludGVyY29ubmVjdCBkcml2ZXIgZm9y
+IEV4eW5vcyBTb0NzCiAgTUFJTlRBSU5FUlM6IEFkZCBlbnRyeSBmb3IgU2Ftc3VuZyBpbnRlcmNv
+bm5lY3QgZHJpdmVycwogIFBNIC8gZGV2ZnJlcTogZXh5bm9zLWJ1czogQWRkIHJlZ2lzdHJhdGlv
+biBvZiBpbnRlcmNvbm5lY3QgY2hpbGQKICAgIGRldmljZQogIEFSTTogZHRzOiBleHlub3M6IEFk
+ZCBpbnRlcmNvbm5lY3QgcHJvcGVydGllcyB0byBFeHlub3M0NDEyIGJ1cyBub2RlcwogIGRybTog
+ZXh5bm9zOiBtaXhlcjogQWRkIGludGVyY29ubmVjdCBzdXBwb3J0CgogLi4uL2RldmljZXRyZWUv
+YmluZGluZ3MvZGV2ZnJlcS9leHlub3MtYnVzLnR4dCAgICAgfCAgNzEgKysrKysrKy0KIE1BSU5U
+QUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA3ICsKIGFy
+Y2gvYXJtL2Jvb3QvZHRzL2V4eW5vczQ0MTIuZHRzaSAgICAgICAgICAgICAgICAgIHwgICA3ICsK
+IGRyaXZlcnMvZGV2ZnJlcS9leHlub3MtYnVzLmMgICAgICAgICAgICAgICAgICAgICAgIHwgIDE3
+ICsrCiBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL2V4eW5vc19taXhlci5jICAgICAgICAgICAgICB8
+IDE0NiArKysrKysrKysrKysrKy0KIGRyaXZlcnMvaW50ZXJjb25uZWN0L0tjb25maWcgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvaW50ZXJjb25uZWN0L01ha2VmaWxlICAg
+ICAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcv
+S2NvbmZpZyAgICAgICAgICAgICAgIHwgIDEzICsrCiBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1z
+dW5nL01ha2VmaWxlICAgICAgICAgICAgICB8ICAgNCArCiBkcml2ZXJzL2ludGVyY29ubmVjdC9z
+YW1zdW5nL2V4eW5vcy5jICAgICAgICAgICAgICB8IDE5OSArKysrKysrKysrKysrKysrKysrKysK
+IDEwIGZpbGVzIGNoYW5nZWQsIDQ1NiBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMoLSkKIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL0tjb25maWcKIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL01ha2VmaWxlCiBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9pbnRlcmNvbm5lY3Qvc2Ftc3VuZy9leHlub3MuYwoK
+LS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
