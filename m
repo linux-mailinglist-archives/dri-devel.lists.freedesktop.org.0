@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E5E2A78D4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:20:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514D52A7914
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA99D6E9B5;
-	Thu,  5 Nov 2020 08:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9587D6E9F7;
+	Thu,  5 Nov 2020 08:21:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92C5A6E95E
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:25 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id y184so134181lfa.12
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:25 -0800 (PST)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDAD86E853
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:26 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id f9so190901lfq.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bYI1lTU0u9qugSWMqSGv5A3HDa8DCxBYBbaISJenZIs=;
- b=lIEXO/La7Zc0VwM0c4dDJ9vgZF6JXEGcQnUDRRMwyyD10nK8kcgrNp9DgX3Du75IIT
- OzpoO+2Bl7PIc8Pyh1aBFhzzFuhxYw/EGzxr89Ll+MHvnacmt4aq+occ46DdFWbChWkL
- izUIyLqX6Bqr0wRpJMiCGaqg2/bML9hVkLcegcNewXvrIjcjdirU/fjw5hxKasYetBF0
- ag405LakLuvWIXmezrX37MwwgCR2hLz4ZwMbHvpDRnPUc1zYptM9IAdfmP4GvSqjJHt3
- DpNnOKNZjLv+kBhz26qVrZFveREsWzpQVEUcELKxB05MXwMJE6kz+wM2C0LgbHfqMsKs
- A2gg==
+ bh=hseyDhQkuoob9NOtoHbLkM9cTffwFSs3xCd4YpkHTrw=;
+ b=Vgs9vcRA5MoYdjcDWn5jAmzh9koLFkm8n3kxp4ZaWDmqaxezO16uXx+POVve50XLv6
+ Brk82aXVk8Ij6FjVZVP0eHSnwT52sTgvE/OiY/n7PgxCXTZdymbdD49Zn5jZks+RIF25
+ zeNuKaG+2PB76p4DG10Sx6jAlvXcP12CX5VDX8f2ytUae1qjeB1Ct6/6xtZlCTN3McIO
+ SoePQx2v0ZriIswLrgIAG9aFzQz81hKDwWKO/xPaaKaoeP5OX7IsA7kWqj1qLBwq1o7P
+ fOqksQJtYotkXuwnXWjQoPNQfKtuT7fe4Ou24BKTBQm7a+aobGhtKwVp3lF/QqrtjJQb
+ PbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bYI1lTU0u9qugSWMqSGv5A3HDa8DCxBYBbaISJenZIs=;
- b=iEpnEg6dGm2XrFPc2OfAVJoJYlUBJYKuExTwlfHHcMJh2LOk80t8T6RJevTAeJT/NW
- iCMNqs/IfDWzCBAcySvMGOL7lomP43B3yd3bglb762LzhHohH1yip6fj/q49E0Mtq551
- 0g20nXz3rkO7KjT93y9TNwWpKribpazFPH5dWR+TDl3rhx7nDuPRj440H1ezSjpu9ACw
- IjrXenxz/acHCh5wEtOA9JhrieoRynU1GGqWPU78yh+3gb2Tucf9kpCOHHnPSTKzBb4m
- 3lmdu/QO7MGoRs2st4ELIM1Q/Mz8hOUEGMp/dWWKKjoX8TyJCyWYCp2LiDAqERjbIknu
- C4tg==
-X-Gm-Message-State: AOAM5308eAElhTT/6XDiNICOohR449FvUmPbqzcN55X4mGEo0p6J6tfV
- 3zEHxgktVRfG0ILwM216Pi0=
-X-Google-Smtp-Source: ABdhPJzQf9TUjFglxLujGELvxqeC4uglPytS2wsivLSpqjwqfzVF8NSmMtie4mgdOemR7ln3Z7XqDQ==
-X-Received: by 2002:a19:7409:: with SMTP id v9mr59130lfe.402.1604533524002;
- Wed, 04 Nov 2020 15:45:24 -0800 (PST)
+ bh=hseyDhQkuoob9NOtoHbLkM9cTffwFSs3xCd4YpkHTrw=;
+ b=BE7w6p114YnFZZy4ESv2IP/SBcr73f/hvOMhNMjRLwwR2Sn2NPG7e/pgIBXiC2zDHt
+ RczEA7xOXelQ2yRLt3s75ypheqfd76q7eBzKvmqBfmIuBSUbu5LuKr0Mo+6Z+DTDoSCU
+ m+Jj8N9uF1EdIcFQt2Yonu/2AwZD0tW742DcklAzm5feijMX+NE1acrmR/qUOCJGoqKS
+ Cmo+yIhw5qtQLL4V7Hm1b07jyCC/34AcHoi5GePZjg7FdEN97GW0gRcSy5dqgcqNqQUT
+ MIeGRbIDyhKY4SHBGnuwXR0qAdcat+YOhbhxgSBrwUD9xoub8sW0FNjrtCBL2XYvuX28
+ Xc1Q==
+X-Gm-Message-State: AOAM533uakKH/xEMtT3371qOd3BnQLKFvUJtI4t8Q6BYMZJB/UxXPrHy
+ 3vQLEbe6nbEdapKulsNn2VI=
+X-Google-Smtp-Source: ABdhPJyjht5wRoGeIdpBggRhGgNRXmUvQ3GKs49s3x6UJiZufCXAe3x9qoE2tlabYR9VyRWx6gLTtg==
+X-Received: by 2002:a19:6912:: with SMTP id e18mr39627lfc.427.1604533525432;
+ Wed, 04 Nov 2020 15:45:25 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.22
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:45:23 -0800 (PST)
+ Wed, 04 Nov 2020 15:45:24 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -61,10 +61,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 20/30] usb: chipidea: tegra: Support OPP and SoC core
+Subject: [PATCH v1 21/30] usb: host: ehci-tegra: Support OPP and SoC core
  voltage scaling
-Date: Thu,  5 Nov 2020 02:44:17 +0300
-Message-Id: <20201104234427.26477-21-digetx@gmail.com>
+Date: Thu,  5 Nov 2020 02:44:18 +0300
+Message-Id: <20201104234427.26477-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -92,46 +92,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add initial OPP and SoC CORE voltage scaling support to the Tegra UDC
+Add initial OPP and SoC core voltage scaling support to the Tegra EHCI
 driver. This is required for enabling system-wide DVFS on older Tegra
 SoCs.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
+Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/chipidea/Kconfig         |  1 +
- drivers/usb/chipidea/ci_hdrc_tegra.c | 79 ++++++++++++++++++++++++++++
+ drivers/usb/host/Kconfig      |  1 +
+ drivers/usb/host/ehci-tegra.c | 79 +++++++++++++++++++++++++++++++++++
  2 files changed, 80 insertions(+)
 
-diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
-index 8bafcfc6080d..6a5bc08711d6 100644
---- a/drivers/usb/chipidea/Kconfig
-+++ b/drivers/usb/chipidea/Kconfig
-@@ -56,6 +56,7 @@ config USB_CHIPIDEA_TEGRA
- 	tristate "Enable Tegra UDC glue driver" if EMBEDDED
- 	depends on OF
- 	depends on USB_CHIPIDEA_UDC
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index ab12c4bf0ef1..35c42bc05c5a 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -278,6 +278,7 @@ config USB_EHCI_TEGRA
+ 	depends on ARCH_TEGRA
+ 	select USB_EHCI_ROOT_HUB_TT
+ 	select USB_TEGRA_PHY
 +	select PM_OPP
- 	default USB_CHIPIDEA
- 
- endif
-diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
-index 7455df0ede49..7f0403e810fe 100644
---- a/drivers/usb/chipidea/ci_hdrc_tegra.c
-+++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
-@@ -6,6 +6,7 @@
- #include <linux/clk.h>
- #include <linux/module.h>
+ 	help
+ 	  This driver enables support for the internal USB Host Controllers
+ 	  found in NVIDIA Tegra SoCs. The controllers are EHCI compliant.
+diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
+index 869d9c4de5fc..0976577f54b4 100644
+--- a/drivers/usb/host/ehci-tegra.c
++++ b/drivers/usb/host/ehci-tegra.c
+@@ -17,6 +17,7 @@
  #include <linux/of_device.h>
+ #include <linux/of_gpio.h>
+ #include <linux/platform_device.h>
 +#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
  #include <linux/reset.h>
+ #include <linux/slab.h>
+@@ -364,6 +365,79 @@ static void tegra_ehci_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+ 	free_dma_aligned_buffer(urb);
+ }
  
- #include <linux/usb/chipidea.h>
-@@ -47,6 +48,79 @@ static const struct of_device_id tegra_udc_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, tegra_udc_of_match);
- 
-+static void tegra_udc_deinit_opp_table(void *data)
++static void tegra_ehci_deinit_opp_table(void *data)
 +{
 +	struct device *dev = data;
 +	struct opp_table *opp_table;
@@ -142,7 +143,7 @@ index 7455df0ede49..7f0403e810fe 100644
 +	dev_pm_opp_put_opp_table(opp_table);
 +}
 +
-+static int devm_tegra_udc_init_opp_table(struct device *dev)
++static int devm_tegra_ehci_init_opp_table(struct device *dev)
 +{
 +	unsigned long rate = ULONG_MAX;
 +	struct opp_table *opp_table;
@@ -190,7 +191,7 @@ index 7455df0ede49..7f0403e810fe 100644
 +		goto remove_table;
 +	}
 +
-+	err = devm_add_action(dev, tegra_udc_deinit_opp_table, dev);
++	err = devm_add_action(dev, tegra_ehci_deinit_opp_table, dev);
 +	if (err)
 +		goto remove_table;
 +
@@ -204,21 +205,21 @@ index 7455df0ede49..7f0403e810fe 100644
 +	return err;
 +}
 +
- static int tegra_udc_probe(struct platform_device *pdev)
- {
- 	const struct tegra_udc_soc_info *soc;
-@@ -77,6 +151,11 @@ static int tegra_udc_probe(struct platform_device *pdev)
- 		return err;
+ static const struct tegra_ehci_soc_config tegra30_soc_config = {
+ 	.has_hostpc = true,
+ };
+@@ -431,6 +505,11 @@ static int tegra_ehci_probe(struct platform_device *pdev)
+ 		goto cleanup_hcd_create;
  	}
  
-+	err = devm_tegra_udc_init_opp_table(&pdev->dev);
++	err = devm_tegra_ehci_init_opp_table(&pdev->dev);
 +	if (err)
 +		return dev_err_probe(&pdev->dev, err,
-+				     "failed to initialize OPP\n");
++				     "Failed to initialize OPP\n");
 +
- 	err = clk_prepare_enable(udc->clk);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to enable clock: %d\n", err);
+ 	err = clk_prepare_enable(tegra->clk);
+ 	if (err)
+ 		goto cleanup_hcd_create;
 -- 
 2.27.0
 
