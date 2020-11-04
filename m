@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040642A7920
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4016B2A78FF
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4BD96EA22;
-	Thu,  5 Nov 2020 08:21:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674CE6E9EC;
+	Thu,  5 Nov 2020 08:20:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9037A6E86C
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:11 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id f9so190140lfq.2
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:11 -0800 (PST)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C1C6E86C
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:12 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id k25so292124lji.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s2xq+lt/r2Mvqw9qSWZAnUmoqhbrNvrI4eJy0ZnOQ64=;
- b=Fy4CNvg3obv1cUoJtvGJ21pgRv1s2vfQZ+17zG35XkFJhQGYivEOExVUbw2fEdaRGa
- ++APIIMcHAGfK/1E9UJY24YPYHy4O2A9bQts/vv5m93fdQ9Ty43C78419zh7Bf2Vk6r9
- eWJVZOlxAkZ9v7Ov0+UUojl1qFdIk+/oVtB43e+1brDo2GrOzQvvt5/leRClxlavjH+s
- AAp/ILGa8GQVEJSYwfOTryVzVXbkOSIpE9V4g+GcD0T8TD4yXfHl7kDjwklc+guJZO9G
- DEJIhAku8uEOKHuOLL0c0EpROBzWbTmnQkPSAJLtnb3obN2xwV8jKIKLXEQEzpvfiJ70
- cqXg==
+ bh=wBjgIW7F68X1tjrcRLYGZvVGEJ77+b3TQ2Y5Po7YsD8=;
+ b=Q/1ZQqq3UoVYq2tNoAZWz35b4cHyQDxKVAsJPzTE66rN/1B9Yl7BGayadd4BCoYYME
+ YWNWFOJRFNL5GYtjYJRhqjzWExwSk4SqqPcY+yWq+tz23T/eRedD9g4gnFSa5M49tsOu
+ 0kZi9xyv/VllERNv3M0/B4Dnw7FsfRh81ZVcQnSfVrsxs4KIBXOq8WSvFIH3K1v07Xcp
+ jYxgPjWeFytLCm9V8/8dxHrvpfcuqKra/CR2t8lYLpHSH9FI1iyUBE/cj/ZznRO7+bBh
+ jBtD8rXOVqTZt+Q6T9meCd47iiSOSbySoeaVGuIJ8KomJYGa0xCqGpfNMhS6xqEDw60x
+ +R1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s2xq+lt/r2Mvqw9qSWZAnUmoqhbrNvrI4eJy0ZnOQ64=;
- b=dded35C9sEp2MlKu+xcL6HOLN7CdzLBCbswpCYD28zYRSbqg0zZSy+bzTrfX8DYDBu
- tGqqm1Zde0IfoW1S5KQMgvkN4OaMZl8GfAJkealYlD5o2ocZ8HXgITZG2wff482J+VDa
- NYACPh9wZMuZcfU9vNSfRfHGFcjjBaICZkNZHC1DRV+vpZ7vvbY6R8tnwyTbgKgS41OJ
- s4o2huY7Re+haKUGlt7G7fF9x8DJJ+lBa2knPTpO58zGVfwTwBoz0GSCVBDUR2yAqXpN
- LFxZQ03mR60PbY4fSt8xNnA0RKURbdcJ251AbgMICCGLVrE0K2KRwdC/ROGmGCYcUs3B
- C7Ng==
-X-Gm-Message-State: AOAM533AiR6grAh7HPbw6NXmnNOIgdsXGTJAGY0Ud1g63vH2anpmdF98
- ALskOrfYO7EDhzh9ejJT8BY=
-X-Google-Smtp-Source: ABdhPJwqoSMi1rb7vw1Ft82ab6MuGmnvmcXXmGI4LnfUQssU2WJfQ903eLKfiwjg+DKW6GcnoqGrow==
-X-Received: by 2002:a19:6a07:: with SMTP id u7mr52539lfu.220.1604533509991;
- Wed, 04 Nov 2020 15:45:09 -0800 (PST)
+ bh=wBjgIW7F68X1tjrcRLYGZvVGEJ77+b3TQ2Y5Po7YsD8=;
+ b=TjxPqW4w3iXNDsxlUB3DWWKOwNy9L2ppOD5S7uE/hc+LVcHtL3JzBCdcI4aw2eKr3P
+ 6Sd/i2Ncv11DlCh9NcIadu4kyeqOGEr51Ii1jKc7Dvfj22robSKCxmWxiNBdJE0ewk2w
+ N5mvN8CJycj92/TNFXPDTLnpCXCtNUKXeAwg99dAhwkeKY3LCqG0N0rNQau2cHFyjXna
+ UzkSBTk2JyeAGqhSyZctyLEbo7JEQwRfVvZIEPgGqpWtRLVHSVzMQ7JU1QIK3e/RB5Xd
+ gntkbhaKKdZYlX1tnLle+jEPKjF+rvF222h5h1kjNeiFe1dgBoOF20R1pLaloiFMGGRR
+ 6kig==
+X-Gm-Message-State: AOAM530LJW95mtdyXyo046mOAzyB5g6qKpqyPwG/V/xSG42L5ZF9Pyk2
+ SNe25oiWXCxlj++iCzrGh0c=
+X-Google-Smtp-Source: ABdhPJz+kchjM0+Y+caAORBcP4bOCiZCk8hlvojmXePkcpBlA3X9hi+1uLRIu4Pe1taJjSKn5phlcg==
+X-Received: by 2002:a2e:5016:: with SMTP id e22mr137752ljb.301.1604533511420; 
+ Wed, 04 Nov 2020 15:45:11 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.08
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:45:09 -0800 (PST)
+ Wed, 04 Nov 2020 15:45:10 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -61,10 +61,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 10/30] regulator: Allow skipping disabled regulators in
- regulator_check_consumers()
-Date: Thu,  5 Nov 2020 02:44:07 +0300
-Message-Id: <20201104234427.26477-11-digetx@gmail.com>
+Subject: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+Date: Thu,  5 Nov 2020 02:44:08 +0300
+Message-Id: <20201104234427.26477-12-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -92,172 +92,265 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add option which allows regulator_check_consumers() to skip accounting of
-a disabled consumer regulators.
-
-This new option is needed for the NVIDIA Tegra voltage couplers in order
-to properly calculate a lowest possible voltage for the CORE regulator.
-The requirements of a disabled consumer regulators should not be accounted
-by the Tegra voltage balancers because disabled state means that hardware
-is inactive. In particular disabled state shouldn't be accounted for the
-consumers which belong to the CORE voltage domain, meanwhile CPU domain
-should continue to account the disabled state.
+Add OPP and SoC core voltage scaling support to the display controller
+driver. This is required for enabling system-wide DVFS on older Tegra
+SoCs.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
 Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/regulator/core.c                       | 12 ++++++++----
- drivers/soc/samsung/exynos-regulator-coupler.c |  2 +-
- drivers/soc/tegra/regulators-tegra20.c         |  6 +++---
- drivers/soc/tegra/regulators-tegra30.c         |  6 +++---
- include/linux/regulator/coupler.h              |  6 ++++--
- 5 files changed, 19 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/tegra/Kconfig |   1 +
+ drivers/gpu/drm/tegra/dc.c    | 138 +++++++++++++++++++++++++++++++++-
+ drivers/gpu/drm/tegra/dc.h    |   5 ++
+ 3 files changed, 143 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index f258ded39ce0..015dcd8408d9 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -462,7 +462,8 @@ static int regulator_check_states(suspend_state_t state)
-  */
- int regulator_check_consumers(struct regulator_dev *rdev,
- 			      int *min_uV, int *max_uV,
--			      suspend_state_t state)
-+			      suspend_state_t state,
-+			      bool skip_disabled_regulators)
- {
- 	struct regulator *regulator;
- 	struct regulator_voltage *voltage;
-@@ -476,6 +477,9 @@ int regulator_check_consumers(struct regulator_dev *rdev,
- 		if (!voltage->min_uV && !voltage->max_uV)
- 			continue;
+diff --git a/drivers/gpu/drm/tegra/Kconfig b/drivers/gpu/drm/tegra/Kconfig
+index 1650a448eabd..9eec4c3fbd3b 100644
+--- a/drivers/gpu/drm/tegra/Kconfig
++++ b/drivers/gpu/drm/tegra/Kconfig
+@@ -12,6 +12,7 @@ config DRM_TEGRA
+ 	select INTERCONNECT
+ 	select IOMMU_IOVA
+ 	select CEC_CORE if CEC_NOTIFIER
++	select PM_OPP
+ 	help
+ 	  Choose this option if you have an NVIDIA Tegra SoC.
  
-+		if (skip_disabled_regulators && !regulator->enable_count)
-+			continue;
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index fd7c8828652d..babcb66a335b 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -11,9 +11,13 @@
+ #include <linux/interconnect.h>
+ #include <linux/module.h>
+ #include <linux/of_device.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
++#include <linux/regulator/consumer.h>
+ #include <linux/reset.h>
+ 
++#include <soc/tegra/common.h>
++#include <soc/tegra/fuse.h>
+ #include <soc/tegra/pmc.h>
+ 
+ #include <drm/drm_atomic.h>
+@@ -1699,6 +1703,55 @@ int tegra_dc_state_setup_clock(struct tegra_dc *dc,
+ 	return 0;
+ }
+ 
++static void tegra_dc_update_voltage_state(struct tegra_dc *dc,
++					  struct tegra_dc_state *state)
++{
++	struct dev_pm_opp *opp;
++	unsigned long rate;
++	int err, min_uV;
 +
- 		if (*max_uV > voltage->max_uV)
- 			*max_uV = voltage->max_uV;
- 		if (*min_uV < voltage->min_uV)
-@@ -3662,7 +3666,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
- 
- 		ret = regulator_check_consumers(rdev,
- 						&desired_min_uV,
--						&desired_max_uV, state);
-+						&desired_max_uV, state, false);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -3681,7 +3685,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
- 
- 		ret = regulator_check_consumers(c_rdevs[i],
- 						&tmp_min,
--						&tmp_max, state);
-+						&tmp_max, state, false);
- 		if (ret < 0)
- 			return ret;
- 
-@@ -4119,7 +4123,7 @@ int regulator_sync_voltage(struct regulator *regulator)
- 	if (ret < 0)
- 		goto out;
- 
--	ret = regulator_check_consumers(rdev, &min_uV, &max_uV, 0);
-+	ret = regulator_check_consumers(rdev, &min_uV, &max_uV, 0, false);
- 	if (ret < 0)
- 		goto out;
- 
-diff --git a/drivers/soc/samsung/exynos-regulator-coupler.c b/drivers/soc/samsung/exynos-regulator-coupler.c
-index 61a156b44a48..9bd99a93e3e0 100644
---- a/drivers/soc/samsung/exynos-regulator-coupler.c
-+++ b/drivers/soc/samsung/exynos-regulator-coupler.c
-@@ -41,7 +41,7 @@ static int regulator_get_optimal_voltage(struct regulator_dev *rdev,
- 
- 		ret = regulator_check_consumers(c_rdevs[i],
- 						&tmp_min,
--						&tmp_max, state);
-+						&tmp_max, state, false);
- 		if (ret < 0)
- 			return ret;
- 
-diff --git a/drivers/soc/tegra/regulators-tegra20.c b/drivers/soc/tegra/regulators-tegra20.c
-index 8782e399a58c..8c31acb5fdc6 100644
---- a/drivers/soc/tegra/regulators-tegra20.c
-+++ b/drivers/soc/tegra/regulators-tegra20.c
-@@ -136,7 +136,7 @@ static int tegra20_core_rtc_update(struct tegra_regulator_coupler *tegra,
- 		return err;
- 
- 	err = regulator_check_consumers(core_rdev, &core_min_uV, &core_max_uV,
--					PM_SUSPEND_ON);
-+					PM_SUSPEND_ON, true);
- 	if (err)
- 		return err;
- 
-@@ -246,12 +246,12 @@ static int tegra20_cpu_voltage_update(struct tegra_regulator_coupler *tegra,
- 		return err;
- 
- 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV, &cpu_max_uV,
--					PM_SUSPEND_ON);
-+					PM_SUSPEND_ON, false);
- 	if (err)
- 		return err;
- 
- 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV_consumers,
--					&cpu_max_uV, PM_SUSPEND_ON);
-+					&cpu_max_uV, PM_SUSPEND_ON, false);
- 	if (err)
- 		return err;
- 
-diff --git a/drivers/soc/tegra/regulators-tegra30.c b/drivers/soc/tegra/regulators-tegra30.c
-index fcf824f73131..d92aafa736bc 100644
---- a/drivers/soc/tegra/regulators-tegra30.c
-+++ b/drivers/soc/tegra/regulators-tegra30.c
-@@ -164,7 +164,7 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
- 		return err;
- 
- 	err = regulator_check_consumers(core_rdev, &core_min_uV, &core_max_uV,
--					PM_SUSPEND_ON);
-+					PM_SUSPEND_ON, true);
- 	if (err)
- 		return err;
- 
-@@ -175,12 +175,12 @@ static int tegra30_voltage_update(struct tegra_regulator_coupler *tegra,
- 	cpu_min_uV = core_min_uV - max_spread;
- 
- 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV, &cpu_max_uV,
--					PM_SUSPEND_ON);
-+					PM_SUSPEND_ON, false);
- 	if (err)
- 		return err;
- 
- 	err = regulator_check_consumers(cpu_rdev, &cpu_min_uV_consumers,
--					&cpu_max_uV, PM_SUSPEND_ON);
-+					&cpu_max_uV, PM_SUSPEND_ON, false);
- 	if (err)
- 		return err;
- 
-diff --git a/include/linux/regulator/coupler.h b/include/linux/regulator/coupler.h
-index 5f86824bd117..4e076567b823 100644
---- a/include/linux/regulator/coupler.h
-+++ b/include/linux/regulator/coupler.h
-@@ -55,7 +55,8 @@ int regulator_coupler_register(struct regulator_coupler *coupler);
- const char *rdev_get_name(struct regulator_dev *rdev);
- int regulator_check_consumers(struct regulator_dev *rdev,
- 			      int *min_uV, int *max_uV,
--			      suspend_state_t state);
-+			      suspend_state_t state,
-+			      bool skip_disabled_regulators);
- int regulator_check_voltage(struct regulator_dev *rdev,
- 			    int *min_uV, int *max_uV);
- int regulator_get_voltage_rdev(struct regulator_dev *rdev);
-@@ -75,7 +76,8 @@ static inline const char *rdev_get_name(struct regulator_dev *rdev)
- }
- static inline int regulator_check_consumers(struct regulator_dev *rdev,
- 					    int *min_uV, int *max_uV,
--					    suspend_state_t state)
-+					    suspend_state_t state,
-+					    bool skip_disabled_regulators))
++	/* OPP usage is optional */
++	if (!dc->opp_table)
++		return;
++
++	/* calculate actual pixel clock rate which depends on internal divider */
++	rate = DIV_ROUND_UP(clk_get_rate(dc->clk) * 2, state->div + 2);
++
++	/* find suitable OPP for the rate */
++	opp = dev_pm_opp_find_freq_ceil(dc->dev, &rate);
++
++	if (opp == ERR_PTR(-ERANGE))
++		opp = dev_pm_opp_find_freq_floor(dc->dev, &rate);
++
++	if (IS_ERR(opp)) {
++		dev_err(dc->dev, "failed to find OPP for %lu Hz: %ld\n",
++			rate, PTR_ERR(opp));
++		return;
++	}
++
++	min_uV = dev_pm_opp_get_voltage(opp);
++	dev_pm_opp_put(opp);
++
++	/*
++	 * Voltage scaling is optional and trying to set voltage for a dummy
++	 * regulator will error out.
++	 */
++	if (!device_property_present(dc->dev, "core-supply"))
++		return;
++
++	/*
++	 * Note that the minimum core voltage depends on the pixel clock
++	 * rate (which depends on internal clock divider of CRTC) and not on
++	 * the rate of the display controller clock. This is why we're not
++	 * using dev_pm_opp_set_rate() API and instead are managing the
++	 * voltage by ourselves.
++	 */
++	err = regulator_set_voltage(dc->core_reg, min_uV, INT_MAX);
++	if (err)
++		dev_err(dc->dev, "failed to set CORE voltage to %duV: %d\n",
++			min_uV, err);
++}
++
+ static void tegra_dc_commit_state(struct tegra_dc *dc,
+ 				  struct tegra_dc_state *state)
  {
- 	return -EINVAL;
+@@ -1738,6 +1791,8 @@ static void tegra_dc_commit_state(struct tegra_dc *dc,
+ 	if (err < 0)
+ 		dev_err(dc->dev, "failed to set clock %pC to %lu Hz: %d\n",
+ 			dc->clk, state->pclk, err);
++
++	tegra_dc_update_voltage_state(dc, state);
  }
+ 
+ static void tegra_dc_stop(struct tegra_dc *dc)
+@@ -2521,6 +2576,7 @@ static int tegra_dc_runtime_suspend(struct host1x_client *client)
+ 
+ 	clk_disable_unprepare(dc->clk);
+ 	pm_runtime_put_sync(dev);
++	regulator_disable(dc->core_reg);
+ 
+ 	return 0;
+ }
+@@ -2531,10 +2587,16 @@ static int tegra_dc_runtime_resume(struct host1x_client *client)
+ 	struct device *dev = client->dev;
+ 	int err;
+ 
++	err = regulator_enable(dc->core_reg);
++	if (err < 0) {
++		dev_err(dev, "failed to enable CORE regulator: %d\n", err);
++		return err;
++	}
++
+ 	err = pm_runtime_get_sync(dev);
+ 	if (err < 0) {
+ 		dev_err(dev, "failed to get runtime PM: %d\n", err);
+-		return err;
++		goto disable_regulator;
+ 	}
+ 
+ 	if (dc->soc->has_powergate) {
+@@ -2564,6 +2626,9 @@ static int tegra_dc_runtime_resume(struct host1x_client *client)
+ 	clk_disable_unprepare(dc->clk);
+ put_rpm:
+ 	pm_runtime_put_sync(dev);
++disable_regulator:
++	regulator_disable(dc->core_reg);
++
+ 	return err;
+ }
+ 
+@@ -2879,6 +2944,72 @@ static int tegra_dc_couple(struct tegra_dc *dc)
+ 	return 0;
+ }
+ 
++static void tegra_dc_deinit_opp_table(void *data)
++{
++	struct tegra_dc *dc = data;
++
++	dev_pm_opp_of_remove_table(dc->dev);
++	dev_pm_opp_put_supported_hw(dc->opp_table);
++	dev_pm_opp_put_regulators(dc->opp_table);
++}
++
++static int devm_tegra_dc_opp_table_init(struct tegra_dc *dc)
++{
++	struct opp_table *hw_opp_table;
++	u32 hw_version;
++	int err;
++
++	/* voltage scaling is optional */
++	dc->core_reg = devm_regulator_get(dc->dev, "core");
++	if (IS_ERR(dc->core_reg))
++		return dev_err_probe(dc->dev, PTR_ERR(dc->core_reg),
++				     "failed to get CORE regulator\n");
++
++	/* legacy device-trees don't have OPP table */
++	if (!device_property_present(dc->dev, "operating-points-v2"))
++		return 0;
++
++	dc->opp_table = dev_pm_opp_get_opp_table(dc->dev);
++	if (IS_ERR(dc->opp_table))
++		return dev_err_probe(dc->dev, PTR_ERR(dc->opp_table),
++				     "failed to prepare OPP table\n");
++
++	if (of_machine_is_compatible("nvidia,tegra20"))
++		hw_version = BIT(tegra_sku_info.soc_process_id);
++	else
++		hw_version = BIT(tegra_sku_info.soc_speedo_id);
++
++	hw_opp_table = dev_pm_opp_set_supported_hw(dc->dev, &hw_version, 1);
++	err = PTR_ERR_OR_ZERO(hw_opp_table);
++	if (err) {
++		dev_err(dc->dev, "failed to set supported HW: %d\n", err);
++		goto put_table;
++	}
++
++	err = dev_pm_opp_of_add_table(dc->dev);
++	if (err) {
++		dev_err(dc->dev, "failed to add OPP table: %d\n", err);
++		goto put_hw;
++	}
++
++	err = devm_add_action(dc->dev, tegra_dc_deinit_opp_table, dc);
++	if (err)
++		goto remove_table;
++
++	dev_info(dc->dev, "OPP HW ver. 0x%x\n", hw_version);
++
++	return 0;
++
++remove_table:
++	dev_pm_opp_of_remove_table(dc->dev);
++put_hw:
++	dev_pm_opp_put_supported_hw(dc->opp_table);
++put_table:
++	dev_pm_opp_put_opp_table(dc->opp_table);
++
++	return err;
++}
++
+ static int tegra_dc_probe(struct platform_device *pdev)
+ {
+ 	struct tegra_dc *dc;
+@@ -2937,6 +3068,10 @@ static int tegra_dc_probe(struct platform_device *pdev)
+ 		tegra_powergate_power_off(dc->powergate);
+ 	}
+ 
++	err = devm_tegra_dc_opp_table_init(dc);
++	if (err < 0)
++		return err;
++
+ 	dc->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dc->regs))
+ 		return PTR_ERR(dc->regs);
+@@ -3007,6 +3142,7 @@ struct platform_driver tegra_dc_driver = {
+ 	.driver = {
+ 		.name = "tegra-dc",
+ 		.of_match_table = tegra_dc_of_match,
++		.sync_state = tegra_soc_device_sync_state,
+ 	},
+ 	.probe = tegra_dc_probe,
+ 	.remove = tegra_dc_remove,
+diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
+index ba4ed35139fb..fd774fc5c2e4 100644
+--- a/drivers/gpu/drm/tegra/dc.h
++++ b/drivers/gpu/drm/tegra/dc.h
+@@ -13,6 +13,8 @@
+ 
+ #include "drm.h"
+ 
++struct opp_table;
++struct regulator;
+ struct tegra_output;
+ 
+ #define TEGRA_DC_LEGACY_PLANES_NUM	6
+@@ -107,6 +109,9 @@ struct tegra_dc {
+ 	struct drm_info_list *debugfs_files;
+ 
+ 	const struct tegra_dc_soc_info *soc;
++
++	struct opp_table *opp_table;
++	struct regulator *core_reg;
+ };
+ 
+ static inline struct tegra_dc *
 -- 
 2.27.0
 
