@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456C72A6E88
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:07:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB2B2A6E8D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 21:12:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F63D6E444;
-	Wed,  4 Nov 2020 20:07:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E2E96E220;
+	Wed,  4 Nov 2020 20:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3CC36E444;
- Wed,  4 Nov 2020 20:07:49 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id 33so12605761wrl.7;
- Wed, 04 Nov 2020 12:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8837E6E220
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 20:12:28 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id f93so13111680qtb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 12:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=intel-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zhOxZtsKnxnI84cHEiXfmK/lwJBqL3iaxPYDzvIAbLE=;
- b=uo6fp3S1qwViiu9sOKQRiWHXcP+3NtTqAL+iOEGRgL+/2Otrk75FQy9L5ywcNPCE3f
- naEhztnMMez4TU5cZSHPAEL28Sa2ajLPj5OjaAXoFvuct9eRI+x5cbkCPYpPi1bJvi4J
- gsi3HsnxlpsWJM+BXelBCeLrhluURdlxdhrMaSXU/hJUyIaXBlB1zjQNl4xjk/yPPom9
- bHrQMHblL/5scpcab3Zl6/stINF11jzS9d02it0cE3yxeqmFCcw1UUbo6vZn1tUobBEh
- KVCLFZ2N/GnH9Onw1elF/IDoBNvGH6KA9eZO8E82MrDa3iuZLfhPPb6D4wf1FwvIpa4Y
- OUuA==
+ :cc; bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
+ b=DLnfeD9J1ORdQ1bfs5+3AntXSfjpW/03OlgMKpfMczcb0Yo31gAQmfKmU/MxwQ17Tz
+ p8ZagfXHFsC1dHS6FW5fSkhChMKNOPBoZuaf0P1ssilDHMYkmfYcvMK/N4bu0vQXK3wy
+ c2tGk1nId5n4tetbAX3T+IoXKixnSiRJU2P+RgF0i9/MzM9vLJQC4pR4SHkQIDhJjOCm
+ nI9uYdoL8DUDIOHzXzueS+XUGj/Xv/0E4OLEq6oqPKUHmkx/sfooqnKn5e06EiNpsCvu
+ pIeS4Ja9kfYHVEpTmDFGZ6rRJqSaQZ+CUMbWPT9DrPeXAPhB8c08+nN3zrd9Xy424Dsr
+ vK5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zhOxZtsKnxnI84cHEiXfmK/lwJBqL3iaxPYDzvIAbLE=;
- b=CHNEG/Ok8l87UAIfas0q+3VPL+x0/CPWAoBh/D1k6APazYV8xpltyzCvhuW6MLtcfU
- NiCD7WCW8ONPayGpYroxO/vLBkha5/PAmG2HRW/JCeRHHvASUe6wDHlmK/wKvMYLR/1N
- ToCEZ2WT0CKLdEULHE+UAZZBqoT4KfCqiyudXocc25tJbyelFvzgqGv9KthfnUCIPXmr
- etDtjjdMIvnCS88tHAhX3ZbhVSCZL3VillMkHRw81fUgxpTOIOAL9b7xLBz0lEpVOGrP
- l7a0MDAgrY6OZ8vKdpAz+po6xqoNfghqhQ4G2QOfLY+Xu/s2dl4FQC40s6d6uXCgAMlW
- zy/g==
-X-Gm-Message-State: AOAM531iAKJtq07493abN3c1TosDAcCSq4g6cib/+wC2AnjxqOjtz2P+
- e5TlizkDY0drMVd/HWcrPPBo6nhaByqBY1O8jdU=
-X-Google-Smtp-Source: ABdhPJxESGEaEkhowZ0gd0D6skYc+Ug5tNslfrNWsnkwqRUNqHlYjyBmM3HTF1wFMb1QpiHkmXI1l493r8AHeeqXLM0=
-X-Received: by 2002:adf:e9c9:: with SMTP id l9mr8789540wrn.124.1604520468312; 
- Wed, 04 Nov 2020 12:07:48 -0800 (PST)
+ bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
+ b=fMoXTwNfjezFR2jmdEsHXZtlK9LKMh2gstpnAlS08sSi6dwlahULar117VSMtsTrVE
+ 78gwu6A4KtNhEHca9xGHoBQM/MYyJw7l9hyqUxgi4HIw1ZLn/Dy/M6wGYrV9lJglnwJN
+ U8OpQNMjwK+DFZdwFGpP4Fa86K2Gxk6Mrr9NLqnKPV7fgPD2t+W9oo+dNsXXJrEbWJKU
+ QiSJzTjG4whuIHEb4eZE4kwP7Jp52y/lwD/0GfGN70VWdJ0meLyVLxOh4wlFtdPkSiOo
+ dN6euGu7xh1MmqT5AOCwi1w2vjt+5eNk9dyDesOiqsEqXXpl4myy/r1yuQBBb093MEP9
+ JuFw==
+X-Gm-Message-State: AOAM530/4srAS0RF+PJFtcaMUQts1LsdgnCYN1t0f4v5nydLwC2O3btP
+ 7Z4nd4GuCZHRjpiGbiiZ1Z6y00xFg4DhAhnzczjdVA==
+X-Google-Smtp-Source: ABdhPJyImQ0VMkgJ13gDdAbq5pEtNIjA5jffxfB/P+jRlJioL0jIF2z8jDtJ1zF31+FQiHcdLBXSWIzDRip6n19HrNg=
+X-Received: by 2002:ac8:4b79:: with SMTP id g25mr21823130qts.19.1604520747497; 
+ Wed, 04 Nov 2020 12:12:27 -0800 (PST)
 MIME-Version: 1.0
-References: <CABXGCsM-+UgHjMFriOPD8vg2va1uTVgQ0BJ5PZzvCu=avGyrpw@mail.gmail.com>
-In-Reply-To: <CABXGCsM-+UgHjMFriOPD8vg2va1uTVgQ0BJ5PZzvCu=avGyrpw@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 4 Nov 2020 15:07:36 -0500
-Message-ID: <CADnq5_NOUWZEi__vMy3GdsdO6S5Y=L9d-shx+mWV7t-t7iwXTg@mail.gmail.com>
-Subject: Re: [bugreport] [5.10-rc1] Oops: 0000 [#1] SMP NOPTI bug which always
- starts as page allocation failure
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+References: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
+ <20201104165017.GA352206@bjorn-Precision-5520>
+In-Reply-To: <20201104165017.GA352206@bjorn-Precision-5520>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 4 Nov 2020 12:12:15 -0800
+Message-ID: <CAPcyv4idORJzHVD2vCOnO3REqWHKVn_-otOzTBf0HhcWq4iJRQ@mail.gmail.com>
+Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+To: Bjorn Helgaas <helgaas@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,393 +62,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
+ KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Linux PCI <linux-pci@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ John Hubbard <jhubbard@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 3, 2020 at 4:05 PM Mikhail Gavrilov
-<mikhail.v.gavrilov@gmail.com> wrote:
+On Wed, Nov 4, 2020 at 8:50 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
 >
-> Hi folks.
-> I observed hard reproductible the set of bugs.
-> It always started as
-> 1) kworker/u64:2: page allocation failure: order:5,
-> mode:0x40dc0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO),
-> nodemask=(null),cpuset=/,mems_allowed=0
-> Continious as:
-> 2) WARNING: CPU: 21 PID: 806649 at
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7505
-> amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> And ended as:
-> 3) BUG: unable to handle page fault for address: 0000000000012488
-> Which annoing because lead to completely computer hang.
+> On Wed, Nov 04, 2020 at 09:44:04AM +0100, Daniel Vetter wrote:
+> > On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> > > On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
+> > > > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> > > > > files, and the old proc interface. Two check against
+> > > > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> > > > > this starts to matter, since we don't want random userspace having
+> > > > > access to PCI BARs while a driver is loaded and using it.
+> > > > >
+> > > > > Fix this by adding the same iomem_is_exclusive() check we already have
+> > > > > on the sysfs side in pci_mmap_resource().
+> > > > >
+> > > > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > >
+> > > > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
+> > > > only used in a few places:
+> > > >
+> > > >   e1000_probe() calls pci_request_selected_regions_exclusive(),
+> > > >   ne_pci_probe() calls pci_request_regions_exclusive(),
+> > > >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
+> > > >
+> > > > which raises the question of whether it's worth keeping
+> > > > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
+> > > > completely.
+> > >
+> > > Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
+> > > IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
+> > > be in favor of removing it as well.
+> >
+> > Still has some value since it enforces exclusive access even if the
+> > config isn't enabled, and iirc e1000 had some fun with userspace tools
+> > clobbering the firmware and bricking the chip.
+>
+> There's *some* value; I'm just skeptical since only three drivers use
+> it.
+>
+> IORESOURCE_EXCLUSIVE is from e8de1481fd71 ("resource: allow MMIO
+> exclusivity for device drivers"), and the commit message says this is
+> only active when CONFIG_STRICT_DEVMEM is set.  I didn't check to see
+> whether that's still true.
+>
+> That commit adds a bunch of wrappers and "__"-prefixed functions to
+> pass the IORESOURCE_EXCLUSIVE flag around.  That's a fair bit of
+> uglification for three drivers.
+>
+> > Another thing I kinda wondered, since pci maintainer is here: At least
+> > in drivers/gpu I see very few drivers explicitly requestion regions
+> > (this might be a historical artifact due to the shadow attach stuff
+> > before we had real modesetting drivers). And pci core doesn't do that
+> > either, even when a driver is bound. Is this intentional, or
+> > should/could we do better? Since drivers work happily without
+> > reserving regions I don't think "the drivers need to remember to do
+> > this" will ever really work out well.
+>
+> You're right, many drivers don't call pci_request_regions().  Maybe we
+> could do better, but I haven't looked into that recently.  There is a
+> related note in Documentation/PCI/pci.rst that's been there for a long
+> time (it refers to "pci_request_resources()", which has never existed
+> AFAICT).  I'm certainly open to proposals.
 
-Possibly fixed with this patch?
-https://cgit.freedesktop.org/~agd5f/linux/commit/?h=drm-fixes-5.10&id=0689dcf3e4d6b89cc2087139561dc12b60461dca
-
-Alex
-
-
->
-> Example of one log:
->
-> [11561.927250] kworker/u64:10: page allocation failure: order:5,
-> mode:0x40dc0(GFP_KERNEL|__GFP_COMP|__GFP_ZERO),
-> nodemask=(null),cpuset=/,mems_allowed=0
-> [11561.927472] CPU: 18 PID: 39985 Comm: kworker/u64:10 Not tainted
-> 5.10.0-0.rc1.20201028gited8780e3f2ec.57.fc34.x86_64 #1
-> [11561.927475] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 2802 10/21/2020
-> [11561.927485] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [11561.927489] Call Trace:
-> [11561.927496]  dump_stack+0x8b/0xb0
-> [11561.927501]  warn_alloc.cold+0x75/0xd9
-> [11561.927507]  ? _cond_resched+0x16/0x50
-> [11561.927512]  ? __alloc_pages_direct_compact+0x159/0x180
-> [11561.927518]  __alloc_pages_slowpath.constprop.0+0x103f/0x1070
-> [11561.927531]  __alloc_pages_nodemask+0x37d/0x400
-> [11561.927538]  kmalloc_order+0x33/0xc0
-> [11561.927542]  kmalloc_order_trace+0x19/0x110
-> [11561.927614]  dc_create_state+0x26/0x60 [amdgpu]
-> [11561.927677]  amdgpu_dm_atomic_commit_tail+0x1cee/0x24e0 [amdgpu]
-> [11561.927686]  ? find_busiest_group+0x33/0x350
-> [11561.927698]  ? __lock_acquire+0x3b0/0x21f0
-> [11561.927707]  ? lock_acquire+0xc8/0x400
-> [11561.927710]  ? wait_for_completion_timeout+0x3b/0xf0
-> [11561.927715]  ? mark_held_locks+0x50/0x80
-> [11561.927719]  ? lockdep_hardirqs_on_prepare+0xff/0x180
-> [11561.927722]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.927726]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.927729]  ? wait_for_completion_timeout+0xdb/0xf0
-> [11561.927740]  commit_tail+0x94/0x130 [drm_kms_helper]
-> [11561.927745]  process_one_work+0x27d/0x5b0
-> [11561.927753]  worker_thread+0x55/0x3c0
-> [11561.927756]  ? process_one_work+0x5b0/0x5b0
-> [11561.927760]  kthread+0x13a/0x150
-> [11561.927763]  ? __kthread_bind_mask+0x60/0x60
-> [11561.927769]  ret_from_fork+0x22/0x30
-> [11561.927809] Mem-Info:
-> [11561.927816] active_anon:933848 inactive_anon:4558268 isolated_anon:118
->                 active_file:154021 inactive_file:80446 isolated_file:0
->                 unevictable:1586 dirty:32469 writeback:700
->                 slab_reclaimable:185330 slab_unreclaimable:176202
->                 mapped:514440 shmem:592199 pagetables:81732 bounce:0
->                 free:99082 free_pcp:2104 free_cma:0
-> [11561.927820] Node 0 active_anon:3735392kB inactive_anon:18233072kB
-> active_file:616084kB inactive_file:321784kB unevictable:6344kB
-> isolated(anon):472kB isolated(file):0kB mapped:2057760kB
-> dirty:129876kB writeback:2800kB shmem:2368796kB shmem_thp: 0kB
-> shmem_pmdmapped: 0kB anon_thp: 0kB writeback_tmp:8kB
-> kernel_stack:96608kB all_unreclaimable? no
-> [11561.927824] Node 0 DMA free:11800kB min:32kB low:44kB high:56kB
-> reserved_highatomic:0KB active_anon:0kB inactive_anon:0kB
-> active_file:0kB inactive_file:0kB unevictable:0kB writepending:0kB
-> present:15992kB managed:15900kB mlocked:0kB pagetables:0kB bounce:0kB
-> free_pcp:0kB local_pcp:0kB free_cma:0kB
-> [11561.927829] lowmem_reserve[]: 0 3136 31809 31809 31809
-> [11561.927839] Node 0 DMA32 free:142632kB min:26264kB low:29472kB
-> high:32680kB reserved_highatomic:0KB active_anon:131568kB
-> inactive_anon:1625184kB active_file:57556kB inactive_file:13532kB
-> unevictable:0kB writepending:2428kB present:3317760kB
-> managed:3317572kB mlocked:0kB pagetables:25624kB bounce:0kB
-> free_pcp:1764kB local_pcp:0kB free_cma:0kB
-> [11561.927844] lowmem_reserve[]: 0 0 28673 28673 28673
-> [11561.927854] Node 0 Normal free:241896kB min:240300kB low:269660kB
-> high:299020kB reserved_highatomic:2048KB active_anon:3603472kB
-> inactive_anon:16607812kB active_file:558660kB inactive_file:308056kB
-> unevictable:6344kB writepending:130596kB present:30133248kB
-> managed:29370624kB mlocked:6344kB pagetables:301304kB bounce:0kB
-> free_pcp:6656kB local_pcp:60kB free_cma:0kB
-> [11561.927859] lowmem_reserve[]: 0 0 0 0 0
-> [11561.927871] Node 0 DMA: 0*4kB 1*8kB (U) 1*16kB (U) 0*32kB 2*64kB
-> (U) 1*128kB (U) 1*256kB (U) 0*512kB 1*1024kB (U) 1*2048kB (M) 2*4096kB
-> (M) = 11800kB
-> [11561.927900] Node 0 DMA32: 15432*4kB (UME) 4963*8kB (UME) 2169*16kB
-> (UME) 201*32kB (UM) 0*64kB 0*128kB 0*256kB 0*512kB 0*1024kB 0*2048kB
-> 0*4096kB = 142568kB
-> [11561.927923] Node 0 Normal: 49027*4kB (UMEH) 5656*8kB (MH) 20*16kB
-> (H) 10*32kB (H) 2*64kB (H) 2*128kB (H) 0*256kB 0*512kB 0*1024kB
-> 0*2048kB 0*4096kB = 242380kB
-> [11561.927951] Node 0 hugepages_total=0 hugepages_free=0
-> hugepages_surp=0 hugepages_size=1048576kB
-> [11561.927954] Node 0 hugepages_total=0 hugepages_free=0
-> hugepages_surp=0 hugepages_size=2048kB
-> [11561.927956] 847580 total pagecache pages
-> [11561.927967] 19862 pages in swap cache
-> [11561.927970] Swap cache stats: add 1361095, delete 1341244, find 18038/25678
-> [11561.927972] Free swap  = 65956644kB
-> [11561.927974] Total swap = 71303160kB
-> [11561.927977] 8366750 pages RAM
-> [11561.927979] 0 pages HighMem/MovableOnly
-> [11561.927981] 190726 pages reserved
-> [11561.927984] 0 pages cma reserved
-> [11561.927986] 0 pages hwpoisoned
-> [11561.928023] ------------[ cut here ]------------
-> [11561.928084] WARNING: CPU: 18 PID: 39985 at
-> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:7511
-> amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> [11561.928087] Modules linked in: tun uinput nls_utf8 isofs rfcomm
-> xt_CHECKSUM xt_MASQUERADE xt_conntrack ipt_REJECT nf_nat_tftp
-> nf_conntrack_tftp bridge stp llc nft_objref nf_conntrack_netbios_ns
-> nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
-> nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct
-> nft_chain_nat ip6table_nat ip6table_mangle ip6table_raw
-> ip6table_security iptable_nat nf_nat nf_conntrack nf_defrag_ipv6
-> nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security ip_set
-> nf_tables nfnetlink ip6table_filter ip6_tables cmac iptable_filter
-> bnep sunrpc vfat fat hid_logitech_hidpp iwlmvm mt76x2u mt76x2_common
-> mt76x02_usb mt76_usb mt76x02_lib mt76 mac80211 uvcvideo
-> videobuf2_vmalloc videobuf2_memops btusb videobuf2_v4l2 btrtl btbcm
-> videobuf2_common btintel joydev bluetooth videodev libarc4 iwlwifi
-> hid_logitech_dj xpad ecdh_generic ff_memless ecc cfg80211
-> snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio
-> snd_hda_codec_hdmi snd_hda_intel
-> [11561.928191]  snd_intel_dspcfg snd_usb_audio snd_hda_codec
-> snd_usbmidi_lib snd_rawmidi edac_mce_amd snd_hda_core snd_hwdep
-> kvm_amd snd_seq eeepc_wmi snd_seq_device asus_wmi sparse_keymap kvm
-> snd_pcm irqbypass sp5100_tco snd_timer rfkill mc rapl video wmi_bmof
-> pcspkr snd i2c_piix4 k10temp soundcore acpi_cpufreq binfmt_misc zram
-> ip_tables uas usb_storage amdgpu iommu_v2 gpu_sched ttm drm_kms_helper
-> crct10dif_pclmul crc32_pclmul crc32c_intel cec drm ghash_clmulni_intel
-> igb ccp nvme dca nvme_core i2c_algo_bit wmi pinctrl_amd fuse
-> [11561.928282] CPU: 18 PID: 39985 Comm: kworker/u64:10 Not tainted
-> 5.10.0-0.rc1.20201028gited8780e3f2ec.57.fc34.x86_64 #1
-> [11561.928284] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 2802 10/21/2020
-> [11561.928291] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [11561.928353] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> [11561.928356] Code: ff ff 48 89 df c6 85 c0 fd ff ff 01 c7 85 bc fd
-> ff ff 37 00 00 00 c7 85 c4 fd ff ff 20 00 00 00 e8 d8 f9 11 00 e9 f9
-> fa ff ff <0f> 0b 48 8b 85 98 fd ff ff 31 f6 48 8b b8 20 ef 01 00 e8 6c
-> 48 12
-> [11561.928359] RSP: 0018:ffffb42e15ebbb50 EFLAGS: 00010246
-> [11561.928362] RAX: 0000000000000000 RBX: 00000a83e545ffc4 RCX: 0000000000000001
-> [11561.928365] RDX: 0000000000000001 RSI: ffffffffa598f1c0 RDI: 0000000000000246
-> [11561.928367] RBP: ffffb42e15ebbe30 R08: 0000000000000000 R09: 0000000000000001
-> [11561.928370] R10: 0000000000007c49 R11: 0000000000000000 R12: 0000000000000000
-> [11561.928372] R13: ffffffffc0ad1710 R14: 0000000000000000 R15: ffff8d11a52cce40
-> [11561.928375] FS:  0000000000000000(0000) GS:ffff8d1848e00000(0000)
-> knlGS:0000000000000000
-> [11561.928377] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [11561.928380] CR2: 00007f4cde169000 CR3: 0000000320828000 CR4: 0000000000350ee0
-> [11561.928382] Call Trace:
-> [11561.928391]  ? find_busiest_group+0x33/0x350
-> [11561.928403]  ? __lock_acquire+0x3b0/0x21f0
-> [11561.928411]  ? lock_acquire+0xc8/0x400
-> [11561.928415]  ? wait_for_completion_timeout+0x3b/0xf0
-> [11561.928420]  ? mark_held_locks+0x50/0x80
-> [11561.928425]  ? lockdep_hardirqs_on_prepare+0xff/0x180
-> [11561.928428]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.928432]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.928435]  ? wait_for_completion_timeout+0xdb/0xf0
-> [11561.928446]  commit_tail+0x94/0x130 [drm_kms_helper]
-> [11561.928451]  process_one_work+0x27d/0x5b0
-> [11561.928459]  worker_thread+0x55/0x3c0
-> [11561.928462]  ? process_one_work+0x5b0/0x5b0
-> [11561.928466]  kthread+0x13a/0x150
-> [11561.928469]  ? __kthread_bind_mask+0x60/0x60
-> [11561.928474]  ret_from_fork+0x22/0x30
-> [11561.928485] CPU: 18 PID: 39985 Comm: kworker/u64:10 Not tainted
-> 5.10.0-0.rc1.20201028gited8780e3f2ec.57.fc34.x86_64 #1
-> [11561.928487] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 2802 10/21/2020
-> [11561.928493] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [11561.928496] Call Trace:
-> [11561.928499]  dump_stack+0x8b/0xb0
-> [11561.928558]  ? amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> [11561.928561]  __warn.cold+0x24/0x83
-> [11561.928619]  ? amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> [11561.928624]  report_bug+0x9a/0xc0
-> [11561.928630]  handle_bug+0x3a/0xa0
-> [11561.928633]  exc_invalid_op+0x14/0x70
-> [11561.928636]  asm_exc_invalid_op+0x12/0x20
-> [11561.928692] RIP: 0010:amdgpu_dm_atomic_commit_tail+0x23bd/0x24e0 [amdgpu]
-> [11561.928695] Code: ff ff 48 89 df c6 85 c0 fd ff ff 01 c7 85 bc fd
-> ff ff 37 00 00 00 c7 85 c4 fd ff ff 20 00 00 00 e8 d8 f9 11 00 e9 f9
-> fa ff ff <0f> 0b 48 8b 85 98 fd ff ff 31 f6 48 8b b8 20 ef 01 00 e8 6c
-> 48 12
-> [11561.928697] RSP: 0018:ffffb42e15ebbb50 EFLAGS: 00010246
-> [11561.928701] RAX: 0000000000000000 RBX: 00000a83e545ffc4 RCX: 0000000000000001
-> [11561.928703] RDX: 0000000000000001 RSI: ffffffffa598f1c0 RDI: 0000000000000246
-> [11561.928705] RBP: ffffb42e15ebbe30 R08: 0000000000000000 R09: 0000000000000001
-> [11561.928707] R10: 0000000000007c49 R11: 0000000000000000 R12: 0000000000000000
-> [11561.928710] R13: ffffffffc0ad1710 R14: 0000000000000000 R15: ffff8d11a52cce40
-> [11561.928727]  ? find_busiest_group+0x33/0x350
-> [11561.928738]  ? __lock_acquire+0x3b0/0x21f0
-> [11561.928747]  ? lock_acquire+0xc8/0x400
-> [11561.928750]  ? wait_for_completion_timeout+0x3b/0xf0
-> [11561.928756]  ? mark_held_locks+0x50/0x80
-> [11561.928762]  ? lockdep_hardirqs_on_prepare+0xff/0x180
-> [11561.928765]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.928771]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.928775]  ? wait_for_completion_timeout+0xdb/0xf0
-> [11561.928791]  commit_tail+0x94/0x130 [drm_kms_helper]
-> [11561.928799]  process_one_work+0x27d/0x5b0
-> [11561.928810]  worker_thread+0x55/0x3c0
-> [11561.928814]  ? process_one_work+0x5b0/0x5b0
-> [11561.928820]  kthread+0x13a/0x150
-> [11561.928823]  ? __kthread_bind_mask+0x60/0x60
-> [11561.928828]  ret_from_fork+0x22/0x30
-> [11561.928861] irq event stamp: 296033
-> [11561.928864] hardirqs last  enabled at (296041):
-> [<ffffffffa4163191>] console_unlock+0x511/0x640
-> [11561.928867] hardirqs last disabled at (296048):
-> [<ffffffffa41630f8>] console_unlock+0x478/0x640
-> [11561.928870] softirqs last  enabled at (296032):
-> [<ffffffffa4e01112>] asm_call_irq_on_stack+0x12/0x20
-> [11561.928873] softirqs last disabled at (296011):
-> [<ffffffffa4e01112>] asm_call_irq_on_stack+0x12/0x20
-> [11561.928875] ---[ end trace b3e87a1bce96e088 ]---
-> [11561.928881] BUG: unable to handle page fault for address: 0000000000012488
-> [11561.928883] #PF: supervisor read access in kernel mode
-> [11561.928883] #PF: error_code(0x0000) - not-present page
-> [11561.928884] PGD 0 P4D 0
-> [11561.928887] Oops: 0000 [#1] SMP NOPTI
-> [11561.928888] CPU: 18 PID: 39985 Comm: kworker/u64:10 Tainted: G
->   W        --------- ---
-> 5.10.0-0.rc1.20201028gited8780e3f2ec.57.fc34.x86_64 #1
-> [11561.928889] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 2802 10/21/2020
-> [11561.928894] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [11561.928951] RIP: 0010:dc_resource_state_copy_construct+0x18/0x130 [amdgpu]
-> [11561.928952] Code: 00 49 83 c4 01 44 39 e0 7f b5 5b 5d 41 5c 41 5d
-> c3 c3 0f 1f 44 00 00 41 56 ba 90 24 01 00 41 55 41 54 49 89 f4 55 4c
-> 89 e5 53 <44> 8b ae 88 24 01 00 48 89 fe 4c 89 e7 e8 16 ef 4b e4 49 8d
-> 84 24
-> [11561.928953] RSP: 0018:ffffb42e15ebbb20 EFLAGS: 00010246
-> [11561.928954] RAX: ffff8d1159400010 RBX: 00000a83e545ffc4 RCX: 0000000000000001
-> [11561.928955] RDX: 0000000000012490 RSI: 0000000000000000 RDI: ffff8d11c3380000
-> [11561.928956] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000001
-> [11561.928957] R10: 0000000000007c49 R11: 0000000000000000 R12: 0000000000000000
-> [11561.928957] R13: ffffffffc0ad1710 R14: 0000000000000000 R15: ffff8d11a52cce40
-> [11561.928959] FS:  0000000000000000(0000) GS:ffff8d1848e00000(0000)
-> knlGS:0000000000000000
-> [11561.928959] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [11561.928960] CR2: 0000000000012488 CR3: 0000000320828000 CR4: 0000000000350ee0
-> [11561.928961] Call Trace:
-> [11561.929018]  amdgpu_dm_atomic_commit_tail+0x23d4/0x24e0 [amdgpu]
-> [11561.929022]  ? find_busiest_group+0x33/0x350
-> [11561.929025]  ? __lock_acquire+0x3b0/0x21f0
-> [11561.929028]  ? lock_acquire+0xc8/0x400
-> [11561.929029]  ? wait_for_completion_timeout+0x3b/0xf0
-> [11561.929031]  ? mark_held_locks+0x50/0x80
-> [11561.929032]  ? lockdep_hardirqs_on_prepare+0xff/0x180
-> [11561.929033]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.929035]  ? _raw_spin_unlock_irq+0x24/0x40
-> [11561.929036]  ? wait_for_completion_timeout+0xdb/0xf0
-> [11561.929042]  commit_tail+0x94/0x130 [drm_kms_helper]
-> [11561.929043]  process_one_work+0x27d/0x5b0
-> [11561.929046]  worker_thread+0x55/0x3c0
-> [11561.929047]  ? process_one_work+0x5b0/0x5b0
-> [11561.929048]  kthread+0x13a/0x150
-> [11561.929050]  ? __kthread_bind_mask+0x60/0x60
-> [11561.929051]  ret_from_fork+0x22/0x30
-> [11561.929055] Modules linked in: tun uinput nls_utf8 isofs rfcomm
-> xt_CHECKSUM xt_MASQUERADE xt_conntrack ipt_REJECT nf_nat_tftp
-> nf_conntrack_tftp bridge stp llc nft_objref nf_conntrack_netbios_ns
-> nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib
-> nft_reject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct
-> nft_chain_nat ip6table_nat ip6table_mangle ip6table_raw
-> ip6table_security iptable_nat nf_nat nf_conntrack nf_defrag_ipv6
-> nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security ip_set
-> nf_tables nfnetlink ip6table_filter ip6_tables cmac iptable_filter
-> bnep sunrpc vfat fat hid_logitech_hidpp iwlmvm mt76x2u mt76x2_common
-> mt76x02_usb mt76_usb mt76x02_lib mt76 mac80211 uvcvideo
-> videobuf2_vmalloc videobuf2_memops btusb videobuf2_v4l2 btrtl btbcm
-> videobuf2_common btintel joydev bluetooth videodev libarc4 iwlwifi
-> hid_logitech_dj xpad ecdh_generic ff_memless ecc cfg80211
-> snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio
-> snd_hda_codec_hdmi snd_hda_intel
-> [11561.929080]  snd_intel_dspcfg snd_usb_audio snd_hda_codec
-> snd_usbmidi_lib snd_rawmidi edac_mce_amd snd_hda_core snd_hwdep
-> kvm_amd snd_seq eeepc_wmi snd_seq_device asus_wmi sparse_keymap kvm
-> snd_pcm irqbypass sp5100_tco snd_timer rfkill mc rapl video wmi_bmof
-> pcspkr snd i2c_piix4 k10temp soundcore acpi_cpufreq binfmt_misc zram
-> ip_tables uas usb_storage amdgpu iommu_v2 gpu_sched ttm drm_kms_helper
-> crct10dif_pclmul crc32_pclmul crc32c_intel cec drm ghash_clmulni_intel
-> igb ccp nvme dca nvme_core i2c_algo_bit wmi pinctrl_amd fuse
-> [11561.929099] CR2: 0000000000012488
-> [11561.929100] ---[ end trace b3e87a1bce96e089 ]---
-> [11561.929156] RIP: 0010:dc_resource_state_copy_construct+0x18/0x130 [amdgpu]
-> [11561.929157] Code: 00 49 83 c4 01 44 39 e0 7f b5 5b 5d 41 5c 41 5d
-> c3 c3 0f 1f 44 00 00 41 56 ba 90 24 01 00 41 55 41 54 49 89 f4 55 4c
-> 89 e5 53 <44> 8b ae 88 24 01 00 48 89 fe 4c 89 e7 e8 16 ef 4b e4 49 8d
-> 84 24
-> [11561.929158] RSP: 0018:ffffb42e15ebbb20 EFLAGS: 00010246
-> [11561.929159] RAX: ffff8d1159400010 RBX: 00000a83e545ffc4 RCX: 0000000000000001
-> [11561.929160] RDX: 0000000000012490 RSI: 0000000000000000 RDI: ffff8d11c3380000
-> [11561.929161] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000001
-> [11561.929161] R10: 0000000000007c49 R11: 0000000000000000 R12: 0000000000000000
-> [11561.929162] R13: ffffffffc0ad1710 R14: 0000000000000000 R15: ffff8d11a52cce40
-> [11561.929163] FS:  0000000000000000(0000) GS:ffff8d1848e00000(0000)
-> knlGS:0000000000000000
-> [11561.929164] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [11561.929165] CR2: 0000000000012488 CR3: 0000000320828000 CR4: 0000000000350ee0
-> [11561.929167] BUG: sleeping function called from invalid context at
-> include/linux/percpu-rwsem.h:49
-> [11561.929168] in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid:
-> 39985, name: kworker/u64:10
-> [11561.929169] INFO: lockdep is turned off.
-> [11561.929169] irq event stamp: 296082
-> [11561.929171] hardirqs last  enabled at (296081):
-> [<ffffffffa4163191>] console_unlock+0x511/0x640
-> [11561.929172] hardirqs last disabled at (296082):
-> [<ffffffffa4d14d52>] irqentry_enter+0x22/0x60
-> [11561.929174] softirqs last  enabled at (296032):
-> [<ffffffffa4e01112>] asm_call_irq_on_stack+0x12/0x20
-> [11561.929175] softirqs last disabled at (296011):
-> [<ffffffffa4e01112>] asm_call_irq_on_stack+0x12/0x20
-> [11561.929176] CPU: 18 PID: 39985 Comm: kworker/u64:10 Tainted: G
-> D W        --------- ---
-> 5.10.0-0.rc1.20201028gited8780e3f2ec.57.fc34.x86_64 #1
-> [11561.929177] Hardware name: System manufacturer System Product
-> Name/ROG STRIX X570-I GAMING, BIOS 2802 10/21/2020
-> [11561.929182] Workqueue: events_unbound commit_work [drm_kms_helper]
-> [11561.929183] Call Trace:
-> [11561.929184]  dump_stack+0x8b/0xb0
-> [11561.929185]  ___might_sleep.cold+0xb6/0xc6
-> [11561.929187]  exit_signals+0x1c/0x2d0
-> [11561.929189]  do_exit+0xa0/0xbb0
-> [11561.929191]  ? kthread+0x13a/0x150
-> [11561.929193]  rewind_stack_do_exit+0x17/0x20
-> [11561.929194] RIP: 0000:0x0
-> [11561.929196] Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
-> [11561.929197] RSP: 0000:0000000000000000 EFLAGS: 00000000 ORIG_RAX:
-> 0000000000000000
-> [11561.929198] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> [11561.929199] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> [11561.929200] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [11561.929200] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-> [11561.929201] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> [11597.118287] msedge:cs0 (6933) used greatest stack depth: 10520 bytes left
-> [11622.871513] brave:cs0 (6082) used greatest stack depth: 10120 bytes left
-> [11646.646066] GpuWatchdog[4876]: segfault at 0 ip 000055e94f08a429 sp
-> 00007fa9b92d0420 error 6 in gitkraken[55e94b73e000+5cb7000]
-> [11646.646079] Code: 00 79 09 48 8b 7d c0 e8 85 f6 bd fe c7 45 c0 aa
-> aa aa aa 0f ae f0 41 8b 84 24 e0 00 00 00 89 45 c0 48 8d 7d c0 e8 e7
-> 96 6b fc <c7> 04 25 00 00 00 00 37 13 00 00 48 83 c4 38 5b 41 5c 41 5d
-> 41 5e
->
-> Here are complete versions of kernel logs described bug:
-> [1] https://pastebin.com/u5WApFtG
-> [2] https://pastebin.com/CQ8VyTXW
-> [3] https://pastebin.com/RrgtRvxk
-> [4] https://pastebin.com/wQseWsx5
->
-> Can anyone figure out what's going on here?
-> Thanks.
->
-> --
-> Best Regards,
-> Mike Gavrilov.
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+It seems a bug that the kernel permits MMIO regions with side effects
+to be ioremap()'ed without request_mem_region() on the resource. I
+wonder how much log spam would happen if ioremap() reported whenever a
+non-IORESOURE_BUSY range was passed to it? The current state of
+affairs to trust *remap users to have claimed their remap target seems
+too ingrained to unwind now.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
