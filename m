@@ -1,64 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7102A5F86
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFF92A5F5D
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0FAD6F3FA;
-	Wed,  4 Nov 2020 08:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0993D89D3E;
+	Wed,  4 Nov 2020 08:22:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 451FA6E90A
- for <dri-devel@lists.freedesktop.org>; Tue,  3 Nov 2020 22:54:02 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1604444042; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=55gI89+91wMi2hAGSuNb6Y1Kh4zFoFwgZSRDP0krykw=;
- b=hKi/sF7aaFrnr2qaQaERCGwzEwawyL7HN7u2nlhFO1+hzme19TRHr2VcQ5oKGAZyqTyoWZLo
- vfyByRU683ufLKEBE54Xhi/YKpB8VyX6Ypm9xIBBuOQySW3u7ewWJPrM++T/at5f/c9V7fiA
- yKE3gNGFhc9XfmB63gYucXKmQ7w=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5fa1df889f889442bb636100 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 22:54:00
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id ED884C433F0; Tue,  3 Nov 2020 22:53:59 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- T_FILL_THIS_FORM_SHORT,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: khsieh)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 08F45C433C6;
- Tue,  3 Nov 2020 22:53:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 08F45C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=khsieh@codeaurora.org
-From: Kuogee Hsieh <khsieh@codeaurora.org>
-To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
- swboyd@chromium.org
-Subject: [PATCH v2 2/2] drm/msm/dp: fixes wrong connection state caused by
- failure of link train
-Date: Tue,  3 Nov 2020 14:53:36 -0800
-Message-Id: <20201103225336.17141-3-khsieh@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201103225336.17141-1-khsieh@codeaurora.org>
-References: <20201103225336.17141-1-khsieh@codeaurora.org>
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DA0A6E926
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 03:04:00 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id c20so16098737pfr.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 03 Nov 2020 19:04:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=M+7yANrvElG7vvXiOwG93dIUVBVs3AW4QD34DhOvCCI=;
+ b=btFJkwgN45cTDxVtmE+Vf/+i4KTd+QJ7t7NUxCyZTE8m1tbcZbzqjNbBGYprvd57iN
+ UShejiWVREUTlyzMsd8UIEC1n3FLdTx5oKihlzv2zQeOYrsmRCZgIbcc6awaLDRftLtE
+ zXyerpEX+lcba+6EjdtoMaErPXzcXtWX9M4Y9iH8f2tOBVl07bUpcttN9jtz5woiWfKs
+ E+NHYqOnfFZuFluN5f3wZdCPeP0xl5bojj8vXL3BjMJXkdIgBBDDevUeORWDZDPkDzVZ
+ H2onAvXjL0GO/VwttnAAAPMr+4GLy0YLVKE1PsLXoA6a+UqtctBYVCJ+sIAt5sIl2M7Z
+ d8QQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=M+7yANrvElG7vvXiOwG93dIUVBVs3AW4QD34DhOvCCI=;
+ b=mGYTQ58ZYtwL0nGX+Zi8liPZ0mVAjFuav+hyEA47CFyScb4bkf5D/S9MUdMnjzlwjL
+ q+ElDje0ruWZc7W/oVRPfC6TI3AAjkJ1Dm3j/HypWCqWdYfJt5kYqIHfrgVtxpJCMXNZ
+ jZCMJWVB7JmoLNFme88zZZZs00rAB5zgsxh2riwnZ9lTj9+Jvi1MSKLsHTTZ25mJGuiD
+ +W/S19XKSUjAUXa/O9F2UkSZXR8bezGyclMqyCBKtf56efERhTZqf+/ff3LkUZ//1syo
+ 9TXRWoT5csEt/iaYlSBoYujEj5K8+9szFzktf5QNZmK/jO3hRlApO44mKl6hzLVXMY5U
+ wGkQ==
+X-Gm-Message-State: AOAM531NW7FO8mAkQJ8pjv0iW9xFtwJ0MhCP8rcivJopu2Xc1VUt5uyV
+ FmomlmIzmHnWmjTcRKU5QWQt7g==
+X-Google-Smtp-Source: ABdhPJye/niTkH7khNS36zvZ3Ubb6lzZ6FDeMgMpWSwwwaQ4FeRK9FDZcZ/yYMErd1iByJeq4uoX+A==
+X-Received: by 2002:a17:90a:5882:: with SMTP id
+ j2mr2156165pji.177.1604459039793; 
+ Tue, 03 Nov 2020 19:03:59 -0800 (PST)
+Received: from localhost ([122.172.12.172])
+ by smtp.gmail.com with ESMTPSA id n64sm491754pfn.134.2020.11.03.19.03.57
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 03 Nov 2020 19:03:58 -0800 (PST)
+Date: Wed, 4 Nov 2020 08:33:53 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
+Message-ID: <20201104030353.ny7zvakgb4fsye6r@vireshk-i7>
+References: <CAF6AEGstGtBswUUiyHxT2cCm8NwZekDnMzD0J_pQH37GwS=LiA@mail.gmail.com>
+ <20201020090729.qgqish5kqamhvatj@vireshk-i7>
+ <CAKMK7uHAgVUPHOPxDdt3LeAWqokxfuzqjZj4qqFkoKxFbRbRrg@mail.gmail.com>
+ <20201020112413.xbk2vow2kgjky3pb@vireshk-i7>
+ <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
+ <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
+ <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
+ <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
+ <20201103054715.4l5j57pyjz6zd6ed@vireshk-i7>
+ <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,206 +78,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
- Kuogee Hsieh <khsieh@codeaurora.org>, tanmay@codeaurora.org,
- aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Connection state is not set correctly happen when either failure of link
-train due to cable unplugged in the middle of aux channel reading or
-cable plugged in while in suspended state. This patch fixes these problems.
-This patch also replace ST_SUSPEND_PENDING with ST_DISPLAY_OFF.
+On 03-11-20, 08:50, Rob Clark wrote:
+> sorry, it didn't apply cleanly (which I guess is due to some other
+> dependencies that need to be picked back to v5.4 product kernel), and
+> due to some other things I'm in middle of debugging I didn't have time
+> yet to switch to v5.10-rc or look at what else needs to
+> cherry-picked..
+> 
+> If you could, pushing a branch with this patch somewhere would be a
+> bit easier to work with (ie. fetch && cherry-pick is easier to deal
+> with than picking things from list)
 
-Changes in V2:
--- Add more information to commit message.
+It has been in linux-next for a few days. Here is the HEAD to pick
+from. There are few patches there since rc1.
 
-Changes in V3:
--- change base
+commit 203e29749cc0 ("opp: Allocate the OPP table outside of opp_table_lock")
 
-Changes in V4:
--- add Fixes tag
-
-Fixes: 22688d4067f6 (drm/msm/dp: return correct connection status after suspend)
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
----
- drivers/gpu/drm/msm/dp/dp_display.c | 42 ++++++++++++++---------------
- drivers/gpu/drm/msm/dp/dp_panel.c   |  5 ++++
- 2 files changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index b5e7df481fc5..6e8640f8c69b 100644
---- a/drivers/gpu/drm/msm/dp/dp_display.c
-+++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -45,7 +45,7 @@ enum {
- 	ST_CONNECT_PENDING,
- 	ST_CONNECTED,
- 	ST_DISCONNECT_PENDING,
--	ST_SUSPEND_PENDING,
-+	ST_DISPLAY_OFF,
- 	ST_SUSPENDED,
- };
- 
-@@ -504,7 +504,7 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	mutex_lock(&dp->event_mutex);
- 
- 	state =  dp->hpd_state;
--	if (state == ST_SUSPEND_PENDING) {
-+	if (state == ST_DISPLAY_OFF || state == ST_SUSPENDED) {
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
- 	}
-@@ -526,14 +526,14 @@ static int dp_hpd_plug_handle(struct dp_display_private *dp, u32 data)
- 	hpd->hpd_high = 1;
- 
- 	ret = dp_display_usbpd_configure_cb(&dp->pdev->dev);
--	if (ret) {	/* failed */
-+	if (ret) {	/* link train failed */
- 		hpd->hpd_high = 0;
- 		dp->hpd_state = ST_DISCONNECTED;
-+	} else {
-+		/* start sentinel checking in case of missing uevent */
-+		dp_add_event(dp, EV_CONNECT_PENDING_TIMEOUT, 0, tout);
- 	}
- 
--	/* start sanity checking */
--	dp_add_event(dp, EV_CONNECT_PENDING_TIMEOUT, 0, tout);
--
- 	mutex_unlock(&dp->event_mutex);
- 
- 	/* uevent will complete connection part */
-@@ -586,11 +586,6 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	mutex_lock(&dp->event_mutex);
- 
- 	state = dp->hpd_state;
--	if (state == ST_SUSPEND_PENDING) {
--		mutex_unlock(&dp->event_mutex);
--		return 0;
--	}
--
- 	if (state == ST_DISCONNECT_PENDING || state == ST_DISCONNECTED) {
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
-@@ -617,7 +612,7 @@ static int dp_hpd_unplug_handle(struct dp_display_private *dp, u32 data)
- 	 */
- 	dp_display_usbpd_disconnect_cb(&dp->pdev->dev);
- 
--	/* start sanity checking */
-+	/* start sentinel checking in case of missing uevent */
- 	dp_add_event(dp, EV_DISCONNECT_PENDING_TIMEOUT, 0, DP_TIMEOUT_5_SECOND);
- 
- 	/* signal the disconnect event early to ensure proper teardown */
-@@ -657,7 +652,7 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
- 
- 	/* irq_hpd can happen at either connected or disconnected state */
- 	state =  dp->hpd_state;
--	if (state == ST_SUSPEND_PENDING) {
-+	if (state == ST_DISPLAY_OFF) {
- 		mutex_unlock(&dp->event_mutex);
- 		return 0;
- 	}
-@@ -1082,7 +1077,7 @@ static irqreturn_t dp_display_irq_handler(int irq, void *dev_id)
- 		}
- 
- 		if (hpd_isr_status & DP_DP_IRQ_HPD_INT_MASK) {
--			/* delete connect pending event first */
-+			/* stop sentinel connect pending checking */
- 			dp_del_event(dp, EV_CONNECT_PENDING_TIMEOUT);
- 			dp_add_event(dp, EV_IRQ_HPD_INT, 0, 0);
- 		}
-@@ -1213,13 +1208,10 @@ static int dp_pm_resume(struct device *dev)
- 
- 	status = dp_catalog_hpd_get_state_status(dp->catalog);
- 
--	if (status) {
-+	if (status)
- 		dp->dp_display.is_connected = true;
--	} else {
-+	else
- 		dp->dp_display.is_connected = false;
--		/* make sure next resume host_init be called */
--		dp->core_initialized = false;
--	}
- 
- 	mutex_unlock(&dp->event_mutex);
- 
-@@ -1241,6 +1233,9 @@ static int dp_pm_suspend(struct device *dev)
- 
- 	dp->hpd_state = ST_SUSPENDED;
- 
-+	/* host_init will be called at pm_resume */
-+	dp->core_initialized = false;
-+
- 	mutex_unlock(&dp->event_mutex);
- 
- 	return 0;
-@@ -1370,6 +1365,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 
- 	mutex_lock(&dp_display->event_mutex);
- 
-+	/* stop sentinel checking */
- 	dp_del_event(dp_display, EV_CONNECT_PENDING_TIMEOUT);
- 
- 	rc = dp_display_set_mode(dp, &dp_display->dp_mode);
-@@ -1388,7 +1384,7 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 
- 	state =  dp_display->hpd_state;
- 
--	if (state == ST_SUSPEND_PENDING)
-+	if (state == ST_DISPLAY_OFF)
- 		dp_display_host_init(dp_display);
- 
- 	dp_display_enable(dp_display, 0);
-@@ -1400,7 +1396,8 @@ int msm_dp_display_enable(struct msm_dp *dp, struct drm_encoder *encoder)
- 		dp_display_unprepare(dp);
- 	}
- 
--	if (state == ST_SUSPEND_PENDING)
-+	/* manual kick off plug event to train link */
-+	if (state == ST_DISPLAY_OFF)
- 		dp_add_event(dp_display, EV_IRQ_HPD_INT, 0, 0);
- 
- 	/* completed connection */
-@@ -1432,6 +1429,7 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
- 
- 	mutex_lock(&dp_display->event_mutex);
- 
-+	/* stop sentinel checking */
- 	dp_del_event(dp_display, EV_DISCONNECT_PENDING_TIMEOUT);
- 
- 	dp_display_disable(dp_display, 0);
-@@ -1445,7 +1443,7 @@ int msm_dp_display_disable(struct msm_dp *dp, struct drm_encoder *encoder)
- 		/* completed disconnection */
- 		dp_display->hpd_state = ST_DISCONNECTED;
- 	} else {
--		dp_display->hpd_state = ST_SUSPEND_PENDING;
-+		dp_display->hpd_state = ST_DISPLAY_OFF;
- 	}
- 
- 	mutex_unlock(&dp_display->event_mutex);
-diff --git a/drivers/gpu/drm/msm/dp/dp_panel.c b/drivers/gpu/drm/msm/dp/dp_panel.c
-index 18cec4fc5e0b..1b7a20dc2d8e 100644
---- a/drivers/gpu/drm/msm/dp/dp_panel.c
-+++ b/drivers/gpu/drm/msm/dp/dp_panel.c
-@@ -196,6 +196,11 @@ int dp_panel_read_sink_caps(struct dp_panel *dp_panel,
- 					      &panel->aux->ddc);
- 	if (!dp_panel->edid) {
- 		DRM_ERROR("panel edid read failed\n");
-+		/* check edid read fail is due to unplug */
-+		if (!dp_catalog_hpd_get_state_status(panel->catalog)) {
-+			rc = -ETIMEDOUT;
-+			goto end;
-+		}
- 
- 		/* fail safe edid */
- 		mutex_lock(&connector->dev->mode_config.mutex);
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
-
+viresh
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
