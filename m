@@ -2,70 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D3562A5F71
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:23:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA7792A5FC8
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 09:44:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068786E02C;
-	Wed,  4 Nov 2020 08:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77FB589E26;
+	Wed,  4 Nov 2020 08:44:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C223689DA7
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:14:19 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id A455BFDD;
- Wed,  4 Nov 2020 03:14:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 04 Nov 2020 03:14:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=XXFAaRSb32pxervJ1Zv7TKZ0W1s
- w+VVFPoX3IFt124k=; b=iCwoYVLLUuVNNTENXSZz+PtAZLQH0NKPIcbefvT6PAz
- 8tNPUABoqO+CJOiPRKxLT77evcmvx99BOPBIVjGOlUnMc2ahCWKNczXUMNhN1Qy1
- 6WLapO/of98Ad3Y5qA0R0QuxhGJss8NWIdpN2yIoCetNyZ4W5GlO3sf1RhBlGPpd
- L7fOWZDcMH00O6m9ZkuW02wWh+jm1eCkVAB4uLXOV0991EDg9x6rEwE2LasMz2D1
- mzFmFDXzdZ4DOBt0TfuGpqNACvWEefe3T4ta178S7CSXR6g8tGx772bOSvIBh3pk
- X63RPUU9PmFv5GTiH5jWMSm6zYnwMV1zzhk4JqkvqQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XXFAaR
- Sb32pxervJ1Zv7TKZ0W1sw+VVFPoX3IFt124k=; b=paXXPDf3g4w2iHpy7gvEr+
- WWbQX+cocXbs7LnYqP7myPSy9nGA2kWSgaoH3ExVLATUNre/rDp/eVzzWw5kmA6M
- xsIXpAYV4C/ja7niS/cqY2FARy5nQksloiNyA4hwoDyHwwQ4xtLDZrB+3XTZuahw
- t+bSL4JaBeIdKgCjZ2tbiS72uVSk7IS3yysiY/75OJfW+IrSIwD0Vht8QfJBTXNq
- OGrLs/N+9jSiXf/jCGMhqFbsB/J8yMdUZecKW58h9h9IhK618if6bktxR/NlFHpk
- brV+Jw09uzy2XJS+3QcqTS19CNhGnN3fhPcV4MAV6GRMSR6UQMfbEX5ar45KetWQ
- ==
-X-ME-Sender: <xms:1mKiX9Uw7IzIEenw8GEh7Bxgnf68CeebqvVMP6DXsP8SIwOfA_FNcQ>
- <xme:1mKiX9lEwja08z2fB_8rYkMXpeBD7OUQeWBugc8CE-SmCSKFfTzeShMJeoA790gyx
- 1GKXcwAgfhDClQ_jdc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtgedguddugecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
- heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1mKiX5ae_ncy_0iLL_K73gy0kfa6uzRxio7UfwfhB0QcC_NGb9PBdg>
- <xmx:1mKiXwW2D2UVSmXop5Vr6IM_Q_Q4HzsadzAwj-ZzTN_tzDm1_ZGyxA>
- <xmx:1mKiX3nCGITQ660Ht2PtiifK258kb2m8rUY6OPWDIih-t34sHfHtjQ>
- <xmx:2GKiX1W3mvCko0ApKlkI6NDW5jRTTxv-cEEqAhfUsb-yXNDsSgxF3A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D3DE3328037B;
- Wed,  4 Nov 2020 03:14:13 -0500 (EST)
-Date: Wed, 4 Nov 2020 09:14:11 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Christoph Hellwig <hch@lst.de>
-Subject: Re: use of dma_direct_set_offset in (allwinner) drivers
-Message-ID: <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
-References: <20201103095538.GA19136@lst.de>
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAFD889E26
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 08:44:15 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id 9so21395613oir.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 00:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ycqoIkcF9lPtiJBVMgjq7zwCX8Gyu6JCtVXT12jKTV8=;
+ b=SO6a9eIH6r+EzFThZ6MTARjwHEtx6LFHOpOvFgwKmnw7LjZXHcgycyhZfUmdSwXoni
+ 9VPCbgc6ODqmZSPJVN4eXwn3IqpRr3uXKNjrMKGfBOBHLutZLHhso+mS3OiPqxM7Q6/l
+ K5a5NNqZWoxju2yJSN+OURI61y0XID3dk0Roo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ycqoIkcF9lPtiJBVMgjq7zwCX8Gyu6JCtVXT12jKTV8=;
+ b=dGanibfMB/qAO+TBMPtC2ZEIXPvLS71CgRCRMXSL9ulVs+/V9SZTq2pIauD5K9VbSD
+ mr0zxr4Gj3y0xpaRMM2ICwpxGr4C0mo8BX0sAOG+iAdMIIs60ffer7qrrLzxvIC2QBY0
+ k43JfW7L/leeT8ngTAWv9WaxwF+tUqfrOnJAaFPWXsKxJ1jqKNqNm+dSb10HBo390wtP
+ uJ/kkKLPghSllvjZUUcUMmcdn9Q1cnDW8O7yAxyfIO2bh42xMZLF/OJ6V/PyDqyiLRZY
+ GY3JQC6R02SE1VjlBHRmFmoHzK7nnJbJiyBhKUBB79e5aE38bgAT98ueXvOkZ70PritL
+ Yjsw==
+X-Gm-Message-State: AOAM531g1/XGx7A9JDLLs11Fbor33cf4g2n71xeAb2soJ8cfqmylqGzK
+ TpjgMysaMsK2UnvW6pDDlZpJxyVhfWt9eIwPGCjiNTN+eeDFag==
+X-Google-Smtp-Source: ABdhPJzFeuCQlV5NJZ+3HUxdvXgtCAFGX/0rEF7qnn1uI6qUI3Z5/MsHqFAcH2CxUPAQE20CBPAAF7SeJ5phPHzYaRc=
+X-Received: by 2002:aca:b141:: with SMTP id a62mr1813813oif.101.1604479455139; 
+ Wed, 04 Nov 2020 00:44:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201103095538.GA19136@lst.de>
-X-Mailman-Approved-At: Wed, 04 Nov 2020 08:22:13 +0000
+References: <20201030100815.2269-12-daniel.vetter@ffwll.ch>
+ <20201103212840.GA266427@bjorn-Precision-5520>
+ <CAPcyv4jCGxWG0opLv4VzBRk5iLwu6CRse4DwF-otWkfXoGWe6A@mail.gmail.com>
+In-Reply-To: <CAPcyv4jCGxWG0opLv4VzBRk5iLwu6CRse4DwF-otWkfXoGWe6A@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 4 Nov 2020 09:44:04 +0100
+Message-ID: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
+Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+To: Dan Williams <dan.j.williams@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,113 +59,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, iommu@lists.linux-foundation.org,
- Yong Deng <yong.deng@magewell.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0062415509=="
+Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
+ KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux MM <linux-mm@kvack.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Linux PCI <linux-pci@vger.kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0062415509==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dpottggxee74tnew"
-Content-Disposition: inline
-
-
---dpottggxee74tnew
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Christoph,
-
-On Tue, Nov 03, 2020 at 10:55:38AM +0100, Christoph Hellwig wrote:
-> Linux 5.10-rc1 switched from having a single dma offset in struct device
-> to a set of DMA ranges, and introduced a new helper to set them,
-> dma_direct_set_offset.
->=20
-> This in fact surfaced that a bunch of drivers that violate our layering
-> and set the offset from drivers, which meant we had to reluctantly
-> export the symbol to set up the DMA range.
->=20
-> The drivers are:
->=20
-> drivers/gpu/drm/sun4i/sun4i_backend.c
->=20
->   This just use dma_direct_set_offset as a fallback.  Is there any good
->   reason to not just kill off the fallback?
->=20
-> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
->=20
->   Same as above.
-
-So, the history of this is:
-
-  - We initially introduced the support for those two controllers
-    assuming that there was a direct mapping between the physical and
-    DMA addresses. It turns out it didn't and the DMA accesses were
-    going through a secondary, dedicated, bus that didn't have the same
-    mapping of the RAM than the CPU.
-
-    4690803b09c6 ("drm/sun4i: backend: Offset layer buffer address by DRAM =
-starting address")
-
-  - This dedicated bus is undocumented and barely used in the vendor
-    kernel so this was overlooked, and it's fairly hard to get infos on
-    it for all the SoCs we support. We added the DT support for it
-    though on some SoCs we had enough infos to do so:
-
-    c43a4469402f ("dt-bindings: interconnect: Add a dma interconnect name")
-    22f88e311399 ("ARM: dts: sun5i: Add the MBUS controller")
-
-    This explains the check on the interconnect property
-
-  - However, due to the stable DT rule, we still need to operate without
-    regressions on older DTs that wouldn't have that property (and for
-    SoCs we haven't figured out). Hence the fallback.
-
-> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
->=20
->   This driver unconditionally sets the offset.  Why can't we do this
->   in the device tree?
->=20
-> drivers/staging/media/sunxi/cedrus/cedrus_hw.c
->=20
->   Same as above.
+On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
+> > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> > > files, and the old proc interface. Two check against
+> > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> > > this starts to matter, since we don't want random userspace having
+> > > access to PCI BARs while a driver is loaded and using it.
+> > >
+> > > Fix this by adding the same iomem_is_exclusive() check we already have
+> > > on the sysfs side in pci_mmap_resource().
+> > >
+> > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >
+> > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
+> > only used in a few places:
+> >
+> >   e1000_probe() calls pci_request_selected_regions_exclusive(),
+> >   ne_pci_probe() calls pci_request_regions_exclusive(),
+> >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
+> >
+> > which raises the question of whether it's worth keeping
+> > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
+> > completely.
 >
+> Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
+> IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
+> be in favor of removing it as well.
 
-We should make those two match the previous ones, but we'll have the
-same issue here eventually. Most likely they were never ran on an SoC
-for which we have the MBUS figured out.
+Still has some value since it enforces exclusive access even if the
+config isn't enabled, and iirc e1000 had some fun with userspace tools
+clobbering the firmware and bricking the chip.
 
-Maxime
-
---dpottggxee74tnew
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6Ji0wAKCRDj7w1vZxhR
-xfhqAQCGVXPQjuqueGxzvosMw+xeQPBqXhmwv85fYyeue+LdyAEA32seUuD5LvjK
-NYOXbQBiz2tBS6ESieNJ73KOZrgtHgs=
-=h/j1
------END PGP SIGNATURE-----
-
---dpottggxee74tnew--
-
---===============0062415509==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Another thing I kinda wondered, since pci maintainer is here: At least
+in drivers/gpu I see very few drivers explicitly requestion regions
+(this might be a historical artifact due to the shadow attach stuff
+before we had real modesetting drivers). And pci core doesn't do that
+either, even when a driver is bound. Is this intentional, or
+should/could we do better? Since drivers work happily without
+reserving regions I don't think "the drivers need to remember to do
+this" will ever really work out well.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0062415509==--
