@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8542A7901
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:21:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 525E72A78C6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:20:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 875456E9D2;
-	Thu,  5 Nov 2020 08:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7FB66E1E0;
+	Thu,  5 Nov 2020 08:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC7B6E852
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:37 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id s30so179268lfc.4
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:37 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE5B6E869
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 23:45:39 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id s30so179318lfc.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 15:45:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JWa430PVIqmJIbeD7KBt0TZCN2r4IZvUOeKukZUULSM=;
- b=eN4h8wmKVmc98I8VpVQD05mgPsSKIV8roZRuvQUi3EOcizAEVMxhK4XcKenNODUP57
- Rxze2zWAWjLCIfL2dNIRIGywZvC28Gu+MslIDgcQBiINpAIgA8ayEvdgAWeaNJS/UoUw
- AF/ln6R+1zf+7IT8b1pPX6qDWo8FajvGF+vv4uuipo2sXIA3JUzx7p8u+ktEcwm1o1pg
- 8EzDhwuYDylAakt40bWirCp8sipi2Klh9G/IBYON5H8zDXGqS29eR/JqRCTc9dW4pVKR
- y1mExIRa9//FQnuJ5e8gfTLqClqNg3UUpnvkCzqL0KLmGCs6gxB1ftFcHku0KNIwUxDo
- VvhA==
+ bh=H3MVi35NrfPSfRw//362HseqQCwlWGtdqp60bFnUhwA=;
+ b=OMn9xsQeCPu/4JinLc/AgoFUYFf1NUAoZIU2Zlu6R9dPQunR73wlhPP73mbb5TTpva
+ 8JiMy8NqbA0ZUwEVbGtyIWXt0/tfNkV48rTG7UCuIXLFva4JtNhIA8GqUErMg0IIfKUE
+ OGNdyB9H+gojt3sZ7bQ7bIApJMJ4in5sly2bBNeehvG48k/7mXjUtjndqT8kWTqY/A8g
+ qT2PIZ20opUDRyncNfJ/LO9879zyPy4vHJoeMho7u+q9lf9+ZJxM1tYmJF+TFnEibpMR
+ nv5gAps0odmdCDhcgB3tni2hr1hAyEgQ9NPd3AF9mNe+BxeSr5+mlHHTfY0Od+dUrfDJ
+ v6DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JWa430PVIqmJIbeD7KBt0TZCN2r4IZvUOeKukZUULSM=;
- b=g8jPgGGxtHzvup1LTPzGSwB+ezLIlUiWlnxVxI+K8IphpVFGYnaDiOkN6P69XUf28y
- 7qNBMHXOFGpE/lk7DHnaZCt/EcXIU5yKrDqwMDxVQP7epcoqbKY6yga/3AZPUq/Ys5L3
- N2oeQKkhmYW97HbiXd/VAT27feE3VeZ4WjrLI+bZ3iw8hKlqnpsu0LHTU/vFnhCzLGqe
- GBAK9m9m8SNK948etPqSmjO2gQlRqzVouQFf/NdlNHdsommWOa9LuR0y6mjWSi8R51VZ
- b53/UOZ6IaOlwevho0r067wkr2ENYAXMoDRv4wpW/ekUBvvsmgt9/jRxGcYltT8zVA02
- IJKA==
-X-Gm-Message-State: AOAM530FrftteekTC1/imXSLfuAmqURn17F1MlM3lZRdjF1BjdPEDiPh
- DUe9YwIf0rOVvpwJmc1bVrk=
-X-Google-Smtp-Source: ABdhPJz6df+Ge/OfH/yyY6XjwgEffIPjNRxtB5oKKiqUFuVW6jG9sorT54nuDmLv0xSqhkTx9fOGHg==
-X-Received: by 2002:a05:6512:3388:: with SMTP id
- h8mr60396lfg.318.1604533536417; 
- Wed, 04 Nov 2020 15:45:36 -0800 (PST)
+ bh=H3MVi35NrfPSfRw//362HseqQCwlWGtdqp60bFnUhwA=;
+ b=tNa3avU9oAMr+V0ZgzcH8IAr1BFLWms7evVQCACr2I6sDios1DFGoOEGRbs3/gA1pQ
+ 36iVOxrzfBxldLwnwTChEuHTaqu/2KYyEdbsf3p0yRph6d6+bVvQNnOwg8QisALBV6xh
+ b9FAuA29/RhSOQVpmC7D2+FnecaN/DdzKc2A8a3KchTHfxfJLftrAmR8aE/pycknJxyw
+ M6CMhf+0fD4ndeKplOEqgOC+YJmwdhFAyIlzG0C2u/ulm96vP5cu8vwNNO32aVX8Wx7+
+ xMPD4C3UEpLhwpCQ3Esrckx/8KPg3a/tKGIUfsfF7LJqRBSRbCTIIOH7qEgyF+DK1AmY
+ 6ENQ==
+X-Gm-Message-State: AOAM531dHLYEigmvHXo+DjIMtOnqc4Aw00gcBQSPWdNqUKbZVRQU/t+v
+ sP9w7d5usSpelx7CgP7mMHU=
+X-Google-Smtp-Source: ABdhPJwyQ9D+w6Gwu+oNG3O4q0AAu7yTKLISIo+dIOXhdhlh+KdufIVDxOlsB9IAA16GjdDdX/+EHA==
+X-Received: by 2002:ac2:53a5:: with SMTP id j5mr41614lfh.253.1604533537747;
+ Wed, 04 Nov 2020 15:45:37 -0800 (PST)
 Received: from localhost.localdomain (109-252-192-83.dynamic.spd-mgts.ru.
  [109.252.192.83])
- by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.35
+ by smtp.gmail.com with ESMTPSA id m6sm640725ljc.112.2020.11.04.15.45.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 15:45:35 -0800 (PST)
+ Wed, 04 Nov 2020 15:45:37 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -62,10 +61,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  Peter Geis <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>
-Subject: [PATCH v1 29/30] ARM: tegra: cardhu-a04: Add voltage supplies to
+Subject: [PATCH v1 30/30] ARM: tegra: nexus7: Add voltage supplies to
  DVFS-capable devices
-Date: Thu,  5 Nov 2020 02:44:26 +0300
-Message-Id: <20201104234427.26477-30-digetx@gmail.com>
+Date: Thu,  5 Nov 2020 02:44:27 +0300
+Message-Id: <20201104234427.26477-31-digetx@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
@@ -98,71 +97,79 @@ system-wide voltage scaling.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30-cardhu-a04.dts | 44 ++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ .../tegra30-asus-nexus7-grouper-common.dtsi   | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/arch/arm/boot/dts/tegra30-cardhu-a04.dts b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-index c1c0ca628af1..7149e5594537 100644
---- a/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-+++ b/arch/arm/boot/dts/tegra30-cardhu-a04.dts
-@@ -93,6 +93,34 @@ vdd_bl2_reg: regulator@106 {
- 		gpio = <&gpio TEGRA_GPIO(DD, 0) GPIO_ACTIVE_HIGH>;
+diff --git a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+index 261e266c61d8..2b405872ad2d 100644
+--- a/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -60,7 +60,19 @@ trustzone@bfe00000 {
  	};
  
-+	host1x@50000000 {
-+		core-supply = <&vddcore_reg>;
+ 	host1x@50000000 {
++		core-supply = <&vdd_core>;
 +
 +		gr2d@54140000 {
-+			core-supply = <&vddcore_reg>;
++			core-supply = <&vdd_core>;
 +		};
 +
 +		gr3d@54180000 {
-+			core-supply = <&vddcore_reg>;
++			core-supply = <&vdd_core>;
 +		};
 +
-+		dc@54200000 {
-+			core-supply = <&vddcore_reg>;
-+		};
+ 		dc@54200000 {
++			core-supply = <&vdd_core>;
++
+ 			rgb {
+ 				status = "okay";
+ 
+@@ -72,6 +84,10 @@ lcd_output: endpoint {
+ 				};
+ 			};
+ 		};
 +
 +		dc@54240000 {
-+			core-supply = <&vddcore_reg>;
++			core-supply = <&vdd_core>;
 +		};
-+	};
-+
-+	vde@6001a000 {
-+		core-supply = <&vddcore_reg>;
-+	};
-+
-+	pwm: pwm@7000a000 {
-+		core-supply = <&vddcore_reg>;
-+	};
-+
- 	i2c@7000d000 {
- 		pmic: tps65911@2d {
- 			regulators {
-@@ -117,6 +145,22 @@ vddcore_reg: tps62361@60 {
+ 	};
+ 
+ 	gpio@6000d000 {
+@@ -90,6 +106,10 @@ init-low-power-mode {
  		};
  	};
  
-+	memory-controller@7000f400 {
-+		core-supply = <&vddcore_reg>;
++	vde@6001a000 {
++		core-supply = <&vdd_core>;
 +	};
 +
-+	mmc@78000000 {
-+		core-supply = <&vddcore_reg>;
-+	};
-+
-+	mmc@78000600 {
-+		core-supply = <&vddcore_reg>;
-+	};
-+
-+	usb@7d008000 {
-+		core-supply = <&vddcore_reg>;
-+	};
-+
- 	cpus {
- 		cpu0: cpu@0 {
- 			cpu-supply = <&vddctrl_reg>;
+ 	pinmux@70000868 {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&state_default>;
+@@ -835,6 +855,7 @@ bluetooth {
+ 
+ 	pwm: pwm@7000a000 {
+ 		status = "okay";
++		core-supply = <&vdd_core>;
+ 	};
+ 
+ 	i2c@7000c400 {
+@@ -994,6 +1015,7 @@ sdmmc3: mmc@78000400 {
+ 
+ 		mmc-pwrseq = <&brcm_wifi_pwrseq>;
+ 		vmmc-supply = <&vdd_3v3_sys>;
++		core-supply = <&vdd_core>;
+ 		vqmmc-supply = <&vdd_1v8>;
+ 
+ 		/* Azurewave AW-NH665 BCM4330 */
+@@ -1018,6 +1040,7 @@ usb@7d000000 {
+ 		compatible = "nvidia,tegra30-udc";
+ 		status = "okay";
+ 		dr_mode = "peripheral";
++		core-supply = <&vdd_core>;
+ 	};
+ 
+ 	usb-phy@7d000000 {
 -- 
 2.27.0
 
