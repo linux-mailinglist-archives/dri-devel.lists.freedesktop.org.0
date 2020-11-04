@@ -1,39 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCA22A6274
-	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 11:47:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D29A32A63A7
+	for <lists+dri-devel@lfdr.de>; Wed,  4 Nov 2020 12:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5E146E969;
-	Wed,  4 Nov 2020 10:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D276E9CD;
+	Wed,  4 Nov 2020 11:53:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49EDA6E969
- for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 10:47:42 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 71B17804D8;
- Wed,  4 Nov 2020 11:47:37 +0100 (CET)
-Date: Wed, 4 Nov 2020 11:47:35 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH] dt-bindings: display: panel-simple: Allow optional
- 'ports' property
-Message-ID: <20201104104735.GA1581328@ravnborg.org>
-References: <1604477017-17642-1-git-send-email-victor.liu@nxp.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4A1026E9CD
+ for <dri-devel@lists.freedesktop.org>; Wed,  4 Nov 2020 11:53:35 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4ACD61474;
+ Wed,  4 Nov 2020 03:53:34 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0AA383F719;
+ Wed,  4 Nov 2020 03:53:32 -0800 (PST)
+Subject: Re: [PATCH] drm/panfrost: Replace devm_reset_control_array_get()
+To: Yejune Deng <yejune.deng@gmail.com>, robh@kernel.org,
+ tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
+ airlied@linux.ie, daniel@ffwll.ch, p.zabel@pengutronix.de
+References: <1604368082-6032-1-git-send-email-yejune.deng@gmail.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <0de60b2e-fdff-f2f1-f734-1b1aa949b6fb@arm.com>
+Date: Wed, 4 Nov 2020 11:53:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1604477017-17642-1-git-send-email-victor.liu@nxp.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8 a=VwQbUJbxAAAA:8
- a=8AirrxEcAAAA:8 a=zLvY34wDOnSOrT-61vkA:9 a=CjuIK1q_8ugA:10
- a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
- a=ST-jHhOKWsTCqRlWije3:22
+In-Reply-To: <1604368082-6032-1-git-send-email-yejune.deng@gmail.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,62 +43,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Liu Ying
-
-On Wed, Nov 04, 2020 at 04:03:37PM +0800, Liu Ying wrote:
-> Some simple panels have dual LVDS interfaces which receive even and odd
-> pixels respectively, like 'nlt,nl192108ac18-02d' and 'koe,tx26d202vm0bwa'.
-> So, let's allow optional 'ports' property so that pixel order can be got
-> via drm_of_lvds_get_dual_link_pixel_order() if it's child nodes 'port@0'
-> and 'port@1' contain 'dual-lvds-even-pixels' and 'dual-lvds-odd-pixels'
-> properties respectively.
-
-A panel with dual LVDS interfaces is no longer in the "simple" category.
-The panel-simple binding shall be limited to the simple pnales only.
-
-This is also why we have for example panel-simple-dsi binding.
-
-Please consider either a binding dedicated for the dual port displays or
-a dedicated binding for the specific panel.
-
-I trust that if other readers of this mail disagrees with this
-recommendation that they will speak up.
-
-	Sam
-
+On 03/11/2020 01:48, Yejune Deng wrote:
+> devm_reset_control_array_get_optional_exclusive() looks more readable
 > 
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
+> Signed-off-by: Yejune Deng <yejune.deng@gmail.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+Thanks, I'll push this to drm-misc-next.
+
+Steve
+
 > ---
->  Documentation/devicetree/bindings/display/panel/panel-simple.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>   drivers/gpu/drm/panfrost/panfrost_device.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index f9750b0..5ccb22b 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -288,6 +288,7 @@ properties:
->    backlight: true
->    enable-gpios: true
->    port: true
-> +  ports: true
->    power-supply: true
->  
->  additionalProperties: false
-> -- 
-> 2.7.4
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index ea8d318..1daf932 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -18,7 +18,7 @@
+>   
+>   static int panfrost_reset_init(struct panfrost_device *pfdev)
+>   {
+> -	pfdev->rstc = devm_reset_control_array_get(pfdev->dev, false, true);
+> +	pfdev->rstc = devm_reset_control_array_get_optional_exclusive(pfdev->dev);
+>   	if (IS_ERR(pfdev->rstc)) {
+>   		dev_err(pfdev->dev, "get reset failed %ld\n", PTR_ERR(pfdev->rstc));
+>   		return PTR_ERR(pfdev->rstc);
+> 
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
