@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA82A7E3A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:06:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C42C2A7E3C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:06:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D5E6EB11;
-	Thu,  5 Nov 2020 12:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D39D26EB70;
+	Thu,  5 Nov 2020 12:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94B526EB70
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:06:07 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C60U4057255;
- Thu, 5 Nov 2020 06:06:00 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D9A6EB11
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:06:08 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C63SV070804;
+ Thu, 5 Nov 2020 06:06:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604577960;
- bh=VUMW4GzJRY3BTQ5YLRUlSdVTYiot9h8lHmdZVPY3vio=;
+ s=ti-com-17Q1; t=1604577963;
+ bh=+WqJyqJx7XZiiDzRbe27Oc2pGP9TAwGij3Dqdh/WKkA=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=TG/QbQM4Z0cmn9z9Gh8pplxM3HIDRwcn626SuwzJ+vadlsCvZouTv6wr1/gTbuKJY
- KURmvZKnzYf8CHuork1uiwb+d8gzWxGv+X7uvlzvj3WfUSoTwJwsjBaoUuyN0MH5gg
- bsLFqCqolFE0C1xRiWco3UWDE9/ZtjcBX0y09QnM=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C607B074113
+ b=stgnl7dUjoRdJWIG7khx4QiURNx1K4eEH8jyJHz3dzTIEBiuJq+aZr7iLWPMR/Egb
+ CWAXhQFbP2r1aYniklvPFtVqTQmyJ9Z6nwR/5MNqbA25L1i2EJAq2oBnigDN72St5D
+ FFDRLGtvUr82Uy7G2OTZ5DQcGY54aK/QZonhzRe0=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C62sp125261
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 5 Nov 2020 06:06:00 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 5 Nov 2020 06:06:03 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 5 Nov
- 2020 06:06:00 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 06:06:03 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 5 Nov 2020 06:06:00 -0600
+ Frontend Transport; Thu, 5 Nov 2020 06:06:02 -0600
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rfn039111;
- Thu, 5 Nov 2020 06:05:58 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rfo039111;
+ Thu, 5 Nov 2020 06:06:00 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 51/56] ARM: omap2plus_defconfig: Update for moved DSI
- command mode panel
-Date: Thu, 5 Nov 2020 14:03:28 +0200
-Message-ID: <20201105120333.947408-52-tomi.valkeinen@ti.com>
+Subject: [PATCH v3 52/56] drm/omap: squash omapdrm sub-modules into one
+Date: Thu, 5 Nov 2020 14:03:29 +0200
+Message-ID: <20201105120333.947408-53-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201105120333.947408-1-tomi.valkeinen@ti.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
@@ -65,39 +64,644 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Tony Lindgren <tony@atomide.com>, "H .
  Nikolaus Schaller" <hns@goldelico.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>
+ Sekhar Nori <nsekhar@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+At the moment we have three different modules: omapdss-base, omapdss,
+omapdrm. This setup is finally obsolete, as the last omapdrm specific
+panel has been converted to DRM panel.
 
-The DSI command mode panel is no longer specific
-to OMAP and thus the config option has been renamed
-slightly.
+We can thus remove omapdss-base and omapdss, and just compile everything
+into omapdrm.ko.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Tony Lindgren <tony@atomide.com>
 ---
- arch/arm/configs/omap2plus_defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/Kconfig       | 119 ++++++++++++++++++++++-
+ drivers/gpu/drm/omapdrm/Makefile      |  17 +++-
+ drivers/gpu/drm/omapdrm/dss/Kconfig   | 132 --------------------------
+ drivers/gpu/drm/omapdrm/dss/Makefile  |  18 ----
+ drivers/gpu/drm/omapdrm/dss/base.c    |  23 +----
+ drivers/gpu/drm/omapdrm/dss/display.c |   2 -
+ drivers/gpu/drm/omapdrm/dss/dss.c     |  11 +--
+ drivers/gpu/drm/omapdrm/dss/omapdss.h |   3 +
+ drivers/gpu/drm/omapdrm/dss/output.c  |  11 ---
+ drivers/gpu/drm/omapdrm/omap_drv.c    |  12 ++-
+ 10 files changed, 148 insertions(+), 200 deletions(-)
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/Kconfig
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/Makefile
 
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 34793aabdb65..d329d0829fce 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -369,7 +369,7 @@ CONFIG_DRM_OMAP=m
- CONFIG_OMAP5_DSS_HDMI=y
- CONFIG_OMAP2_DSS_SDI=y
- CONFIG_OMAP2_DSS_DSI=y
--CONFIG_DRM_OMAP_PANEL_DSI_CM=m
-+CONFIG_DRM_PANEL_DSI_CM=m
- CONFIG_DRM_TILCDC=m
- CONFIG_DRM_PANEL_SIMPLE=m
- CONFIG_DRM_PANEL_LG_LB035Q02=m
+diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
+index cea3f44ea6d4..e7281da5bc6a 100644
+--- a/drivers/gpu/drm/omapdrm/Kconfig
++++ b/drivers/gpu/drm/omapdrm/Kconfig
+@@ -5,12 +5,129 @@ config DRM_OMAP
+ 	depends on ARCH_OMAP2PLUS || ARCH_MULTIPLATFORM
+ 	select OMAP2_DSS
+ 	select DRM_KMS_HELPER
++	select VIDEOMODE_HELPERS
++	select HDMI
+ 	default n
+ 	help
+ 	  DRM display driver for OMAP2/3/4 based boards.
+ 
+ if DRM_OMAP
+ 
+-source "drivers/gpu/drm/omapdrm/dss/Kconfig"
++config OMAP2_DSS_DEBUG
++	bool "Debug support"
++	default n
++	help
++	  This enables printing of debug messages. Alternatively, debug messages
++	  can also be enabled by setting CONFIG_DYNAMIC_DEBUG and then setting
++	  appropriate flags in <debugfs>/dynamic_debug/control.
++
++config OMAP2_DSS_DEBUGFS
++	bool "Debugfs filesystem support"
++	depends on DEBUG_FS
++	default n
++	help
++	  This enables debugfs for OMAPDSS at <debugfs>/omapdss. This enables
++	  querying about clock configuration and register configuration of dss,
++	  dispc, dsi, hdmi and rfbi.
++
++config OMAP2_DSS_COLLECT_IRQ_STATS
++	bool "Collect DSS IRQ statistics"
++	depends on OMAP2_DSS_DEBUGFS
++	default n
++	help
++	  Collect DSS IRQ statistics, printable via debugfs.
++
++	  The statistics can be found from
++	  <debugfs>/omapdss/dispc_irq for DISPC interrupts, and
++	  <debugfs>/omapdss/dsi_irq for DSI interrupts.
++
++config OMAP2_DSS_DPI
++	bool "DPI support"
++	default y
++	help
++	  DPI Interface. This is the Parallel Display Interface.
++
++config OMAP2_DSS_VENC
++	bool "VENC support"
++	default y
++	help
++	  OMAP Video Encoder support for S-Video and composite TV-out.
++
++config OMAP2_DSS_HDMI_COMMON
++	bool
++
++config OMAP4_DSS_HDMI
++	bool "HDMI support for OMAP4"
++	default y
++	select OMAP2_DSS_HDMI_COMMON
++	help
++	  HDMI support for OMAP4 based SoCs.
++
++config OMAP4_DSS_HDMI_CEC
++	bool "Enable HDMI CEC support for OMAP4"
++	depends on OMAP4_DSS_HDMI
++	select CEC_CORE
++	default y
++	help
++	  When selected the HDMI transmitter will support the CEC feature.
++
++config OMAP5_DSS_HDMI
++	bool "HDMI support for OMAP5"
++	default n
++	select OMAP2_DSS_HDMI_COMMON
++	help
++	  HDMI Interface for OMAP5 and similar cores. This adds the High
++	  Definition Multimedia Interface. See http://www.hdmi.org/ for HDMI
++	  specification.
++
++config OMAP2_DSS_SDI
++	bool "SDI support"
++	default n
++	help
++	  SDI (Serial Display Interface) support.
++
++	  SDI is a high speed one-way display serial bus between the host
++	  processor and a display.
++
++config OMAP2_DSS_DSI
++	bool "DSI support"
++	default n
++	select DRM_MIPI_DSI
++	help
++	  MIPI DSI (Display Serial Interface) support.
++
++	  DSI is a high speed half-duplex serial interface between the host
++	  processor and a peripheral, such as a display or a framebuffer chip.
++
++	  See http://www.mipi.org/ for DSI specifications.
++
++config OMAP2_DSS_MIN_FCK_PER_PCK
++	int "Minimum FCK/PCK ratio (for scaling)"
++	range 0 32
++	default 0
++	help
++	  This can be used to adjust the minimum FCK/PCK ratio.
++
++	  With this you can make sure that DISPC FCK is at least
++	  n x PCK. Video plane scaling requires higher FCK than
++	  normally.
++
++	  If this is set to 0, there's no extra constraint on the
++	  DISPC FCK. However, the FCK will at minimum be
++	  2xPCK (if active matrix) or 3xPCK (if passive matrix).
++
++	  Max FCK is 173MHz, so this doesn't work if your PCK
++	  is very high.
++
++config OMAP2_DSS_SLEEP_AFTER_VENC_RESET
++	bool "Sleep 20ms after VENC reset"
++	default y
++	help
++	  There is a 20ms sleep after VENC reset which seemed to fix the
++	  reset. The reason for the bug is unclear, and it's also unclear
++	  on what platforms this happens.
++
++	  This option enables the sleep, and is enabled by default. You can
++	  disable the sleep if it doesn't cause problems on your platform.
+ 
+ endif
+diff --git a/drivers/gpu/drm/omapdrm/Makefile b/drivers/gpu/drm/omapdrm/Makefile
+index 2a404e045b78..33fe7e937680 100644
+--- a/drivers/gpu/drm/omapdrm/Makefile
++++ b/drivers/gpu/drm/omapdrm/Makefile
+@@ -4,8 +4,6 @@
+ # Direct Rendering Infrastructure (DRI)
+ #
+ 
+-obj-y += dss/
+-
+ omapdrm-y := omap_drv.o \
+ 	omap_irq.o \
+ 	omap_debugfs.o \
+@@ -20,4 +18,17 @@ omapdrm-y := omap_drv.o \
+ 
+ omapdrm-$(CONFIG_DRM_FBDEV_EMULATION) += omap_fbdev.o
+ 
+-obj-$(CONFIG_DRM_OMAP)	+= omapdrm.o
++omapdrm-y += dss/base.o dss/display.o dss/output.o dss/dss.o dss/dispc.o \
++		dss/dispc_coefs.o dss/pll.o dss/video-pll.o
++omapdrm-$(CONFIG_OMAP2_DSS_DPI) += dss/dpi.o
++omapdrm-$(CONFIG_OMAP2_DSS_VENC) += dss/venc.o
++omapdrm-$(CONFIG_OMAP2_DSS_SDI) += dss/sdi.o
++omapdrm-$(CONFIG_OMAP2_DSS_DSI) += dss/dsi.o
++omapdrm-$(CONFIG_OMAP2_DSS_HDMI_COMMON) += dss/hdmi_common.o dss/hdmi_wp.o \
++		dss/hdmi_pll.o dss/hdmi_phy.o
++omapdrm-$(CONFIG_OMAP4_DSS_HDMI) += dss/hdmi4.o dss/hdmi4_core.o
++omapdrm-$(CONFIG_OMAP4_DSS_HDMI_CEC) += dss/hdmi4_cec.o
++omapdrm-$(CONFIG_OMAP5_DSS_HDMI) += dss/hdmi5.o dss/hdmi5_core.o
++ccflags-$(CONFIG_OMAP2_DSS_DEBUG) += -DDEBUG
++
++obj-$(CONFIG_DRM_OMAP) += omapdrm.o
+diff --git a/drivers/gpu/drm/omapdrm/dss/Kconfig b/drivers/gpu/drm/omapdrm/dss/Kconfig
+deleted file mode 100644
+index 6ec80771af3d..000000000000
+--- a/drivers/gpu/drm/omapdrm/dss/Kconfig
++++ /dev/null
+@@ -1,132 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-config OMAP_DSS_BASE
+-	tristate
+-
+-menuconfig OMAP2_DSS
+-	tristate "OMAP2+ Display Subsystem support"
+-	select OMAP_DSS_BASE
+-	select VIDEOMODE_HELPERS
+-	select HDMI
+-	help
+-	  OMAP2+ Display Subsystem support.
+-
+-if OMAP2_DSS
+-
+-config OMAP2_DSS_DEBUG
+-	bool "Debug support"
+-	default n
+-	help
+-	  This enables printing of debug messages. Alternatively, debug messages
+-	  can also be enabled by setting CONFIG_DYNAMIC_DEBUG and then setting
+-	  appropriate flags in <debugfs>/dynamic_debug/control.
+-
+-config OMAP2_DSS_DEBUGFS
+-	bool "Debugfs filesystem support"
+-	depends on DEBUG_FS
+-	default n
+-	help
+-	  This enables debugfs for OMAPDSS at <debugfs>/omapdss. This enables
+-	  querying about clock configuration and register configuration of dss,
+-	  dispc, dsi, hdmi and rfbi.
+-
+-config OMAP2_DSS_COLLECT_IRQ_STATS
+-	bool "Collect DSS IRQ statistics"
+-	depends on OMAP2_DSS_DEBUGFS
+-	default n
+-	help
+-	  Collect DSS IRQ statistics, printable via debugfs.
+-
+-	  The statistics can be found from
+-	  <debugfs>/omapdss/dispc_irq for DISPC interrupts, and
+-	  <debugfs>/omapdss/dsi_irq for DSI interrupts.
+-
+-config OMAP2_DSS_DPI
+-	bool "DPI support"
+-	default y
+-	help
+-	  DPI Interface. This is the Parallel Display Interface.
+-
+-config OMAP2_DSS_VENC
+-	bool "VENC support"
+-	default y
+-	help
+-	  OMAP Video Encoder support for S-Video and composite TV-out.
+-
+-config OMAP2_DSS_HDMI_COMMON
+-	bool
+-
+-config OMAP4_DSS_HDMI
+-	bool "HDMI support for OMAP4"
+-	default y
+-	select OMAP2_DSS_HDMI_COMMON
+-	help
+-	  HDMI support for OMAP4 based SoCs.
+-
+-config OMAP4_DSS_HDMI_CEC
+-	bool "Enable HDMI CEC support for OMAP4"
+-	depends on OMAP4_DSS_HDMI
+-	select CEC_CORE
+-	default y
+-	help
+-	  When selected the HDMI transmitter will support the CEC feature.
+-
+-config OMAP5_DSS_HDMI
+-	bool "HDMI support for OMAP5"
+-	default n
+-	select OMAP2_DSS_HDMI_COMMON
+-	help
+-	  HDMI Interface for OMAP5 and similar cores. This adds the High
+-	  Definition Multimedia Interface. See http://www.hdmi.org/ for HDMI
+-	  specification.
+-
+-config OMAP2_DSS_SDI
+-	bool "SDI support"
+-	default n
+-	help
+-	  SDI (Serial Display Interface) support.
+-
+-	  SDI is a high speed one-way display serial bus between the host
+-	  processor and a display.
+-
+-config OMAP2_DSS_DSI
+-	bool "DSI support"
+-	default n
+-	select DRM_MIPI_DSI
+-	help
+-	  MIPI DSI (Display Serial Interface) support.
+-
+-	  DSI is a high speed half-duplex serial interface between the host
+-	  processor and a peripheral, such as a display or a framebuffer chip.
+-
+-	  See http://www.mipi.org/ for DSI specifications.
+-
+-config OMAP2_DSS_MIN_FCK_PER_PCK
+-	int "Minimum FCK/PCK ratio (for scaling)"
+-	range 0 32
+-	default 0
+-	help
+-	  This can be used to adjust the minimum FCK/PCK ratio.
+-
+-	  With this you can make sure that DISPC FCK is at least
+-	  n x PCK. Video plane scaling requires higher FCK than
+-	  normally.
+-
+-	  If this is set to 0, there's no extra constraint on the
+-	  DISPC FCK. However, the FCK will at minimum be
+-	  2xPCK (if active matrix) or 3xPCK (if passive matrix).
+-
+-	  Max FCK is 173MHz, so this doesn't work if your PCK
+-	  is very high.
+-
+-config OMAP2_DSS_SLEEP_AFTER_VENC_RESET
+-	bool "Sleep 20ms after VENC reset"
+-	default y
+-	help
+-	  There is a 20ms sleep after VENC reset which seemed to fix the
+-	  reset. The reason for the bug is unclear, and it's also unclear
+-	  on what platforms this happens.
+-
+-	  This option enables the sleep, and is enabled by default. You can
+-	  disable the sleep if it doesn't cause problems on your platform.
+-
+-endif
+diff --git a/drivers/gpu/drm/omapdrm/dss/Makefile b/drivers/gpu/drm/omapdrm/dss/Makefile
+deleted file mode 100644
+index 811966cd7468..000000000000
+--- a/drivers/gpu/drm/omapdrm/dss/Makefile
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_OMAP_DSS_BASE) += omapdss-base.o
+-omapdss-base-y := base.o display.o output.o
+-
+-obj-$(CONFIG_OMAP2_DSS) += omapdss.o
+-# Core DSS files
+-omapdss-y := dss.o dispc.o dispc_coefs.o \
+-	pll.o video-pll.o
+-omapdss-$(CONFIG_OMAP2_DSS_DPI) += dpi.o
+-omapdss-$(CONFIG_OMAP2_DSS_VENC) += venc.o
+-omapdss-$(CONFIG_OMAP2_DSS_SDI) += sdi.o
+-omapdss-$(CONFIG_OMAP2_DSS_DSI) += dsi.o
+-omapdss-$(CONFIG_OMAP2_DSS_HDMI_COMMON) += hdmi_common.o hdmi_wp.o hdmi_pll.o \
+-	hdmi_phy.o
+-omapdss-$(CONFIG_OMAP4_DSS_HDMI) += hdmi4.o hdmi4_core.o
+-omapdss-$(CONFIG_OMAP4_DSS_HDMI_CEC) += hdmi4_cec.o
+-omapdss-$(CONFIG_OMAP5_DSS_HDMI) += hdmi5.o hdmi5_core.o
+-ccflags-$(CONFIG_OMAP2_DSS_DEBUG) += -DDEBUG
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index d9a5e7b9d401..08c7c5024896 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -20,13 +20,11 @@ struct dispc_device *dispc_get_dispc(struct dss_device *dss)
+ {
+ 	return dss->dispc;
+ }
+-EXPORT_SYMBOL(dispc_get_dispc);
+ 
+ const struct dispc_ops *dispc_get_ops(struct dss_device *dss)
+ {
+ 	return dss->dispc_ops;
+ }
+-EXPORT_SYMBOL(dispc_get_ops);
+ 
+ 
+ /* -----------------------------------------------------------------------------
+@@ -42,7 +40,6 @@ void omapdss_device_register(struct omap_dss_device *dssdev)
+ 	list_add_tail(&dssdev->list, &omapdss_devices_list);
+ 	mutex_unlock(&omapdss_devices_lock);
+ }
+-EXPORT_SYMBOL_GPL(omapdss_device_register);
+ 
+ void omapdss_device_unregister(struct omap_dss_device *dssdev)
+ {
+@@ -50,7 +47,6 @@ void omapdss_device_unregister(struct omap_dss_device *dssdev)
+ 	list_del(&dssdev->list);
+ 	mutex_unlock(&omapdss_devices_lock);
+ }
+-EXPORT_SYMBOL_GPL(omapdss_device_unregister);
+ 
+ static bool omapdss_device_is_registered(struct device_node *node)
+ {
+@@ -72,24 +68,16 @@ static bool omapdss_device_is_registered(struct device_node *node)
+ 
+ struct omap_dss_device *omapdss_device_get(struct omap_dss_device *dssdev)
+ {
+-	if (!try_module_get(dssdev->owner))
++	if (get_device(dssdev->dev) == NULL)
+ 		return NULL;
+ 
+-	if (get_device(dssdev->dev) == NULL) {
+-		module_put(dssdev->owner);
+-		return NULL;
+-	}
+-
+ 	return dssdev;
+ }
+-EXPORT_SYMBOL(omapdss_device_get);
+ 
+ void omapdss_device_put(struct omap_dss_device *dssdev)
+ {
+ 	put_device(dssdev->dev);
+-	module_put(dssdev->owner);
+ }
+-EXPORT_SYMBOL(omapdss_device_put);
+ 
+ struct omap_dss_device *omapdss_find_device_by_node(struct device_node *node)
+ {
+@@ -150,7 +138,6 @@ struct omap_dss_device *omapdss_device_next_output(struct omap_dss_device *from)
+ 	mutex_unlock(&omapdss_devices_lock);
+ 	return dssdev;
+ }
+-EXPORT_SYMBOL(omapdss_device_next_output);
+ 
+ static bool omapdss_device_is_connected(struct omap_dss_device *dssdev)
+ {
+@@ -181,7 +168,6 @@ int omapdss_device_connect(struct dss_device *dss,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(omapdss_device_connect);
+ 
+ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 			       struct omap_dss_device *dst)
+@@ -204,7 +190,6 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 
+ 	dst->dss = NULL;
+ }
+-EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
+ 
+ /* -----------------------------------------------------------------------------
+  * Components Handling
+@@ -290,7 +275,6 @@ void omapdss_gather_components(struct device *dev)
+ 	for_each_available_child_of_node(dev->of_node, child)
+ 		omapdss_walk_device(dev, child, true);
+ }
+-EXPORT_SYMBOL(omapdss_gather_components);
+ 
+ static bool omapdss_component_is_loaded(struct omapdss_comp_node *comp)
+ {
+@@ -315,8 +299,3 @@ bool omapdss_stack_is_ready(void)
+ 
+ 	return true;
+ }
+-EXPORT_SYMBOL(omapdss_stack_is_ready);
+-
+-MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
+-MODULE_DESCRIPTION("OMAP Display Subsystem Base");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/gpu/drm/omapdrm/dss/display.c b/drivers/gpu/drm/omapdrm/dss/display.c
+index 3b82158b1bfd..7b7ee2019eae 100644
+--- a/drivers/gpu/drm/omapdrm/dss/display.c
++++ b/drivers/gpu/drm/omapdrm/dss/display.c
+@@ -38,7 +38,6 @@ void omapdss_display_init(struct omap_dss_device *dssdev)
+ 		dssdev->name = devm_kasprintf(dssdev->dev, GFP_KERNEL,
+ 					      "display%u", id);
+ }
+-EXPORT_SYMBOL_GPL(omapdss_display_init);
+ 
+ int omapdss_display_get_modes(struct drm_connector *connector,
+ 			      const struct videomode *vm)
+@@ -57,4 +56,3 @@ int omapdss_display_get_modes(struct drm_connector *connector,
+ 
+ 	return 1;
+ }
+-EXPORT_SYMBOL_GPL(omapdss_display_get_modes);
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 6a160138bf88..6547a9f4b388 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -1638,21 +1638,14 @@ static struct platform_driver * const omap_dss_drivers[] = {
+ #endif
+ };
+ 
+-static int __init omap_dss_init(void)
++int __init omap_dss_init(void)
+ {
+ 	return platform_register_drivers(omap_dss_drivers,
+ 					 ARRAY_SIZE(omap_dss_drivers));
+ }
+ 
+-static void __exit omap_dss_exit(void)
++void __exit omap_dss_exit(void)
+ {
+ 	platform_unregister_drivers(omap_dss_drivers,
+ 				    ARRAY_SIZE(omap_dss_drivers));
+ }
+-
+-module_init(omap_dss_init);
+-module_exit(omap_dss_exit);
+-
+-MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
+-MODULE_DESCRIPTION("OMAP2/3/4/5 Display Subsystem");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 4a0826c8fed5..4e7ae164de4f 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -458,4 +458,7 @@ const struct dispc_ops *dispc_get_ops(struct dss_device *dss);
+ bool omapdss_stack_is_ready(void);
+ void omapdss_gather_components(struct device *dev);
+ 
++int omap_dss_init(void);
++void omap_dss_exit(void);
++
+ #endif /* __OMAP_DRM_DSS_H */
+diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
+index 40cb353572f6..7a14d2b5b2f7 100644
+--- a/drivers/gpu/drm/omapdrm/dss/output.c
++++ b/drivers/gpu/drm/omapdrm/dss/output.c
+@@ -73,7 +73,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 	omapdss_device_cleanup_output(out);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(omapdss_device_init_output);
+ 
+ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ {
+@@ -81,7 +80,6 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ 		drm_panel_bridge_remove(out->next_bridge ?
+ 					out->next_bridge : out->bridge);
+ }
+-EXPORT_SYMBOL(omapdss_device_cleanup_output);
+ 
+ int dss_install_mgr_ops(struct dss_device *dss,
+ 			const struct dss_mgr_ops *mgr_ops,
+@@ -95,14 +93,12 @@ int dss_install_mgr_ops(struct dss_device *dss,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL(dss_install_mgr_ops);
+ 
+ void dss_uninstall_mgr_ops(struct dss_device *dss)
+ {
+ 	dss->mgr_ops = NULL;
+ 	dss->mgr_ops_priv = NULL;
+ }
+-EXPORT_SYMBOL(dss_uninstall_mgr_ops);
+ 
+ void dss_mgr_set_timings(struct omap_dss_device *dssdev,
+ 			 const struct videomode *vm)
+@@ -110,7 +106,6 @@ void dss_mgr_set_timings(struct omap_dss_device *dssdev,
+ 	dssdev->dss->mgr_ops->set_timings(dssdev->dss->mgr_ops_priv,
+ 					  dssdev->dispc_channel, vm);
+ }
+-EXPORT_SYMBOL(dss_mgr_set_timings);
+ 
+ void dss_mgr_set_lcd_config(struct omap_dss_device *dssdev,
+ 		const struct dss_lcd_mgr_config *config)
+@@ -118,28 +113,24 @@ void dss_mgr_set_lcd_config(struct omap_dss_device *dssdev,
+ 	dssdev->dss->mgr_ops->set_lcd_config(dssdev->dss->mgr_ops_priv,
+ 					     dssdev->dispc_channel, config);
+ }
+-EXPORT_SYMBOL(dss_mgr_set_lcd_config);
+ 
+ int dss_mgr_enable(struct omap_dss_device *dssdev)
+ {
+ 	return dssdev->dss->mgr_ops->enable(dssdev->dss->mgr_ops_priv,
+ 					    dssdev->dispc_channel);
+ }
+-EXPORT_SYMBOL(dss_mgr_enable);
+ 
+ void dss_mgr_disable(struct omap_dss_device *dssdev)
+ {
+ 	dssdev->dss->mgr_ops->disable(dssdev->dss->mgr_ops_priv,
+ 				      dssdev->dispc_channel);
+ }
+-EXPORT_SYMBOL(dss_mgr_disable);
+ 
+ void dss_mgr_start_update(struct omap_dss_device *dssdev)
+ {
+ 	dssdev->dss->mgr_ops->start_update(dssdev->dss->mgr_ops_priv,
+ 					   dssdev->dispc_channel);
+ }
+-EXPORT_SYMBOL(dss_mgr_start_update);
+ 
+ int dss_mgr_register_framedone_handler(struct omap_dss_device *dssdev,
+ 		void (*handler)(void *), void *data)
+@@ -150,7 +141,6 @@ int dss_mgr_register_framedone_handler(struct omap_dss_device *dssdev,
+ 							dssdev->dispc_channel,
+ 							handler, data);
+ }
+-EXPORT_SYMBOL(dss_mgr_register_framedone_handler);
+ 
+ void dss_mgr_unregister_framedone_handler(struct omap_dss_device *dssdev,
+ 		void (*handler)(void *), void *data)
+@@ -161,4 +151,3 @@ void dss_mgr_unregister_framedone_handler(struct omap_dss_device *dssdev,
+ 						   dssdev->dispc_channel,
+ 						   handler, data);
+ }
+-EXPORT_SYMBOL(dss_mgr_unregister_framedone_handler);
+diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+index dbb8e95234b3..9d5f53e774ef 100644
+--- a/drivers/gpu/drm/omapdrm/omap_drv.c
++++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+@@ -741,8 +741,14 @@ static struct platform_driver * const drivers[] = {
+ 
+ static int __init omap_drm_init(void)
+ {
++	int r;
++
+ 	DBG("init");
+ 
++	r = omap_dss_init();
++	if (r)
++		return r;
++
+ 	return platform_register_drivers(drivers, ARRAY_SIZE(drivers));
+ }
+ 
+@@ -751,13 +757,15 @@ static void __exit omap_drm_fini(void)
+ 	DBG("fini");
+ 
+ 	platform_unregister_drivers(drivers, ARRAY_SIZE(drivers));
++
++	omap_dss_exit();
+ }
+ 
+-/* need late_initcall() so we load after dss_driver's are loaded */
+-late_initcall(omap_drm_init);
++module_init(omap_drm_init);
+ module_exit(omap_drm_fini);
+ 
+ MODULE_AUTHOR("Rob Clark <rob@ti.com>");
++MODULE_AUTHOR("Tomi Valkeinen <tomi.valkeinen@ti.com>");
+ MODULE_DESCRIPTION("OMAP DRM Display Driver");
+ MODULE_ALIAS("platform:" DRIVER_NAME);
+ MODULE_LICENSE("GPL v2");
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
