@@ -2,69 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5772A9171
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745962A9178
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0211A6EE13;
-	Fri,  6 Nov 2020 08:35:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 711506EE1D;
+	Fri,  6 Nov 2020 08:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 090F46E104
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 15:02:07 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id g17so1257331qts.5
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 07:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=aEjedQGnbvpDY6glZjQQcDKpPqhdsXXdZcrkeVyX5oQ=;
- b=Z2Uj4OilmylQVxDL+DU7Y5P/c8WGD1UFcOjbpAk03p2/6cc/znY23y8onLANtbgIe6
- Wzy12eNa7rr1nd6EhL1CVV5r/LS0Wi8ucJQLG4BximCQtOnGUwOu0FlP7ongNUuot0TB
- 3/lpC5SO9WFUnvBE1kp8bt+EOXHfHVWzm2Wt756f7OqkcQxgRpgcjE3POCExH2zsanWs
- yANPGFQNLss2vNuYUoThphC/zkoB0lbsZ4yE67VYczwB71LWovITSngT1lwbpqgZqLuh
- mHe8PshigzPyRe0l+ujOnsVKK4nAhagz47twlmO32ddw2IiROoEK37k+ZQdAzbG7HcBL
- E7zQ==
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 200C66ED7E
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 15:22:12 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id v18so147446ljc.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 07:22:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=L7OVsr5m178XbCaCzAWNkdQoFi3/3zu9mN+yPgl2DUs=;
+ b=ZUE+lII34sxgdJMzK2yn/f7sQCJw/4+mRXBdMBq1/bhBQWtfS/PtExzwYtktIoAWgY
+ SU7g93lwJ2c7NK0CDwzeo+RytY043NhbabYKjJOBr7tIMP5wlLP/u6h82rzBRDjVxP9j
+ EdnAYAZOpmyMs1GUR/kcd37x1kAewnXFex0wqQUKK37hfYXxUIOMvhuhv9Kkm4bWWj03
+ NYOfuJLDcjhyyGqGtJNpIUWkJQCG6veMjv1sZZ5dae38lEVIkii3wjlD54ZKITpqpnKX
+ 8VoeiDhs1BxqGTAhX5SPmAP4HQXgACk2ac5ePAi3NeEKCHu2erytV3AEJlNMrsBJq5S8
+ bmSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aEjedQGnbvpDY6glZjQQcDKpPqhdsXXdZcrkeVyX5oQ=;
- b=Mh6w29nDKrg38omBhYolO6zNhdny4l4s+TdAc0sHykiduyOJCAeVmi/jcYOaM6HH5c
- BqWuflKH+f94N4dtbNcEsw9yGbZPUX/Ntp33Zx57AHFvs8xyMwIaT4A+lmusaOzGtF2R
- ME0pZ46oEPbX7Sdr33HHfeOqk6e1Og0uML+TznLpLwqnwu7ONxZkQvKCP63YErGeRKc5
- FeTTtZO3D6571pZ0wVprmpary53b4c36A3HuqEioRw0Pln8z2nd/Lej/MkTfXaOl7X8M
- bl07diNCAJHECfm1Ce1EOl532KNnWY79rE0B6XxLKMpQQDi/JwTbf9Kz2jf0YOd37vaX
- J8kw==
-X-Gm-Message-State: AOAM532lJOwD3wfYXmmfBpI0jbXKu8mbJWgriVqtEOGcFS+X8oV/4Hs1
- GqLDdo4cRvlfaC4Z0seZ0ijIpw==
-X-Google-Smtp-Source: ABdhPJy8L6TLYOaMOx02cH+3l45WHaqYAs7U33rCwZ2gyd8yzEhDkMmQIxa3O/OlV15G2AWP4TENsA==
-X-Received: by 2002:ac8:6683:: with SMTP id d3mr2286456qtp.137.1604588526219; 
- Thu, 05 Nov 2020 07:02:06 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id c12sm978506qtx.54.2020.11.05.07.02.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 07:02:05 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kagm4-00HODJ-GO; Thu, 05 Nov 2020 11:02:04 -0400
-Date: Thu, 5 Nov 2020 11:02:04 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v6 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201105150204.GC36674@ziepe.ca>
-References: <1603471201-32588-1-git-send-email-jianxin.xiong@intel.com>
- <1603471201-32588-2-git-send-email-jianxin.xiong@intel.com>
- <20201023164911.GF401619@phenom.ffwll.local>
- <20201023182005.GP36674@ziepe.ca>
- <CAKMK7uEZYdtwHKchNwiFjuYJDjA+F+qDgw64TNkchjp4uYUr6g@mail.gmail.com>
- <MW3PR11MB45553600E8A141CCDE52FABDE5110@MW3PR11MB4555.namprd11.prod.outlook.com>
- <CAKMK7uFMAiv27oRi98nAvx15M6jniUEb+hhe3mrY3mdYtzsmLg@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=L7OVsr5m178XbCaCzAWNkdQoFi3/3zu9mN+yPgl2DUs=;
+ b=tNRlyR8wkRmSEppc1vWodJZpE+fSwWjg7eQ/zSGzhLTNBGXSJjC8euHLRMUe1HWEWQ
+ k1WyqPB/OIn7dtrVR9mf5grjTEWYM00lpUZ9s80EgQf4SH9bfRLbBeakBktpkE3K9+J5
+ zQ9j4Yi5nv1QiVeQ70K7ksi1pqDt7F13adMLF+I3UQClgNKqsaTPTxYXYZvOOL04/skJ
+ S+Q8AQeoeAs7BosByprzpD4bqAPW7SuE3h0qknLqcF3hRjWwO5xtnzSKO/1eE/V34nQZ
+ z/d7YHya4hdW7DYC0QgCRPv95X9tiAb2LYwiIyEliGX6U//EwDYdwns+pSa9ho5V3tGE
+ jjLA==
+X-Gm-Message-State: AOAM531g/RFcZGXF+PYh91egdjqhB3zY/uGh1ko4CSdyQSEjEEDBsOX4
+ Ps38WqYUi43lk7OvkMr8TRfa1jO11Qc=
+X-Google-Smtp-Source: ABdhPJwC5ZQ/5zYH2nUFCy93HeDhVeV9bcOjajKeeVZadnE++shSnXPj1s2oA0r6x39bDtt0cphAoQ==
+X-Received: by 2002:a2e:9a0e:: with SMTP id o14mr1127768lji.340.1604589731407; 
+ Thu, 05 Nov 2020 07:22:11 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-83.dynamic.spd-mgts.ru.
+ [109.252.192.83])
+ by smtp.googlemail.com with ESMTPSA id 144sm176642ljj.48.2020.11.05.07.22.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 07:22:10 -0800 (PST)
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
+Date: Thu, 5 Nov 2020 18:22:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFMAiv27oRi98nAvx15M6jniUEb+hhe3mrY3mdYtzsmLg@mail.gmail.com>
+In-Reply-To: <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,52 +74,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma <linux-rdma@vger.kernel.org>,
+Cc: Peter Chen <Peter.Chen@nxp.com>, DTML <devicetree@vger.kernel.org>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>, "Xiong,
- Jianxin" <jianxin.xiong@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ Liam Girdwood <lgirdwood@gmail.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ driverdevel <devel@driverdev.osuosl.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linux-pwm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 03, 2020 at 09:43:17PM +0100, Daniel Vetter wrote:
-
-> > > Yeah definitely don't call dma_buf_map_attachment and expect a page back. In practice you'll get a page back fairly often, but I don't think
-> > > we want to bake that in, maybe we eventually get to non-hacky dma_addr_t only sgl.
-> > >
-> > > What I'm wondering is whether dma_buf_attach shouldn't reject such devices directly, instead of each importer having to do that.
-> >
-> > Come back here to see if consensus can be reached on who should do the check. My
-> > thinking is that it could be over restrictive for dma_buf_attach to always reject
-> > dma_virt_ops. According to dma-buf documentation the back storage would be
-> > moved to system area upon mapping unless p2p is requested and can be supported
-> > by the exporter. The sg_list for system memory would have struct page present.
-> 
-> So I'm not clear on what this dma_virt_ops stuff is for, but if it's
-> an entirely virtual device with cpu access, then you shouldn't do
-> dma_buf_map_attachment, and then peek at the struct page in the sgl.
-
-Yes, so I think the answer is it is rdma device driver error to call these
-new APIs and touch the struct page side of the SGL.
-
-After Christophs series removign dma_virt_ops we could make that more
-explicit, like was done for the pci p2p case.
-
-
-> As a third option, if it's something about the connectivity between
-> the importing and exporting device, then this should be checked in the
-> ->attach callback the exporter can provide, like the p2p check. The
-
-Drivers doing p2p are supposed to be calling the p2p distance stuff
-and p2p dma map stuff which already has these checks.
-
-Doing p2p and skipping all that in the dma buf side we already knew
-was a hacky thing.
-
-Jason
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDUuMTEuMjAyMCAxMjo0NSwgVWxmIEhhbnNzb24g0L/QuNGI0LXRgjoKLi4uCj4gSSBuZWVkIHNv
+bWUgbW9yZSB0aW1lIHRvIHJldmlldyB0aGlzLCBidXQganVzdCBhIHF1aWNrIGNoZWNrIGZvdW5k
+IGEKPiBmZXcgcG90ZW50aWFsIGlzc3Vlcy4uLgoKVGhhbmsgeW91IGZvciBzdGFydGluZyB0aGUg
+cmV2aWV3ISBJJ20gcHJldHR5IHN1cmUgaXQgd2lsbCB0YWtlIGEgY291cGxlCnJldmlzaW9ucyB1
+bnRpbCBhbGwgdGhlIHF1ZXN0aW9ucyB3aWxsIGJlIHJlc29sdmVkIDopCgo+IFRoZSAiY29yZS1z
+dXBwbHkiLCB0aGF0IHlvdSBzcGVjaWZ5IGFzIGEgcmVndWxhdG9yIGZvciBlYWNoCj4gY29udHJv
+bGxlcidzIGRldmljZSBub2RlLCBpcyBub3QgdGhlIHdheSB3ZSBkZXNjcmliZSBwb3dlciBkb21h
+aW5zLgo+IEluc3RlYWQsIGl0IHNlZW1zIGxpa2UgeW91IHNob3VsZCByZWdpc3RlciBhIHBvd2Vy
+LWRvbWFpbiBwcm92aWRlcgo+ICh3aXRoIHRoZSBoZWxwIG9mIGdlbnBkKSBhbmQgaW1wbGVtZW50
+IHRoZSAtPnNldF9wZXJmb3JtYW5jZV9zdGF0ZSgpCj4gY2FsbGJhY2sgZm9yIGl0LiBFYWNoIGRl
+dmljZSBub2RlIHNob3VsZCB0aGVuIGJlIGhvb2tlZCB1cCB0byB0aGlzCj4gcG93ZXItZG9tYWlu
+LCByYXRoZXIgdGhhbiB0byBhICJjb3JlLXN1cHBseSIuIEZvciBEVCBiaW5kaW5ncywgcGxlYXNl
+Cj4gaGF2ZSBhIGxvb2sgYXQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Bvd2Vy
+L3Bvd2VyLWRvbWFpbi55YW1sCj4gYW5kIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9wb3dlci9wb3dlcl9kb21haW4udHh0Lgo+IAo+IEluIHJlZ2FyZHMgdG8gdGhlICJzeW5jIHN0
+YXRlIiBwcm9ibGVtIChwcmV2ZW50aW5nIHRvIGNoYW5nZQo+IHBlcmZvcm1hbmNlIHN0YXRlcyB1
+bnRpbCBhbGwgY29uc3VtZXJzIGhhdmUgYmVlbiBhdHRhY2hlZCksIHRoaXMgY2FuCj4gdGhlbiBi
+ZSBtYW5hZ2VkIGJ5IHRoZSBnZW5wZCBwcm92aWRlciBkcml2ZXIgaW5zdGVhZC4KCkknbGwgbmVl
+ZCB0byB0YWtlIGEgY2xvc2VyIGxvb2sgYXQgR0VOUEQsIHRoYW5rIHlvdSBmb3IgdGhlIHN1Z2dl
+c3Rpb24uCgpTb3VuZHMgbGlrZSBhIHNvZnR3YXJlIEdFTlBEIGRyaXZlciB3aGljaCBtYW5hZ2Vz
+IGNsb2NrcyBhbmQgdm9sdGFnZXMKY291bGQgYmUgYSBnb29kIGlkZWEsIGJ1dCBpdCBhbHNvIGNv
+dWxkIGJlIGFuIHVubmVjZXNzYXJ5Cm92ZXItZW5naW5lZXJpbmcuIExldCdzIHNlZS4uCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
