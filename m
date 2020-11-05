@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0182A7537
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 03:08:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE4B2A7540
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 03:09:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A24C89C85;
-	Thu,  5 Nov 2020 02:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD57E6E975;
+	Thu,  5 Nov 2020 02:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB1FD89C85
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:08:21 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65C346E96C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:09:50 +0000 (UTC)
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
  by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20201105020820epoutp019b5c10cfd18d21bf08bae83715ead27e~Eeon3AlrT3080930809epoutp01U
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:08:20 +0000 (GMT)
+ 20201105020949epoutp01bbe513fa71ad547abe18763b0d3efdb6~Eep6l4SS23170631706epoutp013
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:09:49 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20201105020820epoutp019b5c10cfd18d21bf08bae83715ead27e~Eeon3AlrT3080930809epoutp01U
+ 20201105020949epoutp01bbe513fa71ad547abe18763b0d3efdb6~Eep6l4SS23170631706epoutp013
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1604542100;
- bh=UY5wyEA/7KgFYm+m/uCeoRFsAFIDrkQp2oymQvesjQA=;
+ s=mail20170921; t=1604542189;
+ bh=T3oE1cmazcIh1kO4VFHnnWSaONknVEsxNFutI9V3apo=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=vbV8R9gmw+dvJ5A384o8gUVKG5srI24IqiuMhgcsAP3tV0hzwisiToTrkZ2B6hIGl
- TfqsALVtJeiqlw7p2giBQrBrD/r2tbGB7c24u0/choqPaLsHSPTCB6RP1bo1oLzRql
- OwvpCs6hvGtY5bt2sHlU7FELM8dQ4x5IjhdbzB1Q=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ b=fdWwmtmWm1DxB9C3sjWvVQEZ3WBTr+wFfP1p5Egnt4Effmvlrj/Ue17h9T8aRsVBd
+ K00PPGfhp+hsgh6zhrhmPUuJe7RPM5iv9bja4SanqycdZi00eol5UkLG5cS5zgy014
+ 2iHlbH/NdotcRbSga+QJuY9oSeROwtS2Ns7QPpl4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
  epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20201105020819epcas1p16e9763cec9b873ef77f71ebfd11a4916~EeonTK8rf1663216632epcas1p1C;
- Thu,  5 Nov 2020 02:08:19 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.158]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4CRRkm1GDkzMqYkk; Thu,  5 Nov
- 2020 02:08:16 +0000 (GMT)
+ 20201105020947epcas1p1b0f40a1264dd4cb09e7d62486832cf96~Eep5eSrg60054100541epcas1p1p;
+ Thu,  5 Nov 2020 02:09:47 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.155]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4CRRmK4R9mzMqYkn; Thu,  5 Nov
+ 2020 02:09:37 +0000 (GMT)
 Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
  epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 75.DB.63458.09E53AF5; Thu,  5 Nov 2020 11:08:16 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
- 20201105020815epcas1p34067ce27ad5804aba8a81f02c248c6d0~Eeojmm-Rb3016230162epcas1p3H;
- Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201105020815epsmtrp262fd973894180f9788b62b2bed700708~Eeojlh2Oh1460114601epsmtrp2w;
- Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
-X-AuditID: b6c32a36-6c9ff7000000f7e2-df-5fa35e909926
+ 7C.1C.63458.BDE53AF5; Thu,  5 Nov 2020 11:09:31 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201105020930epcas1p2d5b4c667c0298f37e86f38e336f0b4d2~Eepo7soT41552615526epcas1p2U;
+ Thu,  5 Nov 2020 02:09:30 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201105020930epsmtrp16226568834a0db01a0934955b8272677~Eepo6m7GL0214302143epsmtrp1h;
+ Thu,  5 Nov 2020 02:09:30 +0000 (GMT)
+X-AuditID: b6c32a36-6dfff7000000f7e2-ce-5fa35edbc019
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 0A.7F.13470.F8E53AF5; Thu,  5 Nov 2020 11:08:15 +0900 (KST)
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 66.EF.08745.9DE53AF5; Thu,  5 Nov 2020 11:09:29 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
  epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201105020815epsmtip257077db3170ec4ccf3fbd16ad851e68a~EeojGdeeV1081810818epsmtip2_;
- Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
-Subject: Re: [PATCH v7 45/47] PM / devfreq: tegra30: Support interconnect
- and OPPs from device-tree
+ 20201105020929epsmtip284e8300b67ee85f58b81124bbd5ae49c~EepogMQJ80971709717epsmtip2Z;
+ Thu,  5 Nov 2020 02:09:29 +0000 (GMT)
+Subject: Re: [PATCH v7 46/47] PM / devfreq: tegra30: Separate configurations
+ per-SoC generation
 To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
  Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>, Michael
@@ -64,59 +64,59 @@ To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
  Kozlowski <krzk@kernel.org>
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <2b907334-9ddf-654a-2add-891b0dcaa8ad@samsung.com>
-Date: Thu, 5 Nov 2020 11:22:11 +0900
+Message-ID: <4a3682c2-d3cf-151f-4541-6b08d19f8179@samsung.com>
+Date: Thu, 5 Nov 2020 11:23:25 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
  Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20201104164923.21238-46-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-47-digetx@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TaVBTVxidm7y8JA60jxjDLW0Vnh0HsSxhvbaE2oKSooNpmTotP0zfwBOQ
- bJMH2H0gLixWqhRFU5RNlMWlBERhYHBYyhABKWqEVkY7BMcKJBSKgqI04eGUf+d+53z33PPd
- ewVc0TjuIUjRpNF6DaUi8VVYY8dGf9+juyuUAWUmHrJNj/FQSWc/D9X+MwrQ7Vk7jopaTTg6
- YCzH0M2bv/LRlbELHNRnmOCjW83FOJo50glQ7r9GHP1u3or+zKrCUcHF4wD1PdyODrZ28tFL
- Sx2G5pvPYKj+wW/4FrHcPnSQL28yjvDlg/0LXLmpJheX37O04PL7h7s58iP7bbg8v6EGyGdM
- axXC+NTwZJpKpPWetCZBm5iiSZKR2+OUkcqQ0ACpr3QzCiM9NZSalpFROxS+21JUjmSkZwal
- SneUFBTDkP4R4Xptehrtmaxl0mQkrUtU6Tbr/BhKzaRrkvwStOr3pAEBgSEO4ZepyYuj03xd
- H/rKbNiXCSp884BQAIlgOG8+wckDqwQi4hqAswW1PCchIqYBzLLGs8QTAKuH83ivOq4Pdi13
- tAI4ZcjnsQs7gPX9fy+pVhM0vFP4gu8kxMQwBs9XvcSdBJc4CeC9lvVOjBM+sO3R0FL9dcIL
- 3pkbBU7sSkTA7JN2zIkx4h1obZ1e0qwhdsGexgPLGjfYc8q6pBESYdA2nLm8vzv8w1rCYfE6
- eHWymOs8BCR+EcIbl/owNkMUnKgb5rN4NXzc3bCMPeCMrRVn8bewuqcTZ5tzAGxoG1geQBBs
- q/zZ4SBwOGyEl5v92bIXbHp+GrDGr0Hb7I88pwQSrjDnkIiVrIe3HoxwWPwGrMjOxY8C0rgi
- jnFFBOOKCMb/zUoBVgMktI5RJ9GMVBe48rZNYOnV+4ReAwWTU37tgCMA7QAKuKTYdSC2XCly
- TaS+/obWa5X6dBXNtIMQx4CPcT3WJGgd30aTppSGBAYFBaFgaWiIVEq6uy5sylGKiCQqjU6l
- aR2tf9XHEQg9MjkuCq/ArGmV58hHc7SbJPbup3BMsqNXrJ07LSn7Kwa/IQtXlH7Pp0WL0VYD
- knkPqM8O5j2bj3n2qOWnTYJ2brfIWlS2K8aSkXvYrXcy6s299eUPj2e7fLC2sTBHElek67pQ
- 92Ebx9tyxh5xrlkn0zcFx9yv7L/bw1weOWWKHqLH8/frMyLnYie2JXW/Vdkt7Fow7Owq/rj+
- 9mJJuMZ8aYv70339n8W1W84lVNlrRE9iiy2x0utl2T+QpWEbWmpdOva+W5/fJJ69OC4eB4e0
- U4ovXvRqvbM/8Tecfb4V29DxdvKV6KJj5hOFjeU98ZLP46g9j6uvmt+PVO8ufBpQZvtu3R4S
- Y5IpqQ9Xz1D/AciK5WV+BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRmVeSWpSXmKPExsWy7bCSvG5/3OJ4gzmzZCzefXrKajH/yDlW
- i9UfHzNaXPn6ns1i+t5NbBYtsxaxWJw/v4HdYuvTNUwWZ5vesFtc3jWHzeJz7xFGi84vs9gs
- Lp5ytbjduILNYtLaqYwWZ595W7TuPcJu8e/aRhaLn7vmsVhsfnCMzUHE4/2NVnaPnbPusntc
- OveH2WPTqk42jzvX9rB53O8+zuTR2/yOzaNvyypGj8+b5AI4o7hsUlJzMstSi/TtErgy/j/+
- xF5w1qLiVFN5A+Ni3S5GTg4JAROJA5eOMnUxcnEICexmlGjtvcYOkZCUmHbxKHMXIweQLSxx
- +HAxRM1bRonX876xgdQIC6RKnF/QwQKSEBG4yyIx6cctNhCHWWAGo8SfDRvZIVq2MUrsftDL
- CtLCJqAlsf/FDbB2fgFFias/HjOC2LwCdhLtM96zgNgsAioST/Z+AqsRFQiT2LnkMRNEjaDE
- yZlPwGo4Bcwl3t1sAKthFlCX+DPvEjOELS5x68l8JghbXmL72znMExiFZyFpn4WkZRaSlllI
- WhYwsqxilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOey3NHYzbV33QO8TIxMF4iFGC
- g1lJhPeC36J4Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rw3ChfGCQmkJ5akZqemFqQWwWSZODil
- Gpha1DM56gLVT7b6Prh9OPfQ3c9slb9iWQqaXPO/hnRxnFWvP//YfkngU22nTfdPtwUdLO3s
- Ne31DE6ft87ExuWhAcvzwOuvSm66hL79ElTI+MnzyOGXCzg7/CR/B/2fPVFtqdx3G7Fn8q9b
- ks6FKP5tbbh8oDvmmmZqpveV9Va3q73v6/O8Vv2wr2BJQzm30I960w061Usypihvrrb/3fO7
- pPnP2utmj+++nX2D+aVzcXvRD1kHZsOtwpt2/LvrY8l4xkWqfVOh+LGSjMa+6nlzFj8ofS3x
- ZlZh+fHJXM9M5f1ObP3afDB3vo+iXRNHE/sbsZlfPsgqiU5an/thz1O3eKkzy/uEn/ta3fi2
- dp0SS3FGoqEWc1FxIgDiON65agMAAA==
-X-CMS-MailID: 20201105020815epcas1p34067ce27ad5804aba8a81f02c248c6d0
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxzOaW9vb0nYruXhGckcXLYlMnkULB4IoBNHSkQk6shC2OoNvaGE
+ vtJbFvYUkVdRcGO6ueoARcdrDAR0wEAmIg8zQcZAXgU2ikFnqcBYfDBc6cWM/77f7/d95zvf
+ eRB88UPcg0jRGBi9hlZRuBN29cZWf9/xD8rkAd23nND84qwAlXT2CVD1wgxAvy/bcPRNWz2O
+ skwXMNTfXydEV2Z/4KHbmQ+FaLDlHI6WCjoBMv5twtHArXfQ+NEKHBXVnAbo9r29KLutU4hW
+ hy9j6ElLMYYaprvwXa4y20i2UNZsMgtlv/Wt8GX1VUZcNjHcisumjnfzZAXH5nFZYWMVkC3V
+ b4kTJaSGKRlaweg9GU2SVpGiSQ6n9h6UR8qlwQESX0kI2kF5amg1E07tiYnzjUpR2ZNRnh/S
+ qjR7K45mWco/IkyvTTMwnkotawinGJ1CpQvR+bG0mk3TJPsladWhkoCAQKmdeDhVac7/ka8b
+ 8ku/nqvPABffyAciApLb4c2M03g+cCLEZBOAf5UXCbhiEUDrxFMhVywBmJ25ynshqRlZ4XOD
+ FgBzsgowrrABWHBxCl9juZA0LC8vdgxcyVEMllesOgZ88gyAE63eaxgnfWD73Iij/zLpBYce
+ z4A17ExGwOnMagfGyNdhcd+v2Bp2I+Nh79Wsdc4m2PutxdEXkTtgpqlhff3NcMxSwuPwa/An
+ 6znHViF5VgR7upYxLsMe2Dn3QMBhF/igu1HIYQ94/2TOOv4EVvZ24pw4D8DG9jvrgiDYfukr
+ uwNhd9gKa1v8ubYXbH72HeCMX4LzyycEaxRIOsO8HDFH8YaD0+b1Y3wFluUa8S8AZdoQx7Qh
+ gmlDBNP/ZqUAqwLujI5VJzOsRBe48brrgePZ+wQ3gSLrI78OwCNAB4AEn3J1vhN7QS52VtAf
+ fczotXJ9mophO4DUfsBf8j3ckrT2f6MxyCXSwKCgILRdEiyVSKjNzitv5cnFZDJtYFIZRsfo
+ X+h4hMgjg+cFdurMC1XMtFqyr0V0yPg8dnRbpNqffBa+e2pEvX8x8ftDh2Mqqu/NgilvnmGp
+ tP+SdPL93V8LdkZobxbylL8cJyKt/w4eCGmNDsu8EbHw6rh7fOUJtxkDc906EbxcWOs6dHD/
+ n1NRRaeG4+J/jo0eqzkjiH7zctfAc9sm7/uK0tGyUI15W3OPrd76+XJzYAHIeeIUQ6Xxgsqv
+ ndyVTlQ2WT4jpOzjowMhg2xCVGp63ZW6Y259n/5RYjz/KASGp7x3iux91+J3rddCHVmaPjCn
+ yG840vNP7nlPy4jaJ7kosW1UXps4JnankzwY05ZRl6fVoXcn5+9GYPFvKxNCU/FJCmOVtMSH
+ r2fp/wAuvkA+fwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Ra0hTYRjHeXeOZ0fDOk6jdwpZy5rNmqlFLzkkiuhIGEVYIaQtPWmoc2xa
+ GQRm1tCo7Ko76cySDC/bnGWWrkztYug03XJZXmIqjrRVFhas2zYCv/3e5///Pc+Hl8R4g3gg
+ eUSWzShk0gwB4YM3dQiC175NvJ20TjuA0KevE16ootPkhWq/2AAyf3cQqMRoIFABewtHvb16
+ Lro/UcdBPfnTXDTwqIxAs+c7ASr8xhLo9att6N2puwS6XH8NoJ7JHeiMsZOLfr9pwNHPRxoc
+ NY49JzYH0A7rGS79kB3m0v0mJ0YbagoJ+v2bVoIePfeCQ58//YmgL9yrAfSsYeku7wQfSQqT
+ ceQoowiPOeiTNlykxeQW8fGnKkUeqFpZBLxJSK2H9VYnVgR8SB7VDOCvx384noAPr79+9i8g
+ /7E/7OhQejozAM5etOOujj8lhdXVGtwVBFDDOLz8Y4hwPTCqFECnvoHrUZoALNdd9XIpBCWC
+ T6ashIsXUcuh5YcNuNiXioFj+bVuxqkQqDF1u08spvbCh1U2jqfjB7vU4+65N7UR5rON7j0Y
+ JYROTT/m4SVwaLyC4+Fg+GCmDCsG/uw8nZ2nsPMUdp5yE+A1gM/IlZmpmcoIeaSMOSZWSjOV
+ ObJUcXJWpgG4/14kagatNZ/F7YBDgnYASUwQ4Nu381YSzzdFmnuCUWQlKXIyGGU7CCJxwRLf
+ 72xlIo9KlWYz6QwjZxT/Uw7pHZjHCY1eZ1zdlj4XFj0X6zcoMseoc0NqxydNDp0zr0z4Nm+b
+ WmW19U9Z9A2yyW4NHJnD1Ptv+GmrBg8bl6eHj4R218VOxjWX9i19aT0anHh2bdQKSdBpdXdO
+ cnpJkyTw5s4Jx5qKky1ZE1fM24XFWzbs49Vt7Wo/oJcX6joq7Jsc5mfv9lA2taGvIMyybBhX
+ xy9jdUMzu8P8p1Wjwa3TljsL0srb+FHC5kiJffPCro+xRqJXU3apUqCrPqc1m0h5yJNXRQkr
+ VHBV5futQfkj30pTcsT6a9b7B1uq++Nzh6JDVZLiO4ewtl92rVDkiOTz2fIM1BBXkBpY8lXw
+ wT4lwJVp0ggRplBK/wL2veH7agMAAA==
+X-CMS-MailID: 20201105020930epcas1p2d5b4c667c0298f37e86f38e336f0b4d2
 X-Msg-Generator: CA
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201104165124epcas1p3fb886cc56ef8601329e9a76b7c403317
+X-CMS-RootMailID: 20201104165119epcas1p49fcab2953eeb5cdd3f4857c804b78a2c
 References: <20201104164923.21238-1-digetx@gmail.com>
- <CGME20201104165124epcas1p3fb886cc56ef8601329e9a76b7c403317@epcas1p3.samsung.com>
- <20201104164923.21238-46-digetx@gmail.com>
+ <CGME20201104165119epcas1p49fcab2953eeb5cdd3f4857c804b78a2c@epcas1p4.samsung.com>
+ <20201104164923.21238-47-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,221 +140,167 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi Dmitry,
 
 On 11/5/20 1:49 AM, Dmitry Osipenko wrote:
-> This patch moves ACTMON driver away from generating OPP table by itself,
-> transitioning it to use the table which comes from device-tree. This
-> change breaks compatibility with older device-trees in order to bring
-> support for the interconnect framework to the driver. This is a mandatory
-> change which needs to be done in order to implement interconnect-based
-> memory DVFS. Users of legacy device-trees will get a message telling that
-> theirs DT needs to be upgraded. Now ACTMON issues memory bandwidth request
-> using dev_pm_opp_set_bw(), instead of driving EMC clock rate directly.
+> Previously we were using count-weight of the T124 for T30 in order to
+> get EMC clock rate that was reasonable for T30. In fact the count-weight
+> should be x2 times smaller on T30, but then devfreq was producing a bit
+> too low EMC clock rate for ISO memory clients, like display controller
+> for example.
+> 
+> Now both Tegra ACTMON and Tegra DRM display drivers support interconnect
+> framework and display driver tells to ICC what a minimum memory bandwidth
+> is needed, preventing FIFO underflows. Thus, now we can use a proper
+> count-weight value for Tegra30 and MC_ALL device config needs a bit more
+> aggressive boosting.
+> 
+> Add a separate ACTMON driver configuration that is specific to Tegra30.
 > 
 > Tested-by: Peter Geis <pgwipeout@gmail.com>
 > Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/devfreq/tegra30-devfreq.c | 96 +++++++++++++++++--------------
->  1 file changed, 54 insertions(+), 42 deletions(-)
+>  drivers/devfreq/tegra30-devfreq.c | 68 ++++++++++++++++++++++++-------
+>  1 file changed, 54 insertions(+), 14 deletions(-)
 > 
 > diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 38cc0d014738..4db027ca17e1 100644
+> index 4db027ca17e1..aaa22077815c 100644
 > --- a/drivers/devfreq/tegra30-devfreq.c
 > +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -19,6 +19,8 @@
->  #include <linux/reset.h>
->  #include <linux/workqueue.h>
+> @@ -57,13 +57,6 @@
+>  #define ACTMON_BELOW_WMARK_WINDOW				3
+>  #define ACTMON_BOOST_FREQ_STEP					16000
 >  
-> +#include <soc/tegra/fuse.h>
+> -/*
+> - * Activity counter is incremented every 256 memory transactions, and each
+> - * transaction takes 4 EMC clocks for Tegra124; So the COUNT_WEIGHT is
+> - * 4 * 256 = 1024.
+> - */
+> -#define ACTMON_COUNT_WEIGHT					0x400
+> -
+>  /*
+>   * ACTMON_AVERAGE_WINDOW_LOG2: default value for @DEV_CTRL_K_VAL, which
+>   * translates to 2 ^ (K_VAL + 1). ex: 2 ^ (6 + 1) = 128
+> @@ -111,7 +104,7 @@ enum tegra_actmon_device {
+>  	MCCPU,
+>  };
+>  
+> -static const struct tegra_devfreq_device_config actmon_device_configs[] = {
+> +static const struct tegra_devfreq_device_config tegra124_device_configs[] = {
+>  	{
+>  		/* MCALL: All memory accesses (including from the CPUs) */
+>  		.offset = 0x1c0,
+> @@ -133,6 +126,28 @@ static const struct tegra_devfreq_device_config actmon_device_configs[] = {
+>  	},
+>  };
+>  
+> +static const struct tegra_devfreq_device_config tegra30_device_configs[] = {
+> +	{
+> +		/* MCALL: All memory accesses (including from the CPUs) */
+> +		.offset = 0x1c0,
+> +		.irq_mask = 1 << 26,
+> +		.boost_up_coeff = 200,
+> +		.boost_down_coeff = 50,
+> +		.boost_up_threshold = 20,
+> +		.boost_down_threshold = 10,
+> +	},
+> +	{
+> +		/* MCCPU: memory accesses from the CPUs */
+> +		.offset = 0x200,
+> +		.irq_mask = 1 << 25,
+> +		.boost_up_coeff = 800,
+> +		.boost_down_coeff = 40,
+> +		.boost_up_threshold = 27,
+> +		.boost_down_threshold = 10,
+> +		.avg_dependency_threshold = 16000, /* 16MHz in kHz units */
+> +	},
+> +};
 > +
->  #include "governor.h"
+>  /**
+>   * struct tegra_devfreq_device - state specific to an ACTMON device
+>   *
+> @@ -155,6 +170,12 @@ struct tegra_devfreq_device {
+>  	unsigned long target_freq;
+>  };
 >  
->  #define ACTMON_GLB_STATUS					0x0
-> @@ -155,6 +157,7 @@ struct tegra_devfreq_device {
->  
+> +struct tegra_devfreq_soc_data {
+> +	const struct tegra_devfreq_device_config *configs;
+> +	/* Weight value for count measurements */
+> +	unsigned int count_weight;
+> +};
+> +
 >  struct tegra_devfreq {
 >  	struct devfreq		*devfreq;
-> +	struct opp_table	*opp_table;
+>  	struct opp_table	*opp_table;
+> @@ -171,11 +192,13 @@ struct tegra_devfreq {
+>  	struct delayed_work	cpufreq_update_work;
+>  	struct notifier_block	cpu_rate_change_nb;
 >  
->  	struct reset_control	*reset;
->  	struct clk		*clock;
-> @@ -612,34 +615,19 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
->  static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
->  				u32 flags)
->  {
-> -	struct tegra_devfreq *tegra = dev_get_drvdata(dev);
-> -	struct devfreq *devfreq = tegra->devfreq;
->  	struct dev_pm_opp *opp;
-> -	unsigned long rate;
-> -	int err;
-> +	int ret;
+> -	struct tegra_devfreq_device devices[ARRAY_SIZE(actmon_device_configs)];
+> +	struct tegra_devfreq_device devices[2];
 >  
->  	opp = devfreq_recommended_opp(dev, freq, flags);
->  	if (IS_ERR(opp)) {
->  		dev_err(dev, "Failed to find opp for %lu Hz\n", *freq);
->  		return PTR_ERR(opp);
->  	}
-> -	rate = dev_pm_opp_get_freq(opp);
-> -	dev_pm_opp_put(opp);
-> -
-> -	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
-> -	if (err)
-> -		return err;
-> -
-> -	err = clk_set_rate(tegra->emc_clock, 0);
-> -	if (err)
-> -		goto restore_min_rate;
-> -
-> -	return 0;
+>  	unsigned int		irq;
 >  
-> -restore_min_rate:
-> -	clk_set_min_rate(tegra->emc_clock, devfreq->previous_freq);
-> +	ret = dev_pm_opp_set_bw(dev, opp);
-> +	dev_pm_opp_put(opp);
->  
-> -	return err;
-> +	return ret;
->  }
->  
->  static int tegra_devfreq_get_dev_status(struct device *dev,
-> @@ -655,7 +643,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
->  	stat->private_data = tegra;
->  
->  	/* The below are to be used by the other governors */
-> -	stat->current_frequency = cur_freq;
-> +	stat->current_frequency = cur_freq * KHZ;
->  
->  	actmon_dev = &tegra->devices[MCALL];
->  
-> @@ -705,7 +693,12 @@ static int tegra_governor_get_target(struct devfreq *devfreq,
->  		target_freq = max(target_freq, dev->target_freq);
->  	}
->  
-> -	*freq = target_freq;
-> +	/*
-> +	 * tegra-devfreq driver operates with KHz units, while OPP table
-> +	 * entries use Hz units. Hence we need to convert the units for the
-> +	 * devfreq core.
-> +	 */
-> +	*freq = target_freq * KHZ;
->  
->  	return 0;
->  }
-> @@ -774,13 +767,22 @@ static struct devfreq_governor tegra_devfreq_governor = {
->  
->  static int tegra_devfreq_probe(struct platform_device *pdev)
->  {
-> +	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
->  	struct tegra_devfreq_device *dev;
->  	struct tegra_devfreq *tegra;
-> +	struct opp_table *opp_table;
->  	struct devfreq *devfreq;
->  	unsigned int i;
->  	long rate;
->  	int err;
->  
-> +	/* legacy device-trees don't have OPP table and must be updated */
-> +	if (!device_property_present(&pdev->dev, "operating-points-v2")) {
-> +		dev_err(&pdev->dev,
-> +			"OPP table not found, please update your device tree\n");
-> +		return -ENODEV;
-> +	}
+>  	bool			started;
 > +
->  	tegra = devm_kzalloc(&pdev->dev, sizeof(*tegra), GFP_KERNEL);
+> +	const struct tegra_devfreq_soc_data *soc;
+>  };
+>  
+>  struct tegra_actmon_emc_ratio {
+> @@ -488,7 +511,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
+>  	tegra_devfreq_update_avg_wmark(tegra, dev);
+>  	tegra_devfreq_update_wmark(tegra, dev);
+>  
+> -	device_writel(dev, ACTMON_COUNT_WEIGHT, ACTMON_DEV_COUNT_WEIGHT);
+> +	device_writel(dev, tegra->soc->count_weight, ACTMON_DEV_COUNT_WEIGHT);
+>  	device_writel(dev, ACTMON_INTR_STATUS_CLEAR, ACTMON_DEV_INTR_STATUS);
+>  
+>  	val |= ACTMON_DEV_CTRL_ENB_PERIODIC;
+> @@ -787,6 +810,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
 >  	if (!tegra)
 >  		return -ENOMEM;
-> @@ -822,11 +824,31 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  		return err;
->  	}
 >  
-> +	tegra->opp_table = dev_pm_opp_get_opp_table(&pdev->dev);
-> +	err = PTR_ERR_OR_ZERO(tegra->opp_table);
-> +	if (err) {
-> +		dev_err(&pdev->dev, "Failed to prepare OPP table: %d\n", err);
-> +		return err;
-> +	}
+> +	tegra->soc = of_device_get_match_data(&pdev->dev);
 > +
-> +	opp_table = dev_pm_opp_set_supported_hw(&pdev->dev, &hw_version, 1);
-> +	err = PTR_ERR_OR_ZERO(opp_table);
-> +	if (err) {
-> +		dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
-> +		goto put_table;
-> +	}
-> +
-> +	err = dev_pm_opp_of_add_table(&pdev->dev);
-> +	if (err) {
-> +		dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
-> +		goto put_hw;
-> +	}
-> +
->  	err = clk_prepare_enable(tegra->clock);
->  	if (err) {
->  		dev_err(&pdev->dev,
->  			"Failed to prepare and enable ACTMON clock\n");
-> -		return err;
-> +		goto remove_table;
->  	}
+>  	tegra->regs = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(tegra->regs))
+>  		return PTR_ERR(tegra->regs);
+> @@ -866,9 +891,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
 >  
->  	err = reset_control_reset(tegra->reset);
-> @@ -850,23 +872,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  	tegra->max_freq = rate / KHZ;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(actmon_device_configs); i++) {
+> +	for (i = 0; i < ARRAY_SIZE(tegra->devices); i++) {
+>  		dev = tegra->devices + i;
+> -		dev->config = actmon_device_configs + i;
+> +		dev->config = tegra->soc->configs + i;
 >  		dev->regs = tegra->regs + dev->config->offset;
 >  	}
 >  
-> -	for (rate = 0; rate <= tegra->max_freq * KHZ; rate++) {
-> -		rate = clk_round_rate(tegra->emc_clock, rate);
-> -
-> -		if (rate < 0) {
-> -			dev_err(&pdev->dev,
-> -				"Failed to round clock rate: %ld\n", rate);
-> -			err = rate;
-> -			goto remove_opps;
-> -		}
-> -
-> -		err = dev_pm_opp_add(&pdev->dev, rate / KHZ, 0);
-> -		if (err) {
-> -			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
-> -			goto remove_opps;
-> -		}
-> -	}
-> -
->  	platform_set_drvdata(pdev, tegra);
->  
->  	tegra->clk_rate_change_nb.notifier_call = tegra_actmon_clk_notify_cb;
-> @@ -882,7 +887,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  	}
->  
->  	tegra_devfreq_profile.initial_freq = clk_get_rate(tegra->emc_clock);
-> -	tegra_devfreq_profile.initial_freq /= KHZ;
->  
->  	devfreq = devfreq_add_device(&pdev->dev, &tegra_devfreq_profile,
->  				     "tegra_actmon", NULL);
-> @@ -902,6 +906,12 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  	reset_control_reset(tegra->reset);
->  disable_clk:
->  	clk_disable_unprepare(tegra->clock);
-> +remove_table:
-> +	dev_pm_opp_of_remove_table(&pdev->dev);
-> +put_hw:
-> +	dev_pm_opp_put_supported_hw(tegra->opp_table);
-> +put_table:
-> +	dev_pm_opp_put_opp_table(tegra->opp_table);
->  
->  	return err;
->  }
-> @@ -913,11 +923,13 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
->  	devfreq_remove_device(tegra->devfreq);
->  	devfreq_remove_governor(&tegra_devfreq_governor);
->  
-> -	dev_pm_opp_remove_all_dynamic(&pdev->dev);
-> -
->  	reset_control_reset(tegra->reset);
->  	clk_disable_unprepare(tegra->clock);
->  
-> +	dev_pm_opp_of_remove_table(&pdev->dev);
-> +	dev_pm_opp_put_supported_hw(tegra->opp_table);
-> +	dev_pm_opp_put_opp_table(tegra->opp_table);
-> +
+> @@ -933,9 +958,24 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
 >  	return 0;
 >  }
+>  
+> +static const struct tegra_devfreq_soc_data tegra124_soc = {
+> +	.configs = tegra124_device_configs,
+> +
+> +	/*
+> +	 * Activity counter is incremented every 256 memory transactions,
+> +	 * and each transaction takes 4 EMC clocks.
+> +	 */
+> +	.count_weight = 4 * 256,
+> +};
+> +
+> +static const struct tegra_devfreq_soc_data tegra30_soc = {
+> +	.configs = tegra30_device_configs,
+> +	.count_weight = 2 * 256,
+> +};
+> +
+>  static const struct of_device_id tegra_devfreq_of_match[] = {
+> -	{ .compatible = "nvidia,tegra30-actmon" },
+> -	{ .compatible = "nvidia,tegra124-actmon" },
+> +	{ .compatible = "nvidia,tegra30-actmon",  .data = &tegra30_soc, },
+> +	{ .compatible = "nvidia,tegra124-actmon", .data = &tegra124_soc, },
+>  	{ },
+>  };
 >  
 > 
 
