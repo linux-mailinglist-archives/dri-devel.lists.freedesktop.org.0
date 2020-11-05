@@ -2,59 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2442A918B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:36:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2DF2A9159
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC636EE17;
-	Fri,  6 Nov 2020 08:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 903746EDF5;
+	Fri,  6 Nov 2020 08:34:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69E336EDE2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:33:19 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id f38so2044972pgm.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 11:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=eSpGHTliJf2Cyl4xNehipJVU0uhjtt4v/ABhWGSHLms=;
- b=IKr4/3tHu41qkkq+TXGIqQM0yq011kjtMFgajdBo2u01m4IN5baZXmD3uJ50QaW792
- t0aevmveRLayC8WW/2ndvF5IhEDrkQPehDbfQxdkncZaG+TxZRdzLow00cdnnm4TLbHr
- kXgxtkZP+tsW7mHAnr5mgWNOkeJO3Tr7+wbXe17/w63808LLT6RKuOLbC+tKHjWYFm6j
- rJe1GG7vULHd4HhrXl68nsDZ9kuEIB2RLlq/6GMhGCcA0kvI3cD9pNsLYb8eiuznc9A9
- tjpv1LnYpHMvepZlSnqJVK63N0R8KpipbmAZes5C0d9VaInD00G/OBrJ5ckJEy3IidPF
- zzCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=eSpGHTliJf2Cyl4xNehipJVU0uhjtt4v/ABhWGSHLms=;
- b=jk5TuxUoOsoN6eLXEi9dVmiwNJX8eq8HAEGjE+l1HaOkTW3ODftv0oHxvJ/E8EKygZ
- SPVyotTLb4wC9EEXNiuMK1PMfhx+u54ig/wQ+plwhCTOrfydXCT5W91HJskA6GLPNuFh
- H3CP8KIdKWC9XgWDcsH2X9rKKfNUJ1U4lS/F+/TPe5iC13aGYaJQr8YgefLlVpIUjmFk
- yOjFaiLpFtcEcEbYziaKWcFs6+38QZZzzdqJjMQD24K35+29zdThPRecfuHQVmtK+T1V
- BXGJIQEKEuMLUuvre+vOp/ZX6pQOWj+lSbmxqBIAvb42lIE5iGl0Kkk2J9UXfMbsZ8Z7
- sGYA==
-X-Gm-Message-State: AOAM533dvREZHHf/EO9Qub1rAr9U1LEJPb8woFxdRQ99X000oDmLHy3X
- J+gjhRewPMv7u9JqVHFCl9c=
-X-Google-Smtp-Source: ABdhPJxBSGVVgTAvY+rQZZq/gwen/q3PAFD+cgTOxAs86LiDvDJWGDgrdY2V2X2GZfaiMXQU3ZmXhQ==
-X-Received: by 2002:a63:9d8d:: with SMTP id i135mr3876922pgd.213.1604604798792; 
- Thu, 05 Nov 2020 11:33:18 -0800 (PST)
-Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id y19sm3240844pfn.147.2020.11.05.11.33.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 11:33:18 -0800 (PST)
-Date: Fri, 6 Nov 2020 01:03:12 +0530
-From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH] drm/vc4: replace idr_init() by idr_init_base()
-Message-ID: <20201105193312.GA108505@localhost>
-References: <20201105181613.GA42968@localhost>
- <CADaigPWV+x=6x_vso1Eb7ZEdmevpjgdGWO-epq-S6gJ3J1-sSA@mail.gmail.com>
-MIME-Version: 1.0
+Received: from nat-hk.nvidia.com (nat-hk.nvidia.com [203.18.50.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB526EDE2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:36:15 +0000 (UTC)
+Received: from HKMAIL101.nvidia.com (Not Verified[10.18.92.100]) by
+ nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa4542d0000>; Fri, 06 Nov 2020 03:36:13 +0800
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL101.nvidia.com
+ (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 5 Nov
+ 2020 19:35:58 +0000
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Thu, 5 Nov 2020 19:35:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IACebdQDUK1LPo6dtFEzqoPn564iKyqzXEEOE+ViMcGLFXgwZepHQSyFZ8Qe5GQPD/YYEpTWoPS7Uff2gz0CbZVLDJeYx2uODzS0ytjN5/CxntsvGqDcKT7hJalCFbgRvCIEYfQ0PvnzBugfEfKSNmD3txNbH2Ajm503GukCsVV1H+iJWBBF/DTiV7dbwucG5M8HEq8U8C843r4DFFMcV1QtirC5ypSVpKSA4Mn+71sktqPDGCuofZQpNtXi3bqFTOtNoJfkJvXIHtYFar5WrzWxUmch1+tQTcCYWB2kZ8YspqytNcOjvXqn6UEg2GAJPlQIwg1KVbjNf6LqJm2yXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rkt+EEj/AWdQBRd7cUpKSor6iRfLsu2dvJIC8FuRwXA=;
+ b=n6Ilovgc5QZ4v2uzn8Fh2ddTm5FdVAmN/HDo3+fhN2JDK2eLgfkYYdMstJcWCrfoxowsBuEuU/+2E+ar0XaPO/5VZo2OmWJqHGMQaPdTSNxQzb7r4rnH/uuoPOvVeTUh8JK6o/qhNLKvS5E4tmLIFoWVg196sH8CVwnSPzAGRxwlLUHabKDNXuypE8H0F9UyUlJSr8FY0oZzeD+2JyVHTvFes787lCRb5dHtRXMbN78qWk2OvdCTW6KzLHi0CZ9HwrX2VFLCOELqQ8kCd6hG6I0WriQ5dcsk0XdbkY2IwZw+zL4trYiamel6hEmZz2GEoMxi0b4HHNEXalWxI7NYRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3211.namprd12.prod.outlook.com (2603:10b6:5:15c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Thu, 5 Nov
+ 2020 19:35:56 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 19:35:56 +0000
+Date: Thu, 5 Nov 2020 15:35:54 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm: remove pgprot_decrypted() before calls to
+ io_remap_pfn_range()
+Message-ID: <20201105193554.GP2620339@nvidia.com>
+References: <0-v1-2e6a0db57868+166-drm_sme_clean_jgg@nvidia.com>
+ <20201105191746.GC401619@phenom.ffwll.local>
 Content-Disposition: inline
-In-Reply-To: <CADaigPWV+x=6x_vso1Eb7ZEdmevpjgdGWO-epq-S6gJ3J1-sSA@mail.gmail.com>
+In-Reply-To: <20201105191746.GC401619@phenom.ffwll.local>
+X-ClientProxiedBy: BL1PR13CA0256.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::21) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by
+ BL1PR13CA0256.namprd13.prod.outlook.com (2603:10b6:208:2ba::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.13 via Frontend
+ Transport; Thu, 5 Nov 2020 19:35:55 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1kal34-000MOo-3X; Thu, 05 Nov 2020 15:35:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604604973; bh=rkt+EEj/AWdQBRd7cUpKSor6iRfLsu2dvJIC8FuRwXA=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=ACwaGx3dDTum1U+ykLD82m47Ai7xTcq52MKtpQXbs2qLqj29t0If9n3h/fxiaDM9U
+ SQDPbLHmLROjzNvpDB2mnLRQ4waa1yIqso6xriHQesxp1MlRpHDC9mTqtXeIq+azxn
+ 1ZRJOorG2hXMQLCDCx4kvflSAGP07Py805QVQT0IX8xBJ48trEFGWy/+ZW5FKur1FX
+ TNDD1NWygwZ2IF017JapYatlRLn6Awz3mQjP0GZ6Y15C0pu46HRTQ7pEhyWx8CL5st
+ D5yX/u+OapKGOy3c/Ih5Xhkhi/CxPImlDrfGy7zifSJu1bUgLQ9vgt7MoVLmRMRNp3
+ MC2rGZGeG8zYg==
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,48 +87,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 11:25:11AM -0800, Eric Anholt wrote:
-> On Thu, Nov 5, 2020 at 10:25 AM Deepak R Varma <mh12gx2825@gmail.com> wrote:
-> >
-> > idr_init() uses base 0 which is an invalid identifier for this driver.
-> > The idr_alloc for this driver uses VC4_PERFMONID_MIN as start value for
-> > ID range and it is #defined to 1. The new function idr_init_base allows
-> > IDR to set the ID lookup from base 1. This avoids all lookups that
-> > otherwise starts from 0 since 0 is always unused / available.
-> >
-> > References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
-> >
-> > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_perfmon.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> > index f4aa75efd16b..7d40f421d922 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> > @@ -77,7 +77,7 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
-> >  void vc4_perfmon_open_file(struct vc4_file *vc4file)
-> >  {
-> >         mutex_init(&vc4file->perfmon.lock);
-> > -       idr_init(&vc4file->perfmon.idr);
-> > +       idr_init_base(&vc4file->perfmon.idr, 1);
-> >  }
+On Thu, Nov 05, 2020 at 08:17:46PM +0100, Daniel Vetter wrote:
+> On Thu, Nov 05, 2020 at 01:00:19PM -0400, Jason Gunthorpe wrote:
+> > commit f8f6ae5d077a ("mm: always have io_remap_pfn_range() set
+> > pgprot_decrypted()") moves the pgprot_decrypted() into
+> > io_remap_pfn_range(). Delete any, now confusing, open coded calls that
+> > directly precede io_remap_pfn_range():
+> > 
+> > - drm_io_prot() is only in drm_mmap_locked() to call io_remap_pfn_range()
+> > 
+> > - fb_mmap() immediately calls vm_iomap_memory() which is a convenience
+> >   wrapper for io_remap_pfn_range()
+> > 
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> >  drivers/gpu/drm/drm_vm.c         | 3 ---
+> >  drivers/video/fbdev/core/fbmem.c | 5 -----
+> >  2 files changed, 8 deletions(-)
+> > 
+> > rc3 will have the dependent patch, this should not be merged to DRM until it
+> > has the rc3 commits.
+> > 
+> > There are three other pgprot_decrypted() calls in DRM, I could not figure out
+> > what was what there, but other than very special cases I would expect code to
+> > use io_remap_pfn_range() instead.
 > 
-> Sounds like you should use VC4_PERFMONID_MIN instead of a magic 1 here.
+> There's 4 now, I think linux-next added one. It's another io_remap_pfn
+> 
+> Of the three you mentioned we have:
+> - ttm and i915 use vm_insert_pfn (and ttm also can do also do pud_mkhuge
+>   entries)
 
-Agreed. I will update and resend v2.
+You can't insert IO memory with vmf_insert_pfn_pmd_prot() (it
+doesn't set the special flag) so why does it need decrypted?
 
-Thank you,
-./drv
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
