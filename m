@@ -1,66 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71D92A9167
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 010A02A917C
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68FF6EA6C;
-	Fri,  6 Nov 2020 08:34:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09D836EE19;
+	Fri,  6 Nov 2020 08:35:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6F56EDD2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 18:02:06 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id 2so2499580ljj.13
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 10:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Al4h4rmGhqwiEGe133XHwebc8D8nOD3olrp8Vml5Ma4=;
- b=ns839VcoCfQlmSawliO3BW+/1vwbWsC0SuMDgd2rWP8iV711Mqqtf4m0MCEmnLvl6U
- 3vb8CBUhCZHuLBbT/vy/0iMtjPX+V3C6uUIb2OPOXdjLYjIP6UI/e87eGPrrzJ+xbk0U
- lPuFmuT1kZYJ9xA2IDMRS58fh3QHtxbqkhAxXI9q2n4iD1UkN9wCV6XZxUKCW+jG4fl1
- bhur1vx8ueIhfdY8E1LoNLWhfnSqc8Cz4pG2mSMrLt8qiqsSVAo166ZZkzVsvdwhvofK
- JB2HZrGV3JeU2U3FG6Z6xcUm8hK1QDD32JbxQ1HpcmJHxS8qabOilxvrGXG1/u5lCDmu
- kXEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Al4h4rmGhqwiEGe133XHwebc8D8nOD3olrp8Vml5Ma4=;
- b=AmqAu4CiJgoLpPCkic6Dq7Lpwenewp7grvw2rGXHBaB49ViSlcR0LdmTRoiluDAO7a
- DRZ3BtP1GqcSbLaSKPJIXgvtqn7KqXaTFv1BOtMXH+E9i1EU+Flq2BQEO1bm41llU9Wm
- 7yly+W3lPdNDO8hWz4Z8g0rcyHTt81e+Dx1M6+iQIa8lG7XKw2h+QFPqUUKz3acPQmP/
- ZGVso3FcCG6vVU1Jcr75klZeFpQtZLlsqzSxb9vu9TgiJiVJgx4Av9GL08zngWj9fRdg
- lqGT7QKl97xGDDy/FdRyqfW3KA7ovA9+y0RJtgNMIqmm8+1xvaU3Zid4nxUdV/j1VEPz
- sXlw==
-X-Gm-Message-State: AOAM532rp9DC97zA55Uea13dT0IIW7PoScXh0VzPo8Ueup+Ht1iFy/um
- Fac2t5ppTfY1N7o6VP9C10s=
-X-Google-Smtp-Source: ABdhPJyGo1QPlqd8Bg9dlBjbnD5b7q3iSRiSvONPHwwdeYcMEjv8aISie0TROJMehCbGPKS7ntWyVA==
-X-Received: by 2002:a2e:5007:: with SMTP id e7mr1293766ljb.196.1604599324582; 
- Thu, 05 Nov 2020 10:02:04 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-83.dynamic.spd-mgts.ru.
- [109.252.192.83])
- by smtp.googlemail.com with ESMTPSA id q28sm251319lfn.7.2020.11.05.10.02.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Nov 2020 10:02:03 -0800 (PST)
-Subject: Re: [PATCH v1 21/30] usb: host: ehci-tegra: Support OPP and SoC core
- voltage scaling
-To: Alan Stern <stern@rowland.harvard.edu>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-22-digetx@gmail.com>
- <20201105160743.GA1613614@rowland.harvard.edu>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a6030abc-3727-01ca-91b6-faf02d8083fd@gmail.com>
-Date: Thu, 5 Nov 2020 21:02:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201105160743.GA1613614@rowland.harvard.edu>
-Content-Language: en-US
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2603D6EDD9
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 18:14:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604600065;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=L9xvSRO4jZG01PGBZOFAM7iZqNe/T5oryMn7TOV1cNM=;
+ b=BF1jGinZSVw3YHUsT8NXUVYiBUQ7wRcFSfr+AWjfC0f/SmOiaKQreexyNO+lMuq7g/
+ 0kbm6ZyPtHk40dD8LWkGP7D65mZZUIdqOPzIgScfqbqW5R0QOzhxBlQUOpjTsk8mv11+
+ /yImNZ1wiKQPSnLWYJR+A6z+/F/sAw5NxqMn/wknB3wE1p9pqhhuuQLupNCP9czjOj31
+ u0YUGEoLgaGY41511swqncNcDRbng9+7/eJcbwt9mDCtM8ZckgL5i3VHSQwhM2+xDrqk
+ HQvv3CdvyefkFLGYNlLe7S6WoSjgTrxkxd67CO/BB+NVu5O/rdAw8+EiW6dUq04u64Cp
+ cChg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSfXA0MwM0="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.2 DYNA|AUTH)
+ with ESMTPSA id L07f74wA5IEG0hD
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Thu, 5 Nov 2020 19:14:16 +0100 (CET)
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+Date: Thu, 5 Nov 2020 19:14:15 +0100
+Message-Id: <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,30 +57,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDUuMTEuMjAyMCAxOTowNywgQWxhbiBTdGVybiDQv9C40YjQtdGCOgo+PiArCWVyciA9IGRldm1f
-dGVncmFfZWhjaV9pbml0X29wcF90YWJsZSgmcGRldi0+ZGV2KTsKPj4gKwlpZiAoZXJyKQo+PiAr
-CQlyZXR1cm4gZGV2X2Vycl9wcm9iZSgmcGRldi0+ZGV2LCBlcnIsCj4+ICsJCQkJICAgICAiRmFp
-bGVkIHRvIGluaXRpYWxpemUgT1BQXG4iKTsKPiBXaHkgbG9nIGEgc2Vjb25kIGVycm9yIG1lc3Nh
-Z2U/ICBKdXN0IHJldHVybiBlcnIuCgpJbmRlZWQsIHRoYW5rcy4KX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+> Am 05.11.2020 um 18:36 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+> 
+> Hi,
+> 
+> On 05/11/2020 19:15, H. Nikolaus Schaller wrote:
+> 
+>> Next, I migrated my long waiting mipi_dsi/drm_panel driver conversion for
+>> the panel of the Pyra handheld (omap 5 based) to compile on 5.10-rc2. And
+>> I followed the latest existing panel-orisetech-otm8009a.c which uses a
+>> similar video mode controller and mipi-dsi.
+>> 
+>> That one seems to be used by arch/arm/boot/dts/stm32f469-disco.dts.
+>> 
+>> Unfortunately my panel driver is not even loaded by drm/omap so I can't
+>> debug. Does this set of drm/omap drivers need a modification of the device
+>> tree? If yes, which one?
+> 
+> omapdrm doesn't load the panel drivers. If not even your panel's probe is called, then it hints at
+> DT and/or driver's compatible string issue. The panel's probe should get called even if omapdrm is
+> not loaded at all.
+
+Well, I use the same device tree that loads the old driver...
+
+> 
+> Can you push your branch somewhere, so I can have a quick look?
+
+Yes, that would be nice!
+Here:
+
+https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux-pyra-dsi-5.10-rc2
+
+or:
+
+https://github.com/goldelico/letux-kernel/tree/letux-pyra-dsi-5.10-rc2
+
+(full config is not included).
+
+BR and thanks,
+Nikolaus
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
