@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FFC2A83E2
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:47:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1812A83E9
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32DC66EDDA;
-	Thu,  5 Nov 2020 16:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 444B26EDCE;
+	Thu,  5 Nov 2020 16:48:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A2A16EDDB
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 16:47:44 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id k3so3545120ejj.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 08:47:44 -0800 (PST)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26B826EDCE;
+ Thu,  5 Nov 2020 16:48:45 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id o18so2261278edq.4;
+ Thu, 05 Nov 2020 08:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=KTrM17LaE3eRnXRmmf0/lRu9nMHN1CBl40QfrrxpBNY=;
- b=hHybng4WEtcZxHNWh6mlbWhH1415hVUIZHRfQwhwOksDeBgZBCx9tos9IXIVBt0Wog
- +UOIUgdB5oDqnD08cbnQV7CHAd7h798SgHSSm5BdSaNNfZGrLE7h3Y+O0AaczmRr0l/t
- ik8qY/CCX402NHiGjo/0kTQ535uF1043ZKzUD3UetAft8DKnL03Bj1kooXQ2fvpdEQjk
- K4bwTEesmS/ijllySN0QQSx+pOSBJwi3YToevwY8i+xSj2A6gIAGoU1cMvB9lGbB+nID
- pvZdknEWXvXMvy4YDXHKqTflUCLl6UwTRudiWfKSFfGA8eLoth95VBYM1iV0dQ7nJpJJ
- XTpA==
+ bh=yX39kTh1HHCiE7a4ozj9S+V+l033SuDnzUBvvzJ5DSA=;
+ b=qh8F9+Bv/qy6tDCwwb+PEaXxyVWA7Xq2gVdU1smCegVmFklmD+gxgnUaRGmQ0LODVr
+ qkTIu7Wtw41lEWjrAiDZJwMwW3H9dXGEvkrVKsnpztVYnkSDHtmSN7nCOa5Xw7DuDU76
+ kYrut4EaLB+TcqA3ukK1Ait/cG9RFUoNe6j6/G2K8guZNGpQj8n5HmE101VfTFgB8Ul+
+ VOlhsdytM53K874JOG4FmneJAL+sErho7nMYAd9Bv8sODNEjbZaTGXHFAzyJM9+Pp7nV
+ ASFaFZjPP3wvQ7VXrcinAw3Cjt3oqvQrhBpl0hphQVGfL0c29ZboNG8h+EuZHVy5fPqp
+ 1AIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KTrM17LaE3eRnXRmmf0/lRu9nMHN1CBl40QfrrxpBNY=;
- b=pjoLJMSXRnjPlBfRhyO9FdnROvzR+JK4b/3Kb3SNCsc7pzWIXXatrBC/RmPdTfJ7qx
- Bz/GVa8jGXME1O1KxYAL8+o+5bNCWjBPnPhcN3L8fnKh/xF7X+Np5b0hlzaIPd3/xMqE
- UbrqeoplCix9nF9wB4T8BCF2n9ipCxyyOScLS2JJ+3K/wXcpydF6lA6DSu5kez3kM0uX
- J76DOVly0gy1X0Os1llDK71ka1ib1rdBrHg2nWLFyS2fCPq3l+mNnkA+yh7zZZOQQRSO
- EmliuZ2XzDx6nrIXA6UqwuQ3DfeIlTLWRxLh4F550PnGYDTqU0q4+mgxkaaMqZyzSL76
- hBYA==
-X-Gm-Message-State: AOAM533Lr2LKa+5/2BW2jj/8sx82coIjb7WxhSws0jPgHGGA2wwl2abK
- q4v5vzVT9d/R39Bl2mK34G4=
-X-Google-Smtp-Source: ABdhPJwfC8uPR2uvawZdxTifaAYqgR1RHreUAqyPxO+5utXztVkevqTadscf5EjE8nYcrS2HlVHGDQ==
-X-Received: by 2002:a17:906:a098:: with SMTP id
- q24mr3061994ejy.191.1604594863017; 
- Thu, 05 Nov 2020 08:47:43 -0800 (PST)
+ bh=yX39kTh1HHCiE7a4ozj9S+V+l033SuDnzUBvvzJ5DSA=;
+ b=oWZpE0t7Py7tksm/7XX/g/7x/Yw4QT2N2ZJJBpWH4NWldFD1X6Y4zv4ScOO3RSPrGU
+ B1wTaP7qmZRIL7bV0QTnLfWGDk8kXmFSQkzeZ3JB5yI3CPxmVVS6l+UEJG+291vV75Pf
+ MhH6XQ4tk9h/RB6tuixgK7v/sRKmQ6sCttB+d/yO0FmVBgedUBw0iJkqSLEAiRCnrnVa
+ q6RgRpvszA6pzqkjbbhvATXEJzRChbZIGCOvaLtfB06dySNk+WDIBJMYHc/Kpggu9y4T
+ 7JfDnkVd+8YEWQ4owc9XBBltNbJZwGo+xhU8AMCTlhVoyvG4rd2R878/9iX6IZ5BpXta
+ xNuQ==
+X-Gm-Message-State: AOAM5311x01oLagblWeKYpwUVsVq+bmgJAprPsZzhMml/jwy3nmLjyaE
+ TgqeuaJOrf+Zphu4VQke0GY=
+X-Google-Smtp-Source: ABdhPJyiERgZeAUS31dkT4tl4RNTxwY6ZlLP3JkbXUfS5vHH5jSTMFA1rjwEXqQlBo5vKebs0Q+I/g==
+X-Received: by 2002:a50:e041:: with SMTP id g1mr3548640edl.385.1604594923722; 
+ Thu, 05 Nov 2020 08:48:43 -0800 (PST)
 Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id f16sm1210281edw.15.2020.11.05.08.47.41
+ by smtp.gmail.com with ESMTPSA id s20sm1222145edw.26.2020.11.05.08.48.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 08:47:41 -0800 (PST)
-Date: Thu, 5 Nov 2020 17:47:40 +0100
+ Thu, 05 Nov 2020 08:48:42 -0800 (PST)
+Date: Thu, 5 Nov 2020 17:48:41 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 16/19] gpu: drm: panel: panel-ilitek-ili9322: Demote
- non-conformant kernel-doc header
-Message-ID: <20201105164740.GG485884@ulmo>
+Subject: Re: [PATCH 00/19] [Set 1] Rid W=1 warnings from GPU
+Message-ID: <20201105164841.GH485884@ulmo>
 References: <20201105144517.1826692-1-lee.jones@linaro.org>
- <20201105144517.1826692-17-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201105144517.1826692-17-lee.jones@linaro.org>
+In-Reply-To: <20201105144517.1826692-1-lee.jones@linaro.org>
 User-Agent: Mutt/1.14.7 (2020-08-29)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,98 +66,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: multipart/mixed; boundary="===============0460518075=="
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Huang Rui <ray.huang@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Gareth Hughes <gareth@valinux.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Francis <David.Francis@amd.com>, Jingoo Han <jg1.han@samsung.com>,
+ amd-gfx@lists.freedesktop.org, Rob Clark <rob.clark@linaro.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, NXP Linux Team <linux-imx@nxp.com>,
+ linux-media@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Jonas Karlman <jonas@kwiboo.se>, Sascha Hauer <s.hauer@pengutronix.de>,
+ linaro-mm-sig@lists.linaro.org, linux-tegra@vger.kernel.org,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jason Yan <yanaijie@huawei.com>, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>, Shawn Guo <shawnguo@kernel.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0294197576=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0460518075==
+--===============0294197576==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="df+09Je9rNq3P+GE"
+	protocol="application/pgp-signature"; boundary="fd5uyaI9j6xoeUBo"
 Content-Disposition: inline
 
 
---df+09Je9rNq3P+GE
+--fd5uyaI9j6xoeUBo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 05, 2020 at 02:45:14PM +0000, Lee Jones wrote:
-> Fixes the following W=3D1 kernel build warning(s):
+On Thu, Nov 05, 2020 at 02:44:58PM +0000, Lee Jones wrote:
+> This set is part of a larger effort attempting to clean-up W=3D1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
 >=20
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_SRGB_THROUGH' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_SRGB_ALIGNED' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_SRGB_DUMMY_320X240' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_SRGB_DUMMY_360X240' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_DISABLED_1' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_PRGB_THROUGH' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_PRGB_ALIGNED' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_YUV_640X320_YCBCR' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_YUV_720X360_YCBCR' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_DISABLED_2' not described in enum 'ili9322_input'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_ITU_R_BT656_720X360_YCBCR' not described in enum 'ili9322_inpu=
-t'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_ITU_R_BT656_640X320_YCBCR' not described in enum 'ili9322_inpu=
-t'
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c:177: warning: Enum value 'I=
-LI9322_INPUT_UNKNOWN' not described in enum 'ili9322_input'
+> There are 5000 warnings to work through.
 >=20
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/panel/panel-ilitek-ili9322.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> It will take a couple more sets.
+>=20
+> Lee Jones (19):
+>   gpu: host1x: bus: Add missing description for 'driver'
+>   gpu: ipu-v3: ipu-di: Strip out 2 unused 'di_sync_config' entries
+>   gpu: drm: imx: ipuv3-plane: Mark 'crtc_state' as __always_unused
+>   gpu: drm: omapdrm: omap_irq: Fix a couple of doc-rot issues
+>   gpu: drm: selftests: test-drm_mm: Mark 'hole_end' as always_unused
+>   gpu: drm: scheduler: sched_main: Provide missing description for
+>     'sched' paramter
+>   gpu: drm: scheduler: sched_entity: Demote non-conformant kernel-doc
+>     headers
+>   gpu: drm: omapdrm: dss: dsi: Rework and remove a few unused variables
+>   gpu: drm: selftests: test-drm_framebuffer: Remove set but unused
+>     variable 'fb'
+>   gpu: drm: ttm: ttm_bo: Fix one function header - demote lots of
+>     kernel-doc abuses
+>   gpu: drm: panel: panel-simple: Fix 'struct panel_desc's header
+>   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
+>     'analogix_dp_write_byte_to_dpcd'
+>   gpu: drm: ttm: ttm_tt: Demote kernel-doc header format abuses
+>   gpu: drm: selftests: test-drm_dp_mst_helper: Place 'struct
+>     drm_dp_sideband_msg_req_body' onto the heap
+>   gpu: drm: radeon: radeon_drv: Remove unused variable 'ret'
+>   gpu: drm: panel: panel-ilitek-ili9322: Demote non-conformant
+>     kernel-doc header
+>   gpu: drm: radeon: radeon_device: Fix a bunch of kernel-doc
+>     misdemeanours
+>   gpu: drm: amd: amdgpu: amdgpu: Mark global variables as __maybe_unused
+>   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
+>     'analogix_dp_start_aux_transaction'
 
-Again, for the subject prefix, this should probably be:
+As commented on the other patches, the subject prefixes on most of these
+look wrong, but it's generally a nice cleanup.
 
-	drm/panel: ili9322:
+Thanks!
+Thierry
 
-but otherwise this seems okay:
-
-Acked-by: Thierry Reding <treding@nvidia.com>
-
---df+09Je9rNq3P+GE
+--fd5uyaI9j6xoeUBo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+kLKwACgkQ3SOs138+
-s6HGQg//QkgHbc3TJbLwEy4mxRTrjYNfzt1lk9oH16BLdotyt6riD0K/bOlNq8wX
-AR7YRFjlaAr89UosEyZ7YhQzY5wDcCGoAAANBqUQodK2chv9AmeRmmKfLDOxqZ7x
-KrnvKdU8pKi7hxHflZBEZci29zzG/JO4iu+HQhSLkD6bShn+5WzZuCPTNotz+hr9
-QGSRqJSWNeIk0IPmsIDaWDaZBLRQN7ct0HxOZSTbyy+KluUuXE7rPLEEPuLH+1Z8
-AubtbihjLCAwjD/JwzbeSCJ1M4qkFsN2iBkGNG1ybbu/1R7o4XGKQkExepeW3Ccc
-epNP9X7ZMZpkT77LOvEc3Zy/Mut8gy1AF787VPyIkpHcAeK7pWFXRUgj8GHZc18W
-6LINDgB2aWUSCWpf76ayUyz4ZtpyNjd56vCLW8yhLdBLmkRqe3laeZCzKCJwHUtC
-Tg4NWCWKIvQdmHuJ7GY/yoTAHLufpgXhHWGtWDeH+ihde3BAyk/Ye20uV8iyu9xc
-Po07itNDfSKB68QkzfZSwZIYWRr8Vuj/CMIAGxLvWiiHVWr24csYt3Yv3I6aEKCg
-E89LpPvNo7RYX10dpx0PNsE26gcA3lpI+L3m+q+w+VIZuEO+AgABuWW/h3wteqzG
-AkzfbYDBOOtuU26mYXPiYWm4vLkDBO+pTacckyPJbK3bstzLiw0=
-=eVAB
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+kLOkACgkQ3SOs138+
+s6HE2A/+PdAvZ2+F78DJkdsaNjJu085jUQleXGtXuqh1lQ+yUWWTHYiXOdmLAaru
+GaEmINYkOF2LvdLY5vIwyX+TY2lp9PYd0oo4UHBKei3IrhrHzGM+f1mHxvDfp2fF
+ENihVfG/CNzk1RUnCensuwsBl/NHC/yepie9ykDBthaD5cfAaMpcFxw+KIHErtBh
+I0T8UHO2bbqaU8Oz3r0My3Owk4H/1sNgZ7GBvqKQeWveHpz2FenHke0ZI6tXre2J
+zj1vtgcRPNl6cE3aBxlSd8uIhdjAjGK/iShwI1N868ESy4w4ahGOMdX4i+BRlRL4
+bObmEnqqPIl7n7NxvBvCBZFJQ19RMtkhcAtBT/IbYSiEN4AOS/TFq9iGxXefgNbU
+I3BfMXl4aFQMhIDYHxG97bSr4Njec7KZf1cfTPRaCpcluulvb2geKvwDdDrhtKZW
+LQQjv0hq4l9EDHGMOq5QdyIL9ay13S+ctmBzUN/b5N4YdSyDw9Ixt141zH9Eygdm
+L+BzflS3sGx9roS0adeanIYgqMLV558yzqnC+pg9yaaR/AtaredjWs9+hnpT3XVC
+JltHngRXupmBTRe4i0+YGYrlHFFWTtR+TuWOH4tSHUl5oL5/DL9yjtGLvlB6lNbC
+ohT4UGDQZ8lITaiToRQyBOAh54Zc485krb7QAPVT0HOfLPenxF8=
+=euSt
 -----END PGP SIGNATURE-----
 
---df+09Je9rNq3P+GE--
+--fd5uyaI9j6xoeUBo--
 
---===============0460518075==
+--===============0294197576==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -171,4 +175,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0460518075==--
+--===============0294197576==--
