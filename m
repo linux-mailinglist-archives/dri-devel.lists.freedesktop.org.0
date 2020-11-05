@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0A82A7AB7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 10:39:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 040B12A7AC3
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 10:42:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91BBD6E1B1;
-	Thu,  5 Nov 2020 09:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEB4D6E1A2;
+	Thu,  5 Nov 2020 09:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84B2C6E1A2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 09:39:49 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id e6so943054wro.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 01:39:49 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E197E6E1A2
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 09:42:18 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h22so910460wmb.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 01:42:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=O1Ptw4Z6fyBehqHYaSzRs4kWOAuaPAg0Ode7nAckbcI=;
- b=lKpQaFbU6i/iQQXHpRtJTGXfYs5EE0e3aodsqlp9QeGZmsffh7RlWk6IgDeVl3o0xu
- pCR6lgT2aiZdhtCXaEuOujnJnud52nziMgKE/ONeqKy0MceI3gfkv1uZ9s99xqbjxUIO
- Vpo4p2Ieo08cBXUL1E7nyc9W3Vw9jo8uYdI0Q=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wpa/gH6WKVvOZOF65OKK1Df7hL/w51tUR5ocafirz/U=;
+ b=gGpve2b5nT5gDe0F41+nOJ8S0JtPp+K/fkbykHKZpJakWRrlBTuW9/X4OP3lckOq4S
+ wFC6L2TgfvMVBEyrEUg0CaryizLLCP6ZWidtrdKSBVVAH8mjIY62v2CsJQrEZDf7Ly6U
+ pP0JtMJnmCpKC98YGUdp8xOqeDtcn7vXs6s8o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=O1Ptw4Z6fyBehqHYaSzRs4kWOAuaPAg0Ode7nAckbcI=;
- b=XnRqevrSw+J1cmHanxy5AkcBZpJaGUg9gaAlnDALRdZFl7KL/LuLIX4zIh9Po0SpC1
- Qwo++sqg9/XlHut1ywjaixDwZrBvNmhwNuvzpWDktcmp59RUUPUG2LE95mLImBYs0yoX
- 2Lk5KvYe1zp5gduhEHznEMowwmA0IEqQ91EyCeFRb7Vzq/6DzFL/WljTegTkJTDflV4d
- kfuwCzQDorVKYZDzjncfGOEOxVkRPEvSPZs0CK/Q9m1hhrraSngCcYVmK+WwdeR7iA9d
- pG69NB77liKjKU2V+TLJ0qGEATfir4rpaLGoDZFtulHquFQS7kNhDk/B2QXKjry4Hu3p
- utlA==
-X-Gm-Message-State: AOAM532n3ecD7VzxaSBxjwWO62ZadUKoJVNPHmRiCIsIvqzcEea01Ott
- dRy7neBmKIjoAv3D7iLyhFcbgA==
-X-Google-Smtp-Source: ABdhPJx0auxQhwpogPi8nd2blZkbW8w0U5S07Gfgt4vJP6rs0bEwZ2m6v9NXVsnccnnz4cQ4Yr52UQ==
-X-Received: by 2002:a5d:424e:: with SMTP id s14mr1796145wrr.131.1604569188294; 
- Thu, 05 Nov 2020 01:39:48 -0800 (PST)
+ bh=wpa/gH6WKVvOZOF65OKK1Df7hL/w51tUR5ocafirz/U=;
+ b=YtwNxa//Ww6ZPMdQrYvvVXUSKWJ3cJoP+qEEc86T8VE15fEZqw/hlhdbw76iF3uwCb
+ ucbCZRIKCiI5dAloWrAImtcIChgRnjk4tPJtxj1xIni2EGdohGiMB0B7LYhXlbYJ+m5Y
+ Kku9bGQ0DiqWvgHM+Ojpwf9u9/faA5x3OTwvKbVwynh5slNv+DuUoIIBytiUdMDZ9wSU
+ KdTrWfP134rWA0peLS5u5RiFpshIDxFSWT0qvszBpsCT3rtubtR0b5rIBPyloYnbcFg9
+ xpHufX3DwF3qmnukP3Ib9ZKxkEupC0ZviwDUy/7glmCWBoZHOBRoGhAeoWgFYLVu27wp
+ fSgg==
+X-Gm-Message-State: AOAM533AQcKBPexhBVOgPt3FlJ78R5TJRkIt2Ce2cGbpJejm3rMiVh4v
+ GbzRMwub4XxOJj3SD7R6SHC9vQ==
+X-Google-Smtp-Source: ABdhPJzLdA/5MB4X8lL2FOSUeAQLRPyPZzE5Hwhd3ddv0IHLtJIf4ldo5XuVgoPqCzuJ52+HNerkLg==
+X-Received: by 2002:a1c:2d8f:: with SMTP id t137mr1729198wmt.26.1604569337681; 
+ Thu, 05 Nov 2020 01:42:17 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c2sm1720811wmf.47.2020.11.05.01.39.47
+ by smtp.gmail.com with ESMTPSA id w11sm1875170wmg.36.2020.11.05.01.42.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 01:39:47 -0800 (PST)
-Date: Thu, 5 Nov 2020 10:39:45 +0100
+ Thu, 05 Nov 2020 01:42:16 -0800 (PST)
+Date: Thu, 5 Nov 2020 10:42:15 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Marek Vasut <marex@denx.de>
-Subject: Re: [PATCH] drm/stm: Enable RPM during fbdev registration
-Message-ID: <20201105093945.GS401619@phenom.ffwll.local>
-References: <20201104125200.259639-1-marex@denx.de>
+To: Deepak R Varma <mh12gx2825@gmail.com>
+Subject: Re: [PATCH] drm/vgm: replace idr_init() by idr_init_base()
+Message-ID: <20201105094215.GT401619@phenom.ffwll.local>
+Mail-Followup-To: Deepak R Varma <mh12gx2825@gmail.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20201104112338.GA29271@localhost>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104125200.259639-1-marex@denx.de>
+In-Reply-To: <20201104112338.GA29271@localhost>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,86 +68,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alexandre Torgue <alexandre.torgue@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
- Yannick =?iso-8859-1?Q?Fertr=E9?= <yannick.fertre@st.com>,
- linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org,
- Benjamin Gaignard <benjamin.gaignard@st.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 01:52:00PM +0100, Marek Vasut wrote:
-> Enable runtime PM before registering the fbdev emulation and disable it
-> afterward, otherwise register access to the LTDC IP during the fbdev
-> emulation registration might hang the system.
-> =
+On Wed, Nov 04, 2020 at 04:53:38PM +0530, Deepak R Varma wrote:
+> idr_init() uses base 0 which is an invalid identifier. The new function
+> idr_init_base allows IDR to set the ID lookup from base 1. This avoids
+> all lookups that otherwise starts from 0 since 0 is always unused.
+> 
+> References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
+> 
+> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 
-> The problem happens because RPM is activated at the end of ltdc_load(),
-> but the fbdev emulation registration happens only after that, and ends
-> up calling ltdc_crtc_mode_set_nofb(), which checks whether RPM is active
-> and only if it is not active, calls pm_runtime_get_sync() to enable the
-> clock and so on. If the clock are not enabled, any register access in
-> ltdc_crtc_mode_set_nofb() could hang the platform completely.
-> =
+Tiny typo in the commit message summary: s/vgm/vgem/
 
-> This patch makes sure that ltdc_crtc_mode_set_nofb() is called within
-> pm_runtime_get_sync(), so with clock enabled.
-> =
+Also can you pls resbumit this with intel-gfx mailing list on cc (like for
+i915)? There's a CI bot there which runs a few vgem tests, would be good
+to confirm nothing has been broken.
 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Alexandre Torgue <alexandre.torgue@st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@st.com>
-> Cc: Philippe Cornu <philippe.cornu@st.com>
-> Cc: Yannick Fertr=E9 <yannick.fertre@st.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
+Otherwise lgtm.
 
-This looks like you're papering over a bug in your modeset code. If
-userspace later on does a setpar on the fbdev chardev, the exact same
-thing could happen. You need to fix your modeset code to avoid this, not
-sprinkle temporary rpm_get/put all over some top level entry points,
-because you can't even patch those all.
--Daniel
-
+Thanks, Daniel
 
 > ---
->  drivers/gpu/drm/stm/drv.c | 2 ++
->  1 file changed, 2 insertions(+)
-> =
-
-> diff --git a/drivers/gpu/drm/stm/drv.c b/drivers/gpu/drm/stm/drv.c
-> index 411103f013e2..d8921edc83db 100644
-> --- a/drivers/gpu/drm/stm/drv.c
-> +++ b/drivers/gpu/drm/stm/drv.c
-> @@ -197,7 +197,9 @@ static int stm_drm_platform_probe(struct platform_dev=
-ice *pdev)
->  	if (ret)
->  		goto err_put;
->  =
-
-> +	pm_runtime_get_sync(ddev->dev);
->  	drm_fbdev_generic_setup(ddev, 16);
-> +	pm_runtime_put_sync(ddev->dev);
->  =
-
+>  drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
+> index 17f32f550dd9..2902dc6e64fa 100644
+> --- a/drivers/gpu/drm/vgem/vgem_fence.c
+> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
+> @@ -233,7 +233,7 @@ int vgem_fence_signal_ioctl(struct drm_device *dev,
+>  int vgem_fence_open(struct vgem_file *vfile)
+>  {
+>  	mutex_init(&vfile->fence_mutex);
+> -	idr_init(&vfile->fence_idr);
+> +	idr_init_base(&vfile->fence_idr, 1);
+>  
 >  	return 0;
->  =
+>  }
+> -- 
+> 2.25.1
+> 
 
-> -- =
-
-> 2.28.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
