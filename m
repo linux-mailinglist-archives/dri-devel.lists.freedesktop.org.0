@@ -2,34 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4F032A7FC1
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 14:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E8D2A8007
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 14:52:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902B96E243;
-	Thu,  5 Nov 2020 13:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA746ED27;
+	Thu,  5 Nov 2020 13:52:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8726E243
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 13:39:58 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 74A731F4646B;
- Thu,  5 Nov 2020 13:39:56 +0000 (GMT)
-Date: Thu, 5 Nov 2020 14:39:53 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v4] drm/panfrost: Move the GPU reset bits outside the
- timeout handler
-Message-ID: <20201105143953.516e75b2@collabora.com>
-In-Reply-To: <d59e4750-ad1a-5573-16db-ad9b57b6eec5@arm.com>
-References: <20201104170729.1828212-1-boris.brezillon@collabora.com>
- <d59e4750-ad1a-5573-16db-ad9b57b6eec5@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD736ED23;
+ Thu,  5 Nov 2020 13:52:17 +0000 (UTC)
+IronPort-SDR: 5FwFoBLNEIKs+wEZBpFNtxkNgp6Q5RxmaORspUCghtHwxiA6enHs+FxFl4VauUyscbGgdbTZhl
+ jRXH2VO5jahw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="168600972"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="168600972"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 05:52:16 -0800
+IronPort-SDR: 1DabSkTvUv6oDq+nLca8W0Kku9Rm1o/FaM9/mq8xe94KXsbjwCd/UgUlVGYDZuysfr9+Uvdced
+ 26gBJsXKDqHg==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="471655623"
+Received: from unknown (HELO intel.com) ([10.99.66.154])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 05:52:13 -0800
+Date: Thu, 5 Nov 2020 19:22:57 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v4 04/16] drm/i915/hdcp: DP MST transcoder for link and
+ stream
+Message-ID: <20201105135256.GE3242@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
+ <20201027164208.10026-5-anshuman.gupta@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201027164208.10026-5-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,55 +51,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, stable@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCA1IE5vdiAyMDIwIDEzOjI3OjA0ICswMDAwClN0ZXZlbiBQcmljZSA8c3RldmVuLnBy
-aWNlQGFybS5jb20+IHdyb3RlOgoKPiA+ICsJb2xkX3N0YXR1cyA9IGF0b21pY194Y2hnKCZxdWV1
-ZS0+c3RhdHVzLAo+ID4gKwkJCQkgUEFORlJPU1RfUVVFVUVfU1RBVFVTX1NUT1BQRUQpOwo+ID4g
-KwlXQVJOX09OKG9sZF9zdGF0dXMgIT0gUEFORlJPU1RfUVVFVUVfU1RBVFVTX0FDVElWRSAmJgo+
-ID4gKwkJb2xkX3N0YXR1cyAhPSBQQU5GUk9TVF9RVUVVRV9TVEFUVVNfU1RPUFBFRCk7Cj4gPiAr
-CWlmIChvbGRfc3RhdHVzID09IFBBTkZST1NUX1FVRVVFX1NUQVRVU19TVE9QUEVEKQo+ID4gKwkJ
-Z290byBvdXQ7ICAKPiAKPiBOSVQ6IEl0J3Mgc2xpZ2h0bHkgY2xlYW5lciBpZiB5b3Ugc3dhcCB0
-aGUgYWJvdmUgbGluZXMsIGkuZS46Cj4gCj4gCWlmIChvbGRfc3RhdHVzID09IFBBTkZST1NUX1FV
-RVVFX1NUQVRVU19TVE9QUEVEKQo+IAkJZ290byBvdXQ7Cj4gCVdBUk5fT04ob2xkX3N0YXR1cyAh
-PSBQQU5GUk9TVF9RVUVVRV9TVEFUVVNfQUNUSVZFKTsKCkkgYWdyZWUuCgo+IAo+ID4gKwo+ID4g
-Kwlkcm1fc2NoZWRfc3RvcCgmcXVldWUtPnNjaGVkLCBiYWQpOwo+ID4gKwlpZiAoYmFkKQo+ID4g
-KwkJZHJtX3NjaGVkX2luY3JlYXNlX2thcm1hKGJhZCk7Cj4gPiArCj4gPiArCXN0b3BwZWQgPSB0
-cnVlOwo+ID4gKwo+ID4gKwkvKgo+ID4gKwkgKiBTZXQgdGhlIHRpbWVvdXQgdG8gbWF4IHNvIHRo
-ZSB0aW1lciBkb2Vzbid0IGdldCBzdGFydGVkCj4gPiArCSAqIHdoZW4gd2UgcmV0dXJuIGZyb20g
-dGhlIHRpbWVvdXQgaGFuZGxlciAocmVzdG9yZWQgaW4KPiA+ICsJICogcGFuZnJvc3Rfc2NoZWR1
-bGVyX3N0YXJ0KCkpLgo+ID4gKwkgKi8KPiA+ICsJcXVldWUtPnNjaGVkLnRpbWVvdXQgPSBNQVhf
-U0NIRURVTEVfVElNRU9VVDsKPiA+ICsKPiA+ICtvdXQ6Cj4gPiAgIAltdXRleF91bmxvY2soJnF1
-ZXVlLT5sb2NrKTsKPiA+ICAgCj4gPiAgIAlyZXR1cm4gc3RvcHBlZDsKPiA+ICAgfQo+ID4gICAK
-PiA+ICtzdGF0aWMgdm9pZCBwYW5mcm9zdF9zY2hlZHVsZXJfc3RhcnQoc3RydWN0IHBhbmZyb3N0
-X3F1ZXVlX3N0YXRlICpxdWV1ZSkKPiA+ICt7Cj4gPiArCWVudW0gcGFuZnJvc3RfcXVldWVfc3Rh
-dHVzIG9sZF9zdGF0dXM7Cj4gPiArCj4gPiArCW11dGV4X2xvY2soJnF1ZXVlLT5sb2NrKTsKPiA+
-ICsJb2xkX3N0YXR1cyA9IGF0b21pY194Y2hnKCZxdWV1ZS0+c3RhdHVzLAo+ID4gKwkJCQkgUEFO
-RlJPU1RfUVVFVUVfU1RBVFVTX1NUQVJUSU5HKTsKPiA+ICsJaWYgKFdBUk5fT04ob2xkX3N0YXR1
-cyAhPSBQQU5GUk9TVF9RVUVVRV9TVEFUVVNfU1RPUFBFRCkpCj4gPiArCQlnb3RvIG91dDsgIAo+
-IAo+IFRoZSBlcnJvciBoYW5kbGluZyBpc24ndCBncmVhdCBoZXJlIC0gaW4gdGhpcyBjYXNlIHRo
-ZSBxdWV1ZSBzdGF0dXMgaXMgCj4gbGVmdCBpbiBfU1RBVFVTX1NUQVJUSU5HLCB3aGljaCBhdCBi
-ZXN0IHdvdWxkIGxlYWQgdG8gYW5vdGhlciBXQVJOX09OIAo+IGJlaW5nIGhpdCwgYnV0IGFsc28g
-aGFzIHRoZSBlZmZlY3Qgb2YgaWdub3Jpbmcgam9iIGZhdWx0cy4gUHJvYmFibHkgdGhlIAo+IHRp
-bWVvdXQgd291bGQgZXZlbnR1YWxseSBnZXQgdGhpbmdzIGJhY2sgdG8gbm9ybWFsLgo+IAo+IE9i
-dmlvdXNseSB0aGlzIHNpdHVhdGlvbiB3aWxsIG5ldmVyIG9jY3Vy4oSiLCBidXQgd2UgY2FuIGRv
-IGJldHRlciBlaXRoZXIgCj4gYnkgY29udGludWluZyB3aXRoIHRoZSBub3JtYWwgbG9naWMgYmVs
-b3csIG9yIGV2ZW4gYmV0dGVyIHJlcGxhY2luZyAKPiBhdG9taWNfeGNoZygpIHdpdGggYW4gYXRv
-bWljX2NtcHhjaGcoKSAoc28gbGVhdmUgdGhlIHN0YXR1cyBhbG9uZSBpZiBub3QgCj4gX1NUT1BQ
-RUQpLiBCb3RoIHNlZW0gbGlrZSBiZXR0ZXIgZXJyb3IgcmVjb3Zlcnkgb3B0aW9ucyB0byBtZS4g
-QnV0IGtlZXAgCj4gdGhlIFdBUk5fT04gYmVjYXVzZSBzb21ldGhpbmcgaGFzIGNsZWFybHkgZ29u
-ZSB3cm9uZyBpZiB0aGlzIGhhcHBlbnMuCgpUaGUgc2Vjb25kIGFwcHJvYWNoIGRvZXNuJ3QgdW5i
-bG9jayB0aGluZ3MgaWYgd2UgZW5kIHVwIHdpdGgKb2xkX3N0YXR1cyAhPSBTVE9QUEVEIGFuZCB0
-aGUgcXVldWUgaXMgcmVhbGx5IHN0b3BwZWQgKHdoaWNoIHNob3VsZG4ndApoYXBwZW4sIHVubGVz
-cyB3ZSBoYXZlIGEgcHJvYmxlbSBpbiBvdXIgc3RhdGUgbWFjaGluZSkuIEkgdGhpbmsgSSdsbApn
-byBmb3IgdGhlIGZpcnN0IG9wdGlvbiBhbmQgcmVzdGFydCB0aGUgcXVldWUgdW5jb25kaXRpb25h
-bGx5IChJJ20Ka2VlcGluZyB0aGUgV0FSTl9PTigpLCBvZiBjb3Vyc2UpLgpfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 2020-10-27 at 22:11:56 +0530, Anshuman Gupta wrote:
+> Gen12 has H/W delta with respect to HDCP{1.x,2.x} display engine
+> instances lies in Transcoder instead of DDI as in Gen11.
+> 
+> This requires hdcp driver to use mst_master_transcoder for link
+> authentication and stream transcoder for stream encryption
+> separately.
+> 
+> This will be used for both HDCP 1.4 and HDCP 2.2 over DP MST
+> on Gen12.
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c          |  2 +-
+>  .../gpu/drm/i915/display/intel_display_types.h    |  2 ++
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c       |  2 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c         | 15 +++++++++++----
+>  drivers/gpu/drm/i915/display/intel_hdcp.h         |  2 +-
+>  5 files changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 63380b166c25..9fce623e951e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -4059,7 +4059,7 @@ static void intel_enable_ddi(struct intel_atomic_state *state,
+>  	if (conn_state->content_protection ==
+>  	    DRM_MODE_CONTENT_PROTECTION_DESIRED)
+>  		intel_hdcp_enable(to_intel_connector(conn_state->connector),
+> -				  crtc_state->cpu_transcoder,
+> +				  crtc_state,
+>  				  (u8)conn_state->hdcp_content_type);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index f6f0626649e0..c47124a679b6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -432,6 +432,8 @@ struct intel_hdcp {
+>  	 * Hence caching the transcoder here.
+>  	 */
+>  	enum transcoder cpu_transcoder;
+> +	/* Only used for DP MST stream encryption */
+> +	enum transcoder stream_transcoder;
+>  };
+>  
+>  struct intel_connector {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> index c8fcec4d0788..16865b200062 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -568,7 +568,7 @@ static void intel_mst_enable_dp(struct intel_atomic_state *state,
+>  	if (conn_state->content_protection ==
+>  	    DRM_MODE_CONTENT_PROTECTION_DESIRED)
+>  		intel_hdcp_enable(to_intel_connector(conn_state->connector),
+> -				  pipe_config->cpu_transcoder,
+> +				  pipe_config,
+>  				  (u8)conn_state->hdcp_content_type);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index b9d8825e2bb1..fc5de48456ad 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2095,7 +2095,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+>  }
+>  
+>  int intel_hdcp_enable(struct intel_connector *connector,
+> -		      enum transcoder cpu_transcoder, u8 content_type)
+> +		      const struct intel_crtc_state *pipe_config, u8 content_type)
+>  {
+>  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> @@ -2111,10 +2111,17 @@ int intel_hdcp_enable(struct intel_connector *connector,
+>  	drm_WARN_ON(&dev_priv->drm,
+>  		    hdcp->value == DRM_MODE_CONTENT_PROTECTION_ENABLED);
+>  	hdcp->content_type = content_type;
+> -	hdcp->cpu_transcoder = cpu_transcoder;
+> +
+> +	if (intel_crtc_has_type(pipe_config, INTEL_OUTPUT_DP_MST)) {
+> +		hdcp->cpu_transcoder = pipe_config->mst_master_transcoder;
+> +		hdcp->stream_transcoder = pipe_config->cpu_transcoder;
+> +	} else {
+> +		hdcp->cpu_transcoder = pipe_config->cpu_transcoder;
+> +		hdcp->stream_transcoder = INVALID_TRANSCODER;
+> +	}
+>  
+>  	if (INTEL_GEN(dev_priv) >= 12)
+> -		hdcp->port_data.fw_tc = intel_get_mei_fw_tc(cpu_transcoder);
+> +		hdcp->port_data.fw_tc = intel_get_mei_fw_tc(hdcp->cpu_transcoder);
+>  
+>  	/*
+>  	 * Considering that HDCP2.2 is more secure than HDCP1.4, If the setup
+> @@ -2234,7 +2241,7 @@ void intel_hdcp_update_pipe(struct intel_atomic_state *state,
+>  
+>  	if (desired_and_not_enabled || content_protection_type_changed)
+>  		intel_hdcp_enable(connector,
+> -				  crtc_state->cpu_transcoder,
+> +				  crtc_state,
+>  				  (u8)conn_state->hdcp_content_type);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.h b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> index 1bbf5b67ed0a..bc51c1e9b481 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> @@ -25,7 +25,7 @@ void intel_hdcp_atomic_check(struct drm_connector *connector,
+>  int intel_hdcp_init(struct intel_connector *connector, enum port port,
+>  		    const struct intel_hdcp_shim *hdcp_shim);
+>  int intel_hdcp_enable(struct intel_connector *connector,
+> -		      enum transcoder cpu_transcoder, u8 content_type);
+> +		      const struct intel_crtc_state *pipe_config, u8 content_type);
+>  int intel_hdcp_disable(struct intel_connector *connector);
+>  void intel_hdcp_update_pipe(struct intel_atomic_state *state,
+>  			    struct intel_encoder *encoder,
+> -- 
+> 2.26.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
