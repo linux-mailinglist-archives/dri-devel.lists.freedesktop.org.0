@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEE42A74B4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:12:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 107DC2A74C6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:15:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBBD6E8FC;
-	Thu,  5 Nov 2020 01:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F263D6E96B;
+	Thu,  5 Nov 2020 01:15:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1FE6E8FC
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:12:14 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRQV36PYdz9sTK;
- Thu,  5 Nov 2020 12:12:11 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1604538732;
- bh=VAlFI4XMN6eTaAbjjjkOrxdNBpK/KCzOLmOXnS2QvBk=;
- h=Date:From:To:Cc:Subject:From;
- b=MMBFxumTrIHj20xbLZbDa3UmnxiFgqQn3xK5K8668IkhPMQxcrr07aSWqyqyiAWiQ
- mD131Ul2PNPrdSifA25eXK7S8Aidf19UgVpaE5xYCPIRjghb8+P34iRmr2HwcqEGuF
- XO0QZy3Fumg+fsomX3t0qaSmLrG9KYifzXUpZZ0KYk9mpMqfL5RPwek9ByV+Lj1Y2o
- LbVWqxcLpbFXHaIU24aQdq+9DBRhhfZqDMrMo5h2pIYYxaWVQ7XPkH8tkjQ3iiDzmf
- +xrSqNV4onjs0QO5bDIDmZ6N50dbIFyGu2jhPZvww/TcJ7ikIR2HZYpazFA1gAKyHF
- rGyxgAnWhzrzw==
-Date: Thu, 5 Nov 2020 12:12:11 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Dave
- Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-msm tree with the drm tree
-Message-ID: <20201105121211.0342302f@canb.auug.org.au>
-MIME-Version: 1.0
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C32076E96B
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:15:54 +0000 (UTC)
+IronPort-SDR: zh5mwD+A038PVlleIPoxNF8eA4OXpTgSTMXuVFg5wrvBSuxbfSL8smAC++UhLWiuqUC0synPG6
+ bJnWWhZtcGWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="187180136"
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="187180136"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Nov 2020 17:15:53 -0800
+IronPort-SDR: kaYUO6OzPWyiUqKDDsPR1aLO/tcYX6cnkF7eIyvpNzery34S0RiumCn+7iEEBYE+5MoUnMUhNw
+ X9kBcF+0hfKg==
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="471445636"
+Received: from pschung-mobl.amr.corp.intel.com (HELO
+ achrisan-DESK2.amr.corp.intel.com) ([10.255.72.205])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 04 Nov 2020 17:15:53 -0800
+From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	anitha.chrisanthus@intel.com
+Subject: [PATCH v13 0/7] Add support for KeemBay DRM drive
+Date: Wed,  4 Nov 2020 17:15:24 -0800
+Message-Id: <1604538931-26726-1-git-send-email-anitha.chrisanthus@intel.com>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,101 +47,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1610819434=="
+Cc: edmund.j.dea@intel.com, sam@ravnborg.org, narmstrong@baylibre.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1610819434==
-Content-Type: multipart/signed; boundary="Sig_/HKw2_5wHhMEYNQRMrIWYit1";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+This is a new DRM driver for Intel's KeemBay SOC.
+The SoC couples an ARM Cortex A53 CPU with an Intel
+Movidius VPU.
 
---Sig_/HKw2_5wHhMEYNQRMrIWYit1
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This driver is tested with the KMB EVM board which is the reference baord
+for Keem Bay SOC. The SOC's display pipeline is as follows
 
-Hi all,
++--------------+    +---------+    +-----------------------+
+|LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
++--------------+    +---------+    +-----------------------+
 
-Today's linux-next merge of the drm-msm tree got a conflict in:
+LCD controller and Mipi DSI transmitter are part of the SOC and
+mipi to HDMI converter is ADV7535 for KMB EVM board.
 
-  drivers/gpu/drm/msm/msm_drv.h
+The DRM driver is a basic KMS atomic modesetting display driver and
+has no 2D or 3D graphics.It calls into the ADV bridge driver at
+the connector level.
 
-between commit:
+Only 1080p resolution and single plane is supported at this time.
+The usecase is for debugging video and camera outputs.
 
-  3c9edd9c85f5 ("drm/msm: Introduce GEM object funcs")
+Device tree patches are under review here
+https://lore.kernel.org/linux-arm-kernel/20200708175020.194436-1-daniele.alessandrelli@linux.intel.com/T/
 
-from the drm tree and commit:
+Changes since v1:
+- Removed redundant license text, updated license
+- Rearranged include blocks
+- renamed global vars and removed extern in c
+- Used upclassing for dev_private
+- Used drm_dev_init in drm device create
+- minor cleanups
 
-  8f642378bfe5 ("drm/msm/gem: Move prototypes to msm_gem.h")
+Changes since v2:
+- squashed all commits to a single commit
+- logging changed to drm_info, drm_dbg etc.
+- used devm_drm_dev_alloc()
+- removed commented out sections and general cleanup
 
-from the drm-msm tree.
+Changes since v3:
+- renamed dev_p to kmb
+- moved clocks under kmb_clock, consolidated clk initializations
+- use drmm functions
+- use DRM_GEM_CMA_DRIVER_OPS_VMAP
+- more cleanups
 
-I fixed it up (I used the former version of this flie and added the
-following fix patch) and can carry the fix as necessary. This is now fixed
-as far as linux-next is concerned, but any non trivial conflicts should
-be mentioned to your upstream maintainer when your tree is submitted for
-merging.  You may also want to consider cooperating with the maintainer
-of the conflicting tree to minimise any particularly complex conflicts.
+Changes since v4:
+- corrected spellings
 
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-Date: Thu, 5 Nov 2020 12:10:23 +1100
-Subject: [PATCH] drm/msm/gem: fix up for "drm/msm: Introduce GEM object fun=
-cs"
+Changes since v5:
+- corrected checkpatch warnings/checks
+   -Please ignore checkpatch checks on Camelcase - this is how it is
+   named in the databook
+   - Please ignore checkpatch warnings on misspelled for hsa, dout,
+   widthn etc. - they are spelled as in the databook
+   - Please ignore checkpatch checks on macro arguments reuse -
+   its confirmed ok
 
-Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
----
- drivers/gpu/drm/msm/msm_gem.h | 1 -
- 1 file changed, 1 deletion(-)
+Changes since v6:
+- review changes Sam Ravnborg and Thomas Zimmerman
+	split patch into 4 parts, part1 register definitions, part2 display
+	driver files, part3 mipi dsi, part4 build files (Sam)
+	removed kmb_crtc.h kmb_crtc_cleanup (Thomas)
+	renamed mode_set, kmb_load, inlined unload (Thomas)
+	moved remaining logging to drm_*(Thomas)
+	re-orged driver initialization (Thomas)
+	moved plane_status to drm_private (Sam)
+	removed unnecessary logs and defines and ifdef codes (Sam)
+	split dphy_init_sequence smaller (Sam)
+	removed redundant checks in kmb_dsi (Sam)
+	changed kmb_dsi_init to drm_bridge_connector_init and
+	drm_connector_attach_encoder to bridge's connector (Sam)
+	call helper_check in plane_atomic_check (Sam)
+	renamed set to get for bpp and format functions(Sam)
+	use drm helper functions for reset, duplicate/destroy state instead
+	of kmb functions (Sam)
+	removed kmb_priv from kmb_plane and removed kmb_plane_state (Sam)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index d79e7019cc88..9c422af6dd49 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -94,7 +94,6 @@ struct msm_gem_object {
- int msm_gem_mmap_obj(struct drm_gem_object *obj,
- 			struct vm_area_struct *vma);
- int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
--vm_fault_t msm_gem_fault(struct vm_fault *vmf);
- uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
- int msm_gem_get_iova(struct drm_gem_object *obj,
- 		struct msm_gem_address_space *aspace, uint64_t *iova);
---=20
-2.28.0
+Changes since v7:
+- tested with 5.9 kernel and made the following changes
+        get clk_pll0 from display node in dt  
+        call drm_bridge_attach with DRM_BRIDGE_ATTACH_NO_CONNECTOR
+        Also added Maintainer entry	
 
---=20
-Cheers,
-Stephen Rothwell
+Changes since v8:
+	DT review changes (Rob)
+	renamed kmb_dsi_hw_init to kmb_dsi_mode_set (Daniel V)
+	moved csc_coef_lcd to plane.c (Daniel Vetter)
+	call drm_atomic_helper_shutdown in remove (Daniel V)
+	use drm_crtc_handle_vblank (Daniel V)
+	renamed kmb_dsi_hw_init to kmb_dsi_mode_set (Daniel V)
+	complimentary changes to device tree changes (Rob)
+	removed redundant definitions in kmb_dsi.h
 
---Sig_/HKw2_5wHhMEYNQRMrIWYit1
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Changes since v9:
+	Review changes from Sam Ravnborg which are:
+	DT is separated to display and Mipi DSI as per Sam suggestion and the
+	driver has changes to reflect this separation. Also most of the
+	MIPI DSI code is isolated and separated from the main driver, worked 
+	closely with Sam on these changes. This split is to ease review and
+	driver is only buildable after the last patch (build files).
 
------BEGIN PGP SIGNATURE-----
+	call drm_crtc_arm_vblank_event in atomic_flush (Daniel V)
+	moved global vars to kmb_private and added locks (Daniel V)
+	added comments to clarify empty dsi host functions (Daniel V)
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jUWsACgkQAVBC80lX
-0GwljwgAgw+7BqWWL4s+lxlnRO5JkJ0kfD5PZczl0mjQsZjICkodrG48KQiBwyBe
-PH0Y+CY/+TrdT1kB1F/tMMsgrLvhcT8w3K6qdN0iIozM1WPvM4my5Qs7mYPtGSwH
-nV/dwgvSCC5uQ5QN6oHimHVYYa6qMNusyHZXrWQz0m5gDjoPNvhC6UkERLaeZfQL
-QhqK11jPUI7PN37Wa+GWtfAVFmL5bqvBUfJkH+4ERSLnCNL2tlNvYC/47/Zbv/cR
-7lYvlhnLtK8iaEgnFLdKNY3NnD8+NhoSCdxp5rK3I7Ud09+Y29t9qMTpzCwbnGpE
-fh6pcm7JVax67YvTRFgtqU1k+X0HCQ==
-=DGF6
------END PGP SIGNATURE-----
+Changes since v10:
+	Created separate DT binding for msscam as syscon(Neil Armstrong, Sam)
+	Msscam is used for clocks and also for connecting mipi and lcd.
+	Corresponding driver changes for the above change (Neil Armstrong, Sam)
+	corrected description for port in dsi DT bindings file
+	updated reviewed by in commits.
 
---Sig_/HKw2_5wHhMEYNQRMrIWYit1--
+Changes since v11:
+	corrected compatible in msscam dt bindings and added description
+	(Sam R)
 
---===============1610819434==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Changes since v12:
+	Fixed warnings Reported-by: kernel test robot <lkp@intel.com>
+
+Anitha Chrisanthus (7):
+  dt-bindings: display: Add support for Intel KeemBay Display
+  dt-bindings: display: Intel KeemBay MSSCAM
+  dt-bindings: display: bridge: Intel KeemBay DSI
+  drm/kmb: Keem Bay driver register definition
+  drm/kmb: Add support for KeemBay Display
+  drm/kmb: Mipi DSI part of the display driver
+  drm/kmb: Build files for KeemBay Display driver
+
+ .../bindings/display/bridge/intel,keembay-dsi.yaml |  101 ++
+ .../bindings/display/intel,keembay-display.yaml    |   72 +
+ .../bindings/display/intel,keembay-msscam.yaml     |   43 +
+ MAINTAINERS                                        |    7 +
+ drivers/gpu/drm/Kconfig                            |    2 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/kmb/Kconfig                        |   12 +
+ drivers/gpu/drm/kmb/Makefile                       |    2 +
+ drivers/gpu/drm/kmb/kmb_crtc.c                     |  214 +++
+ drivers/gpu/drm/kmb/kmb_drv.c                      |  602 ++++++++
+ drivers/gpu/drm/kmb/kmb_drv.h                      |   88 ++
+ drivers/gpu/drm/kmb/kmb_dsi.c                      | 1561 ++++++++++++++++++++
+ drivers/gpu/drm/kmb/kmb_dsi.h                      |  387 +++++
+ drivers/gpu/drm/kmb/kmb_plane.c                    |  490 ++++++
+ drivers/gpu/drm/kmb/kmb_plane.h                    |   99 ++
+ drivers/gpu/drm/kmb/kmb_regs.h                     |  725 +++++++++
+ 16 files changed, 4406 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-display.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
+ create mode 100644 drivers/gpu/drm/kmb/Kconfig
+ create mode 100644 drivers/gpu/drm/kmb/Makefile
+ create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
+ create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
+ create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
+
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1610819434==--
