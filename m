@@ -2,31 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 324892A7E51
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A2F2A7E5C
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E07F76EB63;
-	Thu,  5 Nov 2020 12:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8516E17C;
+	Thu,  5 Nov 2020 12:12:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B618C6EB63
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:08:34 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 68679AAF1;
- Thu,  5 Nov 2020 12:08:33 +0000 (UTC)
-Subject: Re: [PATCH] drm/ast: Fixed 1920x1080 sync. polarity issue
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org
-References: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f9b658a6-8a4d-d512-de90-897af7a6d90d@suse.de>
-Date: Thu, 5 Nov 2020 13:08:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387A16E17C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:12:19 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id o18so1279009edq.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 04:12:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Du8fC+gRancvFUthKIqKD7VZpc2/xcvkbUCujBz6ve0=;
+ b=jeIaA8pddsCKr/4TbGW2tGtBZqPvc5nYlJMqA8+d/8biwE5EOIeoPItWPVTzl4ukd2
+ V3cKwgu34Gg7unM5/cKm2A+w5ZSKJm3J0aL0meC7gFtiOB2WcSeK5LPG7M6dKPTUYqE+
+ EXjeauLOrxNO6FjUVLB4wo2YI6guyq197HlaodWHVFlRSd65cGDHNGnCei04dex0xABM
+ FbsC6Q9yVlJ6Xc2g19aOkfBnHAmo6VGXJGBHQfguBzOQXmYUZa04yM1wipeOM2s3ojCg
+ 6g50szvjVIK7LbTMfYi70/vJwpN4izi375i6SVXdyS1yFdRLQZdLTvCVVmEwgZpWepXR
+ 9QoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=Du8fC+gRancvFUthKIqKD7VZpc2/xcvkbUCujBz6ve0=;
+ b=cA/AO5JLQimdj0SBNobOS2nwia4TY2etWYzprEXxyZHA11z+6Ubd/EZBwEVGuqbVIb
+ cpM5IAMxOH4IS8oR9+TnpgvzpkMQzAeXLTSKZ2RyXZXiwwmsooaPBj9BBtzu4SK5oBR5
+ pROH27kGBdxM0ec4WQgaRFKaCFQ2O+f7+MFvmHn+7ydWvRiLGxjN9peVhhNyLpdntiZR
+ 9Upa/xn9KPGBOwoKvM8WaMeX0C+fm3TtKSHcnVgcMpBZ9AG9pcNMDaRdL8hv4XBgu6I4
+ uGGUUIZtgIDdcE7w5qcR3jUMQ2CFO95+GDR8uNWafb7MGM7+5yxJLirTKWtpFQfhJZ53
+ QXvw==
+X-Gm-Message-State: AOAM532eizfIzjBblcB9UhjBJdp1S8p31SDNUlRU3HaOL/pireMde2UY
+ dDNmPFNpQItccbUHI3iaguSPN+jaq7g=
+X-Google-Smtp-Source: ABdhPJwnPWqSmJsFzBNRKKc2lNzS8LeTKD54VGIJUlsYh3puPyI0Z0Kll96Fjd8HnR6NHMKjAw9Cbg==
+X-Received: by 2002:a50:9e86:: with SMTP id a6mr2180220edf.238.1604578337608; 
+ Thu, 05 Nov 2020 04:12:17 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id b1sm835794ejg.60.2020.11.05.04.12.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 04:12:17 -0800 (PST)
+Subject: Re: [PATCH 1/4] drm/radeon: stop using pages with
+ drm_prime_sg_to_page_addr_arrays
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20201104130024.264974-1-christian.koenig@amd.com>
+ <20201104173800.GP401619@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <c34c56ad-9a02-46be-2c58-0b2d42d86b5c@gmail.com>
+Date: Thu, 5 Nov 2020 13:12:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <20201104173800.GP401619@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,271 +72,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jenmin_yuan@aspeedtech.com, eich@suse.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============1317991197=="
+Reply-To: christian.koenig@amd.com
+Cc: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1317991197==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QTGJ7hVIi32qPJ88kHkcGcKTcuyacB2dp"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QTGJ7hVIi32qPJ88kHkcGcKTcuyacB2dp
-Content-Type: multipart/mixed; boundary="BUUFeTFGfyviyxzSlzS1DqIV6wfFiQAQh";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org
-Cc: eich@suse.com, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
-Message-ID: <f9b658a6-8a4d-d512-de90-897af7a6d90d@suse.de>
-Subject: Re: [PATCH] drm/ast: Fixed 1920x1080 sync. polarity issue
-References: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
-
---BUUFeTFGfyviyxzSlzS1DqIV6wfFiQAQh
-Content-Type: multipart/mixed;
- boundary="------------FC9BE3FD24159EB38A32B54A"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------FC9BE3FD24159EB38A32B54A
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-please follow the advise we're giving you. Had you run
-scripts/checkpatch.pl on the patch file it would have told you
-
-<<<
-ERROR: patch seems to be corrupt (line wrapped?)
-#102: FILE: drivers/gpu/drm/ast/ast_tables.h:294:
-
-
-ERROR: DOS line endings
-#106: FILE: drivers/gpu/drm/ast/ast_tables.h:297:
-+^I (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |=
-^M$
-
-ERROR: DOS line endings
-#110: FILE: drivers/gpu/drm/ast/ast_tables.h:300:
-+^I (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |=
-^M$
-
-total: 3 errors, 0 warnings, 19 lines checked
->>>
-
-As said before, the mail eich@suse.de is still not relevant any longer.
-But you did not add Daniel into CC. Did you run scripts/get_maintainers.p=
-l?
-
-Best regards
-Thomas
-
-Am 05.11.20 um 10:47 schrieb KuoHsiang Chou:
-> [Bug] Change the vertical synchroous polary of 1920x1080 @60Hz
->       from  Negtive to Positive
->=20
-> Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-> ---
->  drivers/gpu/drm/ast/ast_tables.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast=
-_tables.h
-> index 8414e543f260..51efc5b4a55c 100644
-> --- a/drivers/gpu/drm/ast/ast_tables.h
-> +++ b/drivers/gpu/drm/ast/ast_tables.h
-> @@ -295,10 +295,10 @@ static const struct ast_vbios_enhtable res_1600x9=
-00[] =3D {
->=20
->  static const struct ast_vbios_enhtable res_1920x1080[] =3D {
->  	{2200, 1920, 88, 44, 1125, 1080, 4, 5, VCLK148_5,	/* 60Hz */
-> -	 (SyncNP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo =
-|
-> +	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo =
-|
->  	  AST2500PreCatchCRT), 60, 1, 0x38 },
->  	{2200, 1920, 88, 44, 1125, 1080, 4, 5, VCLK148_5,	/* 60Hz */
-> -	 (SyncNP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo =
-|
-> +	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo =
-|
->  	  AST2500PreCatchCRT), 0xFF, 1, 0x38 },
->  };
->=20
-> --
-> 2.18.4
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------FC9BE3FD24159EB38A32B54A
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
-gUC
-WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
-IiL
-+he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
-42f
-CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
-Urj
-EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
-45N
-GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
-Tpy
-Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
-u5r
-A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-c0n
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
-AcC
-BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
-VML
-eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
-5cd
-lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
-PHE
-flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
-eSL
-ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
-VEI
-7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
-Y5q
-LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
-FwE
-Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
-gkQ
-qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
-NGq
-DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
-Yor
-RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
-qPS
-5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
-3sb
-QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
-bex
-nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
-a2g
-Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
-iPI
-FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
-i3V
-4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
-Tri
-AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
-UAg
-iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
-E9e
-osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
-bU6
-3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
-KdD
-egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
-NFM
-AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
-AQY
-AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
-fcI
-AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
-FDj
-55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
-hBE
-jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
-2y3
-ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
-sZv
-yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
-=3DmxFq
------END PGP PUBLIC KEY BLOCK-----
-
---------------FC9BE3FD24159EB38A32B54A--
-
---BUUFeTFGfyviyxzSlzS1DqIV6wfFiQAQh--
-
---QTGJ7hVIi32qPJ88kHkcGcKTcuyacB2dp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+j60AFAwAAAAAACgkQaA3BHVMLeiMM
-Qgf/aVE4OlzAEeNbEujw+wjaRKA6GOzO/7ontpD1x/0t9pATpVeBxoyZcqe7Ls93i3FIQFDpx4hu
-vn+5xNlXEtrF70Yp5cPRQ3X0Cqo65yG1/soEmL1EYos0ueb9esbnXJOSuiIboBdLo0kd/76e6sq8
-zqXr7mc1o0tSRbMcolBhHfOLLqCshYiYUBlkabXrc1kPxmIJPz+FJTfVSR7Xdz5QhjxaqFMViGZA
-z/u8XZKeAoh2H5Ua3GkA8eXtewxOSzljrNIXH1imp1Id0O/m+d+vtVzj2ZQiSzbi69txCOAfGXkU
-8i3zsEBt9X67AmFIE7fyJN7iPOpdEEZhEErQOxwThw==
-=6thV
------END PGP SIGNATURE-----
-
---QTGJ7hVIi32qPJ88kHkcGcKTcuyacB2dp--
-
---===============1317991197==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1317991197==--
+QW0gMDQuMTEuMjAgdW0gMTg6Mzggc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgTm92
+IDA0LCAyMDIwIGF0IDAyOjAwOjIxUE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
+IFRoaXMgaXMgZGVwcmVjYXRlZC4KPj4KPj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5p
+ZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IFNvIEkgdHJpZWQgdG8gcHJvdmUgdG8gbXlz
+ZWxmIHRoYXQgdHRtIGRvZXNuJ3QgYWNjZXNzIC0+cGFnZXMgZm9yIHRoZXNlCj4gY2FzZXMsIGFu
+ZCBraW5kYSBjb3VsZG4ndC4gV2Ugc3RpbGwgc2VlbSB0byBhbGxvY2F0ZSB0aGUgcGFnZXMgYXJy
+YXkgYW5kCj4gYWxsIHRoYXQsIGFuZCB0aGVyZSdzIGxvdHMgb2YgY29kZSB1c2luZyAtPnBhZ2Vz
+IGFsbCBvdmVyLiBBbmQgYmV0d2Vlbgo+IHR0bV9ib190eXBlX3NnIGFuZCBUVE1fUEFHRV9GTEFH
+X1NHIEkgZGlkbid0IG1hbmFnZSB0byBjaGFzZSBhIHdob2xlIGxvdAo+IG9mIHBhdGhzIHRvIHRo
+ZWlyIGZ1bGwgY29uY2x1c2lvbi4KCk5vcGUsIHNlZSB0aGUgYW1kZ3B1IGNvZGU6Cgo+IGlmICh0
+dG1fc2dfdHRfaW5pdCgmZ3R0LT50dG0sIGJvLCBwYWdlX2ZsYWdzLCBjYWNoaW5nKSkgewoKQW5k
+IHRoZW4gd2hhdCB0dG1fc2dfdHRfaW5pdCgpIGRvZXM6Cgo+IMKgwqDCoMKgwqDCoMKgIGlmIChw
+YWdlX2ZsYWdzICYgVFRNX1BBR0VfRkxBR19TRykKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgcmV0ID0gdHRtX3NnX3R0X2FsbG9jX3BhZ2VfZGlyZWN0b3J5KHR0bSk7Cj4gwqDCoMKg
+wqDCoMKgwqAgZWxzZQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXQgPSB0dG1f
+ZG1hX3R0X2FsbG9jX3BhZ2VfZGlyZWN0b3J5KHR0bSk7CgpBbmQgdGhlbiBmaW5hbGx5IHdoYXQg
+dHRtX3NnX3R0X2FsbG9jX3BhZ2VfZGlyZWN0b3J5KCkgZG9lczoKCnR0bS0+ZG1hX2FkZHJlc3Mg
+PSBrdm1hbGxvY19hcnJheSh0dG0tPm51bV9wYWdlcywuLi4uCgp0dG0tPnBhZ2VzIHNob3VsZCBi
+ZSBOVUxMIGluIHRoaXMgY2FzZSBpZiBJJ20gbm90IGNvbXBsZXRlbHkgbWlzdGFrZW4uCgpGb3Ig
+b3IgaW1wb3J0ZWQgRE1BLWJ1ZiBzIHdlIHNob3VsZG4ndCBoYXZlIGEgdHRtLT5wYWdlcyBpbiBh
+bWRncHUgZm9yIApxdWl0ZSBhIHdoaWxlIGFuZCB0aGF0IHdvcmtzIHBlcmZlY3RseSBmaW5lLgoK
+CgoKPiBTbyBJIHJlZHVjZWQgbXkgYW1iaXRpb25zIGFuZCB3YW50ZWQgdG8gcHJvdmUgdGhhdCBh
+dCBsZWFzdCBmb3IgZG1hLWJ1Zgo+IGltcG9ydHMgYWthIHR0bV9ib190eXBlX3NnLCB3ZSdyZSBn
+dWFyYW50ZWVkIHRoYXQgd2UgZG9uJ3QgdHJ5IHRvIG1tYXAKPiB0aGVzZSB0byB1c2Vyc3BhY2Uu
+IEFuZCBhbHNvIGZhaWxlZCB0byBmaW5kIHRoYXQgY2hlY2suCgpTZWUgdHRtX2JvX3ZtX3Jlc2Vy
+dmUoKToKPiDCoMKgwqDCoMKgwqDCoCAvKgo+IMKgwqDCoMKgwqDCoMKgwqAgKiBSZWZ1c2UgdG8g
+ZmF1bHQgaW1wb3J0ZWQgcGFnZXMuIFRoaXMgc2hvdWxkIGJlIGhhbmRsZWQKPiDCoMKgwqDCoMKg
+wqDCoMKgICogKGlmIGF0IGFsbCkgYnkgcmVkaXJlY3RpbmcgbW1hcCB0byB0aGUgZXhwb3J0ZXIu
+Cj4gwqDCoMKgwqDCoMKgwqDCoCAqLwo+IMKgwqDCoMKgwqDCoMKgIGlmIChiby0+dHRtICYmIChi
+by0+dHRtLT5wYWdlX2ZsYWdzICYgVFRNX1BBR0VfRkxBR19TRykpIHsKPiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgZG1hX3Jlc3ZfdW5sb2NrKGJvLT5iYXNlLnJlc3YpOwo+IMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gVk1fRkFVTFRfU0lHQlVTOwo+IMKgwqDC
+oMKgwqDCoMKgIH0KCgo+IGJ0dyB0aGlzIGlzIGFjcm9zcyBhbGwgZHJpdmVycywgbW9zdGx5IHR0
+bSBjb2RlLCBub3QgcmFkZW9uIHNwZWNpZmljLgoKV2VsbCBpbnN0ZWFkIG9mIHRob3NlIHBhdGNo
+ZXMgd2UgY291bGQgYXMgd2VsbCBzd2l0Y2ggb3ZlciByYWRlb24gYW5kIApub3V2ZWF1IHRvIHVz
+aW5nIHR0bV9zZ190dF9pbml0KCkgYXMgd2VsbCAob3IgbWVyZ2UgdHRtX3NnX3R0X2luaXQoKSAK
+aW50byB0dG1fZG1hX3R0X2luaXQpLgoKVGhhdCdzIHByb2JhYmx5IHRoZSBtdWNoIGNsZWFuZXIg
+YXBwcm9hY2gsIGJ1dCB3aGVuIEkgd3JvdGUgCnR0bV9zZ190dF9pbml0KCkgSSB3YXNuJ3Qgc3Vy
+ZSBpZiByYWRlb24vbm91dmVhdSB3aGVyZSB1c2luZyB0dG0tPnBhZ2VzIApmb3Igc29tZXRoaW5n
+LCBlLmcuIGJhc2ljYWxseSB0aGUgc2FtZSBjb25jZXJuIHlvdSBoYXZlLgoKUmVnYXJkcywKQ2hy
+aXN0aWFuLgoKPiBTbyBjb25jbHVzaW9uLCBzdGlsbCBhIG1lc3MgaGVyZSB0aGF0IGF0IGxlYXN0
+IEkgY2FuJ3Qgc2VlIHRocm91ZyBjbGVhcmx5Cj4gOi0vIGhlcmUgPSB0dG1fdHQgYW5kIHRoZSBl
+bnRpcmUgYmFja2luZyBzdG9yYWdlIGhhbmRsaW5nIGFuZCBldmVyeXRoaW5nCj4gdGhhdCB0aWVz
+IGludG8gaXQuIFByb2JhYmx5IHRoZSBhcmVhIHRoYXQgc3RpbGwgaGFzIHRoZSBtb3N0IG1pZGxh
+eWVyIGZlZWwKPiB0byB0dG0gd2l0aCBhbGwgdGhlIHJlZmFjdG9yaW5nIGluLWZsaWdodCBpbiBz
+dGlsbC4KPgo+IHRsZHI7IHRyaWVkIHRvIHJldmlldyBwYXRjaGVzIDEtMywgZ2F2ZSB1cC4KPgo+
+IENoZWVycywgRGFuaWVsCj4KPj4gLS0tCj4+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fdHRtLmMgfCA5ICsrKysrLS0tLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMo
+KyksIDQgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4+
+IGluZGV4IDk1MDM4YWMzMzgyZS4uZjQxZmNlZTM1ZjcwIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl90dG0uYwo+PiBAQCAtNDk0LDggKzQ5NCw4IEBAIHN0YXRpYyBpbnQgcmFkZW9u
+X3R0bV90dF9waW5fdXNlcnB0cihzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0
+bV90dCAqCj4+ICAgCWlmIChyKQo+PiAgIAkJZ290byByZWxlYXNlX3NnOwo+PiAgIAo+PiAtCWRy
+bV9wcmltZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzKHR0bS0+c2csIHR0bS0+cGFnZXMsCj4+IC0J
+CQkJCSBndHQtPnR0bS5kbWFfYWRkcmVzcywgdHRtLT5udW1fcGFnZXMpOwo+PiArCWRybV9wcmlt
+ZV9zZ190b19wYWdlX2FkZHJfYXJyYXlzKHR0bS0+c2csIE5VTEwsIGd0dC0+dHRtLmRtYV9hZGRy
+ZXNzLAo+PiArCQkJCQkgdHRtLT5udW1fcGFnZXMpOwo+PiAgIAo+PiAgIAlyZXR1cm4gMDsKPj4g
+ICAKPj4gQEAgLTY3Myw4ICs2NzMsOSBAQCBzdGF0aWMgaW50IHJhZGVvbl90dG1fdHRfcG9wdWxh
+dGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4+ICAgCX0KPj4gICAKPj4gICAJaWYgKHNs
+YXZlICYmIHR0bS0+c2cpIHsKPj4gLQkJZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMo
+dHRtLT5zZywgdHRtLT5wYWdlcywKPj4gLQkJCQkJCSBndHQtPnR0bS5kbWFfYWRkcmVzcywgdHRt
+LT5udW1fcGFnZXMpOwo+PiArCQlkcm1fcHJpbWVfc2dfdG9fcGFnZV9hZGRyX2FycmF5cyh0dG0t
+PnNnLCBOVUxMLAo+PiArCQkJCQkJIGd0dC0+dHRtLmRtYV9hZGRyZXNzLAo+PiArCQkJCQkJIHR0
+bS0+bnVtX3BhZ2VzKTsKPj4gICAJCXJldHVybiAwOwo+PiAgIAl9Cj4+ICAgCj4+IC0tIAo+PiAy
+LjI1LjEKPj4KPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KPj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
+aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
