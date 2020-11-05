@@ -1,55 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338222A88E6
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:24:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 364992A88EE
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48E656EDE3;
-	Thu,  5 Nov 2020 21:24:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 975C56EDE8;
+	Thu,  5 Nov 2020 21:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B736EDE3
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:24:26 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id i19so4714962ejx.9
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 13:24:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anholt-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/CmC9JRSxb82iC3NFWklCniKS4R8CJ6nnXYdYjWbKG4=;
- b=Gu7+TyJ688oibw+cHrS74PBGNS0GtLy+PisuwisCbxkYaseX4DZlsdutLz7W8K5SS2
- in4GFolf+Iy/yjdJ3fECM8Hm8BklJQrL0pME2i0mNXsmESjCW9YqRpfStnTGsvKMK9Rk
- 2z85IrNT4fQH1hM8VBalwiVtlpvYXu2MYDHtvjoKL4txAqGIDPrTsgyJu100+Y1+kcv8
- PQfNaHkx5Fxr9CoQ1ZdGYyzZ1lJ/aEXSwP+AafRkrHzgvfhZI9LkI+SeYrCKYPHTr8Iq
- fwBUh6SIrR0GNB8g4ipjd3bFZ9WoStoUoszM3Np69V+PmgGrO6qU3Dyh3Eo2xb5Z2R+X
- e0Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/CmC9JRSxb82iC3NFWklCniKS4R8CJ6nnXYdYjWbKG4=;
- b=pqfQLJGFPPn+pQm4ARLLjX5HtGA89ApgS/IUq5p03Op6BJ5E+qJOAgEnXGv+nH8gSq
- GodXh/ZIBLE3epn3Psy7/CXfbHynOgyvtaT0AaSw7M36szERkAKQ0+pmklJ6tB80OtR7
- WqO50OG5WBzqwX2OEt0pnXKRyXj/gPTt7ggNFTN6FwL8ZUs5iWwHEMyL7jqWvgaRDilj
- J3FX3nXYGaweu3G8ExnG8j0e6rSwm9T+emJihjJW2xHsCSjbX93NwUrqhGIf8fTXCVG8
- psGpw+kzgdngRaY9GWjEPOvgAnjXKx+C14AG0vx0SRFXXZeqNmRnSUcspr6h9GcrePaU
- Ue1w==
-X-Gm-Message-State: AOAM533ankyRVtID5QR+GbaGszA8esaeZngg7xB8j8mSQBKTlBxvbzQ+
- ZONpK8+iUfLRHgBcCSleVIE5oNyetp3r1k9GzvMvnA==
-X-Google-Smtp-Source: ABdhPJx0DFrV0/mwAVfKrG+W1lq3sodrLoxq3Xxf3TvVGR/66t+GtgFx0Gvb8DhweojXV1j9SqxoNacoODMAJnEaCZc=
-X-Received: by 2002:a17:906:c186:: with SMTP id
- g6mr4058283ejz.465.1604611465021; 
- Thu, 05 Nov 2020 13:24:25 -0800 (PST)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEDE96EDE4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:27:48 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B3F8B2006D;
+ Thu,  5 Nov 2020 22:27:45 +0100 (CET)
+Date: Thu, 5 Nov 2020 22:27:44 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 02/56] Revert "drm/omap: dss: Remove unused
+ omap_dss_device operations"
+Message-ID: <20201105212744.GF216923@ravnborg.org>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-3-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-References: <20201105202135.GA145111@localhost>
-In-Reply-To: <20201105202135.GA145111@localhost>
-From: Eric Anholt <eric@anholt.net>
-Date: Thu, 5 Nov 2020 13:24:14 -0800
-Message-ID: <CADaigPXM8NAZFAydXwcZt7ie_aK1aO8C=jqssA375sCMgU_gHw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/vc4: replace idr_init() by idr_init_base()
-To: Deepak R Varma <mh12gx2825@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201105120333.947408-3-tomi.valkeinen@ti.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=QX4gbG5DAAAA:8 a=sozttTNsAAAA:8 a=e5mUnYsNAAAA:8
+ a=jrfjWRLVDfXNLIWa_mMA:9 a=CjuIK1q_8ugA:10 a=AbAUZ8qAyYyZVLSsDulk:22
+ a=aeg5Gbbo78KNqacMgKqU:22 a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,52 +46,200 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 5, 2020 at 12:21 PM Deepak R Varma <mh12gx2825@gmail.com> wrote:
->
-> idr_init() uses base 0 which is an invalid identifier for this driver.
-> The idr_alloc for this driver uses VC4_PERFMONID_MIN as start value for
-> ID range and it is #defined to 1. The new function idr_init_base allows
-> IDR to set the ID lookup from base 1. This avoids all lookups that
-> otherwise starts from 0 since 0 is always unused / available.
->
-> References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
->
-> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+Hi Tomi
+
+On Thu, Nov 05, 2020 at 02:02:39PM +0200, Tomi Valkeinen wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> This reverts commit 4ff8e98879e6eeae9d125dfcf3b642075d00089d.
+
+Please use proper commit reference like:
+2f62f4990dca ("gpu: drm: bridge: bla bla)
+
+The above commit-id does not exist in my drm-misc-next tree.
+
+	Sam
+
+> 
+> This is still needed by DSI. E.g. unloading modules without this will
+> cause a crash.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
-> Changes since v1:
->    - Change suggested by Eric Anholt
->      1. Use VC4_PERFMONID_MIN instead of magic number 1
->
->  drivers/gpu/drm/vc4/vc4_perfmon.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> index f4aa75efd16b..18abc06335c1 100644
-> --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-> +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-> @@ -77,7 +77,7 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
->  void vc4_perfmon_open_file(struct vc4_file *vc4file)
->  {
->         mutex_init(&vc4file->perfmon.lock);
-> -       idr_init(&vc4file->perfmon.idr);
-> +       idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
+>  drivers/gpu/drm/omapdrm/dss/base.c     | 26 +++++++++++++++
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h  |  6 ++++
+>  drivers/gpu/drm/omapdrm/omap_encoder.c | 44 +++++++++++++++++++++++---
+>  3 files changed, 71 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+> index c7650a7c155d..455b410f7401 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/base.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/base.c
+> @@ -234,6 +234,18 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
 >  }
->
->  static int vc4_perfmon_idr_del(int id, void *elem, void *data)
-> --
-> 2.25.1
-
-Reviewed-by: Eric Anholt <eric@anholt.net>
-
-hopefully Maxime can apply it.
+>  EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
+>  
+> +void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
+> +{
+> +	if (!dssdev)
+> +		return;
+> +
+> +	omapdss_device_pre_enable(dssdev->next);
+> +
+> +	if (dssdev->ops && dssdev->ops->pre_enable)
+> +		dssdev->ops->pre_enable(dssdev);
+> +}
+> +EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
+> +
+>  void omapdss_device_enable(struct omap_dss_device *dssdev)
+>  {
+>  	if (!dssdev)
+> @@ -260,6 +272,20 @@ void omapdss_device_disable(struct omap_dss_device *dssdev)
+>  }
+>  EXPORT_SYMBOL_GPL(omapdss_device_disable);
+>  
+> +void omapdss_device_post_disable(struct omap_dss_device *dssdev)
+> +{
+> +	if (!dssdev)
+> +		return;
+> +
+> +	if (dssdev->ops && dssdev->ops->post_disable)
+> +		dssdev->ops->post_disable(dssdev);
+> +
+> +	omapdss_device_post_disable(dssdev->next);
+> +
+> +	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
+> +}
+> +EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Components Handling
+>   */
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index ab19d4af8de7..cbbe10b2b60d 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -342,11 +342,15 @@ struct omap_dss_device_ops {
+>  	void (*disconnect)(struct omap_dss_device *dssdev,
+>  			struct omap_dss_device *dst);
+>  
+> +	void (*pre_enable)(struct omap_dss_device *dssdev);
+>  	void (*enable)(struct omap_dss_device *dssdev);
+>  	void (*disable)(struct omap_dss_device *dssdev);
+> +	void (*post_disable)(struct omap_dss_device *dssdev);
+>  
+>  	int (*check_timings)(struct omap_dss_device *dssdev,
+>  			     struct drm_display_mode *mode);
+> +	void (*set_timings)(struct omap_dss_device *dssdev,
+> +			    const struct drm_display_mode *mode);
+>  
+>  	int (*get_modes)(struct omap_dss_device *dssdev,
+>  			 struct drm_connector *connector);
+> @@ -445,8 +449,10 @@ int omapdss_device_connect(struct dss_device *dss,
+>  			   struct omap_dss_device *dst);
+>  void omapdss_device_disconnect(struct omap_dss_device *src,
+>  			       struct omap_dss_device *dst);
+> +void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
+>  void omapdss_device_enable(struct omap_dss_device *dssdev);
+>  void omapdss_device_disable(struct omap_dss_device *dssdev);
+> +void omapdss_device_post_disable(struct omap_dss_device *dssdev);
+>  
+>  int omap_dss_get_num_overlay_managers(void);
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+> index ae4b867a67a3..18a79dde6815 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_encoder.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+> @@ -113,8 +113,13 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+>  	bus_flags = connector->display_info.bus_flags;
+>  	omap_encoder_update_videomode_flags(&vm, bus_flags);
+>  
+> -	/* Set timings for the dss manager. */
+> +	/* Set timings for all devices in the display pipeline. */
+>  	dss_mgr_set_timings(output, &vm);
+> +
+> +	for (dssdev = output; dssdev; dssdev = dssdev->next) {
+> +		if (dssdev->ops && dssdev->ops->set_timings)
+> +			dssdev->ops->set_timings(dssdev, adjusted_mode);
+> +	}
+>  }
+>  
+>  static void omap_encoder_disable(struct drm_encoder *encoder)
+> @@ -127,10 +132,26 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
+>  
+>  	/*
+>  	 * Disable the chain of external devices, starting at the one at the
+> -	 * internal encoder's output. This is used for DSI outputs only, as
+> -	 * dssdev->next is NULL for all other outputs.
+> +	 * internal encoder's output.
+>  	 */
+>  	omapdss_device_disable(dssdev->next);
+> +
+> +	/*
+> +	 * Disable the internal encoder. This will disable the DSS output. The
+> +	 * DSI is treated as an exception as DSI pipelines still use the legacy
+> +	 * flow where the pipeline output controls the encoder.
+> +	 */
+> +	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
+> +		if (dssdev->ops && dssdev->ops->disable)
+> +			dssdev->ops->disable(dssdev);
+> +		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
+> +	}
+> +
+> +	/*
+> +	 * Perform the post-disable operations on the chain of external devices
+> +	 * to complete the display pipeline disable.
+> +	 */
+> +	omapdss_device_post_disable(dssdev->next);
+>  }
+>  
+>  static void omap_encoder_enable(struct drm_encoder *encoder)
+> @@ -141,10 +162,23 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
+>  
+>  	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
+>  
+> +	/* Prepare the chain of external devices for pipeline enable. */
+> +	omapdss_device_pre_enable(dssdev->next);
+> +
+> +	/*
+> +	 * Enable the internal encoder. This will enable the DSS output. The
+> +	 * DSI is treated as an exception as DSI pipelines still use the legacy
+> +	 * flow where the pipeline output controls the encoder.
+> +	 */
+> +	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
+> +		if (dssdev->ops && dssdev->ops->enable)
+> +			dssdev->ops->enable(dssdev);
+> +		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
+> +	}
+> +
+>  	/*
+>  	 * Enable the chain of external devices, starting at the one at the
+> -	 * internal encoder's output. This is used for DSI outputs only, as
+> -	 * dssdev->next is NULL for all other outputs.
+> +	 * internal encoder's output.
+>  	 */
+>  	omapdss_device_enable(dssdev->next);
+>  }
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
