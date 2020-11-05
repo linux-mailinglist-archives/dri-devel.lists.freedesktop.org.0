@@ -1,61 +1,93 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AAB2A82F7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:04:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156342A82FC
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:05:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6987889E63;
-	Thu,  5 Nov 2020 16:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A93289EAE;
+	Thu,  5 Nov 2020 16:05:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B377D89E63
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 16:04:23 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id b8so2395650wrn.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 08:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=VcuY/RzcpJ0olMhxSXtpGPMG2H908/GLW/LWmg7t6b0=;
- b=lfuPJZBbMyVK0CcJ6ftD+6GrbhTuzwodsmeaGTgRwLYLZz37EM5CiL81EgMqpzDRcv
- d5XgYbj/VNCivQyA85JwsWxVWl+Yu0lZ5/syWxjoCPS76IaeaVoDJARViNIVBk+Ud9QV
- CrO4jQPvklso02k0vOPOs9UOsCM6/uEUdq9W8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=VcuY/RzcpJ0olMhxSXtpGPMG2H908/GLW/LWmg7t6b0=;
- b=ZPU2KIuUfaP0Un27sQ3alV+UBnE0p/q45xchpBLZtGjLr5ik2onL+TFXOf2cmnxeb+
- I1JOlTR9iq83hHR+gNk4JQYhLwZvB5HBZfYCq3+HTBwqJ9ObdVGh3d/EJC2iXVajZLXc
- jWXhSPy6bEIib7wfpPEfp7TZO/uJn8i5f29gJmMQURyma/fK9/qnET1d7JCvGMGiLEEx
- SdBXX+9NUaoK1jCXX79XzQDyxcG0mMotaL1iSxHFtHCxxPaWrDmOXTwtOppWid9iNf5s
- ELk096aPs1jLwX6uTK1clhlCvEMR9CAQwNgzbbjJM0PnYrwxAzmyU2Ani5qZg2xn4MQp
- Ziiw==
-X-Gm-Message-State: AOAM531vjGhqIi9+WAM8UPJP4cM8MNIzYVPOCSqOs6tKmT4dR8w/Ri9R
- jj48l9bVnbzZaMqy/UrrGOMbbg==
-X-Google-Smtp-Source: ABdhPJzGN/s+l3O6WHRRWBSR27GN7tCBjHW7w1EMDBB9tGzvBkOEvzcVRi54II1Z7R6A6ac1qRfSkw==
-X-Received: by 2002:adf:e551:: with SMTP id z17mr1052075wrm.374.1604592262454; 
- Thu, 05 Nov 2020 08:04:22 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g23sm2991409wmh.21.2020.11.05.08.04.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 08:04:21 -0800 (PST)
-Date: Thu, 5 Nov 2020 17:04:19 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [drm-drm-misc:for-linux-next 2/2]
- drivers/dma-buf/dma-buf.c:1186: undefined reference to `vma_set_file'
-Message-ID: <20201105160419.GB401619@phenom.ffwll.local>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91AE889EAE
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 16:05:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LsNQV+2BV8WUgC/qBdK9944mnlA5YcNLoMCalHsfwl46ZmhPjW3d5mIYNXIhijJsLxTFWCmIkOPJNXVnLZU1nP4Mi4odPykIkopI563b1M45+IdAjIVGYQXWjX59YBBAbHbsUx2VCJuFrUI09QrWIE1HFAJUj1j9cmBJ1Ypi8hQDnNre4BVQLSJ8jDMRUdWZxYw8J4da4qmrfe+PiyD0RP53ZsLX+rGv3VjkfxhqKEQvfkaf/6431CG4upPlL3Ld1xIEGyJlPq5GM5NlNc5n1+++SEzAHywCgYGrm3OkazknC1pz2Kf+2gkhlbmndeUhZ+lswJSxWzaNHx8vAJ3V/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J4c0b3siWzDb1tHl8gcB6L21wFy17tZaNCE8QDN/FYQ=;
+ b=FTR/iZ/WIfZ84MJxrWl7EM2O7h7wtfalMn/HjcZ6y4pB/PRCY9Sv93nKtA4sRiaYWHlZvCMHqKbdoePrgT24pfdDYAo6P+bOHYh4R11BBQBbLX9VXjjwGEAgmAtryA/pFVMLcnKhIPn8Ft22jmRuu4iLUjprPPFnJm0G0i9BUCNwoaQbHTTLFeXuz9qJpfTVVMzCghR3bz1PZY3X6Twdd2HadpGN86sxeSl7OSZVanHWmzwI5UkyM7DIG0S1MXoKb9cmXec9cl8jq6kjn5eih2fYiTixLBtdRxBunGObV7vv204U1D2oRXgd1A91RVQUc6vcNXE1c7NSbtgnDxdt4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J4c0b3siWzDb1tHl8gcB6L21wFy17tZaNCE8QDN/FYQ=;
+ b=sNSRKXrAengqwh423aoJRavZGv3q0fkH6aKVbt/LMQeD/CWgXdNe4mYT2k/13hRO37VgdUZ1yOkql1b7RDnYCLZ6wSqie+UYKE/vIKUIr87J3XfKcG5FZKpNoldJ+4h3jftbBuMu6OsFcsWOCnXomI1+rWPxkhyihTtfaGXG90c=
+Authentication-Results: nvidia.com; dkim=none (message not signed)
+ header.d=none;nvidia.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB2419.namprd12.prod.outlook.com (2603:10b6:207:44::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Thu, 5 Nov
+ 2020 16:05:27 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 16:05:27 +0000
+Subject: Re: [drm-drm-misc:for-linux-next 2/2] drivers/dma-buf/dma-buf.c:1186:
+ undefined reference to `vma_set_file'
+To: Daniel Vetter <daniel@ffwll.ch>
 References: <202011052343.iOH9oZPH-lkp@intel.com>
  <3687eb25-8c94-4a08-9917-0f12d57ba76c@amd.com>
  <20201105160209.GA401619@phenom.ffwll.local>
+ <20201105160419.GB401619@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <3274a20c-05b4-027f-42cb-fbb02dd444f6@amd.com>
+Date: Thu, 5 Nov 2020 17:05:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201105160419.GB401619@phenom.ffwll.local>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM8P189CA0010.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:218::15) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105160209.GA401619@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM8P189CA0010.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21 via Frontend Transport; Thu, 5 Nov 2020 16:05:26 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 5191c8e2-2582-41e4-d4f9-08d881a49c15
+X-MS-TrafficTypeDiagnostic: BL0PR12MB2419:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB2419B3877B0EFE47219F3D3283EE0@BL0PR12MB2419.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YcR2GCY+1U3pbvDL4FZkag7GxLEhCR216iT8jTE+mIYmzl3H9Acb6x0z3ip9B4hqJR9o090aGZ4Y/F2VQBt24bqD1AVIKphNt3ti7xOJYWTdPAtPMleFQkgFv4w6PsaqWp6R9ymniZzI4E11V7gcmJuIN+5V6zdk5XTgw+NQZTzn1xJRgZkxtLWmPq2rY6IwndeMpLLluJ7tL3rZr0u3kYlNaYtdhNgQhvz/9DTwOs9MUuIKTZ0BmqEmi78mpjlA/JlTuz0MFq7HxxaCdccyTIJe5xBtXA/QUgV0EOtcth1c0mIJjDjW5xKBe017eF2glKh9AUnrVJRQ/1aCEOnXY5Ubjl7yXPipKMQ8KGjNqpztcsRmpSr78kS/NpL8Lc5nd5nrcZfkp7aaFKzlHo1CVQfLhdAjZYWquErfCsr+wlAjVSpPAP+ckZfbFVNPEgEaT5iGJMOwBiKOwkcIHI26vluM1/t7Sa1XgYy8bxQ6wpHHW4nPc1t6quitG2noMIA1l6MLjF+tWzJcYQmkGgq20A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39860400002)(366004)(346002)(376002)(396003)(31696002)(31686004)(6666004)(8936002)(2616005)(16526019)(8676002)(54906003)(478600001)(186003)(5660300002)(4326008)(52116002)(45080400002)(6916009)(36756003)(316002)(2906002)(86362001)(66476007)(966005)(66946007)(66574015)(6486002)(83080400002)(83380400001)(66556008)(81973001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 8QTYYwg5He706f8cu33hLDLHXCfRnBQvYbhEczL+WnIDGAm7jjqmY1WWFmwczCfTmZcujCcccS/ODglZOg/vLAZIUXtSuAAtoRcileud5r2Q8Tb2H6Cc4IM1SSUX+rtmsz0kohEwUO0s3i+i2OsFaYHWYqjmdKerG2UzhIrV9Vlzy4HHN61zr72IJzl+aUkmozGMfv7tXSSk2QM9rBlw3s3RpJpvguZcAAZvh6FkUkA7eINX0HnecTVFPnAnk/L14XufSJKi+SXlfWRVTCBVTKoeJWqq2SPrE1Ct3D30AbsvS8IQ6j93R1fIPb6QmK/QrPe5kuOXVzQUhb6yxWRv0vXu0Ja0DfAdTZ3Ipx6506zSLcDXpcSzcs/tU1QrGVzvKX6/1Bek7lrzX+kh+/ANI4Maej8eAPpCW8iN3BQn+S3bmUMAGZyPtjvRPX3bgjb4KCmWD5kq2aq6VvuzZqHnHlMWo+RAzRR161T57CKcKwF0tZ+bopdEGCxhkci+JeaFBLqjx5jNZbTOcmusKdlv09SWLjkhAsRpqEYcDoskbG1P4A80/FxdvCXMtHKhFywxQuf0cUiH1qFx1r67EHB6/I58fNblhE2i8gGbeJ8aSJRPo5ukMux0UYQ3G3YDtIB5L1e7YwVPmpgtTjbhWqpUEMdaBrZ8afpx9WqkTuryTFCgjZZXNl9VQQifMVe+jxHGun9OnYgbyK+FjHb2aY8UVA==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5191c8e2-2582-41e4-d4f9-08d881a49c15
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 16:05:27.0169 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TjqkMu+VODIQyaeQG7FQhUfbG5Mqj1jNS2cIJUL6ojTcWhfoQqcc535c+UeRcU3H
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2419
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,169 +102,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Gunthorpe <jgg@nvidia.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 05:02:09PM +0100, Daniel Vetter wrote:
-> On Thu, Nov 05, 2020 at 04:41:00PM +0100, Christian K=F6nig wrote:
-> > Guys, can anybody help me out. Why is the kernel test robot complaining
-> > here?
-> > =
-
-> > Thanks in advance,
-> > Christian.
-> > =
-
-> > Am 05.11.20 um 16:26 schrieb kernel test robot:
-> > > tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-> > > head:   2b5b95b1ff3d70a95013a45e3b5b90f1daf42348
-> > > commit: 2b5b95b1ff3d70a95013a45e3b5b90f1daf42348 [2/2] mm: introduce =
-vma_set_file function v4
-> > > config: h8300-randconfig-r031-20201105 (attached as .config)
-> > > compiler: h8300-linux-gcc (GCC) 9.3.0
-> =
-
-> nommu platform?
-> =
-
-> If you have a hard time finding a cross compiler for this, there's some
-> nommu arm platforms. I used that for compile teesting nommu support
-> recently.
-> =
-
-> If it's not that, then it's something specific with that config for sure.
-
-Also looking a the tree, there's no ack from Andrew Morton. For merging
-stuff that's not maintained in drm-misc (and definitely for stuff outside
-of drm maintained tree) we need an ack from the right maintainer.
-
-I'd say make sure he's ok before we dig an even deeper hole here.
--Daniel
-
-> -Daniel
-> =
-
-> > > reproduce (this is a W=3D1 build):
-> > >          wget https://nam11.safelinks.protection.outlook.com/?url=3Dh=
-ttps%3A%2F%2Fraw.githubusercontent.com%2Fintel%2Flkp-tests%2Fmaster%2Fsbin%=
-2Fmake.cross&amp;data=3D04%7C01%7Cchristian.koenig%40amd.com%7C2c3b39afc651=
-426aa50608d8819f48fc%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637401871=
-204724096%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBT=
-iI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DdK2txO1WerkR7SiB5i9kcXjbJTMlaQ=
-1Q6dbK1cb9lnE%3D&amp;reserved=3D0 -O ~/bin/make.cross
-> > >          chmod +x ~/bin/make.cross
-> > >          git remote add drm-drm-misc git://anongit.freedesktop.org/dr=
-m/drm-misc
-> > >          git fetch --no-tags drm-drm-misc for-linux-next
-> > >          git checkout 2b5b95b1ff3d70a95013a45e3b5b90f1daf42348
-> > >          # save the attached .config to linux build tree
-> > >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make=
-.cross ARCH=3Dh8300
-> > > =
-
-> > > If you fix the issue, kindly add following tag as appropriate
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > =
-
-> > > All errors (new ones prefixed by >>):
-> > > =
-
-> > >     h8300-linux-ld: section .init.text LMA [00000000004da400,00000000=
-0051ebcb] overlaps section .text LMA [000000000000025c,0000000001069997]
-> > >     h8300-linux-ld: section .data VMA [0000000000400000,00000000004da=
-3ff] overlaps section .text VMA [000000000000025c,0000000001069997]
-> > >     h8300-linux-ld: drivers/dma-buf/dma-buf.o: in function `dma_buf_m=
-map':
-> > > > > drivers/dma-buf/dma-buf.c:1186: undefined reference to `vma_set_f=
-ile'
-> > > vim +1186 drivers/dma-buf/dma-buf.c
-> > > =
-
-> > >    1150	=
-
-> > >    1151	=
-
-> > >    1152	/**
-> > >    1153	 * dma_buf_mmap - Setup up a userspace mmap with the given vma
-> > >    1154	 * @dmabuf:	[in]	buffer that should back the vma
-> > >    1155	 * @vma:	[in]	vma for the mmap
-> > >    1156	 * @pgoff:	[in]	offset in pages where this mmap should start =
-within the
-> > >    1157	 *			dma-buf buffer.
-> > >    1158	 *
-> > >    1159	 * This function adjusts the passed in vma so that it points =
-at the file of the
-> > >    1160	 * dma_buf operation. It also adjusts the starting pgoff and =
-does bounds
-> > >    1161	 * checking on the size of the vma. Then it calls the exporte=
-rs mmap function to
-> > >    1162	 * set up the mapping.
-> > >    1163	 *
-> > >    1164	 * Can return negative error values, returns 0 on success.
-> > >    1165	 */
-> > >    1166	int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struc=
-t *vma,
-> > >    1167			 unsigned long pgoff)
-> > >    1168	{
-> > >    1169		if (WARN_ON(!dmabuf || !vma))
-> > >    1170			return -EINVAL;
-> > >    1171	=
-
-> > >    1172		/* check if buffer supports mmap */
-> > >    1173		if (!dmabuf->ops->mmap)
-> > >    1174			return -EINVAL;
-> > >    1175	=
-
-> > >    1176		/* check for offset overflow */
-> > >    1177		if (pgoff + vma_pages(vma) < pgoff)
-> > >    1178			return -EOVERFLOW;
-> > >    1179	=
-
-> > >    1180		/* check for overflowing the buffer's size */
-> > >    1181		if (pgoff + vma_pages(vma) >
-> > >    1182		    dmabuf->size >> PAGE_SHIFT)
-> > >    1183			return -EINVAL;
-> > >    1184	=
-
-> > >    1185		/* readjust the vma */
-> > > > 1186		vma_set_file(vma, dmabuf->file);
-> > >    1187		vma->vm_pgoff =3D pgoff;
-> > >    1188	=
-
-> > >    1189		return dmabuf->ops->mmap(dmabuf, vma);
-> > >    1190	}
-> > >    1191	EXPORT_SYMBOL_GPL(dma_buf_mmap);
-> > >    1192	=
-
-> > > =
-
-> > > ---
-> > > 0-DAY CI Kernel Test Service, Intel Corporation
-> > > https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
-ists.01.org%2Fhyperkitty%2Flist%2Fkbuild-all%40lists.01.org&amp;data=3D04%7=
-C01%7Cchristian.koenig%40amd.com%7C2c3b39afc651426aa50608d8819f48fc%7C3dd89=
-61fe4884e608e11a82d994e183d%7C0%7C0%7C637401871204724096%7CUnknown%7CTWFpbG=
-Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
-1000&amp;sdata=3DYS8NkL2Wf4ysbsibG3a3MAGp8zsEopbazO3ARSAPezc%3D&amp;reserve=
-d=3D0
-> > =
-
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDUuMTEuMjAgdW0gMTc6MDQgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFRodSwgTm92
+IDA1LCAyMDIwIGF0IDA1OjAyOjA5UE0gKzAxMDAsIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+IE9u
+IFRodSwgTm92IDA1LCAyMDIwIGF0IDA0OjQxOjAwUE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcg
+d3JvdGU6Cj4+PiBHdXlzLCBjYW4gYW55Ym9keSBoZWxwIG1lIG91dC4gV2h5IGlzIHRoZSBrZXJu
+ZWwgdGVzdCByb2JvdCBjb21wbGFpbmluZwo+Pj4gaGVyZT8KPj4+Cj4+PiBUaGFua3MgaW4gYWR2
+YW5jZSwKPj4+IENocmlzdGlhbi4KPj4+Cj4+PiBBbSAwNS4xMS4yMCB1bSAxNjoyNiBzY2hyaWVi
+IGtlcm5lbCB0ZXN0IHJvYm90Ogo+Pj4+IHRyZWU6ICAgZ2l0Oi8vYW5vbmdpdC5mcmVlZGVza3Rv
+cC5vcmcvZHJtL2RybS1taXNjIGZvci1saW51eC1uZXh0Cj4+Pj4gaGVhZDogICAyYjViOTViMWZm
+M2Q3MGE5NTAxM2E0NWUzYjViOTBmMWRhZjQyMzQ4Cj4+Pj4gY29tbWl0OiAyYjViOTViMWZmM2Q3
+MGE5NTAxM2E0NWUzYjViOTBmMWRhZjQyMzQ4IFsyLzJdIG1tOiBpbnRyb2R1Y2Ugdm1hX3NldF9m
+aWxlIGZ1bmN0aW9uIHY0Cj4+Pj4gY29uZmlnOiBoODMwMC1yYW5kY29uZmlnLXIwMzEtMjAyMDEx
+MDUgKGF0dGFjaGVkIGFzIC5jb25maWcpCj4+Pj4gY29tcGlsZXI6IGg4MzAwLWxpbnV4LWdjYyAo
+R0NDKSA5LjMuMAo+PiBub21tdSBwbGF0Zm9ybT8KPj4KPj4gSWYgeW91IGhhdmUgYSBoYXJkIHRp
+bWUgZmluZGluZyBhIGNyb3NzIGNvbXBpbGVyIGZvciB0aGlzLCB0aGVyZSdzIHNvbWUKPj4gbm9t
+bXUgYXJtIHBsYXRmb3Jtcy4gSSB1c2VkIHRoYXQgZm9yIGNvbXBpbGUgdGVlc3Rpbmcgbm9tbXUg
+c3VwcG9ydAo+PiByZWNlbnRseS4KPj4KPj4gSWYgaXQncyBub3QgdGhhdCwgdGhlbiBpdCdzIHNv
+bWV0aGluZyBzcGVjaWZpYyB3aXRoIHRoYXQgY29uZmlnIGZvciBzdXJlLgo+IEFsc28gbG9va2lu
+ZyBhIHRoZSB0cmVlLCB0aGVyZSdzIG5vIGFjayBmcm9tIEFuZHJldyBNb3J0b24uIEZvciBtZXJn
+aW5nCj4gc3R1ZmYgdGhhdCdzIG5vdCBtYWludGFpbmVkIGluIGRybS1taXNjIChhbmQgZGVmaW5p
+dGVseSBmb3Igc3R1ZmYgb3V0c2lkZQo+IG9mIGRybSBtYWludGFpbmVkIHRyZWUpIHdlIG5lZWQg
+YW4gYWNrIGZyb20gdGhlIHJpZ2h0IG1haW50YWluZXIuCgpPaywgZ29pbmcgdG8gcmV2ZXJ0IGZy
+b20gZHJtLW1pc2MtbmV4dCB0aGVuLgoKVGhhbmtzLApDaHJpc3RpYW4uCgo+Cj4gSSdkIHNheSBt
+YWtlIHN1cmUgaGUncyBvayBiZWZvcmUgd2UgZGlnIGFuIGV2ZW4gZGVlcGVyIGhvbGUgaGVyZS4K
+PiAtRGFuaWVsCj4KPj4gLURhbmllbAo+Pgo+Pj4+IHJlcHJvZHVjZSAodGhpcyBpcyBhIFc9MSBi
+dWlsZCk6Cj4+Pj4gICAgICAgICAgIHdnZXQgaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVj
+dGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGcmF3LmdpdGh1YnVzZXJjb250ZW50
+LmNvbSUyRmludGVsJTJGbGtwLXRlc3RzJTJGbWFzdGVyJTJGc2JpbiUyRm1ha2UuY3Jvc3MmYW1w
+O2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDNGUyMzhiZmNiM2M3
+NGVjNDUwOWIwOGQ4ODFhNDc2YjElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3
+QzAlN0MwJTdDNjM3NDAxODkwNjUxODE0Nzk1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJ
+am9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1u
+MCUzRCU3QzEwMDAmYW1wO3NkYXRhPVN3Ym5ZRUhCc3c0NEl5MXlKZEVxVXAxQm5MWSUyQmtNRktP
+dUZjVnJjY2lzZyUzRCZhbXA7cmVzZXJ2ZWQ9MCAtTyB+L2Jpbi9tYWtlLmNyb3NzCj4+Pj4gICAg
+ICAgICAgIGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MKPj4+PiAgICAgICAgICAgZ2l0IHJlbW90
+ZSBhZGQgZHJtLWRybS1taXNjIGdpdDovL2Fub25naXQuZnJlZWRlc2t0b3Aub3JnL2RybS9kcm0t
+bWlzYwo+Pj4+ICAgICAgICAgICBnaXQgZmV0Y2ggLS1uby10YWdzIGRybS1kcm0tbWlzYyBmb3It
+bGludXgtbmV4dAo+Pj4+ICAgICAgICAgICBnaXQgY2hlY2tvdXQgMmI1Yjk1YjFmZjNkNzBhOTUw
+MTNhNDVlM2I1YjkwZjFkYWY0MjM0OAo+Pj4+ICAgICAgICAgICAjIHNhdmUgdGhlIGF0dGFjaGVk
+IC5jb25maWcgdG8gbGludXggYnVpbGQgdHJlZQo+Pj4+ICAgICAgICAgICBDT01QSUxFUl9JTlNU
+QUxMX1BBVEg9JEhPTUUvMGRheSBDT01QSUxFUj1nY2MtOS4zLjAgbWFrZS5jcm9zcyBBUkNIPWg4
+MzAwCj4+Pj4KPj4+PiBJZiB5b3UgZml4IHRoZSBpc3N1ZSwga2luZGx5IGFkZCBmb2xsb3dpbmcg
+dGFnIGFzIGFwcHJvcHJpYXRlCj4+Pj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxs
+a3BAaW50ZWwuY29tPgo+Pj4+Cj4+Pj4gQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQgYnkg
+Pj4pOgo+Pj4+Cj4+Pj4gICAgICBoODMwMC1saW51eC1sZDogc2VjdGlvbiAuaW5pdC50ZXh0IExN
+QSBbMDAwMDAwMDAwMDRkYTQwMCwwMDAwMDAwMDAwNTFlYmNiXSBvdmVybGFwcyBzZWN0aW9uIC50
+ZXh0IExNQSBbMDAwMDAwMDAwMDAwMDI1YywwMDAwMDAwMDAxMDY5OTk3XQo+Pj4+ICAgICAgaDgz
+MDAtbGludXgtbGQ6IHNlY3Rpb24gLmRhdGEgVk1BIFswMDAwMDAwMDAwNDAwMDAwLDAwMDAwMDAw
+MDA0ZGEzZmZdIG92ZXJsYXBzIHNlY3Rpb24gLnRleHQgVk1BIFswMDAwMDAwMDAwMDAwMjVjLDAw
+MDAwMDAwMDEwNjk5OTddCj4+Pj4gICAgICBoODMwMC1saW51eC1sZDogZHJpdmVycy9kbWEtYnVm
+L2RtYS1idWYubzogaW4gZnVuY3Rpb24gYGRtYV9idWZfbW1hcCc6Cj4+Pj4+PiBkcml2ZXJzL2Rt
+YS1idWYvZG1hLWJ1Zi5jOjExODY6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHZtYV9zZXRfZmls
+ZScKPj4+PiB2aW0gKzExODYgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwo+Pj4+Cj4+Pj4gICAg
+IDExNTAJCj4+Pj4gICAgIDExNTEJCj4+Pj4gICAgIDExNTIJLyoqCj4+Pj4gICAgIDExNTMJICog
+ZG1hX2J1Zl9tbWFwIC0gU2V0dXAgdXAgYSB1c2Vyc3BhY2UgbW1hcCB3aXRoIHRoZSBnaXZlbiB2
+bWEKPj4+PiAgICAgMTE1NAkgKiBAZG1hYnVmOglbaW5dCWJ1ZmZlciB0aGF0IHNob3VsZCBiYWNr
+IHRoZSB2bWEKPj4+PiAgICAgMTE1NQkgKiBAdm1hOglbaW5dCXZtYSBmb3IgdGhlIG1tYXAKPj4+
+PiAgICAgMTE1NgkgKiBAcGdvZmY6CVtpbl0Jb2Zmc2V0IGluIHBhZ2VzIHdoZXJlIHRoaXMgbW1h
+cCBzaG91bGQgc3RhcnQgd2l0aGluIHRoZQo+Pj4+ICAgICAxMTU3CSAqCQkJZG1hLWJ1ZiBidWZm
+ZXIuCj4+Pj4gICAgIDExNTgJICoKPj4+PiAgICAgMTE1OQkgKiBUaGlzIGZ1bmN0aW9uIGFkanVz
+dHMgdGhlIHBhc3NlZCBpbiB2bWEgc28gdGhhdCBpdCBwb2ludHMgYXQgdGhlIGZpbGUgb2YgdGhl
+Cj4+Pj4gICAgIDExNjAJICogZG1hX2J1ZiBvcGVyYXRpb24uIEl0IGFsc28gYWRqdXN0cyB0aGUg
+c3RhcnRpbmcgcGdvZmYgYW5kIGRvZXMgYm91bmRzCj4+Pj4gICAgIDExNjEJICogY2hlY2tpbmcg
+b24gdGhlIHNpemUgb2YgdGhlIHZtYS4gVGhlbiBpdCBjYWxscyB0aGUgZXhwb3J0ZXJzIG1tYXAg
+ZnVuY3Rpb24gdG8KPj4+PiAgICAgMTE2MgkgKiBzZXQgdXAgdGhlIG1hcHBpbmcuCj4+Pj4gICAg
+IDExNjMJICoKPj4+PiAgICAgMTE2NAkgKiBDYW4gcmV0dXJuIG5lZ2F0aXZlIGVycm9yIHZhbHVl
+cywgcmV0dXJucyAwIG9uIHN1Y2Nlc3MuCj4+Pj4gICAgIDExNjUJICovCj4+Pj4gICAgIDExNjYJ
+aW50IGRtYV9idWZfbW1hcChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qgdm1fYXJlYV9z
+dHJ1Y3QgKnZtYSwKPj4+PiAgICAgMTE2NwkJCSB1bnNpZ25lZCBsb25nIHBnb2ZmKQo+Pj4+ICAg
+ICAxMTY4CXsKPj4+PiAgICAgMTE2OQkJaWYgKFdBUk5fT04oIWRtYWJ1ZiB8fCAhdm1hKSkKPj4+
+PiAgICAgMTE3MAkJCXJldHVybiAtRUlOVkFMOwo+Pj4+ICAgICAxMTcxCQo+Pj4+ICAgICAxMTcy
+CQkvKiBjaGVjayBpZiBidWZmZXIgc3VwcG9ydHMgbW1hcCAqLwo+Pj4+ICAgICAxMTczCQlpZiAo
+IWRtYWJ1Zi0+b3BzLT5tbWFwKQo+Pj4+ICAgICAxMTc0CQkJcmV0dXJuIC1FSU5WQUw7Cj4+Pj4g
+ICAgIDExNzUJCj4+Pj4gICAgIDExNzYJCS8qIGNoZWNrIGZvciBvZmZzZXQgb3ZlcmZsb3cgKi8K
+Pj4+PiAgICAgMTE3NwkJaWYgKHBnb2ZmICsgdm1hX3BhZ2VzKHZtYSkgPCBwZ29mZikKPj4+PiAg
+ICAgMTE3OAkJCXJldHVybiAtRU9WRVJGTE9XOwo+Pj4+ICAgICAxMTc5CQo+Pj4+ICAgICAxMTgw
+CQkvKiBjaGVjayBmb3Igb3ZlcmZsb3dpbmcgdGhlIGJ1ZmZlcidzIHNpemUgKi8KPj4+PiAgICAg
+MTE4MQkJaWYgKHBnb2ZmICsgdm1hX3BhZ2VzKHZtYSkgPgo+Pj4+ICAgICAxMTgyCQkgICAgZG1h
+YnVmLT5zaXplID4+IFBBR0VfU0hJRlQpCj4+Pj4gICAgIDExODMJCQlyZXR1cm4gLUVJTlZBTDsK
+Pj4+PiAgICAgMTE4NAkKPj4+PiAgICAgMTE4NQkJLyogcmVhZGp1c3QgdGhlIHZtYSAqLwo+Pj4+
+PiAxMTg2CQl2bWFfc2V0X2ZpbGUodm1hLCBkbWFidWYtPmZpbGUpOwo+Pj4+ICAgICAxMTg3CQl2
+bWEtPnZtX3Bnb2ZmID0gcGdvZmY7Cj4+Pj4gICAgIDExODgJCj4+Pj4gICAgIDExODkJCXJldHVy
+biBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZtYSk7Cj4+Pj4gICAgIDExOTAJfQo+Pj4+ICAg
+ICAxMTkxCUVYUE9SVF9TWU1CT0xfR1BMKGRtYV9idWZfbW1hcCk7Cj4+Pj4gICAgIDExOTIJCj4+
+Pj4KPj4+PiAtLS0KPj4+PiAwLURBWSBDSSBLZXJuZWwgVGVzdCBTZXJ2aWNlLCBJbnRlbCBDb3Jw
+b3JhdGlvbgo+Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5j
+b20vP3VybD1odHRwcyUzQSUyRiUyRmxpc3RzLjAxLm9yZyUyRmh5cGVya2l0dHklMkZsaXN0JTJG
+a2J1aWxkLWFsbCU0MGxpc3RzLjAxLm9yZyZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtv
+ZW5pZyU0MGFtZC5jb20lN0M0ZTIzOGJmY2IzYzc0ZWM0NTA5YjA4ZDg4MWE0NzZiMSU3QzNkZDg5
+NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDE4OTA2NTE4MTQ3OTUl
+N0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVN
+eklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9NmZDMmZJ
+Q2YyczJFODZGY245T1VJZXNMR0lxN00lMkZ5b1lUYTZRVjBrMWM0JTNEJmFtcDtyZXNlcnZlZD0w
+Cj4+IC0tIAo+PiBEYW5pZWwgVmV0dGVyCj4+IFNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jw
+b3JhdGlvbgo+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29t
+Lz91cmw9aHR0cCUzQSUyRiUyRmJsb2cuZmZ3bGwuY2glMkYmYW1wO2RhdGE9MDQlN0MwMSU3Q2No
+cmlzdGlhbi5rb2VuaWclNDBhbWQuY29tJTdDNGUyMzhiZmNiM2M3NGVjNDUwOWIwOGQ4ODFhNDc2
+YjElN0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDAxODkw
+NjUxODE0Nzk1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENK
+UUlqb2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3Nk
+YXRhPTlqOWlxJTJCMFhtaTd2cThSeElNV3YwQjJPYXFiS0Z3dkVlMGUyM1FLdSUyQnVZJTNEJmFt
+cDtyZXNlcnZlZD0wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
