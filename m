@@ -1,49 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64FEE2A916B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A312A917E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBFE86EE10;
-	Fri,  6 Nov 2020 08:35:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5FCF6EE29;
+	Fri,  6 Nov 2020 08:35:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 350 seconds by postgrey-1.36 at gabe;
- Thu, 05 Nov 2020 17:21:05 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4D0D6E044
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 17:21:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604596864;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=I3jp2DXngOUd771qBmgMPjOf9JRw6NMTj1GnaaPguow=;
- b=XZgf9DPLnxRpEE78zwjpnmyyelGBMOjtAoMacdPAl7an3fRPGxH0b5kxozWy2JpSZc
- /s5W2qbPUZyQElX2ZdZ1y48Ys81BSo1tqhuX7kcTbtfHbRiguEIJJYtRj6E0LCO5+2gW
- ktaLLVLHiuHXQP+1hz3enWJjf2hKk6Q9r4WDnJ675Fjbcc6N4HDyqvuvVQWVBC67sUKU
- 4sVDr7nGLFvXJhltERi++cUkFNLHkd1bN8Ai8IRrcsTRQf3vNZ1QG5TTtnERJCeS1meg
- MIIliGtcLHWgut6DyQt18FRfnNHAP8flSdO1YEGEu0NH594QBRi6ZmnPGV+b8jw1Nohn
- PgSg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlSfXA0MwM0="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.2 DYNA|AUTH)
- with ESMTPSA id L07f74wA5HF10Yf
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 5 Nov 2020 18:15:01 +0100 (CET)
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20201105120333.947408-1-tomi.valkeinen@ti.com>
-Date: Thu, 5 Nov 2020 18:15:00 +0100
-Message-Id: <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
+ [IPv6:2607:f8b0:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9DA6E044;
+ Thu,  5 Nov 2020 17:24:42 +0000 (UTC)
+Received: by mail-pf1-x444.google.com with SMTP id x13so1873311pfa.9;
+ Thu, 05 Nov 2020 09:24:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=kRPEM8dLjyLiEebJREsbYoGi+98veJN3eW+L5N8MANw=;
+ b=LJAxRqlgwpEP711TUT+dFB54aN1UL83lKZKvAOwC1z8du9AfiYoov5+1NgrIM+Rv0V
+ ERrJ4sDvfB/7noY3mQ5+5pgpMk/cobJiBbCF5xJs3m4D0Mk3/aUz20pu1T7lX7evedV9
+ 44z04LDOg3sKgsfDYyisRMjVcRoBP82HNMInxO/4VAtYM0olHgJnCZ3Z7b3mLdoui1So
+ WtLK24k2bvgYqI19m/jtq1S343uED2sj9bfnNyZ5kpkVVEblqVsrgrJTyhC7YBHUglQP
+ QvGMdEJY7zRrz4YlWNlFt75KuQsPnTsOR29y4i5yG5L0gMAKpGMPDNOtOtBhmtZ2jAmW
+ TGbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=kRPEM8dLjyLiEebJREsbYoGi+98veJN3eW+L5N8MANw=;
+ b=MCAcMtBuT661fLRPm5uO4BO7BTT8glpltr9LnLYlgdK3EtdTqSyJ4p+JqEjwp4qSdm
+ prQo5qKrAIZlFmBvz3m+pJWg8tXV+QWclYCooiCy64WzUJK4Bg/K/fZ1s+3d0/cQVTPQ
+ 2PvQxHRhcPiB2qhls+K1pPBmNCkMLKLoobl0JJjug5RCv4s2J2mLFjfjr63H5Kfi3RdQ
+ GKWPNShGIr1JAZuyrXabobcn5dRTpDWS6CskSI/hw7v3JM7zQ72cSQiPJnbdWDwe+N9e
+ Lv4YKDcyS2i1Ct13E25bqmf9LSRW/rcYH5hHo3bSw3YQcXmb8FnX2I3n0FSKNnjNGm+0
+ q9WQ==
+X-Gm-Message-State: AOAM5318WeGjHNGTYVPQPKBbGKDAk2j5uENa4DChnWLbJOpjFczAHY5U
+ TqScH1v/l2dQIyqwLhTzvDNdHw8hICA=
+X-Google-Smtp-Source: ABdhPJyKHU9603o2tF6OrsxyE2Luza+oJ/CDl1+4JY+pPq6LDVqrIDKkrZsdsyc9MLqOn345oCoTeA==
+X-Received: by 2002:a63:c20f:: with SMTP id b15mr3262198pgd.230.1604597082661; 
+ Thu, 05 Nov 2020 09:24:42 -0800 (PST)
+Received: from localhost ([160.202.157.3])
+ by smtp.gmail.com with ESMTPSA id r127sm3113321pfc.159.2020.11.05.09.24.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 09:24:42 -0800 (PST)
+Date: Thu, 5 Nov 2020 22:54:29 +0530
+From: Deepak R Varma <mh12gx2825@gmail.com>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Subject: Re: [PATCH] drm/amdkfd: replace idr_init() by idr_init_base()
+Message-ID: <20201105172429.GA41091@localhost>
+References: <20201104151359.GA69034@localhost>
+ <91ebae30-c75c-5485-8de5-36464e97ed7e@amd.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <91ebae30-c75c-5485-8de5-36464e97ed7e@amd.com>
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,70 +69,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On Wed, Nov 04, 2020 at 03:01:17PM -0500, Felix Kuehling wrote:
+> On 2020-11-04 10:13 a.m., Deepak R Varma wrote:
+> > idr_init() uses base 0 which is an invalid identifier. The new function
+> > idr_init_base allows IDR to set the ID lookup from base 1. This avoids
+> > all lookups that otherwise starts from 0 since 0 is always unused.
+> =
 
-> Am 05.11.2020 um 13:02 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
-> 
-> Hi,
-> 
-> This is third version of the series sent by Sebastian in February:
-> 
-> https://www.spinics.net/lists/linux-omap/msg153465.html
-> 
-> I took the patches from his git tree, and rebased on 5.10-rc2. There
-> were some conflicts and compilation errors, and one bug that made dsi to
-> not work (videomode variable was not initialized to 0).
-> 
-> I then fixed the few checkpatch and sparse issues. Overall, Sebastian's
-> patches are pretty much as they were previously. I did drop Laurent's
-> reviewed-bys, as it's been a long time since the previous series, and
-> the patches are not identical anyway.
-> 
-> The topmost 5 patches are new ones, cleanups enabled by the DSI
-> conversion. They could be handled separately, but it's such a nice
-> cleanup, and I've been waiting for years to get this done, so here they
-> are. That said, there are still a _lot_ of cleanups to do.
-> 
-> Almost all of the patches are omapdrm changes. The two non-omapdrm
-> changes are:
-> - After converting panel-dsi-cm to common DRM panel model, it is moved
->  to drm's panel directory.
-> - Add MIPI_DSI_MODE_ULPS_IDLE flag
-> 
-> I have tested these with OMAP4 SDP, AM5 EVM and OMAP4 Panda. SDP has
-> command mode panel, and I don't have any videomode panels.
-> 
-> Sebastian, I hope you're ok with all this? I did send you an email, but
-> didn't get a reply yet, so I thought to just proceed. If you want to
-> handle this in some other way, or don't want your
-> authorship/signed-off-by in some of the commits, just tell.
+> I disagree. We call idr_alloc with start=3D0 for both these IDRs. That me=
+ans 0
+> seems to be a valid handle.
 
-That all is great.
-I was able to apply the patch set cleanly and compile.
+Hello Felix,
+You are correct. There are calls made to idr_alloc with start range from
+0. So, for this driver, id=3D0 seems a valid use case. The change I
+proposed is not relevant for this driver. You may please ignore the
+patch.
 
-Next, I migrated my long waiting mipi_dsi/drm_panel driver conversion for
-the panel of the Pyra handheld (omap 5 based) to compile on 5.10-rc2. And
-I followed the latest existing panel-orisetech-otm8009a.c which uses a
-similar video mode controller and mipi-dsi.
+Thank you,
+./drv
 
-That one seems to be used by arch/arm/boot/dts/stm32f469-disco.dts.
+> =
 
-Unfortunately my panel driver is not even loaded by drm/omap so I can't
-debug. Does this set of drm/omap drivers need a modification of the device
-tree? If yes, which one?
+> Regards,
+> =A0 Felix
+> =
 
-BR and thanks,
-Nikolaus
+> =
 
+> > =
+
+> > References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient=
+")
+> > =
+
+> > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+> > ---
+> >   drivers/gpu/drm/amd/amdkfd/kfd_events.c  | 2 +-
+> >   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 2 +-
+> >   2 files changed, 2 insertions(+), 2 deletions(-)
+> > =
+
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_events.c b/drivers/gpu/drm/=
+amd/amdkfd/kfd_events.c
+> > index ba2c2ce0c55a..b3339b53c8ad 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_events.c
+> > @@ -230,7 +230,7 @@ static int create_other_event(struct kfd_process *p=
+, struct kfd_event *ev)
+> >   void kfd_event_init_process(struct kfd_process *p)
+> >   {
+> >   	mutex_init(&p->event_mutex);
+> > -	idr_init(&p->event_idr);
+> > +	idr_init_base(&p->event_idr, 1);
+> >   	p->signal_page =3D NULL;
+> >   	p->signal_event_count =3D 0;
+> >   }
+> > diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm=
+/amd/amdkfd/kfd_process.c
+> > index 65803e153a22..022e61babe30 100644
+> > --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> > +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+> > @@ -1289,7 +1289,7 @@ struct kfd_process_device *kfd_create_process_dev=
+ice_data(struct kfd_dev *dev,
+> >   	list_add(&pdd->per_device_list, &p->per_device_data);
+> >   	/* Init idr used for memory handle translation */
+> > -	idr_init(&pdd->alloc_idr);
+> > +	idr_init_base(&pdd->alloc_idr, 1);
+> >   	return pdd;
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
