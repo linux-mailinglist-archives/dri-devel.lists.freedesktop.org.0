@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A24922A8955
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:58:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB352A8959
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:58:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F9876EDEE;
-	Thu,  5 Nov 2020 21:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 370AF6EDEF;
+	Thu,  5 Nov 2020 21:58:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19016EDEE
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:58:03 +0000 (UTC)
-Received: by mail-pf1-x444.google.com with SMTP id g7so2129757pfc.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 13:58:03 -0800 (PST)
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5610B6EDEF
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:58:05 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id w4so2276129pgg.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 13:58:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yUHoEW7JXa64O7smBo7LEWo08AvCkxt2h7LNr0jyJrQ=;
- b=ZAjYVHx3OzMIM2D5udq6GtCV/yvA7FGc4C9NIdPEHBO5msrmNNvKNaRwxPfY8OvDDC
- YKoFyXhLTOPxVZ8GPP4C5tMlBa7aNRHrq+Gdt1byasJDxha7bzxv2jHsnmZlYyvpYyns
- M/uwgGBT/oQhRv0wCUy0eoUrjKhUoi0bt3jTU=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9M3puV2O+f9OQuFbTUvfKRPi3QbkyCpFGgLmOhG8TIo=;
+ b=mAvTnRbni1OBh9wjhdQOvX3RdLhypGfZ6OC8ix0pN2QH21/iw1GcshCJpYtABCfI1K
+ mi5h1Xj2OqtfyLfrksXFLPRGz17c8htW7pokNCL0ckwZoj0SZNVpbP/NM3apSSwRIbd2
+ jB4umcALDkn5sZkX36l7yn9NTWVTSnsVl/swY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yUHoEW7JXa64O7smBo7LEWo08AvCkxt2h7LNr0jyJrQ=;
- b=e8H1LMZqbkmhSbOF6AHlNEn5MDL0uCPS4eTD72h/ga1zOPGfWrwhvDYMME1jUGMSBA
- xFqvdCOBm4Z3rGUWawQASXBYAPzbxBiH8CNgzz+Q1Lw2d/WnYtl5xBraUquypfksPfjk
- ELFMnR7MbT8dvn0fM1QB3fcaIrRRaBUis0fz7xdxdqeu/Jypt6FJekCyRiMleCBMoiMO
- I2YJlEQRVSBIbh3x1EUDFdvdZtZJx0sU9gXNs+gEnTxvQe6Faj5IebvIsms7TObS5CZt
- nQ2Q+8ZBmNyFCiswSCvqmu3zga80OcQYGKdpXPuBNKJpmGzAhRYITOzIpWcMDn0ph7zs
- 44Yg==
-X-Gm-Message-State: AOAM531lie0oO34rYtEKWu0Y0pA3JJuUll2zEJkkjXGMgg8S562ug3FD
- 7Y7qp0OR7+y5SXVWpbU6YoFVZA==
-X-Google-Smtp-Source: ABdhPJwl4sX7ZaVOOqsfJfaeCW1rA5WVAYePXlLnIz/wAerrOJ4Ar7FVBLG4Cpt82RwSBhAW5ZaHkw==
-X-Received: by 2002:a17:90a:540e:: with SMTP id
- z14mr4243740pjh.187.1604613483486; 
- Thu, 05 Nov 2020 13:58:03 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9M3puV2O+f9OQuFbTUvfKRPi3QbkyCpFGgLmOhG8TIo=;
+ b=E1LfDoKfJ5BXLi92/oQtjhXCLgeEj6/c58tKzObvsbwa3ok4dcVvb6gfY3RyNIuROl
+ UgDlCaE0UnbhjX/0oBpN8BCs4kEsSjLo1KQDr40AB1WnCFH1+Qtqd8pvdAXA9NAOpP0o
+ 6s/rbsFCJwIDzWtIQB6FBNS70gFpRgulY2uM+se1JEs16gExfEbXubI3gzJ2nhsfZwKg
+ sw3TtTLn2/X12NtSu4dIAS1k7p/+dwKc1K8NbB9viYNXX/9Egza6cTpX8wlSR/SKhaSX
+ geN+Qu3nYEz04Uycn/s+CWF+kDGYbR9KU4N0FPYrOMxnS+XF7Fy9Ku4u/3y4xsiBxiZS
+ tvZQ==
+X-Gm-Message-State: AOAM533NQSwu4x4tNyYkbwGwP1nx0ouMIaNjoSltnhzrhIplvKQD1lJZ
+ y1xR6GuuQUVebj9M1xlw64CVDg==
+X-Google-Smtp-Source: ABdhPJwypK1CAJ3uQ/QhZXmgYYJxHRTaUbSpdjDwluRHgFYuEhFuwB/HE75SHdb/1ua7ZJgVVkC+Dw==
+X-Received: by 2002:aa7:9af1:0:b029:152:6101:ad12 with SMTP id
+ y17-20020aa79af10000b02901526101ad12mr4297747pfp.40.1604613484905; 
+ Thu, 05 Nov 2020 13:58:04 -0800 (PST)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
- by smtp.gmail.com with ESMTPSA id k7sm3572890pfa.184.2020.11.05.13.58.02
+ by smtp.gmail.com with ESMTPSA id k7sm3572890pfa.184.2020.11.05.13.58.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 13:58:02 -0800 (PST)
+ Thu, 05 Nov 2020 13:58:04 -0800 (PST)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v3 1/3] drm: panel: simple: Allow timing constraints,
- not fixed delays
-Date: Thu,  5 Nov 2020 13:57:39 -0800
-Message-Id: <20201105135639.v3.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+Subject: [PATCH v3 2/3] drm: panel: simple: Add BOE NV110WTM-N61
+Date: Thu,  5 Nov 2020 13:57:40 -0800
+Message-Id: <20201105135639.v3.2.I71b2118dfc00fd7b43b02d28e7b890081c2acfa2@changeid>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
+In-Reply-To: <20201105135639.v3.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
+References: <20201105135639.v3.1.I31c4f8b111dbef1ab658f206764655ae983bc560@changeid>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,222 +73,93 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The simple panel code currently allows panels to define fixed delays
-at certain stages of initialization.  These work OK, but they don't
-really map all that clearly to the requirements presented in many
-panel datasheets.  Instead of defining a fixed delay, those datasheets
-provide a timing diagram and specify a minimum amount of time that
-needs to pass from event A to event B.
+Add support for the BOE NV110WTM-N61 panel.  The EDID lists two modes
+(one for 60 Hz refresh rate and one for 40 Hz), so we'll list both of
+them here.
 
-Because of the way things are currently defined, most panels end up
-over-delaying.  One prime example here is that a number of panels I've
-looked at define the amount of time that must pass between turning a
-panel off and turning it back on again.  Since there is no way to
-specify this, many developers have listed this as the "unprepare"
-delay.  However, if nobody ever tried to turn the panel on again in
-the next 500 ms (or whatever the delay was) then this delay was
-pointless.  It's better to do the delay only in the case that someone
-tried to turn the panel on too quickly.
-
-Let's support specifying delays as constraints.  We'll start with the
-one above and also a second one: the minimum time between prepare
-being done and doing the enable.  On the panel I'm looking at, there's
-an 80 ms minimum time between HPD being asserted by the panel and
-setting the backlight enable GPIO.  By specifying as a constraint we
-can enforce this without over-delaying.  Specifically the link
-training is allowed to happen in parallel with this delay so adding a
-fixed 80 ms delay isn't ideal.
+Note that the panel datasheet requires 80 ms between HPD asserting and
+the backlight power being turned on.  We'll use the new timing
+constraints structure to do this cleanly.  This assumes that the
+backlight will be enabled _after_ the panel enable finishes.  This is
+how it works today and seems a sane assumption.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
-Changes in v3:
-- Fixed totally backwards "if" tests.  :(
+(no changes since v2)
 
 Changes in v2:
-- Inline the kernel doc for the two new members.
-- Beefed up kernel doc saying exactly when the delay happens.
-- Removed "_ms" from the end of members to shorten them.
-- Renamed "timing_constraints" to "min_times" to shorten it.
-- Renamed "enforce_constraint()" to "wait_min_time()" to shorten it.
-- Check "prepared_time" against 0 to see if we've been prepared.
+- Adjust for shorter names in patch #1.
 
- drivers/gpu/drm/panel/panel-simple.c | 99 ++++++++++++++++++++++++++--
- 1 file changed, 92 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 48 ++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 2be358fb46f7..bb1e3d15f793 100644
+index bb1e3d15f793..db3f0e2b6001 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -92,6 +92,68 @@ struct panel_desc {
- 		unsigned int unprepare;
- 	} delay;
+@@ -1401,6 +1401,51 @@ static const struct panel_desc boe_nv101wxmn51 = {
+ 	},
+ };
  
-+	struct {
-+		/**
-+		 * @prepare_to_enable: Time between prepare and enable.
-+		 *
-+		 * The minimum time, in milliseconds, that needs to have passed
-+		 * between when prepare finished and enable may begin. If at
-+		 * enable time less time has passed since prepare finished,
-+		 * the driver waits for the remaining time.
-+		 *
-+		 * If a fixed enable delay is also specified, we'll start
-+		 * counting before delaying for the fixed delay.
-+		 *
-+		 * If a fixed prepare delay is also specified, we won't start
-+		 * counting until after the fixed delay. We can't overlap this
-+		 * fixed delay with the min time because the fixed delay
-+		 * doesn't happen at the end of the function if a HPD GPIO was
-+		 * specified.
-+		 *
-+		 * In other words:
-+		 *   prepare()
-+		 *     ...
-+		 *     // do fixed prepare delay
-+		 *     // wait for HPD GPIO if applicable
-+		 *     // start counting for prepare_to_enable
-+		 *
-+		 *   enable()
-+		 *     // do fixed enable delay
-+		 *     // enforce prepare_to_enable min time
-+		 */
-+		unsigned int prepare_to_enable;
++static const struct drm_display_mode boe_nv110wtm_n61_modes[] = {
++	{
++		.clock = 207800,
++		.hdisplay = 2160,
++		.hsync_start = 2160 + 48,
++		.hsync_end = 2160 + 48 + 32,
++		.htotal = 2160 + 48 + 32 + 100,
++		.vdisplay = 1440,
++		.vsync_start = 1440 + 3,
++		.vsync_end = 1440 + 3 + 6,
++		.vtotal = 1440 + 3 + 6 + 31,
++	},
++	{
++		.clock = 138500,
++		.hdisplay = 2160,
++		.hsync_start = 2160 + 48,
++		.hsync_end = 2160 + 48 + 32,
++		.htotal = 2160 + 48 + 32 + 100,
++		.vdisplay = 1440,
++		.vsync_start = 1440 + 3,
++		.vsync_end = 1440 + 3 + 6,
++		.vtotal = 1440 + 3 + 6 + 31,
++	},
++};
 +
-+		/**
-+		 * @unprepare_to_prepare: Time between unprepare and prepare.
-+		 *
-+		 * The minimum time, in milliseconds, that needs to have passed
-+		 * between when unprepare finished and prepare may begin. If at
-+		 * prepare time less time has passed since unprepare finished,
-+		 * the driver waits for the remaining time.
-+		 *
-+		 * If a fixed unprepare delay is also specified, we'll start
-+		 * counting before delaying for the fixed delay.
-+		 *
-+		 * If a fixed prepare delay is also specified, it will happen
-+		 * separately and after we've enforced this minimum. We can't
-+		 * overlap this fixed delay with the min time because the
-+		 * fixed delay doesn't happen at the start of the function
-+		 * if a regulator or enable GPIO was specified.
-+		 *
-+		 * In other words:
-+		 *   unprepare():
-+		 *     ...
-+		 *     // start counting for unprepare_to_prepare
-+		 *     // do fixed unprepare delay
-+		 *
-+		 *   prepare():
-+		 *     // enforce unprepare_to_prepare min time
-+		 *     // turn on regulator / set enable GPIO if applicable
-+		 *     // do fixed prepare delay
-+		 */
-+		unsigned int unprepare_to_prepare;
-+	} min_times;
++static const struct panel_desc boe_nv110wtm_n61 = {
++	.modes = boe_nv110wtm_n61_modes,
++	.num_modes = ARRAY_SIZE(boe_nv110wtm_n61_modes),
++	.bpc = 8,
++	.size = {
++		.width = 233,
++		.height = 155,
++	},
++	.delay = {
++		.hpd_absent_delay = 200,
++	},
++	.min_times = {
++		.prepare_to_enable = 80,
++		.unprepare_to_prepare = 500,
++	},
++	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
++	.bus_flags = DRM_BUS_FLAG_DATA_MSB_TO_LSB,
++	.connector_type = DRM_MODE_CONNECTOR_eDP,
++};
 +
- 	u32 bus_format;
- 	u32 bus_flags;
- 	int connector_type;
-@@ -99,10 +161,12 @@ struct panel_desc {
- 
- struct panel_simple {
- 	struct drm_panel base;
--	bool prepared;
- 	bool enabled;
- 	bool no_hpd;
- 
-+	ktime_t prepared_time;
-+	ktime_t unprepared_time;
-+
- 	const struct panel_desc *desc;
- 
- 	struct regulator *supply;
-@@ -230,6 +294,20 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
- 	return num;
- }
- 
-+static void panel_simple_wait_min_time(ktime_t start_ktime, unsigned int min_ms)
-+{
-+	ktime_t now_ktime, min_ktime;
-+
-+	if (!min_ms)
-+		return;
-+
-+	min_ktime = ktime_add(start_ktime, ms_to_ktime(min_ms));
-+	now_ktime = ktime_get();
-+
-+	if (ktime_before(now_ktime, min_ktime))
-+		msleep(ktime_to_ms(ktime_sub(min_ktime, now_ktime)) + 1);
-+}
-+
- static int panel_simple_disable(struct drm_panel *panel)
- {
- 	struct panel_simple *p = to_panel_simple(panel);
-@@ -249,18 +327,19 @@ static int panel_simple_unprepare(struct drm_panel *panel)
- {
- 	struct panel_simple *p = to_panel_simple(panel);
- 
--	if (!p->prepared)
-+	if (p->prepared_time == 0)
- 		return 0;
- 
- 	gpiod_set_value_cansleep(p->enable_gpio, 0);
- 
- 	regulator_disable(p->supply);
- 
-+	p->prepared_time = 0;
-+	p->unprepared_time = ktime_get();
-+
- 	if (p->desc->delay.unprepare)
- 		msleep(p->desc->delay.unprepare);
- 
--	p->prepared = false;
--
- 	return 0;
- }
- 
-@@ -296,9 +375,12 @@ static int panel_simple_prepare(struct drm_panel *panel)
- 	int err;
- 	int hpd_asserted;
- 
--	if (p->prepared)
-+	if (p->prepared_time != 0)
- 		return 0;
- 
-+	panel_simple_wait_min_time(p->unprepared_time,
-+				   p->desc->min_times.unprepare_to_prepare);
-+
- 	err = regulator_enable(p->supply);
- 	if (err < 0) {
- 		dev_err(panel->dev, "failed to enable supply: %d\n", err);
-@@ -333,7 +415,7 @@ static int panel_simple_prepare(struct drm_panel *panel)
- 		}
- 	}
- 
--	p->prepared = true;
-+	p->prepared_time = ktime_get();
- 
- 	return 0;
- }
-@@ -348,6 +430,9 @@ static int panel_simple_enable(struct drm_panel *panel)
- 	if (p->desc->delay.enable)
- 		msleep(p->desc->delay.enable);
- 
-+	panel_simple_wait_min_time(p->prepared_time,
-+				   p->desc->min_times.prepare_to_enable);
-+
- 	p->enabled = true;
- 
- 	return 0;
-@@ -514,7 +599,7 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 		return -ENOMEM;
- 
- 	panel->enabled = false;
--	panel->prepared = false;
-+	panel->prepared_time = 0;
- 	panel->desc = desc;
- 
- 	panel->no_hpd = of_property_read_bool(dev->of_node, "no-hpd");
+ /* Also used for boe_nv133fhm_n62 */
+ static const struct drm_display_mode boe_nv133fhm_n61_modes = {
+ 	.clock = 147840,
+@@ -4063,6 +4108,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "boe,nv101wxmn51",
+ 		.data = &boe_nv101wxmn51,
++	}, {
++		.compatible = "boe,nv110wtm-n61",
++		.data = &boe_nv110wtm_n61,
+ 	}, {
+ 		.compatible = "boe,nv133fhm-n61",
+ 		.data = &boe_nv133fhm_n61,
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
