@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306042A7427
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 01:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74352A7490
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:08:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C1466E09A;
-	Thu,  5 Nov 2020 00:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 489366E86F;
+	Thu,  5 Nov 2020 01:08:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23B616E09A;
- Thu,  5 Nov 2020 00:58:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5576E86F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:08:46 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRQ9r6jfDz9sTK;
- Thu,  5 Nov 2020 11:58:08 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRQQ316BDz9sTK;
+ Thu,  5 Nov 2020 12:08:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1604537890;
- bh=27nvI50yUte+Q88fSY3JDzpkApvknTaK+OWR6Ij0tNU=;
+ s=201702; t=1604538524;
+ bh=oi6ob72AUai3KbvsuEo7KDpVVeH1BIO8XzCS7g+cu0Q=;
  h=Date:From:To:Cc:Subject:From;
- b=KzaBpJM4Jc++XSbk5UXuDiD2KdZo9moB8JXVl0iTSxvEizpgm5NwlkYEQv7gUH39L
- lA0gtoEDcLk5kccvsXASr4OoBSaPwfq+IfrVpjaVSyTn4pL0EuAN1kfRSGSkJuQC7K
- DUAT1pAsyJrLPDfRnHcpNvaABmB/2LT3RGqem3UvhyPO7ZaCsGEprOCV/S0YRd9pgt
- PmMP4lOM00yP9HfYH8q9oZ53GmCbydM3dp2kOl7bMx2XN5smF0q9EuW5wPJsOT7Xk3
- 68y5QbHzy3eNkk4EguqX7hKTe3LZncpjtZ3B91vKIS9vlST0BHzVzrsXRhEDLZ6pXZ
- 2IdzlnRBCIv+Q==
-Date: Thu, 5 Nov 2020 11:58:08 +1100
+ b=YsOc8d2tvWJfY32gPLUhB+BRKi/UOnuoOrVHJex29FfmNSUP6U9aLBv23fV8ZpI9X
+ DRnP4NM1wKZuqX9Txuk9b65sg5FjBHI709aX2x25+ABSJAnMQefmUv9AVXOq0LP6YV
+ wvodQd885KiGajwDeks28TmnvhWzFhw8fzN5WG6B40SLFn92wAIiiPgssS4CgS8pw0
+ VK0DWuqt8XqtAU9yqEkA+Ve+A08fZ2Qpj8E6c8BVz3E2+/f4Q8+bnTM4Lj79Pwwd5C
+ v6mxCnOyA+Os7+19tJHZEMmdi/4oaCuTvy0uWSyllzgUOAIpAh9K03eIjEbtqDhH1b
+ MjuzlnVB/dyrg==
+Date: Thu, 5 Nov 2020 12:08:41 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: manual merge of the drm-msm tree with the drm-misc tree
-Message-ID: <20201105115808.3aee29f1@canb.auug.org.au>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Dave
+ Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: manual merge of the drm-msm tree with the drm tree
+Message-ID: <20201105120841.353f981f@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,19 +47,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, Stephen Boyd <swboyd@chromium.org>,
+Cc: Jani Nikula <jani.nikula@intel.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <maxime@cerno.tech>
-Content-Type: multipart/mixed; boundary="===============1327958526=="
+ Rob Clark <robdclark@chromium.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============2018489301=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1327958526==
-Content-Type: multipart/signed; boundary="Sig_/+UpkO/lwJvjogdGfigDwaWZ";
+--===============2018489301==
+Content-Type: multipart/signed; boundary="Sig_/VgW/34rCHsR3f3Z4QlQZIf1";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/+UpkO/lwJvjogdGfigDwaWZ
+--Sig_/VgW/34rCHsR3f3Z4QlQZIf1
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -68,15 +68,15 @@ Hi all,
 
 Today's linux-next merge of the drm-msm tree got a conflict in:
 
-  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+  include/drm/drm_crtc.h
 
 between commit:
 
-  29b77ad7b9ca ("drm/atomic: Pass the full state to CRTC atomic_check")
+  5c759eda9b04 ("drm: Introduce plane and CRTC scaling filter properties")
 
-from the drm-misc tree and commit:
+from the drm tree and commit:
 
-  91693cbc13c2 ("drm/msm/dpu: Add newline to printks")
+  cb21f3f882ad ("drm/msm/atomic: Drop per-CRTC locks in reverse order")
 
 from the drm-msm tree.
 
@@ -91,47 +91,48 @@ complex conflicts.
 Cheers,
 Stephen Rothwell
 
-diff --cc drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index e55be2922c2f,d4662e8184cc..000000000000
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@@ -844,12 -838,12 +844,12 @@@ static int dpu_crtc_atomic_check(struc
-  		goto end;
-  	}
+diff --cc include/drm/drm_crtc.h
+index ba839e5e357d,cd42f79b2890..000000000000
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@@ -1279,7 -1266,14 +1279,17 @@@ static inline struct drm_crtc *drm_crtc
+  #define drm_for_each_crtc(crtc, dev) \
+  	list_for_each_entry(crtc, &(dev)->mode_config.crtc_list, head)
  =20
- -	mode =3D &state->adjusted_mode;
- +	mode =3D &crtc_state->adjusted_mode;
-- 	DPU_DEBUG("%s: check", dpu_crtc->name);
-+ 	DPU_DEBUG("%s: check\n", dpu_crtc->name);
- =20
-  	/* force a full mode set if active state changed */
- -	if (state->active_changed)
- -		state->mode_changed =3D true;
- +	if (crtc_state->active_changed)
- +		crtc_state->mode_changed =3D true;
- =20
-  	memset(pipe_staged, 0, sizeof(pipe_staged));
- =20
++ /**
++  * drm_for_each_crtc_reverse - iterate over all CRTCs in reverse order
++  * @crtc: a &struct drm_crtc as the loop cursor
++  * @dev: the &struct drm_device
++  *
++  * Iterate over all CRTCs of @dev.
++  */
++ #define drm_for_each_crtc_reverse(crtc, dev) \
++ 	list_for_each_entry_reverse(crtc, &(dev)->mode_config.crtc_list, head)
++=20
+ +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
+ +					    unsigned int supported_filters);
+ +
+  #endif /* __DRM_CRTC_H__ */
 
---Sig_/+UpkO/lwJvjogdGfigDwaWZ
+--Sig_/VgW/34rCHsR3f3Z4QlQZIf1
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jTiAACgkQAVBC80lX
-0GxkpQf/d4XQPifyB/OFigkbH0lYY1T6msn/1Sr9SQkcgIZI/uzZRM1dA825vlYV
-AzqHQjCl0cJoa+Cj/KTr9npA4LEKy7FBjndFRqq8ioVo9I990U/WAKvFfD0FG75r
-AO+U9c8RER+VodfRHefvMx7zne1QFxaYy0Kcq7Jqg5Fkm/rxrDJ4qk+ubdMVn2VE
-yT3ey4/14qt3VOLJBFyNDrAIgZ4v0/ukaA/WFC4ORmKaqnym18plR82daOKLwCjY
-8xFCqV4J1npC58AVc25lGddre7tv8qKR8FLw4qRV7kcGaa24DxCe8PIiDX749bYG
-bx9dbI2thlv2MZJMENqX8Mud1Kq39A==
-=diS3
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jUJkACgkQAVBC80lX
+0Gy6Cwf/QxAeZjebZ/IxdQIW1crxIQZGPZDVgLWJXs6SHFzngnDKii8K3gcT1bIj
+YV37+qbUl4T75Gna+aYu4G7kcGOEUDPkr5POK1QGyZ9qRfyrTwm0p6TOz6K9GmDt
+PNtGUpDOWMzRqnQHvyZPX1ZjhH06t3EvdOThZAwLeKpBIKnfBZ/U67BSSkBwrz5x
+FG456q/is2Z680HIXxWShdjSiSCbAiqS6vHHWG9tpBEQ9TwlpkaZbmnf3KMWI4CK
+GLA6NNWls2nCOpO1lcyDQOUNBMlgfNBJZvYIt3l+VGZP5Gsv/N7Y4Ovx6KP5bULQ
+H68fJrwfoVj+jmBZ0Vts+eP34fytig==
+=huOO
 -----END PGP SIGNATURE-----
 
---Sig_/+UpkO/lwJvjogdGfigDwaWZ--
+--Sig_/VgW/34rCHsR3f3Z4QlQZIf1--
 
---===============1327958526==
+--===============2018489301==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -142,4 +143,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1327958526==--
+--===============2018489301==--
