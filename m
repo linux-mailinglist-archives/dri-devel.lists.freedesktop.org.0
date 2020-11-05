@@ -1,61 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B052A790A
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6D92A79C7
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:56:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C22B6EA1A;
-	Thu,  5 Nov 2020 08:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE126E17A;
+	Thu,  5 Nov 2020 08:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
- [IPv6:2607:f8b0:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD6186E160
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 07:00:57 +0000 (UTC)
-Received: by mail-pf1-x441.google.com with SMTP id w65so688885pfd.3
- for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 23:00:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=In22z4zSRFjmN0f9ZWT4tSWe/e4QLia1xEowLwJnVsw=;
- b=MXqPgs8+6JTdO/hUoDQw5oReQIcGnaaVfUbxHiTj/WNMBS0cf3z4ohV+gF45hY58w/
- aoFliyd9R/tnYceFsDd1i5ZqyVInBUwnOTkO0iGVPUyoNe059GQEoAK6RMQUzn3dMo1l
- n9M7VKH4+IyCkaIL+7QBE2LQmvswOpQQnMjujNrQlvxsPx87Z28CxZPz+egzh8LAELS1
- S+F/AqaP302QLGtQjTyL4M7IxF1We073NibdHPAzDHgpmmJILhf1mJaq6BnvAlrSjSh2
- LzOl1rH84hlkjcyzBvUXH9e57VW746Fzr1Vd5+qP9c9nk8Gtt7KQOSjZhfNjGgPBap4m
- fuoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=In22z4zSRFjmN0f9ZWT4tSWe/e4QLia1xEowLwJnVsw=;
- b=HOs15DjeIaIrWiJIGfI39c9Z1brPX1++z6B8n0e7x7ii7C0KKxFLdD2eo8XD5d1T9I
- xvzC+N5fzfpCjMDR84865KcWgrIDIzW7Kyzg13YAgaKmj65avn3tIKS4KalTLZ81qIZF
- Bj+bngTwNhFvLwWCeHjNhNMF3cUY5BzjEO5QcxuGpNPbSNWmmVC6W7imBZjcRQ5BccRk
- +27ttFpxiRTGhKIpMFkgIl0SOsaA9OX68x6fvH9EdMDpkCWpFrKMUQVWCagsw/axs++N
- 5SCi5WvUx5YoC/yH1NzQGFyWRX17ZbjFhfDTCRKGoLyWcOIdPIOOiDCfU8PZgRiaUPhB
- JCzQ==
-X-Gm-Message-State: AOAM5328y1raxArwAyWRi1d7YIRLPzg9u8jrdPRBhndCfqfy45i+z5kK
- 8YzG2SayPsCib6sThhfTw5g=
-X-Google-Smtp-Source: ABdhPJxccwbMNiHKtX8PlDU2gsnrWVHgRU2ASpOcGh5rnfj0CZusDbR0R9TyZJHcK06SvgZWWBZTOw==
-X-Received: by 2002:a65:4b84:: with SMTP id t4mr1159089pgq.138.1604559657437; 
- Wed, 04 Nov 2020 23:00:57 -0800 (PST)
-Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
- by smtp.gmail.com with ESMTPSA id c11sm814474pjn.26.2020.11.04.23.00.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 23:00:56 -0800 (PST)
-Date: Thu, 5 Nov 2020 16:00:54 +0900
-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] drm/virtio: use kvmalloc for large allocations
-Message-ID: <20201105070054.GD128655@google.com>
-References: <20201105014744.1662226-1-senozhatsky@chromium.org>
- <20201105065233.3td3zuyfmbypjtvq@sirius.home.kraxel.org>
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBCB6E17F
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 08:39:18 +0000 (UTC)
+From: Paul Cercueil <paul@crapouillou.net>
+To: David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/ingenic: ipu: Search for scaling coefs up to 102% of the
+ screen
+Date: Thu,  5 Nov 2020 08:39:05 +0000
+Message-Id: <20201105083905.8780-1-paul@crapouillou.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105065233.3td3zuyfmbypjtvq@sirius.home.kraxel.org>
-X-Mailman-Approved-At: Thu, 05 Nov 2020 08:20:02 +0000
+X-Mailman-Approved-At: Thu, 05 Nov 2020 08:56:48 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,30 +33,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Suleiman Souhlal <suleiman@google.com>
+Cc: Paul Cercueil <paul@crapouillou.net>, od@zcrc.me,
+ Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Increase the scaled image's theorical width/height until we find a
+configuration that has valid scaling coefficients, up to 102% of the
+screen's resolution. This makes sure that we can scale from almost
+every resolution possible at the cost of a very small distorsion.
+The CRTC_W / CRTC_H are not modified.
 
-On (20/11/05 07:52), Gerd Hoffmann wrote:
-> > -	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
-> > -			      GFP_KERNEL);
-> > +	*ents = kvmalloc_array(*nents,
-> > +			       sizeof(struct virtio_gpu_mem_entry),
-> > +			       GFP_KERNEL);
-> 
-> Shouldn't that be balanced with a kvfree() elsewhere?
+This algorithm was already in place but would not try to go above the
+screen's resolution, and as a result would only work if the CRTC_W /
+CRTC_H were smaller than the screen resolution. It will now try until it
+reaches 102% of the screen's resolution.
 
-I think it already is. ents pointer is assigned to vbuf->data_buf,
-and free_vbuf() already uses kvfree(vbuf->data_buf) to free it.
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+---
+ drivers/gpu/drm/ingenic/ingenic-ipu.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-	-ss
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index fc8c6e970ee3..e52777ef85fd 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -516,7 +516,7 @@ static void ingenic_ipu_plane_atomic_update(struct drm_plane *plane,
+ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+ 					  struct drm_plane_state *state)
+ {
+-	unsigned int num_w, denom_w, num_h, denom_h, xres, yres;
++	unsigned int num_w, denom_w, num_h, denom_h, xres, yres, max_w, max_h;
+ 	struct ingenic_ipu *ipu = plane_to_ingenic_ipu(plane);
+ 	struct drm_crtc *crtc = state->crtc ?: plane->state->crtc;
+ 	struct drm_crtc_state *crtc_state;
+@@ -558,19 +558,26 @@ static int ingenic_ipu_plane_atomic_check(struct drm_plane *plane,
+ 	xres = state->src_w >> 16;
+ 	yres = state->src_h >> 16;
+ 
+-	/* Adjust the coefficients until we find a valid configuration */
+-	for (denom_w = xres, num_w = state->crtc_w;
+-	     num_w <= crtc_state->mode.hdisplay; num_w++)
++	/*
++	 * Increase the scaled image's theorical width/height until we find a
++	 * configuration that has valid scaling coefficients, up to 102% of the
++	 * screen's resolution. This makes sure that we can scale from almost
++	 * every resolution possible at the cost of a very small distorsion.
++	 * The CRTC_W / CRTC_H are not modified.
++	 */
++	max_w = crtc_state->mode.hdisplay * 102 / 100;
++	max_h = crtc_state->mode.vdisplay * 102 / 100;
++
++	for (denom_w = xres, num_w = state->crtc_w; num_w <= max_w; num_w++)
+ 		if (!reduce_fraction(&num_w, &denom_w))
+ 			break;
+-	if (num_w > crtc_state->mode.hdisplay)
++	if (num_w > max_w)
+ 		return -EINVAL;
+ 
+-	for (denom_h = yres, num_h = state->crtc_h;
+-	     num_h <= crtc_state->mode.vdisplay; num_h++)
++	for (denom_h = yres, num_h = state->crtc_h; num_h <= max_h; num_h++)
+ 		if (!reduce_fraction(&num_h, &denom_h))
+ 			break;
+-	if (num_h > crtc_state->mode.vdisplay)
++	if (num_h > max_h)
+ 		return -EINVAL;
+ 
+ 	ipu->num_w = num_w;
+-- 
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
