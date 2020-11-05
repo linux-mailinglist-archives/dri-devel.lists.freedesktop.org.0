@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8512A7DC7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055712A7DC6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:04:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25582899BB;
-	Thu,  5 Nov 2020 12:04:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC61C89FBC;
+	Thu,  5 Nov 2020 12:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD79989B99
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:04:15 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C485F056533;
- Thu, 5 Nov 2020 06:04:08 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A57B889FBC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:04:17 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C4AHp056542;
+ Thu, 5 Nov 2020 06:04:10 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604577848;
- bh=KuzRFxaZaEeub4lQnHBfyHYmcKOEXBqeB0NTeHEQ2IU=;
+ s=ti-com-17Q1; t=1604577850;
+ bh=NY62PBg/t3i9PNCXVnDCYnEBfasB0Eg8t8CfoAkDcxQ=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=xwSRH1N7jjMvXFMOrMtk3Vdj1eLjBP3yUbU36GTU/LJfOD76PJ+ft8bo5Xig52LZW
- NC6MKKclz8Fb+RlKHBLAU1uESbhDy7rQR/8josZAS6Z4QWi4gZTlDtYiLpjtHHqVnH
- P8uRajfd5iKrjn8tGE2IrD9GX3O1+uIm7iohuKxY=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C48ti071774
+ b=hTeDQ5CcgYNL63G9FHFFEkLrggzjWN2fWA4jtSap+25f37Kjqw+1zNTFRDjNM1vAO
+ IHtGlTjjWPl5Z98QuZu19MFVrDHN48egIAblSMnf5/Cdf/ZUoM72z7lu9EADijI6uW
+ 7YQU/wKiv8NLruMf9a0Z/hv5t8utKi1X23+nN79E=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C4AIZ125039
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 5 Nov 2020 06:04:08 -0600
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 5 Nov 2020 06:04:10 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 5 Nov
- 2020 06:04:07 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 06:04:10 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 5 Nov 2020 06:04:08 -0600
+ Frontend Transport; Thu, 5 Nov 2020 06:04:10 -0600
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rf3039111;
- Thu, 5 Nov 2020 06:04:05 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rf4039111;
+ Thu, 5 Nov 2020 06:04:08 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 05/56] drm/omap: constify write buffers
-Date: Thu, 5 Nov 2020 14:02:42 +0200
-Message-ID: <20201105120333.947408-6-tomi.valkeinen@ti.com>
+Subject: [PATCH v3 06/56] drm/omap: dsi: add generic transfer function
+Date: Thu, 5 Nov 2020 14:02:43 +0200
+Message-ID: <20201105120333.947408-7-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201105120333.947408-1-tomi.valkeinen@ti.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
@@ -73,135 +73,105 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-The write buffers are not modified, so they can be constant.
+This prepares the driver for becoming a mipi_dsi_host implementation,
+which provides a generic transfer function instead of all kind of
+different read/write functions. The implementation will become more
+elegant after unexporting the specific functions in the following
+patches.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c     | 24 ++++++++++++------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h | 10 +++++-----
- 2 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dsi.c     | 54 +++++++++++++++++++++++++++
+ drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 ++
+ 2 files changed, 57 insertions(+)
 
 diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 86b9d435fb94..22d74d762a10 100644
+index 22d74d762a10..59a62d1d41cb 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -2601,11 +2601,11 @@ static inline void dsi_vc_write_long_payload(struct dsi_data *dsi, int channel,
+@@ -4842,6 +4842,58 @@ static void dsi_release_vc(struct omap_dss_device *dssdev, int channel)
+ 	}
  }
  
- static int dsi_vc_send_long(struct dsi_data *dsi, int channel, u8 data_type,
--			    u8 *data, u16 len, u8 ecc)
-+			    const u8 *data, u16 len, u8 ecc)
++static ssize_t omap_dsi_transfer(struct omap_dss_device *dssdev,
++				 const struct mipi_dsi_msg *msg)
++{
++	/*
++	 * no_sync can be used to optimize performance by sending e.g. column
++	 * and page information without syncing in between. It's not absolutley
++	 * required, so postpone this feature for now.
++	 */
++	bool no_sync = false;
++	u16 val;
++
++	switch (msg->type) {
++	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
++	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
++	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
++	case MIPI_DSI_GENERIC_LONG_WRITE:
++		if (no_sync)
++			return dsi_vc_generic_write_nosync(dssdev, msg->channel,
++							   msg->tx_buf,
++							   msg->tx_len);
++		else
++			return dsi_vc_generic_write(dssdev, msg->channel,
++						    msg->tx_buf, msg->tx_len);
++	case MIPI_DSI_DCS_SHORT_WRITE:
++	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
++	case MIPI_DSI_DCS_LONG_WRITE:
++		if (no_sync)
++			return dsi_vc_dcs_write_nosync(dssdev, msg->channel,
++						       msg->tx_buf,
++						       msg->tx_len);
++		else
++			return dsi_vc_dcs_write(dssdev, msg->channel,
++						msg->tx_buf, msg->tx_len);
++	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
++	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
++	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
++		return dsi_vc_generic_read(dssdev, msg->channel,
++					   msg->tx_buf, msg->tx_len,
++					   msg->rx_buf, msg->rx_len);
++	case MIPI_DSI_DCS_READ:
++		return dsi_vc_dcs_read(dssdev, msg->channel,
++				       ((u8 *)msg->tx_buf)[0],
++				       msg->rx_buf, msg->rx_len);
++	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
++		val = le16_to_cpu(*((__le16 *)msg->tx_buf));
++		return dsi_vc_set_max_rx_packet_size(dssdev, msg->channel, val);
++	case MIPI_DSI_NULL_PACKET:
++		return dsi_vc_send_null(to_dsi_data(dssdev), msg->channel);
++	}
++
++	return -EINVAL;
++}
+ 
+ static int dsi_get_clocks(struct dsi_data *dsi)
  {
- 	/*u32 val; */
- 	int i;
--	u8 *p;
-+	const u8 *p;
- 	int r = 0;
- 	u8 b1, b2, b3, b4;
+@@ -4896,6 +4948,8 @@ static const struct omap_dss_device_ops dsi_ops = {
+ 		.set_vc_id = dsi_set_vc_id,
+ 		.release_vc = dsi_release_vc,
  
-@@ -2698,7 +2698,7 @@ static int dsi_vc_send_null(struct dsi_data *dsi, int channel)
- }
- 
- static int dsi_vc_write_nosync_common(struct dsi_data *dsi, int channel,
--				      u8 *data, int len,
-+				      const u8 *data, int len,
- 				      enum dss_dsi_content_type type)
- {
- 	int r;
-@@ -2729,7 +2729,7 @@ static int dsi_vc_write_nosync_common(struct dsi_data *dsi, int channel,
- }
- 
- static int dsi_vc_dcs_write_nosync(struct omap_dss_device *dssdev, int channel,
--		u8 *data, int len)
-+		const u8 *data, int len)
- {
- 	struct dsi_data *dsi = to_dsi_data(dssdev);
- 
-@@ -2738,7 +2738,7 @@ static int dsi_vc_dcs_write_nosync(struct omap_dss_device *dssdev, int channel,
- }
- 
- static int dsi_vc_generic_write_nosync(struct omap_dss_device *dssdev, int channel,
--		u8 *data, int len)
-+		const u8 *data, int len)
- {
- 	struct dsi_data *dsi = to_dsi_data(dssdev);
- 
-@@ -2747,7 +2747,7 @@ static int dsi_vc_generic_write_nosync(struct omap_dss_device *dssdev, int chann
- }
- 
- static int dsi_vc_write_common(struct omap_dss_device *dssdev,
--			       int channel, u8 *data, int len,
-+			       int channel, const u8 *data, int len,
- 			       enum dss_dsi_content_type type)
- {
- 	struct dsi_data *dsi = to_dsi_data(dssdev);
-@@ -2776,15 +2776,15 @@ static int dsi_vc_write_common(struct omap_dss_device *dssdev,
- 	return r;
- }
- 
--static int dsi_vc_dcs_write(struct omap_dss_device *dssdev, int channel, u8 *data,
--		int len)
-+static int dsi_vc_dcs_write(struct omap_dss_device *dssdev, int channel,
-+		const u8 *data, int len)
- {
- 	return dsi_vc_write_common(dssdev, channel, data, len,
- 			DSS_DSI_CONTENT_DCS);
- }
- 
--static int dsi_vc_generic_write(struct omap_dss_device *dssdev, int channel, u8 *data,
--		int len)
-+static int dsi_vc_generic_write(struct omap_dss_device *dssdev, int channel,
-+		const u8 *data, int len)
- {
- 	return dsi_vc_write_common(dssdev, channel, data, len,
- 			DSS_DSI_CONTENT_GENERIC);
-@@ -2810,7 +2810,7 @@ static int dsi_vc_dcs_send_read_request(struct dsi_data *dsi, int channel,
- }
- 
- static int dsi_vc_generic_send_read_request(struct dsi_data *dsi, int channel,
--					    u8 *reqdata, int reqlen)
-+					    const u8 *reqdata, int reqlen)
- {
- 	u16 data;
- 	u8 data_type;
-@@ -2983,7 +2983,7 @@ static int dsi_vc_dcs_read(struct omap_dss_device *dssdev, int channel, u8 dcs_c
- }
- 
- static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int channel,
--		u8 *reqdata, int reqlen, u8 *buf, int buflen)
-+		const u8 *reqdata, int reqlen, u8 *buf, int buflen)
- {
- 	struct dsi_data *dsi = to_dsi_data(dssdev);
- 	int r;
++		.transfer = omap_dsi_transfer,
++
+ 		.dcs_write = dsi_vc_dcs_write,
+ 		.dcs_write_nosync = dsi_vc_dcs_write_nosync,
+ 		.dcs_read = dsi_vc_dcs_read,
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index c4bc1f919ab4..8e96ab2f20b6 100644
+index 8e96ab2f20b6..654618e5a4e5 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -309,18 +309,18 @@ struct omapdss_dsi_ops {
+@@ -308,6 +308,9 @@ struct omapdss_dsi_ops {
+ 	void (*release_vc)(struct omap_dss_device *dssdev, int channel);
  
  	/* data transfer */
++	ssize_t (*transfer)(struct omap_dss_device *dssdev,
++			    const struct mipi_dsi_msg *msg);
++
  	int (*dcs_write)(struct omap_dss_device *dssdev, int channel,
--			u8 *data, int len);
-+			const u8 *data, int len);
+ 			const u8 *data, int len);
  	int (*dcs_write_nosync)(struct omap_dss_device *dssdev, int channel,
--			u8 *data, int len);
-+			const u8 *data, int len);
- 	int (*dcs_read)(struct omap_dss_device *dssdev, int channel, u8 dcs_cmd,
- 			u8 *data, int len);
- 
- 	int (*gen_write)(struct omap_dss_device *dssdev, int channel,
--			u8 *data, int len);
-+			const u8 *data, int len);
- 	int (*gen_write_nosync)(struct omap_dss_device *dssdev, int channel,
--			u8 *data, int len);
-+			const u8 *data, int len);
- 	int (*gen_read)(struct omap_dss_device *dssdev, int channel,
--			u8 *reqdata, int reqlen,
-+			const u8 *reqdata, int reqlen,
- 			u8 *data, int len);
- 
- 	int (*bta_sync)(struct omap_dss_device *dssdev, int channel);
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
