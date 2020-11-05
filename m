@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040B12A7AC3
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 10:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD2C2A7AD3
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 10:43:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB4D6E1A2;
-	Thu,  5 Nov 2020 09:42:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 166F16E1BC;
+	Thu,  5 Nov 2020 09:43:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E197E6E1A2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 09:42:18 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id h22so910460wmb.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 01:42:18 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A928C6E1BC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 09:43:12 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id y12so939994wrp.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 01:43:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=wpa/gH6WKVvOZOF65OKK1Df7hL/w51tUR5ocafirz/U=;
- b=gGpve2b5nT5gDe0F41+nOJ8S0JtPp+K/fkbykHKZpJakWRrlBTuW9/X4OP3lckOq4S
- wFC6L2TgfvMVBEyrEUg0CaryizLLCP6ZWidtrdKSBVVAH8mjIY62v2CsJQrEZDf7Ly6U
- pP0JtMJnmCpKC98YGUdp8xOqeDtcn7vXs6s8o=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=umt3jz7XvqnLKblRD57fg7k5CbpHUOGpmAmalMgljt8=;
+ b=Ih+nDylFGMjHq84eK7Rq9s+Z2tyNqAr7ZxdVjnA5XHGw90B5AgJ8ZKL7j863EbjF8N
+ tszUj4XXa6G/DClYyE+fJIZhleQWAnyCcY8NmxPXtkV4Ctdg5svH7pAVwCk1C4zjnQd/
+ FFEJbXF2ledzRjhZZYNJRsRH1CPkmfAHNExOM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=wpa/gH6WKVvOZOF65OKK1Df7hL/w51tUR5ocafirz/U=;
- b=YtwNxa//Ww6ZPMdQrYvvVXUSKWJ3cJoP+qEEc86T8VE15fEZqw/hlhdbw76iF3uwCb
- ucbCZRIKCiI5dAloWrAImtcIChgRnjk4tPJtxj1xIni2EGdohGiMB0B7LYhXlbYJ+m5Y
- Kku9bGQ0DiqWvgHM+Ojpwf9u9/faA5x3OTwvKbVwynh5slNv+DuUoIIBytiUdMDZ9wSU
- KdTrWfP134rWA0peLS5u5RiFpshIDxFSWT0qvszBpsCT3rtubtR0b5rIBPyloYnbcFg9
- xpHufX3DwF3qmnukP3Ib9ZKxkEupC0ZviwDUy/7glmCWBoZHOBRoGhAeoWgFYLVu27wp
- fSgg==
-X-Gm-Message-State: AOAM533AQcKBPexhBVOgPt3FlJ78R5TJRkIt2Ce2cGbpJejm3rMiVh4v
- GbzRMwub4XxOJj3SD7R6SHC9vQ==
-X-Google-Smtp-Source: ABdhPJzLdA/5MB4X8lL2FOSUeAQLRPyPZzE5Hwhd3ddv0IHLtJIf4ldo5XuVgoPqCzuJ52+HNerkLg==
-X-Received: by 2002:a1c:2d8f:: with SMTP id t137mr1729198wmt.26.1604569337681; 
- Thu, 05 Nov 2020 01:42:17 -0800 (PST)
+ bh=umt3jz7XvqnLKblRD57fg7k5CbpHUOGpmAmalMgljt8=;
+ b=ZNamvsQDNHB2pynp1jeue+bIujL3Sye3zwg9nKL64mII7CwAXTQlZVG7xoFGGKHEdY
+ y7JpM0JztO0WDIAszFUHHStvvk12Vap56aCt3i91vZmWujlzMfRStdxVnEnxN4h8tqGO
+ Fpw8CMyxKyPrFggYIrQLGpYZVKVffcsV+6qeZ7i3galjX+ACD3XBNwO2hDfhSh5WzpFE
+ 0z3+6Fpcg8t2AasjGE9kyZeZ+kO+H/f4rMc56K16UTVHxHDZw/6+Gazmf7+Gmo+f/oIV
+ k4xva7L9XbG1+eRe7Iiv+opu2rg+g6/yerUZZv8dni607sDdEnjm9irWsx7/kbo7p8a7
+ QYGg==
+X-Gm-Message-State: AOAM531GJadHjDa2roK68edxkjS1ceyzA5RLrf+cGEdmW00w0fh/si4b
+ JDrZbw2XKM4757HxnRhdEQAqNQ==
+X-Google-Smtp-Source: ABdhPJyTOlna4fpmBl8kEs7svYnCj6NSnfvD8ATZ3TURBY/iWQvM1HLgRCIloCMgE/qDCtdyEF2JAg==
+X-Received: by 2002:adf:a29e:: with SMTP id s30mr1972486wra.29.1604569391403; 
+ Thu, 05 Nov 2020 01:43:11 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w11sm1875170wmg.36.2020.11.05.01.42.16
+ by smtp.gmail.com with ESMTPSA id l124sm1712004wml.48.2020.11.05.01.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 01:42:16 -0800 (PST)
-Date: Thu, 5 Nov 2020 10:42:15 +0100
+ Thu, 05 Nov 2020 01:43:10 -0800 (PST)
+Date: Thu, 5 Nov 2020 10:43:09 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Deepak R Varma <mh12gx2825@gmail.com>
-Subject: Re: [PATCH] drm/vgm: replace idr_init() by idr_init_base()
-Message-ID: <20201105094215.GT401619@phenom.ffwll.local>
-Mail-Followup-To: Deepak R Varma <mh12gx2825@gmail.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20201104112338.GA29271@localhost>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH v2] drm: document that blobs are ref'counted
+Message-ID: <20201105094309.GU401619@phenom.ffwll.local>
+References: <wgav99DTGfubfVPiurrydQEiyufYpxlJQZ0wJMWYBQ@cp7-web-042.plabs.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104112338.GA29271@localhost>
+In-Reply-To: <wgav99DTGfubfVPiurrydQEiyufYpxlJQZ0wJMWYBQ@cp7-web-042.plabs.ch>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,54 +65,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 04:53:38PM +0530, Deepak R Varma wrote:
-> idr_init() uses base 0 which is an invalid identifier. The new function
-> idr_init_base allows IDR to set the ID lookup from base 1. This avoids
-> all lookups that otherwise starts from 0 since 0 is always unused.
-> 
-> References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
-> 
-> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+On Wed, Nov 04, 2020 at 05:01:40PM +0000, Simon Ser wrote:
+> User-space doesn't need to keep track of blobs that might be in use by
+> the kernel. User-space can just destroy blobs as soon as they don't need
+> them anymore.
+> =
 
-Tiny typo in the commit message summary: s/vgm/vgem/
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Signed-off-by: Daniel Stone <daniel@fooishbar.org>
+> Reviewed-by: Jonas =C5dahl <jadahl@gmail.com>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 
-Also can you pls resbumit this with intel-gfx mailing list on cc (like for
-i915)? There's a CI bot there which runs a few vgem tests, would be good
-to confirm nothing has been broken.
-
-Otherwise lgtm.
-
-Thanks, Daniel
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
-> index 17f32f550dd9..2902dc6e64fa 100644
-> --- a/drivers/gpu/drm/vgem/vgem_fence.c
-> +++ b/drivers/gpu/drm/vgem/vgem_fence.c
-> @@ -233,7 +233,7 @@ int vgem_fence_signal_ioctl(struct drm_device *dev,
->  int vgem_fence_open(struct vgem_file *vfile)
->  {
->  	mutex_init(&vfile->fence_mutex);
-> -	idr_init(&vfile->fence_idr);
-> +	idr_init_base(&vfile->fence_idr, 1);
->  
->  	return 0;
->  }
-> -- 
-> 2.25.1
-> 
+>  include/uapi/drm/drm_mode.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> =
 
--- 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 863eda048265..5ad10ab2a577 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -924,6 +924,12 @@ struct drm_mode_create_blob {
+>   * struct drm_mode_destroy_blob - Destroy user blob
+>   * @blob_id: blob_id to destroy
+>   * Destroy a user-created blob property.
+> + *
+> + * User-space can release blobs as soon as they do not need to refer to =
+them by
+> + * their blob object ID.  For instance, if you are using a MODE_ID blob =
+in an
+> + * atomic commit and you will not make another commit re-using the same =
+ID, you
+> + * can destroy the blob as soon as the commit has been issued, without w=
+aiting
+> + * for it to complete.
+>   */
+>  struct drm_mode_destroy_blob {
+>  	__u32 blob_id;
+> -- =
+
+> 2.29.2
+> =
+
+> =
+
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
