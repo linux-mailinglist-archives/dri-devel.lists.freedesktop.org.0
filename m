@@ -1,52 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC00E2A7CC4
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 12:16:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1CA32A7D1B
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 12:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66FDD6E1F4;
-	Thu,  5 Nov 2020 11:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFA36E0E4;
+	Thu,  5 Nov 2020 11:34:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 965416E1F4
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 11:16:47 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id k26so1308436oiw.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 03:16:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UszkOiciKi1uHSlkdshllKEw9+T6ITNIT1mnjF8bYTY=;
- b=R0t4CKpyo+uaCbfna6NGaIp9rLnm26RsohzyWNNDVpMXpRLkwzdJoPYsdthmBnsJi+
- izN+ltDHSwXYQ+7GMJORyR+T+1JeK3FjYoLK401V0Y2cCRvxXvHANDwXmSoTwq0+1zEw
- ecoDwMZ8RZWe0v5Pe1lPc/iAujCW8VgaahM1s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UszkOiciKi1uHSlkdshllKEw9+T6ITNIT1mnjF8bYTY=;
- b=bdtZUKK9Knd6+6+Pi5cnJp0qNH5/+JKAHZcv4oH+0+ohOtwWF2ZaZycGselZGEVfD/
- gxN6Z67eSWZL5BmArfwey77BC9QmPEkIf8PZWc8vsupLU40A8NSmuYer0ufR6T1vaxn2
- /vFi/qlSLlWkpunfS/Yv0yYpnOomv7hcXHkbaYkHFOvpZO3lBZYmHKfxTRqsREi0t459
- c3FKfu3UgDmrk2Yq1FcmUGZUMobhsz+J9OPSGb1hnkg+CXDldCiTzQSyGOIffcCrcA7B
- 5U82OjpMnAOOBLvNc6evjek+t6S8k4173ivuUC0s5OjewnVUiXOv39iAV2DV6vt8LCX9
- tZsg==
-X-Gm-Message-State: AOAM5327bhryqWkfs3ZIV2ZKuO043LcjL2SSJScMgGlFr9rUIy+8hVH3
- l1Kp8KNg91MTqUDBTTF5CPwBZu1ZJK0onmp+f9DwLQ==
-X-Google-Smtp-Source: ABdhPJy7rvSgYNi1XYKgWMkyr7U0fbTSy8ZOBfLBzFaROy9lsHMPGmQFMIqiUbMl7tzF52kCTP0NO6wtuawINX+sUVc=
-X-Received: by 2002:aca:b141:: with SMTP id a62mr1132355oif.101.1604575006528; 
- Thu, 05 Nov 2020 03:16:46 -0800 (PST)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D346E0E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 11:34:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604576075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BqAyd5oPIZ6twy3M+P8m2ePirTM3ef9UMxPbSLSvBUQ=;
+ b=c9sqQwPYUp6ysKxdharqItxAuALACrRKBWiRx4/J1s58pOvssFcHd+RMznfDKGd49Il6Vn
+ RtTlwYWzalrIELDiEDt/D65zNPcp2C27gbpbwmxTlD0HS9xiUgLnwO2D5QxToNtI/A7ww9
+ h3RD9kptyfxPW3NgWNCvuVcSOQlSvF8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-CKDof9iRPs6yY3cC_MY5pQ-1; Thu, 05 Nov 2020 06:34:29 -0500
+X-MC-Unique: CKDof9iRPs6yY3cC_MY5pQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B22186841A;
+ Thu,  5 Nov 2020 11:34:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C210C6266E;
+ Thu,  5 Nov 2020 11:34:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D61CE9D0F; Thu,  5 Nov 2020 12:34:25 +0100 (CET)
+Date: Thu, 5 Nov 2020 12:34:25 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Subject: Re: [PATCH] drm/virtio: use kvmalloc for large allocations
+Message-ID: <20201105113425.q45omct7eb44eraq@sirius.home.kraxel.org>
+References: <20201105014744.1662226-1-senozhatsky@chromium.org>
+ <20201105065233.3td3zuyfmbypjtvq@sirius.home.kraxel.org>
+ <20201105070054.GD128655@google.com>
 MIME-Version: 1.0
-References: <20201104112338.GA29271@localhost>
- <20201105094215.GT401619@phenom.ffwll.local>
- <20201105103116.GA29881@localhost>
-In-Reply-To: <20201105103116.GA29881@localhost>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 5 Nov 2020 12:16:34 +0100
-Message-ID: <CAKMK7uF0buRA-FfoY2=FbZQO-cqgSwZXRWwNQ2xkBdZAS=JuRA@mail.gmail.com>
-Subject: Re: [PATCH] drm/vgm: replace idr_init() by idr_init_base()
-To: Deepak R Varma <mh12gx2825@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201105070054.GD128655@google.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,92 +62,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Suleiman Souhlal <suleiman@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 5, 2020 at 11:31 AM Deepak R Varma <mh12gx2825@gmail.com> wrote:
->
-> On Thu, Nov 05, 2020 at 10:42:15AM +0100, Daniel Vetter wrote:
-> > On Wed, Nov 04, 2020 at 04:53:38PM +0530, Deepak R Varma wrote:
-> > > idr_init() uses base 0 which is an invalid identifier. The new function
-> > > idr_init_base allows IDR to set the ID lookup from base 1. This avoids
-> > > all lookups that otherwise starts from 0 since 0 is always unused.
-> > >
-> > > References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
-> > >
-> > > Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-> >
-> > Tiny typo in the commit message summary: s/vgm/vgem/
-> >
-> > Also can you pls resbumit this with intel-gfx mailing list on cc (like for
-> > i915)? There's a CI bot there which runs a few vgem tests, would be good
-> > to confirm nothing has been broken.
->
-> Hi Daniel,
-> sure. I will correct the summary typo and also feed it to the CI bot.
->
-> Also, according to Felix Kuehling's comment on a similar patch for
-> drm/amdkfd driver, an ID can be 0. The change I am proposing is more
-> efficient for conditions that do not want to use ID as 0. Otherwise,
-> id = 0 is an acceptable possibility. So, my statement that "Id 0 is an invalid
-> identifier" is not true.
->
-> Can you please comment if this is accurate and I should reword my log
-> message as well?
+On Thu, Nov 05, 2020 at 04:00:54PM +0900, Sergey Senozhatsky wrote:
+> Hi,
+> 
+> On (20/11/05 07:52), Gerd Hoffmann wrote:
+> > > -	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+> > > -			      GFP_KERNEL);
+> > > +	*ents = kvmalloc_array(*nents,
+> > > +			       sizeof(struct virtio_gpu_mem_entry),
+> > > +			       GFP_KERNEL);
+> > 
+> > Shouldn't that be balanced with a kvfree() elsewhere?
+> 
+> I think it already is. ents pointer is assigned to vbuf->data_buf,
+> and free_vbuf() already uses kvfree(vbuf->data_buf) to free it.
 
-You need to review the vgem code to see whether we're using id 0 as
-invalid identifier or not. That's part of the work that needs to be
-done here. Best would be to explain the evidence you've found in the
-commit message, why id 0 is invalid for this specific code. Since yes
-in general that's not true, it depends how the idr is used.
--Daniel
+Ah, right, we needed that before elsewhere.
+Ok then, pushed to drm-misc-next.
 
->
-> Thank you.
-> ./drv
->
-> >
-> > Otherwise lgtm.
-> >
-> > Thanks, Daniel
-> >
-> > > ---
-> > >  drivers/gpu/drm/vgem/vgem_fence.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/vgem/vgem_fence.c b/drivers/gpu/drm/vgem/vgem_fence.c
-> > > index 17f32f550dd9..2902dc6e64fa 100644
-> > > --- a/drivers/gpu/drm/vgem/vgem_fence.c
-> > > +++ b/drivers/gpu/drm/vgem/vgem_fence.c
-> > > @@ -233,7 +233,7 @@ int vgem_fence_signal_ioctl(struct drm_device *dev,
-> > >  int vgem_fence_open(struct vgem_file *vfile)
-> > >  {
-> > >     mutex_init(&vfile->fence_mutex);
-> > > -   idr_init(&vfile->fence_idr);
-> > > +   idr_init_base(&vfile->fence_idr, 1);
-> > >
-> > >     return 0;
-> > >  }
-> > > --
-> > > 2.25.1
-> > >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+thanks,
+  Gerd
 
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
