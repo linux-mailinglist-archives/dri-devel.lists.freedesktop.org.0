@@ -2,42 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32EFB2A83C7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 686CE2A83CB
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:45:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C616EDC7;
-	Thu,  5 Nov 2020 16:45:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7B06EDCA;
+	Thu,  5 Nov 2020 16:45:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDA176EDAD;
- Thu,  5 Nov 2020 16:45:04 +0000 (UTC)
-IronPort-SDR: RjzUfe7/aKZ655oRXQWFQ5Tx2z8DFTAh3bUUrHrPGH2rj0qpPs99kcL2unitTl7GFWv11ZoStd
- OB8bHM+rsALA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="254121075"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="254121075"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 08:44:58 -0800
-IronPort-SDR: oWT1PErRS9vTaa6Qbwn481xXu+r7RmegJZFhC8TTUaEeIzedsHCxu/O6GSt+uM+qr0dHL5ikNB
- a4W+FXE8Dgeg==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="326086192"
-Received: from unknown (HELO intel.com) ([10.99.66.154])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 08:44:54 -0800
-Date: Thu, 5 Nov 2020 22:15:37 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v4 13/16] drm/i915/hdcp: Pass connector to check_2_2_link
-Message-ID: <20201105164537.GM3242@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-14-anshuman.gupta@intel.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40EA6EDCA
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 16:45:42 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id t11so2209547edj.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 08:45:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=CoyVEhjU5+i65+RM5MA24dlJcWVZipl6JTaDi+RPIjA=;
+ b=vHRqOwZoIMPJEdRIUfEm6A0SNzm3v9aEoMVU+lR1YRJ4VECDuDCgesjtek6nQefppP
+ FB7eujDcSbEtiHnoeOFRpm38qCaffocq5PLTEA+Z1wxqLwhWRnA78MPE+s7+SxFcgkV8
+ 3CpJI+DeQmwMsERvjUaQIJsom24qXiikOBPkdQi2/FuwFQoltsKGzAwA1PSV2Ai7onxs
+ oVqb7reyJCENcsWymvdE+dj0XxgN2bDckqMaT7dxIwGyrWt4Xum875h8J5X1vKHsSLCy
+ tG5pJX2y95SyxWwJYP/EC6WZhZmUq8wAvO0aT0TO1C1eKLJv63HGrcytU8NCLNLlEeXP
+ qoSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=CoyVEhjU5+i65+RM5MA24dlJcWVZipl6JTaDi+RPIjA=;
+ b=AVTamIqOsbAmUIjyUJRFEvLI8Sfl1zgHz1tTudgHv2G8bQtw16MyIa+O0E0vxo1dtV
+ lgYvE/FN7dKsy2SumSQW103XbRBlOR75WHhLmyHrnXjoGTLxK56QXW7tApmlUB5KkD6f
+ WsFO8qrlIL2jXU7jGpxtcDQdoFi5JE73UrUnJFJB1XdT334LuBjJQX3kiKNSHaH8HzC4
+ otPSOPyG85a8f/RFaC1dJIIV4xMdlRoPP4q461eFvYjUdgXd9x9NI1hsQh7usqiUImR2
+ grebrAbdbsbVaNmGMLm6FW4mSr6br+AYK8t4mjEsCroVGkb8zNRsP0k+cjoJTfBH0DdP
+ /fbg==
+X-Gm-Message-State: AOAM530xHyQdHoFQ9G41oXOCOHn6rNdp8Rngu1/EHqsM6eEyA7XBaW3F
+ Fin8XVFb006Dh+AS9+tdmT87tirDOzU=
+X-Google-Smtp-Source: ABdhPJyDxW7zujCRtV06rwzU0KrdHIuYIJHTTT6PD5zogl77WrCXNxfQoknZW9WEzB9+NEBaak27wQ==
+X-Received: by 2002:a50:950e:: with SMTP id u14mr3469247eda.260.1604594741362; 
+ Thu, 05 Nov 2020 08:45:41 -0800 (PST)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id bt16sm1279390ejb.89.2020.11.05.08.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 08:45:40 -0800 (PST)
+Date: Thu, 5 Nov 2020 17:45:38 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 01/19] gpu: host1x: bus: Add missing description for
+ 'driver'
+Message-ID: <20201105164538.GE485884@ulmo>
+References: <20201105144517.1826692-1-lee.jones@linaro.org>
+ <20201105144517.1826692-2-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201027164208.10026-14-anshuman.gupta@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201105144517.1826692-2-lee.jones@linaro.org>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,89 +68,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
- juston.li@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============2140071460=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 at 22:12:05 +0530, Anshuman Gupta wrote:
-> This requires for HDCP 2.2 MST check link.
-> 
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_display_types.h | 3 ++-
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c       | 3 ++-
->  drivers/gpu/drm/i915/display/intel_hdcp.c          | 2 +-
->  drivers/gpu/drm/i915/display/intel_hdmi.c          | 3 ++-
->  4 files changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 24e0067c2e7c..dfb5be64e03a 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -375,7 +375,8 @@ struct intel_hdcp_shim {
->  				  bool is_repeater, u8 type);
->  
->  	/* HDCP2.2 Link Integrity Check */
-> -	int (*check_2_2_link)(struct intel_digital_port *dig_port);
-> +	int (*check_2_2_link)(struct intel_digital_port *dig_port,
-> +			      struct intel_connector *connector);
-do we need both of them?
 
--Ram.
->  };
->  
->  struct intel_hdcp {
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index 591b68e5de48..4be61e7fde4e 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -585,7 +585,8 @@ int intel_dp_hdcp2_config_stream_type(struct intel_digital_port *dig_port,
->  }
->  
->  static
-> -int intel_dp_hdcp2_check_link(struct intel_digital_port *dig_port)
-> +int intel_dp_hdcp2_check_link(struct intel_digital_port *dig_port,
-> +			      struct intel_connector *connector)
->  {
->  	u8 rx_status;
->  	int ret;
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 1df6d4a23476..87f7aaf3a319 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -1940,7 +1940,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
->  		goto out;
->  	}
->  
-> -	ret = hdcp->shim->check_2_2_link(dig_port);
-> +	ret = hdcp->shim->check_2_2_link(dig_port, connector);
->  	if (ret == HDCP_LINK_PROTECTED) {
->  		if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
->  			intel_hdcp_update_value(connector,
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index 0788de04711b..bd0d91101464 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -1734,7 +1734,8 @@ int intel_hdmi_hdcp2_read_msg(struct intel_digital_port *dig_port,
->  }
->  
->  static
-> -int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port)
-> +int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port,
-> +				struct intel_connector *connector)
->  {
->  	u8 rx_status[HDCP_2_2_HDMI_RXSTATUS_LEN];
->  	int ret;
-> -- 
-> 2.26.2
-> 
+--===============2140071460==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="a+b56+3nqLzpiR9O"
+Content-Disposition: inline
+
+
+--a+b56+3nqLzpiR9O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Nov 05, 2020 at 02:44:59PM +0000, Lee Jones wrote:
+> Fixes the following W=3D1 kernel build warning(s):
+>=20
+>  drivers/gpu/host1x/bus.c:40: warning: Function parameter or member 'driv=
+er' not described in 'host1x_subdev_add'
+>=20
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-tegra@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/gpu/host1x/bus.c | 1 +
+>  1 file changed, 1 insertion(+)
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--a+b56+3nqLzpiR9O
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+kLDIACgkQ3SOs138+
+s6FfwhAAs7WZQaGt1M9Mff4+rE8bZScWqbl3tzYINl6Z6D0Ghn9KEbM7mKpZBdTv
+iRGkVIKdoSoLZukDA36rYSs5ModiN1tEGtD5XcDEe9tR6JzHbk8L9pE+F9R3Q0LH
+c8DuKIXbXg8jkpvpvN864xOOIGjWPyNYnQa0DG7cq8KNSz6Uk9VOifD2Qngflrt4
+LPZmHQr6hIyU1ULy0P/8Q2fF7fNoUcK5S5TtjpQRmBi7Rjyf5lEiBslQcvoltbJE
+fS85N0+feF+Uv051TNeBf/B5XUaZ70aCBZui9nk09V68t8GywYWUpyLeQ4vV0NGi
+XewL8VRfbpouUSVVPOBi6xTr7knXeFjqQc6uRFtwSMRefn2xPG1yt90/RWVhd29t
+npT1GrWHVbAIsSflOs41ao8Un+PnzRlefNMX0NlKsuEdvKrv68FwPd7JOEkxvsGA
+52oRD8BQQddLoeeJ+iDpKL8ZhVOi3zaw6WxrpNskn9pazDTZImHGP+Q14eLdsNWB
+FQDGdvGsGBJ1/qeA6Ar8cgJvQwjTcVUmrgP0J38/RWfTjeyWrphOT5/PqGhKmSCP
+ME7mQznU6rFsZvOCIzCNTRAoM/tRyuLMnHiKywaKsOFw1sVrvDvDiq1/w/WGxuUK
+1hUN6UEDTbRHeqdlT/PVnqJVaAMDDDki1fBkDWTgL6K8Bcivwgc=
+=sOvt
+-----END PGP SIGNATURE-----
+
+--a+b56+3nqLzpiR9O--
+
+--===============2140071460==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2140071460==--
