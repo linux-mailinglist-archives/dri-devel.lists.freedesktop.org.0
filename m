@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FE12A8176
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8162A8175
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:52:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C03C6ED9D;
-	Thu,  5 Nov 2020 14:52:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C794B6ED9B;
+	Thu,  5 Nov 2020 14:52:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26C0C6ED94
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:52:27 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id d142so1867761wmd.4
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 06:52:27 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB2536ED9B
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:52:28 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w1so2104980wrm.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 06:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CpDMS+RHHV1rRQnMHYAjcZzCg3wY/F0STHOFtNum/rU=;
- b=QpushnzWopYXqm5YWwBvN6+FQaZHUZjNp1tHAUM5Ag2u5db4kXa+UJ3Z4yl/TOmdD1
- 7T39shHAWcJiQRYKkCkciEbSRLy+kOmviXG4DtQVSWEgKSXKv6NFk9JKADhbaGGEZJAA
- gOR7hTYFkaC0n1XYj/O1NWU4cb3MOSx4JPotMGNGBBBgUy9K2NK2k9ZFVySebV+iywE1
- ekymQgI26V3+xOhGpSd0IXPly/an+QOpGzOAbVFqI8PeMMkoBWPrSIQ4gtFJRQR3c7NR
- DL62I58XDWWnnY0xsrxuDBjVmUGHkMYUoJYEyhvi3yBjSU1fQmaNCGo139n4SjKDzreO
- iqyA==
+ bh=CiwuaHU0ZHFg8OQhxx1cJ0dSvWM+0RzNg9gjhgk/WPA=;
+ b=dduQNHED/EB0aCtpEb6ZPI3Ygd/DXzxcM6AtONVZiYH8oOWysFV+SV32BXj7CRawn8
+ 3qPDx42rbOXx3GO70oulyAVbyR2HuKGl8RXT08Cum9UEJAzaBP1FnUZSSWqRwEliQcMG
+ 7APPDUIFphi1rufMhTfciYQOCmVo//x1tN69RM3fTfdGHw4xQf2o4ZoDpYJ8Ac+9oO7M
+ f4JjmzCn5PLS9anQBkW3NK6Qa5ihhhyARqji7LRN742P39PzfEyRybjH33AIuve1EPSz
+ 12K4QAR9lXYH+qh9QIDJR7F58wDmqFRQ4cfd2yM2AWfB/b2zvVkHWRmiqt3imMKyOaNg
+ USoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CpDMS+RHHV1rRQnMHYAjcZzCg3wY/F0STHOFtNum/rU=;
- b=dHvcm0iuGBGUEWrA1zmVlXQfJoM9PVoZdewbijQCmet3i2qGmR8q2NRF5w/uAa1Jdz
- ny0jy1mfgMvcDlJoj1i5o3eSswgO36FtnewszAvEaDITBpujRCxtmDnwQQxY6eUTzBpb
- UdMqNMarGlF8QOBitryydicn7J8gCo77qr6BjQm5Vg/NVsc6wCDV+dRynLcyoLmKgqo/
- QYRL/Db+Re6OdJTcZeAabykn3Pz6Sgop/yKuaBRtrZJsCjqMolaTKWWdNv0WPMDzXgId
- ZzKtBu12cjlm10gP+Hi+pB7zZXNllNsV0rhecRN97sRRJzBGfojAkvi5LQDFP1KdDk9X
- NyGg==
-X-Gm-Message-State: AOAM5318wpfzTe8Y50eCwYPonbttSjuwfpqyj4WtJgsMQsFGXKbj60BJ
- N1t+FKFEaKDr06yoyGw3oiiUHQ==
-X-Google-Smtp-Source: ABdhPJyvqYkwE2uGejo6SM8lDSIcZCLWdzpd2TkAJxJyZGijBu5DUEM0XrGnnJJ+a8vBsZQGeJGfjw==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id
- 19mr3311106wmg.161.1604587945893; 
- Thu, 05 Nov 2020 06:52:25 -0800 (PST)
+ bh=CiwuaHU0ZHFg8OQhxx1cJ0dSvWM+0RzNg9gjhgk/WPA=;
+ b=p3WhAtUWVYtwPZUCfxGI0oxMhQHBsluvDw1CYuIMUvldgUIamCNC3cSC6ZO3vLicsT
+ WbnUq1rPxk9nh+0brYFkn7pYlgy3NPduEMeUHLvv0kgSEEWOFF6ZwX1OW/xEQDv+8zq/
+ 9ybDkersn2ydJu8AHqklZ3CmSXr0qP5DFLtBvE5D8kkTUm8bVWPjHp1BRcaha2gvauQH
+ nPjT3XA32smmgK9C5c7n4n2F76UyRA67qaQba85Hgihg6AwoSxzGtVRhvVk7roxpVsLS
+ 4tLFWJThuZc7L3Ytz5P230cnNMZUn7a0AA5DDRqwaucdxxFEBQje/g61MJTj9Kkt+Lr+
+ BUhw==
+X-Gm-Message-State: AOAM530a9JHwrHICHKVzF9Lw5emkEgHFkzPKde9646XAzwkzDRB8xSkm
+ uqLTlDzpnzjsLcDNIDiKPQ7IVg==
+X-Google-Smtp-Source: ABdhPJx8+Xyxk3R3buvDFYahFOdmnHso41DjA+AdBII2gmx00vBAFsKsMfNfZ8R2RRVHTR/ZSpXreA==
+X-Received: by 2002:adf:e386:: with SMTP id e6mr3301874wrm.330.1604587947150; 
+ Thu, 05 Nov 2020 06:52:27 -0800 (PST)
 Received: from dell.default ([91.110.221.242])
- by smtp.gmail.com with ESMTPSA id f5sm2631243wmh.16.2020.11.05.06.52.24
+ by smtp.gmail.com with ESMTPSA id f5sm2631243wmh.16.2020.11.05.06.52.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 06:52:25 -0800 (PST)
+ Thu, 05 Nov 2020 06:52:26 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 09/19] gpu: drm: selftests: test-drm_framebuffer: Remove set
- but unused variable 'fb'
-Date: Thu,  5 Nov 2020 14:45:07 +0000
-Message-Id: <20201105144517.1826692-10-lee.jones@linaro.org>
+Subject: [PATCH 10/19] gpu: drm: ttm: ttm_bo: Fix one function header - demote
+ lots of kernel-doc abuses
+Date: Thu,  5 Nov 2020 14:45:08 +0000
+Message-Id: <20201105144517.1826692-11-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201105144517.1826692-1-lee.jones@linaro.org>
 References: <20201105144517.1826692-1-lee.jones@linaro.org>
@@ -68,35 +67,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Christian Koenig <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, Huang Rui <ray.huang@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9mcmFtZWJ1ZmZlci5jOiBJbiBmdW5jdGlvbiDi
-gJhleGVjdXRlX2RybV9tb2RlX2ZiX2NtZDLigJk6CiBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3Rz
-L3Rlc3QtZHJtX2ZyYW1lYnVmZmVyLmM6MzMzOjI2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhmYuKA
-mSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKQ2M6IERhdmlk
-IEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTog
-TGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc2Vs
-ZnRlc3RzL3Rlc3QtZHJtX2ZyYW1lYnVmZmVyLmMgfCAzICstLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9zZWxmdGVzdHMvdGVzdC1kcm1fZnJhbWVidWZmZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9zZWxm
-dGVzdHMvdGVzdC1kcm1fZnJhbWVidWZmZXIuYwppbmRleCAyZDI5ZWE2ZjkyZTJhLi43ODlmMjI3
-NzNkYmM5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX2Zy
-YW1lYnVmZmVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9mcmFt
-ZWJ1ZmZlci5jCkBAIC0zMzAsMTAgKzMzMCw5IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2RldmljZSBt
-b2NrX2RybV9kZXZpY2UgPSB7CiBzdGF0aWMgaW50IGV4ZWN1dGVfZHJtX21vZGVfZmJfY21kMihz
-dHJ1Y3QgZHJtX21vZGVfZmJfY21kMiAqcikKIHsKIAlpbnQgYnVmZmVyX2NyZWF0ZWQgPSAwOwot
-CXN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiOwogCiAJbW9ja19kcm1fZGV2aWNlLmRldl9wcml2
-YXRlID0gJmJ1ZmZlcl9jcmVhdGVkOwotCWZiID0gZHJtX2ludGVybmFsX2ZyYW1lYnVmZmVyX2Ny
-ZWF0ZSgmbW9ja19kcm1fZGV2aWNlLCByLCBOVUxMKTsKKwlkcm1faW50ZXJuYWxfZnJhbWVidWZm
-ZXJfY3JlYXRlKCZtb2NrX2RybV9kZXZpY2UsIHIsIE5VTEwpOwogCXJldHVybiBidWZmZXJfY3Jl
-YXRlZDsKIH0KIAotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/ttm/ttm_bo.c:51: warning: Function parameter or member 'ttm_global_mutex' not described in 'DEFINE_MUTEX'
+ drivers/gpu/drm/ttm/ttm_bo.c:286: warning: Function parameter or member 'bo' not described in 'ttm_bo_cleanup_memtype_use'
+ drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'bo' not described in 'ttm_bo_cleanup_refs'
+ drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'interruptible' not described in 'ttm_bo_cleanup_refs'
+ drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'no_wait_gpu' not described in 'ttm_bo_cleanup_refs'
+ drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'unlock_resv' not described in 'ttm_bo_cleanup_refs'
+ drivers/gpu/drm/ttm/ttm_bo.c:424: warning: Function parameter or member 'bdev' not described in 'ttm_bo_delayed_delete'
+ drivers/gpu/drm/ttm/ttm_bo.c:424: warning: Function parameter or member 'remove_all' not described in 'ttm_bo_delayed_delete'
+ drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'bo' not described in 'ttm_bo_evict_swapout_allowable'
+ drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'ctx' not described in 'ttm_bo_evict_swapout_allowable'
+ drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'locked' not described in 'ttm_bo_evict_swapout_allowable'
+ drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'busy' not described in 'ttm_bo_evict_swapout_allowable'
+ drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'bo' not described in 'ttm_bo_add_move_fence'
+ drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'man' not described in 'ttm_bo_add_move_fence'
+ drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'mem' not described in 'ttm_bo_add_move_fence'
+ drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'no_wait_gpu' not described in 'ttm_bo_add_move_fence'
+ drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'bo' not described in 'ttm_bo_mem_force_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'place' not described in 'ttm_bo_mem_force_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'mem' not described in 'ttm_bo_mem_force_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'ctx' not described in 'ttm_bo_mem_force_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'bo' not described in 'ttm_bo_mem_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'placement' not described in 'ttm_bo_mem_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'mem' not described in 'ttm_bo_mem_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'ctx' not described in 'ttm_bo_mem_space'
+ drivers/gpu/drm/ttm/ttm_bo.c:1387: warning: Function parameter or member 'ctx' not described in 'ttm_bo_swapout'
+
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index c63b7ea1cd5d0..2b69c959d7f4d 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -45,7 +45,7 @@
+ 
+ static void ttm_bo_global_kobj_release(struct kobject *kobj);
+ 
+-/**
++/*
+  * ttm_global_mutex - protecting the global BO state
+  */
+ DEFINE_MUTEX(ttm_global_mutex);
+@@ -274,7 +274,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+ 	return ret;
+ }
+ 
+-/**
++/*
+  * Call bo::reserved.
+  * Will release GPU memory type usage on destruction.
+  * This is the place to put in driver specific hooks to release
+@@ -348,9 +348,10 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
+  * Must be called with lru_lock and reservation held, this function
+  * will drop the lru lock and optionally the reservation lock before returning.
+  *
+- * @interruptible         Any sleeps should occur interruptibly.
+- * @no_wait_gpu           Never wait for gpu. Return -EBUSY instead.
+- * @unlock_resv           Unlock the reservation lock as well.
++ * @bo:                    The buffer object to clean-up
++ * @interruptible:         Any sleeps should occur interruptibly.
++ * @no_wait_gpu:           Never wait for gpu. Return -EBUSY instead.
++ * @unlock_resv:           Unlock the reservation lock as well.
+  */
+ 
+ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+@@ -416,7 +417,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * Traverse the delayed list, and call ttm_bo_cleanup_refs on all
+  * encountered buffers.
+  */
+@@ -620,7 +621,7 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_eviction_valuable);
+ 
+-/**
++/*
+  * Check the target bo is allowable to be evicted or swapout, including cases:
+  *
+  * a. if share same reservation object with ctx->resv, have assumption
+@@ -759,7 +760,7 @@ int ttm_mem_evict_first(struct ttm_bo_device *bdev,
+ 	return ret;
+ }
+ 
+-/**
++/*
+  * Add the last move fence to the BO and reserve a new shared slot.
+  */
+ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+@@ -795,7 +796,7 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * Repeatedly evict memory from the LRU for @mem_type until we create enough
+  * space, or we've evicted everything and there isn't enough space.
+  */
+@@ -857,7 +858,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * Creates space for memory region @mem according to its type.
+  *
+  * This function first searches for free space in compatible memory types in
+@@ -1379,7 +1380,7 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
+ }
+ EXPORT_SYMBOL(ttm_bo_wait);
+ 
+-/**
++/*
+  * A buffer object shrink method that tries to swap out the first
+  * buffer object on the bo_global::swap_lru list.
+  */
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
