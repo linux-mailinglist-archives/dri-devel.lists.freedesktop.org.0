@@ -2,56 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E9E2A915F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CAD32A9162
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B09ED6EE0B;
-	Fri,  6 Nov 2020 08:34:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0B386EA6A;
+	Fri,  6 Nov 2020 08:34:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
  [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E83A6EDD9
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 18:16:20 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id w7so483260pjy.1
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 10:16:20 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8204F6EDB9;
+ Thu,  5 Nov 2020 18:50:22 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id w20so532155pjh.1;
+ Thu, 05 Nov 2020 10:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=8DAc+yqZFTta9RaCxZpWb6+nPvWwsd8gU2kgzP9O8nc=;
- b=NDDHLjmKCrwxORbkYjMPorLHS+6jqgXsTkedKqV0bhbGMIiZdDpX3u2gGayQO4iQL9
- VRanoOw05oECWNtoGEqgHQrXzhBNN8O6SCxY0U9pTN9fHeQ2+shkjTqd86TQQ4Mk7zqw
- qSXvQDz/nCLepFzTwLsJoFwn0poktE8iyyzVhd2aeMo6osmBph6keMEaoTnqFMJR0MsI
- 1Kk0iOaZzPA6JRPJiqbFMqLB+a7OGB8DnFpvoX32lgMQfM75KOacMW8lJbGKqiBiw+QX
- rVQQz1c2W6RLzaPMjH0mH1eMYar/JrWRhVb8qgqwzJHI9cVqlo7dvgJSMGposDJL2rVQ
- kAHg==
+ bh=3EzvkzpYwrLmNMPvXPc/QI49X9jTb6rRy2470fIh6L0=;
+ b=px4MXYdb+PxYPOu6R6lJ55qGhTb3W2vrn4OX0bC8UaPmEk2m0swVzbEI92X33uCDs3
+ ikSsVUu2WHexB7FLTekQEtRSHEsGAW8gPpc0aCEftKCFzY3Pjzm6kSvssYzbZHt6UBEr
+ 2dPRehIpM0hFZNkSeixXIPNKoeIlSoEzWYINzCtBpyXD9VO1vPKN2oQWjDT659Zd+4g6
+ 614LGEka6FIfuFTScqA3rdzoqEPgR7xP5KOakZ7XcFMFD9wjImsMeeaZLlIWv9vhpyNP
+ o2Bnp7BkX0G9T5XQ2ogM/FosRww15fPHSz5+261LaAxEt1M+tLBDxDqXGc39f896t3UB
+ ukRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
  :content-disposition;
- bh=8DAc+yqZFTta9RaCxZpWb6+nPvWwsd8gU2kgzP9O8nc=;
- b=JhD8vUXQAx/8XPXW2uFBABB2480CzEeamoB//5ti2oqa0I7fLH8hJ7Ci8znTR4Z7R5
- lqhynzVG/ax/tOXLp5U6O1FEfLMRTh1qY/ASArShNclwxgUAGnKIKv+p/4XwLdLEKRrz
- E0PnFQ+wLy+H0W368oj5U0PWTyFC3T/doPI1oBmkzQgEXZNo+WCme/cjPCBaVtjCsbbm
- lGKGMrbH5CVMxtSAloiFNMATvEhKzzFO2P55oo7h33yQ4ZBTRFEqFu+MlgW+AmCjbe4k
- BYyE6g4lPe8MIu3WV3U51l0Qsmxli3BIcSeYF8A/YoCr7t61jBUaldMAJkka4YPu/roM
- iInQ==
-X-Gm-Message-State: AOAM530ycR6lsK967vPMGx6ZQGGsRGloza/99vE8NmPcOjLdEfhj3/3j
- 036++wC9V4/WpCRcMPAxvXc=
-X-Google-Smtp-Source: ABdhPJxFb/P68iReWq/rQU77ozYWg2HQsHgI3Jdm1aL9Q9i/nGtoo22bjdLmibG1FNtQPPFxGYjq/g==
-X-Received: by 2002:a17:90b:4a4e:: with SMTP id
- lb14mr1740465pjb.23.1604600179899; 
- Thu, 05 Nov 2020 10:16:19 -0800 (PST)
+ bh=3EzvkzpYwrLmNMPvXPc/QI49X9jTb6rRy2470fIh6L0=;
+ b=OnyU2+zD2YsfPhL/kmLhCvsI8DlNXtmK2x3TQYJ6trdiAoUPIhsrZqZkw0X8HOgMyw
+ BmhiOsqT5Lb1gea9KxG48WIM5xdV3+bhePaGR7oAV2rSTWXk+x9ED90TSdgi2PVCZDYp
+ A81/h8qJzL7NbAJPUrEucAjsU/r9g0WYCz3A8mrDdd6CYA9Tz9nIw1LTzPeyNA88YGG3
+ wHNBq7NSRrd2pzFw1Dwf8QHzmEL3aE04oBri/ETtf+lxLnIdtEJa+AFLuPbRWDfXTzUi
+ PMD01h+q3ADiDX6LrQvk2DgOtrRPlJd82cXtmfEiDL7sMLjET/bUg59vvLzWVwDh4ddD
+ L1ew==
+X-Gm-Message-State: AOAM531CjlTlD60orEPisdSJznvjcOf55sD3uoszdNGGvs6itnYgqLNo
+ J5JLb2vZUBxGvGBDNj1xss4=
+X-Google-Smtp-Source: ABdhPJwwvyRuSz/E7DAjDgbpBdsUcgYjDXTOIfRrRB8ZJ6lAWfdKVRsyPz4fAUeDGF1TPKzwfMIuJQ==
+X-Received: by 2002:a17:90a:d584:: with SMTP id
+ v4mr3909143pju.194.1604602222134; 
+ Thu, 05 Nov 2020 10:50:22 -0800 (PST)
 Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id i11sm3259743pfq.156.2020.11.05.10.16.16
+ by smtp.gmail.com with ESMTPSA id e24sm1862787pfl.149.2020.11.05.10.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 10:16:19 -0800 (PST)
-Date: Thu, 5 Nov 2020 23:46:13 +0530
+ Thu, 05 Nov 2020 10:50:21 -0800 (PST)
+Date: Fri, 6 Nov 2020 00:20:16 +0530
 From: Deepak R Varma <mh12gx2825@gmail.com>
-To: Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+To: Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ virtualization@lists.linux-foundation.org,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vc4: replace idr_init() by idr_init_base()
-Message-ID: <20201105181613.GA42968@localhost>
+Subject: [PATCH] drm/qxl: replace idr_init() by idr_init_base()
+Message-ID: <20201105185016.GA71797@localhost>
 MIME-Version: 1.0
 Content-Disposition: inline
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
@@ -67,38 +69,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mh12gx2825@gmail.com, maxime@cerno.tech
+Cc: mh12gx2825@gmail.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 idr_init() uses base 0 which is an invalid identifier for this driver.
-The idr_alloc for this driver uses VC4_PERFMONID_MIN as start value for
-ID range and it is #defined to 1. The new function idr_init_base allows
-IDR to set the ID lookup from base 1. This avoids all lookups that
-otherwise starts from 0 since 0 is always unused / available.
+The idr_alloc for this driver uses 1 as start value for ID range. The
+new function idr_init_base allows IDR to set the ID lookup from base 1.
+This avoids all lookups that otherwise starts from 0 since 0 is always
+unused / available.
 
 References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
 
 Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
 ---
- drivers/gpu/drm/vc4/vc4_perfmon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/qxl/qxl_kms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
-index f4aa75efd16b..7d40f421d922 100644
---- a/drivers/gpu/drm/vc4/vc4_perfmon.c
-+++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
-@@ -77,7 +77,7 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
- void vc4_perfmon_open_file(struct vc4_file *vc4file)
- {
- 	mutex_init(&vc4file->perfmon.lock);
--	idr_init(&vc4file->perfmon.idr);
-+	idr_init_base(&vc4file->perfmon.idr, 1);
- }
+diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
+index dc5b3850a4d4..228e2b9198f1 100644
+--- a/drivers/gpu/drm/qxl/qxl_kms.c
++++ b/drivers/gpu/drm/qxl/qxl_kms.c
+@@ -231,11 +231,11 @@ int qxl_device_init(struct qxl_device *qdev,
+ 		goto cursor_ring_free;
+ 	}
  
- static int vc4_perfmon_idr_del(int id, void *elem, void *data)
+-	idr_init(&qdev->release_idr);
++	idr_init_base(&qdev->release_idr, 1);
+ 	spin_lock_init(&qdev->release_idr_lock);
+ 	spin_lock_init(&qdev->release_lock);
+ 
+-	idr_init(&qdev->surf_id_idr);
++	idr_init_base(&qdev->surf_id_idr, 1);
+ 	spin_lock_init(&qdev->surf_id_idr_lock);
+ 
+ 	mutex_init(&qdev->async_io_mutex);
 -- 
 2.25.1
 
