@@ -1,59 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD00E2A822D
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 16:28:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DABD2A8241
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 16:33:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5767B6ED93;
-	Thu,  5 Nov 2020 15:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFFB6E237;
+	Thu,  5 Nov 2020 15:33:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 582246ED93
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 15:27:58 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5FRlJT018919;
- Thu, 5 Nov 2020 09:27:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604590067;
- bh=lw01xnVBw+ZhFtaw2mkO3RWRWnosJJIxR4NS35rfHxg=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=HST4tMQsGkfeBicfjA/KfXhBaaU0q9QNF23xItyB1rOfAONay5Ft2MWeu+VVTtUkG
- xgIMqMspz6ndKoQvOLNePXvUxCzbCiX6csdEzOPSqnAAGvcoZzTLUb5xKftCo7aGfj
- x+QyqkPBHXbDqLXscaqrpCD8uezeu0NU/62Mr7oI=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5FRlJ3043494
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 5 Nov 2020 09:27:47 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 5 Nov
- 2020 09:27:47 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 5 Nov 2020 09:27:47 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5FRib2018580;
- Thu, 5 Nov 2020 09:27:45 -0600
-Subject: Re: [PATCH v3 40/56] drm/panel: Move OMAP's DSI command mode panel
- driver
-To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-41-tomi.valkeinen@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <122ead7e-ec4a-72dc-f216-e833a1a01fd2@ti.com>
-Date: Thu, 5 Nov 2020 17:27:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 926506E237;
+ Thu,  5 Nov 2020 15:33:23 +0000 (UTC)
+IronPort-SDR: bk2Rv9RspOFWTEIXu4TPxgAXF7dfOHxDdZWXFenmzqWXbjSN3WQ9EQZHTANeNUz5NKEnh/xQyb
+ G3RSc/SibXpg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="157179512"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="157179512"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 07:33:22 -0800
+IronPort-SDR: 0mPnJbOf4+8Ua1KWDXhwOKESx7vCofzk3+7dH2WxHILSPnzzDzIYd7opFITRSxi1HM6i2A8tco
+ +FHTeiCsZKGQ==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="539446009"
+Received: from unknown (HELO intel.com) ([10.99.66.154])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 07:33:20 -0800
+Date: Thu, 5 Nov 2020 21:04:03 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v4 06/16] drm/i915/hdcp: HDCP stream encryption support
+Message-ID: <20201105153400.GG3242@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
+ <20201027164208.10026-7-anshuman.gupta@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201105120333.947408-41-tomi.valkeinen@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201027164208.10026-7-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +50,271 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, "H .
- Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2020 14:03, Tomi Valkeinen wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+On 2020-10-27 at 22:11:58 +0530, Anshuman Gupta wrote:
+> Both HDCP_{1.x,2.x} requires to select/deselect Multistream HDCP bit
+> in TRANS_DDI_FUNC_CTL in order to enable/disable stream HDCP
+> encryption over DP MST Transport Link.
 > 
-> The panel driver is no longer using any OMAP specific APIs, so
-> let's move it into the generic panel directory.
+> HDCP 1.4 stream encryption requires to validate the stream encryption
+> status in HDCP_STATUS_{TRANSCODER,PORT} register driving that link
+> in order to enable/disable the stream encryption.
 > 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Both of above requirement are same for all Gen with respect to
+> B.Spec Documentation.
+> 
+> v2:
+> Cosmetic changes function name, error msg print and
+> stream typo fixes. [Uma]
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 > ---
->  drivers/gpu/drm/omapdrm/Kconfig                        |  1 -
->  drivers/gpu/drm/omapdrm/Makefile                       |  1 -
->  drivers/gpu/drm/omapdrm/displays/Kconfig               | 10 ----------
->  drivers/gpu/drm/omapdrm/displays/Makefile              |  2 --
->  drivers/gpu/drm/panel/Kconfig                          |  9 +++++++++
->  drivers/gpu/drm/panel/Makefile                         |  1 +
->  .../gpu/drm/{omapdrm/displays => panel}/panel-dsi-cm.c |  0
->  7 files changed, 10 insertions(+), 14 deletions(-)
->  delete mode 100644 drivers/gpu/drm/omapdrm/displays/Kconfig
->  delete mode 100644 drivers/gpu/drm/omapdrm/displays/Makefile
->  rename drivers/gpu/drm/{omapdrm/displays => panel}/panel-dsi-cm.c (100%)
+>  drivers/gpu/drm/i915/display/intel_ddi.c      | 10 +--
+>  drivers/gpu/drm/i915/display/intel_ddi.h      |  6 +-
+>  .../drm/i915/display/intel_display_types.h    |  4 +
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 80 ++++++++++++++++---
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     | 14 ++--
+>  drivers/gpu/drm/i915/i915_reg.h               |  1 +
+>  6 files changed, 90 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 9fce623e951e..779603a38cfc 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -1948,9 +1948,9 @@ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state
+>  	}
+>  }
+>  
+> -int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
+> -				     enum transcoder cpu_transcoder,
+> -				     bool enable)
+> +int intel_ddi_toggle_hdcp_bits(struct intel_encoder *intel_encoder,
+> +			       enum transcoder cpu_transcoder,
+> +			       bool enable, u32 hdcp_mask)
+>  {
+>  	struct drm_device *dev = intel_encoder->base.dev;
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+> @@ -1965,9 +1965,9 @@ int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
+>  
+>  	tmp = intel_de_read(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder));
+>  	if (enable)
+> -		tmp |= TRANS_DDI_HDCP_SIGNALLING;
+> +		tmp |= hdcp_mask;
+>  	else
+> -		tmp &= ~TRANS_DDI_HDCP_SIGNALLING;
+> +		tmp &= ~hdcp_mask;
+>  	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder), tmp);
+>  	intel_display_power_put(dev_priv, intel_encoder->power_domain, wakeref);
+>  	return ret;
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.h b/drivers/gpu/drm/i915/display/intel_ddi.h
+> index dcc711cfe4fe..a4dd815c0000 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.h
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.h
+> @@ -50,9 +50,9 @@ u32 bxt_signal_levels(struct intel_dp *intel_dp,
+>  		      const struct intel_crtc_state *crtc_state);
+>  u32 ddi_signal_levels(struct intel_dp *intel_dp,
+>  		      const struct intel_crtc_state *crtc_state);
+> -int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
+> -				     enum transcoder cpu_transcoder,
+> -				     bool enable);
+> +int intel_ddi_toggle_hdcp_bits(struct intel_encoder *intel_encoder,
+> +			       enum transcoder cpu_transcoder,
+> +			       bool enable, u32 hdcp_mask);
+>  void icl_sanitize_encoder_pll_mapping(struct intel_encoder *encoder);
+>  
+>  #endif /* __INTEL_DDI_H__ */
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index c47124a679b6..59b8fc21e3e8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -339,6 +339,10 @@ struct intel_hdcp_shim {
+>  				 enum transcoder cpu_transcoder,
+>  				 bool enable);
+>  
+> +	/* Enable/Disable stream encryption on DP MST Transport Link */
+> +	int (*stream_encryption)(struct intel_digital_port *dig_port,
+> +				 bool enable);
+> +
+>  	/* Ensures the link is still protected */
+>  	bool (*check_link)(struct intel_digital_port *dig_port,
+>  			   struct intel_connector *connector);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> index 03424d20e9f7..6dcbfaffd2c5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> @@ -16,6 +16,30 @@
+>  #include "intel_dp.h"
+>  #include "intel_hdcp.h"
+>  
+> +static unsigned int transcoder_to_stream_enc_status(enum transcoder cpu_transcoder)
+> +{
+> +	u32 stream_enc_mask;
+> +
+> +	switch (cpu_transcoder) {
+> +	case TRANSCODER_A:
+> +		stream_enc_mask = HDCP_STATUS_STREAM_A_ENC;
+> +		break;
+> +	case TRANSCODER_B:
+> +		stream_enc_mask = HDCP_STATUS_STREAM_B_ENC;
+> +		break;
+> +	case TRANSCODER_C:
+> +		stream_enc_mask = HDCP_STATUS_STREAM_C_ENC;
+> +		break;
+> +	case TRANSCODER_D:
+> +		stream_enc_mask = HDCP_STATUS_STREAM_D_ENC;
+> +		break;
+> +	default:
+> +		stream_enc_mask = 0;
+> +	}
+> +
+> +	return stream_enc_mask;
+> +}
+> +
+>  static void intel_dp_hdcp_wait_for_cp_irq(struct intel_hdcp *hdcp, int timeout)
+>  {
+>  	long ret;
+> @@ -622,24 +646,57 @@ static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
+>  };
+>  
+>  static int
+> -intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+> -				    enum transcoder cpu_transcoder,
+> -				    bool enable)
+> +intel_dp_mst_toggle_hdcp_stream_select(struct intel_digital_port *dig_port,
+> +				       bool enable)
+>  {
+>  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	struct intel_dp *dp = &dig_port->dp;
+> +	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+>  	int ret;
+>  
+> -	if (!enable)
+> -		usleep_range(6, 60); /* Bspec says >= 6us */
+Any reason why this is removed from disable path? Or i am missing the
+movement?
 
-Just a note, I already have a few more cleanups for this driver. And I think we need to discuss how
-to make this a properly generic DSI command mode driver, or should we just make this a driver for a
-subset of drivers, used on OMAP platforms.
-
-But I think that work is easier if the panel driver is in its proper place, as done in this patch.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+-Ram
+> -
+> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base,
+> -					       cpu_transcoder, enable);
+> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
+> +					 hdcp->stream_transcoder, enable,
+> +					 TRANS_DDI_HDCP_SELECT);
+>  	if (ret)
+> -		drm_dbg_kms(&i915->drm, "%s HDCP signalling failed (%d)\n",
+> -			      enable ? "Enable" : "Disable", ret);
+> +		drm_err(&i915->drm, "%s HDCP stream select failed (%d)\n",
+> +			enable ? "Enable" : "Disable", ret);
+>  	return ret;
+>  }
+>  
+> +static int
+> +intel_dp_mst_hdcp_stream_encryption(struct intel_digital_port *dig_port,
+> +				    bool enable)
+> +{
+> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	struct intel_dp *dp = &dig_port->dp;
+> +	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
+> +	enum port port = dig_port->base.port;
+> +	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
+> +	u32 stream_enc_status;
+> +	int ret;
+> +
+> +	ret = intel_dp_mst_toggle_hdcp_stream_select(dig_port, enable);
+> +	if (ret)
+> +		return ret;
+> +
+> +	stream_enc_status =  transcoder_to_stream_enc_status(hdcp->stream_transcoder);
+> +	if (!stream_enc_status)
+> +		return -EINVAL;
+> +
+> +	/* Wait for encryption confirmation */
+> +	if (intel_de_wait_for_register(i915,
+> +				       HDCP_STATUS(i915, cpu_transcoder, port),
+> +				       stream_enc_status,
+> +				       enable ? stream_enc_status : 0,
+> +				       HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
+> +		drm_err(&i915->drm, "Timed out waiting for stream encryption %s\n",
+> +			enable ? "enabled" : "disabled");
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static
+>  bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+>  				  struct intel_connector *connector)
+> @@ -673,7 +730,8 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+>  	.read_ksv_ready = intel_dp_hdcp_read_ksv_ready,
+>  	.read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
+>  	.read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
+> -	.toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
+> +	.toggle_signalling = intel_dp_hdcp_toggle_signalling,
+> +	.stream_encryption = intel_dp_mst_hdcp_stream_encryption,
+>  	.check_link = intel_dp_mst_hdcp_check_link,
+>  	.hdcp_capable = intel_dp_hdcp_capable,
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index f90838bc74fb..f58469226694 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -1495,15 +1495,16 @@ static int kbl_repositioning_enc_en_signal(struct intel_connector *connector,
+>  		usleep_range(25, 50);
+>  	}
+>  
+> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+> -					       false);
+> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
+> +					 false, TRANS_DDI_HDCP_SIGNALLING);
+>  	if (ret) {
+>  		drm_err(&dev_priv->drm,
+>  			"Disable HDCP signalling failed (%d)\n", ret);
+>  		return ret;
+>  	}
+> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+> -					       true);
+> +
+> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
+> +					 true, TRANS_DDI_HDCP_SIGNALLING);
+>  	if (ret) {
+>  		drm_err(&dev_priv->drm,
+>  			"Enable HDCP signalling failed (%d)\n", ret);
+> @@ -1526,8 +1527,9 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
+>  	if (!enable)
+>  		usleep_range(6, 60); /* Bspec says >= 6us */
+>  
+> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
+> -					       enable);
+> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
+> +					 cpu_transcoder, enable,
+> +					 TRANS_DDI_HDCP_SIGNALLING);
+>  	if (ret) {
+>  		drm_err(&dev_priv->drm, "%s HDCP signalling failed (%d)\n",
+>  			enable ? "Enable" : "Disable", ret);
+> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+> index 8b021f77cb1f..77461cde6549 100644
+> --- a/drivers/gpu/drm/i915/i915_reg.h
+> +++ b/drivers/gpu/drm/i915/i915_reg.h
+> @@ -9982,6 +9982,7 @@ enum skl_power_gate {
+>  #define  TRANS_DDI_DP_VC_PAYLOAD_ALLOC	(1 << 8)
+>  #define  TRANS_DDI_HDMI_SCRAMBLER_CTS_ENABLE (1 << 7)
+>  #define  TRANS_DDI_HDMI_SCRAMBLER_RESET_FREQ (1 << 6)
+> +#define  TRANS_DDI_HDCP_SELECT		REG_BIT(5)
+>  #define  TRANS_DDI_BFI_ENABLE		(1 << 4)
+>  #define  TRANS_DDI_HIGH_TMDS_CHAR_RATE	(1 << 4)
+>  #define  TRANS_DDI_HDMI_SCRAMBLING	(1 << 0)
+> -- 
+> 2.26.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
