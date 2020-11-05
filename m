@@ -1,50 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC6A2A7DC1
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:04:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2055E2A7DC4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 13:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697BC89B99;
-	Thu,  5 Nov 2020 12:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14B796E02B;
+	Thu,  5 Nov 2020 12:04:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E223D89B70
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:04:13 +0000 (UTC)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E013289FBC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 12:04:15 +0000 (UTC)
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3wuL056509;
- Thu, 5 Nov 2020 06:03:58 -0600
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C4173069866;
+ Thu, 5 Nov 2020 06:04:01 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604577838;
- bh=XmoJGeQeqYLtLh5CsDTCe72MkwTql6cPDvCmd4sdvxU=;
+ s=ti-com-17Q1; t=1604577841;
+ bh=xWxFkXfpR8ltdKqJPLQE3wKGrmPB7OBgmVFoO2E6X3s=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=JfxmH6/fE9Z8VQHMwtsq/E2jcSNqbZr0tAKyx8JghvZ7CHwsN9XCiOmgBkJqY+NCh
- IFSa45GpIr7Fucj4z7M1QXHl69cd1OJP81+okQI/t/zmrrza5Y9r1CJMnGfL3zysht
- a65FNS4CR9ViKRz25ATdSV7YvsGouv2hJwQw86lE=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C3w1p124204
+ b=Kbqc+KZ8GTB9oYdI2Lk3yZU91HCR5mQgjMX5JgpAnm4e1qAMC61nKi3QYNzn0ZRHD
+ Snv+KRx9heYfAlImNXeigKVG0l2YZ9hBmC6JBetdJDZDytOr7pO2astdDIke9YVsED
+ qOtEuCrUYXNwuWNSAiS8MRPByvrjIAk5emMFqoYA=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5C41WA124252
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 5 Nov 2020 06:03:58 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 5 Nov 2020 06:04:01 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 5 Nov
- 2020 06:03:58 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 06:04:00 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 5 Nov 2020 06:03:58 -0600
+ Frontend Transport; Thu, 5 Nov 2020 06:04:00 -0600
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rex039111;
- Thu, 5 Nov 2020 06:03:56 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5C3rf0039111;
+ Thu, 5 Nov 2020 06:03:58 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v3 01/56] drm/dsi: add MIPI_DSI_MODE_ULPS_IDLE
-Date: Thu, 5 Nov 2020 14:02:38 +0200
-Message-ID: <20201105120333.947408-2-tomi.valkeinen@ti.com>
+Subject: [PATCH v3 02/56] Revert "drm/omap: dss: Remove unused omap_dss_device
+ operations"
+Date: Thu, 5 Nov 2020 14:02:39 +0200
+Message-ID: <20201105120333.947408-3-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201105120333.947408-1-tomi.valkeinen@ti.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
@@ -73,34 +74,168 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-DSI command mode panels are self-refreshing displays, that
-can be updated very rarely for static images. For this kind
-of scenario some panels support, that the DSI bus switches
-into ULPS mode until the panel needs to be refreshed.
+This reverts commit 4ff8e98879e6eeae9d125dfcf3b642075d00089d.
 
-This is problematic on some panels, so introduce a flag to
-signal the DSI host implementation that the panel allows
-going into ULPS mode.
+This is still needed by DSI. E.g. unloading modules without this will
+cause a crash.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- include/drm/drm_mipi_dsi.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/omapdrm/dss/base.c     | 26 +++++++++++++++
+ drivers/gpu/drm/omapdrm/dss/omapdss.h  |  6 ++++
+ drivers/gpu/drm/omapdrm/omap_encoder.c | 44 +++++++++++++++++++++++---
+ 3 files changed, 71 insertions(+), 5 deletions(-)
 
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 360e6377e84b..f36f89c14b4a 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -132,6 +132,8 @@ struct mipi_dsi_host *of_find_mipi_dsi_host_by_node(struct device_node *node);
- #define MIPI_DSI_CLOCK_NON_CONTINUOUS	BIT(10)
- /* transmit data in low power */
- #define MIPI_DSI_MODE_LPM		BIT(11)
-+/* allow going into ULPS mode while command mode panel is not updated */
-+#define MIPI_DSI_MODE_ULPS_IDLE		BIT(12)
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index c7650a7c155d..455b410f7401 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -234,6 +234,18 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+ }
+ EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
  
- enum mipi_dsi_pixel_format {
- 	MIPI_DSI_FMT_RGB888,
++void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
++{
++	if (!dssdev)
++		return;
++
++	omapdss_device_pre_enable(dssdev->next);
++
++	if (dssdev->ops && dssdev->ops->pre_enable)
++		dssdev->ops->pre_enable(dssdev);
++}
++EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
++
+ void omapdss_device_enable(struct omap_dss_device *dssdev)
+ {
+ 	if (!dssdev)
+@@ -260,6 +272,20 @@ void omapdss_device_disable(struct omap_dss_device *dssdev)
+ }
+ EXPORT_SYMBOL_GPL(omapdss_device_disable);
+ 
++void omapdss_device_post_disable(struct omap_dss_device *dssdev)
++{
++	if (!dssdev)
++		return;
++
++	if (dssdev->ops && dssdev->ops->post_disable)
++		dssdev->ops->post_disable(dssdev);
++
++	omapdss_device_post_disable(dssdev->next);
++
++	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
++}
++EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
++
+ /* -----------------------------------------------------------------------------
+  * Components Handling
+  */
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index ab19d4af8de7..cbbe10b2b60d 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -342,11 +342,15 @@ struct omap_dss_device_ops {
+ 	void (*disconnect)(struct omap_dss_device *dssdev,
+ 			struct omap_dss_device *dst);
+ 
++	void (*pre_enable)(struct omap_dss_device *dssdev);
+ 	void (*enable)(struct omap_dss_device *dssdev);
+ 	void (*disable)(struct omap_dss_device *dssdev);
++	void (*post_disable)(struct omap_dss_device *dssdev);
+ 
+ 	int (*check_timings)(struct omap_dss_device *dssdev,
+ 			     struct drm_display_mode *mode);
++	void (*set_timings)(struct omap_dss_device *dssdev,
++			    const struct drm_display_mode *mode);
+ 
+ 	int (*get_modes)(struct omap_dss_device *dssdev,
+ 			 struct drm_connector *connector);
+@@ -445,8 +449,10 @@ int omapdss_device_connect(struct dss_device *dss,
+ 			   struct omap_dss_device *dst);
+ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 			       struct omap_dss_device *dst);
++void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
+ void omapdss_device_enable(struct omap_dss_device *dssdev);
+ void omapdss_device_disable(struct omap_dss_device *dssdev);
++void omapdss_device_post_disable(struct omap_dss_device *dssdev);
+ 
+ int omap_dss_get_num_overlay_managers(void);
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index ae4b867a67a3..18a79dde6815 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -113,8 +113,13 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 	bus_flags = connector->display_info.bus_flags;
+ 	omap_encoder_update_videomode_flags(&vm, bus_flags);
+ 
+-	/* Set timings for the dss manager. */
++	/* Set timings for all devices in the display pipeline. */
+ 	dss_mgr_set_timings(output, &vm);
++
++	for (dssdev = output; dssdev; dssdev = dssdev->next) {
++		if (dssdev->ops && dssdev->ops->set_timings)
++			dssdev->ops->set_timings(dssdev, adjusted_mode);
++	}
+ }
+ 
+ static void omap_encoder_disable(struct drm_encoder *encoder)
+@@ -127,10 +132,26 @@ static void omap_encoder_disable(struct drm_encoder *encoder)
+ 
+ 	/*
+ 	 * Disable the chain of external devices, starting at the one at the
+-	 * internal encoder's output. This is used for DSI outputs only, as
+-	 * dssdev->next is NULL for all other outputs.
++	 * internal encoder's output.
+ 	 */
+ 	omapdss_device_disable(dssdev->next);
++
++	/*
++	 * Disable the internal encoder. This will disable the DSS output. The
++	 * DSI is treated as an exception as DSI pipelines still use the legacy
++	 * flow where the pipeline output controls the encoder.
++	 */
++	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
++		if (dssdev->ops && dssdev->ops->disable)
++			dssdev->ops->disable(dssdev);
++		dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
++	}
++
++	/*
++	 * Perform the post-disable operations on the chain of external devices
++	 * to complete the display pipeline disable.
++	 */
++	omapdss_device_post_disable(dssdev->next);
+ }
+ 
+ static void omap_encoder_enable(struct drm_encoder *encoder)
+@@ -141,10 +162,23 @@ static void omap_encoder_enable(struct drm_encoder *encoder)
+ 
+ 	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
+ 
++	/* Prepare the chain of external devices for pipeline enable. */
++	omapdss_device_pre_enable(dssdev->next);
++
++	/*
++	 * Enable the internal encoder. This will enable the DSS output. The
++	 * DSI is treated as an exception as DSI pipelines still use the legacy
++	 * flow where the pipeline output controls the encoder.
++	 */
++	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI) {
++		if (dssdev->ops && dssdev->ops->enable)
++			dssdev->ops->enable(dssdev);
++		dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
++	}
++
+ 	/*
+ 	 * Enable the chain of external devices, starting at the one at the
+-	 * internal encoder's output. This is used for DSI outputs only, as
+-	 * dssdev->next is NULL for all other outputs.
++	 * internal encoder's output.
+ 	 */
+ 	omapdss_device_enable(dssdev->next);
+ }
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
