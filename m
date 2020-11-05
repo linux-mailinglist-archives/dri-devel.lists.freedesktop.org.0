@@ -1,112 +1,122 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C692A7535
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 03:07:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0182A7537
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 03:08:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E31AA89C13;
-	Thu,  5 Nov 2020 02:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A24C89C85;
+	Thu,  5 Nov 2020 02:08:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 636A889C13
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:07:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB1FD89C85
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:08:21 +0000 (UTC)
 Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
  by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20201105020704epoutp0170e882badb039b3ade319c4bce630f8a~EenhrMoqb2881028810epoutp01K
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:07:04 +0000 (GMT)
+ 20201105020820epoutp019b5c10cfd18d21bf08bae83715ead27e~Eeon3AlrT3080930809epoutp01U
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:08:20 +0000 (GMT)
 DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20201105020704epoutp0170e882badb039b3ade319c4bce630f8a~EenhrMoqb2881028810epoutp01K
+ 20201105020820epoutp019b5c10cfd18d21bf08bae83715ead27e~Eeon3AlrT3080930809epoutp01U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1604542024;
- bh=pitRzO3m19arHuQUPX0y+i+VT7w1wenaW8mQl65pPLI=;
+ s=mail20170921; t=1604542100;
+ bh=UY5wyEA/7KgFYm+m/uCeoRFsAFIDrkQp2oymQvesjQA=;
  h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=Jo9iTdIXm3f69sHqAlKyPe8Jeu9q46dXtQAMUR5PjV4ABgsUAIZ689MkIlQ+PuaaW
- ohm5WZEMXE5V9S1w3GJpcQbhGsPV137tU7HjnyMlfJ0TwtvFCkzd0vGr4zxeQvhUDJ
- VqCu9AcAu1TZyvLx1GHWxQUrs5d+F3BdXI2rK7Ws=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p3.samsung.com (KnoxPortal) with ESMTP id
- 20201105020704epcas1p37659b49e474f028357aa1ef1865eae99~EenhMMSWf2487524875epcas1p3C;
- Thu,  5 Nov 2020 02:07:04 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.155]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4CRRjL26wJzMqYm4; Thu,  5 Nov
- 2020 02:07:02 +0000 (GMT)
+ b=vbV8R9gmw+dvJ5A384o8gUVKG5srI24IqiuMhgcsAP3tV0hzwisiToTrkZ2B6hIGl
+ TfqsALVtJeiqlw7p2giBQrBrD/r2tbGB7c24u0/choqPaLsHSPTCB6RP1bo1oLzRql
+ OwvpCs6hvGtY5bt2sHlU7FELM8dQ4x5IjhdbzB1Q=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20201105020819epcas1p16e9763cec9b873ef77f71ebfd11a4916~EeonTK8rf1663216632epcas1p1C;
+ Thu,  5 Nov 2020 02:08:19 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.158]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4CRRkm1GDkzMqYkk; Thu,  5 Nov
+ 2020 02:08:16 +0000 (GMT)
 Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
  epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- F7.7B.63458.34E53AF5; Thu,  5 Nov 2020 11:07:00 +0900 (KST)
+ 75.DB.63458.09E53AF5; Thu,  5 Nov 2020 11:08:16 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20201105020659epcas1p1785d0bdc28b3a4356b966b51199d11cd~Eencory1m2178921789epcas1p1p;
- Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
+ epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20201105020815epcas1p34067ce27ad5804aba8a81f02c248c6d0~Eeojmm-Rb3016230162epcas1p3H;
+ Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
  epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201105020659epsmtrp284cd9b1d6af1b871615e708170057f0f~Eencnr0tL1423014230epsmtrp2A;
- Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
-X-AuditID: b6c32a36-6dfff7000000f7e2-b9-5fa35e43739c
+ 20201105020815epsmtrp262fd973894180f9788b62b2bed700708~Eeojlh2Oh1460114601epsmtrp2w;
+ Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
+X-AuditID: b6c32a36-6c9ff7000000f7e2-df-5fa35e909926
 Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
  epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 2D.5F.13470.34E53AF5; Thu,  5 Nov 2020 11:06:59 +0900 (KST)
+ 0A.7F.13470.F8E53AF5; Thu,  5 Nov 2020 11:08:15 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
  epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201105020659epsmtip2cf6e0d069b227ae5a5976ab4d7d2d2e0~EencPG1Tl0697506975epsmtip2i;
- Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
-Subject: Re: [PATCH v8 0/7] Exynos: Simple QoS for exynos-bus using
- interconnect
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>, georgi.djakov@linaro.org,
- krzk@kernel.org
+ 20201105020815epsmtip257077db3170ec4ccf3fbd16ad851e68a~EeojGdeeV1081810818epsmtip2_;
+ Thu,  5 Nov 2020 02:08:15 +0000 (GMT)
+Subject: Re: [PATCH v7 45/47] PM / devfreq: tegra30: Support interconnect
+ and OPPs from device-tree
+To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
+ Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Peter
+ De Schrijver <pdeschrijver@nvidia.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Mikko
+ Perttunen <cyndis@kapsi.fi>, Viresh Kumar <vireshk@kernel.org>, Peter Geis
+ <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>, Krzysztof
+ Kozlowski <krzk@kernel.org>
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <25228d5e-4bc3-2e61-6bd5-43e66ae82244@samsung.com>
-Date: Thu, 5 Nov 2020 11:20:55 +0900
+Message-ID: <2b907334-9ddf-654a-2add-891b0dcaa8ad@samsung.com>
+Date: Thu, 5 Nov 2020 11:22:11 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
  Thunderbird/59.0
 MIME-Version: 1.0
-In-Reply-To: <20201104103657.18007-1-s.nawrocki@samsung.com>
+In-Reply-To: <20201104164923.21238-46-digetx@gmail.com>
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBJsWRmVeSWpSXmKPExsWy7bCmvq5L3OJ4g+nXmSzuz2tltNg4Yz2r
- xfwj51gtrnx9z2Yxfe8mNotJ9yewWJw/v4HdYtPja6wWl3fNYbP43HuE0WLG+X1MFmuP3GW3
- uN24gs2ide8RdovDb9pZLWZMfsnmIOCxaVUnm8eda3vYPO53H2fy2Lyk3qNvyypGj8+b5ALY
- orJtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4DuVlIo
- S8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUWBboFSfmFpfmpesl5+daGRoYGJkCFSZk
- Z1z5cJy54JB2xcFnyg2M25W6GDk5JARMJJp3LGXrYuTiEBLYwSixp7ODCcL5xChxrvMFO4Tz
- jVHi6J1lrDAtl5auZ4FI7GWUeHj8MyOE855R4tfjD0wgVcICQRLtL88AtXNwiAjESKx/FwFS
- wyzwgUni/6uHYDVsAloS+1/cYAOx+QUUJa7+eMwIYvMK2Ek8P/CDDaSXRUBF4vr/ApCwqECY
- xMltLVAlghInZz5hAbE5BWwkLn5uZgexmQXEJW49mc8EYctLNG+dzQyyV0LgCYfE+nu9bBAf
- uEi07FrPCGELS7w6voUdwpaS+PxuL1RNtcTKk0fYIJo7GCW27L8A9b6xxP6lk5lAjmMW0JRY
- v0sfIqwosfP3XEaIxXwS7772sIKUSAjwSnS0CUGUKEtcfnCXCcKWlFjc3sk2gVFpFpJ3ZiF5
- YRaSF2YhLFvAyLKKUSy1oDg3PbXYsMAIObI3MYKTtJbZDsZJbz/oHWJk4mA8xCjBwawkwnvB
- b1G8EG9KYmVValF+fFFpTmrxIUZTYPhOZJYSTc4H5om8knhDUyNjY2MLE0MzU0NDJXHeP9od
- 8UIC6YklqdmpqQWpRTB9TBycUg1MKeeCCvhF0uoVEgKr57mdYt5aGqH84euWOG4dl62H5wU+
- CWWV9LpgXyzh2P3pevbMH/nGDzpf3z6/rvpnXVNLplV16nZV82dLwq/umbM++8f/pEv9V8p2
- 6M82/GX6Z3v051Vhoj6rmB7tuyu+OO3FV7cZzVzd30U1ZvjNfKm3TOz0U4ZEkyNLVx/rtLkR
- 3Lr70aWr610juCUrb6yVn2C+uiR9w1vxRbMUmEUcXCYKivgcy7ITfvn3ZGy59RG7IsFlPcXy
- gS8qGPg8rK+evbxm6XX9DXrnnlxIsX301aXT54mfrFzm1YVyO38fZNFdG/tdQfPf7+tZeQKx
- NSrKed/P6ySuaH8U8n3t8hVGoQ7ySizFGYmGWsxFxYkAGLBAg1sEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsWy7bCSvK5z3OJ4g8PdAhb357UyWmycsZ7V
- Yv6Rc6wWV76+Z7OYvncTm8Wk+xNYLM6f38BusenxNVaLy7vmsFl87j3CaDHj/D4mi7VH7rJb
- 3G5cwWbRuvcIu8XhN+2sFjMmv2RzEPDYtKqTzePOtT1sHve7jzN5bF5S79G3ZRWjx+dNcgFs
- UVw2Kak5mWWpRfp2CVwZVz4cZy44pF1x8JlyA+N2pS5GTg4JAROJS0vXs3QxcnEICexmlFh7
- opcFIiEpMe3iUeYuRg4gW1ji8OFiiJq3jBLb22awgdQICwRJtL88ww5iiwjESJyaPAtsELPA
- ByaJQ3M7GSE6+hklbr5fzApSxSagJbH/xQ2wbn4BRYmrPx4zgti8AnYSzw/8YAPZxiKgInH9
- fwFIWFQgTGLnksdMECWCEidnPgE7jlPARuLi52awxcwC6hJ/5l1ihrDFJW49mc8EYctLNG+d
- zTyBUXgWkvZZSFpmIWmZhaRlASPLKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4HjV
- 0tzBuH3VB71DjEwcjIcYJTiYlUR4L/gtihfiTUmsrEotyo8vKs1JLT7EKM3BoiTOe6NwYZyQ
- QHpiSWp2ampBahFMlomDU6qBKUj2S8hy1z97TXTyrt8QKOd7J//siKxukYtHnXaIaPTsLytL
- lJ1/zE59uDmsxKNp4fFrQuy3Ncy+lT1j1/ascDyR2vL7qyrLspyZIqGHZ4V9+2g92TrkxSWO
- pddn7U/jr6+UZLrgM+vA/cU/G4wqug83/eScsrZ2geruSdV7fef7/wvcqrOb3zX/84KvKs6q
- Im8s+tVK5nF9mbxj5WKzSx6LmvRMowykpzzwYlxo9v7ocpbPC5SfxWQcm1bw7VeHyc7wfH/u
- hJrvP8ND5K9fyytU2sM8O/9qCKPalOpp957Nr31qsP1KT6C6QdeGjswaVqsP6gbJVeovyzMD
- lx0pObPRQM/e1l1pxwHmloRoJZbijERDLeai4kQA7yQn5EYDAAA=
-X-CMS-MailID: 20201105020659epcas1p1785d0bdc28b3a4356b966b51199d11cd
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TaVBTVxidm7y8JA60jxjDLW0Vnh0HsSxhvbaE2oKSooNpmTotP0zfwBOQ
+ bJMH2H0gLixWqhRFU5RNlMWlBERhYHBYyhABKWqEVkY7BMcKJBSKgqI04eGUf+d+53z33PPd
+ ewVc0TjuIUjRpNF6DaUi8VVYY8dGf9+juyuUAWUmHrJNj/FQSWc/D9X+MwrQ7Vk7jopaTTg6
+ YCzH0M2bv/LRlbELHNRnmOCjW83FOJo50glQ7r9GHP1u3or+zKrCUcHF4wD1PdyODrZ28tFL
+ Sx2G5pvPYKj+wW/4FrHcPnSQL28yjvDlg/0LXLmpJheX37O04PL7h7s58iP7bbg8v6EGyGdM
+ axXC+NTwZJpKpPWetCZBm5iiSZKR2+OUkcqQ0ACpr3QzCiM9NZSalpFROxS+21JUjmSkZwal
+ SneUFBTDkP4R4Xptehrtmaxl0mQkrUtU6Tbr/BhKzaRrkvwStOr3pAEBgSEO4ZepyYuj03xd
+ H/rKbNiXCSp884BQAIlgOG8+wckDqwQi4hqAswW1PCchIqYBzLLGs8QTAKuH83ivOq4Pdi13
+ tAI4ZcjnsQs7gPX9fy+pVhM0vFP4gu8kxMQwBs9XvcSdBJc4CeC9lvVOjBM+sO3R0FL9dcIL
+ 3pkbBU7sSkTA7JN2zIkx4h1obZ1e0qwhdsGexgPLGjfYc8q6pBESYdA2nLm8vzv8w1rCYfE6
+ eHWymOs8BCR+EcIbl/owNkMUnKgb5rN4NXzc3bCMPeCMrRVn8bewuqcTZ5tzAGxoG1geQBBs
+ q/zZ4SBwOGyEl5v92bIXbHp+GrDGr0Hb7I88pwQSrjDnkIiVrIe3HoxwWPwGrMjOxY8C0rgi
+ jnFFBOOKCMb/zUoBVgMktI5RJ9GMVBe48rZNYOnV+4ReAwWTU37tgCMA7QAKuKTYdSC2XCly
+ TaS+/obWa5X6dBXNtIMQx4CPcT3WJGgd30aTppSGBAYFBaFgaWiIVEq6uy5sylGKiCQqjU6l
+ aR2tf9XHEQg9MjkuCq/ArGmV58hHc7SbJPbup3BMsqNXrJ07LSn7Kwa/IQtXlH7Pp0WL0VYD
+ knkPqM8O5j2bj3n2qOWnTYJ2brfIWlS2K8aSkXvYrXcy6s299eUPj2e7fLC2sTBHElek67pQ
+ 92Ebx9tyxh5xrlkn0zcFx9yv7L/bw1weOWWKHqLH8/frMyLnYie2JXW/Vdkt7Fow7Owq/rj+
+ 9mJJuMZ8aYv70339n8W1W84lVNlrRE9iiy2x0utl2T+QpWEbWmpdOva+W5/fJJ69OC4eB4e0
+ U4ovXvRqvbM/8Tecfb4V29DxdvKV6KJj5hOFjeU98ZLP46g9j6uvmt+PVO8ufBpQZvtu3R4S
+ Y5IpqQ9Xz1D/AciK5WV+BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRmVeSWpSXmKPExsWy7bCSvG5/3OJ4gzmzZCzefXrKajH/yDlW
+ i9UfHzNaXPn6ns1i+t5NbBYtsxaxWJw/v4HdYuvTNUwWZ5vesFtc3jWHzeJz7xFGi84vs9gs
+ Lp5ytbjduILNYtLaqYwWZ595W7TuPcJu8e/aRhaLn7vmsVhsfnCMzUHE4/2NVnaPnbPusntc
+ OveH2WPTqk42jzvX9rB53O8+zuTR2/yOzaNvyypGj8+b5AI4o7hsUlJzMstSi/TtErgy/j/+
+ xF5w1qLiVFN5A+Ni3S5GTg4JAROJA5eOMnUxcnEICexmlGjtvcYOkZCUmHbxKHMXIweQLSxx
+ +HAxRM1bRonX876xgdQIC6RKnF/QwQKSEBG4yyIx6cctNhCHWWAGo8SfDRvZIVq2MUrsftDL
+ CtLCJqAlsf/FDbB2fgFFias/HjOC2LwCdhLtM96zgNgsAioST/Z+AqsRFQiT2LnkMRNEjaDE
+ yZlPwGo4Bcwl3t1sAKthFlCX+DPvEjOELS5x68l8JghbXmL72znMExiFZyFpn4WkZRaSlllI
+ WhYwsqxilEwtKM5Nzy02LDDMSy3XK07MLS7NS9dLzs/dxAiOey3NHYzbV33QO8TIxMF4iFGC
+ g1lJhPeC36J4Id6UxMqq1KL8+KLSnNTiQ4zSHCxK4rw3ChfGCQmkJ5akZqemFqQWwWSZODil
+ Gpha1DM56gLVT7b6Prh9OPfQ3c9slb9iWQqaXPO/hnRxnFWvP//YfkngU22nTfdPtwUdLO3s
+ Ne31DE6ft87ExuWhAcvzwOuvSm66hL79ElTI+MnzyOGXCzg7/CR/B/2fPVFtqdx3G7Fn8q9b
+ ks6FKP5tbbh8oDvmmmZqpveV9Va3q73v6/O8Vv2wr2BJQzm30I960w061Usypihvrrb/3fO7
+ pPnP2utmj+++nX2D+aVzcXvRD1kHZsOtwpt2/LvrY8l4xkWqfVOh+LGSjMa+6nlzFj8ofS3x
+ ZlZh+fHJXM9M5f1ObP3afDB3vo+iXRNHE/sbsZlfPsgqiU5an/thz1O3eKkzy/uEn/ta3fi2
+ dp0SS3FGoqEWc1FxIgDiON65agMAAA==
+X-CMS-MailID: 20201105020815epcas1p34067ce27ad5804aba8a81f02c248c6d0
 X-Msg-Generator: CA
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e
-References: <CGME20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e@eucas1p2.samsung.com>
- <20201104103657.18007-1-s.nawrocki@samsung.com>
+X-CMS-RootMailID: 20201104165124epcas1p3fb886cc56ef8601329e9a76b7c403317
+References: <20201104164923.21238-1-digetx@gmail.com>
+ <CGME20201104165124epcas1p3fb886cc56ef8601329e9a76b7c403317@epcas1p3.samsung.com>
+ <20201104164923.21238-46-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,112 +129,242 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
- a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
- myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgU3lsd2VzdGVyLAoKT24gMTEvNC8yMCA3OjM2IFBNLCBTeWx3ZXN0ZXIgTmF3cm9ja2kgd3Jv
-dGU6Cj4gVGhpcyBwYXRjaHNldCBhZGRzIGludGVyY29ubmVjdCBBUEkgc3VwcG9ydCBmb3IgdGhl
-IEV4eW5vcyBTb0MgInNhbXN1bmcsCj4gZXh5bm9zLWJ1cyIgY29tcGF0aWJsZSBkZXZpY2VzLCB3
-aGljaCBhbHJlYWR5IGhhdmUgdGhlaXIgY29ycmVzcG9uZGluZwo+IGV4eW5vcy1idXMgZHJpdmVy
-IGluIHRoZSBkZXZmcmVxIHN1YnN5c3RlbS4gIENvbXBsZW1lbnRpbmcgdGhlIGRldmZyZXEKPiBk
-cml2ZXIgd2l0aCBhbiBpbnRlcmNvbm5lY3QgZnVuY3Rpb25hbGl0eSBhbGxvd3MgdG8gZW5zdXJl
-IHRoZSBRb1MKPiByZXF1aXJlbWVudHMgb2YgZGV2aWNlcyBhY2Nlc3NpbmcgdGhlIHN5c3RlbSBt
-ZW1vcnkgKGUuZy4gdmlkZW8gcHJvY2Vzc2luZwo+IGRldmljZXMpIGFyZSBmdWxmaWxsZWQgYW5k
-IGFhbGxvd3MgdG8gYXZvaWQgaXNzdWVzIGxpa2UgdGhlIG9uZSBkaXNjdXNzZWQKPiBpbiB0aHJl
-YWQgWzFdLgo+IAo+IFRoaXMgcGF0Y2ggc2VyaWVzIGFkZHMgaW1wbGVtZW50YXRpb24gb2YgdGhl
-IGludGVyY29ubmVjdCBwcm92aWRlciBwZXIgZWFjaAo+ICJzYW1zdW5nLGV4eW5vcy1idXMiIGNv
-bXBhdGlibGUgRFQgbm9kZSwgd2l0aCBvbmUgaW50ZXJjb25uZWN0IG5vZGUgcGVyCj4gcHJvdmlk
-ZXIuICBUaGUgaW50ZXJjb25uZWN0IGNvZGUgd2hpY2ggd2FzIHByZXZpb3VzbHkgYWRkZWQgYXMg
-YSBwYXJ0IG9mCj4gdGhlIGRldmZyZXEgZHJpdmVyIGhhcyBiZWVuIGNvbnZlcnRlZCB0byBhIHNl
-cGFyYXRlIHBsYXRmb3JtIGRyaXZlci4KPiBJbiB0aGUgZGV2ZnJlcSBhIGNvcnJlc3BvbmRpbmcg
-dmlydHVhbCBjaGlsZCBwbGF0Zm9ybSBkZXZpY2UgaXMgcmVnaXN0ZXJlZC4KPiBJbnRlZ3JhdGlv
-biBvZiBkZXZmcmVxIGFuZCBpbnRlcmNvbm5lY3QgZnJhbWV3b3JrcyBpcyBhY2hpZXZlZCB0aHJv
-dWdoCj4gdGhlIFBNIFFvUyBBUEkuCj4gCj4gQSBzYW1wbGUgaW50ZXJjb25uZWN0IGNvbnN1bWVy
-IGZvciBleHlub3MtbWl4ZXIgaXMgYWRkZWQgaW4gcGF0Y2hlcyA2LzcsCj4gNy83LCBpdCBpcyBj
-dXJyZW50bHkgYWRkZWQgb25seSBmb3IgZXh5bm9zNDQxMiBhbmQgYWxsb3dzIHRvIGFkZHJlc3Mg
-dGhlCj4gbWl4ZXIgRE1BIHVuZGVycnVuIGVycm9yIGlzc3VlcyBbMV0uCj4gCj4gQ2hhbmdlcyBz
-aW5jZSB2NzoKPiAgLSBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MgcmVuYW1lZCB0byBkcml2
-ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nLAo+ICAtIGFkZGVkIElOVEVSQ09OTkVDVF9TQU1TVU5H
-IEtjb25maWcgc3ltYm9sLAo+ICAtIGFkZGVkIG1pc3NpbmcgZHJpdmVyIHN5bmNfc3RhdGUgY2Fs
-bGJhY2ssCj4gIC0gaW1wcm92ZWQgdGhlIERUIGJpbmRpbmcgZGVzY3JpcHRpb24sCj4gIC0gYWRk
-ZWQgYSBwYXRjaCBhZGRpbmcgbWFpbnRhaW5lcnMgZW50cnksCj4gIC0gdXBkYXRlZCBjb21tZW50
-IGluIHBhdGNoIDcvNywgdHlwbyBmaXggKHBhdGNoIDEvNykuCj4gCj4gVGhlIHNlcmllcyBoYXMg
-YmVlbiB0ZXN0ZWQgb24gT2Ryb2lkIFUzIGJvYXJkLiBJdCBpcyBiYXNlZCBvbiB2NS4xMC1yYzEu
-Cj4gCj4gLS0KPiBSZWdhcmRzLAo+IFN5bHdlc3Rlcgo+IAo+IENoYW5nZXMgc2luY2UgdjY6Cj4g
-IC0gdGhlIGludGVyY29ubmVjdCBjb25zdW1lciBEVCBiaW5kaW5ncyBhcmUgbm93IHVzZWQgdG8g
-ZGVzY3JpYmUgZGVwZW5kZW5jaWVzCj4gICAgb2YgdGhlIGludGVyY29ubmVjdHMgKHNhbXN1bmcs
-ZXh5bm9zLWJ1cyBub2RlcyksCj4gIC0gYnVzLXdpZHRoIHByb3BlcnR5IHJlcGxhY2VkIHdpdGgg
-c2Ftc3VuZyxkYXRhLWNsay1yYXRpbywKPiAgLSBhZGFwdGF0aW9uIHRvIHJlY2VudCBjaGFuZ2Vz
-IGluIHRoZSBpbnRlcmNvbm5lY3QgY29kZQo+ICAgIChvZl9pY2NfZ2V0X2Zyb21fcHJvdmlkZXIo
-KSwgaWNjX25vZGVfYWRkKCkpLgo+IAo+IENoYW5nZXMgc2luY2UgdjU6Cj4gIC0gYWRkaXRpb24g
-b2YgImJ1cy13aWR0aDogRFQgcHJvcGVydHksIHdoaWNoIHNwZWNpZmllcyBkYXRhIHdpZHRoCj4g
-ICAgb2YgdGhlIGludGVyY29ubmVjdCBidXMgKHBhdGNoZXMgMS4uLjIvNiksCj4gIC0gYWRkaXRp
-b24gb2Ygc3luY2hyb25pemF0aW9uIG9mIHRoZSBpbnRlcmNvbm5lY3QgYmFuZHdpZHRoIHNldHRp
-bmcKPiAgICB3aXRoIFZTWU5DIChwYXRjaCA2LzYpLgo+IAo+IENoYW5nZXMgc2luY2UgdjMgWzRd
-ICh2NCBza2lwcGVkIHRvIGFsaWduIHdpdGggcGF0Y2hzZXQgWzFdKSwgZGV0YWlsZWQKPiBjaGFu
-Z2VzIGFyZSBsaXN0ZWQgaW4gcGF0Y2hlczoKPiAgLSBjb252ZXJzaW9uIHRvIGEgc2VwYXJhdGUg
-aW50ZXJjb25uZWN0IChwbGF0Zm9ybSkgZHJpdmVyLAo+ICAtIGFuIHVwZGF0ZSBvZiB0aGUgRFQg
-YmluZGluZyBkb2N1bWVudGluZyBuZXcgb3B0aW9uYWwgcHJvcGVydGllczoKPiAgICAjaW50ZXJj
-b25uZWN0LWNlbGxzLCBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQgaW4gInNhbXN1bmcsZXh5
-bm9zLWJ1cyIKPiAgICBub2RlcywKPiAgLSBuZXcgRFQgcHJvcGVydGllcyBhZGRlZCB0byB0aGUg
-U29DLCByYXRoZXIgdGhhbiB0byB0aGUgYm9hcmQgc3BlY2lmaWMKPiAgICBmaWxlcy4KPiAKPiBD
-aGFuZ2VzIHNpbmNlIHYyIFs1XToKPiAgLSBVc2UgaWNjX3N0ZF9hZ2dyZWdhdGUoKS4KPiAgLSBJ
-bXBsZW1lbnQgYSBkaWZmZXJlbnQgbW9kaWZpY2F0aW9uIG9mIGFwcGx5X2NvbnN0cmFpbnRzKCkg
-aW4KPiAgICBkcml2ZXJzL2ludGVyY29ubmVjdC9jb3JlLmMgKHBhdGNoIDAzKS4KPiAgLSBVc2Ug
-J2V4eW5vcyxpbnRlcmNvbm5lY3QtcGFyZW50LW5vZGUnIGluIHRoZSBEVCBpbnN0ZWFkIG9mCj4g
-ICAgJ2RldmZyZXEnLydwYXJlbnQnLCBkZXBlbmRpbmcgb24gdGhlIGJ1cy4KPiAgLSBSZWJhc2Ug
-b24gRFQgcGF0Y2hlcyB0aGF0IGRlcHJlY2F0ZSB0aGUgJ2RldmZyZXEnIERUIHByb3BlcnR5Lgo+
-ICAtIEltcHJvdmUgZXJyb3IgaGFuZGxpbmcsIGluY2x1ZGluZyBmcmVlaW5nIGdlbmVyYXRlZCBJ
-RHMgb24gZmFpbHVyZS4KPiAgLSBSZW1vdmUgZXh5bm9zX2J1c19pY2NfY29ubmVjdCgpIGFuZCBh
-ZGQgZXh5bm9zX2J1c19pY2NfZ2V0X3BhcmVudCgpLgo+IAo+IENoYW5nZXMgc2luY2UgdjEgWzZd
-Ogo+ICAtIFJlYmFzZSBvbiBjb3VwbGVkIHJlZ3VsYXRvcnMgcGF0Y2hlcy4KPiAgLSBVc2UgZGV2
-X3BtX3Fvc18qKCkgQVBJIGluc3RlYWQgb2Ygb3ZlcnJpZGluZyBmcmVxdWVuY3kgaW4KPiAgICBl
-eHlub3NfYnVzX3RhcmdldCgpLgo+ICAtIFVzZSBJRFIgZm9yIG5vZGUgSUQgYWxsb2NhdGlvbi4K
-PiAgLSBSZXZlcnNlIG9yZGVyIG9mIG11bHRpcGxpY2F0aW9uIGFuZCBkaXZpc2lvbiBpbgo+ICAg
-IG1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKCkgKHBhdGNoIDA3KSB0byBhdm9pZCBpbnRlZ2Vy
-IG92ZXJmbG93Lgo+IAo+IAo+IFJlZmVyZW5jZXM6Cj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmtl
-cm5lbC5vcmcvcGF0Y2gvMTA4NjE3NTcvIChvcmlnaW5hbCBpc3N1ZSkKPiBbMl0gaHR0cHM6Ly93
-d3cuc3Bpbmljcy5uZXQvbGlzdHMvbGludXgtc2Ftc3VuZy1zb2MvbXNnNzAwMTQuaHRtbAo+IFsz
-XSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9hcm0ta2VybmVsL21zZzgxMDcyMi5odG1s
-Cj4gWzRdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXBtLzIwMTkxMjIwMTE1NjUzLjY0
-ODctMS1hLnN3aWdvbkBzYW1zdW5nLmNvbQo+IFs1XSBodHRwczovL3BhdGNod29yay5rZXJuZWwu
-b3JnL2NvdmVyLzExMDU0NDE3LyAodjEgb2YgdGhpcyBSRkMpCj4gWzZdIGh0dHBzOi8vcGF0Y2h3
-b3JrLmtlcm5lbC5vcmcvY292ZXIvMTExNTI1OTUvICh2MiBvZiB0aGlzIFJGQykKPiAKPiAKPiBB
-cnR1ciDFmndpZ2/FhCAoMSk6Cj4gICBBUk06IGR0czogZXh5bm9zOiBBZGQgaW50ZXJjb25uZWN0
-cyB0byBFeHlub3M0NDEyIG1peGVyCj4gCj4gU3lsd2VzdGVyIE5hd3JvY2tpICg2KToKPiAgIGR0
-LWJpbmRpbmdzOiBkZXZmcmVxOiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIGludGVyY29ubmVj
-dAo+ICAgICBwcm9wZXJ0aWVzCj4gICBpbnRlcmNvbm5lY3Q6IEFkZCBnZW5lcmljIGludGVyY29u
-bmVjdCBkcml2ZXIgZm9yIEV4eW5vcyBTb0NzCj4gICBNQUlOVEFJTkVSUzogQWRkIGVudHJ5IGZv
-ciBTYW1zdW5nIGludGVyY29ubmVjdCBkcml2ZXJzCj4gICBQTSAvIGRldmZyZXE6IGV4eW5vcy1i
-dXM6IEFkZCByZWdpc3RyYXRpb24gb2YgaW50ZXJjb25uZWN0IGNoaWxkCj4gICAgIGRldmljZQo+
-ICAgQVJNOiBkdHM6IGV4eW5vczogQWRkIGludGVyY29ubmVjdCBwcm9wZXJ0aWVzIHRvIEV4eW5v
-czQ0MTIgYnVzIG5vZGVzCj4gICBkcm06IGV4eW5vczogbWl4ZXI6IEFkZCBpbnRlcmNvbm5lY3Qg
-c3VwcG9ydAo+IAo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kZXZmcmVxL2V4eW5vcy1idXMu
-dHh0ICAgICB8ICA3MSArKysrKysrLQo+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgNyArCj4gIGFyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczQ0
-MTIuZHRzaSAgICAgICAgICAgICAgICAgIHwgICA3ICsKPiAgZHJpdmVycy9kZXZmcmVxL2V4eW5v
-cy1idXMuYyAgICAgICAgICAgICAgICAgICAgICAgfCAgMTcgKysKPiAgZHJpdmVycy9ncHUvZHJt
-L2V4eW5vcy9leHlub3NfbWl4ZXIuYyAgICAgICAgICAgICAgfCAxNDYgKysrKysrKysrKysrKyst
-Cj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgIHwg
-ICAxICsKPiAgZHJpdmVycy9pbnRlcmNvbm5lY3QvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAg
-ICAgfCAgIDEgKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL0tjb25maWcgICAgICAg
-ICAgICAgICB8ICAxMyArKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL01ha2VmaWxl
-ICAgICAgICAgICAgICB8ICAgNCArCj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvZXh5
-bm9zLmMgICAgICAgICAgICAgIHwgMTk5ICsrKysrKysrKysrKysrKysrKysrKwo+ICAxMCBmaWxl
-cyBjaGFuZ2VkLCA0NTYgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4gIGNyZWF0ZSBt
-b2RlIDEwMDY0NCBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL0tjb25maWcKPiAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvTWFrZWZpbGUKPiAgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvZXh5bm9zLmMKPiAK
-CkkgdGVzdGVkIGl0LiBJdCBpcyB3ZWxsIHdvcmtpbmcuIFRoYW5rcy4KClRlc3RlZC1ieTogQ2hh
-bndvbyBDaG9pIDxjdzAwLmNob2lAc2Ftc3VuZy5jb20+CgoKLS0gCkJlc3QgUmVnYXJkcywKQ2hh
-bndvbyBDaG9pClNhbXN1bmcgRWxlY3Ryb25pY3MKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Dmitry,
+
+On 11/5/20 1:49 AM, Dmitry Osipenko wrote:
+> This patch moves ACTMON driver away from generating OPP table by itself,
+> transitioning it to use the table which comes from device-tree. This
+> change breaks compatibility with older device-trees in order to bring
+> support for the interconnect framework to the driver. This is a mandatory
+> change which needs to be done in order to implement interconnect-based
+> memory DVFS. Users of legacy device-trees will get a message telling that
+> theirs DT needs to be upgraded. Now ACTMON issues memory bandwidth request
+> using dev_pm_opp_set_bw(), instead of driving EMC clock rate directly.
+> 
+> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/devfreq/tegra30-devfreq.c | 96 +++++++++++++++++--------------
+>  1 file changed, 54 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+> index 38cc0d014738..4db027ca17e1 100644
+> --- a/drivers/devfreq/tegra30-devfreq.c
+> +++ b/drivers/devfreq/tegra30-devfreq.c
+> @@ -19,6 +19,8 @@
+>  #include <linux/reset.h>
+>  #include <linux/workqueue.h>
+>  
+> +#include <soc/tegra/fuse.h>
+> +
+>  #include "governor.h"
+>  
+>  #define ACTMON_GLB_STATUS					0x0
+> @@ -155,6 +157,7 @@ struct tegra_devfreq_device {
+>  
+>  struct tegra_devfreq {
+>  	struct devfreq		*devfreq;
+> +	struct opp_table	*opp_table;
+>  
+>  	struct reset_control	*reset;
+>  	struct clk		*clock;
+> @@ -612,34 +615,19 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
+>  static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
+>  				u32 flags)
+>  {
+> -	struct tegra_devfreq *tegra = dev_get_drvdata(dev);
+> -	struct devfreq *devfreq = tegra->devfreq;
+>  	struct dev_pm_opp *opp;
+> -	unsigned long rate;
+> -	int err;
+> +	int ret;
+>  
+>  	opp = devfreq_recommended_opp(dev, freq, flags);
+>  	if (IS_ERR(opp)) {
+>  		dev_err(dev, "Failed to find opp for %lu Hz\n", *freq);
+>  		return PTR_ERR(opp);
+>  	}
+> -	rate = dev_pm_opp_get_freq(opp);
+> -	dev_pm_opp_put(opp);
+> -
+> -	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
+> -	if (err)
+> -		return err;
+> -
+> -	err = clk_set_rate(tegra->emc_clock, 0);
+> -	if (err)
+> -		goto restore_min_rate;
+> -
+> -	return 0;
+>  
+> -restore_min_rate:
+> -	clk_set_min_rate(tegra->emc_clock, devfreq->previous_freq);
+> +	ret = dev_pm_opp_set_bw(dev, opp);
+> +	dev_pm_opp_put(opp);
+>  
+> -	return err;
+> +	return ret;
+>  }
+>  
+>  static int tegra_devfreq_get_dev_status(struct device *dev,
+> @@ -655,7 +643,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+>  	stat->private_data = tegra;
+>  
+>  	/* The below are to be used by the other governors */
+> -	stat->current_frequency = cur_freq;
+> +	stat->current_frequency = cur_freq * KHZ;
+>  
+>  	actmon_dev = &tegra->devices[MCALL];
+>  
+> @@ -705,7 +693,12 @@ static int tegra_governor_get_target(struct devfreq *devfreq,
+>  		target_freq = max(target_freq, dev->target_freq);
+>  	}
+>  
+> -	*freq = target_freq;
+> +	/*
+> +	 * tegra-devfreq driver operates with KHz units, while OPP table
+> +	 * entries use Hz units. Hence we need to convert the units for the
+> +	 * devfreq core.
+> +	 */
+> +	*freq = target_freq * KHZ;
+>  
+>  	return 0;
+>  }
+> @@ -774,13 +767,22 @@ static struct devfreq_governor tegra_devfreq_governor = {
+>  
+>  static int tegra_devfreq_probe(struct platform_device *pdev)
+>  {
+> +	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
+>  	struct tegra_devfreq_device *dev;
+>  	struct tegra_devfreq *tegra;
+> +	struct opp_table *opp_table;
+>  	struct devfreq *devfreq;
+>  	unsigned int i;
+>  	long rate;
+>  	int err;
+>  
+> +	/* legacy device-trees don't have OPP table and must be updated */
+> +	if (!device_property_present(&pdev->dev, "operating-points-v2")) {
+> +		dev_err(&pdev->dev,
+> +			"OPP table not found, please update your device tree\n");
+> +		return -ENODEV;
+> +	}
+> +
+>  	tegra = devm_kzalloc(&pdev->dev, sizeof(*tegra), GFP_KERNEL);
+>  	if (!tegra)
+>  		return -ENOMEM;
+> @@ -822,11 +824,31 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  		return err;
+>  	}
+>  
+> +	tegra->opp_table = dev_pm_opp_get_opp_table(&pdev->dev);
+> +	err = PTR_ERR_OR_ZERO(tegra->opp_table);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Failed to prepare OPP table: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	opp_table = dev_pm_opp_set_supported_hw(&pdev->dev, &hw_version, 1);
+> +	err = PTR_ERR_OR_ZERO(opp_table);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
+> +		goto put_table;
+> +	}
+> +
+> +	err = dev_pm_opp_of_add_table(&pdev->dev);
+> +	if (err) {
+> +		dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
+> +		goto put_hw;
+> +	}
+> +
+>  	err = clk_prepare_enable(tegra->clock);
+>  	if (err) {
+>  		dev_err(&pdev->dev,
+>  			"Failed to prepare and enable ACTMON clock\n");
+> -		return err;
+> +		goto remove_table;
+>  	}
+>  
+>  	err = reset_control_reset(tegra->reset);
+> @@ -850,23 +872,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  		dev->regs = tegra->regs + dev->config->offset;
+>  	}
+>  
+> -	for (rate = 0; rate <= tegra->max_freq * KHZ; rate++) {
+> -		rate = clk_round_rate(tegra->emc_clock, rate);
+> -
+> -		if (rate < 0) {
+> -			dev_err(&pdev->dev,
+> -				"Failed to round clock rate: %ld\n", rate);
+> -			err = rate;
+> -			goto remove_opps;
+> -		}
+> -
+> -		err = dev_pm_opp_add(&pdev->dev, rate / KHZ, 0);
+> -		if (err) {
+> -			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
+> -			goto remove_opps;
+> -		}
+> -	}
+> -
+>  	platform_set_drvdata(pdev, tegra);
+>  
+>  	tegra->clk_rate_change_nb.notifier_call = tegra_actmon_clk_notify_cb;
+> @@ -882,7 +887,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	tegra_devfreq_profile.initial_freq = clk_get_rate(tegra->emc_clock);
+> -	tegra_devfreq_profile.initial_freq /= KHZ;
+>  
+>  	devfreq = devfreq_add_device(&pdev->dev, &tegra_devfreq_profile,
+>  				     "tegra_actmon", NULL);
+> @@ -902,6 +906,12 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+>  	reset_control_reset(tegra->reset);
+>  disable_clk:
+>  	clk_disable_unprepare(tegra->clock);
+> +remove_table:
+> +	dev_pm_opp_of_remove_table(&pdev->dev);
+> +put_hw:
+> +	dev_pm_opp_put_supported_hw(tegra->opp_table);
+> +put_table:
+> +	dev_pm_opp_put_opp_table(tegra->opp_table);
+>  
+>  	return err;
+>  }
+> @@ -913,11 +923,13 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
+>  	devfreq_remove_device(tegra->devfreq);
+>  	devfreq_remove_governor(&tegra_devfreq_governor);
+>  
+> -	dev_pm_opp_remove_all_dynamic(&pdev->dev);
+> -
+>  	reset_control_reset(tegra->reset);
+>  	clk_disable_unprepare(tegra->clock);
+>  
+> +	dev_pm_opp_of_remove_table(&pdev->dev);
+> +	dev_pm_opp_put_supported_hw(tegra->opp_table);
+> +	dev_pm_opp_put_opp_table(tegra->opp_table);
+> +
+>  	return 0;
+>  }
+>  
+> 
+
+Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
