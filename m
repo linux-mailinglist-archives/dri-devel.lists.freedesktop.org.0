@@ -2,94 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B379A2A833F
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00362A8391
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 17:33:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3FC86ED87;
-	Thu,  5 Nov 2020 16:15:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 667E96EDC1;
+	Thu,  5 Nov 2020 16:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
- (mail-eopbgr750044.outbound.protection.outlook.com [40.107.75.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C876ED87
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 16:15:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WeT3hN2EH4dVtYbrj3dzT3WnxVy6Wm0eh6/7ockqIUb3aUAq6OG/x0a/AcdU/qoLVpLkfSb82nwA7KO+eLFug+tChi7P6gzd4K7JdHAXYU370JIG3oyOy9L3FpDZUC4ZJpAfC8hbyYCz9qz19BXoWz9UYGcn0Ew8xzyEaYms0XFrd8P0S0xzcw2lARcMPOVeyHoBm0fMmQZTnp86O+EAy2O/vgrKj2PyhXLjE7OjI6+HrGm/EGyXlpx9G419mKf916mkYSpuB3Dsfu3bb7ia9j8ZnbViSotB0PtS0x1CsdRFg1FkaLbatKOxJoDzUpUwZz/4Ve5txFXUCFMuRFWcOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oyCgLbfTgTR10+1goKDlEpRah7xr61zyj45sI4aXToY=;
- b=E2o/mWqKla1aSu7FW7I2EXXIRMSIh2yWSWWTcplz5lVWE0l77sn3X8nTmabgaM673uyxZSZfiOcBLbD3+3G6TpmwPSC6bX9mlS7iJUeU74XREZWds4MWUh5SRgwO9eyJuNttXK7gIZ8T7oWQS6B/w3Fn9sD9rhCFVFZX6wCTovda7j1lbocRqWB9zYXQx9SjdDUIl2KrzdgAqirHsx9Vv10gs5/HGwnsXHF9Uz7LU6VBpjemMTes8lbcliJLTvXtKC5wSD5mPgvzgEeumkjbH0qTmKyOn/XmZK/IQGXzkbmudY5FgXpBQWs4ZXaK29GsyAf8F1y8OOn5x9loL2uxsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oyCgLbfTgTR10+1goKDlEpRah7xr61zyj45sI4aXToY=;
- b=cHze0H7bx8MRwL9xCTGRwhJRZYDG18+cEBN0uWklsAOwRxS3GQUfGzVWxQXkKx739aJtPeuHWM4u8EV5DQ/u1+iwFWco/BrJ0Y/3uaErdTN517gJT3uMjVmhk+UNoaYzZWmeSxpZvoukz8lMYWzyt3LRVF0CN5nMMw0vGvMreMA=
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4253.namprd12.prod.outlook.com (2603:10b6:208:1de::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.28; Thu, 5 Nov
- 2020 16:15:38 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
- 16:15:38 +0000
-Subject: Re: [drm-drm-misc:for-linux-next 2/2] drivers/dma-buf/dma-buf.c:1186:
- undefined reference to `vma_set_file'
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <202011052343.iOH9oZPH-lkp@intel.com>
- <3687eb25-8c94-4a08-9917-0f12d57ba76c@amd.com>
- <20201105160209.GA401619@phenom.ffwll.local>
- <20201105160419.GB401619@phenom.ffwll.local>
- <3274a20c-05b4-027f-42cb-fbb02dd444f6@amd.com>
-Message-ID: <8a13e4b9-eec8-f6b3-ae07-44aa535aae42@amd.com>
-Date: Thu, 5 Nov 2020 17:15:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <3274a20c-05b4-027f-42cb-fbb02dd444f6@amd.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM4PR0202CA0011.eurprd02.prod.outlook.com
- (2603:10a6:200:89::21) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95C3B6EDBB;
+ Thu,  5 Nov 2020 16:33:36 +0000 (UTC)
+IronPort-SDR: ygWy/JxYG9u1H/NhbxFEOGOXC9lEiuRLDimuktGkJWQm0QokbfbZAXsrIAa3FYEeD3vQ9obNvd
+ n5Jt2AXC1Agg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="165904273"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="165904273"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 08:33:35 -0800
+IronPort-SDR: NPW15n4TYbDMq3E724VsRpp/Fmn5GfMgS3msaAqbFygHduSwH7r7S85vqXTBtk4XGV4ViEzoOT
+ 3qtR6VaMl/AA==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="321275659"
+Received: from unknown (HELO intel.com) ([10.99.66.154])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 08:33:31 -0800
+Date: Thu, 5 Nov 2020 22:04:15 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v4 12/16] drm/i915/hdcp: MST streams support in hdcp
+ port_data
+Message-ID: <20201105163414.GK3242@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
+ <20201027164208.10026-13-anshuman.gupta@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM4PR0202CA0011.eurprd02.prod.outlook.com (2603:10a6:200:89::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
- Transport; Thu, 5 Nov 2020 16:15:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 8ec75ece-f997-447c-94d3-08d881a6086f
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4253:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4253C1CCF43A61FABEA3658F83EE0@MN2PR12MB4253.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nyaTJoX1roU5hRjlmx6ObJsnAdTMpUaZ80b3EZnKxtUH/Bh63TW/e21+Z+16jk1yFITrn0JtBgWljZ1yH/k1sDIwETNgCRRToQC0ssd5/f8WG6Ev3CmPjOHUCmxBWW11ZLdK9XBsZuob03QJzhFhJbmzEkMMjPY/8T+HPEOLAbrdEN/ej2kk6TWxpWBaJvt+PhHfJq+FGGQjs4sWf9ceGxZPEmTLPL7qj58Q+bJVCIwiFWewTv8dErEmcl9QoPDt/aplZCrdVkO6w7Xv7ncF86RuMY3bCIP/hAdUzsNKIehByVO45AH0khuKbejCyy5IO/4WBk68rY1YjZkDTVaD/xCqQYEVsipaOU2grooCjiSUEa8QGFUgLNjs1yt8ea81KZl27QV+r+LaRWQiCUX8ITYFyFRQ92fQ6KzkXPH03nRY+ievFI/LOIfNg9UOKEFiVN3+BvuRFiJxyrBM2xFmmXYrz+e595/zmz3YAfrPZqGAZb542nOskgeXoF9TO2PgksrJ1thnCb1+D9J+EPsLTg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(376002)(39860400002)(366004)(136003)(2616005)(83080400002)(8676002)(5660300002)(6486002)(4326008)(31686004)(6666004)(86362001)(966005)(478600001)(45080400002)(16526019)(8936002)(316002)(54906003)(186003)(52116002)(36756003)(6916009)(66556008)(2906002)(66574015)(66476007)(66946007)(31696002)(83380400001)(81973001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: wyuoD1mISTqhp++cvSUeZezo36F+W9V/vGRSs2n7FoqkEDI1Ap6YoD5xFj05R4CCR9mD2pyf44/C0rkp7q2Wfk56RxfjJq8bTDy1ptsUz6G2TZHzMW/Aqqv9YOWTqjoYB2ROdHLzZcFmy1KNvHsycrPtR1tNoYepYHhIhdrZoWbLGT/DHGTCTTjoywGL/Il7rPxVeV/najfF8hvVru1qkM0gD8m9zXts7sKEySd5aMVVhqPLdgqBI7S31kg/H1kEx+hMMfRU2C5QTq7troHTs76hdIl1Eip80B17JFUi4yGfu6xq/XH4cvH371d/szOkLb/UClh5uVnC2t4F2n7UZhZLzJ/obc+EMotyeQZeDNtP8JaWDnFw894ZvkaPccOUT9dKyfqW+av/EXTGxwgpH1ER7jN0pS9ojzC3sAdL5DY8+k0YWST86ucWizUJt9rZ0QmMA1MnlZ+Dhnq5CDVRzuPl2DwpUzgPIHtovRlhNxXDA5OavSDSWlW5yTN787ni7bt5UBLjV8u6Gn8dzZtbp5TXfaLC9QiaL9FdjxsHKqI6GS0BrBbjH3BVNBz93+fEWBSHs16Dvg2u+QnztJr2EdZF/2YOK9BpVuuXAFH3qNV43wpdFDfLIxWaxZfvuw2XJnphpJ94vbQdIgph/cc+eZ9pidjjLal05ykh3kTK/CBopZHaqSZB77dSEYANworJbIauVS7QS8ARp9miRijUcA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ec75ece-f997-447c-94d3-08d881a6086f
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 16:15:38.3916 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RqnxBXvSDsvFTy7BGPC8qrvowYMnrbuO+qwlsbfl+cLTuzIgrLzV3XlIamztW0kN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4253
+Content-Disposition: inline
+In-Reply-To: <20201027164208.10026-13-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,133 +51,255 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Jason Gunthorpe <jgg@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDUuMTEuMjAgdW0gMTc6MDUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+IEFtIDA1LjEx
-LjIwIHVtIDE3OjA0IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4gT24gVGh1LCBOb3YgMDUsIDIw
-MjAgYXQgMDU6MDI6MDlQTSArMDEwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPj4+IE9uIFRodSwg
-Tm92IDA1LCAyMDIwIGF0IDA0OjQxOjAwUE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6
-Cj4+Pj4gR3V5cywgY2FuIGFueWJvZHkgaGVscCBtZSBvdXQuIFdoeSBpcyB0aGUga2VybmVsIHRl
-c3Qgcm9ib3QgCj4+Pj4gY29tcGxhaW5pbmcKPj4+PiBoZXJlPwo+Pj4+Cj4+Pj4gVGhhbmtzIGlu
-IGFkdmFuY2UsCj4+Pj4gQ2hyaXN0aWFuLgo+Pj4+Cj4+Pj4gQW0gMDUuMTEuMjAgdW0gMTY6MjYg
-c2NocmllYiBrZXJuZWwgdGVzdCByb2JvdDoKPj4+Pj4gdHJlZTogZ2l0Oi8vYW5vbmdpdC5mcmVl
-ZGVza3RvcC5vcmcvZHJtL2RybS1taXNjIGZvci1saW51eC1uZXh0Cj4+Pj4+IGhlYWQ6wqDCoCAy
-YjViOTViMWZmM2Q3MGE5NTAxM2E0NWUzYjViOTBmMWRhZjQyMzQ4Cj4+Pj4+IGNvbW1pdDogMmI1
-Yjk1YjFmZjNkNzBhOTUwMTNhNDVlM2I1YjkwZjFkYWY0MjM0OCBbMi8yXSBtbTogCj4+Pj4+IGlu
-dHJvZHVjZSB2bWFfc2V0X2ZpbGUgZnVuY3Rpb24gdjQKPj4+Pj4gY29uZmlnOiBoODMwMC1yYW5k
-Y29uZmlnLXIwMzEtMjAyMDExMDUgKGF0dGFjaGVkIGFzIC5jb25maWcpCj4+Pj4+IGNvbXBpbGVy
-OiBoODMwMC1saW51eC1nY2MgKEdDQykgOS4zLjAKPj4+IG5vbW11IHBsYXRmb3JtPwo+Pj4KPj4+
-IElmIHlvdSBoYXZlIGEgaGFyZCB0aW1lIGZpbmRpbmcgYSBjcm9zcyBjb21waWxlciBmb3IgdGhp
-cywgdGhlcmUncyBzb21lCj4+PiBub21tdSBhcm0gcGxhdGZvcm1zLiBJIHVzZWQgdGhhdCBmb3Ig
-Y29tcGlsZSB0ZWVzdGluZyBub21tdSBzdXBwb3J0Cj4+PiByZWNlbnRseS4KPj4+Cj4+PiBJZiBp
-dCdzIG5vdCB0aGF0LCB0aGVuIGl0J3Mgc29tZXRoaW5nIHNwZWNpZmljIHdpdGggdGhhdCBjb25m
-aWcgZm9yIAo+Pj4gc3VyZS4KPj4gQWxzbyBsb29raW5nIGEgdGhlIHRyZWUsIHRoZXJlJ3Mgbm8g
-YWNrIGZyb20gQW5kcmV3IE1vcnRvbi4gRm9yIG1lcmdpbmcKPj4gc3R1ZmYgdGhhdCdzIG5vdCBt
-YWludGFpbmVkIGluIGRybS1taXNjIChhbmQgZGVmaW5pdGVseSBmb3Igc3R1ZmYgCj4+IG91dHNp
-ZGUKPj4gb2YgZHJtIG1haW50YWluZWQgdHJlZSkgd2UgbmVlZCBhbiBhY2sgZnJvbSB0aGUgcmln
-aHQgbWFpbnRhaW5lci4KPgo+IE9rLCBnb2luZyB0byByZXZlcnQgZnJvbSBkcm0tbWlzYy1uZXh0
-IHRoZW4uCgpBbnkgb2JqZWN0aW9ucyB0aGF0IEkgdXNlIGFuIEFja2VkLWJ5OiBEYW5pZWwgVmV0
-dGVyIAo8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4gYW5kIHRoZSBvcmlnaW5hbCBMaW5rIHRhZ3Mg
-Zm9yIHRoZSByZXZlcnQ/CgpDaHJpc3RpYW4uCgo+Cj4gVGhhbmtzLAo+IENocmlzdGlhbi4KPgo+
-Pgo+PiBJJ2Qgc2F5IG1ha2Ugc3VyZSBoZSdzIG9rIGJlZm9yZSB3ZSBkaWcgYW4gZXZlbiBkZWVw
-ZXIgaG9sZSBoZXJlLgo+PiAtRGFuaWVsCj4+Cj4+PiAtRGFuaWVsCj4+Pgo+Pj4+PiByZXByb2R1
-Y2UgKHRoaXMgaXMgYSBXPTEgYnVpbGQpOgo+Pj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgd2dldCAK
-Pj4+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJs
-PWh0dHBzJTNBJTJGJTJGcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSUyRmludGVsJTJGbGtwLXRl
-c3RzJTJGbWFzdGVyJTJGc2JpbiUyRm1ha2UuY3Jvc3MmYW1wO2RhdGE9MDQlN0MwMSU3Q2Nocmlz
-dGlhbi5rb2VuaWclNDBhbWQuY29tJTdDNGUyMzhiZmNiM2M3NGVjNDUwOWIwOGQ4ODFhNDc2YjEl
-N0MzZGQ4OTYxZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDAxODkwNjUx
-ODE0Nzk1JTdDVW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlq
-b2lWMmx1TXpJaUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRh
-PVN3Ym5ZRUhCc3c0NEl5MXlKZEVxVXAxQm5MWSUyQmtNRktPdUZjVnJjY2lzZyUzRCZhbXA7cmVz
-ZXJ2ZWQ9MCAKPj4+Pj4gLU8gfi9iaW4vbWFrZS5jcm9zcwo+Pj4+PiDCoMKgwqDCoMKgwqDCoMKg
-wqAgY2htb2QgK3ggfi9iaW4vbWFrZS5jcm9zcwo+Pj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ2l0
-IHJlbW90ZSBhZGQgZHJtLWRybS1taXNjIAo+Pj4+PiBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9w
-Lm9yZy9kcm0vZHJtLW1pc2MKPj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGdpdCBmZXRjaCAtLW5v
-LXRhZ3MgZHJtLWRybS1taXNjIGZvci1saW51eC1uZXh0Cj4+Pj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBnaXQgY2hlY2tvdXQgMmI1Yjk1YjFmZjNkNzBhOTUwMTNhNDVlM2I1YjkwZjFkYWY0MjM0OAo+
-Pj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgIyBzYXZlIHRoZSBhdHRhY2hlZCAuY29uZmlnIHRvIGxp
-bnV4IGJ1aWxkIHRyZWUKPj4+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIENPTVBJTEVSX0lOU1RBTExf
-UEFUSD0kSE9NRS8wZGF5IENPTVBJTEVSPWdjYy05LjMuMCAKPj4+Pj4gbWFrZS5jcm9zcyBBUkNI
-PWg4MzAwCj4+Pj4+Cj4+Pj4+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxv
-d2luZyB0YWcgYXMgYXBwcm9wcmlhdGUKPj4+Pj4gUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJv
-Ym90IDxsa3BAaW50ZWwuY29tPgo+Pj4+Pgo+Pj4+PiBBbGwgZXJyb3JzIChuZXcgb25lcyBwcmVm
-aXhlZCBieSA+Pik6Cj4+Pj4+Cj4+Pj4+IMKgwqDCoMKgIGg4MzAwLWxpbnV4LWxkOiBzZWN0aW9u
-IC5pbml0LnRleHQgTE1BIAo+Pj4+PiBbMDAwMDAwMDAwMDRkYTQwMCwwMDAwMDAwMDAwNTFlYmNi
-XSBvdmVybGFwcyBzZWN0aW9uIC50ZXh0IExNQSAKPj4+Pj4gWzAwMDAwMDAwMDAwMDAyNWMsMDAw
-MDAwMDAwMTA2OTk5N10KPj4+Pj4gwqDCoMKgwqAgaDgzMDAtbGludXgtbGQ6IHNlY3Rpb24gLmRh
-dGEgVk1BIAo+Pj4+PiBbMDAwMDAwMDAwMDQwMDAwMCwwMDAwMDAwMDAwNGRhM2ZmXSBvdmVybGFw
-cyBzZWN0aW9uIC50ZXh0IFZNQSAKPj4+Pj4gWzAwMDAwMDAwMDAwMDAyNWMsMDAwMDAwMDAwMTA2
-OTk5N10KPj4+Pj4gwqDCoMKgwqAgaDgzMDAtbGludXgtbGQ6IGRyaXZlcnMvZG1hLWJ1Zi9kbWEt
-YnVmLm86IGluIGZ1bmN0aW9uIAo+Pj4+PiBgZG1hX2J1Zl9tbWFwJzoKPj4+Pj4+PiBkcml2ZXJz
-L2RtYS1idWYvZG1hLWJ1Zi5jOjExODY6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gCj4+Pj4+Pj4g
-YHZtYV9zZXRfZmlsZScKPj4+Pj4gdmltICsxMTg2IGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMK
-Pj4+Pj4KPj4+Pj4gwqDCoMKgIDExNTAKPj4+Pj4gwqDCoMKgIDExNTEKPj4+Pj4gwqDCoMKgIDEx
-NTLCoMKgwqAgLyoqCj4+Pj4+IMKgwqDCoCAxMTUzwqDCoMKgwqAgKiBkbWFfYnVmX21tYXAgLSBT
-ZXR1cCB1cCBhIHVzZXJzcGFjZSBtbWFwIHdpdGggdGhlIAo+Pj4+PiBnaXZlbiB2bWEKPj4+Pj4g
-wqDCoMKgIDExNTTCoMKgwqDCoCAqIEBkbWFidWY6wqDCoMKgIFtpbl3CoMKgwqAgYnVmZmVyIHRo
-YXQgc2hvdWxkIGJhY2sgdGhlIHZtYQo+Pj4+PiDCoMKgwqAgMTE1NcKgwqDCoMKgICogQHZtYTrC
-oMKgwqAgW2luXcKgwqDCoCB2bWEgZm9yIHRoZSBtbWFwCj4+Pj4+IMKgwqDCoCAxMTU2wqDCoMKg
-wqAgKiBAcGdvZmY6wqDCoMKgIFtpbl3CoMKgwqAgb2Zmc2V0IGluIHBhZ2VzIHdoZXJlIHRoaXMg
-bW1hcCAKPj4+Pj4gc2hvdWxkIHN0YXJ0IHdpdGhpbiB0aGUKPj4+Pj4gwqDCoMKgIDExNTfCoMKg
-wqDCoCAqwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBkbWEtYnVmIGJ1ZmZlci4KPj4+Pj4gwqDCoMKg
-IDExNTjCoMKgwqDCoCAqCj4+Pj4+IMKgwqDCoCAxMTU5wqDCoMKgwqAgKiBUaGlzIGZ1bmN0aW9u
-IGFkanVzdHMgdGhlIHBhc3NlZCBpbiB2bWEgc28gdGhhdCBpdCAKPj4+Pj4gcG9pbnRzIGF0IHRo
-ZSBmaWxlIG9mIHRoZQo+Pj4+PiDCoMKgwqAgMTE2MMKgwqDCoMKgICogZG1hX2J1ZiBvcGVyYXRp
-b24uIEl0IGFsc28gYWRqdXN0cyB0aGUgc3RhcnRpbmcgCj4+Pj4+IHBnb2ZmIGFuZCBkb2VzIGJv
-dW5kcwo+Pj4+PiDCoMKgwqAgMTE2McKgwqDCoMKgICogY2hlY2tpbmcgb24gdGhlIHNpemUgb2Yg
-dGhlIHZtYS4gVGhlbiBpdCBjYWxscyB0aGUgCj4+Pj4+IGV4cG9ydGVycyBtbWFwIGZ1bmN0aW9u
-IHRvCj4+Pj4+IMKgwqDCoCAxMTYywqDCoMKgwqAgKiBzZXQgdXAgdGhlIG1hcHBpbmcuCj4+Pj4+
-IMKgwqDCoCAxMTYzwqDCoMKgwqAgKgo+Pj4+PiDCoMKgwqAgMTE2NMKgwqDCoMKgICogQ2FuIHJl
-dHVybiBuZWdhdGl2ZSBlcnJvciB2YWx1ZXMsIHJldHVybnMgMCBvbiAKPj4+Pj4gc3VjY2Vzcy4K
-Pj4+Pj4gwqDCoMKgIDExNjXCoMKgwqDCoCAqLwo+Pj4+PiDCoMKgwqAgMTE2NsKgwqDCoCBpbnQg
-ZG1hX2J1Zl9tbWFwKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCAKPj4+Pj4gdm1fYXJl
-YV9zdHJ1Y3QgKnZtYSwKPj4+Pj4gwqDCoMKgIDExNjfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-dW5zaWduZWQgbG9uZyBwZ29mZikKPj4+Pj4gwqDCoMKgIDExNjjCoMKgwqAgewo+Pj4+PiDCoMKg
-wqAgMTE2OcKgwqDCoMKgwqDCoMKgIGlmIChXQVJOX09OKCFkbWFidWYgfHwgIXZtYSkpCj4+Pj4+
-IMKgwqDCoCAxMTcwwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsKPj4+Pj4g
-wqDCoMKgIDExNzEKPj4+Pj4gwqDCoMKgIDExNzLCoMKgwqDCoMKgwqDCoCAvKiBjaGVjayBpZiBi
-dWZmZXIgc3VwcG9ydHMgbW1hcCAqLwo+Pj4+PiDCoMKgwqAgMTE3M8KgwqDCoMKgwqDCoMKgIGlm
-ICghZG1hYnVmLT5vcHMtPm1tYXApCj4+Pj4+IMKgwqDCoCAxMTc0wqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCByZXR1cm4gLUVJTlZBTDsKPj4+Pj4gwqDCoMKgIDExNzUKPj4+Pj4gwqDCoMKgIDExNzbC
-oMKgwqDCoMKgwqDCoCAvKiBjaGVjayBmb3Igb2Zmc2V0IG92ZXJmbG93ICovCj4+Pj4+IMKgwqDC
-oCAxMTc3wqDCoMKgwqDCoMKgwqAgaWYgKHBnb2ZmICsgdm1hX3BhZ2VzKHZtYSkgPCBwZ29mZikK
-Pj4+Pj4gwqDCoMKgIDExNzjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiAtRU9WRVJGTE9X
-Owo+Pj4+PiDCoMKgwqAgMTE3OQo+Pj4+PiDCoMKgwqAgMTE4MMKgwqDCoMKgwqDCoMKgIC8qIGNo
-ZWNrIGZvciBvdmVyZmxvd2luZyB0aGUgYnVmZmVyJ3Mgc2l6ZSAqLwo+Pj4+PiDCoMKgwqAgMTE4
-McKgwqDCoMKgwqDCoMKgIGlmIChwZ29mZiArIHZtYV9wYWdlcyh2bWEpID4KPj4+Pj4gwqDCoMKg
-IDExODLCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRtYWJ1Zi0+c2l6ZSA+PiBQQUdFX1NISUZUKQo+
-Pj4+PiDCoMKgwqAgMTE4M8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7Cj4+
-Pj4+IMKgwqDCoCAxMTg0Cj4+Pj4+IMKgwqDCoCAxMTg1wqDCoMKgwqDCoMKgwqAgLyogcmVhZGp1
-c3QgdGhlIHZtYSAqLwo+Pj4+Pj4gMTE4NsKgwqDCoMKgwqDCoMKgIHZtYV9zZXRfZmlsZSh2bWEs
-IGRtYWJ1Zi0+ZmlsZSk7Cj4+Pj4+IMKgwqDCoCAxMTg3wqDCoMKgwqDCoMKgwqAgdm1hLT52bV9w
-Z29mZiA9IHBnb2ZmOwo+Pj4+PiDCoMKgwqAgMTE4OAo+Pj4+PiDCoMKgwqAgMTE4OcKgwqDCoMKg
-wqDCoMKgIHJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZtYSk7Cj4+Pj4+IMKgwqDC
-oCAxMTkwwqDCoMKgIH0KPj4+Pj4gwqDCoMKgIDExOTHCoMKgwqAgRVhQT1JUX1NZTUJPTF9HUEwo
-ZG1hX2J1Zl9tbWFwKTsKPj4+Pj4gwqDCoMKgIDExOTIKPj4+Pj4KPj4+Pj4gLS0tCj4+Pj4+IDAt
-REFZIENJIEtlcm5lbCBUZXN0IFNlcnZpY2UsIEludGVsIENvcnBvcmF0aW9uCj4+Pj4+IGh0dHBz
-Oi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1odHRwcyUzQSUy
-RiUyRmxpc3RzLjAxLm9yZyUyRmh5cGVya2l0dHklMkZsaXN0JTJGa2J1aWxkLWFsbCU0MGxpc3Rz
-LjAxLm9yZyZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFuLmtvZW5pZyU0MGFtZC5jb20lN0M0
-ZTIzOGJmY2IzYzc0ZWM0NTA5YjA4ZDg4MWE0NzZiMSU3QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgy
-ZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDE4OTA2NTE4MTQ3OTUlN0NVbmtub3duJTdDVFdGcGJH
-WnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJazFoYVd3
-aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9NmZDMmZJQ2YyczJFODZGY245T1VJZXNM
-R0lxN00lMkZ5b1lUYTZRVjBrMWM0JTNEJmFtcDtyZXNlcnZlZD0wIAo+Pj4+Pgo+Pj4gLS0gCj4+
-PiBEYW5pZWwgVmV0dGVyCj4+PiBTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24K
-Pj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20vP3VybD1o
-dHRwJTNBJTJGJTJGYmxvZy5mZndsbC5jaCUyRiZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0aWFu
-LmtvZW5pZyU0MGFtZC5jb20lN0M0ZTIzOGJmY2IzYzc0ZWM0NTA5YjA4ZDg4MWE0NzZiMSU3QzNk
-ZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDE4OTA2NTE4MTQ3
-OTUlN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYy
-bHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9OWo5
-aXElMkIwWG1pN3ZxOFJ4SU1XdjBCMk9hcWJLRnd2RWUwZTIzUUt1JTJCdVklM0QmYW1wO3Jlc2Vy
-dmVkPTAgCj4+Pgo+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On 2020-10-27 at 22:12:04 +0530, Anshuman Gupta wrote:
+> Add support for multiple mst stream in hdcp port data
+> which will be used by RepeaterAuthStreamManage msg and
+> HDCP 2.2 security f/w for m' validation.
+> 
+> v2:
+> Init the hdcp port data k for HDMI/DP SST strem.
+> 
+> v3:
+> Cosmetic changes. [Uma]
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_types.h    |   4 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 103 +++++++++++++++---
+>  2 files changed, 92 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 749c3a7e0b45..24e0067c2e7c 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1445,10 +1445,12 @@ struct intel_digital_port {
+>  	enum phy_fia tc_phy_fia;
+>  	u8 tc_phy_fia_idx;
+>  
+> -	/* protects num_hdcp_streams reference count, port_data */
+> +	/* protects num_hdcp_streams reference count, port_data and port_auth */
+>  	struct mutex hdcp_mutex;
+>  	/* the number of pipes using HDCP signalling out of this port */
+>  	unsigned int num_hdcp_streams;
+> +	/* port HDCP auth status */
+> +	bool port_auth;
+>  	/* HDCP port data need to pass to security f/w */
+>  	struct hdcp_port_data port_data;
+since this is no more in hdcp related struct, it will be better to be named as
+hdcp_auth_status and hdcp_port_data !?
+
+-Ram
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index a5ec4f72f50f..1df6d4a23476 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -26,6 +26,64 @@
+>  #define KEY_LOAD_TRIES	5
+>  #define HDCP2_LC_RETRY_CNT			3
+>  
+> +static int intel_conn_to_vcpi(struct intel_connector *connector)
+> +{
+> +	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
+> +	return connector->port	? connector->port->vcpi.vcpi : 0;
+> +}
+> +
+> +static int
+> +intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
+> +{
+> +	struct drm_connector_list_iter conn_iter;
+> +	struct intel_digital_port *conn_dig_port;
+> +	struct intel_connector *connector;
+> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	struct hdcp_port_data *data = &dig_port->port_data;
+> +	bool enforce_type0 = false;
+> +	int k;
+> +
+> +	if (dig_port->port_auth)
+> +		return 0;
+> +
+> +	drm_connector_list_iter_begin(&i915->drm, &conn_iter);
+> +	for_each_intel_connector_iter(connector, &conn_iter) {
+> +		if (!intel_encoder_is_mst(intel_attached_encoder(connector)))
+> +			continue;
+> +
+> +		conn_dig_port = intel_attached_dig_port(connector);
+> +		if (conn_dig_port != dig_port)
+> +			continue;
+> +
+> +		if (connector->base.status == connector_status_disconnected)
+> +			continue;
+> +
+> +		if (!enforce_type0 && !intel_hdcp2_capable(connector))
+> +			enforce_type0 = true;
+> +
+> +		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
+> +		data->k++;
+> +
+> +		/* if there is only one active stream */
+> +		if (dig_port->dp.active_mst_links <= 1)
+> +			break;
+> +	}
+> +	drm_connector_list_iter_end(&conn_iter);
+> +
+> +	if (drm_WARN_ON(&i915->drm, data->k > INTEL_NUM_PIPES(i915) || data->k == 0))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Apply common protection level across all streams in DP MST Topology.
+> +	 * Use highest supported content type for all streams in DP MST Topology.
+> +	 */
+> +	for (k = 0; k < data->k; k++)
+> +		data->streams[k].stream_type =
+> +			enforce_type0 ? DRM_MODE_HDCP_CONTENT_TYPE0 : DRM_MODE_HDCP_CONTENT_TYPE1;
+> +
+> +	return 0;
+> +}
+> +
+>  static
+>  bool intel_hdcp_is_ksv_valid(u8 *ksv)
+>  {
+> @@ -1474,13 +1532,14 @@ static
+>  int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> +	struct hdcp_port_data *data = &dig_port->port_data;
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	union {
+>  		struct hdcp2_rep_stream_manage stream_manage;
+>  		struct hdcp2_rep_stream_ready stream_ready;
+>  	} msgs;
+>  	const struct intel_hdcp_shim *shim = hdcp->shim;
+> -	int ret;
+> +	int ret, streams_size_delta, i;
+>  
+>  	if (connector->hdcp.seq_num_m > HDCP_2_2_SEQ_NUM_MAX)
+>  		return -ERANGE;
+> @@ -1489,16 +1548,18 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  	msgs.stream_manage.msg_id = HDCP_2_2_REP_STREAM_MANAGE;
+>  	drm_hdcp_cpu_to_be24(msgs.stream_manage.seq_num_m, hdcp->seq_num_m);
+>  
+> -	/* K no of streams is fixed as 1. Stored as big-endian. */
+> -	msgs.stream_manage.k = cpu_to_be16(1);
+> +	msgs.stream_manage.k = cpu_to_be16(data->k);
+>  
+> -	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
+> -	msgs.stream_manage.streams[0].stream_id = 0;
+> -	msgs.stream_manage.streams[0].stream_type = hdcp->content_type;
+> +	for (i = 0; i < data->k; i++) {
+> +		msgs.stream_manage.streams[i].stream_id = data->streams[i].stream_id;
+> +		msgs.stream_manage.streams[i].stream_type = data->streams[i].stream_type;
+> +	}
+>  
+> +	streams_size_delta = (HDCP_2_2_MAX_CONTENT_STREAMS_CNT - data->k) *
+> +				sizeof(struct hdcp2_streamid_type);
+>  	/* Send it to Repeater */
+>  	ret = shim->write_2_2_msg(dig_port, &msgs.stream_manage,
+> -				  sizeof(msgs.stream_manage));
+> +				  sizeof(msgs.stream_manage) - streams_size_delta);
+>  	if (ret < 0)
+>  		goto out;
+>  
+> @@ -1507,8 +1568,7 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  	if (ret < 0)
+>  		goto out;
+>  
+> -	dig_port->port_data.seq_num_m = hdcp->seq_num_m;
+> -	dig_port->port_data.streams[0].stream_type = hdcp->content_type;
+> +	data->seq_num_m = hdcp->seq_num_m;
+>  
+>  	ret = hdcp2_verify_mprime(connector, &msgs.stream_ready);
+>  
+> @@ -1669,6 +1729,7 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
+>  						 port),
+>  				    LINK_ENCRYPTION_STATUS,
+>  				    HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
+> +	dig_port->port_auth = true;
+>  
+>  	return ret;
+>  }
+> @@ -1743,11 +1804,9 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> -	struct hdcp_port_data *data = &dig_port->port_data;
+> -	struct intel_hdcp *hdcp = &connector->hdcp;
+> -	int ret, i, tries = 3;
+> +	int ret = 0, i, tries = 3;
+>  
+> -	for (i = 0; i < tries; i++) {
+> +	for (i = 0; i < tries && !dig_port->port_auth; i++) {
+>  		ret = hdcp2_authenticate_sink(connector);
+>  		if (!ret) {
+>  			ret = hdcp2_propagate_stream_management_info(connector);
+> @@ -1757,7 +1816,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  					    ret);
+>  				break;
+>  			}
+> -			data->streams[0].stream_type = hdcp->content_type;
+> +
+>  			ret = hdcp2_authenticate_port(connector);
+>  			if (!ret)
+>  				break;
+> @@ -1792,7 +1851,9 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  
+>  static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +	struct hdcp_port_data *data = &dig_port->port_data;
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret;
+>  
+> @@ -1800,6 +1861,16 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  		    connector->base.name, connector->base.base.id,
+>  		    hdcp->content_type);
+>  
+> +	/* Stream which requires encryption */
+> +	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
+> +		data->k = 1;
+> +		data->streams[0].stream_type = hdcp->content_type;
+> +	} else {
+> +		ret = intel_hdcp_required_content_stream(dig_port);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	ret = hdcp2_authenticate_and_encrypt(connector);
+>  	if (ret) {
+>  		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
+> @@ -1817,7 +1888,9 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  
+>  static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +	struct hdcp_port_data *data = &dig_port->port_data;
+>  	int ret;
+>  
+>  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
+> @@ -1829,6 +1902,8 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  		drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
+>  
+>  	connector->hdcp.hdcp2_encrypted = false;
+> +	dig_port->port_auth = false;
+> +	data->k = 0;
+>  
+>  	return ret;
+>  }
+> -- 
+> 2.26.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
