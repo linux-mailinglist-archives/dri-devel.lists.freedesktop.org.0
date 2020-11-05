@@ -1,43 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DABD2A8241
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 16:33:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A952A8251
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 16:36:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFFB6E237;
-	Thu,  5 Nov 2020 15:33:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B4F76E140;
+	Thu,  5 Nov 2020 15:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 926506E237;
- Thu,  5 Nov 2020 15:33:23 +0000 (UTC)
-IronPort-SDR: bk2Rv9RspOFWTEIXu4TPxgAXF7dfOHxDdZWXFenmzqWXbjSN3WQ9EQZHTANeNUz5NKEnh/xQyb
- G3RSc/SibXpg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="157179512"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="157179512"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 07:33:22 -0800
-IronPort-SDR: 0mPnJbOf4+8Ua1KWDXhwOKESx7vCofzk3+7dH2WxHILSPnzzDzIYd7opFITRSxi1HM6i2A8tco
- +FHTeiCsZKGQ==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="539446009"
-Received: from unknown (HELO intel.com) ([10.99.66.154])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 07:33:20 -0800
-Date: Thu, 5 Nov 2020 21:04:03 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v4 06/16] drm/i915/hdcp: HDCP stream encryption support
-Message-ID: <20201105153400.GG3242@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-7-anshuman.gupta@intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03B076E140
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 15:36:11 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id n15so2282415wrq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 07:36:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VVtlWEsWM10xUxHEqNjqBw9sRoL2M0FU25wnXi6OOus=;
+ b=H05KUpxI/QnSpcJkO54mUBh5O3Ewu1jFW4YjrxVmdwaAxr1Ixa8HyOQnMnsI8St83F
+ xUE/L2I661AaScwuuxs/huDvv9d3KsB3yef6bdbSw/dAc4UGZ4yoSi4LERWTYMUY/2ty
+ eFuSPcSrbrTsLtDcNK8cWEixXiIUn0dPN3xm0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VVtlWEsWM10xUxHEqNjqBw9sRoL2M0FU25wnXi6OOus=;
+ b=BDBUO9Jiukn5YxpkqKwXcaRC7eFwxBP/CqihXzuRH+2HpBUoA3wzme4c3D0O9tnWdM
+ 5hIPuDOTaNS/YrYvSny82FtApjeu+0Wn4HkxNmpTqzyKF/QMG7pD9xj99zcZDN3Um8Hx
+ 8iKc9KLpn8KRZrPdb0PxrqY66Bl4oZsEjKCz972nNm1EK07ol/2mWw7Rb2EcDt6oZ7TX
+ 430nFweaLo+0nBT13lxExhsUT9qauYHB08R/Dhj2BkyH3z5dbedtbCkgBBCl70EHN+yW
+ WJEs4KPfCDTF2VT1/qOQQYdxtSWd2D2aWIpGqmuwTJkj8ULNDT9LcCiSPSwA7FAuzxhS
+ f0YA==
+X-Gm-Message-State: AOAM530vZZyQ1+j0Rjj3sIrpSjSsmbibhBW5wIsDOArswagSEOc2zmYD
+ krig36uMQl5d6tTHtw1L95OfxNuK8YNfhKcZ
+X-Google-Smtp-Source: ABdhPJxh3Z1GlBMPfmqu7v1JJvJawwE9rOJA/eTCIf0EZ4K/5lBBkyY5b2idmPK0o/68qlYdyBA8dQ==
+X-Received: by 2002:adf:8362:: with SMTP id 89mr3814500wrd.280.1604590569421; 
+ Thu, 05 Nov 2020 07:36:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id f7sm3114919wrx.64.2020.11.05.07.36.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 07:36:08 -0800 (PST)
+Date: Thu, 5 Nov 2020 16:36:06 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH 6/6] drm/amdgpu: Make struct drm_driver const
+Message-ID: <20201105153606.GZ401619@phenom.ffwll.local>
+References: <20201104100425.1922351-1-daniel.vetter@ffwll.ch>
+ <20201104100425.1922351-6-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201027164208.10026-7-anshuman.gupta@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201104100425.1922351-6-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,271 +65,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
- juston.li@intel.com
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Luben Tuikov <luben.tuikov@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 at 22:11:58 +0530, Anshuman Gupta wrote:
-> Both HDCP_{1.x,2.x} requires to select/deselect Multistream HDCP bit
-> in TRANS_DDI_FUNC_CTL in order to enable/disable stream HDCP
-> encryption over DP MST Transport Link.
+On Wed, Nov 04, 2020 at 11:04:25AM +0100, Daniel Vetter wrote:
+> From: Luben Tuikov <luben.tuikov@amd.com>
 > 
-> HDCP 1.4 stream encryption requires to validate the stream encryption
-> status in HDCP_STATUS_{TRANSCODER,PORT} register driving that link
-> in order to enable/disable the stream encryption.
+> Make the definition of struct drm_driver
+> a constant, to follow the latest developments
+> in the DRM layer.
 > 
-> Both of above requirement are same for all Gen with respect to
-> B.Spec Documentation.
-> 
-> v2:
-> Cosmetic changes function name, error msg print and
-> stream typo fixes. [Uma]
-> 
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_ddi.c      | 10 +--
->  drivers/gpu/drm/i915/display/intel_ddi.h      |  6 +-
->  .../drm/i915/display/intel_display_types.h    |  4 +
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 80 ++++++++++++++++---
->  drivers/gpu/drm/i915/display/intel_hdmi.c     | 14 ++--
->  drivers/gpu/drm/i915/i915_reg.h               |  1 +
->  6 files changed, 90 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index 9fce623e951e..779603a38cfc 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -1948,9 +1948,9 @@ void intel_ddi_disable_transcoder_func(const struct intel_crtc_state *crtc_state
->  	}
->  }
->  
-> -int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
-> -				     enum transcoder cpu_transcoder,
-> -				     bool enable)
-> +int intel_ddi_toggle_hdcp_bits(struct intel_encoder *intel_encoder,
-> +			       enum transcoder cpu_transcoder,
-> +			       bool enable, u32 hdcp_mask)
->  {
->  	struct drm_device *dev = intel_encoder->base.dev;
->  	struct drm_i915_private *dev_priv = to_i915(dev);
-> @@ -1965,9 +1965,9 @@ int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
->  
->  	tmp = intel_de_read(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder));
->  	if (enable)
-> -		tmp |= TRANS_DDI_HDCP_SIGNALLING;
-> +		tmp |= hdcp_mask;
->  	else
-> -		tmp &= ~TRANS_DDI_HDCP_SIGNALLING;
-> +		tmp &= ~hdcp_mask;
->  	intel_de_write(dev_priv, TRANS_DDI_FUNC_CTL(cpu_transcoder), tmp);
->  	intel_display_power_put(dev_priv, intel_encoder->power_domain, wakeref);
->  	return ret;
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.h b/drivers/gpu/drm/i915/display/intel_ddi.h
-> index dcc711cfe4fe..a4dd815c0000 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.h
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.h
-> @@ -50,9 +50,9 @@ u32 bxt_signal_levels(struct intel_dp *intel_dp,
->  		      const struct intel_crtc_state *crtc_state);
->  u32 ddi_signal_levels(struct intel_dp *intel_dp,
->  		      const struct intel_crtc_state *crtc_state);
-> -int intel_ddi_toggle_hdcp_signalling(struct intel_encoder *intel_encoder,
-> -				     enum transcoder cpu_transcoder,
-> -				     bool enable);
-> +int intel_ddi_toggle_hdcp_bits(struct intel_encoder *intel_encoder,
-> +			       enum transcoder cpu_transcoder,
-> +			       bool enable, u32 hdcp_mask);
->  void icl_sanitize_encoder_pll_mapping(struct intel_encoder *encoder);
->  
->  #endif /* __INTEL_DDI_H__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index c47124a679b6..59b8fc21e3e8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -339,6 +339,10 @@ struct intel_hdcp_shim {
->  				 enum transcoder cpu_transcoder,
->  				 bool enable);
->  
-> +	/* Enable/Disable stream encryption on DP MST Transport Link */
-> +	int (*stream_encryption)(struct intel_digital_port *dig_port,
-> +				 bool enable);
-> +
->  	/* Ensures the link is still protected */
->  	bool (*check_link)(struct intel_digital_port *dig_port,
->  			   struct intel_connector *connector);
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index 03424d20e9f7..6dcbfaffd2c5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -16,6 +16,30 @@
->  #include "intel_dp.h"
->  #include "intel_hdcp.h"
->  
-> +static unsigned int transcoder_to_stream_enc_status(enum transcoder cpu_transcoder)
-> +{
-> +	u32 stream_enc_mask;
-> +
-> +	switch (cpu_transcoder) {
-> +	case TRANSCODER_A:
-> +		stream_enc_mask = HDCP_STATUS_STREAM_A_ENC;
-> +		break;
-> +	case TRANSCODER_B:
-> +		stream_enc_mask = HDCP_STATUS_STREAM_B_ENC;
-> +		break;
-> +	case TRANSCODER_C:
-> +		stream_enc_mask = HDCP_STATUS_STREAM_C_ENC;
-> +		break;
-> +	case TRANSCODER_D:
-> +		stream_enc_mask = HDCP_STATUS_STREAM_D_ENC;
-> +		break;
-> +	default:
-> +		stream_enc_mask = 0;
-> +	}
-> +
-> +	return stream_enc_mask;
-> +}
-> +
->  static void intel_dp_hdcp_wait_for_cp_irq(struct intel_hdcp *hdcp, int timeout)
->  {
->  	long ret;
-> @@ -622,24 +646,57 @@ static const struct intel_hdcp_shim intel_dp_hdcp_shim = {
->  };
->  
->  static int
-> -intel_dp_mst_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
-> -				    enum transcoder cpu_transcoder,
-> -				    bool enable)
-> +intel_dp_mst_toggle_hdcp_stream_select(struct intel_digital_port *dig_port,
-> +				       bool enable)
->  {
->  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> +	struct intel_dp *dp = &dig_port->dp;
-> +	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
->  	int ret;
->  
-> -	if (!enable)
-> -		usleep_range(6, 60); /* Bspec says >= 6us */
-Any reason why this is removed from disable path? Or i am missing the
-movement?
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> [danvet: Rebase onto devm_drm_dev_alloc patch and drop the freesync
+> ioctl line again that escaped from internal trees.]
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
--Ram
-> -
-> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base,
-> -					       cpu_transcoder, enable);
-> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
-> +					 hdcp->stream_transcoder, enable,
-> +					 TRANS_DDI_HDCP_SELECT);
+Entire series merged to drm-misc-next, with an irc ack from Alex for this
+one here. Thanks everyone who helped out with patches and reviews!
+-Daniel
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 31 +++++++++++++++++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c | 24 +------------------
+>  2 files changed, 28 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 8b30915aa972..d6fced7a9a03 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -40,6 +40,7 @@
+>  #include "amdgpu.h"
+>  #include "amdgpu_irq.h"
+>  #include "amdgpu_dma_buf.h"
+> +#include "amdgpu_sched.h"
+>  
+>  #include "amdgpu_amdkfd.h"
+>  
+> @@ -1094,7 +1095,7 @@ static const struct pci_device_id pciidlist[] = {
+>  
+>  MODULE_DEVICE_TABLE(pci, pciidlist);
+>  
+> -static struct drm_driver kms_driver;
+> +static const struct drm_driver amdgpu_kms_driver;
+>  
+>  static int amdgpu_pci_probe(struct pci_dev *pdev,
+>  			    const struct pci_device_id *ent)
+> @@ -1165,7 +1166,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
 >  	if (ret)
-> -		drm_dbg_kms(&i915->drm, "%s HDCP signalling failed (%d)\n",
-> -			      enable ? "Enable" : "Disable", ret);
-> +		drm_err(&i915->drm, "%s HDCP stream select failed (%d)\n",
-> +			enable ? "Enable" : "Disable", ret);
->  	return ret;
+>  		return ret;
+>  
+> -	adev = devm_drm_dev_alloc(&pdev->dev, &kms_driver, typeof(*adev), ddev);
+> +	adev = devm_drm_dev_alloc(&pdev->dev, &amdgpu_kms_driver, typeof(*adev), ddev);
+>  	if (IS_ERR(adev))
+>  		return PTR_ERR(adev);
+>  
+> @@ -1509,7 +1510,29 @@ int amdgpu_file_to_fpriv(struct file *filp, struct amdgpu_fpriv **fpriv)
+>  	return 0;
 >  }
 >  
-> +static int
-> +intel_dp_mst_hdcp_stream_encryption(struct intel_digital_port *dig_port,
-> +				    bool enable)
-> +{
-> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> +	struct intel_dp *dp = &dig_port->dp;
-> +	struct intel_hdcp *hdcp = &dp->attached_connector->hdcp;
-> +	enum port port = dig_port->base.port;
-> +	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-> +	u32 stream_enc_status;
-> +	int ret;
+> -static struct drm_driver kms_driver = {
+> +int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp);
 > +
-> +	ret = intel_dp_mst_toggle_hdcp_stream_select(dig_port, enable);
-> +	if (ret)
-> +		return ret;
+> +const struct drm_ioctl_desc amdgpu_ioctls_kms[] = {
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_CREATE, amdgpu_gem_create_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_CTX, amdgpu_ctx_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_VM, amdgpu_vm_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_SCHED, amdgpu_sched_ioctl, DRM_MASTER),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_BO_LIST, amdgpu_bo_list_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_FENCE_TO_HANDLE, amdgpu_cs_fence_to_handle_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	/* KMS */
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_MMAP, amdgpu_gem_mmap_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_WAIT_IDLE, amdgpu_gem_wait_idle_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_CS, amdgpu_cs_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_INFO, amdgpu_info_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_WAIT_CS, amdgpu_cs_wait_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_WAIT_FENCES, amdgpu_cs_wait_fences_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_METADATA, amdgpu_gem_metadata_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_VA, amdgpu_gem_va_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_OP, amdgpu_gem_op_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_USERPTR, amdgpu_gem_userptr_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> +};
 > +
-> +	stream_enc_status =  transcoder_to_stream_enc_status(hdcp->stream_transcoder);
-> +	if (!stream_enc_status)
-> +		return -EINVAL;
-> +
-> +	/* Wait for encryption confirmation */
-> +	if (intel_de_wait_for_register(i915,
-> +				       HDCP_STATUS(i915, cpu_transcoder, port),
-> +				       stream_enc_status,
-> +				       enable ? stream_enc_status : 0,
-> +				       HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> +		drm_err(&i915->drm, "Timed out waiting for stream encryption %s\n",
-> +			enable ? "enabled" : "disabled");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static
->  bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
->  				  struct intel_connector *connector)
-> @@ -673,7 +730,8 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.read_ksv_ready = intel_dp_hdcp_read_ksv_ready,
->  	.read_ksv_fifo = intel_dp_hdcp_read_ksv_fifo,
->  	.read_v_prime_part = intel_dp_hdcp_read_v_prime_part,
-> -	.toggle_signalling = intel_dp_mst_hdcp_toggle_signalling,
-> +	.toggle_signalling = intel_dp_hdcp_toggle_signalling,
-> +	.stream_encryption = intel_dp_mst_hdcp_stream_encryption,
->  	.check_link = intel_dp_mst_hdcp_check_link,
->  	.hdcp_capable = intel_dp_hdcp_capable,
+> +static const struct drm_driver amdgpu_kms_driver = {
+>  	.driver_features =
+>  	    DRIVER_ATOMIC |
+>  	    DRIVER_GEM |
+> @@ -1520,6 +1543,7 @@ static struct drm_driver kms_driver = {
+>  	.lastclose = amdgpu_driver_lastclose_kms,
+>  	.irq_handler = amdgpu_irq_handler,
+>  	.ioctls = amdgpu_ioctls_kms,
+> +	.num_ioctls = ARRAY_SIZE(amdgpu_ioctls_kms),
+>  	.dumb_create = amdgpu_mode_dumb_create,
+>  	.dumb_map_offset = amdgpu_mode_dumb_mmap,
+>  	.fops = &amdgpu_driver_kms_fops,
+> @@ -1572,7 +1596,6 @@ static int __init amdgpu_init(void)
+>  		goto error_fence;
 >  
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index f90838bc74fb..f58469226694 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -1495,15 +1495,16 @@ static int kbl_repositioning_enc_en_signal(struct intel_connector *connector,
->  		usleep_range(25, 50);
->  	}
+>  	DRM_INFO("amdgpu kernel modesetting enabled.\n");
+> -	kms_driver.num_ioctls = amdgpu_max_kms_ioctl;
+>  	amdgpu_register_atpx_handler();
 >  
-> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
-> -					       false);
-> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
-> +					 false, TRANS_DDI_HDCP_SIGNALLING);
->  	if (ret) {
->  		drm_err(&dev_priv->drm,
->  			"Disable HDCP signalling failed (%d)\n", ret);
->  		return ret;
->  	}
-> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
-> -					       true);
-> +
-> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base, cpu_transcoder,
-> +					 true, TRANS_DDI_HDCP_SIGNALLING);
->  	if (ret) {
->  		drm_err(&dev_priv->drm,
->  			"Enable HDCP signalling failed (%d)\n", ret);
-> @@ -1526,8 +1527,9 @@ int intel_hdmi_hdcp_toggle_signalling(struct intel_digital_port *dig_port,
->  	if (!enable)
->  		usleep_range(6, 60); /* Bspec says >= 6us */
+>  	/* Ignore KFD init failures. Normal when CONFIG_HSA_AMD is not set. */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> index efda38349a03..ab6d9f1186c2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> @@ -29,7 +29,6 @@
+>  #include "amdgpu.h"
+>  #include <drm/drm_debugfs.h>
+>  #include <drm/amdgpu_drm.h>
+> -#include "amdgpu_sched.h"
+>  #include "amdgpu_uvd.h"
+>  #include "amdgpu_vce.h"
+>  #include "atom.h"
+> @@ -480,7 +479,7 @@ static int amdgpu_hw_ip_info(struct amdgpu_device *adev,
+>   * etc. (all asics).
+>   * Returns 0 on success, -EINVAL on failure.
+>   */
+> -static int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+> +int amdgpu_info_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
+>  {
+>  	struct amdgpu_device *adev = drm_to_adev(dev);
+>  	struct drm_amdgpu_info *info = data;
+> @@ -1243,27 +1242,6 @@ void amdgpu_disable_vblank_kms(struct drm_crtc *crtc)
+>  	amdgpu_irq_put(adev, &adev->crtc_irq, idx);
+>  }
 >  
-> -	ret = intel_ddi_toggle_hdcp_signalling(&dig_port->base, cpu_transcoder,
-> -					       enable);
-> +	ret = intel_ddi_toggle_hdcp_bits(&dig_port->base,
-> +					 cpu_transcoder, enable,
-> +					 TRANS_DDI_HDCP_SIGNALLING);
->  	if (ret) {
->  		drm_err(&dev_priv->drm, "%s HDCP signalling failed (%d)\n",
->  			enable ? "Enable" : "Disable", ret);
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 8b021f77cb1f..77461cde6549 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -9982,6 +9982,7 @@ enum skl_power_gate {
->  #define  TRANS_DDI_DP_VC_PAYLOAD_ALLOC	(1 << 8)
->  #define  TRANS_DDI_HDMI_SCRAMBLER_CTS_ENABLE (1 << 7)
->  #define  TRANS_DDI_HDMI_SCRAMBLER_RESET_FREQ (1 << 6)
-> +#define  TRANS_DDI_HDCP_SELECT		REG_BIT(5)
->  #define  TRANS_DDI_BFI_ENABLE		(1 << 4)
->  #define  TRANS_DDI_HIGH_TMDS_CHAR_RATE	(1 << 4)
->  #define  TRANS_DDI_HDMI_SCRAMBLING	(1 << 0)
+> -const struct drm_ioctl_desc amdgpu_ioctls_kms[] = {
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_CREATE, amdgpu_gem_create_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_CTX, amdgpu_ctx_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_VM, amdgpu_vm_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_SCHED, amdgpu_sched_ioctl, DRM_MASTER),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_BO_LIST, amdgpu_bo_list_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_FENCE_TO_HANDLE, amdgpu_cs_fence_to_handle_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	/* KMS */
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_MMAP, amdgpu_gem_mmap_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_WAIT_IDLE, amdgpu_gem_wait_idle_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_CS, amdgpu_cs_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_INFO, amdgpu_info_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_WAIT_CS, amdgpu_cs_wait_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_WAIT_FENCES, amdgpu_cs_wait_fences_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_METADATA, amdgpu_gem_metadata_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_VA, amdgpu_gem_va_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_OP, amdgpu_gem_op_ioctl, DRM_AUTH|DRM_RENDER_ALLOW),
+> -	DRM_IOCTL_DEF_DRV(AMDGPU_GEM_USERPTR, amdgpu_gem_userptr_ioctl, DRM_AUTH|DRM_RENDER_ALLOW)
+> -};
+> -const int amdgpu_max_kms_ioctl = ARRAY_SIZE(amdgpu_ioctls_kms);
+> -
+>  /*
+>   * Debugfs info
+>   */
 > -- 
-> 2.26.2
+> 2.28.0
 > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
