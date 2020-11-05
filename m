@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C69D2A86EA
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 20:17:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A84082A86F4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 20:21:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A59F66EDDF;
-	Thu,  5 Nov 2020 19:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 643B86EDE0;
+	Thu,  5 Nov 2020 19:21:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D200F6EDDF
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:17:50 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id n15so3073449wrq.2
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 11:17:50 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13ACE6EDE0
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:21:38 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id h62so2693396wme.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 11:21:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=j+IQhvhw435u8nsN2WVFpAWIcN2hwG2s/J5+3AR6JLc=;
- b=dO5hEZcM51v6mQ3PmBzyEbxtmZxlwbEDZZXHYYythrbeVAQ3pRx9dWvRn84UhXi2Em
- ml/Q+jOVtk0eafTV+uu6z5YtDw2je+0ICuFu6hxIOvwENdZpe2TT3d0M9/gMxuHLSBsf
- EUsh9D6ANi8inHlFA1zxxMAs0K/AN0s09AUMA=
+ bh=2Bk4/xqsWHJ+QJsuH2yoRO+5y/CB/BDylWZ+pDPbpiw=;
+ b=cLlLYS880OFnzwuaVJSYqUA82GSGtJPqVxvK8a7NCHYIelpgUsEk8lndgHu4doJ9ij
+ I54tsZ6AlNR5AWdqnwBcw+XfFXh6K+xiQET4mwmZOwRkYefDRX/kGJDH6Q1uHlZu4vRK
+ 7/tQ4lnBWIsvNVS8j5Hxfhh/NmnA0zOa8flEo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=j+IQhvhw435u8nsN2WVFpAWIcN2hwG2s/J5+3AR6JLc=;
- b=OarvStf1qU92ii3ZAO2eBqJnA10hYRr0vFbkRY8/UkFNzVCiMPGTPOhIyr0arixp3L
- YNRtlLU4AXU+R1u/Rrg94u15kGX3kMb0dSV9ha08wW436k/LYDeDQOZ05kDNaNmCmPCE
- +tZH5R8QAQr84x2eW1hZGh4svt3N+HMAtalN4ZmE/hWj7pvvQWXvMqRScKUQh2mAfeLE
- iphpFOHEQEhNie3/UUqSVg8Al1e5UP9a0x8PchjzHe4liyYL1yy8AN1ld2RUKs4kffvs
- Wr2GnpEPzbTDXplQ6KyVfK2XhFhzYBC52SAPQir82CpiG0cx8HxiShpcZmtJZc5KMGtl
- wfHg==
-X-Gm-Message-State: AOAM533wtWg12ZW0iGuqlyMFlz0+d8LvSrG2lk4WwiQzs3v0g15YEmQ4
- +2hRko3GI5TiKIerkj4F19K5ZQ==
-X-Google-Smtp-Source: ABdhPJw3DaNV5PFRS17QOGMcfKkxrIGmNbzqbv20Aa+JsHn+j7B2uPUnnJigwpP3joAKyTGDhLSqZA==
-X-Received: by 2002:adf:e412:: with SMTP id g18mr4702345wrm.211.1604603869511; 
- Thu, 05 Nov 2020 11:17:49 -0800 (PST)
+ bh=2Bk4/xqsWHJ+QJsuH2yoRO+5y/CB/BDylWZ+pDPbpiw=;
+ b=fHe/UiaqgQcIip/leX0iyQRuVfV1l5XJWOSB4cS5OGvQOsbvgo8iGL4tZZLAATH2Ih
+ W8oTeH/CTHfa/4b3mWqoBMfrJdRCQHByS1B82vC3FzZnf85gNXmfWT0ep8vM5BSWfK0B
+ p1LcpQGbAXCWPa7QqbVQlnjDfJxyOHqOOblidORZLolpfQOCd0gknMCFPdsO0OOToZAN
+ VGmJjsaKqeUL+K5NFBk/LTrHDgll6F6LFb7qWvLVFbPQAA1r3m+aaUtONXrJFMZ4sShJ
+ /4T5Q0rAAIrWS+Czoe4CWy7uLRq7t26zek+/772mCioRpEcLLJ22kx3Ik+MvC+jhzVT4
+ RWiA==
+X-Gm-Message-State: AOAM531YJbu+EkfvURQ6yZS4kXM+yFewOybbCEhNnwzshRNkc3bj+zew
+ zC476IFUiDgP1CBYDfEbs0k7xQ==
+X-Google-Smtp-Source: ABdhPJya2GsvFIQGCBU9AjvdCRvL9wo+O2cq9ySQRVtNRfCR1035RDtyDh0t5XdgNIcPQzyGdOWHDQ==
+X-Received: by 2002:a1c:2cc2:: with SMTP id s185mr4429173wms.77.1604604096667; 
+ Thu, 05 Nov 2020 11:21:36 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b14sm2102468wrq.47.2020.11.05.11.17.48
+ by smtp.gmail.com with ESMTPSA id f23sm3671445wmb.43.2020.11.05.11.21.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 11:17:48 -0800 (PST)
-Date: Thu, 5 Nov 2020 20:17:46 +0100
+ Thu, 05 Nov 2020 11:21:35 -0800 (PST)
+Date: Thu, 5 Nov 2020 20:21:33 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] drm: remove pgprot_decrypted() before calls to
- io_remap_pfn_range()
-Message-ID: <20201105191746.GC401619@phenom.ffwll.local>
-References: <0-v1-2e6a0db57868+166-drm_sme_clean_jgg@nvidia.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/gma500: Fix out-of-bounds access to struct
+ drm_device.vblank[]
+Message-ID: <20201105192133.GD401619@phenom.ffwll.local>
+References: <20201105190256.3893-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0-v1-2e6a0db57868+166-drm_sme_clean_jgg@nvidia.com>
+In-Reply-To: <20201105190256.3893-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,86 +65,129 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, stable@vger.kernel.org,
+ Alan Cox <alan@linux.intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 01:00:19PM -0400, Jason Gunthorpe wrote:
-> commit f8f6ae5d077a ("mm: always have io_remap_pfn_range() set
-> pgprot_decrypted()") moves the pgprot_decrypted() into
-> io_remap_pfn_range(). Delete any, now confusing, open coded calls that
-> directly precede io_remap_pfn_range():
+On Thu, Nov 05, 2020 at 08:02:56PM +0100, Thomas Zimmermann wrote:
+> The gma500 driver expects 3 pipelines in several it's IRQ functions.
+> Accessing struct drm_device.vblank[], this fails with devices that only
+> have 2 pipelines. An example KASAN report is shown below.
 > 
-> - drm_io_prot() is only in drm_mmap_locked() to call io_remap_pfn_range()
+>   [   62.267688] ==================================================================
+>   [   62.268856] BUG: KASAN: slab-out-of-bounds in psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+>   [   62.269450] Read of size 1 at addr ffff8880012bc6d0 by task systemd-udevd/285
+>   [   62.269949]
+>   [   62.270192] CPU: 0 PID: 285 Comm: systemd-udevd Tainted: G            E     5.10.0-rc1-1-default+ #572
+>   [   62.270807] Hardware name:  /DN2800MT, BIOS MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
+>   [   62.271366] Call Trace:
+>   [   62.271705]  dump_stack+0xae/0xe5
+>   [   62.272180]  print_address_description.constprop.0+0x17/0xf0
+>   [   62.272987]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+>   [   62.273474]  __kasan_report.cold+0x20/0x38
+>   [   62.273989]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+>   [   62.274460]  kasan_report+0x3a/0x50
+>   [   62.274891]  psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+>   [   62.275380]  drm_irq_install+0x131/0x1f0
+>   <...>
+>   [   62.300751] Allocated by task 285:
+>   [   62.301223]  kasan_save_stack+0x1b/0x40
+>   [   62.301731]  __kasan_kmalloc.constprop.0+0xbf/0xd0
+>   [   62.302293]  drmm_kmalloc+0x55/0x100
+>   [   62.302773]  drm_vblank_init+0x77/0x210
 > 
-> - fb_mmap() immediately calls vm_iomap_memory() which is a convenience
->   wrapper for io_remap_pfn_range()
+> Resolve the issue by only handling vblank entries up to the number of
+> CRTCs.
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> I'm adding a Fixes tag for reference, although the bug has been present
+> since the driver's initial commit.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
+> Cc: Alan Cox <alan@linux.intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: stable@vger.kernel.org#v3.3+
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/drm_vm.c         | 3 ---
->  drivers/video/fbdev/core/fbmem.c | 5 -----
->  2 files changed, 8 deletions(-)
+>  drivers/gpu/drm/gma500/psb_irq.c | 34 +++++++++++---------------------
+>  1 file changed, 12 insertions(+), 22 deletions(-)
 > 
-> rc3 will have the dependent patch, this should not be merged to DRM until it
-> has the rc3 commits.
-> 
-> There are three other pgprot_decrypted() calls in DRM, I could not figure out
-> what was what there, but other than very special cases I would expect code to
-> use io_remap_pfn_range() instead.
-
-There's 4 now, I think linux-next added one. It's another io_remap_pfn
-
-Of the three you mentioned we have:
-- ttm and i915 use vm_insert_pfn (and ttm also can do also do pud_mkhuge
-  entries)
-- drm_gem is for all other drivers, some also use vm_insert_pfn, the
-  others I think use dma_mmap_* and friends, which I think underneath
-  boild down to io_remap_pfn. Or at least should be taking care of this
-  already.
-
-I'll try and remember to merge this after -rc3. Yell if it's not in by
--rc4 please.
--Daniel
-
-> 
-> diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
-> index 1a636963378947..6d5a03b3223800 100644
-> --- a/drivers/gpu/drm/drm_vm.c
-> +++ b/drivers/gpu/drm/drm_vm.c
-> @@ -70,9 +70,6 @@ static pgprot_t drm_io_prot(struct drm_local_map *map,
+> diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+> index 15eb3770d817..361e3a0c5ab6 100644
+> --- a/drivers/gpu/drm/gma500/psb_irq.c
+> +++ b/drivers/gpu/drm/gma500/psb_irq.c
+> @@ -347,6 +347,7 @@ int psb_irq_postinstall(struct drm_device *dev)
 >  {
->  	pgprot_t tmp = vm_get_page_prot(vma->vm_flags);
+>  	struct drm_psb_private *dev_priv = dev->dev_private;
+>  	unsigned long irqflags;
+> +	unsigned int i;
 >  
-> -	/* We don't want graphics memory to be mapped encrypted */
-> -	tmp = pgprot_decrypted(tmp);
+>  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+>  
+> @@ -359,20 +360,12 @@ int psb_irq_postinstall(struct drm_device *dev)
+>  	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
+>  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+>  
+> -	if (dev->vblank[0].enabled)
+> -		psb_enable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -	else
+> -		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
 > -
->  #if defined(__i386__) || defined(__x86_64__) || defined(__powerpc__) || \
->      defined(__mips__)
->  	if (map->type == _DRM_REGISTERS && !(map->flags & _DRM_WRITE_COMBINING))
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index 8268bbee8cae11..63a27a67a05cfa 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -1386,11 +1386,6 @@ fb_mmap(struct file *file, struct vm_area_struct * vma)
->  	mutex_unlock(&info->mm_lock);
+> -	if (dev->vblank[1].enabled)
+> -		psb_enable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -	else
+> -		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -
+> -	if (dev->vblank[2].enabled)
+> -		psb_enable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -	else
+> -		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
+> +	for (i = 0; i < dev->num_crtcs; ++i) {
+> +		if (dev->vblank[i].enabled)
+> +			psb_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+> +		else
+> +			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+> +	}
 >  
->  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
-> -	/*
-> -	 * The framebuffer needs to be accessed decrypted, be sure
-> -	 * SME protection is removed
-> -	 */
-> -	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->  	fb_pgprotect(file, vma, start);
+>  	if (dev_priv->ops->hotplug_enable)
+>  		dev_priv->ops->hotplug_enable(dev, true);
+> @@ -385,6 +378,7 @@ void psb_irq_uninstall(struct drm_device *dev)
+>  {
+>  	struct drm_psb_private *dev_priv = dev->dev_private;
+>  	unsigned long irqflags;
+> +	unsigned int i;
 >  
->  	return vm_iomap_memory(vma, start, len);
+>  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+>  
+> @@ -393,14 +387,10 @@ void psb_irq_uninstall(struct drm_device *dev)
+>  
+>  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+>  
+> -	if (dev->vblank[0].enabled)
+> -		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -
+> -	if (dev->vblank[1].enabled)
+> -		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+> -
+> -	if (dev->vblank[2].enabled)
+> -		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
+> +	for (i = 0; i < dev->num_crtcs; ++i) {
+> +		if (dev->vblank[i].enabled)
+> +			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
+> +	}
+>  
+>  	dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
+>  				  _PSB_IRQ_MSVDX_FLAG |
 > -- 
-> 2.29.2
+> 2.29.0
 > 
 
 -- 
