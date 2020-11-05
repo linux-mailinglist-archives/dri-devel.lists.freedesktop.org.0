@@ -2,57 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217BE2A861B
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 19:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2012A862E
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 19:37:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86066EDDD;
-	Thu,  5 Nov 2020 18:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8DBD6E103;
+	Thu,  5 Nov 2020 18:37:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D70F6EDDD
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 18:28:49 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A5ISfwp072428;
- Thu, 5 Nov 2020 12:28:41 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604600921;
- bh=A8ke9ygxkQobTu4tGdPyENvgTTTgrNynMtnOsLDg/BY=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=wokZ+ozW0g9OLZobYmfSy1yDs3OyQGl39X16l8rvzm4gjjwIvYotiLSaeZN13i6z3
- bbCp7An0qUq604ce4iR8v9AD1dASk/AN9tJTasM/UK0jW2LspYYWnb0OBULjkw4CXs
- +W/Llj+Vp8XLUFciT8ph21vG4tN6Ra5CfBrsd67U=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A5ISf2B057150
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 5 Nov 2020 12:28:41 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 5 Nov
- 2020 12:28:40 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 5 Nov 2020 12:28:40 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A5ISca3105474;
- Thu, 5 Nov 2020 12:28:39 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
-Date: Thu, 5 Nov 2020 20:28:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B686E103
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 18:37:47 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 8D950804E0;
+ Thu,  5 Nov 2020 19:37:45 +0100 (CET)
+Date: Thu, 5 Nov 2020 19:37:44 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+Subject: Re: [PATCH v13 0/7] Add support for KeemBay DRM drive
+Message-ID: <20201105183744.GA95808@ravnborg.org>
+References: <1604538931-26726-1-git-send-email-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <1604538931-26726-1-git-send-email-anitha.chrisanthus@intel.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=0arIZ4qwRCrOfdWnULkA:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,49 +42,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: edmund.j.dea@intel.com, dri-devel@lists.freedesktop.org,
+ narmstrong@baylibre.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2020 20:14, H. Nikolaus Schaller wrote:
+Hi Anitha.
+
+On Wed, Nov 04, 2020 at 05:15:24PM -0800, Anitha Chrisanthus wrote:
+> This is a new DRM driver for Intel's KeemBay SOC.
+> The SoC couples an ARM Cortex A53 CPU with an Intel
+> Movidius VPU.
 > 
->> Am 05.11.2020 um 18:36 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> Hi,
->>
->> On 05/11/2020 19:15, H. Nikolaus Schaller wrote:
->>
->>> Next, I migrated my long waiting mipi_dsi/drm_panel driver conversion for
->>> the panel of the Pyra handheld (omap 5 based) to compile on 5.10-rc2. And
->>> I followed the latest existing panel-orisetech-otm8009a.c which uses a
->>> similar video mode controller and mipi-dsi.
->>>
->>> That one seems to be used by arch/arm/boot/dts/stm32f469-disco.dts.
->>>
->>> Unfortunately my panel driver is not even loaded by drm/omap so I can't
->>> debug. Does this set of drm/omap drivers need a modification of the device
->>> tree? If yes, which one?
->>
->> omapdrm doesn't load the panel drivers. If not even your panel's probe is called, then it hints at
->> DT and/or driver's compatible string issue. The panel's probe should get called even if omapdrm is
->> not loaded at all.
+> This driver is tested with the KMB EVM board which is the reference baord
+> for Keem Bay SOC. The SOC's display pipeline is as follows
 > 
-> Well, I use the same device tree that loads the old driver...
+> +--------------+    +---------+    +-----------------------+
+> |LCD controller| -> |Mipi DSI | -> |Mipi to HDMI Converter |
+> +--------------+    +---------+    +-----------------------+
+> 
+> LCD controller and Mipi DSI transmitter are part of the SOC and
+> mipi to HDMI converter is ADV7535 for KMB EVM board.
+> 
+> The DRM driver is a basic KMS atomic modesetting display driver and
+> has no 2D or 3D graphics.It calls into the ADV bridge driver at
+> the connector level.
+> 
+> Only 1080p resolution and single plane is supported at this time.
+> The usecase is for debugging video and camera outputs.
 
-Yeah, I was mistaken above. With DSI the panel (may be) a child of the DSI host, so it will affect.
+Thanks for all you tiresome work dealing with the feedback from the
+community and me and thank you for the cooperation so far.
 
-Can you give pointers to the panel driver source and relevant dts files? BOE BTL507212-W677L?
+You have managed to convert this display driver from something based on
+a wrong abstraction to a driver that not only are using the latest DRM
+infrastructure but also now have the correct structure and correct
+bindings.
 
- Tomi
+There are still things we can improve - but rather than doing it
+alone we are better served with the driver applied to drm-misc-next
+so we are more that can help and maybe even contribute.
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Patches applied to drm-misc-next.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
