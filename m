@@ -2,59 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622A82A8184
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:52:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DADF82A8165
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:50:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0656EDA7;
-	Thu,  5 Nov 2020 14:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C726ED8A;
+	Thu,  5 Nov 2020 14:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98E9B6EDA2
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:52:39 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id g12so2081865wrp.10
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 06:52:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/ohyBbiMl4QAk0hhVQhX7OOzIoCPrYd9chXW0LdTWwg=;
- b=XBW8xFz25wrZDDaO9F9vfOL8x0OhOhpJq3zGD2BEffVr94ia5p8vCiGc1dDvydPk8G
- NDrGwM8qHJIWF+YyN3+pqM04QpTovwtHRwYaY+CB0lm71Gm7e96ItZi/WAkO9B1ijRbJ
- D3zSToxMNbprGNAI1QfIFaElECUMP9+zGdyTDLypSReTAwazDqv05F15HG1XUa+Dn15J
- cMuSKGY3lupgIXoi2hTrHUZpaqPt6dZAhP+Pq/Rx2olZZEtgk11RkFZCZLK2f05T1Vk0
- 8wHSBFUOFm63LhPsJnl9L2OhDl4kuTp5kTmGF7uaGIC/XEBoHlD+C41OVq0tg4j7E+K+
- CcbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/ohyBbiMl4QAk0hhVQhX7OOzIoCPrYd9chXW0LdTWwg=;
- b=IIMribwV51xFXpnCXv5aBFqIFS1AIGj6x0oScNwQm3DoXqsmgoARLsxxmW22y+1PM+
- 24LrmYFN27d66eXdMiryolnRLkZj3Xzlxcl1DdN7ZxjJXIpLzxG+Ks0DwzAFLIdigiLi
- O14CseKfoTIUxFlZ9Yxl88fN3adb2B8Bbs19z2/hqikwrc3Mgfj+LQuLDGKpPjJ2mz2T
- q1xbfNMXvwIIb91vCYpdGnygXVjX5XN2sOoHYmCXHNRSeFYLKFINBmaYzZcyOrRn8Mcs
- HQ0LfjxhknIxkbuBVzbfzDC4yQevOl2mC2a4yWzhlO2Nlhk2DUzT+ADjPRBIul8BoW1Q
- auUg==
-X-Gm-Message-State: AOAM531Cm046PQi/NvQ0lmLGLh6BKOXSrg1/fMzvPbsRFj/WMeFjTQVP
- NYB17olCY+UXHWwOLJYkyfP0rQ==
-X-Google-Smtp-Source: ABdhPJy1zJUpgVBLvXfGwyfP/DxiTdsE/xHFzIPHRB2Y83e58sQ2ACFhophmTpm4Om/fUXHn2r43dQ==
-X-Received: by 2002:adf:fe46:: with SMTP id m6mr3113804wrs.254.1604587958250; 
- Thu, 05 Nov 2020 06:52:38 -0800 (PST)
-Received: from dell.default ([91.110.221.242])
- by smtp.gmail.com with ESMTPSA id f5sm2631243wmh.16.2020.11.05.06.52.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 06:52:37 -0800 (PST)
-From: Lee Jones <lee.jones@linaro.org>
-To: lee.jones@linaro.org
-Subject: [PATCH 19/19] gpu: drm: bridge: analogix: analogix_dp_reg: Remove
- unused function 'analogix_dp_start_aux_transaction'
-Date: Thu,  5 Nov 2020 14:45:17 +0000
-Message-Id: <20201105144517.1826692-20-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201105144517.1826692-1-lee.jones@linaro.org>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2083.outbound.protection.outlook.com [40.107.21.83])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DD96ED84
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:50:50 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jRroRlpiI4RnQSZKfJabuBJCl1DklsiMIgE4+KYQsUMSjukrSXyBaF4z9I0eg0nhpzIg08qZV9Lx4LjjbQhWpC1+TlSnC6s2wC+7TY3FkKbITOY6o+xAg8XhnnNgLtAkTI0rUdT0hXvMFF1U9cbonHbie9rvAlWuRCuXQ+l7Do9/dS2VMsCymx4q8Iq14jUVtM3qFJMBS0z+7L1WXXPmohOjtAo8UcJqYkYFaXccRXs+9gLz7XypG9Odft/2RQeQhptbB8AZFHkqVE1ASK2tSCHq8kKBMW1C7ue46VRLo1KnUz9tmMke6AKVOJxgSj2E9EYpgqkTu20E9nW5XH8Uzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j15SjDF9aLjGIPxBcDlHgRAxxK6JsizXt3CeJttpP0g=;
+ b=B4VtUrP8YidYS496cqCu+RufeWDW0oGhraO59VuzaOa8whEv+mVzpIJtDN380WH+tRJ68EHrtdDAln8SRUggR2jVEDO3bEVCcznpNKy9J20KaArob5iEgzTa3aff8j0bya0FYhz/6pOvXxU4JfyS9KC9TrWUeycNgNchpwmgNNeiZLwEZ/jDQNTkfOJ5xGnH+/LJH6DNWI972V7KD/H7nqaJQmh8kIgp3e5OInMzq7rSe2g9bxiwWWEihPbKPurA431AciJsgqmAqyPckowHqgjz6JzDBK/WCGiMr53QJqRzPjvRKHViMgSd3254Yekk7tfkJCOIfpJjq3uVMP/6lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j15SjDF9aLjGIPxBcDlHgRAxxK6JsizXt3CeJttpP0g=;
+ b=Om2yd/gG0FLY7q1h+nDtNcZLlNBLoVIXxLhxjBCeZMq/Gra0PcQ/IqQd3GKoOxDqwHNiBtc/v4A8+SNo17wLqnuGhw1jq2RqKI62z+C1hYwLqT85ywr4d0C28/pr/hT8uVzTozDcU3E8Pv6NtkejesBle+9D2Toz9KukeDR1kMI=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by VE1PR04MB6495.eurprd04.prod.outlook.com
+ (2603:10a6:803:11d::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.22; Thu, 5 Nov
+ 2020 14:50:47 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::f000:d709:509:bb5]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::f000:d709:509:bb5%3]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 14:50:47 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH] drm/imx/dcss: allow using nearest neighbor interpolation
+ scaling
+Date: Thu,  5 Nov 2020 16:50:18 +0200
+Message-Id: <20201105145018.27255-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [83.217.231.2]
+X-ClientProxiedBy: AM0PR03CA0101.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::42) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
+ AM0PR03CA0101.eurprd03.prod.outlook.com (2603:10a6:208:69::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21 via Frontend Transport; Thu, 5 Nov 2020 14:50:45 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 47c2cff4-8a32-4914-2147-08d8819a2df1
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6495:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VE1PR04MB6495F2D9540F85EB91D0D5B2BEEE0@VE1PR04MB6495.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Zp+Owf++aSJe9b38E+Yaw8qGPc+X0Ft7N65S0K+SexUXwyyVTBIojJ3G0ySLhrM/6D2N6gCvaUV7w7ZfpLLJQGX+9+rZTznjRg/TmImguDpai3I00uvw09WcM0sk1BtSo8oAVIEsnXkr/Zerw0tlauDk+GoEFyNo43U72a65mnwexu0rs6yuzh0Y6wT0w/ASiLryN3F6Ucl5waV1fouBCzM3a5RflHgn2DPvyKAtU8yR+uhqx0lFO05h9m9goWCYA4Uav6za4LHJ4pY8czlagzWotrZ2AaLYTCWSL2oiRrkvWTjQ64agcXi9VIrrDI5Y
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(346002)(396003)(39860400002)(136003)(366004)(66476007)(66556008)(2906002)(8676002)(8936002)(6486002)(6512007)(66946007)(83380400001)(6666004)(86362001)(110136005)(478600001)(2616005)(956004)(7416002)(44832011)(52116002)(1076003)(186003)(4326008)(316002)(6506007)(5660300002)(16526019)(26005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: JNv6rEFMF3tgV8akulWD+LcyC0pZWF7/vOIBmyN0Ke3ZYtMhSBGaWfw5r7xvK0Ha6W2iK8lzPJ9gytMqNO12ZY6899/GhW9hvqo8VSw51L75+t44sosAoBKXBG7NsOgRvRFttzaYcqle6ccZojTLFL9RLzEIZMRH1dadrDkv6BcW1tLEmV9ZXnHxGtMeD99p29cDxNZwOJHR/ow8Ft1ViPPagcYddT2Y0s+MB4volB47FdDp/SbsSYhtQuEz5Ev2T1SUuXW8AHiHs0qRPuVhhyDc0lKu/HjgX/bMtDcxHLUF2nN+AUV2i0P3liA1uscH+8aOngDSvRQ709TMCtBe2sC9sAaoYxT8tG62K6Tgdaq8EV/dENCrcbKrLBE6n8z9SdOLND+RI9g54q4/6RS1bCO+7N4Uoa1ssxsZGyLQcGgohSy42ER64uabXvCg4Dnvopbi2elKatj0hM0yjmp90iSJZ5lSp28wl50P6rkrOOD4qZQgB5uBSRFTOBbzogJqIKbzxCRDn1qvcO7p9l+7myei9v7TYEehTsVhxl1mnkPiVy5s7FbywGM0y2FC4mG15UWhVTo2VfKXC77smrBRvJEL6/ob0xDdYzNHxvFvF+cOcKeD940PVkC8kvBlx//Qiehw/LwrEz3sgZKX+hAPjg==
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47c2cff4-8a32-4914-2147-08d8819a2df1
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 14:50:47.1419 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g6gYG9GXJsD3IahANBZrtvEZaF66ALFGcj61nisCHWBbhjCzexKyPSKGB+ukg+yw7fRA4PTsGXXm8k81WgSvKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6495
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,62 +99,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jingoo Han <jg1.han@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Jason Yan <yanaijie@huawei.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9kcF9yZWcuYzo1Mjc6MTI6IHdhcm5p
-bmc6IOKAmGFuYWxvZ2l4X2RwX3N0YXJ0X2F1eF90cmFuc2FjdGlvbuKAmSBkZWZpbmVkIGJ1dCBu
-b3QgdXNlZCBbLVd1bnVzZWQtZnVuY3Rpb25dCgpDYzogQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBz
-YW1zdW5nLmNvbT4KQ2M6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4K
-Q2M6IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4K
-Q2M6IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJvby5zZT4KQ2M6IEplcm5laiBTa3JhYmVjIDxq
-ZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5p
-ZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IEphc29uIFlhbiA8eWFu
-YWlqaWVAaHVhd2VpLmNvbT4KQ2M6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CkNj
-OiBKaW5nb28gSGFuIDxqZzEuaGFuQHNhbXN1bmcuY29tPgpDYzogZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8u
-b3JnPgotLS0KIC4uLi9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9kcF9yZWcuYyB8
-IDQ0IC0tLS0tLS0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA0NCBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4X2Rw
-X3JlZy5jIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dpeC9hbmFsb2dpeF9kcF9yZWcu
-YwppbmRleCA5Y2U0NWM3NTdmOGM4Li5jYWI2YzhiOTJlZmQ0IDEwMDY0NAotLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL2FuYWxvZ2l4L2FuYWxvZ2l4X2RwX3JlZy5jCisrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXhfZHBfcmVnLmMKQEAgLTUyNCw1MCArNTI0
-LDYgQEAgdm9pZCBhbmFsb2dpeF9kcF9lbmFibGVfc3dfZnVuY3Rpb24oc3RydWN0IGFuYWxvZ2l4
-X2RwX2RldmljZSAqZHApCiAJd3JpdGVsKHJlZywgZHAtPnJlZ19iYXNlICsgQU5BTE9HSVhfRFBf
-RlVOQ19FTl8xKTsKIH0KIAotc3RhdGljIGludCBhbmFsb2dpeF9kcF9zdGFydF9hdXhfdHJhbnNh
-Y3Rpb24oc3RydWN0IGFuYWxvZ2l4X2RwX2RldmljZSAqZHApCi17Ci0JaW50IHJlZzsKLQlpbnQg
-cmV0dmFsID0gMDsKLQlpbnQgdGltZW91dF9sb29wID0gMDsKLQotCS8qIEVuYWJsZSBBVVggQ0gg
-b3BlcmF0aW9uICovCi0JcmVnID0gcmVhZGwoZHAtPnJlZ19iYXNlICsgQU5BTE9HSVhfRFBfQVVY
-X0NIX0NUTF8yKTsKLQlyZWcgfD0gQVVYX0VOOwotCXdyaXRlbChyZWcsIGRwLT5yZWdfYmFzZSAr
-IEFOQUxPR0lYX0RQX0FVWF9DSF9DVExfMik7Ci0KLQkvKiBJcyBBVVggQ0ggY29tbWFuZCByZXBs
-eSByZWNlaXZlZD8gKi8KLQlyZWcgPSByZWFkbChkcC0+cmVnX2Jhc2UgKyBBTkFMT0dJWF9EUF9J
-TlRfU1RBKTsKLQl3aGlsZSAoIShyZWcgJiBSUExZX1JFQ0VJVikpIHsKLQkJdGltZW91dF9sb29w
-Kys7Ci0JCWlmIChEUF9USU1FT1VUX0xPT1BfQ09VTlQgPCB0aW1lb3V0X2xvb3ApIHsKLQkJCWRl
-dl9lcnIoZHAtPmRldiwgIkFVWCBDSCBjb21tYW5kIHJlcGx5IGZhaWxlZCFcbiIpOwotCQkJcmV0
-dXJuIC1FVElNRURPVVQ7Ci0JCX0KLQkJcmVnID0gcmVhZGwoZHAtPnJlZ19iYXNlICsgQU5BTE9H
-SVhfRFBfSU5UX1NUQSk7Ci0JCXVzbGVlcF9yYW5nZSgxMCwgMTEpOwotCX0KLQotCS8qIENsZWFy
-IGludGVycnVwdCBzb3VyY2UgZm9yIEFVWCBDSCBjb21tYW5kIHJlcGx5ICovCi0Jd3JpdGVsKFJQ
-TFlfUkVDRUlWLCBkcC0+cmVnX2Jhc2UgKyBBTkFMT0dJWF9EUF9JTlRfU1RBKTsKLQotCS8qIENs
-ZWFyIGludGVycnVwdCBzb3VyY2UgZm9yIEFVWCBDSCBhY2Nlc3MgZXJyb3IgKi8KLQlyZWcgPSBy
-ZWFkbChkcC0+cmVnX2Jhc2UgKyBBTkFMT0dJWF9EUF9JTlRfU1RBKTsKLQlpZiAocmVnICYgQVVY
-X0VSUikgewotCQl3cml0ZWwoQVVYX0VSUiwgZHAtPnJlZ19iYXNlICsgQU5BTE9HSVhfRFBfSU5U
-X1NUQSk7Ci0JCXJldHVybiAtRVJFTU9URUlPOwotCX0KLQotCS8qIENoZWNrIEFVWCBDSCBlcnJv
-ciBhY2Nlc3Mgc3RhdHVzICovCi0JcmVnID0gcmVhZGwoZHAtPnJlZ19iYXNlICsgQU5BTE9HSVhf
-RFBfQVVYX0NIX1NUQSk7Ci0JaWYgKChyZWcgJiBBVVhfU1RBVFVTX01BU0spICE9IDApIHsKLQkJ
-ZGV2X2VycihkcC0+ZGV2LCAiQVVYIENIIGVycm9yIGhhcHBlbnM6ICVkXG5cbiIsCi0JCQlyZWcg
-JiBBVVhfU1RBVFVTX01BU0spOwotCQlyZXR1cm4gLUVSRU1PVEVJTzsKLQl9Ci0KLQlyZXR1cm4g
-cmV0dmFsOwotfQotCiB2b2lkIGFuYWxvZ2l4X2RwX3NldF9saW5rX2JhbmR3aWR0aChzdHJ1Y3Qg
-YW5hbG9naXhfZHBfZGV2aWNlICpkcCwgdTMyIGJ3dHlwZSkKIHsKIAl1MzIgcmVnOwotLSAKMi4y
-NS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This patch adds support for using NN interpolation scaling by setting the
+SCALING_FILTER plane property to 1. Otherwise, the default method is used.
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+---
+I had no retro pixel art games to test this with, so I used modetest to see the
+results:
+
+To test, I used a 240x135 buffer, upscaled 8 times to 1920x1080:
+ * default scaling method using gaussian filter:
+/usr/bin/modetest -M imx-dcss -w 33:SCALING_FILTER:0 -P 33@38:240x135*8@XR24
+ * NN interpolation method:
+/usr/bin/modetest -M imx-dcss -w 33:SCALING_FILTER:1 -P 33@38:240x135*8@XR24
+
+Thanks,
+laurentiu
+
+ drivers/gpu/drm/imx/dcss/dcss-dev.h    |  3 ++
+ drivers/gpu/drm/imx/dcss/dcss-plane.c  | 10 +++++-
+ drivers/gpu/drm/imx/dcss/dcss-scaler.c | 47 +++++++++++++++++++++-----
+ 3 files changed, 50 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-dev.h b/drivers/gpu/drm/imx/dcss/dcss-dev.h
+index c642ae17837f..1e582270c6ea 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-dev.h
++++ b/drivers/gpu/drm/imx/dcss/dcss-dev.h
+@@ -7,6 +7,7 @@
+ #define __DCSS_PRV_H__
+ 
+ #include <drm/drm_fourcc.h>
++#include <drm/drm_plane.h>
+ #include <linux/io.h>
+ #include <video/videomode.h>
+ 
+@@ -165,6 +166,8 @@ void dcss_ss_sync_set(struct dcss_ss *ss, struct videomode *vm,
+ /* SCALER */
+ int dcss_scaler_init(struct dcss_dev *dcss, unsigned long scaler_base);
+ void dcss_scaler_exit(struct dcss_scaler *scl);
++void dcss_scaler_set_filter(struct dcss_scaler *scl, int ch_num,
++			    enum drm_scaling_filter scaling_filter);
+ void dcss_scaler_setup(struct dcss_scaler *scl, int ch_num,
+ 		       const struct drm_format_info *format,
+ 		       int src_xres, int src_yres, int dst_xres, int dst_yres,
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+index 5db093aada2f..03ba88f7f995 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+@@ -257,7 +257,8 @@ static bool dcss_plane_needs_setup(struct drm_plane_state *state,
+ 	       state->src_h  != old_state->src_h  ||
+ 	       fb->format->format != old_fb->format->format ||
+ 	       fb->modifier  != old_fb->modifier ||
+-	       state->rotation != old_state->rotation;
++	       state->rotation != old_state->rotation ||
++	       state->scaling_filter != old_state->scaling_filter;
+ }
+ 
+ static void dcss_plane_atomic_update(struct drm_plane *plane,
+@@ -313,6 +314,9 @@ static void dcss_plane_atomic_update(struct drm_plane *plane,
+ 	is_rotation_90_or_270 = state->rotation & (DRM_MODE_ROTATE_90 |
+ 						   DRM_MODE_ROTATE_270);
+ 
++	dcss_scaler_set_filter(dcss->scaler, dcss_plane->ch_num,
++			       state->scaling_filter);
++
+ 	dcss_scaler_setup(dcss->scaler, dcss_plane->ch_num,
+ 			  state->fb->format,
+ 			  is_rotation_90_or_270 ? src_h : src_w,
+@@ -394,6 +398,10 @@ struct dcss_plane *dcss_plane_init(struct drm_device *drm,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	drm_plane_create_scaling_filter_property(&dcss_plane->base,
++					BIT(DRM_SCALING_FILTER_DEFAULT) |
++					BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
++
+ 	drm_plane_create_rotation_property(&dcss_plane->base,
+ 					   DRM_MODE_ROTATE_0,
+ 					   DRM_MODE_ROTATE_0   |
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-scaler.c b/drivers/gpu/drm/imx/dcss/dcss-scaler.c
+index cd21905de580..47852b9dd5ea 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-scaler.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-scaler.c
+@@ -77,6 +77,8 @@ struct dcss_scaler_ch {
+ 
+ 	u32 c_vstart;
+ 	u32 c_hstart;
++
++	bool use_nn_interpolation;
+ };
+ 
+ struct dcss_scaler {
+@@ -243,6 +245,17 @@ static void dcss_scaler_gaussian_filter(int fc_q, bool use_5_taps,
+ 	}
+ }
+ 
++static void dcss_scaler_nearest_neighbor_filter(bool use_5_taps,
++						int coef[][PSC_NUM_TAPS])
++{
++	int i, j;
++
++	for (i = 0; i < PSC_STORED_PHASES; i++)
++		for (j = 0; j < PSC_NUM_TAPS; j++)
++			coef[i][j] = j == PSC_NUM_TAPS >> 1 ?
++						(1 << PSC_COEFF_PRECISION) : 0;
++}
++
+ /**
+  * dcss_scaler_filter_design() - Compute filter coefficients using
+  *				 Gaussian filter.
+@@ -253,7 +266,8 @@ static void dcss_scaler_gaussian_filter(int fc_q, bool use_5_taps,
+  */
+ static void dcss_scaler_filter_design(int src_length, int dst_length,
+ 				      bool use_5_taps, bool phase0_identity,
+-				      int coef[][PSC_NUM_TAPS])
++				      int coef[][PSC_NUM_TAPS],
++				      bool nn_interpolation)
+ {
+ 	int fc_q;
+ 
+@@ -263,8 +277,11 @@ static void dcss_scaler_filter_design(int src_length, int dst_length,
+ 	else
+ 		fc_q = div_q(dst_length, src_length * PSC_NUM_PHASES);
+ 
+-	/* compute gaussian filter coefficients */
+-	dcss_scaler_gaussian_filter(fc_q, use_5_taps, phase0_identity, coef);
++	if (nn_interpolation)
++		dcss_scaler_nearest_neighbor_filter(use_5_taps, coef);
++	else
++		/* compute gaussian filter coefficients */
++		dcss_scaler_gaussian_filter(fc_q, use_5_taps, phase0_identity, coef);
+ }
+ 
+ static void dcss_scaler_write(struct dcss_scaler_ch *ch, u32 val, u32 ofs)
+@@ -653,12 +670,14 @@ static void dcss_scaler_yuv_coef_set(struct dcss_scaler_ch *ch,
+ 
+ 	/* horizontal luma */
+ 	dcss_scaler_filter_design(src_xres, dst_xres, false,
+-				  src_xres == dst_xres, coef);
++				  src_xres == dst_xres, coef,
++				  ch->use_nn_interpolation);
+ 	dcss_scaler_program_7_coef_set(ch, DCSS_SCALER_COEF_HLUM, coef);
+ 
+ 	/* vertical luma */
+ 	dcss_scaler_filter_design(src_yres, dst_yres, program_5_taps,
+-				  src_yres == dst_yres, coef);
++				  src_yres == dst_yres, coef,
++				  ch->use_nn_interpolation);
+ 
+ 	if (program_5_taps)
+ 		dcss_scaler_program_5_coef_set(ch, DCSS_SCALER_COEF_VLUM, coef);
+@@ -678,14 +697,14 @@ static void dcss_scaler_yuv_coef_set(struct dcss_scaler_ch *ch,
+ 	/* horizontal chroma */
+ 	dcss_scaler_filter_design(src_xres, dst_xres, false,
+ 				  (src_xres == dst_xres) && (ch->c_hstart == 0),
+-				  coef);
++				  coef, ch->use_nn_interpolation);
+ 
+ 	dcss_scaler_program_7_coef_set(ch, DCSS_SCALER_COEF_HCHR, coef);
+ 
+ 	/* vertical chroma */
+ 	dcss_scaler_filter_design(src_yres, dst_yres, program_5_taps,
+ 				  (src_yres == dst_yres) && (ch->c_vstart == 0),
+-				  coef);
++				  coef, ch->use_nn_interpolation);
+ 	if (program_5_taps)
+ 		dcss_scaler_program_5_coef_set(ch, DCSS_SCALER_COEF_VCHR, coef);
+ 	else
+@@ -700,12 +719,14 @@ static void dcss_scaler_rgb_coef_set(struct dcss_scaler_ch *ch,
+ 
+ 	/* horizontal RGB */
+ 	dcss_scaler_filter_design(src_xres, dst_xres, false,
+-				  src_xres == dst_xres, coef);
++				  src_xres == dst_xres, coef,
++				  ch->use_nn_interpolation);
+ 	dcss_scaler_program_7_coef_set(ch, DCSS_SCALER_COEF_HLUM, coef);
+ 
+ 	/* vertical RGB */
+ 	dcss_scaler_filter_design(src_yres, dst_yres, false,
+-				  src_yres == dst_yres, coef);
++				  src_yres == dst_yres, coef,
++				  ch->use_nn_interpolation);
+ 	dcss_scaler_program_7_coef_set(ch, DCSS_SCALER_COEF_VLUM, coef);
+ }
+ 
+@@ -751,6 +772,14 @@ static void dcss_scaler_set_rgb10_order(struct dcss_scaler_ch *ch,
+ 	ch->sdata_ctrl |= a2r10g10b10_format << A2R10G10B10_FORMAT_POS;
+ }
+ 
++void dcss_scaler_set_filter(struct dcss_scaler *scl, int ch_num,
++			    enum drm_scaling_filter scaling_filter)
++{
++	struct dcss_scaler_ch *ch = &scl->ch[ch_num];
++
++	ch->use_nn_interpolation = scaling_filter == DRM_SCALING_FILTER_NEAREST_NEIGHBOR;
++}
++
+ void dcss_scaler_setup(struct dcss_scaler *scl, int ch_num,
+ 		       const struct drm_format_info *format,
+ 		       int src_xres, int src_yres, int dst_xres, int dst_yres,
+-- 
+2.23.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
