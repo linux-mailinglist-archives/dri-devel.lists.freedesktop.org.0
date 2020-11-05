@@ -2,59 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991D82A9195
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 530E12A9184
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCCA76EE43;
-	Fri,  6 Nov 2020 08:35:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB4CD6EE30;
+	Fri,  6 Nov 2020 08:35:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C80A56E15A
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:07:25 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id t18so1250441plo.0
- for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 11:07:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=BgiHrklnpeZTNfHUUb4/9/03koRegsKFGWvFTDnluCI=;
- b=BQ/GK9ILSECdU6RkFDXdQ8h/kV97zEXhRiqF43KL4JQ02EvmZYyDQX8iljTDwvsxlk
- 2KURmI63vEDuwxwkyxfBvt1+5rUT00ML/HZRRAOj/6W/BXz7xEI945mma7f77t9bggTG
- xryBjaLokvtkPgT31UTriTMo2C6mSt6kA3t18NvNgr7mgq34KurD2FXD2SHZ6qw2S0iy
- VyuXyphZz8aPTHnJ7eEzWgrfslyWZnwQRi8TpbRnqHaFluD9nLHNmRVAI9q2shklV1hp
- JexCegf6zGvyB/pj/ag/agnLS5lHCEijBHwSGmhv7PyANiL2gjbczwL2qis/nzppeaSR
- aDgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=BgiHrklnpeZTNfHUUb4/9/03koRegsKFGWvFTDnluCI=;
- b=oI/rFx+L2oi9A/L21JlUuDjnpKiJDVHrKqGkApwL9GArnS4oU5pX/WOp+26KB1nv1o
- 10u98cbcLgEq0LyN7OOIZP6RtTwUrCtC6Kd3j5YFlzZhFZIpa4GTcnvHUJLhqweOxtjs
- 8SeHtaEf1uVbzsVHo5ZVUmEe1PLy/jNqk7IdnOgqXJYwdhg+M5FpAnA2WauSBZRHnfEy
- qTIbhqfbqsijA/zb56kVfjvcRPImKqzcrzj1S+MEJw1hedOLNAp2OTJqmh1n+gqlgwZt
- B9VhX35uP7A7HIfBzi29mTvIH3oJawVGa92eHzq2m2nT0qkUArHWWHbQbmBDK9zOdBYK
- X2+w==
-X-Gm-Message-State: AOAM530yil39MD0LSEkd/utjwesXEO9U5J+p7IQyZ24BUlti2Alp6UO0
- YLbzT7i7/zIznzdo/g7FdQ+CkZW2tA8=
-X-Google-Smtp-Source: ABdhPJzw1QtrJdsbGtpN9Hgsb+fZFPtDupUe6LGfnX647S6DMfeeXsi+H9L4NS+pKucT9+mvxKLi2A==
-X-Received: by 2002:a17:902:ed04:b029:d6:e878:1013 with SMTP id
- b4-20020a170902ed04b02900d6e8781013mr3461916pld.56.1604603245478; 
- Thu, 05 Nov 2020 11:07:25 -0800 (PST)
-Received: from localhost ([160.202.157.3])
- by smtp.gmail.com with ESMTPSA id j2sm3190842pgi.48.2020.11.05.11.07.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 11:07:25 -0800 (PST)
-Date: Fri, 6 Nov 2020 00:37:18 +0530
-From: Deepak R Varma <mh12gx2825@gmail.com>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vmwgfx: replace idr_init() by idr_init_base()
-Message-ID: <20201105190718.GA89863@localhost>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C192A6E177
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 19:17:31 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <a.fatoum@pengutronix.de>)
+ id 1kaklE-0000Lw-MI; Thu, 05 Nov 2020 20:17:28 +0100
+Subject: Re: [PATCH 03/19] gpu: drm: imx: ipuv3-plane: Mark 'crtc_state' as
+ __always_unused
+To: Lee Jones <lee.jones@linaro.org>
+References: <20201105144517.1826692-1-lee.jones@linaro.org>
+ <20201105144517.1826692-4-lee.jones@linaro.org>
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Message-ID: <15a4a184-74c2-e630-193a-cdea61545a03@pengutronix.de>
+Date: Thu, 5 Nov 2020 20:17:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Disposition: inline
+In-Reply-To: <20201105144517.1826692-4-lee.jones@linaro.org>
+Content-Language: en-US
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,56 +49,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mh12gx2825@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-idr_init() uses base 0 which is an invalid identifier for this driver.
-The idr_alloc for this driver uses 1 as start value for ID range. The
-new function idr_init_base allows IDR to set the ID lookup from base 1.
-This avoids all lookups that otherwise starts from 0 since 0 is always
-unused / available.
-
-References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
-
-Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
----
- drivers/gpu/drm/vmwgfx/ttm_object.c | 2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgfx/ttm_object.c
-index 16077785ad47..cbedcb043803 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_object.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
-@@ -540,7 +540,7 @@ ttm_object_device_init(struct ttm_mem_global *mem_glob,
- 	if (ret != 0)
- 		goto out_no_object_hash;
- 
--	idr_init(&tdev->idr);
-+	idr_init_base(&tdev->idr, 1);
- 	tdev->ops = *ops;
- 	tdev->dmabuf_release = tdev->ops.release;
- 	tdev->ops.release = ttm_prime_dmabuf_release;
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 31e3e5c9f362..a24d9363a17e 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -675,7 +675,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	spin_lock_init(&dev_priv->cursor_lock);
- 
- 	for (i = vmw_res_context; i < vmw_res_max; ++i) {
--		idr_init(&dev_priv->res_idr[i]);
-+		idr_init_base(&dev_priv->res_idr[i], 1);
- 		INIT_LIST_HEAD(&dev_priv->res_lru[i]);
- 	}
- 
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGVsbG8gTGVlLAoKT24gMTEvNS8yMCAzOjQ1IFBNLCBMZWUgSm9uZXMgd3JvdGU6Cj4gSW4gdGhl
+IG1hY3JvIGZvcl9lYWNoX29sZG5ld19jcnRjX2luX3N0YXRlKCkgJ2NydGNfc3RhdGUnIGlzIHBy
+b3ZpZGVkCj4gYXMgYSBjb250YWluZXIgZm9yIHN0YXRlLT5jcnRjc1tpXS5uZXdfc3RhdGUsIGJ1
+dCBpcyBub3QgdXRpbGlzZWQgaW4KPiB0aGlzIHVzZS1jYXNlLiAgV2UgY2Fubm90IHNpbXBseSBk
+ZWxldGUgdGhlIHZhcmlhYmxlLCBzbyBoZXJlIHdlIHRlbGwKPiB0aGUgY29tcGlsZXIgdGhhdCB3
+ZSdyZSBpbnRlbnRpb25hbGx5IGRpc2NhcmRpbmcgdGhlIHJlYWQgdmFsdWUuCgpmb3JfZWFjaF9v
+bGRuZXdfY3J0Y19pbl9zdGF0ZSBhbHJlYWR5ICh2b2lkKSBjYXN0cyB0aGUgZHJtX2NydGMgYW5k
+IHRoZSBvbGQKZHJtX2NydGNfc3RhdGUgdG8gc2lsZW5jZSB1bnVzZWQtYnV0LXNldC12YXJpYWJs
+ZSB3YXJuaW5nLiBTaG91bGQgd2UgbWF5YmUKKHZvaWQpIGNhc3QgdGhlIG5ldyBjcnRjX3N0YXRl
+IGFzIHdlbGw/CgpDaGVlcnMKQWhtYWQKCj4gCj4gRml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2Vy
+bmVsIGJ1aWxkIHdhcm5pbmcocyk6Cj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9pbXgvaXB1djMtcGxh
+bmUuYzogSW4gZnVuY3Rpb24g4oCYaXB1X3BsYW5lc19hc3NpZ25fcHJl4oCZOgo+ICBkcml2ZXJz
+L2dwdS9kcm0vaW14L2lwdXYzLXBsYW5lLmM6NzQ2OjQyOiB3YXJuaW5nOiB2YXJpYWJsZSDigJhj
+cnRjX3N0YXRl4oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVd
+Cj4gCj4gQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IERh
+dmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+QGZmd2xsLmNoPgo+IENjOiBTaGF3biBHdW8gPHNoYXduZ3VvQGtlcm5lbC5vcmc+Cj4gQ2M6IFNh
+c2NoYSBIYXVlciA8cy5oYXVlckBwZW5ndXRyb25peC5kZT4KPiBDYzogUGVuZ3V0cm9uaXggS2Vy
+bmVsIFRlYW0gPGtlcm5lbEBwZW5ndXRyb25peC5kZT4KPiBDYzogRmFiaW8gRXN0ZXZhbSA8ZmVz
+dGV2YW1AZ21haWwuY29tPgo+IENjOiBOWFAgTGludXggVGVhbSA8bGludXgtaW14QG54cC5jb20+
+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBM
+ZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0v
+aW14L2lwdXYzLXBsYW5lLmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaW14L2lw
+dXYzLXBsYW5lLmMgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2lwdXYzLXBsYW5lLmMKPiBpbmRleCA4
+YTQyMzVkOWQ5ZjFlLi5hY2MwYTNjZTQ5OTJmIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9pbXgvaXB1djMtcGxhbmUuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaXB1djMtcGxh
+bmUuYwo+IEBAIC03NDMsNyArNzQzLDcgQEAgYm9vbCBpcHVfcGxhbmVfYXRvbWljX3VwZGF0ZV9w
+ZW5kaW5nKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lKQo+ICBpbnQgaXB1X3BsYW5lc19hc3NpZ25f
+cHJlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4gIAkJCSAgc3RydWN0IGRybV9hdG9taWNfc3Rh
+dGUgKnN0YXRlKQo+ICB7Cj4gLQlzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgKm9sZF9jcnRjX3N0YXRl
+LCAqY3J0Y19zdGF0ZTsKPiArCXN0cnVjdCBkcm1fY3J0Y19zdGF0ZSAqb2xkX2NydGNfc3RhdGUs
+IF9fYWx3YXlzX3VudXNlZCAqY3J0Y19zdGF0ZTsKPiAgCXN0cnVjdCBkcm1fcGxhbmVfc3RhdGUg
+KnBsYW5lX3N0YXRlOwo+ICAJc3RydWN0IGlwdV9wbGFuZV9zdGF0ZSAqaXB1X3N0YXRlOwo+ICAJ
+c3RydWN0IGlwdV9wbGFuZSAqaXB1X3BsYW5lOwo+IAoKLS0gClBlbmd1dHJvbml4IGUuSy4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ClN0
+ZXVlcndhbGRlciBTdHIuIDIxICAgICAgICAgICAgICAgICAgICAgICB8IGh0dHA6Ly93d3cucGVu
+Z3V0cm9uaXguZGUvICB8CjMxMTM3IEhpbGRlc2hlaW0sIEdlcm1hbnkgICAgICAgICAgICAgICAg
+ICB8IFBob25lOiArNDktNTEyMS0yMDY5MTctMCAgICB8CkFtdHNnZXJpY2h0IEhpbGRlc2hlaW0s
+IEhSQSAyNjg2ICAgICAgICAgICB8IEZheDogICArNDktNTEyMS0yMDY5MTctNTU1NSB8Cl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
