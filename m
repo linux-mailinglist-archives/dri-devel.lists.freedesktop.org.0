@@ -2,43 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505FF2A7907
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4472A7909
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 09:22:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50BFD6EA1E;
-	Thu,  5 Nov 2020 08:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 575856EA16;
+	Thu,  5 Nov 2020 08:20:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 459 seconds by postgrey-1.36 at gabe;
- Thu, 05 Nov 2020 01:52:48 UTC
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00466E057
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:52:48 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4CRRCz3W7Zz8p;
- Thu,  5 Nov 2020 02:45:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1604540706; bh=aBt8pSRmlerJrDlZ6D4FmnV067XCrMRhQWKKKTapOdw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GyZeaKLwRHgqCMhnbX5TNybo0ANsgA3gM3TWkXagDl6z0z7YM2HVQ82gMuN0HVIHU
- 7dp8iHeNlS1eCBKDju4naxFTjiE1S2c/jSNLdP0XdCQTQpCQrpbVB68WwxmQ5A1XTf
- HnQ5aLlJ45qUjgU2s/chEVHj9kK0YGzx1K0TBruAnEEtNFfEy/FeB5JRFXlnjVynQ2
- xj8dJwAqPPCRcBHEJBgull7vLVSSBUGpiGDT2jaC/jhSLrzGCOZ+TGsXznXqjpE9Bx
- c3X8v/y5wwipUDKK02Lc2jvLGWIt7L90BZ89QWrFtHZZdjtuMz767NBYOLe9wQce1i
- Ueh8sEtC2RP0g==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date: Thu, 5 Nov 2020 02:45:02 +0100
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
- Tegra20/30 SoCs
-Message-ID: <20201105014502.GB17266@qmqm.qmqm.pl>
-References: <20201104234427.26477-1-digetx@gmail.com>
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 483016E057
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:47:50 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id 13so80179pfy.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 04 Nov 2020 17:47:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sYYwClh6EchPM2BfZR+4AEHuja7044UzaidnsIy8Qcg=;
+ b=Id8UrqPwcLEkt9PwDuwqYhVZ9KTxZgq/wynDwuSf63/F8l75yjB81xuZ0c4D5Ds6AP
+ xq1NsRzKt7wNjgVtk1D7RAGyiBSy1Wn7OcIaiCLSFEDDpo/VmCUPfdJuYrgAYSxHSEkj
+ fWS+97jxKFivtDHmynjuL6EiRM3lAt+VObgAc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=sYYwClh6EchPM2BfZR+4AEHuja7044UzaidnsIy8Qcg=;
+ b=rg6+AKkwI+4v9M7LZN98L7u9veXEGWoNcwrEjrXrci60Wc+KXrBtZQuiwhSSViZqQg
+ c18/LgC1ZGAD3LT5njkWLjC7t5rkvzlDbYyWT84hZPX5QjH9ULDR+2WM55JkOYAvhHH4
+ NPjIZKVjQ3yu/VxV5edURuFQVp9NdpI9dzEvUVx+aPtOf3ETcCWTzho0aeEoN3b4C9Yq
+ bFkNOSsQMRuXOqnPoeDjFp8Mq0h577a1glZ/wcoaLMEVtjB0k0vYNEjVFHPQPGXJm37Y
+ rPv89nnkERK/VfYK5bXg6zJSL9oNyydiLL0SIp6VxS+uqt+yZYeq9ffYqTP6O2MqW0na
+ eXVg==
+X-Gm-Message-State: AOAM530nqw5GyKOpK1VcD2UDGmtLXSyZY76pvKkvYv+keMqxrIDLXXnv
+ f0oJR7ErGx/+83rC7VnEhHg/eA==
+X-Google-Smtp-Source: ABdhPJz6AoKdhCysWyJGFbxwj173ZuJ5XbaST4akQgoDruF8T/h8yzY9MmP+ZneLYT0hbQ/+OukUJQ==
+X-Received: by 2002:a17:90a:7d12:: with SMTP id
+ g18mr362516pjl.137.1604540869798; 
+ Wed, 04 Nov 2020 17:47:49 -0800 (PST)
+Received: from tigerii.tok.corp.google.com
+ ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
+ by smtp.gmail.com with ESMTPSA id d190sm116741pfc.185.2020.11.04.17.47.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 04 Nov 2020 17:47:49 -0800 (PST)
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH] drm/virtio: use kvmalloc for large allocations
+Date: Thu,  5 Nov 2020 10:47:44 +0900
+Message-Id: <20201105014744.1662226-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-Mailman-Approved-At: Thu, 05 Nov 2020 08:20:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,41 +65,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Adrian Hunter <adrian.hunter@intel.com>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- Uwe =?iso-8859-2?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+Cc: Suleiman Souhlal <suleiman@google.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 02:43:57AM +0300, Dmitry Osipenko wrote:
-> Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs, which reduces
-> power consumption and heating of the Tegra chips. Tegra SoC has multiple
-> hardware units which belong to a core power domain of the SoC and share
-> the core voltage. The voltage must be selected in accordance to a minimum
-> requirement of every core hardware unit.
-[...]
+We observed that some of virtio_gpu_object_shmem_init() allocations
+can be rather costly - order 6 - which can be difficult to fulfill
+under memory pressure conditions. Switch to kvmalloc_array() in
+virtio_gpu_object_shmem_init() and let the kernel vmalloc the entries
+array.
 
-Just looked briefly through the series - it looks like there is a lot of
-code duplication in *_init_opp_table() functions. Could this be made
-more generic / data-driven?
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_object.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Best Regards
-Micha=B3 Miros=B3aw
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 2d3aa7baffe4..d9ad27e00905 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -184,8 +184,9 @@ static int virtio_gpu_object_shmem_init(struct virtio_gpu_device *vgdev,
+ 		*nents = shmem->pages->orig_nents;
+ 	}
+ 
+-	*ents = kmalloc_array(*nents, sizeof(struct virtio_gpu_mem_entry),
+-			      GFP_KERNEL);
++	*ents = kvmalloc_array(*nents,
++			       sizeof(struct virtio_gpu_mem_entry),
++			       GFP_KERNEL);
+ 	if (!(*ents)) {
+ 		DRM_ERROR("failed to allocate ent list\n");
+ 		return -ENOMEM;
+-- 
+2.29.1.341.ge80a0c044ae-goog
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
