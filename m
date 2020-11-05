@@ -1,44 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096252A8019
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 14:56:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C6B2A8047
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:02:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE8786ED42;
-	Thu,  5 Nov 2020 13:56:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0E66ED83;
+	Thu,  5 Nov 2020 14:02:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21E2B6ED42;
- Thu,  5 Nov 2020 13:56:37 +0000 (UTC)
-IronPort-SDR: 6aEwokG0NabbQUEA4mdwf3/L/AUjZMaS1ccr2Hayq3kMMuknueqligHGg5d+hBpQ5+B1vT+iTW
- wxcMiirAGf9w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="157161920"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="157161920"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 05:56:36 -0800
-IronPort-SDR: YwqI5LlUjTm6U06t4vwjrFkP7/mzOe9yR6dhr9JElRnMVhSxZqRXgvsLsrHWAH5ozw36L4czV+
- Z+kxKaxiK14w==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; d="scan'208";a="539409002"
-Received: from unknown (HELO intel.com) ([10.99.66.154])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 05:56:33 -0800
-Date: Thu, 5 Nov 2020 19:27:17 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v4 05/16] drm/i915/hdcp: Move HDCP enc status timeout to
- header
-Message-ID: <20201105135717.GF3242@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-6-anshuman.gupta@intel.com>
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-eopbgr60087.outbound.protection.outlook.com [40.107.6.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A08FA6ED7C
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:02:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NxH0gfC9vZIyDcjF8xl+vaof6X4pTeXHXnCIYR91ODkD/E9lkAxXc0yPd2oonFVLIkXHeJI5SpUH5f0R+xrGAWx04EE8YAtU4/29r9ajEUmItDWerlepOgjgjNHPdU6xtWz/UwiQiK7t8I4qH8PmntKnswdTYw9BPONzxQ2A6cVBWv1Yy9X5BVXswHAfLpJPz9ywOvE5sY5raja8QbckbIt6zD5dMlD/WLqnhlCd/jZz0dEGCs/c8A4jm/HqRL2BfLn7xaxuEfCH17VQB2qBG6FpqfI1XuP+g30HDyJCn6FnrHt9pUfQIs/fwXCwGolsepMZO3toEL7PYE53u9sJ/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=prET9u9QSJm4qrev/Qz6IyHePSTHaneCZT3oG0PJgZE=;
+ b=Hn6/tDS5pwy/CDtnB5QZnEPDUHV3Mc/A6YfeG9qw39+CBLA5k+t+0flh7Ml7uNfhF5GpXvfwB7rNBKLmCyL+9PXx3oyxNqO1nCewauW1DGriRUqieOG8RPYfcfRbMFVXFVgIiQygu2p8x8VIpSa8WaDGFAp0VjDwimExWGWxKWA2gpd3Md9pszBUa5pJxkprz0JJcH744PCThD5WfCQE6+6/5WJfVapoh7jRuvy0eAG0heQcXveI+HT+V62i/jRTI2XafjqRWiov7vZzv5YDZ5a9NAKoAZ+lPSkPOU4gJfzAOuhSURgu0gMO0fqQXqTEn9xG6FZkeyBpslGOgCxviQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=prET9u9QSJm4qrev/Qz6IyHePSTHaneCZT3oG0PJgZE=;
+ b=ji/pxpNT4JPegW3UFxLSgL4O+LEHdTmrXzkKZHZZIoO5ENcL5YQk7W1OrjzG/6KZILMtnK52Uet+nlCYnHnt8drMRKdnPnmcnMsj+vzQz/JgZxyf0ChxlDaeGFC5UzeiTFW5OH+SrczhX5ihyOVoOKVXHZfTPvwryuPajO+heE4=
+Authentication-Results: pengutronix.de; dkim=none (message not signed)
+ header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27) by VI1PR04MB6783.eurprd04.prod.outlook.com
+ (2603:10a6:803:130::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Thu, 5 Nov
+ 2020 14:01:59 +0000
+Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::f000:d709:509:bb5]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
+ ([fe80::f000:d709:509:bb5%3]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 14:01:59 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] drm/imx/dcss: a couple of fixes
+Date: Thu,  5 Nov 2020 16:01:24 +0200
+Message-Id: <20201105140127.25249-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [83.217.231.2]
+X-ClientProxiedBy: AM3PR07CA0084.eurprd07.prod.outlook.com
+ (2603:10a6:207:6::18) To VI1PR0402MB3902.eurprd04.prod.outlook.com
+ (2603:10a6:803:22::27)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201027164208.10026-6-anshuman.gupta@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
+ AM3PR07CA0084.eurprd07.prod.outlook.com (2603:10a6:207:6::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.15 via Frontend Transport; Thu, 5 Nov 2020 14:01:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e77c3a5a-01f1-4b8f-b50a-08d881935d18
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6783:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR04MB67832958FEAF0FAEA723FEDABEEE0@VI1PR04MB6783.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fPlo55nXm5hKn8kRQwkD4khduj0i4Ooe2bq6J0vnq7s61I/9LY0j2YJOPZNQJZhLH52GKAnI3F+sfjWxuQIb9vfq/fUNIdErJVgBA9MoPy0UYFDG12MkkuPs1o7j+VG8AOgXTDQgxPg4l6GdyslAnSfnKrpLE0EuWLofUN642ot3Pb1ys1hoivBZ+MeuMwVI/j6SHDkafP9GJUw6EdBTJ9+iGbxnHxoewuaLMjz2bkM4R1ygKzPETy4pooFtXWUA79x35hyK0GLpt0JNvS5gNdpMIm0G1F5c2xgJJVOqLqH9rKhGzfXfAWzszLugymyxp8dj2ORYNshjBgwBCiyfsg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(8676002)(4744005)(2616005)(956004)(6512007)(44832011)(83380400001)(6666004)(8936002)(66946007)(2906002)(6486002)(66476007)(66556008)(316002)(52116002)(86362001)(478600001)(5660300002)(1076003)(6506007)(186003)(26005)(16526019)(110136005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: XZlNfUMAXf+RN7OtNYJ/ISscZgHhyyI0sgJoALocN2c9wtAiU5Ity4u4K+x8EvLUTYeVS6HE1Sw2g9EpD5YNVCT/U7bLAj/NqM7xG+f8yFsNkr5GRc7yIFoU0mT6Rb3ARimrtTgZSlGwfjKCaKYtgMJdNlKV5nEZ2Vri6PJOykquwFJnttipQ+oF32OID5EvjLk12lZqsbGvdS6pvqJiyO0A0M2TlODFJA1KyjIAR4AMjCcfeTX8aNBFduQXtwWsJ2Ih5IeB6arq8KLT11S0HEsTD2R4b0fQUsuZJUX25TVSW2hStIGRFGMoZ3MglpxNrZLV8TGzKdcWnY+9KNdgfe0Y+yhaqjn6LlpxhPafQGI4LaPCpVnuKdPCtvJrxfiJ3ZlV0Rsl9XFzjMPazkGhvAP6ObWRGNDmlTiKxHrnhadZRx//4KWRHqMplfYJhGo5ODcs7W/qaKVBritkQFWJ7mzVFol3y5BtI1wpHrtiiCSRCqEz95/USHAd7OR2Pzs5G40KFCrJdSxM7IGhqACb+6JO8eLVgIqcogZ79Vip/LGYZMaO3enylduYbp40uGJIapkWtx2pOLnzr4YRAmFAZLuTSNv9MLADs6QaaOZrgjRLLHuDLlcFaBQAPu90cw+AXnF5rfuab4F4rzRcToEypg==
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e77c3a5a-01f1-4b8f-b50a-08d881935d18
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 14:01:59.8759 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eV8dc5xEkp/piZRhflqRYm2Uk01fHI2WdKFdXicbNqa2ydl/ZfQX5H5iqScQ+raLBykNXBBOwhdh4mUcSUyHgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6783
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,98 +99,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
- juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-10-27 at 22:11:57 +0530, Anshuman Gupta wrote:
-> DP MST stream encryption status requires time of a link frame
-> in order to change its status, but as there were some HDCP
-> encryption timeout observed earlier, it is safer to use
-> ENCRYPT_STATUS_CHANGE_TIMEOUT_MS timeout for stream status too,
-> it requires to move the macro to a header.
-> It will be used by both HDCP{1.x,2.x} stream status timeout.
+Hi,
 
-Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
-> 
-> Related: 'commit 7e90e8d0c0ea ("drm/i915: Increase timeout for Encrypt
-> status change")'
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 9 ++++-----
->  drivers/gpu/drm/i915/display/intel_hdcp.h | 2 ++
->  2 files changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index fc5de48456ad..0322a83c151d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -23,7 +23,6 @@
->  #include "intel_connector.h"
->  
->  #define KEY_LOAD_TRIES	5
-> -#define ENCRYPT_STATUS_CHANGE_TIMEOUT_MS	50
->  #define HDCP2_LC_RETRY_CNT			3
->  
->  static
-> @@ -762,7 +761,7 @@ static int intel_hdcp_auth(struct intel_connector *connector)
->  	if (intel_de_wait_for_set(dev_priv,
->  				  HDCP_STATUS(dev_priv, cpu_transcoder, port),
->  				  HDCP_STATUS_ENC,
-> -				  ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> +				  HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
->  		drm_err(&dev_priv->drm, "Timed out waiting for encryption\n");
->  		return -ETIMEDOUT;
->  	}
-> @@ -809,7 +808,7 @@ static int _intel_hdcp_disable(struct intel_connector *connector)
->  	intel_de_write(dev_priv, HDCP_CONF(dev_priv, cpu_transcoder, port), 0);
->  	if (intel_de_wait_for_clear(dev_priv,
->  				    HDCP_STATUS(dev_priv, cpu_transcoder, port),
-> -				    ~0, ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> +				    ~0, HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
->  		drm_err(&dev_priv->drm,
->  			"Failed to disable HDCP, timeout clearing status\n");
->  		return -ETIMEDOUT;
-> @@ -1641,7 +1640,7 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
->  				    HDCP2_STATUS(dev_priv, cpu_transcoder,
->  						 port),
->  				    LINK_ENCRYPTION_STATUS,
-> -				    ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
-> +				    HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
->  
->  	return ret;
->  }
-> @@ -1665,7 +1664,7 @@ static int hdcp2_disable_encryption(struct intel_connector *connector)
->  				      HDCP2_STATUS(dev_priv, cpu_transcoder,
->  						   port),
->  				      LINK_ENCRYPTION_STATUS,
-> -				      ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
-> +				      HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
->  	if (ret == -ETIMEDOUT)
->  		drm_dbg_kms(&dev_priv->drm, "Disable Encryption Timedout");
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.h b/drivers/gpu/drm/i915/display/intel_hdcp.h
-> index bc51c1e9b481..b912a3a0f5b8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.h
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
-> @@ -8,6 +8,8 @@
->  
->  #include <linux/types.h>
->  
-> +#define HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS	50
-> +
->  struct drm_connector;
->  struct drm_connector_state;
->  struct drm_i915_private;
-> -- 
-> 2.26.2
-> 
+This patchset fixes 90/270 rotations for Vivante tiled and super-tiled
+formats and a Coccinelle warning.
+
+Thanks,
+laurentiu
+
+Laurentiu Palcu (2):
+  drm/imx/dcss: fix rotations for Vivante tiled formats
+  drm/imx/dcss: fix coccinelle warning
+
+ drivers/gpu/drm/imx/dcss/dcss-plane.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+-- 
+2.23.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
