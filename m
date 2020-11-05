@@ -2,41 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8580C2A88DC
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:21:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338222A88E6
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 22:24:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E6106E329;
-	Thu,  5 Nov 2020 21:21:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48E656EDE3;
+	Thu,  5 Nov 2020 21:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 185C46E329
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:21:27 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 8FD482006C;
- Thu,  5 Nov 2020 22:21:24 +0100 (CET)
-Date: Thu, 5 Nov 2020 22:21:23 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 12/19] gpu: drm: bridge: analogix: analogix_dp_reg:
- Remove unused function 'analogix_dp_write_byte_to_dpcd'
-Message-ID: <20201105212123.GE216923@ravnborg.org>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
- <20201105144517.1826692-13-lee.jones@linaro.org>
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B736EDE3
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 21:24:26 +0000 (UTC)
+Received: by mail-ej1-x641.google.com with SMTP id i19so4714962ejx.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 13:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anholt-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/CmC9JRSxb82iC3NFWklCniKS4R8CJ6nnXYdYjWbKG4=;
+ b=Gu7+TyJ688oibw+cHrS74PBGNS0GtLy+PisuwisCbxkYaseX4DZlsdutLz7W8K5SS2
+ in4GFolf+Iy/yjdJ3fECM8Hm8BklJQrL0pME2i0mNXsmESjCW9YqRpfStnTGsvKMK9Rk
+ 2z85IrNT4fQH1hM8VBalwiVtlpvYXu2MYDHtvjoKL4txAqGIDPrTsgyJu100+Y1+kcv8
+ PQfNaHkx5Fxr9CoQ1ZdGYyzZ1lJ/aEXSwP+AafRkrHzgvfhZI9LkI+SeYrCKYPHTr8Iq
+ fwBUh6SIrR0GNB8g4ipjd3bFZ9WoStoUoszM3Np69V+PmgGrO6qU3Dyh3Eo2xb5Z2R+X
+ e0Fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/CmC9JRSxb82iC3NFWklCniKS4R8CJ6nnXYdYjWbKG4=;
+ b=pqfQLJGFPPn+pQm4ARLLjX5HtGA89ApgS/IUq5p03Op6BJ5E+qJOAgEnXGv+nH8gSq
+ GodXh/ZIBLE3epn3Psy7/CXfbHynOgyvtaT0AaSw7M36szERkAKQ0+pmklJ6tB80OtR7
+ WqO50OG5WBzqwX2OEt0pnXKRyXj/gPTt7ggNFTN6FwL8ZUs5iWwHEMyL7jqWvgaRDilj
+ J3FX3nXYGaweu3G8ExnG8j0e6rSwm9T+emJihjJW2xHsCSjbX93NwUrqhGIf8fTXCVG8
+ psGpw+kzgdngRaY9GWjEPOvgAnjXKx+C14AG0vx0SRFXXZeqNmRnSUcspr6h9GcrePaU
+ Ue1w==
+X-Gm-Message-State: AOAM533ankyRVtID5QR+GbaGszA8esaeZngg7xB8j8mSQBKTlBxvbzQ+
+ ZONpK8+iUfLRHgBcCSleVIE5oNyetp3r1k9GzvMvnA==
+X-Google-Smtp-Source: ABdhPJx0DFrV0/mwAVfKrG+W1lq3sodrLoxq3Xxf3TvVGR/66t+GtgFx0Gvb8DhweojXV1j9SqxoNacoODMAJnEaCZc=
+X-Received: by 2002:a17:906:c186:: with SMTP id
+ g6mr4058283ejz.465.1604611465021; 
+ Thu, 05 Nov 2020 13:24:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105144517.1826692-13-lee.jones@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=IkcTkHD0fZMA:10 a=hD80L64hAAAA:8 a=IpJZQVW2AAAA:8 a=P1BnusSwAAAA:8
- a=RwHePtW7AAAA:8 a=i0EeH86SAAAA:8 a=7gkXJVJtAAAA:8 a=e5mUnYsNAAAA:8
- a=KKAkSRfTAAAA:8 a=wOZaIO4e_DUmNJ9mob8A:9 a=QEXdDO2ut3YA:10
- a=IawgGOuG5U0WyFbmm1f5:22 a=D0XLA9XvdZm18NrgonBM:22
- a=FqraQwd7dyEg5dwJgZJs:22 a=E9Po1WZjFZOl8hwRPBS3:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=cvBusfyB2V15izCimMoJ:22
+References: <20201105202135.GA145111@localhost>
+In-Reply-To: <20201105202135.GA145111@localhost>
+From: Eric Anholt <eric@anholt.net>
+Date: Thu, 5 Nov 2020 13:24:14 -0800
+Message-ID: <CADaigPXM8NAZFAydXwcZt7ie_aK1aO8C=jqssA375sCMgU_gHw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/vc4: replace idr_init() by idr_init_base()
+To: Deepak R Varma <mh12gx2825@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,33 +62,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jingoo Han <jg1.han@samsung.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jason Yan <yanaijie@huawei.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGVlCgpPbiBUaHUsIE5vdiAwNSwgMjAyMCBhdCAwMjo0NToxMFBNICswMDAwLCBMZWUgSm9u
-ZXMgd3JvdGU6Cj4gRml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmco
-cyk6Cj4gCj4gIGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYW5hbG9naXgvYW5hbG9naXhfZHBfcmVn
-LmM6NTcxOjU6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYYW5hbG9naXhf
-ZHBfd3JpdGVfYnl0ZV90b19kcGNk4oCZIFstV21pc3NpbmctcHJvdG90eXBlc10KPiAKPiBDYzog
-QW5kcnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KPiBDYzogTmVpbCBBcm1zdHJvbmcg
-PG5hcm1zdHJvbmdAYmF5bGlicmUuY29tPgo+IENjOiBMYXVyZW50IFBpbmNoYXJ0IDxMYXVyZW50
-LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Cj4gQ2M6IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3
-aWJvby5zZT4KPiBDYzogSmVybmVqIFNrcmFiZWMgPGplcm5lai5za3JhYmVjQHNpb2wubmV0Pgo+
-IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIg
-PGRhbmllbEBmZndsbC5jaD4KPiBDYzogSmFzb24gWWFuIDx5YW5haWppZUBodWF3ZWkuY29tPgo+
-IENjOiBTYW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+Cj4gQ2M6IEppbmdvbyBIYW4gPGpn
-MS5oYW5Ac2Ftc3VuZy5jb20+Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-PiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgoKSSBmb2xk
-ZWQgaW4gdGhlIG90aGVyIGFuYWxvZ2l4X2RwX3JlZy5jIHBhdGNoIHdoZW4gSSBhcHBsaWVkIHRo
-aXMuClNvIHdlIGhhdmUgdGhlIGZ1bGwgcmVtb3ZhbCBpbiBvbmUgcGF0Y2guCgoJU2FtCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Thu, Nov 5, 2020 at 12:21 PM Deepak R Varma <mh12gx2825@gmail.com> wrote:
+>
+> idr_init() uses base 0 which is an invalid identifier for this driver.
+> The idr_alloc for this driver uses VC4_PERFMONID_MIN as start value for
+> ID range and it is #defined to 1. The new function idr_init_base allows
+> IDR to set the ID lookup from base 1. This avoids all lookups that
+> otherwise starts from 0 since 0 is always unused / available.
+>
+> References: commit 6ce711f27500 ("idr: Make 1-based IDRs more efficient")
+>
+> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+> ---
+> Changes since v1:
+>    - Change suggested by Eric Anholt
+>      1. Use VC4_PERFMONID_MIN instead of magic number 1
+>
+>  drivers/gpu/drm/vc4/vc4_perfmon.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_perfmon.c b/drivers/gpu/drm/vc4/vc4_perfmon.c
+> index f4aa75efd16b..18abc06335c1 100644
+> --- a/drivers/gpu/drm/vc4/vc4_perfmon.c
+> +++ b/drivers/gpu/drm/vc4/vc4_perfmon.c
+> @@ -77,7 +77,7 @@ struct vc4_perfmon *vc4_perfmon_find(struct vc4_file *vc4file, int id)
+>  void vc4_perfmon_open_file(struct vc4_file *vc4file)
+>  {
+>         mutex_init(&vc4file->perfmon.lock);
+> -       idr_init(&vc4file->perfmon.idr);
+> +       idr_init_base(&vc4file->perfmon.idr, VC4_PERFMONID_MIN);
+>  }
+>
+>  static int vc4_perfmon_idr_del(int id, void *elem, void *data)
+> --
+> 2.25.1
+
+Reviewed-by: Eric Anholt <eric@anholt.net>
+
+hopefully Maxime can apply it.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
