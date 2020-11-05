@@ -2,73 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692CC2A918A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:36:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244E02A9168
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA986EE1F;
-	Fri,  6 Nov 2020 08:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A18946EE0E;
+	Fri,  6 Nov 2020 08:35:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5C0D6ED25
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 13:59:04 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id DE1AC580360;
- Thu,  5 Nov 2020 08:59:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 05 Nov 2020 08:59:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=qzvBcbHMYK6sYMX+WfvSh0Q3ayc
- RLE9JGot8QENfnDc=; b=PTQ81uS+613B4vzd+PKweotT+H1+XD49AOZynuZMf00
- wMuaVAK/UPj8bJ2VAjwErVpR3fpEmuYAyPKT09/E2aFwK17cH1dJy+2+nRrJxBuZ
- NkjcalBfLdTeXUSuqMQRJhTejSJ1TfqVt8Y8EsNJjL/DZ3KQFp8pDrgX87mAeaXi
- PQVjMljRHDpn4wNOHy7ipQle4k3zartYoHCVgLqC/wVwkfv5VY5Etg01LxqlPwku
- LCuWFxkCxSj9WbIZmqM4q8jmK8Sy2E1polrVR3wGHeuwRJ468NwWLatXn9Zfk1Xv
- 5DprdLeyJtqeNugKnfg9BSjDm2Pd695uwAAVPc65wHA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qzvBcb
- HMYK6sYMX+WfvSh0Q3aycRLE9JGot8QENfnDc=; b=mwCwlKpORJRmFkrnqQraIP
- Q+yWtazzMLgPNR5DdNqetHCN/9fIdzU2ho3GxjnGkzbvtE+M7epaOMWXbAfSi9hW
- Q6GJAJrVU+yzP8h57tdsyIsTe0xjNYwMCQ10l9BzXyDUnwrh/azNBfCgjZNuYooF
- EZaxKZYHyWYrJz2sQyJ68LoEv9BrnXsq3665cp0WyaJZ9DDFf1TRASaGFQ8i3Sd/
- ps3I1soUTsV0y7i0/ofFIPqKpo/z0KdfuUge7tHGstoKrDKJx1bmZY+zt5R0Wb0i
- ES3d1dQLubn0/HLhnc7OMtRxTG1uLjJ2ik5B1tzOm4MAMkduAN2BL0XO2CVj961A
- ==
-X-ME-Sender: <xms:JwWkXxKhhRSpM0PaosDjBqflM9TUkoKarLNbiXkxAEm61MgZAzQbXA>
- <xme:JwWkX9LcKSwTupwTX5A7-1-9xKL7ko6b7J2JLPaxTzweHCh8tRMMZkvJRttoI564r
- EGTdzct37cXPGZK-gw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtjedgheelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:JwWkX5sJMA8dVBR8iPS1209Y4sEZ7AQj64JS3BTOsjcz47CX4ue4DA>
- <xmx:JwWkXybF3ClYKoHVZxXHB0YOGiW5Oel6dYWFtta44X79MJMAnNMPWQ>
- <xmx:JwWkX4bZaxuv1_NYx0qRZ2B1cm4-y0JQlWsTcdR_hu8BIUu5VTryKg>
- <xmx:JwWkX-w9uqDGQLgxbTxSxELZVgQsl957rAPLLcQsdHIfOn5saQuAPQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 54535306005C;
- Thu,  5 Nov 2020 08:59:03 -0500 (EST)
-Date: Thu, 5 Nov 2020 14:59:02 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-Subject: Re: [PATCH v2 7/7] drm/vc4: kms: Don't disable the muxing of an
- active CRTC
-Message-ID: <20201105135902.qycsbsvkns6e66fe@gilmour.lan>
-References: <cover.3eb3532def69f3610b18104e45b7274bbdc1b0a0.1603888799.git-series.maxime@cerno.tech>
- <CGME20201029081313epcas1p165edbd0c8e54d978a8130f5fb9d2a422@epcas1p1.samsung.com>
- <469ead5de989938fcf079505cbc232a620e713bc.1603888799.git-series.maxime@cerno.tech>
- <19c6fec6-c118-6229-f683-e180ce2631b4@samsung.com>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBAAE6E111
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:18:29 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id f9so2539647lfq.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 06:18:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=a5y+ASdbJF7UbQ+vp77BCT2KDi+gpOYaKC8ivtEOGj0=;
+ b=g4l+hVmvZJ+r32x9EsssFNsZ5oXkz9HqijwiMWB20Hs8LV8tDeXO5wDP2AG/Ia3GaI
+ Hwuea13bqdIIKnem0td0/UpNjHWgB9DVjy6hdPRCWVbFoNJzj4M0fZUFU/7RNBU4rt3k
+ kc9tlA0jovLN0Gusx603CbzP46guXz28PiRbiR3kuvvviuP6Rb5iGKwNBBBKtt9lmPld
+ D87eVIe2ld++drVrg0eJZY1aSlqZ4dpJU4tfJCdDrFPZ7eVkJFF2a93Zl0nVR6L6/l3m
+ hrI6o51kHJEVFgIEDT2hWkgqUBcql4bZDnxqmeku7yRtNmSh5zeKlfoGUV2h+Y+8tAdf
+ yy6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=a5y+ASdbJF7UbQ+vp77BCT2KDi+gpOYaKC8ivtEOGj0=;
+ b=GRM0Emu+ADdGwsBGFckrJhDg+3GN9QRPsnRGf0aogLahRQtJpg7r3AwlE0k/9T736Y
+ cmtWoykx92shjMNs2pn8e/6XkWbIABhOphItyAXqI+NAWWUU+Y8CBVNGy4+o2rXQf08H
+ t7qC9tq5JqUKOKlmsvuwAiaTmKM8g/ptCG4NMciYfiZBpegiIoMhNbH44d0CYvE/n6pJ
+ HRv0JbR9/LpcwJqrHfILbr3EyZmedO52B/byTWZDYv7FHbOrCPdQJAQYc70XEjthHiPF
+ IqwmIp4vgltOJq7J08qhX1erPMBfUIIsTpVuVG2jgaMwqXMymbo5wiOGG4EdzQWwxEmH
+ q0Hg==
+X-Gm-Message-State: AOAM533GXo/SlS2p0qbtEohmKOi+bmBZoIyk5/oEE5nORiy2uP1rKPws
+ YTyVI8ksmTrDKwuVxwWbTGE=
+X-Google-Smtp-Source: ABdhPJwoANVa5YaT/Dinn/I6WAD0v1YZJaRBuao5eyb3VmVXegLCD7snX/bqOHRg8V3ordcvrgDQ6A==
+X-Received: by 2002:a19:ad04:: with SMTP id t4mr1028403lfc.577.1604585908263; 
+ Thu, 05 Nov 2020 06:18:28 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-83.dynamic.spd-mgts.ru.
+ [109.252.192.83])
+ by smtp.googlemail.com with ESMTPSA id q4sm162676ljp.103.2020.11.05.06.18.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 06:18:27 -0800 (PST)
+Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage
+ scaling
+To: Viresh Kumar <viresh.kumar@linaro.org>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-18-digetx@gmail.com>
+ <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
+Date: Thu, 5 Nov 2020 17:18:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <19c6fec6-c118-6229-f683-e180ce2631b4@samsung.com>
+In-Reply-To: <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Fri, 06 Nov 2020 08:34:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,215 +74,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1575230059=="
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ DTML <devicetree@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ driver-dev <devel@driverdev.osuosl.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============1575230059==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wxyq3fidkoqttkit"
-Content-Disposition: inline
-
-
---wxyq3fidkoqttkit
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-On Mon, Nov 02, 2020 at 05:47:04PM +0900, Hoegeun Kwon wrote:
-> Hi Maxime,
->=20
-> Thanks for V2 patch.
->=20
->=20
-> On 10/28/20 9:41 PM, Maxime Ripard wrote:
-> > The current HVS muxing code will consider the CRTCs in a given state to
-> > setup their muxing in the HVS, and disable the other CRTCs muxes.
-> >
-> > However, it's valid to only update a single CRTC with a state, and in t=
-his
-> > situation we would mux out a CRTC that was enabled but left untouched by
-> > the new state.
-> >
-> > Fix this by setting a flag on the CRTC state when the muxing has been
-> > changed, and only change the muxing configuration when that flag is the=
-re.
-> >
-> > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
-ally")
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >   drivers/gpu/drm/vc4/vc4_drv.h |  1 +-
-> >   drivers/gpu/drm/vc4/vc4_kms.c | 84 +++++++++++++++++++++-------------=
---
-> >   2 files changed, 50 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
-v.h
-> > index c6208b040f77..c074c0538e57 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> > @@ -523,6 +523,7 @@ struct vc4_crtc_state {
-> >   	struct drm_mm_node mm;
-> >   	bool feed_txp;
-> >   	bool txp_armed;
-> > +	bool needs_muxing;
-> >   	unsigned int assigned_channel;
-> >  =20
-> >   	struct {
-> > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
-s.c
-> > index 2aa726b7422c..409aeb19d210 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> > @@ -224,10 +224,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_de=
-v *vc4,
-> >   {
-> >   	struct drm_crtc_state *crtc_state;
-> >   	struct drm_crtc *crtc;
-> > -	unsigned char dsp2_mux =3D 0;
-> > -	unsigned char dsp3_mux =3D 3;
-> > -	unsigned char dsp4_mux =3D 3;
-> > -	unsigned char dsp5_mux =3D 3;
-> > +	unsigned char mux;
-> >   	unsigned int i;
-> >   	u32 reg;
-> >  =20
-> > @@ -235,50 +232,59 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_d=
-ev *vc4,
-> >   		struct vc4_crtc_state *vc4_state =3D to_vc4_crtc_state(crtc_state);
-> >   		struct vc4_crtc *vc4_crtc =3D to_vc4_crtc(crtc);
-> >  =20
-> > -		if (!crtc_state->active)
-> > +		if (!vc4_state->needs_muxing)
-> >   			continue;
-> >  =20
-> >   		switch (vc4_crtc->data->hvs_output) {
-> >   		case 2:
-> > -			dsp2_mux =3D (vc4_state->assigned_channel =3D=3D 2) ? 0 : 1;
-> > +			mux =3D (vc4_state->assigned_channel =3D=3D 2) ? 0 : 1;
-> > +			reg =3D HVS_READ(SCALER_DISPECTRL);
-> > +			HVS_WRITE(SCALER_DISPECTRL,
-> > +				  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
-> > +				  VC4_SET_FIELD(mux, SCALER_DISPECTRL_DSP2_MUX));
-> >   			break;
-> >  =20
-> >   		case 3:
-> > -			dsp3_mux =3D vc4_state->assigned_channel;
-> > +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
-> > +				mux =3D 3;
-> > +			else
-> > +				mux =3D vc4_state->assigned_channel;
-> > +
-> > +			reg =3D HVS_READ(SCALER_DISPCTRL);
-> > +			HVS_WRITE(SCALER_DISPCTRL,
-> > +				  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
-> > +				  VC4_SET_FIELD(mux, SCALER_DISPCTRL_DSP3_MUX));
-> >   			break;
-> >  =20
-> >   		case 4:
-> > -			dsp4_mux =3D vc4_state->assigned_channel;
-> > +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
-> > +				mux =3D 3;
-> > +			else
-> > +				mux =3D vc4_state->assigned_channel;
-> > +
-> > +			reg =3D HVS_READ(SCALER_DISPEOLN);
-> > +			HVS_WRITE(SCALER_DISPEOLN,
-> > +				  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
-> > +				  VC4_SET_FIELD(mux, SCALER_DISPEOLN_DSP4_MUX));
-> > +
-> >   			break;
-> >  =20
-> >   		case 5:
-> > -			dsp5_mux =3D vc4_state->assigned_channel;
-> > +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
-> > +				mux =3D 3;
-> > +			else
-> > +				mux =3D vc4_state->assigned_channel;
-> > +
-> > +			reg =3D HVS_READ(SCALER_DISPDITHER);
-> > +			HVS_WRITE(SCALER_DISPDITHER,
-> > +				  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
-> > +				  VC4_SET_FIELD(mux, SCALER_DISPDITHER_DSP5_MUX));
-> >   			break;
-> >  =20
-> >   		default:
-> >   			break;
-> >   		}
-> >   	}
-> > -
-> > -	reg =3D HVS_READ(SCALER_DISPECTRL);
-> > -	HVS_WRITE(SCALER_DISPECTRL,
-> > -		  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
-> > -		  VC4_SET_FIELD(dsp2_mux, SCALER_DISPECTRL_DSP2_MUX));
-> > -
-> > -	reg =3D HVS_READ(SCALER_DISPCTRL);
-> > -	HVS_WRITE(SCALER_DISPCTRL,
-> > -		  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
-> > -		  VC4_SET_FIELD(dsp3_mux, SCALER_DISPCTRL_DSP3_MUX));
-> > -
-> > -	reg =3D HVS_READ(SCALER_DISPEOLN);
-> > -	HVS_WRITE(SCALER_DISPEOLN,
-> > -		  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
-> > -		  VC4_SET_FIELD(dsp4_mux, SCALER_DISPEOLN_DSP4_MUX));
-> > -
-> > -	reg =3D HVS_READ(SCALER_DISPDITHER);
-> > -	HVS_WRITE(SCALER_DISPDITHER,
-> > -		  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
-> > -		  VC4_SET_FIELD(dsp5_mux, SCALER_DISPDITHER_DSP5_MUX));
-> >   }
-> >  =20
-> >   static void
-> > @@ -769,21 +775,29 @@ static int vc4_pv_muxing_atomic_check(struct drm_=
-device *dev,
-> >   		return -EINVAL;
-> >  =20
-> >   	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_=
-state, i) {
-> > +		struct vc4_crtc_state *old_vc4_crtc_state =3D
-> > +			to_vc4_crtc_state(old_crtc_state);
->=20
-> In my opinion, the old_vc4_crtc_state definition is better to move to=20
-> patch6.
-> Build error occurs in patch6 because old_vc4_crtc_state is used in patch6.
-
-You're totally right, I've fixed it in my third version, thanks!
-Maxime
-
---wxyq3fidkoqttkit
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6QFJgAKCRDj7w1vZxhR
-xZ2hAP4wEKZizsJhQ4Iv2J3mUACUh/6wbj7eQJ9EpqV6HOj6SwD+OYWSKXtx40J4
-uBBCidzBw+amMcU/OtX/i+JIxQHIygE=
-=fjgV
------END PGP SIGNATURE-----
-
---wxyq3fidkoqttkit--
-
---===============1575230059==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1575230059==--
+MDUuMTEuMjAyMCAxMjo1OCwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4+ICtzdGF0aWMgdm9p
+ZCBzZGhjaV90ZWdyYV9kZWluaXRfb3BwX3RhYmxlKHZvaWQgKmRhdGEpCj4+ICt7Cj4+ICsgICAg
+ICAgc3RydWN0IGRldmljZSAqZGV2ID0gZGF0YTsKPj4gKyAgICAgICBzdHJ1Y3Qgb3BwX3RhYmxl
+ICpvcHBfdGFibGU7Cj4+ICsKPj4gKyAgICAgICBvcHBfdGFibGUgPSBkZXZfcG1fb3BwX2dldF9v
+cHBfdGFibGUoZGV2KTsKPiBTbyB5b3UgbmVlZCB0byBnZXQgYW4gT1BQIHRhYmxlIHRvIHB1dCBv
+bmUgOikKPiBZb3UgbmVlZCB0byBzYXZlIHRoZSBwb2ludGVyIHJldHVybmVkIGJ5IGRldl9wbV9v
+cHBfc2V0X3JlZ3VsYXRvcnMoKSBpbnN0ZWFkLgoKVGhpcyBpcyBpbnRlbnRpb25hbCBiZWNhdXNl
+IHdoeSBkbyB3ZSBuZWVkIHRvIHNhdmUgdGhlIHBvaW50ZXIgaWYgd2UncmUKbm90IHVzaW5nIGl0
+IGFuZCB3ZSBrbm93IHRoYXQgd2UgY291bGQgZ2V0IHRoaXMgcG9pbnRlciB1c2luZyBPUFAgQVBJ
+PwpUaGlzIGlzIGV4YWN0bHkgdGhlIHNhbWUgd2hhdCBJIGRpZCBmb3IgdGhlIENQVUZyZXEgZHJp
+dmVyIFsxXSA6KQoKWzFdCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L3Y1LjEwLXJj
+Mi9zb3VyY2UvZHJpdmVycy9jcHVmcmVxL3RlZ3JhMjAtY3B1ZnJlcS5jI0w5NwoKPj4gKyAgICAg
+ICBkZXZfcG1fb3BwX29mX3JlbW92ZV90YWJsZShkZXYpOwo+PiArICAgICAgIGRldl9wbV9vcHBf
+cHV0X3JlZ3VsYXRvcnMob3BwX3RhYmxlKTsKPj4gKyAgICAgICBkZXZfcG1fb3BwX3B1dF9vcHBf
+dGFibGUob3BwX3RhYmxlKTsKPj4gK30KPj4gKwo+PiArc3RhdGljIGludCBkZXZtX3NkaGNpX3Rl
+Z3JhX2luaXRfb3BwX3RhYmxlKHN0cnVjdCBkZXZpY2UgKmRldikKPj4gK3sKPj4gKyAgICAgICBz
+dHJ1Y3Qgb3BwX3RhYmxlICpvcHBfdGFibGU7Cj4+ICsgICAgICAgY29uc3QgY2hhciAqcm5hbWUg
+PSAiY29yZSI7Cj4+ICsgICAgICAgaW50IGVycjsKPj4gKwo+PiArICAgICAgIC8qIHZvbHRhZ2Ug
+c2NhbGluZyBpcyBvcHRpb25hbCAqLwo+PiArICAgICAgIGlmIChkZXZpY2VfcHJvcGVydHlfcHJl
+c2VudChkZXYsICJjb3JlLXN1cHBseSIpKQo+PiArICAgICAgICAgICAgICAgb3BwX3RhYmxlID0g
+ZGV2X3BtX29wcF9zZXRfcmVndWxhdG9ycyhkZXYsICZybmFtZSwgMSk7Cj4+ICsgICAgICAgZWxz
+ZQo+IAo+PiArICAgICAgICAgICAgICAgb3BwX3RhYmxlID0gZGV2X3BtX29wcF9nZXRfb3BwX3Rh
+YmxlKGRldik7Cj4gTmljZS4gSSBkaWRuJ3QgdGhpbmsgdGhhdCBzb21lb25lIHdpbGwgZW5kIHVw
+IGFidXNpbmcgdGhpcyBBUEkgYW5kIHNvIG1hZGUgaXQKPiBhdmFpbGFibGUgZm9yIGFsbCwgYnV0
+IHNvbWVvbmUganVzdCBkaWQgdGhhdC4gSSB3aWxsIGZpeCB0aGF0IGluIHRoZSBPUFAgY29yZS4K
+ClRoZSBkZXZfcG1fb3BwX3B1dF9yZWd1bGF0b3JzKCkgaGFuZGxlcyB0aGUgY2FzZSB3aGVyZSBy
+ZWd1bGF0b3IgaXMKbWlzc2luZyBieSBhY3RpbmcgYXMgZGV2X3BtX29wcF9nZXRfb3BwX3RhYmxl
+KCksIGJ1dCB0aGUKZGV2X3BtX29wcF9zZXRfcmVndWxhdG9ycygpIGRvZXNuJ3QgZG8gaXQuIEhl
+bmNlIEkgZG9uJ3QgdGhpbmsgdGhpcyBpcwphbiBhYnVzZSwgYnV0IHRoZSBPUFAgQVBJIGRyYXdi
+YWNrLgoKPiBBbnkgaWRlYSB3aHkgeW91IGFyZSBkb2luZyB3aGF0IHlvdSBhcmUgZG9pbmcgaGVy
+ZSA/CgpUd28gcmVhc29uczoKCjEuIFZvbHRhZ2UgcmVndWxhdG9yIGlzIG9wdGlvbmFsLCBidXQg
+ZGV2X3BtX29wcF9zZXRfcmVndWxhdG9ycygpCmRvZXNuJ3Qgc3VwcG9ydCBvcHRpb25hbCByZWd1
+bGF0b3JzLgoKMi4gV2UgbmVlZCB0byBiYWxhbmNlIHRoZSBvcHBfdGFibGUgcmVmY291bnQgaW4g
+b3JkZXIgdG8gdXNlIE9QUCBBUEkKd2l0aG91dCBwb2xsdXRpbmcgY29kZSB3aXRoIGlmKGhhdmVf
+cmVndWxhdG9yKSwgaGVuY2UgdGhlCmRldl9wbV9vcHBfZ2V0X29wcF90YWJsZSgpIGlzIG5lZWRl
+ZCBmb3IgdGFraW5nIHRoZSBvcHBfdGFibGUgcmVmZXJlbmNlCnRvIGhhdmUgdGhlIHNhbWUgcmVm
+Y291bnQgYXMgaW4gdGhlIGNhc2Ugb2YgdGhlIGRldl9wbV9vcHBfc2V0X3JlZ3VsYXRvcnMoKS4K
+CkkgZ3Vlc3Mgd2UgY291bGQgbWFrZSBkZXZfcG1fb3BwX3NldF9yZWd1bGF0b3JzKGRldiwgY291
+bnQpIHRvIGFjY2VwdApyZWd1bGF0b3JzIGNvdW50PTAgYW5kIHRoZW4gYWN0IGFzIGRldl9wbV9v
+cHBfZ2V0X29wcF90YWJsZShkZXYpLCB3aWxsCml0IGJlIGFjY2VwdGFibGU/Cl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
