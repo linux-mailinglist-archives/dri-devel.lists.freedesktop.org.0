@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74352A7490
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:08:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEE42A74B4
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:12:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 489366E86F;
-	Thu,  5 Nov 2020 01:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBBD6E8FC;
+	Thu,  5 Nov 2020 01:12:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5576E86F
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:08:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1FE6E8FC
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:12:14 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRQQ316BDz9sTK;
- Thu,  5 Nov 2020 12:08:43 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CRQV36PYdz9sTK;
+ Thu,  5 Nov 2020 12:12:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1604538524;
- bh=oi6ob72AUai3KbvsuEo7KDpVVeH1BIO8XzCS7g+cu0Q=;
+ s=201702; t=1604538732;
+ bh=VAlFI4XMN6eTaAbjjjkOrxdNBpK/KCzOLmOXnS2QvBk=;
  h=Date:From:To:Cc:Subject:From;
- b=YsOc8d2tvWJfY32gPLUhB+BRKi/UOnuoOrVHJex29FfmNSUP6U9aLBv23fV8ZpI9X
- DRnP4NM1wKZuqX9Txuk9b65sg5FjBHI709aX2x25+ABSJAnMQefmUv9AVXOq0LP6YV
- wvodQd885KiGajwDeks28TmnvhWzFhw8fzN5WG6B40SLFn92wAIiiPgssS4CgS8pw0
- VK0DWuqt8XqtAU9yqEkA+Ve+A08fZ2Qpj8E6c8BVz3E2+/f4Q8+bnTM4Lj79Pwwd5C
- v6mxCnOyA+Os7+19tJHZEMmdi/4oaCuTvy0uWSyllzgUOAIpAh9K03eIjEbtqDhH1b
- MjuzlnVB/dyrg==
-Date: Thu, 5 Nov 2020 12:08:41 +1100
+ b=MMBFxumTrIHj20xbLZbDa3UmnxiFgqQn3xK5K8668IkhPMQxcrr07aSWqyqyiAWiQ
+ mD131Ul2PNPrdSifA25eXK7S8Aidf19UgVpaE5xYCPIRjghb8+P34iRmr2HwcqEGuF
+ XO0QZy3Fumg+fsomX3t0qaSmLrG9KYifzXUpZZ0KYk9mpMqfL5RPwek9ByV+Lj1Y2o
+ LbVWqxcLpbFXHaIU24aQdq+9DBRhhfZqDMrMo5h2pIYYxaWVQ7XPkH8tkjQ3iiDzmf
+ +xrSqNV4onjs0QO5bDIDmZ6N50dbIFyGu2jhPZvww/TcJ7ikIR2HZYpazFA1gAKyHF
+ rGyxgAnWhzrzw==
+Date: Thu, 5 Nov 2020 12:12:11 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Dave
  Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
 Subject: linux-next: manual merge of the drm-msm tree with the drm tree
-Message-ID: <20201105120841.353f981f@canb.auug.org.au>
+Message-ID: <20201105121211.0342302f@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,20 +47,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+Cc: Rob Clark <robdclark@chromium.org>,
  Linux Next Mailing List <linux-next@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============2018489301=="
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: multipart/mixed; boundary="===============1610819434=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2018489301==
-Content-Type: multipart/signed; boundary="Sig_/VgW/34rCHsR3f3Z4QlQZIf1";
+--===============1610819434==
+Content-Type: multipart/signed; boundary="Sig_/HKw2_5wHhMEYNQRMrIWYit1";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/VgW/34rCHsR3f3Z4QlQZIf1
+--Sig_/HKw2_5wHhMEYNQRMrIWYit1
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -68,71 +67,73 @@ Hi all,
 
 Today's linux-next merge of the drm-msm tree got a conflict in:
 
-  include/drm/drm_crtc.h
+  drivers/gpu/drm/msm/msm_drv.h
 
 between commit:
 
-  5c759eda9b04 ("drm: Introduce plane and CRTC scaling filter properties")
+  3c9edd9c85f5 ("drm/msm: Introduce GEM object funcs")
 
 from the drm tree and commit:
 
-  cb21f3f882ad ("drm/msm/atomic: Drop per-CRTC locks in reverse order")
+  8f642378bfe5 ("drm/msm/gem: Move prototypes to msm_gem.h")
 
 from the drm-msm tree.
 
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
+I fixed it up (I used the former version of this flie and added the
+following fix patch) and can carry the fix as necessary. This is now fixed
+as far as linux-next is concerned, but any non trivial conflicts should
+be mentioned to your upstream maintainer when your tree is submitted for
+merging.  You may also want to consider cooperating with the maintainer
+of the conflicting tree to minimise any particularly complex conflicts.
+
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+Date: Thu, 5 Nov 2020 12:10:23 +1100
+Subject: [PATCH] drm/msm/gem: fix up for "drm/msm: Introduce GEM object fun=
+cs"
+
+Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
+---
+ drivers/gpu/drm/msm/msm_gem.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index d79e7019cc88..9c422af6dd49 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -94,7 +94,6 @@ struct msm_gem_object {
+ int msm_gem_mmap_obj(struct drm_gem_object *obj,
+ 			struct vm_area_struct *vma);
+ int msm_gem_mmap(struct file *filp, struct vm_area_struct *vma);
+-vm_fault_t msm_gem_fault(struct vm_fault *vmf);
+ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+ int msm_gem_get_iova(struct drm_gem_object *obj,
+ 		struct msm_gem_address_space *aspace, uint64_t *iova);
+--=20
+2.28.0
 
 --=20
 Cheers,
 Stephen Rothwell
 
-diff --cc include/drm/drm_crtc.h
-index ba839e5e357d,cd42f79b2890..000000000000
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@@ -1279,7 -1266,14 +1279,17 @@@ static inline struct drm_crtc *drm_crtc
-  #define drm_for_each_crtc(crtc, dev) \
-  	list_for_each_entry(crtc, &(dev)->mode_config.crtc_list, head)
- =20
-+ /**
-+  * drm_for_each_crtc_reverse - iterate over all CRTCs in reverse order
-+  * @crtc: a &struct drm_crtc as the loop cursor
-+  * @dev: the &struct drm_device
-+  *
-+  * Iterate over all CRTCs of @dev.
-+  */
-+ #define drm_for_each_crtc_reverse(crtc, dev) \
-+ 	list_for_each_entry_reverse(crtc, &(dev)->mode_config.crtc_list, head)
-+=20
- +int drm_crtc_create_scaling_filter_property(struct drm_crtc *crtc,
- +					    unsigned int supported_filters);
- +
-  #endif /* __DRM_CRTC_H__ */
-
---Sig_/VgW/34rCHsR3f3Z4QlQZIf1
+--Sig_/HKw2_5wHhMEYNQRMrIWYit1
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jUJkACgkQAVBC80lX
-0Gy6Cwf/QxAeZjebZ/IxdQIW1crxIQZGPZDVgLWJXs6SHFzngnDKii8K3gcT1bIj
-YV37+qbUl4T75Gna+aYu4G7kcGOEUDPkr5POK1QGyZ9qRfyrTwm0p6TOz6K9GmDt
-PNtGUpDOWMzRqnQHvyZPX1ZjhH06t3EvdOThZAwLeKpBIKnfBZ/U67BSSkBwrz5x
-FG456q/is2Z680HIXxWShdjSiSCbAiqS6vHHWG9tpBEQ9TwlpkaZbmnf3KMWI4CK
-GLA6NNWls2nCOpO1lcyDQOUNBMlgfNBJZvYIt3l+VGZP5Gsv/N7Y4Ovx6KP5bULQ
-H68fJrwfoVj+jmBZ0Vts+eP34fytig==
-=huOO
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+jUWsACgkQAVBC80lX
+0GwljwgAgw+7BqWWL4s+lxlnRO5JkJ0kfD5PZczl0mjQsZjICkodrG48KQiBwyBe
+PH0Y+CY/+TrdT1kB1F/tMMsgrLvhcT8w3K6qdN0iIozM1WPvM4my5Qs7mYPtGSwH
+nV/dwgvSCC5uQ5QN6oHimHVYYa6qMNusyHZXrWQz0m5gDjoPNvhC6UkERLaeZfQL
+QhqK11jPUI7PN37Wa+GWtfAVFmL5bqvBUfJkH+4ERSLnCNL2tlNvYC/47/Zbv/cR
+7lYvlhnLtK8iaEgnFLdKNY3NnD8+NhoSCdxp5rK3I7Ud09+Y29t9qMTpzCwbnGpE
+fh6pcm7JVax67YvTRFgtqU1k+X0HCQ==
+=DGF6
 -----END PGP SIGNATURE-----
 
---Sig_/VgW/34rCHsR3f3Z4QlQZIf1--
+--Sig_/HKw2_5wHhMEYNQRMrIWYit1--
 
---===============2018489301==
+--===============1610819434==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -143,4 +144,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2018489301==--
+--===============1610819434==--
