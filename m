@@ -2,41 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832302A74C7
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 02:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C692A7535
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 03:07:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69CF96E96D;
-	Thu,  5 Nov 2020 01:16:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E31AA89C13;
+	Thu,  5 Nov 2020 02:07:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A57F6E96D
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 01:16:02 +0000 (UTC)
-IronPort-SDR: tdk7jT4JXU7jy4TvIWRKub+w+ylaFoNwpaj61LNY/5oSs5NyI8JXv2Bw47kVmqjYWGxMiDBvvD
- oV405gE6DiQA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="166721715"
-X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="166721715"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Nov 2020 17:16:01 -0800
-IronPort-SDR: ffXEUnexQVKwtRw+6B38uz8NKcYHY4uLIylm9MCQK3dAlFteIvSHfFy9MVRf/rC45J/2z7zJq2
- Y8lPPFt593nA==
-X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; d="scan'208";a="471445699"
-Received: from pschung-mobl.amr.corp.intel.com (HELO
- achrisan-DESK2.amr.corp.intel.com) ([10.255.72.205])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
- 04 Nov 2020 17:16:00 -0800
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	anitha.chrisanthus@intel.com
-Subject: [PATCH v13 7/7] drm/kmb: Build files for KeemBay Display driver
-Date: Wed,  4 Nov 2020 17:15:31 -0800
-Message-Id: <1604538931-26726-8-git-send-email-anitha.chrisanthus@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1604538931-26726-1-git-send-email-anitha.chrisanthus@intel.com>
-References: <1604538931-26726-1-git-send-email-anitha.chrisanthus@intel.com>
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636A889C13
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:07:07 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+ by mailout1.samsung.com (KnoxPortal) with ESMTP id
+ 20201105020704epoutp0170e882badb039b3ade319c4bce630f8a~EenhrMoqb2881028810epoutp01K
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 02:07:04 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
+ 20201105020704epoutp0170e882badb039b3ade319c4bce630f8a~EenhrMoqb2881028810epoutp01K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1604542024;
+ bh=pitRzO3m19arHuQUPX0y+i+VT7w1wenaW8mQl65pPLI=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=Jo9iTdIXm3f69sHqAlKyPe8Jeu9q46dXtQAMUR5PjV4ABgsUAIZ689MkIlQ+PuaaW
+ ohm5WZEMXE5V9S1w3GJpcQbhGsPV137tU7HjnyMlfJ0TwtvFCkzd0vGr4zxeQvhUDJ
+ VqCu9AcAu1TZyvLx1GHWxQUrs5d+F3BdXI2rK7Ws=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+ 20201105020704epcas1p37659b49e474f028357aa1ef1865eae99~EenhMMSWf2487524875epcas1p3C;
+ Thu,  5 Nov 2020 02:07:04 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.155]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4CRRjL26wJzMqYm4; Thu,  5 Nov
+ 2020 02:07:02 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ F7.7B.63458.34E53AF5; Thu,  5 Nov 2020 11:07:00 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201105020659epcas1p1785d0bdc28b3a4356b966b51199d11cd~Eencory1m2178921789epcas1p1p;
+ Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20201105020659epsmtrp284cd9b1d6af1b871615e708170057f0f~Eencnr0tL1423014230epsmtrp2A;
+ Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
+X-AuditID: b6c32a36-6dfff7000000f7e2-b9-5fa35e43739c
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 2D.5F.13470.34E53AF5; Thu,  5 Nov 2020 11:06:59 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+ epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201105020659epsmtip2cf6e0d069b227ae5a5976ab4d7d2d2e0~EencPG1Tl0697506975epsmtip2i;
+ Thu,  5 Nov 2020 02:06:59 +0000 (GMT)
+Subject: Re: [PATCH v8 0/7] Exynos: Simple QoS for exynos-bus using
+ interconnect
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>, georgi.djakov@linaro.org,
+ krzk@kernel.org
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <25228d5e-4bc3-2e61-6bd5-43e66ae82244@samsung.com>
+Date: Thu, 5 Nov 2020 11:20:55 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+ Thunderbird/59.0
+MIME-Version: 1.0
+In-Reply-To: <20201104103657.18007-1-s.nawrocki@samsung.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrBJsWRmVeSWpSXmKPExsWy7bCmvq5L3OJ4g+nXmSzuz2tltNg4Yz2r
+ xfwj51gtrnx9z2Yxfe8mNotJ9yewWJw/v4HdYtPja6wWl3fNYbP43HuE0WLG+X1MFmuP3GW3
+ uN24gs2ide8RdovDb9pZLWZMfsnmIOCxaVUnm8eda3vYPO53H2fy2Lyk3qNvyypGj8+b5ALY
+ orJtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4DuVlIo
+ S8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUWBboFSfmFpfmpesl5+daGRoYGJkCFSZk
+ Z1z5cJy54JB2xcFnyg2M25W6GDk5JARMJJp3LGXrYuTiEBLYwSixp7ODCcL5xChxrvMFO4Tz
+ jVHi6J1lrDAtl5auZ4FI7GWUeHj8MyOE855R4tfjD0wgVcICQRLtL88AtXNwiAjESKx/FwFS
+ wyzwgUni/6uHYDVsAloS+1/cYAOx+QUUJa7+eMwIYvMK2Ek8P/CDDaSXRUBF4vr/ApCwqECY
+ xMltLVAlghInZz5hAbE5BWwkLn5uZgexmQXEJW49mc8EYctLNG+dzQyyV0LgCYfE+nu9bBAf
+ uEi07FrPCGELS7w6voUdwpaS+PxuL1RNtcTKk0fYIJo7GCW27L8A9b6xxP6lk5lAjmMW0JRY
+ v0sfIqwosfP3XEaIxXwS7772sIKUSAjwSnS0CUGUKEtcfnCXCcKWlFjc3sk2gVFpFpJ3ZiF5
+ YRaSF2YhLFvAyLKKUSy1oDg3PbXYsMAIObI3MYKTtJbZDsZJbz/oHWJk4mA8xCjBwawkwnvB
+ b1G8EG9KYmVValF+fFFpTmrxIUZTYPhOZJYSTc4H5om8knhDUyNjY2MLE0MzU0NDJXHeP9od
+ 8UIC6YklqdmpqQWpRTB9TBycUg1MKeeCCvhF0uoVEgKr57mdYt5aGqH84euWOG4dl62H5wU+
+ CWWV9LpgXyzh2P3pevbMH/nGDzpf3z6/rvpnXVNLplV16nZV82dLwq/umbM++8f/pEv9V8p2
+ 6M82/GX6Z3v051Vhoj6rmB7tuyu+OO3FV7cZzVzd30U1ZvjNfKm3TOz0U4ZEkyNLVx/rtLkR
+ 3Lr70aWr610juCUrb6yVn2C+uiR9w1vxRbMUmEUcXCYKivgcy7ITfvn3ZGy59RG7IsFlPcXy
+ gS8qGPg8rK+evbxm6XX9DXrnnlxIsX301aXT54mfrFzm1YVyO38fZNFdG/tdQfPf7+tZeQKx
+ NSrKed/P6ySuaH8U8n3t8hVGoQ7ySizFGYmGWsxFxYkAGLBAg1sEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMIsWRmVeSWpSXmKPExsWy7bCSvK5z3OJ4g8PdAhb357UyWmycsZ7V
+ Yv6Rc6wWV76+Z7OYvncTm8Wk+xNYLM6f38BusenxNVaLy7vmsFl87j3CaDHj/D4mi7VH7rJb
+ 3G5cwWbRuvcIu8XhN+2sFjMmv2RzEPDYtKqTzePOtT1sHve7jzN5bF5S79G3ZRWjx+dNcgFs
+ UVw2Kak5mWWpRfp2CVwZVz4cZy44pF1x8JlyA+N2pS5GTg4JAROJS0vXs3QxcnEICexmlFh7
+ opcFIiEpMe3iUeYuRg4gW1ji8OFiiJq3jBLb22awgdQICwRJtL88ww5iiwjESJyaPAtsELPA
+ ByaJQ3M7GSE6+hklbr5fzApSxSagJbH/xQ2wbn4BRYmrPx4zgti8AnYSzw/8YAPZxiKgInH9
+ fwFIWFQgTGLnksdMECWCEidnPgE7jlPARuLi52awxcwC6hJ/5l1ihrDFJW49mc8EYctLNG+d
+ zTyBUXgWkvZZSFpmIWmZhaRlASPLKkbJ1ILi3PTcYsMCw7zUcr3ixNzi0rx0veT83E2M4HjV
+ 0tzBuH3VB71DjEwcjIcYJTiYlUR4L/gtihfiTUmsrEotyo8vKs1JLT7EKM3BoiTOe6NwYZyQ
+ QHpiSWp2ampBahFMlomDU6qBKUj2S8hy1z97TXTyrt8QKOd7J//siKxukYtHnXaIaPTsLytL
+ lJ1/zE59uDmsxKNp4fFrQuy3Ncy+lT1j1/ascDyR2vL7qyrLspyZIqGHZ4V9+2g92TrkxSWO
+ pddn7U/jr6+UZLrgM+vA/cU/G4wqug83/eScsrZ2geruSdV7fef7/wvcqrOb3zX/84KvKs6q
+ Im8s+tVK5nF9mbxj5WKzSx6LmvRMowykpzzwYlxo9v7ocpbPC5SfxWQcm1bw7VeHyc7wfH/u
+ hJrvP8ND5K9fyytU2sM8O/9qCKPalOpp957Nr31qsP1KT6C6QdeGjswaVqsP6gbJVeovyzMD
+ lx0pObPRQM/e1l1pxwHmloRoJZbijERDLeai4kQA7yQn5EYDAAA=
+X-CMS-MailID: 20201105020659epcas1p1785d0bdc28b3a4356b966b51199d11cd
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e
+References: <CGME20201104103713eucas1p2d21b6f936aa18725ae4b4878f3be0a8e@eucas1p2.samsung.com>
+ <20201104103657.18007-1-s.nawrocki@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,103 +119,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: edmund.j.dea@intel.com, sam@ravnborg.org, narmstrong@baylibre.com
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ b.zolnierkie@samsung.com, linux-pm@vger.kernel.org, sw0312.kim@samsung.com,
+ a.swigon@samsung.com, robh+dt@kernel.org, linux-kernel@vger.kernel.org,
+ myungjoo.ham@samsung.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, m.szyprowski@samsung.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2: Added Maintainer entry
-v3: Added one more Maintainer entry
-v3: drop videomode_helpers
-
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
----
- MAINTAINERS                  |  7 +++++++
- drivers/gpu/drm/Kconfig      |  2 ++
- drivers/gpu/drm/Makefile     |  1 +
- drivers/gpu/drm/kmb/Kconfig  | 12 ++++++++++++
- drivers/gpu/drm/kmb/Makefile |  2 ++
- 5 files changed, 24 insertions(+)
- create mode 100644 drivers/gpu/drm/kmb/Kconfig
- create mode 100644 drivers/gpu/drm/kmb/Makefile
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 71e29dc..c82ea76 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8961,6 +8961,13 @@ M:	Deepak Saxena <dsaxena@plexity.net>
- S:	Maintained
- F:	drivers/char/hw_random/ixp4xx-rng.c
- 
-+INTEL KEEMBAY DRM DRIVER
-+M:	Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-+M:	Edmund Dea <edmund.j.dea@intel.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/intel,kmb_display.yaml
-+F:	drivers/gpu/drm/kmb/
-+
- INTEL MANAGEMENT ENGINE (mei)
- M:	Tomas Winkler <tomas.winkler@intel.com>
- L:	linux-kernel@vger.kernel.org
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 64376dd..3dc293c 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -268,6 +268,8 @@ source "drivers/gpu/drm/nouveau/Kconfig"
- 
- source "drivers/gpu/drm/i915/Kconfig"
- 
-+source "drivers/gpu/drm/kmb/Kconfig"
-+
- config DRM_VGEM
- 	tristate "Virtual GEM provider"
- 	depends on DRM
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 8156900..fefaff4c 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_DRM_AMDGPU)+= amd/amdgpu/
- obj-$(CONFIG_DRM_MGA)	+= mga/
- obj-$(CONFIG_DRM_I810)	+= i810/
- obj-$(CONFIG_DRM_I915)	+= i915/
-+obj-$(CONFIG_DRM_KMB_DISPLAY)  += kmb/
- obj-$(CONFIG_DRM_MGAG200) += mgag200/
- obj-$(CONFIG_DRM_V3D)  += v3d/
- obj-$(CONFIG_DRM_VC4)  += vc4/
-diff --git a/drivers/gpu/drm/kmb/Kconfig b/drivers/gpu/drm/kmb/Kconfig
-new file mode 100644
-index 0000000..2dd7e68
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Kconfig
-@@ -0,0 +1,12 @@
-+config DRM_KMB_DISPLAY
-+	tristate "INTEL KEEMBAY DISPLAY"
-+	depends on DRM && OF && (ARM || ARM64)
-+	depends on COMMON_CLK
-+	select DRM_KMS_HELPER
-+	select DRM_KMS_CMA_HELPER
-+	select DRM_GEM_CMA_HELPER
-+	help
-+	Choose this option if you have Intel's KeemBay SOC which integrates
-+	an ARM Cortex A53 CPU with an Intel Movidius VPU.
-+
-+	If M is selected the module will be called kmb-drm.
-diff --git a/drivers/gpu/drm/kmb/Makefile b/drivers/gpu/drm/kmb/Makefile
-new file mode 100644
-index 0000000..527d737
---- /dev/null
-+++ b/drivers/gpu/drm/kmb/Makefile
-@@ -0,0 +1,2 @@
-+kmb-drm-y := kmb_crtc.o kmb_drv.o kmb_plane.o kmb_dsi.o
-+obj-$(CONFIG_DRM_KMB_DISPLAY)	+= kmb-drm.o
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgU3lsd2VzdGVyLAoKT24gMTEvNC8yMCA3OjM2IFBNLCBTeWx3ZXN0ZXIgTmF3cm9ja2kgd3Jv
+dGU6Cj4gVGhpcyBwYXRjaHNldCBhZGRzIGludGVyY29ubmVjdCBBUEkgc3VwcG9ydCBmb3IgdGhl
+IEV4eW5vcyBTb0MgInNhbXN1bmcsCj4gZXh5bm9zLWJ1cyIgY29tcGF0aWJsZSBkZXZpY2VzLCB3
+aGljaCBhbHJlYWR5IGhhdmUgdGhlaXIgY29ycmVzcG9uZGluZwo+IGV4eW5vcy1idXMgZHJpdmVy
+IGluIHRoZSBkZXZmcmVxIHN1YnN5c3RlbS4gIENvbXBsZW1lbnRpbmcgdGhlIGRldmZyZXEKPiBk
+cml2ZXIgd2l0aCBhbiBpbnRlcmNvbm5lY3QgZnVuY3Rpb25hbGl0eSBhbGxvd3MgdG8gZW5zdXJl
+IHRoZSBRb1MKPiByZXF1aXJlbWVudHMgb2YgZGV2aWNlcyBhY2Nlc3NpbmcgdGhlIHN5c3RlbSBt
+ZW1vcnkgKGUuZy4gdmlkZW8gcHJvY2Vzc2luZwo+IGRldmljZXMpIGFyZSBmdWxmaWxsZWQgYW5k
+IGFhbGxvd3MgdG8gYXZvaWQgaXNzdWVzIGxpa2UgdGhlIG9uZSBkaXNjdXNzZWQKPiBpbiB0aHJl
+YWQgWzFdLgo+IAo+IFRoaXMgcGF0Y2ggc2VyaWVzIGFkZHMgaW1wbGVtZW50YXRpb24gb2YgdGhl
+IGludGVyY29ubmVjdCBwcm92aWRlciBwZXIgZWFjaAo+ICJzYW1zdW5nLGV4eW5vcy1idXMiIGNv
+bXBhdGlibGUgRFQgbm9kZSwgd2l0aCBvbmUgaW50ZXJjb25uZWN0IG5vZGUgcGVyCj4gcHJvdmlk
+ZXIuICBUaGUgaW50ZXJjb25uZWN0IGNvZGUgd2hpY2ggd2FzIHByZXZpb3VzbHkgYWRkZWQgYXMg
+YSBwYXJ0IG9mCj4gdGhlIGRldmZyZXEgZHJpdmVyIGhhcyBiZWVuIGNvbnZlcnRlZCB0byBhIHNl
+cGFyYXRlIHBsYXRmb3JtIGRyaXZlci4KPiBJbiB0aGUgZGV2ZnJlcSBhIGNvcnJlc3BvbmRpbmcg
+dmlydHVhbCBjaGlsZCBwbGF0Zm9ybSBkZXZpY2UgaXMgcmVnaXN0ZXJlZC4KPiBJbnRlZ3JhdGlv
+biBvZiBkZXZmcmVxIGFuZCBpbnRlcmNvbm5lY3QgZnJhbWV3b3JrcyBpcyBhY2hpZXZlZCB0aHJv
+dWdoCj4gdGhlIFBNIFFvUyBBUEkuCj4gCj4gQSBzYW1wbGUgaW50ZXJjb25uZWN0IGNvbnN1bWVy
+IGZvciBleHlub3MtbWl4ZXIgaXMgYWRkZWQgaW4gcGF0Y2hlcyA2LzcsCj4gNy83LCBpdCBpcyBj
+dXJyZW50bHkgYWRkZWQgb25seSBmb3IgZXh5bm9zNDQxMiBhbmQgYWxsb3dzIHRvIGFkZHJlc3Mg
+dGhlCj4gbWl4ZXIgRE1BIHVuZGVycnVuIGVycm9yIGlzc3VlcyBbMV0uCj4gCj4gQ2hhbmdlcyBz
+aW5jZSB2NzoKPiAgLSBkcml2ZXJzL2ludGVyY29ubmVjdC9leHlub3MgcmVuYW1lZCB0byBkcml2
+ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nLAo+ICAtIGFkZGVkIElOVEVSQ09OTkVDVF9TQU1TVU5H
+IEtjb25maWcgc3ltYm9sLAo+ICAtIGFkZGVkIG1pc3NpbmcgZHJpdmVyIHN5bmNfc3RhdGUgY2Fs
+bGJhY2ssCj4gIC0gaW1wcm92ZWQgdGhlIERUIGJpbmRpbmcgZGVzY3JpcHRpb24sCj4gIC0gYWRk
+ZWQgYSBwYXRjaCBhZGRpbmcgbWFpbnRhaW5lcnMgZW50cnksCj4gIC0gdXBkYXRlZCBjb21tZW50
+IGluIHBhdGNoIDcvNywgdHlwbyBmaXggKHBhdGNoIDEvNykuCj4gCj4gVGhlIHNlcmllcyBoYXMg
+YmVlbiB0ZXN0ZWQgb24gT2Ryb2lkIFUzIGJvYXJkLiBJdCBpcyBiYXNlZCBvbiB2NS4xMC1yYzEu
+Cj4gCj4gLS0KPiBSZWdhcmRzLAo+IFN5bHdlc3Rlcgo+IAo+IENoYW5nZXMgc2luY2UgdjY6Cj4g
+IC0gdGhlIGludGVyY29ubmVjdCBjb25zdW1lciBEVCBiaW5kaW5ncyBhcmUgbm93IHVzZWQgdG8g
+ZGVzY3JpYmUgZGVwZW5kZW5jaWVzCj4gICAgb2YgdGhlIGludGVyY29ubmVjdHMgKHNhbXN1bmcs
+ZXh5bm9zLWJ1cyBub2RlcyksCj4gIC0gYnVzLXdpZHRoIHByb3BlcnR5IHJlcGxhY2VkIHdpdGgg
+c2Ftc3VuZyxkYXRhLWNsay1yYXRpbywKPiAgLSBhZGFwdGF0aW9uIHRvIHJlY2VudCBjaGFuZ2Vz
+IGluIHRoZSBpbnRlcmNvbm5lY3QgY29kZQo+ICAgIChvZl9pY2NfZ2V0X2Zyb21fcHJvdmlkZXIo
+KSwgaWNjX25vZGVfYWRkKCkpLgo+IAo+IENoYW5nZXMgc2luY2UgdjU6Cj4gIC0gYWRkaXRpb24g
+b2YgImJ1cy13aWR0aDogRFQgcHJvcGVydHksIHdoaWNoIHNwZWNpZmllcyBkYXRhIHdpZHRoCj4g
+ICAgb2YgdGhlIGludGVyY29ubmVjdCBidXMgKHBhdGNoZXMgMS4uLjIvNiksCj4gIC0gYWRkaXRp
+b24gb2Ygc3luY2hyb25pemF0aW9uIG9mIHRoZSBpbnRlcmNvbm5lY3QgYmFuZHdpZHRoIHNldHRp
+bmcKPiAgICB3aXRoIFZTWU5DIChwYXRjaCA2LzYpLgo+IAo+IENoYW5nZXMgc2luY2UgdjMgWzRd
+ICh2NCBza2lwcGVkIHRvIGFsaWduIHdpdGggcGF0Y2hzZXQgWzFdKSwgZGV0YWlsZWQKPiBjaGFu
+Z2VzIGFyZSBsaXN0ZWQgaW4gcGF0Y2hlczoKPiAgLSBjb252ZXJzaW9uIHRvIGEgc2VwYXJhdGUg
+aW50ZXJjb25uZWN0IChwbGF0Zm9ybSkgZHJpdmVyLAo+ICAtIGFuIHVwZGF0ZSBvZiB0aGUgRFQg
+YmluZGluZyBkb2N1bWVudGluZyBuZXcgb3B0aW9uYWwgcHJvcGVydGllczoKPiAgICAjaW50ZXJj
+b25uZWN0LWNlbGxzLCBzYW1zdW5nLGludGVyY29ubmVjdC1wYXJlbnQgaW4gInNhbXN1bmcsZXh5
+bm9zLWJ1cyIKPiAgICBub2RlcywKPiAgLSBuZXcgRFQgcHJvcGVydGllcyBhZGRlZCB0byB0aGUg
+U29DLCByYXRoZXIgdGhhbiB0byB0aGUgYm9hcmQgc3BlY2lmaWMKPiAgICBmaWxlcy4KPiAKPiBD
+aGFuZ2VzIHNpbmNlIHYyIFs1XToKPiAgLSBVc2UgaWNjX3N0ZF9hZ2dyZWdhdGUoKS4KPiAgLSBJ
+bXBsZW1lbnQgYSBkaWZmZXJlbnQgbW9kaWZpY2F0aW9uIG9mIGFwcGx5X2NvbnN0cmFpbnRzKCkg
+aW4KPiAgICBkcml2ZXJzL2ludGVyY29ubmVjdC9jb3JlLmMgKHBhdGNoIDAzKS4KPiAgLSBVc2Ug
+J2V4eW5vcyxpbnRlcmNvbm5lY3QtcGFyZW50LW5vZGUnIGluIHRoZSBEVCBpbnN0ZWFkIG9mCj4g
+ICAgJ2RldmZyZXEnLydwYXJlbnQnLCBkZXBlbmRpbmcgb24gdGhlIGJ1cy4KPiAgLSBSZWJhc2Ug
+b24gRFQgcGF0Y2hlcyB0aGF0IGRlcHJlY2F0ZSB0aGUgJ2RldmZyZXEnIERUIHByb3BlcnR5Lgo+
+ICAtIEltcHJvdmUgZXJyb3IgaGFuZGxpbmcsIGluY2x1ZGluZyBmcmVlaW5nIGdlbmVyYXRlZCBJ
+RHMgb24gZmFpbHVyZS4KPiAgLSBSZW1vdmUgZXh5bm9zX2J1c19pY2NfY29ubmVjdCgpIGFuZCBh
+ZGQgZXh5bm9zX2J1c19pY2NfZ2V0X3BhcmVudCgpLgo+IAo+IENoYW5nZXMgc2luY2UgdjEgWzZd
+Ogo+ICAtIFJlYmFzZSBvbiBjb3VwbGVkIHJlZ3VsYXRvcnMgcGF0Y2hlcy4KPiAgLSBVc2UgZGV2
+X3BtX3Fvc18qKCkgQVBJIGluc3RlYWQgb2Ygb3ZlcnJpZGluZyBmcmVxdWVuY3kgaW4KPiAgICBl
+eHlub3NfYnVzX3RhcmdldCgpLgo+ICAtIFVzZSBJRFIgZm9yIG5vZGUgSUQgYWxsb2NhdGlvbi4K
+PiAgLSBSZXZlcnNlIG9yZGVyIG9mIG11bHRpcGxpY2F0aW9uIGFuZCBkaXZpc2lvbiBpbgo+ICAg
+IG1peGVyX3NldF9tZW1vcnlfYmFuZHdpZHRoKCkgKHBhdGNoIDA3KSB0byBhdm9pZCBpbnRlZ2Vy
+IG92ZXJmbG93Lgo+IAo+IAo+IFJlZmVyZW5jZXM6Cj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmtl
+cm5lbC5vcmcvcGF0Y2gvMTA4NjE3NTcvIChvcmlnaW5hbCBpc3N1ZSkKPiBbMl0gaHR0cHM6Ly93
+d3cuc3Bpbmljcy5uZXQvbGlzdHMvbGludXgtc2Ftc3VuZy1zb2MvbXNnNzAwMTQuaHRtbAo+IFsz
+XSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9hcm0ta2VybmVsL21zZzgxMDcyMi5odG1s
+Cj4gWzRdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXBtLzIwMTkxMjIwMTE1NjUzLjY0
+ODctMS1hLnN3aWdvbkBzYW1zdW5nLmNvbQo+IFs1XSBodHRwczovL3BhdGNod29yay5rZXJuZWwu
+b3JnL2NvdmVyLzExMDU0NDE3LyAodjEgb2YgdGhpcyBSRkMpCj4gWzZdIGh0dHBzOi8vcGF0Y2h3
+b3JrLmtlcm5lbC5vcmcvY292ZXIvMTExNTI1OTUvICh2MiBvZiB0aGlzIFJGQykKPiAKPiAKPiBB
+cnR1ciDFmndpZ2/FhCAoMSk6Cj4gICBBUk06IGR0czogZXh5bm9zOiBBZGQgaW50ZXJjb25uZWN0
+cyB0byBFeHlub3M0NDEyIG1peGVyCj4gCj4gU3lsd2VzdGVyIE5hd3JvY2tpICg2KToKPiAgIGR0
+LWJpbmRpbmdzOiBkZXZmcmVxOiBBZGQgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIGludGVyY29ubmVj
+dAo+ICAgICBwcm9wZXJ0aWVzCj4gICBpbnRlcmNvbm5lY3Q6IEFkZCBnZW5lcmljIGludGVyY29u
+bmVjdCBkcml2ZXIgZm9yIEV4eW5vcyBTb0NzCj4gICBNQUlOVEFJTkVSUzogQWRkIGVudHJ5IGZv
+ciBTYW1zdW5nIGludGVyY29ubmVjdCBkcml2ZXJzCj4gICBQTSAvIGRldmZyZXE6IGV4eW5vcy1i
+dXM6IEFkZCByZWdpc3RyYXRpb24gb2YgaW50ZXJjb25uZWN0IGNoaWxkCj4gICAgIGRldmljZQo+
+ICAgQVJNOiBkdHM6IGV4eW5vczogQWRkIGludGVyY29ubmVjdCBwcm9wZXJ0aWVzIHRvIEV4eW5v
+czQ0MTIgYnVzIG5vZGVzCj4gICBkcm06IGV4eW5vczogbWl4ZXI6IEFkZCBpbnRlcmNvbm5lY3Qg
+c3VwcG9ydAo+IAo+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9kZXZmcmVxL2V4eW5vcy1idXMu
+dHh0ICAgICB8ICA3MSArKysrKysrLQo+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8ICAgNyArCj4gIGFyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczQ0
+MTIuZHRzaSAgICAgICAgICAgICAgICAgIHwgICA3ICsKPiAgZHJpdmVycy9kZXZmcmVxL2V4eW5v
+cy1idXMuYyAgICAgICAgICAgICAgICAgICAgICAgfCAgMTcgKysKPiAgZHJpdmVycy9ncHUvZHJt
+L2V4eW5vcy9leHlub3NfbWl4ZXIuYyAgICAgICAgICAgICAgfCAxNDYgKysrKysrKysrKysrKyst
+Cj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgIHwg
+ICAxICsKPiAgZHJpdmVycy9pbnRlcmNvbm5lY3QvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAg
+ICAgfCAgIDEgKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL0tjb25maWcgICAgICAg
+ICAgICAgICB8ICAxMyArKwo+ICBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL01ha2VmaWxl
+ICAgICAgICAgICAgICB8ICAgNCArCj4gIGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvZXh5
+bm9zLmMgICAgICAgICAgICAgIHwgMTk5ICsrKysrKysrKysrKysrKysrKysrKwo+ICAxMCBmaWxl
+cyBjaGFuZ2VkLCA0NTYgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4gIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2ludGVyY29ubmVjdC9zYW1zdW5nL0tjb25maWcKPiAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvTWFrZWZpbGUKPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW50ZXJjb25uZWN0L3NhbXN1bmcvZXh5bm9zLmMKPiAK
+CkkgdGVzdGVkIGl0LiBJdCBpcyB3ZWxsIHdvcmtpbmcuIFRoYW5rcy4KClRlc3RlZC1ieTogQ2hh
+bndvbyBDaG9pIDxjdzAwLmNob2lAc2Ftc3VuZy5jb20+CgoKLS0gCkJlc3QgUmVnYXJkcywKQ2hh
+bndvbyBDaG9pClNhbXN1bmcgRWxlY3Ryb25pY3MKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
