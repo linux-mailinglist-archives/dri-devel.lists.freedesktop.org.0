@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C6B2A8047
-	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:02:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 010D42A8048
+	for <lists+dri-devel@lfdr.de>; Thu,  5 Nov 2020 15:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C0E66ED83;
-	Thu,  5 Nov 2020 14:02:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED7A6ED74;
+	Thu,  5 Nov 2020 14:02:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com
- (mail-eopbgr60087.outbound.protection.outlook.com [40.107.6.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A08FA6ED7C
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:02:04 +0000 (UTC)
+ (mail-eopbgr60088.outbound.protection.outlook.com [40.107.6.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 228536ED74
+ for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 14:02:15 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NxH0gfC9vZIyDcjF8xl+vaof6X4pTeXHXnCIYR91ODkD/E9lkAxXc0yPd2oonFVLIkXHeJI5SpUH5f0R+xrGAWx04EE8YAtU4/29r9ajEUmItDWerlepOgjgjNHPdU6xtWz/UwiQiK7t8I4qH8PmntKnswdTYw9BPONzxQ2A6cVBWv1Yy9X5BVXswHAfLpJPz9ywOvE5sY5raja8QbckbIt6zD5dMlD/WLqnhlCd/jZz0dEGCs/c8A4jm/HqRL2BfLn7xaxuEfCH17VQB2qBG6FpqfI1XuP+g30HDyJCn6FnrHt9pUfQIs/fwXCwGolsepMZO3toEL7PYE53u9sJ/w==
+ b=O28JFvt651g1oT/nqb1TcnMv1wd/UqvyqRMqmQOVLTficCncSTI3l12e+Er0yT4on2V8J+aSrOw5091NBswXUwl9sxxsjnEOv7cLy/BafLDdVuVrJppgi/1a0xOInaU1f0wnYD5/GD6AVYF89qxDJ8efoyv3BZ+YNVv3v6SUjvGLjqfpTnIjJK6fpgPB8RSC7aK3woTa7lu0H0d0hYez+dpmsu5CAM2bwMA4txPuq2Vghj8+a9soB+V5ltZyVTdW1eZn0LckU1yWHnVZs4tc/z6oim8Pv09HVMfmj2fKSVH5+CMzIEdiDVznxXarb7XgGHhfuFIP4wWOe6IefcaH8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=prET9u9QSJm4qrev/Qz6IyHePSTHaneCZT3oG0PJgZE=;
- b=Hn6/tDS5pwy/CDtnB5QZnEPDUHV3Mc/A6YfeG9qw39+CBLA5k+t+0flh7Ml7uNfhF5GpXvfwB7rNBKLmCyL+9PXx3oyxNqO1nCewauW1DGriRUqieOG8RPYfcfRbMFVXFVgIiQygu2p8x8VIpSa8WaDGFAp0VjDwimExWGWxKWA2gpd3Md9pszBUa5pJxkprz0JJcH744PCThD5WfCQE6+6/5WJfVapoh7jRuvy0eAG0heQcXveI+HT+V62i/jRTI2XafjqRWiov7vZzv5YDZ5a9NAKoAZ+lPSkPOU4gJfzAOuhSURgu0gMO0fqQXqTEn9xG6FZkeyBpslGOgCxviQ==
+ bh=R9vob6+exkqWS69bcbRacyP8nAzMKeqPd6B8Ph05QXc=;
+ b=On5TQZ4iJxxLWg9p4/1lsK7gyKlyejrQzqDkBdiKexmcTvto2ecQU560ffo4TOHLucBEj5OixqvJSWdStaOFoqPq0H2IRsgE0AQEM35SsTzQ/gu19iWca4hNlyjwgPUNSIO8+pneJ6mMbBFVnmVzgkJHVZD1x/0GUVYPNGqcW0hzfpf2pcKZPLUZ1LbnTxfCKZYBCufCi+sySfe/bN/CbW+RVh0x/YsBdV0fcRqHgzBXNk0WOVVggjhq0IfZ2apsB7fNIb4D2PlV5c8ZXhD9yfGZgkJItdHBx1N/+KwCXho0htPyUhh2sImwTU51O5vl6EmQ+awC4IQUijC5X8VgTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=prET9u9QSJm4qrev/Qz6IyHePSTHaneCZT3oG0PJgZE=;
- b=ji/pxpNT4JPegW3UFxLSgL4O+LEHdTmrXzkKZHZZIoO5ENcL5YQk7W1OrjzG/6KZILMtnK52Uet+nlCYnHnt8drMRKdnPnmcnMsj+vzQz/JgZxyf0ChxlDaeGFC5UzeiTFW5OH+SrczhX5ihyOVoOKVXHZfTPvwryuPajO+heE4=
+ bh=R9vob6+exkqWS69bcbRacyP8nAzMKeqPd6B8Ph05QXc=;
+ b=X0MVHzAjU4o28HYRqw4CjuC0la+miAv/UU8Nnli9ZwDWE8sWOoZYKYz5pIlBlZqgpZRPAvmdv79Xfp4AXMaZk7lfUZ7SZ0GmleDvZrh06tz+hkbKED0fucksc7sSaTyj/YwPHZX4GYys/y+jmB+ZtjugAvHZa1J8pY3enufG8F8=
 Authentication-Results: pengutronix.de; dkim=none (message not signed)
  header.d=none; pengutronix.de; dmarc=none action=none header.from=oss.nxp.com; 
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  (2603:10a6:803:22::27) by VI1PR04MB6783.eurprd04.prod.outlook.com
  (2603:10a6:803:130::9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Thu, 5 Nov
- 2020 14:01:59 +0000
+ 2020 14:02:11 +0000
 Received: from VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::f000:d709:509:bb5]) by VI1PR0402MB3902.eurprd04.prod.outlook.com
  ([fe80::f000:d709:509:bb5%3]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
- 14:01:59 +0000
+ 14:02:11 +0000
 From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 To: Lucas Stach <l.stach@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
  Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@nxp.com>,
- =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] drm/imx/dcss: a couple of fixes
-Date: Thu,  5 Nov 2020 16:01:24 +0200
-Message-Id: <20201105140127.25249-1-laurentiu.palcu@oss.nxp.com>
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+Subject: [PATCH 1/2] drm/imx/dcss: fix rotations for Vivante tiled formats
+Date: Thu,  5 Nov 2020 16:01:25 +0200
+Message-Id: <20201105140127.25249-2-laurentiu.palcu@oss.nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201105140127.25249-1-laurentiu.palcu@oss.nxp.com>
+References: <20201105140127.25249-1-laurentiu.palcu@oss.nxp.com>
 X-Originating-IP: [83.217.231.2]
 X-ClientProxiedBy: AM3PR07CA0084.eurprd07.prod.outlook.com
  (2603:10a6:207:6::18) To VI1PR0402MB3902.eurprd04.prod.outlook.com
@@ -60,32 +62,32 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from fsr-ub1864-141.ea.freescale.net (83.217.231.2) by
  AM3PR07CA0084.eurprd07.prod.outlook.com (2603:10a6:207:6::18) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.15 via Frontend Transport; Thu, 5 Nov 2020 14:01:58 +0000
+ 15.20.3541.15 via Frontend Transport; Thu, 5 Nov 2020 14:02:09 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: e77c3a5a-01f1-4b8f-b50a-08d881935d18
+X-MS-Office365-Filtering-Correlation-Id: d13d25e6-b136-4413-3ea8-08d8819363df
 X-MS-TrafficTypeDiagnostic: VI1PR04MB6783:
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB67832958FEAF0FAEA723FEDABEEE0@VI1PR04MB6783.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB678318433E98A2FA06054FE4BEEE0@VI1PR04MB6783.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fPlo55nXm5hKn8kRQwkD4khduj0i4Ooe2bq6J0vnq7s61I/9LY0j2YJOPZNQJZhLH52GKAnI3F+sfjWxuQIb9vfq/fUNIdErJVgBA9MoPy0UYFDG12MkkuPs1o7j+VG8AOgXTDQgxPg4l6GdyslAnSfnKrpLE0EuWLofUN642ot3Pb1ys1hoivBZ+MeuMwVI/j6SHDkafP9GJUw6EdBTJ9+iGbxnHxoewuaLMjz2bkM4R1ygKzPETy4pooFtXWUA79x35hyK0GLpt0JNvS5gNdpMIm0G1F5c2xgJJVOqLqH9rKhGzfXfAWzszLugymyxp8dj2ORYNshjBgwBCiyfsg==
+X-Microsoft-Antispam-Message-Info: OlrqEQR7nsPctIbtLukdMjz1rlHOH0lGFpoWZs2hONyvB2i9VjE6BaGzUTQPf4DvwelAl1R0BbKPA0N74boLfuByx1IJdcoAqqjDDzErub/HBGWwgEjkwp1rxko8d42DHTbgcEsAQSafWNiCMH/1Zues0wfAJxKJ7VglkLjBDpB9NxcwfYMlNQkeTHIZ2BxIIQJY5IR9Xx7vMo2uycF1FV5FQxREWFj1pcPv4bHyQ4UiPuwetl76KH2VK5Onj7cQufUXkCRGKaQP2gfacElHieXpYQGE4dubST8JmDRhq6vL9larZphfxq5sDNbm2GVtrdSyMyy7DOYYzd7qBujPNoWBzLe4YPE6McHsgGbE/xs=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR0402MB3902.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(8676002)(4744005)(2616005)(956004)(6512007)(44832011)(83380400001)(6666004)(8936002)(66946007)(2906002)(6486002)(66476007)(66556008)(316002)(52116002)(86362001)(478600001)(5660300002)(1076003)(6506007)(186003)(26005)(16526019)(110136005);
+ SFS:(4636009)(366004)(396003)(39860400002)(376002)(136003)(346002)(8676002)(2616005)(956004)(6512007)(44832011)(83380400001)(6666004)(8936002)(66946007)(2906002)(6486002)(66476007)(66556008)(7416002)(316002)(4326008)(52116002)(86362001)(478600001)(5660300002)(1076003)(6506007)(186003)(26005)(16526019)(110136005)(921003);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: XZlNfUMAXf+RN7OtNYJ/ISscZgHhyyI0sgJoALocN2c9wtAiU5Ity4u4K+x8EvLUTYeVS6HE1Sw2g9EpD5YNVCT/U7bLAj/NqM7xG+f8yFsNkr5GRc7yIFoU0mT6Rb3ARimrtTgZSlGwfjKCaKYtgMJdNlKV5nEZ2Vri6PJOykquwFJnttipQ+oF32OID5EvjLk12lZqsbGvdS6pvqJiyO0A0M2TlODFJA1KyjIAR4AMjCcfeTX8aNBFduQXtwWsJ2Ih5IeB6arq8KLT11S0HEsTD2R4b0fQUsuZJUX25TVSW2hStIGRFGMoZ3MglpxNrZLV8TGzKdcWnY+9KNdgfe0Y+yhaqjn6LlpxhPafQGI4LaPCpVnuKdPCtvJrxfiJ3ZlV0Rsl9XFzjMPazkGhvAP6ObWRGNDmlTiKxHrnhadZRx//4KWRHqMplfYJhGo5ODcs7W/qaKVBritkQFWJ7mzVFol3y5BtI1wpHrtiiCSRCqEz95/USHAd7OR2Pzs5G40KFCrJdSxM7IGhqACb+6JO8eLVgIqcogZ79Vip/LGYZMaO3enylduYbp40uGJIapkWtx2pOLnzr4YRAmFAZLuTSNv9MLADs6QaaOZrgjRLLHuDLlcFaBQAPu90cw+AXnF5rfuab4F4rzRcToEypg==
+X-MS-Exchange-AntiSpam-MessageData: yOgm+zg2p6koS7k/ttomf9tyMGiNNAXnrZt6FgwCzilifNVu7ptKn8hvt0jOFL9IGRs6dnZeH0xRLJAvowTA43o0cFruIqa/WchF2TiNAKx8Uovf5dlQMgwAKpUKutgEuFH/6msO1okmER/pV1AYD1JL7zHGvqHnLENiGiX7xfQ1pwMvoWA1GpPONVsE2Z/RczAiOi8i6yiqdRR7ED9KjKNKqcdt2sqE1mtt6uZ12e/HT9oaTaDOK8QoFqSTb5fP6UAr1rJxXbjr4wOsKgZI9tCscyPnQbr95uuuQm00BKtPNzsBIAorxsSKrHC40aXfm7vyrWhj+C4q9csg4SRjXxrwN9D7CI7pciCYDsjT495EAJrmo9pTeMWvMM81yIc+NeI1fApfFsKPYaX77RZ8MT4UW99FCwCgWRje8ULWsdX8ggl3E+K7iauYJdLAcQNTrdS1CwN93GS2FdN3Fhexi5eL7LKxKmKhIagUKtkjUtt45WasjE2MWaEWLi+RjZM6B6og9bseX3GhH5P0097JQnp2hQ7xOhGq1n4W31Nj1tAnB907+zj/hty4ipqGhv6hJ5nP2kcRLWL8Kne6zoMM/By6WH2zR5f2b/vUI2GydcG+RKZESYdH2frtiktWVGtNcGN+XyyagNLt95B/r11WWQ==
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e77c3a5a-01f1-4b8f-b50a-08d881935d18
+X-MS-Exchange-CrossTenant-Network-Message-Id: d13d25e6-b136-4413-3ea8-08d8819363df
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3902.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 14:01:59.8759 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 14:02:11.0367 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eV8dc5xEkp/piZRhflqRYm2Uk01fHI2WdKFdXicbNqa2ydl/ZfQX5H5iqScQ+raLBykNXBBOwhdh4mUcSUyHgQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 26aq0Yg/L3Ggmig1mplWKUwjQXbwDHjLV5ms+vTUD7ZUv6zxuOXCxmRkGUQ3AM+rzIm3TDEQOQIsG71y0xmBMQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6783
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,26 +101,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+DCSS supports 90/180/270 degree rotations for Vivante tiled and super-tiled
+formats. Unfortunately, with the current code, they didn't work properly.
 
-This patchset fixes 90/270 rotations for Vivante tiled and super-tiled
-formats and a Coccinelle warning.
+This simple patch makes the rotations work by fixing the way the scaler is set
+up for 90/270 degree rotations. In this particular case, the source width and
+height need to be swapped since DPR is sending the buffer to scaler already
+rotated.
 
-Thanks,
-laurentiu
+Also, make sure to allow full rotations for DRM_FORMAT_MOD_VIVANTE_SUPER_TILED.
 
-Laurentiu Palcu (2):
-  drm/imx/dcss: fix rotations for Vivante tiled formats
-  drm/imx/dcss: fix coccinelle warning
+Fixes: 9021c317b770 ("drm/imx: Add initial support for DCSS on iMX8MQ")
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+---
+ drivers/gpu/drm/imx/dcss/dcss-plane.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/imx/dcss/dcss-plane.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+index e13652e3a115..46a188dd02ad 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+@@ -111,7 +111,8 @@ static bool dcss_plane_can_rotate(const struct drm_format_info *format,
+ 		supported_rotation = DRM_MODE_ROTATE_0 | DRM_MODE_ROTATE_180 |
+ 				     DRM_MODE_REFLECT_MASK;
+ 	else if (!format->is_yuv &&
+-		 modifier == DRM_FORMAT_MOD_VIVANTE_TILED)
++		 (modifier == DRM_FORMAT_MOD_VIVANTE_TILED ||
++		  modifier == DRM_FORMAT_MOD_VIVANTE_SUPER_TILED))
+ 		supported_rotation = DRM_MODE_ROTATE_MASK |
+ 				     DRM_MODE_REFLECT_MASK;
+ 	else if (format->is_yuv && linear_format &&
+@@ -272,6 +273,7 @@ static void dcss_plane_atomic_update(struct drm_plane *plane,
+ 	u32 src_w, src_h, dst_w, dst_h;
+ 	struct drm_rect src, dst;
+ 	bool enable = true;
++	bool is_rotation_90_or_270;
+ 
+ 	if (!fb || !state->crtc || !state->visible)
+ 		return;
+@@ -309,8 +311,13 @@ static void dcss_plane_atomic_update(struct drm_plane *plane,
+ 
+ 	dcss_plane_atomic_set_base(dcss_plane);
+ 
++	is_rotation_90_or_270 = state->rotation & (DRM_MODE_ROTATE_90 |
++						   DRM_MODE_ROTATE_270);
++
+ 	dcss_scaler_setup(dcss->scaler, dcss_plane->ch_num,
+-			  state->fb->format, src_w, src_h,
++			  state->fb->format,
++			  is_rotation_90_or_270 ? src_h : src_w,
++			  is_rotation_90_or_270 ? src_w : src_h,
+ 			  dst_w, dst_h,
+ 			  drm_mode_vrefresh(&crtc_state->mode));
+ 
 -- 
 2.23.0
 
