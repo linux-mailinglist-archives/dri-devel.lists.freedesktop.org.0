@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7605A2A8EAF
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 06:21:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C4C2A8E8D
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 06:08:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856E96EA9D;
-	Fri,  6 Nov 2020 05:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721946EE08;
+	Fri,  6 Nov 2020 05:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDEE6EA7B;
- Fri,  6 Nov 2020 05:21:36 +0000 (UTC)
-IronPort-SDR: bH0BqOzE0SRRhq8f2PaP0jOnLmXCzJB+9SvjLMRCxVONJv5KzRV1pDcZLOh81LeFdD5VxuRlQ3
- sgYX2rbNjcoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="157282961"
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; d="scan'208";a="157282961"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 21:21:35 -0800
-IronPort-SDR: 20eBV12jyriP456DRXkcHzDWnuDcrYIPuoRcvRN+wxi/MbIYZCe8K857Qpmc9InF7+04rComgP
- NyBYjkr8o6pg==
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; d="scan'208";a="364067768"
-Received: from genxfsim-desktop.iind.intel.com (HELO intel.com)
- ([10.223.74.178])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Nov 2020 21:21:33 -0800
-Date: Fri, 6 Nov 2020 10:38:08 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH v4 13/16] drm/i915/hdcp: Pass connector to check_2_2_link
-Message-ID: <20201106050808.GR29526@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-14-anshuman.gupta@intel.com>
- <20201105164537.GM3242@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 915FA6EE08
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 05:08:13 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF45BB16;
+ Fri,  6 Nov 2020 06:08:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1604639292;
+ bh=EvGcaW0gKHQgA1E5M/q/O1AdjNDbdASwjkVEuH4XRA8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PBkohtGDV0mwqYG4ksxp/HPMOO/6A0gw5OlnhUCKJMqkKH1V7s81n2985T4Le9KmT
+ MJXZEmCgzeffJAadPnSIpEHMeZ4ZoB9e52AQRF8NvOCKD0saKrJXaNDAGSTUp79O29
+ RSvbK27Q3tMoh0FyquSre2rZfSVt+la6mfqQ5pUs=
+Date: Fri, 6 Nov 2020 07:08:10 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 07/56] drm/omap: panel-dsi-cm: convert to transfer API
+Message-ID: <20201106050810.GB25769@pendragon.ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-8-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105164537.GM3242@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20201105120333.947408-8-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,95 +46,252 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
- juston.li@intel.com
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-05 at 22:15:37 +0530, Ramalingam C wrote:
-> On 2020-10-27 at 22:12:05 +0530, Anshuman Gupta wrote:
-> > This requires for HDCP 2.2 MST check link.
-> > 
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_display_types.h | 3 ++-
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c       | 3 ++-
-> >  drivers/gpu/drm/i915/display/intel_hdcp.c          | 2 +-
-> >  drivers/gpu/drm/i915/display/intel_hdmi.c          | 3 ++-
-> >  4 files changed, 7 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > index 24e0067c2e7c..dfb5be64e03a 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > @@ -375,7 +375,8 @@ struct intel_hdcp_shim {
-> >  				  bool is_repeater, u8 type);
-> >  
-> >  	/* HDCP2.2 Link Integrity Check */
-> > -	int (*check_2_2_link)(struct intel_digital_port *dig_port);
-> > +	int (*check_2_2_link)(struct intel_digital_port *dig_port,
-> > +			      struct intel_connector *connector);
-> do we need both of them?
-I have followed the HDCP 1.4 check_link signature.
-https://patchwork.freedesktop.org/patch/386157/?series=78749&rev=3
-We need connector for QSES check, we can't retrieve DP MST connector from
-dig_port.
-Thanks,
-Anshuman 
+Hi Tomi and Sebastian,
+
+Thank you for the patch.
+
+On Thu, Nov 05, 2020 at 02:02:44PM +0200, Tomi Valkeinen wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
-> -Ram.
-> >  };
-> >  
-> >  struct intel_hdcp {
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > index 591b68e5de48..4be61e7fde4e 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > @@ -585,7 +585,8 @@ int intel_dp_hdcp2_config_stream_type(struct intel_digital_port *dig_port,
-> >  }
-> >  
-> >  static
-> > -int intel_dp_hdcp2_check_link(struct intel_digital_port *dig_port)
-> > +int intel_dp_hdcp2_check_link(struct intel_digital_port *dig_port,
-> > +			      struct intel_connector *connector)
-> >  {
-> >  	u8 rx_status;
-> >  	int ret;
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > index 1df6d4a23476..87f7aaf3a319 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> > @@ -1940,7 +1940,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
-> >  		goto out;
-> >  	}
-> >  
-> > -	ret = hdcp->shim->check_2_2_link(dig_port);
-> > +	ret = hdcp->shim->check_2_2_link(dig_port, connector);
-> >  	if (ret == HDCP_LINK_PROTECTED) {
-> >  		if (hdcp->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> >  			intel_hdcp_update_value(connector,
-> > diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> > index 0788de04711b..bd0d91101464 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> > @@ -1734,7 +1734,8 @@ int intel_hdmi_hdcp2_read_msg(struct intel_digital_port *dig_port,
-> >  }
-> >  
-> >  static
-> > -int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port)
-> > +int intel_hdmi_hdcp2_check_link(struct intel_digital_port *dig_port,
-> > +				struct intel_connector *connector)
-> >  {
-> >  	u8 rx_status[HDCP_2_2_HDMI_RXSTATUS_LEN];
-> >  	int ret;
-> > -- 
-> > 2.26.2
-> > 
+> This converts the panel-dsi-cm driver to use the transfer
+> API instead of specific functions, so that the specific
+> functions can be unexported and squashed into the generic
+> transfer function.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+There are a few very minor comments I would have made below, but as this
+file is going away later in this series, it doesn't matter.
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 132 +++++++++++++-----
+>  1 file changed, 95 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index b8f3a7aacbf4..8b2e80129bd8 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -140,45 +140,61 @@ static void hw_guard_wait(struct panel_drv_data *ddata)
+>  static int dsicm_dcs_read_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 *data)
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> -	int r;
+> -	u8 buf[1];
+> -
+> -	r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd, buf, 1);
+> -
+> -	if (r < 0)
+> -		return r;
+> -
+> -	*data = buf[0];
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_READ,
+> +		.tx_len = 1,
+> +		.tx_buf = &dcs_cmd,
+> +		.rx_len = 1,
+> +		.rx_buf = data
+> +	};
+>  
+> -	return 0;
+> +	return src->ops->dsi.transfer(src, &msg);
+>  }
+>  
+>  static int dsicm_dcs_write_0(struct panel_drv_data *ddata, u8 dcs_cmd)
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE,
+> +		.tx_buf = &dcs_cmd,
+> +		.tx_len = 1,
+> +	};
+>  
+> -	return src->ops->dsi.dcs_write(src, ddata->channel, &dcs_cmd, 1);
+> +	return src->ops->dsi.transfer(src, &msg);
+>  }
+>  
+>  static int dsicm_dcs_write_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 param)
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> -	u8 buf[2] = { dcs_cmd, param };
+> +	const u8 buf[] = { dcs_cmd, param };
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE_PARAM,
+> +		.tx_buf = &buf,
+> +		.tx_len = 2,
+> +	};
+>  
+> -	return src->ops->dsi.dcs_write(src, ddata->channel, buf, 2);
+> +	return src->ops->dsi.transfer(src, &msg);
+>  }
+>  
+>  static int dsicm_sleep_in(struct panel_drv_data *ddata)
+>  
+>  {
+>  	struct omap_dss_device *src = ddata->src;
+> -	u8 cmd;
+>  	int r;
+> +	const u8 cmd = MIPI_DCS_ENTER_SLEEP_MODE;
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_DCS_SHORT_WRITE,
+> +		.tx_buf = &cmd,
+> +		.tx_len = 1,
+> +	};
+>  
+>  	hw_guard_wait(ddata);
+>  
+> -	cmd = MIPI_DCS_ENTER_SLEEP_MODE;
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, &cmd, 1);
+> +	r = src->ops->dsi.transfer(src, &msg);
+>  	if (r)
+>  		return r;
+>  
+> @@ -233,28 +249,43 @@ static int dsicm_set_update_window(struct panel_drv_data *ddata,
+>  	u16 y1 = y;
+>  	u16 y2 = y + h - 1;
+>  
+> -	u8 buf[5];
+> -	buf[0] = MIPI_DCS_SET_COLUMN_ADDRESS;
+> -	buf[1] = (x1 >> 8) & 0xff;
+> -	buf[2] = (x1 >> 0) & 0xff;
+> -	buf[3] = (x2 >> 8) & 0xff;
+> -	buf[4] = (x2 >> 0) & 0xff;
+> +	const u8 paramX[] = {
+> +		MIPI_DCS_SET_COLUMN_ADDRESS,
+> +		(x1 >> 8) & 0xff,
+> +		(x1 >> 0) & 0xff,
+> +		(x2 >> 8) & 0xff,
+> +		(x2 >> 0) & 0xff,
+> +	};
+>  
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
+> -	if (r)
+> -		return r;
+> +	const struct mipi_dsi_msg msgX = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_GENERIC_LONG_WRITE,
+> +		.tx_buf = paramX,
+> +		.tx_len = 5,
+> +	};
+> +
+> +	const u8 paramY[] = {
+> +		MIPI_DCS_SET_PAGE_ADDRESS,
+> +		(y1 >> 8) & 0xff,
+> +		(y1 >> 0) & 0xff,
+> +		(y2 >> 8) & 0xff,
+> +		(y2 >> 0) & 0xff,
+> +	};
+>  
+> -	buf[0] = MIPI_DCS_SET_PAGE_ADDRESS;
+> -	buf[1] = (y1 >> 8) & 0xff;
+> -	buf[2] = (y1 >> 0) & 0xff;
+> -	buf[3] = (y2 >> 8) & 0xff;
+> -	buf[4] = (y2 >> 0) & 0xff;
+> +	const struct mipi_dsi_msg msgY = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_GENERIC_LONG_WRITE,
+> +		.tx_buf = paramY,
+> +		.tx_len = 5,
+> +	};
+>  
+> -	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
+> +	r = src->ops->dsi.transfer(src, &msgX);
+>  	if (r)
+>  		return r;
+>  
+> -	src->ops->dsi.bta_sync(src, ddata->channel);
+> +	r = src->ops->dsi.transfer(src, &msgY);
+> +	if (r)
+> +		return r;
+>  
+>  	return r;
+>  }
+> @@ -991,6 +1022,27 @@ static int dsicm_get_te(struct omap_dss_device *dssdev)
+>  	return r;
+>  }
+>  
+> +static int dsicm_set_max_rx_packet_size(struct omap_dss_device *dssdev,
+> +					u16 size)
+> +{
+> +	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> +	struct omap_dss_device *src = ddata->src;
+> +
+> +	const u8 buf[] = {
+> +		size & 0xff,
+> +		size >> 8 & 0xff,
+> +	};
+> +
+> +	const struct mipi_dsi_msg msg = {
+> +		.channel = ddata->channel,
+> +		.type = MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE,
+> +		.tx_buf = buf,
+> +		.tx_len = 2,
+> +	};
+> +
+> +	return src->ops->dsi.transfer(src, &msg);
+> +}
+> +
+>  static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  		void *buf, size_t size,
+>  		u16 x, u16 y, u16 w, u16 h)
+> @@ -1031,17 +1083,23 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  
+>  	dsicm_set_update_window(ddata, x, y, w, h);
+>  
+> -	r = src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, plen);
+> +	r = dsicm_set_max_rx_packet_size(dssdev, plen);
+>  	if (r)
+>  		goto err2;
+>  
+>  	while (buf_used < size) {
+>  		u8 dcs_cmd = first ? 0x2e : 0x3e;
+> +		const struct mipi_dsi_msg msg = {
+> +			.channel = ddata->channel,
+> +			.type = MIPI_DSI_DCS_READ,
+> +			.tx_buf = &dcs_cmd,
+> +			.tx_len = 1,
+> +			.rx_buf = buf + buf_used,
+> +			.rx_len = size - buf_used,
+> +		};
+>  		first = 0;
+>  
+> -		r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd,
+> -				buf + buf_used, size - buf_used);
+> -
+> +		r = src->ops->dsi.transfer(src, &msg);
+>  		if (r < 0) {
+>  			dev_err(dssdev->dev, "read error\n");
+>  			goto err3;
+> @@ -1065,7 +1123,7 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+>  	r = buf_used;
+>  
+>  err3:
+> -	src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, 1);
+> +	dsicm_set_max_rx_packet_size(dssdev, 1);
+>  err2:
+>  	src->ops->dsi.bus_unlock(src);
+>  err1:
+
+-- 
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
