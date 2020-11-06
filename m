@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C722A9D85
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 20:08:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1605E2A9D8E
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 20:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37BD16EADF;
-	Fri,  6 Nov 2020 19:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206D16EAE1;
+	Fri,  6 Nov 2020 19:09:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
- [209.85.218.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 035AC6EADF
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 19:08:00 +0000 (UTC)
-Received: by mail-ej1-f67.google.com with SMTP id s25so3396935ejy.6
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 11:07:59 -0800 (PST)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+ [209.85.208.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585876EAE1
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 19:09:02 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id t11so2326512edj.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 11:09:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=JSRlYHuywdWRpC+6sKjWuShna66ePHGcqQt+y1/po+0=;
- b=sn2Wi9YrAcmUUQe7l890hmL1LSozH2XYzv033oAuZPj3B8AE6XirRuw4ZNs+XnEXqG
- YBJmlNKqP63npaQLUoAB3LDfq42dW7Vb728vhoRkuIwRZDJSs2PhYmolLPBJljNn6x95
- 69ZpqFCjFiYSMrcTN90SyHIG/BCl8ZxHH0Zkpi31N+BH5QCyGXtq6PHlQOITTqO2Fj9U
- DdhxDTntGcvxSQOfJDhPjPJA9dBlMZSp2A1/8uVfXQhJ3ESs3QnZVYcM9BlQURCQA3m2
- 1rQhTDzOoVQNmvwZtzVyOSlBtUGmDQt50koFwqtJbFOByCDX7hCgG/9MUQxH+jVvP57z
- Kmrw==
-X-Gm-Message-State: AOAM531Z2Ojvr0CveNm4H6QEQhZKQpyJVlVuokrbyGRcIUfi+RR7fHit
- wT+f5EzGjEu7/FYN55Z8ZIfxJ/EG+28=
-X-Google-Smtp-Source: ABdhPJzFa68ebDwk5lalVoltFD4aMGkh6HgSZordIoLzyIQ6wpTge+Rgk+a9czQkI4VGwM2RcAkE5w==
-X-Received: by 2002:a17:906:d94:: with SMTP id
- m20mr3492001eji.279.1604689678622; 
- Fri, 06 Nov 2020 11:07:58 -0800 (PST)
+ bh=qK37W3xTCJXp7MUelHSeuVBr0ncAlJOu059iUAhSoPQ=;
+ b=FO+ZuAG2fWqOnm2/LquL9J5xj/kZbpHnhaaZMQo5QiDnRGXSYrcWFRbYNN/YNT0Bzf
+ orum/tPNs9rjzR6YKtHWPTAUNvZrPeI+ohxVvosC+GP5/MPVAnlOMEbWl2IJBhehySiV
+ e+qyXUcKeD454vF7kN4nuMTGYPf4nc1/+UQOc28t/7Z/nvjmztYjzqYZg1v5d8w5C8mm
+ /i6WhXJ+TeoOD3gljaBOdvBTYUJ06t2z9ItvzJHwRt9DYEZPCPEgzw8WPW38xocNObae
+ C2Vz07pXYrHr9phE0H4Jx5ZnxW+C4HWowzUb6+0wSWiJB0VNbbGZfxVpj+hFWg/jzpgY
+ nCXQ==
+X-Gm-Message-State: AOAM5329na4/Vfwo283GVStn6+eIHm50rgjPpLEx6KpKR7zky2NbhZW9
+ 9fkS0val3xOu2arKPGTGFxs=
+X-Google-Smtp-Source: ABdhPJwdAHZPSXDWTQYtqObDqNkh3xX1JcIZrPeM6I5RcvHVIxwL8vDjKJ29lIgHkpGyN+FLmALthQ==
+X-Received: by 2002:aa7:dd4a:: with SMTP id o10mr3580286edw.109.1604689741010; 
+ Fri, 06 Nov 2020 11:09:01 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id n1sm1676128edt.66.2020.11.06.11.07.56
+ by smtp.googlemail.com with ESMTPSA id a10sm1628669edu.78.2020.11.06.11.08.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 11:07:57 -0800 (PST)
-Date: Fri, 6 Nov 2020 20:07:55 +0100
+ Fri, 06 Nov 2020 11:08:59 -0800 (PST)
+Date: Fri, 6 Nov 2020 20:08:58 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 33/47] memory: tegra20-emc: Make driver modular
-Message-ID: <20201106190755.GY65086@kozik-lap>
+Subject: Re: [PATCH v7 34/47] memory: tegra20-emc: Continue probing if
+ timings are missing in device-tree
+Message-ID: <20201106190858.GZ65086@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-34-digetx@gmail.com>
+ <20201104164923.21238-35-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-34-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-35-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,16 +75,16 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:49:09PM +0300, Dmitry Osipenko wrote:
-> Add modularization support to the Tegra20 EMC driver, which now can be
-> compiled as a loadable kernel module.
+On Wed, Nov 04, 2020 at 07:49:10PM +0300, Dmitry Osipenko wrote:
+> EMC driver will become mandatory after turning it into interconnect
+> provider because interconnect users, like display controller driver, will
+> fail to probe using newer device-trees that have interconnect properties.
+> Thus make EMC driver to probe even if timings are missing in device-tree.
 > 
-> Acked-by: Thierry Reding <treding@nvidia.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/memory/tegra/Kconfig       |  2 +-
->  drivers/memory/tegra/tegra20-emc.c | 17 ++++++++++++-----
->  2 files changed, 13 insertions(+), 6 deletions(-)
+>  drivers/memory/tegra/tegra20-emc.c | 34 ++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 18 deletions(-)
 
 Thanks, applied.
 
