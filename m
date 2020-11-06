@@ -2,28 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E1F2A96D0
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 14:16:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBC22A9705
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 14:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5E196E03C;
-	Fri,  6 Nov 2020 13:16:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A5A6E054;
+	Fri,  6 Nov 2020 13:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92A396E03C
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 13:16:36 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4D920AB8F;
- Fri,  6 Nov 2020 13:16:35 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, eric@anholt.net
-Subject: [PATCH] drm/cma-helper: Make default object functions the default
-Date: Fri,  6 Nov 2020 14:16:32 +0100
-Message-Id: <20201106131632.6796-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D320E6E0BF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 13:32:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604669519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=H+TezUSg7dLvy+l68Hy5i/kXoVUr9enrZZU+nQNhmr4=;
+ b=W+lPFUiRhop+e2wZ4Wkli0/K5sPG5Hsu9QfPlEDOt7rSz1rroJLBhG2cJ9PWcNWJryzb3Q
+ shwkvSSgat6B3ngky8sQ1N/W06Xf+qtmm9EXaxIqAmqI07KyCbtJuU9adc2WnGVeebnDFu
+ yXG7CqYHglC02TXfDWb4SY/kSfo0pvg=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-DVtamIshOIiDXnrvNdaETA-1; Fri, 06 Nov 2020 08:31:56 -0500
+X-MC-Unique: DVtamIshOIiDXnrvNdaETA-1
+Received: by mail-qk1-f197.google.com with SMTP id s5so658258qkj.21
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 05:31:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=H+TezUSg7dLvy+l68Hy5i/kXoVUr9enrZZU+nQNhmr4=;
+ b=FBw/22fD4poA+Zg5Gkbp7ZdOwI1aRFW7Bd89CTAnxCanjq45vpuPdGZbG4r9vA0p8a
+ +PRk18/XOSblt/xgdbgtLIhWZtm39O2HrRo+AClGllJXkknC6VfcK/fHIsjuvTlekKLd
+ rK2aOENis7PwK4682EcNBduWI/BIdyDYAX/wczAx+qjBFQMxo7hSqN6KGYAuEO27LKuJ
+ 8dtmeCjDKF7SUh0kBhw/Kn1j3bwmXxHIl1HRw/4UNtpOBodhlew6PyBAAlk6d7uWGFur
+ iZYJglSNqTmTvtyEN/lfcL5hn99Je6fTn4/+YgKAdBZKKO8PvAhtISFBvQ8ue6u9P+8S
+ +yUw==
+X-Gm-Message-State: AOAM532SE57PoWnryZ1XJ6AJ4rghmFqmWN6FG1+BFh91M9Sk043RKLJM
+ qH8kT2dxSGBINruv0T0vN9S5SlhECIVPmlMZoGXg5fFYDCSv4fnqxVJUafFpUktAOxyhdgx4zcc
+ C18agNSuNQVRRY2UoBlRVaCfapOTrIzbN5B8BfItugGYq
+X-Received: by 2002:ac8:7091:: with SMTP id y17mr223022qto.137.1604669515557; 
+ Fri, 06 Nov 2020 05:31:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyu3cbrhu9g6f3NITckdttARw/NVAeKuSKVHYHWNP1ZBlgHMhdbCGrdhVO1eRoSn+j5wMPadxGqseSifPCLlas=
+X-Received: by 2002:ac8:7091:: with SMTP id y17mr222996qto.137.1604669515256; 
+ Fri, 06 Nov 2020 05:31:55 -0800 (PST)
 MIME-Version: 1.0
+References: <20201106021656.40743-1-jcline@redhat.com>
+ <20201106021656.40743-3-jcline@redhat.com>
+In-Reply-To: <20201106021656.40743-3-jcline@redhat.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Fri, 6 Nov 2020 14:31:44 +0100
+Message-ID: <CACO55tsRGOH5rwy-40_6FY_9mGZKfkiFBoAT2jowbQYmaLGK8g@mail.gmail.com>
+Subject: Re: [Nouveau] [PATCH 2/3] drm/nouveau: manage nouveau_drm lifetime
+ with devres
+To: Jeremy Cline <jcline@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -36,145 +73,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As GEM object functions are now mandatory, DRM drivers based on CMA
-helpers either set them in their implementation of gem_create_object,
-or use the default via drm_gem_cma_create_object_default_funcs().
+On Fri, Nov 6, 2020 at 3:17 AM Jeremy Cline <jcline@redhat.com> wrote:
+>
+> Make use of the devm_drm_dev_alloc() API to bind the lifetime of
+> nouveau_drm structure to the drm_device. This is important because a
+> reference to nouveau_drm is accessible from drm_device, which is
+> provided to a number of DRM layer callbacks that can run after the
+> deallocation of nouveau_drm currently occurs.
+>
+> Signed-off-by: Jeremy Cline <jcline@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_drm.c | 44 ++++++++++++---------------
+>  drivers/gpu/drm/nouveau/nouveau_drv.h | 10 ++++--
+>  2 files changed, 26 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> index bc6f51bf23b7..f750c25e92f9 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> @@ -30,9 +30,11 @@
+>  #include <linux/vga_switcheroo.h>
+>  #include <linux/mmu_notifier.h>
+>
+> +#include <drm/drm_drv.h>
+>  #include <drm/drm_crtc_helper.h>
+>  #include <drm/drm_ioctl.h>
+>  #include <drm/drm_vblank.h>
+> +#include <drm/drm_managed.h>
+>
+>  #include <core/gpuobj.h>
+>  #include <core/option.h>
+> @@ -532,13 +534,8 @@ nouveau_parent = {
+>  static int
+>  nouveau_drm_device_init(struct drm_device *dev)
+>  {
+> -       struct nouveau_drm *drm;
+>         int ret;
+> -
+> -       if (!(drm = kzalloc(sizeof(*drm), GFP_KERNEL)))
+> -               return -ENOMEM;
+> -       dev->dev_private = drm;
+> -       drm->dev = dev;
+> +       struct nouveau_drm *drm = nouveau_drm(dev);
+>
+>         nvif_parent_ctor(&nouveau_parent, &drm->parent);
+>         drm->master.base.object.parent = &drm->parent;
+> @@ -620,7 +617,6 @@ nouveau_drm_device_init(struct drm_device *dev)
+>         nouveau_cli_fini(&drm->master);
+>  fail_alloc:
+>         nvif_parent_dtor(&drm->parent);
+> -       kfree(drm);
+>         return ret;
+>  }
+>
+> @@ -654,7 +650,6 @@ nouveau_drm_device_fini(struct drm_device *dev)
+>         nouveau_cli_fini(&drm->client);
+>         nouveau_cli_fini(&drm->master);
+>         nvif_parent_dtor(&drm->parent);
+> -       kfree(drm);
+>  }
+>
+>  /*
+> @@ -720,6 +715,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+>  {
+>         struct nvkm_device *device;
+>         struct drm_device *drm_dev;
+> +       struct nouveau_drm *nv_dev;
+>         int ret;
+>
+>         if (vga_switcheroo_client_probe_defer(pdev))
+> @@ -750,15 +746,16 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+>         if (nouveau_atomic)
+>                 driver_pci.driver_features |= DRIVER_ATOMIC;
+>
+> -       drm_dev = drm_dev_alloc(&driver_pci, &pdev->dev);
+> -       if (IS_ERR(drm_dev)) {
+> -               ret = PTR_ERR(drm_dev);
+> +       nv_dev = devm_drm_dev_alloc(&pdev->dev, &driver_stub, typeof(*nv_dev), drm_dev);
+> +       if (IS_ERR(nv_dev)) {
+> +               ret = PTR_ERR(nv_dev);
+>                 goto fail_nvkm;
+>         }
+> +       drm_dev = nouveau_to_drm_dev(nv_dev);
+>
+>         ret = pci_enable_device(pdev);
+>         if (ret)
+> -               goto fail_drm;
+> +               goto fail_nvkm;
+>
+>         drm_dev->pdev = pdev;
+>         pci_set_drvdata(pdev, drm_dev);
+> @@ -778,8 +775,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+>         nouveau_drm_device_fini(drm_dev);
+>  fail_pci:
+>         pci_disable_device(pdev);
+> -fail_drm:
+> -       drm_dev_put(drm_dev);
 
-Simplify this by setting the default CMA object functions for all
-objects that don't have any functions of their own. Follows the pattern
-of similar code in SHMEM and VRAM helpers. The function
-drm_gem_cma_create_object_default_funcs() is redundant and therefore
-being removed.
+it sounded like that when using devm_drm_dev_alloc we still have an
+initial refcount of 1, so at least in this regard nothing changed so I
+am wondering why this change is necessary and if the reason is
+unrelated it might make sense to move it into its own patch.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_cma_helper.c | 47 +++++++---------------------
- drivers/gpu/drm/pl111/pl111_drv.c    |  1 -
- include/drm/drm_gem_cma_helper.h     |  5 ---
- 3 files changed, 12 insertions(+), 41 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 2165633c9b9e..c3b31b3369c3 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -33,6 +33,14 @@
-  * display drivers that are unable to map scattered buffers via an IOMMU.
-  */
- 
-+static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-+	.free = drm_gem_cma_free_object,
-+	.print_info = drm_gem_cma_print_info,
-+	.get_sg_table = drm_gem_cma_prime_get_sg_table,
-+	.vmap = drm_gem_cma_prime_vmap,
-+	.vm_ops = &drm_gem_cma_vm_ops,
-+};
-+
- /**
-  * __drm_gem_cma_create - Create a GEM CMA object without allocating memory
-  * @drm: DRM device
-@@ -58,6 +66,10 @@ __drm_gem_cma_create(struct drm_device *drm, size_t size)
- 		gem_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
- 	if (!gem_obj)
- 		return ERR_PTR(-ENOMEM);
-+
-+	if (!gem_obj->funcs)
-+		gem_obj->funcs = &drm_gem_cma_default_funcs;
-+
- 	cma_obj = container_of(gem_obj, struct drm_gem_cma_object, base);
- 
- 	ret = drm_gem_object_init(drm, gem_obj, size);
-@@ -554,41 +566,6 @@ void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr)
- }
- EXPORT_SYMBOL_GPL(drm_gem_cma_prime_vunmap);
- 
--static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
--	.free = drm_gem_cma_free_object,
--	.print_info = drm_gem_cma_print_info,
--	.get_sg_table = drm_gem_cma_prime_get_sg_table,
--	.vmap = drm_gem_cma_prime_vmap,
--	.vm_ops = &drm_gem_cma_vm_ops,
--};
--
--/**
-- * drm_gem_cma_create_object_default_funcs - Create a CMA GEM object with a
-- *                                           default function table
-- * @dev: DRM device
-- * @size: Size of the object to allocate
-- *
-- * This sets the GEM object functions to the default CMA helper functions.
-- * This function can be used as the &drm_driver.gem_create_object callback.
-- *
-- * Returns:
-- * A pointer to a allocated GEM object or an error pointer on failure.
-- */
--struct drm_gem_object *
--drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size)
--{
--	struct drm_gem_cma_object *cma_obj;
--
--	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
--	if (!cma_obj)
--		return NULL;
--
--	cma_obj->base.funcs = &drm_gem_cma_default_funcs;
--
--	return &cma_obj->base;
--}
--EXPORT_SYMBOL(drm_gem_cma_create_object_default_funcs);
--
- /**
-  * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
-  *	scatter/gather table and get the virtual address of the buffer
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index ecef8a2383d2..fcb5caea7b47 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -224,7 +224,6 @@ static struct drm_driver pl111_drm_driver = {
- 	.major = 1,
- 	.minor = 0,
- 	.patchlevel = 0,
--	.gem_create_object = drm_gem_cma_create_object_default_funcs,
- 	.dumb_create = drm_gem_cma_dumb_create,
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index 2bfa2502607a..60aba1e734c0 100644
---- a/include/drm/drm_gem_cma_helper.h
-+++ b/include/drm/drm_gem_cma_helper.h
-@@ -106,9 +106,6 @@ int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
- void *drm_gem_cma_prime_vmap(struct drm_gem_object *obj);
- void drm_gem_cma_prime_vunmap(struct drm_gem_object *obj, void *vaddr);
- 
--struct drm_gem_object *
--drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
--
- /**
-  * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
-  * @dumb_create_func: callback function for .dumb_create
-@@ -123,7 +120,6 @@ drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
-  * DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE() instead.
-  */
- #define DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(dumb_create_func) \
--	.gem_create_object	= drm_gem_cma_create_object_default_funcs, \
- 	.dumb_create		= (dumb_create_func), \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
-@@ -162,7 +158,6 @@ drm_gem_cma_create_object_default_funcs(struct drm_device *dev, size_t size);
-  * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE() instead.
-  */
- #define DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(dumb_create_func) \
--	.gem_create_object	= drm_gem_cma_create_object_default_funcs, \
- 	.dumb_create		= dumb_create_func, \
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
--- 
-2.29.0
+>  fail_nvkm:
+>         nvkm_device_del(&device);
+>         return ret;
+> @@ -799,7 +794,6 @@ nouveau_drm_device_remove(struct drm_device *dev)
+>         device = nvkm_device_find(client->device);
+>
+>         nouveau_drm_device_fini(dev);
+> -       drm_dev_put(dev);
+>         nvkm_device_del(&device);
+>  }
+>
+> @@ -1285,7 +1279,8 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
+>                                struct platform_device *pdev,
+>                                struct nvkm_device **pdevice)
+>  {
+> -       struct drm_device *drm;
+> +       struct nouveau_drm *nv_dev;
+> +       struct drm_device *drm_dev;
+>         int err;
+>
+>         err = nvkm_device_tegra_new(func, pdev, nouveau_config, nouveau_debug,
+> @@ -1293,22 +1288,21 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
+>         if (err)
+>                 goto err_free;
+>
+> -       drm = drm_dev_alloc(&driver_platform, &pdev->dev);
+> -       if (IS_ERR(drm)) {
+> -               err = PTR_ERR(drm);
+> +       nv_dev = devm_drm_dev_alloc(&pdev->dev, &driver_platform, typeof(*nv_dev), drm_dev);
+> +       if (IS_ERR(nv_dev)) {
+> +               err = PTR_ERR(nv_dev);
+>                 goto err_free;
+>         }
+> +       drm_dev = nouveau_to_drm_dev(nv_dev);
+>
+> -       err = nouveau_drm_device_init(drm);
+> +       err = nouveau_drm_device_init(drm_dev);
+>         if (err)
+> -               goto err_put;
+> +               goto err_free;
+>
+> -       platform_set_drvdata(pdev, drm);
+> +       platform_set_drvdata(pdev, drm_dev);
+>
+> -       return drm;
+> +       return drm_dev;
+>
+> -err_put:
+> -       drm_dev_put(drm);
+>  err_free:
+>         nvkm_device_del(pdevice);
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> index 3e2920a10099..cf6c33e52a5c 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> @@ -137,7 +137,11 @@ struct nouveau_drm {
+>         struct nvif_parent parent;
+>         struct nouveau_cli master;
+>         struct nouveau_cli client;
+> -       struct drm_device *dev;
+> +
+> +       /**
+> +        * @drm_dev: The parent DRM device object.
+> +        */
+> +       struct drm_device drm_dev;
+>
+>         struct list_head clients;
+>
+> @@ -237,7 +241,7 @@ struct nouveau_drm {
+>  static inline struct nouveau_drm *
+>  nouveau_drm(struct drm_device *dev)
+>  {
+> -       return dev->dev_private;
+> +       return container_of(dev, struct nouveau_drm, drm_dev);
+>  }
+>
+>  /**
+> @@ -251,7 +255,7 @@ nouveau_drm(struct drm_device *dev)
+>   */
+>  static inline struct drm_device *
+>  nouveau_to_drm_dev(struct nouveau_drm *nv_dev) {
+> -       return nv_dev->dev;
+> +       return &nv_dev->drm_dev;
+>  }
+>
+>  /**
+> --
+> 2.28.0
+>
+> _______________________________________________
+> Nouveau mailing list
+> Nouveau@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/nouveau
+>
 
 _______________________________________________
 dri-devel mailing list
