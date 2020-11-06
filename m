@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F1E2A9C71
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:38:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567862A9C76
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:39:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13176EAD0;
-	Fri,  6 Nov 2020 18:38:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8637D6EAD2;
+	Fri,  6 Nov 2020 18:39:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 04CCC6EAD0
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:38:12 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id cq7so2059914edb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:38:11 -0800 (PST)
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com
+ [209.85.218.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63E406EAD2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:39:01 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id za3so3296499ejb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:39:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=lgaaduNWhBtGCGTi0Ry8Q0coZRaawbsMQyKl/2UIEgo=;
- b=bWEpvYPwIh4FzC5r5pPWEo+HH7d29j2XT+4IHLwB7h2mpK0BanjnOUM2COAaDZMTHG
- tMZKkNXatD7jTbZyohBfebsRHFBgtxeHcIA7nd966oFzw+fPOQE8STyntXMtEH18dPWn
- vTVTsNdd8Nba8Yf8KY9twWS+7BquaMilp2SC8Szn+PeSSTY9lrAhCUSIRGun9jB4Aes6
- 61h66Y6o7tKGJa+wbIhTUG/8F0whqKnko/bCvYb8OE9bBnxGvtcZb0gMeWNyeJzNvA34
- w5GWpkJ+hBDIwVxUjSmiQGu6FrGML9ueNGcmM/wcU24wCYp6yzR3dr3zzRMhO5u4fHhg
- gPbQ==
-X-Gm-Message-State: AOAM531OjiZUY8KXCVwVkiQKUhnHRkIRA77VfXCTpSsf2vCL6cJiRhzC
- qrGJWXm/bZBC7RI+Ejk6P8fKUcwyUMU=
-X-Google-Smtp-Source: ABdhPJy4HtbN7vYJA2lNpLeh4AOM6cl6mWGJG37W4W7pBtW9Cbp8CePA8JE/iAbGlQ2/RzLAUdYZuA==
-X-Received: by 2002:a05:6402:22c6:: with SMTP id
- dm6mr3472585edb.139.1604687890665; 
- Fri, 06 Nov 2020 10:38:10 -0800 (PST)
+ bh=kS8UGMj8u7kmdp82DQZoU8AThXuv2qMeUIUJVXpPFg0=;
+ b=oCnjzydhBh90bRRW7J34+DIqwDIUq+J9lWCtxtM00Pr7KTW8uReaHrbJwubu47QPAs
+ ryeT5hOokzmW1kcYikcrp20TdrVoWN0pEhuZrkvolv4u7FmTRHW9GHBawASVMHNqBteA
+ VL4okQ+vpwYAeXOUNBCo0SQVfXCzBhjYTFaogmaObA3b2jt0ODXZFWmlygSvhxFBYCBZ
+ Wnm5PGDBQhfty9rYh+gmmOopA31MQQKomO2soPtK0MSbEgJrJ1zIJe9t4twdWqnMLf7U
+ QjmWF+VB7554Fj4Bz9A39CQeDfa4wIi4wvtJK8nt+GMxmtpGFM/OM3bt0LfbhFbP7QLc
+ SSsQ==
+X-Gm-Message-State: AOAM530+KSE2cRrAGY/CaFo4BEJTRgeoIZzqSxN31xsiqReQI/Py/vtE
+ Y34eE/MMi/PAZxqenmmHfwY=
+X-Google-Smtp-Source: ABdhPJzcC1h3f6tV7eDIDeRR9kukru5SAGG3SVamlaZS7gKvC+aj5wNwyPVX1PaEI66NBMNPgbM//g==
+X-Received: by 2002:a17:906:7f10:: with SMTP id
+ d16mr3376737ejr.104.1604687940019; 
+ Fri, 06 Nov 2020 10:39:00 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id b24sm1594165edt.68.2020.11.06.10.38.09
+ by smtp.googlemail.com with ESMTPSA id l8sm1545278ejr.106.2020.11.06.10.38.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 10:38:09 -0800 (PST)
-Date: Fri, 6 Nov 2020 19:38:07 +0100
+ Fri, 06 Nov 2020 10:38:59 -0800 (PST)
+Date: Fri, 6 Nov 2020 19:38:57 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 17/47] dt-bindings: memory: tegra20: Add memory client
+Subject: Re: [PATCH v7 18/47] dt-bindings: memory: tegra30: Add memory client
  IDs
-Message-ID: <20201106183807.GQ65086@kozik-lap>
+Message-ID: <20201106183857.GR65086@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-18-digetx@gmail.com>
+ <20201104164923.21238-19-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-18-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-19-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,14 +76,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:48:53PM +0300, Dmitry Osipenko wrote:
+On Wed, Nov 04, 2020 at 07:48:54PM +0300, Dmitry Osipenko wrote:
 > Each memory client has unique hardware ID, add these IDs.
 > 
 > Acked-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
+>  include/dt-bindings/memory/tegra30-mc.h | 67 +++++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
 
 Thanks, applied.
 
