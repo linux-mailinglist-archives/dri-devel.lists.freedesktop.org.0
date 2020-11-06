@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD452A9BFD
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:24:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9262A9C03
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:25:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404FF6E1D6;
-	Fri,  6 Nov 2020 18:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A11B6EAC2;
+	Fri,  6 Nov 2020 18:25:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
- [209.85.218.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4117D6E1D6
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:24:37 +0000 (UTC)
-Received: by mail-ej1-f68.google.com with SMTP id o21so3236423ejb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:24:37 -0800 (PST)
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+ [209.85.208.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46F046EABF
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:25:41 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id p93so2226297edd.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:25:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=jxPvn+tRErECnh3tRjRGtBK4eFiK5HVLTI2eNBJW3tI=;
- b=e8AKxjZ5PQEWtVYsAsWJxBjGHvPMmZuQL7CwbnxivYBBJrXNNXdvHalFxPzsKEjMFA
- I2SQUBDsMRw2UdLiBVSpy88KFdSHllPhcEIZxF/LGp5wWsQTK75D4RCReqBzr678VkGd
- LKNKOwJRfftwM+3GFn3iDcCxcVMNwqrB0VEO2fdd3XkOhAdxg4JtPoC5uNGnGEKcutxp
- 0kaTD/9o8UXl9w3bvOckSA/N2j+6/U7aC4AM7Nof2Bpa9m+CfimS0fGyhXnh4x7Yeewt
- +cNaziNzpyd0Xf6MCgfH3AlGYj8pRuN+EzjVr8y1iqHYBimii+uRY/wyJzBNQOe5sziF
- sDgA==
-X-Gm-Message-State: AOAM533g6GX5tYE2MB6/N5hjp62/3ROht34aVY02so3SkFTRTevVHkGz
- 6hxVORCVBDgeULYDc92Z5Po=
-X-Google-Smtp-Source: ABdhPJyjgo5cj5F+nU/zODSqD5zCt0sBTU4NCkQ3Gvk7fQMeVD8kVRoQuGZ9DreX9sbOHWgb7FGJ3g==
-X-Received: by 2002:a17:906:8485:: with SMTP id
- m5mr3504379ejx.205.1604687075876; 
- Fri, 06 Nov 2020 10:24:35 -0800 (PST)
+ bh=W4e9xxWCUUkemhkYqMYZWqkqTifhMPb66C70SaoRt8w=;
+ b=s+d178vPXs9S6psOnwwEp3FNn0Oe/bNREyY1r0vBPakHOfbUT5HxbE8keeYN8z2ZRc
+ WN3O1+0UB3Uj1aBdbMwiLIhivfuGuaWSYwB8EFC2JS+m1Q4qXEiIiAyRwnwRi/3O561f
+ DiuXaiHx/ytzT4qJ7k04SK8R1sU0MYqKShwHX0bfxgq+Ex4sWgKMOGLOVGADj2rjqbqL
+ golXfj+KOEwFH4jwmykbwZxc2wo+vMkMEJ/dPuV121260VVQNIFjrP+XVGcf8xP2VhZW
+ pxhMzEo5XkadBqD+3jrOXl6n3gEf4ogcXAeU7DGqo9lB8Yycl7qdOMVl2lygUf407u3c
+ TtRg==
+X-Gm-Message-State: AOAM530fXi8qSU/757rrHmrBSsdi42g7d2vuj6YEwNfZHr4qMn1bupZw
+ QtJbZNCksLScVUGBIdyyFgA=
+X-Google-Smtp-Source: ABdhPJwR2qKcQO2sO6AyYIsG/sCwIbE/ol0NFC503Fd5sXYO1Lhak+5D+Y+HdxZ8Y96i3i2KfUiW/w==
+X-Received: by 2002:a50:99c3:: with SMTP id n3mr3432007edb.213.1604687139764; 
+ Fri, 06 Nov 2020 10:25:39 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id k23sm1473606ejo.108.2020.11.06.10.24.34
+ by smtp.googlemail.com with ESMTPSA id cn8sm1580968edb.18.2020.11.06.10.25.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 10:24:34 -0800 (PST)
-Date: Fri, 6 Nov 2020 19:24:32 +0100
+ Fri, 06 Nov 2020 10:25:38 -0800 (PST)
+Date: Fri, 6 Nov 2020 19:25:37 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 02/47] soc/tegra: fuse: Export tegra_read_ram_code()
-Message-ID: <20201106182432.GB65086@kozik-lap>
+Subject: Re: [PATCH v7 03/47] soc/tegra: fuse: Add stub for tegra_sku_info
+Message-ID: <20201106182537.GC65086@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-3-digetx@gmail.com>
+ <20201104164923.21238-4-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-3-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-4-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,14 +74,14 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:48:38PM +0300, Dmitry Osipenko wrote:
-> The tegra_read_ram_code() is used by EMC drivers and we're going to make
-> these driver modular, hence this function needs to be exported.
+On Wed, Nov 04, 2020 at 07:48:39PM +0300, Dmitry Osipenko wrote:
+> Drivers that use tegra_sku_info and have COMPILE_TEST are failing to be
+> build due to the missing stub for tegra_sku_info, thus add the missing
+> stub.
 > 
-> Acked-by: Thierry Reding <treding@nvidia.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/soc/tegra/fuse/tegra-apbmisc.c | 2 ++
+>  include/soc/tegra/fuse.h | 4 ++++
 
 Thanks, applied.
 
