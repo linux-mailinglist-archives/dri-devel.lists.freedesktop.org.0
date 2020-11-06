@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5182A97C4
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 15:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5972A97D5
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 15:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE726E0D4;
-	Fri,  6 Nov 2020 14:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FCEA6E03A;
+	Fri,  6 Nov 2020 14:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C29D6E0D4
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 14:37:51 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A6EbaIq009922;
- Fri, 6 Nov 2020 08:37:36 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604673456;
- bh=QTqGgN17XskZ+DYeAOQfGwTLyMCVyN7OsFq4NonmOWI=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=JPWSdE73Y9AqmYndL/8yhfQB3sP3oVpzKjkvVqNC2RbQnt1Vn50Habzlu40vCNSCW
- kD70geU3dTMQQhkaFTkUAgbpKKwE24IgKR9Tx1KLInwzThCqxO1zCSTF91u2SBfMRJ
- OKJShafqHcf40z0pJIE8D20iy/JJHfnExSAOtOUQ=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A6Ebahq088465
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 6 Nov 2020 08:37:36 -0600
-Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 6 Nov
- 2020 08:37:35 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 6 Nov 2020 08:37:35 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A6EbXkj034166;
- Fri, 6 Nov 2020 08:37:34 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
-Date: Fri, 6 Nov 2020 16:37:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C841F6E03A
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 14:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604673958;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cFd8XANW2NnqIDs5fKPXlkt8TxDQ++SJbHnaDAAQH+k=;
+ b=Ds6RtwQUazIDzTCFZIV8kyVFmkjrLvbgDQWyceeYM6MLwcuWlAIUiG64FrBVk6vYlw4kEd
+ 1EzPKTNsVmDhM57KvG6GLubjL39qMSvc6j4QpaRz22i+AJA+78J2lJYASWYmT97wiYLWA/
+ tfVI8PY4AA5BhljKZlhfUR0NsnKTe/w=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-hkoWZY7dM9CVm4sjH4KrNA-1; Fri, 06 Nov 2020 09:45:56 -0500
+X-MC-Unique: hkoWZY7dM9CVm4sjH4KrNA-1
+Received: by mail-qk1-f200.google.com with SMTP id x5so855898qkn.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 06:45:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cFd8XANW2NnqIDs5fKPXlkt8TxDQ++SJbHnaDAAQH+k=;
+ b=m9OJPJowNKuOd8J/3oSCxko7TQKsbwU/5tU+kArl1OVyvqiNusfGeBINBJHxMsNgOm
+ dgxBEF9XY0cW9tvmWjDGPkl2sqo1tOSHd/mkFL8wiFZe91Ex4lMjj6oPjkygPzDksmd0
+ t9XmA/Wu2xXQ23fMDcaMYu4JAbcPy0ypcdcakXOHXe6kUTfq7+e9PXuZeWWCgXzeV9YD
+ VA0euvCOwPuys7nnggrS5omu7FxlxrzEWqfPNmFMCydthYqCJQzqIl3CQK/iYPLuPFM4
+ vU2a/YqgXhEtCKZ/Jk4durGAnxdTu6fyQnhLJTbDXNt075BBfNcCveMts7xEm+e6piiD
+ NAZA==
+X-Gm-Message-State: AOAM531xhnSs3+LZeRvrMq1Bf4Zc9aSVN9TAXh6+/NfNHY9iLjdCO02Z
+ cv91jkwMuBiIq0GfOZJX7/W4TuN5nAHIHY6VCyaS/soeG5c/nm8VKCVRMuIEcJrL4afoWty2QCp
+ Qp5bkEhDyUlXJBCF46zYWN07TfhLe
+X-Received: by 2002:ac8:7a7b:: with SMTP id w27mr1820842qtt.381.1604673955465; 
+ Fri, 06 Nov 2020 06:45:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyVvVeyqh85AZyi8q2FX0MGeNnGekEj5wHHNrBCPg310gp4Id2tCxZmt7Ocg8HZKlHCzrDATA==
+X-Received: by 2002:ac8:7a7b:: with SMTP id w27mr1820808qtt.381.1604673955102; 
+ Fri, 06 Nov 2020 06:45:55 -0800 (PST)
+Received: from xps13 ([2605:a601:a639:f01:1ac8:8e0c:f1cc:7a29])
+ by smtp.gmail.com with ESMTPSA id h9sm590245qth.78.2020.11.06.06.45.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Nov 2020 06:45:53 -0800 (PST)
+Date: Fri, 6 Nov 2020 09:45:51 -0500
+From: Jeremy Cline <jcline@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+Subject: Re: [Nouveau] [PATCH 2/3] drm/nouveau: manage nouveau_drm lifetime
+ with devres
+Message-ID: <20201106144551.GA7656@xps13>
+References: <20201106021656.40743-1-jcline@redhat.com>
+ <20201106021656.40743-3-jcline@redhat.com>
+ <CACO55tsRGOH5rwy-40_6FY_9mGZKfkiFBoAT2jowbQYmaLGK8g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <CACO55tsRGOH5rwy-40_6FY_9mGZKfkiFBoAT2jowbQYmaLGK8g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,82 +79,225 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: David Airlie <airlied@linux.ie>, nouveau <nouveau@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/11/2020 20:56, H. Nikolaus Schaller wrote:
+On Fri, Nov 06, 2020 at 02:31:44PM +0100, Karol Herbst wrote:
+> On Fri, Nov 6, 2020 at 3:17 AM Jeremy Cline <jcline@redhat.com> wrote:
+> >
+> > Make use of the devm_drm_dev_alloc() API to bind the lifetime of
+> > nouveau_drm structure to the drm_device. This is important because a
+> > reference to nouveau_drm is accessible from drm_device, which is
+> > provided to a number of DRM layer callbacks that can run after the
+> > deallocation of nouveau_drm currently occurs.
+> >
+> > Signed-off-by: Jeremy Cline <jcline@redhat.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/nouveau_drm.c | 44 ++++++++++++---------------
+> >  drivers/gpu/drm/nouveau/nouveau_drv.h | 10 ++++--
+> >  2 files changed, 26 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > index bc6f51bf23b7..f750c25e92f9 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
+> > @@ -30,9 +30,11 @@
+> >  #include <linux/vga_switcheroo.h>
+> >  #include <linux/mmu_notifier.h>
+> >
+> > +#include <drm/drm_drv.h>
+> >  #include <drm/drm_crtc_helper.h>
+> >  #include <drm/drm_ioctl.h>
+> >  #include <drm/drm_vblank.h>
+> > +#include <drm/drm_managed.h>
+> >
+> >  #include <core/gpuobj.h>
+> >  #include <core/option.h>
+> > @@ -532,13 +534,8 @@ nouveau_parent = {
+> >  static int
+> >  nouveau_drm_device_init(struct drm_device *dev)
+> >  {
+> > -       struct nouveau_drm *drm;
+> >         int ret;
+> > -
+> > -       if (!(drm = kzalloc(sizeof(*drm), GFP_KERNEL)))
+> > -               return -ENOMEM;
+> > -       dev->dev_private = drm;
+> > -       drm->dev = dev;
+> > +       struct nouveau_drm *drm = nouveau_drm(dev);
+> >
+> >         nvif_parent_ctor(&nouveau_parent, &drm->parent);
+> >         drm->master.base.object.parent = &drm->parent;
+> > @@ -620,7 +617,6 @@ nouveau_drm_device_init(struct drm_device *dev)
+> >         nouveau_cli_fini(&drm->master);
+> >  fail_alloc:
+> >         nvif_parent_dtor(&drm->parent);
+> > -       kfree(drm);
+> >         return ret;
+> >  }
+> >
+> > @@ -654,7 +650,6 @@ nouveau_drm_device_fini(struct drm_device *dev)
+> >         nouveau_cli_fini(&drm->client);
+> >         nouveau_cli_fini(&drm->master);
+> >         nvif_parent_dtor(&drm->parent);
+> > -       kfree(drm);
+> >  }
+> >
+> >  /*
+> > @@ -720,6 +715,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+> >  {
+> >         struct nvkm_device *device;
+> >         struct drm_device *drm_dev;
+> > +       struct nouveau_drm *nv_dev;
+> >         int ret;
+> >
+> >         if (vga_switcheroo_client_probe_defer(pdev))
+> > @@ -750,15 +746,16 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+> >         if (nouveau_atomic)
+> >                 driver_pci.driver_features |= DRIVER_ATOMIC;
+> >
+> > -       drm_dev = drm_dev_alloc(&driver_pci, &pdev->dev);
+> > -       if (IS_ERR(drm_dev)) {
+> > -               ret = PTR_ERR(drm_dev);
+> > +       nv_dev = devm_drm_dev_alloc(&pdev->dev, &driver_stub, typeof(*nv_dev), drm_dev);
+> > +       if (IS_ERR(nv_dev)) {
+> > +               ret = PTR_ERR(nv_dev);
+> >                 goto fail_nvkm;
+> >         }
+> > +       drm_dev = nouveau_to_drm_dev(nv_dev);
+> >
+> >         ret = pci_enable_device(pdev);
+> >         if (ret)
+> > -               goto fail_drm;
+> > +               goto fail_nvkm;
+> >
+> >         drm_dev->pdev = pdev;
+> >         pci_set_drvdata(pdev, drm_dev);
+> > @@ -778,8 +775,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
+> >         nouveau_drm_device_fini(drm_dev);
+> >  fail_pci:
+> >         pci_disable_device(pdev);
+> > -fail_drm:
+> > -       drm_dev_put(drm_dev);
 > 
->> Am 05.11.2020 um 19:28 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> On 05/11/2020 20:14, H. Nikolaus Schaller wrote:
->>>
->>>> Am 05.11.2020 um 18:36 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>>>
->>>> Hi,
->>>>
->>>> On 05/11/2020 19:15, H. Nikolaus Schaller wrote:
->>>>
->>>>> Next, I migrated my long waiting mipi_dsi/drm_panel driver conversion for
->>>>> the panel of the Pyra handheld (omap 5 based) to compile on 5.10-rc2. And
->>>>> I followed the latest existing panel-orisetech-otm8009a.c which uses a
->>>>> similar video mode controller and mipi-dsi.
->>>>>
->>>>> That one seems to be used by arch/arm/boot/dts/stm32f469-disco.dts.
->>>>>
->>>>> Unfortunately my panel driver is not even loaded by drm/omap so I can't
->>>>> debug. Does this set of drm/omap drivers need a modification of the device
->>>>> tree? If yes, which one?
->>>>
->>>> omapdrm doesn't load the panel drivers. If not even your panel's probe is called, then it hints at
->>>> DT and/or driver's compatible string issue. The panel's probe should get called even if omapdrm is
->>>> not loaded at all.
->>>
->>> Well, I use the same device tree that loads the old driver...
->>
->> Yeah, I was mistaken above. With DSI the panel (may be) a child of the DSI host, so it will affect.
->>
->> Can you give pointers to the panel driver source and relevant dts files? BOE BTL507212-W677L?
+> it sounded like that when using devm_drm_dev_alloc we still have an
+> initial refcount of 1, so at least in this regard nothing changed so I
+> am wondering why this change is necessary and if the reason is
+> unrelated it might make sense to move it into its own patch.
 > 
-> Yes. It is (now) 
-> 
-> drivers/gpu/drm/panel/panel-boe-btl507212-w677l.c
-> 
-> and
-> 
-> arch/arm/boot/dts/omap5-letux-cortex15-common.dtsi (for the basic dsi definitions)
-> arch/arm/boot/dts/pyra-display.dtsi (for the specific display)
-> 
-> All this is merged by some arch/arm/boot/dts/omap5-letux-cortex15-v5.3+pyra-v5.2.dts
 
-I took the driver and make my omap4-sdp dts to use it. It probes for me, but stop after that:
+The way I read the supporting code is that when the allocation occurs,
+an action is registered on the parent device to call drm_dev_put(), so
+as long as the PCI device is dropped, and as far as I could tell it is
+when an error is returned, it should be handled automatically. The same
+I *think* goes for the platform device variety with Tegra.
 
-[  119.346374] omapdss_dss 58000000.dss: supply vdda_video not found, using dummy regulator
-[  119.358398] DSS: OMAP DSS rev 4.0
-[  119.680053] panel-dsi-cm 58004000.encoder.0: failed to get video timing, using defaults
-[  119.695709] panel-dsi-cm 58004000.encoder.0: supply vpnl not found, using dummy regulator
-[  119.711242] panel-dsi-cm 58004000.encoder.0: supply vddi not found, using dummy regulator
-[  119.769470] panel-btl507212-w677l 58005000.encoder.0: w677l_probe
-[  119.779388] panel-btl507212-w677l 58005000.encoder.0: w677l_probe ok
-[  119.846679] omapdss_dss 58000000.dss: bound 58001000.dispc (ops dispc_component_ops [omapdrm])
-[  119.858673] omapdss_dss 58000000.dss: bound 58004000.encoder (ops dsi_component_ops [omapdrm])
-[  119.882629] omapdss_dss 58000000.dss: bound 58005000.encoder (ops dsi_component_ops [omapdrm])
-[  119.902069] omapdss_dss 58000000.dss: bound 58006000.encoder (ops hdmi4_component_ops [omapdrm])
-[  119.962066] dmm 4e000000.dmm: initialized all PAT entries
-[  120.014770] panel-btl507212-w677l 58005000.encoder.0: w677l_get_modes
+However, this is by far the most likely thing for me to have
+misunderstood so I'll look through it a second time and would love to
+have a second opinion on it.
 
-I didn't debug yet where it's hanging. So you're not even getting the probe?
+> >  fail_nvkm:
+> >         nvkm_device_del(&device);
+> >         return ret;
+> > @@ -799,7 +794,6 @@ nouveau_drm_device_remove(struct drm_device *dev)
+> >         device = nvkm_device_find(client->device);
+> >
+> >         nouveau_drm_device_fini(dev);
+> > -       drm_dev_put(dev);
+> >         nvkm_device_del(&device);
+> >  }
+> >
+> > @@ -1285,7 +1279,8 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
+> >                                struct platform_device *pdev,
+> >                                struct nvkm_device **pdevice)
+> >  {
+> > -       struct drm_device *drm;
+> > +       struct nouveau_drm *nv_dev;
+> > +       struct drm_device *drm_dev;
+> >         int err;
+> >
+> >         err = nvkm_device_tegra_new(func, pdev, nouveau_config, nouveau_debug,
+> > @@ -1293,22 +1288,21 @@ nouveau_platform_device_create(const struct nvkm_device_tegra_func *func,
+> >         if (err)
+> >                 goto err_free;
+> >
+> > -       drm = drm_dev_alloc(&driver_platform, &pdev->dev);
+> > -       if (IS_ERR(drm)) {
+> > -               err = PTR_ERR(drm);
+> > +       nv_dev = devm_drm_dev_alloc(&pdev->dev, &driver_platform, typeof(*nv_dev), drm_dev);
+> > +       if (IS_ERR(nv_dev)) {
+> > +               err = PTR_ERR(nv_dev);
+> >                 goto err_free;
+> >         }
+> > +       drm_dev = nouveau_to_drm_dev(nv_dev);
+> >
+> > -       err = nouveau_drm_device_init(drm);
+> > +       err = nouveau_drm_device_init(drm_dev);
+> >         if (err)
+> > -               goto err_put;
+> > +               goto err_free;
+> >
+> > -       platform_set_drvdata(pdev, drm);
+> > +       platform_set_drvdata(pdev, drm_dev);
+> >
+> > -       return drm;
+> > +       return drm_dev;
+> >
+> > -err_put:
+> > -       drm_dev_put(drm);
+> >  err_free:
+> >         nvkm_device_del(pdevice);
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > index 3e2920a10099..cf6c33e52a5c 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
+> > @@ -137,7 +137,11 @@ struct nouveau_drm {
+> >         struct nvif_parent parent;
+> >         struct nouveau_cli master;
+> >         struct nouveau_cli client;
+> > -       struct drm_device *dev;
+> > +
+> > +       /**
+> > +        * @drm_dev: The parent DRM device object.
+> > +        */
+> > +       struct drm_device drm_dev;
+> >
+> >         struct list_head clients;
+> >
+> > @@ -237,7 +241,7 @@ struct nouveau_drm {
+> >  static inline struct nouveau_drm *
+> >  nouveau_drm(struct drm_device *dev)
+> >  {
+> > -       return dev->dev_private;
+> > +       return container_of(dev, struct nouveau_drm, drm_dev);
+> >  }
+> >
+> >  /**
+> > @@ -251,7 +255,7 @@ nouveau_drm(struct drm_device *dev)
+> >   */
+> >  static inline struct drm_device *
+> >  nouveau_to_drm_dev(struct nouveau_drm *nv_dev) {
+> > -       return nv_dev->dev;
+> > +       return &nv_dev->drm_dev;
+> >  }
+> >
+> >  /**
+> > --
+> > 2.28.0
+> >
+> > _______________________________________________
+> > Nouveau mailing list
+> > Nouveau@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/nouveau
+> >
+> 
 
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
