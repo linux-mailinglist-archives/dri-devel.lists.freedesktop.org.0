@@ -2,42 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B772A95E5
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 12:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175DE2A9653
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 13:42:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EACCB6EA85;
-	Fri,  6 Nov 2020 11:59:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257AD6E1A8;
+	Fri,  6 Nov 2020 12:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40E0D6EA6D;
- Fri,  6 Nov 2020 11:59:22 +0000 (UTC)
-IronPort-SDR: WTKtVKM6ov/ggVH6sPmgRunwwsGEIiLpvwMMMRdg8TUq0GG0c6MKrGjIsspCoipycn0cga3LLI
- HYPcFcn2f/oA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="231163603"
-X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; d="scan'208";a="231163603"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 03:59:21 -0800
-IronPort-SDR: YTqXGmH3rKRZw8Fd4y8xdm4gy7IVdeoPghd6DMBZ4AWFliAARFyJrmexBnH7XfS1WNQ9P2OV8D
- L/IwAU8OV3Xg==
-X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; d="scan'208";a="326393170"
-Received: from unknown (HELO intel.com) ([10.99.66.154])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 03:59:18 -0800
-Date: Fri, 6 Nov 2020 17:30:03 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v4 03/16] drm/i915/hotplug: Handle CP_IRQ for DP-MST
-Message-ID: <20201106120003.GD13128@intel.com>
-References: <20201027164208.10026-1-anshuman.gupta@intel.com>
- <20201027164208.10026-4-anshuman.gupta@intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A76CD6E1A8
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 12:42:29 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5D5C4ABDE;
+ Fri,  6 Nov 2020 12:42:28 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: patrik.r.jakobsson@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH] drm/gma500: Remove unused function psb_gem_get_aperture()
+Date: Fri,  6 Nov 2020 13:42:24 +0100
+Message-Id: <20201106124224.21201-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201027164208.10026-4-anshuman.gupta@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,44 +37,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
- juston.li@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0xMC0yNyBhdCAyMjoxMTo1NSArMDUzMCwgQW5zaHVtYW4gR3VwdGEgd3JvdGU6Cj4g
-SGFuZGxlIENQX0lSUSBpbiBERVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9SX0VTSTAKPiBJdCByZXF1
-aXJlcyB0byBjYWxsIGludGVsX2hkY3BfaGFuZGxlX2NwX2lycSgpIGluIGNhc2UKPiBvZiBDUF9J
-UlEgaXMgdHJpZ2dlcmVkIGJ5IGEgc2luayBpbiBEUC1NU1QgdG9wb2xvZ3kuCj4gCj4gQ2M6ICJW
-aWxsZSBTeXJqw6Rsw6QiIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KPiBDYzogUmFt
-YWxpbmdhbSBDIDxyYW1hbGluZ2FtLmNAaW50ZWwuY29tPgo+IFJldmlld2VkLWJ5OiBVbWEgU2hh
-bmthciA8dW1hLnNoYW5rYXJAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogUmFtYWxpbmdhbSBDIDxy
-YW1hbGluZ2FtLmNAaW50ZWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEFuc2h1bWFuIEd1cHRhIDxh
-bnNodW1hbi5ndXB0YUBpbnRlbC5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZHAuYyB8IDE0ICsrKysrKysrKysrKystCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-MyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rp
-c3BsYXkvaW50ZWxfZHAuYwo+IGluZGV4IDgxOGRhYWIyNTJmMy4uMjFjNmM5ODI4Y2Q3IDEwMDY0
-NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+IEBAIC01NjU3LDYgKzU2
-NTcsMTcgQEAgc3RhdGljIHZvaWQgaW50ZWxfZHBfaGFuZGxlX3Rlc3RfcmVxdWVzdChzdHJ1Y3Qg
-aW50ZWxfZHAgKmludGVsX2RwKQo+ICAJCQkgICAgIkNvdWxkIG5vdCB3cml0ZSB0ZXN0IHJlc3Bv
-bnNlIHRvIHNpbmtcbiIpOwo+ICB9Cj4gIAo+ICtzdGF0aWMgdm9pZAo+ICtpbnRlbF9kcF9tc3Rf
-aHBkX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwLCB1OCAqZXNpLCBib29sICpoYW5kbGVk
-KQo+ICt7Cj4gKwkJZHJtX2RwX21zdF9ocGRfaXJxKCZpbnRlbF9kcC0+bXN0X21nciwgZXNpLCBo
-YW5kbGVkKTsKPiArCj4gKwkJaWYgKGVzaVsxXSAmIERQX0NQX0lSUSkgewo+ICsJCQlpbnRlbF9o
-ZGNwX2hhbmRsZV9jcF9pcnEoaW50ZWxfZHAtPmF0dGFjaGVkX2Nvbm5lY3Rvcik7Cj4gKwkJCSpo
-YW5kbGVkID0gdHJ1ZTsKPiArCQl9Cj4gK30KPiArCj4gIC8qKgo+ICAgKiBpbnRlbF9kcF9jaGVj
-a19tc3Rfc3RhdHVzIC0gc2VydmljZSBhbnkgcGVuZGluZyBNU1QgaW50ZXJydXB0cywgY2hlY2sg
-bGluayBzdGF0dXMKPiAgICogQGludGVsX2RwOiBJbnRlbCBEUCBzdHJ1Y3QKPiBAQCAtNTcwMSw3
-ICs1NzEyLDggQEAgaW50ZWxfZHBfY2hlY2tfbXN0X3N0YXR1cyhzdHJ1Y3QgaW50ZWxfZHAgKmlu
-dGVsX2RwKQo+ICAKPiAgCQlkcm1fZGJnX2ttcygmaTkxNS0+ZHJtLCAiZ290IGVzaSAlM3BoXG4i
-LCBlc2kpOwo+ICAKPiAtCQlkcm1fZHBfbXN0X2hwZF9pcnEoJmludGVsX2RwLT5tc3RfbWdyLCBl
-c2ksICZoYW5kbGVkKTsKPiArCQlpbnRlbF9kcF9tc3RfaHBkX2lycShpbnRlbF9kcCwgZXNpLCAm
-aGFuZGxlZCk7Cj4gKwo+ICAJCWlmICghaGFuZGxlZCkKPiAgCQkJYnJlYWs7Cj4gIAo+IC0tIAo+
-IDIuMjYuMgo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Apparently, the function was never used at all.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/gma500/gem.c     | 6 ------
+ drivers/gpu/drm/gma500/psb_drv.h | 2 --
+ 2 files changed, 8 deletions(-)
+
+diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
+index 8f07de83b6fb..db827e591403 100644
+--- a/drivers/gpu/drm/gma500/gem.c
++++ b/drivers/gpu/drm/gma500/gem.c
+@@ -32,12 +32,6 @@ static void psb_gem_free_object(struct drm_gem_object *obj)
+ 	psb_gtt_free_range(obj->dev, gtt);
+ }
+ 
+-int psb_gem_get_aperture(struct drm_device *dev, void *data,
+-				struct drm_file *file)
+-{
+-	return -EINVAL;
+-}
+-
+ static const struct vm_operations_struct psb_gem_vm_ops = {
+ 	.fault = psb_gem_fault,
+ 	.open = drm_gem_vm_open,
+diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+index c71a5a4e912c..ce6aae4b1bb2 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.h
++++ b/drivers/gpu/drm/gma500/psb_drv.h
+@@ -735,8 +735,6 @@ extern const struct drm_connector_helper_funcs
+ extern const struct drm_connector_funcs psb_intel_lvds_connector_funcs;
+ 
+ /* gem.c */
+-extern int psb_gem_get_aperture(struct drm_device *dev, void *data,
+-			struct drm_file *file);
+ extern int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args);
+ 
+-- 
+2.29.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
