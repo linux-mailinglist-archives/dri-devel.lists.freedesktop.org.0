@@ -2,51 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE262A9C83
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 451AF2A9CB6
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:52:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5682D6EAD3;
-	Fri,  6 Nov 2020 18:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81E46EAE2;
+	Fri,  6 Nov 2020 18:52:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB1656EAD3
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:39:18 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id b9so2259599edu.10
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:39:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=u98Rgpeb4Nt49mc0QG8eEb+MB+Za9caOVTHP5k1gxr0=;
- b=czSliFnhdBAJfWGOqPm+1hCn0kldJFdUshfKFt3+af62AjIriUR0v+gpveplYu4HQ6
- /tPCEK5X4U+Ij3PzKqGjpwaKUR/XYK7opWD9LrQDRNfwhvWJqZMaHEnQoWSiSyhTlkQp
- 3ETIK1bBdbS6bEmKVvZoLouxZsl19gPshBPoZ4g4/ogDwW/KZ90x8Wvw1dlhjVN9BU35
- aP+D+XIw0cwQjFR1jFX+Um+aoPgN88rZPNOrYSORh1nF1N9DwAWOp4a//HRlB8f2T8dS
- dvZ4/N9vV0r16cx3N/ycmmaqW7E4Dz0KA9m9pewIWgMl7PzVW3RW8fndLpNydSHro6Zj
- GzfQ==
-X-Gm-Message-State: AOAM530hg0P+5zwdpZSPP2PdIhixk81NuchMwjTTfmvwdFEr0hvS/D/T
- E5uLBHZ2W+hDdxMvDwSYbvM=
-X-Google-Smtp-Source: ABdhPJxFr3F7asxGB0TOnmt+HUoticWJ2aCBZMi5JRtZ1kzSkCobKCu6kfaAs8KEsD4jnGtxvOiVsw==
-X-Received: by 2002:a05:6402:559:: with SMTP id
- i25mr3576305edx.128.1604687957598; 
- Fri, 06 Nov 2020 10:39:17 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id j20sm1588358edt.4.2020.11.06.10.39.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 10:39:16 -0800 (PST)
-Date: Fri, 6 Nov 2020 19:39:14 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 19/47] dt-bindings: memory: tegra124: Add memory
- client IDs
-Message-ID: <20201106183914.GS65086@kozik-lap>
-References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-20-digetx@gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304906EADF;
+ Fri,  6 Nov 2020 18:52:07 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 062A720071;
+ Fri,  6 Nov 2020 19:52:03 +0100 (CET)
+Date: Fri, 6 Nov 2020 19:52:02 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Wang Qing <wangqing@vivo.com>
+Subject: Re: [PATCH] drm: Use IS_ERR() instead of null pointer check
+Message-ID: <20201106185202.GA808798@ravnborg.org>
+References: <1604629881-557-1-git-send-email-wangqing@vivo.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-20-digetx@gmail.com>
+In-Reply-To: <1604629881-557-1-git-send-email-wangqing@vivo.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=1WtWmnkvAAAA:8 a=e5mUnYsNAAAA:8
+ a=u0hbGyvj-nib5C6JQ3MA:9 a=CjuIK1q_8ugA:10 a=-_UHfarfsM-RsASml2Jt:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,37 +44,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>,
- devicetree@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ Sharat Masetty <smasetty@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ Akhil P Oommen <akhilpo@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:48:55PM +0300, Dmitry Osipenko wrote:
-> Each memory client has unique hardware ID, add these IDs.
+Hi Wang.
+
+Thanks for the fix.
+
+On Fri, Nov 06, 2020 at 10:31:19AM +0800, Wang Qing wrote:
+> a6xx_gmu_get_mmio() never return null in case of error, but ERR_PTR(),
+> so we should use IS_ERR() instead of null pointer check
 > 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> Signed-off-by: Wang Qing <wangqing@vivo.com>
+
+In the future please put "drm/<driver-dir>:" in the subject.
+See git log . in said directory for normal practice - this let the
+readers see this is an msm related patch.
+
+
+
 > ---
->  include/dt-bindings/memory/tegra124-mc.h | 68 ++++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 491fee4..8c81a89
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -492,7 +492,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+>  	void __iomem *seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
+>  	uint32_t pdc_address_offset;
+>  
+> -	if (!pdcptr || !seqptr)
+> +	if (IS_ERR(pdcptr) || IS_ERR(seqptr))
+>  		goto err;
 
-Thanks, applied.
+When the pointer is checked after the err: label the function
+IS_ERR_OR_NULL() is used. Please update both places so they match.
 
-Best regards,
-Krzysztof
+	Sam
 
+>  
+>  	if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
+> -- 
+> 2.7.4
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
