@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3742AADF2
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39A42AAE06
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98F9289259;
-	Sun,  8 Nov 2020 22:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDBD897F0;
+	Sun,  8 Nov 2020 22:49:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975FC6EA87
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 12:55:08 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id h15so861366qkl.13
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 04:55:08 -0800 (PST)
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2806EA94
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 12:58:42 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id m65so620593qte.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 04:58:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Y9u4GqsYFp3yQokc1modUW8kbXKOkRHXB2lqruGcudE=;
- b=VKArHGzBXh6z/A+MygU+amo68YTqsv8wcX06tMjQJtSaCh73j9dK84DDYNiOFbWqbG
- oWPby5Nt17abP3CNuT4Y8hOrMF9IphjmFlJ+1LFTGZJslKxvYBCkSQrvO11j5gLNPiyD
- dVfekpRDt0jU+YzoaecvEZ4LCFhH+XfiNy4waUk/+nEQ0mmuEpuYBI6Uswsojiaa1B6R
- 4eHm926I6a27i5ah9cJ5gtV9zfeyLjLkJD44KWC+QIdKscIOwG27BP9X+Qsw/8/Tj3Ln
- mUTJhpKjLu76fxGa66zDAX1JckZqgFcVUxJppOLi4JuOkrAZQ52ZBCQ/Pp5o1ft2CM/4
- MpYQ==
+ bh=LDmpY5Q3jeo13aLjq8mpu4vGc1arJjADg5EChwDGndg=;
+ b=SpM7chHfdZV7h7CKnja31DtYMLYzvOBfAlRtmJ/n/nmTfwC0/x656sMJMRCmtcchj/
+ ZyUoXciqxn2yvqmwaFJGHZpzSVxZGn6Ze+JMY7srqI9JIuOIozv+IXpP8Z+LAF7g6ch/
+ geDIF/iCN2g4ZH9VZGIJGVBqjOuzBGBXOfBZNRG4f137xGwffeFnYlpuanA0eFi1/Rzl
+ pE4g37GMMac8kgjZ4ctH1Noi6iDIudZDIDNiFDVJFDqddViW7d1FfR7i1JICWyRJ9Ug1
+ S57hfmUNM5E/OZ/BlY/n0jaRZ1v6nFt9MTt+r5sEgovuILshM1zaV3phLFg35dveDz2Q
+ NHAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Y9u4GqsYFp3yQokc1modUW8kbXKOkRHXB2lqruGcudE=;
- b=MRJRin+a1JAOcK3WYxvdqe8oWTP9IJdhsNVmPrqO/RFLHi/1oWsn9uqQXPpiFLoNJB
- wcoCLiDfPFTpIt8ubAtt4ASqxei4TWWNNkgf90grXLFu0qMIvcsCSVlFo5VIRc4Nb0G0
- z0+fgmLqPMinAo6CIFrxsImk1xjOleMUauTx7hnLWPVZQ3LUjcG1HI3gLYoaSzc8UKhM
- TyxpF/q6GPnTNBkRBz5N6boDACQd497ZqW0XLxE5zUdA7tBjEfYouAFkUJyBBWSEDgi+
- t83gSuXwzboefjJVFJTSZ/EVPzp1UR00p+uILLZMAI9CxMQeDL2xlww64y+RPiArGHXS
- NebQ==
-X-Gm-Message-State: AOAM5325z4ptrvfTKg4D7BZHyviPb1C1LOkHOXmgAVNIuUCUYsf8saqG
- sQW841gFBG1UiIpjLL0/9XYxRQ==
-X-Google-Smtp-Source: ABdhPJypDSdSDlm1WvWqsV5KWCBdZzp9Y89hHRIKGgXQ8bDqOzWA3qxmMNugSM6RB0Bn+AiihIdxtQ==
-X-Received: by 2002:a37:7d84:: with SMTP id y126mr1335251qkc.36.1604667306647; 
- Fri, 06 Nov 2020 04:55:06 -0800 (PST)
+ bh=LDmpY5Q3jeo13aLjq8mpu4vGc1arJjADg5EChwDGndg=;
+ b=grPqSKClGQob205wPF0PGnNM/XqLEUGSaPgvs1dq1AGsnJDWhCmUswKbqSZsDyJvGy
+ Ivy/lYOFOH05TduWUCRnSTJGGDw+Pozj47Wh7idQ09pVYEN6Thos2DJVYq6c2w9ulCGg
+ qBX8B3JZhcQ9+kNN6yerAzpz4Zd1EUaazoOjK+Al7hZ/ciK/TXkPL8k2Lbn7/rGhGEzh
+ N1z2gr0hrAAE7ykKcvdDislMv0z/7ErtKaSpqkyXxcMlZf1JJrSbezob9VXlg3NoihQ1
+ 4ajoAQvsSGafkguJTSdDis2cieaRNC7JZmQRcKaxefcc8hMbQ8bQItnd6uQIQqYu3Xyh
+ LYQg==
+X-Gm-Message-State: AOAM531npod8021RFDIFW6cgnk09DUvm4qBAsZpHqQVuAu07au+w1KQR
+ QXcxs3HU+i/mI8Bg7KZg2B7bDA==
+X-Google-Smtp-Source: ABdhPJw+rwYTMNOCDOtELAS3ZURAM14wn0+raNRbu4MJsphc7No8hlqtgP1VZD/3115+BJAOILEwww==
+X-Received: by 2002:ac8:74c:: with SMTP id k12mr1292900qth.32.1604667521864;
+ Fri, 06 Nov 2020 04:58:41 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id y187sm408537qka.116.2020.11.06.04.55.05
+ by smtp.gmail.com with ESMTPSA id o63sm432040qkd.96.2020.11.06.04.58.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 04:55:05 -0800 (PST)
+ Fri, 06 Nov 2020 04:58:41 -0800 (PST)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kb1Gj-000lY1-5o; Fri, 06 Nov 2020 08:55:05 -0400
-Date: Fri, 6 Nov 2020 08:55:05 -0400
+ id 1kb1KC-000leP-L9; Fri, 06 Nov 2020 08:58:40 -0400
+Date: Fri, 6 Nov 2020 08:58:40 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-Message-ID: <20201106125505.GO36674@ziepe.ca>
-References: <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
+Message-ID: <20201106125840.GP36674@ziepe.ca>
+References: <20201104162125.GA13007@infradead.org>
+ <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
  <20201104163758.GA17425@infradead.org>
  <20201104164119.GA18218@infradead.org>
  <20201104181708.GU36674@ziepe.ca>
@@ -63,10 +64,9 @@ References: <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
  <20201105124950.GZ36674@ziepe.ca>
  <7ae3486d-095e-cf4e-6b0f-339d99709996@nvidia.com>
  <CAKMK7uGRw=xXE+D=JJsNeRav9+hdO4tcDSvDbAuWfc3T4VkoJw@mail.gmail.com>
- <CAKMK7uFb2uhfRCwe1y5Kafd-WWqE_F3_FfpHR9f8-X-aHhgjOQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uFb2uhfRCwe1y5Kafd-WWqE_F3_FfpHR9f8-X-aHhgjOQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uGRw=xXE+D=JJsNeRav9+hdO4tcDSvDbAuWfc3T4VkoJw@mail.gmail.com>
 X-Mailman-Approved-At: Sun, 08 Nov 2020 22:49:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,7 +87,6 @@ Cc: linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Tomasz Figa <tfiga@chromium.org>, Christoph Hellwig <hch@infradead.org>,
  Linux MM <linux-mm@kvack.org>, J??r??me Glisse <jglisse@redhat.com>,
- Thomas Hellstrom <thomas.hellstrom@intel.com>,
  "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
  Daniel Vetter <daniel.vetter@intel.com>,
  Kyungmin Park <kyungmin.park@samsung.com>,
@@ -101,62 +100,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 06, 2020 at 11:27:59AM +0100, Daniel Vetter wrote:
-> On Fri, Nov 6, 2020 at 11:01 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Fri, Nov 6, 2020 at 5:08 AM John Hubbard <jhubbard@nvidia.com> wrote:
-> > >
-> > > On 11/5/20 4:49 AM, Jason Gunthorpe wrote:
-> > > > On Thu, Nov 05, 2020 at 10:25:24AM +0100, Daniel Vetter wrote:
-> > > >>> /*
-> > > >>>   * If we can't determine whether or not a pte is special, then fail immediately
-> > > >>>   * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
-> > > >>>   * to be special.
-> > > >>>   *
-> > > >>>   * For a futex to be placed on a THP tail page, get_futex_key requires a
-> > > >>>   * get_user_pages_fast_only implementation that can pin pages. Thus it's still
-> > > >>>   * useful to have gup_huge_pmd even if we can't operate on ptes.
-> > > >>>   */
-> > > >>
-> > > >> We support hugepage faults in gpu drivers since recently, and I'm not
-> > > >> seeing a pud_mkhugespecial anywhere. So not sure this works, but probably
-> > > >> just me missing something again.
-> > > >
-> > > > It means ioremap can't create an IO page PUD, it has to be broken up.
-> > > >
-> > > > Does ioremap even create anything larger than PTEs?
-> >
-> > gpu drivers also tend to use vmf_insert_pfn* directly, so we can do
-> > on-demand paging and move buffers around. From what I glanced for
-> > lowest level we to the pte_mkspecial correctly (I think I convinced
-> > myself that vm_insert_pfn does that), but for pud/pmd levels it seems
-> > just yolo.
+On Fri, Nov 06, 2020 at 11:01:57AM +0100, Daniel Vetter wrote:
+
+> gpu drivers also tend to use vmf_insert_pfn* directly, so we can do
+> on-demand paging and move buffers around. From what I glanced for
+> lowest level we to the pte_mkspecial correctly (I think I convinced
+> myself that vm_insert_pfn does that), but for pud/pmd levels it seems
+> just yolo.
 > 
-> So I dug around a bit more and ttm sets PFN_DEV | PFN_MAP to get past
-> the various pft_t_devmap checks (see e.g. vmf_insert_pfn_pmd_prot()).
-> x86-64 has ARCH_HAS_PTE_DEVMAP, and gup.c seems to handle these
-> specially, but frankly I got totally lost in what this does.
+> remap_pfn_range seems to indeed split down to pte level always.
 
-The fact vmf_insert_pfn_pmd_prot() has all those BUG_ON's to prevent
-putting VM_PFNMAP pages into the page tables seems like a big red
-flag.
+Thats what it looked like to me too.
+ 
+> >  From my reading, yes. See ioremap_try_huge_pmd().
+> 
+> The ioremap here shouldn't matter, since this is for kernel-internal
+> mappings. So that's all fine I think.
 
-The comment seems to confirm what we are talking about here:
-
-	/*
-	 * If we had pmd_special, we could avoid all these restrictions,
-	 * but we need to be consistent with PTEs and architectures that
-	 * can't support a 'special' bit.
-	 */
-
-ie without the ability to mark special we can't block fast gup and
-anyone who does O_DIRECT on these ranges will crash the kernel when it
-tries to convert a IO page into a struct page.
-
-Should be easy enough to directly test?
-
-Putting non-struct page PTEs into a VMA without setting VM_PFNMAP just
-seems horribly wrong to me.
+Right, sorry to be unclear, we are talking about io_remap_pfn_range()
+which is for userspace mappings in VMAs
 
 Jason
 _______________________________________________
