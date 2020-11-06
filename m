@@ -1,48 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399542A8B0F
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 00:57:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8692A8B15
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 01:03:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9816F6E876;
-	Thu,  5 Nov 2020 23:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 091BB6E877;
+	Fri,  6 Nov 2020 00:03:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA4596E876
- for <dri-devel@lists.freedesktop.org>; Thu,  5 Nov 2020 23:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604620636;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=i5YTCTculn7wAu7o7uqKEzANd6RxkS1YgfVbSqCO/rQ=;
- b=ioMXuHkbSlNvGxUp7cvaGbP7t7RvfAUcPF/e0Xr7jSwsK6saJ2+3OCElcLC2MnxDeB+asA
- QnA/xw01VTuiuYRSLFjyklOGav4WALlVpGAOMA4POcs4f8Y4MRX3nOxbNwdFXCUFg5Qduh
- lApQ9l+CBRc39e1knagIn2jBksFMZWI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-X6GcLpfGNvCcG-T7R_okhg-1; Thu, 05 Nov 2020 18:57:12 -0500
-X-MC-Unique: X6GcLpfGNvCcG-T7R_okhg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DC521006C83;
- Thu,  5 Nov 2020 23:57:09 +0000 (UTC)
-Received: from Whitewolf.lyude.net (ovpn-112-124.rdu2.redhat.com
- [10.10.112.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 244E65B4B8;
- Thu,  5 Nov 2020 23:57:07 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm/edid: Fix uninitialized variable in drm_cvt_modes()
-Date: Thu,  5 Nov 2020 18:57:02 -0500
-Message-Id: <20201105235703.1328115-1-lyude@redhat.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+ [209.85.217.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA3216E877
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 00:03:15 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id w25so1775762vsk.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 05 Nov 2020 16:03:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/n5bGNWUgGwgtLJXyhksEsov5olwu/i3xw5cfFWm5Bw=;
+ b=HZqBcaYhzH+n5tEfRP9h+EHu8qAfL614sS1XSs/cVFPhutuuMhjvBmvHYjHXHbVQIg
+ FIzwCBHTBv0rSOrJMlxXtcbVevPvQOgp/1z+qujz637JpZgS5bSVGbPTLoj07CCJY6f3
+ WE77aXxOVCeq9vkGAAp7s/eT/kbqVmM6SDlK7/udaUMyxOI/CtwlV2kmPJiXZ4VvlDiH
+ N6Usw2SjhDaHTsfzrMfiwOHRl+60FJLbiXytz78cKC2Dc0Htt7H5QJBlMHRYGpDXDq+l
+ ZlFg9wflqAHKHKaMVRM9ScIS2U0Z/ZpHrrdUFEO6YmT2Qw00mCgF1lIXClTBKj5XtJv7
+ IhRA==
+X-Gm-Message-State: AOAM532o7nKn44MxelDKAZchin5kghQiK9MJhIG3ufMQJJFKANEW7E1C
+ dDXZT90IPQVCZ7FWNfOGDw80+4I94i3/8htmfmQ=
+X-Google-Smtp-Source: ABdhPJxeu1wo+9SUw0cGWms8KkbE4h/4REgitgjq3ayBlwXKEc28MRmRP4pkpI7tt60lqqTAS22g3EG4J7GdRBbsjlI=
+X-Received: by 2002:a67:f699:: with SMTP id n25mr3266271vso.52.1604620994955; 
+ Thu, 05 Nov 2020 16:03:14 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20201105235703.1328115-1-lyude@redhat.com>
+In-Reply-To: <20201105235703.1328115-1-lyude@redhat.com>
+From: Ilia Mirkin <imirkin@alum.mit.edu>
+Date: Thu, 5 Nov 2020 19:03:03 -0500
+Message-ID: <CAKb7Uvi3xr9GbuNbyQLtow5THAh25jw0CGUVLmJUtdEnfYUgYg@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/edid: Fix uninitialized variable in drm_cvt_modes()
+To: Lyude Paul <lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,49 +52,56 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@linux.ie>,
- Chao Yu <chao@kernel.org>, open list <linux-kernel@vger.kernel.org>,
- Kalle Valo <kvalo@codeaurora.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- stable@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Kees Cook <keescook@chromium.org>
+ dri-devel <dri-devel@lists.freedesktop.org>, Chao Yu <chao@kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "# 3.9+" <stable@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Kalle Valo <kvalo@codeaurora.org>, Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Noticed this when trying to compile with -Wall on a kernel fork. We potentially
-don't set width here, which causes the compiler to complain about width
-potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
+On Thu, Nov 5, 2020 at 6:57 PM Lyude Paul <lyude@redhat.com> wrote:
+>
+> Noticed this when trying to compile with -Wall on a kernel fork. We potentially
+> don't set width here, which causes the compiler to complain about width
+> potentially being uninitialized in drm_cvt_modes(). So, let's fix that.
+>
+> Changes since v1:
+> * Don't emit an error as this code isn't reachable, just mark it as such
+> Changes since v2:
+> * Remove now unused variable
+>
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>
+> Cc: <stable@vger.kernel.org> # v5.9+
+> Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-Changes since v1:
-* Don't emit an error as this code isn't reachable, just mark it as such
-Changes since v2:
-* Remove now unused variable
+For the very little it's worth,
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Ilia Mirkin <imirkin@alum.mit.edu>
 
-Cc: <stable@vger.kernel.org> # v5.9+
-Fixes: 3f649ab728cd ("treewide: Remove uninitialized_var() usage")
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- drivers/gpu/drm/drm_edid.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 631125b46e04..b84efd538a70 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -3114,6 +3114,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
- 		case 0x0c:
- 			width = height * 15 / 9;
- 			break;
-+		default:
-+			unreachable();
- 		}
- 
- 		for (j = 1; j < 5; j++) {
--- 
-2.28.0
-
+> ---
+>  drivers/gpu/drm/drm_edid.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 631125b46e04..b84efd538a70 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -3114,6 +3114,8 @@ static int drm_cvt_modes(struct drm_connector *connector,
+>                 case 0x0c:
+>                         width = height * 15 / 9;
+>                         break;
+> +               default:
+> +                       unreachable();
+>                 }
+>
+>                 for (j = 1; j < 5; j++) {
+> --
+> 2.28.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
