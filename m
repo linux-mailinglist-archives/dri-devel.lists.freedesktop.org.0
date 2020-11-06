@@ -2,32 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED70C2A919C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCB82A91CA
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 09:49:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01DAE6EE2B;
-	Fri,  6 Nov 2020 08:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95042890F2;
+	Fri,  6 Nov 2020 08:49:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A206EE28
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 08:37:22 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A7909AB8F;
- Fri,  6 Nov 2020 08:37:20 +0000 (UTC)
-Subject: Re: [PATCH] drm: Pass the full state to connectors atomic functions
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20201105173007.593960-1-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <8acac28a-f0af-8785-132c-86b5d310be48@suse.de>
-Date: Fri, 6 Nov 2020 09:37:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95AF3890F2
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 08:49:08 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id a3so415566wrx.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 00:49:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=4gXfZMux6ogf2vVPHPrkL0rjreUZC3GES5D2UkiysIw=;
+ b=C6iQhO/6iKUaCjWMaeY8SSjPW3SPed7FleZjgyiTbeenEF+cP/6d0G2NFBlmZ6O+0H
+ bioL6f0N8OmX7BWLovVyNsXDaR9/nfXxEHTy5jLd7+u3mFIq7wJlEri4rU3IlV4wqgcD
+ 83JOnHkogW2l+61CjQQr5BNpYIV7HEgBg3nmG4Fve6ZR37i8/7lAL2dsyLsJEnNchGiC
+ lCshBq71mdswYGS4ahEw8pGeUEJY4WU8A7zy3kdNr9+wSwgQY8Lul4rkCPgz4TKI8hIP
+ 8zA+DSnXbK0DYB4g2q+MP09tRsmr/SaiyRXr01/x6G2Ah0fUMYHNlIKbDUVPgaVw88wV
+ 0F4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=4gXfZMux6ogf2vVPHPrkL0rjreUZC3GES5D2UkiysIw=;
+ b=X9XdET2nsbv/l38vL06COSbselOU6jjVET1DElCZLlQRlXk8RMhZ6jSNF1g9kPZUiB
+ uLr1ny1LZjgHnvzoboBdib9+L3hOfQcUABUkjUmCQgVFtJqkM5dohQ6A+PrAPxvUX/A1
+ wmwPiPkkE9RI5uGo/7/GThgVkS8stf2MWaKkdAaPPtYAKYlXHvPfQAjF685Jv70TFa3f
+ 0lFIlymsUWqlfqi9z62cwbtUFoWfJYy4GlTcjA/2zPKAa4qeZEj9GDjlV+H/eAG7+DIu
+ Ki1Dvg3i9bpO5qeJHEi73IbDc2rwX/S9V7q3pay00Prd3lZLeaO0iJGoEAvy0uYjokun
+ pfIQ==
+X-Gm-Message-State: AOAM530C/6pq6cpesv3J3d2ByEn+xG26155OTvd34ze/7Fw9fDv01B/2
+ EwcWevUyb9gNN6sj/cqhf6hdtQ==
+X-Google-Smtp-Source: ABdhPJxV2f1/yepdeAvjiDc4ZJvmvoXzriD7P33clmKJfkWKfm32k8/eAy9mdgUCgs52Ep3+q+DT+A==
+X-Received: by 2002:a05:6000:7:: with SMTP id h7mr1443346wrx.83.1604652547314; 
+ Fri, 06 Nov 2020 00:49:07 -0800 (PST)
+Received: from dell ([91.110.221.242])
+ by smtp.gmail.com with ESMTPSA id t11sm1163799wmf.35.2020.11.06.00.49.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Nov 2020 00:49:06 -0800 (PST)
+Date: Fri, 6 Nov 2020 08:49:04 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH 03/19] gpu: drm: imx: ipuv3-plane: Mark 'crtc_state' as
+ __always_unused
+Message-ID: <20201106084904.GY4488@dell>
+References: <20201105144517.1826692-1-lee.jones@linaro.org>
+ <20201105144517.1826692-4-lee.jones@linaro.org>
+ <15a4a184-74c2-e630-193a-cdea61545a03@pengutronix.de>
+ <20201106074151.GU4488@dell>
+ <5056c156-9f6c-8e0d-54e8-5317fdd46c12@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201105173007.593960-1-maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <5056c156-9f6c-8e0d-54e8-5317fdd46c12@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,499 +72,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Leo Li <sunpeng.li@amd.com>,
- Melissa Wen <melissa.srw@gmail.com>, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1038635848=="
+Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1038635848==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="fUJeeTA2wWhFMONRDS2kOKFeiD3EP7tep"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---fUJeeTA2wWhFMONRDS2kOKFeiD3EP7tep
-Content-Type: multipart/mixed; boundary="bz8B8HexPuRcWNRBg0spz8zGF3aElBznR";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Ben Skeggs <bskeggs@redhat.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>
-Message-ID: <8acac28a-f0af-8785-132c-86b5d310be48@suse.de>
-Subject: Re: [PATCH] drm: Pass the full state to connectors atomic functions
-References: <20201105173007.593960-1-maxime@cerno.tech>
-In-Reply-To: <20201105173007.593960-1-maxime@cerno.tech>
-
---bz8B8HexPuRcWNRBg0spz8zGF3aElBznR
-Content-Type: multipart/mixed;
- boundary="------------37B1580A73F4DB5ED3754C52"
-Content-Language: en-US
-
-This is a multi-part message in MIME format.
---------------37B1580A73F4DB5ED3754C52
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 05.11.20 um 18:30 schrieb Maxime Ripard:
-> The current atomic helpers have either their object state being passed =
-as
-> an argument or the full atomic state.
->=20
-> The former is the pattern that was done at first, before switching to t=
-he
-> latter for new hooks or when it was needed.
->=20
-> Now that the CRTCs have been converted, let's move forward with the
-> connectors to provide a consistent interface.
->=20
-> The conversion was done using the coccinelle script below, and built te=
-sted
-> on all the drivers.
-
-The coccinelle script appears to be missing. Apart from that
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->=20
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c |  5 ++++-
->  drivers/gpu/drm/drm_atomic_helper.c                 |  8 ++++----
->  drivers/gpu/drm/i915/display/intel_dp_mst.c         |  7 +++++--
->  drivers/gpu/drm/nouveau/dispnv50/disp.c             |  5 ++++-
->  drivers/gpu/drm/vc4/vc4_txp.c                       |  4 +++-
->  drivers/gpu/drm/vkms/vkms_writeback.c               |  7 +++++--
->  include/drm/drm_modeset_helper_vtables.h            | 13 ++++++-------=
-
->  7 files changed, 31 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.=
-c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index eee19edeeee5..f346cc74387f 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -24,6 +24,7 @@
->   */
-> =20
->  #include <linux/version.h>
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_dp_mst_helper.h>
->  #include <drm/drm_dp_helper.h>
-> @@ -252,8 +253,10 @@ static int dm_dp_mst_get_modes(struct drm_connecto=
-r *connector)
-> =20
->  static struct drm_encoder *
->  dm_mst_atomic_best_encoder(struct drm_connector *connector,
-> -			   struct drm_connector_state *connector_state)
-> +			   struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_co=
-nnector_state(state,
-> +											 connector);
->  	struct drm_device *dev =3D connector->dev;
->  	struct amdgpu_device *adev =3D drm_to_adev(dev);
->  	struct amdgpu_crtc *acrtc =3D to_amdgpu_crtc(connector_state->crtc);
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
-atomic_helper.c
-> index ddd0e3239150..ba1507036f26 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -122,7 +122,8 @@ static int handle_conflicting_encoders(struct drm_a=
-tomic_state *state,
->  			continue;
-> =20
->  		if (funcs->atomic_best_encoder)
-> -			new_encoder =3D funcs->atomic_best_encoder(connector, new_conn_stat=
-e);
-> +			new_encoder =3D funcs->atomic_best_encoder(connector,
-> +								 state);
->  		else if (funcs->best_encoder)
->  			new_encoder =3D funcs->best_encoder(connector);
->  		else
-> @@ -345,8 +346,7 @@ update_connector_routing(struct drm_atomic_state *s=
-tate,
->  	funcs =3D connector->helper_private;
-> =20
->  	if (funcs->atomic_best_encoder)
-> -		new_encoder =3D funcs->atomic_best_encoder(connector,
-> -							 new_connector_state);
-> +		new_encoder =3D funcs->atomic_best_encoder(connector, state);
->  	else if (funcs->best_encoder)
->  		new_encoder =3D funcs->best_encoder(connector);
->  	else
-> @@ -1313,7 +1313,7 @@ static void drm_atomic_helper_commit_writebacks(s=
-truct drm_device *dev,
-> =20
->  		if (new_conn_state->writeback_job && new_conn_state->writeback_job->=
-fb) {
->  			WARN_ON(connector->connector_type !=3D DRM_MODE_CONNECTOR_WRITEBACK=
-);
-> -			funcs->atomic_commit(connector, new_conn_state);
-> +			funcs->atomic_commit(connector, old_state);
->  		}
->  	}
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/=
-drm/i915/display/intel_dp_mst.c
-> index 64d885539e94..b879a0622ada 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -23,6 +23,7 @@
->   *
->   */
-> =20
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -706,11 +707,13 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector =
-*connector,
->  }
-> =20
->  static struct drm_encoder *intel_mst_atomic_best_encoder(struct drm_co=
-nnector *connector,
-> -							 struct drm_connector_state *state)
-> +							 struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_co=
-nnector_state(state,
-> +											 connector);
->  	struct intel_connector *intel_connector =3D to_intel_connector(connec=
-tor);
->  	struct intel_dp *intel_dp =3D intel_connector->mst_port;
-> -	struct intel_crtc *crtc =3D to_intel_crtc(state->crtc);
-> +	struct intel_crtc *crtc =3D to_intel_crtc(connector_state->crtc);
-> =20
->  	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
->  }
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/=
-nouveau/dispnv50/disp.c
-> index b111fe24a06b..911c2cbe6aa3 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -32,6 +32,7 @@
->  #include <linux/hdmi.h>
->  #include <linux/component.h>
-> =20
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_dp_helper.h>
->  #include <drm/drm_edid.h>
-> @@ -1161,8 +1162,10 @@ nv50_msto_new(struct drm_device *dev, struct nv5=
-0_head *head, int id)
-> =20
->  static struct drm_encoder *
->  nv50_mstc_atomic_best_encoder(struct drm_connector *connector,
-> -			      struct drm_connector_state *connector_state)
-> +			      struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_co=
-nnector_state(state,
-> +											 connector);
->  	struct nv50_mstc *mstc =3D nv50_mstc(connector);
->  	struct drm_crtc *crtc =3D connector_state->crtc;
-> =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_tx=
-p.c
-> index 34612edcabbd..8aa5220885f4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -273,8 +273,10 @@ static int vc4_txp_connector_atomic_check(struct d=
-rm_connector *conn,
->  }
-> =20
->  static void vc4_txp_connector_atomic_commit(struct drm_connector *conn=
-,
-> -					struct drm_connector_state *conn_state)
-> +					struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *conn_state =3D drm_atomic_get_new_connect=
-or_state(state,
-> +										    conn);
->  	struct vc4_txp *txp =3D connector_to_vc4_txp(conn);
->  	struct drm_gem_cma_object *gem;
->  	struct drm_display_mode *mode;
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vk=
-ms/vkms_writeback.c
-> index 26b903926872..cafdc8463541 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
->  #include "vkms_drv.h"
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_writeback.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -99,8 +100,10 @@ static void vkms_wb_cleanup_job(struct drm_writebac=
-k_connector *connector,
->  }
-> =20
->  static void vkms_wb_atomic_commit(struct drm_connector *conn,
-> -				  struct drm_connector_state *state)
-> +				  struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_co=
-nnector_state(state,
-> +											 conn);
->  	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(conn->dev);=
-
->  	struct vkms_output *output =3D &vkmsdev->output;
->  	struct drm_writeback_connector *wb_conn =3D &output->wb_connector;
-> @@ -116,7 +119,7 @@ static void vkms_wb_atomic_commit(struct drm_connec=
-tor *conn,
->  	crtc_state->active_writeback =3D conn_state->writeback_job->priv;
->  	crtc_state->wb_pending =3D true;
->  	spin_unlock_irq(&output->composer_lock);
-> -	drm_writeback_queue_job(wb_conn, state);
-> +	drm_writeback_queue_job(wb_conn, connector_state);
->  }
-> =20
->  static const struct drm_connector_helper_funcs vkms_wb_conn_helper_fun=
-cs =3D {
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm=
-_modeset_helper_vtables.h
-> index f2de050085be..16ff3fa148f5 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -1044,9 +1044,8 @@ struct drm_connector_helper_funcs {
->  	 * NOTE:
->  	 *
->  	 * This function is called in the check phase of an atomic update. Th=
-e
-> -	 * driver is not allowed to change anything outside of the free-stand=
-ing
-> -	 * state objects passed-in or assembled in the overall &drm_atomic_st=
-ate
-> -	 * update tracking structure.
-> +	 * driver is not allowed to change anything outside of the
-> +	 * &drm_atomic_state update tracking structure passed in.
->  	 *
->  	 * RETURNS:
->  	 *
-> @@ -1056,7 +1055,7 @@ struct drm_connector_helper_funcs {
->  	 * for this.
->  	 */
->  	struct drm_encoder *(*atomic_best_encoder)(struct drm_connector *conn=
-ector,
-> -						   struct drm_connector_state *connector_state);
-> +						   struct drm_atomic_state *state);
-> =20
->  	/**
->  	 * @atomic_check:
-> @@ -1097,15 +1096,15 @@ struct drm_connector_helper_funcs {
->  	 *
->  	 * This hook is to be used by drivers implementing writeback connecto=
-rs
->  	 * that need a point when to commit the writeback job to the hardware=
-=2E
-> -	 * The writeback_job to commit is available in
-> -	 * &drm_connector_state.writeback_job.
-> +	 * The writeback_job to commit is available in the new connector stat=
-e,
-> +	 * in &drm_connector_state.writeback_job.
->  	 *
->  	 * This hook is optional.
->  	 *
->  	 * This callback is used by the atomic modeset helpers.
->  	 */
->  	void (*atomic_commit)(struct drm_connector *connector,
-> -			      struct drm_connector_state *state);
-> +			      struct drm_atomic_state *state);
-> =20
->  	/**
->  	 * @prepare_writeback_job:
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------37B1580A73F4DB5ED3754C52
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
-gUC
-WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
-IiL
-+he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
-42f
-CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
-Urj
-EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
-45N
-GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
-Tpy
-Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
-u5r
-A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-c0n
-VGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+wsCOBBMBCAA4AhsDBQsJC=
-AcC
-BhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl78SF4ACgkQaA3BH=
-VML
-eiOpGAgAih6C1OnWms/N8eBMC4Q93y/nyywe5vCL22Dr1rwgn6Iw2jOGziJSi7zhY4sEk2NKJ=
-5cd
-lFrx8mP//b+xO4AGffwBD0Vwpf38Hj2Gt0KjpzRYccqqU+tJPO5c0pjI52ZIV3+kOEFvYGfkN=
-PHE
-flE+b81T8L2dSXCLtj4WAGUM1rmHn3bCYl+/RwkB+8XnoL5AvrmMcU4Uhb3FJpM4DHExccYkd=
-eSL
-ojBppOCztBCUpBx3le+8QPVvAvJDuur4wRmjk3sjKClAwzeqoYyUKcN3JDdb3mt3QcJal9rSh=
-VEI
-7B25IvfmEbs42oGm8GPzPkaNJu3gcska+l5PSTfurNETGsJdBBARAgAdFiEEJ+jjpp87z/+5L=
-Y5q
-LnehMBH108IFAls6HVcACgkQLnehMBH108LTkACgjLQdDYMENi6BDjY/gd/LF9lMi8oAnR+o0=
-FwE
-Vb1K1tEMQ/1x+k1U6/xgwsBzBBABCAAdFiEEHl2YIZkIo5VO2MxYqlA7ya4PR6cFAls58bMAC=
-gkQ
-qlA7ya4PR6cvTAgAzY1N5QMKh8ECRtYcZNmilyV59uHTEY9hAR+203JqWnSGfUKtU7s6xfl5O=
-NGq
-DI5rULk4Cw2CEIzg9Sat+/lxn36w2f1tEznS5Vb0gVGWrzDAFjj7tB6MnmCzsNb/S1kgxnqJM=
-Yor
-RYQ7uB3Yr2Fdp08FJxN0ipd5YfzaZ6KoSWcRAv4r1R4ZQGuS77URAg7HDOIrBMOVO+HIn7GYQ=
-qPS
-5ZFw5yXbvEtL1c5Y8Zdw1AG2VmEXx78TWQVG3kI8/lQF1QI3yrJ1Rp2x5eK9I0OJihv13IlIW=
-3sb
-QGrj9pxF63kA20ZFaynzFglBGiyxExYvTD0/xKIhzYhj8mtCunPb2cLAcwQQAQgAHRYhBLsjb=
-bex
-nu/GyEcdaKfzfBmMOTGBBQJbOjLAAAoJEKfzfBmMOTGBBoMIALIW4EtBY28tPwZMOpN/+ARPO=
-a2g
-Qzpivw7iNtiDTnGIXMCoxly1CybfMdqTHYmuKbEO9AlFAlDOnkgInsn8E65IvgUTVI95Ah+Ob=
-iPI
-FkYc/9a+AexPl7f5kI9489k77eKtqtMpWFpo/vROmRroSw4JnM7ovwPq1QOSHExfTKbLunzD1=
-i3V
-4PShSZ6bGsp1LW6Wk0lRMHDuAk3xsyjBWfJwSbrCe3E6OsLG7BuQqEUt2fR6NxdDRSR9tQUp9=
-Tri
-AYG5LndmUzxeU6FAQjD8Wt1ezOFH5ODcCDXfRyYmE6uCGA4EvO8l9R3o68NPlUjPRAZsCbxJa=
-UAg
-iazX1nyQGwvOwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHU=
-E9e
-osYbT6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+q=
-bU6
-3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWG=
-KdD
-egUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXod=
-NFM
-AgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAf=
-AQY
-AQgAJhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojp=
-fcI
-AInwP5OlcEKokTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0r=
-FDj
-55N9l4s1CpaDo4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcD=
-hBE
-jKmFZfg4AM4GZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU=
-2y3
-ZH2mf5suSKHAMtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/t=
-sZv
-yEX6zN8CtirPdPWu/VXNRYAl/lat7lSI3H26qrE=3D
-=3DmxFq
------END PGP PUBLIC KEY BLOCK-----
-
---------------37B1580A73F4DB5ED3754C52--
-
---bz8B8HexPuRcWNRBg0spz8zGF3aElBznR--
-
---fUJeeTA2wWhFMONRDS2kOKFeiD3EP7tep
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+lCz8FAwAAAAAACgkQaA3BHVMLeiN9
-bgf7BAMdXPOufp+Ec3KlVMBBTNksWd483tuIGOWZtarDw46L1NhOfcULqJlYD+apyGI0OYtUNJ6B
-LJvcG8rI9uKZysMK5kBYABjVj/yVIiPv1nYSXipRJzSzrZaCDjwqOBO9CN/fhDIZsRMyg2Q+OSVS
-5u9zeIGwk6rZojpJkIQHg2iS11McSL3rVB/beimFvjPu7ZDB0iPY9jRnTgLFRIjQCQjEosCkKGEy
-QYrCrf6Bf5LQrwo/qxMeyrAVvHC69YUqJWPmCrxTtsHRjS7jppWVpK/4qv9LzlyZU/nt4w1pVfL9
-ektvHEiYozmfYJxqHWPMt5dXtUyKxxHyTqsv8oswnA==
-=Ib/h
------END PGP SIGNATURE-----
-
---fUJeeTA2wWhFMONRDS2kOKFeiD3EP7tep--
-
---===============1038635848==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1038635848==--
+T24gRnJpLCAwNiBOb3YgMjAyMCwgQWhtYWQgRmF0b3VtIHdyb3RlOgoKPiBPbiAxMS82LzIwIDg6
+NDEgQU0sIExlZSBKb25lcyB3cm90ZToKPiA+IE9uIFRodSwgMDUgTm92IDIwMjAsIEFobWFkIEZh
+dG91bSB3cm90ZToKPiA+IAo+ID4+IEhlbGxvIExlZSwKPiA+Pgo+ID4+IE9uIDExLzUvMjAgMzo0
+NSBQTSwgTGVlIEpvbmVzIHdyb3RlOgo+ID4+PiBJbiB0aGUgbWFjcm8gZm9yX2VhY2hfb2xkbmV3
+X2NydGNfaW5fc3RhdGUoKSAnY3J0Y19zdGF0ZScgaXMgcHJvdmlkZWQKPiA+Pj4gYXMgYSBjb250
+YWluZXIgZm9yIHN0YXRlLT5jcnRjc1tpXS5uZXdfc3RhdGUsIGJ1dCBpcyBub3QgdXRpbGlzZWQg
+aW4KPiA+Pj4gdGhpcyB1c2UtY2FzZS4gIFdlIGNhbm5vdCBzaW1wbHkgZGVsZXRlIHRoZSB2YXJp
+YWJsZSwgc28gaGVyZSB3ZSB0ZWxsCj4gPj4+IHRoZSBjb21waWxlciB0aGF0IHdlJ3JlIGludGVu
+dGlvbmFsbHkgZGlzY2FyZGluZyB0aGUgcmVhZCB2YWx1ZS4KPiA+Pgo+ID4+IGZvcl9lYWNoX29s
+ZG5ld19jcnRjX2luX3N0YXRlIGFscmVhZHkgKHZvaWQpIGNhc3RzIHRoZSBkcm1fY3J0YyBhbmQg
+dGhlIG9sZAo+ID4+IGRybV9jcnRjX3N0YXRlIHRvIHNpbGVuY2UgdW51c2VkLWJ1dC1zZXQtdmFy
+aWFibGUgd2FybmluZy4gU2hvdWxkIHdlIG1heWJlCj4gPj4gKHZvaWQpIGNhc3QgdGhlIG5ldyBj
+cnRjX3N0YXRlIGFzIHdlbGw/Cj4gPiAKPiA+IEZyb20gd2hhdCBJIHNhdywgaXQgb25seSB2b2lk
+IGNhc3RzIHRoZSBvbmVzIHdoaWNoIGFyZW4ndCBhc3NpZ25lZC4KPiAKPiBIb3cgZG8geW91IG1l
+YW4/IEkgd29uZGVyIGlmCj4gCj4gICNkZWZpbmUgZm9yX2VhY2hfb2xkbmV3X2NydGNfaW5fc3Rh
+dGUoX19zdGF0ZSwgY3J0Yywgb2xkX2NydGNfc3RhdGUsIG5ld19jcnRjX3N0YXRlLCBfX2kpIFwK
+PiAgICAgICAgIGZvciAoKF9faSkgPSAwOyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBcCj4gICAgICAgICAgICAgIChfX2kpIDwgKF9fc3RhdGUpLT5kZXYt
+Pm1vZGVfY29uZmlnLm51bV9jcnRjOyAgICAgICAgICAgICAgXAo+ICAgICAgICAgICAgICAoX19p
+KSsrKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwK
+PiAgICAgICAgICAgICAgICAgZm9yX2VhY2hfaWYgKChfX3N0YXRlKS0+Y3J0Y3NbX19pXS5wdHIg
+JiYgICAgICAgICAgICAgICBcCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoKGNydGMp
+ID0gKF9fc3RhdGUpLT5jcnRjc1tfX2ldLnB0ciwgICAgICAgXAo+ICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICh2b2lkKShjcnRjKSAvKiBPbmx5IHRvIGF2b2lkIHVudXNlZC1idXQtc2V0
+LXZhcmlhYmxlIHdhcm5pbmcgKi8sIFwKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChv
+bGRfY3J0Y19zdGF0ZSkgPSAoX19zdGF0ZSktPmNydGNzW19faV0ub2xkX3N0YXRlLCBcCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAodm9pZCkob2xkX2NydGNfc3RhdGUpIC8qIE9ubHkg
+dG8gYXZvaWQgdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUgd2FybmluZyAqLywgXAo+IC0gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgKG5ld19jcnRjX3N0YXRlKSA9IChfX3N0YXRlKS0+Y3J0Y3Nb
+X19pXS5uZXdfc3RhdGUsIDEpKQo+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgKG5ld19j
+cnRjX3N0YXRlKSA9IChfX3N0YXRlKS0+Y3J0Y3NbX19pXS5uZXdfc3RhdGUsIFwKPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICh2b2lkKShuZXdfY3J0Y19zdGF0ZSksIDEpKQo+IAo+IHdv
+dWxkbid0IGJlIGJldHRlci4KClRoYXQgYWxzbyB3b3JrcyBmb3IgbWUuICBJIGNhbiBmaXggdGhp
+cyB1cC4KCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0g
+RGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZv
+ciBBcm0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
