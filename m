@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806202A8E83
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 05:57:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2E52A8E88
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 06:04:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA9226EE04;
-	Fri,  6 Nov 2020 04:57:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFED16EE07;
+	Fri,  6 Nov 2020 05:04:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF6E6EE04
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 04:57:23 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 287BBB16;
- Fri,  6 Nov 2020 05:57:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604638642;
- bh=cuDvMRu2tLgLJvPp04gS5eeeGDAihv+h/QN1Wkb6n1E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bY5Akb38B3rrmsFmC4WU7uRw8H5k6BKNRKSykv0fjHVSG2ip1urIvgckmGntidWUW
- Rz7W6XlkryUiFBtJUN7cdx7y+wD9W3f+TycfOA1LewXsTjF7nzhkdUnhP8qeJNxHac
- gaSOeOUJbt2PPhv9qUifcRRp1NNvR1iqvaC5DPqk=
-Date: Fri, 6 Nov 2020 06:57:20 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 05/56] drm/omap: constify write buffers
-Message-ID: <20201106045720.GF16469@pendragon.ideasonboard.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-6-tomi.valkeinen@ti.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2426D6EE05;
+ Fri,  6 Nov 2020 05:04:04 +0000 (UTC)
+IronPort-SDR: +Qzu1qmBpqnesKx3j9+25+r/I0AlOGhrQFDzWuws8CEWtj4nAVa3/MrTVQ0UCPyShUeSYphF1+
+ JlEmFMaAV/XA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="169614219"
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; d="scan'208";a="169614219"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 21:04:03 -0800
+IronPort-SDR: o9ARWUFitO7zOxj3IVWLUO1s0deB7KkrVTwUPgql7rrOY2a18KeJrqDWugBX05i9uIOUCUPfkz
+ yV74ixLaj3wg==
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; d="scan'208";a="326291643"
+Received: from genxfsim-desktop.iind.intel.com (HELO intel.com)
+ ([10.223.74.178])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Nov 2020 21:03:59 -0800
+Date: Fri, 6 Nov 2020 10:20:35 +0530
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: Ramalingam C <ramalingam.c@intel.com>
+Subject: Re: [PATCH v4 08/16] drm/i915/hdcp: Pass dig_port to intel_hdcp_init
+Message-ID: <20201106045034.GQ29526@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
+ <20201027164208.10026-9-anshuman.gupta@intel.com>
+ <20201105163912.GL3242@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-6-tomi.valkeinen@ti.com>
+In-Reply-To: <20201105163912.GL3242@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,160 +52,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi and Sebastian,
-
-Thank you for the patch.
-
-On Thu, Nov 05, 2020 at 02:02:42PM +0200, Tomi Valkeinen wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+On 2020-11-05 at 22:09:12 +0530, Ramalingam C wrote:
+> On 2020-10-27 at 22:12:00 +0530, Anshuman Gupta wrote:
+> > Pass dig_port as an argument to intel_hdcp_init()
+> > and intel_hdcp2_init().
+> > This will be required for HDCP 2.2 stream encryption.
+> > 
+> > Cc: Ramalingam C <ramalingam.c@intel.com>
+> > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c |  4 ++--
+> >  drivers/gpu/drm/i915/display/intel_hdcp.c    | 12 +++++++-----
+> >  drivers/gpu/drm/i915/display/intel_hdcp.h    |  4 +++-
+> >  drivers/gpu/drm/i915/display/intel_hdmi.c    |  2 +-
+> >  4 files changed, 13 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > index 6dcbfaffd2c5..591b68e5de48 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> > @@ -751,10 +751,10 @@ int intel_dp_init_hdcp(struct intel_digital_port *dig_port,
+> >  		return 0;
+> >  
+> >  	if (intel_connector->mst_port)
+> > -		return intel_hdcp_init(intel_connector, port,
+> > +		return intel_hdcp_init(intel_connector, dig_port,
+> cant we retrieve the dig_port from connector?
+No, actually intel_hdcp_init get called for DP MST in atomic check phase,
+in atomic check phase DP MST connector->encoder is not initialize  yet,
+it initialize  with DP MST encoder in commit phase.
+so using intel_attached_dig_port(connector) results in OOPS in intel_hdcp_init().
+Thanks,
+Anshuman Gupta.
 > 
-> The write buffers are not modified, so they can be constant.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c     | 24 ++++++++++++------------
->  drivers/gpu/drm/omapdrm/dss/omapdss.h | 10 +++++-----
->  2 files changed, 17 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index 86b9d435fb94..22d74d762a10 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -2601,11 +2601,11 @@ static inline void dsi_vc_write_long_payload(struct dsi_data *dsi, int channel,
->  }
->  
->  static int dsi_vc_send_long(struct dsi_data *dsi, int channel, u8 data_type,
-> -			    u8 *data, u16 len, u8 ecc)
-> +			    const u8 *data, u16 len, u8 ecc)
->  {
->  	/*u32 val; */
->  	int i;
-> -	u8 *p;
-> +	const u8 *p;
->  	int r = 0;
->  	u8 b1, b2, b3, b4;
->  
-> @@ -2698,7 +2698,7 @@ static int dsi_vc_send_null(struct dsi_data *dsi, int channel)
->  }
->  
->  static int dsi_vc_write_nosync_common(struct dsi_data *dsi, int channel,
-> -				      u8 *data, int len,
-> +				      const u8 *data, int len,
->  				      enum dss_dsi_content_type type)
->  {
->  	int r;
-> @@ -2729,7 +2729,7 @@ static int dsi_vc_write_nosync_common(struct dsi_data *dsi, int channel,
->  }
->  
->  static int dsi_vc_dcs_write_nosync(struct omap_dss_device *dssdev, int channel,
-> -		u8 *data, int len)
-> +		const u8 *data, int len)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
->  
-> @@ -2738,7 +2738,7 @@ static int dsi_vc_dcs_write_nosync(struct omap_dss_device *dssdev, int channel,
->  }
->  
->  static int dsi_vc_generic_write_nosync(struct omap_dss_device *dssdev, int channel,
-> -		u8 *data, int len)
-> +		const u8 *data, int len)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
->  
-> @@ -2747,7 +2747,7 @@ static int dsi_vc_generic_write_nosync(struct omap_dss_device *dssdev, int chann
->  }
->  
->  static int dsi_vc_write_common(struct omap_dss_device *dssdev,
-> -			       int channel, u8 *data, int len,
-> +			       int channel, const u8 *data, int len,
->  			       enum dss_dsi_content_type type)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
-> @@ -2776,15 +2776,15 @@ static int dsi_vc_write_common(struct omap_dss_device *dssdev,
->  	return r;
->  }
->  
-> -static int dsi_vc_dcs_write(struct omap_dss_device *dssdev, int channel, u8 *data,
-> -		int len)
-> +static int dsi_vc_dcs_write(struct omap_dss_device *dssdev, int channel,
-> +		const u8 *data, int len)
->  {
->  	return dsi_vc_write_common(dssdev, channel, data, len,
->  			DSS_DSI_CONTENT_DCS);
->  }
->  
-> -static int dsi_vc_generic_write(struct omap_dss_device *dssdev, int channel, u8 *data,
-> -		int len)
-> +static int dsi_vc_generic_write(struct omap_dss_device *dssdev, int channel,
-> +		const u8 *data, int len)
->  {
->  	return dsi_vc_write_common(dssdev, channel, data, len,
->  			DSS_DSI_CONTENT_GENERIC);
-> @@ -2810,7 +2810,7 @@ static int dsi_vc_dcs_send_read_request(struct dsi_data *dsi, int channel,
->  }
->  
->  static int dsi_vc_generic_send_read_request(struct dsi_data *dsi, int channel,
-> -					    u8 *reqdata, int reqlen)
-> +					    const u8 *reqdata, int reqlen)
->  {
->  	u16 data;
->  	u8 data_type;
-> @@ -2983,7 +2983,7 @@ static int dsi_vc_dcs_read(struct omap_dss_device *dssdev, int channel, u8 dcs_c
->  }
->  
->  static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int channel,
-> -		u8 *reqdata, int reqlen, u8 *buf, int buflen)
-> +		const u8 *reqdata, int reqlen, u8 *buf, int buflen)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
->  	int r;
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index c4bc1f919ab4..8e96ab2f20b6 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -309,18 +309,18 @@ struct omapdss_dsi_ops {
->  
->  	/* data transfer */
->  	int (*dcs_write)(struct omap_dss_device *dssdev, int channel,
-> -			u8 *data, int len);
-> +			const u8 *data, int len);
->  	int (*dcs_write_nosync)(struct omap_dss_device *dssdev, int channel,
-> -			u8 *data, int len);
-> +			const u8 *data, int len);
->  	int (*dcs_read)(struct omap_dss_device *dssdev, int channel, u8 dcs_cmd,
->  			u8 *data, int len);
->  
->  	int (*gen_write)(struct omap_dss_device *dssdev, int channel,
-> -			u8 *data, int len);
-> +			const u8 *data, int len);
->  	int (*gen_write_nosync)(struct omap_dss_device *dssdev, int channel,
-> -			u8 *data, int len);
-> +			const u8 *data, int len);
->  	int (*gen_read)(struct omap_dss_device *dssdev, int channel,
-> -			u8 *reqdata, int reqlen,
-> +			const u8 *reqdata, int reqlen,
->  			u8 *data, int len);
->  
->  	int (*bta_sync)(struct omap_dss_device *dssdev, int channel);
-
--- 
-Regards,
-
-Laurent Pinchart
+> -Ram
+> >  				       &intel_dp_mst_hdcp_shim);
+> >  	else if (!intel_dp_is_edp(intel_dp))
+> > -		return intel_hdcp_init(intel_connector, port,
+> > +		return intel_hdcp_init(intel_connector, dig_port,
+> >  				       &intel_dp_hdcp_shim);
+> >  
+> >  	return 0;
+> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > index 937af4aeaac2..b0f47687bc59 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> > @@ -1982,12 +1982,13 @@ static enum mei_fw_tc intel_get_mei_fw_tc(enum transcoder cpu_transcoder)
+> >  }
+> >  
+> >  static int initialize_hdcp_port_data(struct intel_connector *connector,
+> > -				     enum port port,
+> > +				     struct intel_digital_port *dig_port,
+> >  				     const struct intel_hdcp_shim *shim)
+> >  {
+> >  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> >  	struct intel_hdcp *hdcp = &connector->hdcp;
+> >  	struct hdcp_port_data *data = &hdcp->port_data;
+> > +	enum port port = dig_port->base.port;
+> >  
+> >  	if (INTEL_GEN(dev_priv) < 12)
+> >  		data->fw_ddi = intel_get_mei_fw_ddi_index(port);
+> > @@ -2060,14 +2061,15 @@ void intel_hdcp_component_init(struct drm_i915_private *dev_priv)
+> >  	}
+> >  }
+> >  
+> > -static void intel_hdcp2_init(struct intel_connector *connector, enum port port,
+> > +static void intel_hdcp2_init(struct intel_connector *connector,
+> > +			     struct intel_digital_port *dig_port,
+> >  			     const struct intel_hdcp_shim *shim)
+> >  {
+> >  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> >  	struct intel_hdcp *hdcp = &connector->hdcp;
+> >  	int ret;
+> >  
+> > -	ret = initialize_hdcp_port_data(connector, port, shim);
+> > +	ret = initialize_hdcp_port_data(connector, dig_port, shim);
+> >  	if (ret) {
+> >  		drm_dbg_kms(&i915->drm, "Mei hdcp data init failed\n");
+> >  		return;
+> > @@ -2077,7 +2079,7 @@ static void intel_hdcp2_init(struct intel_connector *connector, enum port port,
+> >  }
+> >  
+> >  int intel_hdcp_init(struct intel_connector *connector,
+> > -		    enum port port,
+> > +		    struct intel_digital_port *dig_port,
+> >  		    const struct intel_hdcp_shim *shim)
+> >  {
+> >  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> > @@ -2088,7 +2090,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+> >  		return -EINVAL;
+> >  
+> >  	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
+> > -		intel_hdcp2_init(connector, port, shim);
+> > +		intel_hdcp2_init(connector, dig_port, shim);
+> >  
+> >  	ret =
+> >  	drm_connector_attach_content_protection_property(&connector->base,
+> > diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.h b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> > index b912a3a0f5b8..8f53b0c7fe5c 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_hdcp.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_hdcp.h
+> > @@ -18,13 +18,15 @@ struct intel_connector;
+> >  struct intel_crtc_state;
+> >  struct intel_encoder;
+> >  struct intel_hdcp_shim;
+> > +struct intel_digital_port;
+> >  enum port;
+> >  enum transcoder;
+> >  
+> >  void intel_hdcp_atomic_check(struct drm_connector *connector,
+> >  			     struct drm_connector_state *old_state,
+> >  			     struct drm_connector_state *new_state);
+> > -int intel_hdcp_init(struct intel_connector *connector, enum port port,
+> > +int intel_hdcp_init(struct intel_connector *connector,
+> > +		    struct intel_digital_port *dig_port,
+> >  		    const struct intel_hdcp_shim *hdcp_shim);
+> >  int intel_hdcp_enable(struct intel_connector *connector,
+> >  		      const struct intel_crtc_state *pipe_config, u8 content_type);
+> > diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > index f58469226694..0788de04711b 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > @@ -3302,7 +3302,7 @@ void intel_hdmi_init_connector(struct intel_digital_port *dig_port,
+> >  	intel_hdmi->attached_connector = intel_connector;
+> >  
+> >  	if (is_hdcp_supported(dev_priv, port)) {
+> > -		int ret = intel_hdcp_init(intel_connector, port,
+> > +		int ret = intel_hdcp_init(intel_connector, dig_port,
+> >  					  &intel_hdmi_hdcp_shim);
+> >  		if (ret)
+> >  			drm_dbg_kms(&dev_priv->drm,
+> > -- 
+> > 2.26.2
+> > 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
