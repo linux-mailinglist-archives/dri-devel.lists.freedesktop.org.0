@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BDD2A9C5C
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E132A9C62
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 19:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA32389A57;
-	Fri,  6 Nov 2020 18:36:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2A496EACE;
+	Fri,  6 Nov 2020 18:36:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
- [209.85.208.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D547E89A57
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:36:08 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id y15so2098426ede.11
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:36:08 -0800 (PST)
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
+ [209.85.218.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777E36EACE
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:36:58 +0000 (UTC)
+Received: by mail-ej1-f65.google.com with SMTP id w13so3250595eju.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 10:36:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=isQEn/WGIzcD1/rQJHgyKiYzp/eybvhQKlIidDjmFmA=;
- b=aU0HufzOENdfnQfo59s3fcGBJIUJVA3ODtPDdJtbsDqfRUqNwlglrt5iSKj+yoFu++
- jhcjHxOMdiKaV7LV3WwoW+/H7S02AbkR1roDRngeoeW0IDexOQyfusu5sE6InE8O40X8
- SaLF/EvXdPpQ+GYrQ0MNSyS/n4+PPeUJ8KKhUKzhxuFxzLbQPpxChXNp/PSp0/bcvWz8
- b+jYmayvBVGexETBM9lAXQnFs15gSg8FGOlB/3avZ8PjQCWIgbqfIv2NkZ1J287GvTxM
- lHURTxDX+HcQqsavtbhBYwBhUKFRc3NO4sxZgRm/hmBn8ZY/kCdEVIewIJmmZgnC0ybD
- AzsA==
-X-Gm-Message-State: AOAM533ae31iFJegQ3ikjTKHKdsWzl15fVnapyH2HqbpJ0B1Vs5ZJ+tv
- EbwmWt7wmJEo3FGMPalxOYU=
-X-Google-Smtp-Source: ABdhPJzm34++RkZ9i/6bHVN6gXnBfb/w4saUjJTF7dzV+wNMUHTg7CQscPnPW320PmoLmbR6sA3gpg==
-X-Received: by 2002:aa7:dbca:: with SMTP id v10mr3419657edt.219.1604687767458; 
- Fri, 06 Nov 2020 10:36:07 -0800 (PST)
+ bh=eVuXfSi6dXqHZAsAebY9YsjeYiR6CGt+Ck/Jel1E2RI=;
+ b=KzlIwio03AgdasSr9ij6FFrY7yZEqiWrBqBrHEiH7R9v8Qho32PN+/HQZj5Yu4zTQE
+ L7ZHWAl3FpKq4eB5ji+LuuD3qZINzXKjSWzHum3tse/mcnc0bdhWxt7l3NpvXmvliXi3
+ ls6uvJmyKH/TRZ9ZPoY8EKBH1CTnIw7s2PCke1g2KQKcQMBN8linMzIaiMbFjPFfHXd1
+ 84k9IVWafKrNIxFi97dlwFmrKR49ji08cu3CgDo8ssFJxifi85hqaqsQp1YPYzdJXxEB
+ 5FVwABIfDXKsk0nYDYnfPKZLlplZWdRiGjJLsFGnoY0kv9/OUdd7tkWtoX6vITe8FPem
+ sv9Q==
+X-Gm-Message-State: AOAM530Oj7Ay+mAVAswlmaMoU8uoK5antkHS6K8eP+t+sDh55gWrbqNQ
+ OGfBVB8Dz1dFQucBifZVmZA=
+X-Google-Smtp-Source: ABdhPJwPUrSMVeCYqxnUBZgYyr2K6ZYpoE0trApTbuOdsRiIJ/AyInjfwpXVjmsroGkQgNNQawtfIQ==
+X-Received: by 2002:a17:906:d8b0:: with SMTP id
+ qc16mr3331993ejb.268.1604687817174; 
+ Fri, 06 Nov 2020 10:36:57 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id p1sm1463523ejd.33.2020.11.06.10.36.05
+ by smtp.googlemail.com with ESMTPSA id z13sm1488997ejp.30.2020.11.06.10.36.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 10:36:06 -0800 (PST)
-Date: Fri, 6 Nov 2020 19:36:04 +0100
+ Fri, 06 Nov 2020 10:36:55 -0800 (PST)
+Date: Fri, 6 Nov 2020 19:36:54 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 16/47] dt-bindings: host1x: Document new interconnect
- properties
-Message-ID: <20201106183604.GO65086@kozik-lap>
+Subject: Re: [PATCH v7 14/47] dt-bindings: memory: tegra124: emc: Document
+ OPP table and voltage regulator
+Message-ID: <20201106183654.GP65086@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-17-digetx@gmail.com>
+ <20201104164923.21238-15-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-17-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-15-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,21 +76,17 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:48:52PM +0300, Dmitry Osipenko wrote:
-> Most of Host1x devices have at least one memory client. These clients
-> are directly connected to the memory controller. The new interconnect
-> properties represent the memory client's connection to the memory
-> controller.
+On Wed, Nov 04, 2020 at 07:48:50PM +0300, Dmitry Osipenko wrote:
+> Document new OPP table and voltage regulator properties which are needed
+> for supporting dynamic voltage-frequency scaling of the memory controller.
+> Some boards may have a fixed core voltage regulator, hence it's optional
+> because frequency scaling still may be desired.
 > 
 > Reviewed-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../display/tegra/nvidia,tegra20-host1x.txt   | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
-
-Does not look like patch for memory controller drivers but I guess
-better to keep it with others. Let me know if it should go via different
-tree.
+>  .../memory-controllers/nvidia,tegra124-emc.yaml      | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
 Thanks, applied.
 
