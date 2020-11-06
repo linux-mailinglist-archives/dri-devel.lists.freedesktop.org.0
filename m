@@ -1,61 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D362A95B6
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 12:48:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 876362A95E2
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 12:58:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFC2D6E847;
-	Fri,  6 Nov 2020 11:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C3466EA8C;
+	Fri,  6 Nov 2020 11:58:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3F596E847
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 11:48:12 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id y15so796059ede.11
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 03:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wZu+XGFvlw0FEfc95UlskAJhekFUH3UYesXEzBCUZXE=;
- b=X3scQAf6IH774woaf74EJ6K9QQW9Hz+b4vME11wLdRalJ83vx7HHSweCc1q96cYBeq
- fyN2M7t+dXLJ/ubqMea3cV7bpZP0Fm6TioWe+QiA2zDSBYJ9X4cK7zRBqQUCgTYvi1/x
- zpXCgwn1bMUBmWT1dbIK1ECToTGi4NxJJSkHjRCbeHZNhg0Jw1Ows20P03FpLrTnNtPW
- jCCggTIMJvO13/rd5xCBjfkMyZLZ6bnPxTiQYlIeZaqDbvW7163fzfX15XeIRoktmKQv
- Y2dEnrRC2Zd4/Mh5FhdePyDgAwbjG/bXSRPjrJLXI7x+ILN3kyx1bI5aA76ueAdM33D9
- 4TYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wZu+XGFvlw0FEfc95UlskAJhekFUH3UYesXEzBCUZXE=;
- b=rIS0gzwoBTdYV5j4n29wCf8cQVDlM2YgQPzI4mnuRqqOOhUhG4FxNQGCoHHLcNyzMY
- RuTWxzGK5RURyczG7ilOd0sJNeTISr+kFaGrKv3iG0BCOTw7y9cFb9KL5ha6YwFDzElm
- bs8C0/elGEXyaJFaN35WvgSsDyi+dg/4KMZ25k9xF82OA6QSL3+Zkaw2WayEmmY2vWWs
- 8qdY18VaiYT0Abok7hXIwOxRbopr4alqIFBMHOvyE+4wjT6BpX9oxWGRsbxZoyTdYIdU
- ua5csR5CsOQwMdZ3jsGutPpUb2ipENqfuQXBXPrKCQPaCxLb2mrMSc8jOC8DtDq9I8VI
- CwmA==
-X-Gm-Message-State: AOAM530F43DppUnhFrdykL44kLTm145u1CeQ8xpNZzFYIn2BSJjhsYVj
- tTzR0zhBNk7aRUEPj6WqyBg=
-X-Google-Smtp-Source: ABdhPJzmKUQRZoYcIMoblE1vSr/r3RORCBBlh4plUgqS+I3tvTTWmRVrECnmqAgEy0Gu7d44tJ0vjA==
-X-Received: by 2002:a50:a40f:: with SMTP id u15mr1609050edb.307.1604663291597; 
- Fri, 06 Nov 2020 03:48:11 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:c066:c9fc:f8c2:d50b])
- by smtp.gmail.com with ESMTPSA id j8sm875933edk.79.2020.11.06.03.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 03:48:11 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: akpm@linux-foundation.org
-Subject: [PATCH 2/2] mm: introduce vma_set_file function v5
-Date: Fri,  6 Nov 2020 12:48:06 +0100
-Message-Id: <20201106114806.46015-3-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201106114806.46015-1-christian.koenig@amd.com>
-References: <20201106114806.46015-1-christian.koenig@amd.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2646EA82;
+ Fri,  6 Nov 2020 11:58:01 +0000 (UTC)
+IronPort-SDR: ygPGpiIqQa43YjFw7tT0htiezjLgP8hwaq7WhDEeGddn1GneZFpITiqFCICvebecCtu7B+M8pZ
+ azTHQLVmcPyw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="149387195"
+X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; d="scan'208";a="149387195"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2020 03:58:00 -0800
+IronPort-SDR: vSlELBnEzDGbWltzkA/cfYvoCF/VwjYd4LYJtRIghbcjjqM5moZNfm2DR6fj6iBSL7W+9c8wDw
+ 81jOA+qdSScQ==
+X-IronPort-AV: E=Sophos;i="5.77,456,1596524400"; d="scan'208";a="321568907"
+Received: from unknown (HELO intel.com) ([10.99.66.154])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Nov 2020 03:57:57 -0800
+Date: Fri, 6 Nov 2020 17:28:42 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v4 16/16] drm/i915/hdcp: Enable HDCP 2.2 MST support
+Message-ID: <20201106115842.GC13128@intel.com>
+References: <20201027164208.10026-1-anshuman.gupta@intel.com>
+ <20201027164208.10026-17-anshuman.gupta@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201027164208.10026-17-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,132 +50,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHRoZSBuZXcgdm1hX3NldF9maWxlKCkgZnVuY3Rpb24gdG8gYWxsb3cgY2hhbmdpbmcKdm1h
-LT52bV9maWxlIHdpdGggdGhlIG5lY2Vzc2FyeSByZWZjb3VudCBkYW5jZS4KCnYyOiBhZGQgbW9y
-ZSB1c2VycyBvZiB0aGlzLgp2MzogYWRkIG1pc3NpbmcgRVhQT1JUX1NZTUJPTCwgcmViYXNlIG9u
-IG1tYXAgY2xlYW51cCwKICAgIGFkZCBjb21tZW50cyB3aHkgd2UgZHJvcCB0aGUgcmVmZXJlbmNl
-IG9uIHR3byBvY2Nhc2lvbnMuCnY0OiBtYWtlIGl0IGNsZWFyIHRoYXQgY2hhbmdpbmcgYW4gYW5v
-bnltb3VzIHZtYSBpcyBpbGxlZ2FsLgp2NTogbW92ZSB2bWFfc2V0X2ZpbGUgdG8gbW0vdXRpbC5j
-CgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
-b20+ClJldmlld2VkLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGZmd2xsLmNoPiAo
-djIpClJldmlld2VkLWJ5OiBKYXNvbiBHdW50aG9ycGUgPGpnZ0BudmlkaWEuY29tPgotLS0KIGRy
-aXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgICAgICAgICAgICAgICAgICB8ICAzICstLQogZHJpdmVy
-cy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyAgICAgIHwgIDQgKy0tLQogZHJpdmVycy9n
-cHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5jIHwgIDMgKy0tCiBkcml2ZXJzL2dwdS9k
-cm0vaTkxNS9nZW0vaTkxNV9nZW1fbW1hbi5jICAgfCAgNSArKystLQogZHJpdmVycy9ncHUvZHJt
-L21zbS9tc21fZ2VtLmMgICAgICAgICAgICAgIHwgIDQgKy0tLQogZHJpdmVycy9ncHUvZHJtL29t
-YXBkcm0vb21hcF9nZW0uYyAgICAgICAgIHwgIDMgKy0tCiBkcml2ZXJzL2dwdS9kcm0vdmdlbS92
-Z2VtX2Rydi5jICAgICAgICAgICAgfCAgMyArLS0KIGRyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2Fz
-aG1lbS5jICAgICAgICAgICB8ICA2ICsrKy0tLQogaW5jbHVkZS9saW51eC9tbS5oICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDIgKysKIG1tL3V0aWwuYyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8IDEyICsrKysrKysrKysrKwogMTAgZmlsZXMgY2hhbmdlZCwgMjYgaW5zZXJ0
-aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2Rt
-YS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKaW5kZXggMjgyYmQ4Yjg0MTcwLi5l
-NjM2ODRkNGNkOTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMKKysrIGIv
-ZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAtMTE4Myw4ICsxMTgzLDcgQEAgaW50IGRtYV9i
-dWZfbW1hcChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZt
-YSwKIAkJcmV0dXJuIC1FSU5WQUw7CiAKIAkvKiByZWFkanVzdCB0aGUgdm1hICovCi0JZnB1dCh2
-bWEtPnZtX2ZpbGUpOwotCXZtYS0+dm1fZmlsZSA9IGdldF9maWxlKGRtYWJ1Zi0+ZmlsZSk7CisJ
-dm1hX3NldF9maWxlKHZtYSwgZG1hYnVmLT5maWxlKTsKIAl2bWEtPnZtX3Bnb2ZmID0gcGdvZmY7
-CiAKIAlyZXR1cm4gZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVmLCB2bWEpOwpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9l
-dG5hdml2L2V0bmF2aXZfZ2VtLmMKaW5kZXggNjdkOWEyYjllYTZhLi40MTMyYWNmYTExYmUgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfZ2VtLmMKKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2V0bmF2aXYvZXRuYXZpdl9nZW0uYwpAQCAtMTQ1LDEwICsxNDUsOCBAQCBz
-dGF0aWMgaW50IGV0bmF2aXZfZ2VtX21tYXBfb2JqKHN0cnVjdCBldG5hdml2X2dlbV9vYmplY3Qg
-KmV0bmF2aXZfb2JqLAogCQkgKiBhZGRyZXNzX3NwYWNlIChzbyB1bm1hcF9tYXBwaW5nX3Jhbmdl
-IGRvZXMgd2hhdCB3ZSB3YW50LAogCQkgKiBpbiBwYXJ0aWN1bGFyIGluIHRoZSBjYXNlIG9mIG1t
-YXAnZCBkbWFidWZzKQogCQkgKi8KLQkJZnB1dCh2bWEtPnZtX2ZpbGUpOwotCQlnZXRfZmlsZShl
-dG5hdml2X29iai0+YmFzZS5maWxwKTsKIAkJdm1hLT52bV9wZ29mZiA9IDA7Ci0JCXZtYS0+dm1f
-ZmlsZSAgPSBldG5hdml2X29iai0+YmFzZS5maWxwOworCQl2bWFfc2V0X2ZpbGUodm1hLCBldG5h
-dml2X29iai0+YmFzZS5maWxwKTsKIAogCQl2bWEtPnZtX3BhZ2VfcHJvdCA9IHZtX3BhZ2VfcHJv
-dDsKIAl9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZG1h
-YnVmLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fZG1hYnVmLmMKaW5kZXgg
-MGRkNDc3ZTU2NTczLi4wNGU5YzA0NTQ1YWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2dlbS9pOTE1X2dlbV9kbWFidWYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0v
-aTkxNV9nZW1fZG1hYnVmLmMKQEAgLTExNCw4ICsxMTQsNyBAQCBzdGF0aWMgaW50IGk5MTVfZ2Vt
-X2RtYWJ1Zl9tbWFwKHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1
-Y3QgKgogCWlmIChyZXQpCiAJCXJldHVybiByZXQ7CiAKLQlmcHV0KHZtYS0+dm1fZmlsZSk7Ci0J
-dm1hLT52bV9maWxlID0gZ2V0X2ZpbGUob2JqLT5iYXNlLmZpbHApOworCXZtYV9zZXRfZmlsZSh2
-bWEsIG9iai0+YmFzZS5maWxwKTsKIAogCXJldHVybiAwOwogfQpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX21tYW4uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2dlbS9pOTE1X2dlbV9tbWFuLmMKaW5kZXggM2Q2OWU1MWYzZTRkLi5lYzI4YTZjZGU0OWIgMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9tbWFuLmMKKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX21tYW4uYwpAQCAtODkzLDggKzg5Myw5
-IEBAIGludCBpOTE1X2dlbV9tbWFwKHN0cnVjdCBmaWxlICpmaWxwLCBzdHJ1Y3Qgdm1fYXJlYV9z
-dHJ1Y3QgKnZtYSkKIAkgKiByZXF1aXJlcyBhdm9pZGluZyBleHRyYW5lb3VzIHJlZmVyZW5jZXMg
-dG8gdGhlaXIgZmlscCwgaGVuY2Ugd2h5CiAJICogd2UgcHJlZmVyIHRvIHVzZSBhbiBhbm9ueW1v
-dXMgZmlsZSBmb3IgdGhlaXIgbW1hcHMuCiAJICovCi0JZnB1dCh2bWEtPnZtX2ZpbGUpOwotCXZt
-YS0+dm1fZmlsZSA9IGFub247CisJdm1hX3NldF9maWxlKHZtYSwgYW5vbik7CisJLyogRHJvcCB0
-aGUgaW5pdGlhbCBjcmVhdGlvbiByZWZlcmVuY2UsIHRoZSB2bWEgaXMgbm93IGhvbGRpbmcgb25l
-LiAqLworCWZwdXQoYW5vbik7CiAKIAlzd2l0Y2ggKG1tby0+bW1hcF90eXBlKSB7CiAJY2FzZSBJ
-OTE1X01NQVBfVFlQRV9XQzoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dl
-bS5jIGIvZHJpdmVycy9ncHUvZHJtL21zbS9tc21fZ2VtLmMKaW5kZXggMmUxYmNlN2MwYjE5Li4z
-MTE3MjFjZWVlNTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbS5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vbXNtX2dlbS5jCkBAIC0yMTIsMTAgKzIxMiw4IEBAIGlu
-dCBtc21fZ2VtX21tYXBfb2JqKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAogCQkgKiBhZGRy
-ZXNzX3NwYWNlIChzbyB1bm1hcF9tYXBwaW5nX3JhbmdlIGRvZXMgd2hhdCB3ZSB3YW50LAogCQkg
-KiBpbiBwYXJ0aWN1bGFyIGluIHRoZSBjYXNlIG9mIG1tYXAnZCBkbWFidWZzKQogCQkgKi8KLQkJ
-ZnB1dCh2bWEtPnZtX2ZpbGUpOwotCQlnZXRfZmlsZShvYmotPmZpbHApOwogCQl2bWEtPnZtX3Bn
-b2ZmID0gMDsKLQkJdm1hLT52bV9maWxlICA9IG9iai0+ZmlscDsKKwkJdm1hX3NldF9maWxlKHZt
-YSwgb2JqLT5maWxwKTsKIAogCQl2bWEtPnZtX3BhZ2VfcHJvdCA9IHZtX2dldF9wYWdlX3Byb3Qo
-dm1hLT52bV9mbGFncyk7CiAJfQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0v
-b21hcF9nZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL29tYXBfZ2VtLmMKaW5kZXggZDhl
-MDk3OTI3OTNhLi5mMDYzZjVhMDRmYjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9vbWFw
-ZHJtL29tYXBfZ2VtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9nZW0uYwpA
-QCAtNTY0LDkgKzU2NCw4IEBAIGludCBvbWFwX2dlbV9tbWFwX29iaihzdHJ1Y3QgZHJtX2dlbV9v
-YmplY3QgKm9iaiwKIAkJICogYWRkcmVzc19zcGFjZSAoc28gdW5tYXBfbWFwcGluZ19yYW5nZSBk
-b2VzIHdoYXQgd2Ugd2FudCwKIAkJICogaW4gcGFydGljdWxhciBpbiB0aGUgY2FzZSBvZiBtbWFw
-J2QgZG1hYnVmcykKIAkJICovCi0JCWZwdXQodm1hLT52bV9maWxlKTsKIAkJdm1hLT52bV9wZ29m
-ZiA9IDA7Ci0JCXZtYS0+dm1fZmlsZSAgPSBnZXRfZmlsZShvYmotPmZpbHApOworCQl2bWFfc2V0
-X2ZpbGUodm1hLCBvYmotPmZpbHApOwogCiAJCXZtYS0+dm1fcGFnZV9wcm90ID0gdm1fZ2V0X3Bh
-Z2VfcHJvdCh2bWEtPnZtX2ZsYWdzKTsKIAl9CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dmdlbS92Z2VtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL3ZnZW0vdmdlbV9kcnYuYwppbmRleCBm
-YTU0YTZkMTQwM2QuLmVhMGVlY2FlNTE1MyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Zn
-ZW0vdmdlbV9kcnYuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vdmdlbS92Z2VtX2Rydi5jCkBAIC0z
-OTcsOCArMzk3LDcgQEAgc3RhdGljIGludCB2Z2VtX3ByaW1lX21tYXAoc3RydWN0IGRybV9nZW1f
-b2JqZWN0ICpvYmosCiAJaWYgKHJldCkKIAkJcmV0dXJuIHJldDsKIAotCWZwdXQodm1hLT52bV9m
-aWxlKTsKLQl2bWEtPnZtX2ZpbGUgPSBnZXRfZmlsZShvYmotPmZpbHApOworCXZtYV9zZXRfZmls
-ZSh2bWEsIG9iai0+ZmlscCk7CiAJdm1hLT52bV9mbGFncyB8PSBWTV9ET05URVhQQU5EIHwgVk1f
-RE9OVERVTVA7CiAJdm1hLT52bV9wYWdlX3Byb3QgPSBwZ3Byb3Rfd3JpdGVjb21iaW5lKHZtX2dl
-dF9wYWdlX3Byb3Qodm1hLT52bV9mbGFncykpOwogCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdp
-bmcvYW5kcm9pZC9hc2htZW0uYyBiL2RyaXZlcnMvc3RhZ2luZy9hbmRyb2lkL2FzaG1lbS5jCmlu
-ZGV4IDEwYjRiZTFmM2U3OC4uNDc4OWQzNmRkZmQzIDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdp
-bmcvYW5kcm9pZC9hc2htZW0uYworKysgYi9kcml2ZXJzL3N0YWdpbmcvYW5kcm9pZC9hc2htZW0u
-YwpAQCAtNDUwLDkgKzQ1MCw5IEBAIHN0YXRpYyBpbnQgYXNobWVtX21tYXAoc3RydWN0IGZpbGUg
-KmZpbGUsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hKQogCQl2bWFfc2V0X2Fub255bW91cyh2
-bWEpOwogCX0KIAotCWlmICh2bWEtPnZtX2ZpbGUpCi0JCWZwdXQodm1hLT52bV9maWxlKTsKLQl2
-bWEtPnZtX2ZpbGUgPSBhc21hLT5maWxlOworCXZtYV9zZXRfZmlsZSh2bWEsIGFzbWEtPmZpbGUp
-OworCS8qIFhYWDogbWVyZ2UgdGhpcyB3aXRoIHRoZSBnZXRfZmlsZSgpIGFib3ZlIGlmIHBvc3Np
-YmxlICovCisJZnB1dChhc21hLT5maWxlKTsKIAogb3V0OgogCW11dGV4X3VubG9jaygmYXNobWVt
-X211dGV4KTsKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvbW0uaCBiL2luY2x1ZGUvbGludXgv
-bW0uaAppbmRleCBlZjM2MGZlNzBhYWYuLjJiN2FjMzZjNDJkZCAxMDA2NDQKLS0tIGEvaW5jbHVk
-ZS9saW51eC9tbS5oCisrKyBiL2luY2x1ZGUvbGludXgvbW0uaApAQCAtMjcxOSw2ICsyNzE5LDgg
-QEAgc3RhdGljIGlubGluZSB2b2lkIHZtYV9zZXRfcGFnZV9wcm90KHN0cnVjdCB2bV9hcmVhX3N0
-cnVjdCAqdm1hKQogfQogI2VuZGlmCiAKK3ZvaWQgdm1hX3NldF9maWxlKHN0cnVjdCB2bV9hcmVh
-X3N0cnVjdCAqdm1hLCBzdHJ1Y3QgZmlsZSAqZmlsZSk7CisKICNpZmRlZiBDT05GSUdfTlVNQV9C
-QUxBTkNJTkcKIHVuc2lnbmVkIGxvbmcgY2hhbmdlX3Byb3RfbnVtYShzdHJ1Y3Qgdm1fYXJlYV9z
-dHJ1Y3QgKnZtYSwKIAkJCXVuc2lnbmVkIGxvbmcgc3RhcnQsIHVuc2lnbmVkIGxvbmcgZW5kKTsK
-ZGlmZiAtLWdpdCBhL21tL3V0aWwuYyBiL21tL3V0aWwuYwppbmRleCA0ZGRiNmUxODZkZDUuLjhj
-OWI3ZDFlN2M0OSAxMDA2NDQKLS0tIGEvbW0vdXRpbC5jCisrKyBiL21tL3V0aWwuYwpAQCAtMzEx
-LDYgKzMxMSwxOCBAQCBpbnQgdm1hX2lzX3N0YWNrX2Zvcl9jdXJyZW50KHN0cnVjdCB2bV9hcmVh
-X3N0cnVjdCAqdm1hKQogCXJldHVybiAodm1hLT52bV9zdGFydCA8PSBLU1RLX0VTUCh0KSAmJiB2
-bWEtPnZtX2VuZCA+PSBLU1RLX0VTUCh0KSk7CiB9CiAKKy8qCisgKiBDaGFuZ2UgYmFja2luZyBm
-aWxlLCBvbmx5IHZhbGlkIHRvIHVzZSBkdXJpbmcgaW5pdGlhbCBWTUEgc2V0dXAuCisgKi8KK3Zv
-aWQgdm1hX3NldF9maWxlKHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgZmlsZSAq
-ZmlsZSkKK3sKKwkvKiBDaGFuZ2luZyBhbiBhbm9ueW1vdXMgdm1hIHdpdGggdGhpcyBpcyBpbGxl
-Z2FsICovCisJZ2V0X2ZpbGUoZmlsZSk7CisJc3dhcCh2bWEtPnZtX2ZpbGUsIGZpbGUpOworCWZw
-dXQoZmlsZSk7Cit9CitFWFBPUlRfU1lNQk9MKHZtYV9zZXRfZmlsZSk7CisKICNpZm5kZWYgU1RB
-Q0tfUk5EX01BU0sKICNkZWZpbmUgU1RBQ0tfUk5EX01BU0sgKDB4N2ZmID4+IChQQUdFX1NISUZU
-IC0gMTIpKSAgICAgLyogOE1CIG9mIFZBICovCiAjZW5kaWYKLS0gCjIuMjUuMQoKX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
-bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 2020-10-27 at 22:12:08 +0530, Anshuman Gupta wrote:
+> Enable HDCP 2.2 over DP MST.
+> Authenticate and enable port encryption only once for
+> an active HDCP 2.2 session, once port is authenticated
+> and encrypted enable encryption for each stream that
+> requires encryption on this port.
+> 
+> Similarly disable the stream encryption for each encrypted
+> stream, once all encrypted stream encryption is disabled,
+> disable the port HDCP encryption and deauthenticate the port.
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 46 ++++++++++++++++++++++-
+>  1 file changed, 44 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 87f7aaf3a319..71fd01bf63a6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -1693,6 +1693,32 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
+>  	return ret;
+>  }
+>  
+> +static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
+> +{
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
+> +	struct intel_hdcp *hdcp = &connector->hdcp;
+> +	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
+> +	enum port port = dig_port->base.port;
+> +	int ret = 0;
+> +
+> +	if (!(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
+> +			    LINK_ENCRYPTION_STATUS)) {
+> +		drm_err(&dev_priv->drm, "HDCP 2.2 Link is not encrypted\n");
+Provide the connector details in err.
+> +		return -EPERM;
+> +	}
+> +
+> +	if (hdcp->shim->stream_2_2_encryption) {
+> +		ret = hdcp->shim->stream_2_2_encryption(dig_port, true);
+> +		if (ret) {
+> +			drm_err(&dev_priv->drm, "Failed to enable HDCP 2.2 stream enc\n");
+connector details.
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int hdcp2_enable_encryption(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> @@ -1831,7 +1857,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  			drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
+>  	}
+>  
+> -	if (!ret) {
+> +	if (!ret && !dig_port->port_auth) {
+>  		/*
+>  		 * Ensuring the required 200mSec min time interval between
+>  		 * Session Key Exchange and encryption.
+> @@ -1846,6 +1872,8 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  		}
+>  	}
+>  
+> +	ret = hdcp2_enable_stream_encryption(connector);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1891,11 +1919,23 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+>  	struct hdcp_port_data *data = &dig_port->port_data;
+> +	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret;
+>  
+>  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
+>  		    connector->base.name, connector->base.base.id);
+>  
+> +	if (hdcp->shim->stream_2_2_encryption) {
+> +		ret = hdcp->shim->stream_2_2_encryption(dig_port, false);
+> +		if (ret) {
+> +			drm_err(&i915->drm, "Failed to disable HDCP 2.2 stream enc\n");
+connector details in err.
+
+-Ram
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (dig_port->num_hdcp_streams > 0)
+> +		return ret;
+> +
+>  	ret = hdcp2_disable_encryption(connector);
+>  
+>  	if (hdcp2_deauthenticate_port(connector) < 0)
+> @@ -1919,6 +1959,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+>  	int ret = 0;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&dig_port->hdcp_mutex);
+>  	cpu_transcoder = hdcp->cpu_transcoder;
+>  
+>  	/* hdcp2_check_link is expected only when HDCP2.2 is Enabled */
+> @@ -1996,6 +2037,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+>  	}
+>  
+>  out:
+> +	mutex_unlock(&dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+> @@ -2177,7 +2219,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+>  	if (!shim)
+>  		return -EINVAL;
+>  
+> -	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
+> +	if (is_hdcp2_supported(dev_priv))
+>  		intel_hdcp2_init(connector, dig_port, shim);
+>  
+>  	ret =
+> -- 
+> 2.26.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
