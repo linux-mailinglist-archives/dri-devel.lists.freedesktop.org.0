@@ -2,39 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F9C2AA084
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 23:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15FB2AA15A
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Nov 2020 00:30:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70AB76EB3F;
-	Fri,  6 Nov 2020 22:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68F056EB52;
+	Fri,  6 Nov 2020 23:30:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BFA16EB3F
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 22:48:13 +0000 (UTC)
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net
- [73.231.172.41])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC50F6EB52
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 23:30:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604705426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RqQN/DwASLSwBaj/2yQjpp86Hx5P0sidKJCWI09z4eM=;
+ b=RiEGwzgT3bcQXRQ9OM9C/Qu5YxzCjqfL/MUfwHmhAPEAj9AosXrMuIn0YJM+gomABP2Iue
+ z0P84jDUHgIvcTMrfrEnTWH+7p61T79Gk5tYwF+uhqvZJXSsgpFfV415EfdUIeCK8cKR4R
+ cNWpvVPh3Ko07zSpFsSCXe6WUW6VPY0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-cF6Dcnd5Py-fvcnLLCC4_g-1; Fri, 06 Nov 2020 18:30:23 -0500
+X-MC-Unique: cF6Dcnd5Py-fvcnLLCC4_g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9578E2087E;
- Fri,  6 Nov 2020 22:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604702893;
- bh=Oj1ydksyNqQ3ZwyWkWH+O74qkDDreoYI/9+2rwNutow=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=GgJzvJbYnUHZVh/KVjPbUkpsfTIS+ixIdR5hDbc8e6O11e3cdgusrJ+SXHU1mNK02
- T1pf6Ysk+sGbT7IeHtbS79IjEOVb10BsqWj7Z/BpfjH8Hjsl5L51bZ3setY8WJNtnr
- JcdIhGHQmomXcxD8lLvJYy+d8B/elDLs+I2TO9iQ=
-Date: Fri, 6 Nov 2020 14:48:11 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: =?ISO-8859-1?Q?"Christian_K=F6nig"?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
-Message-Id: <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
-In-Reply-To: <20201106114806.46015-2-christian.koenig@amd.com>
-References: <20201106114806.46015-1-christian.koenig@amd.com>
- <20201106114806.46015-2-christian.koenig@amd.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 338391868421;
+ Fri,  6 Nov 2020 23:30:22 +0000 (UTC)
+Received: from Whitewolf.lyude.net (ovpn-115-78.rdu2.redhat.com [10.10.115.78])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8876162A15;
+ Fri,  6 Nov 2020 23:30:21 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: gregkh@linuxfoundation.org, stable@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] drm/nouveau: Stable backport of DP clock fixes for v5.9
+Date: Fri,  6 Nov 2020 18:30:13 -0500
+Message-Id: <20201106233016.2481179-1-lyude@redhat.com>
+In-Reply-To: <160459060724988@kroah.com>
+References: <160459060724988@kroah.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,33 +58,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  6 Nov 2020 12:48:05 +0100 "Christian K=F6nig" <ckoenig.leichtzumer=
-ken@gmail.com> wrote:
+Just a backport of the two patches for v5.9 that you'll want to apply.
+The first one was Cc'd to stable, but I forgot to Cc the second one as
+well.
 
-> Patch "495c10cc1c0c CHROMIUM: dma-buf: restore args..."
-> adds a workaround for a bug in mmap_region.
-> =
+Lyude Paul (2):
+  drm/nouveau/kms/nv50-: Get rid of bogus nouveau_conn_mode_valid()
+  drm/nouveau/kms/nv50-: Fix clock checking algorithm in
+    nv50_dp_mode_valid()
 
-> As the comment states ->mmap() callback can change
-> vma->vm_file and so we might call fput() on the wrong file.
-> =
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 36 ++++++---------------
+ drivers/gpu/drm/nouveau/nouveau_dp.c        | 21 ++++++++----
+ 2 files changed, 24 insertions(+), 33 deletions(-)
 
-> Revert the workaround and proper fix this in mmap_region.
-> =
-
-
-Seems correct, best I can tell.  Presumably all ->mmap() instances will
-correctly fput() to original file* if they're rewriting vma->vm_file.
-
-
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
