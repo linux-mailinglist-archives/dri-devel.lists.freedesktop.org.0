@@ -2,116 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA2502A995B
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 17:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9102A99E4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 17:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A78E66E0B7;
-	Fri,  6 Nov 2020 16:20:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F32406EA93;
+	Fri,  6 Nov 2020 16:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA8566E0B7
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 16:20:39 +0000 (UTC)
-IronPort-SDR: io4wRnjinzv3exvS+2pnBCrmMSdZohYqGzcb7CqQVanhD/lb2LGuD06azksXIk7O8yszPjLGyW
- 5aunJYJh+3GQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9797"; a="254270507"
-X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; d="scan'208";a="254270507"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Nov 2020 08:20:39 -0800
-IronPort-SDR: ZEEgBQ4CnZvJxY0YAND64xjO6IB0L1ixXjrEjvL3oLi44836K2qVHXYQtz93RZGl9HqLmKlR0a
- 5Y4YuJnRLaXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,457,1596524400"; d="scan'208";a="337617213"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga002.jf.intel.com with ESMTP; 06 Nov 2020 08:20:39 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 6 Nov 2020 08:20:38 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Fri, 6 Nov 2020 08:20:38 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.36.54) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Fri, 6 Nov 2020 08:20:37 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fwA0D/COhwr1dkZmvdP1uqvds4EbL3/+92kjG9HSmxu6s1jNK7PQ/l5NcvH1SdFfIA+cLB+3v/wC986WNxK7zW8Oy0dyTbXdqXlRu3dGHR3wHqtBNC+mdr1m7eJ32XoYxLHhd9+bsjwu7HPeYRdBAZS27rMgixNHhi+YBSJXO8dFgD2yXqp/N5aiKwjJuxuaB4FO587HmM6SxUOsJQyKwd5QADLfnBI8DURpOlqS68E/8t4h1KbeWWVvF7E+gIuJKRoVFxKkGm7miDeBEsWvZ1iIw9/YQpzeJ9U50Wxy/2pRlI58t9mI6cYac9GNuGa9Sj07OlvxqHRVmkmYq9vlVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vM+x+7vjGMNFmJzlSxIiSw0Y/PDDcxiihAmJjjgnTz4=;
- b=Wnp0KR2sGVdv/pLqewaG/9ziH37nipwsvAOedOyiXYGSUXfQ2Thd6zXbwQwbZBoKJYKS9zfZjgzG95xwTdwOclrYXEguZT+ZI0amyEXmagXlHSnBlwP+iU5zl1+wvs2GcA/hBUYdRBxgFb9+4Zk+UcgJnFSBxdkX05lmi+bsCK/rmMkDbaQT9zwBmUAYuSSFWrVuvhwnzLAzd8QH149S6qScq25bAjX31KeI/Xlj7OHsJogSfn/+rFpoMlKTiF9YSDjpvDK3J/2ZNNzEiSkrSf4a3rgpQaq7hPz6j6NtqDl8M2sg7Y/2Jp4OohcSxcZB8rGIVsSuVTInIstrK5rS3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vM+x+7vjGMNFmJzlSxIiSw0Y/PDDcxiihAmJjjgnTz4=;
- b=TG6KBp7I3OfLr267gkcd0h8+0iPItbVHkDRL7rHxdlwyvOXoEmkooD6ZmThSJH51BlPOcPxBnFeKPGHJSv6FhHT93yPqm+ddXFkjpmrgxPeorZHn2xTmQHBzZIQA6cSsGPi+eOCj+YzbR6fgOnQywIV4ypxs0a/iK610QCJoFos=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by MW3PR11MB4763.namprd11.prod.outlook.com (2603:10b6:303:2c::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Fri, 6 Nov
- 2020 16:20:34 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::8d73:60dd:89aa:99a9]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::8d73:60dd:89aa:99a9%8]) with mapi id 15.20.3499.032; Fri, 6 Nov 2020
- 16:20:34 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Subject: RE: [PATCH v8 3/5] RDMA/uverbs: Add uverbs command for dma-buf based
- MR registration
-Thread-Topic: [PATCH v8 3/5] RDMA/uverbs: Add uverbs command for dma-buf based
- MR registration
-Thread-Index: AQHWs8PVatDxbJtfDUKGWwXaJSy5Kam6O6eAgAEL70A=
-Date: Fri, 6 Nov 2020 16:20:34 +0000
-Message-ID: <MW3PR11MB4555B5ABCE53B195B5EF0AE7E5ED0@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <1604616489-69267-1-git-send-email-jianxin.xiong@intel.com>
- <1604616489-69267-4-git-send-email-jianxin.xiong@intel.com>
- <20201106001303.GL36674@ziepe.ca>
-In-Reply-To: <20201106001303.GL36674@ziepe.ca>
-Accept-Language: en-US
+X-Greylist: delayed 2592 seconds by postgrey-1.36 at gabe;
+ Fri, 06 Nov 2020 16:56:23 UTC
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F36D06EA93
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 16:56:23 +0000 (UTC)
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A6GCDZq019449; Fri, 6 Nov 2020 17:13:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+ h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=NvXUzQ7SwVhZlDEgRqqKFTG83ZZM65jn7U6kiDFIWfY=;
+ b=IiMht6/7mfHTbnDUzuycbRg8ER4z/Vfwarl53Ghk1+W0FZV+VQYt8lwC1hx5kJu7GBwG
+ A2vzfylicKq2oKvE2MErumqRDR38lBUK1HI5VRBW5ha3bnUba0+Ov2hDrH8k+ICsz2Pa
+ lifdWFsLrAWa/8dBKfZsaj5JshZrDU38xExNPbwj1ni8sfl+F7JlT+SK50UfxwQ7T+P+
+ 1hLCsHm7PB+km99FxbvozlO/14FNStV/2chHIxvKanEMH2VXAyfoBnTx7KGoVpLQIQsD
+ rXk5CsObUxolG6sJ533W1JVXLKbY9KSoD4pWPBtDU+hsR9V3N+hn3wvBY07KTSMhSVtR XQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 34h00ewcuj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 06 Nov 2020 17:13:08 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A4C7510002A;
+ Fri,  6 Nov 2020 17:13:07 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag2node2.st.com [10.75.127.5])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 96F04210693;
+ Fri,  6 Nov 2020 17:13:07 +0100 (CET)
+Received: from SFHDAG2NODE1.st.com (10.75.127.4) by SFHDAG2NODE2.st.com
+ (10.75.127.5) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov
+ 2020 17:13:06 +0100
+Received: from SFHDAG2NODE1.st.com ([fe80::4413:c8c:992b:bb90]) by
+ SFHDAG2NODE1.st.com ([fe80::4413:c8c:992b:bb90%20]) with mapi id
+ 15.00.1473.003; Fri, 6 Nov 2020 17:13:07 +0100
+From: Yannick FERTRE <yannick.fertre@st.com>
+To: Marek Vasut <marex@denx.de>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/stm: Enable RPM during fbdev registration
+Thread-Topic: [PATCH] drm/stm: Enable RPM during fbdev registration
+Thread-Index: AQHWsqlS5rN9KlZT7UGhoitdcGPm5am5ORqAgAABfgCAAf69AA==
+Date: Fri, 6 Nov 2020 16:13:07 +0000
+Message-ID: <66c438ec-42f6-0c1d-0eee-ee5501996668@st.com>
+References: <20201104125200.259639-1-marex@denx.de>
+ <20201105093945.GS401619@phenom.ffwll.local>
+ <e7bdd094-2109-34f1-77dc-165ff2706d20@denx.de>
+In-Reply-To: <e7bdd094-2109-34f1-77dc-165ff2706d20@denx.de>
+Accept-Language: fr-FR, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: ziepe.ca; dkim=none (message not signed)
- header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.53.14.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a1ae8b1f-1f5e-4bf9-35b0-08d8826fe3ce
-x-ms-traffictypediagnostic: MW3PR11MB4763:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW3PR11MB4763A40DD5186C352E37C1DCE5ED0@MW3PR11MB4763.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3826;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EFieMLKx8AIuY4SalV4FALVmtVy2qK0FfVHwGtAVFzNDYJdzND1i/EmHrZJYxgBVdTTpZm8YRTVKu80NRcjPs3pILkd2SvuRTOIYXbpO2UUDAjDEPFr02avx9/lvrVAfDR5CgfBRZblL9BIDNknOmSN7q1XyZlGyI2hAqacO+CLz5Ynwb63GciZaWY6tVpoUWU7Rl7uIIRK0xzr2cAmxPUQ1AMCOhqMEEZUfvAfJWz2ktosc+LdkHdfSf26A/oG7iFKVT4i7zorW982Z1zYQlLPYKYMiHYqPAQnesD0emxgsl/D0NuGkclHSKBzMJW1xZhT5uIXmF/SvxvBONri7fw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39860400002)(136003)(396003)(346002)(366004)(6506007)(33656002)(52536014)(66946007)(8936002)(7696005)(53546011)(76116006)(86362001)(55016002)(71200400001)(2906002)(478600001)(4326008)(66556008)(66476007)(64756008)(66446008)(186003)(5660300002)(6916009)(83380400001)(107886003)(9686003)(26005)(54906003)(316002)(8676002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: tGoE8kBUE99n4t7KQFA7Yyomu50+kdOKz/v9PzzQWhPKiM/fKDZO+J5orlgl9q8nHIV4+7w1hR313oYxZiMxWjp1dagzGChFeTN6mCyHBtCRW92VmOitvudOPZ4+QD3VbnjHNXWacL6k/olOPxcgyml5woNFYejEOTagrGXLkmJhM7xB2dVO4Yt2MoyX+hckxh9qnf9HykmS2TzaqpES/5m6p+M7y89ZwjJt92IpjNQ24VOXViaOiqsamtsi96hR9ZF61RVcLuNbZwyaEug2xQElJqw2C348yJW8gyu0+wIudMS+W1puZbhMrKd723PxfybufRUiII61ZZYe5mgwqVpJK3uz3zshNzbTfBR2nQTwMCR9wLCmr0cXZeQrJMICjH9Ej9YK6UolSopPh09rDb7m4vURVNI+/vjS9t62SJxQXpL63kEF1BYGU7HUeL2IMkfdFZ2KtTVzkgxENNfLL6PCddDLk3uT7JnaHX9F6NjpJES3vL3Bnk36guFggWDkJTb6FbPXGhKG/wj6UKZhOphI7eCvyePhFcP52ftqD89R2ap/DDCLdVTWtDzMdQhYHvu/IojYQtrXIXm9vO9tck5RPpCVfl9yBnoYZLpbUJsITXU6LYlRDgUDzYBYhSm5VdFmimznxPL5zLN6l8pI1g==
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.44]
+Content-ID: <11688AC651CAF446BB19B481FDDF0403@st.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1ae8b1f-1f5e-4bf9-35b0-08d8826fe3ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2020 16:20:34.7300 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fP6YuCgLVQaIOjNom/1fBIlIsBkOz4SrG8pWLIyw0Gb8u3RI+QJHLHaiUPVp5IHmfNbYzn21hDOyxkvPcrgDQg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4763
-X-OriginatorOrg: intel.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-06_06:2020-11-05,
+ 2020-11-06 signatures=0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,106 +81,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
- Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: Benjamin GAIGNARD <benjamin.gaignard@st.com>,
+ Philippe CORNU <philippe.cornu@st.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+ Alexandre TORGUE <alexandre.torgue@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Jason Gunthorpe <jgg@ziepe.ca>
-> Sent: Thursday, November 05, 2020 4:13 PM
-> To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> <daniel.vetter@intel.com>
-> Subject: Re: [PATCH v8 3/5] RDMA/uverbs: Add uverbs command for dma-buf based MR registration
-> 
-> On Thu, Nov 05, 2020 at 02:48:07PM -0800, Jianxin Xiong wrote:
-> 
-> > +	ret = ib_check_mr_access(access_flags);
-> > +	if (ret)
-> > +		return ret;
-> 
-> This should also reject unsupportable flags like ACCESS_ON_DEMAND and HUGETLB
+Hi Marek,
 
-Will do.
+On 11/5/20 10:45 AM, Marek Vasut wrote:
+> On 11/5/20 10:39 AM, Daniel Vetter wrote:
+>> On Wed, Nov 04, 2020 at 01:52:00PM +0100, Marek Vasut wrote:
+>>> Enable runtime PM before registering the fbdev emulation and disable it
+>>> afterward, otherwise register access to the LTDC IP during the fbdev
+>>> emulation registration might hang the system.
+>>>
+>>> The problem happens because RPM is activated at the end of ltdc_load(),
+>>> but the fbdev emulation registration happens only after that, and ends
+>>> up calling ltdc_crtc_mode_set_nofb(), which checks whether RPM is active
+>>> and only if it is not active, calls pm_runtime_get_sync() to enable the
+>>> clock and so on. If the clock are not enabled, any register access in
+>>> ltdc_crtc_mode_set_nofb() could hang the platform completely.
+>>>
+>>> This patch makes sure that ltdc_crtc_mode_set_nofb() is called within
+>>> pm_runtime_get_sync(), so with clock enabled.
+> 
+> [...]
+> 
+>> This looks like you're papering over a bug in your modeset code. If
+>> userspace later on does a setpar on the fbdev chardev, the exact same
+>> thing could happen. You need to fix your modeset code to avoid this, not
+>> sprinkle temporary rpm_get/put all over some top level entry points,
+>> because you can't even patch those all.
+> 
+> I have a feeling all those pm_runtime_active() checks in the driver 
+> might be the root cause of this ? I wonder why the code doesn't use 
+> pm_runtime_{get,put}_sync() only when accessing registers. Thoughts?
 
-> 
-> > +
-> > +	mr = pd->device->ops.reg_user_mr_dmabuf(pd, offset, length, virt_addr,
-> > +						fd, access_flags,
-> > +						&attrs->driver_udata);
-> > +	if (IS_ERR(mr))
-> > +		return PTR_ERR(mr);
-> > +
-> > +	mr->device  = pd->device;
-> > +	mr->pd      = pd;
-> > +	mr->type    = IB_MR_TYPE_USER;
-> > +	mr->uobject = uobj;
-> > +	atomic_inc(&pd->usecnt);
-> 
-> Fix intending when copying code please
+First line of function ltdc_crtc_mode_set_nofb check the pm_runtime to 
+avoid to access registers without clock enabled.
 
-It could be due to a mix of tab and space. They look aligned in the source file. Will fix.
 
-> 
-> > +
-> > +	uobj->object = mr;
-> 
-> Also bit surprised this works at all, it needs to call
-> 
->   uverbs_finalize_uobj_create()
-> 
-> Right here.
-> 
 
-Will fix.
+static void ltdc_crtc_mode_set_nofb(struct drm_crtc *crtc)
+{
+...
+	if (!pm_runtime_active(ddev->dev)) {
+		ret = pm_runtime_get_sync(ddev->dev);
 
-> Seems like the core code is missing some check that the API is being used properly.
-> 
-> > +
-> > +	ret = uverbs_copy_to(attrs, UVERBS_ATTR_REG_DMABUF_MR_RESP_LKEY,
-> > +			     &mr->lkey, sizeof(mr->lkey));
-> > +	if (ret)
-> > +		goto err_dereg;
-> > +
-> > +	ret = uverbs_copy_to(attrs, UVERBS_ATTR_REG_DMABUF_MR_RESP_RKEY,
-> > +			     &mr->rkey, sizeof(mr->rkey));
-> > +	if (ret)
-> > +		goto err_dereg;
-> > +
-> > +	return 0;
-> > +
-> > +err_dereg:
-> > +	ib_dereg_mr_user(mr, uverbs_get_cleared_udata(attrs));
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  DECLARE_UVERBS_NAMED_METHOD(
-> >  	UVERBS_METHOD_ADVISE_MR,
-> >  	UVERBS_ATTR_IDR(UVERBS_ATTR_ADVISE_MR_PD_HANDLE,
-> 
-> > @@ -253,6 +364,7 @@ static int UVERBS_HANDLER(UVERBS_METHOD_QUERY_MR)(
-> >  DECLARE_UVERBS_NAMED_OBJECT(
-> >  	UVERBS_OBJECT_MR,
-> >  	UVERBS_TYPE_ALLOC_IDR(uverbs_free_mr),
-> > +	&UVERBS_METHOD(UVERBS_METHOD_REG_DMABUF_MR),
-> >  	&UVERBS_METHOD(UVERBS_METHOD_DM_MR_REG),
-> >  	&UVERBS_METHOD(UVERBS_METHOD_MR_DESTROY),
-> >  	&UVERBS_METHOD(UVERBS_METHOD_ADVISE_MR),
-> 
-> I trie to keep these sorted, but I see it has become unsorted. You can re-sort it in this patch
+I test the fb with framebuffer console, & it works fine on my side.
+Do you test fb on a old kernel?
+How can I reproduce your issue?
 
-Will do.
+Best regards
 
-> 
-> Jason
+Yannick
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
