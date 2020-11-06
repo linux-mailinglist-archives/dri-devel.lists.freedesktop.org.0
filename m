@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A68F72A9D9A
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 20:10:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D42A32A9DAC
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 20:13:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4A16EAA8;
-	Fri,  6 Nov 2020 19:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93246EAE3;
+	Fri,  6 Nov 2020 19:13:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B21F6EAA8
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 19:10:38 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id cq7so2148256edb.4
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 11:10:38 -0800 (PST)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+ [209.85.208.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D2D86EAE3
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 19:13:25 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id e18so2364014edy.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 11:13:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gqirjaMt4D6SKqcnUi2BGgbSRPE0IdYDv6GFpHhWUvI=;
- b=gtaOWpACuJxs2t9m4MzBjmZ4X6JOxun4+xcTeXD6U03GiMrPqjukSVSXfHlSxLGcTm
- fwxc2BpDFN0CztB4dTCGx9Q94AZatwGqFR8R+xum6/De3ybVhijmktyHSgY5hplPd8H0
- zmRSdCVRuC3I82piDrQnckBSuGr5d9R+1oZq8eBgozhWQOnwLEiWF3ubWNdYa1DtmeU2
- oO09a5//GOx6+zyVdXXGJV8M10yyN38iQnNMHPF390DqPA3ZeQxIyxgTEhTzjHcvX8/O
- 9spEpgh1eN9/DP/Y3BzuKswh+LHQwIuUZFDYx+wsj/dz+0U9oDjbHd9rdNrtz/0oYHSw
- 47sw==
-X-Gm-Message-State: AOAM531MpfxeVD43so/mQxaw7HwQCn931l5hnapohKvKpcRJ+3S4ZF5Z
- va1t7NwFpzuXB+T5zQqJhLg=
-X-Google-Smtp-Source: ABdhPJxxua5gAL0oui3IMgo8hZd9sh5JMCTalWVuc/s/2mSaFDEPMiMOSp49pEiaN9sG5rNOJidI+Q==
-X-Received: by 2002:a05:6402:22c6:: with SMTP id
- dm6mr3612186edb.139.1604689837124; 
- Fri, 06 Nov 2020 11:10:37 -0800 (PST)
+ bh=9EZhY8MX2ORnPTYlgHuLdEC9xYXRcHwFhL5jilyHyBk=;
+ b=cRp422QEgKXtYmzStbKw9s7XU7e0b3teuagOTCs/7HcI93r58YVgd9MyGl002hvg2n
+ p7s61kDTMXimBEe3ZNhO4YfiBzH+ZrCYGD+q+MNjaZdcLlRyfej7Cu0MUlV/M3XPYAIE
+ eRmmqqKQXNOduHT3E2l4d7HL9kS61yb8Tro89tleiUex1l1L6KYpKjThpk2664jf21gU
+ Ar/3o5Ie9ZWPLmBXKYyfVhv1+LnB6tRUjd2advBpSTrpDFUrFqSm503l6g4dgZYysS4k
+ xXVWfQiwp/R9NsJXZoxJ0qePTPtm5MHTV1Gk400T8t85TGuYewmQPdpWdEJU75l+ZAOA
+ qS/A==
+X-Gm-Message-State: AOAM532b306gSrNPTIWuoZdB9t2TYopINz7c2e919NmruOvLw1lR8rBa
+ 2ca6NuBFz08UxsCrG2rPb7kHy09iO8I=
+X-Google-Smtp-Source: ABdhPJy7Qz/mYqSzbcnBR4NZTFT5VYfhsIq8GGjSYs73p0hgywJkMPbiryDfg2BYkIp0DwxRJWQNUA==
+X-Received: by 2002:aa7:d801:: with SMTP id v1mr3516842edq.250.1604690003690; 
+ Fri, 06 Nov 2020 11:13:23 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id l12sm1666653edt.46.2020.11.06.11.10.35
+ by smtp.googlemail.com with ESMTPSA id b1sm1635774edw.27.2020.11.06.11.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 11:10:35 -0800 (PST)
-Date: Fri, 6 Nov 2020 20:10:33 +0100
+ Fri, 06 Nov 2020 11:13:21 -0800 (PST)
+Date: Fri, 6 Nov 2020 20:13:19 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v7 35/47] memory: tegra20: Support interconnect framework
-Message-ID: <20201106191033.GA65086@kozik-lap>
+Subject: Re: [PATCH v7 36/47] memory: tegra20-emc: Add devfreq support
+Message-ID: <20201106191319.GB65086@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-36-digetx@gmail.com>
+ <20201104164923.21238-37-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104164923.21238-36-digetx@gmail.com>
+In-Reply-To: <20201104164923.21238-37-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,23 +74,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 04, 2020 at 07:49:11PM +0300, Dmitry Osipenko wrote:
-> Now Internal and External Memory Controllers are memory interconnection
-> providers. This allows us to use interconnect API for tuning of memory
-> configuration. EMC driver now supports OPPs and DVFS.
+On Wed, Nov 04, 2020 at 07:49:12PM +0300, Dmitry Osipenko wrote:
+> Add devfreq support to the Tegra20 EMC driver. Memory utilization
+> statistics will be periodically polled from the memory controller and
+> appropriate minimum clock rate will be selected by the devfreq governor.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/memory/tegra/Kconfig       |   3 +-
->  drivers/memory/tegra/tegra20-emc.c | 310 ++++++++++++++++++++++++++++-
->  drivers/memory/tegra/tegra20.c     |  77 +++++++
->  3 files changed, 386 insertions(+), 4 deletions(-)
+>  drivers/memory/tegra/Kconfig       |  2 +
+>  drivers/memory/tegra/tegra20-emc.c | 92 ++++++++++++++++++++++++++++++
+>  2 files changed, 94 insertions(+)
+> 
 
-Thanks, applied.
+I see this one still received comments. I skipped the DTS patches and
+applied everything till patch #35. I understand you will send v8, so in
+such case please skip the applied ones (you can rebase on my for-next or
+on Monday's linux-next).
 
 Best regards,
 Krzysztof
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
