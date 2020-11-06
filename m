@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169442AAE10
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2D42AAE07
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25E54897E9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8243C897DC;
 	Sun,  8 Nov 2020 22:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB9426EAA4
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 15:14:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9896EA8F
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 15:14:20 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 249085806FD;
- Fri,  6 Nov 2020 10:14:18 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 779F45806FE;
+ Fri,  6 Nov 2020 10:14:19 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 06 Nov 2020 10:14:18 -0500
+ by compute6.internal (MEProxy); Fri, 06 Nov 2020 10:14:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=a7NVXYPO9y0+R
- hMksqH/QSCzGROhhsGpRj7OUFHPfb0=; b=KIWpSY3GExsLWmzFRhsRr0ovufdrp
- Y7hz7jHgg7T7o+QaYfNhUAbI5/pCHIzFtlxIMuh2oPetGJwc4W2sjvo+kfplxeuf
- 0iWgJv7A0PDx2BTZKo+E8L43Utl5bztgbpk1u3hbruKWvtENXzBEynj7jeA/40gq
- +iHbdWUpsfg8znCRjM6zv5kXMqRnzLNsgEpEU6SzGA0jQ0+KgmkeSxGxAPCSZx17
- DrdRm7TN3Stukaxeq1G8pmZsR2aLUaBJK5TGQ4WleeoQE1h8HqfqiPc9nt353VlW
- x603QeoflUYeoH6ZET4Lo8c6vQ0cxrVBJtVDGTvCgw3E76CiLXECt8C6Q==
+ :mime-version:content-transfer-encoding; s=fm1; bh=kt1qOxi6S/GR7
+ EnnkRTvKLS2suVMvFKnRKAgJVBIXG4=; b=Ad6e3Wbv6LcOPgen3WgWRD4leWKsG
+ YbmCJe6Vp03HU/cN/KZqNfTdbHM52YIsnA0jthGccXSFCmXL9RcinYX5F7KCNwXo
+ YqhoPhdwWD9tt9EFsmUz6H1PeFWqMUPEU/hkA+mcb+LtcgtBk/2JPR2VE52VWcBP
+ LDDGVjuURRnSHPe5OngQ0jWDnCwIkq2oE2OjOD/zdr8wEckand7KMKzvoHMlDc/e
+ iHgQKIS4Yi7Lthe5pzytaFglfBH1JgIj9+iuuXNu/3rvW8Tk86/fSfCLe4QRUP5a
+ ndJx6yC3PbODQEB96FQB+nV+Llv3SJnnvQr/fjeuAX2n8XAU5mgtBANHA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=a7NVXYPO9y0+RhMksqH/QSCzGROhhsGpRj7OUFHPfb0=; b=bLPmlyBa
- 8kMspI5WPXzgzNGzVYPkVAz8qxNgpGwAJ3N51HvBTyqts+aRXeiAeVeL8t0hULto
- euaHK2HgM/FrucVULVU68LIhJ6FFtWqNvUCFFKac/5ADp6upM84OXxTJ2eJvyhOG
- H9skepukiwkj/Yw8eqKCKC8kXzFfJM129yIdgv/kdFz/V7mNeNPxR4nxezseCzOI
- vBOBco+Reid6K/xTLRYr3q/ajCCcIfaEYu/bwI6VgcPQ6AgaJTGRTeoeBQpMmpEj
- CP8z2Ca/xcDYl2dab/is/NzanN8IkFBMd5SzhcQUwnH3/JgjZdEx/e5JVQKcJBcq
- vskIDy3GQq5Z5A==
-X-ME-Sender: <xms:SWilX9AmnoBiQOUsbfbHA-VPtz8AXn78jXbt1443JbuO_LLxEE6kqQ>
- <xme:SWilX7iC60lQun_YC9F4KcdBom_a6dQCARHZN-g81dLhV9vmaftD7zvO9lqbcypkO
- dntYQF5tu78-YjZJF4>
+ fm1; bh=kt1qOxi6S/GR7EnnkRTvKLS2suVMvFKnRKAgJVBIXG4=; b=qpU62Cd3
+ hJhrNkk3Kif7WcbWUKyY6zvr3G1h8p5cUmF/603zfzFqve9cWZQgTcjKw9yJfhs7
+ hkPqZFaCNIAAYW4x7vHnO1zpKvmor6CMMGFfhLk323PA0hek66cKHZagIGjhaOWm
+ 2B/pVs+I52vCARBWOmUtuvxyBg+iEzDi7nFvy4FQUU3BtQ6BFg77kvrYOaBRU02w
+ 4aDr1wadvURMbvlHhGG24P1z2B/2YyNSLdz9IhtuDvvSk0VyDbBWMhlZ1elvZnNr
+ jkpDH9UCMWjsKbWwzPmrRXhotF4Bd0LWQZWbRlu4L1C0dIhrDJHXkKoo6fw113I0
+ Nq7GmdAoIR536w==
+X-ME-Sender: <xms:S2ilXwLE4Tdi69dmOGB-0z6nlV2Dk0vr3ycnnXrhD_z0DeM1G6z14g>
+ <xme:S2ilXwJdCFegKFRbPefQomXu0hnlmkwlYIwUUmLoq6DZD_6oUEGAy16HO-bjclkll
+ HHyu4Qxg9do__lIZsw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtledgjeehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:SWilX4lQuBmUhzWp5tABG6ZFW-Mg7irjQE-foBEWgl-_ocRP1fi7Ag>
- <xmx:SWilX3zMBN2gfhCyDGrr42Me_4YRK7TedPqn8af090kMzC1VooeaSQ>
- <xmx:SWilXyQ9VrFJz41NPpHo94vjSIvBB1_htPXzz5fsWqHcCOmE3vefmQ>
- <xmx:SmilX-pYEbP3GLkFMQOgDW_SiYJO3VKqRlKfCg1k6fDHVD6Eb_ITfw>
+X-ME-Proxy: <xmx:S2ilXwu-VwPhTbJ_v2KD8WKoJx94I1ooKCucx65POyDZ1HWZuuvPGA>
+ <xmx:S2ilX9Y4IUKmPzSJdRrOK3as34mne7nBdgk6rWgC-nUWfBzrz_9pNg>
+ <xmx:S2ilX3Y7wTYJ3ABre0Nxl0nJE8jLb2zfb5sqpfwQmPedTHE5Fks0-Q>
+ <xmx:S2ilX9zqwwra4H5fGhEmxzZ2Xhg2mt4DMhyeWrXTQv5M86gA0lldww>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8C43C3060057;
- Fri,  6 Nov 2020 10:14:17 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id ECF573060057;
+ Fri,  6 Nov 2020 10:14:18 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Christoph Hellwig <hch@lst.de>
-Subject: [PATCH 3/7] drm/sun4i: backend: Remove the MBUS quirks
-Date: Fri,  6 Nov 2020 16:14:07 +0100
-Message-Id: <20201106151411.321743-4-maxime@cerno.tech>
+Subject: [PATCH 4/7] media: sun4i: Remove the MBUS quirks
+Date: Fri,  6 Nov 2020 16:14:08 +0100
+Message-Id: <20201106151411.321743-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201106151411.321743-1-maxime@cerno.tech>
 References: <20201106151411.321743-1-maxime@cerno.tech>
@@ -95,44 +95,52 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Now that the MBUS quirks are applied by our global notifier, we can
-remove them from our DRM driver.
+remove them from our CSI driver for the A10.
 
 Suggested-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/sun4i/sun4i_backend.c | 19 -------------------
- 1 file changed, 19 deletions(-)
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      | 27 -------------------
+ 1 file changed, 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index 55960cbb1019..522e51a404cc 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -805,25 +805,6 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 		ret = of_dma_configure(drm->dev, dev->of_node, true);
- 		if (ret)
- 			return ret;
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+index eb15c8c725ca..ec46cff80fdb 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+@@ -167,33 +167,6 @@ static int sun4i_csi_probe(struct platform_device *pdev)
+ 	if (!csi->traits)
+ 		return -EINVAL;
+ 
+-	/*
+-	 * On Allwinner SoCs, some high memory bandwidth devices do DMA
+-	 * directly over the memory bus (called MBUS), instead of the
+-	 * system bus. The memory bus has a different addressing scheme
+-	 * without the DRAM starting offset.
+-	 *
+-	 * In some cases this can be described by an interconnect in
+-	 * the device tree. In other cases where the hardware is not
+-	 * fully understood and the interconnect is left out of the
+-	 * device tree, fall back to a default offset.
+-	 */
+-	if (of_find_property(csi->dev->of_node, "interconnects", NULL)) {
+-		ret = of_dma_configure(csi->dev, csi->dev->of_node, true);
+-		if (ret)
+-			return ret;
 -	} else {
 -		/*
--		 * If we don't have the interconnect property, most likely
--		 * because of an old DT, we need to set the DMA offset by hand
--		 * on our device since the RAM mapping is at 0 for the DMA bus,
--		 * unlike the CPU.
--		 *
 -		 * XXX(hch): this has no business in a driver and needs to move
 -		 * to the device tree.
--		 *
--		 * If we have two subsequent calls to dma_direct_set_offset
--		 * returns -EINVAL. Unfortunately, this happens when we have two
--		 * backends in the system, and will result in the driver
--		 * reporting an error while it has been setup properly before.
--		 * Ignore EINVAL, but it should really be removed eventually.
 -		 */
--		ret = dma_direct_set_offset(drm->dev, PHYS_OFFSET, 0, SZ_4G);
--		if (ret && ret != -EINVAL)
+-#ifdef PHYS_PFN_OFFSET
+-		ret = dma_direct_set_offset(csi->dev, PHYS_OFFSET, 0, SZ_4G);
+-		if (ret)
 -			return ret;
- 	}
- 
- 	backend->engine.node = dev->of_node;
+-#endif
+-	}
+-
+ 	csi->mdev.dev = csi->dev;
+ 	strscpy(csi->mdev.model, "Allwinner Video Capture Device",
+ 		sizeof(csi->mdev.model));
 -- 
 2.28.0
 
