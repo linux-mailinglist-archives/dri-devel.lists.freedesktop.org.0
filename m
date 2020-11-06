@@ -1,32 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11852AADFB
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD682AADF3
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E65D8977A;
-	Sun,  8 Nov 2020 22:49:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0941C89264;
+	Sun,  8 Nov 2020 22:49:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2384C6EABF
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 12:57:29 +0000 (UTC)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CSL5J5jkBzhdJH;
- Fri,  6 Nov 2020 20:57:24 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS403-HUB.china.huawei.com
- (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Fri, 6 Nov 2020
- 20:57:22 +0800
-From: Zhang Qilong <zhangqilong3@huawei.com>
-To: <tomi.valkeinen@ti.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH 2/2] drm: omapdrm: dss: fix reference leak in dss_runtime_get
-Date: Fri, 6 Nov 2020 21:01:13 +0800
-Message-ID: <20201106130113.2335887-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.25.4
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA3BD6E0D6
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 13:37:22 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A6DbGJ8102374;
+ Fri, 6 Nov 2020 07:37:16 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604669836;
+ bh=a/oKUWOuKW3ydPesK1Xly4sled9yN1hC7tAR646Mr6U=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=eWB9jV/3IRkMGKzVpRcoSFtbBTO1+tFzf2zseIuXMZL7v3jLbprFGMuDxfIefbP7h
+ gr5fA2fj/YomyzUD43uycDx2WlUE7ANmGW3RHz1NBuCJ5mpuWu92YrcmknbP164JX9
+ LiZOPsGrq8lXpDwB861e6Pveryh/dUpapGB48gew=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A6DbFMs119490
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 6 Nov 2020 07:37:15 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 6 Nov
+ 2020 07:37:15 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 6 Nov 2020 07:37:15 -0600
+Received: from [10.250.233.179] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A6DbB3W081197;
+ Fri, 6 Nov 2020 07:37:12 -0600
+Subject: Re: [PATCH 07/23] mtd: spi-nor: controllers: hisi-sfc: Demote
+ non-conformant kernel-doc
+To: Lee Jones <lee.jones@linaro.org>
+References: <20201102115406.1074327-1-lee.jones@linaro.org>
+ <20201102115406.1074327-8-lee.jones@linaro.org>
+From: Vignesh Raghavendra <vigneshr@ti.com>
+Message-ID: <5ba82a34-5dfe-71f0-703e-6603de6ef468@ti.com>
+Date: Fri, 6 Nov 2020 19:07:11 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+In-Reply-To: <20201102115406.1074327-8-lee.jones@linaro.org>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-Mailman-Approved-At: Sun, 08 Nov 2020 22:49:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,51 +64,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>,
+ Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-pm_runtime_get_sync() will increment pm usage at first and it
-will resume the device later. If runtime of the device has
-error or device is in inaccessible state(or other error state),
-resume operation will fail. If we do not call put operation to
-decrease the reference, it will result in reference leak in
-dss_runtime_get. Moreover, this device cannot enter the idle state
-and always stay busy or other non-idle state later. So we should
-fix it through adding pm_runtime_put_noidle.
-
-Fixes: 7b295257a13d8 ("drm: omapdrm: dss: Pass DSS private structure to runtime PM functions")
-
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
----
- drivers/gpu/drm/omapdrm/dss/dss.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-index 6ccbc29c4ce4..9571f3db6f71 100644
---- a/drivers/gpu/drm/omapdrm/dss/dss.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-@@ -858,8 +858,12 @@ int dss_runtime_get(struct dss_device *dss)
- 	DSSDBG("dss_runtime_get\n");
- 
- 	r = pm_runtime_get_sync(&dss->pdev->dev);
--	WARN_ON(r < 0);
--	return r < 0 ? r : 0;
-+	if (WARN_ON(r < 0)) {
-+		pm_runtime_put_noidle(&dss->pdev->dev);
-+		return r;
-+	}
-+
-+	return 0;
- }
- 
- void dss_runtime_put(struct dss_device *dss)
--- 
-2.25.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiAxMS8yLzIwIDU6MjMgUE0sIExlZSBKb25lcyB3cm90ZToKPiBGaXhlcyB0aGUgZm9sbG93
+aW5nIFc9MSBrZXJuZWwgYnVpbGQgd2FybmluZyhzKToKPiAKPiAgZHJpdmVycy9tdGQvc3BpLW5v
+ci9jb250cm9sbGVycy9oaXNpLXNmYy5jOjMyODogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVy
+IG9yIG1lbWJlciAnbnAnIG5vdCBkZXNjcmliZWQgaW4gJ2hpc2lfc3BpX25vcl9yZWdpc3RlcicK
+PiAgZHJpdmVycy9tdGQvc3BpLW5vci9jb250cm9sbGVycy9oaXNpLXNmYy5jOjMyODogd2Fybmlu
+ZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnaG9zdCcgbm90IGRlc2NyaWJlZCBpbiAn
+aGlzaV9zcGlfbm9yX3JlZ2lzdGVyJwo+IAo+IENjOiBUdWRvciBBbWJhcnVzIDx0dWRvci5hbWJh
+cnVzQG1pY3JvY2hpcC5jb20+Cj4gQ2M6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9v
+dGxpbi5jb20+Cj4gQ2M6IFJpY2hhcmQgV2VpbmJlcmdlciA8cmljaGFyZEBub2QuYXQ+Cj4gQ2M6
+IFZpZ25lc2ggUmFnaGF2ZW5kcmEgPHZpZ25lc2hyQHRpLmNvbT4KPiBDYzogU3VtaXQgU2Vtd2Fs
+IDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiBDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IGxpbnV4LW10ZEBsaXN0cy5pbmZyYWRlYWQub3Jn
+Cj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IFNp
+Z25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRy
+aXZlcnMvbXRkL3NwaS1ub3IvY29udHJvbGxlcnMvaGlzaS1zZmMuYyB8IDIgKy0KPiAgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbXRkL3NwaS1ub3IvY29udHJvbGxlcnMvaGlzaS1zZmMuYyBiL2RyaXZlcnMvbXRk
+L3NwaS1ub3IvY29udHJvbGxlcnMvaGlzaS1zZmMuYwo+IGluZGV4IDk1YzUwMjE3M2NiZGEuLjdj
+MjZmOGY1NjVjYmEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9tdGQvc3BpLW5vci9jb250cm9sbGVy
+cy9oaXNpLXNmYy5jCj4gKysrIGIvZHJpdmVycy9tdGQvc3BpLW5vci9jb250cm9sbGVycy9oaXNp
+LXNmYy5jCj4gQEAgLTMyMCw3ICszMjAsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHNwaV9ub3Jf
+Y29udHJvbGxlcl9vcHMgaGlzaV9jb250cm9sbGVyX29wcyA9IHsKPiAgCS53cml0ZSA9IGhpc2lf
+c3BpX25vcl93cml0ZSwKPiAgfTsKPiAgCj4gLS8qKgo+ICsvKgo+ICAgKiBHZXQgc3BpIGZsYXNo
+IGRldmljZSBpbmZvcm1hdGlvbiBhbmQgcmVnaXN0ZXIgaXQgYXMgYSBtdGQgZGV2aWNlLgo+ICAg
+Ki8KPiAgc3RhdGljIGludCBoaXNpX3NwaV9ub3JfcmVnaXN0ZXIoc3RydWN0IGRldmljZV9ub2Rl
+ICpucCwKPiAKClJldmlld2VkLWJ5OiBWaWduZXNoIFJhZ2hhdmVuZHJhIDx2aWduZXNockB0aS5j
+b20+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
