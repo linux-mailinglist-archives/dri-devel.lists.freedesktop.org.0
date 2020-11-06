@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CFE2AAE01
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821BD2AADFC
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8730A897E0;
-	Sun,  8 Nov 2020 22:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C186897AC;
+	Sun,  8 Nov 2020 22:49:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
  [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52D46E059
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 16:37:51 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id s14so1588672qkg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 08:37:51 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9552A6E059
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 16:39:55 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id s14so1595140qkg.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 08:39:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=1CDcjXV5zOC1KUdsTI194YdaJaRejWBY6TZu6uM074k=;
- b=gyduOqwy5X0evuo3oVFkBiKriwp62AWxOh3YpIfyJE1oulfWzoEJSHw6iA4Dsutosr
- dLSeDHxmA2vDN0YBl3t7e4D4vfaCmR2xeTTR4FBSnx2NmBFos134Y2LmvqSPPqaWJ7xN
- C0S+4T2qy3oJcQWwiSMXo5YB8pBYx9DRCtv0WtF+DNFHZDTl9ORnEx7R8Di5IW1oN1ww
- 28WeZTWjjLfKIZLy6Kxjt0yi2sgfDlu/tfpqO4O3Ksq3vByEGa+IFjvsfV/0aA7WFjiw
- Cxbw7OnFud4Oxp/rOJ8OHfT/HHhV5PfNCqUeIbnoO3+yZ2PbTaZ2/VrxNS2CouX6wiPR
- 10RA==
+ bh=6V7clZhQAMmnpPbxTHFIjFjrz3TNWvnMnGpi4wE2kog=;
+ b=MiFjd5eidEgSuTk8BE49VDLRwB7dT/rglcAHo/tv2MrzUsEcSfp/RlJMO4pm/8KFRo
+ 1HFmNj2EefwqoF5hjflh1bWjprMMl3dJmqz1+4hWR5RyuP6CmrMY/NsBoLlBbPvv1tTA
+ VlybEmOkkputMcxJe7TteoW+K3Kd6yl+Hrxk4HhcX5h/codWvjQRD3XCmRPYuBpQbFvk
+ jh5u4+mf3qk1AUxQFP6V2L++epigln8ZMwocqp049+jTG6BqvF3hnxTIw8Ud1JQRxD5i
+ HTsTals+r5mzd5AzidPO27e2JKBjjrsKwCQCWGko7A7Y6JgK9urIzuXwRo7cTLwfvscc
+ fTYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1CDcjXV5zOC1KUdsTI194YdaJaRejWBY6TZu6uM074k=;
- b=RXMG8z1MmgHJfzxywKqA3fxBKIpltoHs1q4/KcCzWG4rgoZy4BLx1slgv4SXknfosA
- 9G2wfbX1qmwz2BQJy+CTNylGsa1YtJSU8sFYiFcuKwA8i5X+f22g7X3LuuFcYI8Ahgrz
- ffsotEQOF/8Wwz1tasAjDv+IkwRESC0JlTakmWXTxVO7lKX1M3oa7PidOUtZ6ijl8sOP
- LDcnQ32CxgMVNA9dHQa2F+YUisYOi57NGAuPvYa7bj37g5RaknY1lkJdjFbyXL5uzAaH
- qdZj5AiZVUpoRvYtTn0hYFqbU2LyFqpBmSlCtHN4F9gtuRoEHU/O+tIIj74n5t4n27RS
- dEMg==
-X-Gm-Message-State: AOAM532+OvyvgSGc8g/jR4wwmeXIkcCpfShi55FKbg38eGd9lZZCOlw3
- J36ZsLQNWu/0aRy33ZCTIgwP3Q==
-X-Google-Smtp-Source: ABdhPJzqt1hKj4/mfI1i1srDPyEST9aWdEgA9pLhUjft8bX9En9FCI9k50pLg3WSs+m8MZmaRhrE2w==
-X-Received: by 2002:ae9:f44a:: with SMTP id z10mr2354548qkl.247.1604680670829; 
- Fri, 06 Nov 2020 08:37:50 -0800 (PST)
+ bh=6V7clZhQAMmnpPbxTHFIjFjrz3TNWvnMnGpi4wE2kog=;
+ b=PvY8ax2WZVt/ZZBdHpXhfJmDWR2horOC1NMTzzhIhfgTs29xP4kmn6Aa8hb35OOXyK
+ +zxyehkoBPHaNlWFYTIVCmVL1KnckBoI0YDIxfdPupWI1uTF4ARG+WQ016sjRxnjKlre
+ lcs1MLnugqyi3k2Qe3TEMw/sedXV0MVTwZNXgc8R7AunIF+HRaLGT6zk+lXZzck67Xho
+ uhBzPJOMdCn/DNCAe2f6JpSe9sZMH838Y3+kHS7KW5fFQO7X5eDI3OuTekbHGqK4e/4O
+ ylAcQczdtgqc+/jQeUYXf9dZ1dqdovBpVlfShm0B+ljHsJrgzfZHbAZ2Kkdi0r/5qjps
+ fGJg==
+X-Gm-Message-State: AOAM530PBGoBi5PMkMNIO/9qM4bWsPm43NVYSXIgw1a1mv9NYf7NpKZ3
+ DeyY5u/mek3o1827i3NB383NmQ==
+X-Google-Smtp-Source: ABdhPJzw3rNWYSOmevoJiZrNrxTU6VHvIn17N4say8BwYnm+neSM8U/WKJVyk+gduYJ8DKnqX9aLsA==
+X-Received: by 2002:a05:620a:5a2:: with SMTP id
+ q2mr2296229qkq.335.1604680794855; 
+ Fri, 06 Nov 2020 08:39:54 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id s23sm830036qks.94.2020.11.06.08.37.49
+ by smtp.gmail.com with ESMTPSA id 22sm759249qtw.61.2020.11.06.08.39.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 08:37:49 -0800 (PST)
+ Fri, 06 Nov 2020 08:39:54 -0800 (PST)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kb4kH-000xeI-Au; Fri, 06 Nov 2020 12:37:49 -0400
-Date: Fri, 6 Nov 2020 12:37:49 -0400
+ id 1kb4mH-000xgU-5p; Fri, 06 Nov 2020 12:39:53 -0400
+Date: Fri, 6 Nov 2020 12:39:53 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v8 3/5] RDMA/uverbs: Add uverbs command for dma-buf based
- MR registration
-Message-ID: <20201106163749.GQ36674@ziepe.ca>
+Subject: Re: [PATCH v8 1/5] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201106163953.GR36674@ziepe.ca>
 References: <1604616489-69267-1-git-send-email-jianxin.xiong@intel.com>
- <1604616489-69267-4-git-send-email-jianxin.xiong@intel.com>
- <20201106001303.GL36674@ziepe.ca>
- <MW3PR11MB4555B5ABCE53B195B5EF0AE7E5ED0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <1604616489-69267-2-git-send-email-jianxin.xiong@intel.com>
+ <20201106000851.GK36674@ziepe.ca>
+ <MW3PR11MB45552DC0851F4490B2450EDFE5ED0@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <MW3PR11MB4555B5ABCE53B195B5EF0AE7E5ED0@MW3PR11MB4555.namprd11.prod.outlook.com>
+In-Reply-To: <MW3PR11MB45552DC0851F4490B2450EDFE5ED0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Sun, 08 Nov 2020 22:49:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,40 +86,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 06, 2020 at 04:20:34PM +0000, Xiong, Jianxin wrote:
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Thursday, November 05, 2020 4:13 PM
-> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
-> > <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
-> > <daniel.vetter@intel.com>
-> > Subject: Re: [PATCH v8 3/5] RDMA/uverbs: Add uverbs command for dma-buf based MR registration
-> > 
-> > On Thu, Nov 05, 2020 at 02:48:07PM -0800, Jianxin Xiong wrote:
-> > 
-> > > +	ret = ib_check_mr_access(access_flags);
-> > > +	if (ret)
-> > > +		return ret;
-> > 
-> > This should also reject unsupportable flags like ACCESS_ON_DEMAND and HUGETLB
+On Fri, Nov 06, 2020 at 04:34:07PM +0000, Xiong, Jianxin wrote:
+
+> > The user could specify a length that is beyond the dma buf, can
+> > the dma buf length be checked during get?
 > 
-> Will do.
+> In order to check the length, the buffer needs to be mapped. That can be done.
 
-Just change IB_ACCESS_SUPPORTED to the list of allowed flags in this
-context
+Do DMA bufs even have definitate immutable lengths? Going to be a
+probelm if they can shrink
 
-
-> > > +	mr->device  = pd->device;
-> > > +	mr->pd      = pd;
-> > > +	mr->type    = IB_MR_TYPE_USER;
-> > > +	mr->uobject = uobj;
-> > > +	atomic_inc(&pd->usecnt);
+> > Also page_size can be 0 because iova is not OK. iova should be
+> > checked for alignment during get as well:
 > > 
-> > Fix intending when copying code please
+> >   iova & (PAGE_SIZE-1) == umem->addr & (PAGE_SIZE-1)
 > 
-> It could be due to a mix of tab and space. They look aligned in the source file. Will fix.
+> If ib_umem_dmabuf_map_pages is called during get this error is automatically caught.
 
-The interior spaces before the = should not be there, we don't align ='s
+The ib_umem_find_best_pgsz() checks this equation, yes.
+
+So you'd map the sgl before allocating the mkey? This then checks the
+length and iova?
 
 Jason
 _______________________________________________
