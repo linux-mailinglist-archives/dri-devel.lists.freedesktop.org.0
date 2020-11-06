@@ -1,65 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43BED2A97AC
-	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 15:32:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5182A97C4
+	for <lists+dri-devel@lfdr.de>; Fri,  6 Nov 2020 15:37:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E49A6E0EF;
-	Fri,  6 Nov 2020 14:32:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FE726E0D4;
+	Fri,  6 Nov 2020 14:37:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AEC6E0EF
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 14:32:16 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id h2so1628300wmm.0
- for <dri-devel@lists.freedesktop.org>; Fri, 06 Nov 2020 06:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=TG+grahIptnoTDeadrfkRn7emRkmhtKpvXQhWUpy47k=;
- b=CrhDurWJAeG4yK5DEGv6d9vKTLLPGIfaDJN7YD9qUnkQpoyQUsXYvGemkHpc95FY87
- pviTM6G9r8Hhf2hQUKgc22YuQg0Ss5mCLrSh9xbXMmx0fXYz4mRWJdyIA6XwOPnXVf9P
- skctiWNEDRpalRxGXR8tQzPcfJ7in7yLpP3sLfM+mroEGkpOMrz+tf6RKaWSMRTZM0Za
- F30A4x23Xj7WI1aPnn+zIU01l+RroFxRZfvuqgGlrntMzkS/zPC+d8A1Nbfmm6UK0xL+
- 2ZPHj9LYGSlZ2puczY7UpBzyZtP1yhTfY5YpPk10esNMcygJdK6YH7T2fLjK8emhE7Ux
- cL0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TG+grahIptnoTDeadrfkRn7emRkmhtKpvXQhWUpy47k=;
- b=Ofq7lhqafXxv4bJvHBWct3iCLzB6m73K4af+LDJNYoe3C3Dn3T4TnxunQAp4JRjC8V
- f0RspPXweCvyfOofjKh9gtDZY2oJ0JErGWnDpn/X+0IvznUwXehWNHAkaflv2NmXLeTU
- DXsXo07s36RDKdIA4P3H74Vhpr4s0Cr4b2s8piAybDsJqriogjm6XFXfCyX/798MPzqZ
- 7dmA5YDiD7dJ8AYnTP137k/TZ/lilZS8FJTfGY7hIaRuSeVBWmYJNgCjdXvShlFnQJl6
- SnWk25+bwJua0Y6drDDqm0jYMZyuyDiDhxd+Z1Z1YgZvKhCaHsXLMKzzFoSUAduPwJvu
- Sz7g==
-X-Gm-Message-State: AOAM532nuQcTxR/VcLUv0pjWIEu3+QEgNUQnMUgVINmgGeXe0yMgiN+w
- p3AzNoqCikjo+fmRwnseIHGMtA==
-X-Google-Smtp-Source: ABdhPJz0I4gPLyquCNwWmcmsIQGxwkz8JIey0HnDEKQCgJUtOSWDcHPzwffR+RU3ePv5LrUQVQs2ZA==
-X-Received: by 2002:a1c:4646:: with SMTP id t67mr2949050wma.40.1604673134943; 
- Fri, 06 Nov 2020 06:32:14 -0800 (PST)
-Received: from dell ([91.110.221.242])
- by smtp.gmail.com with ESMTPSA id a185sm2567348wmf.24.2020.11.06.06.32.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 06:32:14 -0800 (PST)
-Date: Fri, 6 Nov 2020 14:32:12 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 08/19] gpu: drm: omapdrm: dss: dsi: Rework and remove a
- few unused variables
-Message-ID: <20201106143212.GJ2063125@dell>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
- <20201105144517.1826692-9-lee.jones@linaro.org>
- <74399fab-6af5-77d3-e0eb-749774eb2837@ti.com>
- <20201105180725.GO4488@dell>
- <e48964e6-4a94-4495-0217-90db19fff629@ti.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C29D6E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 14:37:51 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A6EbaIq009922;
+ Fri, 6 Nov 2020 08:37:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604673456;
+ bh=QTqGgN17XskZ+DYeAOQfGwTLyMCVyN7OsFq4NonmOWI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=JPWSdE73Y9AqmYndL/8yhfQB3sP3oVpzKjkvVqNC2RbQnt1Vn50Habzlu40vCNSCW
+ kD70geU3dTMQQhkaFTkUAgbpKKwE24IgKR9Tx1KLInwzThCqxO1zCSTF91u2SBfMRJ
+ OKJShafqHcf40z0pJIE8D20iy/JJHfnExSAOtOUQ=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A6Ebahq088465
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 6 Nov 2020 08:37:36 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 6 Nov
+ 2020 08:37:35 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 6 Nov 2020 08:37:35 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A6EbXkj034166;
+ Fri, 6 Nov 2020 08:37:34 -0600
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+ <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+Date: Fri, 6 Nov 2020 16:37:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e48964e6-4a94-4495-0217-90db19fff629@ti.com>
+In-Reply-To: <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +67,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAwNiBOb3YgMjAyMCwgVG9taSBWYWxrZWluZW4gd3JvdGU6Cgo+IE9uIDA1LzExLzIw
-MjAgMjA6MDcsIExlZSBKb25lcyB3cm90ZToKPiA+IE9uIFRodSwgMDUgTm92IDIwMjAsIFRvbWkg
-VmFsa2VpbmVuIHdyb3RlOgo+ID4gCj4gPj4gT24gMDUvMTEvMjAyMCAxNjo0NSwgTGVlIEpvbmVz
-IHdyb3RlOgo+ID4+PiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQgd2Fybmlu
-ZyhzKToKPiA+Pj4KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9kc2kuYzogSW4g
-ZnVuY3Rpb24g4oCYX2RzaV9wcmludF9yZXNldF9zdGF0dXPigJk6Cj4gPj4+ICBkcml2ZXJzL2dw
-dS9kcm0vb21hcGRybS9kc3MvZHNpLmM6MTEzMTo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhs4oCZ
-IHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4gPj4+ICBkcml2
-ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvZHNpLmM6IEluIGZ1bmN0aW9uIOKAmGRzaV91cGRhdGXi
-gJk6Cj4gPj4+ICBkcml2ZXJzL2dwdS9kcm0vb21hcGRybS9kc3MvZHNpLmM6Mzk0MzoxMDogd2Fy
-bmluZzogdmFyaWFibGUg4oCYZGjigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNl
-dC12YXJpYWJsZV0KPiA+Pj4gIGRyaXZlcnMvZ3B1L2RybS9vbWFwZHJtL2Rzcy9kc2kuYzozOTQz
-OjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmGR34oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2Vk
-LWJ1dC1zZXQtdmFyaWFibGVdCj4gPj4+Cj4gPj4+IENjOiBUb21pIFZhbGtlaW5lbiA8dG9taS52
-YWxrZWluZW5AdGkuY29tPgo+ID4+PiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4Lmll
-Pgo+ID4+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+ID4+PiBDYzogTGF1
-cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPgo+ID4+PiBD
-YzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBM
-ZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgo+ID4+PiAtLS0KPiA+Pj4gIGRyaXZlcnMv
-Z3B1L2RybS9vbWFwZHJtL2Rzcy9kc2kuYyB8IDkgKystLS0tLS0tCj4gPj4+ICAxIGZpbGUgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQo+ID4+Cj4gPj4gSSdkIHVzZSAi
-ZHJtL29tYXA6IGRzaTogIiBzdWJqZWN0IHByZWZpeCwgdGhlIGN1cnJlbnQgb25lIGlzIGZpbmUg
-dG9vOgo+ID4+Cj4gPj4gUmV2aWV3ZWQtYnk6IFRvbWkgVmFsa2VpbmVuIDx0b21pLnZhbGtlaW5l
-bkB0aS5jb20+Cj4gPj4KPiA+PiBTaG91bGQgSSBwaWNrIHRoaXMgdXAgb3IgZG8geW91IHdhbnQg
-dG8ga2VlcCB0aGUgc2VyaWVzIGludGFjdD8KPiA+IAo+ID4gSWYgeW91IGFyZSBpbiBhIHBvc2l0
-aW9uIHRvIHRha2UgaXQsIHBsZWFzZSBkbyBzby4KPiA+IAo+ID4gSSByZWJhc2UgZXZlcnkgZGF5
-LCBzbyBpdCB3aWxsIGp1c3QgdmFuaXNoIGZyb20gbXkgd29ya2luZyBzZXQuCj4gCj4gSSBoYXZl
-IGEgNTYgcGF0Y2ggc2VyaWVzIG9uIGRzaS5jIHRoYXQgSSBzZW50IHllc3RlcmRheSwgYW5kIGl0
-IGNvbmZsaWN0cyB3aXRoIHRoaXMgb25lLiBJJ2xsIHBpY2sKPiB0aGlzIG9uZSBvbiB0b3Agb2Yg
-bXkgc2VyaWVzLgoKU291bmRzIGdvb2QsIHRoYW5rcy4KCi0tIApMZWUgSm9uZXMgW+adjueQvOaW
-r10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg
-4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNl
-Ym9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo=
+On 05/11/2020 20:56, H. Nikolaus Schaller wrote:
+> 
+>> Am 05.11.2020 um 19:28 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>
+>> On 05/11/2020 20:14, H. Nikolaus Schaller wrote:
+>>>
+>>>> Am 05.11.2020 um 18:36 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>>>
+>>>> Hi,
+>>>>
+>>>> On 05/11/2020 19:15, H. Nikolaus Schaller wrote:
+>>>>
+>>>>> Next, I migrated my long waiting mipi_dsi/drm_panel driver conversion for
+>>>>> the panel of the Pyra handheld (omap 5 based) to compile on 5.10-rc2. And
+>>>>> I followed the latest existing panel-orisetech-otm8009a.c which uses a
+>>>>> similar video mode controller and mipi-dsi.
+>>>>>
+>>>>> That one seems to be used by arch/arm/boot/dts/stm32f469-disco.dts.
+>>>>>
+>>>>> Unfortunately my panel driver is not even loaded by drm/omap so I can't
+>>>>> debug. Does this set of drm/omap drivers need a modification of the device
+>>>>> tree? If yes, which one?
+>>>>
+>>>> omapdrm doesn't load the panel drivers. If not even your panel's probe is called, then it hints at
+>>>> DT and/or driver's compatible string issue. The panel's probe should get called even if omapdrm is
+>>>> not loaded at all.
+>>>
+>>> Well, I use the same device tree that loads the old driver...
+>>
+>> Yeah, I was mistaken above. With DSI the panel (may be) a child of the DSI host, so it will affect.
+>>
+>> Can you give pointers to the panel driver source and relevant dts files? BOE BTL507212-W677L?
+> 
+> Yes. It is (now) 
+> 
+> drivers/gpu/drm/panel/panel-boe-btl507212-w677l.c
+> 
+> and
+> 
+> arch/arm/boot/dts/omap5-letux-cortex15-common.dtsi (for the basic dsi definitions)
+> arch/arm/boot/dts/pyra-display.dtsi (for the specific display)
+> 
+> All this is merged by some arch/arm/boot/dts/omap5-letux-cortex15-v5.3+pyra-v5.2.dts
+
+I took the driver and make my omap4-sdp dts to use it. It probes for me, but stop after that:
+
+[  119.346374] omapdss_dss 58000000.dss: supply vdda_video not found, using dummy regulator
+[  119.358398] DSS: OMAP DSS rev 4.0
+[  119.680053] panel-dsi-cm 58004000.encoder.0: failed to get video timing, using defaults
+[  119.695709] panel-dsi-cm 58004000.encoder.0: supply vpnl not found, using dummy regulator
+[  119.711242] panel-dsi-cm 58004000.encoder.0: supply vddi not found, using dummy regulator
+[  119.769470] panel-btl507212-w677l 58005000.encoder.0: w677l_probe
+[  119.779388] panel-btl507212-w677l 58005000.encoder.0: w677l_probe ok
+[  119.846679] omapdss_dss 58000000.dss: bound 58001000.dispc (ops dispc_component_ops [omapdrm])
+[  119.858673] omapdss_dss 58000000.dss: bound 58004000.encoder (ops dsi_component_ops [omapdrm])
+[  119.882629] omapdss_dss 58000000.dss: bound 58005000.encoder (ops dsi_component_ops [omapdrm])
+[  119.902069] omapdss_dss 58000000.dss: bound 58006000.encoder (ops hdmi4_component_ops [omapdrm])
+[  119.962066] dmm 4e000000.dmm: initialized all PAT entries
+[  120.014770] panel-btl507212-w677l 58005000.encoder.0: w677l_get_modes
+
+I didn't debug yet where it's hanging. So you're not even getting the probe?
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
