@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B6392AA499
-	for <lists+dri-devel@lfdr.de>; Sat,  7 Nov 2020 12:18:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6C6A2AA49E
+	for <lists+dri-devel@lfdr.de>; Sat,  7 Nov 2020 12:21:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D83889D81;
-	Sat,  7 Nov 2020 11:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE866E09C;
+	Sat,  7 Nov 2020 11:20:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36C8689D81
- for <dri-devel@lists.freedesktop.org>; Sat,  7 Nov 2020 11:18:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2530E6E09C
+ for <dri-devel@lists.freedesktop.org>; Sat,  7 Nov 2020 11:20:57 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210095] amdgpu : hibernate failed on A12-9700P (R7 bristol
  ridge) - ASUS X555 Q
-Date: Sat, 07 Nov 2020 11:18:30 +0000
+Date: Sat, 07 Nov 2020 11:20:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210095-2300-ywNNOFWCuk@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-210095-2300-9SMibOKycj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210095-2300@https.bugzilla.kernel.org/>
 References: <bug-210095-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,19 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210095
 
---- Comment #1 from alvin (alvin@ximple.ga) ---
-Sometimes Magic number (PM_TRACE) says this after I force turn off by pressing
-power button: I can't pinpoint where's the problem :(
-
-[    1.014233] kernel: PM:   Magic number: 12:338:175
-[    1.015051] kernel: acpi device:38: hash matches
-[    1.015889] kernel: acpi device:0b: hash matches
-
-# cat /sys/power/pm_trace_dev_match 
-acpi
-acpi
-
-Added dmesg of these boot
+--- Comment #2 from alvin (alvin@ximple.ga) ---
+Created attachment 293531
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293531&action=edit
+dmesg-magic says acpi problem
 
 -- 
 You are receiving this mail because:
