@@ -2,45 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689362AADF8
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFA82AAE11
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA36989291;
-	Sun,  8 Nov 2020 22:49:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2024989805;
+	Sun,  8 Nov 2020 22:49:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 705 seconds by postgrey-1.36 at gabe;
- Fri, 06 Nov 2020 18:51:55 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44B86EAE1
- for <dri-devel@lists.freedesktop.org>; Fri,  6 Nov 2020 18:51:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604688714;
- s=strato-dkim-0002; d=aepfle.de;
- h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
- Subject:Sender;
- bh=hHXqYa5IRM8lVFD4kWWag37WTKepOwX6VuBzNs094kA=;
- b=BDBccrBus1LkhLSEBOkIf6Iy5yd/sxSnA++NWtSnee++5teAnGL05vIdCn2YxE0bfU
- b9pr5oQ2UO3hQeVEVr28qX/vwJJIbNCsPQ1SYCLUd0BJ0vPSjRmBIsmgGOEH8VJI2aKE
- W0N5AzDzakcmJhEaPvancw9AQjMnJVpS/0PNo/bTmHUdvNgWl8/tI7J9g67yrx4F2Zg/
- Rtse5xoEJK848d/Wl5TUkzp+zdtyqMALlK4H5hVAkq5b1uk8NcgfRA05Jl2Bdt+W08t3
- AigJ4vo2xl1doJ/5lCO9n0Xq1Uq+o/pvRUbUgHtmJ66FUT32WG88DCdq+1pZDtnsNwYy
- hm3g==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS3GhJjw=="
-X-RZG-CLASS-ID: mo00
-Received: from sender by smtp.strato.de (RZmta 47.3.3 DYNA|AUTH)
- with ESMTPSA id j03b7dwA6Idp358
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- (Client did not present a certificate);
- Fri, 6 Nov 2020 19:39:51 +0100 (CET)
-From: Olaf Hering <olaf@aepfle.de>
-To: linux-hyperv@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] video: hyperv_fb: include vmalloc.h
-Date: Fri,  6 Nov 2020 19:39:41 +0100
-Message-Id: <20201106183941.9751-1-olaf@aepfle.de>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
+Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
+ [59.111.176.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8498D89321;
+ Sat,  7 Nov 2020 03:19:21 +0000 (UTC)
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.231])
+ by m176115.mail.qiye.163.com (Hmail) with ESMTPA id 3BA786661BF;
+ Sat,  7 Nov 2020 11:19:16 +0800 (CST)
+From: Wang Qing <wangqing@vivo.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jordan Crouse <jcrouse@codeaurora.org>, Jonathan Marek <jonathan@marek.ca>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [V2] drm: msm: adreno: use IS_ERR() instead of null pointer check
+Date: Sat,  7 Nov 2020 11:19:09 +0800
+Message-Id: <1604719151-28491-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+ oVCBIfWUFZSR8YSx4YSEsZTB4YVkpNS09MSkJKTk1MTExVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MBA6Iyo4Nz8aARwhGg5WD1E#
+ NCpPC0NVSlVKTUtPTEpCSk5MSUpIVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+ SU5KVUxPVUlISllXWQgBWUFJT0xONwY+
+X-HM-Tid: 0a75a0b71db99373kuws3ba786661bf
 X-Mailman-Approved-At: Sun, 08 Nov 2020 22:49:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,37 +48,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Olaf Hering <olaf@aepfle.de>, Stephen Hemminger <sthemmin@microsoft.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>
+Cc: Wang Qing <wangqing@vivo.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-hvfb_getmem uses vzalloc, therefore vmalloc.h should be included.
+a6xx_gmu_get_mmio() never return null in case of error, but ERR_PTR(), so 
+we should use IS_ERR() instead of null pointer check and IS_ERR_OR_NULL().
 
-Fixes commit d21987d709e807ba7bbf47044deb56a3c02e8be4 ("video: hyperv:
-hyperv_fb: Support deferred IO for Hyper-V frame buffer driver")
-
-Signed-off-by: Olaf Hering <olaf@aepfle.de>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
 ---
- drivers/video/fbdev/hyperv_fb.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-index e36fb1a0ecdb..5bc86f481a78 100644
---- a/drivers/video/fbdev/hyperv_fb.c
-+++ b/drivers/video/fbdev/hyperv_fb.c
-@@ -47,6 +47,7 @@
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 491fee4..82420f7
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -492,7 +492,7 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	void __iomem *seqptr = a6xx_gmu_get_mmio(pdev, "gmu_pdc_seq");
+ 	uint32_t pdc_address_offset;
  
- #include <linux/module.h>
- #include <linux/kernel.h>
-+#include <linux/vmalloc.h>
- #include <linux/init.h>
- #include <linux/completion.h>
- #include <linux/fb.h>
+-	if (!pdcptr || !seqptr)
++	if (IS_ERR(pdcptr) || IS_ERR(seqptr))
+ 		goto err;
+ 
+ 	if (adreno_is_a618(adreno_gpu) || adreno_is_a640(adreno_gpu))
+@@ -580,9 +580,9 @@ static void a6xx_gmu_rpmh_init(struct a6xx_gmu *gmu)
+ 	wmb();
+ 
+ err:
+-	if (!IS_ERR_OR_NULL(pdcptr))
++	if (!IS_ERR(pdcptr))
+ 		iounmap(pdcptr);
+-	if (!IS_ERR_OR_NULL(seqptr))
++	if (!IS_ERR(seqptr))
+ 		iounmap(seqptr);
+ }
+ 
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
