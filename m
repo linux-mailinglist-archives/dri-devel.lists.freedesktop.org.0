@@ -1,65 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 495A62AAE13
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3C32AAE0C
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 23:50:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA4FE89803;
-	Sun,  8 Nov 2020 22:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EC78897E8;
+	Sun,  8 Nov 2020 22:49:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-002e3701.pphosted.com (mx0b-002e3701.pphosted.com
- [148.163.143.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ADFA6E107;
- Sat,  7 Nov 2020 17:58:13 +0000 (UTC)
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
- by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A7HpUIT030820; Sat, 7 Nov 2020 17:57:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com;
- h=date : from : to : cc :
- subject : message-id : reply-to : references : content-type : in-reply-to
- : mime-version; s=pps0720;
- bh=19AOhJSg8287gbPV9wDB4l5dczCLNW+uqRNvFL42X6U=;
- b=bigOhbIaNPut4w8m9qKIQWF7/d+s3mOe5gd3a+QTMpO9bczduiadQLGoik5NmVu61jT9
- Hvrv/wsJoD8DNgSzPdP7IWBJjzibeZzQF7bw5Y8kS0jmlXCPMyC+dMaZk54aXtfTfLr2
- B0KNJDg5R+W6M1nQ3Omo8Gj+BApLmqfP17OaiHRkXrKNvyS0MDbYeelwsM4lBqZFYfS3
- QBwUaJ1sJuP1hbyQ4KRvT4t2viCotSyHmUm3uXHGsbyWWzk79UJtBOvebZ6zkaJwa7Fl
- x7TWo7W4xL0X4yo0lQF8Z9chviFzJNWY68XJ8P9Jibk5ids/kDaAMk25O49fkH+tCjKc TQ== 
-Received: from g2t2354.austin.hpe.com (g2t2354.austin.hpe.com [15.233.44.27])
- by mx0b-002e3701.pphosted.com with ESMTP id 34nmm4awuf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 07 Nov 2020 17:57:57 +0000
-Received: from g2t2360.austin.hpecorp.net (g2t2360.austin.hpecorp.net
- [16.196.225.135])
- by g2t2354.austin.hpe.com (Postfix) with ESMTP id 2F66081;
- Sat,  7 Nov 2020 17:57:56 +0000 (UTC)
-Received: from rfwz62 (rfwz62.americas.hpqcorp.net [10.33.237.8])
- by g2t2360.austin.hpecorp.net (Postfix) with ESMTP id 513553A;
- Sat,  7 Nov 2020 17:57:54 +0000 (UTC)
-Date: Sat, 7 Nov 2020 10:57:54 -0700
-From: rwright@hpe.com
-To: Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [PATCH v3 0/3] Reduce context clear batch size to avoid gpu hang
-Message-ID: <20201107175754.GA13311@rfwz62>
-References: <20201101174132.10513-1-rwright@hpe.com>
- <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
- <20201102195710.GA12790@rfwz62>
-Content-Disposition: inline
-In-Reply-To: <20201102195710.GA12790@rfwz62>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
+ Sun, 08 Nov 2020 08:07:11 UTC
+Received: from out30-56.freemail.mail.aliyun.com
+ (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 082CD6E2DF
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Nov 2020 08:07:10 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04394; MF=alex.shi@linux.alibaba.com;
+ NM=1; PH=DS; RN=4; SR=0; TI=SMTPD_---0UEadUVK_1604822521; 
+Received: from aliy80.localdomain(mailfrom:alex.shi@linux.alibaba.com
+ fp:SMTPD_---0UEadUVK_1604822521) by smtp.aliyun-inc.com(127.0.0.1);
+ Sun, 08 Nov 2020 16:02:01 +0800
+From: Alex Shi <alex.shi@linux.alibaba.com>
+To: 
+Subject: [PATCH] video: fbdev: riva: remove some unused varibles
+Date: Sun,  8 Nov 2020 16:01:59 +0800
+Message-Id: <1604822519-65607-1-git-send-email-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-07_09:2020-11-05,
- 2020-11-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=690 spamscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011070129
 X-Mailman-Approved-At: Sun, 08 Nov 2020 22:49:24 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,40 +41,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rwright@hpe.com
-Cc: dri-devel@lists.freedesktop.org, airlied@linux.ie,
- mika.kuoppala@linux.intel.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, christian.koenig@amd.com,
- linux-media@vger.kernel.org, matthew.auld@intel.com, rodrigo.vivi@intel.com,
- akeem.g.abodunrin@intel.com, chris@chris-wilson.co.uk,
- prathap.kumar.valsan@intel.com, wambui.karugax@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 02, 2020 at 12:57:10PM -0700, rwright@hpe.com wrote:
-> On Mon, Nov 02, 2020 at 10:48:54AM +0100, Hans de Goede wrote:
-> > Hi,
-> > 
-> ...
-> That said, if the i915 maintainers respond in favor of the simpler
-> unconditional reduction of the batch size, I will be glad to
-> propose a much simpler version of my patch.
-> ...
-
-I received a suggestion from Mika Kuoppala to test 
-https://patchwork.freedesktop.org/patch/399174/?series=83531&rev=1 as a
-solution for the GPU hang I observed, and the test was successful.
-I recommend this patch as a better approch than my own, as it 
-addresses more general cases without introducing a new quirk.
-
---
-Randy Wright            Usmail: Hewlett Packard Enterprise
-Email: rwright@hpe.com          Servers Linux Enablement
-Phone: (970) 898-0998           3404 E. Harmony Rd, Mailstop 36
-                                Fort Collins, CO 80528-9599 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Q291cGxlIG9mIHZhcmlhYmxlcyBhcmUgYWN0dWFsbHkgdXNlbGVzcywgcmVtb3ZlIHRoZW0gdG8g
+c2F2ZSBzb21lIGdjYwp3YXJuaW5nOgpkcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvcml2YV9ody5j
+OjI1MDoyMTogd2FybmluZzogdmFyaWFibGUg4oCYbWx3beKAmSBzZXQKYnV0IG5vdCB1c2VkIFst
+V3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQpkcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvcml2YV9o
+dy5jOjY2NToxNTogd2FybmluZzogdmFyaWFibGUg4oCYdnJhd+KAmSBzZXQKYnV0IG5vdCB1c2Vk
+IFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQpkcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvcml2
+YV9ody5jOjY2NTo5OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhjcmF34oCZIHNldApidXQgbm90IHVz
+ZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCmRyaXZlcnMvdmlkZW8vZmJkZXYvcml2YS9y
+aXZhX2h3LmM6NjU5OjczOiB3YXJuaW5nOiB2YXJpYWJsZSDigJhhbGlnbuKAmSBzZXQKYnV0IG5v
+dCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQpkcml2ZXJzL3ZpZGVvL2ZiZGV2L3Jp
+dmEvcml2YV9ody5jOjY1OTo1MDogd2FybmluZzogdmFyaWFibGUK4oCYY29sb3Jfa2V5X2VuYWJs
+ZeKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKU2lnbmVk
+LW9mZi1ieTogQWxleCBTaGkgPGFsZXguc2hpQGxpbnV4LmFsaWJhYmEuY29tPgpDYzogQW50b25p
+bm8gRGFwbGFzIDxhZGFwbGFzQGdtYWlsLmNvbT4gCkNjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5l
+bC5vcmcgCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIApDYzogbGludXgta2Vy
+bmVsQHZnZXIua2VybmVsLm9yZyAKLS0tCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvcml2YV9o
+dy5jIHwgMTQgKysrLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyks
+IDExIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdmlkZW8vZmJkZXYvcml2YS9y
+aXZhX2h3LmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvcml2YV9ody5jCmluZGV4IDQxNjhh
+YzQ2NDU2NS4uYmNmOWM0YjRkZTMxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3Jp
+dmEvcml2YV9ody5jCisrKyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvcml2YS9yaXZhX2h3LmMKQEAg
+LTI0NywxNCArMjQ3LDEzIEBAIHN0YXRpYyBpbnQgbnYzX2l0ZXJhdGUobnYzX2ZpZm9faW5mbyAq
+cmVzX2luZm8sIG52M19zaW1fc3RhdGUgKiBzdGF0ZSwgbnYzX2FyYl9pCiAgICAgaW50IG1idXJz
+dF9zaXplID0gMzI7CiAgICAgaW50IG1taXNzZXMsIGdtaXNzZXMsIHZtaXNzZXM7CiAgICAgaW50
+IG1pc3NlczsKLSAgICBpbnQgdmx3bSwgZ2x3bSwgbWx3bTsKKyAgICBpbnQgdmx3bSwgZ2x3bTsK
+ICAgICBpbnQgbGFzdCwgbmV4dCwgY3VyOwogICAgIGludCBtYXhfZ2ZzaXplIDsKICAgICBsb25n
+IG5zOwogCiAgICAgdmx3bSA9IDA7CiAgICAgZ2x3bSA9IDA7Ci0gICAgbWx3bSA9IDA7CiAgICAg
+dmZzaXplID0gMDsKICAgICBnZnNpemUgPSAwOwogICAgIGN1ciA9IGFpbmZvLT5jdXI7CkBAIC02
+NTYsMTMgKzY1NSwxMiBAQCBzdGF0aWMgY2hhciBudjNfZ2V0X3BhcmFtKG52M19maWZvX2luZm8g
+KnJlc19pbmZvLCBudjNfc2ltX3N0YXRlICogc3RhdGUsIG52M19hcgogICAgIG52NF9zaW1fc3Rh
+dGUgKmFyYgogKQogewotICAgIGludCBkYXRhLCBwYWdlbWlzcywgY2FzLHdpZHRoLCB2aWRlb19l
+bmFibGUsIGNvbG9yX2tleV9lbmFibGUsIGJwcCwgYWxpZ247CisgICAgaW50IGRhdGEsIHBhZ2Vt
+aXNzLCBjYXMsd2lkdGgsIHZpZGVvX2VuYWJsZSwgYnBwOwogICAgIGludCBudmNsa3MsIG1jbGtz
+LCBwY2xrcywgdnBhZ2VtaXNzLCBjcnRwYWdlbWlzcywgdmJzOwogICAgIGludCBmb3VuZCwgbWNs
+a19leHRyYSwgbWNsa19sb29wLCBjYnMsIG0xLCBwMTsKICAgICBpbnQgbWNsa19mcmVxLCBwY2xr
+X2ZyZXEsIG52Y2xrX2ZyZXEsIG1wX2VuYWJsZTsKICAgICBpbnQgdXNfbSwgdXNfbiwgdXNfcCwg
+dmlkZW9fZHJhaW5fcmF0ZSwgY3J0Y19kcmFpbl9yYXRlOwogICAgIGludCB2cG1fdXMsIHVzX3Zp
+ZGVvLCB2bHdtLCB2aWRlb19maWxsX3VzLCBjcG1fdXMsIHVzX2NydCxjbHdtOwotICAgIGludCBj
+cmF3LCB2cmF3OwogCiAgICAgZmlmby0+dmFsaWQgPSAxOwogICAgIHBjbGtfZnJlcSA9IGFyYi0+
+cGNsa19raHo7CkBAIC02NzIsOSArNjcwLDcgQEAgc3RhdGljIGNoYXIgbnYzX2dldF9wYXJhbShu
+djNfZmlmb19pbmZvICpyZXNfaW5mbywgbnYzX3NpbV9zdGF0ZSAqIHN0YXRlLCBudjNfYXIKICAg
+ICBjYXMgPSBhcmItPm1lbV9sYXRlbmN5OwogICAgIHdpZHRoID0gYXJiLT5tZW1vcnlfd2lkdGgg
+Pj4gNjsKICAgICB2aWRlb19lbmFibGUgPSBhcmItPmVuYWJsZV92aWRlbzsKLSAgICBjb2xvcl9r
+ZXlfZW5hYmxlID0gYXJiLT5ncl9kdXJpbmdfdmlkOwogICAgIGJwcCA9IGFyYi0+cGl4X2JwcDsK
+LSAgICBhbGlnbiA9IGFyYi0+bWVtX2FsaWduZWQ7CiAgICAgbXBfZW5hYmxlID0gYXJiLT5lbmFi
+bGVfbXA7CiAgICAgY2x3bSA9IDA7CiAgICAgdmx3bSA9IDA7CkBAIC03ODIsOCArNzc4LDYgQEAg
+c3RhdGljIGNoYXIgbnYzX2dldF9wYXJhbShudjNfZmlmb19pbmZvICpyZXNfaW5mbywgbnYzX3Np
+bV9zdGF0ZSAqIHN0YXRlLCBudjNfYXIKICAgICAgICAgICAgICAgICBtY2xrX2V4dHJhLS07CiAg
+ICAgICAgICAgICB9CiAgICAgICAgIH0KLSAgICAgICAgY3JhdyA9IGNsd207Ci0gICAgICAgIHZy
+YXcgPSB2bHdtOwogICAgICAgICBpZiAoY2x3bSA8IDM4NCkgY2x3bSA9IDM4NDsKICAgICAgICAg
+aWYgKHZsd20gPCAxMjgpIHZsd20gPSAxMjg7CiAgICAgICAgIGRhdGEgPSAoaW50KShjbHdtKTsK
+QEAgLTg0Miw3ICs4MzYsNyBAQCBzdGF0aWMgY2hhciBudjNfZ2V0X3BhcmFtKG52M19maWZvX2lu
+Zm8gKnJlc19pbmZvLCBudjNfc2ltX3N0YXRlICogc3RhdGUsIG52M19hcgogICAgIG52MTBfc2lt
+X3N0YXRlICphcmIKICkKIHsKLSAgICBpbnQgZGF0YSwgcGFnZW1pc3MsIGNhcyx3aWR0aCwgdmlk
+ZW9fZW5hYmxlLCBjb2xvcl9rZXlfZW5hYmxlLCBicHAsIGFsaWduOworICAgIGludCBkYXRhLCBw
+YWdlbWlzcywgY2FzLHdpZHRoLCB2aWRlb19lbmFibGUsIGJwcDsKICAgICBpbnQgbnZjbGtzLCBt
+Y2xrcywgcGNsa3MsIHZwYWdlbWlzcywgY3J0cGFnZW1pc3MsIHZiczsKICAgICBpbnQgbnZjbGtf
+ZmlsbCwgdXNfZXh0cmE7CiAgICAgaW50IGZvdW5kLCBtY2xrX2V4dHJhLCBtY2xrX2xvb3AsIGNi
+cywgbTE7CkBAIC04NjMsOSArODU3LDcgQEAgc3RhdGljIGNoYXIgbnYzX2dldF9wYXJhbShudjNf
+Zmlmb19pbmZvICpyZXNfaW5mbywgbnYzX3NpbV9zdGF0ZSAqIHN0YXRlLCBudjNfYXIKICAgICBj
+YXMgPSBhcmItPm1lbV9sYXRlbmN5OwogICAgIHdpZHRoID0gYXJiLT5tZW1vcnlfd2lkdGgvNjQ7
+CiAgICAgdmlkZW9fZW5hYmxlID0gYXJiLT5lbmFibGVfdmlkZW87Ci0gICAgY29sb3Jfa2V5X2Vu
+YWJsZSA9IGFyYi0+Z3JfZHVyaW5nX3ZpZDsKICAgICBicHAgPSBhcmItPnBpeF9icHA7Ci0gICAg
+YWxpZ24gPSBhcmItPm1lbV9hbGlnbmVkOwogICAgIG1wX2VuYWJsZSA9IGFyYi0+ZW5hYmxlX21w
+OwogICAgIGNsd20gPSAwOwogICAgIHZsd20gPSAxMDI0OwotLSAKMS44LjMuMQoKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
