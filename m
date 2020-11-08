@@ -1,55 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BFB2AABF6
-	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 16:38:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 215E22AAC3C
+	for <lists+dri-devel@lfdr.de>; Sun,  8 Nov 2020 17:33:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0345289683;
-	Sun,  8 Nov 2020 15:38:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87681896EB;
+	Sun,  8 Nov 2020 16:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADAF389683
- for <dri-devel@lists.freedesktop.org>; Sun,  8 Nov 2020 15:38:20 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id a65so5709928wme.1
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Nov 2020 07:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1jsDKCT+fDh9zznucKxAI3bxSzPYa/luSBd9FYGoCaQ=;
- b=Nh7Jcy1zGb0+54t8DufVMmRruQrGl2Cj+nuXAZsZjiDClPcnYSO6e27SWkLt+XOGwN
- ogHz/0aUlId1cRuYn8RVuPW+7qdhYm/B0gnvaLAGa9r1g9a37s/+cm0rGYbqCyBzQMS2
- /DCFvouJnhdWBTxsp64nfS7PbxH1NwWSzUNrk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1jsDKCT+fDh9zznucKxAI3bxSzPYa/luSBd9FYGoCaQ=;
- b=cZSrNabHOpPKpHZ/s3yEsQjiRNYKdo6rnlL9Ao92P4o3eTLQhg+v9Gg3m3KNhpbQyW
- M1CSedEXiA8OyNaOdkzJ0bZE8efWkXm3g1BOCIBhaN+3odeYYTUKKkUjaJWtedJ1/hBa
- 2sPVPUspyv8Y8iT772LAUyYgYEld47OqLQJ3XiqNs7sUP7448GiEn0G4Yc0TYRJ49Eyf
- zSmIzNhWcYovBTsFYrHbZIEhA2rG1hYZWeWCEBvMlmu3xYKMPa3FFH+t3C9CkzAFa7Sk
- X5V4dd/0dIxqGvxmLHRri7TRMfubHVtnGy/yOznBTvexbTAot5G8WteAAbO3yqSC72bn
- Y33w==
-X-Gm-Message-State: AOAM533UYFCwzEtWMSa2I0mj60LtSFvq58Igle8bkbRBg3umAN9s11sv
- /uLrENdaatSA3mLP3bgRPqtlJtGF+NpM+SKh
-X-Google-Smtp-Source: ABdhPJwFHVFXB8UiGb7b6/3ceqvK6NEYqSegYC6uY4s+bVj4LhzqQxTZUPigLuw8No4bvNvkcdcr8A==
-X-Received: by 2002:a1c:7e87:: with SMTP id
- z129mr10005677wmc.176.1604849898806; 
- Sun, 08 Nov 2020 07:38:18 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j71sm9836041wmj.10.2020.11.08.07.38.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 08 Nov 2020 07:38:17 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] vt: Disable KD_FONT_OP_COPY
-Date: Sun,  8 Nov 2020 16:38:06 +0100
-Message-Id: <20201108153806.3140315-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.28.0
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 707B3896EB
+ for <dri-devel@lists.freedesktop.org>; Sun,  8 Nov 2020 16:33:31 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A8GXEdc008393;
+ Sun, 8 Nov 2020 10:33:14 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604853194;
+ bh=nA0M4ELilpm9afDCq5TCAvNQHFYjRJwBMvAMNEz0jeg=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=yjD4jQ1x4Uiq5dAcUYepqIQLmsg9IiTJOna167c70UFrtxsa0oQxwuzydUc9SV4Zj
+ BfXGlnriuzTND3qn/+RqmvoehdraLyu9Yz2rVvScPvx+GZYox8yeXsDSVr1UIshwaR
+ 2nEwVL8PDJfonZAfcYEKM9RuGLk3u+X8kxA8OZlc=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A8GXEiE054315
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sun, 8 Nov 2020 10:33:14 -0600
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Sun, 8 Nov
+ 2020 10:33:14 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Sun, 8 Nov 2020 10:33:14 -0600
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A8GXDaK018513;
+ Sun, 8 Nov 2020 10:33:14 -0600
+Date: Sun, 8 Nov 2020 22:03:12 +0530
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+Message-ID: <20201108163312.tl4y5oiyig4st2b5@NiksLab>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,126 +61,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Greg KH <greg@kroah.com>,
- Daniel Vetter <daniel.vetter@intel.com>, Minh Yuan <yuanmingbuaa@gmail.com>,
- Peilin Ye <yepeilin.cs@gmail.com>
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's buggy:
+On 14:02-20201105, Tomi Valkeinen wrote:
+> Hi,
+> 
+> This is third version of the series sent by Sebastian in February:
+> 
+> https://www.spinics.net/lists/linux-omap/msg153465.html
+> 
+> I took the patches from his git tree, and rebased on 5.10-rc2. There
+> were some conflicts and compilation errors, and one bug that made dsi to
+> not work (videomode variable was not initialized to 0).
+> 
+> I then fixed the few checkpatch and sparse issues. Overall, Sebastian's
+> patches are pretty much as they were previously. I did drop Laurent's
+> reviewed-bys, as it's been a long time since the previous series, and
+> the patches are not identical anyway.
+> 
+> The topmost 5 patches are new ones, cleanups enabled by the DSI
+> conversion. They could be handled separately, but it's such a nice
+> cleanup, and I've been waiting for years to get this done, so here they
+> are. That said, there are still a _lot_ of cleanups to do.
+> 
+> Almost all of the patches are omapdrm changes. The two non-omapdrm
+> changes are:
+> - After converting panel-dsi-cm to common DRM panel model, it is moved
+>   to drm's panel directory.
+> - Add MIPI_DSI_MODE_ULPS_IDLE flag
+> 
+> I have tested these with OMAP4 SDP, AM5 EVM and OMAP4 Panda. SDP has
+> command mode panel, and I don't have any videomode panels.
+> 
+> Sebastian, I hope you're ok with all this? I did send you an email, but
+> didn't get a reply yet, so I thought to just proceed. If you want to
+> handle this in some other way, or don't want your
+> authorship/signed-off-by in some of the commits, just tell.
+> 
+>  Tomi
+> 
+> Sebastian Reichel (51):
+>   drm/dsi: add MIPI_DSI_MODE_ULPS_IDLE
+>   Revert "drm/omap: dss: Remove unused omap_dss_device operations"
+>   drm/omap: drop unused dsi.configure_pins
+>   drm/omap: dsi: use MIPI_DSI_FMT_* instead of OMAP_DSS_DSI_FMT_*
+>   drm/omap: constify write buffers
+>   drm/omap: dsi: add generic transfer function
+>   drm/omap: panel-dsi-cm: convert to transfer API
+>   drm/omap: dsi: unexport specific data transfer functions
+>   drm/omap: dsi: drop virtual channel logic
+>   drm/omap: dsi: simplify write function
+>   drm/omap: dsi: simplify read functions
+>   drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg
+>   drm/omap: dsi: introduce mipi_dsi_host
+>   drm/omap: panel-dsi-cm: use DSI helpers
+>   drm/omap: dsi: request VC via mipi_dsi_attach
+>   drm/omap: panel-dsi-cm: drop hardcoded VC
+>   drm/omap: panel-dsi-cm: use common MIPI DCS 1.3 defines
+>   drm/omap: dsi: drop unused memory_read()
+>   drm/omap: dsi: drop unused get_te()
+>   drm/omap: dsi: drop unused enable_te()
+>   drm/omap: dsi: drop useless sync()
+>   drm/omap: dsi: use pixel-format and mode from attach
+>   drm/omap: panel-dsi-cm: use bulk regulator API
+>   drm/omap: dsi: lp/hs switching support for transfer()
+>   drm/omap: dsi: move TE GPIO handling into core
+>   drm/omap: dsi: drop custom enable_te() API
+>   drm/omap: dsi: do bus locking in host driver
+>   drm/omap: dsi: untangle ulps ops from enable/disable
+>   drm/omap: dsi: do ULPS in host driver
+>   drm/omap: dsi: move panel refresh function to host
+>   drm/omap: dsi: Reverse direction of the DSS device enable/disable
+>     operations
+>   drm/omap: dsi: drop custom panel capability support
+>   drm/omap: dsi: convert to drm_panel
+>   drm/omap: drop omapdss-boot-init
+>   drm/omap: dsi: implement check timings
+>   drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
+>   drm/omap: panel-dsi-cm: support unbinding
+>   drm/omap: panel-dsi-cm: fix remove()
+>   drm/omap: remove global dss_device variable
+>   drm/panel: Move OMAP's DSI command mode panel driver
+>   drm/omap: dsi: Register a drm_bridge
+>   drm/omap: remove legacy DSS device operations
+>   drm/omap: remove unused omap_connector
+>   drm/omap: simplify omap_display_id
+>   drm/omap: drop unused DSS next pointer
+>   drm/omap: drop empty omap_encoder helper functions
+>   drm/omap: drop DSS ops_flags
+>   drm/omap: drop dssdev display field
+>   drm/omap: simplify DSI manual update code
+>   drm/omap: dsi: simplify pin config
+>   ARM: omap2plus_defconfig: Update for moved DSI command mode panel
+> 
+> Tomi Valkeinen (5):
+>   drm/omap: squash omapdrm sub-modules into one
+>   drm/omap: remove unused display.c
+>   drm/omap: drop unused owner field
+>   drm/omap: remove dispc_ops
+>   drm/omap: remove dss_mgr_ops
+> 
 
-On Fri, Nov 06, 2020 at 10:30:08PM +0800, Minh Yuan wrote:
-> We recently discovered a slab-out-of-bounds read in fbcon in the latest
-> kernel ( v5.10-rc2 for now ).  The root cause of this vulnerability is that
-> "fbcon_do_set_font" did not handle "vc->vc_font.data" and
-> "vc->vc_font.height" correctly, and the patch
-> <https://lkml.org/lkml/2020/9/27/223> for VT_RESIZEX can't handle this
-> issue.
->
-> Specifically, we use KD_FONT_OP_SET to set a small font.data for tty6, and
-> use  KD_FONT_OP_SET again to set a large font.height for tty1. After that,
-> we use KD_FONT_OP_COPY to assign tty6's vc_font.data to tty1's vc_font.data
-> in "fbcon_do_set_font", while tty1 retains the original larger
-> height. Obviously, this will cause an out-of-bounds read, because we can
-> access a smaller vc_font.data with a larger vc_font.height.
+Reviewed-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 
-Further there was only one user ever.
-- Android's loadfont, busybox and console-tools only ever use OP_GET
-  and OP_SET
-- fbset documentation only mentions the kernel cmdline font: option,
-  not anything else.
-- systemd used OP_COPY before release 232 published in Nov 2016
+Thanks
+Nikhil D
 
-Now unfortunately the crucial report seems to have gone down with
-gmane, and the commit message doesn't say much. But the pull request
-hints at OP_COPY being broken
-
-https://github.com/systemd/systemd/pull/3651
-
-So in other words, this never worked, and the only project which
-foolishly every tried to use it, realized that rather quickly too.
-
-Instead of trying to fix security issues here on dead code by adding
-missing checks, fix the entire thing by removing the functionality.
-
-Note that systemd code using the OP_COPY function ignored the return
-value, so it doesn't matter what we're doing here really - just in
-case a lone server somewhere happens to be extremely unlucky and
-running an affected old version of systemd. The relevant code from
-font_copy_to_all_vcs() in systemd was:
-
-	/* copy font from active VT, where the font was uploaded to */
-	cfo.op = KD_FONT_OP_COPY;
-	cfo.height = vcs.v_active-1; /* tty1 == index 0 */
-	(void) ioctl(vcfd, KDFONTOP, &cfo);
-
-Note this just disables the ioctl, garbage collecting the now unused
-callbacks is left for -next.
-
-v2: Tetsuo found the old mail, which allowed me to find it on another
-archive. Add the link too.
-
-Acked-by: Peilin Ye <yepeilin.cs@gmail.com>
-Reported-by: Minh Yuan <yuanmingbuaa@gmail.com>
-References: https://lists.freedesktop.org/archives/systemd-devel/2016-June/036935.html
-References: https://github.com/systemd/systemd/pull/3651
-Cc: Minh Yuan <yuanmingbuaa@gmail.com>
-Cc: Greg KH <greg@kroah.com>
-Cc: Peilin Ye <yepeilin.cs@gmail.com>
-Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/tty/vt/vt.c | 24 ++----------------------
- 1 file changed, 2 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index 9506a76f3ab6..d04a162939a4 100644
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -4704,27 +4704,6 @@ static int con_font_default(struct vc_data *vc, struct console_font_op *op)
- 	return rc;
- }
- 
--static int con_font_copy(struct vc_data *vc, struct console_font_op *op)
--{
--	int con = op->height;
--	int rc;
--
--
--	console_lock();
--	if (vc->vc_mode != KD_TEXT)
--		rc = -EINVAL;
--	else if (!vc->vc_sw->con_font_copy)
--		rc = -ENOSYS;
--	else if (con < 0 || !vc_cons_allocated(con))
--		rc = -ENOTTY;
--	else if (con == vc->vc_num)	/* nothing to do */
--		rc = 0;
--	else
--		rc = vc->vc_sw->con_font_copy(vc, con);
--	console_unlock();
--	return rc;
--}
--
- int con_font_op(struct vc_data *vc, struct console_font_op *op)
- {
- 	switch (op->op) {
-@@ -4735,7 +4714,8 @@ int con_font_op(struct vc_data *vc, struct console_font_op *op)
- 	case KD_FONT_OP_SET_DEFAULT:
- 		return con_font_default(vc, op);
- 	case KD_FONT_OP_COPY:
--		return con_font_copy(vc, op);
-+		/* was buggy and never really used */
-+		return -EINVAL;
- 	}
- 	return -ENOSYS;
- }
--- 
-2.28.0
-
+>  arch/arm/configs/omap2plus_defconfig          |    2 +-
+>  drivers/gpu/drm/omapdrm/Kconfig               |  120 +-
+>  drivers/gpu/drm/omapdrm/Makefile              |   19 +-
+>  drivers/gpu/drm/omapdrm/displays/Kconfig      |   10 -
+>  drivers/gpu/drm/omapdrm/displays/Makefile     |    2 -
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 1385 -----------------
+>  drivers/gpu/drm/omapdrm/dss/Kconfig           |  135 --
+>  drivers/gpu/drm/omapdrm/dss/Makefile          |   20 -
+>  drivers/gpu/drm/omapdrm/dss/base.c            |   87 +-
+>  drivers/gpu/drm/omapdrm/dss/dispc.c           |  101 +-
+>  drivers/gpu/drm/omapdrm/dss/display.c         |   60 -
+>  drivers/gpu/drm/omapdrm/dss/dpi.c             |    1 -
+>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 1069 ++++++++-----
+>  drivers/gpu/drm/omapdrm/dss/dss.c             |   28 +-
+>  drivers/gpu/drm/omapdrm/dss/dss.h             |   72 +-
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c           |    1 -
+>  drivers/gpu/drm/omapdrm/dss/hdmi5.c           |    1 -
+>  .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |  229 ---
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  278 +---
+>  drivers/gpu/drm/omapdrm/dss/output.c          |   57 +-
+>  drivers/gpu/drm/omapdrm/dss/sdi.c             |    1 -
+>  drivers/gpu/drm/omapdrm/dss/venc.c            |    2 -
+>  drivers/gpu/drm/omapdrm/omap_connector.c      |  157 --
+>  drivers/gpu/drm/omapdrm/omap_connector.h      |   28 -
+>  drivers/gpu/drm/omapdrm/omap_crtc.c           |  103 +-
+>  drivers/gpu/drm/omapdrm/omap_crtc.h           |    2 -
+>  drivers/gpu/drm/omapdrm/omap_drv.c            |   65 +-
+>  drivers/gpu/drm/omapdrm/omap_drv.h            |    3 +-
+>  drivers/gpu/drm/omapdrm/omap_encoder.c        |   59 +-
+>  drivers/gpu/drm/omapdrm/omap_irq.c            |   34 +-
+>  drivers/gpu/drm/omapdrm/omap_plane.c          |   12 +-
+>  drivers/gpu/drm/panel/Kconfig                 |    9 +
+>  drivers/gpu/drm/panel/Makefile                |    1 +
+>  drivers/gpu/drm/panel/panel-dsi-cm.c          |  647 ++++++++
+>  include/drm/drm_mipi_dsi.h                    |    2 +
+>  35 files changed, 1718 insertions(+), 3084 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/omapdrm/displays/Kconfig
+>  delete mode 100644 drivers/gpu/drm/omapdrm/displays/Makefile
+>  delete mode 100644 drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>  delete mode 100644 drivers/gpu/drm/omapdrm/dss/Kconfig
+>  delete mode 100644 drivers/gpu/drm/omapdrm/dss/Makefile
+>  delete mode 100644 drivers/gpu/drm/omapdrm/dss/display.c
+>  delete mode 100644 drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+>  delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.c
+>  delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.h
+>  create mode 100644 drivers/gpu/drm/panel/panel-dsi-cm.c
+> 
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
