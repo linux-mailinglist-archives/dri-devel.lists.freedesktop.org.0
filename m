@@ -1,53 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20512AC44D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 19:58:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BCE2AC45A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 20:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F87893A3;
-	Mon,  9 Nov 2020 18:58:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C549989312;
+	Mon,  9 Nov 2020 19:00:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
  [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9746F893A3
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 18:58:40 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id j14so10013550ots.1
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 10:58:40 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D98B89312
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 19:00:33 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id n11so10010027ota.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 11:00:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=pgrZHaOCOPdU/jfeIgQpo9Dm6WsghEsHSG6Bkgxz0XA=;
- b=UWyfcaeGdF1d6vMzk6QcoS6SE2hY1RdWUSoOdebpng6EPzKkjkp3anT53qi1N1vKTR
- WmkJuHbfuglOKtgpFOR38PZzS7CU1tcTlmPn5viomRr92fhXnVqZ7pUKYU+6CjhuW4/x
- PGFCPvmiGvP0YS5dCuTo3uxmhSRBCX+kM/QxBZVyj5xZ6CRkIEkvmBuOOeroZWo8VNJ3
- ppJx+2HLJKDMXjLktfVHyM4yIq60CsTBfCWJP7HwRseOvJqX5Awzfg4Ii+kra28MtHtK
- DG40JUC6s2N/kMOsNfGuV6krpI/9kO+Vu0DGtskX2pOmCuWUXz++Y7uxpW19JMeM+WST
- hjZg==
-X-Gm-Message-State: AOAM533YmlFMSFUBO1u3gL1FZvusvvxqlzARmBKmMuDN7qVzT0nGu7kT
- MQ6e0zcsQzZJDpVY5Fn6bA==
-X-Google-Smtp-Source: ABdhPJyNs3hy9NApzcsU0lR0JiGA6Xoyl6EnnMUG3Iz58jvEQet+apYRfnkdcvKCihcLKFHZgOJJjA==
-X-Received: by 2002:a9d:22e4:: with SMTP id y91mr11382390ota.72.1604948320001; 
- Mon, 09 Nov 2020 10:58:40 -0800 (PST)
+ bh=5YUEvnB3to37KnbuxcK5tx/hJGsx2a/LFMlp0aY5TLQ=;
+ b=ecg2siNDVdg5DCfHqxDypOSqMdgM9qNUNXRDd/hfhyV7tWQNfDM19EVau0OxPoZ+Ej
+ xb/F8uxhS6uVlHfxrdm7dMeZVbPiTAybVLJpOq2CgcdnSAbCXH9yU4ZvShDjC6xcXZva
+ couINEJTFD/lLQcmITFa/dYuJ/k9KVsOakqtkFxkrek7QRa7zP9is2qI4RmGSchBDOQ7
+ 5no1HSL+aDnlfhN5OdEJ/gEDKliqJzMC4ppJf79m4rX75vDRDrqP0H/dCW9d0EhiiQvt
+ Y7ohCvosV38acE0PMl9Ln0zr5TvnRB6I1ZE7bDNCHyvVIPtA4tb0RP/3nKzN0BI5lJo5
+ 7DyA==
+X-Gm-Message-State: AOAM532QyKdBpyGj8F+7G8hlE5zYEpX7d/OAXR8G8bWKNHaWbRBlHW9Y
+ D/kqzBKqp82817KVcnJkow==
+X-Google-Smtp-Source: ABdhPJyMX9zDE7/Gr58n7kd8OGZN4yCUG4rGtgbFXHnSLCafRqgq9w/7W4V89fBfDlqFoI1WEyH4Pw==
+X-Received: by 2002:a9d:6c94:: with SMTP id c20mr12134497otr.151.1604948433035; 
+ Mon, 09 Nov 2020 11:00:33 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id r24sm2683114otq.77.2020.11.09.10.58.38
+ by smtp.gmail.com with ESMTPSA id o9sm2602082oos.29.2020.11.09.11.00.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 10:58:39 -0800 (PST)
-Received: (nullmailer pid 1588239 invoked by uid 1000);
- Mon, 09 Nov 2020 18:58:37 -0000
-Date: Mon, 9 Nov 2020 12:58:37 -0600
+ Mon, 09 Nov 2020 11:00:32 -0800 (PST)
+Received: (nullmailer pid 1590838 invoked by uid 1000);
+ Mon, 09 Nov 2020 19:00:30 -0000
+Date: Mon, 9 Nov 2020 13:00:30 -0600
 From: Rob Herring <robh@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 02/30] dt-bindings: mmc: tegra: Document OPP and
+Subject: Re: [PATCH v1 03/30] dt-bindings: pwm: tegra: Document OPP and
  voltage regulator properties
-Message-ID: <20201109185837.GA1588183@bogus>
+Message-ID: <20201109190030.GA1590784@bogus>
 References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-3-digetx@gmail.com>
+ <20201104234427.26477-4-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104234427.26477-3-digetx@gmail.com>
+In-Reply-To: <20201104234427.26477-4-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,31 +62,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
  devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
- Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
- Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
  Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
  linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mark Brown <broonie@kernel.org>,
- linux-tegra@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
  linux-mmc@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Peter Geis <pgwipeout@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 05 Nov 2020 02:43:59 +0300, Dmitry Osipenko wrote:
+On Thu, 05 Nov 2020 02:44:00 +0300, Dmitry Osipenko wrote:
 > Document new DVFS OPP table and voltage regulator properties of the
-> SDHCI controller.
+> PWM controller.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../devicetree/bindings/mmc/nvidia,tegra20-sdhci.txt | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  .../devicetree/bindings/pwm/nvidia,tegra20-pwm.txt  | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
