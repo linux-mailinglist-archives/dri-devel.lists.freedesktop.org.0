@@ -1,39 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76BF2AB656
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:16:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 333B02AB659
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:17:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBE9989919;
-	Mon,  9 Nov 2020 11:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6D689956;
+	Mon,  9 Nov 2020 11:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5CA989919
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:16:47 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1C03B2B;
- Mon,  9 Nov 2020 12:16:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604920606;
- bh=29no4bJHGKquWNGhM39BN9pSSKpkZJcY9FVEFgvsPl4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WaUQU2SF88JaB9FMaF+77CQEOK0bFITXV8K9ajN/EylAjm6JCDCyoijd4j+SOfz5u
- boGxY+jVue4APKgR0trwAl1NMknNhcY/cS74At8UzwvoFDvlzU2KMUDjVTHfMbR6wa
- FGRIbTG+4VZihlcbe3Njqa82RTkSdCDzblgEze4g=
-Date: Mon, 9 Nov 2020 13:16:41 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 54/56] drm/omap: drop unused owner field
-Message-ID: <20201109111641.GY6029@pendragon.ideasonboard.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 365C789954
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:16:58 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BGmPp000513;
+ Mon, 9 Nov 2020 05:16:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604920608;
+ bh=0wikF8xI6fvtG6MCBj8B+xXuomkCGzX4G5uZFqKMpMs=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=ho9txX1rBTbXko8bciaUgrkNysFWukxsXxVMBynJF83YEQRwo6ocacucvpk1/UNct
+ 7anHcpFADPLcxe4fzz22eZqGycXE73eL71ggb0Tl9UzSZiATIvEUALSw/N0g0ZznjD
+ nhpwCS/mnP8xQ5BP5pB1IkMHHYqWsin2El2Lwows=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9BGlqr087973
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 9 Nov 2020 05:16:47 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
+ 2020 05:16:47 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 9 Nov 2020 05:16:47 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BGjii128161;
+ Mon, 9 Nov 2020 05:16:45 -0600
+Subject: Re: [PATCH v3 15/56] drm/omap: dsi: request VC via mipi_dsi_attach
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-55-tomi.valkeinen@ti.com>
+ <20201105120333.947408-16-tomi.valkeinen@ti.com>
+ <20201109084208.GL6029@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <9c98fed4-ccde-1ced-830e-27779cd3633d@ti.com>
+Date: Mon, 9 Nov 2020 13:16:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-55-tomi.valkeinen@ti.com>
+In-Reply-To: <20201109084208.GL6029@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,123 +66,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Tony Lindgren <tony@atomide.com>,
  "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
  Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
  linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Thu, Nov 05, 2020 at 02:03:31PM +0200, Tomi Valkeinen wrote:
-> dssdev->owner is set, but never used. We can drop the field.
+On 09/11/2020 10:42, Laurent Pinchart wrote:
+> Hi Tomi and Sebastian,
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/omapdrm/dss/dpi.c     | 1 -
->  drivers/gpu/drm/omapdrm/dss/dsi.c     | 1 -
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c   | 1 -
->  drivers/gpu/drm/omapdrm/dss/hdmi5.c   | 1 -
->  drivers/gpu/drm/omapdrm/dss/omapdss.h | 2 --
->  drivers/gpu/drm/omapdrm/dss/sdi.c     | 1 -
->  drivers/gpu/drm/omapdrm/dss/venc.c    | 1 -
->  7 files changed, 8 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dpi.c b/drivers/gpu/drm/omapdrm/dss/dpi.c
-> index 1d2992daef40..030f997eccd0 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dpi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dpi.c
-> @@ -641,7 +641,6 @@ static int dpi_init_output_port(struct dpi_data *dpi, struct device_node *port)
->  	out->type = OMAP_DISPLAY_TYPE_DPI;
->  	out->dispc_channel = dpi_get_channel(dpi);
->  	out->of_port = port_num;
-> -	out->owner = THIS_MODULE;
->  
->  	r = omapdss_device_init_output(out, &dpi->bridge);
->  	if (r < 0) {
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index 76e4f607d8cf..22718a771d6d 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -5443,7 +5443,6 @@ static int dsi_init_output(struct dsi_data *dsi)
->  	out->name = dsi->module_id == 0 ? "dsi.0" : "dsi.1";
->  	out->dispc_channel = dsi_get_channel(dsi);
->  	out->dsi_ops = &dsi_ops;
-> -	out->owner = THIS_MODULE;
->  	out->of_port = 0;
->  	out->bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
->  		       | DRM_BUS_FLAG_DE_HIGH
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> index a14fbf06cb30..13701571d59b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> @@ -707,7 +707,6 @@ static int hdmi4_init_output(struct omap_hdmi *hdmi)
->  	out->type = OMAP_DISPLAY_TYPE_HDMI;
->  	out->name = "hdmi.0";
->  	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
-> -	out->owner = THIS_MODULE;
->  	out->of_port = 0;
->  
->  	r = omapdss_device_init_output(out, &hdmi->bridge);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-> index b738d9750686..5d627caf90f2 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
-> @@ -681,7 +681,6 @@ static int hdmi5_init_output(struct omap_hdmi *hdmi)
->  	out->type = OMAP_DISPLAY_TYPE_HDMI;
->  	out->name = "hdmi.0";
->  	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
-> -	out->owner = THIS_MODULE;
->  	out->of_port = 0;
->  
->  	r = omapdss_device_init_output(out, &hdmi->bridge);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 90e41c635e45..4442e49ffc5c 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -263,8 +263,6 @@ struct omapdss_dsi_ops {
->  struct omap_dss_device {
->  	struct device *dev;
->  
-> -	struct module *owner;
-> -
->  	struct dss_device *dss;
->  	struct drm_bridge *bridge;
->  	struct drm_bridge *next_bridge;
-> diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm/dss/sdi.c
-> index 033fd30074b0..35827b4487bd 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/sdi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
-> @@ -314,7 +314,6 @@ static int sdi_init_output(struct sdi_device *sdi)
->  	out->dispc_channel = OMAP_DSS_CHANNEL_LCD;
->  	/* We have SDI only on OMAP3, where it's on port 1 */
->  	out->of_port = 1;
-> -	out->owner = THIS_MODULE;
->  	out->bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE	/* 15.5.9.1.2 */
->  		       | DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE;
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-> index 6e418a0f7572..8ecffe5bbd29 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/venc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-> @@ -730,7 +730,6 @@ static int venc_init_output(struct venc_device *venc)
->  	out->type = OMAP_DISPLAY_TYPE_VENC;
->  	out->name = "venc.0";
->  	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
-> -	out->owner = THIS_MODULE;
->  	out->of_port = 0;
->  
->  	r = omapdss_device_init_output(out, &venc->bridge);
+> On Thu, Nov 05, 2020 at 02:02:52PM +0200, Tomi Valkeinen wrote:
+>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>
+>> Drop custom request_vc/release_vc callbacks by using the
+>> generic mipi_dsi_attach/mipi_dsi_detach functions.
+>>
+>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 24 +++++---
+>>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 61 ++++++++-----------
+>>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  3 -
+>>  3 files changed, 41 insertions(+), 47 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> index ec36e62ddc3a..b1ca9b34ce17 100644
+>> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> @@ -693,14 +693,6 @@ static int dsicm_connect(struct omap_dss_device *src,
+>>  			 struct omap_dss_device *dst)
+>>  {
+>>  	struct panel_drv_data *ddata = to_panel_data(dst);
+>> -	struct device *dev = &ddata->dsi->dev;
+>> -	int r;
+>> -
+>> -	r = src->ops->dsi.request_vc(src, ddata->channel);
+>> -	if (r) {
+>> -		dev_err(dev, "failed to get virtual channel\n");
+>> -		return r;
+>> -	}
+>>  
+>>  	ddata->src = src;
+>>  	return 0;
+>> @@ -711,7 +703,6 @@ static void dsicm_disconnect(struct omap_dss_device *src,
+>>  {
+>>  	struct panel_drv_data *ddata = to_panel_data(dst);
+>>  
+>> -	src->ops->dsi.release_vc(src, ddata->channel);
+>>  	ddata->src = NULL;
+>>  }
+>>  
+>> @@ -1276,8 +1267,21 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  		goto err_bl;
+>>  	}
+>>  
+>> +	dsi->lanes = 3;
+>> +	dsi->format = MIPI_DSI_FMT_RGB888;
+>> +	dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
+>> +			  MIPI_DSI_MODE_EOT_PACKET;
+>> +	dsi->hs_rate = 300000000;
+>> +	dsi->lp_rate = 10000000;
+> 
+> Should this change be explained in the commit message ?
+
+I added:
+
+To use mipi_dsi_attach() we need to fill in the mipi_dsi_device fields,
+and some of these fields overlap with the fields in omap_dss_dsi_config.
+In later patches the latter will get dropped.
+
+>> +
+>> +	r = mipi_dsi_attach(dsi);
+>> +	if (r < 0)
+>> +		goto err_dsi_attach;
+>> +
+>>  	return 0;
+>>  
+>> +err_dsi_attach:
+>> +	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
+>>  err_bl:
+>>  	destroy_workqueue(ddata->workqueue);
+>>  err_reg:
+>> @@ -1294,6 +1298,8 @@ static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+>>  
+>>  	dev_dbg(&dsi->dev, "remove\n");
+>>  
+>> +	mipi_dsi_detach(dsi);
+>> +
+>>  	omapdss_device_unregister(dssdev);
+>>  
+>>  	if (omapdss_device_is_enabled(dssdev))
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> index d1187a8af37f..a16427f3bc23 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> @@ -349,7 +349,7 @@ struct dsi_data {
+>>  
+>>  	struct {
+>>  		enum dsi_vc_source source;
+>> -		struct omap_dss_device *dssdev;
+>> +		struct mipi_dsi_device *dest;
+> 
+> How about naming this dsidev ?
+
+Maybe, but... dsidev was used to refer to the DSI host not that long ago. While going through these
+patches, I thought about renaming "dest", but then I decided that "dest" a new name and perhaps a
+good one to have during this transition period.
+
+ Tomi
 
 -- 
-Regards,
-
-Laurent Pinchart
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
