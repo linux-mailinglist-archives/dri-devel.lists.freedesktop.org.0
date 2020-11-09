@@ -1,60 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F4F2AD113
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7CB62AD100
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 737D689938;
-	Tue, 10 Nov 2020 08:17:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05EB898CC;
+	Tue, 10 Nov 2020 08:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ABA2892C6
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:09:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604920169;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=q7H5GEZMtbA6jUsFT4cXKJySbHW7NdZ0P4vXecXdY9g=;
- b=UzQfErxz9eYwND8CRu+6d3YVlKsou1r0ZuP9LDsVn+PNqmBiJ/+peYNRNSfFlJ+LX4
- +IMGs4vtatIGWq/uICgKJPwdsPDbLMLts834zUQNc+wqEqX9vg/+o7XrkClLfYUZW4/H
- DQ8/vlw3j/XGm9wNfkhYNj6pwAFH0lBwrmTWhxVTlrs7d1ohAzSDun/QuQS0Yf9TbWH0
- oewKhxIvB8jRLcOfzXIImbt3mLux4tqbhUCjGKMHwRojjF0CeUsGWeTn5Ee+IzK/l/13
- oYWMzN/besmXx/UvyXrxq3fU0NY5nF7w1yz+bxTHZKnNf2+/IhM3QR61MVyza0t9KX3y
- TWcg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaVXA0JCQ=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.3 DYNA|AUTH)
- with ESMTPSA id d04888wA9B9LBSh
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 9 Nov 2020 12:09:21 +0100 (CET)
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
-Date: Mon, 9 Nov 2020 12:09:21 +0100
-Message-Id: <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22D69896C7
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:21:03 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id v4so8325782edi.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:21:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hU4WYD1KmzG04cSTRa81VB9nMC6JMAr9+qywRmieORQ=;
+ b=ivffncbNBnvqFvOVxqcWbV0hPq/Ltibmf3GHl94bopcm/216grQ+BQGVZlOIbgv5Pf
+ xRNJDqDwIXSwamLbX/p1iygsqawMVvm49RJRIt4tNEMYHQhPpV2SHeOUzuPYfilWXW2T
+ pXypFoju2q10dY4x8VsUNVYWKxHAG9MXjfu3yRhrULwAAouCksLlQxBPC7WijFUkOd8M
+ 9rKkcE0TzPGW+Qms+6P/Fg+rjYuLtH/qjYB9Y1dHamslXZILFUGfnOVA2vHYW7hhV+gv
+ tCS0061lKBfO0r7PmZ7sDLio7MMRqxS8zSw/E9vOQXqVzyolJ3sIV+5Qu+KLzXO5iK0O
+ FyvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hU4WYD1KmzG04cSTRa81VB9nMC6JMAr9+qywRmieORQ=;
+ b=A1w5tdHAcoy9Myt8h0L9L5uVkSEehAttsDxKdJWc7e+eC69QobdHpcg7xGlX5favNR
+ lNs7bfakIvuya/DZIrSQs1wVyP2Jrzeeazj9pkAmRbMUFp9Kahh8ze4+8OiOLzzz/dO1
+ 9T5NeDYCuoHQiAzaltQs+VGCz6I0q0xJbaMNnEBPZuSTxYmILOeaF9KR0ZEFGgAlwCMJ
+ BSTgq+aYkVv8qnNH4NsISQdJG46euNMTb9QThm+s3NZljZkHzCSigDo6TqJ9tEDeRfWr
+ ofBmjZuGNLlsiEdQHXHxUA13OkL90GCEqtfXHgblm3+/n/1dgQtaKShuMDgiRmB3vLhJ
+ 3gKA==
+X-Gm-Message-State: AOAM530KP2PM5bSBYQZoj+CpFAh5KrXnYha9mgRWs8LjeXJHfk7QUALE
+ 9y0ehfc8kmZMCP079mCyIsW+Y5kYhh2D8zG/Psc=
+X-Google-Smtp-Source: ABdhPJxAkJymNqSjR/UljeVLidNDy9Sfi8sdqcClNPJ1jY4tyCrPXVk2ZYZfzUyF8oKh+J89CmDSjJgzBHin8AZGsnU=
+X-Received: by 2002:a50:ef1a:: with SMTP id m26mr5734314eds.144.1604920861806; 
+ Mon, 09 Nov 2020 03:21:01 -0800 (PST)
+MIME-Version: 1.0
+References: <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
+ <20201106061513.uyys7njcqcdlah67@vireshk-i7>
+ <a6926456-8bce-a438-bfaa-be334208f004@gmail.com>
+ <CAEExFWsp0DWw1yO84e3vzr_YZkqkd+pyPfQQR3J2W6n3wTX4Jw@mail.gmail.com>
+ <20201109050010.g47zojh6wafvwqva@vireshk-i7>
+ <c584b301-e052-7f01-335d-8f9160865198@gmail.com>
+ <20201109051014.oa6bt4g3ctm2hnuy@vireshk-i7>
+ <4476fed9-a356-b7f1-32ee-935343e23038@gmail.com>
+ <20201109053546.xupmmsx5qccn46tr@vireshk-i7>
+ <33a7ad95-a8cf-7b88-0f78-09086c1a4adf@gmail.com>
+ <20201109055320.5y5gf2whwast2mi4@vireshk-i7>
+In-Reply-To: <20201109055320.5y5gf2whwast2mi4@vireshk-i7>
+From: Frank Lee <tiny.windzz@gmail.com>
+Date: Mon, 9 Nov 2020 19:20:50 +0800
+Message-ID: <CAEExFWuF82B3bPn8T8_vkHODNwP89MDrNOqu-MhObzqTfiYODw@mail.gmail.com>
+Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage
+ scaling
+To: Viresh Kumar <viresh.kumar@linaro.org>
 X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,63 +73,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ DTML <devicetree@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>,
+ Adrian Hunter <adrian.hunter@intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ driver-dev <devel@driverdev.osuosl.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> Am 09.11.2020 um 11:34 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
-> 
-> On 09/11/2020 12:31, H. Nikolaus Schaller wrote:
->> 
->>> Am 09.11.2020 um 11:22 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>> 
->>> On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
->>>> 
->>>>> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>>>> 
->>>>> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
->>>>> 
->>>>>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
->>>>>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
->>>>>> 
->>>>>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
->>>>>> And hopefully we are close to push the panel driver for review. And in a second step some device
->>>>>> tree for the Pyra.
->>>>>> 
->>>>>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
->>>>> 
->>>>> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
->>>>> it's good to have that as a reference.
->>>> 
->>>> Yes, here:
->>>> 
->>>> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
->>> 
->>> Ok. The old driver uses two separate VC configurations (request_vc calls),
->> 
->> yes indeed. I was not sure how to handle this with the new omapdrm drivers.
->> 
->>> so it may not work with
->>> this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
->> 
->> I see.
->> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
->> Or is this related to VC?
-> 
-> No, that's not related to the VC.
-
-Ok, then it is worth searching for that independently. Any idea/hint what could be missing?
-
-BR and thanks,
-Nikolaus
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBOb3YgOSwgMjAyMCBhdCAxOjUzIFBNIFZpcmVzaCBLdW1hciA8dmlyZXNoLmt1bWFy
+QGxpbmFyby5vcmc+IHdyb3RlOgo+Cj4gT24gMDktMTEtMjAsIDA4OjQ0LCBEbWl0cnkgT3NpcGVu
+a28gd3JvdGU6Cj4gPiAwOS4xMS4yMDIwIDA4OjM1LCBWaXJlc2ggS3VtYXIg0L/QuNGI0LXRgjoK
+PiA+ID4gT24gMDktMTEtMjAsIDA4OjE5LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gPiA+PiBU
+aGFua3MsIEkgbWFkZSBpdCBpbiBhIGRpZmZlcmVudCB3YXkgYnkgc2ltcGx5IGFkZGluZyBoZWxw
+ZXJzIHRvIHRoZQo+ID4gPj4gcG1fb3BwLmggd2hpY2ggdXNlIGRldm1fYWRkX2FjdGlvbl9vcl9y
+ZXNldCgpLiBUaGlzIGRvZXNuJ3QgcmVxdWlyZSB0bwo+ID4gPj4gYWRkIG5ldyBrZXJuZWwgc3lt
+Ym9scy4KPiA+ID4KPiA+ID4gSSB3aWxsIHByZWZlciB0byBhZGQgaXQgaW4gY29yZS5jIGl0c2Vs
+ZiwgYW5kIHllcwo+ID4gPiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoKSBsb29rcyBiZXR0ZXIu
+IEJ1dCBJIGFtIHN0aWxsIG5vdCBzdXJlIGZvcgo+ID4gPiB3aGljaCBoZWxwZXJzIGRvIHdlIG5l
+ZWQgdGhlIGRldm1fKigpIHZhcmlhbnRzLCBhcyB0aGlzIGlzIG9ubHkgdXNlZnVsCj4gPiA+IGZv
+ciBub24tQ1BVIGRldmljZXMuIEJ1dCBpZiB3ZSBoYXZlIHVzZXJzIHRoYXQgd2UgY2FuIGFkZCBy
+aWdodCBub3csCj4gPiA+IHdoeSBub3QuCj4gPgo+ID4gQWxsIGN1cnJlbnQgbm9uLUNQVSBkcml2
+ZXJzIChkZXZmcmVxLCBtbWMsIG1lbW9yeSwgZXRjKSBjYW4gYmVuZWZpdCBmcm9tIGl0Lgo+ID4K
+PiA+IEZvciBUZWdyYSBkcml2ZXJzIHdlIG5lZWQgdGhlc2UgdmFyaWFudHM6Cj4gPgo+ID4gZGV2
+bV9wbV9vcHBfc2V0X3N1cHBvcnRlZF9odygpCj4gPiBkZXZtX3BtX29wcF9zZXRfcmVndWxhdG9y
+cygpIFtpZiB3ZSB3b24ndCB1c2UgR0VOUERdCj4gPiBkZXZtX3BtX29wcF9zZXRfY2xrbmFtZSgp
+Cj4gPiBkZXZtX3BtX29wcF9vZl9hZGRfdGFibGUoKQo+Cj4gSSB0cmllZCB0byBsb29rIGVhcmxp
+ZXIgZm9yIHRoZSBzdHVmZiBhbHJlYWR5IG1lcmdlZCBpbiBhbmQgZGlkbid0Cj4gZmluZCBhIGxv
+dCBvZiBzdHVmZiB3aGVyZSB0aGUgZGV2bV8qIGNvdWxkIGJlIHVzZWQsIG1heWJlIEkgbWlzc2Vk
+Cj4gc29tZSBvZiBpdC4KPgo+IEZyYW5rLCB3b3VsZCB5b3UgbGlrZSB0byByZWZyZXNoIHlvdXIg
+c2VyaWVzIGJhc2VkIG9uIHN1Z2dlc3Rpb25zIGZyb20KPiBEbWl0cnkgYW5kIG1ha2Ugb3RoZXIg
+ZHJpdmVycyBhZGFwdCB0byB0aGUgbmV3IEFQSXMgPwoKSSBhbSBnbGFkIHRvIGRvIHRoaXMu77ya
+77yJCgpZYW5ndGFvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
