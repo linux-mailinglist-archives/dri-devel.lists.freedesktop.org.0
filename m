@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521602AB2D1
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:52:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEED2AB2CD
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:52:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A92C89622;
-	Mon,  9 Nov 2020 08:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD92289664;
+	Mon,  9 Nov 2020 08:52:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 919CA892C0
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 05:19:35 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id v144so10603195lfa.13
- for <dri-devel@lists.freedesktop.org>; Sun, 08 Nov 2020 21:19:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=h/l9jqPPSOjokBpH3eFzqAnYzBy6HMjUXqOv94wxhaY=;
- b=inFPxi2kOHf6eLWqksRlS/alpqIYuYJTEft79LSW5Fdx2HdQXVxspWY2rT6ZdVTO66
- KRY+/Buftaeh00whsFi1kO9V6YYurmEXktex4+Y5EfP5Rn74NUMmF19uXEm0Se34qH0s
- ObVJmVTP+gl/I0FWElQMq+uljKBtDDic3bdFBiy4C09CJjPj1MfbVopXK0JAbsWW49Vy
- kkAHFPB66iO0K4JfZjyCEdqSLan09z0SQrBr/OOCKxYcpzED0fn8BL+DmCwTyXt7D7Oj
- tGJRovB7xsVEn38URK5ePSwyMR2P3kGnVF1zZUdFAJCmBCTNgdc8KJALhnJRdnoqjjNN
- a/mQ==
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D19893EF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 05:35:49 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id i7so6162871pgh.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 08 Nov 2020 21:35:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=IJUnC1qet5XGxBxbk2JzSrwVUK3/0sjfx2cNNTG8d4M=;
+ b=LstmlGWFsa5jYxw8Vkksf7r52gSPeNdq2rFCsHGIk3c7l0AwqeEGR2gU2Hu2jp53nQ
+ Y9/SJc2XbWbXfLNrk3m8dwkMzOadrr18+gXJf6HMX70IUW4vYncHLxcCR110tbXhs55a
+ EQhxbUj76xTKdvrpBlPVjubbEjZl+Y5zbMCqwugKbJnzkoNSIiP+wDGvpyOw7QL37cSI
+ 4aW76kahFRWDdxouicRCqdqVzxB3wv8Aa83PxGUToWRNF9HLbIG9/Gni9TZvQv8NC382
+ ydqorAlKhtADyq79PaRSMdNHK43d74XsaHTphlRarNe6XqB7vDtVzeq4Rj/iiWEks7Q4
+ L/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=h/l9jqPPSOjokBpH3eFzqAnYzBy6HMjUXqOv94wxhaY=;
- b=IKeM572XQi387QpSyT7KSj46srblBW/fy2+wpTBTHV15vrFNtk/O+3EcYqQoS78Mz6
- 1epMfv9cSgRsrC1mEIEMRbQ2cSbe9fxhdZpgxQ7n7eIuoKiWvyxZ1YWnz8mgCWb/uv1p
- wSjxLwF7eneVj0/FevvAiJOhjnDl4k3ivZ22csUrlFw/9bOebVrxCm9PlLFwJyA9xeob
- 8VmiQKYhSEbQQq2/CW/iqYjqgsJwIIKlOgqBQtOb99ITDdvHP1B+gWMsF63eu5rZrDpc
- IcUKj9vzpuZIo3qzC9bbLTQ8UDzLDTODaXuaHjWejsEi1w/jDlb2WM8D4riTt775yn/t
- gqcw==
-X-Gm-Message-State: AOAM531Rwvq8RjR83rscBSXb7OD6JFvSp7rzU+Vd643AKwzFe7mVfC+4
- fjqj2pSGQU97kvjMfHfXJ/k=
-X-Google-Smtp-Source: ABdhPJyfn/mhowYUR13ODHWpjXAE1wRkP98MMhTHt8rjWBQX9NIzOaxLUnjfOjm6TyyarRwVp6OMEw==
-X-Received: by 2002:a19:c816:: with SMTP id y22mr4701106lff.509.1604899174061; 
- Sun, 08 Nov 2020 21:19:34 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id c125sm1572920lfd.31.2020.11.08.21.19.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 08 Nov 2020 21:19:33 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=IJUnC1qet5XGxBxbk2JzSrwVUK3/0sjfx2cNNTG8d4M=;
+ b=L4S50fWkmGhhYBr/cX6iem2aKs4jKjvpTKrN4Fz0bMjNVGq3dQ1kyFsLKGDxDHQgZQ
+ +W+zIdzdrbBWpQWqLlgK608UXwW2scrma1L0N0ClUXVLTTFDuTz+s1lp3y1+Ie4csSL7
+ sVnCJHo6/wBIfvgXLL3Ho5rRhXyxEbDGnvfG7Jtb5zoyw86ZpPtuTa9X+gzN/XSXHTKa
+ q/p6aXOpI72uTuyQqyqAZW5D054xe3lGG4LcSBhF+VtTqA9a326Ta9C9locHOccz/Oos
+ oi9baHZTKyh5Chk3ciHyDUeYziiKDkBq6TI7/zuczZkO4Q0jLdgvibf415jZ4WruZbR5
+ 2EOg==
+X-Gm-Message-State: AOAM533zNmAJO529LgDLsjlIIajTNQGCBlSLjrcJuRtf3F5N2Xub+G7z
+ fGJPEHuhXhnNaR/V/xQfjvU+lg==
+X-Google-Smtp-Source: ABdhPJyFGt53uc1RwZIWqNmOTufjNhL6TQqNB7dxd3bb+lEFg1bJQu36bKwaT5Mj2KBhPEtooXzYdQ==
+X-Received: by 2002:a65:4144:: with SMTP id x4mr11299072pgp.432.1604900149527; 
+ Sun, 08 Nov 2020 21:35:49 -0800 (PST)
+Received: from localhost ([122.172.12.172])
+ by smtp.gmail.com with ESMTPSA id e10sm10531236pfl.162.2020.11.08.21.35.48
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 08 Nov 2020 21:35:48 -0800 (PST)
+Date: Mon, 9 Nov 2020 11:05:46 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Dmitry Osipenko <digetx@gmail.com>
 Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage
  scaling
-To: Viresh Kumar <viresh.kumar@linaro.org>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-18-digetx@gmail.com>
+Message-ID: <20201109053546.xupmmsx5qccn46tr@vireshk-i7>
+References: <20201104234427.26477-18-digetx@gmail.com>
  <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
  <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
  <20201106061513.uyys7njcqcdlah67@vireshk-i7>
@@ -60,14 +60,11 @@ References: <20201104234427.26477-1-digetx@gmail.com>
  <20201109050010.g47zojh6wafvwqva@vireshk-i7>
  <c584b301-e052-7f01-335d-8f9160865198@gmail.com>
  <20201109051014.oa6bt4g3ctm2hnuy@vireshk-i7>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4476fed9-a356-b7f1-32ee-935343e23038@gmail.com>
-Date: Mon, 9 Nov 2020 08:19:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <4476fed9-a356-b7f1-32ee-935343e23038@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201109051014.oa6bt4g3ctm2hnuy@vireshk-i7>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <4476fed9-a356-b7f1-32ee-935343e23038@gmail.com>
+User-Agent: NeoMutt/20180716-391-311a52
 X-Mailman-Approved-At: Mon, 09 Nov 2020 08:52:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,7 +88,7 @@ Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
  linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
  Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
  linux-media@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
  Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -100,52 +97,41 @@ Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
  Liam Girdwood <lgirdwood@gmail.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MDkuMTEuMjAyMCAwODoxMCwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gT24gMDktMTEtMjAs
-IDA4OjA4LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDA5LjExLjIwMjAgMDg6MDAsIFZpcmVz
-aCBLdW1hciDQv9C40YjQtdGCOgo+Pj4gT24gMDYtMTEtMjAsIDIxOjQxLCBGcmFuayBMZWUgd3Jv
-dGU6Cj4+Pj4gT24gRnJpLCBOb3YgNiwgMjAyMCBhdCA5OjE4IFBNIERtaXRyeSBPc2lwZW5rbyA8
-ZGlnZXR4QGdtYWlsLmNvbT4gd3JvdGU6Cj4+Pj4+Cj4+Pj4+IDA2LjExLjIwMjAgMDk6MTUsIFZp
-cmVzaCBLdW1hciDQv9C40YjQtdGCOgo+Pj4+Pj4gU2V0dGluZyByZWd1bGF0b3JzIGZvciBjb3Vu
-dCBhcyAwIGRvZXNuJ3Qgc291bmQgZ29vZCB0byBtZS4KPj4+Pj4+Cj4+Pj4+PiBCdXQsIEkgdW5k
-ZXJzdGFuZCB0aGF0IHlvdSBkb24ndCB3YW50IHRvIGhhdmUgdGhhdCBpZiAoaGF2ZV9yZWd1bGF0
-b3IpCj4+Pj4+PiBjaGVjaywgYW5kIGl0IGlzIGEgZmFpciByZXF1ZXN0LiBXaGF0IEkgd2lsbCBp
-bnN0ZWFkIGRvIGlzLCBhbGxvdyBhbGwKPj4+Pj4+IGRldl9wbV9vcHBfcHV0KigpIEFQSSB0byBz
-dGFydCBhY2NlcHRpbmcgYSBOVUxMIHBvaW50ZXIgZm9yIHRoZSBPUFAKPj4+Pj4+IHRhYmxlIGFu
-ZCBmYWlsIHNpbGVudGx5LiBBbmQgc28geW91IHdvbid0IGJlIHJlcXVpcmVkIHRvIGhhdmUgdGhp
-cwo+Pj4+Pj4gdW53YW50ZWQgY2hlY2suIEJ1dCB5b3Ugd2lsbCBiZSByZXF1aXJlZCB0byBzYXZl
-IHRoZSBwb2ludGVyIHJldHVybmVkCj4+Pj4+PiBiYWNrIGJ5IGRldl9wbV9vcHBfc2V0X3JlZ3Vs
-YXRvcnMoKSwgd2hpY2ggaXMgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvCj4+Pj4+PiBhbnl3YXlzLgo+
-Pj4+Pgo+Pj4+PiBQZXJoYXBzIGV2ZW4gYSBiZXR0ZXIgdmFyaWFudCBjb3VsZCBiZSB0byBhZGQg
-YSBkZXZtIHZlcnNpb25zIG9mIHRoZSBPUFAKPj4+Pj4gQVBJIGZ1bmN0aW9ucywgdGhlbiBkcml2
-ZXJzIHdvbid0IG5lZWQgdG8gY2FyZSBhYm91dCBzdG9yaW5nIHRoZQo+Pj4+PiBvcHBfdGFibGUg
-cG9pbnRlciBpZiBpdCdzIHVudXNlZCBieSBkcml2ZXJzLgo+Pj4+Cj4+Pj4gSSB0aGluayBzby4g
-VGhlIGNvbnN1bWVyIG1heSBub3QgYmUgc28gY29uY2VybmVkIGFib3V0IHRoZSBzdGF0dXMgb2YK
-Pj4+PiB0aGVzZSBPUFAgdGFibGVzLgo+Pj4+IElmIHRoZSBkcml2ZXIgbmVlZHMgdG8gbWFuYWdl
-IHRoZSByZWxlYXNlLCBpdCBuZWVkcyB0byBhZGQgYSBwb2ludGVyCj4+Pj4gdG8gdGhlaXIgZHJp
-dmVyIGdsb2JhbCBzdHJ1Y3R1cmUuCj4+Pj4KPj4+PiBNYXliZSBpdCdzIHdvcnRoIGhhdmluZyB0
-aGVzZSBkZXZtIGludGVyZmFjZXMgZm9yIG9wcC4KPj4+Cj4+PiBTdXJlIGlmIHRoZXJlIGFyZSBl
-bm91Z2ggdXNlcnMgb2YgdGhpcywgSSBhbSBhbGwgZm9yIGl0LiBJIHdhcyBmaW5lCj4+PiB3aXRo
-IHRoZSBwYXRjaGVzIHlvdSBzZW50LCBqdXN0IHRoYXQgdGhlcmUgd2VyZSBub3QgYSBsb3Qgb2Yg
-dXNlcnMgb2YKPj4+IGl0IGFuZCBzbyBJIHB1c2hlZCB0aGVtIGJhY2suIElmIHdlIGZpbmQgdGhh
-dCB3ZSBoYXZlIG1vcmUgdXNlcnMgb2YgaXQKPj4+IG5vdywgd2UgY2FuIHN1cmVseSBnZXQgdGhh
-dCBiYWNrLgo+Pj4KPj4KPj4gVGhlcmUgd2FzIGFscmVhZHkgYXR0ZW1wdCB0byBhZGQgdGhlIGRl
-dm0/IENvdWxkIHlvdSBwbGVhc2UgZ2l2ZSBtZSBhCj4+IGxpbmsgdG8gdGhlIHBhdGNoZXM/Cj4+
-Cj4+IEkgYWxyZWFkeSBwcmVwYXJlZCBhIHBhdGNoIHdoaWNoIGFkZHMgdGhlIGRldm0gaGVscGVy
-cy4gSXQgaGVscHMgdG8ga2VlcAo+PiBjb2RlIGNsZWFuZXIgYW5kIHJlYWRhYmxlLgo+IAo+IGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwvMjAyMDEwMTIxMzU1MTcuMTk0NjgtMS1mcmFua0Bh
-bGx3aW5uZXJ0ZWNoLmNvbS8KPiAKClRoYW5rcywgSSBtYWRlIGl0IGluIGEgZGlmZmVyZW50IHdh
-eSBieSBzaW1wbHkgYWRkaW5nIGhlbHBlcnMgdG8gdGhlCnBtX29wcC5oIHdoaWNoIHVzZSBkZXZt
-X2FkZF9hY3Rpb25fb3JfcmVzZXQoKS4gVGhpcyBkb2Vzbid0IHJlcXVpcmUgdG8KYWRkIG5ldyBr
-ZXJuZWwgc3ltYm9scy4KCnN0YXRpYyBpbmxpbmUgaW50IGRldm1fcG1fb3BwX29mX2FkZF90YWJs
-ZShzdHJ1Y3QgZGV2aWNlICpkZXYpCnsKCWludCBlcnI7CgoJZXJyID0gZGV2X3BtX29wcF9vZl9h
-ZGRfdGFibGUoZGV2KTsKCWlmIChlcnIpCgkJcmV0dXJuIGVycjsKCgllcnIgPSBkZXZtX2FkZF9h
-Y3Rpb25fb3JfcmVzZXQoZGV2LCAodm9pZCopZGV2X3BtX29wcF9yZW1vdmVfdGFibGUsCgkJCQkg
-ICAgICAgZGV2KTsKCWlmIChlcnIpCgkJcmV0dXJuIGVycjsKCglyZXR1cm4gMDsKfQpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 09-11-20, 08:19, Dmitry Osipenko wrote:
+> Thanks, I made it in a different way by simply adding helpers to the
+> pm_opp.h which use devm_add_action_or_reset(). This doesn't require to
+> add new kernel symbols.
+
+I will prefer to add it in core.c itself, and yes
+devm_add_action_or_reset() looks better. But I am still not sure for
+which helpers do we need the devm_*() variants, as this is only useful
+for non-CPU devices. But if we have users that we can add right now,
+why not.
+
+> static inline int devm_pm_opp_of_add_table(struct device *dev)
+> {
+> 	int err;
+> 
+> 	err = dev_pm_opp_of_add_table(dev);
+> 	if (err)
+> 		return err;
+> 
+> 	err = devm_add_action_or_reset(dev, (void*)dev_pm_opp_remove_table,
+> 				       dev);
+> 	if (err)
+> 		return err;
+> 
+> 	return 0;
+> }
+
+-- 
+viresh
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
