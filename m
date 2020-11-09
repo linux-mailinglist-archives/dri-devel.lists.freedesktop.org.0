@@ -1,45 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E932AB28C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:38:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BA12AB2CC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:52:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB618954A;
-	Mon,  9 Nov 2020 08:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24FAE8967B;
+	Mon,  9 Nov 2020 08:52:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
- [209.85.210.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B37EB8954A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 08:38:28 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 79so8156847otc.7
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 00:38:28 -0800 (PST)
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com
+ [IPv6:2607:f8b0:4864:20::d42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E4308957D;
+ Mon,  9 Nov 2020 08:41:26 +0000 (UTC)
+Received: by mail-io1-xd42.google.com with SMTP id j12so8980070iow.0;
+ Mon, 09 Nov 2020 00:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7btXjqBRuinpD7KiP3l3qzjmEFoY9IFXHxyguH0t/3M=;
+ b=vE+TwcYjMnjl7AwZgEbE4ExgYLtEzLZ9W1b12PN/XLNI4hdFVJEqSNaLrYq4mSUvL7
+ UgKnP1i5dxJ3kDif5t4HQiE0FPwh1LxyLOx5fSx4In0KbMRsn+MZrDNjHTLfwr7dotcO
+ xXnXq8aGkjCMBOgz0PlJtjzZr/TwmZNrMcBTYHOy9nZgJH14mNG8Tj6hAaeNd5t40X7U
+ BLyC9irvrGwNBIeXDt3+A8yyTUVjQD5lRDXq9wcMPMmIP5IOOQJX/nh3qUy7SoKkfV39
+ d83cJyDyCveUE/SmLpStqBViRd5GPJ0FNASEEORHcEgKogLCV5J6Vs0w+9QitwI20Swe
+ +x9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Mpl5z7jYy7tt5Nnzqwz9YOe8OadxKMgEiQDFvQkXiUc=;
- b=JfeMEGls0rf8nQTCg3A6Ovu3qlLhiAEqjwGDSry7USIBiRfI6j7k/yqgWzrKdoFhlj
- RvOd+83INcY+nmSRq2XbAdN0vQTJkl5IOhd/z79MnaL3GKExNprPJ2ex0til30ojVj0F
- 15F9a6ZZfp8U+9DuAXjxKvjqGv4Rd8fF1R5ibnhQrouCwf5B76PCTcEB+0SXQ1DrM1cL
- ibUSLC4+m1x7svkWNDaBask0bQyxas63vmVjYvpB+YAR2UzeKNdOwdSa4x+jjTfAQQQs
- Gu+IfAYnUI0nBvLVaUHmcbswMXJXFJWKhJzQIV8LytqXRvfd2DYlAmG5JST4WUJekAgU
- 2PIw==
-X-Gm-Message-State: AOAM530cKQiVLMiK56HnV/byGlwbsxP20IaI6Uld+isxFGrC4zAE7yyY
- DuTA0nRS52ikam9n55EaD8ytd4gGKa2O5EYGlYQ=
-X-Google-Smtp-Source: ABdhPJztzqSlL0WXA+McVa1c5WLjfnlry5X7OjJ9ynRD1lUtJ8E5/oZWsMSMvuAqBoLB9pps/iYyuiC8KGSadZDVsVM=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr8991741oti.107.1604911108098; 
- Mon, 09 Nov 2020 00:38:28 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7btXjqBRuinpD7KiP3l3qzjmEFoY9IFXHxyguH0t/3M=;
+ b=iEGU1FFYfCVG3OOrgBpvdcUAUP9linV5JM4S45xr5uFCzt2JXQjPbjSZPPSyJicN5w
+ Zf3f1l/8tI2I/QTgjVOuR9SF6GQsKces3H3CvmnWUPs8TWB4xSi5Kw/k5izkJ5UYJ9Q4
+ HVG3QrlcvbQzVl12YC6LhtXv9tIlEJbrkQtNKwemWvmSnXuDnfNIo3F6ps+vgmSwhd/R
+ +tljCNueBLP6wGI4mAwo3H3NFUDNiztvP0La2+onBp9U/mLMGbuGThu+5jhqnSWreX4T
+ /1gsB82TrpzoJheDDooucgOkW4ewSTYAUTDMfKad3GqQFWdUOnKAM2NuZgOxKYwcM+OY
+ yC1Q==
+X-Gm-Message-State: AOAM532ceOZWzQ6SwAyB5Eu5YuBWv7q7Jqv+wTEwUv2mMJE63QyxstgI
+ /LTs7g7ZGYBQryG2Clzs6NA=
+X-Google-Smtp-Source: ABdhPJw6hiS0UuWmPf3RDP3SsSRa2LK8tkwaoyxOfK5zCkid0TToP32VMAetRrUoPeVzj38GlOn+CA==
+X-Received: by 2002:a5d:9a19:: with SMTP id s25mr4307991iol.94.1604911285982; 
+ Mon, 09 Nov 2020 00:41:25 -0800 (PST)
+Received: from localhost.localdomain ([156.146.54.75])
+ by smtp.gmail.com with ESMTPSA id t15sm5475191ili.64.2020.11.09.00.41.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 00:41:25 -0800 (PST)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ ray.huang@amd.com, nicholas.kazlauskas@amd.com, jdelvare@suse.de
+Subject: [PATCH] drivers: amdgpu: amdgpu_display.c: Fix a spelling doens\'t to
+ doesn\'t
+Date: Mon,  9 Nov 2020 14:08:24 +0530
+Message-Id: <20201109083824.14664-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20201101102941.2891076-1-geert@linux-m68k.org>
- <20201101112915.GB1263673@ravnborg.org> <874km91by4.fsf@igel.home>
-In-Reply-To: <874km91by4.fsf@igel.home>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Nov 2020 09:38:16 +0100
-Message-ID: <CAMuHMdWEJwd4mGUm4ycUx5dBg5Lbb3cG+X5QsJ-icwuvoLxx5w@mail.gmail.com>
-Subject: Re: [PATCH/RFC v2] video: fbdev: atari: Fix TT High video mode
-To: Andreas Schwab <schwab@linux-m68k.org>
+X-Mailman-Approved-At: Mon, 09 Nov 2020 08:52:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,59 +70,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michael Schmitz <schmitzmic@gmail.com>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, Linux/m68k <linux-m68k@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>
+Cc: gregkh@linuxfoundation.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andreas,
+s/doens't/doesn't/p
 
-On Sun, Nov 1, 2020 at 1:47 PM Andreas Schwab <schwab@linux-m68k.org> wrote:
-> On Nov 01 2020, Sam Ravnborg wrote:
-> > On Sun, Nov 01, 2020 at 11:29:41AM +0100, Geert Uytterhoeven wrote:
-> >> The horizontal resolution (640) for the TT High video mode (1280x960) is
-> >> definitely bogus.  While fixing that, correct the timings to match the
-> >> TTM195 service manual.
-> >>
-> >> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> >> --- a/drivers/video/fbdev/atafb.c
-> >> +++ b/drivers/video/fbdev/atafb.c
-> >> @@ -495,8 +495,8 @@ static struct fb_videomode atafb_modedb[] __initdata = {
-> >>              "tt-mid", 60, 640, 480, 31041, 120, 100, 8, 16, 140, 30,
-> >>              0, FB_VMODE_NONINTERLACED | FB_VMODE_YWRAP
-> >>      }, {
-> >> -            /* 1280x960, 29 kHz, 60 Hz (TT high) */
-> >> -            "tt-high", 57, 640, 960, 31041, 120, 100, 8, 16, 140, 30,
-> >> +            /* 1280x960, 72 kHz, 72 Hz (TT high) */
-> >> +            "tt-high", 57, 1280, 960, 7761, 260, 60, 36, 4, 192, 4,
-> >>              0, FB_VMODE_NONINTERLACED | FB_VMODE_YWRAP
-> >
-> > Well-spotted. The change of 640 => 1280 is surely right.
-> > I have a harder time understanding why the change of pixclock from 31041
-> > to 7761 is correct. All other modes have a pixclock close to or equal
-> > to 32000 - so it looks strange this one is off.
->
-> According to the Profibuch the pixclock should be about 95000.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 7cc7af2a6822..a92cb137293a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -512,7 +512,7 @@ uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
+ 	 * to avoid hang caused by placement of scanout BO in GTT on certain
+ 	 * APUs. So force the BO placement to VRAM in case this architecture
+ 	 * will not allow USWC mappings.
+-	 * Also, don't allow GTT domain if the BO doens't have USWC falg set.
++	 * Also, don't allow GTT domain if the BO doesn't have USWC falg set.
+ 	 */
+ 	if ((bo_flags & AMDGPU_GEM_CREATE_CPU_GTT_USWC) &&
+ 	    amdgpu_bo_support_uswc(bo_flags) &&
+--
+2.26.2
 
-Please have a look at the paragraph on p. 1052, and realize that it
-fails to take into account horizontal black/sync (the actual scan line
-length is 1792 not 1280 pixels) (thanks, Michael!).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
