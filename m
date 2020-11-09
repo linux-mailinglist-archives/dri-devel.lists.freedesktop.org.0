@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639FE2AB55F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:49:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC9E2AB565
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:50:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DA68940F;
-	Mon,  9 Nov 2020 10:49:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3B61898CA;
+	Mon,  9 Nov 2020 10:50:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5178940F
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:49:44 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCC0898CA
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:50:24 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12F38B2B;
- Mon,  9 Nov 2020 11:49:43 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56E6CB2B;
+ Mon,  9 Nov 2020 11:50:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604918983;
- bh=7n9Yat1LWWRbM/MHFdHEdgdkx/EI6U1p1Djt3qGtJ/M=;
+ s=mail; t=1604919022;
+ bh=GnoUeQgbf+aZv8fknGUgGHYuTFNpR2waFnJSIlAk5ng=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NYfDuXIR1o6F1exG7Fs5IxNCYfHhiu+dNJgw81gLix9699bqnzy/jVn5ozxQ3uFEV
- fU6w/tR4TXc+sbNgDtRiGGl8Fqycz6smegn5qwEyg3lunFjyTZXSYRuZPg9cZ6gv48
- 2HGMUnx+pVgY7Jf4BwShCSXHOs6nRWV3ETtBlzNo=
-Date: Mon, 9 Nov 2020 12:49:39 +0200
+ b=mewQUYVUd9mjm/JUSnIsWHUJBaE2DXd7m2QGwjS5AvF2MQzSKoXfQdugNqCpUFvCi
+ rJIn4HaZ70mMzFXBRe5kdCX52Hs0b0OV4ytBWMBb4d+c5px/EDNrRc25fK5jgIvUlw
+ CA6GR/oD8PkODgXjWh+tT34QFM229LcbgqBJUtbg=
+Date: Mon, 9 Nov 2020 12:50:18 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 37/56] drm/omap: panel-dsi-cm: support unbinding
-Message-ID: <20201109104939.GH6029@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 38/56] drm/omap: panel-dsi-cm: fix remove()
+Message-ID: <20201109105018.GI6029@pendragon.ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-38-tomi.valkeinen@ti.com>
+ <20201105120333.947408-39-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-38-tomi.valkeinen@ti.com>
+In-Reply-To: <20201105120333.947408-39-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,50 +58,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Tomi and Sebastian,
 
-On Thu, Nov 05, 2020 at 02:03:14PM +0200, Tomi Valkeinen wrote:
+Thank you for the patch.
+
+On Thu, Nov 05, 2020 at 02:03:15PM +0200, Tomi Valkeinen wrote:
 > From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
-> Now, that the driver implements the common DRM panel API
-> the unbind no longer needs to be suppressed.
+> Do not try to reset the panel after DSI has been
+> detached, since the DSI clocks may have been disabled
+> at this point. The panel will be disabled and unprepared
+> before being removed and a reset will be done when being
+> probed again.
 > 
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I'd be curious to know what happens when you try to unbind through sysfs
-though...
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> index 5159dd51a353..086c7d71fe17 100644
+> index 086c7d71fe17..795db22d148d 100644
 > --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 > +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> @@ -607,7 +607,7 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
->  	return r;
+> @@ -622,9 +622,6 @@ static int dsicm_remove(struct mipi_dsi_device *dsi)
+>  	if (ddata->extbldev)
+>  		put_device(&ddata->extbldev->dev);
+>  
+> -	/* reset, to be sure that the panel is in a valid state */
+> -	dsicm_hw_reset(ddata);
+> -
+>  	return 0;
 >  }
 >  
-> -static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
-> +static int dsicm_remove(struct mipi_dsi_device *dsi)
->  {
->  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
->  
-> @@ -637,11 +637,10 @@ MODULE_DEVICE_TABLE(of, dsicm_of_match);
->  
->  static struct mipi_dsi_driver dsicm_driver = {
->  	.probe = dsicm_probe,
-> -	.remove = __exit_p(dsicm_remove),
-> +	.remove = dsicm_remove,
->  	.driver = {
->  		.name = "panel-dsi-cm",
->  		.of_match_table = dsicm_of_match,
-> -		.suppress_bind_attrs = true,
->  	},
->  };
->  module_mipi_dsi_driver(dsicm_driver);
 
 -- 
 Regards,
