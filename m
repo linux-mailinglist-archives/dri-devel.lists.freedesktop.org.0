@@ -1,110 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3EA2AAFBE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 04:08:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECCB2AB027
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 05:24:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 208D88930C;
-	Mon,  9 Nov 2020 03:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEB889306;
+	Mon,  9 Nov 2020 04:24:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C95088930C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 03:08:23 +0000 (UTC)
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
- by mailout2.samsung.com (KnoxPortal) with ESMTP id
- 20201109030821epoutp02d3a3b7650735e1fcfd772f509f67193f~FuCK-_C_g0338403384epoutp02n
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 03:08:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
- 20201109030821epoutp02d3a3b7650735e1fcfd772f509f67193f~FuCK-_C_g0338403384epoutp02n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1604891301;
- bh=iN175+o25AiyeTOhQpKmUZPL8SS5wnrxAwJKHaxIXo4=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=oB8NI/cog6sY8cLrz+MSULBvrsgCKiKlRlxNZHfAcWL/lpZ/Loq8G7+tKGsZFrlVf
- oPQ07y00eYj9eO4wNz/0tqyrUEDclWEAhGvnOReMa9dMUSGIX2e2c+7sokX5RAYqv4
- 9qhrKyX912jkYBFCwyrjE4oXn36u7syauJ2YjmuM=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20201109030821epcas1p1cef846a4d200995e59e808005e078a26~FuCKeeGQa0100501005epcas1p11;
- Mon,  9 Nov 2020 03:08:21 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.154]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4CTwtB1pdnzMqYkV; Mon,  9 Nov
- 2020 03:08:18 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 70.63.63458.2A2B8AF5; Mon,  9 Nov 2020 12:08:18 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20201109030817epcas1p2a192d63831b5f69ae881d21a771d35b2~FuCHZR4xR1273612736epcas1p2P;
- Mon,  9 Nov 2020 03:08:17 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20201109030817epsmtrp1bf3aa7489878c95cd7338d79ca033e69~FuCHYgyIY0554005540epsmtrp1J;
- Mon,  9 Nov 2020 03:08:17 +0000 (GMT)
-X-AuditID: b6c32a36-6c9ff7000000f7e2-30-5fa8b2a28b1e
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 48.D1.08745.1A2B8AF5; Mon,  9 Nov 2020 12:08:17 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201109030817epsmtip241a264b23edf2feb9cab0e41a4d479f4~FuCHJl94n1670516705epsmtip2h;
- Mon,  9 Nov 2020 03:08:17 +0000 (GMT)
-Subject: Re: [PATCH v2 00/16] drm/exynos: Convert driver to drm bridge
-To: Michael Tretter <m.tretter@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org
-From: Inki Dae <inki.dae@samsung.com>
-Message-ID: <fa535450-cd68-415f-5c48-a4f753b2b70b@samsung.com>
-Date: Mon, 9 Nov 2020 12:15:39 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF9F89306
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 04:24:51 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 209987] Memory leak in amdgpu_dm_update_connector_after_detect
+Date: Mon, 09 Nov 2020 04:24:50 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lstarnes1024@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-209987-2300-EmjdV0NI5D@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-209987-2300@https.bugzilla.kernel.org/>
+References: <bug-209987-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20200911135413.3654800-1-m.tretter@pengutronix.de>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHJsWRmVeSWpSXmKPExsWy7bCmge6iTSviDf4fYLW4te4cq8XGGetZ
- La58fc9m8eLeRRaLVVN3slicP7+B3aJz4hJ2ixnn9zFZbFsBVHeoL9pixuSXbBbzPu9kcuDx
- eH+jld1j56y77B6zO2ayemxa1cnmcb/7OJNH/18Dj74tqxg9Pm+SC+CIyrbJSE1MSS1SSM1L
- zk/JzEu3VfIOjneONzUzMNQ1tLQwV1LIS8xNtVVy8QnQdcvMATpWSaEsMacUKBSQWFyspG9n
- U5RfWpKqkJFfXGKrlFqQklNgWaBXnJhbXJqXrpecn2tlaGBgZApUmJCdMaVrN2PBObmKHSv6
- WBsYF0t0MXJySAiYSEy+9Jiti5GLQ0hgB6PErgfTWSGcT4wS1xetY4ZwPjNK7GzvYodpuXxt
- GZgtJLCLUWLy5SqIoveMEr8vrmMCSQgLuEk8OXMcyObgEBEokXjzyBukhlngFaPEjsWtLCA1
- bAKqEhNX3GcDsXkF7CSmPr0E1ssioCJxr3EumC0qECFxvHsyO0SNoMTJmU/AejkFHCR2z30C
- VsMsIC5x68l8KFteonnrbGaIQ49wSCybbgBhu0hMWHQP6gFhiVfHt0DZUhIv+9vYQY6TEGhm
- lJg44zQThNPBKHH38XUWiCpjif1LJ4N9wyygKbF+lz5EWFFi5++5jBCL+STefe1hBSmREOCV
- 6GgTgihRkjh28QYjhC0hcWHJRDYI20Pi0PJXbBMYFWcheW0WkndmIXlnFsLiBYwsqxjFUguK
- c9NTiw0LjJBjexMjOCFrme1gnPT2g94hRiYOxkOMEhzMSiK8LS7L4oV4UxIrq1KL8uOLSnNS
- iw8xmgIDeyKzlGhyPjAn5JXEG5oaGRsbW5gYmpkaGiqJ8/7R7ogXEkhPLEnNTk0tSC2C6WPi
- 4JRqYJr9em3LSqtHjcdXqczzlnRSOmqzskVDvWlSad6fSf5MU+ZF8Ji+Fi1rzwm9F7a9Pumk
- 4aJlyuFGXSwy0rv3V91U/6bGYfb2fWXam2TmY7Nl5ldr+5ydM/v8RvlzrYqm0YotZZ1xBfWS
- 597t89RbUJ9Xt7erYfUpcWbmj2kSnIyMYRxzC5WqOE3FHGs+PTt2ft5re6HVy5X9l9fWRf27
- HG7dtk945RcJqQd/QqQ3iO3eUN7D+cY7zC/klZL0zAX77p1JzW77rv8l5v0NhkdPv5/dfLxw
- MYPqp5OTMp5su7J0YaTEt9BLRy5W6990nlv9zfLwoQhnz/Pu0RVmmUbX6xl19DXV0sJlnkzg
- mlGjp8RSnJFoqMVcVJwIAIpXLVBRBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsWy7bCSvO7CTSviDfoeqlvcWneO1WLjjPWs
- Fle+vmezeHHvIovFqqk7WSzOn9/AbtE5cQm7xYzz+5gstq0AqjvUF20xY/JLNot5n3cyOfB4
- vL/Ryu6xc9Zddo/ZHTNZPTat6mTzuN99nMmj/6+BR9+WVYwenzfJBXBEcdmkpOZklqUW6dsl
- cGVM6drNWHBOrmLHij7WBsbFEl2MnBwSAiYSl68tY+9i5OIQEtjBKLF9zh2WLkYOoISExJat
- HBCmsMThw8UQJW8ZJe4v/cUC0iss4Cbx5MxxJhBbRKBE4tO5R0wgRcwCrxgl9ne+ZoPomMwo
- 8X7VUXaQKjYBVYmJK+6zgdi8AnYSU59eAutmEVCRuNc4F8wWFYiQaLn/hx2iRlDi5MwnYNs4
- BRwkds99AlbDLKAu8WfeJWYIW1zi1pP5UHF5ieats5knMArNQtI+C0nLLCQts5C0LGBkWcUo
- mVpQnJueW2xYYJSXWq5XnJhbXJqXrpecn7uJERyDWlo7GPes+qB3iJGJg/EQowQHs5IIb4vL
- sngh3pTEyqrUovz4otKc1OJDjNIcLErivF9nLYwTEkhPLEnNTk0tSC2CyTJxcEo1MBXmXGF2
- KjIOW2j03oElTHvq3Kl9C1MZj1jkqp9MvNHEKjTx/F7f9jqOxJtLrTkWbBCx6LhTGcAf18y2
- SXW5wqLS7pqjvWwCi4NPNZu03t2i5bTK6byQK+csb2Fdu/dKT0ME13dztj5NfGz2fP+7qv/r
- 1p013rBDI662IUHDrvKxqUXG563v2eVs9e4u+T2J73nad+7f6aHPgxZ8suX5eVlV/b23QmTr
- kmeaFcvm50wOu5N8vMcx5rXMBLvVVk56S/WtVva1Pltu5ti0N7HgzCyvR3Iuu5X7JznO6TGY
- qPg98FHl58xZTzh5Kr9JXrBkXHPagaWra9Yb28ra+wKewcqKOab5OvMbl3BeYf2nxFKckWio
- xVxUnAgANtsQhDADAAA=
-X-CMS-MailID: 20201109030817epcas1p2a192d63831b5f69ae881d21a771d35b2
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29
-References: <CGME20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29@epcas1p3.samsung.com>
- <20200911135413.3654800-1-m.tretter@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,83 +51,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jy0922.shim@samsung.com, b.zolnierkie@samsung.com, narmstrong@baylibre.com,
- sw0312.kim@samsung.com, krzk@kernel.org, a.hajda@samsung.com,
- Laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
- sylvester.nawrocki@gmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWljaGFlbCwKClRoYW5rcyBmb3IgeW91ciBjb250cmlidXRpb24uCgoyMC4gOS4gMTEuIOyY
-pO2bhCAxMDo1M+yXkCBNaWNoYWVsIFRyZXR0ZXIg7J20KOqwgCkg7JO0IOq4gDoKPiBUaGlzIGlz
-IHYyIG9mIHRoZSBzZXJpZXMgdG8gY29udmVydCB0aGUgRXh5bm9zIE1JUEkgRFNJIGRyaXZlciBp
-bnRvIGEgZHJtCj4gYnJpZGdlIGFuZCBtYWtlIGl0IHVzYWJsZSB3aXRoIG90aGVyIGRyaXZlcnMu
-IEFsdGhvdWdoIHRoZSBkcml2ZXIgaXMKPiBjb252ZXJ0ZWQsIGl0IHN0aWxsIHN1cHBvcnRzIHRo
-ZSBjb21wb25lbnQgZnJhbWV3b3JrIEFQSSB0byBzdGF5IGNvbXBsaWFudAo+IHdpdGggdGhlIEV4
-eW5vcyBEUk0gZHJpdmVyLgo+IAo+IFRoZSBFeHlub3MgTUlQSSBEU0kgUGh5IGlzIGFsc28gZm91
-bmQgb24gdGhlIGkuTVg4TSBNaW5pLiBIb3dldmVyLCBvbiB0aGUKPiBpLk1YOE0gTWluaSwgdGhl
-IGJyaWRnZSBpcyBkcml2ZW4gYnkgYW4gTENESUYgZGlzcGxheSBjb250cm9sbGVyIGluc3RlYWQg
-b2YKPiB0aGUgRXh5bm9zIERlY29uLiBUaGUgZHJpdmVyIGZvciB0aGUgTENESUYgZG9lcyBub3Qg
-dXNlIHRoZSBjb21wb25lbnQKPiBmcmFtZXdvcmssIGJ1dCB1c2VzIGRybSBicmlkZ2VzLgo+IAo+
-IEkgZG9uJ3QgaGF2ZSBhbnkgRXh5bm9zIFNvQyB0byBhY3R1YWxseSB0ZXN0IHRoZSBzZXJpZXMu
-IEkgYnVpbGQgYSBkdW1teSB0bwo+IHRlc3QgdGhlIGJyaWRnZSB3aXRoIGEgY29tcG9uZW50IGRy
-aXZlciwgdG8gbWFrZSBzdXJlIHRoYXQgYXQgbGVhc3QgdGhlCj4gaW5pdGlhbGl6YXRpb24gaXMg
-d29ya2luZy4gRnVydGhlcm1vcmUsIHRlc3RlZCB0aGUgZHJpdmVyIGFzIGEgYnJpZGdlIHdpdGgg
-YQo+IGZldyBhZGRpdGlvbmFsIHVuZmluaXNoZWQgcGF0Y2hlcyBvbiB0aGUgaS5NWDhNIE1pbmkg
-RVZLLiBIb3dldmVyLCBzb21lYm9keQo+IHNob3VsZCB2ZXJpZnkgdGhhdCB0aGUgZHJpdmVyIGlz
-IHN0aWxsIHdvcmtpbmcgb24gRXh5bm9zIGhhcmR3YXJlLgo+IAo+IEkgYWxzbyBjaGFuZ2VkIHRo
-ZSBvcmRlciBvZiB0aGUgcGF0Y2hlcyB0byBmaXJzdCBtYWtlIHRoZSBkcml2ZXIgbW9yZSBwbGF0
-Zm9ybQo+IGluZGVwZW5kZW50IChwYXRjaGVzIDIgdG8gOCksIHRoZW4gY29udmVydCB0byBhIGRy
-bSBicmlkZ2UgZHJpdmVyIChwYXRjaGVzIDEwCgpKdXN0IGEgZnVuZGFtZW50YWwgcXVlc3Rpb24s
-CkEgTUlQSS1EU0koRGlzcGxheSBTZXJpYWwgSW50ZXJmYWNlKSBidXMgZGV2aWNlIHdvdWxkIGJl
-IG9uZSBvZiBhbiBlbmNvZGVyIHR5cGUgb2YgZGV2aWNlcyBub3QgYnJpZGdlIHN1Y2ggYXMgRFNJ
-IHRvIExWRFMgYW5kIExWRFMgdG8gRFNJIGJyaWRnZSBkZXZpY2VzLCBhbmQgYWxzbyBpbWFnZSBl
-bmhhbmNlciBhbmQgaW1hZ2UgY29tcHJlc3NvciBpbiBjYXNlIG9mIEV4eW5vcy4KV2h5IGRvIHlv
-dSB3YW50IHRvIGNvbnZlcnQgc3VjaCBNSVBJLURTSSBkcml2ZXIgdG8gYnJpZGdlIHR5cGUgb2Yg
-ZHJpdmVyPyBTZWVtcyBub3Qgc2Vuc2libGUuIFRoZSByZWFzb24gd291bGQgYmUganVzdCB0byBz
-aGFyZSBNSVBJLURTSSBwaHkgZHJpdmVyIGZvciBFeHlub3Mgd2l0aCBpLk1YOE0gTWluaT8KClRo
-YW5rcywKSW5raSBEYWUKCgo+IHRvIDEzKSBhbmQgZmluYWxseSBleHBvc2UgdGhlIEFQSSwgc3Bs
-aXQgdGhlIGNvZGUgYW5kIG1vdmUgdGhlIHBsYXRmb3JtCj4gaW5kZXBlbmRlbnQgZHJpdmVyIHRv
-IHRoZSBicmlkZ2VzIChwYXRjaGVzIDE0IC0gMTYpLiBIb3BlZnVsbHkgdGhpcyBzaW1wbGlmaWVz
-Cj4gdGVzdGluZy9iaXNlY3RpbmcgYW5kIGhlbHBzIG1lIHRvIHVuZGVyc3RhbmQgcG90ZW50aWFs
-IGVycm9yIHJlcG9ydHMuCj4gCj4gQWxzbyBJIGFkZGVkIGhvc3Rfb3BzIGZvciBhdHRhY2gvZGV0
-YWNoIGFuZCB0aGUgdGVhcmluZyBlZmZlY3QgaGFuZGxlciB0byBtYWtlCj4gdGhlIGNhbGxzIGlu
-dG8gdGhlIHBsYXRmb3JtIGNvZGUgbW9yZSB2aXNpYmxlLgo+IAo+IEZ1cnRoZXJtb3JlLCB0aGUg
-c2VyaWVzIHNob3VsZCBub3cgYXBwbHkgdG8gbGludXgtbmV4dCBhbmQgY29ycmVjdGx5IGJ1aWxk
-IHRoZQo+IGV4eW5vc19kZWZjb25maWcuCj4gCj4gVGhhbmtzLAo+IAo+IE1pY2hhZWwKPiAKPiBD
-aGFuZ2Vsb2c6Cj4gCj4gdjI6Cj4gLSByZWJhc2Ugb24gbGludXgtbmV4dAo+IC0gdmVyaWZ5IHdp
-dGggZXh5bm9zX2RlZmNvbmZpZwo+IC0gZml4IGNyYXNoZXMgcmVwb3J0ZWQgYnkgTWFyZWsgU3p5
-cHJvd3NraSBFeHlub3MzMjUwLWJhc2VkIFJpbmF0bwo+IC0gcmVvcmRlciBwYXRjaGVzCj4gLSBh
-ZGQgaG9zdF9vcHMgZm9yIHBsYXRmb3JtIHNwZWNpZmljIGNvZGUKPiAtIHJvdWdobHkgdGVzdCBj
-b21wb25lbnQgZnJhbWV3b3JrIGludGVncmF0aW9uIHdpdGggZHVtbXkKPiAKPiBNaWNoYWVsIFRy
-ZXR0ZXIgKDE2KToKPiAgIGRybS9lbmNvZGVyOiByZW1vdmUgb2Jzb2xldGUgZG9jdW1lbnRhdGlv
-biBvZiBicmlkZ2UKPiAgIGRybS9leHlub3M6IHJlbW92ZSBpbl9icmlkZ2Vfbm9kZSBmcm9tIGV4
-eW5vc19kc2kKPiAgIGRybS9leHlub3M6IHVzZSBleHlub3NfZHNpIGFzIGRydmRhdGEKPiAgIGRy
-bS9leHlub3M6IGV4dHJhY3QgaGVscGVyIGZ1bmN0aW9ucyBmb3IgcHJvYmUKPiAgIGRybS9leHlu
-b3M6IG1vdmUgZHNpIGhvc3QgcmVnaXN0cmF0aW9uIHRvIHByb2JlCj4gICBkcm0vZXh5bm9zOiBz
-aGlmdCByZWdpc3RlciB2YWx1ZXMgdG8gZmllbGRzIG9uIHdyaXRlCj4gICBkcm0vZXh5bm9zOiB1
-c2UgaWRlbnRpZmllciBpbnN0ZWFkIG9mIHJlZ2lzdGVyIG9mZnNldHMKPiAgIGRybS9leHlub3M6
-IGFkZCBob3N0X29wcyBjYWxsYmFjayBmb3IgcGxhdGZvcm0gZHJpdmVycwo+ICAgZHJtL2V4eW5v
-czogYWRkIGNhbGxiYWNrIGZvciB0ZWFyaW5nIGVmZmVjdCBoYW5kbGVyCj4gICBkcm0vZXh5bm9z
-OiBpbXBsZW1lbnQgYSBkcm0gYnJpZGdlCj4gICBkcm0vZXh5bm9zOiBjb252ZXJ0IGVuY29kZXIg
-ZnVuY3Rpb25zIHRvIGJyaWRnZSBmdW5jdGlvbgo+ICAgZHJtL2V4eW5vczogY29uZmlndXJlIG1v
-ZGUgb24gZHJtIGJyaWRnZQo+ICAgZHJtL2V4eW5vczogZ2V0IGVuY29kZXIgZnJvbSBicmlkZ2Ug
-d2hlbmV2ZXIgcG9zc2libGUKPiAgIGRybS9leHlub3M6IGFkZCBBUEkgZnVuY3Rpb25zIGZvciBw
-bGF0Zm9ybSBkcml2ZXJzCj4gICBkcm0vZXh5bm9zOiBzcGxpdCBvdXQgcGxhdGZvcm0gc3BlY2lm
-aWMgY29kZQo+ICAgZHJtL2V4eW5vczogbW92ZSBicmlkZ2UgZHJpdmVyIHRvIGJyaWRnZXMKPiAK
-PiAgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9LY29uZmlnICAgICAgICAgIHwgICAgOSArCj4gIGRy
-aXZlcnMvZ3B1L2RybS9icmlkZ2UvTWFrZWZpbGUgICAgICAgICB8ICAgIDEgKwo+ICBkcml2ZXJz
-L2dwdS9kcm0vYnJpZGdlL3NhbXN1bmctZHNpbS5jICAgfCAxNzkwICsrKysrKysrKysrKysrKysr
-KysrKwo+ICBkcml2ZXJzL2dwdS9kcm0vZXh5bm9zL0tjb25maWcgICAgICAgICAgfCAgICA1ICst
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9leHlub3MvZXh5bm9zX2RybV9kc2kuYyB8IDE5MjcgKystLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KPiAgaW5jbHVkZS9kcm0vYnJpZGdlL3NhbXN1bmctZHNpbS5oICAg
-ICAgIHwgICA2NCArCj4gIGluY2x1ZGUvZHJtL2RybV9lbmNvZGVyLmggICAgICAgICAgICAgICB8
-ICAgIDEgLQo+ICA3IGZpbGVzIGNoYW5nZWQsIDIwMjcgaW5zZXJ0aW9ucygrKSwgMTc3MCBkZWxl
-dGlvbnMoLSkKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2Ft
-c3VuZy1kc2ltLmMKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHJtL2JyaWRnZS9zYW1z
-dW5nLWRzaW0uaAo+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+https://bugzilla.kernel.org/show_bug.cgi?id=209987
+
+--- Comment #2 from Lee Starnes (lstarnes1024@gmail.com) ---
+It looks like this can be fixed by setting aconnector->num_modes to the return
+value from drm_add_edid_modes. At least one other place in amdgpu_dm.c sets
+struct amdgpu_dm_connector.num_modes to the return value of drm_add_edid_modes
+like this. I'm not familiar enough with AMDGPU or DRM internals to know if this
+will mess anything up.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
