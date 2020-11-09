@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D82AC6F5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 22:21:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B742AC736
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 22:27:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 595AA895CA;
-	Mon,  9 Nov 2020 21:21:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388AE893EA;
+	Mon,  9 Nov 2020 21:27:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23A8389568;
- Mon,  9 Nov 2020 21:21:29 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id w24so935689wmi.0;
- Mon, 09 Nov 2020 13:21:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GDp8yb+Sw0EolRsci9v+WvLZ9nSbjiU3CL4VUAU4p3U=;
- b=Eyj0wf9PKyzvgsvHQsyfgZxgGn5vIq16Y8gMdbnhJB78VNyMq8Mwjq0OGH9NFWYzqP
- Jp6UuxRGSSt/WnTSuor53OoHOFjky9QEJ6mPUsUGscEyfMjbWSca3qO2SBpywYqVQzxx
- BM493YCgTJ/d53de+QhRi2qbmgbsOr0/olWozoAeGnkl8EBuG7iZwkq5Qbvhl3u7+IL9
- 8YezRO3SLYsejT1YmFbagEQmv40oewW9JRsdViPZ6rQDcyvsRr3o+AVNMa3JTg2QMwHO
- T6vopTIYAcQCly1h+WlGfDjczNUBTzqzsE5GrfocbjClUg5sdUd0PtV9pCrNHcQaE2+W
- 2HWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GDp8yb+Sw0EolRsci9v+WvLZ9nSbjiU3CL4VUAU4p3U=;
- b=hNV2NPiRbmAk6PPZOXxUeqNb3SFMjHU63Z0H7HTWAioeZru1O+R9K5PZhIf3xJJGWZ
- kYGp9qTNTR5h5Uqd0ZcoroNdFjkpRdc63qPBsFtoNG77pE8s/51k/x95K7LMSDrQyz9T
- 2lvzeUdGKZzI5rqhjPX43hZcIPFzQMt6o7XS0CXGNVA0YEIwPGOmMhQZ9qD/NeURBExN
- LgjmDNnFGUWtCf7KxuL7E+C/aWXq2NEyFPTc7jfPk81UN3PD22AxaKR7leyZwe5T8jq7
- yLc7StR4TT1p/9extKSwHFL9UtjygandtUVQH+WpLa28J8nELMfhZ7VRgIniMMkVlZQi
- y+KA==
-X-Gm-Message-State: AOAM533itZK6Am0nWInkv/rcTqHjSeN5RZyhzpscbUWP48iKNPyJEbAu
- mN77lWTuFYVrdhRRyTj6NXZICy+WGo+Zrtp786o=
-X-Google-Smtp-Source: ABdhPJyIn9jY/EM3NsfRCWQKiTNIKSQPUd00zlTTnc7nT1mAHIfsQMOpQ0BCDXxFJdSy6q+gIIZeHW6pK4msqPWqZAo=
-X-Received: by 2002:a1c:46c6:: with SMTP id t189mr1159422wma.79.1604956887879; 
- Mon, 09 Nov 2020 13:21:27 -0800 (PST)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77B26893E8
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 21:27:35 +0000 (UTC)
+IronPort-SDR: G4ArzB3DnVJR8e9umH6mPtmWasb71Ycs8kAFbc9pvtADfsxM3B8ilzzU2NEbR9/uHLifl/g3Oj
+ a9CbWSJ1Dh8A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="166364487"
+X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; d="scan'208";a="166364487"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Nov 2020 13:27:34 -0800
+IronPort-SDR: jma6qrdlU1lIqPkcfRLpoUxzd2U5PFgWZ+ldkynUFQkjn5OumYy/wfHyCCKkO/AafVwu4LQcHd
+ eTwep5gVFHPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; d="scan'208";a="327428187"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 09 Nov 2020 13:27:32 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 09 Nov 2020 23:27:31 +0200
+Date: Mon, 9 Nov 2020 23:27:31 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/4] drm/ttm: add multihop infrastrucutre (v2)
+Message-ID: <20201109212731.GQ6112@intel.com>
+References: <20201109005432.861936-1-airlied@gmail.com>
+ <20201109005432.861936-2-airlied@gmail.com>
+ <9fdcf880-be1a-5803-3e54-14a9910a91b7@amd.com>
+ <20201109151650.GE6112@intel.com>
+ <bec6848c-3ad5-41ca-d424-669a6797b972@amd.com>
+ <20201109161825.GG6112@intel.com>
+ <dfd0e641-392b-cab2-05d1-ae466ae08ba8@amd.com>
+ <20201109164301.GI6112@intel.com>
+ <a0179f84-8890-e694-b94c-dbe93605ace5@amd.com>
 MIME-Version: 1.0
-References: <20201109210725.24668-1-unixbhaskar@gmail.com>
-In-Reply-To: <20201109210725.24668-1-unixbhaskar@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 9 Nov 2020 16:21:16 -0500
-Message-ID: <CADnq5_NOmgYM0_0fTQaYr+qn7M_Vrbo1E=mPmuoATQNjRRHTqg@mail.gmail.com>
-Subject: Re: [PATCH] drivers: amdgpu: amdgpu_display: Fixed the spelling of
- falg to flag
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <a0179f84-8890-e694-b94c-dbe93605ace5@amd.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,52 +60,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, Jean Delvare <jdelvare@suse.de>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 9, 2020 at 4:16 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
->
-> s/falg/flag/p
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+On Mon, Nov 09, 2020 at 09:48:04PM +0100, Christian K=F6nig wrote:
+> Am 09.11.20 um 17:43 schrieb Ville Syrj=E4l=E4:
+> > On Mon, Nov 09, 2020 at 05:20:17PM +0100, Christian K=F6nig wrote:
+> >> Am 09.11.20 um 17:18 schrieb Ville Syrj=E4l=E4:
+> >>> On Mon, Nov 09, 2020 at 04:57:29PM +0100, Christian K=F6nig wrote:
+> >>>> Am 09.11.20 um 16:16 schrieb Ville Syrj=E4l=E4:
+> >>>>> On Wed, Nov 11, 2020 at 06:13:02PM +0100, Christian K=F6nig wrote:
+> >>>>>> Am 09.11.20 um 01:54 schrieb Dave Airlie:
+> >>>>>>> @@ -1432,15 +1479,18 @@ int ttm_bo_swapout(struct ttm_operation_c=
+tx *ctx)
+> >>>>>>>      	if (bo->mem.mem_type !=3D TTM_PL_SYSTEM) {
+> >>>>>>>      		struct ttm_operation_ctx ctx =3D { false, false };
+> >>>>>>>      		struct ttm_resource evict_mem;
+> >>>>>>> +		struct ttm_place hop =3D {};
+> >>>>>> Please always use memset() if you want to zero initialize somethin=
+g in
+> >>>>>> the kernel, we had enough trouble with that.
+> >>>>> What trouble is that? I've not heard of anything, and we use
+> >>>>> =3D{} quite extensively in drm land.
+> >>>> =3D{} initializes only named fields, not padding.
+> >>> Has that actually happened?
+> >> YES! Numerous times!
+> > You wouldn't happen to have links/etc. to the discussion?
+> > I'd like to check them out.
+> =
 
-Applied.  Thanks!
+> Uff, that was years ago. Just google for something like "mesa memset =
 
-Alex
+> hash", there was recently (~ the last year) another discussion because =
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> index 2e8a8b57639f..9223502c1e5b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -509,7 +509,7 @@ uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
->          * to avoid hang caused by placement of scanout BO in GTT on certain
->          * APUs. So force the BO placement to VRAM in case this architecture
->          * will not allow USWC mappings.
-> -        * Also, don't allow GTT domain if the BO doens't have USWC falg set.
-> +        * Also, don't allow GTT domain if the BO doens't have USWC flag set.
->          */
->         if ((bo_flags & AMDGPU_GEM_CREATE_CPU_GTT_USWC) &&
->             amdgpu_bo_support_uswc(bo_flags) &&
-> --
-> 2.26.2
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+> somebody ran into exactly that problem once more.
+
+Found this:
+https://gitlab.freedesktop.org/mesa/mesa/-/issues/2071
+which does suprise me a bit. Though I suspect =3D{} might
+behave differently since the compiler might treat it
+more like a memset().
+
+Also makes me wonder about padding in general, because IIRC
+the standard allows padding to be clobbered even after
+initialization whenever any member is getting written. So
+I think technically there is no guaranteed way to clear
+the padding unless you never store anything into the struct.
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
