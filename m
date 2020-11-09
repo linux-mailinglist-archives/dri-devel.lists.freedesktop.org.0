@@ -2,30 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913472AB4FE
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:33:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C542AB514
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10FAF898A8;
-	Mon,  9 Nov 2020 10:32:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD0E8935A;
+	Mon,  9 Nov 2020 10:34:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5D688986D;
- Mon,  9 Nov 2020 10:32:51 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2DD92AF2F;
- Mon,  9 Nov 2020 10:32:50 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, airlied@linux.ie, chunkuang.hu@kernel.org,
- p.zabel@pengutronix.de, robdclark@gmail.com, sean@poorly.run
-Subject: [PATCH 2/2] drm/mediatek: Use struct dma_buf_map in GEM vmap ops
-Date: Mon,  9 Nov 2020 11:32:42 +0100
-Message-Id: <20201109103242.19544-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201109103242.19544-1-tzimmermann@suse.de>
-References: <20201109103242.19544-1-tzimmermann@suse.de>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7568935A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:34:53 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AYj0D093523;
+ Mon, 9 Nov 2020 04:34:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604918085;
+ bh=DgZjdXs8DMxtaQLTqgoKo38SaJaS6JFxfNRY0VF02kw=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=pFF0z/UJ6eytMwE7B6SLyVLzukfj8+/mz8oFoBqQ3qBj/UhPexVDatj6by9j2UsJY
+ CDxzO/9TcBllMcla8DlSQanS8bRaLMgJYm5pVDlB7zVxpR7O77rtWnpb6NFPsMAqx2
+ WYCymKHqQj0wrBaIXCsKvBK9VsNkvb0ANrdcl49E=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9AYj8Q114519
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 9 Nov 2020 04:34:45 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
+ 2020 04:34:44 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 9 Nov 2020 04:34:44 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AYgCa107392;
+ Mon, 9 Nov 2020 04:34:43 -0600
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+ <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+ <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+ <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
+ <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
+ <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
+ <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+ <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+ <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
+Date: Mon, 9 Nov 2020 12:34:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,121 +74,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@chris-wilson.co.uk>,
- Melissa Wen <melissa.srw@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Madhav Chauhan <madhav.chauhan@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- xen-devel@lists.xenproject.org, lima@lists.freedesktop.org,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Luben Tuikov <luben.tuikov@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- linux-arm-msm@vger.kernel.org, etnaviv@lists.freedesktop.org,
- Hans de Goede <hdegoede@redhat.com>, spice-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, Arunpravin <apaneers@amd.com>,
- linux-arm-kernel@lists.infradead.org,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
- Nirmoy Das <Nirmoy.Das@amd.com>, Qiang Yu <yuq825@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgYSBidWlsZCBmYWlsdXJlIHdpdGggbWVkaWF0ZWsuCgpUaGlzIGNoYW5nZSB3YXMgc3Vw
-cG9zZWQgdG8gYmUgcGFydCBvZiBjb21taXQgNDlhM2Y1MWRmZWVlICgiZHJtL2dlbToKVXNlIHN0
-cnVjdCBkbWFfYnVmX21hcCBpbiBHRU0gdm1hcCBvcHMgYW5kIGNvbnZlcnQgR0VNIGJhY2tlbmRz
-IiksIGJ1dAptZWRpYXRlayB3YXMgZm9yZ290dGVuLgoKU2lnbmVkLW9mZi1ieTogVGhvbWFzIFpp
-bW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkZpeGVzOiA0OWEzZjUxZGZlZWUgKCJkcm0v
-Z2VtOiBVc2Ugc3RydWN0IGRtYV9idWZfbWFwIGluIEdFTSB2bWFwIG9wcyBhbmQgY29udmVydCBH
-RU0gYmFja2VuZHMiKQpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
-CkNjOiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBEYXZp
-ZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
-bGwuY2g+CkNjOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50
-ZWwuY29tPgpDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogRGF2ZSBB
-aXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KQ2M6IEx1Y2FzIFN0YWNoIDxsLnN0YWNoQHBlbmd1
-dHJvbml4LmRlPgpDYzogUnVzc2VsbCBLaW5nIDxsaW51eCtldG5hdml2QGFybWxpbnV4Lm9yZy51
-az4KQ2M6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21laW5lckBnbWFpbC5jb20+CkNj
-OiBRaWFuZyBZdSA8eXVxODI1QGdtYWlsLmNvbT4KQ2M6IEJlbiBTa2VnZ3MgPGJza2VnZ3NAcmVk
-aGF0LmNvbT4KQ2M6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+CkNjOiBUb21ldSBWaXpv
-c28gPHRvbWV1LnZpem9zb0Bjb2xsYWJvcmEuY29tPgpDYzogU3RldmVuIFByaWNlIDxzdGV2ZW4u
-cHJpY2VAYXJtLmNvbT4KQ2M6IEFseXNzYSBSb3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bj
-b2xsYWJvcmEuY29tPgpDYzogR2VyZCBIb2ZmbWFubiA8a3JheGVsQHJlZGhhdC5jb20+CkNjOiBB
-bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+CkNjOiAiQ2hyaXN0aWFuIEvD
-tm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IFNhbmR5IEh1YW5nIDxoamNAcm9j
-ay1jaGlwcy5jb20+CkNjOiAiSGVpa28gU3TDvGJuZXIiIDxoZWlrb0BzbnRlY2guZGU+CkNjOiBI
-YW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29tPgpDYzogU2VhbiBQYXVsIDxzZWFuQHBv
-b3JseS5ydW4+CkNjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0PgpDYzogUm9kcmlnbyBT
-aXF1ZWlyYSA8cm9kcmlnb3NpcXVlaXJhbWVsb0BnbWFpbC5jb20+CkNjOiBNZWxpc3NhIFdlbiA8
-bWVsaXNzYS5zcndAZ21haWwuY29tPgpDYzogSGFuZWVuIE1vaGFtbWVkIDxoYW1vaGFtbWVkLnNh
-QGdtYWlsLmNvbT4KQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVrc2FuZHJfYW5kcnVz
-aGNoZW5rb0BlcGFtLmNvbT4KQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5v
-cmc+CkNjOiBFbWlsIFZlbGlrb3YgPGVtaWwudmVsaWtvdkBjb2xsYWJvcmEuY29tPgpDYzogTWFy
-ZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgpDYzogQXJ1bnByYXZpbiA8
-YXBhbmVlcnNAYW1kLmNvbT4KQ2M6IEh1YW5nIFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+CkNjOiBM
-dWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtvdkBhbWQuY29tPgpDYzogTWFkaGF2IENoYXVoYW4gPG1h
-ZGhhdi5jaGF1aGFuQGFtZC5jb20+CkNjOiBOaXJtb3kgRGFzIDxOaXJtb3kuRGFzQGFtZC5jb20+
-CkNjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KQ2M6IFNhbSBSYXZuYm9yZyA8c2Ft
-QHJhdm5ib3JnLm9yZz4KQ2M6IENocmlzIFdpbHNvbiA8Y2hyaXNAY2hyaXMtd2lsc29uLmNvLnVr
-PgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogZXRuYXZpdkBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKQ2M6IGxpbWFAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBub3V2ZWF1
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogdmlydHVhbGl6YXRpb25AbGlzdHMubGludXgtZm91
-bmRhdGlvbi5vcmcKQ2M6IHNwaWNlLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogYW1k
-LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5m
-cmFkZWFkLm9yZwpDYzogbGludXgtcm9ja2NoaXBAbGlzdHMuaW5mcmFkZWFkLm9yZwpDYzogeGVu
-LWRldmVsQGxpc3RzLnhlbnByb2plY3Qub3JnCi0tLQogZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcm1fZ2VtLmMgfCAyMCArKysrKysrKysrKystLS0tLS0tLQogZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZ2VtLmggfCAgNCArKy0tCiAyIGZpbGVzIGNoYW5nZWQsIDE0IGlu
-c2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cm1fZ2VtLmMKaW5kZXggY2RkMWE2ZTYxNTY0Li4yOGEyZWUxMzM2ZWYgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCkBAIC0yNDAsMjMgKzI0MCwyNSBAQCBzdHJ1Y3QgZHJt
-X2dlbV9vYmplY3QgKm10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBkcm1fZGV2
-aWNlICpkZXYsCiAJcmV0dXJuICZtdGtfZ2VtLT5iYXNlOwogfQogCi12b2lkICptdGtfZHJtX2dl
-bV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQoraW50IG10a19kcm1fZ2Vt
-X3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0cnVjdCBkbWFfYnVmX21h
-cCAqbWFwKQogewogCXN0cnVjdCBtdGtfZHJtX2dlbV9vYmogKm10a19nZW0gPSB0b19tdGtfZ2Vt
-X29iaihvYmopOwotCXN0cnVjdCBzZ190YWJsZSAqc2d0OworCXN0cnVjdCBzZ190YWJsZSAqc2d0
-ID0gTlVMTDsKIAl1bnNpZ25lZCBpbnQgbnBhZ2VzOwogCiAJaWYgKG10a19nZW0tPmt2YWRkcikK
-LQkJcmV0dXJuIG10a19nZW0tPmt2YWRkcjsKKwkJZ290byBvdXQ7CiAKIAlzZ3QgPSBtdGtfZ2Vt
-X3ByaW1lX2dldF9zZ190YWJsZShvYmopOwogCWlmIChJU19FUlIoc2d0KSkKLQkJcmV0dXJuIE5V
-TEw7CisJCXJldHVybiBQVFJfRVJSKHNndCk7CiAKIAlucGFnZXMgPSBvYmotPnNpemUgPj4gUEFH
-RV9TSElGVDsKIAltdGtfZ2VtLT5wYWdlcyA9IGtjYWxsb2MobnBhZ2VzLCBzaXplb2YoKm10a19n
-ZW0tPnBhZ2VzKSwgR0ZQX0tFUk5FTCk7Ci0JaWYgKCFtdGtfZ2VtLT5wYWdlcykKLQkJZ290byBv
-dXQ7CisJaWYgKCFtdGtfZ2VtLT5wYWdlcykgeworCQlrZnJlZShzZ3QpOworCQlyZXR1cm4gLUVO
-T01FTTsKKwl9CiAKIAlkcm1fcHJpbWVfc2dfdG9fcGFnZV9hZGRyX2FycmF5cyhzZ3QsIG10a19n
-ZW0tPnBhZ2VzLCBOVUxMLCBucGFnZXMpOwogCkBAIC0yNjUsMTMgKzI2NywxNSBAQCB2b2lkICpt
-dGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQogCiBvdXQ6
-CiAJa2ZyZWUoc2d0KTsKKwlkbWFfYnVmX21hcF9zZXRfdmFkZHIobWFwLCBtdGtfZ2VtLT5rdmFk
-ZHIpOwogCi0JcmV0dXJuIG10a19nZW0tPmt2YWRkcjsKKwlyZXR1cm4gMDsKIH0KIAotdm9pZCBt
-dGtfZHJtX2dlbV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQg
-KnZhZGRyKQordm9pZCBtdGtfZHJtX2dlbV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2Jq
-ZWN0ICpvYmosIHN0cnVjdCBkbWFfYnVmX21hcCAqbWFwKQogewogCXN0cnVjdCBtdGtfZHJtX2dl
-bV9vYmogKm10a19nZW0gPSB0b19tdGtfZ2VtX29iaihvYmopOworCXZvaWQgKnZhZGRyID0gbWFw
-LT52YWRkcjsKIAogCWlmICghbXRrX2dlbS0+cGFnZXMpCiAJCXJldHVybjsKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZ2VtLmgKaW5kZXggZmY5Zjk3NmQ5ODA3Li42ZGE1Y2NiNGI5MzMg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oCisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oCkBAIC00NSw3ICs0NSw3IEBA
-IGludCBtdGtfZHJtX2dlbV9tbWFwX2J1ZihzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKIHN0
-cnVjdCBzZ190YWJsZSAqbXRrX2dlbV9wcmltZV9nZXRfc2dfdGFibGUoc3RydWN0IGRybV9nZW1f
-b2JqZWN0ICpvYmopOwogc3RydWN0IGRybV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1lX2ltcG9y
-dF9zZ190YWJsZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQkJc3RydWN0IGRtYV9idWZfYXR0
-YWNobWVudCAqYXR0YWNoLCBzdHJ1Y3Qgc2dfdGFibGUgKnNnKTsKLXZvaWQgKm10a19kcm1fZ2Vt
-X3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwotdm9pZCBtdGtfZHJtX2dl
-bV9wcmltZV92dW5tYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHZvaWQgKnZhZGRyKTsK
-K2ludCBtdGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBz
-dHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCk7Cit2b2lkIG10a19kcm1fZ2VtX3ByaW1lX3Z1bm1hcChz
-dHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgc3RydWN0IGRtYV9idWZfbWFwICptYXApOwogCiAj
-ZW5kaWYKLS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+On 09/11/2020 12:31, H. Nikolaus Schaller wrote:
+> 
+>> Am 09.11.2020 um 11:22 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>
+>> On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
+>>>
+>>>> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>>>
+>>>> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
+>>>>
+>>>>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
+>>>>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
+>>>>>
+>>>>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
+>>>>> And hopefully we are close to push the panel driver for review. And in a second step some device
+>>>>> tree for the Pyra.
+>>>>>
+>>>>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
+>>>>
+>>>> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
+>>>> it's good to have that as a reference.
+>>>
+>>> Yes, here:
+>>>
+>>> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
+>>
+>> Ok. The old driver uses two separate VC configurations (request_vc calls),
+> 
+> yes indeed. I was not sure how to handle this with the new omapdrm drivers.
+> 
+>> so it may not work with
+>> this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
+> 
+> I see.
+> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
+> Or is this related to VC?
+
+No, that's not related to the VC.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
