@@ -1,68 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6602AB703
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:33:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE772AB750
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:40:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89D708997E;
-	Mon,  9 Nov 2020 11:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32E2F899A5;
+	Mon,  9 Nov 2020 11:40:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6002F8997E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:33:50 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BXeD0005873;
- Mon, 9 Nov 2020 05:33:40 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8F64899A5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:40:11 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9Be8hw114928;
+ Mon, 9 Nov 2020 05:40:08 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604921620;
- bh=3BSddBlFZc+VBUU/q2H/wH8ZwgDPC1EicBCpH1QebwE=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=NbcCvHMtvPXdhFVGkRHtOE+wdk8U8sM3134HSNUmZ58jOa9CunzjvLK8XRYMR4Yzh
- NkecqhHmljgpqfKXmOsLnnJgdopKuidlbUUjqAGiNLw5DA/bubnVQ9KmVhroXt3jB7
- fTuWTtY4LVKws1wITsU5tTxQArTvf6Tl3pfTLdu4=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9BXeIX124712
+ s=ti-com-17Q1; t=1604922008;
+ bh=XsNckVeqM0iVXm5ZeK+c16im4dZunwYK3ppg7ea+AWc=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=ZPdhIoOlcCnbUxvQPq3zYNQ66VrnD78Mf8UnxpKPk/w7st39j1ff06WaN8W3hLUuF
+ DvmmwqX+YzimKgmTuZwZL7Y1SRrxKMgrnZVae8FaMS4PJmmdbeZGtjW8aGQxIlK+zs
+ 4RuTA2uT5vKQYxILDdF+sWYMbReI92Ghs2oxP09I=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9Be7vQ050691
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Nov 2020 05:33:40 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 9 Nov 2020 05:40:07 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
- 2020 05:33:40 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 05:40:07 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 9 Nov 2020 05:33:40 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BXc2J081879;
- Mon, 9 Nov 2020 05:33:38 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
- <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
-Date: Mon, 9 Nov 2020 13:33:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Frontend Transport; Mon, 9 Nov 2020 05:40:07 -0600
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9Be6n3069932;
+ Mon, 9 Nov 2020 05:40:07 -0600
+Date: Mon, 9 Nov 2020 17:10:05 +0530
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 2/5] drm/tidss: Set bus_format correctly from
+ bridge/connector
+Message-ID: <20201109114005.4q4km5if775dfqtd@NiksLab>
+References: <20201016103917.26838-1-nikhil.nd@ti.com>
+ <20201016103917.26838-3-nikhil.nd@ti.com>
+ <20201029225730.GK15024@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201029225730.GK15024@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,34 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sekhar Nori <nsekhar@ti.com>,
+ dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 13:09, H. Nikolaus Schaller wrote:
-
->>> I see.
->>> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
->>> Or is this related to VC?
->>
->> No, that's not related to the VC.
+On 00:57-20201030, Laurent Pinchart wrote:
+> Hi Nikhil,
 > 
-> Ok, then it is worth searching for that independently. Any idea/hint what could be missing?
+> Thank you for the patch.
+> 
+> On Fri, Oct 16, 2020 at 04:09:14PM +0530, Nikhil Devshatwar wrote:
+> > When there is a chain of bridges attached to the encoder,
+> > the bus_format should be ideally set from the input format of the
+> > first bridge in the chain.
+> > 
+> > Use the bridge state to get the negotiated bus_format.
+> > If the bridge does not support format negotiation, error out
+> > and fail.
+> > 
+> > Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> > ---
+> >  drivers/gpu/drm/tidss/tidss_encoder.c | 16 +++++++++++-----
+> >  1 file changed, 11 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+> > index e278a9c89476..ae7f134754b7 100644
+> > --- a/drivers/gpu/drm/tidss/tidss_encoder.c
+> > +++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+> > @@ -22,6 +22,7 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+> >  	struct drm_device *ddev = encoder->dev;
+> >  	struct tidss_crtc_state *tcrtc_state = to_tidss_crtc_state(crtc_state);
+> >  	struct drm_display_info *di = &conn_state->connector->display_info;
+> > +	struct drm_bridge_state *bstate;
+> >  	struct drm_bridge *bridge;
+> >  	bool bus_flags_set = false;
+> >  
+> > @@ -41,14 +42,19 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+> >  		break;
+> >  	}
+> >  
+> > -	if (!di->bus_formats || di->num_bus_formats == 0)  {
+> > -		dev_err(ddev->dev, "%s: No bus_formats in connected display\n",
+> > -			__func__);
+> > +	/* Copy the bus_format from the input_bus_format of first bridge */
+> > +	bridge = drm_bridge_chain_get_first_bridge(encoder);
+> > +	bstate = drm_atomic_get_new_bridge_state(crtc_state->state, bridge);
+> > +	if (bstate)
+> > +		tcrtc_state->bus_format = bstate->input_bus_cfg.format;
+> > +
+> > +	if (tcrtc_state->bus_format == 0 ||
+> > +	    tcrtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
+> > +
+> > +		dev_err(ddev->dev, "Bridge connected to the encoder did not specify media bus format\n");
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	// XXX any cleaner way to set bus format and flags?
+> > -	tcrtc_state->bus_format = di->bus_formats[0];
+> >  	if (!bus_flags_set)
+> >  		tcrtc_state->bus_flags = di->bus_flags;
+> 
+> Shouldn't the flags also be retrieved from the bridge state ?
 
-Well, if I had to guess, I would go for either 1) some registration or such is missing from the
-panel driver, or 2) some config value is invalid, which makes the DRM framework or the DSI driver
-fail before calling prepare or enable.
+Yes, the code does that above, not covered in the diff context.
+When no bridges have reported the timings,
+it uses the display_info as fallback (when bus_flags_set is false)
 
- Tomi
+Nikhil D
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> 
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
