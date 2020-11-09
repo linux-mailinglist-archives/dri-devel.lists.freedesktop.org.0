@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BE72AB54F
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBE62AB55A
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:48:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ED93898AF;
-	Mon,  9 Nov 2020 10:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7399E898BF;
+	Mon,  9 Nov 2020 10:48:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F096F898AF
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:48:01 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2DC8898BF
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:48:42 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4493CB2B;
- Mon,  9 Nov 2020 11:48:00 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06C3BB2B;
+ Mon,  9 Nov 2020 11:48:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604918880;
- bh=3bhdV444Bv6HXmy5+0AVRS1C0QODE+hICZBwghchDag=;
+ s=mail; t=1604918921;
+ bh=zlUHVoOUWGx1rKdSviLG7dzZwgmtkT7iGapWHY4fBVE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uaoQJlNPUt1FVDFHdPMASPOnU+4TnK4rd6SlO7faChk+UIri2zTvQ3oo72oGlOxYI
- vpvJn514GqgwCRnKuDhCnM3DQlyUoi+qOSleWwFWiHweOplaZjDaFiLYlF7YRAZY5Q
- GAhDykx/zMph3qAy+mLzTOyAmsdWplovDGKpJ1dQ=
-Date: Mon, 9 Nov 2020 12:47:56 +0200
+ b=INy48GvkJCqk+f21b6KOe2TDBaduhhqOYSFqQnQ1aCm2YdvGIioqiGG43iDdoLxmf
+ 8ue4c3u/Uzft3VRiNKaa7Mwq14+luZmeWuqSWaWJlsK11g+V774UKPGwieRqyimoT9
+ 1eTGw4n/tYsiZdkjYEjxYsp+IR0/6NWlHZqEkBzc=
+Date: Mon, 9 Nov 2020 12:48:37 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 35/56] drm/omap: dsi: implement check timings
-Message-ID: <20201109104756.GF6029@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 36/56] drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
+Message-ID: <20201109104837.GG6029@pendragon.ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-36-tomi.valkeinen@ti.com>
+ <20201105120333.947408-37-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-36-tomi.valkeinen@ti.com>
+In-Reply-To: <20201105120333.947408-37-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,156 +60,54 @@ Hi Tomi and Sebastian,
 
 Thank you for the patch.
 
-On Thu, Nov 05, 2020 at 02:03:12PM +0200, Tomi Valkeinen wrote:
+On Thu, Nov 05, 2020 at 02:03:13PM +0200, Tomi Valkeinen wrote:
 > From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
-> Implement check timings, which will check if its possible to
-
-s/its/it's/
-
-> configure the clocks for the provided mode using the same code
-> as the set_config() hook.
+> Use DEVICE_ATTR_RO helper instead of plain DEVICE_ATTR,
+> which makes the code a bit shorter and easier to read.
 > 
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 70 +++++++++++++++++++------------
->  1 file changed, 44 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index a1a867a7d91d..f643321434e9 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -280,6 +280,11 @@ struct dsi_isr_tables {
->  	struct dsi_isr_data isr_table_cio[DSI_MAX_NR_ISRS];
->  };
->  
-> +struct dsi_lp_clock_info {
-> +	unsigned long lp_clk;
-> +	u16 lp_clk_div;
-> +};
-> +
->  struct dsi_clk_calc_ctx {
->  	struct dsi_data *dsi;
->  	struct dss_pll *pll;
-> @@ -294,16 +299,12 @@ struct dsi_clk_calc_ctx {
->  
->  	struct dss_pll_clock_info dsi_cinfo;
->  	struct dispc_clock_info dispc_cinfo;
-> +	struct dsi_lp_clock_info user_lp_cinfo;
-
-Any reason for the user_ prefix here ?
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  
->  	struct videomode vm;
->  	struct omap_dss_dsi_videomode_timings dsi_vm;
+>  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index 3668b3f0aff2..5159dd51a353 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -219,7 +219,7 @@ static const struct backlight_ops dsicm_bl_ops = {
+>  	.update_status  = dsicm_bl_update_status,
 >  };
 >  
-> -struct dsi_lp_clock_info {
-> -	unsigned long lp_clk;
-> -	u16 lp_clk_div;
-> -};
-> -
->  struct dsi_module_id_data {
->  	u32 address;
->  	int id;
-> @@ -4789,44 +4790,55 @@ static bool dsi_is_video_mode(struct omap_dss_device *dssdev)
->  	return (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE);
+> -static ssize_t dsicm_num_errors_show(struct device *dev,
+> +static ssize_t num_dsi_errors_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
+>  {
+>  	struct panel_drv_data *ddata = dev_get_drvdata(dev);
+> @@ -239,7 +239,7 @@ static ssize_t dsicm_num_errors_show(struct device *dev,
+>  	return snprintf(buf, PAGE_SIZE, "%d\n", errors);
 >  }
 >  
-> -static int dsi_set_config(struct omap_dss_device *dssdev,
-> -		const struct drm_display_mode *mode)
-> +static int __dsi_calc_config(struct dsi_data *dsi,
-> +		const struct drm_display_mode *mode,
-> +		struct dsi_clk_calc_ctx *ctx)
+> -static ssize_t dsicm_hw_revision_show(struct device *dev,
+> +static ssize_t hw_revision_show(struct device *dev,
+>  		struct device_attribute *attr, char *buf)
 >  {
-> -	struct dsi_data *dsi = to_dsi_data(dssdev);
-> -	struct dsi_clk_calc_ctx ctx;
-> -	struct videomode vm;
->  	struct omap_dss_dsi_config cfg = dsi->config;
-> +	struct videomode vm;
->  	bool ok;
->  	int r;
->  
->  	drm_display_mode_to_videomode(mode, &vm);
-> -	cfg.vm = &vm;
-> -
-> -	mutex_lock(&dsi->lock);
->  
-> +	cfg.vm = &vm;
->  	cfg.mode = dsi->mode;
->  	cfg.pixel_format = dsi->pix_fmt;
->  
->  	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE)
-> -		ok = dsi_vm_calc(dsi, &cfg, &ctx);
-> +		ok = dsi_vm_calc(dsi, &cfg, ctx);
->  	else
-> -		ok = dsi_cm_calc(dsi, &cfg, &ctx);
-> +		ok = dsi_cm_calc(dsi, &cfg, ctx);
->  
-> -	if (!ok) {
-> -		DSSERR("failed to find suitable DSI clock settings\n");
-> -		r = -EINVAL;
-> -		goto err;
-> -	}
-> +	if (!ok)
-> +		return -EINVAL;
-> +
-> +	dsi_pll_calc_dsi_fck(dsi, &ctx->dsi_cinfo);
->  
-> -	dsi_pll_calc_dsi_fck(dsi, &ctx.dsi_cinfo);
-> +	r = dsi_lp_clock_calc(ctx->dsi_cinfo.clkout[HSDIV_DSI],
-> +		cfg.lp_clk_min, cfg.lp_clk_max, &ctx->user_lp_cinfo);
-> +	if (r)
-> +		return r;
-> +
-> +	return 0;
-> +}
->  
-> -	r = dsi_lp_clock_calc(ctx.dsi_cinfo.clkout[HSDIV_DSI],
-> -		cfg.lp_clk_min, cfg.lp_clk_max, &dsi->user_lp_cinfo);
-> +static int dsi_set_config(struct omap_dss_device *dssdev,
-> +		const struct drm_display_mode *mode)
-> +{
-> +	struct dsi_data *dsi = to_dsi_data(dssdev);
-> +	struct dsi_clk_calc_ctx ctx;
-> +	int r;
-> +
-> +	mutex_lock(&dsi->lock);
-> +
-> +	r = __dsi_calc_config(dsi, mode, &ctx);
->  	if (r) {
-> -		DSSERR("failed to find suitable DSI LP clock settings\n");
-> +		DSSERR("failed to find suitable DSI clock settings\n");
->  		goto err;
->  	}
->  
-> +	dsi->user_lp_cinfo = ctx.user_lp_cinfo;
->  	dsi->user_dsi_cinfo = ctx.dsi_cinfo;
->  	dsi->user_dispc_cinfo = ctx.dispc_cinfo;
->  
-> @@ -5004,11 +5016,17 @@ static void dsi_set_timings(struct omap_dss_device *dssdev,
->  static int dsi_check_timings(struct omap_dss_device *dssdev,
->  			     struct drm_display_mode *mode)
->  {
-> +	struct dsi_data *dsi = to_dsi_data(dssdev);
-> +	struct dsi_clk_calc_ctx ctx;
-> +	int r;
-> +
->  	DSSDBG("dsi_check_timings\n");
->  
-> -	/* TODO */
-> +	mutex_lock(&dsi->lock);
-> +	r = __dsi_calc_config(dsi, mode, &ctx);
-> +	mutex_unlock(&dsi->lock);
->  
-> -	return 0;
-> +	return r;
+>  	struct panel_drv_data *ddata = dev_get_drvdata(dev);
+> @@ -259,8 +259,8 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
+>  	return snprintf(buf, PAGE_SIZE, "%02x.%02x.%02x\n", id1, id2, id3);
 >  }
 >  
->  static int dsi_connect(struct omap_dss_device *src,
+> -static DEVICE_ATTR(num_dsi_errors, S_IRUGO, dsicm_num_errors_show, NULL);
+> -static DEVICE_ATTR(hw_revision, S_IRUGO, dsicm_hw_revision_show, NULL);
+> +static DEVICE_ATTR_RO(num_dsi_errors);
+> +static DEVICE_ATTR_RO(hw_revision);
+>  
+>  static struct attribute *dsicm_attrs[] = {
+>  	&dev_attr_num_dsi_errors.attr,
 
 -- 
 Regards,
