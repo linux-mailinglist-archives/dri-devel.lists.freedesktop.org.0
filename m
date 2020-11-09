@@ -1,45 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C66C2AAE9D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 01:54:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9009B2AAF40
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 03:16:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8EEE89369;
-	Mon,  9 Nov 2020 00:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E64CD891E2;
+	Mon,  9 Nov 2020 02:16:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E9E89341
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 00:54:45 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-wPlIw0FgPGy9T_fQ0fNjVw-1; Sun, 08 Nov 2020 19:54:42 -0500
-X-MC-Unique: wPlIw0FgPGy9T_fQ0fNjVw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A998030C0;
- Mon,  9 Nov 2020 00:54:41 +0000 (UTC)
-Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-30.bne.redhat.com
- [10.64.54.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A7495C1D7;
- Mon,  9 Nov 2020 00:54:40 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 4/4] drm/radeon/ttm: use multihop
-Date: Mon,  9 Nov 2020 10:54:32 +1000
-Message-Id: <20201109005432.861936-5-airlied@gmail.com>
-In-Reply-To: <20201109005432.861936-1-airlied@gmail.com>
-References: <20201109005432.861936-1-airlied@gmail.com>
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1021A891E2;
+ Mon,  9 Nov 2020 02:16:31 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CTvkL02vKz9s1l;
+ Mon,  9 Nov 2020 13:16:23 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1604888188;
+ bh=850yCADLEwMJTBdfiOiNR5gW6UAvBHPX20KTwrNsbUQ=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=gsx+GOKEpNJJXuX5mz4J7KGzFd+DPyTw6PkCOpB6szbt71fHiW9IQixpJ7dBgnqfX
+ /2l34HhfN6KYSFURw0i9+zBp9WUdo+cVrSuIQMREsY/sQrYIIS3Kq9hxTN4ZwmWfvI
+ iLccCCCRaYl5gBi68PZeMa4R3jj83d5gcdA+3DSO7CTq9UZGqofILIQF0YMSVwVy5+
+ Qay+zt5uI8qz4bhCZk2K3HBx9bK5mCr2JNzTbztVQTRysqT6JOl80s/ob0h7ZXslSZ
+ xDEwr8+Aj3NbmANN9ZzpjZ/BMziXANev36wpfuwtwvofEW5YHZdYTZrg5pN1bsmAFV
+ QnLbpI9uKH13g==
+Date: Mon, 9 Nov 2020 13:16:20 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: DRI <dri-devel@lists.freedesktop.org>, Alex Deucher
+ <alexander.deucher@amd.com>, Dave Airlie <airlied@linux.ie>
+Subject: Re: linux-next: manual merge of the drm-misc tree with the amdgpu tree
+Message-ID: <20201109131620.10282da8@canb.auug.org.au>
+In-Reply-To: <20201103142108.129da15c@canb.auug.org.au>
+References: <20201103142108.129da15c@canb.auug.org.au>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,170 +49,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: christian.koenig@amd.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Maxime Ripard <maxime@cerno.tech>
+Content-Type: multipart/mixed; boundary="===============1792144911=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dave Airlie <airlied@redhat.com>
+--===============1792144911==
+Content-Type: multipart/signed; boundary="Sig_/QD+vvGU3..AqhU0FwrDzcNR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-This removes the code to move resources directly between
-SYSTEM and VRAM in favour of using the core ttm mulithop code.
+--Sig_/QD+vvGU3..AqhU0FwrDzcNR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/radeon/radeon_ttm.c | 119 +++-------------------------
- 1 file changed, 13 insertions(+), 106 deletions(-)
+Hi all,
 
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 29062dbea299..788655ebafdb 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -206,101 +206,6 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
- 	return r;
- }
- 
--static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
--				bool evict,
--				struct ttm_operation_ctx *ctx,
--				struct ttm_resource *new_mem)
--{
--	struct ttm_resource *old_mem = &bo->mem;
--	struct ttm_resource tmp_mem;
--	struct ttm_place placements;
--	struct ttm_placement placement;
--	int r;
--
--	tmp_mem = *new_mem;
--	tmp_mem.mm_node = NULL;
--	placement.num_placement = 1;
--	placement.placement = &placements;
--	placement.num_busy_placement = 1;
--	placement.busy_placement = &placements;
--	placements.fpfn = 0;
--	placements.lpfn = 0;
--	placements.mem_type = TTM_PL_TT;
--	placements.flags = 0;
--	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
--	if (unlikely(r)) {
--		return r;
--	}
--
--	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
--
--	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
--	r = radeon_move_blit(bo, true, &tmp_mem, old_mem);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
--	r = ttm_bo_wait_ctx(bo, ctx);
--	if (unlikely(r))
--		goto out_cleanup;
--
--	radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
--	ttm_resource_free(bo, &bo->mem);
--	ttm_bo_assign_mem(bo, new_mem);
--out_cleanup:
--	ttm_resource_free(bo, &tmp_mem);
--	return r;
--}
--
--static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
--				bool evict,
--				struct ttm_operation_ctx *ctx,
--				struct ttm_resource *new_mem)
--{
--	struct ttm_resource *old_mem = &bo->mem;
--	struct ttm_resource tmp_mem;
--	struct ttm_placement placement;
--	struct ttm_place placements;
--	int r;
--
--	tmp_mem = *new_mem;
--	tmp_mem.mm_node = NULL;
--	placement.num_placement = 1;
--	placement.placement = &placements;
--	placement.num_busy_placement = 1;
--	placement.busy_placement = &placements;
--	placements.fpfn = 0;
--	placements.lpfn = 0;
--	placements.mem_type = TTM_PL_TT;
--	placements.flags = 0;
--	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
--	if (unlikely(r)) {
--		return r;
--	}
--
--	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
--	if (unlikely(r))
--		goto out_cleanup;
--
--	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
--	if (unlikely(r))
--		goto out_cleanup;
--
--	ttm_bo_assign_mem(bo, &tmp_mem);
--	r = radeon_move_blit(bo, true, new_mem, old_mem);
--	if (unlikely(r)) {
--		goto out_cleanup;
--	}
--out_cleanup:
--	ttm_resource_free(bo, &tmp_mem);
--	return r;
--}
--
- static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 			  struct ttm_operation_ctx *ctx,
- 			  struct ttm_resource *new_mem,
-@@ -311,6 +216,17 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource *old_mem = &bo->mem;
- 	int r;
- 
-+	if ((old_mem->mem_type == TTM_PL_SYSTEM &&
-+	     new_mem->mem_type == TTM_PL_VRAM) ||
-+	    (old_mem->mem_type == TTM_PL_VRAM &&
-+	     new_mem->mem_type == TTM_PL_SYSTEM)) {
-+		hop->fpfn = 0;
-+		hop->lpfn = 0;
-+		hop->mem_type = TTM_PL_TT;
-+		hop->flags = 0;
-+		return -EMULTIHOP;
-+	}
-+
- 	if (new_mem->mem_type == TTM_PL_TT) {
- 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
- 		if (r)
-@@ -351,17 +267,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
- 		goto memcpy;
- 	}
- 
--	if (old_mem->mem_type == TTM_PL_VRAM &&
--	    new_mem->mem_type == TTM_PL_SYSTEM) {
--		r = radeon_move_vram_ram(bo, evict, ctx, new_mem);
--	} else if (old_mem->mem_type == TTM_PL_SYSTEM &&
--		   new_mem->mem_type == TTM_PL_VRAM) {
--		r = radeon_move_ram_vram(bo, evict, ctx, new_mem);
--	} else {
--		r = radeon_move_blit(bo, evict,
--				     new_mem, old_mem);
--	}
--
-+	r = radeon_move_blit(bo, evict,
-+			     new_mem, old_mem);
- 	if (r) {
- memcpy:
- 		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
--- 
-2.27.0
+On Tue, 3 Nov 2020 14:21:08 +1100 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Today's linux-next merge of the drm-misc tree got a conflict in:
+>=20
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+>=20
+> between commit:
+>=20
+>   e8a982355f96 ("drm/amd/display: Add tracepoint for amdgpu_dm")
+>=20
+> from the amdgpu tree and commit:
+>=20
+>   29b77ad7b9ca ("drm/atomic: Pass the full state to CRTC atomic_check")
+>=20
+> from the drm-misc tree.
+>=20
+> I fixed it up (see below) and can carry the fix as necessary. This
+> is now fixed as far as linux-next is concerned, but any non trivial
+> conflicts should be mentioned to your upstream maintainer when your tree
+> is submitted for merging.  You may also want to consider cooperating
+> with the maintainer of the conflicting tree to minimise any particularly
+> complex conflicts.
+> =20
+> diff --cc drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 28dcaae06993,86fd4420f128..000000000000
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@@ -6003,19 -5514,19 +6003,21 @@@ static void dm_update_crtc_active_plane
+>   }
+>  =20
+>   static int dm_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> - 				       struct drm_crtc_state *state)
+> + 				       struct drm_atomic_state *state)
+>   {
+> + 	struct drm_crtc_state *crtc_state =3D drm_atomic_get_new_crtc_state(st=
+ate,
+> + 									  crtc);
+>   	struct amdgpu_device *adev =3D drm_to_adev(crtc->dev);
+>   	struct dc *dc =3D adev->dm.dc;
+> - 	struct dm_crtc_state *dm_crtc_state =3D to_dm_crtc_state(state);
+> + 	struct dm_crtc_state *dm_crtc_state =3D to_dm_crtc_state(crtc_state);
+>   	int ret =3D -EINVAL;
+>  =20
+> - 	trace_amdgpu_dm_crtc_atomic_check(state);
+> ++	trace_amdgpu_dm_crtc_atomic_check(crtc_state);
+>  +
+> - 	dm_update_crtc_active_planes(crtc, state);
+> + 	dm_update_crtc_active_planes(crtc, crtc_state);
+>  =20
+>   	if (unlikely(!dm_crtc_state->stream &&
+> - 		     modeset_required(state, NULL, dm_crtc_state->stream))) {
+> + 		     modeset_required(crtc_state, NULL, dm_crtc_state->stream))) {
+>   		WARN_ON(1);
+>   		return ret;
+>   	}
+
+This is now a conflict between the drm tree and the amdgpu tree.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/QD+vvGU3..AqhU0FwrDzcNR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+opnQACgkQAVBC80lX
+0Gx3ZQgAnqiuf8lX60p47PxoyJnIyB1VLzkRmb5qqvefTrd7QvQtkMogzxTlxmXs
+Z9KKj/l8L0e/Is6L4bxUDSJBuOnOIiGXMV0MScLTXzr+oTeuqgxS70+9FxUxdJ0z
+jjAkBLswnFvloNJRE7QfRAh+2tgJ1Mwdk2WcZM8t5h3mDoCu+s6Bj18+BdG3Rl8M
+kspmY5+pYq3as13aK+o6glpJ7UwIXG+cXAIboqg2L84/szLKt8MW6W5+mJZ8o1n9
+TiRHQeElEWN7utjfDptkqcaH94fJUcTteT/iDqGRoLGMnRuo8CopfsLt4T2vlfo0
+wv6tz1cHQFHKgGT2/CXBTuivMxOdXw==
+=Nc+j
+-----END PGP SIGNATURE-----
+
+--Sig_/QD+vvGU3..AqhU0FwrDzcNR--
+
+--===============1792144911==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1792144911==--
