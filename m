@@ -2,38 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1302AB679
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6602AB703
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4AB88996E;
-	Mon,  9 Nov 2020 11:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89D708997E;
+	Mon,  9 Nov 2020 11:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2E98999C
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:18:07 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72BC3B2B;
- Mon,  9 Nov 2020 12:18:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604920686;
- bh=jDX0QTBOD5CwoY/KpdQcTJmxbWmpsAABqWOdjN9aN8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JDaN9fg8Npwf6zlLY3ntODej7BidixEVRFrMdS8y6FtdZYnSJ3Ssw8ElyxHqDn4FS
- kodKkMW3bx7peecMA4MojPZVhvOTOd9UQ08bpTy8TcCJnH1uqY3jQC+ADVREX5+Zq6
- Id3VRw0D1VLfiXJRocnuBqILCFg3lBy7fjGo1VCI=
-Date: Mon, 9 Nov 2020 13:18:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 56/56] drm/omap: remove dss_mgr_ops
-Message-ID: <20201109111803.GA6029@pendragon.ideasonboard.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6002F8997E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:33:50 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BXeD0005873;
+ Mon, 9 Nov 2020 05:33:40 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1604921620;
+ bh=3BSddBlFZc+VBUU/q2H/wH8ZwgDPC1EicBCpH1QebwE=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=NbcCvHMtvPXdhFVGkRHtOE+wdk8U8sM3134HSNUmZ58jOa9CunzjvLK8XRYMR4Yzh
+ NkecqhHmljgpqfKXmOsLnnJgdopKuidlbUUjqAGiNLw5DA/bubnVQ9KmVhroXt3jB7
+ fTuWTtY4LVKws1wITsU5tTxQArTvf6Tl3pfTLdu4=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9BXeIX124712
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 9 Nov 2020 05:33:40 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
+ 2020 05:33:40 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 9 Nov 2020 05:33:40 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9BXc2J081879;
+ Mon, 9 Nov 2020 05:33:38 -0600
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-57-tomi.valkeinen@ti.com>
+ <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+ <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+ <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+ <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
+ <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
+ <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
+ <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+ <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+ <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+ <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
+ <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
+Date: Mon, 9 Nov 2020 13:33:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-57-tomi.valkeinen@ti.com>
+In-Reply-To: <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,341 +76,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
  Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On 09/11/2020 13:09, H. Nikolaus Schaller wrote:
 
-Thank you for the patch.
-
-On Thu, Nov 05, 2020 at 02:03:33PM +0200, Tomi Valkeinen wrote:
-> dss_mgr_ops was needed with the multi-module architecture, but is no
-> longer needed. We can thus remove it and use direct calls.
+>>> I see.
+>>> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
+>>> Or is this related to VC?
+>>
+>> No, that's not related to the VC.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Ok, then it is worth searching for that independently. Any idea/hint what could be missing?
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Well, if I had to guess, I would go for either 1) some registration or such is missing from the
+panel driver, or 2) some config value is invalid, which makes the DRM framework or the DSI driver
+fail before calling prepare or enable.
 
-> ---
->  drivers/gpu/drm/omapdrm/dss/dss.h     |  1 -
->  drivers/gpu/drm/omapdrm/dss/omapdss.h | 42 +++++++++++----------------
->  drivers/gpu/drm/omapdrm/dss/output.c  | 33 +++++----------------
->  drivers/gpu/drm/omapdrm/omap_crtc.c   | 38 +++++-------------------
->  drivers/gpu/drm/omapdrm/omap_crtc.h   |  2 --
->  drivers/gpu/drm/omapdrm/omap_drv.c    |  4 +--
->  6 files changed, 33 insertions(+), 87 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.h b/drivers/gpu/drm/omapdrm/dss/dss.h
-> index 96f702314c8c..a547527bb2f3 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/dss.h
-> @@ -257,7 +257,6 @@ struct dss_device {
->  	struct dss_pll	*video2_pll;
->  
->  	struct dispc_device *dispc;
-> -	const struct dss_mgr_ops *mgr_ops;
->  	struct omap_drm_private *mgr_ops_priv;
->  };
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index fba5f05e5e48..9df322ca467d 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -338,31 +338,23 @@ enum dss_writeback_channel {
->  	DSS_WB_LCD3_MGR =	7,
->  };
->  
-> -struct dss_mgr_ops {
-> -	void (*start_update)(struct omap_drm_private *priv,
-> -			     enum omap_channel channel);
-> -	int (*enable)(struct omap_drm_private *priv,
-> -		      enum omap_channel channel);
-> -	void (*disable)(struct omap_drm_private *priv,
-> -			enum omap_channel channel);
-> -	void (*set_timings)(struct omap_drm_private *priv,
-> -			    enum omap_channel channel,
-> -			    const struct videomode *vm);
-> -	void (*set_lcd_config)(struct omap_drm_private *priv,
-> -			       enum omap_channel channel,
-> -			       const struct dss_lcd_mgr_config *config);
-> -	int (*register_framedone_handler)(struct omap_drm_private *priv,
-> -			enum omap_channel channel,
-> -			void (*handler)(void *), void *data);
-> -	void (*unregister_framedone_handler)(struct omap_drm_private *priv,
-> -			enum omap_channel channel,
-> -			void (*handler)(void *), void *data);
-> -};
-> -
-> -int dss_install_mgr_ops(struct dss_device *dss,
-> -			const struct dss_mgr_ops *mgr_ops,
-> -			struct omap_drm_private *priv);
-> -void dss_uninstall_mgr_ops(struct dss_device *dss);
-> +void omap_crtc_dss_start_update(struct omap_drm_private *priv,
-> +				       enum omap_channel channel);
-> +void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable);
-> +int omap_crtc_dss_enable(struct omap_drm_private *priv, enum omap_channel channel);
-> +void omap_crtc_dss_disable(struct omap_drm_private *priv, enum omap_channel channel);
-> +void omap_crtc_dss_set_timings(struct omap_drm_private *priv,
-> +		enum omap_channel channel,
-> +		const struct videomode *vm);
-> +void omap_crtc_dss_set_lcd_config(struct omap_drm_private *priv,
-> +		enum omap_channel channel,
-> +		const struct dss_lcd_mgr_config *config);
-> +int omap_crtc_dss_register_framedone(
-> +		struct omap_drm_private *priv, enum omap_channel channel,
-> +		void (*handler)(void *), void *data);
-> +void omap_crtc_dss_unregister_framedone(
-> +		struct omap_drm_private *priv, enum omap_channel channel,
-> +		void (*handler)(void *), void *data);
->  
->  void dss_mgr_set_timings(struct omap_dss_device *dssdev,
->  		const struct videomode *vm);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-> index 7a14d2b5b2f7..2121c947947b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/output.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/output.c
-> @@ -81,54 +81,35 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
->  					out->next_bridge : out->bridge);
->  }
->  
-> -int dss_install_mgr_ops(struct dss_device *dss,
-> -			const struct dss_mgr_ops *mgr_ops,
-> -			struct omap_drm_private *priv)
-> -{
-> -	if (dss->mgr_ops)
-> -		return -EBUSY;
-> -
-> -	dss->mgr_ops = mgr_ops;
-> -	dss->mgr_ops_priv = priv;
-> -
-> -	return 0;
-> -}
-> -
-> -void dss_uninstall_mgr_ops(struct dss_device *dss)
-> -{
-> -	dss->mgr_ops = NULL;
-> -	dss->mgr_ops_priv = NULL;
-> -}
-> -
->  void dss_mgr_set_timings(struct omap_dss_device *dssdev,
->  			 const struct videomode *vm)
->  {
-> -	dssdev->dss->mgr_ops->set_timings(dssdev->dss->mgr_ops_priv,
-> +	omap_crtc_dss_set_timings(dssdev->dss->mgr_ops_priv,
->  					  dssdev->dispc_channel, vm);
->  }
->  
->  void dss_mgr_set_lcd_config(struct omap_dss_device *dssdev,
->  		const struct dss_lcd_mgr_config *config)
->  {
-> -	dssdev->dss->mgr_ops->set_lcd_config(dssdev->dss->mgr_ops_priv,
-> +	omap_crtc_dss_set_lcd_config(dssdev->dss->mgr_ops_priv,
->  					     dssdev->dispc_channel, config);
->  }
->  
->  int dss_mgr_enable(struct omap_dss_device *dssdev)
->  {
-> -	return dssdev->dss->mgr_ops->enable(dssdev->dss->mgr_ops_priv,
-> +	return omap_crtc_dss_enable(dssdev->dss->mgr_ops_priv,
->  					    dssdev->dispc_channel);
->  }
->  
->  void dss_mgr_disable(struct omap_dss_device *dssdev)
->  {
-> -	dssdev->dss->mgr_ops->disable(dssdev->dss->mgr_ops_priv,
-> +	omap_crtc_dss_disable(dssdev->dss->mgr_ops_priv,
->  				      dssdev->dispc_channel);
->  }
->  
->  void dss_mgr_start_update(struct omap_dss_device *dssdev)
->  {
-> -	dssdev->dss->mgr_ops->start_update(dssdev->dss->mgr_ops_priv,
-> +	omap_crtc_dss_start_update(dssdev->dss->mgr_ops_priv,
->  					   dssdev->dispc_channel);
->  }
->  
-> @@ -137,7 +118,7 @@ int dss_mgr_register_framedone_handler(struct omap_dss_device *dssdev,
->  {
->  	struct dss_device *dss = dssdev->dss;
->  
-> -	return dss->mgr_ops->register_framedone_handler(dss->mgr_ops_priv,
-> +	return omap_crtc_dss_register_framedone(dss->mgr_ops_priv,
->  							dssdev->dispc_channel,
->  							handler, data);
->  }
-> @@ -147,7 +128,7 @@ void dss_mgr_unregister_framedone_handler(struct omap_dss_device *dssdev,
->  {
->  	struct dss_device *dss = dssdev->dss;
->  
-> -	dss->mgr_ops->unregister_framedone_handler(dss->mgr_ops_priv,
-> +	omap_crtc_dss_unregister_framedone(dss->mgr_ops_priv,
->  						   dssdev->dispc_channel,
->  						   handler, data);
->  }
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> index 0bf5cef579b5..e3259338afb9 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> @@ -100,14 +100,14 @@ int omap_crtc_wait_pending(struct drm_crtc *crtc)
->   * the upstream part of the video pipe.
->   */
->  
-> -static void omap_crtc_dss_start_update(struct omap_drm_private *priv,
-> +void omap_crtc_dss_start_update(struct omap_drm_private *priv,
->  				       enum omap_channel channel)
->  {
->  	dispc_mgr_enable(priv->dispc, channel, true);
->  }
->  
->  /* Called only from the encoder enable/disable and suspend/resume handlers. */
-> -static void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable)
-> +void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable)
->  {
->  	struct omap_crtc_state *omap_state = to_omap_crtc_state(crtc->state);
->  	struct drm_device *dev = crtc->dev;
-> @@ -180,8 +180,7 @@ static void omap_crtc_set_enabled(struct drm_crtc *crtc, bool enable)
->  }
->  
->  
-> -static int omap_crtc_dss_enable(struct omap_drm_private *priv,
-> -				enum omap_channel channel)
-> +int omap_crtc_dss_enable(struct omap_drm_private *priv, enum omap_channel channel)
->  {
->  	struct drm_crtc *crtc = priv->channels[channel]->crtc;
->  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
-> @@ -193,8 +192,7 @@ static int omap_crtc_dss_enable(struct omap_drm_private *priv,
->  	return 0;
->  }
->  
-> -static void omap_crtc_dss_disable(struct omap_drm_private *priv,
-> -				  enum omap_channel channel)
-> +void omap_crtc_dss_disable(struct omap_drm_private *priv, enum omap_channel channel)
->  {
->  	struct drm_crtc *crtc = priv->channels[channel]->crtc;
->  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
-> @@ -202,7 +200,7 @@ static void omap_crtc_dss_disable(struct omap_drm_private *priv,
->  	omap_crtc_set_enabled(&omap_crtc->base, false);
->  }
->  
-> -static void omap_crtc_dss_set_timings(struct omap_drm_private *priv,
-> +void omap_crtc_dss_set_timings(struct omap_drm_private *priv,
->  		enum omap_channel channel,
->  		const struct videomode *vm)
->  {
-> @@ -213,7 +211,7 @@ static void omap_crtc_dss_set_timings(struct omap_drm_private *priv,
->  	omap_crtc->vm = *vm;
->  }
->  
-> -static void omap_crtc_dss_set_lcd_config(struct omap_drm_private *priv,
-> +void omap_crtc_dss_set_lcd_config(struct omap_drm_private *priv,
->  		enum omap_channel channel,
->  		const struct dss_lcd_mgr_config *config)
->  {
-> @@ -225,7 +223,7 @@ static void omap_crtc_dss_set_lcd_config(struct omap_drm_private *priv,
->  					    config);
->  }
->  
-> -static int omap_crtc_dss_register_framedone(
-> +int omap_crtc_dss_register_framedone(
->  		struct omap_drm_private *priv, enum omap_channel channel,
->  		void (*handler)(void *), void *data)
->  {
-> @@ -244,7 +242,7 @@ static int omap_crtc_dss_register_framedone(
->  	return 0;
->  }
->  
-> -static void omap_crtc_dss_unregister_framedone(
-> +void omap_crtc_dss_unregister_framedone(
->  		struct omap_drm_private *priv, enum omap_channel channel,
->  		void (*handler)(void *), void *data)
->  {
-> @@ -261,16 +259,6 @@ static void omap_crtc_dss_unregister_framedone(
->  	omap_crtc->framedone_handler_data = NULL;
->  }
->  
-> -static const struct dss_mgr_ops mgr_ops = {
-> -	.start_update = omap_crtc_dss_start_update,
-> -	.enable = omap_crtc_dss_enable,
-> -	.disable = omap_crtc_dss_disable,
-> -	.set_timings = omap_crtc_dss_set_timings,
-> -	.set_lcd_config = omap_crtc_dss_set_lcd_config,
-> -	.register_framedone_handler = omap_crtc_dss_register_framedone,
-> -	.unregister_framedone_handler = omap_crtc_dss_unregister_framedone,
-> -};
-> -
->  /* -----------------------------------------------------------------------------
->   * Setup, Flush and Page Flip
->   */
-> @@ -753,16 +741,6 @@ static const char *channel_names[] = {
->  	[OMAP_DSS_CHANNEL_LCD3] = "lcd3",
->  };
->  
-> -void omap_crtc_pre_init(struct omap_drm_private *priv)
-> -{
-> -	dss_install_mgr_ops(priv->dss, &mgr_ops, priv);
-> -}
-> -
-> -void omap_crtc_pre_uninit(struct omap_drm_private *priv)
-> -{
-> -	dss_uninstall_mgr_ops(priv->dss);
-> -}
-> -
->  /* initialize crtc */
->  struct drm_crtc *omap_crtc_init(struct drm_device *dev,
->  				struct omap_drm_pipeline *pipe,
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.h b/drivers/gpu/drm/omapdrm/omap_crtc.h
-> index 2fd57751ae2b..a8b9cbee86e0 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.h
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.h
-> @@ -22,8 +22,6 @@ struct videomode;
->  
->  struct videomode *omap_crtc_timings(struct drm_crtc *crtc);
->  enum omap_channel omap_crtc_channel(struct drm_crtc *crtc);
-> -void omap_crtc_pre_init(struct omap_drm_private *priv);
-> -void omap_crtc_pre_uninit(struct omap_drm_private *priv);
->  struct drm_crtc *omap_crtc_init(struct drm_device *dev,
->  				struct omap_drm_pipeline *pipe,
->  				struct drm_plane *plane);
-> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-> index eb419387ed05..c5b2f50439d6 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-> @@ -581,7 +581,7 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
->  	priv->dss = pdata->dss;
->  	priv->dispc = dispc_get_dispc(priv->dss);
->  
-> -	omap_crtc_pre_init(priv);
-> +	priv->dss->mgr_ops_priv = priv;
->  
->  	soc = soc_device_match(omapdrm_soc_devices);
->  	priv->omaprev = soc ? (unsigned int)soc->data : 0;
-> @@ -634,7 +634,6 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
->  	omap_gem_deinit(ddev);
->  	destroy_workqueue(priv->wq);
->  	omap_disconnect_pipelines(ddev);
-> -	omap_crtc_pre_uninit(priv);
->  	drm_dev_put(ddev);
->  	return ret;
->  }
-> @@ -660,7 +659,6 @@ static void omapdrm_cleanup(struct omap_drm_private *priv)
->  	destroy_workqueue(priv->wq);
->  
->  	omap_disconnect_pipelines(ddev);
-> -	omap_crtc_pre_uninit(priv);
->  
->  	drm_dev_put(ddev);
->  }
+ Tomi
 
 -- 
-Regards,
-
-Laurent Pinchart
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
