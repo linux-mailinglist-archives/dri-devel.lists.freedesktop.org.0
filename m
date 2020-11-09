@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1982AB5C5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:05:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB352AB5CA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 12:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F798892CC;
-	Mon,  9 Nov 2020 11:04:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85A4589428;
+	Mon,  9 Nov 2020 11:05:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 791D6892CC
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:04:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE028898E4
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:05:21 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03E71B2B;
- Mon,  9 Nov 2020 12:04:56 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67647B2B;
+ Mon,  9 Nov 2020 12:05:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604919897;
- bh=dKsSjnkIsEh+mn1K0u6sJl91rKlHvGknFg7Gq0yRcAc=;
+ s=mail; t=1604919920;
+ bh=tdFpQi0p3bCo+B/lrNtcTVZ2O5tTAfaVyITiCcu1u5A=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pq4huQaICSsWCrYD+5EonTJVzmk66tHUcNEZuHAtfT/3QZqn1KvCgC1GphSK0mEmw
- SXJzVPfNWMpiE5Vkn75nLpR79Cvs6vRBuFDFAQLI1Bm32ean01TySZ0VB7AxqsW2+9
- 3lSHpbWWmoCpXv8cWbMx5/HGFmTPeEesWtmVclV4=
-Date: Mon, 9 Nov 2020 13:04:53 +0200
+ b=gO0ceIxHoueI443gwMNL22a3702nrXv2E9FrVmScY1ZBPB9ssTk8HOzHJ0ImyjVW1
+ YS96aavb73sM94o6tLUzS1aZ/srHXPLfRcQgKWWty4Jrbkq5DDUA7Idx8jaeMUt5vw
+ En3A5PnQYgWk7FgsBB62gGSfKDg9VBv88jcJJb/4=
+Date: Mon, 9 Nov 2020 13:05:17 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 45/56] drm/omap: drop unused DSS next pointer
-Message-ID: <20201109110453.GP6029@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 46/56] drm/omap: drop empty omap_encoder helper
+ functions
+Message-ID: <20201109110517.GQ6029@pendragon.ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-46-tomi.valkeinen@ti.com>
+ <20201105120333.947408-47-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-46-tomi.valkeinen@ti.com>
+In-Reply-To: <20201105120333.947408-47-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,127 +61,61 @@ Hi Tomi and Sebastian,
 
 Thank you for the patch.
 
-On Thu, Nov 05, 2020 at 02:03:22PM +0200, Tomi Valkeinen wrote:
+On Thu, Nov 05, 2020 at 02:03:23PM +0200, Tomi Valkeinen wrote:
 > From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
-> Since all encoders and panels are using the bridge API now,
-> we next pointer is no longer useful and can be dropped.
-
-I would squash this with the previous patch.
-
+> Cleanup empty functions for encoder enable, disable and atomic check.
+> 
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/gpu/drm/omapdrm/dss/base.c     |  2 +-
->  drivers/gpu/drm/omapdrm/dss/omapdss.h  |  1 -
->  drivers/gpu/drm/omapdrm/dss/output.c   | 13 +------------
->  drivers/gpu/drm/omapdrm/omap_encoder.c |  4 ----
->  4 files changed, 2 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-> index c2791305c332..d62713b241d2 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/base.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/base.c
-> @@ -135,7 +135,7 @@ struct omap_dss_device *omapdss_device_next_output(struct omap_dss_device *from)
->  			goto done;
->  		}
->  
-> -		if (dssdev->id && (dssdev->next || dssdev->bridge))
-> +		if (dssdev->id && (dssdev->bridge))
-
-No need for the inner parentheses.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  			goto done;
->  	}
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 5d6edec5a427..1f02d3e406dc 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -293,7 +293,6 @@ struct omap_dss_device {
->  	struct module *owner;
->  
->  	struct dss_device *dss;
-> -	struct omap_dss_device *next;
->  	struct drm_bridge *bridge;
->  	struct drm_bridge *next_bridge;
->  	struct drm_panel *panel;
-> diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-> index ce21c798cca6..40cb353572f6 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/output.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/output.c
-> @@ -30,7 +30,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  		return 0;
->  	}
->  
-> -	out->next = omapdss_find_device_by_node(remote_node);
->  	out->bridge = of_drm_find_bridge(remote_node);
->  	out->panel = of_drm_find_panel(remote_node);
->  	if (IS_ERR(out->panel))
-> @@ -38,12 +37,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  
->  	of_node_put(remote_node);
->  
-> -	if (out->next && out->type != out->next->type) {
-> -		dev_err(out->dev, "output type and display type don't match\n");
-> -		ret = -EINVAL;
-> -		goto error;
-> -	}
-> -
->  	if (out->panel) {
->  		struct drm_bridge *bridge;
->  
-> @@ -69,7 +62,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  		out->bridge = local_bridge;
->  	}
->  
-> -	if (!out->next && !out->bridge) {
-> +	if (!out->bridge) {
->  		ret = -EPROBE_DEFER;
->  		goto error;
->  	}
-> @@ -78,7 +71,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  
->  error:
->  	omapdss_device_cleanup_output(out);
-> -	out->next = NULL;
->  	return ret;
->  }
->  EXPORT_SYMBOL(omapdss_device_init_output);
-> @@ -88,9 +80,6 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
->  	if (out->bridge && out->panel)
->  		drm_panel_bridge_remove(out->next_bridge ?
->  					out->next_bridge : out->bridge);
-> -
-> -	if (out->next)
-> -		omapdss_device_put(out->next);
->  }
->  EXPORT_SYMBOL(omapdss_device_cleanup_output);
->  
+> ---
+>  drivers/gpu/drm/omapdrm/omap_encoder.c | 28 --------------------------
+>  1 file changed, 28 deletions(-)
+> 
 > diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
-> index 610c5a2f2771..5f5fa01240a7 100644
+> index 5f5fa01240a7..e24411fb9dac 100644
 > --- a/drivers/gpu/drm/omapdrm/omap_encoder.c
 > +++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
-> @@ -75,7 +75,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
->  {
->  	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
->  	struct omap_dss_device *output = omap_encoder->output;
-> -	struct omap_dss_device *dssdev;
->  	struct drm_device *dev = encoder->dev;
->  	struct drm_connector *connector;
->  	struct drm_bridge *bridge;
-> @@ -98,9 +97,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
->  	 *
->  	 * A better solution is to use DRM's bus-flags through the whole driver.
->  	 */
-> -	for (dssdev = output; dssdev; dssdev = dssdev->next)
-> -		omap_encoder_update_videomode_flags(&vm, dssdev->bus_flags);
+> @@ -113,36 +113,8 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+>  	dss_mgr_set_timings(output, &vm);
+>  }
+>  
+> -static void omap_encoder_disable(struct drm_encoder *encoder)
+> -{
+> -	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+> -	struct omap_dss_device *dssdev = omap_encoder->output;
+> -	struct drm_device *dev = encoder->dev;
 > -
->  	for (bridge = output->bridge; bridge;
->  	     bridge = drm_bridge_get_next_bridge(bridge)) {
->  		if (!bridge->timings)
+> -	dev_dbg(dev->dev, "disable(%s)\n", dssdev->name);
+> -}
+> -
+> -static void omap_encoder_enable(struct drm_encoder *encoder)
+> -{
+> -	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+> -	struct omap_dss_device *dssdev = omap_encoder->output;
+> -	struct drm_device *dev = encoder->dev;
+> -
+> -	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
+> -}
+> -
+> -static int omap_encoder_atomic_check(struct drm_encoder *encoder,
+> -				     struct drm_crtc_state *crtc_state,
+> -				     struct drm_connector_state *conn_state)
+> -{
+> -	return 0;
+> -}
+> -
+>  static const struct drm_encoder_helper_funcs omap_encoder_helper_funcs = {
+>  	.mode_set = omap_encoder_mode_set,
+> -	.disable = omap_encoder_disable,
+> -	.enable = omap_encoder_enable,
+> -	.atomic_check = omap_encoder_atomic_check,
+>  };
+>  
+>  /* initialize encoder */
 
 -- 
 Regards,
