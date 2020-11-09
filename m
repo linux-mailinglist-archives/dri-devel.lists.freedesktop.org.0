@@ -1,67 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C542AB514
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:34:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA9712AB523
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:39:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CD0E8935A;
-	Mon,  9 Nov 2020 10:34:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2A66896A5;
+	Mon,  9 Nov 2020 10:39:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7568935A
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:34:53 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AYj0D093523;
- Mon, 9 Nov 2020 04:34:45 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604918085;
- bh=DgZjdXs8DMxtaQLTqgoKo38SaJaS6JFxfNRY0VF02kw=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=pFF0z/UJ6eytMwE7B6SLyVLzukfj8+/mz8oFoBqQ3qBj/UhPexVDatj6by9j2UsJY
- CDxzO/9TcBllMcla8DlSQanS8bRaLMgJYm5pVDlB7zVxpR7O77rtWnpb6NFPsMAqx2
- WYCymKHqQj0wrBaIXCsKvBK9VsNkvb0ANrdcl49E=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9AYj8Q114519
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Nov 2020 04:34:45 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
- 2020 04:34:44 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 9 Nov 2020 04:34:44 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AYgCa107392;
- Mon, 9 Nov 2020 04:34:43 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AEE9896A5
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:39:37 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A112B2B;
+ Mon,  9 Nov 2020 11:39:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1604918375;
+ bh=2PoamcF3SLM5yfMZpqAVh7wkOkL1N+RkZ5+HY2+KRes=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bTO0OGbargJUEV7EfMYbOrheELHTVP7ilzzreu77/h2IxwkKXTe3tUyitfCMIA/U1
+ /hd8msnIsNzQLWXZRAzGJofHLka7oTVYl3hbpPMtQVh37RFtBQQcZt8UBdGKUwoCZ8
+ 7xNE/n3Zxm/UgCE1Th9epDzDQ9Mp4ouxKFRCPlWM=
+Date: Mon, 9 Nov 2020 12:39:31 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 33/56] drm/omap: dsi: convert to drm_panel
+Message-ID: <20201109103931.GD6029@pendragon.ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
-Date: Mon, 9 Nov 2020 12:34:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20201105120333.947408-34-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201105120333.947408-34-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,59 +46,786 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
  Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
  linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 12:31, H. Nikolaus Schaller wrote:
+On Thu, Nov 05, 2020 at 02:03:10PM +0200, Tomi Valkeinen wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
->> Am 09.11.2020 um 11:22 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
->>>
->>>> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>>>
->>>> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
->>>>
->>>>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
->>>>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
->>>>>
->>>>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
->>>>> And hopefully we are close to push the panel driver for review. And in a second step some device
->>>>> tree for the Pyra.
->>>>>
->>>>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
->>>>
->>>> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
->>>> it's good to have that as a reference.
->>>
->>> Yes, here:
->>>
->>> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
->>
->> Ok. The old driver uses two separate VC configurations (request_vc calls),
+> This converts the DSI module to expect common drm_panel display
+> drivers instead of dssdev based ones.
 > 
-> yes indeed. I was not sure how to handle this with the new omapdrm drivers.
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 204 +++++++-----------
+>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 133 ++++++++++--
+>  .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |   1 -
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |   8 -
+>  4 files changed, 189 insertions(+), 157 deletions(-)
 > 
->> so it may not work with
->> this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
-> 
-> I see.
-> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
-> Or is this related to VC?
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index d9b3444b4faf..3668b3f0aff2 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -6,8 +6,6 @@
+>   * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>   */
+>  
+> -/* #define DEBUG */
+> -
+>  #include <linux/backlight.h>
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+> @@ -20,11 +18,14 @@
+>  #include <linux/regulator/consumer.h>
+>  
+>  #include <drm/drm_connector.h>
+> +#include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_panel.h>
+> +#include <drm/drm_modes.h>
 
-No, that's not related to the VC.
+Alphabetically ordered please.
 
- Tomi
+>  
+> +#include <video/display_timing.h>
+>  #include <video/mipi_display.h>
+>  #include <video/of_display_timing.h>
+> -
+> -#include "../dss/omapdss.h"
+> +#include <video/videomode.h>
+>  
+>  #define DCS_READ_NUM_ERRORS	0x05
+>  #define DCS_GET_ID1		0xda
+> @@ -35,11 +36,8 @@
+>  
+>  struct panel_drv_data {
+>  	struct mipi_dsi_device *dsi;
+> -
+> -	struct omap_dss_device dssdev;
+> -	struct omap_dss_device *src;
+> -
+> -	struct videomode vm;
+> +	struct drm_panel panel;
+> +	struct drm_display_mode mode;
+>  
+>  	struct mutex lock;
+>  
+> @@ -71,7 +69,11 @@ struct panel_drv_data {
+>  	bool ulps_enabled;
+>  };
+>  
+> -#define to_panel_data(p) container_of(p, struct panel_drv_data, dssdev)
+> +
+
+A single blank line is enough.
+
+> +static inline struct panel_drv_data *panel_to_ddata(struct drm_panel *panel)
+> +{
+> +	return container_of(panel, struct panel_drv_data, panel);
+> +}
+>  
+>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable);
+>  
+> @@ -285,7 +287,6 @@ static void dsicm_hw_reset(struct panel_drv_data *ddata)
+>  
+>  static int dsicm_power_on(struct panel_drv_data *ddata)
+>  {
+> -	struct omap_dss_device *src = ddata->src;
+>  	u8 id1, id2, id3;
+>  	int r;
+>  
+> @@ -322,10 +323,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>  	if (r)
+>  		goto err;
+>  
+> -	r = src->ops->dsi.enable_video_output(src, ddata->dsi->channel);
+> -	if (r)
+> -		goto err;
+> -
+>  	ddata->enabled = true;
+>  
+>  	if (!ddata->intro_printed) {
+> @@ -345,15 +342,12 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>  	return r;
+>  }
+>  
+> -static void dsicm_power_off(struct panel_drv_data *ddata)
+> +static int dsicm_power_off(struct panel_drv_data *ddata)
+>  {
+> -	struct omap_dss_device *src = ddata->src;
+>  	int r;
+>  
+>  	ddata->enabled = false;
+>  
+> -	src->ops->dsi.disable_video_output(src, ddata->dsi->channel);
+> -
+>  	r = mipi_dsi_dcs_set_display_off(ddata->dsi);
+>  	if (!r)
+>  		r = dsicm_sleep_in(ddata);
+> @@ -363,51 +357,25 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
+>  				"error disabling panel, issuing HW reset\n");
+>  		dsicm_hw_reset(ddata);
+>  	}
+> -}
+> -
+> -static int dsicm_connect(struct omap_dss_device *src,
+> -			 struct omap_dss_device *dst)
+> -{
+> -	struct panel_drv_data *ddata = to_panel_data(dst);
+> -
+> -	ddata->src = src;
+> -	return 0;
+> -}
+> -
+> -static void dsicm_disconnect(struct omap_dss_device *src,
+> -			     struct omap_dss_device *dst)
+> -{
+> -	struct panel_drv_data *ddata = to_panel_data(dst);
+>  
+> -	ddata->src = NULL;
+> +	return r;
+>  }
+>  
+> -static void dsicm_pre_enable(struct omap_dss_device *dssdev)
+> +static int dsicm_prepare(struct drm_panel *panel)
+>  {
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> -	struct omap_dss_device *src = ddata->src;
+> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>  	int r;
+> -	struct omap_dss_dsi_config dsi_config = {
+> -		.vm = &ddata->vm,
+> -		.hs_clk_min = 150000000,
+> -		.hs_clk_max = 300000000,
+> -		.lp_clk_min = 7000000,
+> -		.lp_clk_max = 10000000,
+> -	};
+>  
+>  	r = regulator_bulk_enable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+>  	if (r)
+>  		dev_err(&ddata->dsi->dev, "failed to enable supplies: %d\n", r);
+>  
+> -	r = src->ops->dsi.set_config(src, &dsi_config);
+> -	if (r) {
+> -		dev_err(&ddata->dsi->dev, "failed to configure DSI\n");
+> -	}
+> +	return r;
+>  }
+>  
+> -static void dsicm_enable(struct omap_dss_device *dssdev)
+> +static int dsicm_enable(struct drm_panel *panel)
+>  {
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>  	int r;
+>  
+>  	mutex_lock(&ddata->lock);
+> @@ -420,33 +388,39 @@ static void dsicm_enable(struct omap_dss_device *dssdev)
+>  
+>  	dsicm_bl_power(ddata, true);
+>  
+> -	return;
+> +	return 0;
+>  err:
+> -	dev_dbg(&ddata->dsi->dev, "enable failed (%d)\n", r);
+> +	dev_err(&ddata->dsi->dev, "enable failed (%d)\n", r);
+>  	mutex_unlock(&ddata->lock);
+> +	return r;
+> +}
+> +
+> +static int dsicm_unprepare(struct drm_panel *panel)
+> +{
+> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+> +	int r;
+> +
+> +	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+> +	if (r)
+> +		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
+> +
+> +	return r;
+>  }
+>  
+> -static void dsicm_disable(struct omap_dss_device *dssdev)
+> +static int dsicm_disable(struct drm_panel *panel)
+>  {
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+> +	int r;
+>  
+>  	dsicm_bl_power(ddata, false);
+>  
+>  	mutex_lock(&ddata->lock);
+>  
+> -	dsicm_power_off(ddata);
+> +	r = dsicm_power_off(ddata);
+>  
+>  	mutex_unlock(&ddata->lock);
+> -}
+> -
+> -static void dsicm_post_disable(struct omap_dss_device *dssdev)
+> -{
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> -	int r;
+>  
+> -	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+> -	if (r)
+> -		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
+> +	return r;
+>  }
+>  
+>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+> @@ -465,50 +439,37 @@ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+>  	return r;
+>  }
+>  
+> -static int dsicm_get_modes(struct omap_dss_device *dssdev,
+> +static int dsicm_get_modes(struct drm_panel *panel,
+>  			   struct drm_connector *connector)
+>  {
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+> +	struct drm_display_mode *mode;
+> +
+> +	mode = drm_mode_duplicate(connector->dev, &ddata->mode);
+> +	if (!mode) {
+> +		dev_err(&ddata->dsi->dev, "failed to add mode %ux%ux@%u kHz\n",
+> +			ddata->mode.hdisplay, ddata->mode.vdisplay,
+> +			ddata->mode.clock);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	drm_mode_set_name(mode);
+> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>  
+>  	connector->display_info.width_mm = ddata->width_mm;
+>  	connector->display_info.height_mm = ddata->height_mm;
+>  
+> -	return omapdss_display_get_modes(connector, &ddata->vm);
+> -}
+> -
+> -static int dsicm_check_timings(struct omap_dss_device *dssdev,
+> -			       struct drm_display_mode *mode)
+> -{
+> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+> -	int ret = 0;
+> -
+> -	if (mode->hdisplay != ddata->vm.hactive)
+> -		ret = -EINVAL;
+> -
+> -	if (mode->vdisplay != ddata->vm.vactive)
+> -		ret = -EINVAL;
+> +	drm_mode_probed_add(connector, mode);
+>  
+> -	if (ret) {
+> -		dev_warn(dssdev->dev, "wrong resolution: %d x %d",
+> -			 mode->hdisplay, mode->vdisplay);
+> -		dev_warn(dssdev->dev, "panel resolution: %d x %d",
+> -			 ddata->vm.hactive, ddata->vm.vactive);
+> -	}
+> -
+> -	return ret;
+> +	return 1;
+>  }
+>  
+> -static const struct omap_dss_device_ops dsicm_ops = {
+> -	.connect	= dsicm_connect,
+> -	.disconnect	= dsicm_disconnect,
+> -
+> -	.pre_enable	= dsicm_pre_enable,
+> -	.enable		= dsicm_enable,
+> -	.disable	= dsicm_disable,
+> -	.post_disable	= dsicm_post_disable,
+> -
+> -	.get_modes	= dsicm_get_modes,
+> -	.check_timings	= dsicm_check_timings,
+> +static const struct drm_panel_funcs dsicm_panel_funcs = {
+> +	.unprepare = dsicm_unprepare,
+> +	.disable = dsicm_disable,
+> +	.prepare = dsicm_prepare,
+> +	.enable = dsicm_enable,
+> +	.get_modes = dsicm_get_modes,
+>  };
+>  
+>  static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+> @@ -517,8 +478,12 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+>  	struct backlight_device *backlight;
+>  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+>  	struct display_timing timing;
+> +	struct videomode vm = { 0 };
+
+How about
+
+	struct videomode vm = {
+		.hactive = 864,
+		.vactive = 480,
+	};
+
+>  	int err;
+>  
+> +	vm.hactive = 864;
+> +	vm.vactive = 480;
+> +
+>  	ddata->reset_gpio = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+>  	if (IS_ERR(ddata->reset_gpio)) {
+>  		err = PTR_ERR(ddata->reset_gpio);
+> @@ -528,15 +493,16 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+>  
+>  	err = of_get_display_timing(node, "panel-timing", &timing);
+>  	if (!err) {
+> -		videomode_from_timing(&timing, &ddata->vm);
+> -		if (!ddata->vm.pixelclock)
+> -			ddata->vm.pixelclock =
+> -				ddata->vm.hactive * ddata->vm.vactive * 60;
+> +		videomode_from_timing(&timing, &vm);
+>  	} else {
+>  		dev_warn(&dsi->dev,
+>  			 "failed to get video timing, using defaults\n");
+>  	}
+>  
+> +	if (!vm.pixelclock)
+> +		vm.pixelclock = vm.hactive * vm.vactive * 60;
+> +	drm_display_mode_from_videomode(&vm, &ddata->mode);
+> +
+>  	ddata->width_mm = 0;
+>  	of_property_read_u32(node, "width-mm", &ddata->width_mm);
+>  
+> @@ -570,7 +536,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	struct panel_drv_data *ddata;
+>  	struct backlight_device *bldev = NULL;
+>  	struct device *dev = &dsi->dev;
+> -	struct omap_dss_device *dssdev;
+>  	int r;
+>  
+>  	dev_dbg(dev, "probe\n");
+> @@ -582,30 +547,17 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	mipi_dsi_set_drvdata(dsi, ddata);
+>  	ddata->dsi = dsi;
+>  
+> -	ddata->vm.hactive = 864;
+> -	ddata->vm.vactive = 480;
+> -	ddata->vm.pixelclock = 864 * 480 * 60;
+> -
+>  	r = dsicm_probe_of(dsi);
+>  	if (r)
+>  		return r;
+>  
+> -	dssdev = &ddata->dssdev;
+> -	dssdev->dev = dev;
+> -	dssdev->ops = &dsicm_ops;
+> -	dssdev->type = OMAP_DISPLAY_TYPE_DSI;
+> -	dssdev->display = true;
+> -	dssdev->owner = THIS_MODULE;
+> -	dssdev->of_port = 0;
+> -	dssdev->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
+> -
+> -	omapdss_display_init(dssdev);
+> -	omapdss_device_register(dssdev);
+> -
+>  	mutex_init(&ddata->lock);
+>  
+>  	dsicm_hw_reset(ddata);
+>  
+> +	drm_panel_init(&ddata->panel, dev, &dsicm_panel_funcs,
+> +		       DRM_MODE_CONNECTOR_DSI);
+> +
+>  	if (ddata->use_dsi_backlight) {
+>  		struct backlight_properties props = { 0 };
+>  		props.max_brightness = 255;
+> @@ -637,6 +589,8 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	if (ddata->ulps_enabled)
+>  		dsi->mode_flags |= MIPI_DSI_MODE_ULPS_IDLE;
+>  
+> +	drm_panel_add(&ddata->panel);
+> +
+>  	r = mipi_dsi_attach(dsi);
+>  	if (r < 0)
+>  		goto err_dsi_attach;
+> @@ -644,6 +598,7 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	return 0;
+>  
+>  err_dsi_attach:
+> +	drm_panel_remove(&ddata->panel);
+>  	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
+>  err_bl:
+>  	if (ddata->extbldev)
+> @@ -655,15 +610,12 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+>  {
+>  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+> -	struct omap_dss_device *dssdev = &ddata->dssdev;
+>  
+>  	dev_dbg(&dsi->dev, "remove\n");
+>  
+>  	mipi_dsi_detach(dsi);
+>  
+> -	omapdss_device_unregister(dssdev);
+> -
+> -	omapdss_device_disconnect(ddata->src, dssdev);
+> +	drm_panel_remove(&ddata->panel);
+>  
+>  	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
+>  
+> @@ -677,7 +629,7 @@ static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+>  }
+>  
+>  static const struct of_device_id dsicm_of_match[] = {
+> -	{ .compatible = "omapdss,panel-dsi-cm", },
+> +	{ .compatible = "panel-dsi-cm", },
+>  	{},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 620cef8bb1f2..a1a867a7d91d 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -36,6 +36,7 @@
+>  #include <linux/sys_soc.h>
+>  
+>  #include <drm/drm_mipi_dsi.h>
+> +#include <drm/drm_panel.h>
+>  #include <video/mipi_display.h>
+>  
+>  #include "omapdss.h"
+> @@ -217,6 +218,8 @@ static int dsi_vc_send_null(struct dsi_data *dsi, int channel);
+>  static ssize_t _omap_dsi_host_transfer(struct dsi_data *dsi,
+>  				       const struct mipi_dsi_msg *msg);
+>  
+> +static void dsi_display_disable(struct omap_dss_device *dssdev);
+> +
+
+Could you reorder functions to avoid forward-declarations ? This can be
+done on top if it generates annoying conflicts.
+
+>  /* DSI PLL HSDIV indices */
+>  #define HSDIV_DISPC	0
+>  #define HSDIV_DSI	1
+> @@ -383,6 +386,7 @@ struct dsi_data {
+>  	bool te_enabled;
+>  	bool ulps_enabled;
+>  	bool ulps_auto_idle;
+> +	bool video_enabled;
+>  
+>  	struct delayed_work ulps_work;
+>  
+> @@ -423,6 +427,8 @@ struct dsi_data {
+>  
+>  	unsigned int scp_clk_refcount;
+>  
+> +	struct omap_dss_dsi_config config;
+> +
+>  	struct dss_lcd_mgr_config mgr_config;
+>  	struct videomode vm;
+>  	enum mipi_dsi_pixel_format pix_fmt;
+> @@ -3622,7 +3628,7 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
+>  	return 0;
+>  }
+>  
+> -static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+> +static void dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>  {
+>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>  	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->pix_fmt);
+> @@ -3631,8 +3637,10 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>  	int r;
+>  
+>  	r = dsi_display_init_dispc(dsi);
+> -	if (r)
+> -		return r;
+> +	if (r) {
+> +		dev_err(dsi->dev, "failed to init dispc!\n");
+> +		return;
+> +	}
+>  
+>  	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE) {
+>  		switch (dsi->pix_fmt) {
+> @@ -3672,7 +3680,7 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>  	if (r)
+>  		goto err_mgr_enable;
+>  
+> -	return 0;
+> +	return;
+>  
+>  err_mgr_enable:
+>  	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE) {
+> @@ -3681,7 +3689,8 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>  	}
+>  err_pix_fmt:
+>  	dsi_display_uninit_dispc(dsi);
+> -	return r;
+> +	dev_err(dsi->dev, "failed to enable DSI encoder!\n");
+> +	return;
+>  }
+>  
+>  static void dsi_disable_video_output(struct omap_dss_device *dssdev, int channel)
+> @@ -3704,6 +3713,25 @@ static void dsi_disable_video_output(struct omap_dss_device *dssdev, int channel
+>  	dsi_display_uninit_dispc(dsi);
+>  }
+>  
+> +static void dsi_disable_video_outputs(struct omap_dss_device *dssdev)
+> +{
+> +	struct dsi_data *dsi = to_dsi_data(dssdev);
+> +	int i;
+> +
+> +	dsi_bus_lock(dsi);
+> +	dsi->video_enabled = false;
+> +
+> +	for (i = 0; i < 3; i++) {
+> +		if (!dsi->vc[i].dest)
+> +			continue;
+> +		dsi_disable_video_output(dssdev, i);
+> +	}
+> +
+> +	dsi_display_disable(dssdev);
+> +
+> +	dsi_bus_unlock(dsi);
+> +}
+> +
+>  static void dsi_update_screen_dispc(struct dsi_data *dsi)
+>  {
+>  	unsigned int bytespp;
+> @@ -3897,6 +3925,11 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int channel)
+>  
+>  	dsi_bus_lock(dsi);
+>  
+> +	if (!dsi->video_enabled) {
+> +		r = -EIO;
+> +		goto err;
+> +	}
+> +
+>  	if (!dsi->vc[channel].dest) {
+>  		r = -ENODEV;
+>  		goto err;
+> @@ -3942,7 +3975,7 @@ static int dsi_update_all(struct omap_dss_device *dssdev)
+>  
+>  	for (i = 0; i < 4; i++) {
+>  		r = dsi_update_channel(dssdev, i);
+> -		if (r != -ENODEV)
+> +		if (r && r != -ENODEV)
+
+Does this belong to this patch ? I haven't flagged it when reviwing the
+patch that introduced this code, assuming that you meant to exit from
+the loop once a channel with a client is found, given that we don't
+support multiple clients. In any case this should be coordinated with
+dsi_enable_video_outputs() and dsi_disable_video_outputs(), all should
+stop on the first client, or loop over all clients.
+
+>  			return r;
+>  	}
+>  
+> @@ -4165,8 +4198,30 @@ static void dsi_display_enable(struct omap_dss_device *dssdev)
+>  {
+>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>  	DSSDBG("dsi_display_enable\n");
+> -	dsi_bus_lock(dsi);
+> +	WARN_ON(!dsi_bus_is_locked(dsi));
+> +
+>  	dsi_display_ulps_enable(dsi);
+> +}
+> +
+> +static void dsi_enable_video_outputs(struct omap_dss_device *dssdev)
+> +{
+> +	struct dsi_data *dsi = to_dsi_data(dssdev);
+> +	int i;
+
+i should be unsigned.
+
+> +
+> +	dsi_bus_lock(dsi);
+> +
+> +	dsi_display_enable(dssdev);
+> +
+> +	for (i = 0; i < 3; i++) {
+> +		if (!dsi->vc[i].dest)
+> +			continue;
+> +		dsi_enable_video_output(dssdev, i);
+> +	}
+> +
+> +	dsi->video_enabled = true;
+> +
+> +	dsi_set_ulps_auto(dsi, true);
+> +
+>  	dsi_bus_unlock(dsi);
+>  }
+>  
+> @@ -4193,11 +4248,11 @@ static void dsi_display_disable(struct omap_dss_device *dssdev)
+>  {
+>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>  
+> +	WARN_ON(!dsi_bus_is_locked(dsi));
+> +
+>  	DSSDBG("dsi_display_disable\n");
+>  
+> -	dsi_bus_lock(dsi);
+>  	dsi_display_ulps_disable(dsi, true, false);
+> -	dsi_bus_unlock(dsi);
+>  }
+>  
+>  static int dsi_enable_te(struct dsi_data *dsi, bool enable)
+> @@ -4735,14 +4790,18 @@ static bool dsi_is_video_mode(struct omap_dss_device *dssdev)
+>  }
+>  
+>  static int dsi_set_config(struct omap_dss_device *dssdev,
+> -		const struct omap_dss_dsi_config *config)
+> +		const struct drm_display_mode *mode)
+>  {
+>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>  	struct dsi_clk_calc_ctx ctx;
+> -	struct omap_dss_dsi_config cfg = *config;
+> +	struct videomode vm;
+> +	struct omap_dss_dsi_config cfg = dsi->config;
+>  	bool ok;
+>  	int r;
+>  
+> +	drm_display_mode_to_videomode(mode, &vm);
+> +	cfg.vm = &vm;
+> +
+>  	mutex_lock(&dsi->lock);
+>  
+>  	cfg.mode = dsi->mode;
+> @@ -4906,9 +4965,15 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
+>  	int r;
+>  
+>  	dsi_bus_lock(dsi);
+> -	dsi_set_ulps_auto(dsi, false);
+> -	r = _omap_dsi_host_transfer(dsi, msg);
+> -	dsi_set_ulps_auto(dsi, true);
+> +
+> +	if (dsi->video_enabled) {
+> +		dsi_set_ulps_auto(dsi, false);
+> +		r = _omap_dsi_host_transfer(dsi, msg);
+> +		dsi_set_ulps_auto(dsi, true);
+> +	} else {
+> +		r = -EIO;
+> +	}
+> +
+>  	dsi_bus_unlock(dsi);
+>  
+>  	return r;
+> @@ -4929,6 +4994,23 @@ static int dsi_get_clocks(struct dsi_data *dsi)
+>  	return 0;
+>  }
+>  
+> +static void dsi_set_timings(struct omap_dss_device *dssdev,
+> +			    const struct drm_display_mode *mode)
+> +{
+> +	DSSDBG("dsi_set_timings\n");
+> +	dsi_set_config(dssdev, mode);
+> +}
+> +
+> +static int dsi_check_timings(struct omap_dss_device *dssdev,
+> +			     struct drm_display_mode *mode)
+> +{
+> +	DSSDBG("dsi_check_timings\n");
+> +
+> +	/* TODO */
+> +
+> +	return 0;
+> +}
+> +
+>  static int dsi_connect(struct omap_dss_device *src,
+>  		       struct omap_dss_device *dst)
+>  {
+> @@ -4944,15 +5026,13 @@ static void dsi_disconnect(struct omap_dss_device *src,
+>  static const struct omap_dss_device_ops dsi_ops = {
+>  	.connect = dsi_connect,
+>  	.disconnect = dsi_disconnect,
+> -	.enable = dsi_display_enable,
+> -	.disable = dsi_display_disable,
+> -
+> -	.dsi = {
+> -		.set_config = dsi_set_config,
+> +	.enable = dsi_enable_video_outputs,
+> +	.disable = dsi_disable_video_outputs,
+>  
+> -		.enable_video_output = dsi_enable_video_output,
+> -		.disable_video_output = dsi_disable_video_output,
+> +	.check_timings = dsi_check_timings,
+> +	.set_timings = dsi_set_timings,
+>  
+> +	.dsi = {
+>  		.update = dsi_update_all,
+>  		.is_video_mode = dsi_is_video_mode,
+>  	},
+> @@ -5040,6 +5120,7 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+>  {
+>  	struct dsi_data *dsi = host_to_omap(host);
+>  	unsigned int channel = client->channel;
+> +	struct drm_panel *panel;
+>  	int r;
+>  
+>  	if (channel > 3)
+> @@ -5057,6 +5138,10 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+>  
+>  	dsi_bus_lock(dsi);
+>  
+> +	panel = of_drm_find_panel(client->dev.of_node);
+> +	if (IS_ERR(panel))
+> +		return PTR_ERR(panel);
+
+Is it intended that the panel isn't used ?
+
+> +
+>  	atomic_set(&dsi->do_ext_te_update, 0);
+>  
+>  	if (client->mode_flags & MIPI_DSI_MODE_VIDEO) {
+> @@ -5077,8 +5162,12 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+>  	INIT_DEFERRABLE_WORK(&dsi->ulps_work,
+>  			     omap_dsi_ulps_work_callback);
+>  
+> +	dsi->config.hs_clk_min = 150000000; // TODO: get from client?
+> +	dsi->config.hs_clk_max = client->hs_rate;
+> +	dsi->config.lp_clk_min = 7000000; // TODO: get from client?
+> +	dsi->config.lp_clk_max = client->lp_rate;
+> +
+>  	dsi->ulps_auto_idle = !!(client->mode_flags & MIPI_DSI_MODE_ULPS_IDLE);
+> -	dsi_set_ulps_auto(dsi, true);
+>  
+>  	dsi_bus_unlock(dsi);
+>  	return 0;
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> index 72a7da7bfff1..18560ca4bbb0 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+> @@ -174,7 +174,6 @@ static const struct of_device_id omapdss_of_match[] __initconst = {
+>  };
+>  
+>  static const struct of_device_id omapdss_of_fixups_whitelist[] __initconst = {
+> -	{ .compatible = "panel-dsi-cm" },
+>  	{},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index 4200611525d5..3ee3063b6a2d 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -278,14 +278,6 @@ struct omap_dss_writeback_info {
+>  struct omapdss_dsi_ops {
+>  	int (*update)(struct omap_dss_device *dssdev);
+>  	bool (*is_video_mode)(struct omap_dss_device *dssdev);
+> -
+> -	/* legacy API used by omapdss panels */
+> -	int (*set_config)(struct omap_dss_device *dssdev,
+> -			const struct omap_dss_dsi_config *cfg);
+> -
+> -	int (*enable_video_output)(struct omap_dss_device *dssdev, int channel);
+> -	void (*disable_video_output)(struct omap_dss_device *dssdev,
+> -			int channel);
+>  };
+>  
+>  struct omap_dss_device_ops {
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
