@@ -2,32 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AA12AB4A2
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015942AB4AA
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:20:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAFF88932D;
-	Mon,  9 Nov 2020 10:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2E1897E4;
+	Mon,  9 Nov 2020 10:20:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A97A8932D
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:19:48 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BEAE0ABCC;
- Mon,  9 Nov 2020 10:19:46 +0000 (UTC)
-Subject: Re: [PATCH] drm/ast: Fixed 1920x1080 sync. polarity issue
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org
-References: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <bb94260f-8713-6b12-dde5-f121117aac3d@suse.de>
-Date: Mon, 9 Nov 2020 11:19:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00E2897E4
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:20:32 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 326BFB2B;
+ Mon,  9 Nov 2020 11:20:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1604917231;
+ bh=tcX+qRLw0uzDjXYmlsPSxct4ho087eCBavQN2lOAuLE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hDKCAI1i3aZem1YcpX2y68P8e/tLnFDA5W6DE3w8kRg51siSwyt3N0vPBchgHMO04
+ BnaA/ghizZoc9sje92JLPReSkBRh19CnkK+JYaQf+PWNkZlkm8NJxH/HLJeSaCxpSw
+ XFeoVtA/SNONrI3UJH4dWE+C1HDDKr36JSOTk2aw=
+Date: Mon, 9 Nov 2020 12:20:27 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 32/56] drm/omap: dsi: drop custom panel capability
+ support
+Message-ID: <20201109102027.GC6029@pendragon.ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-33-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20201105094729.106059-1-kuohsiang_chou@aspeedtech.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201105120333.947408-33-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,39 +47,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jenmin_yuan@aspeedtech.com, airlied@redhat.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, eich@suse.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCkFtIDA1LjExLjIwIHVtIDEwOjQ3IHNjaHJpZWIgS3VvSHNpYW5nIENob3U6Cj4gW0J1Z10g
-Q2hhbmdlIHRoZSB2ZXJ0aWNhbCBzeW5jaHJvb3VzIHBvbGFyeSBvZiAxOTIweDEwODAgQDYwSHoK
-PiAgICAgICBmcm9tICBOZWd0aXZlIHRvIFBvc2l0aXZlCj4gCj4gU2lnbmVkLW9mZi1ieTogS3Vv
-SHNpYW5nIENob3UgPGt1b2hzaWFuZ19jaG91QGFzcGVlZHRlY2guY29tPgoKSSd2ZSBtZXJnZWQg
-dGhpcyBwYXRjaC4gVGhhbmtzIQoKQmVzdCByZWdhcmRzClRob21hcwoKPiAtLS0KPiAgZHJpdmVy
-cy9ncHUvZHJtL2FzdC9hc3RfdGFibGVzLmggfCA0ICsrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDIg
-aW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2FzdC9hc3RfdGFibGVzLmggYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF90YWJsZXMu
-aAo+IGluZGV4IDg0MTRlNTQzZjI2MC4uNTFlZmM1YjRhNTVjIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9hc3QvYXN0X3RhYmxlcy5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfdGFibGVzLmgKPiBAQCAtMjk1LDEwICsyOTUsMTAgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBh
-c3RfdmJpb3NfZW5odGFibGUgcmVzXzE2MDB4OTAwW10gPSB7Cj4gCj4gIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgYXN0X3ZiaW9zX2VuaHRhYmxlIHJlc18xOTIweDEwODBbXSA9IHsKPiAgCXsyMjAwLCAx
-OTIwLCA4OCwgNDQsIDExMjUsIDEwODAsIDQsIDUsIFZDTEsxNDhfNSwJLyogNjBIeiAqLwo+IC0J
-IChTeW5jTlAgfCBDaGFyeDhEb3QgfCBMaW5lQ29tcGFyZU9mZiB8IFdpZGVTY3JlZW5Nb2RlIHwg
-TmV3TW9kZUluZm8gfAo+ICsJIChTeW5jUFAgfCBDaGFyeDhEb3QgfCBMaW5lQ29tcGFyZU9mZiB8
-IFdpZGVTY3JlZW5Nb2RlIHwgTmV3TW9kZUluZm8gfAo+ICAJICBBU1QyNTAwUHJlQ2F0Y2hDUlQp
-LCA2MCwgMSwgMHgzOCB9LAo+ICAJezIyMDAsIDE5MjAsIDg4LCA0NCwgMTEyNSwgMTA4MCwgNCwg
-NSwgVkNMSzE0OF81LAkvKiA2MEh6ICovCj4gLQkgKFN5bmNOUCB8IENoYXJ4OERvdCB8IExpbmVD
-b21wYXJlT2ZmIHwgV2lkZVNjcmVlbk1vZGUgfCBOZXdNb2RlSW5mbyB8Cj4gKwkgKFN5bmNQUCB8
-IENoYXJ4OERvdCB8IExpbmVDb21wYXJlT2ZmIHwgV2lkZVNjcmVlbk1vZGUgfCBOZXdNb2RlSW5m
-byB8Cj4gIAkgIEFTVDI1MDBQcmVDYXRjaENSVCksIDB4RkYsIDEsIDB4MzggfSwKPiAgfTsKPiAK
-PiAtLQo+IDIuMTguNAo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBE
-ZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIu
-IDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdl
-c2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Tomi and Sebastian,
+
+Thank you for the patch.
+
+On Thu, Nov 05, 2020 at 02:03:09PM +0200, Tomi Valkeinen wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> Due to previous changes the DSI encoder gets the capabilities
+> via DSI client's mode_flags and no longer needs the omapdss
+> specific caps. The core code now checks if the DSI encoder
+> is actually configured into command mode instead of just checking
+> the panel capabilities.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c |  3 ---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c               |  8 ++++++++
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h           |  8 +-------
+>  drivers/gpu/drm/omapdrm/omap_crtc.c             | 17 ++++++++---------
+>  4 files changed, 17 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index 45d417870498..d9b3444b4faf 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -599,9 +599,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	dssdev->of_port = 0;
+>  	dssdev->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
+>  
+> -	dssdev->caps = OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE |
+> -		OMAP_DSS_DISPLAY_CAP_TEAR_ELIM;
+> -
+>  	omapdss_display_init(dssdev);
+>  	omapdss_device_register(dssdev);
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 0aa0d21cf896..620cef8bb1f2 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4727,6 +4727,13 @@ static bool dsi_vm_calc(struct dsi_data *dsi,
+>  			dsi_vm_calc_pll_cb, ctx);
+>  }
+>  
+> +static bool dsi_is_video_mode(struct omap_dss_device *dssdev)
+> +{
+> +	struct dsi_data *dsi = to_dsi_data(dssdev);
+> +
+> +	return (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE);
+
+No need for parentheses.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +}
+> +
+>  static int dsi_set_config(struct omap_dss_device *dssdev,
+>  		const struct omap_dss_dsi_config *config)
+>  {
+> @@ -4947,6 +4954,7 @@ static const struct omap_dss_device_ops dsi_ops = {
+>  		.disable_video_output = dsi_disable_video_output,
+>  
+>  		.update = dsi_update_all,
+> +		.is_video_mode = dsi_is_video_mode,
+>  	},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index de4c779c358a..4200611525d5 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -123,11 +123,6 @@ enum omap_dss_dsi_mode {
+>  	OMAP_DSS_DSI_VIDEO_MODE,
+>  };
+>  
+> -enum omap_display_caps {
+> -	OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE	= 1 << 0,
+> -	OMAP_DSS_DISPLAY_CAP_TEAR_ELIM		= 1 << 1,
+> -};
+> -
+>  enum omap_dss_display_state {
+>  	OMAP_DSS_DISPLAY_DISABLED = 0,
+>  	OMAP_DSS_DISPLAY_ACTIVE,
+> @@ -282,6 +277,7 @@ struct omap_dss_writeback_info {
+>  
+>  struct omapdss_dsi_ops {
+>  	int (*update)(struct omap_dss_device *dssdev);
+> +	bool (*is_video_mode)(struct omap_dss_device *dssdev);
+>  
+>  	/* legacy API used by omapdss panels */
+>  	int (*set_config)(struct omap_dss_device *dssdev,
+> @@ -354,8 +350,6 @@ struct omap_dss_device {
+>  	unsigned long ops_flags;
+>  	u32 bus_flags;
+>  
+> -	enum omap_display_caps caps;
+> -
+>  	enum omap_dss_display_state state;
+>  
+>  	/* OMAP DSS output specific fields */
+> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> index 3068e4fffa16..f6b968060cf0 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> @@ -496,8 +496,7 @@ static enum drm_mode_status omap_crtc_mode_valid(struct drm_crtc *crtc,
+>  	 * valid DISPC mode. DSI will calculate and configure the
+>  	 * proper DISPC mode later.
+>  	 */
+> -	if (omap_crtc->pipe->output->next == NULL ||
+> -	    omap_crtc->pipe->output->next->type != OMAP_DISPLAY_TYPE_DSI) {
+> +	if (omap_crtc->pipe->output->type != OMAP_DISPLAY_TYPE_DSI) {
+>  		r = priv->dispc_ops->mgr_check_timings(priv->dispc,
+>  						       omap_crtc->channel,
+>  						       &vm);
+> @@ -549,17 +548,17 @@ static void omap_crtc_mode_set_nofb(struct drm_crtc *crtc)
+>  static bool omap_crtc_is_manually_updated(struct drm_crtc *crtc)
+>  {
+>  	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+> -	struct omap_dss_device *display = omap_crtc->pipe->output->next;
+> +	struct omap_dss_device *dssdev = omap_crtc->pipe->output;
+>  
+> -	if (!display)
+> +	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI ||
+> +	    !dssdev->ops->dsi.is_video_mode)
+>  		return false;
+>  
+> -	if (display->caps & OMAP_DSS_DISPLAY_CAP_MANUAL_UPDATE) {
+> -		DBG("detected manually updated display!");
+> -		return true;
+> -	}
+> +	if (dssdev->ops->dsi.is_video_mode(dssdev))
+> +		return false;
+>  
+> -	return false;
+> +	DBG("detected manually updated display!");
+> +	return true;
+>  }
+>  
+>  static int omap_crtc_atomic_check(struct drm_crtc *crtc,
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
