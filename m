@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B622E2AD109
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AF02AD11B
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69149898D9;
-	Tue, 10 Nov 2020 08:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FBCE89958;
+	Tue, 10 Nov 2020 08:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
  [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D1189932
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:07:09 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j7so968443wrp.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:07:09 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37B7189935
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:07:11 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r17so4306500wrw.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:07:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
- b=xWDYj2fBLmHGr/Gy85P06U2gKM3D4irotg7Jdhw1AyiBnRSDDMWVsz+UsdmoIiJ1F6
- nBdb9dPDrCjuHs2goVBwrr6i6L4C7nSkDDkQ52BSJEmC2Sc+Lp3e/ArXtKhoYyq2tjlm
- enDVDKNvTwWmAC7ozqpXJrCXGsNiuZH44PQN4c/a7dPfoMS2oPpYh7i3mNmXgbZlJvFE
- GIrrnt+rSBU33vfETv4kqGiEQcGPEdca2Jt17hBqqYBDAZWSOPL0sA/n+Zbdml7GLRC0
- DkMxtT7MSeOhKhfcqgYLWG72cc/mZ35Yq91+n4gnXf+cL4HS0AnCOswBrOImbVlmN+XV
- kQGQ==
+ bh=6cAnhvx340aJ9UoLX1zbzAI7OYOIgRl1WRMoR3sh/3E=;
+ b=FyQZtjHqfEyQnPv0TcpcPtzRKkDJw+5CmWnvLutUBlrvUrtATk0Us2kMQ7uvhmWfUK
+ 0eNbMBkRypCB1SmS4/cqrqAasUoL4DRnxlRBQpx1RY6Tmr/Nmpi1qrl9p+XJQGfeV43E
+ mFuEs1COfnJNQITfkQgHpOePzHVg4ZkMOJ3R2gxEfTlMvi1SeMz0xGFn8SpGlE7k3cDi
+ ir/hpb8caCpkIei6+oq3/Ia4klZ1In4veaRJTPot+bbCaCVpPH5XTZ/5HXwtNVY6LaVL
+ 3yuEq5NuC3KQYT8NF2HDTR54VuMPtxnryjgjsmx6McYPUOFssMfDPYJ7o2Sth0VExlL2
+ F4tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iECHQmtOjlKNpXGH67tnBHQ9XW515B1GPzEiiSpCWAs=;
- b=plWmLx84i3CfXQ3R3VkSAYVlh96MFUTP5g735tmZvmiolfyUYm1LYycNIT7mbN1U0T
- FB7zql+mxfyRqefONHEU2MX7VdQEZH81Qltm97/cJGoZvj9ylgVMcWdI0rJxicwqgVc1
- ehUku/hUJmia3VXmyVPsXKHwHLag1SXA8CnDusdLj2Iv56Ydw9v5pH22m3cy0gz77tTR
- N2lu7F66a0fXcMb/YcHh1pGU6PIS2/eHG3kUt9jP4+7waCPK//Am5GUXN3Dvq/zCxkx+
- DYD7vvqELut5YdIMURl2hzTQvNVLbUI/kkKQC8bLWofF8Zaknrlpi3M6eFCsFsyQIXWU
- /4Ag==
-X-Gm-Message-State: AOAM5322jh4DrQI/XFMVyq/KjAh8c2+UwWTYrv9htv8Kk91VjoqAUEzd
- e5yylW4FgYPy5nnCRA2ExYCoNQ==
-X-Google-Smtp-Source: ABdhPJxJIoqvvP9l/776r7Kb43HV1AC5EVztuqTnCOgkzEIqxPExxehDC+JhspQEHF3syfUB3O2Rrw==
-X-Received: by 2002:adf:eb4f:: with SMTP id u15mr17320974wrn.165.1604920028177; 
- Mon, 09 Nov 2020 03:07:08 -0800 (PST)
+ bh=6cAnhvx340aJ9UoLX1zbzAI7OYOIgRl1WRMoR3sh/3E=;
+ b=DBWgHMHBLVZ9u7jemuPEg3zrAaPAW9rzmhWUXQNBvqMBhfs/TxzEafRgGcbi8RWNVn
+ O6VQ1L5ukfqQrKnAGN9IjCZSGkRKQlXWBjeV5v2ijDHsj+DkI6KUbihJFwP+GF1y30Un
+ 2XwKpJhL9kD1EysXRQrCRHLFqwPzAIjASa8XPwmIt9ESALDHYI0kGkUWENmtvVZn7H9l
+ b5nfUUpqk0e2Z7HEsw1k1ZR/qKt5cANYpAqcjFJUOll0EKiMwP7rg2hzLZQhf2jIU+UA
+ SPg6WJUi6ZnTG5djclClnrhrJyixT81UNRw2dTjQSyYakUqGr/te6Mr9kKrG5RwfciLz
+ 6TFA==
+X-Gm-Message-State: AOAM5318jaK9FKh++UoYrtzaqCY5sxes3E4LNwx5Kaqi8wXOXDr6wqMM
+ gDyS732/IVhwmOuyEnOLvwwZ0Q==
+X-Google-Smtp-Source: ABdhPJzVQIP6CvZC6MnxUgT+6qZKHTI55QEgy3Y0wnhrHAwRmJiPirAD+L1SJbeYTFQHWYNVPaOZHg==
+X-Received: by 2002:adf:a315:: with SMTP id c21mr17265337wrb.272.1604920029898; 
+ Mon, 09 Nov 2020 03:07:09 -0800 (PST)
 Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr.
  [2.15.39.206])
- by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.07.06
+ by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.07.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 03:07:07 -0800 (PST)
+ Mon, 09 Nov 2020 03:07:09 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,14 +66,14 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v3 5/9] pinctrl: use krealloc_array()
-Date: Mon,  9 Nov 2020 12:06:50 +0100
-Message-Id: <20201109110654.12547-6-brgl@bgdev.pl>
+Subject: [PATCH v3 6/9] edac: ghes: use krealloc_array()
+Date: Mon,  9 Nov 2020 12:06:51 +0100
+Message-Id: <20201109110654.12547-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201109110654.12547-1-brgl@bgdev.pl>
 References: <20201109110654.12547-1-brgl@bgdev.pl>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:57 +0000
+X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,12 +86,12 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
- linux-edac@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Borislav Petkov <bp@suse.de>,
+ kvm@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
+ linux-gpio@vger.kernel.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+ linux-media@vger.kernel.org, linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -103,24 +103,26 @@ Use the helper that checks for overflows internally instead of manually
 calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Borislav Petkov <bp@suse.de>
 ---
- drivers/pinctrl/pinctrl-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/edac/ghes_edac.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-utils.c b/drivers/pinctrl/pinctrl-utils.c
-index f2bcbf62c03d..93df0d4c0a24 100644
---- a/drivers/pinctrl/pinctrl-utils.c
-+++ b/drivers/pinctrl/pinctrl-utils.c
-@@ -39,7 +39,7 @@ int pinctrl_utils_reserve_map(struct pinctrl_dev *pctldev,
- 	if (old_num >= new_num)
- 		return 0;
+diff --git a/drivers/edac/ghes_edac.c b/drivers/edac/ghes_edac.c
+index a918ca93e4f7..6d1ddecbf0da 100644
+--- a/drivers/edac/ghes_edac.c
++++ b/drivers/edac/ghes_edac.c
+@@ -207,8 +207,8 @@ static void enumerate_dimms(const struct dmi_header *dh, void *arg)
+ 	if (!hw->num_dimms || !(hw->num_dimms % 16)) {
+ 		struct dimm_info *new;
  
--	new_map = krealloc(*map, sizeof(*new_map) * new_num, GFP_KERNEL);
-+	new_map = krealloc_array(*map, new_num, sizeof(*new_map), GFP_KERNEL);
- 	if (!new_map) {
- 		dev_err(pctldev->dev, "krealloc(map) failed\n");
- 		return -ENOMEM;
+-		new = krealloc(hw->dimms, (hw->num_dimms + 16) * sizeof(struct dimm_info),
+-			        GFP_KERNEL);
++		new = krealloc_array(hw->dimms, hw->num_dimms + 16,
++				     sizeof(struct dimm_info), GFP_KERNEL);
+ 		if (!new) {
+ 			WARN_ON_ONCE(1);
+ 			return;
 -- 
 2.29.1
 
