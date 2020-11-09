@@ -1,92 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8A52AB35B
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 10:15:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC2F2AB3A0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 10:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D478E8982F;
-	Mon,  9 Nov 2020 09:15:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 160B189316;
+	Mon,  9 Nov 2020 09:32:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A4789824
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 09:15:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WlasOB20tzWUbfySoNbfLb0mpd0pfuw/JB9R2k4PEbl+DSmFFXQzZUTvwnp32X6enRlM32dxKy9Mnl55YrUl6ELtKgV9PrePWzIPazJ1Eb3AKN5pZbGUS46MSFY+28Te0bELts35OSM+nZFTg8ijHyqKMMff0u6vEL4gCRBmd90iz5SSm3r5P/AfASJ3pDnDqTD79CNmLMHldDQiTi5OdU4CdPDHnOqECHLI5/CNVfKU9QOWg71WFX3Yh8tj6TdP1NgWgkQDney52lS/xyV9rquV6WUu3RkZWJNixbh0wP6t0i3kn042K1qYr9bJ32DJ62yeCATO/Bta4XgOUxP3mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H4OWaZjv6LCskSOSD7dhbsbmWI5hnmzYceIDFUzJa6k=;
- b=lrGwuAnnqBsBa6yA4Q0MbTnqCj1cnVVDDEkUQxgTsRFuy2LBqj1zxANMQaQMyPXggVg/9iKrouKEP0cOIHWZLGaXu0ROqtjo48LGhic7plmGcA/xhD7VSui8cwmV2Dyawc1W4GOnGOq9L0XGNgdtTt6zUyR1GZUQa6PhqnxX7n1CrWgKoUktYgRn+3cBd697LYzdu4pC6IMGesdLmIQ/QKOjWk+FBCGMPQCpOdjU/UUvJ6z200jfH/l5IEUoVz5BU56fvmibAmz7WCJOgQi4BHjBaF3WjUubwBxPn9CN+1T1xgaebganL88dd60w0gufj9bgg3nhncdhAByVPiwbZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H4OWaZjv6LCskSOSD7dhbsbmWI5hnmzYceIDFUzJa6k=;
- b=rSITB9/AYVqJRoJgdMLHXMDuseQ0jsRgP++Hy6MXtYGf85h346RHzjPj+P+WUetMhMid/gmVF8HETv4A9xhLW/PR0XtMADHsC7waNs6G4AS4755d6Z/KeUcJv4TFXnRV1kJWmik6lP0NrV8T5sQU7YbenUL+9bhssrWOqf+MCLE=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3770.namprd12.prod.outlook.com (2603:10b6:5:1c4::19)
- by DM5PR12MB1356.namprd12.prod.outlook.com (2603:10b6:3:74::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Mon, 9 Nov
- 2020 09:15:39 +0000
-Received: from DM6PR12MB3770.namprd12.prod.outlook.com
- ([fe80::e580:a53a:abc8:6c5b]) by DM6PR12MB3770.namprd12.prod.outlook.com
- ([fe80::e580:a53a:abc8:6c5b%7]) with mapi id 15.20.3499.032; Mon, 9 Nov 2020
- 09:15:39 +0000
-Subject: Re: [PATCH 2/4] drm/amdgpu/ttm: use multihop
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-References: <20201109005432.861936-1-airlied@gmail.com>
- <20201109005432.861936-3-airlied@gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <b85aeb1e-12a9-ef17-64a1-abcfbf4612ee@amd.com>
-Date: Wed, 11 Nov 2020 18:15:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201109005432.861936-3-airlied@gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR01CA0080.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:10e::21) To DM6PR12MB3770.namprd12.prod.outlook.com
- (2603:10b6:5:1c4::19)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7436F89316
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 09:32:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC446B2B;
+ Mon,  9 Nov 2020 10:32:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1604914368;
+ bh=QZM8pWa3XxAYZ/jFdcXufIqaoC5vUkVqklUwQthkAY0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZT/OyyJYYoo+ftRVZuQcbYex0j660Q0YDT8LJj+92QfV64CitInRH7PbVbvzqBS2d
+ lY56r0xnldU+eXHVQDLkxeJCjTEGyxk79c8koDKCL7hUJPv/jHg2yOsLW6P+6tPpJ1
+ E5e0jWuS6ow2Tkz34MlwfZxBE3aWNWG2ZuzL6XFo=
+Date: Mon, 9 Nov 2020 11:32:45 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v3 26/56] drm/omap: dsi: drop custom enable_te() API
+Message-ID: <20201109093245.GW6029@pendragon.ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-27-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR01CA0080.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
- Transport; Mon, 9 Nov 2020 09:15:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: daff2335-ab2a-4746-1433-08d884900644
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1356:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB135625FCF99298B5CC3C0A5883EA0@DM5PR12MB1356.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mSrR4deNfETWDs8j7WuN2eiqVWxhN5A6MrfAwU6J5rVOd/uCPD/z6f042zII+n/HLiN2v0JH7jKyrXvpLYllyLFICFEhXp4nUSEbjthN+BjAdhQjLuWuZcTQWfKjK2I810wiwiLRj7iPtwH3W7cMWwBiJhH/l+KkgiE4pQe4Zsue1s/cjD/rqeGD2Pnt2D4HfH5LENYrC4xgRaWvjr3L6vLOr7LDj2ZrhDHcWGQuIbr4PzedGTslYdILwQVcn47+ml5mK8zleO/8Ic51HS6/s22migRQ4UHa3WBSDU3nT225j4m+TR9vZ5aKvq0011QK+mMtNe/4DRFbDEm34htvTJsfZguTfv2nc5gH+a3MVJoBk37dZXu8Z6tMdn6mXTgR
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB3770.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(2906002)(52116002)(31696002)(478600001)(2616005)(8676002)(5660300002)(8936002)(316002)(86362001)(36756003)(83380400001)(6486002)(66476007)(66556008)(6666004)(16526019)(31686004)(66946007)(186003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 8X/1MOtac/Ns5JjTw5de/cNL9bxm0LSOC2nGbX/4K6GV5TYzmhOLHmVdw3hGZlhVLEqmAckZDVyt1/i50MsyXkq3SJLiDG4xJzaOY3uYnyOzwPp5VP4xaAq1LNwgHDIwAw0sae0X5dk9z4RL5Q8W0M0Oa//m4F67EcB+Bv9GiV9KABgmcOKCUI5D3bDKep/MK7JO5KJT6Q+Ova7B+4DuPK23pF5ffgCiAZZdM91JFZ7CKRuVc2xWE+auC6xiiNkmlW+TWxCYl8y60NABqz+gepSxKT+f7k+hbq5zEni9zzdh8IUx9gniUps+9dDngdLpMXcF1wb2K1Xj80sl08ezEM6BAFiKq80VNVGYnC6x5Z/EeFMT6y1Li1byMD1d0+QQy9LbdoSsYB+U0NQaMdwD6KdwjnhFEFhLmcQ0WGyT9JhFTOOlYyW2KPCBhquu9K9UM3ksy8ZV2NVREUANgaghIkZPL2k6qmsaF6cVSXS6aSIikChEbiukdaIm+Fb/3vYrCWOppoCwpvcOSiA3xYZ37O7LCCxt0W6i6Z6M9nKbm6UVMJa+PrlflknUh5yEm6EEhiVR+P5MGRWj+ehd/aOJEtQhKZNtKwvJtK6UGrqpPV6Ho3yAgFyR1LVMu5++dIgHbHOAJEam6dZa8o1z8zFyP6u+8J8/2pVDk5n1fcj3oMVLQN6FPpeoa3EPUSfD0ka4Sv+wI5vcPHiminQYh5xjCA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: daff2335-ab2a-4746-1433-08d884900644
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3770.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 09:15:38.9496 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N9Ynv4NQr/F2zSoXixQfIuu+7qeUukdWJKW2MzzWJ8L/9RiSMleT4L3kbedJp9hq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1356
+Content-Disposition: inline
+In-Reply-To: <20201105120333.947408-27-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,105 +46,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDkuMTEuMjAgdW0gMDE6NTQgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
-cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhpcyByZW1vdmVzIHRoZSBjb2RlIHRvIG1v
-dmUgcmVzb3VyY2VzIGRpcmVjdGx5IGJldHdlZW4KPiBTWVNURU0gYW5kIFZSQU0gaW4gZmF2b3Vy
-IG9mIHVzaW5nIHRoZSBjb3JlIHR0bSBtdWxpdGhvcCBjb2RlLgo+Cj4gU2lnbmVkLW9mZi1ieTog
-RGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8IDEzNiArKystLS0tLS0tLS0tLS0tLS0tLS0tLS0K
-PiAgIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxMjMgZGVsZXRpb25zKC0pCj4K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gaW5kZXggY2UwZDgyODAy
-MzMzLi5lMTQ1OGQ1NzVhYTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
-cHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
-X3R0bS5jCj4gQEAgLTUxMiwxMTkgKzUxMiw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X21vdmVfYmxp
-dChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCXJldHVybiByOwo+ICAgfQo+ICAg
-Cj4gLS8qKgo+IC0gKiBhbWRncHVfbW92ZV92cmFtX3JhbSAtIENvcHkgVlJBTSBidWZmZXIgdG8g
-UkFNIGJ1ZmZlcgo+IC0gKgo+IC0gKiBDYWxsZWQgYnkgYW1kZ3B1X2JvX21vdmUoKS4KPiAtICov
-Cj4gLXN0YXRpYyBpbnQgYW1kZ3B1X21vdmVfdnJhbV9yYW0oc3RydWN0IHR0bV9idWZmZXJfb2Jq
-ZWN0ICpibywgYm9vbCBldmljdCwKPiAtCQkJCXN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4
-LAo+IC0JCQkJc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAtewo+IC0Jc3RydWN0IHR0
-bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZSB0
-bXBfbWVtOwo+IC0Jc3RydWN0IHR0bV9wbGFjZSBwbGFjZW1lbnRzOwo+IC0Jc3RydWN0IHR0bV9w
-bGFjZW1lbnQgcGxhY2VtZW50Owo+IC0JaW50IHI7Cj4gLQo+IC0JLyogY3JlYXRlIHNwYWNlL3Bh
-Z2VzIGZvciBuZXdfbWVtIGluIEdUVCBzcGFjZSAqLwo+IC0JdG1wX21lbSA9ICpuZXdfbWVtOwo+
-IC0JdG1wX21lbS5tbV9ub2RlID0gTlVMTDsKPiAtCXBsYWNlbWVudC5udW1fcGxhY2VtZW50ID0g
-MTsKPiAtCXBsYWNlbWVudC5wbGFjZW1lbnQgPSAmcGxhY2VtZW50czsKPiAtCXBsYWNlbWVudC5u
-dW1fYnVzeV9wbGFjZW1lbnQgPSAxOwo+IC0JcGxhY2VtZW50LmJ1c3lfcGxhY2VtZW50ID0gJnBs
-YWNlbWVudHM7Cj4gLQlwbGFjZW1lbnRzLmZwZm4gPSAwOwo+IC0JcGxhY2VtZW50cy5scGZuID0g
-MDsKPiAtCXBsYWNlbWVudHMubWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gLQlwbGFjZW1lbnRzLmZs
-YWdzID0gMDsKPiAtCXIgPSB0dG1fYm9fbWVtX3NwYWNlKGJvLCAmcGxhY2VtZW50LCAmdG1wX21l
-bSwgY3R4KTsKPiAtCWlmICh1bmxpa2VseShyKSkgewo+IC0JCXByX2VycigiRmFpbGVkIHRvIGZp
-bmQgR1RUIHNwYWNlIGZvciBibGl0IGZyb20gVlJBTVxuIik7Cj4gLQkJcmV0dXJuIHI7Cj4gLQl9
-Cj4gLQo+IC0JciA9IHR0bV90dF9wb3B1bGF0ZShiby0+YmRldiwgYm8tPnR0bSwgY3R4KTsKPiAt
-CWlmICh1bmxpa2VseShyKSkKPiAtCQlnb3RvIG91dF9jbGVhbnVwOwo+IC0KPiAtCS8qIEJpbmQg
-dGhlIG1lbW9yeSB0byB0aGUgR1RUIHNwYWNlICovCj4gLQlyID0gYW1kZ3B1X3R0bV9iYWNrZW5k
-X2JpbmQoYm8tPmJkZXYsIGJvLT50dG0sICZ0bXBfbWVtKTsKPiAtCWlmICh1bmxpa2VseShyKSkg
-ewo+IC0JCWdvdG8gb3V0X2NsZWFudXA7Cj4gLQl9Cj4gLQo+IC0JLyogYmxpdCBWUkFNIHRvIEdU
-VCAqLwo+IC0JciA9IGFtZGdwdV9tb3ZlX2JsaXQoYm8sIGV2aWN0LCAmdG1wX21lbSwgb2xkX21l
-bSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVhbnVwOwo+IC0JfQo+
-IC0KPiAtCXIgPSB0dG1fYm9fd2FpdF9jdHgoYm8sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikp
-Cj4gLQkJZ290byBvdXRfY2xlYW51cDsKPiAtCj4gLQlhbWRncHVfdHRtX2JhY2tlbmRfdW5iaW5k
-KGJvLT5iZGV2LCBiby0+dHRtKTsKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmYm8tPm1lbSk7
-Cj4gLQl0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gLW91dF9jbGVhbnVwOgo+IC0J
-dHRtX3Jlc291cmNlX2ZyZWUoYm8sICZ0bXBfbWVtKTsKPiAtCXJldHVybiByOwo+IC19Cj4gLQo+
-IC0vKioKPiAtICogYW1kZ3B1X21vdmVfcmFtX3ZyYW0gLSBDb3B5IGJ1ZmZlciBmcm9tIFJBTSB0
-byBWUkFNCj4gLSAqCj4gLSAqIENhbGxlZCBieSBhbWRncHVfYm9fbW92ZSgpLgo+IC0gKi8KPiAt
-c3RhdGljIGludCBhbWRncHVfbW92ZV9yYW1fdnJhbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
-KmJvLCBib29sIGV2aWN0LAo+IC0JCQkJc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsCj4g
-LQkJCQlzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVtKQo+IC17Cj4gLQlzdHJ1Y3QgdHRtX3Jl
-c291cmNlICpvbGRfbWVtID0gJmJvLT5tZW07Cj4gLQlzdHJ1Y3QgdHRtX3Jlc291cmNlIHRtcF9t
-ZW07Cj4gLQlzdHJ1Y3QgdHRtX3BsYWNlbWVudCBwbGFjZW1lbnQ7Cj4gLQlzdHJ1Y3QgdHRtX3Bs
-YWNlIHBsYWNlbWVudHM7Cj4gLQlpbnQgcjsKPiAtCj4gLQkvKiBtYWtlIHNwYWNlIGluIEdUVCBm
-b3Igb2xkX21lbSBidWZmZXIgKi8KPiAtCXRtcF9tZW0gPSAqbmV3X21lbTsKPiAtCXRtcF9tZW0u
-bW1fbm9kZSA9IE5VTEw7Cj4gLQlwbGFjZW1lbnQubnVtX3BsYWNlbWVudCA9IDE7Cj4gLQlwbGFj
-ZW1lbnQucGxhY2VtZW50ID0gJnBsYWNlbWVudHM7Cj4gLQlwbGFjZW1lbnQubnVtX2J1c3lfcGxh
-Y2VtZW50ID0gMTsKPiAtCXBsYWNlbWVudC5idXN5X3BsYWNlbWVudCA9ICZwbGFjZW1lbnRzOwo+
-IC0JcGxhY2VtZW50cy5mcGZuID0gMDsKPiAtCXBsYWNlbWVudHMubHBmbiA9IDA7Cj4gLQlwbGFj
-ZW1lbnRzLm1lbV90eXBlID0gVFRNX1BMX1RUOwo+IC0JcGxhY2VtZW50cy5mbGFncyA9IDA7Cj4g
-LQlyID0gdHRtX2JvX21lbV9zcGFjZShibywgJnBsYWNlbWVudCwgJnRtcF9tZW0sIGN0eCk7Cj4g
-LQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlwcl9lcnIoIkZhaWxlZCB0byBmaW5kIEdUVCBzcGFj
-ZSBmb3IgYmxpdCB0byBWUkFNXG4iKTsKPiAtCQlyZXR1cm4gcjsKPiAtCX0KPiAtCj4gLQkvKiBt
-b3ZlL2JpbmQgb2xkIG1lbW9yeSB0byBHVFQgc3BhY2UgKi8KPiAtCXIgPSB0dG1fdHRfcG9wdWxh
-dGUoYm8tPmJkZXYsIGJvLT50dG0sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikpCj4gLQkJcmV0
-dXJuIHI7Cj4gLQo+IC0JciA9IGFtZGdwdV90dG1fYmFja2VuZF9iaW5kKGJvLT5iZGV2LCBiby0+
-dHRtLCAmdG1wX21lbSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVh
-bnVwOwo+IC0JfQo+IC0KPiAtCXR0bV9ib19hc3NpZ25fbWVtKGJvLCAmdG1wX21lbSk7Cj4gLQkv
-KiBjb3B5IHRvIFZSQU0gKi8KPiAtCXIgPSBhbWRncHVfbW92ZV9ibGl0KGJvLCBldmljdCwgbmV3
-X21lbSwgb2xkX21lbSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVh
-bnVwOwo+IC0JfQo+IC1vdXRfY2xlYW51cDoKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmdG1w
-X21lbSk7Cj4gLQlyZXR1cm4gcjsKPiAtfQo+IC0KPiAgIC8qKgo+ICAgICogYW1kZ3B1X21lbV92
-aXNpYmxlIC0gQ2hlY2sgdGhhdCBtZW1vcnkgY2FuIGJlIGFjY2Vzc2VkIGJ5IHR0bV9ib19tb3Zl
-X21lbWNweQo+ICAgICoKPiBAQCAtNjY0LDYgKzU1MSwxNyBAQCBzdGF0aWMgaW50IGFtZGdwdV9i
-b19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgZXZpY3QsCj4gICAJc3Ry
-dWN0IHR0bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+ICAgCWludCByOwo+ICAgCj4g
-KwlpZiAoKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0gJiYKPiArCSAgICAgbmV3
-X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHx8Cj4gKwkgICAgKG9sZF9tZW0tPm1lbV90
-eXBlID09IFRUTV9QTF9WUkFNICYmCj4gKwkgICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9Q
-TF9TWVNURU0pKSB7Cj4gKwkJaG9wLT5mcGZuID0gMDsKPiArCQlob3AtPmxwZm4gPSAwOwo+ICsJ
-CWhvcC0+bWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gKwkJaG9wLT5mbGFncyA9IDA7Cj4gKwkJcmV0
-dXJuIC1FTVVMVElIT1A7Cj4gKwl9Cj4gKwo+ICAgCWlmIChuZXdfbWVtLT5tZW1fdHlwZSA9PSBU
-VE1fUExfVFQpIHsKPiAgIAkJciA9IGFtZGdwdV90dG1fYmFja2VuZF9iaW5kKGJvLT5iZGV2LCBi
-by0+dHRtLCBuZXdfbWVtKTsKPiAgIAkJaWYgKHIpCj4gQEAgLTcxNywxNiArNjE1LDggQEAgc3Rh
-dGljIGludCBhbWRncHVfYm9fbW92ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBib29s
-IGV2aWN0LAo+ICAgCQlnb3RvIG1lbWNweTsKPiAgIAl9Cj4gICAKPiAtCWlmIChvbGRfbWVtLT5t
-ZW1fdHlwZSA9PSBUVE1fUExfVlJBTSAmJgo+IC0JICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRU
-TV9QTF9TWVNURU0pIHsKPiAtCQlyID0gYW1kZ3B1X21vdmVfdnJhbV9yYW0oYm8sIGV2aWN0LCBj
-dHgsIG5ld19tZW0pOwo+IC0JfSBlbHNlIGlmIChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExf
-U1lTVEVNICYmCj4gLQkJICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHsKPiAt
-CQlyID0gYW1kZ3B1X21vdmVfcmFtX3ZyYW0oYm8sIGV2aWN0LCBjdHgsIG5ld19tZW0pOwo+IC0J
-fSBlbHNlIHsKPiAtCQlyID0gYW1kZ3B1X21vdmVfYmxpdChibywgZXZpY3QsCj4gLQkJCQkgICAg
-IG5ld19tZW0sIG9sZF9tZW0pOwo+IC0JfQo+ICsJciA9IGFtZGdwdV9tb3ZlX2JsaXQoYm8sIGV2
-aWN0LAo+ICsJCQkgICAgIG5ld19tZW0sIG9sZF9tZW0pOwoKT25seSBhIG5pdCBwaWNrLCBidXQg
-dGhhdCBjYW4gbm93IHByb2JhYmx5IGJlIG9uIG9uZSBsaW5lLgoKQXBhcnQgZnJvbSB0aGF0IGdy
-ZWF0IGNsZWFudXAuIFdpdGggdGhlIG5pdHMgZml4ZWQgdGhlIHdob2xlIHNlcmllcyBpcyAKUmV2
-aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KClJl
-Z2FyZHMsCkNocmlzdGlhbi4KCj4gICAKPiAgIAlpZiAocikgewo+ICAgbWVtY3B5OgoKX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
-bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Tomi and Sebastian,
+
+Thank you for the patch.
+
+On Thu, Nov 05, 2020 at 02:03:03PM +0200, Tomi Valkeinen wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> Instead of using the custon enable_te() API, this automatically
+
+s/custon/custom/
+
+> enables/disables TE core support when a matching packet is send
+
+s/send/sent/
+
+> to the panel.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   |  3 --
+>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 34 ++++++++++++++-----
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  2 --
+>  3 files changed, 25 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> index 43f63b5a120b..dc2c045cc6b0 100644
+> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+> @@ -772,7 +772,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
+>  
+>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+>  {
+> -	struct omap_dss_device *src = ddata->src;
+>  	struct mipi_dsi_device *dsi = ddata->dsi;
+>  	int r;
+>  
+> @@ -781,8 +780,6 @@ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+>  	else
+>  		r = mipi_dsi_dcs_set_tear_off(dsi);
+>  
+> -	src->ops->dsi.enable_te(src, enable);
+> -
+>  	/* possible panel bug */
+>  	msleep(100);
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 921e7a1e1014..41431ca34568 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -4110,10 +4110,8 @@ static void dsi_display_disable(struct omap_dss_device *dssdev,
+>  	mutex_unlock(&dsi->lock);
+>  }
+>  
+> -static int dsi_enable_te(struct omap_dss_device *dssdev, bool enable)
+> +static int dsi_enable_te(struct dsi_data *dsi, bool enable)
+>  {
+> -	struct dsi_data *dsi = to_dsi_data(dssdev);
+> -
+>  	dsi->te_enabled = enable;
+>  
+>  	if (dsi->te_gpio) {
+> @@ -4723,6 +4721,7 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
+>  {
+>  	struct dsi_data *dsi = host_to_omap(host);
+>  	struct omap_dss_device *dssdev = &dsi->output;
+> +	int r;
+>  
+>  	if (!!(msg->flags & MIPI_DSI_MSG_USE_LPM) != dsi->in_lp_mode) {
+>  		dsi_vc_enable_hs(dssdev, msg->channel,
+> @@ -4739,16 +4738,35 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
+>  	case MIPI_DSI_DCS_LONG_WRITE:
+>  	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
+>  	case MIPI_DSI_NULL_PACKET:
+> -		return dsi_vc_write_common(dssdev, msg);
+> +		r = dsi_vc_write_common(dssdev, msg);
+> +		break;
+>  	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
+>  	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
+>  	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
+> -		return dsi_vc_generic_read(dssdev, msg);
+> +		r = dsi_vc_generic_read(dssdev, msg);
+> +		break;
+>  	case MIPI_DSI_DCS_READ:
+> -		return dsi_vc_dcs_read(dssdev, msg);
+> +		r = dsi_vc_dcs_read(dssdev, msg);
+> +		break;
+> +	default:
+> +		r = -EINVAL;
+> +		break;
+>  	}
+>  
+> -	return -EINVAL;
+> +	if (r < 0)
+> +		return r;
+> +
+> +	if (msg->type == MIPI_DSI_DCS_SHORT_WRITE ||
+> +	    msg->type == MIPI_DSI_DCS_SHORT_WRITE_PARAM) {
+> +		u8 cmd = ((u8 *)msg->tx_buf)[0];
+> +
+> +		if (cmd == MIPI_DCS_SET_TEAR_OFF)
+> +			dsi_enable_te(dsi, false);
+> +		else if (cmd == MIPI_DCS_SET_TEAR_ON)
+> +			dsi_enable_te(dsi, true);
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static int dsi_get_clocks(struct dsi_data *dsi)
+> @@ -4795,8 +4813,6 @@ static const struct omap_dss_device_ops dsi_ops = {
+>  		.disable_video_output = dsi_disable_video_output,
+>  
+>  		.update = dsi_update,
+> -
+> -		.enable_te = dsi_enable_te,
+>  	},
+>  };
+>  
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index 2d44a8e32fcc..1520a5f752b7 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -288,8 +288,6 @@ struct omapdss_dsi_ops {
+>  	int (*set_config)(struct omap_dss_device *dssdev,
+>  			const struct omap_dss_dsi_config *cfg);
+>  
+> -	int (*enable_te)(struct omap_dss_device *dssdev, bool enable);
+> -
+>  	int (*update)(struct omap_dss_device *dssdev, int channel,
+>  			void (*callback)(int, void *), void *data);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
