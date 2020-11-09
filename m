@@ -2,71 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01B12AD11D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B43C2AD104
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB9589956;
-	Tue, 10 Nov 2020 08:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A254A898E8;
+	Tue, 10 Nov 2020 08:16:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1FDD8984E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 09:43:10 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1456D580195;
- Mon,  9 Nov 2020 04:43:08 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 09 Nov 2020 04:43:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=lmiqVPfBRO9HsD4eiakrDCNXKqB
- n8TEbx/O27OWVDLI=; b=mypyW2SRGaFWVqh9eIwS+6XSviN7iSg5vBD0DujP08f
- NTMwnLh+7qpBOyAYunecocrgYA+ZD83xDOK8186OMOoFQ+Xb0nOs2zQyXlkxhlw6
- HPv8vT2JZq1TKs+X9DjJJUUqPy0aDbbd3pVpyIuUbMaFmpDcu9YttXA0ME5BnQU+
- NcaufGiE2apM4uhQXjANLBhcteDxGlRwLTkXGVsU/zW13YivuK5ePcX7SSPvnSiC
- kKmx6Y/c5qCfRB6yCY5NEzOLq4M2cUyL8aw1cmhpEM7yYILzhXH2Mca48y8YDMTT
- EKe976E321k4CFGyXoCKSvuRwNw03gU6RZDx6NzuRbw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=lmiqVP
- fBRO9HsD4eiakrDCNXKqBn8TEbx/O27OWVDLI=; b=H7qY1QFWL2E1stPQpyP9eg
- AAJ4inT9BR8xe2fI1/fkS8WJi0i6ZctMYo+URIun6SRJm2+L4WN/fxQqwdjgfDPt
- ygQ9aQNUbTllTVupPO7i8IqlrkLimVvKL4ZTPQk8aBq3f9DnNR2zi95Te3Iw+Kad
- 7hwMUljwZ6V/YSmI7p2I8dPUgAQYYjexVXkrIaXnYF6RIzR8o6iiJI//IyDqQbAW
- zlG6aJJEq2h648P35sUz05qDSNox7LNPkaAyka7Ab/YwvSWwmrltpi1ZSwVMz76C
- rgmGmYuvrqlNJKZEk0tutQTo7iwFqKEjmZnDm+Q7AQosE729qDxk192LxCSTf/VQ
- ==
-X-ME-Sender: <xms:KQ-pXwe_i8dNiJZAY4tlnzKs9XbqOj8MBM7z25Mxwdov2thimc9DLg>
- <xme:KQ-pXyO8ivi7WZ8BAwODuMeesd9QLkTkBWKTaIn0WyOYT9lYWpAF-L9znw6Jvor15
- cieyRFDbpVwMEIUN8E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudduhedgtdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:KQ-pXxjlvTmOlgd9bjlnbeGUPVWLSCvcZhonXSR4YQ4KX-CI1c81Ow>
- <xmx:KQ-pX1-HsXhn-od1yaHQFkk1IpgBnrmnLSb9H6eruasLpI3dYiJP3w>
- <xmx:KQ-pX8vBDU1Pcsf3hAEUlTyz0uO8CENMf2hwZwyqRlIqjkqsQvmEtw>
- <xmx:LA-pX8FUnd_DscCKNzgrRd-uO6wlsVUSe8fyyt0RSAgNhH-tifm-HA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0230C3280065;
- Mon,  9 Nov 2020 04:43:04 -0500 (EST)
-Date: Mon, 9 Nov 2020 10:43:03 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Christoph Hellwig <hch@lst.de>, Hans Verkuil <hverkuil@xs4all.nl>,
- wens@kernel.org
-Subject: Re: [PATCH 0/7] sunxi: Remove the calls to dma_direct_set_offset
-Message-ID: <20201109094303.llqsxqoxjagiqa55@gilmour.lan>
-References: <20201106151411.321743-1-maxime@cerno.tech>
- <20201106160737.GA31913@lst.de>
-MIME-Version: 1.0
-In-Reply-To: <20201106160737.GA31913@lst.de>
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47EC889857
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604917901;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=6t1/oILAK6yKl4dz79BGpL7PF+ZHXywu/wN3Dc5cPO8=;
+ b=dUT0VjVKK5ofMax2hA1/rYLDglAo6BHnQIRpYfFLBhHf6dD7SuC0Jf4YgAS8b8QI7V
+ IbL01n0cJW1HIv5byKyB+O/ZHUignBe17AAw19KRR9CJRB3HSI49zPmVLYy4rlq3/8ss
+ TxJvSDJUBj6rEG3GJrGGWVoUd3YvD+9kc4VXgsq6LnY6euOJaNNtx5v/GkN1vdHCVvoj
+ Lrar8pmL7rfnqsHpIYMijiekF1PYLKYtJp8ukgROMzxzydWCQzDnSQR02uP96N88iPVi
+ HnI0PG6La64hPDmuvSGdOyHSqgaSZHo0JKnba3g9RTKrYh+p2RG01gcjwv2Cp9zmLAbb
+ XU7w==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaVXA0JCQ=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.3 DYNA|AUTH)
+ with ESMTPSA id d04888wA9AVXBEs
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 9 Nov 2020 11:31:33 +0100 (CET)
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+Date: Mon, 9 Nov 2020 11:31:33 +0100
+Message-Id: <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+ <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+ <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+ <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
+ <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
+ <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
+ <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+ <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,69 +66,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Yong Deng <yong.deng@magewell.com>, Daniel Vetter <daniel.vetter@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1211070435=="
+Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1211070435==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ukr2zryovmvm4axa"
-Content-Disposition: inline
+> Am 09.11.2020 um 11:22 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+> 
+> On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
+>> 
+>>> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>> 
+>>> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
+>>> 
+>>>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
+>>>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
+>>>> 
+>>>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
+>>>> And hopefully we are close to push the panel driver for review. And in a second step some device
+>>>> tree for the Pyra.
+>>>> 
+>>>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
+>>> 
+>>> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
+>>> it's good to have that as a reference.
+>> 
+>> Yes, here:
+>> 
+>> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
+> 
+> Ok. The old driver uses two separate VC configurations (request_vc calls),
 
+yes indeed. I was not sure how to handle this with the new omapdrm drivers.
 
---ukr2zryovmvm4axa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> so it may not work with
+> this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
 
-Hi Christoph, Chen-Yu, Hans,
+I see.
+Anyways there is missing some simple thing which makes the driver not prepared/enabled.
+Or is this related to VC?
 
-On Fri, Nov 06, 2020 at 05:07:37PM +0100, Christoph Hellwig wrote:
-> Thanks,
->=20
-> this looks good to me:
->=20
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
->=20
-> Can you include this patch at the end of your series to that it gets
-> picked up with the other patches?
+BR and thanks,
+Nikolaus
 
-I guess the easiest to avoid bisection issues would be to merge all this
-through drm-misc, would that work for you?
-
-Maxime
-
---ukr2zryovmvm4axa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6kPJwAKCRDj7w1vZxhR
-xVdNAQDHWf5opH2Wk5MBiU7aGQjw4usXGRwBxWeeBmmVLm8FsQEA8Y3/aoi85/VG
-utrIfztWYorSmqfL/yhtZhR8bdeSEwg=
-=ZXtW
------END PGP SIGNATURE-----
-
---ukr2zryovmvm4axa--
-
---===============1211070435==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1211070435==--
