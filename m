@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D196F2AAE9C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 01:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C66C2AAE9D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 01:54:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7767E89341;
-	Mon,  9 Nov 2020 00:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8EEE89369;
+	Mon,  9 Nov 2020 00:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
  (us-smtp-delivery-44.mimecast.com [205.139.111.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4087789341
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 00:54:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4E9E89341
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 00:54:45 +0000 (UTC)
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-B-bvMZKnOP-q7jqNj9RGNQ-1; Sun, 08 Nov 2020 19:54:41 -0500
-X-MC-Unique: B-bvMZKnOP-q7jqNj9RGNQ-1
+ us-mta-216-wPlIw0FgPGy9T_fQ0fNjVw-1; Sun, 08 Nov 2020 19:54:42 -0500
+X-MC-Unique: wPlIw0FgPGy9T_fQ0fNjVw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B589809DC3;
- Mon,  9 Nov 2020 00:54:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64A998030C0;
+ Mon,  9 Nov 2020 00:54:41 +0000 (UTC)
 Received: from tyrion-bne-redhat-com.redhat.com (vpn2-54-30.bne.redhat.com
  [10.64.54.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75CBD5C1D7;
- Mon,  9 Nov 2020 00:54:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A7495C1D7;
+ Mon,  9 Nov 2020 00:54:40 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/4] drm/nouveau/ttm: use multihop
-Date: Mon,  9 Nov 2020 10:54:31 +1000
-Message-Id: <20201109005432.861936-4-airlied@gmail.com>
+Subject: [PATCH 4/4] drm/radeon/ttm: use multihop
+Date: Mon,  9 Nov 2020 10:54:32 +1000
+Message-Id: <20201109005432.861936-5-airlied@gmail.com>
 In-Reply-To: <20201109005432.861936-1-airlied@gmail.com>
 References: <20201109005432.861936-1-airlied@gmail.com>
 MIME-Version: 1.0
@@ -65,118 +65,123 @@ SYSTEM and VRAM in favour of using the core ttm mulithop code.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_bo.c | 112 ++++-----------------------
- 1 file changed, 13 insertions(+), 99 deletions(-)
+ drivers/gpu/drm/radeon/radeon_ttm.c | 119 +++-------------------------
+ 1 file changed, 13 insertions(+), 106 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index fee07b9d19ed..2b7720f412c1 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -861,96 +861,6 @@ nouveau_bo_move_init(struct nouveau_drm *drm)
- 	NV_INFO(drm, "MM: using %s for buffer copies\n", name);
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 29062dbea299..788655ebafdb 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -206,101 +206,6 @@ static int radeon_move_blit(struct ttm_buffer_object *bo,
+ 	return r;
  }
  
--static int
--nouveau_bo_move_flipd(struct ttm_buffer_object *bo, bool evict,
--		      struct ttm_operation_ctx *ctx,
--		      struct ttm_resource *new_reg)
+-static int radeon_move_vram_ram(struct ttm_buffer_object *bo,
+-				bool evict,
+-				struct ttm_operation_ctx *ctx,
+-				struct ttm_resource *new_mem)
 -{
--	struct ttm_place placement_memtype = {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_TT,
--		.flags = 0
--	};
+-	struct ttm_resource *old_mem = &bo->mem;
+-	struct ttm_resource tmp_mem;
+-	struct ttm_place placements;
 -	struct ttm_placement placement;
--	struct ttm_resource tmp_reg;
--	int ret;
+-	int r;
 -
--	placement.num_placement = placement.num_busy_placement = 1;
--	placement.placement = placement.busy_placement = &placement_memtype;
+-	tmp_mem = *new_mem;
+-	tmp_mem.mm_node = NULL;
+-	placement.num_placement = 1;
+-	placement.placement = &placements;
+-	placement.num_busy_placement = 1;
+-	placement.busy_placement = &placements;
+-	placements.fpfn = 0;
+-	placements.lpfn = 0;
+-	placements.mem_type = TTM_PL_TT;
+-	placements.flags = 0;
+-	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+-	if (unlikely(r)) {
+-		return r;
+-	}
 -
--	tmp_reg = *new_reg;
--	tmp_reg.mm_node = NULL;
--	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
--	if (ret)
--		return ret;
+-	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+-	if (unlikely(r)) {
+-		goto out_cleanup;
+-	}
 -
--	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
--	if (ret)
--		goto out;
+-	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
+-	if (unlikely(r)) {
+-		goto out_cleanup;
+-	}
+-	r = radeon_move_blit(bo, true, &tmp_mem, old_mem);
+-	if (unlikely(r)) {
+-		goto out_cleanup;
+-	}
+-	r = ttm_bo_wait_ctx(bo, ctx);
+-	if (unlikely(r))
+-		goto out_cleanup;
 -
--	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
--	if (ret)
--		goto out;
--
--	ret = nouveau_bo_move_m2mf(bo, true, ctx, &tmp_reg);
--	if (ret)
--		goto out;
--
--	ret = ttm_bo_wait_ctx(bo, ctx);
--	if (ret)
--		goto out;
--
--	nouveau_ttm_tt_unbind(bo->bdev, bo->ttm);
+-	radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
 -	ttm_resource_free(bo, &bo->mem);
--	ttm_bo_assign_mem(bo, &tmp_reg);
--out:
--	ttm_resource_free(bo, &tmp_reg);
--	return ret;
+-	ttm_bo_assign_mem(bo, new_mem);
+-out_cleanup:
+-	ttm_resource_free(bo, &tmp_mem);
+-	return r;
 -}
 -
--static int
--nouveau_bo_move_flips(struct ttm_buffer_object *bo, bool evict,
--		      struct ttm_operation_ctx *ctx,
--		      struct ttm_resource *new_reg)
+-static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
+-				bool evict,
+-				struct ttm_operation_ctx *ctx,
+-				struct ttm_resource *new_mem)
 -{
--	struct ttm_place placement_memtype = {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_TT,
--		.flags = 0
--	};
+-	struct ttm_resource *old_mem = &bo->mem;
+-	struct ttm_resource tmp_mem;
 -	struct ttm_placement placement;
--	struct ttm_resource tmp_reg;
--	int ret;
+-	struct ttm_place placements;
+-	int r;
 -
--	placement.num_placement = placement.num_busy_placement = 1;
--	placement.placement = placement.busy_placement = &placement_memtype;
+-	tmp_mem = *new_mem;
+-	tmp_mem.mm_node = NULL;
+-	placement.num_placement = 1;
+-	placement.placement = &placements;
+-	placement.num_busy_placement = 1;
+-	placement.busy_placement = &placements;
+-	placements.fpfn = 0;
+-	placements.lpfn = 0;
+-	placements.mem_type = TTM_PL_TT;
+-	placements.flags = 0;
+-	r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+-	if (unlikely(r)) {
+-		return r;
+-	}
 -
--	tmp_reg = *new_reg;
--	tmp_reg.mm_node = NULL;
--	ret = ttm_bo_mem_space(bo, &placement, &tmp_reg, ctx);
--	if (ret)
--		return ret;
+-	r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+-	if (unlikely(r))
+-		goto out_cleanup;
 -
--	ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
--	if (unlikely(ret != 0))
--		return ret;
+-	r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_mem);
+-	if (unlikely(r))
+-		goto out_cleanup;
 -
--	ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, &tmp_reg);
--	if (unlikely(ret != 0))
--		return ret;
--
--	ttm_bo_assign_mem(bo, &tmp_reg);
--	ret = nouveau_bo_move_m2mf(bo, true, ctx, new_reg);
--	if (ret)
--		goto out;
--
--out:
--	ttm_resource_free(bo, &tmp_reg);
--	return ret;
+-	ttm_bo_assign_mem(bo, &tmp_mem);
+-	r = radeon_move_blit(bo, true, new_mem, old_mem);
+-	if (unlikely(r)) {
+-		goto out_cleanup;
+-	}
+-out_cleanup:
+-	ttm_resource_free(bo, &tmp_mem);
+-	return r;
 -}
 -
- static void
- nouveau_bo_move_ntfy(struct ttm_buffer_object *bo, bool evict,
- 		     struct ttm_resource *new_reg)
-@@ -1032,6 +942,17 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- 	struct nouveau_drm_tile *new_tile = NULL;
- 	int ret = 0;
+ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 			  struct ttm_operation_ctx *ctx,
+ 			  struct ttm_resource *new_mem,
+@@ -311,6 +216,17 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 	struct ttm_resource *old_mem = &bo->mem;
+ 	int r;
  
-+	if ((old_reg->mem_type == TTM_PL_SYSTEM &&
-+	     new_reg->mem_type == TTM_PL_VRAM) ||
-+	    (old_reg->mem_type == TTM_PL_VRAM &&
-+	     new_reg->mem_type == TTM_PL_SYSTEM)) {
++	if ((old_mem->mem_type == TTM_PL_SYSTEM &&
++	     new_mem->mem_type == TTM_PL_VRAM) ||
++	    (old_mem->mem_type == TTM_PL_VRAM &&
++	     new_mem->mem_type == TTM_PL_SYSTEM)) {
 +		hop->fpfn = 0;
 +		hop->lpfn = 0;
 +		hop->mem_type = TTM_PL_TT;
@@ -184,27 +189,29 @@ index fee07b9d19ed..2b7720f412c1 100644
 +		return -EMULTIHOP;
 +	}
 +
- 	if (new_reg->mem_type == TTM_PL_TT) {
- 		ret = nouveau_ttm_tt_bind(bo->bdev, bo->ttm, new_reg);
- 		if (ret)
-@@ -1074,15 +995,8 @@ nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	/* Hardware assisted copy. */
- 	if (drm->ttm.move) {
--		if (new_reg->mem_type == TTM_PL_SYSTEM)
--			ret = nouveau_bo_move_flipd(bo, evict, ctx,
--						    new_reg);
--		else if (old_reg->mem_type == TTM_PL_SYSTEM)
--			ret = nouveau_bo_move_flips(bo, evict, ctx,
--						    new_reg);
--		else
--			ret = nouveau_bo_move_m2mf(bo, evict, ctx,
--						   new_reg);
-+		ret = nouveau_bo_move_m2mf(bo, evict, ctx,
-+					   new_reg);
- 		if (!ret)
- 			goto out;
+ 	if (new_mem->mem_type == TTM_PL_TT) {
+ 		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
+ 		if (r)
+@@ -351,17 +267,8 @@ static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+ 		goto memcpy;
  	}
+ 
+-	if (old_mem->mem_type == TTM_PL_VRAM &&
+-	    new_mem->mem_type == TTM_PL_SYSTEM) {
+-		r = radeon_move_vram_ram(bo, evict, ctx, new_mem);
+-	} else if (old_mem->mem_type == TTM_PL_SYSTEM &&
+-		   new_mem->mem_type == TTM_PL_VRAM) {
+-		r = radeon_move_ram_vram(bo, evict, ctx, new_mem);
+-	} else {
+-		r = radeon_move_blit(bo, evict,
+-				     new_mem, old_mem);
+-	}
+-
++	r = radeon_move_blit(bo, evict,
++			     new_mem, old_mem);
+ 	if (r) {
+ memcpy:
+ 		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
 -- 
 2.27.0
 
