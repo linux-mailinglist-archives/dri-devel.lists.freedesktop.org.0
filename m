@@ -1,39 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2212AB25E
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:28:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3FA32AB2D0
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:52:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4E33894FF;
-	Mon,  9 Nov 2020 08:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1C6589623;
+	Mon,  9 Nov 2020 08:52:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D898F894FF
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 08:28:35 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36C022FE;
- Mon,  9 Nov 2020 09:28:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604910514;
- bh=C/GtXYbOYhvwRx1udWBC4DdvMzjB9bHSIaLz/fzoQ7M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=P5sgU9mK96ifpoiQUj68RdfH5QaAC2MsBKvMF6olCqAKBo+QSR6I/Fa2pMB05FYJR
- J01VRWoK8XlhdWGkkIMl3MI7mPO2Kp30vY6CBtTEUnxixNXlYLixfTFr4Ktrz4ZkKb
- zGmkQx+Qedma6Mt0bOIODagV2PbbI262R9f2IYZI=
-Date: Mon, 9 Nov 2020 10:28:31 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 11/56] drm/omap: dsi: simplify read functions
-Message-ID: <20201109082831.GH6029@pendragon.ideasonboard.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-12-tomi.valkeinen@ti.com>
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 33D0189471
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 01:47:17 +0000 (UTC)
+X-UUID: ddfddffd2ea0464d873a0b59667f16e6-20201109
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=P2/u2G2PWkxrVDOi7euvixdoAYgr4i4zVGrK1c98XqI=; 
+ b=bW6/AYYJ6dsXDslM5kKRFAy0RAuZ8lA20HPypc+46xtn2jRAvNHpwUR5TLHeO4pCh3zkYX/xcpa5sRu2dwXIhQJClxcNiUPNsek+1MxvHCa9ZmMuHhXYbi/upqwqmnpyKO4Qi/1cxI4g694YtN0elmY8KsqCbqhcuvxlAhVii0E=;
+X-UUID: ddfddffd2ea0464d873a0b59667f16e6-20201109
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <chunfeng.yun@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1578670776; Mon, 09 Nov 2020 09:47:12 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N1.mediatek.inc
+ (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 9 Nov 2020 09:47:10 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 9 Nov 2020 09:47:10 +0800
+Message-ID: <1604886429.31607.20.camel@mhfsdcap03>
+Subject: Re: [PATCH 3/3] MAINTAINERS: add files for Mediatek DRM drivers
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 9 Nov 2020 09:47:09 +0800
+In-Reply-To: <CAAOTY__ZRLubBfNtMFMax8SubM9f9iKLXGzS+bXseXcd9V0Smg@mail.gmail.com>
+References: <20201029152702.533-1-chunkuang.hu@kernel.org>
+ <20201029152702.533-4-chunkuang.hu@kernel.org>
+ <CAAOTY__ZRLubBfNtMFMax8SubM9f9iKLXGzS+bXseXcd9V0Smg@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-12-tomi.valkeinen@ti.com>
+X-TM-SNTS-SMTP: 18D2AF7C1A1FFBD221F4820A9D115C9E1FA2F4AA454C834A65245B32E995E8E02000:8
+X-MTK: N
+X-Mailman-Approved-At: Mon, 09 Nov 2020 08:52:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,216 +55,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi and Sebastian,
-
-Thank you for the patch.
-
-On Thu, Nov 05, 2020 at 02:02:48PM +0200, Tomi Valkeinen wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
-> 
-> Simplify the read related message handling by using the functionality
-> provided by CONFIG_DRM_MIPI_DSI.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 110 +++++++++---------------------
->  1 file changed, 34 insertions(+), 76 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index e1595c0608f2..bbdc52ee3559 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -2742,60 +2742,6 @@ static int dsi_vc_write_common(struct omap_dss_device *dssdev,
->  	return 0;
->  }
->  
-> -static int dsi_vc_dcs_send_read_request(struct dsi_data *dsi, int channel,
-> -					u8 dcs_cmd)
-> -{
-> -	int r;
-> -
-> -	if (dsi->debug_read)
-> -		DSSDBG("dsi_vc_dcs_send_read_request(ch%d, dcs_cmd %x)\n",
-> -			channel, dcs_cmd);
-> -
-> -	r = dsi_vc_send_short(dsi, channel, MIPI_DSI_DCS_READ, dcs_cmd, 0);
-> -	if (r) {
-> -		DSSERR("dsi_vc_dcs_send_read_request(ch %d, cmd 0x%02x)"
-> -			" failed\n", channel, dcs_cmd);
-> -		return r;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
-> -static int dsi_vc_generic_send_read_request(struct dsi_data *dsi, int channel,
-> -					    const u8 *reqdata, int reqlen)
-> -{
-> -	u16 data;
-> -	u8 data_type;
-> -	int r;
-> -
-> -	if (dsi->debug_read)
-> -		DSSDBG("dsi_vc_generic_send_read_request(ch %d, reqlen %d)\n",
-> -			channel, reqlen);
-> -
-> -	if (reqlen == 0) {
-> -		data_type = MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM;
-> -		data = 0;
-> -	} else if (reqlen == 1) {
-> -		data_type = MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM;
-> -		data = reqdata[0];
-> -	} else if (reqlen == 2) {
-> -		data_type = MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM;
-> -		data = reqdata[0] | (reqdata[1] << 8);
-> -	} else {
-> -		BUG();
-> -		return -EINVAL;
-> -	}
-> -
-> -	r = dsi_vc_send_short(dsi, channel, data_type, data, 0);
-> -	if (r) {
-> -		DSSERR("dsi_vc_generic_send_read_request(ch %d, reqlen %d)"
-> -			" failed\n", channel, reqlen);
-> -		return r;
-> -	}
-> -
-> -	return 0;
-> -}
-> -
->  static int dsi_vc_read_rx_fifo(struct dsi_data *dsi, int channel, u8 *buf,
->  			       int buflen, enum dss_dsi_content_type type)
->  {
-> @@ -2904,13 +2850,18 @@ static int dsi_vc_read_rx_fifo(struct dsi_data *dsi, int channel, u8 *buf,
->  	return r;
->  }
->  
-> -static int dsi_vc_dcs_read(struct omap_dss_device *dssdev, int channel, u8 dcs_cmd,
-> -		u8 *buf, int buflen)
-> +static int dsi_vc_dcs_read(struct omap_dss_device *dssdev,
-> +			   const struct mipi_dsi_msg *msg)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
-> +	u8 dcs_cmd = ((u8 *)msg->tx_buf)[0];
-> +	u8 channel = msg->channel;
->  	int r;
->  
-> -	r = dsi_vc_dcs_send_read_request(dsi, channel, dcs_cmd);
-> +	if (dsi->debug_read)
-> +		DSSDBG("%s(ch %d, cmd %x)\n", __func__, channel, dcs_cmd);
-> +
-> +	r = dsi_vc_send_short(dsi, channel, MIPI_DSI_DCS_READ, dcs_cmd, 0);
->  	if (r)
->  		goto err;
->  
-> @@ -2918,47 +2869,58 @@ static int dsi_vc_dcs_read(struct omap_dss_device *dssdev, int channel, u8 dcs_c
->  	if (r)
->  		goto err;
->  
-> -	r = dsi_vc_read_rx_fifo(dsi, channel, buf, buflen,
-> +	r = dsi_vc_read_rx_fifo(dsi, channel, msg->rx_buf, msg->rx_len,
->  		DSS_DSI_CONTENT_DCS);
->  	if (r < 0)
->  		goto err;
->  
-> -	if (r != buflen) {
-> +	if (r != msg->rx_len) {
->  		r = -EIO;
->  		goto err;
->  	}
->  
->  	return 0;
->  err:
-> -	DSSERR("dsi_vc_dcs_read(ch %d, cmd 0x%02x) failed\n", channel, dcs_cmd);
-> +	DSSERR("%s(ch %d, cmd 0x%02x) failed\n", __func__, msg->channel, dcs_cmd);
->  	return r;
->  }
->  
-> -static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int channel,
-> -		const u8 *reqdata, int reqlen, u8 *buf, int buflen)
-> +static int dsi_vc_generic_read(struct omap_dss_device *dssdev,
-> +			       const struct mipi_dsi_msg *msg)
->  {
->  	struct dsi_data *dsi = to_dsi_data(dssdev);
-> +	struct mipi_dsi_packet packet;
-> +	u16 data;
->  	int r;
->  
-> -	r = dsi_vc_generic_send_read_request(dsi, channel, reqdata, reqlen);
-> +	r = mipi_dsi_create_packet(&packet, msg);
-> +	if (r < 0)
-> +		goto err;
-> +
-> +	data = packet.header[1] | (packet.header[2] << 8);
-> +
-> +	r = dsi_vc_send_short(dsi, msg->channel, msg->type, data, 0);
->  	if (r)
-> -		return r;
-> +		goto err;
->  
-> -	r = dsi_vc_send_bta_sync(dssdev, channel);
-> +	r = dsi_vc_send_bta_sync(dssdev, msg->channel);
->  	if (r)
-> -		return r;
-> +		goto err;
->  
-> -	r = dsi_vc_read_rx_fifo(dsi, channel, buf, buflen,
-> +	r = dsi_vc_read_rx_fifo(dsi, msg->channel, msg->rx_buf, msg->rx_len,
->  		DSS_DSI_CONTENT_GENERIC);
->  	if (r < 0)
-> -		return r;
-> +		goto err;
->  
-> -	if (r != buflen) {
-> +	if (r != msg->rx_len) {
->  		r = -EIO;
-> -		return r;
-> +		goto err;
->  	}
->  
->  	return 0;
-> +err:
-> +	DSSERR("%s(ch %d, reqlen %d) failed\n", __func__,  msg->channel, msg->tx_len);
-> +	return r;
->  }
->  
->  static int dsi_enter_ulps(struct dsi_data *dsi)
-> @@ -4775,13 +4737,9 @@ static ssize_t omap_dsi_transfer(struct omap_dss_device *dssdev,
->  	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
->  	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
->  	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
-> -		return dsi_vc_generic_read(dssdev, msg->channel,
-> -					   msg->tx_buf, msg->tx_len,
-> -					   msg->rx_buf, msg->rx_len);
-> +		return dsi_vc_generic_read(dssdev, msg);
->  	case MIPI_DSI_DCS_READ:
-> -		return dsi_vc_dcs_read(dssdev, msg->channel,
-> -				       ((u8 *)msg->tx_buf)[0],
-> -				       msg->rx_buf, msg->rx_len);
-> +		return dsi_vc_dcs_read(dssdev, msg);
->  	}
->  
->  	return -EINVAL;
-
--- 
-Regards,
-
-Laurent Pinchart
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gU3VuLCAyMDIwLTExLTA4IGF0IDExOjA0ICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
+PiArIFZpbm9kOg0KPiANCj4gSGksIENodW5mZW5nOg0KPiANCj4gQ2h1bi1LdWFuZyBIdSA8Y2h1
+bmt1YW5nLmh1QGtlcm5lbC5vcmc+IOaWvCAyMDIw5bm0MTDmnIgyOeaXpSDpgLHlm5sg5LiL5Y2I
+MTE6Mjjlr6vpgZPvvJoNCj4gPg0KPiA+IE1lZGlhdGVrIE1JUEkgRFNJIHBoeSBkcml2ZXIgaXMg
+bW92ZWQgZnJvbSBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsgdG8NCj4gPiBkcml2ZXJzL3BoeS9t
+ZWRpYXRlaywgc28gYWRkIHRoZSBuZXcgZm9sZGVyIHRvIHRoZSBNZWRpYXRlayBEUk0gZHJpdmVy
+cycNCj4gPiBpbmZvcm1hdGlvbi4NCj4gDQo+IFdvdWxkIHlvdSBsaWtlIHRoaXMgcGF0Y2g/IElm
+IHNvLCB5b3UgY291bGQgZ2l2ZSBhbiBhY2tlZC1ieSB0YWcgb24NCj4gdGhpcyBwYXRjaCwgc28g
+SSBjb3VsZCBhcHBsaWVkIHRoZSB3aG9sZSBzZXJpZXMgaW50byBteSB0cmVlLg0KQWNrZWQtYnk6
+IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCg0KVGhhbmtzDQoNCj4g
+DQo+IFJlZ2FyZHMsDQo+IENodW4tS3VhbmcuDQo+IA0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTog
+Q2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+DQo+ID4gLS0tDQo+ID4gIE1B
+SU5UQUlORVJTIHwgMSArDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiA+
+DQo+ID4gZGlmZiAtLWdpdCBhL01BSU5UQUlORVJTIGIvTUFJTlRBSU5FUlMNCj4gPiBpbmRleCBl
+NzM2MzZiNzVmMjkuLjE0ZjUwMThjMDFiNiAxMDA2NDQNCj4gPiAtLS0gYS9NQUlOVEFJTkVSUw0K
+PiA+ICsrKyBiL01BSU5UQUlORVJTDQo+ID4gQEAgLTU4NjcsNiArNTg2Nyw3IEBAIFM6ICAgICAg
+ICBTdXBwb3J0ZWQNCj4gPiAgRjogICAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
+cy9kaXNwbGF5L21lZGlhdGVrLw0KPiA+ICBGOiAgICAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+Lw0KPiA+ICBGOiAgICAgZHJpdmVycy9waHkvbWVkaWF0ZWsvcGh5LW10ay1oZG1pKg0KPiA+ICtG
+OiAgICAgZHJpdmVycy9waHkvbWVkaWF0ZWsvcGh5LW10ay1taXBpKg0KPiA+DQo+ID4gIERSTSBE
+UklWRVJTIEZPUiBOVklESUEgVEVHUkENCj4gPiAgTTogICAgIFRoaWVycnkgUmVkaW5nIDx0aGll
+cnJ5LnJlZGluZ0BnbWFpbC5jb20+DQo+ID4gLS0NCj4gPiAyLjE3LjENCj4gPg0KDQpfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
+ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
+ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
