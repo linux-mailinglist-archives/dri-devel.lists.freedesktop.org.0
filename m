@@ -2,64 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B2C2AB4BC
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05832AB4C9
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:26:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C2889819;
-	Mon,  9 Nov 2020 10:22:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07BEC8982A;
+	Mon,  9 Nov 2020 10:26:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B04E89819
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:22:32 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AMPqV112757;
- Mon, 9 Nov 2020 04:22:25 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1604917345;
- bh=CG5PEK/x5ITMrjZxW8GzNu++r9MHgpTFkJ94/g0VLhY=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=byYpNonEpo5d3IBk0EIzc4OTEum4FgAvGRlArhiqeT+faabMNmwxGsffXAMk7reV6
- IHqa/HU12C8ZmWO+XDPZmcg20mHOv/w8W8C+vXIX9NWd/pmOsr3Ja0FvQoke02eoaC
- kzrX6Hmp4MOdLUMT1KLpFhXAyrOapWnN2dKe4c40=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A9AMPdO003234
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 9 Nov 2020 04:22:25 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 9 Nov
- 2020 04:22:25 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 9 Nov 2020 04:22:25 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A9AMMUo058494;
- Mon, 9 Nov 2020 04:22:23 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
-Date: Mon, 9 Nov 2020 12:22:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4594D8982A
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:26:19 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id F072AAF39;
+ Mon,  9 Nov 2020 10:26:17 +0000 (UTC)
+Subject: Re: [PATCH] drm/ast: Create chip AST2600
+To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20201109093812.161483-1-kuohsiang_chou@aspeedtech.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <fd2cdee4-3eb3-facd-5398-56d74fa7cf14@suse.de>
+Date: Mon, 9 Nov 2020 11:26:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+In-Reply-To: <20201109093812.161483-1-kuohsiang_chou@aspeedtech.com>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +40,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
+ airlied@redhat.com, arc_sung@aspeedtech.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
-> 
->> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
->>
->>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
->>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
->>>
->>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
->>> And hopefully we are close to push the panel driver for review. And in a second step some device
->>> tree for the Pyra.
->>>
->>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
->>
->> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
->> it's good to have that as a reference.
-> 
-> Yes, here:
-> 
-> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
-
-Ok. The old driver uses two separate VC configurations (request_vc calls), so it may not work with
-this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDA5LjExLjIwIHVtIDEwOjM4IHNjaHJpZWIgS3VvSHNpYW5nIENob3U6Cj4gW05ld10g
+U3VwcG9ydCBBU1QyNjAwCgpBIHN0eWxlIGlzc3VlOiBiZXR0ZXIgd3JpdGUgYSBuaWNlIHNlbnRl
+bmNlIHRoYW4gdGhlc2UgdGFncy4gIEZvciB0aGUKcGF0Y2ggYXQgaGFuZCwgSSdkIHByZWZlcnJl
+ZCBzb21ldGhpbmcgbGlrZTogIk9ubHkgYWRkIGFuIGlkIGZvcgpzdXBwb3J0aW5nIEFTVDI2MDAu
+IE5vIGZ1bmN0aW9uYWwgY2hhbmdlcyBhcmUgcmVxdWlyZWQuIgoKSSBhc3N1bWUgdGhhdCB0aGVy
+ZSBhcmVubyBmdXJ0aGVyIGNoYW5nZXMgcmVxdWlyZWQgZm9yIEFTVDI2MDAuCgo+IAo+IFNpZ25l
+ZC1vZmYtYnk6IEt1b0hzaWFuZyBDaG91IDxrdW9oc2lhbmdfY2hvdUBhc3BlZWR0ZWNoLmNvbT4K
+ClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KCkkn
+bGwgYWRkIHRoZSBwYXRjaCB0byBkcm0tbWlzYy1uZXh0LiBUaGFua3MhCgpCZXN0IHJlZ2FyZHMK
+VGhvbWFzCgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCAgfCAxICsKPiAg
+ZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbWFpbi5jIHwgNSArKysrLQo+ICAyIGZpbGVzIGNoYW5n
+ZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5o
+Cj4gaW5kZXggNDY3MDQ5Y2E4NDMwLi42YjllM2I5NGE3MTIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9k
+cnYuaAo+IEBAIC02Myw2ICs2Myw3IEBAIGVudW0gYXN0X2NoaXAgewo+ICAJQVNUMjMwMCwKPiAg
+CUFTVDI0MDAsCj4gIAlBU1QyNTAwLAo+ICsJQVNUMjYwMCwKPiAgfTsKPiAKPiAgZW51bSBhc3Rf
+dHhfY2hpcCB7Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYyBi
+L2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYwo+IGluZGV4IDc3MDY2YmNhODc5My4uNGVj
+Njg4NGY2YzY1IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYwo+
+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X21haW4uYwo+IEBAIC0xNDMsNyArMTQzLDEw
+IEBAIHN0YXRpYyBpbnQgYXN0X2RldGVjdF9jaGlwKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIGJv
+b2wgKm5lZWRfcG9zdCkKPiAgCWFzdF9kZXRlY3RfY29uZmlnX21vZGUoZGV2LCAmc2N1X3Jldik7
+Cj4gCj4gIAkvKiBJZGVudGlmeSBjaGlwc2V0ICovCj4gLQlpZiAoZGV2LT5wZGV2LT5yZXZpc2lv
+biA+PSAweDQwKSB7Cj4gKwlpZiAoZGV2LT5wZGV2LT5yZXZpc2lvbiA+PSAweDUwKSB7Cj4gKwkJ
+YXN0LT5jaGlwID0gQVNUMjYwMDsKPiArCQlkcm1faW5mbyhkZXYsICJBU1QgMjYwMCBkZXRlY3Rl
+ZFxuIik7Cj4gKwl9IGVsc2UgaWYgKGRldi0+cGRldi0+cmV2aXNpb24gPj0gMHg0MCkgewo+ICAJ
+CWFzdC0+Y2hpcCA9IEFTVDI1MDA7Cj4gIAkJZHJtX2luZm8oZGV2LCAiQVNUIDI1MDAgZGV0ZWN0
+ZWRcbiIpOwo+ICAJfSBlbHNlIGlmIChkZXYtPnBkZXYtPnJldmlzaW9uID49IDB4MzApIHsKPiAt
+LQo+IDIuMTguNAo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZl
+bG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUs
+IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2No
+w6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
