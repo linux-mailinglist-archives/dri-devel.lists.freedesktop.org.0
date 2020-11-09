@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBE62AB55A
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:48:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 639FE2AB55F
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 11:49:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7399E898BF;
-	Mon,  9 Nov 2020 10:48:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70DA68940F;
+	Mon,  9 Nov 2020 10:49:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2DC8898BF
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:48:42 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C5178940F
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:49:44 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06C3BB2B;
- Mon,  9 Nov 2020 11:48:40 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12F38B2B;
+ Mon,  9 Nov 2020 11:49:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604918921;
- bh=zlUHVoOUWGx1rKdSviLG7dzZwgmtkT7iGapWHY4fBVE=;
+ s=mail; t=1604918983;
+ bh=7n9Yat1LWWRbM/MHFdHEdgdkx/EI6U1p1Djt3qGtJ/M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=INy48GvkJCqk+f21b6KOe2TDBaduhhqOYSFqQnQ1aCm2YdvGIioqiGG43iDdoLxmf
- 8ue4c3u/Uzft3VRiNKaa7Mwq14+luZmeWuqSWaWJlsK11g+V774UKPGwieRqyimoT9
- 1eTGw4n/tYsiZdkjYEjxYsp+IR0/6NWlHZqEkBzc=
-Date: Mon, 9 Nov 2020 12:48:37 +0200
+ b=NYfDuXIR1o6F1exG7Fs5IxNCYfHhiu+dNJgw81gLix9699bqnzy/jVn5ozxQ3uFEV
+ fU6w/tR4TXc+sbNgDtRiGGl8Fqycz6smegn5qwEyg3lunFjyTZXSYRuZPg9cZ6gv48
+ 2HGMUnx+pVgY7Jf4BwShCSXHOs6nRWV3ETtBlzNo=
+Date: Mon, 9 Nov 2020 12:49:39 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 36/56] drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
-Message-ID: <20201109104837.GG6029@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 37/56] drm/omap: panel-dsi-cm: support unbinding
+Message-ID: <20201109104939.GH6029@pendragon.ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-37-tomi.valkeinen@ti.com>
+ <20201105120333.947408-38-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-37-tomi.valkeinen@ti.com>
+In-Reply-To: <20201105120333.947408-38-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,56 +58,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Tomi and Sebastian,
 
-Thank you for the patch.
-
-On Thu, Nov 05, 2020 at 02:03:13PM +0200, Tomi Valkeinen wrote:
+On Thu, Nov 05, 2020 at 02:03:14PM +0200, Tomi Valkeinen wrote:
 > From: Sebastian Reichel <sebastian.reichel@collabora.com>
 > 
-> Use DEVICE_ATTR_RO helper instead of plain DEVICE_ATTR,
-> which makes the code a bit shorter and easier to read.
+> Now, that the driver implements the common DRM panel API
+> the unbind no longer needs to be suppressed.
 > 
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I'd be curious to know what happens when you try to unbind through sysfs
+though...
+
 > ---
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> index 3668b3f0aff2..5159dd51a353 100644
+> index 5159dd51a353..086c7d71fe17 100644
 > --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 > +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> @@ -219,7 +219,7 @@ static const struct backlight_ops dsicm_bl_ops = {
->  	.update_status  = dsicm_bl_update_status,
+> @@ -607,7 +607,7 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>  	return r;
+>  }
+>  
+> -static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+> +static int dsicm_remove(struct mipi_dsi_device *dsi)
+>  {
+>  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+>  
+> @@ -637,11 +637,10 @@ MODULE_DEVICE_TABLE(of, dsicm_of_match);
+>  
+>  static struct mipi_dsi_driver dsicm_driver = {
+>  	.probe = dsicm_probe,
+> -	.remove = __exit_p(dsicm_remove),
+> +	.remove = dsicm_remove,
+>  	.driver = {
+>  		.name = "panel-dsi-cm",
+>  		.of_match_table = dsicm_of_match,
+> -		.suppress_bind_attrs = true,
+>  	},
 >  };
->  
-> -static ssize_t dsicm_num_errors_show(struct device *dev,
-> +static ssize_t num_dsi_errors_show(struct device *dev,
->  		struct device_attribute *attr, char *buf)
->  {
->  	struct panel_drv_data *ddata = dev_get_drvdata(dev);
-> @@ -239,7 +239,7 @@ static ssize_t dsicm_num_errors_show(struct device *dev,
->  	return snprintf(buf, PAGE_SIZE, "%d\n", errors);
->  }
->  
-> -static ssize_t dsicm_hw_revision_show(struct device *dev,
-> +static ssize_t hw_revision_show(struct device *dev,
->  		struct device_attribute *attr, char *buf)
->  {
->  	struct panel_drv_data *ddata = dev_get_drvdata(dev);
-> @@ -259,8 +259,8 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
->  	return snprintf(buf, PAGE_SIZE, "%02x.%02x.%02x\n", id1, id2, id3);
->  }
->  
-> -static DEVICE_ATTR(num_dsi_errors, S_IRUGO, dsicm_num_errors_show, NULL);
-> -static DEVICE_ATTR(hw_revision, S_IRUGO, dsicm_hw_revision_show, NULL);
-> +static DEVICE_ATTR_RO(num_dsi_errors);
-> +static DEVICE_ATTR_RO(hw_revision);
->  
->  static struct attribute *dsicm_attrs[] = {
->  	&dev_attr_num_dsi_errors.attr,
+>  module_mipi_dsi_driver(dsicm_driver);
 
 -- 
 Regards,
