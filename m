@@ -2,43 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCD62AB11D
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 07:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B735E2AB1AC
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 08:17:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 162B9893BC;
-	Mon,  9 Nov 2020 06:14:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10A7893A8;
+	Mon,  9 Nov 2020 07:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCB4893BC
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 06:14:08 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 209987] Memory leak in amdgpu_dm_update_connector_after_detect
-Date: Mon, 09 Nov 2020 06:14:02 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lstarnes1024@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-209987-2300-CaZfP61twt@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-209987-2300@https.bugzilla.kernel.org/>
-References: <bug-209987-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B10EC893A8
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 07:16:57 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 6779B80537;
+ Mon,  9 Nov 2020 08:16:54 +0100 (CET)
+Date: Mon, 9 Nov 2020 08:16:52 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH] drm/panel: simple: Add flags to boe_nv133fhm_n61
+Message-ID: <20201109071652.GA1715181@ravnborg.org>
+References: <20201106182333.3080124-1-swboyd@chromium.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201106182333.3080124-1-swboyd@chromium.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=cm27Pg_UAAAA:8 a=KKAkSRfTAAAA:8
+ a=iQUANYYRbEHiEctOL_IA:9 a=CjuIK1q_8ugA:10 a=xmb-EsYY8bH0VWELuYED:22
+ a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,21 +44,29 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=209987
+Hi Stephen
+On Fri, Nov 06, 2020 at 10:23:33AM -0800, Stephen Boyd wrote:
+> Reading the EDID of this panel shows that these flags should be set. Set
+> them so that we match what is in the EDID.
+> 
+> Cc: Douglas Anderson <dianders@chromium.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Fixes: b0c664cc80e8 ("panel: simple: Add BOE NV133FHM-N61")
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 
---- Comment #3 from Lee Starnes (lstarnes1024@gmail.com) ---
-Created attachment 293577
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293577&action=edit
-proposed patch
+Applied to drm-misc-next as I could not see this was needed in mainline.
+Or at least not urgently.
+Let me know if this should be expeditet to current -rc
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
