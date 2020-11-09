@@ -2,46 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91B32ABFB5
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 16:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30F12ABFC5
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 16:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DED389312;
-	Mon,  9 Nov 2020 15:19:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F04389A76;
+	Mon,  9 Nov 2020 15:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 129C789312
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 15:19:41 +0000 (UTC)
-IronPort-SDR: l8Vtcdcezapry/rkOXzv4APUrpRnH/Xlzij9hhYDcIY1ZD0iBMqU6YJDpUVirEeQEXag+BXRGt
- c1eemFMfM7Ug==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="149669011"
-X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; d="scan'208";a="149669011"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2020 07:19:40 -0800
-IronPort-SDR: OCyFFHZMq2JFX08oDvfCI6sCxFj0j6Yf9l62oeSJVmxd/jzVADMD007L35+3roxB9OHfLhm5Ci
- i3YLdPYzDy8w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; d="scan'208";a="365507779"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga007.jf.intel.com with SMTP; 09 Nov 2020 07:19:37 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 09 Nov 2020 17:19:37 +0200
-Date: Mon, 9 Nov 2020 17:19:37 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6438984D;
+ Mon,  9 Nov 2020 15:25:37 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id C30C58053A;
+ Mon,  9 Nov 2020 16:25:32 +0100 (CET)
+Date: Mon, 9 Nov 2020 16:25:30 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH 14/19] gpu: drm: selftests: test-drm_dp_mst_helper: Place
- 'struct drm_dp_sideband_msg_req_body' onto the heap
-Message-ID: <20201109151937.GF6112@intel.com>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
- <20201105144517.1826692-15-lee.jones@linaro.org>
+Subject: Re: [PATCH 10/19] drm/radeon/radeon: Move prototype into shared header
+Message-ID: <20201109152530.GA1888045@ravnborg.org>
+References: <20201106214949.2042120-1-lee.jones@linaro.org>
+ <20201106214949.2042120-11-lee.jones@linaro.org>
+ <20201107142651.GA1014611@ravnborg.org>
+ <20201109110603.GV2063125@dell>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201105144517.1826692-15-lee.jones@linaro.org>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201109110603.GV2063125@dell>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=0bRNquZ1QDSsZ4hO3z4A:9 a=QEXdDO2ut3YA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,38 +45,30 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, David Francis <David.Francis@amd.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ amd-gfx@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBOb3YgMDUsIDIwMjAgYXQgMDI6NDU6MTJQTSArMDAwMCwgTGVlIEpvbmVzIHdyb3Rl
-Ogo+IFRoZSBzdGFjayBpcyB0b28gZnVsbC4KPiAKPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBr
-ZXJuZWwgYnVpbGQgd2FybmluZyhzKToKPiAKPiAgZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy90
-ZXN0LWRybV9kcF9tc3RfaGVscGVyLmM6IEluIGZ1bmN0aW9uIOKAmHNpZGViYW5kX21zZ19yZXFf
-ZW5jb2RlX2RlY29kZeKAmToKPiAgZHJpdmVycy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9k
-cF9tc3RfaGVscGVyLmM6MTYxOjE6IHdhcm5pbmc6IHRoZSBmcmFtZSBzaXplIG9mIDExNzYgYnl0
-ZXMgaXMgbGFyZ2VyIHRoYW4gMTAyNCBieXRlcyBbLVdmcmFtZS1sYXJnZXItdGhhbj1dCj4gCj4g
-Q2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBMeXVkZSBQYXVsIDxseXVkZUByZWRoYXQuY29tPgo+IENj
-OiBEYXZpZCBGcmFuY2lzIDxEYXZpZC5GcmFuY2lzQGFtZC5jb20+Cj4gQ2M6IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25l
-c0BsaW5hcm8ub3JnPgo+IC0tLQo+ICAuLi4vZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9kcF9tc3Rf
-aGVscGVyLmMgICAgfCAyOSArKysrKysrKysrKystLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
-OCBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3NlbGZ0ZXN0cy90ZXN0LWRybV9kcF9tc3RfaGVscGVyLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vc2VsZnRlc3RzL3Rlc3QtZHJtX2RwX21zdF9oZWxwZXIuYwo+IGluZGV4IDFkNjk2ZWMw
-MDFjZmYuLjBhNTM5NDU2ZjY4NjQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3NlbGZ0
-ZXN0cy90ZXN0LWRybV9kcF9tc3RfaGVscGVyLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vc2Vs
-ZnRlc3RzL3Rlc3QtZHJtX2RwX21zdF9oZWxwZXIuYwo+IEBAIC0xMjAsNDQgKzEyMCw1MSBAQCBz
-aWRlYmFuZF9tc2dfcmVxX2VxdWFsKGNvbnN0IHN0cnVjdCBkcm1fZHBfc2lkZWJhbmRfbXNnX3Jl
-cV9ib2R5ICppbiwKPiAgc3RhdGljIGJvb2wKPiAgc2lkZWJhbmRfbXNnX3JlcV9lbmNvZGVfZGVj
-b2RlKHN0cnVjdCBkcm1fZHBfc2lkZWJhbmRfbXNnX3JlcV9ib2R5ICppbikKPiAgewo+IC0Jc3Ry
-dWN0IGRybV9kcF9zaWRlYmFuZF9tc2dfcmVxX2JvZHkgb3V0ID0gezB9Owo+ICsJc3RydWN0IGRy
-bV9kcF9zaWRlYmFuZF9tc2dfcmVxX2JvZHkgKm91dDsKCkhvdyBiaWcgaXMgaXQ/IEFuZCB3aHkg
-aXMgaXQgdGhhdCBiaWc/CgotLSAKVmlsbGUgU3lyasOkbMOkCkludGVsCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+SGkgTGVlLAo+ID4gCj4gPiBPdGhlciBwdWJsaWMgZnVuY3Rpb25zIGluIHJhZGVvbl9kZXZpY2Uu
+YyBoYXZlIHRoZWlyIHByb3RvdHlwZSBpbgo+ID4gcmFkZW9uLmggLSBmb3IgZXhhbXBsZSByYWRl
+b25faXNfcHgoKQo+ID4gCj4gPiBBZGQgcmFkZW9uX2RldmljZV9pc192aXJ0dWFsKCkgdGhlcmUg
+c28gd2UgYXZvaWlkIHRoaXMgbmV3IGhlYWRlci4KPiAKPiBPaCB5ZXMsIEkgcmVtZW1iZXIgd2h5
+IHRoaXMgd2Fzbid0IGEgc3VpdGFibGUgc29sdXRpb24gbm93Ogo+IAo+IFRoZSBtYWNybyAicmFk
+ZW9uX2luaXQiIGluIHJhZGVvbi5oIGNsYXNoZXMgd2l0aCB0aGUgaW5pdCBmdW5jdGlvbiBvZgo+
+IHRoZSBzYW1lIG5hbWUgaW4gcmFkZW9uX2Rydi5jOgo+IAo+ICAgSW4gZmlsZSBpbmNsdWRlZCBm
+cm9tIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2Rydi5jOjUzOgo+ICAgZHJpdmVycy9n
+cHUvZHJtL3JhZGVvbi9yYWRlb25fZHJ2LmM6NjIwOjMxOiBlcnJvcjogZXhwZWN0ZWQgaWRlbnRp
+ZmllciBvciDigJgo4oCZIGJlZm9yZSDigJh2b2lk4oCZCj4gICA2MjAgfCBzdGF0aWMgaW50IF9f
+aW5pdCByYWRlb25faW5pdCh2b2lkKQouLi4KPiAKPiBIb3cgd291bGQgeW91IGxpa2UgbWUgdG8g
+bW92ZSBmb3J3YXJkPwoKRml4IHRoZSB0aG91c2FuZCBvZiB3YXJuaW5ncyBpbiBvdGhlciBwbGFj
+ZXMgOi0pCkkgd2lsbCB0YWtlIGEgbG9vayBhdCByYWRlb24gYW5kIHBvc3QgYSBuZXcgc2VyaWVz
+IGJhc2VkIG9uIHlvdXIgd29yawp3aXRoIGFsbCBXPTEgd2FybmluZ3MgZml4ZWQuCgoJU2FtCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
