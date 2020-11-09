@@ -2,57 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B43C2AD104
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A132AD101
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A254A898E8;
-	Tue, 10 Nov 2020 08:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6E7898F3;
+	Tue, 10 Nov 2020 08:16:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47EC889857
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 10:31:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1604917901;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=6t1/oILAK6yKl4dz79BGpL7PF+ZHXywu/wN3Dc5cPO8=;
- b=dUT0VjVKK5ofMax2hA1/rYLDglAo6BHnQIRpYfFLBhHf6dD7SuC0Jf4YgAS8b8QI7V
- IbL01n0cJW1HIv5byKyB+O/ZHUignBe17AAw19KRR9CJRB3HSI49zPmVLYy4rlq3/8ss
- TxJvSDJUBj6rEG3GJrGGWVoUd3YvD+9kc4VXgsq6LnY6euOJaNNtx5v/GkN1vdHCVvoj
- Lrar8pmL7rfnqsHpIYMijiekF1PYLKYtJp8ukgROMzxzydWCQzDnSQR02uP96N88iPVi
- HnI0PG6La64hPDmuvSGdOyHSqgaSZHo0JKnba3g9RTKrYh+p2RG01gcjwv2Cp9zmLAbb
- XU7w==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDlaVXA0JCQ=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.3 DYNA|AUTH)
- with ESMTPSA id d04888wA9AVXBEs
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Mon, 9 Nov 2020 11:31:33 +0100 (CET)
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
-Date: Mon, 9 Nov 2020 11:31:33 +0100
-Message-Id: <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90CDE8991E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:07:01 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j7so967971wrp.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:07:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
+ b=h63NN6JIr7BPg/L5K4tALUY+/tMHu7b/AohNm+Sq0AHtLr7C775RNCqPF5N91xMyBI
+ MOiY+0CB7+nr/djuF77eQh2JjzNwZIgYaGZcGaavyRIGIDOMtNAYYoguPo3Q8xFlwx6L
+ QddH+S2xNU+tvs03WMAyY063pe678sUddwGJwNwh+sGNbGg5ToLYxAiebC7qHygj5JKC
+ wX/om83DYWGS2MTV/IcOR6891AOSOJx6pnI6tFAZh8FUdpFrpM+edanMCufFGJCkBefi
+ wPu7sueEx5oa9fOWdtBQSKZ4a7oTEsuZvbf1jYwrHa9aigN1cKpCLLxVES7TkXXM96mf
+ VUKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
+ b=nLoQIVmLVSuOk8thyoqHkWtLHS7t7poglfGZd2SvamlpfwrCZjCxLhqBmhM/QpgsFe
+ 8FpVxHEA7DvC0+WrDs/vyGPlq4GTbyJYQiIrfLK9Culx1IgSQeF29+hUeg3UXl35C0OZ
+ 26lD6hR38z57NWvKusgEk3PrmuavEJ5mNP6ei5uAaBY3mBsFRM+6MLnFw4/jhbOi9iJB
+ zShCJCadCC6tMn1qpUUYm/OB2IGlm2oCPjFkJQDNUor3x3yNyJLrNfLj+nv3MkIk0I8n
+ s68YZXq9Z5Kn8UctxxMVS25at7gbZ6ohDyU8Rt9oGLIeM4Lafb3bbzdS6vFfk6+Z3Nyo
+ 0Zmg==
+X-Gm-Message-State: AOAM532acAXgON3y9BcTDO0fHTcAVzRHjqM2M225RwkbjtIxEjvx3fkj
+ cKfVZhiVQez2cPaQpY3kipSsag==
+X-Google-Smtp-Source: ABdhPJyoLN1aG0XKVyv+yWfCk24OCLDvJjyIFGdAfhV/HDRuWRPPB2x0i9RWfrD3NWEqtPTk5g+kWQ==
+X-Received: by 2002:adf:9066:: with SMTP id h93mr18252220wrh.166.1604920019608; 
+ Mon, 09 Nov 2020 03:06:59 -0800 (PST)
+Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr.
+ [2.15.39.206])
+ by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.06.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 03:06:58 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Borislav Petkov <bp@alien8.de>,
+ Tony Luck <tony.luck@intel.com>, James Morse <james.morse@arm.com>,
+ Robert Richter <rric@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+ David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH v3 0/9] slab: provide and use krealloc_array()
+Date: Mon,  9 Nov 2020 12:06:45 +0100
+Message-Id: <20201109110654.12547-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.29.1
+MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,54 +84,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: alsa-devel@alsa-project.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-gpio@vger.kernel.org,
+ Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-media@vger.kernel.org,
+ linux-edac@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-> Am 09.11.2020 um 11:22 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
-> 
-> On 09/11/2020 11:30, H. Nikolaus Schaller wrote:
->> 
->>> Am 09.11.2020 um 09:04 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>> 
->>> On 07/11/2020 14:19, H. Nikolaus Schaller wrote:
->>> 
->>>> I have set up based on our complete letux-5.10-rc2 tree and maybe using our private config makes
->>>> the difference. Anyways, the driver is now probed and I can see the call to w677l_get_modes().
->>>> 
->>>> I have still no image and no calls to prepare/unprepare etc. but now I can start to debug on omap5.
->>>> And hopefully we are close to push the panel driver for review. And in a second step some device
->>>> tree for the Pyra.
->>>> 
->>>> The new tree is here: https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/work-pyra-panel
->>> 
->>> Ok, good. Do you have a link the previous driver that works (omapdrm specific panel driver)? I think
->>> it's good to have that as a reference.
->> 
->> Yes, here:
->> 
->> https://git.goldelico.com/?p=letux-kernel.git;a=shortlog;h=refs/heads/letux/panels
-> 
-> Ok. The old driver uses two separate VC configurations (request_vc calls),
+Andy brought to my attention the fact that users allocating an array of
+equally sized elements should check if the size multiplication doesn't
+overflow. This is why we have helpers like kmalloc_array().
 
-yes indeed. I was not sure how to handle this with the new omapdrm drivers.
+However we don't have krealloc_array() equivalent and there are many
+users who do their own multiplication when calling krealloc() for arrays.
 
-> so it may not work with
-> this series. I think we need to implement logic to the dsi driver to somehow handle this kind of setup.
+This series provides krealloc_array() and uses it in a couple places.
 
-I see.
-Anyways there is missing some simple thing which makes the driver not prepared/enabled.
-Or is this related to VC?
+A separate series will follow adding devm_krealloc_array() which is
+needed in the xilinx adc driver.
 
-BR and thanks,
-Nikolaus
+v1 -> v2:
+- added a kernel doc for krealloc_array()
+- mentioned krealloc et al in the docs
+- collected review tags
 
+v2 -> v3:
+- add a patch improving krealloc()'s kerneldoc
+- fix a typo
+- improve .rst doc
+- tweak line breaks
+
+Bartosz Golaszewski (9):
+  mm: slab: clarify krealloc()'s behavior with __GFP_ZERO
+  mm: slab: provide krealloc_array()
+  ALSA: pcm: use krealloc_array()
+  vhost: vringh: use krealloc_array()
+  pinctrl: use krealloc_array()
+  edac: ghes: use krealloc_array()
+  drm: atomic: use krealloc_array()
+  hwtracing: intel: use krealloc_array()
+  dma-buf: use krealloc_array()
+
+ Documentation/core-api/memory-allocation.rst |  4 ++++
+ drivers/dma-buf/sync_file.c                  |  3 +--
+ drivers/edac/ghes_edac.c                     |  4 ++--
+ drivers/gpu/drm/drm_atomic.c                 |  3 ++-
+ drivers/hwtracing/intel_th/msu.c             |  2 +-
+ drivers/pinctrl/pinctrl-utils.c              |  2 +-
+ drivers/vhost/vringh.c                       |  3 ++-
+ include/linux/slab.h                         | 18 ++++++++++++++++++
+ mm/slab_common.c                             |  6 +++---
+ sound/core/pcm_lib.c                         |  4 ++--
+ 10 files changed, 36 insertions(+), 13 deletions(-)
+
+-- 
+2.29.1
 
 _______________________________________________
 dri-devel mailing list
