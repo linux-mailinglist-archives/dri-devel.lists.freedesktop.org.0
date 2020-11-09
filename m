@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A132AD101
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA30F2AD0FE
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B6E7898F3;
-	Tue, 10 Nov 2020 08:16:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5383898BF;
+	Tue, 10 Nov 2020 08:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90CDE8991E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:07:01 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id j7so967971wrp.3
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:07:01 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA358991E
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 11:07:02 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id c17so8203948wrc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 03:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
- b=h63NN6JIr7BPg/L5K4tALUY+/tMHu7b/AohNm+Sq0AHtLr7C775RNCqPF5N91xMyBI
- MOiY+0CB7+nr/djuF77eQh2JjzNwZIgYaGZcGaavyRIGIDOMtNAYYoguPo3Q8xFlwx6L
- QddH+S2xNU+tvs03WMAyY063pe678sUddwGJwNwh+sGNbGg5ToLYxAiebC7qHygj5JKC
- wX/om83DYWGS2MTV/IcOR6891AOSOJx6pnI6tFAZh8FUdpFrpM+edanMCufFGJCkBefi
- wPu7sueEx5oa9fOWdtBQSKZ4a7oTEsuZvbf1jYwrHa9aigN1cKpCLLxVES7TkXXM96mf
- VUKg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=2uLK4LNo7fJGEwA0NXfYaAQzvkTW8/WkGHuVu61FcZ4=;
+ b=SLmwWdYmA2Su0OyL+219YDZzeVXOkzpy5gortE6aVnwng+6cHrJzhAQJzNByqcPbPZ
+ isbE6V3Lb9JgstbUlm/PZvCpNxelIDnwHLTINtWIzMAUAJP+6YLk/AWf+cW33RVJOvLq
+ 4EQlOOLu8zd+gVrxvr0w9485FxLsZ4uiV1jlwgDMS4E7kDkszYjvid4w0z806pFvA1dO
+ U+nHioEgRrLmfLyR8tH/H/Ge3+qH76H09ubPywZEg/u4KcGzZ6YzgnyKXZKxxyWIo1cW
+ FT3Tuwvxb43JhyG0QmKnG/8uRrjp2S/bO4jEisldpzuA8EOA5eJuEswwYg/l6KV0K70j
+ EAjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
- b=nLoQIVmLVSuOk8thyoqHkWtLHS7t7poglfGZd2SvamlpfwrCZjCxLhqBmhM/QpgsFe
- 8FpVxHEA7DvC0+WrDs/vyGPlq4GTbyJYQiIrfLK9Culx1IgSQeF29+hUeg3UXl35C0OZ
- 26lD6hR38z57NWvKusgEk3PrmuavEJ5mNP6ei5uAaBY3mBsFRM+6MLnFw4/jhbOi9iJB
- zShCJCadCC6tMn1qpUUYm/OB2IGlm2oCPjFkJQDNUor3x3yNyJLrNfLj+nv3MkIk0I8n
- s68YZXq9Z5Kn8UctxxMVS25at7gbZ6ohDyU8Rt9oGLIeM4Lafb3bbzdS6vFfk6+Z3Nyo
- 0Zmg==
-X-Gm-Message-State: AOAM532acAXgON3y9BcTDO0fHTcAVzRHjqM2M225RwkbjtIxEjvx3fkj
- cKfVZhiVQez2cPaQpY3kipSsag==
-X-Google-Smtp-Source: ABdhPJyoLN1aG0XKVyv+yWfCk24OCLDvJjyIFGdAfhV/HDRuWRPPB2x0i9RWfrD3NWEqtPTk5g+kWQ==
-X-Received: by 2002:adf:9066:: with SMTP id h93mr18252220wrh.166.1604920019608; 
- Mon, 09 Nov 2020 03:06:59 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=2uLK4LNo7fJGEwA0NXfYaAQzvkTW8/WkGHuVu61FcZ4=;
+ b=LjUyDaepr3YNqAz3NZ5slo3d8RpPY/AbdJ8rCXkT+vvBspOHQ6drm+XM51BZbfXymJ
+ a2+rwqwx4JREOaxsnRRKCcKDxZzHxt0Rc2n4Tlx44sw+pT5k30ub70cCDL8CvRsHYpv+
+ 1geLavAsNZeEipICvXTFAJMevmfctfvVkex6cdkhLHGJUnrMsg7AQxF+qV99j9BtRKzH
+ PyGpppyhAaOQZfJO5MEJ+Vtqej1Z+nvKJfrgXe2Gn/K1ebo5PKZCeJQ06jABp8hYQQoA
+ S1JFilkdRJ4CJoyCD2aciiV6H9NkILGJBuLEputNMA2G3QCw0OmCTn1thzBiKjTgvhzS
+ c4sQ==
+X-Gm-Message-State: AOAM533yooB9iJvy8xRJS4GqQiV3AOibnXG0I9trUJTSqj1uS8GXMFTF
+ PMY9vioFtD7DoTatVz0bBg25gg==
+X-Google-Smtp-Source: ABdhPJwC1VmwvlzIaWje0LLMyGfNJlg7DPW07nQhl2YWyOW+KS6oIpzkSUqvI/A14QOWWdg2F+P+tA==
+X-Received: by 2002:adf:9b98:: with SMTP id d24mr16961027wrc.17.1604920021208; 
+ Mon, 09 Nov 2020 03:07:01 -0800 (PST)
 Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr.
  [2.15.39.206])
- by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.06.57
+ by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 09 Nov 2020 03:06:58 -0800 (PST)
+ Mon, 09 Nov 2020 03:07:00 -0800 (PST)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  Sumit Semwal <sumit.semwal@linaro.org>,
@@ -66,10 +66,12 @@ To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v3 0/9] slab: provide and use krealloc_array()
-Date: Mon,  9 Nov 2020 12:06:45 +0100
-Message-Id: <20201109110654.12547-1-brgl@bgdev.pl>
+Subject: [PATCH v3 1/9] mm: slab: clarify krealloc()'s behavior with __GFP_ZERO
+Date: Mon,  9 Nov 2020 12:06:46 +0100
+Message-Id: <20201109110654.12547-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201109110654.12547-1-brgl@bgdev.pl>
+References: <20201109110654.12547-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,52 +99,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Andy brought to my attention the fact that users allocating an array of
-equally sized elements should check if the size multiplication doesn't
-overflow. This is why we have helpers like kmalloc_array().
+__GFP_ZERO is ignored by krealloc() (unless we fall-back to kmalloc()
+path, in which case it's honored). Point that out in the kerneldoc.
 
-However we don't have krealloc_array() equivalent and there are many
-users who do their own multiplication when calling krealloc() for arrays.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ mm/slab_common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This series provides krealloc_array() and uses it in a couple places.
-
-A separate series will follow adding devm_krealloc_array() which is
-needed in the xilinx adc driver.
-
-v1 -> v2:
-- added a kernel doc for krealloc_array()
-- mentioned krealloc et al in the docs
-- collected review tags
-
-v2 -> v3:
-- add a patch improving krealloc()'s kerneldoc
-- fix a typo
-- improve .rst doc
-- tweak line breaks
-
-Bartosz Golaszewski (9):
-  mm: slab: clarify krealloc()'s behavior with __GFP_ZERO
-  mm: slab: provide krealloc_array()
-  ALSA: pcm: use krealloc_array()
-  vhost: vringh: use krealloc_array()
-  pinctrl: use krealloc_array()
-  edac: ghes: use krealloc_array()
-  drm: atomic: use krealloc_array()
-  hwtracing: intel: use krealloc_array()
-  dma-buf: use krealloc_array()
-
- Documentation/core-api/memory-allocation.rst |  4 ++++
- drivers/dma-buf/sync_file.c                  |  3 +--
- drivers/edac/ghes_edac.c                     |  4 ++--
- drivers/gpu/drm/drm_atomic.c                 |  3 ++-
- drivers/hwtracing/intel_th/msu.c             |  2 +-
- drivers/pinctrl/pinctrl-utils.c              |  2 +-
- drivers/vhost/vringh.c                       |  3 ++-
- include/linux/slab.h                         | 18 ++++++++++++++++++
- mm/slab_common.c                             |  6 +++---
- sound/core/pcm_lib.c                         |  4 ++--
- 10 files changed, 36 insertions(+), 13 deletions(-)
-
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index f9ccd5dc13f3..d6df73f79204 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1091,9 +1091,9 @@ static __always_inline void *__do_krealloc(const void *p, size_t new_size,
+  * @flags: the type of memory to allocate.
+  *
+  * The contents of the object pointed to are preserved up to the
+- * lesser of the new and old sizes.  If @p is %NULL, krealloc()
+- * behaves exactly like kmalloc().  If @new_size is 0 and @p is not a
+- * %NULL pointer, the object pointed to is freed.
++ * lesser of the new and old sizes (__GFP_ZERO flag is effectively ignored).
++ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
++ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
+  *
+  * Return: pointer to the allocated memory or %NULL in case of error
+  */
 -- 
 2.29.1
 
