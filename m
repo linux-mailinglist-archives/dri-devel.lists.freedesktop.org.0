@@ -2,39 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646622AB2D8
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE462AB2F3
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 09:56:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9339C896FA;
-	Mon,  9 Nov 2020 08:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7757389711;
+	Mon,  9 Nov 2020 08:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB3C9896FA
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 08:53:11 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 575C9B2B;
- Mon,  9 Nov 2020 09:53:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1604911990;
- bh=VhIPCpIiEb3oXQI0cs50JDCAZZKyZbERROs1cNgeWEs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UztF3XxZavlGADFHECBuS1sRIUmghtQZQkQXnlLA/cvVazdI4AI2AVPzCGvnSXGSw
- TttsyPdqJh/EKAGpxqnLKdn5TskEbDc6eVd7B7wCQHBUvET9JQccsXksr966/k2F2T
- My6stYOsAIyOYxGzyTeUXzN5JN7a45Q5qEV/7L34=
-Date: Mon, 9 Nov 2020 10:53:07 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 24/56] drm/omap: dsi: lp/hs switching support for
- transfer()
-Message-ID: <20201109085307.GU6029@pendragon.ideasonboard.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-25-tomi.valkeinen@ti.com>
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 260B089711
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 08:56:52 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id d17so7918189lfq.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 00:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TCs0GumYLUJmi3+YRzoFTl3BvEfFf+h3il0lKWf4/0g=;
+ b=svmlKyA5wX7yhhfj8FRug1w2cKoEms+5uQXSIllJsrH5ruyX+Gmcw9puh7f3Xr8VLq
+ Xkimx0uKpvjG3htFAlVLONE4Pz3oclRKmJwDWa0Aqg2AUAQXzcYaNgLbsmEaUNIebVgx
+ O9VjptBR8faPyN9xq841WMvK6CzpMeWBlcfmZLT++l3soD9qGVkEc3WVMgBtUYYxwiT5
+ 3KnR9/pSoYHPKCpeJV4HtJXXI24ZahyyZy8meCpJMX1tlW8e6vEgoP0RhgKi++xMhmZ3
+ jVV+uxzFrMDLGS/czgk8MD1GOVj3XkBAB1uPmVj7P0moDV2vZhEowbBLOvZPSSx1gSkt
+ u/sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TCs0GumYLUJmi3+YRzoFTl3BvEfFf+h3il0lKWf4/0g=;
+ b=rx6jYC4UqVqljRspPyEPiBW4wkCzk3AZashET6jz9fzDfug/KB76OR6oHYv+pnfws+
+ ezywyrXPHlJl3LHb3tyLxJaCi08Vmv7127VahqmkEWWmJNPN9t6Hp50O2EeKmQupiqil
+ 8KINlp9U/uLbvdXTl2Ie6sF5g+sawmWmavv0GzEkah4yxzyoMGdB253WJ5dIGFMKVSla
+ XaRFBgDwMqu9Z5uL5k72zHnWaOxOMifiC40GVziZJtSKT5DXTsTXVtoa9fvO60pHhahV
+ /8qkIx416KenVAXwFVeod63aT50PGNbRNbRFH+PoYJ6eS+KtgUvvw4OlSG5pV3cfjvlt
+ sEOQ==
+X-Gm-Message-State: AOAM532OTQNC9/oHoWZgURKeqeSW4VISHE8dvxL+yikFnY8cHT1ayjqv
+ GG7Rmlctr8dd57k5iWG6helsTINu0veNmy5IFPQ=
+X-Google-Smtp-Source: ABdhPJzneczS70K6E6XMsA7qi76Ex1NlwZSH0fpmHbfRDSlLYui/AHoa2G51b0eI2Vj6jYwyAgv9FEhxBUpvlpoJeZw=
+X-Received: by 2002:a19:6916:: with SMTP id e22mr5129636lfc.45.1604912210507; 
+ Mon, 09 Nov 2020 00:56:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105120333.947408-25-tomi.valkeinen@ti.com>
+References: <20201106124224.21201-1-tzimmermann@suse.de>
+In-Reply-To: <20201106124224.21201-1-tzimmermann@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Mon, 9 Nov 2020 09:56:39 +0100
+Message-ID: <CAMeQTsbYmxN5PEGf=5cK=eYP+2PoP8iYJ0LaG1yaN-rPTrQsaA@mail.gmail.com>
+Subject: Re: [PATCH] drm/gma500: Remove unused function psb_gem_get_aperture()
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,130 +60,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi and Sebastian,
+On Fri, Nov 6, 2020 at 1:42 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Apparently, the function was never used at all.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Thank you for the patch.
+Thanks Thomas,
 
-On Thu, Nov 05, 2020 at 02:03:01PM +0200, Tomi Valkeinen wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
-> 
-> Integrate low-power / high-speed bus switching into transfer
-> function and drop the omapdrm specific enable_hs() callback.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+As agreed, please apply to drm-misc-next
+
+-Patrik
+
 > ---
->  drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c |  6 +++---
->  drivers/gpu/drm/omapdrm/dss/dsi.c               | 10 ++++++++--
->  drivers/gpu/drm/omapdrm/dss/omapdss.h           |  2 --
->  3 files changed, 11 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> index 1e742cf798b6..8890ee2ba830 100644
-> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-> @@ -269,7 +269,7 @@ static int dsicm_exit_ulps(struct panel_drv_data *ddata)
->  		return 0;
->  
->  	src->ops->enable(src);
-> -	src->ops->dsi.enable_hs(src, ddata->dsi->channel, true);
-> +	ddata->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->  
->  	r = _dsicm_enable_te(ddata, true);
->  	if (r) {
-> @@ -574,7 +574,7 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
->  
->  	dsicm_hw_reset(ddata);
->  
-> -	src->ops->dsi.enable_hs(src, ddata->dsi->channel, false);
-> +	ddata->dsi->mode_flags |= MIPI_DSI_MODE_LPM;
->  
->  	r = dsicm_sleep_out(ddata);
->  	if (r)
-> @@ -617,7 +617,7 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
->  		ddata->intro_printed = true;
->  	}
->  
-> -	src->ops->dsi.enable_hs(src, ddata->dsi->channel, true);
-> +	ddata->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->  
->  	return 0;
->  err:
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index e341aca92462..003d26cead5a 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -329,6 +329,7 @@ struct dsi_data {
->  	int irq;
->  
->  	bool is_enabled;
-> +	bool in_lp_mode;
->  
->  	struct clk *dss_clk;
->  	struct regmap *syscon;
-> @@ -2431,6 +2432,8 @@ static void dsi_vc_enable_hs(struct omap_dss_device *dssdev, int channel,
->  	/* start the DDR clock by sending a NULL packet */
->  	if (dsi->vm_timings.ddr_clk_always_on && enable)
->  		dsi_vc_send_null(dsi, channel);
-> +
-> +	dsi->in_lp_mode = !enable;
+>  drivers/gpu/drm/gma500/gem.c     | 6 ------
+>  drivers/gpu/drm/gma500/psb_drv.h | 2 --
+>  2 files changed, 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
+> index 8f07de83b6fb..db827e591403 100644
+> --- a/drivers/gpu/drm/gma500/gem.c
+> +++ b/drivers/gpu/drm/gma500/gem.c
+> @@ -32,12 +32,6 @@ static void psb_gem_free_object(struct drm_gem_object *obj)
+>         psb_gtt_free_range(obj->dev, gtt);
 >  }
->  
->  static void dsi_vc_flush_long_data(struct dsi_data *dsi, int channel)
-> @@ -4693,6 +4696,11 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
->  	struct dsi_data *dsi = host_to_omap(host);
->  	struct omap_dss_device *dssdev = &dsi->output;
->  
-> +	if (!!(msg->flags & MIPI_DSI_MSG_USE_LPM) != dsi->in_lp_mode) {
-> +		dsi_vc_enable_hs(dssdev, msg->channel,
-> +				 !(msg->flags & MIPI_DSI_MSG_USE_LPM));
-> +	}
-
-No need for curly brackets.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  	switch (msg->type) {
->  	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
->  	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
-> @@ -4753,8 +4761,6 @@ static const struct omap_dss_device_ops dsi_ops = {
->  
->  		.disable = dsi_display_disable,
->  
-> -		.enable_hs = dsi_vc_enable_hs,
+>
+> -int psb_gem_get_aperture(struct drm_device *dev, void *data,
+> -                               struct drm_file *file)
+> -{
+> -       return -EINVAL;
+> -}
 > -
->  		.set_config = dsi_set_config,
->  
->  		.enable_video_output = dsi_enable_video_output,
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 9bbd2c0f3187..2d44a8e32fcc 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -288,8 +288,6 @@ struct omapdss_dsi_ops {
->  	int (*set_config)(struct omap_dss_device *dssdev,
->  			const struct omap_dss_dsi_config *cfg);
->  
-> -	void (*enable_hs)(struct omap_dss_device *dssdev, int channel,
-> -			bool enable);
->  	int (*enable_te)(struct omap_dss_device *dssdev, bool enable);
->  
->  	int (*update)(struct omap_dss_device *dssdev, int channel,
-
--- 
-Regards,
-
-Laurent Pinchart
+>  static const struct vm_operations_struct psb_gem_vm_ops = {
+>         .fault = psb_gem_fault,
+>         .open = drm_gem_vm_open,
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+> index c71a5a4e912c..ce6aae4b1bb2 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.h
+> +++ b/drivers/gpu/drm/gma500/psb_drv.h
+> @@ -735,8 +735,6 @@ extern const struct drm_connector_helper_funcs
+>  extern const struct drm_connector_funcs psb_intel_lvds_connector_funcs;
+>
+>  /* gem.c */
+> -extern int psb_gem_get_aperture(struct drm_device *dev, void *data,
+> -                       struct drm_file *file);
+>  extern int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
+>                         struct drm_mode_create_dumb *args);
+>
+> --
+> 2.29.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
