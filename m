@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECCB2AB027
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 05:24:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCD62AB11D
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 07:14:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FEB889306;
-	Mon,  9 Nov 2020 04:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 162B9893BC;
+	Mon,  9 Nov 2020 06:14:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF9F89306
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 04:24:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BCB4893BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 06:14:08 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 209987] Memory leak in amdgpu_dm_update_connector_after_detect
-Date: Mon, 09 Nov 2020 04:24:50 +0000
+Date: Mon, 09 Nov 2020 06:14:02 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-209987-2300-EmjdV0NI5D@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-209987-2300-CaZfP61twt@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-209987-2300@https.bugzilla.kernel.org/>
 References: <bug-209987-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,12 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=209987
 
---- Comment #2 from Lee Starnes (lstarnes1024@gmail.com) ---
-It looks like this can be fixed by setting aconnector->num_modes to the return
-value from drm_add_edid_modes. At least one other place in amdgpu_dm.c sets
-struct amdgpu_dm_connector.num_modes to the return value of drm_add_edid_modes
-like this. I'm not familiar enough with AMDGPU or DRM internals to know if this
-will mess anything up.
+--- Comment #3 from Lee Starnes (lstarnes1024@gmail.com) ---
+Created attachment 293577
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293577&action=edit
+proposed patch
 
 -- 
 You are receiving this mail because:
