@@ -1,51 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA58F2AD194
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:46:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E44BE2AD1E8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:57:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74024897E9;
-	Tue, 10 Nov 2020 08:46:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4A41895B9;
+	Tue, 10 Nov 2020 08:57:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA11F897E9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:46:04 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mtr@pengutronix.de>)
- id 1kcPHv-000491-8s; Tue, 10 Nov 2020 09:46:03 +0100
-Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <mtr@pengutronix.de>)
- id 1kcPHt-0002WC-Lt; Tue, 10 Nov 2020 09:46:01 +0100
-Date: Tue, 10 Nov 2020 09:46:01 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Adam Ford <aford173@gmail.com>
-Subject: Re: [PATCH v2 01/16] drm/encoder: remove obsolete documentation of
- bridge
-Message-ID: <20201110084601.GD13669@pengutronix.de>
-References: <20200911135413.3654800-1-m.tretter@pengutronix.de>
- <20200911135413.3654800-2-m.tretter@pengutronix.de>
- <CAHCN7xKAHm0cvh+7rb1wxF+UqE2Fs48nYF7=rWm7E9ipy2Jtmw@mail.gmail.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8C92895B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:57:02 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 09C9F20038;
+ Tue, 10 Nov 2020 09:56:59 +0100 (CET)
+Date: Tue, 10 Nov 2020 09:56:58 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH] drm/ingenic: ipu: Search for scaling coefs up to 102%
+ of?? the screen
+Message-ID: <20201110085658.GA2027451@ravnborg.org>
+References: <20201105083905.8780-1-paul@crapouillou.net>
+ <20201107193311.GB1039949@ravnborg.org>
+ <YJOKJQ.8KD9M5MU0NTP2@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAHCN7xKAHm0cvh+7rb1wxF+UqE2Fs48nYF7=rWm7E9ipy2Jtmw@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:28:50 up 264 days, 15:59, 89 users,  load average: 0.12, 0.17,
- 0.18
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <YJOKJQ.8KD9M5MU0NTP2@crapouillou.net>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=ER_8r6IbAAAA:8
+ a=9CIfjzEbJXW8LZeqSngA:9 a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=9LHmKk7ezEChjTCyhBa9:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,77 +47,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- Neil Armstrong <narmstrong@baylibre.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, sw0312.kim@samsung.com,
- dri-devel <dri-devel@lists.freedesktop.org>, a.hajda@samsung.com,
- Krzysztof Kozlowski <krzk@kernel.org>, Sascha Hauer <kernel@pengutronix.de>,
- sylvester.nawrocki@gmail.com,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ od@zcrc.me, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 07 Nov 2020 09:07:19 -0600, Adam Ford wrote:
-> On Fri, Sep 11, 2020 at 8:54 AM Michael Tretter
-> <m.tretter@pengutronix.de> wrote:
-> >
-> > In commit 05193dc38197 ("drm/bridge: Make the bridge chain a
-> > double-linked list") the bridge has been removed and replaced by a
-> > private field. Remove the leftover documentation of the removed field.
-> >
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> What is the status of this series?  I know of at least one other patch
-> series depending on this.
+Hi Paul,
+On Tue, Nov 10, 2020 at 08:50:22AM +0000, Paul Cercueil wrote:
+> Hi,
+> =
 
-Sorry for that. I lately didn't have time to work on the series.
+> Le sam. 7 nov. 2020 =E0 20:33, Sam Ravnborg <sam@ravnborg.org> a =E9crit :
+> > Hi Paul.
+> > =
 
-There are two big open TODOs:
+> > On Thu, Nov 05, 2020 at 08:39:05AM +0000, Paul Cercueil wrote:
+> > >  Increase the scaled image's theorical width/height until we find a
+> > >  configuration that has valid scaling coefficients, up to 102% of the
+> > >  screen's resolution. This makes sure that we can scale from almost
+> > >  every resolution possible at the cost of a very small distorsion.
+> > >  The CRTC_W / CRTC_H are not modified.
+> > > =
 
-- How should this bridge react if there is no out bridge available, yet? This
-  series implements a static approach by returning EPROBE_DEFER from
-  bridge_attach if there isn't a next bridge, connector or display. Andrezej
-  suggested a dynamic approach which allows to attach this bridge without a
-  next bridge and dynamically add further bridges/panels. The latter approach
-  didn't work with the mxsfb driver, but I didn't have time to look into this.
+> > >  This algorithm was already in place but would not try to go above
+> > > the
+> > >  screen's resolution, and as a result would only work if the CRTC_W /
+> > >  CRTC_H were smaller than the screen resolution. It will now try
+> > > until it
+> > >  reaches 102% of the screen's resolution.
+> > > =
 
-- The component framework stuff that allows to use the bridge with the Exynos
-  driver should not go into the bridge driver, but stay in the platform part.
+> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > =
 
-Michael
+> > Looks like the patch does what the descriptions says.
+> > So in other words - look OK to me. I am not confident enogh for a r-b
+> > but my code reading is enough to warrant an a-b:
+> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> =
 
-> 
-> adam
-> 
-> > ---
-> > v2: none
-> > ---
-> >  include/drm/drm_encoder.h | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
-> > index a60f5f1555ac..5dfa5f7a80a7 100644
-> > --- a/include/drm/drm_encoder.h
-> > +++ b/include/drm/drm_encoder.h
-> > @@ -89,7 +89,6 @@ struct drm_encoder_funcs {
-> >   * @head: list management
-> >   * @base: base KMS object
-> >   * @name: human readable name, can be overwritten by the driver
-> > - * @bridge: bridge associated to the encoder
-> >   * @funcs: control functions
-> >   * @helper_private: mid-layer private data
-> >   *
-> > --
-> > 2.20.1
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+> Note that this algorithm exists mostly as a band-aid for a missing
+> functionality: it is not possible for userspace to request the closest mo=
+de
+> that would encapsulate the provided one, because the GEM buffer is created
+> beforehand. If there was a way to let the kernel tweak the mode, I could
+> write a better algorithm that would result in a better looking picture.
+
+Could you add this nice explanation to the changelog so when we wonder
+why this was done in some years we can dig up this from git history.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
