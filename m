@@ -1,42 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C5552ADB4D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 17:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED282ADB65
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 17:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44E7C89B67;
-	Tue, 10 Nov 2020 16:09:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8D489B99;
+	Tue, 10 Nov 2020 16:15:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BAEC89B67
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 16:09:06 +0000 (UTC)
-Date: Tue, 10 Nov 2020 16:09:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1605024544;
- bh=UKrevD9v/jENMjHzppHFhIUO9YMRL//iQ2BuGrdI9vE=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=XQyNl20nTLfrjJnuXyX76573bLEhWjOAKunPf616MZVcQw+BH+QXnycuTTJyViI3n
- JNq3GV0nuqd3WtHgtTTAF0FU/FOfx31AIYSwsRQfCJfab0dq9/2pvYy+3tAcDAZg2W
- ZGvTWETXhrZZdF4vDW5+H0sUkKVT2XfuqLGC4TMv/ElJoiEGddIe7i2qoTPLjKHjRU
- Rgb9ErIq5J8P6rqMmVa34CxmAubjk6PfRrlHVawvrtvt+Y8xj5kESJIKjJtHUbGSXQ
- 1TdNuKU9tr8Fw4xmlRNzWzAqxBA8ky3ijZsHmUtRjWCbiJySnGO2dYegx6dePm3nud
- lUREnYX3g8Zuw==
-To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: add debug logs for drm_mode_atomic_ioctl errors
-Message-ID: <6uG7u2llV4e0nQCgi51sQMSJUcGgFdBsgCOVvJ2LnFW1NuNOaVN9bgSa50m9lR_3QPtZiuc0Uu2z4Z5Pb1CB7VpJcm0JzjwmenKCBVZEX68=@emersion.fr>
-In-Reply-To: <20201110160405.GS6112@intel.com>
-References: <2sJwtJZS8GpTVmDedCE6b5WNkmnmUARXGt0mugjU2BA@cp3-web-033.plabs.ch>
- <20201110160405.GS6112@intel.com>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F56D89B78
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 16:15:28 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id w24so3598706wmi.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:15:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=7CGWOWW/W5NZPaOpqTfKKcrmTlDUB36jZ3I9AkmIH6I=;
+ b=Oyb2FmYMYcgg5GEthU7jt9bPL3ouAxvWpva7pbs8v91NGyhpUCqh7bYu4tkpyT0ALU
+ x4A/AOa1lWZB0RDjFVBwRe6INqMWSkMViRHDSXCBUBaZoq73SLM1M4v1iJyCtmmTVKDH
+ 6/2eIt4EyxEhLJNA5JflypvukRIdCSQYuaqFo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=7CGWOWW/W5NZPaOpqTfKKcrmTlDUB36jZ3I9AkmIH6I=;
+ b=Lsqc5PHPOvCCZ4weBXIVX2FuJNxn2UBsxmhu5n952Yn4tJjyDDddBOoErr0EJtKWVe
+ kAxdSHcTk9sIaAtn5YKE6Fn5BIXTdhEyVV0OWxQnXfs2iXwoHyZ/gYifJsLrXDb9rljB
+ mYe/BwB8r5NUseq6aXNvOdn6E56FCSzTO2pgJuqkQYu6qe2qLGCTRMZJQfOLwzQ6PL6H
+ uUdMqCl6/ZtpQF7doJ8kzg5rWAxt43Xg0zUr44YmqEf0amM9XNnDRyrmmUKPqINOK13f
+ p3WmG5jb1BiugIfOhM8WLSkn1X/7VdoGb789a/kJbkI9CojSTYZ6bb+xkmSKqehsh3Q3
+ ag+Q==
+X-Gm-Message-State: AOAM533Y9AqezFq82uanzHQT8ufieciEwku4XPbgrFDr1jhprTNED5nR
+ lcJQpmye3Ez/Hl+bWi348ctk0A==
+X-Google-Smtp-Source: ABdhPJwhsIWxla7qG5MoctbGmInEVIF8xoR14d/2DvWqNkUzSlrZ+dLToTW7q8cmJUQcQpt1J4zGTw==
+X-Received: by 2002:a1c:7213:: with SMTP id n19mr492446wmc.36.1605024927076;
+ Tue, 10 Nov 2020 08:15:27 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q17sm2660356wro.36.2020.11.10.08.15.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 08:15:26 -0800 (PST)
+Date: Tue, 10 Nov 2020 17:15:23 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH] drm: DRM_KMB_DISPLAY should depend on ARCH_KEEMBAY
+Message-ID: <20201110161523.GN401619@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>,
+ David Airlie <airlied@linux.ie>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20201110144350.3279147-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20201110144350.3279147-1-geert+renesas@glider.be>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,49 +71,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlc2RheSwgTm92ZW1iZXIgMTAsIDIwMjAgNTowNCBQTSwgVmlsbGUgU3lyasOkbMOkIDx2
-aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4gT24gVHVlLCBOb3YgMTAsIDIw
-MjAgYXQgMDM6NTg6MDFQTSArMDAwMCwgU2ltb24gU2VyIHdyb3RlOgo+ID4gQmUgbmljZSB0byB1
-c2VyLXNwYWNlIGFuZCBsb2cgd2hhdCBoYXBwZW5lZCB3aGVuIHJldHVybmluZyBFSU5WQUwgaW4K
-PiA+IGRybV9tb2RlX2F0b21pY19pb2N0bC4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBTaW1vbiBT
-ZXIgPGNvbnRhY3RAZW1lcnNpb24uZnI+Cj4gPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZm
-d2xsLmNoPgo+ID4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51
-eC5pbnRlbC5jb20+Cj4gPiBDYzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgo+
-ID4gQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4gLS0tCj4g
-PiAgZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfdWFwaS5jIHwgMTYgKysrKysrKysrKysrLS0t
-LQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQo+
-ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMKPiA+IGluZGV4IDI1YzI2OWJjNDY4MS4u
-NjhkNzY3NDIwMDgyIDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNf
-dWFwaS5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY191YXBpLmMKPiA+IEBA
-IC0xMzAzLDIyICsxMzAzLDMwIEBAIGludCBkcm1fbW9kZV9hdG9taWNfaW9jdGwoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwKPiA+ICAJICogdGhvdWdoIHRoaXMgbWF5IGJlIGEgYml0IG92ZXJraWxs
-LCBzaW5jZSBsZWdhY3kgdXNlcnNwYWNlCj4gPiAgCSAqIHdvdWxkbid0IGtub3cgaG93IHRvIGNh
-bGwgdGhpcyBpb2N0bCkKPiA+ICAJICovCj4gPiAtCWlmICghZmlsZV9wcml2LT5hdG9taWMpCj4g
-PiArCWlmICghZmlsZV9wcml2LT5hdG9taWMpIHsKPiA+ICsJCURSTV9ERUJVR19BVE9NSUMoImF0
-b21pYyBjb21taXQgZmFpbGVkOiBhdG9taWMgY2FwIG5vdCBlbmFibGVkXG4iKTsKPgo+IFRoZSAi
-YXRvbWljIGNvbW1pdCBmYWlsZWQ6IiBiaXQgc2VlbXMgYSBiaXQgcmVkdW5kYW50LgoKSSBndWVz
-cyB0aGUgImF0b21pYyIgcGFydCBjYW4gYmUgZHJvcHBlZCBpbmRlZWQuIEhvd2V2ZXIgSSdkIHJl
-YWxseSBsaWtlIHRvCmtlZXAgdGhlIHdvcmQgImZhaWxlZCIgaGVyZSwgYmVjYXVzZSBpdCBtYWtl
-cyBncmVwcGluZyBsYXJnZSBEUk0gbG9ncyBtdWNoCmVhc2llciAoYW5kIGlzIGFscmVhZHkgdXNl
-ZCBmb3Igb3RoZXIgZmFpbHVyZXMsIGUuZy4gZHJpdmVyIGZhaWx1cmVzKS4KCj4gPiAgCQlyZXR1
-cm4gLUVJTlZBTDsKPiA+ICsJfQo+ID4KPiA+IC0JaWYgKGFyZy0+ZmxhZ3MgJiB+RFJNX01PREVf
-QVRPTUlDX0ZMQUdTKQo+ID4gKwlpZiAoYXJnLT5mbGFncyAmIH5EUk1fTU9ERV9BVE9NSUNfRkxB
-R1MpIHsKPiA+ICsJCURSTV9ERUJVR19BVE9NSUMoImF0b21pYyBjb21taXQgZmFpbGVkOiBpbnZh
-bGlkIGZsYWdcbiIpOwo+ID4gIAkJcmV0dXJuIC1FSU5WQUw7Cj4gPiArCX0KPiA+Cj4gPiAgCWlm
-IChhcmctPnJlc2VydmVkKQo+ID4gIAkJcmV0dXJuIC1FSU5WQUw7Cj4KPiBZb3UgZG9uJ3Qgd2Fu
-dCBvbmUgZm9yIHRoaXM/IEkgd29uZGVyIHdoeSB0aGlzICJyZXNlcnZlZCIgZmllbGQKPiBldmVu
-IGV4aXN0cy4uLgoKWWVhaCwgSSB3YXNuJ3Qgc3VyZSBlaXRoZXIgc28gcHJlZmVycmVkIG5vdCB0
-byB0b3VjaCBpdC4gSSBndWVzcyBpdCdzCnNjcmF0Y2ggc3BhY2Ugd2hpY2ggY2FuIGJlIHVzZWQg
-dG8gZXh0ZW5kIHRoZSBpb2N0bCBpbiB0aGUgZnV0dXJlPwpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Nov 10, 2020 at 03:43:50PM +0100, Geert Uytterhoeven wrote:
+> The Intel Keem Bay display controller is only present on Intel Keem Bay
+> SoCs.  Hence add a dependency on ARCH_KEEMBAY, to prevent asking the
+> user about this driver when configuring a kernel without Intel Keem Bay
+> platform support.
+> 
+> Note that:
+>   1. The dependency on ARM is dropped, as Keem Bay SoCs are only
+>      supported in arm64 kernel builds,
+>   2. The dependencies on OF and COMMON_CLK can be dropped for
+>      compile-testing, as the driver builds fine regardless.
+> 
+> Fixes: ed794057b052b52a ("drm/kmb: Build files for KeemBay Display driver")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Both drm/kmb fixes applied to drm-misc-next, thanks a lot!
+-Daniel
+
+> ---
+>  drivers/gpu/drm/kmb/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/kmb/Kconfig b/drivers/gpu/drm/kmb/Kconfig
+> index 022ef3e3f05635be..3921c57ac511e2fb 100644
+> --- a/drivers/gpu/drm/kmb/Kconfig
+> +++ b/drivers/gpu/drm/kmb/Kconfig
+> @@ -1,7 +1,7 @@
+>  config DRM_KMB_DISPLAY
+>  	tristate "INTEL KEEMBAY DISPLAY"
+> -	depends on DRM && OF && (ARM || ARM64)
+> -	depends on COMMON_CLK
+> +	depends on DRM
+> +	depends on ARCH_KEEMBAY || COMPILE_TEST
+>  	select DRM_KMS_HELPER
+>  	select DRM_KMS_CMA_HELPER
+>  	select DRM_GEM_CMA_HELPER
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
