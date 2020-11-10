@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84762AD10A
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E3B2AD10D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:17:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 328EC898C2;
-	Tue, 10 Nov 2020 08:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1872A898FA;
+	Tue, 10 Nov 2020 08:17:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
- [59.111.176.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C461898C0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:03:30 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by m176115.mail.qiye.163.com (Hmail) with ESMTPA id 287A8667105;
- Tue, 10 Nov 2020 16:03:25 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Stylon Wang <stylon.wang@amd.com>,
- Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, Roman Li <Roman.Li@amd.com>,
- hersen wu <hersenxs.wu@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Alexander Monakov <amonakov@ispras.ru>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] amd/display/amdgpu_dm: delete same check in if condition
-Date: Tue, 10 Nov 2020 00:03:13 -0800
-Message-Id: <20201110080318.36305-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.29.0
+Received: from m176150.mail.qiye.163.com (m176150.mail.qiye.163.com
+ [59.111.176.150])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3728B898BF
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:11:01 +0000 (UTC)
+Received: from vivo.com (wm-10.qy.internal [127.0.0.1])
+ by m176150.mail.qiye.163.com (Hmail) with ESMTP id 994491A3B66;
+ Tue, 10 Nov 2020 16:10:24 +0800 (CST)
+Message-ID: <AGIA*AAMDRjj8OgGeBDLQarV.1.1604995824613.Hmail.bernard@vivo.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Kalyan Thota <kalyan_t@codeaurora.org>, 
+ Drew Davenport <ddavenport@chromium.org>, 
+ Abhinav Kumar <abhinavk@codeaurora.org>, 
+ Kuogee Hsieh <khsieh@codeaurora.org>, Zheng Bin <zhengbin13@huawei.com>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>, 
+ =?UTF-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?B?W1Jlc2VuZF1bUEFUQ0hdIGRybS9tc206IGRlbGV0ZSBjb252ZXJzaW9uIGZyb20gYm9vbCB2YWx1ZSB0byBib29sIHZhcmlhYmxl?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 58.213.83.157
 MIME-Version: 1.0
+Received: from bernard@vivo.com( [58.213.83.157) ] by ajax-webmail (
+ [127.0.0.1] ) ; Tue, 10 Nov 2020 16:10:24 +0800 (GMT+08:00)
+From: Bernard <bernard@vivo.com>
+Date: Tue, 10 Nov 2020 16:10:24 +0800 (GMT+08:00)
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZGENJSkJMSE9LGh5DVkpNS09CQk5PS05OS0tVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS09ISFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NE06Vgw*MD8tShEKDi0eEh8M
- IRAKCRZVSlVKTUtPQkJOT0tNS01JVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSUJNQjcG
-X-HM-Tid: 0a75b12e56aa9373kuws287a8667105
+ oVCBIfWUFZSxhNHkofHhpIHR9CVkpNS09CQk5DSU9MSkNVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKQ1VLWQY+
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo8MjpROjo2PykREUM0HDweOT83
+ KhoJLVVKVUpNS09CQk5DSU5JS09VMxYaEhdVGR4JFRoJHzsNEg0UVRgUFkVZV1kSC1lBWU5DVUlK
+ SFVDSFVKTkxZV1kIAVlBSE9LQzcG
+X-HM-Tid: 0a75b134bc0a93b4kuws994491a3b66
 X-Mailman-Approved-At: Tue, 10 Nov 2020 08:16:57 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,30 +62,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function amdgpu_dm_connector_get_modes, drm_edid_is_valid
-will check weather (!edid), no need to check again in the if
-branch.
+Remove the conversion from bool value to bool variable.
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e93e18c06c0e..0a283d07fe10 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6352,7 +6352,7 @@ static int amdgpu_dm_connector_get_modes(struct drm_connector *connector)
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index f7f5c258b553..e99a543da243 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -1362,7 +1362,7 @@ void dpu_encoder_register_frame_event_callback(struct drm_encoder *drm_enc,
+ 	unsigned long lock_flags;
+ 	bool enable;
  
- 	encoder = amdgpu_dm_connector_to_encoder(connector);
+-	enable = frame_event_cb ? true : false;
++	enable = (frame_event_cb != NULL);
  
--	if (!edid || !drm_edid_is_valid(edid)) {
-+	if (!drm_edid_is_valid(edid)) {
- 		amdgpu_dm_connector->num_modes =
- 				drm_add_modes_noedid(connector, 640, 480);
- 	} else {
+ 	if (!drm_enc) {
+ 		DPU_ERROR("invalid encoder\n");
 -- 
 2.29.0
+
+
 
 _______________________________________________
 dri-devel mailing list
