@@ -2,47 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70E32AC974
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 00:40:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61B62AC9F5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 02:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCAD88979E;
-	Mon,  9 Nov 2020 23:40:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A32A8897B4;
+	Tue, 10 Nov 2020 01:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8C918979E
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 23:40:26 +0000 (UTC)
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2BDC620809
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 23:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604965226;
- bh=HYbaJHkk7cdSoS3jVTRSnnUaEKctYjZ3NDHcRvYSXRs=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=aDBEuSmf7uXSEoutBPzACdHRqDjPdgmNkS9iWP0WaIaXbcxnPWTElI1E3rSOzFmsf
- 9S6VVH+SqIJ/1peSF1gE7aZpi/lYbZVvMpt2fE38MxljZiguKb1ERbBLVMrmDbehCe
- qg0hL3Fd7lNzhFSWPRpcRxqDwgQaPoSIeVHl6bYI=
-Received: by mail-ed1-f54.google.com with SMTP id ay21so10676188edb.2
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 15:40:26 -0800 (PST)
-X-Gm-Message-State: AOAM530kXwxfzMe33gxbLaJUN3D5YrKhkcwkcZe1MU2RlfjBWIb147FY
- 7WqCMHx8cQeq0O+f7hYBTMjUxh6gCpGMC7dRTQ==
-X-Google-Smtp-Source: ABdhPJwMpHWBa17twiFTSrvsjpX1uPRPRaPfL/R7+B+M/B6lGR0vzIgVjxiXR1cJK4PUndcfFb4cV3+QodvnxSpzu1Y=
-X-Received: by 2002:a50:f0d4:: with SMTP id a20mr18284639edm.303.1604965224630; 
- Mon, 09 Nov 2020 15:40:24 -0800 (PST)
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
+ [IPv6:2607:f8b0:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3A9897B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 01:01:21 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id i13so3872502pgm.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 17:01:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cHCi4Tquwss85wqRJ3mOu6UhLZdJZsJlvCLd0/Ck3sY=;
+ b=jBKACBVfmaUdYHvuEx8v7Eh2gyHv8AYshuUUBc0bMOj77JWMsjTKTXCuaHTp2otRF5
+ 2SxhlwXt9zAAr8oH+4+5/ozSWE+rRS8cyBGUQzYv3BocGy4mxbuc/86qiHh1xOeuABpx
+ PVBnmJJKgY8bvVxQekXsMfKgXV/H9mv3yROs0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cHCi4Tquwss85wqRJ3mOu6UhLZdJZsJlvCLd0/Ck3sY=;
+ b=Uml18dQVA59lmP1e78It1QxpUh3dl2RLYfV7kZpIx/fdhL8AQD7czxYN5n9Ok0ju9/
+ Nukq+iaUb4FBB9iKt2NRZuF47+AUtZE8Epj9NBaIwgMRcQYUssR4NKDvX9CI4Wk1kIuX
+ aGZ8bwwVjTYVbM3pYr7ar/EriHkJyurnHncYntWQpAEN2xIcbdxh13JS4FcYGxUiNRQq
+ xFSMZ/ZbLaPZxQVJ3NANyLV6ncw4kveWMK0AxHx8/xQz5pZxSKyxkq0HoR/B3uiAQUDd
+ 1J1p46Fw70m+xugQZARL1bWV4hAzkYgba6UUS3E2txrOpmIxFAPJGtalQvEnnC8mQTuQ
+ HNEg==
+X-Gm-Message-State: AOAM532K+L0CDQDhYg/fJaekgIkztcWIvAa4Honw7GXFMC/Wj3/9NJBG
+ a8+oOX7Utt/8sw2mEGjB1FefIQ==
+X-Google-Smtp-Source: ABdhPJxUqY2gGHGRfsunj8lilTT95dFw0XRxavx7ePhqQwfi/Gzf/CQvlyeDCZebkTFKY5ET7ItzEw==
+X-Received: by 2002:a62:17c8:0:b029:18b:5a97:a8d1 with SMTP id
+ 191-20020a6217c80000b029018b5a97a8d1mr15856003pfx.15.1604970080793; 
+ Mon, 09 Nov 2020 17:01:20 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
+ by smtp.gmail.com with ESMTPSA id u197sm7283233pfc.127.2020.11.09.17.01.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 09 Nov 2020 17:01:20 -0800 (PST)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v4 1/5] drm: panel: simple: Fixup the struct panel_desc kernel
+ doc
+Date: Mon,  9 Nov 2020 17:00:55 -0800
+Message-Id: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
+X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
 MIME-Version: 1.0
-References: <20201023133130.194140-1-fparent@baylibre.com>
- <20201023133130.194140-6-fparent@baylibre.com>
-In-Reply-To: <20201023133130.194140-6-fparent@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 10 Nov 2020 07:40:13 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__w8p2=rVDnNhcn7cKBJ5rm5he+ZP6-crRBRGpiwTgWJA@mail.gmail.com>
-Message-ID: <CAAOTY__w8p2=rVDnNhcn7cKBJ5rm5he+ZP6-crRBRGpiwTgWJA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] drm/mediatek: Add support for main DDP path on
- MT8167
-To: Fabien Parent <fparent@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,107 +64,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: DTML <devicetree@vger.kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: robdclark@chromium.org, David Airlie <airlied@linux.ie>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEZhYmllbjoKCkZhYmllbiBQYXJlbnQgPGZwYXJlbnRAYmF5bGlicmUuY29tPiDmlrwgMjAy
-MOW5tDEw5pyIMjPml6Ug6YCx5LqUIOS4i+WNiDk6MzHlr6vpgZPvvJoKPgo+IEFkZCB0aGUgbWFp
-biAoRFNJKSBkcm0gZGlzcGxheSBwYXRoIGZvciBNVDgxNjcuCgpSZXZpZXdlZC1ieTogQ2h1bi1L
-dWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cgo+Cj4gU2lnbmVkLW9mZi1ieTogRmFi
-aWVuIFBhcmVudCA8ZnBhcmVudEBiYXlsaWJyZS5jb20+Cj4gLS0tCj4KPiBDaGFuZ2Vsb2c6Cj4K
-PiBWMjogTm8gY2hhbmdlCj4KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2
-LmMgfCAzOCArKysrKysrKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMzgg
-aW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBp
-bmRleCA1OWM4NWM2M2I3Y2MuLjM5NTI0MzUwOTNmZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHJtX2Rydi5jCj4gQEAgLTExMiw2ICsxMTIsMTcgQEAgc3RhdGljIGNvbnN0IGVu
-dW0gbXRrX2RkcF9jb21wX2lkIG10MjcxMl9tdGtfZGRwX3RoaXJkW10gPSB7Cj4gICAgICAgICBE
-RFBfQ09NUE9ORU5UX1BXTTIsCj4gIH07Cj4KPiArc3RhdGljIGVudW0gbXRrX2RkcF9jb21wX2lk
-IG10ODE2N19tdGtfZGRwX21haW5bXSA9IHsKPiArICAgICAgIEREUF9DT01QT05FTlRfT1ZMMCwK
-PiArICAgICAgIEREUF9DT01QT05FTlRfQ09MT1IwLAo+ICsgICAgICAgRERQX0NPTVBPTkVOVF9D
-Q09SUiwKPiArICAgICAgIEREUF9DT01QT05FTlRfQUFMMCwKPiArICAgICAgIEREUF9DT01QT05F
-TlRfR0FNTUEsCj4gKyAgICAgICBERFBfQ09NUE9ORU5UX0RJVEhFUiwKPiArICAgICAgIEREUF9D
-T01QT05FTlRfUkRNQTAsCj4gKyAgICAgICBERFBfQ09NUE9ORU5UX0RTSTAsCj4gK307Cj4gKwo+
-ICBzdGF0aWMgY29uc3QgZW51bSBtdGtfZGRwX2NvbXBfaWQgbXQ4MTczX210a19kZHBfbWFpbltd
-ID0gewo+ICAgICAgICAgRERQX0NPTVBPTkVOVF9PVkwwLAo+ICAgICAgICAgRERQX0NPTVBPTkVO
-VF9DT0xPUjAsCj4gQEAgLTE2Myw2ICsxNzQsMTEgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtf
-bW1zeXNfZHJpdmVyX2RhdGEgbXQ4MTczX21tc3lzX2RyaXZlcl9kYXRhID0gewo+ICAgICAgICAg
-LmV4dF9sZW4gPSBBUlJBWV9TSVpFKG10ODE3M19tdGtfZGRwX2V4dCksCj4gIH07Cj4KPiArc3Rh
-dGljIGNvbnN0IHN0cnVjdCBtdGtfbW1zeXNfZHJpdmVyX2RhdGEgbXQ4MTY3X21tc3lzX2RyaXZl
-cl9kYXRhID0gewo+ICsgICAgICAgLm1haW5fcGF0aCA9IG10ODE2N19tdGtfZGRwX21haW4sCj4g
-KyAgICAgICAubWFpbl9sZW4gPSBBUlJBWV9TSVpFKG10ODE2N19tdGtfZGRwX21haW4pLAo+ICt9
-Owo+ICsKPiAgc3RhdGljIGludCBtdGtfZHJtX2ttc19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpk
-cm0pCj4gIHsKPiAgICAgICAgIHN0cnVjdCBtdGtfZHJtX3ByaXZhdGUgKnByaXZhdGUgPSBkcm0t
-PmRldl9wcml2YXRlOwo+IEBAIC00MDEsMjYgKzQxNyw0MiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0
-IGNvbXBvbmVudF9tYXN0ZXJfb3BzIG10a19kcm1fb3BzID0gewo+ICBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IG9mX2RldmljZV9pZCBtdGtfZGRwX2NvbXBfZHRfaWRzW10gPSB7Cj4gICAgICAgICB7IC5j
-b21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcwMS1kaXNwLW92bCIsCj4gICAgICAgICAgIC5kYXRh
-ID0gKHZvaWQgKilNVEtfRElTUF9PVkwgfSwKPiArICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVk
-aWF0ZWssbXQ4MTY3LWRpc3Atb3ZsIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19E
-SVNQX09WTCB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZGlz
-cC1vdmwiLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfT1ZMIH0sCj4gICAg
-ICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcwMS1kaXNwLXJkbWEiLAo+ICAgICAg
-ICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfUkRNQSB9LAo+ICsgICAgICAgeyAuY29tcGF0
-aWJsZSA9ICJtZWRpYXRlayxtdDgxNjctZGlzcC1yZG1hIiwKPiArICAgICAgICAgLmRhdGEgPSAo
-dm9pZCAqKU1US19ESVNQX1JETUEgfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0
-ZWssbXQ4MTczLWRpc3AtcmRtYSIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElT
-UF9SRE1BIH0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kaXNw
-LXdkbWEiLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfV0RNQSB9LAo+ICsg
-ICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNjctZGlzcC1jY29yciIsCj4gKyAg
-ICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9DQ09SUiB9LAo+ICAgICAgICAgeyAuY29t
-cGF0aWJsZSA9ICJtZWRpYXRlayxtdDI3MDEtZGlzcC1jb2xvciIsCj4gICAgICAgICAgIC5kYXRh
-ID0gKHZvaWQgKilNVEtfRElTUF9DT0xPUiB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJt
-ZWRpYXRlayxtdDgxNjctZGlzcC1jb2xvciIsCj4gKyAgICAgICAgIC5kYXRhID0gKHZvaWQgKilN
-VEtfRElTUF9DT0xPUiB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgx
-NzMtZGlzcC1jb2xvciIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9DT0xP
-UiB9LAo+ICsgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNjctZGlzcC1hYWwi
-LAo+ICsgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfQUFMfSwKPiAgICAgICAgIHsg
-LmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTczLWRpc3AtYWFsIiwKPiAgICAgICAgICAgLmRh
-dGEgPSAodm9pZCAqKU1US19ESVNQX0FBTH0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1l
-ZGlhdGVrLG10ODE2Ny1kaXNwLWdhbW1hIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1U
-S19ESVNQX0dBTU1BLCB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgx
-NzMtZGlzcC1nYW1tYSIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQgKilNVEtfRElTUF9HQU1N
-QSwgfSwKPiArICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTY3LWRpc3AtZGl0
-aGVyIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX0RJVEhFUiB9LAo+ICAg
-ICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZGlzcC11Zm9lIiwKPiAgICAg
-ICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX1VGT0UgfSwKPiAgICAgICAgIHsgLmNvbXBh
-dGlibGUgPSAibWVkaWF0ZWssbXQyNzAxLWRzaSIsCj4gICAgICAgICAgIC5kYXRhID0gKHZvaWQg
-KilNVEtfRFNJIH0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE2Ny1k
-c2kiLAo+ICsgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RTSSB9LAo+ICAgICAgICAgeyAu
-Y29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMtZHNpIiwKPiAgICAgICAgICAgLmRhdGEgPSAo
-dm9pZCAqKU1US19EU0kgfSwKPiAgICAgICAgIHsgLmNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQy
-NzAxLWRwaSIsCj4gQEAgLTQzMSwxMCArNDYzLDE0IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2Zf
-ZGV2aWNlX2lkIG10a19kZHBfY29tcF9kdF9pZHNbXSA9IHsKPiAgICAgICAgICAgLmRhdGEgPSAo
-dm9pZCAqKU1US19ESVNQX01VVEVYIH0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlh
-dGVrLG10MjcxMi1kaXNwLW11dGV4IiwKPiAgICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19E
-SVNQX01VVEVYIH0sCj4gKyAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE2Ny1k
-aXNwLW11dGV4IiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX01VVEVYIH0s
-Cj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kaXNwLW11dGV4IiwK
-PiAgICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1US19ESVNQX01VVEVYIH0sCj4gICAgICAgICB7
-IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcwMS1kaXNwLXB3bSIsCj4gICAgICAgICAgIC5k
-YXRhID0gKHZvaWQgKilNVEtfRElTUF9CTFMgfSwKPiArICAgICAgIHsgLmNvbXBhdGlibGUgPSAi
-bWVkaWF0ZWssbXQ4MTY3LWRpc3AtcHdtIiwKPiArICAgICAgICAgLmRhdGEgPSAodm9pZCAqKU1U
-S19ESVNQX1BXTSB9LAo+ICAgICAgICAgeyAuY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxNzMt
-ZGlzcC1wd20iLAo+ICAgICAgICAgICAuZGF0YSA9ICh2b2lkICopTVRLX0RJU1BfUFdNIH0sCj4g
-ICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE3My1kaXNwLW9kIiwKPiBAQCAt
-NDQ5LDYgKzQ4NSw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIG10a19kcm1f
-b2ZfaWRzW10gPSB7Cj4gICAgICAgICAgIC5kYXRhID0gJm10NzYyM19tbXN5c19kcml2ZXJfZGF0
-YX0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10MjcxMi1tbXN5cyIsCj4g
-ICAgICAgICAgIC5kYXRhID0gJm10MjcxMl9tbXN5c19kcml2ZXJfZGF0YX0sCj4gKyAgICAgICB7
-IC5jb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE2Ny1tbXN5cyIsCj4gKyAgICAgICAgIC5kYXRh
-ID0gJm10ODE2N19tbXN5c19kcml2ZXJfZGF0YX0sCj4gICAgICAgICB7IC5jb21wYXRpYmxlID0g
-Im1lZGlhdGVrLG10ODE3My1tbXN5cyIsCj4gICAgICAgICAgIC5kYXRhID0gJm10ODE3M19tbXN5
-c19kcml2ZXJfZGF0YX0sCj4gICAgICAgICB7IH0KPiAtLQo+IDIuMjguMAo+Cl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+When I run:
+  scripts/kernel-doc -rst drivers/gpu/drm/panel/panel-simple.c
+
+I see that several of the kernel-doc entries aren't showing up because
+they don't specify the full path down the hierarchy.  Let's fix that
+and also move to inline kernel docs.
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+Changes in v4:
+- ("drm: panel: simple: Fixup the struct panel_desc kernel doc") new for v4.
+
+ drivers/gpu/drm/panel/panel-simple.c | 59 ++++++++++++++++++++--------
+ 1 file changed, 42 insertions(+), 17 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 597f676a6591..813c90274631 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -64,33 +64,58 @@ struct panel_desc {
+ 
+ 	unsigned int bpc;
+ 
+-	/**
+-	 * @width: width (in millimeters) of the panel's active display area
+-	 * @height: height (in millimeters) of the panel's active display area
+-	 */
+ 	struct {
++		/**
++		 * @size.width: Width (in mm) of the active display area.
++		 */
+ 		unsigned int width;
++
++		/**
++		 * @size.height: Height (in mm) of the active display area.
++		 */
+ 		unsigned int height;
+ 	} size;
+ 
+-	/**
+-	 * @prepare: the time (in milliseconds) that it takes for the panel to
+-	 *           become ready and start receiving video data
+-	 * @hpd_absent_delay: Add this to the prepare delay if we know Hot
+-	 *                    Plug Detect isn't used.
+-	 * @enable: the time (in milliseconds) that it takes for the panel to
+-	 *          display the first valid frame after starting to receive
+-	 *          video data
+-	 * @disable: the time (in milliseconds) that it takes for the panel to
+-	 *           turn the display off (no content is visible)
+-	 * @unprepare: the time (in milliseconds) that it takes for the panel
+-	 *             to power itself down completely
+-	 */
+ 	struct {
++		/**
++		 * @delay.prepare: Time for the panel to become ready.
++		 *
++		 * The time (in milliseconds) that it takes for the panel to
++		 * become ready and start receiving video data
++		 */
+ 		unsigned int prepare;
++
++		/**
++		 * @delay.hpd_absent_delay: Time to wait if HPD isn't hooked up.
++		 *
++		 * Add this to the prepare delay if we know Hot Plug Detect
++		 * isn't used.
++		 */
+ 		unsigned int hpd_absent_delay;
++
++		/**
++		 * @delay.enable: Time for the panel to display a valid frame.
++		 *
++		 * The time (in milliseconds) that it takes for the panel to
++		 * display the first valid frame after starting to receive
++		 * video data.
++		 */
+ 		unsigned int enable;
++
++		/**
++		 * @delay.disable: Time for the panel to turn the display off.
++		 *
++		 * The time (in milliseconds) that it takes for the panel to
++		 * turn the display off (no content is visible).
++		 */
+ 		unsigned int disable;
++
++		/**
++		 * @delay.unprepare: Time to power down completely.
++		 *
++		 * The time (in milliseconds) that it takes for the panel
++		 * to power itself down completely.
++		 */
+ 		unsigned int unprepare;
+ 	} delay;
+ 
+-- 
+2.29.2.222.g5d2a92d10f8-goog
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
