@@ -2,59 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AED412AD6E6
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CE72AD71C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 14:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E858F895C8;
-	Tue, 10 Nov 2020 12:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D9C896EB;
+	Tue, 10 Nov 2020 13:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC7AC895C8
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:54:56 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id d12so11038708wrr.13
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 04:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=21NUxsor7hHh3PxftuxZky4lFBsZ7ois+WrBZ+IPnLY=;
- b=E4HkumvRbwuhozffvJJYhcXQ+VtG4Q5s+Lzoafw7cM2EbsdrTNVYk1kPivb8pbY7c+
- I3kjvimorLUFRT9npgGtOPRUW7SmX6WyqftC9yyMCGkX+bhVlGtQOJkJpmTW1UQKJfWV
- ARuzsuE6jBqPKwT7KHW/FpzfKGO1l7WHVK6XU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=21NUxsor7hHh3PxftuxZky4lFBsZ7ois+WrBZ+IPnLY=;
- b=IkeyKlIO+WNSQ5ASV9ZJFsblmxzZdAZuMDH0etCQ1fOR7U52G5uo2nrq4+lIoL/xMj
- thiTThYe1xD78tbOHHuaC5vLjCJHfZZ7H46HCSupgPcybTUWcwCzqZ62cx71FMWKNpGL
- PlhrK2pAH6OeKOWTXyALUthmblnwOUd41qkYds0wgJ/KSklQ1fOyf47urGEUnWXKZZdJ
- uOrTaZlV05EcyxEgGDsE5kidI2TLmUkgILISZMwYYG1MhZEaEFmJHkO7avYMnF2tkUSA
- L2Up2SObn2wFNGXrLIijCDjJujC8IyzIJUkF4BbzP8NkVlZhbG1PO7ryVwrVkFn12ua6
- XPsA==
-X-Gm-Message-State: AOAM532uAyH2ILo+EV+W2AdVC0HQ23HInQJI07GVHTPUVrWqrdEl2t4e
- PjGGahCJc9RtGeAAV8OlfYkdUA==
-X-Google-Smtp-Source: ABdhPJzT5dC6ywnGl2kTD3cDLIqcnE5q/gaqRflUh5l8yTN1U1ZZN6jf0KEM1LgGEsdInku+ZwePhw==
-X-Received: by 2002:adf:f546:: with SMTP id j6mr10751487wrp.219.1605012895642; 
- Tue, 10 Nov 2020 04:54:55 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 71sm17578577wrm.20.2020.11.10.04.54.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 04:54:54 -0800 (PST)
-Date: Tue, 10 Nov 2020 13:54:52 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH] drm: remove pgprot_decrypted() before calls to
- io_remap_pfn_range()
-Message-ID: <20201110125452.GG401619@phenom.ffwll.local>
-References: <0-v1-2e6a0db57868+166-drm_sme_clean_jgg@nvidia.com>
- <20201105191746.GC401619@phenom.ffwll.local>
- <20201105193554.GP2620339@nvidia.com>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E034896EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:07:59 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAD7jK8052249;
+ Tue, 10 Nov 2020 07:07:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605013665;
+ bh=ZKDE3dAfQVYFP/KPUoqJ2Qf0GM5psHsYsp1JmKIyMng=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=FpE0hcU6MldIuM1S+lqL3ZejoUGaGj5qZiKNwQlvOcry+heI1HPBgHVi2lJS341W+
+ q6Ygogv2E43WXOrFbFxL8F09pHKEYIzukzh8Uxaf9UNT6PwmaTQf6YXz8gcQ7kSU2r
+ msFhPO29Qv6zEPjwjGdTs5Ygn1MS9vY5mCp+Akjk=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAD7jkD018596
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 07:07:45 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 07:07:45 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 07:07:45 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAD7hR0029534;
+ Tue, 10 Nov 2020 07:07:44 -0600
+Subject: Re: [PATCH 0/4] drm/omap: fix reference leak in runtime get ops
+To: Zhang Qilong <zhangqilong3@huawei.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+References: <20201110125108.3827430-1-zhangqilong3@huawei.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <de58e5ef-c700-fde1-5080-c10607a8def0@ti.com>
+Date: Tue, 10 Nov 2020 15:07:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201105193554.GP2620339@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201110125108.3827430-1-zhangqilong3@huawei.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,55 +62,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 05, 2020 at 03:35:54PM -0400, Jason Gunthorpe wrote:
-> On Thu, Nov 05, 2020 at 08:17:46PM +0100, Daniel Vetter wrote:
-> > On Thu, Nov 05, 2020 at 01:00:19PM -0400, Jason Gunthorpe wrote:
-> > > commit f8f6ae5d077a ("mm: always have io_remap_pfn_range() set
-> > > pgprot_decrypted()") moves the pgprot_decrypted() into
-> > > io_remap_pfn_range(). Delete any, now confusing, open coded calls that
-> > > directly precede io_remap_pfn_range():
-> > > 
-> > > - drm_io_prot() is only in drm_mmap_locked() to call io_remap_pfn_range()
-> > > 
-> > > - fb_mmap() immediately calls vm_iomap_memory() which is a convenience
-> > >   wrapper for io_remap_pfn_range()
-> > > 
-> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > >  drivers/gpu/drm/drm_vm.c         | 3 ---
-> > >  drivers/video/fbdev/core/fbmem.c | 5 -----
-> > >  2 files changed, 8 deletions(-)
-> > > 
-> > > rc3 will have the dependent patch, this should not be merged to DRM until it
-> > > has the rc3 commits.
-> > > 
-> > > There are three other pgprot_decrypted() calls in DRM, I could not figure out
-> > > what was what there, but other than very special cases I would expect code to
-> > > use io_remap_pfn_range() instead.
-> > 
-> > There's 4 now, I think linux-next added one. It's another io_remap_pfn
-> > 
-> > Of the three you mentioned we have:
-> > - ttm and i915 use vm_insert_pfn (and ttm also can do also do pud_mkhuge
-> >   entries)
-> 
-> You can't insert IO memory with vmf_insert_pfn_pmd_prot() (it
-> doesn't set the special flag) so why does it need decrypted?
+Hi,
 
-Well, see the other thread, we do ... :-/
--Daniel
+On 10/11/2020 14:51, Zhang Qilong wrote:
+> This series of patches fixed several usage counter leaks refer to
+> pm_runtime_get_sync. Many callers forget to call pm_runtime_put_noidle
+> when pm_runtime_get_sync failed, and we fixed it.
+> 
+> Zhang Qilong (4):
+>   drm: omapdrm: dsi: fix-reference-leak-in dsi_runtime_get.
+>   drm: omapdrm: dss: fix reference leak in dss_runtime_get
+>   drm/omap: hdmi4: fix reference leak in hdmi_runtime_get
+>   drm/omap: hdmi5: fix reference leak in hdmi_runtime_get
+> 
+>  drivers/gpu/drm/omapdrm/dss/dsi.c   | 8 ++++++--
+>  drivers/gpu/drm/omapdrm/dss/dss.c   | 8 ++++++--
+>  drivers/gpu/drm/omapdrm/dss/hdmi4.c | 4 +++-
+>  drivers/gpu/drm/omapdrm/dss/hdmi5.c | 4 +++-
+>  4 files changed, 18 insertions(+), 6 deletions(-)
+
+I have applied an earlier series from Dinghao Liu which does the same thing.
+
+ Tomi
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
