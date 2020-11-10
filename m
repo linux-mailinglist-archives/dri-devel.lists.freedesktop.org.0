@@ -2,57 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22352AD62C
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605982AD68C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:43:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9FC789A8C;
-	Tue, 10 Nov 2020 12:27:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8D889A88;
+	Tue, 10 Nov 2020 12:43:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEE7D89A8C
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:27:09 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AACR6PX038987;
- Tue, 10 Nov 2020 06:27:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605011226;
- bh=qaplHHHfbCRRC09+eEOndaHKROgEAwxSi4I1D6Vqgx4=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=DUrrcLMeD4ZyTFtB9489c2sGBNY4CbmNZamnj99Pm1OgAuyCdnEkHUdgnODrxr1QD
- mITpdqEFBB99UAVn2I4v+XYX05rPWFJOUXGevbGVUkgvjv8sNMkEKQsfs2Pbc7qMiD
- uC5qBMFSxrdBg2kB9W9hONPWcYys6I8l+8jRAzPM=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AACR5DO019194
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 06:27:05 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 06:27:05 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 06:27:05 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AACR3ov070601;
- Tue, 10 Nov 2020 06:27:04 -0600
-Subject: Re: [PATCH v2 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
- enable/disable
-To: Nikhil Devshatwar <nikhil.nd@ti.com>
-References: <20201109170601.21557-1-nikhil.nd@ti.com>
- <20201109170601.21557-7-nikhil.nd@ti.com>
- <1e434bb5-c027-792a-0c4d-c3cf057a0ec6@ti.com>
- <20201110102723.mgtrq5gznvvbpop2@NiksLab>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <9d23f838-a9bc-ba5d-adfe-9b3bfc26c223@ti.com>
-Date: Tue, 10 Nov 2020 14:27:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD3B989A88
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:43:04 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20201110123430euoutp0291bcf7a81139e369eabd0e585df5452e~GJZxCgZpY0179601796euoutp026
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:34:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20201110123430euoutp0291bcf7a81139e369eabd0e585df5452e~GJZxCgZpY0179601796euoutp026
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1605011670;
+ bh=QBy7+4PZvvQ7G+D12cRdPJrlJzpKNOMPy7iRobv0Ov4=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=VlmZmJ8DWZgjwzWWdpqc6MfzXrpbZVNzs3MR5f113jJybPvb0sH6CkVxOnCJchECy
+ mdRTAhmdUWR5Dh2FgmuGM/+Sa45rTSuDicoyTUVTn+J4cnakBEaMNojWwq/b/53TOj
+ xopvwaMNmm+Fcb9NErlBp13Kr4lNtjLeq8UXobkk=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20201110123429eucas1p251ad0eae72958741531b4a8ee025e33d~GJZv3ymmT1282012820eucas1p2Z;
+ Tue, 10 Nov 2020 12:34:29 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 18.1D.05997.4D88AAF5; Tue, 10
+ Nov 2020 12:34:28 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201110123428eucas1p10a30afb2603a47e4ca5787a8f15ffca1~GJZvYSVOi1093110931eucas1p1M;
+ Tue, 10 Nov 2020 12:34:28 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20201110123428eusmtrp20d68fc6b589164722c3dc6fd7b9df31b~GJZvXhfDl2842828428eusmtrp2r;
+ Tue, 10 Nov 2020 12:34:28 +0000 (GMT)
+X-AuditID: cbfec7f4-677ff7000000176d-5c-5faa88d43906
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id AC.10.06314.3D88AAF5; Tue, 10
+ Nov 2020 12:34:27 +0000 (GMT)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201110123426eusmtip1b53954442d1a19b8f56270ca7b5ed636~GJZtov_f_1197511975eusmtip1k;
+ Tue, 10 Nov 2020 12:34:26 +0000 (GMT)
+Subject: Re: [PATCH v2 00/16] drm/exynos: Convert driver to drm bridge
+To: Michael Tretter <m.tretter@pengutronix.de>, Inki Dae <inki.dae@samsung.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <969deb9e-d883-49a9-5631-7747f0b3e583@samsung.com>
+Date: Tue, 10 Nov 2020 13:34:26 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201110102723.mgtrq5gznvvbpop2@NiksLab>
+In-Reply-To: <20201110081336.GB13669@pengutronix.de>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOKsWRmVeSWpSXmKPExsWy7djPc7pXOlbFG/zfYWVxa905VouNM9az
+ Wlz5+p7NYtL9CSwWL+5dZLFYNXUni8X58xvYLTonLmG3mHF+H5PFthVAxYf6oi1mTH7JZjHv
+ 804mB16P9zda2T12zrrL7jG7Yyarx6ZVnWwe97uPM3n0/zXw6NuyitHj8ya5AI4oLpuU1JzM
+ stQifbsEroyzTb+YChYpVeyZ+omxgXG7dBcjJ4eEgInE4yWnWLoYuTiEBFYwSuz83QXlfGGU
+ uLrqEDOE85lR4s/yt+wwLRta90ElljNKPJ47lR3Cec8ocXzeE1aQKmEBN4knZ44zgdgiAoES
+ fXv2gnUwC2xgkti69x4LSIJNwFCi620XG4jNK2An8evQGbBmFgFVianvvjCC2KICSRJ/P/9h
+ hqgRlDg58wlQLwcHJ9AZ/5qCQMLMAvISzVtnM0PY4hK3nsxnAtklIfCVXWL91XlQZ7tILNo1
+ mwXCFpZ4dXwLVFxG4v9OmIZmRomH59ayQzg9jBKXm2YwQlRZS9w594sNZDOzgKbE+l36EGFH
+ iY5dd8DCEgJ8EjfeCkIcwScxadt0Zogwr0RHmxBEtZrErOPr4NYevHCJeQKj0iwkn81C8s4s
+ JO/MQti7gJFlFaN4amlxbnpqsVFearlecWJucWleul5yfu4mRmByO/3v+JcdjLv+JB1iFOBg
+ VOLhPfBnWbwQa2JZcWXuIUYJDmYlEV6ns6fjhHhTEiurUovy44tKc1KLDzFKc7AoifMaL3oZ
+ KySQnliSmp2aWpBaBJNl4uCUamBcf9L9V/elH61Orye1ii48ftzfQcvzWqBZ1pe4xX239ph0
+ yvCsV5jXsjJiY6SexT3dU4Ua8Vt8i+pKFB+oOtv5l/1v+vSFiTv/p4Ad/641bJmLXb006xVW
+ J0+TWG6rIfv/05sVRtvjpxzW2uqhGPo690qi9OYHHLyHao1qQxpOHK6QkZRSfq/EUpyRaKjF
+ XFScCAChmRYsagMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJIsWRmVeSWpSXmKPExsVy+t/xu7pXOlbFG2w5KGlxa905VouNM9az
+ Wlz5+p7NYtL9CSwWL+5dZLFYNXUni8X58xvYLTonLmG3mHF+H5PFthVAxYf6oi1mTH7JZjHv
+ 804mB16P9zda2T12zrrL7jG7Yyarx6ZVnWwe97uPM3n0/zXw6NuyitHj8ya5AI4oPZui/NKS
+ VIWM/OISW6VoQwsjPUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYyzTb+YChYpVeyZ
+ +omxgXG7dBcjJ4eEgInEhtZ9zF2MXBxCAksZJW78aWWFSMhInJzWAGULS/y51sUGUfSWUeL6
+ pKvsIAlhATeJJ2eOM4HYIgKBEss3XgIrYhbYwCQx+fQlRoiOT4wSu9ZfYgGpYhMwlOh6CzKK
+ k4NXwE7i16EzYCtYBFQlpr77wghiiwokSby8MJUJokZQ4uTMJ0C9HBycQLf+awoCCTMLmEnM
+ 2/yQGcKWl2jeOhvKFpe49WQ+0wRGoVlIumchaZmFpGUWkpYFjCyrGEVSS4tz03OLDfWKE3OL
+ S/PS9ZLzczcxAqN527Gfm3cwXtoYfIhRgINRiYf3wJ9l8UKsiWXFlbmHGCU4mJVEeJ3Ono4T
+ 4k1JrKxKLcqPLyrNSS0+xGgK9NtEZinR5HxgoskriTc0NTS3sDQ0NzY3NrNQEuftEDgYIySQ
+ nliSmp2aWpBaBNPHxMEp1cBY5b0/Usnux+Ge9MvO1xcfWl9Q5vW696D3a67LLc7VC/deX2Dg
+ qmS5eO7iWqmgs85s1y6tdZG5y+ajffSFnGmroJZyf+0ky2r+s0sEP3f/fxk384J9iHbcz6ji
+ M22SSmE3gy8urxYqsN6nHRpSX3jS1efz452flm7I77nnJi/w/Pb3R1MLzU4qsRRnJBpqMRcV
+ JwIAbg+1N/wCAAA=
+X-CMS-MailID: 20201110123428eucas1p10a30afb2603a47e4ca5787a8f15ffca1
+X-Msg-Generator: CA
+X-RootMTR: 20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29
+References: <CGME20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29@epcas1p3.samsung.com>
+ <20200911135413.3654800-1-m.tretter@pengutronix.de>
+ <fa535450-cd68-415f-5c48-a4f753b2b70b@samsung.com>
+ <20201110081336.GB13669@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,86 +110,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>, Sekhar Nori <nsekhar@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ narmstrong@baylibre.com, b.zolnierkie@samsung.com, sw0312.kim@samsung.com,
+ krzk@kernel.org, a.hajda@samsung.com, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, sylvester.nawrocki@gmail.com,
+ Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2020 12:27, Nikhil Devshatwar wrote:
-> On 11:21-20201110, Tomi Valkeinen wrote:
->> On 09/11/2020 19:06, Nikhil Devshatwar wrote:
->>> When removing the tidss driver, there is a warning reported by
->>> kernel about an unhandled interrupt for mhdp driver.
->>>
->>> [   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
->>> ... [snipped backtrace]
->>> [   43.330735] handlers:
->>> [   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
->>> cdns_mhdp_irq_handler [cdns_mhdp8546]
->>> [   43.344607] Disabling IRQ #31
->>>
->>> This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
->>> to disable the interrupts. While disabling the SW_EVENT interrupts,
->>> it accidentally enables the MBOX interrupts, which are not handled by
->>> the driver.
->>>
->>> Fix this with a read-modify-write to update only required bits.
->>> Do the same for enabling interrupts as well.
->>>
->>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
->>> ---
->>>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 7 +++++--
->>>  1 file changed, 5 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> index 2cd809eed827..6beccd2a408e 100644
->>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->>> @@ -2146,7 +2146,8 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
->>>  
->>>  	/* Enable SW event interrupts */
->>>  	if (mhdp->bridge_attached)
->>> -		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
->>> +		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
->>> +		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
->>>  		       mhdp->regs + CDNS_APB_INT_MASK);
->>>  }
->>>  
->>> @@ -2154,7 +2155,9 @@ static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
->>>  {
->>>  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->>>  
->>> -	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
->>> +	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
->>> +	       CDNS_APB_INT_MASK_SW_EVENT_INT,
->>> +	       mhdp->regs + CDNS_APB_INT_MASK);
->>>  }
->>>  
->>>  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->>
->> Good catch. I wonder why we need the above functions... We already enable and disable the interrupts
->> when attaching/detaching the driver. And I think we want to get the interrupt even if we won't
->> report HPD (but I think we always do report it), as we need the interrupts to track the link status.
->>
-> 
-> I read from the code that there is TODO for handling the mailbox
-> interrupts in the driver. Once that is supported, you will be able to
-> explictily enable/disable interrupts for SW_EVENTS (like hotplug) as
-> well as mailbox events. This enabling specific bits in the interrupt
-> status.
-
-But SW_EVENTS is not the same as HPD, at least in theory. If we disable SW_EVENT_INT in
-hpd_disable(), we lose all SW_EVENT interrupts.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTWljaGFlbCwKCk9uIDEwLjExLjIwMjAgMDk6MTMsIE1pY2hhZWwgVHJldHRlciB3cm90ZToK
+PiBPbiBNb24sIDA5IE5vdiAyMDIwIDEyOjE1OjM5ICswOTAwLCBJbmtpIERhZSB3cm90ZToKPj4g
+MjAuIDkuIDExLiDsmKTtm4QgMTA6NTPsl5AgTWljaGFlbCBUcmV0dGVyIOydtCjqsIApIOyTtCDq
+uIA6Cj4+PiBUaGlzIGlzIHYyIG9mIHRoZSBzZXJpZXMgdG8gY29udmVydCB0aGUgRXh5bm9zIE1J
+UEkgRFNJIGRyaXZlciBpbnRvIGEgZHJtCj4+PiBicmlkZ2UgYW5kIG1ha2UgaXQgdXNhYmxlIHdp
+dGggb3RoZXIgZHJpdmVycy4gQWx0aG91Z2ggdGhlIGRyaXZlciBpcwo+Pj4gY29udmVydGVkLCBp
+dCBzdGlsbCBzdXBwb3J0cyB0aGUgY29tcG9uZW50IGZyYW1ld29yayBBUEkgdG8gc3RheSBjb21w
+bGlhbnQKPj4+IHdpdGggdGhlIEV4eW5vcyBEUk0gZHJpdmVyLgo+Pj4KPj4+IFRoZSBFeHlub3Mg
+TUlQSSBEU0kgUGh5IGlzIGFsc28gZm91bmQgb24gdGhlIGkuTVg4TSBNaW5pLiBIb3dldmVyLCBv
+biB0aGUKPj4+IGkuTVg4TSBNaW5pLCB0aGUgYnJpZGdlIGlzIGRyaXZlbiBieSBhbiBMQ0RJRiBk
+aXNwbGF5IGNvbnRyb2xsZXIgaW5zdGVhZCBvZgo+Pj4gdGhlIEV4eW5vcyBEZWNvbi4gVGhlIGRy
+aXZlciBmb3IgdGhlIExDRElGIGRvZXMgbm90IHVzZSB0aGUgY29tcG9uZW50Cj4+PiBmcmFtZXdv
+cmssIGJ1dCB1c2VzIGRybSBicmlkZ2VzLgo+Pj4KPj4+IEkgZG9uJ3QgaGF2ZSBhbnkgRXh5bm9z
+IFNvQyB0byBhY3R1YWxseSB0ZXN0IHRoZSBzZXJpZXMuIEkgYnVpbGQgYSBkdW1teSB0bwo+Pj4g
+dGVzdCB0aGUgYnJpZGdlIHdpdGggYSBjb21wb25lbnQgZHJpdmVyLCB0byBtYWtlIHN1cmUgdGhh
+dCBhdCBsZWFzdCB0aGUKPj4+IGluaXRpYWxpemF0aW9uIGlzIHdvcmtpbmcuIEZ1cnRoZXJtb3Jl
+LCB0ZXN0ZWQgdGhlIGRyaXZlciBhcyBhIGJyaWRnZSB3aXRoIGEKPj4+IGZldyBhZGRpdGlvbmFs
+IHVuZmluaXNoZWQgcGF0Y2hlcyBvbiB0aGUgaS5NWDhNIE1pbmkgRVZLLiBIb3dldmVyLCBzb21l
+Ym9keQo+Pj4gc2hvdWxkIHZlcmlmeSB0aGF0IHRoZSBkcml2ZXIgaXMgc3RpbGwgd29ya2luZyBv
+biBFeHlub3MgaGFyZHdhcmUuCj4+Pgo+Pj4gSSBhbHNvIGNoYW5nZWQgdGhlIG9yZGVyIG9mIHRo
+ZSBwYXRjaGVzIHRvIGZpcnN0IG1ha2UgdGhlIGRyaXZlciBtb3JlIHBsYXRmb3JtCj4+PiBpbmRl
+cGVuZGVudCAocGF0Y2hlcyAyIHRvIDgpLCB0aGVuIGNvbnZlcnQgdG8gYSBkcm0gYnJpZGdlIGRy
+aXZlciAocGF0Y2hlcyAxMAo+PiBKdXN0IGEgZnVuZGFtZW50YWwgcXVlc3Rpb24sIEEgTUlQSS1E
+U0koRGlzcGxheSBTZXJpYWwgSW50ZXJmYWNlKSBidXMgZGV2aWNlCj4+IHdvdWxkIGJlIG9uZSBv
+ZiBhbiBlbmNvZGVyIHR5cGUgb2YgZGV2aWNlcyBub3QgYnJpZGdlIHN1Y2ggYXMgRFNJIHRvIExW
+RFMKPj4gYW5kIExWRFMgdG8gRFNJIGJyaWRnZSBkZXZpY2VzLCBhbmQgYWxzbyBpbWFnZSBlbmhh
+bmNlciBhbmQgaW1hZ2UgY29tcHJlc3Nvcgo+PiBpbiBjYXNlIG9mIEV4eW5vcy4KPiBJIGRvbid0
+IHVuZGVyc3RhbmQsIHdoeSB0aGUgTUlQSS1EU0kgYnVzIGRldmljZSB3b3VsZCBiZSBhbiBlbmNv
+ZGVyIHR5cGUgYW5kCj4gRFNJIHRvIExWRFMgb3IgTUlQSS1EU0kgdG8gSERNSSB3b3VsZCBiZSBi
+cmlkZ2VzLiBGb3IgZXhhbXBsZSwgdGhlIGRldmljZSB0cmVlCj4gZG9jdW1lbnRhdGlvbiBmb3Ig
+dGhlIERTSU0gc3RhdGVzIHRoYXQgdGhlIERTSU0gcmVjZWl2ZXMgUkdCIHZpZGVvIGFzIGlucHV0
+Cj4gYW5kIHByb2R1Y2VzIE1JUEktRFNJIGFzIG91dHB1dC4gVGh1cywgdGhlIERTSU0gaXMgYmFz
+aWNhbGx5IGEgcGFyYWxsZWwgUkdCIHRvCj4gTUlQSS1EU0kgYnJpZGdlIGFuZCB0aGUgZW5jb2Rl
+ciBpcyB0aGUgTENEIGNvbnRyb2xsZXIgdGhhdCBlbmNvZGVzIHRoZSB2aWRlbwo+IGRhdGEgYXMg
+cGFyYWxsZWwgUkdCLgo+Cj4gT24gdGhlIGkuTVg4TU0sIHRoZSBMQ0RJRiBpcyBhbHJlYWR5IHRo
+ZSBlbmNvZGVyLiBPbiBFeHlub3MsIHRoZSBzZXJpZXMKPiBpbXBsZW1lbnRzIHRoZSBlbmNvZGVy
+IGluIHRoZSBwbGF0Zm9ybSBnbHVlLCBidXQgaW4gdGhlIGVuZCB0aGUgZW5jb2RlciBjYW4KPiBw
+cm9iYWJseSBiZSBtb3ZlZCB0byB0aGUgREVDT04uCgpUaGlzIGlzIHByb2JhYmx5IHRoZSBoaXN0
+b3JpY2FsIGRlY2lzaW9uLiBUaGF0IHRpbWUgd2hlbiBFeHlub3MgRFNJIApkcml2ZXIgaGFzIGJl
+ZW4gaW1wbGVtZW50ZWQsIHN1cHBvcnQgZm9yIERSTSBicmlkZ2VzIHdhc24ndCByZWFkeSBlbm91
+Z2ggCnRvIHVzZSB0byBmb3Igc3VjaCBwdXJwb3NlLgoKRnJhbmtseSwgSSdtIHN0aWxsIG5vdCBj
+b252aW5jZWQgdGhhdCB0aGUgY3VycmVudCBEUk0gYnJpZGdlIGZyYW1ld29yayAKcHJvdmlkZXMg
+ZXZlcnl0aGluZyBuZWVkZWQgdG8gcmVpbXBsZW1lbnQgdGhlIEV4eW5vcyBEU0kgZHJpdmVyIHdp
+dGggYWxsIAppdHMgZmVhdHVyZXMuIFRoZXJlIGFyZSBhIGxvdHMgb2YgY29ybmVyIGNhc2VzIGFu
+ZCBvcmRlci1zcGVjaWZpYyBiaXRzIAppbiB0dXJuaW5nIG9uL29mZiB0aGUgZGlzcGxheSBwaXBl
+bGluZSwgd2hpY2ggZG9uJ3QgbWFwIG5pY2VseSB0byB0aGUgCmJyaWRnZSBwcmVfZW5hYmxlIChj
+YWxsZWQgaW4gcG9zdC1vcmRlcikgYW5kIGVuYWJsZSAoY2FsbGVkIGluIApwcmUtb3JkZXIpIGNh
+bGxiYWNrcy4gRXNwZWNpYWxseSBpZiB5b3UgY29uc2lkZXIgdGhhdCB0aGVyZSBtaWdodCBiZSAK
+YW5vdGhlciBicmlkZ2UgYmVmb3JlIGFuZCBhZnRlci4KCkkgdGhpbmsgdGhhdCBBbmRyemVqIEhh
+amRhIGFscmVhZHkgcG9pbnRlZCB0aG9zZSBkcmF3YmFja3Mgb2YgdGhlIApjdXJyZW50IGRlc2ln
+bi4gTGFzdCB3ZWVrIEkndmUgc3BlbnQgc29tZSBzaWduaWZpY2FudCBhbW91bnQgb2YgdGltZSAK
+cGxheWluZyB3aXRoIGV4eW5vcyBkc2kgY29kZSB0byBjaGVjayBob3cgdG8gbWF0Y2ggaXRzIG9w
+ZXJhdGlvbnMgCihlc3BlY2lhbGx5IHRoZSBydW50aW1lIHBvd2VyIG1hbmFnZW1lbnQpIHRvIHRo
+aXMgZGVzaWduIHdpdGggdGhlIApjdXJyZW50IGJvYXJkcyAoQXJuZGFsZSB3aXRoIGFkZGl0aW9u
+YWwgRFNJLT5MVkRTIGJyaWRnZSBhbmQgcGFuZWwsIApUcmF0czIgd2l0aCBEU0kgcGFuZWwgYW5k
+IFRNMmUgd2l0aCBNSUMgJ2luLWJyaWRnZScgYW5kIERTSSBwYW5lbCksIGJ1dCAKd2l0aG91dCBh
+IHN1Y2Nlc3MuCgo+PiBXaHkgZG8geW91IHdhbnQgdG8gY29udmVydCBzdWNoIE1JUEktRFNJIGRy
+aXZlciB0byBicmlkZ2UgdHlwZSBvZiBkcml2ZXI/Cj4+IFNlZW1zIG5vdCBzZW5zaWJsZS4gVGhl
+IHJlYXNvbiB3b3VsZCBiZSBqdXN0IHRvIHNoYXJlIE1JUEktRFNJIHBoeSBkcml2ZXIKPj4gZm9y
+IEV4eW5vcyB3aXRoIGkuTVg4TSBNaW5pPwo+IFllcywgdGhlIHJlYXNvbiBpcyB0aGF0IHRoZSBk
+cml2ZXIgc2hvdWxkIGJlIHNoYXJlZCBiZXR3ZWVuIEV4eW5vcyBhbmQKPiBpLk1YOE1NLiBJdCBp
+cyB0aGUgc2FtZSBJUCBhbmQgSSBkb24ndCBzZWUgYSByZWFzb24gd2h5IHdlIHNob3VsZCBpbnRy
+b2R1Y2UKPiBhbm90aGVyIGRyaXZlciBmb3IgdGhlIHNhbWUgSVAgaWYgdGhlIGRyaXZlciB3b3Jr
+cyBmb3IgYm90aCBTb0NzLgoKSSB0aGluayB0aGF0IHRoZSBlYXNpZXN0IHdheSB0byBzaGFyZSB0
+aGlzIGRyaXZlciBiZXR3ZWVuIEV4eW5vcyBhbmQgaU1YIAp3b3VsZCBiZSB0byBleHRyYWN0IHRo
+ZSBsb3ctbGV2ZWwgY29kZSAodGhlIGNvZGUgdGhhdCBwbGF5cyB3aXRoIApoYXJkd2FyZSByZWdp
+c3RlcnMpIHRvIHRoZSBjb21tb24gcGxhbmUsIHdoaWxlIGtlZXBpbmcgdGhlIHNlcGFyYXRlIERS
+TSAKZ2x1ZSwgZGV2aWNlIGNvbXBvbmVudCBhbmQgcGxhdGZvcm0gZGV2aWNlIHBhcnRzLiBUaGlz
+IHdheSB0aGUgRXh5bm9zIAp3aWxsIGNvbnRpbnVlIHRvIHVzZSBpdCBpbiB0aGUgY3VycmVudCBm
+b3JtLCB3aGlsZSBpTVggY2FuIHN0YXJ0IHVzaW5nIAppdCBhcyBEUk0gYnJpZGdlLiBBIGJpdCBz
+aW1pbGFyIGFwcHJvYWNoIGlzIHVzZWQgd2l0aCBleHlub3NfZHAgZHJpdmVyIAphbmQgYW5hbG9n
+aXhfZHAgYnJpZGdlIHNoYXJlZCB3aXRoIG90aGVyIFNvQ3MuCgpJIGhvcGUgdGhhdCBsYXRlciwg
+d2hlbiB0aGUgYnJpZGdlIHJlbGF0ZWQgaXNzdWUgYXJlIHJlc29sdmVkLCB0aGUgCkV4eW5vcyBj
+YW4gYmUgY29udmVydGVkIHRvbywgc28gdGhlIGVuY29kZXIgY3JlYXRpb24gbW92ZWQgdG8gRklN
+RCBhbmQgCkRlY29uLgoKQmVzdCByZWdhcmRzCgotLSAKTWFyZWsgU3p5cHJvd3NraSwgUGhEClNh
+bXN1bmcgUiZEIEluc3RpdHV0ZSBQb2xhbmQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
