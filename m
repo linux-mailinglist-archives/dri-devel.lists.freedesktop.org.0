@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06A22AEA94
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693D12AEA6A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4721889F75;
-	Wed, 11 Nov 2020 07:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2102189E50;
+	Wed, 11 Nov 2020 07:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516A389A9A
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:47:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D365C89A94
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:47:29 +0000 (UTC)
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CVngk0Pmjzkhmq;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CVngk0gnLzkhq2;
  Tue, 10 Nov 2020 20:47:14 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Tue, 10 Nov 2020
- 20:47:22 +0800
+ 20:47:23 +0800
 From: Zhang Qilong <zhangqilong3@huawei.com>
 To: <tomi.valkeinen@ti.com>, <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH 3/4] drm/omap: hdmi4: fix reference leak in hdmi_runtime_get
-Date: Tue, 10 Nov 2020 20:51:07 +0800
-Message-ID: <20201110125108.3827430-4-zhangqilong3@huawei.com>
+Subject: [PATCH 4/4] drm/omap: hdmi5: fix reference leak in hdmi_runtime_get
+Date: Tue, 10 Nov 2020 20:51:08 +0800
+Message-ID: <20201110125108.3827430-5-zhangqilong3@huawei.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20201110125108.3827430-1-zhangqilong3@huawei.com>
 References: <20201110125108.3827430-1-zhangqilong3@huawei.com>
@@ -52,17 +52,17 @@ pm_runtime_get_sync will increment pm usage counter even it
 failed. Forgetting to pm_runtime_put_noidle will result in
 reference leak in hdmi_runtime_get, so we should fix it.
 
-Fixes: ac7674567c620 ("drm: omapdrm: hdmi4: Allocate the omap_hdmi data structure dynamically")
+Fixes: c44991ce21bef ("drm: omapdrm: hdmi5: Allocate the omap_hdmi data structure dynamically")
 Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 ---
- drivers/gpu/drm/omapdrm/dss/hdmi4.c | 4 +++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-index a14fbf06cb30..33f12c351b08 100644
---- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-+++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-@@ -44,8 +44,10 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
+diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+index b738d9750686..26ffbd1bd1cc 100644
+--- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
++++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+@@ -45,8 +45,10 @@ static int hdmi_runtime_get(struct omap_hdmi *hdmi)
  
  	r = pm_runtime_get_sync(&hdmi->pdev->dev);
  	WARN_ON(r < 0);
