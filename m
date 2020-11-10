@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DAD72AEA9D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470A62AEA6C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F146E02B;
-	Wed, 11 Nov 2020 07:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 397B189E52;
+	Wed, 11 Nov 2020 07:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8499D89020
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 16:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605026983;
+ [85.215.255.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81E5B89C28
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605042276;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
  X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=rpvmMnXMwFUPKavJxDHRuP2XHaoAjAtNZVR646ZT25s=;
- b=BtGt6T163d05OJDZlqMMvZEkqa45ng8sit/BqxoarMhs7ijKSRIe6W5vcVCEVnZfna
- OdybR4CBz58RowVDeJE36w5KGE6/O/rqq8dNWA+sCxLGJnih8C7/kXcUxrv+Y/3RyMJS
- 7z2QC0tDhNMrPCZnM+26zmpwgGy44e97khUUw6MzmwFXw3jDi7nv1vSkYnU8m5sFZvFA
- QaFroFHlZSQKCYvCiGqx4k2hfvKSxbYr4AnqYvFxfy+1g4YJqXkqlXV+1uP+Ez5ytOTt
- osHuMcue+z7C0Y0hkfjUeZFXxb8w5M9jFAwEPqGBx3USUE7t9kzovgDw5IcKNzibRE3p
- Xz9A==
+ bh=J3iLT4lR6dl7ChrGzU2OdJxyQhmkQ6JyK0qL/xklO1Q=;
+ b=bXWNrpEf3Lp/EfP0MAWLYRS2hN1LtG4p3wewVkpov5mImm6U2t9pnxNeicFYhZi2CQ
+ 7aELEPVzA4BhMPWFuKrA0REXH6aNFjGzkFyiYHVPgNAB5eFbpqmBxybsRbL08iHYrK/q
+ YY3zYQdeoVyWaCHcT/PC26d8wnhz9cjaoP4kLm4P2xrD4SOdulPA6KgtHNS5/1fUwlIb
+ v7o3cFq5gePCBlo1KSAo4HSH9Yb1/qYNrRN3tUkXMlcd11YUq+46V9v3N+on7wwUatof
+ DbAkk1xFZh7LQHTCo4xpO8NiyroyGC/69anbrYfMrvlokZP4vHVF0p2j3yC28reni2Yn
+ iTlw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDVCUXAYLEg=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
- with ESMTPSA id N02faawAAGnY2Sl
+ with ESMTPSA id N02faawAAL4V33d
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
  ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Tue, 10 Nov 2020 17:49:34 +0100 (CET)
+ Tue, 10 Nov 2020 22:04:31 +0100 (CET)
 Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
  drm_panel
 Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
-Date: Tue, 10 Nov 2020 17:49:33 +0100
-Message-Id: <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
+In-Reply-To: <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
+Date: Tue, 10 Nov 2020 22:04:31 +0100
+Message-Id: <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
  <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
  <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
@@ -56,6 +56,8 @@ References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
  <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
  <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
  <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
+ <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
+ <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
 X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
@@ -73,85 +75,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
  Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+ Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> Am 10.11.2020 um 14:49 schrieb H. Nikolaus Schaller <hns@goldelico.com>:
+> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
 > 
-> Hi Tomi,
+> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
 > 
->> Am 09.11.2020 um 12:33 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->> 
->> On 09/11/2020 13:09, H. Nikolaus Schaller wrote:
->> 
->>>>> I see.
->>>>> Anyways there is missing some simple thing which makes the driver not prepared/enabled.
->>>>> Or is this related to VC?
->>>> 
->>>> No, that's not related to the VC.
->>> 
->>> Ok, then it is worth searching for that independently. Any idea/hint what could be missing?
->> 
->> Well, if I had to guess, I would go for either 1) some registration or such is missing from the
->> panel driver, or 2) some config value is invalid, which makes the DRM framework or the DSI driver
->> fail before calling prepare or enable.
-> 
-> I did now some tests based on v5.10-rc3 by adding mre and more printk() and dump_stack().
-> And I did blacklist the panel driver so that I could boot and after modprobing it manually
-> I could trigger a re-probe by inserting some USB memory stick.
-> 
-> With this procedure I could trace the problem down to this call sequence:
-> 
-> 	dsi_probe()
->          ...
-> 	  w677l_probe()
->            drm_panel_add()   -- after this, of_drm_find_panel() is successful
->          ...
-> 	  component_add()
-> 	    try_to_bring_up_master()
-> 	      master->ops->bind(master->dev)
-> 
-> This call to bind() does not return and likely the probing thread is then blocked and
-> holds some locks which manifests itself in that the system isn't running stable any
-> more (e.g. heartbeat LEDs are sometimes stuck although console still works).
-> 
-> dbg_info() in try_to_bring_up_master() prints:
-> 
-> [  102.199362] omapdss_dss 58000000.dss: trying to bring up master
-> 
-> So I am not sure if this is a panel driver issue at all or the DSI patch set is not
-> running stable on OMAP5.
-> 
-> Is a good next step to trace dss_bind() in drivers/gpu/drm/omapdrm//dss/dss.c?
+> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
+> there finding good clocks.
 
-There is indeed one kernel worker running at 100% CPU load.
+Yes, I could trace it down to exactly this point.
 
-top:
+So the culprit is somehow the panel driver. Because it asks for clocks that the PLL driver does not want to provide...
+Or is it the victim?
 
-  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                   
- 3196 root      20   0       0      0      0 R  100.0  0.0   2:58.76 kworker/0:8+events                                                        
+Here is what dmesg reports with even more printk():
 
-More analysis shows that it hangs in drm_client_modeset_probe() in the loop
+[  276.970635] drm_helper_probe_single_connector_modes 12 count=1
+[  277.003509] drm_mode_validate_pipeline 2 ret=0 status=0
+[  277.038678] drm_bridge_chain_mode_valid: func=dsi_bridge_mode_valid+0x0/0xa0 [omapdrm]
+[  277.047199] dsi_bridge_mode_valid
+[  277.050786] __dsi_calc_config
+[  277.057270] dsi_vm_calc
+[  277.073251] dss_pll_calc_a clkin=19200000 pll_min=1555386656 pll_max=1555410656 func=dsi_vm_calc_pll_cb+0x0/0x48 [omapdrm]
+[  277.084975] dss_pll_calc_a pll_hw_max=1800000000 fint_hw_min=150000 fint_hw_max=52000000
+[  277.093637] dss_pll_calc_a n_start=1 n_inc=1 n_stop=128 pll_max'=1555410656
+[  277.101062] dss_pll_calc_a n=1 clkin=19200000 fint=19200000
+[  277.107152] dss_pll_calc_a m_start=41 m_inc=1 m_stop=40
 
-	for (i = 0; i < connector_count; i++)
-		total_modes_count += connectors[i]->funcs->fill_modes(connectors[i], width, height);
+Ok, we have to wait quite a while until the for(m;;) loop ends, because m_stop < m_start and m_inc is positive.
 
-Most likely not in the loop because that looks sane, but connectors[i]->funcs->fill_modes().
+So something in the formulae in dss_pll_calc_a() does not fit or has unintended rounding effects.
+Or the values reported by w677l_get_modes() do not fit anything.
 
-So I have to find out what function connectors[i]->funcs->fill_modes is...
-
-BTW: connector_count = 2.
+I think these findings and ideas should help to find a fix.
 
 BR and thanks,
 Nikolaus
-
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
