@@ -1,37 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21C742ACC66
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 04:55:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 889E42ACC79
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 04:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32808980C;
-	Tue, 10 Nov 2020 03:55:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3FE8922E;
+	Tue, 10 Nov 2020 03:55:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4FA5897FF;
- Tue, 10 Nov 2020 03:55:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14585890D8;
+ Tue, 10 Nov 2020 03:55:30 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 8F11420897;
- Tue, 10 Nov 2020 03:55:02 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id D49BB20731;
+ Tue, 10 Nov 2020 03:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604980503;
- bh=S/qVpmdo/I/WpqoRgF5iVIPW7eamJQGlkGVglSqUJfI=;
+ s=default; t=1604980529;
+ bh=CL50JTFToMBcWaIah6Cys4v0LlMFDyVrk5riRWy67pc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=0lKr7w/aKFy4/lSYQ71YM71mSEHwdUNeIrU9gHp1Bjk4JANOlYKQzeUrBMjdKtsER
- ZzGNvt8vttuxx7UM/zbDciDyRAg7+dhsApxn10qcMOKt0WTnat0Ldqk5rQUZQ/kL4w
- +XFwcPW9VVTyMrmQ9+/B3wIglk2HFNMi2RKc7wDA=
+ b=XlBrc0Wv86JW9/bplPq09MRqJpzGRIDQZCS9e1FtX2r1uiiaNOhHeWy8rS80SKz/v
+ C56bczAMCWY65Ng+cVyPTUmzUkyRXtnjDfF9qaowVJPe6mZ04h5JFR3WmYdtX/ZCMW
+ p/Bb9CYR1Oabpvbz5Vx0vr15ZHuMI0PZo/Qo78eg=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 16/42] drm/amd/pm: do not use ixFEATURE_STATUS for
- checking smc running
-Date: Mon,  9 Nov 2020 22:54:14 -0500
-Message-Id: <20201110035440.424258-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 35/42] amd/amdgpu: Disable VCN DPG mode for Picasso
+Date: Mon,  9 Nov 2020 22:54:33 -0500
+Message-Id: <20201110035440.424258-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201110035440.424258-1-sashal@kernel.org>
 References: <20201110035440.424258-1-sashal@kernel.org>
@@ -50,50 +49,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sasha Levin <sashal@kernel.org>, Sandeep Raghuraman <sandy.8925@gmail.com>,
+Cc: Sasha Levin <sashal@kernel.org>,
+ Veerabadhran Gopalakrishnan <veerabadhran.gopalakrishnan@amd.com>,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>
+ Alex Deucher <alexander.deucher@amd.com>, Leo Liu <leo.liu@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Evan Quan <evan.quan@amd.com>
+From: Veerabadhran Gopalakrishnan <veerabadhran.gopalakrishnan@amd.com>
 
-[ Upstream commit 786436b453001dafe81025389f96bf9dac1e9690 ]
+[ Upstream commit c6d2b0fbb893d5c7dda405aa0e7bcbecf1c75f98 ]
 
-This reverts commit f87812284172a9809820d10143b573d833cd3f75 ("drm/amdgpu:
-Fix bug where DPM is not enabled after hibernate and resume").
-It was intended to fix Hawaii S4(hibernation) issue but break S3. As
-ixFEATURE_STATUS is filled with garbage data on resume which can be
-only cleared by reloading smc firmware(but that will involve many
-changes). So, we will revert this S4 fix and seek a new way.
+Concurrent operation of VCN and JPEG decoder in DPG mode is
+causing ring timeout due to power state.
 
-Signed-off-by: Evan Quan <evan.quan@amd.com>
-Tested-by: Sandeep Raghuraman <sandy.8925@gmail.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Veerabadhran Gopalakrishnan <veerabadhran.gopalakrishnan@amd.com>
+Reviewed-by: Leo Liu <leo.liu@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/soc15.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c b/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c
-index 0f4f27a89020d..42c8f8731a504 100644
---- a/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c
-+++ b/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c
-@@ -2725,10 +2725,7 @@ static int ci_initialize_mc_reg_table(struct pp_hwmgr *hwmgr)
+diff --git a/drivers/gpu/drm/amd/amdgpu/soc15.c b/drivers/gpu/drm/amd/amdgpu/soc15.c
+index c086262cc181d..317aa257c06bb 100644
+--- a/drivers/gpu/drm/amd/amdgpu/soc15.c
++++ b/drivers/gpu/drm/amd/amdgpu/soc15.c
+@@ -1144,8 +1144,7 @@ static int soc15_common_early_init(void *handle)
  
- static bool ci_is_dpm_running(struct pp_hwmgr *hwmgr)
- {
--	return (1 == PHM_READ_INDIRECT_FIELD(hwmgr->device,
--					     CGS_IND_REG__SMC, FEATURE_STATUS,
--					     VOLTAGE_CONTROLLER_ON))
--		? true : false;
-+	return ci_is_smc_ram_running(hwmgr);
- }
- 
- static int ci_smu_init(struct pp_hwmgr *hwmgr)
+ 			adev->pg_flags = AMD_PG_SUPPORT_SDMA |
+ 				AMD_PG_SUPPORT_MMHUB |
+-				AMD_PG_SUPPORT_VCN |
+-				AMD_PG_SUPPORT_VCN_DPG;
++				AMD_PG_SUPPORT_VCN;
+ 		} else {
+ 			adev->cg_flags = AMD_CG_SUPPORT_GFX_MGCG |
+ 				AMD_CG_SUPPORT_GFX_MGLS |
 -- 
 2.27.0
 
