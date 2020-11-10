@@ -1,62 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5291D2ACB27
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 03:33:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 203B32ACB4D
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 03:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC995892A1;
-	Tue, 10 Nov 2020 02:33:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A198189533;
+	Tue, 10 Nov 2020 02:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
- [IPv6:2607:f8b0:4864:20::a41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3461E892A1
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 02:33:00 +0000 (UTC)
-Received: by mail-vk1-xa41.google.com with SMTP id s135so2386100vkh.6
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 18:33:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o+lVk1WHisUKZ0ebgNE5tDXFPu93D1B4Zca284NgzcQ=;
- b=GJRClqbYC/ueiUBw9YuKsjXkEw63X9r4tK7+iLGVFKH/StPRDxy2T3Mr/Ka7YlvFeC
- TXCwP0wXzGyKi/10XaLQVzNbZkq4EdB5IuysFAeYRRJ+P7vRXQ56Nqi/P6mdvFX8xlb1
- X+c/OSEYEH3f/FrRh8oiyAcHyweOhOTHyGBZ4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o+lVk1WHisUKZ0ebgNE5tDXFPu93D1B4Zca284NgzcQ=;
- b=qHiEAZEVyNChnVGAg2BbXUz+dXfZTmapgbZHpjL6UsAe9EW2U3BB6JVp16GQicdFky
- xZ+XK07ghzgkBNIAQ7vF3V8ABVTLox7hYBp7YBAB1sfkjeF2qyiyy7WZXWNyAZmw++tD
- PkZGweziyCyFQzqjY+UzwrzMcdNOhg/dglU2ExjHgMk2Mu51sx6+9MYOH/h2e7ReK3Yo
- w4VFQHaPh3nAWCcaiY3s+1LOUiO4AI8EZ1i440lgAFCs0fIpAayMsU4nWDOKnVGTPsEy
- AdImN3JGUE0BCRU+cVqdsZyo5cpqbq1ueDxfNF0nZLONszNBg3B6THPQCaevP3mDqUT7
- LJIg==
-X-Gm-Message-State: AOAM531uPQY5DK/gfDpy4tCzEKCpsz+xclrmFWc9dr9UpSl628o2V5sm
- QJz2QonUNSNKfmY1dBiLtRWAwbOLUM13gg==
-X-Google-Smtp-Source: ABdhPJwErOZfbTjYKg4kTc4gA45iNSgoY+myYvDCJGjRm15BLH6lqfZezJuLwSXQiMaafDqnpt+FZw==
-X-Received: by 2002:a1f:9f05:: with SMTP id i5mr9134244vke.12.1604975578929;
- Mon, 09 Nov 2020 18:32:58 -0800 (PST)
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
- [209.85.217.45])
- by smtp.gmail.com with ESMTPSA id w190sm1469360vke.7.2020.11.09.18.32.58
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 09 Nov 2020 18:32:58 -0800 (PST)
-Received: by mail-vs1-f45.google.com with SMTP id r14so6182170vsa.13
- for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 18:32:58 -0800 (PST)
-X-Received: by 2002:a67:1e01:: with SMTP id e1mr10457712vse.49.1604975577696; 
- Mon, 09 Nov 2020 18:32:57 -0800 (PST)
+Received: from smtprelay.hostedemail.com (smtprelay0179.hostedemail.com
+ [216.40.44.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1783E89533;
+ Tue, 10 Nov 2020 02:52:14 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay02.hostedemail.com (Postfix) with ESMTP id F008012CB;
+ Tue, 10 Nov 2020 02:52:13 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:355:379:599:800:960:973:982:988:989:1260:1261:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2559:2562:2693:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:4321:4605:5007:6117:6119:6742:6743:7652:7875:7903:8660:10004:10400:10848:11232:11658:11783:11914:12043:12048:12297:12679:12740:12895:13019:13069:13148:13230:13311:13357:13439:13894:14181:14659:14721:21080:21451:21627:21939:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: ink22_1714ef1272f1
+X-Filterd-Recvd-Size: 2439
+Received: from [192.168.0.160] (cpe-72-134-80-165.natsow.res.rr.com
+ [72.134.80.165]) (Authenticated sender: joe@perches.com)
+ by omf07.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 10 Nov 2020 02:52:09 +0000 (UTC)
+Message-ID: <3c39c363690d0b46069afddc3ad09213011e5cd4.camel@perches.com>
+Subject: Re: Subject: [RFC] clang tooling cleanups
+From: Joe Perches <joe@perches.com>
+To: trix@redhat.com, linux-kernel@vger.kernel.org, 
+ clang-built-linux@googlegroups.com, cocci <cocci@systeme.lip6.fr>
+Date: Mon, 09 Nov 2020 18:52:08 -0800
+In-Reply-To: <20201027164255.1573301-1-trix@redhat.com>
+References: <20201027164255.1573301-1-trix@redhat.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
- <20201109170018.v4.4.I71b2118dfc00fd7b43b02d28e7b890081c2acfa2@changeid>
-In-Reply-To: <20201109170018.v4.4.I71b2118dfc00fd7b43b02d28e7b890081c2acfa2@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 9 Nov 2020 18:32:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UPkuJ5E2sCQeozNR3CO+LZW=DW9h77vfooeiSMqGnYpA@mail.gmail.com>
-Message-ID: <CAD=FV=UPkuJ5E2sCQeozNR3CO+LZW=DW9h77vfooeiSMqGnYpA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] drm: panel: simple: Add BOE NV110WTM-N61
-To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,83 +51,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: alsa-devel@alsa-project.org, linux-aspeed@lists.ozlabs.org,
+ linux-iio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-rtc@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-rdma@vger.kernel.org, qat-linux@intel.com, amd-gfx@lists.freedesktop.org,
+ linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-nfs@vger.kernel.org,
+ netdev@vger.kernel.org, linux-mmc@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+ linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, 2020-10-27 at 09:42 -0700, trix@redhat.com wrote:
+> This rfc will describe
+> An upcoming treewide cleanup.
+> How clang tooling was used to programatically do the clean up.
+> Solicit opinions on how to generally use clang tooling.
+> =
 
-On Mon, Nov 9, 2020 at 5:01 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> Add support for the BOE NV110WTM-N61 panel.  The EDID lists two modes
-> (one for 60 Hz refresh rate and one for 40 Hz), so we'll list both of
-> them here.
->
-> Note that the panel datasheet requires 80 ms between HPD asserting and
-> the backlight power being turned on.  We'll use the new timing
-> constraints structure to do this cleanly.  This assumes that the
-> backlight will be enabled _after_ the panel enable finishes.  This is
-> how it works today and seems a sane assumption.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
-> Changes in v4:
-> - Rebased atop changes in earlier patches.
->
-> Changes in v2:
-> - Adjust for shorter names in patch #1.
->
->  drivers/gpu/drm/panel/panel-simple.c | 46 ++++++++++++++++++++++++++++
->  1 file changed, 46 insertions(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index a54f42cb3adc..9bb723696e94 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1396,6 +1396,49 @@ static const struct panel_desc boe_nv101wxmn51 = {
->         },
->  };
->
-> +static const struct drm_display_mode boe_nv110wtm_n61_modes[] = {
-> +       {
-> +               .clock = 207800,
-> +               .hdisplay = 2160,
-> +               .hsync_start = 2160 + 48,
-> +               .hsync_end = 2160 + 48 + 32,
-> +               .htotal = 2160 + 48 + 32 + 100,
-> +               .vdisplay = 1440,
-> +               .vsync_start = 1440 + 3,
-> +               .vsync_end = 1440 + 3 + 6,
-> +               .vtotal = 1440 + 3 + 6 + 31,
-> +       },
-> +       {
-> +               .clock = 138500,
-> +               .hdisplay = 2160,
-> +               .hsync_start = 2160 + 48,
-> +               .hsync_end = 2160 + 48 + 32,
-> +               .htotal = 2160 + 48 + 32 + 100,
-> +               .vdisplay = 1440,
-> +               .vsync_start = 1440 + 3,
-> +               .vsync_end = 1440 + 3 + 6,
-> +               .vtotal = 1440 + 3 + 6 + 31,
-> +       },
+> The clang warning -Wextra-semi-stmt produces about 10k warnings.
+> Reviewing these, a subset of semicolon after a switch looks safe to
+> fix all the time.  An example problem
+> =
 
-I can do it as a follow-up patch if there is no other reason to spin,
-but I realized that I forgot to add:
+> void foo(int a) {
+> =A0=A0=A0=A0=A0switch(a) {
+> =A0=A0=A0=A0=A0	       case 1:
+> 	       ...
+> =A0=A0=A0=A0=A0}; <--- extra semicolon
+> }
+> =
 
-.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+> Treewide, there are about 100 problems in 50 files for x86_64 allyesconfi=
+g.
+> These fixes will be the upcoming cleanup.
 
-...to both the 40 and 60 Hz modes to make it match what's in the EDID.
-I'm also OK w/ it getting added by a maintainer when this lands if
-that makes sense.
+coccinelle already does some of these.
 
--Doug
+For instance: scripts/coccinelle/misc/semicolon.cocci
+
+Perhaps some tool coordination can be done here as
+coccinelle/checkpatch/clang/Lindent call all be used
+to do some facet or another of these cleanup issues.
+
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
