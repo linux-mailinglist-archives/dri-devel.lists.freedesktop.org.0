@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A21B2ACCAC
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 04:56:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71ED2ACCBA
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 04:57:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2E7D89811;
-	Tue, 10 Nov 2020 03:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5A1B8982C;
+	Tue, 10 Nov 2020 03:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 654B589805;
- Tue, 10 Nov 2020 03:56:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA898981D;
+ Tue, 10 Nov 2020 03:56:57 +0000 (UTC)
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net
  [73.47.72.35])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 2687C20870;
- Tue, 10 Nov 2020 03:56:40 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 5C473208FE;
+ Tue, 10 Nov 2020 03:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1604980601;
- bh=GxFu9G1t5AA2ruExj8LWp+aim6E1dmBTw3yNVClJQFw=;
+ s=default; t=1604980617;
+ bh=Z/YgsnwfhkS28seydQ/oqHbW2Cq5yaLndiz+w91ebe8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Odh2qVIUN8Tfo51gczImnXYiosXHq2id6G7MSwleR5Pr39/MSNMzkoRdHXuC89N/d
- UgxGcO1BHHxtcTfqwuT8jQnFwPF/NwwL8+R5GHuG6bBUEJmpEyzOyQMEICqBZCBU+V
- KXuWJKriWPXldpGs6ZrgUvqbXhbPfKlgtLN/enrU=
+ b=Wna2NBh3t5UEzq4Wbvt+yj9OGcfGdi7VSFl8Q5cliB3znCS7wNBtzexGQsQSvBv8g
+ Reews/QNcmAufAkqdv2Jhiq8Fz6pNlHoPdThYOlKy4kP+KuqS8azl3b/WZo7SNwwEf
+ 9vnlas0XqTF7ljFiYwbpIVfPCncxppHq4/M7AmXY=
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 05/12] drm/amdgpu: perform srbm soft reset always
+Subject: [PATCH AUTOSEL 4.4 04/10] drm/amdgpu: perform srbm soft reset always
  on SDMA resume
-Date: Mon,  9 Nov 2020 22:56:26 -0500
-Message-Id: <20201110035633.425030-5-sashal@kernel.org>
+Date: Mon,  9 Nov 2020 22:56:45 -0500
+Message-Id: <20201110035651.425177-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201110035633.425030-1-sashal@kernel.org>
-References: <20201110035633.425030-1-sashal@kernel.org>
+In-Reply-To: <20201110035651.425177-1-sashal@kernel.org>
+References: <20201110035651.425177-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
-index cb952acc71339..2934443fbd4dc 100644
+index c568293cb6c1a..f1745c5cdf7b3 100644
 --- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
 +++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
-@@ -1053,22 +1053,19 @@ static int cik_sdma_soft_reset(void *handle)
+@@ -1118,22 +1118,19 @@ static int cik_sdma_soft_reset(void *handle)
  {
  	u32 srbm_soft_reset = 0;
  	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
@@ -112,7 +112,7 @@ index cb952acc71339..2934443fbd4dc 100644
 +	srbm_soft_reset |= SRBM_SOFT_RESET__SOFT_RESET_SDMA1_MASK;
  
  	if (srbm_soft_reset) {
- 		tmp = RREG32(mmSRBM_SOFT_RESET);
+ 		cik_sdma_print_status((void *)adev);
 -- 
 2.27.0
 
