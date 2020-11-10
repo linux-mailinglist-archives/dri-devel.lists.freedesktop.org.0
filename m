@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA032ACEC3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 06:00:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EA72ACEEB
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 06:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF31A8981B;
-	Tue, 10 Nov 2020 04:59:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871A0892C1;
+	Tue, 10 Nov 2020 05:24:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE8CB89740;
- Tue, 10 Nov 2020 04:59:56 +0000 (UTC)
-IronPort-SDR: Y87PMkHJGPm4LmRP0+auqaXBCiWy5Kew5eE+YBiBdPiFUk6OoJ1Onzxz60aryx1o3eQ33fBIhB
- bnPCVSENUUjA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="167334703"
-X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; d="scan'208";a="167334703"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2020 20:59:55 -0800
-IronPort-SDR: hhtGbVHiYEduO62f/jUORNlQE29+PA61IlKuvPXTtZvvOlHxHT75TW+y4i0J9B1O2lrgZ7K2Sp
- gskiAxl5TCew==
-X-IronPort-AV: E=Sophos;i="5.77,465,1596524400"; d="scan'208";a="531063331"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Nov 2020 20:59:54 -0800
-Date: Mon, 9 Nov 2020 20:59:54 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH RFC PKS/PMEM 05/58] kmap: Introduce k[un]map_thread
-Message-ID: <20201110045954.GL3976735@iweiny-DESK2.sc.intel.com>
-References: <20201009195033.3208459-1-ira.weiny@intel.com>
- <20201009195033.3208459-6-ira.weiny@intel.com>
- <87h7pyhv3f.fsf@nanos.tec.linutronix.de>
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A14F892C1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 05:24:46 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id t11so11269027edj.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 21:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pPvFKnmn+KAlULG06WG2WqGByZbaS7xXfYA7849EOL8=;
+ b=M1Dro8bf8w0Stuq8H/II5QZoQzxcoiLK84ppxVANwFl1RNAuzC2RNR9BeHX7p5Vp6I
+ 6ApOz4qlnnRwktACQmB05+sbHuaLFiBIcRj9/4tO/a0sIQpyxemZT+/SxVwaCiLEGfcb
+ K+M0WIlhW/SrBvqbeqFEnI5jlytiIpBEmVtVQ/IA6AadMu3U5D3VORp8IxJPvqPB07sV
+ WoGyC1wPx2qTpt9WAMc+mvjGAHsUkDl4yz/OLLs/rIy3ua5P+w7WSzQC14gpQiIJMUUA
+ KiDsxK2hlbF32fZsi7PM6Xp8Bgz74lvE5AzmeqW3N3IDWGQqmCkF9RWHl2MccmUN5/A9
+ ss+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pPvFKnmn+KAlULG06WG2WqGByZbaS7xXfYA7849EOL8=;
+ b=mHlVJcBRVDpF7Aj+ckNuVAou2njl2HeQPM31TRDF5J5z6/m8vyvyM5vNml6e/4QEf4
+ +f0qdnzGE0VnEpcjjyLYxcRS9WmggPhAtF6VQYz9jBvG/knjFAIfg1oezGw/sks6ecHt
+ qX12J5moC2e/F2MJDzdmiA0mg4MgtdOJ2rGrHimZEpXzl5TAwuK3X6strWfOuapiamtQ
+ omeQt2lVyJy6D4tz8bna2I0rtICvoD66Xitblg8qeIke10zMo/LVDhEY+Uu5O0g/rBf8
+ NdWCMaiiT35TTUzafxwUPn79tCkECRnVQBXf1EI4fAX3Q1DBkWrbw2irPqaiDuUm5fMd
+ k2kw==
+X-Gm-Message-State: AOAM530GW+QdC66cBRy+LJWwGB4eixGLmJ7FNViah39sshGPNcEfeIdq
+ y0s/CW0hzoGXcFm4bYgix+3DUb20xh/dVVbStQk=
+X-Google-Smtp-Source: ABdhPJykUcFvRUm5Pf2s+IBF0aM5/JfZFdb6i8KJe/fg+SrEVMJ6fhvjNCSyQbRBga803MUpSaMWWXaP1s4wGKd7ndA=
+X-Received: by 2002:a50:fc95:: with SMTP id f21mr18668553edq.383.1604985884603; 
+ Mon, 09 Nov 2020 21:24:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <87h7pyhv3f.fsf@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+References: <20201109005432.861936-1-airlied@gmail.com>
+ <20201109005432.861936-2-airlied@gmail.com>
+ <9fdcf880-be1a-5803-3e54-14a9910a91b7@amd.com>
+ <20201109151650.GE6112@intel.com>
+ <bec6848c-3ad5-41ca-d424-669a6797b972@amd.com>
+ <20201109161825.GG6112@intel.com>
+ <dfd0e641-392b-cab2-05d1-ae466ae08ba8@amd.com>
+ <20201109164301.GI6112@intel.com>
+ <a0179f84-8890-e694-b94c-dbe93605ace5@amd.com>
+ <20201109212731.GQ6112@intel.com>
+In-Reply-To: <20201109212731.GQ6112@intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 10 Nov 2020 15:24:32 +1000
+Message-ID: <CAPM=9tyHOoQwhpfAtjREK6mg6zbmNkBuPGYVUpuv8MpP9UDXgA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] drm/ttm: add multihop infrastrucutre (v2)
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,140 +70,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, linux-efi@vger.kernel.org, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, Peter Zijlstra <peterz@infradead.org>,
- linux-mmc@vger.kernel.org, Dave Hansen <dave.hansen@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-kselftest@vger.kernel.org, samba-technical@lists.samba.org,
- ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- linux-nilfs@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-nvdimm@lists.01.org, linux-rdma@vger.kernel.org, x86@kernel.org,
- amd-gfx@lists.freedesktop.org, io-uring@vger.kernel.org,
- cluster-devel@redhat.com, Ingo Molnar <mingo@redhat.com>,
- intel-wired-lan@lists.osuosl.org, xen-devel@lists.xenproject.org,
- linux-ext4@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
- linux-afs@lists.infradead.org, linux-um@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
- linux-erofs@lists.ozlabs.org, reiserfs-devel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-cachefs@redhat.com,
- linux-nfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
- netdev@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net, linux-fsdevel@vger.kernel.org,
- bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-btrfs@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 10, 2020 at 02:13:56AM +0100, Thomas Gleixner wrote:
-> Ira,
-> 
-> On Fri, Oct 09 2020 at 12:49, ira weiny wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> >
-> > To correctly support the semantics of kmap() with Kernel protection keys
-> > (PKS), kmap() may be required to set the protections on multiple
-> > processors (globally).  Enabling PKS globally can be very expensive
-> > depending on the requested operation.  Furthermore, enabling a domain
-> > globally reduces the protection afforded by PKS.
-> >
-> > Most kmap() (Aprox 209 of 229) callers use the map within a single thread and
-> > have no need for the protection domain to be enabled globally.  However, the
-> > remaining callers do not follow this pattern and, as best I can tell, expect
-> > the mapping to be 'global' and available to any thread who may access the
-> > mapping.[1]
-> >
-> > We don't anticipate global mappings to pmem, however in general there is a
-> > danger in changing the semantics of kmap().  Effectively, this would cause an
-> > unresolved page fault with little to no information about why the failure
-> > occurred.
-> >
-> > To resolve this a number of options were considered.
-> >
-> > 1) Attempt to change all the thread local kmap() calls to kmap_atomic()[2]
-> > 2) Introduce a flags parameter to kmap() to indicate if the mapping should be
-> >    global or not
-> > 3) Change ~20 call sites to 'kmap_global()' to indicate that they require a
-> >    global enablement of the pages.
-> > 4) Change ~209 call sites to 'kmap_thread()' to indicate that the mapping is to
-> >    be used within that thread of execution only
-> >
-> > Option 1 is simply not feasible.  Option 2 would require all of the call sites
-> > of kmap() to change.  Option 3 seems like a good minimal change but there is a
-> > danger that new code may miss the semantic change of kmap() and not get the
-> > behavior the developer intended.  Therefore, #4 was chosen.
-> 
-> There is Option #5:
-
-There is now yes.  :-D
-
-> 
-> Convert the thread local kmap() invocations to the proposed kmap_local()
-> interface which is coming along [1].
-
-I've been trying to follow that thread.
-
-> 
-> That solves a couple of issues:
-> 
->  1) It relieves the current kmap_atomic() usage sites from the implict
->     pagefault/preempt disable semantics which apply even when
->     CONFIG_HIGHMEM is disabled. kmap_local() still can be invoked from
->     atomic context.
-> 
->  2) Due to #1 it allows to replace the conditional usage of kmap() and
->     kmap_atomic() for purely thread local mappings.
-> 
->  3) It puts the burden on the HIGHMEM inflicted systems
-> 
->  4) It is actually more efficient for most of the pure thread local use
->     cases on HIGHMEM inflicted systems because it avoids the overhead of
->     the global lock and the potential kmap slot exhaustion. A potential
->     preemption will be more expensive, but that's not really the case we
->     want to optimize for.
-> 
->  5) It solves the RT issue vs. kmap_atomic()
-> 
-> So instead of creating yet another variety of kmap() which is just
-> scratching the particular PKRS itch, can we please consolidate all of
-> that on the wider reaching kmap_local() approach?
-
-Yes I agree.  We absolutely don't want more kmap*() calls and I was hoping to
-dovetail into your kmap_local() work.[2]
-
-I've pivoted away from this work a bit to clean up all the
-kmap()/memcpy*()/kunmaps() as discussed elsewhere in the thread first.[3]  I
-was hoping your work would land and then I could s/kmap_thread()/kmap_local()/
-on all of these patches.
-
-Also, we can convert the new memcpy_*_page() calls to kmap_local() as well.
-[For now my patch just uses kmap_atomic().]
-
-I've not looked at all of the patches in your latest version.  Have you
-included converting any of the kmap() call sites?  I thought you were more
-focused on converting the kmap_atomic() to kmap_local()?
-
-Ira
-
-> 
-> Thanks,
-> 
->         tglx
->      
-> [1] https://lore.kernel.org/lkml/20201103092712.714480842@linutronix.de/
-
-[2] https://lore.kernel.org/lkml/20201012195354.GC2046448@iweiny-DESK2.sc.intel.com/
-[3] https://lore.kernel.org/lkml/20201009213434.GA839@sol.localdomain/
-    https://lore.kernel.org/lkml/20201013200149.GI3576660@ZenIV.linux.org.uk/
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMCBOb3YgMjAyMCBhdCAwNzoyNywgVmlsbGUgU3lyasOkbMOkCjx2aWxsZS5zeXJq
+YWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4KPiBPbiBNb24sIE5vdiAwOSwgMjAyMCBhdCAw
+OTo0ODowNFBNICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gQW0gMDkuMTEuMjAg
+dW0gMTc6NDMgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6Cj4gPiA+IE9uIE1vbiwgTm92IDA5LCAy
+MDIwIGF0IDA1OjIwOjE3UE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPiA+PiBB
+bSAwOS4xMS4yMCB1bSAxNzoxOCBzY2hyaWViIFZpbGxlIFN5cmrDpGzDpDoKPiA+ID4+PiBPbiBN
+b24sIE5vdiAwOSwgMjAyMCBhdCAwNDo1NzoyOVBNICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdy
+b3RlOgo+ID4gPj4+PiBBbSAwOS4xMS4yMCB1bSAxNjoxNiBzY2hyaWViIFZpbGxlIFN5cmrDpGzD
+pDoKPiA+ID4+Pj4+IE9uIFdlZCwgTm92IDExLCAyMDIwIGF0IDA2OjEzOjAyUE0gKzAxMDAsIENo
+cmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPiA+Pj4+Pj4gQW0gMDkuMTEuMjAgdW0gMDE6NTQgc2No
+cmllYiBEYXZlIEFpcmxpZToKPiA+ID4+Pj4+Pj4gQEAgLTE0MzIsMTUgKzE0NzksMTggQEAgaW50
+IHR0bV9ib19zd2Fwb3V0KHN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4KQo+ID4gPj4+Pj4+
+PiAgICAgICBpZiAoYm8tPm1lbS5tZW1fdHlwZSAhPSBUVE1fUExfU1lTVEVNKSB7Cj4gPiA+Pj4+
+Pj4+ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4IGN0eCA9IHsgZmFsc2Us
+IGZhbHNlIH07Cj4gPiA+Pj4+Pj4+ICAgICAgICAgICAgICAgc3RydWN0IHR0bV9yZXNvdXJjZSBl
+dmljdF9tZW07Cj4gPiA+Pj4+Pj4+ICsgICAgICAgICAgICAgc3RydWN0IHR0bV9wbGFjZSBob3Ag
+PSB7fTsKPiA+ID4+Pj4+PiBQbGVhc2UgYWx3YXlzIHVzZSBtZW1zZXQoKSBpZiB5b3Ugd2FudCB0
+byB6ZXJvIGluaXRpYWxpemUgc29tZXRoaW5nIGluCj4gPiA+Pj4+Pj4gdGhlIGtlcm5lbCwgd2Ug
+aGFkIGVub3VnaCB0cm91YmxlIHdpdGggdGhhdC4KPiA+ID4+Pj4+IFdoYXQgdHJvdWJsZSBpcyB0
+aGF0PyBJJ3ZlIG5vdCBoZWFyZCBvZiBhbnl0aGluZywgYW5kIHdlIHVzZQo+ID4gPj4+Pj4gPXt9
+IHF1aXRlIGV4dGVuc2l2ZWx5IGluIGRybSBsYW5kLgo+ID4gPj4+PiA9e30gaW5pdGlhbGl6ZXMg
+b25seSBuYW1lZCBmaWVsZHMsIG5vdCBwYWRkaW5nLgo+ID4gPj4+IEhhcyB0aGF0IGFjdHVhbGx5
+IGhhcHBlbmVkPwo+ID4gPj4gWUVTISBOdW1lcm91cyB0aW1lcyEKPiA+ID4gWW91IHdvdWxkbid0
+IGhhcHBlbiB0byBoYXZlIGxpbmtzL2V0Yy4gdG8gdGhlIGRpc2N1c3Npb24/Cj4gPiA+IEknZCBs
+aWtlIHRvIGNoZWNrIHRoZW0gb3V0Lgo+ID4KPiA+IFVmZiwgdGhhdCB3YXMgeWVhcnMgYWdvLiBK
+dXN0IGdvb2dsZSBmb3Igc29tZXRoaW5nIGxpa2UgIm1lc2EgbWVtc2V0Cj4gPiBoYXNoIiwgdGhl
+cmUgd2FzIHJlY2VudGx5ICh+IHRoZSBsYXN0IHllYXIpIGFub3RoZXIgZGlzY3Vzc2lvbiBiZWNh
+dXNlCj4gPiBzb21lYm9keSByYW4gaW50byBleGFjdGx5IHRoYXQgcHJvYmxlbSBvbmNlIG1vcmUu
+Cj4KPiBGb3VuZCB0aGlzOgo+IGh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9tZXNhL21l
+c2EvLS9pc3N1ZXMvMjA3MQo+IHdoaWNoIGRvZXMgc3VwcmlzZSBtZSBhIGJpdC4gVGhvdWdoIEkg
+c3VzcGVjdCA9e30gbWlnaHQKPiBiZWhhdmUgZGlmZmVyZW50bHkgc2luY2UgdGhlIGNvbXBpbGVy
+IG1pZ2h0IHRyZWF0IGl0Cj4gbW9yZSBsaWtlIGEgbWVtc2V0KCkuCgpJdCBkb2Vzbid0IHRoZXJl
+J3MgYSBiaXQgb2YgaW5mbyBvdXQgdGhlcmUgb24gd2hhdCBoYXBwZW5zLCBpdCByZWFsbHkKb25s
+eSBtYXR0ZXJzIGZvciBzdHJ1Y3RzIHdlIGFyZSBwYXNzaW5nIHRvIHVzZXJzcGFjZSwgYnV0IGl0
+J3MKdW5saWtlbHkgdG8gbWF0dGVyIGhlcmUsCmJ1dCBJJ3ZlIGNoYW5nZWQgdGhpcyB0byBtZW1z
+ZXQgaW4gbXkgbG9jYWwgdHJlZSwgYmVjYXVzZSB3aHkgbm90LgoKRGF2ZQpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
+CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
+cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
