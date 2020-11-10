@@ -2,40 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658C72AD605
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22352AD62C
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:27:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C8D89A86;
-	Tue, 10 Nov 2020 12:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9FC789A8C;
+	Tue, 10 Nov 2020 12:27:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD5D89A98;
- Tue, 10 Nov 2020 12:19:02 +0000 (UTC)
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 02DA820665;
- Tue, 10 Nov 2020 12:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605010742;
- bh=BWpWOxjo3ugo55ThRY5WPAalknlbV0RrMHib3OTIbeM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DQCx3oM2JIIWIma00vDs477AjVO2VRJwU5Tqbi7R9+CdGhHxaNQCLbxqatPdqcVJQ
- OGSLx/l5gvJT9r8erNNMFfrH9ORo471Hfw9dE/Fsl5QoKNWbjNa1bWZTotE+4O5Vpt
- 3bn1qmKyMCzzUhA3JfczF58H6uSR9hm2UBGkJ/IE=
-Date: Tue, 10 Nov 2020 12:18:56 +0000
-From: Will Deacon <will@kernel.org>
-To: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCHv7 1/7] iommu/io-pgtable-arm: Add support to use system
- cache
-Message-ID: <20201110121855.GD16239@willie-the-truck>
-References: <cover.1604048969.git.saiprakash.ranjan@codeaurora.org>
- <1d4979c0dcf649c5717605c598067b4b225ab9de.1604048969.git.saiprakash.ranjan@codeaurora.org>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEE7D89A8C
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:27:09 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AACR6PX038987;
+ Tue, 10 Nov 2020 06:27:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605011226;
+ bh=qaplHHHfbCRRC09+eEOndaHKROgEAwxSi4I1D6Vqgx4=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=DUrrcLMeD4ZyTFtB9489c2sGBNY4CbmNZamnj99Pm1OgAuyCdnEkHUdgnODrxr1QD
+ mITpdqEFBB99UAVn2I4v+XYX05rPWFJOUXGevbGVUkgvjv8sNMkEKQsfs2Pbc7qMiD
+ uC5qBMFSxrdBg2kB9W9hONPWcYys6I8l+8jRAzPM=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AACR5DO019194
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 06:27:05 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 06:27:05 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 06:27:05 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AACR3ov070601;
+ Tue, 10 Nov 2020 06:27:04 -0600
+Subject: Re: [PATCH v2 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
+ enable/disable
+To: Nikhil Devshatwar <nikhil.nd@ti.com>
+References: <20201109170601.21557-1-nikhil.nd@ti.com>
+ <20201109170601.21557-7-nikhil.nd@ti.com>
+ <1e434bb5-c027-792a-0c4d-c3cf057a0ec6@ti.com>
+ <20201110102723.mgtrq5gznvvbpop2@NiksLab>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <9d23f838-a9bc-ba5d-adfe-9b3bfc26c223@ti.com>
+Date: Tue, 10 Nov 2020 14:27:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1d4979c0dcf649c5717605c598067b4b225ab9de.1604048969.git.saiprakash.ranjan@codeaurora.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201110102723.mgtrq5gznvvbpop2@NiksLab>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,74 +65,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: Yuti Amonkar <yamonkar@cadence.com>, Sekhar Nori <nsekhar@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 30, 2020 at 02:53:08PM +0530, Sai Prakash Ranjan wrote:
-> Add a quirk IO_PGTABLE_QUIRK_SYS_CACHE to override the
-> attributes set in TCR for the page table walker when
-> using system cache.
+On 10/11/2020 12:27, Nikhil Devshatwar wrote:
+> On 11:21-20201110, Tomi Valkeinen wrote:
+>> On 09/11/2020 19:06, Nikhil Devshatwar wrote:
+>>> When removing the tidss driver, there is a warning reported by
+>>> kernel about an unhandled interrupt for mhdp driver.
+>>>
+>>> [   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
+>>> ... [snipped backtrace]
+>>> [   43.330735] handlers:
+>>> [   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
+>>> cdns_mhdp_irq_handler [cdns_mhdp8546]
+>>> [   43.344607] Disabling IRQ #31
+>>>
+>>> This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
+>>> to disable the interrupts. While disabling the SW_EVENT interrupts,
+>>> it accidentally enables the MBOX interrupts, which are not handled by
+>>> the driver.
+>>>
+>>> Fix this with a read-modify-write to update only required bits.
+>>> Do the same for enabling interrupts as well.
+>>>
+>>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+>>> ---
+>>>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 7 +++++--
+>>>  1 file changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> index 2cd809eed827..6beccd2a408e 100644
+>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>>> @@ -2146,7 +2146,8 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+>>>  
+>>>  	/* Enable SW event interrupts */
+>>>  	if (mhdp->bridge_attached)
+>>> -		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+>>> +		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
+>>> +		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
+>>>  		       mhdp->regs + CDNS_APB_INT_MASK);
+>>>  }
+>>>  
+>>> @@ -2154,7 +2155,9 @@ static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
+>>>  {
+>>>  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>>>  
+>>> -	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
+>>> +	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
+>>> +	       CDNS_APB_INT_MASK_SW_EVENT_INT,
+>>> +	       mhdp->regs + CDNS_APB_INT_MASK);
+>>>  }
+>>>  
+>>>  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+>>
+>> Good catch. I wonder why we need the above functions... We already enable and disable the interrupts
+>> when attaching/detaching the driver. And I think we want to get the interrupt even if we won't
+>> report HPD (but I think we always do report it), as we need the interrupts to track the link status.
+>>
 > 
-> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-> ---
->  drivers/iommu/io-pgtable-arm.c | 7 ++++++-
->  include/linux/io-pgtable.h     | 4 ++++
->  2 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index a7a9bc08dcd1..a356caf1683a 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -761,7 +761,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
->  
->  	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
->  			    IO_PGTABLE_QUIRK_NON_STRICT |
-> -			    IO_PGTABLE_QUIRK_ARM_TTBR1))
-> +			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
-> +			    IO_PGTABLE_QUIRK_SYS_CACHE))
->  		return NULL;
->  
->  	data = arm_lpae_alloc_pgtable(cfg);
-> @@ -773,6 +774,10 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg *cfg, void *cookie)
->  		tcr->sh = ARM_LPAE_TCR_SH_IS;
->  		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
->  		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
-> +	} else if (cfg->quirks & IO_PGTABLE_QUIRK_SYS_CACHE) {
-> +		tcr->sh = ARM_LPAE_TCR_SH_OS;
-> +		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
-> +		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
+> I read from the code that there is TODO for handling the mailbox
+> interrupts in the driver. Once that is supported, you will be able to
+> explictily enable/disable interrupts for SW_EVENTS (like hotplug) as
+> well as mailbox events. This enabling specific bits in the interrupt
+> status.
 
-Given that this only applies in the case where then page-table walker is
-non-coherent, I think we'd be better off renaming the quirk to something
-like IO_PGTABLE_QUIRK_ARM_OUTER_WBWA and then rejecting it in the
-non-coherent case.
+But SW_EVENTS is not the same as HPD, at least in theory. If we disable SW_EVENT_INT in
+hpd_disable(), we lose all SW_EVENT interrupts.
 
->  	} else {
->  		tcr->sh = ARM_LPAE_TCR_SH_OS;
->  		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
-> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-> index 4cde111e425b..86631f711e05 100644
-> --- a/include/linux/io-pgtable.h
-> +++ b/include/linux/io-pgtable.h
-> @@ -86,6 +86,9 @@ struct io_pgtable_cfg {
->  	 *
->  	 * IO_PGTABLE_QUIRK_ARM_TTBR1: (ARM LPAE format) Configure the table
->  	 *	for use in the upper half of a split address space.
-> +	 *
-> +	 * IO_PGTABLE_QUIRK_SYS_CACHE: Override the attributes set in TCR for
-> +	 *	the page table walker when using system cache.
+ Tomi
 
-and then update this accordingly.
-
-Will
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
