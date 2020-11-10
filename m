@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50732AEA9F
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB8B2AEA64
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6AB46E03C;
-	Wed, 11 Nov 2020 07:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1633D89E3F;
+	Wed, 11 Nov 2020 07:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8DF589C97
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:32:30 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id j205so193643lfj.6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:32:30 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24B8F89C84
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:50:42 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s9so14788534ljo.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:50:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Udf8izR79EOqP1ijS53zeM3N/JUnCwVrU1fnKC8yXBM=;
- b=TJmDKYdfhNndOw9Fc/1HEuqiqmcIfs67XGIMRW/n659q4NI/oyLnPwqYqDHpqqSze4
- yxRdw/JI8MhkLlhqv01SA66a1lehinyiB40p03H4fmPC4kXqdPdOR9DXXI+CA8FSqBk7
- w6wChwFGwttwXQX2Xdjz29Y+Hwu/v0WRMXMyYljuqE429oOhuZ7qiOzZFPxi1Rkyq/NW
- nVGYWY6zZm9eoNwo6SyRQJSccBYBxUNPG9MlrFkc8UTPfeDIiXk0WNTxV7mdyps+2+6X
- OXy/7b5VqZJ3lgMWmZYzyttqwfgys1sL/l1uEmuidS91VXkM+dhRqONrgFsT4PF6pA+C
- zF8g==
+ bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
+ b=JajzXzj+taW37LHKKk1rBUu2Z4ElUMNSSHS0K95OnI5UImwAIF74Qu+QTmiVzypvAS
+ gAQiDrdU4a2B6Z9A/XX/OOpJu3zamPLYGVpiOdVUDJw7ZsRpBauLkm/3QQp5PvJ2UM4A
+ LlfneuREhApeooZpB9lnnAX6U7j1XdRX88sCUzdxugTvIG1jP5PTHJPC3/8IUgW/bc/i
+ LWgLoXa7caMAbqITehUnmz/UH2tBulw/gQUU8Cd3shJtQ+zvYfoUG1N8jDZq2ZIllOe/
+ aCD81lT6Dj2NRU8sGRrZHHc26lsCxBQnWNgpAjWLB1z+6WE0AmdSq+A5dXHYbs0KDWUd
+ P/Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Udf8izR79EOqP1ijS53zeM3N/JUnCwVrU1fnKC8yXBM=;
- b=Dd+OdwurhafKRKsnXa915YCIlPIbmTnlhiP2JP5nxV4jCidfnz4UQhZ8JDoRwEWmrc
- 0c9vXYTAYjg7823hRFGq3hX8t6+QKfwoXxmb3Ktmmtf0QCUdlbOOEruRVQK0Ib28/H77
- GpARGDrg42B1P4Bz37dfEe6wedqdXB/6XZw+00110keSpLYJNv8F2NjeQuoH2N9xtDyp
- 8dvon+lfYBNp771qExOsfhOnM6qasKLgqWFVE1Mu49wbBF534V/IeB0YNyTMHTVrUMT2
- hfL98BO6w9U6bC/x7hhdyGqjQJukkQDwC4Z7t6dj97jxJ726OAiLx7i3Rg40FbAK2izs
- n1tw==
-X-Gm-Message-State: AOAM532OFmuob/lyw0kpWpbBngZemPoqTF0uZheV0F/STRO0p6kU9cBN
- 5xZ+MofYhYk1ZwySuMPnxms=
-X-Google-Smtp-Source: ABdhPJzgddle15uZzQkarcn6HNRYEMFyRgf1xVU2K+91PWIHM5P29WaFydPEJ+nc/MxNTQcdKv1N/w==
-X-Received: by 2002:ac2:5e6e:: with SMTP id a14mr6600177lfr.595.1605043949411; 
- Tue, 10 Nov 2020 13:32:29 -0800 (PST)
+ bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
+ b=NJt87CAThKJB2/WmwEdsclYUHdR14CyK7ZR8piI4h3Tukt2KS4AhxgklYZpEkreWgs
+ 6YW4A91+EZFx2RFnXHT2iExBQ0mRIqRj4aHL/9ClxeJWQh/G20yJWqzB+fOKbkfYhiZY
+ 5Fw4xLD0DSKywKGVzVfLO/s4AxDuUfQIoqbRld39HaALjC7wdKGH6/he3CqpZrez8OFK
+ pgJVyrSUET1mpx4kP09jKfXxbqT23zP8EL6GV+dtno0YFhRSKM0OPpE2cCbGeTghsNTh
+ 8oTsoDbbjEEzip3WqES3Ci3hh6aitXD4Y6AKEw0uRvnN5swDQ5YrSrJFvOu7K2yWnMIn
+ LlIg==
+X-Gm-Message-State: AOAM5326hMlVbmQngwTGXGtt9zqmkrdl3RRSGUQXT6p3jcBA31CNLO3u
+ kRHMtYUsIwHpI1SiNjTFRtY=
+X-Google-Smtp-Source: ABdhPJxca3fiSpZnzLwSSmf1STAmFU4WFUoLoBVs2ZCeEEkdDu9neVJtNB2ucZnGCMuP/Af+mNHRXw==
+X-Received: by 2002:a2e:9583:: with SMTP id w3mr9542353ljh.25.1605045040627;
+ Tue, 10 Nov 2020 13:50:40 -0800 (PST)
 Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
  [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id o12sm2721051ljc.59.2020.11.10.13.32.27
+ by smtp.googlemail.com with ESMTPSA id x9sm12074lfg.93.2020.11.10.13.50.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 13:32:28 -0800 (PST)
-Subject: Re: [PATCH v1 07/30] soc/tegra: Add sync state API
-From: Dmitry Osipenko <digetx@gmail.com>
+ Tue, 10 Nov 2020 13:50:39 -0800 (PST)
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
 To: Thierry Reding <thierry.reding@gmail.com>
 References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-8-digetx@gmail.com> <20201110204727.GG2375022@ulmo>
- <71934373-8425-345b-7719-0903f846119f@gmail.com>
-Message-ID: <7b6c7c62-495c-eeb8-9cdb-0c33be653e3d@gmail.com>
-Date: Wed, 11 Nov 2020 00:32:27 +0300
+ <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7b0052e1-0ea7-b28f-ae46-52e669a980ac@gmail.com>
+Date: Wed, 11 Nov 2020 00:50:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <71934373-8425-345b-7719-0903f846119f@gmail.com>
+In-Reply-To: <20201110202945.GF2375022@ulmo>
 Content-Language: en-US
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -92,9 +92,13 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTEuMTEuMjAyMCAwMDoyMiwgRG1pdHJ5IE9zaXBlbmtvINC/0LjRiNC10YI6Cj4gSSBhZGRlZCBh
-IHNwZWNpYWwgc3BlbGwgY2hlY2tpbmcgcnVsZSBmb3IgdGhpcyB0eXBvLCBidXQgaXQgZG9lcyBo
-ZWxwCj4gcmVsaWFibHkuCgpkb2VzICpub3QqCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+MTAuMTEuMjAyMCAyMzoyOSwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPj4gKwkvKiBsZWdh
+Y3kgZGV2aWNlLXRyZWVzIGRvbid0IGhhdmUgT1BQIHRhYmxlICovCj4+ICsJaWYgKCFkZXZpY2Vf
+cHJvcGVydHlfcHJlc2VudChkYy0+ZGV2LCAib3BlcmF0aW5nLXBvaW50cy12MiIpKQo+PiArCQly
+ZXR1cm4gMDsKPiAiTGVnYWN5IiBpcyBhIGJpdCBjb25mdXNpbmcgaGVyZS4gRm9yIG9uZSwgbm8g
+ZGV2aWNlIHRyZWVzIGN1cnJlbnRseQo+IGhhdmUgdGhlc2UgdGFibGVzIGFuZCBzZWNvbmRseSwg
+Zm9yIG5ld2VyIFNvQ3Mgd2UgbWF5IG5ldmVyIG5lZWQgdGhlbS4KPiAKCkkgaGFkIHRoZSBzYW1l
+IHRob3VnaHQgYW5kIGFscmVhZHkgaW1wcm92ZWQgc3VjaCBjb21tZW50cyBhIGRheSBhZ28uCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
