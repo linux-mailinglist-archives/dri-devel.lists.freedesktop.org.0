@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D9C2ACB14
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 03:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5291D2ACB27
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 03:33:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF499892A1;
-	Tue, 10 Nov 2020 02:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC995892A1;
+	Tue, 10 Nov 2020 02:33:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC655892A1;
- Tue, 10 Nov 2020 02:29:43 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4CVWz862HCz9sRK;
- Tue, 10 Nov 2020 13:29:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1604975381;
- bh=jBnWVjQF0E7BGnLCWQZUnf+moKMFqooLEx90ij8u2Ww=;
- h=Date:From:To:Cc:Subject:From;
- b=JBTVPMdHQ1nGjke1kM8TuowuqUwEQf6QxgiWqEwdfUTKVNJqpegMDZ/zshOMNm0Yi
- HKbGnZlkYDPPg2RCpDT2lw/Sp0hc+KlEZZ6pCMui8TgfIK8B0fhEmPtfykhYXQ7x5Q
- 0iK+C4uzzM57v1jRissSToFinu32NE/zQvppiLelE8qXS38WznhJ3GSYOEomDy+vXS
- /bE6F/QHehUomYer2m8zGdsS9xYUc3MTiI8nWeFnn79WBgaH+boGLDTaf3sm6VI7cL
- OYnqdgg/xqZK+l/sBjPxLsBH5EcF9xEY86X4EBNJ1gqVdQBKu6M/ALwdeSTvRfH/iT
- MVuErAZYMqBtw==
-Date: Tue, 10 Nov 2020 13:29:40 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20201110132940.5387bac6@canb.auug.org.au>
+Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com
+ [IPv6:2607:f8b0:4864:20::a41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3461E892A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 02:33:00 +0000 (UTC)
+Received: by mail-vk1-xa41.google.com with SMTP id s135so2386100vkh.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 18:33:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o+lVk1WHisUKZ0ebgNE5tDXFPu93D1B4Zca284NgzcQ=;
+ b=GJRClqbYC/ueiUBw9YuKsjXkEw63X9r4tK7+iLGVFKH/StPRDxy2T3Mr/Ka7YlvFeC
+ TXCwP0wXzGyKi/10XaLQVzNbZkq4EdB5IuysFAeYRRJ+P7vRXQ56Nqi/P6mdvFX8xlb1
+ X+c/OSEYEH3f/FrRh8oiyAcHyweOhOTHyGBZ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o+lVk1WHisUKZ0ebgNE5tDXFPu93D1B4Zca284NgzcQ=;
+ b=qHiEAZEVyNChnVGAg2BbXUz+dXfZTmapgbZHpjL6UsAe9EW2U3BB6JVp16GQicdFky
+ xZ+XK07ghzgkBNIAQ7vF3V8ABVTLox7hYBp7YBAB1sfkjeF2qyiyy7WZXWNyAZmw++tD
+ PkZGweziyCyFQzqjY+UzwrzMcdNOhg/dglU2ExjHgMk2Mu51sx6+9MYOH/h2e7ReK3Yo
+ w4VFQHaPh3nAWCcaiY3s+1LOUiO4AI8EZ1i440lgAFCs0fIpAayMsU4nWDOKnVGTPsEy
+ AdImN3JGUE0BCRU+cVqdsZyo5cpqbq1ueDxfNF0nZLONszNBg3B6THPQCaevP3mDqUT7
+ LJIg==
+X-Gm-Message-State: AOAM531uPQY5DK/gfDpy4tCzEKCpsz+xclrmFWc9dr9UpSl628o2V5sm
+ QJz2QonUNSNKfmY1dBiLtRWAwbOLUM13gg==
+X-Google-Smtp-Source: ABdhPJwErOZfbTjYKg4kTc4gA45iNSgoY+myYvDCJGjRm15BLH6lqfZezJuLwSXQiMaafDqnpt+FZw==
+X-Received: by 2002:a1f:9f05:: with SMTP id i5mr9134244vke.12.1604975578929;
+ Mon, 09 Nov 2020 18:32:58 -0800 (PST)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com.
+ [209.85.217.45])
+ by smtp.gmail.com with ESMTPSA id w190sm1469360vke.7.2020.11.09.18.32.58
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 09 Nov 2020 18:32:58 -0800 (PST)
+Received: by mail-vs1-f45.google.com with SMTP id r14so6182170vsa.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 09 Nov 2020 18:32:58 -0800 (PST)
+X-Received: by 2002:a67:1e01:: with SMTP id e1mr10457712vse.49.1604975577696; 
+ Mon, 09 Nov 2020 18:32:57 -0800 (PST)
 MIME-Version: 1.0
+References: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
+ <20201109170018.v4.4.I71b2118dfc00fd7b43b02d28e7b890081c2acfa2@changeid>
+In-Reply-To: <20201109170018.v4.4.I71b2118dfc00fd7b43b02d28e7b890081c2acfa2@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 9 Nov 2020 18:32:46 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UPkuJ5E2sCQeozNR3CO+LZW=DW9h77vfooeiSMqGnYpA@mail.gmail.com>
+Message-ID: <CAD=FV=UPkuJ5E2sCQeozNR3CO+LZW=DW9h77vfooeiSMqGnYpA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] drm: panel: simple: Add BOE NV110WTM-N61
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,104 +69,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1447278161=="
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Stephen Boyd <swboyd@chromium.org>, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1447278161==
-Content-Type: multipart/signed; boundary="Sig_/Nw1tT16ZHW8yjamjJxiWOZq";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Hi,
 
---Sig_/Nw1tT16ZHW8yjamjJxiWOZq
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, Nov 9, 2020 at 5:01 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> Add support for the BOE NV110WTM-N61 panel.  The EDID lists two modes
+> (one for 60 Hz refresh rate and one for 40 Hz), so we'll list both of
+> them here.
+>
+> Note that the panel datasheet requires 80 ms between HPD asserting and
+> the backlight power being turned on.  We'll use the new timing
+> constraints structure to do this cleanly.  This assumes that the
+> backlight will be enabled _after_ the panel enable finishes.  This is
+> how it works today and seems a sane assumption.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> Changes in v4:
+> - Rebased atop changes in earlier patches.
+>
+> Changes in v2:
+> - Adjust for shorter names in patch #1.
+>
+>  drivers/gpu/drm/panel/panel-simple.c | 46 ++++++++++++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index a54f42cb3adc..9bb723696e94 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -1396,6 +1396,49 @@ static const struct panel_desc boe_nv101wxmn51 = {
+>         },
+>  };
+>
+> +static const struct drm_display_mode boe_nv110wtm_n61_modes[] = {
+> +       {
+> +               .clock = 207800,
+> +               .hdisplay = 2160,
+> +               .hsync_start = 2160 + 48,
+> +               .hsync_end = 2160 + 48 + 32,
+> +               .htotal = 2160 + 48 + 32 + 100,
+> +               .vdisplay = 1440,
+> +               .vsync_start = 1440 + 3,
+> +               .vsync_end = 1440 + 3 + 6,
+> +               .vtotal = 1440 + 3 + 6 + 31,
+> +       },
+> +       {
+> +               .clock = 138500,
+> +               .hdisplay = 2160,
+> +               .hsync_start = 2160 + 48,
+> +               .hsync_end = 2160 + 48 + 32,
+> +               .htotal = 2160 + 48 + 32 + 100,
+> +               .vdisplay = 1440,
+> +               .vsync_start = 1440 + 3,
+> +               .vsync_end = 1440 + 3 + 6,
+> +               .vtotal = 1440 + 3 + 6 + 31,
+> +       },
 
-Hi all,
+I can do it as a follow-up patch if there is no other reason to spin,
+but I realized that I forgot to add:
 
-After merging the drm-misc tree, today's linux-next build (arm
-multi_v7_defconfig) produced this warning:
+.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
 
-In file included from include/linux/kernel.h:14,
-                 from include/asm-generic/bug.h:20,
-                 from arch/arm/include/asm/bug.h:60,
-                 from include/linux/bug.h:5,
-                 from include/linux/io.h:11,
-                 from include/linux/dma-buf-map.h:9,
-                 from include/linux/dma-buf.h:16,
-                 from drivers/gpu/drm/drm_fb_helper.c:33:
-drivers/gpu/drm/drm_fb_helper.c: In function 'fb_read_screen_base':
-include/linux/minmax.h:18:28: warning: comparison of distinct pointer types=
- lacks a cast
-   18 |  (!!(sizeof((typeof(x) *)1 =3D=3D (typeof(y) *)1)))
-      |                            ^~
-include/linux/minmax.h:32:4: note: in expansion of macro '__typecheck'
-   32 |   (__typecheck(x, y) && __no_side_effects(x, y))
-      |    ^~~~~~~~~~~
-include/linux/minmax.h:42:24: note: in expansion of macro '__safe_cmp'
-   42 |  __builtin_choose_expr(__safe_cmp(x, y), \
-      |                        ^~~~~~~~~~
-include/linux/minmax.h:51:19: note: in expansion of macro '__careful_cmp'
-   51 | #define min(x, y) __careful_cmp(x, y, <)
-      |                   ^~~~~~~~~~~~~
-drivers/gpu/drm/drm_fb_helper.c:2041:22: note: in expansion of macro 'min'
- 2041 |  size_t alloc_size =3D min(count, PAGE_SIZE);
-      |                      ^~~
-drivers/gpu/drm/drm_fb_helper.c: In function 'fb_write_screen_base':
-include/linux/minmax.h:18:28: warning: comparison of distinct pointer types=
- lacks a cast
-   18 |  (!!(sizeof((typeof(x) *)1 =3D=3D (typeof(y) *)1)))
-      |                            ^~
-include/linux/minmax.h:32:4: note: in expansion of macro '__typecheck'
-   32 |   (__typecheck(x, y) && __no_side_effects(x, y))
-      |    ^~~~~~~~~~~
-include/linux/minmax.h:42:24: note: in expansion of macro '__safe_cmp'
-   42 |  __builtin_choose_expr(__safe_cmp(x, y), \
-      |                        ^~~~~~~~~~
-include/linux/minmax.h:51:19: note: in expansion of macro '__careful_cmp'
-   51 | #define min(x, y) __careful_cmp(x, y, <)
-      |                   ^~~~~~~~~~~~~
-drivers/gpu/drm/drm_fb_helper.c:2115:22: note: in expansion of macro 'min'
- 2115 |  size_t alloc_size =3D min(count, PAGE_SIZE);
-      |                      ^~~
+...to both the 40 and 60 Hz modes to make it match what's in the EDID.
+I'm also OK w/ it getting added by a maintainer when this lands if
+that makes sense.
 
-Introduced by commit
-
-  222ec45f4c69 ("drm/fb_helper: Support framebuffers in I/O memory")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/Nw1tT16ZHW8yjamjJxiWOZq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+p+xQACgkQAVBC80lX
-0GwGvAgAlZnZX1uWSH0vFjNdH/buCu8M4egQgucrf8WtEb4RlQ+Qm7TLwITCXu2z
-iy1K2EbmI5RYarXhiyMhRVVQfdxVaWKhrkpvX4b3aSW+Rc5oUW2Ykx4coIoIF6pK
-Jd4mR3M01j4hLSvoGWBsssI2UpNiLi/qDkGTXXaLVs2sYDcKjvCv3PFar+foDZeU
-Prd1VGKLk5EYp+Wl2GSpaNV6WnnhQBCLv4bLq3K4SNtY/5JsuPtCivlK5GNGnRN+
-bc319j08ni8qvzRzAyEO5i5n2w4w3H4AYQzluu5NLElbsWG3XdIW7kACtF2r33sf
-AYoOvMN8o6k1+/GDF6XrPyDh5bGnsg==
-=bIi3
------END PGP SIGNATURE-----
-
---Sig_/Nw1tT16ZHW8yjamjJxiWOZq--
-
---===============1447278161==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-Doug
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1447278161==--
