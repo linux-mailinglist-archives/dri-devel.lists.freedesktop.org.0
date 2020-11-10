@@ -1,54 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DCD2AD6E3
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:54:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED412AD6E6
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 13:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5506889332;
-	Tue, 10 Nov 2020 12:54:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E858F895C8;
+	Tue, 10 Nov 2020 12:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FABD89332
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:54:32 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AACsAJ5020651;
- Tue, 10 Nov 2020 06:54:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605012850;
- bh=jCWkNxwtZ43dEYnId2Q7mpdUlLKFvEBlwgl1acIy4mg=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=dEbOAZrfCv1qN/Lf7Eopxdbwbls4kEeqsRqHSt+wVoJ4wha77LARhNlxMql11XEKW
- 4aCavO4j+I0eIKuWTI0IibnxtmAt4OAmAnU+Qd3QYXA0wHK67XvLFtqbHXuf6jg0Il
- IFLZzhla1U4pQksY218L/SN8hWT8ihpVSRe8xVxU=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AACsAP2057958
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 06:54:10 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 06:54:10 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 06:54:10 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AACs6Q6101201;
- Tue, 10 Nov 2020 06:54:07 -0600
-Subject: Re: [PATCH] [v2] drm/omap: Fix runtime PM imbalance on error
-To: Dinghao Liu <dinghao.liu@zju.edu.cn>, <kjlu@umn.edu>
-References: <20200822065743.13671-1-dinghao.liu@zju.edu.cn>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <1457eb91-eefe-acd1-e605-5f018437fe70@ti.com>
-Date: Tue, 10 Nov 2020 14:54:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC7AC895C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 12:54:56 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id d12so11038708wrr.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 04:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=21NUxsor7hHh3PxftuxZky4lFBsZ7ois+WrBZ+IPnLY=;
+ b=E4HkumvRbwuhozffvJJYhcXQ+VtG4Q5s+Lzoafw7cM2EbsdrTNVYk1kPivb8pbY7c+
+ I3kjvimorLUFRT9npgGtOPRUW7SmX6WyqftC9yyMCGkX+bhVlGtQOJkJpmTW1UQKJfWV
+ ARuzsuE6jBqPKwT7KHW/FpzfKGO1l7WHVK6XU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=21NUxsor7hHh3PxftuxZky4lFBsZ7ois+WrBZ+IPnLY=;
+ b=IkeyKlIO+WNSQ5ASV9ZJFsblmxzZdAZuMDH0etCQ1fOR7U52G5uo2nrq4+lIoL/xMj
+ thiTThYe1xD78tbOHHuaC5vLjCJHfZZ7H46HCSupgPcybTUWcwCzqZ62cx71FMWKNpGL
+ PlhrK2pAH6OeKOWTXyALUthmblnwOUd41qkYds0wgJ/KSklQ1fOyf47urGEUnWXKZZdJ
+ uOrTaZlV05EcyxEgGDsE5kidI2TLmUkgILISZMwYYG1MhZEaEFmJHkO7avYMnF2tkUSA
+ L2Up2SObn2wFNGXrLIijCDjJujC8IyzIJUkF4BbzP8NkVlZhbG1PO7ryVwrVkFn12ua6
+ XPsA==
+X-Gm-Message-State: AOAM532uAyH2ILo+EV+W2AdVC0HQ23HInQJI07GVHTPUVrWqrdEl2t4e
+ PjGGahCJc9RtGeAAV8OlfYkdUA==
+X-Google-Smtp-Source: ABdhPJzT5dC6ywnGl2kTD3cDLIqcnE5q/gaqRflUh5l8yTN1U1ZZN6jf0KEM1LgGEsdInku+ZwePhw==
+X-Received: by 2002:adf:f546:: with SMTP id j6mr10751487wrp.219.1605012895642; 
+ Tue, 10 Nov 2020 04:54:55 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 71sm17578577wrm.20.2020.11.10.04.54.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 04:54:54 -0800 (PST)
+Date: Tue, 10 Nov 2020 13:54:52 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH] drm: remove pgprot_decrypted() before calls to
+ io_remap_pfn_range()
+Message-ID: <20201110125452.GG401619@phenom.ffwll.local>
+References: <0-v1-2e6a0db57868+166-drm_sme_clean_jgg@nvidia.com>
+ <20201105191746.GC401619@phenom.ffwll.local>
+ <20201105193554.GP2620339@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20200822065743.13671-1-dinghao.liu@zju.edu.cn>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201105193554.GP2620339@nvidia.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,41 +67,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, YueHaibing <yuehaibing@huawei.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jyri Sarha <jsarha@ti.com>, linux-kernel@vger.kernel.org,
- zhengbin <zhengbin13@huawei.com>, Tony Lindgren <tony@atomide.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Wambui Karuga <wambui.karugax@gmail.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 22/08/2020 09:57, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter
-> even when it returns an error code. However, users of its
-> direct wrappers in omapdrm assume that PM usage counter will
-> not change on error. Thus a pairing decrement is needed on
-> the error handling path for these wrappers to keep the counter
-> balanced.
+On Thu, Nov 05, 2020 at 03:35:54PM -0400, Jason Gunthorpe wrote:
+> On Thu, Nov 05, 2020 at 08:17:46PM +0100, Daniel Vetter wrote:
+> > On Thu, Nov 05, 2020 at 01:00:19PM -0400, Jason Gunthorpe wrote:
+> > > commit f8f6ae5d077a ("mm: always have io_remap_pfn_range() set
+> > > pgprot_decrypted()") moves the pgprot_decrypted() into
+> > > io_remap_pfn_range(). Delete any, now confusing, open coded calls that
+> > > directly precede io_remap_pfn_range():
+> > > 
+> > > - drm_io_prot() is only in drm_mmap_locked() to call io_remap_pfn_range()
+> > > 
+> > > - fb_mmap() immediately calls vm_iomap_memory() which is a convenience
+> > >   wrapper for io_remap_pfn_range()
+> > > 
+> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > >  drivers/gpu/drm/drm_vm.c         | 3 ---
+> > >  drivers/video/fbdev/core/fbmem.c | 5 -----
+> > >  2 files changed, 8 deletions(-)
+> > > 
+> > > rc3 will have the dependent patch, this should not be merged to DRM until it
+> > > has the rc3 commits.
+> > > 
+> > > There are three other pgprot_decrypted() calls in DRM, I could not figure out
+> > > what was what there, but other than very special cases I would expect code to
+> > > use io_remap_pfn_range() instead.
+> > 
+> > There's 4 now, I think linux-next added one. It's another io_remap_pfn
+> > 
+> > Of the three you mentioned we have:
+> > - ttm and i915 use vm_insert_pfn (and ttm also can do also do pud_mkhuge
+> >   entries)
 > 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> ---
-> 
-> Changelog:
-> 
-> v2: - Fix 5 additional similar cases in omapdrm.
+> You can't insert IO memory with vmf_insert_pfn_pmd_prot() (it
+> doesn't set the special flag) so why does it need decrypted?
 
-Thanks, I'll apply to drm-misc-next.
-
- Tomi
-
+Well, see the other thread, we do ... :-/
+-Daniel
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
