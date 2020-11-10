@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44BE2AD1E8
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 09:57:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B5512AD1F5
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 10:01:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A41895B9;
-	Tue, 10 Nov 2020 08:57:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024A889654;
+	Tue, 10 Nov 2020 09:01:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8C92895B9
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 08:57:02 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 09C9F20038;
- Tue, 10 Nov 2020 09:56:59 +0100 (CET)
-Date: Tue, 10 Nov 2020 09:56:58 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] drm/ingenic: ipu: Search for scaling coefs up to 102%
- of?? the screen
-Message-ID: <20201110085658.GA2027451@ravnborg.org>
-References: <20201105083905.8780-1-paul@crapouillou.net>
- <20201107193311.GB1039949@ravnborg.org>
- <YJOKJQ.8KD9M5MU0NTP2@crapouillou.net>
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be
+ [IPv6:2a02:1800:120:4::f00:14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A312389654
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 09:01:24 +0000 (UTC)
+Received: from ramsan.of.borg ([84.195.186.194])
+ by xavier.telenet-ops.be with bizsmtp
+ id qZ1M2300X4C55Sk01Z1Moc; Tue, 10 Nov 2020 10:01:22 +0100
+Received: from rox.of.borg ([192.168.97.57])
+ by ramsan.of.borg with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1kcPWj-0016f1-HT; Tue, 10 Nov 2020 10:01:21 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+ (envelope-from <geert@linux-m68k.org>)
+ id 1kcPWi-00BBu9-N3; Tue, 10 Nov 2020 10:01:20 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm/fb_helper: Use min_t() to handle size_t and unsigned long
+Date: Tue, 10 Nov 2020 10:01:19 +0100
+Message-Id: <20201110090119.2667326-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YJOKJQ.8KD9M5MU0NTP2@crapouillou.net>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=8nJEP1OIZ-IA:10 a=7gkXJVJtAAAA:8 a=ER_8r6IbAAAA:8
- a=9CIfjzEbJXW8LZeqSngA:9 a=wPNLvfGTeEIA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=9LHmKk7ezEChjTCyhBa9:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,59 +46,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- od@zcrc.me, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
-On Tue, Nov 10, 2020 at 08:50:22AM +0000, Paul Cercueil wrote:
-> Hi,
-> =
-
-> Le sam. 7 nov. 2020 =E0 20:33, Sam Ravnborg <sam@ravnborg.org> a =E9crit :
-> > Hi Paul.
-> > =
-
-> > On Thu, Nov 05, 2020 at 08:39:05AM +0000, Paul Cercueil wrote:
-> > >  Increase the scaled image's theorical width/height until we find a
-> > >  configuration that has valid scaling coefficients, up to 102% of the
-> > >  screen's resolution. This makes sure that we can scale from almost
-> > >  every resolution possible at the cost of a very small distorsion.
-> > >  The CRTC_W / CRTC_H are not modified.
-> > > =
-
-> > >  This algorithm was already in place but would not try to go above
-> > > the
-> > >  screen's resolution, and as a result would only work if the CRTC_W /
-> > >  CRTC_H were smaller than the screen resolution. It will now try
-> > > until it
-> > >  reaches 102% of the screen's resolution.
-> > > =
-
-> > >  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> > =
-
-> > Looks like the patch does what the descriptions says.
-> > So in other words - look OK to me. I am not confident enogh for a r-b
-> > but my code reading is enough to warrant an a-b:
-> > Acked-by: Sam Ravnborg <sam@ravnborg.org>
-> =
-
-> Note that this algorithm exists mostly as a band-aid for a missing
-> functionality: it is not possible for userspace to request the closest mo=
-de
-> that would encapsulate the provided one, because the GEM buffer is created
-> beforehand. If there was a way to let the kernel tweak the mode, I could
-> write a better algorithm that would result in a better looking picture.
-
-Could you add this nice explanation to the changelog so when we wonder
-why this was done in some years we can dig up this from git history.
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gYXJtMzI6CgogICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYzogSW4gZnVuY3Rp
+b24g4oCYZmJfcmVhZF9zY3JlZW5fYmFzZeKAmToKICAgIGluY2x1ZGUvbGludXgvbWlubWF4Lmg6
+MTg6Mjg6IHdhcm5pbmc6IGNvbXBhcmlzb24gb2YgZGlzdGluY3QgcG9pbnRlciB0eXBlcyBsYWNr
+cyBhIGNhc3QKICAgIC4uLgogICAgZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYzoyMDQx
+OjIyOiBub3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8g4oCYbWlu4oCZCiAgICAgMjA0MSB8ICBz
+aXplX3QgYWxsb2Nfc2l6ZSA9IG1pbihjb3VudCwgUEFHRV9TSVpFKTsKCSAgfCAgICAgICAgICAg
+ICAgICAgICAgICBefn4KICAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmM6IEluIGZ1
+bmN0aW9uIOKAmGZiX3dyaXRlX3NjcmVlbl9iYXNl4oCZOgogICAgaW5jbHVkZS9saW51eC9taW5t
+YXguaDoxODoyODogd2FybmluZzogY29tcGFyaXNvbiBvZiBkaXN0aW5jdCBwb2ludGVyIHR5cGVz
+IGxhY2tzIGEgY2FzdAogICAgLi4uCiAgICBkcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hlbHBlci5j
+OjIxMTU6MjI6IG5vdGU6IGluIGV4cGFuc2lvbiBvZiBtYWNybyDigJhtaW7igJkKICAgICAyMTE1
+IHwgIHNpemVfdCBhbGxvY19zaXplID0gbWluKGNvdW50LCBQQUdFX1NJWkUpOwoJICB8ICAgICAg
+ICAgICAgICAgICAgICAgIF5+fgoKSW5kZWVkLCBvbiAzMi1iaXQgc2l6ZV90IGlzICJ1bnNpZ25l
+ZCBpbnQiLCBub3QgInVuc2lnbmVkIGxvbmciLgoKRml4ZXM6IDIyMmVjNDVmNGM2OWRmYTggKCJk
+cm0vZmJfaGVscGVyOiBTdXBwb3J0IGZyYW1lYnVmZmVycyBpbiBJL08gbWVtb3J5IikKU2lnbmVk
+LW9mZi1ieTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4KLS0t
+CkludGVyZXN0aW5nbHksIHRoZSBjb21taXQgbG9nIGNsYWltcyB2NyBjaGFuZ2VkOgoKICAgIHVz
+ZSBtaW5fdChzaXplX3QsKSAoa2VybmVsIHRlc3Qgcm9ib3QpCi0tLQogZHJpdmVycy9ncHUvZHJt
+L2RybV9mYl9oZWxwZXIuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygr
+KSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2ZiX2hl
+bHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mYl9oZWxwZXIuYwppbmRleCAwMWJhMWRhMjg1
+MTE2MzczLi4yNWVkZjY3MDg2N2M2Zjc5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJt
+X2ZiX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZmJfaGVscGVyLmMKQEAgLTIw
+MzgsNyArMjAzOCw3IEBAIHN0YXRpYyBzc2l6ZV90IGZiX3JlYWRfc2NyZWVuX2Jhc2Uoc3RydWN0
+IGZiX2luZm8gKmluZm8sIGNoYXIgX191c2VyICpidWYsIHNpemVfCiAJCQkJICAgbG9mZl90IHBv
+cykKIHsKIAljb25zdCBjaGFyIF9faW9tZW0gKnNyYyA9IGluZm8tPnNjcmVlbl9iYXNlICsgcG9z
+OwotCXNpemVfdCBhbGxvY19zaXplID0gbWluKGNvdW50LCBQQUdFX1NJWkUpOworCXNpemVfdCBh
+bGxvY19zaXplID0gbWluX3Qoc2l6ZV90LCBjb3VudCwgUEFHRV9TSVpFKTsKIAlzc2l6ZV90IHJl
+dCA9IDA7CiAJaW50IGVyciA9IDA7CiAJY2hhciAqdG1wOwpAQCAtMjExMiw3ICsyMTEyLDcgQEAg
+c3RhdGljIHNzaXplX3QgZmJfd3JpdGVfc2NyZWVuX2Jhc2Uoc3RydWN0IGZiX2luZm8gKmluZm8s
+IGNvbnN0IGNoYXIgX191c2VyICpidWYKIAkJCQkgICAgbG9mZl90IHBvcykKIHsKIAljaGFyIF9f
+aW9tZW0gKmRzdCA9IGluZm8tPnNjcmVlbl9iYXNlICsgcG9zOwotCXNpemVfdCBhbGxvY19zaXpl
+ID0gbWluKGNvdW50LCBQQUdFX1NJWkUpOworCXNpemVfdCBhbGxvY19zaXplID0gbWluX3Qoc2l6
+ZV90LCBjb3VudCwgUEFHRV9TSVpFKTsKIAlzc2l6ZV90IHJldCA9IDA7CiAJaW50IGVyciA9IDA7
+CiAJdTggKnRtcDsKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
