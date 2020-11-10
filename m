@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C432AD2A4
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 10:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98412AD3B8
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 11:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CABC88647;
-	Tue, 10 Nov 2020 09:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03EC389993;
+	Tue, 10 Nov 2020 10:27:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 230A089948
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 09:41:15 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id h2so2337493wmm.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 01:41:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=FpGYJhDvWK5QFQyGVGzTwx199bOezzbp8yUQnaBAqhA=;
- b=z1FkXYMrjZ61/g5+TiA3+uQbcP0BwaGKojKYZqoprO1EpyKXxFED8yggOxudY+WSfn
- ofbwOQSsVmAN2CwuTFWmrdeb3XfsFBdxtI2yitO1vEMjZXuOh5FTAx4L9L+9TXE9xEh5
- ETeVhj9TKHMBlglBmUgRq/G1hBrvINoTsfF36vnDxXKP29niGmsVYrAa+6Igc2DCJtfM
- +JVDxu1jrfdlpXrOuive05LAgGh+2RxnKq6Atce+JA4hSUzCkyS+F2jOwHMMM0Ur6JI1
- 811Goaf1fdH+uzMu4qeylrud5JCOQT5FRFyLYwgzP5d8ieCENuD1EeKIWtqc1J/U3YgU
- xxeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=FpGYJhDvWK5QFQyGVGzTwx199bOezzbp8yUQnaBAqhA=;
- b=T5waJnjpVQTz1wE2TIFiEw/o0hqJTPdCB+JrStnZnaz4fXlloqIlPOHc7gSEgjKLtn
- dV2Gt4pJaK6xg6NK2MEmW5msI0XSFz70Tocc8elEFJfl9XqP9XB6iefBItULM5kEVBVt
- 7hWf3SKfHrjxz6mFbptfQ2vY2UBEa/5EVQ48tQxP1yPLf1sdZQp9I2FD1KHCWzZz/1gk
- Jn50EWmybtf9lHTFssiExV5llE5CuedZL1rikUzr4V9z6R0Q7+BxFKAoO3Igo5y8biSw
- Hli1MFXx+/jGTdH+t6HOvZBDaNUx6n2seJoYbs+bkDy3XiEfqunLbaDNLX8Gtola69lc
- b80g==
-X-Gm-Message-State: AOAM532T/g9WbyQAkNIqmG01DYv5ctjumO6VyGvyY6bpBaGy13QvW1+q
- /u5BGqIu8c7i/pQAayGYuNztbw==
-X-Google-Smtp-Source: ABdhPJz9GPiQ64tc5Xh9sXsmgb4hk4Z94zN9LrviqA4mXIdYOneWhbgIHv0Sezdp554Cwip1SzZtHw==
-X-Received: by 2002:a1c:df04:: with SMTP id w4mr3699025wmg.3.1605001273758;
- Tue, 10 Nov 2020 01:41:13 -0800 (PST)
-Received: from dell ([91.110.221.139])
- by smtp.gmail.com with ESMTPSA id u203sm1408076wme.32.2020.11.10.01.41.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 01:41:13 -0800 (PST)
-Date: Tue, 10 Nov 2020 09:41:11 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH 15/20] drm/radeon/r600d: Move 'rc600_*' prototypes into
- shared header
-Message-ID: <20201110094111.GG2063125@dell>
-References: <20201109211855.3340030-1-lee.jones@linaro.org>
- <20201109211855.3340030-16-lee.jones@linaro.org>
- <CADnq5_NvitEQWH3Z+5EgOH3zJn=P5YTqwHQo4LLQLi0Hj0Dpww@mail.gmail.com>
- <20201110072242.GF2063125@dell>
- <20201110090247.GB2027451@ravnborg.org>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52E0C89993
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 10:27:30 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAARPX2002362;
+ Tue, 10 Nov 2020 04:27:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605004045;
+ bh=eji6r1q0SEBke//VSYTwi8vqdh0wx+Rh4E9+DzXc0pg=;
+ h=Date:From:To:CC:Subject:References:In-Reply-To;
+ b=Xme7a4JabNLKSBJg5X5Zb+/Aezx4So2aDMSvr6VeITsWnFtp0wpioLiDJ5rdBoukK
+ gBkjzcZOqlZh7dHX/IsLlsbYyIKKJY3ZYoHx/wbpRjqUQd8IEEYb801TT/sArLkCrv
+ t72/J8QLd6jWyEUhFcxQ2XRnPd4EAuPcFiTDPh1A=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAARPYh110818
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 10 Nov 2020 04:27:25 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
+ Nov 2020 04:27:25 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 10 Nov 2020 04:27:25 -0600
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAARNvC107452;
+ Tue, 10 Nov 2020 04:27:24 -0600
+Date: Tue, 10 Nov 2020 15:57:23 +0530
+From: Nikhil Devshatwar <nikhil.nd@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
+ enable/disable
+Message-ID: <20201110102723.mgtrq5gznvvbpop2@NiksLab>
+References: <20201109170601.21557-1-nikhil.nd@ti.com>
+ <20201109170601.21557-7-nikhil.nd@ti.com>
+ <1e434bb5-c027-792a-0c4d-c3cf057a0ec6@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201110090247.GB2027451@ravnborg.org>
+In-Reply-To: <1e434bb5-c027-792a-0c4d-c3cf057a0ec6@ti.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,28 +63,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Yuti Amonkar <yamonkar@cadence.com>, Sekhar Nori <nsekhar@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAxMCBOb3YgMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPiBIaSBMZWUsCj4gCj4g
-PiA+IHRoZSAqZC5oIGhlYWRlcnMgYXJlIHN1cHBvc2VkIHRvIGp1c3QgYmUgaGFyZHdhcmUgZGVm
-aW5pdGlvbnMuICBJJ2QKPiA+ID4gcHJlZmVyIHRvIGtlZXAgZHJpdmVyIHN0dWZmIG91dCBvZiB0
-aGVtLgo+ID4gCj4gPiBUaGF0J3MgZmluZSAoSSBkaWQgd29uZGVyIGlmIHRoYXQgd2VyZSB0aGUg
-Y2FzZSkuCj4gPiAKPiA+IEkgbmVlZCBhbiBhbnN3ZXIgZnJvbSB5b3UgYW5kIFNhbSB3aGV0aGVy
-IEkgY2FuIGNyZWF0ZSBuZXcgaGVhZGVycy4KPiA+IAo+ID4gRm9yIG1lLCBpdCBpcyB0aGUgcmln
-aHQgdGhpbmcgdG8gZG8uCj4gCj4gUGxlYXNlIGZvbGxvdyB0aGUgYWR2aWNlIG9mIEFsZXggZm9y
-IHRoZSByYWRlb24gZHJpdmVyLgoKR3JlYXQuICBUaGFua3MgZm9yIHJlc29sdmluZyB0aGlzIFNh
-bS4KCldpbGwgZml4IGFsbCBvY2N1cnJlbmNlcy4KCi0tIApMZWUgSm9uZXMgW+adjueQvOaWr10K
-U2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg4pSC
-IE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9v
-ayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
-aS1kZXZlbAo=
+On 11:21-20201110, Tomi Valkeinen wrote:
+> On 09/11/2020 19:06, Nikhil Devshatwar wrote:
+> > When removing the tidss driver, there is a warning reported by
+> > kernel about an unhandled interrupt for mhdp driver.
+> > 
+> > [   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
+> > ... [snipped backtrace]
+> > [   43.330735] handlers:
+> > [   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
+> > cdns_mhdp_irq_handler [cdns_mhdp8546]
+> > [   43.344607] Disabling IRQ #31
+> > 
+> > This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
+> > to disable the interrupts. While disabling the SW_EVENT interrupts,
+> > it accidentally enables the MBOX interrupts, which are not handled by
+> > the driver.
+> > 
+> > Fix this with a read-modify-write to update only required bits.
+> > Do the same for enabling interrupts as well.
+> > 
+> > Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> > ---
+> >  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > index 2cd809eed827..6beccd2a408e 100644
+> > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> > @@ -2146,7 +2146,8 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+> >  
+> >  	/* Enable SW event interrupts */
+> >  	if (mhdp->bridge_attached)
+> > -		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+> > +		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
+> > +		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
+> >  		       mhdp->regs + CDNS_APB_INT_MASK);
+> >  }
+> >  
+> > @@ -2154,7 +2155,9 @@ static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
+> >  {
+> >  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+> >  
+> > -	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
+> > +	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
+> > +	       CDNS_APB_INT_MASK_SW_EVENT_INT,
+> > +	       mhdp->regs + CDNS_APB_INT_MASK);
+> >  }
+> >  
+> >  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+> 
+> Good catch. I wonder why we need the above functions... We already enable and disable the interrupts
+> when attaching/detaching the driver. And I think we want to get the interrupt even if we won't
+> report HPD (but I think we always do report it), as we need the interrupts to track the link status.
+> 
+
+I read from the code that there is TODO for handling the mailbox
+interrupts in the driver. Once that is supported, you will be able to
+explictily enable/disable interrupts for SW_EVENTS (like hotplug) as
+well as mailbox events. This enabling specific bits in the interrupt
+status.
+
+
+Nikhil D
+>  Tomi
+> 
+> -- 
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
