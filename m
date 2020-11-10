@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 470A62AEA6C
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81ECE2AEA60
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:54:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 397B189E52;
-	Wed, 11 Nov 2020 07:54:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 770A889DA2;
+	Wed, 11 Nov 2020 07:54:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81E5B89C28
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605042276;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=J3iLT4lR6dl7ChrGzU2OdJxyQhmkQ6JyK0qL/xklO1Q=;
- b=bXWNrpEf3Lp/EfP0MAWLYRS2hN1LtG4p3wewVkpov5mImm6U2t9pnxNeicFYhZi2CQ
- 7aELEPVzA4BhMPWFuKrA0REXH6aNFjGzkFyiYHVPgNAB5eFbpqmBxybsRbL08iHYrK/q
- YY3zYQdeoVyWaCHcT/PC26d8wnhz9cjaoP4kLm4P2xrD4SOdulPA6KgtHNS5/1fUwlIb
- v7o3cFq5gePCBlo1KSAo4HSH9Yb1/qYNrRN3tUkXMlcd11YUq+46V9v3N+on7wwUatof
- DbAkk1xFZh7LQHTCo4xpO8NiyroyGC/69anbrYfMrvlokZP4vHVF0p2j3yC28reni2Yn
- iTlw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj5Qpw97WFDVCUXAYLEg=="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
- with ESMTPSA id N02faawAAL4V33d
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Tue, 10 Nov 2020 22:04:31 +0100 (CET)
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
-Date: Tue, 10 Nov 2020 22:04:31 +0100
-Message-Id: <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <61C04176-4654-4D2D-A55B-31FBB6D2E5AA@goldelico.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
- <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
- <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
- <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
- <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
- <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-X-Mailer: Apple Mail (2.3124)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAA589C52
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:17:10 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id e27so132816lfn.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EGw/lJ2fFtGQXxuehfGhLjJtLJBME8AehCZBZ0GpWKM=;
+ b=NAjhIP+3pP7247wVyMNIoqS0eBQ6Ub6VXzYDVkDW5hh7OeVhZnrCfqxE2LxWyJsKMV
+ 90KLTj2Sz4TgROVkbS2FdYgKiKElggblFjPltnMdRMP+LsofRfySn0ZAVRiZ/rJhCxi6
+ Ihb4k6looEtRmT1ELEZ0lM7wPWjSKyFQbZqNuGGZWJnLFo6POVOBCZ35lDBdx6WUlyZo
+ hFkkJUxBTXfhYM1L6nmK/Cdx6WzQfwcvnzNWLiRd/LuWn+G/zTP5qT4snC3j+huX+nYr
+ tA9dCLNuMRHfewvKYy4Ua/ksZbn9fdwQO2uPYg+XI2muKxWHeQxfYp9b34Tx6cpXjg8z
+ oyIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EGw/lJ2fFtGQXxuehfGhLjJtLJBME8AehCZBZ0GpWKM=;
+ b=ZzIPbXvpmdAlHTdAv39akmSKkGRa0XZqx1gY8mxem8GzytUlw7mrMuAouKv+o8qGXO
+ zQn/aAqv5BCd21v6QTsEVOK2RS6+9AvJwHf18trKub6pOqSx1ta3o1NNUCdl1IlI+k3I
+ A6ScJTGzP9gkXsH0V3vvsMxAl5EXKWKoeRhrVfpHYzXSoc4xEFfxhsIpjmP8zXLePc2b
+ s3fT5AIj0HgDXxHJQgmV5z/cuwzRV+a2Q9VLzn7ob7HZR1vTna39zdFfuzQE1PZLicGJ
+ fCk10i66Z10m+ErVbAI2yslEuV8mcHHu8isQF1EqXypkdpfHtJmXQISTbjlM4bPgGLfQ
+ wT/g==
+X-Gm-Message-State: AOAM531BeNq6VWjaOV85tV7EpHI3YsXAx3CedwzkK7/YQe9kNNVpPQmC
+ cgd9/HqLro4Hu5qqOj2tLGQ=
+X-Google-Smtp-Source: ABdhPJy9MxQ9JDqgbUxs5iJjOZhvvAhbIb4SB90wBtvxj6i+Z1NqL4Sgmd5xFUlSjTl9BiZi3p2X+g==
+X-Received: by 2002:a19:6a07:: with SMTP id u7mr4706867lfu.252.1605043028710; 
+ Tue, 10 Nov 2020 13:17:08 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id m7sm1658405ljb.37.2020.11.10.13.17.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 13:17:07 -0800 (PST)
+Subject: Re: [PATCH v1 18/30] pwm: tegra: Support OPP and core voltage scaling
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-19-digetx@gmail.com> <20201110205057.GH2375022@ulmo>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <a3bf156d-17b8-0edd-9981-a17991266e1d@gmail.com>
+Date: Wed, 11 Nov 2020 00:17:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201110205057.GH2375022@ulmo>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,54 +72,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
-> 
-> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
-> 
-> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
-> there finding good clocks.
-
-Yes, I could trace it down to exactly this point.
-
-So the culprit is somehow the panel driver. Because it asks for clocks that the PLL driver does not want to provide...
-Or is it the victim?
-
-Here is what dmesg reports with even more printk():
-
-[  276.970635] drm_helper_probe_single_connector_modes 12 count=1
-[  277.003509] drm_mode_validate_pipeline 2 ret=0 status=0
-[  277.038678] drm_bridge_chain_mode_valid: func=dsi_bridge_mode_valid+0x0/0xa0 [omapdrm]
-[  277.047199] dsi_bridge_mode_valid
-[  277.050786] __dsi_calc_config
-[  277.057270] dsi_vm_calc
-[  277.073251] dss_pll_calc_a clkin=19200000 pll_min=1555386656 pll_max=1555410656 func=dsi_vm_calc_pll_cb+0x0/0x48 [omapdrm]
-[  277.084975] dss_pll_calc_a pll_hw_max=1800000000 fint_hw_min=150000 fint_hw_max=52000000
-[  277.093637] dss_pll_calc_a n_start=1 n_inc=1 n_stop=128 pll_max'=1555410656
-[  277.101062] dss_pll_calc_a n=1 clkin=19200000 fint=19200000
-[  277.107152] dss_pll_calc_a m_start=41 m_inc=1 m_stop=40
-
-Ok, we have to wait quite a while until the for(m;;) loop ends, because m_stop < m_start and m_inc is positive.
-
-So something in the formulae in dss_pll_calc_a() does not fit or has unintended rounding effects.
-Or the values reported by w677l_get_modes() do not fit anything.
-
-I think these findings and ideas should help to find a fix.
-
-BR and thanks,
-Nikolaus
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTAuMTEuMjAyMCAyMzo1MCwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKPiBPbiBUaHUsIE5v
+diAwNSwgMjAyMCBhdCAwMjo0NDoxNUFNICswMzAwLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4g
+Wy4uLl0KPj4gK3N0YXRpYyB2b2lkIHRlZ3JhX3B3bV9kZWluaXRfb3BwX3RhYmxlKHZvaWQgKmRh
+dGEpCj4+ICt7Cj4+ICsJc3RydWN0IGRldmljZSAqZGV2ID0gZGF0YTsKPj4gKwlzdHJ1Y3Qgb3Bw
+X3RhYmxlICpvcHBfdGFibGU7Cj4+ICsKPj4gKwlvcHBfdGFibGUgPSBkZXZfcG1fb3BwX2dldF9v
+cHBfdGFibGUoZGV2KTsKPj4gKwlkZXZfcG1fb3BwX29mX3JlbW92ZV90YWJsZShkZXYpOwo+PiAr
+CWRldl9wbV9vcHBfcHV0X3JlZ3VsYXRvcnMob3BwX3RhYmxlKTsKPj4gKwlkZXZfcG1fb3BwX3B1
+dF9vcHBfdGFibGUob3BwX3RhYmxlKTsKPj4gK30KPj4gKwo+PiArc3RhdGljIGludCBkZXZtX3Rl
+Z3JhX3B3bV9pbml0X29wcF90YWJsZShzdHJ1Y3QgZGV2aWNlICpkZXYpCj4+ICt7Cj4+ICsJc3Ry
+dWN0IG9wcF90YWJsZSAqb3BwX3RhYmxlOwo+PiArCWNvbnN0IGNoYXIgKnJuYW1lID0gImNvcmUi
+Owo+PiArCWludCBlcnI7Cj4+ICsKPj4gKwkvKiB2b2x0YWdlIHNjYWxpbmcgaXMgb3B0aW9uYWwg
+Ki8KPj4gKwlpZiAoZGV2aWNlX3Byb3BlcnR5X3ByZXNlbnQoZGV2LCAiY29yZS1zdXBwbHkiKSkK
+Pj4gKwkJb3BwX3RhYmxlID0gZGV2X3BtX29wcF9zZXRfcmVndWxhdG9ycyhkZXYsICZybmFtZSwg
+MSk7Cj4+ICsJZWxzZQo+PiArCQlvcHBfdGFibGUgPSBkZXZfcG1fb3BwX2dldF9vcHBfdGFibGUo
+ZGV2KTsKPj4gKwo+PiArCWlmIChJU19FUlIob3BwX3RhYmxlKSkKPj4gKwkJcmV0dXJuIGRldl9l
+cnJfcHJvYmUoZGV2LCBQVFJfRVJSKG9wcF90YWJsZSksCj4+ICsJCQkJICAgICAiZmFpbGVkIHRv
+IHByZXBhcmUgT1BQIHRhYmxlXG4iKTsKPj4gKwo+PiArCS8qCj4+ICsJICogT1BQIHRhYmxlIHBy
+ZXNlbmNlIGlzIG9wdGlvbmFsIGFuZCB3ZSB3YW50IHRoZSBzZXRfcmF0ZSgpIG9mIE9QUAo+PiAr
+CSAqIEFQSSB0byB3b3JrIHNpbWlsYXJseSB0byBjbGtfc2V0X3JhdGUoKSBpZiB0YWJsZSBpcyBt
+aXNzaW5nIGluIGEKPj4gKwkgKiBkZXZpY2UtdHJlZS4gIFRoZSBhZGRfdGFibGUoKSBlcnJvcnMg
+b3V0IGlmIE9QUCBpcyBtaXNzaW5nIGluIERULgo+PiArCSAqLwo+PiArCWlmIChkZXZpY2VfcHJv
+cGVydHlfcHJlc2VudChkZXYsICJvcGVyYXRpbmctcG9pbnRzLXYyIikpIHsKPj4gKwkJZXJyID0g
+ZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoZGV2KTsKPj4gKwkJaWYgKGVycikgewo+PiArCQkJZGV2
+X2VycihkZXYsICJmYWlsZWQgdG8gYWRkIE9QUCB0YWJsZTogJWRcbiIsIGVycik7Cj4+ICsJCQln
+b3RvIHB1dF90YWJsZTsKPj4gKwkJfQo+PiArCX0KPj4gKwo+PiArCWVyciA9IGRldm1fYWRkX2Fj
+dGlvbihkZXYsIHRlZ3JhX3B3bV9kZWluaXRfb3BwX3RhYmxlLCBkZXYpOwo+PiArCWlmIChlcnIp
+Cj4+ICsJCWdvdG8gcmVtb3ZlX3RhYmxlOwo+PiArCj4+ICsJcmV0dXJuIDA7Cj4+ICsKPj4gK3Jl
+bW92ZV90YWJsZToKPj4gKwlkZXZfcG1fb3BwX29mX3JlbW92ZV90YWJsZShkZXYpOwo+PiArcHV0
+X3RhYmxlOgo+PiArCWRldl9wbV9vcHBfcHV0X3JlZ3VsYXRvcnMob3BwX3RhYmxlKTsKPj4gKwo+
+PiArCXJldHVybiBlcnI7Cj4+ICt9Cj4gCj4gVGhlc2UgdHdvIGZ1bmN0aW9ucyBzZWVtIHRvIGJl
+IGhlYXZpbHkgYm9pbGVycGxhdGUgYWNyb3NzIGFsbCB0aGVzZQo+IGRyaXZlcnMuIEhhdmUgeW91
+IGNvbnNpZGVyZWQgc3BsaXR0aW5nIHRoZXNlIG91dCBpbnRvIHNlcGFyYXRlIGhlbHBlcnM/CgpU
+aGUgaGVscGVyIGlzIGFscmVhZHkgcHJlcGFyZWQgZm9yIHYyLgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
