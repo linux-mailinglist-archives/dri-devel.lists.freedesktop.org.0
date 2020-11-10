@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46ADD2AD80D
-	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 14:53:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1FA92AD817
+	for <lists+dri-devel@lfdr.de>; Tue, 10 Nov 2020 14:55:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AE7A89AC0;
-	Tue, 10 Nov 2020 13:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87BD6893A7;
+	Tue, 10 Nov 2020 13:55:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0499D89AA6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:53:20 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AADrHAU068403;
- Tue, 10 Nov 2020 07:53:17 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605016397;
- bh=J250BTlg2JTSigimAjtGgpzRE47eh6DOttUbMyDNZMo=;
- h=Date:From:To:CC:Subject:References:In-Reply-To;
- b=t+bmhu4WO6C8nGEG2fCt/1uLMUOIYAMfYUpgv/zXlav/mvv5Kdqjykqmn60QiG4GX
- QNQyzD/IJQI77rEsJl7BoIOqWg+9gISQOtRNRlS5PRi0b7TxI75zm9EopRdZJOIy0I
- g2z76qOFQd+S5ikz+iZ2KQtvSm5ApA8q/GaAZfHc=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AADrHdt023171
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 10 Nov 2020 07:53:17 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 07:53:17 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 07:53:17 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AADrFxJ096259;
- Tue, 10 Nov 2020 07:53:16 -0600
-Date: Tue, 10 Nov 2020 19:23:15 +0530
-From: Nikhil Devshatwar <nikhil.nd@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>, Swapnil Jakhade
- <sjakhade@cadence.com>, Yuti Amonkar <yamonkar@cadence.com>
-Subject: Re: [PATCH v2 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
- enable/disable
-Message-ID: <20201110135315.53ehiqmwunmwzhod@NiksLab>
-References: <20201109170601.21557-1-nikhil.nd@ti.com>
- <20201109170601.21557-7-nikhil.nd@ti.com>
- <1e434bb5-c027-792a-0c4d-c3cf057a0ec6@ti.com>
- <20201110102723.mgtrq5gznvvbpop2@NiksLab>
- <9d23f838-a9bc-ba5d-adfe-9b3bfc26c223@ti.com>
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9E0893A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 13:55:14 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id w4so10194785pgg.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 05:55:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=tuDMy+iN/NZ/U/XMn7m7h6ztvG8bpQuonUkFjpduYg0=;
+ b=fk7RE+5W4RtH2sfW6GeeGC+y9ug+te2P5xp7Rr544DQQQ6Mhd1qHY/aiGRbieXrFfQ
+ m0/Y0PWifOgTfmdIUFdQRg0lwg4zP94tJDS7108rRZTFfWecofHxI2Zj7ei8iYiGf9Ys
+ bTgmxZjOyzFiTGf2mN3bylUXs6d7BVgs2iHSaejw4PNAbjVss1mfQlOdN3yLqISPSW/6
+ G4gNUcea4RgUBuT7fsk59DwBdyAUWkcUmKkmA4fjLgdGEc/3a6PYdyERmcPF2a9m2gp2
+ toNlPWXx4pikIumD3cK/ZmW07kGCWoeOgTvAf6Z0iYRY/qTwY2P308K46QfhUB7CkZvE
+ qxaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tuDMy+iN/NZ/U/XMn7m7h6ztvG8bpQuonUkFjpduYg0=;
+ b=kyUqFPU4ZRESxxf8PG01kL+uEEG9j3TpqDXYCeJ2LoWR8fIIatFN6UsSVDKJsPbZ67
+ Tmxzjm0PY3igbZaGGEmOeV4SxrxJke1agdM01YMCUVu5G5/Vagr5KHc38dit20boXERl
+ EbKaYBwhDjswoUdZlQsLn+lwu4uyZ3bDLjqn4Hmuv49lwPWe4uTYZz0cMoh3dtzmCZxN
+ FA1AnXXnHULasU8rfm6aBYe400iKoVvRu3kPSls9E5O+RvOR4TifKhT+9P+j//nYByCU
+ TDUrkbQk0MmrlwU2jg2LbFrda7iYJSWBxyIcoqcAtP36ta2viPy12ZZl6TFZdahH947B
+ f+TA==
+X-Gm-Message-State: AOAM531cWC9cqmof0Dpd9b04XXZZOVq7LoiMYleqGzLKaktWaGL45CrW
+ lqWe4IBHx/qqPAmJZ40/Nw==
+X-Google-Smtp-Source: ABdhPJxpknnDPzLcIlfsAZoWTOzvr0K2yQz18ucWIcJsbGk6GKdy/ZWv6XiDw/O3mgX9wBTKkZMaDA==
+X-Received: by 2002:a63:3346:: with SMTP id z67mr17193856pgz.111.1605016514261; 
+ Tue, 10 Nov 2020 05:55:14 -0800 (PST)
+Received: from PWN (59-125-13-244.HINET-IP.hinet.net. [59.125.13.244])
+ by smtp.gmail.com with ESMTPSA id j11sm14221319pfe.80.2020.11.10.05.55.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 05:55:13 -0800 (PST)
+Date: Tue, 10 Nov 2020 08:55:00 -0500
+From: Peilin Ye <yepeilin.cs@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 1/2] console: Remove dummy con_font_op() callback
+ implementations
+Message-ID: <20201110135500.GA2484495@PWN>
+References: <c5563eeea36aae7bd72ea2e985bc610d585ece40.1604128639.git.yepeilin.cs@gmail.com>
+ <20201106105058.GA2801856@kroah.com>
+ <20201110124946.GF401619@phenom.ffwll.local>
+ <20201110132445.GA2483842@PWN>
+ <CAKMK7uFiCTu9bz1uJqmCvwBSUK4XmuVyRf2C-U=zoArZMb0Pgg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <9d23f838-a9bc-ba5d-adfe-9b3bfc26c223@ti.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <CAKMK7uFiCTu9bz1uJqmCvwBSUK4XmuVyRf2C-U=zoArZMb0Pgg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,92 +71,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>, Sekhar Nori <nsekhar@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ USB list <linux-usb@vger.kernel.org>, Nicolas Pitre <nico@fluxnic.net>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Peter Rosin <peda@axentia.se>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14:27-20201110, Tomi Valkeinen wrote:
-> On 10/11/2020 12:27, Nikhil Devshatwar wrote:
-> > On 11:21-20201110, Tomi Valkeinen wrote:
-> >> On 09/11/2020 19:06, Nikhil Devshatwar wrote:
-> >>> When removing the tidss driver, there is a warning reported by
-> >>> kernel about an unhandled interrupt for mhdp driver.
-> >>>
-> >>> [   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
-> >>> ... [snipped backtrace]
-> >>> [   43.330735] handlers:
-> >>> [   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
-> >>> cdns_mhdp_irq_handler [cdns_mhdp8546]
-> >>> [   43.344607] Disabling IRQ #31
-> >>>
-> >>> This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
-> >>> to disable the interrupts. While disabling the SW_EVENT interrupts,
-> >>> it accidentally enables the MBOX interrupts, which are not handled by
-> >>> the driver.
-> >>>
-> >>> Fix this with a read-modify-write to update only required bits.
-> >>> Do the same for enabling interrupts as well.
-> >>>
-> >>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-> >>> ---
-> >>>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 7 +++++--
-> >>>  1 file changed, 5 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> >>> index 2cd809eed827..6beccd2a408e 100644
-> >>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> >>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> >>> @@ -2146,7 +2146,8 @@ static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
-> >>>  
-> >>>  	/* Enable SW event interrupts */
-> >>>  	if (mhdp->bridge_attached)
-> >>> -		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
-> >>> +		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
-> >>> +		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
-> >>>  		       mhdp->regs + CDNS_APB_INT_MASK);
-> >>>  }
-> >>>  
-> >>> @@ -2154,7 +2155,9 @@ static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
-> >>>  {
-> >>>  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
-> >>>  
-> >>> -	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
-> >>> +	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
-> >>> +	       CDNS_APB_INT_MASK_SW_EVENT_INT,
-> >>> +	       mhdp->regs + CDNS_APB_INT_MASK);
-> >>>  }
-> >>>  
-> >>>  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
-> >>
-> >> Good catch. I wonder why we need the above functions... We already enable and disable the interrupts
-> >> when attaching/detaching the driver. And I think we want to get the interrupt even if we won't
-> >> report HPD (but I think we always do report it), as we need the interrupts to track the link status.
-> >>
-> > 
-> > I read from the code that there is TODO for handling the mailbox
-> > interrupts in the driver. Once that is supported, you will be able to
-> > explictily enable/disable interrupts for SW_EVENTS (like hotplug) as
-> > well as mailbox events. This enabling specific bits in the interrupt
-> > status.
+On Tue, Nov 10, 2020 at 02:46:20PM +0100, Daniel Vetter wrote:
+> On Tue, Nov 10, 2020 at 2:24 PM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> > Oh, are we doing an -rc3 backmerge soon? At the moment I can base these
+> > patches on neither drm-misc (due to the font_copy removal), nor mainline
+> > (due to the signedness issue in font_desc we've talked about), so I'm
+> > waiting for a backmerge to rebase everything properly. Sorry that I
+> > didn't mention earlier.
 > 
-> But SW_EVENTS is not the same as HPD, at least in theory. If we disable SW_EVENT_INT in
-> hpd_disable(), we lose all SW_EVENT interrupts.
-
-I am not sure, what exactly is covered in the SW events apart from the hotplug.
-
-Swapnil, Yuti, Please fill in..
-
-Nikhil D
+> linux-next has all the trees, so you can always use that. And yes I'm
+> pushing the backmerge through, so in a few days at most I can pull in
+> all your patches. Meanwhile you can base your work of linux-next.
 > 
->  Tomi
+> > > Greg, ok if I just pull these in through drm-misc-next? It's a pretty bad
+> > > hairball anyway and that avoids the tree coordination issues. Only thing
+> > > that might get in the way is the vt font_copy removal, but that's in -rc3
+> > > so easy to backmerge.
+> >
+> > I will rebase and send everything (including the font_copy
+> > garbage-collecting) in a v3 series after the backmerge. Thanks,
 > 
-> -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> No need to be blocked on a backmerge, this is only needed for merging
+> the patches. Development should not be blocked like this.
+
+I see. Thanks!
+
+Peilin Ye
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
