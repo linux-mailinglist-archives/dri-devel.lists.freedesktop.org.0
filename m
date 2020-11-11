@@ -1,67 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8662B0108
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A84B2B0114
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C546E1B2;
-	Thu, 12 Nov 2020 08:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2676E1BD;
+	Thu, 12 Nov 2020 08:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6931089E52
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:54:06 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id b3so546304pls.11
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 23:54:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=BR1T4epV+HHBrX5I3Lx7g9aCKzjxl36+gayU6Vo90zk=;
- b=SeyOkpJ8VAnb9K1v6QHwyuE+XDQ7Xb5qgsNsN17V6pSCy+q1aUZltHVrwUB6hoVNUJ
- kyi1hz3GZB0PUzYnYm5NHuDH4DtZLQ6r7LinuCTWmBnv++Pcns6Z44NLADK8nCUPq+2Z
- lUAZJJD/ofBTydNaZsP70StUTV3P14W4YTnOf2MmHlIO00RSoHGw/LnoMgUFva/t02jt
- Cq7ItmcBBwiJsCiFGCnQ6OwdXO7K2pdOTRCxVVRlJlC9Ivp6OLV2wqZm0q7JGzPRVz7B
- ewCJe+iAbFC6PK7GZk/6Vnj4udyUn6bTmvaD+GiJHFydjtBRGzYuyAAJkgFvEKUueX/h
- fT3Q==
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
+ [IPv6:2607:f8b0:4864:20::1043])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B9D389F4A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:57:26 +0000 (UTC)
+Received: by mail-pj1-x1043.google.com with SMTP id w20so317126pjh.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 23:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SJM6oYGDac+fkoGJVfE5BHDeRyFBkywKIxFwj/L9nFw=;
+ b=cqh976neUpt6wJF4oDuGd7FQ03/sg8401yoH5NtuzSJ9tNVTePHx0J+9qn0xXTY565
+ 00IisHKv6G4FKmOGXQSdngTvK5p47FRodwF/eXMs7mhJNxFEL6Yf21utRd6nv76J07wP
+ gc5X2m84NOMI41xwY/z0dC+sKve9N/vegiF3UOOn0PCe+0EJnVsWPlT36GX7eJO1JGTx
+ wbnRhJo1nWJkOEB5dkqggNo5iADduJ57eSsJMaMpbehVGCbCp9RHRFoDNnht8GwpfoOj
+ tN1WDZXbGA8VBFnkZdFBqMr0g2Yn7rh7RS0wj/1Rihq9Y472Atd+UP3hRRRlx1TegLuT
+ zSiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=BR1T4epV+HHBrX5I3Lx7g9aCKzjxl36+gayU6Vo90zk=;
- b=maYNgiPQjx/BS5ZIfEm3Qh6iUglezjdWGINhd3nZONKeDfM8M/ZqloDTLonJdDKTXs
- wML1kWILyTW+U36gsxXs1w1GOLT2mtSE+uDMBlhZ+j495rQYpk3vyUy921zeXhygOFYr
- fNNxlSc/6u+f/JHGJBVCGJSDriFHxf0xHVs+I5zHm7elhNgUvR2BMXcZWBk02GcT1fbe
- b7Mj4SpbQHUd6tbQtuNA2sUgAvmg3RrJLv/oWJJX0xnM6LuevqUO5UL0CNj9n7llJDPJ
- pAO2hLH3dxd3Yf3e1AIt/92l17Js6YrSzK7fNXq0tOtXZGGrDRM7Vk4V3zp56gwGvk2A
- NCLg==
-X-Gm-Message-State: AOAM531jJuXBvX+sWcJLPXXfXm/LoCESzWzdaDZnivv08U7u56ZJv2cS
- m4yYuDBA/aCQi2DB9QYiPfsTlA==
-X-Google-Smtp-Source: ABdhPJxOHg/sWON4ePkTuSAP4y8SzDQlWRi72cjAP6aV88j0N4jbC+I/d/e9bu0uQlLakGN5MNj7pg==
-X-Received: by 2002:a17:902:82c3:b029:d6:c377:c87d with SMTP id
- u3-20020a17090282c3b02900d6c377c87dmr19915711plz.37.1605081245903; 
- Tue, 10 Nov 2020 23:54:05 -0800 (PST)
-Received: from localhost ([122.172.12.172])
- by smtp.gmail.com with ESMTPSA id v18sm1450609pfn.35.2020.11.10.23.54.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 10 Nov 2020 23:54:04 -0800 (PST)
-Date: Wed, 11 Nov 2020 13:24:02 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 09/26] memory: tegra30: Support interconnect framework
-Message-ID: <20201111075402.y52c2zwcw74eeyko@vireshk-i7>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-10-digetx@gmail.com>
- <20201111055313.tefidnmc7f4yb3jk@vireshk-i7>
- <185e9140-fdce-29ef-68c3-aa7da02b249d@gmail.com>
- <20201111061855.2azilyhfoxwzpoir@vireshk-i7>
- <7f5c15c6-44d2-c997-442c-8f6670794f0e@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SJM6oYGDac+fkoGJVfE5BHDeRyFBkywKIxFwj/L9nFw=;
+ b=NVCNSXYoE099UX3++Ftm47TAKF8D4z2lGhuwGw0DeT9BsO3yTFHuNxOO/tkRWBMlvk
+ keANXhIQfUzTLovMwBMnNP5WzqySn+vx0epNwf91ZAyvIzK14d5trpEAujq4EDJXNZyr
+ cUvhr7WnszQFq7R3YK2hEdsgWOBIRUAad5U4AvSHT9mzHbW+s/MpefzS48+eoV56x+I8
+ GBG8Ju1UJWEVvEQHdgm/qzzNz1NBcc8QJbPe7jWaC44+gt7WwY6PEicW/tNmiwxC1cUL
+ SSPXcFuinIPXqcH2bbunknfS7errP4pExCwaJal5NykzIj4koit3U7TF54XlSMEr8mWw
+ xJRg==
+X-Gm-Message-State: AOAM530OIbciFs89TVyB7Sqz8CCeq6c5OxFSbm5hN8PXkv79Vf6nQxJx
+ vqvdBE8BIHRza/7dZTVZCRLoQkrR4JETbpxeWTU=
+X-Google-Smtp-Source: ABdhPJyb7iPNVQ/2dY2Fqo1Hk7EEuIQ1cDTFw8mWjeXWiQ2ARKcYs+hfLV/kGaH6/2hd6Yj3qkDsKvBa/O7MKUVnHOk=
+X-Received: by 2002:a17:90a:8542:: with SMTP id
+ a2mr2712822pjw.101.1605081445714; 
+ Tue, 10 Nov 2020 23:57:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <7f5c15c6-44d2-c997-442c-8f6670794f0e@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+References: <20201031081747.372599-1-net147@gmail.com>
+ <20201108095322.GA1129714@ravnborg.org>
+ <20201108095724.GW1551@shell.armlinux.org.uk>
+ <20201108104742.GA1161483@ravnborg.org>
+In-Reply-To: <20201108104742.GA1161483@ravnborg.org>
+From: Jonathan Liu <net147@gmail.com>
+Date: Wed, 11 Nov 2020 18:57:15 +1100
+Message-ID: <CANwerB3AyNHt50vR--eeBw=gk8771h+-6p+Fwg0gCx+16fkkMQ@mail.gmail.com>
+Subject: Re: [PATCH] drm: bridge: dw-hdmi: Avoid resetting force in the detect
+ function
+To: Sam Ravnborg <sam@ravnborg.org>
 X-Mailman-Approved-At: Thu, 12 Nov 2020 08:15:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,51 +66,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Fabio Estevam <fabio.estevam@freescale.com>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ linux-rockchip@lists.infradead.org, Liu Ying <victor.liu@nxp.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0093086760=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEtMTEtMjAsIDEwOjMyLCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMTEuMTEuMjAyMCAw
-OToxOCwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gPiBPbiAxMS0xMS0yMCwgMDk6MTQsIERt
-aXRyeSBPc2lwZW5rbyB3cm90ZToKPiA+PiBUaGUgZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoKSB3
-aWxsIHByb2R1Y2UgYSBlcnJvciBtZXNzYWdlIHdoaWNoIGRvZXNuJ3QKPiA+PiBnaXZlIGEgY2x1
-ZSBhYm91dCB3aGF0J3Mgd3JvbmcsIGkuZS4gdGhhdCBkZXZpY2UtdHJlZSBuZWVkcyB0byBiZSB1
-cGRhdGVkLgo+ID4gCj4gPiBJZiB5b3UgdGhpbmsgdGhhdCB5b3UgbmVlZCB0byBwcmludCBzb21l
-dGhpbmcgbW9yZSwgdGhlbiB5b3UgY2FuIGRvCj4gPiB0aGF0IGluIHRoZSBlcnJvciBtZXNzYWdl
-IHlvdSBwcmludCB3aGVuIGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKCkKPiA+IGZhaWxzLiBJIHdv
-dWxkIHN1Z2dlc3QgdG8gZHJvcCB0aGlzIHJlZHVuZGFudCBjaGVjayBoZXJlLgo+ID4gCj4gCj4g
-UGxlYXNlIGdpdmUgdGhlIHJhdGlvbmFsZS4KClRoZSByYXRpb25hbGUgaXMgdGhhdCB0aGUgY2hl
-Y2sgaXMgYWxyZWFkeSBwZXJmb3JtZWQgYnkKZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoKSBhbmQg
-aXQgaXNuJ3QgZ29pbmcgdG8gYWRkICphbnkqIGJlbmVmaXQgdG8KY2hlY2sgaXQgYWdhaW4gaGVy
-ZS4gU3VjaCBhIGNoZWNrIGZvciBtYXRjaGluZyBjb21wYXRpYmxlIHBsYXRmb3JtcyBpcwpub3Jt
-YWxseSBmaW5lLCBidXQgbm90IGZvciB0aGlzLiBUaGlzIGlzIGxpa2Ugb3BlbiBjb2RpbmcgcGFy
-dCBvZgpkZXZfcG1fb3BwX29mX2FkZF90YWJsZSgpLCBhbmQgc28gaXMgcmVkdW5kYW50LiBUaGUK
-ZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoKSBoZWxwZXIgYWxzbyBjaGVja3MgZm9yIE9QUHYxIGJp
-bmRpbmdzIGluIHRoZQpEVCAoeWVzIHlvdSB3b24ndCBiZSB1c2luZyB0aGVtIG9uIHlvdXIgcGxh
-dGZvcm0pIGFuZCBzbyByZWx5aW5nIG9uCnRoYXQgQVBJIGlzIGEgYmV0dGVyIHRoaW5nIHRvIGRv
-LgoKQXMgeW91IGFscmVhZHkgc2FpZCwgeW91IGp1c3Qgd2FudGVkIGEgYmV0dGVyIHByaW50IG1l
-c3NhZ2UgYW5kIHNvIHlvdQpoYXZlIGFkZGVkIHRoaXMgY2hlY2suIElmIHlvdSByZWFsbHkgY2Fy
-ZSBvbmx5IGFib3V0IHRoZSBwcmludAptZXNzYWdlLCB0aGVuIHlvdSBjYW4gYWRkIGEgcHJpbnQg
-b2YgeW91ciBjaG9pY2UgaW4gdGhlIGRyaXZlciBidXQKb3RoZXJ3aXNlIHRoaXMgY2hlY2sgaXMg
-bm90IGdvaW5nIHRvIGJlbmVmaXQgeW91IG11Y2ggSSBhbSBhZnJhaWQuCgpIYXZpbmcgc2FpZCB0
-aGF0LCB0aGlzIGlzbid0IHRoZSBjb2RlIEkgbWFpbnRhaW4uIEkgbmVlZCB0byBndWFyYW50ZWUK
-dGhhdCB0aGUgT1BQIGNvcmUgQVBJcyBhcmUgdXNlZCBwcm9wZXJseSBhbmQgYXJlIG5vdCBtaXN1
-c2VkIGFuZCBzbyBJCmhhdmUgYSBoaWdoZXIgc2F5IHRoZXJlLiBCdXQgaW4gdGhpcyBjYXNlIGFs
-bCBJIGNhbiBkbyBpcyBfc3VnZ2VzdF8KYW5kIG5vdCBlbmZvcmNlLiBBbmQgYXMgSSBzYWlkIGVh
-cmxpZXIsIEkgc3VnZ2VzdCB0byBkcm9wIHRoaXMKcmVkdW5kYW50IGNoZWNrIGluIG9yZGVyIHRv
-IG1ha2UgeW91ciBjb2RlIGJldHRlciBhbmQgZmFzdGVyLgoKVGhhbmtzLgoKLS0gCnZpcmVzaApf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+--===============0093086760==
+Content-Type: multipart/alternative; boundary="000000000000684d1905b3d025b0"
+
+--000000000000684d1905b3d025b0
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Sam,
+
+On Sun, 8 Nov 2020 at 9:47 pm, Sam Ravnborg <sam@ravnborg.org> wrote:
+
+> Hi Russell,
+>
+> On Sun, Nov 08, 2020 at 09:57:25AM +0000, Russell King - ARM Linux admin
+> wrote:
+> > On Sun, Nov 08, 2020 at 10:53:22AM +0100, Sam Ravnborg wrote:
+> > > Russell,
+> > >
+> > > On Sat, Oct 31, 2020 at 07:17:47PM +1100, Jonathan Liu wrote:
+> > > > It has been observed that resetting force in the detect function can
+> > > > result in the PHY being powered down in response to hot-plug detect
+> > > > being asserted, even when the HDMI connector is forced on.
+> > > >
+> > > > Enabling debug messages and adding a call to dump_stack() in
+> > > > dw_hdmi_phy_power_off() shows the following in dmesg:
+> > > > [  160.637413] dwhdmi-rockchip ff940000.hdmi: EVENT=plugin
+> > > > [  160.637433] dwhdmi-rockchip ff940000.hdmi: PHY powered down in 0
+> iterations
+> > > >
+> > > > Call trace:
+> > > > dw_hdmi_phy_power_off
+> > > > dw_hdmi_phy_disable
+> > > > dw_hdmi_update_power
+> > > > dw_hdmi_detect
+> > > > dw_hdmi_connector_detect
+> > > > drm_helper_probe_detect_ctx
+> > > > drm_helper_hpd_irq_event
+> > > > dw_hdmi_irq
+> > > > irq_thread_fn
+> > > > irq_thread
+> > > > kthread
+> > > > ret_from_fork
+> > > >
+> > > > Fixes: 381f05a7a842 ("drm: bridge/dw_hdmi: add connector mode
+> forcing")
+> > > > Signed-off-by: Jonathan Liu <net147@gmail.com>
+> > >
+> > > you are the original author of this code - any comments on this patch?
+> >
+> > No further comments beyond what has already been discussed, and the
+> > long and short of it is it's been so long that I don't remember why
+> > that code was there. Given that, I'm not even in a position to ack
+> > the change. Sorry.
+> Thanks for the quick reply.
+>
+> Given that this fixes a problem for Jonathan I will apply this to -fixes
+> if there is no other feedback the next couple of days.
+> If it introduces regression we can take it from there.
+>
+> Jonathan - please ping me if I forget.
+>
+>         Sam
+
+
+> Ping.
+
+Regards,
+Jonathan
+
+--000000000000684d1905b3d025b0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hi Sam,</div><div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Sun, 8 Nov 2020 at 9:47 pm, Sam Ravnborg &=
+lt;<a href=3D"mailto:sam@ravnborg.org">sam@ravnborg.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
+ft:1px #ccc solid;padding-left:1ex">Hi Russell,<br>
+<br>
+On Sun, Nov 08, 2020 at 09:57:25AM +0000, Russell King - ARM Linux admin wr=
+ote:<br>
+&gt; On Sun, Nov 08, 2020 at 10:53:22AM +0100, Sam Ravnborg wrote:<br>
+&gt; &gt; Russell,<br>
+&gt; &gt; <br>
+&gt; &gt; On Sat, Oct 31, 2020 at 07:17:47PM +1100, Jonathan Liu wrote:<br>
+&gt; &gt; &gt; It has been observed that resetting force in the detect func=
+tion can<br>
+&gt; &gt; &gt; result in the PHY being powered down in response to hot-plug=
+ detect<br>
+&gt; &gt; &gt; being asserted, even when the HDMI connector is forced on.<b=
+r>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Enabling debug messages and adding a call to dump_stack() in=
+<br>
+&gt; &gt; &gt; dw_hdmi_phy_power_off() shows the following in dmesg:<br>
+&gt; &gt; &gt; [=C2=A0 160.637413] dwhdmi-rockchip ff940000.hdmi: EVENT=3Dp=
+lugin<br>
+&gt; &gt; &gt; [=C2=A0 160.637433] dwhdmi-rockchip ff940000.hdmi: PHY power=
+ed down in 0 iterations<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Call trace:<br>
+&gt; &gt; &gt; dw_hdmi_phy_power_off<br>
+&gt; &gt; &gt; dw_hdmi_phy_disable<br>
+&gt; &gt; &gt; dw_hdmi_update_power<br>
+&gt; &gt; &gt; dw_hdmi_detect<br>
+&gt; &gt; &gt; dw_hdmi_connector_detect<br>
+&gt; &gt; &gt; drm_helper_probe_detect_ctx<br>
+&gt; &gt; &gt; drm_helper_hpd_irq_event<br>
+&gt; &gt; &gt; dw_hdmi_irq<br>
+&gt; &gt; &gt; irq_thread_fn<br>
+&gt; &gt; &gt; irq_thread<br>
+&gt; &gt; &gt; kthread<br>
+&gt; &gt; &gt; ret_from_fork<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Fixes: 381f05a7a842 (&quot;drm: bridge/dw_hdmi: add connecto=
+r mode forcing&quot;)<br>
+&gt; &gt; &gt; Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gma=
+il.com" target=3D"_blank">net147@gmail.com</a>&gt;<br>
+&gt; &gt; <br>
+&gt; &gt; you are the original author of this code - any comments on this p=
+atch?<br>
+&gt; <br>
+&gt; No further comments beyond what has already been discussed, and the<br=
+>
+&gt; long and short of it is it&#39;s been so long that I don&#39;t remembe=
+r why<br>
+&gt; that code was there. Given that, I&#39;m not even in a position to ack=
+<br>
+&gt; the change. Sorry.<br>
+Thanks for the quick reply.<br>
+<br>
+Given that this fixes a problem for Jonathan I will apply this to -fixes<br=
+>
+if there is no other feedback the next couple of days.<br>
+If it introduces regression we can take it from there.<br>
+<br>
+Jonathan - please ping me if I forget.<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Sam</blockquote><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" =
+dir=3D"auto"><br>
+</blockquote></div></div><div dir=3D"auto">Ping.</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto">Regards,</div><div dir=3D"auto">Jonathan</div>
+
+--000000000000684d1905b3d025b0--
+
+--===============0093086760==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0093086760==--
