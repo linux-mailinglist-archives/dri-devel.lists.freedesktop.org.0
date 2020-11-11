@@ -1,71 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B76F2AF138
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:48:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE4402AF13E
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:51:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26B5189FD4;
-	Wed, 11 Nov 2020 12:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5378989E47;
+	Wed, 11 Nov 2020 12:51:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB27889F8E
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 12:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1605098924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zGXJ8V4La1S/QeUFBtdnXjusm+8Mn5insAGmUISpfHs=;
- b=F1PZsI4a6hTKkBvvX/ZppGYJoY5vAo+DeBNUieutbG+qSQl07V3bNko6OnLkEZPg2w7XmQ
- mpwv3wzSJqHa0iDkcmhY0RhqY3+1N06gCV7qw7WOgAgMPYz8cuQ8s5kgE2amRbBHl/hL8E
- 8j6nrQEh5oXFpEYzf41h7FI4KITPKss=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-PXLmFSVKOFSmzDNDJOWfog-1; Wed, 11 Nov 2020 07:48:42 -0500
-X-MC-Unique: PXLmFSVKOFSmzDNDJOWfog-1
-Received: by mail-wm1-f71.google.com with SMTP id u207so862050wmu.4
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 04:48:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zGXJ8V4La1S/QeUFBtdnXjusm+8Mn5insAGmUISpfHs=;
- b=TaUNoiLmg5oF/5qlyQZi0p+T/qDrumTJ/h4c1cLXxDp6lSCxopBdg1F1qJKoxf20mG
- AyeByNAYIOy3yuhqiTS9qZl/1G9CA4v+eykExk6eMClXdwvWdaP5KMK3t18DeEVnaQij
- KJKJsUU/IYq+ZF3kxycUHPAkWsg+bkcuSJwl6JPHE52Nff3JkMBd9BRezCRIJKFf2r0X
- 2GrLOgNJGJcoyU4HOboWOpDDfQWJSsmD1ig1UmioYGKXliGrjWI0u33vFmsLTIg7icw7
- nsaTLq83bZhS7W24T0iNbFMxCmrGSID4O/qxrZhQA6N9kDSmObWzVGYblPu/7s9vumpO
- /ASg==
-X-Gm-Message-State: AOAM532j4Z7Yhc5MjWq8IwDfFEgBtBynr7YzN2IAKuol2ldIK30u0ydI
- ZBulSvZtmafy+h6bghTqHaa21qwh9NFCbr97Mu6PZTyjJ4oitmWg4fx20uj/NaWzObSQuVFSf/Q
- 6yy/8DleJkURPusMBbztSzHk+PGHj
-X-Received: by 2002:a5d:5446:: with SMTP id w6mr20336618wrv.122.1605098921433; 
- Wed, 11 Nov 2020 04:48:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBamKw/bg5c7+XjuuJx3l1SVoJhclL/t8sfniS6v7UD+Th0hPny5TfD72A5b6eS01hmH1NbQ==
-X-Received: by 2002:a5d:5446:: with SMTP id w6mr20336594wrv.122.1605098921214; 
- Wed, 11 Nov 2020 04:48:41 -0800 (PST)
-Received: from redhat.com (bzq-79-181-34-244.red.bezeqint.net. [79.181.34.244])
- by smtp.gmail.com with ESMTPSA id y11sm2305471wmj.36.2020.11.11.04.48.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 04:48:40 -0800 (PST)
-Date: Wed, 11 Nov 2020 07:48:36 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20201111074811-mutt-send-email-mst@kernel.org>
-References: <20201102124327.2f82b2a7@canb.auug.org.au>
- <20201102051822-mutt-send-email-mst@kernel.org>
- <20201111171015.631ffd0e@canb.auug.org.au>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0862E89E32
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 12:51:15 +0000 (UTC)
+Received: from [192.168.0.20]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFC9CA19;
+ Wed, 11 Nov 2020 13:51:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1605099073;
+ bh=03M0H/6Q0FicpBXAUeyVuY0edxiXRr6HBE6AiMF79ww=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=ErHe2RL/x6Y/SPZxGetJaGeswP2lSlkaY4isAPzANK1DAIymBivHDOyzsuHP59fDZ
+ sHd/cKPas4Hv3u2XzuJFSPt7896Z+LE9apQXOILg+13Q08uWmD9ikmuSIznDnEKS9u
+ NFNOoqnq3djqrNj/ZFIjZgKwEitVGGPrcJeaXcIk=
+Subject: Re: [PATCH] drm: rcar-du: Fix the return check of of_parse_phandle
+ and of_find_device_by_node
+To: Wang Xiaojun <wangxiaojun11@huawei.com>,
+ laurent.pinchart@ideasonboard.com, airlied@linux.ie, daniel@ffwll.ch
+References: <20201111031452.3659714-1-wangxiaojun11@huawei.com>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <360b40b7-cc94-0665-be5f-b18d992100f5@ideasonboard.com>
+Date: Wed, 11 Nov 2020 12:51:10 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201111171015.631ffd0e@canb.auug.org.au>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <20201111031452.3659714-1-wangxiaojun11@huawei.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,72 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Joerg Roedel <jroedel@suse.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 05:10:15PM +1100, Stephen Rothwell wrote:
-> Hi Michael,
+Hi Wang Xiaojun,
+
+On 11/11/2020 03:14, Wang Xiaojun wrote:
+> of_parse_phandle and of_find_device_by_node may return NULL
+> which cannot be checked by IS_ERR.
+
+Indeed, both of these functions return either NULL or the correct value,
+and no an errno.
+
 > 
-> On Mon, 2 Nov 2020 05:19:06 -0500 "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >
-> > On Mon, Nov 02, 2020 at 12:43:27PM +1100, Stephen Rothwell wrote:
-> > > 
-> > > After merging the drm-misc tree, today's linux-next build (arm
-> > > multi_v7_defconfig) failed like this:
-> > > 
-> > > In file included from drivers/gpu/drm/nouveau/nouveau_ttm.c:26:
-> > > include/linux/swiotlb.h: In function 'swiotlb_max_mapping_size':
-> > > include/linux/swiotlb.h:99:9: error: 'SIZE_MAX' undeclared (first use in this function)
-> > >    99 |  return SIZE_MAX;
-> > >       |         ^~~~~~~~
-> > > include/linux/swiotlb.h:7:1: note: 'SIZE_MAX' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
-> > >     6 | #include <linux/init.h>
-> > >   +++ |+#include <stdint.h>
-> > >     7 | #include <linux/types.h>
-> > > include/linux/swiotlb.h:99:9: note: each undeclared identifier is reported only once for each function it appears in
-> > >    99 |  return SIZE_MAX;
-> > >       |         ^~~~~~~~
-> > > 
-> > > Caused by commit
-> > > 
-> > >   abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
-> > > 
-> > > but only exposed by commit
-> > > 
-> > >   4dbafbd30aef ("drm/nouveu: fix swiotlb include")
-> > > 
-> > > I applied the following fix for today:
-> > > 
-> > > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Date: Mon, 2 Nov 2020 12:34:57 +1100
-> > > Subject: [PATCH] swiotlb: using SIZE_MAX needs limits.h included
-> > > 
-> > > Fixes: abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
-> > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>  
-> > 
-> > Acked-by: Michael S. Tsirkin <mst@redhat.com>
-> > 
-> > I guess it makes sense to pick this up for this release directly.
-> > I'll merge this unless there are any objections.
+> Signed-off-by: Wang Xiaojun <wangxiaojun11@huawei.com>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+
+Fixes: 8de707aeb452 ("drm: rcar-du: kms: Initialize CMM instances")
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> Christoph is right that the include should not be conditional.  But I
-> have not tested that that does not introduce some other problems.
-
-If there's a problem it will be a build failure - I'll put
-it in next for a while, this way we'll find out.
-
-> -- 
-> Cheers,
-> Stephen Rothwell
-
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 72dda446355f..fcfddf7ad3f3 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -700,10 +700,10 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+>  		int ret;
+>  
+>  		cmm = of_parse_phandle(np, "renesas,cmms", i);
+> -		if (IS_ERR(cmm)) {
+> +		if (!cmm) {
+>  			dev_err(rcdu->dev,
+>  				"Failed to parse 'renesas,cmms' property\n");
+> -			return PTR_ERR(cmm);
+> +			return -ENODEV;
+>  		}
+>  
+>  		if (!of_device_is_available(cmm)) {
+> @@ -713,10 +713,10 @@ static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+>  		}
+>  
+>  		pdev = of_find_device_by_node(cmm);
+> -		if (IS_ERR(pdev)) {
+> +		if (!pdev) {
+>  			dev_err(rcdu->dev, "No device found for CMM%u\n", i);
+>  			of_node_put(cmm);
+> -			return PTR_ERR(pdev);
+> +			return -ENODEV;
+>  		}
+>  
+>  		of_node_put(cmm);
+> 
 
 _______________________________________________
 dri-devel mailing list
