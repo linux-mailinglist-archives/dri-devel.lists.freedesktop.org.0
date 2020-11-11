@@ -2,66 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6C72AEA9A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FC12AEA86
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26F189FA5;
-	Wed, 11 Nov 2020 07:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55C5A89F6E;
+	Wed, 11 Nov 2020 07:54:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53D1789E3B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:33:00 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id l2so1895760lfk.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 23:33:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=V5haJlrCzHhZjookFyzKI1ofwRfXaAn0aRWFtwOvZPM=;
- b=mBY07o0WYOO3KPVX9ikNGcfO0oosoLOui+74cafSO4z+uokoYQoq0NNwCqF4dWSBQ5
- H4Jhs5vLdQ191L3nLezXVMst6CirPN7bQCoBhNSlb1bR9C75HchTsOU4ddLT2LL6mAWX
- Dvk0b4S/anJkLgSMSsODY9QpIeCgvo7oURWz9oY8W8HBi4y3f1xW8y9rvism9ipr+zA+
- doQKmSlzb/V6dTwBAB93tluEkYwJaFc90gfqF2go5vzYx9Yi0iQKS7Xp3SXnuidOBMPV
- vEJtVgsKSxOpZIyNYQiqGQg42YW5BgyZS4y/d0WBXlhV8yZfOg9LrGbckxALMCFwa4Yf
- +iMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=V5haJlrCzHhZjookFyzKI1ofwRfXaAn0aRWFtwOvZPM=;
- b=Q+EgLw1JjAXY6ASr7mt9iB0dObstBJ1wP0kG9H9HJCKPSkBOSV7YNC6pQKDiWCg0+0
- pH/WcqUgY11P+1vtt16d2ahXZ6rdT2SOkOJrvQKyonUPMLqT/T3Y+ry+J1dmzln1BnJ5
- iGqpti/PYiWGy5rmISwCDhDDUh1t9zUnldAhfe8YXK6PzcPPkdb2gzBhqOPHM4takml9
- TVwDHy+wNYN9t9n8Azq1dGks51WUt80br4fqNH/ndt1duWea47kqZVNCUZYHcrWH4Cs3
- 2AXOqKr2ZEFmuo2qIK3GQ8cD74p0r6N8GrzyBo0ixArcXfBNCwVi6RBrxHRae6p+0aBc
- k0XA==
-X-Gm-Message-State: AOAM533nk17b8/gilVvhIhQI8f23rYyiPwe3pWeKkV4SXK/J2CGqbRt5
- ELbYmdes6y00o7YJk4xyyRzAaeveNd0=
-X-Google-Smtp-Source: ABdhPJxhZEjV2QRG7aWHgF16Bn0c+eyj1kfpgdHs/q2P1g52eKn79RkzViwPJ+N7nj1DvZzVrM0B2Q==
-X-Received: by 2002:ac2:43cf:: with SMTP id u15mr2226361lfl.382.1605079978165; 
- Tue, 10 Nov 2020 23:32:58 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id q7sm92352ljp.81.2020.11.10.23.32.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Nov 2020 23:32:57 -0800 (PST)
-Subject: Re: [PATCH v8 09/26] memory: tegra30: Support interconnect framework
-To: Viresh Kumar <viresh.kumar@linaro.org>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-10-digetx@gmail.com>
- <20201111055313.tefidnmc7f4yb3jk@vireshk-i7>
- <185e9140-fdce-29ef-68c3-aa7da02b249d@gmail.com>
- <20201111061855.2azilyhfoxwzpoir@vireshk-i7>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7f5c15c6-44d2-c997-442c-8f6670794f0e@gmail.com>
-Date: Wed, 11 Nov 2020 10:32:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201111061855.2azilyhfoxwzpoir@vireshk-i7>
-Content-Language: en-US
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D52C389D99
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605080903;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+ X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+ bh=UipCBNxvSkYMD0ld5DKa/yFCoPhHKzPCKQYEYVERROM=;
+ b=AFnrbbzQAG4N3X41nePG1z/Bsr8PK0s7UfUXML1ySLYCaIDfUJw0ZHEIwH8dz+ETHZ
+ D+B1fEtFONXwjBZ/udYbpLXa4KZW7zQgPYuFp1NhHdMuVMfyKA5uSAubRVyn35vJgLbv
+ JLU+sNM3kGdc9poKsl5GpQ/GiBTN1bOu6IALyT76FGm+BUdAPEhC/vf9PEnPKF4DE2nY
+ Yk9vqnmL9TN8wUZM4LX2O8ChvGiy6f92TfIE9bKTUCJ4MiChgBoDtRuYHpfwTbjTQJXk
+ ZvzJOouX4JkThNviKyV/SuB8xSbgisX/o4eddTTH5USOobc23Qpot4/yofcoTc/6nfrm
+ hksQ==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAvw43o9ik="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
+ with ESMTPSA id N02faawAB7m96cA
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
+ ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 11 Nov 2020 08:48:09 +0100 (CET)
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@ti.com>
+Date: Wed, 11 Nov 2020 08:48:09 +0100
+Message-Id: <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
+ <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+ <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+ <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
+ <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
+ <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
+ <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+ <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+ <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+ <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
+ <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
+ <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
+ <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
+ <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
+ <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
+ <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
+ <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@ti.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+X-Mailer: Apple Mail (2.3124)
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,42 +74,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTEuMTEuMjAyMCAwOToxOCwgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gT24gMTEtMTEtMjAs
-IDA5OjE0LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IDExLjExLjIwMjAgMDg6NTMsIFZpcmVz
-aCBLdW1hciDQv9C40YjQtdGCOgo+Pj4+ICtzdGF0aWMgaW50IHRlZ3JhX2VtY19vcHBfdGFibGVf
-aW5pdChzdHJ1Y3QgdGVncmFfZW1jICplbWMpCj4+Pj4gK3sKPj4+PiArCXN0cnVjdCBvcHBfdGFi
-bGUgKnJlZ19vcHBfdGFibGUgPSBOVUxMLCAqY2xrX29wcF90YWJsZSwgKmh3X29wcF90YWJsZTsK
-Pj4+PiArCXUzMiBod192ZXJzaW9uID0gQklUKHRlZ3JhX3NrdV9pbmZvLnNvY19zcGVlZG9faWQp
-Owo+Pj4+ICsJY29uc3QgY2hhciAqcm5hbWUgPSAiY29yZSI7Cj4+Pj4gKwlpbnQgZXJyOwo+Pj4+
-ICsKPj4+PiArCS8qCj4+Pj4gKwkgKiBMZWdhY3kgZGV2aWNlLXRyZWVzIGRvbid0IGhhdmUgT1BQ
-IHRhYmxlIGFuZCBFTUMgZHJpdmVyIGlzbid0Cj4+Pj4gKwkgKiB1c2VmdWwgaW4gdGhpcyBjYXNl
-Lgo+Pj4+ICsJICovCj4+Pj4gKwlpZiAoIWRldmljZV9wcm9wZXJ0eV9wcmVzZW50KGVtYy0+ZGV2
-LCAib3BlcmF0aW5nLXBvaW50cy12MiIpKSB7Cj4+PiBJIGRvbid0IHVuZGVyc3RhbmQgd2h5IHlv
-dSB3YW50IHRvIGNoZWNrIHRoaXMgPyBUaGUgYmVsb3cgY2FsbCB0bwo+Pj4gZGV2X3BtX29wcF9v
-Zl9hZGRfdGFibGUoKSB3aWxsIGZhaWwgYW55d2F5IGFuZCB0aGF0IHNob3VsZCBiZSBnb29kIGZv
-cgo+Pj4geW91Lgo+Pj4KPj4KPj4gVGhlIGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKCkgd2lsbCBw
-cm9kdWNlIGEgZXJyb3IgbWVzc2FnZSB3aGljaCBkb2Vzbid0Cj4+IGdpdmUgYSBjbHVlIGFib3V0
-IHdoYXQncyB3cm9uZywgaS5lLiB0aGF0IGRldmljZS10cmVlIG5lZWRzIHRvIGJlIHVwZGF0ZWQu
-Cj4gCj4gSWYgeW91IHRoaW5rIHRoYXQgeW91IG5lZWQgdG8gcHJpbnQgc29tZXRoaW5nIG1vcmUs
-IHRoZW4geW91IGNhbiBkbwo+IHRoYXQgaW4gdGhlIGVycm9yIG1lc3NhZ2UgeW91IHByaW50IHdo
-ZW4gZGV2X3BtX29wcF9vZl9hZGRfdGFibGUoKQo+IGZhaWxzLiBJIHdvdWxkIHN1Z2dlc3QgdG8g
-ZHJvcCB0aGlzIHJlZHVuZGFudCBjaGVjayBoZXJlLgo+IAoKUGxlYXNlIGdpdmUgdGhlIHJhdGlv
-bmFsZS4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+
+> Am 11.11.2020 um 07:40 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+> 
+> On 10/11/2020 23:04, H. Nikolaus Schaller wrote:
+>> 
+>>> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>> 
+>>> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
+>>> 
+>>> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
+>>> there finding good clocks.
+>> 
+> 
+> drm_display_mode.clock is in kHz, but the panel driver writes Hz (w677l_PIXELCLOCK) to it.
+
+Ok, fixing this removes the stuck thread issue. Thanks for pointing this out!
+
+> But
+> there's more after fixing that. The DSI gets configured in bridge's modeset, which I think is before
+> w677l_prepare where the panel already sends DSI commands. Also, the dsi driver fails to lock the
+> PLL, so possibly the clock calcs are still wrong.
+
+What I now get is
+
+[  131.035006] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CRTC:55:crtc-0] flip_done timed out
+[  141.272174] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CONNECTOR:54:DSI-1] flip_done timed out
+
+I think for further experiments we could hack the device tree to compatible = "orisetech,otm8009a";
+and configure for panel-orisetech-otm8009a.ko. Since this panel driver is known to work elsewhere
+we could exclude panel driver issues for the moment. To be safe we can modify otm8009a_dcs_write_buf()
+to just print what it would be doing.
+
+BR,
+Nikolaus
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
