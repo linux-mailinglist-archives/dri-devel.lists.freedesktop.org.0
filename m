@@ -2,57 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE042AF23D
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 14:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763952AF2D7
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:00:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE9976E02D;
-	Wed, 11 Nov 2020 13:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C61489E0C;
+	Wed, 11 Nov 2020 14:00:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 473936E02D
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 13:35:59 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABDZqQM052650;
- Wed, 11 Nov 2020 07:35:52 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605101752;
- bh=yuZTAulBNbyblAySBdCoYJJLwWBaE98PzjVNyZjRja0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=gMOlgIelmLabCmxecxMeZQDX3TYFmRjOyehHJi3q+zX+XEUggL7DhZr3VkUcb7C4I
- 1tXFJIYGk8QNjQEbIqu0JtpmkdkW8Wvp39+lEQHzeWQF6MVVLAYEKBaWMO9+yv6utn
- cZmjohUNE2mKeoNuDnqvh26s/U7M/cXWffBd10ow=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABDZqTQ030245
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 07:35:52 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 07:35:52 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 07:35:52 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABDZn76087865;
- Wed, 11 Nov 2020 07:35:50 -0600
-Subject: Re: [PATCH v3 27/56] drm/omap: dsi: do bus locking in host driver
-To: Sebastian Reichel <sre@kernel.org>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-28-tomi.valkeinen@ti.com>
- <20201109095255.GX6029@pendragon.ideasonboard.com>
- <3c9eefd3-99bb-edce-f6ac-2fec3678743b@ti.com>
- <20201109132705.6n7h3ogsrlciw5nf@earth.universe>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <57286787-faf0-1a56-4a54-a9860cd36e50@ti.com>
-Date: Wed, 11 Nov 2020 15:35:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30D3689E0C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 14:00:15 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1B976A19;
+ Wed, 11 Nov 2020 15:00:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1605103213;
+ bh=mKuIU8+K1pEz/DAf9qGA5X2ulnU2pOxz9ZcXmP8HD6g=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=u96T04zATw1qPei0aXyrH2433zbXh1G9obPHYvbsb8oJMPdKIUvmSL36VIwDE1xyl
+ VPpviWXc3ojSf7nYbaZOj23SUvEKeaaCjpLtrkcQLizYbR5OS4C4Bbont2A0FFfQ5I
+ N7mD3h0IsIAtd7QLOpOVEDiK3qeLIgX3/nlBVjEE=
+Date: Wed, 11 Nov 2020 16:00:09 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
+Message-ID: <20201111140009.GD4115@pendragon.ideasonboard.com>
+References: <20201102203656.220187-1-robh@kernel.org>
+ <20201102203656.220187-2-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201109132705.6n7h3ogsrlciw5nf@earth.universe>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201102203656.220187-2-robh@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,83 +46,425 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ kuninori.morimoto.gx@renesas.com, Sameer Pujar <spujar@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 15:27, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Mon, Nov 09, 2020 at 12:08:33PM +0200, Tomi Valkeinen wrote:
->> On 09/11/2020 11:52, Laurent Pinchart wrote:
->>> Hi Tomi,
->>>
->>> Thank you for the patch.
->>>
->>> On Thu, Nov 05, 2020 at 02:03:04PM +0200, Tomi Valkeinen wrote:
->>>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
->>>>
->>>> This moves the bus locking into the host driver and unexports
->>>> the custom API in preparation for drm_panel support.
->>>>
->>>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->>
->> <snip>
->>
->>>>  static int dsicm_update(struct omap_dss_device *dssdev,
->>>> @@ -739,7 +704,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
->>>>  	dev_dbg(&ddata->dsi->dev, "update %d, %d, %d x %d\n", x, y, w, h);
->>>>  
->>>>  	mutex_lock(&ddata->lock);
->>>> -	src->ops->dsi.bus_lock(src);
->>>>  
->>>>  	r = dsicm_wake_up(ddata);
->>>>  	if (r)
->>>> @@ -761,11 +725,9 @@ static int dsicm_update(struct omap_dss_device *dssdev,
->>>>  	if (r)
->>>>  		goto err;
->>>>  
->>>> -	/* note: no bus_unlock here. unlock is src framedone_cb */
->>>> -	mutex_unlock(&ddata->lock);
->>>> +	/* note: no unlock here. unlock is src framedone_cb */
->>>
->>> This change isn't described in the commit message. Could you explain why
->>> it's needed ? Locking a mutex in a function and unlocking it elsewhere
->>> always scares me.
->>
->> Good catch. I don't know why it is needed. I don't think it is, as
->> the dsi driver handles the bus lock.
->>
->> Sebastian, what was the reason for this lock?
->>
->> Note that this goes away in the series, and there's no such lock
->> in the end.
-> 
-> It's not really a change. What this patch basically does is to fold
-> src->ops->dsi.bus_lock(src) into mutex_lock(&ddata->lock), so that
-> there is only a single locking mechanism. This function previously
-> had a matching pair of mutex_lock/unlock for ddata->lock, but the
-> bus was not locked paired. So after conversion the lock must not be
-> free'd here.
-> 
-> My understanding is, that this is because the bus must not be used
-> until the update has been done.
+Hi Rob and Sameer,
 
-So as I said, I think keeping ddata->lock is not correct. This code also goes away some patches
-later. So I'll drop the "keep ddata->lock" part.
+Thank you for the patch.
 
- Tomi
+On Mon, Nov 02, 2020 at 02:36:54PM -0600, Rob Herring wrote:
+> From: Sameer Pujar <spujar@nvidia.com>
+> 
+> Convert device tree bindings of graph to YAML format. Currently graph.txt
+> doc is referenced in multiple files and all of these need to use schema
+> references. For now graph.txt is updated to refer to graph.yaml.
+> 
+> For users of the graph binding, they should reference to the graph
+> schema from either 'ports' or 'port' property:
+> 
+> properties:
+>   ports:
+>     type: object
+>     $ref: graph.yaml#/properties/ports
+> 
+>     properties:
+>       port@0:
+>         description: What data this port has
+> 
+>       ...
+> 
+> Or:
+> 
+> properties:
+>   port:
+>     description: What data this port has
+>     type: object
+>     $ref: graph.yaml#/properties/port
+
+Sounds like a good approach.
+
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v3:
+>  - Move port 'reg' to port@* and make required
+>  - Make remote-endpoint required
+>  - Add 'additionalProperties: true' now required
+>  - Fix yamllint warnings
+> 
+>  Documentation/devicetree/bindings/graph.txt  | 129 +-----------
+>  Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
+>  2 files changed, 200 insertions(+), 128 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/graph.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/graph.txt b/Documentation/devicetree/bindings/graph.txt
+> index 0415e2c53ba0..b7818d61cef7 100644
+> --- a/Documentation/devicetree/bindings/graph.txt
+> +++ b/Documentation/devicetree/bindings/graph.txt
+> @@ -1,128 +1 @@
+> -Common bindings for device graphs
+> -
+> -General concept
+> ----------------
+> -
+> -The hierarchical organisation of the device tree is well suited to describe
+> -control flow to devices, but there can be more complex connections between
+> -devices that work together to form a logical compound device, following an
+> -arbitrarily complex graph.
+> -There already is a simple directed graph between devices tree nodes using
+> -phandle properties pointing to other nodes to describe connections that
+> -can not be inferred from device tree parent-child relationships. The device
+> -tree graph bindings described herein abstract more complex devices that can
+> -have multiple specifiable ports, each of which can be linked to one or more
+> -ports of other devices.
+> -
+> -These common bindings do not contain any information about the direction or
+> -type of the connections, they just map their existence. Specific properties
+> -may be described by specialized bindings depending on the type of connection.
+> -
+> -To see how this binding applies to video pipelines, for example, see
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -Here the ports describe data interfaces, and the links between them are
+> -the connecting data buses. A single port with multiple connections can
+> -correspond to multiple devices being connected to the same physical bus.
+> -
+> -Organisation of ports and endpoints
+> ------------------------------------
+> -
+> -Ports are described by child 'port' nodes contained in the device node.
+> -Each port node contains an 'endpoint' subnode for each remote device port
+> -connected to this port. If a single port is connected to more than one
+> -remote device, an 'endpoint' child node must be provided for each link.
+> -If more than one port is present in a device node or there is more than one
+> -endpoint at a port, or a port node needs to be associated with a selected
+> -hardware interface, a common scheme using '#address-cells', '#size-cells'
+> -and 'reg' properties is used to number the nodes.
+> -
+> -device {
+> -        ...
+> -        #address-cells = <1>;
+> -        #size-cells = <0>;
+> -
+> -        port@0 {
+> -	        #address-cells = <1>;
+> -	        #size-cells = <0>;
+> -		reg = <0>;
+> -
+> -                endpoint@0 {
+> -			reg = <0>;
+> -			...
+> -		};
+> -                endpoint@1 {
+> -			reg = <1>;
+> -			...
+> -		};
+> -        };
+> -
+> -        port@1 {
+> -		reg = <1>;
+> -
+> -		endpoint { ... };
+> -	};
+> -};
+> -
+> -All 'port' nodes can be grouped under an optional 'ports' node, which
+> -allows to specify #address-cells, #size-cells properties for the 'port'
+> -nodes independently from any other child device nodes a device might
+> -have.
+> -
+> -device {
+> -        ...
+> -        ports {
+> -                #address-cells = <1>;
+> -                #size-cells = <0>;
+> -
+> -                port@0 {
+> -                        ...
+> -                        endpoint@0 { ... };
+> -                        endpoint@1 { ... };
+> -                };
+> -
+> -                port@1 { ... };
+> -        };
+> -};
+> -
+> -Links between endpoints
+> ------------------------
+> -
+> -Each endpoint should contain a 'remote-endpoint' phandle property that points
+> -to the corresponding endpoint in the port of the remote device. In turn, the
+> -remote endpoint should contain a 'remote-endpoint' property. If it has one, it
+> -must not point to anything other than the local endpoint. Two endpoints with
+> -their 'remote-endpoint' phandles pointing at each other form a link between the
+> -containing ports.
+> -
+> -device-1 {
+> -        port {
+> -                device_1_output: endpoint {
+> -                        remote-endpoint = <&device_2_input>;
+> -                };
+> -        };
+> -};
+> -
+> -device-2 {
+> -        port {
+> -                device_2_input: endpoint {
+> -                        remote-endpoint = <&device_1_output>;
+> -                };
+> -        };
+> -};
+> -
+> -Required properties
+> --------------------
+> -
+> -If there is more than one 'port' or more than one 'endpoint' node or 'reg'
+> -property present in the port and/or endpoint nodes then the following
+> -properties are required in a relevant parent node:
+> -
+> - - #address-cells : number of cells required to define port/endpoint
+> -                    identifier, should be 1.
+> - - #size-cells    : should be zero.
+> -
+> -Optional endpoint properties
+> -----------------------------
+> -
+> -- remote-endpoint: phandle to an 'endpoint' subnode of a remote device node.
+> -
+> +This file has moved to graph.yaml
+> diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
+> new file mode 100644
+> index 000000000000..b56720c5a13e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/graph.yaml
+> @@ -0,0 +1,199 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/graph.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common bindings for device graphs
+> +
+> +description: |
+> +  The hierarchical organisation of the device tree is well suited to describe
+> +  control flow to devices, but there can be more complex connections between
+> +  devices that work together to form a logical compound device, following an
+> +  arbitrarily complex graph.
+> +  There already is a simple directed graph between devices tree nodes using
+> +  phandle properties pointing to other nodes to describe connections that
+> +  can not be inferred from device tree parent-child relationships. The device
+> +  tree graph bindings described herein abstract more complex devices that can
+> +  have multiple specifiable ports, each of which can be linked to one or more
+> +  ports of other devices.
+> +
+> +  These common bindings do not contain any information about the direction or
+> +  type of the connections, they just map their existence. Specific properties
+> +  may be described by specialized bindings depending on the type of connection.
+> +
+> +  To see how this binding applies to video pipelines, for example, see
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +  Here the ports describe data interfaces, and the links between them are
+> +  the connecting data buses. A single port with multiple connections can
+> +  correspond to multiple devices being connected to the same physical bus.
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +select: false
+> +
+> +properties:
+> +  port:
+> +    type: object
+> +    description:
+> +      If there is more than one endpoint node or 'reg' property present in
+> +      endpoint nodes then '#address-cells' and '#size-cells' properties are
+> +      required.
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^endpoint(@[0-9a-f]+)?$":
+> +        type: object
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +
+> +          remote-endpoint:
+> +            description: |
+> +              phandle to an 'endpoint' subnode of a remote device node.
+> +            $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +        required:
+> +          - remote-endpoint
+
+As noted elsewhere, this shouldn't be required.
+
+Should we set additionalProperties: false here ?
+
+> +
+> +  ports:
+> +    type: object
+> +    description: |
+> +      If there is more than one port node or 'reg' property present in port
+> +      nodes then '#address-cells' and '#size-cells' properties are required.
+> +      In such cases all port nodes can be grouped under 'ports' independently
+> +      from any other child device nodes a device might have.
+
+Allowing multiple port nodes not grouped in a ports node has created
+complexity, with very little gain. Should we forbid that going forward ?
+
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^port(@[0-9a-f]+)?$":
+> +        $ref: "#/properties/port"
+> +        type: object
+> +
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +
+> +        required:
+> +          - reg
+> +
+> +
+
+Maybe a single blank line ?
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +    additionalProperties: false
+> +
+> +additionalProperties: true
+> +
+> +examples:
+> +  # Organisation of ports and endpoints:
+> +  #
+> +  # Ports are described by child 'port' nodes contained in the device node.
+> +  # Each port node contains an 'endpoint' subnode for each remote device port
+> +  # connected to this port. If a single port is connected to more than one
+> +  # remote device, an 'endpoint' child node must be provided for each link.
+> +  # If more than one port is present in a device node or there is more than
+> +  # one endpoint at a port, or a port node needs to be associated with a
+> +  # selected hardware interface, a common scheme using '#address-cells',
+> +  # '#size-cells' and 'reg' properties is used to number the nodes.
+> +  - |
+> +    device {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        port@0 {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            reg = <0>;
+> +
+> +            endpoint@0 {
+> +                reg = <0>;
+> +                // ...
+> +            };
+> +            endpoint@1 {
+> +                reg = <1>;
+> +                // ...
+> +            };
+> +        };
+> +
+> +        port@1 {
+> +            reg = <1>;
+> +
+> +            endpoint {
+> +                // ...
+> +            };
+> +        };
+> +    };
+> +
+> +  # All 'port' nodes can be grouped under an optional 'ports' node, which
+> +  # allows to specify #address-cells, #size-cells properties for the 'port'
+> +  # nodes independently from any other child device nodes a device might
+> +  # have.
+> +  - |
+> +    device {
+> +        // ...
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <0>;
+> +                // ...
+> +
+> +                endpoint@0 {
+> +                    reg = <0>;
+> +                    // ...
+> +                };
+> +                endpoint@1 {
+> +                    reg = <1>;
+> +                    // ...
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +                // ...
+> +            };
+> +        };
+> +    };
+> +
+> +  # Links between endpoints:
+> +  #
+> +  # Each endpoint should contain a 'remote-endpoint' phandle property that
+> +  # points to the corresponding endpoint in the port of the remote device.
+> +  # In turn, the remote endpoint should contain a 'remote-endpoint' property.
+> +  # If it has one, it must not point to anything other than the local endpoint.
+> +  # Two endpoints with their 'remote-endpoint' phandles pointing at each other
+> +  # form a link between the containing ports.
+> +  - |
+> +    device-1 {
+> +        port {
+> +            device_1_output: endpoint {
+> +                remote-endpoint = <&device_2_input>;
+> +            };
+> +        };
+> +    };
+> +
+> +    device-2 {
+> +        port {
+> +            device_2_input: endpoint {
+> +                remote-endpoint = <&device_1_output>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
