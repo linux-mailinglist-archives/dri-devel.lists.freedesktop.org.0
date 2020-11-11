@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F6A2AF370
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:23:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F9E2AF37C
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62BB36E05D;
-	Wed, 11 Nov 2020 14:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E37136E02E;
+	Wed, 11 Nov 2020 14:25:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79C796E04A;
- Wed, 11 Nov 2020 14:23:32 +0000 (UTC)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D03F36E02E
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 14:25:52 +0000 (UTC)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C2CA5221F1;
- Wed, 11 Nov 2020 14:23:31 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 71F06208CA
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 14:25:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605104612;
- bh=xm3rQeDIh2FuZjYEyhCI9+5vLDwhs0MB53yet3dsIaE=;
+ s=default; t=1605104752;
+ bh=yjQbz6yukbg0pWgBKEkAwfao7ZJ/mR8R8fYrOGQCgj0=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dPmto1xzJ4FwUTGL7+SCYcrJcJWW52ez+kxbCClZr+loHMAapvqz8LQz+Evkc9Vuu
- +KAHrYvHOZwkw2La6X7uex32BeyKimqmO8Ofmcfvrnpb1stNfWTSlBY+XS1QVzjIoA
- Z6DKu/gGPoh0EgAddBIc+BpDBved4jgG3COWBuvg=
-Received: by mail-ed1-f44.google.com with SMTP id p93so2460941edd.7;
- Wed, 11 Nov 2020 06:23:31 -0800 (PST)
-X-Gm-Message-State: AOAM532U5yB+QwX5bKQtO7yTBNAh6dRXUPuC0Y5O95FpyQpL6rAF05oC
- 6jrp4vRLdnw7/QGVPMwn6ga+bYtJlVNrQUuNIA==
-X-Google-Smtp-Source: ABdhPJxh+77oiphOx3YcIcxiUEmfWiMYRwROdlpWqzLsSf75JddHNGi9QfuS9fuMmuFcPm/rgVNfg169e9VDB275Qg8=
-X-Received: by 2002:a50:f0d4:: with SMTP id a20mr5290937edm.303.1605104609593; 
- Wed, 11 Nov 2020 06:23:29 -0800 (PST)
+ b=WqSf4m2l7nKEllYtyUGJ9qiysRuyPiXfxI1pktiFbwsz8TQ1bQ1JHaNJ2otqvwDqb
+ g/9Ns9euHQ+OiWsj3DhfhY6rVx2/fl1Xf5baAAxPWW3E2/4XNV3gFI+atKkw5cYGPl
+ tSnyI7QvjKmf7bzEei+1SSTJayDlD9+mCs/3M4F0=
+Received: by mail-ot1-f52.google.com with SMTP id n11so2305989ota.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 06:25:52 -0800 (PST)
+X-Gm-Message-State: AOAM5304YT575KT5hMQFOTmrMb5uED/4S2aKDcXOMxZ8gosQdnsnYK2z
+ NLscSmcsguIC0KDsZ9TV+hc4ed5LAjnpcs+l5Q==
+X-Google-Smtp-Source: ABdhPJxDzbGonZ7mQJWbeGH/aeIH+jTY0iZdh6QOjcXfWz12QukgD60IRHaI+rb26aSGSNrRwt9WpH/roxgQxUS67Xw=
+X-Received: by 2002:a9d:5e14:: with SMTP id d20mr16588139oti.107.1605104751592; 
+ Wed, 11 Nov 2020 06:25:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20201109103242.19544-1-tzimmermann@suse.de>
- <20201109103242.19544-3-tzimmermann@suse.de>
-In-Reply-To: <20201109103242.19544-3-tzimmermann@suse.de>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 11 Nov 2020 22:23:15 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__QuyEA7c4H+eSvrSdFTZttB4DXbjr6HLWoH8WovOD1eQ@mail.gmail.com>
-Message-ID: <CAAOTY__QuyEA7c4H+eSvrSdFTZttB4DXbjr6HLWoH8WovOD1eQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/mediatek: Use struct dma_buf_map in GEM vmap ops
-To: Thomas Zimmermann <tzimmermann@suse.de>
+References: <20201102203656.220187-1-robh@kernel.org>
+ <20201102203656.220187-2-robh@kernel.org>
+ <20201111140009.GD4115@pendragon.ideasonboard.com>
+In-Reply-To: <20201111140009.GD4115@pendragon.ideasonboard.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 11 Nov 2020 08:25:40 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
+Message-ID: <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,134 +55,196 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- nouveau@lists.freedesktop.org,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
- Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Madhav Chauhan <madhav.chauhan@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>, xen-devel@lists.xenproject.org,
- lima@lists.freedesktop.org,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
- Steven Price <steven.price@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Luben Tuikov <luben.tuikov@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
- Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-arm-msm@vger.kernel.org,
- etnaviv@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
- spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- sean@poorly.run, Arunpravin <apaneers@amd.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
- Nirmoy Das <Nirmoy.Das@amd.com>, Qiang Yu <yuq825@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Sameer Pujar <spujar@nvidia.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFRob21hczoKClRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiDmlrwg
-MjAyMOW5tDEx5pyIOeaXpSDpgLHkuIAg5LiL5Y2INjozMuWvq+mBk++8mgo+Cj4gRml4ZXMgYSBi
-dWlsZCBmYWlsdXJlIHdpdGggbWVkaWF0ZWsuCj4KPiBUaGlzIGNoYW5nZSB3YXMgc3VwcG9zZWQg
-dG8gYmUgcGFydCBvZiBjb21taXQgNDlhM2Y1MWRmZWVlICgiZHJtL2dlbToKPiBVc2Ugc3RydWN0
-IGRtYV9idWZfbWFwIGluIEdFTSB2bWFwIG9wcyBhbmQgY29udmVydCBHRU0gYmFja2VuZHMiKSwg
-YnV0Cj4gbWVkaWF0ZWsgd2FzIGZvcmdvdHRlbi4KCkFja2VkLWJ5OiBDaHVuLUt1YW5nIEh1IDxj
-aHVua3VhbmcuaHVAa2VybmVsLm9yZz4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVy
-bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiBGaXhlczogNDlhM2Y1MWRmZWVlICgiZHJtL2dl
-bTogVXNlIHN0cnVjdCBkbWFfYnVmX21hcCBpbiBHRU0gdm1hcCBvcHMgYW5kIGNvbnZlcnQgR0VN
-IGJhY2tlbmRzIikKPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
-Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzog
-RGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWxAZmZ3bGwuY2g+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBs
-aW51eC5pbnRlbC5jb20+Cj4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4K
-PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiBDYzogTHVjYXMgU3RhY2gg
-PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IFJ1c3NlbGwgS2luZyA8bGludXgrZXRuYXZp
-dkBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21l
-aW5lckBnbWFpbC5jb20+Cj4gQ2M6IFFpYW5nIFl1IDx5dXE4MjVAZ21haWwuY29tPgo+IENjOiBC
-ZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2JoQGtl
-cm5lbC5vcmc+Cj4gQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5jb20+
-Cj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNzYSBS
-b3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBHZXJkIEhv
-ZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
-ZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
-aWdAYW1kLmNvbT4KPiBDYzogU2FuZHkgSHVhbmcgPGhqY0Byb2NrLWNoaXBzLmNvbT4KPiBDYzog
-IkhlaWtvIFN0w7xibmVyIiA8aGVpa29Ac250ZWNoLmRlPgo+IENjOiBIYW5zIGRlIEdvZWRlIDxo
-ZGVnb2VkZUByZWRoYXQuY29tPgo+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiBD
-YzogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KPiBDYzogUm9kcmlnbyBTaXF1ZWlyYSA8
-cm9kcmlnb3NpcXVlaXJhbWVsb0BnbWFpbC5jb20+Cj4gQ2M6IE1lbGlzc2EgV2VuIDxtZWxpc3Nh
-LnNyd0BnbWFpbC5jb20+Cj4gQ2M6IEhhbmVlbiBNb2hhbW1lZCA8aGFtb2hhbW1lZC5zYUBnbWFp
-bC5jb20+Cj4gQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVrc2FuZHJfYW5kcnVzaGNo
-ZW5rb0BlcGFtLmNvbT4KPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9y
-Zz4KPiBDYzogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiBDYzog
-TWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+IENjOiBBcnVucHJh
-dmluIDxhcGFuZWVyc0BhbWQuY29tPgo+IENjOiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29t
-Pgo+IENjOiBMdWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtvdkBhbWQuY29tPgo+IENjOiBNYWRoYXYg
-Q2hhdWhhbiA8bWFkaGF2LmNoYXVoYW5AYW1kLmNvbT4KPiBDYzogTmlybW95IERhcyA8TmlybW95
-LkRhc0BhbWQuY29tPgo+IENjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KPiBDYzog
-U2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IENjOiBDaHJpcyBXaWxzb24gPGNocmlz
-QGNocmlzLXdpbHNvbi5jby51az4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+IENjOiBldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBsaW1hQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiB2
-aXJ0dWFsaXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwo+IENjOiBzcGljZS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4
-LXJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogeGVuLWRldmVsQGxpc3RzLnhlbnBy
-b2plY3Qub3JnCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5j
-IHwgMjAgKysrKysrKysrKysrLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fZ2VtLmggfCAgNCArKy0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygr
-KSwgMTAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0u
-Ywo+IGluZGV4IGNkZDFhNmU2MTU2NC4uMjhhMmVlMTMzNmVmIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kcm1fZ2VtLmMKPiBAQCAtMjQwLDIzICsyNDAsMjUgQEAgc3RydWN0IGRy
-bV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LAo+ICAgICAgICAgcmV0dXJuICZtdGtfZ2VtLT5iYXNlOwo+ICB9Cj4KPiAtdm9p
-ZCAqbXRrX2RybV9nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiAr
-aW50IG10a19kcm1fZ2VtX3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0
-cnVjdCBkbWFfYnVmX21hcCAqbWFwKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgbXRrX2RybV9nZW1f
-b2JqICptdGtfZ2VtID0gdG9fbXRrX2dlbV9vYmoob2JqKTsKPiAtICAgICAgIHN0cnVjdCBzZ190
-YWJsZSAqc2d0Owo+ICsgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ3QgPSBOVUxMOwo+ICAgICAg
-ICAgdW5zaWduZWQgaW50IG5wYWdlczsKPgo+ICAgICAgICAgaWYgKG10a19nZW0tPmt2YWRkcikK
-PiAtICAgICAgICAgICAgICAgcmV0dXJuIG10a19nZW0tPmt2YWRkcjsKPiArICAgICAgICAgICAg
-ICAgZ290byBvdXQ7Cj4KPiAgICAgICAgIHNndCA9IG10a19nZW1fcHJpbWVfZ2V0X3NnX3RhYmxl
-KG9iaik7Cj4gICAgICAgICBpZiAoSVNfRVJSKHNndCkpCj4gLSAgICAgICAgICAgICAgIHJldHVy
-biBOVUxMOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihzZ3QpOwo+Cj4gICAgICAg
-ICBucGFnZXMgPSBvYmotPnNpemUgPj4gUEFHRV9TSElGVDsKPiAgICAgICAgIG10a19nZW0tPnBh
-Z2VzID0ga2NhbGxvYyhucGFnZXMsIHNpemVvZigqbXRrX2dlbS0+cGFnZXMpLCBHRlBfS0VSTkVM
-KTsKPiAtICAgICAgIGlmICghbXRrX2dlbS0+cGFnZXMpCj4gLSAgICAgICAgICAgICAgIGdvdG8g
-b3V0Owo+ICsgICAgICAgaWYgKCFtdGtfZ2VtLT5wYWdlcykgewo+ICsgICAgICAgICAgICAgICBr
-ZnJlZShzZ3QpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiArICAgICAgIH0K
-Pgo+ICAgICAgICAgZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc2d0LCBtdGtfZ2Vt
-LT5wYWdlcywgTlVMTCwgbnBhZ2VzKTsKPgo+IEBAIC0yNjUsMTMgKzI2NywxNSBAQCB2b2lkICpt
-dGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+Cj4gIG91
-dDoKPiAgICAgICAgIGtmcmVlKHNndCk7Cj4gKyAgICAgICBkbWFfYnVmX21hcF9zZXRfdmFkZHIo
-bWFwLCBtdGtfZ2VtLT5rdmFkZHIpOwo+Cj4gLSAgICAgICByZXR1cm4gbXRrX2dlbS0+a3ZhZGRy
-Owo+ICsgICAgICAgcmV0dXJuIDA7Cj4gIH0KPgo+IC12b2lkIG10a19kcm1fZ2VtX3ByaW1lX3Z1
-bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdm9pZCAqdmFkZHIpCj4gK3ZvaWQgbXRr
-X2RybV9nZW1fcHJpbWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qg
-ZG1hX2J1Zl9tYXAgKm1hcCkKPiAgewo+ICAgICAgICAgc3RydWN0IG10a19kcm1fZ2VtX29iaiAq
-bXRrX2dlbSA9IHRvX210a19nZW1fb2JqKG9iaik7Cj4gKyAgICAgICB2b2lkICp2YWRkciA9IG1h
-cC0+dmFkZHI7Cj4KPiAgICAgICAgIGlmICghbXRrX2dlbS0+cGFnZXMpCj4gICAgICAgICAgICAg
-ICAgIHJldHVybjsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
-cm1fZ2VtLmggYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uaAo+IGluZGV4
-IGZmOWY5NzZkOTgwNy4uNmRhNWNjYjRiOTMzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
-bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
-L210a19kcm1fZ2VtLmgKPiBAQCAtNDUsNyArNDUsNyBAQCBpbnQgbXRrX2RybV9nZW1fbW1hcF9i
-dWYoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCj4gIHN0cnVjdCBzZ190YWJsZSAqbXRrX2dl
-bV9wcmltZV9nZXRfc2dfdGFibGUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ICBzdHJ1
-Y3QgZHJtX2dlbV9vYmplY3QgKm10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBk
-cm1fZGV2aWNlICpkZXYsCj4gICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9idWZf
-YXR0YWNobWVudCAqYXR0YWNoLCBzdHJ1Y3Qgc2dfdGFibGUgKnNnKTsKPiAtdm9pZCAqbXRrX2Ry
-bV9nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cj4gLXZvaWQgbXRr
-X2RybV9nZW1fcHJpbWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB2b2lkICp2
-YWRkcik7Cj4gK2ludCBtdGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVj
-dCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCk7Cj4gK3ZvaWQgbXRrX2RybV9nZW1fcHJp
-bWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
-Km1hcCk7Cj4KPiAgI2VuZGlmCj4gLS0KPiAyLjI5LjIKPgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Nov 11, 2020 at 8:00 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Rob and Sameer,
+>
+> Thank you for the patch.
+>
+> On Mon, Nov 02, 2020 at 02:36:54PM -0600, Rob Herring wrote:
+> > From: Sameer Pujar <spujar@nvidia.com>
+> >
+> > Convert device tree bindings of graph to YAML format. Currently graph.txt
+> > doc is referenced in multiple files and all of these need to use schema
+> > references. For now graph.txt is updated to refer to graph.yaml.
+> >
+> > For users of the graph binding, they should reference to the graph
+> > schema from either 'ports' or 'port' property:
+> >
+> > properties:
+> >   ports:
+> >     type: object
+> >     $ref: graph.yaml#/properties/ports
+> >
+> >     properties:
+> >       port@0:
+> >         description: What data this port has
+> >
+> >       ...
+> >
+> > Or:
+> >
+> > properties:
+> >   port:
+> >     description: What data this port has
+> >     type: object
+> >     $ref: graph.yaml#/properties/port
+>
+> Sounds like a good approach.
+>
+> > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> > Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> > v3:
+> >  - Move port 'reg' to port@* and make required
+> >  - Make remote-endpoint required
+> >  - Add 'additionalProperties: true' now required
+> >  - Fix yamllint warnings
+> >
+> >  Documentation/devicetree/bindings/graph.txt  | 129 +-----------
+> >  Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
+> >  2 files changed, 200 insertions(+), 128 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/graph.yaml
+
+[...]
+
+> > diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
+> > new file mode 100644
+> > index 000000000000..b56720c5a13e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/graph.yaml
+> > @@ -0,0 +1,199 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/graph.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Common bindings for device graphs
+> > +
+> > +description: |
+> > +  The hierarchical organisation of the device tree is well suited to describe
+> > +  control flow to devices, but there can be more complex connections between
+> > +  devices that work together to form a logical compound device, following an
+> > +  arbitrarily complex graph.
+> > +  There already is a simple directed graph between devices tree nodes using
+> > +  phandle properties pointing to other nodes to describe connections that
+> > +  can not be inferred from device tree parent-child relationships. The device
+> > +  tree graph bindings described herein abstract more complex devices that can
+> > +  have multiple specifiable ports, each of which can be linked to one or more
+> > +  ports of other devices.
+> > +
+> > +  These common bindings do not contain any information about the direction or
+> > +  type of the connections, they just map their existence. Specific properties
+> > +  may be described by specialized bindings depending on the type of connection.
+> > +
+> > +  To see how this binding applies to video pipelines, for example, see
+> > +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +  Here the ports describe data interfaces, and the links between them are
+> > +  the connecting data buses. A single port with multiple connections can
+> > +  correspond to multiple devices being connected to the same physical bus.
+> > +
+> > +maintainers:
+> > +  - Philipp Zabel <p.zabel@pengutronix.de>
+> > +
+> > +select: false
+> > +
+> > +properties:
+> > +  port:
+> > +    type: object
+> > +    description:
+> > +      If there is more than one endpoint node or 'reg' property present in
+> > +      endpoint nodes then '#address-cells' and '#size-cells' properties are
+> > +      required.
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^endpoint(@[0-9a-f]+)?$":
+> > +        type: object
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +
+> > +          remote-endpoint:
+> > +            description: |
+> > +              phandle to an 'endpoint' subnode of a remote device node.
+> > +            $ref: /schemas/types.yaml#/definitions/phandle
+> > +
+> > +        required:
+> > +          - remote-endpoint
+>
+> As noted elsewhere, this shouldn't be required.
+>
+> Should we set additionalProperties: false here ?
+
+No, we've got a bunch of properties that get added to endpoint nodes.
+There's a few cases where 'port' nodes have properties too.
+
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      If there is more than one port node or 'reg' property present in port
+> > +      nodes then '#address-cells' and '#size-cells' properties are required.
+> > +      In such cases all port nodes can be grouped under 'ports' independently
+> > +      from any other child device nodes a device might have.
+>
+> Allowing multiple port nodes not grouped in a ports node has created
+> complexity, with very little gain. Should we forbid that going forward ?
+
+Yes, that's probably a separate change. The examples need updating
+too. We do have a few cases we'll have to support though.
+
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^port(@[0-9a-f]+)?$":
+> > +        $ref: "#/properties/port"
+> > +        type: object
+> > +
+> > +        properties:
+> > +          reg:
+> > +            maxItems: 1
+> > +
+> > +        required:
+> > +          - reg
+> > +
+> > +
+>
+> Maybe a single blank line ?
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+I've gone thru and updated schemas to use this. Primarily to prove out
+a meta-schema for it. So I'll be sending out another version.
+
+Rob
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
