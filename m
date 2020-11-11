@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807742AF07A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:25:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BA402AF0B5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:36:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432C889FCE;
-	Wed, 11 Nov 2020 12:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6885C89DA4;
+	Wed, 11 Nov 2020 12:36:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8F3489FCE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 12:25:05 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCOsG2028371;
- Wed, 11 Nov 2020 06:24:54 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F09A589DA4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 12:36:15 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCa5hW058613;
+ Wed, 11 Nov 2020 06:36:05 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605097494;
- bh=ASRNOHEr+40d5rkM1LJeMOpcnajdXscG/sSMLjTfjaI=;
+ s=ti-com-17Q1; t=1605098165;
+ bh=jZlmvwEMi8kn6+Z5HsjZATByRRO93RiscNhbEWmYCIY=;
  h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=IDdQ2BBMA/qN6g4E9HfC28P7lvtfRNCNnexrq0afR+KkEhh90/u7Ze+OvcDsy4yM9
- uNgtd68UdAIoU55kEoqaM+NpTMJW6sYzfmZ6ygeEzVcSQ5+p6aAoHq93xCPn4ju/cE
- 41mZQQ76flik9Sqjn4+PNveYKkhnzKs4g6L/TJJo=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABCOsY9083391
+ b=cSVbO9Eg4y3Kw+kit/T26PbpZ23oddpLU113/5NYJItE7ntU/R0gwAbW9aWfpfIQw
+ hKvorulAGr7nwZ/PygWGVlH+fYSpjR69G0S69S7MQc0SMhRBS1lDP54AJ0koDRv5zc
+ UVxwsBODGY2Jmr6G28jl4KUCMPKXtJtPijGr9gvo=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABCa5I0127832
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 06:24:54 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ Wed, 11 Nov 2020 06:36:05 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 06:24:54 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:36:05 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 06:24:54 -0600
+ Frontend Transport; Wed, 11 Nov 2020 06:36:05 -0600
 Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCOpE6056538;
- Wed, 11 Nov 2020 06:24:52 -0600
-Subject: Re: [PATCH v3 50/56] drm/omap: dsi: simplify pin config
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCa3Rk112340;
+ Wed, 11 Nov 2020 06:36:03 -0600
+Subject: Re: [PATCH v3 35/56] drm/omap: dsi: implement check timings
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-51-tomi.valkeinen@ti.com>
- <20201109110932.GU6029@pendragon.ideasonboard.com>
+ <20201105120333.947408-36-tomi.valkeinen@ti.com>
+ <20201109104756.GF6029@pendragon.ideasonboard.com>
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <ba48d022-eecc-1f28-9ade-8a427d714b42@ti.com>
-Date: Wed, 11 Nov 2020 14:24:51 +0200
+Message-ID: <4432ea22-cf95-d207-2f87-0e105429cba1@ti.com>
+Date: Wed, 11 Nov 2020 14:36:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201109110932.GU6029@pendragon.ideasonboard.com>
+In-Reply-To: <20201109104756.GF6029@pendragon.ideasonboard.com>
 Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,72 +73,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 13:09, Laurent Pinchart wrote:
+On 09/11/2020 12:47, Laurent Pinchart wrote:
 > Hi Tomi and Sebastian,
 > 
 > Thank you for the patch.
 > 
-> On Thu, Nov 05, 2020 at 02:03:27PM +0200, Tomi Valkeinen wrote:
+> On Thu, Nov 05, 2020 at 02:03:12PM +0200, Tomi Valkeinen wrote:
 >> From: Sebastian Reichel <sebastian.reichel@collabora.com>
 >>
->> Simplify DSI pin config, which always originates from DT
->> nowadays. With the code being fully contained in the DSI
->> encoder, we can drop the public structure.
->>
->> Since the function is no longer exposed, it now directly
->> takes the private DSI data pointer. This drop a pointless
+>> Implement check timings, which will check if its possible to
 > 
-> s/drop/drops/
+> s/its/it's/
 > 
->> conversion and means the pins can be configured earlier.
+>> configure the clocks for the provided mode using the same code
+>> as the set_config() hook.
 >>
 >> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 >> ---
->>  drivers/gpu/drm/omapdrm/dss/dsi.c     | 33 +++++++++------------------
->>  drivers/gpu/drm/omapdrm/dss/omapdss.h | 15 ------------
->>  2 files changed, 11 insertions(+), 37 deletions(-)
+>>  drivers/gpu/drm/omapdrm/dss/dsi.c | 70 +++++++++++++++++++------------
+>>  1 file changed, 44 insertions(+), 26 deletions(-)
 >>
 >> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> index f47d7e3bb631..76e4f607d8cf 100644
+>> index a1a867a7d91d..f643321434e9 100644
 >> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 >> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> @@ -3568,12 +3568,9 @@ static void dsi_proto_timings(struct dsi_data *dsi)
->>  	}
->>  }
+>> @@ -280,6 +280,11 @@ struct dsi_isr_tables {
+>>  	struct dsi_isr_data isr_table_cio[DSI_MAX_NR_ISRS];
+>>  };
 >>  
->> -static int dsi_configure_pins(struct omap_dss_device *dssdev,
->> -		const struct omap_dsi_pin_config *pin_cfg)
->> +static int dsi_configure_pins(struct dsi_data *dsi,
->> +		int num_pins, const u32 *pins)
->>  {
->> -	struct dsi_data *dsi = to_dsi_data(dssdev);
->> -	int num_pins;
->> -	const int *pins;
->>  	struct dsi_lane_config lanes[DSI_MAX_NR_LANES];
->>  	int num_lanes;
->>  	int i;
->> @@ -3586,9 +3583,6 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
->>  		DSI_LANE_DATA4,
->>  	};
+>> +struct dsi_lp_clock_info {
+>> +	unsigned long lp_clk;
+>> +	u16 lp_clk_div;
+>> +};
+>> +
+>>  struct dsi_clk_calc_ctx {
+>>  	struct dsi_data *dsi;
+>>  	struct dss_pll *pll;
+>> @@ -294,16 +299,12 @@ struct dsi_clk_calc_ctx {
 >>  
->> -	num_pins = pin_cfg->num_pins;
->> -	pins = pin_cfg->pins;
->> -
->>  	if (num_pins < 4 || num_pins > dsi->num_lanes_supported * 2
->>  			|| num_pins % 2 != 0)
->>  		return -EINVAL;
->> @@ -3600,7 +3594,7 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
->>  
->>  	for (i = 0; i < num_pins; i += 2) {
->>  		u8 lane, pol;
->> -		int dx, dy;
->> +		u32 dx, dy;
+>>  	struct dss_pll_clock_info dsi_cinfo;
+>>  	struct dispc_clock_info dispc_cinfo;
+>> +	struct dsi_lp_clock_info user_lp_cinfo;
 > 
-> Is this change needed ?
+> Any reason for the user_ prefix here ?
 
-The pins array is now u32, so the above is correct. However, a bit below we check if dx < 0, which
-doesn't make sense anymore, so I'll drop that check.
+No, I'll drop it.
 
  Tomi
 
