@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC43C2B00F9
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5682B00FA
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7754D6E171;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB5E16E185;
 	Thu, 12 Nov 2020 08:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
- [59.111.176.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D300F89FCA;
- Wed, 11 Nov 2020 08:32:53 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by m176115.mail.qiye.163.com (Hmail) with ESMTPA id EA409666B88;
- Wed, 11 Nov 2020 16:32:50 +0800 (CST)
-From: Bernard Zhao <bernard@vivo.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jcrouse@codeaurora.org>, Bernard Zhao <bernard@vivo.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Brian Masney <masneyb@onstation.org>, Shawn Guo <shawn.guo@linaro.org>,
- Eric Anholt <eric@anholt.net>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sam Ravnborg <sam@ravnborg.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Emil Velikov <emil.velikov@collabora.com>,
- Jonathan Marek <jonathan@marek.ca>, Dave Airlie <airlied@redhat.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] adreno/adreno_gpu.c: add KERN_LEVEL to printk
-Date: Wed, 11 Nov 2020 00:31:22 -0800
-Message-Id: <20201111083131.39817-6-bernard@vivo.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201111083131.39817-1-bernard@vivo.com>
-References: <20201111083131.39817-1-bernard@vivo.com>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC7E89E47
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:01:48 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id r9so2113572lfn.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 01:01:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dF1XDJ7ZODBxc6x3qPKL/KXM2fUXOq3zx9bPFuRUXO4=;
+ b=Okv7oV92Vzop5e10q4xGtyON8UStnGOatV7C6Rc1rswtvL8Mhvbx7aaT1jngShXIHC
+ Osz6VLgrGitnho0/V3S1MlvG0Qqar+FgDTzgtlI6P6H9SrP/1XEUoW2sn1AbHotu/J5g
+ gQY9PXvceBWtVpemh1+D95K+cGYUZ3Nx/zY1ZNQytZ+DqlH/VUFv6E9LcpD2cQVahn1y
+ ZCbVvr3ReZIJb07NtKjo1veri8UhTMBeV2CtHwKGljl8RwjWZmaCqckVwVF2g8Z6K/Ue
+ Pt+QrfQpyYF81qUGAm+rEy7pgm/uAP934PYsV7c0GekE16eJzHBdYXzYrMaIeG507054
+ ry4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dF1XDJ7ZODBxc6x3qPKL/KXM2fUXOq3zx9bPFuRUXO4=;
+ b=nePAb67MFGeUOJRGpjFMox2uoAUhJAjj6i8XXRmE2jRPOGLCFcadTqEss4BoIG7iSE
+ 7KcXwfUaR6mlh7LOvJenTR0qef7ah39++81CZL731GkOAfFgi11TwkaYoINAmg8DldNT
+ I+HXrGk5euGKzFyRcZxRb1JFjq6SCFvWZCJQ/12zjK5k0C0rsJ7HhvKJVr3GNTbs1wt+
+ on86N9c+8KocTVedP9CImPhCyM5CVvlPt6BoTMbQ32qR/TeGknVL6UDvx24vqBx11S5M
+ bBiZOUckFit3ViObjLY/GPLSwLROymw08cdNO946UaOIZCukaDqi0+CowVswHPhrYVMm
+ wezQ==
+X-Gm-Message-State: AOAM531TB0eN0rhHytxHhov+ymZA9XEW1pWyGdX6Hw7xefMwCjTFkJ95
+ OnFnlFnN7d7whi3euO8qqC3RqIoy8Rk=
+X-Google-Smtp-Source: ABdhPJz6z3fUroQjNCVUQQmKeJpEYmQgvxFXJUBP4BbdvF5B4gMgXPhnWK/hACZZS1Hc4HkkoiMbAA==
+X-Received: by 2002:ac2:43cf:: with SMTP id u15mr2352182lfl.382.1605085306963; 
+ Wed, 11 Nov 2020 01:01:46 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id o7sm163393ljg.41.2020.11.11.01.01.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 11 Nov 2020 01:01:46 -0800 (PST)
+Subject: Re: [PATCH v8 10/26] memory: tegra30-emc: Factor out clk
+ initialization
+To: Krzysztof Kozlowski <krzk@kernel.org>
+References: <20201111011456.7875-1-digetx@gmail.com>
+ <20201111011456.7875-11-digetx@gmail.com> <20201111085115.GA4050@kozik-lap>
+ <20201111085250.GA11589@kozik-lap>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <0b9fd887-fd57-f948-19b0-d629ed4aa2e7@gmail.com>
+Date: Wed, 11 Nov 2020 12:01:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZSEpIHk8YSR9MGBhPVkpNS05LQ0hOTEpIS0xVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDY6Hgw*CT8fERcISw84DwtI
- OUwKFD1VSlVKTUtOS0NITkxKTE5CVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBT0pOQzcG
-X-HM-Tid: 0a75b66fa42d9373kuwsea409666b88
+In-Reply-To: <20201111085250.GA11589@kozik-lap>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 12 Nov 2020 08:15:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,69 +74,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
+ Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add KERN_LEVEL to printk.
-
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
----
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 458b5b26d3c2..be752db5abed 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -725,7 +725,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	int i;
- 
--	printk("revision: %d (%d.%d.%d.%d)\n",
-+	printk(KERN_DEBUG "revision: %d (%d.%d.%d.%d)\n",
- 			adreno_gpu->info->revn, adreno_gpu->rev.core,
- 			adreno_gpu->rev.major, adreno_gpu->rev.minor,
- 			adreno_gpu->rev.patchid);
-@@ -733,12 +733,12 @@ void adreno_dump_info(struct msm_gpu *gpu)
- 	for (i = 0; i < gpu->nr_rings; i++) {
- 		struct msm_ringbuffer *ring = gpu->rb[i];
- 
--		printk("rb %d: fence:    %d/%d\n", i,
-+		printk(KERN_DEBUG "rb %d: fence:    %d/%d\n", i,
- 			ring->memptrs->fence,
- 			ring->seqno);
- 
--		printk("rptr:     %d\n", get_rptr(adreno_gpu, ring));
--		printk("rb wptr:  %d\n", get_wptr(ring));
-+		printk(KERN_DEBUG "rptr:     %d\n", get_rptr(adreno_gpu, ring));
-+		printk(KERN_DEBUG "rb wptr:  %d\n", get_wptr(ring));
- 	}
- }
- 
-@@ -752,7 +752,7 @@ void adreno_dump(struct msm_gpu *gpu)
- 		return;
- 
- 	/* dump these out in a form that can be parsed by demsm: */
--	printk("IO:region %s 00000000 00020000\n", gpu->name);
-+	printk(KERN_DEBUG "IO:region %s 00000000 00020000\n", gpu->name);
- 	for (i = 0; adreno_gpu->registers[i] != ~0; i += 2) {
- 		uint32_t start = adreno_gpu->registers[i];
- 		uint32_t end   = adreno_gpu->registers[i+1];
-@@ -760,7 +760,7 @@ void adreno_dump(struct msm_gpu *gpu)
- 
- 		for (addr = start; addr <= end; addr++) {
- 			uint32_t val = gpu_read(gpu, addr);
--			printk("IO:R %08x %08x\n", addr<<2, val);
-+			printk(KERN_DEBUG "IO:R %7x %08x\n", addr<<2, val);
- 		}
- 	}
- }
--- 
-2.29.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTEuMTEuMjAyMCAxMTo1MiwgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+PiBZb3Ug
+YWRkZWQgdGhpcyBjb2RlIGluIHBhdGNoICM4LCBzbyBhZGRpbmctYW5kLXJlbW92aW5nIGEgcGll
+Y2Ugb2YgY29kZQo+IENvcnJlY3Rpb246IHlvdSBhZGRlZCB0aGlzIGluIHBhdGNoICM5Lgo+IAo+
+IEJlc3QgcmVnYXJkcywKPiBLcnp5c3p0b2YKPiAKPiAKPj4gaXMgYSBuaWNlIGhpbnQgdGhhdCB0
+aGlzIHBhdGNoIHNob3VsZCBiZSBiZWZvcmUuIERvbid0IGFkZCBuZXcgY29kZQo+PiB3aGljaCBs
+YXRlciB5b3Ugc2ltcGxpZnkuIE1vdmUgYWxsIGJ1Z2ZpeGVzIGFuZCBhbGwgc2ltcGxpZmljYXRp
+b25zIHRvCj4+IGJlZ2lubmluZyBvZiBwYXRjaHNldC4KPj4KPj4gVGhhdCdzIHF1aXRlIHNpbWls
+YXIgY2FzZSB0byB2NiB3aGVyZSB5b3UgcHV0IGJ1Z2ZpeGVzIGluIHRoZSBtaWRkbGUKPj4gb2Yg
+cGF0Y2hzZXQuCj4+CgpJbmRlZWQsIEkgc3F1YXNoZWQgYSBzaW1pbGFyIGNoYW5nZSBpbiB0aGUg
+VDEyNCBwYXRjaCAjMTMsIGJ1dCBmb3Jnb3QgdG8Kc3F1YXNoIGl0IGZvciB0aGUgVDMwLgpfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
