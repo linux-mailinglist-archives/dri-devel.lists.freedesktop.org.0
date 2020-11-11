@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC072AEA90
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32402AEA72
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A2C89F6F;
-	Wed, 11 Nov 2020 07:55:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD55A89E86;
+	Wed, 11 Nov 2020 07:54:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA0989D64
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 01:15:15 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id b8so762314wrn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 17:15:15 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F208889D6C
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 01:15:16 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id o15so734121wru.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 17:15:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TaEGNlagm12rE9D/Wwm7i6p9QUikpwKV1tx7Tt13Q1s=;
- b=FrJAgroaw87i4Fom8Zp2mStkjQuZklEi5B+Wzm5MqgQs7TVYDTSIIBbx8YrnX5gn9n
- W19VdWJ0NghMs3ldUZhf94DBe38JAZUnfdV/pLY8AOQuEwaVhsdF0UuJuYNCjwLEdgLX
- VVEGnqNad6r0IrG6A1QTL+HKoEecxVT2nzEQToOLfEQqAbjVfaslUJVXmaNUzmGhe0Yi
- gJNqGxwCepBRYKLMDSOCI/vnrn4PCJgoWmKxUWaLwFcVaPEElizMhsDJoI9USkQtsA/v
- dV2C5+G4V2FXfZX5+cubMaFSkDDQXMFebzF1s2ykwGJKfIJcZ6kELhT1SfE4K7VPcSdo
- hcBw==
+ bh=2H5Lm+qxnRH66Iv9SihHnRlpGVSBdudBvuJJ7xJCLGs=;
+ b=CcR7eJqJ8+wvjgRNKfYchXC1ubzvS4Ne9crwHQPHnSxMpyClYrh5jVCpGtYfJPgcHS
+ ZlM12pZC3QtKfYgxhBKPDcsDap6U3y3AStECCKTWal/QiEen+c0SsxmwnAoDYj2gG0BX
+ dgTPI1u4ECUQvS6iv5puSqym4gnZEzF1nvAFcTx7T8Hw64j+LlX97qWPNtETVYzO7H1f
+ SvOdU8lPKoiAHRIp60bGYUbRhUNJHos06mSyDjMTZ5VM86/26PRLsSH2UW3R7NsnWjT+
+ dduTd2TtoUgYAzKmXKG9UBv5ZIrAIXrJPjp09/xxyMru5e8VrnkzLIABgdCmFpLgki7x
+ 6zHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TaEGNlagm12rE9D/Wwm7i6p9QUikpwKV1tx7Tt13Q1s=;
- b=pK5RGxXY7Dfq9GMwjCzVPUPrMysxFYLkxIkZ96vXhlPkgQczLKDW0Un6Ts141TLdmX
- jKbMcPBQki68PcprqpwSnlKhz+9Wb67Z2Vjkdosr/ib5yMu4XGMhoVITSrBib3O1K32Q
- glmD09tERD8+l+X5+Y+GRitcRigPmQve05BfpXqhDOckN7qMb5nZjpXtoCreKP9PdNue
- pHmR9NY0TcaWc+gJ7Vw7oTLqD3AjD66tBrISIkQEYKWxhHYxLfZ+G78LVqfhMoIzxWs0
- 4dPjQCsv1kPUqM0eq2OMsh9/ThAthHbcp1k6ykR2xvTMRZZROE67VqeB4d4cRDqU+AxR
- c6CA==
-X-Gm-Message-State: AOAM5311NS3HooslHO/DV4fxaqqWsUcHEYLzhk5AWs2q65me0f/7fPil
- rzzhBQne9CRKIKQ+uWX3Ouc=
-X-Google-Smtp-Source: ABdhPJz6ljHmxkfhc3SNdcEVqNIvy7oRVDOWk6rMWdNFVJu/Q0bDA/QujtchGwgSZQUeFOX3HhhX3g==
-X-Received: by 2002:a5d:4e48:: with SMTP id r8mr25595932wrt.141.1605057313860; 
- Tue, 10 Nov 2020 17:15:13 -0800 (PST)
+ bh=2H5Lm+qxnRH66Iv9SihHnRlpGVSBdudBvuJJ7xJCLGs=;
+ b=lEkXw67MtC9DYVJ12QLUeHw0/PUHttYKnQXLo+KhNi28Il3WQO2/PTlCf87vxuQ29W
+ WQPpxKMp0WwkQrUF+KE77rk7pE94iM2JeNKEO+sG6D2UJbSaYGTfU0wcuMGRABrPcbaK
+ 3UAlLgGSpOECfn6j8YREMTC8VCUg/oIUp4Us7ueZeBVeG89YuntxkpaHa/TiACmPEoT5
+ 3U1qzJoA/8cB/meJNfsBl9O56CQHuzkk4qgIqNNGN8maYT7U0n/MXiX2+Fei+sLjyd3r
+ 52uGoZXt8acyYM1EXKF7OQKiciQpZXXSkma2DUCbGQejFc9Y0Rntj0G9nvHgL8MI8WzO
+ ZK+Q==
+X-Gm-Message-State: AOAM533eAEiRDWmWqpZQ6Vxxw3NZ8yPTt9Y5oEc6/Yi4m9E5oS4uHVm1
+ TGt17Tar4ylboYf7c2WfZAE=
+X-Google-Smtp-Source: ABdhPJybpkHO7WEGCaTdiIYy3a7vUTnTG+P0Ol/V3RaV6o+aCN6QeuJFyH3uk39oh9p6JS2S8c61iA==
+X-Received: by 2002:adf:e6c8:: with SMTP id y8mr4709710wrm.414.1605057315654; 
+ Tue, 10 Nov 2020 17:15:15 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru.
  [109.252.193.159])
- by smtp.gmail.com with ESMTPSA id g131sm564329wma.35.2020.11.10.17.15.12
+ by smtp.gmail.com with ESMTPSA id g131sm564329wma.35.2020.11.10.17.15.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 10 Nov 2020 17:15:13 -0800 (PST)
+ Tue, 10 Nov 2020 17:15:15 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,9 +58,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v8 03/26] memory: tegra20-emc: Factor out clk initialization
-Date: Wed, 11 Nov 2020 04:14:33 +0300
-Message-Id: <20201111011456.7875-4-digetx@gmail.com>
+Subject: [PATCH v8 04/26] memory: tegra20-emc: Add devfreq support
+Date: Wed, 11 Nov 2020 04:14:34 +0300
+Message-Id: <20201111011456.7875-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201111011456.7875-1-digetx@gmail.com>
 References: <20201111011456.7875-1-digetx@gmail.com>
@@ -85,61 +85,151 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Factor out clk initialization and make it resource-managed. This makes
-easier to follow code and will help to make further changes cleaner.
+Add devfreq support to the Tegra20 EMC driver. Memory utilization
+statistics will be periodically polled from the memory controller and
+appropriate minimum clock rate will be selected by the devfreq governor.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra20-emc.c | 70 ++++++++++++++++++++----------
- 1 file changed, 47 insertions(+), 23 deletions(-)
+ drivers/memory/tegra/Kconfig       |  3 +-
+ drivers/memory/tegra/tegra20-emc.c | 90 ++++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+index ac3dfe155505..8cc1ec5be443 100644
+--- a/drivers/memory/tegra/Kconfig
++++ b/drivers/memory/tegra/Kconfig
+@@ -12,7 +12,8 @@ config TEGRA20_EMC
+ 	tristate "NVIDIA Tegra20 External Memory Controller driver"
+ 	default y
+ 	depends on TEGRA_MC && ARCH_TEGRA_2x_SOC
+-	select PM_OPP
++	select DEVFREQ_GOV_SIMPLE_ONDEMAND
++	select PM_DEVFREQ
+ 	help
+ 	  This driver is for the External Memory Controller (EMC) found on
+ 	  Tegra20 chips. The EMC controls the external DRAM on the board.
 diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-index bb3f315c9587..d01b556a6d06 100644
+index d01b556a6d06..b9cd965980e2 100644
 --- a/drivers/memory/tegra/tegra20-emc.c
 +++ b/drivers/memory/tegra/tegra20-emc.c
-@@ -960,6 +960,49 @@ static int tegra_emc_opp_table_init(struct tegra_emc *emc)
- 	return err;
+@@ -8,6 +8,7 @@
+ #include <linux/clk.h>
+ #include <linux/clk/tegra.h>
+ #include <linux/debugfs.h>
++#include <linux/devfreq.h>
+ #include <linux/err.h>
+ #include <linux/interconnect-provider.h>
+ #include <linux/interrupt.h>
+@@ -102,6 +103,10 @@
+ 
+ #define EMC_FBIO_CFG5_DRAM_WIDTH_X16		BIT(4)
+ 
++#define EMC_PWR_GATHER_CLEAR			(1 << 8)
++#define EMC_PWR_GATHER_DISABLE			(2 << 8)
++#define EMC_PWR_GATHER_ENABLE			(3 << 8)
++
+ static const u16 emc_timing_registers[] = {
+ 	EMC_RC,
+ 	EMC_RFC,
+@@ -157,6 +162,7 @@ struct emc_timing {
+ };
+ 
+ enum emc_rate_request_type {
++	EMC_RATE_DEVFREQ,
+ 	EMC_RATE_DEBUG,
+ 	EMC_RATE_ICC,
+ 	EMC_RATE_TYPE_MAX,
+@@ -193,6 +199,8 @@ struct tegra_emc {
+ 
+ 	/* protect shared rate-change code path */
+ 	struct mutex rate_lock;
++
++	struct devfreq_simple_ondemand_data ondemand_data;
+ };
+ 
+ static irqreturn_t tegra_emc_isr(int irq, void *data)
+@@ -1003,6 +1011,87 @@ static int tegra_emc_init_clk(struct tegra_emc *emc)
+ 	return 0;
  }
  
-+static void devm_tegra_emc_unset_callback(void *data)
++static int tegra_emc_devfreq_target(struct device *dev, unsigned long *freq,
++				    u32 flags)
 +{
-+	tegra20_clk_set_emc_round_callback(NULL, NULL);
-+}
++	struct tegra_emc *emc = dev_get_drvdata(dev);
++	struct dev_pm_opp *opp;
++	unsigned long rate;
 +
-+static void devm_tegra_emc_unreg_clk_notifier(void *data)
-+{
-+	struct tegra_emc *emc = data;
-+
-+	clk_notifier_unregister(emc->clk, &emc->clk_nb);
-+}
-+
-+static int tegra_emc_init_clk(struct tegra_emc *emc)
-+{
-+	int err;
-+
-+	tegra20_clk_set_emc_round_callback(emc_round_rate, emc);
-+
-+	err = devm_add_action_or_reset(emc->dev, devm_tegra_emc_unset_callback,
-+				       NULL);
-+	if (err)
-+		return err;
-+
-+	emc->clk = devm_clk_get(emc->dev, NULL);
-+	if (IS_ERR(emc->clk)) {
-+		dev_err(emc->dev, "failed to get EMC clock: %pe\n", emc->clk);
-+		return PTR_ERR(emc->clk);
++	opp = devfreq_recommended_opp(dev, freq, flags);
++	if (IS_ERR(opp)) {
++		dev_err(dev, "failed to find opp for %lu Hz\n", *freq);
++		return PTR_ERR(opp);
 +	}
 +
-+	err = clk_notifier_register(emc->clk, &emc->clk_nb);
-+	if (err) {
-+		dev_err(emc->dev, "failed to register clk notifier: %d\n", err);
-+		return err;
-+	}
++	rate = dev_pm_opp_get_freq(opp);
++	dev_pm_opp_put(opp);
 +
-+	err = devm_add_action_or_reset(emc->dev,
-+				       devm_tegra_emc_unreg_clk_notifier, emc);
-+	if (err)
-+		return err;
++	return emc_set_min_rate(emc, rate, EMC_RATE_DEVFREQ);
++}
++
++static int tegra_emc_devfreq_get_dev_status(struct device *dev,
++					    struct devfreq_dev_status *stat)
++{
++	struct tegra_emc *emc = dev_get_drvdata(dev);
++
++	/* freeze counters */
++	writel_relaxed(EMC_PWR_GATHER_DISABLE, emc->regs + EMC_STAT_CONTROL);
++
++	/*
++	 *  busy_time: number of clocks EMC request was accepted
++	 * total_time: number of clocks PWR_GATHER control was set to ENABLE
++	 */
++	stat->busy_time = readl_relaxed(emc->regs + EMC_STAT_PWR_COUNT);
++	stat->total_time = readl_relaxed(emc->regs + EMC_STAT_PWR_CLOCKS);
++	stat->current_frequency = clk_get_rate(emc->clk);
++
++	/* clear counters and restart */
++	writel_relaxed(EMC_PWR_GATHER_CLEAR, emc->regs + EMC_STAT_CONTROL);
++	writel_relaxed(EMC_PWR_GATHER_ENABLE, emc->regs + EMC_STAT_CONTROL);
++
++	return 0;
++}
++
++static struct devfreq_dev_profile tegra_emc_devfreq_profile = {
++	.polling_ms = 30,
++	.target = tegra_emc_devfreq_target,
++	.get_dev_status = tegra_emc_devfreq_get_dev_status,
++};
++
++static int tegra_emc_devfreq_init(struct tegra_emc *emc)
++{
++	struct devfreq *devfreq;
++
++	/*
++	 * PWR_COUNT is 1/2 of PWR_CLOCKS at max, and thus, the up-threshold
++	 * should be less than 50.  Secondly, multiple active memory clients
++	 * may cause over 20% of lost clock cycles due to stalls caused by
++	 * competing memory accesses.  This means that threshold should be
++	 * set to a less than 30 in order to have a properly working governor.
++	 */
++	emc->ondemand_data.upthreshold = 20;
++
++	/*
++	 * Reset statistic gathers state, select global bandwidth for the
++	 * statistics collection mode and set clocks counter saturation
++	 * limit to maximum.
++	 */
++	writel_relaxed(0x00000000, emc->regs + EMC_STAT_CONTROL);
++	writel_relaxed(0x00000000, emc->regs + EMC_STAT_LLMC_CONTROL);
++	writel_relaxed(0xffffffff, emc->regs + EMC_STAT_PWR_CLOCK_LIMIT);
++
++	devfreq = devm_devfreq_add_device(emc->dev, &tegra_emc_devfreq_profile,
++					  DEVFREQ_GOV_SIMPLE_ONDEMAND,
++					  &emc->ondemand_data);
++	if (IS_ERR(devfreq)) {
++		dev_err(emc->dev, "failed to initialize devfreq: %pe", devfreq);
++		return PTR_ERR(devfreq);
++	}
 +
 +	return 0;
 +}
@@ -147,50 +237,14 @@ index bb3f315c9587..d01b556a6d06 100644
  static int tegra_emc_probe(struct platform_device *pdev)
  {
  	struct device_node *np;
-@@ -1003,25 +1046,13 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 		return err;
- 	}
- 
--	tegra20_clk_set_emc_round_callback(emc_round_rate, emc);
--
--	emc->clk = devm_clk_get(&pdev->dev, "emc");
--	if (IS_ERR(emc->clk)) {
--		err = PTR_ERR(emc->clk);
--		dev_err(&pdev->dev, "failed to get emc clock: %d\n", err);
--		goto unset_cb;
--	}
--
--	err = clk_notifier_register(emc->clk, &emc->clk_nb);
--	if (err) {
--		dev_err(&pdev->dev, "failed to register clk notifier: %d\n",
--			err);
--		goto unset_cb;
--	}
-+	err = tegra_emc_init_clk(emc);
-+	if (err)
-+		return err;
- 
- 	err = tegra_emc_opp_table_init(emc);
- 	if (err)
--		goto unreg_notifier;
-+		return err;
- 
- 	platform_set_drvdata(pdev, emc);
+@@ -1058,6 +1147,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
  	tegra_emc_rate_requests_init(emc);
-@@ -1036,13 +1067,6 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	try_module_get(THIS_MODULE);
+ 	tegra_emc_debugfs_init(emc);
+ 	tegra_emc_interconnect_init(emc);
++	tegra_emc_devfreq_init(emc);
  
- 	return 0;
--
--unreg_notifier:
--	clk_notifier_unregister(emc->clk, &emc->clk_nb);
--unset_cb:
--	tegra20_clk_set_emc_round_callback(NULL, NULL);
--
--	return err;
- }
- 
- static const struct of_device_id tegra_emc_of_match[] = {
+ 	/*
+ 	 * Don't allow the kernel module to be unloaded. Unloading adds some
 -- 
 2.29.2
 
