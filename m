@@ -2,55 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D572AE498
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 01:05:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B890A2AE520
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 01:48:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09F6789D60;
-	Wed, 11 Nov 2020 00:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C5F689E06;
+	Wed, 11 Nov 2020 00:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F85089D66;
- Wed, 11 Nov 2020 00:05:16 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d142so206494wmd.4;
- Tue, 10 Nov 2020 16:05:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86D2C89E06
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 00:48:29 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id x11so194442vsx.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 16:48:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4aRvj5frq2x2Ig3VTHGXWjNecxTnIxom7+px4DcCz0c=;
- b=FO2M7uTurZnh4C3vREryU20s0FpeQM2WbJtlUXhCEVef4AooWpyc8Azm/Ynt1SU023
- HcLuFI3eaj5Svi/jKo1njI77J+5aWkA9uKZsDM7Xkd/ATHbG921QkZrptNLhjN8UhL2J
- 3LQtp4U1eDD3+ibbK+DVX3Zp7YQ/+dHRO1kXPUWSvcr/qlsMHcB0c952jpTsxqZhB/K0
- AOEWFGK9sakRTGNv4FzUBu5xIB7uC3zyY82UmKZmcfRvLSsjg7rliVWLPoQ0YJ3CwOLQ
- 0bmsxlvfYPIP4r9FNLVkxrttl91vaeBUelEIrNcHBqKelZ8o9hjs5KIt2XYG7OJQeWqJ
- s12w==
+ :cc; bh=DwI3PFSKWVnaqeshY41Xp/YVBg2cD76OjiJIiFh3rNI=;
+ b=QfIsIHzjHTjAr/jTdIRSiD+ZkEfLnev1EHOTrRrDDTB7WurSHmLapfGiBTNJvwGtWM
+ n0cecZqV6gOBimx3dJHYoejdFvYV+lM1U9yYeRQ2K3KmHrsUZUWvTeK29NnQ/CF3BEKI
+ m3e422SOkDPN1XTyRtLgENxmZHEnNWrVPZYPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4aRvj5frq2x2Ig3VTHGXWjNecxTnIxom7+px4DcCz0c=;
- b=ig0ROk0DPlC7hYUXq4pj1LAGR1Ytxc5KMqyNbcjhkjfSdpeAZnlbLOjIXZxVPRVPO7
- UkxT/noDrGOzAuOK8SimTv7/qWg7+03/qjIRZrSliPxXrPEyoiGZ8T37g7/mwaxlMtoz
- pp/3YIWTXkDrZdHoIhk8oeLlv7WdG93g3nx/0hDuB4FeTIZayguoRKDdRWWp+RUf8mT6
- ybsjOP9B9tQ+U9s4aKfDn2VD3p4aeMCHFk+kjiAagUoTstBez/ZHwN60Qbkt+vY1I2bR
- rkFdFDBRJyaXlY8Zw2yylaWVRzEhfnyIImuYeJV3l5C9E2+9rKLfAMeoUazx/wM3pi/n
- U6jw==
-X-Gm-Message-State: AOAM530Sx0uUATeY7QoeS+10CLvLH5FHumkrvhK9cicfFzkfzOp8Gwx8
- tfeOZ5LjMpYMmLfQaqXwCEQTdzwyPoaKImSjSz8=
-X-Google-Smtp-Source: ABdhPJyM77nEspqaxvn9OWN0UGEKlPqHVnIO+WXkoMEHq47+GSyGrP9fYmwOW3uqOWzKMJY3a9TwutaLObHNCt5r9YI=
-X-Received: by 2002:a1c:1c3:: with SMTP id 186mr629819wmb.39.1605053114850;
- Tue, 10 Nov 2020 16:05:14 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=DwI3PFSKWVnaqeshY41Xp/YVBg2cD76OjiJIiFh3rNI=;
+ b=PGOBDYdD1ysfpQPoRgBeOUM9U47BZaSNqySVkpvoWV4997XywXc/meGJqjzCuINva9
+ ZmotBtWQU9SF3y56N5Xokc8Kp+P/IfuP6OGfYMTfVnThcjU0LLWXGA8GeC5wCYUMMO1M
+ UcGq9jklwLoGb5h6tkiE574vLTg8tUAGJRy6rjplm+7eGuTSLi6RnaGzl2Lea1Cvzln+
+ 4KUfui6V2QnkvnYrlTFzjYAIfCUTuZS86hF0NAB2hygXfeQfqkE2LHMt8VBfUmZSNC12
+ Qup+c5TYx+ok4ukii16TZO4fDX6ai5sx4yMR8ILlr9XQsM0pbt5YWCayY3jEdhztIOSj
+ cAcg==
+X-Gm-Message-State: AOAM5327D0yZ69uxkug3dXksWiI6+fgYamLzZZQdqDxoW3EmvAdfaLWg
+ tp1b9A/kqc+Xt0vsbw2stOFqi4BYA2plaQ==
+X-Google-Smtp-Source: ABdhPJzfEMMAVPVKz3NOJ5EX77peW8MqKYkofSI0p9cjSKK8H1m1bKCiUm1CcZrGPbIw0zOBhGm42w==
+X-Received: by 2002:a67:d281:: with SMTP id z1mr9246363vsi.47.1605055708649;
+ Tue, 10 Nov 2020 16:48:28 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com.
+ [209.85.222.41])
+ by smtp.gmail.com with ESMTPSA id h7sm54165vke.55.2020.11.10.16.48.28
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 10 Nov 2020 16:48:28 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a10so185398uan.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 16:48:28 -0800 (PST)
+X-Received: by 2002:a9f:24eb:: with SMTP id 98mr11624331uar.90.1605055707756; 
+ Tue, 10 Nov 2020 16:48:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110193112.988999-1-lee.jones@linaro.org>
- <20201110193112.988999-26-lee.jones@linaro.org>
-In-Reply-To: <20201110193112.988999-26-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 10 Nov 2020 19:05:03 -0500
-Message-ID: <CADnq5_M4rN9gOZaC_FEVBd_XtpMxKNzG7X3dzCd49gRUirFH-Q@mail.gmail.com>
-Subject: Re: [PATCH 25/30] drm/radeon/sumo_dpm: Move 'sumo_get_pi()'s
- prototype into shared header
-To: Lee Jones <lee.jones@linaro.org>
+References: <20200930223532.77755-1-bjorn.andersson@linaro.org>
+ <20200930223532.77755-2-bjorn.andersson@linaro.org>
+ <CAD=FV=Unu-PH_RThi3xRF1HUADN2PqcVAOin0O0yo0gcGRWCDQ@mail.gmail.com>
+ <20201102170801.GI3151@builder.lan>
+In-Reply-To: <20201102170801.GI3151@builder.lan>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Nov 2020 16:48:16 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XEyn5tLhOFnVTP4W-_qQG_UpZ0npveEo-vE0Y=wKqaBg@mail.gmail.com>
+Message-ID: <CAD=FV=XEyn5tLhOFnVTP4W-_qQG_UpZ0npveEo-vE0Y=wKqaBg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: drm/bridge: ti-sn65dsi86: Replace
+ #pwm-cells
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,54 +72,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCBOb3YgMTAsIDIwMjAgYXQgMjozMiBQTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vc3Vtb19kcG0uYzo4MToyNTog
-d2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhzdW1vX2dldF9waeKAmSBbLVdt
-aXNzaW5nLXByb3RvdHlwZXNdCj4gIDgxIHwgc3RydWN0IHN1bW9fcG93ZXJfaW5mbyAqc3Vtb19n
-ZXRfcGkoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gIHwgXn5+fn5+fn5+fn4KPgo+IENj
-OiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3Rp
-YW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUg
-PGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4K
-PiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxp
-bmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9zdW1vX2RwbS5oIHwgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vc3Vt
-b19zbWMuYyB8IDIgLS0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxl
-dGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3N1bW9fZHBt
-LmggYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3N1bW9fZHBtLmgKPiBpbmRleCBmMTY1MTEzNWE0
-N2FiLi5kYjI5ZDM3YWUyNzAzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24v
-c3Vtb19kcG0uaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vc3Vtb19kcG0uaAo+IEBA
-IC0yMDcsNiArMjA3LDcgQEAgdTMyIHN1bW9fZ2V0X3NsZWVwX2RpdmlkZXJfZnJvbV9pZCh1MzIg
-aWQpOwo+ICB1MzIgc3Vtb19nZXRfc2xlZXBfZGl2aWRlcl9pZF9mcm9tX2Nsb2NrKHN0cnVjdCBy
-YWRlb25fZGV2aWNlICpyZGV2LAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgdTMyIHNjbGssCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB1MzIgbWluX3NjbGtfaW5fc3IpOwo+ICtzdHJ1Y3Qgc3Vtb19wb3dlcl9pbmZvICpzdW1vX2dl
-dF9waShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4KPiAgLyogc3Vtb19zbWMuYyAqLwo+
-ICB2b2lkIHN1bW9faW5pdGlhbGl6ZV9tM19hcmIoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYp
-Owo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3N1bW9fc21jLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vcmFkZW9uL3N1bW9fc21jLmMKPiBpbmRleCBkNzgxNDA3MDU3MzY2Li43OGQ4
-NzE2MDY3MzE4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vc3Vtb19zbWMu
-Ywo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vc3Vtb19zbWMuYwo+IEBAIC0zMCw4ICsz
-MCw2IEBACj4gICNkZWZpbmUgU1VNT19TTVVfU0VSVklDRV9ST1VUSU5FX0FMVFZERE5CX05PVElG
-WSAgMjcKPiAgI2RlZmluZSBTVU1PX1NNVV9TRVJWSUNFX1JPVVRJTkVfR0ZYX1NSVl9JRF8yMCAg
-MjAKPgo+IC1zdHJ1Y3Qgc3Vtb19wb3dlcl9pbmZvICpzdW1vX2dldF9waShzdHJ1Y3QgcmFkZW9u
-X2RldmljZSAqcmRldik7Cj4gLQo+ICBzdGF0aWMgdm9pZCBzdW1vX3NlbmRfbXNnX3RvX3NtdShz
-dHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwgdTMyIGlkKQo+ICB7Cj4gICAgICAgICB1MzIgZ2Z4
-X2ludF9yZXE7Cj4gLS0KPiAyLjI1LjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+Hi,
+
+On Mon, Nov 2, 2020 at 9:08 AM Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
+>
+> On Fri 02 Oct 15:42 CDT 2020, Doug Anderson wrote:
+>
+> > Hi,
+> >
+> > On Wed, Sep 30, 2020 at 3:40 PM Bjorn Andersson
+> > <bjorn.andersson@linaro.org> wrote:
+> > >
+> > > While the signal on GPIO4 to drive the backlight controller indeed is
+> > > pulse width modulated its purpose is specifically to control the
+> > > brightness of a backlight.
+> >
+> > I'm a bit on the fence about this.  I guess you're doing this because
+> > it avoids some -EPROBE_DEFER cycles in Linux?  It does seem to have a
+> > few downsides, though.
+> >
+>
+> No, the reason for exposing a backlight is that while the thing
+> certainly is a PWM signal, the description of it and the registers
+> available to control it surely seems "backlight" to me.
+>
+> In particular No, the reason for exposing a backlight is that while
+> while the thing certainly is a PWM signal, the description of it and the
+> registers available to control it surely seems "backlight" to me.
+>
+> > 1. It means a bit of re-inventing the wheel.  It's not a very big
+> > wheel, though, I'll give you.  ...but it's still something.
+> >
+>
+> The main problem I saw with exposing this as a PWM was the fact that we
+> have both period and frequency to control...
+>
+> > 2. I'm not sure why you'd want to, but in theory one could use this
+> > PWM for some other purposes.  It really is just a generic PWM.  Your
+> > change prevents that.
+> >
+>
+> ...and in the even that you use it as a "generic" PWM I'd expect that
+> the specified period is related to the frequency of the signal. But the
+> period is documented to be related to the number of brightness steps of
+> the panel.
+
+I think the key here is that the "number of brightness steps of the
+panel" isn't really a thing that's worried about.  At least in my
+experience, you can pretty much just use as many steps as you can
+represent based on your PWM hardware.  If a panel happens to map some
+of those steps to the same brightness then it wouldn't be the end of
+the world, but in experience it's not really such a digital thing.  If
+you choose 4096 steps then you likely get 4096 different brightness
+levels.  If you choose 256 steps then you get 256 different brightness
+levels.  Once you have "more than enough" steps then everything's
+pretty much fine.
+
+Looking at one random panel (just to get an idea of numbers), I see
+that it specifies:
+* min PWM Freq: 200 Hz
+* max PWM Freq: 10,000 Hz.
+
+...and refclk is something between 12 MHz and 38.4 MHz, right?
+
+The bridge chip datasheet says:
+
+PWM_FREQ = REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
+
+So let's see what we can do.  I'm arguing that we want the client to
+be able to specify the PWM frequency and duty cycle and we'll do the
+job of picking the number of steps.  We'll try for the most steps we
+can get (65535).
+
+I guess we need to solve for PWM_PRE_DIV :
+
+PWM_FREQ * (PWM_PRE_DIV * BACKLIGHT_SCALE + 1) = REFCLK_FREQ
+PWM_PRE_DIV * BACKLIGHT_SCALE + 1 = REFCLK_FREQ / PWM_FREQ
+PWM_PRE_DIV * BACKLIGHT_SCALE = REFCLK_FREQ / PWM_FREQ - 1
+PWM_PRE_DIV = (REFCLK_FREQ / PWM_FREQ - 1) / BACKLIGHT_SCALE
+
+...and solve for BACKLIGHT_SCALE:
+BACKLIGHT_SCALE = (REFCLK_FREQ / PWM_FREQ - 1) / PWM_PRE_DIV
+
+
+With 1000 Hz, 12 MHz refclk:
+
+PWM_PRE_DIV = DIV_ROUND_UP(12000000 / 1000 - 1, 65535)
+=> 1
+BACKLIGHT_SCALE = (12000000 / 1000 - 1) / 1
+=> 11999
+
+With 1000 Hz, 38.4 MHz refclk:
+PWM_PRE_DIV = DIV_ROUND_UP(38400000 / 1000 - 1, 65535)
+=> 1
+BACKLIGHT_SCALE = (38400000 / 1000 - 1) / 1
+=> 38399
+
+With 200 Hz, 38.4 MHz refclk:
+PWM_PRE_DIV = DIV_ROUND_UP(38400000 / 200 - 1, 65535)
+=> 3
+BACKLIGHT_SCALE = (38400000 / 200 - 1) / 3
+=> 63999
+
+Now that you have BACKLIGHT_SCALE specified, then when someone tries
+to give you a duty cycle you just map it to the closest value you can
+make.  Obviously you won't be able to perfectly make every exact duty
+cycle / period that a client requests, but that's true of all PWMs out
+there.
+
+The nice thing here is that (assuming my math is right) we should be
+getting nearly exactly the frequency that the client requested and
+that (in my mind) is what matters.  You also get as many steps as
+possible which means that (with the PWM backlight API) you'll be able
+to get as close as possible to whatever a user requests.
+
+
+> > > Drop the #pwm-cells and instead expose a new property to configure the
+> > > granularity of the backlight PWM signal.
+> > >
+> > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > ---
+> > >  .../devicetree/bindings/display/bridge/ti,sn65dsi86.yaml | 9 ++++++---
+> > >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > > index f8622bd0f61e..e380218b4646 100644
+> > > --- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
+> > > @@ -66,9 +66,12 @@ properties:
+> > >        1-based to match the datasheet.  See ../../gpio/gpio.txt for more
+> > >        information.
+> > >
+> > > -  '#pwm-cells':
+> > > -    const: 1
+> > > -    description: See ../../pwm/pwm.yaml for description of the cell formats.
+> > > +  ti,backlight-scale:
+> > > +    description:
+> > > +      The granularity of brightness for the PWM signal provided on GPIO4, if
+> > > +      this property is specified.
+> > > +    minimum: 0
+> > > +    maximum: 65535
+> >
+> > A few issues here:
+> >
+> > 1. Maybe call this "num-steps" instead of backlight-scale.  That's
+> > essentially what it is, right?  Saying how many discrete steps you're
+> > allowing in your backlight?
+> >
+>
+> That would work, I had it as "max-brightness" for a while as well. But I
+> reverted to backlight-scale, because that's the name used in the
+> datasheet.
+>
+> I'm fine with whatever color of the shed though :)
+>
+> > 2. IMO you need the PWM frequency specified, since it can actually
+> > matter.  NOTE: once you have the PWM frequency specified, you could
+> > imagine automatically figuring out what "num-steps" was.  Really you'd
+> > want it to be the largest possible value you could achieve with your
+> > hardware at the specified frequency.  There's no advantage (is there?)
+> > of providing fewer steps to the backlight client.
+> >
+>
+> I guess there's no problem in having a "num-steps" that is unrelated to
+> the number of brightness steps of the panel - but I did distinguish them
+> because the datasheet clearly does so.
+
+I think the datasheet talks about the number of steps that you will be
+able to make, but that doesn't mean it has to be what's exposed to
+clients of this driver, right?
+
+
+> > 3. Some backlights are specified inverted.  It looks like this maps
+> > nicely to the bridge chip, which has a bit for it.  Probably nice to
+> > expose this?
+> >
+>
+> Yes, that should be covered.
+>
+> > Of course, if we were just exposing the PWM directly to Linux we could
+> > just use the PWM backlight driver and it'd all magically work.  ;-)
+> >
+>
+> Please help me figure out how to properly expose this in the PWM api and
+> I'll be happy to respin it using this - as you say my wheel does look
+> pretty similar...
+
+Hopefully the above seems sane to you?
+
+-Doug
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
