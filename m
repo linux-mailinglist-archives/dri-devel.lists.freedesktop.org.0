@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7D02AF30B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:06:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F6A2AF370
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:23:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BB889EAE;
-	Wed, 11 Nov 2020 14:06:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62BB36E05D;
+	Wed, 11 Nov 2020 14:23:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9FA289EAE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 14:06:22 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABE5YS2090680;
- Wed, 11 Nov 2020 08:05:34 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605103534;
- bh=bm5liVtdKMxh8yQ23uRVMOFWo6OEkXdxMU4qlm5qC2Y=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=MpIt8H0ghc4oEGNW7tMVEuz7dB+n4zE/3Va1WMLd/cLj0qLOpDk14xZ6TfUqrBXCK
- fvQ3SF8hFH7cGh558tvgVWhrWPa3q7gqfvlQACfilbnrj9g0o/O0T3cKby+4w5ALLj
- lbWSEBK/W3NxizJ1/KJVYvNj/k2xKHi+R62de8rg=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABE5Y3n004321
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 08:05:34 -0600
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 08:05:33 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 08:05:33 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABE5VBe023055;
- Wed, 11 Nov 2020 08:05:31 -0600
-Subject: Re: [PATCH v3 28/56] drm/omap: dsi: untangle ulps ops from
- enable/disable
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-29-tomi.valkeinen@ti.com>
- <20201109095732.GY6029@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <581c50c5-1654-b967-7e26-e0cf732e0787@ti.com>
-Date: Wed, 11 Nov 2020 16:05:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79C796E04A;
+ Wed, 11 Nov 2020 14:23:32 +0000 (UTC)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C2CA5221F1;
+ Wed, 11 Nov 2020 14:23:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605104612;
+ bh=xm3rQeDIh2FuZjYEyhCI9+5vLDwhs0MB53yet3dsIaE=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=dPmto1xzJ4FwUTGL7+SCYcrJcJWW52ez+kxbCClZr+loHMAapvqz8LQz+Evkc9Vuu
+ +KAHrYvHOZwkw2La6X7uex32BeyKimqmO8Ofmcfvrnpb1stNfWTSlBY+XS1QVzjIoA
+ Z6DKu/gGPoh0EgAddBIc+BpDBved4jgG3COWBuvg=
+Received: by mail-ed1-f44.google.com with SMTP id p93so2460941edd.7;
+ Wed, 11 Nov 2020 06:23:31 -0800 (PST)
+X-Gm-Message-State: AOAM532U5yB+QwX5bKQtO7yTBNAh6dRXUPuC0Y5O95FpyQpL6rAF05oC
+ 6jrp4vRLdnw7/QGVPMwn6ga+bYtJlVNrQUuNIA==
+X-Google-Smtp-Source: ABdhPJxh+77oiphOx3YcIcxiUEmfWiMYRwROdlpWqzLsSf75JddHNGi9QfuS9fuMmuFcPm/rgVNfg169e9VDB275Qg8=
+X-Received: by 2002:a50:f0d4:: with SMTP id a20mr5290937edm.303.1605104609593; 
+ Wed, 11 Nov 2020 06:23:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201109095732.GY6029@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20201109103242.19544-1-tzimmermann@suse.de>
+ <20201109103242.19544-3-tzimmermann@suse.de>
+In-Reply-To: <20201109103242.19544-3-tzimmermann@suse.de>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 11 Nov 2020 22:23:15 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__QuyEA7c4H+eSvrSdFTZttB4DXbjr6HLWoH8WovOD1eQ@mail.gmail.com>
+Message-ID: <CAAOTY__QuyEA7c4H+eSvrSdFTZttB4DXbjr6HLWoH8WovOD1eQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/mediatek: Use struct dma_buf_map in GEM vmap ops
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,159 +54,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
+ nouveau@lists.freedesktop.org,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, Melissa Wen <melissa.srw@gmail.com>,
+ Huang Rui <ray.huang@amd.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Madhav Chauhan <madhav.chauhan@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Emil Velikov <emil.velikov@collabora.com>, xen-devel@lists.xenproject.org,
+ lima@lists.freedesktop.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ linux-rockchip@lists.infradead.org, amd-gfx@lists.freedesktop.org,
+ Steven Price <steven.price@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Luben Tuikov <luben.tuikov@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Dave Airlie <airlied@redhat.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-arm-msm@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ sean@poorly.run, Arunpravin <apaneers@amd.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>, Sandy Huang <hjc@rock-chips.com>,
+ Nirmoy Das <Nirmoy.Das@amd.com>, Qiang Yu <yuq825@gmail.com>,
+ Alex Deucher <alexander.deucher@amd.com>, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 11:57, Laurent Pinchart wrote:
-> Hi Tomi and Sebastian,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Nov 05, 2020 at 02:03:05PM +0200, Tomi Valkeinen wrote:
->> From: Sebastian Reichel <sebastian.reichel@collabora.com>
->>
->> Create a custom function pointer for ULPS and use it instead of
->> reusing disable/enable functions for ULPS mode switch. This allows
->> us to use the common disable/enable functions pointers for DSI.
->>
->> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> ---
->>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   |  8 ++--
->>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 42 ++++++++++++++-----
->>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  5 +--
->>  3 files changed, 38 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> index 4be0c9dbcc43..78247dcb1848 100644
->> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> @@ -233,7 +233,7 @@ static int dsicm_enter_ulps(struct panel_drv_data *ddata)
->>  	if (r)
->>  		goto err;
->>  
->> -	src->ops->dsi.disable(src, false, true);
->> +	src->ops->dsi.ulps(src, true);
->>  
->>  	ddata->ulps_enabled = true;
->>  
->> @@ -258,7 +258,7 @@ static int dsicm_exit_ulps(struct panel_drv_data *ddata)
->>  	if (!ddata->ulps_enabled)
->>  		return 0;
->>  
->> -	src->ops->enable(src);
->> +	src->ops->dsi.ulps(src, false);
->>  	ddata->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
->>  
->>  	r = _dsicm_enable_te(ddata, ddata->te_enabled);
->> @@ -586,7 +586,7 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
->>  
->>  	dsicm_hw_reset(ddata);
->>  
->> -	src->ops->dsi.disable(src, true, false);
->> +	src->ops->disable(src);
->>  err_regulators:
->>  	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
->>  	if (r)
->> @@ -612,7 +612,7 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
->>  		dsicm_hw_reset(ddata);
->>  	}
->>  
->> -	src->ops->dsi.disable(src, true, false);
->> +	src->ops->disable(src);
->>  
->>  	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
->>  	if (r)
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> index d54b743c2b48..937362ade4b4 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
->> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> @@ -4055,13 +4055,10 @@ static void dsi_display_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
->>  	}
->>  }
->>  
->> -static void dsi_display_enable(struct omap_dss_device *dssdev)
->> +static void dsi_display_ulps_enable(struct dsi_data *dsi)
->>  {
->> -	struct dsi_data *dsi = to_dsi_data(dssdev);
->>  	int r;
->>  
->> -	DSSDBG("dsi_display_enable\n");
->> -
->>  	WARN_ON(!dsi_bus_is_locked(dsi));
->>  
->>  	mutex_lock(&dsi->lock);
->> @@ -4084,16 +4081,19 @@ static void dsi_display_enable(struct omap_dss_device *dssdev)
->>  	dsi_runtime_put(dsi);
->>  err_get_dsi:
->>  	mutex_unlock(&dsi->lock);
->> -	DSSDBG("dsi_display_enable FAILED\n");
->> +	DSSDBG("dsi_display_ulps_enable FAILED\n");
->>  }
->>  
->> -static void dsi_display_disable(struct omap_dss_device *dssdev,
->> -		bool disconnect_lanes, bool enter_ulps)
->> +static void dsi_display_enable(struct omap_dss_device *dssdev)
->>  {
->>  	struct dsi_data *dsi = to_dsi_data(dssdev);
->> +	DSSDBG("dsi_display_enable\n");
->> +	dsi_display_ulps_enable(dsi);
->> +}
->>  
->> -	DSSDBG("dsi_display_disable\n");
->> -
->> +static void dsi_display_ulps_disable(struct dsi_data *dsi,
->> +		bool disconnect_lanes, bool enter_ulps)
->> +{
->>  	WARN_ON(!dsi_bus_is_locked(dsi));
->>  
->>  	mutex_lock(&dsi->lock);
->> @@ -4110,6 +4110,27 @@ static void dsi_display_disable(struct omap_dss_device *dssdev,
->>  	mutex_unlock(&dsi->lock);
->>  }
->>  
->> +static void dsi_display_disable(struct omap_dss_device *dssdev)
->> +{
->> +	struct dsi_data *dsi = to_dsi_data(dssdev);
->> +
->> +	DSSDBG("dsi_display_disable\n");
->> +
->> +	dsi_display_ulps_disable(dsi, true, false);
->> +}
->> +
->> +static void dsi_ulps(struct omap_dss_device *dssdev, bool enable)
->> +{
->> +	struct dsi_data *dsi = to_dsi_data(dssdev);
->> +
->> +	DSSDBG("dsi_ulps\n");
->> +
->> +	if (enable)
->> +		dsi_display_ulps_disable(dsi, false, true);
->> +	else
->> +		dsi_display_ulps_enable(dsi);
-> 
-> The names are fairly confusing. I would expect
-> dsi_display_ulps_disable() to disable ULPS mode.
-
-It is fairly confusing naming. It's actually something like dsi_display_displaye_featuring_ulps.
-I'll rename those to
-
-_dsi_display_disable and _dsi_display_enable. So they're just lower level enable/disable functions,
-which also handle ulps.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFRob21hczoKClRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPiDmlrwg
+MjAyMOW5tDEx5pyIOeaXpSDpgLHkuIAg5LiL5Y2INjozMuWvq+mBk++8mgo+Cj4gRml4ZXMgYSBi
+dWlsZCBmYWlsdXJlIHdpdGggbWVkaWF0ZWsuCj4KPiBUaGlzIGNoYW5nZSB3YXMgc3VwcG9zZWQg
+dG8gYmUgcGFydCBvZiBjb21taXQgNDlhM2Y1MWRmZWVlICgiZHJtL2dlbToKPiBVc2Ugc3RydWN0
+IGRtYV9idWZfbWFwIGluIEdFTSB2bWFwIG9wcyBhbmQgY29udmVydCBHRU0gYmFja2VuZHMiKSwg
+YnV0Cj4gbWVkaWF0ZWsgd2FzIGZvcmdvdHRlbi4KCkFja2VkLWJ5OiBDaHVuLUt1YW5nIEh1IDxj
+aHVua3VhbmcuaHVAa2VybmVsLm9yZz4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVy
+bWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiBGaXhlczogNDlhM2Y1MWRmZWVlICgiZHJtL2dl
+bTogVXNlIHN0cnVjdCBkbWFfYnVmX21hcCBpbiBHRU0gdm1hcCBvcHMgYW5kIGNvbnZlcnQgR0VN
+IGJhY2tlbmRzIikKPiBDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+
+Cj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzog
+RGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5p
+ZWxAZmZ3bGwuY2g+Cj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBs
+aW51eC5pbnRlbC5jb20+Cj4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4K
+PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiBDYzogTHVjYXMgU3RhY2gg
+PGwuc3RhY2hAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IFJ1c3NlbGwgS2luZyA8bGludXgrZXRuYXZp
+dkBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IENocmlzdGlhbiBHbWVpbmVyIDxjaHJpc3RpYW4uZ21l
+aW5lckBnbWFpbC5jb20+Cj4gQ2M6IFFpYW5nIFl1IDx5dXE4MjVAZ21haWwuY29tPgo+IENjOiBC
+ZW4gU2tlZ2dzIDxic2tlZ2dzQHJlZGhhdC5jb20+Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2JoQGtl
+cm5lbC5vcmc+Cj4gQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5jb20+
+Cj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNzYSBS
+b3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBHZXJkIEhv
+ZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2Vu
+aWdAYW1kLmNvbT4KPiBDYzogU2FuZHkgSHVhbmcgPGhqY0Byb2NrLWNoaXBzLmNvbT4KPiBDYzog
+IkhlaWtvIFN0w7xibmVyIiA8aGVpa29Ac250ZWNoLmRlPgo+IENjOiBIYW5zIGRlIEdvZWRlIDxo
+ZGVnb2VkZUByZWRoYXQuY29tPgo+IENjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5LnJ1bj4KPiBD
+YzogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KPiBDYzogUm9kcmlnbyBTaXF1ZWlyYSA8
+cm9kcmlnb3NpcXVlaXJhbWVsb0BnbWFpbC5jb20+Cj4gQ2M6IE1lbGlzc2EgV2VuIDxtZWxpc3Nh
+LnNyd0BnbWFpbC5jb20+Cj4gQ2M6IEhhbmVlbiBNb2hhbW1lZCA8aGFtb2hhbW1lZC5zYUBnbWFp
+bC5jb20+Cj4gQ2M6IE9sZWtzYW5kciBBbmRydXNoY2hlbmtvIDxvbGVrc2FuZHJfYW5kcnVzaGNo
+ZW5rb0BlcGFtLmNvbT4KPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9y
+Zz4KPiBDYzogRW1pbCBWZWxpa292IDxlbWlsLnZlbGlrb3ZAY29sbGFib3JhLmNvbT4KPiBDYzog
+TWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPgo+IENjOiBBcnVucHJh
+dmluIDxhcGFuZWVyc0BhbWQuY29tPgo+IENjOiBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29t
+Pgo+IENjOiBMdWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtvdkBhbWQuY29tPgo+IENjOiBNYWRoYXYg
+Q2hhdWhhbiA8bWFkaGF2LmNoYXVoYW5AYW1kLmNvbT4KPiBDYzogTmlybW95IERhcyA8TmlybW95
+LkRhc0BhbWQuY29tPgo+IENjOiBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVwZS5jYT4KPiBDYzog
+U2FtIFJhdm5ib3JnIDxzYW1AcmF2bmJvcmcub3JnPgo+IENjOiBDaHJpcyBXaWxzb24gPGNocmlz
+QGNocmlzLXdpbHNvbi5jby51az4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+IENjOiBldG5hdml2QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBsaW1hQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwo+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiB2
+aXJ0dWFsaXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwo+IENjOiBzcGljZS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnCj4gQ2M6IGxpbnV4
+LXJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogeGVuLWRldmVsQGxpc3RzLnhlbnBy
+b2plY3Qub3JnCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5j
+IHwgMjAgKysrKysrKysrKysrLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
+a19kcm1fZ2VtLmggfCAgNCArKy0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygr
+KSwgMTAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
+dGVrL210a19kcm1fZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0u
+Ywo+IGluZGV4IGNkZDFhNmU2MTU2NC4uMjhhMmVlMTMzNmVmIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2dlbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fZ2VtLmMKPiBAQCAtMjQwLDIzICsyNDAsMjUgQEAgc3RydWN0IGRy
+bV9nZW1fb2JqZWN0ICptdGtfZ2VtX3ByaW1lX2ltcG9ydF9zZ190YWJsZShzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAo+ICAgICAgICAgcmV0dXJuICZtdGtfZ2VtLT5iYXNlOwo+ICB9Cj4KPiAtdm9p
+ZCAqbXRrX2RybV9nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaikKPiAr
+aW50IG10a19kcm1fZ2VtX3ByaW1lX3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosIHN0
+cnVjdCBkbWFfYnVmX21hcCAqbWFwKQo+ICB7Cj4gICAgICAgICBzdHJ1Y3QgbXRrX2RybV9nZW1f
+b2JqICptdGtfZ2VtID0gdG9fbXRrX2dlbV9vYmoob2JqKTsKPiAtICAgICAgIHN0cnVjdCBzZ190
+YWJsZSAqc2d0Owo+ICsgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ3QgPSBOVUxMOwo+ICAgICAg
+ICAgdW5zaWduZWQgaW50IG5wYWdlczsKPgo+ICAgICAgICAgaWYgKG10a19nZW0tPmt2YWRkcikK
+PiAtICAgICAgICAgICAgICAgcmV0dXJuIG10a19nZW0tPmt2YWRkcjsKPiArICAgICAgICAgICAg
+ICAgZ290byBvdXQ7Cj4KPiAgICAgICAgIHNndCA9IG10a19nZW1fcHJpbWVfZ2V0X3NnX3RhYmxl
+KG9iaik7Cj4gICAgICAgICBpZiAoSVNfRVJSKHNndCkpCj4gLSAgICAgICAgICAgICAgIHJldHVy
+biBOVUxMOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihzZ3QpOwo+Cj4gICAgICAg
+ICBucGFnZXMgPSBvYmotPnNpemUgPj4gUEFHRV9TSElGVDsKPiAgICAgICAgIG10a19nZW0tPnBh
+Z2VzID0ga2NhbGxvYyhucGFnZXMsIHNpemVvZigqbXRrX2dlbS0+cGFnZXMpLCBHRlBfS0VSTkVM
+KTsKPiAtICAgICAgIGlmICghbXRrX2dlbS0+cGFnZXMpCj4gLSAgICAgICAgICAgICAgIGdvdG8g
+b3V0Owo+ICsgICAgICAgaWYgKCFtdGtfZ2VtLT5wYWdlcykgewo+ICsgICAgICAgICAgICAgICBr
+ZnJlZShzZ3QpOwo+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsKPiArICAgICAgIH0K
+Pgo+ICAgICAgICAgZHJtX3ByaW1lX3NnX3RvX3BhZ2VfYWRkcl9hcnJheXMoc2d0LCBtdGtfZ2Vt
+LT5wYWdlcywgTlVMTCwgbnBhZ2VzKTsKPgo+IEBAIC0yNjUsMTMgKzI2NywxNSBAQCB2b2lkICpt
+dGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqKQo+Cj4gIG91
+dDoKPiAgICAgICAgIGtmcmVlKHNndCk7Cj4gKyAgICAgICBkbWFfYnVmX21hcF9zZXRfdmFkZHIo
+bWFwLCBtdGtfZ2VtLT5rdmFkZHIpOwo+Cj4gLSAgICAgICByZXR1cm4gbXRrX2dlbS0+a3ZhZGRy
+Owo+ICsgICAgICAgcmV0dXJuIDA7Cj4gIH0KPgo+IC12b2lkIG10a19kcm1fZ2VtX3ByaW1lX3Z1
+bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwgdm9pZCAqdmFkZHIpCj4gK3ZvaWQgbXRr
+X2RybV9nZW1fcHJpbWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3Qg
+ZG1hX2J1Zl9tYXAgKm1hcCkKPiAgewo+ICAgICAgICAgc3RydWN0IG10a19kcm1fZ2VtX29iaiAq
+bXRrX2dlbSA9IHRvX210a19nZW1fb2JqKG9iaik7Cj4gKyAgICAgICB2b2lkICp2YWRkciA9IG1h
+cC0+dmFkZHI7Cj4KPiAgICAgICAgIGlmICghbXRrX2dlbS0+cGFnZXMpCj4gICAgICAgICAgICAg
+ICAgIHJldHVybjsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19k
+cm1fZ2VtLmggYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9nZW0uaAo+IGluZGV4
+IGZmOWY5NzZkOTgwNy4uNmRhNWNjYjRiOTMzIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHJtX2dlbS5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVr
+L210a19kcm1fZ2VtLmgKPiBAQCAtNDUsNyArNDUsNyBAQCBpbnQgbXRrX2RybV9nZW1fbW1hcF9i
+dWYoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmosCj4gIHN0cnVjdCBzZ190YWJsZSAqbXRrX2dl
+bV9wcmltZV9nZXRfc2dfdGFibGUoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopOwo+ICBzdHJ1
+Y3QgZHJtX2dlbV9vYmplY3QgKm10a19nZW1fcHJpbWVfaW1wb3J0X3NnX3RhYmxlKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYsCj4gICAgICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGRtYV9idWZf
+YXR0YWNobWVudCAqYXR0YWNoLCBzdHJ1Y3Qgc2dfdGFibGUgKnNnKTsKPiAtdm9pZCAqbXRrX2Ry
+bV9nZW1fcHJpbWVfdm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaik7Cj4gLXZvaWQgbXRr
+X2RybV9nZW1fcHJpbWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCB2b2lkICp2
+YWRkcik7Cj4gK2ludCBtdGtfZHJtX2dlbV9wcmltZV92bWFwKHN0cnVjdCBkcm1fZ2VtX29iamVj
+dCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAgKm1hcCk7Cj4gK3ZvaWQgbXRrX2RybV9nZW1fcHJp
+bWVfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLCBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
+Km1hcCk7Cj4KPiAgI2VuZGlmCj4gLS0KPiAyLjI5LjIKPgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
