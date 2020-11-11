@@ -2,73 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EB912AEDB5
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 10:29:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BC82AEE8B
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 11:12:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 115C66E04A;
-	Wed, 11 Nov 2020 09:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFB289D64;
+	Wed, 11 Nov 2020 10:11:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD0ED6E04A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:29:06 +0000 (UTC)
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB99meS132651;
- Wed, 11 Nov 2020 09:28:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=5jkDrh9VUno5wDztTu7VDqalYM6QsS2FNOf4jWeicfM=;
- b=KF1FscfSPqR/jGnEnLVwcEnqGoTHFz4Z2rOgEGN8IMIFxCLnarNmEf6yLZt+ubgc38ju
- FF6+4F5J68sfFBDifPqGnH5V3uPfk4w6FD5FUr0QS2M/Zdgwq3QISc6uHMw4K+crIWBZ
- ONnZvtCoT0yED3aryMEFwF8QMGQ8kCWuXGE+ZzejvBwaV98VPCaKj4q8/Jm2eCyVb7sS
- 0immoY8DntMHZsgAYS5RiANXtfW+vb+GUtthRzQTWbtXxy8A/ct0GwGlCNpnAmiN35xV
- +MFF8KI2mIgs2JJHTTFMaUrCEPh7GBQi8YyI0SPwXnsO/TJHMLq8dD9Hgr9flHokCiDv Zg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 34p72ep4py-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 09:28:56 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB9BEYR035947;
- Wed, 11 Nov 2020 09:28:55 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 34p55pqrs2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 11 Nov 2020 09:28:55 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AB9Sllj029705;
- Wed, 11 Nov 2020 09:28:47 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 11 Nov 2020 01:28:47 -0800
-Date: Wed, 11 Nov 2020 12:28:32 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-Message-ID: <20201111092832.GI29398@kadam>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com>
- <20201110202945.GF2375022@ulmo>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0576B89D64
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 10:11:56 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABABmZI013422;
+ Wed, 11 Nov 2020 04:11:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605089508;
+ bh=ltywXhht6ufNJ4Cvh/un4MkCq4XNdNh93Qgaq7wqRGI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=gmu2FnHvQ+9kEqTkKaZX5zB3DBUkM+qR5sLWjJIUsmfFdQWiGiAuaEq5Q8at9QbDW
+ hzURMh1mEORnLS0Inq8dIv073z4QPt7JHzWYgxRCCY0QaxXXLSWA0WyVPqtIPq50lE
+ I1XPLVWyOyP1S0o8DUEM14PnPvxK0hA5GkTM1wvo=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABABmKb014502
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 11 Nov 2020 04:11:48 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
+ Nov 2020 04:11:47 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 11 Nov 2020 04:11:47 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABABjQM112141;
+ Wed, 11 Nov 2020 04:11:45 -0600
+Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
+ drm_panel
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
+ <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
+ <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
+ <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
+ <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
+ <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
+ <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
+ <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
+ <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
+ <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
+ <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
+ <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
+ <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
+ <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
+ <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
+ <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
+ <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@! ti.com>
+ <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <5bd687c4-fff9-0381-a811-d4019cacf7e9@ti.com>
+Date: Wed, 11 Nov 2020 12:11:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201110202945.GF2375022@ulmo>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 phishscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011110051
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxlogscore=999 mlxscore=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011110051
+In-Reply-To: <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +80,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Liam Girdwood <lgirdwood@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
- Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
- linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Peter Geis <pgwipeout@gmail.com>
+Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 10, 2020 at 09:29:45PM +0100, Thierry Reding wrote:
-> > +	err = dev_pm_opp_of_add_table(dc->dev);
-> > +	if (err) {
-> > +		dev_err(dc->dev, "failed to add OPP table: %d\n", err);
-> > +		goto put_hw;
-> > +	}
-> > +
-> > +	err = devm_add_action(dc->dev, tegra_dc_deinit_opp_table, dc);
-> > +	if (err)
-> > +		goto remove_table;
+On 11/11/2020 09:48, H. Nikolaus Schaller wrote:
 > 
-> Do these functions return positive values? If not, I'd prefer if this
-> check was more explicit (i.e. err < 0) for consistency with the rest of
-> this code.
+>> Am 11.11.2020 um 07:40 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>
+>> On 10/11/2020 23:04, H. Nikolaus Schaller wrote:
+>>>
+>>>> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
+>>>>
+>>>> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
+>>>>
+>>>> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
+>>>> there finding good clocks.
+>>>
+>>
+>> drm_display_mode.clock is in kHz, but the panel driver writes Hz (w677l_PIXELCLOCK) to it.
 > 
+> Ok, fixing this removes the stuck thread issue. Thanks for pointing this out!
+> 
+>> But
+>> there's more after fixing that. The DSI gets configured in bridge's modeset, which I think is before
+>> w677l_prepare where the panel already sends DSI commands. Also, the dsi driver fails to lock the
+>> PLL, so possibly the clock calcs are still wrong.
+> 
+> What I now get is
+> 
+> [  131.035006] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CRTC:55:crtc-0] flip_done timed out
+> [  141.272174] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CONNECTOR:54:DSI-1] flip_done timed out
+> 
+> I think for further experiments we could hack the device tree to compatible = "orisetech,otm8009a";
+> and configure for panel-orisetech-otm8009a.ko. Since this panel driver is known to work elsewhere
+> we could exclude panel driver issues for the moment. To be safe we can modify otm8009a_dcs_write_buf()
+> to just print what it would be doing.
 
-Isn't it the other way around?  It's only when the check is explicitly
-for "if (ret < 0)" that we have to wonder about positives. If the codes
-says "if (ret)" then we know that it doesn't return positive values and
-every non-zero is an error.
+I pushed some quick fixes/hacks to:
 
-In the kernel "if (ret)" is way more popular than "if (ret < 0)":
+git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git 5.11/dsi
 
-    $ git grep 'if (\(ret\|rc\|err\))' | wc -l
-    92927
-    $ git grep 'if (\(ret\|rc\|err\) < 0)' | wc -l
-    36577
+At least I get the DSI PLL configured, and kmstest --flip works with 60 fps.
+I'm pretty sure the panel won't work yet, though.
 
-And some of those are places where "ret" can be positive so we are
-forced to use the "if (ret < 0)" format.
+ Tomi
 
-Checking for "if (ret)" is easier from a static analysis perspective.
-If it's one style is used consistently then they're the same but when
-there is a mismatch the "if (ret < 0) " will trigger a false positive
-and the "if (ret) " will not.
-
-	int var;
-
-	ret = frob(&var);
-	if (ret < 0)
-		return ret;
-
-Smatch thinks positive returns are not handled so it complains that
-"var can be uninitialized".
-
-regards,
-dan carpenter
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
