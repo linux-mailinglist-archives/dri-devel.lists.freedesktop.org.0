@@ -2,66 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FC12AEA86
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF032AEC50
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 09:51:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55C5A89F6E;
-	Wed, 11 Nov 2020 07:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C7F989F53;
+	Wed, 11 Nov 2020 08:51:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D52C389D99
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605080903;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
- X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
- bh=UipCBNxvSkYMD0ld5DKa/yFCoPhHKzPCKQYEYVERROM=;
- b=AFnrbbzQAG4N3X41nePG1z/Bsr8PK0s7UfUXML1ySLYCaIDfUJw0ZHEIwH8dz+ETHZ
- D+B1fEtFONXwjBZ/udYbpLXa4KZW7zQgPYuFp1NhHdMuVMfyKA5uSAubRVyn35vJgLbv
- JLU+sNM3kGdc9poKsl5GpQ/GiBTN1bOu6IALyT76FGm+BUdAPEhC/vf9PEnPKF4DE2nY
- Yk9vqnmL9TN8wUZM4LX2O8ChvGiy6f92TfIE9bKTUCJ4MiChgBoDtRuYHpfwTbjTQJXk
- ZvzJOouX4JkThNviKyV/SuB8xSbgisX/o4eddTTH5USOobc23Qpot4/yofcoTc/6nfrm
- hksQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAvw43o9ik="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
- with ESMTPSA id N02faawAB7m96cA
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256
- ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 11 Nov 2020 08:48:09 +0100 (CET)
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@ti.com>
-Date: Wed, 11 Nov 2020 08:48:09 +0100
-Message-Id: <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
- <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
- <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
- <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
- <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
- <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
- <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
- <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@ti.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-X-Mailer: Apple Mail (2.3124)
-X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B916089F31;
+ Wed, 11 Nov 2020 08:51:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 2A83AAC75;
+ Wed, 11 Nov 2020 08:51:08 +0000 (UTC)
+Subject: Re: [PATCH 0/5] add KERN_LEVEL to printk
+To: Bernard Zhao <bernard@vivo.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Brian Masney <masneyb@onstation.org>, Shawn Guo <shawn.guo@linaro.org>,
+ Eric Anholt <eric@anholt.net>, Sam Ravnborg <sam@ravnborg.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Emil Velikov <emil.velikov@collabora.com>, Jonathan Marek
+ <jonathan@marek.ca>, Dave Airlie <airlied@redhat.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20201111083131.39817-1-bernard@vivo.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <f704e453-944e-2da8-4f0c-3c9a5c370691@suse.de>
+Date: Wed, 11 Nov 2020 09:51:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201111083131.39817-1-bernard@vivo.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,53 +49,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-> Am 11.11.2020 um 07:40 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
-> 
-> On 10/11/2020 23:04, H. Nikolaus Schaller wrote:
->> 
->>> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>> 
->>> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
->>> 
->>> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
->>> there finding good clocks.
->> 
-> 
-> drm_display_mode.clock is in kHz, but the panel driver writes Hz (w677l_PIXELCLOCK) to it.
-
-Ok, fixing this removes the stuck thread issue. Thanks for pointing this out!
-
-> But
-> there's more after fixing that. The DSI gets configured in bridge's modeset, which I think is before
-> w677l_prepare where the panel already sends DSI commands. Also, the dsi driver fails to lock the
-> PLL, so possibly the clock calcs are still wrong.
-
-What I now get is
-
-[  131.035006] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CRTC:55:crtc-0] flip_done timed out
-[  141.272174] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CONNECTOR:54:DSI-1] flip_done timed out
-
-I think for further experiments we could hack the device tree to compatible = "orisetech,otm8009a";
-and configure for panel-orisetech-otm8009a.ko. Since this panel driver is known to work elsewhere
-we could exclude panel driver issues for the moment. To be safe we can modify otm8009a_dcs_write_buf()
-to just print what it would be doing.
-
-BR,
-Nikolaus
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDExLjExLjIwIHVtIDA5OjMxIHNjaHJpZWIgQmVybmFyZCBaaGFvOgo+IEhpOgo+IAo+
+IFdoZW4gY2FsbCBwcmludGssIHNldCB0aGUgS0VSTl9MRVZFTCBpcyBzdWdnZXN0ZWQgYnkgdGhl
+IGNvbW11bml0eS4KPiBUaGlzIHBhdGNoIHNlcmVpZXMgYWRkIEtFUk5fKiBsZXZlbCB0byBwcmlu
+dGsgd2hpY2ggZG8gbm90IHNldAo+IHRoaXMgbGV2ZWwuCgpJIGhhdmUgbm8gc2F5IG9uIHRoZSBt
+c20gZHJpdmVyLCBidXQgSU1ITyBhIG11Y2ggYmV0dGVyIGNoYW5nZSB3b3VsZCBiZQphIGNvbnZl
+cnNpb24gdG8gZHJtX2RiZygpLCBkcm1fZXJyKCksIGV0Yy4KCkJlc3QgcmVnYXJkcwpUaG9tYXMK
+Cj4gCj4gQmVybmFyZCBaaGFvICg1KToKPiAgIGFkcmVuby9hMnh4X2dwdS5jOiBhZGQgS0VSTl9M
+RVZFTCB0byBwcmludGsKPiAgIGFkcmVuby9hM3h4X2dwdS5jOiBhZGQgS0VSTl9MRVZFTCB0byBw
+cmludGsKPiAgIGFkcmVuby9hNHh4X2dwdS5jOiBhZGQgS0VSTl9MRVZFTCB0byBwcmludGsKPiAg
+IGFkcmVuby9hNXh4X2dwdS5jOiBhZGQgS0VSTl9MRVZFTCB0byBwcmludGsKPiAgIGFkcmVuby9h
+ZHJlbm9fZ3B1LmM6IGFkZCBLRVJOX0xFVkVMIHRvIHByaW50awo+IAo+ICBkcml2ZXJzL2dwdS9k
+cm0vbXNtL2FkcmVuby9hMnh4X2dwdS5jICAgfCAgNCArKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9t
+c20vYWRyZW5vL2EzeHhfZ3B1LmMgICB8ICA0ICsrLS0KPiAgZHJpdmVycy9ncHUvZHJtL21zbS9h
+ZHJlbm8vYTR4eF9ncHUuYyAgIHwgIDYgKysrLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRy
+ZW5vL2E1eHhfZ3B1LmMgICB8ICAyICstCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2Fk
+cmVub19ncHUuYyB8IDEyICsrKysrKy0tLS0tLQo+ICA1IGZpbGVzIGNoYW5nZWQsIDE0IGluc2Vy
+dGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBo
+aWNzIERyaXZlciBEZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJI
+Ck1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBO
+w7xybmJlcmcpCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
