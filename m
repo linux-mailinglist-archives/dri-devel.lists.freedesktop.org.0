@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0FF02B0101
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC43C2B00F9
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 270C66E18E;
-	Thu, 12 Nov 2020 08:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7754D6E171;
+	Thu, 12 Nov 2020 08:15:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m176115.mail.qiye.163.com (m176115.mail.qiye.163.com
  [59.111.176.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2AD789FE6;
- Wed, 11 Nov 2020 08:32:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D300F89FCA;
+ Wed, 11 Nov 2020 08:32:53 +0000 (UTC)
 Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by m176115.mail.qiye.163.com (Hmail) with ESMTPA id 7380566739E;
- Wed, 11 Nov 2020 16:32:39 +0800 (CST)
+ by m176115.mail.qiye.163.com (Hmail) with ESMTPA id EA409666B88;
+ Wed, 11 Nov 2020 16:32:50 +0800 (CST)
 From: Bernard Zhao <bernard@vivo.com>
 To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -29,20 +29,20 @@ To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  Jonathan Marek <jonathan@marek.ca>, Dave Airlie <airlied@redhat.com>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] adreno/a5xx_gpu.c: add KERN_LEVEL to printk
-Date: Wed, 11 Nov 2020 00:31:21 -0800
-Message-Id: <20201111083131.39817-5-bernard@vivo.com>
+Subject: [PATCH 5/5] adreno/adreno_gpu.c: add KERN_LEVEL to printk
+Date: Wed, 11 Nov 2020 00:31:22 -0800
+Message-Id: <20201111083131.39817-6-bernard@vivo.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201111083131.39817-1-bernard@vivo.com>
 References: <20201111083131.39817-1-bernard@vivo.com>
 MIME-Version: 1.0
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZTUIfQkMdTkseHk5LVkpNS05LQ0hOTkJDSU5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ oVCBIfWUFZSEpIHk8YSR9MGBhPVkpNS05LQ0hOTEpIS0xVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
  FZT0tIVUpKS0hKQ1VLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PyI6Cww5SD8uQhdMSwgVDzot
- Sz0wCi5VSlVKTUtOS0NITk1LSU1JVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSUNKTDcG
-X-HM-Tid: 0a75b66f776d9373kuws7380566739e
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDY6Hgw*CT8fERcISw84DwtI
+ OUwKFD1VSlVKTUtOS0NITkxKTE5CVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU9ZV1kIAVlBT0pOQzcG
+X-HM-Tid: 0a75b66fa42d9373kuwsea409666b88
 X-Mailman-Approved-At: Thu, 12 Nov 2020 08:15:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,22 +65,56 @@ Add KERN_LEVEL to printk.
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-index d6804a802355..c3ac78a32caf 100644
---- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-@@ -847,7 +847,7 @@ static void a5xx_recover(struct msm_gpu *gpu)
- 	adreno_dump_info(gpu);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 458b5b26d3c2..be752db5abed 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -725,7 +725,7 @@ void adreno_dump_info(struct msm_gpu *gpu)
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	int i;
  
- 	for (i = 0; i < 8; i++) {
--		printk("CP_SCRATCH_REG%d: %u\n", i,
-+		printk(KERN_DEBUG "CP_SCRATCH_REG%d: %u\n", i,
- 			gpu_read(gpu, REG_A5XX_CP_SCRATCH_REG(i)));
+-	printk("revision: %d (%d.%d.%d.%d)\n",
++	printk(KERN_DEBUG "revision: %d (%d.%d.%d.%d)\n",
+ 			adreno_gpu->info->revn, adreno_gpu->rev.core,
+ 			adreno_gpu->rev.major, adreno_gpu->rev.minor,
+ 			adreno_gpu->rev.patchid);
+@@ -733,12 +733,12 @@ void adreno_dump_info(struct msm_gpu *gpu)
+ 	for (i = 0; i < gpu->nr_rings; i++) {
+ 		struct msm_ringbuffer *ring = gpu->rb[i];
+ 
+-		printk("rb %d: fence:    %d/%d\n", i,
++		printk(KERN_DEBUG "rb %d: fence:    %d/%d\n", i,
+ 			ring->memptrs->fence,
+ 			ring->seqno);
+ 
+-		printk("rptr:     %d\n", get_rptr(adreno_gpu, ring));
+-		printk("rb wptr:  %d\n", get_wptr(ring));
++		printk(KERN_DEBUG "rptr:     %d\n", get_rptr(adreno_gpu, ring));
++		printk(KERN_DEBUG "rb wptr:  %d\n", get_wptr(ring));
  	}
+ }
  
+@@ -752,7 +752,7 @@ void adreno_dump(struct msm_gpu *gpu)
+ 		return;
+ 
+ 	/* dump these out in a form that can be parsed by demsm: */
+-	printk("IO:region %s 00000000 00020000\n", gpu->name);
++	printk(KERN_DEBUG "IO:region %s 00000000 00020000\n", gpu->name);
+ 	for (i = 0; adreno_gpu->registers[i] != ~0; i += 2) {
+ 		uint32_t start = adreno_gpu->registers[i];
+ 		uint32_t end   = adreno_gpu->registers[i+1];
+@@ -760,7 +760,7 @@ void adreno_dump(struct msm_gpu *gpu)
+ 
+ 		for (addr = start; addr <= end; addr++) {
+ 			uint32_t val = gpu_read(gpu, addr);
+-			printk("IO:R %08x %08x\n", addr<<2, val);
++			printk(KERN_DEBUG "IO:R %7x %08x\n", addr<<2, val);
+ 		}
+ 	}
+ }
 -- 
 2.29.0
 
