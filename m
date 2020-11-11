@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84102AB34C
-	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 10:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8A52AB35B
+	for <lists+dri-devel@lfdr.de>; Mon,  9 Nov 2020 10:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC7B789801;
-	Mon,  9 Nov 2020 09:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D478E8982F;
+	Mon,  9 Nov 2020 09:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2080.outbound.protection.outlook.com [40.107.94.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F53089801
- for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 09:13:12 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A4789824
+ for <dri-devel@lists.freedesktop.org>; Mon,  9 Nov 2020 09:15:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LzMmdiDwo2t2oEPEqlIvijXnd6lX4V04YOZY0n8XQWDSAFwH8x42EpmgsLGoV5ZBudHPp+8wGtgYXDUJR3qY8CvD0T9oGq3qEYuS5VgYS0RfPKr0Q5PtMWd/9yw9Je16JDLgyfOKYowGUjDnB6flsugs8wy92S1QSMuzAJYpvr3qUM7hsanix3PXzPghJpT+4NWiahGDA6QOS7rFX6id1WKYwxtprT44DoKHnK441x0GrFLL5A2JnGrII8AieVL099YZXULJAu4247iUF/HvKlursSy49/SFKWR7k96KZUSELDvtZd+33zDVPnGEh37gTBs+HOhD/X52CwkWOkaLTA==
+ b=WlasOB20tzWUbfySoNbfLb0mpd0pfuw/JB9R2k4PEbl+DSmFFXQzZUTvwnp32X6enRlM32dxKy9Mnl55YrUl6ELtKgV9PrePWzIPazJ1Eb3AKN5pZbGUS46MSFY+28Te0bELts35OSM+nZFTg8ijHyqKMMff0u6vEL4gCRBmd90iz5SSm3r5P/AfASJ3pDnDqTD79CNmLMHldDQiTi5OdU4CdPDHnOqECHLI5/CNVfKU9QOWg71WFX3Yh8tj6TdP1NgWgkQDney52lS/xyV9rquV6WUu3RkZWJNixbh0wP6t0i3kn042K1qYr9bJ32DJ62yeCATO/Bta4XgOUxP3mg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMeSff6vqbyoFyZ3qWeeYcCHJ3iSOqY1mHucPfgMv3k=;
- b=ka3ofhXTEwPO6a92qzucqGjVjhuBCFKlrvTus9MYjGXhko9bs7Mlds8TXARAL89DCGO6czqBnmr2VFuvJKPZXT8EM0iSvaxUO5hNoic1eYbkTNGSvxe8golq764SNLHCWkR7dnZVY5we6d6rdT0VwKan3MMdslIM/v9Slwo6cqNSs2PuY4UQEviynlOUQowvyhi8NSjHpPsFPlkn1cYPjpzF0yQAR5klG1hE8oUpIQszProLtItRz5OvMozOpyVW3HFH7/X6XUT6UXbo2q59GcYzsQ+55wJhnI5gehPJFOW7WCV6R3XcdazDpfBio6+3BMUCHQZCEC7mfp6oXRUNsQ==
+ bh=H4OWaZjv6LCskSOSD7dhbsbmWI5hnmzYceIDFUzJa6k=;
+ b=lrGwuAnnqBsBa6yA4Q0MbTnqCj1cnVVDDEkUQxgTsRFuy2LBqj1zxANMQaQMyPXggVg/9iKrouKEP0cOIHWZLGaXu0ROqtjo48LGhic7plmGcA/xhD7VSui8cwmV2Dyawc1W4GOnGOq9L0XGNgdtTt6zUyR1GZUQa6PhqnxX7n1CrWgKoUktYgRn+3cBd697LYzdu4pC6IMGesdLmIQ/QKOjWk+FBCGMPQCpOdjU/UUvJ6z200jfH/l5IEUoVz5BU56fvmibAmz7WCJOgQi4BHjBaF3WjUubwBxPn9CN+1T1xgaebganL88dd60w0gufj9bgg3nhncdhAByVPiwbZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rMeSff6vqbyoFyZ3qWeeYcCHJ3iSOqY1mHucPfgMv3k=;
- b=tfDpKWenz+vmELpM2GacdGs0wS4wIpdiEUy4CSDobBbvLDrxrK1RXfM2A2g/lYpPea/YON8JBEkH0cHasb39bqXfiOCmjWoZSfgtgV6GUxAm2k59cILgzcWYNSFzC2fXfT2jBnHJ08NIIPbViX5eT5q9gGBcfdTEhDg4c4IBf8s=
+ bh=H4OWaZjv6LCskSOSD7dhbsbmWI5hnmzYceIDFUzJa6k=;
+ b=rSITB9/AYVqJRoJgdMLHXMDuseQ0jsRgP++Hy6MXtYGf85h346RHzjPj+P+WUetMhMid/gmVF8HETv4A9xhLW/PR0XtMADHsC7waNs6G4AS4755d6Z/KeUcJv4TFXnRV1kJWmik6lP0NrV8T5sQU7YbenUL+9bhssrWOqf+MCLE=
 Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
  header.d=none; lists.freedesktop.org;
  dmarc=none action=none header.from=amd.com;
@@ -35,56 +35,57 @@ Received: from DM6PR12MB3770.namprd12.prod.outlook.com (2603:10b6:5:1c4::19)
  by DM5PR12MB1356.namprd12.prod.outlook.com (2603:10b6:3:74::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Mon, 9 Nov
- 2020 09:13:11 +0000
+ 2020 09:15:39 +0000
 Received: from DM6PR12MB3770.namprd12.prod.outlook.com
  ([fe80::e580:a53a:abc8:6c5b]) by DM6PR12MB3770.namprd12.prod.outlook.com
  ([fe80::e580:a53a:abc8:6c5b%7]) with mapi id 15.20.3499.032; Mon, 9 Nov 2020
- 09:13:11 +0000
-Subject: Re: [PATCH 1/4] drm/ttm: add multihop infrastrucutre (v2)
+ 09:15:39 +0000
+Subject: Re: [PATCH 2/4] drm/amdgpu/ttm: use multihop
 To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
 References: <20201109005432.861936-1-airlied@gmail.com>
- <20201109005432.861936-2-airlied@gmail.com>
+ <20201109005432.861936-3-airlied@gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <9fdcf880-be1a-5803-3e54-14a9910a91b7@amd.com>
-Date: Wed, 11 Nov 2020 18:13:02 +0100
+Message-ID: <b85aeb1e-12a9-ef17-64a1-abcfbf4612ee@amd.com>
+Date: Wed, 11 Nov 2020 18:15:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
-In-Reply-To: <20201109005432.861936-2-airlied@gmail.com>
+In-Reply-To: <20201109005432.861936-3-airlied@gmail.com>
 Content-Language: en-US
 X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR06CA0109.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::14) To DM6PR12MB3770.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM0PR01CA0080.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::21) To DM6PR12MB3770.namprd12.prod.outlook.com
  (2603:10b6:5:1c4::19)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
  (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR06CA0109.eurprd06.prod.outlook.com (2603:10a6:208:ab::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21 via Frontend Transport; Mon, 9 Nov 2020 09:13:09 +0000
+ AM0PR01CA0080.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
+ Transport; Mon, 9 Nov 2020 09:15:38 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 416aacd4-de70-4ec0-07fb-08d8848fadfa
+X-MS-Office365-Filtering-Correlation-Id: daff2335-ab2a-4746-1433-08d884900644
 X-MS-TrafficTypeDiagnostic: DM5PR12MB1356:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB135653CD5A5E061B1EFB11BC83EA0@DM5PR12MB1356.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <DM5PR12MB135625FCF99298B5CC3C0A5883EA0@DM5PR12MB1356.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UnddUYs2HjGPkm0iE2ZXVNPyPushHMCaC+dRSVnbi+oDUOw3DnVZPIM4KQMk/3DXS+uc39lg80aD8QXGLGtNrFM2hyTT9GPA8hSkKmiz42RutOO/pdpdhcZ9oHBFPgxS3HUyWEolCLQSOsqsv+GWUbG84Zkti2DCFY5IoSgSom48G+TpzJ50yjHdt+WvIDlTXSy1VmJxFmX2y3nsRjhHgMIzQ8bEgT81NfFID+5mpVVtwaV0Phlz7EjNMVvPbGjcTZxfigC7SVLbdJe2CdzbF6E9AskfVwNdmKCCr4mC5pWh0AYBsKLXO8YVq2MCAb3q37/1Y9e9PZTEPjnHsN+/PwggqWANUTiyrB+ZlwTtvVs6Ny/zyGcHMfnhzOaA4NTj
+X-Microsoft-Antispam-Message-Info: mSrR4deNfETWDs8j7WuN2eiqVWxhN5A6MrfAwU6J5rVOd/uCPD/z6f042zII+n/HLiN2v0JH7jKyrXvpLYllyLFICFEhXp4nUSEbjthN+BjAdhQjLuWuZcTQWfKjK2I810wiwiLRj7iPtwH3W7cMWwBiJhH/l+KkgiE4pQe4Zsue1s/cjD/rqeGD2Pnt2D4HfH5LENYrC4xgRaWvjr3L6vLOr7LDj2ZrhDHcWGQuIbr4PzedGTslYdILwQVcn47+ml5mK8zleO/8Ic51HS6/s22migRQ4UHa3WBSDU3nT225j4m+TR9vZ5aKvq0011QK+mMtNe/4DRFbDEm34htvTJsfZguTfv2nc5gH+a3MVJoBk37dZXu8Z6tMdn6mXTgR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3770.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(36756003)(83380400001)(6486002)(316002)(86362001)(8936002)(31686004)(186003)(66946007)(6666004)(66556008)(66476007)(16526019)(31696002)(478600001)(30864003)(2906002)(52116002)(8676002)(5660300002)(2616005)(43740500002);
+ SFS:(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(2906002)(52116002)(31696002)(478600001)(2616005)(8676002)(5660300002)(8936002)(316002)(86362001)(36756003)(83380400001)(6486002)(66476007)(66556008)(6666004)(16526019)(31686004)(66946007)(186003)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: GIPx+m/1xutmiJt2/tDJYO0EK7/UnNG3YtfAqSTKDfWeZGZGzNsm56plhYi4bsopsxyT3zlkiVEls95wggKdUigyQra8cU7/uTIldiDDHbuiVQZl2gA857bH/OFNatmPLQWemP/NuQeko8vIH93gOxfUpnE8M4w2SiGTwtrzxsN+VisVpfLfu5l3rC0GWFp2HA6paY0A4MB0ihlcFpR/0XLJZInLjNfOAxGzvZDG9ZLLM85SL0ZvNKKx8zAm2msde4rPplkoBrHd2Cj6jF3LlYDg1RdnB1YZM2faGrmXqyz2jr/F9gSOqX8MzuXlZbgbjr680ssDNizqbD/OLfTQk6GK4ztcob9KLBwMsVIoKDv+upBWS+OW1BmFjDOLZsX9n7/yh4hNlbm5gGyzXEsJ4C/j032PnHN8XdFvKyX0V8dcvpB8bzNrtzvTnPTFx36StbolcBmX5/dme9Y+pSWaGE07WZJH1HfXQaDazwL1iO/cgOwXuWjDTTRp/OT+mCx91TpycdMsgD9+drIqdw7UpyEWULhy5bzVGRHBHgpfsvm4jEZhpLDWoIzc+kdlCJnZW5z1X69arR8+SVBq/kdOY+JQXrI+HTGta7AX4aQSCCFKbIAyWUMSbuNsAkq031RHSeZ757/jjDy/1dntMjx7c3Wt4osLzjycASd6PpjgS9pgmazbGvTy+gQdei51Fv4ZQ4KmRPC4mMK7KRZSSDjdow==
+X-MS-Exchange-AntiSpam-MessageData: 8X/1MOtac/Ns5JjTw5de/cNL9bxm0LSOC2nGbX/4K6GV5TYzmhOLHmVdw3hGZlhVLEqmAckZDVyt1/i50MsyXkq3SJLiDG4xJzaOY3uYnyOzwPp5VP4xaAq1LNwgHDIwAw0sae0X5dk9z4RL5Q8W0M0Oa//m4F67EcB+Bv9GiV9KABgmcOKCUI5D3bDKep/MK7JO5KJT6Q+Ova7B+4DuPK23pF5ffgCiAZZdM91JFZ7CKRuVc2xWE+auC6xiiNkmlW+TWxCYl8y60NABqz+gepSxKT+f7k+hbq5zEni9zzdh8IUx9gniUps+9dDngdLpMXcF1wb2K1Xj80sl08ezEM6BAFiKq80VNVGYnC6x5Z/EeFMT6y1Li1byMD1d0+QQy9LbdoSsYB+U0NQaMdwD6KdwjnhFEFhLmcQ0WGyT9JhFTOOlYyW2KPCBhquu9K9UM3ksy8ZV2NVREUANgaghIkZPL2k6qmsaF6cVSXS6aSIikChEbiukdaIm+Fb/3vYrCWOppoCwpvcOSiA3xYZ37O7LCCxt0W6i6Z6M9nKbm6UVMJa+PrlflknUh5yEm6EEhiVR+P5MGRWj+ehd/aOJEtQhKZNtKwvJtK6UGrqpPV6Ho3yAgFyR1LVMu5++dIgHbHOAJEam6dZa8o1z8zFyP6u+8J8/2pVDk5n1fcj3oMVLQN6FPpeoa3EPUSfD0ka4Sv+wI5vcPHiminQYh5xjCA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 416aacd4-de70-4ec0-07fb-08d8848fadfa
+X-MS-Exchange-CrossTenant-Network-Message-Id: daff2335-ab2a-4746-1433-08d884900644
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3770.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 09:13:10.8568 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2020 09:15:38.9496 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2aRjri679qbK0a/QOiydcH/sVQGO8r2bdOhhAoDrGv4YvSNsjb0JCCVU1Nts8yOT
+X-MS-Exchange-CrossTenant-UserPrincipalName: N9Ynv4NQr/F2zSoXixQfIuu+7qeUukdWJKW2MzzWJ8L/9RiSMleT4L3kbedJp9hq
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1356
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -98,305 +99,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 09.11.20 um 01:54 schrieb Dave Airlie:
-> From: Dave Airlie <airlied@redhat.com>
->
-> Currently drivers get called to move a buffer, but if they have to
-> move it temporarily through another space (SYSTEM->VRAM via TT)
-> then they can end up with a lot of ttm->driver->ttm call stacks,
-> if the temprorary space moves requires eviction.
->
-> Instead of letting the driver do all the placement/space for the
-> temporary, allow it to report back (-EMULTIHOP) and a placement (hop)
-> to the move code, which will then do the temporary move, and the
-> correct placement move afterwards.
->
-> This removes a lot of code from drivers, at the expense of
-> adding some midlayering. I've some further ideas on how to turn
-> it inside out, but I think this is a good solution to the call
-> stack problems.
->
-> v2: separate out the driver patches, add WARN for getting
-> MULTHOP in paths we shouldn't (Daniel)
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  3 +-
->   drivers/gpu/drm/drm_gem_vram_helper.c      |  3 +-
->   drivers/gpu/drm/nouveau/nouveau_bo.c       |  3 +-
->   drivers/gpu/drm/qxl/qxl_ttm.c              |  3 +-
->   drivers/gpu/drm/radeon/radeon_ttm.c        |  3 +-
->   drivers/gpu/drm/ttm/ttm_bo.c               | 68 +++++++++++++++++++---
->   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c |  3 +-
->   include/drm/ttm/ttm_bo_driver.h            |  7 ++-
->   8 files changed, 77 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index c01c060e4ac5..ce0d82802333 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -656,7 +656,8 @@ static bool amdgpu_mem_visible(struct amdgpu_device *adev,
->    */
->   static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->   			  struct ttm_operation_ctx *ctx,
-> -			  struct ttm_resource *new_mem)
-> +			  struct ttm_resource *new_mem,
-> +			  struct ttm_place *hop)
->   {
->   	struct amdgpu_device *adev;
->   	struct amdgpu_bo *abo;
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 16d68c04ea5d..2cec7b1482b8 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -964,7 +964,8 @@ static void bo_driver_delete_mem_notify(struct ttm_buffer_object *bo)
->   static int bo_driver_move(struct ttm_buffer_object *bo,
->   			  bool evict,
->   			  struct ttm_operation_ctx *ctx,
-> -			  struct ttm_resource *new_mem)
-> +			  struct ttm_resource *new_mem,
-> +			  struct ttm_place *hop)
->   {
->   	struct drm_gem_vram_object *gbo;
->   
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index 8133377d865d..fee07b9d19ed 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1023,7 +1023,8 @@ nouveau_bo_vm_cleanup(struct ttm_buffer_object *bo,
->   static int
->   nouveau_bo_move(struct ttm_buffer_object *bo, bool evict,
->   		struct ttm_operation_ctx *ctx,
-> -		struct ttm_resource *new_reg)
-> +		struct ttm_resource *new_reg,
-> +		struct ttm_place *hop)
->   {
->   	struct nouveau_drm *drm = nouveau_bdev(bo->bdev);
->   	struct nouveau_bo *nvbo = nouveau_bo(bo);
-> diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_ttm.c
-> index a80d59634143..128c38c8a837 100644
-> --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> @@ -140,7 +140,8 @@ static void qxl_bo_move_notify(struct ttm_buffer_object *bo,
->   
->   static int qxl_bo_move(struct ttm_buffer_object *bo, bool evict,
->   		       struct ttm_operation_ctx *ctx,
-> -		       struct ttm_resource *new_mem)
-> +		       struct ttm_resource *new_mem,
-> +		       struct ttm_place *hop)
->   {
->   	struct ttm_resource *old_mem = &bo->mem;
->   	int ret;
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 95038ac3382e..29062dbea299 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -303,7 +303,8 @@ static int radeon_move_ram_vram(struct ttm_buffer_object *bo,
->   
->   static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
->   			  struct ttm_operation_ctx *ctx,
-> -			  struct ttm_resource *new_mem)
-> +			  struct ttm_resource *new_mem,
-> +			  struct ttm_place *hop)
->   {
->   	struct radeon_device *rdev;
->   	struct radeon_bo *rbo;
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index e2a124b3affb..9f840f2a7836 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -231,7 +231,8 @@ EXPORT_SYMBOL(ttm_bo_bulk_move_lru_tail);
->   
->   static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->   				  struct ttm_resource *mem, bool evict,
-> -				  struct ttm_operation_ctx *ctx)
-> +				  struct ttm_operation_ctx *ctx,
-> +				  struct ttm_place *hop)
->   {
->   	struct ttm_bo_device *bdev = bo->bdev;
->   	struct ttm_resource_manager *old_man = ttm_manager_type(bdev, bo->mem.mem_type);
-> @@ -259,9 +260,12 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->   		}
->   	}
->   
-> -	ret = bdev->driver->move(bo, evict, ctx, mem);
-> -	if (ret)
-> +	ret = bdev->driver->move(bo, evict, ctx, mem, hop);
-> +	if (ret) {
-> +		if (ret == -EMULTIHOP)
-> +			return ret;
->   		goto out_err;
-> +	}
->   
->   	ctx->bytes_moved += bo->num_pages << PAGE_SHIFT;
->   	return 0;
-> @@ -566,6 +570,7 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->   	struct ttm_bo_device *bdev = bo->bdev;
->   	struct ttm_resource evict_mem;
->   	struct ttm_placement placement;
-> +	struct ttm_place hop = {};
->   	int ret = 0;
->   
->   	dma_resv_assert_held(bo->base.resv);
-> @@ -596,8 +601,9 @@ static int ttm_bo_evict(struct ttm_buffer_object *bo,
->   		goto out;
->   	}
->   
-> -	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx);
-> +	ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, ctx, &hop);
->   	if (unlikely(ret)) {
-> +		WARN(ret == -EMULTIHOP, "Unexpected multihop in eviction - likely driver bug\n");
->   		if (ret != -ERESTARTSYS)
->   			pr_err("Buffer eviction failed\n");
->   		ttm_resource_free(bo, &evict_mem);
-> @@ -936,11 +942,39 @@ int ttm_bo_mem_space(struct ttm_buffer_object *bo,
->   }
->   EXPORT_SYMBOL(ttm_bo_mem_space);
->   
-> +static int ttm_bo_bounce_temp_buffer(struct ttm_buffer_object *bo,
-> +				     struct ttm_resource *mem,
-> +				     struct ttm_operation_ctx *ctx,
-> +				     struct ttm_place *hop)
-> +{
-> +	struct ttm_placement hop_placement;
-> +	int ret;
-> +	struct ttm_resource hop_mem = *mem;
-> +
-> +	hop_mem.mm_node = NULL;
-> +	hop_mem.mem_type = TTM_PL_SYSTEM;
-> +	hop_mem.placement = 0;
-> +
-> +	hop_placement.num_placement = hop_placement.num_busy_placement = 1;
-> +	hop_placement.placement = hop_placement.busy_placement = hop;
-> +
-> +	/* find space in the bounce domain */
-> +	ret = ttm_bo_mem_space(bo, &hop_placement, &hop_mem, ctx);
-> +	if (ret)
-> +		return ret;
-> +	/* move to the bounce domain */
-> +	ret = ttm_bo_handle_move_mem(bo, &hop_mem, false, ctx, NULL);
-> +	if (ret)
-> +		return ret;
-> +	return 0;
-> +}
-> +
->   static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
->   			      struct ttm_placement *placement,
->   			      struct ttm_operation_ctx *ctx)
->   {
->   	int ret = 0;
-> +	struct ttm_place hop = {};
->   	struct ttm_resource mem;
->   
->   	dma_resv_assert_held(bo->base.resv);
-> @@ -954,12 +988,25 @@ static int ttm_bo_move_buffer(struct ttm_buffer_object *bo,
->   
->   	/*
->   	 * Determine where to move the buffer.
-> +	 *
-> +	 * If driver determines move is going to need
-> +	 * an extra step then it will return -EMULTIHOP
-> +	 * and the buffer will be moved to the temporary
-> +	 * stop and the driver will be called to make
-> +	 * the second hop.
->   	 */
-> +bounce:
->   	ret = ttm_bo_mem_space(bo, placement, &mem, ctx);
->   	if (ret)
-> -		goto out_unlock;
-> -	ret = ttm_bo_handle_move_mem(bo, &mem, false, ctx);
-> -out_unlock:
-> +		return ret;
-> +	ret = ttm_bo_handle_move_mem(bo, &mem, false, ctx, &hop);
-> +	if (ret == -EMULTIHOP) {
-> +		ret = ttm_bo_bounce_temp_buffer(bo, &mem, ctx, &hop);
-> +		if (ret)
-> +			return ret;
-> +		/* try and move to final place now. */
-> +		goto bounce;
-> +	}
->   	if (ret)
->   		ttm_resource_free(bo, &mem);
->   	return ret;
-> @@ -1432,15 +1479,18 @@ int ttm_bo_swapout(struct ttm_operation_ctx *ctx)
->   	if (bo->mem.mem_type != TTM_PL_SYSTEM) {
->   		struct ttm_operation_ctx ctx = { false, false };
->   		struct ttm_resource evict_mem;
-> +		struct ttm_place hop = {};
-
-Please always use memset() if you want to zero initialize something in 
-the kernel, we had enough trouble with that.
-
-Apart from that looks good to me,
-Christian.
-
->   
->   		evict_mem = bo->mem;
->   		evict_mem.mm_node = NULL;
->   		evict_mem.placement = 0;
->   		evict_mem.mem_type = TTM_PL_SYSTEM;
->   
-> -		ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, &ctx);
-> -		if (unlikely(ret != 0))
-> +		ret = ttm_bo_handle_move_mem(bo, &evict_mem, true, &ctx, &hop);
-> +		if (unlikely(ret != 0)) {
-> +			WARN(ret == -EMULTIHOP, "Unexpected multihop in swaput - likely driver bug.\n");
->   			goto out;
-> +		}
->   	}
->   
->   	/**
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index 51f70bea41cc..6a04261ce760 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -695,7 +695,8 @@ static void vmw_swap_notify(struct ttm_buffer_object *bo)
->   static int vmw_move(struct ttm_buffer_object *bo,
->   		    bool evict,
->   		    struct ttm_operation_ctx *ctx,
-> -		    struct ttm_resource *new_mem)
-> +		    struct ttm_resource *new_mem,
-> +		    struct ttm_place *hop)
->   {
->   	struct ttm_resource_manager *old_man = ttm_manager_type(bo->bdev, bo->mem.mem_type);
->   	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
-> diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo_driver.h
-> index da8208f43378..f02f7cf9ae90 100644
-> --- a/include/drm/ttm/ttm_bo_driver.h
-> +++ b/include/drm/ttm/ttm_bo_driver.h
-> @@ -121,6 +121,8 @@ struct ttm_bo_driver {
->   	 * Return the bo flags for a buffer which is not mapped to the hardware.
->   	 * These will be placed in proposed_flags so that when the move is
->   	 * finished, they'll end up in bo->mem.flags
-> +	 * This should not cause multihop evictions, and the core will warn
-> +	 * if one is proposed.
->   	 */
->   
->   	void (*evict_flags)(struct ttm_buffer_object *bo,
-> @@ -134,12 +136,15 @@ struct ttm_bo_driver {
->   	 * the graphics address space
->   	 * @ctx: context for this move with parameters
->   	 * @new_mem: the new memory region receiving the buffer
-> +	 @ @hop: placement for driver directed intermediate hop
->   	 *
->   	 * Move a buffer between two memory regions.
-> +	 * Returns errno -EMULTIHOP if driver requests a hop
->   	 */
->   	int (*move)(struct ttm_buffer_object *bo, bool evict,
->   		    struct ttm_operation_ctx *ctx,
-> -		    struct ttm_resource *new_mem);
-> +		    struct ttm_resource *new_mem,
-> +		    struct ttm_place *hop);
->   
->   	/**
->   	 * struct ttm_bo_driver_member verify_access
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMDkuMTEuMjAgdW0gMDE6NTQgc2NocmllYiBEYXZlIEFpcmxpZToKPiBGcm9tOiBEYXZlIEFp
+cmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhpcyByZW1vdmVzIHRoZSBjb2RlIHRvIG1v
+dmUgcmVzb3VyY2VzIGRpcmVjdGx5IGJldHdlZW4KPiBTWVNURU0gYW5kIFZSQU0gaW4gZmF2b3Vy
+IG9mIHVzaW5nIHRoZSBjb3JlIHR0bSBtdWxpdGhvcCBjb2RlLgo+Cj4gU2lnbmVkLW9mZi1ieTog
+RGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV90dG0uYyB8IDEzNiArKystLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxMjMgZGVsZXRpb25zKC0pCj4K
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3R0bS5jCj4gaW5kZXggY2UwZDgyODAy
+MzMzLi5lMTQ1OGQ1NzVhYTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X3R0bS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X3R0bS5jCj4gQEAgLTUxMiwxMTkgKzUxMiw2IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X21vdmVfYmxp
+dChzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+ICAgCXJldHVybiByOwo+ICAgfQo+ICAg
+Cj4gLS8qKgo+IC0gKiBhbWRncHVfbW92ZV92cmFtX3JhbSAtIENvcHkgVlJBTSBidWZmZXIgdG8g
+UkFNIGJ1ZmZlcgo+IC0gKgo+IC0gKiBDYWxsZWQgYnkgYW1kZ3B1X2JvX21vdmUoKS4KPiAtICov
+Cj4gLXN0YXRpYyBpbnQgYW1kZ3B1X21vdmVfdnJhbV9yYW0oc3RydWN0IHR0bV9idWZmZXJfb2Jq
+ZWN0ICpibywgYm9vbCBldmljdCwKPiAtCQkJCXN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4
+LAo+IC0JCQkJc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAtewo+IC0Jc3RydWN0IHR0
+bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZSB0
+bXBfbWVtOwo+IC0Jc3RydWN0IHR0bV9wbGFjZSBwbGFjZW1lbnRzOwo+IC0Jc3RydWN0IHR0bV9w
+bGFjZW1lbnQgcGxhY2VtZW50Owo+IC0JaW50IHI7Cj4gLQo+IC0JLyogY3JlYXRlIHNwYWNlL3Bh
+Z2VzIGZvciBuZXdfbWVtIGluIEdUVCBzcGFjZSAqLwo+IC0JdG1wX21lbSA9ICpuZXdfbWVtOwo+
+IC0JdG1wX21lbS5tbV9ub2RlID0gTlVMTDsKPiAtCXBsYWNlbWVudC5udW1fcGxhY2VtZW50ID0g
+MTsKPiAtCXBsYWNlbWVudC5wbGFjZW1lbnQgPSAmcGxhY2VtZW50czsKPiAtCXBsYWNlbWVudC5u
+dW1fYnVzeV9wbGFjZW1lbnQgPSAxOwo+IC0JcGxhY2VtZW50LmJ1c3lfcGxhY2VtZW50ID0gJnBs
+YWNlbWVudHM7Cj4gLQlwbGFjZW1lbnRzLmZwZm4gPSAwOwo+IC0JcGxhY2VtZW50cy5scGZuID0g
+MDsKPiAtCXBsYWNlbWVudHMubWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gLQlwbGFjZW1lbnRzLmZs
+YWdzID0gMDsKPiAtCXIgPSB0dG1fYm9fbWVtX3NwYWNlKGJvLCAmcGxhY2VtZW50LCAmdG1wX21l
+bSwgY3R4KTsKPiAtCWlmICh1bmxpa2VseShyKSkgewo+IC0JCXByX2VycigiRmFpbGVkIHRvIGZp
+bmQgR1RUIHNwYWNlIGZvciBibGl0IGZyb20gVlJBTVxuIik7Cj4gLQkJcmV0dXJuIHI7Cj4gLQl9
+Cj4gLQo+IC0JciA9IHR0bV90dF9wb3B1bGF0ZShiby0+YmRldiwgYm8tPnR0bSwgY3R4KTsKPiAt
+CWlmICh1bmxpa2VseShyKSkKPiAtCQlnb3RvIG91dF9jbGVhbnVwOwo+IC0KPiAtCS8qIEJpbmQg
+dGhlIG1lbW9yeSB0byB0aGUgR1RUIHNwYWNlICovCj4gLQlyID0gYW1kZ3B1X3R0bV9iYWNrZW5k
+X2JpbmQoYm8tPmJkZXYsIGJvLT50dG0sICZ0bXBfbWVtKTsKPiAtCWlmICh1bmxpa2VseShyKSkg
+ewo+IC0JCWdvdG8gb3V0X2NsZWFudXA7Cj4gLQl9Cj4gLQo+IC0JLyogYmxpdCBWUkFNIHRvIEdU
+VCAqLwo+IC0JciA9IGFtZGdwdV9tb3ZlX2JsaXQoYm8sIGV2aWN0LCAmdG1wX21lbSwgb2xkX21l
+bSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVhbnVwOwo+IC0JfQo+
+IC0KPiAtCXIgPSB0dG1fYm9fd2FpdF9jdHgoYm8sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikp
+Cj4gLQkJZ290byBvdXRfY2xlYW51cDsKPiAtCj4gLQlhbWRncHVfdHRtX2JhY2tlbmRfdW5iaW5k
+KGJvLT5iZGV2LCBiby0+dHRtKTsKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmYm8tPm1lbSk7
+Cj4gLQl0dG1fYm9fYXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gLW91dF9jbGVhbnVwOgo+IC0J
+dHRtX3Jlc291cmNlX2ZyZWUoYm8sICZ0bXBfbWVtKTsKPiAtCXJldHVybiByOwo+IC19Cj4gLQo+
+IC0vKioKPiAtICogYW1kZ3B1X21vdmVfcmFtX3ZyYW0gLSBDb3B5IGJ1ZmZlciBmcm9tIFJBTSB0
+byBWUkFNCj4gLSAqCj4gLSAqIENhbGxlZCBieSBhbWRncHVfYm9fbW92ZSgpLgo+IC0gKi8KPiAt
+c3RhdGljIGludCBhbWRncHVfbW92ZV9yYW1fdnJhbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3Qg
+KmJvLCBib29sIGV2aWN0LAo+IC0JCQkJc3RydWN0IHR0bV9vcGVyYXRpb25fY3R4ICpjdHgsCj4g
+LQkJCQlzdHJ1Y3QgdHRtX3Jlc291cmNlICpuZXdfbWVtKQo+IC17Cj4gLQlzdHJ1Y3QgdHRtX3Jl
+c291cmNlICpvbGRfbWVtID0gJmJvLT5tZW07Cj4gLQlzdHJ1Y3QgdHRtX3Jlc291cmNlIHRtcF9t
+ZW07Cj4gLQlzdHJ1Y3QgdHRtX3BsYWNlbWVudCBwbGFjZW1lbnQ7Cj4gLQlzdHJ1Y3QgdHRtX3Bs
+YWNlIHBsYWNlbWVudHM7Cj4gLQlpbnQgcjsKPiAtCj4gLQkvKiBtYWtlIHNwYWNlIGluIEdUVCBm
+b3Igb2xkX21lbSBidWZmZXIgKi8KPiAtCXRtcF9tZW0gPSAqbmV3X21lbTsKPiAtCXRtcF9tZW0u
+bW1fbm9kZSA9IE5VTEw7Cj4gLQlwbGFjZW1lbnQubnVtX3BsYWNlbWVudCA9IDE7Cj4gLQlwbGFj
+ZW1lbnQucGxhY2VtZW50ID0gJnBsYWNlbWVudHM7Cj4gLQlwbGFjZW1lbnQubnVtX2J1c3lfcGxh
+Y2VtZW50ID0gMTsKPiAtCXBsYWNlbWVudC5idXN5X3BsYWNlbWVudCA9ICZwbGFjZW1lbnRzOwo+
+IC0JcGxhY2VtZW50cy5mcGZuID0gMDsKPiAtCXBsYWNlbWVudHMubHBmbiA9IDA7Cj4gLQlwbGFj
+ZW1lbnRzLm1lbV90eXBlID0gVFRNX1BMX1RUOwo+IC0JcGxhY2VtZW50cy5mbGFncyA9IDA7Cj4g
+LQlyID0gdHRtX2JvX21lbV9zcGFjZShibywgJnBsYWNlbWVudCwgJnRtcF9tZW0sIGN0eCk7Cj4g
+LQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlwcl9lcnIoIkZhaWxlZCB0byBmaW5kIEdUVCBzcGFj
+ZSBmb3IgYmxpdCB0byBWUkFNXG4iKTsKPiAtCQlyZXR1cm4gcjsKPiAtCX0KPiAtCj4gLQkvKiBt
+b3ZlL2JpbmQgb2xkIG1lbW9yeSB0byBHVFQgc3BhY2UgKi8KPiAtCXIgPSB0dG1fdHRfcG9wdWxh
+dGUoYm8tPmJkZXYsIGJvLT50dG0sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikpCj4gLQkJcmV0
+dXJuIHI7Cj4gLQo+IC0JciA9IGFtZGdwdV90dG1fYmFja2VuZF9iaW5kKGJvLT5iZGV2LCBiby0+
+dHRtLCAmdG1wX21lbSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVh
+bnVwOwo+IC0JfQo+IC0KPiAtCXR0bV9ib19hc3NpZ25fbWVtKGJvLCAmdG1wX21lbSk7Cj4gLQkv
+KiBjb3B5IHRvIFZSQU0gKi8KPiAtCXIgPSBhbWRncHVfbW92ZV9ibGl0KGJvLCBldmljdCwgbmV3
+X21lbSwgb2xkX21lbSk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsKPiAtCQlnb3RvIG91dF9jbGVh
+bnVwOwo+IC0JfQo+IC1vdXRfY2xlYW51cDoKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmdG1w
+X21lbSk7Cj4gLQlyZXR1cm4gcjsKPiAtfQo+IC0KPiAgIC8qKgo+ICAgICogYW1kZ3B1X21lbV92
+aXNpYmxlIC0gQ2hlY2sgdGhhdCBtZW1vcnkgY2FuIGJlIGFjY2Vzc2VkIGJ5IHR0bV9ib19tb3Zl
+X21lbWNweQo+ICAgICoKPiBAQCAtNjY0LDYgKzU1MSwxNyBAQCBzdGF0aWMgaW50IGFtZGdwdV9i
+b19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgZXZpY3QsCj4gICAJc3Ry
+dWN0IHR0bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+ICAgCWludCByOwo+ICAgCj4g
+KwlpZiAoKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0gJiYKPiArCSAgICAgbmV3
+X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHx8Cj4gKwkgICAgKG9sZF9tZW0tPm1lbV90
+eXBlID09IFRUTV9QTF9WUkFNICYmCj4gKwkgICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9Q
+TF9TWVNURU0pKSB7Cj4gKwkJaG9wLT5mcGZuID0gMDsKPiArCQlob3AtPmxwZm4gPSAwOwo+ICsJ
+CWhvcC0+bWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gKwkJaG9wLT5mbGFncyA9IDA7Cj4gKwkJcmV0
+dXJuIC1FTVVMVElIT1A7Cj4gKwl9Cj4gKwo+ICAgCWlmIChuZXdfbWVtLT5tZW1fdHlwZSA9PSBU
+VE1fUExfVFQpIHsKPiAgIAkJciA9IGFtZGdwdV90dG1fYmFja2VuZF9iaW5kKGJvLT5iZGV2LCBi
+by0+dHRtLCBuZXdfbWVtKTsKPiAgIAkJaWYgKHIpCj4gQEAgLTcxNywxNiArNjE1LDggQEAgc3Rh
+dGljIGludCBhbWRncHVfYm9fbW92ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBib29s
+IGV2aWN0LAo+ICAgCQlnb3RvIG1lbWNweTsKPiAgIAl9Cj4gICAKPiAtCWlmIChvbGRfbWVtLT5t
+ZW1fdHlwZSA9PSBUVE1fUExfVlJBTSAmJgo+IC0JICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRU
+TV9QTF9TWVNURU0pIHsKPiAtCQlyID0gYW1kZ3B1X21vdmVfdnJhbV9yYW0oYm8sIGV2aWN0LCBj
+dHgsIG5ld19tZW0pOwo+IC0JfSBlbHNlIGlmIChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExf
+U1lTVEVNICYmCj4gLQkJICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHsKPiAt
+CQlyID0gYW1kZ3B1X21vdmVfcmFtX3ZyYW0oYm8sIGV2aWN0LCBjdHgsIG5ld19tZW0pOwo+IC0J
+fSBlbHNlIHsKPiAtCQlyID0gYW1kZ3B1X21vdmVfYmxpdChibywgZXZpY3QsCj4gLQkJCQkgICAg
+IG5ld19tZW0sIG9sZF9tZW0pOwo+IC0JfQo+ICsJciA9IGFtZGdwdV9tb3ZlX2JsaXQoYm8sIGV2
+aWN0LAo+ICsJCQkgICAgIG5ld19tZW0sIG9sZF9tZW0pOwoKT25seSBhIG5pdCBwaWNrLCBidXQg
+dGhhdCBjYW4gbm93IHByb2JhYmx5IGJlIG9uIG9uZSBsaW5lLgoKQXBhcnQgZnJvbSB0aGF0IGdy
+ZWF0IGNsZWFudXAuIFdpdGggdGhlIG5pdHMgZml4ZWQgdGhlIHdob2xlIHNlcmllcyBpcyAKUmV2
+aWV3ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KClJl
+Z2FyZHMsCkNocmlzdGlhbi4KCj4gICAKPiAgIAlpZiAocikgewo+ICAgbWVtY3B5OgoKX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
