@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8BFC2AEA78
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3732AEA8F
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B684389F2E;
-	Wed, 11 Nov 2020 07:54:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 086D089F6D;
+	Wed, 11 Nov 2020 07:55:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
- [IPv6:2607:f8b0:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FEC089AB6
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 05:54:03 +0000 (UTC)
-Received: by mail-pg1-x543.google.com with SMTP id i7so759736pgh.6
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 21:54:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=z9P2/0O75mWnsAx8oZbLnThzZUiIC3AEplGBmhCEgMc=;
- b=X8GTCLnVhPTHspNJxX3km3UYVp4nyC6BpfIOKE/DdY+uRQjvemgYnXh8VFokLkJrAS
- ZqtHrunQPVA9pFblN+6OYjTpS27k+3qzxsRuUbq4xgpRKXK+MQAEhjzLGXROppqWR9D0
- 5jdgnPnuQCRevLav+EcdMJ4IWzhFftP3TpovBCaNjMjTSrs7yC7Sk5VEVbDt+MzoCUXt
- D6rESQcjx+u3Y2fMR5OPaJ2B4YTZ8PyAUAjs5NFDAJZU5Qrvtoa6xjdZuBPIoyggPRl9
- JHkOBKUfFnzo79XoomjoJgY7H3V/Q9sVxWPcTdq+Nyv3t8MJb6qbybYDXvP5J6cgEFKD
- XKQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z9P2/0O75mWnsAx8oZbLnThzZUiIC3AEplGBmhCEgMc=;
- b=f2yf6dwHMpbzaX+ANWYB32xiBZStWEh7wDD0bDdNExOXVAth38QlNi17hzH89rubVi
- 3ekxuY8WTPUre8grl//LJ+9xvkBgaVk5nFL+yBMt/h0CbVMA8QdgFn0rKR/T5tk5piDz
- jBUazjMWUmZeVUoBh38biYF5TeO7Eu/oLp19d95GGqcDMSbk5y3i5T9f89k808hhknCG
- GO2edCstrjf60giUmEnZ4yAh7NlmfD9YCSl8DMoY9judwedTeZfs2eHce8VYRHllN11S
- un7pwE3HVVEMn7ovZO2EEUfr80o8MatIPAO1UoncE+KTvp7Ablv6tJc2KNJJEF7S421+
- dL9w==
-X-Gm-Message-State: AOAM531+3tB+28Usw5KMxShp1XUDS27lphDADBzM8dWOak5r+KtSgpMh
- 83f5QgYnVzqcA4QHv3pHn6GIRQ==
-X-Google-Smtp-Source: ABdhPJzCesDnaFKRgNtLIoN64pjuJ7aVVMAE9U+58KC8+aSCcNQm9J/waPMH5YmalfzWdRrq03fmZw==
-X-Received: by 2002:a62:7883:0:b029:18a:e054:edf1 with SMTP id
- t125-20020a6278830000b029018ae054edf1mr21361245pfc.70.1605074042985; 
- Tue, 10 Nov 2020 21:54:02 -0800 (PST)
-Received: from localhost ([122.172.12.172])
- by smtp.gmail.com with ESMTPSA id p4sm909594pjo.6.2020.11.10.21.54.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 10 Nov 2020 21:54:02 -0800 (PST)
-Date: Wed, 11 Nov 2020 11:24:00 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 02/26] memory: tegra20-emc: Use dev_pm_opp_set_clkname()
-Message-ID: <20201111055400.7lnooqnxo3yy4gif@vireshk-i7>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-3-digetx@gmail.com>
- <20201111054541.hstqrlvtpwxxbv4m@vireshk-i7>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD9789C05
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 06:02:47 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605074616; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=19xKhDfznvGCGW+VmHaRPVkvoli1tFBpBhhWtoq6cRk=;
+ b=MvlAJfDfDsQDehJjSDfX1vIYztKluVNslFpEdMSRS7K4QdNRTNFOXZpXQfxC0p8pqp2wI37v
+ DUY+TPN+PY/mDelxnzT6Oi257KBSNnZBXJS9nXr5I71lWQizfaQpbTxXFnbZbkXiWmtVRMG/
+ sVXUE1erU3+tZWxFMVCo/18UtYg=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5fab7e8340d4446125b066f9 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 11 Nov 2020 06:02:43
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3A441C43387; Wed, 11 Nov 2020 06:02:43 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 1B6CAC433F0;
+ Wed, 11 Nov 2020 06:02:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201111054541.hstqrlvtpwxxbv4m@vireshk-i7>
-User-Agent: NeoMutt/20180716-391-311a52
+Date: Wed, 11 Nov 2020 11:32:42 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCHv7 1/7] iommu/io-pgtable-arm: Add support to use system
+ cache
+In-Reply-To: <20201110121855.GD16239@willie-the-truck>
+References: <cover.1604048969.git.saiprakash.ranjan@codeaurora.org>
+ <1d4979c0dcf649c5717605c598067b4b225ab9de.1604048969.git.saiprakash.ranjan@codeaurora.org>
+ <20201110121855.GD16239@willie-the-truck>
+Message-ID: <329542c0c09054a46fa8d6d8f92ad739@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,73 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, "Kristian H .
+ Kristensen" <hoegsberg@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11-11-20, 11:15, Viresh Kumar wrote:
-> On 11-11-20, 04:14, Dmitry Osipenko wrote:
-> > The dev_pm_opp_get_opp_table() shouldn't be used by drivers, use
-> > dev_pm_opp_set_clkname() instead.
-> > 
-> > Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
-> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > ---
-> >  drivers/memory/tegra/tegra20-emc.c | 30 +++++++++++++++++++-----------
-> >  1 file changed, 19 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/memory/tegra/tegra20-emc.c b/drivers/memory/tegra/tegra20-emc.c
-> > index 5e10aa97809f..bb3f315c9587 100644
-> > --- a/drivers/memory/tegra/tegra20-emc.c
-> > +++ b/drivers/memory/tegra/tegra20-emc.c
-> > @@ -902,7 +902,7 @@ static int tegra_emc_interconnect_init(struct tegra_emc *emc)
-> >  
-> >  static int tegra_emc_opp_table_init(struct tegra_emc *emc)
-> >  {
-> > -	struct opp_table *opp_table;
-> > +	struct opp_table *reg_opp_table = NULL, *clk_opp_table;
-> >  	const char *rname = "core";
-> >  	int err;
-> >  
-> > @@ -917,19 +917,24 @@ static int tegra_emc_opp_table_init(struct tegra_emc *emc)
-> >  	}
-> >  
-> >  	/* voltage scaling is optional */
-> > -	if (device_property_present(emc->dev, "core-supply"))
-> > -		opp_table = dev_pm_opp_set_regulators(emc->dev, &rname, 1);
-> > -	else
-> > -		opp_table = dev_pm_opp_get_opp_table(emc->dev);
-> > +	if (device_property_present(emc->dev, "core-supply")) {
-> > +		reg_opp_table = dev_pm_opp_set_regulators(emc->dev, &rname, 1);
-> > +		if (IS_ERR(reg_opp_table))
-> > +			return dev_err_probe(emc->dev, PTR_ERR(reg_opp_table),
-> > +					     "failed to set OPP regulator\n");
-> > +	}
-> >  
-> > -	if (IS_ERR(opp_table))
-> > -		return dev_err_probe(emc->dev, PTR_ERR(opp_table),
-> > -				     "failed to prepare OPP table\n");
-> > +	clk_opp_table = dev_pm_opp_set_clkname(emc->dev, NULL);
-> > +	err = PTR_ERR_OR_ZERO(clk_opp_table);
+On 2020-11-10 17:48, Will Deacon wrote:
+> On Fri, Oct 30, 2020 at 02:53:08PM +0530, Sai Prakash Ranjan wrote:
+>> Add a quirk IO_PGTABLE_QUIRK_SYS_CACHE to override the
+>> attributes set in TCR for the page table walker when
+>> using system cache.
+>> 
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/iommu/io-pgtable-arm.c | 7 ++++++-
+>>  include/linux/io-pgtable.h     | 4 ++++
+>>  2 files changed, 10 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/iommu/io-pgtable-arm.c 
+>> b/drivers/iommu/io-pgtable-arm.c
+>> index a7a9bc08dcd1..a356caf1683a 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -761,7 +761,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg 
+>> *cfg, void *cookie)
+>> 
+>>  	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+>>  			    IO_PGTABLE_QUIRK_NON_STRICT |
+>> -			    IO_PGTABLE_QUIRK_ARM_TTBR1))
+>> +			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
+>> +			    IO_PGTABLE_QUIRK_SYS_CACHE))
+>>  		return NULL;
+>> 
+>>  	data = arm_lpae_alloc_pgtable(cfg);
+>> @@ -773,6 +774,10 @@ arm_64_lpae_alloc_pgtable_s1(struct 
+>> io_pgtable_cfg *cfg, void *cookie)
+>>  		tcr->sh = ARM_LPAE_TCR_SH_IS;
+>>  		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
+>>  		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
+>> +	} else if (cfg->quirks & IO_PGTABLE_QUIRK_SYS_CACHE) {
+>> +		tcr->sh = ARM_LPAE_TCR_SH_OS;
+>> +		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
+>> +		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
 > 
-> Don't check for NULL here.
+> Given that this only applies in the case where then page-table walker 
+> is
+> non-coherent, I think we'd be better off renaming the quirk to 
+> something
+> like IO_PGTABLE_QUIRK_ARM_OUTER_WBWA and then rejecting it in the
+> non-coherent case.
+> 
 
-My bad. You aren't checking but just converting to err. Its fine.
+Do you mean like below?
+
+diff --git a/drivers/iommu/io-pgtable-arm.c 
+b/drivers/iommu/io-pgtable-arm.c
+index a7a9bc08dcd1..94de1f71db42 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -776,7 +776,10 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg 
+*cfg, void *cookie)
+         } else {
+                 tcr->sh = ARM_LPAE_TCR_SH_OS;
+                 tcr->irgn = ARM_LPAE_TCR_RGN_NC;
+-               tcr->orgn = ARM_LPAE_TCR_RGN_NC;
++               if (!(cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
++                       tcr->orgn = ARM_LPAE_TCR_RGN_NC;
++               else
++                       tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
+         }
+
+         tg1 = cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1;
+
+
+Thanks,
+Sai
 
 -- 
-viresh
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
