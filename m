@@ -1,41 +1,120 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3655A2AF382
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 15:27:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A84C2AF480
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 16:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 444296E053;
-	Wed, 11 Nov 2020 14:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 257AD89FC9;
+	Wed, 11 Nov 2020 15:13:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F32436E053
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 14:27:39 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63E02A19;
- Wed, 11 Nov 2020 15:27:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1605104858;
- bh=x+6cQdl3k6jIh9Epg7yQvBNQmgdjXU7lzidL9akFX4Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=djkgxwnReI8Qzr43qRLT7ZIrkKza7QhYr59Lo/FuXnVJjGZITCeg2N9C48rPUf6AY
- TGjXqQXtkvCyVLZwzJ8hUehXvczXNqOZKI0TbHdXts5ecvGc7FIG+GNwm+UhZQ13iU
- zonazKkes7jcZp+Jl797CRXvmWeD7ixI/nfWq8IM=
-Date: Wed, 11 Nov 2020 16:27:35 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
-Message-ID: <20201111142735.GG4115@pendragon.ideasonboard.com>
-References: <20201102203656.220187-1-robh@kernel.org>
- <20201102203656.220187-2-robh@kernel.org>
- <20201111140009.GD4115@pendragon.ideasonboard.com>
- <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7982D89FC9;
+ Wed, 11 Nov 2020 15:13:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jdkbglX5czvWY1ARkW4lDZNn2Glx7/mTEZ/WuPIAQBiLkkGfkLbOXEj3uzXO8ExjtVojTh6ZgSO77mG2GXRq78wSelKhRTN/T9AI2Xapn9pMJ8CmQ4jX1AfT1L1mLxLh+KCKX5DwVA6v9Wf8v6sIT2xtAVBikK16/ns+r9AkW6VupqGBz3PXjmCUTxlkkz+JNiwpRI1vE78SYdHAd/ESiO+rYejQJmustegNpSFwGjkY6zExm8rLc+29dQyt63nMR82rvNSLYMAyicnhiA7YEkBWzHTnnaoN11/xoYxXjNWCUe/XQBCgHlGqxKqK7/4yuYrz1l4U3+cvU+5il0BtXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yd8FLwcO6MU2NVRUsSQoCPy8AqO2lrycKoIyT/0OVYk=;
+ b=DmcFTi/oLIH5ewv/072L2VrdW+3A//PAM/TbZCMssFo9M8SRD2PFqH/vHQZ8uvz5W4uXXF6VEhArVWNBBOeXc/P9zg0zDiM6eWeZWQrU96s2f7A6YsNP5sX7sITIARWYcd2yAOYIA+E6HI1ADcFZf221KGMpiLSiX96L+ZGaqrr/YYBiixZD9xxWFjMHCvUz+RmvX+DdI4dHN+aAMe+mjOyN9Xi7QRgQevf3yQ8mf1pV1z2vPe0Vf3RhD8hwF/wvaokauSo6SbtQaNXP2Tv0+GRzbeEqaaZmmzA+WLnwYbaiyjRw6U2wjJp9jLUkQXfsoYyUXICVt4bbVLgjtobuOA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Yd8FLwcO6MU2NVRUsSQoCPy8AqO2lrycKoIyT/0OVYk=;
+ b=fz70P4MRp84mNiwc6rg35ldn/s9/1J6k86d5T7UuXLV/P/DXmt0EXAxAiDXw5owzUw3lM6Yt08Y27AJLSkLuiRiiH2kWScSGLaHqC89jW0MVVy7VjfQnxsNsBPi+bn4qZuDQhQJP6Mi/qZNVVPNUNfpuB1Tbf/nX37ZE0I/3OTU=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
+ DM5PR12MB1515.namprd12.prod.outlook.com (2603:10b6:4:6::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.25; Wed, 11 Nov 2020 15:13:16 +0000
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3541.021; Wed, 11 Nov 2020
+ 15:13:15 +0000
+Subject: Re: [PATCH v2 5/8] drm/amdgpu: Refactor sysfs removal
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <1592719388-13819-6-git-send-email-andrey.grodzovsky@amd.com>
+ <20200622095124.GE20149@phenom.ffwll.local>
+ <20200622112139.GA3421602@kroah.com>
+ <fdaebe5b-3930-66d6-4f62-3e59e515e3da@amd.com>
+ <20200622164551.GA112181@kroah.com>
+ <4787b2a9-e7bf-ea3c-02e9-484a4fcb4742@amd.com>
+ <20200623060532.GB3818201@kroah.com>
+ <090c5a35-3088-d6d0-dcaf-5ce5542a4298@amd.com>
+ <20200624061153.GA933050@kroah.com>
+ <c864c559-71f4-08a5-f692-3f067a9a32f8@amd.com> <X6rU6lKDCyl6RN+V@kroah.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <9db66134-0690-0972-2312-9d9155a0c5d8@amd.com>
+Date: Wed, 11 Nov 2020 10:13:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <X6rU6lKDCyl6RN+V@kroah.com>
+Content-Language: en-US
+X-Originating-IP: [2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
+X-ClientProxiedBy: YTOPR0101CA0033.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:15::46) To DM6PR12MB4340.namprd12.prod.outlook.com
+ (2603:10b6:5:2a8::7)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
+ (2607:fea8:3edf:49b0:7416:506d:efb6:9c79) by
+ YTOPR0101CA0033.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
+ Transport; Wed, 11 Nov 2020 15:13:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: d8d96fc4-1c25-46a4-23de-08d886545040
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1515:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB15151574EC54C23B004149B9EAE80@DM5PR12MB1515.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0E7Igm0k45+eJQ/CGeVcjmWM3Fk9AQrD/5vAxmSFG0BdrNrHCtxA0hol7rHqa1tWRm2XL1BpAGSw8UMGgKPurPD/rh88JMpM1ZZ7Xtoi88KID6TDjRo72bAvHzhQ5K1Gjy1QyrT+pnUshX2/MHCinEOzyAI2WuadxBRnsDqiAtnu41ml6+/QeT97hFaOWoNtW9dD0Oc2+/xQeZTATiPisIxlPtG7iVoAlJMWpFmMHoO0Sk6HcN8+/TSKldMZ+T2BUcqco8o6T9e8U8x5QU+h2mHSjLK0n3sFzlnw4yZEGfY9BtNZPaXafousKF6MnsQYa8bCIQagc9sxKjUwCWxPFDWgOQyXZnSM6xDmCi3uUm6OT8/WZDZWhB0vwBRcxtZkEo+uM5QggzBTvrNU1suugQ/I8A/S4VM2+0kLaFzOxwo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(366004)(136003)(39860400002)(6486002)(2616005)(36756003)(186003)(16526019)(966005)(52116002)(66556008)(4326008)(66946007)(66476007)(5660300002)(8936002)(478600001)(2906002)(53546011)(8676002)(45080400002)(86362001)(316002)(6916009)(31686004)(31696002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bVdDbTRBaHlaTnJkeXRuTkR5cmZ2bmxxZDljampKNGFDMGZaN2FJR01TUEEv?=
+ =?utf-8?B?VUovSXlnZDBaT2Q5RUNoUDFGb2Jvc0tRYUNpSWlzTGppQXYrWUE2dHhQZEk2?=
+ =?utf-8?B?Ky9acUJUOTk1UXd0cE11QzUwZFl1VG1oNm4xbCtlNXJpbEQ0WGYwZ3h0aHp2?=
+ =?utf-8?B?Qi9xRnJ5UVR3Zk1jK3BqTk1YbEhMRlpMeGNKZGFydEFkazhYbDMyd1FBKzhK?=
+ =?utf-8?B?S1VaN0hCY2FSU1JYZTNycUVOUnFvR3RHN1hUUGJvRVl5R2pmdmN3dWpEbFpn?=
+ =?utf-8?B?QnRYb0hWaXI3LzhuZzcrdk40Zm8yTkxCSnF0Wk9qbWJSTE9sNHZ2eVVDNExI?=
+ =?utf-8?B?Sk8wYXJOUmErRFRnQkFqUEJlYjA5dTVPM1U1L0VtZm0xZlE3c3d6cDhSeXlY?=
+ =?utf-8?B?Nk16SFpQRk5nSFl0SllIc0FQY2ZETjBHbmxyRE1hSDVHNUxidkVnTU1EdkY3?=
+ =?utf-8?B?YmxwengrZUNwUlVaQkNuOVVWUCtXUmR6WDFKSE9LWlZ3OFFzNTB3eWhrck1I?=
+ =?utf-8?B?enJubWRObGRHMWtUbG5oMXVtQkk5RFc4allkT1FCd1VjN0ZYbkxjQk93RHAz?=
+ =?utf-8?B?NWg4YWYveHExRWUvUmp3U2tRaXJqTjlPNEZBQlY2dkM2RzlaTTAzVnhQR05S?=
+ =?utf-8?B?SzZpc1FKRzM0VVQ2Y2FVWC9rS3hGbFlnd2h4eTgzSjFOUitwU2lEVmVUTFlT?=
+ =?utf-8?B?UTFUUjUrdG0xV2tpemVCSTA3K1l2Ri9uRWtkQ2p5VC9sV0FVcjNoMi82bkRL?=
+ =?utf-8?B?MlNMb3BSaFExb0FmL0hiZkNIdkprdkF3c054aFFLQi9idDNLeFRRQk5IQnB1?=
+ =?utf-8?B?Mk1ORjlFSlBzNkNDak44a3hjbnRmUVFTaVV6MWQwQVExdVBsS1psSjdsaVVC?=
+ =?utf-8?B?OVFad2tkbmdTVkhYTnZtdXUwbVZ1c0JVS3YzU2ZkRzdGcnNwNHJSQ2YvSlNI?=
+ =?utf-8?B?ckY1czA1aG85MlpRRWJjWlpQaTB6bFNMdkI1UDFLVVUvelNOWDFsUlhzcTM2?=
+ =?utf-8?B?SlZhMFhNbEY4QVYrQkZrVUJNSDJCcWM4QkJNai8rME1PaERBbVBKbmY0ZXlX?=
+ =?utf-8?B?S2tENDI4bzBzUUwvVjJYU2Q0Y2x2anpkczlBeVVLb2RKQW83YVFWdGZnVHUw?=
+ =?utf-8?B?NmtMWXdBcUdabnFqYzk3dEhSeG5GWXZVYUUyS3lwZEJjNzZhY21nRXg3aG5U?=
+ =?utf-8?B?cHFMazRsaUR3RklsVk1NejFoY2JlbTI0aDcvUWx2c1JKSk5HSFE3NkxKK0V3?=
+ =?utf-8?B?V0xpYmp5M0FOenZONlpma1VIM2RXTGxlaGRiS3lPaTZKNy9iZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8d96fc4-1c25-46a4-23de-08d886545040
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 15:13:15.6164 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bssYNH08EUiD/wYR27sLlxpOTJX2FgtpH/GReTvPbVVgQdJsBtmQZy47Ru2cK9moVcUGIx915/+kkblGKplglQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1515
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,201 +127,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Sameer Pujar <spujar@nvidia.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
 
-On Wed, Nov 11, 2020 at 08:25:40AM -0600, Rob Herring wrote:
-> On Wed, Nov 11, 2020 at 8:00 AM Laurent Pinchart wrote:
-> > On Mon, Nov 02, 2020 at 02:36:54PM -0600, Rob Herring wrote:
-> > > From: Sameer Pujar <spujar@nvidia.com>
-> > >
-> > > Convert device tree bindings of graph to YAML format. Currently graph.txt
-> > > doc is referenced in multiple files and all of these need to use schema
-> > > references. For now graph.txt is updated to refer to graph.yaml.
-> > >
-> > > For users of the graph binding, they should reference to the graph
-> > > schema from either 'ports' or 'port' property:
-> > >
-> > > properties:
-> > >   ports:
-> > >     type: object
-> > >     $ref: graph.yaml#/properties/ports
-> > >
-> > >     properties:
-> > >       port@0:
-> > >         description: What data this port has
-> > >
-> > >       ...
-> > >
-> > > Or:
-> > >
-> > > properties:
-> > >   port:
-> > >     description: What data this port has
-> > >     type: object
-> > >     $ref: graph.yaml#/properties/port
-> >
-> > Sounds like a good approach.
-> >
-> > > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> > > Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > v3:
-> > >  - Move port 'reg' to port@* and make required
-> > >  - Make remote-endpoint required
-> > >  - Add 'additionalProperties: true' now required
-> > >  - Fix yamllint warnings
-> > >
-> > >  Documentation/devicetree/bindings/graph.txt  | 129 +-----------
-> > >  Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
-> > >  2 files changed, 200 insertions(+), 128 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/graph.yaml
-> 
-> [...]
-> 
-> > > diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
-> > > new file mode 100644
-> > > index 000000000000..b56720c5a13e
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/graph.yaml
-> > > @@ -0,0 +1,199 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/graph.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Common bindings for device graphs
-> > > +
-> > > +description: |
-> > > +  The hierarchical organisation of the device tree is well suited to describe
-> > > +  control flow to devices, but there can be more complex connections between
-> > > +  devices that work together to form a logical compound device, following an
-> > > +  arbitrarily complex graph.
-> > > +  There already is a simple directed graph between devices tree nodes using
-> > > +  phandle properties pointing to other nodes to describe connections that
-> > > +  can not be inferred from device tree parent-child relationships. The device
-> > > +  tree graph bindings described herein abstract more complex devices that can
-> > > +  have multiple specifiable ports, each of which can be linked to one or more
-> > > +  ports of other devices.
-> > > +
-> > > +  These common bindings do not contain any information about the direction or
-> > > +  type of the connections, they just map their existence. Specific properties
-> > > +  may be described by specialized bindings depending on the type of connection.
-> > > +
-> > > +  To see how this binding applies to video pipelines, for example, see
-> > > +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > +  Here the ports describe data interfaces, and the links between them are
-> > > +  the connecting data buses. A single port with multiple connections can
-> > > +  correspond to multiple devices being connected to the same physical bus.
-> > > +
-> > > +maintainers:
-> > > +  - Philipp Zabel <p.zabel@pengutronix.de>
-> > > +
-> > > +select: false
-> > > +
-> > > +properties:
-> > > +  port:
-> > > +    type: object
-> > > +    description:
-> > > +      If there is more than one endpoint node or 'reg' property present in
-> > > +      endpoint nodes then '#address-cells' and '#size-cells' properties are
-> > > +      required.
-> > > +
-> > > +    properties:
-> > > +      "#address-cells":
-> > > +        const: 1
-> > > +
-> > > +      "#size-cells":
-> > > +        const: 0
-> > > +
-> > > +    patternProperties:
-> > > +      "^endpoint(@[0-9a-f]+)?$":
-> > > +        type: object
-> > > +        properties:
-> > > +          reg:
-> > > +            maxItems: 1
-> > > +
-> > > +          remote-endpoint:
-> > > +            description: |
-> > > +              phandle to an 'endpoint' subnode of a remote device node.
-> > > +            $ref: /schemas/types.yaml#/definitions/phandle
-> > > +
-> > > +        required:
-> > > +          - remote-endpoint
-> >
-> > As noted elsewhere, this shouldn't be required.
-> >
-> > Should we set additionalProperties: false here ?
-> 
-> No, we've got a bunch of properties that get added to endpoint nodes.
-> There's a few cases where 'port' nodes have properties too.
+On 11/10/20 12:59 PM, Greg KH wrote:
+> On Tue, Nov 10, 2020 at 12:54:21PM -0500, Andrey Grodzovsky wrote:
+>> Hi, back to this after a long context switch for some higher priority stuff.
+>>
+>> So here I was able eventually to drop all this code and this change here https://nam11.safelinks.protection.outlook.com/?url=https:%2F%2Fcgit.freedesktop.org%2F~agrodzov%2Flinux%2Fcommit%2F%3Fh%3Damd-staging-drm-next-device-unplug%26id%3D61852c8a59b4dd89d637693552c73175b9f2ccd6&amp;data=04%7C01%7CAndrey.Grodzovsky%40amd.com%7C7ae9e5798c7648d6dbb908d885a22c58%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637406278875513811%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=aoFIsBxpLC9tBZw3E%2B8IJlNqFSq6uRgEvvciaZ6B1iw%3D&amp;reserved=0
+>> was enough for me. Seems like while device_remove_file can handle the use
+>> case where the file and the parent directory already gone,
+>> sysfs_remove_group goes down in flames in that case
+>> due to kobj->sd being unset on device removal.
+> A driver shouldn't ever have to remove individual sysfs groups, the
+> driver core/bus logic should do it for them automatically.
+>
+> And whenever a driver calls a sysfs_* call, that's a hint that something
+> is not working properly.
 
-I meant the port node, which I wasn't aware needed additional
-properties. Do you have any example ? (I wonder if you will point me to
-bindings that I have written ;-))
 
-> > > +  ports:
-> > > +    type: object
-> > > +    description: |
-> > > +      If there is more than one port node or 'reg' property present in port
-> > > +      nodes then '#address-cells' and '#size-cells' properties are required.
-> > > +      In such cases all port nodes can be grouped under 'ports' independently
-> > > +      from any other child device nodes a device might have.
-> >
-> > Allowing multiple port nodes not grouped in a ports node has created
-> > complexity, with very little gain. Should we forbid that going forward ?
-> 
-> Yes, that's probably a separate change. The examples need updating
-> too. We do have a few cases we'll have to support though.
 
-Sure, it can be done on top.
+Do you mean that while the driver creates the groups and files explicitly from 
+it's different
+subsystems it should not explicitly remove each one of them because all of them 
+should
+be removed at once (and recursively) when the device is being removed ?
 
-> > > +    properties:
-> > > +      "#address-cells":
-> > > +        const: 1
-> > > +
-> > > +      "#size-cells":
-> > > +        const: 0
-> > > +
-> > > +    patternProperties:
-> > > +      "^port(@[0-9a-f]+)?$":
-> > > +        $ref: "#/properties/port"
-> > > +        type: object
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            maxItems: 1
-> > > +
-> > > +        required:
-> > > +          - reg
-> > > +
-> > > +
-> >
-> > Maybe a single blank line ?
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> I've gone thru and updated schemas to use this. Primarily to prove out
-> a meta-schema for it. So I'll be sending out another version.
+Andrey
 
--- 
-Regards,
 
-Laurent Pinchart
+>
+> Also, run your patch above through checkpatch.pl before submitting it :)
+>
+> thanks,
+>
+> greg k-h
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
