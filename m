@@ -2,63 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224102B00FE
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F8D2B0110
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:16:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890166E195;
-	Thu, 12 Nov 2020 08:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CACF6E1CD;
+	Thu, 12 Nov 2020 08:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D94D46E046
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:17:40 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id s9so1235121ljo.11
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 01:17:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OgKNdkVvaz+xa5pKH11vMf7kWHOOkyKTt0eLKCTWoyM=;
- b=Xcem9iSPQQT+omFF8Jq4Zxg1UFj1oGZ3AkgbegKWJF9ZE7/DUw7FesobvK4yzHXPME
- 4ey+m/ni4ky0Npgfs3w2eq89einViRu52/6CUzh2vpvRbacsSeqlHfkk0qK/2VoR5cBG
- Nn3yHbgiDzKilCptKB6KIojaSc5A2GhXGEv61N8/E+wiUYYImiYre9geZZLyMkdb0d6W
- vtd61w2JFrestyRQW+NUPPoXgP0UMkQmiiSAwZeDItM86OOJ0n0Dxf2wOv7dG9X1/cN4
- /O2DyuDpOACib5hLZH7nYa6LM+P1Kt1AYGFKJEnBhTkk0WNkV75QgPdu2r5VpxrD2YCO
- le2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OgKNdkVvaz+xa5pKH11vMf7kWHOOkyKTt0eLKCTWoyM=;
- b=IH9j65e85EEnijOQjSNDwqE3aLhvCKVHEhtIHQOV89RAp1t9TCmRD6y5ZzMGhmNoX4
- Lj2Y661Mh8039xL4XXLYMMSj4YK/FnKk8hlwIB6JLIe4BJOwIV2EJkSEaCzLAgXaTLuS
- Uyj+Xo84MsvY31nP/fp+lbf82sB3QwL4hypb3lfSeNXPA9JvH3uVuRO749Bp7Gf+Trun
- CGWXLgLhCATFUet3K2Wj67mPJXZ8kRrqYUkHgOaFp2vcJ2guxpoWBcHbUuPzJxveP85P
- VToDC9dNWZtt0zWgjGbKfPTaP3JNAjBwfrCGIBuHqYMRWdWgXAVhKFMl19t0Nc9AQRH9
- jrGA==
-X-Gm-Message-State: AOAM533YLmporuGxV/XE/eUp1OwY1psTfCj6GTMSMy1fdM43XQD98SLV
- fzcxM5xzYYtboPkeEd0oTMI7Dn2UODM=
-X-Google-Smtp-Source: ABdhPJzwEqcGv+xxwnbEjIK56TC9t3H5Pa/S/5wGVfme5kATJ46qhW11pu/k0uP4E+ggKdmGXgkSkw==
-X-Received: by 2002:a2e:87d7:: with SMTP id v23mr931730ljj.467.1605086259116; 
- Wed, 11 Nov 2020 01:17:39 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id j11sm162356lfg.69.2020.11.11.01.17.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Nov 2020 01:17:38 -0800 (PST)
-Subject: Re: [PATCH v8 11/26] memory: tegra124-emc: Make driver modular
-To: Krzysztof Kozlowski <krzk@kernel.org>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-12-digetx@gmail.com> <20201111090434.GB4050@kozik-lap>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f44b64f5-6b08-5f1e-4f9b-a73a1705d493@gmail.com>
-Date: Wed, 11 Nov 2020 12:17:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BD056E046
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:52:12 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fabb44a0000>; Wed, 11 Nov 2020 01:52:10 -0800
+Received: from [10.25.102.95] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 11 Nov
+ 2020 09:51:59 +0000
+Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
+To: Rob Herring <robh@kernel.org>, <devicetree@vger.kernel.org>, Laurent
+ Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20201102203656.220187-1-robh@kernel.org>
+ <20201102203656.220187-2-robh@kernel.org>
+From: Sameer Pujar <spujar@nvidia.com>
+Message-ID: <4185c162-8a71-7402-f46e-4a2495f152f2@nvidia.com>
+Date: Wed, 11 Nov 2020 15:21:53 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201111090434.GB4050@kozik-lap>
-Content-Language: en-US
+In-Reply-To: <20201102203656.220187-2-robh@kernel.org>
+Content-Language: en-GB
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1605088330; bh=NfxvzToOPwpWqNdT7c6nJmyYl3Oqi8uprhuIHTusw1c=;
+ h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+ MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ Content-Language:X-Originating-IP:X-ClientProxiedBy;
+ b=Kp5aKdWsLz+oM0ZFDkbHzLdXS97I2jXg93A1a0ELRXevnfi76caPAr5Wr9vas0ZSO
+ EFf38c7LyRbr4fslN3SX+SJKTeKYS5031AwCfUh2DGL6IX1w290T7omSWHdxVRLqPp
+ 7A6/xmrekM6hxY5N2S4XV/nzWyBx/SONWtrdAkc6VGNXqbRVQ5/VR+JoBZIEtGeajx
+ yBlILxTdtFk/L6OzCc1lJQn3Kf6qnlbFD8J4brfJaNHDGPqiaUuQjCFZgQ1rcODqMA
+ +vCHK0VoaqdoYo7yxBLhJvuSW9lesYPilSyGESGVhLVMCByy49gwHxHJXLimQShzif
+ IO+QKuQtcyqmA==
 X-Mailman-Approved-At: Thu, 12 Nov 2020 08:15:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,54 +59,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kuninori.morimoto.gx@renesas.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTEuMTEuMjAyMCAxMjowNCwgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+PiAtb2Jq
-LSQoQ09ORklHX1RFR1JBMTI0X0VNQykJCSs9IGNsay10ZWdyYTEyNC1lbWMubwo+PiArb2JqLSQo
-Q09ORklHX0FSQ0hfVEVHUkFfMTI0X1NPQykJKz0gY2xrLXRlZ3JhMTI0LWVtYy5vCj4+ICtvYmot
-JChDT05GSUdfQVJDSF9URUdSQV8xMzJfU09DKQkrPSBjbGstdGVncmExMjQtZW1jLm8KPiBIb3cg
-aXMgaXQgcmVsYXRlZCB0byBtb2R1bGFyaXphdGlvbj8gSXQgbG9va3MgbGlrZSBkaWZmZXJlbnQg
-aXNzdWUgaXMKPiBmaXhlZCBoZXJlLgoKVGhlIENPTkZJR19URUdSQTEyNF9FTUMgbm93IGNvdWxk
-IGJlICdtJywgd2hpbGUgdGhlIGNsb2NrIGNvZGUgbXVzdCBiZQpidWlsdC1pbi4gVGhlIFRFR1JB
-MTI0IEVNQyBkcml2ZXIgaXMgdXNlZCBieSBUMTI0IGFuZCBUMTMyIFNvQ3MuCgouLi4KPj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvY2xrL3RlZ3JhL2Nsay5oIGIvZHJpdmVycy9jbGsvdGVncmEvY2xr
-LmgKPj4gaW5kZXggNmI1NjVmNmI1ZjY2Li4yZGE3YzkzYzFhNmMgMTAwNjQ0Cj4+IC0tLSBhL2Ry
-aXZlcnMvY2xrL3RlZ3JhL2Nsay5oCj4+ICsrKyBiL2RyaXZlcnMvY2xrL3RlZ3JhL2Nsay5oCj4+
-IEBAIC04ODEsMTggKzg4MSw2IEBAIHZvaWQgdGVncmFfc3VwZXJfY2xrX2dlbjVfaW5pdCh2b2lk
-IF9faW9tZW0gKmNsa19iYXNlLAo+PiAgCQkJdm9pZCBfX2lvbWVtICpwbWNfYmFzZSwgc3RydWN0
-IHRlZ3JhX2NsayAqdGVncmFfY2xrcywKPj4gIAkJCXN0cnVjdCB0ZWdyYV9jbGtfcGxsX3BhcmFt
-cyAqcGxsX3BhcmFtcyk7Cj4+ICAKPj4gLSNpZmRlZiBDT05GSUdfVEVHUkExMjRfRU1DCj4+IC1z
-dHJ1Y3QgY2xrICp0ZWdyYV9jbGtfcmVnaXN0ZXJfZW1jKHZvaWQgX19pb21lbSAqYmFzZSwgc3Ry
-dWN0IGRldmljZV9ub2RlICpucCwKPj4gLQkJCQkgICBzcGlubG9ja190ICpsb2NrKTsKPj4gLSNl
-bHNlCj4+IC1zdGF0aWMgaW5saW5lIHN0cnVjdCBjbGsgKnRlZ3JhX2Nsa19yZWdpc3Rlcl9lbWMo
-dm9pZCBfX2lvbWVtICpiYXNlLAo+PiAtCQkJCQkJIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAsCj4+
-IC0JCQkJCQkgc3BpbmxvY2tfdCAqbG9jaykKPj4gLXsKPj4gLQlyZXR1cm4gTlVMTDsKPj4gLX0K
-Pj4gLSNlbmRpZgo+IFdoeSBjbG9jayBjaGFuZ2VzIGFyZSBzbyB0aWdodGx5IGNvdXBsZWQgd2l0
-aCBtYWtpbmcgYW4gRU1DIGRyaXZlcgo+IG1vZHVsYXI/IFVzdWFsbHkgdGhpcyBzaG91bGQgYmUg
-YSBzZXBhcmF0ZSBjaGFuZ2UgLSB5b3UgYWRqdXN0IGFueQo+IGRlcGVuZGVuY2llcyB0byBhY2Nl
-cHQgbGF0ZSBvciBkZWZlcnJlZCBwcm9iaW5nLCBleHBvcnRlZCBzeW1ib2xzLAo+IGxvb3NlbiB0
-aGUgY291cGxpbmcgYmV0d2VlbiBkcml2ZXJzLCBldGMuIGFuZCB0aGVuIHlvdSBjb252ZXJ0IHNv
-bWV0aGluZwo+IHRvIG1vZHVsZS4KCkJlY2F1c2UgdGhlIGNsb2NrIGFuZCBFTUMgZHJpdmVyIHdl
-cmUgbm90IHNlcGFyYXRlZCBmcm9tIGVhY2ggb3RoZXIKcHJldmlvdXNseS4gVGhlIGNsb2NrIHBh
-cnQgY2FuJ3QgYmUgbW9kdWxhcml6ZWQgZWFzaWx5IGFuZCBwcm9iYWJseQpzaG91bGRuJ3QuCgpJ
-J20gbm90IHN1cmUgd2hldGhlciBpdCdzIGFjdHVhbGx5IHBvc3NpYmxlIHRvIHNwbGl0IHRoaXMg
-cGF0Y2ggd2l0aG91dAp0YWtpbmcgYSBjbG9zZXIgYSBsb29rLgoKSSdtIGFsc28gZG91YnQgdGhh
-dCBpdCB3b3VsZCByZWFsbHkgd29ydGggdGhlIGVmZm9ydCBmb3IgYSAxMDAgbGluZXMgb2YKYSBj
-aGFuZ2VkIGNvZGUuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+Hi Rob,
+
+> From: Sameer Pujar <spujar@nvidia.com>
+>
+> Convert device tree bindings of graph to YAML format. Currently graph.txt
+> doc is referenced in multiple files and all of these need to use schema
+> references. For now graph.txt is updated to refer to graph.yaml.
+>
+> For users of the graph binding, they should reference to the graph
+> schema from either 'ports' or 'port' property:
+>
+> properties:
+>    ports:
+>      type: object
+>      $ref: graph.yaml#/properties/ports
+>
+>      properties:
+>        port@0:
+>          description: What data this port has
+>
+>        ...
+>
+> Or:
+>
+> properties:
+>    port:
+>      description: What data this port has
+>      type: object
+>      $ref: graph.yaml#/properties/port
+>
+> Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v3:
+>   - Move port 'reg' to port@* and make required
+>   - Make remote-endpoint required
+>   - Add 'additionalProperties: true' now required
+>   - Fix yamllint warnings
+>
+>   Documentation/devicetree/bindings/graph.txt  | 129 +-----------
+>   Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
+>   2 files changed, 200 insertions(+), 128 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/graph.yaml
+>
+...
+> diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
+> new file mode 100644
+> index 000000000000..b56720c5a13e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/graph.yaml
+> @@ -0,0 +1,199 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/graph.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Common bindings for device graphs
+> +
+> +description: |
+> +  The hierarchical organisation of the device tree is well suited to describe
+> +  control flow to devices, but there can be more complex connections between
+> +  devices that work together to form a logical compound device, following an
+> +  arbitrarily complex graph.
+> +  There already is a simple directed graph between devices tree nodes using
+> +  phandle properties pointing to other nodes to describe connections that
+> +  can not be inferred from device tree parent-child relationships. The device
+> +  tree graph bindings described herein abstract more complex devices that can
+> +  have multiple specifiable ports, each of which can be linked to one or more
+> +  ports of other devices.
+> +
+> +  These common bindings do not contain any information about the direction or
+> +  type of the connections, they just map their existence. Specific properties
+> +  may be described by specialized bindings depending on the type of connection.
+> +
+> +  To see how this binding applies to video pipelines, for example, see
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +  Here the ports describe data interfaces, and the links between them are
+> +  the connecting data buses. A single port with multiple connections can
+> +  correspond to multiple devices being connected to the same physical bus.
+> +
+> +maintainers:
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +select: false
+> +
+> +properties:
+> +  port:
+> +    type: object
+> +    description:
+> +      If there is more than one endpoint node or 'reg' property present in
+> +      endpoint nodes then '#address-cells' and '#size-cells' properties are
+> +      required.
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^endpoint(@[0-9a-f]+)?$":
+> +        type: object
+> +        properties:
+> +          reg:
+> +            maxItems: 1
+> +
+> +          remote-endpoint:
+> +            description: |
+> +              phandle to an 'endpoint' subnode of a remote device node.
+> +            $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +        required:
+> +          - remote-endpoint
+
+Does 'remote-endpoint' have to be a required property?
+In case of pluggable modules, the remote-endpoint may not be available 
+unless the module is plugged in. In other words, device-2 in below 
+example may not always be available, but still device-1 endpoint 
+configuration and usage may be required?
+
+...
+
+> +  # Links between endpoints:
+> +  #
+> +  # Each endpoint should contain a 'remote-endpoint' phandle property that
+> +  # points to the corresponding endpoint in the port of the remote device.
+> +  # In turn, the remote endpoint should contain a 'remote-endpoint' property.
+> +  # If it has one, it must not point to anything other than the local endpoint.
+> +  # Two endpoints with their 'remote-endpoint' phandles pointing at each other
+> +  # form a link between the containing ports.
+> +  - |
+> +    device-1 {
+> +        port {
+> +            device_1_output: endpoint {
+> +                remote-endpoint = <&device_2_input>;
+> +            };
+> +        };
+> +    };
+> +
+> +    device-2 {
+> +        port {
+> +            device_2_input: endpoint {
+> +                remote-endpoint = <&device_1_output>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> --
+> 2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
