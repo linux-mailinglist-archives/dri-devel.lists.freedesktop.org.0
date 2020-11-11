@@ -2,117 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4272AF553
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 16:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E69662AF588
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 16:54:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B786E077;
-	Wed, 11 Nov 2020 15:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE8A989BA1;
+	Wed, 11 Nov 2020 15:54:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DAC36E06B;
- Wed, 11 Nov 2020 15:45:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=POk0g5PbcAowophlM0oxhXOBp/FYFGv7laxZ18Fm8OVT/J82dSickaKFWQUUSzqcAnHXQ7+IqZHh9r8NWSPxvT8ZKjWnZ11tzBqSc3jXwH6fbIi/ntHvVHBj7/3oP3p6NslAeaSxDpnzoFFdYDoLPi+dwb22V7crhDOA0W08LcJOQW9GY6Pzmnwnuhh4G1UcgPNVhzqUjQwSLN9jkvbv8ajTM1lY3BqwyttyLkj1ui+6dS1tUb+W5nt44s+zTYfWLecesi4gU0moAyOqbYjIVGPdPiZooP83iJuGkbMkVOMDvt6v0tQ2aOZwlX8N/HcJEz3OmVaFhR5iFjdOqFXppQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Igox5tioXOB5NxU8v8Lf7nzFUQOk7+Lesj8jzFj+bQ=;
- b=HJlwsSP02v7XK5/DQs9yrCI3aPekFcB8rn1F7L7UB1YcGvS9QLGH3ydsZefNka3KA4elue3RfFyp6cWKeMLLgWzkkfbWwhkOgmF31hP3kYvYgiLmOvMqh8wjt0V07AS7Sx6ZBKMCxjltXWHuPUFoQlCl17QdBhlpZad1PERjozpN9L3yKfNeyH83BjFXYcKulFNOyZ35bzjVp8ZQ0bT2dq20VqA0ggm459w9jXlZB2lWmJ8cRd+Jiw7lAdQxB9iHsbt4EKfvYYUnjZ2KO1FjLPj7wWwh40likZSs1GYcEIeV/d43gE+CSrFLXa25xAZ9eWpSlWGgNrh53eoow8R30g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Igox5tioXOB5NxU8v8Lf7nzFUQOk7+Lesj8jzFj+bQ=;
- b=GTrOF4W2uZ1nUttHW29dP3Pt70VMnjo4I/9UyosOSsUpeZabMPt8eEXjf/OOGPrIQ2xAVGUKvWc29CP+0rFzJH6WTcVQxzUZJeYratbS8HuKLFPT8IxLiVnSK1/u8GUHvjfMkepf2zl5pEDO1j6l6QhjxF2GNBwM4nFifcIyq7c=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
- DM5PR12MB1658.namprd12.prod.outlook.com (2603:10b6:4:5::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21; Wed, 11 Nov 2020 15:45:56 +0000
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3541.021; Wed, 11 Nov 2020
- 15:45:56 +0000
-Subject: Re: [PATCH v2 5/8] drm/amdgpu: Refactor sysfs removal
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <20200622112139.GA3421602@kroah.com>
- <fdaebe5b-3930-66d6-4f62-3e59e515e3da@amd.com>
- <20200622164551.GA112181@kroah.com>
- <4787b2a9-e7bf-ea3c-02e9-484a4fcb4742@amd.com>
- <20200623060532.GB3818201@kroah.com>
- <090c5a35-3088-d6d0-dcaf-5ce5542a4298@amd.com>
- <20200624061153.GA933050@kroah.com>
- <c864c559-71f4-08a5-f692-3f067a9a32f8@amd.com> <X6rU6lKDCyl6RN+V@kroah.com>
- <9db66134-0690-0972-2312-9d9155a0c5d8@amd.com> <X6wEbtSDm69gzFbR@kroah.com>
-From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <dc348560-907c-1b7e-a836-7dea4017d4e4@amd.com>
-Date: Wed, 11 Nov 2020 10:45:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-In-Reply-To: <X6wEbtSDm69gzFbR@kroah.com>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
-X-ClientProxiedBy: BN8PR15CA0014.namprd15.prod.outlook.com
- (2603:10b6:408:c0::27) To DM6PR12MB4340.namprd12.prod.outlook.com
- (2603:10b6:5:2a8::7)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D333689BA1
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 15:54:39 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFsSWd130915;
+ Wed, 11 Nov 2020 09:54:28 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605110068;
+ bh=1/etRUwSEHxIiOVBXTIPREumTqBXbYHv8nSiQnEx8zU=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=Ag/Db3rhr9PX6Dg0uGohKSOtqV+Jbs8pQgZitenn80Ljf4Le5wObV7xTu+tCyqKUF
+ ePYZke7zDgsWdSUL9sfK7VmXsz5VO4nt+e0WmZ0gAVfBM2VN+6TEl+knTXzjlC+1o3
+ INDVLukOwJOXzfsKDoUC8uDR6+4rGCx2im6DRLnY=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABFsSSw009162
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 11 Nov 2020 09:54:28 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
+ Nov 2020 09:54:28 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 11 Nov 2020 09:54:28 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFsPdf113492;
+ Wed, 11 Nov 2020 09:54:26 -0600
+Subject: Re: [PATCH v3 33/56] drm/omap: dsi: convert to drm_panel
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-34-tomi.valkeinen@ti.com>
+ <20201109103931.GD6029@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <110c2e4b-ac33-1245-7f55-fd99f2ee416b@ti.com>
+Date: Wed, 11 Nov 2020 17:54:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
- (2607:fea8:3edf:49b0:7416:506d:efb6:9c79) by
- BN8PR15CA0014.namprd15.prod.outlook.com (2603:10b6:408:c0::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 15:45:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: c1f1895a-56df-4383-a3b7-08d88658e0ea
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1658:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1658F562D1FC34164B75A965EAE80@DM5PR12MB1658.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1013;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vvi+ClhcAmpzMUAyBFKP43edD3BBmzy9hwpx3cmrySSqD8VvIE3VUwNs+NQ0hK1XkGif4sSUUDEMfTz+t/eaXKxFkprZCuOcZo/O0NDrl2DSfcoQZZnfLIDPLfHdP/7HBcn7jD0I5UGagYjolL1mgsf2k5/MyvyR1CsG0BPDU4yo0ptCrvqvfLpmPjAIzTZogBgIQEEFDhuSdhlbBajYJQgDhvjjE1UpZ5hOx/J2NpMjcL4wx6Oxrw0StmrLScRhxn8cRHdQnDV3hjBvIYFaSnVQec0OsSnVCUFSuuJsgsijgGqb/8tUU3eayx8Q83QSPOQEkHjn30b/YWXgLlrCZzPX/3o1bA7hq24vc63xnToNAUJCLT8C2Wq6EAGLMV6LuIrgiuu77c7BTJ29t2QBpbSoZM9fkt5eOs+qgBOL4zdGrMmJm1LUpoKfH6KjldZOMjjEcmjaVQuEcbh73EuuWA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(36756003)(2616005)(2906002)(8676002)(8936002)(478600001)(53546011)(186003)(16526019)(6916009)(52116002)(31696002)(66556008)(31686004)(5660300002)(66476007)(45080400002)(6486002)(316002)(66946007)(86362001)(4326008)(83380400001)(966005)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WFBSTGhvZW9YeVBLKzFTb2JPcWxmZlhkc0hqNDkvTDJ6ZXg3YkJoN0FGdVNW?=
- =?utf-8?B?VnJ4c0NMREFUbTl2ekp0TUF3c0RDYVNtTTJrOWh0U2ZUVSswNDZPODE0ZCt1?=
- =?utf-8?B?Yk9GUDFpSEZYejZwZnZvaGxQNFFMelBxcVloOU9ZSmJQVGc1ZEtUcXJmWnpZ?=
- =?utf-8?B?ZGhPekpqK2xPTWR2L1pNM0FXaGtsNnU1Ri9ERzRkWVgvcVdrUms2VmZnUDlp?=
- =?utf-8?B?aXFoK2dSUU13WTZmcFd2Y3psbmVRRWNwVjNaQ2M0TjNoQ2Vab3ZSUW8rMktI?=
- =?utf-8?B?M2RlZ2IxczFaV0VWRjFRME8yTks0cjFrTjhwcEdLWmkya25UOUhiQTc2V200?=
- =?utf-8?B?cFhKNjQ2eXl4OTZiRlVQakdRTWZHcmhaOTV4Nk50ckxJSDhXRW4wYUlIVDNY?=
- =?utf-8?B?d25PQ2kvbFhqb3YySEduMHZCeVJoMWt0eElwd1UyZ3RUakhIQmg1K1ZuSnRQ?=
- =?utf-8?B?ZGs3UjZySlFoUVlYMjU4VFlrNVJTTnE3ZkRjd0ZCLzNZUEtBejNrc1VTZlNv?=
- =?utf-8?B?bWx0NmlOLzFJZ2Y3dGs4d1JhT0ZLOXVvcmw1bXBZOHA4ckx5YVY3YUg0aXJu?=
- =?utf-8?B?WExEWUFWSGFLWUNxNFR2MmFWT3dmbkNjVG40VEtRdUwxa0IxNy9kMDFzbXNr?=
- =?utf-8?B?MWxiZ1VUN0JnNjFhUk5KRHZPVDBkT0pzNE9qWjVRUUtRRlIvTFhXNElzR242?=
- =?utf-8?B?ajNQeVhxcm9RWHVoZ2UwczRlT1ViUTV2MEVnQ1hBQVhuR1NXLy9pUUVORUZG?=
- =?utf-8?B?blQ1blh0Q1VrdWREVlgwQmlNNHJQKzk5Z29nbzUyLzlSYlh0N3c0S3ZJaGlC?=
- =?utf-8?B?M2UxZUpPVUsxNm0yUEdQWmlvdVh5RlNyVG1teTZYU0hsOTBqVzJJMzBQLzRl?=
- =?utf-8?B?Q09rU2p4SDdPR1Y2cU5paTFleDFHbWZrM0lNZmtGTjZ2NUlsN3A0cFkzZm1a?=
- =?utf-8?B?aTVSczBKbE0xdzZzRFhsczRPVzE4R3IxZEp0M0lHQVB5RzVpZ05aR3NKT2NU?=
- =?utf-8?B?dzllWktkMnlOZHJzckR1dW92cjdNSDg3SmdheWFNajR4SFVJU2V1cTF5dmVN?=
- =?utf-8?B?WjV3aG5Yc1lPWE5vNjBVb05CeStYREhESUtMODNLTVZDSS8yNGJKdG5JSXlZ?=
- =?utf-8?B?a0ViUVVqOXhadVh6bjVuMjlTb0haMjV3cThkK0tXZ2N1K3Z1cUJVNnlNcG1T?=
- =?utf-8?B?ZlpmMmlrTGYxU1dRczJyN0w5U20vWnpldzZ3d1VTNnlPT3dWRGpHeEdmREVS?=
- =?utf-8?B?cWcyZGNvZ3JmeHA1QzFTZGc3MTY4NFdycWF5ZngwcytoYmZpZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1f1895a-56df-4383-a3b7-08d88658e0ea
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 15:45:56.3006 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L/buMgDhRswgIOEHehIlKnMlB8pDNdzM2RGLNn5A4ruYswfPwO3s41d+XzA2B3VvJZID5C83mX0vZexCT/d7bg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1658
+In-Reply-To: <20201109103931.GD6029@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,55 +63,601 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDExLzExLzIwIDEwOjM0IEFNLCBHcmVnIEtIIHdyb3RlOgo+IE9uIFdlZCwgTm92IDExLCAy
-MDIwIGF0IDEwOjEzOjEzQU0gLTA1MDAsIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+PiBPbiAx
-MS8xMC8yMCAxMjo1OSBQTSwgR3JlZyBLSCB3cm90ZToKPj4+IE9uIFR1ZSwgTm92IDEwLCAyMDIw
-IGF0IDEyOjU0OjIxUE0gLTA1MDAsIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+Pj4+IEhpLCBi
-YWNrIHRvIHRoaXMgYWZ0ZXIgYSBsb25nIGNvbnRleHQgc3dpdGNoIGZvciBzb21lIGhpZ2hlciBw
-cmlvcml0eSBzdHVmZi4KPj4+Pgo+Pj4+IFNvIGhlcmUgSSB3YXMgYWJsZSBldmVudHVhbGx5IHRv
-IGRyb3AgYWxsIHRoaXMgY29kZSBhbmQgdGhpcyBjaGFuZ2UgaGVyZSBodHRwczovL25hbTExLnNh
-ZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHM6JTJGJTJGY2dpdC5mcmVl
-ZGVza3RvcC5vcmclMkZ+YWdyb2R6b3YlMkZsaW51eCUyRmNvbW1pdCUyRiUzRmglM0RhbWQtc3Rh
-Z2luZy1kcm0tbmV4dC1kZXZpY2UtdW5wbHVnJTI2aWQlM0Q2MTg1MmM4YTU5YjRkZDg5ZDYzNzY5
-MzU1MmM3MzE3NWI5ZjJjY2Q2JmFtcDtkYXRhPTA0JTdDMDElN0NBbmRyZXkuR3JvZHpvdnNreSU0
-MGFtZC5jb20lN0M5ZmJmZWNhYzk0YTM0MGRmYjY4NDA4ZDg4NjU3MTYwOSU3QzNkZDg5NjFmZTQ4
-ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDcwNTU4OTY2NTEwNTglN0NVbmtu
-b3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENK
-QlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9WWU4SEpSMXZpZHBw
-Y09CbmxPZ1Z1NUd3S0QyJTJCYjV6dEhiaUklMkJ1YktLVDAlM0QmYW1wO3Jlc2VydmVkPTAKPj4+
-PiB3YXMgZW5vdWdoIGZvciBtZS4gU2VlbXMgbGlrZSB3aGlsZSBkZXZpY2VfcmVtb3ZlX2ZpbGUg
-Y2FuIGhhbmRsZSB0aGUgdXNlCj4+Pj4gY2FzZSB3aGVyZSB0aGUgZmlsZSBhbmQgdGhlIHBhcmVu
-dCBkaXJlY3RvcnkgYWxyZWFkeSBnb25lLAo+Pj4+IHN5c2ZzX3JlbW92ZV9ncm91cCBnb2VzIGRv
-d24gaW4gZmxhbWVzIGluIHRoYXQgY2FzZQo+Pj4+IGR1ZSB0byBrb2JqLT5zZCBiZWluZyB1bnNl
-dCBvbiBkZXZpY2UgcmVtb3ZhbC4KPj4+IEEgZHJpdmVyIHNob3VsZG4ndCBldmVyIGhhdmUgdG8g
-cmVtb3ZlIGluZGl2aWR1YWwgc3lzZnMgZ3JvdXBzLCB0aGUKPj4+IGRyaXZlciBjb3JlL2J1cyBs
-b2dpYyBzaG91bGQgZG8gaXQgZm9yIHRoZW0gYXV0b21hdGljYWxseS4KPj4+Cj4+PiBBbmQgd2hl
-bmV2ZXIgYSBkcml2ZXIgY2FsbHMgYSBzeXNmc18qIGNhbGwsIHRoYXQncyBhIGhpbnQgdGhhdCBz
-b21ldGhpbmcKPj4+IGlzIG5vdCB3b3JraW5nIHByb3Blcmx5Lgo+Pgo+Pgo+PiBEbyB5b3UgbWVh
-biB0aGF0IHdoaWxlIHRoZSBkcml2ZXIgY3JlYXRlcyB0aGUgZ3JvdXBzIGFuZCBmaWxlcyBleHBs
-aWNpdGx5Cj4+IGZyb20gaXQncyBkaWZmZXJlbnQgc3Vic3lzdGVtcyBpdCBzaG91bGQgbm90IGV4
-cGxpY2l0bHkgcmVtb3ZlIGVhY2gKPj4gb25lIG9mIHRoZW0gYmVjYXVzZSBhbGwgb2YgdGhlbSBz
-aG91bGQgYmUgcmVtb3ZlZCBhdCBvbmNlIChhbmQKPj4gcmVjdXJzaXZlbHkpIHdoZW4gdGhlIGRl
-dmljZSBpcyBiZWluZyByZW1vdmVkID8KPiBJbmRpdmlkdWFsIGRyaXZlcnMgc2hvdWxkIG5ldmVy
-IGFkZCBncm91cHMvZmlsZXMgaW4gc3lzZnMsIHRoZSBkcml2ZXIKPiBjb3JlIHNob3VsZCBkbyBp
-dCBwcm9wZXJseSBmb3IgeW91IGlmIHlvdSBoYXZlIGV2ZXJ5dGhpbmcgc2V0IHVwCj4gcHJvcGVy
-bHkuICBBbmQgeWVzLCB0aGUgZHJpdmVyIGNvcmUgd2lsbCBhdXRvbWF0aWNhbGx5IHJlbW92ZSB0
-aGVtIGFzCj4gd2VsbC4KPgo+IFBsZWFzZSB1c2UgdGhlIGRlZmF1bHQgZ3JvdXBzIGF0dHJpYnV0
-ZSBmb3IgeW91ciBidXMvc3Vic3lzdGVtIGFuZCB0aGlzCj4gd2lsbCBoYXBwZW4gYXV0b21hZ2lj
-YWxseS4KCkdvb2dsaW5nIGZvciBkZWZhdWx0IGdyb3VwcyBhdHRyaWJ1dGVzIGkgZm91bmQgdGhp
-cyAtIApodHRwczovL3d3dy5saW51eGZvdW5kYXRpb24ub3JnL2Jsb2cvMjAxMy8wNi9ob3ctdG8t
-Y3JlYXRlLWEtc3lzZnMtZmlsZS1jb3JyZWN0bHkvCldvdWxkIHRoaXMgYmUgd2hhdCB5b3Ugc3Vn
-Z2VzdCBmb3IgdXMgPyBTcGVjaWZpY2FsbHkgZm9yIG91ciBjYXNlIHRoZSBzdHJ1Y3QgCmRldmlj
-ZSdzwqAgZ3JvdXBzwqAgc2VlbXMgdGhlIHJpZ2h0IHNvbHV0aW9uIGFzIGRpZmZlcmVudCBkZXZp
-Y2VzCm1pZ2h0IGhhdmUgc2xpZ2h0bHkgZGlmZnJlZW50IHN5c2ZzIGF0dHJpYnV0ZXMuCgpBbmRy
-ZXkKCgo+Cj4gdGhhbmtzLAo+Cj4gZ3JlZyBrLWgKX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
-bGlzdGluZm8vZHJpLWRldmVsCg==
+On 09/11/2020 12:39, Laurent Pinchart wrote:
+> On Thu, Nov 05, 2020 at 02:03:10PM +0200, Tomi Valkeinen wrote:
+>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>
+>> This converts the DSI module to expect common drm_panel display
+>> drivers instead of dssdev based ones.
+>>
+>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 204 +++++++-----------
+>>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 133 ++++++++++--
+>>  .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |   1 -
+>>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |   8 -
+>>  4 files changed, 189 insertions(+), 157 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> index d9b3444b4faf..3668b3f0aff2 100644
+>> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>> @@ -6,8 +6,6 @@
+>>   * Author: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>   */
+>>  
+>> -/* #define DEBUG */
+>> -
+>>  #include <linux/backlight.h>
+>>  #include <linux/delay.h>
+>>  #include <linux/gpio/consumer.h>
+>> @@ -20,11 +18,14 @@
+>>  #include <linux/regulator/consumer.h>
+>>  
+>>  #include <drm/drm_connector.h>
+>> +#include <drm/drm_mipi_dsi.h>
+>> +#include <drm/drm_panel.h>
+>> +#include <drm/drm_modes.h>
+> 
+> Alphabetically ordered please.
+> 
+>>  
+>> +#include <video/display_timing.h>
+>>  #include <video/mipi_display.h>
+>>  #include <video/of_display_timing.h>
+>> -
+>> -#include "../dss/omapdss.h"
+>> +#include <video/videomode.h>
+>>  
+>>  #define DCS_READ_NUM_ERRORS	0x05
+>>  #define DCS_GET_ID1		0xda
+>> @@ -35,11 +36,8 @@
+>>  
+>>  struct panel_drv_data {
+>>  	struct mipi_dsi_device *dsi;
+>> -
+>> -	struct omap_dss_device dssdev;
+>> -	struct omap_dss_device *src;
+>> -
+>> -	struct videomode vm;
+>> +	struct drm_panel panel;
+>> +	struct drm_display_mode mode;
+>>  
+>>  	struct mutex lock;
+>>  
+>> @@ -71,7 +69,11 @@ struct panel_drv_data {
+>>  	bool ulps_enabled;
+>>  };
+>>  
+>> -#define to_panel_data(p) container_of(p, struct panel_drv_data, dssdev)
+>> +
+> 
+> A single blank line is enough.
+> 
+>> +static inline struct panel_drv_data *panel_to_ddata(struct drm_panel *panel)
+>> +{
+>> +	return container_of(panel, struct panel_drv_data, panel);
+>> +}
+>>  
+>>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable);
+>>  
+>> @@ -285,7 +287,6 @@ static void dsicm_hw_reset(struct panel_drv_data *ddata)
+>>  
+>>  static int dsicm_power_on(struct panel_drv_data *ddata)
+>>  {
+>> -	struct omap_dss_device *src = ddata->src;
+>>  	u8 id1, id2, id3;
+>>  	int r;
+>>  
+>> @@ -322,10 +323,6 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>>  	if (r)
+>>  		goto err;
+>>  
+>> -	r = src->ops->dsi.enable_video_output(src, ddata->dsi->channel);
+>> -	if (r)
+>> -		goto err;
+>> -
+>>  	ddata->enabled = true;
+>>  
+>>  	if (!ddata->intro_printed) {
+>> @@ -345,15 +342,12 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>>  	return r;
+>>  }
+>>  
+>> -static void dsicm_power_off(struct panel_drv_data *ddata)
+>> +static int dsicm_power_off(struct panel_drv_data *ddata)
+>>  {
+>> -	struct omap_dss_device *src = ddata->src;
+>>  	int r;
+>>  
+>>  	ddata->enabled = false;
+>>  
+>> -	src->ops->dsi.disable_video_output(src, ddata->dsi->channel);
+>> -
+>>  	r = mipi_dsi_dcs_set_display_off(ddata->dsi);
+>>  	if (!r)
+>>  		r = dsicm_sleep_in(ddata);
+>> @@ -363,51 +357,25 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
+>>  				"error disabling panel, issuing HW reset\n");
+>>  		dsicm_hw_reset(ddata);
+>>  	}
+>> -}
+>> -
+>> -static int dsicm_connect(struct omap_dss_device *src,
+>> -			 struct omap_dss_device *dst)
+>> -{
+>> -	struct panel_drv_data *ddata = to_panel_data(dst);
+>> -
+>> -	ddata->src = src;
+>> -	return 0;
+>> -}
+>> -
+>> -static void dsicm_disconnect(struct omap_dss_device *src,
+>> -			     struct omap_dss_device *dst)
+>> -{
+>> -	struct panel_drv_data *ddata = to_panel_data(dst);
+>>  
+>> -	ddata->src = NULL;
+>> +	return r;
+>>  }
+>>  
+>> -static void dsicm_pre_enable(struct omap_dss_device *dssdev)
+>> +static int dsicm_prepare(struct drm_panel *panel)
+>>  {
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> -	struct omap_dss_device *src = ddata->src;
+>> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>>  	int r;
+>> -	struct omap_dss_dsi_config dsi_config = {
+>> -		.vm = &ddata->vm,
+>> -		.hs_clk_min = 150000000,
+>> -		.hs_clk_max = 300000000,
+>> -		.lp_clk_min = 7000000,
+>> -		.lp_clk_max = 10000000,
+>> -	};
+>>  
+>>  	r = regulator_bulk_enable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+>>  	if (r)
+>>  		dev_err(&ddata->dsi->dev, "failed to enable supplies: %d\n", r);
+>>  
+>> -	r = src->ops->dsi.set_config(src, &dsi_config);
+>> -	if (r) {
+>> -		dev_err(&ddata->dsi->dev, "failed to configure DSI\n");
+>> -	}
+>> +	return r;
+>>  }
+>>  
+>> -static void dsicm_enable(struct omap_dss_device *dssdev)
+>> +static int dsicm_enable(struct drm_panel *panel)
+>>  {
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>>  	int r;
+>>  
+>>  	mutex_lock(&ddata->lock);
+>> @@ -420,33 +388,39 @@ static void dsicm_enable(struct omap_dss_device *dssdev)
+>>  
+>>  	dsicm_bl_power(ddata, true);
+>>  
+>> -	return;
+>> +	return 0;
+>>  err:
+>> -	dev_dbg(&ddata->dsi->dev, "enable failed (%d)\n", r);
+>> +	dev_err(&ddata->dsi->dev, "enable failed (%d)\n", r);
+>>  	mutex_unlock(&ddata->lock);
+>> +	return r;
+>> +}
+>> +
+>> +static int dsicm_unprepare(struct drm_panel *panel)
+>> +{
+>> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>> +	int r;
+>> +
+>> +	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+>> +	if (r)
+>> +		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
+>> +
+>> +	return r;
+>>  }
+>>  
+>> -static void dsicm_disable(struct omap_dss_device *dssdev)
+>> +static int dsicm_disable(struct drm_panel *panel)
+>>  {
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>> +	int r;
+>>  
+>>  	dsicm_bl_power(ddata, false);
+>>  
+>>  	mutex_lock(&ddata->lock);
+>>  
+>> -	dsicm_power_off(ddata);
+>> +	r = dsicm_power_off(ddata);
+>>  
+>>  	mutex_unlock(&ddata->lock);
+>> -}
+>> -
+>> -static void dsicm_post_disable(struct omap_dss_device *dssdev)
+>> -{
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> -	int r;
+>>  
+>> -	r = regulator_bulk_disable(DCS_REGULATOR_SUPPLY_NUM, ddata->supplies);
+>> -	if (r)
+>> -		dev_err(&ddata->dsi->dev, "failed to disable supplies: %d\n", r);
+>> +	return r;
+>>  }
+>>  
+>>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+>> @@ -465,50 +439,37 @@ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+>>  	return r;
+>>  }
+>>  
+>> -static int dsicm_get_modes(struct omap_dss_device *dssdev,
+>> +static int dsicm_get_modes(struct drm_panel *panel,
+>>  			   struct drm_connector *connector)
+>>  {
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> +	struct panel_drv_data *ddata = panel_to_ddata(panel);
+>> +	struct drm_display_mode *mode;
+>> +
+>> +	mode = drm_mode_duplicate(connector->dev, &ddata->mode);
+>> +	if (!mode) {
+>> +		dev_err(&ddata->dsi->dev, "failed to add mode %ux%ux@%u kHz\n",
+>> +			ddata->mode.hdisplay, ddata->mode.vdisplay,
+>> +			ddata->mode.clock);
+>> +		return -ENOMEM;
+>> +	}
+>> +
+>> +	drm_mode_set_name(mode);
+>> +	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
+>>  
+>>  	connector->display_info.width_mm = ddata->width_mm;
+>>  	connector->display_info.height_mm = ddata->height_mm;
+>>  
+>> -	return omapdss_display_get_modes(connector, &ddata->vm);
+>> -}
+>> -
+>> -static int dsicm_check_timings(struct omap_dss_device *dssdev,
+>> -			       struct drm_display_mode *mode)
+>> -{
+>> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
+>> -	int ret = 0;
+>> -
+>> -	if (mode->hdisplay != ddata->vm.hactive)
+>> -		ret = -EINVAL;
+>> -
+>> -	if (mode->vdisplay != ddata->vm.vactive)
+>> -		ret = -EINVAL;
+>> +	drm_mode_probed_add(connector, mode);
+>>  
+>> -	if (ret) {
+>> -		dev_warn(dssdev->dev, "wrong resolution: %d x %d",
+>> -			 mode->hdisplay, mode->vdisplay);
+>> -		dev_warn(dssdev->dev, "panel resolution: %d x %d",
+>> -			 ddata->vm.hactive, ddata->vm.vactive);
+>> -	}
+>> -
+>> -	return ret;
+>> +	return 1;
+>>  }
+>>  
+>> -static const struct omap_dss_device_ops dsicm_ops = {
+>> -	.connect	= dsicm_connect,
+>> -	.disconnect	= dsicm_disconnect,
+>> -
+>> -	.pre_enable	= dsicm_pre_enable,
+>> -	.enable		= dsicm_enable,
+>> -	.disable	= dsicm_disable,
+>> -	.post_disable	= dsicm_post_disable,
+>> -
+>> -	.get_modes	= dsicm_get_modes,
+>> -	.check_timings	= dsicm_check_timings,
+>> +static const struct drm_panel_funcs dsicm_panel_funcs = {
+>> +	.unprepare = dsicm_unprepare,
+>> +	.disable = dsicm_disable,
+>> +	.prepare = dsicm_prepare,
+>> +	.enable = dsicm_enable,
+>> +	.get_modes = dsicm_get_modes,
+>>  };
+>>  
+>>  static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+>> @@ -517,8 +478,12 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+>>  	struct backlight_device *backlight;
+>>  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+>>  	struct display_timing timing;
+>> +	struct videomode vm = { 0 };
+> 
+> How about
+> 
+> 	struct videomode vm = {
+> 		.hactive = 864,
+> 		.vactive = 480,
+> 	};
+> 
+>>  	int err;
+>>  
+>> +	vm.hactive = 864;
+>> +	vm.vactive = 480;
+>> +
+>>  	ddata->reset_gpio = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+>>  	if (IS_ERR(ddata->reset_gpio)) {
+>>  		err = PTR_ERR(ddata->reset_gpio);
+>> @@ -528,15 +493,16 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+>>  
+>>  	err = of_get_display_timing(node, "panel-timing", &timing);
+>>  	if (!err) {
+>> -		videomode_from_timing(&timing, &ddata->vm);
+>> -		if (!ddata->vm.pixelclock)
+>> -			ddata->vm.pixelclock =
+>> -				ddata->vm.hactive * ddata->vm.vactive * 60;
+>> +		videomode_from_timing(&timing, &vm);
+>>  	} else {
+>>  		dev_warn(&dsi->dev,
+>>  			 "failed to get video timing, using defaults\n");
+>>  	}
+>>  
+>> +	if (!vm.pixelclock)
+>> +		vm.pixelclock = vm.hactive * vm.vactive * 60;
+>> +	drm_display_mode_from_videomode(&vm, &ddata->mode);
+>> +
+>>  	ddata->width_mm = 0;
+>>  	of_property_read_u32(node, "width-mm", &ddata->width_mm);
+>>  
+>> @@ -570,7 +536,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  	struct panel_drv_data *ddata;
+>>  	struct backlight_device *bldev = NULL;
+>>  	struct device *dev = &dsi->dev;
+>> -	struct omap_dss_device *dssdev;
+>>  	int r;
+>>  
+>>  	dev_dbg(dev, "probe\n");
+>> @@ -582,30 +547,17 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  	mipi_dsi_set_drvdata(dsi, ddata);
+>>  	ddata->dsi = dsi;
+>>  
+>> -	ddata->vm.hactive = 864;
+>> -	ddata->vm.vactive = 480;
+>> -	ddata->vm.pixelclock = 864 * 480 * 60;
+>> -
+>>  	r = dsicm_probe_of(dsi);
+>>  	if (r)
+>>  		return r;
+>>  
+>> -	dssdev = &ddata->dssdev;
+>> -	dssdev->dev = dev;
+>> -	dssdev->ops = &dsicm_ops;
+>> -	dssdev->type = OMAP_DISPLAY_TYPE_DSI;
+>> -	dssdev->display = true;
+>> -	dssdev->owner = THIS_MODULE;
+>> -	dssdev->of_port = 0;
+>> -	dssdev->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
+>> -
+>> -	omapdss_display_init(dssdev);
+>> -	omapdss_device_register(dssdev);
+>> -
+>>  	mutex_init(&ddata->lock);
+>>  
+>>  	dsicm_hw_reset(ddata);
+>>  
+>> +	drm_panel_init(&ddata->panel, dev, &dsicm_panel_funcs,
+>> +		       DRM_MODE_CONNECTOR_DSI);
+>> +
+>>  	if (ddata->use_dsi_backlight) {
+>>  		struct backlight_properties props = { 0 };
+>>  		props.max_brightness = 255;
+>> @@ -637,6 +589,8 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  	if (ddata->ulps_enabled)
+>>  		dsi->mode_flags |= MIPI_DSI_MODE_ULPS_IDLE;
+>>  
+>> +	drm_panel_add(&ddata->panel);
+>> +
+>>  	r = mipi_dsi_attach(dsi);
+>>  	if (r < 0)
+>>  		goto err_dsi_attach;
+>> @@ -644,6 +598,7 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  	return 0;
+>>  
+>>  err_dsi_attach:
+>> +	drm_panel_remove(&ddata->panel);
+>>  	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
+>>  err_bl:
+>>  	if (ddata->extbldev)
+>> @@ -655,15 +610,12 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+>>  static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+>>  {
+>>  	struct panel_drv_data *ddata = mipi_dsi_get_drvdata(dsi);
+>> -	struct omap_dss_device *dssdev = &ddata->dssdev;
+>>  
+>>  	dev_dbg(&dsi->dev, "remove\n");
+>>  
+>>  	mipi_dsi_detach(dsi);
+>>  
+>> -	omapdss_device_unregister(dssdev);
+>> -
+>> -	omapdss_device_disconnect(ddata->src, dssdev);
+>> +	drm_panel_remove(&ddata->panel);
+>>  
+>>  	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
+>>  
+>> @@ -677,7 +629,7 @@ static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
+>>  }
+>>  
+>>  static const struct of_device_id dsicm_of_match[] = {
+>> -	{ .compatible = "omapdss,panel-dsi-cm", },
+>> +	{ .compatible = "panel-dsi-cm", },
+>>  	{},
+>>  };
+>>  
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> index 620cef8bb1f2..a1a867a7d91d 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> @@ -36,6 +36,7 @@
+>>  #include <linux/sys_soc.h>
+>>  
+>>  #include <drm/drm_mipi_dsi.h>
+>> +#include <drm/drm_panel.h>
+>>  #include <video/mipi_display.h>
+>>  
+>>  #include "omapdss.h"
+>> @@ -217,6 +218,8 @@ static int dsi_vc_send_null(struct dsi_data *dsi, int channel);
+>>  static ssize_t _omap_dsi_host_transfer(struct dsi_data *dsi,
+>>  				       const struct mipi_dsi_msg *msg);
+>>  
+>> +static void dsi_display_disable(struct omap_dss_device *dssdev);
+>> +
+> 
+> Could you reorder functions to avoid forward-declarations ? This can be
+> done on top if it generates annoying conflicts.
+> 
+>>  /* DSI PLL HSDIV indices */
+>>  #define HSDIV_DISPC	0
+>>  #define HSDIV_DSI	1
+>> @@ -383,6 +386,7 @@ struct dsi_data {
+>>  	bool te_enabled;
+>>  	bool ulps_enabled;
+>>  	bool ulps_auto_idle;
+>> +	bool video_enabled;
+>>  
+>>  	struct delayed_work ulps_work;
+>>  
+>> @@ -423,6 +427,8 @@ struct dsi_data {
+>>  
+>>  	unsigned int scp_clk_refcount;
+>>  
+>> +	struct omap_dss_dsi_config config;
+>> +
+>>  	struct dss_lcd_mgr_config mgr_config;
+>>  	struct videomode vm;
+>>  	enum mipi_dsi_pixel_format pix_fmt;
+>> @@ -3622,7 +3628,7 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
+>>  	return 0;
+>>  }
+>>  
+>> -static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>> +static void dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>>  {
+>>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>>  	int bpp = mipi_dsi_pixel_format_to_bpp(dsi->pix_fmt);
+>> @@ -3631,8 +3637,10 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>>  	int r;
+>>  
+>>  	r = dsi_display_init_dispc(dsi);
+>> -	if (r)
+>> -		return r;
+>> +	if (r) {
+>> +		dev_err(dsi->dev, "failed to init dispc!\n");
+>> +		return;
+>> +	}
+>>  
+>>  	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE) {
+>>  		switch (dsi->pix_fmt) {
+>> @@ -3672,7 +3680,7 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>>  	if (r)
+>>  		goto err_mgr_enable;
+>>  
+>> -	return 0;
+>> +	return;
+>>  
+>>  err_mgr_enable:
+>>  	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE) {
+>> @@ -3681,7 +3689,8 @@ static int dsi_enable_video_output(struct omap_dss_device *dssdev, int channel)
+>>  	}
+>>  err_pix_fmt:
+>>  	dsi_display_uninit_dispc(dsi);
+>> -	return r;
+>> +	dev_err(dsi->dev, "failed to enable DSI encoder!\n");
+>> +	return;
+>>  }
+>>  
+>>  static void dsi_disable_video_output(struct omap_dss_device *dssdev, int channel)
+>> @@ -3704,6 +3713,25 @@ static void dsi_disable_video_output(struct omap_dss_device *dssdev, int channel
+>>  	dsi_display_uninit_dispc(dsi);
+>>  }
+>>  
+>> +static void dsi_disable_video_outputs(struct omap_dss_device *dssdev)
+>> +{
+>> +	struct dsi_data *dsi = to_dsi_data(dssdev);
+>> +	int i;
+>> +
+>> +	dsi_bus_lock(dsi);
+>> +	dsi->video_enabled = false;
+>> +
+>> +	for (i = 0; i < 3; i++) {
+>> +		if (!dsi->vc[i].dest)
+>> +			continue;
+>> +		dsi_disable_video_output(dssdev, i);
+>> +	}
+>> +
+>> +	dsi_display_disable(dssdev);
+>> +
+>> +	dsi_bus_unlock(dsi);
+>> +}
+>> +
+>>  static void dsi_update_screen_dispc(struct dsi_data *dsi)
+>>  {
+>>  	unsigned int bytespp;
+>> @@ -3897,6 +3925,11 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int channel)
+>>  
+>>  	dsi_bus_lock(dsi);
+>>  
+>> +	if (!dsi->video_enabled) {
+>> +		r = -EIO;
+>> +		goto err;
+>> +	}
+>> +
+>>  	if (!dsi->vc[channel].dest) {
+>>  		r = -ENODEV;
+>>  		goto err;
+>> @@ -3942,7 +3975,7 @@ static int dsi_update_all(struct omap_dss_device *dssdev)
+>>  
+>>  	for (i = 0; i < 4; i++) {
+>>  		r = dsi_update_channel(dssdev, i);
+>> -		if (r != -ENODEV)
+>> +		if (r && r != -ENODEV)
+> 
+> Does this belong to this patch ? I haven't flagged it when reviwing the
+> patch that introduced this code, assuming that you meant to exit from
+> the loop once a channel with a client is found, given that we don't
+> support multiple clients. In any case this should be coordinated with
+> dsi_enable_video_outputs() and dsi_disable_video_outputs(), all should
+> stop on the first client, or loop over all clients.
+
+Yes, it should be in an earlier patch.
+
+I think this code needs more work, but in any case this change belongs to the patch that added
+dsi_update_all.
+
+>> @@ -5057,6 +5138,10 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+>>  
+>>  	dsi_bus_lock(dsi);
+>>  
+>> +	panel = of_drm_find_panel(client->dev.of_node);
+>> +	if (IS_ERR(panel))
+>> +		return PTR_ERR(panel);
+> 
+> Is it intended that the panel isn't used ?
+
+I think it's left over code. I'll drop.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
