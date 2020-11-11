@@ -2,64 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52292AEA89
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A562AEA98
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:56:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EC5189F63;
-	Wed, 11 Nov 2020 07:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C090A89F8E;
+	Wed, 11 Nov 2020 07:55:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4314F89BBE
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 06:18:58 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id j5so442984plk.7
- for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 22:18:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=Zz+u4O/ExV+I0XfrOYfMwrWHftV4MOlXgA3EL9hIHsg=;
- b=Pw4a1V3nK4X2DgxHAQTdRmNKbd1BmJuxzNI33tTM8sIXZTP8qajX3ww4DaPPdFo6Zs
- 5K09iJmEHBSCQeWWkFgm1Kdw94Lntwqu29hIgeB9q5TcfhzffDjNRF91zjtINBTnbBau
- fTjqe//5KYelMUFY+/ziAiHibl5AyvjTV+nKbiI3UNVy4omo3Z0iw25Yu0f3sGCVv13Q
- RfsqZ11ODtWL/A6yfCI8eBLJ3ndC1X9lI1YrBO+uIvqt1xHD4VEkDElC5Txxt+/arELA
- eTxq92w5zzdCAnEdx70ezELIxdZfJQKNBEMXwxTWa1u/BMYHRGpcWR9hIm0FaCV9vG3f
- IRbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=Zz+u4O/ExV+I0XfrOYfMwrWHftV4MOlXgA3EL9hIHsg=;
- b=PHmdzZrArfVDDYY+HN8OpkNcQFqy9ngkcZbKSxC/v2z9uiwoGqXu94szfNR9RmnPDm
- 0dBIt5T/dnJ69sw4xNLLJlkceq5dzwx48MPm6wwrq3l8/OahH49IG5x1MbvnWujkZeDe
- ha1e8KfGB7CoIOw9W0rNeUX15Da/YXXCBwHLrmz3LrMypilP0+jJH0hfR77Z79xXEJV8
- ZY4Jwa77NUZR81XTZfGkbpY0sdIN8CGdGrP9hPnThlh7CWS3e5xt8xkNi/c/sCIX2s3O
- HdfVRYhjTpbVp18gGI4Aa8drttp0djLNDkeDYbSB8B7OAs0/TRpzc9EA4f15laLbk1HM
- fcPA==
-X-Gm-Message-State: AOAM5316nWTkx1etbdxXuF5nA3uC8wbU/Tw471Nk4N/FiFdEqF/ktYJ2
- k37mZSJU6fvRj1Ncna+4VSMvFw==
-X-Google-Smtp-Source: ABdhPJx2Np21K4nEJMcurse4ukZe7jVo8P4Kg57gCpQvT0frJjcTL8LmeWw4PX37zBAzAgIYqahjpQ==
-X-Received: by 2002:a17:902:59cf:b029:d7:e216:9260 with SMTP id
- d15-20020a17090259cfb02900d7e2169260mr11119815plj.74.1605075537774; 
- Tue, 10 Nov 2020 22:18:57 -0800 (PST)
-Received: from localhost ([122.172.12.172])
- by smtp.gmail.com with ESMTPSA id j19sm1091459pfd.189.2020.11.10.22.18.56
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 10 Nov 2020 22:18:57 -0800 (PST)
-Date: Wed, 11 Nov 2020 11:48:55 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 09/26] memory: tegra30: Support interconnect framework
-Message-ID: <20201111061855.2azilyhfoxwzpoir@vireshk-i7>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-10-digetx@gmail.com>
- <20201111055313.tefidnmc7f4yb3jk@vireshk-i7>
- <185e9140-fdce-29ef-68c3-aa7da02b249d@gmail.com>
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A89F689F08
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 06:41:07 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605076868; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=G5QF7G064HtJTosA44a0rDZ6QvsJzebmYGAGLkBClkA=;
+ b=TA59BrsAuPgCEdWedsj9TvrXI+KE5h10Q/J91uP1ZiNTdFVMoeIZS8PUja2qiDZaiSgadR+H
+ /sKyiQoxtPIT7Ug9Zt7V2Sg1+dR7c4xSRz5RZAkxHmm3/WAKJuf+eAZYiF8edfu8uHwVSuvi
+ eFgKPnftErOWCWJjEPKwmiG7OqM=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5fab8774b8c6a84a5cc8519a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 11 Nov 2020 06:40:52
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id CFC18C43385; Wed, 11 Nov 2020 06:40:51 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B0E68C433C8;
+ Wed, 11 Nov 2020 06:40:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <185e9140-fdce-29ef-68c3-aa7da02b249d@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Date: Wed, 11 Nov 2020 12:10:50 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCHv7 2/7] iommu/arm-smmu: Add domain attribute for system
+ cache
+In-Reply-To: <20201110121835.GC16239@willie-the-truck>
+References: <cover.1604048969.git.saiprakash.ranjan@codeaurora.org>
+ <a4e454630e57aedd9da6a4ba40c8e1c415bb6836.1604048969.git.saiprakash.ranjan@codeaurora.org>
+ <20201110121835.GC16239@willie-the-truck>
+Message-ID: <b12284cce40225274c3b2d9aff7eed3a@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Wed, 11 Nov 2020 07:54:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,41 +67,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, "Kristian H .
+ Kristensen" <hoegsberg@google.com>, Robin Murphy <robin.murphy@arm.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEtMTEtMjAsIDA5OjE0LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gMTEuMTEuMjAyMCAw
-ODo1MywgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gPj4gK3N0YXRpYyBpbnQgdGVncmFfZW1j
-X29wcF90YWJsZV9pbml0KHN0cnVjdCB0ZWdyYV9lbWMgKmVtYykKPiA+PiArewo+ID4+ICsJc3Ry
-dWN0IG9wcF90YWJsZSAqcmVnX29wcF90YWJsZSA9IE5VTEwsICpjbGtfb3BwX3RhYmxlLCAqaHdf
-b3BwX3RhYmxlOwo+ID4+ICsJdTMyIGh3X3ZlcnNpb24gPSBCSVQodGVncmFfc2t1X2luZm8uc29j
-X3NwZWVkb19pZCk7Cj4gPj4gKwljb25zdCBjaGFyICpybmFtZSA9ICJjb3JlIjsKPiA+PiArCWlu
-dCBlcnI7Cj4gPj4gKwo+ID4+ICsJLyoKPiA+PiArCSAqIExlZ2FjeSBkZXZpY2UtdHJlZXMgZG9u
-J3QgaGF2ZSBPUFAgdGFibGUgYW5kIEVNQyBkcml2ZXIgaXNuJ3QKPiA+PiArCSAqIHVzZWZ1bCBp
-biB0aGlzIGNhc2UuCj4gPj4gKwkgKi8KPiA+PiArCWlmICghZGV2aWNlX3Byb3BlcnR5X3ByZXNl
-bnQoZW1jLT5kZXYsICJvcGVyYXRpbmctcG9pbnRzLXYyIikpIHsKPiA+IEkgZG9uJ3QgdW5kZXJz
-dGFuZCB3aHkgeW91IHdhbnQgdG8gY2hlY2sgdGhpcyA/IFRoZSBiZWxvdyBjYWxsIHRvCj4gPiBk
-ZXZfcG1fb3BwX29mX2FkZF90YWJsZSgpIHdpbGwgZmFpbCBhbnl3YXkgYW5kIHRoYXQgc2hvdWxk
-IGJlIGdvb2QgZm9yCj4gPiB5b3UuCj4gPiAKPiAKPiBUaGUgZGV2X3BtX29wcF9vZl9hZGRfdGFi
-bGUoKSB3aWxsIHByb2R1Y2UgYSBlcnJvciBtZXNzYWdlIHdoaWNoIGRvZXNuJ3QKPiBnaXZlIGEg
-Y2x1ZSBhYm91dCB3aGF0J3Mgd3JvbmcsIGkuZS4gdGhhdCBkZXZpY2UtdHJlZSBuZWVkcyB0byBi
-ZSB1cGRhdGVkLgoKSWYgeW91IHRoaW5rIHRoYXQgeW91IG5lZWQgdG8gcHJpbnQgc29tZXRoaW5n
-IG1vcmUsIHRoZW4geW91IGNhbiBkbwp0aGF0IGluIHRoZSBlcnJvciBtZXNzYWdlIHlvdSBwcmlu
-dCB3aGVuIGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKCkKZmFpbHMuIEkgd291bGQgc3VnZ2VzdCB0
-byBkcm9wIHRoaXMgcmVkdW5kYW50IGNoZWNrIGhlcmUuCgotLSAKdmlyZXNoCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2020-11-10 17:48, Will Deacon wrote:
+> On Fri, Oct 30, 2020 at 02:53:09PM +0530, Sai Prakash Ranjan wrote:
+>> Add iommu domain attribute for using system cache aka last level
+>> cache by client drivers like GPU to set right attributes for caching
+>> the hardware pagetables into the system cache.
+>> 
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/iommu/arm/arm-smmu/arm-smmu.c | 17 +++++++++++++++++
+>>  drivers/iommu/arm/arm-smmu/arm-smmu.h |  1 +
+>>  include/linux/iommu.h                 |  1 +
+>>  3 files changed, 19 insertions(+)
+>> 
+>> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c 
+>> b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>> index b1cf8f0abc29..070d13f80c7e 100644
+>> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+>> @@ -789,6 +789,9 @@ static int arm_smmu_init_domain_context(struct 
+>> iommu_domain *domain,
+>>  	if (smmu_domain->non_strict)
+>>  		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_NON_STRICT;
+>> 
+>> +	if (smmu_domain->sys_cache)
+>> +		pgtbl_cfg.quirks |= IO_PGTABLE_QUIRK_SYS_CACHE;
+>> +
+>>  	pgtbl_ops = alloc_io_pgtable_ops(fmt, &pgtbl_cfg, smmu_domain);
+>>  	if (!pgtbl_ops) {
+>>  		ret = -ENOMEM;
+>> @@ -1520,6 +1523,9 @@ static int arm_smmu_domain_get_attr(struct 
+>> iommu_domain *domain,
+>>  		case DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE:
+>>  			*(int *)data = smmu_domain->non_strict;
+>>  			return 0;
+>> +		case DOMAIN_ATTR_SYS_CACHE:
+>> +			*((int *)data) = smmu_domain->sys_cache;
+>> +			return 0;
+>>  		default:
+>>  			return -ENODEV;
+>>  		}
+>> @@ -1551,6 +1557,17 @@ static int arm_smmu_domain_set_attr(struct 
+>> iommu_domain *domain,
+>>  			else
+>>  				smmu_domain->stage = ARM_SMMU_DOMAIN_S1;
+>>  			break;
+>> +		case DOMAIN_ATTR_SYS_CACHE:
+>> +			if (smmu_domain->smmu) {
+>> +				ret = -EPERM;
+>> +				goto out_unlock;
+>> +			}
+>> +
+>> +			if (*((int *)data))
+>> +				smmu_domain->sys_cache = true;
+>> +			else
+>> +				smmu_domain->sys_cache = false;
+>> +			break;
+>>  		default:
+>>  			ret = -ENODEV;
+>>  		}
+>> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h 
+>> b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+>> index 885840f3bec8..dfc44d806671 100644
+>> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
+>> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+>> @@ -373,6 +373,7 @@ struct arm_smmu_domain {
+>>  	struct mutex			init_mutex; /* Protects smmu pointer */
+>>  	spinlock_t			cb_lock; /* Serialises ATS1* ops and TLB syncs */
+>>  	struct iommu_domain		domain;
+>> +	bool				sys_cache;
+>>  };
+>> 
+>>  struct arm_smmu_master_cfg {
+>> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+>> index b95a6f8db6ff..4f4bb9c6f8f6 100644
+>> --- a/include/linux/iommu.h
+>> +++ b/include/linux/iommu.h
+>> @@ -118,6 +118,7 @@ enum iommu_attr {
+>>  	DOMAIN_ATTR_FSL_PAMUV1,
+>>  	DOMAIN_ATTR_NESTING,	/* two stages of translation */
+>>  	DOMAIN_ATTR_DMA_USE_FLUSH_QUEUE,
+>> +	DOMAIN_ATTR_SYS_CACHE,
+> 
+> I think you're trying to make this look generic, but it's really not.
+> If we need to funnel io-pgtable quirks through domain attributes, then 
+> I
+> think we should be open about that and add something like
+> DOMAIN_ATTR_IO_PGTABLE_CFG which could take a struct of page-table
+> configuration data for the domain (this could just be quirks initially,
+> but maybe it's worth extending to take ias, oas and page size)
+> 
+
+Actually the initial versions used DOMAIN_ATTR_QCOM_SYS_CACHE
+to make it QCOM specific and not generic, I don't see anyone else
+using this attribute, would that work?
+
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
