@@ -2,56 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447162AF4CD
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 16:35:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4272AF553
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 16:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D8F789F5B;
-	Wed, 11 Nov 2020 15:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67B786E077;
+	Wed, 11 Nov 2020 15:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE4589F5B
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 15:35:11 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFYtC8124138;
- Wed, 11 Nov 2020 09:34:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605108895;
- bh=2RhOWohEcsqdzfZEt+iVGXI4cM46M51taVBcvWG9wbo=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=JUiwfr4ZuHf6VQkFyF9XJPRoUvSZeB8yN09BuLeUW6vPj6k9/QIqMPIRM5fwEXJjt
- uZa5ulEyR/qKemkJ+sq8kR5auK42LyS3AFtrl/X6X8ZWnobsgfj4GnzfwSfkapP4rk
- vnLfw0zcxOYBglDhzON5dZOmOEZk9CurCo6sewNI=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABFYtvL108954
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 09:34:55 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 09:34:55 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 09:34:55 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABFYrtO073869;
- Wed, 11 Nov 2020 09:34:53 -0600
-Subject: Re: [PATCH v3 30/56] drm/omap: dsi: move panel refresh function to
- host
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <20201105120333.947408-31-tomi.valkeinen@ti.com>
- <20201109101003.GA6029@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <6118c70e-6dc5-2d87-fc68-266cd3eeb66c@ti.com>
-Date: Wed, 11 Nov 2020 17:34:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201109101003.GA6029@pendragon.ideasonboard.com>
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2041.outbound.protection.outlook.com [40.107.94.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DAC36E06B;
+ Wed, 11 Nov 2020 15:45:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=POk0g5PbcAowophlM0oxhXOBp/FYFGv7laxZ18Fm8OVT/J82dSickaKFWQUUSzqcAnHXQ7+IqZHh9r8NWSPxvT8ZKjWnZ11tzBqSc3jXwH6fbIi/ntHvVHBj7/3oP3p6NslAeaSxDpnzoFFdYDoLPi+dwb22V7crhDOA0W08LcJOQW9GY6Pzmnwnuhh4G1UcgPNVhzqUjQwSLN9jkvbv8ajTM1lY3BqwyttyLkj1ui+6dS1tUb+W5nt44s+zTYfWLecesi4gU0moAyOqbYjIVGPdPiZooP83iJuGkbMkVOMDvt6v0tQ2aOZwlX8N/HcJEz3OmVaFhR5iFjdOqFXppQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Igox5tioXOB5NxU8v8Lf7nzFUQOk7+Lesj8jzFj+bQ=;
+ b=HJlwsSP02v7XK5/DQs9yrCI3aPekFcB8rn1F7L7UB1YcGvS9QLGH3ydsZefNka3KA4elue3RfFyp6cWKeMLLgWzkkfbWwhkOgmF31hP3kYvYgiLmOvMqh8wjt0V07AS7Sx6ZBKMCxjltXWHuPUFoQlCl17QdBhlpZad1PERjozpN9L3yKfNeyH83BjFXYcKulFNOyZ35bzjVp8ZQ0bT2dq20VqA0ggm459w9jXlZB2lWmJ8cRd+Jiw7lAdQxB9iHsbt4EKfvYYUnjZ2KO1FjLPj7wWwh40likZSs1GYcEIeV/d43gE+CSrFLXa25xAZ9eWpSlWGgNrh53eoow8R30g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Igox5tioXOB5NxU8v8Lf7nzFUQOk7+Lesj8jzFj+bQ=;
+ b=GTrOF4W2uZ1nUttHW29dP3Pt70VMnjo4I/9UyosOSsUpeZabMPt8eEXjf/OOGPrIQ2xAVGUKvWc29CP+0rFzJH6WTcVQxzUZJeYratbS8HuKLFPT8IxLiVnSK1/u8GUHvjfMkepf2zl5pEDO1j6l6QhjxF2GNBwM4nFifcIyq7c=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
+ DM5PR12MB1658.namprd12.prod.outlook.com (2603:10b6:4:5::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21; Wed, 11 Nov 2020 15:45:56 +0000
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3541.021; Wed, 11 Nov 2020
+ 15:45:56 +0000
+Subject: Re: [PATCH v2 5/8] drm/amdgpu: Refactor sysfs removal
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20200622112139.GA3421602@kroah.com>
+ <fdaebe5b-3930-66d6-4f62-3e59e515e3da@amd.com>
+ <20200622164551.GA112181@kroah.com>
+ <4787b2a9-e7bf-ea3c-02e9-484a4fcb4742@amd.com>
+ <20200623060532.GB3818201@kroah.com>
+ <090c5a35-3088-d6d0-dcaf-5ce5542a4298@amd.com>
+ <20200624061153.GA933050@kroah.com>
+ <c864c559-71f4-08a5-f692-3f067a9a32f8@amd.com> <X6rU6lKDCyl6RN+V@kroah.com>
+ <9db66134-0690-0972-2312-9d9155a0c5d8@amd.com> <X6wEbtSDm69gzFbR@kroah.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <dc348560-907c-1b7e-a836-7dea4017d4e4@amd.com>
+Date: Wed, 11 Nov 2020 10:45:53 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <X6wEbtSDm69gzFbR@kroah.com>
 Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Originating-IP: [2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
+X-ClientProxiedBy: BN8PR15CA0014.namprd15.prod.outlook.com
+ (2603:10b6:408:c0::27) To DM6PR12MB4340.namprd12.prod.outlook.com
+ (2603:10b6:5:2a8::7)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2607:fea8:3edf:49b0:7416:506d:efb6:9c79]
+ (2607:fea8:3edf:49b0:7416:506d:efb6:9c79) by
+ BN8PR15CA0014.namprd15.prod.outlook.com (2603:10b6:408:c0::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 15:45:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: c1f1895a-56df-4383-a3b7-08d88658e0ea
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1658:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1658F562D1FC34164B75A965EAE80@DM5PR12MB1658.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1013;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Vvi+ClhcAmpzMUAyBFKP43edD3BBmzy9hwpx3cmrySSqD8VvIE3VUwNs+NQ0hK1XkGif4sSUUDEMfTz+t/eaXKxFkprZCuOcZo/O0NDrl2DSfcoQZZnfLIDPLfHdP/7HBcn7jD0I5UGagYjolL1mgsf2k5/MyvyR1CsG0BPDU4yo0ptCrvqvfLpmPjAIzTZogBgIQEEFDhuSdhlbBajYJQgDhvjjE1UpZ5hOx/J2NpMjcL4wx6Oxrw0StmrLScRhxn8cRHdQnDV3hjBvIYFaSnVQec0OsSnVCUFSuuJsgsijgGqb/8tUU3eayx8Q83QSPOQEkHjn30b/YWXgLlrCZzPX/3o1bA7hq24vc63xnToNAUJCLT8C2Wq6EAGLMV6LuIrgiuu77c7BTJ29t2QBpbSoZM9fkt5eOs+qgBOL4zdGrMmJm1LUpoKfH6KjldZOMjjEcmjaVQuEcbh73EuuWA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(376002)(346002)(396003)(39860400002)(136003)(36756003)(2616005)(2906002)(8676002)(8936002)(478600001)(53546011)(186003)(16526019)(6916009)(52116002)(31696002)(66556008)(31686004)(5660300002)(66476007)(45080400002)(6486002)(316002)(66946007)(86362001)(4326008)(83380400001)(966005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WFBSTGhvZW9YeVBLKzFTb2JPcWxmZlhkc0hqNDkvTDJ6ZXg3YkJoN0FGdVNW?=
+ =?utf-8?B?VnJ4c0NMREFUbTl2ekp0TUF3c0RDYVNtTTJrOWh0U2ZUVSswNDZPODE0ZCt1?=
+ =?utf-8?B?Yk9GUDFpSEZYejZwZnZvaGxQNFFMelBxcVloOU9ZSmJQVGc1ZEtUcXJmWnpZ?=
+ =?utf-8?B?ZGhPekpqK2xPTWR2L1pNM0FXaGtsNnU1Ri9ERzRkWVgvcVdrUms2VmZnUDlp?=
+ =?utf-8?B?aXFoK2dSUU13WTZmcFd2Y3psbmVRRWNwVjNaQ2M0TjNoQ2Vab3ZSUW8rMktI?=
+ =?utf-8?B?M2RlZ2IxczFaV0VWRjFRME8yTks0cjFrTjhwcEdLWmkya25UOUhiQTc2V200?=
+ =?utf-8?B?cFhKNjQ2eXl4OTZiRlVQakdRTWZHcmhaOTV4Nk50ckxJSDhXRW4wYUlIVDNY?=
+ =?utf-8?B?d25PQ2kvbFhqb3YySEduMHZCeVJoMWt0eElwd1UyZ3RUakhIQmg1K1ZuSnRQ?=
+ =?utf-8?B?ZGs3UjZySlFoUVlYMjU4VFlrNVJTTnE3ZkRjd0ZCLzNZUEtBejNrc1VTZlNv?=
+ =?utf-8?B?bWx0NmlOLzFJZ2Y3dGs4d1JhT0ZLOXVvcmw1bXBZOHA4ckx5YVY3YUg0aXJu?=
+ =?utf-8?B?WExEWUFWSGFLWUNxNFR2MmFWT3dmbkNjVG40VEtRdUwxa0IxNy9kMDFzbXNr?=
+ =?utf-8?B?MWxiZ1VUN0JnNjFhUk5KRHZPVDBkT0pzNE9qWjVRUUtRRlIvTFhXNElzR242?=
+ =?utf-8?B?ajNQeVhxcm9RWHVoZ2UwczRlT1ViUTV2MEVnQ1hBQVhuR1NXLy9pUUVORUZG?=
+ =?utf-8?B?blQ1blh0Q1VrdWREVlgwQmlNNHJQKzk5Z29nbzUyLzlSYlh0N3c0S3ZJaGlC?=
+ =?utf-8?B?M2UxZUpPVUsxNm0yUEdQWmlvdVh5RlNyVG1teTZYU0hsOTBqVzJJMzBQLzRl?=
+ =?utf-8?B?Q09rU2p4SDdPR1Y2cU5paTFleDFHbWZrM0lNZmtGTjZ2NUlsN3A0cFkzZm1a?=
+ =?utf-8?B?aTVSczBKbE0xdzZzRFhsczRPVzE4R3IxZEp0M0lHQVB5RzVpZ05aR3NKT2NU?=
+ =?utf-8?B?dzllWktkMnlOZHJzckR1dW92cjdNSDg3SmdheWFNajR4SFVJU2V1cTF5dmVN?=
+ =?utf-8?B?WjV3aG5Yc1lPWE5vNjBVb05CeStYREhESUtMODNLTVZDSS8yNGJKdG5JSXlZ?=
+ =?utf-8?B?a0ViUVVqOXhadVh6bjVuMjlTb0haMjV3cThkK0tXZ2N1K3Z1cUJVNnlNcG1T?=
+ =?utf-8?B?ZlpmMmlrTGYxU1dRczJyN0w5U20vWnpldzZ3d1VTNnlPT3dWRGpHeEdmREVS?=
+ =?utf-8?B?cWcyZGNvZ3JmeHA1QzFTZGc3MTY4NFdycWF5ZngwcytoYmZpZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1f1895a-56df-4383-a3b7-08d88658e0ea
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 15:45:56.3006 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L/buMgDhRswgIOEHehIlKnMlB8pDNdzM2RGLNn5A4ruYswfPwO3s41d+XzA2B3VvJZID5C83mX0vZexCT/d7bg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1658
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,307 +125,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>,
- "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/11/2020 12:10, Laurent Pinchart wrote:
-> Hi Tomi and Sebastian,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Nov 05, 2020 at 02:03:07PM +0200, Tomi Valkeinen wrote:
->> From: Sebastian Reichel <sebastian.reichel@collabora.com>
->>
->> This moves the panel refresh/update function from the panel
->> driver into the DSI host driver to prepare for common drm_panel
->> support.
->>
->> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> ---
->>  .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   |  68 ------------
->>  drivers/gpu/drm/omapdrm/dss/dsi.c             | 101 ++++++++++++++++--
->>  drivers/gpu/drm/omapdrm/dss/omapdss.h         |  13 +--
->>  drivers/gpu/drm/omapdrm/omap_crtc.c           |  11 +-
->>  4 files changed, 97 insertions(+), 96 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> index 030a8fa140db..1582960f9e90 100644
->> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
->> @@ -177,27 +177,6 @@ static int dsicm_get_id(struct panel_drv_data *ddata, u8 *id1, u8 *id2, u8 *id3)
->>  	return 0;
->>  }
->>  
->> -static int dsicm_set_update_window(struct panel_drv_data *ddata,
->> -		u16 x, u16 y, u16 w, u16 h)
->> -{
->> -	struct mipi_dsi_device *dsi = ddata->dsi;
->> -	int r;
->> -	u16 x1 = x;
->> -	u16 x2 = x + w - 1;
->> -	u16 y1 = y;
->> -	u16 y2 = y + h - 1;
->> -
->> -	r = mipi_dsi_dcs_set_column_address(dsi, x1, x2);
->> -	if (r < 0)
->> -		return r;
->> -
->> -	r = mipi_dsi_dcs_set_page_address(dsi, y1, y2);
->> -	if (r < 0)
->> -		return r;
->> -
->> -	return 0;
->> -}
->> -
-> 
-> I can't tell whether this is common to all command-mode panels, or if
-> there could be a need for panel-specific update procedures, so I can't
-> really ack this patch.
-
-I can't say either, but all the command mode panels I know need and support this. And, afaik, we
-have only the single cmd mode panel driver which we add in this series.
-
->>  static int dsicm_bl_update_status(struct backlight_device *dev)
->>  {
->>  	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
->> @@ -470,48 +449,6 @@ static void dsicm_disable(struct omap_dss_device *dssdev)
->>  	mutex_unlock(&ddata->lock);
->>  }
->>  
->> -static void dsicm_framedone_cb(int err, void *data)
->> -{
->> -	struct panel_drv_data *ddata = data;
->> -
->> -	dev_dbg(&ddata->dsi->dev, "framedone, err %d\n", err);
->> -	mutex_unlock(&ddata->lock);
->> -}
->> -
->> -static int dsicm_update(struct omap_dss_device *dssdev,
->> -				    u16 x, u16 y, u16 w, u16 h)
->> -{
->> -	struct panel_drv_data *ddata = to_panel_data(dssdev);
->> -	struct omap_dss_device *src = ddata->src;
->> -	int r;
->> -
->> -	dev_dbg(&ddata->dsi->dev, "update %d, %d, %d x %d\n", x, y, w, h);
->> -
->> -	mutex_lock(&ddata->lock);
->> -
->> -	if (!ddata->enabled) {
->> -		r = 0;
->> -		goto err;
->> -	}
->> -
->> -	/* XXX no need to send this every frame, but dsi break if not done */
->> -	r = dsicm_set_update_window(ddata, 0, 0, ddata->vm.hactive,
->> -				    ddata->vm.vactive);
->> -	if (r)
->> -		goto err;
->> -
->> -	r = src->ops->dsi.update(src, ddata->dsi->channel, dsicm_framedone_cb,
->> -			ddata);
->> -	if (r)
->> -		goto err;
->> -
->> -	/* note: no unlock here. unlock is src framedone_cb */
->> -	return 0;
->> -err:
->> -	mutex_unlock(&ddata->lock);
->> -	return r;
->> -}
->> -
->>  static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
->>  {
->>  	struct mipi_dsi_device *dsi = ddata->dsi;
->> @@ -572,10 +509,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
->>  	.check_timings	= dsicm_check_timings,
->>  };
->>  
->> -static const struct omap_dss_driver dsicm_dss_driver = {
->> -	.update		= dsicm_update,
->> -};
->> -
->>  static int dsicm_probe_of(struct mipi_dsi_device *dsi)
->>  {
->>  	struct device_node *node = dsi->dev.of_node;
->> @@ -658,7 +591,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
->>  	dssdev = &ddata->dssdev;
->>  	dssdev->dev = dev;
->>  	dssdev->ops = &dsicm_ops;
->> -	dssdev->driver = &dsicm_dss_driver;
->>  	dssdev->type = OMAP_DISPLAY_TYPE_DSI;
->>  	dssdev->display = true;
->>  	dssdev->owner = THIS_MODULE;
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> index 0f264654792d..0aa0d21cf896 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
->> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
->> @@ -214,6 +214,9 @@ static void dsi_display_uninit_dispc(struct dsi_data *dsi);
->>  
->>  static int dsi_vc_send_null(struct dsi_data *dsi, int channel);
->>  
->> +static ssize_t _omap_dsi_host_transfer(struct dsi_data *dsi,
->> +				       const struct mipi_dsi_msg *msg);
->> +
->>  /* DSI PLL HSDIV indices */
->>  #define HSDIV_DISPC	0
->>  #define HSDIV_DSI	1
->> @@ -383,9 +386,6 @@ struct dsi_data {
->>  
->>  	struct delayed_work ulps_work;
->>  
->> -	void (*framedone_callback)(int, void *);
->> -	void *framedone_data;
->> -
->>  	struct delayed_work framedone_timeout_work;
->>  
->>  #ifdef DSI_CATCH_MISSING_TE
->> @@ -3802,8 +3802,6 @@ static void dsi_handle_framedone(struct dsi_data *dsi, int error)
->>  	dsi_set_ulps_auto(dsi, true);
->>  	dsi_bus_unlock(dsi);
->>  
->> -	dsi->framedone_callback(error, dsi->framedone_data);
->> -
->>  	if (!error)
->>  		dsi_perf_show(dsi, "DISPC");
->>  }
->> @@ -3835,6 +3833,8 @@ static void dsi_framedone_irq_callback(void *data)
->>  
->>  	cancel_delayed_work(&dsi->framedone_timeout_work);
->>  
->> +	DSSDBG("Framedone received!\n");
->> +
->>  	dsi_handle_framedone(dsi, 0);
->>  }
->>  
->> @@ -3856,17 +3856,69 @@ static int _dsi_update(struct dsi_data *dsi)
->>  	return 0;
->>  }
->>  
->> -static int dsi_update(struct omap_dss_device *dssdev, int channel,
->> -		void (*callback)(int, void *), void *data)
->> +static int _dsi_update_window(struct dsi_data *dsi, int channel,
->> +			      int x, int y, int w, int h)
->> +{
->> +	int x1 = x, x2 = (x + w - 1);
->> +	int y1 = y, y2 = (y + h - 1);
->> +	u8 payloadX[5] = { MIPI_DCS_SET_COLUMN_ADDRESS,
->> +			   x1 >> 8, x1 & 0xff, x2 >> 8, x2 & 0xff };
->> +	u8 payloadY[5] = { MIPI_DCS_SET_PAGE_ADDRESS,
->> +			   y1 >> 8, y1 & 0xff, y2 >> 8, y2 & 0xff };
->> +	struct mipi_dsi_msg msgX = { 0 }, msgY = { 0 };
->> +	int ret;
->> +
->> +	WARN_ON(!dsi_bus_is_locked(dsi));
->> +
->> +	msgX.type = MIPI_DSI_DCS_LONG_WRITE;
->> +	msgX.channel = channel;
->> +	msgX.tx_buf = payloadX;
->> +	msgX.tx_len = sizeof(payloadX);
->> +
->> +	msgY.type = MIPI_DSI_DCS_LONG_WRITE;
->> +	msgY.channel = channel;
->> +	msgY.tx_buf = payloadY;
->> +	msgY.tx_len = sizeof(payloadY);
->> +
->> +	ret = _omap_dsi_host_transfer(dsi, &msgX);
->> +	if (ret != 0)
->> +		return ret;
->> +
->> +	return _omap_dsi_host_transfer(dsi, &msgY);
->> +}
->> +
->> +static int dsi_update_channel(struct omap_dss_device *dssdev, int channel)
->>  {
->>  	struct dsi_data *dsi = to_dsi_data(dssdev);
->> +	int r;
->> +
->> +	if (channel > 3)
->> +		return -EINVAL;
->>  
->>  	dsi_bus_lock(dsi);
->> +
->> +	if (!dsi->vc[channel].dest) {
->> +		r = -ENODEV;
->> +		goto err;
->> +	}
->> +
->> +	if (dsi->vm.hactive == 0 || dsi->vm.vactive == 0) {
->> +		r = -EINVAL;
->> +		goto err;
->> +	}
->> +
->> +	DSSDBG("dsi_update_channel: %d", channel);
->> +
->>  	dsi_set_ulps_auto(dsi, false);
->>  
->> +	r = _dsi_update_window(dsi, channel, 0, 0, dsi->vm.hactive,
->> +			       dsi->vm.vactive);
->> +	if (r < 0) {
->> +		DSSWARN("window update error: %d\n", r);
->> +		goto err;
->> +	}
->> +
->>  	dsi->update_channel = channel;
->> -	dsi->framedone_callback = callback;
->> -	dsi->framedone_data = data;
->>  
->>  	if (dsi->te_enabled && dsi->te_gpio) {
->>  		schedule_delayed_work(&dsi->te_timeout_work,
->> @@ -3877,6 +3929,24 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
->>  	}
->>  
->>  	return 0;
->> +
->> +err:
->> +	dsi_set_ulps_auto(dsi, true);
->> +	dsi_bus_unlock(dsi);
->> +	return r;
->> +}
->> +
->> +static int dsi_update_all(struct omap_dss_device *dssdev)
->> +{
->> +	int i, r;
-> 
-> i should be unsigned as it's never negative.
-> 
->> +
->> +	for (i = 0; i < 4; i++) {
->> +		r = dsi_update_channel(dssdev, i);
->> +		if (r != -ENODEV)
->> +			return r;
->> +	}
->> +
->> +	return r;
->>  }
->>  
->>  /* Display funcs */
->> @@ -4095,7 +4165,9 @@ static void dsi_display_enable(struct omap_dss_device *dssdev)
->>  {
->>  	struct dsi_data *dsi = to_dsi_data(dssdev);
->>  	DSSDBG("dsi_display_enable\n");
->> +	dsi_bus_lock(dsi);
-> 
-> Why is the lock needed here now ? Should it be part of a previous patch
-> ? Or, if I'm missing something, should the commit message explain this ?
-> Same for the other locations below.
-
-Yes, the locking should've been done in earlier patch. I moved them.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDExLzExLzIwIDEwOjM0IEFNLCBHcmVnIEtIIHdyb3RlOgo+IE9uIFdlZCwgTm92IDExLCAy
+MDIwIGF0IDEwOjEzOjEzQU0gLTA1MDAsIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+PiBPbiAx
+MS8xMC8yMCAxMjo1OSBQTSwgR3JlZyBLSCB3cm90ZToKPj4+IE9uIFR1ZSwgTm92IDEwLCAyMDIw
+IGF0IDEyOjU0OjIxUE0gLTA1MDAsIEFuZHJleSBHcm9kem92c2t5IHdyb3RlOgo+Pj4+IEhpLCBi
+YWNrIHRvIHRoaXMgYWZ0ZXIgYSBsb25nIGNvbnRleHQgc3dpdGNoIGZvciBzb21lIGhpZ2hlciBw
+cmlvcml0eSBzdHVmZi4KPj4+Pgo+Pj4+IFNvIGhlcmUgSSB3YXMgYWJsZSBldmVudHVhbGx5IHRv
+IGRyb3AgYWxsIHRoaXMgY29kZSBhbmQgdGhpcyBjaGFuZ2UgaGVyZSBodHRwczovL25hbTExLnNh
+ZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29tLz91cmw9aHR0cHM6JTJGJTJGY2dpdC5mcmVl
+ZGVza3RvcC5vcmclMkZ+YWdyb2R6b3YlMkZsaW51eCUyRmNvbW1pdCUyRiUzRmglM0RhbWQtc3Rh
+Z2luZy1kcm0tbmV4dC1kZXZpY2UtdW5wbHVnJTI2aWQlM0Q2MTg1MmM4YTU5YjRkZDg5ZDYzNzY5
+MzU1MmM3MzE3NWI5ZjJjY2Q2JmFtcDtkYXRhPTA0JTdDMDElN0NBbmRyZXkuR3JvZHpvdnNreSU0
+MGFtZC5jb20lN0M5ZmJmZWNhYzk0YTM0MGRmYjY4NDA4ZDg4NjU3MTYwOSU3QzNkZDg5NjFmZTQ4
+ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDcwNTU4OTY2NTEwNTglN0NVbmtu
+b3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpvaVYybHVNeklpTENK
+QlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9WWU4SEpSMXZpZHBw
+Y09CbmxPZ1Z1NUd3S0QyJTJCYjV6dEhiaUklMkJ1YktLVDAlM0QmYW1wO3Jlc2VydmVkPTAKPj4+
+PiB3YXMgZW5vdWdoIGZvciBtZS4gU2VlbXMgbGlrZSB3aGlsZSBkZXZpY2VfcmVtb3ZlX2ZpbGUg
+Y2FuIGhhbmRsZSB0aGUgdXNlCj4+Pj4gY2FzZSB3aGVyZSB0aGUgZmlsZSBhbmQgdGhlIHBhcmVu
+dCBkaXJlY3RvcnkgYWxyZWFkeSBnb25lLAo+Pj4+IHN5c2ZzX3JlbW92ZV9ncm91cCBnb2VzIGRv
+d24gaW4gZmxhbWVzIGluIHRoYXQgY2FzZQo+Pj4+IGR1ZSB0byBrb2JqLT5zZCBiZWluZyB1bnNl
+dCBvbiBkZXZpY2UgcmVtb3ZhbC4KPj4+IEEgZHJpdmVyIHNob3VsZG4ndCBldmVyIGhhdmUgdG8g
+cmVtb3ZlIGluZGl2aWR1YWwgc3lzZnMgZ3JvdXBzLCB0aGUKPj4+IGRyaXZlciBjb3JlL2J1cyBs
+b2dpYyBzaG91bGQgZG8gaXQgZm9yIHRoZW0gYXV0b21hdGljYWxseS4KPj4+Cj4+PiBBbmQgd2hl
+bmV2ZXIgYSBkcml2ZXIgY2FsbHMgYSBzeXNmc18qIGNhbGwsIHRoYXQncyBhIGhpbnQgdGhhdCBz
+b21ldGhpbmcKPj4+IGlzIG5vdCB3b3JraW5nIHByb3Blcmx5Lgo+Pgo+Pgo+PiBEbyB5b3UgbWVh
+biB0aGF0IHdoaWxlIHRoZSBkcml2ZXIgY3JlYXRlcyB0aGUgZ3JvdXBzIGFuZCBmaWxlcyBleHBs
+aWNpdGx5Cj4+IGZyb20gaXQncyBkaWZmZXJlbnQgc3Vic3lzdGVtcyBpdCBzaG91bGQgbm90IGV4
+cGxpY2l0bHkgcmVtb3ZlIGVhY2gKPj4gb25lIG9mIHRoZW0gYmVjYXVzZSBhbGwgb2YgdGhlbSBz
+aG91bGQgYmUgcmVtb3ZlZCBhdCBvbmNlIChhbmQKPj4gcmVjdXJzaXZlbHkpIHdoZW4gdGhlIGRl
+dmljZSBpcyBiZWluZyByZW1vdmVkID8KPiBJbmRpdmlkdWFsIGRyaXZlcnMgc2hvdWxkIG5ldmVy
+IGFkZCBncm91cHMvZmlsZXMgaW4gc3lzZnMsIHRoZSBkcml2ZXIKPiBjb3JlIHNob3VsZCBkbyBp
+dCBwcm9wZXJseSBmb3IgeW91IGlmIHlvdSBoYXZlIGV2ZXJ5dGhpbmcgc2V0IHVwCj4gcHJvcGVy
+bHkuICBBbmQgeWVzLCB0aGUgZHJpdmVyIGNvcmUgd2lsbCBhdXRvbWF0aWNhbGx5IHJlbW92ZSB0
+aGVtIGFzCj4gd2VsbC4KPgo+IFBsZWFzZSB1c2UgdGhlIGRlZmF1bHQgZ3JvdXBzIGF0dHJpYnV0
+ZSBmb3IgeW91ciBidXMvc3Vic3lzdGVtIGFuZCB0aGlzCj4gd2lsbCBoYXBwZW4gYXV0b21hZ2lj
+YWxseS4KCkdvb2dsaW5nIGZvciBkZWZhdWx0IGdyb3VwcyBhdHRyaWJ1dGVzIGkgZm91bmQgdGhp
+cyAtIApodHRwczovL3d3dy5saW51eGZvdW5kYXRpb24ub3JnL2Jsb2cvMjAxMy8wNi9ob3ctdG8t
+Y3JlYXRlLWEtc3lzZnMtZmlsZS1jb3JyZWN0bHkvCldvdWxkIHRoaXMgYmUgd2hhdCB5b3Ugc3Vn
+Z2VzdCBmb3IgdXMgPyBTcGVjaWZpY2FsbHkgZm9yIG91ciBjYXNlIHRoZSBzdHJ1Y3QgCmRldmlj
+ZSdzwqAgZ3JvdXBzwqAgc2VlbXMgdGhlIHJpZ2h0IHNvbHV0aW9uIGFzIGRpZmZlcmVudCBkZXZp
+Y2VzCm1pZ2h0IGhhdmUgc2xpZ2h0bHkgZGlmZnJlZW50IHN5c2ZzIGF0dHJpYnV0ZXMuCgpBbmRy
+ZXkKCgo+Cj4gdGhhbmtzLAo+Cj4gZ3JlZyBrLWgKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
