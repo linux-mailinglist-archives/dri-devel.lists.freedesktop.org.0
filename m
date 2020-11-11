@@ -1,54 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BDD92AED9B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 10:26:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EB912AEDB5
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 10:29:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FAA6E02C;
-	Wed, 11 Nov 2020 09:26:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 115C66E04A;
+	Wed, 11 Nov 2020 09:29:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
- [209.85.208.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687146E02C
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:26:24 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id t11so1504753edj.13
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 01:26:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OdzB/jIicwSRsIBqe3je5Z5qz8YP6pSQHD6SoGClZyc=;
- b=nnPGhkRRS5D59wrA26umaomaUyj65nEocLEmHQTitsYO6MFcUabozorkv6KEznO24P
- CsrDhjLmLqQgm2VKlqRK4EyP/N4LWeCT4rwKQFC0VmRwRErK7L3VcQTQ1z1dR1Ahpunz
- Pwv+SP10woX/Y0yJ8ijNqw0PTXeCgPyKm+BlGZf4r46Iz5ECWOR/y6PkjLVR+Df9YHYt
- IXD4EJI3Z5agaA9rCNcxgZpW/hBvMx4PlMI5Cy9D43fM85CKQwN4XLtI8DypOliO3+2m
- XsWFO0KtAB/66/gtPeJmVcXVZGTpMRYygaa3JELzOoF7zUnL6oJKgPR4LSlgyckZ37jf
- z9tg==
-X-Gm-Message-State: AOAM531FoL7BdGy2tE5mJbgPLxxtww581PJ63JbSrqqDTJqTlRz9Ib/o
- NnmM+KeotRSlk20SI2AMkcE=
-X-Google-Smtp-Source: ABdhPJwycZxm4vB3dtSk1cfv3vSWVxzMWnM8OiFZHVme5ZFG51Ffl5xHG5HC9WEEjJoIIV42kr7DPQ==
-X-Received: by 2002:a05:6402:b02:: with SMTP id
- bm2mr24912274edb.299.1605086782978; 
- Wed, 11 Nov 2020 01:26:22 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id k4sm639339edq.73.2020.11.11.01.26.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Nov 2020 01:26:21 -0800 (PST)
-Date: Wed, 11 Nov 2020 10:26:19 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 11/26] memory: tegra124-emc: Make driver modular
-Message-ID: <20201111092619.GD4050@kozik-lap>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-12-digetx@gmail.com>
- <20201111090434.GB4050@kozik-lap>
- <f44b64f5-6b08-5f1e-4f9b-a73a1705d493@gmail.com>
+Received: from userp2120.oracle.com (userp2120.oracle.com [156.151.31.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD0ED6E04A
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 09:29:06 +0000 (UTC)
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB99meS132651;
+ Wed, 11 Nov 2020 09:28:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=5jkDrh9VUno5wDztTu7VDqalYM6QsS2FNOf4jWeicfM=;
+ b=KF1FscfSPqR/jGnEnLVwcEnqGoTHFz4Z2rOgEGN8IMIFxCLnarNmEf6yLZt+ubgc38ju
+ FF6+4F5J68sfFBDifPqGnH5V3uPfk4w6FD5FUr0QS2M/Zdgwq3QISc6uHMw4K+crIWBZ
+ ONnZvtCoT0yED3aryMEFwF8QMGQ8kCWuXGE+ZzejvBwaV98VPCaKj4q8/Jm2eCyVb7sS
+ 0immoY8DntMHZsgAYS5RiANXtfW+vb+GUtthRzQTWbtXxy8A/ct0GwGlCNpnAmiN35xV
+ +MFF8KI2mIgs2JJHTTFMaUrCEPh7GBQi8YyI0SPwXnsO/TJHMLq8dD9Hgr9flHokCiDv Zg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 34p72ep4py-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 11 Nov 2020 09:28:56 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AB9BEYR035947;
+ Wed, 11 Nov 2020 09:28:55 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 34p55pqrs2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 11 Nov 2020 09:28:55 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AB9Sllj029705;
+ Wed, 11 Nov 2020 09:28:47 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 11 Nov 2020 01:28:47 -0800
+Date: Wed, 11 Nov 2020 12:28:32 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+Message-ID: <20201111092832.GI29398@kadam>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-12-digetx@gmail.com>
+ <20201110202945.GF2375022@ulmo>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f44b64f5-6b08-5f1e-4f9b-a73a1705d493@gmail.com>
+In-Reply-To: <20201110202945.GF2375022@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ spamscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011110051
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9801
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999 mlxscore=0
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011110051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,63 +81,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ linux-pwm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, Adrian Hunter <adrian.hunter@intel.com>,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMTEsIDIwMjAgYXQgMTI6MTc6MzdQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
-IHdyb3RlOgo+IDExLjExLjIwMjAgMTI6MDQsIEtyenlzenRvZiBLb3psb3dza2kg0L/QuNGI0LXR
-gjoKPiA+PiAtb2JqLSQoQ09ORklHX1RFR1JBMTI0X0VNQykJCSs9IGNsay10ZWdyYTEyNC1lbWMu
-bwo+ID4+ICtvYmotJChDT05GSUdfQVJDSF9URUdSQV8xMjRfU09DKQkrPSBjbGstdGVncmExMjQt
-ZW1jLm8KPiA+PiArb2JqLSQoQ09ORklHX0FSQ0hfVEVHUkFfMTMyX1NPQykJKz0gY2xrLXRlZ3Jh
-MTI0LWVtYy5vCj4gPiBIb3cgaXMgaXQgcmVsYXRlZCB0byBtb2R1bGFyaXphdGlvbj8gSXQgbG9v
-a3MgbGlrZSBkaWZmZXJlbnQgaXNzdWUgaXMKPiA+IGZpeGVkIGhlcmUuCj4gCj4gVGhlIENPTkZJ
-R19URUdSQTEyNF9FTUMgbm93IGNvdWxkIGJlICdtJywgd2hpbGUgdGhlIGNsb2NrIGNvZGUgbXVz
-dCBiZQo+IGJ1aWx0LWluLiBUaGUgVEVHUkExMjQgRU1DIGRyaXZlciBpcyB1c2VkIGJ5IFQxMjQg
-YW5kIFQxMzIgU29Dcy5cCgpNaG1tLCAgdGhlIENPTkZJR19URUdSQTEyNF9FTUMgZGVwZW5kcyBv
-biBBUkNIX1RFR1JBXzEyNF9TT0Mgc28gb24gdGhlCmNvbmZpZyAhQVJDSF9URUdSQV8xMjRfU09D
-ICYmIEFSQ0hfVEVHUkFfMTMyX1NPQyB0aGlzIHdhcyBub3QKc2VsZWN0ZWQuIE5vdyBpdCB3aWxs
-IGJlIHNlbGVjdGVkLgoKPiAKPiAuLi4KPiA+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9jbGsvdGVn
-cmEvY2xrLmggYi9kcml2ZXJzL2Nsay90ZWdyYS9jbGsuaAo+ID4+IGluZGV4IDZiNTY1ZjZiNWY2
-Ni4uMmRhN2M5M2MxYTZjIDEwMDY0NAo+ID4+IC0tLSBhL2RyaXZlcnMvY2xrL3RlZ3JhL2Nsay5o
-Cj4gPj4gKysrIGIvZHJpdmVycy9jbGsvdGVncmEvY2xrLmgKPiA+PiBAQCAtODgxLDE4ICs4ODEs
-NiBAQCB2b2lkIHRlZ3JhX3N1cGVyX2Nsa19nZW41X2luaXQodm9pZCBfX2lvbWVtICpjbGtfYmFz
-ZSwKPiA+PiAgCQkJdm9pZCBfX2lvbWVtICpwbWNfYmFzZSwgc3RydWN0IHRlZ3JhX2NsayAqdGVn
-cmFfY2xrcywKPiA+PiAgCQkJc3RydWN0IHRlZ3JhX2Nsa19wbGxfcGFyYW1zICpwbGxfcGFyYW1z
-KTsKPiA+PiAgCj4gPj4gLSNpZmRlZiBDT05GSUdfVEVHUkExMjRfRU1DCj4gPj4gLXN0cnVjdCBj
-bGsgKnRlZ3JhX2Nsa19yZWdpc3Rlcl9lbWModm9pZCBfX2lvbWVtICpiYXNlLCBzdHJ1Y3QgZGV2
-aWNlX25vZGUgKm5wLAo+ID4+IC0JCQkJICAgc3BpbmxvY2tfdCAqbG9jayk7Cj4gPj4gLSNlbHNl
-Cj4gPj4gLXN0YXRpYyBpbmxpbmUgc3RydWN0IGNsayAqdGVncmFfY2xrX3JlZ2lzdGVyX2VtYyh2
-b2lkIF9faW9tZW0gKmJhc2UsCj4gPj4gLQkJCQkJCSBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wLAo+
-ID4+IC0JCQkJCQkgc3BpbmxvY2tfdCAqbG9jaykKPiA+PiAtewo+ID4+IC0JcmV0dXJuIE5VTEw7
-Cj4gPj4gLX0KPiA+PiAtI2VuZGlmCj4gPiBXaHkgY2xvY2sgY2hhbmdlcyBhcmUgc28gdGlnaHRs
-eSBjb3VwbGVkIHdpdGggbWFraW5nIGFuIEVNQyBkcml2ZXIKPiA+IG1vZHVsYXI/IFVzdWFsbHkg
-dGhpcyBzaG91bGQgYmUgYSBzZXBhcmF0ZSBjaGFuZ2UgLSB5b3UgYWRqdXN0IGFueQo+ID4gZGVw
-ZW5kZW5jaWVzIHRvIGFjY2VwdCBsYXRlIG9yIGRlZmVycmVkIHByb2JpbmcsIGV4cG9ydGVkIHN5
-bWJvbHMsCj4gPiBsb29zZW4gdGhlIGNvdXBsaW5nIGJldHdlZW4gZHJpdmVycywgZXRjLiBhbmQg
-dGhlbiB5b3UgY29udmVydCBzb21ldGhpbmcKPiA+IHRvIG1vZHVsZS4KPiAKPiBCZWNhdXNlIHRo
-ZSBjbG9jayBhbmQgRU1DIGRyaXZlciB3ZXJlIG5vdCBzZXBhcmF0ZWQgZnJvbSBlYWNoIG90aGVy
-Cj4gcHJldmlvdXNseS4gVGhlIGNsb2NrIHBhcnQgY2FuJ3QgYmUgbW9kdWxhcml6ZWQgZWFzaWx5
-IGFuZCBwcm9iYWJseQo+IHNob3VsZG4ndC4KPiAKPiBJJ20gbm90IHN1cmUgd2hldGhlciBpdCdz
-IGFjdHVhbGx5IHBvc3NpYmxlIHRvIHNwbGl0IHRoaXMgcGF0Y2ggd2l0aG91dAo+IHRha2luZyBh
-IGNsb3NlciBhIGxvb2suCj4gCj4gSSdtIGFsc28gZG91YnQgdGhhdCBpdCB3b3VsZCByZWFsbHkg
-d29ydGggdGhlIGVmZm9ydCBmb3IgYSAxMDAgbGluZXMgb2YKPiBhIGNoYW5nZWQgY29kZS4KCklu
-ZGVlZCwgdGhlIGNsayBhbmQgZW1jIGRyaXZlcnMgYXJlIHNvIHRpZ2h0bHkgY291cGxlZCB0aGF0
-IGFueXdheSBpdAp3b3VsZCBiZSBiaWcgcGF0Y2ggdG8gY2hhbmdlIHRoZSBpbnRlcmZhY2VzIGZv
-bGxvd2VkIHVwIGEgc21hbGwgb25lCm1ha2luZyBlbWMgbW9kdWxlLiBPSy4KCkJlc3QgcmVnYXJk
-cywKS3J6eXN6dG9mCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On Tue, Nov 10, 2020 at 09:29:45PM +0100, Thierry Reding wrote:
+> > +	err = dev_pm_opp_of_add_table(dc->dev);
+> > +	if (err) {
+> > +		dev_err(dc->dev, "failed to add OPP table: %d\n", err);
+> > +		goto put_hw;
+> > +	}
+> > +
+> > +	err = devm_add_action(dc->dev, tegra_dc_deinit_opp_table, dc);
+> > +	if (err)
+> > +		goto remove_table;
+> 
+> Do these functions return positive values? If not, I'd prefer if this
+> check was more explicit (i.e. err < 0) for consistency with the rest of
+> this code.
+> 
+
+Isn't it the other way around?  It's only when the check is explicitly
+for "if (ret < 0)" that we have to wonder about positives. If the codes
+says "if (ret)" then we know that it doesn't return positive values and
+every non-zero is an error.
+
+In the kernel "if (ret)" is way more popular than "if (ret < 0)":
+
+    $ git grep 'if (\(ret\|rc\|err\))' | wc -l
+    92927
+    $ git grep 'if (\(ret\|rc\|err\) < 0)' | wc -l
+    36577
+
+And some of those are places where "ret" can be positive so we are
+forced to use the "if (ret < 0)" format.
+
+Checking for "if (ret)" is easier from a static analysis perspective.
+If it's one style is used consistently then they're the same but when
+there is a mismatch the "if (ret < 0) " will trigger a false positive
+and the "if (ret) " will not.
+
+	int var;
+
+	ret = frob(&var);
+	if (ret < 0)
+		return ret;
+
+Smatch thinks positive returns are not handled so it complains that
+"var can be uninitialized".
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
