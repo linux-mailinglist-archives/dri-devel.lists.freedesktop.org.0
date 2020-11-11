@@ -1,73 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61BC82AEE8B
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 11:12:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC1B2AEEA4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 11:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEFB289D64;
-	Wed, 11 Nov 2020 10:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB5189EB4;
+	Wed, 11 Nov 2020 10:18:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0576B89D64
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 10:11:56 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABABmZI013422;
- Wed, 11 Nov 2020 04:11:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605089508;
- bh=ltywXhht6ufNJ4Cvh/un4MkCq4XNdNh93Qgaq7wqRGI=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=gmu2FnHvQ+9kEqTkKaZX5zB3DBUkM+qR5sLWjJIUsmfFdQWiGiAuaEq5Q8at9QbDW
- hzURMh1mEORnLS0Inq8dIv073z4QPt7JHzWYgxRCCY0QaxXXLSWA0WyVPqtIPq50lE
- I1XPLVWyOyP1S0o8DUEM14PnPvxK0hA5GkTM1wvo=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABABmKb014502
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 04:11:48 -0600
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 04:11:47 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 04:11:47 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABABjQM112141;
- Wed, 11 Nov 2020 04:11:45 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
- <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
- <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
- <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
- <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
- <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
- <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
- <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@! ti.com>
- <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <5bd687c4-fff9-0381-a811-d4019cacf7e9@ti.com>
-Date: Wed, 11 Nov 2020 12:11:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B5689EB4
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 10:18:12 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1kcnCc-0007WQ-QQ; Wed, 11 Nov 2020 11:18:10 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <mtr@pengutronix.de>)
+ id 1kcnCa-0004L6-H0; Wed, 11 Nov 2020 11:18:08 +0100
+Date: Wed, 11 Nov 2020 11:18:08 +0100
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Inki Dae <inki.dae@samsung.com>
+Subject: Re: [PATCH v2 00/16] drm/exynos: Convert driver to drm bridge
+Message-ID: <20201111101808.GA16630@pengutronix.de>
+References: <CGME20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29@epcas1p3.samsung.com>
+ <20200911135413.3654800-1-m.tretter@pengutronix.de>
+ <fa535450-cd68-415f-5c48-a4f753b2b70b@samsung.com>
+ <20201110081336.GB13669@pengutronix.de>
+ <fd177674-b22e-6743-9886-5590ccade2f5@samsung.com>
+ <c56586b0-f616-6a57-3628-5840a99f6c1a@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <CA791A57-9B35-42A4-95FD-3792C4F83048@goldelico.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <c56586b0-f616-6a57-3628-5840a99f6c1a@samsung.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-IRC: #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:17:33 up 265 days, 17:48, 92 users,  load average: 0.20, 0.28,
+ 0.27
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,63 +60,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+ narmstrong@baylibre.com, b.zolnierkie@samsung.com, sw0312.kim@samsung.com,
+ krzk@kernel.org, a.hajda@samsung.com, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, sylvester.nawrocki@gmail.com,
+ Laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/11/2020 09:48, H. Nikolaus Schaller wrote:
-> 
->> Am 11.11.2020 um 07:40 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> On 10/11/2020 23:04, H. Nikolaus Schaller wrote:
->>>
->>>> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>>>
->>>> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
->>>>
->>>> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
->>>> there finding good clocks.
->>>
->>
->> drm_display_mode.clock is in kHz, but the panel driver writes Hz (w677l_PIXELCLOCK) to it.
-> 
-> Ok, fixing this removes the stuck thread issue. Thanks for pointing this out!
-> 
->> But
->> there's more after fixing that. The DSI gets configured in bridge's modeset, which I think is before
->> w677l_prepare where the panel already sends DSI commands. Also, the dsi driver fails to lock the
->> PLL, so possibly the clock calcs are still wrong.
-> 
-> What I now get is
-> 
-> [  131.035006] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CRTC:55:crtc-0] flip_done timed out
-> [  141.272174] [drm:drm_atomic_helper_wait_for_dependencies [drm_kms_helper]] *ERROR* [CONNECTOR:54:DSI-1] flip_done timed out
-> 
-> I think for further experiments we could hack the device tree to compatible = "orisetech,otm8009a";
-> and configure for panel-orisetech-otm8009a.ko. Since this panel driver is known to work elsewhere
-> we could exclude panel driver issues for the moment. To be safe we can modify otm8009a_dcs_write_buf()
-> to just print what it would be doing.
-
-I pushed some quick fixes/hacks to:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/tomba/linux.git 5.11/dsi
-
-At least I get the DSI PLL configured, and kmstest --flip works with 60 fps.
-I'm pretty sure the panel won't work yet, though.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCAxMSBOb3YgMjAyMCAxMjoxMToxNSArMDkwMCwgSW5raSBEYWUgd3JvdGU6Cj4gMjAu
+IDExLiAxMS4g7Jik7ZuEIDEyOjA07JeQIElua2kgRGFlIOydtCjqsIApIOyTtCDquIA6Cj4gPiAy
+MC4gMTEuIDEwLiDsmKTtm4QgNToxM+yXkCBNaWNoYWVsIFRyZXR0ZXIg7J20KOqwgCkg7JO0IOq4
+gDoKPiA+PiBPbiBNb24sIDA5IE5vdiAyMDIwIDEyOjE1OjM5ICswOTAwLCBJbmtpIERhZSB3cm90
+ZToKPiA+Pj4gMjAuIDkuIDExLiDsmKTtm4QgMTA6NTPsl5AgTWljaGFlbCBUcmV0dGVyIOydtCjq
+sIApIOyTtCDquIA6Cj4gPj4+PiBUaGlzIGlzIHYyIG9mIHRoZSBzZXJpZXMgdG8gY29udmVydCB0
+aGUgRXh5bm9zIE1JUEkgRFNJIGRyaXZlciBpbnRvIGEgZHJtCj4gPj4+PiBicmlkZ2UgYW5kIG1h
+a2UgaXQgdXNhYmxlIHdpdGggb3RoZXIgZHJpdmVycy4gQWx0aG91Z2ggdGhlIGRyaXZlciBpcwo+
+ID4+Pj4gY29udmVydGVkLCBpdCBzdGlsbCBzdXBwb3J0cyB0aGUgY29tcG9uZW50IGZyYW1ld29y
+ayBBUEkgdG8gc3RheSBjb21wbGlhbnQKPiA+Pj4+IHdpdGggdGhlIEV4eW5vcyBEUk0gZHJpdmVy
+Lgo+ID4+Pj4KPiA+Pj4+IFRoZSBFeHlub3MgTUlQSSBEU0kgUGh5IGlzIGFsc28gZm91bmQgb24g
+dGhlIGkuTVg4TSBNaW5pLiBIb3dldmVyLCBvbiB0aGUKPiA+Pj4+IGkuTVg4TSBNaW5pLCB0aGUg
+YnJpZGdlIGlzIGRyaXZlbiBieSBhbiBMQ0RJRiBkaXNwbGF5IGNvbnRyb2xsZXIgaW5zdGVhZCBv
+Zgo+ID4+Pj4gdGhlIEV4eW5vcyBEZWNvbi4gVGhlIGRyaXZlciBmb3IgdGhlIExDRElGIGRvZXMg
+bm90IHVzZSB0aGUgY29tcG9uZW50Cj4gPj4+PiBmcmFtZXdvcmssIGJ1dCB1c2VzIGRybSBicmlk
+Z2VzLgo+ID4+Pj4KPiA+Pj4+IEkgZG9uJ3QgaGF2ZSBhbnkgRXh5bm9zIFNvQyB0byBhY3R1YWxs
+eSB0ZXN0IHRoZSBzZXJpZXMuIEkgYnVpbGQgYSBkdW1teSB0bwo+ID4+Pj4gdGVzdCB0aGUgYnJp
+ZGdlIHdpdGggYSBjb21wb25lbnQgZHJpdmVyLCB0byBtYWtlIHN1cmUgdGhhdCBhdCBsZWFzdCB0
+aGUKPiA+Pj4+IGluaXRpYWxpemF0aW9uIGlzIHdvcmtpbmcuIEZ1cnRoZXJtb3JlLCB0ZXN0ZWQg
+dGhlIGRyaXZlciBhcyBhIGJyaWRnZSB3aXRoIGEKPiA+Pj4+IGZldyBhZGRpdGlvbmFsIHVuZmlu
+aXNoZWQgcGF0Y2hlcyBvbiB0aGUgaS5NWDhNIE1pbmkgRVZLLiBIb3dldmVyLCBzb21lYm9keQo+
+ID4+Pj4gc2hvdWxkIHZlcmlmeSB0aGF0IHRoZSBkcml2ZXIgaXMgc3RpbGwgd29ya2luZyBvbiBF
+eHlub3MgaGFyZHdhcmUuCj4gPj4+Pgo+ID4+Pj4gSSBhbHNvIGNoYW5nZWQgdGhlIG9yZGVyIG9m
+IHRoZSBwYXRjaGVzIHRvIGZpcnN0IG1ha2UgdGhlIGRyaXZlciBtb3JlIHBsYXRmb3JtCj4gPj4+
+PiBpbmRlcGVuZGVudCAocGF0Y2hlcyAyIHRvIDgpLCB0aGVuIGNvbnZlcnQgdG8gYSBkcm0gYnJp
+ZGdlIGRyaXZlciAocGF0Y2hlcyAxMAo+ID4+Pgo+ID4+PiBKdXN0IGEgZnVuZGFtZW50YWwgcXVl
+c3Rpb24sIEEgTUlQSS1EU0koRGlzcGxheSBTZXJpYWwgSW50ZXJmYWNlKSBidXMgZGV2aWNlCj4g
+Pj4+IHdvdWxkIGJlIG9uZSBvZiBhbiBlbmNvZGVyIHR5cGUgb2YgZGV2aWNlcyBub3QgYnJpZGdl
+IHN1Y2ggYXMgRFNJIHRvIExWRFMKPiA+Pj4gYW5kIExWRFMgdG8gRFNJIGJyaWRnZSBkZXZpY2Vz
+LCBhbmQgYWxzbyBpbWFnZSBlbmhhbmNlciBhbmQgaW1hZ2UgY29tcHJlc3Nvcgo+ID4+PiBpbiBj
+YXNlIG9mIEV4eW5vcy4KPiA+Pgo+ID4+IEkgZG9uJ3QgdW5kZXJzdGFuZCwgd2h5IHRoZSBNSVBJ
+LURTSSBidXMgZGV2aWNlIHdvdWxkIGJlIGFuIGVuY29kZXIgdHlwZSBhbmQKPiA+PiBEU0kgdG8g
+TFZEUyBvciBNSVBJLURTSSB0byBIRE1JIHdvdWxkIGJlIGJyaWRnZXMuIEZvciBleGFtcGxlLCB0
+aGUgZGV2aWNlIHRyZWUKPiA+PiBkb2N1bWVudGF0aW9uIGZvciB0aGUgRFNJTSBzdGF0ZXMgdGhh
+dCB0aGUgRFNJTSByZWNlaXZlcyBSR0IgdmlkZW8gYXMgaW5wdXQKPiA+PiBhbmQgcHJvZHVjZXMg
+TUlQSS1EU0kgYXMgb3V0cHV0LiBUaHVzLCB0aGUgRFNJTSBpcyBiYXNpY2FsbHkgYSBwYXJhbGxl
+bCBSR0IgdG8KPiA+IAo+ID4gTUlQSS1EU0kgcmVjZWl2ZXMgUkdCIHZpZGVvIGFzIGlucHV0IGFu
+ZCBlbmNvZGVzIGl0IHRvIE1JUEkgcGFja2V0IGFuZCB0aGVuIHRyYW5zZmVycyB0aGUgcGFja2V0
+IHRvIE1JUEkgcGFuZWwuCj4gPiBBbmQgZmluYWxseSwgTUlQSSBwYW5lbCBkZWNvZGVzIHRoZSBw
+YWNrZXQgYW5kIHVwZGF0ZXMgaXQgLSBSR0IgZGF0YSAtIG9uIGl0cyBTUkFNLgo+ID4gCj4gPiBN
+SVBJLURTSSBkcml2ZXIgcHJvZ3JhbXMgaG93IHRoZSBSR0IgdmlkZW8gc2hvdWxkIGJlIG1hZGUg
+YXMgTUlQSSBwYWNrZXQuIEZvciBtb3JlIGRldGFpbCwgeW91IGNvdWxkIHJlZmVyIHRvIE1JUEkt
+RFNJIHNwZWMuCj4gPiBUaGlzIHdvdWxkIGJlIHdoeSB3ZSBoYW5kbGUgTUlQSS1EU0kgZHJpdmVy
+IGFzIGFuIGVuY29kZXIgbGlrZSBvdGhlciBBUk0gU29DIERSTSBkcml2ZXJzIGRpZC4KPiA+IAo+
+ID4+IE1JUEktRFNJIGJyaWRnZSBhbmQgdGhlIGVuY29kZXIgaXMgdGhlIExDRCBjb250cm9sbGVy
+IHRoYXQgZW5jb2RlcyB0aGUgdmlkZW8KPiA+PiBkYXRhIGFzIHBhcmFsbGVsIFJHQi4KPiA+Pgo+
+ID4+IE9uIHRoZSBpLk1YOE1NLCB0aGUgTENESUYgaXMgYWxyZWFkeSB0aGUgZW5jb2Rlci4gT24g
+RXh5bm9zLCB0aGUgc2VyaWVzCj4gPj4gaW1wbGVtZW50cyB0aGUgZW5jb2RlciBpbiB0aGUgcGxh
+dGZvcm0gZ2x1ZSwgYnV0IGluIHRoZSBlbmQgdGhlIGVuY29kZXIgY2FuCj4gPj4gcHJvYmFibHkg
+YmUgbW92ZWQgdG8gdGhlIERFQ09OLgo+ID4gCj4gPiBBcyB5b3Uga25vdywgRGlzcGxheSBjb250
+cm9sbGVyIGNhbiB0cmFuc2ZlciBSR0IgdmlkZW8gdG8gdmFyaW91cyBkZXZpY2VzIHN1Y2ggYXMg
+UkdCIHBhbmVsLCBDUFUgcGFuZWwsIExWRFMgcGFuZWwgdmlhIExWRFMgYnJpZGdlLCBNSVBJIHBh
+bmVsIHZpYSBNSVBJLURTSSBidXMgZGV2aWNlLCBhbmQgc28gb24gbGlrZSBiZWxvdywKPiA+IAo+
+ID4gRGlzcGxheSBDb250cm9sbGVyIC0tPiBSR0IgcGFuZWwgb3IgQ1BVIHBhbmVsLgo+ID4gRGlz
+cGxheSBDb250cm9sbGVyIC0tPiBMVkRTIGJyaWRnZSAtLT4gTFZEUyBwYW5lbC4KPiA+IERpc3Bs
+YXkgQ29udHJvbGxlciAtLT4gTUlQSSBEU0kgYnVzIGRldmljZSAtLT4gTUlQSSBQYW5lbC4KPiA+
+IC4uLgo+ID4gCj4gPiBEaXNwbGF5IGNvbnRyb2xsZXIgZHJpdmVycyBzdWNoIGFzIEZJTUQgYW5k
+IERFQ09OIHNlcmllcyBpbiBjYXNlIG9mIEV4eW5vcyBkb24ndCBjcmVhdGUgYW4gZW5jb2RlciBk
+cml2ZXItaW50ZXJuYWxseSBpbnN0ZWFkIG9mIGl0IGRlcGVuZHMgb24gRGlzcGxheSBwaXBlbGlu
+ZSBjb25maWd1cmF0aW9uIC0gd2hhdCBraW5kIG9mIERpc3BsYXkgcGFuZWwgaXMgdXNlZC4KPiA+
+IEluIGZhY3QsIGlmIHRoZSBEaXNwbGF5IHBpcGVsaW5lIHVzZXMgUkdCIHBhbmVsIG9yIENQVSBw
+YW5lbCB3aXRob3V0IERpc3BsYXkgYnVzIGRldmljZSBzdWNoIGFzIE1JUEktRFNJLCB0aGVuIEZJ
+TUQgYW5kIERFQ09OIGRyaXZlcnMgY3JlYXRlIGFuIGVuY29kZXIgZm9yIGl0IGludGVybmFsbHkg
+LSBqdXN0IHdlIHNlcGFyYXRlZCB0aGUgY29kZSB0byBjb25zaWRlciBvdGhlciB0eXBlIG9mIHBh
+bmVscy4KCldoYXQgaGFwcGVucyBpZiBJIGFkZCBhIE1JUEktRFNJIC0tPiBIRE1JIGJyaWRnZSB0
+byB0aGUgRGlzcGxheSBwaXBlbGluZT8gVGhlbgp0aGUgUGlwZWxpbmUgaXMKCkRpc3BsYXkgQ29u
+dHJvbGxlciAtLT4gTUlQSSBEU0kgYnVzIGRldmljZSAtLT4gSERNSSBicmlkZ2UgLS0+IEhETUkg
+UGFuZWwKCklmIHRoZSB0eXBlIG9mIHRoZSBEaXNwbGF5IHBhbmVsIGRlY2lkZXMgd2hpY2ggcGFy
+dCBvZiB0aGUgcGlwZWxpbmUgcHJvdmlkZXMKdGhlIGVuY29kZXIsIHRoZSBIRE1JIGJyaWRnZSBk
+cml2ZXIgd291bGQgYmUgcmVzcG9uc2libGUgZm9yIGNyZWF0aW5nIHRoZQplbmNvZGVyLCByaWdo
+dD8gVGh1cywgdGhlIE1JUEktRFNJIGRyaXZlciB3b3VsZCBub3QgYmUgcmVzcG9uc2libGUgZm9y
+CmNyZWF0aW5nIHRoZSBlbmNvZGVyIGFuZCB3b3VsZCBhbHNvIGdldCB0aGUgZW5jb2RlciBmcm9t
+IGFub3RoZXIgZHJpdmVyLgpUaGVyZWZvcmUsIEkgcHJlZmVyIHRvIHRoaW5rIG9mIHRoZSBEaXNw
+bGF5IENvbnRyb2xsZXIgYXMgdGhlIGVuY29kZXIgYW5kCm90aGVyIGJyaWRnZXMgYXJlIGp1c3Qg
+YnJpZGdlcy4KCkJUVywgdGhpcyBpcyBleGFjdGx5IHRoZSBEaXNwbGF5IHBpcGVsaW5lIHRoYXQg
+aXMgdXNlZCBvbiB0aGUgaS5NWDhNTSBFVksuCgo+ID4gCj4gPiBPbiB0aGUgSS5NWDhNTSwgY291
+bGQgeW91IHNoYXJlIGhvdyB0byBoYW5kbGUgYW4gZW5jb2RlciBpZiBzb21lIGJvYXJkIGhhcyBv
+bmx5IE1JUEktRFNJIHBhbmVsLCBhbmQgaW4gdGhpcyBjYXNlLCB3aGVyZSBpcyBhbiBlbmNvZGVy
+IGZvciBpdCBjcmVhdGVkPyBJIGxvb2tlZCBpbnRvIEkuTVg4TU0gRFJNIGRyaXZlciBidXQgZGlk
+bid0IGZpbmQgTUlQSS1EU0kgZHJpdmVyLgo+ID4gU2VlbXMgdGhhdCB0aGV5IHN1cHBvcnQgb25s
+eSBwYXJhbGxlbCBkaXNwbGF5LCBIRE1JIGFuZCBMVkRTIHBhbmVsLgo+IAo+IE9uZSBtb3JlIHRo
+aW5nLCBJZiBJIHNhdyBjb3JyZWN0bHksIHRoZSBMVkRTIGRyaXZlciBvZiBJTVggRFJNIC0gbG14
+X2xkYiAtIGNyZWF0ZXMgYW4gZW5jb2RlciBpbnRlcm5hbGx5IGxpa2UgTUlQSS1EU0kgZHJpdmVy
+IG9mIEV4eW5vcyBEUk0gZGlkLgoKWWVzLCBidXQgdGhlIElNWCBEUk0gZHJpdmVyIGlzIG5vdCB1
+c2VkIG9uIHRoZSBpLk1YOE1NLiBUaGUgaS5NWDhNTSB1c2VzIHRoZQpMQ0RJRiBkaXNwbGF5IGNv
+bnRyb2xsZXIgaW5zdGVhZCBvZiB0aGUgSVBVIG9mIHRoZSBpLk1YNi4gVGhlIGRyaXZlciBmb3Ig
+dGhlCkxDRElGIGlzIHRoZSBteHNmYiBkcml2ZXIsIHdoaWNoIGluIHR1cm4gdXNlcyB0aGUgZHJt
+X3NpbXBsZV9kaXNwbGF5X3BpcGUsCndoaWNoIGFscmVhZHkgcHJvdmlkZXMgdGhlIGVuY29kZXIu
+IFRoZXJlZm9yZSwgdG8gdXNlIGEgYnJpZGdlIGRyaXZlciB3aXRoIGEKZHJpdmVyIGJhc2VkIG9u
+IGEgZHJtX3NpbXBsZV9kaXNwbGF5X3BpcGUsIHRoZSBicmlkZ2UgZHJpdmVyIG11c3QgYWNjZXB0
+IG90aGVyCmVuY29kZXJzLgoKTWljaGFlbAoKPiAKPiA+IAo+ID4gVGhhbmtzLAo+ID4gSW5raSBE
+YWUKPiA+IAo+ID4+Cj4gPj4+IFdoeSBkbyB5b3Ugd2FudCB0byBjb252ZXJ0IHN1Y2ggTUlQSS1E
+U0kgZHJpdmVyIHRvIGJyaWRnZSB0eXBlIG9mIGRyaXZlcj8KPiA+Pj4gU2VlbXMgbm90IHNlbnNp
+YmxlLiBUaGUgcmVhc29uIHdvdWxkIGJlIGp1c3QgdG8gc2hhcmUgTUlQSS1EU0kgcGh5IGRyaXZl
+cgo+ID4+PiBmb3IgRXh5bm9zIHdpdGggaS5NWDhNIE1pbmk/Cj4gPj4KPiA+PiBZZXMsIHRoZSBy
+ZWFzb24gaXMgdGhhdCB0aGUgZHJpdmVyIHNob3VsZCBiZSBzaGFyZWQgYmV0d2VlbiBFeHlub3Mg
+YW5kCj4gPj4gaS5NWDhNTS4gSXQgaXMgdGhlIHNhbWUgSVAgYW5kIEkgZG9uJ3Qgc2VlIGEgcmVh
+c29uIHdoeSB3ZSBzaG91bGQgaW50cm9kdWNlCj4gPj4gYW5vdGhlciBkcml2ZXIgZm9yIHRoZSBz
+YW1lIElQIGlmIHRoZSBkcml2ZXIgd29ya3MgZm9yIGJvdGggU29Dcy4KPiA+Pgo+ID4+IE1pY2hh
+ZWwKPiA+Pgo+ID4gCj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
