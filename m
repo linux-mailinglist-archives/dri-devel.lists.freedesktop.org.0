@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6D782AE92A
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 07:40:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 090A72AE974
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 08:16:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C33BD89F03;
-	Wed, 11 Nov 2020 06:40:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3258289DED;
+	Wed, 11 Nov 2020 07:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED5389F03
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 06:40:29 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AB6eIvH035181;
- Wed, 11 Nov 2020 00:40:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605076819;
- bh=IcDsB8KsET7h6YqC9INM8Cbp9cg17R8rn2B5UDZiGUU=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=SqHBvScZRHqHuWeUuMGSFs3DeB2aI3s3NJuG6lds36/LGVw83LXI2MtP9tv1BymOS
- sKslBErbUd7B8rm2PiKjOmUWYkhAYe3eWjyRxQx55q2O6kmojxk4WgDo1rM3hdIbXy
- D80O+w56GSmt80GFj7G69eAwQnDSoinqbf6bBI58=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AB6eI0R052893
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 11 Nov 2020 00:40:18 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
- Nov 2020 00:40:18 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 11 Nov 2020 00:40:18 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AB6eGQw074077;
- Wed, 11 Nov 2020 00:40:16 -0600
-Subject: Re: [PATCH v3 00/56] Convert DSI code to use drm_mipi_dsi and
- drm_panel
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
- <fcbc8488-5861-8e51-0f86-1ed6498083f7@ti.com>
- <579243AA-014A-411B-9014-F5846C9B8137@goldelico.com>
- <ab33baff-dd8c-2ee0-6f89-35aa4df7b9cf@ti.com>
- <837EA533-9946-43B3-B058-69060EC43981@goldelico.com>
- <08589e51-f5e6-2743-57ec-8ac509f97ff0@ti.com>
- <1f1afce4-c822-0fbf-1ce3-dda0064b65c6@ti.com>
- <67786545-23D2-444F-85B8-7A030070B317@goldelico.com>
- <a20f2b88-bfe6-0ab4-a19b-ba5316db6c4f@ti.com>
- <17F5238B-1CC3-4764-B744-C57D9CE4EB42@goldelico.com>
- <db0b9694-4d04-18ba-fdf0-093b5914bbf0@ti.com>
- <6A9407FC-69F7-4E30-B4A3-FFB2E91CAE3B@goldelico.com>
- <1cf563e5-2dc0-1802-86e3-3e24150f0651@ti.com>
- <BBC7824A-A689-4144-969C-32608A202A75@goldelico.com>
- <7f820fd2-820b-bfdd-a43b-174ad6b09868@ti.com>
- <0AF59BFD-89F2-46D3-9EB6-F47FBB52B183@goldelico.com>
- <AEAA7281-7B82-47A6-A0BA-EF08C56824A8@goldelico.com>
- <917fe1c6-4009-7788-f815-fcc1fc2ba7df@ti.com>
- <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <dd0a41eb-aa86-7c5c-3151-313a0d9d0883@ti.com>
-Date: Wed, 11 Nov 2020 08:40:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D48B89DED
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 07:16:08 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a65so1360022wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 10 Nov 2020 23:16:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=+nPLAs9D2ufq7P4TZ41Op/D3bZShS4W5mF/VA6cz7/U=;
+ b=mhLpXVeLoB/gkb+Az2aKW+BxBUlNW8rOmuRdOt96oIEMScXjIzJcNXw+VyxJ2zyqqD
+ 63lwWwl1iABwU2vFZf+lFGzPhbV4zMGFQddJNtt4jKve+Eafqby5GghY9WhQJdlQqZVl
+ YXOQuEYjZinIUoRx5rvmldASKFngyXdqpzIKEB5JzqOuwtXJsbfCV24ikJTrExjv9xPx
+ EKunKqMNq5IHYKC0EfAMyeLkY2J5rxBHYqSy2jqLO0Iiars08t2njEz+EVypbmWcQFVT
+ Wn9Uk2cW+kMLbLWMOIBtFWj9Rov1xWzWiZSppd2jTU1Qvra5tSmai8BsptEgEp/doiTJ
+ zzwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=+nPLAs9D2ufq7P4TZ41Op/D3bZShS4W5mF/VA6cz7/U=;
+ b=o6qEHoguntP2Ce7mbzLlfr9jMZ0iX8Unsq0H96zj8Gb0sG5fC9YsG0SCFrB5V0qpMP
+ 01zQdhA0QWvyVOnxImtKEBm1YZU5x1k0zHFUWQuZiOzQovGTOQqS1CqQLNRc8Ca8UmwB
+ V0iNFsdepxMpW3tJW15ECxaLplEYVLkiGJHs9d3FcR+aLXRC+paddeRAwTCEfOUsoMu7
+ Xawy514S8RhxsdWcKOi1HiPVqCENyLgtXUKk6yx+xnfdq1OMyMhBB783aipEh13o/unQ
+ kG+vxoIfxlXeWWJUukbok7WpS2NXAlCyRIB2QOktj1Rp3kdCDbvlChIDhFsFKyI2jVOv
+ gLfg==
+X-Gm-Message-State: AOAM5318Ca3b/oovGtrXk5DPo2Qk+eBl74W8vl+bfOLHSVjc0IL1AiNu
+ sP8vbuPBJ9RWKhvIRkE8S3wuEA==
+X-Google-Smtp-Source: ABdhPJxq9nNsRdWxmsjRvYKprThebW/E99OrwREqb9B0XCSt/1vALQHP41UyvyzHl/CpRtuLhn++Fg==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+ 19mr2293473wmg.21.1605078966759; 
+ Tue, 10 Nov 2020 23:16:06 -0800 (PST)
+Received: from dell ([91.110.221.159])
+ by smtp.gmail.com with ESMTPSA id w1sm1275524wro.44.2020.11.10.23.16.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Nov 2020 23:16:06 -0800 (PST)
+Date: Wed, 11 Nov 2020 07:16:04 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 01/30] drm/radeon/evergreen: Add comment for
+ 'evergreen_page_flip()'s 'async' param
+Message-ID: <20201111071604.GN2063125@dell>
+References: <20201110193112.988999-1-lee.jones@linaro.org>
+ <20201110193112.988999-2-lee.jones@linaro.org>
+ <CADnq5_MMDnk7fvoOv8poVvCx1EVGQ0XvujHG=fBwR5XgSO+qww@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2265AEF5-42BC-4E7B-B263-D0B93B78DE91@goldelico.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <CADnq5_MMDnk7fvoOv8poVvCx1EVGQ0XvujHG=fBwR5XgSO+qww@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,63 +71,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
- Tony Lindgren <tony@atomide.com>, Sekhar Nori <nsekhar@ti.com>,
- Sebastian Reichel <sre@kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux-OMAP <linux-omap@vger.kernel.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/11/2020 23:04, H. Nikolaus Schaller wrote:
-> 
->> Am 10.11.2020 um 17:52 schrieb Tomi Valkeinen <tomi.valkeinen@ti.com>:
->>
->> On 10/11/2020 18:49, H. Nikolaus Schaller wrote:
->>
->> I guess you have the same issue. It goes to dsi_bridge_mode_valid, then __dsi_calc_config, and stays
->> there finding good clocks.
-> 
-> Yes, I could trace it down to exactly this point.
-> 
-> So the culprit is somehow the panel driver. Because it asks for clocks that the PLL driver does not want to provide...
-> Or is it the victim?
-> 
-> Here is what dmesg reports with even more printk():
-> 
-> [  276.970635] drm_helper_probe_single_connector_modes 12 count=1
-> [  277.003509] drm_mode_validate_pipeline 2 ret=0 status=0
-> [  277.038678] drm_bridge_chain_mode_valid: func=dsi_bridge_mode_valid+0x0/0xa0 [omapdrm]
-> [  277.047199] dsi_bridge_mode_valid
-> [  277.050786] __dsi_calc_config
-> [  277.057270] dsi_vm_calc
-> [  277.073251] dss_pll_calc_a clkin=19200000 pll_min=1555386656 pll_max=1555410656 func=dsi_vm_calc_pll_cb+0x0/0x48 [omapdrm]
-> [  277.084975] dss_pll_calc_a pll_hw_max=1800000000 fint_hw_min=150000 fint_hw_max=52000000
-> [  277.093637] dss_pll_calc_a n_start=1 n_inc=1 n_stop=128 pll_max'=1555410656
-> [  277.101062] dss_pll_calc_a n=1 clkin=19200000 fint=19200000
-> [  277.107152] dss_pll_calc_a m_start=41 m_inc=1 m_stop=40
-> 
-> Ok, we have to wait quite a while until the for(m;;) loop ends, because m_stop < m_start and m_inc is positive.
-> 
-> So something in the formulae in dss_pll_calc_a() does not fit or has unintended rounding effects.
-> Or the values reported by w677l_get_modes() do not fit anything.
-> 
-> I think these findings and ideas should help to find a fix.
-
-drm_display_mode.clock is in kHz, but the panel driver writes Hz (w677l_PIXELCLOCK) to it. But
-there's more after fixing that. The DSI gets configured in bridge's modeset, which I think is before
-w677l_prepare where the panel already sends DSI commands. Also, the dsi driver fails to lock the
-PLL, so possibly the clock calcs are still wrong.
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCAxMCBOb3YgMjAyMCwgQWxleCBEZXVjaGVyIHdyb3RlOgoKPiBPbiBUdWUsIE5vdiAx
+MCwgMjAyMCBhdCAyOjMxIFBNIExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+IHdyb3Rl
+Ogo+ID4KPiA+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMp
+Ogo+ID4KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2V2ZXJncmVlbi5jOiBJbiBmdW5jdGlv
+biDigJhldmVyZ3JlZW5fZ3B1X2luaXTigJk6Cj4gPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9l
+dmVyZ3JlZW4uYzoxNDE5OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdh
+c3luYycgbm90IGRlc2NyaWJlZCBpbiAnZXZlcmdyZWVuX3BhZ2VfZmxpcCcKPiA+Cj4gPiBDYzog
+QWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4gQ2M6ICJDaHJpc3Rp
+YW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4gQ2M6IERhdmlkIEFpcmxp
+ZSA8YWlybGllZEBsaW51eC5pZT4KPiA+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwu
+Y2g+Cj4gPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IENjOiBkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxl
+ZS5qb25lc0BsaW5hcm8ub3JnPgo+IAo+IEFwcGxpZWQgd2l0aCBtaW5vciBmaXh1cHMuICBUaGFu
+a3MhCgpTdXBlcnN0YXIhICBUaGFua3MgQWxleC4KCk9uY2UgdGhlc2UgYXJlIGFsbCBpbiAtbmV4
+dCwgSSdsbCByZWJhc2UgYW5kIGZpeCB0aGUgc3RyYWdnbGVycy4KCi0tIApMZWUgSm9uZXMgW+ad
+jueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZpY2VzCkxpbmFy
+by5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xsb3cgTGluYXJv
+OiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
