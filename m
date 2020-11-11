@@ -2,36 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA9C32AF042
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807742AF07A
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 13:25:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2D689FA5;
-	Wed, 11 Nov 2020 12:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432C889FCE;
+	Wed, 11 Nov 2020 12:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF51C89F9F;
- Wed, 11 Nov 2020 12:08:05 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9400DABDE;
- Wed, 11 Nov 2020 12:08:04 +0000 (UTC)
-Subject: Re: [PATCH] drm/nouveau: Fix out-of-bounds access when deferencing
- MMU type
-To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
- "bskeggs@redhat.com" <bskeggs@redhat.com>,
- "airlied@linux.ie" <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>
-References: <20201110133655.13174-1-tzimmermann@suse.de>
- <85758a6215f74917aee81b18d037fb82@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f4cedda2-48f6-565c-4154-0975a2d119a0@suse.de>
-Date: Wed, 11 Nov 2020 13:08:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F3489FCE
+ for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 12:25:05 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCOsG2028371;
+ Wed, 11 Nov 2020 06:24:54 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605097494;
+ bh=ASRNOHEr+40d5rkM1LJeMOpcnajdXscG/sSMLjTfjaI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=IDdQ2BBMA/qN6g4E9HfC28P7lvtfRNCNnexrq0afR+KkEhh90/u7Ze+OvcDsy4yM9
+ uNgtd68UdAIoU55kEoqaM+NpTMJW6sYzfmZ6ygeEzVcSQ5+p6aAoHq93xCPn4ju/cE
+ 41mZQQ76flik9Sqjn4+PNveYKkhnzKs4g6L/TJJo=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ABCOsY9083391
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 11 Nov 2020 06:24:54 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 11
+ Nov 2020 06:24:54 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 11 Nov 2020 06:24:54 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ABCOpE6056538;
+ Wed, 11 Nov 2020 06:24:52 -0600
+Subject: Re: [PATCH v3 50/56] drm/omap: dsi: simplify pin config
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-51-tomi.valkeinen@ti.com>
+ <20201109110932.GU6029@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <ba48d022-eecc-1f28-9ade-8a427d714b42@ti.com>
+Date: Wed, 11 Nov 2020 14:24:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <85758a6215f74917aee81b18d037fb82@intel.com>
+In-Reply-To: <20201109110932.GU6029@pendragon.ideasonboard.com>
 Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,128 +63,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>,
- Roland Scheidegger <sroland@vmware.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Huang Rui <ray.huang@amd.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- Likun Gao <Likun.Gao@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCkFtIDEwLjExLjIwIHVtIDE2OjI3IHNjaHJpZWIgUnVobCwgTWljaGFlbCBKOgo+IAo+IAo+
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQo+PiBGcm9tOiBUaG9tYXMgWmltbWVybWFubiA8
-dHppbW1lcm1hbm5Ac3VzZS5kZT4KPj4gU2VudDogVHVlc2RheSwgTm92ZW1iZXIgMTAsIDIwMjAg
-ODozNyBBTQo+PiBUbzogYnNrZWdnc0ByZWRoYXQuY29tOyBhaXJsaWVkQGxpbnV4LmllOyBkYW5p
-ZWxAZmZ3bGwuY2g7IFJ1aGwsIE1pY2hhZWwgSgo+PiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29t
-PjsgY2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tCj4+IENjOiBub3V2ZWF1QGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgVGhvbWFzCj4+IFppbW1l
-cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+OyBNYWFydGVuIExhbmtob3JzdAo+PiA8bWFhcnRl
-bi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPjsgTWF4aW1lIFJpcGFyZAo+PiA8bXJpcGFyZEBr
-ZXJuZWwub3JnPjsgRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT47IEdlcmQgSG9mZm1h
-bm4KPj4gPGtyYXhlbEByZWRoYXQuY29tPjsgQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hl
-ckBhbWQuY29tPjsKPj4gVk13YXJlIEdyYXBoaWNzIDxsaW51eC1ncmFwaGljcy1tYWludGFpbmVy
-QHZtd2FyZS5jb20+OyBSb2xhbmQKPj4gU2NoZWlkZWdnZXIgPHNyb2xhbmRAdm13YXJlLmNvbT47
-IEh1YW5nIFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+Owo+PiBGZWxpeCBLdWVobGluZyA8RmVsaXgu
-S3VlaGxpbmdAYW1kLmNvbT47IEhhd2tpbmcgWmhhbmcKPj4gPEhhd2tpbmcuWmhhbmdAYW1kLmNv
-bT47IEphc29uIEd1bnRob3JwZSA8amdnQHppZXBlLmNhPjsgTGlrdW4gR2FvCj4+IDxMaWt1bi5H
-YW9AYW1kLmNvbT47IHZpcnR1YWxpemF0aW9uQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnOyBz
-cGljZS0KPj4gZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBhbWQtZ2Z4QGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+PiBTdWJqZWN0OiBbUEFUQ0hdIGRybS9ub3V2ZWF1OiBGaXggb3V0LW9mLWJv
-dW5kcyBhY2Nlc3Mgd2hlbiBkZWZlcmVuY2luZwo+PiBNTVUgdHlwZQo+Pgo+PiBUaGUgdmFsdWUg
-b2Ygc3RydWN0IGRybV9kZXZpY2UudHRtLnR5cGVfdnJhbSBjYW4gYmVjb21lIC0xIGZvciB1bmtu
-b3duCj4+IHR5cGVzIG9mIG1lbW9yeSAoc2VlIG5vdXZlYXVfdHRtX2luaXQoKSkuIFRoaXMgbGVh
-ZHMgdG8gYW4gb3V0LW9mLWJvdW5kcwo+PiBlcnJvciB3aGVuIGFjY2Vzc2luZyBzdHJ1Y3QgbnZp
-Zl9tbXUudHlwZVtdOgo+IAo+IFdvdWxkIHRoaXMgbWFrZSBtb3JlIHNlbnNlIHRvIGp1c3Qgc2V0
-IHRoZSB0eXBlX3ZyYW0gPSAwIGluc3RlYWQgb2YgLTE/CgpGcm9tIHdoYXQgSSB1bmRlcnN0YW5k
-LCB0aGVzZSBpbmRpY2VzIHJlZmVyIHRvIGFuIGludGVybmFsIHR5cGUgb2YgTU1VLApyc3AgdGhl
-IE1NVSdzIGNhcGFiaWxpdGllcy4gSG93ZXZlciwgbXkgaGFyZHdhcmUgKHByZS1OVjUwKSBkb2Vz
-IG5vdApoYXZlIGFuIE1NVSBhdCBhbGwuCgpJIGFncmVlIHRoYXQgaXQgd291bGQgYmUgbmljZSB0
-byBoYXZlIGEgY2xlYW5lciBkZXNpZ24gdGhhdCBpbmNvcnBvcmF0ZXMKdGhpcyBjYXNlLCBidXQg
-cmVzb2x2aW5nIHRoYXQgd291bGQgYXBwYXJlbnRseSByZXF1aXJlIG1vcmUgdGhhbiBhIGJ1Z2Zp
-eC4KCkJlc3QgcmVnYXJkcwpUaG9tYXMKCj4gCj4gTWlrZQo+IAo+Pgo+PiAgWyAgIDE4LjMwNDEx
-Nl0KPj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT0KPj4gPT09PT09PQo+PiAgWyAgIDE4LjMxMTY0OV0gQlVHOiBLQVNBTjogc2xhYi1v
-dXQtb2YtYm91bmRzIGluCj4+IG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKzB4MTdhLzB4N2Uw
-IFtub3V2ZWF1XQo+PiAgWyAgIDE4LjMyMDQxNV0gUmVhZCBvZiBzaXplIDEgYXQgYWRkciBmZmZm
-ODg4MTBmZmFjMWZlIGJ5IHRhc2sgc3lzdGVtZC0KPj4gdWRldmQvMzQyCj4+ICBbICAgMTguMzI3
-NjgxXQo+PiAgWyAgIDE4LjMyOTIwOF0gQ1BVOiAxIFBJRDogMzQyIENvbW06IHN5c3RlbWQtdWRl
-dmQgVGFpbnRlZDogRyAgICAgICAgICAgIEUKPj4gNS4xMC4wLXJjMi0xLWRlZmF1bHQrICM1ODEK
-Pj4gIFsgICAxOC4zMzg2ODFdIEhhcmR3YXJlIG5hbWU6IERlbGwgSW5jLiBPcHRpUGxleCA5MDIw
-LzBONFlDOCwgQklPUyBBMjQKPj4gMTAvMjQvMjAxOAo+PiAgWyAgIDE4LjM0NjAzMl0gQ2FsbCBU
-cmFjZToKPj4gIFsgICAxOC4zNDg1MzZdICBkdW1wX3N0YWNrKzB4YWUvMHhlNQo+PiAgWyAgIDE4
-LjM1MTkxOV0gIHByaW50X2FkZHJlc3NfZGVzY3JpcHRpb24uY29uc3Rwcm9wLjArMHgxNy8weGYw
-Cj4+ICBbICAgMTguMzU3Nzg3XSAgPyBub3V2ZWF1X3R0bV9pb19tZW1fcmVzZXJ2ZSsweDE3YS8w
-eDdlMCBbbm91dmVhdV0KPj4gIFsgICAxOC4zNjM4MThdICBfX2thc2FuX3JlcG9ydC5jb2xkKzB4
-MjAvMHgzOAo+PiAgWyAgIDE4LjM2ODA5OV0gID8gbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUr
-MHgxN2EvMHg3ZTAgW25vdXZlYXVdCj4+ICBbICAgMTguMzc0MTMzXSAga2FzYW5fcmVwb3J0KzB4
-M2EvMHg1MAo+PiAgWyAgIDE4LjM3Nzc4OV0gIG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKzB4
-MTdhLzB4N2UwIFtub3V2ZWF1XQo+PiAgPC4uLj4KPj4gIFsgICAxOC43Njc2OTBdIEFsbG9jYXRl
-ZCBieSB0YXNrIDM0MjoKPj4gIFsgICAxOC43NzMwODddICBrYXNhbl9zYXZlX3N0YWNrKzB4MWIv
-MHg0MAo+PiAgWyAgIDE4Ljc3ODg5MF0gIF9fa2FzYW5fa21hbGxvYy5jb25zdHByb3AuMCsweGJm
-LzB4ZDAKPj4gIFsgICAxOC43ODU2NDZdICBfX2ttYWxsb2NfdHJhY2tfY2FsbGVyKzB4MWJlLzB4
-MzkwCj4+ICBbICAgMTguNzkyMTY1XSAga3N0cmR1cF9jb25zdCsweDQ2LzB4NzAKPj4gIFsgICAx
-OC43OTc2ODZdICBrb2JqZWN0X3NldF9uYW1lX3ZhcmdzKzB4MmYvMHhiMAo+PiAgWyAgIDE4Ljgw
-Mzk5Ml0gIGtvYmplY3RfaW5pdF9hbmRfYWRkKzB4OWQvMHhmMAo+PiAgWyAgIDE4LjgxMDExN10g
-IHR0bV9tZW1fZ2xvYmFsX2luaXQrMHgxMmMvMHgyMTAgW3R0bV0KPj4gIFsgICAxOC44MTY4NTNd
-ICB0dG1fYm9fZ2xvYmFsX2luaXQrMHg0YS8weDE2MCBbdHRtXQo+PiAgWyAgIDE4LjgyMzQyMF0g
-IHR0bV9ib19kZXZpY2VfaW5pdCsweDM5LzB4MjIwIFt0dG1dCj4+ICBbICAgMTguODMwMDQ2XSAg
-bm91dmVhdV90dG1faW5pdCsweDJjMy8weDgzMCBbbm91dmVhdV0KPj4gIFsgICAxOC44MzY5Mjld
-ICBub3V2ZWF1X2RybV9kZXZpY2VfaW5pdCsweDFiNC8weDNmMCBbbm91dmVhdV0KPj4gIDwuLi4+
-Cj4+ICBbICAgMTkuMTA1MzM2XQo+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PQo+PiA9PT09PT09Cj4+Cj4+IEZpeCB0aGlzIGVycm9y
-LCBieSBub3QgdXNpbmcgdHlwZV92cmFtIGFzIGFuIGluZGV4IGlmIGl0J3MgbmVnYXRpdmUuCj4+
-IEFzc3VtZSBkZWZhdWx0IHZhbHVlcyBpbnN0ZWFkLgo+Pgo+PiBUaGUgZXJyb3Igd2FzIHNlZW4g
-b24gTnZpZGlhIEc3MiBoYXJkd2FyZS4KPj4KPj4gU2lnbmVkLW9mZi1ieTogVGhvbWFzIFppbW1l
-cm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4+IEZpeGVzOiAxY2Y2NWM0NTE4M2EgKCJkcm0v
-dHRtOiBhZGQgY2FjaGluZyBzdGF0ZSB0byB0dG1fYnVzX3BsYWNlbWVudCIpCj4+IENjOiBDaHJp
-c3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+IENjOiBNaWNoYWVsIEou
-IFJ1aGwgPG1pY2hhZWwuai5ydWhsQGludGVsLmNvbT4KPj4gQ2M6IE1hYXJ0ZW4gTGFua2hvcnN0
-IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4+IENjOiBNYXhpbWUgUmlwYXJk
-IDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4+IENjOiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1h
-bm5Ac3VzZS5kZT4KPj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPj4gQ2M6
-IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPj4gQ2M6IEJlbiBTa2VnZ3MgPGJza2Vn
-Z3NAcmVkaGF0LmNvbT4KPj4gQ2M6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4+
-IENjOiBHZXJkIEhvZmZtYW5uIDxrcmF4ZWxAcmVkaGF0LmNvbT4KPj4gQ2M6IEFsZXggRGV1Y2hl
-ciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+PiBDYzogVk13YXJlIEdyYXBoaWNzIDxsaW51eC1n
-cmFwaGljcy1tYWludGFpbmVyQHZtd2FyZS5jb20+Cj4+IENjOiBSb2xhbmQgU2NoZWlkZWdnZXIg
-PHNyb2xhbmRAdm13YXJlLmNvbT4KPj4gQ2M6IEh1YW5nIFJ1aSA8cmF5Lmh1YW5nQGFtZC5jb20+
-Cj4+IENjOiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4KPj4gQ2M6IEhh
-d2tpbmcgWmhhbmcgPEhhd2tpbmcuWmhhbmdAYW1kLmNvbT4KPj4gQ2M6IEphc29uIEd1bnRob3Jw
-ZSA8amdnQHppZXBlLmNhPgo+PiBDYzogTGlrdW4gR2FvIDxMaWt1bi5HYW9AYW1kLmNvbT4KPj4g
-Q2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPj4gQ2M6IG5vdXZlYXVAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCj4+IENjOiB2aXJ0dWFsaXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0
-aW9uLm9yZwo+PiBDYzogc3BpY2UtZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4+IENjOiBh
-bWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiAtLS0KPj4gZHJpdmVycy9ncHUvZHJtL25v
-dXZlYXUvbm91dmVhdV9iby5jIHwgNSArKysrLQo+PiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1
-X2JvLmMKPj4gaW5kZXggODEzMzM3N2Q4NjVkLi5mZTE1Mjk5ZDQxN2UgMTAwNjQ0Cj4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+PiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPj4gQEAgLTExNDIsOSArMTE0MiwxMiBAQCBub3V2
-ZWF1X3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QKPj4gdHRtX2JvX2RldmljZSAqYmRldiwgc3Ry
-dWN0IHR0bV9yZXNvdXJjZSAqcmVnKQo+PiAJc3RydWN0IG52a21fZGV2aWNlICpkZXZpY2UgPSBu
-dnh4X2RldmljZSgmZHJtLT5jbGllbnQuZGV2aWNlKTsKPj4gCXN0cnVjdCBub3V2ZWF1X21lbSAq
-bWVtID0gbm91dmVhdV9tZW0ocmVnKTsKPj4gCXN0cnVjdCBudmlmX21tdSAqbW11ID0gJmRybS0+
-Y2xpZW50Lm1tdTsKPj4gLQljb25zdCB1OCB0eXBlID0gbW11LT50eXBlW2RybS0+dHRtLnR5cGVf
-dnJhbV0udHlwZTsKPj4gKwl1OCB0eXBlID0gMDsKPj4gCWludCByZXQ7Cj4+Cj4+ICsJaWYgKGRy
-bS0+dHRtLnR5cGVfdnJhbSA+PSAwKQo+PiArCQl0eXBlID0gbW11LT50eXBlW2RybS0+dHRtLnR5
-cGVfdnJhbV0udHlwZTsKPj4gKwo+PiAJbXV0ZXhfbG9jaygmZHJtLT50dG0uaW9fcmVzZXJ2ZV9t
-dXRleCk7Cj4+IHJldHJ5Ogo+PiAJc3dpdGNoIChyZWctPm1lbV90eXBlKSB7Cj4+IC0tCj4+IDIu
-MjkuMgo+IAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIK
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5
-IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNm
-w7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+On 09/11/2020 13:09, Laurent Pinchart wrote:
+> Hi Tomi and Sebastian,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Nov 05, 2020 at 02:03:27PM +0200, Tomi Valkeinen wrote:
+>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>
+>> Simplify DSI pin config, which always originates from DT
+>> nowadays. With the code being fully contained in the DSI
+>> encoder, we can drop the public structure.
+>>
+>> Since the function is no longer exposed, it now directly
+>> takes the private DSI data pointer. This drop a pointless
+> 
+> s/drop/drops/
+> 
+>> conversion and means the pins can be configured earlier.
+>>
+>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>  drivers/gpu/drm/omapdrm/dss/dsi.c     | 33 +++++++++------------------
+>>  drivers/gpu/drm/omapdrm/dss/omapdss.h | 15 ------------
+>>  2 files changed, 11 insertions(+), 37 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> index f47d7e3bb631..76e4f607d8cf 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> @@ -3568,12 +3568,9 @@ static void dsi_proto_timings(struct dsi_data *dsi)
+>>  	}
+>>  }
+>>  
+>> -static int dsi_configure_pins(struct omap_dss_device *dssdev,
+>> -		const struct omap_dsi_pin_config *pin_cfg)
+>> +static int dsi_configure_pins(struct dsi_data *dsi,
+>> +		int num_pins, const u32 *pins)
+>>  {
+>> -	struct dsi_data *dsi = to_dsi_data(dssdev);
+>> -	int num_pins;
+>> -	const int *pins;
+>>  	struct dsi_lane_config lanes[DSI_MAX_NR_LANES];
+>>  	int num_lanes;
+>>  	int i;
+>> @@ -3586,9 +3583,6 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
+>>  		DSI_LANE_DATA4,
+>>  	};
+>>  
+>> -	num_pins = pin_cfg->num_pins;
+>> -	pins = pin_cfg->pins;
+>> -
+>>  	if (num_pins < 4 || num_pins > dsi->num_lanes_supported * 2
+>>  			|| num_pins % 2 != 0)
+>>  		return -EINVAL;
+>> @@ -3600,7 +3594,7 @@ static int dsi_configure_pins(struct omap_dss_device *dssdev,
+>>  
+>>  	for (i = 0; i < num_pins; i += 2) {
+>>  		u8 lane, pol;
+>> -		int dx, dy;
+>> +		u32 dx, dy;
+> 
+> Is this change needed ?
+
+The pins array is now u32, so the above is correct. However, a bit below we check if dx < 0, which
+doesn't make sense anymore, so I'll drop that check.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
