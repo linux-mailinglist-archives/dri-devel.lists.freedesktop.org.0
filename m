@@ -1,112 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259082AE6C2
-	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 04:04:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACD42AE8A4
+	for <lists+dri-devel@lfdr.de>; Wed, 11 Nov 2020 07:10:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C74789E3F;
-	Wed, 11 Nov 2020 03:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6CB89DAB;
+	Wed, 11 Nov 2020 06:10:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2CA89E3F
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 03:03:57 +0000 (UTC)
-Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
- by mailout1.samsung.com (KnoxPortal) with ESMTP id
- 20201111030355epoutp014088042dabdd2fcde55f59fad6bfd13e~GVQ3YBTI10121301213epoutp01-
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 03:03:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com
- 20201111030355epoutp014088042dabdd2fcde55f59fad6bfd13e~GVQ3YBTI10121301213epoutp01-
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1605063835;
- bh=cOvnrUzBvQi8/GMeaEsVC6rESuodfLLTM94v7dfdoIM=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=OQXRfILWCnrnRBTrvhG9E3QXSZlLYOQ7cWn3pOH3S6a34jLbCq0Al5AKseLfyEGh7
- tIOJLxEczQ3V3YTHH3uO6kBmDV/Jxj8fQE2/6+M7ZwnYW0bS4zBSPlN6aDrI3JPoT4
- lDGQW2SIVNsLVlqJ8yhBr3FAM2idsoY5DQ48U3f4=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20201111030354epcas1p21868a349cc43bc13639ae573d9a98bf7~GVQ3F4rQ70619906199epcas1p2T;
- Wed, 11 Nov 2020 03:03:54 +0000 (GMT)
-Received: from epsmges1p3.samsung.com (unknown [182.195.40.154]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4CW8h84P7mzMqYlv; Wed, 11 Nov
- 2020 03:03:52 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
- epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
- 9C.9C.09582.8945BAF5; Wed, 11 Nov 2020 12:03:52 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
- 20201111030351epcas1p4501ca2797f349939bfcd3a179c06f99d~GVQ0ZnVXI2669226692epcas1p4i;
- Wed, 11 Nov 2020 03:03:51 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20201111030351epsmtrp18c7707d2d92ee18676c9c17ee48c43da~GVQ0Y16-42642926429epsmtrp1Y;
- Wed, 11 Nov 2020 03:03:51 +0000 (GMT)
-X-AuditID: b6c32a37-899ff7000000256e-e1-5fab54981fb2
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- C3.F1.13470.7945BAF5; Wed, 11 Nov 2020 12:03:51 +0900 (KST)
-Received: from [10.113.221.211] (unknown [10.113.221.211]) by
- epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20201111030351epsmtip1101c593abdd4fa83bc60576f18b17c28~GVQ0H-OwW2416424164epsmtip1s;
- Wed, 11 Nov 2020 03:03:51 +0000 (GMT)
-Subject: Re: [PATCH v2 00/16] drm/exynos: Convert driver to drm bridge
-From: Inki Dae <inki.dae@samsung.com>
-To: Michael Tretter <m.tretter@pengutronix.de>
-Message-ID: <c56586b0-f616-6a57-3628-5840a99f6c1a@samsung.com>
-Date: Wed, 11 Nov 2020 12:11:15 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2787D89C1E;
+ Wed, 11 Nov 2020 06:10:25 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CWDqJ0lPHz9sRK;
+ Wed, 11 Nov 2020 17:10:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1605075024;
+ bh=yKV3u/MqYNaME4dLCEtSbbFjVIZ++iGA2iYh5KcMQlA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=NZeRFYOvmu/e4bx+uB83TqamgV2EJNMS7oBtocp2O74zLnyrEz5I3xVr/0FqMKnel
+ IaOs0uafbgMP9CJvYLmdPpZsIuys9lO/aAoewdDrMBMa6Nyp3DINhlE1uF1r8r+wla
+ A3omPPz4KKGd833Ihq1wrOst5tSUtsqLLxIjayrnniOZ7EcUu1Gc2HC9M1zyMuJjjg
+ b8nVSyZMABtrQXIwwg1HR7Xxsv7Jmlruxqzc1Q87Xa9M8FgnvknYWL8r5vP0Kcxy0k
+ M+ZZxS3j7LXWdwLpS33tC6dVk54qezTEPCWBqRNaQEqcRW+7bpAo1pi3JWhdcha5N1
+ H5kgryLSqe0wA==
+Date: Wed, 11 Nov 2020 17:10:15 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20201111171015.631ffd0e@canb.auug.org.au>
+In-Reply-To: <20201102051822-mutt-send-email-mst@kernel.org>
+References: <20201102124327.2f82b2a7@canb.auug.org.au>
+ <20201102051822-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <fd177674-b22e-6743-9886-5590ccade2f5@samsung.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrAJsWRmVeSWpSXmKPExsWy7bCmge6MkNXxBq2LpS1urTvHarFxxnpW
- iytf37NZvLh3kcVi1dSdLBbnz29gt+icuITdYsb5fUwW21YA1R3qi7aYMfklm8W8zzuZHHg8
- 3t9oZffYOesuu8fsjpmsHptWdbJ53O8+zuTR/9fAo2/LKkaPz5vkAjiism0yUhNTUosUUvOS
- 81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgI5VUihLzCkFCgUkFhcr6dvZ
- FOWXlqQqZOQXl9gqpRak5BRYFugVJ+YWl+al6yXn51oZGhgYmQIVJmRntK5ZzFbwX6ni/syL
- zA2MH6W7GDk4JARMJF489Ohi5OIQEtjBKDH1xA4WCOcTo8SExlWMEM43Rok/Jy+wdTFygnXc
- etvIDJHYyygxefYaJgjnPaPErnU/2EGqhAXcJJ6cOc4EYrMJqEpMXHEfrFtEQE9i/8pZbCAN
- zAIbmCS27r3HApLgFbCTePzpM1gRC1DDnb7DYM2iAhESx7sns0PUCEqcnPkErJ5TwF5izdzZ
- zCA2s4C4xK0n85kgbHmJ5q2zwc6TEDjBIfH2Qy8zxN0uEq9+3GaFsIUlXh3fwg5hS0m87G9j
- h2hoZpSYOOM0E4TTwShx9/F1FogqY4n9SyczgcKMWUBTYv0ufYiwosTO33MZITbzSbz72sMK
- CVZeiY42IYgSJYljF28wQtgSEheWTISGo4fEoeWv2CYwKs5C8tssJP/MQvLPLITFCxhZVjGK
- pRYU56anFhsWGCPH9yZGcFLWMt/BOO3tB71DjEwcjIcYJTiYlUR4mdpWxQvxpiRWVqUW5ccX
- leakFh9iNAWG9kRmKdHkfGBeyCuJNzQ1MjY2tjAxNDM1NFQS5/2j3REvJJCeWJKanZpakFoE
- 08fEwSnVwLTOeavGi/JPQgwZuSwJ+16eWryme4VQnWJrtet3Eb/8d0YCM34//2CWUGASJubz
- 5pyCxNWCkw5XTpt4+327e1XMetYno5BeWeF8rRlrsgzF338V/+tuezROy6rGeofBTks1bh7Z
- PFcj7tzli7q67p3hrVY1eDVB5nqYsMOXc6c8jWv2vE0JCL11mLPf8ffhL3FHw5f5n7EuPMG6
- Y77w2Sf/5y4PvdcjznjR4GaoaFhJROyJ2pDPJ15crJvzr+nLiZCDQnyczyaolB3d/P6NxeLD
- hXF3dawNZvznPL2JZZb8i1Dr8v/iGzmnv8xUyXZ/mXqlYPKkouXm/qt+V9eVm35Umr5l4u+e
- hXdW7jzIWKLEUpyRaKjFXFScCABiSYJSUwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsWy7bCSnO70kNXxBk/7jCxurTvHarFxxnpW
- iytf37NZvLh3kcVi1dSdLBbnz29gt+icuITdYsb5fUwW21YA1R3qi7aYMfklm8W8zzuZHHg8
- 3t9oZffYOesuu8fsjpmsHptWdbJ53O8+zuTR/9fAo2/LKkaPz5vkAjiiuGxSUnMyy1KL9O0S
- uDJa1yxmK/ivVHF/5kXmBsaP0l2MnBwSAiYSt942MncxcnEICexmlNh4aDtbFyMHUEJCYstW
- DghTWOLw4WKIkreMEhfOvGcG6RUWcJN4cuY4E4jNJqAqMXHFfTYQW0RAT2L/yllsIA3MAhuY
- JCafvsQI0b2cSeLYpsOMIFW8AnYSjz99ButgAeq+03cYbJKoQIREy/0/7BA1ghInZz5hAbE5
- Bewl1sydDbaZWUBd4s+8S1C2uMStJ/OZIGx5ieats5knMArNQtI+C0nLLCQts5C0LGBkWcUo
- mVpQnJueW2xYYJiXWq5XnJhbXJqXrpecn7uJERyDWpo7GLev+qB3iJGJg/EQowQHs5IIL1Pb
- qngh3pTEyqrUovz4otKc1OJDjNIcLErivDcKF8YJCaQnlqRmp6YWpBbBZJk4OKUamFaYXSrK
- 3ns9JJfxZ+obrSkf9xlxbwsxkzkdpP52vb6Ly7RtRdaTdvzW1Z6WX2bGmrJhp/12gQNTzyss
- +qt9omeRFPsjZ4X1sUsNPsn+k1hZ9GT+jQndnNqbfsQzpjczPxWf7fqs3uagct/Hv+nXWGb5
- ttfZJyo++1we9rs7vGTPnLX77YLORKxP1wqON/Vd+jRHceLU9TFXdvuqfF2+P/5fq+Dsyz1F
- G/NNf+3J/zLj+ffCSZMMWPcvKr4pHsj5pzag+TKjYYje4e9zW5yCOxed2Bq6aPnDPMUCBhWW
- NY53ev/66TNLJz3Z3NTW8P2cQPDeM5zlKmsTDyzfeTNsxrJzQr9vp7qdFDi61nDqwQ1KLMUZ
- iYZazEXFiQB+O/GyMAMAAA==
-X-CMS-MailID: 20201111030351epcas1p4501ca2797f349939bfcd3a179c06f99d
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29
-References: <CGME20200911165401epcas1p3c7ee84dd01db93f472d6fa21c1100f29@epcas1p3.samsung.com>
- <20200911135413.3654800-1-m.tretter@pengutronix.de>
- <fa535450-cd68-415f-5c48-a4f753b2b70b@samsung.com>
- <20201110081336.GB13669@pengutronix.de>
- <fd177674-b22e-6743-9886-5590ccade2f5@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,94 +49,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- narmstrong@baylibre.com, b.zolnierkie@samsung.com, sw0312.kim@samsung.com,
- krzk@kernel.org, a.hajda@samsung.com, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, sylvester.nawrocki@gmail.com,
- Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Joerg Roedel <jroedel@suse.de>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI <dri-devel@lists.freedesktop.org>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0887617515=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgoyMC4gMTEuIDExLiDsmKTtm4QgMTI6MDTsl5AgSW5raSBEYWUg7J20KOqwgCkg7JO0IOq4gDoK
-PiAKPiAKPiAyMC4gMTEuIDEwLiDsmKTtm4QgNToxM+yXkCBNaWNoYWVsIFRyZXR0ZXIg7J20KOqw
-gCkg7JO0IOq4gDoKPj4gT24gTW9uLCAwOSBOb3YgMjAyMCAxMjoxNTozOSArMDkwMCwgSW5raSBE
-YWUgd3JvdGU6Cj4+PiAyMC4gOS4gMTEuIOyYpO2bhCAxMDo1M+yXkCBNaWNoYWVsIFRyZXR0ZXIg
-7J20KOqwgCkg7JO0IOq4gDoKPj4+PiBUaGlzIGlzIHYyIG9mIHRoZSBzZXJpZXMgdG8gY29udmVy
-dCB0aGUgRXh5bm9zIE1JUEkgRFNJIGRyaXZlciBpbnRvIGEgZHJtCj4+Pj4gYnJpZGdlIGFuZCBt
-YWtlIGl0IHVzYWJsZSB3aXRoIG90aGVyIGRyaXZlcnMuIEFsdGhvdWdoIHRoZSBkcml2ZXIgaXMK
-Pj4+PiBjb252ZXJ0ZWQsIGl0IHN0aWxsIHN1cHBvcnRzIHRoZSBjb21wb25lbnQgZnJhbWV3b3Jr
-IEFQSSB0byBzdGF5IGNvbXBsaWFudAo+Pj4+IHdpdGggdGhlIEV4eW5vcyBEUk0gZHJpdmVyLgo+
-Pj4+Cj4+Pj4gVGhlIEV4eW5vcyBNSVBJIERTSSBQaHkgaXMgYWxzbyBmb3VuZCBvbiB0aGUgaS5N
-WDhNIE1pbmkuIEhvd2V2ZXIsIG9uIHRoZQo+Pj4+IGkuTVg4TSBNaW5pLCB0aGUgYnJpZGdlIGlz
-IGRyaXZlbiBieSBhbiBMQ0RJRiBkaXNwbGF5IGNvbnRyb2xsZXIgaW5zdGVhZCBvZgo+Pj4+IHRo
-ZSBFeHlub3MgRGVjb24uIFRoZSBkcml2ZXIgZm9yIHRoZSBMQ0RJRiBkb2VzIG5vdCB1c2UgdGhl
-IGNvbXBvbmVudAo+Pj4+IGZyYW1ld29yaywgYnV0IHVzZXMgZHJtIGJyaWRnZXMuCj4+Pj4KPj4+
-PiBJIGRvbid0IGhhdmUgYW55IEV4eW5vcyBTb0MgdG8gYWN0dWFsbHkgdGVzdCB0aGUgc2VyaWVz
-LiBJIGJ1aWxkIGEgZHVtbXkgdG8KPj4+PiB0ZXN0IHRoZSBicmlkZ2Ugd2l0aCBhIGNvbXBvbmVu
-dCBkcml2ZXIsIHRvIG1ha2Ugc3VyZSB0aGF0IGF0IGxlYXN0IHRoZQo+Pj4+IGluaXRpYWxpemF0
-aW9uIGlzIHdvcmtpbmcuIEZ1cnRoZXJtb3JlLCB0ZXN0ZWQgdGhlIGRyaXZlciBhcyBhIGJyaWRn
-ZSB3aXRoIGEKPj4+PiBmZXcgYWRkaXRpb25hbCB1bmZpbmlzaGVkIHBhdGNoZXMgb24gdGhlIGku
-TVg4TSBNaW5pIEVWSy4gSG93ZXZlciwgc29tZWJvZHkKPj4+PiBzaG91bGQgdmVyaWZ5IHRoYXQg
-dGhlIGRyaXZlciBpcyBzdGlsbCB3b3JraW5nIG9uIEV4eW5vcyBoYXJkd2FyZS4KPj4+Pgo+Pj4+
-IEkgYWxzbyBjaGFuZ2VkIHRoZSBvcmRlciBvZiB0aGUgcGF0Y2hlcyB0byBmaXJzdCBtYWtlIHRo
-ZSBkcml2ZXIgbW9yZSBwbGF0Zm9ybQo+Pj4+IGluZGVwZW5kZW50IChwYXRjaGVzIDIgdG8gOCks
-IHRoZW4gY29udmVydCB0byBhIGRybSBicmlkZ2UgZHJpdmVyIChwYXRjaGVzIDEwCj4+Pgo+Pj4g
-SnVzdCBhIGZ1bmRhbWVudGFsIHF1ZXN0aW9uLCBBIE1JUEktRFNJKERpc3BsYXkgU2VyaWFsIElu
-dGVyZmFjZSkgYnVzIGRldmljZQo+Pj4gd291bGQgYmUgb25lIG9mIGFuIGVuY29kZXIgdHlwZSBv
-ZiBkZXZpY2VzIG5vdCBicmlkZ2Ugc3VjaCBhcyBEU0kgdG8gTFZEUwo+Pj4gYW5kIExWRFMgdG8g
-RFNJIGJyaWRnZSBkZXZpY2VzLCBhbmQgYWxzbyBpbWFnZSBlbmhhbmNlciBhbmQgaW1hZ2UgY29t
-cHJlc3Nvcgo+Pj4gaW4gY2FzZSBvZiBFeHlub3MuCj4+Cj4+IEkgZG9uJ3QgdW5kZXJzdGFuZCwg
-d2h5IHRoZSBNSVBJLURTSSBidXMgZGV2aWNlIHdvdWxkIGJlIGFuIGVuY29kZXIgdHlwZSBhbmQK
-Pj4gRFNJIHRvIExWRFMgb3IgTUlQSS1EU0kgdG8gSERNSSB3b3VsZCBiZSBicmlkZ2VzLiBGb3Ig
-ZXhhbXBsZSwgdGhlIGRldmljZSB0cmVlCj4+IGRvY3VtZW50YXRpb24gZm9yIHRoZSBEU0lNIHN0
-YXRlcyB0aGF0IHRoZSBEU0lNIHJlY2VpdmVzIFJHQiB2aWRlbyBhcyBpbnB1dAo+PiBhbmQgcHJv
-ZHVjZXMgTUlQSS1EU0kgYXMgb3V0cHV0LiBUaHVzLCB0aGUgRFNJTSBpcyBiYXNpY2FsbHkgYSBw
-YXJhbGxlbCBSR0IgdG8KPiAKPiBNSVBJLURTSSByZWNlaXZlcyBSR0IgdmlkZW8gYXMgaW5wdXQg
-YW5kIGVuY29kZXMgaXQgdG8gTUlQSSBwYWNrZXQgYW5kIHRoZW4gdHJhbnNmZXJzIHRoZSBwYWNr
-ZXQgdG8gTUlQSSBwYW5lbC4KPiBBbmQgZmluYWxseSwgTUlQSSBwYW5lbCBkZWNvZGVzIHRoZSBw
-YWNrZXQgYW5kIHVwZGF0ZXMgaXQgLSBSR0IgZGF0YSAtIG9uIGl0cyBTUkFNLgo+IAo+IE1JUEkt
-RFNJIGRyaXZlciBwcm9ncmFtcyBob3cgdGhlIFJHQiB2aWRlbyBzaG91bGQgYmUgbWFkZSBhcyBN
-SVBJIHBhY2tldC4gRm9yIG1vcmUgZGV0YWlsLCB5b3UgY291bGQgcmVmZXIgdG8gTUlQSS1EU0kg
-c3BlYy4KPiBUaGlzIHdvdWxkIGJlIHdoeSB3ZSBoYW5kbGUgTUlQSS1EU0kgZHJpdmVyIGFzIGFu
-IGVuY29kZXIgbGlrZSBvdGhlciBBUk0gU29DIERSTSBkcml2ZXJzIGRpZC4KPiAKPj4gTUlQSS1E
-U0kgYnJpZGdlIGFuZCB0aGUgZW5jb2RlciBpcyB0aGUgTENEIGNvbnRyb2xsZXIgdGhhdCBlbmNv
-ZGVzIHRoZSB2aWRlbwo+PiBkYXRhIGFzIHBhcmFsbGVsIFJHQi4KPj4KPj4gT24gdGhlIGkuTVg4
-TU0sIHRoZSBMQ0RJRiBpcyBhbHJlYWR5IHRoZSBlbmNvZGVyLiBPbiBFeHlub3MsIHRoZSBzZXJp
-ZXMKPj4gaW1wbGVtZW50cyB0aGUgZW5jb2RlciBpbiB0aGUgcGxhdGZvcm0gZ2x1ZSwgYnV0IGlu
-IHRoZSBlbmQgdGhlIGVuY29kZXIgY2FuCj4+IHByb2JhYmx5IGJlIG1vdmVkIHRvIHRoZSBERUNP
-Ti4KPiAKPiBBcyB5b3Uga25vdywgRGlzcGxheSBjb250cm9sbGVyIGNhbiB0cmFuc2ZlciBSR0Ig
-dmlkZW8gdG8gdmFyaW91cyBkZXZpY2VzIHN1Y2ggYXMgUkdCIHBhbmVsLCBDUFUgcGFuZWwsIExW
-RFMgcGFuZWwgdmlhIExWRFMgYnJpZGdlLCBNSVBJIHBhbmVsIHZpYSBNSVBJLURTSSBidXMgZGV2
-aWNlLCBhbmQgc28gb24gbGlrZSBiZWxvdywKPiAKPiBEaXNwbGF5IENvbnRyb2xsZXIgLS0+IFJH
-QiBwYW5lbCBvciBDUFUgcGFuZWwuCj4gRGlzcGxheSBDb250cm9sbGVyIC0tPiBMVkRTIGJyaWRn
-ZSAtLT4gTFZEUyBwYW5lbC4KPiBEaXNwbGF5IENvbnRyb2xsZXIgLS0+IE1JUEkgRFNJIGJ1cyBk
-ZXZpY2UgLS0+IE1JUEkgUGFuZWwuCj4gLi4uCj4gCj4gRGlzcGxheSBjb250cm9sbGVyIGRyaXZl
-cnMgc3VjaCBhcyBGSU1EIGFuZCBERUNPTiBzZXJpZXMgaW4gY2FzZSBvZiBFeHlub3MgZG9uJ3Qg
-Y3JlYXRlIGFuIGVuY29kZXIgZHJpdmVyLWludGVybmFsbHkgaW5zdGVhZCBvZiBpdCBkZXBlbmRz
-IG9uIERpc3BsYXkgcGlwZWxpbmUgY29uZmlndXJhdGlvbiAtIHdoYXQga2luZCBvZiBEaXNwbGF5
-IHBhbmVsIGlzIHVzZWQuCj4gSW4gZmFjdCwgaWYgdGhlIERpc3BsYXkgcGlwZWxpbmUgdXNlcyBS
-R0IgcGFuZWwgb3IgQ1BVIHBhbmVsIHdpdGhvdXQgRGlzcGxheSBidXMgZGV2aWNlIHN1Y2ggYXMg
-TUlQSS1EU0ksIHRoZW4gRklNRCBhbmQgREVDT04gZHJpdmVycyBjcmVhdGUgYW4gZW5jb2RlciBm
-b3IgaXQgaW50ZXJuYWxseSAtIGp1c3Qgd2Ugc2VwYXJhdGVkIHRoZSBjb2RlIHRvIGNvbnNpZGVy
-IG90aGVyIHR5cGUgb2YgcGFuZWxzLgo+IAo+IE9uIHRoZSBJLk1YOE1NLCBjb3VsZCB5b3Ugc2hh
-cmUgaG93IHRvIGhhbmRsZSBhbiBlbmNvZGVyIGlmIHNvbWUgYm9hcmQgaGFzIG9ubHkgTUlQSS1E
-U0kgcGFuZWwsIGFuZCBpbiB0aGlzIGNhc2UsIHdoZXJlIGlzIGFuIGVuY29kZXIgZm9yIGl0IGNy
-ZWF0ZWQ/IEkgbG9va2VkIGludG8gSS5NWDhNTSBEUk0gZHJpdmVyIGJ1dCBkaWRuJ3QgZmluZCBN
-SVBJLURTSSBkcml2ZXIuCj4gU2VlbXMgdGhhdCB0aGV5IHN1cHBvcnQgb25seSBwYXJhbGxlbCBk
-aXNwbGF5LCBIRE1JIGFuZCBMVkRTIHBhbmVsLgoKT25lIG1vcmUgdGhpbmcsIElmIEkgc2F3IGNv
-cnJlY3RseSwgdGhlIExWRFMgZHJpdmVyIG9mIElNWCBEUk0gLSBsbXhfbGRiIC0gY3JlYXRlcyBh
-biBlbmNvZGVyIGludGVybmFsbHkgbGlrZSBNSVBJLURTSSBkcml2ZXIgb2YgRXh5bm9zIERSTSBk
-aWQuCgo+IAo+IFRoYW5rcywKPiBJbmtpIERhZQo+IAo+Pgo+Pj4gV2h5IGRvIHlvdSB3YW50IHRv
-IGNvbnZlcnQgc3VjaCBNSVBJLURTSSBkcml2ZXIgdG8gYnJpZGdlIHR5cGUgb2YgZHJpdmVyPwo+
-Pj4gU2VlbXMgbm90IHNlbnNpYmxlLiBUaGUgcmVhc29uIHdvdWxkIGJlIGp1c3QgdG8gc2hhcmUg
-TUlQSS1EU0kgcGh5IGRyaXZlcgo+Pj4gZm9yIEV4eW5vcyB3aXRoIGkuTVg4TSBNaW5pPwo+Pgo+
-PiBZZXMsIHRoZSByZWFzb24gaXMgdGhhdCB0aGUgZHJpdmVyIHNob3VsZCBiZSBzaGFyZWQgYmV0
-d2VlbiBFeHlub3MgYW5kCj4+IGkuTVg4TU0uIEl0IGlzIHRoZSBzYW1lIElQIGFuZCBJIGRvbid0
-IHNlZSBhIHJlYXNvbiB3aHkgd2Ugc2hvdWxkIGludHJvZHVjZQo+PiBhbm90aGVyIGRyaXZlciBm
-b3IgdGhlIHNhbWUgSVAgaWYgdGhlIGRyaXZlciB3b3JrcyBmb3IgYm90aCBTb0NzLgo+Pgo+PiBN
-aWNoYWVsCj4+Cj4gCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
-bAo=
+--===============0887617515==
+Content-Type: multipart/signed; boundary="Sig_/I+N15pMdX+kqDfWV159qK9v";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/I+N15pMdX+kqDfWV159qK9v
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+Hi Michael,
+
+On Mon, 2 Nov 2020 05:19:06 -0500 "Michael S. Tsirkin" <mst@redhat.com> wro=
+te:
+>
+> On Mon, Nov 02, 2020 at 12:43:27PM +1100, Stephen Rothwell wrote:
+> >=20
+> > After merging the drm-misc tree, today's linux-next build (arm
+> > multi_v7_defconfig) failed like this:
+> >=20
+> > In file included from drivers/gpu/drm/nouveau/nouveau_ttm.c:26:
+> > include/linux/swiotlb.h: In function 'swiotlb_max_mapping_size':
+> > include/linux/swiotlb.h:99:9: error: 'SIZE_MAX' undeclared (first use i=
+n this function)
+> >    99 |  return SIZE_MAX;
+> >       |         ^~~~~~~~
+> > include/linux/swiotlb.h:7:1: note: 'SIZE_MAX' is defined in header '<st=
+dint.h>'; did you forget to '#include <stdint.h>'?
+> >     6 | #include <linux/init.h>
+> >   +++ |+#include <stdint.h>
+> >     7 | #include <linux/types.h>
+> > include/linux/swiotlb.h:99:9: note: each undeclared identifier is repor=
+ted only once for each function it appears in
+> >    99 |  return SIZE_MAX;
+> >       |         ^~~~~~~~
+> >=20
+> > Caused by commit
+> >=20
+> >   abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+> >=20
+> > but only exposed by commit
+> >=20
+> >   4dbafbd30aef ("drm/nouveu: fix swiotlb include")
+> >=20
+> > I applied the following fix for today:
+> >=20
+> > From: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Date: Mon, 2 Nov 2020 12:34:57 +1100
+> > Subject: [PATCH] swiotlb: using SIZE_MAX needs limits.h included
+> >=20
+> > Fixes: abe420bfae52 ("swiotlb: Introduce swiotlb_max_mapping_size()")
+> > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au> =20
+>=20
+> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>=20
+> I guess it makes sense to pick this up for this release directly.
+> I'll merge this unless there are any objections.
+
+Christoph is right that the include should not be conditional.  But I
+have not tested that that does not introduce some other problems.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/I+N15pMdX+kqDfWV159qK9v
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl+rgEcACgkQAVBC80lX
+0GwJ+wf/Upt8VmibWkOP6DcrxQ6kKq81c4GyROE6dRtbHPfgTWkGq9whjE3uc6rZ
+yyDStMrlbOIMvru7hbqkkhulZy0BUTznzvtaB3+WmlnLlIpbpVhcktqXzB+Tn1Bx
+POgIPnGKa1wvWAjo9qXiXrcVwZbyUaDkLgYSBz4WUJkStZLI3mjiq5qp+nk3tEYP
+SJE0IuV/+TR4nSYr6TQRkZwEwBPEJCibChEOQQb7Ra1NGPCvvcefet11I1oJKX4S
+JHZCHGcaEiiVfm6BQbozc4sdSnO6hfhsJ85a2Z1zaJO/u1S1REORWdGW6+T/wzPz
+Qi661bDkIgKvyD7/DXeQu78KbfdTtQ==
+=IgWG
+-----END PGP SIGNATURE-----
+
+--Sig_/I+N15pMdX+kqDfWV159qK9v--
+
+--===============0887617515==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0887617515==--
