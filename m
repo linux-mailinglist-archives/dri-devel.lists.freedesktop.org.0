@@ -2,111 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB12B00E0
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DE12B01F5
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 10:29:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14E326E183;
-	Thu, 12 Nov 2020 08:10:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B74AF6E183;
+	Thu, 12 Nov 2020 09:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D22396E183;
- Thu, 12 Nov 2020 08:10:54 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20201112081042euoutp01ee2b09c53d6708d5028b94218aec3a07~GtGA8LMfA1889818898euoutp01_;
- Thu, 12 Nov 2020 08:10:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20201112081042euoutp01ee2b09c53d6708d5028b94218aec3a07~GtGA8LMfA1889818898euoutp01_
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1605168642;
- bh=5QhIz+Gn5Nu1t1BJ55g8tgSxAnN2Qhv3UsWQAPjr2XE=;
- h=From:Subject:To:Cc:Date:In-Reply-To:References:From;
- b=b64XoHNHyRH94WtnWrIiT5KU/cDx5fnxzItI77Kk7w6SZX7tsbA7Ai3ryZMzN5Lct
- /YSCwayQ3wP9rhBfKUQ6YvKDKVpMpPXrLRlytAyQgSyHTrglDtwehR53iPmlFxJL/4
- fmxfGzt1a6FiPCOc3jgRik1oRrUBO3w1EsNW9HmI=
-Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20201112081037eucas1p10001fdda6dddb9d057a3eb3cec683c9b~GtF75tkcF3069230692eucas1p1I;
- Thu, 12 Nov 2020 08:10:37 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges1new.samsung.com (EUCPMTA) with SMTP id F7.8C.27958.CFDECAF5; Thu, 12
- Nov 2020 08:10:37 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df~GtF7QhSjo3069230692eucas1p1H;
- Thu, 12 Nov 2020 08:10:36 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20201112081036eusmtrp1008f17458f30bdd010557b6fe39947dc~GtF7Pb3DY0531605316eusmtrp1k;
- Thu, 12 Nov 2020 08:10:36 +0000 (GMT)
-X-AuditID: cbfec7f2-f15ff70000006d36-d1-5facedfc7293
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 08.81.21957.CFDECAF5; Thu, 12
- Nov 2020 08:10:36 +0000 (GMT)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20201112081034eusmtip10485455f165c607ea5327c010a6dcda1~GtF5oIs1T2201322013eusmtip1k;
- Thu, 12 Nov 2020 08:10:34 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: Re: [patch V3 10/37] ARM: highmem: Switch to generic kmap atomic
-To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
-Message-ID: <c07bae0c-68dd-2693-948f-00e8a50f3053@samsung.com>
-Date: Thu, 12 Nov 2020 09:10:34 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
- Gecko/20100101 Thunderbird/78.4.1
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12CDA6E14D
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 09:29:37 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o15so5231065wru.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 01:29:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=3xGsBFkINHlcPCbyUW0rzNvyBSPMRhRo4H+/TdURu5E=;
+ b=J96rzRujaYxi42J2WCmyAtl53Hk1lxFi/IH/Wkar0mUY/IJ4hQwtrypnL5uTUaEr+B
+ 78JiG+wfm2lYwPFcNHip57O5hp996znH2W9jqAjTSmEyJLiwm2dWy8LSQdhDhVYVdqX+
+ 0InRwhRhfa+Ch4fuW8OfNvIzMxW3RIxbtlQkg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3xGsBFkINHlcPCbyUW0rzNvyBSPMRhRo4H+/TdURu5E=;
+ b=jh6HSR/ZhCHqbQgVhILUY/NBKrxYj3Dpn0p6kzAJ/JlDI5GMfK4yjxJ1aAYxhOU3Br
+ 18AQ7glWZmjxFlv++jOnSdfBzfNyM6MJiJGsWH91OWSkAeslz8n9/8w5ycTEvH1N++1b
+ fO1Gey+X3p5lK/nF7Zv2q9mXRnECSQatl/Fv3UV+ht2n2Gk2T3E1aPFQt3bR1i4ruHJq
+ 72c+x39CHNNUVuG+iG4nq1nrYKkLaxI6wHxY/FFld6EswIQy5QIkVZriT+YCRcTEk7bq
+ cHsu8n0AWlDgQU5JUnRFXQF2UL0vU7VCakWwpCFBfDjUyZB+FPIXPzsHZHrAtdmcvI9o
+ cb8Q==
+X-Gm-Message-State: AOAM5315WE051h6duwj1hKexlVrKy/DIIUIxVV2dKPXlW+4+VHhrv7fl
+ LTSScnjzOujqEr+G81mAaH8tug==
+X-Google-Smtp-Source: ABdhPJwCESQG8J26ois6f4eUiZ46n405JjASLChmK/vtvvA6Utq2FSwvmX/yZ1Cfom83r5WD3afAZQ==
+X-Received: by 2002:adf:f608:: with SMTP id t8mr23288430wrp.72.1605173376294; 
+ Thu, 12 Nov 2020 01:29:36 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id j13sm5910883wrt.80.2020.11.12.01.29.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Nov 2020 01:29:35 -0800 (PST)
+Date: Thu, 12 Nov 2020 10:29:33 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Subject: Re: [PATCH v2 4/8] drm/amdgpu: Split amdgpu_device_fini into early
+ and late
+Message-ID: <20201112092933.GR401619@phenom.ffwll.local>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-5-git-send-email-andrey.grodzovsky@amd.com>
+ <20200622094849.GD20149@phenom.ffwll.local>
+ <c0c79eaf-8820-8def-d8ec-2aa79d6aaca6@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103095857.582196476@linutronix.de>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTZxzdd58tWnIBJx9gtliUBLehbNN9ic5oYuI1MxuLWbKYkFrmDbjx
- SitOINlAkPESTUFWSnlNCC3lMS/PyLsOKiBlUGQIDGxgSHjoVodMsGXQqxv/nXN+53y/8/vj
- E+HuVspbdCHyIqeIlIdLKReiofuF+T37UqXsQKMWQw/GijGkramkkF3VTaPb6hoS5Q6qcLQ0
- 1Uwi7UAygYaXn1JIb+jCUE7uFYD46RESDU3raNRQloyhltYeAlnuaCmUxtcDNFm5TqKrE1UY
- 0vdX0ch4sxWgtRUHibKfzAJkcPQCtJKVRSJb6XMCma51YOjaTBaG2lIfYSihR0eiGr4IR7X8
- TRwV9FXTaMBuIlF5fyGF/vl5mjzmy14dslOsZWQQZ9dWVYCt0z/E2OS2MZqt1e1j+Yo0iuVt
- Kpp9YjbT7D31GsHOdTbibHtBJc1OZZgwtrb0ezZ7tBywA+oSELTzrMuR81z4hUucYv/Rcy5h
- jhuZIDrH4/LgeBpIAH1MOhCLIPMhNHUX0OnAReTO6ADUFufgAvkbwHq1FhPIMwAXMyz460hz
- k40SBuUAlk40EQJ5CuCj0lZi00UxgTB9KZ3axB7MKdjaoXOmdzCfwdmk604PzuSJYaI+bBNL
- mKOwOWfK6SGYvfDecLrT8yYTAhPvJlGCxw325M04dTFzED7svI4L77wNk+rzX2FPODZT5KwN
- mUUXOD7fAoTaJ2DeZDsmYA84b6qjBbwL9mVnEkIgCUCruYoWSCaAlivqV+nDcMK8ulFDtLHC
- H9bc2S/Ix6G1dIXelCHjCkeX3IQSrlDV8CMuyBKYmuIuuP2gxlT939rOX4fwG0Cq2XKaZss5
- mi3naP7fWwyICuDJxSgjQjllYCT3bYBSHqGMiQwN+Coqggcbv6DPYbI1gYL5vwKMABMBI4Ai
- XLpD4nusUuYuOS+PjeMUUTJFTDinNAIfESH1lFTkb4yYUPlF7huOi+YUr6eYSOydgBFiSXWE
- ZUFr7c01LGfaqjte7M2zei88eEcReGLOcms51Td1eXWm4KdeXv9+fnFJ3Nc/xPt4eUZZtt/O
- g2PQQJ3zm9jlH/eukjB+nPjW8cbx+3zLqceT/JpH4Sd/ZvMmfeKlaNlJx4GEzp0hwXYvn/WZ
- IynbAv13373stmALXv6oqyWxnOwYbow8+UtbEG3cI3sZpxPXH/J7o7mwoSuBBOTzWxHbu0YM
- rf3r24oaix4f/K7sjzM5u0Oe+YSc/aDf4LY+yzSk/H7YrS5Dbe38NF4ZoCH4Cl2wbS7V0O5Z
- plb9Js13zSrpD1r83Msedyj6y8XQtVEuNvYLzWr8y/unZQ6zlFCGyQP34Qql/F8F4KeXdAQA
- AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0ybVRiAPd+tBa1+lCInzIWlExc3KRQoHnCSJVvc54VsmphsbrMr7AsQ
- abu1ZRleQp2MjDouK9d1FKgOKaPAaMdEEBjoBgiMFLBKQdG1Elwsm5CxKVCEggn/nrzned7k
- JC8X58+TIdw0hYZVKWTpQsqfGPD2/hK+5LFII7sHIfrRWY2hiiYLhZb1tzmoubyJRKV2PY48
- U+0kqhjOJtDYw/sUqqu/haHi0rMAWV0OEo24zBx0oyYbQ9929BNotK2CQrnWFoB+tayQ6Nxk
- A4bqhho4qKekA6DFR14SFc1OA1Tv/QGgR/n5JJq7skCg3rybGMpz52Oo8/xvGNL2m0nUZK3C
- kc1agiPjQCMHDS/3kqh2qJJCj6+5yD3bmXMjyxQz6rDjzOK/esBcrxvHmOxOJ4exmXcy1qu5
- FGOd03OY2Tt3OExf+SLBzHR/jTNdRguHmfq8F2NsV7KYop9rATNcbgIHn31PtFulzNCw21KV
- as2rwiNiFCUSxyFRVEycSBz98rH4KIkwImH3CTY97TSrikg4Lkr1Fl4AJ4sDz9gncoEWDNA6
- 4MeFdAxsb52jdMCfy6drACydXKLWH56D/aVacp0D4ZJDtyF5ADQ1TfskihZDnUfn40D6ddhx
- 04yvsYBOhGfzqsm1AKeNfvCLFYNP4tNS6Bh2+Lby6ATYXjzlCwg6DPaN6Yg1DqKTYI5lGaw7
- AbD/kts396MlcLy7wOfjdCystP2+waHws5bLGxwMne4qrBDwDZtyw6bEsCkxbEqqAXEVCNgM
- tTxFrhaL1DK5OkORIkpWyq1g9fpu3P7H1goq7/0t6gEYF/QAyMWFAt72PRYpn3dClvkhq1JK
- VRnprLoHSFb/cxEPCUpWrp6vQiMVx0ZKxDGxcZGSuNhoYTCvxbga0SkyDfsBy55kVf93GNcv
- RItpjr4W0TacaT/Q3FWUOX/YspWfc/FLavR+kHdv6wVQa7v2Vu3MwnjYZMHK+DttS5YtGkIf
- n1fxoD24zHk3ybHwdmNEuPn9xleGFKfcl0MdYccEgp+sn9w6c3Bqx4s18tBw7LH+3Y8O8Mfc
- dODpsInjLYnoiGluiytAsEPVV7Y3R2udHey0J34TX+KvMGif2L+U53ljkDhEsQV9L5z/o+HB
- p8Fbgx+mPO1Qf9/8UuclZdpk0UhWzq7rTxZPH733XepTHUmHF6pMmpkxRBcPvem4uwj/zLJ1
- saZdftHJDc/8FTDP+9g7Mfp8ZWHoNlPbvn1FESX+s4dcxvavpirE9WWnJCrWKSTUqTLxTlyl
- lv0HmCntXQYEAAA=
-X-CMS-MailID: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
-X-Msg-Generator: CA
-X-RootMTR: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df
-References: <20201103092712.714480842@linutronix.de>
- <20201103095857.582196476@linutronix.de>
- <CGME20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df@eucas1p1.samsung.com>
+Content-Disposition: inline
+In-Reply-To: <c0c79eaf-8820-8def-d8ec-2aa79d6aaca6@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,72 +68,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-aio@kvack.org, Peter Zijlstra <peterz@infradead.org>,
- nouveau@lists.freedesktop.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, Huang Rui <ray.huang@amd.com>, sparclinux@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, Paul McKenney <paulmck@kernel.org>,
- x86@kernel.org, Russell King <linux@armlinux.org.uk>,
- linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
- Mel Gorman <mgorman@suse.de>, Dave Airlie <airlied@redhat.com>,
- linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Linus Torvalds <torvalds@linuxfoundation.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- Christian Koenig <christian.koenig@amd.com>, linux-btrfs@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVGhvbWFzLAoKT24gMDMuMTEuMjAyMCAxMDoyNywgVGhvbWFzIEdsZWl4bmVyIHdyb3RlOgo+
-IE5vIHJlYXNvbiBoYXZpbmcgdGhlIHNhbWUgY29kZSBpbiBldmVyeSBhcmNoaXRlY3R1cmUuCj4K
-PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4KPiBD
-YzogUnVzc2VsbCBLaW5nIDxsaW51eEBhcm1saW51eC5vcmcudWs+Cj4gQ2M6IEFybmQgQmVyZ21h
-bm4gPGFybmRAYXJuZGIuZGU+Cj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFk
-Lm9yZwoKVGhpcyBwYXRjaCBsYW5kZWQgaW4gbGludXgtbmV4dCAyMDIwMTEwOSBhcyBjb21taXQg
-MmExNWJhODJmYTZjICgiQVJNOiAKaGlnaG1lbTogU3dpdGNoIHRvIGdlbmVyaWMga21hcCBhdG9t
-aWMiKS4gSG93ZXZlciBpdCBjYXVzZXMgYSBmb2xsb3dpbmcgCndhcm5pbmcgb24gbXkgdGVzdCBi
-b2FyZHMgKFNhbXN1bmcgRXh5bm9zIFNvQyBiYXNlZCk6CgpSdW4gL3NiaW4vaW5pdCBhcyBpbml0
-IHByb2Nlc3MKSU5JVDogdmVyc2lvbiAyLjg4IGJvb3RpbmcKLS0tLS0tLS0tLS0tWyBjdXQgaGVy
-ZSBdLS0tLS0tLS0tLS0tCldBUk5JTkc6IENQVTogMyBQSUQ6IDEyMCBhdCBtbS9oaWdobWVtLmM6
-NTAyIAprdW5tYXBfbG9jYWxfaW5kZXhlZCsweDE5NC8weDFkMApNb2R1bGVzIGxpbmtlZCBpbjoK
-Q1BVOiAzIFBJRDogMTIwIENvbW06IGluaXQgTm90IHRhaW50ZWQgNS4xMC4wLXJjMi0wMDAxMC1n
-MmExNWJhODJmYTZjICMxOTI0CkhhcmR3YXJlIG5hbWU6IFNhbXN1bmcgRXh5bm9zIChGbGF0dGVu
-ZWQgRGV2aWNlIFRyZWUpCls8YzAxMTE1MTQ+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMw
-MTBjZWI4Pl0gKHNob3dfc3RhY2srMHgxMC8weDE0KQpbPGMwMTBjZWI4Pl0gKHNob3dfc3RhY2sp
-IGZyb20gWzxjMGIxYjQwOD5dIChkdW1wX3N0YWNrKzB4YjQvMHhkNCkKWzxjMGIxYjQwOD5dIChk
-dW1wX3N0YWNrKSBmcm9tIFs8YzAxMjY5ODg+XSAoX193YXJuKzB4OTgvMHgxMDQpCls8YzAxMjY5
-ODg+XSAoX193YXJuKSBmcm9tIFs8YzAxMjZhYTQ+XSAod2Fybl9zbG93cGF0aF9mbXQrMHhiMC8w
-eGI4KQpbPGMwMTI2YWE0Pl0gKHdhcm5fc2xvd3BhdGhfZm10KSBmcm9tIFs8YzAyOGUyMmM+XSAK
-KGt1bm1hcF9sb2NhbF9pbmRleGVkKzB4MTk0LzB4MWQwKQpbPGMwMjhlMjJjPl0gKGt1bm1hcF9s
-b2NhbF9pbmRleGVkKSBmcm9tIFs8YzAyZDM3ZjQ+XSAKKHJlbW92ZV9hcmdfemVybysweGEwLzB4
-MTU4KQpbPGMwMmQzN2Y0Pl0gKHJlbW92ZV9hcmdfemVybykgZnJvbSBbPGMwMzRjZmM4Pl0gKGxv
-YWRfc2NyaXB0KzB4MjUwLzB4MzE4KQpbPGMwMzRjZmM4Pl0gKGxvYWRfc2NyaXB0KSBmcm9tIFs8
-YzAyZDJmN2M+XSAoYnBybV9leGVjdmUrMHgzZDAvMHg5MzApCls8YzAyZDJmN2M+XSAoYnBybV9l
-eGVjdmUpIGZyb20gWzxjMDJkM2RjOD5dIAooZG9fZXhlY3ZlYXRfY29tbW9uKzB4MTc0LzB4MTg0
-KQpbPGMwMmQzZGM4Pl0gKGRvX2V4ZWN2ZWF0X2NvbW1vbikgZnJvbSBbPGMwMmQ0Y2VjPl0gKHN5
-c19leGVjdmUrMHgzMC8weDM4KQpbPGMwMmQ0Y2VjPl0gKHN5c19leGVjdmUpIGZyb20gWzxjMDEw
-MDA2MD5dIChyZXRfZmFzdF9zeXNjYWxsKzB4MC8weDI4KQpFeGNlcHRpb24gc3RhY2soMHhjNDU2
-MWZhOCB0byAweGM0NTYxZmYwKQoxZmEwOsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBiNmYyYmFiOCBiZWY3ZGFjNCBiZWY3ZGFjNCBiZWY3ZDhmYyAwMDRiOWI1OCAKYmVmN2Rh
-YzgKMWZjMDogYjZmMmJhYjggYmVmN2RhYzQgYmVmN2Q4ZmMgMDAwMDAwMGIgMDA0YjgwMDAgMDA0
-YmFjNDQgYmVmN2RhM2MgCmJlZjdkOGRjCjFmZTA6IDAwMDAwMDJmIGJlZjdkODljIGI2ZDZkYzc0
-IGI2ZDZkNjVjCmlycSBldmVudCBzdGFtcDogMTI4MwpoYXJkaXJxcyBsYXN0wqAgZW5hYmxlZCBh
-dCAoMTI5Myk6IFs8YzAxOWY1NjQ+XSBjb25zb2xlX3VubG9jaysweDQzMC8weDZiMApoYXJkaXJx
-cyBsYXN0IGRpc2FibGVkIGF0ICgxMzAyKTogWzxjMDE5ZjU1Yz5dIGNvbnNvbGVfdW5sb2NrKzB4
-NDI4LzB4NmIwCnNvZnRpcnFzIGxhc3TCoCBlbmFibGVkIGF0ICgxMjgyKTogWzxjMDEwMTc2OD5d
-IF9fZG9fc29mdGlycSsweDUyOC8weDY3NApzb2Z0aXJxcyBsYXN0IGRpc2FibGVkIGF0ICgxMjY5
-KTogWzxjMDEyZmVkND5dIGlycV9leGl0KzB4MWRjLzB4MWU4Ci0tLVsgZW5kIHRyYWNlIDZmMzJh
-MmZiNDI5NDY1NWYgXS0tLQoKSSBjYW4gZG8gbW9yZSB0ZXN0cyB0byBoZWxwIGZpeGluZyB0aGlz
-IGlzc3VlLiBKdXN0IGxldCBtZSBrbm93IHdoYXQgdG8gZG8uCgouLi4KCkJlc3QgcmVnYXJkcwoK
-LS0gCk1hcmVrIFN6eXByb3dza2ksIFBoRApTYW1zdW5nIFImRCBJbnN0aXR1dGUgUG9sYW5kCgpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Wed, Nov 11, 2020 at 11:19:04PM -0500, Andrey Grodzovsky wrote:
+> 
+> On 6/22/20 5:48 AM, Daniel Vetter wrote:
+> > On Sun, Jun 21, 2020 at 02:03:04AM -0400, Andrey Grodzovsky wrote:
+> > > Some of the stuff in amdgpu_device_fini such as HW interrupts
+> > > disable and pending fences finilization must be done right away on
+> > > pci_remove while most of the stuff which relates to finilizing and releasing
+> > > driver data structures can be kept until drm_driver.release hook is called, i.e.
+> > > when the last device reference is dropped.
+> > > 
+> > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+> > Long term I think best if as much of this code is converted over to devm
+> > (for hw stuff) and drmm (for sw stuff and allocations). Doing this all
+> > manually is very error prone.
+> > 
+> > I've started various such patches and others followed, but thus far only
+> > very simple drivers tackled. But it should be doable step by step at
+> > least, so you should have incremental benefits in code complexity right
+> > away I hope.
+> > -Daniel
+> 
+> 
+> Sure, I will definitely add this to my TODOs for after landing (hopefully)
+> this patch set (after a few more iterations)
+> as indeed the required changes for using devm and drmm are non trivial and I prefer
+> to avoid diverging here into multiple directions at once.
+
+For the display side there's a very nice patch series from Philip Zabel
+pending:
+
+https://lore.kernel.org/dri-devel/20200911135724.25833-1-p.zabel@pengutronix.de/
+
+I think you'll want to use this. It's not landed yet, so a nudge from
+someone else also using it would help I think.
+
+Cheers, Daniel
+
+> 
+> Andrey
+> 
+> 
+> > 
+> > > ---
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +++++-
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++++++++++----
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ++----
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c    | 24 +++++++++++++++---------
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h    |  1 +
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 23 +++++++++++++++++------
+> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c    |  3 +++
+> > >   7 files changed, 54 insertions(+), 24 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > index 2a806cb..604a681 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> > > @@ -1003,7 +1003,9 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+> > >   		       struct drm_device *ddev,
+> > >   		       struct pci_dev *pdev,
+> > >   		       uint32_t flags);
+> > > -void amdgpu_device_fini(struct amdgpu_device *adev);
+> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev);
+> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev);
+> > > +
+> > >   int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
+> > >   void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
+> > > @@ -1188,6 +1190,8 @@ void amdgpu_driver_lastclose_kms(struct drm_device *dev);
+> > >   int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
+> > >   void amdgpu_driver_postclose_kms(struct drm_device *dev,
+> > >   				 struct drm_file *file_priv);
+> > > +void amdgpu_driver_release_kms(struct drm_device *dev);
+> > > +
+> > >   int amdgpu_device_ip_suspend(struct amdgpu_device *adev);
+> > >   int amdgpu_device_suspend(struct drm_device *dev, bool fbcon);
+> > >   int amdgpu_device_resume(struct drm_device *dev, bool fbcon);
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > index cc41e8f..e7b9065 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> > > @@ -2309,6 +2309,8 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
+> > >   {
+> > >   	int i, r;
+> > > +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
+> > > +
+> > >   	amdgpu_ras_pre_fini(adev);
+> > >   	if (adev->gmc.xgmi.num_physical_nodes > 1)
+> > > @@ -3304,10 +3306,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+> > >    * Tear down the driver info (all asics).
+> > >    * Called at driver shutdown.
+> > >    */
+> > > -void amdgpu_device_fini(struct amdgpu_device *adev)
+> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev)
+> > >   {
+> > > -	int r;
+> > > -
+> > >   	DRM_INFO("amdgpu: finishing device.\n");
+> > >   	flush_delayed_work(&adev->delayed_init_work);
+> > >   	adev->shutdown = true;
+> > > @@ -3330,7 +3330,13 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+> > >   	if (adev->pm_sysfs_en)
+> > >   		amdgpu_pm_sysfs_fini(adev);
+> > >   	amdgpu_fbdev_fini(adev);
+> > > -	r = amdgpu_device_ip_fini(adev);
+> > > +
+> > > +	amdgpu_irq_fini_early(adev);
+> > > +}
+> > > +
+> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev)
+> > > +{
+> > > +	amdgpu_device_ip_fini(adev);
+> > >   	if (adev->firmware.gpu_info_fw) {
+> > >   		release_firmware(adev->firmware.gpu_info_fw);
+> > >   		adev->firmware.gpu_info_fw = NULL;
+> > > @@ -3368,6 +3374,7 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
+> > >   		amdgpu_pmu_fini(adev);
+> > >   	if (amdgpu_discovery && adev->asic_type >= CHIP_NAVI10)
+> > >   		amdgpu_discovery_fini(adev);
+> > > +
+> > >   }
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > index 9e5afa5..43592dc 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> > > @@ -1134,12 +1134,9 @@ amdgpu_pci_remove(struct pci_dev *pdev)
+> > >   {
+> > >   	struct drm_device *dev = pci_get_drvdata(pdev);
+> > > -#ifdef MODULE
+> > > -	if (THIS_MODULE->state != MODULE_STATE_GOING)
+> > > -#endif
+> > > -		DRM_ERROR("Hotplug removal is not supported\n");
+> > >   	drm_dev_unplug(dev);
+> > >   	amdgpu_driver_unload_kms(dev);
+> > > +
+> > >   	pci_disable_device(pdev);
+> > >   	pci_set_drvdata(pdev, NULL);
+> > >   	drm_dev_put(dev);
+> > > @@ -1445,6 +1442,7 @@ static struct drm_driver kms_driver = {
+> > >   	.dumb_create = amdgpu_mode_dumb_create,
+> > >   	.dumb_map_offset = amdgpu_mode_dumb_mmap,
+> > >   	.fops = &amdgpu_driver_kms_fops,
+> > > +	.release = &amdgpu_driver_release_kms,
+> > >   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
+> > >   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > > index 0cc4c67..1697655 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+> > > @@ -49,6 +49,7 @@
+> > >   #include <drm/drm_irq.h>
+> > >   #include <drm/drm_vblank.h>
+> > >   #include <drm/amdgpu_drm.h>
+> > > +#include <drm/drm_drv.h>
+> > >   #include "amdgpu.h"
+> > >   #include "amdgpu_ih.h"
+> > >   #include "atom.h"
+> > > @@ -297,6 +298,20 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
+> > >   	return 0;
+> > >   }
+> > > +
+> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev)
+> > > +{
+> > > +	if (adev->irq.installed) {
+> > > +		drm_irq_uninstall(adev->ddev);
+> > > +		adev->irq.installed = false;
+> > > +		if (adev->irq.msi_enabled)
+> > > +			pci_free_irq_vectors(adev->pdev);
+> > > +
+> > > +		if (!amdgpu_device_has_dc_support(adev))
+> > > +			flush_work(&adev->hotplug_work);
+> > > +	}
+> > > +}
+> > > +
+> > >   /**
+> > >    * amdgpu_irq_fini - shut down interrupt handling
+> > >    *
+> > > @@ -310,15 +325,6 @@ void amdgpu_irq_fini(struct amdgpu_device *adev)
+> > >   {
+> > >   	unsigned i, j;
+> > > -	if (adev->irq.installed) {
+> > > -		drm_irq_uninstall(adev->ddev);
+> > > -		adev->irq.installed = false;
+> > > -		if (adev->irq.msi_enabled)
+> > > -			pci_free_irq_vectors(adev->pdev);
+> > > -		if (!amdgpu_device_has_dc_support(adev))
+> > > -			flush_work(&adev->hotplug_work);
+> > > -	}
+> > > -
+> > >   	for (i = 0; i < AMDGPU_IRQ_CLIENTID_MAX; ++i) {
+> > >   		if (!adev->irq.client[i].sources)
+> > >   			continue;
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> > > index c718e94..718c70f 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
+> > > @@ -104,6 +104,7 @@ irqreturn_t amdgpu_irq_handler(int irq, void *arg);
+> > >   int amdgpu_irq_init(struct amdgpu_device *adev);
+> > >   void amdgpu_irq_fini(struct amdgpu_device *adev);
+> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev);
+> > >   int amdgpu_irq_add_id(struct amdgpu_device *adev,
+> > >   		      unsigned client_id, unsigned src_id,
+> > >   		      struct amdgpu_irq_src *source);
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> > > index c0b1904..9d0af22 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
+> > > @@ -29,6 +29,7 @@
+> > >   #include "amdgpu.h"
+> > >   #include <drm/drm_debugfs.h>
+> > >   #include <drm/amdgpu_drm.h>
+> > > +#include <drm/drm_drv.h>
+> > >   #include "amdgpu_sched.h"
+> > >   #include "amdgpu_uvd.h"
+> > >   #include "amdgpu_vce.h"
+> > > @@ -86,7 +87,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+> > >   	amdgpu_unregister_gpu_instance(adev);
+> > >   	if (adev->rmmio == NULL)
+> > > -		goto done_free;
+> > > +		return;
+> > >   	if (adev->runpm) {
+> > >   		pm_runtime_get_sync(dev->dev);
+> > > @@ -95,11 +96,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
+> > >   	amdgpu_acpi_fini(adev);
+> > > -	amdgpu_device_fini(adev);
+> > > -
+> > > -done_free:
+> > > -	kfree(adev);
+> > > -	dev->dev_private = NULL;
+> > > +	amdgpu_device_fini_early(adev);
+> > >   }
+> > >   void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
+> > > @@ -1108,6 +1105,20 @@ void amdgpu_driver_postclose_kms(struct drm_device *dev,
+> > >   	pm_runtime_put_autosuspend(dev->dev);
+> > >   }
+> > > +
+> > > +void amdgpu_driver_release_kms (struct drm_device *dev)
+> > > +{
+> > > +	struct amdgpu_device *adev = dev->dev_private;
+> > > +
+> > > +	amdgpu_device_fini_late(adev);
+> > > +
+> > > +	kfree(adev);
+> > > +	dev->dev_private = NULL;
+> > > +
+> > > +	drm_dev_fini(dev);
+> > > +	kfree(dev);
+> > > +}
+> > > +
+> > >   /*
+> > >    * VBlank related functions.
+> > >    */
+> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > > index 7348619..169c2239 100644
+> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+> > > @@ -2056,9 +2056,12 @@ int amdgpu_ras_pre_fini(struct amdgpu_device *adev)
+> > >   {
+> > >   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
+> > > +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
+> > > +
+> > >   	if (!con)
+> > >   		return 0;
+> > > +
+> > >   	/* Need disable ras on all IPs here before ip [hw/sw]fini */
+> > >   	amdgpu_ras_disable_all_features(adev, 0);
+> > >   	amdgpu_ras_recovery_fini(adev);
+> > > -- 
+> > > 2.7.4
+> > > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
