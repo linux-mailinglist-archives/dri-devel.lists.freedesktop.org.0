@@ -1,49 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680982B1761
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 566412B1764
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC8776E47E;
-	Fri, 13 Nov 2020 08:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E18E6E48E;
+	Fri, 13 Nov 2020 08:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 371 seconds by postgrey-1.36 at gabe;
+ Thu, 12 Nov 2020 11:13:44 UTC
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8916E0D9;
- Thu, 12 Nov 2020 11:03:23 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD6C56E0D9;
+ Thu, 12 Nov 2020 11:13:44 +0000 (UTC)
+Date: Thu, 12 Nov 2020 12:07:29 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1605179001;
+ s=2020; t=1605179252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RyoQNma1D4GVgEfBEnD9HpKfLsmdKQZ2swCCbsJ89u4=;
- b=IyNoaFaiD+NM5KphnaangmvfL0El+UAOD+w5h3trf2Yyosfdrv/YLVOkMULOW/ZGBhg+Y/
- CdApJJvXGBIZ5Y44ibFQmafGLFWCU3g2FoxBkEzR7mbT6bdJj8sJZKMh9WrX346Yk/RRPA
- ObPEWbP1WIFj7Nu0oQW4DAuIZK/gvLY9xJn27pRRcuIRXasgXoUZIFo7CFG246Z8CyXPW3
- lDFsIyNmic0931dDytsaIyKfHvx6VLixbP2g5wvqVZcSxNyP0kB6LHCFDa/PWmE2zunoqs
- ONbIDGQXkPDZeN2NEzrt5DA5ZmFd/tf+3b4Z7uRwEDxb+zVSTZJFZcQwZtL5UA==
+ bh=GScfsa8nOXUlNCCC/0bnPZszGImDlkAqoVu5Twbqets=;
+ b=zZ3ortjpGyVdT6l5Epo+oXEihOo3YsbgeWmCO4SNBn297T52hhepV9lm5suD/944+Sz1gu
+ BkYylnk8pMKlYkb4csofMkEGSrhcQcyIn5AL1i1pw3/utYozF/zdo6+bRfmnph5PP7xve1
+ PpOVvXxebOQE5U3JtIzNhA0Fc1104xhNai+afx4A4y2O3Fs5x58WbqWTdn5gkAWgcM/duh
+ sMgxr+wPIZY9f8FrD3RrbmLqGk62lK9VfUOJuVBmyG+rJup0NYxJRRrKBRd/enHEx2zhIx
+ UfbLWY8NE5CqXAlPHU3T/T5B/66csi1W6K2Uz4Y5UeWB8lzg0bfoVIlYejlz5w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1605179001;
+ s=2020e; t=1605179252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RyoQNma1D4GVgEfBEnD9HpKfLsmdKQZ2swCCbsJ89u4=;
- b=3CYfPdTtsJ7bzsqrZTQJEvt1hjj5oOsRpY9HRk4W6lYOEOtLJxrx+ZTCMYthtsl9eIeQcX
- u0l5A2sNhnUsiqCg==
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- LKML <linux-kernel@vger.kernel.org>
+ bh=GScfsa8nOXUlNCCC/0bnPZszGImDlkAqoVu5Twbqets=;
+ b=IHlNPa7GPp5Ilh/x3NSZBuxoBCag1CyU3lSY94fXEHyvLJqz7JXMYGP0aqsiN8HGB3WFr5
+ ZFMQ/3qvo+nJiyAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
 Subject: Re: [patch V3 10/37] ARM: highmem: Switch to generic kmap atomic
-In-Reply-To: <c07bae0c-68dd-2693-948f-00e8a50f3053@samsung.com>
+Message-ID: <20201112110729.vx4xebavy6gpzuef@linutronix.de>
 References: <20201103092712.714480842@linutronix.de>
  <20201103095857.582196476@linutronix.de>
  <CGME20201112081036eucas1p14e135a370d3bccab311727fd2e89f4df@eucas1p1.samsung.com>
  <c07bae0c-68dd-2693-948f-00e8a50f3053@samsung.com>
-Date: Thu, 12 Nov 2020 12:03:20 +0100
-Message-ID: <87v9ean8g7.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <c07bae0c-68dd-2693-948f-00e8a50f3053@samsung.com>
 X-Mailman-Approved-At: Fri, 13 Nov 2020 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,10 +60,9 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-aio@kvack.org, Peter Zijlstra <peterz@infradead.org>,
- nouveau@lists.freedesktop.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- linux-mm@kvack.org, Huang Rui <ray.huang@amd.com>, sparclinux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ Huang Rui <ray.huang@amd.com>, sparclinux@vger.kernel.org,
  Ingo Molnar <mingo@kernel.org>, Paul McKenney <paulmck@kernel.org>,
  x86@kernel.org, Russell King <linux@armlinux.org.uk>,
  linux-csky@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
@@ -69,32 +70,25 @@ Cc: linux-aio@kvack.org, Peter Zijlstra <peterz@infradead.org>,
  linux-snps-arc@lists.infradead.org, linux-xtensa@linux-xtensa.org,
  Arnd Bergmann <arnd@arndb.de>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Steven Rostedt <rostedt@goodmis.org>,
+ Steven Rostedt <rostedt@goodmis.org>, linux-mips@vger.kernel.org,
  Linus Torvalds <torvalds@linuxfoundation.org>,
  Alexander Viro <viro@zeniv.linux.org.uk>, spice-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, linux-fsdevel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>, linuxppc-dev@lists.ozlabs.org,
- Christian Koenig <christian.koenig@amd.com>, linux-btrfs@vger.kernel.org
+ Thomas Gleixner <tglx@linutronix.de>, linux-arm-kernel@lists.infradead.org,
+ LKML <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ linuxppc-dev@lists.ozlabs.org, Christian Koenig <christian.koenig@amd.com>,
+ linux-btrfs@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marek,
-
-On Thu, Nov 12 2020 at 09:10, Marek Szyprowski wrote:
-> On 03.11.2020 10:27, Thomas Gleixner wrote:
->
+On 2020-11-12 09:10:34 [+0100], Marek Szyprowski wrote:
 > I can do more tests to help fixing this issue. Just let me know what to do.
 
-Just sent out the fix before I saw your report.
+-> https://lkml.kernel.org/r/87y2j6n8mj.fsf@nanos.tec.linutronix.de
 
-     https://lore.kernel.org/r/87y2j6n8mj.fsf@nanos.tec.linutronix.de
-
-Thanks,
-
-        tglx
+Sebastian
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
