@@ -2,59 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DE12B01F5
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 10:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEEF2B0200
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 10:32:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B74AF6E183;
-	Thu, 12 Nov 2020 09:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 551406E18F;
+	Thu, 12 Nov 2020 09:32:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12CDA6E14D
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 09:29:37 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id o15so5231065wru.6
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 01:29:37 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23AB56E18F
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 09:32:42 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id p22so4631850wmg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 01:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3xGsBFkINHlcPCbyUW0rzNvyBSPMRhRo4H+/TdURu5E=;
- b=J96rzRujaYxi42J2WCmyAtl53Hk1lxFi/IH/Wkar0mUY/IJ4hQwtrypnL5uTUaEr+B
- 78JiG+wfm2lYwPFcNHip57O5hp996znH2W9jqAjTSmEyJLiwm2dWy8LSQdhDhVYVdqX+
- 0InRwhRhfa+Ch4fuW8OfNvIzMxW3RIxbtlQkg=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
+ b=ClGwd9PImy4lshiA+U9TgHm3wMtpgX29mRHTW1PJ2Z/B04KEA5sYxSwmqwHFInajPL
+ bBgGwHoANnPrek4f/2fTZmkNXn4ZXMfy6/P/wzzDLZ0D+o59/USQC5sh8s8BLMNMRT23
+ 2JQ2SimoqOAPzXBp9UgIXN67enji1ANRDCQMA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3xGsBFkINHlcPCbyUW0rzNvyBSPMRhRo4H+/TdURu5E=;
- b=jh6HSR/ZhCHqbQgVhILUY/NBKrxYj3Dpn0p6kzAJ/JlDI5GMfK4yjxJ1aAYxhOU3Br
- 18AQ7glWZmjxFlv++jOnSdfBzfNyM6MJiJGsWH91OWSkAeslz8n9/8w5ycTEvH1N++1b
- fO1Gey+X3p5lK/nF7Zv2q9mXRnECSQatl/Fv3UV+ht2n2Gk2T3E1aPFQt3bR1i4ruHJq
- 72c+x39CHNNUVuG+iG4nq1nrYKkLaxI6wHxY/FFld6EswIQy5QIkVZriT+YCRcTEk7bq
- cHsu8n0AWlDgQU5JUnRFXQF2UL0vU7VCakWwpCFBfDjUyZB+FPIXPzsHZHrAtdmcvI9o
- cb8Q==
-X-Gm-Message-State: AOAM5315WE051h6duwj1hKexlVrKy/DIIUIxVV2dKPXlW+4+VHhrv7fl
- LTSScnjzOujqEr+G81mAaH8tug==
-X-Google-Smtp-Source: ABdhPJwCESQG8J26ois6f4eUiZ46n405JjASLChmK/vtvvA6Utq2FSwvmX/yZ1Cfom83r5WD3afAZQ==
-X-Received: by 2002:adf:f608:: with SMTP id t8mr23288430wrp.72.1605173376294; 
- Thu, 12 Nov 2020 01:29:36 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
+ b=cW+JeC1Trz/iaNRWVXx5LcSahy4l5DomAAA17Xf2ZaDkTyyXIhb6XDQXJ81QFzpPab
+ 9y9lvZf8yB9ol1k7omCmSs+vl/X2cDoXWNcNNmxS1M3xn2AnRQAbXE1Y1dYWchL3wzkn
+ Iy9yitlIpqTw+oohgsYi3m/f8fCztCgy/D4OnKK5FQYFhAUKvyMfnDDSsYnrRQyHlCn0
+ s80L85wLh2Ec5hYmBpmuDPEcCKOwheMX6o7F/CgI52nhg37NZI9wZzOx4Wsq87sgoURR
+ 9YvepD+OlpQ7X+BrTDBXytqNgdn7zihC4BLYczsGKRnmzAdRpX8elol/icREoDXpXjvT
+ vMzg==
+X-Gm-Message-State: AOAM531nAH/v5+wbDyFc/k/k+wc6tqjp+cKA38TT8luUBNWBZh/eA8lV
+ 814ZAqxooSDm+kAxlW3ENecl3A==
+X-Google-Smtp-Source: ABdhPJyCyDhy97NTajt/L+ZmaByBkxvp9KnxOaVEKwIx5lRydWZdS/DGH3dvRWY0NjD8L6XIb4eELw==
+X-Received: by 2002:a1c:2d5:: with SMTP id 204mr8871662wmc.181.1605173560677; 
+ Thu, 12 Nov 2020 01:32:40 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j13sm5910883wrt.80.2020.11.12.01.29.35
+ by smtp.gmail.com with ESMTPSA id g20sm5717032wmh.20.2020.11.12.01.32.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 01:29:35 -0800 (PST)
-Date: Thu, 12 Nov 2020 10:29:33 +0100
+ Thu, 12 Nov 2020 01:32:39 -0800 (PST)
+Date: Thu, 12 Nov 2020 10:32:37 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH v2 4/8] drm/amdgpu: Split amdgpu_device_fini into early
- and late
-Message-ID: <20201112092933.GR401619@phenom.ffwll.local>
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-5-git-send-email-andrey.grodzovsky@amd.com>
- <20200622094849.GD20149@phenom.ffwll.local>
- <c0c79eaf-8820-8def-d8ec-2aa79d6aaca6@amd.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+Message-ID: <20201112093237.GS401619@phenom.ffwll.local>
+Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
+ John Stultz <john.stultz@linaro.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Brian Starkey <Brian.Starkey@arm.com>,
+ Hridya Valsaraju <hridya@google.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sandeep Patil <sspatil@google.com>,
+ Daniel Mentz <danielmentz@google.com>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <c0c79eaf-8820-8def-d8ec-2aa79d6aaca6@amd.com>
+In-Reply-To: <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,283 +84,157 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Sandeep Patil <sspatil@google.com>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 11:19:04PM -0500, Andrey Grodzovsky wrote:
-> 
-> On 6/22/20 5:48 AM, Daniel Vetter wrote:
-> > On Sun, Jun 21, 2020 at 02:03:04AM -0400, Andrey Grodzovsky wrote:
-> > > Some of the stuff in amdgpu_device_fini such as HW interrupts
-> > > disable and pending fences finilization must be done right away on
-> > > pci_remove while most of the stuff which relates to finilizing and releasing
-> > > driver data structures can be kept until drm_driver.release hook is called, i.e.
-> > > when the last device reference is dropped.
-> > > 
-> > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > Long term I think best if as much of this code is converted over to devm
-> > (for hw stuff) and drmm (for sw stuff and allocations). Doing this all
-> > manually is very error prone.
-> > 
-> > I've started various such patches and others followed, but thus far only
-> > very simple drivers tackled. But it should be doable step by step at
-> > least, so you should have incremental benefits in code complexity right
-> > away I hope.
-> > -Daniel
-> 
-> 
-> Sure, I will definitely add this to my TODOs for after landing (hopefully)
-> this patch set (after a few more iterations)
-> as indeed the required changes for using devm and drmm are non trivial and I prefer
-> to avoid diverging here into multiple directions at once.
+On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> Hi John,
+> =
 
-For the display side there's a very nice patch series from Philip Zabel
-pending:
+> On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > Hey All,
+> >   So just wanted to send my last revision of my patch series
+> > of performance optimizations to the dma-buf system heap.
+> =
 
-https://lore.kernel.org/dri-devel/20200911135724.25833-1-p.zabel@pengutronix.de/
+> Thanks very much for your patches - I think the first 5 patches look good=
+ to me.
+> =
 
-I think you'll want to use this. It's not landed yet, so a nudge from
-someone else also using it would help I think.
+> I know there was a bit of discussion over adding a new system-uncached
+> heap v/s using a flag to identify that; I think I prefer the separate
+> heap idea, but lets ask one last time if any one else has any real
+> objections to it.
+> =
 
-Cheers, Daniel
+> Daniel, Christian: any comments from your side on this?
 
-> 
-> Andrey
-> 
-> 
-> > 
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +++++-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 15 +++++++++++----
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  6 ++----
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c    | 24 +++++++++++++++---------
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h    |  1 +
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 23 +++++++++++++++++------
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c    |  3 +++
-> > >   7 files changed, 54 insertions(+), 24 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > index 2a806cb..604a681 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > @@ -1003,7 +1003,9 @@ int amdgpu_device_init(struct amdgpu_device *adev,
-> > >   		       struct drm_device *ddev,
-> > >   		       struct pci_dev *pdev,
-> > >   		       uint32_t flags);
-> > > -void amdgpu_device_fini(struct amdgpu_device *adev);
-> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev);
-> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev);
-> > > +
-> > >   int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-> > >   void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
-> > > @@ -1188,6 +1190,8 @@ void amdgpu_driver_lastclose_kms(struct drm_device *dev);
-> > >   int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
-> > >   void amdgpu_driver_postclose_kms(struct drm_device *dev,
-> > >   				 struct drm_file *file_priv);
-> > > +void amdgpu_driver_release_kms(struct drm_device *dev);
-> > > +
-> > >   int amdgpu_device_ip_suspend(struct amdgpu_device *adev);
-> > >   int amdgpu_device_suspend(struct drm_device *dev, bool fbcon);
-> > >   int amdgpu_device_resume(struct drm_device *dev, bool fbcon);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > index cc41e8f..e7b9065 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > @@ -2309,6 +2309,8 @@ static int amdgpu_device_ip_fini(struct amdgpu_device *adev)
-> > >   {
-> > >   	int i, r;
-> > > +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
-> > > +
-> > >   	amdgpu_ras_pre_fini(adev);
-> > >   	if (adev->gmc.xgmi.num_physical_nodes > 1)
-> > > @@ -3304,10 +3306,8 @@ int amdgpu_device_init(struct amdgpu_device *adev,
-> > >    * Tear down the driver info (all asics).
-> > >    * Called at driver shutdown.
-> > >    */
-> > > -void amdgpu_device_fini(struct amdgpu_device *adev)
-> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev)
-> > >   {
-> > > -	int r;
-> > > -
-> > >   	DRM_INFO("amdgpu: finishing device.\n");
-> > >   	flush_delayed_work(&adev->delayed_init_work);
-> > >   	adev->shutdown = true;
-> > > @@ -3330,7 +3330,13 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
-> > >   	if (adev->pm_sysfs_en)
-> > >   		amdgpu_pm_sysfs_fini(adev);
-> > >   	amdgpu_fbdev_fini(adev);
-> > > -	r = amdgpu_device_ip_fini(adev);
-> > > +
-> > > +	amdgpu_irq_fini_early(adev);
-> > > +}
-> > > +
-> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev)
-> > > +{
-> > > +	amdgpu_device_ip_fini(adev);
-> > >   	if (adev->firmware.gpu_info_fw) {
-> > >   		release_firmware(adev->firmware.gpu_info_fw);
-> > >   		adev->firmware.gpu_info_fw = NULL;
-> > > @@ -3368,6 +3374,7 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
-> > >   		amdgpu_pmu_fini(adev);
-> > >   	if (amdgpu_discovery && adev->asic_type >= CHIP_NAVI10)
-> > >   		amdgpu_discovery_fini(adev);
-> > > +
-> > >   }
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > index 9e5afa5..43592dc 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > @@ -1134,12 +1134,9 @@ amdgpu_pci_remove(struct pci_dev *pdev)
-> > >   {
-> > >   	struct drm_device *dev = pci_get_drvdata(pdev);
-> > > -#ifdef MODULE
-> > > -	if (THIS_MODULE->state != MODULE_STATE_GOING)
-> > > -#endif
-> > > -		DRM_ERROR("Hotplug removal is not supported\n");
-> > >   	drm_dev_unplug(dev);
-> > >   	amdgpu_driver_unload_kms(dev);
-> > > +
-> > >   	pci_disable_device(pdev);
-> > >   	pci_set_drvdata(pdev, NULL);
-> > >   	drm_dev_put(dev);
-> > > @@ -1445,6 +1442,7 @@ static struct drm_driver kms_driver = {
-> > >   	.dumb_create = amdgpu_mode_dumb_create,
-> > >   	.dumb_map_offset = amdgpu_mode_dumb_mmap,
-> > >   	.fops = &amdgpu_driver_kms_fops,
-> > > +	.release = &amdgpu_driver_release_kms,
-> > >   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> > >   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > index 0cc4c67..1697655 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > @@ -49,6 +49,7 @@
-> > >   #include <drm/drm_irq.h>
-> > >   #include <drm/drm_vblank.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > +#include <drm/drm_drv.h>
-> > >   #include "amdgpu.h"
-> > >   #include "amdgpu_ih.h"
-> > >   #include "atom.h"
-> > > @@ -297,6 +298,20 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
-> > >   	return 0;
-> > >   }
-> > > +
-> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev)
-> > > +{
-> > > +	if (adev->irq.installed) {
-> > > +		drm_irq_uninstall(adev->ddev);
-> > > +		adev->irq.installed = false;
-> > > +		if (adev->irq.msi_enabled)
-> > > +			pci_free_irq_vectors(adev->pdev);
-> > > +
-> > > +		if (!amdgpu_device_has_dc_support(adev))
-> > > +			flush_work(&adev->hotplug_work);
-> > > +	}
-> > > +}
-> > > +
-> > >   /**
-> > >    * amdgpu_irq_fini - shut down interrupt handling
-> > >    *
-> > > @@ -310,15 +325,6 @@ void amdgpu_irq_fini(struct amdgpu_device *adev)
-> > >   {
-> > >   	unsigned i, j;
-> > > -	if (adev->irq.installed) {
-> > > -		drm_irq_uninstall(adev->ddev);
-> > > -		adev->irq.installed = false;
-> > > -		if (adev->irq.msi_enabled)
-> > > -			pci_free_irq_vectors(adev->pdev);
-> > > -		if (!amdgpu_device_has_dc_support(adev))
-> > > -			flush_work(&adev->hotplug_work);
-> > > -	}
-> > > -
-> > >   	for (i = 0; i < AMDGPU_IRQ_CLIENTID_MAX; ++i) {
-> > >   		if (!adev->irq.client[i].sources)
-> > >   			continue;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > index c718e94..718c70f 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > @@ -104,6 +104,7 @@ irqreturn_t amdgpu_irq_handler(int irq, void *arg);
-> > >   int amdgpu_irq_init(struct amdgpu_device *adev);
-> > >   void amdgpu_irq_fini(struct amdgpu_device *adev);
-> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev);
-> > >   int amdgpu_irq_add_id(struct amdgpu_device *adev,
-> > >   		      unsigned client_id, unsigned src_id,
-> > >   		      struct amdgpu_irq_src *source);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > index c0b1904..9d0af22 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > @@ -29,6 +29,7 @@
-> > >   #include "amdgpu.h"
-> > >   #include <drm/drm_debugfs.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > +#include <drm/drm_drv.h>
-> > >   #include "amdgpu_sched.h"
-> > >   #include "amdgpu_uvd.h"
-> > >   #include "amdgpu_vce.h"
-> > > @@ -86,7 +87,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
-> > >   	amdgpu_unregister_gpu_instance(adev);
-> > >   	if (adev->rmmio == NULL)
-> > > -		goto done_free;
-> > > +		return;
-> > >   	if (adev->runpm) {
-> > >   		pm_runtime_get_sync(dev->dev);
-> > > @@ -95,11 +96,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
-> > >   	amdgpu_acpi_fini(adev);
-> > > -	amdgpu_device_fini(adev);
-> > > -
-> > > -done_free:
-> > > -	kfree(adev);
-> > > -	dev->dev_private = NULL;
-> > > +	amdgpu_device_fini_early(adev);
-> > >   }
-> > >   void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
-> > > @@ -1108,6 +1105,20 @@ void amdgpu_driver_postclose_kms(struct drm_device *dev,
-> > >   	pm_runtime_put_autosuspend(dev->dev);
-> > >   }
-> > > +
-> > > +void amdgpu_driver_release_kms (struct drm_device *dev)
-> > > +{
-> > > +	struct amdgpu_device *adev = dev->dev_private;
-> > > +
-> > > +	amdgpu_device_fini_late(adev);
-> > > +
-> > > +	kfree(adev);
-> > > +	dev->dev_private = NULL;
-> > > +
-> > > +	drm_dev_fini(dev);
-> > > +	kfree(dev);
-> > > +}
-> > > +
-> > >   /*
-> > >    * VBlank related functions.
-> > >    */
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > index 7348619..169c2239 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > @@ -2056,9 +2056,12 @@ int amdgpu_ras_pre_fini(struct amdgpu_device *adev)
-> > >   {
-> > >   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
-> > > +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
-> > > +
-> > >   	if (!con)
-> > >   		return 0;
-> > > +
-> > >   	/* Need disable ras on all IPs here before ip [hw/sw]fini */
-> > >   	amdgpu_ras_disable_all_features(adev, 0);
-> > >   	amdgpu_ras_recovery_fini(adev);
-> > > -- 
-> > > 2.7.4
-> > > 
+I do wonder a bit where the userspace stack for this all is, since tuning
+allocators without a full stack is fairly pointless. dma-buf heaps is a
+bit in a limbo situation here it feels like.
 
--- 
+Plus I'm vary of anything related to leaking this kind of stuff beyond the
+dma-api because dma api maintainers don't like us doing that. But
+personally no concern on that front really, gpus need this. It's just that
+we do need solid justification I think if we land this. Hence back to
+first point.
+
+Ideally first point comes in the form of benchmarking on android together
+with a mesa driver (or mesa + some v4l driver or whatever it takes to
+actually show the benefits, I have no idea).
+-Daniel
+
+> =
+
+> I am planning to merge this series to drm-misc this week if I hear no
+> objections.
+> >
+> > This series reworks the system heap to use sgtables, and then
+> > consolidates the pagelist method from the heap-helpers into the
+> > CMA heap. After which the heap-helpers logic is removed (as it
+> > is unused). I'd still like to find a better way to avoid some of
+> > the logic duplication in implementing the entire dma_buf_ops
+> > handlers per heap. But unfortunately that code is tied somewhat
+> > to how the buffer's memory is tracked. As more heaps show up I
+> > think we'll have a better idea how to best share code, so for
+> > now I think this is ok.
+> >
+> > After this, the series introduces an optimization that
+> > =D8rjan Eide implemented for ION that avoids calling sync on
+> > attachments that don't have a mapping.
+> >
+> > Next, an optimization to use larger order pages for the system
+> > heap. This change brings us closer to the current performance
+> > of the ION allocation code (though there still is a gap due
+> > to ION using a mix of deferred-freeing and page pools, I'll be
+> > looking at integrating those eventually).
+> >
+> > Finally, a reworked version of my uncached system heap
+> > implementation I was submitting a few weeks back. Since it
+> > duplicated a lot of the now reworked system heap code, I
+> > realized it would be much simpler to add the functionality to
+> > the system_heap implementation itself.
+> >
+> > While not improving the core allocation performance, the
+> > uncached heap allocations do result in *much* improved
+> > performance on HiKey960 as it avoids a lot of flushing and
+> > invalidating buffers that the cpu doesn't touch often.
+> >
+> > Feedback on these would be great!
+> >
+> > thanks
+> > -john
+> >
+> > New in v5:
+> > * Added a comment explaining why the order sizes are
+> >   chosen as they are
+> >
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Liam Mark <lmark@codeaurora.org>
+> > Cc: Laura Abbott <labbott@kernel.org>
+> > Cc: Brian Starkey <Brian.Starkey@arm.com>
+> > Cc: Hridya Valsaraju <hridya@google.com>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Sandeep Patil <sspatil@google.com>
+> > Cc: Daniel Mentz <danielmentz@google.com>
+> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> > Cc: =D8rjan Eide <orjan.eide@arm.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: James Jones <jajones@nvidia.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> >
+> > John Stultz (7):
+> >   dma-buf: system_heap: Rework system heap to use sgtables instead of
+> >     pagelists
+> >   dma-buf: heaps: Move heap-helper logic into the cma_heap
+> >     implementation
+> >   dma-buf: heaps: Remove heap-helpers code
+> >   dma-buf: heaps: Skip sync if not mapped
+> >   dma-buf: system_heap: Allocate higher order pages if available
+> >   dma-buf: dma-heap: Keep track of the heap device struct
+> >   dma-buf: system_heap: Add a system-uncached heap re-using the system
+> >     heap
+> >
+> >  drivers/dma-buf/dma-heap.c           |  33 +-
+> >  drivers/dma-buf/heaps/Makefile       |   1 -
+> >  drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
+> >  drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
+> >  drivers/dma-buf/heaps/heap-helpers.h |  53 ---
+> >  drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
+> >  include/linux/dma-heap.h             |   9 +
+> >  7 files changed, 753 insertions(+), 431 deletions(-)
+> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+> >
+> > --
+> > 2.17.1
+> >
+> Thanks much,
+> =
+
+> Best,
+> Sumit.
+
+-- =
+
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
