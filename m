@@ -1,59 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2F02B175E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8B62B1765
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBEF06E47B;
-	Fri, 13 Nov 2020 08:38:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C34A6E48F;
+	Fri, 13 Nov 2020 08:38:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2656E03E
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 08:37:16 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id r186so3609760pgr.0
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 00:37:16 -0800 (PST)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42DAB88249
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 08:59:22 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id g11so2431103pll.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 00:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NNXh/Tn3kD4tEzF0+OhmTB/ikjusVNJKy38i4uzggqs=;
- b=ml7vZ3vRecPBdlyJx/kLR/FM8rkGZuvsHuSC/r0Feam0Ducyhd7lTNCiY7WnGKpD/P
- CJ/R/Qj6up21Gu/vDjayKylVhctUs8us+MZ8SPG4hD2vRRhDQ13nsA6Ie/tn5PpE5O2m
- MyFPMGXRuH4AGLhacFuPklUl1S8oPLp6IAlLk=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=no/VBwmUjyEkDBIEofBNskIYF3ICygqIU7/YLyjE5C4=;
+ b=b/jcmDDMQAT1WbXCvjBYsCflryrWai8ZDgcuYqrDbfJVyYRszRnIqGdg8pN7ionBqy
+ ptzYc7wrkbIYnHS5mXKB/s1CKc8bZXiuUkzYsxSD74LAm+Y+gN8Yw7+8sAHfRr8YSfjJ
+ iCPhWBqgGWPURrzG0vtRy2S3bKBJh5DVFWuK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NNXh/Tn3kD4tEzF0+OhmTB/ikjusVNJKy38i4uzggqs=;
- b=hQWRvWhuZ7buzFFCfsLNTCWA1Yho2+JVAIpT7Cg96V2Y4boQRU7w86jyO+fTxvHRiw
- EsI3+YwCXj6xRnB+VBmCMHf4TCzzRMp4xDnegX/D2Lm9kf9SdXVW1I3p/P8heZFv4Gz7
- mlJ7Qi96c4Db0ij2eZvKNO/kfpiWSlKIo1GcNY5b+yCFCYJTdGwU60RTO86OE493sDw1
- EUebHjnvRb0Aj713htwgkTcm2cabj6Pxs5JYOEUIbdhEIXHaivYFmKHoaywQom+4UTyG
- PQiiucaN2SNCkponriexVhqIkaOCbwb72p9a+j1msd3pMqot+BsUOywthiOT8T53Lapf
- PKjw==
-X-Gm-Message-State: AOAM530ayh5/JyJRI4n3h7/SsDJoNr1k0wvx1yywobpouWDiQV/SbwJ6
- hCoBosPyZ+QQKD8yByK9c73VQjHcOUohgA==
-X-Google-Smtp-Source: ABdhPJx22TIGYpOcZK5jJydSD4PvS+tYFUZ3d+L1zEx/gTsCn9Ou+rqAQCn5ob9yJ4i0hZr7u48c0w==
-X-Received: by 2002:aa7:9ece:0:b029:18b:ac4c:ac94 with SMTP id
- r14-20020aa79ece0000b029018bac4cac94mr25844884pfq.5.1605170236307; 
- Thu, 12 Nov 2020 00:37:16 -0800 (PST)
-Received: from hsinyi-z840.tpe.corp.google.com
- ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
- by smtp.gmail.com with ESMTPSA id a8sm4328404pfa.132.2020.11.12.00.37.13
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=no/VBwmUjyEkDBIEofBNskIYF3ICygqIU7/YLyjE5C4=;
+ b=ArvuuF8itfewMmiLOoaXlTIDzCDgrYh7gASJulZ9VeHlBRit4ju8fXgRGUJ/9Tab0n
+ zQPFhjWjEmZ1lbd/TyQJUpeNJpzd+vbzU1OIljSbdpnCjM60VoNy+7SRkgNTHONFh7V3
+ k31ZKAOu6sZgCIrTjUIo9QbcKKUQ+2onnSJ2FA1FU1WJM3jZroZdUWrDOqwBAbGLSNnW
+ HrneltVXrn0vZA7wz1ooqhKe1bBrbz7ekpUGMPrWEIjVGkkc2zcvkDvgb7X/1i0S6mLP
+ qvdpBGgWIhJJh/yo9Orw1SU7/Uq4RrZVuu2UjHXYjW4QVjc1jaXiiIZHvJTz0+/qZQ59
+ +x6w==
+X-Gm-Message-State: AOAM532LfPZ3HNHMi8KW23laNXwVezgQcdbCNPyClxhOUkSd+Id8VfBq
+ IugvWGe6MlGTQ2D+n798n25xpA==
+X-Google-Smtp-Source: ABdhPJwf/qNRp3cdldTds8ed7cGrz7q2smzK8HoQ1pypne4fSV0HbvzbGqmxypGV6+H8R+U4q+Reig==
+X-Received: by 2002:a17:902:eb42:b029:d6:ba60:ba41 with SMTP id
+ i2-20020a170902eb42b02900d6ba60ba41mr24797270pli.0.1605171561915; 
+ Thu, 12 Nov 2020 00:59:21 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a28c:fdff:fef0:49dd])
+ by smtp.gmail.com with ESMTPSA id mv16sm5741013pjb.36.2020.11.12.00.59.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 00:37:15 -0800 (PST)
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-To: Xin Ji <xji@analogixsemi.com>, Sam Ravnborg <sam@ravnborg.org>,
- Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 2/2] drm/bridge: anx7625: disable regulators when power off
-Date: Thu, 12 Nov 2020 16:37:04 +0800
-Message-Id: <20201112083704.1173908-2-hsinyi@chromium.org>
-X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
-In-Reply-To: <20201112083704.1173908-1-hsinyi@chromium.org>
-References: <20201112083704.1173908-1-hsinyi@chromium.org>
+ Thu, 12 Nov 2020 00:59:21 -0800 (PST)
+Date: Thu, 12 Nov 2020 00:59:20 -0800
+From: Prashant Malani <pmalani@chromium.org>
+To: Pi-Hsun Shih <pihsun@chromium.org>
+Subject: Re: [PATCH] drm/bridge: anx7625: Add anx7625 port switching.
+Message-ID: <20201112085920.GB1367855@google.com>
+References: <20201112064051.3716968-1-pihsun@chromium.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201112064051.3716968-1-pihsun@chromium.org>
 X-Mailman-Approved-At: Fri, 13 Nov 2020 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,113 +65,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+ Nicolas Boichat <drinkcat@chromium.org>, Jonas Karlman <jonas@kwiboo.se>,
+ David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, heikki.krogerus@linux.intel.com,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>
+ Sam Ravnborg <sam@ravnborg.org>, Xin Ji <xji@analogixsemi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When suspending the driver, anx7625_power_standby() will be called to
-turn off reset-gpios and enable-gpios. However, power supplies are not
-disabled. To save power, the driver can get the power supply regulators
-and turn off them in anx7625_power_standby().
+Hi Pi-Hsun,
 
-Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
----
- drivers/gpu/drm/bridge/analogix/anx7625.c | 25 +++++++++++++++++++++++
- drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
- 2 files changed, 26 insertions(+)
+I haven't gone through the code, but did have a high-level comment
+(kindly see inline)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 65cc05982f82..eb9c4cc2504a 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -11,6 +11,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/slab.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-@@ -875,12 +876,20 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
- static void anx7625_power_on(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
-+	int ret;
- 
- 	if (!ctx->pdata.low_power_mode) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
- 		return;
- 	}
- 
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->pdata.supplies),
-+				    ctx->pdata.supplies);
-+	if (ret < 0) {
-+		DRM_DEV_DEBUG_DRIVER(dev, "cannot enable regulators %d\n", ret);
-+		return;
-+	}
-+
- 	/* Power on pin enable */
- 	gpiod_set_value(ctx->pdata.gpio_p_on, 1);
- 	usleep_range(10000, 11000);
-@@ -894,6 +903,7 @@ static void anx7625_power_on(struct anx7625_data *ctx)
- static void anx7625_power_standby(struct anx7625_data *ctx)
- {
- 	struct device *dev = &ctx->client->dev;
-+	int ret;
- 
- 	if (!ctx->pdata.low_power_mode) {
- 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
-@@ -904,6 +914,12 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
- 	usleep_range(1000, 1100);
- 	gpiod_set_value(ctx->pdata.gpio_p_on, 0);
- 	usleep_range(1000, 1100);
-+
-+	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
-+				     ctx->pdata.supplies);
-+	if (ret < 0)
-+		DRM_DEV_DEBUG_DRIVER(dev, "cannot disable regulators %d\n", ret);
-+
- 	DRM_DEV_DEBUG_DRIVER(dev, "power down\n");
- }
- 
-@@ -1742,6 +1758,15 @@ static int anx7625_i2c_probe(struct i2c_client *client,
- 	platform->client = client;
- 	i2c_set_clientdata(client, platform);
- 
-+	pdata->supplies[0].supply = "vdd10";
-+	pdata->supplies[1].supply = "vdd18";
-+	pdata->supplies[2].supply = "vdd33";
-+	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pdata->supplies),
-+				      pdata->supplies);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "fail to get power supplies: %d\n", ret);
-+		return ret;
-+	}
- 	anx7625_init_gpio(platform);
- 
- 	atomic_set(&platform->power_status, 0);
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-index 193ad86c5450..e4a086b3a3d7 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-@@ -350,6 +350,7 @@ struct s_edid_data {
- struct anx7625_platform_data {
- 	struct gpio_desc *gpio_p_on;
- 	struct gpio_desc *gpio_reset;
-+	struct regulator_bulk_data supplies[3];
- 	struct drm_bridge *panel_bridge;
- 	int intp_irq;
- 	u32 low_power_mode;
--- 
-2.29.2.222.g5d2a92d10f8-goog
+On Thu, Nov 12, 2020 at 02:40:40PM +0800, Pi-Hsun Shih wrote:
+> When output 2 lanes DP data, anx7625 can output to either TX1/RX1 or
+> TX2/RX2. In typical usage, these two TX/RX pairs corresponds to two
+> orientations of typec.
+> 
+> On some board one anx7625 is used as DPI to DP converter for two typec
+> ports. In this case, the TX1/RX1 and TX2/RX2 are connected to two usb
+> muxes, which mux the DP data with the rest of the USB3 data, and
+> connects to the two typec ports.
+> 
+> This patch adds option for anx7625 to acts as a usb typec switch and
+> switch output lanes based on the typec orientation, or acts as two usb
+> typec mux and switch output lanes depending on whether the two ports
+> currently has DP enabled.
+> 
+> Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+> 
+> ====================================================================
+> 
+> This is an attempt to use typec framework with how we're using anx7625
+> on Chrome OS asurada board.
+> 
+> An example of the dts for the two ports case can be found at
+> https://crrev.com/c/2507199/6
 
+Do you plan on submitting DT schemas & bindings documentation for the switch(es)
+that are intended to be used?
+
+I would strongly recommend that for usb-c-connector since AFAIK they don't exist, and
+I don't believe there is explicit support for them in the Type C connector class framework
+(even .
+
+IMO this would be needed to ensure an implementation here doesn't break
+in the event of modifications to the connector class framework (or Type
+C port drivers like cros-ec-typec) in the future. I think some patches
+were floated for this for orientation switch [1] so those might provide
+some hints about how to proceed.
+
+I've CC-ed Heikki (Type C maintainer) in case he has additional comments regarding this.
+
+> 
+> Sending this as a RFC patch since I'm not sure about the best approach
+> here. Should the logic of switching output lanes depends on ports be
+> coupled inside anx7625 driver, or in another driver, or is there
+> any existing way to accomplish this?
+
+Might be good to add [RFC] as a tag instead of [PATCH] in case this
+iteration is chiefly to solicit comments.
+
+Best regards,
+
+-Prashant
+
+[1]:
+https://lore.kernel.org/linux-usb/1604403610-16577-1-git-send-email-jun.li@nxp.com/
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
