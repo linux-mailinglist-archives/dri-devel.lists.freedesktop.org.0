@@ -2,52 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B993D2B0A1F
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 17:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7252B0B18
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 18:16:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 678726E213;
-	Thu, 12 Nov 2020 16:37:32 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8306E2DF
- for <dri-devel@freedesktop.org>; Thu, 12 Nov 2020 16:37:31 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id s8so6657310wrw.10
- for <dri-devel@freedesktop.org>; Thu, 12 Nov 2020 08:37:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=856+wuZ3br1mkt8SsqhtyD2C7s8L5Yj2DM9tF9JbCR4=;
- b=rToA2rjiTiGnpXYZPJTiG0pGT4UNEkaz+nlmrTtxoK9NcJDbO6ljBtxIypteTx+Hoc
- 4OLesTMbkHApWMtspZ+gWsMa934eQpiZ+V/mIuTXy8238dOpXI51bRigR7gS1SVyRpEp
- yxdAvFcQTXqOeubDrm0CH2Yz1rj6jw4m7K8iiu/5KQH17Z2jD5WmHmgOLejNCN8b5uaV
- AQ8FDh+U+JfuMdPVb5TxOyd08yxDwxuzoY4Q4CReYhfJJceZ8sMBfqmTHvjgF0bAbzBD
- 0zLsEWvXCGlEnbGZHFMGhHbs1YPgz8ZzYD2yzeG3GMZT/dL7/WLOW9gCeGhfZVCbrpNC
- NIJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=856+wuZ3br1mkt8SsqhtyD2C7s8L5Yj2DM9tF9JbCR4=;
- b=bjEp9AtnblPxp3MgUhkAEiGsLTEvn6Bt2KpMZdK/FH+wEyyKDQjfyWPe87Nhkg44vi
- bUd2iPgn1HJUNhlPogRNx3fvGFpoQYcB7tmgV6dBh97DYXkuDJoSGkopxmD1nKgDnmSz
- 8QDB/1qZ4SMeNS7fhkJqGK58r3gKkFOD3mdQFQvgtMJEuJp0iximOOQstGitkM1NLgn9
- FhQmu9CgZLNAWJ/4hZfWQB4h9z1yP1ut77IYmgQBOJoiQ9g73WKVG7AdaE6F3nYnoPpP
- XiheOQNuXoN0u7TiS8wJySoc6r9OGnLBKTRR5KIyYIcvyN6dmvBVhCMvgxCstL3YlRDz
- sKnA==
-X-Gm-Message-State: AOAM531iTulNuIZijT8P5LpocywxwRBxwt/EbKfOcv0euhMXPmtcC7FL
- q3K9myw9B3EH0NpcK4peR6N8Ogxy5z5tSR58MkA=
-X-Google-Smtp-Source: ABdhPJynEFH36Z8T+0ra+y017A2jM4jxsUQt6xGrjuI/b2OTMBqOKgeAx9VEmjdg/N68ZQKKDLW0pDPu5uPlSAT7Dik=
-X-Received: by 2002:adf:a54d:: with SMTP id j13mr475613wrb.132.1605199049893; 
- Thu, 12 Nov 2020 08:37:29 -0800 (PST)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825EE6E2B6;
+	Thu, 12 Nov 2020 17:16:19 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4EA76E2B6
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 17:16:17 +0000 (UTC)
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 666A9216FD;
+ Thu, 12 Nov 2020 17:16:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605201377;
+ bh=lxI2SWRNu/vNMf3oMbzXFnq0SSD1w9QmvZ1Ujav1o8I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=xe2x5M1t18yJCKwVuL2NfQxj5Wr2gJMA2Gdc1O2AMfcZWsfxd8by8nRE2Mgl14ITQ
+ YMJY1x709L8eGOFJ9b4e5+b+CEIDYbpiAtu37j1IxdZcUfsYJ+JNEDrtHsgeAnKobT
+ hNNMtYZLOBGU52c9s3omM5ptGSNIrsuMJAWqI3q4=
+Date: Thu, 12 Nov 2020 17:16:00 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+Message-ID: <20201112171600.GD4742@sirena.org.uk>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-12-digetx@gmail.com>
+ <20201110202945.GF2375022@ulmo>
+ <20201110203257.GC5957@sirena.org.uk>
+ <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
+ <20201111115534.GA4847@sirena.org.uk>
+ <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
 MIME-Version: 1.0
-References: <1605196144-23516-1-git-send-email-akhilpo@codeaurora.org>
-In-Reply-To: <1605196144-23516-1-git-send-email-akhilpo@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 12 Nov 2020 08:37:18 -0800
-Message-ID: <CAF6AEGutT0M9mu2NhUnqnvrqSNEUEqYJKS6Mt0vXwV+mPyQGMw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: adreno: Make speed-bin support generic
-To: Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
+X-Cookie: Danger: do not shake.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,260 +53,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Douglas Anderson <dianders@chromium.org>, Matthias Kaehlcke <mka@chromium.org>,
- dri-devel@freedesktop.org, freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Peter Geis <pgwipeout@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1537741540=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 12, 2020 at 7:49 AM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
->
-> So far a530v2 gpu has support for detecting its supported opps
-> based on a fuse value called speed-bin. This patch makes this
-> support generic across gpu families. This is in preparation to
-> extend speed-bin support to a6x family.
->
-> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
-> ---
-> This patch is rebased on top of msm-next-staging branch in rob's tree.
->
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
->  drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
->  4 files changed, 80 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> index 8fa5c91..7d42321 100644
-> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
-> @@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
->         .get_timestamp = a5xx_get_timestamp,
->  };
->
-> -static void check_speed_bin(struct device *dev)
-> -{
-> -       struct nvmem_cell *cell;
-> -       u32 val;
-> -
-> -       /*
-> -        * If the OPP table specifies a opp-supported-hw property then we have
-> -        * to set something with dev_pm_opp_set_supported_hw() or the table
-> -        * doesn't get populated so pick an arbitrary value that should
-> -        * ensure the default frequencies are selected but not conflict with any
-> -        * actual bins
-> -        */
-> -       val = 0x80;
-> -
-> -       cell = nvmem_cell_get(dev, "speed_bin");
-> -
-> -       if (!IS_ERR(cell)) {
-> -               void *buf = nvmem_cell_read(cell, NULL);
-> -
-> -               if (!IS_ERR(buf)) {
-> -                       u8 bin = *((u8 *) buf);
-> -
-> -                       val = (1 << bin);
-> -                       kfree(buf);
-> -               }
-> -
-> -               nvmem_cell_put(cell);
-> -       }
-> -
-> -       dev_pm_opp_set_supported_hw(dev, &val, 1);
-> -}
-> -
->  struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->  {
->         struct msm_drm_private *priv = dev->dev_private;
-> @@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->
->         a5xx_gpu->lm_leakage = 0x4E001A;
->
-> -       check_speed_bin(&pdev->dev);
-> -
->         ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
->         if (ret) {
->                 a5xx_destroy(&(a5xx_gpu->base.base));
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> index 87c8b03..e0ff16c 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
-> @@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
->  MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
->  module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
->
-> +const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
-> +
->  static const struct adreno_info gpulist[] = {
->         {
->                 .rev   = ADRENO_REV(2, 0, 0, 0),
-> @@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
->                         ADRENO_QUIRK_FAULT_DETECT_MASK,
->                 .init = a5xx_gpu_init,
->                 .zapfw = "a530_zap.mdt",
-> +               .speedbins = a530v2_speedbins,
-> +               .speedbins_count = ARRAY_SIZE(a530v2_speedbins),
->         }, {
->                 .rev = ADRENO_REV(5, 4, 0, 2),
->                 .revn = 540,
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> index f21561d..cdd0c11 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-> @@ -14,6 +14,7 @@
->  #include <linux/pm_opp.h>
->  #include <linux/slab.h>
->  #include <linux/soc/qcom/mdt_loader.h>
-> +#include <linux/nvmem-consumer.h>
->  #include <soc/qcom/ocmem.h>
->  #include "adreno_gpu.h"
->  #include "msm_gem.h"
-> @@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
->                            adreno_ocmem->hdl);
->  }
->
-> +static int adreno_set_supported_hw(struct device *dev,
-> +               struct adreno_gpu *adreno_gpu)
-> +{
-> +       u8 speedbins_count = adreno_gpu->info->speedbins_count;
-> +       const u32 *speedbins = adreno_gpu->info->speedbins;
-> +       struct nvmem_cell *cell;
-> +       u32 bin, i;
-> +       u32 val = 0;
-> +       void *buf, *opp_table;
-> +
-> +       cell = nvmem_cell_get(dev, "speed_bin");
-> +       /*
-> +        * -ENOENT means that the platform doesn't support speedbin which is
-> +        * fine
-> +        */
-> +       if (PTR_ERR(cell) == -ENOENT)
-> +               return 0;
-> +       else if (IS_ERR(cell))
-> +               return PTR_ERR(cell);
-> +
-> +       /* A speedbin table is must if the platform supports speedbin */
-> +       if (!speedbins) {
-> +               DRM_DEV_ERROR(dev, "speed-bin table is missing\n");
-> +               return -ENOENT;
 
-Hmm, this means that hw which supports speed-bin, but for which we
-haven't yet added a speedbin table, will start failing.  Which seems
-not great.  Maybe it would be better to keep the DRM_DEV_ERROR() (so
-people realize something is missing), but return 0?
+--===============1537741540==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6WlEvdN9Dv0WHSBl"
+Content-Disposition: inline
 
-Or do you think we could add the speed-bin tables for all supported hw
-immediately?
 
-BR,
--R
+--6WlEvdN9Dv0WHSBl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +       }
-> +
-> +       buf = nvmem_cell_read(cell, NULL);
-> +       if (IS_ERR(buf)) {
-> +               nvmem_cell_put(cell);
-> +               return PTR_ERR(buf);
-> +       }
-> +
-> +       bin = *((u32 *) buf);
-> +
-> +       for (i = 0; i < speedbins_count; i++) {
-> +               if (bin == speedbins[i]) {
-> +                       val = (1 << i);
-> +                       break;
-> +               }
-> +       }
-> +
-> +       kfree(buf);
-> +       nvmem_cell_put(cell);
-> +
-> +       if (!val) {
-> +               DRM_DEV_ERROR(dev, "missing support for speed-bin: %u\n", bin);
-> +               return -ENOENT;
-> +       }
-> +
-> +       opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
-> +       if (IS_ERR(opp_table))
-> +               return PTR_ERR(opp_table);
-> +
-> +       adreno_gpu->opp_table = opp_table;
-> +       return 0;
-> +}
-> +
-> +static void adreno_put_supported_hw(struct opp_table *opp_table)
-> +{
-> +       if (opp_table)
-> +               dev_pm_opp_put_supported_hw(opp_table);
-> +}
-> +
->  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->                 struct adreno_gpu *adreno_gpu,
->                 const struct adreno_gpu_funcs *funcs, int nr_rings)
-> @@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->         struct adreno_platform_config *config = dev->platform_data;
->         struct msm_gpu_config adreno_gpu_config  = { 0 };
->         struct msm_gpu *gpu = &adreno_gpu->base;
-> +       int ret;
->
->         adreno_gpu->funcs = funcs;
->         adreno_gpu->info = adreno_info(config->rev);
-> @@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->
->         adreno_gpu_config.nr_rings = nr_rings;
->
-> +       ret = adreno_set_supported_hw(dev, adreno_gpu);
-> +       if (ret)
-> +               return ret;
-> +
->         adreno_get_pwrlevels(dev, gpu);
->
->         pm_runtime_set_autosuspend_delay(dev,
-> @@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
->
->         icc_put(gpu->icc_path);
->         icc_put(gpu->ocmem_icc_path);
-> +
-> +       adreno_put_supported_hw(adreno_gpu->opp_table);
->  }
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index c3775f7..a756ad7 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -55,6 +55,7 @@ struct adreno_reglist {
->  };
->
->  extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
-> +extern const u32 a618_speedbins[];
->
->  struct adreno_info {
->         struct adreno_rev rev;
-> @@ -67,6 +68,8 @@ struct adreno_info {
->         const char *zapfw;
->         u32 inactive_period;
->         const struct adreno_reglist *hwcg;
-> +       const u32 *speedbins;
-> +       const u8 speedbins_count;
->  };
->
->  const struct adreno_info *adreno_info(struct adreno_rev rev);
-> @@ -112,6 +115,8 @@ struct adreno_gpu {
->          * code (a3xx_gpu.c) and stored in this common location.
->          */
->         const unsigned int *reg_offsets;
-> +
-> +       struct opp_table *opp_table;
->  };
->  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
->
-> --
-> 2.7.4
->
+On Thu, Nov 12, 2020 at 07:59:36PM +0300, Dmitry Osipenko wrote:
+> 11.11.2020 14:55, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Wed, Nov 11, 2020 at 12:23:41AM +0300, Dmitry Osipenko wrote:
+
+> >> I already changed that code to use regulator_get_optional() for v2.
+
+> > That doesn't look entirely appropriate given that the core does most
+> > likely require some kind of power to operate.
+
+> We will need to do this because older DTBs won't have that regulator and
+> we want to keep them working.
+
+> Also, some device-trees won't have that regulator anyways because board
+> schematics isn't available, and thus, we can't fix them.
+
+This is what dummy supplies are for?
+
+> >> Regarding the enumerating supported voltage.. I think this should be
+> >> done by the OPP core, but regulator core doesn't work well if
+> >> regulator_get() is invoked more than one time for the same device, at
+> >> least there is a loud debugfs warning about an already existing
+
+> > I don't understand why this would be an issue - if nothing else the core
+> > could just offer an interface to trigger the check.
+
+> It's not an issue, I just described what happens when device driver
+> tries to get a regulator twice.
+
+> There was an issue once that check is added to the regulator core code.
+> But perhaps not worth to discuss it for now because I don't remember
+> details.
+
+So there's no known obstacle to putting enumeration of supported
+voltages into the OPP core then?  I'm a bit confused here.
+
+> >> directory for a regulator. It's easy to check whether the debug
+> >> directory exists before creating it, like thermal framework does it for
+> >> example, but then there were some other more difficult issues.. I don't
+> >> recall what they were right now. Perhaps will be easier to simply get a
+> >> error from regulator_set_voltage() for now because it shouldn't ever
+> >> happen in practice, unless device-tree has wrong constraints.
+
+> > The constraints might not be wrong, there might be some board which has
+> > a constraint somewhere for=20
+
+> In this case board's DT shouldn't specify unsupportable OPPs.
+
+Ah, so each board duplicates the OPP tables then, or there's an
+expectation that if there's some limit then they'll copy and modify the
+table?  If that's the case then it's a bit redundant to do filtering
+indeed.
+
+--6WlEvdN9Dv0WHSBl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+tbc8ACgkQJNaLcl1U
+h9DMCwgAg/TVHTXmevYwD5s1Ajz8QKM96GSjHTvRKagWLF+y+O7/6SvbHmWmiMqD
+72lNxOyhMyrHsB/r2SJfYiZnTaxPvDwxTdU9CzTHTAPUdapJ6qyV0iuMkQHGTGKN
+SYqZvJhMfwBpvhvMDaUiOMYQ9uTqipBCfhqgXNhQaGfnIco6awkwlY3AKGp+50pg
+XKM7DBdL0naY0/Mog4jbOjAo3Np4dTsY/CPaIh/QPQe4p2lHaBmWLjobDZOlzEXI
+kZlYkHPdsANUEzVh7uuTgqYPs+WfxLW89lNjqL2/if0+KF5dNmcHORIOsJ5GQlQb
+J3JAZ0VQrlO7gydHgdEneannVwSdIg==
+=CmJu
+-----END PGP SIGNATURE-----
+
+--6WlEvdN9Dv0WHSBl--
+
+--===============1537741540==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1537741540==--
