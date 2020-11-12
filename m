@@ -2,32 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AAB2B174E
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DEC2B1768
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:39:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4BD86E455;
-	Fri, 13 Nov 2020 08:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2666E45E;
+	Fri, 13 Nov 2020 08:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A92F66E22C;
- Thu, 12 Nov 2020 13:31:06 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CX2Y73sV5z15RSS;
- Thu, 12 Nov 2020 21:30:51 +0800 (CST)
-Received: from linux-ibm.site (10.175.102.37) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 12 Nov 2020 21:30:50 +0800
-From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>
-Subject: [PATCH] drm/i915/gvt: return error when failing to take the module
- reference
-Date: Thu, 12 Nov 2020 21:22:32 +0800
-Message-ID: <1605187352-51761-1-git-send-email-wangxiongfeng2@huawei.com>
-X-Mailer: git-send-email 1.7.12.4
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD746E22C
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 13:25:16 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id g17so3888731qts.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 05:25:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Vkv5jtIJud+QIqcEKAOrz49oEiKkFPAoACrsXa1ygRI=;
+ b=Y+8FL3R3aa2iCZyQyaVvGjWPzY6Z3jTlOk9UvCp0XbmnptOo8ioxNJ342L9eRV87/v
+ kBr7Uc3IcB3jLIhgBWj1JLHFlzjPn0ONvp4KvsrXBnvBpM1bbAQYW80fTqopVwzy7/QL
+ v145ule18cZqgJGNSFTRfnRLoNxnfkxGCv93Qk+prb4/ElemeYtnlRkwMxXSTIaZ2+et
+ 7uTa75c1MGuYO6AE50dBzd6nJ7UOsGsItaUtEd1GToXwyuwnyUraDj3IyQ6RLvWLuc7e
+ C8Y2B8b1gQCO5U6HOpbcp7psDZG3km2Wm82VXZqxWnB0n4UhGhU+sr85efHvVAPMlDt4
+ j5vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Vkv5jtIJud+QIqcEKAOrz49oEiKkFPAoACrsXa1ygRI=;
+ b=BhA8HXZg5+TPW7dSLDljoce05KnoMCieeUHf5oNjiGxga1ycDnf+dblbPnSqOE1j7M
+ GVwpx8dcg+X0EwQJiV0eY5w3v1kkVRO5iYPtsQnOjpkmxxfPHsQ53r1D+sN+3Ti39YRN
+ RnooABigyR7K1Vk9Bf9zdO6Yfg5EUZ75+zLIR9OxuooiVv3Oytgo50pJljNbosH9nqlX
+ KeJpVfsZ4O648yGMtL9JmsMuFzV0LuzHCKKj8wzaxYiu+laWgrAI80mZizBL6BjI8vzY
+ j+OTWFP4VXFWEbbHz04ZPaFmqcsXkQPyc6kcyX/q8oTSLViuVKQJVByrYZZrTrrfOJ1P
+ GBFw==
+X-Gm-Message-State: AOAM530dszbZavgbQ8EFdsQYgIIHvQHHIgHJSEJL+LKgkAZXUB4mI00X
+ UkSzlvj1ka77lFewt6XJx5BJpg==
+X-Google-Smtp-Source: ABdhPJwYDJZ9CsmJHHji4+pBSpYm8kKmHl05XRyzWDUaADZStBu1Fbw/SJ8cr66iCQGhH6tHaJ1vNw==
+X-Received: by 2002:a05:622a:254:: with SMTP id
+ c20mr5230454qtx.335.1605187515293; 
+ Thu, 12 Nov 2020 05:25:15 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id w45sm5038843qtw.96.2020.11.12.05.25.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Nov 2020 05:25:14 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kdCbC-003frw-5j; Thu, 12 Nov 2020 09:25:14 -0400
+Date: Thu, 12 Nov 2020 09:25:14 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v10 6/6] dma-buf: Document that dma-buf size is fixed
+Message-ID: <20201112132514.GR244516@ziepe.ca>
+References: <1605044477-51833-1-git-send-email-jianxin.xiong@intel.com>
+ <1605044477-51833-7-git-send-email-jianxin.xiong@intel.com>
+ <20201111163323.GP401619@phenom.ffwll.local>
 MIME-Version: 1.0
-X-Originating-IP: [10.175.102.37]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <20201111163323.GP401619@phenom.ffwll.local>
 X-Mailman-Approved-At: Fri, 13 Nov 2020 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,44 +74,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: chenzhou10@huawei.com, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, wangxiongfeng2@huawei.com
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we fail to take the module reference, we go to the 'undo*' branch and
-return. But the returned variable 'ret' has been set as zero by the
-above code. Change 'ret' to '-ENODEV' in this situation.
+On Wed, Nov 11, 2020 at 05:33:23PM +0100, Daniel Vetter wrote:
+> On Tue, Nov 10, 2020 at 01:41:17PM -0800, Jianxin Xiong wrote:
+> > The fact that the size of dma-buf is invariant over the lifetime of the
+> > buffer is mentioned in the comment of 'dma_buf_ops.mmap', but is not
+> > documented at where the info is defined. Add the missing documentation.
+> > 
+> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> 
+> Applied to drm-misc-next, thanks for your patch. For the preceeding
+> dma-buf patch I'll wait for more review/acks before I apply it. Ack from
+> Jason might also be good, since looks like this dma_virt_ops is only used
+> in rdma.
 
-Fixes: 9bdb073464d6 ("drm/i915/gvt: Change KVMGT as self load module")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
----
- drivers/gpu/drm/i915/gvt/kvmgt.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+We are likely to delete it entirely this cycle, Christoph already has
+a patch series to do it:
 
-diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
-index ad8a9df..778eb8c 100644
---- a/drivers/gpu/drm/i915/gvt/kvmgt.c
-+++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
-@@ -829,8 +829,10 @@ static int intel_vgpu_open(struct mdev_device *mdev)
- 	/* Take a module reference as mdev core doesn't take
- 	 * a reference for vendor driver.
- 	 */
--	if (!try_module_get(THIS_MODULE))
-+	if (!try_module_get(THIS_MODULE)) {
-+		ret = -ENODEV;
- 		goto undo_group;
-+	}
- 
- 	ret = kvmgt_guest_init(mdev);
- 	if (ret)
--- 
-1.7.12.4
+https://patchwork.kernel.org/project/linux-rdma/list/?series=379277
 
+So, lets just forget about it
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
