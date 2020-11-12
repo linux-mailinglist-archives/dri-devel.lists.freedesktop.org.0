@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59ECF2B0D3D
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 20:01:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2127B2B0D3F
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 20:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28DD56E3DB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7DBF6E3EE;
 	Thu, 12 Nov 2020 19:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 458876E3EC
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 19:01:48 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id d12so7122077wrr.13
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 11:01:48 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4E156E3E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 19:01:49 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id k2so7185598wrx.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 11:01:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ov+hNhD3SKYkmXLxIt4K88IOrbz9wi3prlF4IGflKIA=;
- b=HaKWon5e27vVoEszYC+8GRccl3aOte+jqCuD5RwYvw6ylRWQd+CrIRkR769NKQET+a
- NL15ssjcWuHmB4bGvwWQE15yhgjPfNjQZJEkpEWKtwO15LmfdpWSGi2jxoGPtRF3onFR
- OMCJcskY6WOsWAC3jLRiORkoCCBrebvUO0iccdgpgchRhmHQTRjFTdj4H/hd/tNKfWw8
- v9VAvpV5PuEmRGo5WNivCmGd2TWHPU1F5F5qdr/ZVVTKGKkszlMWRp6uJ3j6LV5sF6Ce
- Y2J8LeF0SlEfnnzIAYZPMXx8e/WQ7QclnjIFWV37iZJi2NtqT8r2WywT4Wf331WLmZOl
- 9r+w==
+ bh=E894eMua3BcyVtBQpbTegYEGiTjlkwuli5uk69Q3IOw=;
+ b=Kn2ivuqgAsK52Jio64tgCg5gEc3heO8c9beyz/bqFQbf5NkBPLY0+mhmwCJ6UNpA3P
+ J4x/Rd3GXHQO/a/7YTp80S3ElfDEZFctAwN1fZKTPz8totTDUrGBrl8p88E9wBEhi+Vj
+ 2zmyC3n++XMwoLh/RL82lSqhrY7fWGLb6m98Nsc77uAzHP7z86dDHPaXrtRzpLI/SHXV
+ fVu3eXDW/AUtoktCjuFoknQPCENGgeS9pTL1Nr/1cP8B8IeH4pRObv232EktleSaFXGo
+ GYsnK3HMSXR5k+Gcc5sO0FRKxjZa7Lc2K5sSnN+o7DNgZBGnfLxH4JM1NTZ/nwQxlHgY
+ 2eJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ov+hNhD3SKYkmXLxIt4K88IOrbz9wi3prlF4IGflKIA=;
- b=SOcrVnZb82JdULjMBRq4DssHL6u6gC7/QLGVX4HPj3gemcmYZtDgjtaLy/5NLQQy8t
- b2jaeq1Vb0FV25XGig5YjyxuK1xtxt7kNH47pOQqkOFFjUwdFIiuONFNn0hagzVtIlJL
- HCvjhY4oMiKn+8MIMiwKkAGCfHoSIXzWNU2/leYaD+PhXXIfygAyufydUK3TYdFOEcdF
- cI7Ao/uCLXQjBLwqHca337z5OkJSguK1pHFXKaX/L9EQgBPbrr2lOcq7UL7Q6WAxdvZ8
- YfgJ1FT8898v7p7iyIrg53u1j6N8Z0GFrbCR6wyb8rM24S6dsdWwuTNKP6Wyh1qJTsu+
- kK+A==
-X-Gm-Message-State: AOAM530imDFAKdqKrnwLL1jDV6ZKgd94ZnmCjzibpSz5w3qmA2/69b9e
- XVqu9O8HnCECivWkbdKLltVcWQ==
-X-Google-Smtp-Source: ABdhPJz6gcI8pqKX92aeK0A2wnxDfVcWz6jrilEoWlaSmQJS1ipaQgmvzbQ4hI9uHgviAXYzqMTaMg==
-X-Received: by 2002:adf:d4c6:: with SMTP id w6mr1152395wrk.71.1605207706981;
- Thu, 12 Nov 2020 11:01:46 -0800 (PST)
+ bh=E894eMua3BcyVtBQpbTegYEGiTjlkwuli5uk69Q3IOw=;
+ b=PBbt+mxN4jZSxlVyYTyzaaWqH4qgnCiFxqlB5DY/gZX1UIq6PpPJcFWY0zFq09y4Y2
+ UB4id8V/bJOSeZYfmc9NtGXajNudwWk0pcm/DjTr59aJlyMU+f3oUql1JPD8fZJIqFIW
+ naAKMC5FRAe5OuO175EMAud/an7rNrpQbZ28t/cNNkGiZZURId8NcrnGYhbBc1VmyzEK
+ fvGud6osLBhGJjiC/a/nXwJ4ZPpB1WpcnpfjIZdwMq4xTgCnQ4UEWdPQAzl6tOWZoLrF
+ +RafuSoUzeBO4kWVrw1ncCIcYu59Xm8XsZ3geOyokorni3S24tar8NVdlwWHrOrI6g6w
+ 3Wiw==
+X-Gm-Message-State: AOAM531j1vhzyBMnsGhN9ftHtihsfxtRY/+adLxv3RP4Y0mQpVKkCwbs
+ ZKJORUNNynHW0vAxLqQQqBQ2C8oYKOCxo1iX
+X-Google-Smtp-Source: ABdhPJyC+zO0DY5MHCIJ0bV9ffOxtDjtwGdlvt4SiEuyNxuXTQ+znllAJ+A8SlC5c9Z7ZtrMrG8zIg==
+X-Received: by 2002:a5d:6286:: with SMTP id k6mr1118692wru.216.1605207708584; 
+ Thu, 12 Nov 2020 11:01:48 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id p4sm8105214wrm.51.2020.11.12.11.01.45
+ by smtp.gmail.com with ESMTPSA id p4sm8105214wrm.51.2020.11.12.11.01.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 11:01:46 -0800 (PST)
+ Thu, 12 Nov 2020 11:01:47 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 27/30] drm/sti/sti_hdmi: Move 'colorspace_mode_names' array to
- where its used
-Date: Thu, 12 Nov 2020 19:00:36 +0000
-Message-Id: <20201112190039.2785914-28-lee.jones@linaro.org>
+Subject: [PATCH 28/30] drm/mediatek/mtk_disp_color: Fix formatting and provide
+ missing member description
+Date: Thu, 12 Nov 2020 19:00:37 +0000
+Message-Id: <20201112190039.2785914-29-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201112190039.2785914-1-lee.jones@linaro.org>
 References: <20201112190039.2785914-1-lee.jones@linaro.org>
@@ -67,46 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Vincent Abriou <vincent.abriou@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5oOjM2OjQwOiB3YXJuaW5nOiDigJhjb2xvcnNwYWNlX21v
-ZGVfbmFtZXPigJkgZGVmaW5lZCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxl
-PV0KIDM2IHwgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVtX2xpc3QgY29sb3JzcGFj
-ZV9tb2RlX25hbWVzW10gPSB7CiB8IF5+fn5+fn5+fn5+fn5+fn5+fn5+fgoKQ2M6IEJlbmphbWlu
-IEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBsaW5hcm8ub3JnPgpDYzogVmluY2VudCBBYnJp
-b3UgPHZpbmNlbnQuYWJyaW91QHN0LmNvbT4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51
-eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IFBoaWxpcHAgWmFi
-ZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0t
-LQogZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5jIHwgNiArKysrKysKIGRyaXZlcnMvZ3B1
-L2RybS9zdGkvc3RpX2hkbWkuaCB8IDYgLS0tLS0tCiAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0
-aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3Rp
-L3N0aV9oZG1pLmMgYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1pLmMKaW5kZXggMzhhNTU4
-NzY4ZTUzMS4uZjNhY2UxMTIwOWRkNyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9z
-dGlfaGRtaS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hkbWkuYwpAQCAtMTY3LDYg
-KzE2NywxMiBAQCBzdHJ1Y3Qgc3RpX2hkbWlfY29ubmVjdG9yIHsKICNkZWZpbmUgdG9fc3RpX2hk
-bWlfY29ubmVjdG9yKHgpIFwKIAljb250YWluZXJfb2YoeCwgc3RydWN0IHN0aV9oZG1pX2Nvbm5l
-Y3RvciwgZHJtX2Nvbm5lY3RvcikKIAorc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVt
-X2xpc3QgY29sb3JzcGFjZV9tb2RlX25hbWVzW10gPSB7CisJeyBIRE1JX0NPTE9SU1BBQ0VfUkdC
-LCAicmdiIiB9LAorCXsgSERNSV9DT0xPUlNQQUNFX1lVVjQyMiwgInl1djQyMiIgfSwKKwl7IEhE
-TUlfQ09MT1JTUEFDRV9ZVVY0NDQsICJ5dXY0NDQiIH0sCit9OworCiB1MzIgaGRtaV9yZWFkKHN0
-cnVjdCBzdGlfaGRtaSAqaGRtaSwgaW50IG9mZnNldCkKIHsKIAlyZXR1cm4gcmVhZGwoaGRtaS0+
-cmVncyArIG9mZnNldCk7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1p
-LmggYi9kcml2ZXJzL2dwdS9kcm0vc3RpL3N0aV9oZG1pLmgKaW5kZXggMWY2ZGM5MGI1ZDgzYS4u
-MDViMmYzZDBkNDhkMyAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3N0aS9zdGlfaGRtaS5o
-CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdGkvc3RpX2hkbWkuaApAQCAtMzMsMTIgKzMzLDYgQEAg
-c3RydWN0IGhkbWlfYXVkaW9fcGFyYW1zIHsKIAlzdHJ1Y3QgaGRtaV9hdWRpb19pbmZvZnJhbWUg
-Y2VhOwogfTsKIAotc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcHJvcF9lbnVtX2xpc3QgY29sb3Jz
-cGFjZV9tb2RlX25hbWVzW10gPSB7Ci0JeyBIRE1JX0NPTE9SU1BBQ0VfUkdCLCAicmdiIiB9LAot
-CXsgSERNSV9DT0xPUlNQQUNFX1lVVjQyMiwgInl1djQyMiIgfSwKLQl7IEhETUlfQ09MT1JTUEFD
-RV9ZVVY0NDQsICJ5dXY0NDQiIH0sCi19OwotCiAjZGVmaW5lIERFRkFVTFRfQ09MT1JTUEFDRV9N
-T0RFIEhETUlfQ09MT1JTUEFDRV9SR0IKIAogLyoqCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/mediatek/mtk_disp_color.c:40: warning: Function parameter or member 'ddp_comp' not described in 'mtk_disp_color'
+ drivers/gpu/drm/mediatek/mtk_disp_color.c:40: warning: Function parameter or member 'crtc' not described in 'mtk_disp_color'
+ drivers/gpu/drm/mediatek/mtk_disp_color.c:40: warning: Function parameter or member 'data' not described in 'mtk_disp_color'
+
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/mediatek/mtk_disp_color.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+index 3ae9c810845bb..a788ff95ed6e4 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
+@@ -30,8 +30,9 @@ struct mtk_disp_color_data {
+ 
+ /**
+  * struct mtk_disp_color - DISP_COLOR driver structure
+- * @ddp_comp - structure containing type enum and hardware resources
+- * @crtc - associated crtc to report irq events to
++ * @ddp_comp: structure containing type enum and hardware resources
++ * @crtc: associated crtc to report irq events to
++ * @data: platform colour driver data
+  */
+ struct mtk_disp_color {
+ 	struct mtk_ddp_comp			ddp_comp;
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
