@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493722AFE8C
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 06:39:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5CA2B00A0
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 08:56:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B60F6E120;
-	Thu, 12 Nov 2020 05:39:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2A76E171;
+	Thu, 12 Nov 2020 07:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80ED96E120
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 05:39:17 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id y16so4722476ljk.1
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 21:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Yv2Pj9PDV7sIfV/tkESHXJ55GaWZncr9TsyJJzMjRV4=;
- b=F5OJ5El8ZBPyveOMEas7Dvy0Ybf3roUDGX9nSKt/GvFKemsoIoZ3H3nxTqaL11T8KR
- MlDVCiFBTFnmPeru3luSMFilW7RDlXBpncqfJ/ik8dtbAEV+uU9O4ykTLQ0vMTK4AK+e
- gH+latBs+/B9MQtZspFvwfvUpkrYDZxs2VGmkbeY0hnfW5RxPJj7CTXPwZB2VPw0J8Jt
- xxW3Q8U1TdLhmo9/qI2QgTpEUm5KMVBFgLjEV0keuVAIEtXCqLonk+rPhj94q4KGWsR4
- /REgtXQ7jepo3gGBO5gi+YAeXP6Wdk63zEsFPLdqWDoSEjIRVEjvUmNdPi91xk503wLa
- wPxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Yv2Pj9PDV7sIfV/tkESHXJ55GaWZncr9TsyJJzMjRV4=;
- b=ieplpnQ7zTvAByp9USikct1Xno+8Z9F5OTScZUPqYx6K7tnHyxvHefItrYjpHLO4dl
- oUNMExAxKDobryW2CTqmtjhlY19ecMGmxUCxo/UrIUds4k97JMyidfHfTXoU3oU5mbfO
- 1SpWOJ0aTK07kG8LkW7jcoqGpi1RlQD7Q5PCt9OWgvKM7B+dq3X7YGHQUHBlBkaxa5Bn
- oo8rsTCLvMSe3ipNw0G/dohTc7CpR0yMjRBjKqyQOC+HOxTylQV7Scl9bkSzWWjHisZZ
- gPuKqTsoN/VxIeGaJ0SZAqC0nxp2j4Nj6ZeUeJP5MkpFCY3woT3Uve0ajtuIVwBLzTG1
- bvZw==
-X-Gm-Message-State: AOAM533VFRJbwsRHB2WVHUD8LXTzWbdInB/acvNaxURSVLrVvR80vUU2
- kJNHN7X3umVbN4Lw65k6PXoQk5m+f43pV7sxpm8pAA==
-X-Google-Smtp-Source: ABdhPJxSyeHxpGUg5+j/tG7KO7L13ECyFVZf7kpwDci8FU3UWauWNnoJj0AppaojWgSaIZqN7Vl9OOMbXqhxUKZdzIc=
-X-Received: by 2002:a05:651c:506:: with SMTP id
- o6mr11013134ljp.249.1605159555688; 
- Wed, 11 Nov 2020 21:39:15 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33E916E171
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 07:56:25 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2A7731A;
+ Thu, 12 Nov 2020 08:56:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1605167782;
+ bh=Qe8kT4bm4JlV6cWE128AGEkHVPOCYZBGKXDDcH7839M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EJDKItYI706zF2Vn5pH6Be7sepNfWDp1ZT96GHfBmncBYP5RvSxBr0ciGpxcaPJEA
+ MDMwj1ErX2+ZQ1vYcAaDTtEqkIBbqxMbXKra653RC9ux+jew98qR/y0zap+gJGTxL+
+ 7i3YdmYdgZi32JkOyOYCEhrbZC/i1l2mwQTW3Spk=
+Date: Thu, 12 Nov 2020 09:56:19 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
+Message-ID: <20201112075619.GA7931@pendragon.ideasonboard.com>
+References: <20201102203656.220187-1-robh@kernel.org>
+ <20201102203656.220187-2-robh@kernel.org>
+ <20201111140009.GD4115@pendragon.ideasonboard.com>
+ <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
+ <20201111142735.GG4115@pendragon.ideasonboard.com>
+ <CAL_JsqJUTDAxpmXTGaPfhhF5cCuh++We6-nXyH2b2WXrh+3NmQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201110034934.70898-1-john.stultz@linaro.org>
-In-Reply-To: <20201110034934.70898-1-john.stultz@linaro.org>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Thu, 12 Nov 2020 11:09:04 +0530
-Message-ID: <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-To: John Stultz <john.stultz@linaro.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Christian Koenig <christian.koenig@amd.com>
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqJUTDAxpmXTGaPfhhF5cCuh++We6-nXyH2b2WXrh+3NmQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,94 +50,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Sameer Pujar <spujar@nvidia.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgSm9obiwKCk9uIFR1ZSwgMTAgTm92IDIwMjAgYXQgMDk6MTksIEpvaG4gU3R1bHR6IDxqb2hu
-LnN0dWx0ekBsaW5hcm8ub3JnPiB3cm90ZToKPgo+IEhleSBBbGwsCj4gICBTbyBqdXN0IHdhbnRl
-ZCB0byBzZW5kIG15IGxhc3QgcmV2aXNpb24gb2YgbXkgcGF0Y2ggc2VyaWVzCj4gb2YgcGVyZm9y
-bWFuY2Ugb3B0aW1pemF0aW9ucyB0byB0aGUgZG1hLWJ1ZiBzeXN0ZW0gaGVhcC4KClRoYW5rcyB2
-ZXJ5IG11Y2ggZm9yIHlvdXIgcGF0Y2hlcyAtIEkgdGhpbmsgdGhlIGZpcnN0IDUgcGF0Y2hlcyBs
-b29rIGdvb2QgdG8gbWUuCgpJIGtub3cgdGhlcmUgd2FzIGEgYml0IG9mIGRpc2N1c3Npb24gb3Zl
-ciBhZGRpbmcgYSBuZXcgc3lzdGVtLXVuY2FjaGVkCmhlYXAgdi9zIHVzaW5nIGEgZmxhZyB0byBp
-ZGVudGlmeSB0aGF0OyBJIHRoaW5rIEkgcHJlZmVyIHRoZSBzZXBhcmF0ZQpoZWFwIGlkZWEsIGJ1
-dCBsZXRzIGFzayBvbmUgbGFzdCB0aW1lIGlmIGFueSBvbmUgZWxzZSBoYXMgYW55IHJlYWwKb2Jq
-ZWN0aW9ucyB0byBpdC4KCkRhbmllbCwgQ2hyaXN0aWFuOiBhbnkgY29tbWVudHMgZnJvbSB5b3Vy
-IHNpZGUgb24gdGhpcz8KCkkgYW0gcGxhbm5pbmcgdG8gbWVyZ2UgdGhpcyBzZXJpZXMgdG8gZHJt
-LW1pc2MgdGhpcyB3ZWVrIGlmIEkgaGVhciBubwpvYmplY3Rpb25zLgo+Cj4gVGhpcyBzZXJpZXMg
-cmV3b3JrcyB0aGUgc3lzdGVtIGhlYXAgdG8gdXNlIHNndGFibGVzLCBhbmQgdGhlbgo+IGNvbnNv
-bGlkYXRlcyB0aGUgcGFnZWxpc3QgbWV0aG9kIGZyb20gdGhlIGhlYXAtaGVscGVycyBpbnRvIHRo
-ZQo+IENNQSBoZWFwLiBBZnRlciB3aGljaCB0aGUgaGVhcC1oZWxwZXJzIGxvZ2ljIGlzIHJlbW92
-ZWQgKGFzIGl0Cj4gaXMgdW51c2VkKS4gSSdkIHN0aWxsIGxpa2UgdG8gZmluZCBhIGJldHRlciB3
-YXkgdG8gYXZvaWQgc29tZSBvZgo+IHRoZSBsb2dpYyBkdXBsaWNhdGlvbiBpbiBpbXBsZW1lbnRp
-bmcgdGhlIGVudGlyZSBkbWFfYnVmX29wcwo+IGhhbmRsZXJzIHBlciBoZWFwLiBCdXQgdW5mb3J0
-dW5hdGVseSB0aGF0IGNvZGUgaXMgdGllZCBzb21ld2hhdAo+IHRvIGhvdyB0aGUgYnVmZmVyJ3Mg
-bWVtb3J5IGlzIHRyYWNrZWQuIEFzIG1vcmUgaGVhcHMgc2hvdyB1cCBJCj4gdGhpbmsgd2UnbGwg
-aGF2ZSBhIGJldHRlciBpZGVhIGhvdyB0byBiZXN0IHNoYXJlIGNvZGUsIHNvIGZvcgo+IG5vdyBJ
-IHRoaW5rIHRoaXMgaXMgb2suCj4KPiBBZnRlciB0aGlzLCB0aGUgc2VyaWVzIGludHJvZHVjZXMg
-YW4gb3B0aW1pemF0aW9uIHRoYXQKPiDDmHJqYW4gRWlkZSBpbXBsZW1lbnRlZCBmb3IgSU9OIHRo
-YXQgYXZvaWRzIGNhbGxpbmcgc3luYyBvbgo+IGF0dGFjaG1lbnRzIHRoYXQgZG9uJ3QgaGF2ZSBh
-IG1hcHBpbmcuCj4KPiBOZXh0LCBhbiBvcHRpbWl6YXRpb24gdG8gdXNlIGxhcmdlciBvcmRlciBw
-YWdlcyBmb3IgdGhlIHN5c3RlbQo+IGhlYXAuIFRoaXMgY2hhbmdlIGJyaW5ncyB1cyBjbG9zZXIg
-dG8gdGhlIGN1cnJlbnQgcGVyZm9ybWFuY2UKPiBvZiB0aGUgSU9OIGFsbG9jYXRpb24gY29kZSAo
-dGhvdWdoIHRoZXJlIHN0aWxsIGlzIGEgZ2FwIGR1ZQo+IHRvIElPTiB1c2luZyBhIG1peCBvZiBk
-ZWZlcnJlZC1mcmVlaW5nIGFuZCBwYWdlIHBvb2xzLCBJJ2xsIGJlCj4gbG9va2luZyBhdCBpbnRl
-Z3JhdGluZyB0aG9zZSBldmVudHVhbGx5KS4KPgo+IEZpbmFsbHksIGEgcmV3b3JrZWQgdmVyc2lv
-biBvZiBteSB1bmNhY2hlZCBzeXN0ZW0gaGVhcAo+IGltcGxlbWVudGF0aW9uIEkgd2FzIHN1Ym1p
-dHRpbmcgYSBmZXcgd2Vla3MgYmFjay4gU2luY2UgaXQKPiBkdXBsaWNhdGVkIGEgbG90IG9mIHRo
-ZSBub3cgcmV3b3JrZWQgc3lzdGVtIGhlYXAgY29kZSwgSQo+IHJlYWxpemVkIGl0IHdvdWxkIGJl
-IG11Y2ggc2ltcGxlciB0byBhZGQgdGhlIGZ1bmN0aW9uYWxpdHkgdG8KPiB0aGUgc3lzdGVtX2hl
-YXAgaW1wbGVtZW50YXRpb24gaXRzZWxmLgo+Cj4gV2hpbGUgbm90IGltcHJvdmluZyB0aGUgY29y
-ZSBhbGxvY2F0aW9uIHBlcmZvcm1hbmNlLCB0aGUKPiB1bmNhY2hlZCBoZWFwIGFsbG9jYXRpb25z
-IGRvIHJlc3VsdCBpbiAqbXVjaCogaW1wcm92ZWQKPiBwZXJmb3JtYW5jZSBvbiBIaUtleTk2MCBh
-cyBpdCBhdm9pZHMgYSBsb3Qgb2YgZmx1c2hpbmcgYW5kCj4gaW52YWxpZGF0aW5nIGJ1ZmZlcnMg
-dGhhdCB0aGUgY3B1IGRvZXNuJ3QgdG91Y2ggb2Z0ZW4uCj4KPiBGZWVkYmFjayBvbiB0aGVzZSB3
-b3VsZCBiZSBncmVhdCEKPgo+IHRoYW5rcwo+IC1qb2huCj4KPiBOZXcgaW4gdjU6Cj4gKiBBZGRl
-ZCBhIGNvbW1lbnQgZXhwbGFpbmluZyB3aHkgdGhlIG9yZGVyIHNpemVzIGFyZQo+ICAgY2hvc2Vu
-IGFzIHRoZXkgYXJlCj4KPiBDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9y
-Zz4KPiBDYzogTGlhbSBNYXJrIDxsbWFya0Bjb2RlYXVyb3JhLm9yZz4KPiBDYzogTGF1cmEgQWJi
-b3R0IDxsYWJib3R0QGtlcm5lbC5vcmc+Cj4gQ2M6IEJyaWFuIFN0YXJrZXkgPEJyaWFuLlN0YXJr
-ZXlAYXJtLmNvbT4KPiBDYzogSHJpZHlhIFZhbHNhcmFqdSA8aHJpZHlhQGdvb2dsZS5jb20+Cj4g
-Q2M6IFN1cmVuIEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+Cj4gQ2M6IFNhbmRlZXAg
-UGF0aWwgPHNzcGF0aWxAZ29vZ2xlLmNvbT4KPiBDYzogRGFuaWVsIE1lbnR6IDxkYW5pZWxtZW50
-ekBnb29nbGUuY29tPgo+IENjOiBDaHJpcyBHb2xkc3dvcnRoeSA8Y2dvbGRzd29AY29kZWF1cm9y
-YS5vcmc+Cj4gQ2M6IMOYcmphbiBFaWRlIDxvcmphbi5laWRlQGFybS5jb20+Cj4gQ2M6IFJvYmlu
-IE11cnBoeSA8cm9iaW4ubXVycGh5QGFybS5jb20+Cj4gQ2M6IEV6ZXF1aWVsIEdhcmNpYSA8ZXpl
-cXVpZWxAY29sbGFib3JhLmNvbT4KPiBDYzogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZy
-Pgo+IENjOiBKYW1lcyBKb25lcyA8amFqb25lc0BudmlkaWEuY29tPgo+IENjOiBsaW51eC1tZWRp
-YUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-Cj4gSm9obiBTdHVsdHogKDcpOgo+ICAgZG1hLWJ1Zjogc3lzdGVtX2hlYXA6IFJld29yayBzeXN0
-ZW0gaGVhcCB0byB1c2Ugc2d0YWJsZXMgaW5zdGVhZCBvZgo+ICAgICBwYWdlbGlzdHMKPiAgIGRt
-YS1idWY6IGhlYXBzOiBNb3ZlIGhlYXAtaGVscGVyIGxvZ2ljIGludG8gdGhlIGNtYV9oZWFwCj4g
-ICAgIGltcGxlbWVudGF0aW9uCj4gICBkbWEtYnVmOiBoZWFwczogUmVtb3ZlIGhlYXAtaGVscGVy
-cyBjb2RlCj4gICBkbWEtYnVmOiBoZWFwczogU2tpcCBzeW5jIGlmIG5vdCBtYXBwZWQKPiAgIGRt
-YS1idWY6IHN5c3RlbV9oZWFwOiBBbGxvY2F0ZSBoaWdoZXIgb3JkZXIgcGFnZXMgaWYgYXZhaWxh
-YmxlCj4gICBkbWEtYnVmOiBkbWEtaGVhcDogS2VlcCB0cmFjayBvZiB0aGUgaGVhcCBkZXZpY2Ug
-c3RydWN0Cj4gICBkbWEtYnVmOiBzeXN0ZW1faGVhcDogQWRkIGEgc3lzdGVtLXVuY2FjaGVkIGhl
-YXAgcmUtdXNpbmcgdGhlIHN5c3RlbQo+ICAgICBoZWFwCj4KPiAgZHJpdmVycy9kbWEtYnVmL2Rt
-YS1oZWFwLmMgICAgICAgICAgIHwgIDMzICstCj4gIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9NYWtl
-ZmlsZSAgICAgICB8ICAgMSAtCj4gIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9jbWFfaGVhcC5jICAg
-ICB8IDMyNCArKysrKysrKysrKysrKystLS0KPiAgZHJpdmVycy9kbWEtYnVmL2hlYXBzL2hlYXAt
-aGVscGVycy5jIHwgMjcwIC0tLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL2RtYS1idWYvaGVhcHMv
-aGVhcC1oZWxwZXJzLmggfCAgNTMgLS0tCj4gIGRyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9zeXN0ZW1f
-aGVhcC5jICB8IDQ5NCArKysrKysrKysrKysrKysrKysrKysrKystLS0KPiAgaW5jbHVkZS9saW51
-eC9kbWEtaGVhcC5oICAgICAgICAgICAgIHwgICA5ICsKPiAgNyBmaWxlcyBjaGFuZ2VkLCA3NTMg
-aW5zZXJ0aW9ucygrKSwgNDMxIGRlbGV0aW9ucygtKQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgZHJp
-dmVycy9kbWEtYnVmL2hlYXBzL2hlYXAtaGVscGVycy5jCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBk
-cml2ZXJzL2RtYS1idWYvaGVhcHMvaGVhcC1oZWxwZXJzLmgKPgo+IC0tCj4gMi4xNy4xCj4KVGhh
-bmtzIG11Y2gsCgpCZXN0LApTdW1pdC4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Hi Rob,
+
+On Wed, Nov 11, 2020 at 05:03:26PM -0600, Rob Herring wrote:
+> On Wed, Nov 11, 2020 at 8:27 AM Laurent Pinchart wrote:
+> > On Wed, Nov 11, 2020 at 08:25:40AM -0600, Rob Herring wrote:
+> > > On Wed, Nov 11, 2020 at 8:00 AM Laurent Pinchart wrote:
+> > > > On Mon, Nov 02, 2020 at 02:36:54PM -0600, Rob Herring wrote:
+> > > > > From: Sameer Pujar <spujar@nvidia.com>
+> > > > >
+> > > > > Convert device tree bindings of graph to YAML format. Currently graph.txt
+> > > > > doc is referenced in multiple files and all of these need to use schema
+> > > > > references. For now graph.txt is updated to refer to graph.yaml.
+> > > > >
+> > > > > For users of the graph binding, they should reference to the graph
+> > > > > schema from either 'ports' or 'port' property:
+> > > > >
+> > > > > properties:
+> > > > >   ports:
+> > > > >     type: object
+> > > > >     $ref: graph.yaml#/properties/ports
+> > > > >
+> > > > >     properties:
+> > > > >       port@0:
+> > > > >         description: What data this port has
+> > > > >
+> > > > >       ...
+> > > > >
+> > > > > Or:
+> > > > >
+> > > > > properties:
+> > > > >   port:
+> > > > >     description: What data this port has
+> > > > >     type: object
+> > > > >     $ref: graph.yaml#/properties/port
+> > > >
+> > > > Sounds like a good approach.
+> > > >
+> > > > > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
+> > > > > Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > > > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > > > ---
+> > > > > v3:
+> > > > >  - Move port 'reg' to port@* and make required
+> > > > >  - Make remote-endpoint required
+> > > > >  - Add 'additionalProperties: true' now required
+> > > > >  - Fix yamllint warnings
+> > > > >
+> > > > >  Documentation/devicetree/bindings/graph.txt  | 129 +-----------
+> > > > >  Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
+> > > > >  2 files changed, 200 insertions(+), 128 deletions(-)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/graph.yaml
+> > >
+> > > [...]
+> > >
+> > > > > diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..b56720c5a13e
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/graph.yaml
+> > > > > @@ -0,0 +1,199 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/graph.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: Common bindings for device graphs
+> > > > > +
+> > > > > +description: |
+> > > > > +  The hierarchical organisation of the device tree is well suited to describe
+> > > > > +  control flow to devices, but there can be more complex connections between
+> > > > > +  devices that work together to form a logical compound device, following an
+> > > > > +  arbitrarily complex graph.
+> > > > > +  There already is a simple directed graph between devices tree nodes using
+> > > > > +  phandle properties pointing to other nodes to describe connections that
+> > > > > +  can not be inferred from device tree parent-child relationships. The device
+> > > > > +  tree graph bindings described herein abstract more complex devices that can
+> > > > > +  have multiple specifiable ports, each of which can be linked to one or more
+> > > > > +  ports of other devices.
+> > > > > +
+> > > > > +  These common bindings do not contain any information about the direction or
+> > > > > +  type of the connections, they just map their existence. Specific properties
+> > > > > +  may be described by specialized bindings depending on the type of connection.
+> > > > > +
+> > > > > +  To see how this binding applies to video pipelines, for example, see
+> > > > > +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > > > +  Here the ports describe data interfaces, and the links between them are
+> > > > > +  the connecting data buses. A single port with multiple connections can
+> > > > > +  correspond to multiple devices being connected to the same physical bus.
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Philipp Zabel <p.zabel@pengutronix.de>
+> > > > > +
+> > > > > +select: false
+> > > > > +
+> > > > > +properties:
+> > > > > +  port:
+> > > > > +    type: object
+> > > > > +    description:
+> > > > > +      If there is more than one endpoint node or 'reg' property present in
+> > > > > +      endpoint nodes then '#address-cells' and '#size-cells' properties are
+> > > > > +      required.
+> > > > > +
+> > > > > +    properties:
+> > > > > +      "#address-cells":
+> > > > > +        const: 1
+> > > > > +
+> > > > > +      "#size-cells":
+> > > > > +        const: 0
+> > > > > +
+> > > > > +    patternProperties:
+> > > > > +      "^endpoint(@[0-9a-f]+)?$":
+> > > > > +        type: object
+> > > > > +        properties:
+> > > > > +          reg:
+> > > > > +            maxItems: 1
+> > > > > +
+> > > > > +          remote-endpoint:
+> > > > > +            description: |
+> > > > > +              phandle to an 'endpoint' subnode of a remote device node.
+> > > > > +            $ref: /schemas/types.yaml#/definitions/phandle
+> > > > > +
+> > > > > +        required:
+> > > > > +          - remote-endpoint
+> > > >
+> > > > As noted elsewhere, this shouldn't be required.
+> > > >
+> > > > Should we set additionalProperties: false here ?
+> > >
+> > > No, we've got a bunch of properties that get added to endpoint nodes.
+> > > There's a few cases where 'port' nodes have properties too.
+> >
+> > I meant the port node, which I wasn't aware needed additional
+> > properties. Do you have any example ? (I wonder if you will point me to
+> > bindings that I have written ;-))
+> 
+> Not you, but Renesas. dual-lvds-{odd,even}-pixels was the only one I
+> think. But really, I think we could actually drop those if the port
+> numbering defines even/odd instead. There's a patch I just reviewed
+> for common dual lane panels. See
+> 1604993797-14240-1-git-send-email-victor.liu@nxp.com
+
+We've discussed this before, see
+
+Subject: Re: [PATCH v2 7/9] drm: rcar-du: lvds: Add dual-LVDS panels support
+Message-ID: <20190815130834.GM5011@pendragon.ideasonboard.com>
+
+"But what will then happen if you panel has more than two ports (for
+audio for instance, or for other types of video links) ? It may not be
+possible to always use port 0 and 1 for the LVDS even and odd pixels in
+DT bindings of a particular panel or bridge."
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
