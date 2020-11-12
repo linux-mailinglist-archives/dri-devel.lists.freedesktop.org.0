@@ -2,27 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BCA2B00C4
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2992B00DA
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 09:08:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6B046E17B;
-	Thu, 12 Nov 2020 08:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 422A86E176;
+	Thu, 12 Nov 2020 08:08:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A646E176;
- Thu, 12 Nov 2020 08:01:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8F7FCAC17;
- Thu, 12 Nov 2020 08:01:17 +0000 (UTC)
-Date: Thu, 12 Nov 2020 09:01:15 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-misc-next
-Message-ID: <20201112080115.GA7954@linux-uq9g>
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91F846E176
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 08:08:37 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AC88PTx103946;
+ Thu, 12 Nov 2020 02:08:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1605168505;
+ bh=kTmPS+14L43/mN4J8NF4b/8F8zr576pK0ujbi8KDnd8=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=Di49O4ZSj3WbRunCYxEc8afWOd55tiXH2Cbl2vQP37Sb5FT75DhahuBaCy7Qlkj/J
+ 7F9zVEq5BQIyFkIbSKDN/cz8HdJM+RYlm7FeNqS4mxgkvWW6CuCC6u/zhPbG1rsDLx
+ xIqPJizmEOLzNpDi8+93I/oBYL0LxwpzKKIwMgx0=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AC88Pe7016167
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 12 Nov 2020 02:08:25 -0600
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 12
+ Nov 2020 02:08:25 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 12 Nov 2020 02:08:25 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AC88MKE014002;
+ Thu, 12 Nov 2020 02:08:23 -0600
+Subject: Re: [PATCH v3 30/56] drm/omap: dsi: move panel refresh function to
+ host
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201105120333.947408-1-tomi.valkeinen@ti.com>
+ <20201105120333.947408-31-tomi.valkeinen@ti.com>
+ <20201109101003.GA6029@pendragon.ideasonboard.com>
+ <6118c70e-6dc5-2d87-fc68-266cd3eeb66c@ti.com>
+ <20201111155854.GH4115@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <fca968af-9554-041a-c416-0781da8b70ca@ti.com>
+Date: Thu, 12 Nov 2020 10:08:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
+In-Reply-To: <20201111155854.GH4115@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,534 +66,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Tony Lindgren <tony@atomide.com>,
+ "H . Nikolaus Schaller" <hns@goldelico.com>, Sekhar Nori <nsekhar@ti.com>,
+ Sebastian Reichel <sre@kernel.org>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On 11/11/2020 17:58, Laurent Pinchart wrote:
 
-here's this week's PR for drm-misc-next. There's a conflict between
+>>>> diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>>>> index 030a8fa140db..1582960f9e90 100644
+>>>> --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>>>> +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+>>>> @@ -177,27 +177,6 @@ static int dsicm_get_id(struct panel_drv_data *ddata, u8 *id1, u8 *id2, u8 *id3)
+>>>>  	return 0;
+>>>>  }
+>>>>  
+>>>> -static int dsicm_set_update_window(struct panel_drv_data *ddata,
+>>>> -		u16 x, u16 y, u16 w, u16 h)
+>>>> -{
+>>>> -	struct mipi_dsi_device *dsi = ddata->dsi;
+>>>> -	int r;
+>>>> -	u16 x1 = x;
+>>>> -	u16 x2 = x + w - 1;
+>>>> -	u16 y1 = y;
+>>>> -	u16 y2 = y + h - 1;
+>>>> -
+>>>> -	r = mipi_dsi_dcs_set_column_address(dsi, x1, x2);
+>>>> -	if (r < 0)
+>>>> -		return r;
+>>>> -
+>>>> -	r = mipi_dsi_dcs_set_page_address(dsi, y1, y2);
+>>>> -	if (r < 0)
+>>>> -		return r;
+>>>> -
+>>>> -	return 0;
+>>>> -}
+>>>> -
+>>>
+>>> I can't tell whether this is common to all command-mode panels, or if
+>>> there could be a need for panel-specific update procedures, so I can't
+>>> really ack this patch.
+>>
+>> I can't say either, but all the command mode panels I know need and support this. And, afaik, we
+>> have only the single cmd mode panel driver which we add in this series.
+> 
+> Now that I think about it again, isn't it a layering violation ?
+> Shouldn't the DSI host handle DSI commands transfers, with the panel
+> driver taking care of specific DSI commands ?
 
-  f644e3038f88 ("drm/nouveau: Fix out-of-bounds access when deferencing MMU=
- type")
+Well, the DSI host (the HW) already handles specific DSI commands, as it does the update with DCS
+Write Start/Continue commands. The update is initiated from omap_crtc, via dssdev->dsi_ops->update().
 
-and
+We could perhaps add a new function to drm_panel_funcs, say, prepare_update, which could then do the
+above.
 
-  drm/nouveau/ttm: avoid using nouveau_drm.ttm.type_vram prior to nv50
+Although I think the above code is not strictly speaking required, as the panel should remember the
+column and page address, and as such, they could be set just once at config time.
 
-which is in nouveau-fixes. They both resolve the same problem and the
-nouveau tree should have precedence.
+However, I remember debugging issues related to this. And with a quick test, I can see that things
+break down if I just do the above once in the panel's setup. But things work if I send a DSI NOP
+instead in the dsi host. So looks to me that either the OMAP DSI or the panel I have need some
+command transmitted there. It probably has to happen between two frame transfers.
 
-Best regards
-Thomas
+There are also other things related to update which I'm not so happy about: 1) the TE gpio irq is
+handled in the dsi host driver now, even if it's a panel gpio, 2) the dsi host driver snoops the DSI
+packets sent by the panel, and catches TEAR_ON/OFF packets, and then change internal state accordingly.
 
-drm-misc-next-2020-11-12:
-drm-misc-next for 5.11:
+So... I could change the dsi host driver to only send a NOP, and do the page/column call from the
+panel's setup. That simplifies the code.
 
-UAPI Changes:
+Or I could add the new function to drm_panel_funcs, and send a NOP from there. But if this "needs a
+NOP" is an OMAP DSI feature, the panel driver is not the right place for it. I also think that
+managing the TE cleanly needs more thought, and probably requires some more interaction between the
+dsi host and the panel. It might be better to look at both the update callback and the TE at the
+same time.
 
-Cross-subsystem Changes:
+ Tomi
 
-Core Changes:
-
- - Remove pgprot_decrypt() before calling io_remap_pfn_range()
- - Revert "drm/dp_mst: Retrieve extended DPCD caps for topology manager"
- - ttm: Add multihop infrastructure
- - doc: Update dma-buf
-
-Driver Changes:
-
- - amdgpu: Use TTM multihop
- - kmb: select DRM_MIPI_DSI and depend on ARCH_KEEMBAY; Fix build warning;
-   Fix typos
- - nouveau: Use TTM multihop; Fix out-of-bounds access
- - radeon: Use TTM multihop
- - ingenic: Search for scaling coefficients to to 102% of screen size
-
-The following changes since commit 512bce50a41c528fa15c4c014293e7bebf018658:
-
-  Merge v5.10-rc3 into drm-next (2020-11-10 14:36:36 +0100)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2020-11-12
-
-for you to fetch changes up to 05481f072787e96d08cc304cda0c10e0d02cdadc:
-
-  drm/kmb: fix spelling mistakes in drm_info and drm_dbg messages (2020-11-=
-11 22:00:05 +0100)
-
-----------------------------------------------------------------
-drm-misc-next for 5.11:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-
- - Remove pgprot_decrypt() before calling io_remap_pfn_range()
- - Revert "drm/dp_mst: Retrieve extended DPCD caps for topology manager"
- - ttm: Add multihop infrastructure
- - doc: Update dma-buf
-
-Driver Changes:
-
- - amdgpu: Use TTM multihop
- - kmb: select DRM_MIPI_DSI and depend on ARCH_KEEMBAY; Fix build warning;
-   Fix typos
- - nouveau: Use TTM multihop; Fix out-of-bounds access
- - radeon: Use TTM multihop
- - ingenic: Search for scaling coefficients to to 102% of screen size
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/virt: fix handling of the atomic flag
-
-Alex Shi (1):
-      video: fbdev: riva: remove some unused varibles
-
-Alexander A. Klimov (1):
-      drm: omapdrm: Replace HTTP links with HTTPS ones
-
-Alexandru Gagniuc (3):
-      drm/bridge: sii902x: Refactor init code into separate function
-      dt-bindings: display: sii902x: Add supply bindings
-      drm/bridge: sii902x: Enable I/O and core VCC supplies if present
-
-Anitha Chrisanthus (8):
-      dt-bindings: display: Add support for Intel KeemBay Display
-      dt-bindings: display: Intel KeemBay MSSCAM
-      dt-bindings: display: bridge: Intel KeemBay DSI
-      drm/kmb: Keem Bay driver register definition
-      drm/kmb: Add support for KeemBay Display
-      drm/kmb: Mipi DSI part of the display driver
-      drm/kmb: Build files for KeemBay Display driver
-      drm/kmb: Fix build warnings
-
-Biju Das (2):
-      drm/panel: panel-simple: Add connector_type for EDT ETM0700G0DH6 panel
-      drm/bridge: lvds-codec: Use dev_err_probe for error handling
-
-Christian K=F6nig (4):
-      mm: mmap: fix fput in error path v2
-      mm: introduce vma_set_file function v4
-      Revert "mm: introduce vma_set_file function v4"
-      Revert "mm: mmap: fix fput in error path v2"
-
-Colin Ian King (1):
-      drm/kmb: fix spelling mistakes in drm_info and drm_dbg messages
-
-Dan Carpenter (1):
-      drm/virtio: Fix a double free in virtio_gpu_cmd_map()
-
-Daniel Abrecht (1):
-      drm: mxsfb: Implement .format_mod_supported
-
-Daniel Vetter (4):
-      drm/radeon: Stop changing the drm_driver struct
-      drm: Compile out legacy chunks from struct drm_device
-      drm: Allow const struct drm_driver
-      drm/<drivers>: Constify struct drm_driver
-
-Dave Airlie (4):
-      drm/ttm: add multihop infrastrucutre (v3)
-      drm/amdgpu/ttm: use multihop
-      drm/nouveau/ttm: use multihop
-      drm/radeon/ttm: use multihop
-
-Deepak R Varma (3):
-      drm/qxl: replace idr_init() by idr_init_base()
-      drm/vc4: replace idr_init() by idr_init_base()
-      drm/vgem: replace idr_init() by idr_init_base()
-
-Dinghao Liu (1):
-      drm/omap: Fix runtime PM imbalance on error
-
-Dmitry Baryshkov (2):
-      dt-bindings: display: bridge: Add documentation for LT9611UXC
-      drm: bridge: add support for lontium LT9611UXC bridge
-
-Geert Uytterhoeven (3):
-      drm/fb_helper: Use min_t() to handle size_t and unsigned long
-      drm: DRM_KMB_DISPLAY should select DRM_MIPI_DSI
-      drm: DRM_KMB_DISPLAY should depend on ARCH_KEEMBAY
-
-Jason Gunthorpe (1):
-      drm: remove pgprot_decrypted() before calls to io_remap_pfn_range()
-
-Jianxin Xiong (2):
-      dma-buf: Fix static checker warning
-      dma-buf: Document that dma-buf size is fixed
-
-Koba Ko (1):
-      Revert "drm/dp_mst: Retrieve extended DPCD caps for topology manager"
-
-KuoHsiang Chou (2):
-      drm/ast: Fixed 1920x1080 sync. polarity issue
-      drm/ast: Create chip AST2600
-
-Lee Jones (11):
-      gpu/host1x: bus: Add missing description for 'driver'
-      drm/panel: panel-simple: Fix 'struct panel_desc's header
-      drm/panel: panel-ilitek-ili9322: Demote non-conformant kernel-doc hea=
-der
-      gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function '=
-analogix_dp_write_byte_to_dpcd'
-      drm/r128/ati_pcigart: Source file headers are not good candidates for=
- kernel-doc
-      drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
-      drm/mga/mga_state: Remove unused variable 'buf_priv'
-      drm/omap: gem: Fix misnamed and missing parameter descriptions
-      drm/omap: dmm_tiler: Demote abusive use of kernel-doc format
-      drm/omap: omap_irq: Fix a couple of doc-rot issues
-      drm/omap: dsi: Rework and remove a few unused variables
-
-Luben Tuikov (1):
-      drm/amdgpu: Make struct drm_driver const
-
-Lyude Paul (1):
-      drm/edid: Fix uninitialized variable in drm_cvt_modes()
-
-Maxime Ripard (1):
-      drm: Use state helper instead of CRTC state pointer
-
-Michael Tretter (1):
-      drm/encoder: remove obsolete documentation of bridge
-
-Paul Cercueil (1):
-      drm/ingenic: ipu: Search for scaling coefs up to 102% of the screen
-
-Qinglang Miao (1):
-      drm: panel: simple: add missing platform_driver_unregister() in panel=
-_simple_init
-
-Sergey Senozhatsky (1):
-      drm/virtio: use kvmalloc for large allocations
-
-Simon Ser (1):
-      drm: document that blobs are ref'counted
-
-Stephen Boyd (5):
-      drm/bridge: ti-sn65dsi86: Combine register accesses in ti_sn_aux_tran=
-sfer()
-      drm/bridge: ti-sn65dsi86: Make polling a busy loop
-      drm/bridge: ti-sn65dsi86: Read EDID blob over DDC
-      drm/bridge: ti-sn65dsi86: Update reply on aux failures
-      drm/panel: simple: Add flags to boe_nv133fhm_n61
-
-Thomas Zimmermann (18):
-      drm/tiny/gm12u320: Retrieve USB device from struct drm_device.dev
-      drm/udl: Retrieve USB device from struct drm_device.dev
-      drm/vram-helper: Remove invariant parameters from internal kmap funct=
-ion
-      drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()
-      drm/etnaviv: Remove empty etnaviv_gem_prime_vunmap()
-      drm/exynos: Remove empty exynos_drm_gem_prime_{vmap,vunmap}()
-      drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers
-      drm/gem: Use struct dma_buf_map in GEM vmap ops and convert GEM backe=
-nds
-      drm/gem: Update internal GEM vmap/vunmap interfaces to use struct dma=
-_buf_map
-      drm/gem: Store client buffer mappings as struct dma_buf_map
-      dma-buf-map: Add memcpy and pointer-increment interfaces
-      drm/fb_helper: Support framebuffers in I/O memory
-      drm/cma-helper: Make default object functions the default
-      drm/gma500: Remove unused function psb_gem_get_aperture()
-      drm/msm: Use struct dma_buf_map in GEM vmap ops
-      drm/mediatek: Use struct dma_buf_map in GEM vmap ops
-      Merge drm/drm-next into drm-misc-next
-      drm/nouveau: Fix out-of-bounds access when deferencing MMU type
-
-Tom Rix (1):
-      drm: remove unneeded break
-
-Wang Xiaojun (1):
-      drm/tidss: use devm_platform_ioremap_resource_byname
-
-YueHaibing (1):
-      drm/bridge: tpd12s015: Fix irq registering in tpd12s015_probe
-
- .../bindings/display/bridge/intel,keembay-dsi.yaml |  101 ++
- .../bindings/display/bridge/lontium,lt9611.yaml    |    5 +-
- .../devicetree/bindings/display/bridge/sii902x.txt |    4 +
- .../bindings/display/intel,keembay-display.yaml    |   72 +
- .../bindings/display/intel,keembay-msscam.yaml     |   43 +
- Documentation/gpu/todo.rst                         |   37 +-
- MAINTAINERS                                        |    7 +
- drivers/dma-buf/dma-buf.c                          |    2 +-
- drivers/gpu/drm/Kconfig                            |    4 +
- drivers/gpu/drm/Makefile                           |    1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   36 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h        |    2 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   31 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   24 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.h         |    1 -
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  139 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |    4 +-
- drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |    4 +-
- drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |    2 +-
- drivers/gpu/drm/arm/hdlcd_drv.c                    |    2 +-
- drivers/gpu/drm/arm/malidp_drv.c                   |    2 +-
- drivers/gpu/drm/armada/armada_crtc.c               |    8 +-
- drivers/gpu/drm/armada/armada_drv.c                |    7 +-
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c            |    2 +-
- drivers/gpu/drm/ast/ast_cursor.c                   |   27 +-
- drivers/gpu/drm/ast/ast_drv.c                      |    2 +-
- drivers/gpu/drm/ast/ast_drv.h                      |   10 +-
- drivers/gpu/drm/ast/ast_main.c                     |    7 +-
- drivers/gpu/drm/ast/ast_mode.c                     |    4 +-
- drivers/gpu/drm/ast/ast_tables.h                   |    4 +-
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |    2 +-
- drivers/gpu/drm/bochs/bochs_drv.c                  |    2 +-
- drivers/gpu/drm/bochs/bochs_kms.c                  |    1 -
- drivers/gpu/drm/bridge/Kconfig                     |   13 +
- drivers/gpu/drm/bridge/Makefile                    |    1 +
- drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c  |   88 --
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c         | 1002 +++++++++++++
- drivers/gpu/drm/bridge/lvds-codec.c                |   11 +-
- drivers/gpu/drm/bridge/sii902x.c                   |  100 +-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  103 +-
- drivers/gpu/drm/bridge/ti-tpd12s015.c              |    2 +-
- drivers/gpu/drm/drm_client.c                       |   38 +-
- drivers/gpu/drm/drm_dp_mst_topology.c              |    7 +-
- drivers/gpu/drm/drm_drv.c                          |   17 +-
- drivers/gpu/drm/drm_edid.c                         |    2 +
- drivers/gpu/drm/drm_fb_helper.c                    |  250 +++-
- drivers/gpu/drm/drm_file.c                         |    2 +
- drivers/gpu/drm/drm_gem.c                          |   29 +-
- drivers/gpu/drm/drm_gem_cma_helper.c               |   74 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c             |   48 +-
- drivers/gpu/drm/drm_gem_ttm_helper.c               |   37 +
- drivers/gpu/drm/drm_gem_vram_helper.c              |  120 +-
- drivers/gpu/drm/drm_internal.h                     |    5 +-
- drivers/gpu/drm/drm_prime.c                        |   14 +-
- drivers/gpu/drm/drm_vblank.c                       |   15 +-
- drivers/gpu/drm/drm_vm.c                           |    3 -
- drivers/gpu/drm/etnaviv/etnaviv_drv.c              |    2 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.h              |    3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c              |    1 -
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c        |   14 +-
- drivers/gpu/drm/exynos/exynos_drm_drv.c            |    2 +-
- drivers/gpu/drm/exynos/exynos_drm_gem.c            |   12 -
- drivers/gpu/drm/exynos/exynos_drm_gem.h            |    2 -
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c          |    5 +-
- drivers/gpu/drm/gma500/gem.c                       |    6 -
- drivers/gpu/drm/gma500/psb_drv.c                   |    4 +-
- drivers/gpu/drm/gma500/psb_drv.h                   |    2 -
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c    |    2 +-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |    2 +-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.h    |    2 +-
- drivers/gpu/drm/i915/i915_drv.c                    |    4 +-
- drivers/gpu/drm/i915/selftests/mock_gem_device.c   |    2 +-
- drivers/gpu/drm/imx/dcss/dcss-kms.c                |    2 +-
- drivers/gpu/drm/imx/imx-drm-core.c                 |    2 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |    9 +-
- drivers/gpu/drm/ingenic/ingenic-ipu.c              |   23 +-
- drivers/gpu/drm/kmb/Kconfig                        |   13 +
- drivers/gpu/drm/kmb/Makefile                       |    2 +
- drivers/gpu/drm/kmb/kmb_crtc.c                     |  214 +++
- drivers/gpu/drm/kmb/kmb_drv.c                      |  602 ++++++++
- drivers/gpu/drm/kmb/kmb_drv.h                      |   88 ++
- drivers/gpu/drm/kmb/kmb_dsi.c                      | 1561 ++++++++++++++++=
-++++
- drivers/gpu/drm/kmb/kmb_dsi.h                      |  387 +++++
- drivers/gpu/drm/kmb/kmb_plane.c                    |  522 +++++++
- drivers/gpu/drm/kmb/kmb_plane.h                    |   67 +
- drivers/gpu/drm/kmb/kmb_regs.h                     |  725 +++++++++
- drivers/gpu/drm/lima/lima_drv.c                    |    2 +-
- drivers/gpu/drm/lima/lima_gem.c                    |    6 +-
- drivers/gpu/drm/lima/lima_sched.c                  |   11 +-
- drivers/gpu/drm/mcde/mcde_drv.c                    |    2 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c            |   15 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             |    2 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c             |   20 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.h             |    4 +-
- drivers/gpu/drm/meson/meson_drv.c                  |    2 +-
- drivers/gpu/drm/mga/mga_dma.c                      |   10 +-
- drivers/gpu/drm/mga/mga_state.c                    |    2 -
- drivers/gpu/drm/mgag200/mgag200_drv.c              |    2 +-
- drivers/gpu/drm/mgag200/mgag200_mode.c             |   15 +-
- drivers/gpu/drm/msm/msm_drv.c                      |    4 +-
- drivers/gpu/drm/msm/msm_drv.h                      |    4 +-
- drivers/gpu/drm/msm/msm_gem_prime.c                |   13 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |    2 +-
- drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |    8 +
- drivers/gpu/drm/nouveau/Kconfig                    |    1 +
- drivers/gpu/drm/nouveau/nouveau_bo.c               |  120 +-
- drivers/gpu/drm/nouveau/nouveau_bo.h               |    2 -
- drivers/gpu/drm/nouveau/nouveau_gem.c              |    6 +-
- drivers/gpu/drm/nouveau/nouveau_gem.h              |    2 -
- drivers/gpu/drm/nouveau/nouveau_prime.c            |   20 -
- drivers/gpu/drm/nouveau/nvkm/subdev/bios/pll.c     |    1 -
- drivers/gpu/drm/nouveau/nvkm/subdev/clk/mcp77.c    |    3 -
- drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramnv50.c   |    1 -
- drivers/gpu/drm/nouveau/nvkm/subdev/top/gk104.c    |    1 -
- drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c    |    2 +-
- drivers/gpu/drm/omapdrm/dss/Kconfig                |    4 +-
- drivers/gpu/drm/omapdrm/dss/base.c                 |    2 +-
- drivers/gpu/drm/omapdrm/dss/dispc.c                |    7 +-
- drivers/gpu/drm/omapdrm/dss/dispc.h                |    2 +-
- drivers/gpu/drm/omapdrm/dss/dispc_coefs.c          |    2 +-
- drivers/gpu/drm/omapdrm/dss/dsi.c                  |   16 +-
- drivers/gpu/drm/omapdrm/dss/dss.c                  |    7 +-
- drivers/gpu/drm/omapdrm/dss/hdmi.h                 |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi4.c                |    8 +-
- drivers/gpu/drm/omapdrm/dss/hdmi4_cec.c            |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi4_core.c           |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi4_core.h           |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi5.c                |    8 +-
- drivers/gpu/drm/omapdrm/dss/hdmi5_core.c           |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi5_core.h           |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi_phy.c             |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi_pll.c             |    2 +-
- drivers/gpu/drm/omapdrm/dss/hdmi_wp.c              |    2 +-
- drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c    |    2 +-
- drivers/gpu/drm/omapdrm/dss/omapdss.h              |    2 +-
- drivers/gpu/drm/omapdrm/dss/output.c               |    2 +-
- drivers/gpu/drm/omapdrm/dss/pll.c                  |    2 +-
- drivers/gpu/drm/omapdrm/dss/venc.c                 |    7 +-
- drivers/gpu/drm/omapdrm/dss/video-pll.c            |    2 +-
- drivers/gpu/drm/omapdrm/omap_connector.c           |    2 +-
- drivers/gpu/drm/omapdrm/omap_crtc.c                |    2 +-
- drivers/gpu/drm/omapdrm/omap_debugfs.c             |    2 +-
- drivers/gpu/drm/omapdrm/omap_dmm_priv.h            |    2 +-
- drivers/gpu/drm/omapdrm/omap_dmm_tiler.c           |    8 +-
- drivers/gpu/drm/omapdrm/omap_dmm_tiler.h           |    2 +-
- drivers/gpu/drm/omapdrm/omap_drv.c                 |    4 +-
- drivers/gpu/drm/omapdrm/omap_drv.h                 |    2 +-
- drivers/gpu/drm/omapdrm/omap_encoder.c             |    2 +-
- drivers/gpu/drm/omapdrm/omap_fb.c                  |    2 +-
- drivers/gpu/drm/omapdrm/omap_fbdev.c               |    2 +-
- drivers/gpu/drm/omapdrm/omap_gem.c                 |    5 +-
- drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c          |    2 +-
- drivers/gpu/drm/omapdrm/omap_irq.c                 |    8 +-
- drivers/gpu/drm/omapdrm/omap_plane.c               |    2 +-
- drivers/gpu/drm/omapdrm/tcm-sita.c                 |    2 +-
- drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |    2 +-
- drivers/gpu/drm/panel/panel-simple.c               |    8 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c            |    2 +-
- drivers/gpu/drm/panfrost/panfrost_perfcnt.c        |   14 +-
- drivers/gpu/drm/pl111/pl111_drv.c                  |    3 +-
- drivers/gpu/drm/qxl/qxl_display.c                  |   15 +-
- drivers/gpu/drm/qxl/qxl_draw.c                     |   14 +-
- drivers/gpu/drm/qxl/qxl_drv.h                      |   11 +-
- drivers/gpu/drm/qxl/qxl_ioctl.c                    |    1 -
- drivers/gpu/drm/qxl/qxl_kms.c                      |    4 +-
- drivers/gpu/drm/qxl/qxl_object.c                   |   31 +-
- drivers/gpu/drm/qxl/qxl_object.h                   |    2 +-
- drivers/gpu/drm/qxl/qxl_prime.c                    |   12 +-
- drivers/gpu/drm/qxl/qxl_ttm.c                      |    3 +-
- drivers/gpu/drm/r128/ati_pcigart.c                 |    2 +-
- drivers/gpu/drm/radeon/radeon.h                    |    2 +-
- drivers/gpu/drm/radeon/radeon_drv.c                |   89 +-
- drivers/gpu/drm/radeon/radeon_gem.c                |    7 +-
- drivers/gpu/drm/radeon/radeon_kms.c                |   49 +-
- drivers/gpu/drm/radeon/radeon_prime.c              |   20 -
- drivers/gpu/drm/radeon/radeon_ttm.c                |  121 +-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c              |    2 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |    4 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c        |   22 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.h        |    4 +-
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |    6 +-
- drivers/gpu/drm/shmobile/shmob_drm_drv.c           |    2 +-
- drivers/gpu/drm/sti/sti_drv.c                      |    2 +-
- drivers/gpu/drm/stm/drv.c                          |    2 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c                  |    2 +-
- drivers/gpu/drm/tegra/dc.c                         |    8 +-
- drivers/gpu/drm/tegra/drm.c                        |    5 +-
- drivers/gpu/drm/tidss/tidss_dispc.c                |    9 +-
- drivers/gpu/drm/tidss/tidss_drv.c                  |    2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c                |    4 +-
- drivers/gpu/drm/tiny/cirrus.c                      |   12 +-
- drivers/gpu/drm/tiny/gm12u320.c                    |   68 +-
- drivers/gpu/drm/tiny/hx8357d.c                     |    2 +-
- drivers/gpu/drm/tiny/ili9225.c                     |    2 +-
- drivers/gpu/drm/tiny/ili9341.c                     |    2 +-
- drivers/gpu/drm/tiny/ili9486.c                     |    2 +-
- drivers/gpu/drm/tiny/mi0283qt.c                    |    2 +-
- drivers/gpu/drm/tiny/repaper.c                     |    2 +-
- drivers/gpu/drm/tiny/st7586.c                      |    2 +-
- drivers/gpu/drm/tiny/st7735r.c                     |    2 +-
- drivers/gpu/drm/ttm/ttm_bo.c                       |   74 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c                  |   72 +
- drivers/gpu/drm/tve200/tve200_drv.c                |    2 +-
- drivers/gpu/drm/udl/udl_connector.c                |    8 +-
- drivers/gpu/drm/udl/udl_drv.c                      |    5 +-
- drivers/gpu/drm/udl/udl_drv.h                      |    6 +-
- drivers/gpu/drm/udl/udl_main.c                     |   23 +-
- drivers/gpu/drm/udl/udl_modeset.c                  |    8 +-
- drivers/gpu/drm/v3d/v3d_drv.c                      |    2 +-
- drivers/gpu/drm/vboxvideo/vbox_drv.c               |    4 +-
- drivers/gpu/drm/vboxvideo/vbox_mode.c              |   11 +-
- drivers/gpu/drm/vc4/vc4_bo.c                       |    7 +-
- drivers/gpu/drm/vc4/vc4_drv.h                      |    2 +-
- drivers/gpu/drm/vc4/vc4_perfmon.c                  |    2 +-
- drivers/gpu/drm/vgem/vgem_drv.c                    |   18 +-
- drivers/gpu/drm/vgem/vgem_fence.c                  |    2 +-
- drivers/gpu/drm/virtio/virtgpu_display.c           |    4 +-
- drivers/gpu/drm/virtio/virtgpu_drv.c               |    4 +-
- drivers/gpu/drm/virtio/virtgpu_object.c            |    5 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c                |    4 +-
- drivers/gpu/drm/vkms/vkms_drv.c                    |    2 +-
- drivers/gpu/drm/vkms/vkms_plane.c                  |   15 +-
- drivers/gpu/drm/vkms/vkms_writeback.c              |   22 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c                |    2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c         |    3 +-
- drivers/gpu/drm/xen/xen_drm_front.c                |    2 +-
- drivers/gpu/drm/xen/xen_drm_front_gem.c            |   18 +-
- drivers/gpu/drm/xen/xen_drm_front_gem.h            |    6 +-
- drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |    2 +-
- drivers/gpu/drm/zte/zx_drm_drv.c                   |    2 +-
- drivers/gpu/host1x/bus.c                           |    1 +
- drivers/video/fbdev/core/fbmem.c                   |    5 -
- drivers/video/fbdev/riva/riva_hw.c                 |   14 +-
- include/drm/drm_client.h                           |    7 +-
- include/drm/drm_device.h                           |    4 +
- include/drm/drm_drv.h                              |    7 +-
- include/drm/drm_encoder.h                          |    1 -
- include/drm/drm_gem.h                              |    5 +-
- include/drm/drm_gem_cma_helper.h                   |    8 +-
- include/drm/drm_gem_shmem_helper.h                 |    4 +-
- include/drm/drm_gem_ttm_helper.h                   |    6 +
- include/drm/drm_gem_vram_helper.h                  |   14 +-
- include/drm/drm_mode_config.h                      |   12 -
- include/drm/ttm/ttm_bo_api.h                       |   28 +
- include/drm/ttm/ttm_bo_driver.h                    |    7 +-
- include/linux/dma-buf-map.h                        |   93 +-
- include/linux/dma-buf.h                            |    4 +-
- include/uapi/drm/drm_mode.h                        |    6 +
- 249 files changed, 7023 insertions(+), 1412 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/intel,=
-keembay-dsi.yaml
- create mode 100644 Documentation/devicetree/bindings/display/intel,keembay=
--display.yaml
- create mode 100644 Documentation/devicetree/bindings/display/intel,keembay=
--msscam.yaml
- create mode 100644 drivers/gpu/drm/bridge/lontium-lt9611uxc.c
- create mode 100644 drivers/gpu/drm/kmb/Kconfig
- create mode 100644 drivers/gpu/drm/kmb/Makefile
- create mode 100644 drivers/gpu/drm/kmb/kmb_crtc.c
- create mode 100644 drivers/gpu/drm/kmb/kmb_drv.c
- create mode 100644 drivers/gpu/drm/kmb/kmb_drv.h
- create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.c
- create mode 100644 drivers/gpu/drm/kmb/kmb_dsi.h
- create mode 100644 drivers/gpu/drm/kmb/kmb_plane.c
- create mode 100644 drivers/gpu/drm/kmb/kmb_plane.h
- create mode 100644 drivers/gpu/drm/kmb/kmb_regs.h
-
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-(HRB 36809, AG N=FCrnberg)
-Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
