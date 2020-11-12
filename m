@@ -2,50 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BD72AFB96
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 00:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62F92AFD81
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 03:39:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10A3389857;
-	Wed, 11 Nov 2020 23:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 640B16E0E1;
+	Thu, 12 Nov 2020 02:39:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAFA089857
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 23:03:38 +0000 (UTC)
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A5D52100A
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 23:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605135818;
- bh=PWOn9j23HBOzfWJ+D7iBJ6pZYlRlV+JmuVCCNUonjPo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ckd1+//mOLH7RgvxkTLysy6MxP5eH7hJNdLV4I/o8+PE/weWfEIkux51/g4Pyn11q
- 106c1+FuoqTJF3kvAp8NnXPtR9gJaqw2g7ZdS/T+ltWbJ9j7tVdzrLpCPW1J/6b/+2
- 5ni2r5bMGphhfSWHfWUk7JS72J9lYlsVPpoN30Vc=
-Received: by mail-ot1-f51.google.com with SMTP id n89so3788201otn.3
- for <dri-devel@lists.freedesktop.org>; Wed, 11 Nov 2020 15:03:38 -0800 (PST)
-X-Gm-Message-State: AOAM533dlwUHMJb9AgPXHoCacMouiiej+ne45cYt4J455eURLb53Mkcs
- fqEz6BgqIwHeyK5jX70TtR9bkRHmSf6CfBNhEA==
-X-Google-Smtp-Source: ABdhPJzBs9eNBSs8wb1VTALrHXsAiuAdWpF5UQjrAxgZa3Z8XnfjIUO+OfFrmd99j2tX9RNZUaQ2Mlp6aeTtQTGHV1k=
-X-Received: by 2002:a05:6830:2259:: with SMTP id
- t25mr19837860otd.192.1605135817564; 
- Wed, 11 Nov 2020 15:03:37 -0800 (PST)
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
+ [IPv6:2607:f8b0:4864:20::b44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D726E0E1;
+ Thu, 12 Nov 2020 02:39:04 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id 10so3869735ybx.9;
+ Wed, 11 Nov 2020 18:39:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ftGfKOXSWOzEE0JQHca1kComSeapH31rS7cfnrDJLEw=;
+ b=ETDyYNpY5nOi+rcrvNpVuKp+u25xStVV1FSARd86Su4jwKQxXwZB6dk8eyZb42rXHx
+ 5M3FT9xtzeBrLU0pDkJBKCYPS4VyMm57n2c07B7IkAF2G6N4AbzyagvFZK9m5G1T1+MG
+ OiDHL8+8bzYqpr0RWpbEuEEFurHhc78smjUwe+7gtq39LoRwlZzQ7kfMR4BtyVKbZ52+
+ DUwjeXnjW1ailynDt09Dqi0xFQkvXMiy6QmJzvxBiX2JDz02CzFr72FJsd1SBjep6qxt
+ QnidUYuzwgQnJk5BYbgvBDnpF9JVdD0xCO1LgM1vQRg3yaGwLmUbIZ7zF6WMUvNODRqH
+ kLbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ftGfKOXSWOzEE0JQHca1kComSeapH31rS7cfnrDJLEw=;
+ b=KC19fAhsDc3ZiF5XaFcrIi9jfLo1t9x32n+qcz/JFC0MHPG95R+whZkfV3QjpDj6Tp
+ 1Jdse57Ul8RW/C0HYvR+0drF+VVUDuNB+AY3iHvJguBxK39zkdbz/ZECD3DATzWsc1ec
+ +aItFH82sYhMguHVvDbgbgRsBqQBB9UxHVRuus6mC8bmRPEvHn7ZSbM1cmJa/YCm8YGy
+ LMOWspxNS4vINno0Kau7ra1EYH88VW4yPP6azEJhuQJj0cKEoENhUQmiTtkaf5ZT/15U
+ gXOBGYwzGWUXF3M6VYvZU0agcT9HGQDkNu31SP7VshMRAQ0F5TDam44LCd6FHUHAsyug
+ pFpw==
+X-Gm-Message-State: AOAM532Qa+EIbRQ3T69Zyxmwvd4hulpFtcR8P7+2/9WBJ+8wEHow6uy3
+ VmVTuMARXPePYUreuQb3vqUBpA50lrI9XmhqKfQ=
+X-Google-Smtp-Source: ABdhPJwdY/hXeGSuYBcqQZqPOh5DSxyAOsJXmgO1YqESiwJAsyIOEj7Ny03XqiQVaIUWAVE/BcvLkC3ivAFaTn41Srw=
+X-Received: by 2002:a25:a065:: with SMTP id x92mr38232785ybh.94.1605148743404; 
+ Wed, 11 Nov 2020 18:39:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102203656.220187-1-robh@kernel.org>
- <20201102203656.220187-2-robh@kernel.org>
- <20201111140009.GD4115@pendragon.ideasonboard.com>
- <CAL_Jsq+A6Ga+h4qK0nzyL87M1DvrRSnzxtjwUNpq--L7MDHxfA@mail.gmail.com>
- <20201111142735.GG4115@pendragon.ideasonboard.com>
-In-Reply-To: <20201111142735.GG4115@pendragon.ideasonboard.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 11 Nov 2020 17:03:26 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJUTDAxpmXTGaPfhhF5cCuh++We6-nXyH2b2WXrh+3NmQ@mail.gmail.com>
-Message-ID: <CAL_JsqJUTDAxpmXTGaPfhhF5cCuh++We6-nXyH2b2WXrh+3NmQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] dt-bindings: Convert graph bindings to json-schema
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201110133655.13174-1-tzimmermann@suse.de>
+ <85758a6215f74917aee81b18d037fb82@intel.com>
+ <f4cedda2-48f6-565c-4154-0975a2d119a0@suse.de>
+ <b87d5a2cce4941fe86e89d97bd6b2be4@intel.com>
+In-Reply-To: <b87d5a2cce4941fe86e89d97bd6b2be4@intel.com>
+From: Ben Skeggs <skeggsb@gmail.com>
+Date: Thu, 12 Nov 2020 12:38:52 +1000
+Message-ID: <CACAvsv7vZFnFtvcaA8PcRn=V-uH9P7HU6BcZsSUGZSYejZCwQw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau: Fix out-of-bounds access when deferencing
+ MMU type
+To: "Ruhl, Michael J" <michael.j.ruhl@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,164 +65,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Sameer Pujar <spujar@nvidia.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, "airlied@linux.ie" <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Huang Rui <ray.huang@amd.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ "bskeggs@redhat.com" <bskeggs@redhat.com>, Dave Airlie <airlied@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ Likun Gao <Likun.Gao@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ "christian.koenig@amd.com" <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 8:27 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Rob,
->
-> On Wed, Nov 11, 2020 at 08:25:40AM -0600, Rob Herring wrote:
-> > On Wed, Nov 11, 2020 at 8:00 AM Laurent Pinchart wrote:
-> > > On Mon, Nov 02, 2020 at 02:36:54PM -0600, Rob Herring wrote:
-> > > > From: Sameer Pujar <spujar@nvidia.com>
-> > > >
-> > > > Convert device tree bindings of graph to YAML format. Currently graph.txt
-> > > > doc is referenced in multiple files and all of these need to use schema
-> > > > references. For now graph.txt is updated to refer to graph.yaml.
-> > > >
-> > > > For users of the graph binding, they should reference to the graph
-> > > > schema from either 'ports' or 'port' property:
-> > > >
-> > > > properties:
-> > > >   ports:
-> > > >     type: object
-> > > >     $ref: graph.yaml#/properties/ports
-> > > >
-> > > >     properties:
-> > > >       port@0:
-> > > >         description: What data this port has
-> > > >
-> > > >       ...
-> > > >
-> > > > Or:
-> > > >
-> > > > properties:
-> > > >   port:
-> > > >     description: What data this port has
-> > > >     type: object
-> > > >     $ref: graph.yaml#/properties/port
-> > >
-> > > Sounds like a good approach.
-> > >
-> > > > Signed-off-by: Sameer Pujar <spujar@nvidia.com>
-> > > > Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > > ---
-> > > > v3:
-> > > >  - Move port 'reg' to port@* and make required
-> > > >  - Make remote-endpoint required
-> > > >  - Add 'additionalProperties: true' now required
-> > > >  - Fix yamllint warnings
-> > > >
-> > > >  Documentation/devicetree/bindings/graph.txt  | 129 +-----------
-> > > >  Documentation/devicetree/bindings/graph.yaml | 199 +++++++++++++++++++
-> > > >  2 files changed, 200 insertions(+), 128 deletions(-)
-> > > >  create mode 100644 Documentation/devicetree/bindings/graph.yaml
-> >
-> > [...]
-> >
-> > > > diff --git a/Documentation/devicetree/bindings/graph.yaml b/Documentation/devicetree/bindings/graph.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..b56720c5a13e
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/graph.yaml
-> > > > @@ -0,0 +1,199 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/graph.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Common bindings for device graphs
-> > > > +
-> > > > +description: |
-> > > > +  The hierarchical organisation of the device tree is well suited to describe
-> > > > +  control flow to devices, but there can be more complex connections between
-> > > > +  devices that work together to form a logical compound device, following an
-> > > > +  arbitrarily complex graph.
-> > > > +  There already is a simple directed graph between devices tree nodes using
-> > > > +  phandle properties pointing to other nodes to describe connections that
-> > > > +  can not be inferred from device tree parent-child relationships. The device
-> > > > +  tree graph bindings described herein abstract more complex devices that can
-> > > > +  have multiple specifiable ports, each of which can be linked to one or more
-> > > > +  ports of other devices.
-> > > > +
-> > > > +  These common bindings do not contain any information about the direction or
-> > > > +  type of the connections, they just map their existence. Specific properties
-> > > > +  may be described by specialized bindings depending on the type of connection.
-> > > > +
-> > > > +  To see how this binding applies to video pipelines, for example, see
-> > > > +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > > +  Here the ports describe data interfaces, and the links between them are
-> > > > +  the connecting data buses. A single port with multiple connections can
-> > > > +  correspond to multiple devices being connected to the same physical bus.
-> > > > +
-> > > > +maintainers:
-> > > > +  - Philipp Zabel <p.zabel@pengutronix.de>
-> > > > +
-> > > > +select: false
-> > > > +
-> > > > +properties:
-> > > > +  port:
-> > > > +    type: object
-> > > > +    description:
-> > > > +      If there is more than one endpoint node or 'reg' property present in
-> > > > +      endpoint nodes then '#address-cells' and '#size-cells' properties are
-> > > > +      required.
-> > > > +
-> > > > +    properties:
-> > > > +      "#address-cells":
-> > > > +        const: 1
-> > > > +
-> > > > +      "#size-cells":
-> > > > +        const: 0
-> > > > +
-> > > > +    patternProperties:
-> > > > +      "^endpoint(@[0-9a-f]+)?$":
-> > > > +        type: object
-> > > > +        properties:
-> > > > +          reg:
-> > > > +            maxItems: 1
-> > > > +
-> > > > +          remote-endpoint:
-> > > > +            description: |
-> > > > +              phandle to an 'endpoint' subnode of a remote device node.
-> > > > +            $ref: /schemas/types.yaml#/definitions/phandle
-> > > > +
-> > > > +        required:
-> > > > +          - remote-endpoint
-> > >
-> > > As noted elsewhere, this shouldn't be required.
-> > >
-> > > Should we set additionalProperties: false here ?
-> >
-> > No, we've got a bunch of properties that get added to endpoint nodes.
-> > There's a few cases where 'port' nodes have properties too.
->
-> I meant the port node, which I wasn't aware needed additional
-> properties. Do you have any example ? (I wonder if you will point me to
-> bindings that I have written ;-))
-
-Not you, but Renesas. dual-lvds-{odd,even}-pixels was the only one I
-think. But really, I think we could actually drop those if the port
-numbering defines even/odd instead. There's a patch I just reviewed
-for common dual lane panels. See
-1604993797-14240-1-git-send-email-victor.liu@nxp.com
-
-Rob
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxMiBOb3YgMjAyMCBhdCAwMjoyNywgUnVobCwgTWljaGFlbCBKIDxtaWNoYWVsLmou
+cnVobEBpbnRlbC5jb20+IHdyb3RlOgo+Cj4gPi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tCj4g
+PkZyb206IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID5TZW50OiBX
+ZWRuZXNkYXksIE5vdmVtYmVyIDExLCAyMDIwIDc6MDggQU0KPiA+VG86IFJ1aGwsIE1pY2hhZWwg
+SiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPjsgYnNrZWdnc0ByZWRoYXQuY29tOwo+ID5haXJs
+aWVkQGxpbnV4LmllOyBkYW5pZWxAZmZ3bGwuY2g7IGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbQo+
+ID5DYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVl
+ZGVza3RvcC5vcmc7Cj4gPk1hYXJ0ZW4gTGFua2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51
+eC5pbnRlbC5jb20+OyBNYXhpbWUgUmlwYXJkCj4gPjxtcmlwYXJkQGtlcm5lbC5vcmc+OyBEYXZl
+IEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPjsgR2VyZCBIb2ZmbWFubgo+ID48a3JheGVsQHJl
+ZGhhdC5jb20+OyBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Owo+ID5W
+TXdhcmUgR3JhcGhpY3MgPGxpbnV4LWdyYXBoaWNzLW1haW50YWluZXJAdm13YXJlLmNvbT47IFJv
+bGFuZAo+ID5TY2hlaWRlZ2dlciA8c3JvbGFuZEB2bXdhcmUuY29tPjsgSHVhbmcgUnVpIDxyYXku
+aHVhbmdAYW1kLmNvbT47Cj4gPkZlbGl4IEt1ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29t
+PjsgSGF3a2luZyBaaGFuZwo+ID48SGF3a2luZy5aaGFuZ0BhbWQuY29tPjsgSmFzb24gR3VudGhv
+cnBlIDxqZ2dAemllcGUuY2E+OyBMaWt1biBHYW8KPiA+PExpa3VuLkdhb0BhbWQuY29tPjsgdmly
+dHVhbGl6YXRpb25AbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmc7IHNwaWNlLQo+ID5kZXZlbEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmc7IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPlN1
+YmplY3Q6IFJlOiBbUEFUQ0hdIGRybS9ub3V2ZWF1OiBGaXggb3V0LW9mLWJvdW5kcyBhY2Nlc3Mg
+d2hlbgo+ID5kZWZlcmVuY2luZyBNTVUgdHlwZQo+ID4KPiA+SGkKPiA+Cj4gPkFtIDEwLjExLjIw
+IHVtIDE2OjI3IHNjaHJpZWIgUnVobCwgTWljaGFlbCBKOgo+ID4+Cj4gPj4KPiA+Pj4gLS0tLS1P
+cmlnaW5hbCBNZXNzYWdlLS0tLS0KPiA+Pj4gRnJvbTogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1t
+ZXJtYW5uQHN1c2UuZGU+Cj4gPj4+IFNlbnQ6IFR1ZXNkYXksIE5vdmVtYmVyIDEwLCAyMDIwIDg6
+MzcgQU0KPiA+Pj4gVG86IGJza2VnZ3NAcmVkaGF0LmNvbTsgYWlybGllZEBsaW51eC5pZTsgZGFu
+aWVsQGZmd2xsLmNoOyBSdWhsLCBNaWNoYWVsIEoKPiA+Pj4gPG1pY2hhZWwuai5ydWhsQGludGVs
+LmNvbT47IGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbQo+ID4+PiBDYzogbm91dmVhdUBsaXN0cy5m
+cmVlZGVza3RvcC5vcmc7IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7Cj4gPlRob21h
+cwo+ID4+PiBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPjsgTWFhcnRlbiBMYW5raG9y
+c3QKPiA+Pj4gPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT47IE1heGltZSBSaXBh
+cmQKPiA+Pj4gPG1yaXBhcmRAa2VybmVsLm9yZz47IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhh
+dC5jb20+OyBHZXJkIEhvZmZtYW5uCj4gPj4+IDxrcmF4ZWxAcmVkaGF0LmNvbT47IEFsZXggRGV1
+Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT47Cj4gPj4+IFZNd2FyZSBHcmFwaGljcyA8
+bGludXgtZ3JhcGhpY3MtbWFpbnRhaW5lckB2bXdhcmUuY29tPjsgUm9sYW5kCj4gPj4+IFNjaGVp
+ZGVnZ2VyIDxzcm9sYW5kQHZtd2FyZS5jb20+OyBIdWFuZyBSdWkgPHJheS5odWFuZ0BhbWQuY29t
+PjsKPiA+Pj4gRmVsaXggS3VlaGxpbmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+OyBIYXdraW5n
+IFpoYW5nCj4gPj4+IDxIYXdraW5nLlpoYW5nQGFtZC5jb20+OyBKYXNvbiBHdW50aG9ycGUgPGpn
+Z0B6aWVwZS5jYT47IExpa3VuCj4gPkdhbwo+ID4+PiA8TGlrdW4uR2FvQGFtZC5jb20+OyB2aXJ0
+dWFsaXphdGlvbkBsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZzsgc3BpY2UtCj4gPj4+IGRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+
+Pj4gU3ViamVjdDogW1BBVENIXSBkcm0vbm91dmVhdTogRml4IG91dC1vZi1ib3VuZHMgYWNjZXNz
+IHdoZW4KPiA+ZGVmZXJlbmNpbmcKPiA+Pj4gTU1VIHR5cGUKPiA+Pj4KPiA+Pj4gVGhlIHZhbHVl
+IG9mIHN0cnVjdCBkcm1fZGV2aWNlLnR0bS50eXBlX3ZyYW0gY2FuIGJlY29tZSAtMSBmb3IKPiA+
+dW5rbm93bgo+ID4+PiB0eXBlcyBvZiBtZW1vcnkgKHNlZSBub3V2ZWF1X3R0bV9pbml0KCkpLiBU
+aGlzIGxlYWRzIHRvIGFuIG91dC1vZi1ib3VuZHMKPiA+Pj4gZXJyb3Igd2hlbiBhY2Nlc3Npbmcg
+c3RydWN0IG52aWZfbW11LnR5cGVbXToKPiA+Pgo+ID4+IFdvdWxkIHRoaXMgbWFrZSBtb3JlIHNl
+bnNlIHRvIGp1c3Qgc2V0IHRoZSB0eXBlX3ZyYW0gPSAwIGluc3RlYWQgb2YgLTE/Cj4gPgo+ID5G
+cm9tIHdoYXQgSSB1bmRlcnN0YW5kLCB0aGVzZSBpbmRpY2VzIHJlZmVyIHRvIGFuIGludGVybmFs
+IHR5cGUgb2YgTU1VLAo+ID5yc3AgdGhlIE1NVSdzIGNhcGFiaWxpdGllcy4gSG93ZXZlciwgbXkg
+aGFyZHdhcmUgKHByZS1OVjUwKSBkb2VzIG5vdAo+ID5oYXZlIGFuIE1NVSBhdCBhbGwuCj4KPiBZ
+ZWFoLCBhbmQgdXBvbiBmdXJ0aGVyIHJldmlldyBJIHNlZSB0aGF0IG15IGNvbW1lbnQgd2FzIGNv
+bXBsZXRlbHkgd3JvbmcKPiAodmFsdWUgdnMuIGluZGV4KS4KPgo+IEEgYmV0dGVyIHN1Z2dlc3Rp
+b24gd291bGQgaGF2ZSBiZWVuLCBjcmVhdGUgYW4gZW50cnkgaW4gdGhlIGFycmF5IHRoYXQgbWVh
+bnMsCj4gInVuc3VwcG9ydGVkIHR5cGUiIHdpdGggYSB2YWx1ZSBvZiAwLCBidXQuLi4KPgo+ID5J
+IGFncmVlIHRoYXQgaXQgd291bGQgYmUgbmljZSB0byBoYXZlIGEgY2xlYW5lciBkZXNpZ24gdGhh
+dCBpbmNvcnBvcmF0ZXMKPiA+dGhpcyBjYXNlLCBidXQgcmVzb2x2aW5nIHRoYXQgd291bGQgYXBw
+YXJlbnRseSByZXF1aXJlIG1vcmUgdGhhbiBhIGJ1Z2ZpeC4KPgo+IEkgYWdyZWUuICBUaGUgLTEg
+aW5kZXggaXMgYSBzcGVjaWFsIGNhc2UgZm9yIHRoZSBwbGF0Zm9ybSBwYXRoCj4gKHBsYXRmb3Jt
+ICE9IE5WX0RFVklDRV9JTkZPX1YwX1NPQykuICBUaGlzIGlzIGEgZml4IGZvciB0aGUgaXNzdWUs
+IGJ1dCBub3QKPiBhIGNvbXBsZXRlIHNvbHV0aW9uLgo+Cj4gSWYgeW91IG5lZWQgaXQ6Cj4gUmV2
+aWV3ZWQtYnk6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPgpJJ3Zl
+IHB1dCBhbiBhbHRlcm5hdGUgZml4IGZvciB0aGlzIGhlcmVbMV0sIGFuZCB3aWxsIGdldCBpdCBp
+bnRvCmRybS1maXhlcyBsYXRlciB0b2RheS4KCkJlbi4KClsxXSBodHRwczovL2dpdGh1Yi5jb20v
+c2tlZ2dzYi9ub3V2ZWF1L2NvbW1pdC80NTkwZjcxMjBjMmYxZjRhZWE5ZDhiOTNhMmRhZTQzYjMx
+MmQzNWFkCgo+Cj4gVGhhbmtzLAo+IE1pa2UKPgo+ID5CZXN0IHJlZ2FyZHMKPiA+VGhvbWFzCj4g
+Pgo+ID4+Cj4gPj4gTWlrZQo+ID4+Cj4gPj4+Cj4gPj4+ICBbICAgMTguMzA0MTE2XQo+ID4+Pgo+
+ID49PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQo+ID4+PiA9PT09PT09Cj4gPj4+ICBbICAgMTguMzExNjQ5XSBCVUc6IEtBU0FOOiBzbGFi
+LW91dC1vZi1ib3VuZHMgaW4KPiA+Pj4gbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUrMHgxN2Ev
+MHg3ZTAgW25vdXZlYXVdCj4gPj4+ICBbICAgMTguMzIwNDE1XSBSZWFkIG9mIHNpemUgMSBhdCBh
+ZGRyIGZmZmY4ODgxMGZmYWMxZmUgYnkgdGFzayBzeXN0ZW1kLQo+ID4+PiB1ZGV2ZC8zNDIKPiA+
+Pj4gIFsgICAxOC4zMjc2ODFdCj4gPj4+ICBbICAgMTguMzI5MjA4XSBDUFU6IDEgUElEOiAzNDIg
+Q29tbTogc3lzdGVtZC11ZGV2ZCBUYWludGVkOiBHICAgICAgICAgICAgRQo+ID4+PiA1LjEwLjAt
+cmMyLTEtZGVmYXVsdCsgIzU4MQo+ID4+PiAgWyAgIDE4LjMzODY4MV0gSGFyZHdhcmUgbmFtZTog
+RGVsbCBJbmMuIE9wdGlQbGV4IDkwMjAvME40WUM4LCBCSU9TIEEyNAo+ID4+PiAxMC8yNC8yMDE4
+Cj4gPj4+ICBbICAgMTguMzQ2MDMyXSBDYWxsIFRyYWNlOgo+ID4+PiAgWyAgIDE4LjM0ODUzNl0g
+IGR1bXBfc3RhY2srMHhhZS8weGU1Cj4gPj4+ICBbICAgMTguMzUxOTE5XSAgcHJpbnRfYWRkcmVz
+c19kZXNjcmlwdGlvbi5jb25zdHByb3AuMCsweDE3LzB4ZjAKPiA+Pj4gIFsgICAxOC4zNTc3ODdd
+ICA/IG5vdXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKzB4MTdhLzB4N2UwIFtub3V2ZWF1XQo+ID4+
+PiAgWyAgIDE4LjM2MzgxOF0gIF9fa2FzYW5fcmVwb3J0LmNvbGQrMHgyMC8weDM4Cj4gPj4+ICBb
+ICAgMTguMzY4MDk5XSAgPyBub3V2ZWF1X3R0bV9pb19tZW1fcmVzZXJ2ZSsweDE3YS8weDdlMCBb
+bm91dmVhdV0KPiA+Pj4gIFsgICAxOC4zNzQxMzNdICBrYXNhbl9yZXBvcnQrMHgzYS8weDUwCj4g
+Pj4+ICBbICAgMTguMzc3Nzg5XSAgbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUrMHgxN2EvMHg3
+ZTAgW25vdXZlYXVdCj4gPj4+ICA8Li4uPgo+ID4+PiAgWyAgIDE4Ljc2NzY5MF0gQWxsb2NhdGVk
+IGJ5IHRhc2sgMzQyOgo+ID4+PiAgWyAgIDE4Ljc3MzA4N10gIGthc2FuX3NhdmVfc3RhY2srMHgx
+Yi8weDQwCj4gPj4+ICBbICAgMTguNzc4ODkwXSAgX19rYXNhbl9rbWFsbG9jLmNvbnN0cHJvcC4w
+KzB4YmYvMHhkMAo+ID4+PiAgWyAgIDE4Ljc4NTY0Nl0gIF9fa21hbGxvY190cmFja19jYWxsZXIr
+MHgxYmUvMHgzOTAKPiA+Pj4gIFsgICAxOC43OTIxNjVdICBrc3RyZHVwX2NvbnN0KzB4NDYvMHg3
+MAo+ID4+PiAgWyAgIDE4Ljc5NzY4Nl0gIGtvYmplY3Rfc2V0X25hbWVfdmFyZ3MrMHgyZi8weGIw
+Cj4gPj4+ICBbICAgMTguODAzOTkyXSAga29iamVjdF9pbml0X2FuZF9hZGQrMHg5ZC8weGYwCj4g
+Pj4+ICBbICAgMTguODEwMTE3XSAgdHRtX21lbV9nbG9iYWxfaW5pdCsweDEyYy8weDIxMCBbdHRt
+XQo+ID4+PiAgWyAgIDE4LjgxNjg1M10gIHR0bV9ib19nbG9iYWxfaW5pdCsweDRhLzB4MTYwIFt0
+dG1dCj4gPj4+ICBbICAgMTguODIzNDIwXSAgdHRtX2JvX2RldmljZV9pbml0KzB4MzkvMHgyMjAg
+W3R0bV0KPiA+Pj4gIFsgICAxOC44MzAwNDZdICBub3V2ZWF1X3R0bV9pbml0KzB4MmMzLzB4ODMw
+IFtub3V2ZWF1XQo+ID4+PiAgWyAgIDE4LjgzNjkyOV0gIG5vdXZlYXVfZHJtX2RldmljZV9pbml0
+KzB4MWI0LzB4M2YwIFtub3V2ZWF1XQo+ID4+PiAgPC4uLj4KPiA+Pj4gIFsgICAxOS4xMDUzMzZd
+Cj4gPj4+Cj4gPj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09Cj4gPj4+ID09PT09PT0KPiA+Pj4KPiA+Pj4gRml4IHRoaXMgZXJyb3IsIGJ5
+IG5vdCB1c2luZyB0eXBlX3ZyYW0gYXMgYW4gaW5kZXggaWYgaXQncyBuZWdhdGl2ZS4KPiA+Pj4g
+QXNzdW1lIGRlZmF1bHQgdmFsdWVzIGluc3RlYWQuCj4gPj4+Cj4gPj4+IFRoZSBlcnJvciB3YXMg
+c2VlbiBvbiBOdmlkaWEgRzcyIGhhcmR3YXJlLgo+ID4+Pgo+ID4+PiBTaWduZWQtb2ZmLWJ5OiBU
+aG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiA+Pj4gRml4ZXM6IDFjZjY1
+YzQ1MTgzYSAoImRybS90dG06IGFkZCBjYWNoaW5nIHN0YXRlIHRvIHR0bV9idXNfcGxhY2VtZW50
+IikKPiA+Pj4gQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4K
+PiA+Pj4gQ2M6IE1pY2hhZWwgSi4gUnVobCA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPgo+ID4+
+PiBDYzogTWFhcnRlbiBMYW5raG9yc3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNv
+bT4KPiA+Pj4gQ2M6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4KPiA+Pj4gQ2M6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+ID4+PiBDYzogRGF2aWQg
+QWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+ID4+PiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
+QGZmd2xsLmNoPgo+ID4+PiBDYzogQmVuIFNrZWdncyA8YnNrZWdnc0ByZWRoYXQuY29tPgo+ID4+
+PiBDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiA+Pj4gQ2M6IEdlcmQgSG9m
+Zm1hbm4gPGtyYXhlbEByZWRoYXQuY29tPgo+ID4+PiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5k
+ZXIuZGV1Y2hlckBhbWQuY29tPgo+ID4+PiBDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3Rp
+YW4ua29lbmlnQGFtZC5jb20+Cj4gPj4+IENjOiBWTXdhcmUgR3JhcGhpY3MgPGxpbnV4LWdyYXBo
+aWNzLW1haW50YWluZXJAdm13YXJlLmNvbT4KPiA+Pj4gQ2M6IFJvbGFuZCBTY2hlaWRlZ2dlciA8
+c3JvbGFuZEB2bXdhcmUuY29tPgo+ID4+PiBDYzogSHVhbmcgUnVpIDxyYXkuaHVhbmdAYW1kLmNv
+bT4KPiA+Pj4gQ2M6IEZlbGl4IEt1ZWhsaW5nIDxGZWxpeC5LdWVobGluZ0BhbWQuY29tPgo+ID4+
+PiBDYzogSGF3a2luZyBaaGFuZyA8SGF3a2luZy5aaGFuZ0BhbWQuY29tPgo+ID4+PiBDYzogSmFz
+b24gR3VudGhvcnBlIDxqZ2dAemllcGUuY2E+Cj4gPj4+IENjOiBMaWt1biBHYW8gPExpa3VuLkdh
+b0BhbWQuY29tPgo+ID4+PiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4+
+PiBDYzogbm91dmVhdUBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+Pj4gQ2M6IHZpcnR1YWxpemF0
+aW9uQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCj4gPj4+IENjOiBzcGljZS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiA+Pj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cj4gPj4+IC0tLQo+ID4+PiBkcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgfCA1
+ICsrKystCj4gPj4+IDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24o
+LSkKPiA+Pj4KPiA+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZl
+YXVfYm8uYwo+ID4+PiBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+ID4+
+PiBpbmRleCA4MTMzMzc3ZDg2NWQuLmZlMTUyOTlkNDE3ZSAxMDA2NDQKPiA+Pj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCj4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1
+L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwo+ID4+PiBAQCAtMTE0Miw5ICsxMTQyLDEyIEBAIG5v
+dXZlYXVfdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdAo+ID4+PiB0dG1fYm9fZGV2aWNlICpiZGV2
+LCBzdHJ1Y3QgdHRtX3Jlc291cmNlICpyZWcpCj4gPj4+ICAgICBzdHJ1Y3QgbnZrbV9kZXZpY2Ug
+KmRldmljZSA9IG52eHhfZGV2aWNlKCZkcm0tPmNsaWVudC5kZXZpY2UpOwo+ID4+PiAgICAgc3Ry
+dWN0IG5vdXZlYXVfbWVtICptZW0gPSBub3V2ZWF1X21lbShyZWcpOwo+ID4+PiAgICAgc3RydWN0
+IG52aWZfbW11ICptbXUgPSAmZHJtLT5jbGllbnQubW11Owo+ID4+PiAtICAgY29uc3QgdTggdHlw
+ZSA9IG1tdS0+dHlwZVtkcm0tPnR0bS50eXBlX3ZyYW1dLnR5cGU7Cj4gPj4+ICsgICB1OCB0eXBl
+ID0gMDsKPiA+Pj4gICAgIGludCByZXQ7Cj4gPj4+Cj4gPj4+ICsgICBpZiAoZHJtLT50dG0udHlw
+ZV92cmFtID49IDApCj4gPj4+ICsgICAgICAgICAgIHR5cGUgPSBtbXUtPnR5cGVbZHJtLT50dG0u
+dHlwZV92cmFtXS50eXBlOwo+ID4+PiArCj4gPj4+ICAgICBtdXRleF9sb2NrKCZkcm0tPnR0bS5p
+b19yZXNlcnZlX211dGV4KTsKPiA+Pj4gcmV0cnk6Cj4gPj4+ICAgICBzd2l0Y2ggKHJlZy0+bWVt
+X3R5cGUpIHsKPiA+Pj4gLS0KPiA+Pj4gMi4yOS4yCj4gPj4KPiA+Cj4gPi0tCj4gPlRob21hcyBa
+aW1tZXJtYW5uCj4gPkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPiA+U1VTRSBTb2Z0d2FyZSBT
+b2x1dGlvbnMgR2VybWFueSBHbWJICj4gPk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywg
+R2VybWFueQo+ID4oSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCj4gPkdlc2Now6RmdHNmw7xocmVy
+OiBGZWxpeCBJbWVuZMO2cmZmZXIKPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
+LWRldmVsCg==
