@@ -2,36 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5512B1020
-	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 22:23:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6652B1038
+	for <lists+dri-devel@lfdr.de>; Thu, 12 Nov 2020 22:26:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C12BF6E0AD;
-	Thu, 12 Nov 2020 21:23:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274406E44B;
+	Thu, 12 Nov 2020 21:26:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E57B6E0AD
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 21:23:01 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 523C02001E;
- Thu, 12 Nov 2020 22:22:56 +0100 (CET)
-Date: Thu, 12 Nov 2020 22:22:54 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Jonathan Liu <net147@gmail.com>
-Subject: Re: [PATCH] drm: bridge: dw-hdmi: Avoid resetting force in the
- detect function
-Message-ID: <20201112212254.GA3361340@ravnborg.org>
-References: <20201031081747.372599-1-net147@gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B126E448;
+ Thu, 12 Nov 2020 21:26:09 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 23so6961618wmg.1;
+ Thu, 12 Nov 2020 13:26:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=hUyTNFSy+FKV2Opdiuolyr8HGiYLytnqVqPxhLY1PsU=;
+ b=kD08hxSi7dEp2gX1wV+W3BVTsipcNzE87u1fHldICACt9NRM++rnO1Hd7tRRf5VAMQ
+ rdqjZuDm5uJYSfj/vUMW0ONk7aMVuQD9N/ojEGkK9ExmtnsP+bgynZPXRyHYyQU62Tdu
+ 3Obpvs43rMIF+l85GBGeeAsgt+6Xybyc9BZ3oQxK+tuwKtJ4YX6JIBCzrNfeIeSAPMpp
+ +dwBr8SrhSIPab60tdJzleMGRT5Ad2vGIl3U+hhcKR8GONvbwWUJW5I/xgRqUIOPMoaJ
+ E5fn/rxPjEOALrsWwpiVkTbcE1UJyD7tMktb5o/YEX+1K6gmQjXlrgEtlgo6C5+9Lnyc
+ 1iHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hUyTNFSy+FKV2Opdiuolyr8HGiYLytnqVqPxhLY1PsU=;
+ b=g7W3nBOLjEkD7JLHCrFTszyy3mlKPO7GPxGlIb0bWm+0pa2eLanrgnrIukaftNTBAU
+ tkhrJJs2dg94yEWq3DAEcWEwLEXRlwcKljvgOoQQf6JAJqKzPdWtZSXVXL4sHutGIFrC
+ Lq2VqJtqLGJSij43o0dAMT4JkKw14ZPDMOGOGR05Q0hymQjkZpGj5s+7vgp22BT0KIXC
+ 5//VQJXwAF5JwyzTzwVllUy5kvR0++xWXHbVMWmMSC7rKSmalQhXX2GvfPEZk79Uulaw
+ nAmO6j/rufhTpwy5Ge7P659FQfV75ht3NdqsWSgbQGUOP8hXROKaep7Q+kkDzeL65AYN
+ n25g==
+X-Gm-Message-State: AOAM532g0Dik8YfnlU1WN40YvWWse/fUXDITEURAQ8Mj7P3lf3xiz/8t
+ hD2VUeuDJIw4PlLsKsDj7im6PVuMn9qZd69WWBg=
+X-Google-Smtp-Source: ABdhPJxip1JaKfSFfumui+igR6N8zzYdt0OgATgfFWedhqfU/YYwwC5bN0VbM2VvOmJUJ2cj4foLG4KTcR0Z4hdacpw=
+X-Received: by 2002:a1c:8150:: with SMTP id c77mr1677726wmd.26.1605216345970; 
+ Thu, 12 Nov 2020 13:25:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201031081747.372599-1-net147@gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=pGLkceISAAAA:8 a=iiUPO-3NZFt9cYWtpHIA:9
- a=CjuIK1q_8ugA:10
+References: <20201112190039.2785914-1-lee.jones@linaro.org>
+ <20201112190039.2785914-15-lee.jones@linaro.org>
+In-Reply-To: <20201112190039.2785914-15-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 12 Nov 2020 16:25:33 -0500
+Message-ID: <CADnq5_N0Dvw0LTZmV1TMPCqh6EW7u_1SSHuN4kyicNTux2pYrQ@mail.gmail.com>
+Subject: Re: [PATCH 14/30] drm/amd/amdgpu/amdgpu_ring: Fix a bunch of function
+ misdocumentation
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,52 +63,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Fabio Estevam <fabio.estevam@freescale.com>,
- Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- David Airlie <airlied@linux.ie>, Neil Armstrong <narmstrong@baylibre.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <a.hajda@samsung.com>, linux-rockchip@lists.infradead.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>, Liu Ying <victor.liu@nxp.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jonathan
-On Sat, Oct 31, 2020 at 07:17:47PM +1100, Jonathan Liu wrote:
-> It has been observed that resetting force in the detect function can
-> result in the PHY being powered down in response to hot-plug detect
-> being asserted, even when the HDMI connector is forced on.
-> 
-> Enabling debug messages and adding a call to dump_stack() in
-> dw_hdmi_phy_power_off() shows the following in dmesg:
-> [  160.637413] dwhdmi-rockchip ff940000.hdmi: EVENT=plugin
-> [  160.637433] dwhdmi-rockchip ff940000.hdmi: PHY powered down in 0 iterations
-> 
-> Call trace:
-> dw_hdmi_phy_power_off
-> dw_hdmi_phy_disable
-> dw_hdmi_update_power
-> dw_hdmi_detect
-> dw_hdmi_connector_detect
-> drm_helper_probe_detect_ctx
-> drm_helper_hpd_irq_event
-> dw_hdmi_irq
-> irq_thread_fn
-> irq_thread
-> kthread
-> ret_from_fork
-> 
-> Fixes: 381f05a7a842 ("drm: bridge/dw_hdmi: add connector mode forcing")
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-
-Applied to drm-misc-fixes.
-
-	Sam
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBOb3YgMTIsIDIwMjAgYXQgMjowMSBQTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
+YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmM6
+NjM6IHdhcm5pbmc6IEV4Y2VzcyBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2FkZXYnIGRlc2NyaXB0aW9u
+IGluICdhbWRncHVfcmluZ19hbGxvYycKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X3JpbmcuYzoxMjI6IHdhcm5pbmc6IEV4Y2VzcyBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2FkZXYn
+IGRlc2NyaXB0aW9uIGluICdhbWRncHVfcmluZ19jb21taXQnCj4gIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmM6MTY3OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIg
+b3IgbWVtYmVyICdtYXhfZHcnIG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV9yaW5nX2luaXQnCj4g
+IGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmM6MTY3OiB3YXJuaW5nOiBG
+dW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdpcnFfc3JjJyBub3QgZGVzY3JpYmVkIGluICdh
+bWRncHVfcmluZ19pbml0Jwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmlu
+Zy5jOjE2Nzogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnaXJxX3R5cGUn
+IG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV9yaW5nX2luaXQnCj4gIGRyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmM6MTY3OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIg
+b3IgbWVtYmVyICdod19wcmlvJyBub3QgZGVzY3JpYmVkIGluICdhbWRncHVfcmluZ19pbml0Jwo+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5jOjE2Nzogd2FybmluZzog
+RXhjZXNzIGZ1bmN0aW9uIHBhcmFtZXRlciAnbWF4X25kdycgZGVzY3JpcHRpb24gaW4gJ2FtZGdw
+dV9yaW5nX2luaXQnCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmM6
+MTY3OiB3YXJuaW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdub3AnIGRlc2NyaXB0aW9u
+IGluICdhbWRncHVfcmluZ19pbml0Jwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfcmluZy5jOjI4NTogd2FybmluZzogRXhjZXNzIGZ1bmN0aW9uIHBhcmFtZXRlciAnYWRldicg
+ZGVzY3JpcHRpb24gaW4gJ2FtZGdwdV9yaW5nX2ZpbmknCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9yaW5nLmM6MzI1OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3Ig
+bWVtYmVyICdyaW5nJyBub3QgZGVzY3JpYmVkIGluICdhbWRncHVfcmluZ19lbWl0X3JlZ193cml0
+ZV9yZWdfd2FpdF9oZWxwZXInCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9y
+aW5nLmM6MzI1OiB3YXJuaW5nOiBFeGNlc3MgZnVuY3Rpb24gcGFyYW1ldGVyICdhZGV2JyBkZXNj
+cmlwdGlvbiBpbiAnYW1kZ3B1X3JpbmdfZW1pdF9yZWdfd3JpdGVfcmVnX3dhaXRfaGVscGVyJwo+
+Cj4gQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KPiBDYzogIkNo
+cmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gQ2M6IERhdmlkIEFp
+cmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
+LmNoPgo+IENjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgo+IENjOiBh
+bWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCj4gQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwo+IENjOiBsaW5hcm8t
+bW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5q
+b25lc0BsaW5hcm8ub3JnPgoKQXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCj4gLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9yaW5nLmMgfCAxMiArKysrKystLS0tLS0KPiAg
+MSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfcmluZy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3JpbmcuYwo+IGluZGV4IDI2OTdiMjUwZGMzMjYu
+LmEyM2IyMDc5Njk2YTEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3JpbmcuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9y
+aW5nLmMKPiBAQCAtNTIsNyArNTIsNiBAQAo+ICAvKioKPiAgICogYW1kZ3B1X3JpbmdfYWxsb2Mg
+LSBhbGxvY2F0ZSBzcGFjZSBvbiB0aGUgcmluZyBidWZmZXIKPiAgICoKPiAtICogQGFkZXY6IGFt
+ZGdwdV9kZXZpY2UgcG9pbnRlcgo+ICAgKiBAcmluZzogYW1kZ3B1X3Jpbmcgc3RydWN0dXJlIGhv
+bGRpbmcgcmluZyBpbmZvcm1hdGlvbgo+ICAgKiBAbmR3OiBudW1iZXIgb2YgZHdvcmRzIHRvIGFs
+bG9jYXRlIGluIHRoZSByaW5nIGJ1ZmZlcgo+ICAgKgo+IEBAIC05NSw3ICs5NCw4IEBAIHZvaWQg
+YW1kZ3B1X3JpbmdfaW5zZXJ0X25vcChzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcsIHVpbnQzMl90
+IGNvdW50KQo+ICAgICAgICAgICAgICAgICBhbWRncHVfcmluZ193cml0ZShyaW5nLCByaW5nLT5m
+dW5jcy0+bm9wKTsKPiAgfQo+Cj4gLS8qKiBhbWRncHVfcmluZ19nZW5lcmljX3BhZF9pYiAtIHBh
+ZCBJQiB3aXRoIE5PUCBwYWNrZXRzCj4gKy8qKgo+ICsgKiBhbWRncHVfcmluZ19nZW5lcmljX3Bh
+ZF9pYiAtIHBhZCBJQiB3aXRoIE5PUCBwYWNrZXRzCj4gICAqCj4gICAqIEByaW5nOiBhbWRncHVf
+cmluZyBzdHJ1Y3R1cmUgaG9sZGluZyByaW5nIGluZm9ybWF0aW9uCj4gICAqIEBpYjogSUIgdG8g
+YWRkIE5PUCBwYWNrZXRzIHRvCj4gQEAgLTExMiw3ICsxMTIsNiBAQCB2b2lkIGFtZGdwdV9yaW5n
+X2dlbmVyaWNfcGFkX2liKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZywgc3RydWN0IGFtZGdwdV9p
+YiAqaWIpCj4gICAqIGFtZGdwdV9yaW5nX2NvbW1pdCAtIHRlbGwgdGhlIEdQVSB0byBleGVjdXRl
+IHRoZSBuZXcKPiAgICogY29tbWFuZHMgb24gdGhlIHJpbmcgYnVmZmVyCj4gICAqCj4gLSAqIEBh
+ZGV2OiBhbWRncHVfZGV2aWNlIHBvaW50ZXIKPiAgICogQHJpbmc6IGFtZGdwdV9yaW5nIHN0cnVj
+dHVyZSBob2xkaW5nIHJpbmcgaW5mb3JtYXRpb24KPiAgICoKPiAgICogVXBkYXRlIHRoZSB3cHRy
+ICh3cml0ZSBwb2ludGVyKSB0byB0ZWxsIHRoZSBHUFUgdG8KPiBAQCAtMTU2LDcgKzE1NSw5IEBA
+IHZvaWQgYW1kZ3B1X3JpbmdfdW5kbyhzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcpCj4gICAqIEBh
+ZGV2OiBhbWRncHVfZGV2aWNlIHBvaW50ZXIKPiAgICogQHJpbmc6IGFtZGdwdV9yaW5nIHN0cnVj
+dHVyZSBob2xkaW5nIHJpbmcgaW5mb3JtYXRpb24KPiAgICogQG1heF9uZHc6IG1heGltdW0gbnVt
+YmVyIG9mIGR3IGZvciByaW5nIGFsbG9jCj4gLSAqIEBub3A6IG5vcCBwYWNrZXQgZm9yIHRoaXMg
+cmluZwo+ICsgKiBAaXJxX3NyYzogaW50ZXJydXB0IHNvdXJjZSB0byB1c2UgZm9yIHRoaXMgcmlu
+Zwo+ICsgKiBAaXJxX3R5cGU6IGludGVycnVwdCB0eXBlIHRvIHVzZSBmb3IgdGhpcyByaW5nCj4g
+KyAqIEBod19wcmlvOiByaW5nIHByaW9yaXR5IChOT1JNQUwvSElHSCkKPiAgICoKPiAgICogSW5p
+dGlhbGl6ZSB0aGUgZHJpdmVyIGluZm9ybWF0aW9uIGZvciB0aGUgc2VsZWN0ZWQgcmluZyAoYWxs
+IGFzaWNzKS4KPiAgICogUmV0dXJucyAwIG9uIHN1Y2Nlc3MsIGVycm9yIG9uIGZhaWx1cmUuCj4g
+QEAgLTI3Niw3ICsyNzcsNiBAQCBpbnQgYW1kZ3B1X3JpbmdfaW5pdChzdHJ1Y3QgYW1kZ3B1X2Rl
+dmljZSAqYWRldiwgc3RydWN0IGFtZGdwdV9yaW5nICpyaW5nLAo+ICAvKioKPiAgICogYW1kZ3B1
+X3JpbmdfZmluaSAtIHRlYXIgZG93biB0aGUgZHJpdmVyIHJpbmcgc3RydWN0Lgo+ICAgKgo+IC0g
+KiBAYWRldjogYW1kZ3B1X2RldmljZSBwb2ludGVyCj4gICAqIEByaW5nOiBhbWRncHVfcmluZyBz
+dHJ1Y3R1cmUgaG9sZGluZyByaW5nIGluZm9ybWF0aW9uCj4gICAqCj4gICAqIFRlYXIgZG93biB0
+aGUgZHJpdmVyIGluZm9ybWF0aW9uIGZvciB0aGUgc2VsZWN0ZWQgcmluZyAoYWxsIGFzaWNzKS4K
+PiBAQCAtMzEwLDcgKzMxMCw3IEBAIHZvaWQgYW1kZ3B1X3JpbmdfZmluaShzdHJ1Y3QgYW1kZ3B1
+X3JpbmcgKnJpbmcpCj4gIC8qKgo+ICAgKiBhbWRncHVfcmluZ19lbWl0X3JlZ193cml0ZV9yZWdf
+d2FpdF9oZWxwZXIgLSByaW5nIGhlbHBlcgo+ICAgKgo+IC0gKiBAYWRldjogYW1kZ3B1X2Rldmlj
+ZSBwb2ludGVyCj4gKyAqIEByaW5nOiByaW5nIHRvIHdyaXRlIHRvCj4gICAqIEByZWcwOiByZWdp
+c3RlciB0byB3cml0ZQo+ICAgKiBAcmVnMTogcmVnaXN0ZXIgdG8gd2FpdCBvbgo+ICAgKiBAcmVm
+OiByZWZlcmVuY2UgdmFsdWUgdG8gd3JpdGUvd2FpdCBvbgo+IC0tCj4gMi4yNS4xCj4KPiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
