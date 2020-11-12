@@ -2,65 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DEC2B1768
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C872B174A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2666E45E;
-	Fri, 13 Nov 2020 08:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9DE6E311;
+	Fri, 13 Nov 2020 08:38:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BD746E22C
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 13:25:16 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id g17so3888731qts.5
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 05:25:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Vkv5jtIJud+QIqcEKAOrz49oEiKkFPAoACrsXa1ygRI=;
- b=Y+8FL3R3aa2iCZyQyaVvGjWPzY6Z3jTlOk9UvCp0XbmnptOo8ioxNJ342L9eRV87/v
- kBr7Uc3IcB3jLIhgBWj1JLHFlzjPn0ONvp4KvsrXBnvBpM1bbAQYW80fTqopVwzy7/QL
- v145ule18cZqgJGNSFTRfnRLoNxnfkxGCv93Qk+prb4/ElemeYtnlRkwMxXSTIaZ2+et
- 7uTa75c1MGuYO6AE50dBzd6nJ7UOsGsItaUtEd1GToXwyuwnyUraDj3IyQ6RLvWLuc7e
- C8Y2B8b1gQCO5U6HOpbcp7psDZG3km2Wm82VXZqxWnB0n4UhGhU+sr85efHvVAPMlDt4
- j5vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Vkv5jtIJud+QIqcEKAOrz49oEiKkFPAoACrsXa1ygRI=;
- b=BhA8HXZg5+TPW7dSLDljoce05KnoMCieeUHf5oNjiGxga1ycDnf+dblbPnSqOE1j7M
- GVwpx8dcg+X0EwQJiV0eY5w3v1kkVRO5iYPtsQnOjpkmxxfPHsQ53r1D+sN+3Ti39YRN
- RnooABigyR7K1Vk9Bf9zdO6Yfg5EUZ75+zLIR9OxuooiVv3Oytgo50pJljNbosH9nqlX
- KeJpVfsZ4O648yGMtL9JmsMuFzV0LuzHCKKj8wzaxYiu+laWgrAI80mZizBL6BjI8vzY
- j+OTWFP4VXFWEbbHz04ZPaFmqcsXkQPyc6kcyX/q8oTSLViuVKQJVByrYZZrTrrfOJ1P
- GBFw==
-X-Gm-Message-State: AOAM530dszbZavgbQ8EFdsQYgIIHvQHHIgHJSEJL+LKgkAZXUB4mI00X
- UkSzlvj1ka77lFewt6XJx5BJpg==
-X-Google-Smtp-Source: ABdhPJwYDJZ9CsmJHHji4+pBSpYm8kKmHl05XRyzWDUaADZStBu1Fbw/SJ8cr66iCQGhH6tHaJ1vNw==
-X-Received: by 2002:a05:622a:254:: with SMTP id
- c20mr5230454qtx.335.1605187515293; 
- Thu, 12 Nov 2020 05:25:15 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id w45sm5038843qtw.96.2020.11.12.05.25.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 05:25:14 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kdCbC-003frw-5j; Thu, 12 Nov 2020 09:25:14 -0400
-Date: Thu, 12 Nov 2020 09:25:14 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v10 6/6] dma-buf: Document that dma-buf size is fixed
-Message-ID: <20201112132514.GR244516@ziepe.ca>
-References: <1605044477-51833-1-git-send-email-jianxin.xiong@intel.com>
- <1605044477-51833-7-git-send-email-jianxin.xiong@intel.com>
- <20201111163323.GP401619@phenom.ffwll.local>
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F10476E213
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 16:21:23 +0000 (UTC)
+Date: Thu, 12 Nov 2020 16:21:13 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+ s=protonmail; t=1605198081;
+ bh=OX0uNZ/OkPeX422zzpXH+Id8u6JoteSOQcBLBHoP/No=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=L38i1ruQd1Hp1BqC2C4XXz4GwPjd9r7DUTY7vLiptzO7SIV78W5NW0BgsONBtbIZB
+ lpGqIDmy/+aOq0jMQMwXoacm/Qf4lLb4HAF9r/pD3qYedXixjxfeULGPckgm5Kpgiq
+ xf62Ld0oXmAII4dGREgbVnVZa5UWLuJqRHw5xisw=
+To: linux-arm-msm@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+From: Caleb Connolly <caleb@connolly.tech>
+Subject: [PATCH 1/5] drm/panel/samsung-sofef00: Add panel for OnePlus 6/T
+ devices
+Message-ID: <20201112161920.2671430-2-caleb@connolly.tech>
+In-Reply-To: <20201112161920.2671430-1-caleb@connolly.tech>
+References: <20201112161920.2671430-1-caleb@connolly.tech>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201111163323.GP401619@phenom.ffwll.local>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-Mailman-Approved-At: Fri, 13 Nov 2020 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,37 +48,439 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jianxin Xiong <jianxin.xiong@intel.com>
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Cc: Caleb Connolly <caleb@connolly.tech>, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 05:33:23PM +0100, Daniel Vetter wrote:
-> On Tue, Nov 10, 2020 at 01:41:17PM -0800, Jianxin Xiong wrote:
-> > The fact that the size of dma-buf is invariant over the lifetime of the
-> > buffer is mentioned in the comment of 'dma_buf_ops.mmap', but is not
-> > documented at where the info is defined. Add the missing documentation.
-> > 
-> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> 
-> Applied to drm-misc-next, thanks for your patch. For the preceeding
-> dma-buf patch I'll wait for more review/acks before I apply it. Ack from
-> Jason might also be good, since looks like this dma_virt_ops is only used
-> in rdma.
+The OnePlus 6/T devices use different panels however they are
+functionally identical with the only differences being the resolution.
+The panels also don't seem to be used by any other devices, just combine
+them into one driver.
 
-We are likely to delete it entirely this cycle, Christoph already has
-a patch series to do it:
+The panels are: samsung,sofef00
+and             samsung,s6e3fc2x01
 
-https://patchwork.kernel.org/project/linux-rdma/list/?series=379277
+Signed-off-by: Caleb Connolly <caleb@connolly.tech>
 
-So, lets just forget about it
+---
 
-Jason
+Changes since v1:
+ * Rename driver to samsung-sofef00 rather than be device
+ specific.
+ * Make use of drm_panel backlight, simplifying the driver.
+ * Make reset function do a full reset, instead of simply taking the
+ panel out of reset.
+ * Removed get_brightness function as it doesn't return correct data.
+---
+ drivers/gpu/drm/panel/Kconfig                 |  12 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 353 ++++++++++++++++++
+ 3 files changed, 366 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-sofef00.c
+
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index b9dbedf8f15e..c4486b6b4e5a 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -361,6 +361,18 @@ config DRM_PANEL_SAMSUNG_S6E8AA0
+ 	select DRM_MIPI_DSI
+ 	select VIDEOMODE_HELPERS
+ 
++config DRM_PANEL_SAMSUNG_SOFEF00
++	tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels"
++	depends on OF
++	depends on DRM_MIPI_DSI
++	depends on BACKLIGHT_CLASS_DEVICE
++	select VIDEOMODE_HELPERS
++	help
++	  Say Y or M here if you want to enable support for the Samsung AMOLED
++	  command mode panels found in the OnePlus 6/6T smartphones.
++
++	  The panels are 2280x1080@60Hz and 2340x1080@60Hz respectively
++
+ config DRM_PANEL_SEIKO_43WVF1G
+ 	tristate "Seiko 43WVF1G panel"
+ 	depends on OF
+diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
+index 2ba560bca61d..ebb67f3de10e 100644
+--- a/drivers/gpu/drm/panel/Makefile
++++ b/drivers/gpu/drm/panel/Makefile
+@@ -38,6 +38,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_SPI) += panel-samsung-s6e63m0-spi.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI) += panel-samsung-s6e63m0-dsi.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
+ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
++obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
+ obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
+ obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
+ obj-$(CONFIG_DRM_PANEL_SHARP_LS037V7DW01) += panel-sharp-ls037v7dw01.o
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+new file mode 100644
+index 000000000000..84b4f4cb2e6f
+--- /dev/null
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -0,0 +1,353 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2020 Caleb Connolly <caleb@connolly.tech>
++ * Generated with linux-mdss-dsi-panel-driver-generator from vendor device tree:
++ * Copyright (c) 2020, The Linux Foundation. All rights reserved.
++ */
++
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/regulator/consumer.h>
++#include <linux/swab.h>
++#include <linux/backlight.h>
++
++#include <video/mipi_display.h>
++
++#include <drm/drm_mipi_dsi.h>
++#include <drm/drm_modes.h>
++#include <drm/drm_panel.h>
++
++struct sofef00_panel {
++	struct drm_panel panel;
++	struct mipi_dsi_device *dsi;
++	struct regulator *supply;
++	struct gpio_desc *reset_gpio;
++	const struct drm_display_mode *mode;
++	bool prepared;
++};
++
++static inline
++struct sofef00_panel *to_sofef00_panel(struct drm_panel *panel)
++{
++	return container_of(panel, struct sofef00_panel, panel);
++}
++
++#define dsi_dcs_write_seq(dsi, seq...) do {				\
++		static const u8 d[] = { seq };				\
++		int ret;						\
++		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
++		if (ret < 0)						\
++			return ret;					\
++	} while (0)
++
++static void sofef00_panel_reset(struct sofef00_panel *ctx)
++{
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(5000, 6000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++	usleep_range(2000, 3000);
++	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
++	usleep_range(12000, 13000);
++}
++
++static int sofef00_panel_on(struct sofef00_panel *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
++		return ret;
++	}
++	usleep_range(10000, 11000);
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++
++	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set tear on: %d\n", ret);
++		return ret;
++	}
++
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	dsi_dcs_write_seq(dsi, 0xb0, 0x07);
++	dsi_dcs_write_seq(dsi, 0xb6, 0x12);
++	dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
++	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
++
++	ret = mipi_dsi_dcs_set_display_on(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display on: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int sofef00_panel_off(struct sofef00_panel *ctx)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	int ret;
++
++	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
++
++	ret = mipi_dsi_dcs_set_display_off(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to set display off: %d\n", ret);
++		return ret;
++	}
++	msleep(40);
++
++	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
++		return ret;
++	}
++	msleep(160);
++
++	return 0;
++}
++
++static int sofef00_panel_prepare(struct drm_panel *panel)
++{
++	struct sofef00_panel *ctx = to_sofef00_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (ctx->prepared)
++		return 0;
++
++	ret = regulator_enable(ctx->supply);
++	if (ret < 0) {
++		dev_err(dev, "Failed to enable regulator: %d\n", ret);
++		return ret;
++	}
++
++	sofef00_panel_reset(ctx);
++
++	ret = sofef00_panel_on(ctx);
++	if (ret < 0) {
++		dev_err(dev, "Failed to initialize panel: %d\n", ret);
++		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
++		return ret;
++	}
++
++	ctx->prepared = true;
++	return 0;
++}
++
++static int sofef00_panel_unprepare(struct drm_panel *panel)
++{
++	struct sofef00_panel *ctx = to_sofef00_panel(panel);
++	struct device *dev = &ctx->dsi->dev;
++	int ret;
++
++	if (!ctx->prepared)
++		return 0;
++
++	ret = sofef00_panel_off(ctx);
++	if (ret < 0)
++		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++
++	regulator_disable(ctx->supply);
++
++	ctx->prepared = false;
++	return 0;
++}
++
++static const struct drm_display_mode enchilada_panel_mode = {
++	.clock = (1080 + 112 + 16 + 36) * (2280 + 36 + 8 + 12) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 112,
++	.hsync_end = 1080 + 112 + 16,
++	.htotal = 1080 + 112 + 16 + 36,
++	.vdisplay = 2280,
++	.vsync_start = 2280 + 36,
++	.vsync_end = 2280 + 36 + 8,
++	.vtotal = 2280 + 36 + 8 + 12,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static const struct drm_display_mode fajita_panel_mode = {
++	.clock = (1080 + 72 + 16 + 36) * (2340 + 32 + 4 + 18) * 60 / 1000,
++	.hdisplay = 1080,
++	.hsync_start = 1080 + 72,
++	.hsync_end = 1080 + 72 + 16,
++	.htotal = 1080 + 72 + 16 + 36,
++	.vdisplay = 2340,
++	.vsync_start = 2340 + 32,
++	.vsync_end = 2340 + 32 + 4,
++	.vtotal = 2340 + 32 + 4 + 18,
++	.width_mm = 68,
++	.height_mm = 145,
++};
++
++static int sofef00_panel_get_modes(struct drm_panel *panel,
++			struct drm_connector *connector)
++{
++	struct drm_display_mode *mode;
++	struct sofef00_panel *ctx = to_sofef00_panel(panel);
++
++	mode = drm_mode_duplicate(connector->dev, ctx->mode);
++	if (!mode)
++		return -ENOMEM;
++
++	drm_mode_set_name(mode);
++
++	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
++	connector->display_info.width_mm = mode->width_mm;
++	connector->display_info.height_mm = mode->height_mm;
++	drm_mode_probed_add(connector, mode);
++
++	return 1;
++}
++
++static const struct drm_panel_funcs sofef00_panel_panel_funcs = {
++	.prepare = sofef00_panel_prepare,
++	.unprepare = sofef00_panel_unprepare,
++	.get_modes = sofef00_panel_get_modes,
++};
++
++static int sofef00_panel_bl_update_status(struct backlight_device *bl)
++{
++	struct mipi_dsi_device *dsi = bl_get_data(bl);
++	int err;
++	u16 brightness;
++
++	brightness = (u16)backlight_get_brightness(bl);
++	// This panel needs the high and low bytes swapped for the brightness value
++	brightness = __swab16(brightness);
++
++	err = mipi_dsi_dcs_set_display_brightness(dsi, brightness);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static const struct backlight_ops sofef00_panel_bl_ops = {
++	.update_status = sofef00_panel_bl_update_status,
++};
++
++static struct backlight_device *
++sofef00_create_backlight(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	const struct backlight_properties props = {
++		.type = BACKLIGHT_PLATFORM,
++		.brightness = 1023,
++		.max_brightness = 1023,
++	};
++
++	return devm_backlight_device_register(dev, dev_name(dev), dev, dsi,
++						&sofef00_panel_bl_ops, &props);
++}
++
++
++static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
++{
++	struct device *dev = &dsi->dev;
++	struct sofef00_panel *ctx;
++	int ret;
++
++	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return -ENOMEM;
++
++	ctx->mode = of_device_get_match_data(dev);
++
++	if (!ctx->mode) {
++		dev_err(dev, "Missing device mode\n");
++		return -ENODEV;
++	}
++
++	ctx->supply = devm_regulator_get(dev, "vddio");
++	if (IS_ERR(ctx->supply)) {
++		ret = PTR_ERR(ctx->supply);
++		dev_err(dev, "Failed to get vddio regulator: %d\n", ret);
++		return ret;
++	}
++
++	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
++	if (IS_ERR(ctx->reset_gpio)) {
++		ret = PTR_ERR(ctx->reset_gpio);
++		dev_warn(dev, "Failed to get reset-gpios: %d\n", ret);
++		return ret;
++	}
++
++	ctx->dsi = dsi;
++	mipi_dsi_set_drvdata(dsi, ctx);
++
++	dsi->lanes = 4;
++	dsi->format = MIPI_DSI_FMT_RGB888;
++
++	drm_panel_init(&ctx->panel, dev, &sofef00_panel_panel_funcs,
++				DRM_MODE_CONNECTOR_DSI);
++
++	ctx->panel.backlight = sofef00_create_backlight(dsi);
++	if (IS_ERR(ctx->panel.backlight))
++		return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
++					"Failed to create backlight\n");
++
++	drm_panel_add(&ctx->panel);
++
++	ret = mipi_dsi_attach(dsi);
++	if (ret < 0) {
++		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
++static int sofef00_panel_remove(struct mipi_dsi_device *dsi)
++{
++	struct sofef00_panel *ctx = mipi_dsi_get_drvdata(dsi);
++	int ret;
++
++	ret = mipi_dsi_detach(dsi);
++	if (ret < 0)
++		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
++
++	drm_panel_remove(&ctx->panel);
++
++	return 0;
++}
++
++static const struct of_device_id sofef00_panel_of_match[] = {
++	{ // OnePlus 6 / enchilada
++		.compatible = "samsung,sofef00",
++		.data = &enchilada_panel_mode,
++	},
++	{ // OnePlus 6T / fajita
++		.compatible = "samsung,s6e3fc2x01",
++		.data = &fajita_panel_mode,
++	},
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, sofef00_panel_of_match);
++
++static struct mipi_dsi_driver sofef00_panel_driver = {
++	.probe = sofef00_panel_probe,
++	.remove = sofef00_panel_remove,
++	.driver = {
++		.name = "panel-oneplus6",
++		.of_match_table = sofef00_panel_of_match,
++	},
++};
++
++module_mipi_dsi_driver(sofef00_panel_driver);
++
++MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
++MODULE_DESCRIPTION("DRM driver for Samsung AMOLED DSI panels found in OnePlus 6/6T phones");
++MODULE_LICENSE("GPL v2");
+-- 
+2.29.2
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
