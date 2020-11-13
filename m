@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D84F12B2294
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:35:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB0612B22B0
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:42:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E58776E5C0;
-	Fri, 13 Nov 2020 17:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 723456E514;
+	Fri, 13 Nov 2020 17:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE89F6E506;
- Fri, 13 Nov 2020 17:35:44 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id d142so8934128wmd.4;
- Fri, 13 Nov 2020 09:35:44 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B11D6E514;
+ Fri, 13 Nov 2020 17:42:41 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id d12so10784837wrr.13;
+ Fri, 13 Nov 2020 09:42:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=S6otP4T92FhYb0o9zH9HwhqeFp2M3AuU45BWAEnFIGI=;
- b=N2HEd60JGqG0qkBalskauOSXB+NULzJV8EKlKKQjMPMSjWNTEYWuJu95YCQPjQqz15
- FpF60LB8aVIaGCA6u/ZVcbRu2YE/dT6FVxs1U60lEPoCGGkcmtGPcdaOcggTGN/1QrFq
- R+8Wo5RGM+m0Qs7VESHcr2sff3SBMkreNO64XuADvgs9MIY5qvzqf0PMjNdN6JPxSmu1
- JOHsyxCokR3/5m2Gc9DkChVCbM113VsbAcZVz+piLLtoARMZMd2/q261SmvRzXQtnKB1
- FHczIET1PuqTa9uULwmGsKDrShAe21s61rvHYbyJphqBrbxMZOTJcq5jz/sSZOngkR2B
- qN5Q==
+ :cc; bh=atp8HCRKq6PIesLyq5uLOPO8ogfKpVDxytbTraV1r2Q=;
+ b=BRiYurApBRW5IgOlLw1/k7ibkNVMUxEqYuHctn2r7LX4yOc85Fqx6rc6dvUagvByoj
+ /qhQkpnQc7m7nvBKLj4VD0lpbi+wvvbFnoT8YNju2DignYmpyHo1nmZSIzk29azYASzh
+ QfQ9rVFmGeZv1e787DGJYoBfIr+sYDNVMLXvG/hUEoXXEIPjNzU5wdH6+S4QBI7d2dZh
+ jp/1Tfn24LKAgHimkvB6pE5j9vdQvTBxORf8sR5c7wnqxYx/4CpR8q4ufhGf8PKMoppK
+ IQxJg1gBxhJLzvPqpBuowuPBVF+Vbs+CXolKDRszJZtYdFOUIyM0HId4ID8EZLvLDIvU
+ UssA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=S6otP4T92FhYb0o9zH9HwhqeFp2M3AuU45BWAEnFIGI=;
- b=C1JvIoLvK/mezfw+UxxTjxPgsQyUapv54iSQzRCh4e9Fgdl62xdUPCuiwExKuBJYVE
- G6/8eToXdUo2BtLOuqt9ESCY0Tr2cYFhRRrgzEOf/CrosKBSrRmzgfKVvvoP6OFutFRR
- qXJS7ZuvemCYKd6AmMayYz6uNXuWWyqtKs2Q+/PbMShwlnF9ni1HZkQHW9u4JhODLufh
- iOp/slczlanQ0tyPV7sW5YlPffDZGm9Z8GX5hr2i3H/mdRIPj1x49HShuIFItNyynMo0
- h4v18oxEmrZCpl3ZKY7lt6egxQdvphV4oOXjPS1VSkx96NwYaQKWBPEvPx8olGnhbgs2
- 6mmQ==
-X-Gm-Message-State: AOAM533MwxkOcEXWgm/ddiC9DiikQ0jnaDBxqRP0m3JgFVzN40j6SCdh
- Dgy+9N0pAImV77j7QK2a+G+32gVrXspWn2is0YQ=
-X-Google-Smtp-Source: ABdhPJxF+0EsquFWFOhsdKMbhKyVEoU4mWq6nr1k3xX0fu+rqyDpbAXHH2R0sqIgLJqVkgN+428qDyu0fypinrEpH78=
-X-Received: by 2002:a1c:1c3:: with SMTP id 186mr3557828wmb.39.1605288940212;
- Fri, 13 Nov 2020 09:35:40 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=atp8HCRKq6PIesLyq5uLOPO8ogfKpVDxytbTraV1r2Q=;
+ b=MBAkwGNvWf8tnP7eTxYkqxZWbDy4KqeJz3u8PrN9DsIeq2u5ngKYlyJtb3BHtrEoXr
+ +6TB4v5gBssdJ9DAEoKlJ3g2OddReiHx1Af8kFCGAaBiDPBAS3g73JlhQUJyGpcbyN4T
+ Esmp9lTVoLtZPPSsIWROAS6dcDOm1CPzL2n1KynkfnZk9uUc0nm4P4WHktyY9hhD6Bpy
+ zLWiiKgTCS5AIfUPTBGabsquBF16dJyl3r1WPf48bHJYuPfppRkt7IpDM1xLpCUhuE++
+ doXb4SGYrZFpe9eD1vjzp1pkTmWVS/s9R/dRbPaqm+EeiQMMJY/7Pn1lGUwaTpFFtqim
+ Ayog==
+X-Gm-Message-State: AOAM5328n8IH1FZ44XabX19YQD9CHgmYNe0//aWmraHF+Fe6lHXHDAU9
+ ymuxkI4MzwFCIVsXAB7QlFQn+9Ef9QHGZMqfXlk=
+X-Google-Smtp-Source: ABdhPJzKlA3X04m8VW0oy8q9PcTFh8X/CiRFwaLFjBtxTWhVWpvwoxbCHFZBFheIcKoKpPEgUIfD9LA0U5aGDSc9W7M=
+X-Received: by 2002:adf:e350:: with SMTP id n16mr5041875wrj.419.1605289355482; 
+ Fri, 13 Nov 2020 09:42:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113134938.4004947-1-lee.jones@linaro.org>
- <20201113134938.4004947-41-lee.jones@linaro.org>
-In-Reply-To: <20201113134938.4004947-41-lee.jones@linaro.org>
+References: <20201113162556.672966-1-bas@basnieuwenhuizen.nl>
+In-Reply-To: <20201113162556.672966-1-bas@basnieuwenhuizen.nl>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 13 Nov 2020 12:35:28 -0500
-Message-ID: <CADnq5_Mo5RepKQ_ZvG1VFHKtypSZXa4fvsKBD+6Z-HgSn+26gA@mail.gmail.com>
-Subject: Re: [PATCH 40/40] drm/amd/amdgpu/gfx_v7_0: Remove unused struct
- definition
-To: Lee Jones <lee.jones@linaro.org>
+Date: Fri, 13 Nov 2020 12:42:24 -0500
+Message-ID: <CADnq5_N5bxxJbJxssrGpHv_106wFgs=X1C68aUGEGOsovzF-Dg@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: Fix modifier field mask for AMD modifiers.
+To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,58 +60,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMTMsIDIwMjAgYXQgODo1MCBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92N18wLmM6NTIx
-MTo0NTogd2FybmluZzog4oCYZ2Z4X3Y3XzBfaXBfYmxvY2vigJkgZGVmaW5lZCBidXQgbm90IHVz
-ZWQgWy1XdW51c2VkLWNvbnN0LXZhcmlhYmxlPV0KPgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhh
-bmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFu
-LmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4g
-Q2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogU3VtaXQgU2Vtd2FsIDxz
-dW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBsaW51eC1tZWRp
-YUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnCj4g
-U2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KCkFwcGxpZWQu
-ICBUaGFua3MhCgpBbGV4Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhf
-djdfMC5jIHwgOSAtLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3
-XzAuaCB8IDEgLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDEwIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92N18wLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2FtZGdwdS9nZnhfdjdfMC5jCj4gaW5kZXggY2IwN2JjMjFkY2JlNS4uMDRlMWU5
-MmY1ZjNjZiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjdf
-MC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3XzAuYwo+IEBAIC01
-MjA4LDE1ICs1MjA4LDYgQEAgc3RhdGljIHZvaWQgZ2Z4X3Y3XzBfZ2V0X2N1X2luZm8oc3RydWN0
-IGFtZGdwdV9kZXZpY2UgKmFkZXYpCj4gICAgICAgICBjdV9pbmZvLT5sZHNfc2l6ZSA9IDY0Owo+
-ICB9Cj4KPiAtc3RhdGljIGNvbnN0IHN0cnVjdCBhbWRncHVfaXBfYmxvY2tfdmVyc2lvbiBnZnhf
-djdfMF9pcF9ibG9jayA9Cj4gLXsKPiAtICAgICAgIC50eXBlID0gQU1EX0lQX0JMT0NLX1RZUEVf
-R0ZYLAo+IC0gICAgICAgLm1ham9yID0gNywKPiAtICAgICAgIC5taW5vciA9IDAsCj4gLSAgICAg
-ICAucmV2ID0gMCwKPiAtICAgICAgIC5mdW5jcyA9ICZnZnhfdjdfMF9pcF9mdW5jcywKPiAtfTsK
-PiAtCj4gIGNvbnN0IHN0cnVjdCBhbWRncHVfaXBfYmxvY2tfdmVyc2lvbiBnZnhfdjdfMV9pcF9i
-bG9jayA9Cj4gIHsKPiAgICAgICAgIC50eXBlID0gQU1EX0lQX0JMT0NLX1RZUEVfR0ZYLAo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjdfMC5oIGIvZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3XzAuaAo+IGluZGV4IDZmYjljMTUyNDY5MWYuLmVl
-ZGNlN2QwMDdmMWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4
-X3Y3XzAuaAo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92N18wLmgKPiBA
-QCAtMjQsNyArMjQsNiBAQAo+ICAjaWZuZGVmIF9fR0ZYX1Y3XzBfSF9fCj4gICNkZWZpbmUgX19H
-RlhfVjdfMF9IX18KPgo+IC1leHRlcm4gY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJz
-aW9uIGdmeF92N18wX2lwX2Jsb2NrOwo+ICBleHRlcm4gY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9i
-bG9ja192ZXJzaW9uIGdmeF92N18xX2lwX2Jsb2NrOwo+ICBleHRlcm4gY29uc3Qgc3RydWN0IGFt
-ZGdwdV9pcF9ibG9ja192ZXJzaW9uIGdmeF92N18yX2lwX2Jsb2NrOwo+ICBleHRlcm4gY29uc3Qg
-c3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJzaW9uIGdmeF92N18zX2lwX2Jsb2NrOwo+IC0tCj4g
-Mi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Nov 13, 2020 at 11:25 AM Bas Nieuwenhuizen
+<bas@basnieuwenhuizen.nl> wrote:
+>
+> The DCC_MAX_COMPRESSED_BLOCK has to contain one of
+> AMD_FMT_MOD_DCC_BLOCK_* and with 3 values this doesn't
+> fit in 1 bit.
+>
+> Fix this cleanly while it is only in drm-next.
+>
+> Fixes: 8ba16d5993749c3f31fd2b49e16f0dc1e1770b9c
+
+Fixes: 8ba16d599374 ("drm/fourcc: Add AMD DRM modifiers.")
+
+Also missing your signed-off-by.  With those things fixed:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+
+> ---
+>
+> Found while reviewing Simon's drm_info PR: https://github.com/ascent12/drm_info/pull/63/commits/eaeae6ee78764a03d959cbc97c8b514f81a94c63
+>
+>  include/uapi/drm/drm_fourcc.h | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index df56e71a7380..a878664ba41c 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1129,7 +1129,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  #define AMD_FMT_MOD_DCC_INDEPENDENT_128B_SHIFT 17
+>  #define AMD_FMT_MOD_DCC_INDEPENDENT_128B_MASK 0x1
+>  #define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_SHIFT 18
+> -#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_MASK 0x1
+> +#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_MASK 0x3
+>
+>  /*
+>   * DCC supports embedding some clear colors directly in the DCC surface.
+> @@ -1140,7 +1140,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>   * If this bit is set that means the fastclear eliminate is not needed for these
+>   * embeddable colors.
+>   */
+> -#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_SHIFT 19
+> +#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_SHIFT 20
+>  #define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_MASK 0x1
+>
+>  /*
+> @@ -1153,15 +1153,15 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>   * RB = only for TILE_VER_GFX9 & DCC
+>   * PIPE = only for TILE_VER_GFX9 & DCC & (DCC_RETILE | DCC_PIPE_ALIGN)
+>   */
+> -#define AMD_FMT_MOD_PIPE_XOR_BITS_SHIFT 20
+> +#define AMD_FMT_MOD_PIPE_XOR_BITS_SHIFT 21
+>  #define AMD_FMT_MOD_PIPE_XOR_BITS_MASK 0x7
+> -#define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 23
+> +#define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 24
+>  #define AMD_FMT_MOD_BANK_XOR_BITS_MASK 0x7
+> -#define AMD_FMT_MOD_PACKERS_SHIFT 26 /* aliases with BANK_XOR_BITS */
+> +#define AMD_FMT_MOD_PACKERS_SHIFT 27 /* aliases with BANK_XOR_BITS */
+>  #define AMD_FMT_MOD_PACKERS_MASK 0x7
+> -#define AMD_FMT_MOD_RB_SHIFT 29
+> +#define AMD_FMT_MOD_RB_SHIFT 30
+>  #define AMD_FMT_MOD_RB_MASK 0x7
+> -#define AMD_FMT_MOD_PIPE_SHIFT 32
+> +#define AMD_FMT_MOD_PIPE_SHIFT 33
+>  #define AMD_FMT_MOD_PIPE_MASK 0x7
+>
+>  #define AMD_FMT_MOD_SET(field, value) \
+> --
+> 2.29.2
+>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
