@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1832B1C50
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 14:50:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C6B2B1D75
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 15:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBFB6E4FE;
-	Fri, 13 Nov 2020 13:50:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28AEF6E504;
+	Fri, 13 Nov 2020 14:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8BC16E511
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 13:50:32 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id c17so9948698wrc.11
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 05:50:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=AFNrPQ81hqHHaageZvOMHIm1NdSavC7vYP+Jm2PmTBQ=;
- b=RQ4JxYXE11d9TyWCp2SMLBbDOIjUVovjqhMATP9WC+h2x9s9FvDe9rasQ6PW2pS+CX
- zLsjz9l2Cba9QeatwTFalD928dJP6Kqptw2OGDt9+JbpXHCWZQgfkxrsphmt2oxLRbX8
- Gc4C1tB5v7bFClbC4XagOq7bfZ4JFAXXcZ+mWVEvPoNpb9RJp/asE2wa5QaNl/J2fLjf
- 7zCUcMOpcwVkbWLXCviGXnneB5qiP96b3LkmJsFK2KMk+tF/MLBp7LMdRqWoV1oCqpKs
- iZcvU793B2TQQsEww4DI7BRtU2uPq5G6mm9B8nsdJsy1tbB491pGDnUQCxwWVlxzUaYD
- ZHAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AFNrPQ81hqHHaageZvOMHIm1NdSavC7vYP+Jm2PmTBQ=;
- b=NM9itUoZJ7KqC7DnopxPoi/Y2Yv/WrpYD8sbLS5Z6xoHn1AeaS/4BNr8uyOYR3aAhu
- yNq75IdDufoANoMylEwL90WU8w71SJoa5gcOgOmKgPHJV6Jinmvb0thoQLCVApQudf6I
- t35ROrabfxR3zk+qWOXIHr7IqjfT63vGDgT/e4wYnR+1XjYkW+USh3lPmC0ALGwLbUHO
- p6ZXMmfqrt41uDSL/EP8vnZZMlDxgVujJoZqP4PbWkLK/meDT//bCuCSPJqxLYQhR8nN
- 5AFSm/FfbINVMXrPP70zEGeWT8LvQSs2NwAJ5oCk5gmrGURAk3hKZ0NuI05CAx0Oav8J
- 9v2w==
-X-Gm-Message-State: AOAM532/mjdjN4cu+LyDZkUkD2gSwr9LuG6rje1kzmX2hIY7kcSeqYuR
- 0/Yw4VpjVA9wIhmRMEn9zNxigQ==
-X-Google-Smtp-Source: ABdhPJwmo0JOiYrV8oNZNta8viNMWx0NeoRzpJgQvzNkVIsfwOreueO0+qXeFjEfEcn4AjOf2VW3VA==
-X-Received: by 2002:adf:df88:: with SMTP id z8mr3609403wrl.113.1605275431632; 
- Fri, 13 Nov 2020 05:50:31 -0800 (PST)
-Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.50.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 05:50:30 -0800 (PST)
-From: Lee Jones <lee.jones@linaro.org>
-To: lee.jones@linaro.org
-Subject: [PATCH 40/40] drm/amd/amdgpu/gfx_v7_0: Remove unused struct definition
-Date: Fri, 13 Nov 2020 13:49:38 +0000
-Message-Id: <20201113134938.4004947-41-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201113134938.4004947-1-lee.jones@linaro.org>
-References: <20201113134938.4004947-1-lee.jones@linaro.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1BF46E504
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 14:29:53 +0000 (UTC)
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id F2EB220715;
+ Fri, 13 Nov 2020 14:29:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605277793;
+ bh=e3QjDJePQNmrQAx9u96nNaIxxOGo5XiKT36hOiGvu+M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qdIPXjqeu0rWfbDhg94jLjPcBpmjZIBwHLLPLWv8P6x9WxP7WDJlLcmQsmpV8vRGt
+ OMAvIEyxcmZ1NB/z1oI3hSi74zITJffw9hIAMOQqum4nnm6Zfcb2rB+ZZN/WE/Zl+v
+ 9Wu52UzARkZm/5A7M04ywnI3+F30eZJLDlreIMsY=
+Date: Fri, 13 Nov 2020 14:29:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+Message-ID: <20201113142937.GB4828@sirena.org.uk>
+References: <20201104234427.26477-12-digetx@gmail.com>
+ <20201110202945.GF2375022@ulmo>
+ <20201110203257.GC5957@sirena.org.uk>
+ <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
+ <20201111115534.GA4847@sirena.org.uk>
+ <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
+ <20201112171600.GD4742@sirena.org.uk>
+ <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
+ <20201112200123.GF4742@sirena.org.uk>
+ <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
+X-Cookie: No solicitors.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,49 +56,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Peter Geis <pgwipeout@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1243901049=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3XzAuYzo1MjExOjQ1OiB3YXJuaW5nOiDigJhnZnhf
-djdfMF9pcF9ibG9ja+KAmSBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtY29uc3QtdmFy
-aWFibGU9XQoKQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6
-ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogRGF2aWQg
-QWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xs
-LmNoPgpDYzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6IGFtZC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1zaWdAbGlz
-dHMubGluYXJvLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8u
-b3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92N18wLmMgfCA5IC0tLS0t
-LS0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3XzAuaCB8IDEgLQogMiBmaWxl
-cyBjaGFuZ2VkLCAxMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS9nZnhfdjdfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3
-XzAuYwppbmRleCBjYjA3YmMyMWRjYmU1Li4wNGUxZTkyZjVmM2NmIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjdfMC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2dmeF92N18wLmMKQEAgLTUyMDgsMTUgKzUyMDgsNiBAQCBzdGF0aWMgdm9pZCBn
-ZnhfdjdfMF9nZXRfY3VfaW5mbyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKIAljdV9pbmZv
-LT5sZHNfc2l6ZSA9IDY0OwogfQogCi1zdGF0aWMgY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9j
-a192ZXJzaW9uIGdmeF92N18wX2lwX2Jsb2NrID0KLXsKLQkudHlwZSA9IEFNRF9JUF9CTE9DS19U
-WVBFX0dGWCwKLQkubWFqb3IgPSA3LAotCS5taW5vciA9IDAsCi0JLnJldiA9IDAsCi0JLmZ1bmNz
-ID0gJmdmeF92N18wX2lwX2Z1bmNzLAotfTsKLQogY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9j
-a192ZXJzaW9uIGdmeF92N18xX2lwX2Jsb2NrID0KIHsKIAkudHlwZSA9IEFNRF9JUF9CTE9DS19U
-WVBFX0dGWCwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92N18w
-LmggYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9nZnhfdjdfMC5oCmluZGV4IDZmYjljMTUy
-NDY5MWYuLmVlZGNlN2QwMDdmMWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2dmeF92N18wLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3Y3XzAu
-aApAQCAtMjQsNyArMjQsNiBAQAogI2lmbmRlZiBfX0dGWF9WN18wX0hfXwogI2RlZmluZSBfX0dG
-WF9WN18wX0hfXwogCi1leHRlcm4gY29uc3Qgc3RydWN0IGFtZGdwdV9pcF9ibG9ja192ZXJzaW9u
-IGdmeF92N18wX2lwX2Jsb2NrOwogZXh0ZXJuIGNvbnN0IHN0cnVjdCBhbWRncHVfaXBfYmxvY2tf
-dmVyc2lvbiBnZnhfdjdfMV9pcF9ibG9jazsKIGV4dGVybiBjb25zdCBzdHJ1Y3QgYW1kZ3B1X2lw
-X2Jsb2NrX3ZlcnNpb24gZ2Z4X3Y3XzJfaXBfYmxvY2s7CiBleHRlcm4gY29uc3Qgc3RydWN0IGFt
-ZGdwdV9pcF9ibG9ja192ZXJzaW9uIGdmeF92N18zX2lwX2Jsb2NrOwotLSAKMi4yNS4xCgpfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============1243901049==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="CdrF4e02JqNVZeln"
+Content-Disposition: inline
+
+
+--CdrF4e02JqNVZeln
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 13, 2020 at 01:37:01AM +0300, Dmitry Osipenko wrote:
+> 12.11.2020 23:01, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> But it's not allowed to change voltage of a dummy regulator, is it
+> >> intentional?
+
+> > Of course not, we can't know if the requested new voltage is valid - the
+> > driver would have to have explict support for handling situations where
+> > it's not possible to change the voltage (which it can detect through
+> > enumerating the values it wants to set at startup).
+
+> > [Requesting the same supply multiple times]
+
+> But how driver is supposed to recognize that it's a dummy or buggy
+> regulator if it rejects all voltages?
+
+It's not clear if it matters - it's more a policy decision on the part
+of the driver about what it thinks safe error handling is.  If it's not
+possible to read voltages from the regulator the consumer driver has to
+decide what it thinks it's safe for it to do, either way it has no idea
+what the actual current voltage is.  It could assume that it's something
+that supports all the use cases it wants to use and just carry on with
+no configuration of voltages, it could decide that it might not support
+everything and not make any changes to be safe, or do something like
+try to figure out that if we're currently at a given OPP that's the top
+OPP possible.  Historically when we've not had regulator control in
+these drivers so they have effectively gone with the first option of
+just assuming it's a generally safe value, this often aligns with what
+the power on requirements for SoCs are so it's not unreasonable.
+
+--CdrF4e02JqNVZeln
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+umFAACgkQJNaLcl1U
+h9DRnAf/TT8I9XDaCoZsP58r0YQKOYiW9tWOMx5iUwJFikxSUl6upudJ8HrbvhS/
+O1evWVxr6jTg2q8A2Rq24+SXSF7KEAINXdggEQ+N4q8l5CzBXLA84C+z5IRIb6lL
+dgWqTg93CtK+XCEAKGWhAXn/nNFv8p9nol6fYYw6k8h00DJ+v04vDE/U+oofX1nn
+bOkrueTE3zsDh0U6tHC2dXK7hZX5s8j+g5aN4C5B27Xip+nGg6iiGHUQmsNP33Vc
+SLN6fJ7s1iNF+YNZBQLPWAeVTz44INs/8yIA6KTemFKz2lNUCozTaACHiLZTlyM2
+/pcp+qCaLayuAuXMCA2bNUT5gef9cg==
+=G9Fp
+-----END PGP SIGNATURE-----
+
+--CdrF4e02JqNVZeln--
+
+--===============1243901049==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1243901049==--
