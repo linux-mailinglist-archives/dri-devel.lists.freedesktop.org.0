@@ -2,55 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F65A2B2240
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:27:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1012B224D
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 770266E5CD;
-	Fri, 13 Nov 2020 17:27:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC446E5CF;
+	Fri, 13 Nov 2020 17:28:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D02856E5CD;
- Fri, 13 Nov 2020 17:27:55 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id u12so3544895wrt.0;
- Fri, 13 Nov 2020 09:27:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Aoo3XC1xgkYP3AILMBs2qRa84a7jg1GfVsNZfCCxg90=;
- b=r4jQUyvQq8wNfbGuxU+JtPca5mypNLnmvOXEMwng+VCakuiFj8gz9iosMJm7gJUXqy
- 3abfKQCGunVWsmPZBfSVR123NsiqQKdGql142pa6Q4+bWhT1ibLbEnuUQewH0dso5PBX
- 0iJmYnEXsuw9wWmqvRSwbtEXzIsQjdzwOLhy/mx0lyVBUqaV6mujatZH6A8+HDKJfIr/
- BRl/FMeW0LHfufZhrwCaYEC3SEOfNOIkUd/vTr75+b1fnMEQc7LjnnKPTn7FsXCnK+5R
- fOxlnuZVM1nQ95LtjzaMUq/RCkw7YtmrNp8VboKMK49R+OYs/bZMBTDTI0aq/rxvFOn3
- UECA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Aoo3XC1xgkYP3AILMBs2qRa84a7jg1GfVsNZfCCxg90=;
- b=qWxkBaTuacywy9LtE9FCsgHu7r8RksIhkQehi2l+aRZeJrxEL+DJK867ak0RSL27YY
- UUiTMf++GIlJSKkVgaFffAecsKyTAyr388gXcGhirQMmjGun3mGg9/AgHLJHtOEHFTLl
- FavwubqmI8v/jt1egpQ67iiYrmYh6Qnk49j9e7HZ4LYcA65Bd/HUtwa4LLK/RQNPyQ1K
- 5P/1rvMsrkLVSF8Gq6zAv4FTMEZltUed5sev1xoWB4FtubTUcv71jQecEYuTbVa1wrbM
- y4l/oD9BC+MW0inqOAwYWJEASYdjQCKM1ZKJFVgg0BXh3JCWRC7dPxXTCtkQyPtoBJNy
- +KMA==
-X-Gm-Message-State: AOAM533cMsI3Wgsd26vBNAo/4nroX9H5GmY2xEPZfXp++K9vjkW+q3Wz
- +dJT3fPcg3Gag/RhY/2fmyTkv5RviKvGqYyA1Ks=
-X-Google-Smtp-Source: ABdhPJyU763L3HQHIS0PPLGIYKDLP9HCwyeqI8Bd+rjzwFY33/WRlgaDonxguETxNniMFVJGuSnI8DtIIg1RJPZiRng=
-X-Received: by 2002:adf:8028:: with SMTP id 37mr4685613wrk.111.1605288469699; 
- Fri, 13 Nov 2020 09:27:49 -0800 (PST)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADE96E5CF
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 17:28:28 +0000 (UTC)
+IronPort-SDR: M4bMW+zpJZcvNwwUNA8QYW33IxKSfiiIfAv5FIJNigqFCMG+njT/TOTzK9vuhCu3IqW4RvgbxB
+ auRxyI4jmU7w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9804"; a="157525343"
+X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; d="scan'208";a="157525343"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2020 09:28:27 -0800
+IronPort-SDR: CimYDpozihoFZaxPS8IQJPDcpDi2ElDaZkCGBtlMHSIg6C8KOwR5/8d8fytpFnPp8unJQsha2V
+ Y+T69QMwjAiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,476,1596524400"; d="scan'208";a="355603987"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga008.jf.intel.com with ESMTP; 13 Nov 2020 09:28:27 -0800
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 13 Nov 2020 09:28:27 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 13 Nov 2020 09:28:27 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Fri, 13 Nov 2020 09:28:27 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Fri, 13 Nov 2020 09:28:26 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ae8e7elUr+WLi8EAfeisM9Ck4m4RPhrp5JzLUH9PmkbNMY2/0ELtifRj5AjlR08+3mmjt0SdCqFiXujkeOGyOkmOEm6cmQ5noyOqFlUg6g7MSj6Pk8xvZaYft9rUsCn9o/E3F+2sY8rhJS5VZom/AAV6k0nEPOlo7x1aviE4l34hO0TX0JmYYFCKTV1LVYCtfVUj/hf1fQF+FCYuQJUpQEHFae6SbA+z5DHQLkfqVHcsXNd0Ag2iix8ZRB+wqj2WZYpUJe3rYGrASW9kM797l+vjdaTw3bGPt/j3gASj/h8DPZxOWnyFdDEEtXB1IsTeRQB0JVmEZYvznvP+xLdLWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+saa6RtwNLcZPN810Ry7CNLDvj5Js4FASFZgY2gAoOU=;
+ b=JlSFXPE5bFcmrdiQ75I55hiddraKrS7A/Iy7eXdOPWN8QXe8gg22QJB2SZWD8uFlC9Q2dIyLsLfjVWrZi9gtsp5IthJ9SfP9/f630+F5DkLgjexzguFAgGRWKI88gMyhVzmc1Qxi+bviqrzXiA16ODXTBPKpzFVmhVpyjXxEjIbEusuWAnXbuy0pvVaYjNgaRJBfr/a5ISfF2BnxJiPECDUTBppkbnw5h7ee/1TSVMdwyd5usWOBncvu2DXwsZDD6G4bA9yRD8NXNl2VXTdWvt05pNEVT2QQuwOvwP8ixKR3aWScjS0SLdg7mvV9ftL2M8Wcx4O8TMpBhEstpmSGnw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+saa6RtwNLcZPN810Ry7CNLDvj5Js4FASFZgY2gAoOU=;
+ b=CpBuWk11hue2eTIqaf06ADb7QxU/GMoOlutjoDidnKjEk2NN6eTktaLfc8jpGGv4ihcuLhYVKda1XUq64jj8wEIkCT+APUkEz1UB7ObuTVudjn7srA8cH7dB9/JU1f6jLmtIriN49OwcE4kqzjls2fXk1fG1HgvYqXVTWAegC8M=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by MWHPR11MB1789.namprd11.prod.outlook.com (2603:10b6:300:108::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Fri, 13 Nov
+ 2020 17:28:22 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7510:71a5:3cfe:ab94]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7510:71a5:3cfe:ab94%8]) with mapi id 15.20.3564.025; Fri, 13 Nov 2020
+ 17:28:22 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: RE: [PATCH v10 4/6] RDMA/mlx5: Support dma-buf based userspace memory
+ region
+Thread-Topic: [PATCH v10 4/6] RDMA/mlx5: Support dma-buf based userspace
+ memory region
+Thread-Index: AQHWt6hWWtXHedGI1Eu5Tn8UtjOrH6nFO6cAgAAyciCAAJ4lAIAAQ48A
+Date: Fri, 13 Nov 2020 17:28:22 +0000
+Message-ID: <MW3PR11MB455509C28F80BA9CB6CD4B84E5E60@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1605044477-51833-1-git-send-email-jianxin.xiong@intel.com>
+ <1605044477-51833-5-git-send-email-jianxin.xiong@intel.com>
+ <20201113003946.GA244516@ziepe.ca>
+ <MW3PR11MB45550E49934ECB53FC42E688E5E60@MW3PR11MB4555.namprd11.prod.outlook.com>
+ <20201113130620.GD244516@ziepe.ca>
+In-Reply-To: <20201113130620.GD244516@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: ziepe.ca; dkim=none (message not signed)
+ header.d=none;ziepe.ca; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.53.14.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 89888828-4924-433e-5446-08d887f98568
+x-ms-traffictypediagnostic: MWHPR11MB1789:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR11MB1789B8A337802C65C5465EA9E5E60@MWHPR11MB1789.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pDt8TQSEctX5pv88K5W6pIRrkTvxP4e+5ooawqaHpa/2Pv8OJ0dUNqt7qFxPlxQjeNk4UlISWArnMmGSXJluKVxOFq1o8oO6ye0xhUbSPOd2IYp8bChem206OkHkrwoCRQa6lpsQ0kCLZ2DvPOGm0yUISLWjjGTcLevZFy8a0gCmNizzQDVp7MUvhnz5qVjIsmjsVJgMfZ/MTpwGs6bMt3dX/CeYzlTMzqFQMhNlWw3jRv7BdxD/TXwO5NO28atqKo5Cwzd87WtSUU+rzXxR0Le+s2gPmh6RaaFJ7g5kiyKKi+LsrO6HFk1gWxoPgHGA+rWrC/Lv6GPNg7G+W6GsXg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(54906003)(8676002)(83380400001)(478600001)(6506007)(33656002)(26005)(55016002)(2906002)(53546011)(4326008)(8936002)(7696005)(107886003)(316002)(64756008)(6916009)(66446008)(66476007)(71200400001)(76116006)(5660300002)(66946007)(86362001)(9686003)(52536014)(186003)(66556008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: jbrUQZ5Ov9vsQcc+obCcZuiKdiuL85puRuvCt/Uor+WaKNBcsC9R9/rO6pegINvRLFOJQUdBu36+Ri4DSlfJnu5StxcdJRGrhQITKSwHKy8pExjFkM8vIzTA/R/sMhbYoin4GhCZZFSBFEDLX06Lp6VSlxA/KefzWXoB0K+f62iaz/ugUpjX4R+jEJLMRQW3fw5geZ92q48RkSSC8R/Hqy0jD7u6SHdKJS+9xQh3wcIzSBBLdaGDaOkzKvkhJeqZFsKFuzNXAf8p8790cAKlm1daYusQGOFvTX2tsK9/rfmpnklLUDACH+5A58VCVpSN0i9VTwytM9vdxOJn95dC+ivHNRm4KOHvxPek/uCgcdvqr7xlszTSMxrjwXgG9jkv1EtKtwIX3pE8EaWRoOe8fo/e1q9TbmEXkBLZ3V/va7VJj/Ycs/3nI7LfnG2GPCCFyHrscZ9qerORzxnVQP6ew7IIoGV5G1OHZMHQ5B0k07TLOGNcYlT0vlAxffNT/xWsXyijZvfJyhkfV1ry+HiWdozega1+pz3HAZ6QYqd4d+8dIFmiylVO5fptnbu391yU7g2ktSm+96ijrWT/j0FdvBLH0hIvBZCOjrcNTr6dw7mak9SMje4N+2TPY9hZh3O4Dq2xH3QhkWLwCR1unmBNNyc3b6uoBQc/mQpEBbWOr09Rli0AsZnfmjIqv2GHKI0Nis0bpvEJsbX56Q+rHvDRyP7jZSKubKQ/PUoyMdrBwTUZu454nrUPKdVBTUJFPl4Cp6iKQqyJUVazBIIN+i1IX3zP7laeKMAKzTXYZIrmfdDaLxiy+KmVKpDG6+GVWzKyuyO5/d3vQAJiJHvmYdXyNlu0xz6PRhfxkIGHdRAd4GLneadOyhfHhkSNhAssi71bE8uQIJ6A20sKpkIz298/Hg==
 MIME-Version: 1.0
-References: <20201113134938.4004947-1-lee.jones@linaro.org>
- <20201113134938.4004947-26-lee.jones@linaro.org>
-In-Reply-To: <20201113134938.4004947-26-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 13 Nov 2020 12:27:38 -0500
-Message-ID: <CADnq5_NN81LB=FiwRnALOV3PWZKjicZh93BaBEcO=D_E1wHn0w@mail.gmail.com>
-Subject: Re: [PATCH 25/40] drm/amd/amdgpu/amdgpu_debugfs: Demote obvious abuse
- of kernel-doc formatting
-To: Lee Jones <lee.jones@linaro.org>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89888828-4924-433e-5446-08d887f98568
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2020 17:28:22.6374 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UJR+ix3u2ydxI7ynDDwNSE7bbyY7EFqAFjxGBSVXbDW0X3izWXW3emEgh1UUGJga98ztPsKZ0eRmvEAL1YCcow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1789
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,69 +130,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Doug
+ Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMTMsIDIwMjAgYXQgODo1MCBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZWJ1Z2Zz
-LmM6MzA4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdmJyBub3QgZGVz
-Y3JpYmVkIGluICdhbWRncHVfZGVidWdmc19yZWdzX3JlYWQnCj4gIGRyaXZlcnMvZ3B1L2RybS9h
-bWQvYW1kZ3B1L2FtZGdwdV9kZWJ1Z2ZzLmM6MzA4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0
-ZXIgb3IgbWVtYmVyICdidWYnIG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV9kZWJ1Z2ZzX3JlZ3Nf
-cmVhZCcKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RlYnVnZnMuYzozMDg6
-IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBvciBtZW1iZXIgJ3NpemUnIG5vdCBkZXNjcmli
-ZWQgaW4gJ2FtZGdwdV9kZWJ1Z2ZzX3JlZ3NfcmVhZCcKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9h
-bWRncHUvYW1kZ3B1X2RlYnVnZnMuYzozMDg6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBv
-ciBtZW1iZXIgJ3Bvcycgbm90IGRlc2NyaWJlZCBpbiAnYW1kZ3B1X2RlYnVnZnNfcmVnc19yZWFk
-Jwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZGVidWdmcy5jOjMxNzogd2Fy
-bmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnZicgbm90IGRlc2NyaWJlZCBpbiAn
-YW1kZ3B1X2RlYnVnZnNfcmVnc193cml0ZScKPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
-YW1kZ3B1X2RlYnVnZnMuYzozMTc6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBvciBtZW1i
-ZXIgJ2J1Zicgbm90IGRlc2NyaWJlZCBpbiAnYW1kZ3B1X2RlYnVnZnNfcmVnc193cml0ZScKPiAg
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RlYnVnZnMuYzozMTc6IHdhcm5pbmc6
-IEZ1bmN0aW9uIHBhcmFtZXRlciBvciBtZW1iZXIgJ3NpemUnIG5vdCBkZXNjcmliZWQgaW4gJ2Ft
-ZGdwdV9kZWJ1Z2ZzX3JlZ3Nfd3JpdGUnCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
-ZGdwdV9kZWJ1Z2ZzLmM6MzE3OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVy
-ICdwb3MnIG5vdCBkZXNjcmliZWQgaW4gJ2FtZGdwdV9kZWJ1Z2ZzX3JlZ3Nfd3JpdGUnCj4KPiBD
-YzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0
-aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogRGF2aWQgQWlybGll
-IDxhaXJsaWVkQGxpbnV4LmllPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+
-Cj4gQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6IGFtZC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbmFyby1tbS1z
-aWdAbGlzdHMubGluYXJvLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVz
-QGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RlYnVnZnMuYyB8IDQgKystLQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hbWRncHVfZGVidWdmcy5jCj4gaW5kZXggNWMxZjM3MjVjNzQxMC4uYTY2
-NjdhMmNhMGRiMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
-cHVfZGVidWdmcy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rl
-YnVnZnMuYwo+IEBAIC0zMDAsNyArMzAwLDcgQEAgc3RhdGljIGludCAgYW1kZ3B1X2RlYnVnZnNf
-cHJvY2Vzc19yZWdfb3AoYm9vbCByZWFkLCBzdHJ1Y3QgZmlsZSAqZiwKPiAgICAgICAgIHJldHVy
-biByZXN1bHQ7Cj4gIH0KPgo+IC0vKioKPiArLyoKPiAgICogYW1kZ3B1X2RlYnVnZnNfcmVnc19y
-ZWFkIC0gQ2FsbGJhY2sgZm9yIHJlYWRpbmcgTU1JTyByZWdpc3RlcnMKPiAgICovCj4gIHN0YXRp
-YyBzc2l6ZV90IGFtZGdwdV9kZWJ1Z2ZzX3JlZ3NfcmVhZChzdHJ1Y3QgZmlsZSAqZiwgY2hhciBf
-X3VzZXIgKmJ1ZiwKPiBAQCAtMzA5LDcgKzMwOSw3IEBAIHN0YXRpYyBzc2l6ZV90IGFtZGdwdV9k
-ZWJ1Z2ZzX3JlZ3NfcmVhZChzdHJ1Y3QgZmlsZSAqZiwgY2hhciBfX3VzZXIgKmJ1ZiwKPiAgICAg
-ICAgIHJldHVybiBhbWRncHVfZGVidWdmc19wcm9jZXNzX3JlZ19vcCh0cnVlLCBmLCBidWYsIHNp
-emUsIHBvcyk7Cj4gIH0KPgo+IC0vKioKPiArLyoKPiAgICogYW1kZ3B1X2RlYnVnZnNfcmVnc193
-cml0ZSAtIENhbGxiYWNrIGZvciB3cml0aW5nIE1NSU8gcmVnaXN0ZXJzCj4gICAqLwo+ICBzdGF0
-aWMgc3NpemVfdCBhbWRncHVfZGVidWdmc19yZWdzX3dyaXRlKHN0cnVjdCBmaWxlICpmLCBjb25z
-dCBjaGFyIF9fdXNlciAqYnVmLAo+IC0tCj4gMi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBk
-cmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+> -----Original Message-----
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Friday, November 13, 2020 5:06 AM
+> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
+> <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
+> <daniel.vetter@intel.com>
+> Subject: Re: [PATCH v10 4/6] RDMA/mlx5: Support dma-buf based userspace memory region
+> 
+> On Fri, Nov 13, 2020 at 03:51:20AM +0000, Xiong, Jianxin wrote:
+> 
+> > > > +static void mlx5_ib_dmabuf_invalidate_cb(struct
+> > > > +dma_buf_attachment
+> > > > +*attach) {
+> > > > +	struct ib_umem_dmabuf *umem_dmabuf = attach->importer_priv;
+> > > > +	struct mlx5_ib_mr *mr = umem_dmabuf->private;
+> > > > +
+> > > > +	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
+> > > > +
+> > > > +	if (mr)
+> > >
+> > > I don't think this 'if (mr)' test is needed anymore? I certainly
+> > > prefer it gone as it is kind of messy. I expect unmapping the dma to ensure this function is not running, and won't run again.
+> >
+> > It is still needed. When the dma-buf moves, the callback function of every attached importer is invoked, regardless if the importer has
+> mapped the dma or not.
+> >
+> > >
+> > > > +/**
+> > > > + * mlx5_ib_fence_dmabuf_mr - Stop all access to the dmabuf MR
+> > > > + * @mr: to fence
+> > > > + *
+> > > > + * On return no parallel threads will be touching this MR and no
+> > > > +DMA will be
+> > > > + * active.
+> > > > + */
+> > > > +void mlx5_ib_fence_dmabuf_mr(struct mlx5_ib_mr *mr) {
+> > > > +	struct ib_umem_dmabuf *umem_dmabuf =
+> > > > +to_ib_umem_dmabuf(mr->umem);
+> > > > +
+> > > > +	/* Prevent new page faults and prefetch requests from succeeding */
+> > > > +	xa_erase(&mr->dev->odp_mkeys, mlx5_base_mkey(mr->mmkey.key));
+> > > > +
+> > > > +	/* Wait for all running page-fault handlers to finish. */
+> > > > +	synchronize_srcu(&mr->dev->odp_srcu);
+> > > > +
+> > > > +	wait_event(mr->q_deferred_work,
+> > > > +!atomic_read(&mr->num_deferred_work));
+> > > > +
+> > > > +	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
+> > > > +	mlx5_mr_cache_invalidate(mr);
+> > > > +	umem_dmabuf->private = NULL;
+> > > > +	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
+> > > > +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
+> > > > +
+> > > > +	if (!mr->cache_ent) {
+> > > > +		mlx5_core_destroy_mkey(mr->dev->mdev, &mr->mmkey);
+> > > > +		WARN_ON(mr->descs);
+> > > > +	}
+> > >
+> > > I didn't check carefully, but are you sure this destroy_mkey should be here??
+> >
+> > To my understanding, yes. This is similar to what dma_fence_odp_mr()
+> > does, just inlined here since it's not called from other places.
+> 
+> I think you should put the calls to dma_buf_dynamic_attach() and
+> dma_buf_detach() into mlx5, it makes the whole thing a little cleaner, then the umem->private isn't needed any more either.
+
+Putting these calls into mlx5 can remove the 'ops' parameter from the umem_get call,
+but I don't see how umem->private can be eliminated. In addition, I feel keeping these
+two calls in the core provides a better separation between the core and the driver -- 
+dma-buf API functions are only called from the core, except for locking/unlocking.
+
+The 'if (mr)' part in the callback can be removed by adding a line
+'if (!umem_dmabutf->sgt) return;' before that if that makes a difference. 
+
+> 
+> Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
