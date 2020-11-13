@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 700622B15C5
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 07:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453632B15E4
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 07:41:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA5856E3C6;
-	Fri, 13 Nov 2020 06:11:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 321126E3C6;
+	Fri, 13 Nov 2020 06:41:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97FA26E3C6
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 06:11:11 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id oq3so11645157ejb.7
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 22:11:11 -0800 (PST)
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6F06E3C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 06:41:17 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id v22so9386609edt.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 22:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DptdZzMyxdE05cUSx10TqnOAYaGhDOro7iEYn4TKuBE=;
- b=aZDMzhtpTjY/rySHTZUR/bWYegnTX3To2m/e5aKWucOPNxNZZ2Q2wFo30bS7bR0Rrg
- EOHqsgPZELKsFfNG57v0IpcXD2Zwqlk0iejeMGPzapyCLYApzk5eJs827zF9fM0rnWGC
- UTjQ9YRq5Eo/0Ujp2y1FyMx5lmx8WpJW6pC1+W8pmOd+hmjwGFuuvreI5Dzn3GS6hrkF
- V6mi2nYEIVMuANoTy5CwuKr0F9GLe/EbxiG2pB5mTjHpnrtXT0/IQkvlFINODI9pmMfi
- jZAA/wOQVr9vV+88FrEblnpNb3m/xrgbaseq3ABmiCNi8wkRaeFlmmezUSDgLLjWFaju
- pHPg==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=uUcn5XFlvNkAjTSpkJz/s0lX/G6tQphALps3Cv2iGtk=;
+ b=uwRJkMUQYoe6XY3hGmrs02O5Jp3p5Q0AKTRhZwq9zT3nCiBzaCh/qJwQalSMV2vHiL
+ qPt8FbMqVjVeXECVOEKrpe1z+URqPuyNf36unS/SCohtjwPmt4iWhiw4UxkFidLL1I+O
+ IUge1RlM21z6V8LfJIb71z7eMQdtcHbGGOzkni96/ohh9Pq+Lf0MVc4O3EKdHEjMT7eD
+ sZ/8mgug89hSgBXM/h9RFbK58sizNmfz1Rf64z1gFuQfGd3rB0IMGO/uKuy7U4PRTUOQ
+ TXTnqo/6EG4jp9tLvpTmkalSdpNKsRp8wi83NgipNnjfilOS5Hb2b6Ex3m6WYlEg99b1
+ 4jgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DptdZzMyxdE05cUSx10TqnOAYaGhDOro7iEYn4TKuBE=;
- b=hgVB/JVDRE76vMraL4UIQrspdNzmc0yIzpo/1Rm146IKN/H7Ojc+E6JUSNZp7wieY6
- cAN7D0OzJSU6TCvmFy0nR0V2Ar9VK535X7BDsoVSZxMYE9MM2c3vUqwoFMB8DNDCjEZ9
- 77PNyZS9c2vZj3dDuiOZ51eK/U5iXQi5wY9F/9j3djCPWUDZRRw7sqR7i6pdDrmSDYep
- cVTIerzQRWjCAsQflXxjv4tPL7H8MAX2ICdywEjJ9xpQHlh4gcJYwn08ogbOSS3wtZJ4
- 5SuiwQf6ZpflOGsTp0wjWfT4j7bRHv5SaO87eA4jxjMZ4uE2akldjL6Y0VpOlwNpFM0l
- koRA==
-X-Gm-Message-State: AOAM532S2ymbnRQSD0udDsCsj6h+tD8RyLOf0s4B+Ut5QE3Dh8NDjrAG
- 2L1OsXU33I08vF+1staagrzJbIL8zP0/8gmRDSw=
-X-Google-Smtp-Source: ABdhPJzk7c4GmHRw4i3mpm/VpIrMuaYxRvp9jfP+t15kRTZZzDmadnPQ0+ARk9+P8Apx1cvqJUMslhC3cbLDz9YXL1M=
-X-Received: by 2002:a17:906:4145:: with SMTP id
- l5mr469026ejk.317.1605247870110; 
- Thu, 12 Nov 2020 22:11:10 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=uUcn5XFlvNkAjTSpkJz/s0lX/G6tQphALps3Cv2iGtk=;
+ b=eVOAFnMmYYxsYEThU/ZxDhD7IncvhUEKrGy6E4BrTPxw/GoY+vPnVwqvZD48CmsqRi
+ xMCghT70DDdGs+++5HCm3yaxSEMsUxAifhMY4P1WiP/5BM6pmck6PV9djKMAsuGP3bKd
+ qrABX223/pzA0UNAgfsa7NZ2/fs6mHxCxacYefa93nZX9fCdfiBMZb0gzWVnUk23Lk5/
+ 1daEYGf+DS/ZO80aj2X257isWOqtQ3vMDDTdbC8unItKSvP7YZ4iWjCVSPEkzhP6pvVy
+ F9+MGeE5m/9Ue1g5PtNa2c3bt2jG1IUHOSn637+CRnEbxG+anae3rxzIFP7iH0i5YsZl
+ ODqw==
+X-Gm-Message-State: AOAM531ro4OabwOVRS/I5wtnDdrjHGvuvQYkQ0GcVqyIrwCc6N8idwMY
+ 3Ri4d3Olvkf9i67gx7l9nQSRJr1NqOcNBgoH01w=
+X-Google-Smtp-Source: ABdhPJyeyA0ZcobWLrGNDaKdL20+g200WcTZaE8tsxLmnXENE14OExFJAIOODLKbba+NXdjeM+n+AjH2cftQ9IlyD0U=
+X-Received: by 2002:a50:cc86:: with SMTP id q6mr1111642edi.78.1605249675863;
+ Thu, 12 Nov 2020 22:41:15 -0800 (PST)
 MIME-Version: 1.0
-References: <CACAvsv5D9p78MNN0OxVeRZxN8LDqcadJEGUEFCgWJQ6+_rjPuw@mail.gmail.com>
-In-Reply-To: <CACAvsv5D9p78MNN0OxVeRZxN8LDqcadJEGUEFCgWJQ6+_rjPuw@mail.gmail.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 13 Nov 2020 16:10:58 +1000
-Message-ID: <CAPM=9tw0+w20aXTS76cQSBXFSzbzNHxS_nKg266pmP1subBGag@mail.gmail.com>
-Subject: Re: [PULL] nouveau-fixes 5.10
-To: Ben Skeggs <skeggsb@gmail.com>
+Date: Fri, 13 Nov 2020 16:41:04 +1000
+Message-ID: <CAPM=9txkA3-XwKMbxzZT6ZWq5jneJXYWneABHi02AxGnpvrPtA@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.10-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,33 +58,135 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- ML dri-devel <dri-devel@lists.freedesktop.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Nov 2020 at 14:12, Ben Skeggs <skeggsb@gmail.com> wrote:
->
-> The following changes since commit 512bce50a41c528fa15c4c014293e7bebf018658:
->
->   Merge v5.10-rc3 into drm-next (2020-11-10 14:36:36 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/skeggsb/linux linux-5.10
->
-> for you to fetch changes up to f67e5ecab785631cf7f776533432ba5aba06615a:
->
->   drm/nouveau/ttm: avoid using nouveau_drm.ttm.type_vram prior to nv50
-> (2020-11-12 14:09:45 +1000)
+Hi Linus,
 
-Are these fixes for next or for fixes, since they are on a next base,
-I didn't want to assume anything, if they are for v5.10 please base
-them on v5.10-rc3 directly.
+Nearly didn't send you a PR this week at all, but a few things
+trickled in over the day, not a huge amount here, some i915, amdgpu
+and a bunch of misc fixes. I have a couple of nouveau fixes
+outstanding due to the PR having the wrong base, I'll figure it out
+next week.
 
 Dave.
+
+drm-fixes-2020-11-13:
+drm fixes for 5.10-rc4
+
+amdgpu:
+- Pageflip fix for DCN3
+- Declare TA firmware for green sardine
+- Headless navi fix
+
+i915:
+- Pull phys pread/pwrite implementations to the backend
+- Correctly set SFC capability for video engines
+
+bridge:
+- cdns Kconfig fix
+
+hyperv_fb:
+- fix missing include
+
+gma500:
+- oob access fix
+
+mcde:
+- unbalanced regulator fix
+The following changes since commit f8394f232b1eab649ce2df5c5f15b0e528c92091:
+
+  Linux 5.10-rc3 (2020-11-08 16:10:16 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-11-13
+
+for you to fetch changes up to 41f3ed2cac86ba533ce6a334a2e7fae5c7082946:
+
+  Merge tag 'amd-drm-fixes-5.10-2020-11-12' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-11-13
+16:05:31 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.10-rc4
+
+amdgpu:
+- Pageflip fix for DCN3
+- Declare TA firmware for green sardine
+- Headless navi fix
+
+i915:
+- Pull phys pread/pwrite implementations to the backend
+- Correctly set SFC capability for video engines
+
+bridge:
+- cdns Kconfig fix
+
+hyperv_fb:
+- fix missing include
+
+gma500:
+- oob access fix
+
+mcde:
+- unbalanced regulator fix
+
+----------------------------------------------------------------
+Bhawanpreet Lakha (1):
+      drm/amd/display: Add missing pflip irq
+
+Chris Wilson (1):
+      drm/i915/gem: Pull phys pread/pwrite implementations to the backend
+
+Dave Airlie (3):
+      Merge tag 'drm-misc-fixes-2020-11-12' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'drm-intel-fixes-2020-11-13' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'amd-drm-fixes-5.10-2020-11-12' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+
+Linus Walleij (1):
+      drm/mcde: Fix unbalanced regulator
+
+Matthew Auld (1):
+      drm/i915/gem: Allow backends to override pread implementation
+
+Nishanth Menon (1):
+      drm: bridge: cdns: Kconfig: Switch over dependency to ARCH_K3
+
+Olaf Hering (1):
+      video: hyperv_fb: include vmalloc.h
+
+Roman Li (1):
+      drm/amdgpu: add ta firmware load for green-sardine
+
+Thomas Zimmermann (1):
+      drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
+
+Tianci.Yin (1):
+      drm/amdgpu: enable DCN for navi10 headless SKU
+
+Venkata Sandeep Dhanalakota (1):
+      drm/i915: Correctly set SFC capability for video engines
+
+ drivers/gpu/drm/amd/amdgpu/nv.c                    |  3 +-
+ drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |  1 +
+ .../amd/display/dc/irq/dcn30/irq_service_dcn30.c   |  4 +-
+ drivers/gpu/drm/bridge/cadence/Kconfig             |  2 +-
+ drivers/gpu/drm/gma500/psb_irq.c                   | 34 +++++--------
+ drivers/gpu/drm/i915/gem/i915_gem_object_types.h   |  2 +
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c           | 55 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c          |  3 +-
+ drivers/gpu/drm/i915/i915_gem.c                    | 32 +++----------
+ drivers/gpu/drm/mcde/mcde_drv.c                    |  8 +++-
+ drivers/video/fbdev/hyperv_fb.c                    |  1 +
+ 11 files changed, 90 insertions(+), 55 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
