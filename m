@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6962B1C4D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 14:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F7A2B1C52
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 14:50:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 279486E528;
-	Fri, 13 Nov 2020 13:50:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FEEA6E56D;
+	Fri, 13 Nov 2020 13:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 724D36E4FE
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 13:50:24 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id b6so9994436wrt.4
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 05:50:24 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB5D56E511
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 13:50:25 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id 10so8208479wml.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 05:50:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=451+tFthAljOAh2f/Wv8bktxEJYp2PVcrpZPPSF00gU=;
- b=pe6e21nu0qjtMO7L/dhgnVP1pOLq2uLl2Q603f2mIEfsxLZ4RIF5ndrN5ElCTk5gBH
- qQChgdrqm4R3PWyX5mMgOaxx9OkofEfBCcsS2ylOlDJ7yGlIIK5W9xGGJPcsDPMjho8J
- 0j2P0H2AQeAsAZf+VeoXuXFXESasVb2kJfTC2fFe3IqwTvNbzmL61XTiAJLVbf//ktvE
- 7wgdTtkmRnKSQmwwcqNylRCy7SZdv0M1aolSP2I49SYf0yYufITdguFUZ3pxAGSsFjQ3
- 3Wi/1IjSnNLf+E/nmecH+3SNI7gxA8ulpguIdKsungNlVSzRdzgfEjtTVghmCWTbEB79
- ZvZA==
+ bh=OFGPsQBWaqIstUovZEQuV7ZoQw1xUxoIPu10HqknCTI=;
+ b=hDDNRtwmjy7UzVPZNCJaQ+bu+PRm7kW3v0HnLqD/oaFNjNOldbhgb4hKirvW7RQ3XG
+ txtByjBe8inFiRzGvNE+0ZhuM7fV8Syu7RL2PxTSw2iQ4LD1FFAVBa7/GJ93TuAgl0XA
+ ACpV0/PDpouzHfBWTiLt7rJyhWBmcfvQ9qFIvNY4YbDDotBVfQmZZoxQ8vEKkrAwZ3DS
+ i3XKYmnsRMMZb3YU7tGhZTUDY4RrTNSSIqPhVlTAfqW/ZFop7DarUDsHz7+LSVLhD4vD
+ hnfZR+RX+VS+Bxjl5AVbcbeSDW5bYjOBDFd4HsO95GvFkJNQ/mV9Ogq4rZyjmic5vcYi
+ FTZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=451+tFthAljOAh2f/Wv8bktxEJYp2PVcrpZPPSF00gU=;
- b=nLOoLrLUYogTHp3ngqzr60Chn/QrEapmgCan4mT6SzjQPfc6UKi63WyRwDlVISQZJR
- t5Jl2qJVv50ReNm0KqVsl3uOb6VSjz/sMpt5tN23ds9PCw2NbNqOvcnJ51jhVy6k/3Kb
- Hd0VwxwpZQjybiwPkbZFNFOCRsV4rZ2ywiWxqqIcnC82wwgeSEvRyBKnLOa0MYA8IgKX
- idc1XcNuCGtVgU8WMmenZNYg5+BLEJ3CHJgfy5g103Ytt9nM0as7qHvTUZNjfTMxX6Au
- CWu6S6VwpUGKS42wPACpAyIs1St5eaCNDGDVYZwDu5bl40pp118X074AoIukJ7qhSQ+f
- zrLA==
-X-Gm-Message-State: AOAM533WBKsLZki0sCugVGKMUqiHaTkRl5H3qjQCJWua9Rv+8v1M7puQ
- T7jRekNHveiNhPJtoXjsprHYaQ==
-X-Google-Smtp-Source: ABdhPJyjledgKwa6fPP8UYFTcytP7jLttiwL2vQI0keB72vsOIAUvnnP5rtBVPtFkTM4WWb/v+5bVA==
-X-Received: by 2002:adf:f852:: with SMTP id d18mr3466397wrq.232.1605275423174; 
- Fri, 13 Nov 2020 05:50:23 -0800 (PST)
+ bh=OFGPsQBWaqIstUovZEQuV7ZoQw1xUxoIPu10HqknCTI=;
+ b=UEQ4TbYCnEeXFTmqmqRHg/aW4SeZq+ifwuEOBTak37oN87OaF3ZYvX372dIvFz/zpd
+ AR4c8ZJy36dTScHfmcBpmTSI9LbnQ4ocy83DLzvrKYxJhlGeZoxVU24rtgx9Da3X7v/4
+ EKKTt9aJRw0iy8uhL8IhIpEWxt+feoJ0wYmnPdnYjMGCYuAdlAMMuYNwzjXY5PIKVZFa
+ OkcV1o2Ke+OloiHH67Z+0eVQrZr3HzRW1qzf1394Hta6J3x1cm8qQe2JNQRy8OEWXv+Y
+ FnUVcLMfJiYc6+AiGvUX7sHS/9SKDUUEi5iApgk0RUNfY9JVZGIS/ABWRDDg/m9pDUte
+ CTfg==
+X-Gm-Message-State: AOAM530icjkgbYv+L83G2jqYKyKjAUG4LZskGLoktOgu58q5ZGv/h179
+ kOU2pJh8fYX8Xq70zmCf5gT0GQ==
+X-Google-Smtp-Source: ABdhPJyRl6lkCY0QwpZX7ubai9WllsidpusPMAw7vEARujcTCQ0A8ompo9Cv1/xtXRSuPmAwCaT85w==
+X-Received: by 2002:a1c:2cd7:: with SMTP id s206mr2533032wms.182.1605275424372; 
+ Fri, 13 Nov 2020 05:50:24 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.50.22
+ by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.50.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 05:50:22 -0800 (PST)
+ Fri, 13 Nov 2020 05:50:23 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 33/40] drm/drm_dp_mst_topology: Remove set but never used
- variable 'len'
-Date: Fri, 13 Nov 2020 13:49:31 +0000
-Message-Id: <20201113134938.4004947-34-lee.jones@linaro.org>
+Subject: [PATCH 34/40] drm/msm/disp/mdp5/mdp5_ctl: Demote non-conformant
+ kernel-doc headers
+Date: Fri, 13 Nov 2020 13:49:32 +0000
+Message-Id: <20201113134938.4004947-35-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201113134938.4004947-1-lee.jones@linaro.org>
 References: <20201113134938.4004947-1-lee.jones@linaro.org>
@@ -67,39 +67,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYzogSW4gZnVuY3Rpb24g4oCYZHJtX2RwX3Nl
-bmRfcXVlcnlfc3RyZWFtX2VuY19zdGF0dXPigJk6CiBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21z
-dF90b3BvbG9neS5jOjMyNjM6Njogd2FybmluZzogdmFyaWFibGUg4oCYbGVu4oCZIHNldCBidXQg
-bm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpDYzogTWFhcnRlbiBMYW5raG9y
-c3QgPG1hYXJ0ZW4ubGFua2hvcnN0QGxpbnV4LmludGVsLmNvbT4KQ2M6IE1heGltZSBSaXBhcmQg
-PG1yaXBhcmRAa2VybmVsLm9yZz4KQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZl
-dHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-ZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgotLS0KIGRy
-aXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBf
-bXN0X3RvcG9sb2d5LmMKaW5kZXggZTg3NTQyNTMzNjQwNi4uMDQwMWIyZjQ3NTAwMiAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCkBAIC0zMjYwLDcgKzMyNjAsNyBAQCBpbnQg
-ZHJtX2RwX3NlbmRfcXVlcnlfc3RyZWFtX2VuY19zdGF0dXMoc3RydWN0IGRybV9kcF9tc3RfdG9w
-b2xvZ3lfbWdyICptZ3IsCiB7CiAJc3RydWN0IGRybV9kcF9zaWRlYmFuZF9tc2dfdHggKnR4bXNn
-OwogCXU4IG5vbmNlWzddOwotCWludCBsZW4sIHJldDsKKwlpbnQgcmV0OwogCiAJdHhtc2cgPSBr
-emFsbG9jKHNpemVvZigqdHhtc2cpLCBHRlBfS0VSTkVMKTsKIAlpZiAoIXR4bXNnKQpAQCAtMzI4
-MSw3ICszMjgxLDcgQEAgaW50IGRybV9kcF9zZW5kX3F1ZXJ5X3N0cmVhbV9lbmNfc3RhdHVzKHN0
-cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5X21nciAqbWdyLAogCSAqLwogCXR4bXNnLT5kc3QgPSBt
-Z3ItPm1zdF9wcmltYXJ5OwogCi0JbGVuID0gYnVpbGRfcXVlcnlfc3RyZWFtX2VuY19zdGF0dXMo
-dHhtc2csIHBvcnQtPnZjcGkudmNwaSwgbm9uY2UpOworCWJ1aWxkX3F1ZXJ5X3N0cmVhbV9lbmNf
-c3RhdHVzKHR4bXNnLCBwb3J0LT52Y3BpLnZjcGksIG5vbmNlKTsKIAogCWRybV9kcF9xdWV1ZV9k
-b3duX3R4KG1nciwgdHhtc2cpOwogCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Very little attempt has been made to document these functions.
+
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'ctl' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'pipeline' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'enabled' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Excess function parameter 'enable' description in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'ctl' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'pipeline' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'flush_mask' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'start' not described in 'mdp5_ctl_commit'
+
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+index 030279d7b64b7..b5c40f9773629 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+@@ -213,10 +213,10 @@ static void send_start_signal(struct mdp5_ctl *ctl)
+ 	spin_unlock_irqrestore(&ctl->hw_lock, flags);
+ }
+ 
+-/**
++/*
+  * mdp5_ctl_set_encoder_state() - set the encoder state
+  *
+- * @enable: true, when encoder is ready for data streaming; false, otherwise.
++ * @enabled: true, when encoder is ready for data streaming; false, otherwise.
+  *
+  * Note:
+  * This encoder state is needed to trigger START signal (data path kickoff).
+@@ -507,7 +507,7 @@ static void fix_for_single_flush(struct mdp5_ctl *ctl, u32 *flush_mask,
+ 	}
+ }
+ 
+-/**
++/*
+  * mdp5_ctl_commit() - Register Flush
+  *
+  * The flush register is used to indicate several registers are all
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
