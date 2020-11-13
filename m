@@ -1,75 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B402B3AED
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE8F2B3B1A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:09:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851D889D2E;
-	Mon, 16 Nov 2020 01:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF4E6E9ED;
+	Mon, 16 Nov 2020 01:07:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 178656E544
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 15:32:28 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 827C858032A;
- Fri, 13 Nov 2020 10:32:27 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 13 Nov 2020 10:32:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=LsuWTxJ7U9x4P
- hgEymZ4YeNrqSn3LIwuw+1S4H82KmU=; b=FeZqo58NESPCYhtqN4i13vsP9JZwh
- iIqjWVAx2fGqeZAmOtme+Uv8S6dqxlzOS+Bhc3bxJ6gWv1yxM8l3BulrlSbuCmFB
- yt55vvTyRU0BvjPlBpiVadoT2VH1v0PjdwZOAcaZtQGIqthFSHENVYXmq09V8vG1
- 8F81CDF9jJ+n9rSe3aqyFklwi355ZIcE8nbLd53FqzN+OmLZwXeZNhLuODyOKsm/
- NWrwUydSGLTEgoy/CfyEs6+VmgXI/VG7LFwnPKnRd6FieQtR0kAfqApOoMhFcoen
- NZgDvI8x+Rq05S1VppfWWnrHQ3q2wAUsuBNPi6djDFjmXpS796jXrkHFA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=LsuWTxJ7U9x4PhgEymZ4YeNrqSn3LIwuw+1S4H82KmU=; b=b97p9uE4
- qEkIehQYtbfUPzvOXGBWibakickX3RDRU6olukL5N7WAmsOXop9NauxlrhiiD47L
- 1vIH4BdMD+68QPAMt0svvZskvecOa8wQvVgrN0xuHa9RFdjqUrBB1BM6JOfSf9+Z
- aQEzEfsW3AXqER7n9xn3PJcCpFvdeZhy3Qu7nQ0HcWbnZAvC2trmRHdPaGnvmPs8
- FLSQSHF6qwJ+aqXSNdqjcENUkfg5Ln4duOZlmCHwZVR2EqG6XMtaZiJTzZjnzL8p
- wNqjIcWYHIM/hasiGw/xYFZwdACG2Lu2wvN91zZWpxoz2v9ztv5Sze6mVH+0Aq6u
- jrQbRpSV37H22Q==
-X-ME-Sender: <xms:C6euX4Wp1MA392n8nO0uLgEMOJi64tCWE_r0s0i24qO5UeyLz8xE0w>
- <xme:C6euX8nHaw9aZMeNWip38HU2c5mh6cb7YxtczKtCoz6udtNpLI2v3SbAAAzvz5SSm
- hNgZCEnRNi4rd3ofZU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvhedgjeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepieenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:C6euX8b-DtmPo5wN19yoUsX08hhiFtukYGmLCO98Wh-GDQyf3qxo8A>
- <xmx:C6euX3XKs7teeBdwpvXgEGnaYJYyicJpDKK3iUwZqNJfVXSnAtvOyg>
- <xmx:C6euXykWksl8Cp2VqNfB_HOd_VEcmjXVrIfHOUvyCxlIWUhMPrIO3w>
- <xmx:C6euX39cDQ8o15Xc1WyqvdCDoHxNcjjtCmulSJKCZ6-x5nuI4mhn5g>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 044963064AB3;
- Fri, 13 Nov 2020 10:32:26 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 8/8] drm/vc4: kms: Convert to atomic helpers
-Date: Fri, 13 Nov 2020 16:29:56 +0100
-Message-Id: <20201113152956.139663-9-maxime@cerno.tech>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201113152956.139663-1-maxime@cerno.tech>
-References: <20201113152956.139663-1-maxime@cerno.tech>
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E32486E536
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 15:55:36 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id s30so14529045lfc.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 07:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4/bF4c42U9QIMTb1QGxEpNjGgqxOXHed/9Sju++TrnQ=;
+ b=EmXWyr9gx7KS0zwcEBEAYUaxurDUV3ESqpMaCg9JaE9hKPHdsMyptRiU0PhucAJg57
+ sWNit+5QfNq8tNVIqx46BqCocNtjeJXbt4jKtikifYsjkdUQbLjXrnxr9qkxjgZRyZHq
+ TXlCW0/ciAaZVvMnyVhuZxC2ijNcNkBjiAcv9bDzbBMXnusu37wDsDL7NY0jYqQtA3vp
+ PIgR17yr3IOJzvWiye1+iRzAfcIGWQeDEi+egnXgCSnrSt/IzJcPeOgFOq4e5cJTdOLu
+ hhiAHxxwDWXN0pyDhoMxZJHVC4zrdnmiTI5ssYzWwy6ojWuvzKDNpVu8jf2LV7apAlp+
+ bE+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4/bF4c42U9QIMTb1QGxEpNjGgqxOXHed/9Sju++TrnQ=;
+ b=nNguPPLR2akslQjythvCjJTSMuzzPLfqhehGe8xpIHW96eh+nUKayqGAlMpFBmU2+J
+ 4/BG4sxHezKXmsiOXpB19t9TkxHcTFW5jseSaSYTy6C42ScsgXUPUs8ELSbpOMEFH9Sv
+ ch/2Dv//c/vY4J23PSxC6SpLrYqnPG+ht3a97/Dv60/P98vCm5qIbyJ5gww9z/fcxVt0
+ BvxKvFwuKTLCdniGnyo0+W47PWCN5wZmqPY9W7QLBpDM48ZMEXDor9SBQEdx4BaQoLWW
+ xfuGOoIXJ7AUgrEmbRIk/GVHktQw8tA2t6CsW299B/UD4hKWwsDPb+EGrd+nhKI7ndfJ
+ +Qwg==
+X-Gm-Message-State: AOAM531fFqT21wUg2Lr7TJvjhrey0pVkXEGWrxrLOqFW+iFks/PlCvyO
+ NyfKQAb1Iky0PgHv7E+RiTQ=
+X-Google-Smtp-Source: ABdhPJw1/12loswbdkPkD8Zhl2Yvb+Tjd/1tqW0mRR71ohF0rznxZ7TNEV0H6NcysfGbIqHPuGQf6Q==
+X-Received: by 2002:ac2:5503:: with SMTP id j3mr1281724lfk.94.1605282930190;
+ Fri, 13 Nov 2020 07:55:30 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id v12sm1474128lji.3.2020.11.13.07.55.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 13 Nov 2020 07:55:29 -0800 (PST)
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+To: Mark Brown <broonie@kernel.org>
+References: <20201104234427.26477-12-digetx@gmail.com>
+ <20201110202945.GF2375022@ulmo> <20201110203257.GC5957@sirena.org.uk>
+ <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
+ <20201111115534.GA4847@sirena.org.uk>
+ <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
+ <20201112171600.GD4742@sirena.org.uk>
+ <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
+ <20201112200123.GF4742@sirena.org.uk>
+ <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
+ <20201113142937.GB4828@sirena.org.uk>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
+Date: Fri, 13 Nov 2020 18:55:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
+In-Reply-To: <20201113142937.GB4828@sirena.org.uk>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 16 Nov 2020 01:07:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,189 +81,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
+ Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
+ Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
+ linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Peter Geis <pgwipeout@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the semaphore is gone, our atomic_commit implementation is
-basically drm_atomic_helper_commit with a somewhat custom commit_tail,
-the main difference being that we're using wait_for_flip_done instead of
-wait_for_vblanks used in the drm_atomic_helper_commit_tail helper.
-
-Let's switch to using drm_atomic_helper_commit.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_kms.c | 112 +---------------------------------
- 1 file changed, 3 insertions(+), 109 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 79ab7b8a5e0e..ede5d2b6ac65 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -333,8 +333,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 	}
- }
- 
--static void
--vc4_atomic_complete_commit(struct drm_atomic_state *state)
-+static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = state->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-@@ -357,10 +356,6 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
- 	if (vc4->hvs->hvs5)
- 		clk_set_min_rate(hvs->core_clk, 500000000);
- 
--	drm_atomic_helper_wait_for_fences(dev, state, false);
--
--	drm_atomic_helper_wait_for_dependencies(state);
--
- 	old_hvs_state = vc4_hvs_get_old_global_state(state);
- 	if (!old_hvs_state)
- 		return;
-@@ -408,20 +403,8 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
- 
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
--	drm_atomic_helper_commit_cleanup_done(state);
--
- 	if (vc4->hvs->hvs5)
- 		clk_set_min_rate(hvs->core_clk, 0);
--
--	drm_atomic_state_put(state);
--}
--
--static void commit_work(struct work_struct *work)
--{
--	struct drm_atomic_state *state = container_of(work,
--						      struct drm_atomic_state,
--						      commit_work);
--	vc4_atomic_complete_commit(state);
- }
- 
- static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
-@@ -454,96 +437,6 @@ static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
- 	return 0;
- }
- 
--/**
-- * vc4_atomic_commit - commit validated state object
-- * @dev: DRM device
-- * @state: the driver state object
-- * @nonblock: nonblocking commit
-- *
-- * This function commits a with drm_atomic_helper_check() pre-validated state
-- * object. This can still fail when e.g. the framebuffer reservation fails. For
-- * now this doesn't implement asynchronous commits.
-- *
-- * RETURNS
-- * Zero for success or -errno.
-- */
--static int vc4_atomic_commit(struct drm_device *dev,
--			     struct drm_atomic_state *state,
--			     bool nonblock)
--{
--	int ret;
--
--	if (state->async_update) {
--		ret = drm_atomic_helper_prepare_planes(dev, state);
--		if (ret) {
--			up(&vc4->async_modeset);
--			return ret;
--		}
--
--		drm_atomic_helper_async_commit(dev, state);
--
--		drm_atomic_helper_cleanup_planes(dev, state);
--
--		return 0;
--	}
--
--	/* We know for sure we don't want an async update here. Set
--	 * state->legacy_cursor_update to false to prevent
--	 * drm_atomic_helper_setup_commit() from auto-completing
--	 * commit->flip_done.
--	 */
--	state->legacy_cursor_update = false;
--	ret = drm_atomic_helper_setup_commit(state, nonblock);
--	if (ret)
--		return ret;
--
--	INIT_WORK(&state->commit_work, commit_work);
--
--	ret = drm_atomic_helper_prepare_planes(dev, state);
--	if (ret)
--		return ret;
--
--	if (!nonblock) {
--		ret = drm_atomic_helper_wait_for_fences(dev, state, true);
--		if (ret) {
--			drm_atomic_helper_cleanup_planes(dev, state);
--			return ret;
--		}
--	}
--
--	/*
--	 * This is the point of no return - everything below never fails except
--	 * when the hw goes bonghits. Which means we can commit the new state on
--	 * the software side now.
--	 */
--
--	BUG_ON(drm_atomic_helper_swap_state(state, false) < 0);
--
--	/*
--	 * Everything below can be run asynchronously without the need to grab
--	 * any modeset locks at all under one condition: It must be guaranteed
--	 * that the asynchronous work has either been cancelled (if the driver
--	 * supports it, which at least requires that the framebuffers get
--	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
--	 * before the new state gets committed on the software side with
--	 * drm_atomic_helper_swap_state().
--	 *
--	 * This scheme allows new atomic state updates to be prepared and
--	 * checked in parallel to the asynchronous completion of the previous
--	 * update. Which is important since compositors need to figure out the
--	 * composition of the next frame right after having submitted the
--	 * current layout.
--	 */
--
--	drm_atomic_state_get(state);
--	if (nonblock)
--		queue_work(system_unbound_wq, &state->commit_work);
--	else
--		vc4_atomic_complete_commit(state);
--
--	return 0;
--}
--
- static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
- 					     struct drm_file *file_priv,
- 					     const struct drm_mode_fb_cmd2 *mode_cmd)
-@@ -966,11 +859,12 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 
- static struct drm_mode_config_helper_funcs vc4_mode_config_helpers = {
- 	.atomic_commit_setup	= vc4_atomic_commit_setup,
-+	.atomic_commit_tail	= vc4_atomic_commit_tail,
- };
- 
- static const struct drm_mode_config_funcs vc4_mode_funcs = {
- 	.atomic_check = vc4_atomic_check,
--	.atomic_commit = vc4_atomic_commit,
-+	.atomic_commit = drm_atomic_helper_commit,
- 	.fb_create = vc4_fb_create,
- };
- 
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MTMuMTEuMjAyMCAxNzoyOSwgTWFyayBCcm93biDQv9C40YjQtdGCOgo+IE9uIEZyaSwgTm92IDEz
+LCAyMDIwIGF0IDAxOjM3OjAxQU0gKzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4gMTIu
+MTEuMjAyMCAyMzowMSwgTWFyayBCcm93biDQv9C40YjQtdGCOgo+Pj4+IEJ1dCBpdCdzIG5vdCBh
+bGxvd2VkIHRvIGNoYW5nZSB2b2x0YWdlIG9mIGEgZHVtbXkgcmVndWxhdG9yLCBpcyBpdAo+Pj4+
+IGludGVudGlvbmFsPwo+IAo+Pj4gT2YgY291cnNlIG5vdCwgd2UgY2FuJ3Qga25vdyBpZiB0aGUg
+cmVxdWVzdGVkIG5ldyB2b2x0YWdlIGlzIHZhbGlkIC0gdGhlCj4+PiBkcml2ZXIgd291bGQgaGF2
+ZSB0byBoYXZlIGV4cGxpY3Qgc3VwcG9ydCBmb3IgaGFuZGxpbmcgc2l0dWF0aW9ucyB3aGVyZQo+
+Pj4gaXQncyBub3QgcG9zc2libGUgdG8gY2hhbmdlIHRoZSB2b2x0YWdlICh3aGljaCBpdCBjYW4g
+ZGV0ZWN0IHRocm91Z2gKPj4+IGVudW1lcmF0aW5nIHRoZSB2YWx1ZXMgaXQgd2FudHMgdG8gc2V0
+IGF0IHN0YXJ0dXApLgo+IAo+Pj4gW1JlcXVlc3RpbmcgdGhlIHNhbWUgc3VwcGx5IG11bHRpcGxl
+IHRpbWVzXQo+IAo+PiBCdXQgaG93IGRyaXZlciBpcyBzdXBwb3NlZCB0byByZWNvZ25pemUgdGhh
+dCBpdCdzIGEgZHVtbXkgb3IgYnVnZ3kKPj4gcmVndWxhdG9yIGlmIGl0IHJlamVjdHMgYWxsIHZv
+bHRhZ2VzPwo+IAo+IEl0J3Mgbm90IGNsZWFyIGlmIGl0IG1hdHRlcnMgLSBpdCdzIG1vcmUgYSBw
+b2xpY3kgZGVjaXNpb24gb24gdGhlIHBhcnQKPiBvZiB0aGUgZHJpdmVyIGFib3V0IHdoYXQgaXQg
+dGhpbmtzIHNhZmUgZXJyb3IgaGFuZGxpbmcgaXMuICBJZiBpdCdzIG5vdAo+IHBvc3NpYmxlIHRv
+IHJlYWQgdm9sdGFnZXMgZnJvbSB0aGUgcmVndWxhdG9yIHRoZSBjb25zdW1lciBkcml2ZXIgaGFz
+IHRvCj4gZGVjaWRlIHdoYXQgaXQgdGhpbmtzIGl0J3Mgc2FmZSBmb3IgaXQgdG8gZG8sIGVpdGhl
+ciB3YXkgaXQgaGFzIG5vIGlkZWEKPiB3aGF0IHRoZSBhY3R1YWwgY3VycmVudCB2b2x0YWdlIGlz
+LiAgSXQgY291bGQgYXNzdW1lIHRoYXQgaXQncyBzb21ldGhpbmcKPiB0aGF0IHN1cHBvcnRzIGFs
+bCB0aGUgdXNlIGNhc2VzIGl0IHdhbnRzIHRvIHVzZSBhbmQganVzdCBjYXJyeSBvbiB3aXRoCj4g
+bm8gY29uZmlndXJhdGlvbiBvZiB2b2x0YWdlcywgaXQgY291bGQgZGVjaWRlIHRoYXQgaXQgbWln
+aHQgbm90IHN1cHBvcnQKPiBldmVyeXRoaW5nIGFuZCBub3QgbWFrZSBhbnkgY2hhbmdlcyB0byBi
+ZSBzYWZlLCBvciBkbyBzb21ldGhpbmcgbGlrZQo+IHRyeSB0byBmaWd1cmUgb3V0IHRoYXQgaWYg
+d2UncmUgY3VycmVudGx5IGF0IGEgZ2l2ZW4gT1BQIHRoYXQncyB0aGUgdG9wCj4gT1BQIHBvc3Np
+YmxlLiAgSGlzdG9yaWNhbGx5IHdoZW4gd2UndmUgbm90IGhhZCByZWd1bGF0b3IgY29udHJvbCBp
+bgo+IHRoZXNlIGRyaXZlcnMgc28gdGhleSBoYXZlIGVmZmVjdGl2ZWx5IGdvbmUgd2l0aCB0aGUg
+Zmlyc3Qgb3B0aW9uIG9mCj4ganVzdCBhc3N1bWluZyBpdCdzIGEgZ2VuZXJhbGx5IHNhZmUgdmFs
+dWUsIHRoaXMgb2Z0ZW4gYWxpZ25zIHdpdGggd2hhdAo+IHRoZSBwb3dlciBvbiByZXF1aXJlbWVu
+dHMgZm9yIFNvQ3MgYXJlIHNvIGl0J3Mgbm90IHVucmVhc29uYWJsZS4KCkkgZG9uJ3QgdGhpbmsg
+dGhhdCBpbiBhIGNhc2Ugb2YgdGhpcyBwYXJ0aWN1bGFyIGRyaXZlciB0aGVyZSBpcyBhIHdheSB0
+bwptYWtlIGFueSBkZWNpc2lvbnMgb3RoZXIgdGhhbiB0byBhc3N1bWUgdGhhdCBhbGwgY2hhbmdl
+cyBhcmUgc2FmZSB0byBiZQpkb25lIGlmIHJlZ3VsYXRvciBpc24ndCBzcGVjaWZpZWQgaW4gYSBk
+ZXZpY2UtdHJlZS4KCklmIHJlZ3VsYXRvcl9nZXQoKSByZXR1cm5zIGEgZHVtbXkgcmVndWxhdG9y
+LCB0aGVuIHRoaXMgbWVhbnMgdGhhdApyZWd1bGF0b3IgaXNuJ3Qgc3BlY2lmaWVkIGluIGEgZGV2
+aWNlLXRyZWUuIEJ1dCB0aGVuIHRoZSBvbmx5IHdheSBmb3IgYQpjb25zdW1lciBkcml2ZXIgdG8g
+Y2hlY2sgd2hldGhlciByZWd1bGF0b3IgaXMgZHVtbXksIGlzIHRvIGNoZWNrCnByZXNlbmNlIG9m
+IHRoZSBzdXBwbHkgcHJvcGVydHkgaW4gYSBkZXZpY2UtdHJlZS4KCldlIHdhbnQgdG8gZW1pdCBl
+cnJvciBtZXNzYWdlcyB3aGVuIHNvbWV0aGluZyBnb2VzIHdyb25nLCBmb3IgZXhhbXBsZQp3aGVu
+IHJlZ3VsYXRvciB2b2x0YWdlIGZhaWxzIHRvIGNoYW5nZS4gSXQncyBmaW5lIHRoYXQgdm9sdGFn
+ZSBjaGFuZ2VzCmFyZSBmYWlsaW5nIGZvciBhIGR1bW15IHJlZ3VsYXRvciwgYnV0IHRoZW4gY29u
+c3VtZXIgZHJpdmVyIHNob3VsZG4ndApyZWNvZ25pemUgaXQgYXMgYSBlcnJvciBjb25kaXRpb24u
+CgpUaGUgcmVndWxhdG9yX2dldF9vcHRpb25hbCgpIHByb3ZpZGVzIGEgbW9yZSBjb25zaXN0ZW50
+IGFuZApzdHJhaWdodGZvcndhcmQgd2F5IGZvciBjb25zdW1lciBkcml2ZXJzIHRvIGNoZWNrIHBy
+ZXNlbmNlIG9mIGEgcGh5c2ljYWwKdm9sdGFnZSByZWd1bGF0b3IgaW4gY29tcGFyaXNvbiB0byBk
+ZWFsaW5nIHdpdGggYSByZWd1bGF0b3JfZ2V0KCkuIFRoZQpkdW1teSByZWd1bGF0b3IgaXMgbmlj
+ZSB0byB1c2Ugd2hlbiB0aGVyZSBpcyBubyBuZWVkIHRvIGNoYW5nZQpyZWd1bGF0b3IncyB2b2x0
+YWdlLCB3aGljaCBkb2Vzbid0IHdvcmsgZm9yIGEgZHVtbXkgcmVndWxhdG9yLgpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
