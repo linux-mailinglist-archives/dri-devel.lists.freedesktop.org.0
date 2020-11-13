@@ -1,78 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D692D2B25A7
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 21:39:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9592B25B0
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 21:41:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3ED36E5C3;
-	Fri, 13 Nov 2020 20:39:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972E96E82C;
+	Fri, 13 Nov 2020 20:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B564F6E5C3
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 20:39:38 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id w24so11122855wmi.0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 12:39:38 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22BFB6E82C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 20:41:34 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id o15so11547413wru.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 12:41:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=XWKyPPQcb/AO4HvcVyMm86Eaa/Twuh8I1tqipU5mjZM=;
- b=GN9r9oFngY/SvOuMbZNIzlQ63VYdQzlMSPwL1+bmiJVB7UgUh1Udsp2b7O3eVtHF0+
- 9yObcXMc//LCwL8wimKzjNlEO9uqIAOHPTzKJYrqR/dnoRWBEfmm8YGGTc/R3N54ZYGS
- udDoW9ANgKUsGryqCfbVOynoWh8BTKMSE9ieI=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=L5e4DIZV3VJ4/DZhaxMedvf932BuCNS+uWtVsQlOpwI=;
+ b=XxNPjkbmXf7MCgGcE/QgflUYbsN17qETnpKjYFS9Tmq8Ug+Eh73nfFd9TdzkCf9AE2
+ oXqwEtnOGsYB3/Qkqvm7ruzS2MjUIY3aaFb/sI8NiY9wk+1Z71m9h2JfZmeR80VoBtTg
+ 7iQXDKjWZq5LlUw07orJj+TOP6gH4hHKFOli0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=XWKyPPQcb/AO4HvcVyMm86Eaa/Twuh8I1tqipU5mjZM=;
- b=MQF5TDpDo9ITbVnuiqWam6LEy4T9V7LNKwXsaOHqgryw9vApn0125DNMmc/GMSb9NV
- zA8yrTNCwMHLUp2BdIF2hoZJCugXyuq2t+FjwQBVe5a1dJQ6vUeqSXoC9Jg6XS0o9/ET
- Ks1pfJKavPK63LKojBvRRNRFT0Z+wCDgC3N+fSvEsMTcVgOk5j5Cj6UR8LcPqD29eN0r
- 8yk2s7kppWDraknFltPKJGzk5Tf6JTWyrCSww1Q5L+e+ibG2dPM3IrEehNfcMPbiXx2h
- l0FlVQ0ShEDCRxVS4It3o26w2c8G9yecCAImHKNI9R9M/YdcBADOxEifziF/bTn7Ep4s
- +HFQ==
-X-Gm-Message-State: AOAM530jXiMXWQlWDDtksA7atG4ZflRWZpua3AputSuTtYbFM6MKfJ18
- 8nzcrfxryVSjx1kJpCG8bOmcOQ==
-X-Google-Smtp-Source: ABdhPJyG8uSi7GDgo56uwn/BFw9jLIRvCkgy4SgRpip/q3lvnyuvzlLo15d9SWqKdQqMed8cWB3Pkw==
-X-Received: by 2002:a1c:dc0a:: with SMTP id t10mr4422946wmg.5.1605299977359;
- Fri, 13 Nov 2020 12:39:37 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=L5e4DIZV3VJ4/DZhaxMedvf932BuCNS+uWtVsQlOpwI=;
+ b=Ez9AfQHwBh4gZn/Y118zbTzpwqZg37vUoN0Qjt0eaAvjpmAxpIesYKa/UQIXeVKZxa
+ N41etgGTwd2a7eo0qKNluxHZj1pLjZk7zE7Dp8zTvvAl4adQ2mV/i++mZv0s9JCYLMhT
+ 3vDkxZaNBAPV0U473S+vLg5ot1AXYK2Fv3uJJuaPDqm5z3OyCM54t1zwH47w+mIsW3CJ
+ F4HsZmUvfRrZmuOtfWInTjZbs1F/vxu3X61UQr2UbAlwvG4DoWSTmVbucUByWeMbKXxD
+ LjNzsjaIx45BmrfEt/Cvho3+as4ZHDPneE45H/JZXxMsCq3TBR80y63jp3irLL1emkyI
+ 0Cdw==
+X-Gm-Message-State: AOAM531Nukn4LdxHMxoGE/PYva0zwCIK5hC1CfH1+8Q9djIqqSEjrDEb
+ cFAQrdfcAkiesZb9PTJAA6etbg==
+X-Google-Smtp-Source: ABdhPJy+vZyBmSoL9CBj+APp8QgyaRgbuZ4I7P5mhruXWGfad54Kzai82pflGZdDNk9mmE7+FVR9aA==
+X-Received: by 2002:a5d:4cca:: with SMTP id c10mr5895092wrt.372.1605300092835; 
+ Fri, 13 Nov 2020 12:41:32 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y200sm13494151wmc.23.2020.11.13.12.39.35
+ by smtp.gmail.com with ESMTPSA id o63sm11571531wmo.2.2020.11.13.12.41.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 12:39:35 -0800 (PST)
-Date: Fri, 13 Nov 2020 21:39:33 +0100
+ Fri, 13 Nov 2020 12:41:32 -0800 (PST)
+Date: Fri, 13 Nov 2020 21:41:30 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: John Stultz <john.stultz@linaro.org>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-Message-ID: <20201113203933.GT401619@phenom.ffwll.local>
-Mail-Followup-To: John Stultz <john.stultz@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian Koenig <christian.koenig@amd.com>,
- lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Brian Starkey <Brian.Starkey@arm.com>,
- Hridya Valsaraju <hridya@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sandeep Patil <sspatil@google.com>,
- Daniel Mentz <danielmentz@google.com>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-References: <20201110034934.70898-1-john.stultz@linaro.org>
- <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
- <20201112093237.GS401619@phenom.ffwll.local>
- <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v10 6/6] dma-buf: Document that dma-buf size is fixed
+Message-ID: <20201113204130.GU401619@phenom.ffwll.local>
+References: <1605044477-51833-1-git-send-email-jianxin.xiong@intel.com>
+ <1605044477-51833-7-git-send-email-jianxin.xiong@intel.com>
+ <20201111163323.GP401619@phenom.ffwll.local>
+ <20201112132514.GR244516@ziepe.ca>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+In-Reply-To: <20201112132514.GR244516@ziepe.ca>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -86,102 +67,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
  Christian Koenig <christian.koenig@amd.com>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
- Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+ Jianxin Xiong <jianxin.xiong@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
-> On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
-> > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
-> > > >
-> > > > Hey All,
-> > > >   So just wanted to send my last revision of my patch series
-> > > > of performance optimizations to the dma-buf system heap.
-> > >
-> > > Thanks very much for your patches - I think the first 5 patches look good to me.
-> > >
-> > > I know there was a bit of discussion over adding a new system-uncached
-> > > heap v/s using a flag to identify that; I think I prefer the separate
-> > > heap idea, but lets ask one last time if any one else has any real
-> > > objections to it.
-> > >
-> > > Daniel, Christian: any comments from your side on this?
-> >
-> > I do wonder a bit where the userspace stack for this all is, since tuning
-> > allocators without a full stack is fairly pointless. dma-buf heaps is a
-> > bit in a limbo situation here it feels like.
+On Thu, Nov 12, 2020 at 09:25:14AM -0400, Jason Gunthorpe wrote:
+> On Wed, Nov 11, 2020 at 05:33:23PM +0100, Daniel Vetter wrote:
+> > On Tue, Nov 10, 2020 at 01:41:17PM -0800, Jianxin Xiong wrote:
+> > > The fact that the size of dma-buf is invariant over the lifetime of the
+> > > buffer is mentioned in the comment of 'dma_buf_ops.mmap', but is not
+> > > documented at where the info is defined. Add the missing documentation.
+> > > 
+> > > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> > 
+> > Applied to drm-misc-next, thanks for your patch. For the preceeding
+> > dma-buf patch I'll wait for more review/acks before I apply it. Ack from
+> > Jason might also be good, since looks like this dma_virt_ops is only used
+> > in rdma.
 > 
-> As mentioned in the system-uncached patch:
-> Pending opensource users of this code include:
-> * AOSP HiKey960 gralloc:
->   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
->   - Visibly improves performance over the system heap
-> * AOSP Codec2 (possibly, needs more review):
->   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
+> We are likely to delete it entirely this cycle, Christoph already has
+> a patch series to do it:
 > 
-> Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
-> able to use the current dmabuf heaps instead of ION.
+> https://patchwork.kernel.org/project/linux-rdma/list/?series=379277
 > 
-> So I'm not sure what you mean by limbo, other than it being in a
-> transition state where the interface is upstream and we're working on
-> moving vendors to it from ION (which is staged to be dropped in 5.11).
-> Part of that work is making sure we don't regress the performance
-> expectations.
+> So, lets just forget about it
 
-The mesa thing below, since if we test this with some downstream kernel
-drivers or at least non-mesa userspace I'm somewhat worried we're just
-creating a nice split world between the android gfx world and the
-mesa/linux desktop gfx world.
+I can get behind that :-) Also I realized that even when we need it,
+probably best if you merge it to avoid a partially broken feature in the
+rdma tree. So not my problem anyway ...
 
-But then that's kinda how android rolls, so *shrug*
-
-> > Plus I'm vary of anything related to leaking this kind of stuff beyond the
-> > dma-api because dma api maintainers don't like us doing that. But
-> > personally no concern on that front really, gpus need this. It's just that
-> > we do need solid justification I think if we land this. Hence back to
-> > first point.
-> >
-> > Ideally first point comes in the form of benchmarking on android together
-> > with a mesa driver (or mesa + some v4l driver or whatever it takes to
-> > actually show the benefits, I have no idea).
-> 
-> Tying it with mesa is a little tough as the grallocs for mesa devices
-> usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
-> allocation path for dmabuf heaps there gets a little complex as last I
-> tried that (when trying to get HiKey working with Lima graphics, as
-> gbm wouldn't allocate the contiguous buffers required by the display),
-> I ran into issues with the drm_hwcomposer and mesa expecting the gbm
-> private handle metadata in the buffer when it was passed in.
-> 
-> But I might take a look at it again. I got a bit lost digging through
-> the mesa gbm allocation paths last time.
-> 
-> I'll also try to see if I can find a benchmark for the codec2 code
-> (using dmabuf heaps with and without the uncached heap) on on db845c
-> (w/ mesa), as that is already working and I suspect that might be
-> close to what you're looking for.
-
-tbh I think trying to push for this long term is the best we can hope for.
-
-Media is also a lot more *meh* since it's deeply fragmented and a lot less
-of it upstream than on the gles/display side.
-
-I think confirming that this at least doesn't horrible blow up on a
-gralloc/gbm+mesa stack would be useful I think.
--Daniel
+Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
