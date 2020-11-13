@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34ED02B1C2C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 14:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E833E2B1C2F
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 14:50:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051156E50B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA446E51D;
 	Fri, 13 Nov 2020 13:49:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F05C6E527
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 13:49:51 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id c16so8553751wmd.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 05:49:51 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C0946E51D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 13:49:52 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id o15so9986766wru.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 05:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tTwQDvBtnpWbM0srw/EUqdspNhCuLlcukla9ix/INuQ=;
- b=qrvSVoup3n8u8pYQhoQWokhMcBFhpiN8nyF8qI0HnXLJQlB3KuihkzMOb9FuMYyNKC
- Kwj2BDP1Qxst46LBOeu4iGuvzAo6b7i+r6auLDVQmLv5NWVIfKerRhDn/m21fMAn3nmj
- zcBFB3BAmgebJUsvaamTnF/gmJIY7uP3vEWpNG94/YecvIyHFnYNK0fchgmJcb/79T+g
- FABDe/gxMs5OwehhsHSkiX0/0yrHrd23HLfP36heprsQXK4kWsw5Tzviqg0r1Q3iRi0n
- rr3FS4f6gFsuvX+xsiobwmul2yiHCGgjSYXFlt8grMLJoxtiWDWJRAMm/JXjlfWJaD9E
- 2ggg==
+ bh=vlKk1bN1CES0mgH+wUmCXkMlZA1CVtbOfxEG6y0GM50=;
+ b=OcVFHvgowhYl0ECvQLfpLorqw2RlulROMnX4KA0JdKlQSLv9mVUpHCZi3/3LowHNyd
+ pPbib+JUF/TZx8WcxyO/ewyRBfjMIKS3UtXxxiapN+aLc3DL3tKjsK1RstnLzU6A7OOu
+ raaPYzUHAk9pQHEX8DdhINPQHyXgCWD+EGqFlUaImR9oRRNSCrg3RwlpBO1rA8gRThur
+ 5ufXOxBBG3r/CwQgQ17S2gixxqvFYvcJhY5owIsbOAQnLy+muaiTQpOZiviP7ChJaRsR
+ WQ+DcU7lcgVDScBOZS3SuTdJr7c9G5qztri+ctAZ9PmmnfGvXcyuvz22sG4Ynfu8k5ZR
+ rg3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tTwQDvBtnpWbM0srw/EUqdspNhCuLlcukla9ix/INuQ=;
- b=TWnUChEjPjeGUeOPhQP6Tzu1B1b9y61HFOGWjevb29t76Oy2A7LQrh8IQg4+f/cdav
- Mimu2EcSeUDpA3wfZqTUHDNqoR1iEW1yR628meMa4Oh9rlK3tCeFaB3WYmEW7zu3oTYN
- 7inxiPTaYUV/qfFOzbUE8SCpqoTPZ80UIJL2J6bck278iyQ+dJHZYqoiNEGh2pqV9OGr
- DBCqX/a9Jv8aA/8erKGDz4YcILS7zEKRSWkxSfXX8xokuTogRqQDOBO8oei+Diu4KV7n
- bw/FeAj3Xs8fkPtwEH60Wkdx8V2CPrzcMlQ3WHdtek+vIzj9yFcXbUTZdbqEUT2JHzqw
- oKZQ==
-X-Gm-Message-State: AOAM5314h/eY8PL4ubevoW9j8YhdzHi9bMUml3v/r5EEVOd/VAwZW4xm
- EVBAhA4u1GpXzNM5eaTiBeGoPg==
-X-Google-Smtp-Source: ABdhPJxYu/+Qfz9qKiqyhGPZDZs5SaWMLz8YE94+9v1Zkz2nvsz0yFKLHotBNMpb1aJZChOAMHP7JA==
-X-Received: by 2002:a7b:c308:: with SMTP id k8mr2620978wmj.76.1605275389843;
- Fri, 13 Nov 2020 05:49:49 -0800 (PST)
+ bh=vlKk1bN1CES0mgH+wUmCXkMlZA1CVtbOfxEG6y0GM50=;
+ b=fUI17zldREopI8WUJz0O0+IML61Mql3We/eCFwmcOnMRxeUPpkWT6NyaUT+7+XxrZN
+ +f93R1GcYAygJF2cc1LiYnTE6RjJnUSRHuXDMfal1xIs6svp73xnl1Bgp5omWmrS/Ld7
+ i8N3zMJ8orces95HqncV4BcwuWNFNrOYtS2v19CXKToGaLcFFXEM9oY/QpshrKgNmhrj
+ GZXPaq1Kl9sjyQKiRHX3nNLVAwy6qiCCt+tX5Ke1oHgFUTMrVAI/kU4nyt6oUXNSLTrf
+ SXAEMaSj/8bxBbtoIetOPqsNRleH2ZVXKLP28ZzBUq7/j9/df0MQBD5IrFe8kNyafh2+
+ PjWA==
+X-Gm-Message-State: AOAM5303XTLW0CsFzRh9ndHiHtjBAfMq7eqeaXLiRF/Vhab/aYW2p02V
+ RRQMVXKYLVEuuxiMBjD2oWyW3w==
+X-Google-Smtp-Source: ABdhPJyXHSTj58kWv9AHJ2Kd4IYB+cK8mVPoSovQ0Eu/M93IyXpZFI4npYQc9WOZVFn6vm9pr1K9Lg==
+X-Received: by 2002:adf:ead1:: with SMTP id o17mr3629612wrn.396.1605275391038; 
+ Fri, 13 Nov 2020 05:49:51 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.49.48
+ by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.49.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 05:49:49 -0800 (PST)
+ Fri, 13 Nov 2020 05:49:50 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 06/40] drm/msm/adreno/a6xx_gpu: Staticise local function
- 'a6xx_idle'
-Date: Fri, 13 Nov 2020 13:49:04 +0000
-Message-Id: <20201113134938.4004947-7-lee.jones@linaro.org>
+Subject: [PATCH 07/40] drm/mediatek/mtk_disp_rdma: Fix formatting and supply
+ missing struct member description
+Date: Fri, 13 Nov 2020 13:49:05 +0000
+Message-Id: <20201113134938.4004947-8-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201113134938.4004947-1-lee.jones@linaro.org>
 References: <20201113134938.4004947-1-lee.jones@linaro.org>
@@ -67,34 +67,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL21zbS9hZHJlbm8vYTZ4eF9ncHUuYzozMzo2OiB3YXJuaW5nOiBubyBwcmV2aW91
-cyBwcm90b3R5cGUgZm9yIOKAmGE2eHhfaWRsZeKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCgpD
-YzogUm9iIENsYXJrIDxyb2JkY2xhcmtAZ21haWwuY29tPgpDYzogU2VhbiBQYXVsIDxzZWFuQHBv
-b3JseS5ydW4+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBsaW51eC1hcm0tbXNtQHZnZXIua2VybmVsLm9y
-ZwpDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogZnJlZWRyZW5vQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmMgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jIGIvZHJpdmVycy9ncHUv
-ZHJtL21zbS9hZHJlbm8vYTZ4eF9ncHUuYwppbmRleCBmY2IwYWFiYmM5ODUyLi4wM2MyZjdlMGM5
-NDk3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2FkcmVuby9hNnh4X2dwdS5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vYWRyZW5vL2E2eHhfZ3B1LmMKQEAgLTMwLDcgKzMwLDcg
-QEAgc3RhdGljIGlubGluZSBib29sIF9hNnh4X2NoZWNrX2lkbGUoc3RydWN0IG1zbV9ncHUgKmdw
-dSkKIAkJQTZYWF9SQkJNX0lOVF8wX01BU0tfUkJCTV9IQU5HX0RFVEVDVCk7CiB9CiAKLWJvb2wg
-YTZ4eF9pZGxlKHN0cnVjdCBtc21fZ3B1ICpncHUsIHN0cnVjdCBtc21fcmluZ2J1ZmZlciAqcmlu
-ZykKK3N0YXRpYyBib29sIGE2eHhfaWRsZShzdHJ1Y3QgbXNtX2dwdSAqZ3B1LCBzdHJ1Y3QgbXNt
-X3JpbmdidWZmZXIgKnJpbmcpCiB7CiAJLyogd2FpdCBmb3IgQ1AgdG8gZHJhaW4gcmluZ2J1ZmZl
-cjogKi8KIAlpZiAoIWFkcmVub19pZGxlKGdwdSwgcmluZykpCi0tIAoyLjI1LjEKCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:66: warning: Function parameter or member 'ddp_comp' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:66: warning: Function parameter or member 'crtc' not described in 'mtk_disp_rdma'
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c:66: warning: Function parameter or member 'data' not described in 'mtk_disp_rdma'
+
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+index e04319fedf463..d46b8ae1d0800 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
+@@ -56,8 +56,9 @@ struct mtk_disp_rdma_data {
+ 
+ /**
+  * struct mtk_disp_rdma - DISP_RDMA driver structure
+- * @ddp_comp - structure containing type enum and hardware resources
+- * @crtc - associated crtc to report irq events to
++ * @ddp_comp: structure containing type enum and hardware resources
++ * @crtc: associated crtc to report irq events to
++ * @data: local driver data
+  */
+ struct mtk_disp_rdma {
+ 	struct mtk_ddp_comp		ddp_comp;
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
