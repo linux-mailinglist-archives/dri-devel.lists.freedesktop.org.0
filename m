@@ -2,72 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A22B174C
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6C42B1753
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 09:38:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D40A6E44B;
-	Fri, 13 Nov 2020 08:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 829576E45D;
+	Fri, 13 Nov 2020 08:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6BE96E456
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 22:37:04 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id r9so10908896lfn.11
- for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 14:37:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0qni2M87D+g89wV73PaUfeJOYq05vtoVkWdsLrYHeyg=;
- b=kdYppoKFHiS9XKa3FhxlKioia9DpxhoAMnLvX3xxwUDyqIiDJ3HHl3IBW6p/6Hppgr
- R1rrlU57Zy6cPF2EoCyeH+Vj7DtGbdUur/qeOJ5iivsuZWhBfoFYLANqy8A0ZN/hIbOC
- hzMjgk+HOAKRJgwRKfqTFbsQQCm6O1j9Mk2vhjV5UCip2XhLqD1SR0a/iBKgVIIdZ89E
- BYwaMCRnu8T3dfsnrarFGvnrKog6t/XXpNu/IZPXfANecW0enI19tvf+dIatOgQDZ7OK
- TcsqlEJ0qKXLVGEQoZ/auOTRSu/cyJMRmB++w+tQm6Fjk+QGvmxT/rVGMvqP4kLUagKK
- crgg==
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
+ [IPv6:2607:f8b0:4864:20::844])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9F06E284
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 00:30:39 +0000 (UTC)
+Received: by mail-qt1-x844.google.com with SMTP id v11so5571777qtq.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 16:30:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=VAUTqaRdYriL9ikCRyVwcZhWWf8pr98Y/t+SUiAJzpQ=;
+ b=OFwmO73kjrLq0BTbsquDWMAHhUunDpspnVxYzG0hKspTPGPEwchpFJalE4CVxdq/6N
+ hntAyBrWm0lED/RAeNlq5qKcuzUtjaHx3gqLpZ/rY2M785ZpAxxk22r7lseJfmoEC4Kl
+ ymj0FWovEzLaSvIjoKjUtXNz1D7X4F0Fno+HVMxg7I5SVvuBmCg5vugsxOJ4Mkc6YGeb
+ ENlF+JYCqb5dJvwf9SnTndBID73lQMysH1HblCef8scatZgKoUkI0tHJSMxRlOZlEOSd
+ Q/IVryXvSzQxBs3749Ljycf6rRwxNa8djZ/CEljOeYcqw3rAsqrXtB1NDllYBrr3lSoR
+ sKeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0qni2M87D+g89wV73PaUfeJOYq05vtoVkWdsLrYHeyg=;
- b=kpM3FkgP8JtYm40t07jChCKtpsX1pudTO70EbYzjIlwV3eVvMtt/QxyS2P9TSofknW
- AABEvulX8DL2u4pia/dj4mnIuBQmQy7AkYKZ1i4/N2P0Ua7s/NqjQx7hxjV0T8x/YZYI
- OA/JDzOvAHoyyXcXDriEZRtIhTyTi0ntz8MFGccxmX1/ExaeNi8QlNe5VAH4NXCZ/2O5
- +mW9rufPMxCNZpY7MOLmX++gAF4nEwTlUADImAry7c2eqoLRwOKPdHD78YmfvRwC9FEx
- nYLbJovXe4REEKw7ZGy9MaNTzl/Mq80cs2CSHj8/itMQPsKLJDh0bSPOnmg3F0vNzvFY
- yPdA==
-X-Gm-Message-State: AOAM5300AGCBuDGVdlDXK2F6Xi65WoHeYdGmi81Sy4Dxf3nodYd7bR4E
- PxFrBfW2Y2gV75x2G0MEaWI=
-X-Google-Smtp-Source: ABdhPJz14sMvD+lHcp3Whn12ApfHxx9o6IGlXRIpcfSRQR0C4MBfRBbzrGgqZKxBnQTJLRiZ9wpHOA==
-X-Received: by 2002:a05:6512:3312:: with SMTP id
- k18mr654537lfe.403.1605220623351; 
- Thu, 12 Nov 2020 14:37:03 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id 1sm981505lfi.263.2020.11.12.14.37.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 12 Nov 2020 14:37:02 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To: Mark Brown <broonie@kernel.org>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
- <20201110203257.GC5957@sirena.org.uk>
- <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
- <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
- <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
-Date: Fri, 13 Nov 2020 01:37:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VAUTqaRdYriL9ikCRyVwcZhWWf8pr98Y/t+SUiAJzpQ=;
+ b=cdIdQofYxQG7UmcF211FeNVEP9Mgn/HlIL4Pbnt3ipcCwnrQG+olqjofwkcO94T3nM
+ CltpguifKSY+49ba1O9tZARUEzDROEnfH7MNXvwlIkrVG78EaQrdTUjg4htNCewy4Vhr
+ ZLT4tbyapo4UVrls1DEVIP89bjXuDk3UcTkMW/7rs1b5N/gQ6fr0GTGxGxauRqVyyv9d
+ oOFm2XMixCdo0IwP9RqUHSheJCbLWPN1o6rOFiY2cZEZ3H44J38LVz8RG9MUH7bRfYm6
+ 7klbobg4iYXXF0uHmVZKMTG/Qcj5DZbflEHfDUL9LYuf0HcozahhEik7/ankK2rV/GGF
+ NPxA==
+X-Gm-Message-State: AOAM531f3mVzkrzyZRz+MZYJIkbkFTBWpZcZlUNgezhfWu12ZC8v9bJI
+ BF6EUrm7OsU/6qPh3d6A2hSh4g==
+X-Google-Smtp-Source: ABdhPJyqkJZqj9tYMcUaitD2/SN0Z1DZJXYlAje/elLKwN4YiBqOPqIwise8iROhXPOy1oeUtklPAA==
+X-Received: by 2002:ac8:c02:: with SMTP id k2mr1892470qti.189.1605227438686;
+ Thu, 12 Nov 2020 16:30:38 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id x24sm1703606qkx.23.2020.11.12.16.30.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Nov 2020 16:30:37 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kdMz7-004CTI-A4; Thu, 12 Nov 2020 20:30:37 -0400
+Date: Thu, 12 Nov 2020 20:30:37 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Jianxin Xiong <jianxin.xiong@intel.com>
+Subject: Re: [PATCH v10 1/6] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201113003037.GY244516@ziepe.ca>
+References: <1605044477-51833-1-git-send-email-jianxin.xiong@intel.com>
+ <1605044477-51833-2-git-send-email-jianxin.xiong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201112200123.GF4742@sirena.org.uk>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <1605044477-51833-2-git-send-email-jianxin.xiong@intel.com>
 X-Mailman-Approved-At: Fri, 13 Nov 2020 08:38:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,36 +73,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTIuMTEuMjAyMCAyMzowMSwgTWFyayBCcm93biDQv9C40YjQtdGCOgo+PiBCdXQgaXQncyBub3Qg
-YWxsb3dlZCB0byBjaGFuZ2Ugdm9sdGFnZSBvZiBhIGR1bW15IHJlZ3VsYXRvciwgaXMgaXQKPj4g
-aW50ZW50aW9uYWw/Cj4gT2YgY291cnNlIG5vdCwgd2UgY2FuJ3Qga25vdyBpZiB0aGUgcmVxdWVz
-dGVkIG5ldyB2b2x0YWdlIGlzIHZhbGlkIC0gdGhlCj4gZHJpdmVyIHdvdWxkIGhhdmUgdG8gaGF2
-ZSBleHBsaWN0IHN1cHBvcnQgZm9yIGhhbmRsaW5nIHNpdHVhdGlvbnMgd2hlcmUKPiBpdCdzIG5v
-dCBwb3NzaWJsZSB0byBjaGFuZ2UgdGhlIHZvbHRhZ2UgKHdoaWNoIGl0IGNhbiBkZXRlY3QgdGhy
-b3VnaAo+IGVudW1lcmF0aW5nIHRoZSB2YWx1ZXMgaXQgd2FudHMgdG8gc2V0IGF0IHN0YXJ0dXAp
-Lgo+IAo+IFtSZXF1ZXN0aW5nIHRoZSBzYW1lIHN1cHBseSBtdWx0aXBsZSB0aW1lc10KCkJ1dCBo
-b3cgZHJpdmVyIGlzIHN1cHBvc2VkIHRvIHJlY29nbml6ZSB0aGF0IGl0J3MgYSBkdW1teSBvciBi
-dWdneQpyZWd1bGF0b3IgaWYgaXQgcmVqZWN0cyBhbGwgdm9sdGFnZXM/Cl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Nov 10, 2020 at 01:41:12PM -0800, Jianxin Xiong wrote:
+> +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
+> +				   unsigned long offset, size_t size,
+> +				   int fd, int access,
+> +				   const struct dma_buf_attach_ops *ops)
+> +{
+> +	struct dma_buf *dmabuf;
+> +	struct ib_umem_dmabuf *umem_dmabuf;
+> +	struct ib_umem *umem;
+> +	unsigned long end;
+> +	long ret;
+> +
+> +	if (check_add_overflow(offset, (unsigned long)size, &end))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (unlikely(PAGE_ALIGN(end) < PAGE_SIZE))
+> +		return ERR_PTR(-EINVAL);
+
+This is weird, what does it do?
+
+> +
+> +	if (unlikely(!ops || !ops->move_notify))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	umem_dmabuf = kzalloc(sizeof(*umem_dmabuf), GFP_KERNEL);
+> +	if (!umem_dmabuf)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	umem = &umem_dmabuf->umem;
+> +	umem->ibdev = device;
+> +	umem->length = size;
+> +	umem->address = offset;
+> +	umem->writable = ib_access_writable(access);
+> +	umem->is_dmabuf = 1;
+> +
+> +	if (unlikely(!ib_umem_num_pages(umem))) {
+> +		ret = -EINVAL;
+> +		goto out_free_umem;
+> +	}
+> +
+> +	dmabuf = dma_buf_get(fd);
+> +	if (IS_ERR(dmabuf)) {
+> +		ret = PTR_ERR(dmabuf);
+> +		goto out_free_umem;
+> +	}
+> +
+> +	if (dmabuf->size < offset + size) {
+> +		ret = -EINVAL;
+> +		goto out_release_dmabuf;
+
+offset + size == end, already computed, in fact move this above the
+kzalloc
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
