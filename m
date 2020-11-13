@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5E92B3AE8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123602B3AE2
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:07:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8B5D89D30;
-	Mon, 16 Nov 2020 01:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7A1489CE0;
+	Mon, 16 Nov 2020 01:07:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86BE16E527
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 15:29:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20E986E53C
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 15:32:22 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id CDDDC5804E5;
- Fri, 13 Nov 2020 10:29:01 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 13CB458032A;
+ Fri, 13 Nov 2020 10:32:19 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 13 Nov 2020 10:29:01 -0500
+ by compute6.internal (MEProxy); Fri, 13 Nov 2020 10:32:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:content-type:mime-version
  :content-transfer-encoding; s=fm1; bh=7Zmgsv4bn6m3O58vV2b3+wNJJw
- TAQp+Lmd3f32mWRH4=; b=WRPfIfSHGU3sAl1UCiB9Aa75i4yfD2u10zYRTYeRvF
- fCwWwGiWM6xYxRSbFNhySqG4W5ItSVQBzgI2e62eyoU7K+0tQKyeuFXcvVNrFu6X
- jfuqjZPiKHU9NjUHK0W2+zVk4Cg6hVeR5cXpwPpmBTBGp0tlizMYhPRZNm4r/mJA
- hNLbbKvg/UUfDzS4FasWpvzgmvwOZNBTMFZFgpuz4j6dVmimjhYFZAypdslmIanl
- gGt/AvChh8FqEeIuSSlCWIqb7xK5+jbl59xkvNBGfaL9QCvbzSakAJaq8CR447BC
- R9sAALqQ7iNQNRIgYmUVN6scj3X7pd7dEVvANHDCXETA==
+ TAQp+Lmd3f32mWRH4=; b=iKwpJqWWdMUWEN685FlV3gicMdrsWD9Lfg0cy0OB4F
+ uJNz8P4rIL8+h9xnDvVJ4Vtt+iWfRxXO6AaG38+5A6zLgmC5xP+OwaqcaMNj0bqn
+ /zGmeTWGkNbGNpzANZsmGhUkbTZp2ZkK5fdsKvLeATkmFJhWh47E9ycIRP1kPRwE
+ gMJeo/VSgIFQJunZbEj+4viPnoM0Gesd/LZxNbBIRnHdxcd9qcqe1EjkbTSp8sWj
+ 4bu8MjmVpfIcmAN9aTYL16j6ibldN8tw98yOZwaW6BNkOOSsy4vfgEUd46CmMD1s
+ gvd2TA1PHWH1Wa6DpOIKvz7wUAGdbcX/6NC9hQit6biQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:message-id:mime-version:subject:to:x-me-proxy
  :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7Zmgsv
- 4bn6m3O58vV2b3+wNJJwTAQp+Lmd3f32mWRH4=; b=GsQS8GfFe9tTtDUOvyR8j1
- CUl73cMBGvjtsyGxZXOPLNWpe8yWBLTFInxb7Q15/C0Eu4kwOXRW91gg6VQzDh/d
- bqpt5ezxpYaceEkMRNMYcU+CyBse7sUHR3QwwBg14FrSFHuG7VIDGhR33ztmaHhN
- Qt3/NbgisTxb31kpmT0aMyVBav3PmyiM+uFnfV+5vOEyf5fqzGjUpUbh/8Vnq4kP
- +28rTYXS88M/XemrJF+fnuB8nxIyVt39B+0s4uuWQ0LHQt1Uiqjm69AAJ9pZHW0c
- yMrBSBRwGMdocpSvAFBVzMVAJRZ2VE0osFE6Nq6IRzFYUGKKFRcRYa1fDzNlGeCA
+ 4bn6m3O58vV2b3+wNJJwTAQp+Lmd3f32mWRH4=; b=CVIXaz06R0qdepac6VfUAA
+ 2zpKqKpJu+SFoq0b9dO+LK8yk6DB5UEG0EC+tBWja6/E3NY2QuDFllqYtmD9+Wcr
+ H4OXFatu08gnmFgvxHzj3j5riKrFPHFwQ48vD5VtEuX2Ou5Qg75FCx2ZJKkuzjPc
+ nJgJT/Nw1svD3penLAjwKgo1skQE9RhTd1PG9sfdBTY87xw5CvACxWmCzMRpH8DP
+ 9ArdhDsGd09989ldJbpggDMyzYA5fRuqsYEzT+y9O8g8DEgWCRkym1Sgq5gNt2N/
+ aQsSbuSshUXI7ZXT86RDp1kmQTfDyxKK8hHdF4CFXH4FcmF+mWOYlT2Q2G5IJ2mw
  ==
-X-ME-Sender: <xms:PaauX_ynIF1AXkZWYi8onJZduqoYyJxOdfCk9koLRAiRc3NAoYw38A>
- <xme:PaauX3QKGqpZ-tVSCoQBn3Gtruaw5HEdOh40TeK4hZ3shOvHDxo7vKGjYtT9YnrzT
- 7JawkDuXCEfXJUx3Ho>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvhedgjeeiucetufdoteggodetrfdotf
+X-ME-Sender: <xms:AaeuX8tqKDUZ2ts1s1GKLzLlaQYMUC1qKIqYQpmbrJ8hE7nd6N6N1A>
+ <xme:AaeuX5f2Qbd7FM4_4ujycFqfM7mirLLFud3sqgZP3iQ-yeuoFfcjA4aTmgqy-R807
+ 3ilXKPczbV3xDa1GG8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
  ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
  gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
- feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedunecurf
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
  grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:PaauX5UDywQ6NThDLcN6QC_H2wWq7fC0nJi1gCkKtfzh-krURrANXQ>
- <xmx:PaauX5jQ5zcx0t8Kbc8fZRdpLP9EAwJw4ZuNJ00MabZSjmBfmt5i1A>
- <xmx:PaauXxAlgGvGJkR-qNpXTQgTLXvVMVb9yGKkAO9Sc8Qy_etIxIyiqQ>
- <xmx:PaauX5ZWnq8AsQ4tEY4EOmZ8vgvQFxsBF4354ZrK_YDlQXDeCdzvSg>
+X-ME-Proxy: <xmx:AaeuX3wANoeftHijL3xRCa9kjxqRdQyTcF-L52Ca5U_DC7-TOdv05A>
+ <xmx:AaeuX_MIoVUHHtnbwhP8R5PMWFgC6d68RrSVC3YXYMODAj3uCuV_1w>
+ <xmx:AaeuX8_l4llH0S6Z_z0-1Rwf_H1ZpJBPJtBYQC2EnU6XFWBsj2Ogqg>
+ <xmx:A6euXwXOmjTlvVIMuZzrb-2kyQ4xRiJEAw3NNLbDYMr7DUXv6FSmpg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 401313064AB4;
- Fri, 13 Nov 2020 10:29:01 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 58BA43064AAA;
+ Fri, 13 Nov 2020 10:32:17 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>,
@@ -64,8 +64,8 @@ To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
 Subject: [PATCH 0/8] vc4: Convert to drm_atomic_helper_commit
-Date: Fri, 13 Nov 2020 16:28:51 +0100
-Message-Id: <20201113152859.139335-1-maxime@cerno.tech>
+Date: Fri, 13 Nov 2020 16:29:48 +0100
+Message-Id: <20201113152956.139663-1-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 16 Nov 2020 01:07:21 +0000
