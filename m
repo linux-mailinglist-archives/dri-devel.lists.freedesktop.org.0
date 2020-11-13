@@ -2,68 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E3A2B2270
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259A12B227A
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 18:31:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC9576E7D0;
-	Fri, 13 Nov 2020 17:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45F176E7D2;
+	Fri, 13 Nov 2020 17:31:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 874E36E7D0
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 17:30:50 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k2so10817083wrx.2
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 09:30:50 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DAFF6E7D2;
+ Fri, 13 Nov 2020 17:31:38 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id j7so10792317wrp.3;
+ Fri, 13 Nov 2020 09:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=qAKJ7TwoChqeZBLMQoBMbmM9XX5w5Hp69XXsCD1sl0k=;
- b=m5Hrf+ya8uk/ZDLWjNk/Qb9WFvBqnX5SS2p4ZSdJO3UoeD+a31Lkx0t4NSqJTPDxsh
- vlz06gKzCqU7hhUemytFzmSGBQFpQXoSrgl41XnRMIp+oR/pUjvAhPWjaK+eCe+LHmkf
- iFBtXmn6Mga5H9oNIrX7awc/DzZGJGzxXUzGr1rtrS2ibqIJVAWQxLU7mLlegc3idX81
- IF0M9WqrHPBx4yU37iUtjLx0kkh/yLPANaX8QyFvogLnBGrWiB7AwA+zGas8nMBXT39J
- 7FEK2w9mCrgXx6ApT4+SNqdvQUxLUEpdyn/PfKRgwCXhVopss0mWlSYMxxL4NqDMasDJ
- L46w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+G+14q8YUvn+nruogBy+Fa8GXZYTPJ311fBa+8TxG4c=;
+ b=dLz0dUSglk70LgwaLtsTdNr0UcSubDx/QFF+F42FELFOFWVwito1w+srckTdXvWa1b
+ 9PuhrbzweAyjV3nkp5pbYt4eHhqrMfqmclGzTIOPbgMSXVen2j+HxfYG5aGea0yzeape
+ JSPtRbLOvcxUeSD7IJkzNtyFclrel5ZVqITBanoazCE63IxocyjsKjSuRTrUoW/SYpjp
+ BcMk5QbexXsgAImApDe+fw54aB7THChiHIR/IQQbDPMy3/+24lAmlgZhPB10z2Nb2fIj
+ kXl4aq3UVQukLch3zLRz4U9Wog2BJ+xVVI3cQFJ0el9I1SMuCAe8aDKsF/HNHqBkCRBK
+ JaLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=qAKJ7TwoChqeZBLMQoBMbmM9XX5w5Hp69XXsCD1sl0k=;
- b=LReV5nrGBChMYL+5dOogeCKH6+DCgY2zHPBAdtXBa7pYdACbhFMtqvGbZq7Gk9Arba
- RRZ9/Q1D4Chh87CcF8X8ihUMPeG4o1yqNPo1ABw4Kw+jMyhs3RX/f3tLo6nQLzzcAji+
- DgjcZYJIXW7QS8o5ngCVjB8fTdea+snXlFOqJi7E5G10W7/YT4vFIzuLU4G6ci0tACyR
- T2c4xQ07ST0rvWF2rHshqUDHOWK8jzOpNNGSIACEpgA8exuMf44VbgN9KWX/lb+0wLeD
- 6cq+585WvKFbLhY6NBtj0AnuDLOV1t0cFcEfjutN52WMbTuRFamxCY5pW+sJtnILZl2i
- jnSA==
-X-Gm-Message-State: AOAM530rOtTp2d2ugle/robJtpZA/adSFYDzuWib0AtErwqzNTu7VS/X
- TdlRPwnsgGUuVmQkAVIZcFA=
-X-Google-Smtp-Source: ABdhPJyly/fEY0RISPIA2Yzc/s7BqhLGrGcGrdhxk5p24fEi1AwvN6XH6teLHXDuHH4to1aR9BMk0w==
-X-Received: by 2002:adf:f2d1:: with SMTP id d17mr4787992wrp.339.1605288645123; 
- Fri, 13 Nov 2020 09:30:45 -0800 (PST)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id g66sm10826225wmg.37.2020.11.13.09.30.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 09:30:44 -0800 (PST)
-Date: Fri, 13 Nov 2020 18:30:42 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-Message-ID: <20201113173042.GA1416567@ulmo>
-References: <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
- <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
- <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
- <20201113142937.GB4828@sirena.org.uk>
- <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
- <20201113161550.GC4828@sirena.org.uk>
- <3beaa12b-4a50-a3b6-fc43-ebb5ce7a8db7@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+G+14q8YUvn+nruogBy+Fa8GXZYTPJ311fBa+8TxG4c=;
+ b=tdC2JfHn9fYC7xyTIy0zsacimbPRBC7ITMYBblKTL9AcdDYqRxix6s2E3ygmiQg9K+
+ wWwhkenIgbfd0Fq/IxGTW8HmdQ+J58BIDUWqSMRlvx83m81XDgPnwJA80t2UduICGTO/
+ VLGUc9iEWR2Q7+pRomwxYuNKCerSivNylWx+2pfkvV05Dgg+3h1WM3lVv8qjkLj8hpgU
+ DQqpQc9PzipURO05xxK8rHUS0uMrsyCRKsx8y6X0FoTZ+sPYGQFd8M+xFPJ4I0gDaIgb
+ Sd/yluB7mcm7gLBstmZooPOx7kcC9tQ/EVkJiRjhsXc1fkfn/hSvVd0ISFISK7oZEAiK
+ ERcQ==
+X-Gm-Message-State: AOAM530a1kydeOttSvYSTlHn0egH/tIkEJR+10IIwYnNOItxYqm24XV3
+ hQlSaeHxGnhEViZa7eQSMpGWc1YfBV+wCZlJDDY=
+X-Google-Smtp-Source: ABdhPJxieS2jBm9uX3ulJWqz1FwN7GdeITsiOeyV4/OGv+n//yk+djKhaADCQOXe7MnngwXK1i4XVzQp5ThOct8A5V0=
+X-Received: by 2002:adf:8028:: with SMTP id 37mr4704368wrk.111.1605288692175; 
+ Fri, 13 Nov 2020 09:31:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3beaa12b-4a50-a3b6-fc43-ebb5ce7a8db7@gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+References: <20201113134938.4004947-1-lee.jones@linaro.org>
+ <20201113134938.4004947-31-lee.jones@linaro.org>
+In-Reply-To: <20201113134938.4004947-31-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 13 Nov 2020 12:31:20 -0500
+Message-ID: <CADnq5_MbwDAwXXzVC-FOcLwzDNXzS4SzYiEUYbBw2Kh8u+6oEw@mail.gmail.com>
+Subject: Re: [PATCH 30/40] drm/amd/amdgpu/amdgpu_vm_cpu: Fix
+ 'amdgpu_vm_cpu_prepare()'s doc-rot
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,96 +63,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- devel@driverdev.osuosl.org, linux-samsung-soc@vger.kernel.org,
- Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
- Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
-Content-Type: multipart/mixed; boundary="===============0686219700=="
+Cc: David Airlie <airlied@linux.ie>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0686219700==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="/04w6evG8XlLl3ft"
-Content-Disposition: inline
-
-
---/04w6evG8XlLl3ft
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 13, 2020 at 08:13:49PM +0300, Dmitry Osipenko wrote:
-> 13.11.2020 19:15, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Fri, Nov 13, 2020 at 06:55:27PM +0300, Dmitry Osipenko wrote:
-> >> 13.11.2020 17:29, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >=20
-> >>> It's not clear if it matters - it's more a policy decision on the part
-> >>> of the driver about what it thinks safe error handling is.  If it's n=
-ot
-> >=20
-> >> If regulator_get() returns a dummy regulator, then this means that
-> >> regulator isn't specified in a device-tree. But then the only way for a
-> >> consumer driver to check whether regulator is dummy, is to check
-> >> presence of the supply property in a device-tree.
-> >=20
-> > My point here is that the driver shouldn't be checking for a dummy
-> > regulator, the driver should be checking the features that are provided
-> > to it by the regulator and handling those.
->=20
-> I understand yours point, but then we need dummy regulator to provide
-> all the features, and currently it does the opposite.
-
-But that's exactly Mark's point. Any regular regulator could be lacking
-all of the features just as well. If the regulator supports a fixed
-voltage, then it's not going to allow you to set a different one, etc.
-The point is that the regulator consumer should then be written in a
-way to deal with varying levels of features.
-
-Thierry
-
---/04w6evG8XlLl3ft
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+uwsAACgkQ3SOs138+
-s6FEqg/7BuzFJ1sX7bRgYRZjoDzKXaUKc1UwVAiVGIXMfUo2HYHZuLvsM4WW6T7j
-TvFreTHeHVITpR5EDUhi5MfJfqdg80+N4CJrSj/1Qh6iSpggU6hraOo5C4TgFTta
-IrumC4rAUId2NhbOWKEeRgMjjaeree5rrZlRT1Taa/3cuuV5NILZHhNg7dR2Sogk
-NdDnFVT7PN4CUU5TE35mt4HqImPBWxGJIgM5m4UDjlyBw3HpemIC3snQJm+gF8Wc
-hZBfS8zmdXLPcmGvetFkD/wUyssczePaGr6x5ynLefvJpCzMXGUy5bQAjLyIVg7N
-d4Qi7ig0eaQn1ghFvABLnsXuSm2Jiu2ZBbu88T3Tse6aor/N+7B1nVEoNFRUs33f
-CyMCGN6vIcTjd5/b+8C5icKovj4vtPKQTR75cYLsmVGEAlrAiiccbZ3RiTfbfrK0
-Dsidfl/whkep1xvaGM19f0TLzys0XlYgpwoPpbwbrKTVCz8/8pKSKYH0RJw60eC1
-NON0z3gpB9ZY/s6ZIhnN6wqKu62BgCy4KB1CkwqWnnbHOP1CoNZvsmf9ad56cV7W
-RQ1HJJYhQcK7rIcxfx/DBtONl3baZCLPcj6FjWjJulcfWNBN1+GzQRwvEnjQkR+K
-35PZgsbe5o0zbdakiDFpwNUZep//lt5F3d3Sv7XOS5KdYHjnIbo=
-=gUXE
------END PGP SIGNATURE-----
-
---/04w6evG8XlLl3ft--
-
---===============0686219700==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0686219700==--
+T24gRnJpLCBOb3YgMTMsIDIwMjAgYXQgODo1MCBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
+YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV92bV9jcHUu
+Yzo1MDogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAncmVzdicgbm90IGRl
+c2NyaWJlZCBpbiAnYW1kZ3B1X3ZtX2NwdV9wcmVwYXJlJwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9hbWRncHVfdm1fY3B1LmM6NTA6IHdhcm5pbmc6IEZ1bmN0aW9uIHBhcmFtZXRlciBv
+ciBtZW1iZXIgJ3N5bmNfbW9kZScgbm90IGRlc2NyaWJlZCBpbiAnYW1kZ3B1X3ZtX2NwdV9wcmVw
+YXJlJwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm1fY3B1LmM6NTA6IHdh
+cm5pbmc6IEV4Y2VzcyBmdW5jdGlvbiBwYXJhbWV0ZXIgJ293bmVyJyBkZXNjcmlwdGlvbiBpbiAn
+YW1kZ3B1X3ZtX2NwdV9wcmVwYXJlJwo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRn
+cHVfdm1fY3B1LmM6NTA6IHdhcm5pbmc6IEV4Y2VzcyBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2V4Y2x1
+c2l2ZScgZGVzY3JpcHRpb24gaW4gJ2FtZGdwdV92bV9jcHVfcHJlcGFyZScKPgo+IENjOiBBbGV4
+IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2
+bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxp
+ZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzog
+U3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiBDYzogRmVsaXggS3VlaGxp
+bmcgPEZlbGl4Lkt1ZWhsaW5nQGFtZC5jb20+Cj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgt
+bWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9y
+Zwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpBcHBs
+aWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+YW1kZ3B1X3ZtX2NwdS5jIHwgNCArKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X3ZtX2NwdS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X3ZtX2NwdS5jCj4gaW5kZXggMDc4NmU3NTU1NTU0Yi4uYWM0NWQ5YzdhNGU5NCAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm1fY3B1LmMKPiArKysgYi9k
+cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdm1fY3B1LmMKPiBAQCAtMzgsOCArMzgs
+OCBAQCBzdGF0aWMgaW50IGFtZGdwdV92bV9jcHVfbWFwX3RhYmxlKHN0cnVjdCBhbWRncHVfYm8g
+KnRhYmxlKQo+ICAgKiBhbWRncHVfdm1fY3B1X3ByZXBhcmUgLSBwcmVwYXJlIHBhZ2UgdGFibGUg
+dXBkYXRlIHdpdGggdGhlIENQVQo+ICAgKgo+ICAgKiBAcDogc2VlIGFtZGdwdV92bV91cGRhdGVf
+cGFyYW1zIGRlZmluaXRpb24KPiAtICogQG93bmVyOiBvd25lciB3ZSBuZWVkIHRvIHN5bmMgdG8K
+PiAtICogQGV4Y2x1c2l2ZTogZXhjbHVzaXZlIG1vdmUgZmVuY2Ugd2UgbmVlZCB0byBzeW5jIHRv
+Cj4gKyAqIEByZXN2OiByZXNlcnZhdGlvbiBvYmplY3Qgd2l0aCBlbWJlZGRlZCBmZW5jZQo+ICsg
+KiBAc3luY19tb2RlOiBzeW5jaHJvbml6YXRpb24gbW9kZQo+ICAgKgo+ICAgKiBSZXR1cm5zOgo+
+ICAgKiBOZWdhdGl2IGVycm5vLCAwIGZvciBzdWNjZXNzLgo+IC0tCj4gMi4yNS4xCj4KPiBfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
