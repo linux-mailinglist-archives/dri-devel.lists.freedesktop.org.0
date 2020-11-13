@@ -1,38 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03B12B206D
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 17:28:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A492B2B2087
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 17:36:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE686E54C;
-	Fri, 13 Nov 2020 16:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A9FF6E4AB;
+	Fri, 13 Nov 2020 16:36:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E9706E542;
- Fri, 13 Nov 2020 16:28:05 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F3754ABD9;
- Fri, 13 Nov 2020 16:28:03 +0000 (UTC)
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
- <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
- <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <44493981-37bc-883f-2810-43d9e3d396fe@suse.de>
-Date: Fri, 13 Nov 2020 17:27:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 850CC6E4AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 16:36:01 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id j7so10588683wrp.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 08:36:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=dQRQDur4C385F9uHjVsTWYFjOPOTyFC/a81xU2Lamvk=;
+ b=hYjtCO8hZTyLH2Kyoh58AH0k4dJctPDDMUFST3ORvzuMx/d+q622LhLzVrAUwruqpj
+ vatSp2tdsnyRwv0asO3bbpGDvd0vEZjDV3IaINbpZsJmI5S0GwzO7kZs5w4Lyo2VH/4c
+ Y1Xhiw7uCTIk5kY2QZeUv7U1NQWSzu5o9XoRi5yn+8NlZq7l2qlfEeSbzOt2RJpv5OYy
+ 1x6+4v3ShQP7Hi7WCV6M1Cx8cu9XeKLqQAKEmagxoqkiRNn8VSJv/QtGIVgzQBRaUZ+M
+ mco4TyKjxVpCzCsxEz/w5kDm69UIKoK6OgA032HEi8rB4Km/3qZsxJLI5l6qtY4Bhnoc
+ fs2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dQRQDur4C385F9uHjVsTWYFjOPOTyFC/a81xU2Lamvk=;
+ b=P735BcqvN201f2Q/2JKzYwtFIrCqovtsS3+YCCGojArLeFMgZFZKbcUFFVphR+pOxV
+ 2YJ2z/EE3S7xWQMdqNsB/gmlU5B/L3jQ2+YQN9lbUFt7PogUQDTXxOxqfxEe1PnlUDqO
+ HG9CA6iFsnAS8Z77sVPG/Q4NhdKgpETtLDckrklE/bWy3j4gABWU6lYDQDlDQaSxXsQ+
+ eZBQJHIfn/e/UmpDsHkBpoOyC/yQ0sNw0ddfu1yHSjWZnC3KYahArSOavM9YML5miEij
+ o7Kn6rIRWIt1SkL7A0cWseyDyQZ1ydE3tmJox2CG27blryXbD7zKFEYeNJ4bVwHuPTgg
+ XBxQ==
+X-Gm-Message-State: AOAM533KFQVOA/jXiHQHnhZIOWALgNp9qciBfIr78XJD9hQMtVATXTh+
+ L7IVLgFtvPv4y7CPfp8ka9c=
+X-Google-Smtp-Source: ABdhPJyLdoQr70KNk4+Fb/DdcC/nPPnONUO+wvv6EXYBj9QK5AbdJZn9lq3s3z7ryBX+7Ul7LRtFKg==
+X-Received: by 2002:adf:906b:: with SMTP id h98mr4463717wrh.310.1605285355248; 
+ Fri, 13 Nov 2020 08:35:55 -0800 (PST)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id t7sm11384960wrx.42.2020.11.13.08.35.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Nov 2020 08:35:53 -0800 (PST)
+Date: Fri, 13 Nov 2020 17:35:52 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Dmitry Osipenko <digetx@gmail.com>
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+Message-ID: <20201113163552.GE1408970@ulmo>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+ <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
+ <2716c195-083a-112f-f1e5-2f6b7152a4b5@gmail.com>
+ <CAPDyKFqUMsH9dCZ=OYqfdLt==+-8NjK9n=S5jGGNXZu6Y9q=2w@mail.gmail.com>
+ <1f7e90c4-6134-2e2b-4869-5afbda18ead3@gmail.com>
+ <20201112204358.GA1027187@ulmo>
+ <25942da9-b527-c0aa-5403-53c9cc34ad93@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
-Content-Language: en-US
+In-Reply-To: <25942da9-b527-c0aa-5403-53c9cc34ad93@gmail.com>
+User-Agent: Mutt/1.14.7 (2020-08-29)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,124 +74,137 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ DTML <devicetree@vger.kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Adrian Hunter <adrian.hunter@intel.com>, Lee Jones <lee.jones@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ driverdevel <devel@driverdev.osuosl.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Alan Stern <stern@rowland.harvard.edu>,
+ Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linux-pwm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linux USB List <linux-usb@vger.kernel.org>,
+ "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Content-Type: multipart/mixed; boundary="===============1195078192=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCkFtIDE2LjExLjIwIHVtIDEyOjI4IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiBBbSAx
-My4xMS4yMCB1bSAwODo1OSBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+PiBIaSBDaHJpc3Rp
-YW4KPj4KPj4gQW0gMTIuMTEuMjAgdW0gMTg6MTYgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+
-Pj4gQW0gMTIuMTEuMjAgdW0gMTQ6MjEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPj4+PiBJ
-biBvcmRlciB0byBhdm9pZCBldmljdGlvbiBvZiB2bWFwJ2VkIGJ1ZmZlcnMsIHBpbiB0aGVtIGlu
-IHRoZWlyIEdFTQo+Pj4+IG9iamVjdCdzIHZtYXAgaW1wbGVtZW50YXRpb24uIFVucGluIHRoZW0g
-aW4gdGhlIHZ1bm1hcCBpbXBsZW1lbnRhdGlvbi4KPj4+PiBUaGlzIGlzIG5lZWRlZCB0byBtYWtl
-IGdlbmVyaWMgZmJkZXYgc3VwcG9ydCB3b3JrIHJlbGlhYmx5LiBXaXRob3V0LAo+Pj4+IHRoZSBi
-dWZmZXIgb2JqZWN0IGNvdWxkIGJlIGV2aWN0ZWQgd2hpbGUgZmJkZXYgZmx1c2hlZCBpdHMgc2hh
-ZG93Cj4+Pj4gYnVmZmVyLgo+Pj4+Cj4+Pj4gSW4gZGlmZmVyZW5jZSB0byB0aGUgUFJJTUUgcGlu
-L3VucGluIGZ1bmN0aW9ucywgdGhlIHZtYXAgY29kZSBkb2VzIG5vdAo+Pj4+IG1vZGlmeSB0aGUg
-Qk9zIHByaW1lX3NoYXJlZF9jb3VudCwgc28gYSB2bWFwLXBpbm5lZCBCTyBkb2VzIG5vdAo+Pj4+
-IGNvdW50IGFzCj4+Pj4gc2hhcmVkLgo+Pj4+Cj4+Pj4gVGhlIGFjdHVhbCBwaW4gbG9jYXRpb24g
-aXMgbm90IGltcG9ydGFudCBhcyB0aGUgdm1hcCBjYWxsIHJldHVybnMKPj4+PiBpbmZvcm1hdGlv
-biBvbiBob3cgdG8gYWNjZXNzIHRoZSBidWZmZXIuIENhbGxlcnMgdGhhdCByZXF1aXJlIGEKPj4+
-PiBzcGVjaWZpYyBsb2NhdGlvbiBzaG91bGQgZXhwbGljaXRseSBwaW4gdGhlIEJPIGJlZm9yZSB2
-bWFwcGluZyBpdC4KPj4+IFdlbGwgaXMgdGhlIGJ1ZmZlciBzdXBwb3NlZCB0byBiZSBzY2FubmVk
-IG91dD8KPj4gTm8sIG5vdCBieSB0aGUgZmJkZXYgaGVscGVyLgo+IAo+IE9rIGluIHRoaXMgY2Fz
-ZSB0aGF0IHNob3VsZCB3b3JrLgo+IAo+Pj4gSWYgeWVzIHRoZW4gdGhlIHBpbiBsb2NhdGlvbiBp
-cyBhY3R1YWxseSByYXRoZXIgaW1wb3J0YW50IHNpbmNlIHRoZQo+Pj4gaGFyZHdhcmUgY2FuIG9u
-bHkgc2NhbiBvdXQgZnJvbSBWUkFNLgo+PiBGb3IgcmVsb2NhdGFibGUgQk9zLCBmYmRldiB1c2Vz
-IGEgc2hhZG93IGJ1ZmZlciB0aGF0IG1ha2VzIGFsbCBhbnkKPj4gcmVsb2NhdGlvbiB0cmFuc3Bh
-cmVudCB0byB1c2Vyc3BhY2UuIEl0IGZsdXNoZXMgdGhlIHNoYWRvdyBmYiBpbnRvIHRoZQo+PiBC
-TydzIG1lbW9yeSBpZiB0aGVyZSBhcmUgdXBkYXRlcy4gVGhlIGNvZGUgaXMgaW4KPj4gZHJtX2Zi
-X2hlbHBlcl9kaXJ0eV93b3JrKCkuIFsxXSBEdXJpbmcgdGhlIGZsdXNoIG9wZXJhdGlvbiwgdGhl
-IHZtYXAKPj4gY2FsbCBub3cgcGlucyB0aGUgQk8gdG8gd2hlcmV2ZXIgaXQgaXMuIFRoZSBhY3R1
-YWwgbG9jYXRpb24gZG9lcyBub3QKPj4gbWF0dGVyLiBJdCdzIHZ1bm1hcCdlZCBpbW1lZGlhdGVs
-eSBhZnRlcndhcmRzLgo+IAo+IFRoZSBwcm9ibGVtIGlzIHdoYXQgaGFwcGVucyB3aGVuIGl0IGlz
-IHByZXBhcmVkIGZvciBzY2Fub3V0LCBidXQgY2FuJ3QKPiBiZSBtb3ZlZCB0byBWUkFNIGJlY2F1
-c2UgaXQgaXMgdm1hcHBlZD8KPiAKPiBXaGVuIHRoZSBzaGFkb3cgaXMgbmV2ZXIgc2Nhbm5lZCBv
-dXQgdGhhdCBpc24ndCBhIHByb2JsZW0sIGJ1dCB3ZSBuZWVkCj4gdG8ga2VlcCB0aGF0IGluIG1p
-bmQuCgpJZiB0aGlzIGlzIGEgcHJvYmxlbSBpcyBwcmFjdGljZSwgaXQgaGFzIG5ldmVyIHNob3du
-IHVwIHdpdGggdGhlIGRyaXZlcnMKdGhhdCB1c2UgaXQgYWxyZWFkeS4KCkkgdGhpbmsgaGVyZSdz
-IGEgbW9kZXNldCBsb2NrIHNvbWV3aGVyZSB0aGF0IGNvdWxkIHNlcmlhbGl6ZSB0aGVzZQpvcGVy
-YXRpb25zLiBUaGUgZmJkZXYgY29uc29sZSBpcyBub3QgZG91YmxlIGJ1ZmZlcmVkLCBzbyB0aGVy
-ZSdzIG5vCmZyZXF1ZW50IHBhZ2VmbGlwcGluZzsgaGVuY2UgaW50ZXJmZXJlbmNlIHNob3VsZCBi
-ZSBzbWFsbC4KCkJlc3QgcmVnYXJkcwpUaG9tYXMKCj4gCj4gUmVnYXJkcywKPiBDaHJpc3RpYW4u
-Cj4gCj4+Cj4+IEZvciBkbWEtYnVmIHNoYXJpbmcsIHRoZSByZWd1bGFyIHByb2NlZHVyZSBvZiBw
-aW4gKyB2bWFwIHN0aWxsIGFwcGx5Lgo+PiBUaGlzIHNob3VsZCBhbHdheXMgbW92ZSB0aGUgQk8g
-aW50byBHVFQtbWFuYWdlZCBtZW1vcnkuCj4+Cj4+IEJlc3QgcmVnYXJkcwo+PiBUaG9tYXMKPj4K
-Pj4gWzFdCj4+IGh0dHBzOi8vbmFtMTEuc2FmZWxpbmtzLnByb3RlY3Rpb24ub3V0bG9vay5jb20v
-P3VybD1odHRwcyUzQSUyRiUyRmdpdC5rZXJuZWwub3JnJTJGcHViJTJGc2NtJTJGbGludXglMkZr
-ZXJuZWwlMkZnaXQlMkZ0b3J2YWxkcyUyRmxpbnV4LmdpdCUyRnRyZWUlMkZkcml2ZXJzJTJGZ3B1
-JTJGZHJtJTJGZHJtX2ZiX2hlbHBlci5jJTIzbjQzMiZhbXA7ZGF0YT0wNCU3QzAxJTdDY2hyaXN0
-aWFuLmtvZW5pZyU0MGFtZC5jb20lN0MzMWI4OTA2NjRjYTc0MjlmYzQ1ODA4ZDg4N2FhMDg0MiU3
-QzNkZDg5NjFmZTQ4ODRlNjA4ZTExYTgyZDk5NGUxODNkJTdDMCU3QzAlN0M2Mzc0MDg1MTE2NTA2
-Mjk1NjklN0NVbmtub3duJTdDVFdGcGJHWnNiM2Q4ZXlKV0lqb2lNQzR3TGpBd01EQWlMQ0pRSWpv
-aVYybHVNeklpTENKQlRpSTZJazFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbXA7c2RhdGE9
-UkxhdXVBdVhrY2wwclh3V1dKJTJGcktQJTJCc0NyMndBelUxZWpHVjFiblE4MHclM0QmYW1wO3Jl
-c2VydmVkPTAKPj4KPj4KPj4+IFJlZ2FyZHMsCj4+PiBDaHJpc3RpYW4uCj4+Pgo+Pj4+IFNpZ25l
-ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+Pj4+IC0t
-LQo+Pj4+IMKgwqAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2VtLmMgfCA1MQo+Pj4+
-ICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCj4+Pj4gwqDCoCAxIGZpbGUgY2hhbmdlZCwg
-NDkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPj4+Pgo+Pj4+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nZW0uYwo+Pj4+IGIvZHJpdmVycy9ncHUvZHJt
-L3JhZGVvbi9yYWRlb25fZ2VtLmMKPj4+PiBpbmRleCBkMjg3NmNlM2JjOWUuLmVhZjdmYzlhN2Iw
-NyAxMDA2NDQKPj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nZW0uYwo+
-Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2dlbS5jCj4+Pj4gQEAgLTIy
-Niw2ICsyMjYsNTMgQEAgc3RhdGljIGludCByYWRlb25fZ2VtX2hhbmRsZV9sb2NrdXAoc3RydWN0
-Cj4+Pj4gcmFkZW9uX2RldmljZSAqcmRldiwgaW50IHIpCj4+Pj4gwqDCoMKgwqDCoMKgIHJldHVy
-biByOwo+Pj4+IMKgwqAgfQo+Pj4+IMKgwqAgK3N0YXRpYyBpbnQgcmFkZW9uX2dlbV9vYmplY3Rf
-dm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKPj4+PiBzdHJ1Y3QgZG1hX2J1Zl9tYXAg
-Km1hcCkKPj4+PiArewo+Pj4+ICvCoMKgwqAgc3RhdGljIGNvbnN0IHVpbnQzMl90IGFueV9kb21h
-aW4gPSBSQURFT05fR0VNX0RPTUFJTl9WUkFNIHwKPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUkFERU9OX0dFTV9ET01BSU5fR1RUIHwKPj4+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUkFERU9OX0dFTV9ET01B
-SU5fQ1BVOwo+Pj4+ICsKPj4+PiArwqDCoMKgIHN0cnVjdCByYWRlb25fYm8gKmJvID0gZ2VtX3Rv
-X3JhZGVvbl9ibyhvYmopOwo+Pj4+ICvCoMKgwqAgaW50IHJldDsKPj4+PiArCj4+Pj4gK8KgwqDC
-oCByZXQgPSByYWRlb25fYm9fcmVzZXJ2ZShibywgZmFsc2UpOwo+Pj4+ICvCoMKgwqAgaWYgKHJl
-dCkKPj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPj4+PiArCj4+Pj4gK8KgwqDCoCAv
-KiBwaW4gYnVmZmVyIGF0IGl0cyBjdXJyZW50IGxvY2F0aW9uICovCj4+Pj4gK8KgwqDCoCByZXQg
-PSByYWRlb25fYm9fcGluKGJvLCBhbnlfZG9tYWluLCBOVUxMKTsKPj4+PiArwqDCoMKgIGlmIChy
-ZXQpCj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGdvdG8gZXJyX3JhZGVvbl9ib191bnJlc2VydmU7Cj4+
-Pj4gKwo+Pj4+ICvCoMKgwqAgcmV0ID0gZHJtX2dlbV90dG1fdm1hcChvYmosIG1hcCk7Cj4+Pj4g
-K8KgwqDCoCBpZiAocmV0KQo+Pj4+ICvCoMKgwqDCoMKgwqDCoCBnb3RvIGVycl9yYWRlb25fYm9f
-dW5waW47Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgcmFkZW9uX2JvX3VucmVzZXJ2ZShibyk7Cj4+Pj4g
-Kwo+Pj4+ICvCoMKgwqAgcmV0dXJuIDA7Cj4+Pj4gKwo+Pj4+ICtlcnJfcmFkZW9uX2JvX3VucGlu
-Ogo+Pj4+ICvCoMKgwqAgcmFkZW9uX2JvX3VucGluKGJvKTsKPj4+PiArZXJyX3JhZGVvbl9ib191
-bnJlc2VydmU6Cj4+Pj4gK8KgwqDCoCByYWRlb25fYm9fdW5yZXNlcnZlKGJvKTsKPj4+PiArwqDC
-oMKgIHJldHVybiByZXQ7Cj4+Pj4gK30KPj4+PiArCj4+Pj4gK3N0YXRpYyB2b2lkIHJhZGVvbl9n
-ZW1fb2JqZWN0X3Z1bm1hcChzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iaiwKPj4+PiBzdHJ1Y3Qg
-ZG1hX2J1Zl9tYXAgKm1hcCkKPj4+PiArewo+Pj4+ICvCoMKgwqAgc3RydWN0IHJhZGVvbl9ibyAq
-Ym8gPSBnZW1fdG9fcmFkZW9uX2JvKG9iaik7Cj4+Pj4gK8KgwqDCoCBpbnQgcmV0Owo+Pj4+ICsK
-Pj4+PiArwqDCoMKgIHJldCA9IHJhZGVvbl9ib19yZXNlcnZlKGJvLCBmYWxzZSk7Cj4+Pj4gK8Kg
-wqDCoCBpZiAocmV0KQo+Pj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm47Cj4+Pj4gKwo+Pj4+ICvC
-oMKgwqAgZHJtX2dlbV90dG1fdnVubWFwKG9iaiwgbWFwKTsKPj4+PiArwqDCoMKgIHJhZGVvbl9i
-b191bnBpbihibyk7Cj4+Pj4gK8KgwqDCoCByYWRlb25fYm9fdW5yZXNlcnZlKGJvKTsKPj4+PiAr
-fQo+Pj4+ICsKPj4+PiDCoMKgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3RfZnVu
-Y3MgcmFkZW9uX2dlbV9vYmplY3RfZnVuY3MgPSB7Cj4+Pj4gwqDCoMKgwqDCoMKgIC5mcmVlID0g
-cmFkZW9uX2dlbV9vYmplY3RfZnJlZSwKPj4+PiDCoMKgwqDCoMKgwqAgLm9wZW4gPSByYWRlb25f
-Z2VtX29iamVjdF9vcGVuLAo+Pj4+IEBAIC0yMzQsOCArMjgxLDggQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcwo+Pj4+IHJhZGVvbl9nZW1fb2JqZWN0X2Z1bmNzID0g
-ewo+Pj4+IMKgwqDCoMKgwqDCoCAucGluID0gcmFkZW9uX2dlbV9wcmltZV9waW4sCj4+Pj4gwqDC
-oMKgwqDCoMKgIC51bnBpbiA9IHJhZGVvbl9nZW1fcHJpbWVfdW5waW4sCj4+Pj4gwqDCoMKgwqDC
-oMKgIC5nZXRfc2dfdGFibGUgPSByYWRlb25fZ2VtX3ByaW1lX2dldF9zZ190YWJsZSwKPj4+PiAt
-wqDCoMKgIC52bWFwID0gZHJtX2dlbV90dG1fdm1hcCwKPj4+PiAtwqDCoMKgIC52dW5tYXAgPSBk
-cm1fZ2VtX3R0bV92dW5tYXAsCj4+Pj4gK8KgwqDCoCAudm1hcCA9IHJhZGVvbl9nZW1fb2JqZWN0
-X3ZtYXAsCj4+Pj4gK8KgwqDCoCAudnVubWFwID0gcmFkZW9uX2dlbV9vYmplY3RfdnVubWFwLAo+
-Pj4+IMKgwqAgfTsKPj4+PiDCoMKgIMKgIC8qCj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4gZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3Mu
-cHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnJTJGbWFpbG1hbiUyRmxpc3RpbmZvJTJGZHJpLWRldmVsJmFtcDtkYXRhPTA0JTdDMDEl
-N0NjaHJpc3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzMxYjg5MDY2NGNhNzQyOWZjNDU4MDhkODg3
-YWEwODQyJTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQw
-ODUxMTY1MDYyOTU2OSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURB
-aUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFt
-cDtzZGF0YT1oMVU5UG84M0s3d2VieHNpS3BuM1pHRno5RmNnNlNSa3h0clhXWjElMkIlMkZFYyUz
-RCZhbXA7cmVzZXJ2ZWQ9MAo+Pj4KPiAKCi0tIApUaG9tYXMgWmltbWVybWFubgpHcmFwaGljcyBE
-cml2ZXIgRGV2ZWxvcGVyClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSApNYXhm
-ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKKEhSQiAzNjgwOSwgQUcgTsO8cm5i
-ZXJnKQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============1195078192==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="KuLpqunXa7jZSBt+"
+Content-Disposition: inline
+
+
+--KuLpqunXa7jZSBt+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Nov 13, 2020 at 01:14:45AM +0300, Dmitry Osipenko wrote:
+> 12.11.2020 23:43, Thierry Reding =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> The difference in comparison to using voltage regulator directly is
+> >> minimal, basically the core-supply phandle is replaced is replaced with
+> >> a power-domain phandle in a device tree.
+> > These new power-domain handles would have to be added to devices that
+> > potentially already have a power-domain handle, right? Isn't that going
+> > to cause issues? I vaguely recall that we already have multiple power
+> > domains for the XUSB controller and we have to jump through extra hoops
+> > to make that work.
+>=20
+> I modeled the core PD as a parent of the PMC sub-domains, which
+> presumably is a correct way to represent the domains topology.
+>=20
+> https://gist.github.com/digetx/dfd92c7f7e0aa6cef20403c4298088d7
+>=20
+> >> The only thing which makes me feel a bit uncomfortable is that there is
+> >> no real hardware node for the power domain node in a device-tree.
+> > Could we anchor the new power domain at the PMC for example? That would
+> > allow us to avoid the "virtual" node.
+>=20
+> I had a thought about using PMC for the core domain, but not sure
+> whether it will be an entirely correct hardware description. Although,
+> it will be nice to have it this way.
+>=20
+> This is what Tegra TRM says about PMC:
+>=20
+> "The Power Management Controller (PMC) block interacts with an external
+> or Power Manager Unit (PMU). The PMC mostly controls the entry and exit
+> of the system from different sleep modes. It provides power-gating
+> controllers for SOC and CPU power-islands and also provides scratch
+> storage to save some of the context during sleep modes (when CPU and/or
+> SOC power rails are off). Additionally, PMC interacts with the external
+> Power Manager Unit (PMU)."
+>=20
+> The core voltage regulator is a part of the PMU.
+>=20
+> Not all core SoC devices are behind PMC, IIUC.
+
+There are usually some SoC devices that are always-on. Things like the
+RTC for example, can never be power-gated, as far as I recall. On newer
+chips there are usually many more blocks that can't be powergated at
+all.
+
+> > On the other hand, if we were to
+> > use a regulator, we'd be adding a node for that, right? So isn't this
+> > effectively going to be the same node if we use a power domain? Both
+> > software constructs are using the same voltage regulator, so they should
+> > be able to be described by the same device tree node, shouldn't they?
+>=20
+> I'm not exactly sure what you're meaning by "use a regulator" and "we'd
+> be adding a node for that", could you please clarify? This v1 approach
+> uses a core-supply phandle (i.e. regulator is used), it doesn't require
+> extra nodes.
+
+What I meant to say was that the actual supply voltage is generated by
+some device (typically one of the SD outputs of the PMIC). Whether we
+model this as a power domain or a regulator doesn't really matter,
+right? So I'm wondering if the device that generates the voltage should
+be the power domain provider, just like it is the provider of the
+regulator if this was modelled as a regulator.
+
+Thierry
+
+--KuLpqunXa7jZSBt+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+uteUACgkQ3SOs138+
+s6HFrg//XUCBi+MoTYKA9Q0nyyDEbz8pB7xsPWf9AWJHRToygKc0DTU1ZaPQLNp+
+zx+Yg2HSEBBzzv1c5cABiz0dUaE+gkzTfY74+wByGBumAiPaFCOmamm3fwgTlzsM
+ZzTrLxJShO6bIo12gq98qI68RxlwptdQcGagjc4QLcaL1xxhdyYiEFtQj8X3rwfp
+r2ELceMzT3klMTV34ghkgQKBRkgxm3thCmk+O/+scUwM9ju23OeClHBPsq+YwWz/
+ItCwLTUXyfPTSzIqXbjPEGXPbNGS2aUdYo0YsY42Q5XswBGPGXV+VgCPd153Vyek
+x+tAG0YSkV3NWFIQKBR5iwvguqZbVYgBR8tonT+LH9qyx6wADX2bp1VtEssD3Dsq
+qWc7y+PnmrUkx895JcxYLzhGoN5Hr3xwKeTLSRxGCQQvh1fqJJO4Ja4QnBdxK1lm
+FLLCPrq0/yK+o6DKJnAWjBcVyWfY4z2MPej6lao9ZlR4nC0qaY9URhD//kujuB7R
+dsRKyAwamYzw0b1doZWjffloEhog7WbjMw8UsbF+E8K7kSNePUqgaWWMsZDwh6yI
+VrszC62dJzCUMweS9s2mSjQ08xGrcITA8i2qxMKpRQA6VoZzMAdP6WjxseQoDa4g
+6Rsyr9Mt8Ed+Gs4vssp8C6jeFDQEGXM+37kYIC8LrNM21HZoq74=
+=p82m
+-----END PGP SIGNATURE-----
+
+--KuLpqunXa7jZSBt+--
+
+--===============1195078192==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1195078192==--
