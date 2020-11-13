@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E0EA2B3B14
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F0B2B3AF7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F30E289CF2;
-	Mon, 16 Nov 2020 01:07:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B033A89D9B;
+	Mon, 16 Nov 2020 01:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.siol.net (mailoutvs25.siol.net [185.57.226.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E886E5CA
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 18:02:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTP id D905E521624;
- Fri, 13 Nov 2020 19:02:00 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
- by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new,
- port 10032)
- with ESMTP id ibErSGJqCdUh; Fri, 13 Nov 2020 19:02:00 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
- by mail.siol.net (Zimbra) with ESMTPS id 8A966521623;
- Fri, 13 Nov 2020 19:02:00 +0100 (CET)
-Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net
- [89.212.178.211]) (Authenticated sender: jernej.skrabec@siol.net)
- by mail.siol.net (Zimbra) with ESMTPA id AE2D4521626;
- Fri, 13 Nov 2020 19:01:59 +0100 (CET)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: airlied@linux.ie, daniel@ffwll.ch,
- Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Subject: Re: [PATCH] drm/sun4i: dw-hdmi: fix error return code in
- sun8i_dw_hdmi_bind()
-Date: Fri, 13 Nov 2020 19:01:59 +0100
-Message-ID: <6119042.uhm7frSX9h@jernej-laptop>
-In-Reply-To: <1605186891-47282-1-git-send-email-wangxiongfeng2@huawei.com>
-References: <1605186891-47282-1-git-send-email-wangxiongfeng2@huawei.com>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB3746E879
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 22:08:48 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605305330; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=v38VIvvqFPW9T8r0lWGRdQ5SsoAKhs1w4NYwSBxeq3U=;
+ b=vHudJ2Q3uEVkcMX6RqN9g7uQLpzs1p/dApgPVDoTz93K1x1y0ZvWOvssoZILd9gW2Wgmy45J
+ FAbdZgIyVo/Kd928hd3N3R3WQCZW1qBCjV1ajz1he+SzYgE3a5FV0R04OszWnMc7B4NWQTlW
+ OJ0e1POqYxB1RFWPrso503h/E6E=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 5faf03d0ba0e43f3555266e1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 13 Nov 2020 22:08:16
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5D19EC433F0; Fri, 13 Nov 2020 22:08:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from khsieh-linux1.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0EBF2C433C6;
+ Fri, 13 Nov 2020 22:08:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0EBF2C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, robdclark@gmail.com, sean@poorly.run,
+ swboyd@chromium.org
+Subject: [PATCH v2 0/3] fix dp link training failed at irq_hpd request
+Date: Fri, 13 Nov 2020 14:08:00 -0800
+Message-Id: <20201113220803.15033-1-khsieh@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 16 Nov 2020 01:07:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,35 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-kernel@lists.infradead.org, chenzhou10@huawei.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- wangxiongfeng2@huawei.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, abhinavk@codeaurora.org,
+ Kuogee Hsieh <khsieh@codeaurora.org>, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkhCgpUaGFua3MgZm9yIHRoZSBwYXRjaC4KCkRuZSDEjWV0cnRlaywgMTIuIG5vdmVtYmVyIDIw
-MjAgb2IgMTQ6MTQ6NTEgQ0VUIGplIFhpb25nZmVuZyBXYW5nIG5hcGlzYWwoYSk6Cj4gRml4IHRv
-IHJldHVybiBhIG5lZ2F0aXZlIGVycm9yIGNvZGUgZnJvbSB0aGUgZXJyb3IgaGFuZGxpbmcgY2Fz
-ZSBpbnN0ZWFkCj4gb2YgMCBpbiBmdW5jdGlvbiBzdW44aV9kd19oZG1pX2JpbmQoKS4KPiAKPiBG
-aXhlczogYjdjNzQzNmE1ZmYwICgiZHJtL3N1bjRpOiBJbXBsZW1lbnQgQTgzVCBIRE1JIGRyaXZl
-ciIpCj4gUmVwb3J0ZWQtYnk6IEh1bGsgUm9ib3QgPGh1bGtjaUBodWF3ZWkuY29tPgo+IFNpZ25l
-ZC1vZmYtYnk6IFhpb25nZmVuZyBXYW5nIDx3YW5neGlvbmdmZW5nMkBodWF3ZWkuY29tPgo+IC0t
-LQo+ICBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jIHwgMSArCj4gIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vc3VuNGkvc3VuOGlfZHdfaGRtaS5jCj4gYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlf
-ZHdfaGRtaS5jIGluZGV4IGQ0YzA4MDQuLmYwMTBmZTggMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9zdW40
-aS9zdW44aV9kd19oZG1pLmMKPiBAQCAtMjA4LDYgKzIwOCw3IEBAIHN0YXRpYyBpbnQgc3VuOGlf
-ZHdfaGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0Cj4gZGV2aWNlICptYXN0ZXIs
-IHBoeV9ub2RlID0gb2ZfcGFyc2VfcGhhbmRsZShkZXYtPm9mX25vZGUsICJwaHlzIiwgMCk7Cj4g
-IAlpZiAoIXBoeV9ub2RlKSB7Cj4gIAkJZGV2X2VycihkZXYsICJDYW4ndCBmb3VuZCBQSFkgcGhh
-bmRsZVxuIik7Cj4gKwkJcmV0ID0gLUVOT0RFVjsKClRoYXQgc2hvdWxkIGJlIEVJTlZBTCBiZWNh
-dXNlIERUIG5vZGUgZG9lc24ndCBoYXZlIG1hbmRhdG9yeSBwcm9wZXJ0eS4KCldpdGggdGhhdCBm
-aXhlZCwgeW91IGNhbiBhZGQ6ClJldmlld2VkLWJ5OiBKZXJuZWogU2tyYWJlYyA8amVybmVqLnNr
-cmFiZWNAc2lvbC5uZXQ+CgpCZXN0IHJlZ2FyZHMsCkplcm5lagoKPiAgCQlnb3RvIGVycl9kaXNh
-YmxlX2Nsa190bWRzOwo+ICAJfQoKCgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Some dongle require link training be done at irq_hpd request. This serial
+patches address the issues so that DP/HDMI display can be lit up properlly.
+This serial Patch also fixes clock stuck at "off" state error caused by
+previous link training failed.
+
+Kuogee Hsieh (3):
+  drm/msm/dp: deinitialize mainlink if link training failed
+  drm/msm/dp: skip checking LINK_STATUS_UPDATED bit
+  drm/msm/dp: promote irq_hpd handle to handle link training correctly
+
+ drivers/gpu/drm/msm/dp/dp_catalog.c |  2 +-
+ drivers/gpu/drm/msm/dp/dp_catalog.h |  2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 60 +++++++++++++++++++++--------
+ drivers/gpu/drm/msm/dp/dp_display.c | 40 ++++++++++++++++---
+ drivers/gpu/drm/msm/dp/dp_link.c    | 29 +++++++-------
+ drivers/gpu/drm/msm/dp/dp_panel.c   |  2 +-
+ 6 files changed, 96 insertions(+), 39 deletions(-)
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
