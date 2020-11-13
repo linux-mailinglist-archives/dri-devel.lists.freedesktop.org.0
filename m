@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C102B15A7
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 06:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700622B15C5
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 07:11:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 668536E3AE;
-	Fri, 13 Nov 2020 05:55:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA5856E3C6;
+	Fri, 13 Nov 2020 06:11:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEC8D6E3AE;
- Fri, 13 Nov 2020 05:55:21 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id p7so8637334ioo.6;
- Thu, 12 Nov 2020 21:55:21 -0800 (PST)
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97FA26E3C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 06:11:11 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id oq3so11645157ejb.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 12 Nov 2020 22:11:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eYYeE8QzaK5WeR5CogaBzFoKN/iYwCNInsED+Vqp3bA=;
- b=FruX5hB/MZOmxJ8vRFcWL+Lts43ENq5BFcHkJ3quR9C20dfBhINV2j1tnszWPkkFIQ
- 5nl8UNp7bta+Rdo8PBJx57Aq+X0lKzXCL6KnJgqXNf8qtXjuO7Pa33s3y7YAudWVLZge
- 84EHShtNzJfRNdk6ydso6YTIjUxsluv2LLehwG9VIhOAFgXOX6JNipTFtnhmd6K9Yi28
- Rp5SsK5Dh3Iis+IuaaImUVQt9wd8Tj5obVLzFTem1yTskHwWsigUQ2bpvDeoNCnZL4AE
- q7mlaGiLa4vOT26HYtg+Z6CyQljqQKry2aFo2d4Mg5bgKPb4F6QXvWo6ZZJKqeaYN8Kp
- eO8Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DptdZzMyxdE05cUSx10TqnOAYaGhDOro7iEYn4TKuBE=;
+ b=aZDMzhtpTjY/rySHTZUR/bWYegnTX3To2m/e5aKWucOPNxNZZ2Q2wFo30bS7bR0Rrg
+ EOHqsgPZELKsFfNG57v0IpcXD2Zwqlk0iejeMGPzapyCLYApzk5eJs827zF9fM0rnWGC
+ UTjQ9YRq5Eo/0Ujp2y1FyMx5lmx8WpJW6pC1+W8pmOd+hmjwGFuuvreI5Dzn3GS6hrkF
+ V6mi2nYEIVMuANoTy5CwuKr0F9GLe/EbxiG2pB5mTjHpnrtXT0/IQkvlFINODI9pmMfi
+ jZAA/wOQVr9vV+88FrEblnpNb3m/xrgbaseq3ABmiCNi8wkRaeFlmmezUSDgLLjWFaju
+ pHPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eYYeE8QzaK5WeR5CogaBzFoKN/iYwCNInsED+Vqp3bA=;
- b=sc+RUW1/GOuVNAD6bDd6hZDHdYTgmBwomr5gRlFayXDvJDWbjRYcNc14y3c1HezNty
- Ko2ETgJqhd8doZEUfOSvcTF7SHxGfJlP60+jXxnJU8+PnaAsuIA7ZaC0yWAxmODab/Fk
- PSkOlzqPGNEZxRxjEMYiw5uHJXJqKWF2jiIXftIu0GsP7+nZDeys1/bQJ3SMleea9JtX
- 3kiNU+Bud6uDNLEBBDPyqrMZ2M8RwfyQ4zdPsnMRr6nWdmXIryyx7mSB80j8Ga1PgFWb
- xN3fXU4We50QRvbs6FGWNlJ7veZ720Y4VbdmzUvKYbNlpJ83AKvuza5O2NADvs1h8Llv
- NDsQ==
-X-Gm-Message-State: AOAM530GYsp/+6MpTOumAknLZQARZ/ur6uHiB4gbJXk5nZh0+/H/hcAf
- FZ2KcClK/IgbAKtgYP0w8sQAK76aZsc=
-X-Google-Smtp-Source: ABdhPJy9zrC3fUnmHHu39HsmbrtRl3DB555IsUvWXhC5Jhkd5kHj+1f3HP+MlRfX+bK97vBclSBKrQ==
-X-Received: by 2002:a6b:d907:: with SMTP id r7mr630227ioc.37.1605246920834;
- Thu, 12 Nov 2020 21:55:20 -0800 (PST)
-Received: from localhost.localdomain ([192.161.78.5])
- by smtp.gmail.com with ESMTPSA id a1sm3898761iod.39.2020.11.12.21.55.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Nov 2020 21:55:20 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.10
-Date: Fri, 13 Nov 2020 00:55:12 -0500
-Message-Id: <20201113055512.3963-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DptdZzMyxdE05cUSx10TqnOAYaGhDOro7iEYn4TKuBE=;
+ b=hgVB/JVDRE76vMraL4UIQrspdNzmc0yIzpo/1Rm146IKN/H7Ojc+E6JUSNZp7wieY6
+ cAN7D0OzJSU6TCvmFy0nR0V2Ar9VK535X7BDsoVSZxMYE9MM2c3vUqwoFMB8DNDCjEZ9
+ 77PNyZS9c2vZj3dDuiOZ51eK/U5iXQi5wY9F/9j3djCPWUDZRRw7sqR7i6pdDrmSDYep
+ cVTIerzQRWjCAsQflXxjv4tPL7H8MAX2ICdywEjJ9xpQHlh4gcJYwn08ogbOSS3wtZJ4
+ 5SuiwQf6ZpflOGsTp0wjWfT4j7bRHv5SaO87eA4jxjMZ4uE2akldjL6Y0VpOlwNpFM0l
+ koRA==
+X-Gm-Message-State: AOAM532S2ymbnRQSD0udDsCsj6h+tD8RyLOf0s4B+Ut5QE3Dh8NDjrAG
+ 2L1OsXU33I08vF+1staagrzJbIL8zP0/8gmRDSw=
+X-Google-Smtp-Source: ABdhPJzk7c4GmHRw4i3mpm/VpIrMuaYxRvp9jfP+t15kRTZZzDmadnPQ0+ARk9+P8Apx1cvqJUMslhC3cbLDz9YXL1M=
+X-Received: by 2002:a17:906:4145:: with SMTP id
+ l5mr469026ejk.317.1605247870110; 
+ Thu, 12 Nov 2020 22:11:10 -0800 (PST)
 MIME-Version: 1.0
+References: <CACAvsv5D9p78MNN0OxVeRZxN8LDqcadJEGUEFCgWJQ6+_rjPuw@mail.gmail.com>
+In-Reply-To: <CACAvsv5D9p78MNN0OxVeRZxN8LDqcadJEGUEFCgWJQ6+_rjPuw@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 13 Nov 2020 16:10:58 +1000
+Message-ID: <CAPM=9tw0+w20aXTS76cQSBXFSzbzNHxS_nKg266pmP1subBGag@mail.gmail.com>
+Subject: Re: [PULL] nouveau-fixes 5.10
+To: Ben Skeggs <skeggsb@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,50 +61,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: Dave Airlie <airlied@redhat.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Thu, 12 Nov 2020 at 14:12, Ben Skeggs <skeggsb@gmail.com> wrote:
+>
+> The following changes since commit 512bce50a41c528fa15c4c014293e7bebf018658:
+>
+>   Merge v5.10-rc3 into drm-next (2020-11-10 14:36:36 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/skeggsb/linux linux-5.10
+>
+> for you to fetch changes up to f67e5ecab785631cf7f776533432ba5aba06615a:
+>
+>   drm/nouveau/ttm: avoid using nouveau_drm.ttm.type_vram prior to nv50
+> (2020-11-12 14:09:45 +1000)
 
-Fixes for 5.10.
+Are these fixes for next or for fixes, since they are on a next base,
+I didn't want to assume anything, if they are for v5.10 please base
+them on v5.10-rc3 directly.
 
-The following changes since commit 4241b0411c60a97f87a25ff4da92dac53beb3039:
-
-  drm/amdgpu/display: remove DRM_AMD_DC_GREEN_SARDINE (2020-11-04 08:43:50 -0500)
-
-are available in the Git repository at:
-
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.10-2020-11-12
-
-for you to fetch changes up to 38a2509184952f799d465b26279ef1bd36fb8277:
-
-  drm/amdgpu: enable DCN for navi10 headless SKU (2020-11-13 00:30:05 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.10-2020-11-12:
-
-amdgpu:
-- Pageflip fix for DCN3
-- Declare TA firmware for green sardine
-- Headless navi fix
-
-----------------------------------------------------------------
-Bhawanpreet Lakha (1):
-      drm/amd/display: Add missing pflip irq
-
-Roman Li (1):
-      drm/amdgpu: add ta firmware load for green-sardine
-
-Tianci.Yin (1):
-      drm/amdgpu: enable DCN for navi10 headless SKU
-
- drivers/gpu/drm/amd/amdgpu/nv.c                              | 3 +--
- drivers/gpu/drm/amd/amdgpu/psp_v12_0.c                       | 1 +
- drivers/gpu/drm/amd/display/dc/irq/dcn30/irq_service_dcn30.c | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+Dave.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
