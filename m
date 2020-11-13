@@ -2,52 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3D52B2338
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 19:00:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57932B233B
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 19:02:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749096E5C3;
-	Fri, 13 Nov 2020 18:00:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D09316E7E2;
+	Fri, 13 Nov 2020 18:02:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD5CC6E5C3;
- Fri, 13 Nov 2020 18:00:53 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a3so9487692wmb.5;
- Fri, 13 Nov 2020 10:00:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Us0fENNtA8MrGKfRxmlrR0fpL28TxcNYZ6RQsQZqhwc=;
- b=su6wlg+CWROm2DLpIZYLTDmysIdXKJdYQ6d3eRmirfTzrwxJWQNj0Sk1YWih0Bh1Ks
- OOw9THVJgXXwXMlrmchvSRhQ9sCl7kgn/L3clQwOrcL659znjr+ZkYZa7Oxts1A0XXmO
- +oe2jALLOIqp2M34hacHNyFhEVvx68QZzcKGyy1lIS0P7H9aghttdnEni+so4sO7JQpF
- M1I+ayXi8Mou9g9Zpj0AJQ/EXy3xi2kh7fQ5v25a1QNRinKy8V9E8oiPf/FTcvH+Imbk
- 5MaJXYuqQnnqAjwlN4JKza2e4Y+J2bmo2Pwj8LqFqVoP5xdtHzZ6AEk0B7FAjWMOOy8B
- H9zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Us0fENNtA8MrGKfRxmlrR0fpL28TxcNYZ6RQsQZqhwc=;
- b=VTbCXmoKBOgeVuYGkFR2jw2NooDV6eYyzMvVoe3OZMtcc+8qw8vlQjuL0aohAb4ght
- r/Kn/cGLWeWjJenabSpWa1liFm4Yk5VUcX8PGODURyqIT4NTGi15dfu9zrQUdZp8B5b5
- Jw82YXFlT9JIpbVsIl6AAwHxJ6WIr6Lt3kpQXsv7k3UzmAZbRekBMczClmrvVLkRpbHp
- fY0s066tP2G+6p7k6kSqWrkpDy1FcNjQt3p54AfEKlp8VL88B3QGx5HdA5nnIu6QbTpN
- sQxg5j7M2Wt8uXF4ZgOYN2vN2pWIR7YWhBW7/FZEqkVge+KvXJfQ8+BmNG2G3KnUH6E8
- yLdg==
-X-Gm-Message-State: AOAM533Za1YUqvML0tPz0YDXv/axacAg60u+L8PNTWxw1kTOOB5e0ojK
- WA4vTl3lOlNztNpmpE3qgEn/TwptltipU8tLXsc=
-X-Google-Smtp-Source: ABdhPJxguAXyqV8skU2y3sJxvaSkFVRthueuQ/lmsi7es17Ihd4ihFmDnuoSYRM8/G7QVp9TPJ3+OUlPLTNsAK0HKqk=
-X-Received: by 2002:a1c:1c3:: with SMTP id 186mr3643816wmb.39.1605290451569;
- Fri, 13 Nov 2020 10:00:51 -0800 (PST)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6AC36E7E2
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 18:02:19 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id F2C252001F;
+ Fri, 13 Nov 2020 19:02:15 +0100 (CET)
+Date: Fri, 13 Nov 2020 19:02:14 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Colin Ian King <colin.king@canonical.com>
+Subject: Re: [PATCH][next] drm/kmb: fix array out-of-bounds writes to
+ kmb->plane_status[]
+Message-ID: <20201113180214.GA3675629@ravnborg.org>
+References: <20201113120121.33212-1-colin.king@canonical.com>
+ <20201113145557.GB3647624@ravnborg.org>
+ <8dd5b960-d6c4-73cc-703e-349dc66f2937@canonical.com>
 MIME-Version: 1.0
-References: <20201113175533.731834-1-bas@basnieuwenhuizen.nl>
-In-Reply-To: <20201113175533.731834-1-bas@basnieuwenhuizen.nl>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 13 Nov 2020 13:00:39 -0500
-Message-ID: <CADnq5_NsenZ-Y2Jf=PhjUKt2wCrOaLdXv8cexAYUf9e-BLCxtg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/fourcc: Fix modifier field mask for AMD modifiers.
-To: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Content-Disposition: inline
+In-Reply-To: <8dd5b960-d6c4-73cc-703e-349dc66f2937@canonical.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=DfNHnWVPAAAA:8 a=54tR-wWqPms2FSGqy7MA:9
+ a=CjuIK1q_8ugA:10 a=rjTVMONInIDnV1a_A2c_:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,81 +46,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>, Edmund Dea <edmund.j.dea@intel.com>,
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 13, 2020 at 12:55 PM Bas Nieuwenhuizen
-<bas@basnieuwenhuizen.nl> wrote:
->
-> The DCC_MAX_COMPRESSED_BLOCK has to contain one of
-> AMD_FMT_MOD_DCC_BLOCK_* and with 3 values this doesn't
-> fit in 1 bit.
->
-> Fix this cleanly while it is only in drm-next.
->
-> Fixes: 8ba16d599374 ("drm/fourcc: Add AMD DRM modifiers.")
-> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-> Signed-off-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Hi Colin.
+On Fri, Nov 13, 2020 at 03:04:34PM +0000, Colin Ian King wrote:
+> On 13/11/2020 14:55, Sam Ravnborg wrote:
+> > Hi Colin.
+> > 
+> > On Fri, Nov 13, 2020 at 12:01:21PM +0000, Colin King wrote:
+> >> From: Colin Ian King <colin.king@canonical.com>
+> >>
+> >> Writes to elements in the kmb->plane_status array in function
+> >> kmb_plane_atomic_disable are overrunning the array when plane_id is
+> >> more than 1 because currently the array is KMB_MAX_PLANES elements
+> >> in size and this is currently #defined as 1.  Fix this by defining
+> >> KMB_MAX_PLANES to 4.
+> > 
+> > I fail to follow you here.
+> > In kmb_plane_init() only one plane is allocated - with id set to 0.
+> > So for now only one plane is allocated thus kmb_plane_atomic_disable()
+> > is only called for this plane.
+> > 
+> > With your change we will start allocating four planes, something that is
+> > not tested.
+> > 
+> > Do I miss something?
+> > 
+> > 	Sam
+> > 
+> 
+> The static analysis from coverity on linux-next suggested that there was
+> an array overflow as follows:
+> 
+> 108 static void kmb_plane_atomic_disable(struct drm_plane *plane,
+> 109                                     struct drm_plane_state *state)
+> 110 {
+> 
+>    1. Condition 0 /* !!(!__builtin_types_compatible_p() &&
+> !__builtin_types_compatible_p()) */, taking false branch.
+> 
+> 111        struct kmb_plane *kmb_plane = to_kmb_plane(plane);
+> 
+>    2. assignment: Assigning: plane_id = kmb_plane->id.
+> 
+> 112        int plane_id = kmb_plane->id;
+> 113        struct kmb_drm_private *kmb;
+> 114
+> 115        kmb = to_kmb(plane->dev);
+> 116
+> 
+>    3. Switch case value LAYER_3.
+> 
+> 117        switch (plane_id) {
+> 118        case LAYER_0:
+> 119                kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL1_ENABLE;
+> 120                break;
 
-Applied.  Thanks!
+With the current code this is the only case that hits.
+So coverity is right that if we hit other cases that would result in a
+bug. But kmb_plane->id will for now not have other values than 0.
 
-Alex
+So it is a subtle false positive.
+There is some "dead" code here - but this is in preparation for more
+than one layer and we will keep the code for now, unless Anitha chimes
+in and says otherwise.
 
-> ---
->  include/uapi/drm/drm_fourcc.h | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-> index df56e71a7380..a878664ba41c 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -1129,7 +1129,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->  #define AMD_FMT_MOD_DCC_INDEPENDENT_128B_SHIFT 17
->  #define AMD_FMT_MOD_DCC_INDEPENDENT_128B_MASK 0x1
->  #define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_SHIFT 18
-> -#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_MASK 0x1
-> +#define AMD_FMT_MOD_DCC_MAX_COMPRESSED_BLOCK_MASK 0x3
->
->  /*
->   * DCC supports embedding some clear colors directly in the DCC surface.
-> @@ -1140,7 +1140,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->   * If this bit is set that means the fastclear eliminate is not needed for these
->   * embeddable colors.
->   */
-> -#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_SHIFT 19
-> +#define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_SHIFT 20
->  #define AMD_FMT_MOD_DCC_CONSTANT_ENCODE_MASK 0x1
->
->  /*
-> @@ -1153,15 +1153,15 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
->   * RB = only for TILE_VER_GFX9 & DCC
->   * PIPE = only for TILE_VER_GFX9 & DCC & (DCC_RETILE | DCC_PIPE_ALIGN)
->   */
-> -#define AMD_FMT_MOD_PIPE_XOR_BITS_SHIFT 20
-> +#define AMD_FMT_MOD_PIPE_XOR_BITS_SHIFT 21
->  #define AMD_FMT_MOD_PIPE_XOR_BITS_MASK 0x7
-> -#define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 23
-> +#define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 24
->  #define AMD_FMT_MOD_BANK_XOR_BITS_MASK 0x7
-> -#define AMD_FMT_MOD_PACKERS_SHIFT 26 /* aliases with BANK_XOR_BITS */
-> +#define AMD_FMT_MOD_PACKERS_SHIFT 27 /* aliases with BANK_XOR_BITS */
->  #define AMD_FMT_MOD_PACKERS_MASK 0x7
-> -#define AMD_FMT_MOD_RB_SHIFT 29
-> +#define AMD_FMT_MOD_RB_SHIFT 30
->  #define AMD_FMT_MOD_RB_MASK 0x7
-> -#define AMD_FMT_MOD_PIPE_SHIFT 32
-> +#define AMD_FMT_MOD_PIPE_SHIFT 33
->  #define AMD_FMT_MOD_PIPE_MASK 0x7
->
->  #define AMD_FMT_MOD_SET(field, value) \
-> --
-> 2.29.2
->
+	Sam
+
+> 121        case LAYER_1:
+> 
+>    (#2 of 4): Out-of-bounds write (OVERRUN)
+> 
+> 122                kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL2_ENABLE;
+> 123                break;
+> 124        case LAYER_2:
+> 
+>    (#3 of 4): Out-of-bounds write (OVERRUN)
+> 
+> 125                kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL1_ENABLE;
+> 126                break;
+> 
+>    4. equality_cond: Jumping to case LAYER_3.
+> 
+> 127        case LAYER_3:
+> 
+>    (#1 of 4): Out-of-bounds write (OVERRUN)
+>    5. overrun-local: Overrunning array kmb->plane_status of 1 8-byte
+> elements at element index 3 (byte offset 31) using index plane_id (which
+> evaluates to 3).
+> 
+> 128                kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL2_ENABLE;
+> 129                break;
+> 130        }
+> 131
+> 
+>    (#4 of 4): Out-of-bounds write (OVERRUN)
+> 
+> 132        kmb->plane_status[plane_id].disable = true;
+> 133 }
+> 134
+> 
+> So it seems the assignments to  kmb->plane_status[plane_id] are
+> overrunning the array since plane_status is allocated as 1 element and
+> yet plane_id can be 0..3
+> 
+> I could be misunderstanding this, or it may be a false positive.
+> 
+> Colin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
