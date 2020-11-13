@@ -1,48 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7EA2B1962
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 11:54:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9CC2B196C
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 11:59:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580EE6E49F;
-	Fri, 13 Nov 2020 10:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF8366E44D;
+	Fri, 13 Nov 2020 10:59:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4A5F6E49F
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 10:54:24 +0000 (UTC)
-IronPort-SDR: 7VjKhBtaSmcGB3JtV+aHVV6K9w1tgU30YVm4cXy4HBKPTni8rYbZKBTah3u3w9m1dxGlQV8hhm
- E6P1QTdC4qjg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9803"; a="158233736"
-X-IronPort-AV: E=Sophos;i="5.77,475,1596524400"; d="scan'208";a="158233736"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2020 02:54:23 -0800
-IronPort-SDR: CqYnJPCz85Lt+Zl46+QWnqQoSIbJs9rraLE/sDGJGNJQmvn0olodnEO95VXNg27Cu+wQyV1Q4t
- bs6BUj7spy9g==
-X-IronPort-AV: E=Sophos;i="5.77,475,1596524400"; d="scan'208";a="309130601"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2020 02:54:20 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
- id 7B63320736; Fri, 13 Nov 2020 12:54:18 +0200 (EET)
-Date: Fri, 13 Nov 2020 12:54:18 +0200
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu
+ [IPv6:2a01:4f9:c010:4572::81:2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 194916E44D
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 10:59:42 +0000 (UTC)
+Received: from lanttu.localdomain (lanttu.retiisi.org.uk
+ [IPv6:2a01:4f9:c010:4572::c1:2])
+ by hillosipuli.retiisi.eu (Postfix) with ESMTP id E5203634C24;
+ Fri, 13 Nov 2020 12:57:55 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v4 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20201113105418.GB15897@paasikivi.fi.intel.com>
-References: <20201103133400.24805-1-sakari.ailus@linux.intel.com>
- <20201103144747.GD4077@smile.fi.intel.com>
- <20201103145616.GJ26150@paasikivi.fi.intel.com>
- <b389f6991ede1f8ae89a0dbaa8deab06aecc6146.camel@perches.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and DRM
+ fourccs
+Date: Fri, 13 Nov 2020 12:54:41 +0200
+Message-Id: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <b389f6991ede1f8ae89a0dbaa8deab06aecc6146.camel@perches.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,10 +39,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Petr Mladek <pmladek@suse.com>, mchehab@kernel.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, dri-devel@lists.freedesktop.org,
+ hverkuil@xs4all.nl, Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
  Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>,
  Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
  linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
@@ -68,70 +50,166 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Joe,
+Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+pixel formats denoted by fourccs. The fourcc encoding is the same for both
+so the same implementation can be used.
 
-On Tue, Nov 03, 2020 at 08:49:36AM -0800, Joe Perches wrote:
-> On Tue, 2020-11-03 at 16:56 +0200, Sakari Ailus wrote:
-> > On Tue, Nov 03, 2020 at 04:47:47PM +0200, Andy Shevchenko wrote:
-> > > On Tue, Nov 03, 2020 at 03:34:00PM +0200, Sakari Ailus wrote:
-> > > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > > > so the same implementation can be used.
-> > > 
-> > > ...
-> > > 
-> > > > +static noinline_for_stack
-> > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > > +		    struct printf_spec spec, const char *fmt)
-> > > > +{
-> > > > +	char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> > > 
-> > > I would add a comment that there is another possibility, i.e. big-endian, but
-> > > it occupies less space.
-> 
-> I think it's unnecessary as it's obvious and similarly done in other
-> <foo>_string type functions.
-> 
-> > > > +	p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
-> > > > +			       sizeof(u32));
-> > > 
-> > > I would go with one line here.
-> > 
-> > It's wrapped since the result would be over 80 otherwise.
-> 
-> Perhaps simpler as
-> 
-> 	p = special_hex_number(p, p + 10, *fourcc, sizeof(u32));
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v4:
 
-Yes. But having bugs elsewhere would have a magnified effect. I wouldn't be
-afraid of a newline here.
+- Use correct destination for error string (was broken in v4)
 
-> 
-> > > The (theoretical) problem is here that the case when buffer size is not enough
-> > > to print a value will be like '(0xabc)' but should be rather '(0xabcd' like
-> > > snprintf() does in general.
-> 
-> Isn't the stack buffer known to be large enough?
+- Remove unneeded comment "/* subtract parenthesis and the space from the
+  size */".
 
-Yes. If there are no bugs, that is.
+ Documentation/core-api/printk-formats.rst | 16 +++++++
+ lib/test_printf.c                         | 17 ++++++++
+ lib/vsprintf.c                            | 51 +++++++++++++++++++++++
+ 3 files changed, 84 insertions(+)
 
-> 
-> > > > +	*p++ = ')';
-> > > > +	*p = '\0';
-> > > > +
-> > > > +	return string(buf, end, output, spec);
-> 
-> Isn't the actual output buffer used here truncating output?
-> 
-> If the general problem is someone using a limited length pointer
-> output like %10p4cc, then all the output is getting truncated no?
-
-Correct. But I'd also be surprised if anyone ever used this feature.
-
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 6d26c5c6ac48..080262d2e030 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -565,6 +565,22 @@ For printing netdev_features_t.
+ 
+ Passed by reference.
+ 
++V4L2 and DRM FourCC code (pixel format)
++---------------------------------------
++
++::
++
++	%p4cc
++
++Print a FourCC code used by V4L2 or DRM, including format endianness and
++its numerical value as hexadecimal.
++
++Passed by reference.
++
++Examples::
++
++	%p4cc	BG12 little-endian (0x32314742)
++
+ Thanks
+ ======
+ 
+diff --git a/lib/test_printf.c b/lib/test_printf.c
+index 7ac87f18a10f..7fb042542660 100644
+--- a/lib/test_printf.c
++++ b/lib/test_printf.c
+@@ -649,6 +649,22 @@ static void __init fwnode_pointer(void)
+ 	software_node_unregister(&softnodes[0]);
+ }
+ 
++static void __init fourcc_pointer(void)
++{
++	struct {
++		u32 code;
++		char *str;
++	} const try[] = {
++		{ 0x20104646, "FF(10) little-endian (0x20104646)", },
++		{ 0xa0104646, "FF(10) big-endian (0xa0104646)", },
++		{ 0x10111213, "(13)(12)(11)(10) little-endian (0x10111213)", },
++	};
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(try); i++)
++		test(try[i].str, "%p4cc", &try[i].code);
++}
++
+ static void __init
+ errptr(void)
+ {
+@@ -694,6 +710,7 @@ test_pointer(void)
+ 	flags();
+ 	errptr();
+ 	fwnode_pointer();
++	fourcc_pointer();
+ }
+ 
+ static void __init selftest(void)
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 14c9a6af1b23..b07ee5b7de06 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1733,6 +1733,54 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+ 	return special_hex_number(buf, end, num, size);
+ }
+ 
++static noinline_for_stack
++char *fourcc_string(char *buf, char *end, const u32 *fourcc,
++		    struct printf_spec spec, const char *fmt)
++{
++	char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
++	char *p = output;
++	unsigned int i;
++	u32 val;
++
++	if (fmt[1] != 'c' || fmt[2] != 'c')
++		return error_string(buf, end, "(%p4?)", spec);
++
++	if (check_pointer(&buf, end, fourcc, spec))
++		return buf;
++
++	val = *fourcc & ~BIT(31);
++
++	for (i = 0; i < sizeof(*fourcc); i++) {
++		unsigned char c = val >> (i * 8);
++
++		/* Weed out spaces */
++		if (c == ' ')
++			continue;
++
++		/* Print non-control ASCII characters as-is */
++		if (isascii(c) && isprint(c)) {
++			*p++ = c;
++			continue;
++		}
++
++		*p++ = '(';
++		p = hex_byte_pack(p, c);
++		*p++ = ')';
++	}
++
++	strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
++	p += strlen(p);
++
++	*p++ = ' ';
++	*p++ = '(';
++	p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
++			       sizeof(u32));
++	*p++ = ')';
++	*p = '\0';
++
++	return string(buf, end, output, spec);
++}
++
+ static noinline_for_stack
+ char *address_val(char *buf, char *end, const void *addr,
+ 		  struct printf_spec spec, const char *fmt)
+@@ -2162,6 +2210,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
+  *       correctness of the format string and va_list arguments.
+  * - 'K' For a kernel pointer that should be hidden from unprivileged users
+  * - 'NF' For a netdev_features_t
++ * - '4cc' V4L2 or DRM FourCC code, with endianness and raw numerical value.
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+  *              C colon
+@@ -2259,6 +2308,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 		return restricted_pointer(buf, end, ptr, spec);
+ 	case 'N':
+ 		return netdev_bits(buf, end, ptr, spec, fmt);
++	case '4':
++		return fourcc_string(buf, end, ptr, spec, fmt);
+ 	case 'a':
+ 		return address_val(buf, end, ptr, spec, fmt);
+ 	case 'd':
 -- 
-Kind regards,
+2.27.0
 
-Sakari Ailus
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
