@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1E12B25B2
-	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 21:42:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8412B25BE
+	for <lists+dri-devel@lfdr.de>; Fri, 13 Nov 2020 21:45:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8ED6E833;
-	Fri, 13 Nov 2020 20:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2F816E835;
+	Fri, 13 Nov 2020 20:45:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
  [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA9D6E833
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 20:42:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id l1so11531223wrb.9
- for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 12:42:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nrD3nY8cJDaosn3p5aLHlRB3L6tK9xLqGeExQ6Gq7M8=;
- b=Jvk/YXKG6HcLZi5edX2PZXUDYYh5g3oyEpBcmCbz+7TdHNH1WlRw5BIu5reFz+McTL
- 6nHkQTmU9WV5dXtgvrLCoPrmEjCQ9FNPz4YSzB4hz91J80xMPSkVudbIKljdSNXic8hG
- vgM3Z6WEX1QKClGqWaVNCGhWw6oBNHrEBiPUUMgRpvObaSSvr30ThxaelbA6mrUeiT1K
- x2c+mbq0eCA/0Pmk7crSL4POzZ+GveFicHwPhHd+Cji7HEGjey/DN79pRewc1y1034+a
- H4FYlR5kmcDb+MdjSy/BXSLxvmaroR8veo/0ZaOxlWLEdzT36SwxFG3bn+DgilqO84cG
- HCkw==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC0A36E835
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 20:45:29 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id 33so11553235wrl.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 12:45:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=iEq53tDK9TxRXDnQ/1dirbrb4PL0wbKgM/db/S9Ynt0=;
+ b=kOqQPua3J5UZeO5nCycKFQG3Cq8g44foA1OkeBUHrXSfdccTl9GVRPtm1S/YFRku/x
+ sdXg8YkCLKS8fRTOndeAp97UyLEJykzopw0WlSdxfowk9IZhPd73N5tdlQr8gWrxjcnk
+ 5ecQCM4Ly3nZ8ruLTmQwpJmPfbigpDzpUKuJo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nrD3nY8cJDaosn3p5aLHlRB3L6tK9xLqGeExQ6Gq7M8=;
- b=PF2uR5ufaUOyzAo0jP9K4fq6TCIWJ6YUptnYkHy40VE3LefsMr5NrMCez2Qe/C6CrP
- 4wnwLM6pLIncXfqgiwIQwpRR2Ql4BQOSnlsZ4odsQMDbkjnfBol3PUNfvrLGO/dOypOj
- JFzO5yZNb42LxSMxCrb/lU8WjuMVu/Dqi1bU4MfkplVWxsHlhJfg/uI8QGQ+HByQOSxf
- HBonQQY7IzDF+luDRbSz+hVXLECsTvIDRrA8Z8oeY2ArQJH4rPzk1r5yJ5n2UGADqxvW
- QG7dlQU9kWCvtolPUhyjYh4QJ/jYQsJ7HDYZqY4PfHYGbklR4Inw9sG0f2ZAEP/ChIYz
- gGPQ==
-X-Gm-Message-State: AOAM531H5jSnMxKfYIxDxVTGsGTnyNJhbDXQyH/+o78isYyIPijOO8q8
- I2y66vhEmOpCfFt3/pZi7qaREGrZzps=
-X-Google-Smtp-Source: ABdhPJw3pD+6yjxQh8vumZTgEOtHwkIgj8jf/FSLiFAcA0TAhQI6qnKz/rR5d4NMekYEiWTzZtNhKQ==
-X-Received: by 2002:a5d:4ec2:: with SMTP id s2mr5660666wrv.258.1605300122845; 
- Fri, 13 Nov 2020 12:42:02 -0800 (PST)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id b8sm10940750wmj.9.2020.11.13.12.42.01
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=iEq53tDK9TxRXDnQ/1dirbrb4PL0wbKgM/db/S9Ynt0=;
+ b=JcSDLx315+NxDfBzNIN+b4rXqgTDgHf/ESYbpgHHbWw8YoqxU4XVe1rzBvfRZjcCMk
+ NGCL85IDlhgahG6+TQLP7H3Xc7JhACFkW3LPlE8GaoA2fXWv9mTyUjpV7sVxR1ifmOfe
+ vMMr1YuRfDkTR1o0v6QaFPWBAwZ4RJetjGoobHf50BVdXGwb1uFHw++y9+JSxTnqKCmw
+ zvXxqBwoFuXeoWQU/XYGRye9ESyD7P25ueiBRNd7UE1HnBGJqz5lElmF9nNfrqtTHVER
+ pTrfj0m50ORF7Aqq1VBD8mpHE4UgTPeULFu2evA77oZFBtEwRZD9otkEDlcfsd11Evu0
+ oOnA==
+X-Gm-Message-State: AOAM532Pgq/DGl7FFM0FS8kllq7x3640FRlulGGQ6i8Mt5kUkVeuQZgo
+ V0bfv/BhEd4yYzpZK8BJZb0nMnVs21bCsw==
+X-Google-Smtp-Source: ABdhPJwzAxNKNhFPx9nHKMhmZE94CSs/NAhz/xPzP6WuZoQmHa7XtzBVzLVqPJs2h5dhb/d1nLGD8g==
+X-Received: by 2002:a05:6000:10cd:: with SMTP id
+ b13mr6033603wrx.220.1605300328502; 
+ Fri, 13 Nov 2020 12:45:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 89sm12533021wrp.58.2020.11.13.12.45.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 13 Nov 2020 12:42:01 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: [PATCH] drm/tegra: output: Do not put OF node twice
-Date: Fri, 13 Nov 2020 21:41:57 +0100
-Message-Id: <20201113204157.1942919-1-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.29.2
+ Fri, 13 Nov 2020 12:45:27 -0800 (PST)
+Date: Fri, 13 Nov 2020 21:45:25 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Veera Sundaram Sankaran <veeras@codeaurora.org>
+Subject: Re: [PATCH RESEND 2/2] drm/drm_vblank: set the dma-fence timestamp
+ during send_vblank_event
+Message-ID: <20201113204525.GV401619@phenom.ffwll.local>
+References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
+ <1605205643-12746-2-git-send-email-veeras@codeaurora.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <1605205643-12746-2-git-send-email-veeras@codeaurora.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,42 +67,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- dri-devel@lists.freedesktop.org
+Cc: airlied@linux.ie, gustavo@padovan.org, dri-devel@lists.freedesktop.org,
+ pdhaval@codeaurora.org, abhinavk@codeaurora.org, sean@poorly.run,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thierry Reding <treding@nvidia.com>
+On Thu, Nov 12, 2020 at 10:27:23AM -0800, Veera Sundaram Sankaran wrote:
+> The explicit out-fences in crtc are signaled as part of vblank event,
+> indicating all framebuffers present on the Atomic Commit request are
+> scanned out on the screen. Though the fence signal and the vblank event
+> notification happens at the same time, triggered by the same hardware
+> vsync event, the timestamp set in both are different. With drivers
+> supporting precise vblank timestamp the difference between the two
+> timestamps would be even higher. This might have an impact on use-mode
+> frameworks using these fence timestamps for purposes other than simple
+> buffer usage. For instance, the Android framework uses the retire-fences
+> as an alternative to vblank when frame-updates are in progress Set the
+> fence timestamp during send vblank event to avoid discrepancies.
 
-The original patch for commit 3d2e7aec7013 ("drm/tegra: output: Don't
-leak OF node on error") contained this hunk, but it was accidentally
-dropped during conflict resolution. This causes use-after-free errors
-on devices that use an I2C controller for HDMI DDC/CI on Tegra210 and
-later.
+I think a reference to the exact source code in android that does this
+would be really useful. Something in drm_hwcomposer or whatever is doing
+this.
 
-Fixes: 3d2e7aec7013 ("drm/tegra: output: Don't leak OF node on error")
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/gpu/drm/tegra/output.c | 1 -
- 1 file changed, 1 deletion(-)
+Aside from documenting why we want to do this I think this all looks
+reasonable.
+-Daniel
 
-diff --git a/drivers/gpu/drm/tegra/output.c b/drivers/gpu/drm/tegra/output.c
-index 5a4fd0dbf4cf..47d26b5d9945 100644
---- a/drivers/gpu/drm/tegra/output.c
-+++ b/drivers/gpu/drm/tegra/output.c
-@@ -129,7 +129,6 @@ int tegra_output_probe(struct tegra_output *output)
- 
- 		if (!output->ddc) {
- 			err = -EPROBE_DEFER;
--			of_node_put(ddc);
- 			return err;
- 		}
- 	}
+> 
+> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> ---
+>  drivers/gpu/drm/drm_vblank.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> index b18e1ef..b38e50c 100644
+> --- a/drivers/gpu/drm/drm_vblank.c
+> +++ b/drivers/gpu/drm/drm_vblank.c
+> @@ -24,6 +24,7 @@
+>   * OTHER DEALINGS IN THE SOFTWARE.
+>   */
+>  
+> +#include <linux/dma-fence.h>
+>  #include <linux/export.h>
+>  #include <linux/kthread.h>
+>  #include <linux/moduleparam.h>
+> @@ -999,6 +1000,14 @@ static void send_vblank_event(struct drm_device *dev,
+>  		e->event.seq.time_ns = ktime_to_ns(now);
+>  		break;
+>  	}
+> +
+> +	/*
+> +	 * update fence timestamp with the same vblank timestamp as both
+> +	 * are signaled by the same event
+> +	 */
+> +	if (e->base.fence)
+> +		e->base.fence->timestamp = now;
+> +
+>  	trace_drm_vblank_event_delivered(e->base.file_priv, e->pipe, seq);
+>  	drm_send_event_locked(dev, &e->base);
+>  }
+> -- 
+> 2.7.4
+> 
+
 -- 
-2.29.2
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
