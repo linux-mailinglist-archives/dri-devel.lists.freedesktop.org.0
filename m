@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638522B3AF4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A482B3B07
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72CE289DA8;
-	Mon, 16 Nov 2020 01:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9860C89D8E;
+	Mon, 16 Nov 2020 01:07:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
  [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F7D6E52E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3AC6E532
  for <dri-devel@lists.freedesktop.org>; Fri, 13 Nov 2020 15:32:22 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4FD58580333;
- Fri, 13 Nov 2020 10:32:19 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id A404A580337;
+ Fri, 13 Nov 2020 10:32:20 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 13 Nov 2020 10:32:19 -0500
+ by compute6.internal (MEProxy); Fri, 13 Nov 2020 10:32:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=7bfsWjTZyDOlt
- QkPS8XBY1LVaOtpcGUaALahRoERT+s=; b=lPjJH6xYlXxe6lxIrDVUBiD7RJhGg
- pY9CkWTuhtrLiOv21EH0DtcRFEuJJ4yRM3ppk3W66dszymMd3teDa/rbjsz2iMG/
- 6aihY/DFYjxBWgEgZvHWcfoMCaAGK5oJZ3N74KyhUh81yWs7kLvaImTDHWz0BU8+
- r6qAbnsxBUlCnZfTznBToFBYhAvzGtVor7EEvoLF/pIDowG7IsoQkyc1sbInM9X2
- X+UttxkKwMmLusM6yrK973bAxjUN3syBUQ8uRcmvQ5wa7/Eix6H3Rv+6Jzkp8XHZ
- J8loFEbbDhBTXkTIsFepQJ9Z+SMq0Eju3tgr//MScZiX7gR295ZcWiPew==
+ :mime-version:content-transfer-encoding; s=fm1; bh=yRH3HGKMxPkCB
+ hafEQ18e2pDZzkLwu+GD/KNu//gUW4=; b=WcIe1mM0nCnIDgZNeflQAlK+eRMz5
+ /5W9LTtimER3uUaP1SKqrOP2oTsCohsWxgbVVXgW5ZE8xbXYWkhQtQqV3I1rECF+
+ IC+rxUizxBomjxz5o0qEZWI2ltGo0PPhELQ9rMaTsoMu41hPEUrPEQ0ikbOLR8rq
+ V8HMBqa1lr6S9HKFv51LYeaIsI19K3qUo8nSxd+ZC7pa2Xz2FE+NmZ0U01fGWWm6
+ Wwgm7SVcOsY58A1dwsGHqkfHghHUzPRvCaS4S/WNGRu4rT/0kV32n5zJ1H4kR/BK
+ 8+SF4AHy3EaVE+0UZNOiLQXTjfMDq4uYDedfwdLdhTljhRXCHQ32sf2Gw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=7bfsWjTZyDOltQkPS8XBY1LVaOtpcGUaALahRoERT+s=; b=Y7YTllUE
- xf8mvUUiaM7ed2Fc0J/WzX7DhOtEOR4Od8pG3JO8OgS5WXFuZ/FkvrOvqldQ33o+
- PmABBGihs62dotq6wqYpOkBSUzHLw98KDnMsd6QtmAXKR8hiRYKXzoZh0m2ZPshl
- 2wgJIsNGOECPs8a43vcj3semORDoIQTBQznTKHwRE8goWkcT86V6jnAT6eiFWbg0
- Li5o42zCUkkYB7Hj87jTGFfrEuBPBIJ9izP/JmwPSB8Hgk38srzvbJadLNDoF/8T
- uv8jG6QN9iO6BBBsc/vTm+EAEubKyDuQWu1j5rZcBZHG0addO+V8QG933DotVgNF
- SWWS5iandYRHjg==
-X-ME-Sender: <xms:A6euX3TSYVhvKHNkMnCwhNAiY30hN9L1SCFTWU1rvk2dqOu3huSGrA>
- <xme:A6euX4zvoGfbTKSKuFqI3wlogaygs3d4LadK4kzf9OwW3QWXl0CFeuzUg659OuWbY
- Y3I6BTEfJ6PHV1fRas>
+ fm1; bh=yRH3HGKMxPkCBhafEQ18e2pDZzkLwu+GD/KNu//gUW4=; b=NA0zWuTf
+ z9whVxz+KxSUTqIguzPh1U20BPbRoZCLPNQ8iLMEmBNdftfgeFXf3druYRDmoASX
+ N6cnE3Xm9vb6DGq6YjhCbcfgN2IiK9afp9lxntd1DnLnOMpwlNQgquzQiTCbtTwO
+ 8Sc01ZSseVECTMbchLLScBsq35Mp+FhdmSa3i8bIx72CaE/DD8bPPZ24Y/eGB2R6
+ xhaSdO6BLd8owZuS7lbrDBOqHnb2a0SFq8lBZ8hbtiCfy/3GgG4+0WHSkJ/8fOLR
+ QiZZpnN7ggehmyHhHEWA9kFbxrYCpwiZaaTM3aNdNIwT29u2Wl/xJilPkIE5LaaQ
+ wjCHGf2vt5qIYg==
+X-ME-Sender: <xms:BKeuXy3nc9E3Xln8AxSx5kh59Nvrp1_KSClaCDrXeqW_jblVDjdrFw>
+ <xme:BKeuX1H4fbvcz_47bnMyC11M_rwZkbhpw7nzicbrfnE4OQ8eVhPS9DW9l24EdDf9z
+ 2ZzyKL_iF_RBDot-wk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddvhedgjeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:A6euX80eLuvZ2TrZT5Fd7kTpb-GbHYm-dTtaQOukWyOdEAKvRmeCUg>
- <xmx:A6euX3C3LgLCnqsE3_vc-f_tY_5eAplXPG03jRe4JsUjX6IHo5nacQ>
- <xmx:A6euXwh_Nl7oDCEqLWKpTdC46xkY--G_EUdoQ2eSRKkwAsjTX5TcEg>
- <xmx:A6euXw6m4CdFz3AzNX5BlDB-bF_vg4fNb5iYLUItllJhOga7NDAGyQ>
+X-ME-Proxy: <xmx:BKeuX67YxyEe9eN_MPmTehdYp2LkY_cYk9T__z14RDpYVzjGQzd5qw>
+ <xmx:BKeuXz0CD9h-40goIM2EQ9AwYLCPgNWczucc-k1cJOXj02TRTAKuaw>
+ <xmx:BKeuX1GG5qzP74e1ttVaF7aU9bp5eoqYJScjRlJVrjmFYWyrSVX9-Q>
+ <xmx:BKeuXyehb6uIz8NoSaY8DqTH6pemvV2XE5sPZbmRg8NiAbmoBnp7RQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id B7DC53064AB4;
- Fri, 13 Nov 2020 10:32:18 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1F9283064AB0;
+ Fri, 13 Nov 2020 10:32:20 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH 2/8] drm: Document use-after-free gotcha with private objects
-Date: Fri, 13 Nov 2020 16:29:50 +0100
-Message-Id: <20201113152956.139663-3-maxime@cerno.tech>
+Subject: [PATCH 3/8] drm/vc4: kms: Move HVS state helpers around
+Date: Fri, 13 Nov 2020 16:29:51 +0100
+Message-Id: <20201113152956.139663-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201113152956.139663-1-maxime@cerno.tech>
 References: <20201113152956.139663-1-maxime@cerno.tech>
@@ -93,43 +93,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The private objects have a gotcha that could result in a use-after-free,
-make sure it's properly documented.
+We're going to use those helpers in functions higher in that file, let's
+move it around.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- include/drm/drm_atomic.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/gpu/drm/vc4/vc4_kms.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-index 413fd0ca56a8..24b52b3a459f 100644
---- a/include/drm/drm_atomic.h
-+++ b/include/drm/drm_atomic.h
-@@ -248,6 +248,24 @@ struct drm_private_state_funcs {
-  *    drm_dev_register()
-  * 2/ all calls to drm_atomic_private_obj_fini() must be done after calling
-  *    drm_dev_unregister()
-+ *
-+ * If that private object is used to store a state shared my multiple
-+ * CRTCs, proper care must be taken to ensure that non-blocking commits are
-+ * properly ordered to avoid a use-after-free issue.
-+ *
-+ * Indeed, assuming a sequence of two non-blocking commits on two different
-+ * CRTCs using different planes and connectors, so with no resources shared,
-+ * there's no guarantee on which commit is going to happen first. However, the
-+ * second commit will consider the first private state its old state, and will
-+ * be in charge of freeing it whenever the second commit is done.
-+ *
-+ * If the first commit happens after it, it will consider its private state the
-+ * new state and will be likely to access it, resulting in an access to a freed
-+ * memory region. A way to circumvent this is to store (and get a reference to)
-+ * the crtc commit in our private state in
-+ * &drm_mode_config_helper_funcs.atomic_commit_setup, and then wait for that
-+ * commit to complete as part of
-+ * &drm_mode_config_helper_funcs.atomic_commit_tail.
-  */
- struct drm_private_obj {
- 	/**
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index 7ef164afa9e2..d6712924681e 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -182,6 +182,19 @@ vc4_ctm_commit(struct vc4_dev *vc4, struct drm_atomic_state *state)
+ 		  VC4_SET_FIELD(ctm_state->fifo, SCALER_OLEDOFFS_DISPFIFO));
+ }
+ 
++static struct vc4_hvs_state *
++vc4_hvs_get_global_state(struct drm_atomic_state *state)
++{
++	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
++	struct drm_private_state *priv_state;
++
++	priv_state = drm_atomic_get_private_obj_state(state, &vc4->hvs_channels);
++	if (IS_ERR(priv_state))
++		return ERR_CAST(priv_state);
++
++	return to_vc4_hvs_state(priv_state);
++}
++
+ static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
+ 				     struct drm_atomic_state *state)
+ {
+@@ -730,19 +743,6 @@ static int vc4_hvs_channels_obj_init(struct vc4_dev *vc4)
+ 	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fini, NULL);
+ }
+ 
+-static struct vc4_hvs_state *
+-vc4_hvs_get_global_state(struct drm_atomic_state *state)
+-{
+-	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
+-	struct drm_private_state *priv_state;
+-
+-	priv_state = drm_atomic_get_private_obj_state(state, &vc4->hvs_channels);
+-	if (IS_ERR(priv_state))
+-		return ERR_CAST(priv_state);
+-
+-	return to_vc4_hvs_state(priv_state);
+-}
+-
+ /*
+  * The BCM2711 HVS has up to 7 output connected to the pixelvalves and
+  * the TXP (and therefore all the CRTCs found on that platform).
 -- 
 2.28.0
 
