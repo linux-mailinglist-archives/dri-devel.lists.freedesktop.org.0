@@ -2,61 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742462B3B06
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BB7C2B3B19
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:09:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E22089DDF;
-	Mon, 16 Nov 2020 01:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E231B89EAE;
+	Mon, 16 Nov 2020 01:07:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com
- [IPv6:2607:f8b0:4864:20::744])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6E486E930
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:21:13 +0000 (UTC)
-Received: by mail-qk1-x744.google.com with SMTP id k4so2514170qko.13
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:21:13 -0800 (PST)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B75EA6E944
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 18:58:16 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id n63so9759836qte.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 10:58:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=marek-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8trkRjP9UFPyJqjxFvhkrNselLfEoUHaVtNBCoJ4XCk=;
- b=tAvkwqI5UxVZLosgiy2dth1kE1mcObUnNjCIF6g213uhCAWBHnRRh5fpxcrgw4xb3v
- FZ7NpmkKli8Co1oMfBaarPj3K76JK44Ml1lkgtKkBh09QtZQ3+zfv1uswWhXd61y4bQE
- j/X998FoLQ84iWpWlrUVOo/Q3OBuKZs9cqij5UWCtakg6o/hSjfI+DtG0TBdUATP99z1
- gRiqRqcuyqK46TknWsQIXmrU0QiaF+mSHY13qSlOKkOoJQg6DbBkqlrPmB0OQzbY/isO
- +v33fhTuN3YUdRVIzPhPZJQDAlEazj2T3f5zJHglATLeKtFoLgiRU9C+AwUzyYMLEkv2
- EkIw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TMf2jxejJABWBtAoBfzp32PpWj6QOIcuhJX0eJtviss=;
+ b=l1maGaFvkD5AOSuo4Qexi7zHiWYdaj6mZj2RJOfDhVQJdWMuucB6Hr5X1kBAyG7IXc
+ b4Bk0SezvyTtO1bRuZtyjUV74IcDoI97SV3WFMTzfwQUSUOBjEZOS6Tl0cVoW3/k2zD6
+ CX1HIEnu1WI98EbO5aPl2oacD3VJlkshZz9xG+OXKNfsLXkGbrD+kRemaa6hbfF0CPHa
+ QMavRtqLiyqc9sBWY8Bre5p9H3ldMvinRQw5osIF0Athr1lP5EgKy/08eZt03yajtXWF
+ aPwQAB1tipFG+1TtJ9KG8zyY6ZT+ho6viCkEQzkWP0pLpu6G7aTxQgr0EQTC1wR2dQin
+ FX7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8trkRjP9UFPyJqjxFvhkrNselLfEoUHaVtNBCoJ4XCk=;
- b=oihozZDk5ELtrAaUu4JMB2MvGu5xGEd4/7+JI9D1eNwZoD3uoqMvHhjoPEsdRCbUlX
- NQlO/AGiL/X3KZLADCkWRx6y9/gxRX8EihlbDq8GYgIecJeCmvL0LmawMQTXZk6AcjGh
- x0uL3CqHpoEcE6xSnpzpRUzeZSE+NSFdt9TroJOdZzau8bpvcwpGP5iwQjognD4zRDz4
- JPnzrUHEP0l13Hy7Gb3gxig/qF+JOtWAmIploJLiLz0JanmUzeIYw4NX0qro72x2uyZ5
- Bhqb1yyUUZwZqrb46zecVBbOWcd+yHKd46dN9tr1UrvGoumjBL0P4lvqETD7A6HpdMTA
- czAQ==
-X-Gm-Message-State: AOAM531C9/PCdgZx6yiJM1K5ALfzqGQIsNMamIHFR18M0+QTFasQ38RU
- GN3lyS2dKiwOXvzO1Q6wSIZopQ==
-X-Google-Smtp-Source: ABdhPJwk2smqvgptEJnw46UBkqHH5sjXfXDGxlkv1FFfTWhR+COGK7v2Bg8xIbe+LZRJgTPMlPpQFg==
-X-Received: by 2002:a37:de08:: with SMTP id h8mr6941400qkj.0.1605367273113;
- Sat, 14 Nov 2020 07:21:13 -0800 (PST)
-Received: from localhost.localdomain
- (modemcable068.184-131-66.mc.videotron.ca. [66.131.184.68])
- by smtp.gmail.com with ESMTPSA id h125sm8888368qkc.36.2020.11.14.07.21.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 07:21:12 -0800 (PST)
-From: Jonathan Marek <jonathan@marek.ca>
-To: freedreno@lists.freedesktop.org,
-	hch@lst.de
-Subject: [RESEND PATCH v2 5/5] drm/msm: bump up the uapi version
-Date: Sat, 14 Nov 2020 10:17:13 -0500
-Message-Id: <20201114151717.5369-6-jonathan@marek.ca>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20201114151717.5369-1-jonathan@marek.ca>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TMf2jxejJABWBtAoBfzp32PpWj6QOIcuhJX0eJtviss=;
+ b=Twv3oFkbGeXlGHjxj6cWwWVrsgmjNDxMo8100pE5yU9m07Q7Ey44nozshnVZ3BEFea
+ OybFcqyIhuqNjA7JwPx8H5P0uxqXwxaR7pCXH+el8J+Ar9NuQm2O3Vse0JjmOMczFihr
+ rYfb0T+hUDHv6UjOIFAzEscAcfipZm7V33OeC0sLQtUgDFrU8eHGc41b7vU90LU9aOpf
+ WvpeCUzzeAcqr7/ng1jQAFQZOb4TVbfLay2LRrKOl8cEa5A8QerfsJuOYFpfjTSgtJJJ
+ Q75gggiSihln6l2a2vTvEqwfqgXr1SMCnF7oIuyi45lsPSahFlzD+IPeIh74KLzgOrBJ
+ MfEA==
+X-Gm-Message-State: AOAM5325lNuyRH5d2b988MgAt8c3RNivlkNwbr6ci4xgCQJbFzXxwf8t
+ vhbsVw7KbamHVjHAiOm+JKEc4Q==
+X-Google-Smtp-Source: ABdhPJxqZ5MRkhVOHMMlYoXt6FMs0Q1n0lO/hML4Gxe4LBfm06kaYgpkAO5Oe++wwspoHS1AbdrdUA==
+X-Received: by 2002:ac8:7559:: with SMTP id b25mr7495604qtr.51.1605380295552; 
+ Sat, 14 Nov 2020 10:58:15 -0800 (PST)
+Received: from [192.168.0.189] (modemcable068.184-131-66.mc.videotron.ca.
+ [66.131.184.68])
+ by smtp.gmail.com with ESMTPSA id z133sm4788908qka.20.2020.11.14.10.58.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 14 Nov 2020 10:58:14 -0800 (PST)
+Subject: Re: [RESEND PATCH v2 4/5] drm/msm: add DRM_MSM_GEM_SYNC_CACHE for
+ non-coherent cache maintenance
+To: Rob Clark <robdclark@gmail.com>, Christoph Hellwig <hch@lst.de>
 References: <20201114151717.5369-1-jonathan@marek.ca>
+ <20201114151717.5369-5-jonathan@marek.ca> <20201114162406.GC24411@lst.de>
+ <CAF6AEGvujttEkFuRqtt7i+0o7-=2spKXfAvJZrj96uWAFRLYuA@mail.gmail.com>
+From: Jonathan Marek <jonathan@marek.ca>
+Message-ID: <50ddcadb-c630-2ef6-cdc4-724d9823fba7@marek.ca>
+Date: Sat, 14 Nov 2020 13:54:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
+In-Reply-To: <CAF6AEGvujttEkFuRqtt7i+0o7-=2spKXfAvJZrj96uWAFRLYuA@mail.gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 16 Nov 2020 01:07:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,41 +76,68 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
  Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Increase the minor version to indicate the presence of new features.
+On 11/14/20 1:46 PM, Rob Clark wrote:
+> On Sat, Nov 14, 2020 at 8:24 AM Christoph Hellwig <hch@lst.de> wrote:
+>>
+>> On Sat, Nov 14, 2020 at 10:17:12AM -0500, Jonathan Marek wrote:
+>>> +void msm_gem_sync_cache(struct drm_gem_object *obj, uint32_t flags,
+>>> +             size_t range_start, size_t range_end)
+>>> +{
+>>> +     struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>>> +     struct device *dev = msm_obj->base.dev->dev;
+>>> +
+>>> +     /* exit early if get_pages() hasn't been called yet */
+>>> +     if (!msm_obj->pages)
+>>> +             return;
+>>> +
+>>> +     /* TODO: sync only the specified range */
+>>> +
+>>> +     if (flags & MSM_GEM_SYNC_FOR_DEVICE) {
+>>> +             dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
+>>> +                             msm_obj->sgt->nents, DMA_TO_DEVICE);
+>>> +     }
+>>> +
+>>> +     if (flags & MSM_GEM_SYNC_FOR_CPU) {
+>>> +             dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
+>>> +                             msm_obj->sgt->nents, DMA_FROM_DEVICE);
+>>> +     }
+>>
+>> Splitting this helper from the only caller is rather strange, epecially
+>> with the two unused arguments.  And I think the way this is specified
+>> to take a range, but ignoring it is actively dangerous.  User space will
+>> rely on it syncing everything sooner or later and then you are stuck.
+>> So just define a sync all primitive for now, and if you really need a
+>> range sync and have actually implemented it add a new ioctl for that.
+> 
+> We do already have a split of ioctl "layer" which enforces valid ioctl
+> params, etc, and gem (or other) module code which is called by the
+> ioctl func.  So I think it is fine to keep this split here.  (Also, I
+> think at some point there will be a uring type of ioctl alternative
+> which would re-use the same gem func.)
+> 
+> But I do agree that the range should be respected or added later..
+> drm_ioctl() dispatch is well prepared for extending ioctls.
+> 
+> And I assume there should be some validation that the range is aligned
+> to cache-line?  Or can we flush a partial cache line?
+> 
 
-Signed-off-by: Jonathan Marek <jonathan@marek.ca>
----
- drivers/gpu/drm/msm/msm_drv.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The range is intended to be "sync at least this range", so that 
+userspace doesn't have to worry about details like that.
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 3f17acdf6594..7230d3c0eee5 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -39,9 +39,10 @@
-  *           GEM object's debug name
-  * - 1.5.0 - Add SUBMITQUERY_QUERY ioctl
-  * - 1.6.0 - Syncobj support
-+ * - 1.7.0 - MSM_BO_CACHED_COHERENT and DRM_IOCTL_MSM_GEM_SYNC_CACHE
-  */
- #define MSM_VERSION_MAJOR	1
--#define MSM_VERSION_MINOR	6
-+#define MSM_VERSION_MINOR	7
- #define MSM_VERSION_PATCHLEVEL	0
- 
- static const struct drm_mode_config_funcs mode_config_funcs = {
--- 
-2.26.1
-
+> BR,
+> -R
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
