@@ -2,38 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053852B3076
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 21:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D7DB2B30B3
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 21:48:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16EA46E957;
-	Sat, 14 Nov 2020 20:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E4926E964;
+	Sat, 14 Nov 2020 20:48:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702DB6E957
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 20:02:56 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 9F7B08054C;
- Sat, 14 Nov 2020 21:02:52 +0100 (CET)
-Date: Sat, 14 Nov 2020 21:02:51 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2] dt-bindings: display: mcde: Convert to YAML schema
-Message-ID: <20201114200251.GD3900471@ravnborg.org>
-References: <20201111130754.2283993-1-linus.walleij@linaro.org>
- <20201111205857.GB3013948@ravnborg.org>
- <CACRpkdaUZMNQn7bvmPKP+kbqsW66HrS0RTDkUjrAW15EEf+8EA@mail.gmail.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07C746E964;
+ Sat, 14 Nov 2020 20:48:29 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id 23so14137993wrc.8;
+ Sat, 14 Nov 2020 12:48:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5kxdW0BGmya6+iac4PEbXw/SdeDVo3PvponWz/JT0D0=;
+ b=YBzvbEClpZhjQV4W5jQm7JKHQrD1GEqBjbjGovBWVvKh1I7A2YgZtR3k0YGZ2dY+Sh
+ YPSU0nRuJmrWZ4sqAuPt7ty6CwPEeVelxR9YPjRZUaHA1JltUCcFNyGszHqEX8R2TIad
+ AyK/AIfDybRoc4OL6FwYv6XFfkceWyHvVUPDvWcv3uLZatmgxTwl/qcii78FyXTyjwbD
+ iV68Ul9QUA8qQKIz4shJX9YuH0Db07fRudbra129wztYUa4+WDjfeWYwlAhJuX+swdtH
+ QkCLTvjcrqtRWB2sggjJ0I2B1WlrNEmeOW8+np5+4OAWFC6c73t/S3udxdUTEKDNCKoh
+ inlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5kxdW0BGmya6+iac4PEbXw/SdeDVo3PvponWz/JT0D0=;
+ b=eT1yXMMd8TvqL1fScJExFXBk6b16J05KopRc4QrzXVnfjYA2iNwBStujkLV7b6nsxc
+ Xuhww2r9BynupOtvgVJe8I50L7DxUWMrqAtDgbRosQGkU17oTTIs3BstJDOx28D15YC+
+ 8x2V9cohHGX5yyF+3o39LNRZp+3yYNEaL509tb8tSvoBz+/D12MjM8QsYLVfNqQAxNnZ
+ IlzvSrmnrKO7JoiMVrItl/r2wDOJos/5DJoPFxUezsWkhN9foH+mTwz9OuddZPfYcZRG
+ Vto/qCoCmbUsNDt7Ge+PvYKJzzdl4o8d91jaNBlbyXJB96W0Re82LX7aK+a2ghH+n0cs
+ vmPg==
+X-Gm-Message-State: AOAM531jWe03ukiDbJ/VCglLln569BP7/Xv2+HI2kx0FIOtrxMfhrjKh
+ C550gVcwlnlI8tGZvEtfryZkaAr3DfHCCfSD3ak=
+X-Google-Smtp-Source: ABdhPJwr/t/g2wfdy6h1Iuz8dqJ8uKKA5Jp/prFloAxEH8BmClb9cm6EBJO7JAHC5gZ7svYddzH/IOL7mFlzUktzT4Q=
+X-Received: by 2002:adf:a54d:: with SMTP id j13mr11557917wrb.132.1605386907608; 
+ Sat, 14 Nov 2020 12:48:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CACRpkdaUZMNQn7bvmPKP+kbqsW66HrS0RTDkUjrAW15EEf+8EA@mail.gmail.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=1O0MGL_9nWPLu35SrL0A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=AjGcO6oz07-iQ99wixmX:22 a=cvBusfyB2V15izCimMoJ:22
+References: <20201114151717.5369-1-jonathan@marek.ca>
+ <20201114151717.5369-5-jonathan@marek.ca>
+ <20201114162406.GC24411@lst.de>
+ <CAF6AEGvujttEkFuRqtt7i+0o7-=2spKXfAvJZrj96uWAFRLYuA@mail.gmail.com>
+ <50ddcadb-c630-2ef6-cdc4-724d9823fba7@marek.ca>
+ <CAF6AEGsH5Wk=J+HxHnRqTMLZscjErjKq2v0Rms7Td=W7icZ3sw@mail.gmail.com>
+ <b6e4f167-871a-5f26-46bd-d914476af519@marek.ca>
+In-Reply-To: <b6e4f167-871a-5f26-46bd-d914476af519@marek.ca>
+From: Rob Clark <robdclark@gmail.com>
+Date: Sat, 14 Nov 2020 12:48:15 -0800
+Message-ID: <CAF6AEGv7fXGVVWcTcSXF6EGB2LOi_wvQP6h6hcX8yNvAZRDbVg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2 4/5] drm/msm: add DRM_MSM_GEM_SYNC_CACHE for
+ non-coherent cache maintenance
+To: Jonathan Marek <jonathan@marek.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,119 +67,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- Sean Paul <sean@poorly.run>, Linux ARM <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>, Christoph Hellwig <hch@lst.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 12, 2020 at 01:19:34PM +0100, Linus Walleij wrote:
-> On Wed, Nov 11, 2020 at 9:59 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > On Wed, Nov 11, 2020 at 02:07:54PM +0100, Linus Walleij wrote:
-> 
-> > > -- clocks: an array of the MCDE clocks in this strict order:
-> > > -  MCDECLK (main MCDE clock), LCDCLK (LCD clock), PLLDSI
-> > > -  (HDMI clock), DSI0ESCLK (DSI0 energy save clock),
+On Sat, Nov 14, 2020 at 12:10 PM Jonathan Marek <jonathan@marek.ca> wrote:
+>
+> On 11/14/20 2:39 PM, Rob Clark wrote:
+> > On Sat, Nov 14, 2020 at 10:58 AM Jonathan Marek <jonathan@marek.ca> wrote:
+> >>
+> >> On 11/14/20 1:46 PM, Rob Clark wrote:
+> >>> On Sat, Nov 14, 2020 at 8:24 AM Christoph Hellwig <hch@lst.de> wrote:
+> >>>>
+> >>>> On Sat, Nov 14, 2020 at 10:17:12AM -0500, Jonathan Marek wrote:
+> >>>>> +void msm_gem_sync_cache(struct drm_gem_object *obj, uint32_t flags,
+> >>>>> +             size_t range_start, size_t range_end)
+> >>>>> +{
+> >>>>> +     struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> >>>>> +     struct device *dev = msm_obj->base.dev->dev;
+> >>>>> +
+> >>>>> +     /* exit early if get_pages() hasn't been called yet */
+> >>>>> +     if (!msm_obj->pages)
+> >>>>> +             return;
+> >>>>> +
+> >>>>> +     /* TODO: sync only the specified range */
+> >>>>> +
+> >>>>> +     if (flags & MSM_GEM_SYNC_FOR_DEVICE) {
+> >>>>> +             dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
+> >>>>> +                             msm_obj->sgt->nents, DMA_TO_DEVICE);
+> >>>>> +     }
+> >>>>> +
+> >>>>> +     if (flags & MSM_GEM_SYNC_FOR_CPU) {
+> >>>>> +             dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
+> >>>>> +                             msm_obj->sgt->nents, DMA_FROM_DEVICE);
+> >>>>> +     }
+> >>>>
+> >>>> Splitting this helper from the only caller is rather strange, epecially
+> >>>> with the two unused arguments.  And I think the way this is specified
+> >>>> to take a range, but ignoring it is actively dangerous.  User space will
+> >>>> rely on it syncing everything sooner or later and then you are stuck.
+> >>>> So just define a sync all primitive for now, and if you really need a
+> >>>> range sync and have actually implemented it add a new ioctl for that.
+> >>>
+> >>> We do already have a split of ioctl "layer" which enforces valid ioctl
+> >>> params, etc, and gem (or other) module code which is called by the
+> >>> ioctl func.  So I think it is fine to keep this split here.  (Also, I
+> >>> think at some point there will be a uring type of ioctl alternative
+> >>> which would re-use the same gem func.)
+> >>>
+> >>> But I do agree that the range should be respected or added later..
+> >>> drm_ioctl() dispatch is well prepared for extending ioctls.
+> >>>
+> >>> And I assume there should be some validation that the range is aligned
+> >>> to cache-line?  Or can we flush a partial cache line?
+> >>>
+> >>
+> >> The range is intended to be "sync at least this range", so that
+> >> userspace doesn't have to worry about details like that.
+> >>
 > >
-> > > -  DSI1ESCLK (DSI1 energy save clock), DSI2ESCLK (DSI2 energy
-> > > -  save clock)
+> > I don't think userspace can *not* worry about details like that.
+> > Consider a case where the cpu and gpu are simultaneously accessing
+> > different parts of a buffer (for ex, sub-allocation).  There needs to
+> > be cache-line separation between the two.
 > >
-> > I did not find these two clocks in the binding below.
-> 
-> The old bindings are wrong. These clocks belong on the DSI
-> host adapters, so they are in this part of the binding:
+>
+> Right.. and it also seems like we can't get away with just
+> flushing/invalidating the whole thing.
+>
+> qcom's vulkan driver has nonCoherentAtomSize=1, and it looks like
+> dma_sync_single_for_cpu() does deal in some way with the partial cache
+> line case, although I'm not sure that means we can have a
+> nonCoherentAtomSize=1.
+>
 
-Please include this info in the changelog to avoid confusing others.
+flush/inv the whole thing could be a useful first step, or at least I
+can think of some uses for it.  But if it isn't useful for how vk sees
+the world, then maybe we should just implement the range properly from
+the get-go.  (And I *think* requiring the range to be aligned to
+cacheline boundaries.. it is always easy from a kernel uabi PoV to
+loosen restrictions later, than the other way around.)
 
-> 
-> +      clocks:
-> +        description: phandles to the high speed and low power (energy
-> save) clocks
-> +          the high speed clock is not present on the third (dsi2) block, so it
-> +          should only have the "lp" clock
-> +        minItems: 1
-> +        maxItems: 2
-> +
-> +      clock-names:
-> +        oneOf:
-> +          - items:
-> +              - const: hs
-> +              - const: lp
-> +          - items:
-> +              - const: lp
-> 
-> All device trees have these in the right place, we just didn't notice that
-> the bindings were wrong exactly because we weren't using
-> formal YAML syntax. Now the strictness of this parser makes me
-> fix my bugs...
-> 
-> > > +  port:
-> > > +    type: object
-> > > +    description:
-> > > +      A DPI port node with endpoint definitions as defined in
-> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > +
-> > > +  "#address-cells":
-> > > +    const: 1
-> > > +
-> > > +  "#size-cells":
-> > > +    const: 1
-> > > +
-> > > +  ranges: true
-> >
-> > This is a transition from .txt to DT Schema so OK with this sub-node.
-> > But otherwise the dsi node should have been linked using graph nodes.
-> > So OK - just thinking out loud.
-> 
-> Actually when I introduced the MCDE DSI last year at first I used port
-> and graphs:
-> https://lore.kernel.org/dri-devel/20190207083647.20615-3-linus.walleij@linaro.org/
-> Then Rob asked "why?":
-> https://lore.kernel.org/dri-devel/20190225223124.GA29057@bogus/
-> And then I removed it, as having a panel directly under a
-> DSI host is fine.
-OK, thanks for the explanation.
-
-> 
-> > > +patternProperties:
-> > > +  "^dsi@[0-9a-f]+$":
-> > > +    description: subnodes for the three DSI host adapters
-> > > +    type: object
-> > > +    allOf:
-> > > +      - $ref: dsi-controller.yaml#
-> (...)
-> > The dsi nodes needs the #address-cells and #size-cells - at least if a
-> > panel node is specified.
-> 
-> This is specified in the referenced schema dsi-controller.yaml.
-> 
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - interrupts
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - epod-supply
-> > > +  - vana-supply
-> > > +
-> > > +additionalProperties: true
-> >
-> > Why are additional properties allowed here?
-> 
-> It's because the SoC peripherals have things like pin control
-> (currently handled by a quirk in the YAML validator I think) and
-> resets is something else I will likely add at some point, and then
-> this would result in warnings unless I lock-step changes in the
-> schema and DTS files.
-> 
-> I *can* disallow this if you insist.
-Add reset now as an optional property and you are covered.
-The HW does not change, and this describes the HW and not the drivers.
-
-	Sam
+BR,
+-R
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
