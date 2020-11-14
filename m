@@ -1,51 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACC472B2E2D
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 16:42:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC442B2E84
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 17:45:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7320A6E937;
-	Sat, 14 Nov 2020 15:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7B86E933;
+	Sat, 14 Nov 2020 16:45:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
- [209.85.221.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 484D06E937
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:42:31 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r17so13670584wrw.1
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:42:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=PrO8zrgJ3gvBSUp+SweUVPp30kkZs1tQ5BhIHJdVJfo=;
- b=hUmh1rp5YVgCdZjHZlhkmNHQvH0SpmyM7t2xgXqOo+1jqhHNsXn+HCCcGaU2ZywWLH
- sK3IsE83yKn0UAcClNW3NFRCXZWaP/8SVMHBRNuNypmIA6HVoo5GYp6fQnMqYp4j5jcm
- BQjJ1eM0F+mNKoDyBocjaSfmMJifUgfTJ3l5GcLpiayXqQ2UdRqGZon4FhiFvjwt0sLo
- 3bhSlJ6kZhzQ7UTkzt1EuVn3q/yUQBkJL8zYSTjKISsZIoKn+2UQwx8eR8ApK3q91LeX
- 2q1m78dpK7UP76mzS4rZ1pkIynhPXALh+I59ci25NAz3OnuQaIg0lCfNpJ7P34VA3skB
- Elyw==
-X-Gm-Message-State: AOAM531PQW5ssROcc47M4InjEnp0U8SN0hZjXvtWnNYljaXMlr1+KzH+
- v0NewGi3Gnu3e5bjuk0WBvY=
-X-Google-Smtp-Source: ABdhPJxsixStRZpfu+ROKa9+agmNLFBb2E78IpyswBNwtmauBjIC3Y9W+nEtEHk/WiAPf5usW7YVXw==
-X-Received: by 2002:a5d:488b:: with SMTP id g11mr10702468wrq.210.1605368549958; 
- Sat, 14 Nov 2020 07:42:29 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id o63sm13978032wmo.2.2020.11.14.07.42.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 07:42:28 -0800 (PST)
-Date: Sat, 14 Nov 2020 16:42:27 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 08/26] memory: tegra30-emc: Continue probing if
- timings are missing in device-tree
-Message-ID: <20201114154227.GB14208@kozik-lap>
-References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-9-digetx@gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 34E356E933
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 16:45:52 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210201] New: [amdpgu] crash when playing after suspend/resume
+Date: Sat, 14 Nov 2020 16:45:51 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: arturbac.ab@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-210201-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201111011456.7875-9-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,39 +51,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 04:14:38AM +0300, Dmitry Osipenko wrote:
-> EMC driver will become mandatory after turning it into interconnect
-> provider because interconnect users, like display controller driver, will
-> fail to probe using newer device-trees that have interconnect properties.
-> Thus make EMC driver to probe even if timings are missing in device-tree.
-> 
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/memory/tegra/tegra30-emc.c | 29 +++++++++++++++--------------
->  1 file changed, 15 insertions(+), 14 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=210201
 
-Thanks, applied 1-8.  For the rest I see discussion on going, so I guess
-there will be a v9.
+            Bug ID: 210201
+           Summary: [amdpgu] crash when playing after suspend/resume
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9.8, 5.6.19, 5.8.18
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: arturbac.ab@gmail.com
+        Regression: No
 
-Best regards,
-Krzysztof
+Created attachment 293669
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293669&action=edit
+Full dmesg after video crash
 
+When i play vulkan games, like Kerbal Space Program, ReadDeadRedemption2(via
+Proton) after i return from suspend, after runing them after 30min - 1h
+graphics driver crashes.
+
+
+
+OS: Gentoo 
+Kernel: x86_64 Linux 5.9.8
+Resolution: 7680x2160 (2 monitors attached 4K free sync)
+DE: KDE 5.75.0 / Plasma 5.20.3
+WM: KWin
+GTK Theme: Adwaita [GTK2/3]
+CPU: AMD Ryzen 9 3900X 12-Core @ 24x 3.8GHz
+GPU: AMD Radeon RX 5700 XT (NAVI10, DRM 3.39.0, 5.9.8, LLVM 10.0.1) Mesa 20.2.2
+RAM: 32038MiB
+
+Full dmesg attached.
+
+[104307.850190] amdgpu 0000:0f:00.0: amdgpu: ring gfx_0.0.0 uses VM inv eng 0
+on hub 0
+[104307.850192] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.0.0 uses VM inv eng 1
+on hub 0
+[104307.850194] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.1.0 uses VM inv eng 4
+on hub 0
+[104307.850195] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.2.0 uses VM inv eng 5
+on hub 0
+[104307.850196] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.3.0 uses VM inv eng 6
+on hub 0
+[104307.850198] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.0.1 uses VM inv eng 7
+on hub 0
+[104307.850199] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.1.1 uses VM inv eng 8
+on hub 0
+[104307.850201] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.2.1 uses VM inv eng 9
+on hub 0
+[104307.850202] amdgpu 0000:0f:00.0: amdgpu: ring comp_1.3.1 uses VM inv eng 10
+on hub 0
+[104307.850203] amdgpu 0000:0f:00.0: amdgpu: ring kiq_2.1.0 uses VM inv eng 11
+on hub 0
+[104307.850205] amdgpu 0000:0f:00.0: amdgpu: ring sdma0 uses VM inv eng 12 on
+hub 0
+[104307.850206] amdgpu 0000:0f:00.0: amdgpu: ring sdma1 uses VM inv eng 13 on
+hub 0
+[104307.850208] amdgpu 0000:0f:00.0: amdgpu: ring vcn_dec uses VM inv eng 0 on
+hub 1
+[104307.850209] amdgpu 0000:0f:00.0: amdgpu: ring vcn_enc0 uses VM inv eng 1 on
+hub 1
+[104307.850210] amdgpu 0000:0f:00.0: amdgpu: ring vcn_enc1 uses VM inv eng 4 on
+hub 1
+[104307.850212] amdgpu 0000:0f:00.0: amdgpu: ring jpeg_dec uses VM inv eng 5 on
+hub 1
+[104307.852128] [drm] recover vram bo from shadow start
+[104307.872340] [drm] recover vram bo from shadow done
+[104307.872342] [drm] Skip scheduling IBs!
+[104307.872343] [drm] Skip scheduling IBs!
+[104307.872357] [drm] Skip scheduling IBs!
+[104307.872362] amdgpu 0000:0f:00.0: amdgpu: GPU reset(2) succeeded!
+[104307.872373] [drm] Skip scheduling IBs!
+[repeated many times...]
+[104307.872440] [drm] Skip scheduling IBs!
+[104314.769174] [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update
+BO_VA (-16)
+[104314.795600] [drm:amdgpu_gem_va_ioctl [amdgpu]] *ERROR* Couldn't update
+BO_VA (-16)
+[104314.847946] amdgpu 0000:0f:00.0: amdgpu: failed to clear page tables on GEM
+object close (-16)
+[repeated many times...]
+[104315.300254] amdgpu 0000:0f:00.0: amdgpu: failed to clear page tables on GEM
+object close (-16)
+[104325.487235] GpuWatchdog[731778]: segfault at 0 ip 00007f9be2bf92dd sp
+00007f9bd77ed670 error 6 in libcef.so[7f9bdee73000+69a4000]
+[104325.488266] Code: 00 79 09 48 8b 7d a0 e8 21 80 c1 02 41 8b 85 00 01 00 00
+85 c0 0f 84 ab 00 00 00 49 8b 45 00 4c 89 ef be 01 00 00 00 ff 50 58 <c7> 04 25
+00 00 00 00 37 13 00 00 c6 05 c1 a5 37 03 01 80 bd 7f ff
+[104335.590624] GpuWatchdog[731809]: segfault at 0 ip 00007f494f6142dd sp
+00007f4944208670 error 6 in libcef.so[7f494b88e000+69a4000]
+[104335.590631] Code: 00 79 09 48 8b 7d a0 e8 21 80 c1 02 41 8b 85 00 01 00 00
+85 c0 0f 84 ab 00 00 00 49 8b 45 00 4c 89 ef be 01 00 00 00 ff 50 58 <c7> 04 25
+00 00 00 00 37 13 00 00 c6 05 c1 a5 37 03 01 80 bd 7f ff
+[104345.690401] GpuWatchdog[731833]: segfault at 0 ip 00007fcbb4c722dd sp
+00007fcba9866670 error 6 in libcef.so[7fcbb0eec000+69a4000]
+[104345.692176] Code: 00 79 09 48 8b 7d a0 e8 21 80 c1 02 41 8b 85 00 01 00 00
+85 c0 0f 84 ab 00 00 00 49 8b 45 00 4c 89 ef be 01 00 00 00 ff 50 58 <c7> 04 25
+00 00 00 00 37 13 00 00 c6 05 c1 a5 37 03 01 80 bd 7f ff
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
