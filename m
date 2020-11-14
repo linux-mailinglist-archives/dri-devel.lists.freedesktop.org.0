@@ -1,51 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6182B2E0B
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 16:37:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0B82B2E0C
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 16:37:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88A746E929;
-	Sat, 14 Nov 2020 15:37:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36A676E92D;
+	Sat, 14 Nov 2020 15:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
- [209.85.221.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7EAE6E929
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:36:58 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id 33so13616689wrl.7
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:36:58 -0800 (PST)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C56D6E92D
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:37:23 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id o15so13626597wru.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:37:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=6P1mcO2kNRJbbh/T0XZ9QtQQ26OuRe5uLfwAgAsxH8Q=;
- b=rCczp/Gb/iHxZo+1BcJBHyAVqsGmDMTtPxIf6WmQ24kFlIj9K7poJqdE/Cn26EmTXs
- ArhlCEvIhtzq1UHPlV1SeOvTb4DeLX76hQ4nBcy+6SfQOcCqGYlvovN7ao5gffhNZiZX
- 3h/2T53hg5DT2fXeYuce9Z0xMsBDMLTVznokjVrYp6bA7MVLsNYb0mMnm+GgMiviIRQ2
- GXxffXuQ+N1eNKOryoPhDUiWk/xK1RKbK4oPGx0TR4ddV/A7dYwR2A95lgjrSgJTyL/x
- F6Q1+7r4LgqEQKcHNw6+5ZDfXo6GJRkmmM+abhsNkbM26Uh7KfK08u2Oz/i2WG+M4gZj
- 5Mqg==
-X-Gm-Message-State: AOAM533JI5IrRtw4yeU9qMC86ma/2vvpZAXaUtulJ8eEG8gyP+bvqkXC
- JPoTULpqerE+re2LEkNxEt8=
-X-Google-Smtp-Source: ABdhPJw/ztErj0PDs063eF71cDChBodWTwASgTPBkCh49ytR3SgplH/2PxKc4YKX8d3OpILcg9/WqA==
-X-Received: by 2002:a5d:660f:: with SMTP id n15mr10404788wru.345.1605368217307; 
- Sat, 14 Nov 2020 07:36:57 -0800 (PST)
+ bh=U4GcyUn4reH1qm14U6D1eRhiaxWlGAP1uylSgn09bAE=;
+ b=p60KuKT0oBwfmQqj6JosipRpodgaEN3k9elInNFFnNnwVczvckt5TBxP+av40ZtCig
+ WdM8i/pM6NpV4fQSkAMe+wgwuyKn15/dI92lvW977VYEzbGhowOQpyFfdQDAUbWD+ZU+
+ +xibK6f/ZYFRXbDlRATWktamGRS2IaWzbf3mvl4X3BUN5OoWd91UIRulbobsqUQzYhIQ
+ IS9j+Yu9gnmzJA/HdfGYRS+bfo7YTWlgjVXF9Hbk8WFR/Mx+VTfS4xPrBuZUY6wwLT7r
+ TMrG5ZIyZp0DvIGCPKP5s1nkZMqdNCUEFOqDJIf9OJRBXsBnhcfc1hEpdMMP/nfjJSo5
+ 2roA==
+X-Gm-Message-State: AOAM5319koT6fm/IRl1dbzXa+Sx+b0mxIckil0zjMg5TVTrflSnoxVzL
+ Jgm62Z+g/7Wx+kTq4CYxTOg=
+X-Google-Smtp-Source: ABdhPJw0mkO/QYUuAF08ih8ZearlCSBP/PG2yE8LFV+wCVkmqDw3ltyDZtGgD02ccVTSEWvcip2lhg==
+X-Received: by 2002:adf:82cc:: with SMTP id 70mr9939588wrc.74.1605368242190;
+ Sat, 14 Nov 2020 07:37:22 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id l16sm14975132wrx.5.2020.11.14.07.36.55
+ by smtp.googlemail.com with ESMTPSA id a18sm13182992wmm.22.2020.11.14.07.37.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 07:36:55 -0800 (PST)
-Date: Sat, 14 Nov 2020 16:36:54 +0100
+ Sat, 14 Nov 2020 07:37:21 -0800 (PST)
+Date: Sat, 14 Nov 2020 16:37:19 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 01/26] memory: tegra: Correct stub of
- devm_tegra_memory_controller_get()
-Message-ID: <20201114153654.GA4106@kozik-lap>
+Subject: Re: [PATCH v8 02/26] memory: tegra20-emc: Use dev_pm_opp_set_clkname()
+Message-ID: <20201114153719.GB4106@kozik-lap>
 References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-2-digetx@gmail.com>
+ <20201111011456.7875-3-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201111011456.7875-2-digetx@gmail.com>
+In-Reply-To: <20201111011456.7875-3-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,14 +73,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 04:14:31AM +0300, Dmitry Osipenko wrote:
-> Correct typo in a stub of devm_tegra_memory_controller_get() to fix a
-> non-ARM kernel compile-testing.
+On Wed, Nov 11, 2020 at 04:14:32AM +0300, Dmitry Osipenko wrote:
+> The dev_pm_opp_get_opp_table() shouldn't be used by drivers, use
+> dev_pm_opp_set_clkname() instead.
 > 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Suggested-by: Viresh Kumar <viresh.kumar@linaro.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  include/soc/tegra/mc.h | 2 +-
+>  drivers/memory/tegra/tegra20-emc.c | 30 +++++++++++++++++++-----------
+>  1 file changed, 19 insertions(+), 11 deletions(-)
 
 Thanks, applied.
 
