@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2EEF2B2E23
-	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 16:39:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 046362B2E28
+	for <lists+dri-devel@lfdr.de>; Sat, 14 Nov 2020 16:41:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5BD6E931;
-	Sat, 14 Nov 2020 15:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E85A6E937;
+	Sat, 14 Nov 2020 15:41:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
- [209.85.128.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74C46E931
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:39:56 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id d142so19086059wmd.4
- for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:39:56 -0800 (PST)
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+ [209.85.221.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 972BA6E937
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 15:41:37 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id b6so13645981wrt.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 14 Nov 2020 07:41:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=2epbZ3+UnndJ7TIcZlKuCPOVDuT8GqG7Cpc8DUIEdTs=;
- b=dC3qWypM/B+tSmN1ypn1m8aivQkhRWhnP5O1vsv28L0f5NP95mqgR7YRIuDjRPeVul
- BEwvQaRUvuuDXOSyN5N5hui5QR1WiYwiAOlAOz4Ufh/OLJjLYZ3IawtNn/13+D6jG1vt
- IyGQylhCXyl0Edt6mihGkTbsPDo+8GyyEUHEXWy9tOQ+Zd+iYf5afNag1YKVG9V71lri
- W2a3hd0vHvGqZbPtUWl8YQ+IkU3/55b6laMs+qckY+zapVtuzACohU6ZpudLr927hTJh
- drujflq8oHzLE8ZIH3PDf+FCbYUj9XS1fpyKkwbuqwziGslv1l7YXvGSBR7Lsl2N8O0u
- 0XDw==
-X-Gm-Message-State: AOAM533+w6z+Nk8geXg5p07JEm+635VJmVk1J10KYyKZ4xElfh1dj4FX
- MtGoqs9FpaEW9X3maG/eRhE=
-X-Google-Smtp-Source: ABdhPJykOlHO4MbKp8wxNIyMEoiv/tohAotAvK9fvlbalM9OUcEQMMQezZ0QLYuDEpRm/iiCeDsBkg==
-X-Received: by 2002:a7b:c00b:: with SMTP id c11mr7305741wmb.122.1605368395400; 
- Sat, 14 Nov 2020 07:39:55 -0800 (PST)
+ bh=M/dyPhuPN1ylbbCL1nqjLjRIL2BGGv8TuzcmItQtAuY=;
+ b=a01tLTyv4y899HVN/RBPCrVM5xoGjSYZKHdlPqqpdWRmRj0HGhqF+GvlupAS3Npjn3
+ bQaJlQFV0eU9A+yMbj+btc164UoU03T+0TWd3pYt5TzOxrQCyPWUujhKcE4Vi+igvjJr
+ 0mbpjYoUk7bdoj3VUlm8Hq/ftOq9YCfyuFSTI7FV5melGz/7ylOU0UzgUDfKd16lOLNE
+ TZ60iYpLcTlU0UE9xr4UnpbDIV13k2IKy0VAQ+4BRicZxQ9EWsCPZ40BnTR1twak9TrI
+ uJgrys4OS8Q1b/yBfK9AV/T7+bXhW8y8ZN3FpyZlUcYD1n1GdtVpnvSvRaZa11lW+8V1
+ iPpw==
+X-Gm-Message-State: AOAM532pkgjpwiF+BF0+GfhmcMVqOFsCdUIeCqHu866jd8S1ulVeC17n
+ Q/atCJu9xTm8L+pDDGuPGYs=
+X-Google-Smtp-Source: ABdhPJxMdLC6s1dYf9/3LViJKERBHe9LMFojMg41WquQy+ijj5ielzyRoKNOocoUGVSnkHUHHT/eZg==
+X-Received: by 2002:adf:ce87:: with SMTP id r7mr9985338wrn.212.1605368496352; 
+ Sat, 14 Nov 2020 07:41:36 -0800 (PST)
 Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id s8sm15757236wrn.33.2020.11.14.07.39.54
+ by smtp.googlemail.com with ESMTPSA id h62sm15335452wrh.82.2020.11.14.07.41.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 14 Nov 2020 07:39:54 -0800 (PST)
-Date: Sat, 14 Nov 2020 16:39:52 +0100
+ Sat, 14 Nov 2020 07:41:34 -0800 (PST)
+Date: Sat, 14 Nov 2020 16:41:33 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v8 06/26] memory: tegra30: Add FIFO sizes to memory clients
-Message-ID: <20201114153952.GF4106@kozik-lap>
+Subject: Re: [PATCH v8 07/26] memory: tegra30-emc: Make driver modular
+Message-ID: <20201114154133.GA14208@kozik-lap>
 References: <20201111011456.7875-1-digetx@gmail.com>
- <20201111011456.7875-7-digetx@gmail.com>
+ <20201111011456.7875-8-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201111011456.7875-7-digetx@gmail.com>
+In-Reply-To: <20201111011456.7875-8-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,14 +73,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 11, 2020 at 04:14:36AM +0300, Dmitry Osipenko wrote:
-> The latency allowness is calculated based on buffering capabilities of
-> memory clients. Add FIFO sizes to the Tegra30 memory clients.
+On Wed, Nov 11, 2020 at 04:14:37AM +0300, Dmitry Osipenko wrote:
+> Add modularization support to the Tegra30 EMC driver, which now can be
+> compiled as a loadable kernel module.
 > 
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/memory/tegra/tegra30.c | 66 ++++++++++++++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
+>  drivers/memory/tegra/Kconfig       |  2 +-
+>  drivers/memory/tegra/mc.c          |  3 +++
+>  drivers/memory/tegra/tegra30-emc.c | 17 ++++++++++++-----
 
 Thanks, applied.
 
