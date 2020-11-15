@@ -1,62 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B032B396D
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 22:16:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BBD2B3A7B
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 23:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07D126E9DA;
-	Sun, 15 Nov 2020 21:16:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D73B89FCA;
+	Sun, 15 Nov 2020 22:56:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2871C6E9DA
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 21:16:53 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id h23so17788338ljg.13
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:16:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ljg0Lh1Ep5cFex2wVS52wkjBHeB32pDeyPYh2JaQMI8=;
- b=ITD8sPq+pOyS9VcfPREEpaUZQyYZUwIzYfJkA76QGgbfFv1muUfH5FQKxhjJA1Gb2W
- 4hv0kwwxwDETclJwR5cJ1ofnybf8BQFlFcHUyp/MWrGZMULL47MYTAgR1HNMDiJb0QCz
- T11UUM3DqT44EM7cT0uE+CkZP06CkJYJ5BLNk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ljg0Lh1Ep5cFex2wVS52wkjBHeB32pDeyPYh2JaQMI8=;
- b=llw2GXsU54asSVsxBz/ZcpogkLkG6ab13OZNvUMcXxWmfP9bpCnJJ8F/Pcv3MWtJVM
- GrH2eqgDTtyMalUZKrT1u5H8yfUc/FuGHZmeN6+QSedUVb1WZJ2x3NaCSgUOWCQAjnYz
- es9bGJUSbKS7kmAYrHXhJAtTqrlASbP/vmKxUoOGNt8kzj9yb8oOSgLJmFiTqXokypSU
- EV6Xt0bG9wp09tJqsWcokme5N5o3RQRsSjOpN6fX5IuoPEDYlnVFrIFrmIPvKLtKn6OI
- /6+yAfMjxleZpx6u1FkTHCJ7ihrhqKzEBg+0kX6/4Cx4W1kXjie8pVneDWJDPt0pSE0D
- D8cQ==
-X-Gm-Message-State: AOAM533T1a/ITnTO3h6Ewd4kKOh385uDs3CVW+Lg0RiihWQX4QeWmb3v
- JfWUrVFDRfzCTlQvbxzj3SMWE/bRoXO8xg==
-X-Google-Smtp-Source: ABdhPJyVDWd2iGDl82PeV2FRie1NdAAKqlJZF+MD8eH0RXxuuBfh1gleHj7jDpvsWF7ttZ46CzX+gA==
-X-Received: by 2002:a2e:958e:: with SMTP id w14mr5466468ljh.367.1605475011103; 
- Sun, 15 Nov 2020 13:16:51 -0800 (PST)
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com.
- [209.85.208.176])
- by smtp.gmail.com with ESMTPSA id s26sm2491746lji.31.2020.11.15.13.16.49
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 15 Nov 2020 13:16:49 -0800 (PST)
-Received: by mail-lj1-f176.google.com with SMTP id b17so17788302ljf.12
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:16:49 -0800 (PST)
-X-Received: by 2002:a2e:8701:: with SMTP id m1mr4683644lji.314.1605475009199; 
- Sun, 15 Nov 2020 13:16:49 -0800 (PST)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64F489FCA
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 22:56:01 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id CE86820038;
+ Sun, 15 Nov 2020 23:55:57 +0100 (CET)
+Date: Sun, 15 Nov 2020 23:55:56 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 0/5] Samsung s6e63m0 improvements
+Message-ID: <20201115225556.GA12643@ravnborg.org>
+References: <20201110234653.2248594-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-References: <CAPM=9ty9cBzR5tr8g2B7LE9+Hcf4NViHcyDcEHJMVgYmSoub1A@mail.gmail.com>
-In-Reply-To: <CAPM=9ty9cBzR5tr8g2B7LE9+Hcf4NViHcyDcEHJMVgYmSoub1A@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sun, 15 Nov 2020 13:16:33 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whs3Wqg=TCgnX0QC9nz+3Y-FybKNcnuY8JLdW6EC-LkXQ@mail.gmail.com>
-Message-ID: <CAHk-=whs3Wqg=TCgnX0QC9nz+3Y-FybKNcnuY8JLdW6EC-LkXQ@mail.gmail.com>
-Subject: Re: [git pull] drm nouveau urgent fixes for 5.10-rc4
-To: Dave Airlie <airlied@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201110234653.2248594-1-linus.walleij@linaro.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=heDIo351K4yTI-QMVKsA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +43,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Ben Skeggs <skeggsb@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
+ Stephan Gerhold <stephan@gerhold.net>,
+ =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 15, 2020 at 12:41 PM Dave Airlie <airlied@gmail.com> wrote:
->
-> As mentioned I did have a fixes pull from Ben from after I'd sent you
-> out stuff, it contains the fix for the regression reported in the rc1
-> thread along with two others.
+Hi Linus,
+On Wed, Nov 11, 2020 at 12:46:48AM +0100, Linus Walleij wrote:
+> These improvements to the Samsung s6e63m0 makes SPI
+> writing and reading to the panel simpler, and add some
+> support required by the Samsung GT-I9070.
+> 
+> Tested and working fine on the Samsung GT-I9070 mobile
+> phone with the MCDE display controller in DPI mode.
+> 
+> Linus Walleij (5):
+>   drm/panel: s6e63m0: Simplify SPI writing
+>   drm/panel: s6e63m0: Implement reading from panel
+>   drm/panel: s6e63m0: Add some explanations
+>   drm/panel: s6e63m0: Support 3WIRE protocol
+>   drm/panel: s6e63m0: Set up some display info
 
-Thanks, pulled,
+I have looked through the series - and all looks good.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-             Linus
+Please commit patches yourself.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
