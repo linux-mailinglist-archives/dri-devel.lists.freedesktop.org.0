@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A76A2B3AF8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D16E2B3B0F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC91889DA9;
-	Mon, 16 Nov 2020 01:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0565E89F61;
+	Mon, 16 Nov 2020 01:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3429E6E9E8
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 21:33:24 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id l10so17843521lji.4
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:33:24 -0800 (PST)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58B486E9E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 21:33:25 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id d17so22342576lfq.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:33:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5dCbZvyPJ9eUu2G59fWkwNpYcrEO/zvwjAoLRWdkXSE=;
- b=lMs/M5N9kQbceTLDtzVP/G5macXOzeX6SPspxlJ4cA6fHAEgf6osXQnKHrS+UJ4zNT
- V57jTZJeCTOZZkfUIriDG6IP5umWyzF4K0L5KJQOKcImFyABpc/Sos1eeq2shV3SFAtD
- PofOkKtSej7g8/xAlvpmUOc69Lj6d5s8c0lfEMcmDzXu5iA8BLUucjFU5y1MDCEadd+l
- VIAGxdwTi52FU1zmC5zTGtQvgc5i/EsFv5OM2A7sD3I7F1ekFoJUXIZG7q4IJg/d/VqL
- 8FbZeI4pqPvSNogpudQpFf8mbWxG+S2P34cV47CdDmWQGcbT3f1uBpwz5gYtIYK1SmuN
- aKGw==
+ bh=1j4+uPn19nYlQRV8K/ttREulXQcGNd6BoXro7m/3VBs=;
+ b=Nlp3L19gxUd7A9vgC2aG49c6OYxgStk2chJSVbmKYDZHsEU1aFs/WEhNi2yEhdjE/Q
+ m5DTW7wW0xYggpkgaGYJpkGIKvwjWjvRCIVkqYp+RJwWXUIfBOUb1Q42ALJVvId0uCFT
+ Tc+phXSYSZWRF2sfx/FAt9QaU/uPMAerZnN1EkUWMcYmAbrXMaVsKgU3yizkY5k/3owc
+ QpfllYXbQ0QXifTi/MMvN+6pKr3hnx5DPBrvpa3aVTFlk0NNEYRSqpL0oiF2PkFch9qc
+ V6UuC2LWXXMo8/rgiyfAYxRHGycjhm3NTL5s4UuLKhmpm1UnloQhlHXmb+iNSKh+13mC
+ klAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5dCbZvyPJ9eUu2G59fWkwNpYcrEO/zvwjAoLRWdkXSE=;
- b=WpH9sqj2hgyqSWGs4/Hpa1GhyXIV7Q7p3w6iU28/zW/kwktqpgrSnK9G8SymJoHkJr
- vSNvWif/lSsVbmxN/ETBtcbtyOhX7fYrUdW0lZ++4EFbVOrMZo3+gB4WhN7HHT/kT/Wf
- txWuWn0rza/g1f54SxI3k04Vecwnau6RkLzFX1DLBpLeNk5Fn7vLNCW+oxvBXFmfpzm9
- RUPNE+3PpyQt/kNHAOQaWyU2Y9ZPI4PnQQFmtqzK8XTYkWSDQ4vxSmRqSUSubx3B7rGn
- 9/SG4vqBAGq9gAlxRcLz6B5NdBJqAtRgZd04o2m+wAVo+xL4Hm9hh3OvTMbHggS1MVQF
- n0hQ==
-X-Gm-Message-State: AOAM532HGuTFNjp/3xU7eAeskADvdFXfhfOsEaHtzgFCS33kN0SLZ2y3
- UEPuUddhQjkIbUda5aLCmRM=
-X-Google-Smtp-Source: ABdhPJzgkqzs6ZJFhHgL5iqv84vjq17IcARI+54xc8lQJnLv4fufEgDzCkmsCAWv79+cAZPTAxGnOg==
-X-Received: by 2002:a2e:89d7:: with SMTP id c23mr5211261ljk.397.1605476002720; 
- Sun, 15 Nov 2020 13:33:22 -0800 (PST)
+ bh=1j4+uPn19nYlQRV8K/ttREulXQcGNd6BoXro7m/3VBs=;
+ b=gCEgQkTuGdkMbuJtRJzNe1r7bsi7hf+ltE9KV+vKHqq7BsTQPb+jsnw1EgV9YTX/aI
+ w8pBrKAMEOIR06HYDRS2CXDgoRxr2b3xHpjygRl8jzEOKnXhMwZ1+a2gr5Gj4pnBwSjr
+ JWRa91C0WEvBnTqThrSEZSE+C73j4rEML3QSx1WnD/YIlup6wQnK9kmOkql/IBaRTiQi
+ chzRvSsvbkWzYkuHDMeJpFSmyNy/KzeZ/VuSj+7UTd4eFqu9lMOvvoZMq0SKK/ubzt4x
+ m78ENZuk/SbvVWsO2t98VCObB59NEjCpxbiq8dqeO7rvmMQ3ZNWQMwrhAObSgXvIRkqH
+ xWTA==
+X-Gm-Message-State: AOAM5328UCbbMoYdrIQHyWTfXLQgjS9BzC6/EpsRzSSmhu81cSkd1gEr
+ /eZD/LLDGAMt2qVOXPcf/sk=
+X-Google-Smtp-Source: ABdhPJzRgWZWCCvzYp70o/fNJ/fp/jzSL3bgYijHaYrUcq79pbUTm67rsKdzWID5XIn46hPUy6NO/w==
+X-Received: by 2002:a19:be8d:: with SMTP id o135mr4718421lff.200.1605476003812; 
+ Sun, 15 Nov 2020 13:33:23 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru.
  [109.252.193.159])
- by smtp.gmail.com with ESMTPSA id o3sm2462055lfo.217.2020.11.15.13.33.21
+ by smtp.gmail.com with ESMTPSA id o3sm2462055lfo.217.2020.11.15.13.33.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Nov 2020 13:33:22 -0800 (PST)
+ Sun, 15 Nov 2020 13:33:23 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +58,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v9 06/17] drm/tegra: dc: Extend debug stats with total number
- of events
-Date: Mon, 16 Nov 2020 00:29:11 +0300
-Message-Id: <20201115212922.4390-7-digetx@gmail.com>
+Subject: [PATCH v9 07/17] PM / devfreq: tegra30: Support interconnect and OPPs
+ from device-tree
+Date: Mon, 16 Nov 2020 00:29:12 +0300
+Message-Id: <20201115212922.4390-8-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201115212922.4390-1-digetx@gmail.com>
 References: <20201115212922.4390-1-digetx@gmail.com>
@@ -86,88 +86,213 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's useful to know the total number of underflow events and currently
-the debug stats are getting reset each time CRTC is being disabled. Let's
-account the overall number of events that doesn't get a reset.
+This patch moves ACTMON driver away from generating OPP table by itself,
+transitioning it to use the table which comes from device-tree. This
+change breaks compatibility with older device-trees in order to bring
+support for the interconnect framework to the driver. This is a mandatory
+change which needs to be done in order to implement interconnect-based
+memory DVFS. Users of legacy device-trees will get a message telling that
+theirs DT needs to be upgraded. Now ACTMON issues memory bandwidth request
+using dev_pm_opp_set_bw(), instead of driving EMC clock rate directly.
 
 Tested-by: Peter Geis <pgwipeout@gmail.com>
 Tested-by: Nicolas Chauvet <kwizart@gmail.com>
+Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/gpu/drm/tegra/dc.c | 10 ++++++++++
- drivers/gpu/drm/tegra/dc.h |  5 +++++
- 2 files changed, 15 insertions(+)
+ drivers/devfreq/tegra30-devfreq.c | 86 ++++++++++++++++---------------
+ 1 file changed, 44 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
-index 5c587cfd1bb2..b6676f1fe358 100644
---- a/drivers/gpu/drm/tegra/dc.c
-+++ b/drivers/gpu/drm/tegra/dc.c
-@@ -1539,6 +1539,11 @@ static int tegra_dc_show_stats(struct seq_file *s, void *data)
- 	seq_printf(s, "underflow: %lu\n", dc->stats.underflow);
- 	seq_printf(s, "overflow: %lu\n", dc->stats.overflow);
+diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
+index 38cc0d014738..ed6d4469c8c7 100644
+--- a/drivers/devfreq/tegra30-devfreq.c
++++ b/drivers/devfreq/tegra30-devfreq.c
+@@ -19,6 +19,8 @@
+ #include <linux/reset.h>
+ #include <linux/workqueue.h>
  
-+	seq_printf(s, "frames total: %lu\n", dc->stats.frames_total);
-+	seq_printf(s, "vblank total: %lu\n", dc->stats.vblank_total);
-+	seq_printf(s, "underflow total: %lu\n", dc->stats.underflow_total);
-+	seq_printf(s, "overflow total: %lu\n", dc->stats.overflow_total);
++#include <soc/tegra/fuse.h>
++
+ #include "governor.h"
+ 
+ #define ACTMON_GLB_STATUS					0x0
+@@ -155,6 +157,7 @@ struct tegra_devfreq_device {
+ 
+ struct tegra_devfreq {
+ 	struct devfreq		*devfreq;
++	struct opp_table	*opp_table;
+ 
+ 	struct reset_control	*reset;
+ 	struct clk		*clock;
+@@ -612,34 +615,19 @@ static void tegra_actmon_stop(struct tegra_devfreq *tegra)
+ static int tegra_devfreq_target(struct device *dev, unsigned long *freq,
+ 				u32 flags)
+ {
+-	struct tegra_devfreq *tegra = dev_get_drvdata(dev);
+-	struct devfreq *devfreq = tegra->devfreq;
+ 	struct dev_pm_opp *opp;
+-	unsigned long rate;
+-	int err;
++	int ret;
+ 
+ 	opp = devfreq_recommended_opp(dev, freq, flags);
+ 	if (IS_ERR(opp)) {
+ 		dev_err(dev, "Failed to find opp for %lu Hz\n", *freq);
+ 		return PTR_ERR(opp);
+ 	}
+-	rate = dev_pm_opp_get_freq(opp);
+-	dev_pm_opp_put(opp);
+-
+-	err = clk_set_min_rate(tegra->emc_clock, rate * KHZ);
+-	if (err)
+-		return err;
+-
+-	err = clk_set_rate(tegra->emc_clock, 0);
+-	if (err)
+-		goto restore_min_rate;
+ 
+-	return 0;
+-
+-restore_min_rate:
+-	clk_set_min_rate(tegra->emc_clock, devfreq->previous_freq);
++	ret = dev_pm_opp_set_bw(dev, opp);
++	dev_pm_opp_put(opp);
+ 
+-	return err;
++	return ret;
+ }
+ 
+ static int tegra_devfreq_get_dev_status(struct device *dev,
+@@ -655,7 +643,7 @@ static int tegra_devfreq_get_dev_status(struct device *dev,
+ 	stat->private_data = tegra;
+ 
+ 	/* The below are to be used by the other governors */
+-	stat->current_frequency = cur_freq;
++	stat->current_frequency = cur_freq * KHZ;
+ 
+ 	actmon_dev = &tegra->devices[MCALL];
+ 
+@@ -705,7 +693,12 @@ static int tegra_governor_get_target(struct devfreq *devfreq,
+ 		target_freq = max(target_freq, dev->target_freq);
+ 	}
+ 
+-	*freq = target_freq;
++	/*
++	 * tegra-devfreq driver operates with KHz units, while OPP table
++	 * entries use Hz units. Hence we need to convert the units for the
++	 * devfreq core.
++	 */
++	*freq = target_freq * KHZ;
+ 
+ 	return 0;
+ }
+@@ -774,6 +767,7 @@ static struct devfreq_governor tegra_devfreq_governor = {
+ 
+ static int tegra_devfreq_probe(struct platform_device *pdev)
+ {
++	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
+ 	struct tegra_devfreq_device *dev;
+ 	struct tegra_devfreq *tegra;
+ 	struct devfreq *devfreq;
+@@ -781,6 +775,13 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 	long rate;
+ 	int err;
+ 
++	/* legacy device-trees don't have OPP table and must be updated */
++	if (!device_property_present(&pdev->dev, "operating-points-v2")) {
++		dev_err(&pdev->dev,
++			"OPP table not found, please update your device tree\n");
++		return -ENODEV;
++	}
++
+ 	tegra = devm_kzalloc(&pdev->dev, sizeof(*tegra), GFP_KERNEL);
+ 	if (!tegra)
+ 		return -ENOMEM;
+@@ -822,11 +823,25 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
+ 
++	tegra->opp_table = dev_pm_opp_set_supported_hw(&pdev->dev,
++						       &hw_version, 1);
++	err = PTR_ERR_OR_ZERO(tegra->opp_table);
++	if (err) {
++		dev_err(&pdev->dev, "Failed to set supported HW: %d\n", err);
++		return err;
++	}
++
++	err = dev_pm_opp_of_add_table(&pdev->dev);
++	if (err) {
++		dev_err(&pdev->dev, "Failed to add OPP table: %d\n", err);
++		goto put_hw;
++	}
++
+ 	err = clk_prepare_enable(tegra->clock);
+ 	if (err) {
+ 		dev_err(&pdev->dev,
+ 			"Failed to prepare and enable ACTMON clock\n");
+-		return err;
++		goto remove_table;
+ 	}
+ 
+ 	err = reset_control_reset(tegra->reset);
+@@ -850,23 +865,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 		dev->regs = tegra->regs + dev->config->offset;
+ 	}
+ 
+-	for (rate = 0; rate <= tegra->max_freq * KHZ; rate++) {
+-		rate = clk_round_rate(tegra->emc_clock, rate);
+-
+-		if (rate < 0) {
+-			dev_err(&pdev->dev,
+-				"Failed to round clock rate: %ld\n", rate);
+-			err = rate;
+-			goto remove_opps;
+-		}
+-
+-		err = dev_pm_opp_add(&pdev->dev, rate / KHZ, 0);
+-		if (err) {
+-			dev_err(&pdev->dev, "Failed to add OPP: %d\n", err);
+-			goto remove_opps;
+-		}
+-	}
+-
+ 	platform_set_drvdata(pdev, tegra);
+ 
+ 	tegra->clk_rate_change_nb.notifier_call = tegra_actmon_clk_notify_cb;
+@@ -882,7 +880,6 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	tegra_devfreq_profile.initial_freq = clk_get_rate(tegra->emc_clock);
+-	tegra_devfreq_profile.initial_freq /= KHZ;
+ 
+ 	devfreq = devfreq_add_device(&pdev->dev, &tegra_devfreq_profile,
+ 				     "tegra_actmon", NULL);
+@@ -902,6 +899,10 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
+ 	reset_control_reset(tegra->reset);
+ disable_clk:
+ 	clk_disable_unprepare(tegra->clock);
++remove_table:
++	dev_pm_opp_of_remove_table(&pdev->dev);
++put_hw:
++	dev_pm_opp_put_supported_hw(tegra->opp_table);
+ 
+ 	return err;
+ }
+@@ -913,11 +914,12 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
+ 	devfreq_remove_device(tegra->devfreq);
+ 	devfreq_remove_governor(&tegra_devfreq_governor);
+ 
+-	dev_pm_opp_remove_all_dynamic(&pdev->dev);
+-
+ 	reset_control_reset(tegra->reset);
+ 	clk_disable_unprepare(tegra->clock);
+ 
++	dev_pm_opp_of_remove_table(&pdev->dev);
++	dev_pm_opp_put_supported_hw(tegra->opp_table);
 +
  	return 0;
  }
  
-@@ -2310,6 +2315,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): frame end\n", __func__);
- 		*/
-+		dc->stats.frames_total++;
- 		dc->stats.frames++;
- 	}
- 
-@@ -2318,6 +2324,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		dev_dbg(dc->dev, "%s(): vertical blank\n", __func__);
- 		*/
- 		drm_crtc_handle_vblank(&dc->base);
-+		dc->stats.vblank_total++;
- 		dc->stats.vblank++;
- 	}
- 
-@@ -2325,6 +2332,7 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): underflow\n", __func__);
- 		*/
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-@@ -2332,11 +2340,13 @@ static irqreturn_t tegra_dc_irq(int irq, void *data)
- 		/*
- 		dev_dbg(dc->dev, "%s(): overflow\n", __func__);
- 		*/
-+		dc->stats.overflow_total++;
- 		dc->stats.overflow++;
- 	}
- 
- 	if (status & HEAD_UF_INT) {
- 		dev_dbg_ratelimited(dc->dev, "%s(): head underflow\n", __func__);
-+		dc->stats.underflow_total++;
- 		dc->stats.underflow++;
- 	}
- 
-diff --git a/drivers/gpu/drm/tegra/dc.h b/drivers/gpu/drm/tegra/dc.h
-index 0d7bdf66a1ec..ba4ed35139fb 100644
---- a/drivers/gpu/drm/tegra/dc.h
-+++ b/drivers/gpu/drm/tegra/dc.h
-@@ -48,6 +48,11 @@ struct tegra_dc_stats {
- 	unsigned long vblank;
- 	unsigned long underflow;
- 	unsigned long overflow;
-+
-+	unsigned long frames_total;
-+	unsigned long vblank_total;
-+	unsigned long underflow_total;
-+	unsigned long overflow_total;
- };
- 
- struct tegra_windowgroup_soc {
 -- 
 2.29.2
 
