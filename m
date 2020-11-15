@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5623B2B3B1B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC4D2B3B18
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 02:09:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14F806E9EE;
-	Mon, 16 Nov 2020 01:07:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEA1389F77;
+	Mon, 16 Nov 2020 01:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E076E9E1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 21:33:20 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id u19so16122063lfr.7
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:33:20 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 062BF6E9E3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 21:33:22 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id 11so17884025ljf.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 13:33:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iEcxOMp1NLOMF0Qi1vlqDEHmnss3NDqpNYlgo52Rbfc=;
- b=lXS3HiSsnEqc6AR8AaWtwNjKCLrhEhS+nSrbmu8b7vopM4l8ZVWioON+5jYSsLoaM8
- a1arLGaw+zTR6pSwBXSN3/eKjQbPc0jBcRKgjaIj1TqdrIMlN6RqDUemAQOAVEhLe/yT
- I9DNoqlMV/phAzqeaJE8P0vySPpPbajdujVkKTxz950TzWhOOq21KGhOLvVJAyNMZz0Z
- Gf9RswheRxrrMFsh4NihXTH4sOW1FyCfVSh9NcFMbFq7byuQ2TbX6N5XRNkiNdQhEIv1
- tIIs1p+nU4euvgjHf40aAHQhDX/1ypg6yBlcERsssVDi0TuoYwPtEXXq/TY84IfUJaD9
- tp2w==
+ bh=4KBVr6x/3ucTGPrYOFW1PqO+DzDshMv58vhHMohyacM=;
+ b=J0u2aaoY/IIQYBd91h32u2YZzZ0UtTkjh/sWNP1lLqUtO9UZOFl3f1+0SRm2B+CJOM
+ ntEgoATpPJ77+p95rEoKU9liroVCUwwF+3a3p4p7J85cB+/rsx1gnR/loGAtSl2Xju6m
+ guTcABrzwr+5OMSRrzLjTP83cnqbQzZ1iBaJch2ZxU2YYPuJob8vZKwcXS5BSEbG5yA6
+ 1S+19HTZ93gnnyto1unLysH3YTJmPkHY2IOHq8QFYuFuM/+Sf9a4i4FjdEa+65LgHcYd
+ ASy9eDHMZJvL50DwfyH/gF8y2bXRQJXjBsKyaWNee/0XEbWXFf255gbp8jb96SOqWkhG
+ fb0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iEcxOMp1NLOMF0Qi1vlqDEHmnss3NDqpNYlgo52Rbfc=;
- b=J+kV5CD9gPZZ2QWyJWmMncHQYh28RrM7oqMzjMmKmIOUoTjDXc/z/loWzLaRa+meQn
- vpzPTaPP0I62ySqIfYq+j3u8wYptG1bdMgZJkz08o8z6I4x5q0rN+p5Pq6lO5ueQCg2h
- sqwRKC5E4Z8DKCxiZHz6VVH1RFKdT5e3jDAwidaJRoqQEn7edbI56RalyBv3XeMw/Q96
- PCPp7u9MQmZbwMsuRqQqYqA8EEJ/8f/ryfs1nO8bLeK0E4hawtD1GOcKREyEpplpiDG5
- FFFUYU2C7ZNQecj7rY7yH7KusJMwDpqeuB3yaQUqGHSQGWChrHkkwZAt9+zWXmwrrCNa
- BEEg==
-X-Gm-Message-State: AOAM530n8nLXyEql/omSHWV7oOSNvFTcXXkX9FNTqDxsPMgtVAwsS3VS
- mxhBBMJMC+ShVA5NkqEqPJ0=
-X-Google-Smtp-Source: ABdhPJxQn0b1TgtIIsx4pYPR1+xf/Od/q1CGBVV94Ksm1gZDO5gg75PeUHiFEI7NDYOLoBlz0r+ohg==
-X-Received: by 2002:ac2:4543:: with SMTP id j3mr4040093lfm.511.1605475999179; 
- Sun, 15 Nov 2020 13:33:19 -0800 (PST)
+ bh=4KBVr6x/3ucTGPrYOFW1PqO+DzDshMv58vhHMohyacM=;
+ b=uJSb1ot8XeeE1UAWl4doco2MzN/D5MYqmyhZ7OvbubSqOMR0cJEro6cYuadmFNaShp
+ OwW8WpFw6fQ/O2fftybx24DRa+U4oqqudimB4h7qGj+rkncx6DMCrbWSNl1MP0G8HZKg
+ BfYyXtTTM8t56xlf8+U5SHjNybgh9pWay3o8JaPDTSnsWzVN/bAaukDPgmE9c3C7kTK6
+ PPHlauUIm/NotI1/OLptfWlCFcV/l9hYaiTp1V4bb29Ev4HRmKoJo6IknP5SmMH65ChZ
+ BUPUwBoqnodY61QHZKv4iN3KaGGNokpx76qBieent3yytmZLKP2n+0K6bexchTw3q8bt
+ 3bsA==
+X-Gm-Message-State: AOAM530DF1kScuJZiaqh26JQBwZoHoHCAeumnQpEQPfcUGKP029EbkmT
+ OGb6r4/2CQsn3t2EDtLesZs=
+X-Google-Smtp-Source: ABdhPJx+OmHOUDwIpCF4BBlduom70/ra27Qy1UGnX1l3CH4yP/Zch2wCDz1Whn4aKCugdYPhNY8arg==
+X-Received: by 2002:a2e:6e14:: with SMTP id j20mr4546229ljc.372.1605476000416; 
+ Sun, 15 Nov 2020 13:33:20 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru.
  [109.252.193.159])
- by smtp.gmail.com with ESMTPSA id o3sm2462055lfo.217.2020.11.15.13.33.18
+ by smtp.gmail.com with ESMTPSA id o3sm2462055lfo.217.2020.11.15.13.33.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Nov 2020 13:33:18 -0800 (PST)
+ Sun, 15 Nov 2020 13:33:19 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +58,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v9 03/17] memory: tegra124-emc: Continue probing if timings
- are missing in device-tree
-Date: Mon, 16 Nov 2020 00:29:08 +0300
-Message-Id: <20201115212922.4390-4-digetx@gmail.com>
+Subject: [PATCH v9 04/17] memory: tegra124: Support interconnect framework
+Date: Mon, 16 Nov 2020 00:29:09 +0300
+Message-Id: <20201115212922.4390-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201115212922.4390-1-digetx@gmail.com>
 References: <20201115212922.4390-1-digetx@gmail.com>
@@ -86,53 +85,580 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EMC driver will become mandatory after turning it into interconnect
-provider because interconnect users, like display controller driver, will
-fail to probe using newer device-trees that have interconnect properties.
-Thus make EMC driver to probe even if timings are missing in device-tree.
+Now Internal and External memory controllers are memory interconnection
+providers. This allows us to use interconnect API for tuning of memory
+configuration. EMC driver now supports OPPs and DVFS.
 
+Tested-by: Nicolas Chauvet <kwizart@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/memory/tegra/tegra124-emc.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+ drivers/memory/tegra/Kconfig        |   1 +
+ drivers/memory/tegra/tegra124-emc.c | 325 +++++++++++++++++++++++++++-
+ drivers/memory/tegra/tegra124.c     |  82 ++++++-
+ 3 files changed, 396 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/memory/tegra/Kconfig b/drivers/memory/tegra/Kconfig
+index f5b451403c58..a70967a56e52 100644
+--- a/drivers/memory/tegra/Kconfig
++++ b/drivers/memory/tegra/Kconfig
+@@ -36,6 +36,7 @@ config TEGRA124_EMC
+ 	default y
+ 	depends on TEGRA_MC && ARCH_TEGRA_124_SOC
+ 	select TEGRA124_CLK_EMC
++	select PM_OPP
+ 	help
+ 	  This driver is for the External Memory Controller (EMC) found on
+ 	  Tegra124 chips. The EMC controls the external DRAM on the board.
 diff --git a/drivers/memory/tegra/tegra124-emc.c b/drivers/memory/tegra/tegra124-emc.c
-index edfbf6d6d357..8fb8c1af25c9 100644
+index 8fb8c1af25c9..ed34ca982364 100644
 --- a/drivers/memory/tegra/tegra124-emc.c
 +++ b/drivers/memory/tegra/tegra124-emc.c
-@@ -1201,23 +1201,15 @@ static int tegra_emc_probe(struct platform_device *pdev)
- 	ram_code = tegra_read_ram_code();
+@@ -12,20 +12,26 @@
+ #include <linux/clk/tegra.h>
+ #include <linux/debugfs.h>
+ #include <linux/delay.h>
++#include <linux/interconnect-provider.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <linux/of_address.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_opp.h>
+ #include <linux/sort.h>
+ #include <linux/string.h>
  
- 	np = tegra_emc_find_node_by_ram_code(pdev->dev.of_node, ram_code);
--	if (!np) {
--		dev_err(&pdev->dev,
--			"no memory timings for RAM code %u found in DT\n",
--			ram_code);
--		return -ENOENT;
+ #include <soc/tegra/fuse.h>
+ #include <soc/tegra/mc.h>
+ 
++#include "mc.h"
++
+ #define EMC_FBIO_CFG5				0x104
+ #define	EMC_FBIO_CFG5_DRAM_TYPE_MASK		0x3
+ #define	EMC_FBIO_CFG5_DRAM_TYPE_SHIFT		0
++#define EMC_FBIO_CFG5_DRAM_WIDTH_X64		BIT(4)
+ 
+ #define EMC_INTSTATUS				0x0
+ #define EMC_INTSTATUS_CLKCHANGE_COMPLETE	BIT(4)
+@@ -461,6 +467,17 @@ struct emc_timing {
+ 	u32 emc_zcal_interval;
+ };
+ 
++enum emc_rate_request_type {
++	EMC_RATE_DEBUG,
++	EMC_RATE_ICC,
++	EMC_RATE_TYPE_MAX,
++};
++
++struct emc_rate_request {
++	unsigned long min_rate;
++	unsigned long max_rate;
++};
++
+ struct tegra_emc {
+ 	struct device *dev;
+ 
+@@ -471,6 +488,7 @@ struct tegra_emc {
+ 	struct clk *clk;
+ 
+ 	enum emc_dram_type dram_type;
++	unsigned int dram_bus_width;
+ 	unsigned int dram_num;
+ 
+ 	struct emc_timing last_timing;
+@@ -482,6 +500,17 @@ struct tegra_emc {
+ 		unsigned long min_rate;
+ 		unsigned long max_rate;
+ 	} debugfs;
++
++	struct icc_provider provider;
++
++	/*
++	 * There are multiple sources in the EMC driver which could request
++	 * a min/max clock rate, these rates are contained in this array.
++	 */
++	struct emc_rate_request requested_rate[EMC_RATE_TYPE_MAX];
++
++	/* protect shared rate-change code path */
++	struct mutex rate_lock;
+ };
+ 
+ /* Timing change sequence functions */
+@@ -870,6 +899,14 @@ static void emc_read_current_timing(struct tegra_emc *emc,
+ static int emc_init(struct tegra_emc *emc)
+ {
+ 	emc->dram_type = readl(emc->regs + EMC_FBIO_CFG5);
++
++	if (emc->dram_type & EMC_FBIO_CFG5_DRAM_WIDTH_X64)
++		emc->dram_bus_width = 64;
++	else
++		emc->dram_bus_width = 32;
++
++	dev_info(emc->dev, "%ubit DRAM bus\n", emc->dram_bus_width);
++
+ 	emc->dram_type &= EMC_FBIO_CFG5_DRAM_TYPE_MASK;
+ 	emc->dram_type >>= EMC_FBIO_CFG5_DRAM_TYPE_SHIFT;
+ 
+@@ -1009,6 +1046,83 @@ tegra_emc_find_node_by_ram_code(struct device_node *node, u32 ram_code)
+ 	return NULL;
+ }
+ 
++static void tegra_emc_rate_requests_init(struct tegra_emc *emc)
++{
++	unsigned int i;
++
++	for (i = 0; i < EMC_RATE_TYPE_MAX; i++) {
++		emc->requested_rate[i].min_rate = 0;
++		emc->requested_rate[i].max_rate = ULONG_MAX;
++	}
++}
++
++static int emc_request_rate(struct tegra_emc *emc,
++			    unsigned long new_min_rate,
++			    unsigned long new_max_rate,
++			    enum emc_rate_request_type type)
++{
++	struct emc_rate_request *req = emc->requested_rate;
++	unsigned long min_rate = 0, max_rate = ULONG_MAX;
++	unsigned int i;
++	int err;
++
++	/* select minimum and maximum rates among the requested rates */
++	for (i = 0; i < EMC_RATE_TYPE_MAX; i++, req++) {
++		if (i == type) {
++			min_rate = max(new_min_rate, min_rate);
++			max_rate = min(new_max_rate, max_rate);
++		} else {
++			min_rate = max(req->min_rate, min_rate);
++			max_rate = min(req->max_rate, max_rate);
++		}
++	}
++
++	if (min_rate > max_rate) {
++		dev_err_ratelimited(emc->dev, "%s: type %u: out of range: %lu %lu\n",
++				    __func__, type, min_rate, max_rate);
++		return -ERANGE;
++	}
++
++	/*
++	 * EMC rate-changes should go via OPP API because it manages voltage
++	 * changes.
++	 */
++	err = dev_pm_opp_set_rate(emc->dev, min_rate);
++	if (err)
++		return err;
++
++	emc->requested_rate[type].min_rate = new_min_rate;
++	emc->requested_rate[type].max_rate = new_max_rate;
++
++	return 0;
++}
++
++static int emc_set_min_rate(struct tegra_emc *emc, unsigned long rate,
++			    enum emc_rate_request_type type)
++{
++	struct emc_rate_request *req = &emc->requested_rate[type];
++	int ret;
++
++	mutex_lock(&emc->rate_lock);
++	ret = emc_request_rate(emc, rate, req->max_rate, type);
++	mutex_unlock(&emc->rate_lock);
++
++	return ret;
++}
++
++static int emc_set_max_rate(struct tegra_emc *emc, unsigned long rate,
++			    enum emc_rate_request_type type)
++{
++	struct emc_rate_request *req = &emc->requested_rate[type];
++	int ret;
++
++	mutex_lock(&emc->rate_lock);
++	ret = emc_request_rate(emc, req->min_rate, rate, type);
++	mutex_unlock(&emc->rate_lock);
++
++	return ret;
++}
++
+ /*
+  * debugfs interface
+  *
+@@ -1081,7 +1195,7 @@ static int tegra_emc_debug_min_rate_set(void *data, u64 rate)
+ 	if (!tegra_emc_validate_rate(emc, rate))
+ 		return -EINVAL;
+ 
+-	err = clk_set_min_rate(emc->clk, rate);
++	err = emc_set_min_rate(emc, rate, EMC_RATE_DEBUG);
+ 	if (err < 0)
+ 		return err;
+ 
+@@ -1111,7 +1225,7 @@ static int tegra_emc_debug_max_rate_set(void *data, u64 rate)
+ 	if (!tegra_emc_validate_rate(emc, rate))
+ 		return -EINVAL;
+ 
+-	err = clk_set_max_rate(emc->clk, rate);
++	err = emc_set_max_rate(emc, rate, EMC_RATE_DEBUG);
+ 	if (err < 0)
+ 		return err;
+ 
+@@ -1129,15 +1243,6 @@ static void emc_debugfs_init(struct device *dev, struct tegra_emc *emc)
+ 	unsigned int i;
+ 	int err;
+ 
+-	emc->clk = devm_clk_get(dev, "emc");
+-	if (IS_ERR(emc->clk)) {
+-		if (PTR_ERR(emc->clk) != -ENODEV) {
+-			dev_err(dev, "failed to get EMC clock: %ld\n",
+-				PTR_ERR(emc->clk));
+-			return;
+-		}
 -	}
 -
--	err = tegra_emc_load_timings_from_dt(emc, np);
--	of_node_put(np);
--	if (err)
--		return err;
--
--	if (emc->num_timings == 0) {
--		dev_err(&pdev->dev,
--			"no memory timings for RAM code %u registered\n",
--			ram_code);
--		return -ENOENT;
-+	if (np) {
-+		err = tegra_emc_load_timings_from_dt(emc, np);
-+		of_node_put(np);
-+		if (err)
-+			return err;
-+	} else {
-+		dev_info(&pdev->dev,
-+			 "no memory timings for RAM code %u found in DT\n",
-+			 ram_code);
- 	}
+ 	emc->debugfs.min_rate = ULONG_MAX;
+ 	emc->debugfs.max_rate = 0;
  
- 	err = emc_init(emc);
+@@ -1177,6 +1282,182 @@ static void emc_debugfs_init(struct device *dev, struct tegra_emc *emc)
+ 			    emc, &tegra_emc_debug_max_rate_fops);
+ }
+ 
++static inline struct tegra_emc *
++to_tegra_emc_provider(struct icc_provider *provider)
++{
++	return container_of(provider, struct tegra_emc, provider);
++}
++
++static struct icc_node_data *
++emc_of_icc_xlate_extended(struct of_phandle_args *spec, void *data)
++{
++	struct icc_provider *provider = data;
++	struct icc_node_data *ndata;
++	struct icc_node *node;
++
++	/* External Memory is the only possible ICC route */
++	list_for_each_entry(node, &provider->nodes, node_list) {
++		if (node->id != TEGRA_ICC_EMEM)
++			continue;
++
++		ndata = kzalloc(sizeof(*ndata), GFP_KERNEL);
++		if (!ndata)
++			return ERR_PTR(-ENOMEM);
++
++		/*
++		 * SRC and DST nodes should have matching TAG in order to have
++		 * it set by default for a requested path.
++		 */
++		ndata->tag = TEGRA_MC_ICC_TAG_ISO;
++		ndata->node = node;
++
++		return ndata;
++	}
++
++	return ERR_PTR(-EPROBE_DEFER);
++}
++
++static int emc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	struct tegra_emc *emc = to_tegra_emc_provider(dst->provider);
++	unsigned long long peak_bw = icc_units_to_bps(dst->peak_bw);
++	unsigned long long avg_bw = icc_units_to_bps(dst->avg_bw);
++	unsigned long long rate = max(avg_bw, peak_bw);
++	unsigned int dram_data_bus_width_bytes;
++	const unsigned int ddr = 2;
++	int err;
++
++	/*
++	 * Tegra124 EMC runs on a clock rate of SDRAM bus. This means that
++	 * EMC clock rate is twice smaller than the peak data rate because
++	 * data is sampled on both EMC clock edges.
++	 */
++	dram_data_bus_width_bytes = emc->dram_bus_width / 8;
++	do_div(rate, ddr * dram_data_bus_width_bytes);
++	rate = min_t(u64, rate, U32_MAX);
++
++	err = emc_set_min_rate(emc, rate, EMC_RATE_ICC);
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static int tegra_emc_interconnect_init(struct tegra_emc *emc)
++{
++	const struct tegra_mc_soc *soc = emc->mc->soc;
++	struct icc_node *node;
++	int err;
++
++	emc->provider.dev = emc->dev;
++	emc->provider.set = emc_icc_set;
++	emc->provider.data = &emc->provider;
++	emc->provider.aggregate = soc->icc_ops->aggregate;
++	emc->provider.xlate_extended = emc_of_icc_xlate_extended;
++
++	err = icc_provider_add(&emc->provider);
++	if (err)
++		goto err_msg;
++
++	/* create External Memory Controller node */
++	node = icc_node_create(TEGRA_ICC_EMC);
++	if (IS_ERR(node)) {
++		err = PTR_ERR(node);
++		goto del_provider;
++	}
++
++	node->name = "External Memory Controller";
++	icc_node_add(node, &emc->provider);
++
++	/* link External Memory Controller to External Memory (DRAM) */
++	err = icc_link_create(node, TEGRA_ICC_EMEM);
++	if (err)
++		goto remove_nodes;
++
++	/* create External Memory node */
++	node = icc_node_create(TEGRA_ICC_EMEM);
++	if (IS_ERR(node)) {
++		err = PTR_ERR(node);
++		goto remove_nodes;
++	}
++
++	node->name = "External Memory (DRAM)";
++	icc_node_add(node, &emc->provider);
++
++	return 0;
++
++remove_nodes:
++	icc_nodes_remove(&emc->provider);
++del_provider:
++	icc_provider_del(&emc->provider);
++err_msg:
++	dev_err(emc->dev, "failed to initialize ICC: %d\n", err);
++
++	return err;
++}
++
++static int tegra_emc_opp_table_init(struct tegra_emc *emc)
++{
++	u32 hw_version = BIT(tegra_sku_info.soc_speedo_id);
++	struct opp_table *clk_opp_table, *hw_opp_table;
++	int err;
++
++	clk_opp_table = dev_pm_opp_set_clkname(emc->dev, NULL);
++	err = PTR_ERR_OR_ZERO(clk_opp_table);
++	if (err) {
++		dev_err(emc->dev, "failed to set OPP clk: %d\n", err);
++		return err;
++	}
++
++	hw_opp_table = dev_pm_opp_set_supported_hw(emc->dev, &hw_version, 1);
++	err = PTR_ERR_OR_ZERO(hw_opp_table);
++	if (err) {
++		dev_err(emc->dev, "failed to set OPP supported HW: %d\n", err);
++		goto put_clk_table;
++	}
++
++	err = dev_pm_opp_of_add_table(emc->dev);
++	if (err) {
++		/*
++		 * -ENODEV means that this is an older device-tree which
++		 * doesn't have  OPP table and EMC driver isn't very useful
++		 * in this case.
++		 */
++		if (err == -ENODEV)
++			dev_err(emc->dev, "OPP table not found, please update your device tree\n");
++		else
++			dev_err(emc->dev, "failed to add OPP table: %d\n", err);
++
++		goto put_hw_table;
++	}
++
++	dev_info(emc->dev, "OPP HW ver. 0x%x, current clock rate %lu MHz\n",
++		 hw_version, clk_get_rate(emc->clk) / 1000000);
++
++	/* first dummy rate-set initializes voltage state */
++	err = dev_pm_opp_set_rate(emc->dev, clk_get_rate(emc->clk));
++	if (err) {
++		dev_err(emc->dev, "failed to initialize OPP clock: %d\n", err);
++		goto remove_table;
++	}
++
++	return 0;
++
++remove_table:
++	dev_pm_opp_of_remove_table(emc->dev);
++put_hw_table:
++	dev_pm_opp_put_supported_hw(hw_opp_table);
++put_clk_table:
++	dev_pm_opp_put_clkname(clk_opp_table);
++
++	return err;
++}
++
++static void devm_tegra_emc_unset_callback(void *data)
++{
++	tegra124_clk_set_emc_callbacks(NULL, NULL);
++}
++
+ static int tegra_emc_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np;
+@@ -1188,6 +1469,7 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	if (!emc)
+ 		return -ENOMEM;
+ 
++	mutex_init(&emc->rate_lock);
+ 	emc->dev = &pdev->dev;
+ 
+ 	emc->regs = devm_platform_ioremap_resource(pdev, 0);
+@@ -1223,9 +1505,29 @@ static int tegra_emc_probe(struct platform_device *pdev)
+ 	tegra124_clk_set_emc_callbacks(tegra_emc_prepare_timing_change,
+ 				       tegra_emc_complete_timing_change);
+ 
++	err = devm_add_action_or_reset(&pdev->dev, devm_tegra_emc_unset_callback,
++				       NULL);
++	if (err)
++		return err;
++
++	emc->clk = devm_clk_get(&pdev->dev, "emc");
++	if (IS_ERR(emc->clk)) {
++		err = PTR_ERR(emc->clk);
++		dev_err(&pdev->dev, "failed to get EMC clock: %d\n", err);
++		return err;
++	}
++
++	err = tegra_emc_opp_table_init(emc);
++	if (err)
++		return err;
++
++	tegra_emc_rate_requests_init(emc);
++
+ 	if (IS_ENABLED(CONFIG_DEBUG_FS))
+ 		emc_debugfs_init(&pdev->dev, emc);
+ 
++	tegra_emc_interconnect_init(emc);
++
+ 	/*
+ 	 * Don't allow the kernel module to be unloaded. Unloading adds some
+ 	 * extra complexity which doesn't really worth the effort in a case of
+@@ -1242,6 +1544,7 @@ static struct platform_driver tegra_emc_driver = {
+ 		.name = "tegra-emc",
+ 		.of_match_table = tegra_emc_of_match,
+ 		.suppress_bind_attrs = true,
++		.sync_state = icc_sync_state,
+ 	},
+ };
+ module_platform_driver(tegra_emc_driver);
+diff --git a/drivers/memory/tegra/tegra124.c b/drivers/memory/tegra/tegra124.c
+index e2389573d3c0..459211f50c08 100644
+--- a/drivers/memory/tegra/tegra124.c
++++ b/drivers/memory/tegra/tegra124.c
+@@ -4,7 +4,8 @@
+  */
+ 
+ #include <linux/of.h>
+-#include <linux/mm.h>
++#include <linux/of_device.h>
++#include <linux/slab.h>
+ 
+ #include <dt-bindings/memory/tegra124-mc.h>
+ 
+@@ -1010,6 +1011,83 @@ static const struct tegra_mc_reset tegra124_mc_resets[] = {
+ 	TEGRA124_MC_RESET(GPU,       0x970, 0x974,  2),
+ };
+ 
++static int tegra124_mc_icc_set(struct icc_node *src, struct icc_node *dst)
++{
++	/* TODO: program PTSA */
++	return 0;
++}
++
++static int tegra124_mc_icc_aggreate(struct icc_node *node, u32 tag, u32 avg_bw,
++				    u32 peak_bw, u32 *agg_avg, u32 *agg_peak)
++{
++	/*
++	 * ISO clients need to reserve extra bandwidth up-front because
++	 * there could be high bandwidth pressure during initial filling
++	 * of the client's FIFO buffers.  Secondly, we need to take into
++	 * account impurities of the memory subsystem.
++	 */
++	if (tag & TEGRA_MC_ICC_TAG_ISO)
++		peak_bw = tegra_mc_scale_percents(peak_bw, 400);
++
++	*agg_avg += avg_bw;
++	*agg_peak = max(*agg_peak, peak_bw);
++
++	return 0;
++}
++
++static struct icc_node_data *
++tegra124_mc_of_icc_xlate_extended(struct of_phandle_args *spec, void *data)
++{
++	struct tegra_mc *mc = icc_provider_to_tegra_mc(data);
++	const struct tegra_mc_client *client;
++	unsigned int i, idx = spec->args[0];
++	struct icc_node_data *ndata;
++	struct icc_node *node;
++
++	list_for_each_entry(node, &mc->provider.nodes, node_list) {
++		if (node->id != idx)
++			continue;
++
++		ndata = kzalloc(sizeof(*ndata), GFP_KERNEL);
++		if (!ndata)
++			return ERR_PTR(-ENOMEM);
++
++		client = &mc->soc->clients[idx];
++		ndata->node = node;
++
++		switch (client->swgroup) {
++		case TEGRA_SWGROUP_DC:
++		case TEGRA_SWGROUP_DCB:
++		case TEGRA_SWGROUP_PTC:
++		case TEGRA_SWGROUP_VI:
++			/* these clients are isochronous by default */
++			ndata->tag = TEGRA_MC_ICC_TAG_ISO;
++			break;
++
++		default:
++			ndata->tag = TEGRA_MC_ICC_TAG_DEFAULT;
++			break;
++		}
++
++		return ndata;
++	}
++
++	for (i = 0; i < mc->soc->num_clients; i++) {
++		if (mc->soc->clients[i].id == idx)
++			return ERR_PTR(-EPROBE_DEFER);
++	}
++
++	dev_err(mc->dev, "invalid ICC client ID %u\n", idx);
++
++	return ERR_PTR(-EINVAL);
++}
++
++static const struct tegra_mc_icc_ops tegra124_mc_icc_ops = {
++	.xlate_extended = tegra124_mc_of_icc_xlate_extended,
++	.aggregate = tegra124_mc_icc_aggreate,
++	.set = tegra124_mc_icc_set,
++};
++
+ #ifdef CONFIG_ARCH_TEGRA_124_SOC
+ static const unsigned long tegra124_mc_emem_regs[] = {
+ 	MC_EMEM_ARB_CFG,
+@@ -1061,6 +1139,7 @@ const struct tegra_mc_soc tegra124_mc_soc = {
+ 	.reset_ops = &tegra_mc_reset_ops_common,
+ 	.resets = tegra124_mc_resets,
+ 	.num_resets = ARRAY_SIZE(tegra124_mc_resets),
++	.icc_ops = &tegra124_mc_icc_ops,
+ };
+ #endif /* CONFIG_ARCH_TEGRA_124_SOC */
+ 
+@@ -1091,5 +1170,6 @@ const struct tegra_mc_soc tegra132_mc_soc = {
+ 	.reset_ops = &tegra_mc_reset_ops_common,
+ 	.resets = tegra124_mc_resets,
+ 	.num_resets = ARRAY_SIZE(tegra124_mc_resets),
++	.icc_ops = &tegra124_mc_icc_ops,
+ };
+ #endif /* CONFIG_ARCH_TEGRA_132_SOC */
 -- 
 2.29.2
 
