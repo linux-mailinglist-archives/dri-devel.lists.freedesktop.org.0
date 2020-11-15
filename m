@@ -1,56 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764EF2B392B
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 21:35:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E38FC2B392D
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 21:41:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C956E9BC;
-	Sun, 15 Nov 2020 20:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C59A489C1B;
+	Sun, 15 Nov 2020 20:41:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C7CD6E9BC
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 20:35:36 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id f20so21556282ejz.4
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 12:35:36 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6555089C1B
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 20:41:47 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id j7so16600119wrp.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 12:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ijg9lN4q+y1lKWWb0I210T2G+LZI/xVs/0TId95I5ng=;
- b=W4RjtnWI+BKHWNFpCfOvPpta63nqCPhbZ7c0m6ZzGyaCq9QyMuC/YqekjnwfgIdThW
- 5HSVWNfrroeWYcXASxPhMJNLVINwYYJ8JvFdsUPYpspSkVDZR8IIjsrPZKy0WElubF6S
- qyXsNa4mCurwFnpdeeYUGlI4aAgras0OiNeQx9rnwbWXhYK1DPdwXigkJTplPkKXBvPw
- 4WVIk+8DZq5ekCeaiXctRAEu04RY6xIDpjw66RBCcvmgx326LIffJW+aUkNT+LTyzNZp
- 0ZgVkS+a+7mdIa4eCzlDQ6VcacMEkNKRncn2/W747wEx/TkpEEt5GbCyQS5foUrourJR
- qyIw==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=J16eMJgIA1LQl6Gsx6rIuI7VHvHv37tOMcNHiYjyD60=;
+ b=bVfhhPZQ4KbzE4I+TXENHiX55KfMC1dyrIYwFpDwhX4ErA8b2SRvlqCdQULAitQKY6
+ otuoKWNNrFpnI+2wwR46szdnXh99J7SA+9yOp66Yyn9d7VYYzfl2+MGymsijOU+lvS8S
+ UBjdU47HWugqs41tVgTNWwYj/SRMb8LqDsIHv0KhsHWYcH4uo1ph6B2OFZKRjjVDdU0Y
+ +JRpPgNAmZu1LQTF+v7/mI3j/vBtfIXRY1bEEknM2Atdtv1knZQEEDk8MAzykCoPlYOU
+ 96hGCO1gzeGNd5KCrQ4IOv3ENXJkBX0iOY33HVhlYqnZSjE2iCFSYSCQDUa773L7gra7
+ uF8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ijg9lN4q+y1lKWWb0I210T2G+LZI/xVs/0TId95I5ng=;
- b=bHXvhuKnxiMSR0uoAgZ/ZJVJJ2JWbIgoR984MxUPoRCpCKUJ5mwtVPYjMhHjfbuuO/
- J6p+/MpFKfS7J/FKgwLsCHr6ICLyUkfA3I0p01QjVej2Lv7XP8/yBFcirfEDVMbOpnnJ
- W4A8gD7dUxAJLxkdBkErk6X705F51cGGuq/fsV1wYiq7mjC+S8aOjkeAJ+wMTShTK5xV
- Wb/mYKtJzTeR9SIu/6gQA8UKFzywgSfKJbD6Pn2ZBlOMImTi6Kjp9RN9BDEUZ7IHrddh
- t1JN8J7LDepCbJAROVeKC1KXMiGUv0QQo2mUppb/iQuyRRKQp3LSsVhCN+ZpANAtQnAB
- 38OQ==
-X-Gm-Message-State: AOAM530Za5rmLzsJQhvYtnNqZrl+/UV1lFnEcamBFppCgdCQMzZwcsku
- +LNpov5a0OxpzvxOIjR5A5x4R3xPS5+QSxJxtVI=
-X-Google-Smtp-Source: ABdhPJxHshwuqi/yaOW02cHa96cuk2s8w5tE5RdJPO2rcxGDrZpH6KdRqzYXTPZvr5A21b7vculdOK9IfW5KLpF9uCQ=
-X-Received: by 2002:a17:906:82d9:: with SMTP id
- a25mr11612572ejy.101.1605472534755; 
- Sun, 15 Nov 2020 12:35:34 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=J16eMJgIA1LQl6Gsx6rIuI7VHvHv37tOMcNHiYjyD60=;
+ b=Bd0ls7GZrMqvRaRckutL5Cyp4tTxsU6NsQ1gcJVcB6jGnkN9uFIesPd4khxiH1WIe4
+ mEV0juhD1+EOQLyzt2e1vl4FS7zyh8cRXFDw0jSJbDJLzYIe+B49uGkrcPl+POAoMXpw
+ KOY6xwQ/raDqnc0XjoLwn3CTo4rUc59URQqIM9KOUvaKov36d9Y8zjwKO34s+02hL7av
+ lPW9mD86oRNrr0RaeZ67Z5/P+oyYVXV5Av1GzcG6LNmLh0g22dhB7vn0Qv/o2pQ+WSJD
+ 05Fsh8XNNVNQUmOwzQ+3Mip4ULFI9iJnqC0uDPFRWFljyc3sn80s9VgN5ayt7MtPar0E
+ WS4g==
+X-Gm-Message-State: AOAM531t1rL0AyInW/9AXB53QUwXbWKq6DnDOAbyocwscAji8z2JhTBL
+ crT4pxGAWYtxE1nAbLDBrUTZJgdESgJQA3EkyKA=
+X-Google-Smtp-Source: ABdhPJw8nnCeD9Pmfm4aONgo1FE+Mmmq29zBtsBn9axv7s85ARTsDI4Mip1atcZ/FCPMMaiF27W/eKujus1iRe4JOLc=
+X-Received: by 2002:adf:f9c6:: with SMTP id w6mr15473874wrr.273.1605472906065; 
+ Sun, 15 Nov 2020 12:41:46 -0800 (PST)
 MIME-Version: 1.0
-References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
- <20201103222013.hypmzlq7uuqufe76@box>
- <CAHk-=whPqB1PUVCCcQMjm-YTBnTP7UD_ey2rbXzcJhQufJwcUQ@mail.gmail.com>
-In-Reply-To: <CAHk-=whPqB1PUVCCcQMjm-YTBnTP7UD_ey2rbXzcJhQufJwcUQ@mail.gmail.com>
 From: Dave Airlie <airlied@gmail.com>
-Date: Mon, 16 Nov 2020 06:35:22 +1000
-Message-ID: <CAPM=9tySfv3vueCjR84MTzxiZdKZZwVuddb-GuuPyoVncoSPyg@mail.gmail.com>
-Subject: Re: [git pull] drm next pull for 5.10-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 16 Nov 2020 06:41:34 +1000
+Message-ID: <CAPM=9ty9cBzR5tr8g2B7LE9+Hcf4NViHcyDcEHJMVgYmSoub1A@mail.gmail.com>
+Subject: [git pull] drm nouveau urgent fixes for 5.10-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,52 +58,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: Ben Skeggs <skeggsb@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Nov 2020 at 03:57, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> On Tue, Nov 3, 2020 at 2:20 PM Kirill A. Shutemov <kirill@shutemov.name> wrote:
-> >
-> > On Thu, Oct 15, 2020 at 11:33:08AM +1000, Dave Airlie wrote:
-> > >       drm/nouveau/kms: Search for encoders' connectors properly
-> >
-> > This commit (09838c4efe9a) broke boot for me. These two hunks in
-> > particular:
->
-> Christ. It's been two weeks. I'm doing -rc4 today, and I still don't
-> have the fix.
->
-> The problem seems entirely obvious, as reported by Kirill: the nv50
-> code unconditionally calls the "atomic_{dis,en}able()" functions, even
-> when not everybody was converted.
->
-> The fix seems to be to either just do the conversion of the remaining
-> cases (which looks like just adding an argument to the remaining
-> functions, and using that for the "atomic" callback), or the trivial
-> suggestion by Kirill from two weeks ago:
->
-> > I hacked up patch to use help->disable/help->enable if atomic_ versions
-> > are NULL. It worked.
->
-> Kirill, since the nouveau people aren't fixing this, can you just send
-> me your tested patch?
->
-> Lyude/Ben - let me just say that I think this is all a huge disgrace.
->
-> You had a problem report with a bisected commit, a suggested fix, and
-> two weeks later there's absolutely _nothing_.
+Hi Linus,
 
-I do have a fixes pull from Ben from Saturday in my inbox, I can send
-it on this morning.
+As mentioned I did have a fixes pull from Ben from after I'd sent you
+out stuff, it contains the fix for the regression reported in the rc1
+thread along with two others.
 
 Dave.
+
+drm-fixes-2020-11-16:
+drm nouveau fixes for 5.10-rc4
+
+nouveau:
+- atomic modesetting regression fix
+- ttm pre-nv50 fix
+- connector NULL ptr deref fix
+The following changes since commit 41f3ed2cac86ba533ce6a334a2e7fae5c7082946:
+
+  Merge tag 'amd-drm-fixes-5.10-2020-11-12' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes (2020-11-13
+16:05:31 +1000)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-11-16
+
+for you to fetch changes up to 8f598d15ee6577a56d6617d9e4151591db34d8fa:
+
+  Merge branch 'linux-5.10' of git://github.com/skeggsb/linux into
+drm-fixes (2020-11-16 06:36:31 +1000)
+
+----------------------------------------------------------------
+drm nouveau fixes for 5.10-rc4
+
+nouveau:
+- atomic modesetting regression fix
+- ttm pre-nv50 fix
+- connector NULL ptr deref fix
+
+----------------------------------------------------------------
+Alexander Kapshuk (1):
+      drm/nouveau/kms: Fix NULL pointer dereference in
+nouveau_connector_detect_depth
+
+Ben Skeggs (1):
+      drm/nouveau/ttm: avoid using nouveau_drm.ttm.type_vram prior to nv50
+
+Dave Airlie (1):
+      Merge branch 'linux-5.10' of git://github.com/skeggsb/linux into drm-fixes
+
+Lyude Paul (1):
+      drm/nouveau/kms/nv50-: Use atomic encoder callbacks everywhere
+
+ drivers/gpu/drm/nouveau/dispnv50/disp.c     | 29 ++++++++++++++---------------
+ drivers/gpu/drm/nouveau/nouveau_bo.c        |  3 +--
+ drivers/gpu/drm/nouveau/nouveau_connector.c | 14 +++++++++-----
+ 3 files changed, 24 insertions(+), 22 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
