@@ -1,36 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1022B3327
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 10:14:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D96FC2B333D
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 10:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C53288065;
-	Sun, 15 Nov 2020 09:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 715176E998;
+	Sun, 15 Nov 2020 09:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08EB16E993
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 09:14:20 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2F4F8AC24;
- Sun, 15 Nov 2020 09:14:19 +0000 (UTC)
-Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-To: Deepak Rawat <drawat.floss@gmail.com>,
- "Tang, Shaofeng" <shaofeng.tang@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-References: <SN6PR11MB2558D831991447B9B5C8E646E2270@SN6PR11MB2558.namprd11.prod.outlook.com>
- <121f5f8df1e56294ade98f08a943b9fbb514c5e0.camel@gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <45960d1f-5304-1d5a-53fd-9896e4c322aa@suse.de>
-Date: Sun, 15 Nov 2020 10:14:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5002A6E998
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 09:39:51 +0000 (UTC)
+Date: Sun, 15 Nov 2020 09:39:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1605433188;
+ bh=xrubJ7Cjo24zJmxh/QBdfGo4FGIbvY6c4jf8U+IuwrA=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=DgVpZUSR+CBkQojhjQD4I6HDVvHyOFO9G1UwHnZN+e5orFUCQpB8Gm96UhFP0hwPj
+ cjBPHRzv2hWwSQZPOtMvU1AlDlKllegij3ZWkWf12YjopcyAmJOlqzokKI//o8B4ZD
+ /GlWXOG92gvnfA3/Hir7mfAi8pGyzJ3vsBLkLJfeUM+JpI8ivH4crPQt4w+UCPo7M8
+ Cen9NAybsVGUP+a4ytBcSiQ4pCnpjSdmgktQbCR7O5zKEOk6BQQEodAiDsbcF3xZat
+ neea7z4UAKPphl7F/iJFPXlQTS0/cLqAuTyDGdJwNM6u4o+nhLFZM56ZZwxpiYrxyW
+ XOXaTnn9qClmA==
+To: amd-gfx@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH] drm/fourcc: fix AMD modifiers PACKERS field doc
+Message-ID: <6NXsveJa7IUiRftZcOguXi1dj0UifPcrDRtR1oOgrU@cp3-web-009.plabs.ch>
 MIME-Version: 1.0
-In-Reply-To: <121f5f8df1e56294ade98f08a943b9fbb514c5e0.camel@gmail.com>
-Content-Language: en-US
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,33 +46,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Huang, Yuanjun" <yuanjun.huang@intel.com>, "Jiang,
- Fei" <fei.jiang@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGVlcGFrCgpBbSAxMS4wOS4yMCB1bSAwMjozOCBzY2hyaWViIERlZXBhayBSYXdhdDoKPiBP
-biBUaHUsIDIwMjAtMDktMTAgYXQgMDg6MTkgKzAwMDAsIFRhbmcsIFNoYW9mZW5nIHdyb3RlOgo+
-PiBIaSBEZWVwYWssCj4+ICAKPj4gRG8geW91IGhhdmUgYSBuZXcgdmVyc2lvbiBvZiB0aGlzIHBh
-dGNoIG5vdz8KPj4gSSB0YWtlIGEgdHJ5IHdpdGggaXQuIGFuZCBtZWV0IHNvbWUgdHlwbyBhbmQg
-4oCcaW5jb21wYXRpYmxlIHBvaW50ZXLigJ0KPj4gZXJyb3IuCj4+IElmIHlvdSBoYXZlIGEgbmV3
-IHZlcnNpb24sIGNvdWxkIHlvdSBzaGFyZSBpdCB3aXRoIHVzPwo+Pgo+IAo+IEhpIFNoYW9mZW5n
-LAo+IAo+IEl0IHNlZW1zIHlvdSBhcmUgcnVubmluZyB0aGlzIHdpdGggZ2VuIDIgVk0sIEkgaGF2
-ZSBhIHBhdGNoIHRvIHN1cHBvcnQKPiBnZW4gMiBWTSdzIGF0IGh0dHBzOi8vZ2l0aHViLmNvbS9k
-ZWVwYWstcmF3YXQvbGludXguZ2l0IGJyYW5jaCBoeXBlcnZfdAo+IGlueS4KCkknbSBpbnRlcmVz
-dGVkIGluIG1lcmdpbmcgdGhpcyBkcml2ZXIgaW50byB0aGUgRFJNIHVwc3RyZWFtLiBXaGF0J3Mg
-dGhlCnN0YXR1cz8gQXJlIHlvdSBzdGlsbCB3b3JraW5nIG9uIGl0PwoKQmVzdCByZWdhcmRzClRo
-b21hcwoKPiAKPiBJZiB5b3Ugc3RpbGwgcnVuIGludG8gZXJyb3IgYWZ0ZXIgYXBwbHlpbmcgZ2Vu
-MiBwYXRjaCwgZmVlbCBmcmVlIHRvCj4gcmVhY2ggb3V0IHdpdGggZGV0YWlscy4KPiAKPiBEZWVw
-YWsKPiAKPj4gIAo+PiBCUiwgU2hhb2ZlbmcKPiAKPiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiAKCi0tIApUaG9tYXMgWmltbWVybWFubgpHcmFw
-aGljcyBEcml2ZXIgRGV2ZWxvcGVyClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21i
-SApNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkKKEhSQiAzNjgwOSwgQUcg
-TsO8cm5iZXJnKQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJmZmVyCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+This field doesn't alias with BANK_XOR_BITS: PACKERS is bits 26:28 while
+BANK_XOR_BITS is bits 23:25.
+
+Fixes: 8ba16d599374 ("drm/fourcc: Add AMD DRM modifiers.")
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Cc: Alex Deucher <alexdeucher@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+---
+ include/uapi/drm/drm_fourcc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+index ca48ed0e6bc1..29c7a8694479 100644
+--- a/include/uapi/drm/drm_fourcc.h
++++ b/include/uapi/drm/drm_fourcc.h
+@@ -1196,7 +1196,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+ #define AMD_FMT_MOD_PIPE_XOR_BITS_MASK 0x7
+ #define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 23
+ #define AMD_FMT_MOD_BANK_XOR_BITS_MASK 0x7
+-#define AMD_FMT_MOD_PACKERS_SHIFT 26 /* aliases with BANK_XOR_BITS */
++#define AMD_FMT_MOD_PACKERS_SHIFT 26
+ #define AMD_FMT_MOD_PACKERS_MASK 0x7
+ #define AMD_FMT_MOD_RB_SHIFT 29
+ #define AMD_FMT_MOD_RB_MASK 0x7
+-- 
+2.29.2
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
