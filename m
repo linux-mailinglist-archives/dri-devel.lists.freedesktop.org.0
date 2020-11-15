@@ -2,39 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9E52B35D2
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 16:39:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345712B35E2
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 16:48:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C124589DC0;
-	Sun, 15 Nov 2020 15:39:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EEDE6E9AD;
+	Sun, 15 Nov 2020 15:48:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEC2089DC0
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 15:39:17 +0000 (UTC)
-Date: Sun, 15 Nov 2020 15:39:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1605454755;
- bh=dXC3rmPqEFXxolZ/OrEnQPfXC6VMowVzkn8gYuCisNM=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=e8HhJA+1u418hzXEUgeZKlYEVzEbf5fFvJ8SoZvR6JcXrpO7ISg8bS0HBJN9bzof5
- nF//VHDm8md8kRojKiV23h36a0QOo3pAcW1GrJC2jtqZhGIkeXwPuSjwvliCymWdJk
- F6RPBqAlP1f3twLMVaQMRLPNXroprhswxKDqyYzIyydet9r6pb1ppQqhlxUWF8HTOS
- mduP9JN/qNj5pMPIZQOr9KjhD/KOAsv+CTo8OHp/gQ6TuO1j8yByls6pTTeTZfyBFo
- 8FuJNDhyRb6mx6bktI/z3IZNdALW+tdf3kwTx1/pmpCxo9tvz4N8n5nzDmIoDWCQSN
- +CaqPcNooPz8Q==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: fix oops in drm_atomic_set_crtc_for_connector
-Message-ID: <7xhyNYrWtzUIt3HNrWfi9iScW0k475RZiKNfF5TbPs@cp4-web-031.plabs.ch>
-In-Reply-To: <20201115153139.24369-1-chris@chris-wilson.co.uk>
-References: <20201115153139.24369-1-chris@chris-wilson.co.uk>
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
+ [IPv6:2607:f8b0:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B608A6E9B0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 15:48:52 +0000 (UTC)
+Received: by mail-il1-x142.google.com with SMTP id q1so12873376ilt.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 07:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=basnieuwenhuizen.nl; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ldoygcZvwmHBr2LihqdGJdHmsiaQ8Ox3v1+2IXOyC/Y=;
+ b=KEGRwcVl1affchl5stJpoRryPTUjdZH0hRjio1s01SssbdzvL6jcCXSp+q0ZWCqOXl
+ tf0YUXJ+6Mz3hXrQtgNCOSgzM2znemVTcCPRyXW9RpptpfHxo8SL/B8lFGr4EvoDf45U
+ nE6C0o2mlr+3WbEvyDUd/Q9vCPJJN75u9Pn79PKcCz03Y8HELuM4EXEwlTi3UEvuoqT3
+ z9hplF61nBW66plhMamlkkNm/fIDErpNQLJXOgE1Axt+GdKrw4ZT/Nh1UyQ135o297rC
+ GLFV+fEa5rdL+ZmhGQ5Dh5dhyumFxp+6O5ruXdAyq2YkhSoQHU1//Lm7WbOcbjedhtMS
+ uefA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ldoygcZvwmHBr2LihqdGJdHmsiaQ8Ox3v1+2IXOyC/Y=;
+ b=iESmwtMymZfCtc+D6GgYGwOtQe5wVQoKqx3EluSaRWXZYv7P+Iz6y8CEUOkhqZMWLp
+ axxBU7fW46PjcVukcpBI9stQyTp1IxGw1sA7hiXQ2xvby/JXNPP2tyLVhldMe0HW+t4M
+ rq2fDjH7H/1M8a0qOia93NRKg9xB0MS7vAL6o4Oa45Umx2yUPxU+fSLUynlci0MZ9wlY
+ 2+/ncq5nO1LMsttd85eDd8d6BanQ4+hdIO1AdGbarUVTYfZpjZGVmp6eoKBEJjiDw04I
+ vAa6o5rViMhTzdfKZjs1Am04ibBlPV2U9Kan1naqVf+Y96qK+FLuVvqhWAwD0GXeQNZK
+ Vlbg==
+X-Gm-Message-State: AOAM5333beCQfiNMhkoZRSg7NQb+IcZinYgNi1L4tUNp/WCjSIE0YA6B
+ wqVFtvjhJUHm6RExR6Qf3dHarcDpmCdJKzQ3GuVzfg==
+X-Google-Smtp-Source: ABdhPJxd7r4mxb99HJVhGPFZd1NyUgk39chxk7fuOxMyWjpwCJwakV0c0uK6fVHqzWWurmFN46P9LCfT0WD1GXB7RJ4=
+X-Received: by 2002:a92:c7a2:: with SMTP id f2mr5839047ilk.294.1605455332127; 
+ Sun, 15 Nov 2020 07:48:52 -0800 (PST)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+References: <6NXsveJa7IUiRftZcOguXi1dj0UifPcrDRtR1oOgrU@cp3-web-009.plabs.ch>
+In-Reply-To: <6NXsveJa7IUiRftZcOguXi1dj0UifPcrDRtR1oOgrU@cp3-web-009.plabs.ch>
+From: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+Date: Sun, 15 Nov 2020 16:48:49 +0100
+Message-ID: <CAP+8YyHLjEe718h2LZUNCYKx4VBw9J2=0BO9-ogzu9NTzCGdng@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: fix AMD modifiers PACKERS field doc
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,48 +61,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
- Chris Wilson <chris@chris-wilson.co.uk>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-crtc can be NULL. connector, extracted from conn_state, can't.
+Reviewed-by: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
 
-Fixes: e3aae683e861 ("drm: convert drm_atomic_uapi.c to new debug helpers")
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
----
- drivers/gpu/drm/drm_atomic_uapi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 9df7f2a170e3..268bb69c2e2f 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -334,12 +334,12 @@ drm_atomic_set_crtc_for_connector(struct drm_connector_state *conn_state,
- 		drm_connector_get(conn_state->connector);
- 		conn_state->crtc = crtc;
- 
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(connector->dev,
- 			       "Link [CONNECTOR:%d:%s] state %p to [CRTC:%d:%s]\n",
- 			       connector->base.id, connector->name,
- 			       conn_state, crtc->base.id, crtc->name);
- 	} else {
--		drm_dbg_atomic(crtc->dev,
-+		drm_dbg_atomic(connector->dev,
- 			       "Link [CONNECTOR:%d:%s] state %p to [NOCRTC]\n",
- 			       connector->base.id, connector->name,
- 			       conn_state);
--- 
-2.29.2
-
-
+On Sun, Nov 15, 2020 at 10:39 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> This field doesn't alias with BANK_XOR_BITS: PACKERS is bits 26:28 while
+> BANK_XOR_BITS is bits 23:25.
+>
+> Fixes: 8ba16d599374 ("drm/fourcc: Add AMD DRM modifiers.")
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>
+> Cc: Alex Deucher <alexdeucher@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  include/uapi/drm/drm_fourcc.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index ca48ed0e6bc1..29c7a8694479 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -1196,7 +1196,7 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  #define AMD_FMT_MOD_PIPE_XOR_BITS_MASK 0x7
+>  #define AMD_FMT_MOD_BANK_XOR_BITS_SHIFT 23
+>  #define AMD_FMT_MOD_BANK_XOR_BITS_MASK 0x7
+> -#define AMD_FMT_MOD_PACKERS_SHIFT 26 /* aliases with BANK_XOR_BITS */
+> +#define AMD_FMT_MOD_PACKERS_SHIFT 26
+>  #define AMD_FMT_MOD_PACKERS_MASK 0x7
+>  #define AMD_FMT_MOD_RB_SHIFT 29
+>  #define AMD_FMT_MOD_RB_MASK 0x7
+> --
+> 2.29.2
+>
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
