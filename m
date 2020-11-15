@@ -1,57 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D7B2B3A83
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 00:04:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6942B3A87
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 00:12:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 631D389C3F;
-	Sun, 15 Nov 2020 23:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86BDB89BBE;
+	Sun, 15 Nov 2020 23:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3720F89C3F;
- Sun, 15 Nov 2020 23:04:44 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id w5so1611165ybj.11;
- Sun, 15 Nov 2020 15:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=olRFhuJ0eM55+9jgcs7ITDhZa1tsZvUbIVkz7Gwn4Wk=;
- b=TpIBJ2/0g5MyiSFcqEgJPCY/4flCzowPWSpkncdrcF+YIMFI7Sz4PkVCnS7kl5hlyI
- ICmK4ft4qMaTSCXFG+FPfZuLZb6baCo7LwRO4CXWhLzOLJeAMuRNAtPjuJwEegUyR5EO
- jDo2Zrrpuocs4i+P1NYDn2PdxYkK+wNMsqFuT3yGinHlRfYvNnBBEako9ONT1D8ms1q6
- aHoIk759khyRTQkbQmutevORL9WdWmjj1L9XkqQR14RbjycGoqVMrxbEldGN5Lu4fBtQ
- MOy/A1rN9IOfAAa+I5pd9w+eRkevS1IQr+Dsi7LEG+hkDexWx6UJwKlxgj6rLBzS2tOx
- PsJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=olRFhuJ0eM55+9jgcs7ITDhZa1tsZvUbIVkz7Gwn4Wk=;
- b=bQrz8zsJq4KfAD+V1tLMy4cJ78S2dJF305hlV0ZLDicTjLVNQKd8P+Opz0NdZH9enD
- jHzXmPk5gvBaZSLb2FKnqvf5FuhJrsbAS6MnY1B4Ms0aA2VWN2exOY3mrwMPIw0GPxSu
- y/8SZRDBKJQAIZP5p1U1RJGTTn0JQXOAJrXHHNhyGkYkTSkvAU2Jxj05XvV6fvntvocw
- E8+YByV22a2gA0xGPsBFw4+k0tHNiEk0UQDRz0qZVeUj8vs0il+W/uK2N1qHGtligFjS
- qec//EznF49B8KVJChR0E20IAISyflBK5ErRzJmOsJ/0/GMlhsWbaeg2i5RIyGql9Tip
- eBMA==
-X-Gm-Message-State: AOAM531890ghMrHSZgruCYAn/QHUUYTaDsXeegAN5GcyhThNu7vsdB33
- jiDy2do0fQEUP4NDlLpacJKvtZ307C/nWfqD8L8=
-X-Google-Smtp-Source: ABdhPJw+ZaeNhpJRQ4jrP6tCumHwxMe5plAyGbgkW6IBfwsvtpUDls+5lTDyOsfQ1e/RZfIL5PyFxCcN2Tar+HCNoY0=
-X-Received: by 2002:a25:d10f:: with SMTP id i15mr16258221ybg.60.1605481483343; 
- Sun, 15 Nov 2020 15:04:43 -0800 (PST)
+Received: from smtprelay.hostedemail.com (smtprelay0093.hostedemail.com
+ [216.40.44.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA8C489BBE;
+ Sun, 15 Nov 2020 23:12:05 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay01.hostedemail.com (Postfix) with ESMTP id B6E2C100E7B43;
+ Sun, 15 Nov 2020 23:12:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50, 0, 0, , d41d8cd98f00b204, joe@perches.com, ,
+ RULES_HIT:41:69:327:355:379:599:967:968:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1593:1594:1605:1730:1747:1777:1792:1801:2194:2199:2393:2525:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3866:3867:3868:3870:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4605:5007:8985:9025:9040:9121:9592:10004:10848:11026:11232:11473:11657:11658:11914:12043:12296:12297:12438:12555:12740:12760:12895:12986:13255:13439:14096:14097:14659:21080:21451:21627:30054:30091,
+ 0, RBL:none, CacheIP:none, Bayesian:0.5, 0.5, 0.5, Netcheck:none,
+ DomainCache:0, MSF:not bulk, SPF:, MSBL:0, DNSBL:none, Custom_rules:0:0:0,
+ LFtime:1, LUA_SUMMARY:none
+X-HE-Tag: brush60_4d0c30627324
+X-Filterd-Recvd-Size: 21605
+Received: from XPS-9350.home (unknown [47.151.133.149])
+ (Authenticated sender: joe@perches.com)
+ by omf05.hostedemail.com (Postfix) with ESMTPA;
+ Sun, 15 Nov 2020 23:12:03 +0000 (UTC)
+Message-ID: <176ba5be7e1a4cd5aa36c5e891a55728075135d0.camel@perches.com>
+Subject: Re: [PATCH 01/40] drm/amd/include/vega10_ip_offset: Mark _BASE
+ structs as __maybe_unused
+From: Joe Perches <joe@perches.com>
+To: Lee Jones <lee.jones@linaro.org>
+Date: Sun, 15 Nov 2020 15:12:01 -0800
+In-Reply-To: <20201113134938.4004947-2-lee.jones@linaro.org>
+References: <20201113134938.4004947-1-lee.jones@linaro.org>
+ <20201113134938.4004947-2-lee.jones@linaro.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20200828092846.GA11454@localhost.localdomain>
- <20201115091010.GA132466@eldamar.lan>
- <CACO55tvwtYj0QGFy3Bk5-13bm7cjHGko3WegY1fFbtf0WckQyQ@mail.gmail.com>
-In-Reply-To: <CACO55tvwtYj0QGFy3Bk5-13bm7cjHGko3WegY1fFbtf0WckQyQ@mail.gmail.com>
-From: Ben Skeggs <skeggsb@gmail.com>
-Date: Mon, 16 Nov 2020 09:04:32 +1000
-Message-ID: <CACAvsv701GiR6QetL6FGUCQLVn45+1EVGTuA-6Pmw5RtwrvyRQ@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau: bail out of nouveau_channel_new if
- channel init fails
-To: Karol Herbst <kherbst@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,155 +52,404 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Frantisek Hrbata <frantisek@hrbata.com>,
- Salvatore Bonaccorso <carnil@debian.org>
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Nov 2020 at 05:19, Karol Herbst <kherbst@redhat.com> wrote:
->
-> On Sun, Nov 15, 2020 at 6:43 PM Salvatore Bonaccorso <carnil@debian.org> wrote:
-> >
-> > Hi,
-> >
-> > On Fri, Aug 28, 2020 at 11:28:46AM +0200, Frantisek Hrbata wrote:
-> > > Unprivileged user can crash kernel by using DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC
-> > > ioctl. This was reported by trinity[1] fuzzer.
-> > >
-> > > [   71.073906] nouveau 0000:01:00.0: crashme[1329]: channel failed to initialise, -17
-> > > [   71.081730] BUG: kernel NULL pointer dereference, address: 00000000000000a0
-> > > [   71.088928] #PF: supervisor read access in kernel mode
-> > > [   71.094059] #PF: error_code(0x0000) - not-present page
-> > > [   71.099189] PGD 119590067 P4D 119590067 PUD 1054f5067 PMD 0
-> > > [   71.104842] Oops: 0000 [#1] SMP NOPTI
-> > > [   71.108498] CPU: 2 PID: 1329 Comm: crashme Not tainted 5.8.0-rc6+ #2
-> > > [   71.114993] Hardware name: AMD Pike/Pike, BIOS RPK1506A 09/03/2014
-> > > [   71.121213] RIP: 0010:nouveau_abi16_ioctl_channel_alloc+0x108/0x380 [nouveau]
-> > > [   71.128339] Code: 48 89 9d f0 00 00 00 41 8b 4c 24 04 41 8b 14 24 45 31 c0 4c 8d 4b 10 48 89 ee 4c 89 f7 e8 10 11 00 00 85 c0 75 78 48 8b 43 10 <8b> 90 a0 00 00 00 41 89 54 24 08 80 7d 3d 05 0f 86 bb 01 00 00 41
-> > > [   71.147074] RSP: 0018:ffffb4a1809cfd38 EFLAGS: 00010246
-> > > [   71.152526] RAX: 0000000000000000 RBX: ffff98cedbaa1d20 RCX: 00000000000003bf
-> > > [   71.159651] RDX: 00000000000003be RSI: 0000000000000000 RDI: 0000000000030160
-> > > [   71.166774] RBP: ffff98cee776de00 R08: ffffdc0144198a08 R09: ffff98ceeefd4000
-> > > [   71.173901] R10: ffff98cee7e81780 R11: 0000000000000001 R12: ffffb4a1809cfe08
-> > > [   71.181214] R13: ffff98cee776d000 R14: ffff98cec519e000 R15: ffff98cee776def0
-> > > [   71.188339] FS:  00007fd926250500(0000) GS:ffff98ceeac80000(0000) knlGS:0000000000000000
-> > > [   71.196418] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [   71.202155] CR2: 00000000000000a0 CR3: 0000000106622000 CR4: 00000000000406e0
-> > > [   71.209297] Call Trace:
-> > > [   71.211777]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
-> > > [   71.218053]  drm_ioctl_kernel+0xac/0xf0 [drm]
-> > > [   71.222421]  drm_ioctl+0x211/0x3c0 [drm]
-> > > [   71.226379]  ? nouveau_abi16_ioctl_getparam+0x1f0/0x1f0 [nouveau]
-> > > [   71.232500]  nouveau_drm_ioctl+0x57/0xb0 [nouveau]
-> > > [   71.237285]  ksys_ioctl+0x86/0xc0
-> > > [   71.240595]  __x64_sys_ioctl+0x16/0x20
-> > > [   71.244340]  do_syscall_64+0x4c/0x90
-> > > [   71.248110]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > > [   71.253162] RIP: 0033:0x7fd925d4b88b
-> > > [   71.256731] Code: Bad RIP value.
-> > > [   71.259955] RSP: 002b:00007ffc743592d8 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
-> > > [   71.267514] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fd925d4b88b
-> > > [   71.274637] RDX: 0000000000601080 RSI: 00000000c0586442 RDI: 0000000000000003
-> > > [   71.281986] RBP: 00007ffc74359340 R08: 00007fd926016ce0 R09: 00007fd926016ce0
-> > > [   71.289111] R10: 0000000000000003 R11: 0000000000000206 R12: 0000000000400620
-> > > [   71.296235] R13: 00007ffc74359420 R14: 0000000000000000 R15: 0000000000000000
-> > > [   71.303361] Modules linked in: rfkill sunrpc snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core edac_mce_amd snd_hwdep kvm_amd snd_seq ccp snd_seq_device snd_pcm kvm snd_timer snd irqbypass soundcore sp5100_tco pcspkr crct10dif_pclmul crc32_pclmul ghash_clmulni_intel wmi_bmof joydev i2c_piix4 fam15h_power k10temp acpi_cpufreq ip_tables xfs libcrc32c sd_mod t10_pi sg nouveau video mxm_wmi i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ttm broadcom bcm_phy_lib ata_generic ahci drm e1000 crc32c_intel libahci serio_raw tg3 libata firewire_ohci firewire_core wmi crc_itu_t dm_mirror dm_region_hash dm_log dm_mod
-> > > [   71.365269] CR2: 00000000000000a0
-> > >
-> > > simplified reproducer
-> > > ---------------------------------8<----------------------------------------
-> > > /*
-> > >  * gcc -o crashme crashme.c
-> > >  * ./crashme /dev/dri/renderD128
-> > >  */
-> > >
-> > > struct drm_nouveau_channel_alloc {
-> > >       uint32_t     fb_ctxdma_handle;
-> > >       uint32_t     tt_ctxdma_handle;
-> > >
-> > >       int          channel;
-> > >       uint32_t     pushbuf_domains;
-> > >
-> > >       /* Notifier memory */
-> > >       uint32_t     notifier_handle;
-> > >
-> > >       /* DRM-enforced subchannel assignments */
-> > >       struct {
-> > >               uint32_t handle;
-> > >               uint32_t grclass;
-> > >       } subchan[8];
-> > >       uint32_t nr_subchan;
-> > > };
-> > >
-> > > static struct drm_nouveau_channel_alloc channel;
-> > >
-> > > int main(int argc, char *argv[]) {
-> > >       int fd;
-> > >       int rv;
-> > >
-> > >       if (argc != 2)
-> > >               die("usage: %s <dev>", 0, argv[0]);
-> > >
-> > >       if ((fd = open(argv[1], O_RDONLY)) == -1)
-> > >               die("open %s", errno, argv[1]);
-> > >
-> > >       if (ioctl(fd, DRM_IOCTL_NOUVEAU_CHANNEL_ALLOC, &channel) == -1 &&
-> > >                       errno == EACCES)
-> > >               die("ioctl %s", errno, argv[1]);
-> > >
-> > >       close(fd);
-> > >
-> > >       printf("PASS\n");
-> > >
-> > >       return 0;
-> > > }
-> > > ---------------------------------8<----------------------------------------
-> > >
-> > > [1] https://github.com/kernelslacker/trinity
-> > >
-> > > Fixes: eeaf06ac1a55 ("drm/nouveau/svm: initial support for shared virtual memory")
-> > > Signed-off-by: Frantisek Hrbata <frantisek at hrbata.com>
-> > > ---
-> > >  drivers/gpu/drm/nouveau/nouveau_chan.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_chan.c b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > index b80e4ebf1..a7a47b325 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_chan.c
-> > > @@ -533,6 +533,7 @@ nouveau_channel_new(struct nouveau_drm *drm, struct nvif_device *device,
-> > >       if (ret) {
-> > >               NV_PRINTK(err, cli, "channel failed to initialise, %d\n", ret);
-> > >               nouveau_channel_del(pchan);
-> > > +             goto done;
-> > >       }
-> > >
-> > >       ret = nouveau_svmm_join((*pchan)->vmm->svmm, (*pchan)->inst);
-> > > --
-> > > Frantisek Hrbata
-> >
-> > Is this still planned to be applied? AFAICS this is the fix for
-> > CVE-2020-25639.
-> >
->
-> If it's urgent to get it fixed, I suggest going through the Linux
-> kernel or drm stable path. CCing dri-devel, Dave, Daniel and Ben.
-Missed this.  I'll grab it today and send it with the next -fixes.
+On Fri, 2020-11-13 at 13:48 +0000, Lee Jones wrote:
+> This patch fixes nearly 400 warnings!
+> 
+> These structures are too widely used in too many varying
+> configurations to be split-up into different headers or moved into
+> source files.
+> 
+> Instead, we'll mark them as __maybe_unused which tells the compiler
+> that we're aware they're being included into source files which do not
+> make use of them - but we've looked into it, and it's okay.
 
-Ben.
->
-> > Regards,
-> > Salvatore
-> > _______________________________________________
-> > Nouveau mailing list
-> > Nouveau@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/nouveau
-> >
->
+https://gcc.gnu.org/onlinedocs/gcc-4.7.2/gcc/Type-Attributes.html#Type-Attributes
+
+Wouldn't it be simpler to mark the struct definitions as maybe_unused
+instead of the declarations?
+
+And perhaps remove all the unnecessary zeroed declarations?
+
+Something like this example?
+---
+ drivers/gpu/drm/amd/include/arct_ip_offset.h | 353 +++++++++++----------------
+ 1 file changed, 145 insertions(+), 208 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/include/arct_ip_offset.h b/drivers/gpu/drm/amd/include/arct_ip_offset.h
+index a7791a9e1f90..9f2d6b832dd9 100644
+--- a/drivers/gpu/drm/amd/include/arct_ip_offset.h
++++ b/drivers/gpu/drm/amd/include/arct_ip_offset.h
+@@ -33,215 +33,152 @@ struct IP_BASE_INSTANCE
+ struct IP_BASE
+ {
+     struct IP_BASE_INSTANCE instance[MAX_INSTANCE];
+-};
+-
+-
+-static const struct IP_BASE ATHUB_BASE            ={ { { { 0x00000C20, 0x00012460, 0x00408C00, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE CLK_BASE            ={ { { { 0x000120C0, 0x00016C00, 0x00401800, 0, 0, 0 } },
+-                                        { { 0x000120E0, 0x00016E00, 0x00401C00, 0, 0, 0 } },
+-                                        { { 0x00012100, 0x00017000, 0x00402000, 0, 0, 0 } },
+-                                        { { 0x00012120, 0x00017200, 0x00402400, 0, 0, 0 } },
+-                                        { { 0x000136C0, 0x0001B000, 0x0042D800, 0, 0, 0 } },
+-                                        { { 0x00013720, 0x0001B200, 0x0042E400, 0, 0, 0 } },
+-                                        { { 0x000125E0, 0x00017E00, 0x0040BC00, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE DF_BASE            ={ { { { 0x00007000, 0x000125C0, 0x0040B800, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE FUSE_BASE            ={ { { { 0x000120A0, 0x00017400, 0x00401400, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE GC_BASE            ={ { { { 0x00002000, 0x0000A000, 0x00012160, 0x00402C00, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE HDP_BASE            ={ { { { 0x00000F20, 0x00012520, 0x0040A400, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE MMHUB_BASE            ={ { { { 0x00012440, 0x0001A000, 0x00408800, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE MP0_BASE            ={ { { { 0x00016000, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE MP1_BASE            ={ { { { 0x00016000, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE NBIF0_BASE            ={ { { { 0x00000000, 0x00000014, 0x00000D20, 0x00010400, 0x00012D80, 0x0041B000 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE OSSSYS_BASE            ={ { { { 0x000010A0, 0x00012500, 0x0040A000, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE PCIE0_BASE            ={ { { { 0x000128C0, 0x00411800, 0x04440000, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA0_BASE            ={ { { { 0x00001260, 0x00012540, 0x0040A800, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA1_BASE            ={ { { { 0x00001860, 0x00012560, 0x0040AC00, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA2_BASE            ={ { { { 0x00013760, 0x0001E000, 0x0042EC00, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA3_BASE            ={ { { { 0x00013780, 0x0001E400, 0x0042F000, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA4_BASE            ={ { { { 0x000137A0, 0x0001E800, 0x0042F400, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA5_BASE            ={ { { { 0x000137C0, 0x0001EC00, 0x0042F800, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA6_BASE            ={ { { { 0x000137E0, 0x0001F000, 0x0042FC00, 0, 0, 0 } },
+-                                       { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SDMA7_BASE            ={ { { { 0x00013800, 0x0001F400, 0x00430000, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE SMUIO_BASE            ={ { { { 0x00016800, 0x00016A00, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE THM_BASE            ={ { { { 0x00016600, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE UMC_BASE            ={ { { { 0x000132C0, 0x00014000, 0x00425800, 0, 0, 0 } },
+-                                        { { 0x000132E0, 0x00054000, 0x00425C00, 0, 0, 0 } },
+-                                        { { 0x00013300, 0x00094000, 0x00426000, 0, 0, 0 } },
+-                                        { { 0x00013320, 0x000D4000, 0x00426400, 0, 0, 0 } },
+-                                        { { 0x00013340, 0x00114000, 0x00426800, 0, 0, 0 } },
+-                                        { { 0x00013360, 0x00154000, 0x00426C00, 0, 0, 0 } },
+-                                        { { 0x00013380, 0x00194000, 0x00427000, 0, 0, 0 } },
+-                                        { { 0x000133A0, 0x001D4000, 0x00427400, 0, 0, 0 } } } };
+-static const struct IP_BASE UVD_BASE            ={ { { { 0x00007800, 0x00007E00, 0x00012180, 0x00403000, 0, 0 } },
+-                                        { { 0x00007A00, 0x00009000, 0x000136E0, 0x0042DC00, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE DBGU_IO_BASE            ={ { { { 0x000001E0, 0x000125A0, 0x0040B400, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-static const struct IP_BASE RSMU_BASE            ={ { { { 0x00012000, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } },
+-                                        { { 0, 0, 0, 0, 0, 0 } } } };
+-
++} __maybe_unused;
+ 
++static const struct IP_BASE ATHUB_BASE = {
++	{
++		{{ 0x00000C20, 0x00012460, 0x00408C00, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE CLK_BASE = {
++	{
++		{{ 0x000120C0, 0x00016C00, 0x00401800, 0, 0, 0 }},
++		{{ 0x000120E0, 0x00016E00, 0x00401C00, 0, 0, 0 }},
++		{{ 0x00012100, 0x00017000, 0x00402000, 0, 0, 0 }},
++		{{ 0x00012120, 0x00017200, 0x00402400, 0, 0, 0 }},
++		{{ 0x000136C0, 0x0001B000, 0x0042D800, 0, 0, 0 }},
++		{{ 0x00013720, 0x0001B200, 0x0042E400, 0, 0, 0 }},
++		{{ 0x000125E0, 0x00017E00, 0x0040BC00, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE DF_BASE = {
++	{
++		{{ 0x00007000, 0x000125C0, 0x0040B800, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE FUSE_BASE = {
++	{
++		{{ 0x000120A0, 0x00017400, 0x00401400, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE GC_BASE = {
++	{
++		{{ 0x00002000, 0x0000A000, 0x00012160, 0x00402C00, 0, 0 }},
++	}
++};
++static const struct IP_BASE HDP_BASE = {
++	{
++		{{ 0x00000F20, 0x00012520, 0x0040A400, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE MMHUB_BASE = {
++	{
++		{{ 0x00012440, 0x0001A000, 0x00408800, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE MP0_BASE = {
++	{
++		{{ 0x00016000, 0, 0, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE MP1_BASE = {
++	{
++		{{ 0x00016000, 0, 0, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE NBIF0_BASE = {
++	{
++		{{ 0x00000000, 0x00000014, 0x00000D20, 0x00010400, 0x00012D80, 0x0041B000 }},
++	}
++};
++static const struct IP_BASE OSSSYS_BASE = {
++	{
++		{{ 0x000010A0, 0x00012500, 0x0040A000, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE PCIE0_BASE = {
++	{
++		{{ 0x000128C0, 0x00411800, 0x04440000, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA0_BASE = {
++	{
++		{{ 0x00001260, 0x00012540, 0x0040A800, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA1_BASE = {
++	{
++		{{ 0x00001860, 0x00012560, 0x0040AC00, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA2_BASE = {
++	{
++		{{ 0x00013760, 0x0001E000, 0x0042EC00, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA3_BASE = {
++	{
++		{{ 0x00013780, 0x0001E400, 0x0042F000, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA4_BASE = {
++	{
++		{{ 0x000137A0, 0x0001E800, 0x0042F400, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA5_BASE = {
++	{
++		{{ 0x000137C0, 0x0001EC00, 0x0042F800, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA6_BASE = {
++	{
++		{{ 0x000137E0, 0x0001F000, 0x0042FC00, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SDMA7_BASE = {
++	{
++		{{ 0x00013800, 0x0001F400, 0x00430000, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE SMUIO_BASE = {
++	{
++		{{ 0x00016800, 0x00016A00, 0, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE THM_BASE = {
++	{
++		{{ 0x00016600, 0, 0, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE UMC_BASE = {
++	{
++		{{ 0x000132C0, 0x00014000, 0x00425800, 0, 0, 0 }},
++		{{ 0x000132E0, 0x00054000, 0x00425C00, 0, 0, 0 }},
++		{{ 0x00013300, 0x00094000, 0x00426000, 0, 0, 0 }},
++		{{ 0x00013320, 0x000D4000, 0x00426400, 0, 0, 0 }},
++		{{ 0x00013340, 0x00114000, 0x00426800, 0, 0, 0 }},
++		{{ 0x00013360, 0x00154000, 0x00426C00, 0, 0, 0 }},
++		{{ 0x00013380, 0x00194000, 0x00427000, 0, 0, 0 }},
++		{{ 0x000133A0, 0x001D4000, 0x00427400, 0, 0, 0 }}
++	}
++};
++static const struct IP_BASE UVD_BASE = {
++	{
++		{{ 0x00007800, 0x00007E00, 0x00012180, 0x00403000, 0, 0 }},
++		{{ 0x00007A00, 0x00009000, 0x000136E0, 0x0042DC00, 0, 0 }},
++	}
++};
++static const struct IP_BASE DBGU_IO_BASE = {
++	{
++		{{ 0x000001E0, 0x000125A0, 0x0040B400, 0, 0, 0 }},
++	}
++};
++static const struct IP_BASE RSMU_BASE = {
++	{
++		{{ 0x00012000, 0, 0, 0, 0, 0 }},
++	}
++};
+ 
+ #define ATHUB_BASE__INST0_SEG0                     0x00000C20
+ #define ATHUB_BASE__INST0_SEG1                     0x00012460
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
