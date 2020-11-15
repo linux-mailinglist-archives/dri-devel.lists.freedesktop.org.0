@@ -1,66 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 176112B377C
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 18:55:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D83C02B377E
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Nov 2020 18:57:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2A96E9AA;
-	Sun, 15 Nov 2020 17:55:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D817A6E9AA;
+	Sun, 15 Nov 2020 17:57:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A546E9AA
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 17:55:48 +0000 (UTC)
-Received: by mail-pl1-x642.google.com with SMTP id d3so6967517plo.4
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 09:55:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=4ZKYP9WM6ChkWhkP0GmUsL6ukd8dkPbB8lLfkJ7ST7g=;
- b=pwbokRPpD7EnoAVqkxtNpPHVcSDgjn0OhuANuk4SE5WNZcgegeIci/c1nJrBGCFf7B
- Bqvh8p3PKqDCbBmjoOyyz3BF5TanBYQerKDiQLBsPkMBCZWttGK3zxf55ZYzlGyNc3xP
- QiuYu/nYDdbpK1l0oIMTQFAedVKlRqQO1v/LoKMpftrY3oTdu8AH/KACtNdLS421rTcx
- kl6ycSEy503bmJCFKrq+xQmnhiDmMmNs3jAM+1pbjLCFLjoRx1yBiZcDUAJYYDzUJubb
- XcxBYEskkDTKAOsJ8m1G8aueATOimjCd8/+7GYu1fMnUQ/yR9gVaU0KfbtfpMe0LbbvH
- Sr7w==
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAC686E9AA
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 17:57:49 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id y16so17262211ljk.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 09:57:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o59BZdkVJF2tiujufffJlPZ8vaTkpZCTYRuWU0rId2Q=;
+ b=OahrTwfET9qGvsGfM2qZcnSTlFGXDpok0Pv37BGC91uw5hOdQ0MBZCFKkoMi/+jdKb
+ xg5FOJAYHxPZAujCc4xW7YooGGtrxA0fXbqESgjc0nV0qclmyBHkKHXcDEm077ZlGMz+
+ /3cahwVB7ry5OCnNL4ggJVU6XedTOqajdmRbo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=4ZKYP9WM6ChkWhkP0GmUsL6ukd8dkPbB8lLfkJ7ST7g=;
- b=BydB5N/tNy+8l6U3f06EnD/1Utaem8X4uoCF4UKjCo2EWg1ZGXmAnaeiB2imjjzZOx
- WeF+E1r2SifraWpxRZMkOE4DTJPp0k4epL9T53g1N7L86wia2G9AmxFe2AbiSyAzb83Z
- 2Lv+YDK5TYUBhBSIhYKvYI/cmxsQeVXJH7TmRmD18/9IKMZg/e01F1M+m3mYeMVWUacX
- /J8CWyXy3JZda/BOiW/vicKaMyDd1Kkpx8H5y+gdSqlmg+4GU/oABLLO+UcworXTBrhJ
- X04bBM3gyYVXzV5KOdI5sU1lN78j/N3aa050NRqGDhH3u2AUK3kkOIpFhEqzIyRr0dpP
- +JIQ==
-X-Gm-Message-State: AOAM530OjzcpTYzPzpFqgMlp6kVx0n4QPRTw+uVjgStYuxWegZtLegCw
- xcojmwru3h2DcUL6vQ8C+Yg=
-X-Google-Smtp-Source: ABdhPJz9oooaGW05g4gOzoU5egGdQTzmZy1dNsKOhjTSyxdzznbEpc8a/lU/QekgSJBc5h6vKx4ayg==
-X-Received: by 2002:a17:90a:d3d8:: with SMTP id
- d24mr11809747pjw.164.1605462947815; 
- Sun, 15 Nov 2020 09:55:47 -0800 (PST)
-Received: from [192.168.1.8] (50-47-106-83.evrt.wa.frontiernet.net.
- [50.47.106.83])
- by smtp.gmail.com with ESMTPSA id q14sm14273630pfl.163.2020.11.15.09.55.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Nov 2020 09:55:47 -0800 (PST)
-Message-ID: <2a46700700085e7e2588bb8120595968aae7f8a6.camel@gmail.com>
-Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-From: Deepak Rawat <drawat.floss@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, "Tang, Shaofeng"
- <shaofeng.tang@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Date: Sun, 15 Nov 2020 09:55:46 -0800
-In-Reply-To: <45960d1f-5304-1d5a-53fd-9896e4c322aa@suse.de>
-References: <SN6PR11MB2558D831991447B9B5C8E646E2270@SN6PR11MB2558.namprd11.prod.outlook.com>
- <121f5f8df1e56294ade98f08a943b9fbb514c5e0.camel@gmail.com>
- <45960d1f-5304-1d5a-53fd-9896e4c322aa@suse.de>
-User-Agent: Evolution 3.38.1 
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o59BZdkVJF2tiujufffJlPZ8vaTkpZCTYRuWU0rId2Q=;
+ b=hgc+7tXgW9MPQEsi7/GBmGZY6Qbp1Tq0Srephh5GO8JZtkGkhk2/NgU3DVjP45or+p
+ 74XjIr7tZFvr/yEDTzZzI6VWeG3jMszTyj+wZMiLA0JdW1PcXFtDdCcbDUjIo7S+0cS5
+ qxSf2YDfQt+cqwQKBG6yi2oJpenT1d7+PaKrEfApt5aPKAnCWJeLIR4BnUlC2QB7q84S
+ ALth7rfUh6pA6g0nlMsYAPELDsN1E1zDL4c64HFEqCv8/7hJiwUNCX7CLQUbnTyLJX4Z
+ Ub7jYz5mXesqeGcv1E/Fo8IBgIIvTk6onUvGcYJ/LFzRuY4nM4aX/nsv2bBwOvtarVO2
+ TGJQ==
+X-Gm-Message-State: AOAM530+IwyjbtFt7yboUJqs066lmTbd8VP1uBVUS+lrXh8aKgVed/AB
+ dWKjSxB16IvMlmyrS4MyfmbKuzaXWg4RyA==
+X-Google-Smtp-Source: ABdhPJzRdwVNhs1NGcLIwmoo6NUyvgD2PiisUHW54SAzxfGwRVdvRapigSnjmU+bUpe0WZGD7tRQgg==
+X-Received: by 2002:a2e:1657:: with SMTP id 23mr5215259ljw.12.1605463067509;
+ Sun, 15 Nov 2020 09:57:47 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
+ [209.85.167.42])
+ by smtp.gmail.com with ESMTPSA id c12sm2407947lfj.44.2020.11.15.09.57.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 15 Nov 2020 09:57:46 -0800 (PST)
+Received: by mail-lf1-f42.google.com with SMTP id f11so21678705lfs.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Nov 2020 09:57:45 -0800 (PST)
+X-Received: by 2002:a19:ae06:: with SMTP id f6mr51360lfc.133.1605463065313;
+ Sun, 15 Nov 2020 09:57:45 -0800 (PST)
 MIME-Version: 1.0
+References: <CAPM=9txyMmW1DWhS--SuYQu4qDK1GPzgHJwxbAfhHT=hUsPODA@mail.gmail.com>
+ <20201103222013.hypmzlq7uuqufe76@box>
+In-Reply-To: <20201103222013.hypmzlq7uuqufe76@box>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 15 Nov 2020 09:57:29 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whPqB1PUVCCcQMjm-YTBnTP7UD_ey2rbXzcJhQufJwcUQ@mail.gmail.com>
+Message-ID: <CAHk-=whPqB1PUVCCcQMjm-YTBnTP7UD_ey2rbXzcJhQufJwcUQ@mail.gmail.com>
+Subject: Re: [git pull] drm next pull for 5.10-rc1
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +70,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Huang, Yuanjun" <yuanjun.huang@intel.com>, "Jiang,
- Fei" <fei.jiang@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCAyMDIwLTExLTE1IGF0IDEwOjE0ICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90
-ZToKPiBIaSBEZWVwYWsKPiAKPiBBbSAxMS4wOS4yMCB1bSAwMjozOCBzY2hyaWViIERlZXBhayBS
-YXdhdDoKPiA+IE9uIFRodSwgMjAyMC0wOS0xMCBhdCAwODoxOSArMDAwMCwgVGFuZywgU2hhb2Zl
-bmcgd3JvdGU6Cj4gPiA+IEhpIERlZXBhaywKPiA+ID4gwqAKPiA+ID4gRG8geW91IGhhdmUgYSBu
-ZXcgdmVyc2lvbiBvZiB0aGlzIHBhdGNoIG5vdz8KPiA+ID4gSSB0YWtlIGEgdHJ5IHdpdGggaXQu
-IGFuZCBtZWV0IHNvbWUgdHlwbyBhbmQg4oCcaW5jb21wYXRpYmxlCj4gPiA+IHBvaW50ZXLigJ0K
-PiA+ID4gZXJyb3IuCj4gPiA+IElmIHlvdSBoYXZlIGEgbmV3IHZlcnNpb24sIGNvdWxkIHlvdSBz
-aGFyZSBpdCB3aXRoIHVzPwo+ID4gPiAKPiA+IAo+ID4gSGkgU2hhb2ZlbmcsCj4gPiAKPiA+IEl0
-IHNlZW1zIHlvdSBhcmUgcnVubmluZyB0aGlzIHdpdGggZ2VuIDIgVk0sIEkgaGF2ZSBhIHBhdGNo
-IHRvCj4gPiBzdXBwb3J0Cj4gPiBnZW4gMiBWTSdzIGF0IGh0dHBzOi8vZ2l0aHViLmNvbS9kZWVw
-YWstcmF3YXQvbGludXguZ2l0wqBicmFuY2gKPiA+IGh5cGVydl90Cj4gPiBpbnkuCj4gCj4gSSdt
-IGludGVyZXN0ZWQgaW4gbWVyZ2luZyB0aGlzIGRyaXZlciBpbnRvIHRoZSBEUk0gdXBzdHJlYW0u
-IFdoYXQncwo+IHRoZQo+IHN0YXR1cz8gQXJlIHlvdSBzdGlsbCB3b3JraW5nIG9uIGl0PwoKSGkg
-VGhvbWFzLAoKSSBhbSB3b3JraW5nIG9uIGFkZGluZyBnZW4yIFZNIHN1cHBvcnQgYW5kIGN1cnNv
-ciBzdXBwb3J0LiBBbHNvIGZvciBteQpuZXh0IGludGVyYXRpb24gbW92aW5nIHRoZSBkcml2ZXIg
-b3V0IG9mIHRpbnkuIFByb2dyZXNzIGlzIHNsb3cgbGF0ZWx5CmFzIGJ1c3kgd2l0aCBvdGhlciBz
-dHVmZiBhdCB3b3JrLiBIb3BlZnVsbHkgSSB3aWxsIGJlIGFibGUgdG8gZmluaXNoCmR1cmluZyBj
-b21pbmcgaG9saWRheXMuCgpEZWVwYWsKCj4gCj4gQmVzdCByZWdhcmRzCj4gVGhvbWFzCj4gCj4g
-PiAKPiA+IElmIHlvdSBzdGlsbCBydW4gaW50byBlcnJvciBhZnRlciBhcHBseWluZyBnZW4yIHBh
-dGNoLCBmZWVsIGZyZWUgdG8KPiA+IHJlYWNoIG91dCB3aXRoIGRldGFpbHMuCj4gPiAKPiA+IERl
-ZXBhawo+ID4gCj4gPiA+IMKgCj4gPiA+IEJSLCBTaGFvZmVuZwo+ID4gCj4gPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxp
-bmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPiA+IAo+IAoK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, Nov 3, 2020 at 2:20 PM Kirill A. Shutemov <kirill@shutemov.name> wrote:
+>
+> On Thu, Oct 15, 2020 at 11:33:08AM +1000, Dave Airlie wrote:
+> >       drm/nouveau/kms: Search for encoders' connectors properly
+>
+> This commit (09838c4efe9a) broke boot for me. These two hunks in
+> particular:
+
+Christ. It's been two weeks. I'm doing -rc4 today, and I still don't
+have the fix.
+
+The problem seems entirely obvious, as reported by Kirill: the nv50
+code unconditionally calls the "atomic_{dis,en}able()" functions, even
+when not everybody was converted.
+
+The fix seems to be to either just do the conversion of the remaining
+cases (which looks like just adding an argument to the remaining
+functions, and using that for the "atomic" callback), or the trivial
+suggestion by Kirill from two weeks ago:
+
+> I hacked up patch to use help->disable/help->enable if atomic_ versions
+> are NULL. It worked.
+
+Kirill, since the nouveau people aren't fixing this, can you just send
+me your tested patch?
+
+Lyude/Ben - let me just say that I think this is all a huge disgrace.
+
+You had a problem report with a bisected commit, a suggested fix, and
+two weeks later there's absolutely _nothing_.
+
+              Linus
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
