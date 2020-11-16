@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA8832B50FA
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:25:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D14012B510A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05D0789994;
-	Mon, 16 Nov 2020 19:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1200E6EA4C;
+	Mon, 16 Nov 2020 19:25:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1924089994
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 19:25:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FCC76EA3D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 19:25:55 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 69F892225B;
- Mon, 16 Nov 2020 19:25:33 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A813D2225E;
+ Mon, 16 Nov 2020 19:25:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605554733;
- bh=UemnbCjsD6mBFUGskwNRjD2aMgnDOyhydxXD7xSASf4=;
+ s=default; t=1605554755;
+ bh=Heo0+ztC+R4GIiC9ESQADwh10UZD7MMPLOQuaG35k0M=;
  h=Subject:To:Cc:From:Date:From;
- b=W5Sj6VXHOlgrUg6GcMv0Rej12E76QRdaYQHS/175Zt4Yro6gDEEPyt/hnNRFxUh/a
- Jaxm/cvAOmif/DTeJ2FbIWnXUhtqRjLu4G051Nkhl5mjjdyT3G4oUbeBIzNrffrL4S
- 7jSxrHkemJ1YpHK7rWCOJbS/n2O20gljweT6UifA=
+ b=NkFMV8RoEaY8Rs+fkT8O97DwDrM91Q29WWWFMFI7Xe31Eu/j4w3AL+qkmnkIK5GNy
+ FXWj9dr/IvqsaRotWqaUA+08Xug4xvoYqV87v/rEUmjnlZRRsXzKnfz/gvOow561BT
+ HcN6J8CyLB2sfcqK1BRuE2kKx+P3v6MuWyWAHaSY=
 Subject: Patch "drm/gma500: Fix out-of-bounds access to struct
- drm_device.vblank[]" has been added to the 4.4-stable tree
+ drm_device.vblank[]" has been added to the 4.9-stable tree
 To: airlied@redhat.com, alan@linux.intel.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 16 Nov 2020 20:26:23 +0100
-Message-ID: <160555478325515@kroah.com>
+Date: Mon, 16 Nov 2020 20:26:43 +0100
+Message-ID: <160555480314@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -58,12 +58,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
 
-to the 4.4-stable tree which can be found at:
+to the 4.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
-and it can be found in the queue-4.4 subdirectory.
+and it can be found in the queue-4.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -193,7 +193,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-4.4/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
+queue-4.9/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
