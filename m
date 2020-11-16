@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2E12B4DDE
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604F02B4DE0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:47:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4AF6E9FB;
-	Mon, 16 Nov 2020 17:47:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2656E095;
+	Mon, 16 Nov 2020 17:47:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com
- [IPv6:2607:f8b0:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2E26EA0F;
- Mon, 16 Nov 2020 17:47:03 +0000 (UTC)
-Received: by mail-pf1-x443.google.com with SMTP id 10so14845772pfp.5;
- Mon, 16 Nov 2020 09:47:03 -0800 (PST)
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A0A6EA14;
+ Mon, 16 Nov 2020 17:47:05 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id q10so14868487pfn.0;
+ Mon, 16 Nov 2020 09:47:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CjOmYSFFYsasYX9Sq8MuBrH7p/CFaq4+YCq5TRyIrqw=;
- b=L/IqNuLZYXlhxtLOo3MCcdORyLWunGfw44Ksysu/z6S7b1yXCzj613kMr8Pn4MADeu
- amRCkuB+8BUHUajukJKbGkiF0ziUiR4lmfWK+QYn+Y5uu9LaH6v3ZDaYqES/GXAgQYHa
- 4kdo15Ta8FAvnYL6qn4Agh28RYSIRYYXlFB1LfrQdg8jpUaiVLwPX1XQy9vErmtYcc++
- XD6ZGKFI+rq9y1fEhwQAqXUfHIHTpPpSJq93Zw9qAHqGB8UilWSRP2X+6C/LVniM+Omd
- bx+Jojydoh9u4rcxDaQg99OO+qCM2ZWiAURuxJZ8amQjPQxcr2FG0D2J03sDfDy9P6Xq
- 4Jmg==
+ bh=bcNKe/onX36d4xFW2lvtFrnwC6y2tKCelaaYJA86BPE=;
+ b=qXgQ97Btq4MYpx4N4xkEyfDI60eUkY5lBRDKlfkSAnpcboIvF4ZtrOXruiCyX4JK8r
+ JbK/Beia5e8ZiBYP3yzJyAmoGZSxCx5TOevJFOP7sN6cCYEf7ggvTi8ED1fBvpbh+zr4
+ OaXNVsjhip9qktxBkFVI2yXsC0Jpl26ZqFOeA6xik8FmUgK0xRIbDSch/4/9UQ213P0h
+ umCzjmn4mwdHwVsSEhWvCh9VCr5f02j+WSjYn33QmgQUlymSJkZJi9xIQ3XgeNHVWQXd
+ 4e4xoKXk+FluuZc9TY4ISATinZFzLNSCl65DtShmI6nCjnmOvbuMtPUD5V6dc4ugThTR
+ tDXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CjOmYSFFYsasYX9Sq8MuBrH7p/CFaq4+YCq5TRyIrqw=;
- b=b8C+mA5+zvYhlh7qkZxnwhNfWO8v/PGEW/IPwRlT1YqXdrsz5SlTKVq46Sxsmc/o/8
- MeT1by7E7P8NuW1d63Ff3PevGob6kEM9Dlf0hvrWpOv/rxtYgux4hw2rSvbCtczuTMLs
- wgIaExPpb0ufXTLW7AlxMgpU1kn70CFGmdV/icK2lG/y7VsGosiq0Mbh5q386tNdc5Ab
- E5pJZ487yukLuYO5qHZF2AIDIQp/m87mW0hL4pLwof1LszUVV08kvHX7gBkd5ts885qh
- q953wMlwDks01iOqH0ySybp2bxoIXJQVNHYVAowuIxN6YmxuJwpyqCV6eTFVp7Lc6crL
- DXCw==
-X-Gm-Message-State: AOAM530pnJgFsKQWQXJpng8eoWSnFe3MiaL8mgtOiuCtoXxFmx30C0ri
- X92CMinJKy3sgQ8ko1LMaREH7uEUifM=
-X-Google-Smtp-Source: ABdhPJz7Bv774caWlw43NtNTdo+VPH1KYBjvgktOt/3s3DivG4Duu9j7KIVWfyNPKa6YdQx0b3ZrLQ==
-X-Received: by 2002:a63:48b:: with SMTP id 133mr324103pge.132.1605548821982;
- Mon, 16 Nov 2020 09:47:01 -0800 (PST)
+ bh=bcNKe/onX36d4xFW2lvtFrnwC6y2tKCelaaYJA86BPE=;
+ b=VzAfb1Cg/bUOa6syTpUQy25vNKjl0Lo4u9d5slpCdRfLeDCi85V9arNBs6tXyHet1y
+ g+KcD5vTa4qA+3EHISeCAC3syYRHbhqkd9Dk9GG9UnjxZ3vOAM4Kig8AiDSMcPMeoTcH
+ RrdGqijmufeoRY0R2Ss0obcCixpwBiRRPgQnxfBIVZ7iJXvd7ZV/QXmFoMxjMEuO/asd
+ I0+VhZUMbDjHndZMvmaCOKRFmLBcyzBPnYqZA6qD87S6LIoOVjDtbUiFOA3zq4ColRSc
+ DmfedY/zbRn8j7tfEPZpRj33sDJGsl0qdcch1Y505wV8UqOfpgX5o33A2sFMQs1MbwZ0
+ NFEg==
+X-Gm-Message-State: AOAM530+ieTEEtZY82d7ctSPwU08szm4OTKR5KaQbrdTfs6zGtBBRrXC
+ c2X3oBV54lEy0hBcVLg3/xA3gEwIO4k=
+X-Google-Smtp-Source: ABdhPJzTgDwy8OTh1DnkmcbyfHpJ5Y/+F55k5USXK5SBh+oT0x34EyD0BNRM4vkHDniT0kdUW/xVoA==
+X-Received: by 2002:a63:1d12:: with SMTP id d18mr314741pgd.314.1605548824454; 
+ Mon, 16 Nov 2020 09:47:04 -0800 (PST)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- w131sm18330274pfd.14.2020.11.16.09.47.00
+ b5sm18698502pfr.193.2020.11.16.09.47.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 09:47:00 -0800 (PST)
+ Mon, 16 Nov 2020 09:47:03 -0800 (PST)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 1/3] drm/msm: Protect obj->active_count under obj lock
-Date: Mon, 16 Nov 2020 09:48:49 -0800
-Message-Id: <20201116174851.878426-2-robdclark@gmail.com>
+Subject: [PATCH v2 2/3] drm/msm/shrinker: We can vmap shrink active_list too
+Date: Mon, 16 Nov 2020 09:48:50 -0800
+Message-Id: <20201116174851.878426-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201116174851.878426-1-robdclark@gmail.com>
 References: <20201116174851.878426-1-robdclark@gmail.com>
@@ -71,8 +71,7 @@ Cc: Rob Clark <robdclark@chromium.org>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU"
  <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
  "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "Kristian H. Kristensen" <hoegsberg@google.com>, Sean Paul <sean@poorly.run>
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -80,117 +79,90 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Previously we only held obj lock in the _active_get() path, and relied
-on atomic_dec_return() to not be racy in the _active_put() path where
-obj lock was not held.
+Just because a obj is active, if the vmap_count is zero, we can still
+tear down the vmap.
 
-But this is a false sense of security.  Unlike obj lifetime refcnt,
-where you do not expect to *increase* the refcnt after the last put
-(which would mean that something has gone horribly wrong with the
-object liveness reference counting), the active_count can increase
-again from zero.  Racing _active_put()s and _active_get()s could leave
-the obj on the wrong mm list.
-
-But in the retire path, immediately after the _active_put(), the
-_unpin_iova() would acquire obj lock.  So just move the locking earlier
-and rely on that to protect obj->active_count.
-
-Fixes: c5c1643cef7a ("drm/msm: Drop struct_mutex from the retire path")
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 11 ++++++-----
- drivers/gpu/drm/msm/msm_gem.h |  5 +++--
- drivers/gpu/drm/msm/msm_gpu.c | 10 ++++++----
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/msm/msm_gem_shrinker.c | 47 +++++++++++++++++++-------
+ 1 file changed, 35 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index a9a834bb7794..2795288b0a95 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -770,7 +770,7 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- 	WARN_ON(!msm_gem_is_locked(obj));
- 	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
+diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+index 6f4b1355725f..9d51c1eb808d 100644
+--- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
++++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+@@ -6,6 +6,7 @@
  
--	if (!atomic_fetch_inc(&msm_obj->active_count)) {
-+	if (msm_obj->active_count++ == 0) {
- 		mutex_lock(&priv->mm_lock);
- 		list_del_init(&msm_obj->mm_list);
- 		list_add_tail(&msm_obj->mm_list, &gpu->active_list);
-@@ -784,8 +784,9 @@ void msm_gem_active_put(struct drm_gem_object *obj)
- 	struct msm_drm_private *priv = obj->dev->dev_private;
+ #include "msm_drv.h"
+ #include "msm_gem.h"
++#include "msm_gpu.h"
+ #include "msm_gpu_trace.h"
  
- 	might_sleep();
-+	WARN_ON(!msm_gem_is_locked(obj));
- 
--	if (!atomic_dec_return(&msm_obj->active_count)) {
-+	if (--msm_obj->active_count == 0) {
- 		mutex_lock(&priv->mm_lock);
- 		list_del_init(&msm_obj->mm_list);
- 		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
-@@ -936,15 +937,15 @@ void msm_gem_free_object(struct drm_gem_object *obj)
- 	struct drm_device *dev = obj->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
- 
--	/* object should not be on active list: */
--	WARN_ON(is_active(msm_obj));
--
- 	mutex_lock(&priv->mm_lock);
- 	list_del(&msm_obj->mm_list);
- 	mutex_unlock(&priv->mm_lock);
- 
- 	msm_gem_lock(obj);
- 
-+	/* object should not be on active list: */
-+	WARN_ON(is_active(msm_obj));
-+
- 	put_iova(obj);
- 
- 	if (obj->import_attach) {
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index d79e7019cc88..3355a48a023b 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -87,7 +87,7 @@ struct msm_gem_object {
- 
- 	char name[32]; /* Identifier to print for the debugfs files */
- 
--	atomic_t active_count;
-+	int active_count;
- };
- #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
- 
-@@ -185,7 +185,8 @@ msm_gem_is_locked(struct drm_gem_object *obj)
- 
- static inline bool is_active(struct msm_gem_object *msm_obj)
- {
--	return atomic_read(&msm_obj->active_count);
-+	WARN_ON(!msm_gem_is_locked(&msm_obj->base));
-+	return msm_obj->active_count;
+ static unsigned long
+@@ -61,17 +62,19 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+ 	return freed;
  }
  
- static inline bool is_purgeable(struct msm_gem_object *msm_obj)
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index b597213a1890..04f7ab4d63ae 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -717,11 +717,13 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 		stats->alwayson_start, stats->alwayson_end);
+-static int
+-msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
++/* since we don't know any better, lets bail after a few
++ * and if necessary the shrinker will be invoked again.
++ * Seems better than unmapping *everything*
++ */
++static const int vmap_shrink_limit = 15;
++
++static unsigned
++vmap_shrink(struct list_head *mm_list)
+ {
+-	struct msm_drm_private *priv =
+-		container_of(nb, struct msm_drm_private, vmap_notifier);
+ 	struct msm_gem_object *msm_obj;
+ 	unsigned unmapped = 0;
  
- 	for (i = 0; i < submit->nr_bos; i++) {
--		struct msm_gem_object *msm_obj = submit->bos[i].obj;
-+		struct drm_gem_object *obj = &submit->bos[i].obj->base;
+-	mutex_lock(&priv->mm_lock);
+-
+-	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
++	list_for_each_entry(msm_obj, mm_list, mm_list) {
+ 		if (!msm_gem_trylock(&msm_obj->base))
+ 			continue;
+ 		if (is_vunmapable(msm_obj)) {
+@@ -80,11 +83,31 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+ 		}
+ 		msm_gem_unlock(&msm_obj->base);
  
--		msm_gem_active_put(&msm_obj->base);
--		msm_gem_unpin_iova(&msm_obj->base, submit->aspace);
--		drm_gem_object_put(&msm_obj->base);
-+		msm_gem_lock(obj);
-+		msm_gem_active_put(obj);
-+		msm_gem_unpin_iova_locked(obj, submit->aspace);
-+		msm_gem_unlock(obj);
-+		drm_gem_object_put(obj);
+-		/* since we don't know any better, lets bail after a few
+-		 * and if necessary the shrinker will be invoked again.
+-		 * Seems better than unmapping *everything*
+-		 */
+-		if (++unmapped >= 15)
++		if (++unmapped >= vmap_shrink_limit)
++			break;
++	}
++
++	return unmapped;
++}
++
++static int
++msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
++{
++	struct msm_drm_private *priv =
++		container_of(nb, struct msm_drm_private, vmap_notifier);
++	struct list_head *mm_lists[] = {
++		&priv->inactive_list,
++		priv->gpu ? &priv->gpu->active_list : NULL,
++		NULL,
++	};
++	unsigned idx, unmapped = 0;
++
++	mutex_lock(&priv->mm_lock);
++
++	for (idx = 0; mm_lists[idx]; idx++) {
++		unmapped += vmap_shrink(mm_lists[idx]);
++
++		if (unmapped >= vmap_shrink_limit)
+ 			break;
  	}
  
- 	pm_runtime_mark_last_busy(&gpu->pdev->dev);
 -- 
 2.28.0
 
