@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F422B4DD4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B082B4DCF
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63DC6EA16;
-	Mon, 16 Nov 2020 17:42:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4ACE06E9F3;
+	Mon, 16 Nov 2020 17:42:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65D426EA14
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:42:15 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id l1so19648266wrb.9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:42:15 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC5C26EA16
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:42:16 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id p8so19676258wrx.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Kn9g1kMG5JlU7ctdIXE2LbkwCeCLbWZDScIEWNzvtKI=;
- b=TjXthjttEpmJXsxziQtJEgvptDqsm2IsMdlIZDf2ll+O3GDNYuajE0ftV8lFIdMW20
- sb7gHK7eew5HhS2T8VF1svXf4x6DaTH/qnWItZoXjoCQbfK5zbk/wdMR5+HAloUjJrr4
- PHqMKcXYueDMUUWbuzAxxJ/L0bfnO1NIqAxF0fhT/ycL4/BRJ+ckcIHt2ZvXJyKHIYS3
- UD0PCl6u6AP2alOfvZKLw2BGhLfkN/h0hlD5sTYfOvW2+jmz6mlWKhKUmQgmkEaSa8zH
- sXKFSFkB4u6zAygOG9BZ3+S3GBvWQpluxgeoZarTXAQ9g+epMBQDJWftsEQT7/DT/yAE
- Eicw==
+ bh=3dpuU5BsT173A/3X/IKJ/RVPURrpJEnyWKPfCisq40U=;
+ b=R0c1VYZ4uhe952lSIq65QcDIkw0VaRxMNF3r12FkqKkCKP3mYeJAIhiOq132YdsaZ8
+ ZH1GB3ItUBwsx/qcAf9v2JrJgYX2Gx3ammOyg9wlPC9zFR8X6irCtvs/vZl47wPv0AyT
+ YRC9sdRNT3EwxeYAFc0qhB+Ef5RwwBinY99ti9yIsaYI822N9aAqQooU3JHaEL+9n+HP
+ Q6+FwmvbhSlkAM41JSELFusyxho3UvHUPX33fxH9hTxkXEMo04wDtOYDTQNWDl0I4ZK0
+ i0rj0ygI3EsYcYDEq+VF1Jy8Zd5CUxH6BCXECjSvOmwafl3PI6R0BTpY9mocgCRHPt49
+ 49mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Kn9g1kMG5JlU7ctdIXE2LbkwCeCLbWZDScIEWNzvtKI=;
- b=cFDE6QzkjQgX9w5FJLm7z4i6SJPfZ9rDzITXJocz9OWYRWmy38WSzkW6pncCq8KVAY
- JYibRW+3atoQEbhEzoHQ6izMH1SpJqIdHo7YpG8vHCgf9RI/ckSGrjooUiuhh7IcDbt8
- T254ZtDoh1VtTlZNu5dPIr14/24qhZzu0a9zWUInftbMstWYNBJ3u+HHzyAHaSuNnd2a
- +WXGdfq96s0zsECumn5dklC0D+8ph1uNj0ahcbqhN0k651dDJYnRmjir5cZRWtqWTTk0
- d3cl5IfYhVy0PGNOVdwWzz3zHCjbPE+cvWP/KgSo/iWdxLZ8Ar8bYMi7djW4GF2Cd5dY
- 7iHw==
-X-Gm-Message-State: AOAM5336NRZVEP6XVhnXZeUdMHLPt0o8NtfhtbAkcy6kON+5nMzCBr3e
- LWTpo18LyAxiEf5tIOEQULoaHw==
-X-Google-Smtp-Source: ABdhPJyAXVf2/cgIvwC56rcD5A8G4Ad6Kn2UAK55+eDnXsJvtjSRnX56sS6h1gKA2V+1GziFtMfVWw==
-X-Received: by 2002:a5d:4991:: with SMTP id r17mr20913528wrq.70.1605548534067; 
- Mon, 16 Nov 2020 09:42:14 -0800 (PST)
+ bh=3dpuU5BsT173A/3X/IKJ/RVPURrpJEnyWKPfCisq40U=;
+ b=pU2R7YgYhIBB/ONFCksPrG57Cv7j4aAhD073iuLvitjB2VRUNfJZdmtRn/5WU1uGal
+ CSPAGtRBg9z1q/k5pKkPGqWu/ScXD7J1T9gw/YBQNMHQ3Iup9eXt60Bp/wdOSctciwMD
+ kBQhlpdG5rqQjIHRmjlgMGt5I1LaTUZAGPk3VNJCDYtC8rLZyx/ZJlxohO7O5Oop1ISB
+ DiX2BH/iTyVm4SbrVpITlAFkjSVM4JW84EoGhpuJiXNLf22dniIrbb7Wyt6SZuesatxI
+ XYzbIlnX2iaFzXPN2drtZsW1YUuMTfvjaXn3Q35PtCCDxgRdtCpMiMrb/z7sLhcoe3Pk
+ Vg5Q==
+X-Gm-Message-State: AOAM531I4/9tQukaZ3ZNldoefTTxPQrCvZjJ1jb75GHUIhO6xG413ei3
+ PlU8MNjoR+FJJn4TVkgmhweY2g==
+X-Google-Smtp-Source: ABdhPJxtmaWM3VKZa7T15xSrO7rUuQXUBkW8QqK89gWx3Yq36M767nEaAOZciDjUhOSQTWtTeD/Fcw==
+X-Received: by 2002:adf:c847:: with SMTP id e7mr20667633wrh.346.1605548535413; 
+ Mon, 16 Nov 2020 09:42:15 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.42.12
+ by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.42.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 09:42:13 -0800 (PST)
+ Mon, 16 Nov 2020 09:42:14 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 38/42] drm/vc4/vc4_hdmi: Remove set but unused variable 'ret'
-Date: Mon, 16 Nov 2020 17:41:08 +0000
-Message-Id: <20201116174112.1833368-39-lee.jones@linaro.org>
+Subject: [PATCH 39/42] drm/vc4/vc4_v3d: Demote non-conformant kernel-doc
+ headers
+Date: Mon, 16 Nov 2020 17:41:09 +0000
+Message-Id: <20201116174112.1833368-40-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116174112.1833368-1-lee.jones@linaro.org>
 References: <20201116174112.1833368-1-lee.jones@linaro.org>
@@ -68,34 +69,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jOiBJbiBmdW5jdGlvbiDigJh2YzRfaGRtaV9zZXRfYXVk
-aW9faW5mb2ZyYW1l4oCZOgogZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jOjMzNDo2OiB3
-YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0
-LXNldC12YXJpYWJsZV0KCkNjOiBFcmljIEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0PgpDYzogTWF4
-aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwub3JnPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVk
-QGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogUGhpbGlw
-cCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4KQ2M6IFJvYiBDbGFyayA8cm9iZGNsYXJr
-QGdtYWlsLmNvbT4KQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9m
-Zi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vdmM0L3ZjNF9oZG1pLmMgfCAzICstLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hk
-bWkuYyBiL2RyaXZlcnMvZ3B1L2RybS92YzQvdmM0X2hkbWkuYwppbmRleCA5NTc3OWQ1MGNjYTBi
-Li5iODBlYjlkM2Q5ZDVhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1p
-LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3ZjNC92YzRfaGRtaS5jCkBAIC0zMzEsOSArMzMxLDgg
-QEAgc3RhdGljIHZvaWQgdmM0X2hkbWlfc2V0X2F1ZGlvX2luZm9mcmFtZShzdHJ1Y3QgZHJtX2Vu
-Y29kZXIgKmVuY29kZXIpCiB7CiAJc3RydWN0IHZjNF9oZG1pICp2YzRfaGRtaSA9IGVuY29kZXJf
-dG9fdmM0X2hkbWkoZW5jb2Rlcik7CiAJdW5pb24gaGRtaV9pbmZvZnJhbWUgZnJhbWU7Ci0JaW50
-IHJldDsKIAotCXJldCA9IGhkbWlfYXVkaW9faW5mb2ZyYW1lX2luaXQoJmZyYW1lLmF1ZGlvKTsK
-KwloZG1pX2F1ZGlvX2luZm9mcmFtZV9pbml0KCZmcmFtZS5hdWRpbyk7CiAKIAlmcmFtZS5hdWRp
-by5jb2RpbmdfdHlwZSA9IEhETUlfQVVESU9fQ09ESU5HX1RZUEVfU1RSRUFNOwogCWZyYW1lLmF1
-ZGlvLnNhbXBsZV9mcmVxdWVuY3kgPSBIRE1JX0FVRElPX1NBTVBMRV9GUkVRVUVOQ1lfU1RSRUFN
-OwotLSAKMi4yNS4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/vc4/vc4_v3d.c:131: warning: Function parameter or member 'vc4' not described in 'vc4_v3d_pm_get'
+ drivers/gpu/drm/vc4/vc4_v3d.c:231: warning: Function parameter or member 'vc4' not described in 'bin_bo_alloc'
+
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/vc4/vc4_v3d.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_v3d.c b/drivers/gpu/drm/vc4/vc4_v3d.c
+index 65d0dac69b0bc..73d63d72575b0 100644
+--- a/drivers/gpu/drm/vc4/vc4_v3d.c
++++ b/drivers/gpu/drm/vc4/vc4_v3d.c
+@@ -122,7 +122,7 @@ static int vc4_v3d_debugfs_ident(struct seq_file *m, void *unused)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * Wraps pm_runtime_get_sync() in a refcount, so that we can reliably
+  * get the pm_runtime refcount to 0 in vc4_reset().
+  */
+@@ -205,7 +205,7 @@ int vc4_v3d_get_bin_slot(struct vc4_dev *vc4)
+ 	return -ENOMEM;
+ }
+ 
+-/**
++/*
+  * bin_bo_alloc() - allocates the memory that will be used for
+  * tile binning.
+  *
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
