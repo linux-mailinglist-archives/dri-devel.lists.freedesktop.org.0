@@ -1,38 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7022B51F2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:07:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5AE2B51F4
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:08:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE886EA5A;
-	Mon, 16 Nov 2020 20:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC0C86E0EC;
+	Mon, 16 Nov 2020 20:08:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5836E0EC;
- Mon, 16 Nov 2020 20:07:18 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A364AAEAA;
- Mon, 16 Nov 2020 20:07:16 +0000 (UTC)
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
- <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
- <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <18bdba4d-8302-691c-b7fe-84633014aeda@suse.de>
-Date: Mon, 16 Nov 2020 21:07:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2226E0EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:08:13 +0000 (UTC)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 2399220702;
+ Mon, 16 Nov 2020 20:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605557293;
+ bh=pQrf1dmX9ae8/r7MNwZ83pHLz0ABOqnY7bgAmg2B1N8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=srUaf9bpvjb3VSX+Tc0K0/NGfw0kacxmvrA1+Ey1/YE9Z2g3sDbYxmQnGbGN6jkKv
+ zVMNVB2bhp8dSmDlzfWkmwt7NsJNssID73obAULRALeCYdho1BcaL1h4LITjbUkhcQ
+ 12xsEh7+R2FGhnXwlLb1bq7sjYYvGLY5wWjby1mk=
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
+ helo=why.lan) by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1keknK-00B7cF-Th; Mon, 16 Nov 2020 20:08:11 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Neil Armstrong <narmstrong@baylibre.com>,
+ Kevin Hilman <khilman@baylibre.com>
+Subject: [PATCH 0/4] drm/meson: Module removal fixes
+Date: Mon, 16 Nov 2020 20:07:40 +0000
+Message-Id: <20201116200744.495826-1-maz@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
-Content-Language: en-US
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: narmstrong@baylibre.com, khilman@baylibre.com,
+ jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+ kernel-team@android.com, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,126 +59,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, kernel-team@android.com,
+ linux-arm-kernel@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkKCkFtIDE2LjExLjIwIHVtIDEyOjI4IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoKPiBBbSAx
-My4xMS4yMCB1bSAwODo1OSBzY2hyaWViIFRob21hcyBaaW1tZXJtYW5uOgo+PiBIaSBDaHJpc3Rp
-YW4KPj4KPj4gQW0gMTIuMTEuMjAgdW0gMTg6MTYgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOgo+
-Pj4gQW0gMTIuMTEuMjAgdW0gMTQ6MjEgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPj4+PiBJ
-biBvcmRlciB0byBhdm9pZCBldmljdGlvbiBvZiB2bWFwJ2VkIGJ1ZmZlcnMsIHBpbiB0aGVtIGlu
-IHRoZWlyIEdFTQo+Pj4+IG9iamVjdCdzIHZtYXAgaW1wbGVtZW50YXRpb24uIFVucGluIHRoZW0g
-aW4gdGhlIHZ1bm1hcCBpbXBsZW1lbnRhdGlvbi4KPj4+PiBUaGlzIGlzIG5lZWRlZCB0byBtYWtl
-IGdlbmVyaWMgZmJkZXYgc3VwcG9ydCB3b3JrIHJlbGlhYmx5LiBXaXRob3V0LAo+Pj4+IHRoZSBi
-dWZmZXIgb2JqZWN0IGNvdWxkIGJlIGV2aWN0ZWQgd2hpbGUgZmJkZXYgZmx1c2hlZCBpdHMgc2hh
-ZG93Cj4+Pj4gYnVmZmVyLgo+Pj4+Cj4+Pj4gSW4gZGlmZmVyZW5jZSB0byB0aGUgUFJJTUUgcGlu
-L3VucGluIGZ1bmN0aW9ucywgdGhlIHZtYXAgY29kZSBkb2VzIG5vdAo+Pj4+IG1vZGlmeSB0aGUg
-Qk9zIHByaW1lX3NoYXJlZF9jb3VudCwgc28gYSB2bWFwLXBpbm5lZCBCTyBkb2VzIG5vdAo+Pj4+
-IGNvdW50IGFzCj4+Pj4gc2hhcmVkLgo+Pj4+Cj4+Pj4gVGhlIGFjdHVhbCBwaW4gbG9jYXRpb24g
-aXMgbm90IGltcG9ydGFudCBhcyB0aGUgdm1hcCBjYWxsIHJldHVybnMKPj4+PiBpbmZvcm1hdGlv
-biBvbiBob3cgdG8gYWNjZXNzIHRoZSBidWZmZXIuIENhbGxlcnMgdGhhdCByZXF1aXJlIGEKPj4+
-PiBzcGVjaWZpYyBsb2NhdGlvbiBzaG91bGQgZXhwbGljaXRseSBwaW4gdGhlIEJPIGJlZm9yZSB2
-bWFwcGluZyBpdC4KPj4+IFdlbGwgaXMgdGhlIGJ1ZmZlciBzdXBwb3NlZCB0byBiZSBzY2FubmVk
-IG91dD8KPj4gTm8sIG5vdCBieSB0aGUgZmJkZXYgaGVscGVyLgo+IAo+IE9rIGluIHRoaXMgY2Fz
-ZSB0aGF0IHNob3VsZCB3b3JrLgo+IAo+Pj4gSWYgeWVzIHRoZW4gdGhlIHBpbiBsb2NhdGlvbiBp
-cyBhY3R1YWxseSByYXRoZXIgaW1wb3J0YW50IHNpbmNlIHRoZQo+Pj4gaGFyZHdhcmUgY2FuIG9u
-bHkgc2NhbiBvdXQgZnJvbSBWUkFNLgo+PiBGb3IgcmVsb2NhdGFibGUgQk9zLCBmYmRldiB1c2Vz
-IGEgc2hhZG93IGJ1ZmZlciB0aGF0IG1ha2VzIGFsbCBhbnkKPj4gcmVsb2NhdGlvbiB0cmFuc3Bh
-cmVudCB0byB1c2Vyc3BhY2UuIEl0IGZsdXNoZXMgdGhlIHNoYWRvdyBmYiBpbnRvIHRoZQo+PiBC
-TydzIG1lbW9yeSBpZiB0aGVyZSBhcmUgdXBkYXRlcy4gVGhlIGNvZGUgaXMgaW4KPj4gZHJtX2Zi
-X2hlbHBlcl9kaXJ0eV93b3JrKCkuIFsxXSBEdXJpbmcgdGhlIGZsdXNoIG9wZXJhdGlvbiwgdGhl
-IHZtYXAKPj4gY2FsbCBub3cgcGlucyB0aGUgQk8gdG8gd2hlcmV2ZXIgaXQgaXMuIFRoZSBhY3R1
-YWwgbG9jYXRpb24gZG9lcyBub3QKPj4gbWF0dGVyLiBJdCdzIHZ1bm1hcCdlZCBpbW1lZGlhdGVs
-eSBhZnRlcndhcmRzLgo+IAo+IFRoZSBwcm9ibGVtIGlzIHdoYXQgaGFwcGVucyB3aGVuIGl0IGlz
-IHByZXBhcmVkIGZvciBzY2Fub3V0LCBidXQgY2FuJ3QKPiBiZSBtb3ZlZCB0byBWUkFNIGJlY2F1
-c2UgaXQgaXMgdm1hcHBlZD8KPiAKPiBXaGVuIHRoZSBzaGFkb3cgaXMgbmV2ZXIgc2Nhbm5lZCBv
-dXQgdGhhdCBpc24ndCBhIHByb2JsZW0sIGJ1dCB3ZSBuZWVkCj4gdG8ga2VlcCB0aGF0IGluIG1p
-bmQuCgpJIHNlbnQgb3V0IGEgcGF0Y2hzZXQgdGhhdCBhZGRyZXNzZXMgdGhlIGlzc3VlIGluIGl0
-J3MgZmluYWwgcGF0Y2guIFsxXQpJJ2QgYXBwcmVjaWF0ZSB5b3VyIGZlZWRiYWNrLiBJdCBhbHNv
-IHRlc3RlZCB0aGUgcGF0Y2hlcyB3aXRoIHRoZQpjb252ZXJ0ZWQgcmFkZW9uIGRyaXZlci4KCkJl
-c3QgcmVnYXJkcwpUaG9tYXMKClsxXSBodHRwczovL3BhdGNod29yay5mcmVlZGVza3RvcC5vcmcv
-c2VyaWVzLzgzOTE4LwoKPiAKPiBSZWdhcmRzLAo+IENocmlzdGlhbi4KPiAKPj4KPj4gRm9yIGRt
-YS1idWYgc2hhcmluZywgdGhlIHJlZ3VsYXIgcHJvY2VkdXJlIG9mIHBpbiArIHZtYXAgc3RpbGwg
-YXBwbHkuCj4+IFRoaXMgc2hvdWxkIGFsd2F5cyBtb3ZlIHRoZSBCTyBpbnRvIEdUVC1tYW5hZ2Vk
-IG1lbW9yeS4KPj4KPj4gQmVzdCByZWdhcmRzCj4+IFRob21hcwo+Pgo+PiBbMV0KPj4gaHR0cHM6
-Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJG
-JTJGZ2l0Lmtlcm5lbC5vcmclMkZwdWIlMkZzY20lMkZsaW51eCUyRmtlcm5lbCUyRmdpdCUyRnRv
-cnZhbGRzJTJGbGludXguZ2l0JTJGdHJlZSUyRmRyaXZlcnMlMkZncHUlMkZkcm0lMkZkcm1fZmJf
-aGVscGVyLmMlMjNuNDMyJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJpc3RpYW4ua29lbmlnJTQwYW1k
-LmNvbSU3QzMxYjg5MDY2NGNhNzQyOWZjNDU4MDhkODg3YWEwODQyJTdDM2RkODk2MWZlNDg4NGU2
-MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQwODUxMTY1MDYyOTU2OSU3Q1Vua25vd24l
-N0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJam9pVjJsdU16SWlMQ0pCVGlJ
-NklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0YT1STGF1dUF1WGtjbDByWHdX
-V0olMkZyS1AlMkJzQ3Iyd0F6VTFlakdWMWJuUTgwdyUzRCZhbXA7cmVzZXJ2ZWQ9MAo+Pgo+Pgo+
-Pj4gUmVnYXJkcywKPj4+IENocmlzdGlhbi4KPj4+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogVGhvbWFz
-IFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+Cj4+Pj4gLS0tCj4+Pj4gwqDCoCBkcml2
-ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nZW0uYyB8IDUxCj4+Pj4gKysrKysrKysrKysrKysr
-KysrKysrKysrKysrLS0KPj4+PiDCoMKgIDEgZmlsZSBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQo+Pj4+Cj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9y
-YWRlb24vcmFkZW9uX2dlbS5jCj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9n
-ZW0uYwo+Pj4+IGluZGV4IGQyODc2Y2UzYmM5ZS4uZWFmN2ZjOWE3YjA3IDEwMDY0NAo+Pj4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2dlbS5jCj4+Pj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2VtLmMKPj4+PiBAQCAtMjI2LDYgKzIyNiw1MyBAQCBz
-dGF0aWMgaW50IHJhZGVvbl9nZW1faGFuZGxlX2xvY2t1cChzdHJ1Y3QKPj4+PiByYWRlb25fZGV2
-aWNlICpyZGV2LCBpbnQgcikKPj4+PiDCoMKgwqDCoMKgwqAgcmV0dXJuIHI7Cj4+Pj4gwqDCoCB9
-Cj4+Pj4gwqDCoCArc3RhdGljIGludCByYWRlb25fZ2VtX29iamVjdF92bWFwKHN0cnVjdCBkcm1f
-Z2VtX29iamVjdCAqb2JqLAo+Pj4+IHN0cnVjdCBkbWFfYnVmX21hcCAqbWFwKQo+Pj4+ICt7Cj4+
-Pj4gK8KgwqDCoCBzdGF0aWMgY29uc3QgdWludDMyX3QgYW55X2RvbWFpbiA9IFJBREVPTl9HRU1f
-RE9NQUlOX1ZSQU0gfAo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBSQURFT05fR0VNX0RPTUFJTl9HVFQgfAo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBSQURFT05fR0VNX0RPTUFJTl9DUFU7Cj4+Pj4gKwo+
-Pj4+ICvCoMKgwqAgc3RydWN0IHJhZGVvbl9ibyAqYm8gPSBnZW1fdG9fcmFkZW9uX2JvKG9iaik7
-Cj4+Pj4gK8KgwqDCoCBpbnQgcmV0Owo+Pj4+ICsKPj4+PiArwqDCoMKgIHJldCA9IHJhZGVvbl9i
-b19yZXNlcnZlKGJvLCBmYWxzZSk7Cj4+Pj4gK8KgwqDCoCBpZiAocmV0KQo+Pj4+ICvCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gcmV0Owo+Pj4+ICsKPj4+PiArwqDCoMKgIC8qIHBpbiBidWZmZXIgYXQg
-aXRzIGN1cnJlbnQgbG9jYXRpb24gKi8KPj4+PiArwqDCoMKgIHJldCA9IHJhZGVvbl9ib19waW4o
-Ym8sIGFueV9kb21haW4sIE5VTEwpOwo+Pj4+ICvCoMKgwqAgaWYgKHJldCkKPj4+PiArwqDCoMKg
-wqDCoMKgwqAgZ290byBlcnJfcmFkZW9uX2JvX3VucmVzZXJ2ZTsKPj4+PiArCj4+Pj4gK8KgwqDC
-oCByZXQgPSBkcm1fZ2VtX3R0bV92bWFwKG9iaiwgbWFwKTsKPj4+PiArwqDCoMKgIGlmIChyZXQp
-Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIGdvdG8gZXJyX3JhZGVvbl9ib191bnBpbjsKPj4+PiArCj4+
-Pj4gK8KgwqDCoCByYWRlb25fYm9fdW5yZXNlcnZlKGJvKTsKPj4+PiArCj4+Pj4gK8KgwqDCoCBy
-ZXR1cm4gMDsKPj4+PiArCj4+Pj4gK2Vycl9yYWRlb25fYm9fdW5waW46Cj4+Pj4gK8KgwqDCoCBy
-YWRlb25fYm9fdW5waW4oYm8pOwo+Pj4+ICtlcnJfcmFkZW9uX2JvX3VucmVzZXJ2ZToKPj4+PiAr
-wqDCoMKgIHJhZGVvbl9ib191bnJlc2VydmUoYm8pOwo+Pj4+ICvCoMKgwqAgcmV0dXJuIHJldDsK
-Pj4+PiArfQo+Pj4+ICsKPj4+PiArc3RhdGljIHZvaWQgcmFkZW9uX2dlbV9vYmplY3RfdnVubWFw
-KHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAo+Pj4+IHN0cnVjdCBkbWFfYnVmX21hcCAqbWFw
-KQo+Pj4+ICt7Cj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgcmFkZW9uX2JvICpibyA9IGdlbV90b19yYWRl
-b25fYm8ob2JqKTsKPj4+PiArwqDCoMKgIGludCByZXQ7Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgcmV0
-ID0gcmFkZW9uX2JvX3Jlc2VydmUoYm8sIGZhbHNlKTsKPj4+PiArwqDCoMKgIGlmIChyZXQpCj4+
-Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybjsKPj4+PiArCj4+Pj4gK8KgwqDCoCBkcm1fZ2VtX3R0
-bV92dW5tYXAob2JqLCBtYXApOwo+Pj4+ICvCoMKgwqAgcmFkZW9uX2JvX3VucGluKGJvKTsKPj4+
-PiArwqDCoMKgIHJhZGVvbl9ib191bnJlc2VydmUoYm8pOwo+Pj4+ICt9Cj4+Pj4gKwo+Pj4+IMKg
-wqAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcyByYWRlb25fZ2VtX29i
-amVjdF9mdW5jcyA9IHsKPj4+PiDCoMKgwqDCoMKgwqAgLmZyZWUgPSByYWRlb25fZ2VtX29iamVj
-dF9mcmVlLAo+Pj4+IMKgwqDCoMKgwqDCoCAub3BlbiA9IHJhZGVvbl9nZW1fb2JqZWN0X29wZW4s
-Cj4+Pj4gQEAgLTIzNCw4ICsyODEsOCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9nZW1fb2Jq
-ZWN0X2Z1bmNzCj4+Pj4gcmFkZW9uX2dlbV9vYmplY3RfZnVuY3MgPSB7Cj4+Pj4gwqDCoMKgwqDC
-oMKgIC5waW4gPSByYWRlb25fZ2VtX3ByaW1lX3BpbiwKPj4+PiDCoMKgwqDCoMKgwqAgLnVucGlu
-ID0gcmFkZW9uX2dlbV9wcmltZV91bnBpbiwKPj4+PiDCoMKgwqDCoMKgwqAgLmdldF9zZ190YWJs
-ZSA9IHJhZGVvbl9nZW1fcHJpbWVfZ2V0X3NnX3RhYmxlLAo+Pj4+IC3CoMKgwqAgLnZtYXAgPSBk
-cm1fZ2VtX3R0bV92bWFwLAo+Pj4+IC3CoMKgwqAgLnZ1bm1hcCA9IGRybV9nZW1fdHRtX3Z1bm1h
-cCwKPj4+PiArwqDCoMKgIC52bWFwID0gcmFkZW9uX2dlbV9vYmplY3Rfdm1hcCwKPj4+PiArwqDC
-oMKgIC52dW5tYXAgPSByYWRlb25fZ2VtX29iamVjdF92dW5tYXAsCj4+Pj4gwqDCoCB9Owo+Pj4+
-IMKgwqAgwqAgLyoKPj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCj4+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4+PiBkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxv
-b2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFu
-JTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2Vu
-aWclNDBhbWQuY29tJTdDMzFiODkwNjY0Y2E3NDI5ZmM0NTgwOGQ4ODdhYTA4NDIlN0MzZGQ4OTYx
-ZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDA4NTExNjUwNjI5NTY5JTdD
-VW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJ
-aUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWgxVTlQbzgz
-Szd3ZWJ4c2lLcG4zWkdGejlGY2c2U1JreHRyWFdaMSUyQiUyRkVjJTNEJmFtcDtyZXNlcnZlZD0w
-Cj4+Pgo+IAo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Cj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAoKLS0gClRob21hcyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKU1VT
-RSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5IE7D
-vHJuYmVyZywgR2VybWFueQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNmw7xo
-cmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
-Zm8vZHJpLWRldmVsCg==
+Hi all,
+
+Having recently moved over to a top-of-the-tree u-boot on one of my
+VIM3L systems in order to benefit from unrelated improvements
+(automatic PCIe detection, EFI...), I faced the issue that my kernel
+would hang like this:
+
+[  OK  ] Finished Helper to synchronize boot up for ifupdown.
+[  OK  ] Started Rule-based Manager for Device Events and Files.
+[    7.114516] VDDCPU: supplied by regulator-dummy
+[  OK  ] Found device /dev/ttyAML0.
+[    7.146862] meson-drm ff900000.vpu: Queued 2 outputs on vpu
+[    7.169630] fb0: switching to meson-drm-fb from simple
+[    7.169944] Console: switching to colour dummy device 80x25
+[    7.179250] meson-drm ff900000.vpu: CVBS Output connector not available
+
+and that's it.
+
+After some poking around, I figured out that it is in the
+meson-dw-hdmi module that the CPU was hanging...
+
+Reverting to the kernel DT instead of u-boot's papered over it
+somehow, but it turned out that removing the module (modprobe -r)
+resulted in a firework. And for every issue I was fixing, another
+followed. Much fun for a rainy Monday in the basement!
+
+I ended up with the following 4 patches, which solve all my problems:
+I can now boot with the u-boot provided DT, and the hdmi and DRM
+drivers can be removed and re-inserted at will.
+
+The first patch is a straightforward use-after-free, causing a NULL
+pointer dereference. Moving things around fixes it.
+
+The second patch shows that I have no clue about the DRM subsystem
+whatsoever. I mimicked what my Rockchip systems are doing, and the two
+warnings disappeared. It can't completely be wrong (famous last
+words...).
+
+The third patch fixes a *very* common issue with regulators (I've
+fixed at least 3 drivers with a similar issue). I guess the devm
+subsystem needs to grow a new helper at some point.
+
+The last patch finally fixes the issue I was seeing: the HDMI driver
+hangs when accessing a register with clocks disabled, which they are
+on module removal. It also fixes my u-boot booting for similar
+reasons, I guess.
+
+I went as far as reaching out for a HDMI cable and verifying that I
+was getting a working display. Total dedication.
+
+Feedback much appreciated.
+
+	M.
+
+Marc Zyngier (4):
+  drm/meson: Free RDMA resources after tearing down DRM
+  drm/meson: Unbind all connectors on module removal
+  drm/meson: dw-hdmi: Register a callback to disable the regulator
+  drm/meson: dw-hdmi: Ensure that clocks are enabled before touching the
+    TOP registers
+
+ drivers/gpu/drm/meson/meson_drv.c     | 12 +++++++-----
+ drivers/gpu/drm/meson/meson_dw_hdmi.c | 13 +++++++++++--
+ 2 files changed, 18 insertions(+), 7 deletions(-)
+
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
