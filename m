@@ -1,59 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3BC2B4564
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 15:02:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 157CE2B458C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 15:10:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52A7689CC9;
-	Mon, 16 Nov 2020 14:02:10 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9B1C89C9A
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 14:02:08 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id m9so17477956iox.10
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 06:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=kfTo+s6Rfziyk28byc4y92qDcFzNCviKYnIcjhs+/0I=;
- b=GwhVHDU7Ggn4U1MZRMPEOIFwWKVi/fjuXVnE+Z0ttVk4CMnAUvNPxgWDyYsVRTzzrB
- IEDBFDWjikZ5b9XpbY2soqLweZIMkvaBTZVuL68aWSv2v+piaR5CrjZJwqb6u65I3C3x
- F2LTqJgmL3ESTY8XKW1xTrry+Jb9xGKOBkWRfJH+pv+CJv7yp9ugTbmY0RBDLjYdE9qE
- 7o5DsKuVcpSmdY95qlVjK66YTlaHkhNO0Y3XA25ViOiz20tFNyilF72HIeNaEp8vT5sC
- eZformUlD/dCQYmXpWUtZ3S1tfpsWe7I7RX/290jzRaG9R4fdZA2OaTy12n942Hhp0Tf
- WYmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=kfTo+s6Rfziyk28byc4y92qDcFzNCviKYnIcjhs+/0I=;
- b=jgwy9yYPQ85FAyrVAw7h+UzBjWm9RQumbPKNjDghyF3xSaEJfEEUyXHlol1s6ff9WG
- TxLhfKfq3piYRK/52xqNaHfyutGaJAqqz5NyCTGdOGHUgZG7ciQ65WJ4EeN2kyMOajkR
- Vx90BMjNkttlmBvwhJt2Tfye7J4UTof3cCNONsiwjUFXba4bonVn94ZPEMHZqBQtVtrl
- pcG0H8zos5rO/thguBVJ5cl4Y4nanD66xeLtQsu/ZVQkcROMsMPX9VfKs07jfG0khCHE
- FKGZj2nqekZnQKE+of3N3MJdH4xYYJIoRF+lbLdz+Rb1DM5fT4pVuzKXefLONYnXO6YD
- GcuQ==
-X-Gm-Message-State: AOAM533kXV+Fpug6nCuALWx6yJLJNqG8DQENHFaS3E+gIkFOfYeIGxaG
- W7emgkoat/WDlq/72RkXewM=
-X-Google-Smtp-Source: ABdhPJzQXMIJJqNvSgT1PjOyketDIs7BVZ0i7N1jRL2oLuKxrYy0yhYwy6Lr+YgnxNn5QFg3aRO0Aw==
-X-Received: by 2002:a05:6638:618:: with SMTP id
- g24mr11197277jar.53.1605535328250; 
- Mon, 16 Nov 2020 06:02:08 -0800 (PST)
-Received: from smtp.gmail.com ([2607:fea8:56e0:6d60::c908])
- by smtp.gmail.com with ESMTPSA id p24sm11587224ill.59.2020.11.16.06.02.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 06:02:07 -0800 (PST)
-Date: Mon, 16 Nov 2020 09:02:04 -0500
-From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm: Pass the full state to connectors atomic functions
-Message-ID: <20201116140204.imo4t3judosqif2y@smtp.gmail.com>
-References: <20201105173007.593960-1-maxime@cerno.tech>
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C7089CDB;
+	Mon, 16 Nov 2020 14:10:20 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 036FF89CDB
+ for <dri-devel@freedesktop.org>; Mon, 16 Nov 2020 14:10:17 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605535819; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: To:
+ Subject: Sender; bh=vzYjXtMwje+e7cEVmiKEsAdkLUBnmDDXuCe90CxqMcI=;
+ b=AE7W4jc1NWex7J6HGTrOtpR+Rwrhi2SKR3lKe9cQwkF6jYIxlUnDcNUbelobiW+PQzhg+1/9
+ CUxNTyPEmmmE7miy5Nce6EEL4KkLpuugiQYudcOE46cb2nUtQr8E0ooNujNjXEoRJIkeeanA
+ h3+9URmi+QRz/Elox3IoALZ4YlQ=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5fb28843135ce186e9099509 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 16 Nov 2020 14:10:10
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 2C88AC433C6; Mon, 16 Nov 2020 14:10:10 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.9] (unknown [117.210.188.236])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id BBBE2C43460;
+ Mon, 16 Nov 2020 14:10:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BBBE2C43460
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH] drm/msm: adreno: Make speed-bin support generic
+To: freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mka@chromium.org, robdclark@gmail.com, dianders@chromium.org
+References: <1605196144-23516-1-git-send-email-akhilpo@codeaurora.org>
+ <20201112163527.GC2661@jcrouse1-lnx.qualcomm.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <8c215bdf-b739-4b30-6cb0-fa521fde2784@codeaurora.org>
+Date: Mon, 16 Nov 2020 19:40:03 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105173007.593960-1-maxime@cerno.tech>
+In-Reply-To: <20201112163527.GC2661@jcrouse1-lnx.qualcomm.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,335 +72,263 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
- Leo Li <sunpeng.li@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Ben Skeggs <bskeggs@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1154936431=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/12/2020 10:05 PM, Jordan Crouse wrote:
+> On Thu, Nov 12, 2020 at 09:19:04PM +0530, Akhil P Oommen wrote:
+>> So far a530v2 gpu has support for detecting its supported opps
+>> based on a fuse value called speed-bin. This patch makes this
+>> support generic across gpu families. This is in preparation to
+>> extend speed-bin support to a6x family.
+>>
+>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>> ---
+>> This patch is rebased on top of msm-next-staging branch in rob's tree.
+>>
+>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
+>>   drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
+>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
+>>   4 files changed, 80 insertions(+), 34 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> index 8fa5c91..7d42321 100644
+>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>> @@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
+>>   	.get_timestamp = a5xx_get_timestamp,
+>>   };
+>>   
+>> -static void check_speed_bin(struct device *dev)
+>> -{
+>> -	struct nvmem_cell *cell;
+>> -	u32 val;
+>> -
+>> -	/*
+>> -	 * If the OPP table specifies a opp-supported-hw property then we have
+>> -	 * to set something with dev_pm_opp_set_supported_hw() or the table
+>> -	 * doesn't get populated so pick an arbitrary value that should
+>> -	 * ensure the default frequencies are selected but not conflict with any
+>> -	 * actual bins
+>> -	 */
+>> -	val = 0x80;
+>> -
+>> -	cell = nvmem_cell_get(dev, "speed_bin");
+>> -
+>> -	if (!IS_ERR(cell)) {
+>> -		void *buf = nvmem_cell_read(cell, NULL);
+>> -
+>> -		if (!IS_ERR(buf)) {
+>> -			u8 bin = *((u8 *) buf);
+>> -
+>> -			val = (1 << bin);
+>> -			kfree(buf);
+>> -		}
+>> -
+>> -		nvmem_cell_put(cell);
+>> -	}
+>> -
+>> -	dev_pm_opp_set_supported_hw(dev, &val, 1);
+>> -}
+>> -
+>>   struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>   {
+>>   	struct msm_drm_private *priv = dev->dev_private;
+>> @@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>   
+>>   	a5xx_gpu->lm_leakage = 0x4E001A;
+>>   
+>> -	check_speed_bin(&pdev->dev);
+>> -
+>>   	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
+>>   	if (ret) {
+>>   		a5xx_destroy(&(a5xx_gpu->base.base));
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> index 87c8b03..e0ff16c 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>> @@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
+>>   MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
+>>   module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
+>>   
+>> +const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
+>> +
+>>   static const struct adreno_info gpulist[] = {
+>>   	{
+>>   		.rev   = ADRENO_REV(2, 0, 0, 0),
+>> @@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
+>>   			ADRENO_QUIRK_FAULT_DETECT_MASK,
+>>   		.init = a5xx_gpu_init,
+>>   		.zapfw = "a530_zap.mdt",
+>> +		.speedbins = a530v2_speedbins,
+>> +		.speedbins_count = ARRAY_SIZE(a530v2_speedbins),
+>>   	}, {
+>>   		.rev = ADRENO_REV(5, 4, 0, 2),
+>>   		.revn = 540,
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>> index f21561d..cdd0c11 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>> @@ -14,6 +14,7 @@
+>>   #include <linux/pm_opp.h>
+>>   #include <linux/slab.h>
+>>   #include <linux/soc/qcom/mdt_loader.h>
+>> +#include <linux/nvmem-consumer.h>
+>>   #include <soc/qcom/ocmem.h>
+>>   #include "adreno_gpu.h"
+>>   #include "msm_gem.h"
+>> @@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+>>   			   adreno_ocmem->hdl);jjjj
+>>   }
+>>   
+>> +static int adreno_set_supported_hw(struct device *dev,
+>> +		struct adreno_gpu *adreno_gpu)
+>> +{
+>> +	u8 speedbins_count = adreno_gpu->info->speedbins_count;
+>> +	const u32 *speedbins = adreno_gpu->info->speedbins;
+> 
+> We don't need to make this generic and put it in the table. Just call the
+> function from the target specific code and pass the speedbin array and size from
+> there.
+> 
+I didn't get you entirely. Do you mean we should avoid keeping speedbin 
+array in the adreno_gpu->info table?
 
---===============1154936431==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n26kvx2fjtb5zkjb"
-Content-Disposition: inline
-
-
---n26kvx2fjtb5zkjb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 11/05, Maxime Ripard wrote:
-> The current atomic helpers have either their object state being passed as
-> an argument or the full atomic state.
->=20
-> The former is the pattern that was done at first, before switching to the
-> latter for new hooks or when it was needed.
->=20
-> Now that the CRTCs have been converted, let's move forward with the
-> connectors to provide a consistent interface.
->=20
-> The conversion was done using the coccinelle script below, and built test=
-ed
-> on all the drivers.
-
-For the VKMS change:
-Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-=20
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=F6nig" <christian.koenig@amd.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
-> Cc: Melissa Wen <melissa.srw@gmail.com>
-> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c |  5 ++++-
->  drivers/gpu/drm/drm_atomic_helper.c                 |  8 ++++----
->  drivers/gpu/drm/i915/display/intel_dp_mst.c         |  7 +++++--
->  drivers/gpu/drm/nouveau/dispnv50/disp.c             |  5 ++++-
->  drivers/gpu/drm/vc4/vc4_txp.c                       |  4 +++-
->  drivers/gpu/drm/vkms/vkms_writeback.c               |  7 +++++--
->  include/drm/drm_modeset_helper_vtables.h            | 13 ++++++-------
->  7 files changed, 31 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
-b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index eee19edeeee5..f346cc74387f 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -24,6 +24,7 @@
->   */
-> =20
->  #include <linux/version.h>
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_dp_mst_helper.h>
->  #include <drm/drm_dp_helper.h>
-> @@ -252,8 +253,10 @@ static int dm_dp_mst_get_modes(struct drm_connector =
-*connector)
-> =20
->  static struct drm_encoder *
->  dm_mst_atomic_best_encoder(struct drm_connector *connector,
-> -			   struct drm_connector_state *connector_state)
-> +			   struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
-ector_state(state,
-> +											 connector);
->  	struct drm_device *dev =3D connector->dev;
->  	struct amdgpu_device *adev =3D drm_to_adev(dev);
->  	struct amdgpu_crtc *acrtc =3D to_amdgpu_crtc(connector_state->crtc);
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index ddd0e3239150..ba1507036f26 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -122,7 +122,8 @@ static int handle_conflicting_encoders(struct drm_ato=
-mic_state *state,
->  			continue;
-> =20
->  		if (funcs->atomic_best_encoder)
-> -			new_encoder =3D funcs->atomic_best_encoder(connector, new_conn_state);
-> +			new_encoder =3D funcs->atomic_best_encoder(connector,
-> +								 state);
->  		else if (funcs->best_encoder)
->  			new_encoder =3D funcs->best_encoder(connector);
->  		else
-> @@ -345,8 +346,7 @@ update_connector_routing(struct drm_atomic_state *sta=
-te,
->  	funcs =3D connector->helper_private;
-> =20
->  	if (funcs->atomic_best_encoder)
-> -		new_encoder =3D funcs->atomic_best_encoder(connector,
-> -							 new_connector_state);
-> +		new_encoder =3D funcs->atomic_best_encoder(connector, state);
->  	else if (funcs->best_encoder)
->  		new_encoder =3D funcs->best_encoder(connector);
->  	else
-> @@ -1313,7 +1313,7 @@ static void drm_atomic_helper_commit_writebacks(str=
-uct drm_device *dev,
-> =20
->  		if (new_conn_state->writeback_job && new_conn_state->writeback_job->fb=
-) {
->  			WARN_ON(connector->connector_type !=3D DRM_MODE_CONNECTOR_WRITEBACK);
-> -			funcs->atomic_commit(connector, new_conn_state);
-> +			funcs->atomic_commit(connector, old_state);
->  		}
->  	}
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
-m/i915/display/intel_dp_mst.c
-> index 64d885539e94..b879a0622ada 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-> @@ -23,6 +23,7 @@
->   *
->   */
-> =20
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_edid.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -706,11 +707,13 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *c=
-onnector,
->  }
-> =20
->  static struct drm_encoder *intel_mst_atomic_best_encoder(struct drm_conn=
-ector *connector,
-> -							 struct drm_connector_state *state)
-> +							 struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
-ector_state(state,
-> +											 connector);
->  	struct intel_connector *intel_connector =3D to_intel_connector(connecto=
-r);
->  	struct intel_dp *intel_dp =3D intel_connector->mst_port;
-> -	struct intel_crtc *crtc =3D to_intel_crtc(state->crtc);
-> +	struct intel_crtc *crtc =3D to_intel_crtc(connector_state->crtc);
-> =20
->  	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
->  }
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/no=
-uveau/dispnv50/disp.c
-> index b111fe24a06b..911c2cbe6aa3 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-> @@ -32,6 +32,7 @@
->  #include <linux/hdmi.h>
->  #include <linux/component.h>
-> =20
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_dp_helper.h>
->  #include <drm/drm_edid.h>
-> @@ -1161,8 +1162,10 @@ nv50_msto_new(struct drm_device *dev, struct nv50_=
-head *head, int id)
-> =20
->  static struct drm_encoder *
->  nv50_mstc_atomic_best_encoder(struct drm_connector *connector,
-> -			      struct drm_connector_state *connector_state)
-> +			      struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
-ector_state(state,
-> +											 connector);
->  	struct nv50_mstc *mstc =3D nv50_mstc(connector);
->  	struct drm_crtc *crtc =3D connector_state->crtc;
-> =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
-> index 34612edcabbd..8aa5220885f4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_txp.c
-> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
-> @@ -273,8 +273,10 @@ static int vc4_txp_connector_atomic_check(struct drm=
-_connector *conn,
->  }
-> =20
->  static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
-> -					struct drm_connector_state *conn_state)
-> +					struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *conn_state =3D drm_atomic_get_new_connector=
-_state(state,
-> +										    conn);
->  	struct vc4_txp *txp =3D connector_to_vc4_txp(conn);
->  	struct drm_gem_cma_object *gem;
->  	struct drm_display_mode *mode;
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms=
-/vkms_writeback.c
-> index 26b903926872..cafdc8463541 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0+
-> =20
->  #include "vkms_drv.h"
-> +#include <drm/drm_atomic.h>
->  #include <drm/drm_fourcc.h>
->  #include <drm/drm_writeback.h>
->  #include <drm/drm_probe_helper.h>
-> @@ -99,8 +100,10 @@ static void vkms_wb_cleanup_job(struct drm_writeback_=
-connector *connector,
->  }
-> =20
->  static void vkms_wb_atomic_commit(struct drm_connector *conn,
-> -				  struct drm_connector_state *state)
-> +				  struct drm_atomic_state *state)
->  {
-> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
-ector_state(state,
-> +											 conn);
->  	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(conn->dev);
->  	struct vkms_output *output =3D &vkmsdev->output;
->  	struct drm_writeback_connector *wb_conn =3D &output->wb_connector;
-> @@ -116,7 +119,7 @@ static void vkms_wb_atomic_commit(struct drm_connecto=
-r *conn,
->  	crtc_state->active_writeback =3D conn_state->writeback_job->priv;
->  	crtc_state->wb_pending =3D true;
->  	spin_unlock_irq(&output->composer_lock);
-> -	drm_writeback_queue_job(wb_conn, state);
-> +	drm_writeback_queue_job(wb_conn, connector_state);
->  }
-> =20
->  static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs=
- =3D {
-> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_m=
-odeset_helper_vtables.h
-> index f2de050085be..16ff3fa148f5 100644
-> --- a/include/drm/drm_modeset_helper_vtables.h
-> +++ b/include/drm/drm_modeset_helper_vtables.h
-> @@ -1044,9 +1044,8 @@ struct drm_connector_helper_funcs {
->  	 * NOTE:
->  	 *
->  	 * This function is called in the check phase of an atomic update. The
-> -	 * driver is not allowed to change anything outside of the free-standing
-> -	 * state objects passed-in or assembled in the overall &drm_atomic_state
-> -	 * update tracking structure.
-> +	 * driver is not allowed to change anything outside of the
-> +	 * &drm_atomic_state update tracking structure passed in.
->  	 *
->  	 * RETURNS:
->  	 *
-> @@ -1056,7 +1055,7 @@ struct drm_connector_helper_funcs {
->  	 * for this.
->  	 */
->  	struct drm_encoder *(*atomic_best_encoder)(struct drm_connector *connec=
-tor,
-> -						   struct drm_connector_state *connector_state);
-> +						   struct drm_atomic_state *state);
-> =20
->  	/**
->  	 * @atomic_check:
-> @@ -1097,15 +1096,15 @@ struct drm_connector_helper_funcs {
->  	 *
->  	 * This hook is to be used by drivers implementing writeback connectors
->  	 * that need a point when to commit the writeback job to the hardware.
-> -	 * The writeback_job to commit is available in
-> -	 * &drm_connector_state.writeback_job.
-> +	 * The writeback_job to commit is available in the new connector state,
-> +	 * in &drm_connector_state.writeback_job.
->  	 *
->  	 * This hook is optional.
->  	 *
->  	 * This callback is used by the atomic modeset helpers.
->  	 */
->  	void (*atomic_commit)(struct drm_connector *connector,
-> -			      struct drm_connector_state *state);
-> +			      struct drm_atomic_state *state);
-> =20
->  	/**
->  	 * @prepare_writeback_job:
-> --=20
-> 2.28.0
->=20
-
---=20
-Rodrigo Siqueira
-https://siqueira.tech
-
---n26kvx2fjtb5zkjb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl+yhlgACgkQWJzP/com
-vP+CHRAAmbi1YpB1DfSPqVwRTmCeH8ztCXOkDaRvCKMFbiagfbQiWBaW1g3uwkO6
-W/tY5tlbGIJepUKGHMaK2B863FahYuzSeK913+2mHYTCZEpUoNntkCIqFNBKqp2L
-pPwoLQUWWXeCIoEYibYpbL2LPqkNTuHlFgJMGtbrybOzXcF1lylIuzK3XgfApjRT
-/BUoHPXReWYBr4nydVK5apTTBlIvdxdTytC8IQ86vcbzNs3xprEOxrJ5nCRBhC6e
-cPcotg8IM6Op6iLyxcmppUgkH75vhZPBDcndruf9RcyjSIbw5DwHZYFfsli/Rz6J
-eeYXw6B8TK/ewGosRgpXmUkv6D8G1f7nx4bfz9f5qLdAjtDDeANjkTY8V62405x0
-AYgTGstYWjwxIudBPQ8Io06lsbOO7OQskk50XfsskDl17NzKGgGqRCBHG4+Q6gDM
-BK3LzZ6gY5uX7mhxZhNvDEQ58/g4IrgI4I+cwgBLIp7GpCT/BgHKPiEfPl8XOrhk
-IcgzvTdABhlg1CPzggddMWVc5dsTsvqHEZsuE/hRLHhcgdzWTeG3IpBJMMBzJERW
-gDOXStL00s6Hc9aw+HFA9o2PjnoYReotRQjlqhWB6ki2yo1K0Amhci7yzY7AODow
-/ccOhWhBUeMEaiFMQtbXqrzX+ugo+y7Q1TqIW2J4tQkhv0SPJAA=
-=iDgm
------END PGP SIGNATURE-----
-
---n26kvx2fjtb5zkjb--
-
---===============1154936431==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-Akhil.
+>> +	struct nvmem_cell *cell;
+>> +	u32 bin, i;
+>> +	u32 val = 0;
+>> +	void *buf, *opp_table;
+>> +
+>> +	cell = nvmem_cell_get(dev, "speed_bin");
+>> +	/*
+>> +	 * -ENOENT means that the platform doesn't support speedbin which is
+>> +	 * fine
+>> +	 */
+>> +	if (PTR_ERR(cell) == -ENOENT)
+>> +		return 0;
+>> +	else if (IS_ERR(cell))
+>> +		return PTR_ERR(cell);
+>> +
+>> +	/* A speedbin table is must if the platform supports speedbin */
+>> +	if (!speedbins) {
+>> +		DRM_DEV_ERROR(dev, "speed-bin table is missing\n");
+>> +		return -ENOENT;
+>> +	}
+>> +
+>> +	buf = nvmem_cell_read(cell, NULL);
+>> +	if (IS_ERR(buf)) {
+>> +		nvmem_cell_put(cell);
+>> +		return PTR_ERR(buf);
+>> +	}
+>> +
+>> +	bin = *((u32 *) buf);
+>> +
+>> +	for (i = 0; i < speedbins_count; i++) {
+>> +		if (bin == speedbins[i]) {
+>> +			val = (1 << i);
+>> +			break;
+>> +		}
+>> +	}
+>> +
+>> +	kfree(buf);
+>> +	nvmem_cell_put(cell);
+>> +
+>> +	if (!val) {
+>> +		DRM_DEV_ERROR(dev, "missing support for speed-bin: %u\n", bin);
+>> +		return -ENOENT;
+>> +	}
+>> +
+>> +	opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
+>> +	if (IS_ERR(opp_table))
+>> +		return PTR_ERR(opp_table);
+>> +
+>> +	adreno_gpu->opp_table = opp_table;
+>> +	return 0;
+>> +}
+>> +
+>> +static void adreno_put_supported_hw(struct opp_table *opp_table)
+>> +{
+>> +	if (opp_table)
+>> +		dev_pm_opp_put_supported_hw(opp_table);
+>> +}
+>> +
+>>   int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>   		struct adreno_gpu *adreno_gpu,
+>>   		const struct adreno_gpu_funcs *funcs, int nr_rings)
+>> @@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>   	struct adreno_platform_config *config = dev->platform_data;
+>>   	struct msm_gpu_config adreno_gpu_config  = { 0 };
+>>   	struct msm_gpu *gpu = &adreno_gpu->base;
+>> +	int ret;
+>>   
+>>   	adreno_gpu->funcs = funcs;
+>>   	adreno_gpu->info = adreno_info(config->rev);
+>> @@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>   
+>>   	adreno_gpu_config.nr_rings = nr_rings;
+>>   
+>> +	ret = adreno_set_supported_hw(dev, adreno_gpu);
+>> +	if (ret)
+>> +		return ret;
+> 
+> This bit should be in the target specific code
+>> +
+>>   	adreno_get_pwrlevels(dev, gpu);
+>>   
+>>   	pm_runtime_set_autosuspend_delay(dev,
+>> @@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
+>>   
+>>   	icc_put(gpu->icc_path);
+>>   	icc_put(gpu->ocmem_icc_path);
+>> +
+>> +	adreno_put_supported_hw(adreno_gpu->opp_table);
+> 
+> And this bit too, though it would be easier to just call the put function
+> directly without having a intermediate function.  Also the OPP function should
+> be NULL aware but thats a different story.
+> 
+> Jordan
+>>   }
+>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> index c3775f7..a756ad7 100644
+>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>> @@ -55,6 +55,7 @@ struct adreno_reglist {
+>>   };
+>>   
+>>   extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
+>> +extern const u32 a618_speedbins[];
+>>   
+>>   struct adreno_info {
+>>   	struct adreno_rev rev;
+>> @@ -67,6 +68,8 @@ struct adreno_info {
+>>   	const char *zapfw;
+>>   	u32 inactive_period;
+>>   	const struct adreno_reglist *hwcg;
+>> +	const u32 *speedbins;
+>> +	const u8 speedbins_count;
+>>   };
+>>   
+>>   const struct adreno_info *adreno_info(struct adreno_rev rev);
+>> @@ -112,6 +115,8 @@ struct adreno_gpu {
+>>   	 * code (a3xx_gpu.c) and stored in this common location.
+>>   	 */
+>>   	const unsigned int *reg_offsets;
+>> +
+>> +	struct opp_table *opp_table;
+>>   };
+>>   #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>   
+>> -- 
+>> 2.7.4
+>>
+> 
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1154936431==--
