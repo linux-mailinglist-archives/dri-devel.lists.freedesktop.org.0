@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9FB2B4059
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 10:58:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A700A2B4078
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 11:09:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B9389DD8;
-	Mon, 16 Nov 2020 09:58:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5EB889DA6;
+	Mon, 16 Nov 2020 10:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
  [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3EB589DD8
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:58:44 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d142so23132881wmd.4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 01:58:44 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E4B89DA6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 10:09:53 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 10so23158987wml.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 02:09:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=iwpceZY1j98cSp2fjy3Tuny1yTyX2G0jni732iKitXE=;
- b=LnKit5YwSONJarUQgElc473djE2H14NhmA7p7SqJUu7DTp73UgBnHGrz/nEFL8tqO1
- jLild64akmtZRT1dp7BJw9eY+uxuT9bnlBZedTS6Rf+bFUcBZoWBJTMSsSsjWGEaOui8
- 4qPtlT4uBCLOczmc3SD26yKrDCD/Q9pBxYjBI=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4MLjK6J0k3buFVe3tEUAsMN0q98BNbXOGLlBrDEbH84=;
+ b=a6i4D5Y+4nk3y2ls3YB96MU9fUh3mrXTMUe7VWAWUO3gFEHiRJQkOBB1u+DeDeRvx1
+ eHxFOkkp52v2pmkNR/GLFPHURXZW/zkqIWmLE4cb76mndPZDbjTiwpngE6kr21lARrEO
+ GxzLEG61dbv150CtbZBkFr0qmeEUf0PnoJx+c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=iwpceZY1j98cSp2fjy3Tuny1yTyX2G0jni732iKitXE=;
- b=HUy0VIGOs0fFYxNTenTd3XRXBQ4jcr368m9RvbfygJXr1lCeBNw//NM2eOQGknMaBO
- EJJlPfSGbt74+GdT1EHCVO4WlbBAnF+lJJ7+TpDWPfzEfw/XshfavVTxScvrS8hoasGu
- pCc00fjwgkmCLjCITBuEhEySkfJufY35apYHwaaTDl04MY2rVycxhcm3KbNns3fXaYFT
- FlAox+0oB5LUFvUC2vkogTzyadqcLbzcvv3+9ZptLhA+0nlVN/7hhQaU3FE/8kJwAVMj
- uplp5UP8QUGMdCez8EEkwGTB2WQgpmDRy/L9CDS8zjvOONtVnoWcaKGtWrn+K5zV8Wbz
- wWZg==
-X-Gm-Message-State: AOAM531FehZM6NKs81R8zc75AQCKP9HTG+Wc5BCzV+Wp1o2kiz5Unm3H
- GBqlVz77aGJiTHhwb9yvFdtlyA==
-X-Google-Smtp-Source: ABdhPJzyJHPC3SAjVSqWoHCbsix+ay+1rUc0is8EF/Psl3Y3/1na4haz+bG3YyBhVL0JiVcuXUFJ5g==
-X-Received: by 2002:a05:600c:2ccb:: with SMTP id
- l11mr12245531wmc.65.1605520723393; 
- Mon, 16 Nov 2020 01:58:43 -0800 (PST)
+ bh=4MLjK6J0k3buFVe3tEUAsMN0q98BNbXOGLlBrDEbH84=;
+ b=CmQTvNBxvN4fDjHAKwU8Ip8kBlaik1+9qtyVUu143LGHri/4z+I3Bzzoqm4w9e/Q9+
+ mW4Ge9u6/6cSHddgTwqWVruu2FpIxRWgRALqHAm9vh8LGAgXrPKqfT/x19OBDlrckR1j
+ mcADusHhAj7zdr+KY562JPxvF0L/DHU49ux6x6sPegmHyycyucMZud3Ay774vwFg8UXi
+ mGjXar9ExSd/PtPb1xE6gQ9KVKHer1VFnnWRlhahqlTqUDrksaXM+on7bPE5yOM4QaVI
+ FXfqRXZ3ErvtDb3UwOgX4NyY4uXAslduMXBScrZZKLzmyEwaMzwo/+QeFBuPT3jh9UBo
+ MEtg==
+X-Gm-Message-State: AOAM531dsloNvhx1vw2kkmYqyaVPrfVk2Pg8ABXIdqR0CM3hmQ0NKeJy
+ psQFliDpB76oZkLEuxHQInXkqw==
+X-Google-Smtp-Source: ABdhPJwONcExmyTYHidHN0GxV7kDjejfxFlk6aedYSxZdK1kyQtA0Gq67bmGzc2T92ICVkGj4qFCXw==
+X-Received: by 2002:a1c:df04:: with SMTP id w4mr14508609wmg.3.1605521392276;
+ Mon, 16 Nov 2020 02:09:52 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v2sm21732697wrm.96.2020.11.16.01.58.42
+ by smtp.gmail.com with ESMTPSA id u23sm20369149wmc.32.2020.11.16.02.09.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 01:58:42 -0800 (PST)
-Date: Mon, 16 Nov 2020 10:58:40 +0100
+ Mon, 16 Nov 2020 02:09:51 -0800 (PST)
+Date: Mon, 16 Nov 2020 11:09:49 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [RFC PATCH 1/2] drm/hyperv: Add DRM driver for hyperv synthetic
- video device
-Message-ID: <20201116095840.GZ401619@phenom.ffwll.local>
-References: <SN6PR11MB2558D831991447B9B5C8E646E2270@SN6PR11MB2558.namprd11.prod.outlook.com>
- <121f5f8df1e56294ade98f08a943b9fbb514c5e0.camel@gmail.com>
- <45960d1f-5304-1d5a-53fd-9896e4c322aa@suse.de>
- <2a46700700085e7e2588bb8120595968aae7f8a6.camel@gmail.com>
- <e70a2528-ae5a-f855-ae77-b0bb0a7239af@suse.de>
+To: Peilin Ye <yepeilin.cs@gmail.com>
+Subject: Re: [PATCH v3 0/5] console: Miscellaneous clean-ups, do not use
+ FNTCHARCNT() in fbcon.c
+Message-ID: <20201116100949.GA401619@phenom.ffwll.local>
+Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <cover.1605169912.git.yepeilin.cs@gmail.com>
+ <20201113211633.GY401619@phenom.ffwll.local>
+ <X68NFzaAuImemnqh@kroah.com> <20201114081021.GA11811@PWN>
+ <X6/K/S9V7rj2hI5p@kroah.com> <X6/L/lE2pA7csBwd@kroah.com>
+ <20201114124716.GA12895@PWN>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e70a2528-ae5a-f855-ae77-b0bb0a7239af@suse.de>
+In-Reply-To: <20201114124716.GA12895@PWN>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,66 +74,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Deepak Rawat <drawat.floss@gmail.com>, "Jiang, Fei" <fei.jiang@intel.com>,
- "Huang, Yuanjun" <yuanjun.huang@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Tang,
- Shaofeng" <shaofeng.tang@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gU3VuLCBOb3YgMTUsIDIwMjAgYXQgMDc6NTg6MDBQTSArMDEwMCwgVGhvbWFzIFppbW1lcm1h
-bm4gd3JvdGU6Cj4gSGkKPiAKPiBBbSAxNS4xMS4yMCB1bSAxODo1NSBzY2hyaWViIERlZXBhayBS
-YXdhdDoKPiA+IE9uIFN1biwgMjAyMC0xMS0xNSBhdCAxMDoxNCArMDEwMCwgVGhvbWFzIFppbW1l
-cm1hbm4gd3JvdGU6Cj4gPj4gSGkgRGVlcGFrCj4gPj4KPiA+PiBBbSAxMS4wOS4yMCB1bSAwMjoz
-OCBzY2hyaWViIERlZXBhayBSYXdhdDoKPiA+Pj4gT24gVGh1LCAyMDIwLTA5LTEwIGF0IDA4OjE5
-ICswMDAwLCBUYW5nLCBTaGFvZmVuZyB3cm90ZToKPiA+Pj4+IEhpIERlZXBhaywKPiA+Pj4+IMKg
-Cj4gPj4+PiBEbyB5b3UgaGF2ZSBhIG5ldyB2ZXJzaW9uIG9mIHRoaXMgcGF0Y2ggbm93Pwo+ID4+
-Pj4gSSB0YWtlIGEgdHJ5IHdpdGggaXQuIGFuZCBtZWV0IHNvbWUgdHlwbyBhbmQg4oCcaW5jb21w
-YXRpYmxlCj4gPj4+PiBwb2ludGVy4oCdCj4gPj4+PiBlcnJvci4KPiA+Pj4+IElmIHlvdSBoYXZl
-IGEgbmV3IHZlcnNpb24sIGNvdWxkIHlvdSBzaGFyZSBpdCB3aXRoIHVzPwo+ID4+Pj4KPiA+Pj4K
-PiA+Pj4gSGkgU2hhb2ZlbmcsCj4gPj4+Cj4gPj4+IEl0IHNlZW1zIHlvdSBhcmUgcnVubmluZyB0
-aGlzIHdpdGggZ2VuIDIgVk0sIEkgaGF2ZSBhIHBhdGNoIHRvCj4gPj4+IHN1cHBvcnQKPiA+Pj4g
-Z2VuIDIgVk0ncyBhdCBodHRwczovL2dpdGh1Yi5jb20vZGVlcGFrLXJhd2F0L2xpbnV4LmdpdMKg
-YnJhbmNoCj4gPj4+IGh5cGVydl90Cj4gPj4+IGlueS4KPiA+Pgo+ID4+IEknbSBpbnRlcmVzdGVk
-IGluIG1lcmdpbmcgdGhpcyBkcml2ZXIgaW50byB0aGUgRFJNIHVwc3RyZWFtLiBXaGF0J3MKPiA+
-PiB0aGUKPiA+PiBzdGF0dXM/IEFyZSB5b3Ugc3RpbGwgd29ya2luZyBvbiBpdD8KPiA+IAo+ID4g
-SGkgVGhvbWFzLAo+ID4gCj4gPiBJIGFtIHdvcmtpbmcgb24gYWRkaW5nIGdlbjIgVk0gc3VwcG9y
-dCBhbmQgY3Vyc29yIHN1cHBvcnQuIEFsc28gZm9yIG15Cj4gPiBuZXh0IGludGVyYXRpb24gbW92
-aW5nIHRoZSBkcml2ZXIgb3V0IG9mIHRpbnkuIFByb2dyZXNzIGlzIHNsb3cgbGF0ZWx5Cj4gPiBh
-cyBidXN5IHdpdGggb3RoZXIgc3R1ZmYgYXQgd29yay4gSG9wZWZ1bGx5IEkgd2lsbCBiZSBhYmxl
-IHRvIGZpbmlzaAo+ID4gZHVyaW5nIGNvbWluZyBob2xpZGF5cy4KPiAKPiBJIHNlZS4gVGhhbmtz
-IGZvciB0aGUgdXBkYXRlLiBJJ2Qgc3VnZ2VzdCB0byBjbGVhbiB1cCB3aGF0IHlvdSBoYXZlIGFu
-ZAo+IHNlbmQgaXQgZm9yIHJldmlldy4gSGF2aW5nIGV2ZW4gYSBzaW1wbGUgZHJpdmVyIGluIHVw
-c3RyZWFtIG1ha2VzIGl0IHNvCj4gbXVjaCBlYXNpZXIgZm9yIG90aGVycyB0byBjb250cmlidXRl
-IGFuZCB5b3UnbGwgZ2V0IG1hbnkgb2YgdGhlIHVwc3RyZWFtCj4gaW1wcm92ZW1lbnRzIGF1dG9t
-YXRpY2FsbHkuCgpTZWNvbmRlZCwgb25jZSB3ZSBoYXZlIHNvbWUgYmFzaWNzIChsaWtlIGdlbjEg
-b25seSwgbm8gY3Vyc29yIHN1cHBvcnQpCmxhbmRpbmcgaW5jcmVtZW50YWwgY2hhbmdlcyB0ZW5k
-cyB0byBiZSBtdWNoIGVhc2llciB0aGFuIHRoZSBpbml0aWFsCmRyaXZlci4KClNvIGFkZGluZyBt
-b3JlIGZlYXR1cmVzIGFuZCB0cnlpbmcgdG8gbWFrZSBpdCBhcyBjb21wbGV0ZSBhcyBwb3NzaWJs
-ZQpiZWZvcmUgeW91IHdhbnQgdG8gbGFuZCBpdCBtaWdodCBqdXN0IGJlIGRldHJpbWluYWwgdG8g
-b3ZlcmFsbCB1cHN0cmVhbWluZwpzcGVlZC4gVXN1YWxseSBhdCBsZWFzdC4KCkNoZWVycywgRGFu
-aWVsCgo+IAo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+IAo+ID4gCj4gPiBEZWVwYWsKPiA+IAo+
-ID4+Cj4gPj4gQmVzdCByZWdhcmRzCj4gPj4gVGhvbWFzCj4gPj4KPiA+Pj4KPiA+Pj4gSWYgeW91
-IHN0aWxsIHJ1biBpbnRvIGVycm9yIGFmdGVyIGFwcGx5aW5nIGdlbjIgcGF0Y2gsIGZlZWwgZnJl
-ZSB0bwo+ID4+PiByZWFjaCBvdXQgd2l0aCBkZXRhaWxzLgo+ID4+Pgo+ID4+PiBEZWVwYWsKPiA+
-Pj4KPiA+Pj4+IMKgCj4gPj4+PiBCUiwgU2hhb2ZlbmcKPiA+Pj4KPiA+Pj4gX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+Pj4gZHJpLWRldmVsIG1haWxp
-bmcgbGlzdAo+ID4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPj4+IGh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCj4gPj4+
-Cj4gPj4KPiA+IAo+ID4gCj4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwKPiA+IAo+IAo+IC0tIAo+IFRob21hcyBaaW1tZXJtYW5uCj4g
-R3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
-bnkgR21iSAo+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+IChIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTDtnJm
-ZmVyCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+
-IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
-CgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24K
-aHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+On Sat, Nov 14, 2020 at 07:47:16AM -0500, Peilin Ye wrote:
+> On Sat, Nov 14, 2020 at 01:22:22PM +0100, Greg Kroah-Hartman wrote:
+> > On Sat, Nov 14, 2020 at 01:18:06PM +0100, Greg Kroah-Hartman wrote:
+> > > On Sat, Nov 14, 2020 at 03:10:21AM -0500, Peilin Ye wrote:
+> > > > Thanks for reviewing!  Questions about the last patch [5/5] though, it
+> > > > depends on the following assumption:
+> > > > 
+> > > > """
+> > > > For each console `idx`, `vc_cons[idx].d->vc_font.data` and
+> > > > `fb_display[idx].fontdata` always point to the same buffer.
+> > > > """
+> > > > 
+> > > > Is this true?  I think it is true by grepping for `fontdata`.  I also
+> > > > noticed that fbcon.c is using `vc->vc_font.data` and `p->fontdata`
+> > > > interchangeably, see fbcon_get_requirement():
+> > > > 
+> > > > 		vc = vc_cons[fg_console].d;
+> > > > 		[...]
+> > > > 			p = &fb_display[fg_console];
+> > > > 			caps->x = 1 << (vc->vc_font.width - 1);
+> > > > 					^^^^^^^^^^^
+> > > > 			caps->y = 1 << (vc->vc_font.height - 1);
+> > > > 					^^^^^^^^^^^
+> > > > 			caps->len = (p->userfont) ?
+> > > > 				FNTCHARCNT(p->fontdata) : 256;
+> > > > 					   ^^^^^^^^^^^
+> > > > 
+> > > > If it is true, then what is the point of using `fontdata` in `struct
+> > > > fbcon_display`?  Just for the `userfont` flag?  Should we delete
+> > > > `fontdata`, when we no longer need the `userfont` flag?
+> > > 
+> > > Yes, after a quick look, I think your analysis here is correct.  So if
+> > > you can delete that, it would be nice if possible.
+> 
+> I see, at the moment we still need `userfont` for refcount handling, I
+> will try to delete both `fontdata` and `userfont` after refcount is
+> taken care of.
+
++1 on sunsetting fondata. I think there's a bunch of these in fbcon code,
+because the console subsystem is older than the standard "allow drivers to
+embed the subsystem struct into their own private struct" subclassing
+model. So lots of global arrays indexed by the console id :-/
+
+> > > > In this sense I think [5/5] needs more testing.  Do we have test files
+> > > > for fbcon, or should I try to write some tests from scratch?
+> > > 
+> > > I don't know of any direct tests, I usually just booted into that mode
+> > > and saw if everything looked like it did before.  There must be some
+> > > tool that you can use to change the current font, as it seems to happen
+> > > at boot time on some distros.  I can't remember what it's called at the
+> > > moment...
+> > 
+> > Ah, here's a hint:
+> > 	https://wiki.archlinux.org/index.php/Linux_console#Fonts
+> > 
+> > The setfont tool should help you out here.
+> 
+> Oh, I didn't know about this one.  I'll go experimenting with it,
+> thank you!
+
+We're also trying to start some kind of test suite for fbdev chardev ioctl
+interface in the gpu test suite. fbcon tests are maybe more related to
+tty/vt, and I have no idea whether anything exists there already.
+
+But if you want to do some automated testcases for fbcon and there's
+absolutely no other home for them, the gpu test suite might be an option
+of last resort too:
+
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-and-validation
+
+Cheers, Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
