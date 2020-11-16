@@ -2,55 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343902B5173
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:47:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E5CB2B5175
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:49:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104326E0FB;
-	Mon, 16 Nov 2020 19:47:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5CCE6E0FE;
+	Mon, 16 Nov 2020 19:49:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516D16E0FB;
- Mon, 16 Nov 2020 19:47:45 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id c9so435587wml.5;
- Mon, 16 Nov 2020 11:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=PYo+r6flmlYIu4ACRL/mcGqGmGwzw3cScxxOw0h3rm4=;
- b=JvNGOas7bw9xuCQecppvkL0SKdRoODY+KLGAFE16cgNw4/Z/zxOKKq3jKp49/rQHGj
- 6XpntS7k4x2KC/22oUDGrdSQNs3CTngJQ2bnJ3fLqVGkPMoagexCTEWiJXVZFFaXoe8R
- N/xP9eSNupUEp3yjZE4aN9F+ZQupDcOpHrdvxREhM9gUWmByYKWGw5wJ839VEv1UCdvm
- S7h3Tsnj8Gou822sgctt/LLTG4P2knWlKIqKCDdUY+fcUmzC+/viJu7Pvba1c32r2NF1
- bHMQ0o0kNtyFzy0ul6WQdvxrxKUqRizP/fLnMidmBqIn/5IO/jmH4CUYNAqXYoHg0gQR
- pFtQ==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F21666E0FE
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 19:49:00 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id c17so20075810wrc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 11:49:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ncfPNXNIQxHN23es0hvwhCwc8jWIZRGpM+1DgD5b1gw=;
+ b=A3w94zPYBbzWqdbMPMdt5mv56FIfMK/Zd6Bz8DlT2vpc0pky1muk/DABPmIYNSizwY
+ EctxKs95Hr5V4Qaf0g32ipu9MLqEqgh9TO5dWEeu7tnDLMc2TVDKkPnNJPCG1JJznuML
+ 8Dx6ByApAzLsrPF7966RCoGr3ywkBcXuZscXo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=PYo+r6flmlYIu4ACRL/mcGqGmGwzw3cScxxOw0h3rm4=;
- b=GNcPbapYJsvIp2V1O6qalLyWXaqmOUNiQ1FXp6KejdAfLaj9CsbB0YCrQUFBJaRqIc
- 7Z3QXppza30LegUI92a0hBtNHjZGb8pwPV7hYFRK5UocUHEHwppECX7IRru+s+6xV85m
- g74q9/MhiHzG+IjYr8Q++JqmlcAqruZfcPo9pJw/rMdlcD95T7jXEnbI/Ifx99dHV5Qi
- K/rqOSdusgifZtodC27Z5qcucEIryv34ZqWMHEdN0iaiADj3ezXz0jRsbubq1D0y5jqY
- XYUMqlXfMJgI5W4UOvkrVmCleT2A+fCo6YrCjbPOq054LflGznFeDWxbtGbjErfwBnGX
- FB3A==
-X-Gm-Message-State: AOAM533T8JKlG589MkNi+FIHDu7SwdnVza9nSIkV3nJh0EZtn4wQwVMI
- nD341/fLUauzsMimlxyIuY3vjmQDJqJxSVQdAFU=
-X-Google-Smtp-Source: ABdhPJwMTB9qv+PXelqfAgNqL2fIwllHgqhZdXv2TQhG8PmTPgatNhWcTyEwtrlPeiGQJbJpsbROze/58whrowTCtiQ=
-X-Received: by 2002:a1c:2dc8:: with SMTP id t191mr138380wmt.73.1605556063974; 
- Mon, 16 Nov 2020 11:47:43 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=ncfPNXNIQxHN23es0hvwhCwc8jWIZRGpM+1DgD5b1gw=;
+ b=Y4r/lb9Jahvku4dxbaJq+Cz5o5BAzdaeGqaSj3Tc/Vz7URktRJFpIPfBKDaU0fA0JD
+ 5eQC70VlqxwIUv7H6+045yDqDEXooosuYiTHErkLNptq40n0niPD4ZQpjLjQyuy0qr/A
+ MS5dDHw89r6L+35hyssnyUXFpK5lAjz8pSKgvcr1p7+ZU0XuryCJdMFVNf5FdHC3+9IC
+ EgPruwvJcuuCjSKK8TttbJPBP0KTtXrWO3hvjoeQM9e1JVwd+7XcuDjduF1sSfT6xSoD
+ rGi5mCd5exOmG85KkQ0w93QIIzwqlCfiMUVwBZEuK518hV4FxyskVPhuPlsBTbaqwrVo
+ d5NQ==
+X-Gm-Message-State: AOAM531FaAL9mikK69txXTxsToapoYosV+ho17MyBYeFx+ifAJuasrRU
+ +9Gh78Qa1ITiuhWUc22N9mHhjA==
+X-Google-Smtp-Source: ABdhPJxlNRG2Pps/kdbWyLdi8qbA7fvZBv17wCJE7tYsrtMeX89BD5oWNzDrQOF4TAuMFTkdicCytg==
+X-Received: by 2002:adf:9104:: with SMTP id j4mr22809937wrj.198.1605556139027; 
+ Mon, 16 Nov 2020 11:48:59 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id i5sm26068792wrw.45.2020.11.16.11.48.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 11:48:57 -0800 (PST)
+Date: Mon, 16 Nov 2020 20:48:55 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v4 05/27] drm: fix some kernel-doc markups
+Message-ID: <20201116194855.GF401619@phenom.ffwll.local>
+Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Eric Anholt <eric@anholt.net>, Imre Deak <imre.deak@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Nirmoy Das <nirmoy.aiemd@gmail.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>,
+ Yintian Tao <yttao@amd.com>, changzhu <Changfeng.Zhu@amd.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1605521731.git.mchehab+huawei@kernel.org>
+ <12d4ca26f6843618200529ce5445063734d38c04.1605521731.git.mchehab+huawei@kernel.org>
+ <87eektr0rc.fsf@intel.com>
 MIME-Version: 1.0
-References: <20201116173005.1825880-1-lee.jones@linaro.org>
- <20201116173005.1825880-13-lee.jones@linaro.org>
-In-Reply-To: <20201116173005.1825880-13-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Nov 2020 14:47:32 -0500
-Message-ID: <CADnq5_NZ0gaYtr8GVYz+fndYnk6AtmzSXChuhnOxnpzdS3nOjQ@mail.gmail.com>
-Subject: Re: [PATCH 12/43] drm/radeon/evergreen: Move 'evergreen_*' and
- 'sumo_*' prototypes out to shared location
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <87eektr0rc.fsf@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,214 +93,1222 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, Yintian Tao <yttao@amd.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, changzhu <Changfeng.Zhu@amd.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ linux-kernel@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMTI6MzAgUE0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
-YXJvLm9yZz4gd3JvdGU6Cj4KPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQg
-d2FybmluZyhzKToKPgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2V2ZXJncmVlbi5jOjEyODE6
-Njogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhldmVyZ3JlZW5fZml4X3Bj
-aV9tYXhfcmVhZF9yZXFfc2l6ZeKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gIDEyODEgfCB2
-b2lkIGV2ZXJncmVlbl9maXhfcGNpX21heF9yZWFkX3JlcV9zaXplKHN0cnVjdCByYWRlb25fZGV2
-aWNlICpyZGV2KQo+ICB8IF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Cj4gIGRy
-aXZlcnMvZ3B1L2RybS9yYWRlb24vZXZlcmdyZWVuLmM6MjY2NDo2OiB3YXJuaW5nOiBubyBwcmV2
-aW91cyBwcm90b3R5cGUgZm9yIOKAmGV2ZXJncmVlbl9tY19zdG9w4oCZIFstV21pc3NpbmctcHJv
-dG90eXBlc10KPiAgMjY2NCB8IHZvaWQgZXZlcmdyZWVuX21jX3N0b3Aoc3RydWN0IHJhZGVvbl9k
-ZXZpY2UgKnJkZXYsIHN0cnVjdCBldmVyZ3JlZW5fbWNfc2F2ZSAqc2F2ZSkKPiAgfCBefn5+fn5+
-fn5+fn5+fn5+fgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2V2ZXJncmVlbi5jOjI3NjI6Njog
-d2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhldmVyZ3JlZW5fbWNfcmVzdW1l
-4oCZIFstV21pc3NpbmctcHJvdG90eXBlc10KPiAgMjc2MiB8IHZvaWQgZXZlcmdyZWVuX21jX3Jl
-c3VtZShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwgc3RydWN0IGV2ZXJncmVlbl9tY19zYXZl
-ICpzYXZlKQo+ICB8IF5+fn5+fn5+fn5+fn5+fn5+fn4KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9ldmVyZ3JlZW4uYzoyODUwOjY6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig
-4oCYZXZlcmdyZWVuX21jX3Byb2dyYW3igJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICAyODUw
-IHwgdm9pZCBldmVyZ3JlZW5fbWNfcHJvZ3JhbShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikK
-PiAgfCBefn5+fn5+fn5+fn5+fn5+fn5+fgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2V2ZXJn
-cmVlbi5jOjM3MTA6NTogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhldmVy
-Z3JlZW5fbWNfaW5pdOKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gIDM3MTAgfCBpbnQgZXZl
-cmdyZWVuX21jX2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4gIHwgXn5+fn5+fn5+
-fn5+fn5+fn4KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uYzozNzY5OjY6IHdh
-cm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYZXZlcmdyZWVuX3ByaW50X2dwdV9z
-dGF0dXNfcmVnc+KAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gIDM3NjkgfCB2b2lkIGV2ZXJn
-cmVlbl9wcmludF9ncHVfc3RhdHVzX3JlZ3Moc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpCj4g
-IHwgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFk
-ZW9uL2V2ZXJncmVlbi5jOjM3OTc6Njogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZv
-ciDigJhldmVyZ3JlZW5faXNfZGlzcGxheV9odW5n4oCZIFstV21pc3NpbmctcHJvdG90eXBlc10K
-PiAgMzc5NyB8IGJvb2wgZXZlcmdyZWVuX2lzX2Rpc3BsYXlfaHVuZyhzdHJ1Y3QgcmFkZW9uX2Rl
-dmljZSAqcmRldikKPiAgfCBefn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Cj4gIGRyaXZlcnMvZ3B1
-L2RybS9yYWRlb24vZXZlcmdyZWVuLmM6NDAwOTo2OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90
-b3R5cGUgZm9yIOKAmGV2ZXJncmVlbl9ncHVfcGNpX2NvbmZpZ19yZXNldOKAmSBbLVdtaXNzaW5n
-LXByb3RvdHlwZXNdCj4gIDQwMDkgfCB2b2lkIGV2ZXJncmVlbl9ncHVfcGNpX2NvbmZpZ19yZXNl
-dChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKPiAgfCBefn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn4KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uYzo0MTEwOjY6IHdh
-cm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYc3Vtb19ybGNfZmluaeKAmSBbLVdt
-aXNzaW5nLXByb3RvdHlwZXNdCj4gIDQxMTAgfCB2b2lkIHN1bW9fcmxjX2Zpbmkoc3RydWN0IHJh
-ZGVvbl9kZXZpY2UgKnJkZXYpCj4gIHwgXn5+fn5+fn5+fn5+fgo+ICBkcml2ZXJzL2dwdS9kcm0v
-cmFkZW9uL2V2ZXJncmVlbi5jOjQxNTM6NTogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBl
-IGZvciDigJhzdW1vX3JsY19pbml04oCZIFstV21pc3NpbmctcHJvdG90eXBlc10KPiAgNDE1MyB8
-IGludCBzdW1vX3JsY19pbml0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ICB8IF5+fn5+
-fn5+fn5+fn4KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uYzo0MzgxOjU6IHdh
-cm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYZXZlcmdyZWVuX3JsY19yZXN1bWXi
-gJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICA0MzgxIHwgaW50IGV2ZXJncmVlbl9ybGNfcmVz
-dW1lKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KQo+ICB8IF5+fn5+fn5+fn5+fn4KPiAgZHJp
-dmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uYzo0NjcwOjY6IHdhcm5pbmc6IG5vIHByZXZp
-b3VzIHByb3RvdHlwZSBmb3Ig4oCYZXZlcmdyZWVuX2lycV9zdXNwZW5k4oCZIFstV21pc3Npbmct
-cHJvdG90eXBlc10KPiAgNDY3MCB8IHZvaWQgZXZlcmdyZWVuX2lycV9zdXNwZW5kKHN0cnVjdCBy
-YWRlb25fZGV2aWNlICpyZGV2KQo+ICB8IF5+fn5+fn5+fn5+fn5+fn5+fn5+fgo+Cj4gTkI6IExv
-dHMgbW9yZSBvZiB0aGVzZSAtIHNuaXBwZWQgZm9yIGJyZXZpdHkKPgo+IENjOiBBbGV4IERldWNo
-ZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGlu
-dXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogYW1kLWdm
-eEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpB
-cHBsaWVkIHdpdGggbWlub3IgY2hhbmdlcy4gIFRoYW5rcyEKCkFsZXgKCj4gLS0tCj4gIGRyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vY2lrLmMgICAgICAgfCAgNiArLS0tCj4gIGRyaXZlcnMvZ3B1L2Ry
-bS9yYWRlb24vZXZlcmdyZWVuLmMgfCAgMSArCj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24vZXZl
-cmdyZWVuLmggfCA1MSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysKPiAgZHJpdmVycy9n
-cHUvZHJtL3JhZGVvbi9uaS5jICAgICAgICB8IDE2ICstLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9zaS5jICAgICAgICB8ICA3ICstLS0KPiAgNSBmaWxlcyBjaGFuZ2VkLCA1NSBp
-bnNlcnRpb25zKCspLCAyNiBkZWxldGlvbnMoLSkKPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vZXZlcmdyZWVuLmgKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL2Npay5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jaWsuYwo+IGluZGV4
-IGFiZjM3MGUxNmJkOWYuLjMxNWM0ZjNkZjM2NTYgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9jaWsuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vY2lrLmMKPiBA
-QCAtMzAsNiArMzAsNyBAQAo+ICAjaW5jbHVkZSA8ZHJtL2RybV92YmxhbmsuaD4KPgo+ICAjaW5j
-bHVkZSAiYXRvbS5oIgo+ICsjaW5jbHVkZSAiZXZlcmdyZWVuLmgiCj4gICNpbmNsdWRlICJjaWtf
-YmxpdF9zaGFkZXJzLmgiCj4gICNpbmNsdWRlICJjaWtkLmgiCj4gICNpbmNsdWRlICJjbGVhcnN0
-YXRlX2NpLmgiCj4gQEAgLTEyNiwxMSArMTI3LDYgQEAgTU9EVUxFX0ZJUk1XQVJFKCJyYWRlb24v
-bXVsbGluc19zZG1hLmJpbiIpOwo+Cj4gIGV4dGVybiBpbnQgcjYwMF9paF9yaW5nX2FsbG9jKHN0
-cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiAgZXh0ZXJuIHZvaWQgcjYwMF9paF9yaW5nX2Zp
-bmkoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5f
-bWNfc3RvcChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwgc3RydWN0IGV2ZXJncmVlbl9tY19z
-YXZlICpzYXZlKTsKPiAtZXh0ZXJuIHZvaWQgZXZlcmdyZWVuX21jX3Jlc3VtZShzdHJ1Y3QgcmFk
-ZW9uX2RldmljZSAqcmRldiwgc3RydWN0IGV2ZXJncmVlbl9tY19zYXZlICpzYXZlKTsKPiAtZXh0
-ZXJuIGJvb2wgZXZlcmdyZWVuX2lzX2Rpc3BsYXlfaHVuZyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAq
-cmRldik7Cj4gLWV4dGVybiB2b2lkIHN1bW9fcmxjX2Zpbmkoc3RydWN0IHJhZGVvbl9kZXZpY2Ug
-KnJkZXYpOwo+IC1leHRlcm4gaW50IHN1bW9fcmxjX2luaXQoc3RydWN0IHJhZGVvbl9kZXZpY2Ug
-KnJkZXYpOwo+ICBleHRlcm4gdm9pZCBzaV92cmFtX2d0dF9sb2NhdGlvbihzdHJ1Y3QgcmFkZW9u
-X2RldmljZSAqcmRldiwgc3RydWN0IHJhZGVvbl9tYyAqbWMpOwo+ICBleHRlcm4gdm9pZCBzaV9y
-bGNfcmVzZXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICBleHRlcm4gdm9pZCBzaV9p
-bml0X3V2ZF9pbnRlcm5hbF9jZyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vZXZlcmdyZWVuLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL2V2ZXJncmVlbi5jCj4gaW5kZXggOWExZTI0MGIwNzIzNC4uZjg2MGY1ZWYyZGY4
-OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2V2ZXJncmVlbi5jCj4gKysr
-IGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uYwo+IEBAIC0zMiw2ICszMiw3IEBA
-Cj4gICNpbmNsdWRlICJhdG9tLmgiCj4gICNpbmNsdWRlICJhdml2b2QuaCIKPiAgI2luY2x1ZGUg
-InJ2NzcwLmgiCj4gKyNpbmNsdWRlICJldmVyZ3JlZW4uaCIKPiAgI2luY2x1ZGUgImV2ZXJncmVl
-bl9ibGl0X3NoYWRlcnMuaCIKPiAgI2luY2x1ZGUgImV2ZXJncmVlbl9yZWcuaCIKPiAgI2luY2x1
-ZGUgImV2ZXJncmVlbmQuaCIKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9l
-dmVyZ3JlZW4uaCBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vZXZlcmdyZWVuLmgKPiBuZXcgZmls
-ZSBtb2RlIDEwMDY0NAo+IGluZGV4IDAwMDAwMDAwMDAwMDAuLjMwYzljYTk5Y2VkOTAKPiAtLS0g
-L2Rldi9udWxsCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9ldmVyZ3JlZW4uaAo+IEBA
-IC0wLDAgKzEsNTEgQEAKPiArLyogcmFkZW9uX2V2ZXJncmVlbi5oIC0tIFByaXZhdGUgaGVhZGVy
-IGZvciByYWRlb24gZHJpdmVyIC0qLSBsaW51eC1jIC0qLQo+ICsgKgo+ICsgKiBDb3B5cmlnaHQg
-MTk5OSBQcmVjaXNpb24gSW5zaWdodCwgSW5jLiwgQ2VkYXIgUGFyaywgVGV4YXMuCj4gKyAqIENv
-cHlyaWdodCAyMDAwIFZBIExpbnV4IFN5c3RlbXMsIEluYy4sIEZyZW1vbnQsIENhbGlmb3JuaWEu
-Cj4gKyAqIEFsbCByaWdodHMgcmVzZXJ2ZWQuCj4gKyAqCj4gKyAqIFBlcm1pc3Npb24gaXMgaGVy
-ZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhCj4g
-KyAqIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZp
-bGVzICh0aGUgIlNvZnR3YXJlIiksCj4gKyAqIHRvIGRlYWwgaW4gdGhlIFNvZnR3YXJlIHdpdGhv
-dXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRob3V0IGxpbWl0YXRpb24KPiArICogdGhlIHJp
-Z2h0cyB0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1
-YmxpY2Vuc2UsCj4gKyAqIGFuZC9vciBzZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0
-byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZQo+ICsgKiBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQg
-dG8gZG8gc28sIHN1YmplY3QgdG8gdGhlIGZvbGxvd2luZyBjb25kaXRpb25zOgo+ICsgKgo+ICsg
-KiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSAo
-aW5jbHVkaW5nIHRoZSBuZXh0Cj4gKyAqIHBhcmFncmFwaCkgc2hhbGwgYmUgaW5jbHVkZWQgaW4g
-YWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUKPiArICogU29mdHdhcmUu
-Cj4gKyAqCj4gKyAqIFRIRSBTT0ZUV0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdB
-UlJBTlRZIE9GIEFOWSBLSU5ELCBFWFBSRVNTIE9SCj4gKyAqIElNUExJRUQsIElOQ0xVRElORyBC
-VVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLAo+ICsg
-KiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiAg
-SU4gTk8gRVZFTlQgU0hBTEwKPiArICogUFJFQ0lTSU9OIElOU0lHSFQgQU5EL09SIElUUyBTVVBQ
-TElFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IKPiArICogT1RIRVIgTElB
-QklMSVRZLCBXSEVUSEVSIElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJ
-U0UsCj4gKyAqIEFSSVNJTkcgRlJPTSwgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUg
-U09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUgo+ICsgKiBERUFMSU5HUyBJTiBUSEUgU09GVFdB
-UkUuCj4gKyAqCj4gKyAqLwo+ICsKPiArI2lmbmRlZiBfX1JBREVPTl9FVkVSR1JFRU5fSF9fCj4g
-KyNkZWZpbmUgX19SQURFT05fRVZFUkdSRUVOX0hfXwo+ICsKPiArc3RydWN0IGV2ZXJncmVlbl9t
-Y19zYXZlOwo+ICtzdHJ1Y3QgcmFkZW9uX2RldmljZTsKPiArCj4gK2Jvb2wgZXZlcmdyZWVuX2lz
-X2Rpc3BsYXlfaHVuZyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4gK3ZvaWQgZXZlcmdy
-ZWVuX3ByaW50X2dwdV9zdGF0dXNfcmVncyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4g
-K3ZvaWQgZXZlcmdyZWVuX21jX3N0b3Aoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYsIHN0cnVj
-dCBldmVyZ3JlZW5fbWNfc2F2ZSAqc2F2ZSk7Cj4gK3ZvaWQgZXZlcmdyZWVuX21jX3Jlc3VtZShz
-dHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwgc3RydWN0IGV2ZXJncmVlbl9tY19zYXZlICpzYXZl
-KTsKPiAraW50IGV2ZXJncmVlbl9tY193YWl0X2Zvcl9pZGxlKHN0cnVjdCByYWRlb25fZGV2aWNl
-ICpyZGV2KTsKPiArdm9pZCBldmVyZ3JlZW5fbWNfcHJvZ3JhbShzdHJ1Y3QgcmFkZW9uX2Rldmlj
-ZSAqcmRldik7Cj4gK3ZvaWQgZXZlcmdyZWVuX2lycV9zdXNwZW5kKHN0cnVjdCByYWRlb25fZGV2
-aWNlICpyZGV2KTsKPiAraW50IGV2ZXJncmVlbl9tY19pbml0KHN0cnVjdCByYWRlb25fZGV2aWNl
-ICpyZGV2KTsKPiArdm9pZCBldmVyZ3JlZW5fZml4X3BjaV9tYXhfcmVhZF9yZXFfc2l6ZShzdHJ1
-Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4gK3ZvaWQgZXZlcmdyZWVuX3BjaWVfZ2VuMl9lbmFi
-bGUoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICt2b2lkIGV2ZXJncmVlbl9wcm9ncmFt
-X2FzcG0oc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICt2b2lkIHN1bW9fcmxjX2Zpbmko
-c3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICtpbnQgc3Vtb19ybGNfaW5pdChzdHJ1Y3Qg
-cmFkZW9uX2RldmljZSAqcmRldik7Cj4gK3ZvaWQgZXZlcmdyZWVuX2dwdV9wY2lfY29uZmlnX3Jl
-c2V0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiArdTMyIGV2ZXJncmVlbl9nZXRfbnVt
-YmVyX29mX2RyYW1fY2hhbm5lbHMoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICt2b2lk
-IGV2ZXJncmVlbl9wcmludF9ncHVfc3RhdHVzX3JlZ3Moc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJk
-ZXYpOwo+ICsKPiArI2VuZGlmICAgICAgICAgICAgICAgICAgICAgICAgIC8qIF9fUkFERU9OX0VW
-RVJHUkVFTl9IX18gKi8KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9uaS5j
-IGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9uaS5jCj4gaW5kZXggNTY0YTc3NWI0YjkwYy4uMWM5
-MDMwYTQ2MzFiOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pLmMKPiAr
-KysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL25pLmMKPiBAQCAtMzIsNiArMzIsNyBAQAo+ICAj
-aW5jbHVkZSAiYXRvbS5oIgo+ICAjaW5jbHVkZSAiY2F5bWFuX2JsaXRfc2hhZGVycy5oIgo+ICAj
-aW5jbHVkZSAiY2xlYXJzdGF0ZV9jYXltYW4uaCIKPiArI2luY2x1ZGUgImV2ZXJncmVlbi5oIgo+
-ICAjaW5jbHVkZSAibmlfcmVnLmgiCj4gICNpbmNsdWRlICJuaWQuaCIKPiAgI2luY2x1ZGUgInJh
-ZGVvbi5oIgo+IEBAIC0xOTAsMjEgKzE5MSw2IEBAIHN0YXRpYyBjb25zdCB1MzIgdG5fcmxjX3Nh
-dmVfcmVzdG9yZV9yZWdpc3Rlcl9saXN0W10gPQo+ICAgICAgICAgMHg4MDJjLAo+ICB9Owo+Cj4g
-LWV4dGVybiBib29sIGV2ZXJncmVlbl9pc19kaXNwbGF5X2h1bmcoc3RydWN0IHJhZGVvbl9kZXZp
-Y2UgKnJkZXYpOwo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5fcHJpbnRfZ3B1X3N0YXR1c19yZWdz
-KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiAtZXh0ZXJuIHZvaWQgZXZlcmdyZWVuX21j
-X3N0b3Aoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYsIHN0cnVjdCBldmVyZ3JlZW5fbWNfc2F2
-ZSAqc2F2ZSk7Cj4gLWV4dGVybiB2b2lkIGV2ZXJncmVlbl9tY19yZXN1bWUoc3RydWN0IHJhZGVv
-bl9kZXZpY2UgKnJkZXYsIHN0cnVjdCBldmVyZ3JlZW5fbWNfc2F2ZSAqc2F2ZSk7Cj4gLWV4dGVy
-biBpbnQgZXZlcmdyZWVuX21jX3dhaXRfZm9yX2lkbGUoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJk
-ZXYpOwo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5fbWNfcHJvZ3JhbShzdHJ1Y3QgcmFkZW9uX2Rl
-dmljZSAqcmRldik7Cj4gLWV4dGVybiB2b2lkIGV2ZXJncmVlbl9pcnFfc3VzcGVuZChzdHJ1Y3Qg
-cmFkZW9uX2RldmljZSAqcmRldik7Cj4gLWV4dGVybiBpbnQgZXZlcmdyZWVuX21jX2luaXQoc3Ry
-dWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5fZml4X3Bj
-aV9tYXhfcmVhZF9yZXFfc2l6ZShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4gLWV4dGVy
-biB2b2lkIGV2ZXJncmVlbl9wY2llX2dlbjJfZW5hYmxlKHN0cnVjdCByYWRlb25fZGV2aWNlICpy
-ZGV2KTsKPiAtZXh0ZXJuIHZvaWQgZXZlcmdyZWVuX3Byb2dyYW1fYXNwbShzdHJ1Y3QgcmFkZW9u
-X2RldmljZSAqcmRldik7Cj4gLWV4dGVybiB2b2lkIHN1bW9fcmxjX2Zpbmkoc3RydWN0IHJhZGVv
-bl9kZXZpY2UgKnJkZXYpOwo+IC1leHRlcm4gaW50IHN1bW9fcmxjX2luaXQoc3RydWN0IHJhZGVv
-bl9kZXZpY2UgKnJkZXYpOwo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5fZ3B1X3BjaV9jb25maWdf
-cmVzZXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+IC0KPiAgLyogRmlybXdhcmUgTmFt
-ZXMgKi8KPiAgTU9EVUxFX0ZJUk1XQVJFKCJyYWRlb24vQkFSVFNfcGZwLmJpbiIpOwo+ICBNT0RV
-TEVfRklSTVdBUkUoInJhZGVvbi9CQVJUU19tZS5iaW4iKTsKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL3JhZGVvbi9zaS5jIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9zaS5jCj4gaW5k
-ZXggZGUwNzkyODQyYWY4OS4uNDUwNzZjMjdkN2RlZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dw
-dS9kcm0vcmFkZW9uL3NpLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3NpLmMKPiBA
-QCAtMzIsNiArMzIsNyBAQAo+Cj4gICNpbmNsdWRlICJhdG9tLmgiCj4gICNpbmNsdWRlICJjbGVh
-cnN0YXRlX3NpLmgiCj4gKyNpbmNsdWRlICJldmVyZ3JlZW4uaCIKPiAgI2luY2x1ZGUgInJhZGVv
-bi5oIgo+ICAjaW5jbHVkZSAicmFkZW9uX2FzaWMuaCIKPiAgI2luY2x1ZGUgInJhZGVvbl9hdWRp
-by5oIgo+IEBAIC0xMjksMTIgKzEzMCw2IEBAIGV4dGVybiB2b2lkIHN1bW9fcmxjX2Zpbmkoc3Ry
-dWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICBleHRlcm4gaW50IHN1bW9fcmxjX2luaXQoc3Ry
-dWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICBleHRlcm4gaW50IHI2MDBfaWhfcmluZ19hbGxv
-YyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldik7Cj4gIGV4dGVybiB2b2lkIHI2MDBfaWhfcmlu
-Z19maW5pKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiAtZXh0ZXJuIHZvaWQgZXZlcmdy
-ZWVuX2ZpeF9wY2lfbWF4X3JlYWRfcmVxX3NpemUoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYp
-Owo+IC1leHRlcm4gdm9pZCBldmVyZ3JlZW5fbWNfc3RvcChzdHJ1Y3QgcmFkZW9uX2RldmljZSAq
-cmRldiwgc3RydWN0IGV2ZXJncmVlbl9tY19zYXZlICpzYXZlKTsKPiAtZXh0ZXJuIHZvaWQgZXZl
-cmdyZWVuX21jX3Jlc3VtZShzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldiwgc3RydWN0IGV2ZXJn
-cmVlbl9tY19zYXZlICpzYXZlKTsKPiAtZXh0ZXJuIHUzMiBldmVyZ3JlZW5fZ2V0X251bWJlcl9v
-Zl9kcmFtX2NoYW5uZWxzKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiAtZXh0ZXJuIHZv
-aWQgZXZlcmdyZWVuX3ByaW50X2dwdV9zdGF0dXNfcmVncyhzdHJ1Y3QgcmFkZW9uX2RldmljZSAq
-cmRldik7Cj4gLWV4dGVybiBib29sIGV2ZXJncmVlbl9pc19kaXNwbGF5X2h1bmcoc3RydWN0IHJh
-ZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICBzdGF0aWMgdm9pZCBzaV9lbmFibGVfZ3VpX2lkbGVfaW50
-ZXJydXB0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2LAo+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgYm9vbCBlbmFibGUpOwo+ICBzdGF0aWMgdm9pZCBzaV9pbml0
-X3BnKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPiAtLQo+IDIuMjUuMQo+Cj4gX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFp
-bGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
-dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Nov 16, 2020 at 01:37:11PM +0200, Jani Nikula wrote:
+> On Mon, 16 Nov 2020, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > Some identifiers have different names between their prototypes
+> > and the kernel-doc markup.
+> >
+> > Others need to be fixed, as kernel-doc markups should use this format:
+> >         identifier - description
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  drivers/gpu/drm/drm_atomic_state_helper.c     | 2 +-
+> >  drivers/gpu/drm/drm_connector.c               | 3 ++-
+> >  drivers/gpu/drm/drm_dp_helper.c               | 2 +-
+> >  drivers/gpu/drm/drm_framebuffer.c             | 2 +-
+> >  drivers/gpu/drm/drm_gem.c                     | 4 ++--
+> >  drivers/gpu/drm/drm_gem_vram_helper.c         | 2 +-
+> >  drivers/gpu/drm/drm_mode_object.c             | 2 +-
+> >  drivers/gpu/drm/drm_modes.c                   | 4 ++--
+> >  drivers/gpu/drm/drm_scdc_helper.c             | 2 +-
+> >  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
+> >  drivers/gpu/drm/i915/i915_gem_evict.c         | 2 +-
+> >  drivers/gpu/drm/i915/i915_perf.c              | 8 +++++---
+> 
+> For the i915 parts,
+> 
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> 
+> for merging via whichever tree.
+
+Smashed into drm-misc-next.
+-Daniel
+
+> 
+> >  drivers/gpu/drm/scheduler/sched_main.c        | 2 +-
+> >  drivers/gpu/drm/v3d/v3d_sched.c               | 2 +-
+> >  drivers/gpu/drm/vc4/vc4_bo.c                  | 2 +-
+> >  include/drm/drm_atomic_helper.h               | 4 ++--
+> >  include/drm/drm_connector.h                   | 2 +-
+> >  include/drm/drm_device.h                      | 2 +-
+> >  include/drm/drm_dsc.h                         | 3 ++-
+> >  include/drm/drm_gem_vram_helper.h             | 8 ++++----
+> >  20 files changed, 32 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > index 9ad74045158e..ddcf5c2c8e6a 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -526,41 +526,41 @@ __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state)
+> >  }
+> >  EXPORT_SYMBOL(__drm_atomic_helper_connector_destroy_state);
+> >  
+> >  /**
+> >   * drm_atomic_helper_connector_destroy_state - default state destroy hook
+> >   * @connector: drm connector
+> >   * @state: connector state object to release
+> >   *
+> >   * Default connector state destroy hook for drivers which don't have their own
+> >   * subclassed connector state structure.
+> >   */
+> >  void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
+> >  					  struct drm_connector_state *state)
+> >  {
+> >  	__drm_atomic_helper_connector_destroy_state(state);
+> >  	kfree(state);
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+> >  
+> >  /**
+> > - * __drm_atomic_helper_private_duplicate_state - copy atomic private state
+> > + * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
+> >   * @obj: CRTC object
+> >   * @state: new private object state
+> >   *
+> >   * Copies atomic state from a private objects's current state and resets inferred values.
+> >   * This is useful for drivers that subclass the private state.
+> >   */
+> >  void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
+> >  						     struct drm_private_state *state)
+> >  {
+> >  	memcpy(state, obj->state, sizeof(*state));
+> >  }
+> >  EXPORT_SYMBOL(__drm_atomic_helper_private_obj_duplicate_state);
+> >  
+> >  /**
+> >   * __drm_atomic_helper_bridge_duplicate_state() - Copy atomic bridge state
+> >   * @bridge: bridge object
+> >   * @state: atomic bridge state
+> >   *
+> >   * Copies atomic state from a bridge's current state and resets inferred values.
+> >   * This is useful for drivers that subclass the bridge state.
+> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > index 1913d8b4e16a..98b6ec45ef96 100644
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -1415,41 +1415,42 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
+> >  		break;
+> >  	case DRM_MODE_CONTENT_TYPE_CINEMA:
+> >  		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
+> >  		break;
+> >  	case DRM_MODE_CONTENT_TYPE_GAME:
+> >  		frame->content_type = HDMI_CONTENT_TYPE_GAME;
+> >  		break;
+> >  	case DRM_MODE_CONTENT_TYPE_PHOTO:
+> >  		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
+> >  		break;
+> >  	default:
+> >  		/* Graphics is the default(0) */
+> >  		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
+> >  	}
+> >  
+> >  	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
+> >  }
+> >  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
+> >  
+> >  /**
+> > - * drm_mode_attach_tv_margin_properties - attach TV connector margin properties
+> > + * drm_connector_attach_tv_margin_properties - attach TV connector margin
+> > + * 	properties
+> >   * @connector: DRM connector
+> >   *
+> >   * Called by a driver when it needs to attach TV margin props to a connector.
+> >   * Typically used on SDTV and HDMI connectors.
+> >   */
+> >  void drm_connector_attach_tv_margin_properties(struct drm_connector *connector)
+> >  {
+> >  	struct drm_device *dev = connector->dev;
+> >  
+> >  	drm_object_attach_property(&connector->base,
+> >  				   dev->mode_config.tv_left_margin_property,
+> >  				   0);
+> >  	drm_object_attach_property(&connector->base,
+> >  				   dev->mode_config.tv_right_margin_property,
+> >  				   0);
+> >  	drm_object_attach_property(&connector->base,
+> >  				   dev->mode_config.tv_top_margin_property,
+> >  				   0);
+> >  	drm_object_attach_property(&connector->base,
+> >  				   dev->mode_config.tv_bottom_margin_property,
+> > diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
+> > index 37ec3b94389c..5bd0934004e3 100644
+> > --- a/drivers/gpu/drm/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/drm_dp_helper.c
+> > @@ -1144,41 +1144,41 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+> >  	switch (type) {
+> >  	case DP_DS_PORT_TYPE_DP:
+> >  	case DP_DS_PORT_TYPE_DP_DUALMODE:
+> >  		return DRM_MODE_SUBCONNECTOR_DisplayPort;
+> >  	case DP_DS_PORT_TYPE_VGA:
+> >  		return DRM_MODE_SUBCONNECTOR_VGA;
+> >  	case DP_DS_PORT_TYPE_DVI:
+> >  		return DRM_MODE_SUBCONNECTOR_DVID;
+> >  	case DP_DS_PORT_TYPE_HDMI:
+> >  		return DRM_MODE_SUBCONNECTOR_HDMIA;
+> >  	case DP_DS_PORT_TYPE_WIRELESS:
+> >  		return DRM_MODE_SUBCONNECTOR_Wireless;
+> >  	case DP_DS_PORT_TYPE_NON_EDID:
+> >  	default:
+> >  		return DRM_MODE_SUBCONNECTOR_Unknown;
+> >  	}
+> >  }
+> >  EXPORT_SYMBOL(drm_dp_subconnector_type);
+> >  
+> >  /**
+> > - * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
+> > + * drm_dp_set_subconnector_property - set subconnector for DP connector
+> >   * @connector: connector to set property on
+> >   * @status: connector status
+> >   * @dpcd: DisplayPort configuration data
+> >   * @port_cap: port capabilities
+> >   *
+> >   * Called by a driver on every detect event.
+> >   */
+> >  void drm_dp_set_subconnector_property(struct drm_connector *connector,
+> >  				      enum drm_connector_status status,
+> >  				      const u8 *dpcd,
+> >  				      const u8 port_cap[4])
+> >  {
+> >  	enum drm_mode_subconnector subconnector = DRM_MODE_SUBCONNECTOR_Unknown;
+> >  
+> >  	if (status == connector_status_connected)
+> >  		subconnector = drm_dp_subconnector_type(dpcd, port_cap);
+> >  	drm_object_property_set_value(&connector->base,
+> >  			connector->dev->mode_config.dp_subconnector_property,
+> >  			subconnector);
+> >  }
+> > diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+> > index 2f5b0c2bb0fe..aca62ed51e82 100644
+> > --- a/drivers/gpu/drm/drm_framebuffer.c
+> > +++ b/drivers/gpu/drm/drm_framebuffer.c
+> > @@ -535,41 +535,41 @@ int drm_mode_getfb(struct drm_device *dev,
+> >  
+> >  	/* GET_FB() is an unprivileged ioctl so we must not return a
+> >  	 * buffer-handle to non-master processes! For
+> >  	 * backwards-compatibility reasons, we cannot make GET_FB() privileged,
+> >  	 * so just return an invalid handle for non-masters.
+> >  	 */
+> >  	if (!drm_is_current_master(file_priv) && !capable(CAP_SYS_ADMIN)) {
+> >  		r->handle = 0;
+> >  		ret = 0;
+> >  		goto out;
+> >  	}
+> >  
+> >  	ret = fb->funcs->create_handle(fb, file_priv, &r->handle);
+> >  
+> >  out:
+> >  	drm_framebuffer_put(fb);
+> >  	return ret;
+> >  }
+> >  
+> >  /**
+> > - * drm_mode_getfb2 - get extended FB info
+> > + * drm_mode_getfb2_ioctl - get extended FB info
+> >   * @dev: drm device for the ioctl
+> >   * @data: data pointer for the ioctl
+> >   * @file_priv: drm file for the ioctl call
+> >   *
+> >   * Lookup the FB given its ID and return info about it.
+> >   *
+> >   * Called by the user via ioctl.
+> >   *
+> >   * Returns:
+> >   * Zero on success, negative errno on failure.
+> >   */
+> >  int drm_mode_getfb2_ioctl(struct drm_device *dev,
+> >  			  void *data, struct drm_file *file_priv)
+> >  {
+> >  	struct drm_mode_fb_cmd2 *r = data;
+> >  	struct drm_framebuffer *fb;
+> >  	unsigned int i;
+> >  	int ret;
+> >  
+> >  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+> > diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> > index eb2d23e04be9..92f89cee213e 100644
+> > --- a/drivers/gpu/drm/drm_gem.c
+> > +++ b/drivers/gpu/drm/drm_gem.c
+> > @@ -850,41 +850,41 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+> >  	}
+> >  
+> >  	if (!obj->name) {
+> >  		ret = idr_alloc(&dev->object_name_idr, obj, 1, 0, GFP_KERNEL);
+> >  		if (ret < 0)
+> >  			goto err;
+> >  
+> >  		obj->name = ret;
+> >  	}
+> >  
+> >  	args->name = (uint64_t) obj->name;
+> >  	ret = 0;
+> >  
+> >  err:
+> >  	mutex_unlock(&dev->object_name_lock);
+> >  	drm_gem_object_put(obj);
+> >  	return ret;
+> >  }
+> >  
+> >  /**
+> > - * drm_gem_open - implementation of the GEM_OPEN ioctl
+> > + * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
+> >   * @dev: drm_device
+> >   * @data: ioctl data
+> >   * @file_priv: drm file-private structure
+> >   *
+> >   * Open an object using the global name, returning a handle and the size.
+> >   *
+> >   * This handle (of course) holds a reference to the object, so the object
+> >   * will not go away until the handle is deleted.
+> >   */
+> >  int
+> >  drm_gem_open_ioctl(struct drm_device *dev, void *data,
+> >  		   struct drm_file *file_priv)
+> >  {
+> >  	struct drm_gem_open *args = data;
+> >  	struct drm_gem_object *obj;
+> >  	int ret;
+> >  	u32 handle;
+> >  
+> >  	if (!drm_core_check_feature(dev, DRIVER_GEM))
+> >  		return -EOPNOTSUPP;
+> > @@ -895,41 +895,41 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
+> >  		drm_gem_object_get(obj);
+> >  	} else {
+> >  		mutex_unlock(&dev->object_name_lock);
+> >  		return -ENOENT;
+> >  	}
+> >  
+> >  	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
+> >  	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
+> >  	if (ret)
+> >  		goto err;
+> >  
+> >  	args->handle = handle;
+> >  	args->size = obj->size;
+> >  
+> >  err:
+> >  	drm_gem_object_put(obj);
+> >  	return ret;
+> >  }
+> >  
+> >  /**
+> > - * gem_gem_open - initalizes GEM file-private structures at devnode open time
+> > + * drm_gem_open - initalizes GEM file-private structures at devnode open time
+> >   * @dev: drm_device which is being opened by userspace
+> >   * @file_private: drm file-private structure to set up
+> >   *
+> >   * Called at device open time, sets up the structure for handling refcounting
+> >   * of mm objects.
+> >   */
+> >  void
+> >  drm_gem_open(struct drm_device *dev, struct drm_file *file_private)
+> >  {
+> >  	idr_init_base(&file_private->object_idr, 1);
+> >  	spin_lock_init(&file_private->table_lock);
+> >  }
+> >  
+> >  /**
+> >   * drm_gem_release - release file-private GEM resources
+> >   * @dev: drm_device which is being closed by userspace
+> >   * @file_private: drm file-private structure to clean up
+> >   *
+> >   * Called at close time when the filp is going away.
+> >   *
+> > diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
+> > index 889a06696f7e..02ca22e90290 100644
+> > --- a/drivers/gpu/drm/drm_gem_vram_helper.c
+> > +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
+> > @@ -600,41 +600,41 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
+> >   * Helpers for struct drm_gem_object_funcs
+> >   */
+> >  
+> >  /**
+> >   * drm_gem_vram_object_free() - \
+> >  	Implements &struct drm_gem_object_funcs.free
+> >   * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
+> >   */
+> >  static void drm_gem_vram_object_free(struct drm_gem_object *gem)
+> >  {
+> >  	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
+> >  
+> >  	drm_gem_vram_put(gbo);
+> >  }
+> >  
+> >  /*
+> >   * Helpers for dump buffers
+> >   */
+> >  
+> >  /**
+> > - * drm_gem_vram_driver_create_dumb() - \
+> > + * drm_gem_vram_driver_dumb_create() - \
+> >  	Implements &struct drm_driver.dumb_create
+> >   * @file:		the DRM file
+> >   * @dev:		the DRM device
+> >   * @args:		the arguments as provided to \
+> >  				&struct drm_driver.dumb_create
+> >   *
+> >   * This function requires the driver to use @drm_device.vram_mm for its
+> >   * instance of VRAM MM.
+> >   *
+> >   * Returns:
+> >   * 0 on success, or
+> >   * a negative error code otherwise.
+> >   */
+> >  int drm_gem_vram_driver_dumb_create(struct drm_file *file,
+> >  				    struct drm_device *dev,
+> >  				    struct drm_mode_create_dumb *args)
+> >  {
+> >  	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
+> >  		return -EINVAL;
+> >  
+> > diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> > index db05f386a709..b26588b52795 100644
+> > --- a/drivers/gpu/drm/drm_mode_object.c
+> > +++ b/drivers/gpu/drm/drm_mode_object.c
+> > @@ -98,41 +98,41 @@ void drm_mode_object_register(struct drm_device *dev,
+> >   * Free @id from @dev's unique identifier pool.
+> >   * This function can be called multiple times, and guards against
+> >   * multiple removals.
+> >   * These modeset identifiers are _not_ reference counted. Hence don't use this
+> >   * for reference counted modeset objects like framebuffers.
+> >   */
+> >  void drm_mode_object_unregister(struct drm_device *dev,
+> >  				struct drm_mode_object *object)
+> >  {
+> >  	WARN_ON(!dev->driver->load && dev->registered && !object->free_cb);
+> >  
+> >  	mutex_lock(&dev->mode_config.idr_mutex);
+> >  	if (object->id) {
+> >  		idr_remove(&dev->mode_config.object_idr, object->id);
+> >  		object->id = 0;
+> >  	}
+> >  	mutex_unlock(&dev->mode_config.idr_mutex);
+> >  }
+> >  
+> >  /**
+> > - * drm_lease_required - check types which must be leased to be used
+> > + * drm_mode_object_lease_required - check types which must be leased to be used
+> >   * @type: type of object
+> >   *
+> >   * Returns whether the provided type of drm_mode_object must
+> >   * be owned or leased to be used by a process.
+> >   */
+> >  bool drm_mode_object_lease_required(uint32_t type)
+> >  {
+> >  	switch(type) {
+> >  	case DRM_MODE_OBJECT_CRTC:
+> >  	case DRM_MODE_OBJECT_CONNECTOR:
+> >  	case DRM_MODE_OBJECT_PLANE:
+> >  		return true;
+> >  	default:
+> >  		return false;
+> >  	}
+> >  }
+> >  
+> >  struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
+> >  					       struct drm_file *file_priv,
+> >  					       uint32_t id, uint32_t type)
+> > diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+> > index 501b4fe55a3d..33fb2f05ce66 100644
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1872,41 +1872,41 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
+> >  				    cmd->margins);
+> >  	else
+> >  		mode = drm_gtf_mode(dev,
+> >  				    cmd->xres, cmd->yres,
+> >  				    cmd->refresh_specified ? cmd->refresh : 60,
+> >  				    cmd->interlace,
+> >  				    cmd->margins);
+> >  	if (!mode)
+> >  		return NULL;
+> >  
+> >  	mode->type |= DRM_MODE_TYPE_USERDEF;
+> >  	/* fix up 1368x768: GFT/CVT can't express 1366 width due to alignment */
+> >  	if (cmd->xres == 1366)
+> >  		drm_mode_fixup_1366x768(mode);
+> >  	drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
+> >  	return mode;
+> >  }
+> >  EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
+> >  
+> >  /**
+> > - * drm_crtc_convert_to_umode - convert a drm_display_mode into a modeinfo
+> > + * drm_mode_convert_to_umode - convert a drm_display_mode into a modeinfo
+> >   * @out: drm_mode_modeinfo struct to return to the user
+> >   * @in: drm_display_mode to use
+> >   *
+> >   * Convert a drm_display_mode into a drm_mode_modeinfo structure to return to
+> >   * the user.
+> >   */
+> >  void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
+> >  			       const struct drm_display_mode *in)
+> >  {
+> >  	out->clock = in->clock;
+> >  	out->hdisplay = in->hdisplay;
+> >  	out->hsync_start = in->hsync_start;
+> >  	out->hsync_end = in->hsync_end;
+> >  	out->htotal = in->htotal;
+> >  	out->hskew = in->hskew;
+> >  	out->vdisplay = in->vdisplay;
+> >  	out->vsync_start = in->vsync_start;
+> >  	out->vsync_end = in->vsync_end;
+> >  	out->vtotal = in->vtotal;
+> >  	out->vscan = in->vscan;
+> > @@ -1924,41 +1924,41 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
+> >  	case HDMI_PICTURE_ASPECT_64_27:
+> >  		out->flags |= DRM_MODE_FLAG_PIC_AR_64_27;
+> >  		break;
+> >  	case HDMI_PICTURE_ASPECT_256_135:
+> >  		out->flags |= DRM_MODE_FLAG_PIC_AR_256_135;
+> >  		break;
+> >  	default:
+> >  		WARN(1, "Invalid aspect ratio (0%x) on mode\n",
+> >  		     in->picture_aspect_ratio);
+> >  		fallthrough;
+> >  	case HDMI_PICTURE_ASPECT_NONE:
+> >  		out->flags |= DRM_MODE_FLAG_PIC_AR_NONE;
+> >  		break;
+> >  	}
+> >  
+> >  	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
+> >  	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
+> >  }
+> >  
+> >  /**
+> > - * drm_crtc_convert_umode - convert a modeinfo into a drm_display_mode
+> > + * drm_mode_convert_umode - convert a modeinfo into a drm_display_mode
+> >   * @dev: drm device
+> >   * @out: drm_display_mode to return to the user
+> >   * @in: drm_mode_modeinfo to use
+> >   *
+> >   * Convert a drm_mode_modeinfo into a drm_display_mode structure to return to
+> >   * the caller.
+> >   *
+> >   * Returns:
+> >   * Zero on success, negative errno on failure.
+> >   */
+> >  int drm_mode_convert_umode(struct drm_device *dev,
+> >  			   struct drm_display_mode *out,
+> >  			   const struct drm_mode_modeinfo *in)
+> >  {
+> >  	if (in->clock > INT_MAX || in->vrefresh > INT_MAX)
+> >  		return -ERANGE;
+> >  
+> >  	out->clock = in->clock;
+> >  	out->hdisplay = in->hdisplay;
+> >  	out->hsync_start = in->hsync_start;
+> > diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
+> > index 311e71bbba5b..991b8c86d78d 100644
+> > --- a/drivers/gpu/drm/drm_scdc_helper.c
+> > +++ b/drivers/gpu/drm/drm_scdc_helper.c
+> > @@ -108,41 +108,41 @@ ssize_t drm_scdc_write(struct i2c_adapter *adapter, u8 offset,
+> >  
+> >  	msg.buf = data;
+> >  
+> >  	memcpy(data, &offset, sizeof(offset));
+> >  	memcpy(data + 1, buffer, size);
+> >  
+> >  	err = i2c_transfer(adapter, &msg, 1);
+> >  
+> >  	kfree(data);
+> >  
+> >  	if (err < 0)
+> >  		return err;
+> >  	if (err != 1)
+> >  		return -EPROTO;
+> >  
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL(drm_scdc_write);
+> >  
+> >  /**
+> > - * drm_scdc_check_scrambling_status - what is status of scrambling?
+> > + * drm_scdc_get_scrambling_status - what is status of scrambling?
+> >   * @adapter: I2C adapter for DDC channel
+> >   *
+> >   * Reads the scrambler status over SCDC, and checks the
+> >   * scrambling status.
+> >   *
+> >   * Returns:
+> >   * True if the scrambling is enabled, false otherwise.
+> >   */
+> >  bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
+> >  {
+> >  	u8 status;
+> >  	int ret;
+> >  
+> >  	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
+> >  	if (ret < 0) {
+> >  		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
+> >  		return false;
+> >  	}
+> >  
+> >  	return status & SCDC_SCRAMBLING_STATUS;
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> > index a95e6a2ac698..8753bab20ce8 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
+> > @@ -4573,41 +4573,41 @@ static void sanitize_dpll_state(struct drm_i915_private *i915,
+> >  	if (!pll->on || pll->active_mask)
+> >  		return;
+> >  
+> >  	drm_dbg_kms(&i915->drm,
+> >  		    "%s enabled but not in use, disabling\n",
+> >  		    pll->info->name);
+> >  
+> >  	pll->info->funcs->disable(i915, pll);
+> >  	pll->on = false;
+> >  }
+> >  
+> >  void intel_dpll_sanitize_state(struct drm_i915_private *i915)
+> >  {
+> >  	int i;
+> >  
+> >  	for (i = 0; i < i915->dpll.num_shared_dpll; i++)
+> >  		sanitize_dpll_state(i915, &i915->dpll.shared_dplls[i]);
+> >  }
+> >  
+> >  /**
+> > - * intel_shared_dpll_dump_hw_state - write hw_state to dmesg
+> > + * intel_dpll_dump_hw_state - write hw_state to dmesg
+> >   * @dev_priv: i915 drm device
+> >   * @hw_state: hw state to be written to the log
+> >   *
+> >   * Write the relevant values in @hw_state to dmesg using drm_dbg_kms.
+> >   */
+> >  void intel_dpll_dump_hw_state(struct drm_i915_private *dev_priv,
+> >  			      const struct intel_dpll_hw_state *hw_state)
+> >  {
+> >  	if (dev_priv->dpll.mgr) {
+> >  		dev_priv->dpll.mgr->dump_hw_state(dev_priv, hw_state);
+> >  	} else {
+> >  		/* fallback for platforms that don't use the shared dpll
+> >  		 * infrastructure
+> >  		 */
+> >  		drm_dbg_kms(&dev_priv->drm,
+> >  			    "dpll_hw_state: dpll: 0x%x, dpll_md: 0x%x, "
+> >  			    "fp0: 0x%x, fp1: 0x%x\n",
+> >  			    hw_state->dpll,
+> >  			    hw_state->dpll_md,
+> >  			    hw_state->fp0,
+> > diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
+> > index 6501939929d5..e1a66c8245b8 100644
+> > --- a/drivers/gpu/drm/i915/i915_gem_evict.c
+> > +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
+> > @@ -221,41 +221,41 @@ i915_gem_evict_something(struct i915_address_space *vm,
+> >  	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
+> >  		__i915_vma_unpin(vma);
+> >  		if (ret == 0)
+> >  			ret = __i915_vma_unbind(vma);
+> >  	}
+> >  
+> >  	while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
+> >  		vma = container_of(node, struct i915_vma, node);
+> >  
+> >  		/* If we find any non-objects (!vma), we cannot evict them */
+> >  		if (vma->node.color != I915_COLOR_UNEVICTABLE)
+> >  			ret = __i915_vma_unbind(vma);
+> >  		else
+> >  			ret = -ENOSPC; /* XXX search failed, try again? */
+> >  	}
+> >  
+> >  	return ret;
+> >  }
+> >  
+> >  /**
+> > - * i915_gem_evict_for_vma - Evict vmas to make room for binding a new one
+> > + * i915_gem_evict_for_node - Evict vmas to make room for binding a new one
+> >   * @vm: address space to evict from
+> >   * @target: range (and color) to evict for
+> >   * @flags: additional flags to control the eviction algorithm
+> >   *
+> >   * This function will try to evict vmas that overlap the target node.
+> >   *
+> >   * To clarify: This is for freeing up virtual address space, not for freeing
+> >   * memory in e.g. the shrinker.
+> >   */
+> >  int i915_gem_evict_for_node(struct i915_address_space *vm,
+> >  			    struct drm_mm_node *target,
+> >  			    unsigned int flags)
+> >  {
+> >  	LIST_HEAD(eviction_list);
+> >  	struct drm_mm_node *node;
+> >  	u64 start = target->start;
+> >  	u64 end = start + target->size;
+> >  	struct i915_vma *vma, *next;
+> >  	int ret = 0;
+> >  
+> > diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
+> > index e94976976571..3ced82820483 100644
+> > --- a/drivers/gpu/drm/i915/i915_perf.c
+> > +++ b/drivers/gpu/drm/i915/i915_perf.c
+> > @@ -608,41 +608,42 @@ static int append_oa_sample(struct i915_perf_stream *stream,
+> >  
+> >  	if ((count - *offset) < header.size)
+> >  		return -ENOSPC;
+> >  
+> >  	buf += *offset;
+> >  	if (copy_to_user(buf, &header, sizeof(header)))
+> >  		return -EFAULT;
+> >  	buf += sizeof(header);
+> >  
+> >  	if (sample_flags & SAMPLE_OA_REPORT) {
+> >  		if (copy_to_user(buf, report, report_size))
+> >  			return -EFAULT;
+> >  	}
+> >  
+> >  	(*offset) += header.size;
+> >  
+> >  	return 0;
+> >  }
+> >  
+> >  /**
+> > - * Copies all buffered OA reports into userspace read() buffer.
+> > + * gen8_append_oa_reports - Copies all buffered OA reports into
+> > + *			    userspace read() buffer.
+> >   * @stream: An i915-perf stream opened for OA metrics
+> >   * @buf: destination buffer given by userspace
+> >   * @count: the number of bytes userspace wants to read
+> >   * @offset: (inout): the current position for writing into @buf
+> >   *
+> >   * Notably any error condition resulting in a short read (-%ENOSPC or
+> >   * -%EFAULT) will be returned even though one or more records may
+> >   * have been successfully copied. In this case it's up to the caller
+> >   * to decide if the error should be squashed before returning to
+> >   * userspace.
+> >   *
+> >   * Note: reports are consumed from the head, and appended to the
+> >   * tail, so the tail chases the head?... If you think that's mad
+> >   * and back-to-front you're not alone, but this follows the
+> >   * Gen PRM naming convention.
+> >   *
+> >   * Returns: 0 on success, negative error code on failure.
+> >   */
+> >  static int gen8_append_oa_reports(struct i915_perf_stream *stream,
+> >  				  char __user *buf,
+> > @@ -900,41 +901,42 @@ static int gen8_oa_read(struct i915_perf_stream *stream,
+> >  		/*
+> >  		 * Note: .oa_enable() is expected to re-init the oabuffer and
+> >  		 * reset GEN8_OASTATUS for us
+> >  		 */
+> >  		oastatus = intel_uncore_read(uncore, oastatus_reg);
+> >  	}
+> >  
+> >  	if (oastatus & GEN8_OASTATUS_REPORT_LOST) {
+> >  		ret = append_oa_status(stream, buf, count, offset,
+> >  				       DRM_I915_PERF_RECORD_OA_REPORT_LOST);
+> >  		if (ret)
+> >  			return ret;
+> >  		intel_uncore_write(uncore, oastatus_reg,
+> >  				   oastatus & ~GEN8_OASTATUS_REPORT_LOST);
+> >  	}
+> >  
+> >  	return gen8_append_oa_reports(stream, buf, count, offset);
+> >  }
+> >  
+> >  /**
+> > - * Copies all buffered OA reports into userspace read() buffer.
+> > + * gen7_append_oa_reports - Copies all buffered OA reports into
+> > + *			    userspace read() buffer.
+> >   * @stream: An i915-perf stream opened for OA metrics
+> >   * @buf: destination buffer given by userspace
+> >   * @count: the number of bytes userspace wants to read
+> >   * @offset: (inout): the current position for writing into @buf
+> >   *
+> >   * Notably any error condition resulting in a short read (-%ENOSPC or
+> >   * -%EFAULT) will be returned even though one or more records may
+> >   * have been successfully copied. In this case it's up to the caller
+> >   * to decide if the error should be squashed before returning to
+> >   * userspace.
+> >   *
+> >   * Note: reports are consumed from the head, and appended to the
+> >   * tail, so the tail chases the head?... If you think that's mad
+> >   * and back-to-front you're not alone, but this follows the
+> >   * Gen PRM naming convention.
+> >   *
+> >   * Returns: 0 on success, negative error code on failure.
+> >   */
+> >  static int gen7_append_oa_reports(struct i915_perf_stream *stream,
+> >  				  char __user *buf,
+> > @@ -3210,41 +3212,41 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
+> >  		 * reconfiguration inline from that context. The update
+> >  		 * will then be ordered with respect to submission on that
+> >  		 * context.
+> >  		 *
+> >  		 * When set globally, we use a low priority kernel context,
+> >  		 * so it will effectively take effect when idle.
+> >  		 */
+> >  		err = emit_oa_config(stream, config, oa_context(stream), NULL);
+> >  		if (!err)
+> >  			config = xchg(&stream->oa_config, config);
+> >  		else
+> >  			ret = err;
+> >  	}
+> >  
+> >  	i915_oa_config_put(config);
+> >  
+> >  	return ret;
+> >  }
+> >  
+> >  /**
+> > - * i915_perf_ioctl - support ioctl() usage with i915 perf stream FDs
+> > + * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
+> >   * @stream: An i915 perf stream
+> >   * @cmd: the ioctl request
+> >   * @arg: the ioctl data
+> >   *
+> >   * Note: The &perf->lock mutex has been taken to serialize
+> >   * with any non-file-operation driver hooks.
+> >   *
+> >   * Returns: zero on success or a negative error code. Returns -EINVAL for
+> >   * an unknown ioctl request.
+> >   */
+> >  static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
+> >  				   unsigned int cmd,
+> >  				   unsigned long arg)
+> >  {
+> >  	switch (cmd) {
+> >  	case I915_PERF_IOCTL_ENABLE:
+> >  		i915_perf_enable_locked(stream);
+> >  		return 0;
+> >  	case I915_PERF_IOCTL_DISABLE:
+> >  		i915_perf_disable_locked(stream);
+> > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> > index da24c4e8b9fb..b498d474ef9e 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > @@ -430,41 +430,41 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+> >  			 */
+> >  			if (bad != s_job)
+> >  				sched->ops->free_job(s_job);
+> >  			else
+> >  				sched->free_guilty = true;
+> >  		}
+> >  	}
+> >  
+> >  	/*
+> >  	 * Stop pending timer in flight as we rearm it in  drm_sched_start. This
+> >  	 * avoids the pending timeout work in progress to fire right away after
+> >  	 * this TDR finished and before the newly restarted jobs had a
+> >  	 * chance to complete.
+> >  	 */
+> >  	cancel_delayed_work(&sched->work_tdr);
+> >  }
+> >  
+> >  EXPORT_SYMBOL(drm_sched_stop);
+> >  
+> >  /**
+> > - * drm_sched_job_recovery - recover jobs after a reset
+> > + * drm_sched_start - recover jobs after a reset
+> >   *
+> >   * @sched: scheduler instance
+> >   * @full_recovery: proceed with complete sched restart
+> >   *
+> >   */
+> >  void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+> >  {
+> >  	struct drm_sched_job *s_job, *tmp;
+> >  	int r;
+> >  
+> >  	/*
+> >  	 * Locking the list is not required here as the sched thread is parked
+> >  	 * so no new jobs are being inserted or removed. Also concurrent
+> >  	 * GPU recovers can't run in parallel.
+> >  	 */
+> >  	list_for_each_entry_safe(s_job, tmp, &sched->ring_mirror_list, node) {
+> >  		struct dma_fence *fence = s_job->s_fence->parent;
+> >  
+> >  		atomic_inc(&sched->hw_rq_count);
+> >  
+> > diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+> > index 0747614a78f0..f968f389633a 100644
+> > --- a/drivers/gpu/drm/v3d/v3d_sched.c
+> > +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+> > @@ -47,41 +47,41 @@ to_tfu_job(struct drm_sched_job *sched_job)
+> >  {
+> >  	return container_of(sched_job, struct v3d_tfu_job, base.base);
+> >  }
+> >  
+> >  static struct v3d_csd_job *
+> >  to_csd_job(struct drm_sched_job *sched_job)
+> >  {
+> >  	return container_of(sched_job, struct v3d_csd_job, base.base);
+> >  }
+> >  
+> >  static void
+> >  v3d_job_free(struct drm_sched_job *sched_job)
+> >  {
+> >  	struct v3d_job *job = to_v3d_job(sched_job);
+> >  
+> >  	drm_sched_job_cleanup(sched_job);
+> >  	v3d_job_put(job);
+> >  }
+> >  
+> >  /**
+> > - * Returns the fences that the job depends on, one by one.
+> > + * v3d_job_dependency - Returns the fences that the job depends on, one by one.
+> >   *
+> >   * If placed in the scheduler's .dependency method, the corresponding
+> >   * .run_job won't be called until all of them have been signaled.
+> >   */
+> >  static struct dma_fence *
+> >  v3d_job_dependency(struct drm_sched_job *sched_job,
+> >  		   struct drm_sched_entity *s_entity)
+> >  {
+> >  	struct v3d_job *job = to_v3d_job(sched_job);
+> >  
+> >  	/* XXX: Wait on a fence for switching the GMP if necessary,
+> >  	 * and then do so.
+> >  	 */
+> >  
+> >  	if (!xa_empty(&job->deps))
+> >  		return xa_erase(&job->deps, job->last_dep++);
+> >  
+> >  	return NULL;
+> >  }
+> >  
+> > diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
+> > index a21a6c53ffcf..469d1b4f2643 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_bo.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_bo.c
+> > @@ -374,41 +374,41 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
+> >  		vc4_bo_set_label(&bo->base.base, type);
+> >  	mutex_unlock(&vc4->bo_lock);
+> >  	return bo;
+> >  }
+> >  
+> >  static const struct vm_operations_struct vc4_vm_ops = {
+> >  	.fault = vc4_fault,
+> >  	.open = drm_gem_vm_open,
+> >  	.close = drm_gem_vm_close,
+> >  };
+> >  
+> >  static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
+> >  	.free = vc4_free_object,
+> >  	.export = vc4_prime_export,
+> >  	.get_sg_table = drm_gem_cma_prime_get_sg_table,
+> >  	.vmap = vc4_prime_vmap,
+> >  	.vm_ops = &vc4_vm_ops,
+> >  };
+> >  
+> >  /**
+> > - * vc4_gem_create_object - Implementation of driver->gem_create_object.
+> > + * vc4_create_object - Implementation of driver->gem_create_object.
+> >   * @dev: DRM device
+> >   * @size: Size in bytes of the memory the object will reference
+> >   *
+> >   * This lets the CMA helpers allocate object structs for us, and keep
+> >   * our BO stats correct.
+> >   */
+> >  struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
+> >  {
+> >  	struct vc4_dev *vc4 = to_vc4_dev(dev);
+> >  	struct vc4_bo *bo;
+> >  
+> >  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+> >  	if (!bo)
+> >  		return ERR_PTR(-ENOMEM);
+> >  
+> >  	bo->madv = VC4_MADV_WILLNEED;
+> >  	refcount_set(&bo->usecnt, 0);
+> >  	mutex_init(&bo->madv_lock);
+> >  	mutex_lock(&vc4->bo_lock);
+> >  	bo->label = VC4_BO_TYPE_KERNEL;
+> > diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> > index 85df04c8e62f..5f47720440fa 100644
+> > --- a/include/drm/drm_atomic_helper.h
+> > +++ b/include/drm/drm_atomic_helper.h
+> > @@ -150,54 +150,54 @@ int drm_atomic_helper_page_flip_target(
+> >  int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+> >  				       u16 *red, u16 *green, u16 *blue,
+> >  				       uint32_t size,
+> >  				       struct drm_modeset_acquire_ctx *ctx);
+> >  
+> >  /**
+> >   * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
+> >   * @plane: the loop cursor
+> >   * @crtc:  the CRTC whose planes are iterated
+> >   *
+> >   * This iterates over the current state, useful (for example) when applying
+> >   * atomic state after it has been checked and swapped.  To iterate over the
+> >   * planes which *will* be attached (more useful in code called from
+> >   * &drm_mode_config_funcs.atomic_check) see
+> >   * drm_atomic_crtc_state_for_each_plane().
+> >   */
+> >  #define drm_atomic_crtc_for_each_plane(plane, crtc) \
+> >  	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
+> >  
+> >  /**
+> > - * drm_crtc_atomic_state_for_each_plane - iterate over attached planes in new state
+> > + * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
+> >   * @plane: the loop cursor
+> >   * @crtc_state: the incoming CRTC state
+> >   *
+> >   * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
+> >   * attached if the specified state is applied.  Useful during for example
+> >   * in code called from &drm_mode_config_funcs.atomic_check operations, to
+> >   * validate the incoming state.
+> >   */
+> >  #define drm_atomic_crtc_state_for_each_plane(plane, crtc_state) \
+> >  	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask)
+> >  
+> >  /**
+> > - * drm_crtc_atomic_state_for_each_plane_state - iterate over attached planes in new state
+> > + * drm_atomic_crtc_state_for_each_plane_state - iterate over attached planes in new state
+> >   * @plane: the loop cursor
+> >   * @plane_state: loop cursor for the plane's state, must be const
+> >   * @crtc_state: the incoming CRTC state
+> >   *
+> >   * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
+> >   * attached if the specified state is applied.  Useful during for example
+> >   * in code called from &drm_mode_config_funcs.atomic_check operations, to
+> >   * validate the incoming state.
+> >   *
+> >   * Compared to just drm_atomic_crtc_state_for_each_plane() this also fills in a
+> >   * const plane_state. This is useful when a driver just wants to peek at other
+> >   * active planes on this CRTC, but does not need to change it.
+> >   */
+> >  #define drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state) \
+> >  	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask) \
+> >  		for_each_if ((plane_state = \
+> >  			      __drm_atomic_get_current_plane_state((crtc_state)->state, \
+> >  								   plane)))
+> >  
+> >  /**
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 928136556174..fcdc58d8b88b 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -67,41 +67,41 @@ enum drm_connector_status {
+> >  	 * sink device which can be autodetect. For digital outputs like DP or
+> >  	 * HDMI (which can be realiable probed) this means there's really
+> >  	 * nothing there. It is driver-dependent whether a connector with this
+> >  	 * status can be lit up or not.
+> >  	 */
+> >  	connector_status_disconnected = 2,
+> >  	/**
+> >  	 * @connector_status_unknown: The connector's status could not be
+> >  	 * reliably detected. This happens when probing would either cause
+> >  	 * flicker (like load-detection when the connector is in use), or when a
+> >  	 * hardware resource isn't available (like when load-detection needs a
+> >  	 * free CRTC). It should be possible to light up the connector with one
+> >  	 * of the listed fallback modes. For default configuration userspace
+> >  	 * should only try to light up connectors with unknown status when
+> >  	 * there's not connector with @connector_status_connected.
+> >  	 */
+> >  	connector_status_unknown = 3,
+> >  };
+> >  
+> >  /**
+> > - * enum drm_connector_registration_status - userspace registration status for
+> > + * enum drm_connector_registration_state - userspace registration status for
+> >   * a &drm_connector
+> >   *
+> >   * This enum is used to track the status of initializing a connector and
+> >   * registering it with userspace, so that DRM can prevent bogus modesets on
+> >   * connectors that no longer exist.
+> >   */
+> >  enum drm_connector_registration_state {
+> >  	/**
+> >  	 * @DRM_CONNECTOR_INITIALIZING: The connector has just been created,
+> >  	 * but has yet to be exposed to userspace. There should be no
+> >  	 * additional restrictions to how the state of this connector may be
+> >  	 * modified.
+> >  	 */
+> >  	DRM_CONNECTOR_INITIALIZING = 0,
+> >  
+> >  	/**
+> >  	 * @DRM_CONNECTOR_REGISTERED: The connector has been fully initialized
+> >  	 * and registered with sysfs, as such it has been exposed to
+> >  	 * userspace. There should be no additional restrictions to how the
+> >  	 * state of this connector may be modified.
+> > diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> > index 2c361964aee7..283a93ce4617 100644
+> > --- a/include/drm/drm_device.h
+> > +++ b/include/drm/drm_device.h
+> > @@ -10,41 +10,41 @@
+> >  #include <drm/drm_mode_config.h>
+> >  
+> >  struct drm_driver;
+> >  struct drm_minor;
+> >  struct drm_master;
+> >  struct drm_device_dma;
+> >  struct drm_vblank_crtc;
+> >  struct drm_sg_mem;
+> >  struct drm_local_map;
+> >  struct drm_vma_offset_manager;
+> >  struct drm_vram_mm;
+> >  struct drm_fb_helper;
+> >  
+> >  struct inode;
+> >  
+> >  struct pci_dev;
+> >  struct pci_controller;
+> >  
+> >  
+> >  /**
+> > - * enum drm_switch_power - power state of drm device
+> > + * enum switch_power_state - power state of drm device
+> >   */
+> >  
+> >  enum switch_power_state {
+> >  	/** @DRM_SWITCH_POWER_ON: Power state is ON */
+> >  	DRM_SWITCH_POWER_ON = 0,
+> >  
+> >  	/** @DRM_SWITCH_POWER_OFF: Power state is OFF */
+> >  	DRM_SWITCH_POWER_OFF = 1,
+> >  
+> >  	/** @DRM_SWITCH_POWER_CHANGING: Power state is changing */
+> >  	DRM_SWITCH_POWER_CHANGING = 2,
+> >  
+> >  	/** @DRM_SWITCH_POWER_DYNAMIC_OFF: Suspended */
+> >  	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
+> >  };
+> >  
+> >  /**
+> >   * struct drm_device - DRM device structure
+> >   *
+> >   * This structure represent a complete card that
+> > diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
+> > index 732f32740c86..53c51231b31c 100644
+> > --- a/include/drm/drm_dsc.h
+> > +++ b/include/drm/drm_dsc.h
+> > @@ -256,41 +256,42 @@ struct drm_dsc_config {
+> >  	bool native_420;
+> >  	/**
+> >  	 * @second_line_bpg_offset:
+> >  	 * Additional bits/grp for seconnd line of slice for native 4:2:0
+> >  	 */
+> >  	u8 second_line_bpg_offset;
+> >  	/**
+> >  	 * @nsl_bpg_offset:
+> >  	 * Num of bits deallocated for each grp that is not in second line of
+> >  	 * slice
+> >  	 */
+> >  	u16 nsl_bpg_offset;
+> >  	/**
+> >  	 * @second_line_offset_adj:
+> >  	 * Offset adjustment for second line in Native 4:2:0 mode
+> >  	 */
+> >  	u16 second_line_offset_adj;
+> >  };
+> >  
+> >  /**
+> > - * struct picture_parameter_set - Represents 128 bytes of Picture Parameter Set
+> > + * struct drm_dsc_picture_parameter_set - Represents 128 bytes of
+> > + * 	Picture Parameter Set
+> >   *
+> >   * The VESA DSC standard defines picture parameter set (PPS) which display
+> >   * stream compression encoders must communicate to decoders.
+> >   * The PPS is encapsulated in 128 bytes (PPS 0 through PPS 127). The fields in
+> >   * this structure are as per Table 4.1 in Vesa DSC specification v1.1/v1.2.
+> >   * The PPS fields that span over more than a byte should be stored in Big Endian
+> >   * format.
+> >   */
+> >  struct drm_dsc_picture_parameter_set {
+> >  	/**
+> >  	 * @dsc_version:
+> >  	 * PPS0[3:0] - dsc_version_minor: Contains Minor version of DSC
+> >  	 * PPS0[7:4] - dsc_version_major: Contains major version of DSC
+> >  	 */
+> >  	u8 dsc_version;
+> >  	/**
+> >  	 * @pps_identifier:
+> >  	 * PPS1[7:0] - Application specific identifier that can be
+> >  	 * used to differentiate between different PPS tables.
+> >  	 */
+> > diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
+> > index c0d28ba0f5c9..a4bac02249c2 100644
+> > --- a/include/drm/drm_gem_vram_helper.h
+> > +++ b/include/drm/drm_gem_vram_helper.h
+> > @@ -49,54 +49,54 @@ struct vm_area_struct;
+> >   * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
+> >   */
+> >  struct drm_gem_vram_object {
+> >  	struct ttm_buffer_object bo;
+> >  	struct dma_buf_map map;
+> >  
+> >  	/**
+> >  	 * @vmap_use_count:
+> >  	 *
+> >  	 * Reference count on the virtual address.
+> >  	 * The address are un-mapped when the count reaches zero.
+> >  	 */
+> >  	unsigned int vmap_use_count;
+> >  
+> >  	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
+> >  	struct ttm_placement placement;
+> >  	struct ttm_place placements[2];
+> >  };
+> >  
+> >  /**
+> > - * Returns the container of type &struct drm_gem_vram_object
+> > - * for field bo.
+> > + * drm_gem_vram_of_bo - Returns the container of type
+> > + * &struct drm_gem_vram_object for field bo.
+> >   * @bo:		the VRAM buffer object
+> >   * Returns:	The containing GEM VRAM object
+> >   */
+> >  static inline struct drm_gem_vram_object *drm_gem_vram_of_bo(
+> >  	struct ttm_buffer_object *bo)
+> >  {
+> >  	return container_of(bo, struct drm_gem_vram_object, bo);
+> >  }
+> >  
+> >  /**
+> > - * Returns the container of type &struct drm_gem_vram_object
+> > - * for field gem.
+> > + * drm_gem_vram_of_gem - Returns the container of type
+> > + * &struct drm_gem_vram_object for field gem.
+> >   * @gem:	the GEM object
+> >   * Returns:	The containing GEM VRAM object
+> >   */
+> >  static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
+> >  	struct drm_gem_object *gem)
+> >  {
+> >  	return container_of(gem, struct drm_gem_vram_object, bo.base);
+> >  }
+> >  
+> >  struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
+> >  						size_t size,
+> >  						unsigned long pg_align);
+> >  void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
+> >  u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
+> >  s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
+> >  int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
+> >  int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
+> >  int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+> >  void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
