@@ -1,70 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AF62B4C89
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:20:21 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F92B4C9C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:24:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA6B989C5E;
-	Mon, 16 Nov 2020 17:20:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D0EC89EAE;
+	Mon, 16 Nov 2020 17:24:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D24E889C5E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:20:16 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605547217; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=891TLTq9X1+ikAVna/l6QbpmQq9NUBJi7SHWorFz7n8=;
- b=l4jzEmFbpua0Osy8EuaqxYBt5NvqDCCIQaVUkqGaSRmsDNayCQqHcAYhTgkkV1V7M8uyXQl6
- cgS4ZrtXehZIvWdtWUemsMWvwDF8oK1dP2eDlFVxn0MSpxMbFygBjQtTBcoGN48AwC4C1CGI
- NCfnyFAXBdYnxOabiNo9zjOXFKY=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5fb2b4cfc3c3b09004ccc78a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 16 Nov 2020 17:20:14
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 37DCEC43460; Mon, 16 Nov 2020 17:20:14 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A0641C433C6;
- Mon, 16 Nov 2020 17:20:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A0641C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Mon, 16 Nov 2020 10:20:09 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/shrinker: Only iterate dontneed objs
-Message-ID: <20201116172009.GB16856@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Sean Paul <sean@poorly.run>
-References: <20201114193010.753355-1-robdclark@gmail.com>
- <20201114193010.753355-4-robdclark@gmail.com>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD0389C60
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:24:08 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id a3so24335736wmb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=VT/xySWsVOOU8SioegJzXoHfZdY+mhRolZpe9MYTwM8=;
+ b=AnPxyDUVdxrbYZafs+evqvV9ZfNXxX1h9lH21wgUCNgsI7J8G3xvWjuq8L6wrYpZo6
+ r9CA9RY7hplgno4XMoJIy3j0V8HPqOpZkW0KLHMn3sxHRnNA6f0wMZCc2nxTLiSRixLC
+ zTldjVpBwgEn8pr9vN+HnGkf3iNyB3gArgb+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=VT/xySWsVOOU8SioegJzXoHfZdY+mhRolZpe9MYTwM8=;
+ b=iFADIOrA93qje6zTln883D06f51vyQjsAfpQ8C418fWjKPuKM2a24Vg1FD03v3UTHv
+ iLUudWS+V2Wm71BP8xrllh78XVxUwqO+6T5+zQPM8u8q5vIzZALWvQV3mhIvMmjrpXwL
+ Rw52qRohwUXajKUHr7xke79/N1VQT2z0hTcdIQT2A7B+z2Fjh2ywR9F7seGLKqMMZABp
+ Cp602r05L0YerWXNUoU0XsJeHC+Sx4uxIeEaA8YwRXwkF8avWPSCP1RDE1Dtqx6FuCoN
+ JDRFWOOg4m+HoHl5Zumhqo4pBSgjaBdb9JYCjJd3SOfuTgjy9f8GxLlSXKQ0gzDR6axa
+ mjaA==
+X-Gm-Message-State: AOAM532djiRvAQ7m4igJHz+WC3pQOg8ZYuKMrjB87bGB4lEbmEVqUJL8
+ JrfuUVLmKXT0iucoOgmMc65vOw==
+X-Google-Smtp-Source: ABdhPJyXF+9a4eCq88+bEfmvIMaLyiW2+ODDxhn8ltHzU+MOVfk/7Rgjqldak/b7tn81SkFuLZhKFA==
+X-Received: by 2002:a7b:ce8a:: with SMTP id q10mr16552904wmj.101.1605547446987; 
+ Mon, 16 Nov 2020 09:24:06 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s133sm20767714wmf.30.2020.11.16.09.24.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 09:24:06 -0800 (PST)
+Date: Mon, 16 Nov 2020 18:24:04 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v4 10/27] video: fix some kernel-doc markups
+Message-ID: <20201116172404.GD401619@phenom.ffwll.local>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Bernard Zhao <bernard@vivo.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1605521731.git.mchehab+huawei@kernel.org>
+ <21661aed9892a1bacc7ef76a5dc9f5c7b37f5d8f.1605521731.git.mchehab+huawei@kernel.org>
+ <20201116153606.GC401619@phenom.ffwll.local>
+ <20201116173804.7d64f55f@coco.lan>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201114193010.753355-4-robdclark@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20201116173804.7d64f55f@coco.lan>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,222 +81,161 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>
+Cc: linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Bernard Zhao <bernard@vivo.com>, Jonathan Corbet <corbet@lwn.net>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 14, 2020 at 11:30:10AM -0800, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
+On Mon, Nov 16, 2020 at 05:38:04PM +0100, Mauro Carvalho Chehab wrote:
+> Em Mon, 16 Nov 2020 16:36:06 +0100
+> Daniel Vetter <daniel@ffwll.ch> escreveu:
 > 
-> In situations where the GPU is mostly idle, all or nearly all buffer
-> objects will be in the inactive list.  But if the system is under memory
-> pressure (from something other than GPU), we could still get a lot of
-> shrinker calls.  Which results in traversing a list of thousands of objs
-> and in the end finding nothing to shrink.  Which isn't so efficient.
+> > On Mon, Nov 16, 2020 at 11:18:06AM +0100, Mauro Carvalho Chehab wrote:
+> > > Some identifiers have different names between their prototypes
+> > > and the kernel-doc markup.
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> > 
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
+> > I'm assuming you're sending a pull request for this.
 > 
-> Instead split the inactive_list into two lists, one inactive objs which
-> are shrinkable, and a second one for those that are not.  This way we
-> can avoid traversing objs which we know are not shrinker candidates.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/msm/msm_debugfs.c      |  3 ++-
->  drivers/gpu/drm/msm/msm_drv.c          |  3 ++-
->  drivers/gpu/drm/msm/msm_drv.h          |  8 +++---
->  drivers/gpu/drm/msm/msm_gem.c          | 34 ++++++++++++++++++++------
->  drivers/gpu/drm/msm/msm_gem_shrinker.c |  7 +++---
->  5 files changed, 40 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-> index 64afbed89821..85ad0babc326 100644
-> --- a/drivers/gpu/drm/msm/msm_debugfs.c
-> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
-> @@ -124,7 +124,8 @@ static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
->  	}
->  
->  	seq_printf(m, "Inactive Objects:\n");
-> -	msm_gem_describe_objects(&priv->inactive_list, m);
-> +	msm_gem_describe_objects(&priv->inactive_dontneed, m);
-> +	msm_gem_describe_objects(&priv->inactive_willneed, m);
->  
->  	mutex_unlock(&priv->mm_lock);
->  
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-> index 4d808769e6ed..39a54f364aa8 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -465,7 +465,8 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
->  
->  	priv->wq = alloc_ordered_workqueue("msm", 0);
->  
-> -	INIT_LIST_HEAD(&priv->inactive_list);
-> +	INIT_LIST_HEAD(&priv->inactive_willneed);
-> +	INIT_LIST_HEAD(&priv->inactive_dontneed);
->  	mutex_init(&priv->mm_lock);
->  
->  	/* Teach lockdep about lock ordering wrt. shrinker: */
-> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-> index f869ed67b5da..ed18c5bed10f 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.h
-> +++ b/drivers/gpu/drm/msm/msm_drv.h
-> @@ -175,8 +175,9 @@ struct msm_drm_private {
->  	struct msm_perf_state *perf;
->  
->  	/*
-> -	 * List of inactive GEM objects.  Every bo is either in the inactive_list
-> -	 * or gpu->active_list (for the gpu it is active on[1])
-> +	 * Lists of inactive GEM objects.  Every bo is either in one of the
-> +	 * inactive lists (depending on whether or not it is shrinkable) or
-> +	 * gpu->active_list (for the gpu it is active on[1])
->  	 *
->  	 * These lists are protected by mm_lock.  If struct_mutex is involved, it
->  	 * should be aquired prior to mm_lock.  One should *not* hold mm_lock in
-> @@ -185,7 +186,8 @@ struct msm_drm_private {
->  	 * [1] if someone ever added support for the old 2d cores, there could be
->  	 *     more than one gpu object
->  	 */
-> -	struct list_head inactive_list;
-> +	struct list_head inactive_willneed;  /* inactive + !shrinkable */
-> +	struct list_head inactive_dontneed;  /* inactive +  shrinkable */
->  	struct mutex mm_lock;
->  
->  	struct workqueue_struct *wq;
-> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-> index 2795288b0a95..de8d2cfada24 100644
-> --- a/drivers/gpu/drm/msm/msm_gem.c
-> +++ b/drivers/gpu/drm/msm/msm_gem.c
-> @@ -17,6 +17,7 @@
->  #include "msm_gpu.h"
->  #include "msm_mmu.h"
->  
-> +static void update_inactive(struct msm_gem_object *msm_obj);
->  
->  static dma_addr_t physaddr(struct drm_gem_object *obj)
->  {
-> @@ -678,6 +679,12 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
->  
->  	madv = msm_obj->madv;
->  
-> +	/* If the obj is inactive, we might need to move it
-> +	 * between inactive lists
-> +	 */
-> +	if (msm_obj->active_count == 0)
-> +		update_inactive(msm_obj);
-> +
->  	msm_gem_unlock(obj);
->  
->  	return (madv != __MSM_MADV_PURGED);
-> @@ -781,19 +788,31 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
->  void msm_gem_active_put(struct drm_gem_object *obj)
->  {
->  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> -	struct msm_drm_private *priv = obj->dev->dev_private;
->  
->  	might_sleep();
->  	WARN_ON(!msm_gem_is_locked(obj));
->  
->  	if (--msm_obj->active_count == 0) {
-> -		mutex_lock(&priv->mm_lock);
-> -		list_del_init(&msm_obj->mm_list);
-> -		list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
-> -		mutex_unlock(&priv->mm_lock);
-> +		update_inactive(msm_obj);
->  	}
->  }
->  
-> +static void update_inactive(struct msm_gem_object *msm_obj)
-> +{
-> +	struct msm_drm_private *priv = msm_obj->base.dev->dev_private;
-> +
-> +	mutex_lock(&priv->mm_lock);
-> +	WARN_ON(msm_obj->active_count != 0);
-> +
-> +	list_del_init(&msm_obj->mm_list);
-> +	if (msm_obj->madv == MSM_MADV_DONTNEED)
-> +		list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
-> +	else
-> +		list_add_tail(&msm_obj->mm_list, &priv->inactive_dontneed);
+> Feel free to just merge it via your tree. Patches here are pretty
+> much independent ;-)
 
-Is the logic here inverted or is this just really confusing nomenclature? If it
-is correct a comment might help remind us whats happening.
+Ok I put it into drm-misc-next. I kinda assumed since there's also a huge
+effort going on to shut up warnings, plus I think kerneldoc issues are
+reported by a bunch of build bots nowadays. So assumed you pile this all
+up.
+-Daniel
 
-Jordan
-
-> +
-> +	mutex_unlock(&priv->mm_lock);
-> +}
-> +
->  int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
->  {
->  	bool write = !!(op & MSM_PREP_WRITE);
-> @@ -1099,7 +1118,8 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
->  	}
->  
->  	mutex_lock(&priv->mm_lock);
-> -	list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
-> +	/* Initially obj is idle, obj->madv == WILLNEED: */
-> +	list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
->  	mutex_unlock(&priv->mm_lock);
->  
->  	return obj;
-> @@ -1169,7 +1189,7 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
->  	msm_gem_unlock(obj);
->  
->  	mutex_lock(&priv->mm_lock);
-> -	list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
-> +	list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
->  	mutex_unlock(&priv->mm_lock);
->  
->  	return obj;
-> diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> index 9d51c1eb808d..81dfa57b6a0d 100644
-> --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-> @@ -19,7 +19,7 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
->  
->  	mutex_lock(&priv->mm_lock);
->  
-> -	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
-> +	list_for_each_entry(msm_obj, &priv->inactive_dontneed, mm_list) {
->  		if (!msm_gem_trylock(&msm_obj->base))
->  			continue;
->  		if (is_purgeable(msm_obj))
-> @@ -42,7 +42,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
->  
->  	mutex_lock(&priv->mm_lock);
->  
-> -	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
-> +	list_for_each_entry(msm_obj, &priv->inactive_dontneed, mm_list) {
->  		if (freed >= sc->nr_to_scan)
->  			break;
->  		if (!msm_gem_trylock(&msm_obj->base))
-> @@ -96,7 +96,8 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
->  	struct msm_drm_private *priv =
->  		container_of(nb, struct msm_drm_private, vmap_notifier);
->  	struct list_head *mm_lists[] = {
-> -		&priv->inactive_list,
-> +		&priv->inactive_dontneed,
-> +		&priv->inactive_willneed,
->  		priv->gpu ? &priv->gpu->active_list : NULL,
->  		NULL,
->  	};
-> -- 
-> 2.28.0
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > -Daniel
+> > 
+> > > ---
+> > >  drivers/video/fbdev/core/fbcmap.c | 2 +-
+> > >  drivers/video/hdmi.c              | 3 ++-
+> > >  2 files changed, 3 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
+> > > index e5ae33c1a8e8..757d5c3f620b 100644
+> > > --- a/drivers/video/fbdev/core/fbcmap.c
+> > > +++ b/drivers/video/fbdev/core/fbcmap.c
+> > > @@ -59,41 +59,41 @@ static u16 blue16[] __read_mostly = {
+> > >      0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa,
+> > >      0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff
+> > >  };
+> > >  
+> > >  static const struct fb_cmap default_2_colors = {
+> > >      .len=2, .red=red2, .green=green2, .blue=blue2
+> > >  };
+> > >  static const struct fb_cmap default_8_colors = {
+> > >      .len=8, .red=red8, .green=green8, .blue=blue8
+> > >  };
+> > >  static const struct fb_cmap default_4_colors = {
+> > >      .len=4, .red=red4, .green=green4, .blue=blue4
+> > >  };
+> > >  static const struct fb_cmap default_16_colors = {
+> > >      .len=16, .red=red16, .green=green16, .blue=blue16
+> > >  };
+> > >  
+> > >  
+> > >  
+> > >  /**
+> > > - *	fb_alloc_cmap - allocate a colormap
+> > > + *	fb_alloc_cmap_gfp - allocate a colormap
+> > >   *	@cmap: frame buffer colormap structure
+> > >   *	@len: length of @cmap
+> > >   *	@transp: boolean, 1 if there is transparency, 0 otherwise
+> > >   *	@flags: flags for kmalloc memory allocation
+> > >   *
+> > >   *	Allocates memory for a colormap @cmap.  @len is the
+> > >   *	number of entries in the palette.
+> > >   *
+> > >   *	Returns negative errno on error, or zero on success.
+> > >   *
+> > >   */
+> > >  
+> > >  int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t flags)
+> > >  {
+> > >  	int size = len * sizeof(u16);
+> > >  	int ret = -ENOMEM;
+> > >  
+> > >  	flags |= __GFP_NOWARN;
+> > >  
+> > >  	if (cmap->len != len) {
+> > > diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> > > index 1e4cb63d0d11..947be761dfa4 100644
+> > > --- a/drivers/video/hdmi.c
+> > > +++ b/drivers/video/hdmi.c
+> > > @@ -1675,41 +1675,42 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
+> > >  
+> > >  	ret = hdmi_audio_infoframe_init(frame);
+> > >  	if (ret)
+> > >  		return ret;
+> > >  
+> > >  	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+> > >  
+> > >  	frame->channels = ptr[0] & 0x7;
+> > >  	frame->coding_type = (ptr[0] >> 4) & 0xf;
+> > >  	frame->sample_size = ptr[1] & 0x3;
+> > >  	frame->sample_frequency = (ptr[1] >> 2) & 0x7;
+> > >  	frame->coding_type_ext = ptr[2] & 0x1f;
+> > >  	frame->channel_allocation = ptr[3];
+> > >  	frame->level_shift_value = (ptr[4] >> 3) & 0xf;
+> > >  	frame->downmix_inhibit = ptr[4] & 0x80 ? true : false;
+> > >  
+> > >  	return 0;
+> > >  }
+> > >  
+> > >  /**
+> > > - * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
+> > > + * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
+> > > + * 	vendor infoframe
+> > >   * @frame: HDMI Vendor infoframe
+> > >   * @buffer: source buffer
+> > >   * @size: size of buffer
+> > >   *
+> > >   * Unpacks the information contained in binary @buffer into a structured
+> > >   * @frame of the HDMI Vendor information frame.
+> > >   * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
+> > >   * specification.
+> > >   *
+> > >   * Returns 0 on success or a negative error code on failure.
+> > >   */
+> > >  static int
+> > >  hdmi_vendor_any_infoframe_unpack(union hdmi_vendor_any_infoframe *frame,
+> > >  				 const void *buffer, size_t size)
+> > >  {
+> > >  	const u8 *ptr = buffer;
+> > >  	size_t length;
+> > >  	int ret;
+> > >  	u8 hdmi_video_format;
+> > >  	struct hdmi_vendor_infoframe *hvf = &frame->hdmi;
+> > > -- 
+> > > 2.28.0
+> > >   
+> > 
+> 
+> 
+> 
+> Thanks,
+> Mauro
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
