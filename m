@@ -2,55 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8432B5295
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53D92B529A
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE4006EA7F;
-	Mon, 16 Nov 2020 20:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 905FD6EA80;
+	Mon, 16 Nov 2020 20:32:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4B476EA7C;
- Mon, 16 Nov 2020 20:31:49 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id m6so3068750wrg.7;
- Mon, 16 Nov 2020 12:31:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Xnbe336qAl1HOJVIYfBWlWuziNJAww4qOMA3InuqGFk=;
- b=V/JIjm11uut0dFL4p808EYs0bYzl3vVF01X1OKJqXTw8R+MooZH5wcEmUSoEoQxv/g
- V+PZ8mDTZKZ0MJoifd+8TReeHC7XIhz7qiAdNYJMYTFs1yeOQYSS+RK5cS7BgcZ6lmw7
- K18u0l6OWXslGSTbwkWL68etAhFhFdDHil9zqdlkZ5UwV0TC9r5GlK+KqFlWR+VnsDMa
- +EbasTX7ubHNqCSrA38luMRwDk8FwNAAZZ4gQdcPzsyuKkFrEQW/jYuAFN1s5v8ZbGtF
- 1o6D9TFSocAsEd8Zue53CtxmlrC/qPQsLlGNd1uOfjsaEqSqkGNbSAg31M2Jdp7FEYzT
- Kn8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Xnbe336qAl1HOJVIYfBWlWuziNJAww4qOMA3InuqGFk=;
- b=R6pktLYEkJaHGRmck5VWkxG8vNT0vj5ycnzp2H162+ytDzqH0OnHBZ851i5QdIet/4
- GivQTCOEKF2zB0C0ptbhKGWQaysKhh2tC0cQVvLRYYDJ1Yd/CmZc2OSIHEyn391tWvU1
- T3RhEqssIVPxlL3wdkfwH268pl9PFxkttD6GqvjH6IV9wPfo8jENXJ7nQ0yyM/SkMSyf
- sZBv9Ozy30RbRTQScsKqnNMVqpySBJwRtp9m9Ouij2RGCl45DPe5dmsHCZaJrEC/1PRf
- 0mzdvIW9MwoEg3LfwuQN2yA15UeZFrDW7aoAHS0FY7EIZK3NgquVJ/kOYB9Oiy9xNscs
- Ei3Q==
-X-Gm-Message-State: AOAM532SuWZhpQf3Gt66VulRyqBBhMlKJzuYWjaKSUr19EeR19+0yc0I
- vL9o2pBdVcEt6rHKrxPUe44IVTubm9/6GzB7c8E=
-X-Google-Smtp-Source: ABdhPJzYXz/iBnS6QhUwm9yBllNVV8cFfoQCFMJim5YSyBNlT2ZaDbvsXWY5xqwHC83ZyWmnd8xgWV0HmfBSqt8DKig=
-X-Received: by 2002:adf:9144:: with SMTP id j62mr4588978wrj.419.1605558708505; 
- Mon, 16 Nov 2020 12:31:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20201116173700.1830487-1-lee.jones@linaro.org>
- <20201116173700.1830487-36-lee.jones@linaro.org>
-In-Reply-To: <20201116173700.1830487-36-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Nov 2020 15:31:37 -0500
-Message-ID: <CADnq5_N06T3FT0jufTJR87X0LT8Xoc9mquD1KaiEk2Zf4EpgEQ@mail.gmail.com>
-Subject: Re: [PATCH 35/43] drm/radeon/cik_sdma: Move
- 'amdgpu_cik_gpu_check_soft_reset()'s prototype to shared header
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2061.outbound.protection.outlook.com [40.107.244.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 318DB6EA80
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:32:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aJbwvHWkGCJfKi4Z8cHfYlBdEQP7HifxSlprTlcBShYvivQ8WXZnPRXN8mfuySIvkPEDSiZRfIUYn+GKTTK1bmbTBkU3vgCQNMj6ofsRvKrHmBg5aPQ1wmjI7M5Nt+grKgjM47woVOO48CPdKdand/GCf63GFAE9x9AitaVtcCqDy0fnkFX4guOHMPuLKtnl6LRQAlP4izot5fG1r8Ve7yKnNEPRe8PK+RAf5dIpTrh4zqB6MlJvIvgWarIjeDfMg2N3Ei72nKL/X6PGxeOxYxfjPOKvauCeU4RSvEH746JmUAtn1X/IL+TC2IWNMKh/fa/OKasQqhSjCAFQO4gLMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l4bFXctpIMV2aYyghfyoQXn2+z9lv1mn7dkt5fZSZM4=;
+ b=MDP1QCNcBq/GmKT+j2qT3gtFxtnrBiXGDcRjgdqjzQjwkbMvVkeeEBJp0/bvOIXfOm9BQFvBnVE53J1M8JZYI+1EAR5H5o4bh1abt8jVZAggZQ2ew/tFRQVNpx5YSlKSsG7jESlgopPKsrewgt0uR9sRn06piOK3BjZjbR6kypR+2+wkL2UGDg5MaTXjhYE2ywOwGNPn05d37aBLOxTbwdc5uJd4W+e1iVq508V0hKC9y7HVR3cPClyykEZ2iI+iMql6HctxnNNGtkPL66our5Xa4zUcCv9INY83qAklBFLg5PxOvx4l5uJ1Fo0mnOCpNRCvAWnP5VHr8QJ4+ro20A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l4bFXctpIMV2aYyghfyoQXn2+z9lv1mn7dkt5fZSZM4=;
+ b=KkAYB5c9J2kaPDdTrRanMRtB9dE77H8e/1SluWfVmkr3Cq2coezynpLOgmFOyfT67b1tGGRlYA+mWaht0l0OSZTcY1h16oF9kgBtRhYU2/i/Lrfi0/1jHjJLFL0wdv2HSxBjCSsOZzScXKqa2iGfw2XF6RTrgJets6DARqJ02+4=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4961.namprd12.prod.outlook.com (2603:10b6:208:1c9::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
+ 2020 20:32:33 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
+ 20:32:32 +0000
+Subject: Re: [PATCH 32/42] drm/ttm/ttm_tt: Demote kernel-doc header format
+ abuses
 To: Lee Jones <lee.jones@linaro.org>
+References: <20201116174112.1833368-1-lee.jones@linaro.org>
+ <20201116174112.1833368-33-lee.jones@linaro.org>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <bcb40255-312f-8cdb-28a8-7ee2e6596f90@amd.com>
+Date: Mon, 16 Nov 2020 21:32:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201116174112.1833368-33-lee.jones@linaro.org>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM4PR0902CA0015.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::25) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM4PR0902CA0015.eurprd09.prod.outlook.com (2603:10a6:200:9b::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend
+ Transport; Mon, 16 Nov 2020 20:32:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 7f02a96d-fa9d-4b06-db6b-08d88a6ebe68
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4961:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4961B10C0559D3EB6F65851E83E30@BL0PR12MB4961.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3TNrRD0E+QZUvnh1yjeH7yhG+oiHMAVCMUZHGCwdagxatxeCa//iCGdAEaCs4DQVVedgAEZfz51gjCPuGgFwlShbuM5SNxyeCKVGMUYnVjQVUpplS3ozo0e14GtmbIjK7CUIWamlvqafDa9XiZlK8w0tlXr+BryGvx8WrLAv1Yr2BYHNIq2ww6zjbd1aAqSSubUZL/UMih7hC0En7HIvqfFt+9wiq495RzVq5p8zJx7sp2rTz1Nf+G5PVYIT40P+2b/gpeH0U3ARhOVVAycpNdywpbr8vPRda0GcWovRdPdx7Frl38yjM64PRafGFLKYjjPEF3c0ROPWRCao4h2iDUP4g56dYvBJoQGNcefUT12RlYF9utpjZPGatEiicg50
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(136003)(396003)(39860400002)(346002)(366004)(186003)(16526019)(8936002)(6916009)(8676002)(6486002)(66946007)(54906003)(66556008)(66476007)(52116002)(6666004)(31686004)(36756003)(83380400001)(478600001)(4326008)(86362001)(2906002)(31696002)(2616005)(5660300002)(316002)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cHlFc1Nyb2Rzak1URXdqakp1ak9WZUY3UWl4UzVucFB3cG1EbUllTWtpUTFQ?=
+ =?utf-8?B?NFg1aDBwVzg4TU1qM05YamxjWVNRRmo4YUZYNStrU2hGeUY4UkI0ZGFkTUx4?=
+ =?utf-8?B?bEVDL3VpRjIzQzBvN0FkMy9ybGVLa3JJUnhGNWJxOUE3WTFaRFhhV2FuRERu?=
+ =?utf-8?B?ZkNrNWp5bnlrYkluRUdRM2ljR2dOQktkOUQ5ekJYUkhVRHpEdWpyNExocDFM?=
+ =?utf-8?B?eG9QK0dzYXJGSDRaUG1kS0tLejllMmQ2WitCMXBRWDRheGN1YkxYZWN2Q1M2?=
+ =?utf-8?B?NUIybEF6Q1FQTllsRUpJeUZFZXN5ejc0OEN0TXJMdHpRRjF6Q0YwYkovSWRS?=
+ =?utf-8?B?ZGJyYTNkVmVVaDNJYWxCZVlNZ1RIRENNVksrR1Q2N0FmTUIrcjVCU25hbmt6?=
+ =?utf-8?B?Lzl6ODRmc2ppcnROd2d3RU96dURiemVXcnY0Y29XMHE3ejcxb2ZUcXo2WDFR?=
+ =?utf-8?B?d1dnYnc0U1l5VXJnYmkwZC9iRFRlUlBUQUhTeUFsNTAxbVZrQmNGTyttcVUw?=
+ =?utf-8?B?c1pOd0R3TkhLM3VqQ05VekhQR3dCQjIwbGFYTmNhVXFXc2E3T0lVYUZFeHhm?=
+ =?utf-8?B?QWt3cHpHbEJkVU5XWGVDQWpENEhDVDhleTZDZ25sRmt3TUxpaWQ1eDhGUzJn?=
+ =?utf-8?B?VlR3Q0VTNVZkVEFNZTVselRMZHR5MmNZbkxIdEZDakRpd2ErOHdBMGdLY2xV?=
+ =?utf-8?B?Q1JwTW1uVDc2VWNzVTN2bmg2U3JoeXYyRWZmZVVoYVAvSzYxTHhkQndyTjQz?=
+ =?utf-8?B?NHRadC9URHBnaVUzS0lqdWNwTDVWTnZZb290UFA4NDMwdCtPdWFNRFV4NTZj?=
+ =?utf-8?B?aGRHY29JTzRLVG11RkNrM2JSSjhMK3FTWnZFNlFRYTRKRGlCMU96em1zRXNL?=
+ =?utf-8?B?Z1c5UmY5ZEsrTUZuckltanhkbkhkQTg1RmdCbll6MzZtY1VzZ015SkpqTW5U?=
+ =?utf-8?B?U2EwM3F4K3pnM0wwTXhhWWludU5aNGdaWFhITjdpczdudUNTb205MXJycTlB?=
+ =?utf-8?B?c1VMNWlhMVl1YStTcHd1ZFppNDlBZUJKajAwMGowQWVuSlZJSUFta2dXalBW?=
+ =?utf-8?B?VGRya1o2NFRlbFhxMHliTjFGK29jWXFjS1ZDZnNZM0ROMjhWZTZNRXdxQ1d6?=
+ =?utf-8?B?bXZ0bDVsc1VqTnZneU9KbC94N2NFam5wTGVKL1RleDhsbVFEOTB2d0EzTVAy?=
+ =?utf-8?B?NERjd3VNOFdncXk1Wm5LZkJ2TmN5SGVpaGpMMUl1RlU3d1M1ZTcyd29WUitQ?=
+ =?utf-8?B?c2R4TkU3bHNQYndQMzkxTjBzSVJBMkR6WnVsNHRFY0M5enByQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f02a96d-fa9d-4b06-db6b-08d88a6ebe68
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 20:32:32.8588 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6wWjupp4pH86lVf4z+wRO2KByrDaxM5jA0AMHTWv94e72BhzsEQSdcjrf0aBFsED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4961
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,55 +122,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMTI6MzggUE0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
-YXJvLm9yZz4gd3JvdGU6Cj4KPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQg
-d2FybmluZyhzKToKPgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2Npay5jOjQ4NDU6NTogd2Fy
-bmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhjaWtfZ3B1X2NoZWNrX3NvZnRfcmVz
-ZXTigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ICA0ODQ1IHwgdTMyIGNpa19ncHVfY2hlY2tf
-c29mdF9yZXNldChzdHJ1Y3QgcmFkZW9uX2RldmljZSAqcmRldikKPiAgfCBefn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn4KPgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
-b20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+
-IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIg
-PGRhbmllbEBmZndsbC5jaD4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBD
-YzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBK
-b25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAt
-LS0KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jaWsuaCAgICAgIHwgMSArCj4gIGRyaXZlcnMv
-Z3B1L2RybS9yYWRlb24vY2lrX3NkbWEuYyB8IDMgKy0tCj4gIDIgZmlsZXMgY2hhbmdlZCwgMiBp
-bnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9yYWRlb24vY2lrLmggYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2Npay5oCj4gaW5kZXgg
-Mjk3YjNjMWZmODA0Zi4uNjYzMGI5ZGE5ZTdhYSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcmFkZW9uL2Npay5oCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jaWsuaAo+IEBA
-IC0yOSw1ICsyOSw2IEBAIHZvaWQgY2lrX2VudGVyX3JsY19zYWZlX21vZGUoc3RydWN0IHJhZGVv
-bl9kZXZpY2UgKnJkZXYpOwo+ICB2b2lkIGNpa19leGl0X3JsY19zYWZlX21vZGUoc3RydWN0IHJh
-ZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICBpbnQgY2lfbWNfbG9hZF9taWNyb2NvZGUoc3RydWN0IHJh
-ZGVvbl9kZXZpY2UgKnJkZXYpOwo+ICB2b2lkIGNpa191cGRhdGVfY2coc3RydWN0IHJhZGVvbl9k
-ZXZpY2UgKnJkZXYsIHUzMiBibG9jaywgYm9vbCBlbmFibGUpOwo+ICt1MzIgY2lrX2dwdV9jaGVj
-a19zb2Z0X3Jlc2V0KHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2KTsKPgo+ICAjZW5kaWYgICAg
-ICAgICAgICAgICAgICAgICAgICAgLyogX19DSUtfSF9fICovCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9yYWRlb24vY2lrX3NkbWEuYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vY2lr
-X3NkbWEuYwo+IGluZGV4IDNjNzA5ZWJlOGQxYWIuLjkxOWIxNDg0NWMzYzcgMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jaWtfc2RtYS5jCj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL3JhZGVvbi9jaWtfc2RtYS5jCj4gQEAgLTI3LDE0ICsyNywxMyBAQAo+ICAjaW5jbHVkZSAi
-cmFkZW9uX3Vjb2RlLmgiCj4gICNpbmNsdWRlICJyYWRlb25fYXNpYy5oIgo+ICAjaW5jbHVkZSAi
-cmFkZW9uX3RyYWNlLmgiCj4gKyNpbmNsdWRlICJjaWsuaCIKPiAgI2luY2x1ZGUgImNpa2QuaCIK
-Pgo+ICAvKiBzZG1hICovCj4gICNkZWZpbmUgQ0lLX1NETUFfVUNPREVfU0laRSAxMDUwCj4gICNk
-ZWZpbmUgQ0lLX1NETUFfVUNPREVfVkVSU0lPTiA2NAo+Cj4gLXUzMiBjaWtfZ3B1X2NoZWNrX3Nv
-ZnRfcmVzZXQoc3RydWN0IHJhZGVvbl9kZXZpY2UgKnJkZXYpOwo+IC0KPiAgLyoKPiAgICogc0RN
-QSAtIFN5c3RlbSBETUEKPiAgICogU3RhcnRpbmcgd2l0aCBDSUssIHRoZSBHUFUgaGFzIG5ldyBh
-c3luY2hyb25vdXMKPiAtLQo+IDIuMjUuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Am 16.11.20 um 18:41 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
+>
+>   drivers/gpu/drm/ttm/ttm_tt.c:45: warning: Function parameter or member 'bo' not described in 'ttm_tt_create'
+>   drivers/gpu/drm/ttm/ttm_tt.c:45: warning: Function parameter or member 'zero_alloc' not described in 'ttm_tt_create'
+>   drivers/gpu/drm/ttm/ttm_tt.c:83: warning: Function parameter or member 'ttm' not described in 'ttm_tt_alloc_page_directory'
+
+Couldn't we rather describe the missing parameters? Shouldn't be much work.
+
+Regards,
+Christian.
+
+>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/gpu/drm/ttm/ttm_tt.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index cfd633c7e7643..da9eeffe0c6d7 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -38,7 +38,7 @@
+>   #include <drm/drm_cache.h>
+>   #include <drm/ttm/ttm_bo_driver.h>
+>   
+> -/**
+> +/*
+>    * Allocates a ttm structure for the given BO.
+>    */
+>   int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+> @@ -73,7 +73,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
+>   	return 0;
+>   }
+>   
+> -/**
+> +/*
+>    * Allocates storage for pointers to the pages that back the ttm.
+>    */
+>   static int ttm_tt_alloc_page_directory(struct ttm_tt *ttm)
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
