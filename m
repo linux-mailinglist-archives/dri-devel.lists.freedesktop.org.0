@@ -1,56 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021AB2B5333
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:51:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF6E2B5335
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:52:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CBC6EA8D;
-	Mon, 16 Nov 2020 20:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC706EA8F;
+	Mon, 16 Nov 2020 20:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA396E105;
- Mon, 16 Nov 2020 20:51:23 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id m6so3121905wrg.7;
- Mon, 16 Nov 2020 12:51:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Qs4skqLiNs1YGNTaNHs4+J+kILEtikJu7Z6PW9pHXL0=;
- b=M5uXhBMOsd621ueGmN9QqlJVWGt54ytFnAfTz5h9898EVgRiS8CtI9VQly7fRJoLqm
- HM6doMbFRhSbvRaF2bYqBm9iR7AivFctH5oTE5Y1ZI7XSFpPzQbZCCH7RbpHLZCkaQvJ
- Ckku+jjqFt4e9tiCQt1YO761Vm1LzwuVd1VP6bQjKF6NZsz1Lgyq1W9G5cul1xMVvt/q
- d2YzQY2YuyCCtOrQTw35V0HsQMPQkiUvzkPrp3V4R+22YvZLCzJaQOgAo3yoFONhNyA7
- DOveIEEBn/TG4oOPJg043MNPc3VJZOCe42yC0PC54dCKKvtKKy8wn8kLA849EM4VC8jb
- F5Jg==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0F646EA8F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:52:19 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id s13so598993wmh.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 12:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4O8Aa4G0FXUnNNpF5DyBTeqvgUbqkgjA7XITfr5GBH8=;
+ b=QCO9NhKMIslBXbus4i0zahEaoDlUhzUhI2DejP3nRzxKx74ju6xwZVJYzz+Ty0CHsG
+ zDG35Q1NVfl9mOZwWI87xxWiWgf/NX0Far8SPzTRVRfY+bmJZykYpdb7paMl47nVXmuc
+ m9r1Rl8nmp1XwypTjuhgUZ5kpD44OF33SpNS0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Qs4skqLiNs1YGNTaNHs4+J+kILEtikJu7Z6PW9pHXL0=;
- b=EWeH04srlGthQvD93+VwCHVsTlBXgauNwU8dLm70PznEfSzmH8mwEs552G5T54fnXq
- FlyMYgiP/KsD3bn/Veiydv97/JlEBS11VpDSOz5jma6yNcQgccSQSN6DaZ/t1b8N7XkY
- oviuxUF5aW/D+s1yURv4skSjh66s9Ula80/tXFoHp5b8OKjY/Pm1ueQ6+JkDJ1zwRKwO
- zp7Lx5Cgiq+y0jL1ZcVIRT86O9BqODkAOQNB6Em0OpUeGPqOUXocJKBmYwpxTe/EDdlD
- jZqGZEAObvwQf5u8njG/xae37M+/E9+2G8xgHwfT2J/lTqQK6KsLhwjBkzsWFI5hTdOp
- 0ruA==
-X-Gm-Message-State: AOAM531k3AoxLBDimyzDwouquBHBKOoVoVNoiJHO15WLeaJgWOGPLPZ6
- GBhztFakgk4aIfCneTc/dUbGv1U3z+F1YhwBYwwSAOHc
-X-Google-Smtp-Source: ABdhPJwb5tfPQcxAXgzsITx4XZUTsruBpQ3yy8t7sXvrXpQ2TsYsUKQMhZbknS5nZgr6BrsbqtJsP52X3CiLoO25nRk=
-X-Received: by 2002:a5d:6992:: with SMTP id g18mr21179751wru.362.1605559882073; 
- Mon, 16 Nov 2020 12:51:22 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4O8Aa4G0FXUnNNpF5DyBTeqvgUbqkgjA7XITfr5GBH8=;
+ b=m8T+lVv3mteCZzWayKqHD+PVc1A9Yd2S9WktQCQDD6zHsxjs46FTJyp4oG0c5/jCuz
+ zWMpKSmS2LHefWnPZhndl1cCrZDJgk0sJ476xk3+WeTgN0sWPdhH3erk/8bY4VCwE4Ys
+ 0T1Z75VE3JU8OcJVF90SLHuQa4K0BKD6ZgQroWA4e1F7Qh8jwZo0qk+rpkQEen3T9Dot
+ E8wwQz0kk7Q6pCzQu02ZOl08oKq2YkoDLZVVMkTpn6IFGCrUTOx97/ZD62l2vNmNfohZ
+ AUOSp3J9irUq7KTqklykxJ279g5TiSTyOAFsOjpwVLaKFvt2xcC7zMmzE7+/Jw0yagfq
+ +qPw==
+X-Gm-Message-State: AOAM530Tx/SUhWa6nam3aKZj3Xz7x8/KYCJcctmoZN9l/l5R/0c9pe2x
+ QE+4fLnhLcJ79/ajExmjWWPR4A==
+X-Google-Smtp-Source: ABdhPJwktVA7oStqBmWxeDu1GDE8vE0+jJoQLulK/2axkkuPMczPwIqFd+Wae0ZddsbYXrk9yLvScA==
+X-Received: by 2002:a1c:35c2:: with SMTP id c185mr765636wma.74.1605559938570; 
+ Mon, 16 Nov 2020 12:52:18 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id u8sm614470wmg.6.2020.11.16.12.52.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 12:52:17 -0800 (PST)
+Date: Mon, 16 Nov 2020 21:52:16 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 08/10] drm/fb-helper: Restore damage area upon errors
+Message-ID: <20201116205216.GH401619@phenom.ffwll.local>
+References: <20201116200437.17977-1-tzimmermann@suse.de>
+ <20201116200437.17977-9-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20201116174112.1833368-1-lee.jones@linaro.org>
- <20201116174112.1833368-2-lee.jones@linaro.org>
-In-Reply-To: <20201116174112.1833368-2-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 16 Nov 2020 15:51:11 -0500
-Message-ID: <CADnq5_Pf4oiEPBGvQZXVaoiFOjyrM8HcL9MXCe5xD5pOubd1jw@mail.gmail.com>
-Subject: Re: [PATCH 01/42] drm/amd/amdgpu/atombios_encoders: Remove set but
- unused variable 'backlight_level'
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20201116200437.17977-9-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,55 +65,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, sam@ravnborg.org,
+ christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMTI6NDEgUE0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
-YXJvLm9yZz4gd3JvdGU6Cj4KPiBBbHNvIHJlbW92aW5nIHRoZSBjYWxsIHRvIGFtZGdwdV9hdG9t
-Ymlvc19lbmNvZGVyX2dldF9iYWNrbGlnaHRfbGV2ZWxfZnJvbV9yZWcoKQo+IHNpbmNlLCBhY2Nv
-cmRpbmcgdG8gQWxleCBEZXVjaGVyLCAiV2UgY2FsbCBpdCBhZ2FpbiBiZWxvdyBpbmRpcmVjdGx5
-Ii4KPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+
-Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2VuY29kZXJzLmM6IEluIGZ1
-bmN0aW9uIOKAmGFtZGdwdV9hdG9tYmlvc19lbmNvZGVyX2luaXRfYmFja2xpZ2h04oCZOgo+ICBk
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hdG9tYmlvc19lbmNvZGVycy5jOjE3NDo1OiB3YXJu
-aW5nOiB2YXJpYWJsZSDigJhiYWNrbGlnaHRfbGV2ZWzigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1
-bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogTHViZW4gVHVpa292IDxsdWJlbi50
-dWlrb3ZAYW1kLmNvbT4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzog
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25l
-cyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0K
-PiAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYXRvbWJpb3NfZW5jb2RlcnMuYyB8IDMgLS0t
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2F0b21iaW9zX2VuY29kZXJzLmMgYi9kcml2ZXJzL2dwdS9k
-cm0vYW1kL2FtZGdwdS9hdG9tYmlvc19lbmNvZGVycy5jCj4gaW5kZXggZmE4MTdlYmZmOTgwNC4u
-NjEzNGVkOTY0MDI3OSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9h
-dG9tYmlvc19lbmNvZGVycy5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYXRv
-bWJpb3NfZW5jb2RlcnMuYwo+IEBAIC0xNzEsNyArMTcxLDYgQEAgdm9pZCBhbWRncHVfYXRvbWJp
-b3NfZW5jb2Rlcl9pbml0X2JhY2tsaWdodChzdHJ1Y3QgYW1kZ3B1X2VuY29kZXIgKmFtZGdwdV9l
-bmNvZGUKPiAgICAgICAgIHN0cnVjdCBiYWNrbGlnaHRfcHJvcGVydGllcyBwcm9wczsKPiAgICAg
-ICAgIHN0cnVjdCBhbWRncHVfYmFja2xpZ2h0X3ByaXZkYXRhICpwZGF0YTsKPiAgICAgICAgIHN0
-cnVjdCBhbWRncHVfZW5jb2Rlcl9hdG9tX2RpZyAqZGlnOwo+IC0gICAgICAgdTggYmFja2xpZ2h0
-X2xldmVsOwo+ICAgICAgICAgY2hhciBibF9uYW1lWzE2XTsKPgo+ICAgICAgICAgLyogTWFjIGxh
-cHRvcHMgd2l0aCBtdWx0aXBsZSBHUFVzIHVzZSB0aGUgZ211eCBkcml2ZXIgZm9yIGJhY2tsaWdo
-dAo+IEBAIC0yMDcsOCArMjA2LDYgQEAgdm9pZCBhbWRncHVfYXRvbWJpb3NfZW5jb2Rlcl9pbml0
-X2JhY2tsaWdodChzdHJ1Y3QgYW1kZ3B1X2VuY29kZXIgKmFtZGdwdV9lbmNvZGUKPgo+ICAgICAg
-ICAgcGRhdGEtPmVuY29kZXIgPSBhbWRncHVfZW5jb2RlcjsKPgo+IC0gICAgICAgYmFja2xpZ2h0
-X2xldmVsID0gYW1kZ3B1X2F0b21iaW9zX2VuY29kZXJfZ2V0X2JhY2tsaWdodF9sZXZlbF9mcm9t
-X3JlZyhhZGV2KTsKPiAtCj4gICAgICAgICBkaWcgPSBhbWRncHVfZW5jb2Rlci0+ZW5jX3ByaXY7
-Cj4gICAgICAgICBkaWctPmJsX2RldiA9IGJkOwo+Cj4gLS0KPiAyLjI1LjEKPgo+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxp
-bmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0
-CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3Rv
-cC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Nov 16, 2020 at 09:04:35PM +0100, Thomas Zimmermann wrote:
+> If the damage handling fails, restore the damage area. The next invocation
+> of the damage worker will then perform the update.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 23 ++++++++++++++++++++---
+>  1 file changed, 20 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 2e1a335bafd2..13b65dad2ca8 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -431,11 +431,28 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
+>  	if (helper->buffer) {
+>  		ret = drm_fb_helper_damage_blit(helper, &clip_copy);
+>  		if (ret)
+> -			return;
+> +			goto err;
+>  	}
+>  
+> -	if (helper->fb->funcs->dirty)
+> -		helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
+> +	if (helper->fb->funcs->dirty) {
+> +		ret = helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
+> +		if (ret)
+> +			goto err;
+
+I think this is unexpected enough that we should put some drm error
+printing here I think.
+-Daniel
+
+> +	}
+> +
+> +	return;
+> +
+> +err:
+> +	/*
+> +	 * Restore damage clip rectangle on errors. Next instance of damage
+> +	 * worker will perform the update.
+> +	 */
+> +	spin_lock_irqsave(&helper->damage_lock, flags);
+> +	clip->x1 = min_t(u32, clip->x1, clip_copy.x1);
+> +	clip->y1 = min_t(u32, clip->y1, clip_copy.y1);
+> +	clip->x2 = max_t(u32, clip->x2, clip_copy.x2);
+> +	clip->y2 = max_t(u32, clip->y2, clip_copy.y2);
+> +	spin_unlock_irqrestore(&helper->damage_lock, flags);
+>  }
+>  
+>  /**
+> -- 
+> 2.29.2
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
