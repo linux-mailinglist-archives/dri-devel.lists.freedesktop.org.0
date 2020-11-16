@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E172B51F5
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:08:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44452B51F7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:08:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768D76EA57;
-	Mon, 16 Nov 2020 20:08:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D5FA6EA5D;
+	Mon, 16 Nov 2020 20:08:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01A096E0EC
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:08:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D027D6EA57
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:08:14 +0000 (UTC)
 Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
  [51.254.78.96])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id A1AA320A8B;
- Mon, 16 Nov 2020 20:08:13 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6F5D721D7E;
+ Mon, 16 Nov 2020 20:08:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605557293;
- bh=c8VgzEkqwERkRAY+dkH9SFt/xXBqPaGtdhqo1tB0QKc=;
+ s=default; t=1605557294;
+ bh=2VOb7XIOrKIllCFHjvzwsMuOV/VdeyMcE2EElW6nZBU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mX/+Fs7fntpGEjdyn3BXW3M3Ifm0j2MBT5dXO9ckfqXrVZiP32zsiFmHeEqnNwmLc
- 4ynDNObF+192IVStFtv4tWCIUK1LIkhpzO0AXi5KNQg2xZOUREg4dbd4tK5H9ksabX
- 8bhVF1DklWQ1NIuaVepVLqZaSiyLlE7RKj/fjKl0=
+ b=B7dQGVT6lyVgTubKShhcdlUpeuwqIj9iz7z72/jyEsxV7BQjxR1AdztCjK8vlHVqO
+ FMpQUJNSs8+MogDADDpQnCVR4p/h+cRTfJso0aYb/fOgtWVWQqta118lTs37QMXV/w
+ vIoKQrZVYh7IsoTvbuZZtppjVQghNjl00BTQd8fk=
 Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78]
  helo=why.lan) by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94)
  (envelope-from <maz@kernel.org>)
- id 1keknL-00B7cF-RX; Mon, 16 Nov 2020 20:08:12 +0000
+ id 1keknM-00B7cF-Gf; Mon, 16 Nov 2020 20:08:12 +0000
 From: Marc Zyngier <maz@kernel.org>
 To: Neil Armstrong <narmstrong@baylibre.com>,
  Kevin Hilman <khilman@baylibre.com>
-Subject: [PATCH 1/4] drm/meson: Free RDMA resources after tearing down DRM
-Date: Mon, 16 Nov 2020 20:07:41 +0000
-Message-Id: <20201116200744.495826-2-maz@kernel.org>
+Subject: [PATCH 2/4] drm/meson: Unbind all connectors on module removal
+Date: Mon, 16 Nov 2020 20:07:42 +0000
+Message-Id: <20201116200744.495826-3-maz@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201116200744.495826-1-maz@kernel.org>
 References: <20201116200744.495826-1-maz@kernel.org>
@@ -70,81 +70,94 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Removing the meson DRM module results in the following splat:
+Removing the meson DRM module results in the following splats:
 
-[ 2179.451346] Hardware name:  , BIOS 2021.01-rc2-00012-gde865f7ee1 11/16/2020
-[ 2179.458316] Workqueue: events drm_mode_rmfb_work_fn [drm]
-[ 2179.463597] pstate: 80c00009 (Nzcv daif +PAN +UAO -TCO BTYPE=--)
-[ 2179.469558] pc : meson_rdma_writel_sync+0x44/0xb0 [meson_drm]
-[ 2179.475243] lr : meson_g12a_afbcd_reset+0x34/0x60 [meson_drm]
-[ 2179.480930] sp : ffffffc01212bb70
-[ 2179.484207] x29: ffffffc01212bb70 x28: ffffff8044f66f00
-[ 2179.489469] x27: ffffff8045b13800 x26: 0000000000000001
-[ 2179.494730] x25: 0000000000000000 x24: 0000000000000001
-[ 2179.499991] x23: 0000000000000000 x22: 0000000000000000
-[ 2179.505252] x21: 0000000000280000 x20: 0000000000001a01
-[ 2179.510513] x19: ffffff8046029480 x18: 0000000000000000
-[ 2179.515775] x17: 0000000000000000 x16: 0000000000000000
-[ 2179.521036] x15: 0000000000000000 x14: 0000000000000000
-[ 2179.526297] x13: 0040000000000326 x12: 0309030303260300
-[ 2179.531558] x11: 03000000054004a0 x10: 0418054004000400
-[ 2179.536820] x9 : ffffffc008fe4914 x8 : ffffff8040a1adc0
-[ 2179.542081] x7 : 0000000000000000 x6 : ffffff8042aa0080
-[ 2179.547342] x5 : ffffff8044f66f00 x4 : ffffffc008fe5bc8
-[ 2179.552603] x3 : 0000000000010101 x2 : 0000000000000001
-[ 2179.557865] x1 : 0000000000000000 x0 : 0000000000000000
-[ 2179.563127] Call trace:
-[ 2179.565548]  meson_rdma_writel_sync+0x44/0xb0 [meson_drm]
-[ 2179.570894]  meson_g12a_afbcd_reset+0x34/0x60 [meson_drm]
-[ 2179.576241]  meson_plane_atomic_disable+0x38/0xb0 [meson_drm]
-[ 2179.581966]  drm_atomic_helper_commit_planes+0x1e0/0x21c [drm_kms_helper]
-[ 2179.588684]  drm_atomic_helper_commit_tail_rpm+0x68/0xb0 [drm_kms_helper]
-[ 2179.595410]  commit_tail+0xac/0x190 [drm_kms_helper]
-[ 2179.600326]  drm_atomic_helper_commit+0x16c/0x390 [drm_kms_helper]
-[ 2179.606484]  drm_atomic_commit+0x58/0x70 [drm]
-[ 2179.610880]  drm_framebuffer_remove+0x398/0x434 [drm]
-[ 2179.615881]  drm_mode_rmfb_work_fn+0x68/0x8c [drm]
-[ 2179.620575]  process_one_work+0x1cc/0x49c
-[ 2179.624538]  worker_thread+0x200/0x444
-[ 2179.628246]  kthread+0x14c/0x160
-[ 2179.631439]  ret_from_fork+0x10/0x38
+[   42.689228] WARNING: CPU: 0 PID: 572 at drivers/gpu/drm/drm_irq.c:192 drm_irq_uninstall+0x130/0x160 [drm]
+[...]
+[   42.812820] Hardware name:  , BIOS 2021.01-rc2-00012-gde865f7ee1 11/16/2020
+[   42.819723] pstate: 80400089 (Nzcv daIf +PAN -UAO -TCO BTYPE=--)
+[   42.825737] pc : drm_irq_uninstall+0x130/0x160 [drm]
+[   42.830647] lr : drm_irq_uninstall+0xc4/0x160 [drm]
+[...]
+[   42.917614] Call trace:
+[   42.920086]  drm_irq_uninstall+0x130/0x160 [drm]
+[   42.924612]  meson_drv_unbind+0x68/0xa4 [meson_drm]
+[   42.929436]  component_del+0xc0/0x180
+[   42.933058]  meson_dw_hdmi_remove+0x28/0x40 [meson_dw_hdmi]
+[   42.938576]  platform_drv_remove+0x38/0x60
+[   42.942628]  __device_release_driver+0x190/0x23c
+[   42.947198]  driver_detach+0xcc/0x160
+[   42.950822]  bus_remove_driver+0x68/0xe0
+[   42.954702]  driver_unregister+0x3c/0x6c
+[   42.958583]  platform_driver_unregister+0x20/0x2c
+[   42.963243]  meson_dw_hdmi_platform_driver_exit+0x18/0x4a8 [meson_dw_hdmi]
+[   42.970057]  __arm64_sys_delete_module+0x1bc/0x294
+[   42.974801]  el0_svc_common.constprop.0+0x80/0x240
+[   42.979542]  do_el0_svc+0x30/0xa0
+[   42.982821]  el0_svc+0x18/0x50
+[   42.985839]  el0_sync_handler+0x198/0x404
+[   42.989806]  el0_sync+0x158/0x180
 
-caused by the fact that the RDMA buffer has already been freed,
-resulting in meson_rdma_writel_sync() getting a NULL pointer.
+immediatelly followed by
 
-Move the afbcd reset and meson_rdma_free calls after the DRM
-unregistration is complete so that the teardown can safely complete.
+[   43.002296] WARNING: CPU: 0 PID: 572 at drivers/gpu/drm/drm_mode_config.c:504 drm_mode_config_cleanup+0x2a8/0x304 [drm]
+[...]
+[   43.128150] Hardware name:  , BIOS 2021.01-rc2-00012-gde865f7ee1 11/16/2020
+[   43.135052] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO BTYPE=--)
+[   43.141062] pc : drm_mode_config_cleanup+0x2a8/0x304 [drm]
+[   43.146492] lr : drm_mode_config_cleanup+0xac/0x304 [drm]
+[...]
+[   43.233979] Call trace:
+[   43.236451]  drm_mode_config_cleanup+0x2a8/0x304 [drm]
+[   43.241538]  drm_mode_config_init_release+0x1c/0x2c [drm]
+[   43.246886]  drm_managed_release+0xa8/0x120 [drm]
+[   43.251543]  drm_dev_put+0x94/0xc0 [drm]
+[   43.255380]  meson_drv_unbind+0x78/0xa4 [meson_drm]
+[   43.260204]  component_del+0xc0/0x180
+[   43.263829]  meson_dw_hdmi_remove+0x28/0x40 [meson_dw_hdmi]
+[   43.269344]  platform_drv_remove+0x38/0x60
+[   43.273398]  __device_release_driver+0x190/0x23c
+[   43.277967]  driver_detach+0xcc/0x160
+[   43.281590]  bus_remove_driver+0x68/0xe0
+[   43.285471]  driver_unregister+0x3c/0x6c
+[   43.289352]  platform_driver_unregister+0x20/0x2c
+[   43.294011]  meson_dw_hdmi_platform_driver_exit+0x18/0x4a8 [meson_dw_hdmi]
+[   43.300826]  __arm64_sys_delete_module+0x1bc/0x294
+[   43.305570]  el0_svc_common.constprop.0+0x80/0x240
+[   43.310312]  do_el0_svc+0x30/0xa0
+[   43.313590]  el0_svc+0x18/0x50
+[   43.316608]  el0_sync_handler+0x198/0x404
+[   43.320574]  el0_sync+0x158/0x180
+[   43.323852] ---[ end trace d796a3072dab01da ]---
+[   43.328561] [drm:drm_mode_config_cleanup [drm]] *ERROR* connector HDMI-A-1 leaked!
+
+both triggered by the fact that the HDMI subsystem is still active,
+and the DRM removal doesn't result in the connectors being torn down.
+
+Call drm_atomic_helper_shutdown() and component_unbind_all() to safely
+tear the module down.
 
 Signed-off-by: Marc Zyngier <maz@kernel.org>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/meson/meson_drv.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 8b9c8dd788c4..324fa489f1c4 100644
+index 324fa489f1c4..3d1de9cbb1c8 100644
 --- a/drivers/gpu/drm/meson/meson_drv.c
 +++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -389,15 +389,15 @@ static void meson_drv_unbind(struct device *dev)
- 		meson_canvas_free(priv->canvas, priv->canvas_id_vd1_2);
+@@ -390,8 +390,10 @@ static void meson_drv_unbind(struct device *dev)
  	}
  
--	if (priv->afbcd.ops) {
--		priv->afbcd.ops->reset(priv);
--		meson_rdma_free(priv);
--	}
--
  	drm_dev_unregister(drm);
- 	drm_irq_uninstall(drm);
+-	drm_irq_uninstall(drm);
  	drm_kms_helper_poll_fini(drm);
++	drm_atomic_helper_shutdown(drm);
++	component_unbind_all(dev, drm);
++	drm_irq_uninstall(drm);
  	drm_dev_put(drm);
-+
-+	if (priv->afbcd.ops) {
-+		priv->afbcd.ops->reset(priv);
-+		meson_rdma_free(priv);
-+	}
- }
  
- static const struct component_master_ops meson_drv_master_ops = {
+ 	if (priv->afbcd.ops) {
 -- 
 2.28.0
 
