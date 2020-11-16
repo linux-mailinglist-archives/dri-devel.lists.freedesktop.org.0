@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 084252B50F4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:23:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6002B50F9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 20:25:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0935A6EA2E;
-	Mon, 16 Nov 2020 19:23:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F1C6E0EA;
+	Mon, 16 Nov 2020 19:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516556EA2E
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 19:23:47 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id t16so19925873oie.11
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 11:23:47 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83DB6E098;
+ Mon, 16 Nov 2020 19:25:14 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id h21so363923wmb.2;
+ Mon, 16 Nov 2020 11:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Mg9GFMofk+sNZIbonQjgi+ktaHQagod8RuLC5zHvQK0=;
+ b=rB+vEPl48Ca+f8EI7f5SO2q5/LWEbc7bSHAJFRsPimkl1j36X/0nzRpHjlCiydJnfC
+ CucGh4QUOtpZgxue52ccVifl2nPuI7uSEbLRGQFk+ABL+uTErfD2mOa7yX4ErdxLEk76
+ hp/pyV5Wv5/0XTWfR+pDstfw1hh+ujOFB4OOFPgDYvXrcHMfMDiJHRtPnXUK62EwhDFZ
+ 9uoac2oh4WipImhJSkHG1s+/bZ2QPe3Gs8Lu2TbxCQkE072uNBxWMEhBMntfsLmgG8HA
+ fDUVQA9MGKibcMakQr1LF37EVK5EK/IKTD5ark56QHlTpDdAR1qoKG1+1K6WMzZ2wnAX
+ jOhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=YHp22h0sVh8aF3zAeJ2CnzjjIElJ5AdSSWhtA5Wjy5w=;
- b=R4qDFjoPEiMsw+wgdUeuZbNRunsdly3pFix958yJX5BKov5Os0slsIF8m7A8Ao1EWi
- amAgRVDJsoImmg0Og34W8cXldERB0piEJhE+OitIGZfiDR8zAAP6uv8BJWc1HU5As5wX
- 1GHqhce/1J3XiT6x85NTcd/cVG8WwAIM43Emp9VDr9yS288luoEmjBQ6KSQi2pNgkvOm
- 73HhOnYp3Cm7RI3N1sfdXnEwi3PicNCsDgb14HpMc244e4dZtmw0jY9LewzLI7F9RDFh
- BhbaA7wrfsykyWEuZFiI8FV4eNlB+mNvAK8U9iT8YysEMtTOuc63nxRnOM6M2zTqGH+1
- L1Nw==
-X-Gm-Message-State: AOAM531ORbNlWqSnjgWePG1HdszZ36Re+HXaKx3HEH0QCjBLgazC0A1X
- 5X7MHgW56p3MGMMGo0hdfg==
-X-Google-Smtp-Source: ABdhPJzFCZdH0TcC7gxkghxyOwwj30pxT2y5PWpUPrPv74uo7FaLf9G8rZRnE+MWX1TFD3LMRU98LQ==
-X-Received: by 2002:aca:418b:: with SMTP id o133mr171767oia.18.1605554626560; 
- Mon, 16 Nov 2020 11:23:46 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id c18sm4054429oob.45.2020.11.16.11.23.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 11:23:45 -0800 (PST)
-Received: (nullmailer pid 1990886 invoked by uid 1000);
- Mon, 16 Nov 2020 19:23:45 -0000
-Date: Mon, 16 Nov 2020 13:23:45 -0600
-From: Rob Herring <robh@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v3] dt-bindings: display: panel: one file of all simple
- LVDS panels with dual ports
-Message-ID: <20201116192345.GA1985442@bogus>
-References: <1605161831-10740-1-git-send-email-victor.liu@nxp.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Mg9GFMofk+sNZIbonQjgi+ktaHQagod8RuLC5zHvQK0=;
+ b=IiQmycTGBI9kDg8nNZLW+Z/fUIVrAtQRHh4vAifdKX0jyeGoHZFXFaX17re12wtQkB
+ RueKRp8h7882PFbOEvhRjdwUhWW8Hn6yC6z6YnCSun5sVR2vJkJPiUsHt88xtT7LqahU
+ RKcpt71o8v+8I+FSvFwoWFJM851OHn9mxDVZZVgf6gK8pTTNmQy2dQMf4NG2wOT0vPPq
+ AEdoe+In4rVRGQ9dSbd5aAzzrUIjDpuHXE1nzacbfMrb3VX8sfRcq52ktkbm1kTLmFHu
+ w/DkkZnBpftNMnVI2wMW1gXLbaUsJjqMoQlzev9WdRSeVYHGCdxJ7r6AIcQ5sKVm3BEs
+ 284w==
+X-Gm-Message-State: AOAM533XgyIXMCs3sgkpGRmZ0roMnQbI9Np2KCvx17CL+MS+9KdEB1ZL
+ RMfDpVPj96vd5R9CB4t57L2GZyTptLXMKOl4GNc=
+X-Google-Smtp-Source: ABdhPJz0HZu46+nxNC8z8L+/DfcnRH3UuWmiHnBVvanfqFzICAnYk6XZyIPNfEadutzPlrSwLNJ7M1XR78sOdKUBGZk=
+X-Received: by 2002:a1c:2dc8:: with SMTP id t191mr56014wmt.73.1605554713457;
+ Mon, 16 Nov 2020 11:25:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1605161831-10740-1-git-send-email-victor.liu@nxp.com>
+References: <20201116173005.1825880-1-lee.jones@linaro.org>
+ <20201116173005.1825880-2-lee.jones@linaro.org>
+In-Reply-To: <20201116173005.1825880-2-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 16 Nov 2020 14:25:02 -0500
+Message-ID: <CADnq5_NnPiySfPv4Jgk4j8rvzxYkoVxRBGUAjdQJW_tL2RuTBA@mail.gmail.com>
+Subject: Re: [PATCH 01/43] drm/radeon/atombios_encoders: Move
+ 'radeon_atom_get_tv_timings()'s prototype into shared location
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,237 +63,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 12, 2020 at 02:17:11PM +0800, Liu Ying wrote:
-> To complement panel-simple.yaml, create panel-simple-lvds-dual-ports.yaml.
-> panel-simple-lvds-dual-ports.yaml is for all simple LVDS panels that
-> have dual LVDS ports and require only a single power-supply.
-> The first port receives odd pixels, and the second port receives even pixels.
-> Optionally, a backlight and an enable GPIO can be specified as properties.
-> 
-> Panels with swapped pixel order, if any, need dedicated bindings.
-> 
-> Migrate 'auo,g133han01', 'auo,g185han01', 'auo,g190ean01',
-> 'koe,tx26d202vm0bwa' and 'nlt,nl192108ac18-02d' over to the new file.
-> 
-> The objectives with one file for all the simple LVDS panels with dual ports are:
-> - Make it simpler to add bindings for this kind of LVDS panels
-> - Keep the number of bindings file lower
-> - Keep the binding documentation for this kind of LVDS panels more consistent
-> - Make it possible for drivers to get pixel order via
->   drm_of_lvds_get_dual_link_pixel_order(), as the optional 'ports' property is
->   allowed
-> 
-> Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v2->v3:
-> * Do not allow 'port' property. (Rob)
-> * Define port number. (Rob)
-> * Specify 'dual-lvds-odd-pixels' and 'dual-lvds-even-pixels' properties. (Rob)
-> 
-> v1->v2:
-> * Correct pixel order in example LVDS panel node.
-> 
->  .../panel/panel-simple-lvds-dual-ports.yaml        | 126 +++++++++++++++++++++
->  .../bindings/display/panel/panel-simple.yaml       |  10 --
->  2 files changed, 126 insertions(+), 10 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> new file mode 100644
-> index 00000000..d30ae82
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> @@ -0,0 +1,126 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Simple LVDS panels with one power supply and dual LVDS ports
-> +
-> +maintainers:
-> +  - Liu Ying <victor.liu@nxp.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +  - Sam Ravnborg <sam@ravnborg.org>
-> +
-> +description: |
-> +  This binding file is a collection of the LVDS panels that
-> +  has dual LVDS ports and requires only a single power-supply.
-> +  The first port receives odd pixels, and the second port receives even pixels.
-> +  There are optionally a backlight and an enable GPIO.
-> +  The panel may use an OF graph binding for the association to the display,
-> +  or it may be a direct child node of the display.
-> +
-> +  If the panel is more advanced a dedicated binding file is required.
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +
-> +properties:
-> +
-> +  compatible:
-> +    enum:
-> +    # compatible must be listed in alphabetical order, ordered by compatible.
-> +    # The description in the comment is mandatory for each compatible.
-> +
-> +        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-> +      - auo,g133han01
-> +        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-> +      - auo,g185han01
-> +        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
-> +      - auo,g190ean01
-> +        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-> +      - koe,tx26d202vm0bwa
-> +        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-> +      - nlt,nl192108ac18-02d
-> +
-> +  ports:
-> +    type: object
-> +    properties:
-> +      '#address-cells':
-> +        const: 1
-> +
-> +      '#size-cells':
-> +        const: 0
-> +
-> +      port@0:
-> +        type: object
-> +        description: The sink for odd pixels.
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          dual-lvds-odd-pixels: true
-
-Needs a type and description.
-
-> +
-> +        required:
-> +          - reg
-> +          - dual-lvds-odd-pixels
-> +
-> +      port@1:
-> +        type: object
-> +        description: The sink for even pixels.
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +          dual-lvds-even-pixels: true
-
-Needs a type and description.
-
-> +
-> +        required:
-> +          - reg
-> +          - dual-lvds-even-pixels
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
-> +
-> +    additionalProperties: false
-> +
-> +  backlight: true
-> +  enable-gpios: true
-> +  power-supply: true
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - power-supply
-> +
-> +examples:
-> +  - |
-> +    panel: panel-lvds {
-> +      compatible = "koe,tx26d202vm0bwa";
-> +      power-supply = <&vdd_lcd_reg>;
-> +
-> +      ports {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        port@0 {
-> +          dual-lvds-odd-pixels;
-> +          reg = <0>;
-> +
-> +          panel_lvds0_in: endpoint {
-> +            remote-endpoint = <&lvds0_out>;
-> +          };
-> +        };
-> +
-> +        port@1 {
-> +          dual-lvds-even-pixels;
-> +          reg = <1>;
-> +
-> +          panel_lvds1_in: endpoint {
-> +            remote-endpoint = <&lvds1_out>;
-> +          };
-> +        };
-> +      };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index f9750b0..62618e4 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -57,14 +57,8 @@ properties:
->        - auo,g104sn02
->          # AU Optronics Corporation 12.1" (1280x800) TFT LCD panel
->        - auo,g121ean01
-> -        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-> -      - auo,g133han01
->          # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
->        - auo,g156xtn01
-> -        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-> -      - auo,g185han01
-> -        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
-> -      - auo,g190ean01
->          # AU Optronics Corporation 31.5" FHD (1920x1080) TFT LCD panel
->        - auo,p320hvn03
->          # AU Optronics Corporation 21.5" FHD (1920x1080) color TFT LCD panel
-> @@ -167,8 +161,6 @@ properties:
->        - kingdisplay,kd116n21-30nv-a010
->          # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
->        - koe,tx14d24vm1bpa
-> -        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-> -      - koe,tx26d202vm0bwa
->          # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
->        - koe,tx31d200vm0baa
->          # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
-> @@ -205,8 +197,6 @@ properties:
->        - neweast,wjfh116008a
->          # Newhaven Display International 480 x 272 TFT LCD panel
->        - newhaven,nhd-4.3-480272ef-atxl
-> -        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-> -      - nlt,nl192108ac18-02d
->          # New Vision Display 7.0" 800 RGB x 480 TFT LCD panel
->        - nvd,9128
->          # OKAYA Electric America, Inc. RS800480T-7X0GP 7" WVGA LCD panel
-> -- 
-> 2.7.4
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMTI6MzAgUE0gTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
+YXJvLm9yZz4gd3JvdGU6Cj4KPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVpbGQg
+d2FybmluZyhzKToKPgo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5j
+OjE3OTE6Njogd2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhyYWRlb25fYXRv
+bV9nZXRfdHZfdGltaW5nc+KAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gIDE3OTEgfCBib29s
+IHJhZGVvbl9hdG9tX2dldF90dl90aW1pbmdzKHN0cnVjdCByYWRlb25fZGV2aWNlICpyZGV2LCBp
+bnQgaW5kZXgsCj4gIHwgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4KPgo+IENjOiBBbGV4IERl
+dWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmln
+IiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRA
+bGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogYW1k
+LWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+
+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
+bi9hdG9tYmlvc19lbmNvZGVycy5jIHwgIDUgKy0tCj4gIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24v
+cmFkZW9uX2F0b21iaW9zLmMgICB8ICAxICsKPiAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
+b25fYXRvbWJpb3MuaCAgIHwgMzcgKysrKysrKysrKysrKysrKysrKysrKwo+ICAzIGZpbGVzIGNo
+YW5nZWQsIDM5IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4gIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5oCj4KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9hdG9tYmlvc19lbmNvZGVycy5jIGIvZHJpdmVy
+cy9ncHUvZHJtL3JhZGVvbi9hdG9tYmlvc19lbmNvZGVycy5jCj4gaW5kZXggY2M1ZWUxYjNhZjg0
+Zi4uNjgzZGUxOThlMThkOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2F0
+b21iaW9zX2VuY29kZXJzLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2F0b21iaW9z
+X2VuY29kZXJzLmMKPiBAQCAtMzMsNiArMzMsNyBAQAo+ICAjaW5jbHVkZSA8ZHJtL3JhZGVvbl9k
+cm0uaD4KPgo+ICAjaW5jbHVkZSAiYXRvbS5oIgo+ICsjaW5jbHVkZSAicmFkZW9uX2F0b21iaW9z
+LmgiCj4gICNpbmNsdWRlICJyYWRlb24uaCIKPiAgI2luY2x1ZGUgInJhZGVvbl9hc2ljLmgiCj4g
+ICNpbmNsdWRlICJyYWRlb25fYXVkaW8uaCIKPiBAQCAtMjk2LDEwICsyOTcsNiBAQCBzdGF0aWMg
+dm9pZCByYWRlb25fYXRvbV9iYWNrbGlnaHRfZXhpdChzdHJ1Y3QgcmFkZW9uX2VuY29kZXIgKmVu
+Y29kZXIpCj4KPiAgI2VuZGlmCj4KPiAtLyogZXZpbCBidXQgaW5jbHVkaW5nIGF0b21iaW9zLmgg
+aXMgbXVjaCB3b3JzZSAqLwo+IC1ib29sIHJhZGVvbl9hdG9tX2dldF90dl90aW1pbmdzKHN0cnVj
+dCByYWRlb25fZGV2aWNlICpyZGV2LCBpbnQgaW5kZXgsCj4gLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSk7Cj4gLQo+ICBzdGF0aWMg
+Ym9vbCByYWRlb25fYXRvbV9tb2RlX2ZpeHVwKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwK
+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IHN0cnVjdCBkcm1fZGlz
+cGxheV9tb2RlICptb2RlLAo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc3Ry
+dWN0IGRybV9kaXNwbGF5X21vZGUgKmFkanVzdGVkX21vZGUpCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2F0b21iaW9zLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFk
+ZW9uL3JhZGVvbl9hdG9tYmlvcy5jCj4gaW5kZXggNWQyNTkxNzI1MTg5Mi4uNzFiZjJlZDE3MjY5
+NyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5j
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fYXRvbWJpb3MuYwo+IEBAIC0z
+NCw2ICszNCw3IEBACj4gICNpbmNsdWRlICJhdG9tLmgiCj4gICNpbmNsdWRlICJhdG9tLWJpdHMu
+aCIKPiAgI2luY2x1ZGUgInJhZGVvbl9hc2ljLmgiCj4gKyNpbmNsdWRlICJyYWRlb25fYXRvbWJp
+b3MuaCIKPgo+ICBleHRlcm4gdm9pZAo+ICByYWRlb25fYWRkX2F0b21fZW5jb2RlcihzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZGV2LCB1aW50MzJfdCBlbmNvZGVyX2VudW0sCj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2F0b21iaW9zLmggYi9kcml2ZXJzL2dwdS9kcm0v
+cmFkZW9uL3JhZGVvbl9hdG9tYmlvcy5oCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPiBpbmRleCAw
+MDAwMDAwMDAwMDAwLi5iN2M3NjkyMGZlYjdkCj4gLS0tIC9kZXYvbnVsbAo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2F0b21iaW9zLmgKPiBAQCAtMCwwICsxLDM3IEBACj4g
+Ky8qIHJhZGVvbl9hdG9tYmlvcy5oIC0tIFByaXZhdGUgaGVhZGVyIGZvciByYWRlb24gZHJpdmVy
+IC0qLSBsaW51eC1jIC0qLQo+ICsgKgo+ICsgKiBDb3B5cmlnaHQgMjAwNy04IEFkdmFuY2VkIE1p
+Y3JvIERldmljZXMsIEluYy4KPiArICogQ29weXJpZ2h0IDIwMDggUmVkIEhhdCBJbmMuCj4gKyAq
+Cj4gKyAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBh
+bnkgcGVyc29uIG9idGFpbmluZyBhCj4gKyAqIGNvcHkgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNz
+b2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksCj4gKyAqIHRvIGRl
+YWwgaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRob3V0
+IGxpbWl0YXRpb24KPiArICogdGhlIHJpZ2h0cyB0byB1c2UsIGNvcHksIG1vZGlmeSwgbWVyZ2Us
+IHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsCj4gKyAqIGFuZC9vciBzZWxsIGNvcGll
+cyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZQo+ICsg
+KiBTb2Z0d2FyZSBpcyBmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3QgdG8gdGhlIGZvbGxvd2lu
+ZyBjb25kaXRpb25zOgo+ICsgKgo+ICsgKiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQg
+dGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNsdWRlZCBpbgo+ICsgKiBhbGwgY29w
+aWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4KPiArICoKPiArICog
+VEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5Z
+IEtJTkQsIEVYUFJFU1MgT1IKPiArICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRF
+RCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCj4gKyAqIEZJVE5FU1MgRk9S
+IEEgUEFSVElDVUxBUiBQVVJQT1NFIEFORCBOT05JTkZSSU5HRU1FTlQuICBJTiBOTyBFVkVOVCBT
+SEFMTAo+ICsgKiBUSEUgQ09QWVJJR0hUIEhPTERFUihTKSBPUiBBVVRIT1IoUykgQkUgTElBQkxF
+IEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IKPiArICogT1RIRVIgTElBQklMSVRZLCBXSEVUSEVS
+IElOIEFOIEFDVElPTiBPRiBDT05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsCj4gKyAqIEFSSVNJ
+TkcgRlJPTSwgT1VUIE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhF
+IFVTRSBPUgo+ICsgKiBPVEhFUiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCj4gKyAqCj4gKyAq
+IEF1dGhvcnM6IERhdmUgQWlybGllCj4gKyAqICAgICAgICAgIEFsZXggRGV1Y2hlcgo+ICsgKi8K
+PiArCj4gKyNpZm5kZWYgX19SQURFT05fQVRPTUJJT1NfSF9fCj4gKyNkZWZpbmUgX19SQURFT05f
+QVRPTUJJT1NfSF9fCj4gKwo+ICtzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZTsKPiArc3RydWN0IHJh
+ZGVvbl9kZXZpY2U7Cj4gKwo+ICtib29sIHJhZGVvbl9hdG9tX2dldF90dl90aW1pbmdzKHN0cnVj
+dCByYWRlb25fZGV2aWNlICpyZGV2LCBpbnQgaW5kZXgsCj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBzdHJ1Y3QgZHJtX2Rpc3BsYXlfbW9kZSAqbW9kZSk7Cj4gKwo+ICsjZW5kaWYg
+ICAgICAgICAgICAgICAgICAgICAgICAgLyogX19SQURFT05fQVRPTUJJT1NfSF9fICovCj4gLS0K
+PiAyLjI1LjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
+cC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
