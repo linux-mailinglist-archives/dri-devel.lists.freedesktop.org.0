@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413FC2B4DC8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42442B4DC7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E134D6EA12;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 669856EA0C;
 	Mon, 16 Nov 2020 17:42:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E2C66EA0F
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:42:08 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id k2so19705160wrx.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:42:08 -0800 (PST)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 991896EA03
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:42:09 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id 19so58312wmf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:42:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xPa36hbXRaCWHNKBNpsuuGTQcILERbE7+3Txd9Olckk=;
- b=pRWYp0XTrVtt3Xvh9YDV5tP6dikwZIDkT90eW9C2OdRoYyd2HswTEVenhb4ycBTOiv
- m0PyBnWv7J8AixspV9covb8JFHnTe8YM2jN84skal5ondJKls6A9lksIy6pD9EwgxGhu
- rZGOvxBj8p/+8YLdDB/E8ijfhC08TPNqfGpoofRbq3gc+zDXXnJaMWSM7DkwmQ8MPgv+
- TqFQ4HaN6/KAC4JiaFVOqnS2icRTYJIr0TJbh3U3s7h2r0dLE4IVIFrX0EVgBgEIAaRV
- AN5bru5QhzF8jQZ2zWe5YmVhQMZlVkG5l/V9ybXf+8ELVTcEHTtIcpONXI3T+dCsPR4K
- yNvA==
+ bh=CdkaNwQj8NyYLTZAwxAzCnUjBubyLoQ1IDILNJ47mBc=;
+ b=KYfB0p1J8ty+Ajm53YV2GUUYUG37fGMs+sTFghOyy81qeMcYCCBI0/1BHv2PUUIjDE
+ YJYsC/JCj7JtTZj3LyeZyJ1ma6n7LJCEiHH/ECiJExw5fRbRQdumA6Nqr77uK6bjFOuI
+ BdrOz9vOe7aKsV8/DI8+LaFvwRQe2SdAvBaMINlVnHFLwMn2zrcuItOO7epWpzEzcjjy
+ LL8GNS3NJxYFhMeaQpdHZhvjk7TSm74KER7gMmo4vmP71LM3IdxdizLCIdPV2MH7hQ17
+ JfRc3KXZvX7Yqz6mbHZE9RjWwh5uzsQrwJoHLX7oWExRQ5v6vbpRbZzjuFUDhyOTxtV2
+ 42Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xPa36hbXRaCWHNKBNpsuuGTQcILERbE7+3Txd9Olckk=;
- b=DWPLU3iFw/HJt7BKLg7kCtAHtI+Upm3Ir2eyo9qUerijkG+8sJKb9pCYhFieIvWwh5
- lqswGtOc9LCyuOUUYMXLjWrEcc21J7ENRFq1hygHEgxEwxXrgXIFfYMZQG3/R68sArJ2
- LcoVv9xEN6G5Y7ggdatqMGnvJXXQsZD+itzkZP6IHZJhMNZfA3DrJuiqGggbvE181jwi
- Joxd8AhGJCwUnlnDmDb8EHMhE1MFKZaF8PzlusBoT/+9sUdFF9Hypkzed7c80P4UNmQL
- BSrFizD602d/AKBkcTVQwbKE9O+QBRCML54/URtF2oIvACkjIdU1PKNsGcm00aTH/cXp
- 8XxQ==
-X-Gm-Message-State: AOAM531WAzYCRAaYD6CFiDCcDNcARwYK+5TRH7QsbF6FJDCKs+nXIkY4
- zFaWJFzzUz7HNKLvPcXkv9cKOg==
-X-Google-Smtp-Source: ABdhPJwhedprnVRT8XYKz4ZODyRIwOSlsB9QfSG2MGDe7+rjWfM0Dx7z9ufFAbkbiueG2aby7uBBaA==
-X-Received: by 2002:adf:8030:: with SMTP id 45mr20573626wrk.407.1605548526801; 
- Mon, 16 Nov 2020 09:42:06 -0800 (PST)
+ bh=CdkaNwQj8NyYLTZAwxAzCnUjBubyLoQ1IDILNJ47mBc=;
+ b=BijZSMvPxntCmdJgRABAE7I7kpOj6sIQ2l9FIN0bZvbt97xUt448GbfnvO3iA2gbTz
+ odX39OfinhswnHoypopnCt5GMl03PYKRCbejMoRjm2lPwjIIG9Q7x1c7Px7a4OaOX/T5
+ fzKC0DwYSW5lU1S7ON9m+qseLMjwubEV/MDJTAc/bfdA2qN75/nwS8oVBTilAzr77+1n
+ +qM+bcso3KE+gHLjS8vXbY6aZ2k2aXERUJnpM3LvTC/C+zrmiElD5ky24o8JA1x0TJ+x
+ DOsPzJ0UO55s9Vv/wEHHLZ2Bw0iHm9EBNy7jHGd8DbtyYP+8IlxseJhzSh3t+9twnN9c
+ FDbw==
+X-Gm-Message-State: AOAM531lAKsJSIaKzfbm/iobPyYgO2/Y44ArlEMtzjvIEpNM834FEsHy
+ qceT3/RbN9SnpRUv5JOfw3SS3A==
+X-Google-Smtp-Source: ABdhPJy4j2soVkwNqRi5Mut8ukSXC78cgBDynmPGR3xvRkypNFcub1qJ/G6B6xgySH2RieWkvkMAcA==
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr17523wmi.164.1605548528328;
+ Mon, 16 Nov 2020 09:42:08 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.42.05
+ by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 09:42:06 -0800 (PST)
+ Mon, 16 Nov 2020 09:42:07 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 33/42] drm/ttm/ttm_range_manager: Demote non-conformant
- kernel-doc header
-Date: Mon, 16 Nov 2020 17:41:03 +0000
-Message-Id: <20201116174112.1833368-34-lee.jones@linaro.org>
+Subject: [PATCH 34/42] drm/v3d/v3d_drv: Remove unused static variable
+ 'v3d_v3d_pm_ops'
+Date: Mon, 16 Nov 2020 17:41:04 +0000
+Message-Id: <20201116174112.1833368-35-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116174112.1833368-1-lee.jones@linaro.org>
 References: <20201116174112.1833368-1-lee.jones@linaro.org>
@@ -68,44 +68,40 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
- Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/ttm/ttm_range_manager.c:46: warning: cannot understand function prototype: 'struct ttm_range_manager '
-
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/ttm/ttm_range_manager.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/drm/ttm/ttm_range_manager.c
-index ea77919569a2e..e0952444cea93 100644
---- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-+++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-@@ -37,7 +37,7 @@
- #include <linux/spinlock.h>
- #include <linux/module.h>
- 
--/**
-+/*
-  * Currently we use a spinlock for the lock, but a mutex *may* be
-  * more appropriate to reduce scheduling latency if the range manager
-  * ends up with very fragmented allocation patterns.
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL3YzZC92M2RfZHJ2LmM6NzM6MzI6IHdhcm5pbmc6IOKAmHYzZF92M2RfcG1fb3Bz
+4oCZIGRlZmluZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1jb25zdC12YXJpYWJsZT1dCgpDYzog
+RXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBs
+aW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IFBoaWxpcHAg
+WmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+CkNjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+
+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmMgfCAzNiAtLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDM2IGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJt
+L3YzZC92M2RfZHJ2LmMKaW5kZXggMmRhMGMxMTgwYmM2OS4uNDJkNDAxZmQyNDRlMyAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2RfZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJt
+L3YzZC92M2RfZHJ2LmMKQEAgLTM4LDQyICszOCw2IEBACiAjZGVmaW5lIERSSVZFUl9NSU5PUiAw
+CiAjZGVmaW5lIERSSVZFUl9QQVRDSExFVkVMIDAKIAotI2lmZGVmIENPTkZJR19QTQotc3RhdGlj
+IGludCB2M2RfcnVudGltZV9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKLXsKLQlzdHJ1Y3Qg
+ZHJtX2RldmljZSAqZHJtID0gZGV2X2dldF9kcnZkYXRhKGRldik7Ci0Jc3RydWN0IHYzZF9kZXYg
+KnYzZCA9IHRvX3YzZF9kZXYoZHJtKTsKLQotCXYzZF9pcnFfZGlzYWJsZSh2M2QpOwotCi0JY2xr
+X2Rpc2FibGVfdW5wcmVwYXJlKHYzZC0+Y2xrKTsKLQotCXJldHVybiAwOwotfQotCi1zdGF0aWMg
+aW50IHYzZF9ydW50aW1lX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCi17Ci0Jc3RydWN0IGRy
+bV9kZXZpY2UgKmRybSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwotCXN0cnVjdCB2M2RfZGV2ICp2
+M2QgPSB0b192M2RfZGV2KGRybSk7Ci0JaW50IHJldDsKLQotCXJldCA9IGNsa19wcmVwYXJlX2Vu
+YWJsZSh2M2QtPmNsayk7Ci0JaWYgKHJldCAhPSAwKQotCQlyZXR1cm4gcmV0OwotCi0JLyogWFhY
+OiBWUE0gYmFzZSAqLwotCi0JdjNkX21tdV9zZXRfcGFnZV90YWJsZSh2M2QpOwotCXYzZF9pcnFf
+ZW5hYmxlKHYzZCk7Ci0KLQlyZXR1cm4gMDsKLX0KLSNlbmRpZgotCi1zdGF0aWMgY29uc3Qgc3Ry
+dWN0IGRldl9wbV9vcHMgdjNkX3YzZF9wbV9vcHMgPSB7Ci0JU0VUX1JVTlRJTUVfUE1fT1BTKHYz
+ZF9ydW50aW1lX3N1c3BlbmQsIHYzZF9ydW50aW1lX3Jlc3VtZSwgTlVMTCkKLX07Ci0KIHN0YXRp
+YyBpbnQgdjNkX2dldF9wYXJhbV9pb2N0bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpk
+YXRhLAogCQkJICAgICAgIHN0cnVjdCBkcm1fZmlsZSAqZmlsZV9wcml2KQogewotLSAKMi4yNS4x
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
