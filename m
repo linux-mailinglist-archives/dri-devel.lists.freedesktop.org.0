@@ -2,45 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82952B42F6
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 12:37:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F24892B4401
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 13:51:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D92889C19;
-	Mon, 16 Nov 2020 11:37:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C42789CF9;
+	Mon, 16 Nov 2020 12:51:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3515B89C0D;
- Mon, 16 Nov 2020 11:37:25 +0000 (UTC)
-IronPort-SDR: FEvrBV5PMuHVXWYLI5/rbMwSTs5WQNs+YcKIfDXDlqylI76pA0n4I/79/bhcCWZGlv+5Lgjzr+
- sY2iijJiHaCQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9806"; a="167221840"
-X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; d="scan'208";a="167221840"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 03:37:24 -0800
-IronPort-SDR: lLMHN6GNjn4zRt2FxKbUlgk/sq8Gl1rKoqrqo5STFxSDUCsh/sUCtiWtFMtKHbUoaE1N0+D6h6
- g+d6cMIQWyZQ==
-X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; d="scan'208";a="543571927"
-Received: from mfinegan-mobl.ger.corp.intel.com (HELO localhost)
- ([10.251.82.228])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 03:37:14 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 05/27] drm: fix some kernel-doc markups
-In-Reply-To: <12d4ca26f6843618200529ce5445063734d38c04.1605521731.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1605521731.git.mchehab+huawei@kernel.org>
- <12d4ca26f6843618200529ce5445063734d38c04.1605521731.git.mchehab+huawei@kernel.org>
-Date: Mon, 16 Nov 2020 13:37:11 +0200
-Message-ID: <87eektr0rc.fsf@intel.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB0E689CF9
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 12:51:49 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 873BBAC48;
+ Mon, 16 Nov 2020 12:51:48 +0000 (UTC)
+Subject: Re: [PATCH 4/4] drm/radeon/ttm: use multihop
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <20201109005432.861936-1-airlied@gmail.com>
+ <20201109005432.861936-5-airlied@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <9a41272a-91d6-9f7a-829f-c8c20d1774ea@suse.de>
+Date: Mon, 16 Nov 2020 13:51:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201109005432.861936-5-airlied@gmail.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,1210 +40,426 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Nirmoy Das <nirmoy.aiemd@gmail.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, changzhu <Changfeng.Zhu@amd.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Yintian Tao <yttao@amd.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
- Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>,
- Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: christian.koenig@amd.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 16 Nov 2020, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> Some identifiers have different names between their prototypes
-> and the kernel-doc markup.
->
-> Others need to be fixed, as kernel-doc markups should use this format:
->         identifier - description
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c     | 2 +-
->  drivers/gpu/drm/drm_connector.c               | 3 ++-
->  drivers/gpu/drm/drm_dp_helper.c               | 2 +-
->  drivers/gpu/drm/drm_framebuffer.c             | 2 +-
->  drivers/gpu/drm/drm_gem.c                     | 4 ++--
->  drivers/gpu/drm/drm_gem_vram_helper.c         | 2 +-
->  drivers/gpu/drm/drm_mode_object.c             | 2 +-
->  drivers/gpu/drm/drm_modes.c                   | 4 ++--
->  drivers/gpu/drm/drm_scdc_helper.c             | 2 +-
->  drivers/gpu/drm/i915/display/intel_dpll_mgr.c | 2 +-
->  drivers/gpu/drm/i915/i915_gem_evict.c         | 2 +-
->  drivers/gpu/drm/i915/i915_perf.c              | 8 +++++---
-
-For the i915 parts,
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-
-for merging via whichever tree.
-
->  drivers/gpu/drm/scheduler/sched_main.c        | 2 +-
->  drivers/gpu/drm/v3d/v3d_sched.c               | 2 +-
->  drivers/gpu/drm/vc4/vc4_bo.c                  | 2 +-
->  include/drm/drm_atomic_helper.h               | 4 ++--
->  include/drm/drm_connector.h                   | 2 +-
->  include/drm/drm_device.h                      | 2 +-
->  include/drm/drm_dsc.h                         | 3 ++-
->  include/drm/drm_gem_vram_helper.h             | 8 ++++----
->  20 files changed, 32 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 9ad74045158e..ddcf5c2c8e6a 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -526,41 +526,41 @@ __drm_atomic_helper_connector_destroy_state(struct drm_connector_state *state)
->  }
->  EXPORT_SYMBOL(__drm_atomic_helper_connector_destroy_state);
->  
->  /**
->   * drm_atomic_helper_connector_destroy_state - default state destroy hook
->   * @connector: drm connector
->   * @state: connector state object to release
->   *
->   * Default connector state destroy hook for drivers which don't have their own
->   * subclassed connector state structure.
->   */
->  void drm_atomic_helper_connector_destroy_state(struct drm_connector *connector,
->  					  struct drm_connector_state *state)
->  {
->  	__drm_atomic_helper_connector_destroy_state(state);
->  	kfree(state);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
->  
->  /**
-> - * __drm_atomic_helper_private_duplicate_state - copy atomic private state
-> + * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
->   * @obj: CRTC object
->   * @state: new private object state
->   *
->   * Copies atomic state from a private objects's current state and resets inferred values.
->   * This is useful for drivers that subclass the private state.
->   */
->  void __drm_atomic_helper_private_obj_duplicate_state(struct drm_private_obj *obj,
->  						     struct drm_private_state *state)
->  {
->  	memcpy(state, obj->state, sizeof(*state));
->  }
->  EXPORT_SYMBOL(__drm_atomic_helper_private_obj_duplicate_state);
->  
->  /**
->   * __drm_atomic_helper_bridge_duplicate_state() - Copy atomic bridge state
->   * @bridge: bridge object
->   * @state: atomic bridge state
->   *
->   * Copies atomic state from a bridge's current state and resets inferred values.
->   * This is useful for drivers that subclass the bridge state.
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 1913d8b4e16a..98b6ec45ef96 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1415,41 +1415,42 @@ void drm_hdmi_avi_infoframe_content_type(struct hdmi_avi_infoframe *frame,
->  		break;
->  	case DRM_MODE_CONTENT_TYPE_CINEMA:
->  		frame->content_type = HDMI_CONTENT_TYPE_CINEMA;
->  		break;
->  	case DRM_MODE_CONTENT_TYPE_GAME:
->  		frame->content_type = HDMI_CONTENT_TYPE_GAME;
->  		break;
->  	case DRM_MODE_CONTENT_TYPE_PHOTO:
->  		frame->content_type = HDMI_CONTENT_TYPE_PHOTO;
->  		break;
->  	default:
->  		/* Graphics is the default(0) */
->  		frame->content_type = HDMI_CONTENT_TYPE_GRAPHICS;
->  	}
->  
->  	frame->itc = conn_state->content_type != DRM_MODE_CONTENT_TYPE_NO_DATA;
->  }
->  EXPORT_SYMBOL(drm_hdmi_avi_infoframe_content_type);
->  
->  /**
-> - * drm_mode_attach_tv_margin_properties - attach TV connector margin properties
-> + * drm_connector_attach_tv_margin_properties - attach TV connector margin
-> + * 	properties
->   * @connector: DRM connector
->   *
->   * Called by a driver when it needs to attach TV margin props to a connector.
->   * Typically used on SDTV and HDMI connectors.
->   */
->  void drm_connector_attach_tv_margin_properties(struct drm_connector *connector)
->  {
->  	struct drm_device *dev = connector->dev;
->  
->  	drm_object_attach_property(&connector->base,
->  				   dev->mode_config.tv_left_margin_property,
->  				   0);
->  	drm_object_attach_property(&connector->base,
->  				   dev->mode_config.tv_right_margin_property,
->  				   0);
->  	drm_object_attach_property(&connector->base,
->  				   dev->mode_config.tv_top_margin_property,
->  				   0);
->  	drm_object_attach_property(&connector->base,
->  				   dev->mode_config.tv_bottom_margin_property,
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-> index 37ec3b94389c..5bd0934004e3 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -1144,41 +1144,41 @@ drm_dp_subconnector_type(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
->  	switch (type) {
->  	case DP_DS_PORT_TYPE_DP:
->  	case DP_DS_PORT_TYPE_DP_DUALMODE:
->  		return DRM_MODE_SUBCONNECTOR_DisplayPort;
->  	case DP_DS_PORT_TYPE_VGA:
->  		return DRM_MODE_SUBCONNECTOR_VGA;
->  	case DP_DS_PORT_TYPE_DVI:
->  		return DRM_MODE_SUBCONNECTOR_DVID;
->  	case DP_DS_PORT_TYPE_HDMI:
->  		return DRM_MODE_SUBCONNECTOR_HDMIA;
->  	case DP_DS_PORT_TYPE_WIRELESS:
->  		return DRM_MODE_SUBCONNECTOR_Wireless;
->  	case DP_DS_PORT_TYPE_NON_EDID:
->  	default:
->  		return DRM_MODE_SUBCONNECTOR_Unknown;
->  	}
->  }
->  EXPORT_SYMBOL(drm_dp_subconnector_type);
->  
->  /**
-> - * drm_mode_set_dp_subconnector_property - set subconnector for DP connector
-> + * drm_dp_set_subconnector_property - set subconnector for DP connector
->   * @connector: connector to set property on
->   * @status: connector status
->   * @dpcd: DisplayPort configuration data
->   * @port_cap: port capabilities
->   *
->   * Called by a driver on every detect event.
->   */
->  void drm_dp_set_subconnector_property(struct drm_connector *connector,
->  				      enum drm_connector_status status,
->  				      const u8 *dpcd,
->  				      const u8 port_cap[4])
->  {
->  	enum drm_mode_subconnector subconnector = DRM_MODE_SUBCONNECTOR_Unknown;
->  
->  	if (status == connector_status_connected)
->  		subconnector = drm_dp_subconnector_type(dpcd, port_cap);
->  	drm_object_property_set_value(&connector->base,
->  			connector->dev->mode_config.dp_subconnector_property,
->  			subconnector);
->  }
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 2f5b0c2bb0fe..aca62ed51e82 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -535,41 +535,41 @@ int drm_mode_getfb(struct drm_device *dev,
->  
->  	/* GET_FB() is an unprivileged ioctl so we must not return a
->  	 * buffer-handle to non-master processes! For
->  	 * backwards-compatibility reasons, we cannot make GET_FB() privileged,
->  	 * so just return an invalid handle for non-masters.
->  	 */
->  	if (!drm_is_current_master(file_priv) && !capable(CAP_SYS_ADMIN)) {
->  		r->handle = 0;
->  		ret = 0;
->  		goto out;
->  	}
->  
->  	ret = fb->funcs->create_handle(fb, file_priv, &r->handle);
->  
->  out:
->  	drm_framebuffer_put(fb);
->  	return ret;
->  }
->  
->  /**
-> - * drm_mode_getfb2 - get extended FB info
-> + * drm_mode_getfb2_ioctl - get extended FB info
->   * @dev: drm device for the ioctl
->   * @data: data pointer for the ioctl
->   * @file_priv: drm file for the ioctl call
->   *
->   * Lookup the FB given its ID and return info about it.
->   *
->   * Called by the user via ioctl.
->   *
->   * Returns:
->   * Zero on success, negative errno on failure.
->   */
->  int drm_mode_getfb2_ioctl(struct drm_device *dev,
->  			  void *data, struct drm_file *file_priv)
->  {
->  	struct drm_mode_fb_cmd2 *r = data;
->  	struct drm_framebuffer *fb;
->  	unsigned int i;
->  	int ret;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index eb2d23e04be9..92f89cee213e 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -850,41 +850,41 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
->  	}
->  
->  	if (!obj->name) {
->  		ret = idr_alloc(&dev->object_name_idr, obj, 1, 0, GFP_KERNEL);
->  		if (ret < 0)
->  			goto err;
->  
->  		obj->name = ret;
->  	}
->  
->  	args->name = (uint64_t) obj->name;
->  	ret = 0;
->  
->  err:
->  	mutex_unlock(&dev->object_name_lock);
->  	drm_gem_object_put(obj);
->  	return ret;
->  }
->  
->  /**
-> - * drm_gem_open - implementation of the GEM_OPEN ioctl
-> + * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
->   * @dev: drm_device
->   * @data: ioctl data
->   * @file_priv: drm file-private structure
->   *
->   * Open an object using the global name, returning a handle and the size.
->   *
->   * This handle (of course) holds a reference to the object, so the object
->   * will not go away until the handle is deleted.
->   */
->  int
->  drm_gem_open_ioctl(struct drm_device *dev, void *data,
->  		   struct drm_file *file_priv)
->  {
->  	struct drm_gem_open *args = data;
->  	struct drm_gem_object *obj;
->  	int ret;
->  	u32 handle;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_GEM))
->  		return -EOPNOTSUPP;
-> @@ -895,41 +895,41 @@ drm_gem_open_ioctl(struct drm_device *dev, void *data,
->  		drm_gem_object_get(obj);
->  	} else {
->  		mutex_unlock(&dev->object_name_lock);
->  		return -ENOENT;
->  	}
->  
->  	/* drm_gem_handle_create_tail unlocks dev->object_name_lock. */
->  	ret = drm_gem_handle_create_tail(file_priv, obj, &handle);
->  	if (ret)
->  		goto err;
->  
->  	args->handle = handle;
->  	args->size = obj->size;
->  
->  err:
->  	drm_gem_object_put(obj);
->  	return ret;
->  }
->  
->  /**
-> - * gem_gem_open - initalizes GEM file-private structures at devnode open time
-> + * drm_gem_open - initalizes GEM file-private structures at devnode open time
->   * @dev: drm_device which is being opened by userspace
->   * @file_private: drm file-private structure to set up
->   *
->   * Called at device open time, sets up the structure for handling refcounting
->   * of mm objects.
->   */
->  void
->  drm_gem_open(struct drm_device *dev, struct drm_file *file_private)
->  {
->  	idr_init_base(&file_private->object_idr, 1);
->  	spin_lock_init(&file_private->table_lock);
->  }
->  
->  /**
->   * drm_gem_release - release file-private GEM resources
->   * @dev: drm_device which is being closed by userspace
->   * @file_private: drm file-private structure to clean up
->   *
->   * Called at close time when the filp is going away.
->   *
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index 889a06696f7e..02ca22e90290 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -600,41 +600,41 @@ static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
->   * Helpers for struct drm_gem_object_funcs
->   */
->  
->  /**
->   * drm_gem_vram_object_free() - \
->  	Implements &struct drm_gem_object_funcs.free
->   * @gem:       GEM object. Refers to &struct drm_gem_vram_object.gem
->   */
->  static void drm_gem_vram_object_free(struct drm_gem_object *gem)
->  {
->  	struct drm_gem_vram_object *gbo = drm_gem_vram_of_gem(gem);
->  
->  	drm_gem_vram_put(gbo);
->  }
->  
->  /*
->   * Helpers for dump buffers
->   */
->  
->  /**
-> - * drm_gem_vram_driver_create_dumb() - \
-> + * drm_gem_vram_driver_dumb_create() - \
->  	Implements &struct drm_driver.dumb_create
->   * @file:		the DRM file
->   * @dev:		the DRM device
->   * @args:		the arguments as provided to \
->  				&struct drm_driver.dumb_create
->   *
->   * This function requires the driver to use @drm_device.vram_mm for its
->   * instance of VRAM MM.
->   *
->   * Returns:
->   * 0 on success, or
->   * a negative error code otherwise.
->   */
->  int drm_gem_vram_driver_dumb_create(struct drm_file *file,
->  				    struct drm_device *dev,
->  				    struct drm_mode_create_dumb *args)
->  {
->  	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
->  		return -EINVAL;
->  
-> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-> index db05f386a709..b26588b52795 100644
-> --- a/drivers/gpu/drm/drm_mode_object.c
-> +++ b/drivers/gpu/drm/drm_mode_object.c
-> @@ -98,41 +98,41 @@ void drm_mode_object_register(struct drm_device *dev,
->   * Free @id from @dev's unique identifier pool.
->   * This function can be called multiple times, and guards against
->   * multiple removals.
->   * These modeset identifiers are _not_ reference counted. Hence don't use this
->   * for reference counted modeset objects like framebuffers.
->   */
->  void drm_mode_object_unregister(struct drm_device *dev,
->  				struct drm_mode_object *object)
->  {
->  	WARN_ON(!dev->driver->load && dev->registered && !object->free_cb);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
->  	if (object->id) {
->  		idr_remove(&dev->mode_config.object_idr, object->id);
->  		object->id = 0;
->  	}
->  	mutex_unlock(&dev->mode_config.idr_mutex);
->  }
->  
->  /**
-> - * drm_lease_required - check types which must be leased to be used
-> + * drm_mode_object_lease_required - check types which must be leased to be used
->   * @type: type of object
->   *
->   * Returns whether the provided type of drm_mode_object must
->   * be owned or leased to be used by a process.
->   */
->  bool drm_mode_object_lease_required(uint32_t type)
->  {
->  	switch(type) {
->  	case DRM_MODE_OBJECT_CRTC:
->  	case DRM_MODE_OBJECT_CONNECTOR:
->  	case DRM_MODE_OBJECT_PLANE:
->  		return true;
->  	default:
->  		return false;
->  	}
->  }
->  
->  struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
->  					       struct drm_file *file_priv,
->  					       uint32_t id, uint32_t type)
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 501b4fe55a3d..33fb2f05ce66 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -1872,41 +1872,41 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
->  				    cmd->margins);
->  	else
->  		mode = drm_gtf_mode(dev,
->  				    cmd->xres, cmd->yres,
->  				    cmd->refresh_specified ? cmd->refresh : 60,
->  				    cmd->interlace,
->  				    cmd->margins);
->  	if (!mode)
->  		return NULL;
->  
->  	mode->type |= DRM_MODE_TYPE_USERDEF;
->  	/* fix up 1368x768: GFT/CVT can't express 1366 width due to alignment */
->  	if (cmd->xres == 1366)
->  		drm_mode_fixup_1366x768(mode);
->  	drm_mode_set_crtcinfo(mode, CRTC_INTERLACE_HALVE_V);
->  	return mode;
->  }
->  EXPORT_SYMBOL(drm_mode_create_from_cmdline_mode);
->  
->  /**
-> - * drm_crtc_convert_to_umode - convert a drm_display_mode into a modeinfo
-> + * drm_mode_convert_to_umode - convert a drm_display_mode into a modeinfo
->   * @out: drm_mode_modeinfo struct to return to the user
->   * @in: drm_display_mode to use
->   *
->   * Convert a drm_display_mode into a drm_mode_modeinfo structure to return to
->   * the user.
->   */
->  void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
->  			       const struct drm_display_mode *in)
->  {
->  	out->clock = in->clock;
->  	out->hdisplay = in->hdisplay;
->  	out->hsync_start = in->hsync_start;
->  	out->hsync_end = in->hsync_end;
->  	out->htotal = in->htotal;
->  	out->hskew = in->hskew;
->  	out->vdisplay = in->vdisplay;
->  	out->vsync_start = in->vsync_start;
->  	out->vsync_end = in->vsync_end;
->  	out->vtotal = in->vtotal;
->  	out->vscan = in->vscan;
-> @@ -1924,41 +1924,41 @@ void drm_mode_convert_to_umode(struct drm_mode_modeinfo *out,
->  	case HDMI_PICTURE_ASPECT_64_27:
->  		out->flags |= DRM_MODE_FLAG_PIC_AR_64_27;
->  		break;
->  	case HDMI_PICTURE_ASPECT_256_135:
->  		out->flags |= DRM_MODE_FLAG_PIC_AR_256_135;
->  		break;
->  	default:
->  		WARN(1, "Invalid aspect ratio (0%x) on mode\n",
->  		     in->picture_aspect_ratio);
->  		fallthrough;
->  	case HDMI_PICTURE_ASPECT_NONE:
->  		out->flags |= DRM_MODE_FLAG_PIC_AR_NONE;
->  		break;
->  	}
->  
->  	strncpy(out->name, in->name, DRM_DISPLAY_MODE_LEN);
->  	out->name[DRM_DISPLAY_MODE_LEN-1] = 0;
->  }
->  
->  /**
-> - * drm_crtc_convert_umode - convert a modeinfo into a drm_display_mode
-> + * drm_mode_convert_umode - convert a modeinfo into a drm_display_mode
->   * @dev: drm device
->   * @out: drm_display_mode to return to the user
->   * @in: drm_mode_modeinfo to use
->   *
->   * Convert a drm_mode_modeinfo into a drm_display_mode structure to return to
->   * the caller.
->   *
->   * Returns:
->   * Zero on success, negative errno on failure.
->   */
->  int drm_mode_convert_umode(struct drm_device *dev,
->  			   struct drm_display_mode *out,
->  			   const struct drm_mode_modeinfo *in)
->  {
->  	if (in->clock > INT_MAX || in->vrefresh > INT_MAX)
->  		return -ERANGE;
->  
->  	out->clock = in->clock;
->  	out->hdisplay = in->hdisplay;
->  	out->hsync_start = in->hsync_start;
-> diff --git a/drivers/gpu/drm/drm_scdc_helper.c b/drivers/gpu/drm/drm_scdc_helper.c
-> index 311e71bbba5b..991b8c86d78d 100644
-> --- a/drivers/gpu/drm/drm_scdc_helper.c
-> +++ b/drivers/gpu/drm/drm_scdc_helper.c
-> @@ -108,41 +108,41 @@ ssize_t drm_scdc_write(struct i2c_adapter *adapter, u8 offset,
->  
->  	msg.buf = data;
->  
->  	memcpy(data, &offset, sizeof(offset));
->  	memcpy(data + 1, buffer, size);
->  
->  	err = i2c_transfer(adapter, &msg, 1);
->  
->  	kfree(data);
->  
->  	if (err < 0)
->  		return err;
->  	if (err != 1)
->  		return -EPROTO;
->  
->  	return 0;
->  }
->  EXPORT_SYMBOL(drm_scdc_write);
->  
->  /**
-> - * drm_scdc_check_scrambling_status - what is status of scrambling?
-> + * drm_scdc_get_scrambling_status - what is status of scrambling?
->   * @adapter: I2C adapter for DDC channel
->   *
->   * Reads the scrambler status over SCDC, and checks the
->   * scrambling status.
->   *
->   * Returns:
->   * True if the scrambling is enabled, false otherwise.
->   */
->  bool drm_scdc_get_scrambling_status(struct i2c_adapter *adapter)
->  {
->  	u8 status;
->  	int ret;
->  
->  	ret = drm_scdc_readb(adapter, SCDC_SCRAMBLER_STATUS, &status);
->  	if (ret < 0) {
->  		DRM_DEBUG_KMS("Failed to read scrambling status: %d\n", ret);
->  		return false;
->  	}
->  
->  	return status & SCDC_SCRAMBLING_STATUS;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> index a95e6a2ac698..8753bab20ce8 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dpll_mgr.c
-> @@ -4573,41 +4573,41 @@ static void sanitize_dpll_state(struct drm_i915_private *i915,
->  	if (!pll->on || pll->active_mask)
->  		return;
->  
->  	drm_dbg_kms(&i915->drm,
->  		    "%s enabled but not in use, disabling\n",
->  		    pll->info->name);
->  
->  	pll->info->funcs->disable(i915, pll);
->  	pll->on = false;
->  }
->  
->  void intel_dpll_sanitize_state(struct drm_i915_private *i915)
->  {
->  	int i;
->  
->  	for (i = 0; i < i915->dpll.num_shared_dpll; i++)
->  		sanitize_dpll_state(i915, &i915->dpll.shared_dplls[i]);
->  }
->  
->  /**
-> - * intel_shared_dpll_dump_hw_state - write hw_state to dmesg
-> + * intel_dpll_dump_hw_state - write hw_state to dmesg
->   * @dev_priv: i915 drm device
->   * @hw_state: hw state to be written to the log
->   *
->   * Write the relevant values in @hw_state to dmesg using drm_dbg_kms.
->   */
->  void intel_dpll_dump_hw_state(struct drm_i915_private *dev_priv,
->  			      const struct intel_dpll_hw_state *hw_state)
->  {
->  	if (dev_priv->dpll.mgr) {
->  		dev_priv->dpll.mgr->dump_hw_state(dev_priv, hw_state);
->  	} else {
->  		/* fallback for platforms that don't use the shared dpll
->  		 * infrastructure
->  		 */
->  		drm_dbg_kms(&dev_priv->drm,
->  			    "dpll_hw_state: dpll: 0x%x, dpll_md: 0x%x, "
->  			    "fp0: 0x%x, fp1: 0x%x\n",
->  			    hw_state->dpll,
->  			    hw_state->dpll_md,
->  			    hw_state->fp0,
-> diff --git a/drivers/gpu/drm/i915/i915_gem_evict.c b/drivers/gpu/drm/i915/i915_gem_evict.c
-> index 6501939929d5..e1a66c8245b8 100644
-> --- a/drivers/gpu/drm/i915/i915_gem_evict.c
-> +++ b/drivers/gpu/drm/i915/i915_gem_evict.c
-> @@ -221,41 +221,41 @@ i915_gem_evict_something(struct i915_address_space *vm,
->  	list_for_each_entry_safe(vma, next, &eviction_list, evict_link) {
->  		__i915_vma_unpin(vma);
->  		if (ret == 0)
->  			ret = __i915_vma_unbind(vma);
->  	}
->  
->  	while (ret == 0 && (node = drm_mm_scan_color_evict(&scan))) {
->  		vma = container_of(node, struct i915_vma, node);
->  
->  		/* If we find any non-objects (!vma), we cannot evict them */
->  		if (vma->node.color != I915_COLOR_UNEVICTABLE)
->  			ret = __i915_vma_unbind(vma);
->  		else
->  			ret = -ENOSPC; /* XXX search failed, try again? */
->  	}
->  
->  	return ret;
->  }
->  
->  /**
-> - * i915_gem_evict_for_vma - Evict vmas to make room for binding a new one
-> + * i915_gem_evict_for_node - Evict vmas to make room for binding a new one
->   * @vm: address space to evict from
->   * @target: range (and color) to evict for
->   * @flags: additional flags to control the eviction algorithm
->   *
->   * This function will try to evict vmas that overlap the target node.
->   *
->   * To clarify: This is for freeing up virtual address space, not for freeing
->   * memory in e.g. the shrinker.
->   */
->  int i915_gem_evict_for_node(struct i915_address_space *vm,
->  			    struct drm_mm_node *target,
->  			    unsigned int flags)
->  {
->  	LIST_HEAD(eviction_list);
->  	struct drm_mm_node *node;
->  	u64 start = target->start;
->  	u64 end = start + target->size;
->  	struct i915_vma *vma, *next;
->  	int ret = 0;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index e94976976571..3ced82820483 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -608,41 +608,42 @@ static int append_oa_sample(struct i915_perf_stream *stream,
->  
->  	if ((count - *offset) < header.size)
->  		return -ENOSPC;
->  
->  	buf += *offset;
->  	if (copy_to_user(buf, &header, sizeof(header)))
->  		return -EFAULT;
->  	buf += sizeof(header);
->  
->  	if (sample_flags & SAMPLE_OA_REPORT) {
->  		if (copy_to_user(buf, report, report_size))
->  			return -EFAULT;
->  	}
->  
->  	(*offset) += header.size;
->  
->  	return 0;
->  }
->  
->  /**
-> - * Copies all buffered OA reports into userspace read() buffer.
-> + * gen8_append_oa_reports - Copies all buffered OA reports into
-> + *			    userspace read() buffer.
->   * @stream: An i915-perf stream opened for OA metrics
->   * @buf: destination buffer given by userspace
->   * @count: the number of bytes userspace wants to read
->   * @offset: (inout): the current position for writing into @buf
->   *
->   * Notably any error condition resulting in a short read (-%ENOSPC or
->   * -%EFAULT) will be returned even though one or more records may
->   * have been successfully copied. In this case it's up to the caller
->   * to decide if the error should be squashed before returning to
->   * userspace.
->   *
->   * Note: reports are consumed from the head, and appended to the
->   * tail, so the tail chases the head?... If you think that's mad
->   * and back-to-front you're not alone, but this follows the
->   * Gen PRM naming convention.
->   *
->   * Returns: 0 on success, negative error code on failure.
->   */
->  static int gen8_append_oa_reports(struct i915_perf_stream *stream,
->  				  char __user *buf,
-> @@ -900,41 +901,42 @@ static int gen8_oa_read(struct i915_perf_stream *stream,
->  		/*
->  		 * Note: .oa_enable() is expected to re-init the oabuffer and
->  		 * reset GEN8_OASTATUS for us
->  		 */
->  		oastatus = intel_uncore_read(uncore, oastatus_reg);
->  	}
->  
->  	if (oastatus & GEN8_OASTATUS_REPORT_LOST) {
->  		ret = append_oa_status(stream, buf, count, offset,
->  				       DRM_I915_PERF_RECORD_OA_REPORT_LOST);
->  		if (ret)
->  			return ret;
->  		intel_uncore_write(uncore, oastatus_reg,
->  				   oastatus & ~GEN8_OASTATUS_REPORT_LOST);
->  	}
->  
->  	return gen8_append_oa_reports(stream, buf, count, offset);
->  }
->  
->  /**
-> - * Copies all buffered OA reports into userspace read() buffer.
-> + * gen7_append_oa_reports - Copies all buffered OA reports into
-> + *			    userspace read() buffer.
->   * @stream: An i915-perf stream opened for OA metrics
->   * @buf: destination buffer given by userspace
->   * @count: the number of bytes userspace wants to read
->   * @offset: (inout): the current position for writing into @buf
->   *
->   * Notably any error condition resulting in a short read (-%ENOSPC or
->   * -%EFAULT) will be returned even though one or more records may
->   * have been successfully copied. In this case it's up to the caller
->   * to decide if the error should be squashed before returning to
->   * userspace.
->   *
->   * Note: reports are consumed from the head, and appended to the
->   * tail, so the tail chases the head?... If you think that's mad
->   * and back-to-front you're not alone, but this follows the
->   * Gen PRM naming convention.
->   *
->   * Returns: 0 on success, negative error code on failure.
->   */
->  static int gen7_append_oa_reports(struct i915_perf_stream *stream,
->  				  char __user *buf,
-> @@ -3210,41 +3212,41 @@ static long i915_perf_config_locked(struct i915_perf_stream *stream,
->  		 * reconfiguration inline from that context. The update
->  		 * will then be ordered with respect to submission on that
->  		 * context.
->  		 *
->  		 * When set globally, we use a low priority kernel context,
->  		 * so it will effectively take effect when idle.
->  		 */
->  		err = emit_oa_config(stream, config, oa_context(stream), NULL);
->  		if (!err)
->  			config = xchg(&stream->oa_config, config);
->  		else
->  			ret = err;
->  	}
->  
->  	i915_oa_config_put(config);
->  
->  	return ret;
->  }
->  
->  /**
-> - * i915_perf_ioctl - support ioctl() usage with i915 perf stream FDs
-> + * i915_perf_ioctl_locked - support ioctl() usage with i915 perf stream FDs
->   * @stream: An i915 perf stream
->   * @cmd: the ioctl request
->   * @arg: the ioctl data
->   *
->   * Note: The &perf->lock mutex has been taken to serialize
->   * with any non-file-operation driver hooks.
->   *
->   * Returns: zero on success or a negative error code. Returns -EINVAL for
->   * an unknown ioctl request.
->   */
->  static long i915_perf_ioctl_locked(struct i915_perf_stream *stream,
->  				   unsigned int cmd,
->  				   unsigned long arg)
->  {
->  	switch (cmd) {
->  	case I915_PERF_IOCTL_ENABLE:
->  		i915_perf_enable_locked(stream);
->  		return 0;
->  	case I915_PERF_IOCTL_DISABLE:
->  		i915_perf_disable_locked(stream);
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index da24c4e8b9fb..b498d474ef9e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -430,41 +430,41 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->  			 */
->  			if (bad != s_job)
->  				sched->ops->free_job(s_job);
->  			else
->  				sched->free_guilty = true;
->  		}
->  	}
->  
->  	/*
->  	 * Stop pending timer in flight as we rearm it in  drm_sched_start. This
->  	 * avoids the pending timeout work in progress to fire right away after
->  	 * this TDR finished and before the newly restarted jobs had a
->  	 * chance to complete.
->  	 */
->  	cancel_delayed_work(&sched->work_tdr);
->  }
->  
->  EXPORT_SYMBOL(drm_sched_stop);
->  
->  /**
-> - * drm_sched_job_recovery - recover jobs after a reset
-> + * drm_sched_start - recover jobs after a reset
->   *
->   * @sched: scheduler instance
->   * @full_recovery: proceed with complete sched restart
->   *
->   */
->  void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
->  {
->  	struct drm_sched_job *s_job, *tmp;
->  	int r;
->  
->  	/*
->  	 * Locking the list is not required here as the sched thread is parked
->  	 * so no new jobs are being inserted or removed. Also concurrent
->  	 * GPU recovers can't run in parallel.
->  	 */
->  	list_for_each_entry_safe(s_job, tmp, &sched->ring_mirror_list, node) {
->  		struct dma_fence *fence = s_job->s_fence->parent;
->  
->  		atomic_inc(&sched->hw_rq_count);
->  
-> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-> index 0747614a78f0..f968f389633a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_sched.c
-> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
-> @@ -47,41 +47,41 @@ to_tfu_job(struct drm_sched_job *sched_job)
->  {
->  	return container_of(sched_job, struct v3d_tfu_job, base.base);
->  }
->  
->  static struct v3d_csd_job *
->  to_csd_job(struct drm_sched_job *sched_job)
->  {
->  	return container_of(sched_job, struct v3d_csd_job, base.base);
->  }
->  
->  static void
->  v3d_job_free(struct drm_sched_job *sched_job)
->  {
->  	struct v3d_job *job = to_v3d_job(sched_job);
->  
->  	drm_sched_job_cleanup(sched_job);
->  	v3d_job_put(job);
->  }
->  
->  /**
-> - * Returns the fences that the job depends on, one by one.
-> + * v3d_job_dependency - Returns the fences that the job depends on, one by one.
->   *
->   * If placed in the scheduler's .dependency method, the corresponding
->   * .run_job won't be called until all of them have been signaled.
->   */
->  static struct dma_fence *
->  v3d_job_dependency(struct drm_sched_job *sched_job,
->  		   struct drm_sched_entity *s_entity)
->  {
->  	struct v3d_job *job = to_v3d_job(sched_job);
->  
->  	/* XXX: Wait on a fence for switching the GMP if necessary,
->  	 * and then do so.
->  	 */
->  
->  	if (!xa_empty(&job->deps))
->  		return xa_erase(&job->deps, job->last_dep++);
->  
->  	return NULL;
->  }
->  
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index a21a6c53ffcf..469d1b4f2643 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -374,41 +374,41 @@ static struct vc4_bo *vc4_bo_get_from_cache(struct drm_device *dev,
->  		vc4_bo_set_label(&bo->base.base, type);
->  	mutex_unlock(&vc4->bo_lock);
->  	return bo;
->  }
->  
->  static const struct vm_operations_struct vc4_vm_ops = {
->  	.fault = vc4_fault,
->  	.open = drm_gem_vm_open,
->  	.close = drm_gem_vm_close,
->  };
->  
->  static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
->  	.free = vc4_free_object,
->  	.export = vc4_prime_export,
->  	.get_sg_table = drm_gem_cma_prime_get_sg_table,
->  	.vmap = vc4_prime_vmap,
->  	.vm_ops = &vc4_vm_ops,
->  };
->  
->  /**
-> - * vc4_gem_create_object - Implementation of driver->gem_create_object.
-> + * vc4_create_object - Implementation of driver->gem_create_object.
->   * @dev: DRM device
->   * @size: Size in bytes of the memory the object will reference
->   *
->   * This lets the CMA helpers allocate object structs for us, and keep
->   * our BO stats correct.
->   */
->  struct drm_gem_object *vc4_create_object(struct drm_device *dev, size_t size)
->  {
->  	struct vc4_dev *vc4 = to_vc4_dev(dev);
->  	struct vc4_bo *bo;
->  
->  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
->  	if (!bo)
->  		return ERR_PTR(-ENOMEM);
->  
->  	bo->madv = VC4_MADV_WILLNEED;
->  	refcount_set(&bo->usecnt, 0);
->  	mutex_init(&bo->madv_lock);
->  	mutex_lock(&vc4->bo_lock);
->  	bo->label = VC4_BO_TYPE_KERNEL;
-> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-> index 85df04c8e62f..5f47720440fa 100644
-> --- a/include/drm/drm_atomic_helper.h
-> +++ b/include/drm/drm_atomic_helper.h
-> @@ -150,54 +150,54 @@ int drm_atomic_helper_page_flip_target(
->  int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
->  				       u16 *red, u16 *green, u16 *blue,
->  				       uint32_t size,
->  				       struct drm_modeset_acquire_ctx *ctx);
->  
->  /**
->   * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
->   * @plane: the loop cursor
->   * @crtc:  the CRTC whose planes are iterated
->   *
->   * This iterates over the current state, useful (for example) when applying
->   * atomic state after it has been checked and swapped.  To iterate over the
->   * planes which *will* be attached (more useful in code called from
->   * &drm_mode_config_funcs.atomic_check) see
->   * drm_atomic_crtc_state_for_each_plane().
->   */
->  #define drm_atomic_crtc_for_each_plane(plane, crtc) \
->  	drm_for_each_plane_mask(plane, (crtc)->dev, (crtc)->state->plane_mask)
->  
->  /**
-> - * drm_crtc_atomic_state_for_each_plane - iterate over attached planes in new state
-> + * drm_atomic_crtc_state_for_each_plane - iterate over attached planes in new state
->   * @plane: the loop cursor
->   * @crtc_state: the incoming CRTC state
->   *
->   * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
->   * attached if the specified state is applied.  Useful during for example
->   * in code called from &drm_mode_config_funcs.atomic_check operations, to
->   * validate the incoming state.
->   */
->  #define drm_atomic_crtc_state_for_each_plane(plane, crtc_state) \
->  	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask)
->  
->  /**
-> - * drm_crtc_atomic_state_for_each_plane_state - iterate over attached planes in new state
-> + * drm_atomic_crtc_state_for_each_plane_state - iterate over attached planes in new state
->   * @plane: the loop cursor
->   * @plane_state: loop cursor for the plane's state, must be const
->   * @crtc_state: the incoming CRTC state
->   *
->   * Similar to drm_crtc_for_each_plane(), but iterates the planes that will be
->   * attached if the specified state is applied.  Useful during for example
->   * in code called from &drm_mode_config_funcs.atomic_check operations, to
->   * validate the incoming state.
->   *
->   * Compared to just drm_atomic_crtc_state_for_each_plane() this also fills in a
->   * const plane_state. This is useful when a driver just wants to peek at other
->   * active planes on this CRTC, but does not need to change it.
->   */
->  #define drm_atomic_crtc_state_for_each_plane_state(plane, plane_state, crtc_state) \
->  	drm_for_each_plane_mask(plane, (crtc_state)->state->dev, (crtc_state)->plane_mask) \
->  		for_each_if ((plane_state = \
->  			      __drm_atomic_get_current_plane_state((crtc_state)->state, \
->  								   plane)))
->  
->  /**
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 928136556174..fcdc58d8b88b 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -67,41 +67,41 @@ enum drm_connector_status {
->  	 * sink device which can be autodetect. For digital outputs like DP or
->  	 * HDMI (which can be realiable probed) this means there's really
->  	 * nothing there. It is driver-dependent whether a connector with this
->  	 * status can be lit up or not.
->  	 */
->  	connector_status_disconnected = 2,
->  	/**
->  	 * @connector_status_unknown: The connector's status could not be
->  	 * reliably detected. This happens when probing would either cause
->  	 * flicker (like load-detection when the connector is in use), or when a
->  	 * hardware resource isn't available (like when load-detection needs a
->  	 * free CRTC). It should be possible to light up the connector with one
->  	 * of the listed fallback modes. For default configuration userspace
->  	 * should only try to light up connectors with unknown status when
->  	 * there's not connector with @connector_status_connected.
->  	 */
->  	connector_status_unknown = 3,
->  };
->  
->  /**
-> - * enum drm_connector_registration_status - userspace registration status for
-> + * enum drm_connector_registration_state - userspace registration status for
->   * a &drm_connector
->   *
->   * This enum is used to track the status of initializing a connector and
->   * registering it with userspace, so that DRM can prevent bogus modesets on
->   * connectors that no longer exist.
->   */
->  enum drm_connector_registration_state {
->  	/**
->  	 * @DRM_CONNECTOR_INITIALIZING: The connector has just been created,
->  	 * but has yet to be exposed to userspace. There should be no
->  	 * additional restrictions to how the state of this connector may be
->  	 * modified.
->  	 */
->  	DRM_CONNECTOR_INITIALIZING = 0,
->  
->  	/**
->  	 * @DRM_CONNECTOR_REGISTERED: The connector has been fully initialized
->  	 * and registered with sysfs, as such it has been exposed to
->  	 * userspace. There should be no additional restrictions to how the
->  	 * state of this connector may be modified.
-> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> index 2c361964aee7..283a93ce4617 100644
-> --- a/include/drm/drm_device.h
-> +++ b/include/drm/drm_device.h
-> @@ -10,41 +10,41 @@
->  #include <drm/drm_mode_config.h>
->  
->  struct drm_driver;
->  struct drm_minor;
->  struct drm_master;
->  struct drm_device_dma;
->  struct drm_vblank_crtc;
->  struct drm_sg_mem;
->  struct drm_local_map;
->  struct drm_vma_offset_manager;
->  struct drm_vram_mm;
->  struct drm_fb_helper;
->  
->  struct inode;
->  
->  struct pci_dev;
->  struct pci_controller;
->  
->  
->  /**
-> - * enum drm_switch_power - power state of drm device
-> + * enum switch_power_state - power state of drm device
->   */
->  
->  enum switch_power_state {
->  	/** @DRM_SWITCH_POWER_ON: Power state is ON */
->  	DRM_SWITCH_POWER_ON = 0,
->  
->  	/** @DRM_SWITCH_POWER_OFF: Power state is OFF */
->  	DRM_SWITCH_POWER_OFF = 1,
->  
->  	/** @DRM_SWITCH_POWER_CHANGING: Power state is changing */
->  	DRM_SWITCH_POWER_CHANGING = 2,
->  
->  	/** @DRM_SWITCH_POWER_DYNAMIC_OFF: Suspended */
->  	DRM_SWITCH_POWER_DYNAMIC_OFF = 3,
->  };
->  
->  /**
->   * struct drm_device - DRM device structure
->   *
->   * This structure represent a complete card that
-> diff --git a/include/drm/drm_dsc.h b/include/drm/drm_dsc.h
-> index 732f32740c86..53c51231b31c 100644
-> --- a/include/drm/drm_dsc.h
-> +++ b/include/drm/drm_dsc.h
-> @@ -256,41 +256,42 @@ struct drm_dsc_config {
->  	bool native_420;
->  	/**
->  	 * @second_line_bpg_offset:
->  	 * Additional bits/grp for seconnd line of slice for native 4:2:0
->  	 */
->  	u8 second_line_bpg_offset;
->  	/**
->  	 * @nsl_bpg_offset:
->  	 * Num of bits deallocated for each grp that is not in second line of
->  	 * slice
->  	 */
->  	u16 nsl_bpg_offset;
->  	/**
->  	 * @second_line_offset_adj:
->  	 * Offset adjustment for second line in Native 4:2:0 mode
->  	 */
->  	u16 second_line_offset_adj;
->  };
->  
->  /**
-> - * struct picture_parameter_set - Represents 128 bytes of Picture Parameter Set
-> + * struct drm_dsc_picture_parameter_set - Represents 128 bytes of
-> + * 	Picture Parameter Set
->   *
->   * The VESA DSC standard defines picture parameter set (PPS) which display
->   * stream compression encoders must communicate to decoders.
->   * The PPS is encapsulated in 128 bytes (PPS 0 through PPS 127). The fields in
->   * this structure are as per Table 4.1 in Vesa DSC specification v1.1/v1.2.
->   * The PPS fields that span over more than a byte should be stored in Big Endian
->   * format.
->   */
->  struct drm_dsc_picture_parameter_set {
->  	/**
->  	 * @dsc_version:
->  	 * PPS0[3:0] - dsc_version_minor: Contains Minor version of DSC
->  	 * PPS0[7:4] - dsc_version_major: Contains major version of DSC
->  	 */
->  	u8 dsc_version;
->  	/**
->  	 * @pps_identifier:
->  	 * PPS1[7:0] - Application specific identifier that can be
->  	 * used to differentiate between different PPS tables.
->  	 */
-> diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-> index c0d28ba0f5c9..a4bac02249c2 100644
-> --- a/include/drm/drm_gem_vram_helper.h
-> +++ b/include/drm/drm_gem_vram_helper.h
-> @@ -49,54 +49,54 @@ struct vm_area_struct;
->   * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
->   */
->  struct drm_gem_vram_object {
->  	struct ttm_buffer_object bo;
->  	struct dma_buf_map map;
->  
->  	/**
->  	 * @vmap_use_count:
->  	 *
->  	 * Reference count on the virtual address.
->  	 * The address are un-mapped when the count reaches zero.
->  	 */
->  	unsigned int vmap_use_count;
->  
->  	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
->  	struct ttm_placement placement;
->  	struct ttm_place placements[2];
->  };
->  
->  /**
-> - * Returns the container of type &struct drm_gem_vram_object
-> - * for field bo.
-> + * drm_gem_vram_of_bo - Returns the container of type
-> + * &struct drm_gem_vram_object for field bo.
->   * @bo:		the VRAM buffer object
->   * Returns:	The containing GEM VRAM object
->   */
->  static inline struct drm_gem_vram_object *drm_gem_vram_of_bo(
->  	struct ttm_buffer_object *bo)
->  {
->  	return container_of(bo, struct drm_gem_vram_object, bo);
->  }
->  
->  /**
-> - * Returns the container of type &struct drm_gem_vram_object
-> - * for field gem.
-> + * drm_gem_vram_of_gem - Returns the container of type
-> + * &struct drm_gem_vram_object for field gem.
->   * @gem:	the GEM object
->   * Returns:	The containing GEM VRAM object
->   */
->  static inline struct drm_gem_vram_object *drm_gem_vram_of_gem(
->  	struct drm_gem_object *gem)
->  {
->  	return container_of(gem, struct drm_gem_vram_object, bo.base);
->  }
->  
->  struct drm_gem_vram_object *drm_gem_vram_create(struct drm_device *dev,
->  						size_t size,
->  						unsigned long pg_align);
->  void drm_gem_vram_put(struct drm_gem_vram_object *gbo);
->  u64 drm_gem_vram_mmap_offset(struct drm_gem_vram_object *gbo);
->  s64 drm_gem_vram_offset(struct drm_gem_vram_object *gbo);
->  int drm_gem_vram_pin(struct drm_gem_vram_object *gbo, unsigned long pl_flag);
->  int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo);
->  int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
->  void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map);
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDA5LjExLjIwIHVtIDAxOjU0IHNjaHJpZWIgRGF2ZSBBaXJsaWU6Cj4gRnJvbTogRGF2
+ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiAKPiBUaGlzIHJlbW92ZXMgdGhlIGNvZGUg
+dG8gbW92ZSByZXNvdXJjZXMgZGlyZWN0bHkgYmV0d2Vlbgo+IFNZU1RFTSBhbmQgVlJBTSBpbiBm
+YXZvdXIgb2YgdXNpbmcgdGhlIGNvcmUgdHRtIG11bGl0aG9wIGNvZGUuCj4gCj4gU2lnbmVkLW9m
+Zi1ieTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KPiAtLS0KPiAgZHJpdmVycy9n
+cHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgfCAxMTkgKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMTA2IGRlbGV0aW9ucygt
+KQoKSSBnb3QgdGhlIGZvbGxvd2luZyByZWdyZXNzaW9uIGZyb20gdGhhdCBwYXRjaDoKClsgICAx
+Ny42Mzk0MjldIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUgXS0tLS0tLS0tLS0tLQpbICAgMTcuNjQ1
+MzIyXSBNZW1vcnkgbWFuYWdlciBub3QgY2xlYW4gZHVyaW5nIHRha2Vkb3duLgpbICAgMTcuNjUw
+NTU3XSBXQVJOSU5HOiBDUFU6IDQgUElEOiAzMjcgYXQgZHJpdmVycy9ncHUvZHJtL2RybV9tbS5j
+Ojk5OApkcm1fbW1fdGFrZWRvd24rMHgyZS8weDQwClsgICAxNy42NTkzNjddIE1vZHVsZXMgbGlu
+a2VkIGluOiBoaWRfZ2VuZXJpYyhFKykgY3JjdDEwZGlmX3BjbG11bChFKQpjcmMzMl9wY2xtdWwo
+RSkgZ2hhc2hfY2xtdWxuaV9pbnRlbChFKSByYWRlb24oRSspIGFlc25pX2ludGVsKEUpCmdsdWVf
+aGVscGVyKEUpIGNyeXB0b19zaW1kKEUpIGRybV90dG1faGVscGVyKEUpIGNyeXB0ZChFKSB1c2Jo
+aWQoRSkKdHRtKEUpIGk5MTUoRSspIHByaW1lX251bWJlcnMoRSkgdykKWyAgIDE3LjY3MzcyMV0g
+aGlkLWdlbmVyaWMgMDAwMzowNDZBOjAwMDEuMDAwMTogaW5wdXQsaGlkcmF3MDogVVNCIEhJRAp2
+MS4wMCBLZXlib2FyZCBbSElEIDA0NmE6MDAwMV0gb24gdXNiLTAwMDA6MDA6MTQuMC03L2lucHV0
+MApbICAgMTcuNjk3NDExXSBDUFU6IDQgUElEOiAzMjcgQ29tbTogc3lzdGVtZC11ZGV2ZCBUYWlu
+dGVkOiBHCiBFICAgICA1LjEwLjAtcmMzLTEtZGVmYXVsdCsgIzYzOQpbICAgMTcuNzE4NzQ0XSBI
+YXJkd2FyZSBuYW1lOiBEZWxsIEluYy4gT3B0aVBsZXggOTAyMC8wTjRZQzgsIEJJT1MgQTI0CjEw
+LzI0LzIwMTgKWyAgIDE3LjcxODc1N10gUklQOiAwMDEwOmRybV9tbV90YWtlZG93bisweDJlLzB4
+NDAKWyAgIDE3LjcxODc2Nl0gQ29kZTogMDAgNTUgNDggOGQgNmYgMzggNTMgNDggODkgZmIgNDgg
+ODkgZWYgZTggYmEgZGIgODUKZmYgNDggOGIgNDMgMzggNDggMzkgYzUgNzUgMDMgNWIgNWQgYzMg
+NDggYzcgYzcgNDAgZmYgYjUgOGUgZTggYjggZDggNjIKMDAgPDBmPiAwYiA1YiA1ZCBjMyA2NiA2
+NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCA2NiA5MCAwZiAxZiA0NCAwMApbICAgMTcuNzQ5
+OTk1XSBSU1A6IDAwMTg6ZmZmZmM5MDAwMThkNzc5MCBFRkxBR1M6IDAwMDEwMjgyClsgICAxNy43
+NTUzODJdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IGZmZmY4ODgxNDkwYWQ4YTggUkNYOgow
+MDAwMDAwMDAwMDAwMDAwClsgICAxNy43NjI3MTNdIFJEWDogMWZmZmYxMTBmOTlmZGQxNSBSU0k6
+IDAwMDAwMDAwMDAwMDAwMDggUkRJOgpmZmZmZjUyMDAwMzFhZWU4ClsgICAxNy43NjI3MjBdIFJC
+UDogZmZmZjg4ODE0OTBhZDhlMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OgpmZmZmODg4N2Nj
+ZmY4MGE3ClsgICAxNy43NjI3MjddIFIxMDogZmZmZmVkMTBmOTlmZjAxNCBSMTE6IDAwMDAwMDAw
+MDAwMDAwMDEgUjEyOgowMDAwMDAwMDAwMDAwMDAwClsgICAxNy43NjI3MzRdIFIxMzogMDAwMDAw
+MDAwMDAwMDAwMiBSMTQ6IGZmZmY4ODgxNThiNDBiNTggUjE1OgpmZmZmODg4MTQ5MGFkOTk4Clsg
+ICAxNy43NjI3NDFdIEZTOiAgMDAwMDdmMTU1MjljYTk0MCgwMDAwKSBHUzpmZmZmODg4N2NjZTAw
+MDAwKDAwMDApCmtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgIDE3Ljc2Mjc0OF0gQ1M6ICAwMDEw
+IERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICAgMTcuNzYyNzU0XSBD
+UjI6IDAwMDA1NjRlOGE2MjgzZDggQ1IzOiAwMDAwMDAwMTJhYWM2MDA0IENSNDoKMDAwMDAwMDAw
+MDE3MDZlMApbICAgMTcuNzYyNzYwXSBDYWxsIFRyYWNlOgpbICAgMTcuNzYyNzg4XSAgdHRtX3Jh
+bmdlX21hbl9maW5pKzB4OGIvMHgxNTAgW3R0bV0KWyAgIDE3Ljc2MjkzMF0gIHJhZGVvbl90dG1f
+ZmluaSsweGQxLzB4MjEwIFtyYWRlb25dClsgICAxNy43NjMwNjNdICByYWRlb25fYm9fZmluaSsw
+eGYvMHg2MCBbcmFkZW9uXQpbICAgMTcuNzYzMTkwXSAgc2lfZmluaSsweDE1MC8weDFkMCBbcmFk
+ZW9uXQpbICAgMTcuNzYzMzEzXSAgcmFkZW9uX2RldmljZV9maW5pKzB4NjEvMHgxNzcgW3JhZGVv
+bl0KWyAgIDE3Ljc2MzQzOV0gIHJhZGVvbl9kcml2ZXJfdW5sb2FkX2ttcysweDdhLzB4MTMwIFty
+YWRlb25dClsgICAxNy43NjM1NjRdICByYWRlb25fZHJpdmVyX2xvYWRfa21zKzB4MjI3LzB4MzMw
+IFtyYWRlb25dClsgICAxNy43NjM1OTNdICBkcm1fZGV2X3JlZ2lzdGVyKzB4MTNiLzB4MmIwClsg
+ICAxNy43NjM2MDRdICA/IGRybW1fYWRkX2ZpbmFsX2tmcmVlKzB4NDYvMHg2MApbICAgMTcuNzYz
+NzM0XSAgcmFkZW9uX3BjaV9wcm9iZSsweDE5Yy8weDI2MCBbcmFkZW9uXQpbICAgMTcuNzYzODU0
+XSAgPyByYWRlb25fcG1vcHNfcnVudGltZV9pZGxlKzB4ZTAvMHhlMCBbcmFkZW9uXQpbICAgMTcu
+NzYzODcxXSAgbG9jYWxfcGNpX3Byb2JlKzB4NzQvMHhjMApbICAgMTcuNzYzODkzXSAgcGNpX2Nh
+bGxfcHJvYmUrMHhiNy8weDFkMApbICAgMTcuNzYzOTA1XSAgPyBwY2lfcG1fc3VzcGVuZF9ub2ly
+cSsweDQ0MC8weDQ0MApbICAgMTcuNzYzOTUxXSAgcGNpX2RldmljZV9wcm9iZSsweDEwMi8weDE0
+MApbICAgMTcuNzYzOTYwXSAgPyBkcml2ZXJfc3lzZnNfYWRkKzB4ZTIvMHgxNTAKWyAgIDE3Ljc2
+Mzk3OF0gIHJlYWxseV9wcm9iZSsweDE4NS8weDY4MApbICAgMTcuNzY0MDEwXSAgZHJpdmVyX3By
+b2JlX2RldmljZSsweDEzZi8weDFkMApbICAgMTcuNzY0MDMyXSAgZGV2aWNlX2RyaXZlcl9hdHRh
+Y2grMHgxMTQvMHgxMjAKWyAgIDE3Ljc2NDA0OF0gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHgx
+MjAvMHgxMjAKWyAgIDE3Ljc2NDA1OF0gIF9fZHJpdmVyX2F0dGFjaCsweGIwLzB4MWEwClsgICAx
+Ny43NjQwNzZdICA/IGRldmljZV9kcml2ZXJfYXR0YWNoKzB4MTIwLzB4MTIwClsgICAxNy43NjQw
+ODNdICBidXNfZm9yX2VhY2hfZGV2KzB4ZGQvMHgxMjAKWyAgIDE3Ljc2NDA5N10gID8gc3Vic3lz
+X2Rldl9pdGVyX2V4aXQrMHgxMC8weDEwClsgICAxNy43NjQxMzNdICBidXNfYWRkX2RyaXZlcisw
+eDFmYi8weDJlMApbICAgMTcuNzY0MTYxXSAgZHJpdmVyX3JlZ2lzdGVyKzB4MTAzLzB4MTgwClsg
+ICAxNy43NjQxNzVdICA/IDB4ZmZmZmZmZmZjMTAyYTAwMApbICAgMTcuNzY0MTg5XSAgZG9fb25l
+X2luaXRjYWxsKzB4YmIvMHgzYTAKWyAgIDE3Ljc2NDIwNF0gID8gdHJhY2VfZXZlbnRfcmF3X2V2
+ZW50X2luaXRjYWxsX2ZpbmlzaCsweDEyMC8weDEyMApbICAgMTcuNzY0MjEyXSAgPyBtYXJrX2hl
+bGRfbG9ja3MrMHgyMy8weDkwClsgICAxNy43NjQyMjBdICA/IGxvY2tkZXBfZW5hYmxlZCsweDM5
+LzB4NTAKWyAgIDE3Ljc2NDIzMV0gID8gbG9ja19pc19oZWxkX3R5cGUrMHhiOC8weGYwClsgICAx
+Ny43NjQyNThdICA/IHJjdV9yZWFkX2xvY2tfc2NoZWRfaGVsZCsweDNmLzB4ODAKWyAgIDE3Ljc2
+NDI2OV0gID8ga2FzYW5fdW5wb2lzb25fc2hhZG93KzB4MzMvMHg0MApbICAgMTcuNzY0MzAwXSAg
+ZG9faW5pdF9tb2R1bGUrMHhmZC8weDNjMApbICAgMTcuNzY0MzI3XSAgbG9hZF9tb2R1bGUrMHhj
+MDQvMHhjNzAKWyAgIDE3Ljc2NDM1OV0gID8gbGF5b3V0X2FuZF9hbGxvY2F0ZSsweDI2MC8weDI2
+MApbICAgMTcuNzY0Mzc2XSAgPyBrZXJuZWxfcmVhZF9maWxlX2Zyb21fZmQrMHg0Yi8weDkwClsg
+ICAxNy43NjQ0MDJdICBfX2RvX3N5c19maW5pdF9tb2R1bGUrMHhmZi8weDE4MApbICAgMTcuNzY0
+NDE1XSAgPyBfX2lhMzJfc3lzX2luaXRfbW9kdWxlKzB4NDAvMHg0MApbICAgMTcuNzY0NTA4XSAg
+PyBzeXNjYWxsX3RyYWNlX2VudGVyLmNvbnN0cHJvcC4wKzB4ODUvMHgyMzAKWyAgIDE3Ljc2NDUz
+MV0gIGRvX3N5c2NhbGxfNjQrMHgzMy8weDgwClsgICAxNy43NjQ1NDNdICBlbnRyeV9TWVNDQUxM
+XzY0X2FmdGVyX2h3ZnJhbWUrMHg0NC8weGE5ClsgICAxNy43NjQ1NTFdIFJJUDogMDAzMzoweDdm
+MTU1MzU1ZTc5OQpbICAgMTcuNzY0NTYwXSBDb2RlOiA0OCA4ZCAzZCAzYSBiZiAwYyAwMCAwZiAw
+NSBlYiBhNSA2NiAwZiAxZiA0NCAwMCAwMAo0OCA4OSBmOCA0OCA4OSBmNyA0OCA4OSBkNiA0OCA4
+OSBjYSA0ZCA4OSBjMiA0ZCA4OSBjOCA0YyA4YiA0YyAyNCAwOCAwZgowNSA8NDg+IDNkIDAxIGYw
+IGZmIGZmIDczIDAxIGMzIDQ4IDhiIDBkIGE3IDc2IDBjIDAwIGY3IGQ4IDY0IDg5IDAxIDQ4Clsg
+ICAxNy43NjQ1NjZdIFJTUDogMDAyYjowMDAwN2ZmY2NkYTA2NDI4IEVGTEFHUzogMDAwMDAyNDYg
+T1JJR19SQVg6CjAwMDAwMDAwMDAwMDAxMzkKWyAgIDE3Ljc2NDU3OV0gUkFYOiBmZmZmZmZmZmZm
+ZmZmZmRhIFJCWDogMDAwMDU1YzZkNDQxNThmMCBSQ1g6CjAwMDA3ZjE1NTM1NWU3OTkKWyAgIDE3
+Ljc2NDU4NV0gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogMDAwMDdmMTU1MzY3ZDNhMyBSREk6
+CjAwMDAwMDAwMDAwMDAwMGYKWyAgIDE3Ljc2NDU5Ml0gUkJQOiAwMDAwMDAwMDAwMDIwMDAwIFIw
+ODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6CjAwMDA1NWM2ZDQ0MTc5NjAKWyAgIDE3Ljc2NDU5OF0g
+UjEwOiAwMDAwMDAwMDAwMDAwMDBmIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6CjAwMDA3ZjE1
+NTM2N2QzYTMKWyAgIDE3Ljc2NDYwNV0gUjEzOiAwMDAwNTVjNmQ0NDI5ZmYwIFIxNDogMDAwMDAw
+MDAwMDAwMDAwMCBSMTU6CjAwMDA1NWM2ZDQ0MWMxMDAKWyAgIDE3Ljc2NDY3MF0gQ1BVOiA0IFBJ
+RDogMzI3IENvbW06IHN5c3RlbWQtdWRldmQgVGFpbnRlZDogRwogRSAgICAgNS4xMC4wLXJjMy0x
+LWRlZmF1bHQrICM2MzkKWyAgIDE3Ljc2NDY3NV0gSGFyZHdhcmUgbmFtZTogRGVsbCBJbmMuIE9w
+dGlQbGV4IDkwMjAvME40WUM4LCBCSU9TIEEyNAoxMC8yNC8yMDE4ClsgICAxNy43NjQ2ODBdIENh
+bGwgVHJhY2U6ClsgICAxNy43NjQ3MDBdICBkdW1wX3N0YWNrKzB4YWUvMHhlNQpbICAgMTcuNzY0
+NzE2XSAgPyBkcm1fbW1fdGFrZWRvd24rMHgyZS8weDQwClsgICAxNy43NjQ3MjRdICBfX3dhcm4u
+Y29sZCsweDI5LzB4OGEKWyAgIDE3Ljc2NDczOV0gID8gZHJtX21tX3Rha2Vkb3duKzB4MmUvMHg0
+MApbICAgMTcuNzY0NzU1XSAgcmVwb3J0X2J1ZysweGNiLzB4ZjAKWyAgIDE3Ljc2NDc4Ml0gIGhh
+bmRsZV9idWcrMHgzOC8weDkwClsgICAxNy43NjQ3OTVdICBleGNfaW52YWxpZF9vcCsweDE0LzB4
+NDAKWyAgIDE3Ljc2NDgwOV0gIGFzbV9leGNfaW52YWxpZF9vcCsweDEyLzB4MjAKWyAgIDE3Ljc2
+NDgxNl0gUklQOiAwMDEwOmRybV9tbV90YWtlZG93bisweDJlLzB4NDAKWyAgIDE3Ljc2NDgyNF0g
+Q29kZTogMDAgNTUgNDggOGQgNmYgMzggNTMgNDggODkgZmIgNDggODkgZWYgZTggYmEgZGIgODUK
+ZmYgNDggOGIgNDMgMzggNDggMzkgYzUgNzUgMDMgNWIgNWQgYzMgNDggYzcgYzcgNDAgZmYgYjUg
+OGUgZTggYjggZDggNjIKMDAgPDBmPiAwYiA1YiA1ZCBjMyA2NiA2NiAyZSAwZiAxZiA4NCAwMCAw
+MCAwMCAwMCAwMCA2NiA5MCAwZiAxZiA0NCAwMApbICAgMTcuNzY0ODI5XSBSU1A6IDAwMTg6ZmZm
+ZmM5MDAwMThkNzc5MCBFRkxBR1M6IDAwMDEwMjgyClsgICAxNy43NjQ4MzldIFJBWDogMDAwMDAw
+MDAwMDAwMDAwMCBSQlg6IGZmZmY4ODgxNDkwYWQ4YTggUkNYOgowMDAwMDAwMDAwMDAwMDAwClsg
+ICAxNy43NjQ4NDVdIFJEWDogMWZmZmYxMTBmOTlmZGQxNSBSU0k6IDAwMDAwMDAwMDAwMDAwMDgg
+UkRJOgpmZmZmZjUyMDAwMzFhZWU4ClsgICAxNy43NjQ4NTFdIFJCUDogZmZmZjg4ODE0OTBhZDhl
+MCBSMDg6IDAwMDAwMDAwMDAwMDAwMDEgUjA5OgpmZmZmODg4N2NjZmY4MGE3ClsgICAxNy43NjQ4
+NTZdIFIxMDogZmZmZmVkMTBmOTlmZjAxNCBSMTE6IDAwMDAwMDAwMDAwMDAwMDEgUjEyOgowMDAw
+MDAwMDAwMDAwMDAwClsgICAxNy43NjQ4NjJdIFIxMzogMDAwMDAwMDAwMDAwMDAwMiBSMTQ6IGZm
+ZmY4ODgxNThiNDBiNTggUjE1OgpmZmZmODg4MTQ5MGFkOTk4ClsgICAxNy43NjQ5MzldICB0dG1f
+cmFuZ2VfbWFuX2ZpbmkrMHg4Yi8weDE1MCBbdHRtXQpbICAgMTcuNzY1MDcxXSAgcmFkZW9uX3R0
+bV9maW5pKzB4ZDEvMHgyMTAgW3JhZGVvbl0KWyAgIDE3Ljc2NTE5OF0gIHJhZGVvbl9ib19maW5p
+KzB4Zi8weDYwIFtyYWRlb25dClsgICAxNy43NjUzMjJdICBzaV9maW5pKzB4MTUwLzB4MWQwIFty
+YWRlb25dClsgICAxNy43NjU0NDNdICByYWRlb25fZGV2aWNlX2ZpbmkrMHg2MS8weDE3NyBbcmFk
+ZW9uXQpbICAgMTcuNzY1NTYzXSAgcmFkZW9uX2RyaXZlcl91bmxvYWRfa21zKzB4N2EvMHgxMzAg
+W3JhZGVvbl0KWyAgIDE3Ljc2NTY4Nl0gIHJhZGVvbl9kcml2ZXJfbG9hZF9rbXMrMHgyMjcvMHgz
+MzAgW3JhZGVvbl0KWyAgIDE3Ljc2NTcxMV0gIGRybV9kZXZfcmVnaXN0ZXIrMHgxM2IvMHgyYjAK
+WyAgIDE3Ljc2NTcyMl0gID8gZHJtbV9hZGRfZmluYWxfa2ZyZWUrMHg0Ni8weDYwClsgICAxNy43
+NjU4NDldICByYWRlb25fcGNpX3Byb2JlKzB4MTljLzB4MjYwIFtyYWRlb25dClsgICAxNy43NjU5
+NjhdICA/IHJhZGVvbl9wbW9wc19ydW50aW1lX2lkbGUrMHhlMC8weGUwIFtyYWRlb25dClsgICAx
+Ny43NjU5ODRdICBsb2NhbF9wY2lfcHJvYmUrMHg3NC8weGMwClsgICAxNy43NjYwMDddICBwY2lf
+Y2FsbF9wcm9iZSsweGI3LzB4MWQwClsgICAxNy43NjYwMjBdICA/IHBjaV9wbV9zdXNwZW5kX25v
+aXJxKzB4NDQwLzB4NDQwClsgICAxNy43NjYwNjVdICBwY2lfZGV2aWNlX3Byb2JlKzB4MTAyLzB4
+MTQwClsgICAxNy43NjYwNzNdICA/IGRyaXZlcl9zeXNmc19hZGQrMHhlMi8weDE1MApbICAgMTcu
+NzY2MDkwXSAgcmVhbGx5X3Byb2JlKzB4MTg1LzB4NjgwClsgICAxNy43NjYxMjFdICBkcml2ZXJf
+cHJvYmVfZGV2aWNlKzB4MTNmLzB4MWQwClsgICAxNy43NjYxNDJdICBkZXZpY2VfZHJpdmVyX2F0
+dGFjaCsweDExNC8weDEyMApbICAgMTcuNzY2MTU3XSAgPyBkZXZpY2VfZHJpdmVyX2F0dGFjaCsw
+eDEyMC8weDEyMApbICAgMTcuNzY2MTY2XSAgX19kcml2ZXJfYXR0YWNoKzB4YjAvMHgxYTAKWyAg
+IDE3Ljc2NjE4NF0gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHgxMjAvMHgxMjAKWyAgIDE3Ljc2
+NjE5MF0gIGJ1c19mb3JfZWFjaF9kZXYrMHhkZC8weDEyMApbICAgMTcuNzY2MjAyXSAgPyBzdWJz
+eXNfZGV2X2l0ZXJfZXhpdCsweDEwLzB4MTAKWyAgIDE3Ljc2NjIzOF0gIGJ1c19hZGRfZHJpdmVy
+KzB4MWZiLzB4MmUwClsgICAxNy43NjYyNjRdICBkcml2ZXJfcmVnaXN0ZXIrMHgxMDMvMHgxODAK
+WyAgIDE3Ljc2NjI3OF0gID8gMHhmZmZmZmZmZmMxMDJhMDAwClsgICAxNy43NjYyOTFdICBkb19v
+bmVfaW5pdGNhbGwrMHhiYi8weDNhMApbICAgMTcuNzY2MzA0XSAgPyB0cmFjZV9ldmVudF9yYXdf
+ZXZlbnRfaW5pdGNhbGxfZmluaXNoKzB4MTIwLzB4MTIwClsgICAxNy43NjYzMTJdICA/IG1hcmtf
+aGVsZF9sb2NrcysweDIzLzB4OTAKWyAgIDE3Ljc2NjMxOV0gID8gbG9ja2RlcF9lbmFibGVkKzB4
+MzkvMHg1MApbICAgMTcuNzY2MzI5XSAgPyBsb2NrX2lzX2hlbGRfdHlwZSsweGI4LzB4ZjAKWyAg
+IDE3Ljc2NjM1Nl0gID8gcmN1X3JlYWRfbG9ja19zY2hlZF9oZWxkKzB4M2YvMHg4MApbICAgMTcu
+NzY2MzY1XSAgPyBrYXNhbl91bnBvaXNvbl9zaGFkb3crMHgzMy8weDQwClsgICAxNy43NjYzOTJd
+ICBkb19pbml0X21vZHVsZSsweGZkLzB4M2MwClsgICAxNy43NjY0MTddICBsb2FkX21vZHVsZSsw
+eGMwNC8weGM3MApbICAgMTcuNzY2NDQ3XSAgPyBsYXlvdXRfYW5kX2FsbG9jYXRlKzB4MjYwLzB4
+MjYwClsgICAxNy43NjY0NjNdICA/IGtlcm5lbF9yZWFkX2ZpbGVfZnJvbV9mZCsweDRiLzB4OTAK
+WyAgIDE3Ljc2NjQ4OF0gIF9fZG9fc3lzX2Zpbml0X21vZHVsZSsweGZmLzB4MTgwClsgICAxNy43
+NjY1MDFdICA/IF9faWEzMl9zeXNfaW5pdF9tb2R1bGUrMHg0MC8weDQwClsgICAxNy43NjY1OTRd
+ICA/IHN5c2NhbGxfdHJhY2VfZW50ZXIuY29uc3Rwcm9wLjArMHg4NS8weDIzMApbICAgMTcuNzY2
+NjE1XSAgZG9fc3lzY2FsbF82NCsweDMzLzB4ODAKWyAgIDE3Ljc2NjYyNl0gIGVudHJ5X1NZU0NB
+TExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKWyAgIDE3Ljc2NjYzNF0gUklQOiAwMDMzOjB4
+N2YxNTUzNTVlNzk5ClsgICAxNy43NjY2NDFdIENvZGU6IDQ4IDhkIDNkIDNhIGJmIDBjIDAwIDBm
+IDA1IGViIGE1IDY2IDBmIDFmIDQ0IDAwIDAwCjQ4IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4
+IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmCjA1IDw0OD4gM2QgMDEg
+ZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgYTcgNzYgMGMgMDAgZjcgZDggNjQgODkgMDEgNDgK
+WyAgIDE3Ljc2NjY0N10gUlNQOiAwMDJiOjAwMDA3ZmZjY2RhMDY0MjggRUZMQUdTOiAwMDAwMDI0
+NiBPUklHX1JBWDoKMDAwMDAwMDAwMDAwMDEzOQpbICAgMTcuNzY2NjYwXSBSQVg6IGZmZmZmZmZm
+ZmZmZmZmZGEgUkJYOiAwMDAwNTVjNmQ0NDE1OGYwIFJDWDoKMDAwMDdmMTU1MzU1ZTc5OQpbICAg
+MTcuNzY2NjY2XSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwN2YxNTUzNjdkM2EzIFJE
+SToKMDAwMDAwMDAwMDAwMDAwZgpbICAgMTcuNzY2NjcyXSBSQlA6IDAwMDAwMDAwMDAwMjAwMDAg
+UjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOToKMDAwMDU1YzZkNDQxNzk2MApbICAgMTcuNzY2Njc5
+XSBSMTA6IDAwMDAwMDAwMDAwMDAwMGYgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIxMjoKMDAwMDdm
+MTU1MzY3ZDNhMwpbICAgMTcuNzY2Njg0XSBSMTM6IDAwMDA1NWM2ZDQ0MjlmZjAgUjE0OiAwMDAw
+MDAwMDAwMDAwMDAwIFIxNToKMDAwMDU1YzZkNDQxYzEwMApbICAgMTcuNzY2Nzc1XSBpcnEgZXZl
+bnQgc3RhbXA6IDM1NDAzClsgICAxNy43NjY3ODVdIGhhcmRpcnFzIGxhc3QgIGVuYWJsZWQgYXQg
+KDM1NDA5KTogWzxmZmZmZmZmZjhkMWIzYmMxPl0KY29uc29sZV90cnlsb2NrX3NwaW5uaW5nKzB4
+MWMxLzB4MWQwClsgICAxNy43NjY3OTRdIGhhcmRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDM1NDE0
+KTogWzxmZmZmZmZmZjhkMWIzYjcwPl0KY29uc29sZV90cnlsb2NrX3NwaW5uaW5nKzB4MTcwLzB4
+MWQwClsgICAxNy43NjY4MDNdIHNvZnRpcnFzIGxhc3QgIGVuYWJsZWQgYXQgKDM1MDAyKTogWzxm
+ZmZmZmZmZjhlNjAwM2RkPl0KX19kb19zb2Z0aXJxKzB4M2RkLzB4NTU0ClsgICAxNy43NjY4MTJd
+IHNvZnRpcnFzIGxhc3QgZGlzYWJsZWQgYXQgKDM0OTg5KTogWzxmZmZmZmZmZjhlNDAxMGYyPl0K
+YXNtX2NhbGxfaXJxX29uX3N0YWNrKzB4MTIvMHgyMApbICAgMTcuNzY2ODE4XSAtLS1bIGVuZCB0
+cmFjZSBhMTU2N2JhMWJlMjI0ODI1IF0tLS0KWyAgIDE3Ljc2NzA1MF0KPT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09ClsgICAx
+Ny43NjcxMTBdIEJVRzogS0FTQU46IG51bGwtcHRyLWRlcmVmIGluCnR0bV9yYW5nZV9tYW5fZmlu
+aSsweDM1LzB4MTUwIFt0dG1dClsgICAxNy43NjcxMTZdIFdyaXRlIG9mIHNpemUgMSBhdCBhZGRy
+IDAwMDAwMDAwMDAwMDAwMDAgYnkgdGFzawpzeXN0ZW1kLXVkZXZkLzMyNwpbICAgMTcuNzY3MTIy
+XQpbICAgMTcuNzY3MTMwXSBDUFU6IDQgUElEOiAzMjcgQ29tbTogc3lzdGVtZC11ZGV2ZCBUYWlu
+dGVkOiBHICAgICAgICBXCiBFICAgICA1LjEwLjAtcmMzLTEtZGVmYXVsdCsgIzYzOQpbICAgMTcu
+NzY3MTM1XSBIYXJkd2FyZSBuYW1lOiBEZWxsIEluYy4gT3B0aVBsZXggOTAyMC8wTjRZQzgsIEJJ
+T1MgQTI0CjEwLzI0LzIwMTgKWyAgIDE3Ljc2NzE0MV0gQ2FsbCBUcmFjZToKWyAgIDE3Ljc2NzE2
+MV0gIGR1bXBfc3RhY2srMHhhZS8weGU1ClsgICAxNy43NjcxODJdICA/IHR0bV9yYW5nZV9tYW5f
+ZmluaSsweDM1LzB4MTUwIFt0dG1dClsgICAxNy43NjcxOTNdICBfX2thc2FuX3JlcG9ydC5jb2xk
+KzB4NS8weDM4ClsgICAxNy43NjcyMjVdICA/IHR0bV9yYW5nZV9tYW5fZmluaSsweDM1LzB4MTUw
+IFt0dG1dClsgICAxNy43NjcyNDNdICBrYXNhbl9yZXBvcnQrMHgzYS8weDUwClsgICAxNy43Njcy
+NjJdICB0dG1fcmFuZ2VfbWFuX2ZpbmkrMHgzNS8weDE1MCBbdHRtXQpbICAgMTcuNzY3Mzk1XSAg
+cmFkZW9uX3R0bV9maW5pKzB4ZGUvMHgyMTAgW3JhZGVvbl0KWyAgIDE3Ljc2NzUyNV0gIHJhZGVv
+bl9ib19maW5pKzB4Zi8weDYwIFtyYWRlb25dClsgICAxNy43Njc2NTFdICBzaV9maW5pKzB4MTUw
+LzB4MWQwIFtyYWRlb25dClsgICAxNy43Njc3NzFdICByYWRlb25fZGV2aWNlX2ZpbmkrMHg2MS8w
+eDE3NyBbcmFkZW9uXQpbICAgMTcuNzY3ODkzXSAgcmFkZW9uX2RyaXZlcl91bmxvYWRfa21zKzB4
+N2EvMHgxMzAgW3JhZGVvbl0KWyAgIDE3Ljc2ODAxN10gIHJhZGVvbl9kcml2ZXJfbG9hZF9rbXMr
+MHgyMjcvMHgzMzAgW3JhZGVvbl0KWyAgIDE3Ljc2ODA0M10gIGRybV9kZXZfcmVnaXN0ZXIrMHgx
+M2IvMHgyYjAKWyAgIDE3Ljc2ODA1NF0gID8gZHJtbV9hZGRfZmluYWxfa2ZyZWUrMHg0Ni8weDYw
+ClsgICAxNy43NjgxODJdICByYWRlb25fcGNpX3Byb2JlKzB4MTljLzB4MjYwIFtyYWRlb25dClsg
+ICAxNy43NjgyOTldICA/IHJhZGVvbl9wbW9wc19ydW50aW1lX2lkbGUrMHhlMC8weGUwIFtyYWRl
+b25dClsgICAxNy43NjgzMTVdICBsb2NhbF9wY2lfcHJvYmUrMHg3NC8weGMwClsgICAxNy43Njgz
+MzhdICBwY2lfY2FsbF9wcm9iZSsweGI3LzB4MWQwClsgICAxNy43NjgzNTFdICA/IHBjaV9wbV9z
+dXNwZW5kX25vaXJxKzB4NDQwLzB4NDQwClsgICAxNy43NjgzOTddICBwY2lfZGV2aWNlX3Byb2Jl
+KzB4MTAyLzB4MTQwClsgICAxNy43Njg0MDRdICA/IGRyaXZlcl9zeXNmc19hZGQrMHhlMi8weDE1
+MApbICAgMTcuNzY4NDIxXSAgcmVhbGx5X3Byb2JlKzB4MTg1LzB4NjgwClsgICAxNy43Njg0NTJd
+ICBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4MTNmLzB4MWQwClsgICAxNy43Njg0NzJdICBkZXZpY2Vf
+ZHJpdmVyX2F0dGFjaCsweDExNC8weDEyMApbICAgMTcuNzY4NDg4XSAgPyBkZXZpY2VfZHJpdmVy
+X2F0dGFjaCsweDEyMC8weDEyMApbICAgMTcuNzY4NDk3XSAgX19kcml2ZXJfYXR0YWNoKzB4YjAv
+MHgxYTAKWyAgIDE3Ljc2ODUxNV0gID8gZGV2aWNlX2RyaXZlcl9hdHRhY2grMHgxMjAvMHgxMjAK
+WyAgIDE3Ljc2ODUyM10gIGJ1c19mb3JfZWFjaF9kZXYrMHhkZC8weDEyMApbICAgMTcuNzY4NTM2
+XSAgPyBzdWJzeXNfZGV2X2l0ZXJfZXhpdCsweDEwLzB4MTAKWyAgIDE3Ljc2ODU3Ml0gIGJ1c19h
+ZGRfZHJpdmVyKzB4MWZiLzB4MmUwClsgICAxNy43Njg1OThdICBkcml2ZXJfcmVnaXN0ZXIrMHgx
+MDMvMHgxODAKWyAgIDE3Ljc2ODYxMV0gID8gMHhmZmZmZmZmZmMxMDJhMDAwClsgICAxNy43Njg2
+MjVdICBkb19vbmVfaW5pdGNhbGwrMHhiYi8weDNhMApbICAgMTcuNzY4NjM5XSAgPyB0cmFjZV9l
+dmVudF9yYXdfZXZlbnRfaW5pdGNhbGxfZmluaXNoKzB4MTIwLzB4MTIwClsgICAxNy43Njg2NDZd
+ICA/IG1hcmtfaGVsZF9sb2NrcysweDIzLzB4OTAKWyAgIDE3Ljc2ODY1NF0gID8gbG9ja2RlcF9l
+bmFibGVkKzB4MzkvMHg1MApbICAgMTcuNzY4NjYzXSAgPyBsb2NrX2lzX2hlbGRfdHlwZSsweGI4
+LzB4ZjAKWyAgIDE3Ljc2ODY4OV0gID8gcmN1X3JlYWRfbG9ja19zY2hlZF9oZWxkKzB4M2YvMHg4
+MApbICAgMTcuNzY4Njk5XSAgPyBrYXNhbl91bnBvaXNvbl9zaGFkb3crMHgzMy8weDQwClsgICAx
+Ny43Njg3MjhdICBkb19pbml0X21vZHVsZSsweGZkLzB4M2MwClsgICAxNy43Njg3NTRdICBsb2Fk
+X21vZHVsZSsweGMwNC8weGM3MApbICAgMTcuNzY4Nzg1XSAgPyBsYXlvdXRfYW5kX2FsbG9jYXRl
+KzB4MjYwLzB4MjYwClsgICAxNy43Njg4MDBdICA/IGtlcm5lbF9yZWFkX2ZpbGVfZnJvbV9mZCsw
+eDRiLzB4OTAKWyAgIDE3Ljc2ODgyNV0gIF9fZG9fc3lzX2Zpbml0X21vZHVsZSsweGZmLzB4MTgw
+ClsgICAxNy43Njg4NDBdICA/IF9faWEzMl9zeXNfaW5pdF9tb2R1bGUrMHg0MC8weDQwClsgICAx
+Ny43Njg5MzJdICA/IHN5c2NhbGxfdHJhY2VfZW50ZXIuY29uc3Rwcm9wLjArMHg4NS8weDIzMApb
+ICAgMTcuNzY4OTUzXSAgZG9fc3lzY2FsbF82NCsweDMzLzB4ODAKWyAgIDE3Ljc2ODk2M10gIGVu
+dHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKWyAgIDE3Ljc2ODk3MV0gUklQ
+OiAwMDMzOjB4N2YxNTUzNTVlNzk5ClsgICAxNy43Njg5NzldIENvZGU6IDQ4IDhkIDNkIDNhIGJm
+IDBjIDAwIDBmIDA1IGViIGE1IDY2IDBmIDFmIDQ0IDAwIDAwCjQ4IDg5IGY4IDQ4IDg5IGY3IDQ4
+IDg5IGQ2IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhiIDRjIDI0IDA4IDBmCjA1IDw0
+OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgYTcgNzYgMGMgMDAgZjcgZDggNjQg
+ODkgMDEgNDgKWyAgIDE3Ljc2ODk4NF0gUlNQOiAwMDJiOjAwMDA3ZmZjY2RhMDY0MjggRUZMQUdT
+OiAwMDAwMDI0NiBPUklHX1JBWDoKMDAwMDAwMDAwMDAwMDEzOQpbICAgMTcuNzY4OTk1XSBSQVg6
+IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwNTVjNmQ0NDE1OGYwIFJDWDoKMDAwMDdmMTU1MzU1
+ZTc5OQpbICAgMTcuNzY5MDAxXSBSRFg6IDAwMDAwMDAwMDAwMDAwMDAgUlNJOiAwMDAwN2YxNTUz
+NjdkM2EzIFJESToKMDAwMDAwMDAwMDAwMDAwZgpbICAgMTcuNzY5MDA4XSBSQlA6IDAwMDAwMDAw
+MDAwMjAwMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOToKMDAwMDU1YzZkNDQxNzk2MApbICAg
+MTcuNzY5MDE0XSBSMTA6IDAwMDAwMDAwMDAwMDAwMGYgUjExOiAwMDAwMDAwMDAwMDAwMjQ2IFIx
+MjoKMDAwMDdmMTU1MzY3ZDNhMwpbICAgMTcuNzY5MDE5XSBSMTM6IDAwMDA1NWM2ZDQ0MjlmZjAg
+UjE0OiAwMDAwMDAwMDAwMDAwMDAwIFIxNToKMDAwMDU1YzZkNDQxYzEwMApbICAgMTcuNzY5MDgw
+XQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0KWyAgIDE3Ljc2OTA4NF0gRGlzYWJsaW5nIGxvY2sgZGVidWdnaW5nIGR1ZSB0
+byBrZXJuZWwgdGFpbnQKWyAgIDE3Ljc3MjY1Nl0gQlVHOiBrZXJuZWwgTlVMTCBwb2ludGVyIGRl
+cmVmZXJlbmNlLCBhZGRyZXNzOgowMDAwMDAwMDAwMDAwMDAwClsgICAxNy43ODY0OTZdIEJUUkZT
+OiBkZXZpY2UgZnNpZCAyOTNiNmIwOC01MDlkLTRkZTUtYmRlNS1mYzIyZjg3MDdkNmUKZGV2aWQg
+MSB0cmFuc2lkIDEwNjcxIC9kZXYvc2RhMyBzY2FubmVkIGJ5IHN5c3RlbWQtdWRldmQgKDMxMikK
+WyAgIDE3Ljc5MDYxNF0gI1BGOiBzdXBlcnZpc29yIHdyaXRlIGFjY2VzcyBpbiBrZXJuZWwgbW9k
+ZQpbICAgMTcuNzkwNjE2XSAjUEY6IGVycm9yX2NvZGUoMHgwMDAyKSAtIG5vdC1wcmVzZW50IHBh
+Z2UKWyAgIDE3Ljc5MDYxOV0gUEdEIDAgUDREIDAKWyAgIDE4Ljg0MzQ1NF0gT29wczogMDAwMiBb
+IzFdIFNNUCBLQVNBTiBQVEkKWyAgIDE4Ljg0MzQ1N10gQ1BVOiA0IFBJRDogMzI3IENvbW06IHN5
+c3RlbWQtdWRldmQgVGFpbnRlZDogRyAgICBCICAgVwogRSAgICAgNS4xMC4wLXJjMy0xLWRlZmF1
+bHQrICM2MzkKWyAgIDE4Ljg0MzQ1OF0gSGFyZHdhcmUgbmFtZTogRGVsbCBJbmMuIE9wdGlQbGV4
+IDkwMjAvME40WUM4LCBCSU9TIEEyNAoxMC8yNC8yMDE4ClsgICAxOC44NDM0NjhdIFJJUDogMDAx
+MDp0dG1fcmFuZ2VfbWFuX2ZpbmkrMHgzNS8weDE1MCBbdHRtXQpbICAgMTguODQzNDcyXSBDb2Rl
+OiA0YyA2MyBlZSA0MSA1NCA1NSA0OSA4ZCA2ZCAxOCA1MyA0YyA4ZCAzNCBlZiA0OCA4OQpmYiA0
+YyA4OSBmNyA0OCA4MyBlYyAxMCBlOCA1NyAwNyA4NiBjYyA0OCA4YiAyYyBlYiA0OCA4OSBlZiBl
+OCAwYiAwNSA4NgpjYyA8YzY+IDQ1IDAwIDAwIDQ4IDg5IGVlIDQ4IDg5IGRmIGU4IDRjIDA1IDAw
+IDAwIDQxIDg5IGM0IDg1IGMwIDc0IDEyClsgICAxOC44OTA5MDldIFJTUDogMDAxODpmZmZmYzkw
+MDAxOGQ3N2E4IEVGTEFHUzogMDAwMTAyODIKWyAgIDE4Ljg5MDkxMl0gUkFYOiAwMDAwMDAwMDAw
+MDAwMDAxIFJCWDogZmZmZjg4ODE1OGI0MGE4OCBSQ1g6CmRmZmZmYzAwMDAwMDAwMDAKWyAgIDE4
+Ljg5MDkxM10gUkRYOiAwMDAwMDAwMDAwMDAwMDA3IFJTSTogMDAwMDAwMDAwMDAwMDAwNCBSREk6
+CjAwMDAwMDAwMDAwMDAyOTcKWyAgIDE4Ljg5MDkxNl0gUkJQOiAwMDAwMDAwMDAwMDAwMDAwIFIw
+ODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6CmZmZmZmZmZmOGY1NDZhZTMKWyAgIDE4LjkxNzY1NF0g
+UjEwOiBmZmZmZmJmZmYxZWE4ZDVjIFIxMTogMDAwMDAwMDAwMDAwMDAwMSBSMTI6CmZmZmY4ODgx
+NThiNDBhODgKWyAgIDE4LjkxNzY1NV0gUjEzOiAwMDAwMDAwMDAwMDAwMDAxIFIxNDogZmZmZjg4
+ODE1OGI0MGI1MCBSMTU6CmZmZmY4ODgxMmUzZTY0OTAKWyAgIDE4LjkxNzY1OF0gRlM6ICAwMDAw
+N2YxNTUyOWNhOTQwKDAwMDApIEdTOmZmZmY4ODg3Y2NlMDAwMDAoMDAwMCkKa25sR1M6MDAwMDAw
+MDAwMDAwMDAwMApbICAgMTguOTE3NjU5XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1Iw
+OiAwMDAwMDAwMDgwMDUwMDMzClsgICAxOC45MTc2NjBdIENSMjogMDAwMDAwMDAwMDAwMDAwMCBD
+UjM6IDAwMDAwMDAxMmFhYzYwMDQgQ1I0OgowMDAwMDAwMDAwMTcwNmUwClsgICAxOC45MTc2NjFd
+IENhbGwgVHJhY2U6ClsgICAxOC45MTc3MzhdICByYWRlb25fdHRtX2ZpbmkrMHhkZS8weDIxMCBb
+cmFkZW9uXQpbICAgMTguOTE3ODAyXSAgcmFkZW9uX2JvX2ZpbmkrMHhmLzB4NjAgW3JhZGVvbl0K
+WyAgIDE4Ljk2NDY2Ml0gIHNpX2ZpbmkrMHgxNTAvMHgxZDAgW3JhZGVvbl0KWyAgIDE4Ljk2NDcz
+MF0gIHJhZGVvbl9kZXZpY2VfZmluaSsweDYxLzB4MTc3IFtyYWRlb25dClsgICAxOC45NzM2NTld
+ICByYWRlb25fZHJpdmVyX3VubG9hZF9rbXMrMHg3YS8weDEzMCBbcmFkZW9uXQpbICAgMTguOTcz
+NzUyXSAgcmFkZW9uX2RyaXZlcl9sb2FkX2ttcysweDIyNy8weDMzMCBbcmFkZW9uXQpbICAgMTgu
+OTg0NDQyXSAgZHJtX2Rldl9yZWdpc3RlcisweDEzYi8weDJiMApbICAgMTguOTg0NDQ1XSAgPyBk
+cm1tX2FkZF9maW5hbF9rZnJlZSsweDQ2LzB4NjAKWyAgIDE4Ljk4NDUwNV0gIHJhZGVvbl9wY2lf
+cHJvYmUrMHgxOWMvMHgyNjAgW3JhZGVvbl0KWyAgIDE4Ljk5NzcxN10gID8gcmFkZW9uX3Btb3Bz
+X3J1bnRpbWVfaWRsZSsweGUwLzB4ZTAgW3JhZGVvbl0KWyAgIDE4Ljk5NzcyM10gIGxvY2FsX3Bj
+aV9wcm9iZSsweDc0LzB4YzAKWyAgIDE5LjAwNzEwNF0gIHBjaV9jYWxsX3Byb2JlKzB4YjcvMHgx
+ZDAKWyAgIDE5LjAwNzEwN10gID8gcGNpX3BtX3N1c3BlbmRfbm9pcnErMHg0NDAvMHg0NDAKWyAg
+IDE5LjAwNzExMl0gIHBjaV9kZXZpY2VfcHJvYmUrMHgxMDIvMHgxNDAKWyAgIDE5LjAwNzExN10g
+ID8gZHJpdmVyX3N5c2ZzX2FkZCsweGUyLzB4MTUwClsgIE9LICAgICAxOS4wMjM1OTZdICByZWFs
+bHlfcHJvYmUrMHgxODUvMHg2ODAKWyAgIDE5LjAyMzYwMF0gIGRyaXZlcl9wcm9iZV9kZXZpY2Ur
+MHgxM2YvMHgxZDAKWyAgIDE5LjAyMzYxMl0gIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4MTE0LzB4
+MTIwClsgICAxOS4wMjM2MTVdICA/IGRldmljZV9kcml2ZXJfYXR0YWNoKzB4MTIwLzB4MTIwClsg
+ICAxOS4wMjM2MTddICBfX2RyaXZlcl9hdHRhY2grMHhiMC8weDFhMApbICAgMTkuMDIzNjE5XSAg
+PyBkZXZpY2VfZHJpdmVyX2F0dGFjaCsweDEyMC8weDEyMApbICAgMTkuMDIzNjIzXSAgYnVzX2Zv
+cl9lYWNoX2RldisweGRkLzB4MTIwCjBtXSBGb3VuZCBkZXZpY2VbICAgMTkuMDU0MjU2XSAgPyBz
+dWJzeXNfZGV2X2l0ZXJfZXhpdCsweDEwLzB4MTAKWyAgIDE5LjA1NDI2MF0gIGJ1c19hZGRfZHJp
+dmVyKzB4MWZiLzB4MmUwClsgICAxOS4wNTQyNjRdICBkcml2ZXJfcmVnaXN0ZXIrMHgxMDMvMHgx
+ODAKWyAgIDE5LjA1NDI2Nl0gID8gMHhmZmZmZmZmZmMxMDJhMDAwClsgICAxOS4wNTQyNzBdICBk
+b19vbmVfaW5pdGNhbGwrMHhiYi8weDNhMApbICAgMTkuMDU0MjczXSAgPyB0cmFjZV9ldmVudF9y
+YXdfZXZlbnRfaW5pdGNhbGxfZmluaXNoKzB4MTIwLzB4MTIwClsgICAxOS4wNTQyNzZdICA/IG1h
+cmtfaGVsZF9sb2NrcysweDIzLzB4OTAKWyAgIDE5LjA1NDI3OV0gID8gbG9ja2RlcF9lbmFibGVk
+KzB4MzkvMHg1MApbICAgMTkuMDU0MjgyXSAgPyBsb2NrX2lzX2hlbGRfdHlwZSsweGI4LzB4ZjAK
+WyAgIDE5LjA1NDI4Nl0gID8gcmN1X3JlYWRfbG9ja19zY2hlZF9oZWxkKzB4M2YvMHg4MApbICAg
+MTkuMDU0Mjg4XSAgPyBrYXNhbl91bnBvaXNvbl9zaGFkb3crMHgzMy8weDQwCiBTVDEwMDBbICAg
+MTkuMDU0MjkyXSAgZG9faW5pdF9tb2R1bGUrMHhmZC8weDNjMApbICAgMTkuMDU0Mjk2XSAgbG9h
+ZF9tb2R1bGUrMHhjMDQvMHhjNzAKRE0wMDMtMUVSMTYyIDEgICAxOS4xMTA5NzldICA/IGxheW91
+dF9hbmRfYWxsb2NhdGUrMHgyNjAvMHgyNjAKWyAgIDE5LjExMDk4Ml0gID8ga2VybmVsX3JlYWRf
+ZmlsZV9mcm9tX2ZkKzB4NGIvMHg5MApbICAgMTkuMTEwOTg1XSAgX19kb19zeXNfZmluaXRfbW9k
+dWxlKzB4ZmYvMHgxODAKWyAgIDE5LjExMDk4OF0gID8gX19pYTMyX3N5c19pbml0X21vZHVsZSsw
+eDQwLzB4NDAKWyAgIDE5LjExMDk5NV0gID8gc3lzY2FsbF90cmFjZV9lbnRlci5jb25zdHByb3Au
+MCsweDg1LzB4MjMwClsgICAxOS4xMTEwMDFdICBkb19zeXNjYWxsXzY0KzB4MzMvMHg4MAowbS4K
+WyAgIDE5LjEzOTU1NV0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkK
+WyAgIDE5LjEzOTU1OF0gUklQOiAwMDMzOjB4N2YxNTUzNTVlNzk5ClsgICAxOS4xMzk1NjNdIENv
+ZGU6IDQ4IDhkIDNkIDNhIGJmIDBjIDAwIDBmIDA1IGViIGE1IDY2IDBmIDFmIDQ0IDAwIDAwCjQ4
+IDg5IGY4IDQ4IDg5IGY3IDQ4IDg5IGQ2IDQ4IDg5IGNhIDRkIDg5IGMyIDRkIDg5IGM4IDRjIDhi
+IDRjIDI0IDA4IDBmCjA1IDw0OD4gM2QgMDEgZjAgZmYgZmYgNzMgMDEgYzMgNDggOGIgMGQgYTcg
+NzYgMGMgMDAgZjcgZDggNjQgODkgMDEgNDgKWyAgIDE5LjEzOTU2Nl0gUlNQOiAwMDJiOjAwMDA3
+ZmZjY2RhMDY0MjggRUZMQUdTOiAwMDAwMDI0NiBPUklHX1JBWDoKMDAwMDAwMDAwMDAwMDEzOQpb
+ICAgMTkuMTM5NTcxXSBSQVg6IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwNTVjNmQ0NDE1OGYw
+IFJDWDoKMDAwMDdmMTU1MzU1ZTc5OQpbICAgMTkuMTM5NTc1XSBSRFg6IDAwMDAwMDAwMDAwMDAw
+MDAgUlNJOiAwMDAwN2YxNTUzNjdkM2EzIFJESToKMDAwMDAwMDAwMDAwMDAwZgpbICAgMTkuMTg5
+NTI1XSBSQlA6IDAwMDAwMDAwMDAwMjAwMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOToKMDAw
+MDU1YzZkNDQxNzk2MApbICAgMTkuMTg5NTI2XSBSMTA6IDAwMDAwMDAwMDAwMDAwMGYgUjExOiAw
+MDAwMDAwMDAwMDAwMjQ2IFIxMjoKMDAwMDdmMTU1MzY3ZDNhMwpbICAgMTkuMTg5NTI4XSBSMTM6
+IDAwMDA1NWM2ZDQ0MjlmZjAgUjE0OiAwMDAwMDAwMDAwMDAwMDAwIFIxNToKMDAwMDU1YzZkNDQx
+YzEwMApbICAgMTkuMTg5NTMyXSBNb2R1bGVzIGxpbmtlZCBpbjogaGlkX2dlbmVyaWMoRSkgY3Jj
+dDEwZGlmX3BjbG11bChFKQpjcmMzMl9wY2xtdWwoRSkgZ2hhc2hfY2xtdWxuaV9pbnRlbChFKSBy
+YWRlb24oRSspIGFlc25pX2ludGVsKEUpCmdsdWVfaGVscGVyKEUpIGNyeXB0b19zaW1kKEUpIGRy
+bV90dG1faGVscGVyKEUpIGNyeXB0ZChFKSB1c2JoaWQoRSkKdHRtKEUpIGk5MTUoRSspIHByaW1l
+X251bWJlcnMoRSkgd20pClsgICAxOS4yMTEwOTJdIENSMjogMDAwMDAwMDAwMDAwMDAwMApbICAg
+MTkuMjExMTM2XSAtLS1bIGVuZCB0cmFjZSBhMTU2N2JhMWJlMjI0ODI2IF0tLS0KWyAgIDE5LjI1
+NjI4MV0gUklQOiAwMDEwOnR0bV9yYW5nZV9tYW5fZmluaSsweDM1LzB4MTUwIFt0dG1dClsgICAx
+OS4yNTYyODRdIENvZGU6IDRjIDYzIGVlIDQxIDU0IDU1IDQ5IDhkIDZkIDE4IDUzIDRjIDhkIDM0
+IGVmIDQ4IDg5CmZiIDRjIDg5IGY3IDQ4IDgzIGVjIDEwIGU4IDU3IDA3IDg2IGNjIDQ4IDhiIDJj
+IGViIDQ4IDg5IGVmIGU4IDBiIDA1IDg2CmNjIDxjNj4gNDUgMDAgMDAgNDggODkgZWUgNDggODkg
+ZGYgZTggNGMgMDUgMDAgMDAgNDEgODkgYzQgODUgYzAgNzQgMTIKWyAgIDE5LjI1NjI4NV0gUlNQ
+OiAwMDE4OmZmZmZjOTAwMDE4ZDc3YTggRUZMQUdTOiAwMDAxMDI4MgpbICAgMTkuMjU2Mjg4XSBS
+QVg6IDAwMDAwMDAwMDAwMDAwMDEgUkJYOiBmZmZmODg4MTU4YjQwYTg4IFJDWDoKZGZmZmZjMDAw
+MDAwMDAwMApbICAgMTkuMjU2Mjg5XSBSRFg6IDAwMDAwMDAwMDAwMDAwMDcgUlNJOiAwMDAwMDAw
+MDAwMDAwMDA0IFJESToKMDAwMDAwMDAwMDAwMDI5NwpbICAgMTkuMjU2MjkxXSBSQlA6IDAwMDAw
+MDAwMDAwMDAwMDAgUjA4OiAwMDAwMDAwMDAwMDAwMDAwIFIwOToKZmZmZmZmZmY4ZjU0NmFlMwpb
+ICAgMTkuMjU2MjkyXSBSMTA6IGZmZmZmYmZmZjFlYThkNWMgUjExOiAwMDAwMDAwMDAwMDAwMDAx
+IFIxMjoKZmZmZjg4ODE1OGI0MGE4OApbICAgMTkuMjU2Mjk0XSBSMTM6IDAwMDAwMDAwMDAwMDAw
+MDEgUjE0OiBmZmZmODg4MTU4YjQwYjUwIFIxNToKZmZmZjg4ODEyZTNlNjQ5MApbICAgMTkuMjU2
+Mjk1XSBGUzogIDAwMDA3ZjE1NTI5Y2E5NDAoMDAwMCkgR1M6ZmZmZjg4ODdjY2UwMDAwMCgwMDAw
+KQprbmxHUzowMDAwMDAwMDAwMDAwMDAwClsgICAxOS4yNTYyOTddIENTOiAgMDAxMCBEUzogMDAw
+MCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMKWyAgIDE5LjI1NjI5OF0gQ1IyOiAwMDAw
+MDAwMDAwMDAwMDAwIENSMzogMDAwMDAwMDEyYWFjNjAwNCBDUjQ6CjAwMDAwMDAwMDAxNzA2ZTAK
+ClRoZSBkaXNwbGF5IHJlbWFpbnMgZGFyayBhZnRlciB0aGF0LiBSZXZlcnRpbmcgdGhpcyBwYXRj
+aCByZXN0b3JlcwpmdW5jdGlvbmFsaXR5LgoKQmVzdCByZWdhcmRzClRob21hcwoKPiAKPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IGluZGV4IDI5MDYyZGJlYTI5OS4uNzg4NjU1ZWJh
+ZmRiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiBAQCAtMjA2LDEwMSAr
+MjA2LDYgQEAgc3RhdGljIGludCByYWRlb25fbW92ZV9ibGl0KHN0cnVjdCB0dG1fYnVmZmVyX29i
+amVjdCAqYm8sCj4gIAlyZXR1cm4gcjsKPiAgfQo+ICAKPiAtc3RhdGljIGludCByYWRlb25fbW92
+ZV92cmFtX3JhbShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLAo+IC0JCQkJYm9vbCBldmlj
+dCwKPiAtCQkJCXN0cnVjdCB0dG1fb3BlcmF0aW9uX2N0eCAqY3R4LAo+IC0JCQkJc3RydWN0IHR0
+bV9yZXNvdXJjZSAqbmV3X21lbSkKPiAtewo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZSAqb2xkX21l
+bSA9ICZiby0+bWVtOwo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZSB0bXBfbWVtOwo+IC0Jc3RydWN0
+IHR0bV9wbGFjZSBwbGFjZW1lbnRzOwo+IC0Jc3RydWN0IHR0bV9wbGFjZW1lbnQgcGxhY2VtZW50
+Owo+IC0JaW50IHI7Cj4gLQo+IC0JdG1wX21lbSA9ICpuZXdfbWVtOwo+IC0JdG1wX21lbS5tbV9u
+b2RlID0gTlVMTDsKPiAtCXBsYWNlbWVudC5udW1fcGxhY2VtZW50ID0gMTsKPiAtCXBsYWNlbWVu
+dC5wbGFjZW1lbnQgPSAmcGxhY2VtZW50czsKPiAtCXBsYWNlbWVudC5udW1fYnVzeV9wbGFjZW1l
+bnQgPSAxOwo+IC0JcGxhY2VtZW50LmJ1c3lfcGxhY2VtZW50ID0gJnBsYWNlbWVudHM7Cj4gLQlw
+bGFjZW1lbnRzLmZwZm4gPSAwOwo+IC0JcGxhY2VtZW50cy5scGZuID0gMDsKPiAtCXBsYWNlbWVu
+dHMubWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gLQlwbGFjZW1lbnRzLmZsYWdzID0gMDsKPiAtCXIg
+PSB0dG1fYm9fbWVtX3NwYWNlKGJvLCAmcGxhY2VtZW50LCAmdG1wX21lbSwgY3R4KTsKPiAtCWlm
+ICh1bmxpa2VseShyKSkgewo+IC0JCXJldHVybiByOwo+IC0JfQo+IC0KPiAtCXIgPSB0dG1fdHRf
+cG9wdWxhdGUoYm8tPmJkZXYsIGJvLT50dG0sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikpIHsK
+PiAtCQlnb3RvIG91dF9jbGVhbnVwOwo+IC0JfQo+IC0KPiAtCXIgPSByYWRlb25fdHRtX3R0X2Jp
+bmQoYm8tPmJkZXYsIGJvLT50dG0sICZ0bXBfbWVtKTsKPiAtCWlmICh1bmxpa2VseShyKSkgewo+
+IC0JCWdvdG8gb3V0X2NsZWFudXA7Cj4gLQl9Cj4gLQlyID0gcmFkZW9uX21vdmVfYmxpdChibywg
+dHJ1ZSwgJnRtcF9tZW0sIG9sZF9tZW0pOwo+IC0JaWYgKHVubGlrZWx5KHIpKSB7Cj4gLQkJZ290
+byBvdXRfY2xlYW51cDsKPiAtCX0KPiAtCXIgPSB0dG1fYm9fd2FpdF9jdHgoYm8sIGN0eCk7Cj4g
+LQlpZiAodW5saWtlbHkocikpCj4gLQkJZ290byBvdXRfY2xlYW51cDsKPiAtCj4gLQlyYWRlb25f
+dHRtX3R0X3VuYmluZChiby0+YmRldiwgYm8tPnR0bSk7Cj4gLQl0dG1fcmVzb3VyY2VfZnJlZShi
+bywgJmJvLT5tZW0pOwo+IC0JdHRtX2JvX2Fzc2lnbl9tZW0oYm8sIG5ld19tZW0pOwo+IC1vdXRf
+Y2xlYW51cDoKPiAtCXR0bV9yZXNvdXJjZV9mcmVlKGJvLCAmdG1wX21lbSk7Cj4gLQlyZXR1cm4g
+cjsKPiAtfQo+IC0KPiAtc3RhdGljIGludCByYWRlb25fbW92ZV9yYW1fdnJhbShzdHJ1Y3QgdHRt
+X2J1ZmZlcl9vYmplY3QgKmJvLAo+IC0JCQkJYm9vbCBldmljdCwKPiAtCQkJCXN0cnVjdCB0dG1f
+b3BlcmF0aW9uX2N0eCAqY3R4LAo+IC0JCQkJc3RydWN0IHR0bV9yZXNvdXJjZSAqbmV3X21lbSkK
+PiAtewo+IC0Jc3RydWN0IHR0bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+bWVtOwo+IC0Jc3Ry
+dWN0IHR0bV9yZXNvdXJjZSB0bXBfbWVtOwo+IC0Jc3RydWN0IHR0bV9wbGFjZW1lbnQgcGxhY2Vt
+ZW50Owo+IC0Jc3RydWN0IHR0bV9wbGFjZSBwbGFjZW1lbnRzOwo+IC0JaW50IHI7Cj4gLQo+IC0J
+dG1wX21lbSA9ICpuZXdfbWVtOwo+IC0JdG1wX21lbS5tbV9ub2RlID0gTlVMTDsKPiAtCXBsYWNl
+bWVudC5udW1fcGxhY2VtZW50ID0gMTsKPiAtCXBsYWNlbWVudC5wbGFjZW1lbnQgPSAmcGxhY2Vt
+ZW50czsKPiAtCXBsYWNlbWVudC5udW1fYnVzeV9wbGFjZW1lbnQgPSAxOwo+IC0JcGxhY2VtZW50
+LmJ1c3lfcGxhY2VtZW50ID0gJnBsYWNlbWVudHM7Cj4gLQlwbGFjZW1lbnRzLmZwZm4gPSAwOwo+
+IC0JcGxhY2VtZW50cy5scGZuID0gMDsKPiAtCXBsYWNlbWVudHMubWVtX3R5cGUgPSBUVE1fUExf
+VFQ7Cj4gLQlwbGFjZW1lbnRzLmZsYWdzID0gMDsKPiAtCXIgPSB0dG1fYm9fbWVtX3NwYWNlKGJv
+LCAmcGxhY2VtZW50LCAmdG1wX21lbSwgY3R4KTsKPiAtCWlmICh1bmxpa2VseShyKSkgewo+IC0J
+CXJldHVybiByOwo+IC0JfQo+IC0KPiAtCXIgPSB0dG1fdHRfcG9wdWxhdGUoYm8tPmJkZXYsIGJv
+LT50dG0sIGN0eCk7Cj4gLQlpZiAodW5saWtlbHkocikpCj4gLQkJZ290byBvdXRfY2xlYW51cDsK
+PiAtCj4gLQlyID0gcmFkZW9uX3R0bV90dF9iaW5kKGJvLT5iZGV2LCBiby0+dHRtLCAmdG1wX21l
+bSk7Cj4gLQlpZiAodW5saWtlbHkocikpCj4gLQkJZ290byBvdXRfY2xlYW51cDsKPiAtCj4gLQl0
+dG1fYm9fYXNzaWduX21lbShibywgJnRtcF9tZW0pOwo+IC0JciA9IHJhZGVvbl9tb3ZlX2JsaXQo
+Ym8sIHRydWUsIG5ld19tZW0sIG9sZF9tZW0pOwo+IC0JaWYgKHVubGlrZWx5KHIpKSB7Cj4gLQkJ
+Z290byBvdXRfY2xlYW51cDsKPiAtCX0KPiAtb3V0X2NsZWFudXA6Cj4gLQl0dG1fcmVzb3VyY2Vf
+ZnJlZShibywgJnRtcF9tZW0pOwo+IC0JcmV0dXJuIHI7Cj4gLX0KPiAtCj4gIHN0YXRpYyBpbnQg
+cmFkZW9uX2JvX21vdmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwK
+PiAgCQkJICBzdHJ1Y3QgdHRtX29wZXJhdGlvbl9jdHggKmN0eCwKPiAgCQkJICBzdHJ1Y3QgdHRt
+X3Jlc291cmNlICpuZXdfbWVtLAo+IEBAIC0zMTEsNiArMjE2LDE3IEBAIHN0YXRpYyBpbnQgcmFk
+ZW9uX2JvX21vdmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwKPiAg
+CXN0cnVjdCB0dG1fcmVzb3VyY2UgKm9sZF9tZW0gPSAmYm8tPm1lbTsKPiAgCWludCByOwo+ICAK
+PiArCWlmICgob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJgo+ICsJICAgICBu
+ZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfVlJBTSkgfHwKPiArCSAgICAob2xkX21lbS0+bWVt
+X3R5cGUgPT0gVFRNX1BMX1ZSQU0gJiYKPiArCSAgICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRN
+X1BMX1NZU1RFTSkpIHsKPiArCQlob3AtPmZwZm4gPSAwOwo+ICsJCWhvcC0+bHBmbiA9IDA7Cj4g
+KwkJaG9wLT5tZW1fdHlwZSA9IFRUTV9QTF9UVDsKPiArCQlob3AtPmZsYWdzID0gMDsKPiArCQly
+ZXR1cm4gLUVNVUxUSUhPUDsKPiArCX0KPiArCj4gIAlpZiAobmV3X21lbS0+bWVtX3R5cGUgPT0g
+VFRNX1BMX1RUKSB7Cj4gIAkJciA9IHJhZGVvbl90dG1fdHRfYmluZChiby0+YmRldiwgYm8tPnR0
+bSwgbmV3X21lbSk7Cj4gIAkJaWYgKHIpCj4gQEAgLTM1MSwxNyArMjY3LDggQEAgc3RhdGljIGlu
+dCByYWRlb25fYm9fbW92ZShzdHJ1Y3QgdHRtX2J1ZmZlcl9vYmplY3QgKmJvLCBib29sIGV2aWN0
+LAo+ICAJCWdvdG8gbWVtY3B5Owo+ICAJfQo+ICAKPiAtCWlmIChvbGRfbWVtLT5tZW1fdHlwZSA9
+PSBUVE1fUExfVlJBTSAmJgo+IC0JICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNU
+RU0pIHsKPiAtCQlyID0gcmFkZW9uX21vdmVfdnJhbV9yYW0oYm8sIGV2aWN0LCBjdHgsIG5ld19t
+ZW0pOwo+IC0JfSBlbHNlIGlmIChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNICYm
+Cj4gLQkJICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHsKPiAtCQlyID0gcmFk
+ZW9uX21vdmVfcmFtX3ZyYW0oYm8sIGV2aWN0LCBjdHgsIG5ld19tZW0pOwo+IC0JfSBlbHNlIHsK
+PiAtCQlyID0gcmFkZW9uX21vdmVfYmxpdChibywgZXZpY3QsCj4gLQkJCQkgICAgIG5ld19tZW0s
+IG9sZF9tZW0pOwo+IC0JfQo+IC0KPiArCXIgPSByYWRlb25fbW92ZV9ibGl0KGJvLCBldmljdCwK
+PiArCQkJICAgICBuZXdfbWVtLCBvbGRfbWVtKTsKPiAgCWlmIChyKSB7Cj4gIG1lbWNweToKPiAg
+CQlyID0gdHRtX2JvX21vdmVfbWVtY3B5KGJvLCBjdHgsIG5ld19tZW0pOwo+IAoKLS0gClRob21h
+cyBaaW1tZXJtYW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1
+dGlvbnMgR2VybWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVu
+ZMO2cmZmZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
