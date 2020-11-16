@@ -2,38 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243722B44B9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 14:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3BC2B4564
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 15:02:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C4B89DD2;
-	Mon, 16 Nov 2020 13:32:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52A7689CC9;
+	Mon, 16 Nov 2020 14:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6809389DD2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 13:32:51 +0000 (UTC)
-IronPort-SDR: aYp5b19zjhA7UY37rKjQfKIbA+vvFnN1IU6UwYPER5YFdVH9dw9NOBPno4j6kXzbcOV7AXq4jZ
- O/cqxtEp9eCg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9806"; a="232360814"
-X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; d="scan'208";a="232360814"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Nov 2020 05:32:49 -0800
-IronPort-SDR: xcnkNCKMnWEPYsb1gECMGTRIRpRmX6lUDSZTQFPU2qlz048RjtPNCguoVx7wEIfYw/aPWJXKEB
- ZtX4bb83PQrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,482,1596524400"; d="scan'208";a="543603845"
-Received: from shawnle1-build-machine.itwn.intel.com ([10.5.253.9])
- by orsmga005.jf.intel.com with ESMTP; 16 Nov 2020 05:32:47 -0800
-From: Lee Shawn C <shawn.c.lee@intel.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/edid: Parse multiple CEA ext block
-Date: Mon, 16 Nov 2020 21:37:22 +0800
-Message-Id: <20201116133722.25715-1-shawn.c.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
+ [IPv6:2607:f8b0:4864:20::d43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9B1C89C9A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 14:02:08 +0000 (UTC)
+Received: by mail-io1-xd43.google.com with SMTP id m9so17477956iox.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 06:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kfTo+s6Rfziyk28byc4y92qDcFzNCviKYnIcjhs+/0I=;
+ b=GwhVHDU7Ggn4U1MZRMPEOIFwWKVi/fjuXVnE+Z0ttVk4CMnAUvNPxgWDyYsVRTzzrB
+ IEDBFDWjikZ5b9XpbY2soqLweZIMkvaBTZVuL68aWSv2v+piaR5CrjZJwqb6u65I3C3x
+ F2LTqJgmL3ESTY8XKW1xTrry+Jb9xGKOBkWRfJH+pv+CJv7yp9ugTbmY0RBDLjYdE9qE
+ 7o5DsKuVcpSmdY95qlVjK66YTlaHkhNO0Y3XA25ViOiz20tFNyilF72HIeNaEp8vT5sC
+ eZformUlD/dCQYmXpWUtZ3S1tfpsWe7I7RX/290jzRaG9R4fdZA2OaTy12n942Hhp0Tf
+ WYmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kfTo+s6Rfziyk28byc4y92qDcFzNCviKYnIcjhs+/0I=;
+ b=jgwy9yYPQ85FAyrVAw7h+UzBjWm9RQumbPKNjDghyF3xSaEJfEEUyXHlol1s6ff9WG
+ TxLhfKfq3piYRK/52xqNaHfyutGaJAqqz5NyCTGdOGHUgZG7ciQ65WJ4EeN2kyMOajkR
+ Vx90BMjNkttlmBvwhJt2Tfye7J4UTof3cCNONsiwjUFXba4bonVn94ZPEMHZqBQtVtrl
+ pcG0H8zos5rO/thguBVJ5cl4Y4nanD66xeLtQsu/ZVQkcROMsMPX9VfKs07jfG0khCHE
+ FKGZj2nqekZnQKE+of3N3MJdH4xYYJIoRF+lbLdz+Rb1DM5fT4pVuzKXefLONYnXO6YD
+ GcuQ==
+X-Gm-Message-State: AOAM533kXV+Fpug6nCuALWx6yJLJNqG8DQENHFaS3E+gIkFOfYeIGxaG
+ W7emgkoat/WDlq/72RkXewM=
+X-Google-Smtp-Source: ABdhPJzQXMIJJqNvSgT1PjOyketDIs7BVZ0i7N1jRL2oLuKxrYy0yhYwy6Lr+YgnxNn5QFg3aRO0Aw==
+X-Received: by 2002:a05:6638:618:: with SMTP id
+ g24mr11197277jar.53.1605535328250; 
+ Mon, 16 Nov 2020 06:02:08 -0800 (PST)
+Received: from smtp.gmail.com ([2607:fea8:56e0:6d60::c908])
+ by smtp.gmail.com with ESMTPSA id p24sm11587224ill.59.2020.11.16.06.02.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Nov 2020 06:02:07 -0800 (PST)
+Date: Mon, 16 Nov 2020 09:02:04 -0500
+From: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH] drm: Pass the full state to connectors atomic functions
+Message-ID: <20201116140204.imo4t3judosqif2y@smtp.gmail.com>
+References: <20201105173007.593960-1-maxime@cerno.tech>
 MIME-Version: 1.0
+In-Reply-To: <20201105173007.593960-1-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,156 +66,335 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Cooper Chiou <cooper.chiou@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>,
- Khaled Almahallawy <khaled.almahallawy@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Melissa Wen <melissa.srw@gmail.com>,
+ Leo Li <sunpeng.li@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1154936431=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QmFzZWQgb24gY29tbWl0ICc4ODczY2ZhMzg0MDUgKCJkcm0vZWRpZDogQWxsb3cgbG9va2luZyBm
-b3IKZXh0IGJsb2NrcyBzdGFydGluZyBmcm9tIGEgc3BlY2lmaWVkIGluZGV4IiknLiBEcml2ZXIg
-aGF2ZQpjYXBhYmlsaXR5IHRvIHJldHJpZXZlIHNwZWNpZmljIGV4dCBibG9jayBmcm9tIEVESUQu
-CgpTbyBmYXIsIGRyaXZlciBqdXN0IHJlY29nbml6ZWQgZmlyc3QgY2VhIGV4dCBibG9jay4gTm93
-IHdlCmhhdmUgYW4gRURJRCB3aXRoIHR3byBjZWEgZXh0IGJsb2NrLiBBbmQgdmlkZW8gaW5mbyB3
-YXMKc3RvcmVkIGluIHNlY29uZCBjZWEgZXh0IGJsb2NrLiBUaG9zZSB2aWRlbyBpbmZvIHdpbGwg
-bm90IGJlCmFibGUgdG8gcmV0cmlldmUgcHJvcGVybHkuCgpUaGlzIGNoYWduZSBhbGxvdyBkcml2
-ZXIgdG8gcmVhZCBtdWx0aXBsZSBjZWEgZXh0IGJsb2NrCmluIGFkZF9jZWFfbW9kZXMoKS4gVGhl
-biBkcml2ZXIgY2FuIHJlY2VpdmUgdmlkZW8gaW5mbyBmcm9tCnNlY29uZCBjZWEgZXh0IGJsb2Nr
-IGNvcnJlY3RseS4KCkNjOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50
-ZWwuY29tPgpDYzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6
-IENvb3BlciBDaGlvdSA8Y29vcGVyLmNoaW91QGludGVsLmNvbT4KQ2M6IEtoYWxlZCBBbG1haGFs
-bGF3eSA8a2hhbGVkLmFsbWFoYWxsYXd5QGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogTGVlIFNo
-YXduIEMgPHNoYXduLmMubGVlQGludGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2Vk
-aWQuYyB8IDEzMCArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUg
-Y2hhbmdlZCwgNzQgaW5zZXJ0aW9ucygrKSwgNTYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2VkaWQuYwpp
-bmRleCA3NGY1YTMxOTcyMTQuLjFjYmNjZjZhOWQzZSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUv
-ZHJtL2RybV9lZGlkLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9lZGlkLmMKQEAgLTMyODcs
-MjYgKzMyODcsMjIgQEAgc3RhdGljIHU4ICpkcm1fZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGNv
-bnN0IHN0cnVjdCBlZGlkICplZGlkLAogCXJldHVybiBkaXNwbGF5aWQ7CiB9CiAKLXN0YXRpYyB1
-OCAqZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCkKK3N0YXRp
-YyB1OCAqZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihjb25zdCBzdHJ1Y3QgZWRpZCAqZWRpZCwgaW50
-ICpleHRfaW5kZXgpCiB7CiAJaW50IGxlbmd0aCwgaWR4OwogCXN0cnVjdCBkaXNwbGF5aWRfYmxv
-Y2sgKmJsb2NrOwogCXU4ICpjZWE7CiAJdTggKmRpc3BsYXlpZDsKLQlpbnQgZXh0X2luZGV4Owog
-CiAJLyogTG9vayBmb3IgYSB0b3AgbGV2ZWwgQ0VBIGV4dGVuc2lvbiBibG9jayAqLwotCS8qIEZJ
-WE1FOiBtYWtlIGNhbGxlcnMgaXRlcmF0ZSB0aHJvdWdoIG11bHRpcGxlIENFQSBleHQgYmxvY2tz
-PyAqLwotCWV4dF9pbmRleCA9IDA7Ci0JY2VhID0gZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24oZWRp
-ZCwgQ0VBX0VYVCwgJmV4dF9pbmRleCk7CisJY2VhID0gZHJtX2ZpbmRfZWRpZF9leHRlbnNpb24o
-ZWRpZCwgQ0VBX0VYVCwgZXh0X2luZGV4KTsKIAlpZiAoY2VhKQogCQlyZXR1cm4gY2VhOwogCiAJ
-LyogQ0VBIGJsb2NrcyBjYW4gYWxzbyBiZSBmb3VuZCBlbWJlZGRlZCBpbiBhIERpc3BsYXlJRCBi
-bG9jayAqLwotCWV4dF9pbmRleCA9IDA7CiAJZm9yICg7OykgewogCQlkaXNwbGF5aWQgPSBkcm1f
-ZmluZF9kaXNwbGF5aWRfZXh0ZW5zaW9uKGVkaWQsICZsZW5ndGgsICZpZHgsCi0JCQkJCQkJICZl
-eHRfaW5kZXgpOworCQkJCQkJCSBleHRfaW5kZXgpOwogCQlpZiAoIWRpc3BsYXlpZCkKIAkJCXJl
-dHVybiBOVUxMOwogCkBAIC0zNTg0LDEwICszNTgwLDEwIEBAIGFkZF9hbHRlcm5hdGVfY2VhX21v
-ZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIHN0cnVjdCBlZGlkICplZGlkKQog
-CXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBjb25uZWN0b3ItPmRldjsKIAlzdHJ1Y3QgZHJtX2Rp
-c3BsYXlfbW9kZSAqbW9kZSwgKnRtcDsKIAlMSVNUX0hFQUQobGlzdCk7Ci0JaW50IG1vZGVzID0g
-MDsKKwlpbnQgbW9kZXMgPSAwLCBleHRfaW5kZXggPSAwOwogCiAJLyogRG9uJ3QgYWRkIENFQSBt
-b2RlcyBpZiB0aGUgQ0VBIGV4dGVuc2lvbiBibG9jayBpcyBtaXNzaW5nICovCi0JaWYgKCFkcm1f
-ZmluZF9jZWFfZXh0ZW5zaW9uKGVkaWQpKQorCWlmICghZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihl
-ZGlkLCAmZXh0X2luZGV4KSkKIAkJcmV0dXJuIDA7CiAKIAkvKgpAQCAtMzc3OSw2ICszNzc1LDkg
-QEAgZG9fY2VhX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IsIGNvbnN0IHU4
-ICpkYiwgdTggbGVuKQogCiAJCW1vZGUgPSBkcm1fZGlzcGxheV9tb2RlX2Zyb21fdmljX2luZGV4
-KGNvbm5lY3RvciwgZGIsIGxlbiwgaSk7CiAJCWlmIChtb2RlKSB7CisJCQljb25zdCBzdHJ1Y3Qg
-ZHJtX2Rpc3BsYXlfbW9kZSAqbTsKKwkJCWJvb2wgZWRpZF9kdXBsaWNhdGVkOworCiAJCQkvKgog
-CQkJICogWUNCQ1I0MjAgY2FwYWJpbGl0eSBibG9jayBjb250YWlucyBhIGJpdG1hcCB3aGljaAog
-CQkJICogZ2l2ZXMgdGhlIGluZGV4IG9mIENFQSBtb2RlcyBmcm9tIENFQSBWREIsIHdoaWNoCkBA
-IC0zNzkxLDggKzM3OTAsMjEgQEAgZG9fY2VhX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
-b25uZWN0b3IsIGNvbnN0IHU4ICpkYiwgdTggbGVuKQogCQkJaWYgKGkgPCA2NCAmJiBoZG1pLT55
-NDIwX2NtZGJfbWFwICYgKDFVTEwgPDwgaSkpCiAJCQkJZHJtX2FkZF9jbWRiX21vZGVzKGNvbm5l
-Y3RvciwgZGJbaV0pOwogCi0JCQlkcm1fbW9kZV9wcm9iZWRfYWRkKGNvbm5lY3RvciwgbW9kZSk7
-Ci0JCQltb2RlcysrOworCQkJZWRpZF9kdXBsaWNhdGVkID0gZmFsc2U7CisJCQlsaXN0X2Zvcl9l
-YWNoX2VudHJ5KG0sICZjb25uZWN0b3ItPnByb2JlZF9tb2RlcywgaGVhZCkgeworCQkJCWlmICht
-b2RlLT5jbG9jayA9PSBtLT5jbG9jayAmJgorCQkJCSAgICBtb2RlLT5oZGlzcGxheSA9PSBtLT5o
-ZGlzcGxheSAmJgorCQkJCSAgICBtb2RlLT52ZGlzcGxheSA9PSBtLT52ZGlzcGxheSAmJgorCQkJ
-CSAgICBkcm1fbW9kZV92cmVmcmVzaChtb2RlKSA9PSBkcm1fbW9kZV92cmVmcmVzaChtKSkKKwkJ
-CQkJZWRpZF9kdXBsaWNhdGVkID0gdHJ1ZTsKKwkJCX0KKworCQkJaWYgKGVkaWRfZHVwbGljYXRl
-ZCkgeworCQkJCWRybV9tb2RlX2Rlc3Ryb3koY29ubmVjdG9yLT5kZXYsIG1vZGUpOworCQkJfSBl
-bHNlIHsKKwkJCQlkcm1fbW9kZV9wcm9iZWRfYWRkKGNvbm5lY3RvciwgbW9kZSk7CisJCQkJbW9k
-ZXMrKzsKKwkJCX0KIAkJfQogCX0KIApAQCAtNDI1OSw0NiArNDI3MSw1MiBAQCBzdGF0aWMgdm9p
-ZCBkcm1fcGFyc2VfeTQyMGNtZGJfYml0bWFwKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0
-b3IsCiBzdGF0aWMgaW50CiBhZGRfY2VhX21vZGVzKHN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25u
-ZWN0b3IsIHN0cnVjdCBlZGlkICplZGlkKQogewotCWNvbnN0IHU4ICpjZWEgPSBkcm1fZmluZF9j
-ZWFfZXh0ZW5zaW9uKGVkaWQpOworCWNvbnN0IHU4ICpjZWE7CiAJY29uc3QgdTggKmRiLCAqaGRt
-aSA9IE5VTEwsICp2aWRlbyA9IE5VTEw7CiAJdTggZGJsLCBoZG1pX2xlbiwgdmlkZW9fbGVuID0g
-MDsKLQlpbnQgbW9kZXMgPSAwOwotCi0JaWYgKGNlYSAmJiBjZWFfcmV2aXNpb24oY2VhKSA+PSAz
-KSB7Ci0JCWludCBpLCBzdGFydCwgZW5kOworCWludCBtb2RlcyA9IDAsIGV4dF9pbmRleCA9IDAs
-IGk7CiAKLQkJaWYgKGNlYV9kYl9vZmZzZXRzKGNlYSwgJnN0YXJ0LCAmZW5kKSkKLQkJCXJldHVy
-biAwOwotCi0JCWZvcl9lYWNoX2NlYV9kYihjZWEsIGksIHN0YXJ0LCBlbmQpIHsKLQkJCWRiID0g
-JmNlYVtpXTsKLQkJCWRibCA9IGNlYV9kYl9wYXlsb2FkX2xlbihkYik7CisJZm9yIChpID0gZXh0
-X2luZGV4OyBpIDw9IGVkaWQtPmV4dGVuc2lvbnM7IGkrKykgeworCQljZWEgPSBkcm1fZmluZF9j
-ZWFfZXh0ZW5zaW9uKGVkaWQsICZleHRfaW5kZXgpOworCQlpZiAoIWNlYSkKKwkJCWJyZWFrOwog
-Ci0JCQlpZiAoY2VhX2RiX3RhZyhkYikgPT0gVklERU9fQkxPQ0spIHsKLQkJCQl2aWRlbyA9IGRi
-ICsgMTsKLQkJCQl2aWRlb19sZW4gPSBkYmw7Ci0JCQkJbW9kZXMgKz0gZG9fY2VhX21vZGVzKGNv
-bm5lY3RvciwgdmlkZW8sIGRibCk7Ci0JCQl9IGVsc2UgaWYgKGNlYV9kYl9pc19oZG1pX3ZzZGIo
-ZGIpKSB7Ci0JCQkJaGRtaSA9IGRiOwotCQkJCWhkbWlfbGVuID0gZGJsOwotCQkJfSBlbHNlIGlm
-IChjZWFfZGJfaXNfeTQyMHZkYihkYikpIHsKLQkJCQljb25zdCB1OCAqdmRiNDIwID0gJmRiWzJd
-OwotCi0JCQkJLyogQWRkIDQ6MjowKG9ubHkpIG1vZGVzIHByZXNlbnQgaW4gRURJRCAqLwotCQkJ
-CW1vZGVzICs9IGRvX3k0MjB2ZGJfbW9kZXMoY29ubmVjdG9yLAotCQkJCQkJCSAgdmRiNDIwLAot
-CQkJCQkJCSAgZGJsIC0gMSk7CisJCWlmIChjZWEgJiYgY2VhX3JldmlzaW9uKGNlYSkgPj0gMykg
-eworCQkJaW50IGksIHN0YXJ0LCBlbmQ7CisKKwkJCWlmIChjZWFfZGJfb2Zmc2V0cyhjZWEsICZz
-dGFydCwgJmVuZCkpCisJCQkJcmV0dXJuIDA7CisKKwkJCWZvcl9lYWNoX2NlYV9kYihjZWEsIGks
-IHN0YXJ0LCBlbmQpIHsKKwkJCQlkYiA9ICZjZWFbaV07CisJCQkJZGJsID0gY2VhX2RiX3BheWxv
-YWRfbGVuKGRiKTsKKworCQkJCWlmIChjZWFfZGJfdGFnKGRiKSA9PSBWSURFT19CTE9DSykgewor
-CQkJCQl2aWRlbyA9IGRiICsgMTsKKwkJCQkJdmlkZW9fbGVuID0gZGJsOworCQkJCQltb2RlcyAr
-PSBkb19jZWFfbW9kZXMoY29ubmVjdG9yLCB2aWRlbywgZGJsKTsKKwkJCQl9IGVsc2UgaWYgKGNl
-YV9kYl9pc19oZG1pX3ZzZGIoZGIpKSB7CisJCQkJCWhkbWkgPSBkYjsKKwkJCQkJaGRtaV9sZW4g
-PSBkYmw7CisJCQkJfSBlbHNlIGlmIChjZWFfZGJfaXNfeTQyMHZkYihkYikpIHsKKwkJCQkJY29u
-c3QgdTggKnZkYjQyMCA9ICZkYlsyXTsKKworCQkJCQkvKiBBZGQgNDoyOjAob25seSkgbW9kZXMg
-cHJlc2VudCBpbiBFRElEICovCisJCQkJCW1vZGVzICs9IGRvX3k0MjB2ZGJfbW9kZXMoY29ubmVj
-dG9yLAorCQkJCQkJCQkgIHZkYjQyMCwKKwkJCQkJCQkJICBkYmwgLSAxKTsKKwkJCQl9CiAJCQl9
-CiAJCX0KLQl9CiAKLQkvKgotCSAqIFdlIHBhcnNlIHRoZSBIRE1JIFZTREIgYWZ0ZXIgaGF2aW5n
-IGFkZGVkIHRoZSBjZWEgbW9kZXMgYXMgd2Ugd2lsbAotCSAqIGJlIHBhdGNoaW5nIHRoZWlyIGZs
-YWdzIHdoZW4gdGhlIHNpbmsgc3VwcG9ydHMgc3RlcmVvIDNELgotCSAqLwotCWlmIChoZG1pKQot
-CQltb2RlcyArPSBkb19oZG1pX3ZzZGJfbW9kZXMoY29ubmVjdG9yLCBoZG1pLCBoZG1pX2xlbiwg
-dmlkZW8sCi0JCQkJCSAgICB2aWRlb19sZW4pOworCQkvKgorCQkgKiBXZSBwYXJzZSB0aGUgSERN
-SSBWU0RCIGFmdGVyIGhhdmluZyBhZGRlZCB0aGUgY2VhIG1vZGVzIGFzIHdlIHdpbGwKKwkJICog
-YmUgcGF0Y2hpbmcgdGhlaXIgZmxhZ3Mgd2hlbiB0aGUgc2luayBzdXBwb3J0cyBzdGVyZW8gM0Qu
-CisJCSAqLworCQlpZiAoaGRtaSkKKwkJCW1vZGVzICs9IGRvX2hkbWlfdnNkYl9tb2Rlcyhjb25u
-ZWN0b3IsIGhkbWksIGhkbWlfbGVuLCB2aWRlbywKKwkJCQkJCSAgICB2aWRlb19sZW4pOworCX0K
-IAogCXJldHVybiBtb2RlczsKIH0KQEAgLTQ1MDAsNyArNDUxOCw3IEBAIHN0YXRpYyB2b2lkIGRy
-bV9lZGlkX3RvX2VsZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yLCBzdHJ1Y3QgZWRp
-ZCAqZWRpZCkKIAl1aW50OF90ICplbGQgPSBjb25uZWN0b3ItPmVsZDsKIAl1OCAqY2VhOwogCXU4
-ICpkYjsKLQlpbnQgdG90YWxfc2FkX2NvdW50ID0gMDsKKwlpbnQgdG90YWxfc2FkX2NvdW50ID0g
-MCwgZXh0X2luZGV4ID0gMDsKIAlpbnQgbW5sOwogCWludCBkYmw7CiAKQEAgLTQ1MDksNyArNDUy
-Nyw3IEBAIHN0YXRpYyB2b2lkIGRybV9lZGlkX3RvX2VsZChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAq
-Y29ubmVjdG9yLCBzdHJ1Y3QgZWRpZCAqZWRpZCkKIAlpZiAoIWVkaWQpCiAJCXJldHVybjsKIAot
-CWNlYSA9IGRybV9maW5kX2NlYV9leHRlbnNpb24oZWRpZCk7CisJY2VhID0gZHJtX2ZpbmRfY2Vh
-X2V4dGVuc2lvbihlZGlkLCAmZXh0X2luZGV4KTsKIAlpZiAoIWNlYSkgewogCQlEUk1fREVCVUdf
-S01TKCJFTEQ6IG5vIENFQSBFeHRlbnNpb24gZm91bmRcbiIpOwogCQlyZXR1cm47CkBAIC00NTkz
-LDExICs0NjExLDExIEBAIHN0YXRpYyB2b2lkIGRybV9lZGlkX3RvX2VsZChzdHJ1Y3QgZHJtX2Nv
-bm5lY3RvciAqY29ubmVjdG9yLCBzdHJ1Y3QgZWRpZCAqZWRpZCkKICAqLwogaW50IGRybV9lZGlk
-X3RvX3NhZChzdHJ1Y3QgZWRpZCAqZWRpZCwgc3RydWN0IGNlYV9zYWQgKipzYWRzKQogewotCWlu
-dCBjb3VudCA9IDA7CisJaW50IGNvdW50ID0gMCwgZXh0X2luZGV4ID0gMDsKIAlpbnQgaSwgc3Rh
-cnQsIGVuZCwgZGJsOwogCXU4ICpjZWE7CiAKLQljZWEgPSBkcm1fZmluZF9jZWFfZXh0ZW5zaW9u
-KGVkaWQpOworCWNlYSA9IGRybV9maW5kX2NlYV9leHRlbnNpb24oZWRpZCwgJmV4dF9pbmRleCk7
-CiAJaWYgKCFjZWEpIHsKIAkJRFJNX0RFQlVHX0tNUygiU0FEOiBubyBDRUEgRXh0ZW5zaW9uIGZv
-dW5kXG4iKTsKIAkJcmV0dXJuIDA7CkBAIC00NjU1LDExICs0NjczLDExIEBAIEVYUE9SVF9TWU1C
-T0woZHJtX2VkaWRfdG9fc2FkKTsKICAqLwogaW50IGRybV9lZGlkX3RvX3NwZWFrZXJfYWxsb2Nh
-dGlvbihzdHJ1Y3QgZWRpZCAqZWRpZCwgdTggKipzYWRiKQogewotCWludCBjb3VudCA9IDA7CisJ
-aW50IGNvdW50ID0gMCwgZXh0X2luZGV4ID0gMDsKIAlpbnQgaSwgc3RhcnQsIGVuZCwgZGJsOwog
-CWNvbnN0IHU4ICpjZWE7CiAKLQljZWEgPSBkcm1fZmluZF9jZWFfZXh0ZW5zaW9uKGVkaWQpOwor
-CWNlYSA9IGRybV9maW5kX2NlYV9leHRlbnNpb24oZWRpZCwgJmV4dF9pbmRleCk7CiAJaWYgKCFj
-ZWEpIHsKIAkJRFJNX0RFQlVHX0tNUygiU0FEOiBubyBDRUEgRXh0ZW5zaW9uIGZvdW5kXG4iKTsK
-IAkJcmV0dXJuIDA7CkBAIC00NzUyLDkgKzQ3NzAsOSBAQCBib29sIGRybV9kZXRlY3RfaGRtaV9t
-b25pdG9yKHN0cnVjdCBlZGlkICplZGlkKQogewogCXU4ICplZGlkX2V4dDsKIAlpbnQgaTsKLQlp
-bnQgc3RhcnRfb2Zmc2V0LCBlbmRfb2Zmc2V0OworCWludCBzdGFydF9vZmZzZXQsIGVuZF9vZmZz
-ZXQsIGV4dF9pbmRleCA9IDA7CiAKLQllZGlkX2V4dCA9IGRybV9maW5kX2NlYV9leHRlbnNpb24o
-ZWRpZCk7CisJZWRpZF9leHQgPSBkcm1fZmluZF9jZWFfZXh0ZW5zaW9uKGVkaWQsICZleHRfaW5k
-ZXgpOwogCWlmICghZWRpZF9leHQpCiAJCXJldHVybiBmYWxzZTsKIApAQCAtNDc5MSw5ICs0ODA5
-LDkgQEAgYm9vbCBkcm1fZGV0ZWN0X21vbml0b3JfYXVkaW8oc3RydWN0IGVkaWQgKmVkaWQpCiAJ
-dTggKmVkaWRfZXh0OwogCWludCBpLCBqOwogCWJvb2wgaGFzX2F1ZGlvID0gZmFsc2U7Ci0JaW50
-IHN0YXJ0X29mZnNldCwgZW5kX29mZnNldDsKKwlpbnQgc3RhcnRfb2Zmc2V0LCBlbmRfb2Zmc2V0
-LCBleHRfaW5kZXggPSAwOwogCi0JZWRpZF9leHQgPSBkcm1fZmluZF9jZWFfZXh0ZW5zaW9uKGVk
-aWQpOworCWVkaWRfZXh0ID0gZHJtX2ZpbmRfY2VhX2V4dGVuc2lvbihlZGlkLCAmZXh0X2luZGV4
-KTsKIAlpZiAoIWVkaWRfZXh0KQogCQlnb3RvIGVuZDsKIApAQCAtNTAwMCw5ICs1MDE4LDkgQEAg
-c3RhdGljIHZvaWQgZHJtX3BhcnNlX2NlYV9leHQoc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5l
-Y3RvciwKIHsKIAlzdHJ1Y3QgZHJtX2Rpc3BsYXlfaW5mbyAqaW5mbyA9ICZjb25uZWN0b3ItPmRp
-c3BsYXlfaW5mbzsKIAljb25zdCB1OCAqZWRpZF9leHQ7Ci0JaW50IGksIHN0YXJ0LCBlbmQ7CisJ
-aW50IGksIHN0YXJ0LCBlbmQsIGV4dF9pbmRleCA9IDA7CiAKLQllZGlkX2V4dCA9IGRybV9maW5k
-X2NlYV9leHRlbnNpb24oZWRpZCk7CisJZWRpZF9leHQgPSBkcm1fZmluZF9jZWFfZXh0ZW5zaW9u
-KGVkaWQsICZleHRfaW5kZXgpOwogCWlmICghZWRpZF9leHQpCiAJCXJldHVybjsKIAotLSAKMi4y
-OC4wCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+
+--===============1154936431==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="n26kvx2fjtb5zkjb"
+Content-Disposition: inline
+
+
+--n26kvx2fjtb5zkjb
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 11/05, Maxime Ripard wrote:
+> The current atomic helpers have either their object state being passed as
+> an argument or the full atomic state.
+>=20
+> The former is the pattern that was done at first, before switching to the
+> latter for new hooks or when it was needed.
+>=20
+> Now that the CRTCs have been converted, let's move forward with the
+> connectors to provide a consistent interface.
+>=20
+> The conversion was done using the coccinelle script below, and built test=
+ed
+> on all the drivers.
+
+For the VKMS change:
+Reviewed-by: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+=20
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Ben Skeggs <bskeggs@redhat.com>
+> Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  .../drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c |  5 ++++-
+>  drivers/gpu/drm/drm_atomic_helper.c                 |  8 ++++----
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c         |  7 +++++--
+>  drivers/gpu/drm/nouveau/dispnv50/disp.c             |  5 ++++-
+>  drivers/gpu/drm/vc4/vc4_txp.c                       |  4 +++-
+>  drivers/gpu/drm/vkms/vkms_writeback.c               |  7 +++++--
+>  include/drm/drm_modeset_helper_vtables.h            | 13 ++++++-------
+>  7 files changed, 31 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c =
+b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> index eee19edeeee5..f346cc74387f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
+> @@ -24,6 +24,7 @@
+>   */
+> =20
+>  #include <linux/version.h>
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_dp_mst_helper.h>
+>  #include <drm/drm_dp_helper.h>
+> @@ -252,8 +253,10 @@ static int dm_dp_mst_get_modes(struct drm_connector =
+*connector)
+> =20
+>  static struct drm_encoder *
+>  dm_mst_atomic_best_encoder(struct drm_connector *connector,
+> -			   struct drm_connector_state *connector_state)
+> +			   struct drm_atomic_state *state)
+>  {
+> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
+ector_state(state,
+> +											 connector);
+>  	struct drm_device *dev =3D connector->dev;
+>  	struct amdgpu_device *adev =3D drm_to_adev(dev);
+>  	struct amdgpu_crtc *acrtc =3D to_amdgpu_crtc(connector_state->crtc);
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index ddd0e3239150..ba1507036f26 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -122,7 +122,8 @@ static int handle_conflicting_encoders(struct drm_ato=
+mic_state *state,
+>  			continue;
+> =20
+>  		if (funcs->atomic_best_encoder)
+> -			new_encoder =3D funcs->atomic_best_encoder(connector, new_conn_state);
+> +			new_encoder =3D funcs->atomic_best_encoder(connector,
+> +								 state);
+>  		else if (funcs->best_encoder)
+>  			new_encoder =3D funcs->best_encoder(connector);
+>  		else
+> @@ -345,8 +346,7 @@ update_connector_routing(struct drm_atomic_state *sta=
+te,
+>  	funcs =3D connector->helper_private;
+> =20
+>  	if (funcs->atomic_best_encoder)
+> -		new_encoder =3D funcs->atomic_best_encoder(connector,
+> -							 new_connector_state);
+> +		new_encoder =3D funcs->atomic_best_encoder(connector, state);
+>  	else if (funcs->best_encoder)
+>  		new_encoder =3D funcs->best_encoder(connector);
+>  	else
+> @@ -1313,7 +1313,7 @@ static void drm_atomic_helper_commit_writebacks(str=
+uct drm_device *dev,
+> =20
+>  		if (new_conn_state->writeback_job && new_conn_state->writeback_job->fb=
+) {
+>  			WARN_ON(connector->connector_type !=3D DRM_MODE_CONNECTOR_WRITEBACK);
+> -			funcs->atomic_commit(connector, new_conn_state);
+> +			funcs->atomic_commit(connector, old_state);
+>  		}
+>  	}
+>  }
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/dr=
+m/i915/display/intel_dp_mst.c
+> index 64d885539e94..b879a0622ada 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
+> @@ -23,6 +23,7 @@
+>   *
+>   */
+> =20
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_probe_helper.h>
+> @@ -706,11 +707,13 @@ intel_dp_mst_mode_valid_ctx(struct drm_connector *c=
+onnector,
+>  }
+> =20
+>  static struct drm_encoder *intel_mst_atomic_best_encoder(struct drm_conn=
+ector *connector,
+> -							 struct drm_connector_state *state)
+> +							 struct drm_atomic_state *state)
+>  {
+> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
+ector_state(state,
+> +											 connector);
+>  	struct intel_connector *intel_connector =3D to_intel_connector(connecto=
+r);
+>  	struct intel_dp *intel_dp =3D intel_connector->mst_port;
+> -	struct intel_crtc *crtc =3D to_intel_crtc(state->crtc);
+> +	struct intel_crtc *crtc =3D to_intel_crtc(connector_state->crtc);
+> =20
+>  	return &intel_dp->mst_encoders[crtc->pipe]->base.base;
+>  }
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/no=
+uveau/dispnv50/disp.c
+> index b111fe24a06b..911c2cbe6aa3 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/hdmi.h>
+>  #include <linux/component.h>
+> =20
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_dp_helper.h>
+>  #include <drm/drm_edid.h>
+> @@ -1161,8 +1162,10 @@ nv50_msto_new(struct drm_device *dev, struct nv50_=
+head *head, int id)
+> =20
+>  static struct drm_encoder *
+>  nv50_mstc_atomic_best_encoder(struct drm_connector *connector,
+> -			      struct drm_connector_state *connector_state)
+> +			      struct drm_atomic_state *state)
+>  {
+> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
+ector_state(state,
+> +											 connector);
+>  	struct nv50_mstc *mstc =3D nv50_mstc(connector);
+>  	struct drm_crtc *crtc =3D connector_state->crtc;
+> =20
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index 34612edcabbd..8aa5220885f4 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -273,8 +273,10 @@ static int vc4_txp_connector_atomic_check(struct drm=
+_connector *conn,
+>  }
+> =20
+>  static void vc4_txp_connector_atomic_commit(struct drm_connector *conn,
+> -					struct drm_connector_state *conn_state)
+> +					struct drm_atomic_state *state)
+>  {
+> +	struct drm_connector_state *conn_state =3D drm_atomic_get_new_connector=
+_state(state,
+> +										    conn);
+>  	struct vc4_txp *txp =3D connector_to_vc4_txp(conn);
+>  	struct drm_gem_cma_object *gem;
+>  	struct drm_display_mode *mode;
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms=
+/vkms_writeback.c
+> index 26b903926872..cafdc8463541 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+> =20
+>  #include "vkms_drv.h"
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_writeback.h>
+>  #include <drm/drm_probe_helper.h>
+> @@ -99,8 +100,10 @@ static void vkms_wb_cleanup_job(struct drm_writeback_=
+connector *connector,
+>  }
+> =20
+>  static void vkms_wb_atomic_commit(struct drm_connector *conn,
+> -				  struct drm_connector_state *state)
+> +				  struct drm_atomic_state *state)
+>  {
+> +	struct drm_connector_state *connector_state =3D drm_atomic_get_new_conn=
+ector_state(state,
+> +											 conn);
+>  	struct vkms_device *vkmsdev =3D drm_device_to_vkms_device(conn->dev);
+>  	struct vkms_output *output =3D &vkmsdev->output;
+>  	struct drm_writeback_connector *wb_conn =3D &output->wb_connector;
+> @@ -116,7 +119,7 @@ static void vkms_wb_atomic_commit(struct drm_connecto=
+r *conn,
+>  	crtc_state->active_writeback =3D conn_state->writeback_job->priv;
+>  	crtc_state->wb_pending =3D true;
+>  	spin_unlock_irq(&output->composer_lock);
+> -	drm_writeback_queue_job(wb_conn, state);
+> +	drm_writeback_queue_job(wb_conn, connector_state);
+>  }
+> =20
+>  static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs=
+ =3D {
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_m=
+odeset_helper_vtables.h
+> index f2de050085be..16ff3fa148f5 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -1044,9 +1044,8 @@ struct drm_connector_helper_funcs {
+>  	 * NOTE:
+>  	 *
+>  	 * This function is called in the check phase of an atomic update. The
+> -	 * driver is not allowed to change anything outside of the free-standing
+> -	 * state objects passed-in or assembled in the overall &drm_atomic_state
+> -	 * update tracking structure.
+> +	 * driver is not allowed to change anything outside of the
+> +	 * &drm_atomic_state update tracking structure passed in.
+>  	 *
+>  	 * RETURNS:
+>  	 *
+> @@ -1056,7 +1055,7 @@ struct drm_connector_helper_funcs {
+>  	 * for this.
+>  	 */
+>  	struct drm_encoder *(*atomic_best_encoder)(struct drm_connector *connec=
+tor,
+> -						   struct drm_connector_state *connector_state);
+> +						   struct drm_atomic_state *state);
+> =20
+>  	/**
+>  	 * @atomic_check:
+> @@ -1097,15 +1096,15 @@ struct drm_connector_helper_funcs {
+>  	 *
+>  	 * This hook is to be used by drivers implementing writeback connectors
+>  	 * that need a point when to commit the writeback job to the hardware.
+> -	 * The writeback_job to commit is available in
+> -	 * &drm_connector_state.writeback_job.
+> +	 * The writeback_job to commit is available in the new connector state,
+> +	 * in &drm_connector_state.writeback_job.
+>  	 *
+>  	 * This hook is optional.
+>  	 *
+>  	 * This callback is used by the atomic modeset helpers.
+>  	 */
+>  	void (*atomic_commit)(struct drm_connector *connector,
+> -			      struct drm_connector_state *state);
+> +			      struct drm_atomic_state *state);
+> =20
+>  	/**
+>  	 * @prepare_writeback_job:
+> --=20
+> 2.28.0
+>=20
+
+--=20
+Rodrigo Siqueira
+https://siqueira.tech
+
+--n26kvx2fjtb5zkjb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE4tZ+ii1mjMCMQbfkWJzP/comvP8FAl+yhlgACgkQWJzP/com
+vP+CHRAAmbi1YpB1DfSPqVwRTmCeH8ztCXOkDaRvCKMFbiagfbQiWBaW1g3uwkO6
+W/tY5tlbGIJepUKGHMaK2B863FahYuzSeK913+2mHYTCZEpUoNntkCIqFNBKqp2L
+pPwoLQUWWXeCIoEYibYpbL2LPqkNTuHlFgJMGtbrybOzXcF1lylIuzK3XgfApjRT
+/BUoHPXReWYBr4nydVK5apTTBlIvdxdTytC8IQ86vcbzNs3xprEOxrJ5nCRBhC6e
+cPcotg8IM6Op6iLyxcmppUgkH75vhZPBDcndruf9RcyjSIbw5DwHZYFfsli/Rz6J
+eeYXw6B8TK/ewGosRgpXmUkv6D8G1f7nx4bfz9f5qLdAjtDDeANjkTY8V62405x0
+AYgTGstYWjwxIudBPQ8Io06lsbOO7OQskk50XfsskDl17NzKGgGqRCBHG4+Q6gDM
+BK3LzZ6gY5uX7mhxZhNvDEQ58/g4IrgI4I+cwgBLIp7GpCT/BgHKPiEfPl8XOrhk
+IcgzvTdABhlg1CPzggddMWVc5dsTsvqHEZsuE/hRLHhcgdzWTeG3IpBJMMBzJERW
+gDOXStL00s6Hc9aw+HFA9o2PjnoYReotRQjlqhWB6ki2yo1K0Amhci7yzY7AODow
+/ccOhWhBUeMEaiFMQtbXqrzX+ugo+y7Q1TqIW2J4tQkhv0SPJAA=
+=iDgm
+-----END PGP SIGNATURE-----
+
+--n26kvx2fjtb5zkjb--
+
+--===============1154936431==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1154936431==--
