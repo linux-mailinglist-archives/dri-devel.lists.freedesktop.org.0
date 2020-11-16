@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C05D32B4CCD
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:29:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4DE2B4CD1
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:29:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC33289F5B;
-	Mon, 16 Nov 2020 17:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D409689C63;
+	Mon, 16 Nov 2020 17:29:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BDB689F5B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:29:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A153189C63
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:29:35 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 5EF7E221FD;
- Mon, 16 Nov 2020 17:29:08 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id EB5072223D;
+ Mon, 16 Nov 2020 17:29:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605547748;
- bh=IX0jk2m5XBB0WA0DLI7hkGTrPjxtIvMTL5Zh4+OV9pI=;
+ s=default; t=1605547775;
+ bh=rRbhSW5IWNFop10zkff/cj7ERW/yFvU7Opef4Q4Hk6w=;
  h=Subject:To:Cc:From:Date:From;
- b=YbVKfHZWLJSoD5lOkuCRRMFJb9YpXRIrC9RrRGrfUxG4LHjIubqZpPp4yE+vlMt5N
- JytBXb/kL2zX8g41nsTroKFeE51TZuTXPVS33156y9C2usrh7JVaNSuxCJ9rNIROLU
- X3tDqEcCoOr+pYmKYD0j/IeJfnLAvXyHM1YbaIes=
+ b=Nm4vvGj5wAoesdPRwyPOk8BBR1ar8j0fZQ29WhT347UbIlJfz6JUlJOycNTj0vXH+
+ PIXbao/iYB1RVxrjvGFI9nBXTo31S/kgugamxRnHzUBtcovbM2hs949xRiWQcUR7su
+ acsxW4Mhi5mdXB9q/ueeU4R0ho5lsm5cUkMHRJMo=
 Subject: Patch "drm/gma500: Fix out-of-bounds access to struct
- drm_device.vblank[]" has been added to the 5.4-stable tree
+ drm_device.vblank[]" has been added to the 5.9-stable tree
 To: airlied@redhat.com, alan@linux.intel.com, daniel.vetter@ffwll.ch,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 16 Nov 2020 18:29:51 +0100
-Message-ID: <16055477911788@kroah.com>
+Date: Mon, 16 Nov 2020 18:30:08 +0100
+Message-ID: <160554780817249@kroah.com>
 MIME-Version: 1.0
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -58,12 +58,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
 
-to the 5.4-stable tree which can be found at:
+to the 5.9-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
-and it can be found in the queue-5.4 subdirectory.
+and it can be found in the queue-5.9 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -127,7 +127,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/gma500/psb_irq.c
 +++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -337,6 +337,7 @@ int psb_irq_postinstall(struct drm_devic
+@@ -347,6 +347,7 @@ int psb_irq_postinstall(struct drm_devic
  {
  	struct drm_psb_private *dev_priv = dev->dev_private;
  	unsigned long irqflags;
@@ -135,7 +135,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
  
-@@ -349,20 +350,12 @@ int psb_irq_postinstall(struct drm_devic
+@@ -359,20 +360,12 @@ int psb_irq_postinstall(struct drm_devic
  	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
  
@@ -162,7 +162,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	if (dev_priv->ops->hotplug_enable)
  		dev_priv->ops->hotplug_enable(dev, true);
-@@ -375,6 +368,7 @@ void psb_irq_uninstall(struct drm_device
+@@ -385,6 +378,7 @@ void psb_irq_uninstall(struct drm_device
  {
  	struct drm_psb_private *dev_priv = dev->dev_private;
  	unsigned long irqflags;
@@ -170,7 +170,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
  
-@@ -383,14 +377,10 @@ void psb_irq_uninstall(struct drm_device
+@@ -393,14 +387,10 @@ void psb_irq_uninstall(struct drm_device
  
  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
  
@@ -193,7 +193,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.4/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
+queue-5.9/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
