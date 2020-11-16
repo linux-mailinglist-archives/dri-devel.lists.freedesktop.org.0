@@ -1,40 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4DE2B4CD1
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:29:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 250C82B4CD0
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:29:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D409689C63;
-	Mon, 16 Nov 2020 17:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0570989BD4;
+	Mon, 16 Nov 2020 17:29:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A153189C63
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:29:35 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id EB5072223D;
- Mon, 16 Nov 2020 17:29:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605547775;
- bh=rRbhSW5IWNFop10zkff/cj7ERW/yFvU7Opef4Q4Hk6w=;
- h=Subject:To:Cc:From:Date:From;
- b=Nm4vvGj5wAoesdPRwyPOk8BBR1ar8j0fZQ29WhT347UbIlJfz6JUlJOycNTj0vXH+
- PIXbao/iYB1RVxrjvGFI9nBXTo31S/kgugamxRnHzUBtcovbM2hs949xRiWQcUR7su
- acsxW4Mhi5mdXB9q/ueeU4R0ho5lsm5cUkMHRJMo=
-Subject: Patch "drm/gma500: Fix out-of-bounds access to struct
- drm_device.vblank[]" has been added to the 5.9-stable tree
-To: airlied@redhat.com, alan@linux.intel.com, daniel.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 16 Nov 2020 18:30:08 +0100
-Message-ID: <160554780817249@kroah.com>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C27B289BB0;
+ Mon, 16 Nov 2020 17:29:27 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id b6so19614687wrt.4;
+ Mon, 16 Nov 2020 09:29:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=2rzUiv+O2rB515tRcTF7zhCppOCZFIZQrBJWwGnbzuU=;
+ b=mVzVKyONwuMQFJtbj/4JuJL6V7wxm6Vg7YAtegkarbZFXHd/g0xiJ8hw/4b0DIo/2y
+ t2CqJbv0pt3LmRoq378LjDtUn+7qoCUIYP66ev6Ph6+KQal+jN56jX6n13AwxrlTqGvf
+ 6jB3lvGGUXrCpnvT3W0MOvtqdDtGLSRllhCd5F9XxgjyNAOJM1bVhlpNOAbKQo+thkG/
+ rxK5ouAWxt7M99j5pZ2NoMbEBW1JFPUscCo9wA3TFh5JUfs5b2FESETRwdl5n0eL/xW9
+ cJjeJeNS9lMsZT0WETVig3q0dDt+2XmzI9kDf88WP8ES8YmB5hF7xogrRKSSrWA7/nur
+ lK/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=2rzUiv+O2rB515tRcTF7zhCppOCZFIZQrBJWwGnbzuU=;
+ b=nNZo1CloKhB8O1Y+pAbSiCHuTDhlshEYX+lSDYIuS0avoT6OXoJL8ysFqeut2tfNMS
+ R14OAxoonKzH4/sA8BD/VzmsdfHRXy/HgGc8TOkn9h3v3/vZo26inizw3d45XjFK4SU2
+ xqQvhN8A0SspCZSSq8ZIpN0NroFZyBFqNlz2KOTTGqx3csFQBLCIl17ZgrbA0Q0x/x0F
+ I8O+vm9lPaYuWPnyLcX92fvlXI9iYEo6nyurhPg5H48qakp2dEOBNa9nYeyIji+j0bw6
+ pVxm9u0IYysoEWvkT8DbFJVk5H1Qzmc0hNjbxXK4upziFrNKqqwzJUeqVZtSwfDOmCM/
+ ILCQ==
+X-Gm-Message-State: AOAM531jKuN1fNhs1GLn9tOklq2F4Cs5eTJ4Jmi3Uju6IsWB1dI7oVDE
+ sbsht2A/ibZF4ZjQTE8X5vJXIifHEyTOhZLbrgur8EEF
+X-Google-Smtp-Source: ABdhPJz26d2TFer1YuHgeDiv7jIpz6y2liL6qKnq49RRjBLmZE9f9dKqTC2tEZ5KHgA9Ih6frQMkdGezlTEtCkC516U=
+X-Received: by 2002:adf:a54d:: with SMTP id j13mr21501811wrb.132.1605547766379; 
+ Mon, 16 Nov 2020 09:29:26 -0800 (PST)
 MIME-Version: 1.0
-X-stable: commit
-X-Patchwork-Hint: ignore 
+References: <20201114193010.753355-1-robdclark@gmail.com>
+ <20201114193010.753355-4-robdclark@gmail.com>
+ <20201116172009.GB16856@jcrouse1-lnx.qualcomm.com>
+In-Reply-To: <20201116172009.GB16856@jcrouse1-lnx.qualcomm.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 16 Nov 2020 09:31:12 -0800
+Message-ID: <CAF6AEGswje8kYBo=8b4+BCciooTgj0ims_2LQJHXZK=n2XG9aw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/shrinker: Only iterate dontneed
+ objs
+To: Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Rob Clark <robdclark@chromium.org>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ David Airlie <airlied@linux.ie>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>, Sean Paul <sean@poorly.run>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,153 +69,228 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 16, 2020 at 9:20 AM Jordan Crouse <jcrouse@codeaurora.org> wrote:
+>
+> On Sat, Nov 14, 2020 at 11:30:10AM -0800, Rob Clark wrote:
+> > From: Rob Clark <robdclark@chromium.org>
+> >
+> > In situations where the GPU is mostly idle, all or nearly all buffer
+> > objects will be in the inactive list.  But if the system is under memory
+> > pressure (from something other than GPU), we could still get a lot of
+> > shrinker calls.  Which results in traversing a list of thousands of objs
+> > and in the end finding nothing to shrink.  Which isn't so efficient.
+> >
+> > Instead split the inactive_list into two lists, one inactive objs which
+> > are shrinkable, and a second one for those that are not.  This way we
+> > can avoid traversing objs which we know are not shrinker candidates.
+> >
+> > Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > ---
+> >  drivers/gpu/drm/msm/msm_debugfs.c      |  3 ++-
+> >  drivers/gpu/drm/msm/msm_drv.c          |  3 ++-
+> >  drivers/gpu/drm/msm/msm_drv.h          |  8 +++---
+> >  drivers/gpu/drm/msm/msm_gem.c          | 34 ++++++++++++++++++++------
+> >  drivers/gpu/drm/msm/msm_gem_shrinker.c |  7 +++---
+> >  5 files changed, 40 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> > index 64afbed89821..85ad0babc326 100644
+> > --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> > +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> > @@ -124,7 +124,8 @@ static int msm_gem_show(struct drm_device *dev, struct seq_file *m)
+> >       }
+> >
+> >       seq_printf(m, "Inactive Objects:\n");
+> > -     msm_gem_describe_objects(&priv->inactive_list, m);
+> > +     msm_gem_describe_objects(&priv->inactive_dontneed, m);
+> > +     msm_gem_describe_objects(&priv->inactive_willneed, m);
+> >
+> >       mutex_unlock(&priv->mm_lock);
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+> > index 4d808769e6ed..39a54f364aa8 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -465,7 +465,8 @@ static int msm_drm_init(struct device *dev, struct drm_driver *drv)
+> >
+> >       priv->wq = alloc_ordered_workqueue("msm", 0);
+> >
+> > -     INIT_LIST_HEAD(&priv->inactive_list);
+> > +     INIT_LIST_HEAD(&priv->inactive_willneed);
+> > +     INIT_LIST_HEAD(&priv->inactive_dontneed);
+> >       mutex_init(&priv->mm_lock);
+> >
+> >       /* Teach lockdep about lock ordering wrt. shrinker: */
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> > index f869ed67b5da..ed18c5bed10f 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.h
+> > +++ b/drivers/gpu/drm/msm/msm_drv.h
+> > @@ -175,8 +175,9 @@ struct msm_drm_private {
+> >       struct msm_perf_state *perf;
+> >
+> >       /*
+> > -      * List of inactive GEM objects.  Every bo is either in the inactive_list
+> > -      * or gpu->active_list (for the gpu it is active on[1])
+> > +      * Lists of inactive GEM objects.  Every bo is either in one of the
+> > +      * inactive lists (depending on whether or not it is shrinkable) or
+> > +      * gpu->active_list (for the gpu it is active on[1])
+> >        *
+> >        * These lists are protected by mm_lock.  If struct_mutex is involved, it
+> >        * should be aquired prior to mm_lock.  One should *not* hold mm_lock in
+> > @@ -185,7 +186,8 @@ struct msm_drm_private {
+> >        * [1] if someone ever added support for the old 2d cores, there could be
+> >        *     more than one gpu object
+> >        */
+> > -     struct list_head inactive_list;
+> > +     struct list_head inactive_willneed;  /* inactive + !shrinkable */
+> > +     struct list_head inactive_dontneed;  /* inactive +  shrinkable */
+> >       struct mutex mm_lock;
+> >
+> >       struct workqueue_struct *wq;
+> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> > index 2795288b0a95..de8d2cfada24 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem.c
+> > @@ -17,6 +17,7 @@
+> >  #include "msm_gpu.h"
+> >  #include "msm_mmu.h"
+> >
+> > +static void update_inactive(struct msm_gem_object *msm_obj);
+> >
+> >  static dma_addr_t physaddr(struct drm_gem_object *obj)
+> >  {
+> > @@ -678,6 +679,12 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
+> >
+> >       madv = msm_obj->madv;
+> >
+> > +     /* If the obj is inactive, we might need to move it
+> > +      * between inactive lists
+> > +      */
+> > +     if (msm_obj->active_count == 0)
+> > +             update_inactive(msm_obj);
+> > +
+> >       msm_gem_unlock(obj);
+> >
+> >       return (madv != __MSM_MADV_PURGED);
+> > @@ -781,19 +788,31 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
+> >  void msm_gem_active_put(struct drm_gem_object *obj)
+> >  {
+> >       struct msm_gem_object *msm_obj = to_msm_bo(obj);
+> > -     struct msm_drm_private *priv = obj->dev->dev_private;
+> >
+> >       might_sleep();
+> >       WARN_ON(!msm_gem_is_locked(obj));
+> >
+> >       if (--msm_obj->active_count == 0) {
+> > -             mutex_lock(&priv->mm_lock);
+> > -             list_del_init(&msm_obj->mm_list);
+> > -             list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+> > -             mutex_unlock(&priv->mm_lock);
+> > +             update_inactive(msm_obj);
+> >       }
+> >  }
+> >
+> > +static void update_inactive(struct msm_gem_object *msm_obj)
+> > +{
+> > +     struct msm_drm_private *priv = msm_obj->base.dev->dev_private;
+> > +
+> > +     mutex_lock(&priv->mm_lock);
+> > +     WARN_ON(msm_obj->active_count != 0);
+> > +
+> > +     list_del_init(&msm_obj->mm_list);
+> > +     if (msm_obj->madv == MSM_MADV_DONTNEED)
+> > +             list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
+> > +     else
+> > +             list_add_tail(&msm_obj->mm_list, &priv->inactive_dontneed);
+>
+> Is the logic here inverted or is this just really confusing nomenclature? If it
+> is correct a comment might help remind us whats happening.
 
-This is a note to let you know that I've just added the patch titled
+Oh, whoops, yeah that is inverted
 
-    drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
+BR,
+-R
 
-to the 5.9-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
-and it can be found in the queue-5.9 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 06ad8d339524bf94b89859047822c31df6ace239 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Thu, 5 Nov 2020 20:02:56 +0100
-Subject: drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit 06ad8d339524bf94b89859047822c31df6ace239 upstream.
-
-The gma500 driver expects 3 pipelines in several it's IRQ functions.
-Accessing struct drm_device.vblank[], this fails with devices that only
-have 2 pipelines. An example KASAN report is shown below.
-
-  [   62.267688] ==================================================================
-  [   62.268856] BUG: KASAN: slab-out-of-bounds in psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.269450] Read of size 1 at addr ffff8880012bc6d0 by task systemd-udevd/285
-  [   62.269949]
-  [   62.270192] CPU: 0 PID: 285 Comm: systemd-udevd Tainted: G            E     5.10.0-rc1-1-default+ #572
-  [   62.270807] Hardware name:  /DN2800MT, BIOS MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
-  [   62.271366] Call Trace:
-  [   62.271705]  dump_stack+0xae/0xe5
-  [   62.272180]  print_address_description.constprop.0+0x17/0xf0
-  [   62.272987]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.273474]  __kasan_report.cold+0x20/0x38
-  [   62.273989]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.274460]  kasan_report+0x3a/0x50
-  [   62.274891]  psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.275380]  drm_irq_install+0x131/0x1f0
-  <...>
-  [   62.300751] Allocated by task 285:
-  [   62.301223]  kasan_save_stack+0x1b/0x40
-  [   62.301731]  __kasan_kmalloc.constprop.0+0xbf/0xd0
-  [   62.302293]  drmm_kmalloc+0x55/0x100
-  [   62.302773]  drm_vblank_init+0x77/0x210
-
-Resolve the issue by only handling vblank entries up to the number of
-CRTCs.
-
-I'm adding a Fixes tag for reference, although the bug has been present
-since the driver's initial commit.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
-Cc: Alan Cox <alan@linux.intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org#v3.3+
-Link: https://patchwork.freedesktop.org/patch/msgid/20201105190256.3893-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
----
- drivers/gpu/drm/gma500/psb_irq.c |   34 ++++++++++++----------------------
- 1 file changed, 12 insertions(+), 22 deletions(-)
-
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -347,6 +347,7 @@ int psb_irq_postinstall(struct drm_devic
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
-+	unsigned int i;
- 
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
- 
-@@ -359,20 +360,12 @@ int psb_irq_postinstall(struct drm_devic
- 	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
- 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
- 
--	if (dev->vblank[0].enabled)
--		psb_enable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[1].enabled)
--		psb_enable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[2].enabled)
--		psb_enable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	for (i = 0; i < dev->num_crtcs; ++i) {
-+		if (dev->vblank[i].enabled)
-+			psb_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+		else
-+			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	}
- 
- 	if (dev_priv->ops->hotplug_enable)
- 		dev_priv->ops->hotplug_enable(dev, true);
-@@ -385,6 +378,7 @@ void psb_irq_uninstall(struct drm_device
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
-+	unsigned int i;
- 
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
- 
-@@ -393,14 +387,10 @@ void psb_irq_uninstall(struct drm_device
- 
- 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
- 
--	if (dev->vblank[0].enabled)
--		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[1].enabled)
--		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[2].enabled)
--		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	for (i = 0; i < dev->num_crtcs; ++i) {
-+		if (dev->vblank[i].enabled)
-+			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	}
- 
- 	dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
- 				  _PSB_IRQ_MSVDX_FLAG |
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
-queue-5.9/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
+> Jordan
+>
+> > +
+> > +     mutex_unlock(&priv->mm_lock);
+> > +}
+> > +
+> >  int msm_gem_cpu_prep(struct drm_gem_object *obj, uint32_t op, ktime_t *timeout)
+> >  {
+> >       bool write = !!(op & MSM_PREP_WRITE);
+> > @@ -1099,7 +1118,8 @@ static struct drm_gem_object *_msm_gem_new(struct drm_device *dev,
+> >       }
+> >
+> >       mutex_lock(&priv->mm_lock);
+> > -     list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+> > +     /* Initially obj is idle, obj->madv == WILLNEED: */
+> > +     list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
+> >       mutex_unlock(&priv->mm_lock);
+> >
+> >       return obj;
+> > @@ -1169,7 +1189,7 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
+> >       msm_gem_unlock(obj);
+> >
+> >       mutex_lock(&priv->mm_lock);
+> > -     list_add_tail(&msm_obj->mm_list, &priv->inactive_list);
+> > +     list_add_tail(&msm_obj->mm_list, &priv->inactive_willneed);
+> >       mutex_unlock(&priv->mm_lock);
+> >
+> >       return obj;
+> > diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> > index 9d51c1eb808d..81dfa57b6a0d 100644
+> > --- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> > +++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
+> > @@ -19,7 +19,7 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
+> >
+> >       mutex_lock(&priv->mm_lock);
+> >
+> > -     list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+> > +     list_for_each_entry(msm_obj, &priv->inactive_dontneed, mm_list) {
+> >               if (!msm_gem_trylock(&msm_obj->base))
+> >                       continue;
+> >               if (is_purgeable(msm_obj))
+> > @@ -42,7 +42,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
+> >
+> >       mutex_lock(&priv->mm_lock);
+> >
+> > -     list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
+> > +     list_for_each_entry(msm_obj, &priv->inactive_dontneed, mm_list) {
+> >               if (freed >= sc->nr_to_scan)
+> >                       break;
+> >               if (!msm_gem_trylock(&msm_obj->base))
+> > @@ -96,7 +96,8 @@ msm_gem_shrinker_vmap(struct notifier_block *nb, unsigned long event, void *ptr)
+> >       struct msm_drm_private *priv =
+> >               container_of(nb, struct msm_drm_private, vmap_notifier);
+> >       struct list_head *mm_lists[] = {
+> > -             &priv->inactive_list,
+> > +             &priv->inactive_dontneed,
+> > +             &priv->inactive_willneed,
+> >               priv->gpu ? &priv->gpu->active_list : NULL,
+> >               NULL,
+> >       };
+> > --
+> > 2.28.0
+> >
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+> --
+> The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+> a Linux Foundation Collaborative Project
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
