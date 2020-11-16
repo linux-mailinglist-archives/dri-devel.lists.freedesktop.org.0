@@ -1,76 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD782B4CB4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:27:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1FA22B4CB6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE6C89F47;
-	Mon, 16 Nov 2020 17:27:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDC4C89F31;
+	Mon, 16 Nov 2020 17:28:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75C1389F43
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:27:09 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605547629; h=In-Reply-To: Content-Type: MIME-Version:
- References: Message-ID: Subject: Cc: To: From: Date: Sender;
- bh=7BOlt1PZL/4mw5Z2iPqeU6H+H03xeCC/0uJqO3xhXL4=;
- b=SXPUK1eumogN0ixnmkVpS7WdnKx3/GgzoowobdLCjNd47lhSVqFbePWJ0hWtMyNAEHZsDw3M
- s3APvLYOPq5daJEJ2H6JEeYNBo5XD2fIIN50vmejD55MU7tK6cq8WPKfeGl5bJnIveXjKwEv
- sTOHEcl1S/wQj1lTCUMAVeWsp9w=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5fb2b66c37ede2253b1b88f2 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 16 Nov 2020 17:27:08
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id AEF01C43463; Mon, 16 Nov 2020 17:27:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: jcrouse)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 8FF4DC43460;
- Mon, 16 Nov 2020 17:27:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 8FF4DC43460
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=jcrouse@codeaurora.org
-Date: Mon, 16 Nov 2020 10:27:04 -0700
-From: Jordan Crouse <jcrouse@codeaurora.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [RESEND PATCH v2 4/5] drm/msm: add
- DRM_MSM_GEM_SYNC_CACHE for non-coherent cache maintenance
-Message-ID: <20201116172703.GD16856@jcrouse1-lnx.qualcomm.com>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- Jonathan Marek <jonathan@marek.ca>, David Airlie <airlied@linux.ie>,
- freedreno <freedreno@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Sean Paul <sean@poorly.run>, Christoph Hellwig <hch@lst.de>
-References: <20201114151717.5369-1-jonathan@marek.ca>
- <20201114151717.5369-5-jonathan@marek.ca>
- <20201114162406.GC24411@lst.de>
- <CAF6AEGvujttEkFuRqtt7i+0o7-=2spKXfAvJZrj96uWAFRLYuA@mail.gmail.com>
- <50ddcadb-c630-2ef6-cdc4-724d9823fba7@marek.ca>
- <CAF6AEGsH5Wk=J+HxHnRqTMLZscjErjKq2v0Rms7Td=W7icZ3sw@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA8389F31
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:28:36 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E678C2223D;
+ Mon, 16 Nov 2020 17:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605547716;
+ bh=3SOaMssA50Gi7Zdwy6eTrvDOn7f0eLsDpyp7032YDKY=;
+ h=Subject:To:Cc:From:Date:From;
+ b=e8s88L2S3AImYZ6zEgf1sxefvLmfLlJeLMOAElxHq0ae72gtu9289lSpXev02BA7g
+ K4OGr7AlB7UIr+hlZLDjddcJqWsbLa8nimVYva5c0yO5CaI4Zy4Z/F32CFfnDVXe/X
+ 55Ot9fK5lHOHwcT9iV6t9Fs51hu7zOZbEoPrZPPU=
+Subject: Patch "drm/gma500: Fix out-of-bounds access to struct
+ drm_device.vblank[]" has been added to the 4.14-stable tree
+To: airlied@redhat.com, alan@linux.intel.com, daniel.vetter@ffwll.ch,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 16 Nov 2020 18:29:19 +0100
+Message-ID: <1605547759188144@kroah.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGsH5Wk=J+HxHnRqTMLZscjErjKq2v0Rms7Td=W7icZ3sw@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,90 +47,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sean Paul <sean@poorly.run>, Jonathan Marek <jonathan@marek.ca>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>, Christoph Hellwig <hch@lst.de>
+Cc: stable-commits@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 14, 2020 at 11:39:45AM -0800, Rob Clark wrote:
-> On Sat, Nov 14, 2020 at 10:58 AM Jonathan Marek <jonathan@marek.ca> wrote:
-> >
-> > On 11/14/20 1:46 PM, Rob Clark wrote:
-> > > On Sat, Nov 14, 2020 at 8:24 AM Christoph Hellwig <hch@lst.de> wrote:
-> > >>
-> > >> On Sat, Nov 14, 2020 at 10:17:12AM -0500, Jonathan Marek wrote:
-> > >>> +void msm_gem_sync_cache(struct drm_gem_object *obj, uint32_t flags,
-> > >>> +             size_t range_start, size_t range_end)
-> > >>> +{
-> > >>> +     struct msm_gem_object *msm_obj = to_msm_bo(obj);
-> > >>> +     struct device *dev = msm_obj->base.dev->dev;
-> > >>> +
-> > >>> +     /* exit early if get_pages() hasn't been called yet */
-> > >>> +     if (!msm_obj->pages)
-> > >>> +             return;
-> > >>> +
-> > >>> +     /* TODO: sync only the specified range */
-> > >>> +
-> > >>> +     if (flags & MSM_GEM_SYNC_FOR_DEVICE) {
-> > >>> +             dma_sync_sg_for_device(dev, msm_obj->sgt->sgl,
-> > >>> +                             msm_obj->sgt->nents, DMA_TO_DEVICE);
-> > >>> +     }
-> > >>> +
-> > >>> +     if (flags & MSM_GEM_SYNC_FOR_CPU) {
-> > >>> +             dma_sync_sg_for_cpu(dev, msm_obj->sgt->sgl,
-> > >>> +                             msm_obj->sgt->nents, DMA_FROM_DEVICE);
-> > >>> +     }
-> > >>
-> > >> Splitting this helper from the only caller is rather strange, epecially
-> > >> with the two unused arguments.  And I think the way this is specified
-> > >> to take a range, but ignoring it is actively dangerous.  User space will
-> > >> rely on it syncing everything sooner or later and then you are stuck.
-> > >> So just define a sync all primitive for now, and if you really need a
-> > >> range sync and have actually implemented it add a new ioctl for that.
-> > >
-> > > We do already have a split of ioctl "layer" which enforces valid ioctl
-> > > params, etc, and gem (or other) module code which is called by the
-> > > ioctl func.  So I think it is fine to keep this split here.  (Also, I
-> > > think at some point there will be a uring type of ioctl alternative
-> > > which would re-use the same gem func.)
-> > >
-> > > But I do agree that the range should be respected or added later..
-> > > drm_ioctl() dispatch is well prepared for extending ioctls.
-> > >
-> > > And I assume there should be some validation that the range is aligned
-> > > to cache-line?  Or can we flush a partial cache line?
-> > >
-> >
-> > The range is intended to be "sync at least this range", so that
-> > userspace doesn't have to worry about details like that.
-> >
-> 
-> I don't think userspace can *not* worry about details like that.
-> Consider a case where the cpu and gpu are simultaneously accessing
-> different parts of a buffer (for ex, sub-allocation).  There needs to
-> be cache-line separation between the two.
 
-There is at least one compute conformance test that I can think of that does
-exactly this.
+This is a note to let you know that I've just added the patch titled
 
-Jordan
+    drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
 
-> BR,
-> -R
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+to the 4.14-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
-a Linux Foundation Collaborative Project
+The filename of the patch is:
+     drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
+and it can be found in the queue-4.14 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 06ad8d339524bf94b89859047822c31df6ace239 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Thu, 5 Nov 2020 20:02:56 +0100
+Subject: drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 06ad8d339524bf94b89859047822c31df6ace239 upstream.
+
+The gma500 driver expects 3 pipelines in several it's IRQ functions.
+Accessing struct drm_device.vblank[], this fails with devices that only
+have 2 pipelines. An example KASAN report is shown below.
+
+  [   62.267688] ==================================================================
+  [   62.268856] BUG: KASAN: slab-out-of-bounds in psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.269450] Read of size 1 at addr ffff8880012bc6d0 by task systemd-udevd/285
+  [   62.269949]
+  [   62.270192] CPU: 0 PID: 285 Comm: systemd-udevd Tainted: G            E     5.10.0-rc1-1-default+ #572
+  [   62.270807] Hardware name:  /DN2800MT, BIOS MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
+  [   62.271366] Call Trace:
+  [   62.271705]  dump_stack+0xae/0xe5
+  [   62.272180]  print_address_description.constprop.0+0x17/0xf0
+  [   62.272987]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.273474]  __kasan_report.cold+0x20/0x38
+  [   62.273989]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.274460]  kasan_report+0x3a/0x50
+  [   62.274891]  psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.275380]  drm_irq_install+0x131/0x1f0
+  <...>
+  [   62.300751] Allocated by task 285:
+  [   62.301223]  kasan_save_stack+0x1b/0x40
+  [   62.301731]  __kasan_kmalloc.constprop.0+0xbf/0xd0
+  [   62.302293]  drmm_kmalloc+0x55/0x100
+  [   62.302773]  drm_vblank_init+0x77/0x210
+
+Resolve the issue by only handling vblank entries up to the number of
+CRTCs.
+
+I'm adding a Fixes tag for reference, although the bug has been present
+since the driver's initial commit.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
+Cc: Alan Cox <alan@linux.intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org#v3.3+
+Link: https://patchwork.freedesktop.org/patch/msgid/20201105190256.3893-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/gpu/drm/gma500/psb_irq.c |   34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
+
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -350,6 +350,7 @@ int psb_irq_postinstall(struct drm_devic
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	unsigned long irqflags;
++	unsigned int i;
+ 
+ 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+ 
+@@ -362,20 +363,12 @@ int psb_irq_postinstall(struct drm_devic
+ 	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
+ 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+ 
+-	if (dev->vblank[0].enabled)
+-		psb_enable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[1].enabled)
+-		psb_enable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[2].enabled)
+-		psb_enable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
++	for (i = 0; i < dev->num_crtcs; ++i) {
++		if (dev->vblank[i].enabled)
++			psb_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++		else
++			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++	}
+ 
+ 	if (dev_priv->ops->hotplug_enable)
+ 		dev_priv->ops->hotplug_enable(dev, true);
+@@ -388,6 +381,7 @@ void psb_irq_uninstall(struct drm_device
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	unsigned long irqflags;
++	unsigned int i;
+ 
+ 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+ 
+@@ -396,14 +390,10 @@ void psb_irq_uninstall(struct drm_device
+ 
+ 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+ 
+-	if (dev->vblank[0].enabled)
+-		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[1].enabled)
+-		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[2].enabled)
+-		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
++	for (i = 0; i < dev->num_crtcs; ++i) {
++		if (dev->vblank[i].enabled)
++			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++	}
+ 
+ 	dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
+ 				  _PSB_IRQ_MSVDX_FLAG |
+
+
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
+
+queue-4.14/drm-gma500-fix-out-of-bounds-access-to-struct-drm_device.vblank.patch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
