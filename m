@@ -1,41 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02F12B4B62
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 17:38:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A732B4B7E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 17:44:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC69489930;
-	Mon, 16 Nov 2020 16:38:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A30F489CC4;
+	Mon, 16 Nov 2020 16:43:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9310E89930
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 16:38:16 +0000 (UTC)
-Received: from coco.lan (ip5f5ad5de.dynamic.kabel-deutschland.de
- [95.90.213.222])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9CF689CC4
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 16:43:58 +0000 (UTC)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com
+ [209.85.208.47])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C4FD820776;
- Mon, 16 Nov 2020 16:38:12 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 1B33F223BD
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 16:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605544696;
- bh=1IlOLD7GIBCBf+m09ydYyuX5H9uTpUUyFItnLfJ9lMk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=dJGhk5ITMH7hWGlCvMHW9XCxLwnIXHXzcsbb36ndm1A9PQ+4IAdxa7iE4MYlVE14g
- F6GXfRVnKd/WWxOiq5hWJGjxpCAAolYChjeVzryOamdL0ZzyX+Zth7DtKM37DJm1y3
- xxrddbUEgdYb5zx4SuqDTRKNeH387cUGeV92hLII=
-Date: Mon, 16 Nov 2020 17:38:04 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v4 10/27] video: fix some kernel-doc markups
-Message-ID: <20201116173804.7d64f55f@coco.lan>
-In-Reply-To: <20201116153606.GC401619@phenom.ffwll.local>
-References: <cover.1605521731.git.mchehab+huawei@kernel.org>
- <21661aed9892a1bacc7ef76a5dc9f5c7b37f5d8f.1605521731.git.mchehab+huawei@kernel.org>
- <20201116153606.GC401619@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ s=default; t=1605545038;
+ bh=pqIrQ/SF+HVKglFaHrChSupMsQVf0dgMPQhvtB75MSQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=HzdwI6wya0cMc2shLcxZP+wZtNJ90bLSCkW6l4Gr5/Ay8497iJX1nAjZwtvgPr+9n
+ XTV64mOfNqPtjA8v6ta+V2Bhit9y4DVaGDdITs90srsz6JaEoq+G/+uNCORs5ee8je
+ 0cwfis/jW7ZF67sT1tDNWE7wUOPDQHnBWB60aNSY=
+Received: by mail-ed1-f47.google.com with SMTP id k4so2687628edl.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 08:43:58 -0800 (PST)
+X-Gm-Message-State: AOAM532b02vZOXmckyXcD6tKA7wjKMc5iMzYfEgmjEd2XEEP+HLrjE7u
+ o656NjysgflmwGcCq4pN3qj5HBPoapJ21CW+Hw==
+X-Google-Smtp-Source: ABdhPJxdBHAa+XaIFVl0U/yTbqojIu846lIvctt5IPHV0DZDoxLgbEbGMB6qEzbQ1e5fnqHDspF9dVzKRfTaUFQw02M=
+X-Received: by 2002:aa7:d408:: with SMTP id z8mr16437263edq.166.1605545036476; 
+ Mon, 16 Nov 2020 08:43:56 -0800 (PST)
 MIME-Version: 1.0
+References: <20201115001403.7833-1-chunkuang.hu@kernel.org>
+ <CAAOTY_-16s=NXg2kOJijhO+82nNsT9HkKj4PVh1qN8dKchBOBA@mail.gmail.com>
+ <20201116002522.1a5c3736@a-VirtualBox>
+ <CAAOTY_-_N9pcmao0FFtGs-qVLrvA-QBz5FJrSaYynuMZMe1Qhg@mail.gmail.com>
+ <20201116165311.15a36e82@a-VirtualBox>
+In-Reply-To: <20201116165311.15a36e82@a-VirtualBox>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 17 Nov 2020 00:43:44 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8LOLg8BeVY39EciSPqtBzeafPpenm0721+2rfhkKH0Cw@mail.gmail.com>
+Message-ID: <CAAOTY_8LOLg8BeVY39EciSPqtBzeafPpenm0721+2rfhkKH0Cw@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: dsi: Calculate horizontal_backporch_byte by
+ itself
+To: Bilal Wasim <bilalwasim676@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,149 +58,138 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- dri-devel@lists.freedesktop.org, Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Bernard Zhao <bernard@vivo.com>,
- Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jitao Shi <jitao.shi@mediatek.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Mon, 16 Nov 2020 16:36:06 +0100
-Daniel Vetter <daniel@ffwll.ch> escreveu:
-
-> On Mon, Nov 16, 2020 at 11:18:06AM +0100, Mauro Carvalho Chehab wrote:
-> > Some identifiers have different names between their prototypes
-> > and the kernel-doc markup.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> I'm assuming you're sending a pull request for this.
-
-Feel free to just merge it via your tree. Patches here are pretty
-much independent ;-)
-
-> -Daniel
-> 
-> > ---
-> >  drivers/video/fbdev/core/fbcmap.c | 2 +-
-> >  drivers/video/hdmi.c              | 3 ++-
-> >  2 files changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/video/fbdev/core/fbcmap.c b/drivers/video/fbdev/core/fbcmap.c
-> > index e5ae33c1a8e8..757d5c3f620b 100644
-> > --- a/drivers/video/fbdev/core/fbcmap.c
-> > +++ b/drivers/video/fbdev/core/fbcmap.c
-> > @@ -59,41 +59,41 @@ static u16 blue16[] __read_mostly = {
-> >      0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa, 0x0000, 0xaaaa,
-> >      0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff, 0x5555, 0xffff
-> >  };
-> >  
-> >  static const struct fb_cmap default_2_colors = {
-> >      .len=2, .red=red2, .green=green2, .blue=blue2
-> >  };
-> >  static const struct fb_cmap default_8_colors = {
-> >      .len=8, .red=red8, .green=green8, .blue=blue8
-> >  };
-> >  static const struct fb_cmap default_4_colors = {
-> >      .len=4, .red=red4, .green=green4, .blue=blue4
-> >  };
-> >  static const struct fb_cmap default_16_colors = {
-> >      .len=16, .red=red16, .green=green16, .blue=blue16
-> >  };
-> >  
-> >  
-> >  
-> >  /**
-> > - *	fb_alloc_cmap - allocate a colormap
-> > + *	fb_alloc_cmap_gfp - allocate a colormap
-> >   *	@cmap: frame buffer colormap structure
-> >   *	@len: length of @cmap
-> >   *	@transp: boolean, 1 if there is transparency, 0 otherwise
-> >   *	@flags: flags for kmalloc memory allocation
-> >   *
-> >   *	Allocates memory for a colormap @cmap.  @len is the
-> >   *	number of entries in the palette.
-> >   *
-> >   *	Returns negative errno on error, or zero on success.
-> >   *
-> >   */
-> >  
-> >  int fb_alloc_cmap_gfp(struct fb_cmap *cmap, int len, int transp, gfp_t flags)
-> >  {
-> >  	int size = len * sizeof(u16);
-> >  	int ret = -ENOMEM;
-> >  
-> >  	flags |= __GFP_NOWARN;
-> >  
-> >  	if (cmap->len != len) {
-> > diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-> > index 1e4cb63d0d11..947be761dfa4 100644
-> > --- a/drivers/video/hdmi.c
-> > +++ b/drivers/video/hdmi.c
-> > @@ -1675,41 +1675,42 @@ static int hdmi_audio_infoframe_unpack(struct hdmi_audio_infoframe *frame,
-> >  
-> >  	ret = hdmi_audio_infoframe_init(frame);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> >  	ptr += HDMI_INFOFRAME_HEADER_SIZE;
-> >  
-> >  	frame->channels = ptr[0] & 0x7;
-> >  	frame->coding_type = (ptr[0] >> 4) & 0xf;
-> >  	frame->sample_size = ptr[1] & 0x3;
-> >  	frame->sample_frequency = (ptr[1] >> 2) & 0x7;
-> >  	frame->coding_type_ext = ptr[2] & 0x1f;
-> >  	frame->channel_allocation = ptr[3];
-> >  	frame->level_shift_value = (ptr[4] >> 3) & 0xf;
-> >  	frame->downmix_inhibit = ptr[4] & 0x80 ? true : false;
-> >  
-> >  	return 0;
-> >  }
-> >  
-> >  /**
-> > - * hdmi_vendor_infoframe_unpack() - unpack binary buffer to a HDMI vendor infoframe
-> > + * hdmi_vendor_any_infoframe_unpack() - unpack binary buffer to a HDMI
-> > + * 	vendor infoframe
-> >   * @frame: HDMI Vendor infoframe
-> >   * @buffer: source buffer
-> >   * @size: size of buffer
-> >   *
-> >   * Unpacks the information contained in binary @buffer into a structured
-> >   * @frame of the HDMI Vendor information frame.
-> >   * Also verifies the checksum as required by section 5.3.5 of the HDMI 1.4
-> >   * specification.
-> >   *
-> >   * Returns 0 on success or a negative error code on failure.
-> >   */
-> >  static int
-> >  hdmi_vendor_any_infoframe_unpack(union hdmi_vendor_any_infoframe *frame,
-> >  				 const void *buffer, size_t size)
-> >  {
-> >  	const u8 *ptr = buffer;
-> >  	size_t length;
-> >  	int ret;
-> >  	u8 hdmi_video_format;
-> >  	struct hdmi_vendor_infoframe *hvf = &frame->hdmi;
-> > -- 
-> > 2.28.0
-> >   
-> 
-
-
-
-Thanks,
-Mauro
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIEJpbGFsOgoKQmlsYWwgV2FzaW0gPGJpbGFsd2FzaW02NzZAZ21haWwuY29tPiDmlrwgMjAy
+MOW5tDEx5pyIMTbml6Ug6YCx5LiAIOS4i+WNiDc6NTPlr6vpgZPvvJoKPgo+IEhpIENLLAo+Cj4g
+T24gTW9uLCAxNiBOb3YgMjAyMCAwNzoxMjo1NSArMDgwMAo+IENodW4tS3VhbmcgSHUgPGNodW5r
+dWFuZy5odUBrZXJuZWwub3JnPiB3cm90ZToKPgo+ID4gSGksIEJpbGFsOgo+ID4KPiA+IEJpbGFs
+IFdhc2ltIDxiaWxhbHdhc2ltNjc2QGdtYWlsLmNvbT4g5pa8IDIwMjDlubQxMeaciDE25pelIOmA
+seS4gAo+ID4g5LiK5Y2IMzoyNeWvq+mBk++8mgo+ID4gPgo+ID4gPiBIaSBDSywKPiA+ID4KPiA+
+ID4gT24gU3VuLCAxNSBOb3YgMjAyMCAwODo1MzoyNCArMDgwMAo+ID4gPiBDaHVuLUt1YW5nIEh1
+IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4gd3JvdGU6Cj4gPiA+Cj4gPiA+ID4gSGksIEJpbGFs
+Ogo+ID4gPiA+Cj4gPiA+ID4gUGxlYXNlIGhlbHAgdG8gdGVzdCB0aGlzIHBhdGNoIG9uIHlvdXIg
+Q2hyb21lYm9vayBlbG0sIHRoYW5rcy4KPiA+ID4gPgo+ID4gPiA+IFJlZ2FyZHMsCj4gPiA+ID4g
+Q2h1bi1LdWFuZyBIdQo+ID4gPgo+ID4gPiBKdXN0IHRyaWVkIHRoaXMgcGF0Y2ggb24gdGhlIENo
+cm9tZWJvb2sgRWxtLCBhbmQgaXQgZG9lc24ndCB3b3JrLgo+ID4gPiBUaGUgSERNSSBzY3JlZW4g
+cmVtYWlucyBibGFjaywgdGhvdWdoIHRoZSByZXN0IG9mIHRoZSBzeXN0ZW0ga2VlcHMKPiA+ID4g
+b24gb3BlcmF0aW5nIG5vcm1hbGx5Lgo+ID4KPiA+IENvdWxkIHlvdSBwcmludCB0aGlzIGluZm9y
+bWF0aW9uLCBzbyBJIGNvdWxkIGZpbmQgb3V0IHRoZSBzb2x1dGlvbiBmb3IKPiA+IGJvdGggc21h
+bGwgaGJwIGFuZCBlbG0uCj4gPgo+ID4gdm0tPmhmcm9udF9wb3JjaCwgdm0tPmhiYWNrX3BvcmNo
+LCBkc2lfdG1wX2J1Zl9icHAsCj4gPiBkYXRhX3BoeV9jeWNsZXNfYnl0ZSwgYW5kIHRoZSBmaW5h
+bCBob3Jpem9udGFsX2Zyb250cG9yY2hfYnl0ZSwKPiA+IGhvcml6b250YWxfYmFja3BvcmNoX2J5
+dGUuCj4KPiBIZXJlIGFyZSB0aGUgdmFsdWVzIEkgZ290LAo+Cj4gWyAgICAyLjUwNjQwMF0gW2Ry
+bV0gdm0tPmhmcm9udF9wb3JjaDogNDgKPiBbICAgIDIuNTA2NDAyXSBbZHJtXSB2bS0+aGJhY2tf
+cG9yY2g6IDIwMAo+IFsgICAgMi41MDY0MDRdIFtkcm1dIGRzaV90bXBfYnVmX2JwcDogMwo+IFsg
+ICAgMi41MDY0MDZdIFtkcm1dIGRhdGFfcGh5X2N5Y2xlc19ieXRlOiAxODAKPiBbICAgIDIuNTA2
+NDA4XSBbZHJtXSBob3Jpem9udGFsX2Zyb250cG9yY2hfYnl0ZTogMTEwCj4gWyAgICAyLjUwNjQw
+OV0gW2RybV0gaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZTogNDU1Cj4KPiBQbGVhc2UgbGV0IG1l
+IGtub3cgaWYgSSBjYW4gaGVscCBkZWJ1ZyB0aGlzIGluIGFueSBvdGhlciB3YXkuCj4KCkhvdyBh
+Ym91dCB0aGlzIHBhdGNoIFsxXSA/CgpbMV0gaHR0cHM6Ly9jaHJvbWl1bS1yZXZpZXcuZ29vZ2xl
+c291cmNlLmNvbS9jL2Nocm9taXVtb3MvdGhpcmRfcGFydHkva2VybmVsLysvMjUzNjIxNy8yCgo+
+IFRoYW5rcywKPiBCaWxhbAo+Cj4gPgo+ID4gUmVnYXJkcywKPiA+IENodW4tS3VhbmcuCj4gPgo+
+ID4gPgo+ID4gPiA+Cj4gPiA+ID4gQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5v
+cmc+IOaWvCAyMDIw5bm0MTHmnIgxNeaXpSDpgLHml6UKPiA+ID4gPiDkuIrljYg4OjE05a+r6YGT
+77yaCj4gPiA+ID4gPgo+ID4gPiA+ID4gRnJvbTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4K
+PiA+ID4gPiA+Cj4gPiA+ID4gPiBVc2luZyB2bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNrX3Bv
+cmNoIHRvIGNhbGN1bGF0ZQo+ID4gPiA+ID4gaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZSB3b3Vs
+ZCBtYWtlIGl0IG5lZ3RpdmUsIHNvCj4gPiA+ID4gPiB1c2UgaG9yaXpvbnRhbF9iYWNrcG9yY2hf
+Ynl0ZSBpdHNlbGYgdG8gbWFrZSBpdCBwb3NpdGl2ZS4KPiA+ID4gPiA+Cj4gPiA+ID4gPiBGaXhl
+czogMzViZjk0OGYxZWRiICgiZHJtL21lZGlhdGVrOiBkc2k6IEZpeCBzY3JvbGxpbmcgb2YgcGFu
+ZWwKPiA+ID4gPiA+IHdpdGggc21hbGwgaGZwIG9yIGhicCIpCj4gPiA+ID4gPgo+ID4gPiA+ID4g
+U2lnbmVkLW9mZi1ieTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4KPiA+ID4gPiA+IFNpZ25l
+ZC1vZmYtYnk6IENodW4tS3VhbmcgSHUgPGNodW5rdWFuZy5odUBrZXJuZWwub3JnPgo+ID4gPiA+
+ID4gLS0tCj4gPiA+ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYyB8IDUz
+Cj4gPiA+ID4gPiArKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0gMSBmaWxlIGNoYW5nZWQs
+IDE4Cj4gPiA+ID4gPiBpbnNlcnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkKPiA+ID4gPiA+Cj4g
+PiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kc2kuYwo+
+ID4gPiA+ID4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RzaS5jIGluZGV4Cj4gPiA+
+ID4gPiA0YTE4OGE5NDJjMzguLjJhNjRmZGFlZDlhNyAxMDA2NDQgLS0tCj4gPiA+ID4gPiBhL2Ry
+aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgKysrCj4gPiA+ID4gPiBiL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZHNpLmMgQEAgLTQ0NCw3ICs0NDQsMTAgQEAgc3RhdGljCj4g
+PiA+ID4gPiB2b2lkIG10a19kc2lfY29uZmlnX3Zkb190aW1pbmcoc3RydWN0IG10a19kc2kgKmRz
+aSkgdTMyCj4gPiA+ID4gPiBob3Jpem9udGFsX3N5bmNfYWN0aXZlX2J5dGU7IHUzMiBob3Jpem9u
+dGFsX2JhY2twb3JjaF9ieXRlOwo+ID4gPiA+ID4gICAgICAgICB1MzIgaG9yaXpvbnRhbF9mcm9u
+dHBvcmNoX2J5dGU7Cj4gPiA+ID4gPiArICAgICAgIHUzMiBob3Jpem9udGFsX2Zyb250X2JhY2tf
+Ynl0ZTsKPiA+ID4gPiA+ICsgICAgICAgdTMyIGRhdGFfcGh5X2N5Y2xlc19ieXRlOwo+ID4gPiA+
+ID4gICAgICAgICB1MzIgZHNpX3RtcF9idWZfYnBwLCBkYXRhX3BoeV9jeWNsZXM7Cj4gPiA+ID4g
+PiArICAgICAgIHUzMiBkZWx0YTsKPiA+ID4gPiA+ICAgICAgICAgc3RydWN0IG10a19waHlfdGlt
+aW5nICp0aW1pbmcgPSAmZHNpLT5waHlfdGltaW5nOwo+ID4gPiA+ID4KPiA+ID4gPiA+ICAgICAg
+ICAgc3RydWN0IHZpZGVvbW9kZSAqdm0gPSAmZHNpLT52bTsKPiA+ID4gPiA+IEBAIC00NzQsNDIg
+KzQ3NywyMiBAQCBzdGF0aWMgdm9pZAo+ID4gPiA+ID4gbXRrX2RzaV9jb25maWdfdmRvX3RpbWlu
+ZyhzdHJ1Y3QgbXRrX2RzaSAqZHNpKSBkYXRhX3BoeV9jeWNsZXMKPiA+ID4gPiA+ID0gdGltaW5n
+LT5scHggKyB0aW1pbmctPmRhX2hzX3ByZXBhcmUKPiA+ID4gPiA+ICsgdGltaW5nLT5kYV9oc196
+ZXJvICsgdGltaW5nLT5kYV9oc19leGl0Owo+ID4gPiA+ID4KPiA+ID4gPiA+IC0gICAgICAgaWYg
+KGRzaS0+bW9kZV9mbGFncyAmIE1JUElfRFNJX01PREVfVklERU9fQlVSU1QpIHsKPiA+ID4gPiA+
+IC0gICAgICAgICAgICAgICBpZiAoKHZtLT5oZnJvbnRfcG9yY2ggKyB2bS0+aGJhY2tfcG9yY2gp
+ICoKPiA+ID4gPiA+IGRzaV90bXBfYnVmX2JwcCA+Cj4gPiA+ID4gPiAtICAgICAgICAgICAgICAg
+ICAgIGRhdGFfcGh5X2N5Y2xlcyAqIGRzaS0+bGFuZXMgKyAxOCkgewo+ID4gPiA+ID4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUgPQo+ID4gPiA+ID4g
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2bS0+aGZyb250X3BvcmNoICoKPiA+ID4g
+PiA+IGRzaV90bXBfYnVmX2JwcCAtCj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIChkYXRhX3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsKPiA+ID4gPiA+IDE4KSAqCj4g
+PiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZtLT5oZnJvbnRfcG9yY2gg
+Lwo+ID4gPiA+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAodm0tPmhmcm9udF9w
+b3JjaCArCj4gPiA+ID4gPiB2bS0+aGJhY2tfcG9yY2gpOyAtCj4gPiA+ID4gPiAtICAgICAgICAg
+ICAgICAgICAgICAgICBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlID0KPiA+ID4gPiA+IC0gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZSAtCj4g
+PiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChkYXRhX3BoeV9jeWNsZXMg
+KiBkc2ktPmxhbmVzICsKPiA+ID4gPiA+IDE4KSAqCj4gPiA+ID4gPiAtICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHZtLT5oYmFja19wb3JjaCAvCj4gPiA+ID4gPiAtICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICh2bS0+aGZyb250X3BvcmNoICsKPiA+ID4gPiA+IHZtLT5oYmFj
+a19wb3JjaCk7Cj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgfSBlbHNlIHsKPiA+ID4gPiA+IC0g
+ICAgICAgICAgICAgICAgICAgICAgIERSTV9XQVJOKCJIRlAgbGVzcyB0aGFuIGQtcGh5LCBGUFMg
+d2lsbAo+ID4gPiA+ID4gdW5kZXIgNjBIelxuIik7Cj4gPiA+ID4gPiAtICAgICAgICAgICAgICAg
+ICAgICAgICBob3Jpem9udGFsX2Zyb250cG9yY2hfYnl0ZSA9Cj4gPiA+ID4gPiB2bS0+aGZyb250
+X3BvcmNoICoKPiA+ID4gPiA+IC0KPiA+ID4gPiA+IGRzaV90bXBfYnVmX2JwcDsKPiA+ID4gPiA+
+IC0gICAgICAgICAgICAgICB9Cj4gPiA+ID4gPiArICAgICAgIGRlbHRhID0gZHNpLT5tb2RlX2Zs
+YWdzICYgTUlQSV9EU0lfTU9ERV9WSURFT19CVVJTVCA/Cj4gPiA+ID4gPiAxOCA6IDEyOyArCj4g
+PiA+ID4gPiArICAgICAgIGhvcml6b250YWxfZnJvbnRwb3JjaF9ieXRlID0gdm0tPmhmcm9udF9w
+b3JjaCAqCj4gPiA+ID4gPiBkc2lfdG1wX2J1Zl9icHA7Cj4gPiA+ID4gPiArICAgICAgIGhvcml6
+b250YWxfZnJvbnRfYmFja19ieXRlID0gaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUKPiA+ID4g
+PiA+ICsgaG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZTsKPiA+ID4gPiA+ICsgICAgICAgZGF0YV9w
+aHlfY3ljbGVzX2J5dGUgPSBkYXRhX3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsKPiA+ID4gPiA+
+IGRlbHRhOyArCj4gPiA+ID4gPiArICAgICAgIGlmIChob3Jpem9udGFsX2Zyb250X2JhY2tfYnl0
+ZSA+IGRhdGFfcGh5X2N5Y2xlc19ieXRlKSB7Cj4gPiA+ID4gPiArICAgICAgICAgICAgICAgaG9y
+aXpvbnRhbF9mcm9udHBvcmNoX2J5dGUgLT0KPiA+ID4gPiA+IGRhdGFfcGh5X2N5Y2xlc19ieXRl
+ICogKwo+ID4gPiA+ID4gaG9yaXpvbnRhbF9mcm9udHBvcmNoX2J5dGUgLwo+ID4gPiA+ID4gKwo+
+ID4gPiA+ID4gaG9yaXpvbnRhbF9mcm9udF9iYWNrX2J5dGU7ICsKPiA+ID4gPiA+ICsgICAgICAg
+ICAgICAgICBob3Jpem9udGFsX2JhY2twb3JjaF9ieXRlIC09Cj4gPiA+ID4gPiBkYXRhX3BoeV9j
+eWNsZXNfYnl0ZSAqICsKPiA+ID4gPiA+IGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUgLwo+ID4g
+PiA+ID4gKwo+ID4gPiA+ID4gaG9yaXpvbnRhbF9mcm9udF9iYWNrX2J5dGU7IH0gZWxzZSB7Cj4g
+PiA+ID4gPiAtICAgICAgICAgICAgICAgaWYgKCh2bS0+aGZyb250X3BvcmNoICsgdm0tPmhiYWNr
+X3BvcmNoKSAqCj4gPiA+ID4gPiBkc2lfdG1wX2J1Zl9icHAgPgo+ID4gPiA+ID4gLSAgICAgICAg
+ICAgICAgICAgICBkYXRhX3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsgMTIpIHsKPiA+ID4gPiA+
+IC0gICAgICAgICAgICAgICAgICAgICAgIGhvcml6b250YWxfZnJvbnRwb3JjaF9ieXRlID0KPiA+
+ID4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdm0tPmhmcm9udF9wb3JjaCAq
+Cj4gPiA+ID4gPiBkc2lfdG1wX2J1Zl9icHAgLQo+ID4gPiA+ID4gLSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAoZGF0YV9waHlfY3ljbGVzICogZHNpLT5sYW5lcyArCj4gPiA+ID4gPiAx
+MikgKgo+ID4gPiA+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB2bS0+aGZyb250
+X3BvcmNoIC8KPiA+ID4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKHZtLT5o
+ZnJvbnRfcG9yY2ggKwo+ID4gPiA+ID4gdm0tPmhiYWNrX3BvcmNoKTsKPiA+ID4gPiA+IC0gICAg
+ICAgICAgICAgICAgICAgICAgIGhvcml6b250YWxfYmFja3BvcmNoX2J5dGUgPQo+ID4gPiA+ID4g
+aG9yaXpvbnRhbF9iYWNrcG9yY2hfYnl0ZSAtCj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIChkYXRhX3BoeV9jeWNsZXMgKiBkc2ktPmxhbmVzICsKPiA+ID4gPiA+IDEy
+KSAqCj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZtLT5oYmFja19w
+b3JjaCAvCj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICh2bS0+aGZy
+b250X3BvcmNoICsKPiA+ID4gPiA+IHZtLT5oYmFja19wb3JjaCk7Cj4gPiA+ID4gPiAtICAgICAg
+ICAgICAgICAgfSBlbHNlIHsKPiA+ID4gPiA+IC0gICAgICAgICAgICAgICAgICAgICAgIERSTV9X
+QVJOKCJIRlAgbGVzcyB0aGFuIGQtcGh5LCBGUFMgd2lsbAo+ID4gPiA+ID4gdW5kZXIgNjBIelxu
+Iik7Cj4gPiA+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICBob3Jpem9udGFsX2Zyb250cG9y
+Y2hfYnl0ZSA9Cj4gPiA+ID4gPiB2bS0+aGZyb250X3BvcmNoICoKPiA+ID4gPiA+IC0KPiA+ID4g
+PiA+IGRzaV90bXBfYnVmX2JwcDsKPiA+ID4gPiA+IC0gICAgICAgICAgICAgICB9Cj4gPiA+ID4g
+PiArICAgICAgICAgICAgICAgRFJNX1dBUk4oIkhGUCArIEhCUCBsZXNzIHRoYW4gZC1waHksIEZQ
+UyB3aWxsCj4gPiA+ID4gPiB1bmRlciA2MEh6XG4iKTsgfQo+ID4gPiA+ID4KPiA+ID4gPiA+ICAg
+ICAgICAgd3JpdGVsKGhvcml6b250YWxfc3luY19hY3RpdmVfYnl0ZSwgZHNpLT5yZWdzICsKPiA+
+ID4gPiA+IERTSV9IU0FfV0MpOyAtLQo+ID4gPiA+ID4gMi4xNy4xCj4gPiA+ID4gPgo+ID4gPgo+
+ID4gPiBUaGFua3MsCj4gPiA+IEJpbGFsCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
