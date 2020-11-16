@@ -2,43 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CED82B4BF4
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249652B4C59
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:14:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42FF389E5B;
-	Mon, 16 Nov 2020 17:02:11 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9946589E5B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:02:09 +0000 (UTC)
-Received: from localhost (unknown [122.171.203.152])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6A00D20773;
- Mon, 16 Nov 2020 17:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605546129;
- bh=sjsgvMvmWPSA42bGQv2E5V5KDnWxlKmweJPO9rn0BZ4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tUa0YacAvfU0kutshUvy9FewSasPp6e2WQohFGcTY9mdgAnplDHwyEuGxl2k6btHK
- eHUX57VzyTaL1l/fRJBh1KmDXpbKtr7b/l8RFOq0GNV2ZJ/WqQfDmXBMvdiDP2+k6a
- N5GdV9zFBHROLPcs/fVuNby5Pe/m6CV4rEy0ttAc=
-Date: Mon, 16 Nov 2020 22:32:05 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH 2/3] phy: mediatek: Move mtk_mipi_dsi_phy driver into
- drivers/phy/mediatek folder
-Message-ID: <20201116170205.GV7499@vkoul-mobl>
-References: <20201029152702.533-1-chunkuang.hu@kernel.org>
- <20201029152702.533-3-chunkuang.hu@kernel.org>
- <1604039049.31607.13.camel@mhfsdcap03>
- <CAAOTY_8Nf=Lh_JDojKY3oHdTigO=i+BHuvVA+9hYXCzgu-2Cfg@mail.gmail.com>
- <20201116072554.GH7499@vkoul-mobl>
- <CAAOTY_8SyT87bSAmdrhwnEzRO_Yt0BQtDWnPrPahg4qTrUq1zQ@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816FD8929D;
+	Mon, 16 Nov 2020 17:14:28 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5309B8929D
+ for <dri-devel@freedesktop.org>; Mon, 16 Nov 2020 17:14:25 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605546867; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=WJEVvooDUjvCbWGNgsyFCxpeh+fK5orIlYlg9fwMMhQ=;
+ b=l8G7zpMwjwQ2pM2INahviNVUzGOib2MToEJK0mn7o4t1s6HkPe5W/cBTi/AlFmtrWMrx56nY
+ VlQlQf2Aov7Ph22aceFgarA22J+nOYw35MHh+e0rJpiCImXXuSA7W4zd2z+RehoGt/7jWezi
+ kypyEGLLRdEqn09XfJPJOs0FUe4=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 5fb2b36c9a53d19da94fd77b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 16 Nov 2020 17:14:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D8476C43461; Mon, 16 Nov 2020 17:14:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from jcrouse1-lnx.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 4EC7FC433C6;
+ Mon, 16 Nov 2020 17:14:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 4EC7FC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+Date: Mon, 16 Nov 2020 10:14:16 -0700
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: Akhil P Oommen <akhilpo@codeaurora.org>
+Subject: Re: [Freedreno] [PATCH] drm/msm: adreno: Make speed-bin support
+ generic
+Message-ID: <20201116171416.GA16856@jcrouse1-lnx.qualcomm.com>
+Mail-Followup-To: Akhil P Oommen <akhilpo@codeaurora.org>,
+ freedreno@lists.freedesktop.org, dri-devel@freedesktop.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ mka@chromium.org, robdclark@gmail.com, dianders@chromium.org
+References: <1605196144-23516-1-git-send-email-akhilpo@codeaurora.org>
+ <20201112163527.GC2661@jcrouse1-lnx.qualcomm.com>
+ <8c215bdf-b739-4b30-6cb0-fa521fde2784@codeaurora.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAAOTY_8SyT87bSAmdrhwnEzRO_Yt0BQtDWnPrPahg4qTrUq1zQ@mail.gmail.com>
+In-Reply-To: <8c215bdf-b739-4b30-6cb0-fa521fde2784@codeaurora.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,60 +76,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kishon Vijay Abraham I <kishon@ti.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, mka@chromium.org, dri-devel@freedesktop.org,
+ freedreno@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTctMTEtMjAsIDAwOjE3LCBDaHVuLUt1YW5nIEh1IHdyb3RlOgo+IEhpLCBWaW5vZDoKPiAK
-PiBWaW5vZCBLb3VsIDx2a291bEBrZXJuZWwub3JnPiDmlrwgMjAyMOW5tDEx5pyIMTbml6Ug6YCx
-5LiAIOS4i+WNiDM6MjXlr6vpgZPvvJoKPiA+Cj4gPiBPbiAwMi0xMS0yMCwgMDc6MDgsIENodW4t
-S3VhbmcgSHUgd3JvdGU6Cj4gPiA+ICsgVmlub2Q6Cj4gPiA+Cj4gPiA+IEhpLCBDaHVuZmVuZzoK
-PiA+ID4KPiA+ID4gQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPiDmlrwg
-MjAyMOW5tDEw5pyIMzDml6Ug6YCx5LqUIOS4i+WNiDI6MjTlr6vpgZPvvJoKPiA+ID4gPgo+ID4g
-PiA+IE9uIFRodSwgMjAyMC0xMC0yOSBhdCAyMzoyNyArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3cm90
-ZToKPiA+ID4gPiA+IG10a19taXBpX2RzaV9waHkgaXMgY3VycmVudGx5IHBsYWNlZCBpbnNpZGUg
-bWVkaWF0ZWsgZHJtIGRyaXZlciwgYnV0IGl0J3MKPiA+ID4gPiA+IG1vcmUgc3VpdGFibGUgdG8g
-cGxhY2UgYSBwaHkgZHJpdmVyIGludG8gcGh5IGRyaXZlciBmb2xkZXIsIHNvIG1vdmUKPiA+ID4g
-PiA+IG10a19taXBpX2RzaV9waHkgZHJpdmVyIGludG8gcGh5IGRyaXZlciBmb2xkZXIuCj4gPiA+
-ID4gPgo+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1
-QGtlcm5lbC5vcmc+Cj4gPiA+ID4gPiAtLS0KPiA+ID4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvS2NvbmZpZyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgNyAtLS0tLS0tCj4gPiA+
-ID4gPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL01ha2VmaWxlICAgICAgICAgICAgICAgICAg
-ICAgICAgICB8IDYgLS0tLS0tCj4gPiA+ID4gPiAgZHJpdmVycy9waHkvbWVkaWF0ZWsvS2NvbmZp
-ZyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDcgKysrKysrKwo+ID4gPiA+ID4gIGRy
-aXZlcnMvcGh5L21lZGlhdGVrL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-fCA1ICsrKysrCj4gPiA+ID4gPiAgLi4uL21lZGlhdGVrL3BoeS1tdGstbWlwaS1kc2ktbXQ4MTcz
-LmN9ICAgICAgICAgICAgICAgICAgICB8IDIgKy0KPiA+ID4gPiA+ICAuLi4vbWVkaWF0ZWsvcGh5
-LW10ay1taXBpLWRzaS1tdDgxODMuY30gICAgICAgICAgICAgICAgICAgIHwgMiArLQo+ID4gPiA+
-ID4gIC4uLi9tdGtfbWlwaV90eC5jID0+IHBoeS9tZWRpYXRlay9waHktbXRrLW1pcGktZHNpLmN9
-ICAgICAgfCAyICstCj4gPiA+ID4gPiAgLi4uL210a19taXBpX3R4LmggPT4gcGh5L21lZGlhdGVr
-L3BoeS1tdGstbWlwaS1kc2kuaH0gICAgICB8IDAKPiA+ID4gPiA+ICA4IGZpbGVzIGNoYW5nZWQs
-IDE1IGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQo+ID4gPiA+ID4gIHJlbmFtZSBkcml2
-ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19tdDgxNzNfbWlwaV90eC5jID0+IHBoeS9tZWRpYXRl
-ay9waHktbXRrLW1pcGktZHNpLW10ODE3My5jfSAoOTklKQo+ID4gPiA+ID4gIHJlbmFtZSBkcml2
-ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19tdDgxODNfbWlwaV90eC5jID0+IHBoeS9tZWRpYXRl
-ay9waHktbXRrLW1pcGktZHNpLW10ODE4My5jfSAoOTklKQo+ID4gPiA+ID4gIHJlbmFtZSBkcml2
-ZXJzL3tncHUvZHJtL21lZGlhdGVrL210a19taXBpX3R4LmMgPT4gcGh5L21lZGlhdGVrL3BoeS1t
-dGstbWlwaS1kc2kuY30gKDk5JSkKPiA+ID4gPiA+ICByZW5hbWUgZHJpdmVycy97Z3B1L2RybS9t
-ZWRpYXRlay9tdGtfbWlwaV90eC5oID0+IHBoeS9tZWRpYXRlay9waHktbXRrLW1pcGktZHNpLmh9
-ICgxMDAlKQo+ID4gPiA+Cj4gPiA+ID4gUmV2aWV3ZWQtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZl
-bmcueXVuQG1lZGlhdGVrLmNvbT4KPiA+ID4KPiA+ID4gSSB3b3VsZCBsaWtlIHRvIGFwcGx5IHRo
-ZSB3aG9sZSBzZXJpZXMgaW50byBteSB0cmVlLCB3b3VsZCB5b3UgcGxlYXNlCj4gPiA+IGdpdmUg
-YW4gYWNrZWQtYnkgdGFnIG9uIHRoaXMgcGF0Y2gsIHNvIEkgY291bGQgYXBwbHkgdGhpcyBwYXRj
-aCBpbnRvCj4gPiA+IG15IHRyZWUuCj4gPgo+ID4gSSB3b3VsZCBwcmVmZXIgdGhpcyB0byBnbyB0
-aHJ1IHBoeSB0cmVlLCB1bmxlc3MgdGhlcmUgYXJlIGRlcGVuZGVuY2llcywKPiA+IHdoaWNoIEkg
-YW0gbm90IGNsZWFyIGxvb2tpbmcgYXQgYWJvdmUKPiA+Cj4gCj4gUGxlYXNlIGFwcGx5IHRoaXMg
-c2VyaWVzIHRvIHBoeSB0cmVlLCBhbmQgSSB3b3VsZCBkcm9wIHRoaXMgc2VyaWVzCj4gZnJvbSBt
-eSB0cmVlLCB0aGFua3MuCgpPa2F5IHN1cmUsIGp1c3QgcmVhbGl6ZWQgSSBkb250IGhhdmUgdGhp
-cyBpbiBteSBpbmJveCwgY2FuIHlvdSBwbGVhc2UKcmVwb3N0CgotLSAKflZpbm9kCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Nov 16, 2020 at 07:40:03PM +0530, Akhil P Oommen wrote:
+> On 11/12/2020 10:05 PM, Jordan Crouse wrote:
+> >On Thu, Nov 12, 2020 at 09:19:04PM +0530, Akhil P Oommen wrote:
+> >>So far a530v2 gpu has support for detecting its supported opps
+> >>based on a fuse value called speed-bin. This patch makes this
+> >>support generic across gpu families. This is in preparation to
+> >>extend speed-bin support to a6x family.
+> >>
+> >>Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+> >>---
+> >>This patch is rebased on top of msm-next-staging branch in rob's tree.
+> >>
+> >>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
+> >>  drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
+> >>  4 files changed, 80 insertions(+), 34 deletions(-)
+> >>
+> >>diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> >>index 8fa5c91..7d42321 100644
+> >>--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> >>+++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+> >>@@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
+> >>  	.get_timestamp = a5xx_get_timestamp,
+> >>  };
+> >>-static void check_speed_bin(struct device *dev)
+> >>-{
+> >>-	struct nvmem_cell *cell;
+> >>-	u32 val;
+> >>-
+> >>-	/*
+> >>-	 * If the OPP table specifies a opp-supported-hw property then we have
+> >>-	 * to set something with dev_pm_opp_set_supported_hw() or the table
+> >>-	 * doesn't get populated so pick an arbitrary value that should
+> >>-	 * ensure the default frequencies are selected but not conflict with any
+> >>-	 * actual bins
+> >>-	 */
+> >>-	val = 0x80;
+> >>-
+> >>-	cell = nvmem_cell_get(dev, "speed_bin");
+> >>-
+> >>-	if (!IS_ERR(cell)) {
+> >>-		void *buf = nvmem_cell_read(cell, NULL);
+> >>-
+> >>-		if (!IS_ERR(buf)) {
+> >>-			u8 bin = *((u8 *) buf);
+> >>-
+> >>-			val = (1 << bin);
+> >>-			kfree(buf);
+> >>-		}
+> >>-
+> >>-		nvmem_cell_put(cell);
+> >>-	}
+> >>-
+> >>-	dev_pm_opp_set_supported_hw(dev, &val, 1);
+> >>-}
+> >>-
+> >>  struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+> >>  {
+> >>  	struct msm_drm_private *priv = dev->dev_private;
+> >>@@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+> >>  	a5xx_gpu->lm_leakage = 0x4E001A;
+> >>-	check_speed_bin(&pdev->dev);
+> >>-
+> >>  	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
+> >>  	if (ret) {
+> >>  		a5xx_destroy(&(a5xx_gpu->base.base));
+> >>diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >>index 87c8b03..e0ff16c 100644
+> >>--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >>+++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+> >>@@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
+> >>  MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
+> >>  module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
+> >>+const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
+> >>+
+> >>  static const struct adreno_info gpulist[] = {
+> >>  	{
+> >>  		.rev   = ADRENO_REV(2, 0, 0, 0),
+> >>@@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
+> >>  			ADRENO_QUIRK_FAULT_DETECT_MASK,
+> >>  		.init = a5xx_gpu_init,
+> >>  		.zapfw = "a530_zap.mdt",
+> >>+		.speedbins = a530v2_speedbins,
+> >>+		.speedbins_count = ARRAY_SIZE(a530v2_speedbins),
+> >>  	}, {
+> >>  		.rev = ADRENO_REV(5, 4, 0, 2),
+> >>  		.revn = 540,
+> >>diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >>index f21561d..cdd0c11 100644
+> >>--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >>+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >>@@ -14,6 +14,7 @@
+> >>  #include <linux/pm_opp.h>
+> >>  #include <linux/slab.h>
+> >>  #include <linux/soc/qcom/mdt_loader.h>
+> >>+#include <linux/nvmem-consumer.h>
+> >>  #include <soc/qcom/ocmem.h>
+> >>  #include "adreno_gpu.h"
+> >>  #include "msm_gem.h"
+> >>@@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+> >>  			   adreno_ocmem->hdl);jjjj
+> >>  }
+> >>+static int adreno_set_supported_hw(struct device *dev,
+> >>+		struct adreno_gpu *adreno_gpu)
+> >>+{
+> >>+	u8 speedbins_count = adreno_gpu->info->speedbins_count;
+> >>+	const u32 *speedbins = adreno_gpu->info->speedbins;
+> >
+> >We don't need to make this generic and put it in the table. Just call the
+> >function from the target specific code and pass the speedbin array and size from
+> >there.
+> >
+> I didn't get you entirely. Do you mean we should avoid keeping speedbin
+> array in the adreno_gpu->info table?
+
+Exactly.
+
+Jordan
+
+> -Akhil.
+> >>+	struct nvmem_cell *cell;
+> >>+	u32 bin, i;
+> >>+	u32 val = 0;
+> >>+	void *buf, *opp_table;
+> >>+
+> >>+	cell = nvmem_cell_get(dev, "speed_bin");
+> >>+	/*
+> >>+	 * -ENOENT means that the platform doesn't support speedbin which is
+> >>+	 * fine
+> >>+	 */
+> >>+	if (PTR_ERR(cell) == -ENOENT)
+> >>+		return 0;
+> >>+	else if (IS_ERR(cell))
+> >>+		return PTR_ERR(cell);
+> >>+
+> >>+	/* A speedbin table is must if the platform supports speedbin */
+> >>+	if (!speedbins) {
+> >>+		DRM_DEV_ERROR(dev, "speed-bin table is missing\n");
+> >>+		return -ENOENT;
+> >>+	}
+> >>+
+> >>+	buf = nvmem_cell_read(cell, NULL);
+> >>+	if (IS_ERR(buf)) {
+> >>+		nvmem_cell_put(cell);
+> >>+		return PTR_ERR(buf);
+> >>+	}
+> >>+
+> >>+	bin = *((u32 *) buf);
+> >>+
+> >>+	for (i = 0; i < speedbins_count; i++) {
+> >>+		if (bin == speedbins[i]) {
+> >>+			val = (1 << i);
+> >>+			break;
+> >>+		}
+> >>+	}
+> >>+
+> >>+	kfree(buf);
+> >>+	nvmem_cell_put(cell);
+> >>+
+> >>+	if (!val) {
+> >>+		DRM_DEV_ERROR(dev, "missing support for speed-bin: %u\n", bin);
+> >>+		return -ENOENT;
+> >>+	}
+> >>+
+> >>+	opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
+> >>+	if (IS_ERR(opp_table))
+> >>+		return PTR_ERR(opp_table);
+> >>+
+> >>+	adreno_gpu->opp_table = opp_table;
+> >>+	return 0;
+> >>+}
+> >>+
+> >>+static void adreno_put_supported_hw(struct opp_table *opp_table)
+> >>+{
+> >>+	if (opp_table)
+> >>+		dev_pm_opp_put_supported_hw(opp_table);
+> >>+}
+> >>+
+> >>  int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> >>  		struct adreno_gpu *adreno_gpu,
+> >>  		const struct adreno_gpu_funcs *funcs, int nr_rings)
+> >>@@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> >>  	struct adreno_platform_config *config = dev->platform_data;
+> >>  	struct msm_gpu_config adreno_gpu_config  = { 0 };
+> >>  	struct msm_gpu *gpu = &adreno_gpu->base;
+> >>+	int ret;
+> >>  	adreno_gpu->funcs = funcs;
+> >>  	adreno_gpu->info = adreno_info(config->rev);
+> >>@@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+> >>  	adreno_gpu_config.nr_rings = nr_rings;
+> >>+	ret = adreno_set_supported_hw(dev, adreno_gpu);
+> >>+	if (ret)
+> >>+		return ret;
+> >
+> >This bit should be in the target specific code
+> >>+
+> >>  	adreno_get_pwrlevels(dev, gpu);
+> >>  	pm_runtime_set_autosuspend_delay(dev,
+> >>@@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
+> >>  	icc_put(gpu->icc_path);
+> >>  	icc_put(gpu->ocmem_icc_path);
+> >>+
+> >>+	adreno_put_supported_hw(adreno_gpu->opp_table);
+> >
+> >And this bit too, though it would be easier to just call the put function
+> >directly without having a intermediate function.  Also the OPP function should
+> >be NULL aware but thats a different story.
+> >
+> >Jordan
+> >>  }
+> >>diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> >>index c3775f7..a756ad7 100644
+> >>--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> >>+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> >>@@ -55,6 +55,7 @@ struct adreno_reglist {
+> >>  };
+> >>  extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
+> >>+extern const u32 a618_speedbins[];
+> >>  struct adreno_info {
+> >>  	struct adreno_rev rev;
+> >>@@ -67,6 +68,8 @@ struct adreno_info {
+> >>  	const char *zapfw;
+> >>  	u32 inactive_period;
+> >>  	const struct adreno_reglist *hwcg;
+> >>+	const u32 *speedbins;
+> >>+	const u8 speedbins_count;
+> >>  };
+> >>  const struct adreno_info *adreno_info(struct adreno_rev rev);
+> >>@@ -112,6 +115,8 @@ struct adreno_gpu {
+> >>  	 * code (a3xx_gpu.c) and stored in this common location.
+> >>  	 */
+> >>  	const unsigned int *reg_offsets;
+> >>+
+> >>+	struct opp_table *opp_table;
+> >>  };
+> >>  #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+> >>-- 
+> >>2.7.4
+> >>
+> >
+> 
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
