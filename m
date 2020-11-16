@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B932B5AF9
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808772B5B54
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60C196E12C;
-	Tue, 17 Nov 2020 08:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 884986E159;
+	Tue, 17 Nov 2020 08:52:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D927E6E12C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 08:29:58 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id h2so2401019wmm.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 00:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=0AoYHW7lMZzkTQ6BnvkiA74s9JiSHbIiy02gKpfefxk=;
- b=ouKgk1yasb8tfHmx4anuX+qm2kqIPUj4/8c6jf4bkP4LeF8hOAvtGE5WWDQ65ml129
- 5YMClxsCnewFUtABCONGd/7eKMO8g3PiQ2HohthbTvxswPTMcDHfLEL74D9m0CrkFybr
- gOx9fKxx1G+L2v/9x109RHOMtbc3oJrwlrHhRCJxMJ7H8RRB5XTdzrGFz0YEBvWXeqQf
- /uFQItOjN4UEbjdZltBmKVkBR/Y9/cwCWMdOpecekpZ4yyhYQKDNlOg6tK3Y0xENxPOX
- bGyHTV4zLQ5SMeA7PrCG7lpTopRg9YGWRN9EDgIq2P37DduwtmnXsMMl9wrZZCd57g3I
- QE3A==
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C93D89D66
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 08:36:17 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id c9so11441735ilu.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 00:36:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0AoYHW7lMZzkTQ6BnvkiA74s9JiSHbIiy02gKpfefxk=;
- b=bmyv5VRUJcdkcaQ8DTCBmt0r33cZS8pVvZBZdJr8UsVvR0rRzTwScSL4A2+MwomQYe
- 5VMPaOoefLiZlzJ9z9DoPuvdGckIUKhK2soSVQRBqZ0zyXJqGoSX9xkypuw30fmyzzxv
- HdgIrq4ZHLgwjjXsIv1JW6OLErBsUGKjgYDJb++z1G29eFQsTXhAKJn+cLRpNzyIcNqx
- SCHiRiQvy0Xyi/UAck153cL4HPPQwQIijUSXlKfSpYVgk4rw+1paHyK8xx9fdirxazy+
- iZUzJH0pJOPCY/dZGG0oqAn0KYgOgm1rIhVvxP15c4Xj8xHmcUJR40pWNL596UKLG0u7
- PDBg==
-X-Gm-Message-State: AOAM531GmQBTBjj8CDb3iy6q74zWoH/WTrYxPTNXq7HFMu5JYJn1ToXG
- Ic6snxWRIrXK1bVtQ8nWEDEZJA==
-X-Google-Smtp-Source: ABdhPJw8DTAOsUr5WU8Vpd+v0a+yBmTCtwLVBO7SW0hLGXW07nvSR0O4uxCMpwl6vZZg8UEpdLJJzQ==
-X-Received: by 2002:a1c:bac1:: with SMTP id k184mr2938223wmf.76.1605601797569; 
- Tue, 17 Nov 2020 00:29:57 -0800 (PST)
-Received: from dell ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id t74sm2523552wmt.8.2020.11.17.00.29.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 00:29:56 -0800 (PST)
-Date: Tue, 17 Nov 2020 08:29:55 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Lyude Paul <lyude@redhat.com>
-Subject: Re: [PATCH 29/42] drm/selftests/test-drm_dp_mst_helper: Place
- 'struct drm_dp_sideband_msg_req_body' onto the heap
-Message-ID: <20201117082955.GA1869941@dell>
-References: <20201116174112.1833368-1-lee.jones@linaro.org>
- <20201116174112.1833368-30-lee.jones@linaro.org>
- <2dad68f011c7cd8a7c3754457c192f9dc2f504ed.camel@redhat.com>
+ h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+ bh=C4M/+xfiM9OnFE7qhVh67fuqh9hhXKStAw5Nvc3SLzk=;
+ b=qLMbhAoRLRv0/xGB5h+rA1rVQbqFwJjwOfhAWz1HFG6NroImesKC2W+ygd4+WETt23
+ kI06eeKlnBhg+T3fqEVGDSCdeS49E7UtuGuUxAZkzjBGRIAF9SE8/M4yMxEE4IplaM8N
+ ncyWUhT6leVDBWq7fXAvV9dpZOfM81m3TF5w7lrM7l0mCHGwFugQbPH+6T/gCY7QLD6k
+ tFCzavEeQAUVHJS2oHJKhbBclpkysAfoFI4UJHUJmOM1IxLf2iCkHgUmkAxwpjdGeXuA
+ 0kTW/je11ukBYbH7VlrtxnVQtbvWGmgZffSJjhmGC0/f1ejwtY0ZeUCciPfhACNYDcQl
+ DvIw==
+X-Gm-Message-State: AOAM532SOkXuWLm3X+4YmprD95qhitf7bugsbf1F3lBybaOJcW6/7HqA
+ QUQnzP8JJdkOOBaIR1pyAfqqRVVrdAiBOYVP0L3xvLISSc0+
+X-Google-Smtp-Source: ABdhPJz5CkDlFNdysxHWwKhCe6/a6YA48Pk5yELKjSm9IP/lwTuiY0CWJpghC+UxqHQ2GkjsDX3IdlS6QkcJ8beHvY5L6MTbaxyd
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <2dad68f011c7cd8a7c3754457c192f9dc2f504ed.camel@redhat.com>
+X-Received: by 2002:a02:90ca:: with SMTP id c10mr5132009jag.115.1605515776953; 
+ Mon, 16 Nov 2020 00:36:16 -0800 (PST)
+Date: Mon, 16 Nov 2020 00:36:16 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000091111005b435456e@google.com>
+Subject: BUG: unable to handle kernel NULL pointer dereference in fbcon_cursor
+From: syzbot <syzbot+b67aaae8d3a927f68d20@syzkaller.appspotmail.com>
+To: b.zolnierkie@samsung.com, daniel.vetter@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, george.kennedy@oracle.com, 
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, linux-fbdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, natechancellor@gmail.com, 
+ syzkaller-bugs@googlegroups.com, yepeilin.cs@gmail.com
+X-Mailman-Approved-At: Tue, 17 Nov 2020 08:51:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,34 +55,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, David Francis <David.Francis@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAxNiBOb3YgMjAyMCwgTHl1ZGUgUGF1bCB3cm90ZToKCj4gSHVoLWNvdWxkIGhhdmUg
-c3dvcm4gSSBoYWQgcmV2aWV3ZWQgdGhpcyBvbmUgYWxyZWFkeS4KPiAKPiBSZXZpZXdlZC1ieTog
-THl1ZGUgUGF1bCA8bHl1ZGVAcmVkaGF0LmNvbT4KClllcywgeW91J3JlIHJpZ2h0LgoKSXQgd2Fz
-IG1hc2tlZCBieSB0aGUgZGlzY3Vzc2lvbiB3aXRoIFZpbGxlLiAgQXBvbG9naWVzLgoKPiBPbiBN
-b24sIDIwMjAtMTEtMTYgYXQgMTc6NDAgKzAwMDAsIExlZSBKb25lcyB3cm90ZTpWCj4gPiBUaGUg
-c3RhY2sgaXMgdG9vIGZ1bGwuCj4gPiAKPiA+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5l
-bCBidWlsZCB3YXJuaW5nKHMpOgo+ID4gCj4gPiDCoGRyaXZlcnMvZ3B1L2RybS9zZWxmdGVzdHMv
-dGVzdC1kcm1fZHBfbXN0X2hlbHBlci5jOiBJbiBmdW5jdGlvbgo+ID4g4oCYc2lkZWJhbmRfbXNn
-X3JlcV9lbmNvZGVfZGVjb2Rl4oCZOgo+ID4gwqBkcml2ZXJzL2dwdS9kcm0vc2VsZnRlc3RzL3Rl
-c3QtZHJtX2RwX21zdF9oZWxwZXIuYzoxNjE6MTogd2FybmluZzogdGhlCj4gPiBmcmFtZSBzaXpl
-IG9mIDExNzYgYnl0ZXMgaXMgbGFyZ2VyIHRoYW4gMTAyNCBieXRlcyBbLVdmcmFtZS1sYXJnZXIt
-dGhhbj1dCj4gPiAKPiA+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gPiBD
-YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+ID4gQ2M6IEx5dWRlIFBhdWwgPGx5
-dWRlQHJlZGhhdC5jb20+Cj4gPiBDYzogRGF2aWQgRnJhbmNpcyA8RGF2aWQuRnJhbmNpc0BhbWQu
-Y29tPgo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+IFNpZ25lZC1v
-ZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gPiAtLS0KPiA+IMKgLi4u
-L2RybS9zZWxmdGVzdHMvdGVzdC1kcm1fZHBfbXN0X2hlbHBlci5jwqDCoMKgIHwgMzEgKysrKysr
-KysrKysrLS0tLS0tLQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygrKSwgMTEg
-ZGVsZXRpb25zKC0pCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwg
-TGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0
-d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxv
-ZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    6dd65e60 Add linux-next specific files for 20201110
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1276af62500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4fab43daf5c54712
+dashboard link: https://syzkaller.appspot.com/bug?extid=b67aaae8d3a927f68d20
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b67aaae8d3a927f68d20@syzkaller.appspotmail.com
+
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+#PF: supervisor instruction fetch in kernel mode
+#PF: error_code(0x0010) - not-present page
+PGD 4e683067 P4D 4e683067 PUD 14850067 PMD 0 
+Oops: 0010 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 9433 Comm: syz-executor.5 Not tainted 5.10.0-rc3-next-20201110-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc9000bca7858 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000002 RSI: ffff888144509000 RDI: ffff888010079000
+RBP: ffff888010079000 R08: 0000000000000000 R09: ffffffff8cecc387
+R10: 0000000000000003 R11: 0000000000000000 R12: ffff888144509000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000720
+FS:  00007f5822bee700(0000) GS:ffff8880b9e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 000000004e973000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ fbcon_cursor+0x50e/0x620 drivers/video/fbdev/core/fbcon.c:1346
+ hide_cursor+0x85/0x280 drivers/tty/vt/vt.c:907
+ redraw_screen+0x5ed/0x790 drivers/tty/vt/vt.c:1012
+ vc_do_resize+0xed3/0x1150 drivers/tty/vt/vt.c:1326
+ fbcon_set_disp+0x831/0xda0 drivers/video/fbdev/core/fbcon.c:1413
+ con2fb_init_display drivers/video/fbdev/core/fbcon.c:816 [inline]
+ set_con2fb_map+0x7a6/0xf80 drivers/video/fbdev/core/fbcon.c:887
+ fbcon_set_con2fb_map_ioctl+0x165/0x220 drivers/video/fbdev/core/fbcon.c:3072
+ do_fb_ioctl+0x5b6/0x690 drivers/video/fbdev/core/fbmem.c:1156
+ fb_ioctl+0xe7/0x150 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:739
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x45deb9
+Code: 0d b4 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 db b3 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f5822bedc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 000000000000e2c0 RCX: 000000000045deb9
+RDX: 00000000200000c0 RSI: 0000000000004610 RDI: 0000000000000006
+RBP: 000000000118bf60 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000118bf2c
+R13: 00007ffe024fb66f R14: 00007f5822bee9c0 R15: 000000000118bf2c
+Modules linked in:
+CR2: 0000000000000000
+BUG: kernel NULL pointer dereference, address: 0000000000000000
+#PF: supervisor instruction fetch in kernel mode
+#PF: error_code(0x0010) - not-present page
+PGD 4e683067 P4D 4e683067 PUD 14850067 PMD 0 
+Oops: 0010 [#2] PREEMPT SMP KASAN
+CPU: 0 PID: 9433 Comm: syz-executor.5 Not tainted 5.10.0-rc3-next-20201110-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc9000bca7278 EFLAGS: 00010086
+RAX: 0000000000000007 RBX: 0000000000000000 RCX: 0000000000000007
+RDX: 0000000000000002 RSI: ffff888144509000 RDI: ffff888010079000
+RBP: ffff888010079000 R08: 0000000000000000 R09: ffffffff8cecc387
+R10: 0000000000000003 R11: 0000000000000001 R12: ffff888144509000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000720
+FS:  00007f5822bee700(0000) GS:ffff8880b9e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 000000004e973000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ fbcon_cursor+0x50e/0x620 drivers/video/fbdev/core/fbcon.c:1346
+ hide_cursor+0x85/0x280 drivers/tty/vt/vt.c:907
+ redraw_screen+0x5ed/0x790 drivers/tty/vt/vt.c:1012
+ fbcon_blank+0x8c5/0xc30 drivers/video/fbdev/core/fbcon.c:2248
+ do_unblank_screen+0x25b/0x470 drivers/tty/vt/vt.c:4406
+ bust_spinlocks+0x5b/0xe0 lib/bust_spinlocks.c:26
+ oops_end+0x2b/0xe0 arch/x86/kernel/dumpstack.c:346
+ no_context+0x5f2/0xa20 arch/x86/mm/fault.c:752
+ __bad_area_nosemaphore+0xa9/0x400 arch/x86/mm/fault.c:840
+ do_user_addr_fault+0x7d7/0xba0 arch/x86/mm/fault.c:1340
+ handle_page_fault arch/x86/mm/fault.c:1434 [inline]
+ exc_page_fault+0x9e/0x180 arch/x86/mm/fault.c:1490
+ asm_exc_page_fault+0x1e/0x30 arch/x86/include/asm/idtentry.h:580
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc9000bca7858 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000002 RSI: ffff888144509000 RDI: ffff888010079000
+RBP: ffff888010079000 R08: 0000000000000000 R09: ffffffff8cecc387
+R10: 0000000000000003 R11: 0000000000000000 R12: ffff888144509000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000720
+Modules linked in:
+CR2: 0000000000000000
+---[ end trace 8931af4863156cb4 ]---
+RIP: 0010:0x0
+Code: Unable to access opcode bytes at RIP 0xffffffffffffffd6.
+RSP: 0018:ffffc9000bca7858 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000002 RSI: ffff888144509000 RDI: ffff888010079000
+RBP: ffff888010079000 R08: 0000000000000000 R09: ffffffff8cecc387
+R10: 0000000000000003 R11: 0000000000000000 R12: ffff888144509000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000720
+FS:  00007f5822bee700(0000) GS:ffff8880b9e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffffffffd6 CR3: 000000004e973000 CR4: 00000000001506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
