@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63612B4DC3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3FF2B4DBB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 18:42:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 431AE6EA00;
-	Mon, 16 Nov 2020 17:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D97A6EA07;
+	Mon, 16 Nov 2020 17:42:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 055636E9F9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:41:51 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id m6so2480280wrg.7
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:41:50 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44EEE6EA01
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 17:41:52 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a65so49986wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 09:41:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W1MHY4aaGFabv01eWFz4IHQEmJmgXDktxmU/mwniRQM=;
- b=mpqKiv0z8EhJ1hkWKiD4s3yFbia9Nq2ccdMY5wK4NY+1NhTHbISUM0ZH3ZCHS26yIY
- 6O92czvRbWnbgPQe9WAFU9K/ifLShQgqoCdc7wLL0GhgXqzaJijOqVfYbvzNe6LIIrEV
- npClTG9jo/n4w5RaShICj+fD7GkqO5I7mu+U0V9gizrF3eBSNbo4+XqLYYmIaqdgUX9Q
- XQhvG0ntpPs8mW8I2RcJcfkUebZtEbvrmRX8nwIuOSrjkDv5t30hRk4VdnTEpzExNK9u
- h7JAg3+m/h/EUMPZYwgmbeUUW31PgTukkL+KomU9Y91HNvhWS1dYAqQp0E8FWX/P9HJ7
- 1nQQ==
+ bh=voWmA7JwfKGhDZMYWPZkZRLYOBpcwZ/fXqx90N9cMjo=;
+ b=Q/5s24f2J2WYaf1lDVin02W6tDLEn9ETKKVIAlSa3geYU2EDOSCN8AHyxHt4cvgOCh
+ zTPfZjuqBYHxS2cnpdwzjJC+ZUVxIi9H4UJwrkv0ytH6ZgGUXx35pl+RRgKBsHxPcfDS
+ yHiyh2/prpOiQauOfr6NeOlW8bUML1ksJJex8rye/wHRVQpip2qLEAyWp3kUlXJSK0Er
+ sjLFTmYOVG3joUvxSqsetKTtYqtR6t03eAT1M00X3rfX/vlI3+doDpxEz0yyTFG0N8sw
+ cqDeBro+6ick1o85xj9vMwMomzZ+imZLDJNd7CFBTPKTPHhQj1HKKY0tE0vry6ZKlEH4
+ 7B1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W1MHY4aaGFabv01eWFz4IHQEmJmgXDktxmU/mwniRQM=;
- b=PFdAa5m1DD0WLqJawCN2fXEVcATuIcSqd3MRGIOdr9aOMfr6+qnKWB6ZCHvPh5HgPD
- q7e9FyU7q5kGY/EIJB0NLuvZzvkVgNiv4gMDYRDQSqz4zJ3oBvQjl+Ou3VD3HI3CymEp
- 1TfScgYkUjFFWucyUlqih+dgJ1RUKYllF+yS5zQhriKdbfkkgPpFdXG6C9GoajQCjOqu
- P1DGtrYM9K48f33DrmdKvElgV+OnfFtVjHAX40g/7hXtcg2Rv34Z6kV0eLn1vVo4CQQ1
- OhrzYr6YtUNpSYhI2gs1/rWZsyIEM9HH79U5rPkrDl9BXfcua78NYz18sVFMqQyeD9b1
- xfQQ==
-X-Gm-Message-State: AOAM530aIcmUmYPtvYj1EWrdwIUu7n5pMMZFvwG0CDEYi4BvyCGgOHsX
- eKP+z28Si10NjfE1vzrUWAJbKw==
-X-Google-Smtp-Source: ABdhPJwZ0jSj+/r94Ojpe6Rg7ZSUOee9IJj4lYLdYAt/Xz4U6G4d3Gz4HVMuhx4NAwzNQfjCx3+8NA==
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr19844677wrj.328.1605548509721; 
- Mon, 16 Nov 2020 09:41:49 -0800 (PST)
+ bh=voWmA7JwfKGhDZMYWPZkZRLYOBpcwZ/fXqx90N9cMjo=;
+ b=Q+GeV9ciMemo+T/IZOqJ+KVaZtCkjUfoYZHqjodhAsE/iRq46PMBho2WrO9C3MZU7u
+ iiEwlPVSJhUrmGYSyfWUVDN+iK65XS/+CTB5jDK92eyaaNFKsUqvQ5ONPvEJAyYXWMl/
+ C2WCCcdWUqq/CVZRlcifIyih4BDUxltQ3NcXg27ozxJ4BzgVj4dgyDVaSBfUAdeW9HzP
+ 0eXmEiQ51VfOpRN0PHLimhN3DtNCMVPrGkVyuHV5WViQjG0VihiaWzt2OQNkX3EcKvqP
+ 5iCKgFJgnJPQ6N+l86h9+Z7085WLn/CW774KJmW+1FoKdYwF0OUQbUFfUYt0jA9ZYtVI
+ X8fw==
+X-Gm-Message-State: AOAM532CYIoVbSNeq0jkN+hy1FfFVlyfnP9yUqjMtO+7OK1HMUXOOsW5
+ bU6iIvxLIMiZayKu878b1hECyw==
+X-Google-Smtp-Source: ABdhPJwuvAgqDWMZ3sjRi0c2yQlbytErPP7kxds1VUQAakjg1WWYvU8tM8e0449EbLG8YOVOAFyozQ==
+X-Received: by 2002:a7b:c18e:: with SMTP id y14mr7520926wmi.123.1605548510917; 
+ Mon, 16 Nov 2020 09:41:50 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
- by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.41.48
+ by smtp.gmail.com with ESMTPSA id n10sm24667224wrx.9.2020.11.16.09.41.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 09:41:49 -0800 (PST)
+ Mon, 16 Nov 2020 09:41:50 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 20/42] drm/msm/disp/dpu1/dpu_encoder: Remove a bunch of unused
- variables
-Date: Mon, 16 Nov 2020 17:40:50 +0000
-Message-Id: <20201116174112.1833368-21-lee.jones@linaro.org>
+Subject: [PATCH 21/42] drm/nouveau/nvkm/core/firmware: Fix formatting,
+ provide missing param description
+Date: Mon, 16 Nov 2020 17:40:51 +0000
+Message-Id: <20201116174112.1833368-22-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116174112.1833368-1-lee.jones@linaro.org>
 References: <20201116174112.1833368-1-lee.jones@linaro.org>
@@ -67,87 +67,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYzogSW4gZnVuY3Rpb24g4oCYZHB1
-X2VuY29kZXJfdmlydF9tb2RlX3NldOKAmToKIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUx
-L2RwdV9lbmNvZGVyLmM6OTgxOjMxOiB3YXJuaW5nOiB2YXJpYWJsZSDigJhudW1fZHNwcOKAmSBz
-ZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQogZHJpdmVycy9ncHUv
-ZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYzo5NzY6MzA6IHdhcm5pbmc6IHZhcmlhYmxl
-IOKAmHRvcG9sb2d54oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFi
-bGVdCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rlci5jOiBJbiBmdW5j
-dGlvbiDigJhfZHB1X2VuY29kZXJfdmlydF9lbmFibGVfaGVscGVy4oCZOgogZHJpdmVycy9ncHUv
-ZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYzoxMDk5OjI2OiB3YXJuaW5nOiB2YXJpYWJs
-ZSDigJhwcml24oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVd
-CiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rlci5jOiBJbiBmdW5jdGlv
-biDigJhkcHVfZW5jb2Rlcl92aXJ0X2Rpc2FibGXigJk6CiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rp
-c3AvZHB1MS9kcHVfZW5jb2Rlci5jOjEyMTA6MTg6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmGRwdV9r
-bXPigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KCkNjOiBS
-b2IgQ2xhcmsgPHJvYmRjbGFya0BnbWFpbC5jb20+CkNjOiBTZWFuIFBhdWwgPHNlYW5AcG9vcmx5
-LnJ1bj4KQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0
-ZXIgPGRhbmllbEBmZndsbC5jaD4KQ2M6IGxpbnV4LWFybS1tc21Admdlci5rZXJuZWwub3JnCkNj
-OiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCkNjOiBmcmVlZHJlbm9AbGlzdHMuZnJl
-ZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5v
-cmc+ClJldmlld2VkLWJ5OiBBYmhpbmF2IEt1bWFyIDxhYmhpbmF2a0Bjb2RlYXVyb3JhLm9yZz4K
-LS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rlci5jIHwgMTIgKyst
-LS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxMCBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rl
-ci5jIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2VuY29kZXIuYwppbmRleCBm
-N2Y1YzI1OGI1NTM3Li4yODliZmI2ZjE4NjFjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bXNtL2Rpc3AvZHB1MS9kcHVfZW5jb2Rlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlz
-cC9kcHUxL2RwdV9lbmNvZGVyLmMKQEAgLTk3MywxMiArOTczLDExIEBAIHN0YXRpYyB2b2lkIGRw
-dV9lbmNvZGVyX3ZpcnRfbW9kZV9zZXQoc3RydWN0IGRybV9lbmNvZGVyICpkcm1fZW5jLAogCXN0
-cnVjdCBkcm1fY3J0YyAqZHJtX2NydGM7CiAJc3RydWN0IGRwdV9jcnRjX3N0YXRlICpjc3RhdGU7
-CiAJc3RydWN0IGRwdV9nbG9iYWxfc3RhdGUgKmdsb2JhbF9zdGF0ZTsKLQlzdHJ1Y3QgbXNtX2Rp
-c3BsYXlfdG9wb2xvZ3kgdG9wb2xvZ3k7CiAJc3RydWN0IGRwdV9od19ibGsgKmh3X3BwW01BWF9D
-SEFOTkVMU19QRVJfRU5DXTsKIAlzdHJ1Y3QgZHB1X2h3X2JsayAqaHdfY3RsW01BWF9DSEFOTkVM
-U19QRVJfRU5DXTsKIAlzdHJ1Y3QgZHB1X2h3X2JsayAqaHdfbG1bTUFYX0NIQU5ORUxTX1BFUl9F
-TkNdOwogCXN0cnVjdCBkcHVfaHdfYmxrICpod19kc3BwW01BWF9DSEFOTkVMU19QRVJfRU5DXSA9
-IHsgTlVMTCB9OwotCWludCBudW1fbG0sIG51bV9jdGwsIG51bV9wcCwgbnVtX2RzcHA7CisJaW50
-IG51bV9sbSwgbnVtX2N0bCwgbnVtX3BwOwogCWludCBpLCBqOwogCiAJaWYgKCFkcm1fZW5jKSB7
-CkBAIC0xMDIwLDggKzEwMTksNiBAQCBzdGF0aWMgdm9pZCBkcHVfZW5jb2Rlcl92aXJ0X21vZGVf
-c2V0KHN0cnVjdCBkcm1fZW5jb2RlciAqZHJtX2VuYywKIAkJaWYgKGRybV9jcnRjLT5zdGF0ZS0+
-ZW5jb2Rlcl9tYXNrICYgZHJtX2VuY29kZXJfbWFzayhkcm1fZW5jKSkKIAkJCWJyZWFrOwogCi0J
-dG9wb2xvZ3kgPSBkcHVfZW5jb2Rlcl9nZXRfdG9wb2xvZ3koZHB1X2VuYywgZHB1X2ttcywgYWRq
-X21vZGUpOwotCiAJLyogUXVlcnkgcmVzb3VyY2UgdGhhdCBoYXZlIGJlZW4gcmVzZXJ2ZWQgaW4g
-YXRvbWljIGNoZWNrIHN0ZXAuICovCiAJbnVtX3BwID0gZHB1X3JtX2dldF9hc3NpZ25lZF9yZXNv
-dXJjZXMoJmRwdV9rbXMtPnJtLCBnbG9iYWxfc3RhdGUsCiAJCWRybV9lbmMtPmJhc2UuaWQsIERQ
-VV9IV19CTEtfUElOR1BPTkcsIGh3X3BwLApAQCAtMTAzMCw3ICsxMDI3LDcgQEAgc3RhdGljIHZv
-aWQgZHB1X2VuY29kZXJfdmlydF9tb2RlX3NldChzdHJ1Y3QgZHJtX2VuY29kZXIgKmRybV9lbmMs
-CiAJCWRybV9lbmMtPmJhc2UuaWQsIERQVV9IV19CTEtfQ1RMLCBod19jdGwsIEFSUkFZX1NJWkUo
-aHdfY3RsKSk7CiAJbnVtX2xtID0gZHB1X3JtX2dldF9hc3NpZ25lZF9yZXNvdXJjZXMoJmRwdV9r
-bXMtPnJtLCBnbG9iYWxfc3RhdGUsCiAJCWRybV9lbmMtPmJhc2UuaWQsIERQVV9IV19CTEtfTE0s
-IGh3X2xtLCBBUlJBWV9TSVpFKGh3X2xtKSk7Ci0JbnVtX2RzcHAgPSBkcHVfcm1fZ2V0X2Fzc2ln
-bmVkX3Jlc291cmNlcygmZHB1X2ttcy0+cm0sIGdsb2JhbF9zdGF0ZSwKKwlkcHVfcm1fZ2V0X2Fz
-c2lnbmVkX3Jlc291cmNlcygmZHB1X2ttcy0+cm0sIGdsb2JhbF9zdGF0ZSwKIAkJZHJtX2VuYy0+
-YmFzZS5pZCwgRFBVX0hXX0JMS19EU1BQLCBod19kc3BwLAogCQlBUlJBWV9TSVpFKGh3X2RzcHAp
-KTsKIApAQCAtMTA5Niw3ICsxMDkzLDYgQEAgc3RhdGljIHZvaWQgZHB1X2VuY29kZXJfdmlydF9t
-b2RlX3NldChzdHJ1Y3QgZHJtX2VuY29kZXIgKmRybV9lbmMsCiBzdGF0aWMgdm9pZCBfZHB1X2Vu
-Y29kZXJfdmlydF9lbmFibGVfaGVscGVyKHN0cnVjdCBkcm1fZW5jb2RlciAqZHJtX2VuYykKIHsK
-IAlzdHJ1Y3QgZHB1X2VuY29kZXJfdmlydCAqZHB1X2VuYyA9IE5VTEw7Ci0Jc3RydWN0IG1zbV9k
-cm1fcHJpdmF0ZSAqcHJpdjsKIAlpbnQgaTsKIAogCWlmICghZHJtX2VuYyB8fCAhZHJtX2VuYy0+
-ZGV2KSB7CkBAIC0xMTA0LDggKzExMDAsNiBAQCBzdGF0aWMgdm9pZCBfZHB1X2VuY29kZXJfdmly
-dF9lbmFibGVfaGVscGVyKHN0cnVjdCBkcm1fZW5jb2RlciAqZHJtX2VuYykKIAkJcmV0dXJuOwog
-CX0KIAotCXByaXYgPSBkcm1fZW5jLT5kZXYtPmRldl9wcml2YXRlOwotCiAJZHB1X2VuYyA9IHRv
-X2RwdV9lbmNvZGVyX3ZpcnQoZHJtX2VuYyk7CiAJaWYgKCFkcHVfZW5jIHx8ICFkcHVfZW5jLT5j
-dXJfbWFzdGVyKSB7CiAJCURQVV9FUlJPUigiaW52YWxpZCBkcHUgZW5jb2Rlci9tYXN0ZXJcbiIp
-OwpAQCAtMTIwNyw3ICsxMjAxLDYgQEAgc3RhdGljIHZvaWQgZHB1X2VuY29kZXJfdmlydF9kaXNh
-YmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZHJtX2VuYykKIHsKIAlzdHJ1Y3QgZHB1X2VuY29kZXJf
-dmlydCAqZHB1X2VuYyA9IE5VTEw7CiAJc3RydWN0IG1zbV9kcm1fcHJpdmF0ZSAqcHJpdjsKLQlz
-dHJ1Y3QgZHB1X2ttcyAqZHB1X2ttczsKIAlpbnQgaSA9IDA7CiAKIAlpZiAoIWRybV9lbmMpIHsK
-QEAgLTEyMjUsNyArMTIxOCw2IEBAIHN0YXRpYyB2b2lkIGRwdV9lbmNvZGVyX3ZpcnRfZGlzYWJs
-ZShzdHJ1Y3QgZHJtX2VuY29kZXIgKmRybV9lbmMpCiAJZHB1X2VuYy0+ZW5hYmxlZCA9IGZhbHNl
-OwogCiAJcHJpdiA9IGRybV9lbmMtPmRldi0+ZGV2X3ByaXZhdGU7Ci0JZHB1X2ttcyA9IHRvX2Rw
-dV9rbXMocHJpdi0+a21zKTsKIAogCXRyYWNlX2RwdV9lbmNfZGlzYWJsZShEUk1JRChkcm1fZW5j
-KSk7CiAKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+... and demote non-conformant kernel-doc header.
+
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c:71: warning: Function parameter or member 'subdev' not described in 'nvkm_firmware_get'
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c:71: warning: Function parameter or member 'fwname' not described in 'nvkm_firmware_get'
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c:71: warning: Function parameter or member 'ver' not described in 'nvkm_firmware_get'
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c:71: warning: Function parameter or member 'fw' not described in 'nvkm_firmware_get'
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c:106: warning: Function parameter or member 'fw' not described in 'nvkm_firmware_put'
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/nouveau/nvkm/core/firmware.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+index 8b25367917ca0..ca1f8463cff51 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
++++ b/drivers/gpu/drm/nouveau/nvkm/core/firmware.c
+@@ -58,9 +58,10 @@ nvkm_firmware_load_blob(const struct nvkm_subdev *subdev, const char *base,
+ 
+ /**
+  * nvkm_firmware_get - load firmware from the official nvidia/chip/ directory
+- * @subdev	subdevice that will use that firmware
+- * @fwname	name of firmware file to load
+- * @fw		firmware structure to load to
++ * @subdev:	subdevice that will use that firmware
++ * @fwname:	name of firmware file to load
++ * @ver:	firmware version to load
++ * @fw:		firmware structure to load to
+  *
+  * Use this function to load firmware files in the form nvidia/chip/fwname.bin.
+  * Firmware files released by NVIDIA will always follow this format.
+@@ -98,7 +99,7 @@ nvkm_firmware_get(const struct nvkm_subdev *subdev, const char *fwname, int ver,
+ 	return -ENOENT;
+ }
+ 
+-/**
++/*
+  * nvkm_firmware_put - release firmware loaded with nvkm_firmware_get
+  */
+ void
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
