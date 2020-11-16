@@ -2,66 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A700A2B4078
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 11:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D102B4098
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 11:17:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EB889DA6;
-	Mon, 16 Nov 2020 10:09:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC8689DA6;
+	Mon, 16 Nov 2020 10:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E4B89DA6
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 10:09:53 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id 10so23158987wml.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 02:09:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=4MLjK6J0k3buFVe3tEUAsMN0q98BNbXOGLlBrDEbH84=;
- b=a6i4D5Y+4nk3y2ls3YB96MU9fUh3mrXTMUe7VWAWUO3gFEHiRJQkOBB1u+DeDeRvx1
- eHxFOkkp52v2pmkNR/GLFPHURXZW/zkqIWmLE4cb76mndPZDbjTiwpngE6kr21lARrEO
- GxzLEG61dbv150CtbZBkFr0qmeEUf0PnoJx+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=4MLjK6J0k3buFVe3tEUAsMN0q98BNbXOGLlBrDEbH84=;
- b=CmQTvNBxvN4fDjHAKwU8Ip8kBlaik1+9qtyVUu143LGHri/4z+I3Bzzoqm4w9e/Q9+
- mW4Ge9u6/6cSHddgTwqWVruu2FpIxRWgRALqHAm9vh8LGAgXrPKqfT/x19OBDlrckR1j
- mcADusHhAj7zdr+KY562JPxvF0L/DHU49ux6x6sPegmHyycyucMZud3Ay774vwFg8UXi
- mGjXar9ExSd/PtPb1xE6gQ9KVKHer1VFnnWRlhahqlTqUDrksaXM+on7bPE5yOM4QaVI
- FXfqRXZ3ErvtDb3UwOgX4NyY4uXAslduMXBScrZZKLzmyEwaMzwo/+QeFBuPT3jh9UBo
- MEtg==
-X-Gm-Message-State: AOAM531dsloNvhx1vw2kkmYqyaVPrfVk2Pg8ABXIdqR0CM3hmQ0NKeJy
- psQFliDpB76oZkLEuxHQInXkqw==
-X-Google-Smtp-Source: ABdhPJwONcExmyTYHidHN0GxV7kDjejfxFlk6aedYSxZdK1kyQtA0Gq67bmGzc2T92ICVkGj4qFCXw==
-X-Received: by 2002:a1c:df04:: with SMTP id w4mr14508609wmg.3.1605521392276;
- Mon, 16 Nov 2020 02:09:52 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u23sm20369149wmc.32.2020.11.16.02.09.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Nov 2020 02:09:51 -0800 (PST)
-Date: Mon, 16 Nov 2020 11:09:49 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [PATCH v3 0/5] console: Miscellaneous clean-ups, do not use
- FNTCHARCNT() in fbcon.c
-Message-ID: <20201116100949.GA401619@phenom.ffwll.local>
-Mail-Followup-To: Peilin Ye <yepeilin.cs@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <cover.1605169912.git.yepeilin.cs@gmail.com>
- <20201113211633.GY401619@phenom.ffwll.local>
- <X68NFzaAuImemnqh@kroah.com> <20201114081021.GA11811@PWN>
- <X6/K/S9V7rj2hI5p@kroah.com> <X6/L/lE2pA7csBwd@kroah.com>
- <20201114124716.GA12895@PWN>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0781489DA6
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 10:17:40 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id CC65B804C8;
+ Mon, 16 Nov 2020 11:17:35 +0100 (CET)
+Date: Mon, 16 Nov 2020 11:17:34 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 12/40] drm/pl111/pl111_display: Make local function static
+Message-ID: <20201116101734.GA65688@ravnborg.org>
+References: <20201113134938.4004947-1-lee.jones@linaro.org>
+ <20201113134938.4004947-13-lee.jones@linaro.org>
+ <20201114191127.GB3797389@ravnborg.org>
+ <20201116084023.GL3718728@dell>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201114124716.GA12895@PWN>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201116084023.GL3718728@dell>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=-VAfIpHNAAAA:8 a=e5mUnYsNAAAA:8 a=KKAkSRfTAAAA:8
+ a=uGS4jb_diw1687yx55MA:9 a=QEXdDO2ut3YA:10 a=srlwD-8ojaedGGhPAyx8:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,90 +47,27 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jiri Slaby <jirislaby@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 14, 2020 at 07:47:16AM -0500, Peilin Ye wrote:
-> On Sat, Nov 14, 2020 at 01:22:22PM +0100, Greg Kroah-Hartman wrote:
-> > On Sat, Nov 14, 2020 at 01:18:06PM +0100, Greg Kroah-Hartman wrote:
-> > > On Sat, Nov 14, 2020 at 03:10:21AM -0500, Peilin Ye wrote:
-> > > > Thanks for reviewing!  Questions about the last patch [5/5] though, it
-> > > > depends on the following assumption:
-> > > > 
-> > > > """
-> > > > For each console `idx`, `vc_cons[idx].d->vc_font.data` and
-> > > > `fb_display[idx].fontdata` always point to the same buffer.
-> > > > """
-> > > > 
-> > > > Is this true?  I think it is true by grepping for `fontdata`.  I also
-> > > > noticed that fbcon.c is using `vc->vc_font.data` and `p->fontdata`
-> > > > interchangeably, see fbcon_get_requirement():
-> > > > 
-> > > > 		vc = vc_cons[fg_console].d;
-> > > > 		[...]
-> > > > 			p = &fb_display[fg_console];
-> > > > 			caps->x = 1 << (vc->vc_font.width - 1);
-> > > > 					^^^^^^^^^^^
-> > > > 			caps->y = 1 << (vc->vc_font.height - 1);
-> > > > 					^^^^^^^^^^^
-> > > > 			caps->len = (p->userfont) ?
-> > > > 				FNTCHARCNT(p->fontdata) : 256;
-> > > > 					   ^^^^^^^^^^^
-> > > > 
-> > > > If it is true, then what is the point of using `fontdata` in `struct
-> > > > fbcon_display`?  Just for the `userfont` flag?  Should we delete
-> > > > `fontdata`, when we no longer need the `userfont` flag?
-> > > 
-> > > Yes, after a quick look, I think your analysis here is correct.  So if
-> > > you can delete that, it would be nice if possible.
-> 
-> I see, at the moment we still need `userfont` for refcount handling, I
-> will try to delete both `fontdata` and `userfont` after refcount is
-> taken care of.
-
-+1 on sunsetting fondata. I think there's a bunch of these in fbcon code,
-because the console subsystem is older than the standard "allow drivers to
-embed the subsystem struct into their own private struct" subclassing
-model. So lots of global arrays indexed by the console id :-/
-
-> > > > In this sense I think [5/5] needs more testing.  Do we have test files
-> > > > for fbcon, or should I try to write some tests from scratch?
-> > > 
-> > > I don't know of any direct tests, I usually just booted into that mode
-> > > and saw if everything looked like it did before.  There must be some
-> > > tool that you can use to change the current font, as it seems to happen
-> > > at boot time on some distros.  I can't remember what it's called at the
-> > > moment...
-> > 
-> > Ah, here's a hint:
-> > 	https://wiki.archlinux.org/index.php/Linux_console#Fonts
-> > 
-> > The setfont tool should help you out here.
-> 
-> Oh, I didn't know about this one.  I'll go experimenting with it,
-> thank you!
-
-We're also trying to start some kind of test suite for fbdev chardev ioctl
-interface in the gpu test suite. fbcon tests are maybe more related to
-tty/vt, and I have no idea whether anything exists there already.
-
-But if you want to do some automated testcases for fbcon and there's
-absolutely no other home for them, the gpu test suite might be an option
-of last resort too:
-
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#testing-and-validation
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGVlLApPbiBNb24sIE5vdiAxNiwgMjAyMCBhdCAwODo0MDoyM0FNICswMDAwLCBMZWUgSm9u
+ZXMgd3JvdGU6Cj4gT24gU2F0LCAxNCBOb3YgMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgo+IAo+
+ID4gSGkgTGVlLAo+ID4gT24gRnJpLCBOb3YgMTMsIDIwMjAgYXQgMDE6NDk6MTBQTSArMDAwMCwg
+TGVlIEpvbmVzIHdyb3RlOgo+ID4gPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9MSBrZXJuZWwgYnVp
+bGQgd2FybmluZyhzKToKPiA+ID4gCj4gPiA+ICBkcml2ZXJzL2dwdS9kcm0vcGwxMTEvcGwxMTFf
+ZGlzcGxheS5jOjM1Njo2OiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9yIOKAmHBs
+MTExX2Rpc3BsYXlfZGlzYWJsZeKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNdCj4gPiA+IAo+ID4g
+PiBDYzogRXJpYyBBbmhvbHQgPGVyaWNAYW5ob2x0Lm5ldD4KPiA+ID4gQ2M6IERhdmlkIEFpcmxp
+ZSA8YWlybGllZEBsaW51eC5pZT4KPiA+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiA+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiA+ID4gU2ln
+bmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9yZz4KPiA+IAo+ID4gRXJp
+YydzIHdhcyBub3QgY29waWVkIG9uIHRoaXMgb3IgdGhlIG90aGVyIHBsMTExIHBhdGNoLgo+ID4g
+QWRkZWQgRXJpYyBzbyBoZSBjYW4gYmUgYXdhcmUgb2YgdGhpcyBmaXguCj4gCj4gRXJpYyBBbmhv
+bHQ/Cj4gCj4gSGUncyBvbiBDYz8KTm90IG9uIHRoZSBvcmlnaW5hbCBtYWlsIEkgcmVjZWl2ZWQu
+CgoJU2FtCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
+aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
+czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
