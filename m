@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8BB2B51D9
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:04:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3A72B51D7
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Nov 2020 21:04:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2814B89C6C;
-	Mon, 16 Nov 2020 20:04:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71FB289BC2;
+	Mon, 16 Nov 2020 20:04:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96D7D89C1F
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B679689C37
  for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 20:04:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3A970AE85;
+ by mx2.suse.de (Postfix) with ESMTP id 5B07BAEA3;
  Mon, 16 Nov 2020 20:04:43 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, airlied@linux.ie, sam@ravnborg.org, mripard@kernel.org,
  maarten.lankhorst@linux.intel.com, christian.koenig@amd.com
-Subject: [PATCH 01/10] drm/fb-helper: Call dirty helper after writing to fbdev
-Date: Mon, 16 Nov 2020 21:04:28 +0100
-Message-Id: <20201116200437.17977-2-tzimmermann@suse.de>
+Subject: [PATCH 02/10] drm/fb-helper: Unmap client buffer during shutdown
+Date: Mon, 16 Nov 2020 21:04:29 +0100
+Message-Id: <20201116200437.17977-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201116200437.17977-1-tzimmermann@suse.de>
 References: <20201116200437.17977-1-tzimmermann@suse.de>
@@ -38,48 +38,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- virtualization@lists.linux-foundation.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If fbdev uses a shadow framebuffer, call the damage handler. Otherwise
-the update might not make it to the screen.
+The fbdev helper's generic probe function establishes a mapping for
+framebuffers without shadow buffer. The clean-up function did not unmap
+the buffer object. Add the unmap operation.
+
+As fbdev devices are usally released during system shutdown, this has
+not been a problem in practice.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 222ec45f4c69 ("drm/fb_helper: Support framebuffers in I/O memory")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: virtualization@lists.linux-foundation.org
 ---
- drivers/gpu/drm/drm_fb_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_fb_helper.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 25edf670867c..ee1a19e22df2 100644
+index ee1a19e22df2..bdc6c9382f8c 100644
 --- a/drivers/gpu/drm/drm_fb_helper.c
 +++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -2189,6 +2189,9 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
- 	if (ret > 0)
- 		*ppos += ret;
+@@ -1988,14 +1988,19 @@ static void drm_fbdev_cleanup(struct drm_fb_helper *fb_helper)
+ 	if (!fb_helper->dev)
+ 		return;
  
-+	if (ret > 0)
-+		drm_fb_helper_dirty(info, 0, 0, info->var.xres, info->var.yres);
-+
- 	return ret ? ret : err;
+-	if (fbi && fbi->fbdefio) {
+-		fb_deferred_io_cleanup(fbi);
+-		shadow = fbi->screen_buffer;
++	if (fbi) {
++		if (fbi->fbdefio)
++			fb_deferred_io_cleanup(fbi);
++		if (drm_fbdev_use_shadow_fb(fb_helper))
++			shadow = fbi->screen_buffer;
+ 	}
+ 
+ 	drm_fb_helper_fini(fb_helper);
+ 
+-	vfree(shadow);
++	if (shadow)
++		vfree(shadow);
++	else
++		drm_client_buffer_vunmap(fb_helper->buffer);
+ 
+ 	drm_client_framebuffer_delete(fb_helper->buffer);
  }
- 
 -- 
 2.29.2
 
