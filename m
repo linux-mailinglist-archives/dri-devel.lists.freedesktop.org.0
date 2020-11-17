@@ -1,52 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C171D2B5B50
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:52:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7F252B5B07
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:33:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DA736E157;
-	Tue, 17 Nov 2020 08:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 746946E12D;
+	Tue, 17 Nov 2020 08:33:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com
- [IPv6:2607:f8b0:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A717C6E128
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 07:34:19 +0000 (UTC)
-Received: by mail-il1-x142.google.com with SMTP id x18so3793179ilq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Nov 2020 23:34:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6HDQ36IQmVwckUFR1jBquv3GATc8YP+i067nuhtqXMU=;
- b=FkJC1QkzBGq1xiw3ZYZUvrgU3D/qhzlZFl95blKrpdFb0mMjRtHTGcsKULzeSqxcLD
- TcJtuOPAQKUv0SRgMRAb2Z390dosWlnmIoZX2RRjoNzGmW3ofFHJCaJ9FOP1FI+nBpb+
- 9dJ7L2uxkDZN8uJKmzLsnnFBlw4TCwwcwwkmk=
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 266886E12D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 08:33:50 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a65so2409235wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 00:33:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=jXS3JRBqPu/ouJmDg/xmae2SThRp3NsRXzX2BYUctrU=;
+ b=NmDzOe3LdbzfAZUeAM5vuY/Mc3PzHlr9l4joMVf2ePlGLMAfdlwlLXItkNSZVXdlUH
+ 61q4xOhCxXR9dwUy0CYZVCeVZ3tBJD4FwoWLPX9vgGoamWYYvdM3NdLk9myeQ7+5CLsJ
+ jPEhnoyVbbHGBWsbGjK8+3LQs6QjCFRVSu8kbBkzvEUyID6y+hEub7ZZUMcwmR869kbt
+ hxYppdO+bCfFgMoc19/HDXKbRrRIEDwYs6FxoYIzX9skfHDfu19ZkP7kAsmdAcDqygcQ
+ 3JmmDXy6cTZtXdd6zYr2niLwvElDY3Fq5uU8r1zridlAev+wPMEngwj5WplY8JmjpsXH
+ y5Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6HDQ36IQmVwckUFR1jBquv3GATc8YP+i067nuhtqXMU=;
- b=ACQZW0gTKuDoQimbI2rQy13L9GS5NQT87B+drUM7cjukanK/SfhGhxhi1bMA5/O0su
- VQepHq2Rg0FkM+1D4evoR+Z6osYw8HZ9C8NXPydlz1bkGA9yr16LmawybwqCB1gYh1Tn
- WnC/f/ueSwHAKw3de9IosPfrGZAAWEobfTT+KkCQwXRDQR+HLJjmc5OfG5642LjxHnzn
- s4GwWbuJMwYyfVLcNDk+WqvYtKd9h3HnjaBVc+7lD238xFMqjtNvsj8qYkXDvJ8u+srS
- S+R3AI9AAVDA+jyN4ST6dVSiYBt+sxIraFC9X+78KBGBzJjA413PffgkZY+qay8NofWG
- MZTg==
-X-Gm-Message-State: AOAM531uet5LLaG9jDzrIQs9fXyUDX7WaueiEK7MLCAWfJQUWX1vM6ag
- /h1UGmOXp01D0YU34tJupU5ayjCf3td8Q4NoqSPbmw==
-X-Google-Smtp-Source: ABdhPJyhldjhwb1mLZC438M7LVHuxra/t1HCNICdkNriJ7L2AIbB4FEpFKlINz1Bn9qS+8p5dsClFMJU1CAg1+wejAE=
-X-Received: by 2002:a92:dd87:: with SMTP id g7mr12363454iln.102.1605598458861; 
- Mon, 16 Nov 2020 23:34:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jXS3JRBqPu/ouJmDg/xmae2SThRp3NsRXzX2BYUctrU=;
+ b=OPMrvSTc2bxWNiUlDQtyG7aFjgRdifutIwkTLdF8YdFT5BDJD9Uot8SMgD5sU1tiSf
+ RNjlQXP5BsKngmMqWd/KqAK80xik0f5hjxxwZfdJcZvOPtHG/AIy/xF2wNxOFfGN88UX
+ TCupBeTAwJ8Ui6cLbVaCbUxWMbzBkEE5Y77jdYJu1lVfifrlNbkvv2n00oIMuic8sKq9
+ m4VE1DN/EEf6zGLD09I839sEppZCXLXgZ+wivKJ/YUgM29WJWwqHvy7YZFIB1OqrlgzJ
+ VwpIYIqbvuGVPeq/f5fo7r2kmLdcO5cFvKgTOP8Oe3DX+DSi9K0CIw6XAXv6nxROg5r4
+ 9E2g==
+X-Gm-Message-State: AOAM532sxk2fDdhXYQFhYakdN94qPGO+6Rczog4mFmD7QmtFkktM0gt5
+ 90leaqH91YQvgjJAdXtGy+LAJg==
+X-Google-Smtp-Source: ABdhPJzxWk6XuiGhBXFExyZ0JfUqN1RS3xrB52XjjVNRYWA6fBykStdQeer94ktHR6GxDDziqP+i2Q==
+X-Received: by 2002:a7b:cb13:: with SMTP id u19mr3050107wmj.89.1605602028789; 
+ Tue, 17 Nov 2020 00:33:48 -0800 (PST)
+Received: from dell ([91.110.221.159])
+ by smtp.gmail.com with ESMTPSA id u14sm23640010wrq.93.2020.11.17.00.33.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 00:33:47 -0800 (PST)
+Date: Tue, 17 Nov 2020 08:33:46 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 32/42] drm/ttm/ttm_tt: Demote kernel-doc header format
+ abuses
+Message-ID: <20201117083346.GB1869941@dell>
+References: <20201116174112.1833368-1-lee.jones@linaro.org>
+ <20201116174112.1833368-33-lee.jones@linaro.org>
+ <bcb40255-312f-8cdb-28a8-7ee2e6596f90@amd.com>
 MIME-Version: 1.0
-References: <1596855231-5782-1-git-send-email-yongqiang.niu@mediatek.com>
- <1596855231-5782-5-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1596855231-5782-5-git-send-email-yongqiang.niu@mediatek.com>
-From: Hsin-Yi Wang <hsinyi@chromium.org>
-Date: Tue, 17 Nov 2020 15:33:53 +0800
-Message-ID: <CAJMQK-hAhu00a4X3SWZVFJLodDqAdTMZi4TmZPFJN=O6VM=DCQ@mail.gmail.com>
-Subject: Re: [RESEND v7, PATCH 4/7] mtk-mmsys: add mt8183 mmsys support
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-X-Mailman-Approved-At: Tue, 17 Nov 2020 08:51:59 +0000
+Content-Disposition: inline
+In-Reply-To: <bcb40255-312f-8cdb-28a8-7ee2e6596f90@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,215 +70,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- lkml <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Aug 8, 2020 at 2:53 AM Yongqiang Niu <yongqiang.niu@mediatek.com> wrote:
->
-> add mt8183 mmsys support
->
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/soc/mediatek/mmsys/Makefile       |   1 +
->  drivers/soc/mediatek/mmsys/mt8183-mmsys.c | 154 ++++++++++++++++++++++++++++++
->  drivers/soc/mediatek/mtk-mmsys.c          |   1 +
->  3 files changed, 156 insertions(+)
->  create mode 100644 drivers/soc/mediatek/mmsys/mt8183-mmsys.c
->
-> diff --git a/drivers/soc/mediatek/mmsys/Makefile b/drivers/soc/mediatek/mmsys/Makefile
-> index 33b0dab..62cfedf 100644
-> --- a/drivers/soc/mediatek/mmsys/Makefile
-> +++ b/drivers/soc/mediatek/mmsys/Makefile
-> @@ -1,2 +1,3 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-y += mt2701-mmsys.o
-> +obj-y += mt8183-mmsys.o
-> diff --git a/drivers/soc/mediatek/mmsys/mt8183-mmsys.c b/drivers/soc/mediatek/mmsys/mt8183-mmsys.c
-> new file mode 100644
-> index 0000000..e5170b5
-> --- /dev/null
-> +++ b/drivers/soc/mediatek/mmsys/mt8183-mmsys.c
-> @@ -0,0 +1,154 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +//
-> +// Copyright (c) 2020 MediaTek Inc.
-> +
-> +#include <linux/device.h>
-> +#include <linux/io.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/soc/mediatek/mtk-mmsys.h>
-> +
-> +#define DISP_OVL0_MOUT_EN              0xf00
-> +#define DISP_OVL0_2L_MOUT_EN           0xf04
-> +#define DISP_OVL1_2L_MOUT_EN           0xf08
-> +#define DISP_DITHER0_MOUT_EN           0xf0c
-> +#define DISP_PATH0_SEL_IN              0xf24
-> +#define DISP_DSI0_SEL_IN               0xf2c
-> +#define DISP_DPI0_SEL_IN               0xf30
-> +#define DISP_RDMA0_SOUT_SEL_IN         0xf50
-> +#define DISP_RDMA1_SOUT_SEL_IN         0xf54
-> +
-> +#define OVL0_MOUT_EN_OVL0_2L                   BIT(4)
-> +#define OVL0_2L_MOUT_EN_DISP_PATH0             BIT(0)
-> +#define OVL1_2L_MOUT_EN_RDMA1                  BIT(4)
-> +#define DITHER0_MOUT_IN_DSI0                   BIT(0)
-> +#define DISP_PATH0_SEL_IN_OVL0_2L              0x1
-> +#define DSI0_SEL_IN_RDMA0                      0x1
-> +#define DSI0_SEL_IN_RDMA1                      0x3
-> +#define DPI0_SEL_IN_RDMA0                      0x1
-> +#define DPI0_SEL_IN_RDMA1                      0x2
-> +#define RDMA0_SOUT_COLOR0                      0x1
-> +#define RDMA1_SOUT_DSI0                                0x1
-> +
-> +struct mmsys_path_sel {
-> +       enum mtk_ddp_comp_id cur;
-> +       enum mtk_ddp_comp_id next;
-> +       u32 addr;
-> +       u32 val;
-> +};
-> +
-> +static struct mmsys_path_sel mmsys_mout_en[] = {
-> +       {
-> +               DDP_COMPONENT_OVL0, DDP_COMPONENT_OVL_2L0,
-> +               DISP_OVL0_MOUT_EN, OVL0_MOUT_EN_OVL0_2L,
-> +       },
-> +       {
-> +               DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-> +               DISP_OVL0_2L_MOUT_EN, OVL0_2L_MOUT_EN_DISP_PATH0,
-> +       },
-> +       {
-> +               DDP_COMPONENT_OVL_2L1, DDP_COMPONENT_RDMA1,
-> +               DISP_OVL1_2L_MOUT_EN, OVL1_2L_MOUT_EN_RDMA1,
-> +       },
-> +       {
-> +               DDP_COMPONENT_DITHER, DDP_COMPONENT_DSI0,
-> +               DISP_DITHER0_MOUT_EN, DITHER0_MOUT_IN_DSI0,
-> +       },
-> +};
-> +
-> +static struct mmsys_path_sel mmsys_sel_in[] = {
-> +       {
-> +               DDP_COMPONENT_OVL_2L0, DDP_COMPONENT_RDMA0,
-> +               DISP_PATH0_SEL_IN, DISP_PATH0_SEL_IN_OVL0_2L,
-> +       },
-> +       {
-> +               DDP_COMPONENT_RDMA1, DDP_COMPONENT_DPI0,
-> +               DISP_DPI0_SEL_IN, DPI0_SEL_IN_RDMA1,
-> +       },
-> +};
-> +
-> +static struct mmsys_path_sel mmsys_sout_sel[] = {
-> +       {
-> +               DDP_COMPONENT_RDMA0, DDP_COMPONENT_COLOR0,
-> +               DISP_RDMA0_SOUT_SEL_IN, RDMA0_SOUT_COLOR0,
-> +       },
-> +};
-> +
-> +static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
-> +                                         enum mtk_ddp_comp_id next,
-> +                                         unsigned int *addr)
-> +{
-> +       u32 i;
-> +       struct mmsys_path_sel *path;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(mmsys_mout_en); i++) {
-> +               path = &mmsys_mout_en[i];
-> +               if (cur == path->cur && next == path->next) {
-> +                       *addr = path->addr;
-> +                       return path->val;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static unsigned int mtk_mmsys_ddp_sel_in(enum mtk_ddp_comp_id cur,
-> +                                        enum mtk_ddp_comp_id next,
-> +                                        unsigned int *addr)
-> +{
-> +       u32 i;
-> +       struct mmsys_path_sel *path;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(mmsys_sel_in); i++) {
-> +               path = &mmsys_sel_in[i];
-> +               if (cur == path->cur && next == path->next) {
-> +                       *addr = path->addr;
-> +                       return path->val;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static void mtk_mmsys_ddp_sout_sel(void __iomem *config_regs,
-> +                                  enum mtk_ddp_comp_id cur,
-> +                                  enum mtk_ddp_comp_id next)
-> +{
-> +       u32 i;
-> +       u32 val = 0;
-
-This variable is unused.
-
-> +       u32 addr = 0;
-> +       struct mmsys_path_sel *path;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(mmsys_sout_sel); i++) {
-> +               path = &mmsys_sout_sel[i];
-> +               if (cur == path->cur && next == path->next) {
-> +                       addr = path->addr;
-> +                       writel_relaxed(path->val, config_regs + addr);
-> +                       return;
-> +               }
-> +       }
-> +}
-> +
-> +static struct mtk_mmsys_conn_funcs mmsys_funcs = {
-> +       .mout_en = mtk_mmsys_ddp_mout_en,
-> +       .sel_in = mtk_mmsys_ddp_sel_in,
-> +       .sout_sel = mtk_mmsys_ddp_sout_sel,
-> +};
-> +
-> +static int mmsys_probe(struct platform_device *pdev)
-> +{
-> +       struct device *dev = &pdev->dev;
-> +
-> +       mtk_mmsys_register_conn_funcs(dev->parent, &mmsys_funcs);
-> +
-> +       return 0;
-> +}
-> +
-> +static struct platform_driver mmsys_drv = {
-> +       .probe = mmsys_probe,
-> +       .driver = {
-> +               .name = "mt8183-mmsys",
-> +       },
-> +};
-> +
-> +builtin_platform_driver(mmsys_drv);
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index 605b992..6a451ac 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -47,6 +47,7 @@ struct mtk_mmsys_private_data {
->
->  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
->         .clk_driver = "clk-mt8183-mm",
-> +       .mmsys_driver = "mt8183-mmsys",
->  };
->
->  void mtk_mmsys_ddp_connect(struct device *dev,
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAxNiBOb3YgMjAyMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKCj4gQW0gMTYuMTEu
+MjAgdW0gMTg6NDEgc2NocmllYiBMZWUgSm9uZXM6Cj4gPiBGaXhlcyB0aGUgZm9sbG93aW5nIFc9
+MSBrZXJuZWwgYnVpbGQgd2FybmluZyhzKToKPiA+IAo+ID4gICBkcml2ZXJzL2dwdS9kcm0vdHRt
+L3R0bV90dC5jOjQ1OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdibycg
+bm90IGRlc2NyaWJlZCBpbiAndHRtX3R0X2NyZWF0ZScKPiA+ICAgZHJpdmVycy9ncHUvZHJtL3R0
+bS90dG1fdHQuYzo0NTogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnemVy
+b19hbGxvYycgbm90IGRlc2NyaWJlZCBpbiAndHRtX3R0X2NyZWF0ZScKPiA+ICAgZHJpdmVycy9n
+cHUvZHJtL3R0bS90dG1fdHQuYzo4Mzogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1l
+bWJlciAndHRtJyBub3QgZGVzY3JpYmVkIGluICd0dG1fdHRfYWxsb2NfcGFnZV9kaXJlY3Rvcnkn
+Cj4gCj4gQ291bGRuJ3Qgd2UgcmF0aGVyIGRlc2NyaWJlIHRoZSBtaXNzaW5nIHBhcmFtZXRlcnM/
+IFNob3VsZG4ndCBiZSBtdWNoIHdvcmsuCgpNeSBydWxlIGlzOyBpZiBhIHN1YnN0YW50aWFsIGF0
+dGVtcHQgaGFzIGJlZW4gbWFkZSB0byBkb2N1bWVudApzb21ldGhpbmcsIEknbGwgcGF0Y2ggaXQg
+dXAuICBJZiBsaXR0bGUgb3Igbm8gYXR0ZW1wdCBoYXMgYmVlbiBtYWRlLAp0aGVuIGl0IGdldHMg
+ZGVtb3RlZC4KClBsZWFzZSBmZWVsIGZyZWUgdG8gZG9jdW1lbnQgYW5kIHVwZ3JhZGUgdGhlbSBv
+bmNlIG1vcmUuCgpCZWFyIGluIG1pbmQgaG93ZXZlciwgdGhlcmUgaXMgYSBzY3JpcHQgdGhhdCBy
+ZXBvcnRzIG9uIGFsbCBmaWxlcwp3aGljaCB1dGlsaXNlIGtlcm5lbC1kb2Mgbm90YXRpb24gYnV0
+IGRvIG5vdCBoYXZlIG1hdGNoaW5nIHJlZmVyZW5jZXMKZnJvbSB0aGUgRG9jdW1lbnRhdGlvbiBh
+cmVhLgoKU2VlOiBzY3JpcHRzL2ZpbmQtdW51c2VkLWRvY3Muc2gKCj4gPiBDYzogQ2hyaXN0aWFu
+IEtvZW5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+ID4gQ2M6IEh1YW5nIFJ1aSA8cmF5
+Lmh1YW5nQGFtZC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+
+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMgPGxlZS5q
+b25lc0BsaW5hcm8ub3JnPgo+ID4gLS0tCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
+LmMgfCA0ICsrLS0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
+dGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0
+LmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCj4gPiBpbmRleCBjZmQ2MzNjN2U3NjQz
+Li5kYTllZWZmZTBjNmQ3IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
+dHQuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYwo+ID4gQEAgLTM4LDcg
+KzM4LDcgQEAKPiA+ICAgI2luY2x1ZGUgPGRybS9kcm1fY2FjaGUuaD4KPiA+ICAgI2luY2x1ZGUg
+PGRybS90dG0vdHRtX2JvX2RyaXZlci5oPgo+ID4gLS8qKgo+ID4gKy8qCj4gPiAgICAqIEFsbG9j
+YXRlcyBhIHR0bSBzdHJ1Y3R1cmUgZm9yIHRoZSBnaXZlbiBCTy4KPiA+ICAgICovCj4gPiAgIGlu
+dCB0dG1fdHRfY3JlYXRlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgemVyb19h
+bGxvYykKPiA+IEBAIC03Myw3ICs3Myw3IEBAIGludCB0dG1fdHRfY3JlYXRlKHN0cnVjdCB0dG1f
+YnVmZmVyX29iamVjdCAqYm8sIGJvb2wgemVyb19hbGxvYykKPiA+ICAgCXJldHVybiAwOwo+ID4g
+ICB9Cj4gPiAtLyoqCj4gPiArLyoKPiA+ICAgICogQWxsb2NhdGVzIHN0b3JhZ2UgZm9yIHBvaW50
+ZXJzIHRvIHRoZSBwYWdlcyB0aGF0IGJhY2sgdGhlIHR0bS4KPiA+ICAgICovCj4gPiAgIHN0YXRp
+YyBpbnQgdHRtX3R0X2FsbG9jX3BhZ2VfZGlyZWN0b3J5KHN0cnVjdCB0dG1fdHQgKnR0bSkKPiAK
+Ci0tIApMZWUgSm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxv
+cGVyIFNlcnZpY2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0g
+U29DcwpGb2xsb3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
