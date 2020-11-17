@@ -1,60 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6642B6B8E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 18:19:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3911D2B6BB6
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 18:29:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6E389DFC;
-	Tue, 17 Nov 2020 17:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8712489C8D;
+	Tue, 17 Nov 2020 17:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBB4089DFC
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 17:19:04 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a3so3933797wmb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:19:04 -0800 (PST)
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF1689C8D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 17:29:29 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id u12so16781824wrt.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:29:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=kAbO3g5tGJBUTQ1jiivXNeuf/oV2yXFAP1AZBhjiCbM=;
- b=cFWQfikLCnmhUqxHVW7l91cpJVvU/5hB2+y5rd7BxAKkUGpELp6KvbiqRPwDGdNNEN
- CzY/g7XmIg2iyC/xgI+manH6mjM0LKW3Yope7bStKvKGXiId+ZHl2cIuU9s5SZN+Lqf3
- S3GI90l2MoCWcmmE446wA6Es0GqCSEhXJgU6E=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=FROWGsH7Dx97guc9ujjqMeX/SzGuLi2yD3mmQjMN8Gw=;
+ b=lWa4MH/4y1JT4uoM08zKk7JftI+U9CDGGyz8OX0rRi7T9zDzoCGKTrzRaczE+OYdQa
+ xKZdr7i8MeRzbLh11SQGZW9DhRFzHG5NVFURHUeXdHU0hOAwyNLKfMCYjVguTYCzFlAQ
+ aqYwXcl8u/X+GL+3j2W6ylnIHZEjk5+dstyRc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kAbO3g5tGJBUTQ1jiivXNeuf/oV2yXFAP1AZBhjiCbM=;
- b=ckr4pUH1s73fcQbogczvEiD2VZOUGOu8LAZ9tNAQdjReemoPXlZ755Ej1RUWb94Z1Y
- 8t/bJFoDoUQZZFiD37GZ+E+Pl/Anw3a+CvUPyquudWm/GokVG0etL13PkbG8MeqW2O2U
- ktC4iCZk8LCoewpQaPK+jVOlfirVvWrBcvhUdkF/IqyuysFAhzEjolRWSfd7B5R1TlEZ
- zC5rRFb33Xs6S6yKqRwlBzUDxxAjz2gftqRSHOI14uTXdAkKPFCQlUPxHTZxeJY10nwY
- zhN6yyIqrcWIpmjdRy/y+FZaqlTQ/u9U+Tpnz2IyOSSO4m2mnRq1bVqWec/D64n/0pkx
- 8v6Q==
-X-Gm-Message-State: AOAM530kZnPQL7QvaOd+SPW8OmxZ02KYkiTKpbaoEECXjOBQzg22hbuZ
- h6g0vh+Vw6t4nMOKeUuMuWhNFQ==
-X-Google-Smtp-Source: ABdhPJwDvJEYI0znPzin6FCQkedZLOUwXhlNIj3Ee0eqR759hCui5Hw1xvA2ZobyxJr6IVU+KK/Wfw==
-X-Received: by 2002:a05:600c:2c4c:: with SMTP id
- r12mr75475wmg.157.1605633543316; 
- Tue, 17 Nov 2020 09:19:03 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=FROWGsH7Dx97guc9ujjqMeX/SzGuLi2yD3mmQjMN8Gw=;
+ b=p9+DRhpA9PaNSP9ItDhELDDSQJ+jpQ2V82wUtbfoC904QI76aQG9XS/t1zAn/BSkRj
+ ZWPeVl/fyclxTAQYg2SJrhI6Eo7yly5ChpjBwcSKI97TBEAG8limvwOJlQIL5K7/VhP+
+ s6PN1cjG20zuJgZtMJn8VHwEfrM7lSlnnTkAv26BGUHlNotLqda1efMYNpG3xDlev7Gk
+ JhjajU+ipO8V0hrJra+agpvMXhCPzJ0T7XpaT6TbJkmbmemABmmR0vhyMQ/i+V//khRp
+ NVLKKZHl7Pp24STc7eGI0T1Hoag3v3p17ZYvfpzv9Mp0LDwPcGFf6wN5jmSPpvvkeKje
+ UFTg==
+X-Gm-Message-State: AOAM533rSHQFCMUy5p4smc8BNN9Sab2rHHXjirzO0aCFUeev4l0fx46Z
+ LlFpMjSgsoqyN0qIYQT8cRWFcQ==
+X-Google-Smtp-Source: ABdhPJx+BnHbl/cFR2hypORia53biB2S0AX0CRMhWkYyVQSS1zuJpDkCMnVSXjw1JIT88MC4cefjtg==
+X-Received: by 2002:a5d:5308:: with SMTP id e8mr567492wrv.299.1605634167815;
+ Tue, 17 Nov 2020 09:29:27 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d8sm4378586wmb.11.2020.11.17.09.19.02
+ by smtp.gmail.com with ESMTPSA id u23sm4816488wmc.32.2020.11.17.09.29.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 09:19:02 -0800 (PST)
-Date: Tue, 17 Nov 2020 18:19:00 +0100
+ Tue, 17 Nov 2020 09:29:26 -0800 (PST)
+Date: Tue, 17 Nov 2020 18:29:25 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH 3/3] drm/ttm: make up to 90% of system memory available
-Message-ID: <20201117171900.GM401619@phenom.ffwll.local>
-References: <20201117140615.255887-1-christian.koenig@amd.com>
- <20201117140615.255887-3-christian.koenig@amd.com>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH 03/42] drm/drm_dp_mst_topology: Remove set but never used
+ variable 'len'
+Message-ID: <20201117172925.GN401619@phenom.ffwll.local>
+Mail-Followup-To: Lee Jones <lee.jones@linaro.org>,
+ linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org
+References: <20201116174112.1833368-1-lee.jones@linaro.org>
+ <20201116174112.1833368-4-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201117140615.255887-3-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64
+In-Reply-To: <20201116174112.1833368-4-lee.jones@linaro.org>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,106 +73,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, sroland@vmware.com,
- dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 17, 2020 at 03:06:15PM +0100, Christian K=F6nig wrote:
-> Increase the ammount of system memory drivers can use to about 90% of
-> the total available.
-> =
-
-> Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/ttm/ttm_bo.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> =
-
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index a958135cb3fe..0a93df93dba4 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -1267,7 +1267,7 @@ static int ttm_bo_global_init(void)
->  	 * the available system memory.
->  	 */
->  	num_pages =3D (u64)si.totalram * si.mem_unit;
-> -	num_pages =3D (num_pages * 50 / 100) >> PAGE_SHIFT;
-> +	num_pages =3D (num_pages * 90 / 100) >> PAGE_SHIFT;
-
-I don't think this is the design we want. As long as it was set at "half
-of system memory" it was clear that a) it's a hack b) precision didn't
-matter.
-
-But if you go to the limit and still want to keep the "we make sure
-there's no OOM", then precision starts to matter:
-- memory hotplug and hotunplug is a thing
-- userspace can mlock, and it's configureable
-- drivers can pin_user_pages for IO and random other stuff. Some of it is
-  accounted as some subsystem specific mlock (like rdma does iirc), some
-  is just yolo or short term enough (like)
-- none of what we do here takes into considerations any interactions with
-  core mm tracking (like cgroups or numa or anything like that)
-
-If we want to drop the "half of system ram" limit (and yes that makes
-sense) I think the right design is:
-
-- we give up on the "no OOM" guarantee.
-
-- This means if you want real isolation of tasks, we need cgroups, and we
-  need to integrate ttm cgroups with system memory cgroups somehow. Unlike
-  randomly picked hardcoded limits this should work a lot more reliably
-  and be a lot more useful in practical use in the field.
-
-- This also means that drivers start to fail in interesting ways. I think
-  locking headaches are covered with all the lockdep annotations I've
-  pushed, plus some of the things I still have in-flight (I have a
-  might_alloc() annotations somewhere). That leaves validation of error
-  paths for when allocations fail. Ime a very effective way we used in
-  i915 is (ab)using EINTR restarting, which per drmIoctl uapi spec is
-  requried. We could put a debug mode into ttm_tt which randomly fails
-  with -EINTR to make sure it's all working correctly (plus anything else
-  that allocates memory), and unlike real out-of-memory injection piglit
-  and any other cts will complete without failure. Which gives us an
-  excellent metric for "does it work". Actualy OOM, even injected one,
-  tends to make stuff blow up in a way that's very hard to track and make
-  sure you've got good coverage, since all your usual tests die pretty
-  quickly.
-
-- ttm_tt needs to play fair with every other system memory user. We need
-  to register a shrinker for each ttm_tt (so usually one per device I
-  guess), which walks the lru (in shrink_count) and uses dma_resv_trylock
-  for actual shrinking. We probably want to move it to SYSTEM first for
-  that shrinker to pick up, so that there's some global fairness across
-  all ttm_tt.
-
-- for GFP_DMA32 that means zone aware shrinkers. We've never used those,
-  because thus far i915 didn't have any big need for low memory, so we
-  haven't used this in practice. But it's supposed to be a thing.
-
-It's a bit more code than the oneliner above, but I also think it's a lot
-more solid. Plus it would resolve the last big issue where i915 gem is
-fairly fundamentally different compared to ttm. For that question I think
-once Maarten's locking rework for i915 has landed and all the other ttm
-rework from you and Dave is in, we've resolved them all.
-
-
->  	/* But for DMA32 we limit ourself to only use 2GiB maximum. */
->  	num_dma32_pages =3D (u64)(si.totalram - si.totalhigh) * si.mem_unit;
-> -- =
-
-> 2.25.1
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMDU6NDA6MzNQTSArMDAwMCwgTGVlIEpvbmVzIHdyb3Rl
+Ogo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+IAo+
+ICBkcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jOiBJbiBmdW5jdGlvbiDigJhk
+cm1fZHBfc2VuZF9xdWVyeV9zdHJlYW1fZW5jX3N0YXR1c+KAmToKPiAgZHJpdmVycy9ncHUvZHJt
+L2RybV9kcF9tc3RfdG9wb2xvZ3kuYzozMjYzOjY6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmGxlbuKA
+mSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+IAo+IENjOiBN
+YWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RAbGludXguaW50ZWwuY29tPgo+IENj
+OiBNYXhpbWUgUmlwYXJkIDxtcmlwYXJkQGtlcm5lbC5vcmc+Cj4gQ2M6IFRob21hcyBaaW1tZXJt
+YW5uIDx0emltbWVybWFubkBzdXNlLmRlPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGlu
+dXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVl
+LmpvbmVzQGxpbmFyby5vcmc+CgpHb2luZyB0byBhcHBseSB0aGlzLCBidXQgSSBub3RpY2VkIHRo
+YXQgdGhlIHJldHVybiB2YWx1ZSBvZiB0aGUKYnVpbGRfcXVlcnlfc3RyZWFtX2VuY19zdGF0dXMo
+KSBpcyBwb2ludGxlc3MuIENhbiB5b3UgcGxzIGZvbGxvdyB1cCB3aXRoCmFuIGFkZGl0aW9uYWwg
+cGF0Y2ggdG8gY2hhbmdlIHRoYXQgdG8gdm9pZD8KClRoYW5rcywgRGFuaWVsCgo+IC0tLQo+ICBk
+cml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jIHwgNCArKy0tCj4gIDEgZmlsZSBj
+aGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZHBfbXN0X3RvcG9sb2d5LmMgYi9kcml2ZXJzL2dwdS9kcm0v
+ZHJtX2RwX21zdF90b3BvbG9neS5jCj4gaW5kZXggZTg3NTQyNTMzNjQwNi4uMDQwMWIyZjQ3NTAw
+MiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RwX21zdF90b3BvbG9neS5jCj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kcF9tc3RfdG9wb2xvZ3kuYwo+IEBAIC0zMjYwLDcg
+KzMyNjAsNyBAQCBpbnQgZHJtX2RwX3NlbmRfcXVlcnlfc3RyZWFtX2VuY19zdGF0dXMoc3RydWN0
+IGRybV9kcF9tc3RfdG9wb2xvZ3lfbWdyICptZ3IsCj4gIHsKPiAgCXN0cnVjdCBkcm1fZHBfc2lk
+ZWJhbmRfbXNnX3R4ICp0eG1zZzsKPiAgCXU4IG5vbmNlWzddOwo+IC0JaW50IGxlbiwgcmV0Owo+
+ICsJaW50IHJldDsKPiAgCj4gIAl0eG1zZyA9IGt6YWxsb2Moc2l6ZW9mKCp0eG1zZyksIEdGUF9L
+RVJORUwpOwo+ICAJaWYgKCF0eG1zZykKPiBAQCAtMzI4MSw3ICszMjgxLDcgQEAgaW50IGRybV9k
+cF9zZW5kX3F1ZXJ5X3N0cmVhbV9lbmNfc3RhdHVzKHN0cnVjdCBkcm1fZHBfbXN0X3RvcG9sb2d5
+X21nciAqbWdyLAo+ICAJICovCj4gIAl0eG1zZy0+ZHN0ID0gbWdyLT5tc3RfcHJpbWFyeTsKPiAg
+Cj4gLQlsZW4gPSBidWlsZF9xdWVyeV9zdHJlYW1fZW5jX3N0YXR1cyh0eG1zZywgcG9ydC0+dmNw
+aS52Y3BpLCBub25jZSk7Cj4gKwlidWlsZF9xdWVyeV9zdHJlYW1fZW5jX3N0YXR1cyh0eG1zZywg
+cG9ydC0+dmNwaS52Y3BpLCBub25jZSk7Cj4gIAo+ICAJZHJtX2RwX3F1ZXVlX2Rvd25fdHgobWdy
+LCB0eG1zZyk7Cj4gIAo+IC0tIAo+IDIuMjUuMQo+IAoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdh
+cmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
