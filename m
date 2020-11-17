@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4752B5B60
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:55:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 822B72B5B69
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 09:56:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B426A6E16D;
-	Tue, 17 Nov 2020 08:55:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FC8C6E169;
+	Tue, 17 Nov 2020 08:56:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570556E16D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 08:55:08 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id u12so15111496wrt.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 00:55:08 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFE489836
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 08:56:46 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id 19so2462344wmf.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 00:56:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=subject:to:cc:references:from:autocrypt:organization:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RtxIAxEZISmwL9Tvj9Gd08JgoH0+MMiWxX80iMCHZDc=;
- b=bErZpINFuyZnGZ8F8evjNC8fUls4APjWAmOWfFL/IPZVCCeNdOZlv+evABOB4FKGVR
- oFEyQ4GEioUoHmwnNPWIeeuxNuJG/Dgneaf8P1E/0nUX+IhaH8vTxFeeLgU3kDNC5iIP
- eWyUp0k2Aolkb9ZIOoYNu4M5zAtlas1A3ZYX5xkqL/GPn9IA0mWkVvgsjq8ABmu9p0wZ
- F5n3j3a/NzpE0gQwnvorRzqGvrO2aqO3vCz/CqKSgssK0f53t4/1VcOIkgckNo4TqQt4
- EWVIqQzdXqweKAaS+NxtWlSisozFu06duy5hO0zNEFKLOoquoHCUsm/RFvfw9WXf8frT
- eoEg==
+ bh=c5KSmRDGEl3hsllqycry6twggKRm77CSW4Bz3AtEeY8=;
+ b=UyfIEOSXvYzQ1LIRaFKRPYlrWX1ASBFgIjbVqn61zyzqbpvbnC7yzN5JMVwQ4opSQY
+ XIJRsaU8UqDVbM0VwMuiBkT7QxOfmilsC+EJJ98XiQIXXHO8fDcTXjCtGc4gtSyEAZEU
+ gUPddrSCjOzBs6T6RfiNnxrCjCVE38xgpaK0nZRVl+6RGAgGkUAgZt2UmsShJAAd5n5h
+ VDlmwmnfqg/mKerenD4ViFtwBIVnQXognkvzDodTGXDuZevbujWhJ9+y3PwDxwKtV7hn
+ zb2+7/BOztaXRFj/DNcwYEOjw36LSDqYzGs+I4J/fZjPQOgJOc8CVhJZxTWbXXMr5nx9
+ vMew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:autocrypt
  :organization:message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=RtxIAxEZISmwL9Tvj9Gd08JgoH0+MMiWxX80iMCHZDc=;
- b=pK1V10nMRqlh6T26EDez+CrGL8jfjzq4m/NiiHpQ+H0jY/fHwzXxujuHXM+kjjx0vo
- XDwxpOUVo589NWoynw0btILEa2++jPtBh6COjKZHYKYUQYElNxhUYLFcAjSohkN7wufT
- GAh3273xP3kCSqVb8C+Qh2+vgepC4QhmJPWnkdbMkroeY3QbDB403oiKvcILjQtm57Xt
- 3Hk85pm0UDHP/Pa1wadcA3wfilcqoSBxDl+Z4JQmPPG0DufK3gvvL3NW52UYYeQqmPSY
- koNYKSMkBwRyDH7MBzw+Ptcf15ZlWOI9RMXlER82buRzReUCsjrVoiqxszE4bGY4Ah/e
- 0dfw==
-X-Gm-Message-State: AOAM5320KWjc9kANcPJlRJNfD/XWuNNqBgguneYqERagiMDNaK0zHFqH
- LBL+WF3XI5tNJKB+aCDy+O91Ew==
-X-Google-Smtp-Source: ABdhPJytrGcqZ3nwt9VI+MkVjJZck/vlmrILQNa6R7F0ckrifFniUjchV6BcDBI7c/hGJrwxcLqwSA==
-X-Received: by 2002:adf:cd8d:: with SMTP id q13mr24353280wrj.61.1605603306792; 
- Tue, 17 Nov 2020 00:55:06 -0800 (PST)
+ bh=c5KSmRDGEl3hsllqycry6twggKRm77CSW4Bz3AtEeY8=;
+ b=pbJ/Q5HJXee+sMmnctFoNB6h+WecO36Qq5Y7AoACE1nj+3IOQIQ2L4jisJOXVs9TXA
+ Xx7cQc/76sSnKGn1x/OdOHLDZUD1Q1ztpr0ilbKC5XvML/S4AgjbB+3MOus/HUyKKqJ3
+ yzF4t91aKdw1k6DJeTrRA/3UbnAz4hYPV+kVeGvJImSgro1qFGbglMj06H64ga9pjCmN
+ YM+uygpETDvqWbMA9jMxVWtv9bAhtmB3cFIRAKim/8rQBj+I4jLk2kRO2S77PtEZh+G9
+ CbczNRliHcyI/1rFNlHOMc4rv+DVmXCASKuBGs4HaWtksdbFnZwoacaB+BOzFN9Jj0XF
+ uFmw==
+X-Gm-Message-State: AOAM533rmt6E5ILtlwqUjIgIcB4ggp50q7aSLsSuu3KL32UuZbVa1rvE
+ /3tHqo3shIr8huGEzo6Mqh4BVA==
+X-Google-Smtp-Source: ABdhPJzLbjV0aH2YnB54kKKTAJPIxDX5cz6OI23wPHCs0KmOkmTHyZSbhOCqkzklX19/yAwu8Qc+/A==
+X-Received: by 2002:a7b:cd92:: with SMTP id y18mr3141555wmj.178.1605603405138; 
+ Tue, 17 Nov 2020 00:56:45 -0800 (PST)
 Received: from ?IPv6:2a01:e35:2ec0:82b0:1561:9f4b:5829:8e26?
  ([2a01:e35:2ec0:82b0:1561:9f4b:5829:8e26])
- by smtp.gmail.com with ESMTPSA id a17sm28722073wra.61.2020.11.17.00.55.05
+ by smtp.gmail.com with ESMTPSA id q2sm25746294wru.76.2020.11.17.00.56.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 00:55:06 -0800 (PST)
-Subject: Re: [PATCH 3/4] drm/meson: dw-hdmi: Register a callback to disable
- the regulator
+ Tue, 17 Nov 2020 00:56:44 -0800 (PST)
+Subject: Re: [PATCH 4/4] drm/meson: dw-hdmi: Ensure that clocks are enabled
+ before touching the TOP registers
 To: Marc Zyngier <maz@kernel.org>, Kevin Hilman <khilman@baylibre.com>
 References: <20201116200744.495826-1-maz@kernel.org>
- <20201116200744.495826-4-maz@kernel.org>
+ <20201116200744.495826-5-maz@kernel.org>
 From: Neil Armstrong <narmstrong@baylibre.com>
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -105,12 +105,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <35fc622c-bebb-6111-9d08-e6b5433e75c5@baylibre.com>
-Date: Tue, 17 Nov 2020 09:55:04 +0100
+Message-ID: <1a76accb-d6ee-49b0-8268-1123ac8f246e@baylibre.com>
+Date: Tue, 17 Nov 2020 09:56:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201116200744.495826-4-maz@kernel.org>
+In-Reply-To: <20201116200744.495826-5-maz@kernel.org>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -134,70 +134,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 16/11/2020 21:07, Marc Zyngier wrote:
-> Removing the meson-dw-hdmi module results in the following splat:
+> Removing the meson-dw-hdmi module and re-inserting it results in a hang
+> as the driver writes to HDMITX_TOP_SW_RESET. Similar effects can be seen
+> when booting with mainline u-boot and using the u-boot provided DT (which
+> is highly desirable).
 > 
-> i[   43.340509] WARNING: CPU: 0 PID: 572 at drivers/regulator/core.c:2125 _regulator_put.part.0+0x16c/0x174
-> [...]
-> [   43.454870] CPU: 0 PID: 572 Comm: modprobe Tainted: G        W   E     5.10.0-rc4-00049-gd274813a4de3-dirty #2147
-> [   43.465042] Hardware name:  , BIOS 2021.01-rc2-00012-gde865f7ee1 11/16/2020
-> [   43.471945] pstate: 80400009 (Nzcv daif +PAN -UAO -TCO BTYPE=--)
-> [   43.477896] pc : _regulator_put.part.0+0x16c/0x174
-> [   43.482638] lr : regulator_put+0x44/0x60
-> [...]
-> [   43.568715] Call trace:
-> [   43.571132]  _regulator_put.part.0+0x16c/0x174
-> [   43.575529]  regulator_put+0x44/0x60
-> [   43.579067]  devm_regulator_release+0x20/0x2c
-> [   43.583380]  release_nodes+0x1c8/0x2b4
-> [   43.587087]  devres_release_all+0x44/0x6c
-> [   43.591056]  __device_release_driver+0x1a0/0x23c
-> [   43.595626]  driver_detach+0xcc/0x160
-> [   43.599249]  bus_remove_driver+0x68/0xe0
-> [   43.603130]  driver_unregister+0x3c/0x6c
-> [   43.607011]  platform_driver_unregister+0x20/0x2c
-> [   43.611678]  meson_dw_hdmi_platform_driver_exit+0x18/0x4a8 [meson_dw_hdmi]
-> [   43.618485]  __arm64_sys_delete_module+0x1bc/0x294
-> 
-> as the HDMI regulator is still enabled on release.
-> 
-> In order to address this, register a callback that will deal with
-> the disabling when the driver is unbound, solving the problem.
+> The reason for the hang seem to be that the clocks are not always
+> enabled by the time we enter meson_dw_hdmi_init(). Moving this call
+> *after* dw_hdmi_probe() ensures that the clocks are enabled.
 > 
 > Signed-off-by: Marc Zyngier <maz@kernel.org>
 
-Fixes: 161a803fe32d ("drm/meson: dw_hdmi: Add support for an optional external 5V regulator")
+Fixes: 1374b8375c2e ("drm/meson: dw_hdmi: add resume/suspend hooks")
 
 > ---
->  drivers/gpu/drm/meson/meson_dw_hdmi.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  drivers/gpu/drm/meson/meson_dw_hdmi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> index 29a8ff41595d..68826cf9993f 100644
+> index 68826cf9993f..7f8eea494147 100644
 > --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
 > +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
-> @@ -941,6 +941,11 @@ static void meson_dw_hdmi_init(struct meson_dw_hdmi *meson_dw_hdmi)
+> @@ -1073,8 +1073,6 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
 >  
->  }
+>  	DRM_DEBUG_DRIVER("encoder initialized\n");
 >  
-> +static void meson_disable_regulator(void *data)
-> +{
-> +	regulator_disable(data);
-> +}
+> -	meson_dw_hdmi_init(meson_dw_hdmi);
+> -
+>  	/* Bridge / Connector */
+>  
+>  	dw_plat_data->priv_data = meson_dw_hdmi;
+> @@ -1097,6 +1095,8 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>  	if (IS_ERR(meson_dw_hdmi->hdmi))
+>  		return PTR_ERR(meson_dw_hdmi->hdmi);
+>  
+> +	meson_dw_hdmi_init(meson_dw_hdmi);
 > +
->  static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
->  				void *data)
->  {
-> @@ -989,6 +994,10 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
->  		ret = regulator_enable(meson_dw_hdmi->hdmi_supply);
->  		if (ret)
->  			return ret;
-> +		ret = devm_add_action_or_reset(dev, meson_disable_regulator,
-> +					       meson_dw_hdmi->hdmi_supply);
-> +		if (ret)
-> +			return ret;
->  	}
->  
->  	meson_dw_hdmi->hdmitx_apb = devm_reset_control_get_exclusive(dev,
+>  	next_bridge = of_drm_find_bridge(pdev->dev.of_node);
+>  	if (next_bridge)
+>  		drm_bridge_attach(encoder, next_bridge,
 > 
 
 Acked-by: Neil Armstrong <narmstrong@baylibre.com>
