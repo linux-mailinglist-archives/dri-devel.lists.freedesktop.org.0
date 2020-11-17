@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A462B6C5E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 18:54:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FC42B6C64
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 18:56:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4288889C99;
-	Tue, 17 Nov 2020 17:54:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B05689226;
+	Tue, 17 Nov 2020 17:56:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2921189C99
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 17:54:21 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id h23so25269989ljg.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:54:21 -0800 (PST)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18E9C89226
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 17:56:35 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id l11so19268881lfg.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BYshMtSkbtkvYAVk3VOA8AMxSRgti+Fm93GTg0y55f8=;
- b=v4RgBe1veeJUySmh5ZybKOl11N3U6m7sRQIVjdRArBnhNFJlVMsgu1EJnQa8yKpVJg
- IcTg+ZZcapvyZmu9ij57AFExXebMSUSr5t7G/Ctq22oZMXElERJwnfKlmcACzXT+ygmp
- KlIT+zDKgq3ak2O5OCeBkmM0roZvF78dcO0UgCeyipnuWfodfYjQZx798wytdC8aWbHR
- 15YXQWOVyhgmrpQX9zNGWDbgfkz45lZlyMUUemxFfDRNk49B8Z+Up9hvMOz3thu+DCXe
- ScQf43SpJ441ZKJ9S8i5431oLEqvvmGHe633dp6lYw0xOuQldQMLPMxzWTO8P1Ej9X8t
- LQjQ==
+ bh=vkMuTUEF8tVK8/o6kH/0uU22lZBZ4rsB3u4Geir8dd0=;
+ b=fTpcC6QiedPTIxdRHBxj2xab1FLTdV1tJNc/fMIy/Olx3TC4K4K9QaAxTKT1pC0GSq
+ ujwi6sWxPNQsBCulxxrrmR17BuubieRe2+KZf6LWJHDd8Yje7YomgNTr7nulAKZ/yFCq
+ PQ8YIhwNh+n1ELUWIbAf2qLRO5FWHCFNoPCTO13uhqTz6fpKct+43d3sAaPM3uZPz/ln
+ boYzj+hdjhEP5Wi/stq0gCCGz7vL88jFXOpayHfBoxUV4Ajme3cEAqIljAjbfv9yHfmg
+ QvwLWzan7GE+KeJCfJ4MlBxGTmJ5xDYgD+PZArFAVcECgiknMXSc0Il6mtvE9O8mPRG6
+ WEvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=BYshMtSkbtkvYAVk3VOA8AMxSRgti+Fm93GTg0y55f8=;
- b=VrHJ9Yxe/bioSxIpWmrQ1o5NQVlDWqJz6Kff3qshh1zyP3XizWOtSDAv3kVcEXoKdh
- ZVtVXEn+wYK4itmgt/YrVTD10l+NsUUzcnBqbkbW8B+UaScOD+8Bj0LvsbAp/0WMWcFu
- opsn3SEVNq7qslBbIYn7M8SeWl/OIXeXliAaUREfl37cf/ECC+ARMab/RVZZRu5JdCmU
- 8XQg2kz3+9hGe4Fj8UwnvKRZdR1vH+lYiXLCPnmqSgiMKMlnmzzxK3VLxDofabk8KYql
- dUQ4skIetaJxpknk2I5U28qvSTLgxd0bfRuckBvdLsYkCwD8p1mzKkaEW5kPG41ls24N
- 6kCQ==
-X-Gm-Message-State: AOAM532FBCh4GybIWdCYvR2Swj3TycGQW5aIolEJMwr4P8CLkHqZxgEn
- g8Y60spbTs2E6bwJlHsHqH1q9Kb2hTN+xD/X
-X-Google-Smtp-Source: ABdhPJwYCW4AJAthMTLUnKzYugRaJneBQliHIDA9MTR0dbeDC5p+ci1X6tIWhNL3odHgqrDg5BeDJg==
-X-Received: by 2002:a2e:9b8b:: with SMTP id z11mr2254921lji.259.1605635659175; 
- Tue, 17 Nov 2020 09:54:19 -0800 (PST)
+ bh=vkMuTUEF8tVK8/o6kH/0uU22lZBZ4rsB3u4Geir8dd0=;
+ b=bXLANx/ZzCRzq9ALTVcBhyvSf04T68GAtc3cbZdtuBRlYnjcSVHmU6YvtlGgcVfkDW
+ gT/xLMFsfsuzB09OgsgYmmfAQgNLFwi0ZNMjnuCwWFn6yiPDt0Z5Ijb8fsNVFrpryUIe
+ AhW6Zrx02d127F1vy8iv5c+SI8T5oV8Qqlz+7TVnrv1EGy8i1uXqZaxGspc3hO1GgxGQ
+ V72soAHWaDtbCvBuwGI2EXXj9bTjxmCgvhZBgqknZbTV/lc2L6zQT0j0kbGWlKNUZX3j
+ Bl4hmR5KGX5+Qamwct7Jxt9z7oEh3sfTrQ7nx8Rwuk/sNQLDfBjYqagnLlMHuc9fFkDp
+ Lc/A==
+X-Gm-Message-State: AOAM532s3H42EGsvNbvzLYAPycDlb25BUVZ3UREh9kW80/Lik+ElEryR
+ yCYxB6RkVGn97u/u+IkiCYdGDA==
+X-Google-Smtp-Source: ABdhPJxA5IJvWbS3vh9oFa5f0JrgmfSL3Xt5rDVA1gE3jAKjHSgcA2KoqtAsqX9r8I4kuwohlPzKJA==
+X-Received: by 2002:a19:b95:: with SMTP id 143mr2117915lfl.51.1605635793541;
+ Tue, 17 Nov 2020 09:56:33 -0800 (PST)
 Received: from localhost.bredbandsbolaget
  (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id c9sm3237808lfd.98.2020.11.17.09.54.17
+ by smtp.gmail.com with ESMTPSA id m21sm1558631ljh.82.2020.11.17.09.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 09:54:18 -0800 (PST)
+ Tue, 17 Nov 2020 09:56:32 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/mcde: Fix RGB/BGR bug
-Date: Tue, 17 Nov 2020 18:54:13 +0100
-Message-Id: <20201117175413.869871-1-linus.walleij@linaro.org>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 1/3] drm/panel: s6e63m0: Fix and extend MCS table
+Date: Tue, 17 Nov 2020 18:56:19 +0100
+Message-Id: <20201117175621.870085-1-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,151 +66,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: phone-devel@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Stephan Gerhold <stephan@gerhold.net>,
+ =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I was confused when the graphics came out with blue
-penguins on the DPI panel.
-
-It turns out that the so-called "packed RGB666" mode
-on the DSI formatter is incorrect: this mode is the
-actual RGB888 mode, and the mode called RGB888 is
-BGR888.
-
-The claims that the MCDE had inverse RGB/BGR buffer
-formats was wrong, so correct this and the buggy
-register and everything is much more consistent, and
-graphics look good on all targets, both DPI and
-DSI.
-
-Cc: phone-devel@vger.kernel.org
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/mcde/mcde_display.c      | 23 +++++++++++------------
- drivers/gpu/drm/mcde/mcde_display_regs.h |  4 ++--
- 2 files changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index 14c76d3a8e5a..192e11c88d72 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -250,73 +250,70 @@ static int mcde_configure_extsrc(struct mcde *mcde, enum mcde_extsrc src,
- 	val = 0 << MCDE_EXTSRCXCONF_BUF_ID_SHIFT;
- 	val |= 1 << MCDE_EXTSRCXCONF_BUF_NB_SHIFT;
- 	val |= 0 << MCDE_EXTSRCXCONF_PRI_OVLID_SHIFT;
--	/*
--	 * MCDE has inverse semantics from DRM on RBG/BGR which is why
--	 * all the modes are inversed here.
--	 */
-+
- 	switch (format) {
- 	case DRM_FORMAT_ARGB8888:
- 		val |= MCDE_EXTSRCXCONF_BPP_ARGB8888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_ABGR8888:
- 		val |= MCDE_EXTSRCXCONF_BPP_ARGB8888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XRGB8888:
- 		val |= MCDE_EXTSRCXCONF_BPP_XRGB8888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XBGR8888:
- 		val |= MCDE_EXTSRCXCONF_BPP_XRGB8888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_RGB888:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_BGR888:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB888 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_ARGB4444:
- 		val |= MCDE_EXTSRCXCONF_BPP_ARGB4444 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_ABGR4444:
- 		val |= MCDE_EXTSRCXCONF_BPP_ARGB4444 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XRGB4444:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB444 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XBGR4444:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB444 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XRGB1555:
- 		val |= MCDE_EXTSRCXCONF_BPP_IRGB1555 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_XBGR1555:
- 		val |= MCDE_EXTSRCXCONF_BPP_IRGB1555 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_RGB565:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB565 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
--		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_BGR565:
- 		val |= MCDE_EXTSRCXCONF_BPP_RGB565 <<
- 			MCDE_EXTSRCXCONF_BPP_SHIFT;
-+		val |= MCDE_EXTSRCXCONF_BGR;
- 		break;
- 	case DRM_FORMAT_YUV422:
- 		val |= MCDE_EXTSRCXCONF_BPP_YCBCR422 <<
-@@ -810,7 +807,9 @@ static void mcde_configure_dsi_formatter(struct mcde *mcde,
- 			MCDE_DSICONF0_PACKING_SHIFT;
- 		break;
- 	case MIPI_DSI_FMT_RGB666_PACKED:
--		val |= MCDE_DSICONF0_PACKING_RGB666_PACKED <<
-+		dev_err(mcde->dev,
-+			"we cannot handle the packed RGB666 format\n");
-+		val |= MCDE_DSICONF0_PACKING_RGB666 <<
- 			MCDE_DSICONF0_PACKING_SHIFT;
- 		break;
- 	case MIPI_DSI_FMT_RGB565:
-diff --git a/drivers/gpu/drm/mcde/mcde_display_regs.h b/drivers/gpu/drm/mcde/mcde_display_regs.h
-index ae76da8a2138..2ad78c59d627 100644
---- a/drivers/gpu/drm/mcde/mcde_display_regs.h
-+++ b/drivers/gpu/drm/mcde/mcde_display_regs.h
-@@ -552,8 +552,8 @@
- #define MCDE_DSICONF0_PACKING_MASK 0x00700000
- #define MCDE_DSICONF0_PACKING_RGB565 0
- #define MCDE_DSICONF0_PACKING_RGB666 1
--#define MCDE_DSICONF0_PACKING_RGB666_PACKED 2
--#define MCDE_DSICONF0_PACKING_RGB888 3
-+#define MCDE_DSICONF0_PACKING_RGB888 2
-+#define MCDE_DSICONF0_PACKING_BGR888 3
- #define MCDE_DSICONF0_PACKING_HDTV 4
- 
- #define MCDE_DSIVID0FRAME 0x00000E04
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4IHVwIHRoZSBmb3JtYXQgb2YgdGhlIG1hbnVmYWN0dXJlciBjb21tYW5kIHNldCB0YWJsZQp0
+byBiZSBUQUItaW5kZW50ZWQgYW5kIGxvd2VyY2FzZS4gQWRkIHRoZSBNQ1NfVEVNUF9TV0lSRQpj
+b21tYW5kIHRoYXQgd2Ugd2lsbCBtYWtlIHVzZSBvZi4KCkNjOiBTdGVwaGFuIEdlcmhvbGQgPHN0
+ZXBoYW5AZ2VyaG9sZC5uZXQ+CkNjOiBQYXdlxYIgQ2htaWVsIDxwYXdlbC5taWtvbGFqLmNobWll
+bEBnbWFpbC5jb20+ClNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpA
+bGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2
+M20wLmMgfCAxNyArKysrKysrKystLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9u
+cygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwv
+cGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMgYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ft
+c3VuZy1zNmU2M20wLmMKaW5kZXggMjEwZTcwZGEzYTE1Li44ZmNlMzk5ZmI5N2QgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTYzbTAuYworKysgYi9k
+cml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc2Ftc3VuZy1zNmU2M20wLmMKQEAgLTIzLDIwICsy
+MywyMSBAQAogI2luY2x1ZGUgInBhbmVsLXNhbXN1bmctczZlNjNtMC5oIgogCiAvKiBNYW51ZmFj
+dHVyZXIgQ29tbWFuZCBTZXQgKi8KLSNkZWZpbmUgTUNTX0VMVlNTX09OICAgICAgICAgICAgICAg
+IDB4YjEKLSNkZWZpbmUgTUNTX01JRUNUTDEgICAgICAgICAgICAgICAgMHhjMAotI2RlZmluZSBN
+Q1NfQkNNT0RFICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMHhjMQorI2RlZmluZSBNQ1Nf
+RUxWU1NfT04JCTB4YjEKKyNkZWZpbmUgTUNTX1RFTVBfU1dJUkUJCTB4YjIKKyNkZWZpbmUgTUNT
+X01JRUNUTDEJCTB4YzAKKyNkZWZpbmUgTUNTX0JDTU9ERQkJMHhjMQogI2RlZmluZSBNQ1NfRVJS
+T1JfQ0hFQ0sJCTB4ZDUKICNkZWZpbmUgTUNTX1JFQURfSUQxCQkweGRhCiAjZGVmaW5lIE1DU19S
+RUFEX0lEMgkJMHhkYgogI2RlZmluZSBNQ1NfUkVBRF9JRDMJCTB4ZGMKICNkZWZpbmUgTUNTX0xF
+VkVMXzJfS0VZCQkweGYwCiAjZGVmaW5lIE1DU19NVFBfS0VZCQkweGYxCi0jZGVmaW5lIE1DU19E
+SVNDVEwgICAweGYyCi0jZGVmaW5lIE1DU19TUkNDVEwgICAgICAgICAgIDB4ZjYKLSNkZWZpbmUg
+TUNTX0lGQ1RMICAgICAgICAgICAgICAgICAgICAgICAweGY3Ci0jZGVmaW5lIE1DU19QQU5FTENU
+TCAgICAgICAgIDB4RjgKLSNkZWZpbmUgTUNTX1BHQU1NQUNUTCAgICAgICAgICAgICAgICAgICAw
+eGZhCisjZGVmaW5lIE1DU19ESVNDVEwJCTB4ZjIKKyNkZWZpbmUgTUNTX1NSQ0NUTAkJMHhmNgor
+I2RlZmluZSBNQ1NfSUZDVEwJCTB4ZjcKKyNkZWZpbmUgTUNTX1BBTkVMQ1RMCQkweGY4CisjZGVm
+aW5lIE1DU19QR0FNTUFDVEwJCTB4ZmEKIAogI2RlZmluZSBTNkU2M00wX0xDRF9JRF9WQUxVRV9N
+MgkJMHhBNAogI2RlZmluZSBTNkU2M00wX0xDRF9JRF9WQUxVRV9TTTIJMHhCNAotLSAKMi4yNi4y
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
