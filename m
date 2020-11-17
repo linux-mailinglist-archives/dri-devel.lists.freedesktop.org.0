@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 998842B77D7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB252B77D8
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78EF36E3F9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 919AC6E3FE;
 	Wed, 18 Nov 2020 08:01:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115366EA98
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 14:32:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F4876EA98
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 14:32:48 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1605623537; h=Content-Transfer-Encoding: MIME-Version:
+ s=smtp; t=1605623570; h=Content-Transfer-Encoding: MIME-Version:
  References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=5cMiLOwjnXkXLEoeEW3HBR1e+Az/sjHxgoRRiQBvOOA=;
- b=G0nCE0bRwngT60m6LHj0fjnauOU9fguh9jnlnasccPR1rBqgikFp1doClxghMSlmVjB+l1vG
- 0YakhplgJANlZKudOOFKt0rYK+qRphjfn90FYav6Yo04HygdWMesojJw66wlNi6ohNaZyzIU
- o325qz/p49GVOtJNSthI0sAIn0s=
+ Sender; bh=8q61f0aezejtHAGiY4J3nSgyjBapvoMjzFKt1NWtnzM=;
+ b=gJ+ccLUF5xV/ys7PD/ZP2O2n4kU+/WFvyI/yuJSJwlaZ+vePV8Ujr8tk7WeTGXyMwEhcKFmh
+ my38zuCEWAIRTHkZge07/zmOK+l3kvRKNvDnzra0nS7IGnc98YdaR/5RSiROEhLB2XdTveo/
+ U18PplV22L4eB/cC5ZYggQSLYFA=
 X-Mailgun-Sending-Ip: 104.130.96.5
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 5fb3ded207fe4e8a182491a1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:46
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5fb3ded907fe4e8a1824a9a7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:53
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 58931C433C6; Tue, 17 Nov 2020 14:31:45 +0000 (UTC)
+ id 75B2CC433C6; Tue, 17 Nov 2020 14:31:52 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -41,9 +41,9 @@ Received: from blr-ubuntu-253.qualcomm.com
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
  (No client certificate requested)
  (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BB47BC43460;
- Tue, 17 Nov 2020 14:31:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org BB47BC43460
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id ED863C43460;
+ Tue, 17 Nov 2020 14:31:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ED863C43460
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
@@ -52,10 +52,10 @@ From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
 To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
  Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
  Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv8 6/8] drm/msm/a6xx: Add support for using system cache on
- MMU500 based targets
-Date: Tue, 17 Nov 2020 20:00:45 +0530
-Message-Id: <1ceab1d57e4846a0f4179afe769ad1adc463758b.1605621785.git.saiprakash.ranjan@codeaurora.org>
+Subject: [PATCHv8 7/8] iommu: arm-smmu-impl: Use table to list QCOM
+ implementations
+Date: Tue, 17 Nov 2020 20:00:46 +0530
+Message-Id: <4214114f9f39ebaaa7af980b0da5fdaea16111c0.1605621785.git.saiprakash.ranjan@codeaurora.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
 References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
@@ -84,116 +84,83 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jordan Crouse <jcrouse@codeaurora.org>
+Use table and of_match_node() to match qcom implementation
+instead of multiple of_device_compatible() calls for each
+QCOM SMMU implementation.
 
-GPU targets with an MMU-500 attached have a slightly different process for
-enabling system cache. Use the compatible string on the IOMMU phandle
-to see if an MMU-500 is attached and modify the programming sequence
-accordingly.
-
-Signed-off-by: Jordan Crouse <jcrouse@codeaurora.org>
 Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+Acked-by: Will Deacon <will@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 +++++++++++++++++++++------
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  1 +
- 2 files changed, 37 insertions(+), 10 deletions(-)
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  9 +--------
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 21 ++++++++++++++++-----
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |  1 -
+ 3 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 95c98c642876..3f8b92da8cba 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -1042,6 +1042,8 @@ static void a6xx_llc_deactivate(struct a6xx_gpu *a6xx_gpu)
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
+index 7fed89c9d18a..26e2734eb4d7 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
+@@ -214,14 +214,7 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
+ 	if (of_device_is_compatible(np, "nvidia,tegra194-smmu"))
+ 		return nvidia_smmu_impl_init(smmu);
  
- static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
- {
-+	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
-+	struct msm_gpu *gpu = &adreno_gpu->base;
- 	u32 cntl1_regval = 0;
- 
- 	if (IS_ERR(a6xx_gpu->llc_mmio))
-@@ -1055,11 +1057,17 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
- 			       (gpu_scid << 15) | (gpu_scid << 20);
- 	}
- 
-+	/*
-+	 * For targets with a MMU500, activate the slice but don't program the
-+	 * register.  The XBL will take care of that.
-+	 */
- 	if (!llcc_slice_activate(a6xx_gpu->htw_llc_slice)) {
--		u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
-+		if (!a6xx_gpu->have_mmu500) {
-+			u32 gpuhtw_scid = llcc_get_slice_id(a6xx_gpu->htw_llc_slice);
- 
--		gpuhtw_scid &= 0x1f;
--		cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
-+			gpuhtw_scid &= 0x1f;
-+			cntl1_regval |= FIELD_PREP(GENMASK(29, 25), gpuhtw_scid);
-+		}
- 	}
- 
- 	if (cntl1_regval) {
-@@ -1067,13 +1075,20 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
- 		 * Program the slice IDs for the various GPU blocks and GPU MMU
- 		 * pagetables
- 		 */
--		a6xx_llc_write(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
+-	if (of_device_is_compatible(np, "qcom,sdm845-smmu-500") ||
+-	    of_device_is_compatible(np, "qcom,sc7180-smmu-500") ||
+-	    of_device_is_compatible(np, "qcom,sm8150-smmu-500") ||
+-	    of_device_is_compatible(np, "qcom,sm8250-smmu-500"))
+-		return qcom_smmu_impl_init(smmu);
 -
--		/*
--		 * Program cacheability overrides to not allocate cache lines on
--		 * a write miss
--		 */
--		a6xx_llc_rmw(a6xx_gpu, REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
-+		if (a6xx_gpu->have_mmu500)
-+			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
-+				cntl1_regval);
-+		else {
-+			a6xx_llc_write(a6xx_gpu,
-+				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
-+
-+			/*
-+			 * Program cacheability overrides to not allocate cache
-+			 * lines on a write miss
-+			 */
-+			a6xx_llc_rmw(a6xx_gpu,
-+				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
-+		}
- 	}
+-	if (of_device_is_compatible(smmu->dev->of_node, "qcom,adreno-smmu"))
+-		return qcom_adreno_smmu_impl_init(smmu);
++	smmu = qcom_smmu_impl_init(smmu);
+ 
+ 	if (of_device_is_compatible(np, "marvell,ap806-smmu-500"))
+ 		smmu->impl = &mrvl_mmu500_impl;
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+index d0636c803a36..add1859b2899 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
+@@ -318,12 +318,23 @@ static struct arm_smmu_device *qcom_smmu_create(struct arm_smmu_device *smmu,
+ 	return &qsmmu->smmu;
  }
  
-@@ -1086,10 +1101,21 @@ static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
- static void a6xx_llc_slices_init(struct platform_device *pdev,
- 		struct a6xx_gpu *a6xx_gpu)
++static const struct of_device_id __maybe_unused qcom_smmu_impl_of_match[] = {
++	{ .compatible = "qcom,sc7180-smmu-500" },
++	{ .compatible = "qcom,sdm845-smmu-500" },
++	{ .compatible = "qcom,sm8150-smmu-500" },
++	{ .compatible = "qcom,sm8250-smmu-500" },
++	{ }
++};
++
+ struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu)
  {
-+	struct device_node *phandle;
+-	return qcom_smmu_create(smmu, &qcom_smmu_impl);
+-}
++	const struct device_node *np = smmu->dev->of_node;
+ 
+-struct arm_smmu_device *qcom_adreno_smmu_impl_init(struct arm_smmu_device *smmu)
+-{
+-	return qcom_smmu_create(smmu, &qcom_adreno_smmu_impl);
++	if (of_match_node(qcom_smmu_impl_of_match, np))
++		return qcom_smmu_create(smmu, &qcom_smmu_impl);
 +
- 	a6xx_gpu->llc_mmio = msm_ioremap(pdev, "cx_mem", "gpu_cx");
- 	if (IS_ERR(a6xx_gpu->llc_mmio))
- 		return;
- 
-+	/*
-+	 * There is a different programming path for targets with an mmu500
-+	 * attached, so detect if that is the case
-+	 */
-+	phandle = of_parse_phandle(pdev->dev.of_node, "iommus", 0);
-+	a6xx_gpu->have_mmu500 = (phandle &&
-+		of_device_is_compatible(phandle, "arm,mmu-500"));
-+	of_node_put(phandle);
++	if (of_device_is_compatible(np, "qcom,adreno-smmu"))
++		return qcom_smmu_create(smmu, &qcom_adreno_smmu_impl);
 +
- 	a6xx_gpu->llc_slice = llcc_slice_getd(LLCC_GPU);
- 	a6xx_gpu->htw_llc_slice = llcc_slice_getd(LLCC_GPUHTW);
++	return smmu;
+ }
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.h b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+index caae543ea077..7db81c7c7833 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.h
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.h
+@@ -523,7 +523,6 @@ static inline void arm_smmu_writeq(struct arm_smmu_device *smmu, int page,
+ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu);
+ struct arm_smmu_device *nvidia_smmu_impl_init(struct arm_smmu_device *smmu);
+ struct arm_smmu_device *qcom_smmu_impl_init(struct arm_smmu_device *smmu);
+-struct arm_smmu_device *qcom_adreno_smmu_impl_init(struct arm_smmu_device *smmu);
  
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 9e6079af679c..e793d329e77b 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -32,6 +32,7 @@ struct a6xx_gpu {
- 	void __iomem *llc_mmio;
- 	void *llc_slice;
- 	void *htw_llc_slice;
-+	bool have_mmu500;
- };
- 
- #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
+ void arm_smmu_write_context_bank(struct arm_smmu_device *smmu, int idx);
+ int arm_mmu500_reset(struct arm_smmu_device *smmu);
 -- 
 QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
 of Code Aurora Forum, hosted by The Linux Foundation
