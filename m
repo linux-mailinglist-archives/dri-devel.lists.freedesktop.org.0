@@ -1,64 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 655D02B77E7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8FB82B77D0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF3E6E426;
-	Wed, 18 Nov 2020 08:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC21B6E3DB;
+	Wed, 18 Nov 2020 08:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3C9F6EA97
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 14:32:35 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605623559; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=xBQcg+Wcwhh18eydvFxaDQClwZpGMJnYWJxgECPLHjo=;
- b=xiGHSiyU2Wo3SHQslmOF/9oOE5nE/dTSgxkzz0snFbouEeJjcYFtlzdEwOV8oq127ytBJ1NP
- QJD+JhDxRMsoGdRewOqFluNleNFhFY2eya0Eac6BiEW85M0pktp9VOjqarqWKIxyvnACyrKd
- mOqFq8UbbIh8gnv69JKPs58JEu4=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 5fb3dedee9dd187f53b70151 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:58
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 54C3EC43468; Tue, 17 Nov 2020 14:31:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL, 
- URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-253.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: saiprakash.ranjan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 688D4C433ED;
- Tue, 17 Nov 2020 14:31:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 688D4C433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
- smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
- Rob Clark <robdclark@gmail.com>
-Subject: [PATCHv8 8/8] iommu: arm-smmu-impl: Add a space before open
- parenthesis
-Date: Tue, 17 Nov 2020 20:00:47 +0530
-Message-Id: <ef0f8ba1c8fc728e6766b64661326e6c5bc6081d.1605621785.git.saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
-References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com
+ [IPv6:2607:f8b0:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1012E89F53
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 17:26:12 +0000 (UTC)
+Received: by mail-pg1-x543.google.com with SMTP id q34so286415pgb.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:26:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mXY01vYqSIFKCXp0IDMP/PsFb63uKbgbyX0xqNFjPx8=;
+ b=Ui84wE1DPycMuErhBKrJglxCN+6U2dIsJ8AXIsquTnLJwX7valeZ/Wj4u13g/P7cca
+ hCCwyq37SCXL+glSjaLy48q3Es/ccTZPdji18Jc19ouRkm25CJBTDoKB2hq56S1gsxJT
+ CgkNQMv/DyTA8jUzzWDYbwu+gOE/Q4fpQMkqA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mXY01vYqSIFKCXp0IDMP/PsFb63uKbgbyX0xqNFjPx8=;
+ b=LGCs+3HVbyn6kEFuyV3Pj93Lcjl3szcpxwLUCJLQTaQLSOk16a1PxKO9gEA4ez0wtV
+ Z8UozzHXuwzrUD6TZRAdiz28cqLI/XE7+WEmFlwZJauGwAXBTS5eDWqjVW/foSv+I93B
+ y3ZUFiSX0x9Cse2uSj94HSZXnV6t5kkmUajYCB2YLWy1s47RLJlGBdGDNnc1u6f71uEW
+ ZJfdxYpVGTErhli4x9DQDnO7QtYxm0vp13Gu9hzcVhkZp8aGWG+obzFL8oAAq+jXgwA6
+ GdNZEqtQkcgjWgj41R59XuX2VU2uaj9VdcDViSzD6xJ27MkTwtSIaWRnEDJDMXNDsJqr
+ S5hA==
+X-Gm-Message-State: AOAM530uW2N9wwI/eZLiCSvoWcDFAXCqwypRoONCBxgUimdcLs3ZRMrP
+ vHQEQb2N0jLIx2/uTOofykuUGA==
+X-Google-Smtp-Source: ABdhPJx6BBjXdUQptGLanbbvON0/vIPEQPGdKUos1T5nRqRB9kJFXWbLNYc4fRG2VpF08DlYFiAz3w==
+X-Received: by 2002:a65:4485:: with SMTP id l5mr4316577pgq.10.1605633971667;
+ Tue, 17 Nov 2020 09:26:11 -0800 (PST)
+Received: from smtp.gmail.com ([100.99.132.239])
+ by smtp.gmail.com with ESMTPSA id y9sm3816846pjn.24.2020.11.17.09.26.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 09:26:11 -0800 (PST)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Rob Clark <robdclark@gmail.com>
+Subject: [PATCH] drm/msm/dpu: Remove chatty vbif debug print
+Date: Tue, 17 Nov 2020 09:26:08 -0800
+Message-Id: <20201117172608.2091648-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.29.2.299.gdc1121823c-goog
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 18 Nov 2020 08:01:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,42 +62,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux-foundation.org,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the checkpatch warning for space required before the open
-parenthesis.
+I don't know what this debug print is for but it is super chatty,
+throwing 8 lines of debug prints in the logs every time we update a
+plane. It looks like it has no value. Let's nuke it so we can get
+better logs.
 
-Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Acked-by: Will Deacon <will@kernel.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 ---
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index 26e2734eb4d7..136872e77195 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -12,7 +12,7 @@
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+index 5e8c3f3e6625..5eb2b2ee09f5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
+@@ -245,9 +245,6 @@ void dpu_vbif_set_qos_remap(struct dpu_kms *dpu_kms,
+ 	forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl, true);
  
- static int arm_smmu_gr0_ns(int offset)
- {
--	switch(offset) {
-+	switch (offset) {
- 	case ARM_SMMU_GR0_sCR0:
- 	case ARM_SMMU_GR0_sACR:
- 	case ARM_SMMU_GR0_sGFSR:
+ 	for (i = 0; i < qos_tbl->npriority_lvl; i++) {
+-		DPU_DEBUG("vbif:%d xin:%d lvl:%d/%d\n",
+-				params->vbif_idx, params->xin_id, i,
+-				qos_tbl->priority_lvl[i]);
+ 		vbif->ops.set_qos_remap(vbif, params->xin_id, i,
+ 				qos_tbl->priority_lvl[i]);
+ 	}
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Sent by a computer, using git, on the internet
 
 _______________________________________________
 dri-devel mailing list
