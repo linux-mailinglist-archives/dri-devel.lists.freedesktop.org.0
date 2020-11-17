@@ -2,116 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3C92B5C0F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 10:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9605F2B5C75
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 11:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4DF26E1B6;
-	Tue, 17 Nov 2020 09:46:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50EEB6E152;
+	Tue, 17 Nov 2020 10:01:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7988C6E18E
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 09:46:05 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id a65so2604758wme.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 01:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:autocrypt:organization:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CEo+OPOZFN7m+DXF/d+KmtTmXBb+z+Ic943KkTxig2s=;
- b=SBl2mWdsCVbnfA1+rqUH5lEWISe1PLoahAv0tGaN5ZTvsa06oK3iqW/JVPzZALRiUA
- WqrbaTaEgIaoeKmk1y5glynS3QHNmrPXlrYJxcbLLTuLNHOxakei3FGte15aMZoFKdF1
- ICD0tH6mnviMohyj/+1S+jdMVj+jtKyHQtA11uRdrfjOppyxbvDqiX7QaNrCnFMu1ptW
- kiGuH4FUZm/UjDRFU86nVXJF5iHhjCDYgc83xt61ffjeroZ+fRjDDBtO++HsmxRQW5bh
- XMr/Dpgy9n+EJ9oD4Y2/z4osDP/rJEJdsBss44o/aGbtYz55ooe/DiBw0vbW80VDGoeV
- sMTg==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065516E03E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 10:01:43 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id h21so2646703wmb.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 02:01:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Tvr1i8BbCmuVJQLalZ44/BhPFnHlVISYduMktrLuNCI=;
+ b=itDdNhh6SSfakFwYmzALGlOUBg6O/56gi8Vi9q8ZDbDfX6vGGvyV3HJOM/9GK86Hye
+ p4FfQMeGhvjyrK5wxacR4br6Quc1WhLJ/0/QsrlCEp8j8fccRueIbfPXJy4Gh0UahICZ
+ Jt39bJP6M11G4y2NZ1NYMsVx4MNxKFL7m/c+s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:autocrypt
- :organization:message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=CEo+OPOZFN7m+DXF/d+KmtTmXBb+z+Ic943KkTxig2s=;
- b=pz8DJjJ3jxTdGF08Jq1NAuTcuRL/kI8XoBxm7VOfFat4N3vURD9hVzG9U4l+cA1rlK
- 5QuPq7+hA91TIqKPvYfU4dDm3KgLD4AsiThnW2XBrxBpXcSF4Vr2PRqyMLVVszOAJ5fG
- B2jVRALFvkXFf/ArJf8D9qBK4lmVXtS+XxQTKzHakrDAnOpxUVvZXvdS9O/wtHYxu9pH
- QGzx5rgZDJdkCXPuDGUymjL87pQK99KyzGBP1VuBzmRsZE+Sk4lBfrJONIPiUT6oqr9h
- z+m0dhXS4g8Bh1bQ9rFsW/apSKOSVYu7czMzghZdUJS9GAB1NRweb92G7D17CAycWNEU
- FifQ==
-X-Gm-Message-State: AOAM533O6igGj4zf2eSkBD5ifVR7ERYMF1a4zL5FpKk+gVe0fLhnZPeW
- j9K5HGBy6picNwSAUXgJUuxa3g==
-X-Google-Smtp-Source: ABdhPJxmO6r2750VN9m69jdjO1eoCD4DL7nc3S56PG/4plHgnKNVIzcbQTzKRmssmwa02Go7trLCsA==
-X-Received: by 2002:a7b:c2f7:: with SMTP id e23mr3398751wmk.100.1605606364002; 
- Tue, 17 Nov 2020 01:46:04 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:1561:9f4b:5829:8e26?
- ([2a01:e35:2ec0:82b0:1561:9f4b:5829:8e26])
- by smtp.gmail.com with ESMTPSA id c17sm26842223wro.19.2020.11.17.01.46.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 01:46:03 -0800 (PST)
-Subject: Re: [PATCH 0/4] drm/meson: Module removal fixes
-To: Marc Zyngier <maz@kernel.org>
-References: <20201116200744.495826-1-maz@kernel.org>
- <0b429c41-421a-2ae0-66a0-a142c56acadd@baylibre.com>
- <09de6683eea499cfd83ab0c67e0cdca2@kernel.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <e73609a6-5502-3a97-d231-c7c419863842@baylibre.com>
-Date: Tue, 17 Nov 2020 10:46:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Tvr1i8BbCmuVJQLalZ44/BhPFnHlVISYduMktrLuNCI=;
+ b=J5DdFMi6CHjh+AK5DlSH+SHQxuUiTKSiaea+Wo6mf/pQZhMXSuKPW5pa7LODVQyAIR
+ ENPMKrMI6AhlLPKg2DG1syj7M1jHy8nLX5j8s2aQ90/2SDDcT2d3y2f+QAE9opIwFK5L
+ wrfSGgqPWBPZqgPW22qJk3il+e0Ts/9hd2P6U3GiuH+kL30ynWPtN1dAyDxcSzTkS468
+ vLUh4u0pmrnF6LVDsbF25WaerWCEejxiqo3xJSxm7zIfkmN1RVxG8Ny6aNeAKIs+cbDB
+ LFr0qLeTN5K0lBnxl53l6QVtWu3rKXF66j6UuXVRFg+VsT03bG44ro34HOakvwxjAM/O
+ qGEw==
+X-Gm-Message-State: AOAM533grSL7AArNr3hU79Au4IFv3Pvrux1CT4fsohzV1Nvc6iYrjful
+ QTCh5qNWjEC2zUOy/VtrM/QAQggJ4algDA==
+X-Google-Smtp-Source: ABdhPJzFJDOMhOOhKeG9aRuj/uSvAxJjIiu9FlR+hB5CrkDmb40o5tJUkolWetSSD1v7XX0EYQtWfg==
+X-Received: by 2002:a1c:44d4:: with SMTP id r203mr3440851wma.60.1605607301403; 
+ Tue, 17 Nov 2020 02:01:41 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id c2sm28726842wrf.68.2020.11.17.02.01.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 02:01:40 -0800 (PST)
+Date: Tue, 17 Nov 2020 11:01:38 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/qxl: Remove fbcon acceleration leftovers
+Message-ID: <20201117100138.GI401619@phenom.ffwll.local>
+References: <20201029101428.4058311-3-daniel.vetter@ffwll.ch>
+ <20201029133347.4088884-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-In-Reply-To: <09de6683eea499cfd83ab0c67e0cdca2@kernel.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201029133347.4088884-1-daniel.vetter@ffwll.ch>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,66 +65,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: spice-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Dave Airlie <airlied@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTcvMTEvMjAyMCAxMDoxOSwgTWFyYyBaeW5naWVyIHdyb3RlOgo+IEhpIE5laWwsCj4gCj4g
-T24gMjAyMC0xMS0xNyAwODo0OSwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4+IEhpIE1hcmMsCj4+
-Cj4+IE9uIDE2LzExLzIwMjAgMjE6MDcsIE1hcmMgWnluZ2llciB3cm90ZToKPj4+IEhpIGFsbCwK
-Pj4+Cj4+PiBIYXZpbmcgcmVjZW50bHkgbW92ZWQgb3ZlciB0byBhIHRvcC1vZi10aGUtdHJlZSB1
-LWJvb3Qgb24gb25lIG9mIG15Cj4+PiBWSU0zTCBzeXN0ZW1zIGluIG9yZGVyIHRvIGJlbmVmaXQg
-ZnJvbSB1bnJlbGF0ZWQgaW1wcm92ZW1lbnRzCj4+PiAoYXV0b21hdGljIFBDSWUgZGV0ZWN0aW9u
-LCBFRkkuLi4pLCBJIGZhY2VkIHRoZSBpc3N1ZSB0aGF0IG15IGtlcm5lbAo+Pj4gd291bGQgaGFu
-ZyBsaWtlIHRoaXM6Cj4+Pgo+Pj4gW8KgIE9LwqAgXSBGaW5pc2hlZCBIZWxwZXIgdG8gc3luY2hy
-b25pemUgYm9vdCB1cCBmb3IgaWZ1cGRvd24uCj4+PiBbwqAgT0vCoCBdIFN0YXJ0ZWQgUnVsZS1i
-YXNlZCBNYW5hZ2VyIGZvciBEZXZpY2UgRXZlbnRzIGFuZCBGaWxlcy4KPj4+IFvCoMKgwqAgNy4x
-MTQ1MTZdIFZERENQVTogc3VwcGxpZWQgYnkgcmVndWxhdG9yLWR1bW15Cj4+PiBbwqAgT0vCoCBd
-IEZvdW5kIGRldmljZSAvZGV2L3R0eUFNTDAuCj4+PiBbwqDCoMKgIDcuMTQ2ODYyXSBtZXNvbi1k
-cm0gZmY5MDAwMDAudnB1OiBRdWV1ZWQgMiBvdXRwdXRzIG9uIHZwdQo+Pj4gW8KgwqDCoCA3LjE2
-OTYzMF0gZmIwOiBzd2l0Y2hpbmcgdG8gbWVzb24tZHJtLWZiIGZyb20gc2ltcGxlCj4+PiBbwqDC
-oMKgIDcuMTY5OTQ0XSBDb25zb2xlOiBzd2l0Y2hpbmcgdG8gY29sb3VyIGR1bW15IGRldmljZSA4
-MHgyNQo+Pj4gW8KgwqDCoCA3LjE3OTI1MF0gbWVzb24tZHJtIGZmOTAwMDAwLnZwdTogQ1ZCUyBP
-dXRwdXQgY29ubmVjdG9yIG5vdCBhdmFpbGFibGUKPj4+Cj4+PiBhbmQgdGhhdCdzIGl0Lgo+Pj4K
-Pj4+IEFmdGVyIHNvbWUgcG9raW5nIGFyb3VuZCwgSSBmaWd1cmVkIG91dCB0aGF0IGl0IGlzIGlu
-IHRoZQo+Pj4gbWVzb24tZHctaGRtaSBtb2R1bGUgdGhhdCB0aGUgQ1BVIHdhcyBoYW5naW5nLi4u
-Cj4+Cj4+IEknbGwgYmUgaW50ZXJlc3RlZCBpbiBoYXZpbmcgeW91ciBrZXJuZWwgY29uZmlnLCBJ
-IG5ldmVyIGhhZCBzdWNoIHJlcG9ydAo+PiBzaW5jZSBJIGVuYWJsZWQgSERNSSBzdXBwb3J0IGlu
-IFUtQm9vdCBhIGZldyB5ZWFycyBhZ28uCj4gCj4gWWVhaCwgSSB3YXMgcHJldHR5IHN1cnByaXNl
-ZCB0b28uIEkgaGF2ZSBhIGh1bmNoIHRoYXQgdGhpcyBpcyBjYXVzZWQKPiBieSB1LWJvb3QgRFQg
-ZXhwb3NpbmcgYW4gZXh0cmEgTU1JTyByZWdpb24gKGR1YmJlZCAiaGhpIikgdGhhdCBnZXRzCj4g
-cGlja2VkIHVwIGJ5IHRoZSBrZXJuZWwgZHJpdmVyLiAqTm90KiBoYXZpbmcgdGhlIHJlZ2lvbiBp
-biB0aGUgRFQKPiAoYXMgaW4gdGhlIGtlcm5lbCdzIHZlcnNpb24gb2YgdGhlIHNhbWUgRFQpIG1h
-a2VzIHRoZSBkcml2ZXIgd29yawo+IGV4YWN0bHkgb25jZToKClllYWgsIHdlIHVzZWQgdGhpcyB0
-byBzaW1wbGlmeSBvdXIgdS1ib290IGRyaXZlciwgdGhlIGJpbmRpbmdzIHdlcmUgbWlzc2luZyB0
-aGlzCm1lbW9yeSBzcGFjZSwgaXQgc2hvdWxkIGJlIGZpeGVkIGF0IHNvbWUgcG9pbnQgYW5kIHN0
-b3AgcmVseWluZyBvbiB0aGUKbWFpbiBkcm0gZHJpdmVyIHRvIGdldCB0aGlzIG1lbW9yeSBzcGFj
-ZS4KCj4gCj4gRGVjb21waWxlZCB1LWJvb3QgRFQ6Cj4gCj4gwqDCoMKgwqDCoMKgwqAgaGRtaS10
-eEAwIHsKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29tcGF0aWJsZSA9ICJhbWxv
-Z2ljLG1lc29uLWcxMmEtZHctaGRtaSI7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHJlZyA9IDwweDAwIDB4MDAgMHgwMCAweDEwMDAwIDB4MDAgMHgzYzAwMCAweDAwIDB4MTAwMD47
-Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFsuLi5dCj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHJlZy1uYW1lcyA9ICJoZG1pdHhcMGhoaSI7Cj4gCj4gRGVjb21waWxl
-ZCBrZXJuZWwgRFQ6Cj4gCj4gwqDCoMKgwqDCoMKgwqAgaGRtaS10eEAwIHsKPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgY29tcGF0aWJsZSA9ICJhbWxvZ2ljLG1lc29uLWcxMmEtZHct
-aGRtaSI7Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJlZyA9IDwweDAwIDB4MDAg
-MHgwMCAweDEwMDAwPjsKPiAKPiBUaGVyZSBzZWVtIHRvIGJlIHNvbWUgY29tcGxleCBpbnRlcmFj
-dGlvbnMgYmV0d2VlbiB0aGUgSERNSSBkcml2ZXIKPiBhbmQgdGhlIERSTSBkcml2ZXIsIGJvdGgg
-dXNpbmcgdGhpcyBNTUlPIHJlZ2lvbiBhdCBhbnkgZ2l2ZW4gdGltZS4KPiBCdXQgSSBhZG1pdCBu
-b3QgaGF2aW5nIHRyaWVkIHZlcnkgaGFyZCB0byBmb2xsb3cgdGhlIERSTSBtYXplIG9mCj4gaW50
-cmljYXRlIGNhbGxiYWNrcy4gQWxsIEkgbmVlZGVkIHdhcyB0aGlzIGJveCB0byByZWxpYWJseSBi
-b290IHdpdGgKPiB0aGUgZmlybXdhcmUtcHJvdmlkZWQgRFQuCgpZZXMsIHRoZSBIRE1JIHN0dWZm
-IGhhcyBzb21lIGRlcGVuZGVuY2llcyBvbiB0aGUgRFJNIGRpc3BsYXkgc3Vic3lzdGVtLgpJIHBs
-YW4gdG8gcmVvcmdhbml6ZSBzdHVmZiBidXQgSSBsYWNrIHRpbWUuLi4KCkFueXdheSwgdGhhbmtz
-LgoKQXBwbHlpbmcgdG8gZHJtLW1pc2MtbmV4dAoKTmVpbAoKPiAKPiBZb3UgY2FuIGZpbmQgYSBy
-ZWFzb25hYmx5IHJlY2VudCB2ZXJzaW9uIG9mIG15IGNvbmZpZyBhdCBbMV0uCj4gCj4gwqDCoMKg
-wqDCoMKgwqAgTS4KPiAKPiBbMV0gaHR0cDovL3d3dy5sb2VuLmZyL3RtcC9Db25maWcuZnVsbC1h
-cm02NAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
-LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
-Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Oct 29, 2020 at 02:33:47PM +0100, Daniel Vetter wrote:
+> These are leftovers from 13aff184ed9f ("drm/qxl: remove dead qxl fbdev
+> emulation code").
+> 
+> v2: Somehow these structs provided the struct qxl_device pre-decl,
+> reorder the header to not anger compilers.
+> 
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: virtualization@lists.linux-foundation.org
+> Cc: spice-devel@lists.freedesktop.org
+
+Entire series applied to drm-misc-next.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/qxl/qxl_drv.h | 18 ++----------------
+>  1 file changed, 2 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_drv.h
+> index 3602e8b34189..6239626503ef 100644
+> --- a/drivers/gpu/drm/qxl/qxl_drv.h
+> +++ b/drivers/gpu/drm/qxl/qxl_drv.h
+> @@ -166,20 +166,6 @@ struct qxl_drm_image {
+>  	struct list_head chunk_list;
+>  };
+>  
+> -struct qxl_fb_image {
+> -	struct qxl_device *qdev;
+> -	uint32_t pseudo_palette[16];
+> -	struct fb_image fb_image;
+> -	uint32_t visual;
+> -};
+> -
+> -struct qxl_draw_fill {
+> -	struct qxl_device *qdev;
+> -	struct qxl_rect rect;
+> -	uint32_t color;
+> -	uint16_t rop;
+> -};
+> -
+>  /*
+>   * Debugfs
+>   */
+> @@ -188,8 +174,6 @@ struct qxl_debugfs {
+>  	unsigned int num_files;
+>  };
+>  
+> -int qxl_debugfs_fence_init(struct qxl_device *rdev);
+> -
+>  struct qxl_device {
+>  	struct drm_device ddev;
+>  
+> @@ -271,6 +255,8 @@ struct qxl_device {
+>  
+>  #define to_qxl(dev) container_of(dev, struct qxl_device, ddev)
+>  
+> +int qxl_debugfs_fence_init(struct qxl_device *rdev);
+> +
+>  extern const struct drm_ioctl_desc qxl_ioctls[];
+>  extern int qxl_max_ioctl;
+>  
+> -- 
+> 2.28.0
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
