@@ -2,47 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EAB12B5E12
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 12:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B88172B5E2D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 12:23:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37FAB6E183;
-	Tue, 17 Nov 2020 11:13:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 783CC6E1A4;
+	Tue, 17 Nov 2020 11:22:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A9056E183
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:13:40 +0000 (UTC)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
- [209.85.218.51])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id B4E27221FB
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605611620;
- bh=V0x+1pEXNBlvGUPnKAReGNwIfbkuR60mZL6nJ7gbrnQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=dv0evZp0cTeljFd/OiTsuDTJEZxffLbMi1q++hlVJwJe8P/rJ9MyRD7mYisMeI2pN
- 2Cabpf7UjyeGWM5UaQEnsn9EIG+83vLeFylFZSYEgvrpWT/hkfXOwbLzgpQfw/w+2Y
- UmOFA7EIONfb1VILj3n4OXFQrM/7/k/uBL+fqbn8=
-Received: by mail-ej1-f51.google.com with SMTP id f20so28870955ejz.4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 03:13:39 -0800 (PST)
-X-Gm-Message-State: AOAM531BMhGQEn88F1hlLojUhUzEl3mErn1LAea3MJBck3/wbmCvOqEr
- OfHOJLuyBd883r8nc0qus3gnWGtC8OAjIsrtYrM=
-X-Google-Smtp-Source: ABdhPJymrgfvDJlgkyYhZ5Wb8RW+1mCW3euZsQjWepsg9t0L4FnHN9gM+xXqCtB9tgGllPRjsB6hbrWMq4BPBPwvF+E=
-X-Received: by 2002:a17:906:491a:: with SMTP id
- b26mr19730991ejq.385.1605611618119; 
- Tue, 17 Nov 2020 03:13:38 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C16146E1A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:22:55 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kez4X-0007Gt-Td; Tue, 17 Nov 2020 12:22:53 +0100
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1kez4X-00088v-L0; Tue, 17 Nov 2020 12:22:53 +0100
+Message-ID: <0c6a3ced0012d05bb33bb3ea765de359e480ad4a.camel@pengutronix.de>
+Subject: Re: [PATCH 41/42] gpu/ipu-v3/ipu-di: Strip out 2 unused
+ 'di_sync_config' entries
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Lee Jones <lee.jones@linaro.org>
+Date: Tue, 17 Nov 2020 12:22:53 +0100
+In-Reply-To: <20201116174112.1833368-42-lee.jones@linaro.org>
+References: <20201116174112.1833368-1-lee.jones@linaro.org>
+ <20201116174112.1833368-42-lee.jones@linaro.org>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-References: <20201116181400.543718-1-krzk@kernel.org>
- <3e91fe4dd8437ffbb02bdae85c7028dafc356df8.camel@pengutronix.de>
-In-Reply-To: <3e91fe4dd8437ffbb02bdae85c7028dafc356df8.camel@pengutronix.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Date: Tue, 17 Nov 2020 12:13:26 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPeHAGF8iu8=D=n9Zrqurc7KWumw+d3bL2GoBWVJC7wsUw@mail.gmail.com>
-Message-ID: <CAJKOXPeHAGF8iu8=D=n9Zrqurc7KWumw+d3bL2GoBWVJC7wsUw@mail.gmail.com>
-Subject: Re: [PATCH] drm/imx: depend on COMMON_CLK to fix compile tests
-To: Philipp Zabel <p.zabel@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,44 +50,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Nov 2020 at 11:56, Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> On Mon, 2020-11-16 at 19:14 +0100, Krzysztof Kozlowski wrote:
-> > The iMX DRM drivers use Common Clock Framework thus they cannot be built
-> > on platforms without it (e.g. compile test on MIPS with RALINK and
-> > SOC_RT305X):
-> >
-> >     /usr/bin/mips-linux-gnu-ld: drivers/gpu/drm/imx/imx-ldb.o: in function `imx_ldb_encoder_disable':
-> >     imx-ldb.c:(.text+0x400): undefined reference to `clk_set_parent'
-> >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
->
-> Thank you, but could this be added to
->
-> config DRM_IMX_LDB
->
-> instead?
->
-> The core DRM_IMX code does not use the Common Clock Framework directly.
-> DRM_IMX_TVE already depends on COMMON_CLK because it implements a clock.
-
-You're right, I even wanted to add it there but somehow it landed in
-the main entry... Thanks, I'll send a v2.
-
-Best regards,
-Krzysztof
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgTGVlLAoKT24gTW9uLCAyMDIwLTExLTE2IGF0IDE3OjQxICswMDAwLCBMZWUgSm9uZXMgd3Jv
+dGU6Cj4gVGhleSdyZSB0YWtpbmcgdXAgdG9vIG11Y2ggc3BhY2Ugb24gdGhlIHN0YWNrLgo+IAo+
+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+IAo+ICBk
+cml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmM6IEluIGZ1bmN0aW9uIOKAmGlwdV9kaV9zeW5jX2Nv
+bmZpZ19ub25pbnRlcmxhY2Vk4oCZOgo+ICBkcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmM6Mzkx
+OjE6IHdhcm5pbmc6IHRoZSBmcmFtZSBzaXplIG9mIDEwNjQgYnl0ZXMgaXMgbGFyZ2VyIHRoYW4g
+MTAyNCBieXRlcyBbLVdmcmFtZS1sYXJnZXItdGhhbj1dCj4gCj4gQ2M6IFBoaWxpcHAgWmFiZWwg
+PHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IFNhc2NoYSBIYXVlciA8cy5oYXVlckBwZW5n
+dXRyb25peC5kZT4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25l
+ZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRyaXZl
+cnMvZ3B1L2lwdS12My9pcHUtZGkuYyB8IDQgLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBkZWxl
+dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvaXB1LXYzL2lwdS1kaS5jIGIv
+ZHJpdmVycy9ncHUvaXB1LXYzL2lwdS1kaS5jCj4gaW5kZXggYjRhMzFkNTA2ZmNjZi4uZTYxN2Y2
+MGFmZWVhMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmMKPiArKysg
+Yi9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmMKPiBAQCAtMzEwLDEwICszMTAsNiBAQCBzdGF0
+aWMgdm9pZCBpcHVfZGlfc3luY19jb25maWdfbm9uaW50ZXJsYWNlZChzdHJ1Y3QgaXB1X2RpICpk
+aSwKPiAgCQkJLyogdW51c2VkICovCj4gIAkJfSAsIHsKPiAgCQkJLyogdW51c2VkICovCj4gLQkJ
+fSAsIHsKPiAtCQkJLyogdW51c2VkICovCj4gLQkJfSAsIHsKPiAtCQkJLyogdW51c2VkICovCj4g
+IAkJfSwKPiAgCX07Cj4gIAkvKiBjYW4ndCB1c2UgIzcgYW5kICM4IGZvciBsaW5lIGFjdGl2ZSBh
+bmQgcGl4ZWwgYWN0aXZlIGNvdW50ZXJzICovCgpUaGFuayB5b3UsIGFwcGxpZWQgdG8gaW14LWRy
+bS9uZXh0LgoKcmVnYXJkcwpQaGlsaXBwCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
