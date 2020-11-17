@@ -1,43 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8392B6A65
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:38:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0B22B6AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:54:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED8B689B22;
-	Tue, 17 Nov 2020 16:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C0AA899B7;
+	Tue, 17 Nov 2020 16:54:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
- by gabe.freedesktop.org (Postfix) with ESMTP id F38AA89B22
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:38:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id DF4002A6045;
- Tue, 17 Nov 2020 17:38:25 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id WGGLmpG98QEg; Tue, 17 Nov 2020 17:38:25 +0100 (CET)
-Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
- [188.63.174.212])
- by netline-mail3.netline.ch (Postfix) with ESMTPSA id 3BD5E2A6042;
- Tue, 17 Nov 2020 17:38:25 +0100 (CET)
-Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
- (envelope-from <michel@daenzer.net>)
- id 1kf3zs-000h5S-DP; Tue, 17 Nov 2020 17:38:24 +0100
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-References: <20201117140615.255887-1-christian.koenig@amd.com>
- <20201117140615.255887-3-christian.koenig@amd.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH 3/3] drm/ttm: make up to 90% of system memory available
-Message-ID: <3ac0fdcd-9e2e-fcfa-aba2-e3840801f25d@daenzer.net>
-Date: Tue, 17 Nov 2020 17:38:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388A6899B7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:54:26 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id p8so23888368wrx.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 08:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=obDjCnbNhkja6ht5vGPPA3q8r5DdxQxiGC3gW13kKE0=;
+ b=Ohkk/wJx8CLXtMW13zUWZeS+hKUcbtjEsRNjd+r5qzXwEfeNKHkSgAbxziQdDK6OvZ
+ cvdmeeYCpl5IuS20knAiqzBILStMko+5G/0Hdby3lD48x2G9a8QDVhJrKt2mcgi0yeBH
+ q2ZGVMHFiIUR/EZgv7leo/RzOh/24V29ZZyLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=obDjCnbNhkja6ht5vGPPA3q8r5DdxQxiGC3gW13kKE0=;
+ b=m83BTULFppzjBoX9t3nT4oDACoTqq0J5ZpY1iEpYs0WHjktKxjcxeGjvO6ZlTL406W
+ m3V47bgfhKa5twAAqtiGSdK55l5EuiU8HUyeC2Mhcgt4wIgOhYTPsn6ZEVBfMKjnW3oy
+ U+GqhviAj+J3X+FNCOEb/QKRJcIgwHj8ZbJQsYoP/fGxceiOkaLEJ30TLP5H0cgxq/s7
+ R2F1LGJQfcAUOkLRe327J0c3+xlpCUFHnzWQ91eN/kUQM/9F6YlqReq4cEg82BELvNAb
+ aVJVyLXbcx59Wimk3utY65XLk5cnYXHyUyona3Wlil8wFcuFAAbuKI+SZgZEosrxn8bN
+ IqNw==
+X-Gm-Message-State: AOAM533l7EAMm6DAMBU/C6xEvlnuNYDcDfYf9Et6d6N+eTQLu1AYQbKp
+ rRCgR9Ix4mS+ejRDN8zdvjlSAA==
+X-Google-Smtp-Source: ABdhPJz9pnfU+7oqI3IHAq8bH+mv2njpRxhjlGEHDNLhaxx2ZJ//DrG+R751UR1qDhuOFtsWYIJM9Q==
+X-Received: by 2002:a5d:5222:: with SMTP id i2mr438099wra.247.1605632064755;
+ Tue, 17 Nov 2020 08:54:24 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q5sm25769589wrf.41.2020.11.17.08.54.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Nov 2020 08:54:23 -0800 (PST)
+Date: Tue, 17 Nov 2020 17:54:21 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Sebastian Reichel <sre@kernel.org>
+Subject: Re: [PATCH 08/10] drm/fb-helper: Restore damage area upon errors
+Message-ID: <20201117165421.GL401619@phenom.ffwll.local>
+References: <20201116200437.17977-1-tzimmermann@suse.de>
+ <20201116200437.17977-9-tzimmermann@suse.de>
+ <20201116205216.GH401619@phenom.ffwll.local>
+ <20201117151446.bqbhbt2tqijjmj2h@earth.universe>
 MIME-Version: 1.0
-In-Reply-To: <20201117140615.255887-3-christian.koenig@amd.com>
-Content-Language: en-CA
+Content-Disposition: inline
+In-Reply-To: <20201117151446.bqbhbt2tqijjmj2h@earth.universe>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,33 +67,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, Felix.Kuehling@amd.com, sroland@vmware.com,
- dri-devel@lists.freedesktop.org, linux-graphics-maintainer@vmware.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, sam@ravnborg.org,
+ christian.koenig@amd.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0xMS0xNyAzOjA2IHAubS4sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gSW5jcmVh
-c2UgdGhlIGFtbW91bnQgb2Ygc3lzdGVtIG1lbW9yeSBkcml2ZXJzIGNhbiB1c2UgdG8gYWJvdXQg
-OTAlIG9mCj4gdGhlIHRvdGFsIGF2YWlsYWJsZS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3Rp
-YW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL2dw
-dS9kcm0vdHRtL3R0bV9iby5jIHwgMiArLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90dG0v
-dHRtX2JvLmMgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5jCj4gaW5kZXggYTk1ODEzNWNi
-M2ZlLi4wYTkzZGY5M2RiYTQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-Ym8uYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMKPiBAQCAtMTI2Nyw3ICsx
-MjY3LDcgQEAgc3RhdGljIGludCB0dG1fYm9fZ2xvYmFsX2luaXQodm9pZCkKPiAgIAkgKiB0aGUg
-YXZhaWxhYmxlIHN5c3RlbSBtZW1vcnkuCj4gICAJICovCj4gICAJbnVtX3BhZ2VzID0gKHU2NClz
-aS50b3RhbHJhbSAqIHNpLm1lbV91bml0Owo+IC0JbnVtX3BhZ2VzID0gKG51bV9wYWdlcyAqIDUw
-IC8gMTAwKSA+PiBQQUdFX1NISUZUOwo+ICsJbnVtX3BhZ2VzID0gKG51bV9wYWdlcyAqIDkwIC8g
-MTAwKSA+PiBQQUdFX1NISUZUOwo+ICAgCj4gICAJLyogQnV0IGZvciBETUEzMiB3ZSBsaW1pdCBv
-dXJzZWxmIHRvIG9ubHkgdXNlIDJHaUIgbWF4aW11bS4gKi8KPiAgIAludW1fZG1hMzJfcGFnZXMg
-PSAodTY0KShzaS50b3RhbHJhbSAtIHNpLnRvdGFsaGlnaCkgKiBzaS5tZW1fdW5pdDsKPiAKClRo
-aXMgc2hvdWxkIHVwZGF0ZSB0aGUgY29tbWVudCBhZGRlZCBpbiBwYXRjaCAxLgoKCi0tIApFYXJ0
-aGxpbmcgTWljaGVsIETDpG56ZXIgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgaHR0cHM6
-Ly9yZWRoYXQuY29tCkxpYnJlIHNvZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAgICAgfCAgICAg
-ICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3BlcgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Tue, Nov 17, 2020 at 04:14:46PM +0100, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Mon, Nov 16, 2020 at 09:52:16PM +0100, Daniel Vetter wrote:
+> > On Mon, Nov 16, 2020 at 09:04:35PM +0100, Thomas Zimmermann wrote:
+> > > If the damage handling fails, restore the damage area. The next invocation
+> > > of the damage worker will then perform the update.
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > ---
+> > >  drivers/gpu/drm/drm_fb_helper.c | 23 ++++++++++++++++++++---
+> > >  1 file changed, 20 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> > > index 2e1a335bafd2..13b65dad2ca8 100644
+> > > --- a/drivers/gpu/drm/drm_fb_helper.c
+> > > +++ b/drivers/gpu/drm/drm_fb_helper.c
+> > > @@ -431,11 +431,28 @@ static void drm_fb_helper_damage_work(struct work_struct *work)
+> > >  	if (helper->buffer) {
+> > >  		ret = drm_fb_helper_damage_blit(helper, &clip_copy);
+> > >  		if (ret)
+> > > -			return;
+> > > +			goto err;
+> > >  	}
+> > >  
+> > > -	if (helper->fb->funcs->dirty)
+> > > -		helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
+> > > +	if (helper->fb->funcs->dirty) {
+> > > +		ret = helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
+> > > +		if (ret)
+> > > +			goto err;
+> > 
+> > I think this is unexpected enough that we should put some drm error
+> > printing here I think.
+> 
+> Note, that the dirty framebuffer routines are used by the
+> framebuffer console. Printing warnings means another line
+> in the framebuffer console and thus another call to the
+> dirty routines. Assuming the problem does not get solved
+> magically the system will be busy printing warnings forever.
+> I have been through that fun while working on the OMAP DSI
+> command mode patches and I suggest to only do ratelimited
+> logging in the code related to damage tracking.
+
+Excellent point. Maybe _once is good enough even, perhaps with a dump of
+the entire atomic state included for debugging (in case it's transient or
+something like that). Past that there's nothing we can do anyway, and most
+likely it's just hurting.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
