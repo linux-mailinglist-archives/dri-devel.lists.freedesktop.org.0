@@ -1,40 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603C42B6988
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:11:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 451742B69F1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7D86E04B;
-	Tue, 17 Nov 2020 16:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 456816E044;
+	Tue, 17 Nov 2020 16:22:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B776E044
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:11:38 +0000 (UTC)
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 1DC292417E;
- Tue, 17 Nov 2020 16:11:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605629498;
- bh=Fk1eo6iNHwJ1CiFxU3whdxNYrOjtSVYGGXNBFsGI28g=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V2jfcer2s9oxO2FvjYqYixdokq/05Puvkr27pQt9yP1/IsMGAG6GvN8vcgrETTtnA
- Zp0ZlhYQGu3Mv90L2Jp8sggJ7//yqa+ZqGJ9xfq+ETWJ+6JVexLWjRD4OFltwxel7e
- qDMc7vNcXr9zvk3RVf764rP9EtI1RNoMWVpeSGkU=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH 5.9 230/255] drm/gma500: Fix out-of-bounds access to struct
- drm_device.vblank[]
-Date: Tue, 17 Nov 2020 14:06:10 +0100
-Message-Id: <20201117122150.132434620@linuxfoundation.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201117122138.925150709@linuxfoundation.org>
-References: <20201117122138.925150709@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D1236E044
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:22:14 +0000 (UTC)
+IronPort-SDR: rdX5hwoKmZKw7hUcVOi2jhmq6fUjNvzoRz+9AwPY1R4/aOzYr2Rsc0bZzorZ42isowidyHJBUh
+ IJ7YHD/4HzQA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="255669059"
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; d="scan'208";a="255669059"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2020 08:22:12 -0800
+IronPort-SDR: CoGzXPEVNbKmnYjIVbZO9kezAllEJyz0IDtWk8i0pxuD6cgse6FPzRuCUZYsNgnXmjHipt4DZj
+ c/reFg8COcNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; d="scan'208";a="367935190"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by FMSMGA003.fm.intel.com with SMTP; 17 Nov 2020 08:22:07 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 17 Nov 2020 18:22:06 +0200
+Date: Tue, 17 Nov 2020 18:22:06 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 01/10] drm/fb-helper: Call dirty helper after writing to
+ fbdev
+Message-ID: <20201117162206.GF6112@intel.com>
+References: <20201116200437.17977-1-tzimmermann@suse.de>
+ <20201116200437.17977-2-tzimmermann@suse.de>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201116200437.17977-2-tzimmermann@suse.de>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,133 +54,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- Alan Cox <alan@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: airlied@linux.ie, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ virtualization@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
+ sam@ravnborg.org, christian.koenig@amd.com, Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+On Mon, Nov 16, 2020 at 09:04:28PM +0100, Thomas Zimmermann wrote:
+> If fbdev uses a shadow framebuffer, call the damage handler. Otherwise
+> the update might not make it to the screen.
+> =
 
-commit 06ad8d339524bf94b89859047822c31df6ace239 upstream.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 222ec45f4c69 ("drm/fb_helper: Support framebuffers in I/O memory")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: virtualization@lists.linux-foundation.org
+> ---
+>  drivers/gpu/drm/drm_fb_helper.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> =
 
-The gma500 driver expects 3 pipelines in several it's IRQ functions.
-Accessing struct drm_device.vblank[], this fails with devices that only
-have 2 pipelines. An example KASAN report is shown below.
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_hel=
+per.c
+> index 25edf670867c..ee1a19e22df2 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -2189,6 +2189,9 @@ static ssize_t drm_fbdev_fb_write(struct fb_info *i=
+nfo, const char __user *buf,
+>  	if (ret > 0)
+>  		*ppos +=3D ret;
+>  =
 
-  [   62.267688] ==================================================================
-  [   62.268856] BUG: KASAN: slab-out-of-bounds in psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.269450] Read of size 1 at addr ffff8880012bc6d0 by task systemd-udevd/285
-  [   62.269949]
-  [   62.270192] CPU: 0 PID: 285 Comm: systemd-udevd Tainted: G            E     5.10.0-rc1-1-default+ #572
-  [   62.270807] Hardware name:  /DN2800MT, BIOS MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
-  [   62.271366] Call Trace:
-  [   62.271705]  dump_stack+0xae/0xe5
-  [   62.272180]  print_address_description.constprop.0+0x17/0xf0
-  [   62.272987]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.273474]  __kasan_report.cold+0x20/0x38
-  [   62.273989]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.274460]  kasan_report+0x3a/0x50
-  [   62.274891]  psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
-  [   62.275380]  drm_irq_install+0x131/0x1f0
-  <...>
-  [   62.300751] Allocated by task 285:
-  [   62.301223]  kasan_save_stack+0x1b/0x40
-  [   62.301731]  __kasan_kmalloc.constprop.0+0xbf/0xd0
-  [   62.302293]  drmm_kmalloc+0x55/0x100
-  [   62.302773]  drm_vblank_init+0x77/0x210
+> +	if (ret > 0)
+> +		drm_fb_helper_dirty(info, 0, 0, info->var.xres, info->var.yres);
 
-Resolve the issue by only handling vblank entries up to the number of
-CRTCs.
+Should that rather be 0->{x,y}res_virtual or {x,y}offset->{x,y}res?
 
-I'm adding a Fixes tag for reference, although the bug has been present
-since the driver's initial commit.
+> +
+>  	return ret ? ret : err;
+>  }
+>  =
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
-Cc: Alan Cox <alan@linux.intel.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org#v3.3+
-Link: https://patchwork.freedesktop.org/patch/msgid/20201105190256.3893-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> -- =
 
----
- drivers/gpu/drm/gma500/psb_irq.c |   34 ++++++++++++----------------------
- 1 file changed, 12 insertions(+), 22 deletions(-)
+> 2.29.2
+> =
 
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -347,6 +347,7 @@ int psb_irq_postinstall(struct drm_devic
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
-+	unsigned int i;
- 
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
- 
-@@ -359,20 +360,12 @@ int psb_irq_postinstall(struct drm_devic
- 	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
- 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
- 
--	if (dev->vblank[0].enabled)
--		psb_enable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[1].enabled)
--		psb_enable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[2].enabled)
--		psb_enable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
--	else
--		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	for (i = 0; i < dev->num_crtcs; ++i) {
-+		if (dev->vblank[i].enabled)
-+			psb_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+		else
-+			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	}
- 
- 	if (dev_priv->ops->hotplug_enable)
- 		dev_priv->ops->hotplug_enable(dev, true);
-@@ -385,6 +378,7 @@ void psb_irq_uninstall(struct drm_device
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
- 	unsigned long irqflags;
-+	unsigned int i;
- 
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
- 
-@@ -393,14 +387,10 @@ void psb_irq_uninstall(struct drm_device
- 
- 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
- 
--	if (dev->vblank[0].enabled)
--		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[1].enabled)
--		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
--
--	if (dev->vblank[2].enabled)
--		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	for (i = 0; i < dev->num_crtcs; ++i) {
-+		if (dev->vblank[i].enabled)
-+			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
-+	}
- 
- 	dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
- 				  _PSB_IRQ_MSVDX_FLAG |
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
+-- =
 
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
