@@ -1,53 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3400D2B7107
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 22:40:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E912B715F
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 23:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34CC36E0EE;
-	Tue, 17 Nov 2020 21:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14FAA6E12C;
+	Tue, 17 Nov 2020 22:19:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFA3F6E0EE
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 21:40:36 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id s13so34394wmh.4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 13:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bIB8bSz5TraZ7JKJUYQ73ZoAc9q7vZwvYRJWISiBqBQ=;
- b=iXN5OGOEce9eSx0uthv8i7jmX/dUEeeeOH+v++gtLWaFaVSgTYYSmfFcFUpsPHiU+8
- V/lmI440YRR3ucFQfF7mntZjhtVFogNNmPGERlUzyWKcZRCaf8g//2vAspg4Mq7gObWm
- pGz4hunk50HVfSj754tOagTFGcMjTGn3nnJvs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bIB8bSz5TraZ7JKJUYQ73ZoAc9q7vZwvYRJWISiBqBQ=;
- b=GJTAps1dtixoPMIjrSx2VjA4q92Q8IQwhRsGEHetv1CiDQ8PhVcim0bm7RNS2HqqKj
- j6+Q0WF1dFqqo0gFGJhSmOCAFSefctrIXAWw+aVNZ1dmMnpTJBaYCqPBRjRMUSX8gwcJ
- hbph/cDR2n8VLuZp0CMXPhgrX22Xmf6o8PQdw3EEfcpFLa+qEZxcA9Pky3Ib/5SZD2R5
- +vU2MTEdvxFlpJ9BrZpS5JD98Oy7F19ihk3QIB0NPNix4DA+EFfSHX8ibN56QUp6tKdZ
- mOe2PrxGKzyzCyTIY7kGqF4h1isTtutC1v4cOQESMbPNB6cT+Y4mBP75UZcPTpAPvjHI
- lxLg==
-X-Gm-Message-State: AOAM53265RvDXOKZ56Yg9lFaj5WX0/vpA/njl/BjPCtdelnkfFIQl8s8
- 1TDAPD+hvhK9r2P6EWDolSXVMcAWyc1eNA==
-X-Google-Smtp-Source: ABdhPJykdfp/Bf+SbOzNmwEfj4qe9pzUAYSo03p7aztZXC8gO+kDOaSj2NBqEbRRaNv7cxNLEyOfBw==
-X-Received: by 2002:a1c:3d6:: with SMTP id 205mr1101247wmd.85.1605649235345;
- Tue, 17 Nov 2020 13:40:35 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w17sm5438932wru.82.2020.11.17.13.40.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 13:40:34 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] char/agp: Disable frontend without CONFIG_DRM_LEGACY
-Date: Tue, 17 Nov 2020 22:40:29 +0100
-Message-Id: <20201117214029.591896-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.29.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 542036E12C;
+ Tue, 17 Nov 2020 22:19:18 +0000 (UTC)
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net
+ (c-67-180-217-166.hsd1.ca.comcast.net [67.180.217.166])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 17315206B6;
+ Tue, 17 Nov 2020 22:19:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605651557;
+ bh=GHrSTxL7y3OT9VIhqMi4Mq1l4vD6ZvPCLHA7AVK0P+Q=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=0gbGqcecJOh+OuHZeLlQZ3w2i+xeQKPcOORZrxJCrb/uEJlakRM+cizA6CGkYf6Hr
+ Wji5N+xTP+/p8dUX/3ehUQtUgvOr/0NqFj7YTAjLIkQTaOuH6fljIuYUVsj29DdmRw
+ +Vwr/jq1XwjWyrM1HI/eEAvNkAFeEKOXVLBBoVJM=
+Date: Tue, 17 Nov 2020 14:19:14 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v4 00/27]Fix several bad kernel-doc markups
+Message-ID: <20201117141914.73056d1f@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <cover.1605521731.git.mchehab+huawei@kernel.org>
+References: <cover.1605521731.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,63 +45,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Vetter <daniel.vetter@intel.com>
+Cc: Juri Lelli <juri.lelli@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+ linux-fbdev@vger.kernel.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Sebastian Reichel <sre@kernel.org>, Ben Segall <bsegall@google.com>,
+ linux-mm@kvack.org, "David S.
+ Miller" <davem@davemloft.net>, linux-kselftest@vger.kernel.org,
+ Evgeniy Polyakov <zbr@ioremap.net>, netdev@vger.kernel.org,
+ Richard Gong <richard.gong@linux.intel.com>, Shuah Khan <shuah@kernel.org>,
+ linux-s390@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
+ Anton Vorontsov <anton@enomsg.org>, Russell King <linux@armlinux.org.uk>,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
+ Matt Porter <mporter@kernel.crashing.org>, linux-ext4@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, intel-gfx@lists.freedesktop.org,
+ Colin Cross <ccross@android.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Will Drewry <wad@chromium.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, linux-nfs@vger.kernel.org,
+ Tony Luck <tony.luck@intel.com>, Theodore Ts'o <tytso@mit.edu>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Andy Lutomirski <luto@amacapital.net>, Alexandre Bounine <alex.bou9@gmail.com>,
+ target-devel@vger.kernel.org, Jan Kara <jack@suse.com>,
+ linux-fsdevel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Bristot de Oliveira <bristot@redhat.com>,
+ Anna Schumaker <anna.schumaker@netapp.com>, Mike Rapoport <rppt@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's probably full of bugs ready for exploiting by userspace. And
-there's not going to be any userspace for this without any of the drm
-legacy drivers enabled too. So just couple it together.
+On Mon, 16 Nov 2020 11:17:56 +0100 Mauro Carvalho Chehab wrote:
+> Kernel-doc has always be limited to a probably bad documented
+> rule:
+> 
+> The kernel-doc markups should appear *imediatelly before* the
+> function or data structure that it documents.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Adam Jackson <ajax@redhat.com>
----
- drivers/char/agp/Makefile | 6 +++++-
- drivers/char/agp/agp.h    | 5 +++++
- 2 files changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/char/agp/Makefile b/drivers/char/agp/Makefile
-index cb2497d157f6..90ed8c789e48 100644
---- a/drivers/char/agp/Makefile
-+++ b/drivers/char/agp/Makefile
-@@ -1,7 +1,11 @@
- # SPDX-License-Identifier: GPL-2.0
--agpgart-y := backend.o frontend.o generic.o isoch.o
-+agpgart-y := backend.o generic.o isoch.o
- 
-+ifeq ($(CONFIG_DRM_LEGACY),y)
- agpgart-$(CONFIG_COMPAT)	+= compat_ioctl.o
-+agpgart-y			+= frontend.o
-+endif
-+
- 
- obj-$(CONFIG_AGP)		+= agpgart.o
- obj-$(CONFIG_AGP_ALI)		+= ali-agp.o
-diff --git a/drivers/char/agp/agp.h b/drivers/char/agp/agp.h
-index 4eb1c772ded7..bb09d64cd51e 100644
---- a/drivers/char/agp/agp.h
-+++ b/drivers/char/agp/agp.h
-@@ -186,8 +186,13 @@ int agp_add_bridge(struct agp_bridge_data *bridge);
- void agp_remove_bridge(struct agp_bridge_data *bridge);
- 
- /* Frontend routines. */
-+#if IS_ENABLED(CONFIG_DRM_LEGACY)
- int agp_frontend_initialize(void);
- void agp_frontend_cleanup(void);
-+#else
-+static inline int agp_frontend_initialize(void) { return 0; }
-+static inline void agp_frontend_cleanup(void) {}
-+#endif
- 
- /* Generic routines. */
- void agp_generic_enable(struct agp_bridge_data *bridge, u32 mode);
--- 
-2.29.2
-
+Applied 1-3 to net-next, thanks!
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
