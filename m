@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1642B7028
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 21:35:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2772B703B
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 21:37:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 258EE6E0A0;
-	Tue, 17 Nov 2020 20:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3156E067;
+	Tue, 17 Nov 2020 20:37:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBCB6E067
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 20:35:30 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id u18so31946864lfd.9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 12:35:30 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE996E067
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 20:37:06 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id x9so25842261ljc.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 12:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=CUqG2S3O5iVKKIdkeqzaWrGNBNP8isqkl4rsycIm70U=;
- b=oWhwGjqYt6rOLIpCStPQBXV8QWtZnwUn/hQGu52cU3RUIPT5wxF/peJnuiQHp87yzn
- q1KV/E/rxa6f2f3yZOqY0DAEe+DMtfwyiGPz8ajXUwPF5KpNzzEjLuUcOOsMpfFBnRlk
- cJROJM55gDbZHFVVLUmOc0MjHJKTec80sVQOWzihCtp9FIDskjS0Eo/TIrpzJpNhlgaS
- XnSUsK2555TuXhrzI5tYV6En9AkpSonFJSuGXk1n8kJJXUOVYR4pAFn5oQqEbSAqCWqW
- E1ER1hg6dzTIv1qln8i5nHRQYA05BHveho1X0IOLmu735CVMH6OzBxtn/zeHBY4JwQkX
- 9nrw==
+ bh=VBawTBZeGDei1h6v3qT5rtQtXBaTES0YnmaYqJM2GNs=;
+ b=D+N/vgCe2QB5LLybajWeW3aLxWfyO6wqQ0s1MXm5AKuHEiaMK+zq0b6I+SbTc5jNMb
+ fVgahe8wLHQTjRL5PEMhtUFS1/zunYiAzwibsGLFHlmb2q/q+sOyfThNJAnFdXDcMlQa
+ bDPDKADnIiE60UbmgItJ1BP+RNIVmplSStluy/36J3KtDJGRcDhPKtwGXBBs4bfz4hrX
+ C/d7fAogdTgk+F6kFerrwo9wl+7tG2esiZEaD40ieVHUuezWchN/w/Sm1m8u0lDcwNWl
+ SZ8pg1OE1r/N3fKHQKDeD7b9bGEJ+2FKWk2HKvAFuufmRDSmP8qqeR691T4cNIzfkYJW
+ m48w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=CUqG2S3O5iVKKIdkeqzaWrGNBNP8isqkl4rsycIm70U=;
- b=KqinydQnkHw4of7dwBwdXMxONhR/crDqMjV4TfwmJ5Ru7I5Bq1lGrWFpE/IXl6DOHK
- 8QrjMvBod/zkKqvtsaMEb1wuNMfooWFZisG5yal5gz8WZYmQxPQoNyOrcDoCGJSBnUQn
- S3rGxZn4jF/vIgzci0f410hwGTs+5Sm3La+fO5xX3gHfIJJY8n7CbAK0GgRvPZ2sZxL1
- fdgGOUcEbrAHLIzz9CUPKH2qYH/nlRJ0+QiFRLz4bp4gSUq/lOyyra3KxWECEHE0C8JC
- NZVpTuy6G5BXPrwDeEjycM2A2C+k8CvvJ5R9wUoToX7GhJKLauOhtvtBO06P7lCFconU
- jAyQ==
-X-Gm-Message-State: AOAM531RK6ehd0X15emawSMtvmgt5k5TI54TO7tjY3O+XW3IormxEvJb
- qyyq93Py1iuPuNZ9JfvIlkLBHUkVR7TrHhprCQhKjw==
-X-Google-Smtp-Source: ABdhPJwCDvm4/w79+gK5F8PMQmv1tpX3mMErfW/IFt4EzZL/b27lJfAggTSLrQyOPxfCwI6a1O+grGFL5Rq39GYdYr8=
-X-Received: by 2002:a19:7b06:: with SMTP id w6mr2565896lfc.260.1605645328269; 
- Tue, 17 Nov 2020 12:35:28 -0800 (PST)
+ bh=VBawTBZeGDei1h6v3qT5rtQtXBaTES0YnmaYqJM2GNs=;
+ b=hwKUhw7R8mLetUSuk1vqq335W0tPUCR0riRovdIXpJuSCGKlZ4M8iB1aXWyFyuw0iW
+ k2XpemvQgXoZpJH1ebCfExyUwvyGmUXKejK6f0jSjqsvNFZDuHjI2+cRVAhQsjJcIA4q
+ pnfosYsCDMKLLm392CEo+S2QNa0Lt4S8AQa5BQ0RMJgLUVtzQHtBB9hYeo8sgIbf6mRo
+ QwQqHnndsY5Sg5et1lGzdnhYDRcWpK6xC1vV1JOkl01UIf9GPrwEhC3eEP+Z23hPhvMP
+ EP1B91AY6mc+tGdA95ZiD6I5B0hemS6x8+4W5c0lqL0nvtgqizRO2G8DesTj5WLPM0+c
+ hu3A==
+X-Gm-Message-State: AOAM532wpNDS42ODgwoMiLpkQH5Ako/fq1DyT7ndw9ucFLus0U73+QcW
+ u4XLeZiQ0auchxjD7K96kZgDPZVu44+s/6aUCALxlQ==
+X-Google-Smtp-Source: ABdhPJwaS2B6HfL/+PScb1mQInpJJpSlRKinA0MJAmBjiWs9aJ0EGtMf1sjwzqSjWpH0V50ABOt7UCdKF0FZIH63EBE=
+X-Received: by 2002:a2e:b1c9:: with SMTP id e9mr1535370lja.283.1605645424802; 
+ Tue, 17 Nov 2020 12:37:04 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605635248.git.agx@sigxcpu.org>
- <85b58da3eb68b81c1bdf7fc2f4a38b1f9ad8c90a.1605635248.git.agx@sigxcpu.org>
-In-Reply-To: <85b58da3eb68b81c1bdf7fc2f4a38b1f9ad8c90a.1605635248.git.agx@sigxcpu.org>
+ <1321f3abdc3df6e9d1999bd32b436ae71e89c27e.1605635248.git.agx@sigxcpu.org>
+In-Reply-To: <1321f3abdc3df6e9d1999bd32b436ae71e89c27e.1605635248.git.agx@sigxcpu.org>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 17 Nov 2020 21:35:17 +0100
-Message-ID: <CACRpkdZ982o2pNbg0Zcfma80HmemRWyLBmsgeqpQTUdknD1=UQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/6] drm/panel: st7703: Use dev_err_probe
+Date: Tue, 17 Nov 2020 21:36:53 +0100
+Message-ID: <CACRpkdbkcYz7RHz8_7ab-vVvBpOaD+SEosPZpvh8NNqDBuzfqA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/6] drm/panel: mantix: Tweak init sequence
 To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,10 +80,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 T24gVHVlLCBOb3YgMTcsIDIwMjAgYXQgNjo0OSBQTSBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hj
-cHUub3JnPiB3cm90ZToKCj4gTGVzcyBjb2RlIGFuZCBlYXNpZXIgcHJvYmUgZGVmZXJyYWwgZGVi
-dWdnaW5nLgo+Cj4gU2lnbmVkLW9mZi1ieTogR3VpZG8gR8O8bnRoZXIgPGFneEBzaWd4Y3B1Lm9y
-Zz4KClJldmlld2VkLWJ5OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+
-CgpZb3VycywKTGludXMgV2FsbGVpagpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+cHUub3JnPiB3cm90ZToKCj4gV2UndmUgc2VlbiBzb21lIChub24gcGVybWFuZW50KSBidXJuIGlu
+IGFuZCBiYWQgd2hpdGUgYmFsYW5jZQo+IG9uIHNvbWUgb2YgdGhlIHBhbmVscy4gQWRkaW5nIHRo
+aXMgYml0IGZyb20gYSB2ZW5kb3Igc3VwcGxpZWQKPiBzZXF1ZW5jZSBmaXhlcyBpdC4KPgo+IEZp
+eGVzOiA3Mjk2N2Q1NjE2ZDMgKCJkcm0vcGFuZWw6IEFkZCBwYW5lbCBkcml2ZXIgZm9yIHRoZSBN
+YW50aXggTUxBRjA1N1dFNTEtWCBEU0kgcGFuZWwiKQo+IFNpZ25lZC1vZmYtYnk6IEd1aWRvIEfD
+vG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+CgpSZXZpZXdlZC1ieTogTGludXMgV2FsbGVpaiA8bGlu
+dXMud2FsbGVpakBsaW5hcm8ub3JnPgoKWW91cnMsCkxpbnVzIFdhbGxlaWoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
+dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
