@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F8B2B6972
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:10:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF072B6973
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:10:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F100C6E03B;
-	Tue, 17 Nov 2020 16:10:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4B746E042;
+	Tue, 17 Nov 2020 16:10:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 962666E038
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:10:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84B0C6E044
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:10:20 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id C73F02463D;
- Tue, 17 Nov 2020 16:10:16 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id A6F8524655;
+ Tue, 17 Nov 2020 16:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605629417;
+ s=default; t=1605629420;
  bh=j+J6Q8PPenbpavlCvu7NOpHFFTaf7EUG4Fhp6AZtewY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=faqokhqVsc5zPWnFPAYdCWJmJrqI9nflE7IoywhulEG7h7XymzrP4g+NSPZvfbV+A
- 4vxPcRuDFc4EB9QpbVruqwyIKTXaplrdkpWWgySSwMotlB9MojuBjbEu3MJs6AMy8n
- ZSSpbTK2jakbsK8vNfBN/kyw+4pBO5h8DVQqGrsM=
+ b=D6dBL6+0+NgnTLKnJdhbBDx1Mgq55gAWsAXffAF1Mc6sRoHSGs0Zx6FiW9LRhjsow
+ QMkvJiJDbdcMxWzP5I6Cqvv/nF+kV1S2fllDRet4AyXpv+ZgLs/pvgfrtpAho93OZW
+ AqIzEvTgYIgd0OxVSFnE/ZuKBnWDLdWAb1romrgE=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.4 38/64] drm/gma500: Fix out-of-bounds access to struct
+Subject: [PATCH 4.9 49/78] drm/gma500: Fix out-of-bounds access to struct
  drm_device.vblank[]
-Date: Tue, 17 Nov 2020 14:05:01 +0100
-Message-Id: <20201117122108.042293389@linuxfoundation.org>
+Date: Tue, 17 Nov 2020 14:05:15 +0100
+Message-Id: <20201117122111.510118976@linuxfoundation.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201117122106.144800239@linuxfoundation.org>
-References: <20201117122106.144800239@linuxfoundation.org>
+In-Reply-To: <20201117122109.116890262@linuxfoundation.org>
+References: <20201117122109.116890262@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
