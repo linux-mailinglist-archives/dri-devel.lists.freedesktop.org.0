@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44542B6975
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700FB2B6987
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:11:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5732F6E038;
-	Tue, 17 Nov 2020 16:10:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3146E03C;
+	Tue, 17 Nov 2020 16:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496C26E037
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:10:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 312CC6E03C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:11:30 +0000 (UTC)
 Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7EFF62467A;
- Tue, 17 Nov 2020 16:10:25 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4E442223C7;
+ Tue, 17 Nov 2020 16:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605629426;
- bh=j+J6Q8PPenbpavlCvu7NOpHFFTaf7EUG4Fhp6AZtewY=;
+ s=default; t=1605629489;
+ bh=BzwsOWj/abjj2wrQpSuQ3rlldOEKJP9SlJ/ueUGEfgw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tFFidvvhX+oz0fuhJk0wNkYeVwkyc37/aFzYxBYghaTo9B6EZpJI3fIIiRIKAErVJ
- qcr//4gYpzqkXNT+AipSLHdtX7AM7fdzuwsgRtq9vFu3GINeEJbFqg+FrHY/300ffR
- diIcmpEZ0EovgBx3u1c9mCOU+Kir0cuLXDDJoHYU=
+ b=rtZonW5c/rNUl4ljYFcaShJfUuGWGGGwcNeYOAuBJyj5zRexfW+UGz8VZaT/QHy8n
+ mXBG9YnycZTTql4Ma+YSO2MiuOm92Zy4o3wGWqkzdWeiThYI8KIO7q8cSppVoVpvuv
+ DLoW8xVheimXQH4QMf1eiGJisVXnOjQUoIeT+DoQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
-Subject: [PATCH 4.19 082/101] drm/gma500: Fix out-of-bounds access to struct
+Subject: [PATCH 5.4 134/151] drm/gma500: Fix out-of-bounds access to struct
  drm_device.vblank[]
-Date: Tue, 17 Nov 2020 14:05:49 +0100
-Message-Id: <20201117122117.119028719@linuxfoundation.org>
+Date: Tue, 17 Nov 2020 14:06:04 +0100
+Message-Id: <20201117122127.946399093@linuxfoundation.org>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201117122113.128215851@linuxfoundation.org>
-References: <20201117122113.128215851@linuxfoundation.org>
+In-Reply-To: <20201117122121.381905960@linuxfoundation.org>
+References: <20201117122121.381905960@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,7 +110,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/gma500/psb_irq.c
 +++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -350,6 +350,7 @@ int psb_irq_postinstall(struct drm_devic
+@@ -337,6 +337,7 @@ int psb_irq_postinstall(struct drm_devic
  {
  	struct drm_psb_private *dev_priv = dev->dev_private;
  	unsigned long irqflags;
@@ -118,7 +118,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
  
-@@ -362,20 +363,12 @@ int psb_irq_postinstall(struct drm_devic
+@@ -349,20 +350,12 @@ int psb_irq_postinstall(struct drm_devic
  	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
  
@@ -145,7 +145,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	if (dev_priv->ops->hotplug_enable)
  		dev_priv->ops->hotplug_enable(dev, true);
-@@ -388,6 +381,7 @@ void psb_irq_uninstall(struct drm_device
+@@ -375,6 +368,7 @@ void psb_irq_uninstall(struct drm_device
  {
  	struct drm_psb_private *dev_priv = dev->dev_private;
  	unsigned long irqflags;
@@ -153,7 +153,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
  
-@@ -396,14 +390,10 @@ void psb_irq_uninstall(struct drm_device
+@@ -383,14 +377,10 @@ void psb_irq_uninstall(struct drm_device
  
  	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
  
