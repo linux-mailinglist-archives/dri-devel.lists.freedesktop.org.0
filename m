@@ -2,42 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B88172B5E2D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 12:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D794D2B608A
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 14:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 783CC6E1A4;
-	Tue, 17 Nov 2020 11:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3299A6E200;
+	Tue, 17 Nov 2020 13:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C16146E1A4
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:22:55 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kez4X-0007Gt-Td; Tue, 17 Nov 2020 12:22:53 +0100
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kez4X-00088v-L0; Tue, 17 Nov 2020 12:22:53 +0100
-Message-ID: <0c6a3ced0012d05bb33bb3ea765de359e480ad4a.camel@pengutronix.de>
-Subject: Re: [PATCH 41/42] gpu/ipu-v3/ipu-di: Strip out 2 unused
- 'di_sync_config' entries
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Lee Jones <lee.jones@linaro.org>
-Date: Tue, 17 Nov 2020 12:22:53 +0100
-In-Reply-To: <20201116174112.1833368-42-lee.jones@linaro.org>
-References: <20201116174112.1833368-1-lee.jones@linaro.org>
- <20201116174112.1833368-42-lee.jones@linaro.org>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6DE66E200;
+ Tue, 17 Nov 2020 13:11:41 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1kf0lm-0000AT-7g; Tue, 17 Nov 2020 13:11:38 +0000
+From: Colin King <colin.king@canonical.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Xiaojian Du <Xiaojian.Du@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/amd/pm: fix spelling mistakes in dev_warn messages
+Date: Tue, 17 Nov 2020 13:11:37 +0000
+Message-Id: <20201117131137.420396-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,34 +41,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGVlLAoKT24gTW9uLCAyMDIwLTExLTE2IGF0IDE3OjQxICswMDAwLCBMZWUgSm9uZXMgd3Jv
-dGU6Cj4gVGhleSdyZSB0YWtpbmcgdXAgdG9vIG11Y2ggc3BhY2Ugb24gdGhlIHN0YWNrLgo+IAo+
-IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+IAo+ICBk
-cml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmM6IEluIGZ1bmN0aW9uIOKAmGlwdV9kaV9zeW5jX2Nv
-bmZpZ19ub25pbnRlcmxhY2Vk4oCZOgo+ICBkcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmM6Mzkx
-OjE6IHdhcm5pbmc6IHRoZSBmcmFtZSBzaXplIG9mIDEwNjQgYnl0ZXMgaXMgbGFyZ2VyIHRoYW4g
-MTAyNCBieXRlcyBbLVdmcmFtZS1sYXJnZXItdGhhbj1dCj4gCj4gQ2M6IFBoaWxpcHAgWmFiZWwg
-PHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4gQ2M6IFNhc2NoYSBIYXVlciA8cy5oYXVlckBwZW5n
-dXRyb25peC5kZT4KPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25l
-ZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRyaXZl
-cnMvZ3B1L2lwdS12My9pcHUtZGkuYyB8IDQgLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBkZWxl
-dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvaXB1LXYzL2lwdS1kaS5jIGIv
-ZHJpdmVycy9ncHUvaXB1LXYzL2lwdS1kaS5jCj4gaW5kZXggYjRhMzFkNTA2ZmNjZi4uZTYxN2Y2
-MGFmZWVhMyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9pcHUtdjMvaXB1LWRpLmMKPiBAQCAtMzEwLDEwICszMTAsNiBAQCBzdGF0
-aWMgdm9pZCBpcHVfZGlfc3luY19jb25maWdfbm9uaW50ZXJsYWNlZChzdHJ1Y3QgaXB1X2RpICpk
-aSwKPiAgCQkJLyogdW51c2VkICovCj4gIAkJfSAsIHsKPiAgCQkJLyogdW51c2VkICovCj4gLQkJ
-fSAsIHsKPiAtCQkJLyogdW51c2VkICovCj4gLQkJfSAsIHsKPiAtCQkJLyogdW51c2VkICovCj4g
-IAkJfSwKPiAgCX07Cj4gIAkvKiBjYW4ndCB1c2UgIzcgYW5kICM4IGZvciBsaW5lIGFjdGl2ZSBh
-bmQgcGl4ZWwgYWN0aXZlIGNvdW50ZXJzICovCgpUaGFuayB5b3UsIGFwcGxpZWQgdG8gaW14LWRy
-bS9uZXh0LgoKcmVnYXJkcwpQaGlsaXBwCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+From: Colin Ian King <colin.king@canonical.com>
+
+There are two spelling mistakes in dev_warn messages. Fix these.
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+index afa542a5af5f..9a2f72f21ed8 100644
+--- a/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
++++ b/drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c
+@@ -689,14 +689,14 @@ static int vangogh_od_edit_dpm_table(struct smu_context *smu, enum PP_OD_DPM_TAB
+ 
+ 		if (input[0] == 0) {
+ 			if (input[1] < smu->gfx_default_hard_min_freq) {
+-				dev_warn(smu->adev->dev, "Fine grain setting minimun sclk (%ld) MHz is less than the minimum allowed (%d) MHz\n",
++				dev_warn(smu->adev->dev, "Fine grain setting minimum sclk (%ld) MHz is less than the minimum allowed (%d) MHz\n",
+ 					input[1], smu->gfx_default_hard_min_freq);
+ 				return -EINVAL;
+ 			}
+ 			smu->gfx_actual_hard_min_freq = input[1];
+ 		} else if (input[0] == 1) {
+ 			if (input[1] > smu->gfx_default_soft_max_freq) {
+-				dev_warn(smu->adev->dev, "Fine grain setting maximun sclk (%ld) MHz is greater than the maximum allowed (%d) MHz\n",
++				dev_warn(smu->adev->dev, "Fine grain setting maximum sclk (%ld) MHz is greater than the maximum allowed (%d) MHz\n",
+ 					input[1], smu->gfx_default_soft_max_freq);
+ 				return -EINVAL;
+ 			}
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
