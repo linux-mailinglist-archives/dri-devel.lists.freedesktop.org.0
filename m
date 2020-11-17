@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E1D02B77EB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:02:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E80F2B77CC
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B777D6E42C;
-	Wed, 18 Nov 2020 08:01:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D5D6E3D8;
+	Wed, 18 Nov 2020 08:01:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87B36E092
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 19:45:19 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id v22so23736452edt.9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:45:19 -0800 (PST)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0016E08A
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 19:45:21 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id k4so7031133edl.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 11:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=qLZ92o7SKXRNCO4EpTsjSi6r9gNUjFUim5asS0HF/w0=;
- b=oKkdf4FDYOBcmRjaWF0djFWKvkEqMKLs8V80Y1M3AuCZSdPVZPQadXdiS6A1MtHNlU
- tON1BGPFwyeiGJ1066SUnIc3fqf0Bfv4cjJF8DLF1zA0tHI7XMZcOIiO5+ZzzaGh1jgZ
- tkwRnw4K2HLlTi4Rgr1ErjdxqsqGgJ3RqPaz+IchvRiEGvuLadjlSvx++D3mccEGuKGQ
- 3w5aoTYSVWBq+V3BupHllZOk4/0hxww1fmflisiadpt+RRH51V0hqOn+oOILJKje73nu
- L5xBl0gUosjFuWFxdgqFqhJE3jffW4bvC/f7No6YZMBpSJu1ijPc8o0jdH+m3aB4ki1a
- Vfmw==
+ bh=cfXI1Q85bb28+McjuHeu3xbkODr0lp86DQ42QSmzooY=;
+ b=UIOGOw6hK+SW6PZnTFb6Ge3JqTDe/NwtTmNJTO4P+2RtdCxVwpi7Rq/Aqdy7x6Adcp
+ wRP88fBy5dFJaM2aQnbeAQ86OaDGwNfxN12gzmJ3dkqFpVnOiTua1TOmWPi7J28YErO5
+ +vT7F/x1TgHqtmEhUwh1PGspoG99p7+7gC8IC1SqDzWM6y+6IByo7u7LnARJsyzVo3vk
+ EGBbLldPVSZ2FfdplHh31JJWObz6Q/AbWGttToOaFGaxQ4Bnap+uRazajLZG+ZNqt8mO
+ LDNPLKADpPwuoYQpU5npEVkcgsD8/4BWY1DBz+1+56qMZZS+niS+ovqyTi/ggQR6pvM/
+ lMSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=qLZ92o7SKXRNCO4EpTsjSi6r9gNUjFUim5asS0HF/w0=;
- b=UFL0FYC8nPEogjqyk7NYMwG7SZYyugfcCHPpG1+jjowU2MsWqkVRtHa0WZ0dzhMSCq
- LIByZRtvqrZqjgkzBU6nQsRNK+Sx5VcJO+NUs1ylUHwT1CCrANaOuaV7WylTsuLfhtE2
- EvbC4gEttxjEDAkt0aUvqZBwLt3GJYF4Z9VPAcYDL1nEa4d4hOb659twQOQxoU0c13Ov
- w45Jyw7B0XobajLsDnWBJv6GmXoBEcVjVMgnCbusXXDmFp9ZqtmkaGQRwsd5khDx/LVd
- ksTGoFqm1bQX++36GbTtvZJjgkELz0nt40q5SPY0GRP4yl83+BclkKSmcrcCuJdyjdXY
- nCAw==
-X-Gm-Message-State: AOAM530crGn42x+k3pJTTNjb43iJVMb7Fcj9XYNo5qi1Er5vn5frqC3i
- UFwVasU+fhrbNQUAMH7UYoY=
-X-Google-Smtp-Source: ABdhPJxTXIBU54JqmMAwvF6EOMr/MiPBAO9XomS/YrWcH+/VIo1h+Y3x2QhXOy3CZ7L2oxRaE1WIFA==
-X-Received: by 2002:a05:6402:2d7:: with SMTP id
- b23mr21720443edx.196.1605642318630; 
- Tue, 17 Nov 2020 11:45:18 -0800 (PST)
+ bh=cfXI1Q85bb28+McjuHeu3xbkODr0lp86DQ42QSmzooY=;
+ b=LBTyYHIdwxRLQp38XHbU+KYyEs4b6UOJ3EH4+EYknv7ITt3rHTojfXkoxZAsLdzY9U
+ 0ooT7gxtAddkluNROqsVNcx3gMPcM/7jHoIUeEhbg1YIm7vZon03FRryikcDrqsygwai
+ JS7F/vNvZh9rWgCZbkEyrqD7F8PyomKBenjtYp7DqIBJcdBUNUDxThyaxdq0n0s5xIDe
+ tKYBqM2MIDxBApSpU01A9zYZnC/SH/nl8F7DpGKV4X6Vp/pK05YCbbksJoNiX3LFmcWA
+ gFuXCl9acZojno3TW/wsJzD7fvW3chgUwCbrmrN2+K4Va5bcyb21u6ckqLLWFNRD2cqi
+ 8ifQ==
+X-Gm-Message-State: AOAM532rpwsWhuAacf30pSnVHE4SFDtoVLPdfZx7zD0nUsXlX+2X0BsC
+ pjaBuxe+97WYI7u+3KWWWo8=
+X-Google-Smtp-Source: ABdhPJzm63HVDveFpEYpiHWpLCJrGBMkWK296r8Fu/+E5TNgbXn9uz3U4HX7amby2EJhlwkYrbPUvQ==
+X-Received: by 2002:a05:6402:1389:: with SMTP id
+ b9mr12408755edv.178.1605642319735; 
+ Tue, 17 Nov 2020 11:45:19 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id w2sm727972ejc.109.2020.11.17.11.45.17
+ by smtp.gmail.com with ESMTPSA id w2sm727972ejc.109.2020.11.17.11.45.18
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Nov 2020 11:45:18 -0800 (PST)
+ Tue, 17 Nov 2020 11:45:19 -0800 (PST)
 From: Johan Jonker <jbx6244@gmail.com>
 To: heiko@sntech.de
-Subject: [PATCH v4 2/7] clk: rockchip: fix i2s gate bits on rk3066 and rk3188
-Date: Tue, 17 Nov 2020 20:45:02 +0100
-Message-Id: <20201117194507.14843-3-jbx6244@gmail.com>
+Subject: [PATCH v4 3/7] dt-bindings: display: add #sound-dai-cells property to
+ rockchip rk3066 hdmi
+Date: Tue, 17 Nov 2020 20:45:03 +0100
+Message-Id: <20201117194507.14843-4-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20201117194507.14843-1-jbx6244@gmail.com>
 References: <20201117194507.14843-1-jbx6244@gmail.com>
@@ -77,60 +78,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip PX2/RK3066 uses these bits in CRU_CLKGATE7_CON:
-
-hclk_i2s_8ch_gate_en  bit 4 (dtsi: i2s0)
-hclk_i2s0_2ch_gate_en bit 2 (dtsi: i2s1)
-hclk_i2s1_2ch_gate_en bit 3 (dtsi: i2s2)
-
-The Rockchip PX3/RK3188 uses this bit in CRU_CLKGATE7_CON:
-
-hclk_i2s_2ch_gate_en  bit 2 (dtsi: i2s0)
-
-The bits got somehow mixed up in the clk-rk3188.c file.
-The labels in the dtsi files are not suppose to change.
-The sclk and hclk names should match for
-"trace_event=clk_disable,clk_enable",
-so remove GATE HCLK_I2S0 from the common clock tree and
-fix the bits in the rk3066 and rk3188 clock tree.
+'#sound-dai-cells' is required to properly interpret
+the list of DAI specified in the 'sound-dai' property.
+Add it to rockchip,rk3066-hdmi.yaml to document that the
+rk3066 HDMI TX also can be used to transmit some audio.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- drivers/clk/rockchip/clk-rk3188.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml    | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/clk/rockchip/clk-rk3188.c b/drivers/clk/rockchip/clk-rk3188.c
-index db8c58813..0b76ad34d 100644
---- a/drivers/clk/rockchip/clk-rk3188.c
-+++ b/drivers/clk/rockchip/clk-rk3188.c
-@@ -449,7 +449,6 @@ static struct rockchip_clk_branch common_clk_branches[] __initdata = {
+diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
+index 4110d003c..585a8d3b9 100644
+--- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3066-hdmi.yaml
+@@ -42,6 +42,9 @@ properties:
+     description:
+       This soc uses GRF regs to switch the HDMI TX input between vop0 and vop1.
  
- 	/* hclk_cpu gates */
- 	GATE(HCLK_ROM, "hclk_rom", "hclk_cpu", 0, RK2928_CLKGATE_CON(5), 6, GFLAGS),
--	GATE(HCLK_I2S0, "hclk_i2s0", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 2, GFLAGS),
- 	GATE(HCLK_SPDIF, "hclk_spdif", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 1, GFLAGS),
- 	GATE(0, "hclk_cpubus", "hclk_cpu", 0, RK2928_CLKGATE_CON(4), 8, GFLAGS),
- 	/* hclk_ahb2apb is part of a clk branch */
-@@ -634,8 +633,9 @@ static struct rockchip_clk_branch rk3066a_clk_branches[] __initdata = {
- 			RK2928_CLKGATE_CON(0), 12, GFLAGS,
- 			&rk3066a_i2s2_fracmux),
++  "#sound-dai-cells":
++    const: 0
++
+   ports:
+     type: object
  
--	GATE(HCLK_I2S1, "hclk_i2s1", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 3, GFLAGS),
--	GATE(HCLK_I2S2, "hclk_i2s2", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 4, GFLAGS),
-+	GATE(HCLK_I2S0, "hclk_i2s0", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 4, GFLAGS),
-+	GATE(HCLK_I2S1, "hclk_i2s1", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 2, GFLAGS),
-+	GATE(HCLK_I2S2, "hclk_i2s2", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 3, GFLAGS),
- 	GATE(HCLK_CIF1, "hclk_cif1", "hclk_cpu", 0, RK2928_CLKGATE_CON(6), 6, GFLAGS),
- 	GATE(HCLK_HDMI, "hclk_hdmi", "hclk_cpu", 0, RK2928_CLKGATE_CON(4), 14, GFLAGS),
+@@ -101,6 +104,7 @@ examples:
+       pinctrl-names = "default";
+       power-domains = <&power RK3066_PD_VIO>;
+       rockchip,grf = <&grf>;
++      #sound-dai-cells = <0>;
  
-@@ -728,6 +728,7 @@ static struct rockchip_clk_branch rk3188_clk_branches[] __initdata = {
- 			RK2928_CLKGATE_CON(0), 10, GFLAGS,
- 			&rk3188_i2s0_fracmux),
- 
-+	GATE(HCLK_I2S0, "hclk_i2s0", "hclk_cpu", 0, RK2928_CLKGATE_CON(7), 2, GFLAGS),
- 	GATE(0, "hclk_imem0", "hclk_cpu", 0, RK2928_CLKGATE_CON(4), 14, GFLAGS),
- 	GATE(0, "hclk_imem1", "hclk_cpu", 0, RK2928_CLKGATE_CON(4), 15, GFLAGS),
- 
+       ports {
+         #address-cells = <1>;
 -- 
 2.11.0
 
