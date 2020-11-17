@@ -2,59 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FFE2B691D
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 16:53:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F8B2B6972
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 17:10:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11CB489CF9;
-	Tue, 17 Nov 2020 15:53:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F100C6E03B;
+	Tue, 17 Nov 2020 16:10:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD6F89CF9
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 15:53:37 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id w13so30083998eju.13
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 07:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MyUFQ61l/6h1fhpHW4DqIsrILaDp+UakyI78uYN1dug=;
- b=K4cxFI0pBcLpBW/cmWcOzji8KTAu4PA9oHUmiwQyget31JYGOzg3T4+bSUO/l42hYP
- xxrYGO8tcgeXS6P5HxJyBENRsi36jtKRlC02rUSpSkCbXjmg9RoBRTehLwozhVVUbmHP
- NPT5j10rYqTPwYzQDOY+5jG1P+AdBhTEb9ocnz4tnsfRdJkRv1aJ6wwxvEJFWeD092AI
- VltinAWyWO+P1HYKb1EAVDb1g4YeTv3oGh9BTBCIysvDr9L7N+GUXRyTzA7qyQhGUhG7
- YKJajO8ecLO5GGqm5BunudECDgjZT+4zLISUwKuRDf+nCnB3PQHcf6Xgc356ocYutB2O
- 5gYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MyUFQ61l/6h1fhpHW4DqIsrILaDp+UakyI78uYN1dug=;
- b=nEDZ43tYKu6CTA27VZQyTD/OiCWK+nsBHsWJd62Vur+XQUGVFhq5PO+7xQagwroOL5
- 9M2DjlrMwgY2Q8gGvft8v2EbjJgagZSGu9jYdN6SGiFMOaEG6fNrQfw4e0IV8T4W6Tfh
- fQMFl5JhZTqqvazPiCk09ZAj5YmvYzAtJ+3ZX6kdhJ41y+pNpxOj3GBE2phjDkEnmKMv
- MT2rx/6bkgfrS5tJPgJo4F9TNSwMmM+5dZRi+qOi01NHeTppVlEVxiMsr8Yd9V6TRcKO
- K7Jq2QKrlOq6DK/YCygEdM6XJb30ViVM7mjsqbcyBmZPhNduyfClSmNyHJ82KMY047Uf
- tVFA==
-X-Gm-Message-State: AOAM531f+Z/x40hRGYwWydNo9gMfnEScP/PX2bpPWHfsKSRFp7fliegS
- um+moQQWsjO/nGg9TfQUWIkryhQwL6Y=
-X-Google-Smtp-Source: ABdhPJzt8yjiWuQN1R0yjG6sORk2+MahspP2zTifdaZY/cRw6UyfBfg7CJSFw53O1xSE5BMJVz0sOg==
-X-Received: by 2002:a17:906:af69:: with SMTP id
- os9mr1992119ejb.180.1605628415658; 
- Tue, 17 Nov 2020 07:53:35 -0800 (PST)
-Received: from abel.fritz.box ([2a02:908:1252:fb60:26b4:2b4b:eb:65a8])
- by smtp.gmail.com with ESMTPSA id j9sm11657509ejf.105.2020.11.17.07.53.34
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 07:53:35 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/ttm: fix DMA32 handling in the global page pool
-Date: Tue, 17 Nov 2020 16:53:34 +0100
-Message-Id: <20201117155334.7855-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 962666E038
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 16:10:17 +0000 (UTC)
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C73F02463D;
+ Tue, 17 Nov 2020 16:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605629417;
+ bh=j+J6Q8PPenbpavlCvu7NOpHFFTaf7EUG4Fhp6AZtewY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=faqokhqVsc5zPWnFPAYdCWJmJrqI9nflE7IoywhulEG7h7XymzrP4g+NSPZvfbV+A
+ 4vxPcRuDFc4EB9QpbVruqwyIKTXaplrdkpWWgySSwMotlB9MojuBjbEu3MJs6AMy8n
+ ZSSpbTK2jakbsK8vNfBN/kyw+4pBO5h8DVQqGrsM=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 4.4 38/64] drm/gma500: Fix out-of-bounds access to struct
+ drm_device.vblank[]
+Date: Tue, 17 Nov 2020 14:05:01 +0100
+Message-Id: <20201117122108.042293389@linuxfoundation.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201117122106.144800239@linuxfoundation.org>
+References: <20201117122106.144800239@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,56 +47,134 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Alan Cox <alan@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hlbiB3ZSBoYXZlIG1peGVkIERNQTMyIGFuZCBub24gRE1BMzIgZGV2aWNlIGluIG9uZSBzeXN0
-ZW0KaXQgY291bGQgb3RoZXJ3aXNlIGhhcHBlbiB0aGF0IHRoZSBETUEzMiBkZXZpY2UgZ2V0cyBw
-YWdlcwppdCBjYW4ndCB3b3JrIHdpdGguCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmln
-IDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL3R0bS90dG1f
-cG9vbC5jIHwgMjIgKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDIyIGlu
-c2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29sLmMg
-Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29sLmMKaW5kZXggMWI5Njc4MGI0OTg5Li41NDU1
-YjIwNDQ3NTkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3Bvb2wuYworKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29sLmMKQEAgLTYzLDYgKzYzLDkgQEAgc3RhdGlj
-IGF0b21pY19sb25nX3QgYWxsb2NhdGVkX3BhZ2VzOwogc3RhdGljIHN0cnVjdCB0dG1fcG9vbF90
-eXBlIGdsb2JhbF93cml0ZV9jb21iaW5lZFtNQVhfT1JERVJdOwogc3RhdGljIHN0cnVjdCB0dG1f
-cG9vbF90eXBlIGdsb2JhbF91bmNhY2hlZFtNQVhfT1JERVJdOwogCitzdGF0aWMgc3RydWN0IHR0
-bV9wb29sX3R5cGUgZ2xvYmFsX2RtYTMyX3dyaXRlX2NvbWJpbmVkW01BWF9PUkRFUl07CitzdGF0
-aWMgc3RydWN0IHR0bV9wb29sX3R5cGUgZ2xvYmFsX2RtYTMyX3VuY2FjaGVkW01BWF9PUkRFUl07
-CisKIHN0YXRpYyBzcGlubG9ja190IHNocmlua2VyX2xvY2s7CiBzdGF0aWMgc3RydWN0IGxpc3Rf
-aGVhZCBzaHJpbmtlcl9saXN0Owogc3RhdGljIHN0cnVjdCBzaHJpbmtlciBtbV9zaHJpbmtlcjsK
-QEAgLTI5MCw4ICsyOTMsMTQgQEAgc3RhdGljIHN0cnVjdCB0dG1fcG9vbF90eXBlICp0dG1fcG9v
-bF9zZWxlY3RfdHlwZShzdHJ1Y3QgdHRtX3Bvb2wgKnBvb2wsCiAjaWZkZWYgQ09ORklHX1g4Ngog
-CXN3aXRjaCAoY2FjaGluZykgewogCWNhc2UgdHRtX3dyaXRlX2NvbWJpbmVkOgorCQlpZiAocG9v
-bC0+dXNlX2RtYTMyKQorCQkJcmV0dXJuICZnbG9iYWxfZG1hMzJfd3JpdGVfY29tYmluZWRbb3Jk
-ZXJdOworCiAJCXJldHVybiAmZ2xvYmFsX3dyaXRlX2NvbWJpbmVkW29yZGVyXTsKIAljYXNlIHR0
-bV91bmNhY2hlZDoKKwkJaWYgKHBvb2wtPnVzZV9kbWEzMikKKwkJCXJldHVybiAmZ2xvYmFsX2Rt
-YTMyX3VuY2FjaGVkW29yZGVyXTsKKwogCQlyZXR1cm4gJmdsb2JhbF91bmNhY2hlZFtvcmRlcl07
-CiAJZGVmYXVsdDoKIAkJYnJlYWs7CkBAIC01NzAsNiArNTc5LDExIEBAIGludCB0dG1fcG9vbF9k
-ZWJ1Z2ZzKHN0cnVjdCB0dG1fcG9vbCAqcG9vbCwgc3RydWN0IHNlcV9maWxlICptKQogCXNlcV9w
-dXRzKG0sICJ1Y1x0OiIpOwogCXR0bV9wb29sX2RlYnVnZnNfb3JkZXJzKGdsb2JhbF91bmNhY2hl
-ZCwgbSk7CiAKKwlzZXFfcHV0cyhtLCAid2MgMzJcdDoiKTsKKwl0dG1fcG9vbF9kZWJ1Z2ZzX29y
-ZGVycyhnbG9iYWxfZG1hMzJfd3JpdGVfY29tYmluZWQsIG0pOworCXNlcV9wdXRzKG0sICJ1YyAz
-Mlx0OiIpOworCXR0bV9wb29sX2RlYnVnZnNfb3JkZXJzKGdsb2JhbF9kbWEzMl91bmNhY2hlZCwg
-bSk7CisKIAlmb3IgKGkgPSAwOyBpIDwgVFRNX05VTV9DQUNISU5HX1RZUEVTOyArK2kpIHsKIAkJ
-c2VxX3B1dHMobSwgIkRNQSAiKTsKIAkJc3dpdGNoIChpKSB7CkBAIC02NDAsNiArNjU0LDExIEBA
-IGludCB0dG1fcG9vbF9tZ3JfaW5pdCh1bnNpZ25lZCBsb25nIG51bV9wYWdlcykKIAkJdHRtX3Bv
-b2xfdHlwZV9pbml0KCZnbG9iYWxfd3JpdGVfY29tYmluZWRbaV0sIE5VTEwsCiAJCQkJICAgdHRt
-X3dyaXRlX2NvbWJpbmVkLCBpKTsKIAkJdHRtX3Bvb2xfdHlwZV9pbml0KCZnbG9iYWxfdW5jYWNo
-ZWRbaV0sIE5VTEwsIHR0bV91bmNhY2hlZCwgaSk7CisKKwkJdHRtX3Bvb2xfdHlwZV9pbml0KCZn
-bG9iYWxfZG1hMzJfd3JpdGVfY29tYmluZWRbaV0sIE5VTEwsCisJCQkJICAgdHRtX3dyaXRlX2Nv
-bWJpbmVkLCBpKTsKKwkJdHRtX3Bvb2xfdHlwZV9pbml0KCZnbG9iYWxfZG1hMzJfdW5jYWNoZWRb
-aV0sIE5VTEwsCisJCQkJICAgdHRtX3VuY2FjaGVkLCBpKTsKIAl9CiAKIAltbV9zaHJpbmtlci5j
-b3VudF9vYmplY3RzID0gdHRtX3Bvb2xfc2hyaW5rZXJfY291bnQ7CkBAIC02NjAsNiArNjc5LDkg
-QEAgdm9pZCB0dG1fcG9vbF9tZ3JfZmluaSh2b2lkKQogCWZvciAoaSA9IDA7IGkgPCBNQVhfT1JE
-RVI7ICsraSkgewogCQl0dG1fcG9vbF90eXBlX2ZpbmkoJmdsb2JhbF93cml0ZV9jb21iaW5lZFtp
-XSk7CiAJCXR0bV9wb29sX3R5cGVfZmluaSgmZ2xvYmFsX3VuY2FjaGVkW2ldKTsKKworCQl0dG1f
-cG9vbF90eXBlX2ZpbmkoJmdsb2JhbF9kbWEzMl93cml0ZV9jb21iaW5lZFtpXSk7CisJCXR0bV9w
-b29sX3R5cGVfZmluaSgmZ2xvYmFsX2RtYTMyX3VuY2FjaGVkW2ldKTsKIAl9CiAKIAl1bnJlZ2lz
-dGVyX3Nocmlua2VyKCZtbV9zaHJpbmtlcik7Ci0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 06ad8d339524bf94b89859047822c31df6ace239 upstream.
+
+The gma500 driver expects 3 pipelines in several it's IRQ functions.
+Accessing struct drm_device.vblank[], this fails with devices that only
+have 2 pipelines. An example KASAN report is shown below.
+
+  [   62.267688] ==================================================================
+  [   62.268856] BUG: KASAN: slab-out-of-bounds in psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.269450] Read of size 1 at addr ffff8880012bc6d0 by task systemd-udevd/285
+  [   62.269949]
+  [   62.270192] CPU: 0 PID: 285 Comm: systemd-udevd Tainted: G            E     5.10.0-rc1-1-default+ #572
+  [   62.270807] Hardware name:  /DN2800MT, BIOS MTCDT10N.86A.0164.2012.1213.1024 12/13/2012
+  [   62.271366] Call Trace:
+  [   62.271705]  dump_stack+0xae/0xe5
+  [   62.272180]  print_address_description.constprop.0+0x17/0xf0
+  [   62.272987]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.273474]  __kasan_report.cold+0x20/0x38
+  [   62.273989]  ? psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.274460]  kasan_report+0x3a/0x50
+  [   62.274891]  psb_irq_postinstall+0x250/0x3c0 [gma500_gfx]
+  [   62.275380]  drm_irq_install+0x131/0x1f0
+  <...>
+  [   62.300751] Allocated by task 285:
+  [   62.301223]  kasan_save_stack+0x1b/0x40
+  [   62.301731]  __kasan_kmalloc.constprop.0+0xbf/0xd0
+  [   62.302293]  drmm_kmalloc+0x55/0x100
+  [   62.302773]  drm_vblank_init+0x77/0x210
+
+Resolve the issue by only handling vblank entries up to the number of
+CRTCs.
+
+I'm adding a Fixes tag for reference, although the bug has been present
+since the driver's initial commit.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
+Cc: Alan Cox <alan@linux.intel.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org#v3.3+
+Link: https://patchwork.freedesktop.org/patch/msgid/20201105190256.3893-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/gpu/drm/gma500/psb_irq.c |   34 ++++++++++++----------------------
+ 1 file changed, 12 insertions(+), 22 deletions(-)
+
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -350,6 +350,7 @@ int psb_irq_postinstall(struct drm_devic
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	unsigned long irqflags;
++	unsigned int i;
+ 
+ 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+ 
+@@ -362,20 +363,12 @@ int psb_irq_postinstall(struct drm_devic
+ 	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
+ 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+ 
+-	if (dev->vblank[0].enabled)
+-		psb_enable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[1].enabled)
+-		psb_enable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[2].enabled)
+-		psb_enable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
+-	else
+-		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
++	for (i = 0; i < dev->num_crtcs; ++i) {
++		if (dev->vblank[i].enabled)
++			psb_enable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++		else
++			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++	}
+ 
+ 	if (dev_priv->ops->hotplug_enable)
+ 		dev_priv->ops->hotplug_enable(dev, true);
+@@ -388,6 +381,7 @@ void psb_irq_uninstall(struct drm_device
+ {
+ 	struct drm_psb_private *dev_priv = dev->dev_private;
+ 	unsigned long irqflags;
++	unsigned int i;
+ 
+ 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
+ 
+@@ -396,14 +390,10 @@ void psb_irq_uninstall(struct drm_device
+ 
+ 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
+ 
+-	if (dev->vblank[0].enabled)
+-		psb_disable_pipestat(dev_priv, 0, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[1].enabled)
+-		psb_disable_pipestat(dev_priv, 1, PIPE_VBLANK_INTERRUPT_ENABLE);
+-
+-	if (dev->vblank[2].enabled)
+-		psb_disable_pipestat(dev_priv, 2, PIPE_VBLANK_INTERRUPT_ENABLE);
++	for (i = 0; i < dev->num_crtcs; ++i) {
++		if (dev->vblank[i].enabled)
++			psb_disable_pipestat(dev_priv, i, PIPE_VBLANK_INTERRUPT_ENABLE);
++	}
+ 
+ 	dev_priv->vdc_irq_mask &= _PSB_IRQ_SGX_FLAG |
+ 				  _PSB_IRQ_MSVDX_FLAG |
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
