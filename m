@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05742B77DE
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019352B77E1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACB56E3F0;
-	Wed, 18 Nov 2020 08:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFE0F6E417;
+	Wed, 18 Nov 2020 08:01:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89906E247
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 14:17:32 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id o24so24415367ljj.6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 06:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=q2TfPNwbFsY7QYd8sTzRZEObhYP03ZOzna0totkapw8=;
- b=tpbjSkvU+/U5bphneMP5zx1QauR++bqzsNpKNWwGkCa+PufVLU6GU2WjJ9CT9ETQLG
- Qr6LmuKTCBC4gjIM9iQ45WLnY6WugGpP7V0JhxxL+f3xrcC+yT2Tc6dwG1BEPQK7Ffbq
- 2fUN+9u4h3aF5li4Lrb6Yzcbeurz6YqqGo3uq4IyMd8C5RcNn1cX5SGIiEdz38rmRftB
- jWb011jbyhiyX0Ekj6ReRtAcUXsnnaNzHyMougSnniv5DqFm0paq7PSsVfMnDEZ6bYDr
- hjahkG3/GVm95dt2nJFJnFel61dr9CMeRWr6cZmgn/m7peRvbeMxTm5t31eK9ckl4Oar
- vfzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=q2TfPNwbFsY7QYd8sTzRZEObhYP03ZOzna0totkapw8=;
- b=X5bt3NS6R1N7YVqG0oYtdeOl4EkUmSFTWELlc0qO6FScsAOo1VDdbpzixOV3o6uLga
- jcpZm3KPzgt2TSTHz5oE9Q3lATuz/AlrItoF0U8XFg0EjS6JBj6AV/+czx7sqHyfKFUu
- DTrM8j+sqgpn+CnbTC3Z/SjqDzkU8JINz5EaooFhLUGEagHp+yMOJwD38YekBaL9UvEB
- xmMwzJX4+bY0sTlpDPXQBIFrit1eqyV82H02WaTKACk7GJPZNx8SzUMEmTFVzYCHSQSG
- QAMPAHEFu/G2jLQbUSWKBz5OwDLl7Ojoli0pyU7Ui9GGqwtSGQsOXQJQfixcdZaCQIIi
- 85Nw==
-X-Gm-Message-State: AOAM531DqMCVrYAodOL1tUroKEGsYasVQMOe+t3Mib/fswUBvhItpMtj
- d5c1ilcJUP2XzMqqLaZmPX5Gy7nKEZw=
-X-Google-Smtp-Source: ABdhPJxSxv4CgsznF1M5m0HlswEk+5u5gaPfsgzrL0V1ke3IMer28jKI+apmnEdu3Hxzfog3p84yag==
-X-Received: by 2002:a2e:b164:: with SMTP id a4mr1931742ljm.115.1605622650853; 
- Tue, 17 Nov 2020 06:17:30 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id u12sm3170887lfm.39.2020.11.17.06.17.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Nov 2020 06:17:29 -0800 (PST)
-Subject: Re: [PATCH v9 07/17] PM / devfreq: tegra30: Support interconnect and
- OPPs from device-tree
-To: Viresh Kumar <viresh.kumar@linaro.org>
-References: <20201115212922.4390-1-digetx@gmail.com>
- <20201115212922.4390-8-digetx@gmail.com>
- <20201117100705.i62qr4gosvu76o22@vireshk-i7>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <956315a9-e806-3b18-6792-f01057a6c511@gmail.com>
-Date: Tue, 17 Nov 2020 17:17:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4004B6EA97
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 14:31:11 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605623471; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=zRoDPun0Hsjef4OG9w+Y5KQ464Gj4PbP2e/Lna4lmPQ=;
+ b=fhML4WaI4YyCHwl+paupTljMQoiyC03BOi4YU6UhtWGU1qVwn+0RbMx7BAN5txaiIn2LYp7Y
+ gF1luZ7icax+ISA4zyR+D9A/I3dxF9Q8609XUM1XGU2NtnhJos1Vn1X1fYuTnz5BX/qbSf+N
+ xYCsAEadb0aw27kvFbR0wxml/Ik=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5fb3dead3825e013b5d1e191 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 17 Nov 2020 14:31:09
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D2C05C43461; Tue, 17 Nov 2020 14:31:09 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-253.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 289D5C433C6;
+ Tue, 17 Nov 2020 14:31:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 289D5C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail
+ smtp.mailfrom=saiprakash.ranjan@codeaurora.org
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>
+Subject: [PATCHv8 0/8] System Cache support for GPU and required SMMU support
+Date: Tue, 17 Nov 2020 20:00:39 +0530
+Message-Id: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20201117100705.i62qr4gosvu76o22@vireshk-i7>
-Content-Language: en-US
 X-Mailman-Approved-At: Wed, 18 Nov 2020 08:01:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,100 +70,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTcuMTEuMjAyMCAxMzowNywgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gT24gMTYtMTEtMjAs
-IDAwOjI5LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IFRoaXMgcGF0Y2ggbW92ZXMgQUNUTU9O
-IGRyaXZlciBhd2F5IGZyb20gZ2VuZXJhdGluZyBPUFAgdGFibGUgYnkgaXRzZWxmLAo+PiB0cmFu
-c2l0aW9uaW5nIGl0IHRvIHVzZSB0aGUgdGFibGUgd2hpY2ggY29tZXMgZnJvbSBkZXZpY2UtdHJl
-ZS4gVGhpcwo+PiBjaGFuZ2UgYnJlYWtzIGNvbXBhdGliaWxpdHkgd2l0aCBvbGRlciBkZXZpY2Ut
-dHJlZXMgaW4gb3JkZXIgdG8gYnJpbmcKPj4gc3VwcG9ydCBmb3IgdGhlIGludGVyY29ubmVjdCBm
-cmFtZXdvcmsgdG8gdGhlIGRyaXZlci4gVGhpcyBpcyBhIG1hbmRhdG9yeQo+PiBjaGFuZ2Ugd2hp
-Y2ggbmVlZHMgdG8gYmUgZG9uZSBpbiBvcmRlciB0byBpbXBsZW1lbnQgaW50ZXJjb25uZWN0LWJh
-c2VkCj4+IG1lbW9yeSBEVkZTLiBVc2VycyBvZiBsZWdhY3kgZGV2aWNlLXRyZWVzIHdpbGwgZ2V0
-IGEgbWVzc2FnZSB0ZWxsaW5nIHRoYXQKPj4gdGhlaXJzIERUIG5lZWRzIHRvIGJlIHVwZ3JhZGVk
-LiBOb3cgQUNUTU9OIGlzc3VlcyBtZW1vcnkgYmFuZHdpZHRoIHJlcXVlc3QKPj4gdXNpbmcgZGV2
-X3BtX29wcF9zZXRfYncoKSwgaW5zdGVhZCBvZiBkcml2aW5nIEVNQyBjbG9jayByYXRlIGRpcmVj
-dGx5Lgo+Pgo+PiBUZXN0ZWQtYnk6IFBldGVyIEdlaXMgPHBnd2lwZW91dEBnbWFpbC5jb20+Cj4+
-IFRlc3RlZC1ieTogTmljb2xhcyBDaGF1dmV0IDxrd2l6YXJ0QGdtYWlsLmNvbT4KPj4gQWNrZWQt
-Ynk6IENoYW53b28gQ2hvaSA8Y3cwMC5jaG9pQHNhbXN1bmcuY29tPgo+PiBTaWduZWQtb2ZmLWJ5
-OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0eEBnbWFpbC5jb20+Cj4+IC0tLQo+PiAgZHJpdmVycy9k
-ZXZmcmVxL3RlZ3JhMzAtZGV2ZnJlcS5jIHwgODYgKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0t
-LS0tLQo+PiAgMSBmaWxlIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDQyIGRlbGV0aW9ucygt
-KQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9kZXZmcmVxL3RlZ3JhMzAtZGV2ZnJlcS5jIGIv
-ZHJpdmVycy9kZXZmcmVxL3RlZ3JhMzAtZGV2ZnJlcS5jCj4+IGluZGV4IDM4Y2MwZDAxNDczOC4u
-ZWQ2ZDQ0NjljOGM3IDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2RldmZyZXEvdGVncmEzMC1kZXZm
-cmVxLmMKPj4gKysrIGIvZHJpdmVycy9kZXZmcmVxL3RlZ3JhMzAtZGV2ZnJlcS5jCj4+IEBAIC0x
-OSw2ICsxOSw4IEBACj4+ICAjaW5jbHVkZSA8bGludXgvcmVzZXQuaD4KPj4gICNpbmNsdWRlIDxs
-aW51eC93b3JrcXVldWUuaD4KPj4gIAo+PiArI2luY2x1ZGUgPHNvYy90ZWdyYS9mdXNlLmg+Cj4+
-ICsKPj4gICNpbmNsdWRlICJnb3Zlcm5vci5oIgo+PiAgCj4+ICAjZGVmaW5lIEFDVE1PTl9HTEJf
-U1RBVFVTCQkJCQkweDAKPj4gQEAgLTE1NSw2ICsxNTcsNyBAQCBzdHJ1Y3QgdGVncmFfZGV2ZnJl
-cV9kZXZpY2Ugewo+PiAgCj4+ICBzdHJ1Y3QgdGVncmFfZGV2ZnJlcSB7Cj4+ICAJc3RydWN0IGRl
-dmZyZXEJCSpkZXZmcmVxOwo+PiArCXN0cnVjdCBvcHBfdGFibGUJKm9wcF90YWJsZTsKPj4gIAo+
-PiAgCXN0cnVjdCByZXNldF9jb250cm9sCSpyZXNldDsKPj4gIAlzdHJ1Y3QgY2xrCQkqY2xvY2s7
-Cj4+IEBAIC02MTIsMzQgKzYxNSwxOSBAQCBzdGF0aWMgdm9pZCB0ZWdyYV9hY3Rtb25fc3RvcChz
-dHJ1Y3QgdGVncmFfZGV2ZnJlcSAqdGVncmEpCj4+ICBzdGF0aWMgaW50IHRlZ3JhX2RldmZyZXFf
-dGFyZ2V0KHN0cnVjdCBkZXZpY2UgKmRldiwgdW5zaWduZWQgbG9uZyAqZnJlcSwKPj4gIAkJCQl1
-MzIgZmxhZ3MpCj4+ICB7Cj4+IC0Jc3RydWN0IHRlZ3JhX2RldmZyZXEgKnRlZ3JhID0gZGV2X2dl
-dF9kcnZkYXRhKGRldik7Cj4+IC0Jc3RydWN0IGRldmZyZXEgKmRldmZyZXEgPSB0ZWdyYS0+ZGV2
-ZnJlcTsKPj4gIAlzdHJ1Y3QgZGV2X3BtX29wcCAqb3BwOwo+PiAtCXVuc2lnbmVkIGxvbmcgcmF0
-ZTsKPj4gLQlpbnQgZXJyOwo+PiArCWludCByZXQ7Cj4+ICAKPj4gIAlvcHAgPSBkZXZmcmVxX3Jl
-Y29tbWVuZGVkX29wcChkZXYsIGZyZXEsIGZsYWdzKTsKPj4gIAlpZiAoSVNfRVJSKG9wcCkpIHsK
-Pj4gIAkJZGV2X2VycihkZXYsICJGYWlsZWQgdG8gZmluZCBvcHAgZm9yICVsdSBIelxuIiwgKmZy
-ZXEpOwo+PiAgCQlyZXR1cm4gUFRSX0VSUihvcHApOwo+PiAgCX0KPj4gLQlyYXRlID0gZGV2X3Bt
-X29wcF9nZXRfZnJlcShvcHApOwo+PiAtCWRldl9wbV9vcHBfcHV0KG9wcCk7Cj4+IC0KPj4gLQll
-cnIgPSBjbGtfc2V0X21pbl9yYXRlKHRlZ3JhLT5lbWNfY2xvY2ssIHJhdGUgKiBLSFopOwo+PiAt
-CWlmIChlcnIpCj4+IC0JCXJldHVybiBlcnI7Cj4+IC0KPj4gLQllcnIgPSBjbGtfc2V0X3JhdGUo
-dGVncmEtPmVtY19jbG9jaywgMCk7Cj4+IC0JaWYgKGVycikKPj4gLQkJZ290byByZXN0b3JlX21p
-bl9yYXRlOwo+PiAgCj4+IC0JcmV0dXJuIDA7Cj4+IC0KPj4gLXJlc3RvcmVfbWluX3JhdGU6Cj4+
-IC0JY2xrX3NldF9taW5fcmF0ZSh0ZWdyYS0+ZW1jX2Nsb2NrLCBkZXZmcmVxLT5wcmV2aW91c19m
-cmVxKTsKPj4gKwlyZXQgPSBkZXZfcG1fb3BwX3NldF9idyhkZXYsIG9wcCk7Cj4+ICsJZGV2X3Bt
-X29wcF9wdXQob3BwKTsKPj4gIAo+PiAtCXJldHVybiBlcnI7Cj4+ICsJcmV0dXJuIHJldDsKPj4g
-IH0KPj4gIAo+PiAgc3RhdGljIGludCB0ZWdyYV9kZXZmcmVxX2dldF9kZXZfc3RhdHVzKHN0cnVj
-dCBkZXZpY2UgKmRldiwKPj4gQEAgLTY1NSw3ICs2NDMsNyBAQCBzdGF0aWMgaW50IHRlZ3JhX2Rl
-dmZyZXFfZ2V0X2Rldl9zdGF0dXMoc3RydWN0IGRldmljZSAqZGV2LAo+PiAgCXN0YXQtPnByaXZh
-dGVfZGF0YSA9IHRlZ3JhOwo+PiAgCj4+ICAJLyogVGhlIGJlbG93IGFyZSB0byBiZSB1c2VkIGJ5
-IHRoZSBvdGhlciBnb3Zlcm5vcnMgKi8KPj4gLQlzdGF0LT5jdXJyZW50X2ZyZXF1ZW5jeSA9IGN1
-cl9mcmVxOwo+PiArCXN0YXQtPmN1cnJlbnRfZnJlcXVlbmN5ID0gY3VyX2ZyZXEgKiBLSFo7Cj4+
-ICAKPj4gIAlhY3Rtb25fZGV2ID0gJnRlZ3JhLT5kZXZpY2VzW01DQUxMXTsKPj4gIAo+PiBAQCAt
-NzA1LDcgKzY5MywxMiBAQCBzdGF0aWMgaW50IHRlZ3JhX2dvdmVybm9yX2dldF90YXJnZXQoc3Ry
-dWN0IGRldmZyZXEgKmRldmZyZXEsCj4+ICAJCXRhcmdldF9mcmVxID0gbWF4KHRhcmdldF9mcmVx
-LCBkZXYtPnRhcmdldF9mcmVxKTsKPj4gIAl9Cj4+ICAKPj4gLQkqZnJlcSA9IHRhcmdldF9mcmVx
-Owo+PiArCS8qCj4+ICsJICogdGVncmEtZGV2ZnJlcSBkcml2ZXIgb3BlcmF0ZXMgd2l0aCBLSHog
-dW5pdHMsIHdoaWxlIE9QUCB0YWJsZQo+PiArCSAqIGVudHJpZXMgdXNlIEh6IHVuaXRzLiBIZW5j
-ZSB3ZSBuZWVkIHRvIGNvbnZlcnQgdGhlIHVuaXRzIGZvciB0aGUKPj4gKwkgKiBkZXZmcmVxIGNv
-cmUuCj4+ICsJICovCj4+ICsJKmZyZXEgPSB0YXJnZXRfZnJlcSAqIEtIWjsKPj4gIAo+PiAgCXJl
-dHVybiAwOwo+PiAgfQo+PiBAQCAtNzc0LDYgKzc2Nyw3IEBAIHN0YXRpYyBzdHJ1Y3QgZGV2ZnJl
-cV9nb3Zlcm5vciB0ZWdyYV9kZXZmcmVxX2dvdmVybm9yID0gewo+PiAgCj4+ICBzdGF0aWMgaW50
-IHRlZ3JhX2RldmZyZXFfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKPj4gIHsK
-Pj4gKwl1MzIgaHdfdmVyc2lvbiA9IEJJVCh0ZWdyYV9za3VfaW5mby5zb2Nfc3BlZWRvX2lkKTsK
-Pj4gIAlzdHJ1Y3QgdGVncmFfZGV2ZnJlcV9kZXZpY2UgKmRldjsKPj4gIAlzdHJ1Y3QgdGVncmFf
-ZGV2ZnJlcSAqdGVncmE7Cj4+ICAJc3RydWN0IGRldmZyZXEgKmRldmZyZXE7Cj4+IEBAIC03ODEs
-NiArNzc1LDEzIEBAIHN0YXRpYyBpbnQgdGVncmFfZGV2ZnJlcV9wcm9iZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQo+PiAgCWxvbmcgcmF0ZTsKPj4gIAlpbnQgZXJyOwo+PiAgCj4+ICsJ
-LyogbGVnYWN5IGRldmljZS10cmVlcyBkb24ndCBoYXZlIE9QUCB0YWJsZSBhbmQgbXVzdCBiZSB1
-cGRhdGVkICovCj4+ICsJaWYgKCFkZXZpY2VfcHJvcGVydHlfcHJlc2VudCgmcGRldi0+ZGV2LCAi
-b3BlcmF0aW5nLXBvaW50cy12MiIpKSB7Cj4+ICsJCWRldl9lcnIoJnBkZXYtPmRldiwKPj4gKwkJ
-CSJPUFAgdGFibGUgbm90IGZvdW5kLCBwbGVhc2UgdXBkYXRlIHlvdXIgZGV2aWNlIHRyZWVcbiIp
-Owo+PiArCQlyZXR1cm4gLUVOT0RFVjsKPj4gKwl9Cj4+ICsKPiAKPiBZb3UgZm9yZ290IHRvIHJl
-bW92ZSB0aGlzID8KClllcywgZ29vZCBjYXRjaC4gSSdtIHBsYW5uaW5nIHRvIHJlcGxhY2UgdGhp
-cyBjb2RlIHdpdGggYSBjb21tb24gaGVscGVyCnNvbWV0aW1lIHNvb24sIHNvIGlmIHRoZXJlIHdv
-bid0IGJlIGFub3RoZXIgcmVhc29ucyB0byBtYWtlIGEgbmV3CnJldmlzaW9uLCB0aGVuIEknZCBw
-cmVmZXIgdG8ga2VlcCBpdCBhcy1pcyBmb3Igbm93LgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Some hardware variants contain a system cache or the last level
+cache(llc). This cache is typically a large block which is shared
+by multiple clients on the SOC. GPU uses the system cache to cache
+both the GPU data buffers(like textures) as well the SMMU pagetables.
+This helps with improved render performance as well as lower power
+consumption by reducing the bus traffic to the system memory.
+
+The system cache architecture allows the cache to be split into slices
+which then be used by multiple SOC clients. This patch series is an
+effort to enable and use two of those slices preallocated for the GPU,
+one for the GPU data buffers and another for the GPU SMMU hardware
+pagetables.
+
+Patch 1 - Patch 6 adds system cache support in SMMU and GPU driver.
+Patch 7 and 8 are minor cleanups for arm-smmu impl.
+
+Changes in v8:
+ * Introduce a generic domain attribute for pagetable config (Will)
+ * Rename quirk to more generic IO_PGTABLE_QUIRK_ARM_OUTER_WBWA (Will)
+ * Move non-strict mode to use new struct domain_attr_io_pgtbl_config (Will)
+
+Changes in v7:
+ * Squash Jordan's patch to support MMU500 targets
+ * Rebase on top of for-joerg/arm-smmu/updates and Jordan's short series for adreno-smmu impl
+
+Changes in v6:
+ * Move table to arm-smmu-qcom (Robin)
+
+Changes in v5:
+ * Drop cleanup of blank lines since it was intentional (Robin)
+ * Rebase again on top of msm-next-pgtables as it moves pretty fast
+
+Changes in v4:
+ * Drop IOMMU_SYS_CACHE prot flag
+ * Rebase on top of https://gitlab.freedesktop.org/drm/msm/-/tree/msm-next-pgtables
+
+Changes in v3:
+ * Fix domain attribute setting to before iommu_attach_device()
+ * Fix few code style and checkpatch warnings
+ * Rebase on top of Jordan's latest split pagetables and per-instance
+   pagetables support
+
+Changes in v2:
+ * Addressed review comments and rebased on top of Jordan's split
+   pagetables series
+
+Jordan Crouse (1):
+  drm/msm/a6xx: Add support for using system cache on MMU500 based
+    targets
+
+Sai Prakash Ranjan (5):
+  iommu/io-pgtable-arm: Add support to use system cache
+  iommu/arm-smmu: Add domain attribute for pagetable configuration
+  iommu/arm-smmu: Move non-strict mode to use domain_attr_io_pgtbl_cfg
+  iommu: arm-smmu-impl: Use table to list QCOM implementations
+  iommu: arm-smmu-impl: Add a space before open parenthesis
+
+Sharat Masetty (2):
+  drm/msm: rearrange the gpu_rmw() function
+  drm/msm/a6xx: Add support for using system cache(LLC)
+
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 109 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |   5 +
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c    |  17 ++++
+ drivers/gpu/drm/msm/msm_drv.c              |   8 ++
+ drivers/gpu/drm/msm/msm_drv.h              |   1 +
+ drivers/gpu/drm/msm/msm_gpu.h              |   5 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  11 +--
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c |  21 +++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      |  30 +++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |   3 +-
+ drivers/iommu/io-pgtable-arm.c             |  10 +-
+ include/linux/io-pgtable.h                 |   8 ++
+ include/linux/iommu.h                      |   1 +
+ 13 files changed, 203 insertions(+), 26 deletions(-)
+
+
+base-commit: a29bbb0861f487a5e144dc997a9f71a36c7a2404
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
