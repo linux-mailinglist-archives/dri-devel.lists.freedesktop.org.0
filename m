@@ -2,64 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B4B2B7BE7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 11:57:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C24F2B7D2A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 13:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37A8E6E3DB;
-	Wed, 18 Nov 2020 10:57:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43C106E3DB;
+	Wed, 18 Nov 2020 12:01:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B49A6E3DB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 10:57:48 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id s25so2120324ejy.6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 02:57:48 -0800 (PST)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 723376E3DB;
+ Wed, 18 Nov 2020 12:01:20 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id ay21so1722493edb.2;
+ Wed, 18 Nov 2020 04:01:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Ujs+84h/AV5va5lsnNUE6Cha4z0WdYf4Awwp5uvYq2s=;
- b=ec2dXjyKAgBuZgQiPsDp5dlX2Axa3/ZR+q3LPAUbNQK51MefRbkfyUzwGdwcFCNNsl
- DmAkYKWSssBL8pDXSTuIMb03r27h8P3C7U+//k3tiWfmUbqOc6vYiFgAr7mFQguCiSkc
- OrEEYzGMqPmV/YS7MOh6wuDzbz4ZtukA4ppcicdJqLSkgi9vmxq6hUetlEIql9xC1e+D
- gJYjQu75/yP0gqDhZ9DoHavl6V6VBNPHDiB4x1nDLZ49YGYM471bij22ozZh9FBiPYHY
- mft78EPbgAOqjcnAMJTpESq0Q+59GL2BcUtH6vopcqxr4H2uFtMKhBjytC9I6vggoFOh
- CQlg==
+ bh=1kY678/TlSt+JHbm0PDgPhjC5j2m6T9yJ6fohIj8IJQ=;
+ b=WeOdbs4w1nVZxM9UVgpzapBut+MVvPL3n9IoZdEU54RB78zYfMc5rfcI8xSgnCK54H
+ SFMPP9GokpMGZCsq1DoFLf3bn+zgZrV9KrVnI4YuXDg83KRpelDZ4oQszT1owx8M5PMW
+ 7/7HcG/XMv8du4uGHhY4gXPBB90HvTr0eFwaxkxAwdcSuEhxXzNXJ36GZ7uaoBHY4y1r
+ q+qShaeZ5WHki/EPTPWx0CazRq/rv8u9WnntRRc3Op5JCMbC9Rbe3k6vwEsVWqyIGi3A
+ ZGxU7b2hLRYHwCllKl2K7a1eSLqL2Y022bxLwa+FYh/gvflGcBgKUIPNyvjrPFdzNK0b
+ pLoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=Ujs+84h/AV5va5lsnNUE6Cha4z0WdYf4Awwp5uvYq2s=;
- b=PakNAXpZUpFQ7txlB6XbJ9ysj0tf2QoiFnv1wobeRsz2hXZoyOmHlDhz27EQoxZLY4
- SS0E80LghaoiOFUIzcOs791FwyHBZ+/EbjiKHj7XVbHPleDpgjBBDIl7eNfsKeTcZ0tJ
- CoOzxyv+Dqfl15T3AIQ/gYnZel7fnb3+UBWRkL8frisDSq3KMRgY6sWfZPbMjqq+r/h5
- cK3S5cRI20R544dCNQProTncXq46BJ+XrogmEnP26R0lwOeYAqBl+im9+c67LtUNwrWe
- RqhTRQGcK3KXnO9vsrn5Z4HvumsU3Ms6w8PEBFNLLOwBxXmgp0pd+0L5THJpJLM9khGi
- Q0Vg==
-X-Gm-Message-State: AOAM533/j+pC3a/oLzCMlKMzAYSewMXTbnVzxlDEaP5I7839F2bVWFP7
- eC34l89jHZU/4jZXFTPViuM=
-X-Google-Smtp-Source: ABdhPJzwcar3mNBUaai8RXeIr42FsqX4abG+v5tYsTGBLf/nO0azD5aQGORqzDbjWMSqF0AU+Vgykw==
-X-Received: by 2002:a17:906:2e0f:: with SMTP id
- n15mr6409546eji.486.1605697066669; 
- Wed, 18 Nov 2020 02:57:46 -0800 (PST)
+ bh=1kY678/TlSt+JHbm0PDgPhjC5j2m6T9yJ6fohIj8IJQ=;
+ b=Z7H724If7p1dcnqytqQENI2gSwsYwyJODR70zOLxflzWJoHxTqyzX5FxwHtuE7M6/H
+ iUGcrRTILjwbcMgTRFPVN0ivLZ4Fa+q78T9BCyd5xcROgneS6FUcrGIISUDynE0J1mZd
+ ZtcK/2SE0V3gLpxArUyISkdhuswmfCzwTGiAA5V2UxEff8BTXA0NGDCpHh9HKmx5L/o+
+ ygxySyCv8zQph7snC/+/ubTXBhgaK2/VzSUzGyqm1DwvedlRB0+rEmyXZlONIjuzK8VZ
+ kEzebjE04arRNryyM/YgXvMs3LTnU2ok943MesKhXyxTloWw4dP53txFQ4zoV1eyo+vg
+ 7IVw==
+X-Gm-Message-State: AOAM53103sBQM78IFmevT7S/35sbsCHesZr86z9J7ZsZl5xbNck19VtT
+ hcKdmKriQjaCBgmZKju2ua4=
+X-Google-Smtp-Source: ABdhPJyYLVPZFn913p3nMyQz3blndzxsqE7mTRawQ4pw9fQv+u5pkfMC9Xlxn4l02N/YSXY9FM06GA==
+X-Received: by 2002:a05:6402:21a:: with SMTP id
+ t26mr8210370edv.173.1605700879084; 
+ Wed, 18 Nov 2020 04:01:19 -0800 (PST)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
  ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id n12sm12761784ejs.19.2020.11.18.02.57.45
+ by smtp.gmail.com with ESMTPSA id c8sm13445667edr.29.2020.11.18.04.01.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 02:57:46 -0800 (PST)
-Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
-To: Andrew Morton <akpm@linux-foundation.org>
-References: <20201106114806.46015-1-christian.koenig@amd.com>
- <20201106114806.46015-2-christian.koenig@amd.com>
- <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
+ Wed, 18 Nov 2020 04:01:18 -0800 (PST)
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Prevent any job recoveries after
+ device is unplugged.
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-9-git-send-email-andrey.grodzovsky@amd.com>
+ <20200622095345.GF20149@phenom.ffwll.local>
+ <24dd3691-5599-459c-2e5d-a8f2e504ec66@amd.com>
+ <20201117185255.GP401619@phenom.ffwll.local>
+ <b827fa7a-d89e-d138-d275-60a9f15c128a@amd.com>
+ <20201117194922.GW401619@phenom.ffwll.local>
+ <064ef461-8f59-2eb8-7777-6ff5b8d28cdd@amd.com>
+ <CAKMK7uF9uvT09zDb6fS0j68fWrq2qV7h_JQAt8vpaGPJ1d64cQ@mail.gmail.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e5a25173-ebea-d856-ed25-45437769f17f@gmail.com>
-Date: Wed, 18 Nov 2020 11:57:44 +0100
+Message-ID: <d0a3ee49-64f3-a223-7e84-0c8eb3481f61@gmail.com>
+Date: Wed, 18 Nov 2020 13:01:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
+In-Reply-To: <CAKMK7uF9uvT09zDb6fS0j68fWrq2qV7h_JQAt8vpaGPJ1d64cQ@mail.gmail.com>
 Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,29 +82,174 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Reply-To: christian.koenig@amd.com
-Cc: linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDYuMTEuMjAgdW0gMjM6NDggc2NocmllYiBBbmRyZXcgTW9ydG9uOgo+IE9uIEZyaSwgIDYg
-Tm92IDIwMjAgMTI6NDg6MDUgKzAxMDAgIkNocmlzdGlhbiBLw7ZuaWciIDxja29lbmlnLmxlaWNo
-dHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPj4gUGF0Y2ggIjQ5NWMxMGNjMWMwYyBDSFJP
-TUlVTTogZG1hLWJ1ZjogcmVzdG9yZSBhcmdzLi4uIgo+PiBhZGRzIGEgd29ya2Fyb3VuZCBmb3Ig
-YSBidWcgaW4gbW1hcF9yZWdpb24uCj4+Cj4+IEFzIHRoZSBjb21tZW50IHN0YXRlcyAtPm1tYXAo
-KSBjYWxsYmFjayBjYW4gY2hhbmdlCj4+IHZtYS0+dm1fZmlsZSBhbmQgc28gd2UgbWlnaHQgY2Fs
-bCBmcHV0KCkgb24gdGhlIHdyb25nIGZpbGUuCj4+Cj4+IFJldmVydCB0aGUgd29ya2Fyb3VuZCBh
-bmQgcHJvcGVyIGZpeCB0aGlzIGluIG1tYXBfcmVnaW9uLgo+Pgo+IFNlZW1zIGNvcnJlY3QsIGJl
-c3QgSSBjYW4gdGVsbC4gIFByZXN1bWFibHkgYWxsIC0+bW1hcCgpIGluc3RhbmNlcyB3aWxsCj4g
-Y29ycmVjdGx5IGZwdXQoKSB0byBvcmlnaW5hbCBmaWxlKiBpZiB0aGV5J3JlIHJld3JpdGluZyB2
-bWEtPnZtX2ZpbGUuCgpZZXMsIGV4YWN0bHkuCgpQYXRjaCAjMiBwcm92aWRlcyBhIGhlbHBlciB0
-byBtYWtlIHN1cmUgdGhhdCBldmVyeWJvZHkgZ2V0cyB0aGUgCmdldF9maWxlKCkvZnB1dCgpIGNv
-cnJlY3RseSB3aGlsZSB1cGRhdGluZyB2bWEtPnZtX2ZpbGUuCgpDYW4gSSBhZGQgeW91ciBhY2tl
-ZC1ieSB0byB0aGUgcGF0Y2hlcyBhbmQgcHVzaCB0aGVtIHVwc3RyZWFtIHRocm91Z2ggCmRybS1t
-aXNjLW5leHQ/CgpUaGFua3MsCkNocmlzdGlhbi4KCgpfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBs
-aXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9kcmktZGV2ZWwK
+Am 18.11.20 um 08:39 schrieb Daniel Vetter:
+> On Tue, Nov 17, 2020 at 9:07 PM Andrey Grodzovsky
+> <Andrey.Grodzovsky@amd.com> wrote:
+>>
+>> On 11/17/20 2:49 PM, Daniel Vetter wrote:
+>>> On Tue, Nov 17, 2020 at 02:18:49PM -0500, Andrey Grodzovsky wrote:
+>>>> On 11/17/20 1:52 PM, Daniel Vetter wrote:
+>>>>> On Tue, Nov 17, 2020 at 01:38:14PM -0500, Andrey Grodzovsky wrote:
+>>>>>> On 6/22/20 5:53 AM, Daniel Vetter wrote:
+>>>>>>> On Sun, Jun 21, 2020 at 02:03:08AM -0400, Andrey Grodzovsky wrote:
+>>>>>>>> No point to try recovery if device is gone, just messes up things.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+>>>>>>>> ---
+>>>>>>>>      drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 16 ++++++++++++++++
+>>>>>>>>      drivers/gpu/drm/amd/amdgpu/amdgpu_job.c |  8 ++++++++
+>>>>>>>>      2 files changed, 24 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>>>>> index 6932d75..5d6d3d9 100644
+>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+>>>>>>>> @@ -1129,12 +1129,28 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>>>>>>>>           return ret;
+>>>>>>>>      }
+>>>>>>>> +static void amdgpu_cancel_all_tdr(struct amdgpu_device *adev)
+>>>>>>>> +{
+>>>>>>>> +        int i;
+>>>>>>>> +
+>>>>>>>> +        for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
+>>>>>>>> +                struct amdgpu_ring *ring = adev->rings[i];
+>>>>>>>> +
+>>>>>>>> +                if (!ring || !ring->sched.thread)
+>>>>>>>> +                        continue;
+>>>>>>>> +
+>>>>>>>> +                cancel_delayed_work_sync(&ring->sched.work_tdr);
+>>>>>>>> +        }
+>>>>>>>> +}
+>>>>>>> I think this is a function that's supposed to be in drm/scheduler, not
+>>>>>>> here. Might also just be your cleanup code being ordered wrongly, or your
+>>>>>>> split in one of the earlier patches not done quite right.
+>>>>>>> -Daniel
+>>>>>> This function iterates across all the schedulers  per amdgpu device and accesses
+>>>>>> amdgpu specific structures , drm/scheduler deals with single scheduler at most
+>>>>>> so looks to me like this is the right place for this function
+>>>>> I guess we could keep track of all schedulers somewhere in a list in
+>>>>> struct drm_device and wrap this up. That was kinda the idea.
+>>>>>
+>>>>> Minimally I think a tiny wrapper with docs for the
+>>>>> cancel_delayed_work_sync(&sched->work_tdr); which explains what you must
+>>>>> observe to make sure there's no race.
+>>>> Will do
+>>>>
+>>>>
+>>>>> I'm not exactly sure there's no
+>>>>> guarantee here we won't get a new tdr work launched right afterwards at
+>>>>> least, so this looks a bit like a hack.
+>>>> Note that for any TDR work happening post amdgpu_cancel_all_tdr
+>>>> amdgpu_job_timedout->drm_dev_is_unplugged
+>>>> will return true and so it will return early. To make it water proof tight
+>>>> against race
+>>>> i can switch from drm_dev_is_unplugged to drm_dev_enter/exit
+>>> Hm that's confusing. You do a work_cancel_sync, so that at least looks
+>>> like "tdr work must not run after this point"
+>>>
+>>> If you only rely on drm_dev_enter/exit check with the tdr work, then
+>>> there's no need to cancel anything.
+>>
+>> Agree, synchronize_srcu from drm_dev_unplug should play the role
+>> of 'flushing' any earlier (in progress) tdr work which is
+>> using drm_dev_enter/exit pair. Any later arising tdr will terminate early when
+>> drm_dev_enter
+>> returns false.
+> Nope, anything you put into the work itself cannot close this race.
+> It's the schedule_work that matters here. Or I'm missing something ...
+> I thought that the tdr work you're cancelling here is launched by
+> drm/scheduler code, not by the amd callback?
+
+Yes that is correct. Canceling the work item is not the right approach 
+at all, nor is adding dev_enter/exit pair in the recovery handler.
+
+What we need to do here is to stop the scheduler thread and then wait 
+for any timeout handling to have finished.
+
+Otherwise it can scheduler a new timeout just after we have canceled 
+this one.
+
+Regards,
+Christian.
+
+> -Daniel
+>
+>> Will update.
+>>
+>> Andrey
+>>
+>>
+>>> For race free cancel_work_sync you need:
+>>> 1. make sure whatever is calling schedule_work is guaranteed to no longer
+>>> call schedule_work.
+>>> 2. call cancel_work_sync
+>>>
+>>> Anything else is cargo-culted work cleanup:
+>>>
+>>> - 1. without 2. means if a work got scheduled right before it'll still be
+>>>     a problem.
+>>> - 2. without 1. means a schedule_work right after makes you calling
+>>>     cancel_work_sync pointless.
+>>>
+>>> So either both or nothing.
+>>> -Daniel
+>>>
+>>>> Andrey
+>>>>
+>>>>
+>>>>> -Daniel
+>>>>>
+>>>>>> Andrey
+>>>>>>
+>>>>>>
+>>>>>>>> +
+>>>>>>>>      static void
+>>>>>>>>      amdgpu_pci_remove(struct pci_dev *pdev)
+>>>>>>>>      {
+>>>>>>>>           struct drm_device *dev = pci_get_drvdata(pdev);
+>>>>>>>> +        struct amdgpu_device *adev = dev->dev_private;
+>>>>>>>>           drm_dev_unplug(dev);
+>>>>>>>> +        amdgpu_cancel_all_tdr(adev);
+>>>>>>>>           ttm_bo_unmap_virtual_address_space(&adev->mman.bdev);
+>>>>>>>>           amdgpu_driver_unload_kms(dev);
+>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>> index 4720718..87ff0c0 100644
+>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+>>>>>>>> @@ -28,6 +28,8 @@
+>>>>>>>>      #include "amdgpu.h"
+>>>>>>>>      #include "amdgpu_trace.h"
+>>>>>>>> +#include <drm/drm_drv.h>
+>>>>>>>> +
+>>>>>>>>      static void amdgpu_job_timedout(struct drm_sched_job *s_job)
+>>>>>>>>      {
+>>>>>>>>           struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
+>>>>>>>> @@ -37,6 +39,12 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
+>>>>>>>>           memset(&ti, 0, sizeof(struct amdgpu_task_info));
+>>>>>>>> +        if (drm_dev_is_unplugged(adev->ddev)) {
+>>>>>>>> +                DRM_INFO("ring %s timeout, but device unplugged, skipping.\n",
+>>>>>>>> +                                          s_job->sched->name);
+>>>>>>>> +                return;
+>>>>>>>> +        }
+>>>>>>>> +
+>>>>>>>>           if (amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
+>>>>>>>>                   DRM_ERROR("ring %s timeout, but soft recovered\n",
+>>>>>>>>                             s_job->sched->name);
+>>>>>>>> --
+>>>>>>>> 2.7.4
+>>>>>>>>
+>
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
