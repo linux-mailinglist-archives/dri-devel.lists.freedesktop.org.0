@@ -2,29 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A98B2B8D6F
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:33:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B2E2B8D48
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACED46E50E;
-	Thu, 19 Nov 2020 08:33:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5CA6E52D;
+	Thu, 19 Nov 2020 08:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 474176E408
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 12:04:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id E141D6E40B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 12:04:20 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 002C8D6E;
- Wed, 18 Nov 2020 04:04:15 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FBD2D6E;
+ Wed, 18 Nov 2020 04:04:20 -0800 (PST)
 Received: from e123648.arm.com (unknown [10.57.23.25])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 888363F70D;
- Wed, 18 Nov 2020 04:04:13 -0800 (PST)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A77433F70D;
+ Wed, 18 Nov 2020 04:04:17 -0800 (PST)
 From: Lukasz Luba <lukasz.luba@arm.com>
 To: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/5] Thermal devfreq cooling improvements with Energy Model
-Date: Wed, 18 Nov 2020 12:03:53 +0000
-Message-Id: <20201118120358.17150-1-lukasz.luba@arm.com>
+Subject: [PATCH v2 1/5] thermal: devfreq_cooling: change tracing function and
+ arguments
+Date: Wed, 18 Nov 2020 12:03:54 +0000
+Message-Id: <20201118120358.17150-2-lukasz.luba@arm.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201118120358.17150-1-lukasz.luba@arm.com>
+References: <20201118120358.17150-1-lukasz.luba@arm.com>
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,48 +50,76 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Prepare for deleting the static and dynamic power calculation and clean
+the trace function. These two fields are going to be removed in the next
+changes.
 
-This patch set is a continuation of my previous work, which aimed
-to add Energy Model to all devices. This series is a follow up
-for the patches which got merged to v5.9-rc1. It aims to change
-the thermal devfreq cooling and use the Energy Model instead of
-private power table and structures. The new registration interface
-in the patch 3/5 helps to register devfreq cooling and the EM in one
-call. There is also another improvement, patch 2/5 is changing the
-way how thermal gets the device status. Now it's taken on demand
-and stored as a copy. The last patch wouldn't go through thermal tree,
-but it's here for consistency.
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org> # for tracing code
+Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+---
+ drivers/thermal/devfreq_cooling.c |  3 +--
+ include/trace/events/thermal.h    | 19 +++++++++----------
+ 2 files changed, 10 insertions(+), 12 deletions(-)
 
-The patch set is based on current next-20201118, which has new EM API
-in the pm/linux-next tree.
-
-changes:
-v2:
-- renamed freq_get_state() and related to perf_idx pattern as
-  suggested by Ionela
-v1 [2]
-
-Regards,
-Lukasz Luba
-
-[1] https://lkml.org/lkml/2020/5/11/326
-[2] https://lore.kernel.org/linux-pm/20200921122007.29610-1-lukasz.luba@arm.com/
-
-Lukasz Luba (5):
-  thermal: devfreq_cooling: change tracing function and arguments
-  thermal: devfreq_cooling: get a copy of device status
-  thermal: devfreq_cooling: add new registration functions with Energy
-    Model
-  thermal: devfreq_cooling: remove old power model and use EM
-  drm/panfrost: Register devfreq cooling and attempt to add Energy Model
-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c |   2 +-
- drivers/thermal/devfreq_cooling.c           | 434 ++++++++++----------
- include/linux/devfreq_cooling.h             |  39 +-
- include/trace/events/thermal.h              |  19 +-
- 4 files changed, 259 insertions(+), 235 deletions(-)
-
+diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
+index dfab49a67252..659c0143c9f0 100644
+--- a/drivers/thermal/devfreq_cooling.c
++++ b/drivers/thermal/devfreq_cooling.c
+@@ -277,8 +277,7 @@ static int devfreq_cooling_get_requested_power(struct thermal_cooling_device *cd
+ 		*power = dyn_power + static_power;
+ 	}
+ 
+-	trace_thermal_power_devfreq_get_power(cdev, status, freq, dyn_power,
+-					      static_power, *power);
++	trace_thermal_power_devfreq_get_power(cdev, status, freq, *power);
+ 
+ 	return 0;
+ fail:
+diff --git a/include/trace/events/thermal.h b/include/trace/events/thermal.h
+index 135e5421f003..8a5f04888abd 100644
+--- a/include/trace/events/thermal.h
++++ b/include/trace/events/thermal.h
+@@ -153,31 +153,30 @@ TRACE_EVENT(thermal_power_cpu_limit,
+ TRACE_EVENT(thermal_power_devfreq_get_power,
+ 	TP_PROTO(struct thermal_cooling_device *cdev,
+ 		 struct devfreq_dev_status *status, unsigned long freq,
+-		u32 dynamic_power, u32 static_power, u32 power),
++		u32 power),
+ 
+-	TP_ARGS(cdev, status,  freq, dynamic_power, static_power, power),
++	TP_ARGS(cdev, status,  freq, power),
+ 
+ 	TP_STRUCT__entry(
+ 		__string(type,         cdev->type    )
+ 		__field(unsigned long, freq          )
+-		__field(u32,           load          )
+-		__field(u32,           dynamic_power )
+-		__field(u32,           static_power  )
++		__field(u32,           busy_time)
++		__field(u32,           total_time)
+ 		__field(u32,           power)
+ 	),
+ 
+ 	TP_fast_assign(
+ 		__assign_str(type, cdev->type);
+ 		__entry->freq = freq;
+-		__entry->load = (100 * status->busy_time) / status->total_time;
+-		__entry->dynamic_power = dynamic_power;
+-		__entry->static_power = static_power;
++		__entry->busy_time = status->busy_time;
++		__entry->total_time = status->total_time;
+ 		__entry->power = power;
+ 	),
+ 
+-	TP_printk("type=%s freq=%lu load=%u dynamic_power=%u static_power=%u power=%u",
++	TP_printk("type=%s freq=%lu load=%u power=%u",
+ 		__get_str(type), __entry->freq,
+-		__entry->load, __entry->dynamic_power, __entry->static_power,
++		__entry->total_time == 0 ? 0 :
++			(100 * __entry->busy_time) / __entry->total_time,
+ 		__entry->power)
+ );
+ 
 -- 
 2.17.1
 
