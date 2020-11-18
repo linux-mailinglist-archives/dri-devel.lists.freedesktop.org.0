@@ -1,137 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91C42B8D22
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F172B8D18
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 485686E51B;
-	Thu, 19 Nov 2020 08:31:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8F56E509;
+	Thu, 19 Nov 2020 08:31:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
- [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 569126E3D0
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 14:04:00 +0000 (UTC)
-Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
- by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0AIE0pVY027578; Wed, 18 Nov 2020 06:03:51 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=lPwf5/zU9UTw71hGTKzYrSmfvpQfDZAyRZbrhKFC70s=;
- b=BQnyTCLBfVTW1o2tAMvsVa8PKFxpCbwqJ8aYmxQTmM+kuGZTgNp0cVEBKJwY6fNyoDk2
- k5KsjcCdLlkq/Sp7WOVL2yWxLU5gZXl1A9wxhLhKvd8eyCT1N9mtJND3HcHm8I6dC9W0
- f7DttKIi46u5CyS6oY3gih3IPMJLzYBrxktNwTIcpdBoXQrHuFf6NeTvhA8Qkh50iZKK
- Zs3FRQc8e2sngG9g0bQfNaud4eIn61k7xAf/L+rJSYEA8cBaV/PR1aq6UUBN7UQp7dBP
- kKpoBBpQ93Wen+xM2lMjhNDbwkDK9PTRvkvPLl2Q5udXOAnONDMA4Qw9Z77s4V2N6oiz Tw== 
-Received: from nam02-bl2-obe.outbound.protection.outlook.com
- (mail-bl2nam02lp2050.outbound.protection.outlook.com [104.47.38.50])
- by mx0b-0014ca01.pphosted.com with ESMTP id 34tbq2yv9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Nov 2020 06:03:50 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H0K71dt8WE3RnfMctiUR/egwFQclsn/AG0+H77lAOAeXhM1XMjtllZiilif6KvwlWfP8FG5cA9sByF4RhsIjvHGm1xXSbN2kSZE/kULD12NOVZ3+ZVLdO8hLdVFhbcKjqlCUhup/vk8rojMdBeThMqwA0xd4jASKaxpFAyeVwfou72ZoRMhmmAnfTWy8deEpTT4JtSqPXz7GPLh2YdyJOiH9Ecgja7OavCz81vIELmk4e3I1RfFiv0i8avWjdlJY+tXG+dyrfNku3VF+Jv9fdQ73TBi5RFkOwjaCnOKlXW2jU3iydH2rP4i+QauocSFjW9kosGbfITS7exisu8qqXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lPwf5/zU9UTw71hGTKzYrSmfvpQfDZAyRZbrhKFC70s=;
- b=Mqys6qYW+T/iZqCds0/RpAAc9xXqnZeuy2QrO8thEQ/rG9sa+UXKpF/b09Kb37xXDD8BrBoINXd7eH2LpLA2AV13GvBRsH3QaZamQySFquvSl43vW3+1MCeMf8z9piriD+h3uaZCxDQYhpMuD+aP/4P9lsJhhIPMxqPieHZT6CEbMCZXSMJ/YyG6rgTVompLCNehGl45OH1OHo1+1yo/kLVOfL8t/jyqTyjvfdoAl5x56WGSPyFzPGs7m2RVqJ+JOg960yd5lfKThI4BGyZvAaFv6eLxjMsxBma5ekMA3WMrsBWE2PFAXoez8tLRRMZ5428/bgnqvzhizOywaJKs6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 158.140.1.147) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=cadence.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lPwf5/zU9UTw71hGTKzYrSmfvpQfDZAyRZbrhKFC70s=;
- b=DYPmZcAZYG7ITrbDIiXNStG3qtmMnaN6Uu1IAZQtUK9eXC9cRHCi+RDyJz97eh7sV70H9MlvsjzGckoB38UUoMVsrp2rvpYAORcts8Ffh7ro/9YpSiEM7cDeRxrapPuh6ikXqxs13DgMLXEmajCP16NHpGgqlQ63YufHYm3ucXU=
-Received: from DM5PR2201CA0013.namprd22.prod.outlook.com (2603:10b6:4:14::23)
- by SN6PR07MB8208.namprd07.prod.outlook.com (2603:10b6:805:e2::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
- 2020 14:03:46 +0000
-Received: from DM6NAM12FT064.eop-nam12.prod.protection.outlook.com
- (2603:10b6:4:14:cafe::98) by DM5PR2201CA0013.outlook.office365.com
- (2603:10b6:4:14::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Wed, 18 Nov 2020 14:03:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.147)
- smtp.mailfrom=cadence.com; ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=pass action=none header.from=cadence.com;
-Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
- 158.140.1.147 as permitted sender) receiver=protection.outlook.com;
- client-ip=158.140.1.147; helo=sjmaillnx1.cadence.com;
-Received: from sjmaillnx1.cadence.com (158.140.1.147) by
- DM6NAM12FT064.mail.protection.outlook.com (10.13.178.114) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.11 via Frontend Transport; Wed, 18 Nov 2020 14:03:46 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
- by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
- 0AIE3dUs007561
- (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
- Wed, 18 Nov 2020 06:03:45 -0800
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Wed, 18 Nov 2020 15:03:39 +0100
-Received: from vleu-orange.cadence.com (10.160.88.83) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 18 Nov 2020 15:03:39 +0100
-Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0AIE3dms003751;
- Wed, 18 Nov 2020 15:03:39 +0100
-Received: (from yamonkar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0AIE3cft003750;
- Wed, 18 Nov 2020 15:03:38 +0100
-From: Yuti Amonkar <yamonkar@cadence.com>
-To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <maxime@cerno.tech>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <mark.rutland@arm.com>, <a.hajda@samsung.com>,
- <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
- <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-Subject: [PATCH v2 3/3] drm: bridge: cdns-mhdp8546: Retrieve the pixel format
- and bpc based on bus format
-Date: Wed, 18 Nov 2020 15:03:28 +0100
-Message-ID: <1605708208-3692-4-git-send-email-yamonkar@cadence.com>
-X-Mailer: git-send-email 2.4.5
-In-Reply-To: <1605708208-3692-1-git-send-email-yamonkar@cadence.com>
-References: <1605708208-3692-1-git-send-email-yamonkar@cadence.com>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 522826E437
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 15:30:27 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id a65so3111366wme.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:30:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=/SDkP0vkKcya+FIJEA+cPnvkReKH8EFRybVcIu9lk9M=;
+ b=D1BytoB6O03jBcACE4ZhAx92rosgf9wYS2rPHzrBHSfzKSQ0rUMTzY3xFt8TEHE9k0
+ YIIiPTr94Bc7PUn7zwCH9EE+zMbRYo4nnn12/5TpwUogKdAUXolEut/KGLgjD8p1u9z+
+ dAYzFovYhNWO+3rZhx7IoAOF+fVoq+FdKg0mn20a1XWJUdbwnQ20TZzHguw90k+BaASf
+ 7P+5q6YagtEKTiL9MoxhoA0aKwhwyc39dlKHA6piMdU8eOhplAdHXaNEcJpNvodiG8QL
+ JTVWIUvFDbkbxf7qqsJ2NSlEFEvArxEdy8Xn4hO7Lb5vG6HcO7PIrZcevw0aveSWR9kJ
+ kERw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/SDkP0vkKcya+FIJEA+cPnvkReKH8EFRybVcIu9lk9M=;
+ b=emxTj41cnsTov9h/bs19rtJF2mkt+vHlyXDwauuybdMChGpw4wJxqZv01xeYBf9a6i
+ kioy3TSqVxsoyEMy7cO5c6t8My0npvPi7QISmhqqqpez0jlb2hJhNh7UlNctMe1Gbep+
+ +WZ62+7P2ciZ+n3xoEAwhOm9fI9VVeggK2Rc0xYhHtsZJaz5XWIuZ3+4WworY98/5H1A
+ vGD8HvJPoSL/oOKmt6nKcn2NGkxF8s5lyLgEK1h3nh8mD25ZN1FXW7XcIckEvaq7r73/
+ URW94tO083kTKQN/zicCSlpM4Btg2m8HM3yMA0kBZlV4YhIJw8WCzvafQrYSO75LAbG8
+ hpag==
+X-Gm-Message-State: AOAM530v+IzRSbJKzX3rhfeuD6/YqoRp0GrQ0zpDIut4Kvpxt7PHib3B
+ 36qLAQAoPL3/8NtTHfaQkgfA5cnIDvm3gA==
+X-Google-Smtp-Source: ABdhPJzFItfcbj1D5GPsiBo7RkrZes7kt1MjC/X61M/dwKw8ehmZ/XH4IHzsd6fKnSmspZvESraPog==
+X-Received: by 2002:a1c:790c:: with SMTP id l12mr560063wme.47.1605713425424;
+ Wed, 18 Nov 2020 07:30:25 -0800 (PST)
+Received: from MacBook-Pro.local ([212.45.64.13])
+ by smtp.googlemail.com with ESMTPSA id w11sm4405479wmg.36.2020.11.18.07.30.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 07:30:24 -0800 (PST)
+Subject: Re: [PATCH v9 01/17] memory: tegra30: Support interconnect framework
+To: Dmitry Osipenko <digetx@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
+ Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
+References: <20201115212922.4390-1-digetx@gmail.com>
+ <20201115212922.4390-2-digetx@gmail.com>
+ <61e777d9-b730-02c6-cedf-cf0aa1a50fb8@linaro.org>
+ <7e484678-43cc-e612-1017-73ed580f9840@gmail.com>
+From: Georgi Djakov <georgi.djakov@linaro.org>
+Message-ID: <83a3f33b-3695-2a40-1c2b-5c38d117c1ad@linaro.org>
+Date: Wed, 18 Nov 2020 17:30:22 +0200
 MIME-Version: 1.0
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a4279eca-da06-4c0b-ed2d-08d88bcac445
-X-MS-TrafficTypeDiagnostic: SN6PR07MB8208:
-X-Microsoft-Antispam-PRVS: <SN6PR07MB8208B4F5DA69A01CAB6CCE5AD2E10@SN6PR07MB8208.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:148;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cvm90xGuAhBfKI1Lt2tPBe+KIMpmAd+egrzubP9iUoldghBv5npDLZZtXvmZysgPC4/G4h0Nir0qs+9BWyoWLpnlVqgOlmce/5zcOIs6zA4J1LLwRTAgWUbAapUhcZJS5peZMIbjtpc/+i2xjf7Kq7R8rNgSsy7Sinb0WBPgK5slLYgpbMRACjJlEgX8HfrL5YOpYgrLpqcgpKzj4c3T3Dg9NIDkWQtr3U1CORXVcST+Ah9rP+UlsoBzLhj2JIqwe0SEzJDL/S6kn3oJxeCrDGkm0Wi8spN6vjVw/9zODMh5E6X9x3FMMoYzQxhAuj+Tk3D838k6PJ1d8ZThD1WS9VcGxEioAT7NpIHmugQmorKC6u54fGP0tjVb2GtOx/1PK+YYGM2wveTqtIC1d3CIwYZQiOQuz/6IMPfauVoRXs4DEvsJc9sQ6H3c/7PbFW/d/VkCsn6dSYMMZ7n4SZCeFo/kJSMElNUcC/p0gwbpWw3/VklMmNqpyweS3d8NGnI8zOFQ0YkOJ0Wn/cvZ7T8XXQ==
-X-Forefront-Antispam-Report: CIP:158.140.1.147; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:sjmaillnx1.cadence.com; PTR:unknown.Cadence.COM; CAT:NONE;
- SFS:(4636009)(396003)(346002)(376002)(136003)(39860400002)(36092001)(46966005)(2616005)(5660300002)(336012)(47076004)(82740400003)(36756003)(6666004)(8936002)(7416002)(82310400003)(86362001)(356005)(7636003)(8676002)(426003)(110136005)(54906003)(26005)(186003)(478600001)(42186006)(4326008)(107886003)(36906005)(2906002)(83380400001)(70586007)(70206006)(921005)(316002)(2101003)(83996005)(358055004);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 14:03:46.4497 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4279eca-da06-4c0b-ed2d-08d88bcac445
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[158.140.1.147];
- Helo=[sjmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM12FT064.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR07MB8208
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-18_04:2020-11-17,
- 2020-11-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
- score=0 mlxscore=0
- clxscore=1015 phishscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011180099
+In-Reply-To: <7e484678-43cc-e612-1017-73ed580f9840@gmail.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -145,140 +79,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mparab@cadence.com, yamonkar@cadence.com, nsekhar@ti.com, jsarha@ti.com,
- tomi.valkeinen@ti.com, sjakhade@cadence.com, nikhil.nd@ti.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Get the pixel format and bpc based on the output bus format
-negotiated instead of hardcoding the values.
-
-Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
----
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 82 +++++++++++++++----
- 1 file changed, 64 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d5e94bd74df1..e1f4bbd09816 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -1512,24 +1512,8 @@ static int cdns_mhdp_get_modes(struct drm_connector *connector)
- 
- 	drm_connector_update_edid_property(connector, edid);
- 	num_modes = drm_add_edid_modes(connector, edid);
--	kfree(edid);
- 
--	/*
--	 * HACK: Warn about unsupported display formats until we deal
--	 *       with them correctly.
--	 */
--	if (connector->display_info.color_formats &&
--	    !(connector->display_info.color_formats &
--	      mhdp->display_fmt.color_format))
--		dev_warn(mhdp->dev,
--			 "%s: No supported color_format found (0x%08x)\n",
--			__func__, connector->display_info.color_formats);
--
--	if (connector->display_info.bpc &&
--	    connector->display_info.bpc < mhdp->display_fmt.bpc)
--		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
--			 __func__, connector->display_info.bpc,
--			 mhdp->display_fmt.bpc);
-+	kfree(edid);
- 
- 	return num_modes;
- }
-@@ -1689,6 +1673,66 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 	return 0;
- }
- 
-+static void cdns_mhdp_get_display_fmt(struct cdns_mhdp_device *mhdp,
-+				      struct drm_bridge_state *state)
-+{
-+	u32 bus_fmt, bpc, pxlfmt;
-+
-+	bus_fmt = state->output_bus_cfg.format;
-+	switch (bus_fmt) {
-+	case MEDIA_BUS_FMT_RGB161616_1X48:
-+		pxlfmt = DRM_COLOR_FORMAT_RGB444;
-+		bpc = 16;
-+		break;
-+	case MEDIA_BUS_FMT_YUV16_1X48:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB444;
-+		bpc = 16;
-+		break;
-+	case MEDIA_BUS_FMT_RGB121212_1X36:
-+		pxlfmt = DRM_COLOR_FORMAT_RGB444;
-+		bpc = 12;
-+		break;
-+	case MEDIA_BUS_FMT_UYVY12_1X24:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB422;
-+		bpc = 12;
-+		break;
-+	case MEDIA_BUS_FMT_YUV12_1X36:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB444;
-+		bpc = 12;
-+		break;
-+	case MEDIA_BUS_FMT_RGB101010_1X30:
-+		pxlfmt = DRM_COLOR_FORMAT_RGB444;
-+		bpc = 10;
-+		break;
-+	case MEDIA_BUS_FMT_UYVY10_1X20:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB422;
-+		bpc = 10;
-+		break;
-+	case MEDIA_BUS_FMT_YUV10_1X30:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB444;
-+		bpc = 10;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		pxlfmt = DRM_COLOR_FORMAT_RGB444;
-+		bpc = 8;
-+		break;
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB422;
-+		bpc = 8;
-+		break;
-+	case MEDIA_BUS_FMT_YUV8_1X24:
-+		pxlfmt = DRM_COLOR_FORMAT_YCRCB444;
-+		bpc = 8;
-+		break;
-+	default:
-+		pxlfmt = DRM_COLOR_FORMAT_RGB444;
-+		bpc = 8;
-+	}
-+
-+	mhdp->display_fmt.color_format = pxlfmt;
-+	mhdp->display_fmt.bpc = bpc;
-+}
-+
- static void cdns_mhdp_configure_video(struct cdns_mhdp_device *mhdp,
- 				      const struct drm_display_mode *mode)
- {
-@@ -2129,6 +2173,8 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
- 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 
-+	cdns_mhdp_get_display_fmt(mhdp, bridge_state);
-+
- 	mutex_lock(&mhdp->link_mutex);
- 
- 	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-@@ -2456,7 +2502,7 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
- 	mhdp->link.rate = mhdp->host.link_rate;
- 	mhdp->link.num_lanes = mhdp->host.lanes_cnt;
- 
--	/* The only currently supported format */
-+	/* Initialize color format bpc and y_only to default values*/
- 	mhdp->display_fmt.y_only = false;
- 	mhdp->display_fmt.color_format = DRM_COLOR_FORMAT_RGB444;
- 	mhdp->display_fmt.bpc = 8;
--- 
-2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTguMTEuMjAgMDowMiwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE3LjExLjIwMjAgMjM6
+MjQsIEdlb3JnaSBEamFrb3Yg0L/QuNGI0LXRgjoKPj4gSGkgRG1pdHJ5LAo+Pgo+PiBUaGFuayB5
+b3Ugd29ya2luZyBvbiB0aGlzIQo+Pgo+PiBPbiAxNS4xMS4yMCAyMzoyOSwgRG1pdHJ5IE9zaXBl
+bmtvIHdyb3RlOgo+Pj4gTm93IEludGVybmFsIGFuZCBFeHRlcm5hbCBtZW1vcnkgY29udHJvbGxl
+cnMgYXJlIG1lbW9yeSBpbnRlcmNvbm5lY3Rpb24KPj4+IHByb3ZpZGVycy4gVGhpcyBhbGxvd3Mg
+dXMgdG8gdXNlIGludGVyY29ubmVjdCBBUEkgZm9yIHR1bmluZyBvZiBtZW1vcnkKPj4+IGNvbmZp
+Z3VyYXRpb24uIEVNQyBkcml2ZXIgbm93IHN1cHBvcnRzIE9QUHMgYW5kIERWRlMuIE1DIGRyaXZl
+ciBub3cKPj4+IHN1cHBvcnRzIHR1bmluZyBvZiBtZW1vcnkgYXJiaXRyYXRpb24gbGF0ZW5jeSwg
+d2hpY2ggbmVlZHMgdG8gYmUgZG9uZQo+Pj4gZm9yIElTTyBtZW1vcnkgY2xpZW50cywgbGlrZSBh
+IERpc3BsYXkgY2xpZW50IGZvciBleGFtcGxlLgo+Pj4KPj4+IFRlc3RlZC1ieTogUGV0ZXIgR2Vp
+cyA8cGd3aXBlb3V0QGdtYWlsLmNvbT4KPj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5r
+byA8ZGlnZXR4QGdtYWlsLmNvbT4KPj4+IC0tLQo+Pj4gIMKgIGRyaXZlcnMvbWVtb3J5L3RlZ3Jh
+L0tjb25maWfCoMKgwqDCoMKgwqAgfMKgwqAgMSArCj4+PiAgwqAgZHJpdmVycy9tZW1vcnkvdGVn
+cmEvdGVncmEzMC1lbWMuYyB8IDM0OSArKysrKysrKysrKysrKysrKysrKysrKysrKystLQo+Pj4g
+IMKgIGRyaXZlcnMvbWVtb3J5L3RlZ3JhL3RlZ3JhMzAuY8KgwqDCoMKgIHwgMTczICsrKysrKysr
+KysrKystCj4+PiAgwqAgMyBmaWxlcyBjaGFuZ2VkLCA1MDEgaW5zZXJ0aW9ucygrKSwgMjIgZGVs
+ZXRpb25zKC0pCj4+Pgo+PiBbLi5dPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZW1vcnkvdGVncmEv
+dGVncmEzMC5jCj4+IGIvZHJpdmVycy9tZW1vcnkvdGVncmEvdGVncmEzMC5jCj4+PiBpbmRleCBk
+MDMxNGYyOTYwOGQuLmVhODQ5MDAzMDE0YiAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvbWVtb3J5
+L3RlZ3JhL3RlZ3JhMzAuYwo+Pj4gKysrIGIvZHJpdmVycy9tZW1vcnkvdGVncmEvdGVncmEzMC5j
+Cj4+IFsuLl0KPj4+ICsKPj4+ICtzdGF0aWMgaW50IHRlZ3JhMzBfbWNfaWNjX3NldChzdHJ1Y3Qg
+aWNjX25vZGUgKnNyYywgc3RydWN0IGljY19ub2RlCj4+PiAqZHN0KQo+Pj4gK3sKPj4+ICvCoMKg
+wqAgc3RydWN0IHRlZ3JhX21jICptYyA9IGljY19wcm92aWRlcl90b190ZWdyYV9tYyhzcmMtPnBy
+b3ZpZGVyKTsKPj4+ICvCoMKgwqAgY29uc3Qgc3RydWN0IHRlZ3JhX21jX2NsaWVudCAqY2xpZW50
+ID0gJm1jLT5zb2MtPmNsaWVudHNbc3JjLT5pZF07Cj4+PiArwqDCoMKgIHU2NCBwZWFrX2JhbmR3
+aWR0aCA9IGljY191bml0c190b19icHMoc3JjLT5wZWFrX2J3KTsKPj4+ICsKPj4+ICvCoMKgwqAg
+LyoKPj4+ICvCoMKgwqDCoCAqIFNraXAgcHJlLWluaXRpYWxpemF0aW9uIHRoYXQgaXMgZG9uZSBi
+eSBpY2Nfbm9kZV9hZGQoKSwgd2hpY2gKPj4+IHNldHMKPj4+ICvCoMKgwqDCoCAqIGJhbmR3aWR0
+aCB0byBtYXhpbXVtIGZvciBhbGwgY2xpZW50cyBiZWZvcmUgZHJpdmVycyBhcmUgbG9hZGVkLgo+
+Pj4gK8KgwqDCoMKgICoKPj4+ICvCoMKgwqDCoCAqIFRoaXMgZG9lc24ndCBtYWtlIHNlbnNlIGZv
+ciB1cyBiZWNhdXNlIHdlIGRvbid0IGhhdmUgZHJpdmVycwo+Pj4gZm9yIGFsbAo+Pj4gK8KgwqDC
+oMKgICogY2xpZW50cyBhbmQgaXQncyBva2F5IHRvIGtlZXAgY29uZmlndXJhdGlvbiBsZWZ0IGZy
+b20gYm9vdGxvYWRlcgo+Pj4gK8KgwqDCoMKgICogZHVyaW5nIGJvb3QsIGF0IGxlYXN0IGZvciB0
+b2RheS4KPj4+ICvCoMKgwqDCoCAqLwo+Pj4gK8KgwqDCoCBpZiAoc3JjID09IGRzdCkKPj4+ICvC
+oMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4KPj4gTml0OiBUaGUgInByb3BlciIgd2F5IHRvIGV4
+cHJlc3MgdGhpcyBzaG91bGQgYmUgdG8gaW1wbGVtZW50IHRoZQo+PiAuZ2V0X2J3KCkgY2FsbGJh
+Y2sgdG8gcmV0dXJuIHplcm8gYXMgaW5pdGlhbCBhdmVyYWdlL3BlYWsgYmFuZHdpZHRoLgo+PiBJ
+J20gd29uZGVyaW5nIGlmIHRoaXMgd2lsbCB3b3JrIGhlcmU/Cj4+Cj4+IFRoZSByZXN0IGxvb2tz
+IGdvb2QgdG8gbWUhCj4gCj4gSGVsbG8gR2VvcmdpLAo+IAo+IFJldHVybmluZyB6ZXJvcyBkb2Vz
+bid0IGFsbG93IHVzIHRvIHNraXAgdGhlIGluaXRpYWxpemF0aW9uIHRoYXQgaXMgZG9uZQo+IGJ5
+IHByb3ZpZGVyLT5zZXQobm9kZSwgbm9kZSkgaW4gaWNjX25vZGVfYWRkKCkuIEl0IHdpbGwgcmVj
+b25maWd1cmUKPiBtZW1vcnkgbGF0ZW5jeSBpbiBhY2NvcmRhbmNlIHRvIGEgemVybyBtZW1vcnkg
+YmFuZHdpZHRoLCB3aGljaCBpcyB3cm9uZwo+IHRvIGRvLgo+IAo+IEl0IGFjdHVhbGx5IHNob3Vs
+ZCBiZSBtb3JlIHByZWZlcnJlZCB0byBwcmVzZXQgYmFuZHdpZHRoIHRvIGEgbWF4aW11bQo+IGJl
+Zm9yZSBhbGwgZHJpdmVycyBhcmUgc3luY2VkLCBidXQgdGhpcyBzaG91bGQgYmUgZG9uZSBvbmx5
+IG9uY2Ugd2Ugd2lsbAo+IHdpcmUgdXAgYWxsIGRyaXZlcnMgdG8gdXNlIElDQyBmcmFtZXdvcmsu
+IEZvciBub3cgaXQncyBzYWZlciB0byBrZWVwIHRoZQo+IGRlZmF1bHQgaGFyZHdhcmUgY29uZmln
+dXJhdGlvbiB1bnRvdWNoZWQuCgpPaywgdGhhbmtzIGZvciBjbGFyaWZ5aW5nISBJcyB0aGVyZSBh
+IHdheSB0byByZWFkIHRoaXMgaGFyZHdhcmUgCmNvbmZpZ3VyYXRpb24gYW5kIGNvbnZlcnQgaXQg
+dG8gaW5pdGlhbCBiYW5kd2lkdGg/IFRoYXQncyB0aGUKaWRlYSBvZiB0aGUgZ2V0X2J3KCkgY2Fs
+bGJhY2sgYWN0dWFsbHkuIEkgYW0ganVzdCBjdXJpb3VzIGFuZAp0cnlpbmcgdG8gZ2V0IGEgYmV0
+dGVyIHVuZGVyc3RhbmRpbmcgaG93IHRoaXMgd29ya3MgYW5kIGlmIGl0CndvdWxkIGJlIHVzZWZ1
+bCBmb3IgVGVncmEuCgpUaGFua3MsCkdlb3JnaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9kcmktZGV2ZWwK
