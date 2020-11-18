@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63302B78B1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:30:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FB5E2B78B0
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:30:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B83826E3DA;
-	Wed, 18 Nov 2020 08:30:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A30906E3EC;
+	Wed, 18 Nov 2020 08:30:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEDC589FCE
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 08:30:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5818E6E372
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 08:30:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 8310FFB05;
- Wed, 18 Nov 2020 09:30:01 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 9C0D7FB07;
+ Wed, 18 Nov 2020 09:30:02 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6IIUohJ_AG9j; Wed, 18 Nov 2020 09:30:00 +0100 (CET)
+ with ESMTP id UZEnq6OT2nTX; Wed, 18 Nov 2020 09:30:01 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id BACFA43F72; Wed, 18 Nov 2020 09:29:53 +0100 (CET)
+ id C3FB443F73; Wed, 18 Nov 2020 09:29:53 +0100 (CET)
 From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
@@ -33,9 +33,10 @@ To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/6] dt-bindings: vendor-prefixes: Add ys vendor prefix
-Date: Wed, 18 Nov 2020 09:29:52 +0100
-Message-Id: <efa9b6da947e0cd87ec47c1a211690045304989b.1605688147.git.agx@sigxcpu.org>
+Subject: [PATCH v2 6/6] dt-binding: display: mantix: Add compatible for panel
+ from YS
+Date: Wed, 18 Nov 2020 09:29:53 +0100
+Message-Id: <eb2a0e50cbb8cfebc27d259607e543fedb8c6b27.1605688147.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1605688147.git.agx@sigxcpu.org>
 References: <cover.1605688147.git.agx@sigxcpu.org>
@@ -57,21 +58,21 @@ Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QWRkIHByZWZpeCBmb3IgU2hlbnpoZW4gWWFzaGkgQ2hhbmdodWEgSW50ZWxsaWdlbnQgVGVjaG5v
-bG9neSBDby4sIEx0ZC4KClNpZ25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNw
-dS5vcmc+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3ZlbmRvci1wcmVm
-aXhlcy55YW1sIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3ItcHJlZml4ZXMu
-eWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3ItcHJlZml4ZXMu
-eWFtbAppbmRleCBlNDBlZTM2OWY4MDguLmZiY2JhMDg0NTBjNSAxMDA2NDQKLS0tIGEvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3ZlbmRvci1wcmVmaXhlcy55YW1sCisrKyBiL0Rv
-Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy92ZW5kb3ItcHJlZml4ZXMueWFtbApAQCAt
-MTIyMiw2ICsxMjIyLDggQEAgcGF0dGVyblByb3BlcnRpZXM6CiAgICAgZGVzY3JpcHRpb246IFlT
-SCAmIEFUSUwKICAgIl55b25lcy10b3B0ZWNoLC4qIjoKICAgICBkZXNjcmlwdGlvbjogWW9uZXMg
-VG9wdGVjaCBDby4sIEx0ZC4KKyAgIl55cywuKiI6CisgICAgZGVzY3JpcHRpb246IFNoZW56aGVu
-IFlhc2hpIENoYW5naHVhIEludGVsbGlnZW50IFRlY2hub2xvZ3kgQ28uLCBMdGQuCiAgICJeeXNv
-ZnQsLioiOgogICAgIGRlc2NyaXB0aW9uOiBZIFNvZnQgQ29ycG9yYXRpb24gYS5zLgogICAiXnpl
-YWx6LC4qIjoKLS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
-c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
-ZHJpLWRldmVsCg==
+VGhpcyBwYW5lbCBmcm9tIFNoZW56aGVuIFlhc2hpIENoYW5naHVhIEludGVsbGlnZW50IFRlY2hu
+b2xvZ3kgQ28KdXNlcyB0aGUgc2FtZSBkcml2ZXIgSUMgYnV0IGEgZGlmZmVyZW50IExDRC4KClNp
+Z25lZC1vZmYtYnk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+ClJldmlld2VkLWJ5
+OiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+Ci0tLQogLi4uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9tYW50aXgsbWxhZjA1N3dlNTEteC55YW1sICB8
+IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWFudGl4LG1sYWYwNTd3
+ZTUxLXgueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3Bh
+bmVsL21hbnRpeCxtbGFmMDU3d2U1MS14LnlhbWwKaW5kZXggNTFmNDIzMjk3ZWM4Li45ZTc4ZjJl
+NjBmOTkgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNw
+bGF5L3BhbmVsL21hbnRpeCxtbGFmMDU3d2U1MS14LnlhbWwKKysrIGIvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvbWFudGl4LG1sYWYwNTd3ZTUxLXgueWFt
+bApAQCAtMjAsNiArMjAsNyBAQCBwcm9wZXJ0aWVzOgogICBjb21wYXRpYmxlOgogICAgIGVudW06
+CiAgICAgICAtIG1hbnRpeCxtbGFmMDU3d2U1MS14CisgICAgICAtIHlzLHlzNTdwc3MzNmJoNWdx
+CiAKICAgcG9ydDogdHJ1ZQogICByZWc6Ci0tIAoyLjI5LjIKCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
