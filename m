@@ -1,70 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D662B77F1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:02:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FAD2B77DF
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 214546E415;
-	Wed, 18 Nov 2020 08:02:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 244C96E41A;
+	Wed, 18 Nov 2020 08:01:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 000556E2E6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 05:28:32 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id js21so452225pjb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 21:28:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=i7NQcmg0sYY8A0xlzCx+NZowN/eNGNUoVY/o8X/i+jY=;
- b=HVHOpkt/qqNt9sE6chv3U7ohVXbszeie0CQi5JUw5PUCYb4Q8G/UdR3X+kkmQ45kKt
- Em/Cnv12xCd9dU5raew3gzyMlRZ1vSpv2v5EJ2ubv3k25i7cQWfuyJojAKDsfus2pQAw
- L07ZygsSRdwZthKV63A0oOgdzRd7y6vebdXXytZPb+YoVKKa/BR8DxngpQTYRcrGLqcm
- 6e31dz04CuMnlD9QbqCaMqbWP3aACS5ya1bCz7VeFlQWY/w2/qJXSGX8O7PywPyTB63R
- iM/93VxE9HYXfTZvbaB+w4XthiYuzpDSk/lxJhpdZ/hCCVoxlEYIGf7DocxfiyqduRJI
- PDlA==
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774D06E342
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:36:44 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id c17so1083643wrc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 23:36:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=DOwVj8Qr1jJUzo42Jge6HKQMp0YWtvTLoJKMGFVjtXM=;
+ b=B05obr0UlFKG1WYy2PPoekrb54GhRGB0DoQF2QO75qXYA7565aiT0jFxiRz+s0jKsh
+ aUDRScj3R8XKwsB5UoZzzwhx2x2AsWQyvHcOz8bZOPGwMJ310hKzgpMTOOvIZXg+LLCB
+ 5ujrNoxYQUap5n4aZ2ljADL6KjjHGUCdPl3zcQNwtC6ex9yra8sI7bmnkWMJsWTLhJ5V
+ RsxJGhEBFbX5r0piCdEh8vatL7ryH2qt9n9urLRuhmy6UCEby25J3mGCZ548Ui4rDqO9
+ oC+hPibHcgWS00XMk5yfMz42M/6l5zOeNAUhofF0F97P+9M55jO4EK35RBdSU4WBFJ51
+ VrOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=i7NQcmg0sYY8A0xlzCx+NZowN/eNGNUoVY/o8X/i+jY=;
- b=EO5zBy+BzQP3q//5nDGJO4q3Xj3Uwy57A0mFhXQsscJBvHfeLOSXLLxUY4atpmuaLT
- 9pM4B/ZTUvMGzlWl7wODOgsA2yDDxhUQ12J4zPAWO9E9UYbnx0uCrUGJlS9qlbmMBfoD
- KoxpDhNxVX0OGG4+5uq7uTBFubsI16DZGFHTZvY+hXkYWm/+T6zlwJnCDzeTg6Ru0PBP
- 4MF7+PLBwhWkXGTJ8IAHkl/SSLzAEnB9L3doywEJDkJES3hfFSfwA4mXlQWuu4yGgx0k
- 4bThPXgRDqlTB1tAjIulmO/Uox8vsAEY0UHuElkEEZ2g+0U/oJojd5OVTHuuG+2yxrb2
- J64w==
-X-Gm-Message-State: AOAM531rrA9NExqyz4ASIOiK9GU5/P/B1xCoRwlQZZA55LMzqnRW+e6c
- Pk99/ZF7+OD5KNzWPfuJkMAOkg==
-X-Google-Smtp-Source: ABdhPJwE3hBbeNtRV7Zgs+1PM2OnxpXYUaUyaPcW0+rjSjJgGdij1UAnuyebd9b/G+OtrU4TJCHdpA==
-X-Received: by 2002:a17:902:8d82:b029:d8:c5e8:9785 with SMTP id
- v2-20020a1709028d82b02900d8c5e89785mr2704949plo.5.1605677312497; 
- Tue, 17 Nov 2020 21:28:32 -0800 (PST)
-Received: from localhost ([122.172.12.172])
- by smtp.gmail.com with ESMTPSA id w127sm23328945pfc.172.2020.11.17.21.28.30
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=DOwVj8Qr1jJUzo42Jge6HKQMp0YWtvTLoJKMGFVjtXM=;
+ b=jukNpMbgF9uixUosWEOYAmOXXf5B0qvceAI2IayP+1+t4vwT8nssD0LTGwFSdmACo9
+ gBi30RNVB1eh+oWizGUHPTRRIkQKSNp87IRVyTzJc9Q9xjVg4p/+0ekIPIxwIBwSJjK4
+ FA8RD7JFgJMy5LbY9cMuWRf1JqNxF6/1dyfEzqzH/0hgZfO2yVEL4Py/YhmIGqG6ImXD
+ il3HjKw+H0gyEOsKQ3ttLHLdu8nJlHKXk0NKMXM8SaD1qtwSk8ve9aOxtJDkcVF7h/8j
+ ife3NE1wVvL1aZKDcYivJVyyi4uKiWM2xIC8B8X8HGc1TvDV8WcjLi6ozFwqSXGI4xIC
+ NGrQ==
+X-Gm-Message-State: AOAM533PT9pEnZmLopuNO+P8b0/O/2DRQbNvMApOHTijk+DXSkpn64m5
+ +dAJ2x4W9b/+6i4zrrQz7K0=
+X-Google-Smtp-Source: ABdhPJzMNoj0DUEeSiOWma/YdZpEj4KgvqemM+RVhsjaCzcs62Iq87k/98mj04GfFJGCRgE4NydYyw==
+X-Received: by 2002:a5d:4dd0:: with SMTP id f16mr1346781wru.8.1605685003150;
+ Tue, 17 Nov 2020 23:36:43 -0800 (PST)
+Received: from rum-mikhail-dt.world.mentorg.com (nat-rum.mentorg.com.
+ [139.181.33.34])
+ by smtp.gmail.com with ESMTPSA id b14sm30188632wrq.47.2020.11.17.23.36.41
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 17 Nov 2020 21:28:31 -0800 (PST)
-Date: Wed, 18 Nov 2020 10:58:29 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH v2 07/22] drm/msm: Do rpm get sooner in the submit path
-Message-ID: <20201118052829.ugt7i7ac6eqsj4l6@vireshk-i7>
-References: <CAF6AEGsCj-AtFozn8d1xiNNFNbuMJ0UxS-eMhBVXiQ7rKahKnQ@mail.gmail.com>
- <20201022080644.2ck4okrxygmkuatn@vireshk-i7>
- <CAF6AEGv6RMCsK4yp-W2d1mVTMcEiiwFGAb+V8rYLhDdMhqP80Q@mail.gmail.com>
- <20201027113532.nriqqws7gdcu5su6@vireshk-i7>
- <20201103054715.4l5j57pyjz6zd6ed@vireshk-i7>
- <CAF6AEGtgUVXm6Wwod0FC38g91Q8CotLFSoC4NmXx7GzcA=1mOA@mail.gmail.com>
- <20201104030353.ny7zvakgb4fsye6r@vireshk-i7>
- <CAF6AEGv215ixcAWmaOWs7UKAqmbMs=aFyTBBYLU-bt8XBnWb7g@mail.gmail.com>
- <20201106071621.j732gt4nqifjrccd@vireshk-i7>
- <CAF6AEGt_wbWuQA7gBw4yn4f2x0SVbfub4eRDX59PCvnd_0uFxg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGt_wbWuQA7gBw4yn4f2x0SVbfub4eRDX59PCvnd_0uFxg@mail.gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+ Tue, 17 Nov 2020 23:36:42 -0800 (PST)
+From: mdurnev@gmail.com
+X-Google-Original-From: mikhail_durnev@mentor.com
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] drm/mipi-dbi: Type B bus support, drm/tiny: MRB2801
+Date: Wed, 18 Nov 2020 17:35:42 +1000
+Message-Id: <1605684945-29727-1-git-send-email-mikhail_durnev@mentor.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Wed, 18 Nov 2020 08:01:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,38 +64,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, "Menon, Nishanth" <nm@ti.com>,
- David Airlie <airlied@linux.ie>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <sean@poorly.run>
+Cc: mikhail_durnev@mentor.com, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-11-20, 09:02, Rob Clark wrote:
-> With that on top of the previous patch,
+From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-Don't you still have this ? Which fixed the lockdep in the remove path.
+Hi All,
 
-https://lore.kernel.org/lkml/20201022080644.2ck4okrxygmkuatn@vireshk-i7/
+This patch series is aiming at extending the mipi-dbi bus driver
+to support Intel 8080 type parallel bus (Type B) over GPIO and
+adding a new driver for ILI9341 display panels with 8- or 16-bit
+parallel interface.
 
-To make it clear you need these patches to fix the OPP stuff:
+It was tested with the MRB2801 display module [1] that had
+a connector compatible with the ALIENTEK STM32 development board.
+The module was connected to Raspberry Pi 3 via GPIO pins.
 
-//From 5.10-rc3 (the one from the above link).
-commit e0df59de670b ("opp: Reduce the size of critical section in _opp_table_kref_release()")
+The parallel bus is implemented partially. It supports only write
+operations from the host to the display. Read operations would
+require switching GPIO mode between input and output back and
+forth. But this implementation is very simple, and GPIO mode can
+be set for all used pins to output once at initialization.
+The RD pin of the display has to always receive the logic high
+signal to make sure the data bus pins from the dislay side are
+always in the high impedance state. Otherwise the display module
+as well as the GPIO controller of the host can be damaged.
+To be on the safe side I recommend using protective resistors
+for all GPIO pins conneced to DB pins of the display. Resistors
+of 10 kOhms are just fine for RPi 3. The WR and DC pins may not
+work well with 10K resistors. Although there is no need to protect
+them, you can try using 1K resistors if you want.
 
-//Below two from linux-next
-commit ef43f01ac069 ("opp: Always add entries in dev_list with opp_table->lock held")
-commit 27c09484dd3d ("opp: Allocate the OPP table outside of opp_table_lock")
+Bit banging is used to transmit data over the parallel bus from
+host to display. There are two numbers that contol timings. They
+should be defined in the device tree via the wr-up-down-delays
+property. The first number is related to the write control pulse
+duration, and the second number is related to the write cycle
+duration. For ILI9341, the write pulse cannot be shorter than 15 ns,
+and the write duration cannot be shorter than 66 ns. Delays of
+10 and 51 ns respectively allow to meet the specifications on
+RPi 3. Faster machines may need values closer to 15 and 66.
 
-This matches the diff I gave you earlier.
+[1] http://www.lcdwiki.com/2.8inch_16BIT_Module_ILI9341_SKU:MRB2801
+
+Mikhail Durnev (3):
+  drm/mipi-dbi: Add support for Type B
+  drm/tiny: Add driver for ili9341 with parallel bus
+  dt-bindings: panel: Add bindings for MRB2801
+
+ .../devicetree/bindings/display/ronbo,mrb2801.txt  |  42 +++
+ drivers/gpu/drm/drm_mipi_dbi.c                     | 116 ++++++++-
+ drivers/gpu/drm/tiny/Kconfig                       |  13 +
+ drivers/gpu/drm/tiny/Makefile                      |   1 +
+ drivers/gpu/drm/tiny/ili9341_gpio.c                | 290 +++++++++++++++++++++
+ include/drm/drm_mipi_dbi.h                         |  30 ++-
+ 6 files changed, 490 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
+ create mode 100644 drivers/gpu/drm/tiny/ili9341_gpio.c
 
 -- 
-viresh
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
