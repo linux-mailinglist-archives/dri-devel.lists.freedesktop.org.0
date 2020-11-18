@@ -1,38 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29F372B8D59
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA942B8D7E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC49B6E560;
-	Thu, 19 Nov 2020 08:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E45E26E581;
+	Thu, 19 Nov 2020 08:34:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from m17618.mail.qiye.163.com (m17618.mail.qiye.163.com
  [59.111.176.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 191C16E3DB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 11:13:38 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [157.0.31.124])
- by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 276954E1771;
- Wed, 18 Nov 2020 19:13:34 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9F46E3F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 11:40:29 +0000 (UTC)
+Received: from ubuntu.localdomain (unknown [157.0.31.125])
+ by m17618.mail.qiye.163.com (Hmail) with ESMTPA id 4AB874E237B;
+ Wed, 18 Nov 2020 19:40:27 +0800 (CST)
 From: Bernard Zhao <bernard@vivo.com>
-To: VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Roland Scheidegger <sroland@vmware.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bernard Zhao <bernard@vivo.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/vmwgfx: use min_t to replace min
-Date: Wed, 18 Nov 2020 03:13:27 -0800
-Message-Id: <20201118111327.105071-1-bernard@vivo.com>
+Subject: [PATCH] drm/via: fix assignment in if condition
+Date: Wed, 18 Nov 2020 03:40:19 -0800
+Message-Id: <20201118114021.105502-1-bernard@vivo.com>
 X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
- oVCBIfWUFZQ0tMHk0dQx5CQhhNVkpNS05NQkNLSk9PT0tVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
- FZT0tIVUpKS09ISFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Phg6MSo5Tz8tLw4vPxMYVh4O
- PzIaFC9VSlVKTUtOTUJDS0pOS0tLVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
- S1VISlVKSU9ZV1kIAVlBSUtDSjcG
-X-HM-Tid: 0a75db0f4c5b9376kuws276954e1771
+ oVCBIfWUFZHkpOHxpIShoZGUNCVkpNS05NQkJNSUxPSk9VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+ FZT0tIVUpKS0hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PAw6Lww*GT8eIw4KEUwuME9L
+ EToKCUJVSlVKTUtOTUJCTUlMTEJPVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlKTkxV
+ S1VISlVKSU5ZV1kIAVlBSUhKSDcG
+X-HM-Tid: 0a75db27e9779376kuws4ab874e237b
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,38 +45,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: opensource.kernel@vivo.com, Bernard Zhao <bernard@vivo.com>
+Cc: opensource.kernel@vivo.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use min_t to replace min, min_t is a bit fast because min use
-twice typeof.
-This patch also fix check_patch.pl warning:
-WARNING: min() should probably be min_t(unsigned long, num_pages,
-VMW_PPN_PER_REMAP)
-+unsigned long nr = min(num_pages, (unsigned long)
-VMW_PPN_PER_REMAP);
+Fix check_patch.pl warning:
+ERROR: do not use assignment in if condition
++                       if ((HALCYON_HEADER2 == (cmd = *buf)) &&
+
+ERROR: do not use assignment in if condition
++                       if (HALCYON_HEADER2 == (cmd = *buf))
 
 Signed-off-by: Bernard Zhao <bernard@vivo.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/via/via_verifier.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c b/drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c
-index 83c0d5a3e4fd..b8f6fe1a71e6 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmr.c
-@@ -72,7 +72,7 @@ static int vmw_gmr2_bind(struct vmw_private *dev_priv,
- 		SVGA_REMAP_GMR2_PPN64 : SVGA_REMAP_GMR2_PPN32;
- 
- 	while (num_pages > 0) {
--		unsigned long nr = min(num_pages, (unsigned long)VMW_PPN_PER_REMAP);
-+		unsigned long nr = min_t((unsigned long), num_pages, VMW_PPN_PER_REMAP);
- 
- 		remap_cmd.offsetPages = remap_pos;
- 		remap_cmd.numPages = nr;
+diff --git a/drivers/gpu/drm/via/via_verifier.c b/drivers/gpu/drm/via/via_verifier.c
+index 8d8135f424ef..3d6e3a70f318 100644
+--- a/drivers/gpu/drm/via/via_verifier.c
++++ b/drivers/gpu/drm/via/via_verifier.c
+@@ -1001,8 +1001,8 @@ via_verify_command_stream(const uint32_t * buf, unsigned int size,
+ 			state = via_check_vheader6(&buf, buf_end);
+ 			break;
+ 		case state_command:
+-			if ((HALCYON_HEADER2 == (cmd = *buf)) &&
+-			    supported_3d)
++			cmd = *buf;
++			if ((cmd == HALCYON_HEADER2) && supported_3d)
+ 				state = state_header2;
+ 			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+ 				state = state_header1;
+@@ -1064,7 +1064,8 @@ via_parse_command_stream(struct drm_device *dev, const uint32_t *buf,
+ 			state = via_parse_vheader6(dev_priv, &buf, buf_end);
+ 			break;
+ 		case state_command:
+-			if (HALCYON_HEADER2 == (cmd = *buf))
++			cmd = *buf;
++			if (cmd == HALCYON_HEADER2)
+ 				state = state_header2;
+ 			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+ 				state = state_header1;
 -- 
 2.29.0
 
