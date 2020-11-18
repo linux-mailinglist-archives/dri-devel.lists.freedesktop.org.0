@@ -2,65 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669AC2B7E59
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 14:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A9592B7E81
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 14:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53F966E328;
-	Wed, 18 Nov 2020 13:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 936906E328;
+	Wed, 18 Nov 2020 13:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B11E6E328
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:35:27 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id dk16so2728189ejb.12
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 05:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=6fRq5g823MP5YjJQEx6LJHWizYrg12azlCKpycymSXs=;
- b=k7roUEzXhcmT3gaCMF9hCQiQYtEiVTu1xkKwXGPWDyEGRIdqOTlYXTSql2KsaG9BMr
- OUZPIGTPV+xGDGh23/7ZVbdW2seJYCM2FeGG6jqGSc4WNfztd+xq7XUPoTbciKarBeEv
- lNpwwRWB4L3YLggnWiNBDCCQ7N+rRPnSU+k7ZcJZPIXXkzfP6zze9qstRC/+DkcCPqwU
- Euwkp8EXMQI+IYuhJD8W0rpW8oeoN0nes2pYkvLU+d/QAbp2A3uEDl663V2vmM6t23fE
- jHqR1wz30ICESYPWTmP6PpuN98T9f1odGpFeC1yDMdFCQRN+8CEFQ8FyDEw4aIoSG35s
- mpBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=6fRq5g823MP5YjJQEx6LJHWizYrg12azlCKpycymSXs=;
- b=R8jm00Obf3wjIEK1EbCIlFtUSBzVvB1iUZdkwINDFAn9e85kGC3wr9Z7THQJp2W4cu
- 0t9LP2jlGDO3o9z9SMOMlnWGcRlPtCQfusTfhNTIRjgMPx6bi9r4u+MowB+kRI4kdszG
- SVZ2s8IIGFE9fvZftqBdAAH3XpoYz1mo3igCL5oG1nvZSGJqSVOF4IuPgCxD4mCiBuEG
- wcwfZ5gXio3F5VLmdpO47O+YqLRC2Z4XCCGjBY2rKFXGRybS/XXekFAiHaorUCXUF2x1
- Ux1kG7BXZKw1Z342wLsABBduCj9PPon4SRJuNSwwcd9b30ONf9jTwHSch4sjRkpWR28J
- RDWg==
-X-Gm-Message-State: AOAM533DTakpe5y5x2QuUzTdWd4ifv+yBYvX++eUQka3ZC+u6lnTx5tN
- x6SyUGLjSrEnrZR6kfjfWY0=
-X-Google-Smtp-Source: ABdhPJxVWBufkGJ/uzPb055DHQMQyoXlGpSBLHQHuCevGj5+sxm5hAMTfcjqF0Zc6FzykxAfs5ayOg==
-X-Received: by 2002:a17:906:888b:: with SMTP id
- ak11mr23297118ejc.278.1605706525813; 
- Wed, 18 Nov 2020 05:35:25 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id rv19sm12977110ejb.38.2020.11.18.05.35.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 05:35:25 -0800 (PST)
-Subject: Re: [PATCH 3/3] drm/ttm: make up to 90% of system memory available
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20201117140615.255887-1-christian.koenig@amd.com>
- <20201117140615.255887-3-christian.koenig@amd.com>
- <20201117171900.GM401619@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <9d6980c2-9429-f15c-7424-35e59bfcf063@gmail.com>
-Date: Wed, 18 Nov 2020 14:35:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D5BA26E328
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:49:04 +0000 (UTC)
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+ by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <colin.king@canonical.com>)
+ id 1kfNpV-0003wW-W4; Wed, 18 Nov 2020 13:49:02 +0000
+From: Colin King <colin.king@canonical.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Lyude Paul <lyude@redhat.com>, Lee Jones <lee.jones@linaro.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH][next] drm/selftests/test-drm_dp_mst_helper: fix memory leak
+ allocated to 'out'
+Date: Wed, 18 Nov 2020 13:49:01 +0000
+Message-Id: <20201118134901.461841-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201117171900.GM401619@phenom.ffwll.local>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,98 +40,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: airlied@linux.ie, sroland@vmware.com, Felix.Kuehling@amd.com,
- linux-graphics-maintainer@vmware.com, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMTcuMTEuMjAgdW0gMTg6MTkgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFR1ZSwgTm92
-IDE3LCAyMDIwIGF0IDAzOjA2OjE1UE0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IEluY3JlYXNlIHRoZSBhbW1vdW50IG9mIHN5c3RlbSBtZW1vcnkgZHJpdmVycyBjYW4gdXNlIHRv
-IGFib3V0IDkwJSBvZgo+PiB0aGUgdG90YWwgYXZhaWxhYmxlLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5
-OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4+IC0tLQo+PiAg
-IGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX2JvLmMgfCAyICstCj4+ICAgMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vdHRtL3R0bV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fYm8uYwo+PiBp
-bmRleCBhOTU4MTM1Y2IzZmUuLjBhOTNkZjkzZGJhNCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3R0bS90dG1fYm8uYwo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV9iby5j
-Cj4+IEBAIC0xMjY3LDcgKzEyNjcsNyBAQCBzdGF0aWMgaW50IHR0bV9ib19nbG9iYWxfaW5pdCh2
-b2lkKQo+PiAgIAkgKiB0aGUgYXZhaWxhYmxlIHN5c3RlbSBtZW1vcnkuCj4+ICAgCSAqLwo+PiAg
-IAludW1fcGFnZXMgPSAodTY0KXNpLnRvdGFscmFtICogc2kubWVtX3VuaXQ7Cj4+IC0JbnVtX3Bh
-Z2VzID0gKG51bV9wYWdlcyAqIDUwIC8gMTAwKSA+PiBQQUdFX1NISUZUOwo+PiArCW51bV9wYWdl
-cyA9IChudW1fcGFnZXMgKiA5MCAvIDEwMCkgPj4gUEFHRV9TSElGVDsKPiBJIGRvbid0IHRoaW5r
-IHRoaXMgaXMgdGhlIGRlc2lnbiB3ZSB3YW50LiBBcyBsb25nIGFzIGl0IHdhcyBzZXQgYXQgImhh
-bGYKPiBvZiBzeXN0ZW0gbWVtb3J5IiBpdCB3YXMgY2xlYXIgdGhhdCBhKSBpdCdzIGEgaGFjayBi
-KSBwcmVjaXNpb24gZGlkbid0Cj4gbWF0dGVyLgoKWWVhaCwgSSdtIGFsc28gd29uZGVyaW5nIHdo
-YXQgdG8gZG8gaGVyZSBleGFjdGx5LiBJbiBnZW5lcmFsbHkgSSB3b3VsZCAKY29tcGxldGVseSBu
-dWtlIHRoYXQgbGltaXQgaWYgcG9zc2libGUuCgo+IEJ1dCBpZiB5b3UgZ28gdG8gdGhlIGxpbWl0
-IGFuZCBzdGlsbCB3YW50IHRvIGtlZXAgdGhlICJ3ZSBtYWtlIHN1cmUKPiB0aGVyZSdzIG5vIE9P
-TSIsIHRoZW4gcHJlY2lzaW9uIHN0YXJ0cyB0byBtYXR0ZXI6Cj4gLSBtZW1vcnkgaG90cGx1ZyBh
-bmQgaG90dW5wbHVnIGlzIGEgdGhpbmcKPiAtIHVzZXJzcGFjZSBjYW4gbWxvY2ssIGFuZCBpdCdz
-IGNvbmZpZ3VyZWFibGUKPiAtIGRyaXZlcnMgY2FuIHBpbl91c2VyX3BhZ2VzIGZvciBJTyBhbmQg
-cmFuZG9tIG90aGVyIHN0dWZmLiBTb21lIG9mIGl0IGlzCj4gICAgYWNjb3VudGVkIGFzIHNvbWUg
-c3Vic3lzdGVtIHNwZWNpZmljIG1sb2NrIChsaWtlIHJkbWEgZG9lcyBpaXJjKSwgc29tZQo+ICAg
-IGlzIGp1c3QgeW9sbyBvciBzaG9ydCB0ZXJtIGVub3VnaCAobGlrZSkKPiAtIG5vbmUgb2Ygd2hh
-dCB3ZSBkbyBoZXJlIHRha2VzIGludG8gY29uc2lkZXJhdGlvbnMgYW55IGludGVyYWN0aW9ucyB3
-aXRoCj4gICAgY29yZSBtbSB0cmFja2luZyAobGlrZSBjZ3JvdXBzIG9yIG51bWEgb3IgYW55dGhp
-bmcgbGlrZSB0aGF0KQoKT09NIGlzIHBlcmZlY3RseSBmaW5lIHdpdGggbWUsIHdlIHNob3VsZCBq
-dXN0IG5vdCBydW4gaW50byBhbiBPT00ga2lsbGVyIApzaXR1YXRpb24gYmVjYXVzZSB3ZSBjYWxs
-IHNobWVtX3JlYWRfbWFwcGluZ19wYWdlX2dmcCgpIGluIHRoZSBzaHJpbmtlciAKY2FsbGJhY2su
-CgpBbnkgaWRlYSBob3cgd2UgY291bGQgZ3VhcmFudGVlIHRoYXQ/Cgo+IElmIHdlIHdhbnQgdG8g
-ZHJvcCB0aGUgImhhbGYgb2Ygc3lzdGVtIHJhbSIgbGltaXQgKGFuZCB5ZXMgdGhhdCBtYWtlcwo+
-IHNlbnNlKSBJIHRoaW5rIHRoZSByaWdodCBkZXNpZ24gaXM6Cj4KPiAtIHdlIGdpdmUgdXAgb24g
-dGhlICJubyBPT00iIGd1YXJhbnRlZS4KPgo+IC0gVGhpcyBtZWFucyBpZiB5b3Ugd2FudCByZWFs
-IGlzb2xhdGlvbiBvZiB0YXNrcywgd2UgbmVlZCBjZ3JvdXBzLCBhbmQgd2UKPiAgICBuZWVkIHRv
-IGludGVncmF0ZSB0dG0gY2dyb3VwcyB3aXRoIHN5c3RlbSBtZW1vcnkgY2dyb3VwcyBzb21laG93
-LiBVbmxpa2UKPiAgICByYW5kb21seSBwaWNrZWQgaGFyZGNvZGVkIGxpbWl0cyB0aGlzIHNob3Vs
-ZCB3b3JrIGEgbG90IG1vcmUgcmVsaWFibHkKPiAgICBhbmQgYmUgYSBsb3QgbW9yZSB1c2VmdWwg
-aW4gcHJhY3RpY2FsIHVzZSBpbiB0aGUgZmllbGQuCj4KPiAtIFRoaXMgYWxzbyBtZWFucyB0aGF0
-IGRyaXZlcnMgc3RhcnQgdG8gZmFpbCBpbiBpbnRlcmVzdGluZyB3YXlzLiBJIHRoaW5rCj4gICAg
-bG9ja2luZyBoZWFkYWNoZXMgYXJlIGNvdmVyZWQgd2l0aCBhbGwgdGhlIGxvY2tkZXAgYW5ub3Rh
-dGlvbnMgSSd2ZQo+ICAgIHB1c2hlZCwgcGx1cyBzb21lIG9mIHRoZSB0aGluZ3MgSSBzdGlsbCBo
-YXZlIGluLWZsaWdodCAoSSBoYXZlIGEKPiAgICBtaWdodF9hbGxvYygpIGFubm90YXRpb25zIHNv
-bWV3aGVyZSkuIFRoYXQgbGVhdmVzIHZhbGlkYXRpb24gb2YgZXJyb3IKPiAgICBwYXRocyBmb3Ig
-d2hlbiBhbGxvY2F0aW9ucyBmYWlsLiBJbWUgYSB2ZXJ5IGVmZmVjdGl2ZSB3YXkgd2UgdXNlZCBp
-bgo+ICAgIGk5MTUgaXMgKGFiKXVzaW5nIEVJTlRSIHJlc3RhcnRpbmcsIHdoaWNoIHBlciBkcm1J
-b2N0bCB1YXBpIHNwZWMgaXMKPiAgICByZXF1cmllZC4gV2UgY291bGQgcHV0IGEgZGVidWcgbW9k
-ZSBpbnRvIHR0bV90dCB3aGljaCByYW5kb21seSBmYWlscwo+ICAgIHdpdGggLUVJTlRSIHRvIG1h
-a2Ugc3VyZSBpdCdzIGFsbCB3b3JraW5nIGNvcnJlY3RseSAocGx1cyBhbnl0aGluZyBlbHNlCj4g
-ICAgdGhhdCBhbGxvY2F0ZXMgbWVtb3J5KSwgYW5kIHVubGlrZSByZWFsIG91dC1vZi1tZW1vcnkg
-aW5qZWN0aW9uIHBpZ2xpdAo+ICAgIGFuZCBhbnkgb3RoZXIgY3RzIHdpbGwgY29tcGxldGUgd2l0
-aG91dCBmYWlsdXJlLiBXaGljaCBnaXZlcyB1cyBhbgo+ICAgIGV4Y2VsbGVudCBtZXRyaWMgZm9y
-ICJkb2VzIGl0IHdvcmsiLiBBY3R1YWx5IE9PTSwgZXZlbiBpbmplY3RlZCBvbmUsCj4gICAgdGVu
-ZHMgdG8gbWFrZSBzdHVmZiBibG93IHVwIGluIGEgd2F5IHRoYXQncyB2ZXJ5IGhhcmQgdG8gdHJh
-Y2sgYW5kIG1ha2UKPiAgICBzdXJlIHlvdSd2ZSBnb3QgZ29vZCBjb3ZlcmFnZSwgc2luY2UgYWxs
-IHlvdXIgdXN1YWwgdGVzdHMgZGllIHByZXR0eQo+ICAgIHF1aWNrbHkuCj4KPiAtIHR0bV90dCBu
-ZWVkcyB0byBwbGF5IGZhaXIgd2l0aCBldmVyeSBvdGhlciBzeXN0ZW0gbWVtb3J5IHVzZXIuIFdl
-IG5lZWQKPiAgICB0byByZWdpc3RlciBhIHNocmlua2VyIGZvciBlYWNoIHR0bV90dCAoc28gdXN1
-YWxseSBvbmUgcGVyIGRldmljZSBJCj4gICAgZ3Vlc3MpLCB3aGljaCB3YWxrcyB0aGUgbHJ1IChp
-biBzaHJpbmtfY291bnQpIGFuZCB1c2VzIGRtYV9yZXN2X3RyeWxvY2sKPiAgICBmb3IgYWN0dWFs
-IHNocmlua2luZy4gV2UgcHJvYmFibHkgd2FudCB0byBtb3ZlIGl0IHRvIFNZU1RFTSBmaXJzdCBm
-b3IKPiAgICB0aGF0IHNocmlua2VyIHRvIHBpY2sgdXAsIHNvIHRoYXQgdGhlcmUncyBzb21lIGds
-b2JhbCBmYWlybmVzcyBhY3Jvc3MKPiAgICBhbGwgdHRtX3R0LgoKSSBhbHJlYWR5IGhhdmUgcGF0
-Y2hlcyBmb3IgdGhpcy4KCldoYXQncyBzdGlsbCBtaXNzaW5nIGlzIHRlYWNoaW5nIHRoZSBPT00g
-a2lsbGVyIHdoaWNoIHRhc2sgaXMgdXNpbmcgdGhlIAptZW1vcnkgc2luY2UgbWVtb3J5IHJlZmVy
-ZW5jZWQgdGhyb3VnaCB0aGUgZmlsZSBkZXNjcmlwdG9ycyBhcmUgCmN1cnJlbnRseSBub3QgYWNj
-b3VudGVkIHRvd2FyZHMgYW55IHByb2Nlc3MgcmVzb3VyY2VzLgoKPiAtIGZvciBHRlBfRE1BMzIg
-dGhhdCBtZWFucyB6b25lIGF3YXJlIHNocmlua2Vycy4gV2UndmUgbmV2ZXIgdXNlZCB0aG9zZSwK
-PiAgICBiZWNhdXNlIHRodXMgZmFyIGk5MTUgZGlkbid0IGhhdmUgYW55IGJpZyBuZWVkIGZvciBs
-b3cgbWVtb3J5LCBzbyB3ZQo+ICAgIGhhdmVuJ3QgdXNlZCB0aGlzIGluIHByYWN0aWNlLiBCdXQg
-aXQncyBzdXBwb3NlZCB0byBiZSBhIHRoaW5nLgoKSSB0aGluayB3ZSBjYW4gbW9zdGx5IGZvcmdl
-dCBhYm91dCBHRlBfRE1BMzIsIHRoaXMgc2hvdWxkIG9ubHkgYmUgdXNlZCAKZm9yIEFHUCBhbmQg
-b3RoZXIgYW5jaWVudCBoYXJkd2FyZS4KCkNocmlzdGlhbi4KCj4gSXQncyBhIGJpdCBtb3JlIGNv
-ZGUgdGhhbiB0aGUgb25lbGluZXIgYWJvdmUsIGJ1dCBJIGFsc28gdGhpbmsgaXQncyBhIGxvdAo+
-IG1vcmUgc29saWQuIFBsdXMgaXQgd291bGQgcmVzb2x2ZSB0aGUgbGFzdCBiaWcgaXNzdWUgd2hl
-cmUgaTkxNSBnZW0gaXMKPiBmYWlybHkgZnVuZGFtZW50YWxseSBkaWZmZXJlbnQgY29tcGFyZWQg
-dG8gdHRtLiBGb3IgdGhhdCBxdWVzdGlvbiBJIHRoaW5rCj4gb25jZSBNYWFydGVuJ3MgbG9ja2lu
-ZyByZXdvcmsgZm9yIGk5MTUgaGFzIGxhbmRlZCBhbmQgYWxsIHRoZSBvdGhlciB0dG0KPiByZXdv
-cmsgZnJvbSB5b3UgYW5kIERhdmUgaXMgaW4sIHdlJ3ZlIHJlc29sdmVkIHRoZW0gYWxsLgo+Cj4K
-Pj4gICAJLyogQnV0IGZvciBETUEzMiB3ZSBsaW1pdCBvdXJzZWxmIHRvIG9ubHkgdXNlIDJHaUIg
-bWF4aW11bS4gKi8KPj4gICAJbnVtX2RtYTMyX3BhZ2VzID0gKHU2NCkoc2kudG90YWxyYW0gLSBz
-aS50b3RhbGhpZ2gpICogc2kubWVtX3VuaXQ7Cj4+IC0tIAo+PiAyLjI1LjEKPj4KCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5n
-IGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVk
-ZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Colin Ian King <colin.king@canonical.com>
+
+Currently when txmsg fails to allocate then there is a leak on 'out'. Fix
+this by setting result to false and exiting via the clean up exit path.
+Note since txmsg is NULL at this point, the kfree of txmsg is a no-op.
+
+Addresses-Coverity: ("Resource leak")
+Fixes: 09234b88ef55 ("drm/selftests/test-drm_dp_mst_helper: Move 'sideband_msg_req_encode_decode' onto the heap")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+index 6b4759ed6bfd..dbac073ed385 100644
+--- a/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
++++ b/drivers/gpu/drm/selftests/test-drm_dp_mst_helper.c
+@@ -131,8 +131,10 @@ sideband_msg_req_encode_decode(struct drm_dp_sideband_msg_req_body *in)
+ 		return false;
+ 
+ 	txmsg = kzalloc(sizeof(*txmsg), GFP_KERNEL);
+-	if (!txmsg)
+-		return false;
++	if (!txmsg) {
++		result = false;
++		goto out;
++	}
+ 
+ 	drm_dp_encode_sideband_req(in, txmsg);
+ 	ret = drm_dp_decode_sideband_req(txmsg, out);
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
