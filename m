@@ -2,58 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 550802B8D63
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ABC2B8D54
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073FA6E554;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD0D36E55C;
 	Thu, 19 Nov 2020 08:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50B0D6E428
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:58:39 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id oq3so2878115ejb.7
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 05:58:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=MNzWsDtU39BR4iFEfSJQ9mnoYu92ToJLMEGgLWUUrPw=;
- b=YxD4BW5cjmQdz4D/NWPOTYFDoj79erTso5jj6MSUrfUHf5OPHU//Y+UjP6rHQ8VYEi
- vBjQQBNvcP9cw+uaMWj5PTsXnqGwi+kVyf/BQa0kDaY381yNAEK3VpqAAZ093jnk/LMK
- uTtUZiMYKd8Yzkuafi0CZD6v8UN+ngYxLTCukSBE1wNJ/fl4NlZ4t+DWlUI+C/vjax69
- nouAaB5P0vcCRk3Ub6qTmGOojyV8lhP+JClrNBmQxficjyoktGm12RqQIMnkW051Za3x
- r2gagmHv/V2uVmIY3M0N9T9Dl9MIz3112FQOwMO59615Oe+Zq9Y611rb0gojGj2SwgSl
- KrLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=MNzWsDtU39BR4iFEfSJQ9mnoYu92ToJLMEGgLWUUrPw=;
- b=AB1pFoio2yV6divT5F5eJE54T3kjmN8gFsQqA0faMoEnm1WmbsEOdFM/MpUcxkyZU4
- 9N6exFKAlVLMEMnbfKbkk4L4Ix4xQ+xJ12oWovtDcPuoJZT3OF/K4vFR8L7knS5foPSl
- MZIsiOcExvBdBXR4ooEatAQ7vVbj92VzsxNMPTwWrf0HPY+wr1dNDQ2yab7q3PrNcJkQ
- S7Izjd81EibqalRH2zZkGBGC58Eputd9trVoRT4dsSyOIuP1L57CuL4PhBWDpjfemyao
- Vem9xMqyD7hHFe/P1BLe6mVQEhOouuPuZM9NMfKhKK0JkdxZFK1aXzlNYBcsqZ+7paVo
- UlMw==
-X-Gm-Message-State: AOAM531E4XzMv4WeiWfO+7kd7tEAow71oUbUVPlyLKu2wqpQ5z9OVgrM
- SPw2L7vboDyNm+6aBi8Qk1A=
-X-Google-Smtp-Source: ABdhPJyl5SpYNZp2HUHCYYO8l+T0uxxnjSi9rjNGR0CciOkx5xPSCoFR3ksws8b0r8sM04dsBaG9wA==
-X-Received: by 2002:a17:906:374a:: with SMTP id
- e10mr14400381ejc.246.1605707918063; 
- Wed, 18 Nov 2020 05:58:38 -0800 (PST)
-Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id cx6sm13721384edb.61.2020.11.18.05.58.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Nov 2020 05:58:37 -0800 (PST)
-From: Johan Jonker <jbx6244@gmail.com>
-To: heiko@sntech.de
-Subject: [PATCH v5 7/7] ARM: dts: rockchip: enable hdmi_sound and i2s0 for
- rk3066a-mk808
-Date: Wed, 18 Nov 2020 14:58:22 +0100
-Message-Id: <20201118135822.9582-8-jbx6244@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20201118135822.9582-1-jbx6244@gmail.com>
-References: <20201118135822.9582-1-jbx6244@gmail.com>
+Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
+ [208.86.201.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98EE6E3D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 14:03:58 +0000 (UTC)
+Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
+ by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0AIE0p3R027548; Wed, 18 Nov 2020 06:03:48 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=proofpoint;
+ bh=YeTdZFFc+jHIMZV0VWlLPUetVn3VbdrzqvGoeYcWbkg=;
+ b=Nb9wC6kke39P68wSLaWa5rLGzfomzuv61/O0QahfduvF1xDSn3m6eHu1NfKGb/OYRrqJ
+ +shYX6GmhzmkViJW0I7a6E88bHI3OzeI1jxj5PyBGVBfSQ4eKRVRoVNJIP7fMKwPnUUm
+ gKp3rCVtIuRlPfAan5HOwUDBcgTefC8VYcTVxiIqztLpLofH7xBtrUIvWVJsks1IqKix
+ yhBOlKWQR+O0Rb80hOG19OPwM8l1JosTZqTVrXCtH5+IPAnrWob/Go3R/iy68nt7p/yk
+ aF7KTnILZfJQAKkn+yEp83EuQWQcRW1dLonwYjTa1HUnB5Jqk6oBG7L0QDj4Cd9qNbSf HQ== 
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
+ by mx0b-0014ca01.pphosted.com with ESMTP id 34tbq2yv9h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Nov 2020 06:03:47 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KOwsgKhjLGB8ARpYocOh2usxBWBZZRQZfI1OOEOdZRFIOmQxStp7tC8qfOOh1y6JIcEGloyUpbjY2VQC82FPiy60G6dop37OYU3fJXqtlebSvXxL9J3p3oSu2P3L74GQgfhp0+hSTktJjz+EfXLCjeHM6B8qjywVJbMZE7xiiDLYRnpA4sQD2Bj+BTPteQo2+op0vbbtgmuE8aXkEfY7TywB0YMIpUrgglYmyuYwFBGzm2GEHLu4qvjYaCjWVIAP6aPo5XwD4CXm1PmyvWbwu/rmFr1hlyxqdqKX68mVwf+SyJCOU+ojV4TFvdeysCRBk6D6eTJkbECq9f/XZ78U1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeTdZFFc+jHIMZV0VWlLPUetVn3VbdrzqvGoeYcWbkg=;
+ b=TBH8Sg2Xb2VvQUNikBIHsBw6sjWFlO/Yq+vCIw+6P2+lpJaGeZkuuzi0MwUq7rQFAyW6hfArqHFDehiBn85YKzWsfjKbhfb/xYQuFBElk/WeV64gUMbcj4CR4w1r+zUfS9PUBE30VCnx9k4NvBBV22TO1aO/szBhGiMHnjCC5whXldCYXK/umlR6PkzRvc04zEyD9BhTeC+bjcW5/Lj61x1CAryyVJe+XXekOmdxYrJ2abBSI3rD5gJ84qhHcp/JCm/SnAWmKGdkzhsPkRdQmTHsXF8WxlL7JpQ3S1JPcLPhgaEMvZ8XV9mq8Z6+ljNVtxC0F+mDAJGJBPokcjtNEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 158.140.1.147) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=cadence.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=cadence.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YeTdZFFc+jHIMZV0VWlLPUetVn3VbdrzqvGoeYcWbkg=;
+ b=O6JUGSXo+qag3H8SNZeJ0b37zZacz8SErMTJqyWay9f3Pgzqtqb9NBjy4VpurrWKT/sdWHG5UZBqrAmpzJ/bAbV5OeO5DvTDSC3j48fFjcvf/E2msSH7CFW8QcbqBLkLvNjvkf+if5y8ZbF+JaMVjIA0/z9vLr/xWh4RQYWJYpM=
+Received: from MWHPR01CA0043.prod.exchangelabs.com (2603:10b6:300:101::29) by
+ BLAPR07MB7508.namprd07.prod.outlook.com (2603:10b6:208:29a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Wed, 18 Nov
+ 2020 14:03:45 +0000
+Received: from MW2NAM12FT025.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:300:101:cafe::55) by MWHPR01CA0043.outlook.office365.com
+ (2603:10b6:300:101::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Wed, 18 Nov 2020 14:03:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 158.140.1.147)
+ smtp.mailfrom=cadence.com; ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=pass action=none header.from=cadence.com;
+Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
+ 158.140.1.147 as permitted sender) receiver=protection.outlook.com;
+ client-ip=158.140.1.147; helo=sjmaillnx1.cadence.com;
+Received: from sjmaillnx1.cadence.com (158.140.1.147) by
+ MW2NAM12FT025.mail.protection.outlook.com (10.13.180.92) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.11 via Frontend Transport; Wed, 18 Nov 2020 14:03:44 +0000
+Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
+ by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
+ 0AIE3dUp007561
+ (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
+ Wed, 18 Nov 2020 06:03:40 -0800
+X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
+Received: from maileu3.global.cadence.com (10.160.88.99) by
+ maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3; Wed, 18 Nov 2020 15:03:38 +0100
+Received: from vleu-orange.cadence.com (10.160.88.83) by
+ maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
+ 15.0.1367.3 via Frontend Transport; Wed, 18 Nov 2020 15:03:38 +0100
+Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0AIE3btS003739;
+ Wed, 18 Nov 2020 15:03:37 +0100
+Received: (from yamonkar@localhost)
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0AIE3S6W003729;
+ Wed, 18 Nov 2020 15:03:28 +0100
+From: Yuti Amonkar <yamonkar@cadence.com>
+To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <maxime@cerno.tech>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <mark.rutland@arm.com>, <a.hajda@samsung.com>,
+ <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
+ <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
+Subject: [PATCH v2 0/3] Add bus format negotiation support for Cadence
+ MHDP8546 driver
+Date: Wed, 18 Nov 2020 15:03:25 +0100
+Message-ID: <1605708208-3692-1-git-send-email-yamonkar@cadence.com>
+X-Mailer: git-send-email 2.4.5
+MIME-Version: 1.0
+X-OrganizationHeadersPreserved: maileu3.global.cadence.com
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 91a5ee39-a37a-42c6-e2f2-08d88bcac31d
+X-MS-TrafficTypeDiagnostic: BLAPR07MB7508:
+X-Microsoft-Antispam-PRVS: <BLAPR07MB7508B92E55BE2A508DC2A495D2E10@BLAPR07MB7508.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /eWfURBRRvmVgVgVo44EAxue7kZdO2AU9eEXO0HXSlYEeLpUX/1unVHUAp0Pbuo0j0OUL38eIQVweymC5UDTt0IZMQPPZUq2jiIkbfaXs8xUb5xfiTthkm8eCVZcUryp7oY4sshNOhmuRCey51Vd7bUfXRVagZayLBUvFSuWqgJs1aMYx/71zAzczd1qzu546P4ZmLnU+x/L1BQLn/UQNM/tAyNx/jqFIrATGoHAvhNYOAZiZCB+VQSDjLKDFBNn9+q3BLd/lo70ZUg2MHTfCPIQ0Ep/41Z3Kx4i/kjdEWoKiusFWbstbBCb6dgMPpQBRliN6x9Ot4Qwg5ZULyVLBqZl4AjkYW1Ztsxm2TDzrmwQGTW/lrhBIgEXko3JjTz+zZERQ7gzWn4988E82X+UFPUe4Ri5B04cKS4wBkUF8Wa/pLu3EwTlAMRXhUhTxrGcNL2hi5gTThorbqDAWFYI0FV6aFtrf8mRpqwovSkWPjgp6+zQ56PXWe79S4u/GBN5ofZK+qR1x4jz8YjtV+zllp2aFdl4189W+IoteMGpLw1mE1NPglBUfs3galmZSuRo
+X-Forefront-Antispam-Report: CIP:158.140.1.147; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:sjmaillnx1.cadence.com; PTR:unknown.Cadence.COM; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(376002)(396003)(39860400002)(36092001)(46966005)(4326008)(82310400003)(8676002)(7416002)(2616005)(426003)(36756003)(107886003)(336012)(316002)(42186006)(186003)(6666004)(921005)(478600001)(5660300002)(8936002)(36906005)(47076004)(86362001)(82740400003)(83380400001)(110136005)(54906003)(7636003)(356005)(70206006)(966005)(2906002)(26005)(70586007)(2101003)(83996005);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 14:03:44.5485 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91a5ee39-a37a-42c6-e2f2-08d88bcac31d
+X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[158.140.1.147];
+ Helo=[sjmaillnx1.cadence.com]
+X-MS-Exchange-CrossTenant-AuthSource: MW2NAM12FT025.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR07MB7508
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-18_04:2020-11-17,
+ 2020-11-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
+ score=0 mlxscore=0
+ clxscore=1015 phishscore=0 mlxlogscore=999 spamscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011180099
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,46 +142,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-rockchip@lists.infradead.org,
- airlied@linux.ie, linux-kernel@vger.kernel.org, mturquette@baylibre.com,
- hjc@rock-chips.com, dri-devel@lists.freedesktop.org, lgirdwood@gmail.com,
- sboyd@kernel.org, robh+dt@kernel.org, broonie@kernel.org,
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-MIME-Version: 1.0
+Cc: mparab@cadence.com, yamonkar@cadence.com, nsekhar@ti.com, jsarha@ti.com,
+ tomi.valkeinen@ti.com, sjakhade@cadence.com, nikhil.nd@ti.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make some noise with mk808. Enable the hdmi_sound node and
-add i2s0 as sound source for hdmi.
+This patch series add bus format negotiation support for Cadence MHDP8546 bridge driver.
 
-Signed-off-by: Johan Jonker <jbx6244@gmail.com>
----
- arch/arm/boot/dts/rk3066a-mk808.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+The patch series has four patches in the below sequence:
+1. drm: bridge: cdns-mhdp8546: Modify atomic_get_input_bus_format bridge function.
+   Return all the input formats supported.
+2. drm: bridge: cdns-mhdp8546: Remove setting of bus format using connector info 
+   Remove the bus format configuration using connector info structure.
+3. drm: bridge: cdns-mhdp8546: Retrieve the pixel format and bpc based on bus format 
+   Get the pixel format and bpc based on negotiated output bus format.
 
-diff --git a/arch/arm/boot/dts/rk3066a-mk808.dts b/arch/arm/boot/dts/rk3066a-mk808.dts
-index eed9e60cf..5fe74c097 100644
---- a/arch/arm/boot/dts/rk3066a-mk808.dts
-+++ b/arch/arm/boot/dts/rk3066a-mk808.dts
-@@ -116,6 +116,14 @@
- 	};
- };
- 
-+&hdmi_sound {
-+	status = "okay";
-+};
-+
-+&i2s0 {
-+	status = "okay";
-+};
-+
- &mmc0 {
- 	bus-width = <4>;
- 	cap-mmc-highspeed;
+This patch series is dependent on tidss series [1] for the new connector model support.
+
+[1]
+
+https://patchwork.kernel.org/project/dri-devel/cover/20201109170601.21557-1-nikhil.nd@ti.com/
+
+Version History:
+
+v2:
+ - Remove the Add output bus format negotiation patch from the series, 
+   as we use ouput format as MEDIA_BUS_FMT_FIXED and that is  the 
+   default value if atomic_get_output_bus_fmts function is not implemented.
+ - Return NULL if output format is not MEDIA_BUS_FMT_FIXED.
+ - Return the supported color formats based on the display info structure.
+
+
+Yuti Amonkar (3):
+  drm: bridge: cdns-mhdp8546: Modify atomic_get_input_bus_format bridge
+    function
+  drm: bridge: cdns-mhdp8546: Remove setting of bus format using
+    connector info
+  drm: bridge: cdns-mhdp8546: Retrieve the pixel format and bpc based on
+    bus format
+
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 133 +++++++++++++-----
+ 1 file changed, 99 insertions(+), 34 deletions(-)
+
 -- 
-2.11.0
+2.17.1
 
 _______________________________________________
 dri-devel mailing list
