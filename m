@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBDC02B7B1F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 11:23:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026432B7B23
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 11:24:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68746E083;
-	Wed, 18 Nov 2020 10:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D44C89294;
+	Wed, 18 Nov 2020 10:24:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 457C66E083
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 10:23:52 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id f16so1221341otl.11
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 02:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IYc15g665JLoBoA6gcQrZ5fSunfsJmR8gly3tzeAHTw=;
- b=GevZ8t82vGheX2W9TMQuCjKxM80eBfu11aUooZwolIHJH/OfR+bEyhU2ZijjrFzD+q
- 3PNGjHJOFsTue7T84D2mFBgId1I0w11RZy9SQS4ER8LvJtMR2aCI2hzZcAqALOwC3zJV
- wWqwfwxbogusEPnFy+BZrXkJffy+PcD14Iq/U=
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31DED884B0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 10:24:23 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id p22so2460851wmg.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 02:24:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=RizomVxi/SqVipgoUDsBcF8oqMw4CmvO41It6Vysev4=;
+ b=Eu+S5WEquExviHKpbRKTLZ/f/t4cXK+yhc23ZUjnMGdIj//YeWCuaqVCr64NKFaj2h
+ k8kAmFv/x/wC9QYlu2EknIsbi8gyJqbzbMtmVIdWfKC3BtXBhwpim8hZKN91u0is4adL
+ cbRNuGT6JYQvNVxdBrQ3KhOCoCuT+PVDWQkZfJ3irEWQrwrJCbZTv1DBRp/3p6YzGQEM
+ /cCPnJE1jGUTNxG7tQ4OblnnnOFaB7Dk9K+KDDbU1mDqZi8Hq8LfvLySWkAxMamP8AnH
+ 76wL4FBzlYI+3/50+x+XnZIsngF6MYXNcWNZxMqOsViCsYrFAsbD96XJnelbyuoSyYsf
+ Gq2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IYc15g665JLoBoA6gcQrZ5fSunfsJmR8gly3tzeAHTw=;
- b=K3h5VnVAV+ToioYLCU+o1NXgADVsfwtKMzXir7EE+D3uxa1zVL4ejD8Uief3kWfjxW
- YChcGQIGxLtyRDeZAwb5B6JYlSluEm5A7UEDRhnVWvuGuCOVaZL+Qb7AXi+Tvr4j97Qc
- QywV7Ypc4e1AM6GXKAmyqy4G5JXkCwzPev38gSS0+iyex2qO6Xo3iE6g6aXx2JYSKfw6
- 5wKFLGZLJJI5UN+KWXF43H/LzIbAcPUxsu0M9uYeoF7R4OrQ5fMwuy1jEN/FiS6g58BR
- vhijG1CLiRRBrLXK4bH55bkkhfDFMBskfjmiLnvKOeOe0PRjUsb1ts/fLL7LK7K1Vyv9
- TmFA==
-X-Gm-Message-State: AOAM532/ccspsO9RGpQ49tDd8FOW6C4GUypZ/76LXzYWsiIxHCbqo/3L
- qz04SWYkpqbwskySY6nL+qBemPjYLm6ZGwV00XfmtA==
-X-Google-Smtp-Source: ABdhPJwM6SyyOtWsE0KW2tESF/f80QfbP7+PRn3Epw2LJiOWPMdeo1c1/zSCuabUltApbBFzMAa2N5IHukc0khWVaBw=
-X-Received: by 2002:a9d:3b4:: with SMTP id f49mr6380545otf.188.1605695031632; 
- Wed, 18 Nov 2020 02:23:51 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=RizomVxi/SqVipgoUDsBcF8oqMw4CmvO41It6Vysev4=;
+ b=EYE587/riUauc1MZf/zHXEL+lLkyFmj7wLqOLmCxSHgmyXguBGIPt3ZVLTWrKbSHp1
+ rwOwzDwo7fbRtpTpZTPawDUGtDA0EXE2v9pn4/O1Qv7hcNB4yiMnSFptA1Vjffc4pGve
+ 7oB5uiHWs7CYgK231VBt3zu8dlfsIiw68XnSXqvlKL0CaEDJAhQUytE8jH9mP2FcmdG9
+ Qg8OkiCe0XIN/d4xb9NHJ/rQ6ZBbQ11K+Q3d3PZQPHq8qx/4kczZvo6VbucITEcpj5oc
+ YTAXcszG0AfSvBH+TF3gVWNwHFKsDdfXFyH0OEN/xALi3194Oq2Z5KOqu7JLjUfGfBoV
+ pnWg==
+X-Gm-Message-State: AOAM5321TfmmASrek94rlL9cnN3hScnFEdvPpdAqJAMIK3QLaf2ZFbyM
+ qJQkevgcBrmvBmfjZnsnyUBVlw==
+X-Google-Smtp-Source: ABdhPJyE7zy64ZZNtttMQhyiHbNnKxsTEugVrbehjVT8/VRtqPZyO9Fl5c1YsqbQJuoeUGxFx5kteg==
+X-Received: by 2002:a1c:2583:: with SMTP id l125mr3618352wml.50.1605695061834; 
+ Wed, 18 Nov 2020 02:24:21 -0800 (PST)
+Received: from dell ([91.110.221.159])
+ by smtp.gmail.com with ESMTPSA id w17sm8412544wru.82.2020.11.18.02.24.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Nov 2020 02:24:21 -0800 (PST)
+Date: Wed, 18 Nov 2020 10:24:19 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Subject: Re: [PATCH 04/40] drm/amd/amdgpu/amdgpu_drv: Move
+ 'amdgpu_info_ioctl()'s prototype to shared header
+Message-ID: <20201118102419.GR1869941@dell>
+References: <20201113134938.4004947-1-lee.jones@linaro.org>
+ <20201113134938.4004947-5-lee.jones@linaro.org>
+ <CADnq5_Na3t3wY4iTSbEE3zTLCOqo=F+3thOnHqXdPgDZkso0kw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
- <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
- <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
- <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
- <38c2d92ac5f04a228e55af43a12a4bd7@de.bosch.com>
-In-Reply-To: <38c2d92ac5f04a228e55af43a12a4bd7@de.bosch.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 18 Nov 2020 11:23:40 +0100
-Message-ID: <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
-Subject: Re: [PATCH] drm: imx: Move fbdev setup to before output polling
-To: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>
+Content-Disposition: inline
+In-Reply-To: <CADnq5_Na3t3wY4iTSbEE3zTLCOqo=F+3thOnHqXdPgDZkso0kw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,134 +70,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "RUAN Tingquan \(BT-FIR/ENG1-Zhu\)" <Tingquan.Ruan@cn.bosch.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 18, 2020 at 10:47 AM Jonas Mark (BT-FIR/ENG1-Grb)
-<Mark.Jonas@de.bosch.com> wrote:
->
-> Hi Thomas and Daniel,
->
-> Thank you very much for your feedback. We appreciate it.
->
-> > >>> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c
-> > >>> b/drivers/gpu/drm/imx/imx-drm-core.c
-> > >>> index 9bf5ad6d18a2..2665040e11c7 100644
-> > >>> --- a/drivers/gpu/drm/imx/imx-drm-core.c
-> > >>> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
-> > >>> @@ -240,14 +240,18 @@ static int imx_drm_bind(struct device *dev)
-> > >>>                legacyfb_depth = 16;
-> > >>>        }
-> > >>>
-> > >>> +     /*
-> > >>> +      * The generic fbdev has to be setup before enabling output polling.
-> > >>> +      * Otherwise the fbdev client is not ready to handle delayed events.
-> > >>> +      */
-> > >>> +     drm_fbdev_generic_setup(drm, legacyfb_depth);
-> > >>> +
-> > >>>        drm_kms_helper_poll_init(drm);
-> > >>>
-> > >>>        ret = drm_dev_register(drm, 0);
-> > >>>        if (ret)
-> > >>>                goto err_poll_fini;
-> > >>>
-> > >>> -     drm_fbdev_generic_setup(drm, legacyfb_depth);
-> > >>> -
-> > >>
-> > >> This does not work well. fbdev is supposed to be another regular DRM
-> > >> client. It has to be enabled after registering the DRM device.
-> > >>
-> > >> I'd rather improve fbdev or the driver to handle this gracefully.
-> > >
-> > > Yeah I'm not understanding the point here. Once fbcon is running, you
-> > > have a screen. Any fbdev userspace client  also should do a modeset
-> > > first. And if they dont and it's expected uapi for fbdev chardev that
-> > > the display boots up enabled, then we need to fix that in the fbdev
-> > > helpers, not through clever reordering in drivers so that a
-> > > side-effect causes a modeset.
-> > >
-> > > Note that this is a bit tricky since fbdev shouldn't take over the
-> > > screen by default, so we'd need to delay this until first open of
-> > > /dev/fb0. And we should probably also delay the hotplug handling until
-> > > the first open. fbcon also fake-opens the fbdev file, so it's the same
-> > > code path.
-> >
-> > As far as I understand the commit message, the problem is that the display
-> > blanks out after registering the driver. And fbdev somewhat mitigates this by
-> > doing an early modeset. Users with fbdev disabled (most of them in
-> > embedded, I guess) would still run into the issue until userspace makes a
-> > modeset.
-> >
-> > Mark, if that's the case, an option might be to pick up the device settings
-> > instead of calling drm_mode_config_reset(). The driver would then continue
-> > to display whatever is on the screen.
->
-> We are started using fbdev in our embedded application with Linux 3.10, later
-> updated to 4.14 and are now in the process of updating to 5.4. So far the uapi
-> appeared to us as if we could rely on an already enabled fbdev. That is, none
-> of our applications does a modeset.
->
-> When switching to 5.4 we noticed that the fbdev uapi changed. That is, the
-> LCD is switched off until it is explicitly enabled. It could be enabled by
-> writing to /sys/class/graphics/fb0/blank.
->
-> You are right, we are not using fbcon. fbcon will still enable the LCD but in our
-> embedded domain we have it disabled because we must not show a console.
->
-> Do we understand your proposal correctly to replace the call to
-> drm_mode_config_reset() in imx_drm_bind() [imx-drm-core.c] with picking up
-> the device settings instead?
->
-> https://elixir.bootlin.com/linux/v5.10-rc4/source/drivers/gpu/drm/imx/imx-drm-core.c#L231
->
-> We are a little clueless right now: How do we pick up the device settings?
-
-Nope, not what I had in mind.
-
-Instead intercept the fb_ops->open call and in there if it's a
-userspace open (user parameter of the callback tells you that) and kms
-is not in use, then try to light up the display for the fbdev
-userspace to use. drm fbdev helpers already have that callback as
-drm_fbdev_fb_open(). I think you could try and just call
-drm_fbdev_client_hotplug directly, that should do the trick. Or maybe
-calling drm_fb_helper_dpms is the better option, not sure. fbmem.c
-seems to not store any blanking state at all, so this is probably all
-ill-defined.
-
-Important part is to do this only for the user fb_open case, since
-fbcon will do its own thing too.
-
-Plus I guess we need to document that this is the uapi we're having
-for fbdev clients, so ideally this should be cc'ed widely so we can
-get some acks from former fbdev maintainers.
-
-Also ideally we'd have an igt for this uapi to make sure it never
-breaks again. Something like:
-1. open the kms driver for this, make sure display is completely off.
-2. close kms file
-3. open fbdev file
-4. check (through opening kms side again) that the display has been enabled.
-
-See https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#validating-changes-with-igt
-for some details on our validation testing, there's already a very
-basic fbdev testcase there.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCAxMyBOb3YgMjAyMCwgQWxleCBEZXVjaGVyIHdyb3RlOgoKPiBPbiBGcmksIE5vdiAx
+MywgMjAyMCBhdCA4OjQ5IEFNIExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+IHdyb3Rl
+Ogo+ID4KPiA+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMp
+Ogo+ID4KPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmM6NDg2OjU6
+IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig4oCYYW1kZ3B1X2luZm9faW9jdGzi
+gJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ID4gIDQ4NiB8IGludCBhbWRncHVfaW5mb19pb2N0
+bChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2b2lkICpkYXRhLCBzdHJ1Y3QgZHJtX2ZpbGUgKmZp
+bHApCj4gPiAgfCBefn5+fn5+fn5+fn5+fn5+fgo+ID4KPiA+IENjOiBBbGV4IERldWNoZXIgPGFs
+ZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gPiBDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJp
+c3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4
+LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBhbWQt
+Z2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKPiA+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5v
+cmc+Cj4gCj4gTHViZW4gYWxyZWFkeSBzZW50IGEgcGF0Y2ggdG8gZml4IHRoaXMgb25lLiAgSSds
+bCBiZSBwaWNraW5nIHVwIHRoYXQgb25lLgoKRllJOiBMb29rcyBsaWtlIHRoaXMgaXMgc3RpbGwg
+YnJva2VuIGluIHRvZGF5J3MgLW5leHQuCgo+ID4gLS0tCj4gPiAgZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2Rydi5jIHwgIDQgKy0tLQo+ID4gIGRyaXZlcnMvZ3B1L2RybS9hbWQv
+YW1kZ3B1L2FtZGdwdV9rbXMuYyB8ICAxICsKPiA+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfa21zLmggfCAzMSArKysrKysrKysrKysrKysrKysrKysrKysrCj4gPiAgMyBmaWxl
+cyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQo+ID4gIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmgKPiA+Cj4g
+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4gPiBpbmRleCAxZGZlYTE1
+YmJlYzM2Li5hZmQzNTdkZjBmODg2IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9hbWRncHVfZHJ2LmMKPiA+IEBAIC00Myw3ICs0Myw3IEBACj4gPiAgI2luY2x1ZGUgImFtZGdw
+dV9zY2hlZC5oIgo+ID4KPiA+ICAjaW5jbHVkZSAiYW1kZ3B1X2FtZGtmZC5oIgo+ID4gLQo+ID4g
+KyNpbmNsdWRlICJhbWRncHVfa21zLmgiCj4gPiAgI2luY2x1ZGUgImFtZGdwdV9yYXMuaCIKPiA+
+Cj4gPiAgLyoKPiA+IEBAIC0xNTIxLDggKzE1MjEsNiBAQCBpbnQgYW1kZ3B1X2ZpbGVfdG9fZnBy
+aXYoc3RydWN0IGZpbGUgKmZpbHAsIHN0cnVjdCBhbWRncHVfZnByaXYgKipmcHJpdikKPiA+ICAg
+ICAgICAgcmV0dXJuIDA7Cj4gPiAgfQo+ID4KPiA+IC1pbnQgYW1kZ3B1X2luZm9faW9jdGwoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwgc3RydWN0IGRybV9maWxlICpmaWxwKTsK
+PiA+IC0KPiA+ICBjb25zdCBzdHJ1Y3QgZHJtX2lvY3RsX2Rlc2MgYW1kZ3B1X2lvY3Rsc19rbXNb
+XSA9IHsKPiA+ICAgICAgICAgRFJNX0lPQ1RMX0RFRl9EUlYoQU1ER1BVX0dFTV9DUkVBVEUsIGFt
+ZGdwdV9nZW1fY3JlYXRlX2lvY3RsLCBEUk1fQVVUSHxEUk1fUkVOREVSX0FMTE9XKSwKPiA+ICAg
+ICAgICAgRFJNX0lPQ1RMX0RFRl9EUlYoQU1ER1BVX0NUWCwgYW1kZ3B1X2N0eF9pb2N0bCwgRFJN
+X0FVVEh8RFJNX1JFTkRFUl9BTExPVyksCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1k
+Z3B1X2ttcy5jCj4gPiBpbmRleCA5ODcyMWFlOTMxODQxLi41NGM0ZWU2ZDIzMGQ4IDEwMDY0NAo+
+ID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5jCj4gPiArKysg
+Yi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfa21zLmMKPiA+IEBAIC00MSw2ICs0
+MSw3IEBACj4gPiAgI2luY2x1ZGUgImFtZGdwdV9hbWRrZmQuaCIKPiA+ICAjaW5jbHVkZSAiYW1k
+Z3B1X2dlbS5oIgo+ID4gICNpbmNsdWRlICJhbWRncHVfZGlzcGxheS5oIgo+ID4gKyNpbmNsdWRl
+ICJhbWRncHVfa21zLmgiCj4gPiAgI2luY2x1ZGUgImFtZGdwdV9yYXMuaCIKPiA+Cj4gPiAgdm9p
+ZCBhbWRncHVfdW5yZWdpc3Rlcl9ncHVfaW5zdGFuY2Uoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
+ZXYpCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2tt
+cy5oIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2ttcy5oCj4gPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NAo+ID4gaW5kZXggMDAwMDAwMDAwMDAwMC4uZjMxMTFhZWY3NmNhZQo+ID4g
+LS0tIC9kZXYvbnVsbAo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1
+X2ttcy5oCj4gPiBAQCAtMCwwICsxLDMxIEBACj4gPiArLyogYW1kZ3B1X2ttcy5oIC0tIFByaXZh
+dGUgaGVhZGVyIGZvciByYWRlb24gZHJpdmVyIC0qLSBsaW51eC1jIC0qLQo+ID4gKyAqCj4gPiAr
+ICogQ29weXJpZ2h0IDIwMDggQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLgo+ID4gKyAqIENv
+cHlyaWdodCAyMDA4IFJlZCBIYXQgSW5jLgo+ID4gKyAqIENvcHlyaWdodCAyMDA5IEplcm9tZSBH
+bGlzc2UuCj4gPiArICoKPiA+ICsgKiBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBmcmVl
+IG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvYnRhaW5pbmcgYQo+ID4gKyAqIGNvcHkgb2YgdGhp
+cyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3
+YXJlIiksCj4gPiArICogdG8gZGVhbCBpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlv
+biwgaW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbgo+ID4gKyAqIHRoZSByaWdodHMgdG8gdXNl
+LCBjb3B5LCBtb2RpZnksIG1lcmdlLCBwdWJsaXNoLCBkaXN0cmlidXRlLCBzdWJsaWNlbnNlLAo+
+ID4gKyAqIGFuZC9vciBzZWxsIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQg
+cGVyc29ucyB0byB3aG9tIHRoZQo+ID4gKyAqIFNvZnR3YXJlIGlzIGZ1cm5pc2hlZCB0byBkbyBz
+bywgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6Cj4gPiArICoKPiA+ICsgKiBU
+aGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFs
+bCBiZSBpbmNsdWRlZCBpbgo+ID4gKyAqIGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlv
+bnMgb2YgdGhlIFNvZnR3YXJlLgo+ID4gKyAqCj4gPiArICogVEhFIFNPRlRXQVJFIElTIFBST1ZJ
+REVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IKPiA+
+ICsgKiBJTVBMSUVELCBJTkNMVURJTkcgQlVUIE5PVCBMSU1JVEVEIFRPIFRIRSBXQVJSQU5USUVT
+IE9GIE1FUkNIQU5UQUJJTElUWSwKPiA+ICsgKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVS
+UE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiAgSU4gTk8gRVZFTlQgU0hBTEwKPiA+ICsgKiBUSEUg
+Q09QWVJJR0hUIEhPTERFUihTKSBPUiBBVVRIT1IoUykgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0s
+IERBTUFHRVMgT1IKPiA+ICsgKiBPVEhFUiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNUSU9O
+IE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwKPiA+ICsgKiBBUklTSU5HIEZST00sIE9V
+VCBPRiBPUiBJTiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IKPiA+
+ICsgKiBPVEhFUiBERUFMSU5HUyBJTiBUSEUgU09GVFdBUkUuCj4gPiArICovCj4gPiArCj4gPiAr
+I2lmbmRlZiBfX0FNREdQVV9LTVNfSF9fCj4gPiArI2RlZmluZSBfX0FNREdQVV9LTVNfSF9fCj4g
+PiArCj4gPiAraW50IGFtZGdwdV9pbmZvX2lvY3RsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHZv
+aWQgKmRhdGEsIHN0cnVjdCBkcm1fZmlsZSAqZmlscCk7Cj4gPiArCj4gPiArI2VuZGlmICAgICAg
+ICAgICAgICAgICAgICAgICAgIC8qIF9fQU1ER1BVX0tNU19IX18gKi8KPiA+Cj4gPiBfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+ID4gZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdAo+ID4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKCi0tIApM
+ZWUgSm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNl
+cnZpY2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpG
+b2xsb3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
