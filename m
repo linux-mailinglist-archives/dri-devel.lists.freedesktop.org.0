@@ -1,46 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA07B2B7FD4
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 15:55:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE2A2B8007
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 16:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BE9C6E3D6;
-	Wed, 18 Nov 2020 14:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BE96E435;
+	Wed, 18 Nov 2020 15:03:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72D476E3D6
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 14:55:19 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kfOrZ-0002K7-DQ; Wed, 18 Nov 2020 15:55:13 +0100
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kfOrY-0003vm-BW; Wed, 18 Nov 2020 15:55:12 +0100
-Message-ID: <32aaa90cabfb68952803ca91933bc0e105e34a53.camel@pengutronix.de>
-Subject: Re: [PATCH v2] drm/imx: depend on COMMON_CLK to fix compile tests
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Krzysztof Kozlowski <krzk@kernel.org>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>,  Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
- <linux-imx@nxp.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Wed, 18 Nov 2020 15:55:12 +0100
-In-Reply-To: <20201117182419.73853-1-krzk@kernel.org>
-References: <20201117182419.73853-1-krzk@kernel.org>
-User-Agent: Evolution 3.30.5-1.1 
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E644B6E435
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 15:03:39 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id g19so1973562otp.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:03:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sc64GKkwK1kAp1Oi/9a4/pUN7nrtBEAUO0yfxsrN/zc=;
+ b=WWcwAhIO91+kUoo9atUW5GTun6zwRXyyrTWsKFfIOFdDf6jfdjk+qj2eEWIWsQ5j2e
+ 4yaVdEk3rIXPr9LgrMBWF72EXY8CVK23hHKTB3A25L1/gpEq3egSCi9gPi4h1oMEYwLo
+ US09M6+pLcYnJyiL/A3k49PYcJ+1SxNfocXDc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sc64GKkwK1kAp1Oi/9a4/pUN7nrtBEAUO0yfxsrN/zc=;
+ b=jYhOFZ5fdeSXMSAx5uEZ2/53QOto8FPZt6+iyw5JV8urfwq9fdd5r8MZd08B/UoGX/
+ WuLDectJdvGTaZE8dNXK+51LcWOv6Fq8eVduyapDsgvDWeTZHwHnDE0xY32b3TAwVhdD
+ /MhiyR8xBhvrj+Y6k4PtSMV7oZhjtj9KfPvKqeUwmaoW97NlnG6vB/zeg68buh86kIJo
+ /ZzUIuSoghDwbMVQUENN76VotUm+fCJNWKtYJwbagBXNoYeQoSkRWUGGlMiwCyAlk1fN
+ U3Fxdd9jMLDKsdPevNkd/QWQ1rhfbMKnFecQ1V4v0JPlEd76BzAAyvCvzQxABKX6BHos
+ +PnA==
+X-Gm-Message-State: AOAM530K2P7jamvlTy5oujwvUDBqB9wPIShb3uyXHPGI0gPpr5ewiadh
+ FVlwr6T2E4n3DnKQXxYFRTPLgUp/cWO9eLldrVNc1B60IgESYA==
+X-Google-Smtp-Source: ABdhPJxAqJypbOQOKYQWR05G3Ecuh7DcJhb56EC2mfkbgKgsXruqMw2KMn4iWVknbX7BoDsXVdyddrf0tC90zUxKaFs=
+X-Received: by 2002:a05:6830:3155:: with SMTP id
+ c21mr7078110ots.281.1605711819133; 
+ Wed, 18 Nov 2020 07:03:39 -0800 (PST)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <zvaqgUJLuDcSaX7hbo6wcjWOCFUkiwPThMV1D8tq7dc@cp3-web-020.plabs.ch>
+In-Reply-To: <zvaqgUJLuDcSaX7hbo6wcjWOCFUkiwPThMV1D8tq7dc@cp3-web-020.plabs.ch>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 18 Nov 2020 16:03:27 +0100
+Message-ID: <CAKMK7uHLR2Rd9xOMEqURZJBvyVqO1HCe6eXzh8qKnG+9WX0FYA@mail.gmail.com>
+Subject: Re: [PATCH] drm: document drm_mode_get_connector
+To: Simon Ser <contact@emersion.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +58,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
-
-On Tue, 2020-11-17 at 19:24 +0100, Krzysztof Kozlowski wrote:
-> The iMX DRM LVDS driver uses Common Clock Framework thus it cannot be
-> built on platforms without it (e.g. compile test on MIPS with RALINK and
-> SOC_RT305X):
-> 
->     /usr/bin/mips-linux-gnu-ld: drivers/gpu/drm/imx/imx-ldb.o: in function `imx_ldb_encoder_disable':
->     imx-ldb.c:(.text+0x400): undefined reference to `clk_set_parent'
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
+On Wed, Nov 18, 2020 at 11:52 AM Simon Ser <contact@emersion.fr> wrote:
+>
+> Document how to perform a forced probe, and when should user-space do it.
+>
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
 > ---
-> 
-> Changes since v1:
-> 1. Put depends in DRM_IMX_LDB option only.
-> ---
->  drivers/gpu/drm/imx/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/imx/Kconfig b/drivers/gpu/drm/imx/Kconfig
-> index 6231048aa5aa..73fe2bc5633c 100644
-> --- a/drivers/gpu/drm/imx/Kconfig
-> +++ b/drivers/gpu/drm/imx/Kconfig
-> @@ -28,6 +28,7 @@ config DRM_IMX_TVE
->  config DRM_IMX_LDB
->  	tristate "Support for LVDS displays"
->  	depends on DRM_IMX && MFD_SYSCON
-> +	depends on COMMON_CLK
->  	select DRM_PANEL
->  	help
->  	  Choose this to enable the internal LVDS Display Bridge (LDB)
+>  include/uapi/drm/drm_mode.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index 5ad10ab2a577..09647b799f39 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -368,6 +368,19 @@ enum drm_mode_subconnector {
+>  #define DRM_MODE_CONNECTOR_WRITEBACK   18
+>  #define DRM_MODE_CONNECTOR_SPI         19
+>
+> +/**
+> + * struct drm_mode_get_connector - get connector metadata
+> + *
+> + * If the @count_modes field is set to zero, the kernel will perform a forced
+> + * probe on the connector to refresh the connector status, modes and EDID.
+> + * A forced-probe can be slow and the ioctl will block.
+> + *
+> + * User-space shouldn't need to force-probe connectors in general: the kernel
+> + * will automatically take care of probing connectors that don't support
+> + * hot-plug detection when appropriate. However, user-space may force-probe
+> + * connectors on user request (e.g. clicking a "Scan connectors" button, or
+> + * opening a UI to manage screens).
+> + */
 
-Thank you, applied to imx-drm/next.
+I think this causes warnings, because now we have kerneldoc for this,
+but not for all the members. Also the member-specific stuff should be
+documented as inline comment, see
 
-regards
-Philipp
+https://dri.freedesktop.org/docs/drm/doc-guide/kernel-doc.html#in-line-member-documentation-comments
+
+I also noticed that this file has a ton of wrong kerneldoc comments,
+but they seem to not cause warnings (anything starting with /** is
+fishy).
+
+Can I volunteer you for a bit more here?
+
+Thanks, Daniel
+
+>  struct drm_mode_get_connector {
+>
+>         __u64 encoders_ptr;
+> --
+> 2.29.2
+>
+>
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
