@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338172B770B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 08:39:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F13D12B771E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 08:46:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1475E6E342;
-	Wed, 18 Nov 2020 07:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E86F06E372;
+	Wed, 18 Nov 2020 07:46:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
- [IPv6:2607:f8b0:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC5CB6E342
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:39:36 +0000 (UTC)
-Received: by mail-ot1-x344.google.com with SMTP id f16so849571otl.11
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 23:39:36 -0800 (PST)
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
+ [IPv6:2607:f8b0:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775E66E372
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:46:48 +0000 (UTC)
+Received: by mail-oi1-x243.google.com with SMTP id f11so1223371oij.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Nov 2020 23:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5kQ6WU7h/KCapyngIq31d2yV3S3yozxhq6mrduz4N64=;
- b=IsrxZxKX1cyEH7sgnmk34hmPhVToxcCrEboPDGgCST6VhxJu9pBN0cx9Gl7n4VIROb
- Px8FRUosxQ0O+sQ614Er1ro5X8qCA2vuPTVZL6EMXhZ7pmO1gteGSZt/rexYjYWJ4WEh
- 4Wsor0NwivyOln5ACe1Aeiprr3Z4phF3ATCZk=
+ :cc; bh=tkuG/qY/u9PvSPGNrCZ0GKow8OQyrX72voV0+j6nQMw=;
+ b=QJPgQyP/65JRR+yG+QS7v72A1kPUPgpCDHaGQIwH8V/Qo9jpaI095XvwUHt4ZEN1jz
+ C+Fdqugf4T5k/U+OJu7pdKVBLxycMswamDr4ASoUqng6ojAhA6NGwhz+Dmh4nkoBqlwt
+ TsNTnbfINgTesVznCzwsZICisqay/bUpVaX5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5kQ6WU7h/KCapyngIq31d2yV3S3yozxhq6mrduz4N64=;
- b=nX8LWqli5QsDB98D1ntWv8YsWktfq/zsmHh616OD7lAgGWqvhHfKbJ4HSauYHJaWph
- GO/WQND0O4QlCKwLKempVCMCaKqxGtDJFN/UqGxw/LedxDRmpPyezJF8VBu1QUA2MCJM
- SdA4MZCmurgyt39eGfGmci4biBH7DjyKp6FHLE+Sm3mmdU0AQ6y7aKhrVf4lz5tQBSCb
- loqEfM2qC4IB9+9hNxNWdL5YLx5rF8mUFoPU0H0ro1jDQWGajG6LtB7aAgQG9KgM7y0a
- bp2mgb0s0aZlD4qUXqga2DHvnu4UkjNA+TnohaPTaZAk41Rmf2EPxKnXUvL0K9e4H9+g
- kZyA==
-X-Gm-Message-State: AOAM530EstLMtP3XTxUM+kiEdZ0vr2GdmYQB38QjpOAXr9oYiJbfX7i/
- mNSXs9hvjk7Q+VuKcuy+wkcZgJ3mOQCHzNrr7tm5OA==
-X-Google-Smtp-Source: ABdhPJwj9CxjkkFvHfpjLmodNPyNpUxvc36JEbfllBWiteLDbR8g86BcWCvWOFpfvqOkbt7ZvR9wgazdvPdrrxRc9Vo=
-X-Received: by 2002:a05:6830:3155:: with SMTP id
- c21mr6001762ots.281.1605685176133; 
- Tue, 17 Nov 2020 23:39:36 -0800 (PST)
+ bh=tkuG/qY/u9PvSPGNrCZ0GKow8OQyrX72voV0+j6nQMw=;
+ b=IuAV9JEa4CSca0ZemY8F73Bh+IG54051fSscLtB5j+HN5AfJO6x2mP7RpyM2h4f+5U
+ MXYE3ZexnN7bG+zbgM3w1jznW8MVnFwGNqszhvTSHHaVA3dgPjY/SFvHWTfP5kCgQfLm
+ PR2HxUc55vpQ2pTfTpexBGkJ0GLDwq2NOGYv2JUCTGusqLu/NGZfZG3dns0quLD/Ajvz
+ P4OE8hxUE4bE+DNg8mKB+iG73zc0cBLljXFNDXTuZBvWJJMIc+fpcofyZKMNNIYEBZ+U
+ VjNLod4WuZzQP/hkK65feNu+t8DHGS695iotFtMUqHk9fX9Q3gnd2gcUUIHrIbMydveo
+ ik3w==
+X-Gm-Message-State: AOAM531IwnRw9LrX3sU/RT1oIJCVRIvv+CNv1diPoX3+eYQTziB39E3P
+ 0o+hBUSJRbCaFmyTISjHnYiFfuRLTNP6ofPPuDmlAQ==
+X-Google-Smtp-Source: ABdhPJzeVllnRkpX1dkgLeG2LNjSC8Z9R71z2Uo8hpSkqefs/tNQXFoBkHj0wLvcC582e5R//mTyNmrG8uvaalBUAyc=
+X-Received: by 2002:aca:4f14:: with SMTP id d20mr1991417oib.14.1605685607699; 
+ Tue, 17 Nov 2020 23:46:47 -0800 (PST)
 MIME-Version: 1.0
-References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
- <1592719388-13819-9-git-send-email-andrey.grodzovsky@amd.com>
- <20200622095345.GF20149@phenom.ffwll.local>
- <24dd3691-5599-459c-2e5d-a8f2e504ec66@amd.com>
- <20201117185255.GP401619@phenom.ffwll.local>
- <b827fa7a-d89e-d138-d275-60a9f15c128a@amd.com>
- <20201117194922.GW401619@phenom.ffwll.local>
- <064ef461-8f59-2eb8-7777-6ff5b8d28cdd@amd.com>
-In-Reply-To: <064ef461-8f59-2eb8-7777-6ff5b8d28cdd@amd.com>
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+ <20201112093237.GS401619@phenom.ffwll.local>
+ <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+ <20201113203933.GT401619@phenom.ffwll.local>
+ <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
+In-Reply-To: <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 18 Nov 2020 08:39:24 +0100
-Message-ID: <CAKMK7uF9uvT09zDb6fS0j68fWrq2qV7h_JQAt8vpaGPJ1d64cQ@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] drm/amdgpu: Prevent any job recoveries after
- device is unplugged.
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Date: Wed, 18 Nov 2020 08:46:36 +0100
+Message-ID: <CAKMK7uGew_sdw=NPrzuAQ_-5_kQnn-qvLHK9DGqSk=k22tQGDg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To: John Stultz <john.stultz@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,167 +63,141 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
+Cc: Sandeep Patil <sspatil@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 17, 2020 at 9:07 PM Andrey Grodzovsky
-<Andrey.Grodzovsky@amd.com> wrote:
->
->
-> On 11/17/20 2:49 PM, Daniel Vetter wrote:
-> > On Tue, Nov 17, 2020 at 02:18:49PM -0500, Andrey Grodzovsky wrote:
-> >> On 11/17/20 1:52 PM, Daniel Vetter wrote:
-> >>> On Tue, Nov 17, 2020 at 01:38:14PM -0500, Andrey Grodzovsky wrote:
-> >>>> On 6/22/20 5:53 AM, Daniel Vetter wrote:
-> >>>>> On Sun, Jun 21, 2020 at 02:03:08AM -0400, Andrey Grodzovsky wrote:
-> >>>>>> No point to try recovery if device is gone, just messes up things.
-> >>>>>>
-> >>>>>> Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> >>>>>> ---
-> >>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 16 ++++++++++++++++
-> >>>>>>     drivers/gpu/drm/amd/amdgpu/amdgpu_job.c |  8 ++++++++
-> >>>>>>     2 files changed, 24 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>> index 6932d75..5d6d3d9 100644
-> >>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> >>>>>> @@ -1129,12 +1129,28 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
-> >>>>>>          return ret;
-> >>>>>>     }
-> >>>>>> +static void amdgpu_cancel_all_tdr(struct amdgpu_device *adev)
-> >>>>>> +{
-> >>>>>> +        int i;
-> >>>>>> +
-> >>>>>> +        for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
-> >>>>>> +                struct amdgpu_ring *ring = adev->rings[i];
-> >>>>>> +
-> >>>>>> +                if (!ring || !ring->sched.thread)
-> >>>>>> +                        continue;
-> >>>>>> +
-> >>>>>> +                cancel_delayed_work_sync(&ring->sched.work_tdr);
-> >>>>>> +        }
-> >>>>>> +}
-> >>>>> I think this is a function that's supposed to be in drm/scheduler, not
-> >>>>> here. Might also just be your cleanup code being ordered wrongly, or your
-> >>>>> split in one of the earlier patches not done quite right.
-> >>>>> -Daniel
-> >>>> This function iterates across all the schedulers  per amdgpu device and accesses
-> >>>> amdgpu specific structures , drm/scheduler deals with single scheduler at most
-> >>>> so looks to me like this is the right place for this function
-> >>> I guess we could keep track of all schedulers somewhere in a list in
-> >>> struct drm_device and wrap this up. That was kinda the idea.
-> >>>
-> >>> Minimally I think a tiny wrapper with docs for the
-> >>> cancel_delayed_work_sync(&sched->work_tdr); which explains what you must
-> >>> observe to make sure there's no race.
-> >>
-> >> Will do
-> >>
-> >>
-> >>> I'm not exactly sure there's no
-> >>> guarantee here we won't get a new tdr work launched right afterwards at
-> >>> least, so this looks a bit like a hack.
-> >>
-> >> Note that for any TDR work happening post amdgpu_cancel_all_tdr
-> >> amdgpu_job_timedout->drm_dev_is_unplugged
-> >> will return true and so it will return early. To make it water proof tight
-> >> against race
-> >> i can switch from drm_dev_is_unplugged to drm_dev_enter/exit
-> > Hm that's confusing. You do a work_cancel_sync, so that at least looks
-> > like "tdr work must not run after this point"
+On Wed, Nov 18, 2020 at 3:40 AM John Stultz <john.stultz@linaro.org> wrote:
+> On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
+> > > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> > > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> > > > > >
+> > > > > > Hey All,
+> > > > > >   So just wanted to send my last revision of my patch series
+> > > > > > of performance optimizations to the dma-buf system heap.
+> > > > >
+> > > > > Thanks very much for your patches - I think the first 5 patches look good to me.
+> > > > >
+> > > > > I know there was a bit of discussion over adding a new system-uncached
+> > > > > heap v/s using a flag to identify that; I think I prefer the separate
+> > > > > heap idea, but lets ask one last time if any one else has any real
+> > > > > objections to it.
+> > > > >
+> > > > > Daniel, Christian: any comments from your side on this?
+> > > >
+> > > > I do wonder a bit where the userspace stack for this all is, since tuning
+> > > > allocators without a full stack is fairly pointless. dma-buf heaps is a
+> > > > bit in a limbo situation here it feels like.
+> > >
+> > > As mentioned in the system-uncached patch:
+> > > Pending opensource users of this code include:
+> > > * AOSP HiKey960 gralloc:
+> > >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
+> > >   - Visibly improves performance over the system heap
+> > > * AOSP Codec2 (possibly, needs more review):
+> > >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
+> > >
+> > > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
+> > > able to use the current dmabuf heaps instead of ION.
+> > >
+> > > So I'm not sure what you mean by limbo, other than it being in a
+> > > transition state where the interface is upstream and we're working on
+> > > moving vendors to it from ION (which is staged to be dropped in 5.11).
+> > > Part of that work is making sure we don't regress the performance
+> > > expectations.
 > >
-> > If you only rely on drm_dev_enter/exit check with the tdr work, then
-> > there's no need to cancel anything.
+> > The mesa thing below, since if we test this with some downstream kernel
+> > drivers or at least non-mesa userspace I'm somewhat worried we're just
+> > creating a nice split world between the android gfx world and the
+> > mesa/linux desktop gfx world.
+> >
+> > But then that's kinda how android rolls, so *shrug*
+> >
+> > > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
+> > > > dma-api because dma api maintainers don't like us doing that. But
+> > > > personally no concern on that front really, gpus need this. It's just that
+> > > > we do need solid justification I think if we land this. Hence back to
+> > > > first point.
+> > > >
+> > > > Ideally first point comes in the form of benchmarking on android together
+> > > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
+> > > > actually show the benefits, I have no idea).
+> > >
+> > > Tying it with mesa is a little tough as the grallocs for mesa devices
+> > > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
+> > > allocation path for dmabuf heaps there gets a little complex as last I
+> > > tried that (when trying to get HiKey working with Lima graphics, as
+> > > gbm wouldn't allocate the contiguous buffers required by the display),
+> > > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
+> > > private handle metadata in the buffer when it was passed in.
+> > >
+> > > But I might take a look at it again. I got a bit lost digging through
+> > > the mesa gbm allocation paths last time.
+> > >
+> > > I'll also try to see if I can find a benchmark for the codec2 code
+> > > (using dmabuf heaps with and without the uncached heap) on on db845c
+> > > (w/ mesa), as that is already working and I suspect that might be
+> > > close to what you're looking for.
+> >
+> > tbh I think trying to push for this long term is the best we can hope for.
+> >
+> > Media is also a lot more *meh* since it's deeply fragmented and a lot less
+> > of it upstream than on the gles/display side.
+> >
+> > I think confirming that this at least doesn't horrible blow up on a
+> > gralloc/gbm+mesa stack would be useful I think.
 >
+> Sorry, I'm still a little foggy on precisely what you're suggesting here.
 >
-> Agree, synchronize_srcu from drm_dev_unplug should play the role
-> of 'flushing' any earlier (in progress) tdr work which is
-> using drm_dev_enter/exit pair. Any later arising tdr will terminate early when
-> drm_dev_enter
-> returns false.
+> The patch stack I have has already been used with db845c (mesa +
+> gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
+> So no blowing up there. And I'm working with Hridya to find a
+> benchmark for codec2 so we can try to show the performance delta.
+>
+> However, if you're wanting a dma-buf gralloc implementation with mesa,
+> that may be a little tougher to do, but I guess I can give it a go.
+>
+> Hopefully this will address concerns about the system-uncached heap
+> patch (the last two patches in this series)?
+>
+> In the meantime I hope we can queue the first five patches, as it
+> would be nice to get the code rearranging in as there are others
+> trying to stage their own heaps, and I'd like to avoid dragging that
+> churn out for too long (in addition to improving the allocation
+> performance). Those changes have no ABI implications.
 
-Nope, anything you put into the work itself cannot close this race.
-It's the schedule_work that matters here. Or I'm missing something ...
-I thought that the tdr work you're cancelling here is launched by
-drm/scheduler code, not by the amd callback?
+Maybe I'm also misunderstanding what dma-buf heaps is used for in
+Android, at least usually. I thought it's used to allocate all the
+winsys/shared buffers through gralloc (at least in the blobby stacks),
+to handle the allocation constraints problem. In the open stacks we
+don't seem to have a platform with both mesa and v4l (or some other
+codec) with "interesting" allocations constraints, so no one using
+that gralloc+dma-buf heaps combo for what it was meant for. Hence why
+I'm a bit vary that we're creating something here which just misses
+the point a bit when we try to actually use it (in that glorious
+forever-future world where an android platform has enough drivers in
+upstream to do so).
+
+For other "this solves a system problem" we tend to be quite a bit
+more picky with the demonstration use case, to make sure we're
+actually creating something that solves the problem in reality.
+
+But it also looks like Android's just not there yet, so *shrug* ...
 -Daniel
-
->
-> Will update.
->
-> Andrey
->
->
-> >
-> > For race free cancel_work_sync you need:
-> > 1. make sure whatever is calling schedule_work is guaranteed to no longer
-> > call schedule_work.
-> > 2. call cancel_work_sync
-> >
-> > Anything else is cargo-culted work cleanup:
-> >
-> > - 1. without 2. means if a work got scheduled right before it'll still be
-> >    a problem.
-> > - 2. without 1. means a schedule_work right after makes you calling
-> >    cancel_work_sync pointless.
-> >
-> > So either both or nothing.
-> > -Daniel
-> >
-> >> Andrey
-> >>
-> >>
-> >>> -Daniel
-> >>>
-> >>>> Andrey
-> >>>>
-> >>>>
-> >>>>>> +
-> >>>>>>     static void
-> >>>>>>     amdgpu_pci_remove(struct pci_dev *pdev)
-> >>>>>>     {
-> >>>>>>          struct drm_device *dev = pci_get_drvdata(pdev);
-> >>>>>> +        struct amdgpu_device *adev = dev->dev_private;
-> >>>>>>          drm_dev_unplug(dev);
-> >>>>>> +        amdgpu_cancel_all_tdr(adev);
-> >>>>>>          ttm_bo_unmap_virtual_address_space(&adev->mman.bdev);
-> >>>>>>          amdgpu_driver_unload_kms(dev);
-> >>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> >>>>>> index 4720718..87ff0c0 100644
-> >>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> >>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> >>>>>> @@ -28,6 +28,8 @@
-> >>>>>>     #include "amdgpu.h"
-> >>>>>>     #include "amdgpu_trace.h"
-> >>>>>> +#include <drm/drm_drv.h>
-> >>>>>> +
-> >>>>>>     static void amdgpu_job_timedout(struct drm_sched_job *s_job)
-> >>>>>>     {
-> >>>>>>          struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
-> >>>>>> @@ -37,6 +39,12 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
-> >>>>>>          memset(&ti, 0, sizeof(struct amdgpu_task_info));
-> >>>>>> +        if (drm_dev_is_unplugged(adev->ddev)) {
-> >>>>>> +                DRM_INFO("ring %s timeout, but device unplugged, skipping.\n",
-> >>>>>> +                                          s_job->sched->name);
-> >>>>>> +                return;
-> >>>>>> +        }
-> >>>>>> +
-> >>>>>>          if (amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
-> >>>>>>                  DRM_ERROR("ring %s timeout, but soft recovered\n",
-> >>>>>>                            s_job->sched->name);
-> >>>>>> --
-> >>>>>> 2.7.4
-> >>>>>>
-
-
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
