@@ -2,34 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14962B79E0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 10:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C852B7A16
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 10:13:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9E096E027;
-	Wed, 18 Nov 2020 09:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D43AB6E2DE;
+	Wed, 18 Nov 2020 09:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C86A6E027
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:02:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722836E3D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:12:55 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 358FEAD71;
- Wed, 18 Nov 2020 09:02:55 +0000 (UTC)
-Subject: Re: [PATCH] char/agp: Disable frontend without CONFIG_DRM_LEGACY
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20201117214029.591896-1-daniel.vetter@ffwll.ch>
- <f2fa78c0-047e-de26-579e-7c75110005a3@suse.de>
- <8526d6c3-5d35-d605-0bb6-44ce323740f7@amd.com>
- <CAKMK7uGk4JMGiXTuPDAvAMnRm-oiUhqQ9+4BKz0FEHBDJyXn-w@mail.gmail.com>
+ by mx2.suse.de (Postfix) with ESMTP id 08D59ABDE;
+ Wed, 18 Nov 2020 09:12:54 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+ <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
+ <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <f9be6af7-1409-eae4-b895-9b630442185e@suse.de>
-Date: Wed, 18 Nov 2020 10:02:54 +0100
+Subject: Re: [PATCH] drm: imx: Move fbdev setup to before output polling
+Message-ID: <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
+Date: Wed, 18 Nov 2020 10:12:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uGk4JMGiXTuPDAvAMnRm-oiUhqQ9+4BKz0FEHBDJyXn-w@mail.gmail.com>
+In-Reply-To: <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,124 +40,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Alexander Deucher <alexander.deucher@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1413602849=="
+Cc: Leo Ruan <tingquan.ruan@cn.bosch.com>, David Airlie <airlied@linux.ie>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Mark Jonas <mark.jonas@de.bosch.com>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: multipart/mixed; boundary="===============2124126647=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1413602849==
+--===============2124126647==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="UFvc8dwgWrYH7HmRsMrngpHTfALDEyDGE"
+ boundary="y4BYlABVEYysq6OMDXMoyK4sH88S66Nxu"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UFvc8dwgWrYH7HmRsMrngpHTfALDEyDGE
-Content-Type: multipart/mixed; boundary="x7y6wJv6G5uwi9eDPw5EOhzJphS5jKpwe";
+--y4BYlABVEYysq6OMDXMoyK4sH88S66Nxu
+Content-Type: multipart/mixed; boundary="WMakGiMkDwAFduzZqhcr2mj05JJZMstbs";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Alexander Deucher <alexander.deucher@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Message-ID: <f9be6af7-1409-eae4-b895-9b630442185e@suse.de>
-Subject: Re: [PATCH] char/agp: Disable frontend without CONFIG_DRM_LEGACY
-References: <20201117214029.591896-1-daniel.vetter@ffwll.ch>
- <f2fa78c0-047e-de26-579e-7c75110005a3@suse.de>
- <8526d6c3-5d35-d605-0bb6-44ce323740f7@amd.com>
- <CAKMK7uGk4JMGiXTuPDAvAMnRm-oiUhqQ9+4BKz0FEHBDJyXn-w@mail.gmail.com>
-In-Reply-To: <CAKMK7uGk4JMGiXTuPDAvAMnRm-oiUhqQ9+4BKz0FEHBDJyXn-w@mail.gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Leo Ruan <tingquan.ruan@cn.bosch.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Mark Jonas <mark.jonas@de.bosch.com>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Message-ID: <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
+Subject: Re: [PATCH] drm: imx: Move fbdev setup to before output polling
+References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+ <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
+ <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
+In-Reply-To: <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
 
---x7y6wJv6G5uwi9eDPw5EOhzJphS5jKpwe
+--WMakGiMkDwAFduzZqhcr2mj05JJZMstbs
 Content-Type: multipart/mixed;
- boundary="------------8CA6101F0E9680B54A6A2D7D"
+ boundary="------------6CCE5A54CD10E6493E924170"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------8CA6101F0E9680B54A6A2D7D
+--------------6CCE5A54CD10E6493E924170
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 18.11.20 um 09:53 schrieb Daniel Vetter:
-> On Wed, Nov 18, 2020 at 9:24 AM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
+Am 18.11.20 um 09:59 schrieb Daniel Vetter:
+> On Wed, Nov 18, 2020 at 9:10 AM Thomas Zimmermann <tzimmermann@suse.de>=
+ wrote:
 >>
->> Am 18.11.20 um 09:02 schrieb Thomas Zimmermann:
->>> Hi
+>> Hi
+>>
+>> Am 17.11.20 um 16:52 schrieb Mark Jonas:
+>>> From: Leo Ruan <tingquan.ruan@cn.bosch.com>
 >>>
->>> Am 17.11.20 um 22:40 schrieb Daniel Vetter:
->>>> It's probably full of bugs ready for exploiting by userspace. And
->>>> there's not going to be any userspace for this without any of the dr=
-m
->>>> legacy drivers enabled too. So just couple it together.
->>>>
->>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>>> Cc: David Airlie <airlied@linux.ie>
->>>> Cc: Adam Jackson <ajax@redhat.com>
->>>> ---
->>>>    drivers/char/agp/Makefile | 6 +++++-
->>>>    drivers/char/agp/agp.h    | 5 +++++
->>>>    2 files changed, 10 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/char/agp/Makefile b/drivers/char/agp/Makefile
->>>> index cb2497d157f6..90ed8c789e48 100644
->>>> --- a/drivers/char/agp/Makefile
->>>> +++ b/drivers/char/agp/Makefile
->>>> @@ -1,7 +1,11 @@
->>>>    # SPDX-License-Identifier: GPL-2.0
->>>> -agpgart-y :=3D backend.o frontend.o generic.o isoch.o
->>>> +agpgart-y :=3D backend.o generic.o isoch.o
->>>>
->>>> +ifeq ($(CONFIG_DRM_LEGACY),y)
->>>>    agpgart-$(CONFIG_COMPAT)   +=3D compat_ioctl.o
->>>> +agpgart-y                   +=3D frontend.o
->>>> +endif
->>>> +
->>>>
->>>>    obj-$(CONFIG_AGP)          +=3D agpgart.o
->>>>    obj-$(CONFIG_AGP_ALI)              +=3D ali-agp.o
->>>> diff --git a/drivers/char/agp/agp.h b/drivers/char/agp/agp.h
->>>> index 4eb1c772ded7..bb09d64cd51e 100644
->>>> --- a/drivers/char/agp/agp.h
->>>> +++ b/drivers/char/agp/agp.h
->>>> @@ -186,8 +186,13 @@ int agp_add_bridge(struct agp_bridge_data *brid=
-ge);
->>>>    void agp_remove_bridge(struct agp_bridge_data *bridge);
->>>>
->>>>    /* Frontend routines. */
->>>> +#if IS_ENABLED(CONFIG_DRM_LEGACY)
->>>>    int agp_frontend_initialize(void);
->>>>    void agp_frontend_cleanup(void);
->>>> +#else
->>>> +static inline int agp_frontend_initialize(void) { return 0; }
->>>> +static inline void agp_frontend_cleanup(void) {}
->>>> +#endif
->>> There's one non-legacy driver that uses these agp structures, which i=
-s
->>> radeon. Does this change affect radeon?
->>
->> Nouveau uses AGP as well, but I'm not sure if both drivers use any of
->> this stuff.
->=20
-> frontend =3D /dev/agp chardev interface for userspace drivers. If you'r=
+>>> The generic fbdev has to be setup before enabling output polling.
+>>> Otherwise the fbdev client is not ready to handle delayed events.
+>>>
+>>> Since f53705fd, the generic fbdev is setup after the output polling
+>>> init. During fbdev setup, when fbdev probes attached outputs and a
+>>> status changes from unknown to connected, the delayed event is
+>>> marked and the output_poll_work thread is scheduled without delay.
+>>> If output_poll_execute() is runs immediately, the delayed event
+>>> is handled without actually polling the output because the fbdev is n=
+ot
+>>> registered yet. So the delayed event is lost. This leads to a dark
+>>> screen until a KMS application (or fbcon) sets the screen mode.
+>>>
+>>> This patch fixes the issue by moving the setup of generic fbdev befor=
 e
-> looking at kernel drivers, you're looking at the wrong thing, the
-> kernel-internal interface is in char/agp/backend.c and still enabled.
-> So no impact at all on any kernel code.
+>>> initializing and enabling output polling.
+>>>
+>>> Signed-off-by: Leo Ruan <tingquan.ruan@cn.bosch.com>
+>>> Signed-off-by: Mark Jonas <mark.jonas@de.bosch.com>
+>>> ---
+>>>   drivers/gpu/drm/imx/imx-drm-core.c | 8 ++++++--
+>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx=
+/imx-drm-core.c
+>>> index 9bf5ad6d18a2..2665040e11c7 100644
+>>> --- a/drivers/gpu/drm/imx/imx-drm-core.c
+>>> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+>>> @@ -240,14 +240,18 @@ static int imx_drm_bind(struct device *dev)
+>>>                legacyfb_depth =3D 16;
+>>>        }
+>>>
+>>> +     /*
+>>> +      * The generic fbdev has to be setup before enabling output pol=
+ling.
+>>> +      * Otherwise the fbdev client is not ready to handle delayed ev=
+ents.
+>>> +      */
+>>> +     drm_fbdev_generic_setup(drm, legacyfb_depth);
+>>> +
+>>>        drm_kms_helper_poll_init(drm);
+>>>
+>>>        ret =3D drm_dev_register(drm, 0);
+>>>        if (ret)
+>>>                goto err_poll_fini;
+>>>
+>>> -     drm_fbdev_generic_setup(drm, legacyfb_depth);
+>>> -
+>>
+>> This does not work well. fbdev is supposed to be another regular DRM
+>> client. It has to be enabled after registering the DRM device.
+>>
+>> I'd rather improve fbdev or the driver to handle this gracefully.
 >=20
-> Now the impact this does have on kms drivers using agp is that there's
-> no longer a userspace ioctl interface to change the agp setup and
-> mappings and fight the kms driver (which assumes it's fully in control
-> of agp configuration).
+> Yeah I'm not understanding the point here. Once fbcon is running, you
+> have a screen. Any fbdev userspace client  also should do a modeset
+> first. And if they dont and it's expected uapi for fbdev chardev that
+> the display boots up enabled, then we need to fix that in the fbdev
+> helpers, not through clever reordering in drivers so that a
+> side-effect causes a modeset.
+>=20
+> Note that this is a bit tricky since fbdev shouldn't take over the
+> screen by default, so we'd need to delay this until first open of
+> /dev/fb0. And we should probably also delay the hotplug handling until
+> the first open. fbcon also fake-opens the fbdev file, so it's the same
+> code path.
 
-Thanks for clarifying. I'm certainly not qualified, but still
+As far as I understand the commit message, the problem is that the=20
+display blanks out after registering the driver. And fbdev somewhat=20
+mitigates this by doing an early modeset. Users with fbdev disabled=20
+(most of them in embedded, I guess) would still run into the issue until =
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+userspace makes a modeset.
+
+Mark, if that's the case, an option might be to pick up the device=20
+settings instead of calling drm_mode_config_reset(). The driver would=20
+then continue to display whatever is on the screen.
 
 Best regards
 Thomas
@@ -167,19 +184,22 @@ Thomas
 > -Daniel
 >=20
 >>
->> Regards,
->> Christian.
+>> Best regards
+>> Thomas
 >>
+>>>        return 0;
 >>>
->>> Best regards
->>> Thomas
+>>>   err_poll_fini:
 >>>
->>>>
->>>>    /* Generic routines. */
->>>>    void agp_generic_enable(struct agp_bridge_data *bridge, u32 mode)=
-;
->>>>
 >>
+>> --
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>=20
 >=20
 >=20
 
@@ -191,7 +211,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------8CA6101F0E9680B54A6A2D7D
+--------------6CCE5A54CD10E6493E924170
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -394,34 +414,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------8CA6101F0E9680B54A6A2D7D--
+--------------6CCE5A54CD10E6493E924170--
 
---x7y6wJv6G5uwi9eDPw5EOhzJphS5jKpwe--
+--WMakGiMkDwAFduzZqhcr2mj05JJZMstbs--
 
---UFvc8dwgWrYH7HmRsMrngpHTfALDEyDGE
+--y4BYlABVEYysq6OMDXMoyK4sH88S66Nxu
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+04z4FAwAAAAAACgkQlh/E3EQov+Dm
-iQ//cPCwrEbhGpHEOERNdBf75pXjelP73ojso8Bpr7tQS5xVIMilhlScKzk3plvQjZ+tyVIauTFE
-r3uxAoVNIYdaAFEVzdAimCDsj8e3uXkmQNtICZ+j6lgACgFX2KHSgy1cVm8GevEpYmyN4y4ugOXx
-QEMleSQ0p7rJ2uI9Ng3JqNcAE6EodkNAQ7JXkQXJnWf/zhh1lqKbgH5vN8an9FEgiHwVS5428U07
-Bj7hyMvg5zUBG9MArMfStvWf/3+o8/Pf94SG/hUjVOjdJlFhMIUQ9bj917o8u4Zt++4MuPqQWbOF
-Llg8bsxJ6gwp3nbg8SOb7ePPrGQR510NgIzWJO1JY7g08bNB/aCvJKpW8WSUJZhfJBuQcWniVynK
-1lZqTtrqlPt5XeIne/WkIodPz6ALV4RyePsYrPXf9v2ZF10qny0RdM+7gew/jjJwSxyC+u/sYNVf
-jBKa406jBkZ9H7wMWPKvbcHyvBLFUegP1dkhnh0aulQl9h01umE/Zo3fLkaVIFs1S0+Mtkhp7nXe
-HY32GN5+deysR2h5SFbioHmdFnK0hRgwh1a8SwfHT3EWDdA5wqkWvr6d+DEsk+CcazczrYGwUlMd
-wak/R5xfFciB1KgDN555kDH+aMshE4awD1BawporbUb1stBlTkuebs8qUjk3KNUS2/V6o6MnX1y4
-394=
-=W8KH
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+05ZQFAwAAAAAACgkQlh/E3EQov+B3
+NxAAj2lQLPh9xBa2ZyVNvl+EF2j0hfDKNqyfTWFl0A3+eb2DdrfCjI/ZfciB5Y5VVix/+A+ncUES
++FjkgBq2jpW+BZ1KgYgvRrVktv0teFb8LYBLzzQUF0+Vv3nSwvS5MFwz7g4aJ8LF79yZX1vm5IdA
+ueMI89QQWnbPS1FeTb0vPPgzzgh1hO8sxmmItHvyS7wBKIvhYGGt4bC4VSyOK58+FMvmF4cfXoZM
+85Ud5DDtzd50VohKWwUjP3CiWAK/OGaN2IKhDtOHxWkXXzp35v2ElwvAQkdwGINlEqCuZSGoXEdL
+7CoHmeyGPquFgHuMfjmv1aZzfFBX7wm0BiCqnmy5oD/tytx3UJfaQGqFCsllmdehJr6qbt14dVKT
+OP5YermSbcedzaKCsoAIibCe+Udpkax+LFtRbelXkjCk5XkQIM82FxxKRqhNoemvJeDFM1LvxnXr
+cnjd60Q5siHWpLcontca5WVhSE1t1aEJExCauEgb3Y7JzLxdCNopxRKD1JU5LXLnNK02Mjen02tb
++JXoM1n5Ejzw4hm6TNNMU+pU4wIX/NskTHoGHEF5c+ZmclPXzw3V/UF5WTMNqvmOktPlVQEG8PVj
+7gVfHn1nDk1Fn6ba8oMj3ZvNFIw2yTVCqCaRL53fQKhYLlPHdf6XVJq9dkzccjt4rEDQ82vZ9xfD
+COI=
+=8+F1
 -----END PGP SIGNATURE-----
 
---UFvc8dwgWrYH7HmRsMrngpHTfALDEyDGE--
+--y4BYlABVEYysq6OMDXMoyK4sH88S66Nxu--
 
---===============1413602849==
+--===============2124126647==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -432,4 +452,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1413602849==--
+--===============2124126647==--
