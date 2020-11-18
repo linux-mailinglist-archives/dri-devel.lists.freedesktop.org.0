@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A00B2B8691
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 22:25:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 569902B8697
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 22:28:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8C266E4C4;
-	Wed, 18 Nov 2020 21:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2BB96E4C4;
+	Wed, 18 Nov 2020 21:28:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
  [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77816E4C4
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 21:25:52 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id j7so3650671wrp.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:25:52 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B72546E4C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 21:28:11 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id c17so3574209wrc.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:28:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Gglv/yoI9M0fnkhCPqw+O8XXwbVXWbFWgw40lOYpUao=;
- b=hyG3xtidu17xApZ9XhuIqWhwTzA44MPrs/XzxbHb0WzsLV3vhB6K3TOXq600nbc1W/
- CqN8FAgohfLcvT8frAJAd+BmMI8qElbe7YbcyEpnJHZNwiETV3TYue7Adp15eNJxj6RC
- lX+I6P8MWCWgCe1XK1i0TZxZmYYN5NXhxBRZE=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=HS6nUspWVEnRH3DktJ6lTOTBrBar/ajeOsAdlwxAVfA=;
+ b=YKzFgtkkMHlSLwlLC/Mkiiy5BraPDGwk2MuvSz2qMiEPCoLC/nICjiXxmVBQtcMNKR
+ YEwOVxtQb5fA4gateHWy9KZG4GX7tF/c+TXVDQ0CRWHYQw/96bO5jk6Nj9kCVJn9qdYt
+ ghPCbXx5vR0BY/kZW1Mo8vh77aT9X1lKadhRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=Gglv/yoI9M0fnkhCPqw+O8XXwbVXWbFWgw40lOYpUao=;
- b=ci7bkw0dYmidYGhkBi40gUHze8Rn43T4Qo9O0Iuhk3HsWfqf5BR3TEHa4NoAPKHWmq
- u44hTPkp4UDthLEM6LQtFIQeEkmyJwR8PC9c3tkasSqPdJ2Myzj+hZe/DC9O8i5Q/NHT
- E1Zv6lTAasqNUKiRN8Xq4r1Xfdz+f4tNpSp2R4sUS7jHGREj/1YHkros2L7b0ZZ/mEYG
- vt9Y5rng1yiK9bblmfJLK8l6Sf54Y2BWsTAvr7a0FzAe70IAWQGkNHELpsem5/n+NbiM
- MstyzfBSKTvtU4pDXLo0LkaIlYnywHIkt/8vLQPE95WtILcjhZq2d9mp8Dq1QTVxNYA0
- LiWQ==
-X-Gm-Message-State: AOAM531TJaz5vk9Jb5+YnltWd6aj8CrHCbvx3kTl6C2PiGaoWjERWs1L
- xd+8MQbuaecRkzJIuw1nfCj35NW71c1/Aw==
-X-Google-Smtp-Source: ABdhPJzrk/KcJzxOyqpO5BipbS/XaHsQjkZj26P/x7QDixF2zGcuL1bXxuSuUFsJV9ztkcIPRKyyIA==
-X-Received: by 2002:adf:dcc3:: with SMTP id x3mr7231591wrm.81.1605734751520;
- Wed, 18 Nov 2020 13:25:51 -0800 (PST)
+ bh=HS6nUspWVEnRH3DktJ6lTOTBrBar/ajeOsAdlwxAVfA=;
+ b=NWoTfwglFKFoAeVueMfyvgQXVrsEf7aHnDrDgzm6keDJXpSeZBZH6uo+l3HB5bb4h6
+ iXrxP7O/wHJItEFAsIaExq8WxgxddSSx8nr/ljfmNzvYKFGtqqY5bIQrfJkR6y5xv87h
+ VWAuTXMXjY1gDqTytSVHr60CbAcAsKjrRrqzGNyBxvm72w+71n7MZOlkOnlATMeFTMXG
+ gD1+SrDO5DJJG90K4AU596pUm0gSl/uJY1WlAZSZ9q0bA9Pwl7PR1tjxY5QQDWVOBrep
+ +i4PBwcKvRLssudQrmE87nMW1o6XuoN2F9A7rQDVQid6YBrA6kUYTMrGkiDMUiH0mGTX
+ bvww==
+X-Gm-Message-State: AOAM5326m0lWVdK67H3Wb+upNjRGWFDgRO66iCOyr7uot50BkUajNV+L
+ jcOU34tzBqaJWJJTFIzjszuwITR6v65E1Q==
+X-Google-Smtp-Source: ABdhPJwyxkCdrn5AqiDgzx2c3AYE8913FWq4KNbg5UOleL8BNb0m1507hLivk7jAW0U7Oh+xiLH5Pw==
+X-Received: by 2002:adf:e607:: with SMTP id p7mr6648704wrm.93.1605734890452;
+ Wed, 18 Nov 2020 13:28:10 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id n23sm5822288wmk.24.2020.11.18.13.25.50
+ by smtp.gmail.com with ESMTPSA id x2sm29456487wru.44.2020.11.18.13.28.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Nov 2020 13:25:50 -0800 (PST)
-Date: Wed, 18 Nov 2020 22:25:48 +0100
+ Wed, 18 Nov 2020 13:28:09 -0800 (PST)
+Date: Wed, 18 Nov 2020 22:28:07 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: christian.koenig@amd.com
-Subject: Re: [PATCH 1/4] drm/ttm/drivers: remove unecessary ttm_module.h
- include
-Message-ID: <20201118212548.GZ401619@phenom.ffwll.local>
-References: <20201117163338.1784-1-christian.koenig@amd.com>
- <20201117174651.GO401619@phenom.ffwll.local>
- <684b8c72-9eb5-a942-038b-3b41685d65a8@gmail.com>
+To: Bernard Zhao <bernard@vivo.com>
+Subject: Re: [PATCH] drm/via: fix assignment in if condition
+Message-ID: <20201118212807.GA401619@phenom.ffwll.local>
+Mail-Followup-To: Bernard Zhao <bernard@vivo.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, opensource.kernel@vivo.com
+References: <20201118114021.105502-1-bernard@vivo.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <684b8c72-9eb5-a942-038b-3b41685d65a8@gmail.com>
+In-Reply-To: <20201118114021.105502-1-bernard@vivo.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,273 +68,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, opensource.kernel@vivo.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 18, 2020 at 01:49:51PM +0100, Christian K=F6nig wrote:
-> Am 17.11.20 um 18:46 schrieb Daniel Vetter:
-> > On Tue, Nov 17, 2020 at 05:33:35PM +0100, Christian K=F6nig wrote:
-> > > ttm_module.h deals with internals of TTM and should never
-> > > be include outside of it.
-> > > =
+On Wed, Nov 18, 2020 at 03:40:19AM -0800, Bernard Zhao wrote:
+> Fix check_patch.pl warning:
+> ERROR: do not use assignment in if condition
+> +                       if ((HALCYON_HEADER2 == (cmd = *buf)) &&
+> 
+> ERROR: do not use assignment in if condition
+> +                       if (HALCYON_HEADER2 == (cmd = *buf))
+> 
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-> > > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
-> > Maybe also move it to drivers/gpu/drm/ttm/ttm_internal.h. We're using t=
-he
-> > _interal.h suffix in a few other places for module internal functions
-> > already. Perhaps in a follow-up?
-> =
-
-> I've thought I already moved the header into drivers/gpu/drm/ttm/, but it
-> somehow got mangled into patch #2.
-> =
-
-> Going to fix that and resend.
-> =
-
-> > Anyway this here is Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> =
-
-> For this one or the whole series? Please note that #2 removes the TTM sys=
-fs
-> files. I think that nobody every used those, but who knows?
-
-Just this patch here, courage left me for the remaining ones today ...
+Applied, thanks for your patch.
 -Daniel
 
-> =
+> ---
+>  drivers/gpu/drm/via/via_verifier.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/via/via_verifier.c b/drivers/gpu/drm/via/via_verifier.c
+> index 8d8135f424ef..3d6e3a70f318 100644
+> --- a/drivers/gpu/drm/via/via_verifier.c
+> +++ b/drivers/gpu/drm/via/via_verifier.c
+> @@ -1001,8 +1001,8 @@ via_verify_command_stream(const uint32_t * buf, unsigned int size,
+>  			state = via_check_vheader6(&buf, buf_end);
+>  			break;
+>  		case state_command:
+> -			if ((HALCYON_HEADER2 == (cmd = *buf)) &&
+> -			    supported_3d)
+> +			cmd = *buf;
+> +			if ((cmd == HALCYON_HEADER2) && supported_3d)
+>  				state = state_header2;
+>  			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+>  				state = state_header1;
+> @@ -1064,7 +1064,8 @@ via_parse_command_stream(struct drm_device *dev, const uint32_t *buf,
+>  			state = via_parse_vheader6(dev_priv, &buf, buf_end);
+>  			break;
+>  		case state_command:
+> -			if (HALCYON_HEADER2 == (cmd = *buf))
+> +			cmd = *buf;
+> +			if (cmd == HALCYON_HEADER2)
+>  				state = state_header2;
+>  			else if ((cmd & HALCYON_HEADER1MASK) == HALCYON_HEADER1)
+>  				state = state_header1;
+> -- 
+> 2.29.0
+> 
 
-> Regards,
-> Christian.
-> =
-
-> > (I didn't bother compile testing it on everything, just to make that
-> > clear).
-> > -Daniel
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu.h           | 1 -
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 1 -
-> > >   drivers/gpu/drm/nouveau/nouveau_drv.h         | 1 -
-> > >   drivers/gpu/drm/qxl/qxl_drv.h                 | 1 -
-> > >   drivers/gpu/drm/qxl/qxl_ttm.c                 | 1 -
-> > >   drivers/gpu/drm/radeon/radeon.h               | 1 -
-> > >   drivers/gpu/drm/radeon/radeon_ttm.c           | 1 -
-> > >   drivers/gpu/drm/ttm/ttm_agp_backend.c         | 1 -
-> > >   drivers/gpu/drm/ttm/ttm_bo_vm.c               | 1 -
-> > >   drivers/gpu/drm/ttm/ttm_range_manager.c       | 1 -
-> > >   drivers/gpu/drm/vmwgfx/ttm_object.c           | 1 -
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 1 -
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 1 -
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c | 1 -
-> > >   drivers/gpu/drm/vmwgfx/vmwgfx_thp.c           | 1 -
-> > >   include/drm/ttm/ttm_bo_driver.h               | 1 -
-> > >   16 files changed, 16 deletions(-)
-> > > =
-
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu.h
-> > > index 183b09d71b64..6e042b4ed13d 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > @@ -55,7 +55,6 @@
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_execbuf_util.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_ttm.c
-> > > index c438d290a6db..967859c6be3c 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > > @@ -46,7 +46,6 @@
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/drm_debugfs.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_drv.h b/drivers/gpu/drm/=
-nouveau/nouveau_drv.h
-> > > index 8e90b3e47bbe..700fa0979d14 100644
-> > > --- a/drivers/gpu/drm/nouveau/nouveau_drv.h
-> > > +++ b/drivers/gpu/drm/nouveau/nouveau_drv.h
-> > > @@ -54,7 +54,6 @@
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/drm_audio_component.h>
-> > > diff --git a/drivers/gpu/drm/qxl/qxl_drv.h b/drivers/gpu/drm/qxl/qxl_=
-drv.h
-> > > index 8bd0f916dfbc..83b54f0dad61 100644
-> > > --- a/drivers/gpu/drm/qxl/qxl_drv.h
-> > > +++ b/drivers/gpu/drm/qxl/qxl_drv.h
-> > > @@ -46,7 +46,6 @@
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_execbuf_util.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include "qxl_dev.h"
-> > > diff --git a/drivers/gpu/drm/qxl/qxl_ttm.c b/drivers/gpu/drm/qxl/qxl_=
-ttm.c
-> > > index 128c38c8a837..0cc661df2258 100644
-> > > --- a/drivers/gpu/drm/qxl/qxl_ttm.c
-> > > +++ b/drivers/gpu/drm/qxl/qxl_ttm.c
-> > > @@ -31,7 +31,6 @@
-> > >   #include <drm/qxl_drm.h>
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include "qxl_drv.h"
-> > > diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon=
-/radeon.h
-> > > index 28cb8ced91b9..428c561a4e2c 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon.h
-> > > +++ b/drivers/gpu/drm/radeon/radeon.h
-> > > @@ -75,7 +75,6 @@
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_execbuf_util.h>
-> > >   #include <drm/drm_gem.h>
-> > > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/ra=
-deon/radeon_ttm.c
-> > > index 0ca381b95d3d..2259d3811a45 100644
-> > > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> > > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> > > @@ -46,7 +46,6 @@
-> > >   #include <drm/radeon_drm.h>
-> > >   #include <drm/ttm/ttm_bo_api.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include "radeon_reg.h"
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_agp_backend.c b/drivers/gpu/drm/=
-ttm/ttm_agp_backend.c
-> > > index 03c86628e4ac..8f9fa4188897 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_agp_backend.c
-> > > @@ -32,7 +32,6 @@
-> > >   #define pr_fmt(fmt) "[TTM] " fmt
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include <linux/agp_backend.h>
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/tt=
-m_bo_vm.c
-> > > index 2944fa0af493..144a4940b6b6 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > > @@ -31,7 +31,6 @@
-> > >   #define pr_fmt(fmt) "[TTM] " fmt
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include <drm/drm_vma_manager.h>
-> > > diff --git a/drivers/gpu/drm/ttm/ttm_range_manager.c b/drivers/gpu/dr=
-m/ttm/ttm_range_manager.c
-> > > index ea77919569a2..4c0c756c9124 100644
-> > > --- a/drivers/gpu/drm/ttm/ttm_range_manager.c
-> > > +++ b/drivers/gpu/drm/ttm/ttm_range_manager.c
-> > > @@ -29,7 +29,6 @@
-> > >    * Authors: Thomas Hellstrom <thellstrom-at-vmware-dot-com>
-> > >    */
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include <drm/drm_mm.h>
-> > > diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vm=
-wgfx/ttm_object.c
-> > > index 16077785ad47..0fe869d0fad1 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
-> > > @@ -59,7 +59,6 @@
-> > >   #define pr_fmt(fmt) "[TTM] " fmt
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <linux/list.h>
-> > >   #include <linux/spinlock.h>
-> > >   #include <linux/slab.h>
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_drv.c
-> > > index 1310857879e7..e6de876a016a 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> > > @@ -35,7 +35,6 @@
-> > >   #include <drm/drm_ioctl.h>
-> > >   #include <drm/drm_sysfs.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include "ttm_object.h"
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_drv.h
-> > > index b45becbb00f8..5b9a28157dd3 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> > > @@ -39,7 +39,6 @@
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_execbuf_util.h>
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include "ttm_lock.h"
-> > >   #include "ttm_object.h"
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c b/drivers/=
-gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> > > index be325a62c178..8fe26e32f920 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_gmrid_manager.c
-> > > @@ -29,7 +29,6 @@
-> > >    */
-> > >   #include "vmwgfx_drv.h"
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > >   #include <linux/idr.h>
-> > > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_thp.c
-> > > index 155ca3a5c7e5..e8e79de255cf 100644
-> > > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> > > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_thp.c
-> > > @@ -5,7 +5,6 @@
-> > >    * Copyright (C) 2007-2019 Vmware, Inc. All rights reservedd.
-> > >    */
-> > >   #include "vmwgfx_drv.h"
-> > > -#include <drm/ttm/ttm_module.h>
-> > >   #include <drm/ttm/ttm_bo_driver.h>
-> > >   #include <drm/ttm/ttm_placement.h>
-> > > diff --git a/include/drm/ttm/ttm_bo_driver.h b/include/drm/ttm/ttm_bo=
-_driver.h
-> > > index 54788a5160a0..fdf01c7f1f99 100644
-> > > --- a/include/drm/ttm/ttm_bo_driver.h
-> > > +++ b/include/drm/ttm/ttm_bo_driver.h
-> > > @@ -38,7 +38,6 @@
-> > >   #include <linux/dma-resv.h>
-> > >   #include "ttm_bo_api.h"
-> > > -#include "ttm_module.h"
-> > >   #include "ttm_placement.h"
-> > >   #include "ttm_tt.h"
-> > >   #include "ttm_pool.h"
-> > > -- =
-
-> > > 2.25.1
-> > > =
-
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> =
-
-
--- =
-
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
