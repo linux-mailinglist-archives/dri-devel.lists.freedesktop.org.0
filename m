@@ -2,58 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FAF12B71BD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Nov 2020 23:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181B02B734E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 01:46:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1BCE89FFD;
-	Tue, 17 Nov 2020 22:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E4256E162;
+	Wed, 18 Nov 2020 00:46:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 255446E145;
- Tue, 17 Nov 2020 22:40:17 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id l2so22624822qkf.0;
- Tue, 17 Nov 2020 14:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ld+0L9TnPmJzZV9gP3PNezDbEnw1DDEK+nYUW4WjDKE=;
- b=cistpNEGhMr5XvaUq139fkRmJNO+iKEzlQA4Orn45+LlqZ56YFXxFqFhhrX5qqXKz2
- UaVPEBZRQ7gb+hve8H03vJmPPLsUjkzkug8JZU+MYwAqMOqPhUdhgFhf5V74zPosE7Rs
- rAU3JrKF8Ju3oTV13gS9VaCenYvXra/gX2ptA+hhi6kT7o2Ns3RbMGeuij3DL2pojWed
- aYIGWtNrm/hCi7GvxqQZ+jNHnHsfspLHnQiv97WU9yO0LhFVXDySK+8sljAfqw3D5zRF
- 69efDdnazOTRwAxCtz5ewfl9xnQrT3ktS9UVIjDxQIQjYOLIf+s56MiXVHhZWNtSSRyb
- OljA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ld+0L9TnPmJzZV9gP3PNezDbEnw1DDEK+nYUW4WjDKE=;
- b=aEfa/th2Yt/Oa3r1GUUx8bJRCz9Y3+ZSlnkBLhTt2aeeoXwXv4TT0Y/dSEW+fZyMcs
- XHlgyFU647fERkkiJlNs+SbgXOC1MqEydVFLWcOZaMufJXl6WtEyVPkVV2vzT0D68Gh2
- XgZ7PLDrnPk0SlNWwr6ah/Yi5QZCpS9mPL5IEoR4phoIWvnO5wJpoFO9ZTyTrhWpvDjA
- 9kWpkCE/HtzuUH51Bj20Xo35CVsDZq8yFf2rqOaFtzp2htHxDCYDSt0TC/LTQhzA/Lg5
- eA/fhVucXCu/M+TQiYpUWJC6ItjgjvvThqKuhPLczYlXI1USsRB6YenRy5/7fOaXKxp6
- DZMw==
-X-Gm-Message-State: AOAM5301rifeq8CcesjFJFkF4bzkbn4R5c6nbMtZrFsV1oekhX1MU6d9
- MXZyPsi4EOi9uwVFlLaQyA4gk5m37yc=
-X-Google-Smtp-Source: ABdhPJwu5Esq/UbXcL1LFF0yhuaX535q1AEqiILWu/014/uo326rSwauIgYlowYMfASGq9DFcKZNcg==
-X-Received: by 2002:a37:4911:: with SMTP id w17mr1876986qka.468.1605652815465; 
- Tue, 17 Nov 2020 14:40:15 -0800 (PST)
-Received: from localhost.localdomain ([192.161.78.5])
- by smtp.gmail.com with ESMTPSA id 9sm16105021qkm.81.2020.11.17.14.40.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Nov 2020 14:40:14 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu, amdkfd, radeon, scheduler drm-next-5.11
-Date: Tue, 17 Nov 2020 17:40:03 -0500
-Message-Id: <20201117224003.4056-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2079.outbound.protection.outlook.com [40.107.237.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F5066E161;
+ Wed, 18 Nov 2020 00:46:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HsuxQIvooRygSN8gwpxwS7GFIJA1N13YgKxjlJEAg3yV6LBZ6gPgJ0SLddnkUF+xCDZef/1xpDgezFgoE6NP2vicfsiVspGBJS749jLqepU+U05QHZawbGnfiTLjsDs9BENvjlbPLCMZB6mlOnBEzTNhdod9b2tZ2N8hf0CreDDJA9QIYJR0rTlom0tjQfTXMc744NTHzcttog49y4DcrK6HIG5phuEjj7VB1dNfoXcctbGm6+kgISeh8Mcs24ruGhVvNl2hikQBuIqya5wWp8rJq9IrgjMnsk7YvH03ZdRCnCWm2nY/201os7HwyQsI3LJidCeSyDQy7SzWH6C/aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i464Rbo9cQBCSHTbObgqJ4W6ipHQDGn/hTiKKxSnO/8=;
+ b=Iw3PVbl9kJLa0d2FO7/AtzM/V7cfofidIKf1LrJ6Wh6ygtt72j5+v9r7Vij1o3g2kTI4hsHTYPEDvIZHCUtxhwDDfkp7ndrHVvTUDhxlERH6Mt0TjrGxBmssnXMUkEceTSqcHZ3USXyrrdzyUz/uNniTIYImK+7lr0sH07056JG52yQL+2shdJEqZonTBSieHd5t01oX9I9zhM26HcwtZRrSdE3bsPnaocT1xaYPCDNW17wyNIzsvfZxHFeGvIaWcTzQB4zT8r9CoUEn0W7faVzse5ye2uBquE5pN6o+VbhkC5poe+ue5sb3xj33HjVsoNs2Z0ROLcroNEo28090WA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i464Rbo9cQBCSHTbObgqJ4W6ipHQDGn/hTiKKxSnO/8=;
+ b=lAICLNBvmXgWNvNXx/szbxgMvpZ1M942+zQ8lH3AytpNuzKPmAMJUg1RfVj+X/5dBLP0dNgZFZrOdasAeONUYt3lX2WfnnckIME5OOaB3fr9YHmj+jzVLftVureHDzM9HXduYVEkdjPo+KYdYLHbYv8uN+OJntso1u/UYo0vX4s=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
+ by DM6PR12MB3770.namprd12.prod.outlook.com (2603:10b6:5:1c4::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
+ 2020 00:46:03 +0000
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::d055:19dc:5b0f:ed56]) by DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::d055:19dc:5b0f:ed56%6]) with mapi id 15.20.3564.032; Wed, 18 Nov 2020
+ 00:46:03 +0000
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Prevent any job recoveries after
+ device is unplugged.
+To: Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-9-git-send-email-andrey.grodzovsky@amd.com>
+ <20200622095345.GF20149@phenom.ffwll.local>
+ <24dd3691-5599-459c-2e5d-a8f2e504ec66@amd.com>
+ <20201117185255.GP401619@phenom.ffwll.local>
+ <b827fa7a-d89e-d138-d275-60a9f15c128a@amd.com>
+ <20201117194922.GW401619@phenom.ffwll.local>
+From: Luben Tuikov <luben.tuikov@amd.com>
+Message-ID: <3a2004ed-1b82-b36d-4233-4ee107203567@amd.com>
+Date: Tue, 17 Nov 2020 19:46:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
+In-Reply-To: <20201117194922.GW401619@phenom.ffwll.local>
+Content-Language: en-GB
+X-Originating-IP: [165.204.55.250]
+X-ClientProxiedBy: CH2PR17CA0021.namprd17.prod.outlook.com
+ (2603:10b6:610:53::31) To DM6PR12MB3962.namprd12.prod.outlook.com
+ (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (165.204.55.250) by
+ CH2PR17CA0021.namprd17.prod.outlook.com (2603:10b6:610:53::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Wed, 18 Nov 2020 00:46:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: e07cc14d-ddeb-4038-447f-08d88b5b532a
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3770:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB377046A27E584D8BE5183D9299E10@DM6PR12MB3770.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: fAdvlzNcfOKMBPQc3ym6A1OFQXGAhxLRL69pQxgoG6GTcOgVp433IKnWl8XxQn31HK7hxx/vgBAe8TYxAfYCBblNpPiiN2/daXgos+/TEdTuw1nYuuEWoxsVtw8qVjnzLnB3Bqip0IrXYni4Ah1l0jj1NzXOOGal+MzWoYuckqyyl678nkmKb696CGzIOt0zx4FoEDcHmZMJ9XZF0VDaJOICgvQcEqO3AOhb0w3iGrUzgAEMNIEaQhVbqv4AblKzLFCHcteogRHo81ciQXxNPuDnrPBGr7SF54N3e+xhQz+U1yVEeToxKsAS3zEO5IQtiQq6TuYjcfWI3iuFkwgv++qKmjQi6RzFYKw2E16ca4gt791X1Q5rYlP21pbE7s7E
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(376002)(366004)(136003)(346002)(26005)(31686004)(110136005)(6506007)(36756003)(83380400001)(86362001)(478600001)(4326008)(4001150100001)(316002)(53546011)(8936002)(6486002)(956004)(2616005)(6512007)(44832011)(5660300002)(66946007)(186003)(2906002)(6636002)(31696002)(66556008)(52116002)(66476007)(8676002)(16526019)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: 7ieHBN8WMmZFeuCmWqXl4J3jmS8H1JasOqVuhYGTO5HBwYG1DpWPZNdHdH5eIMd8rFvz4Rz+lZaCnRHplE5o/saAqLyPrr9DTuctwTmnc8lYIeDIKoooRVAkEemegrmPxt5dBDd7+bOQfdkz8JDguQrtTkt9Ffvuf2oaVrh2SvGu4brrExOrE5MV281z2vz2slLFg14WzWt2iIKbc29UGCkNg7FM8GGsosncDejp2ovzY+rXbUW9+bTJxXjfHK3KW3igPvqZd8COIFgwZBUebztA8GVlyoReq+bRYo5pbwx75zXQtFShkLVVsSVj2HiDzUJCHgtZ4hKl147W1yW9anOz+NH1E14TbDhHuJexsHh8P3gyKHkhIBf6b9wtFKLdPefHQbjMYE8zXim817c/5VKiSiBL9ntCdTEdn+VdmaHdr302RvZnxdeg2awgNRg3ww3kSgjewf6susZopu8PyZ/UB0jmL154q5dbsKi8lpTpYvzLjHGFV0mhsi9albVhdEDwyQ8tlU2fwoQrj0u9WDp7FWw+VgMDkK9qffFPtHJC/WbZSPwKzFInFsXEblumjtdo4ECQ5Pe5e49a8gWA9KOmyicRPtNiA4cX5KSSZAvNuobEaLivW6s3Sctb55R8BDlyjfkVZ39dKziUv3GFIw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e07cc14d-ddeb-4038-447f-08d88b5b532a
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 00:46:02.9906 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: En+jS8MmVLjTGAJYGrPhaTjuHX6vs9OMOn7YA4NnsqvEG6LhWFoxQr8/09z9b3oQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3770
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,580 +104,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
-
-Updates for 5.11.
-
-The following changes since commit 512bce50a41c528fa15c4c014293e7bebf018658:
-
-  Merge v5.10-rc3 into drm-next (2020-11-10 14:36:36 +0100)
-
-are available in the Git repository at:
-
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-next-5.11-2020-11-17
-
-for you to fetch changes up to 178631700f9dc40df754acbe766b55753ddcbfec:
-
-  drm/amd/pm: fix spelling mistakes in dev_warn messages (2020-11-17 14:07:26 -0500)
-
-----------------------------------------------------------------
-amd-drm-next-5.11-2020-11-17:
-
-amdgpu:
-- DCN 3.02 fixes
-- Various DC fixes
-- SR-IOV fixes
-- Dimgrey Cavefish fixes
-- W=1  fixes
-- Vangogh updates
-- Initial S0ix support
-- DCN 3.x FP fixes
-- FB modifier fixes
-
-amdkfd:
-- CRAT table fixes
-
-radeon:
-- W=1 fixes
-
-Scheduler:
-- W=1 fixes
-
-----------------------------------------------------------------
-Alex Deucher (5):
-      drm/amdgpu/pm/smu12: cache smu firmware version
-      drm/amdgpu/pm/smu11: cache smu firmware version
-      drm/amdgpu/display: fix FP handling in DCN30
-      drm/amd/display: Add missing pflip irq for dcn2.0
-      drm/amdgpu: remove experimental flag from arcturus
-
-Alvin Lee (1):
-      drm/amd/display: Check other planes for iflip only if GSL already enabled
-
-Anthony Koo (2):
-      drm/amd/display: [FW Promotion] Release 0.0.41
-      drm/amd/display: [FW Promotion] Release 0.0.42
-
-Aric Cyr (3):
-      drm/amd/display: Only wait for flip pending on immediate flips
-      drm/amd/display: 3.2.111
-      drm/amd/display: 3.2.112
-
-Bas Nieuwenhuizen (4):
-      drm/fourcc: Fix modifier field mask for AMD modifiers.
-      drm/amd/display: Store gem objects for planes 1-3
-      drm/amd/display: Set new format info for converted metadata.
-      drm/amd/display: Extract 3rd plane from metadata
-
-Bernard Zhao (1):
-      amd/display/amdgpu_dm: delete same check in if condition
-
-Bhaskar Chowdhury (2):
-      drivers: amdgpu: amdgpu_display.c: Fix a spelling doens\'t to doesn\'t
-      drivers: amdgpu: amdgpu_display: Fixed the spelling of falg to flag
-
-Bhawanpreet Lakha (4):
-      drm/amdgpu: Add and use seperate reg headers for dcn302
-      drm/amdgpu: Use PSP_FW_NAME_LEN instead of magic number
-      drm/amdgpu: Enable TA firmware loading for dimgrey_cavefish
-      drm/amd/display: Update dmub code
-
-Bokun Zhang (3):
-      drm/amd/amdgpu: Fix incorrect logic to increment VCN doorbell index
-      drm/amd/amdgpu: Add rev_id workaround logic for SRIOV setup
-      drm/amd/amdgpu: Update VCN initizalization behvaior
-
-Colin Ian King (1):
-      drm/amd/pm: fix spelling mistakes in dev_warn messages
-
-Dmytro Laktyushkin (2):
-      drm/amd/display: correct dml dsc bpc assignment
-      drm/amd/display: remove unused dml variables
-
-Eric Bernstein (1):
-      drm/amd/display: Move common speakersToChannels definition to hw_shared.h
-
-Hanjun Guo (2):
-      drm/amdkfd: Move the ignore_crat check before the CRAT table get
-      drm/amdkfd: Put ACPI table after using it
-
-Hawking Zhang (8):
-      drm/amdgpu: add amdgpu_smuio structure
-      drm/amdgpu: implement smuio v9_0 callbacks
-      drm/amdgpu: implement smuio v11_0 callbacks
-      drm/amdgpu: switch to use smuio callbacks for AI family
-      drm/amdgpu: disable rom clock gating support for APUs
-      drm/amdgpu: check hive pointer before access
-      drm/amdgpu: declare smuio callback function as static
-      drm/amdgpu: make gfxhub_v1_0 callback functions to be static
-
-Isabel Zhang (2):
-      drm/amd/display: Add fallback to prefetch mode 1 if 0 fails
-      drm/amd/display: Prevent freesync power optimization during validation
-
-Jacky Liao (1):
-      drm/amd/display: Add I2C memory low power support
-
-Jane Jian (1):
-      drm/amdgpu/sriov: reopen sienna_child smu ip block under sriov
-
-Jing Zhou (1):
-      drm/amd/display: force use sRGB for video TF is sRGB or BT709
-
-John Clements (1):
-      drm/amdgpu: add UMC to ip discovery map
-
-Krunoslav Kovac (1):
-      drm/amd/display: Engage PSR synchronously
-
-Lee Jones (115):
-      drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr' params
-      drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're used
-      drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device dev_info' from the stack
-      gpu: drm: scheduler: sched_main: Provide missing description for 'sched' paramter
-      gpu: drm: scheduler: sched_entity: Demote non-conformant kernel-doc headers
-      gpu: drm: radeon: radeon_drv: Remove unused variable 'ret'
-      gpu: drm: amd: amdgpu: amdgpu: Mark global variables as __maybe_unused
-      gpu: drm: radeon: radeon_device: Fix a bunch of kernel-doc misdemeanours
-      drm/radeon/radeon_kms: Include header containing our own prototypes
-      drm/radeon/radeon_drv: Source file headers are not good candidates for kernel-doc
-      drm/radeon/radeon_drv: Move prototypes to a shared headerfile
-      drm/radeon: Move prototypes to shared header
-      drm/radeon/atombios_crtc: Remove description of non-existent function param 'encoder'
-      drm/radeon/radeon_ttm: Place declaration of 'rdev' in same clause as its use
-      drm/radeon/radeon_fence: Demote some non-conformant kernel-doc headers and fix another
-      drm/radeon/radeon_connectors: Strip out set but unused variable 'ret'
-      drm/radeon/radeon_display: Remove unused variable 'mod'
-      drm/radeon/radeon_i2c: Remove pointless function header
-      drm/radeon/radeon_ring: Add missing function parameters 'rdev' and 'data'
-      drm/radeon/r600: Strip out set but unused 'tmp' variables
-      drm/radeon/radeon_cs: Fix a bunch of doc-rot issues
-      drm/radeon/radeon_display: Fix function doc formatting and missing param issues
-      drm/radeon/r600: Fix a misnamed parameter description and a formatting issue
-      drm/radeon/cik: Fix a bunch of function parameter descriptions
-      drm/radeon/evergreen: Remove set but unused variable 'mc_shared_chmap'
-      drm/radeon/evergreen: Add comment for 'evergreen_page_flip()'s 'async' param
-      drm/radeon/si: Remove set but unused variable 'mc_shared_chmap'
-      drm/radeon/ni: Demote vague attempt at function header doc
-      drm/radeon/cik: Remove set but unused variable 'mc_shared_chmap'
-      drm/radeon/radeon_vm: Fix some function parameter documentation
-      drm/radeon/kv_dpm: Strip out unused functions and their tables
-      drm/radeon/trinity_dpm: Remove some defined but never used arrays
-      drm/radeon/radeon_dp_mst: Remove unused variable 'ret' from radeon_mst_encoder_dpms()
-      drm/radeon/radeon_sync: Add description for function param 'rdev'
-      drm/radeon/radeon_ib: Supply description for 'radeon_ib_get's get param
-      drm/radeon/ci_dpm: Remove set but unused variable 'dpm_event_src'
-      drm/radeon/radeon_mn: Supply description for 'cur_seq' even if it is unused
-      drm/radeon/r100: Fix some kernel-doc formatting, misnaming and missing issues
-      drm/radeon/r600_cs: Fix some doc-rot and supply missing function param docs
-      drm/radeon/cik_sdma: Demote vague attempt at kernel-doc
-      drm/radeon/evergreen_cs: Fix misnaming issues surrounding 'p' param
-      drm/radeon/evergreen_dma: Fix doc-rot of function parameter 'resv'
-      drm/radeon/ni: Remove set but unused variable 'mc_shared_chmap'
-      drm/radeon/sumo_dpm: Move 'sumo_get_pi()'s prototype into shared header
-      drm/amd/amdgpu/amdgpu_kms: Fix misnaming of parameter 'dev'
-      drm/amd/amdgpu/amdgpu_fence: Fix some issues pertaining to function documentation
-      drm/amd/amdgpu/amdgpu_ttm: Demote non-conformant kernel-doc headers, fix slightly lacking ones
-      drm/amd/amdgpu/amdgpu_ring: Fix a bunch of function misdocumentation
-      drm/amd/amdgpu/amdgpu_display: Remove pointless header
-      drm/amd/amdgpu/amdgpu_cs: Add a couple of missing function param descriptions
-      drm/amd/include/vega10_ip_offset: Mark _BASE structs as __maybe_unused
-      drm/amd/display/dc/core/dc_link_dp: Move DP_VGA_LVDS_CONVERTER_ID_{2, 3} to where they're used
-      drm/amd/display/dc/core/dc_link_ddc: Move DP_DVI_CONVERTER_ID_{4, 5} to where they're used
-      drm/amd/amdgpu/amdgpu_ring: Fix misnaming of param 'max_dw'
-      drm/amd/amdgpu/amdgpu_ib: Fix some incorrect/incomplete function documentation
-      drm/amd/amdgpu/amdgpu_pll: Fix kernel-doc formatting, missing and extra params
-      drm/amd/amdgpu/amdgpu_sync: Fix misnamed, missing and extra param descriptions
-      drm/amd/amdgpu/amdgpu_vram_mgr: Add missing descriptions for 'dev' and 'dir'
-      drm/amd/amdgpu/amdgpu_virt: Make local function 'amdgpu_virt_update_vf2pf_work_item()' static
-      drm/amd/amdgpu/amdgpu_csa: Remove set but unused variable 'r'
-      drm/amd/amdgpu/amdgpu_sched: Consume our own header containing prototypes
-      drm/amd/amdgpu/amdgpu_ids: Supply missing docs for 'id' and 'vmhub'
-      drm/amd/amdgpu/amdgpu_debugfs: Demote obvious abuse of kernel-doc formatting
-      drm/amd/amdgpu/amdgpu_gmc: Demote one and fix another function header
-      drm/amd/amdgpu/amdgpu_ras: Remove unused function 'amdgpu_ras_error_cure'
-      drm/amd/amdgpu/amdgpu_ras: Make local function 'amdgpu_ras_error_status_query' static
-      drm/amd/amdgpu/amdgpu_vm_cpu: Fix 'amdgpu_vm_cpu_prepare()'s doc-rot
-      drm/amd/amdgpu/amdgpu_vm_sdma: Fix 'amdgpu_vm_sdma_prepare()'s doc-rot
-      drm/amd/amdgpu/amdgpu_fw_attestation: Consume our own header containing prototypes
-      drm/amd/amdgpu/smu_v11_0_i2c: Provide descriptions for 'control' and 'data' params
-      drm/amd/amdgpu/gfx_v7_0: Remove unused struct definition
-      drm/radeon/atombios_encoders: Move 'radeon_atom_get_tv_timings()'s prototype into shared location
-      drm/radeon/radeon: Move prototype into shared header
-      drm/radeon/radeon_kms: Move 'radeon_*_kms' prototypes to shared header
-      drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
-      drm/radeon: Move radeon_ttm{init, fini} to shared location
-      drm/radeon/radeon_legacy_encoders: Move 'radeon_add_legacy_encoder' prototype to shared header
-      drm/radeon/radeon_legacy_encoders: Move 'radeon_add_legacy_encoder's prototype to shared location
-      drm/radeon/radeon_irq_kms: Demote non-conformant kernel-doc fix another
-      drm/radeon/rv770: Move 'rv770_set_clk_bypass_mode' prototype to shared location
-      drm/radeon/radeon_pm: Move 'radeon_pm_acpi_event_handler' prototype into shared header
-      drm/radeon/radeon_audio: Move 'dce3_2_*' prototypes to shared location
-      drm/radeon/evergreen: Move 'evergreen_*' and 'sumo_*' prototypes out to shared location
-      drm/radeon/radeon_drv: Move 'radeon_mmap()'s prototype to shared header
-      drm/radeon/radeon_drv: Move 'radeon_driver_irq_handler_kms's prototype into shared header
-      drm/radeon/atom: Move 'radeon_atom_hw_i2c_*()'s prototypes into shared header
-      drm/radeon/radeon_gem: Move 'radeon_gem_prime_*()'s prototypes to shared header
-      drm/radeon/evergreen_hdmi: Move 'evergreen_*()' and 'dce4_*()' HDMI prototypes to shared header
-      drm/radeon/rv770: Move 'rv770_get_*()'s prototypes to shared header
-      drm/radeon/ni_dpm: Move 'ni_get_{pi, ps}()'s into shared header
-      drm/radeon/evergreen: Move 'cayman_*()'s prototypes to shared header
-      drm/radeon/r600_dma: Move 'r600_gpu_check_soft_reset()'s prototype to shared location
-      drm/radeon/cik: Move 'r600_ih_ring_{alloc, fini}()'s prototypes to shared header
-      drm/radeon/evergreen_dma: Move 'evergreen_gpu_check_soft_reset()'s prototype to shared header
-      drm/radeon/r600: Move 'evergreen_rlc_resume()'s prototype to shared header
-      drm/radeon/ni_dma: Move 'cayman_gpu_check_soft_reset()'s prototype to shared header
-      drm/radeon/radeon_atombios: Move 'radeon_add_atom_encoder()'s prototype to shared header
-      drm/radeon/radeon_encoders: Move 'radeon_atom_backlight_init's prototype to shared header
-      drm/radeon/ci_dpm: Move 'ci_*()'s prototypes to shared header
-      drm/radeon/si_dpm: Move 'si_mc_load_microcode()'s prototype to shared header
-      drm/radeon/si_dma: Move 'si_gpu_check_soft_reset()'s prototype to shared header
-      drm/radeon/cik: Move 'si_*()'s prototypes to shared header
-      drm/radeon/btc_dpm: Move 'evergreen_get_pi's prototype to shared header
-      drm/radeon/radeon_audio: Move 'dce6_*()'s prototypes to shared header
-      drm/radeon/evergreen: Move 'si_get_csb_*()'s prototypes to shared header
-      drm/radeon/cik_sdma: Move 'amdgpu_cik_gpu_check_soft_reset()'s prototype to shared header
-      drm/radeon/evergreen: Move 'cik_*()'s prototypes to shared header
-      drm/radeon/ci_dpm: Move 'si_*()'s prototypes to shared header
-      drm/radeon/cik: Move 'Move 'cik_sdma_*()'s prototypes to shared header
-      drm/radeon/si_dpm: Move 'vce_v1_0_enable_mgcg()'s prototype to shared header
-      drm/radeon/cik: Move 'vce_v2_0_enable_mgcg()'s prototype to shared header
-      drm/radeon/evergreen_cs: Move 'r600_dma_cs_next_reloc()'s prototype to shared header
-      drm/radeon/radeon_audio: Move 'r600_*' prototypes into shared header
-      drm/radeon/radeon_drv: Move 'radeon_gem_prime_import_sg_table()'s prototype to shared header
-      drm/amd/amdgpu/atombios_encoders: Remove set but unused variable 'backlight_level'
-
-Likun Gao (2):
-      drm/amd/pm: update driver if file for sienna cichlid
-      drm/amdgpu: update golden setting for sienna_cichlid
-
-Nirmoy Das (2):
-      drm/amdgpu: fix compute queue priority if num_kcq is less than 4
-      drm/amdgpu: fix usable gart size calculation
-
-Prike Liang (4):
-      drm/amdgpu: add s0i3 capacity check for s0i3 routine (v2)
-      drm/amdgpu: add amdgpu_gfx_state_change_set() set gfx power change entry (v2)
-      drm/amdgpu: update amdgpu device suspend/resume sequence for s0i3 support
-      drm/amd/pm: add gfx_state_change_set() for rn gfx power switch (v2)
-
-Ramesh Errabolu (1):
-      drm/amd/amdgpu: Import amdgpu_amdkfd_gfx_v9 header file into implementation
-
-Raymond Yang (1):
-      drm/amd/display: correct data type
-
-Roman Li (1):
-      drm/amdgpu: add ta firmware load for green-sardine
-
-Roy Chan (1):
-      drm/amd/display: Detect dynamic backlight support in eDP sink
-
-Samson Tam (1):
-      drm/amd/display: fix cursor calculation for 1xnY rotated display groups
-
-Simon Ser (2):
-      drm/fourcc: add table describing AMD modifiers bit layout
-      drm/fourcc: fix AMD modifiers PACKERS field doc
-
-Sung Lee (2):
-      drm/amd/display: Populate hostvm parameter before DML calculation
-      drm/amd/display: Handle Unknown Result for SMU Periodic Retraining on DCN2.1
-
-Tao Zhou (3):
-      drm/amdgpu: update gfx golden setting for dimgrey_cavefish
-      drm/amd/pm: update driver if version for dimgrey_cavefish
-      drm/amd/pm: retire dimgrey_cavefish hardcode for the use of soft PPTable
-
-Tian Tao (1):
-      drm/amd/pm: Use kmemdup instead of kmalloc and memcpy
-
-Tianci.Yin (1):
-      drm/amdgpu: enable DCN for navi10 headless SKU
-
-Victor Lu (1):
-      drm/amd/display: Explicitly disable cursor when disabling CRTC
-
-Wayne Lin (1):
-      drm/amd/display: Expose new CRC window property
-
-Wenjing Liu (1):
-      drm/amd/display: minor restructuring of pbn calculation functions
-
-Wyatt Wood (2):
-      drm/amd/display: Hook up PSR residency command to DSAT
-      drm/amd/display: Increase sr enter/exit in rn ddr4 watermark table
-
-Xiaojian Du (4):
-      drm/amd/pm: add the interface to dump smu metrics table for vangogh
-      drm/amd/pm: update the swSMU headers for vangogh
-      drm/amd/pm: add the fine grain tuning function for vangogh
-      drm/amd/pm: enable the fine grain tuning function for vangogh
-
-Yongqiang Sun (7):
-      drm/amd/display: update dpp dto phase and modulo.
-      drm/amd/display: check actual clock value.
-      drm/amd/display: cap dpp dto phase not more than modulo.
-      drm/amd/display: Program dpp dto based on actual dpp clk
-      drm/amd/display: set dpp dto as per requested clk for lower case.
-      drm/amd/display: Add dual edp optimization flag.
-      drm/amd/display: update vgh bounding box
-
-mengwang (1):
-      drm/amd/pm: correct table_clk_vlt memory size due to replacing one-element array with flexible-array in struct phm_clock_voltage_dependency_table
-
- drivers/gpu/drm/amd/amdgpu/Makefile                |     5 +
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |    12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c           |    14 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v9.c  |     1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c             |     2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c            |     3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |     4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |    17 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c      |     1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c        |   227 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.h        |     2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |     8 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c          |    11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.c |     3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |    30 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.h            |     9 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |     5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c             |     6 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c            |     2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   106 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c            |    10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |     2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |    11 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |    14 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c          |     2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_smuio.h          |    37 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c           |     4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_test.c           |    13 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |    59 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |     2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c         |     4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c        |     4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |     2 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |    13 +-
- drivers/gpu/drm/amd/amdgpu/atombios_encoders.c     |     3 -
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c             |    16 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c              |     9 -
- drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h              |     1 -
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |     6 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c              |     7 +-
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.c           |    17 +-
- drivers/gpu/drm/amd/amdgpu/gfxhub_v1_0.h           |    10 +-
- drivers/gpu/drm/amd/amdgpu/nbio_v2_3.c             |    11 +-
- drivers/gpu/drm/amd/amdgpu/nv.c                    |     5 +-
- drivers/gpu/drm/amd/amdgpu/psp_v11_0.c             |    10 +-
- drivers/gpu/drm/amd/amdgpu/psp_v12_0.c             |     1 +
- drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c         |     3 +
- drivers/gpu/drm/amd/amdgpu/smuio_v11_0.c           |    77 +
- drivers/gpu/drm/amd/amdgpu/smuio_v11_0.h           |    30 +
- drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c            |    77 +
- drivers/gpu/drm/amd/amdgpu/smuio_v9_0.h            |    30 +
- drivers/gpu/drm/amd/amdgpu/soc15.c                 |    61 +-
- drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c              |    61 +-
- drivers/gpu/drm/amd/amdkfd/kfd_crat.c              |    23 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   246 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |    19 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.c  |    43 +-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crc.h  |     3 +
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c  |     6 +-
- drivers/gpu/drm/amd/display/dc/basics/fixpt31_32.c |     5 +
- drivers/gpu/drm/amd/display/dc/clk_mgr/clk_mgr.c   |     5 +-
- .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |    68 +-
- .../dc/clk_mgr/dcn21/rn_clk_mgr_vbios_smu.c        |    11 +-
- drivers/gpu/drm/amd/display/dc/core/dc.c           |     4 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link.c      |    48 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_ddc.c  |     4 +
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |    16 +-
- drivers/gpu/drm/amd/display/dc/dc.h                |     9 +-
- drivers/gpu/drm/amd/display/dc/dc_link.h           |     7 +-
- drivers/gpu/drm/amd/display/dc/dc_types.h          |    21 +
- drivers/gpu/drm/amd/display/dc/dce/dce_dmcu.c      |    24 +-
- drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.c    |    12 +
- drivers/gpu/drm/amd/display/dc/dce/dce_i2c_hw.h    |    16 +
- .../drm/amd/display/dc/dce/dce_stream_encoder.c    |    82 -
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c      |   126 +-
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.h      |     4 +-
- .../drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c  |    64 +-
- .../gpu/drm/amd/display/dc/dcn10/dcn10_resource.c  |     1 +
- .../amd/display/dc/dcn10/dcn10_stream_encoder.c    |    82 -
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c |    35 +-
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.c  |    23 +-
- .../gpu/drm/amd/display/dc/dcn20/dcn20_resource.h  |     8 +-
- drivers/gpu/drm/amd/display/dc/dcn21/Makefile      |     2 +-
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.c  |   129 +
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h  |    36 +
- .../gpu/drm/amd/display/dc/dcn21/dcn21_hubbub.c    |     2 +
- .../gpu/drm/amd/display/dc/dcn21/dcn21_resource.c  |    62 +-
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.c  |     1 +
- drivers/gpu/drm/amd/display/dc/dcn30/dcn30_afmt.h  |    83 -
- .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.c  |    59 +-
- .../gpu/drm/amd/display/dc/dcn30/dcn30_resource.h  |     3 +-
- .../drm/amd/display/dc/dcn301/dcn301_resource.c    |    61 +-
- .../drm/amd/display/dc/dcn302/dcn302_resource.c    |     5 +-
- .../amd/display/dc/dml/dcn21/display_mode_vba_21.c |     2 +-
- .../drm/amd/display/dc/dml/display_mode_structs.h  |     2 -
- .../gpu/drm/amd/display/dc/dml/display_mode_vba.c  |     5 +-
- .../gpu/drm/amd/display/dc/dml/display_mode_vba.h  |     1 -
- drivers/gpu/drm/amd/display/dc/inc/core_types.h    |     3 +-
- drivers/gpu/drm/amd/display/dc/inc/hw/dchubbub.h   |     1 +
- drivers/gpu/drm/amd/display/dc/inc/hw/dmcu.h       |     2 +-
- drivers/gpu/drm/amd/display/dc/inc/hw/hw_shared.h  |    84 +
- .../amd/display/dc/irq/dcn20/irq_service_dcn20.c   |     4 +-
- drivers/gpu/drm/amd/display/dmub/dmub_srv.h        |    20 +-
- drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |    10 +-
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn20.c  |    23 +
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn20.h  |     6 +
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn21.c  |     5 -
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn21.h  |     2 -
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn30.c  |     5 -
- drivers/gpu/drm/amd/display/dmub/src/dmub_dcn30.h  |     1 -
- drivers/gpu/drm/amd/display/dmub/src/dmub_srv.c    |    26 +-
- .../drm/amd/display/include/ddc_service_types.h    |     8 -
- drivers/gpu/drm/amd/display/include/fixed31_32.h   |     6 -
- .../amd/include/asic_reg/dcn/dcn_3_0_2_offset.h    | 16159 +++++
- .../amd/include/asic_reg/dcn/dcn_3_0_2_sh_mask.h   | 62376 +++++++++++++++++++
- drivers/gpu/drm/amd/include/kgd_pp_interface.h     |     1 +
- drivers/gpu/drm/amd/include/vega10_ip_offset.h     |    76 +-
- drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h            |     8 +
- drivers/gpu/drm/amd/pm/inc/hwmgr.h                 |     1 +
- drivers/gpu/drm/amd/pm/inc/rv_ppsmc.h              |     3 +-
- .../amd/pm/inc/smu11_driver_if_sienna_cichlid.h    |    16 +-
- .../gpu/drm/amd/pm/inc/smu11_driver_if_vangogh.h   |     6 +
- drivers/gpu/drm/amd/pm/inc/smu_v11_0.h             |     6 +-
- drivers/gpu/drm/amd/pm/inc/smu_v11_5_pmfw.h        |    11 +-
- drivers/gpu/drm/amd/pm/inc/smu_v11_5_ppsmc.h       |    11 +-
- drivers/gpu/drm/amd/pm/powerplay/amd_powerplay.c   |    19 +
- .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   |    13 +-
- .../pm/powerplay/hwmgr/vega12_processpptables.c    |     5 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |    16 +
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |    22 -
- drivers/gpu/drm/amd/pm/swsmu/smu11/smu_v11_0.c     |    20 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |   201 +
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |     7 +
- drivers/gpu/drm/amd/pm/swsmu/smu12/smu_v12_0.c     |     3 +
- drivers/gpu/drm/amd/pm/swsmu/smu_internal.h        |     1 +
- drivers/gpu/drm/radeon/atom.h                      |     7 +
- drivers/gpu/drm/radeon/atombios_crtc.c             |     1 -
- drivers/gpu/drm/radeon/atombios_encoders.c         |     5 +-
- drivers/gpu/drm/radeon/btc_dpm.c                   |     6 +-
- drivers/gpu/drm/radeon/ci_dpm.c                    |    25 +-
- drivers/gpu/drm/radeon/cik.c                       |    33 +-
- drivers/gpu/drm/radeon/cik.h                       |    40 +
- drivers/gpu/drm/radeon/cik_sdma.c                  |     7 +-
- drivers/gpu/drm/radeon/cypress_dpm.c               |     6 +-
- drivers/gpu/drm/radeon/dce6_afmt.c                 |     1 +
- drivers/gpu/drm/radeon/dce6_afmt.h                 |    52 +
- drivers/gpu/drm/radeon/evergreen.c                 |    21 +-
- drivers/gpu/drm/radeon/evergreen.h                 |    53 +
- drivers/gpu/drm/radeon/evergreen_cs.c              |     9 +-
- drivers/gpu/drm/radeon/evergreen_dma.c             |     5 +-
- drivers/gpu/drm/radeon/evergreen_hdmi.c            |     1 +
- drivers/gpu/drm/radeon/evergreen_hdmi.h            |    69 +
- drivers/gpu/drm/radeon/kv_dpm.c                    |   205 +-
- drivers/gpu/drm/radeon/ni.c                        |    25 +-
- drivers/gpu/drm/radeon/ni.h                        |    37 +
- drivers/gpu/drm/radeon/ni_dma.c                    |     3 +-
- drivers/gpu/drm/radeon/ni_dpm.c                    |     5 +-
- drivers/gpu/drm/radeon/ni_dpm.h                    |     3 +
- drivers/gpu/drm/radeon/r100.c                      |     7 +-
- drivers/gpu/drm/radeon/r600.c                      |    15 +-
- drivers/gpu/drm/radeon/r600.h                      |    58 +
- drivers/gpu/drm/radeon/r600_cs.c                   |    10 +-
- drivers/gpu/drm/radeon/r600_dma.c                  |     3 +-
- drivers/gpu/drm/radeon/r600_hdmi.c                 |     1 +
- drivers/gpu/drm/radeon/radeon.h                    |     6 +
- drivers/gpu/drm/radeon/radeon_acpi.c               |     3 +-
- drivers/gpu/drm/radeon/radeon_atombios.c           |    11 +-
- drivers/gpu/drm/radeon/radeon_atombios.h           |    45 +
- drivers/gpu/drm/radeon/radeon_audio.c              |    68 +-
- drivers/gpu/drm/radeon/radeon_audio.h              |    12 +
- drivers/gpu/drm/radeon/radeon_combios.c            |     6 +-
- drivers/gpu/drm/radeon/radeon_connectors.c         |     4 +-
- drivers/gpu/drm/radeon/radeon_cs.c                 |    12 +-
- drivers/gpu/drm/radeon/radeon_device.c             |    23 +-
- drivers/gpu/drm/radeon/radeon_device.h             |    32 +
- drivers/gpu/drm/radeon/radeon_display.c            |    22 +-
- drivers/gpu/drm/radeon/radeon_dp_mst.c             |    16 +-
- drivers/gpu/drm/radeon/radeon_drv.c                |    25 +-
- drivers/gpu/drm/radeon/radeon_drv.h                |     7 +
- drivers/gpu/drm/radeon/radeon_encoders.c           |    10 +-
- drivers/gpu/drm/radeon/radeon_fence.c              |     6 +-
- drivers/gpu/drm/radeon/radeon_gem.c                |     1 +
- drivers/gpu/drm/radeon/radeon_i2c.c                |     8 -
- drivers/gpu/drm/radeon/radeon_ib.c                 |     1 +
- drivers/gpu/drm/radeon/radeon_irq_kms.c            |     9 +-
- drivers/gpu/drm/radeon/radeon_kms.c                |     4 +-
- drivers/gpu/drm/radeon/radeon_kms.h                |    39 +
- drivers/gpu/drm/radeon/radeon_legacy_encoders.c    |     1 +
- drivers/gpu/drm/radeon/radeon_legacy_encoders.h    |    36 +
- drivers/gpu/drm/radeon/radeon_mn.c                 |     1 +
- drivers/gpu/drm/radeon/radeon_object.c             |     3 +-
- drivers/gpu/drm/radeon/radeon_pm.c                 |     1 +
- drivers/gpu/drm/radeon/radeon_pm.h                 |    29 +
- drivers/gpu/drm/radeon/radeon_prime.c              |     1 +
- drivers/gpu/drm/radeon/radeon_prime.h              |    40 +
- drivers/gpu/drm/radeon/radeon_ring.c               |     3 +
- drivers/gpu/drm/radeon/radeon_sync.c               |     1 +
- drivers/gpu/drm/radeon/radeon_ttm.c                |     9 +-
- drivers/gpu/drm/radeon/radeon_ttm.h                |    37 +
- drivers/gpu/drm/radeon/radeon_vm.c                 |     8 +-
- drivers/gpu/drm/radeon/rv730_dpm.c                 |     4 +-
- drivers/gpu/drm/radeon/rv740_dpm.c                 |     3 +-
- drivers/gpu/drm/radeon/rv770.c                     |     1 +
- drivers/gpu/drm/radeon/rv770.h                     |    39 +
- drivers/gpu/drm/radeon/rv770_dpm.c                 |     2 +
- drivers/gpu/drm/radeon/si.c                        |    15 +-
- drivers/gpu/drm/radeon/si.h                        |    38 +
- drivers/gpu/drm/radeon/si_dma.c                    |     3 +-
- drivers/gpu/drm/radeon/si_dpm.c                    |    13 +-
- drivers/gpu/drm/radeon/si_dpm.h                    |     5 +
- drivers/gpu/drm/radeon/sumo_dpm.h                  |     1 +
- drivers/gpu/drm/radeon/sumo_smc.c                  |     2 -
- drivers/gpu/drm/radeon/trinity_dpm.c               |    46 +-
- drivers/gpu/drm/radeon/vce.h                       |    35 +
- drivers/gpu/drm/radeon/vce_v1_0.c                  |     1 +
- drivers/gpu/drm/radeon/vce_v2_0.c                  |     1 +
- drivers/gpu/drm/scheduler/sched_entity.c           |     4 +-
- drivers/gpu/drm/scheduler/sched_main.c             |     1 +
- include/uapi/drm/drm_fourcc.h                      |    33 +-
- 219 files changed, 81679 insertions(+), 1556 deletions(-)
- create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_smuio.h
- create mode 100644 drivers/gpu/drm/amd/amdgpu/smuio_v11_0.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/smuio_v11_0.h
- create mode 100644 drivers/gpu/drm/amd/amdgpu/smuio_v9_0.c
- create mode 100644 drivers/gpu/drm/amd/amdgpu/smuio_v9_0.h
- create mode 100644 drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.c
- create mode 100644 drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h
- create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_2_offset.h
- create mode 100644 drivers/gpu/drm/amd/include/asic_reg/dcn/dcn_3_0_2_sh_mask.h
- create mode 100644 drivers/gpu/drm/radeon/cik.h
- create mode 100644 drivers/gpu/drm/radeon/dce6_afmt.h
- create mode 100644 drivers/gpu/drm/radeon/evergreen.h
- create mode 100644 drivers/gpu/drm/radeon/evergreen_hdmi.h
- create mode 100644 drivers/gpu/drm/radeon/ni.h
- create mode 100644 drivers/gpu/drm/radeon/r600.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_atombios.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_kms.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_legacy_encoders.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_pm.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_prime.h
- create mode 100644 drivers/gpu/drm/radeon/radeon_ttm.h
- create mode 100644 drivers/gpu/drm/radeon/rv770.h
- create mode 100644 drivers/gpu/drm/radeon/si.h
- create mode 100644 drivers/gpu/drm/radeon/vce.h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMS0xNyAyOjQ5IHAubS4sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4gT24gVHVlLCBO
+b3YgMTcsIDIwMjAgYXQgMDI6MTg6NDlQTSAtMDUwMCwgQW5kcmV5IEdyb2R6b3Zza3kgd3JvdGU6
+Cj4+Cj4+IE9uIDExLzE3LzIwIDE6NTIgUE0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+PiBPbiBU
+dWUsIE5vdiAxNywgMjAyMCBhdCAwMTozODoxNFBNIC0wNTAwLCBBbmRyZXkgR3JvZHpvdnNreSB3
+cm90ZToKPj4+PiBPbiA2LzIyLzIwIDU6NTMgQU0sIERhbmllbCBWZXR0ZXIgd3JvdGU6Cj4+Pj4+
+IE9uIFN1biwgSnVuIDIxLCAyMDIwIGF0IDAyOjAzOjA4QU0gLTA0MDAsIEFuZHJleSBHcm9kem92
+c2t5IHdyb3RlOgo+Pj4+Pj4gTm8gcG9pbnQgdG8gdHJ5IHJlY292ZXJ5IGlmIGRldmljZSBpcyBn
+b25lLCBqdXN0IG1lc3NlcyB1cCB0aGluZ3MuCj4+Pj4+Pgo+Pj4+Pj4gU2lnbmVkLW9mZi1ieTog
+QW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+Cj4+Pj4+PiAtLS0K
+Pj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kcnYuYyB8IDE2ICsr
+KysrKysrKysrKysrKysKPj4+Pj4+ICAgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
+dV9qb2IuYyB8ICA4ICsrKysrKysrCj4+Pj4+PiAgICAyIGZpbGVzIGNoYW5nZWQsIDI0IGluc2Vy
+dGlvbnMoKykKPj4+Pj4+Cj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9h
+bWRncHUvYW1kZ3B1X2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Ry
+di5jCj4+Pj4+PiBpbmRleCA2OTMyZDc1Li41ZDZkM2Q5IDEwMDY0NAo+Pj4+Pj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4+Pj4+PiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZHJ2LmMKPj4+Pj4+IEBAIC0xMTI5LDEyICsxMTI5
+LDI4IEBAIHN0YXRpYyBpbnQgYW1kZ3B1X3BjaV9wcm9iZShzdHJ1Y3QgcGNpX2RldiAqcGRldiwK
+Pj4+Pj4+ICAgIAlyZXR1cm4gcmV0Owo+Pj4+Pj4gICAgfQo+Pj4+Pj4gK3N0YXRpYyB2b2lkIGFt
+ZGdwdV9jYW5jZWxfYWxsX3RkcihzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldikKPj4+Pj4+ICt7
+Cj4+Pj4+PiArCWludCBpOwo+Pj4+Pj4gKwo+Pj4+Pj4gKwlmb3IgKGkgPSAwOyBpIDwgQU1ER1BV
+X01BWF9SSU5HUzsgKytpKSB7Cj4+Pj4+PiArCQlzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcgPSBh
+ZGV2LT5yaW5nc1tpXTsKPj4+Pj4+ICsKPj4+Pj4+ICsJCWlmICghcmluZyB8fCAhcmluZy0+c2No
+ZWQudGhyZWFkKQo+Pj4+Pj4gKwkJCWNvbnRpbnVlOwo+Pj4+Pj4gKwo+Pj4+Pj4gKwkJY2FuY2Vs
+X2RlbGF5ZWRfd29ya19zeW5jKCZyaW5nLT5zY2hlZC53b3JrX3Rkcik7Cj4+Pj4+PiArCX0KPj4+
+Pj4+ICt9Cj4+Pj4+IEkgdGhpbmsgdGhpcyBpcyBhIGZ1bmN0aW9uIHRoYXQncyBzdXBwb3NlZCB0
+byBiZSBpbiBkcm0vc2NoZWR1bGVyLCBub3QKPj4+Pj4gaGVyZS4gTWlnaHQgYWxzbyBqdXN0IGJl
+IHlvdXIgY2xlYW51cCBjb2RlIGJlaW5nIG9yZGVyZWQgd3JvbmdseSwgb3IgeW91cgo+Pj4+PiBz
+cGxpdCBpbiBvbmUgb2YgdGhlIGVhcmxpZXIgcGF0Y2hlcyBub3QgZG9uZSBxdWl0ZSByaWdodC4K
+Pj4+Pj4gLURhbmllbAo+Pj4+Cj4+Pj4gVGhpcyBmdW5jdGlvbiBpdGVyYXRlcyBhY3Jvc3MgYWxs
+IHRoZSBzY2hlZHVsZXJzwqAgcGVyIGFtZGdwdSBkZXZpY2UgYW5kIGFjY2Vzc2VzCj4+Pj4gYW1k
+Z3B1IHNwZWNpZmljIHN0cnVjdHVyZXMgLCBkcm0vc2NoZWR1bGVyIGRlYWxzIHdpdGggc2luZ2xl
+IHNjaGVkdWxlciBhdCBtb3N0Cj4+Pj4gc28gbG9va3MgdG8gbWUgbGlrZSB0aGlzIGlzIHRoZSBy
+aWdodCBwbGFjZSBmb3IgdGhpcyBmdW5jdGlvbgo+Pj4gSSBndWVzcyB3ZSBjb3VsZCBrZWVwIHRy
+YWNrIG9mIGFsbCBzY2hlZHVsZXJzIHNvbWV3aGVyZSBpbiBhIGxpc3QgaW4KPj4+IHN0cnVjdCBk
+cm1fZGV2aWNlIGFuZCB3cmFwIHRoaXMgdXAuIFRoYXQgd2FzIGtpbmRhIHRoZSBpZGVhLgo+Pj4K
+Pj4+IE1pbmltYWxseSBJIHRoaW5rIGEgdGlueSB3cmFwcGVyIHdpdGggZG9jcyBmb3IgdGhlCj4+
+PiBjYW5jZWxfZGVsYXllZF93b3JrX3N5bmMoJnNjaGVkLT53b3JrX3Rkcik7IHdoaWNoIGV4cGxh
+aW5zIHdoYXQgeW91IG11c3QKPj4+IG9ic2VydmUgdG8gbWFrZSBzdXJlIHRoZXJlJ3Mgbm8gcmFj
+ZS4KPj4KPj4KPj4gV2lsbCBkbwo+Pgo+Pgo+Pj4gSSdtIG5vdCBleGFjdGx5IHN1cmUgdGhlcmUn
+cyBubwo+Pj4gZ3VhcmFudGVlIGhlcmUgd2Ugd29uJ3QgZ2V0IGEgbmV3IHRkciB3b3JrIGxhdW5j
+aGVkIHJpZ2h0IGFmdGVyd2FyZHMgYXQKPj4+IGxlYXN0LCBzbyB0aGlzIGxvb2tzIGEgYml0IGxp
+a2UgYSBoYWNrLgo+Pgo+Pgo+PiBOb3RlIHRoYXQgZm9yIGFueSBURFIgd29yayBoYXBwZW5pbmcg
+cG9zdCBhbWRncHVfY2FuY2VsX2FsbF90ZHIKPj4gYW1kZ3B1X2pvYl90aW1lZG91dC0+ZHJtX2Rl
+dl9pc191bnBsdWdnZWQKPj4gd2lsbCByZXR1cm4gdHJ1ZSBhbmQgc28gaXQgd2lsbCByZXR1cm4g
+ZWFybHkuIFRvIG1ha2UgaXQgd2F0ZXIgcHJvb2YgdGlnaHQKPj4gYWdhaW5zdCByYWNlCj4+IGkg
+Y2FuIHN3aXRjaCBmcm9tIGRybV9kZXZfaXNfdW5wbHVnZ2VkIHRvIGRybV9kZXZfZW50ZXIvZXhp
+dAo+IAo+IEhtIHRoYXQncyBjb25mdXNpbmcuIFlvdSBkbyBhIHdvcmtfY2FuY2VsX3N5bmMsIHNv
+IHRoYXQgYXQgbGVhc3QgbG9va3MKPiBsaWtlICJ0ZHIgd29yayBtdXN0IG5vdCBydW4gYWZ0ZXIg
+dGhpcyBwb2ludCIKPiAKPiBJZiB5b3Ugb25seSByZWx5IG9uIGRybV9kZXZfZW50ZXIvZXhpdCBj
+aGVjayB3aXRoIHRoZSB0ZHIgd29yaywgdGhlbgo+IHRoZXJlJ3Mgbm8gbmVlZCB0byBjYW5jZWwg
+YW55dGhpbmcuCj4gCj4gRm9yIHJhY2UgZnJlZSBjYW5jZWxfd29ya19zeW5jIHlvdSBuZWVkOgo+
+IDEuIG1ha2Ugc3VyZSB3aGF0ZXZlciBpcyBjYWxsaW5nIHNjaGVkdWxlX3dvcmsgaXMgZ3VhcmFu
+dGVlZCB0byBubyBsb25nZXIKPiBjYWxsIHNjaGVkdWxlX3dvcmsuCj4gMi4gY2FsbCBjYW5jZWxf
+d29ya19zeW5jCj4gCj4gQW55dGhpbmcgZWxzZSBpcyBjYXJnby1jdWx0ZWQgd29yayBjbGVhbnVw
+Ogo+IAo+IC0gMS4gd2l0aG91dCAyLiBtZWFucyBpZiBhIHdvcmsgZ290IHNjaGVkdWxlZCByaWdo
+dCBiZWZvcmUgaXQnbGwgc3RpbGwgYmUKPiAgIGEgcHJvYmxlbS4KPiAtIDIuIHdpdGhvdXQgMS4g
+bWVhbnMgYSBzY2hlZHVsZV93b3JrIHJpZ2h0IGFmdGVyIG1ha2VzIHlvdSBjYWxsaW5nCj4gICBj
+YW5jZWxfd29ya19zeW5jIHBvaW50bGVzcy4KClRoaXMgaXMgc291bmQgYWR2aWNlIGFuZCBJIGRp
+ZCBzb21ldGhpbmcgc2ltaWxhciBmb3IgU0FTIG92ZXIgYSBkZWNhZGUKYWdvIHdoZXJlIGFuIGV4
+cGFuZGVyIGNvdWxkIGJlIGRpc2Nvbm5lY3RlZCBmcm9tIHRoZSBkb21haW4gdmlhIHdoaWNoCm1h
+bnkgSU9zIGFyZSBmbHlpbmcgdG8gZW5kIGRldmljZXMuCgpZb3UgbmVlZCBhIHNtYWxsIHRpbnkg
+RFJNIGZ1bmN0aW9uIHdoaWNoIGxvdy1sZXZlbCBkcml2ZXJzIChzdWNoIGFzIGFtZGdwdSkKY2Fs
+bCBpbiBvcmRlciB0byB0ZWxsIERSTSB0aGF0IHRoaXMgZGV2aWNlIGlzIG5vdCBhY2NlcHRpbmcg
+Y29tbWFuZHMKYW55IG1vcmUgKHNldHMgYSBmbGFnKSBhbmQgc3RhcnRzIGEgdGhyZWFkIHRvIGNs
+ZWFuIHVwIGNvbW1hbmRzCndoaWNoIGFyZSAiZG9uZSIgb3IgImluY29taW5nIi4gQXQgdGhlIHNh
+bWUgdGltZSwgdGhlIGxvdy1sZXZlbCBkcml2ZXIKcmV0dXJucyBjb21tYW5kcyB3aGljaCBhcmUg
+cGVuZGluZyBpbiB0aGUgaGFyZHdhcmUgYmFjayBvdXQgdG8KRFJNICh0aHVzIHRob3NlIGNvbW1h
+bmRzIGJlY29tZSAiZG9uZSIgZnJvbSAicGVuZGluZyIpLCBhbmQKRFJNIGNsZWFucyB0aGVtIHVw
+LigqKQoKVGhlIHBvaW50IGlzIHRoYXQgeW91J3JlIG5vdCBidWJibGluZyB1cCB0aGUgZXJyb3Is
+IGJ1dApkaXJlY3RseSBub3RpZnlpbmcgdGhlIGhpZ2hlc3QgbGV2ZWwgb2YgdXBwZXIgbGF5ZXIg
+dG8gaG9sZCBvZmYsCndoaWxlIHlvdSdyZSBjbGVhbmluZyB1cCBhbGwgaW5jb21pbmcgYW5kIHBl
+bmRpbmcgY29tbWFuZHMuCgpEZXBlbmRpbmcgb24gdGhlIHNpdHVhdGlvbiwgY2FzZSAxIGFib3Zl
+IGhhcyB0d28gc3ViLWNhc2VzOgoKYSkgdGhlIGRldmljZSB3aWxsIG5vdCBjb21lIGJhY2stLXRo
+ZW4gY2FuY2VsIGFueSBuZXcgd29yawogICBiYWNrIG91dCB0byB0aGUgYXBwbGljYXRpb24gY2xp
+ZW50LCBvcgpiKSB0aGUgZGV2aWNlIG1heSBjb21lIGJhY2sgYWdhaW4sIGkuZS4gaXQgaXMgYmVp
+bmcgcmVzZXQsCiAgIHRoZW4geW91IGNhbiBxdWV1ZSB1cCB3b3JrLCBhc3N1bWluZyB0aGUgZGV2
+aWNlIHdpbGwKICAgY29tZSBiYWNrIG9uIHN1Y2Nlc3NmdWxseSBhbmQgeW91J2QgYmUgYWJsZSB0
+byBzZW5kCiAgIHRoZSBpbmNvbWluZyByZXF1ZXN0cyBkb3duIHRvIGl0LiBPciBjYW5jZWwgZXZl
+cnl0aGluZwogICBhbmQgbGV0IHRoZSBhcHBsaWNhdGlvbiBjbGllbnQgZG8gdGhlIHF1ZXVlaW5n
+IGFuZAogICByZXN1Ym1pc3Npb24sIGxpa2UgaW4gYSkuIFRoZSBsYXR0ZXIgd2lsbCBub3Qgd29y
+ayB3aGVuIHRoaXMKICAgcmVzdWJtaXNzaW9uIChhbmQgZXJyb3IgcmVjb3ZlcnkpIGlzIGRvbmUg
+d2l0aG91dAogICB0aGUga25vd2xlZGdlIG9mIHRoZSBhcHBsaWNhdGlvbiBjbGllbnQsIGZvciBp
+bnN0YW5jZQogICBjb21tdW5pY2F0aW9uIG9yIHBhcml0eSBlcnJvcnMsIHByb3RvY29sIHJldHJp
+ZXMsIGV0Yy4KCigqKSBJJ3ZlIHNvbWUgd29yayBjb21pbmcgaW4sIGluIHRoZSBzY2hlZHVsZXIs
+IHdoaWNoIGNvdWxkIG1ha2UKdGhpcyBoYW5kbGluZyBlYXNpZXIsIG9yIGF0IGxlYXN0IHNldCBh
+IG1lY2hhbmlzbSBieSB3aGljaAp0aGlzIGNvdWxkIGJlIG1hZGUgZWFzaWVyLgoKUmVnYXJkcywK
+THViZW4KCj4gCj4gU28gZWl0aGVyIGJvdGggb3Igbm90aGluZy4KPiAtRGFuaWVsCj4gCj4+Cj4+
+IEFuZHJleQo+Pgo+Pgo+Pj4gLURhbmllbAo+Pj4KPj4+PiBBbmRyZXkKPj4+Pgo+Pj4+Cj4+Pj4+
+PiArCj4+Pj4+PiAgICBzdGF0aWMgdm9pZAo+Pj4+Pj4gICAgYW1kZ3B1X3BjaV9yZW1vdmUoc3Ry
+dWN0IHBjaV9kZXYgKnBkZXYpCj4+Pj4+PiAgICB7Cj4+Pj4+PiAgICAJc3RydWN0IGRybV9kZXZp
+Y2UgKmRldiA9IHBjaV9nZXRfZHJ2ZGF0YShwZGV2KTsKPj4+Pj4+ICsJc3RydWN0IGFtZGdwdV9k
+ZXZpY2UgKmFkZXYgPSBkZXYtPmRldl9wcml2YXRlOwo+Pj4+Pj4gICAgCWRybV9kZXZfdW5wbHVn
+KGRldik7Cj4+Pj4+PiArCWFtZGdwdV9jYW5jZWxfYWxsX3RkcihhZGV2KTsKPj4+Pj4+ICAgIAl0
+dG1fYm9fdW5tYXBfdmlydHVhbF9hZGRyZXNzX3NwYWNlKCZhZGV2LT5tbWFuLmJkZXYpOwo+Pj4+
+Pj4gICAgCWFtZGdwdV9kcml2ZXJfdW5sb2FkX2ttcyhkZXYpOwo+Pj4+Pj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9qb2IuYyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9hbWQvYW1kZ3B1L2FtZGdwdV9qb2IuYwo+Pj4+Pj4gaW5kZXggNDcyMDcxOC4uODdmZjBjMCAx
+MDA2NDQKPj4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9qb2Iu
+Ywo+Pj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2pvYi5jCj4+
+Pj4+PiBAQCAtMjgsNiArMjgsOCBAQAo+Pj4+Pj4gICAgI2luY2x1ZGUgImFtZGdwdS5oIgo+Pj4+
+Pj4gICAgI2luY2x1ZGUgImFtZGdwdV90cmFjZS5oIgo+Pj4+Pj4gKyNpbmNsdWRlIDxkcm0vZHJt
+X2Rydi5oPgo+Pj4+Pj4gKwo+Pj4+Pj4gICAgc3RhdGljIHZvaWQgYW1kZ3B1X2pvYl90aW1lZG91
+dChzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqc19qb2IpCj4+Pj4+PiAgICB7Cj4+Pj4+PiAgICAJc3Ry
+dWN0IGFtZGdwdV9yaW5nICpyaW5nID0gdG9fYW1kZ3B1X3Jpbmcoc19qb2ItPnNjaGVkKTsKPj4+
+Pj4+IEBAIC0zNyw2ICszOSwxMiBAQCBzdGF0aWMgdm9pZCBhbWRncHVfam9iX3RpbWVkb3V0KHN0
+cnVjdCBkcm1fc2NoZWRfam9iICpzX2pvYikKPj4+Pj4+ICAgIAltZW1zZXQoJnRpLCAwLCBzaXpl
+b2Yoc3RydWN0IGFtZGdwdV90YXNrX2luZm8pKTsKPj4+Pj4+ICsJaWYgKGRybV9kZXZfaXNfdW5w
+bHVnZ2VkKGFkZXYtPmRkZXYpKSB7Cj4+Pj4+PiArCQlEUk1fSU5GTygicmluZyAlcyB0aW1lb3V0
+LCBidXQgZGV2aWNlIHVucGx1Z2dlZCwgc2tpcHBpbmcuXG4iLAo+Pj4+Pj4gKwkJCQkJICBzX2pv
+Yi0+c2NoZWQtPm5hbWUpOwo+Pj4+Pj4gKwkJcmV0dXJuOwo+Pj4+Pj4gKwl9Cj4+Pj4+PiArCj4+
+Pj4+PiAgICAJaWYgKGFtZGdwdV9yaW5nX3NvZnRfcmVjb3ZlcnkocmluZywgam9iLT52bWlkLCBz
+X2pvYi0+c19mZW5jZS0+cGFyZW50KSkgewo+Pj4+Pj4gICAgCQlEUk1fRVJST1IoInJpbmcgJXMg
+dGltZW91dCwgYnV0IHNvZnQgcmVjb3ZlcmVkXG4iLAo+Pj4+Pj4gICAgCQkJICBzX2pvYi0+c2No
+ZWQtPm5hbWUpOwo+Pj4+Pj4gLS0gCj4+Pj4+PiAyLjcuNAo+Pj4+Pj4KPiAKCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
