@@ -1,52 +1,112 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5942B8D7D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 440312B8D2C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D30586E59F;
-	Thu, 19 Nov 2020 08:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CC076E52F;
+	Thu, 19 Nov 2020 08:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8045789CCB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 22:01:29 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-180-nUHV_53HOIKmbqbZ2EyqFg-1; Wed, 18 Nov 2020 22:01:25 +0000
-X-MC-Unique: nUHV_53HOIKmbqbZ2EyqFg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 18 Nov 2020 22:01:25 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Wed, 18 Nov 2020 22:01:25 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Thomas Zimmermann' <tzimmermann@suse.de>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: RE: Linux 5.10-rc4
-Thread-Topic: Linux 5.10-rc4
-Thread-Index: AQHWu7P6i7HOJgcGCEellKywj802qKnNzjYQgAB+qGeAACacEA==
-Date: Wed, 18 Nov 2020 22:01:24 +0000
-Message-ID: <f7be660da595411ab60aaa4b76008769@AcuMS.aculab.com>
-References: <CAHk-=wjFfAktnadOPb_iV5nKh=V5Am1sG-gciYveswRtuEkrLQ@mail.gmail.com>
- <692820a49ded436591b5fe3a18c68a5e@AcuMS.aculab.com>
- <CAHk-=wgQY7k_3NVCbaSmiJyLiAV_1TgwLk-d4QRMHMWqM5Oo_w@mail.gmail.com>
- <0a10da3d-085f-c7a7-0053-dc1e9ea871ed@suse.de>
-In-Reply-To: <0a10da3d-085f-c7a7-0053-dc1e9ea871ed@suse.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2054.outbound.protection.outlook.com [40.107.243.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B54C6E4D2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 23:48:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c1LxhrwpAobqcyz/aMTamxGuQZnR5gJA4bzpgCJSfQ11ER7CLNlZNw/9035nwy9UMvQbkSQLcZiZFKHSc13CT0vb54WyW3pnMZl700Ge/6omPjJ9SlSPGBSLMj6aQ+ok3AU+A8UTCdm1J2v03KYEwvvu1FSCbVf4WW2yPRezsVIZjk+d4kLUa9xljD/yEj6QWRXTwG67MaE39TLc2reKlnBspPCgJFp5D4JyFC+SXroeQ9fi7y7mLWEpXzWYZCzZBP/KcfSj3kKIhN5tDMmQBYa8eiLwJ9PedC6jCx30JkyvMvJYKtwEkeHWj3q+yF1YRC/sqeCRobt67aUxYl+qUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c6t0TsiSJl+7WN6xGdp6MVeBR0eM9sX9FKauYUnoMMM=;
+ b=C/VLpG1Kk40DlzpzYY5hHg8ANk+r8rBtqU2dlnaauIupS4b5LDQza2Gr9OazAshqFVJHCVi3nIOoly1RhdD2P8DOQad17IJ5eyQtu7r9bD65bSJi4aBxj3mVgBuAIYRCextWegHI+hcki4baYOz8Ef+b6HUGPFmxu+LTR9KJAie36bgUTmQ+AJ4SdqwWAx5V09fu9iqVjvfOOIK+3vbqCsI/EPxVFM23cPwBWdhKLEPL+fOu774poDlHMRTe1EgoNjNp+tvy/ZhTInwZNg9JktBw0EoN6POyfEXjMMa4QERgSmT9V8z7aYTLAcyue+U2Pqn5ab536X9OE7zp5aUTDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c6t0TsiSJl+7WN6xGdp6MVeBR0eM9sX9FKauYUnoMMM=;
+ b=K0tviN4nOyrJQ7Za7TWpYgUMlTkQG1xnNPa4BjljH6KqYY51N417qROlInO4Sv8SrAh8BZqo+3xkxVsZvTSoVcMD/VI5D2Ir54bpBnMepvF41FgMweMFiXo/WSrGnV+N0hfGPB+knQH0H1MsTHvz7ESFvtpfRTkRnljsAJxAUkM=
+Received: from SN4PR0801CA0021.namprd08.prod.outlook.com
+ (2603:10b6:803:29::31) by BN7PR02MB4020.namprd02.prod.outlook.com
+ (2603:10b6:406:f1::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Wed, 18 Nov
+ 2020 23:48:16 +0000
+Received: from SN1NAM02FT064.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:29:cafe::e6) by SN4PR0801CA0021.outlook.office365.com
+ (2603:10b6:803:29::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Wed, 18 Nov 2020 23:48:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT064.mail.protection.outlook.com (10.152.72.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Wed, 18 Nov 2020 23:48:16 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Wed, 18 Nov 2020 15:48:11 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Wed, 18 Nov 2020 15:48:11 -0800
+Envelope-to: michal.simek@xilinx.com, derek.kiernan@xilinx.com,
+ dragan.cvetic@xilinx.com, rajan.vaja@xilinx.com,
+ tejas.patel@xilinx.com, manish.narani@xilinx.com,
+ ravi.patel@xilinx.com, wendy.liang@xilinx.com, robh+dt@kernel.org,
+ arnd@arndb.de, gregkh@linuxfoundation.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Received: from [172.19.2.167] (port=36324 helo=xsjjliang50.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <wendy.liang@xilinx.com>)
+ id 1kfXBL-0000Wz-3e; Wed, 18 Nov 2020 15:48:11 -0800
+From: Wendy Liang <wendy.liang@xilinx.com>
+To: <robh+dt@kernel.org>, <michal.simek@xilinx.com>, <arnd@arndb.de>,
+ <gregkh@linuxfoundation.org>, <sumit.semwal@linaro.org>,
+ <christian.koenig@amd.com>, <derek.kiernan@xilinx.com>,
+ <dragan.cvetic@xilinx.com>, <rajan.vaja@xilinx.com>,
+ <tejas.patel@xilinx.com>, <manish.narani@xilinx.com>, <ravi.patel@xilinx.com>
+Subject: [PATCH v2 0/9] Xilinx AI engine kernel driver
+Date: Wed, 18 Nov 2020 15:48:00 -0800
+Message-ID: <1605743289-26575-1-git-send-email-wendy.liang@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3039bffa-f1d0-4a75-0e51-08d88c1c6ba8
+X-MS-TrafficTypeDiagnostic: BN7PR02MB4020:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB40206E206E1C5CE1C7572D09B0E10@BN7PR02MB4020.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:308;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VmcPcKoysL5kRgqIB8652nltzK1BdXfhajnXZBPJ1PLZ+HF3dP+T6Csrj2N+iHq7OX23pTDZXEHfpZuXaqO6DKlSSyXc0YtOSrKszhXgXeGxeMC5KHA+RcUJuNoCaBaE89N0WLW5uYoo6M5iMD8XQ38OrOauyCNn9gVahMyImMcmglyR3cxdNTpxB0HONwlr/5oCKlfz8NNQc9/Mbv7BeIUkUnusVSh6ptA8rfuel/+yq4B1snDdBHf0kuzOfvNkQGqz7hUFT7/olnZ4/Oo6L9LO9Vc7prjiLvP/jyJtT17LEDvleNBMpSrafZWX1c8J8yoo1InS+4mOXXuo/Sn9Q/SsbeGM6KLIJ9BHZEvYVNcq3Dijf1EATWdjSAbJHVYt/BMR+9PWr+GhNQ0w/ZOF/h3RHtyiOFtdXRzhZyLxvsTWcL1T1zjjPs3vJnbCWsH28hnWp696VMYmFnTdFuI5FBxasBKFFgPNBNHKVXUAFNDG+as/hMy32PJSgreF46zKXJcFIvN6KByjVkgyMhUXdw==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(136003)(39860400002)(376002)(46966005)(110136005)(44832011)(6636002)(966005)(6666004)(8936002)(2616005)(47076004)(54906003)(36756003)(7636003)(478600001)(186003)(921005)(83380400001)(82740400003)(70206006)(36906005)(107886003)(9786002)(4326008)(8676002)(426003)(2906002)(336012)(82310400003)(316002)(5660300002)(7416002)(356005)(26005)(7696005)(70586007)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 23:48:16.5274 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3039bffa-f1d0-4a75-0e51-08d88c1c6ba8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT064.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB4020
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,136 +120,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang, Ray" <ray.huang@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Wendy Liang <wendy.liang@xilinx.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGhvbWFzIFppbW1lcm1hbm4NCj4gU2VudDogMTggTm92ZW1iZXIgMjAyMCAxOTozNw0K
-PiANCj4gSGkNCj4gDQo+IEFtIDE4LjExLjIwIHVtIDE5OjEwIHNjaHJpZWIgTGludXMgVG9ydmFs
-ZHM6DQo+ID4gT24gV2VkLCBOb3YgMTgsIDIwMjAgYXQgNDoxMiBBTSBEYXZpZCBMYWlnaHQgPERh
-dmlkLkxhaWdodEBhY3VsYWIuY29tPiB3cm90ZToNCj4gPj4NCj4gPj4gSSd2ZSBnb3QgdGhlICdz
-cGxhdCcgYmVsb3cgZHVyaW5nIGJvb3QuDQo+ID4+IFRoaXMgaXMgYW4gOC1jb3JlIEMyNzU4IEF0
-b20gY3B1IHVzaW5nIHRoZSBvbi1ib2FyZC9jcHUgZ3JhcGhpY3MuDQo+ID4+IFVzZXIgc3BhY2Ug
-aXMgVWJ1bnR1IDIwLjA0Lg0KPiA+Pg0KPiA+PiBBZGRpdGlvbmFsbHkgdGhlIFggZGlzcGxheSBo
-YXMgYWxsIHRoZSBjb2xvdXJzIGFuZCBhbGlnbm1lbnQgc2xpZ2h0bHkNCj4gPj4gbWVzc2VkIHVw
-Lg0KPiA+PiA1LjkuMCB3YXMgb2suDQo+ID4+IEknbSBqdXN0IGd1ZXNzaW5nIHRoZSB0d28gaXNz
-dWVzIGFyZSByZWxhdGVkLg0KPiA+DQo+ID4gU291bmRzIGxpa2VseS4gIEJ1dCBpdCB3b3VsZCBi
-ZSBsb3ZlbHkgaWYgeW91IGNvdWxkIGJpc2VjdCB3aGVuDQo+ID4gZXhhY3RseSB0aGUgcHJvYmxl
-bShzKSBzdGFydGVkIHRvIGJvdGggdmVyaWZ5IHRoYXQsIGFuZCBqdXN0IHRvDQo+ID4gcGlucG9p
-bnQgdGhlIGV4YWN0IGNoYW5nZS4uDQoNCkkgZG9uJ3QgcXVpdGUgdW5kZXJzdGFuZCB3aGF0ICdn
-aXQgYmlzZWN0JyBkaWQuDQpJIHdhcyBiaXNlY3RpbmcgYmV0d2VlbiB2NS45IGFuZCB2NS4xMC1y
-YzEgYnV0IGl0IHN1ZGRlbmx5IHN0YXJ0ZWQNCmdlbmVyYXRpbmcgdjUuOS4wLXJjNSsga2VybmVs
-cy4NCg0KVGhlIGlkZW50aWZpZWQgY29tbWl0IHdhcyAxM2E4ZjQ2ZDgwMyBkcm0vdHRtOiBtb3Zl
-IGdob3N0IG9iamVjdCBjcmVhdGVkLg0KKHJldHlwZWQgLSBob3BlIGl0IGlzIHJpZ2h0KS4NCkJ1
-dCB0aGUgZGlmZiB0byB0aGF0IGxhc3QgJ2dvb2QnIGNvbW1pdCBpcyBtYXNzaXZlLg0KDQpTbyBJ
-IGRvbid0IGtub3cgaWYgdGhhdCBpcyBhbnl3aGVyZSBuZWFyIHJpZ2h0Lg0KDQoJRGF2aWQNCg0K
-PiA+DQo+ID4gSSdtIGFkZGluZyBUaG9tYXMgWmltbWVybWFubiB0byB0aGUgY2MsIGJlY2F1c2Ug
-aGUgZGlkIHRoYXQgImRybS9hc3Q6DQo+ID4gUHJvZ3JhbSBkaXNwbGF5IG1vZGUgaW4gQ1JUQydz
-IGF0b21pY19lbmFibGUiIHdoaWNoIGxvb2tzIHJlbGV2YW50IGluDQo+ID4gdGhhdCBpdCdzIHJp
-Z2h0IGluIHRoYXQgY2FsbC1jaGFpbi4NCj4gPg0KPiA+IERpZCBzb21lIGluaXRpYWxpemF0aW9u
-IHBlcmhhcHMgZ2V0IG92ZXJsb29rZWQ/DQo+ID4NCj4gPiBBbmQgRGF2ZSBhbmQgRGFuaWVsIGFu
-ZCB0aGUgZHJtIGxpc3QgY2MnZCBhcyB3ZWxsLi4NCj4gPg0KPiA+IEZ1bGwgc3BsYXQgbGVmdCBx
-dW90ZWQgYmVsb3cgZm9yIG5ldyBwZW9wbGUgYW5kIGxpc3QuDQo+ID4NCj4gPiAgICAgICAgICAg
-ICAgTGludXMNCj4gPg0KPiA+PiBbICAgMjAuODA5ODkxXSBXQVJOSU5HOiBDUFU6IDAgUElEOiA5
-NzMgYXQgZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYzoyODQNCj4gZHJtX2dl
-bV92cmFtX29mZnNldCsweDM1LzB4NDAgW2RybV92cmFtX2hlbHBlcl0NCj4gDQo+IFRoYXQgbGlu
-ZSBpcyBhdCBbMV0sIHdoaWNoIGNvbWVzIGZyb20NCj4gDQo+ICAgNDY2NDJhN2Q0ZDgwICgiZHJt
-L3ZyYW0taGVscGVyOiBkb24ndCB1c2UgdHRtIGJvLT5vZmZzZXQgdjQiKQ0KPiANCj4gQnV0IHRo
-ZSBwYXRjaCB3YXMgbWVyZ2VkIGluIDUuOS1yYzEsIHNvIGl0J3MgcHJvYmFibHkgc29tZXRoaW5n
-IGVsc2UuDQo+IA0KPiBXZSd2ZSBoYWQgYSBsb3Qgb2YgVFRNLXJlbGF0ZWQgY2hhbmdlcyByZWNl
-bnRseSwgc28gbXkgYmVzdCBndWVzcyBpcw0KPiB0aGF0IGl0J3Mgc29tZXRoaW5nIGluIFRUTSB3
-aXRoIEJPIGluaXRpYWxpemF0aW9uLg0KPiANCj4gIEZyb20gc29tZSBncmVwcGluZywgaXQgbG9v
-a3MgbGlrZSB3ZSBoYXZlIHRvIGNhbGwgdHRtX2JvX21lbV9zcGFjZSgpIHRvDQo+IGZpbGwgbW1f
-bm9kZSAoaS5lLiwgdGhlIHBvaW50ZXIgdGhhdCBjYXVzZXMgdGhlIHdhcm5pbmcpLiBCdXQgSSBj
-YW5ub3QNCj4gZmluZCB3aGVyZSB2cmFtIGhlbHBlcnMgZG8gdGhpcy4gTWF5YmUgdGhhdCdzIGEg
-Z29vZCBzdGFydGluZyBwb2ludC4NCj4gDQo+IEknbSBhZGRpbmcgdGhlIFRUTSBkZXZzIHRvIGNj
-Lg0KPiANCj4gQmVzdCByZWdhcmRzDQo+IFRob21hcw0KPiANCj4gWzFdDQo+IGh0dHBzOi8vZ2l0
-Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90
-cmVlL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faA0KPiBlbHBlci5jP2g9djUuMTAtcmM0
-I24yODQNCj4gDQo+IA0KPiA+PiBbICAgMjAuODIxNTQzXSBNb2R1bGVzIGxpbmtlZCBpbjogbmxz
-X2lzbzg4NTlfMSBkbV9tdWx0aXBhdGggc2NzaV9kaF9yZGFjIHNjc2lfZGhfZW1jIHNjc2lfZGhf
-YWx1YQ0KPiBpcG1pX3NzaWYgaW50ZWxfcG93ZXJjbGFtcCBjb3JldGVtcCBrdm1faW50ZWwga3Zt
-IGpveWRldiBpbnB1dF9sZWRzIGlwbWlfc2kgaW50ZWxfY3N0YXRlIGlwbWlfZGV2aW50Zg0KPiBp
-cG1pX21zZ2hhbmRsZXIgbWFjX2hpZCBzY2hfZnFfY29kZWwgcGFycG9ydF9wYyBwcGRldiBscCBw
-YXJwb3J0IGlwX3RhYmxlcyB4X3RhYmxlcyBhdXRvZnM0IGJ0cmZzDQo+IGJsYWtlMmJfZ2VuZXJp
-YyB6c3RkX2NvbXByZXNzIHJhaWQxMCByYWlkNDU2IGFzeW5jX3JhaWQ2X3JlY292IGFzeW5jX21l
-bWNweSBhc3luY19wcSBhc3luY194b3INCj4gYXN5bmNfdHggbGliY3JjMzJjIHhvciByYWlkNl9w
-cSByYWlkMSByYWlkMCBtdWx0aXBhdGggbGluZWFyIGFzdCBkcm1fdnJhbV9oZWxwZXIgZHJtX2tt
-c19oZWxwZXINCj4gc3lzY29weWFyZWEgc3lzZmlsbHJlY3Qgc3lzaW1nYmx0IGZiX3N5c19mb3Bz
-IGNlYyBkcm1fdHRtX2hlbHBlciB0dG0gY3JjdDEwZGlmX3BjbG11bCBjcmMzMl9wY2xtdWwNCj4g
-Z2hhc2hfY2xtdWxuaV9pbnRlbCBncGlvX2ljaCBkcm0gYWVzbmlfaW50ZWwgaGlkX2dlbmVyaWMg
-Z2x1ZV9oZWxwZXIgY3J5cHRvX3NpbWQgaWdiIHVzYmhpZCBjcnlwdGQNCj4gYWhjaSBpMmNfaTgw
-MSBoaWQgbGliYWhjaSBpMmNfc21idXMgbHBjX2ljaCBkY2EgaTJjX2lzbXQgaTJjX2FsZ29fYml0
-DQo+ID4+IFsgICAyMC44ODc0NzddIENQVTogMCBQSUQ6IDk3MyBDb21tOiBnbm9tZS1zaGVsbCBO
-b3QgdGFpbnRlZCA1LjEwLjAtcmM0KyAjNzgNCj4gPj4gWyAgIDIwLjg5NDI3NF0gSGFyZHdhcmUg
-bmFtZTogU3VwZXJtaWNybyBBMVNBaS9BMVNSaSwgQklPUyAxLjFhIDA4LzI3LzIwMTUNCj4gPj4g
-WyAgIDIwLjkwMDg5Nl0gUklQOiAwMDEwOmRybV9nZW1fdnJhbV9vZmZzZXQrMHgzNS8weDQwIFtk
-cm1fdnJhbV9oZWxwZXJdDQo+ID4+IFsgICAyMC45MDczNDJdIENvZGU6IDAwIDQ4IDg5IGU1IDg1
-IGMwIDc0IDE3IDQ4IDgzIGJmIDc4IDAxIDAwIDAwIDAwIDc0IDE4IDQ4IDhiIDg3IDgwIDAxIDAw
-IDAwIDVkDQo+IDQ4IGMxIGUwIDBjIGMzIDBmIDBiIDQ4IGM3IGMwIGVkIGZmIGZmIGZmIDVkIGMz
-IDwwZj4gMGIgMzEgYzAgNWQgYzMgMGYgMWYgNDQgMDAgMDAgMGYgMWYgNDQgMDAgMDAgNTUNCj4g
-NDggOGIgODcgMTggMDYNCj4gPj4gWyAgIDIwLjkyNjEwMF0gUlNQOiAwMDE4OmZmZmY5ZjU5ODEx
-ZDNhNjggRUZMQUdTOiAwMDAxMDI0Ng0KPiA+PiBbICAgMjAuOTMxMzM5XSBSQVg6IDAwMDAwMDAw
-MDAwMDAwMDIgUkJYOiBmZmZmOGI0Njg2MWUyMGMwIFJDWDogZmZmZmZmZmZjMDMyZDYwMA0KPiA+
-PiBbICAgMjAuOTM4NDc5XSBSRFg6IGZmZmY4YjQ2OGY0N2EwMDAgUlNJOiBmZmZmOGI0Njg2MWUy
-MDAwIFJESTogZmZmZjhiNDY4ZjlhY2MwMA0KPiA+PiBbICAgMjAuOTQ1NjIyXSBSQlA6IGZmZmY5
-ZjU5ODExZDNhNjggUjA4OiAwMDAwMDAwMDAwMDAwMDQwIFIwOTogZmZmZjhiNDY4NjRjZTI4OA0K
-PiA+PiBbICAgMjAuOTUyNzY5XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDAgUjExOiAwMDAwMDAwMDAw
-MDAwMDAxIFIxMjogZmZmZjhiNDY4ZjQ3YTAwMA0KPiA+PiBbICAgMjAuOTU5OTE1XSBSMTM6IDAw
-MDAwMDAwMDAwMDAwMDAgUjE0OiAwMDAwMDAwMDAwMDAwMDAwIFIxNTogZmZmZjhiNDY4YWQyYmYw
-MA0KPiA+PiBbICAgMjAuOTY3MDU3XSBGUzogIDAwMDA3ZjViMzdhYzVjYzAoMDAwMCkgR1M6ZmZm
-ZjhiNDllZmMwMDAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAwMDAwMDAwDQo+ID4+IFsgICAyMC45
-NzUxNDldIENTOiAgMDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMN
-Cj4gPj4gWyAgIDIwLjk4MDkwNF0gQ1IyOiAwMDAwN2Y1YjNkMDkzZjAwIENSMzogMDAwMDAwMDEw
-MzQzODAwMCBDUjQ6IDAwMDAwMDAwMDAxMDA2ZjANCj4gPj4gWyAgIDIwLjk4ODA0N10gQ2FsbCBU
-cmFjZToNCj4gPj4gWyAgIDIwLjk5MDUwNl0gIGFzdF9jdXJzb3JfcGFnZV9mbGlwKzB4MjIvMHgx
-MDAgW2FzdF0NCj4gPj4gWyAgIDIwLjk5NTMxM10gIGFzdF9jdXJzb3JfcGxhbmVfaGVscGVyX2F0
-b21pY191cGRhdGUrMHg0Ni8weDcwIFthc3RdDQo+ID4+IFsgICAyMS4wMDE1MjRdICBkcm1fYXRv
-bWljX2hlbHBlcl9jb21taXRfcGxhbmVzKzB4YmQvMHgyMjAgW2RybV9rbXNfaGVscGVyXQ0KPiA+
-PiBbICAgMjEuMDA4MjQzXSAgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X3RhaWxfcnBtKzB4M2Ev
-MHg3MCBbZHJtX2ttc19oZWxwZXJdDQo+ID4+IFsgICAyMS4wMTUwNjJdICBjb21taXRfdGFpbCsw
-eDk5LzB4MTMwIFtkcm1fa21zX2hlbHBlcl0NCj4gPj4gWyAgIDIxLjAyMDA1MF0gIGRybV9hdG9t
-aWNfaGVscGVyX2NvbW1pdCsweDEyMy8weDE1MCBbZHJtX2ttc19oZWxwZXJdDQo+ID4+IFsgICAy
-MS4wMjYyNjldICBkcm1fYXRvbWljX2NvbW1pdCsweDRhLzB4NTAgW2RybV0NCj4gPj4gWyAgIDIx
-LjAzMDczN10gIGRybV9hdG9taWNfaGVscGVyX3VwZGF0ZV9wbGFuZSsweGU3LzB4MTQwIFtkcm1f
-a21zX2hlbHBlcl0NCj4gPj4gWyAgIDIxLjAzNzM4NF0gIF9fc2V0cGxhbmVfYXRvbWljKzB4Y2Mv
-MHgxMTAgW2RybV0NCj4gPj4gWyAgIDIxLjA0MTk1M10gIGRybV9tb2RlX2N1cnNvcl91bml2ZXJz
-YWwrMHgxM2UvMHgyNjAgW2RybV0NCj4gPj4gWyAgIDIxLjA0NzI5OV0gIGRybV9tb2RlX2N1cnNv
-cl9jb21tb24rMHhlZi8weDIyMCBbZHJtXQ0KPiA+PiBbICAgMjEuMDUyMjg3XSAgPyBhbGxvY19z
-ZXRfcHRlKzB4MTBkLzB4NmQwDQo+ID4+IFsgICAyMS4wNTYyNDRdICA/IGRybV9tb2RlX2N1cnNv
-cl9pb2N0bCsweDYwLzB4NjAgW2RybV0NCj4gPj4gWyAgIDIxLjA2MTI0Ml0gIGRybV9tb2RlX2N1
-cnNvcjJfaW9jdGwrMHhlLzB4MTAgW2RybV0NCj4gPj4gWyAgIDIxLjA2NjA2N10gIGRybV9pb2N0
-bF9rZXJuZWwrMHhhZS8weGYwIFtkcm1dDQo+ID4+IFsgICAyMS4wNzA0NTVdICBkcm1faW9jdGwr
-MHgyNDEvMHgzZjAgW2RybV0NCj4gPj4gWyAgIDIxLjA3NDQxNV0gID8gZHJtX21vZGVfY3Vyc29y
-X2lvY3RsKzB4NjAvMHg2MCBbZHJtXQ0KPiA+PiBbICAgMjEuMDc5NDAxXSAgX194NjRfc3lzX2lv
-Y3RsKzB4OTEvMHhjMA0KPiA+PiBbICAgMjEuMDgzMTY3XSAgZG9fc3lzY2FsbF82NCsweDM4LzB4
-OTANCj4gPj4gWyAgIDIxLjA4Njc1NV0gIGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsw
-eDQ0LzB4YTkNCj4gPj4gWyAgIDIxLjA5MTgxM10gUklQOiAwMDMzOjB4N2Y1YjNjZjEzNTBiDQo+
-ID4+IFsgICAyMS4wOTU0MDNdIENvZGU6IDBmIDFlIGZhIDQ4IDhiIDA1IDg1IDM5IDBkIDAwIDY0
-IGM3IDAwIDI2IDAwIDAwIDAwIDQ4IGM3IGMwIGZmIGZmIGZmIGZmIGMzIDY2DQo+IDBmIDFmIDQ0
-IDAwIDAwIGYzIDBmIDFlIGZhIGI4IDEwIDAwIDAwIDAwIDBmIDA1IDw0OD4gM2QgMDEgZjAgZmYg
-ZmYgNzMgMDEgYzMgNDggOGIgMGQgNTUgMzkgMGQgMDAgZjcNCj4gZDggNjQgODkgMDEgNDgNCj4g
-Pj4gWyAgIDIxLjExNDE1NF0gUlNQOiAwMDJiOjAwMDA3ZmZlZjE5NjY1ODggRUZMQUdTOiAwMDAw
-MDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDAxMA0KPiA+PiBbICAgMjEuMTIxNzMwXSBSQVg6
-IGZmZmZmZmZmZmZmZmZmZGEgUkJYOiAwMDAwN2ZmZWYxOTY2NWMwIFJDWDogMDAwMDdmNWIzY2Yx
-MzUwYg0KPiA+PiBbICAgMjEuMTI4ODcwXSBSRFg6IDAwMDA3ZmZlZjE5NjY1YzAgUlNJOiAwMDAw
-MDAwMGMwMjQ2NGJiIFJESTogMDAwMDAwMDAwMDAwMDAwOQ0KPiA+PiBbICAgMjEuMTM2MDEzXSBS
-QlA6IDAwMDAwMDAwYzAyNDY0YmIgUjA4OiAwMDAwMDAwMDAwMDAwMDQwIFIwOTogMDAwMDAwMDAw
-MDAwMDAwNA0KPiA+PiBbICAgMjEuMTQzMTU3XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDIgUjExOiAw
-MDAwMDAwMDAwMDAwMjQ2IFIxMjogMDAwMDU2MWVjOWQxMDA2MA0KPiA+PiBbICAgMjEuMTUwMjk1
-XSBSMTM6IDAwMDAwMDAwMDAwMDAwMDkgUjE0OiAwMDAwNTYxZWNhMmNjOWEwIFIxNTogMDAwMDAw
-MDAwMDAwMDA0MA0KPiANCj4gLS0NCj4gVGhvbWFzIFppbW1lcm1hbm4NCj4gR3JhcGhpY3MgRHJp
-dmVyIERldmVsb3Blcg0KPiBTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCj4g
-TWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQo+IChIUkIgMzY4MDksIEFH
-IE7DvHJuYmVyZykNCj4gR2VzY2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0KDQot
-DQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwg
-TWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2Fs
-ZXMpDQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+AI engine is the acceleration engine provided by Xilinx. These engines
+provide high compute density for vector-based algorithms, and flexible
+custom compute and data movement. It has core tiles for compute and
+shim tiles to interface the FPGA fabric.
+
+You can check the AI engine architecture document for more hardware details:
+https://www.xilinx.com/support/documentation/architecture-manuals/am009-versal-ai-engine.pdf
+
+This patch series adds a Linux kernel driver to manage the Xilinx AI
+engine array device and AI engine partitions (groups of AI engine tiles
+dedicated to an application).
+
+v2:
+* Fix dtschema check errors
+* Fix test bot warning on interrupt implementation. Removed set but
+  unused  varaible.
+* Fix compilation unused function warning of firmware change in case
+  ZynqMP firmware is not configured
+* There are other warning on ZynqMP firmware reported from testbot
+  which is not introduced by this patch set.
+  "[PATCH] firmware: xlnx-zynqmp: fix compilation warning" is submitted
+  for those fixes.
+
+Izhar Ameer Shaikh (1):
+  firmware: xilinx: Add IOCTL support for AIE ISR Clear
+
+Nishad Saraf (2):
+  misc: xilinx-ai-engine: Add support to request device management
+    services
+  misc: xilinx-ai-engine: Add support for servicing error interrupts
+
+Wendy Liang (6):
+  dt-binding: soc: xilinx: ai-engine: Add AI engine binding
+  misc: Add Xilinx AI engine device driver
+  misc: xilinx-ai-engine: Implement AI engine cleanup sequence
+  misc: xilinx-ai-engine: expose AI engine tile memories to userspace
+  misc: xilinx-ai-engine: add setting shim dma bd operation
+  misc: xilinx-ai-engine: add request and release tiles
+
+ .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 126 ++++
+ MAINTAINERS                                        |   8 +
+ drivers/firmware/xilinx/zynqmp.c                   |  14 +
+ drivers/misc/Kconfig                               |  12 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/xilinx-ai-engine/Makefile             |  16 +
+ drivers/misc/xilinx-ai-engine/ai-engine-aie.c      | 608 +++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-clock.c    | 244 ++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dev.c      | 492 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dma.c      | 481 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-internal.h | 519 ++++++++++++++++
+ .../misc/xilinx-ai-engine/ai-engine-interrupt.c    | 659 +++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-mem.c      | 274 +++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-part.c     | 635 ++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-res.c      | 219 +++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-reset.c    | 159 +++++
+ include/linux/firmware/xlnx-zynqmp.h               |   8 +
+ include/uapi/linux/xlnx-ai-engine.h                | 236 ++++++++
+ 18 files changed, 4711 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+ create mode 100644 drivers/misc/xilinx-ai-engine/Makefile
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-aie.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-clock.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dev.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dma.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-internal.h
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-interrupt.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-mem.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-part.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-res.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-reset.c
+ create mode 100644 include/uapi/linux/xlnx-ai-engine.h
+
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
