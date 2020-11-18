@@ -1,67 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E16B32B8D1C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F132B8D7F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B18B6E50B;
-	Thu, 19 Nov 2020 08:31:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3503D8928B;
+	Thu, 19 Nov 2020 08:34:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1E46E027
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:13:08 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 55B5110EF;
- Wed, 18 Nov 2020 04:13:07 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 18 Nov 2020 04:13:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm1; bh=HxCqBcf+qWY8PiWLGwUhkFtSWcBPC/bFzwgmA4UeiDs=; b=jWzpCF/5
- mdPFKFeYTaQN4WD5icVuwEsxmiLtPrE9feTPBEJciHoQv/Nf7urJVYMve+G52R7p
- SAr0p+K8vHtO1UN9KoQb9ebFya6Ap9vzTN+Lexxo45cXldosbQYvc7eb0QsGmoEF
- FtqkW5SFxLAJ21/DPMjD/biX/Nnvn+tEogH3y1j4BW4QP6vAQi/YPywSR7JG0G5B
- uBTd9xcYuUX9oHb8cae04RHMVZO7RjXthmzT5hOXT6AlrpWtpmFNFPA/v3QsEE9M
- V7gjQB+LO1GeVD0+rw2PR4l6ou3eE9xRgLIV7ntel/mW/PmEBSSvuCA6fOOdLm1y
- fanT4Bi1kwY+Bw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=HxCqBcf+qWY8PiWLGwUhkFtSWcBPC
- /bFzwgmA4UeiDs=; b=G3WCUePOziJ1cYEnw4kmY5LQXi0CpgZbtPbANCtuZrewK
- D7Y1foTea4DLXVvN483oJNaZ6mb01/pFQDTw8sgt2vAkhbEaVkiMTbQtxO5ybEcq
- qk6jEDv5iJO5ZvkaiAUKJr1ZMxDj2QGQqcer20ylQG3jrsztS/7jjhBWik7Fa0/v
- fVycI+rXV1HwrqUvJ8VEWYMyaLHZ1MbdCp9pi4RdrdYs/qM3jzaoiJ6KMkZ0Zg3p
- VfyeGx2KQzRcgAAWJFFzN9eklzNcMw/zH3NNsRgt5XT4YnorT/kitmm0Ww9C+Afz
- OG5f7yhtQQMHt+qGKtzQytVqKZqb/PhZt7hcfwSEQ==
-X-ME-Sender: <xms:oeW0X5eaB_swPmpYdSOmdrFvoOeNkh2yhW6i_MaNzHsC3HkiK3GPPg>
- <xme:oeW0X3OYSnR99xKciBKc5JwGnfjuYGkRz7sQ5Fy0V8vsOpo3-Rznrhe4wkznUFDam
- sR-RAGrp-QMTrIpsoI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefhedgtdefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
- tfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvg
- hrnhepgeehvddvffelveeiuefggfeiueduvdfhfeeuhffgleejleeghfdvgedtveegleek
- necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
- hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oeW0XyiTHsQUErWuGiIWPLYBdcmfJNd03EgbKrxnk6oUrsJRPoH1hg>
- <xmx:oeW0Xy8E_pb7vPSEcKrXlIx7DIHrYfTydvSodlIJU1fAhCHIPtc9Xw>
- <xmx:oeW0X1vGgVsoonyyOBIM8cS6KOuLnFVe51o7KtATmiZikcgEBNxHnQ>
- <xmx:ouW0X5jT_COYKzkhnVuYDpNtwnrafkpv9FVgWnviqgnhYPNMil5jgg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A2699328005E;
- Wed, 18 Nov 2020 04:13:04 -0500 (EST)
-Date: Wed, 18 Nov 2020 10:13:03 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: arm@kernel.org
-Subject: [GIT PULL] Allwinner MBUS and DMA-ops rework
-Message-ID: <20201118091303.wa5npxyop3cdsczb@gilmour.lan>
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Wed, 18 Nov 2020 09:23:33 UTC
+Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 87D1C89AAE
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:23:33 +0000 (UTC)
+X-UUID: e40d2a85f990416ea17f906529bcf277-20201118
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=qfpE3TD0SXn2IdwIG4zbudRW/4wZoYJlExaUY6FckbM=; 
+ b=jGaw3LpG+D2ZJSq0ti/x1pZ2cREV4x5dTfwNc14vDBS3Nhkpzwf3BEqV2E8Oir6FmH79EoovD+NgdDIhs52XCnjxlE4jDmYhp1RsVITJjuTG1M8aOgP0QwjZssHw8dRuWwozmn0X+zk1gJcgprqenaskRAssgFfCN4lMyVKdts0=;
+X-UUID: e40d2a85f990416ea17f906529bcf277-20201118
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+ (envelope-from <stanley.chu@mediatek.com>)
+ (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 813261830; Wed, 18 Nov 2020 17:18:27 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Wed, 18 Nov 2020 17:18:24 +0800
+Received: from [172.21.77.33] (172.21.77.33) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 18 Nov 2020 17:18:24 +0800
+Message-ID: <1605691104.18082.3.camel@mtkswgap22>
+Subject: Re: [PATCH v3 05/11] dt-bindings: phy: convert phy-mtk-ufs.txt to
+ YAML schema
+From: Stanley Chu <stanley.chu@mediatek.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Date: Wed, 18 Nov 2020 17:18:24 +0800
+In-Reply-To: <20201118082126.42701-5-chunfeng.yun@mediatek.com>
+References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
+ <20201118082126.42701-5-chunfeng.yun@mediatek.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
+X-TM-SNTS-SMTP: 3661B6D048093FC12761A842A0EF53BC43F4169167C5DF3D9BA71DE7D2A9FEBD2000:8
+X-MTK: N
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,118 +57,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============2082354266=="
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Min Guo <min.guo@mediatek.com>,
+ devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kishon Vijay Abraham I <kishon@ti.com>,
+ Serge Semin <Sergey.Semin@baikalelectronics.ru>, Vinod Koul <vkoul@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, linux-mediatek@lists.infradead.org,
+ netdev@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2020-11-18 at 16:21 +0800, Chunfeng Yun wrote:
+> Convert phy-mtk-ufs.txt to YAML schema mediatek,ufs-phy.yaml
+> 
+> Cc: Stanley Chu <stanley.chu@mediatek.com>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
---===============2082354266==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lalwlgtk5ysq3sti"
-Content-Disposition: inline
-
-
---lalwlgtk5ysq3sti
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi Arnd, Olof,
-
-Here's the PR for the MBUS rework we discussed in the last couple of
-weeks, for what will become 5.11.
-
-As Arnd suggested, this is based on a PR sent to drm-misc-fixes to merge
-the initial fix for a probe error in drm/sun4i due to
-dma_direct_set_offset.
-
-Thanks!
-Maxime
-
-The following changes since commit 957a1ea3599210e9996777a734ea5284eaef75c7:
-
-  drm/sun4i: backend: Fix probe failure with multiple backends (2020-11-18 09:01:30 +0100)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/sunxi-rework-mbus
-
-for you to fetch changes up to 16fee29b07358293f135759d9fdbf1267da57ebd:
-
-  dma-mapping: remove the dma_direct_set_offset export (2020-11-18 09:11:38 +0100)
-
-----------------------------------------------------------------
-Allwinner MBUS and DMA-ops rework
-
-The Allwinner SoCs have a number of high-bandwidth devices connected to
-a memory bus with a different RAM mapping than the CPU.
-
-This was addressed before through drivers setting the DMA offsets
-directly, and subsequently changed to calls to dma_direct_set_offset.
-However that wasn't really meant to be exported to modules (and thus
-drivers). The duplicated code also led to small inconsistencies across
-drivers in how we dealt with DT backward compatibility.
-
-Move all that DMA setup code into a platform bus notifier to share that
-code and remove the export on dma_direct_set_offset.
-
-----------------------------------------------------------------
-Christoph Hellwig (1):
-      dma-mapping: remove the dma_direct_set_offset export
-
-Maxime Ripard (6):
-      soc: sunxi: Deal with the MBUS DMA offsets in a central place
-      drm/sun4i: backend: Remove the MBUS quirks
-      media: sun4i: Remove the MBUS quirks
-      media: sun6i: Remove the MBUS quirks
-      media: cedrus: Remove the MBUS quirks
-      media: sun8i-di: Remove the call to of_dma_configure
-
- arch/arm/mach-keystone/keystone.c                  |   2 +-
- arch/arm/mach-omap1/usb.c                          |   2 +-
- arch/sh/drivers/pci/pcie-sh7786.c                  |   2 +-
- arch/x86/pci/sta2x11-fixup.c                       |   3 +-
- drivers/gpu/drm/sun4i/sun4i_backend.c              |  19 ---
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |  27 -----
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c |  17 ---
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   |   4 -
- drivers/soc/sunxi/Kconfig                          |   8 ++
- drivers/soc/sunxi/Makefile                         |   1 +
- drivers/soc/sunxi/sunxi_mbus.c                     | 132 +++++++++++++++++++++
- drivers/staging/media/sunxi/cedrus/cedrus.c        |   1 -
- drivers/staging/media/sunxi/cedrus/cedrus.h        |   3 -
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c     |  18 ---
- include/linux/dma-map-ops.h                        |   3 +
- include/linux/dma-mapping.h                        |   7 --
- kernel/dma/direct.c                                |   1 -
- 17 files changed, 149 insertions(+), 101 deletions(-)
- create mode 100644 drivers/soc/sunxi/sunxi_mbus.c
-
---lalwlgtk5ysq3sti
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7TlnwAKCRDj7w1vZxhR
-xW/OAP9j/UIJk6SYCXq1E6W8GSYLiROWK5uW51aD4dHLLxSGowD+PHk6VOGXKaJi
-U5+UUq9AZlbBURBTsPuOtei3oQI27AQ=
-=SHlM
------END PGP SIGNATURE-----
-
---lalwlgtk5ysq3sti--
-
---===============2082354266==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Reviewed-by: Stanley Chu <stanley.chu@mediatek.com>
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2082354266==--
