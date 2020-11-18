@@ -1,45 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843132B8D79
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A05932B8D75
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:33:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCF66E508;
-	Thu, 19 Nov 2020 08:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7FA6E57E;
+	Thu, 19 Nov 2020 08:33:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 846446E46B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 20:34:14 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id A5A35DEE80;
- Wed, 18 Nov 2020 20:31:30 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id wnFH9mvu5HhT; Wed, 18 Nov 2020 20:31:29 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 02C52DFAD9;
- Wed, 18 Nov 2020 20:31:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 218FZNQk0lq7; Wed, 18 Nov 2020 20:31:28 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 8E9A4DEE80;
- Wed, 18 Nov 2020 20:31:28 +0000 (UTC)
-Date: Wed, 18 Nov 2020 21:34:08 +0100
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v6 1/2] dt-bindings: display: himax,hx8837: Add Himax
- HX8837 bindings
-Message-ID: <20201118203408.GA6797@demiurge.local>
-References: <20201030030800.1036888-1-lkundrak@v3.sk>
- <20201030030800.1036888-2-lkundrak@v3.sk>
- <20201101163922.GA3971@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201101163922.GA3971@pendragon.ideasonboard.com>
+Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCEE26E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 21:00:47 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1605733249; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=me3QojmUqbAKGblIUNKSiP+s5RvLfBpixFUxOedx0SM=;
+ b=lrN6dXQG8AxsANZBKcgvgigJjUCOwiEisux+6doudsP03+Zy8b3W2hSd+LOCg7BeaTzxYqqE
+ H3EPnUMmOJ50i8lT+01OBnuluK/mi/3U7gsM3JxxxU31IK/tigql63hx85xU8U8aC9YIKJdB
+ MN8Ato4kQvWlGfVwhpU2F3+dMLs=
+X-Mailgun-Sending-Ip: 104.130.96.5
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5fb58b68e9b70886220d8f4c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Nov 2020 21:00:24
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A17A9C43461; Wed, 18 Nov 2020 21:00:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from displaysanity13-linux.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 279BAC433C6;
+ Wed, 18 Nov 2020 21:00:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 279BAC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=khsieh@codeaurora.org
+From: Kuogee Hsieh <khsieh@codeaurora.org>
+To: robdclark@gmail.com,
+	sean@poorly.run,
+	swboyd@chromium.org
+Subject: [PATCH v3] drm/msm/dp: fix connect/disconnect handled at irq_hpd
+Date: Wed, 18 Nov 2020 13:00:14 -0800
+Message-Id: <1605733214-14280-1-git-send-email-khsieh@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,211 +67,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: rnayak@codeaurora.org, airlied@linux.ie, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ abhinavk@codeaurora.org, khsieh@codeaurora.org, tanmay@codeaurora.org,
+ aravindh@codeaurora.org, freedreno@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 01, 2020 at 06:39:22PM +0200, Laurent Pinchart wrote:
-> Hi Lubomir,
-> 
-> Thank you for the patch.
+Some usb type-c dongle use irq_hpd request to perform device connection
+and disconnection. This patch add handling of both connection and
+disconnection are based on the state of hpd_state and sink_count.
 
-Thanks for the message. Some responses inline below.
+Changes in V2:
+-- add dp_display_handle_port_ststus_changed()
+-- fix kernel test robot complaint
 
-> On Fri, Oct 30, 2020 at 04:07:59AM +0100, Lubomir Rintel wrote:
-> > Himax HX8837 is a secondary display controller used to drive the panel
-> > on OLPC platforms.
-> > 
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > 
-> > ---
-> > Changes since v4:
-> > - Rob's Reviewed-by
-> > 
-> > Changes since v3:
-> > - Moved to bindings/display/
-> > - Added the ports
-> > - Converted to YAML
-> > - Removed Pavel's Ack, because the changes are substantial
-> > 
-> > Changes since v2:
-> > - s/betweend/between/
-> > 
-> > Changes since v1:
-> > - s/load-gpio/load-gpios/
-> > - Use interrupt bindings instead of gpio for the IRQ
-> > 
-> >  .../bindings/display/bridge/himax,hx8837.yaml | 96 +++++++++++++++++++
-> >  1 file changed, 96 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
-> > new file mode 100644
-> > index 0000000000000..f5b0a00f5089d
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
-> > @@ -0,0 +1,96 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +# Copyright (C) 2018,2019,2020 Lubomir Rintel <lkundrak@v3.sk>
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/bridge/himax,hx8837.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: HX8837 Display Controller Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Lubomir Rintel <lkundrak@v3.sk>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: himax,hx8837
-> > +
-> > +  reg:
-> > +    const: 0xd
-> > +
-> > +  load-gpios:
-> > +    maxItems: 1
-> > +    description: GPIO specifier of DCON_LOAD pin (active high)
-> > +
-> > +  stat-gpios:
-> > +    minItems: 2
-> > +    description: GPIO specifier of DCON_STAT0 and DCON_STAT1 pins (active high)
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +    description: Interrupt specifier of DCON_IRQ pin (edge falling)
-> > +
-> > +  ports:
-> > +    type: object
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        type: object
-> > +        description: |
-> > +          Video port for RGB input.
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: |
-> > +          Video port connected to the panel.
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> 
-> No regulators ?
+Changes in V3:
+-- add encoder_mode_set into struct dp_display_private
 
-There are four.
+Reported-by: kernel test robot <lkp@intel.com>
+Fixes: 26b8d66a399e ("drm/msm/dp: promote irq_hpd handle to handle link training correctly")
+Tested-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
+---
+ drivers/gpu/drm/msm/dp/dp_display.c | 92 ++++++++++++++++++++++---------------
+ 1 file changed, 55 insertions(+), 37 deletions(-)
 
-On the OLPC platform they're controlled together by the EC.
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index e9cb878..6e971d5 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -102,6 +102,8 @@ struct dp_display_private {
+ 	struct dp_display_mode dp_mode;
+ 	struct msm_dp dp_display;
+ 
++	bool encoder_mode_set;
++
+ 	/* wait for audio signaling */
+ 	struct completion audio_comp;
+ 
+@@ -279,13 +281,24 @@ static void dp_display_send_hpd_event(struct msm_dp *dp_display)
+ 	drm_helper_hpd_irq_event(connector->dev);
+ }
+ 
+-static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+-					    bool hpd)
++
++static void dp_display_set_encoder_mode(struct dp_display_private *dp)
+ {
+-	static bool encoder_mode_set;
+ 	struct msm_drm_private *priv = dp->dp_display.drm_dev->dev_private;
+ 	struct msm_kms *kms = priv->kms;
+ 
++	if (!dp->encoder_mode_set && dp->dp_display.encoder &&
++				kms->funcs->set_encoder_mode) {
++		kms->funcs->set_encoder_mode(kms,
++				dp->dp_display.encoder, false);
++
++		dp->encoder_mode_set = true;
++	}
++}
++
++static int dp_display_send_hpd_notification(struct dp_display_private *dp,
++					    bool hpd)
++{
+ 	if ((hpd && dp->dp_display.is_connected) ||
+ 			(!hpd && !dp->dp_display.is_connected)) {
+ 		DRM_DEBUG_DP("HPD already %s\n", (hpd ? "on" : "off"));
+@@ -298,15 +311,6 @@ static int dp_display_send_hpd_notification(struct dp_display_private *dp,
+ 
+ 	dp->dp_display.is_connected = hpd;
+ 
+-	if (dp->dp_display.is_connected && dp->dp_display.encoder
+-				&& !encoder_mode_set
+-				&& kms->funcs->set_encoder_mode) {
+-		kms->funcs->set_encoder_mode(kms,
+-				dp->dp_display.encoder, false);
+-		DRM_DEBUG_DP("set_encoder_mode() Completed\n");
+-		encoder_mode_set = true;
+-	}
+-
+ 	dp_display_send_hpd_event(&dp->dp_display);
+ 
+ 	return 0;
+@@ -342,7 +346,6 @@ static int dp_display_process_hpd_high(struct dp_display_private *dp)
+ 
+ 	dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
+ 
+-
+ end:
+ 	return rc;
+ }
+@@ -359,6 +362,8 @@ static void dp_display_host_init(struct dp_display_private *dp)
+ 	if (dp->usbpd->orientation == ORIENTATION_CC2)
+ 		flip = true;
+ 
++	dp_display_set_encoder_mode(dp);
++
+ 	dp_power_init(dp->power, flip);
+ 	dp_ctrl_host_init(dp->ctrl, flip);
+ 	dp_aux_init(dp->aux);
+@@ -442,24 +447,42 @@ static void dp_display_handle_video_request(struct dp_display_private *dp)
+ 	}
+ }
+ 
+-static int dp_display_handle_irq_hpd(struct dp_display_private *dp)
++static int dp_display_handle_port_ststus_changed(struct dp_display_private *dp)
+ {
+-	u32 sink_request;
+-
+-	sink_request = dp->link->sink_request;
++	int rc = 0;
+ 
+-	if (sink_request & DS_PORT_STATUS_CHANGED) {
+-		if (dp_display_is_sink_count_zero(dp)) {
+-			DRM_DEBUG_DP("sink count is zero, nothing to do\n");
+-			return -ENOTCONN;
++	if (dp_display_is_sink_count_zero(dp)) {
++		DRM_DEBUG_DP("sink count is zero, nothing to do\n");
++		if (dp->hpd_state != ST_DISCONNECTED) {
++			dp->hpd_state = ST_DISCONNECT_PENDING;
++			dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
++		}
++	} else {
++		if (dp->hpd_state == ST_DISCONNECTED) {
++			dp->hpd_state = ST_CONNECT_PENDING;
++			rc = dp_display_process_hpd_high(dp);
++			if (rc)
++				dp->hpd_state = ST_DISCONNECTED;
+ 		}
++	}
++
++	return rc;
++}
++
++static int dp_display_handle_irq_hpd(struct dp_display_private *dp)
++{
++	u32 sink_request = dp->link->sink_request;
+ 
+-		return dp_display_process_hpd_high(dp);
++	if (dp->hpd_state == ST_DISCONNECTED) {
++		if (sink_request & DP_LINK_STATUS_UPDATED) {
++			DRM_ERROR("Disconnected, no DP_LINK_STATUS_UPDATED\n");
++			return -EINVAL;
++		}
+ 	}
+ 
+ 	dp_ctrl_handle_sink_request(dp->ctrl);
+ 
+-	if (dp->link->sink_request & DP_TEST_LINK_VIDEO_PATTERN)
++	if (sink_request & DP_TEST_LINK_VIDEO_PATTERN)
+ 		dp_display_handle_video_request(dp);
+ 
+ 	return 0;
+@@ -490,19 +513,10 @@ static int dp_display_usbpd_attention_cb(struct device *dev)
+ 	rc = dp_link_process_request(dp->link);
+ 	if (!rc) {
+ 		sink_request = dp->link->sink_request;
+-		if (sink_request & DS_PORT_STATUS_CHANGED) {
+-			/* same as unplugged */
+-			hpd->hpd_high = 0;
+-			dp->hpd_state = ST_DISCONNECT_PENDING;
+-			dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
+-		}
+-
+-		rc = dp_display_handle_irq_hpd(dp);
+-
+-		if (!rc && (sink_request & DS_PORT_STATUS_CHANGED)) {
+-			hpd->hpd_high = 1;
+-			dp->hpd_state = ST_CONNECT_PENDING;
+-		}
++		if (sink_request & DS_PORT_STATUS_CHANGED)
++			rc = dp_display_handle_port_ststus_changed(dp);
++		else
++			rc = dp_display_handle_irq_hpd(dp);
+ 	}
+ 
+ 	return rc;
+@@ -668,6 +682,7 @@ static int dp_disconnect_pending_timeout(struct dp_display_private *dp, u32 data
+ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ {
+ 	u32 state;
++	int ret;
+ 
+ 	mutex_lock(&dp->event_mutex);
+ 
+@@ -678,7 +693,10 @@ static int dp_irq_hpd_handle(struct dp_display_private *dp, u32 data)
+ 		return 0;
+ 	}
+ 
+-	dp_display_usbpd_attention_cb(&dp->pdev->dev);
++	ret = dp_display_usbpd_attention_cb(&dp->pdev->dev);
++	if (ret == -ECONNRESET) { /* cable unplugged */
++		dp->core_initialized = false;
++	}
+ 
+ 	mutex_unlock(&dp->event_mutex);
+ 
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-I've added the supplies to the EC driver and looked into supporting them 
-properly in the driver and am finding it somehow tricky to do it properly.
-
-I couldn't figure out what is the proper place to enable and disable the
-regulators. Also drm_bridge_remove() just mercilessly tearing down the
-bridge without ensuring it's not used anymore doesn't help us on driver
-unbind.
-
-I'm wondering if it's okay if I leave the driver without explicit
-support for the power supplies for now, assuming that EC just takes
-care of enabling the power and never disable it?
-
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - load-gpios
-> > +  - stat-gpios
-> 
-> Do stat-gpios need to be mandatory ? The driver in patch 2/2 doesn't
-> seem to use them, could we have boards where those signals are not
-> connected to GPIOs ?
-
-Perhaps not, in theory.
-
-Pretty sure the OLPC machines are the only ones that utilize this
-silicon though.
-
-> > +  - interrupts
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +        
-> 
-> Could you please avoid spaces or tabs at end of lines ? There are three
-> other occurrences below.
-
-Ugh, I was sure I ran checkpatch.pl, but apparently not.
-Sorry for that.
-
-> > +        lcd-controller@d {
-> > +            compatible = "himax,hx8837";
-> > +            reg = <0x0d>;
-> > +            stat-gpios = <&gpio 100 GPIO_ACTIVE_HIGH>,
-> > +                         <&gpio 101 GPIO_ACTIVE_HIGH>;
-> > +            load-gpios = <&gpio 142 GPIO_ACTIVE_HIGH>;
-> > +            interrupts = <&gpio 124 IRQ_TYPE_EDGE_FALLING>;
-> > +    
-> > +            ports {
-> > +                #address-cells = <0x01>;
-> > +                #size-cells = <0x00>;
-> > +    
-> > +                port@0 {
-> > +                    reg = <0x00>;
-> 
-> reg = <0> should be fine. Same below.
-> 
-> With thse small issues addressed,
-> 
-> > +                    dcon_rgb_in: endpoint {
-> > +                        remote-endpoint = <&lcd0_rgb_out>;
-> > +                    };
-> > +                };
-> > +    
-> > +                port@1 {
-> > +                    reg = <0x01>;
-> > +                    dcon_gettl_out: endpoint {
-> > +                        remote-endpoint = <&panel_dettl_in>;
-> > +                    };
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> 
-> It's customary to end bindings with
-> 
-> ...
-> 
-> (not sure why though, given that it seems to work find without)
-
-Okay, will add that.
-
-Thank you
-Lubo
-
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
