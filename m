@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13022B8D2B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16B32B8D1C
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F296E532;
-	Thu, 19 Nov 2020 08:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B18B6E50B;
+	Thu, 19 Nov 2020 08:31:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
  [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 044516E2DE
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:05:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C1E46E027
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 09:13:08 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id E2F3B10DA;
- Wed, 18 Nov 2020 04:04:59 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 55B5110EF;
+ Wed, 18 Nov 2020 04:13:07 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 18 Nov 2020 04:05:00 -0500
+ by compute6.internal (MEProxy); Wed, 18 Nov 2020 04:13:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm1; bh=NX2d125+mzWeDsg9Z+w9503P7MyH2v/IqWMY+tihLD0=; b=XybMosVi
- KV7pF8WVq+jtLhwAqKCgIQOIKbFV+uYcWM854ck4AyXMkeiRRFijLarUWdr8hX37
- IPkP0B0EYOjWjmBXdgn72zRDxy81zJ8m+cXl4p45dl/5O8Uu5HM1qXqXF2K19vY+
- yxhxkvmLF606zwS7oNZ30Qj8e9vaBTRZALz4QBD2pnKVMDaS18BAxlJ0/fbGY7xm
- m/z9AZgUnSlOhjT6RsTPzVQD/cvYeMLLx8E3c7PKxHNuZGYrB/YvIVZbL2/pj7u5
- Rc2jwsHWZOUy5qTiNSSEVUCCaHAtw4uAC6dyW7aj46fRRpGOETxCjVBpN2JwmvGk
- y/2bgspOYimcYw==
+ fm1; bh=HxCqBcf+qWY8PiWLGwUhkFtSWcBPC/bFzwgmA4UeiDs=; b=jWzpCF/5
+ mdPFKFeYTaQN4WD5icVuwEsxmiLtPrE9feTPBEJciHoQv/Nf7urJVYMve+G52R7p
+ SAr0p+K8vHtO1UN9KoQb9ebFya6Ap9vzTN+Lexxo45cXldosbQYvc7eb0QsGmoEF
+ FtqkW5SFxLAJ21/DPMjD/biX/Nnvn+tEogH3y1j4BW4QP6vAQi/YPywSR7JG0G5B
+ uBTd9xcYuUX9oHb8cae04RHMVZO7RjXthmzT5hOXT6AlrpWtpmFNFPA/v3QsEE9M
+ V7gjQB+LO1GeVD0+rw2PR4l6ou3eE9xRgLIV7ntel/mW/PmEBSSvuCA6fOOdLm1y
+ fanT4Bi1kwY+Bw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:message-id
  :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm1; bh=NX2d125+mzWeDsg9Z+w9503P7MyH2
- v/IqWMY+tihLD0=; b=i+WnKmcbZY6Erzs2zjynYV6Iaf2bjl9zjWoGkP7cB4Dtq
- cMhOoqI4iJcP55GE0orKPJ+n1BXlYwOc7RFUEUCOJtZ+OmrvxhycmHEnHwQ3nIOB
- cqppErhW3T6jFf0HXZkLhchdExfHZ+IUftZNyerfZngbVG/FBFyLvHI20UCUZfQx
- 657KPj54Iqkat1OXgsLjTf0TRmaieHkhgzaNncNwNMJgmMrVQQpBv3VOlYP3y3kC
- uTNslsDDwd4PIJ+/IIiA9v3D93gqSQiaJCd6A8S6XDmz0eZJBUyctP8/cJOJ43Py
- lza+rD3+5Xp2h13uKX0wuot5xu9ylryii7e7QsuAA==
-X-ME-Sender: <xms:ueO0XzcSiKzEQwX6g6iDC--Gemh26Qg93QlNsLjCqzm9nTHlKbAXJA>
- <xme:ueO0X5NH93owAwHSk-xh9gfA_tiUHS3NP41QsZQJ4OzwCuC53RkK83i86kp6I2z_L
- FpCRAcBjMKB2JZWBow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefhedgtdduucetufdoteggodetrfdotf
+ :x-me-sender:x-sasl-enc; s=fm1; bh=HxCqBcf+qWY8PiWLGwUhkFtSWcBPC
+ /bFzwgmA4UeiDs=; b=G3WCUePOziJ1cYEnw4kmY5LQXi0CpgZbtPbANCtuZrewK
+ D7Y1foTea4DLXVvN483oJNaZ6mb01/pFQDTw8sgt2vAkhbEaVkiMTbQtxO5ybEcq
+ qk6jEDv5iJO5ZvkaiAUKJr1ZMxDj2QGQqcer20ylQG3jrsztS/7jjhBWik7Fa0/v
+ fVycI+rXV1HwrqUvJ8VEWYMyaLHZ1MbdCp9pi4RdrdYs/qM3jzaoiJ6KMkZ0Zg3p
+ VfyeGx2KQzRcgAAWJFFzN9eklzNcMw/zH3NNsRgt5XT4YnorT/kitmm0Ww9C+Afz
+ OG5f7yhtQQMHt+qGKtzQytVqKZqb/PhZt7hcfwSEQ==
+X-ME-Sender: <xms:oeW0X5eaB_swPmpYdSOmdrFvoOeNkh2yhW6i_MaNzHsC3HkiK3GPPg>
+ <xme:oeW0X3OYSnR99xKciBKc5JwGnfjuYGkRz7sQ5Fy0V8vsOpo3-Rznrhe4wkznUFDam
+ sR-RAGrp-QMTrIpsoI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefhedgtdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfggtggusehgtderredttddvnecuhfhrohhmpeforgigihhmvgcu
@@ -48,21 +48,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefhedgtdduucetufdoteggod
  hrnhepgeehvddvffelveeiuefggfeiueduvdfhfeeuhffgleejleeghfdvgedtveegleek
  necukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
  hrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ueO0X8jje_IYDOF0za8GlXj9T1k30sx3bp8p9nptWvAO_1_0iPLBPw>
- <xmx:ueO0X08YqT5Gfu8vs4_L3ogLOJbHw4JaLjeGYOi-SVFL9KdKQuZ_yw>
- <xmx:ueO0X_sX7sCkIYL_t05SMFcSUCBZbuVjcv_-4sZBW8Iwv-3UfahBLA>
- <xmx:u-O0X5KIi37niE0yvT8q1T62IGYY0kt0_QjTHHvsJIPw_DoAmutyAg>
+X-ME-Proxy: <xmx:oeW0XyiTHsQUErWuGiIWPLYBdcmfJNd03EgbKrxnk6oUrsJRPoH1hg>
+ <xmx:oeW0Xy8E_pb7vPSEcKrXlIx7DIHrYfTydvSodlIJU1fAhCHIPtc9Xw>
+ <xmx:oeW0X1vGgVsoonyyOBIM8cS6KOuLnFVe51o7KtATmiZikcgEBNxHnQ>
+ <xmx:ouW0X5jT_COYKzkhnVuYDpNtwnrafkpv9FVgWnviqgnhYPNMil5jgg>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 995AD328005A;
- Wed, 18 Nov 2020 04:04:57 -0500 (EST)
-Date: Wed, 18 Nov 2020 10:04:55 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id A2699328005E;
+ Wed, 18 Nov 2020 04:13:04 -0500 (EST)
+Date: Wed, 18 Nov 2020 10:13:03 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [GIT PULL] Fix for drm/sun4i shared with arm-soc
-Message-ID: <20201118090455.sznrgpduuytlc22k@gilmour.lan>
+To: arm@kernel.org
+Subject: [GIT PULL] Allwinner MBUS and DMA-ops rework
+Message-ID: <20201118091303.wa5npxyop3cdsczb@gilmour.lan>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,72 +75,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: arm@kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0331749679=="
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@csie.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============2082354266=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0331749679==
+--===============2082354266==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="srtz37whhktotzfn"
+	protocol="application/pgp-signature"; boundary="lalwlgtk5ysq3sti"
 Content-Disposition: inline
 
 
---srtz37whhktotzfn
+--lalwlgtk5ysq3sti
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi,
+Hi Arnd, Olof,
 
-Here's a fix shared with the DMA work for sun4i that will be merged
-through arm-soc.
+Here's the PR for the MBUS rework we discussed in the last couple of
+weeks, for what will become 5.11.
 
-This conflicts with the subsequent work done for sun4i and
-dma_direct_set_offset, so it would be better to merge that fix through a
-PR in drm-misc-fixes.
+As Arnd suggested, this is based on a PR sent to drm-misc-fixes to merge
+the initial fix for a probe error in drm/sun4i due to
+dma_direct_set_offset.
 
+Thanks!
 Maxime
 
-The following changes since commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec:
-
-  Linux 5.10-rc1 (2020-10-25 15:14:11 -0700)
-
-are available in the Git repository at:
-
-  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/drm/sun4i-dma-fix-pull-request
-
-for you to fetch changes up to 957a1ea3599210e9996777a734ea5284eaef75c7:
+The following changes since commit 957a1ea3599210e9996777a734ea5284eaef75c7:
 
   drm/sun4i: backend: Fix probe failure with multiple backends (2020-11-18 09:01:30 +0100)
 
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/sunxi-rework-mbus
+
+for you to fetch changes up to 16fee29b07358293f135759d9fdbf1267da57ebd:
+
+  dma-mapping: remove the dma_direct_set_offset export (2020-11-18 09:11:38 +0100)
+
 ----------------------------------------------------------------
-Fix for drm/sun4i shared with arm-soc
+Allwinner MBUS and DMA-ops rework
 
-This patch is a preliminary fix that will conflict with subsequent work merged
-through arm-soc.
+The Allwinner SoCs have a number of high-bandwidth devices connected to
+a memory bus with a different RAM mapping than the CPU.
+
+This was addressed before through drivers setting the DMA offsets
+directly, and subsequently changed to calls to dma_direct_set_offset.
+However that wasn't really meant to be exported to modules (and thus
+drivers). The duplicated code also led to small inconsistencies across
+drivers in how we dealt with DT backward compatibility.
+
+Move all that DMA setup code into a platform bus notifier to share that
+code and remove the export on dma_direct_set_offset.
 
 ----------------------------------------------------------------
-Maxime Ripard (1):
-      drm/sun4i: backend: Fix probe failure with multiple backends
+Christoph Hellwig (1):
+      dma-mapping: remove the dma_direct_set_offset export
 
- drivers/gpu/drm/sun4i/sun4i_backend.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Maxime Ripard (6):
+      soc: sunxi: Deal with the MBUS DMA offsets in a central place
+      drm/sun4i: backend: Remove the MBUS quirks
+      media: sun4i: Remove the MBUS quirks
+      media: sun6i: Remove the MBUS quirks
+      media: cedrus: Remove the MBUS quirks
+      media: sun8i-di: Remove the call to of_dma_configure
 
---srtz37whhktotzfn
+ arch/arm/mach-keystone/keystone.c                  |   2 +-
+ arch/arm/mach-omap1/usb.c                          |   2 +-
+ arch/sh/drivers/pci/pcie-sh7786.c                  |   2 +-
+ arch/x86/pci/sta2x11-fixup.c                       |   3 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c              |  19 ---
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |  27 -----
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c |  17 ---
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   |   4 -
+ drivers/soc/sunxi/Kconfig                          |   8 ++
+ drivers/soc/sunxi/Makefile                         |   1 +
+ drivers/soc/sunxi/sunxi_mbus.c                     | 132 +++++++++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus.c        |   1 -
+ drivers/staging/media/sunxi/cedrus/cedrus.h        |   3 -
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c     |  18 ---
+ include/linux/dma-map-ops.h                        |   3 +
+ include/linux/dma-mapping.h                        |   7 --
+ kernel/dma/direct.c                                |   1 -
+ 17 files changed, 149 insertions(+), 101 deletions(-)
+ create mode 100644 drivers/soc/sunxi/sunxi_mbus.c
+
+--lalwlgtk5ysq3sti
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7TjtwAKCRDj7w1vZxhR
-xYftAQCWoTv/cQbIY46NDVs91lBNrmgyL+zbOefCq1fqovGeywD/RVS2PDE5gSir
-iRv2LdoMcnJ6xzICC8q/GpgodWWQRQU=
-=s9kP
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7TlnwAKCRDj7w1vZxhR
+xW/OAP9j/UIJk6SYCXq1E6W8GSYLiROWK5uW51aD4dHLLxSGowD+PHk6VOGXKaJi
+U5+UUq9AZlbBURBTsPuOtei3oQI27AQ=
+=SHlM
 -----END PGP SIGNATURE-----
 
---srtz37whhktotzfn--
+--lalwlgtk5ysq3sti--
 
---===============0331749679==
+--===============2082354266==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -153,4 +189,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0331749679==--
+--===============2082354266==--
