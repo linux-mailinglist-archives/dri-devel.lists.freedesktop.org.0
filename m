@@ -1,41 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9716B2B77F6
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:05:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 671732B782E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Nov 2020 09:10:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 753E189CAD;
-	Wed, 18 Nov 2020 08:05:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC866E3AE;
+	Wed, 18 Nov 2020 08:10:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
- [185.70.40.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91AB189CAD
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 08:04:59 +0000 (UTC)
-Date: Wed, 18 Nov 2020 08:04:46 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1605686697;
- bh=9q4xfQr9gpeHTJ6TscCYdWbq8tMpBhT+7JfO2kwh6Yg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=HyiX4W0vK3KPve9H1ZGKjYGgFZMW8GCpLvSglsMvLwrtuozRuF55a5gK0a5Z1ZKtR
- UFdceFyqSIODZ0gfFys8mb5lflhlmzIHkZhtJ2FkB9IIV5GZQo2bqui0OgGagB8X0Z
- G7RYheWpxmFtAfTwFQDXBMr0PH1Bxq8ZcbhAScxrgLu0e/4jetq70xyELnzPbO/aQS
- KlwUaNIO3bbRSfi0H+6w4dDhbr/vaekoLh8lUv1Swkb3SDjnvO2RT86pzc0WuXGjyR
- N37KCJXH+6cT34BkZmxBvTTWxh3aqYq0HCDAITw2b/LKZaX4w/CbNT1jglR763qBp9
- jxAPdRGh/deqw==
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/docs: Fix todo.rst
-Message-ID: <jZPv-Syhslxgru5BE84oYRZshAcQb4oTqai9CIWP39ZAwfwcDmIQnoSVGEPARAQ3Fa6F89enSHbQ648O7mkfUuL_2UHpCPmFBcvZzXDJvcA=@emersion.fr>
-In-Reply-To: <20201118073637.597206-1-daniel.vetter@ffwll.ch>
-References: <20201118073637.597206-1-daniel.vetter@ffwll.ch>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C2C76E3AE
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 08:10:15 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D1053ABDE;
+ Wed, 18 Nov 2020 08:10:13 +0000 (UTC)
+Subject: Re: [PATCH] drm: imx: Move fbdev setup to before output polling
+To: Mark Jonas <mark.jonas@de.bosch.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>
+References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
+Date: Wed, 18 Nov 2020 09:10:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,29 +42,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Ruan <tingquan.ruan@cn.bosch.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, November 18, 2020 8:36 AM, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-
-> I didnt' format the thing correctly :-(
->
-> Fixes: 39aead8373b3 ("fbcon: Disable accelerated scrolling")
-> Reported-by: Stephen Rothwell sfr@canb.auug.org.au
-> Cc: Stephen Rothwell sfr@canb.auug.org.au
-> Signed-off-by: Daniel Vetter daniel.vetter@intel.com
-
-Reviewed-by: Simon Ser <contact@emersion.fr>
-
-Note that a blank line is required before the first item and after the
-last, but is optional between items.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkKCkFtIDE3LjExLjIwIHVtIDE2OjUyIHNjaHJpZWIgTWFyayBKb25hczoKPiBGcm9tOiBMZW8g
+UnVhbiA8dGluZ3F1YW4ucnVhbkBjbi5ib3NjaC5jb20+Cj4gCj4gVGhlIGdlbmVyaWMgZmJkZXYg
+aGFzIHRvIGJlIHNldHVwIGJlZm9yZSBlbmFibGluZyBvdXRwdXQgcG9sbGluZy4KPiBPdGhlcndp
+c2UgdGhlIGZiZGV2IGNsaWVudCBpcyBub3QgcmVhZHkgdG8gaGFuZGxlIGRlbGF5ZWQgZXZlbnRz
+Lgo+IAo+IFNpbmNlIGY1MzcwNWZkLCB0aGUgZ2VuZXJpYyBmYmRldiBpcyBzZXR1cCBhZnRlciB0
+aGUgb3V0cHV0IHBvbGxpbmcKPiBpbml0LiBEdXJpbmcgZmJkZXYgc2V0dXAsIHdoZW4gZmJkZXYg
+cHJvYmVzIGF0dGFjaGVkIG91dHB1dHMgYW5kIGEKPiBzdGF0dXMgY2hhbmdlcyBmcm9tIHVua25v
+d24gdG8gY29ubmVjdGVkLCB0aGUgZGVsYXllZCBldmVudCBpcwo+IG1hcmtlZCBhbmQgdGhlIG91
+dHB1dF9wb2xsX3dvcmsgdGhyZWFkIGlzIHNjaGVkdWxlZCB3aXRob3V0IGRlbGF5Lgo+IElmIG91
+dHB1dF9wb2xsX2V4ZWN1dGUoKSBpcyBydW5zIGltbWVkaWF0ZWx5LCB0aGUgZGVsYXllZCBldmVu
+dAo+IGlzIGhhbmRsZWQgd2l0aG91dCBhY3R1YWxseSBwb2xsaW5nIHRoZSBvdXRwdXQgYmVjYXVz
+ZSB0aGUgZmJkZXYgaXMgbm90Cj4gcmVnaXN0ZXJlZCB5ZXQuIFNvIHRoZSBkZWxheWVkIGV2ZW50
+IGlzIGxvc3QuIFRoaXMgbGVhZHMgdG8gYSBkYXJrCj4gc2NyZWVuIHVudGlsIGEgS01TIGFwcGxp
+Y2F0aW9uIChvciBmYmNvbikgc2V0cyB0aGUgc2NyZWVuIG1vZGUuCj4gCj4gVGhpcyBwYXRjaCBm
+aXhlcyB0aGUgaXNzdWUgYnkgbW92aW5nIHRoZSBzZXR1cCBvZiBnZW5lcmljIGZiZGV2IGJlZm9y
+ZQo+IGluaXRpYWxpemluZyBhbmQgZW5hYmxpbmcgb3V0cHV0IHBvbGxpbmcuCj4gCj4gU2lnbmVk
+LW9mZi1ieTogTGVvIFJ1YW4gPHRpbmdxdWFuLnJ1YW5AY24uYm9zY2guY29tPgo+IFNpZ25lZC1v
+ZmYtYnk6IE1hcmsgSm9uYXMgPG1hcmsuam9uYXNAZGUuYm9zY2guY29tPgo+IC0tLQo+ICBkcml2
+ZXJzL2dwdS9kcm0vaW14L2lteC1kcm0tY29yZS5jIHwgOCArKysrKystLQo+ICAxIGZpbGUgY2hh
+bmdlZCwgNiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vaW14L2lteC1kcm0tY29yZS5jIGIvZHJpdmVycy9ncHUvZHJtL2lteC9p
+bXgtZHJtLWNvcmUuYwo+IGluZGV4IDliZjVhZDZkMThhMi4uMjY2NTA0MGUxMWM3IDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMKPiArKysgYi9kcml2ZXJz
+L2dwdS9kcm0vaW14L2lteC1kcm0tY29yZS5jCj4gQEAgLTI0MCwxNCArMjQwLDE4IEBAIHN0YXRp
+YyBpbnQgaW14X2RybV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgCQlsZWdhY3lmYl9kZXB0
+aCA9IDE2Owo+ICAJfQo+ICAKPiArCS8qCj4gKwkgKiBUaGUgZ2VuZXJpYyBmYmRldiBoYXMgdG8g
+YmUgc2V0dXAgYmVmb3JlIGVuYWJsaW5nIG91dHB1dCBwb2xsaW5nLgo+ICsJICogT3RoZXJ3aXNl
+IHRoZSBmYmRldiBjbGllbnQgaXMgbm90IHJlYWR5IHRvIGhhbmRsZSBkZWxheWVkIGV2ZW50cy4K
+PiArCSAqLwo+ICsJZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZHJtLCBsZWdhY3lmYl9kZXB0aCk7
+Cj4gKwo+ICAJZHJtX2ttc19oZWxwZXJfcG9sbF9pbml0KGRybSk7Cj4gIAo+ICAJcmV0ID0gZHJt
+X2Rldl9yZWdpc3Rlcihkcm0sIDApOwo+ICAJaWYgKHJldCkKPiAgCQlnb3RvIGVycl9wb2xsX2Zp
+bmk7Cj4gIAo+IC0JZHJtX2ZiZGV2X2dlbmVyaWNfc2V0dXAoZHJtLCBsZWdhY3lmYl9kZXB0aCk7
+Cj4gLQoKVGhpcyBkb2VzIG5vdCB3b3JrIHdlbGwuIGZiZGV2IGlzIHN1cHBvc2VkIHRvIGJlIGFu
+b3RoZXIgcmVndWxhciBEUk0KY2xpZW50LiBJdCBoYXMgdG8gYmUgZW5hYmxlZCBhZnRlciByZWdp
+c3RlcmluZyB0aGUgRFJNIGRldmljZS4KCkknZCByYXRoZXIgaW1wcm92ZSBmYmRldiBvciB0aGUg
+ZHJpdmVyIHRvIGhhbmRsZSB0aGlzIGdyYWNlZnVsbHkuCgpCZXN0IHJlZ2FyZHMKVGhvbWFzCgo+
+ICAJcmV0dXJuIDA7Cj4gIAo+ICBlcnJfcG9sbF9maW5pOgo+IAoKLS0gClRob21hcyBaaW1tZXJt
+YW5uCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2Vy
+bWFueSBHbWJICk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQooSFJCIDM2
+ODA5LCBBRyBOw7xybmJlcmcpCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
