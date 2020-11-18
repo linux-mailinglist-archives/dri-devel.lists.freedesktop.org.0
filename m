@@ -1,55 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA512B8D24
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 550802B8D63
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 613526E51C;
-	Thu, 19 Nov 2020 08:31:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073FA6E554;
+	Thu, 19 Nov 2020 08:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A1286E428
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:58:38 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id w13so2832548eju.13
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 05:58:38 -0800 (PST)
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50B0D6E428
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 13:58:39 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id oq3so2878115ejb.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 05:58:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=/M45YtMWBHvWX7HJgiaCX3duzycDxACgeh25TxK15Eg=;
- b=WzfS5ftWkRMUzolpSh5HCyN4cmp70soK14s87h+2M08gwqkRfSM1li/SeATS7MA8CA
- n/sY36cmWUjV1SvmUdcnwVr88B4NjXCBd+xogRlmqDnN7DqOLXdQuISdhL57o6jwPxee
- IawguAG9hPu0NW7aAXvvmQ1fW4WTfO8oOP7dScEJdK0PnNfDMu27k9qRigi+sJu4VF3b
- Bxoik+iaaYnm1yT8K2F4x8HHZKjjlkbPX0lbLt7LpEQvd0TKi3Me4dyadjHW11Onb46M
- xYjT0zw3/9G6+6KLQJwPFviF+W9Sf6NNTpaw0SBLiN2PLCWcq6h5hvUlWV8NfZRGOh+h
- YOPQ==
+ bh=MNzWsDtU39BR4iFEfSJQ9mnoYu92ToJLMEGgLWUUrPw=;
+ b=YxD4BW5cjmQdz4D/NWPOTYFDoj79erTso5jj6MSUrfUHf5OPHU//Y+UjP6rHQ8VYEi
+ vBjQQBNvcP9cw+uaMWj5PTsXnqGwi+kVyf/BQa0kDaY381yNAEK3VpqAAZ093jnk/LMK
+ uTtUZiMYKd8Yzkuafi0CZD6v8UN+ngYxLTCukSBE1wNJ/fl4NlZ4t+DWlUI+C/vjax69
+ nouAaB5P0vcCRk3Ub6qTmGOojyV8lhP+JClrNBmQxficjyoktGm12RqQIMnkW051Za3x
+ r2gagmHv/V2uVmIY3M0N9T9Dl9MIz3112FQOwMO59615Oe+Zq9Y611rb0gojGj2SwgSl
+ KrLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=/M45YtMWBHvWX7HJgiaCX3duzycDxACgeh25TxK15Eg=;
- b=P3PRaHMnkPy/y5qhKdSm/EHcY7aTwBRpzb9cithRdaB+JUYCeMza32395/nrSYXqFT
- PpJUGtA02FeHhYYQd2BgolkSAXpZEbqNkyln1XXeYBATIORSayb4bSfJQKJXLUijLh4+
- VC78zZHtAPH54OaJD6+1QyN5jidkCYwS/S6uWaWJbRgAx+ifepGdi0zQIQPL3e5hL9xF
- 4uOPIUP8E2sTTd+G0goMkjTn7qIsAuPp5ptw+h2yZBcfiKTtrIwuLl5qbbVfzbWgSJPl
- JbcJuH4tgi3l9HqNuXsjnTrVJccF3/0AfkFOkePL9wJOUCLfo7LomMnsEiZ3/taCn9Ra
- UokQ==
-X-Gm-Message-State: AOAM532AiStw4TqWyjI9F0uHD1NYQRtXOHLA6M0/8sJ5mfwxXL4EkgJ7
- AzZ62DxDgz+Vfi+X0cFDEgQ=
-X-Google-Smtp-Source: ABdhPJzjtTA6aSJDvhbh3mZRYc7KQzylCh451tX0U9bpOnGQQ2ddCN9W+I66OX1Z3ial8hqeM8QM/w==
-X-Received: by 2002:a17:907:4335:: with SMTP id
- ni5mr20187759ejb.459.1605707917128; 
- Wed, 18 Nov 2020 05:58:37 -0800 (PST)
+ bh=MNzWsDtU39BR4iFEfSJQ9mnoYu92ToJLMEGgLWUUrPw=;
+ b=AB1pFoio2yV6divT5F5eJE54T3kjmN8gFsQqA0faMoEnm1WmbsEOdFM/MpUcxkyZU4
+ 9N6exFKAlVLMEMnbfKbkk4L4Ix4xQ+xJ12oWovtDcPuoJZT3OF/K4vFR8L7knS5foPSl
+ MZIsiOcExvBdBXR4ooEatAQ7vVbj92VzsxNMPTwWrf0HPY+wr1dNDQ2yab7q3PrNcJkQ
+ S7Izjd81EibqalRH2zZkGBGC58Eputd9trVoRT4dsSyOIuP1L57CuL4PhBWDpjfemyao
+ Vem9xMqyD7hHFe/P1BLe6mVQEhOouuPuZM9NMfKhKK0JkdxZFK1aXzlNYBcsqZ+7paVo
+ UlMw==
+X-Gm-Message-State: AOAM531E4XzMv4WeiWfO+7kd7tEAow71oUbUVPlyLKu2wqpQ5z9OVgrM
+ SPw2L7vboDyNm+6aBi8Qk1A=
+X-Google-Smtp-Source: ABdhPJyl5SpYNZp2HUHCYYO8l+T0uxxnjSi9rjNGR0CciOkx5xPSCoFR3ksws8b0r8sM04dsBaG9wA==
+X-Received: by 2002:a17:906:374a:: with SMTP id
+ e10mr14400381ejc.246.1605707918063; 
+ Wed, 18 Nov 2020 05:58:38 -0800 (PST)
 Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
- by smtp.gmail.com with ESMTPSA id cx6sm13721384edb.61.2020.11.18.05.58.36
+ by smtp.gmail.com with ESMTPSA id cx6sm13721384edb.61.2020.11.18.05.58.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 18 Nov 2020 05:58:36 -0800 (PST)
+ Wed, 18 Nov 2020 05:58:37 -0800 (PST)
 From: Johan Jonker <jbx6244@gmail.com>
 To: heiko@sntech.de
-Subject: [PATCH v5 6/7] ARM: dts: rockchip: add hdmi-sound node to rk3066a.dtsi
-Date: Wed, 18 Nov 2020 14:58:21 +0100
-Message-Id: <20201118135822.9582-7-jbx6244@gmail.com>
+Subject: [PATCH v5 7/7] ARM: dts: rockchip: enable hdmi_sound and i2s0 for
+ rk3066a-mk808
+Date: Wed, 18 Nov 2020 14:58:22 +0100
+Message-Id: <20201118135822.9582-8-jbx6244@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20201118135822.9582-1-jbx6244@gmail.com>
 References: <20201118135822.9582-1-jbx6244@gmail.com>
@@ -77,41 +78,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add hdmi-sound node to rk3066a.dtsi, so that it
-can be reused by boards with HDMI support.
+Make some noise with mk808. Enable the hdmi_sound node and
+add i2s0 as sound source for hdmi.
 
 Signed-off-by: Johan Jonker <jbx6244@gmail.com>
 ---
- arch/arm/boot/dts/rk3066a.dtsi | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ arch/arm/boot/dts/rk3066a-mk808.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm/boot/dts/rk3066a.dtsi b/arch/arm/boot/dts/rk3066a.dtsi
-index 67fcb0dc9..f91ce3054 100644
---- a/arch/arm/boot/dts/rk3066a.dtsi
-+++ b/arch/arm/boot/dts/rk3066a.dtsi
-@@ -49,6 +49,22 @@
- 		ports = <&vop0_out>, <&vop1_out>;
+diff --git a/arch/arm/boot/dts/rk3066a-mk808.dts b/arch/arm/boot/dts/rk3066a-mk808.dts
+index eed9e60cf..5fe74c097 100644
+--- a/arch/arm/boot/dts/rk3066a-mk808.dts
++++ b/arch/arm/boot/dts/rk3066a-mk808.dts
+@@ -116,6 +116,14 @@
  	};
+ };
  
-+	hdmi_sound: hdmi-sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,name = "HDMI";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,mclk-fs = <256>;
-+		status = "disabled";
++&hdmi_sound {
++	status = "okay";
++};
 +
-+		simple-audio-card,codec {
-+			sound-dai = <&hdmi>;
-+		};
++&i2s0 {
++	status = "okay";
++};
 +
-+		simple-audio-card,cpu {
-+			sound-dai = <&i2s0>;
-+		};
-+	};
-+
- 	sram: sram@10080000 {
- 		compatible = "mmio-sram";
- 		reg = <0x10080000 0x10000>;
+ &mmc0 {
+ 	bus-width = <4>;
+ 	cap-mmc-highspeed;
 -- 
 2.11.0
 
