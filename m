@@ -2,35 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D622B8CD6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B9C2B8D5D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 403766E505;
-	Thu, 19 Nov 2020 08:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2BDD6E52C;
+	Thu, 19 Nov 2020 08:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BE06E505
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:12:01 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BA03BAD2F;
- Thu, 19 Nov 2020 08:11:59 +0000 (UTC)
-To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>
-References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-6-maxime@cerno.tech>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 5/7] drm/vc4: kms: Document the muxing corner cases
-Message-ID: <2a79055f-a2e7-913c-b566-91780f199016@suse.de>
-Date: Thu, 19 Nov 2020 09:11:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2052.outbound.protection.outlook.com [40.107.243.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C966E3D3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 08:06:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FQf+Pj3TfomKGmqfICKPFvjIs3O00B0JQMk92Yy2+A2JDMMdiSTOEly/o93t6oA+tM0C/hKt9g3agrgXOOFRkM3Z3pg4ebFK+o92OjwMVcZyKQmeONrtAIHPVespt9Lh6Ws0+k3Gno+hhz37dSWqHNfuNkWTMXdiCWqTI0TkBVn2w3SHQ301EAvBK+UsL4gGpBiWohLC4mK1Deb8LAITxNqs8yl1ouEzJ/uCgb/iUkU0WKNKqWA2pRoK1tlyk1fDmWJ1k87s2hfGJ0HG7we9Z4apXhj/2N/vzpi98wnfiK29xXYiJAbgf73T4bjtPRstIqUJst42XVc7Sd3+QGwMmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q0nD+xrKCoRJnd2ci4g9RBMRwYk7vdecmC4tyUpod0w=;
+ b=haerDyF8o/jyvPHgS49SodAON8V9aLHQ6MxiC6Fs3vQCZ5oxpmbBkIxwC2RMjzHJsZJalFbyjICzOYWcAdETI8+CD1s6hCNRIhXtxA55WwTDdQPmWoNigcWpXVNTce+1i329w5LdhrpQSXa+VNPsOKhWE5UOwEsgueag0Dt4tYBQN2YiXK72fzTUPEuGX4i0qf9fjyQLtbO6+UnqllEKc+aBNw723oz9UWegnN+NFjlgu4TLl1S0PyzZzCemrKRBmJ/Yg4aiN0gI0qRVrJKCo5jetcKRotC/uWdyN8y5oikDul+aGG7kJi7QPTsuFyf2EY+Kp6p47gSFKUcQ1PwAfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q0nD+xrKCoRJnd2ci4g9RBMRwYk7vdecmC4tyUpod0w=;
+ b=mPnycYrWBPgC2E3GBv+SeLUFd4iOYYA4s/GrWKURQ5go7s2Hdf/rTo1EabuhC/z+ZnIo91jQ/vVV0jBXoCH8kesAHI294Mkr55qDW1rYA571PXBB410jhIgkcrbEvjejcIjeju+UXYcr7slF8Hd2BNrqN+g+GOXn4T0yfzJ+Plc=
+Received: from CY4PR22CA0052.namprd22.prod.outlook.com (2603:10b6:903:ae::14)
+ by BYAPR02MB5637.namprd02.prod.outlook.com (2603:10b6:a03:97::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Wed, 18 Nov
+ 2020 08:06:35 +0000
+Received: from CY1NAM02FT033.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:ae:cafe::f9) by CY4PR22CA0052.outlook.office365.com
+ (2603:10b6:903:ae::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Wed, 18 Nov 2020 08:06:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT033.mail.protection.outlook.com (10.152.75.179) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Wed, 18 Nov 2020 08:06:34 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Wed, 18 Nov 2020 00:06:33 -0800
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Wed, 18 Nov 2020 00:06:33 -0800
+Envelope-to: michal.simek@xilinx.com, derek.kiernan@xilinx.com,
+ dragan.cvetic@xilinx.com, rajan.vaja@xilinx.com,
+ tejas.patel@xilinx.com, manish.narani@xilinx.com,
+ ravi.patel@xilinx.com, wendy.liang@xilinx.com, robh+dt@kernel.org,
+ arnd@arndb.de, gregkh@linuxfoundation.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Received: from [172.19.2.167] (port=35936 helo=xsjjliang50.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <wendy.liang@xilinx.com>)
+ id 1kfIU5-0000Nk-Fy; Wed, 18 Nov 2020 00:06:33 -0800
+From: Wendy Liang <wendy.liang@xilinx.com>
+To: <robh+dt@kernel.org>, <michal.simek@xilinx.com>, <arnd@arndb.de>,
+ <gregkh@linuxfoundation.org>, <sumit.semwal@linaro.org>,
+ <christian.koenig@amd.com>, <derek.kiernan@xilinx.com>,
+ <dragan.cvetic@xilinx.com>, <rajan.vaja@xilinx.com>,
+ <tejas.patel@xilinx.com>, <manish.narani@xilinx.com>, <ravi.patel@xilinx.com>
+Subject: [PATCH 0/9] Xilinx AI engine kernel driver
+Date: Wed, 18 Nov 2020 00:06:11 -0800
+Message-ID: <1605686780-17886-1-git-send-email-wendy.liang@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20201105135656.383350-6-maxime@cerno.tech>
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e49283c1-e8aa-4f37-56b8-08d88b98ddf0
+X-MS-TrafficTypeDiagnostic: BYAPR02MB5637:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB5637B867834E38BFC17BB8DBB0E10@BYAPR02MB5637.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bEj8nTVYwEg6i2wFy4UFsZIB1n+gFBo3DaQ1xap2s29ZvSyGJVj7Kz1HhL2AuCvkyXZtCos0a3mDbxfhizKglw92b+sfW1hx/QrrzFXUIunLQqOJAfxUoQR/1+1qGneWYssQzQNJP1tA+/w/rpmrnh62QwA4tZywnEdEXHyuxILv0QLZBt6Idi6aSMBbFPZRtfKYORBZ9bQ98da/YfbWVjZ6V4/uQ0TPZcxWDJMdty97kaD74pixNEH83YCUkP1E0cwemJLWQknnxuQamLRQRIFyJ0Ij0pLcz6vZ0/c28f092grO27+I8RPzmQ/H4B8U1BjBnllc1U9GIr3PcFrgVa6ZRXGefs5mTKKPEN3IPiVyDLJlUX6JApVO+38DQK/RPmVK7bxLwbBCuP5LLkFvomBj5YnKLGmB+UYpgpMDdMe7vyppc6rtOPuwxHDKCLvmpBuBNC17mAaTrN3arDACrzu5QJyp706qPP2SnuTU/Xz/gwADm4rzCo2tFE4/DjR78ym1lfwzXgUP3At6qXrNFQ==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(346002)(396003)(39850400004)(376002)(136003)(46966005)(54906003)(336012)(83380400001)(110136005)(8936002)(4326008)(2906002)(7416002)(107886003)(478600001)(316002)(82310400003)(44832011)(8676002)(426003)(2616005)(26005)(186003)(36906005)(7696005)(7636003)(5660300002)(70206006)(6666004)(70586007)(9786002)(6636002)(966005)(356005)(36756003)(82740400003)(47076004)(921005)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 08:06:34.7070 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e49283c1-e8aa-4f37-56b8-08d88b98ddf0
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT033.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5637
+X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,381 +120,80 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0534334813=="
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Wendy
+ Liang <wendy.liang@xilinx.com>, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0534334813==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lAyXl7LSETdSMeyAEDo6oBqDvZGsEIU15"
+AI engine is the acceleration engine provided by Xilinx. These engines
+provide high compute density for vector-based algorithms, and flexible
+custom compute and data movement. It has core tiles for compute and
+shim tiles to interface the FPGA fabric.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lAyXl7LSETdSMeyAEDo6oBqDvZGsEIU15
-Content-Type: multipart/mixed; boundary="KU8LqLrLCX43nqmaYrWXsM6cQXQIGq1PA";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>
-Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org,
- Tim Gover <tim.gover@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <2a79055f-a2e7-913c-b566-91780f199016@suse.de>
-Subject: Re: [PATCH v3 5/7] drm/vc4: kms: Document the muxing corner cases
-References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-6-maxime@cerno.tech>
-In-Reply-To: <20201105135656.383350-6-maxime@cerno.tech>
+You can check the AI engine architecture document for more hardware details:
+https://www.xilinx.com/support/documentation/architecture-manuals/am009-versal-ai-engine.pdf
 
---KU8LqLrLCX43nqmaYrWXsM6cQXQIGq1PA
-Content-Type: multipart/mixed;
- boundary="------------5C1D8E90B49AFF5A0A203FD8"
-Content-Language: en-US
+This patch series adds a Linux kernel driver to manage the Xilinx AI
+engine array device and AI engine partitions (groups of AI engine tiles
+dedicated to an application).
 
-This is a multi-part message in MIME format.
---------------5C1D8E90B49AFF5A0A203FD8
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Izhar Ameer Shaikh (1):
+  firmware: xilinx: Add IOCTL support for AIE ISR Clear
 
-Hi,
+Nishad Saraf (2):
+  misc: xilinx-ai-engine: Add support to request device management
+    services
+  misc: xilinx-ai-engine: Add support for servicing error interrupts
 
-A few suggestions below. But I'm not a native speaker.
+Wendy Liang (6):
+  dt-binding: soc: xilinx: ai-engine: Add AI engine binding
+  misc: Add Xilinx AI engine device driver
+  misc: xilinx-ai-engine: Implement AI engine cleanup sequence
+  misc: xilinx-ai-engine: expose AI engine tile memories to userspace
+  misc: xilinx-ai-engine: add setting shim dma bd operation
+  misc: xilinx-ai-engine: add request and release tiles
 
-Am 05.11.20 um 14:56 schrieb Maxime Ripard:
-> We've had a number of muxing corner-cases with specific ways to reprodu=
-ce
-> them, so let's document them to make sure they aren't lost and introduc=
-e
-> regressions later on.
->=20
-> Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
-s.c
-> index bb2efc5d2d01..499c6914fce4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -662,6 +662,28 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
-v *vc4)
->   	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fin=
-i, NULL);
->   }
->  =20
-> +/*
-> + * The BCM2711 HVS has up to 7 output connected to the pixelvalves and=
+ .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 119 ++++
+ MAINTAINERS                                        |   8 +
+ drivers/firmware/xilinx/zynqmp.c                   |  14 +
+ drivers/misc/Kconfig                               |  12 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/xilinx-ai-engine/Makefile             |  16 +
+ drivers/misc/xilinx-ai-engine/ai-engine-aie.c      | 608 +++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-clock.c    | 244 ++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dev.c      | 492 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dma.c      | 481 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-internal.h | 519 ++++++++++++++++
+ .../misc/xilinx-ai-engine/ai-engine-interrupt.c    | 661 +++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-mem.c      | 274 +++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-part.c     | 635 ++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-res.c      | 219 +++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-reset.c    | 159 +++++
+ include/linux/firmware/xlnx-zynqmp.h               |   8 +
+ include/uapi/linux/xlnx-ai-engine.h                | 236 ++++++++
+ 18 files changed, 4706 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+ create mode 100644 drivers/misc/xilinx-ai-engine/Makefile
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-aie.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-clock.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dev.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dma.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-internal.h
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-interrupt.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-mem.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-part.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-res.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-reset.c
+ create mode 100644 include/uapi/linux/xlnx-ai-engine.h
 
-
-'7 outputs'
-
-Is it 'pixelvalves' or 'pixel valves'?
-
-> + * the TXP (and therefore all the CRTCs found on that platform).
-> + *
-> + * The naive (and our initial) implementation would just iterate over
-> + * all the active CRTCs, try to find a suitable FIFO, and then remove =
-it
-> + * from the available FIFOs pool. However, there's a few corner cases
-
-I'd write. 'and remove it from the pool of available FIFOs'. Sounds more =
-
-natural to me.
-
-'there are a few'
-
-> + * that need to be considered:
-> + *
-> + * - When running in a dual-display setup (so with two CRTCs involved)=
-,
-> + *   we can update the state of a single CRTC (for example by changing=
-
-> + *   its mode using xrandr under X11) without affecting the other. In
-> + *   this case, the other CRTC wouldn't be in the state at all, so we
-> + *   need to consider all the running CRTCs in the DRM device to assig=
-n
-> + *   a FIFO, not just the one in the state.
-> + *
-> + * - Since we need the pixelvalve to be disabled and enabled back when=
-
-> + *   the FIFO is changed, we should keep the FIFO assigned for as long=
-
-> + *   as the CRTC is enabled, only considering it free again once that
-> + *   CRTC has been disabled. This can be tested by booting X11 on a
-> + *   single display, and changing the resolution down and then back up=
-=2E
-> + */
-
-With my suggestions considered,
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->   static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
->   				      struct drm_atomic_state *state)
->   {
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
---------------5C1D8E90B49AFF5A0A203FD8
-Content-Type: application/pgp-keys;
- name="OpenPGP_0x680DC11D530B7A23.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0x680DC11D530B7A23.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
-H47
-fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
-bqP
-5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
-z9E
-ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
-nEm
-imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
-W1t
-ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
-BYC
-AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
-Onf
-G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
-GJm
-DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
-+1Q
-DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
-p8n
-91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
-zF1
-CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
-gUC
-WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
-IiL
-+he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
-42f
-CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
-Urj
-EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
-45N
-GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
-Tpy
-Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
-u5r
-A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
-/N8
-GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
-j0g
-voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
-bZM
-RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
-zWw
-iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
-Xy9
-RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
-cLA
-jgQTAQgAOAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC=
-3oj
-BQJftODHAAoJEGgNwR1TC3ojZSIIAIV3makffp4P4leU8JSLt0aTNewsOhy7VQzKUtlCw3PKD=
-3l/
-SuymZhQKgH+n6sijzFauZnZ+x0T+Oy+dDVZb3sNJuuMUDIHw18EO9daZBMcueaS54FGe73lAp=
-HUl
-7nxyocCxoqIG8+fP+75itV/ls2TSh5rJvjLvHC8J3NqfGlJ/jlSKrQUnzFbXfE5KGWiKNAn+I=
-1a2
-EE0I7uLpYgkdb8hcjtV9Rxr2ja+GWOaSoqB29P5GUzipkWo4144Q16JBO6QP2R9y/1ZK9VqH2=
-5T8
-lTKocLAaHCEdpDqY5KI15as9tIxlI1Vh+eqhTh/gwEm1ykO1gmrQ1zvGLDMB1EE6El3NJ1Rob=
-21h
-cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIbAwULCQgHAgYVC=
-gkI
-CwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJe/EheAAoJEGgNwR1TC3ojq=
-RgI
-AIoegtTp1prPzfHgTAuEPd8v58ssHubwi9tg69a8IJ+iMNozhs4iUou84WOLBJNjSieXHZRa8=
-fJj
-//2/sTuABn38AQ9FcKX9/B49hrdCo6c0WHHKqlPrSTzuXNKYyOdmSFd/pDhBb2Bn5DTxxH5RP=
-m/N
-U/C9nUlwi7Y+FgBlDNa5h592wmJfv0cJAfvF56C+QL65jHFOFIW9xSaTOAxxMXHGJHXki6Iwa=
-aTg
-s7QQlKQcd5XvvED1bwLyQ7rq+MEZo5N7IygpQMM3qqGMlCnDdyQ3W95rd0HCWpfa0oVRCOwdu=
-SL3
-5hG7ONqBpvBj8z5GjSbt4HLJGvpeT0k37qzRExrCXQQQEQIAHRYhBCfo46afO8//uS2Oai53o=
-TAR
-9dPCBQJbOh1XAAoJEC53oTAR9dPC05AAoIy0HQ2DBDYugQ42P4HfyxfZTIvKAJ0fqNBcBFW9S=
-tbR
-DEP9cfpNVOv8YMLAcwQQAQgAHRYhBB5dmCGZCKOVTtjMWKpQO8muD0enBQJbOfGzAAoJEKpQO=
-8mu
-D0enL0wIAM2NTeUDCofBAkbWHGTZopclefbh0xGPYQEfttNyalp0hn1CrVO7OsX5eTjRqgyOa=
-1C5
-OAsNghCM4PUmrfv5cZ9+sNn9bRM50uVW9IFRlq8wwBY4+7QejJ5gs7DW/0tZIMZ6iTGKK0WEO=
-7gd
-2K9hXadPBScTdIqXeWH82meiqElnEQL+K9UeGUBrku+1EQIOxwziKwTDlTvhyJ+xmEKj0uWRc=
-Ocl
-27xLS9XOWPGXcNQBtlZhF8e/E1kFRt5CPP5UBdUCN8qydUadseXivSNDiYob9dyJSFt7G0Bq4=
-/ac
-Ret5ANtGRWsp8xYJQRossRMWL0w9P8SiIc2IY/JrQrpz29nCwHMEEAEIAB0WIQS7I223sZ7vx=
-shH
-HWin83wZjDkxgQUCWzoywAAKCRCn83wZjDkxgQaDCACyFuBLQWNvLT8GTDqTf/gETzmtoEM6Y=
-r8O
-4jbYg05xiFzAqMZctQsm3zHakx2JrimxDvQJRQJQzp5ICJ7J/BOuSL4FE1SPeQIfjm4jyBZGH=
-P/W
-vgHsT5e3+ZCPePPZO+3irarTKVhaaP70Tpka6EsOCZzO6L8D6tUDkhxMX0ymy7p8w9Yt1eD0o=
-Ume
-mxrKdS1ulpNJUTBw7gJN8bMowVnycEm6wntxOjrCxuwbkKhFLdn0ejcXQ0UkfbUFKfU64gGBu=
-S53
-ZlM8XlOhQEIw/FrdXszhR+Tg3Ag130cmJhOrghgOBLzvJfUd6OvDT5VIz0QGbAm8SWlAIIms1=
-9Z8
-kBsLwsCOBBMBCAA4AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjla=
-A3B
-HVMLeiMFAl+04McACgkQaA3BHVMLeiPHXAf/SEoZa6CKoOAs1ctEP/hN8cEQqbEiuZ+71nm3u=
-/BQ
-p/CEUvqGq+iVc8kkpClDbPz5fa9mb+yWwufsnXKOs6ygmEoAEOL7dBZZIaRobBEkB09VXIkx8=
-lE0
-00grBVtToHUGRfZcMoMZ98XhPGU6lJDN200j/2CV46hQDz6PLySecNjOME05mosbYW5N2JwFd=
-uXP
-Qx++DjWB32QLBhcOcP3WslTy3PKVe/TcTvk0JpPFMz4UFc+awBVhDgZiGGAW3xLZRYyhpoAEs=
-N7u
-XkV2ct0MRxuZ3y4tTYJobhbZwutRojiPPZduRw9CSpNDcQHruFiSOIQTpnLeCA6K2JAZyqmP/=
-87A
-TQRbOdLgAQgAxiY/gz9X5PlFjlq3+DutR02wuFa/UA9iuH1FB584Nges1EdQT16ixhtPpcyvJ=
-H2F
-PxeUY5hHApbCJAGhZIOJMyj9eLb2NSefgFd8janHYNNfBzbYsq0sCBNGM/6ptTrdjTGdA3b1Q=
-YNt
-iDLIrnUNbcfQh/Zrck2yF4AAr5dz1tqPQsYhzxP26IRYcGcIf5F2GABOdZYYp0N6BRHkGQN8O=
-Dk7
-8UhLKYkEfHYPKiSW/mDgHOSCpOrCZpjOyXxTFkq9trGrTNt6EN1ryW+EVeh00UwCBMsmUu4Ng=
-4Ys
-rYDButLdKnQARuSl0kFvjipWUablsClmi4d4n/6f7uvXb6Wp2wARAQABwsB8BBgBCAAmFiEEc=
-hf7
-rIzpz2NEoWjlaA3BHVMLeiMFAls50uACGwwFCQPCZwAACgkQaA3BHVMLeiOl9wgAifA/k6VwQ=
-qiR
-OccKINPPg6fLgacdE/Z9cBNBkIrGa7gAljaH2J/D01/ZOMJnoAy8Le2EA3SsUOPnk32XizUKl=
-oOj
-gn7R+Sse7I1pydPbToJ4lXUTs1ie3FSf4tKJGs53LCfp6uPFGL0RhNUsIdwOEESMqYVl+DgAz=
-gZk
-xZfWWDT54dt3mgvVqzbxa+8j+4hozJXxFvJei3Wv/xAuVaV1Tc2tMXmntMxTbLdkfaZ/my5Io=
-cAy
-1sTiMonxkcU6jcaEuCNWsFYcT0lc7TzEqSAP7Dq/zf6eiawS5/oLotiupj+2xm/IRfrM3wK2K=
-s90
-9a79Vc1FgCX+Vq3uVIjcfbqqscLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojB=
-QJf
-tOH6AAoJEGgNwR1TC3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6=
-Baa
-6H7ufXNQtThRyIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3=
-T0T
-trijKP4ASAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446S=
-h8W
-n/2DYa8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRai=
-tYJ
-4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9fOwU0EX7ThE=
-wEQ
-ANJiTIb/nQ+MPgIBsSfBBhmXrVFUwFveO6DWPZ0M+Y5xBJhvDukosstSgcLCdld4SFF2JnnCo=
-yh9
-boM2j2Ksd5wNzTzXlo3lEzFRAipftboviUjap0qxoRwy1hBV3Ft1/VyNwwYY7qjGVATQU7cIT=
-/zL
-gb+Sd0NPQA8r2NvpJq1MnI8nFfA2ZH4diuRtavhEBUzp63SlCYxnyxqT5AQzSQGUpsjSyh1A5=
-ezt
-j1pwxgnkX7F9ZT0lUBo6zZM6ZBq8Nkyvox46l79QoWMBm9y+/nIXy/uXdT6RaumPjBzVttGmk=
-Onm
-TlGUJyQAndAE1boib9iWCJ4kIr2ezRKjXJXGuaM1m7hSfdQYWed0j52+nW9qGSNNk1GjYXM8Z=
-SWT
-agX6O5mfbpzRgBBK/XoE9NWRNAa4V+tUX4/vqqDl0m+O4F2GYs6Eu7WLredRgwjDuMF/VCKvQ=
-fr3
-yjIt90Zi10cHQw3khdJWmSDKYgenpvsffo4x56biifOh6IxS/whf5/BAx4nx8GyX7JO0DUnUu=
-ieC
-NfEGRu8QbYBSOkO/vdm4xy7RZwdzlqN8zjCLFOCG346Bnsx3ku2lNtX6qZoajmfD4oO6N0Xds=
-2pE
-wjufCfJW9sCLdBmqLD5OvsRljyv7vt5w28XSF1tyhQaxIs+8sFJtwfCliduffq56FcFrEXCxs=
-LQr
-ABEBAAHCwqwEGAEIACAWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCX7ThEwIbAgJACRBoDcEdU=
-wt6
-I8F0IAQZAQgAHRYhBMZ3Zv36bjFHcGBRaJYfxNxEKL/gBQJftOETAAoJEJYfxNxEKL/gkygQA=
-LQH
-pXm45ZfMCDx7u/d7rRH/R7EfEV5OAoS981IkzbTgrb9z6YYfhQqH+R2ImgoX/Lou7zSjyd22/=
-IaZ
-AnTKHKkXIFIM1uB144dqAi3tW/Bei/CSdiD7DY1q92Ebl6e+Gpf3TZdATSY00fVeLMNFnjbbz=
-CVX
-9+LEKYARNm7kYogVJMc5CuVmXBn9FFF3cioRvpuals8llsFc4WiUBJfDfOzjXExqv3OMtJj0s=
-qlK
-sXdnLkXbtAmEvFaxqUuO1ZwTCTGflrn/g4C8Cg0ifk0wZGgGYRindkJE1vOQZPaDI7GtNxJ+D=
-sx4
-fL/8tf7Wuk3TZ6t/ofKhjq8sUVCVhnlyd/3ujruDu/PhwwYBsHjNn+PmHeCCRJuOWwKapdfjH=
-9nt
-sHXTvyXBB2D3H7Oj7S/HOTXRNTUWhaxICKtq+XDSuJKOv7CNevkjMF4ybQDsrUxnaWd76YqNP=
-vZv
-PYoTqKzKukifjGXMsxC6HU4K2GscpvoaIk7glaD+NYi3fIGi/gR0UNc6cmXtOrYKSnCsNOwcO=
-CJL
-DjEr6YdbdAXO2wxCLqnupo8JRJgA8hjjHM5OoTGEyP/c+DKDqFO90YilX1XN8xchHrw+bDv0E=
-Zm0
-RZpVdL7WNr7qQE4UhDfuyo4Gis4Z+npzoOL4g3yaQQfK32zZD9iqk9152b7ny2Ke5oFIF5SSa=
-EwH
-/2tLNBevzgzWuEB6FtqoMT5RjDyx+xBeImRlhnP0EenRh+EP0nmLCAaFiP4tTp1bX54SyByp8=
-wcN
-7F2+v2Sgdd64w1pdrjT74Zf1xj0NTxEdt5jEaPfl5Vjv3cXiB8ACwPkMIXmkJx3uaGJynl4Os=
-irb
-nzzviEzvDVpLAxL7Qr6imlKUh92iAoz+XxEDqgMZnJJOTDFdDxEBhv911VzlRraDNdxw4MHMm=
-5Nr
-5pj4HGYh3PigzNo0KIreB50YqhGOesaC4Q75gv8mLc2Ec5dEq79BVMUOaCmYDShBN9j6JovNs=
-WSR
-5YP3tXi+jZ+VnyKLft9wo1fh1oYadFEVSHgGsEY=3D
-=3DfoRs
------END PGP PUBLIC KEY BLOCK-----
-
---------------5C1D8E90B49AFF5A0A203FD8--
-
---KU8LqLrLCX43nqmaYrWXsM6cQXQIGq1PA--
-
---lAyXl7LSETdSMeyAEDo6oBqDvZGsEIU15
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2KM4FAwAAAAAACgkQlh/E3EQov+Cp
-+w//WJNnFOp/BBGuTxbB0yqAfcf/FXOw9zS9h5IGJhd5L2Vwr9iN590a5UmbsGId59YbU0VD/CVH
-TXbUUb+WQN23Pqi5O9QsPYfpyJqPP61kxG8ESSjbUET2msLMw/5/cKlROzdViX4rhpjgJkb0uv3x
-V/yNKOH71IVZGgaHEUPW/45DSMx7m1rZbbwdEnqOFVLEe11Nl5pdcFdnIUw6eEHVoMPbOovOGlwK
-srPVxLzRlA5gMWAK9HwAYXYpiqRIk7ObukyQzo7d8eCT8bZljvPyul+qlIYcK6uj+aFT7A+F986E
-kgsntn2M88oyJIRypt51Lhm1rFJ0Caq7EbuY1F4oDtrGuRUagWZwwnruCXh+AnXX6glzFZ+gWCUO
-RnA7IgZywjaPNYzHZidz5yEy/BPVOn1fGbykd/VXhkbwu2g4PJHURtIGa8CH9Y4u03Djn7MPJiLW
-ks1xkgpkjBLpDRHpNmLdx4M+9NmPp5yE7WJ+lPMY7lOxkfs8lr+YwLMsLkB0o72k0P/IxuRnoQDj
-Xy656rCeRZhZ8k44odr7g6e+3+ShNYveCPNL1BcNXWpavS/CEeUUQgDm+g4W4AcFfqJkCXqsX+qG
-f6ylENknD3p8pV1qaE23KlA028n4cln8nbrRSObwCR6hRhlMMDCt9aUuMQK1UWDc5fLf+vYQOvDM
-IvM=
-=JSs/
------END PGP SIGNATURE-----
-
---lAyXl7LSETdSMeyAEDo6oBqDvZGsEIU15--
-
---===============0534334813==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0534334813==--
