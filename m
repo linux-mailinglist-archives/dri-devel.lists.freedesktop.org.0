@@ -1,58 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28312B8D6C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:33:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 843132B8D79
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB2E26E573;
-	Thu, 19 Nov 2020 08:32:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BCF66E508;
+	Thu, 19 Nov 2020 08:34:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F30766E459
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 20:28:03 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605731284; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ur6glR/qi0TR8CQKk8j+lGgChxddt0kHiTvic5gvPKM=;
- b=o04wAUu0H2/RzEHz/R7dRlO3RUllT3Gu5k2HHdnz9ovkw+0tnzQfWd4IGdYo/C7z4Pv4YCqy
- KCpRTNpCnT0FhZUl7SyQpaW7Euu62x8YYXEKr+aACaU0ka7KoC8lh7WEkT6fuXAQixFM7UJ9
- 0djDBUGnSp1m5s41ET6sJqEvDxU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5fb583d27e9d874dfca99a2c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Nov 2020 20:28:02
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id ED352C43464; Wed, 18 Nov 2020 20:28:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: veeras)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id E0D26C433C6;
- Wed, 18 Nov 2020 20:27:59 +0000 (UTC)
+Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 846446E46B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 20:34:14 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id A5A35DEE80;
+ Wed, 18 Nov 2020 20:31:30 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+ with ESMTP id wnFH9mvu5HhT; Wed, 18 Nov 2020 20:31:29 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by zimbra.v3.sk (Postfix) with ESMTP id 02C52DFAD9;
+ Wed, 18 Nov 2020 20:31:29 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+ by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 218FZNQk0lq7; Wed, 18 Nov 2020 20:31:28 +0000 (UTC)
+Received: from localhost (unknown [109.183.109.54])
+ by zimbra.v3.sk (Postfix) with ESMTPSA id 8E9A4DEE80;
+ Wed, 18 Nov 2020 20:31:28 +0000 (UTC)
+Date: Wed, 18 Nov 2020 21:34:08 +0100
+From: Lubomir Rintel <lkundrak@v3.sk>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v6 1/2] dt-bindings: display: himax,hx8837: Add Himax
+ HX8837 bindings
+Message-ID: <20201118203408.GA6797@demiurge.local>
+References: <20201030030800.1036888-1-lkundrak@v3.sk>
+ <20201030030800.1036888-2-lkundrak@v3.sk>
+ <20201101163922.GA3971@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Date: Wed, 18 Nov 2020 12:27:59 -0800
-From: veeras@codeaurora.org
-To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
- daniel@ffwll.ch
-Subject: Re: [PATCH RESEND 1/2] dma-fence: allow signaling drivers to set
- fence timestamp
-In-Reply-To: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
-References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
-Message-ID: <56c9f6721234666dea40d316e0dd24b6@codeaurora.org>
-X-Sender: veeras@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Disposition: inline
+In-Reply-To: <20201101163922.GA3971@pendragon.ideasonboard.com>
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,122 +53,211 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: pdhaval@codeaurora.org, sean@poorly.run, abhinavk@codeaurora.org
+Cc: devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ Neil Armstrong <narmstrong@baylibre.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-12 10:27, Veera Sundaram Sankaran wrote:
-> Some drivers have hardware capability to get the precise timestamp of
-> certain events based on which the fences are triggered. This allows it
-> to set accurate timestamp factoring out any software and IRQ latencies.
-> Move the timestamp parameter out of union in dma_fence struct to allow
-> signaling drivers to set it. If the parameter is not set, ktime_get is
-> used to set the current time to fence timestamp during 
-> dma_fence_signal.
+On Sun, Nov 01, 2020 at 06:39:22PM +0200, Laurent Pinchart wrote:
+> Hi Lubomir,
 > 
+> Thank you for the patch.
 
-@Sumit Semwal / @Gustavo Padovan,
-Can you please help in reviewing this change as it falls in dma-fence 
-files.
-Thanks,
-Veera
+Thanks for the message. Some responses inline below.
 
-> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
-> ---
->  drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
->  include/linux/dma-fence.h   | 15 +++------------
->  2 files changed, 13 insertions(+), 20 deletions(-)
+> On Fri, Oct 30, 2020 at 04:07:59AM +0100, Lubomir Rintel wrote:
+> > Himax HX8837 is a secondary display controller used to drive the panel
+> > on OLPC platforms.
+> > 
+> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > 
+> > ---
+> > Changes since v4:
+> > - Rob's Reviewed-by
+> > 
+> > Changes since v3:
+> > - Moved to bindings/display/
+> > - Added the ports
+> > - Converted to YAML
+> > - Removed Pavel's Ack, because the changes are substantial
+> > 
+> > Changes since v2:
+> > - s/betweend/between/
+> > 
+> > Changes since v1:
+> > - s/load-gpio/load-gpios/
+> > - Use interrupt bindings instead of gpio for the IRQ
+> > 
+> >  .../bindings/display/bridge/himax,hx8837.yaml | 96 +++++++++++++++++++
+> >  1 file changed, 96 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+> > new file mode 100644
+> > index 0000000000000..f5b0a00f5089d
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/bridge/himax,hx8837.yaml
+> > @@ -0,0 +1,96 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright (C) 2018,2019,2020 Lubomir Rintel <lkundrak@v3.sk>
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/bridge/himax,hx8837.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: HX8837 Display Controller Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Lubomir Rintel <lkundrak@v3.sk>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: himax,hx8837
+> > +
+> > +  reg:
+> > +    const: 0xd
+> > +
+> > +  load-gpios:
+> > +    maxItems: 1
+> > +    description: GPIO specifier of DCON_LOAD pin (active high)
+> > +
+> > +  stat-gpios:
+> > +    minItems: 2
+> > +    description: GPIO specifier of DCON_STAT0 and DCON_STAT1 pins (active high)
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +    description: Interrupt specifier of DCON_IRQ pin (edge falling)
+> > +
+> > +  ports:
+> > +    type: object
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        type: object
+> > +        description: |
+> > +          Video port for RGB input.
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: |
+> > +          Video port connected to the panel.
+> > +
+> > +    required:
+> > +      - port@0
+> > +      - port@1
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 43624b4..7cef49a 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
->  int dma_fence_signal_locked(struct dma_fence *fence)
->  {
->  	struct dma_fence_cb *cur, *tmp;
-> -	struct list_head cb_list;
+> No regulators ?
+
+There are four.
+
+On the OLPC platform they're controlled together by the EC.
+
+I've added the supplies to the EC driver and looked into supporting them 
+properly in the driver and am finding it somehow tricky to do it properly.
+
+I couldn't figure out what is the proper place to enable and disable the
+regulators. Also drm_bridge_remove() just mercilessly tearing down the
+bridge without ensuring it's not used anymore doesn't help us on driver
+unbind.
+
+I'm wondering if it's okay if I leave the driver without explicit
+support for the power supplies for now, assuming that EC just takes
+care of enabling the power and never disable it?
+
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - load-gpios
+> > +  - stat-gpios
 > 
->  	lockdep_assert_held(fence->lock);
+> Do stat-gpios need to be mandatory ? The driver in patch 2/2 doesn't
+> seem to use them, could we have boards where those signals are not
+> connected to GPIOs ?
+
+Perhaps not, in theory.
+
+Pretty sure the OLPC machines are the only ones that utilize this
+silicon though.
+
+> > +  - interrupts
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +        
 > 
-> @@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence 
-> *fence)
->  				      &fence->flags)))
->  		return -EINVAL;
+> Could you please avoid spaces or tabs at end of lines ? There are three
+> other occurrences below.
+
+Ugh, I was sure I ran checkpatch.pl, but apparently not.
+Sorry for that.
+
+> > +        lcd-controller@d {
+> > +            compatible = "himax,hx8837";
+> > +            reg = <0x0d>;
+> > +            stat-gpios = <&gpio 100 GPIO_ACTIVE_HIGH>,
+> > +                         <&gpio 101 GPIO_ACTIVE_HIGH>;
+> > +            load-gpios = <&gpio 142 GPIO_ACTIVE_HIGH>;
+> > +            interrupts = <&gpio 124 IRQ_TYPE_EDGE_FALLING>;
+> > +    
+> > +            ports {
+> > +                #address-cells = <0x01>;
+> > +                #size-cells = <0x00>;
+> > +    
+> > +                port@0 {
+> > +                    reg = <0x00>;
 > 
-> -	/* Stash the cb_list before replacing it with the timestamp */
-> -	list_replace(&fence->cb_list, &cb_list);
-> -
-> -	fence->timestamp = ktime_get();
-> +	/* set current time, if not set by signaling driver */
-> +	if (!fence->timestamp)
-> +		fence->timestamp = ktime_get();
->  	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->  	trace_dma_fence_signaled(fence);
+> reg = <0> should be fine. Same below.
 > 
-> -	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
-> -		INIT_LIST_HEAD(&cur->node);
-> -		cur->func(fence, cur);
-> +	if (!list_empty(&fence->cb_list)) {
-> +		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
-> +			INIT_LIST_HEAD(&cur->node);
-> +			cur->func(fence, cur);
-> +		}
-> +		INIT_LIST_HEAD(&fence->cb_list);
->  	}
+> With thse small issues addressed,
 > 
->  	return 0;
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 09e23ad..a9eebaf 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -70,26 +71,16 @@ struct dma_fence {
->  	 * release the fence it is unused. No one should be adding to the
->  	 * cb_list that they don't themselves hold a reference for.
->  	 *
-> -	 * The lifetime of the timestamp is similarly tied to both the
-> -	 * rcu freelist and the cb_list. The timestamp is only set upon
-> -	 * signaling while simultaneously notifying the cb_list. Ergo, we
-> -	 * only use either the cb_list of timestamp. Upon destruction,
-> -	 * neither are accessible, and so we can use the rcu. This means
-> -	 * that the cb_list is *only* valid until the signal bit is set,
-> -	 * and to read either you *must* hold a reference to the fence,
-> -	 * and not just the rcu_read_lock.
-> -	 *
->  	 * Listed in chronological order.
->  	 */
->  	union {
->  		struct list_head cb_list;
-> -		/* @cb_list replaced by @timestamp on dma_fence_signal() */
-> -		ktime_t timestamp;
-> -		/* @timestamp replaced by @rcu on dma_fence_release() */
-> +		/* @cb_list replaced by @rcu on dma_fence_release() */
->  		struct rcu_head rcu;
->  	};
->  	u64 context;
->  	u64 seqno;
-> +	ktime_t timestamp;
->  	unsigned long flags;
->  	struct kref refcount;
->  	int error;
+> > +                    dcon_rgb_in: endpoint {
+> > +                        remote-endpoint = <&lcd0_rgb_out>;
+> > +                    };
+> > +                };
+> > +    
+> > +                port@1 {
+> > +                    reg = <0x01>;
+> > +                    dcon_gettl_out: endpoint {
+> > +                        remote-endpoint = <&panel_dettl_in>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> 
+> It's customary to end bindings with
+> 
+> ...
+> 
+> (not sure why though, given that it seems to work find without)
+
+Okay, will add that.
+
+Thank you
+Lubo
+
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
