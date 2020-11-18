@@ -2,70 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F172B8D18
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3DFA2B8D67
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B8F56E509;
-	Thu, 19 Nov 2020 08:31:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 101B46E566;
+	Thu, 19 Nov 2020 08:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 522826E437
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 15:30:27 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id a65so3111366wme.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 07:30:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=/SDkP0vkKcya+FIJEA+cPnvkReKH8EFRybVcIu9lk9M=;
- b=D1BytoB6O03jBcACE4ZhAx92rosgf9wYS2rPHzrBHSfzKSQ0rUMTzY3xFt8TEHE9k0
- YIIiPTr94Bc7PUn7zwCH9EE+zMbRYo4nnn12/5TpwUogKdAUXolEut/KGLgjD8p1u9z+
- dAYzFovYhNWO+3rZhx7IoAOF+fVoq+FdKg0mn20a1XWJUdbwnQ20TZzHguw90k+BaASf
- 7P+5q6YagtEKTiL9MoxhoA0aKwhwyc39dlKHA6piMdU8eOhplAdHXaNEcJpNvodiG8QL
- JTVWIUvFDbkbxf7qqsJ2NSlEFEvArxEdy8Xn4hO7Lb5vG6HcO7PIrZcevw0aveSWR9kJ
- kERw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/SDkP0vkKcya+FIJEA+cPnvkReKH8EFRybVcIu9lk9M=;
- b=emxTj41cnsTov9h/bs19rtJF2mkt+vHlyXDwauuybdMChGpw4wJxqZv01xeYBf9a6i
- kioy3TSqVxsoyEMy7cO5c6t8My0npvPi7QISmhqqqpez0jlb2hJhNh7UlNctMe1Gbep+
- +WZ62+7P2ciZ+n3xoEAwhOm9fI9VVeggK2Rc0xYhHtsZJaz5XWIuZ3+4WworY98/5H1A
- vGD8HvJPoSL/oOKmt6nKcn2NGkxF8s5lyLgEK1h3nh8mD25ZN1FXW7XcIckEvaq7r73/
- URW94tO083kTKQN/zicCSlpM4Btg2m8HM3yMA0kBZlV4YhIJw8WCzvafQrYSO75LAbG8
- hpag==
-X-Gm-Message-State: AOAM530v+IzRSbJKzX3rhfeuD6/YqoRp0GrQ0zpDIut4Kvpxt7PHib3B
- 36qLAQAoPL3/8NtTHfaQkgfA5cnIDvm3gA==
-X-Google-Smtp-Source: ABdhPJzFItfcbj1D5GPsiBo7RkrZes7kt1MjC/X61M/dwKw8ehmZ/XH4IHzsd6fKnSmspZvESraPog==
-X-Received: by 2002:a1c:790c:: with SMTP id l12mr560063wme.47.1605713425424;
- Wed, 18 Nov 2020 07:30:25 -0800 (PST)
-Received: from MacBook-Pro.local ([212.45.64.13])
- by smtp.googlemail.com with ESMTPSA id w11sm4405479wmg.36.2020.11.18.07.30.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Nov 2020 07:30:24 -0800 (PST)
-Subject: Re: [PATCH v9 01/17] memory: tegra30: Support interconnect framework
-To: Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
- Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
- Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-References: <20201115212922.4390-1-digetx@gmail.com>
- <20201115212922.4390-2-digetx@gmail.com>
- <61e777d9-b730-02c6-cedf-cf0aa1a50fb8@linaro.org>
- <7e484678-43cc-e612-1017-73ed580f9840@gmail.com>
-From: Georgi Djakov <georgi.djakov@linaro.org>
-Message-ID: <83a3f33b-3695-2a40-1c2b-5c38d117c1ad@linaro.org>
-Date: Wed, 18 Nov 2020 17:30:22 +0200
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4398A6E479
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 17:48:12 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id C65DC580478;
+ Wed, 18 Nov 2020 12:48:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 18 Nov 2020 12:48:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=WBs0+qXjmXeLcuaDX8p9vezOX23
+ qqrk6o/0xn8RCNhM=; b=U1DMDLZ+NRwaWmeWqmpCIgtYYwGIoU663EKpES8ALDR
+ 6SeE9Uqetws3DreEG/Qsw7D2YjNVROXJVid+sbrkl/3oGxT3DNgr/NPucT4JaHY1
+ kPG/D2ySeINFXVPdr9yQP/YWiDH//08ClI863koa47ufz7eS9RdVF2zOKCS+95V7
+ raelulzehsE7PpTWDVm3d8e1KjBXNOCpF7w2UsqIgBicUn8qsONFsmsAdE6d0MPK
+ UXogwHAYFuRweWuDSRZudZmRIQwIJ2thjUcny2UnIO1VOro4PopuYpZu7hpQmFa4
+ X2Zt+7csVu7TUpZSkJM8DGLAtNX+LTb0RKDDmnAkfWQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WBs0+q
+ XjmXeLcuaDX8p9vezOX23qqrk6o/0xn8RCNhM=; b=VtVGw7EsJlu//oca9mCC3I
+ X0/1VPyTznfArD5C1RgWYugqLR1hqmQDsXnoKeQnVOUfOu+oFMK+vLOVVHUDqLR0
+ xDqRdqSrgFcfVlzaHI4bVWdUqpTxbViCL+faBpfDokt+MdkKeNSrCIPqplDTE3HX
+ 96iI9F6a+ywgNl1i9QT/2Xy+eCjEFJU+ojA8ZvecXb2WXiI4DRsqNynkgkHqJDd1
+ TOOQ8lKw2V5DfKzWIMVb2YZ5jHm+E07ipzJ5sYqac06+axP+MyV9xQPPKHR3qfkS
+ qFsQwftIjLneO2JzpjKnI2vk9xrQuXHhvddzlWVoCfv8dMjnPjEjjTlvcW8M9vlA
+ ==
+X-ME-Sender: <xms:V161X2m4GYgJyR7DRkY8KbEiNPlP1h8IzO2IbW42zr-XaPOFDqEPlg>
+ <xme:V161X932Y2VILDup0yrk1C1XdXSpBXYwRV1SxW5XqP7IrOOJhy5G1D9nyo7Pc_J-P
+ XSVR6m2q6G0J0Qjb0U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefhedguddtkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:V161X0oCdyxk1cHlXJCw3CMFYCdvcyHZ1dO6aTu20N0tUZ-92fNMqw>
+ <xmx:V161X6nh1Wfqrqk5kZtyuNuJPnCtiwjyppljrCTRZ_L6kCWUZeqV7Q>
+ <xmx:V161X02v3jAHMnQKpfOHdWwrPyZPJmN2Wq9QPfOaHSKTgFYPpoumGA>
+ <xmx:WV61X6y-usYni9MRI2i8vjvElsqrrVgRnljVGOWuA9EosrJmlGYplg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id BDD1D3064AAF;
+ Wed, 18 Nov 2020 12:48:06 -0500 (EST)
+Date: Wed, 18 Nov 2020 18:48:05 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH RESEND v3 1/6] drm/of: Change the prototype of
+ drm_of_lvds_get_dual_link_pixel_order
+Message-ID: <20201118174805.cm67sluusovz5n6a@gilmour.lan>
+References: <cover.6cdb798a6b393c8faa9c1297bbdfb8db81238141.1601910923.git-series.maxime@cerno.tech>
+ <6169dd15782627c8415583881fa94ba39c4f5221.1601910923.git-series.maxime@cerno.tech>
+ <20201011230030.GD3944@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <7e484678-43cc-e612-1017-73ed580f9840@gmail.com>
-Content-Language: en-US
+In-Reply-To: <20201011230030.GD3944@pendragon.ideasonboard.com>
 X-Mailman-Approved-At: Thu, 19 Nov 2020 08:31:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,66 +81,121 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1862948924=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTguMTEuMjAgMDowMiwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOgo+IDE3LjExLjIwMjAgMjM6
-MjQsIEdlb3JnaSBEamFrb3Yg0L/QuNGI0LXRgjoKPj4gSGkgRG1pdHJ5LAo+Pgo+PiBUaGFuayB5
-b3Ugd29ya2luZyBvbiB0aGlzIQo+Pgo+PiBPbiAxNS4xMS4yMCAyMzoyOSwgRG1pdHJ5IE9zaXBl
-bmtvIHdyb3RlOgo+Pj4gTm93IEludGVybmFsIGFuZCBFeHRlcm5hbCBtZW1vcnkgY29udHJvbGxl
-cnMgYXJlIG1lbW9yeSBpbnRlcmNvbm5lY3Rpb24KPj4+IHByb3ZpZGVycy4gVGhpcyBhbGxvd3Mg
-dXMgdG8gdXNlIGludGVyY29ubmVjdCBBUEkgZm9yIHR1bmluZyBvZiBtZW1vcnkKPj4+IGNvbmZp
-Z3VyYXRpb24uIEVNQyBkcml2ZXIgbm93IHN1cHBvcnRzIE9QUHMgYW5kIERWRlMuIE1DIGRyaXZl
-ciBub3cKPj4+IHN1cHBvcnRzIHR1bmluZyBvZiBtZW1vcnkgYXJiaXRyYXRpb24gbGF0ZW5jeSwg
-d2hpY2ggbmVlZHMgdG8gYmUgZG9uZQo+Pj4gZm9yIElTTyBtZW1vcnkgY2xpZW50cywgbGlrZSBh
-IERpc3BsYXkgY2xpZW50IGZvciBleGFtcGxlLgo+Pj4KPj4+IFRlc3RlZC1ieTogUGV0ZXIgR2Vp
-cyA8cGd3aXBlb3V0QGdtYWlsLmNvbT4KPj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5r
-byA8ZGlnZXR4QGdtYWlsLmNvbT4KPj4+IC0tLQo+Pj4gIMKgIGRyaXZlcnMvbWVtb3J5L3RlZ3Jh
-L0tjb25maWfCoMKgwqDCoMKgwqAgfMKgwqAgMSArCj4+PiAgwqAgZHJpdmVycy9tZW1vcnkvdGVn
-cmEvdGVncmEzMC1lbWMuYyB8IDM0OSArKysrKysrKysrKysrKysrKysrKysrKysrKystLQo+Pj4g
-IMKgIGRyaXZlcnMvbWVtb3J5L3RlZ3JhL3RlZ3JhMzAuY8KgwqDCoMKgIHwgMTczICsrKysrKysr
-KysrKystCj4+PiAgwqAgMyBmaWxlcyBjaGFuZ2VkLCA1MDEgaW5zZXJ0aW9ucygrKSwgMjIgZGVs
-ZXRpb25zKC0pCj4+Pgo+PiBbLi5dPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZW1vcnkvdGVncmEv
-dGVncmEzMC5jCj4+IGIvZHJpdmVycy9tZW1vcnkvdGVncmEvdGVncmEzMC5jCj4+PiBpbmRleCBk
-MDMxNGYyOTYwOGQuLmVhODQ5MDAzMDE0YiAxMDA2NDQKPj4+IC0tLSBhL2RyaXZlcnMvbWVtb3J5
-L3RlZ3JhL3RlZ3JhMzAuYwo+Pj4gKysrIGIvZHJpdmVycy9tZW1vcnkvdGVncmEvdGVncmEzMC5j
-Cj4+IFsuLl0KPj4+ICsKPj4+ICtzdGF0aWMgaW50IHRlZ3JhMzBfbWNfaWNjX3NldChzdHJ1Y3Qg
-aWNjX25vZGUgKnNyYywgc3RydWN0IGljY19ub2RlCj4+PiAqZHN0KQo+Pj4gK3sKPj4+ICvCoMKg
-wqAgc3RydWN0IHRlZ3JhX21jICptYyA9IGljY19wcm92aWRlcl90b190ZWdyYV9tYyhzcmMtPnBy
-b3ZpZGVyKTsKPj4+ICvCoMKgwqAgY29uc3Qgc3RydWN0IHRlZ3JhX21jX2NsaWVudCAqY2xpZW50
-ID0gJm1jLT5zb2MtPmNsaWVudHNbc3JjLT5pZF07Cj4+PiArwqDCoMKgIHU2NCBwZWFrX2JhbmR3
-aWR0aCA9IGljY191bml0c190b19icHMoc3JjLT5wZWFrX2J3KTsKPj4+ICsKPj4+ICvCoMKgwqAg
-LyoKPj4+ICvCoMKgwqDCoCAqIFNraXAgcHJlLWluaXRpYWxpemF0aW9uIHRoYXQgaXMgZG9uZSBi
-eSBpY2Nfbm9kZV9hZGQoKSwgd2hpY2gKPj4+IHNldHMKPj4+ICvCoMKgwqDCoCAqIGJhbmR3aWR0
-aCB0byBtYXhpbXVtIGZvciBhbGwgY2xpZW50cyBiZWZvcmUgZHJpdmVycyBhcmUgbG9hZGVkLgo+
-Pj4gK8KgwqDCoMKgICoKPj4+ICvCoMKgwqDCoCAqIFRoaXMgZG9lc24ndCBtYWtlIHNlbnNlIGZv
-ciB1cyBiZWNhdXNlIHdlIGRvbid0IGhhdmUgZHJpdmVycwo+Pj4gZm9yIGFsbAo+Pj4gK8KgwqDC
-oMKgICogY2xpZW50cyBhbmQgaXQncyBva2F5IHRvIGtlZXAgY29uZmlndXJhdGlvbiBsZWZ0IGZy
-b20gYm9vdGxvYWRlcgo+Pj4gK8KgwqDCoMKgICogZHVyaW5nIGJvb3QsIGF0IGxlYXN0IGZvciB0
-b2RheS4KPj4+ICvCoMKgwqDCoCAqLwo+Pj4gK8KgwqDCoCBpZiAoc3JjID09IGRzdCkKPj4+ICvC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4KPj4gTml0OiBUaGUgInByb3BlciIgd2F5IHRvIGV4
-cHJlc3MgdGhpcyBzaG91bGQgYmUgdG8gaW1wbGVtZW50IHRoZQo+PiAuZ2V0X2J3KCkgY2FsbGJh
-Y2sgdG8gcmV0dXJuIHplcm8gYXMgaW5pdGlhbCBhdmVyYWdlL3BlYWsgYmFuZHdpZHRoLgo+PiBJ
-J20gd29uZGVyaW5nIGlmIHRoaXMgd2lsbCB3b3JrIGhlcmU/Cj4+Cj4+IFRoZSByZXN0IGxvb2tz
-IGdvb2QgdG8gbWUhCj4gCj4gSGVsbG8gR2VvcmdpLAo+IAo+IFJldHVybmluZyB6ZXJvcyBkb2Vz
-bid0IGFsbG93IHVzIHRvIHNraXAgdGhlIGluaXRpYWxpemF0aW9uIHRoYXQgaXMgZG9uZQo+IGJ5
-IHByb3ZpZGVyLT5zZXQobm9kZSwgbm9kZSkgaW4gaWNjX25vZGVfYWRkKCkuIEl0IHdpbGwgcmVj
-b25maWd1cmUKPiBtZW1vcnkgbGF0ZW5jeSBpbiBhY2NvcmRhbmNlIHRvIGEgemVybyBtZW1vcnkg
-YmFuZHdpZHRoLCB3aGljaCBpcyB3cm9uZwo+IHRvIGRvLgo+IAo+IEl0IGFjdHVhbGx5IHNob3Vs
-ZCBiZSBtb3JlIHByZWZlcnJlZCB0byBwcmVzZXQgYmFuZHdpZHRoIHRvIGEgbWF4aW11bQo+IGJl
-Zm9yZSBhbGwgZHJpdmVycyBhcmUgc3luY2VkLCBidXQgdGhpcyBzaG91bGQgYmUgZG9uZSBvbmx5
-IG9uY2Ugd2Ugd2lsbAo+IHdpcmUgdXAgYWxsIGRyaXZlcnMgdG8gdXNlIElDQyBmcmFtZXdvcmsu
-IEZvciBub3cgaXQncyBzYWZlciB0byBrZWVwIHRoZQo+IGRlZmF1bHQgaGFyZHdhcmUgY29uZmln
-dXJhdGlvbiB1bnRvdWNoZWQuCgpPaywgdGhhbmtzIGZvciBjbGFyaWZ5aW5nISBJcyB0aGVyZSBh
-IHdheSB0byByZWFkIHRoaXMgaGFyZHdhcmUgCmNvbmZpZ3VyYXRpb24gYW5kIGNvbnZlcnQgaXQg
-dG8gaW5pdGlhbCBiYW5kd2lkdGg/IFRoYXQncyB0aGUKaWRlYSBvZiB0aGUgZ2V0X2J3KCkgY2Fs
-bGJhY2sgYWN0dWFsbHkuIEkgYW0ganVzdCBjdXJpb3VzIGFuZAp0cnlpbmcgdG8gZ2V0IGEgYmV0
-dGVyIHVuZGVyc3RhbmRpbmcgaG93IHRoaXMgd29ya3MgYW5kIGlmIGl0CndvdWxkIGJlIHVzZWZ1
-bCBmb3IgVGVncmEuCgpUaGFua3MsCkdlb3JnaQpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+
+--===============1862948924==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="myb6h2js7kdwlghz"
+Content-Disposition: inline
+
+
+--myb6h2js7kdwlghz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Laurent,
+
+On Mon, Oct 12, 2020 at 02:00:30AM +0300, Laurent Pinchart wrote:
+> > -static int drm_of_lvds_get_remote_pixels_type(
+> > -			const struct device_node *port_node)
+> > +static int drm_of_lvds_get_remote_pixels_type(const struct device_node=
+ *endpoint)
+> >  {
+> > -	struct device_node *endpoint =3D NULL;
+> > -	int pixels_type =3D -EPIPE;
+> > +	struct device_node *remote_port;
+> > +	int pixels_type;
+> > =20
+> > -	for_each_child_of_node(port_node, endpoint) {
+> > -		struct device_node *remote_port;
+> > -		int current_pt;
+> > -
+> > -		if (!of_node_name_eq(endpoint, "endpoint"))
+> > -			continue;
+> > -
+> > -		remote_port =3D of_graph_get_remote_port(endpoint);
+> > -		if (!remote_port) {
+> > -			of_node_put(remote_port);
+> > -			return -EPIPE;
+> > -		}
+> > -
+> > -		current_pt =3D drm_of_lvds_get_port_pixels_type(remote_port);
+> > +	remote_port =3D of_graph_get_remote_port(endpoint);
+> > +	if (!remote_port) {
+> >  		of_node_put(remote_port);
+>=20
+> You can drop this line.
+>=20
+> > -		if (pixels_type < 0)
+> > -			pixels_type =3D current_pt;
+> > -
+> > -		/*
+> > -		 * Sanity check, ensure that all remote endpoints have the same
+> > -		 * pixel type. We may lift this restriction later if we need to
+> > -		 * support multiple sinks with different dual-link
+> > -		 * configurations by passing the endpoints explicitly to
+> > -		 * drm_of_lvds_get_dual_link_pixel_order().
+> > -		 */
+>=20
+> Shouldn't we keep this check when endpoint_id is -1 in
+> drm_of_lvds_get_dual_link_pixel_order() ?
+
+I tried to do that, and I'm not quite really sure how to go around it.
+
+This scans all the endpoints in a given port.
+
+However, now that we have the device, port id and endpoint id, we need
+to use of_graph_get_port_by_id to get the port matching the device and
+port id, and iterate over all its endpoint as done here.
+
+The trouble is that of_graph_get_port_by_id expects a !const
+device_node, yet drm_of_lvds_get_dual_link_pixel_order (and seems to be
+doing so rightfully), so that creates a warning because we drop the
+const there.
+
+Changing the prototype to passing only the port device_node doesn't
+really work either, since it would be const, and we would need to call
+of_graph_get_endpoint_by_regs (so having the parent device_node, through
+of_graph_get_port_parent) and of_graph_get_port_parent takes a !const
+port device_node.
+
+I guess we could drop const entirely from our function, but that doesn't
+look right either..
+
+Maxime
+
+--myb6h2js7kdwlghz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7VeVQAKCRDj7w1vZxhR
+xdqQAP4lOz9e996baqwn9tOP7zUCzjJq+WqnxqOGmXzRnT37ogD/Tadf6Jvw9IqG
+qX8ikq5JJZWhYvsmbGKewyYl6OUmtQU=
+=6hPw
+-----END PGP SIGNATURE-----
+
+--myb6h2js7kdwlghz--
+
+--===============1862948924==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1862948924==--
