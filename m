@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7372B8ECD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00B82B8F82
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:59:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2BE6E52F;
-	Thu, 19 Nov 2020 09:32:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9B389A76;
+	Thu, 19 Nov 2020 09:59:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B674F6E52F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:32:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE3AC89A76
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:59:44 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 45499AC46;
- Thu, 19 Nov 2020 09:32:02 +0000 (UTC)
-Subject: Re: [PATCH 5/8] drm/vc4: Simplify a bit the global atomic_check
+ by mx2.suse.de (Postfix) with ESMTP id 49998AA4F;
+ Thu, 19 Nov 2020 09:59:43 +0000 (UTC)
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-6-maxime@cerno.tech>
+ <20201113152956.139663-2-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <963df4eb-b850-0478-b31c-ba566ce638d1@suse.de>
-Date: Thu, 19 Nov 2020 10:32:01 +0100
+Subject: Re: [PATCH 1/8] drm: Introduce an atomic_commit_setup function
+Message-ID: <c08b5a11-3e28-4236-b516-01a3e52cc7a0@suse.de>
+Date: Thu, 19 Nov 2020 10:59:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201113152956.139663-6-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,22 +45,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1701628352=="
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1444739470=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1701628352==
+--===============1444739470==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="l9m7meenv3QN0z4iLNhB3IIK1GI3IntJ5"
+ boundary="2W0sLh3hYJ5LJMQDLuOIXQ9WTte0Yd3Os"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---l9m7meenv3QN0z4iLNhB3IIK1GI3IntJ5
-Content-Type: multipart/mixed; boundary="kMGdkzbSXHsiRvAvmmufyiJVSP8ZxyP84";
+--2W0sLh3hYJ5LJMQDLuOIXQ9WTte0Yd3Os
+Content-Type: multipart/mixed; boundary="bUKJdqjueVcslnRq6dPhfZrAtf0Yym6XG";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
@@ -72,73 +72,160 @@ Cc: linux-arm-kernel@lists.infradead.org,
  linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  Tim Gover <tim.gover@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org
-Message-ID: <963df4eb-b850-0478-b31c-ba566ce638d1@suse.de>
-Subject: Re: [PATCH 5/8] drm/vc4: Simplify a bit the global atomic_check
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Message-ID: <c08b5a11-3e28-4236-b516-01a3e52cc7a0@suse.de>
+Subject: Re: [PATCH 1/8] drm: Introduce an atomic_commit_setup function
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-6-maxime@cerno.tech>
-In-Reply-To: <20201113152956.139663-6-maxime@cerno.tech>
+ <20201113152956.139663-2-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-2-maxime@cerno.tech>
 
---kMGdkzbSXHsiRvAvmmufyiJVSP8ZxyP84
+--bUKJdqjueVcslnRq6dPhfZrAtf0Yym6XG
 Content-Type: multipart/mixed;
- boundary="------------A329D485CB80C3E25C7371FD"
+ boundary="------------1FDC6A1299548E5BBCFE7D96"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------A329D485CB80C3E25C7371FD
+--------------1FDC6A1299548E5BBCFE7D96
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-
+Hi
 
 Am 13.11.20 um 16:29 schrieb Maxime Ripard:
-> When we can't allocate a new channel, we can simply return instead of
-> having to handle both cases, and that simplifies a bit the code.
+> Private objects storing a state shared across all CRTCs need to be
+> carefully handled to avoid a use-after-free issue.
 >=20
+> The proper way to do this to track all the commits using that shared
+> state and wait for the previous commits to be done before going on with=
+
+> the current one to avoid the reordering of commits that could occur.
+>=20
+> However, this commit setup needs to be done after
+> drm_atomic_helper_setup_commit(), because before the CRTC commit
+> structure hasn't been allocated before, and before the workqueue is
+> scheduled, because we would be potentially reordered already otherwise.=
+
+>=20
+> That means that drivers currently have to roll their own
+> drm_atomic_helper_commit() function, even though it would be identical
+> if not for the commit setup.
+>=20
+> Let's introduce a hook to do so that would be called as part of
+> drm_atomic_helper_commit, allowing us to reuse the atomic helpers.
+>=20
+> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 13 ++++++-------
->   1 file changed, 6 insertions(+), 7 deletions(-)
+>   drivers/gpu/drm/drm_atomic_helper.c      |  6 ++++++
+>   include/drm/drm_modeset_helper_vtables.h | 18 ++++++++++++++++++
+>   2 files changed, 24 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
-s.c
-> index 3d0065df10f9..3034a5a6637e 100644
-> --- a/drivers/gpu/drm/vc4/vc4_kms.c
-> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -794,6 +794,7 @@ static int vc4_pv_muxing_atomic_check(struct drm_de=
-vice *dev,
->   			to_vc4_crtc_state(new_crtc_state);
->   		struct vc4_crtc *vc4_crtc =3D to_vc4_crtc(crtc);
->   		unsigned int matching_channels;
-> +		unsigned int channel;
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
+atomic_helper.c
+> index ddd0e3239150..7d69c7844dfc 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -2083,8 +2083,11 @@ int drm_atomic_helper_setup_commit(struct drm_at=
+omic_state *state,
+>   	struct drm_plane *plane;
+>   	struct drm_plane_state *old_plane_state, *new_plane_state;
+>   	struct drm_crtc_commit *commit;
+> +	const struct drm_mode_config_helper_funcs *funcs;
+>   	int i, ret;
 >  =20
->   		/* Nothing to do here, let's skip it */
->   		if ((old_crtc_state->enable && new_crtc_state->enable) ||
-> @@ -837,14 +838,12 @@ static int vc4_pv_muxing_atomic_check(struct drm_=
-device *dev,
->   		 * but it works so far.
->   		 */
->   		matching_channels =3D hvs_state->unassigned_channels & vc4_crtc->da=
-ta->hvs_available_channels;
-> -		if (matching_channels) {
-> -			unsigned int channel =3D ffs(matching_channels) - 1;
-> -
-> -			new_vc4_crtc_state->assigned_channel =3D channel;
-> -			hvs_state->unassigned_channels &=3D ~BIT(channel);
-> -		} else {
-> +		if (!matching_channels)
->   			return -EINVAL;
-> -		}
+> +	funcs =3D state->dev->mode_config.helper_private;
 > +
-> +		channel =3D ffs(matching_channels) - 1;
-> +		new_vc4_crtc_state->assigned_channel =3D channel;
-> +		hvs_state->unassigned_channels &=3D ~BIT(channel);
+>   	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_=
+state, i) {
+>   		commit =3D kzalloc(sizeof(*commit), GFP_KERNEL);
+>   		if (!commit)
+> @@ -2169,6 +2172,9 @@ int drm_atomic_helper_setup_commit(struct drm_ato=
+mic_state *state,
+>   		new_plane_state->commit =3D drm_crtc_commit_get(commit);
 >   	}
 >  =20
+> +	if (funcs && funcs->atomic_commit_setup)
+> +		return funcs->atomic_commit_setup(state);
+> +
 >   	return 0;
+>   }
+>   EXPORT_SYMBOL(drm_atomic_helper_setup_commit);
+> diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm=
+_modeset_helper_vtables.h
+> index f2de050085be..56470baf0513 100644
+> --- a/include/drm/drm_modeset_helper_vtables.h
+> +++ b/include/drm/drm_modeset_helper_vtables.h
+> @@ -1396,6 +1396,24 @@ struct drm_mode_config_helper_funcs {
+>   	 * drm_atomic_helper_commit_tail().
+>   	 */
+>   	void (*atomic_commit_tail)(struct drm_atomic_state *state);
+> +
+> +	/**
+> +	 * @atomic_commit_setup:
+> +	 *
+> +	 * This hook is used by the default atomic_commit() hook implemented =
+in
+> +	 * drm_atomic_helper_commit() together with the nonblocking helpers (=
+see
+> +	 * drm_atomic_helper_setup_commit()) to extend the DRM commit setup. =
+It
+> +	 * is not used by the atomic helpers.
+> +	 *
+> +	 * This function is called at the end of
+> +	 * drm_atomic_helper_setup_commit(), so once the commit has been
+> +	 * properly setup across the generic DRM object states. It allows
+> +	 * drivers to do some additional commit tracking that isn't related t=
+o a
+> +	 * CRTC, plane or connector, typically a private object.
+> +	 *
+> +	 * This hook is optional.
+> +	 */
+> +	int (*atomic_commit_setup)(struct drm_atomic_state *state);
+
+It feels hacky and screwed-on to me. I'd suggest to add an=20
+atomic_commit_prepare callback that is called by drm_atomic_helper where =
+
+it currently calls drm_atomic_helper_setup_commit(). The default=20
+implementation  would include setup_commit and prepare_planes. Some=20
+example code for drm_atomic_helper.c
+
+static int commit_prepare(state)
+{
+	drm_atomic_helper_setup_commit(state)
+
+	drm_atomic_helper_prepare_planes(state)
+}
+
+int drm_atomic_helper_commit()
+{
+	if (async_update) {
+		...
+	}
+
+	if (funcs->atomic_commit_prepare)
+		funcs->atomic_commit_prepare(state)
+	else
+		commit_prepare(state)
+
+	/* the rest of the current function below */
+	INIT_WORK(&state->commit_work, commit_work);
+	...
+}
+
+Drivers that implement atomic_commit_prepare would be expected to call=20
+drm_atomic_helper_setup_commit() and drm_atomic_helper_prepare_planes()=20
+or their own implementation of them.
+
+The whole construct mimics how commit tails work.
+
+Best regards
+Thomas
+
+
+>   };
+>  =20
+>   #endif
 >=20
 
 --=20
@@ -149,7 +236,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------A329D485CB80C3E25C7371FD
+--------------1FDC6A1299548E5BBCFE7D96
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -352,34 +439,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------A329D485CB80C3E25C7371FD--
+--------------1FDC6A1299548E5BBCFE7D96--
 
---kMGdkzbSXHsiRvAvmmufyiJVSP8ZxyP84--
+--bUKJdqjueVcslnRq6dPhfZrAtf0Yym6XG--
 
---l9m7meenv3QN0z4iLNhB3IIK1GI3IntJ5
+--2W0sLh3hYJ5LJMQDLuOIXQ9WTte0Yd3Os
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2O5EFAwAAAAAACgkQlh/E3EQov+Bo
-UQ/+KTPPIdZk86IrdrKSyj9AJStc4OQ+a5DvWxwwsl4StAthM2g2TIZvp4vAH02tjvNlkAyfap1O
-9/NBaMo/kI847WzvefSvJcmBcOp1tmzUy6kRFN70uR2Uh+BP4HTvBb/6qKlqdbdqoFp7wHJis4X3
-fjT6NND+EFxduiAnJtQhEfpHxw5JsUp+Y6s4SA/rIYuMG8E1R5EwzN8FJJ/f9kUBciS1GnpwhaOn
-XENfpecfYnrsYfV9JKWqzKzzS62Kylg4CZV4xP5nFouryGWXzLwETRR+VdOTwrixmxt7W/0wZm3e
-BYAnnXitdoKYthe4ngK63DbXnaAdZJhhoBJjj020qyZmpQN4UirCsDdG41D/jyKtpeuzaI5wVYw6
-UoEfTC0QK+Xd6LAn/r0fVr6AZQ/BuwFtn/w1Jlhk85RWOKfCYSQ3CebUzx1xxmVLP4g9NVdUtxxo
-xqTPcgSXrMrLxaB0KA7n53Z/YXYptiO0jrR/l+1GKB7puu8aV3zEJUa+y0T3ORlCBlezuReTwk3I
-w2h5VTAQGl6eWuoYQS9ZjeK22d56yQLTAAk70w2g8q3nH9XFVzMtVhoRH69654MOe8bW1lCuxPAX
-aOs1OIUugfwh42BvtE/Bg+waOaMrV6chQzV2XR9WtNx0o1tG/XHcNw+3DT3xghJM937P0QGH2hCL
-aWg=
-=uiUd
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2Qg4FAwAAAAAACgkQlh/E3EQov+Cj
+4g/7BINbNXkYnHk5Y+TQZ5Ij3pvNtHedShOCJ3DGoNAO6H5lvSO/ww5MXyAPqfWqYtWJVLXYI3fA
+w6zjKP4camPMX0AnIwsTbkKUneThfYZYj4lvadkihJJdRtzqNkU1BdWOUgsFIvoubRbLWbIr6IWE
+11KdIXxiXcKK2mmvzwYRYjK/9tc66DzEhKblIIfWBmIJfk2yjeDvvlmQyKEVvf0vcwhTEOdH45Tm
+R5i2KjaoAcczMI16UYqHrhRN7wduy/U/DzxW2Go1JIVXyLB1qqqQI4Y3BDF06aKz2DPsiNKW9PIo
+6vv8hRy0gUT55/Lnkq/986XETb4OCYh4jidIuXfRfQnnuuBgTIJCeB2KJ4szSSzqcHMejKtwroi3
+sEMZMwSFUZZXPUhe3PQm3JA75PEL2BEy5AQO3kcQJtlGGAjq7TcWgdHMlDreH10h3vmojFZ/9lom
+u3pkx7PDB6UcAvNqq26Lortc7PPpcnTA2ODSoWB5U/Gx2pe3d+ooaENbs6oxUd4lB9Y3pY+A8t3t
+5nI5h/xc13EXIGTUzozJ8HhNxJwe3zXS4G8YoZkGMpRstQReQd+XLS9fw2u1qNg2989ICa7pA3M8
+cOERO6sbuye7v0uszAGC+WJM9SKwu22hkBN8rYbTZSTrwtGRx6rEGia1Us2akNG6eGcUQYQYs9cn
+23g=
+=0E2j
 -----END PGP SIGNATURE-----
 
---l9m7meenv3QN0z4iLNhB3IIK1GI3IntJ5--
+--2W0sLh3hYJ5LJMQDLuOIXQ9WTte0Yd3Os--
 
---===============1701628352==
+--===============1444739470==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -390,4 +477,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1701628352==--
+--===============1444739470==--
