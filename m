@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7272B8961
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 02:14:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE9B2B8964
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 02:16:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED4E899F3;
-	Thu, 19 Nov 2020 01:14:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48EF899F3;
+	Thu, 19 Nov 2020 01:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2AAC899F3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 01:14:36 +0000 (UTC)
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-mJW9FnQ6Nna1L09DhX5oQQ-1; Wed, 18 Nov 2020 20:14:30 -0500
-X-MC-Unique: mJW9FnQ6Nna1L09DhX5oQQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3464518B62B4;
- Thu, 19 Nov 2020 01:14:28 +0000 (UTC)
-Received: from dreadlord-bne-redhat-com.bne.redhat.com (unknown [10.64.32.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 871155C1D7;
- Thu, 19 Nov 2020 01:14:25 +0000 (UTC)
-From: Dave Airlie <airlied@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/vram: fix incorrect flag variable usage.
-Date: Thu, 19 Nov 2020 11:14:23 +1000
-Message-Id: <20201119011423.14224-1-airlied@gmail.com>
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F270E899F3
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 01:16:24 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id m16so4080332edr.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Nov 2020 17:16:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9f9f6o6lpgdv8ZMI6nf3AW/mVAB1Cq7QnLtCyTveD0k=;
+ b=DVHwKJ5dYMuqFTTiWpZnRhiM10utp3nM2Lt1dzI8KbeeqlKB9j1IW+Bc4XKs/VvYKQ
+ rIhQwkFEpZ5mLtlhIcEFVTaDhGRk9iTS8QMzWlSNw0Up6PpZ3SO1t8V+8RUZIEoVBc85
+ RVXc5zgBxFERHD8MsS62vurs+1b7228TqlHrPX5QD1rRGP1mlTleHtbrKvvmWv4qoNIV
+ 2hMrdPWdMWoV1/NhjhXeeAkXwgQFRXHa7sTibnC0dBK5OS+w3pB4bTKrNrudn76gT9sh
+ +acC0ExKYJID9n+LGez1PIUbbMWWWgGB3nbzbW4l9UUmKo/k86t1mMAd862Tbm8/xZn9
+ eXLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9f9f6o6lpgdv8ZMI6nf3AW/mVAB1Cq7QnLtCyTveD0k=;
+ b=O6pMIx/6zfETrafUcEm9b7laok94PzspqyMuffoZdZu24u8aV5iLI6SMDhhuhFhC2N
+ xl6JFt/jRemhhUufbA4UN7H+EA9wHdIQWbeK8Mb/+P/Rh7UQ+nsf6pYDeikDnS0MOMLI
+ vxtm6C4U6D9T58NPmthjiGLXuurlq8VFr6STYmA4+CFOvybZFFQo0f8kX+YqHcRmJPwu
+ CuLZaJtDhtvpXIuHRY8dGFN5NYbtJRNBw2qJD+MU9FYakox1G6Jo8uMf28xmm0/D0rzc
+ HpwRqqazDyyGNCyh2H72/6pjWxsPpP7emRaAYETxsseFYQpsTsaNbPRPZWt40sxhFYlP
+ Jagw==
+X-Gm-Message-State: AOAM530iC6utzFE87G9BRn7TajC5uSk3IqpAUBsb6ggugTGNnmET6GM6
+ bR66rY9T1QshdfjonowZQ5UGmm/5vrvM3IPFtRo=
+X-Google-Smtp-Source: ABdhPJyrcQqV38Ou7gU9H78B8J530YlnqoX4AeM+JLoKskuu7TPFJ1CpWaZ63Aa50L0EYPKnAshnpWN6GU/K1VLsrTk=
+X-Received: by 2002:a05:6402:150d:: with SMTP id
+ f13mr27755566edw.119.1605748583525; 
+ Wed, 18 Nov 2020 17:16:23 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@gmail.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: gmail.com
+References: <CAHk-=wjFfAktnadOPb_iV5nKh=V5Am1sG-gciYveswRtuEkrLQ@mail.gmail.com>
+ <692820a49ded436591b5fe3a18c68a5e@AcuMS.aculab.com>
+ <CAHk-=wgQY7k_3NVCbaSmiJyLiAV_1TgwLk-d4QRMHMWqM5Oo_w@mail.gmail.com>
+ <0a10da3d-085f-c7a7-0053-dc1e9ea871ed@suse.de>
+ <f7be660da595411ab60aaa4b76008769@AcuMS.aculab.com>
+ <CAKMK7uFZhVqEzjfHszQ=1KeoRecXSDa0+tdH_rT8yENY9zasyQ@mail.gmail.com>
+ <CAPM=9tw7_BU1_mUVa8ZeqsXfsN_cODsTzTAXiQkDGT+i1v0JaQ@mail.gmail.com>
+In-Reply-To: <CAPM=9tw7_BU1_mUVa8ZeqsXfsN_cODsTzTAXiQkDGT+i1v0JaQ@mail.gmail.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Thu, 19 Nov 2020 11:16:12 +1000
+Message-ID: <CAPM=9twMArmaJ9rqxDzhZh+dwgVuTdAXrtzFK+TpSe_9xSKDOA@mail.gmail.com>
+Subject: Re: Linux 5.10-rc4
+To: Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,76 +67,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>, David Laight <David.Laight@aculab.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Wen Pu <puwen@hygon.cn>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: "Huang, Ray" <ray.huang@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ David Laight <David.Laight@aculab.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@redhat.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAcmVkaGF0LmNvbT4KCkluIDcwNTNlMGVhYjQ3MzEx
-OTUwM2Y2NTY1YjRlMzk4ZjlhNzMxMjI0ODEKZHJtL3ZyYW0taGVscGVyOiBzdG9wIHVzaW5nIFRU
-TSBwbGFjZW1lbnQgZmxhZ3MKCml0IGFwcGVhcnMgdGhlIGZsYWdzIGdvdCBtaXhlZCB1cC4KClRo
-aXMgc2hvdWxkIGZpeCBhIHJlZ3Jlc3Npb24gb24gYXN0ClsgICA2NC43ODIzNDBdIFdBUk5JTkc6
-IENQVTogNTEgUElEOiAxOTY0IGF0IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVy
-LmM6Mjg0IGRybV9nZW1fdnJhbV9vZmZzZXQrMHgzNS8weDQwIFtkcm1fdnJhbV9oZWxwZXJdClsg
-ICA2NC43ODI0MTFdIENQVTogNTEgUElEOiAxOTY0IENvbW06IFhvcmcgTm90IHRhaW50ZWQgNS4x
-MC4wLXJjMyAjMTIKWyAgIDY0Ljc4MjQxM10gSGFyZHdhcmUgbmFtZTogVG8gYmUgZmlsbGVkLgpb
-ICAgNjQuNzgyNDE5XSBSSVA6IDAwMTA6ZHJtX2dlbV92cmFtX29mZnNldCsweDM1LzB4NDAgW2Ry
-bV92cmFtX2hlbHBlcl0KWyAgIDY0Ljc4MjQyNF0gQ29kZTogMDAgNDggODkgZTUgODUgYzAgNzQg
-MTcgNDggODMgYmYgNzggMDEgMDAgMDAgMDAgNzQgMTggNDggOGIgODcgODAgMDEgMDAgMDAgNWQg
-NDggYzEgZTAgMGMgYzMgMGYgMGIgNDggYzcgYzAgZWQgZmYgZmYgZmYgNWQgYzMgPDBmPiAwYiAz
-MSBjMCA1ZCBjMyAwZiAxZiA0NCAwMCAwMCAwZiAxZiA0NCAwMCAwMCA1NSA0OCA4YiA4NyAxOCAw
-NgpbICAgNjQuNzgyNDI3XSBSU1A6IDAwMTg6ZmZmZmE5MTI4OTA5ZmE2OCBFRkxBR1M6IDAwMDEw
-MjQ2ClsgICA2NC43ODI0MzFdIFJBWDogMDAwMDAwMDAwMDAwMDAwMiBSQlg6IGZmZmY5NWE1YzI1
-ZTFlYzAgUkNYOiBmZmZmZmZmZmMwMmI2NjAwClsgICA2NC43ODI0MzNdIFJEWDogZmZmZjk1OWU0
-OTgyNDAwMCBSU0k6IGZmZmY5NWE1YzI1ZTBiNDAgUkRJOiBmZmZmOTU5ZTRiMWMyYzAwClsgICA2
-NC43ODI0MzRdIFJCUDogZmZmZmE5MTI4OTA5ZmE2OCBSMDg6IDAwMDAwMDAwMDAwMDAwNDAgUjA5
-OiBmZmZmOTVhOWM1ZGNiNjg4ClsgICA2NC43ODI0MzZdIFIxMDogMDAwMDAwMDAwMDAwMDAwMCBS
-MTE6IDAwMDAwMDAwMDAwMDAwMDEgUjEyOiBmZmZmOTU5ZTQ5ODI0MDAwClsgICA2NC43ODI0Mzdd
-IFIxMzogMDAwMDAwMDAwMDAwMDAwMCBSMTQ6IDAwMDAwMDAwMDAwMDAwMDAgUjE1OiBmZmZmOTVh
-NWM1YzU2ZjAwClsgICA2NC43ODI0NDBdIEZTOiAgMDAwMDdmNDg1ZDQ2NmE4MCgwMDAwKSBHUzpm
-ZmZmOTVhOWFmY2MwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAgIDY0Ljc4MjQ0
-Ml0gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbICAg
-NjQuNzgyNDQ0XSBDUjI6IDAwMDA3ZjQ4NWUyMDIwMDAgQ1IzOiAwMDAwMDAwYzgyYTBlMDAwIENS
-NDogMDAwMDAwMDAwMDM1MDZlMApbICAgNjQuNzgyNDQ2XSBDYWxsIFRyYWNlOgpbICAgNjQuNzgy
-NDU1XSAgYXN0X2N1cnNvcl9wYWdlX2ZsaXArMHgyMi8weDEwMCBbYXN0XQpbICAgNjQuNzgyNDYw
-XSAgYXN0X2N1cnNvcl9wbGFuZV9oZWxwZXJfYXRvbWljX3VwZGF0ZSsweDQ2LzB4NzAgW2FzdF0K
-WyAgIDY0Ljc4MjQ3N10gIGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9wbGFuZXMrMHhiZC8weDIy
-MCBbZHJtX2ttc19oZWxwZXJdClsgICA2NC43ODI0OTNdICBkcm1fYXRvbWljX2hlbHBlcl9jb21t
-aXRfdGFpbF9ycG0rMHgzYS8weDcwIFtkcm1fa21zX2hlbHBlcl0KWyAgIDY0Ljc4MjUwN10gIGNv
-bW1pdF90YWlsKzB4OTkvMHgxMzAgW2RybV9rbXNfaGVscGVyXQpbICAgNjQuNzgyNTIxXSAgZHJt
-X2F0b21pY19oZWxwZXJfY29tbWl0KzB4MTIzLzB4MTUwIFtkcm1fa21zX2hlbHBlcl0KWyAgIDY0
-Ljc4MjU1MV0gIGRybV9hdG9taWNfY29tbWl0KzB4NGEvMHg1MCBbZHJtXQpbICAgNjQuNzgyNTY1
-XSAgZHJtX2F0b21pY19oZWxwZXJfdXBkYXRlX3BsYW5lKzB4ZTcvMHgxNDAgW2RybV9rbXNfaGVs
-cGVyXQpbICAgNjQuNzgyNTkyXSAgX19zZXRwbGFuZV9hdG9taWMrMHhjYy8weDExMCBbZHJtXQpb
-ICAgNjQuNzgyNjE5XSAgZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCsweDEzZS8weDI2MCBbZHJt
-XQpbICAgNjQuNzgyNjQ3XSAgZHJtX21vZGVfY3Vyc29yX2NvbW1vbisweGVmLzB4MjIwIFtkcm1d
-ClsgICA2NC43ODI2NTRdICA/IHRvbW95b19wYXRoX251bWJlcl9wZXJtKzB4NmYvMHgyMDAKWyAg
-IDY0Ljc4MjY4MF0gID8gZHJtX21vZGVfY3Vyc29yX2lvY3RsKzB4NjAvMHg2MCBbZHJtXQpbICAg
-NjQuNzgyNzA2XSAgZHJtX21vZGVfY3Vyc29yMl9pb2N0bCsweGUvMHgxMCBbZHJtXQpbICAgNjQu
-NzgyNzI3XSAgZHJtX2lvY3RsX2tlcm5lbCsweGFlLzB4ZjAgW2RybV0KWyAgIDY0Ljc4Mjc0OV0g
-IGRybV9pb2N0bCsweDI0MS8weDNmMCBbZHJtXQpbICAgNjQuNzgyNzc0XSAgPyBkcm1fbW9kZV9j
-dXJzb3JfaW9jdGwrMHg2MC8weDYwIFtkcm1dClsgICA2NC43ODI3ODFdICA/IHRvbW95b19maWxl
-X2lvY3RsKzB4MTkvMHgyMApbICAgNjQuNzgyNzg3XSAgX194NjRfc3lzX2lvY3RsKzB4OTEvMHhj
-MApbICAgNjQuNzgyNzkyXSAgZG9fc3lzY2FsbF82NCsweDM4LzB4OTAKWyAgIDY0Ljc4Mjc5N10g
-IGVudHJ5X1NZU0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDQ0LzB4YTkKClNpZ25lZC1vZmYtYnk6
-IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+CkNjOiBXZW4gUHUgPHB1d2VuQGh5Z29u
-LmNuPgpDYzogRGF2aWQgTGFpZ2h0IDxEYXZpZC5MYWlnaHRAYWN1bGFiLmNvbT4KQ2M6IENocmlz
-dGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9k
-cm0vZHJtX2dlbV92cmFtX2hlbHBlci5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9n
-ZW1fdnJhbV9oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMK
-aW5kZXggNTBjYWQwZTRhOTJlLi4yODk2YTA1N2I3NzEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1
-L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1f
-dnJhbV9oZWxwZXIuYwpAQCAtMTQwLDcgKzE0MCw3IEBAIHN0YXRpYyB2b2lkIGRybV9nZW1fdnJh
-bV9wbGFjZW1lbnQoc3RydWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibywKIAl1bnNpZ25lZCBp
-bnQgYyA9IDA7CiAKIAlpZiAocGxfZmxhZyAmIERSTV9HRU1fVlJBTV9QTF9GTEFHX1RPUERPV04p
-Ci0JCXBsX2ZsYWcgPSBUVE1fUExfRkxBR19UT1BET1dOOworCQlpbnZhcmlhbnRfZmxhZyA9IFRU
-TV9QTF9GTEFHX1RPUERPV047CiAKIAlnYm8tPnBsYWNlbWVudC5wbGFjZW1lbnQgPSBnYm8tPnBs
-YWNlbWVudHM7CiAJZ2JvLT5wbGFjZW1lbnQuYnVzeV9wbGFjZW1lbnQgPSBnYm8tPnBsYWNlbWVu
-dHM7Ci0tIAoyLjIwLjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+On Thu, 19 Nov 2020 at 08:25, Dave Airlie <airlied@gmail.com> wrote:
+>
+> On Thu, 19 Nov 2020 at 08:15, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > On Wed, Nov 18, 2020 at 11:01 PM David Laight <David.Laight@aculab.com> wrote:
+> > >
+> > > From: Thomas Zimmermann
+> > > > Sent: 18 November 2020 19:37
+> > > >
+> > > > Hi
+> > > >
+> > > > Am 18.11.20 um 19:10 schrieb Linus Torvalds:
+> > > > > On Wed, Nov 18, 2020 at 4:12 AM David Laight <David.Laight@aculab.com> wrote:
+> > > > >>
+> > > > >> I've got the 'splat' below during boot.
+> > > > >> This is an 8-core C2758 Atom cpu using the on-board/cpu graphics.
+> > > > >> User space is Ubuntu 20.04.
+> > > > >>
+> > > > >> Additionally the X display has all the colours and alignment slightly
+> > > > >> messed up.
+> > > > >> 5.9.0 was ok.
+> > > > >> I'm just guessing the two issues are related.
+> > > > >
+> > > > > Sounds likely.  But it would be lovely if you could bisect when
+> > > > > exactly the problem(s) started to both verify that, and just to
+> > > > > pinpoint the exact change..
+> > >
+> > > I don't quite understand what 'git bisect' did.
+> > > I was bisecting between v5.9 and v5.10-rc1 but it suddenly started
+> > > generating v5.9.0-rc5+ kernels.
+> >
+> > We queue up patches for -rc1 way before the previous kernel is
+> > released, so this is normal.
+> >
+> > > The identified commit was 13a8f46d803 drm/ttm: move ghost object created.
+> > > (retyped - hope it is right).
+> > > But the diff to that last 'good' commit is massive.
+> >
+> > Yeah that's also normal for non-linear history. If you want to
+> > double-check, re-test the parent of that commit (which is 2ee476f77ffe
+> > ("drm/ttm: add a simple assign mem to bo wrapper")), which should
+> > work, and then the bad commit.
+> >
+> > Also is this the first bad commit for both the splat and the screen
+> > corruption issues?
+> >
+> > > So I don't know if that is anywhere near right.
+> >
+> > Thomas guessed it could be a ttm change, you hit one, and it looks
+> > like it could be the culprit. Now I guess it's up to Dave. Also adding
+> > Christian, in case he has an idea.
+>
+> I'd be mildly surprised if it's that commit, since it just refactors
+> what looks to me to be two identical code pieces into one instance
+> (within the scope of me screwing that up, but reading it I can't see
+> it).
+>
+> I'll dig into this today.
+
+https://patchwork.freedesktop.org/patch/401559/
+
+should fix it.
+
+We had a report in the rc1 thread but it got lost in the nouveau stuff
+as well, I've cc that reporter as well.
+
+please test.
+Dave.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
