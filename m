@@ -1,60 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1448D2B9414
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 15:07:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E24532B9470
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 15:23:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8366E52D;
-	Thu, 19 Nov 2020 14:07:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DC6A6E517;
+	Thu, 19 Nov 2020 14:23:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C52EB6E52D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:07:39 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id a9so8427523lfh.2
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 06:07:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=by9rdaiSTNhh25rGcdMhydBPT1Ee6Q+Ur1BB4O7C4Tk=;
- b=tWYBBjEyHLLcUdZV3JTAQ8MKQEQ2kqZgcQ5MDERuYEGvL2/ppp2n5esSze20TLaGOi
- c4EhVEVoixCWm/H79N2t+a00SFj4PRlAhn5BU5e65yywr+THQA+MGDJqyzIRVwhJ8Ovm
- uuenvZ+v4MZ/Tuj/3VnUKDo/htf5Otr0n62kEZLRThkQDgNlKNTdj5+Lt89zis6Y48Lv
- VKggH458/phEKCV3+9wSUYCs9mvIZSPP8U8r8p0TMYcIEBjougHLM8NFPOtEww2hjN0h
- t5wynqI6UqxEPWEBxA6bevACRN1z9bg3enfgsJGGIa4kUDVQGT8ULyjpwrb0j5MFL5ir
- ZgyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=by9rdaiSTNhh25rGcdMhydBPT1Ee6Q+Ur1BB4O7C4Tk=;
- b=EAFJq5LNaUPfVOc2iH/k7B5pm6pBDuqDxMzm5+2MbhmLpXmael5vgJusdpif6a4NwZ
- Q25j7c3x5elRRw8LAiTRgsgs61DzlHyCMZnSm5YVTzbDSDZuCWVfbGNyMhw958+xM6eb
- uayigOdb5ksVcrLgqgmys/q5WLxNteNnEpV/bBU2+8WbZ4HGnnKyC0DZW4akgFic/Tsj
- DbuVmpzbgEpSo7l5fzNt8IQEnj2WY85fah1Axp8+lWgWtATaD4c6Xk334tHCh2HAruQu
- A6PaftL9dTtNTUswA9jS4ox8WIUB+nX6Dk/WsV64/GG96Ldp1Bgb+sCSqF3F3QBy0R7o
- D3+A==
-X-Gm-Message-State: AOAM530FcX8wcfJQDnwKXyNBQAPOEHHXGHkXlKtfYZ3JlXYWBC3ZuYGi
- ebvrkUhNCCB9HVg6HkZR/LEgTczM13FVUNNN
-X-Google-Smtp-Source: ABdhPJz16YnQNj458eZvEVvW7NxGWSmTcZqoP1RkFR1v7kfmXpaxFUlpiU33ocN4k0m+m7d3/OdQfw==
-X-Received: by 2002:a05:6512:3048:: with SMTP id
- b8mr5524416lfb.575.1605794857954; 
- Thu, 19 Nov 2020 06:07:37 -0800 (PST)
-Received: from localhost.bredbandsbolaget
- (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
- by smtp.gmail.com with ESMTPSA id r8sm3983292lff.238.2020.11.19.06.07.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 06:07:29 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
-Subject: [PATCH] drm/mcde: Fix uninitialized value
-Date: Thu, 19 Nov 2020 15:07:07 +0100
-Message-Id: <20201119140707.1008407-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2E886E530
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:23:09 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201763] amdgpu: [powerplay] VBIOS did not find boot engine
+ clock value in dependency table. Using Memory DPM level 0!
+Date: Thu, 19 Nov 2020 14:23:09 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: vyanitskiy@sysmocom.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201763-2300-awQyS3tSB7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201763-2300@https.bugzilla.kernel.org/>
+References: <bug-201763-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,39 +52,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>, kernel test robot <lkp@intel.com>,
- linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"val" isn't initialized on the default: errorpath.
-Just return from the function if this happens.
+https://bugzilla.kernel.org/show_bug.cgi?id=201763
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/gpu/drm/mcde/mcde_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--- Comment #13 from Vadim Yanitskiy (vyanitskiy@sysmocom.de) ---
+Here we go:
 
-diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
-index 192e11c88d72..d941026b940c 100644
---- a/drivers/gpu/drm/mcde/mcde_display.c
-+++ b/drivers/gpu/drm/mcde/mcde_display.c
-@@ -569,7 +569,7 @@ static void mcde_configure_channel(struct mcde *mcde, enum mcde_channel ch,
- 	default:
- 		dev_err(mcde->dev, "unknown flow mode %d\n",
- 			mcde->flow_mode);
--		break;
-+		return;
- 	}
- 
- 	writel(val, mcde->regs + sync);
+[  582.721066] amdgpu: iceland_populate_all_memory_levels(): mclk_table has 3
+entries
+[  582.721081] amdgpu: iceland_populate_all_memory_levels(): dpm_levels[0] is
+30000
+[  582.721095] amdgpu: iceland_populate_all_memory_levels(): dpm_levels[1] is
+60000
+[  582.721110] amdgpu: iceland_populate_all_memory_levels(): dpm_levels[2] is
+90000
+[  582.722669] amdgpu: VBIOS did not find boot engine clock value (29900) in
+dependency table. Using Memory DPM level 0!
+
+As can be seen, the driver falls-back to level 0, which is very close to the
+requested value (29900 vs 30000).  Looks like a bug in VBIOS, because AFAIU,
+value 29900 comes from there (see smu7_dpm_patch_boot_state() in
+'drivers/gpu/drm/amd/powerplay/hwmgr/smu7_hwmgr.c').  In any case, this does
+not look critical to me too.
+
+Best regards,
+Vadim.
+
 -- 
-2.26.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
