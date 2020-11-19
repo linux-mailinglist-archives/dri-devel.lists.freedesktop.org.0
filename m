@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F8A2B9684
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 16:44:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 042F92B96AD
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 16:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0F189CBC;
-	Thu, 19 Nov 2020 15:44:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D13089BD4;
+	Thu, 19 Nov 2020 15:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4D489CBC
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 15:44:30 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id s8so6878049wrw.10
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 07:44:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=LW9US6jv3yyovUNXbI5nnPinv07EMe28Qi0AQL7vkE0=;
- b=REa6xQAlt9aBHaKmr9e8/2+minQGwHRoZRNhaU3Fizgyfjh2wVhNmwpNLlB5sEmMxW
- XNWe5N8iB9az/DiNFL6VxY1vDDhOcYyRZPplpaeYTwkdwY/h0dTUPEtAAJAgwucU8pBf
- 0eV3cRCYgV7x6OOMri+nice5WFv1FLSQspfBA=
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4A989BD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 15:47:01 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id q206so6744987oif.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 07:47:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=LW9US6jv3yyovUNXbI5nnPinv07EMe28Qi0AQL7vkE0=;
- b=tvFf4VnWGN6ov+W1JvCVeDgC7pTs1luTMfTJaFRANRWwznVs4foZaz+r+fAHfsaN52
- JGsu+/77U0sa6Wcg5j0aKGC+dxrq0/u0VpB/2ODSVucB6C6hOezc5x1Yo7+eLuKylq0c
- PvIeCVvBhH7ZWZ9hq4WnbbxWqSok4lYAWKsr7Gj33citLkIbB97CgD56ys9qMX9KMd1E
- jL+Gs71e52R32D2nsv2czcfLAJapEEhtAdb34to6WnQIJ5kgVeFzGu7PWAU9kjRKe5GG
- CnfavuVzHJKgVYaK+bMH6PQGM9o46WFIWgNuUXwa65IC0XLIyGiADKvDrZkhLow+2XUx
- d1Bw==
-X-Gm-Message-State: AOAM533TIhw30Ai0GHSLua/Ewvwq+UxlCJeOv5qDMixGdS9yn57lnVax
- GkZC/GIMp45HELq30S4x8CRcYA==
-X-Google-Smtp-Source: ABdhPJyBXZ07aWF0A06u4ckG586otJHmkVaim3T+InJHahYhuAXV+/STxt4XN3M4C9fTAanVygufHA==
-X-Received: by 2002:adf:e787:: with SMTP id n7mr11773740wrm.153.1605800669026; 
- Thu, 19 Nov 2020 07:44:29 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id k22sm366503wmi.34.2020.11.19.07.44.28
+ bh=i1tNp2KgBd14FkkpCIHyiNr1qV+4/KrTXMEh9UM4OyA=;
+ b=J5C1UMrjE82Pfkir4nsPBlREjJhO3w9zJghVyszi4n9l31JXcQ8WU/qUE28cqTw7HJ
+ wd874dxkNWyKuWh+iB5cKFmtdy2Dz7pvcfgE0Ld6ix1p8x6rP1baP9oXz+mzq+WeXTgM
+ 9UZBVdCLV7sonjwXrMa5n/pSnp4FISAnzIytuFEUKrXnxTvPbIP9LzbYAEYGgGLENB8q
+ JcJo+yw0Pu6KzfQ7aI7I5WNtxnnLe0FrtMXy3NR4PqKaETdpXRLlfuy8A8EaEGqfAwb0
+ YSEWfBWXE7vd5pTnBNVYCoAND+FPav8SWImkPuzZJNtKDZI3uNGLXPSN55JC1GqZUg7S
+ vtoA==
+X-Gm-Message-State: AOAM531Y0ySl7VqMirgEPeoZczgXe2ea+iFOhcDLAlvB03X5S1xpUc/4
+ N1BEuCK3NGdi9paWlFcfZA==
+X-Google-Smtp-Source: ABdhPJwkrz3+GCohSQnDOih8nPEsaXejgRb4izFB+vIbBFRIMNrgLzBmWvAhWHS986gyCl3cLw7szQ==
+X-Received: by 2002:a54:480b:: with SMTP id j11mr3182548oij.31.1605800820893; 
+ Thu, 19 Nov 2020 07:47:00 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id x7sm29561otb.19.2020.11.19.07.46.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 07:44:28 -0800 (PST)
-Date: Thu, 19 Nov 2020 16:44:26 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: improve kernel-docs in drm_mode.h
-Message-ID: <20201119154426.GH401619@phenom.ffwll.local>
-References: <grZIqIAOSUM7eNL0PurBsaWoILFwN2hEKd40Ylgzg@cp7-web-041.plabs.ch>
+ Thu, 19 Nov 2020 07:46:59 -0800 (PST)
+Received: (nullmailer pid 3306861 invoked by uid 1000);
+ Thu, 19 Nov 2020 15:46:59 -0000
+Date: Thu, 19 Nov 2020 09:46:59 -0600
+From: Rob Herring <robh@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 1/8] dt-bindings: display: imx: Add i.MX8qxp/qm DPU binding
+Message-ID: <20201119154659.GA3306242@bogus>
+References: <1605777745-23625-1-git-send-email-victor.liu@nxp.com>
+ <1605777745-23625-2-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <grZIqIAOSUM7eNL0PurBsaWoILFwN2hEKd40Ylgzg@cp7-web-041.plabs.ch>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <1605777745-23625-2-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,179 +59,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ kernel@pengutronix.de, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 19, 2020 at 10:03:20AM +0000, Simon Ser wrote:
-> - Remove duplicate doc-comments for struct members
-> - Add missing @member markers for in-line member comments
+On Thu, 19 Nov 2020 17:22:18 +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qxp/qm Display Processing Unit.
 > 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
+> Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  include/uapi/drm/drm_mode.h | 66 ++++++++++++++++++-------------------
->  1 file changed, 32 insertions(+), 34 deletions(-)
-> 
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 5ad10ab2a577..f29c1d37be67 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -905,24 +905,23 @@ struct drm_format_modifier {
->  
->  /**
->   * struct drm_mode_create_blob - Create New block property
-> - * @data: Pointer to data to copy.
-> - * @length: Length of data to copy.
-> - * @blob_id: new property ID.
-> + *
->   * Create a new 'blob' data property, copying length bytes from data pointer,
->   * and returning new blob ID.
->   */
->  struct drm_mode_create_blob {
-> -	/** Pointer to data to copy. */
-> +	/** @data: Pointer to data to copy. */
->  	__u64 data;
-> -	/** Length of data to copy. */
-> +	/** @length: Length of data to copy. */
->  	__u32 length;
-> -	/** Return: new property ID. */
-> +	/** @blob_id: Return: new property ID. */
->  	__u32 blob_id;
->  };
->  
->  /**
->   * struct drm_mode_destroy_blob - Destroy user blob
->   * @blob_id: blob_id to destroy
-> + *
->   * Destroy a user-created blob property.
->   *
->   * User-space can release blobs as soon as they do not need to refer to them by
-> @@ -937,36 +936,32 @@ struct drm_mode_destroy_blob {
->  
->  /**
->   * struct drm_mode_create_lease - Create lease
-> - * @object_ids: Pointer to array of object ids.
-> - * @object_count: Number of object ids.
-> - * @flags: flags for new FD.
-> - * @lessee_id: unique identifier for lessee.
-> - * @fd: file descriptor to new drm_master file.
-> + *
->   * Lease mode resources, creating another drm_master.
->   */
->  struct drm_mode_create_lease {
-> -	/** Pointer to array of object ids (__u32) */
-> +	/** @object_ids: Pointer to array of object ids (__u32) */
->  	__u64 object_ids;
-> -	/** Number of object ids */
-> +	/** @object_count: Number of object ids */
->  	__u32 object_count;
-> -	/** flags for new FD (O_CLOEXEC, etc) */
-> +	/** @flags: flags for new FD (O_CLOEXEC, etc) */
->  	__u32 flags;
->  
-> -	/** Return: unique identifier for lessee. */
-> +	/** @lessee_id: Return: unique identifier for lessee. */
->  	__u32 lessee_id;
-> -	/** Return: file descriptor to new drm_master file */
-> +	/** @fd: Return: file descriptor to new drm_master file */
->  	__u32 fd;
->  };
->  
->  /**
->   * struct drm_mode_list_lessees - List lessees
-> - * @count_lessees: Number of lessees.
-> - * @pad: pad.
-> - * @lessees_ptr: Pointer to lessess.
-> - * List lesses from a drm_master
-> + *
-> + * List lesses from a drm_master.
->   */
->  struct drm_mode_list_lessees {
-> -	/** Number of lessees.
-> +	/**
-> +	 * @count_lessees: Number of lessees.
-> +	 *
->  	 * On input, provides length of the array.
->  	 * On output, provides total number. No
->  	 * more than the input number will be written
-> @@ -974,23 +969,26 @@ struct drm_mode_list_lessees {
->  	 * the size and then the data.
->  	 */
->  	__u32 count_lessees;
-> +	/** @pad: Padding. */
->  	__u32 pad;
->  
-> -	/** Pointer to lessees.
-> -	 * pointer to __u64 array of lessee ids
-> +	/**
-> +	 * @lessees_ptr: Pointer to lessees.
-> +	 *
-> +	 * Pointer to __u64 array of lessee ids
->  	 */
->  	__u64 lessees_ptr;
->  };
->  
->  /**
->   * struct drm_mode_get_lease - Get Lease
-> - * @count_objects: Number of leased objects.
-> - * @pad: pad.
-> - * @objects_ptr: Pointer to objects.
-> - * Get leased objects
-> + *
-> + * Get leased objects.
->   */
->  struct drm_mode_get_lease {
-> -	/** Number of leased objects.
-> +	/**
-> +	 * @count_objects: Number of leased objects.
-> +	 *
->  	 * On input, provides length of the array.
->  	 * On output, provides total number. No
->  	 * more than the input number will be written
-> @@ -998,22 +996,22 @@ struct drm_mode_get_lease {
->  	 * the size and then the data.
->  	 */
->  	__u32 count_objects;
-> +	/** @pad: Padding. */
->  	__u32 pad;
->  
-> -	/** Pointer to objects.
-> -	 * pointer to __u32 array of object ids
-> +	/**
-> +	 * @objects_ptr: Pointer to objects.
-> +	 *
-> +	 * Pointer to __u32 array of object ids.
->  	 */
->  	__u64 objects_ptr;
->  };
->  
->  /**
->   * struct drm_mode_revoke_lease - Revoke lease
-> - * @lessee_id: Unique ID of lessee.
-> - * Revoke lease
->   */
->  struct drm_mode_revoke_lease {
-> -	/** Unique ID of lessee
-> -	 */
-> +	/** @lessee_id: Unique ID of lessee */
->  	__u32 lessee_id;
->  };
->  
-> -- 
-> 2.29.2
-> 
+>  .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      | 358 +++++++++++++++++++++
+>  1 file changed, 358 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
 > 
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:29:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:69:111: [warning] line too long (111 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:70:111: [warning] line too long (111 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:71:111: [warning] line too long (112 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:72:111: [warning] line too long (112 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:73:111: [warning] line too long (111 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:74:111: [warning] line too long (111 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:75:111: [warning] line too long (112 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml:76:111: [warning] line too long (112 > 110 characters) (line-length)
+
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.example.dts:85.33-34 syntax error
+FATAL ERROR: Unable to parse input tree
+make[1]: *** [scripts/Makefile.lib:342: Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1364: dt_binding_check] Error 2
+
+
+See https://patchwork.ozlabs.org/patch/1402850
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
