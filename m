@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57D42B9C16
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF992B9C0F
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9618F6E830;
-	Thu, 19 Nov 2020 20:32:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9073F6E825;
+	Thu, 19 Nov 2020 20:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD3206E56A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 15:56:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 778E66E57E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 15:56:25 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/3] drm/ingenic: Compute timings according to
- adjusted_mode->crtc_*
-Date: Thu, 19 Nov 2020 15:55:57 +0000
-Message-Id: <20201119155559.14112-2-paul@crapouillou.net>
+Subject: [PATCH 2/3] drm/ingenic: Properly compute timings when using a
+ 3x8-bit panel
+Date: Thu, 19 Nov 2020 15:55:58 +0000
+Message-Id: <20201119155559.14112-3-paul@crapouillou.net>
 In-Reply-To: <20201119155559.14112-1-paul@crapouillou.net>
 References: <20201119155559.14112-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -43,51 +43,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The adjusted_mode->crtc_* fields contain the values adjusted for the
-hardware, and are the ones that should be written to the registers.
+The LCD controller expects timing values in dot-clock ticks, which is 3x
+the timing values in pixels when using a 3x8-bit display; but it will
+count the display area size in pixels either way. Go figure.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 368bfef8b340..998c63061fa8 100644
+index 998c63061fa8..0b2311b32b81 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -190,15 +190,15 @@ static void ingenic_drm_crtc_update_timings(struct ingenic_drm *priv,
+@@ -643,6 +643,7 @@ static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+ 					    struct drm_connector_state *conn_state)
  {
- 	unsigned int vpe, vds, vde, vt, hpe, hds, hde, ht;
+ 	struct drm_display_info *info = &conn_state->connector->display_info;
++	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
  
--	vpe = mode->vsync_end - mode->vsync_start;
--	vds = mode->vtotal - mode->vsync_start;
--	vde = vds + mode->vdisplay;
--	vt = vde + mode->vsync_start - mode->vdisplay;
-+	vpe = mode->crtc_vsync_end - mode->crtc_vsync_start;
-+	vds = mode->crtc_vtotal - mode->crtc_vsync_start;
-+	vde = vds + mode->crtc_vdisplay;
-+	vt = vde + mode->crtc_vsync_start - mode->crtc_vdisplay;
+ 	if (info->num_bus_formats != 1)
+ 		return -EINVAL;
+@@ -651,10 +652,22 @@ static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+ 		return 0;
  
--	hpe = mode->hsync_end - mode->hsync_start;
--	hds = mode->htotal - mode->hsync_start;
--	hde = hds + mode->hdisplay;
--	ht = hde + mode->hsync_start - mode->hdisplay;
-+	hpe = mode->crtc_hsync_end - mode->crtc_hsync_start;
-+	hds = mode->crtc_htotal - mode->crtc_hsync_start;
-+	hde = hds + mode->crtc_hdisplay;
-+	ht = hde + mode->crtc_hsync_start - mode->crtc_hdisplay;
- 
- 	regmap_write(priv->map, JZ_REG_LCD_VSYNC,
- 		     0 << JZ_LCD_VSYNC_VPS_OFFSET |
-@@ -333,7 +333,7 @@ static void ingenic_drm_crtc_atomic_flush(struct drm_crtc *crtc,
- 	struct drm_pending_vblank_event *event = crtc_state->event;
- 
- 	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
--		ingenic_drm_crtc_update_timings(priv, &crtc_state->mode);
-+		ingenic_drm_crtc_update_timings(priv, &crtc_state->adjusted_mode);
- 		priv->update_clk_rate = true;
- 	}
- 
+ 	switch (*info->bus_formats) {
++	case MEDIA_BUS_FMT_RGB888_3X8:
++		/*
++		 * The LCD controller expects timing values in dot-clock ticks,
++		 * which is 3x the timing values in pixels when using a 3x8-bit
++		 * display; but it will count the display area size in pixels
++		 * either way. Go figure.
++		 */
++		mode->crtc_clock = mode->clock * 3;
++		mode->crtc_hsync_start = mode->hsync_start * 3 - mode->hdisplay * 2;
++		mode->crtc_hsync_end = mode->hsync_end * 3 - mode->hdisplay * 2;
++		mode->crtc_hdisplay = mode->hdisplay;
++		mode->crtc_htotal = mode->htotal * 3 - mode->hdisplay * 2;
++		return 0;
+ 	case MEDIA_BUS_FMT_RGB565_1X16:
+ 	case MEDIA_BUS_FMT_RGB666_1X18:
+ 	case MEDIA_BUS_FMT_RGB888_1X24:
+-	case MEDIA_BUS_FMT_RGB888_3X8:
+ 		return 0;
+ 	default:
+ 		return -EINVAL;
 -- 
 2.29.2
 
