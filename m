@@ -2,33 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AC42B9A4C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 19:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838C32B9A65
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 19:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C160D898FA;
-	Thu, 19 Nov 2020 18:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E20786E5D1;
+	Thu, 19 Nov 2020 18:13:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E7318970E
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 18:04:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: gtucker) with ESMTPSA id C26961F45AC6
-Subject: Re: next/master bisection: baseline.dmesg.emerg on meson-gxbb-p200
-To: Marc Zyngier <maz@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7ED76E5D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 18:13:14 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o15so7455406wru.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 10:13:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:message-id
+ :date:mime-version;
+ bh=i+JS9nIAw+GECBNSoIwtkPpHIDmmFYQRGIixkpNJ1pw=;
+ b=zg6rI6FjWtx5yXqCC3eLHjTWvBWBjg1h2q5QYfvH2FmSPWi64lw4J4yqCKxsAOikhQ
+ tzatBgAynf2r72trUribQ+sF17eI4FYvcxa6wH6GTY+rt81q/N2RItEeLEuAENcle01k
+ CHhlKNpdsW5aUypWfT1vJf47i2TaWTh0MkkO0lkx/nIaS4Zdi1r9aytKDGORWIyWXO3a
+ CBGnycWSk3Md5BGDVTtO+X/7KV3EoZbKHyPjnGiAVFWa+H4eZfZmWs1IRG8f7gq+LCO5
+ 5M1rbmYd8wXa76/+VCuj1+MRTu+6hoHfG/+LhHOvw+FqGKBPFelQ+JjKXQUJR++G70Zc
+ uwZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:message-id:date:mime-version;
+ bh=i+JS9nIAw+GECBNSoIwtkPpHIDmmFYQRGIixkpNJ1pw=;
+ b=UZW7++xTe6eDMrYzlXyVbibr3SzLh+zqzh8WKkah4i7KfYb7IJoFznGYiCAVgEt6eX
+ bszSUDd8Ama66H30nxCrL3INgMw+fMvgSiRWwdgfX9cukRq/MLs7O2BUYYQey0LOtN4L
+ kvWeuYtl+3jFvmPot8OdpWHskHaN+mlVu7bOpKOGKQvTzwAdd3qd5GTze1N0pWcYGMWc
+ BshwrkoJhNkpMT22yDUWxGDCCXddhwAdlk/nJDGaO1wfWV4vv6R/8GJxrgBlpdcGnTXv
+ p/xcn3S2vVDyvjEa1Sp4E9Bk0SCvP+jT8fNjlhrw2F5TFZNJH32f2BWbFf3FcKUrlEq4
+ CW7A==
+X-Gm-Message-State: AOAM5300cbBHvt6A9bwlviTXS/zYKjLHNulqAITwfA05AAboDaXMbbT3
+ 26DJqvbMzpBLt1J/nLleTnP2ug==
+X-Google-Smtp-Source: ABdhPJzsKDmON4o/OFAQF109oAW2KjCYCtZryKNUSxju9G/qMlZIa1InhW5YzsVRVjcRJsvkGCD7uQ==
+X-Received: by 2002:a5d:4bc7:: with SMTP id l7mr12495950wrt.105.1605809593341; 
+ Thu, 19 Nov 2020 10:13:13 -0800 (PST)
+Received: from localhost (253.35.17.109.rev.sfr.net. [109.17.35.253])
+ by smtp.gmail.com with ESMTPSA id 90sm1029734wrl.60.2020.11.19.10.13.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 10:13:12 -0800 (PST)
 References: <5fb5e094.1c69fb81.a2014.2e62@mx.google.com>
  <a0bec7c4-9bec-8858-4879-52f4688d9992@collabora.com>
  <630e00e83cdd07ee5a0eaba9d3479554@kernel.org>
  <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
  <c76273f5fe483766e6a7f509f82d928a@kernel.org>
-From: Guillaume Tucker <guillaume.tucker@collabora.com>
-Message-ID: <f59922c6-69f5-c70e-b424-0659bf91a4fd@collabora.com>
-Date: Thu, 19 Nov 2020 18:04:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+ <f59922c6-69f5-c70e-b424-0659bf91a4fd@collabora.com>
+User-agent: mu4e 1.4.10; emacs 27.1
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Guillaume Tucker <guillaume.tucker@collabora.com>, Marc Zyngier
+ <maz@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: next/master bisection: baseline.dmesg.emerg on meson-gxbb-p200
+In-reply-to: <f59922c6-69f5-c70e-b424-0659bf91a4fd@collabora.com>
+Message-ID: <1jr1op8bbc.fsf@starbuckisacylon.baylibre.com>
+Date: Thu, 19 Nov 2020 19:13:11 +0100
 MIME-Version: 1.0
-In-Reply-To: <c76273f5fe483766e6a7f509f82d928a@kernel.org>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,87 +77,132 @@ Cc: kernelci-results@groups.io,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
  Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTWFyYywKCk9uIDE5LzExLzIwMjAgMTE6NTgsIE1hcmMgWnluZ2llciB3cm90ZToKPiBPbiAy
-MDIwLTExLTE5IDEwOjI2LCBOZWlsIEFybXN0cm9uZyB3cm90ZToKPj4gT24gMTkvMTEvMjAyMCAx
-MToyMCwgTWFyYyBaeW5naWVyIHdyb3RlOgo+Pj4gT24gMjAyMC0xMS0xOSAwODo1MCwgR3VpbGxh
-dW1lIFR1Y2tlciB3cm90ZToKPj4+PiBQbGVhc2Ugc2VlIHRoZSBhdXRvbWF0ZWQgYmlzZWN0aW9u
-IHJlcG9ydCBiZWxvdyBhYm91dCBzb21lIGtlcm5lbAo+Pj4+IGVycm9ycyBvbiBtZXNvbi1neGJi
-LXAyMDAuCj4+Pj4KPj4+PiBSZXBvcnRzIGFyZW4ndCBhdXRvbWF0aWNhbGx5IHNlbnQgdG8gdGhl
-IHB1YmxpYyB3aGlsZSB3ZSdyZQo+Pj4+IHRyaWFsaW5nIG5ldyBiaXNlY3Rpb24gZmVhdHVyZXMg
-b24ga2VybmVsY2kub3JnLCBob3dldmVyIHRoaXMgb25lCj4+Pj4gbG9va3MgdmFsaWQuCj4+Pj4K
-Pj4+PiBUaGUgYmlzZWN0aW9uIHN0YXJ0ZWQgd2l0aCBuZXh0LTIwMjAxMTE4IGJ1dCB0aGUgZXJy
-b3JzIGFyZSBzdGlsbAo+Pj4+IHByZXNlbnQgaW4gbmV4dC0yMDIwMTExOS7CoCBEZXRhaWxzIGZv
-ciB0aGlzIHJlZ3Jlc3Npb246Cj4+Pj4KPj4+PiDCoCBodHRwczovL2tlcm5lbGNpLm9yZy90ZXN0
-L2Nhc2UvaWQvNWZiNjE5NmJmZDAxMjdmZDY4ZDhkOTAyLwo+Pj4+Cj4+Pj4gVGhlIGZpcnN0IGVy
-cm9yIGlzOgo+Pj4+Cj4+Pj4gwqAgW8KgwqAgMTQuNzU3NDg5XSBJbnRlcm5hbCBlcnJvcjogc3lu
-Y2hyb25vdXMgZXh0ZXJuYWwgYWJvcnQ6IDk2MDAwMjEwCj4+Pj4gWyMxXSBQUkVFTVBUIFNNUAo+
-Pj4KPj4+IExvb2tzIGxpa2UgeWV0IGFub3RoZXIgY2xvY2sgb3JkZXJpbmcgc2V0dXAuIEkgZ3Vl
-c3MgZGlmZmVyZW50IEFtbG9naWMKPj4+IHBsYXRmb3JtcyBoYXZlIHNsaWdodGx5IGRpZmZlcmVu
-dCBvcmRlcmluZyByZXF1aXJlbWVudHMuCj4+Pgo+Pj4gTmVpbCwgZG8geW91IGhhdmUgYW55IGlk
-ZWEgb2Ygd2hpY2ggcGxhdGZvcm0gcmVxdWlyZXMgd2hpY2ggb3JkZXJpbmc/Cj4+PiBUaGUgdmFy
-aWFiaWxpdHkgaW4gRFQgYW5kIHBsYXRmb3JtcyBpcyBwcmV0dHkgZGlmZmljdWx0IHRvIGZvbGxv
-dyAoYW5kCj4+PiBJIGRvbid0IHRoaW5rIEkgaGF2ZSBzdWNoIGJvYXJkIGFyb3VuZCkuCj4+Cj4+
-IFRoZSByZXF1aXJlbWVudHMgc2hvdWxkIGJlIHRoZSBzYW1lLCBoZXJlIHRoZSBpbml0IHdhcyBk
-b25lIGJlZm9yZSBjYWxsaW5nCj4+IGR3X2hkbWlfcHJvYmUgdG8gYmUgc3VyZSB0aGUgY2xvY2tz
-IGFuZCBpbnRlcm5hbHMgcmVzZXRzIHdlcmUgZGVhc3NlcnRlZC4KPj4gQnV0IHNpbmNlIHlvdSBi
-b290IGZyb20gdS1ib290IGFscmVhZHkgZW5hYmxpbmcgdGhlc2UsIGl0J3MgYWxyZWFkeSBhY3Rp
-dmUuCj4+Cj4+IFRoZSBzb2x1dGlvbiB3b3VsZCBiZSB0byByZXZlcnQgYW5kIGRvIHNvbWUgY2hl
-Y2sgaW4gbWVzb25fZHdfaGRtaV9pbml0KCkgdG8KPj4gY2hlY2sgaWYgYWxyZWFkeSBlbmFibGVk
-IGFuZCBkbyBub3RoaW5nLgo+IAo+IEEgYmV0dGVyIGZpeCBzZWVtcyB0byBiZSB0aGlzLCB3aGlj
-aCBtYWtlcyBpdCBleHBsaWNpdCB0aGF0IHRoZXJlIGlzCj4gYSBkZXBlbmRlbmN5IGJldHdlZW4g
-c29tZSBvZiB0aGUgcmVnaXN0ZXJzIGFjY2Vzc2VkIGZyb20gbWVzb25fZHdfaGRtaV9pbml0KCkK
-PiBhbmQgdGhlIGlhaGIgY2xvY2suCj4gCj4gR3VpbGxhdW1lLCBjYW4geW91IGdpdmUgdGhpcyBh
-IGdvIG9uIHlvdXIgZmFpbGluZyBib3g/CgpJIGNvbmZpcm0gaXQgc29sdmVzIHRoZSBwcm9ibGVt
-LiAgUGxlYXNlIGFkZCB0aGlzIHRvIHlvdXIgZml4CnBhdGNoIGlmIGl0J3MgT0sgd2l0aCB5b3U6
-CgogIFJlcG9ydGVkLWJ5OiAia2VybmVsY2kub3JnIGJvdCIgPGJvdEBrZXJuZWxjaS5vcmc+CiAg
-VGVzdGVkLWJ5OiBHdWlsbGF1bWUgVHVja2VyIDxndWlsbGF1bWUudHVja2VyQGNvbGxhYm9yYS5j
-b20+CgoKRm9yIHRoZSByZWNvcmQsIGl0IHBhc3NlZCBhbGwgdGhlIHRlc3RzIHdoZW4gYXBwbGll
-ZCBvbiB0b3Agb2YKdGhlICJiYWQiIHJldmlzaW9uIGZvdW5kIGJ5IHRoZSBiaXNlY3Rpb246Cgog
-IGh0dHA6Ly9sYXZhLmJheWxpYnJlLmNvbToxMDA4MC9zY2hlZHVsZXIvYWxsam9icz9zZWFyY2g9
-djUuMTAtcmMzLTEwMjEtZ2I4NjY4YTJlNWVhMQoKYW5kIHRoZSBleGFjdCBzYW1lIHRlc3Qgb24g
-dGhlICJiYWQiIHJldmlzaW9uIHdpdGhvdXQgdGhlIGZpeApjb25zaXN0ZW50bHkgc2hvd2VkIHRo
-ZSBlcnJvcjoKCiAgaHR0cDovL2xhdmEuYmF5bGlicmUuY29tOjEwMDgwL3NjaGVkdWxlci9qb2Iv
-Mzc0MTc2CgoKVGhhbmtzLApHdWlsbGF1bWUKCgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vbWVzb24vbWVzb25fZHdfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lc29uL21lc29uX2R3
-X2hkbWkuYwo+IGluZGV4IDdmOGVlYTQ5NDE0Ny4uNTJhZjhiYTk0MzExIDEwMDY0NAo+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbWVzb24vbWVzb25fZHdfaGRtaS5jCj4gQEAgLTE0Niw2ICsxNDYsNyBAQCBzdHJ1Y3Qg
-bWVzb25fZHdfaGRtaSB7Cj4gwqDCoMKgwqAgc3RydWN0IHJlc2V0X2NvbnRyb2wgKmhkbWl0eF9j
-dHJsOwo+IMKgwqDCoMKgIHN0cnVjdCByZXNldF9jb250cm9sICpoZG1pdHhfcGh5Owo+IMKgwqDC
-oMKgIHN0cnVjdCBjbGsgKmhkbWlfcGNsazsKPiArwqDCoMKgIHN0cnVjdCBjbGsgKmlhaGJfY2xr
-Owo+IMKgwqDCoMKgIHN0cnVjdCBjbGsgKnZlbmNpX2NsazsKPiDCoMKgwqDCoCBzdHJ1Y3QgcmVn
-dWxhdG9yICpoZG1pX3N1cHBseTsKPiDCoMKgwqDCoCB1MzIgaXJxX3N0YXQ7Cj4gQEAgLTEwMzMs
-NiArMTAzNCwxMyBAQCBzdGF0aWMgaW50IG1lc29uX2R3X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNl
-ICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKPiDCoMKgwqDCoCB9Cj4gwqDCoMKgwqAgY2xr
-X3ByZXBhcmVfZW5hYmxlKG1lc29uX2R3X2hkbWktPmhkbWlfcGNsayk7Cj4gCj4gK8KgwqDCoCBt
-ZXNvbl9kd19oZG1pLT5pYWhiX2NsayA9IGRldm1fY2xrX2dldChkZXYsICJpYWhiIik7Cj4gK8Kg
-wqDCoCBpZiAoSVNfRVJSKG1lc29uX2R3X2hkbWktPmlhaGJfY2xrKSkgewo+ICvCoMKgwqDCoMKg
-wqDCoCBkZXZfZXJyKGRldiwgIlVuYWJsZSB0byBnZXQgaWFoYiBjbGtcbiIpOwo+ICvCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gUFRSX0VSUihtZXNvbl9kd19oZG1pLT5pYWhiX2Nsayk7Cj4gK8KgwqDC
-oCB9Cj4gK8KgwqDCoCBjbGtfcHJlcGFyZV9lbmFibGUobWVzb25fZHdfaGRtaS0+aWFoYl9jbGsp
-Owo+ICsKPiDCoMKgwqDCoCBtZXNvbl9kd19oZG1pLT52ZW5jaV9jbGsgPSBkZXZtX2Nsa19nZXQo
-ZGV2LCAidmVuY2kiKTsKPiDCoMKgwqDCoCBpZiAoSVNfRVJSKG1lc29uX2R3X2hkbWktPnZlbmNp
-X2NsaykpIHsKPiDCoMKgwqDCoMKgwqDCoMKgIGRldl9lcnIoZGV2LCAiVW5hYmxlIHRvIGdldCB2
-ZW5jaSBjbGtcbiIpOwo+IEBAIC0xMDcxLDYgKzEwNzksOCBAQCBzdGF0aWMgaW50IG1lc29uX2R3
-X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKPiAK
-PiDCoMKgwqDCoCBlbmNvZGVyLT5wb3NzaWJsZV9jcnRjcyA9IEJJVCgwKTsKPiAKPiArwqDCoMKg
-IG1lc29uX2R3X2hkbWlfaW5pdChtZXNvbl9kd19oZG1pKTsKPiArCj4gwqDCoMKgwqAgRFJNX0RF
-QlVHX0RSSVZFUigiZW5jb2RlciBpbml0aWFsaXplZFxuIik7Cj4gCj4gwqDCoMKgwqAgLyogQnJp
-ZGdlIC8gQ29ubmVjdG9yICovCj4gQEAgLTEwOTUsOCArMTEwNSw2IEBAIHN0YXRpYyBpbnQgbWVz
-b25fZHdfaGRtaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVy
-LAo+IMKgwqDCoMKgIGlmIChJU19FUlIobWVzb25fZHdfaGRtaS0+aGRtaSkpCj4gwqDCoMKgwqDC
-oMKgwqDCoCByZXR1cm4gUFRSX0VSUihtZXNvbl9kd19oZG1pLT5oZG1pKTsKPiAKPiAtwqDCoMKg
-IG1lc29uX2R3X2hkbWlfaW5pdChtZXNvbl9kd19oZG1pKTsKPiAtCj4gwqDCoMKgwqAgbmV4dF9i
-cmlkZ2UgPSBvZl9kcm1fZmluZF9icmlkZ2UocGRldi0+ZGV2Lm9mX25vZGUpOwo+IMKgwqDCoMKg
-IGlmIChuZXh0X2JyaWRnZSkKPiDCoMKgwqDCoMKgwqDCoMKgIGRybV9icmlkZ2VfYXR0YWNoKGVu
-Y29kZXIsIG5leHRfYnJpZGdlLAo+IAo+IAoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+
+On Thu 19 Nov 2020 at 19:04, Guillaume Tucker <guillaume.tucker@collabora.com> wrote:
+
+> Hi Marc,
+>
+> On 19/11/2020 11:58, Marc Zyngier wrote:
+>> On 2020-11-19 10:26, Neil Armstrong wrote:
+>>> On 19/11/2020 11:20, Marc Zyngier wrote:
+>>>> On 2020-11-19 08:50, Guillaume Tucker wrote:
+>>>>> Please see the automated bisection report below about some kernel
+>>>>> errors on meson-gxbb-p200.
+>>>>>
+>>>>> Reports aren't automatically sent to the public while we're
+>>>>> trialing new bisection features on kernelci.org, however this one
+>>>>> looks valid.
+>>>>>
+>>>>> The bisection started with next-20201118 but the errors are still
+>>>>> present in next-20201119.  Details for this regression:
+>>>>>
+>>>>>   https://kernelci.org/test/case/id/5fb6196bfd0127fd68d8d902/
+>>>>>
+>>>>> The first error is:
+>>>>>
+>>>>>   [   14.757489] Internal error: synchronous external abort: 96000210
+>>>>> [#1] PREEMPT SMP
+>>>>
+>>>> Looks like yet another clock ordering setup. I guess different Amlogic
+>>>> platforms have slightly different ordering requirements.
+>>>>
+>>>> Neil, do you have any idea of which platform requires which ordering?
+>>>> The variability in DT and platforms is pretty difficult to follow (and
+>>>> I don't think I have such board around).
+>>>
+>>> The requirements should be the same, here the init was done before calling
+>>> dw_hdmi_probe to be sure the clocks and internals resets were deasserted.
+>>> But since you boot from u-boot already enabling these, it's already active.
+>>>
+>>> The solution would be to revert and do some check in meson_dw_hdmi_init() to
+>>> check if already enabled and do nothing.
+>> 
+>> A better fix seems to be this, which makes it explicit that there is
+>> a dependency between some of the registers accessed from meson_dw_hdmi_init()
+>> and the iahb clock.
+>> 
+>> Guillaume, can you give this a go on your failing box?
+>
+> I confirm it solves the problem.  Please add this to your fix
+> patch if it's OK with you:
+>
+>   Reported-by: "kernelci.org bot" <bot@kernelci.org>
+>   Tested-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+>
+>
+> For the record, it passed all the tests when applied on top of
+> the "bad" revision found by the bisection:
+>
+>   http://lava.baylibre.com:10080/scheduler/alljobs?search=v5.10-rc3-1021-gb8668a2e5ea1
+>
+> and the exact same test on the "bad" revision without the fix
+> consistently showed the error:
+>
+>   http://lava.baylibre.com:10080/scheduler/job/374176
+>
+>
+> Thanks,
+> Guillaume
+>
+>
+>> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+>> index 7f8eea494147..52af8ba94311 100644
+>> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
+>> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
+>> @@ -146,6 +146,7 @@ struct meson_dw_hdmi {
+>>      struct reset_control *hdmitx_ctrl;
+>>      struct reset_control *hdmitx_phy;
+>>      struct clk *hdmi_pclk;
+>> +    struct clk *iahb_clk;
+>>      struct clk *venci_clk;
+>>      struct regulator *hdmi_supply;
+>>      u32 irq_stat;
+>> @@ -1033,6 +1034,13 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>>      }
+>>      clk_prepare_enable(meson_dw_hdmi->hdmi_pclk);
+>> 
+>> +    meson_dw_hdmi->iahb_clk = devm_clk_get(dev, "iahb");
+>> +    if (IS_ERR(meson_dw_hdmi->iahb_clk)) {
+>> +        dev_err(dev, "Unable to get iahb clk\n");
+>> +        return PTR_ERR(meson_dw_hdmi->iahb_clk);
+>> +    }
+>> +    clk_prepare_enable(meson_dw_hdmi->iahb_clk);
+
+If you guys are going ahead with this fix, this call to
+clk_prepare_enable() needs to be balanced with clk_disable_unprepare() somehow
+
+>> +
+>>      meson_dw_hdmi->venci_clk = devm_clk_get(dev, "venci");
+>>      if (IS_ERR(meson_dw_hdmi->venci_clk)) {
+>>          dev_err(dev, "Unable to get venci clk\n");
+>> @@ -1071,6 +1079,8 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>> 
+>>      encoder->possible_crtcs = BIT(0);
+>> 
+>> +    meson_dw_hdmi_init(meson_dw_hdmi);
+>> +
+>>      DRM_DEBUG_DRIVER("encoder initialized\n");
+>> 
+>>      /* Bridge / Connector */
+>> @@ -1095,8 +1105,6 @@ static int meson_dw_hdmi_bind(struct device *dev, struct device *master,
+>>      if (IS_ERR(meson_dw_hdmi->hdmi))
+>>          return PTR_ERR(meson_dw_hdmi->hdmi);
+>> 
+>> -    meson_dw_hdmi_init(meson_dw_hdmi);
+>> -
+>>      next_bridge = of_drm_find_bridge(pdev->dev.of_node);
+>>      if (next_bridge)
+>>          drm_bridge_attach(encoder, next_bridge,
+>> 
+>> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
