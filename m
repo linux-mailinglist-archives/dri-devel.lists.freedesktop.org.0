@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4251C2B9110
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 12:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8052B9117
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 12:36:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC29E89A1F;
-	Thu, 19 Nov 2020 11:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3360B6E507;
+	Thu, 19 Nov 2020 11:36:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6749589A1F
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 11:33:09 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id CBB7A20867;
- Thu, 19 Nov 2020 11:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605785589;
- bh=IwzuzZJdgwM/mSCg/YGq4DFiccAa0AMjMOfLhF3JG8I=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=KSMYoLedOZpStbTVjCff3VA/bScZg/ZBa6KN2hth62ft0nkMImZm0kHTF5TDUuxCj
- 8rQwrf/w655P5dRXoelEcF1FC8r9D+7nMXVCDEv3HaDhKKjvQJ9u9NmQg1lZbGu2BT
- Z8cIAWKKIxlLFh7MZ+3urSr8owbFL0odZfYyGCpI=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1kfiBW-00Bw2g-MO; Thu, 19 Nov 2020 11:33:06 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD596E507
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 11:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605785762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k/5IspfU90zIX991JUVFkVj/C2unpdmkwilticvObC0=;
+ b=Y/5OBY/+ctuANOC9KhuExWHwshRbdx4Ks3ya9W1rGoTsWTGUj6G2BGkxk5Hwm6vNIu2H06
+ knY0PKzmzPpRI+g629baleQb0ZrKX6h+ONFaRApjsy3QqlaXz//8kKbxxMxmWoSP5rVKYG
+ 0XgVj6sSk3TPMUEdOhuAN7GS54yPXkM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-ALi7BrmfPnukC0UQGek_cw-1; Thu, 19 Nov 2020 06:35:59 -0500
+X-MC-Unique: ALi7BrmfPnukC0UQGek_cw-1
+Received: by mail-ed1-f70.google.com with SMTP id f20so2179131edx.23
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 03:35:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k/5IspfU90zIX991JUVFkVj/C2unpdmkwilticvObC0=;
+ b=QPzNZnIvAEGgODtd9jf/vZWUhU9o8SSGCEuV6QDFA3FwWXUQFdJ/4F+F/60iH+rqkC
+ v6SLYDU5h5sQ9P59ESKKvJ8AJpvYHzLPeNf3oUdsmKK1wwGunRoBfmLFZl3vLBALR8SP
+ kpHRRrsewxvuqxDucHBFnLoAAM8rGBMhYoLN2Qtets55uMEabmg503oXxKEtpUxIdUbS
+ JbHQ94xSOmUbf2yjFphyedN459fUTnObwwBFnWK0P/7HsLHj4zqKlcCVjFAbBM5mDUMZ
+ yUO0bwZprOqfyF0Pdw9apjCutd7N1mO8DRqpom4vCZ3gonLwp1iCVx2MwTv1CZle9MSm
+ 223g==
+X-Gm-Message-State: AOAM533lDVhgdaYM4rVYJYyFbwFo5x8xbsuBI9qgHBemBRCXOJVF4o8/
+ 5QgBlmWuHCbILYll8nmvS8ZPCW+EVacNbffgVAgWr+e/OqmIFSc0HBkBzWlZetJBnT6Vopv6CX9
+ qIEGi4yLXDfwbPuZhwMqN/TSdSL1k
+X-Received: by 2002:a50:fe14:: with SMTP id f20mr28750511edt.61.1605785758292; 
+ Thu, 19 Nov 2020 03:35:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5ufRPbUWhN6nwg0jOBe+Zm79jEvMGr/jMkv0amNW3UhNcw+wQBb51H7S/UGhkMwMxdVK/rQ==
+X-Received: by 2002:a50:fe14:: with SMTP id f20mr28750498edt.61.1605785758097; 
+ Thu, 19 Nov 2020 03:35:58 -0800 (PST)
+Received: from x1.localdomain
+ (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+ by smtp.gmail.com with ESMTPSA id z2sm14968092edr.47.2020.11.19.03.35.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Nov 2020 03:35:57 -0800 (PST)
+Subject: Re: [PATCH] drm/vboxvideo: Unmap iomem on probe-failure and remove
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>
+References: <20201027135153.324873-1-hdegoede@redhat.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f6b034c3-ef86-7214-f65e-af93b78bd456@redhat.com>
+Date: Thu, 19 Nov 2020 12:35:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Date: Thu, 19 Nov 2020 11:33:06 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: next/master bisection: baseline.dmesg.emerg on meson-gxbb-p200
-In-Reply-To: <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
-References: <5fb5e094.1c69fb81.a2014.2e62@mx.google.com>
- <a0bec7c4-9bec-8858-4879-52f4688d9992@collabora.com>
- <630e00e83cdd07ee5a0eaba9d3479554@kernel.org>
- <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <48731911dbbe869a6d3bdafd819fa9ff@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: narmstrong@baylibre.com, guillaume.tucker@collabora.com,
- kernelci-results@groups.io, khilman@baylibre.com, jbrunet@baylibre.com,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- martin.blumenstingl@googlemail.com, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+In-Reply-To: <20201027135153.324873-1-hdegoede@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,56 +84,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernelci-results@groups.io,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Guillaume Tucker <guillaume.tucker@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, kernel test robot <lkp@intel.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0xMS0xOSAxMDoyNiwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4gT24gMTkvMTEvMjAy
-MCAxMToyMCwgTWFyYyBaeW5naWVyIHdyb3RlOgo+PiBPbiAyMDIwLTExLTE5IDA4OjUwLCBHdWls
-bGF1bWUgVHVja2VyIHdyb3RlOgo+Pj4gUGxlYXNlIHNlZSB0aGUgYXV0b21hdGVkIGJpc2VjdGlv
-biByZXBvcnQgYmVsb3cgYWJvdXQgc29tZSBrZXJuZWwKPj4+IGVycm9ycyBvbiBtZXNvbi1neGJi
-LXAyMDAuCj4+PiAKPj4+IFJlcG9ydHMgYXJlbid0IGF1dG9tYXRpY2FsbHkgc2VudCB0byB0aGUg
-cHVibGljIHdoaWxlIHdlJ3JlCj4+PiB0cmlhbGluZyBuZXcgYmlzZWN0aW9uIGZlYXR1cmVzIG9u
-IGtlcm5lbGNpLm9yZywgaG93ZXZlciB0aGlzIG9uZQo+Pj4gbG9va3MgdmFsaWQuCj4+PiAKPj4+
-IFRoZSBiaXNlY3Rpb24gc3RhcnRlZCB3aXRoIG5leHQtMjAyMDExMTggYnV0IHRoZSBlcnJvcnMg
-YXJlIHN0aWxsCj4+PiBwcmVzZW50IGluIG5leHQtMjAyMDExMTkuwqAgRGV0YWlscyBmb3IgdGhp
-cyByZWdyZXNzaW9uOgo+Pj4gCj4+PiDCoCBodHRwczovL2tlcm5lbGNpLm9yZy90ZXN0L2Nhc2Uv
-aWQvNWZiNjE5NmJmZDAxMjdmZDY4ZDhkOTAyLwo+Pj4gCj4+PiBUaGUgZmlyc3QgZXJyb3IgaXM6
-Cj4+PiAKPj4+IMKgIFvCoMKgIDE0Ljc1NzQ4OV0gSW50ZXJuYWwgZXJyb3I6IHN5bmNocm9ub3Vz
-IGV4dGVybmFsIGFib3J0OiA5NjAwMDIxMAo+Pj4gWyMxXSBQUkVFTVBUIFNNUAo+PiAKPj4gTG9v
-a3MgbGlrZSB5ZXQgYW5vdGhlciBjbG9jayBvcmRlcmluZyBzZXR1cC4gSSBndWVzcyBkaWZmZXJl
-bnQgQW1sb2dpYwo+PiBwbGF0Zm9ybXMgaGF2ZSBzbGlnaHRseSBkaWZmZXJlbnQgb3JkZXJpbmcg
-cmVxdWlyZW1lbnRzLgo+PiAKPj4gTmVpbCwgZG8geW91IGhhdmUgYW55IGlkZWEgb2Ygd2hpY2gg
-cGxhdGZvcm0gcmVxdWlyZXMgd2hpY2ggb3JkZXJpbmc/Cj4+IFRoZSB2YXJpYWJpbGl0eSBpbiBE
-VCBhbmQgcGxhdGZvcm1zIGlzIHByZXR0eSBkaWZmaWN1bHQgdG8gZm9sbG93IChhbmQKPj4gSSBk
-b24ndCB0aGluayBJIGhhdmUgc3VjaCBib2FyZCBhcm91bmQpLgo+IAo+IFRoZSByZXF1aXJlbWVu
-dHMgc2hvdWxkIGJlIHRoZSBzYW1lLCBoZXJlIHRoZSBpbml0IHdhcyBkb25lIGJlZm9yZSAKPiBj
-YWxsaW5nCj4gZHdfaGRtaV9wcm9iZSB0byBiZSBzdXJlIHRoZSBjbG9ja3MgYW5kIGludGVybmFs
-cyByZXNldHMgd2VyZSAKPiBkZWFzc2VydGVkLgo+IEJ1dCBzaW5jZSB5b3UgYm9vdCBmcm9tIHUt
-Ym9vdCBhbHJlYWR5IGVuYWJsaW5nIHRoZXNlLCBpdCdzIGFscmVhZHkgCj4gYWN0aXZlLgoKVGhl
-IGNyYXNoaW5nIHBsYXRmb3JtIGFsc28gYm9vdHMgd2l0aCB1LWJvb3QuIFdoYXQgaXMgdGhlIGRp
-ZmZlcmVuY2U/Ck5vIEhETUkgc3VwcG9ydD8KCj4gVGhlIHNvbHV0aW9uIHdvdWxkIGJlIHRvIHJl
-dmVydCBhbmQgZG8gc29tZSBjaGVjayBpbiAKPiBtZXNvbl9kd19oZG1pX2luaXQoKSB0bwo+IGNo
-ZWNrIGlmIGFscmVhZHkgZW5hYmxlZCBhbmQgZG8gbm90aGluZy4KCkl0IGxvb2tzIG1vcmUgc3Vi
-dGxlIHRoYW4gdGhhdCwgYXMgaXQgYWxzbyBkZXBlbmRzIG9uIHdoaWNoIERUIGlzIApwcm92aWRl
-ZAooYW4gZWFybHkgbWVzb25fZHdfaGRtaV9pbml0KCkgd29ya3Mgd2l0aCB0aGUga2VybmVsIERU
-LCBhbmQgYnJlYWtzIHdpdGggCnRoZQp1LWJvb3QgRFQpLiBTbyB3aGF0ZXZlciBkaWZmZXJlbmNl
-IGlzIGJldHdlZW4gdGhlIHR3byBEVHMgY2F1c2VzIGhhdm9jLgp1LWJvb3Qgb2J2aW91c2x5IG9u
-bHkgdXNlcyBpdHMgb3duIERULCBzbyB3ZSBhcmUgbG9va2luZyBhdCBhIGtlcm5lbCBidWcgCmhl
-cmUuCgpOb3QgaGF2aW5nIHRoaXMgcGF0Y2ggYWxzbyBicmVha3MgbW9kdWxlIHJlaW5zZXJ0aW9u
-IChIRE1JIGNsb2NrcyBhcmUgCmRpc2FibGVkCm9uIHVuYmluZCksIHNvICpzb21ldGhpbmcqIGhh
-cyB0byBiZSBkb25lIGxhdGUuCgpTbyBoZXJlIGFyZSBteSBxdWVzdGlvbnM6Ci0gV2hhdCBicmVh
-a3MgaW4gbXkgY29uZmlnIHdoZW4gSSBib290IHVzaW5nIHUtYm9vdCdzIERUPwotIEhvdyB0byBk
-ZXRlY3QgZWFybHkgdGhhdCB0aGUgcmVnaXN0ZXJzIGFyZSBjbG9ja2VkIG9yIG5vdD8KClRoYW5r
-cywKCiAgICAgICAgIE0uCi0tIApKYXp6IGlzIG5vdCBkZWFkLiBJdCBqdXN0IHNtZWxscyBmdW5u
-eS4uLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Hi,
+
+On 10/27/20 2:51 PM, Hans de Goede wrote:
+> Add missing pci_iounmap() calls to properly unmap the memory on
+> probe-failure and remove.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+
+For some reason the spam-filter used by Red Hat's email system has eaten
+Daniel Vetter's reply to this, so let me copy and paste that from patchwork:
+
+Daniel Vetter wrote:
+
+> I think switching over to devm would be really nice. And for pci all
+> you need to do is use pcim_enable_device and delete all the cleanup
+> code, and it's all done. Hand rolling device cleanup code really isn't
+> a great idea and way too error-prone. Plus you're using lots of devm_
+> already.
+
+Good point, so I just checked and the vboxvideo code is already
+using pcim_enable_device() so it looks like this is a false-positive
+from the lkp@intel.com bot, and Dan Carpenter missed that pcim_enable_device()
+makes all subsequent pci-resource acquiring calls behave like devm calls,
+when he forwarded the report to me.
+
+Tl;DR: there is no bug / leak and this patch can be dropped.
+
+Is there a place where I can report a bug against the lkp@intel.com bot
+for this false-positive ?
+
+Regards,
+
+Hans
+
+
+
+
+> ---
+>  drivers/gpu/drm/vboxvideo/vbox_main.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vboxvideo/vbox_main.c b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> index d68d9bad7674..2eeb1d3be54a 100644
+> --- a/drivers/gpu/drm/vboxvideo/vbox_main.c
+> +++ b/drivers/gpu/drm/vboxvideo/vbox_main.c
+> @@ -71,6 +71,8 @@ static void vbox_accel_fini(struct vbox_private *vbox)
+>  
+>  	for (i = 0; i < vbox->num_crtcs; ++i)
+>  		vbva_disable(&vbox->vbva_info[i], vbox->guest_pool, i);
+> +
+> +	pci_iounmap(vbox->ddev.pdev, vbox->vbva_buffers);
+>  }
+>  
+>  /* Do we support the 4.3 plus mode hint reporting interface? */
+> @@ -124,19 +126,19 @@ int vbox_hw_init(struct vbox_private *vbox)
+>  	vbox->guest_pool = devm_gen_pool_create(vbox->ddev.dev, 4, -1,
+>  						"vboxvideo-accel");
+>  	if (!vbox->guest_pool)
+> -		return -ENOMEM;
+> +		goto out_unmap_guest_heap;
+>  
+>  	ret = gen_pool_add_virt(vbox->guest_pool,
+>  				(unsigned long)vbox->guest_heap,
+>  				GUEST_HEAP_OFFSET(vbox),
+>  				GUEST_HEAP_USABLE_SIZE, -1);
+>  	if (ret)
+> -		return ret;
+> +		goto out_unmap_guest_heap;
+>  
+>  	ret = hgsmi_test_query_conf(vbox->guest_pool);
+>  	if (ret) {
+>  		DRM_ERROR("vboxvideo: hgsmi_test_query_conf failed\n");
+> -		return ret;
+> +		goto out_unmap_guest_heap;
+>  	}
+>  
+>  	/* Reduce available VRAM size to reflect the guest heap. */
+> @@ -148,23 +150,30 @@ int vbox_hw_init(struct vbox_private *vbox)
+>  
+>  	if (!have_hgsmi_mode_hints(vbox)) {
+>  		ret = -ENOTSUPP;
+> -		return ret;
+> +		goto out_unmap_guest_heap;
+>  	}
+>  
+>  	vbox->last_mode_hints = devm_kcalloc(vbox->ddev.dev, vbox->num_crtcs,
+>  					     sizeof(struct vbva_modehint),
+>  					     GFP_KERNEL);
+> -	if (!vbox->last_mode_hints)
+> -		return -ENOMEM;
+> +	if (!vbox->last_mode_hints) {
+> +		ret = -ENOMEM;
+> +		goto out_unmap_guest_heap;
+> +	}
+>  
+>  	ret = vbox_accel_init(vbox);
+>  	if (ret)
+> -		return ret;
+> +		goto out_unmap_guest_heap;
+>  
+>  	return 0;
+> +
+> +out_unmap_guest_heap:
+> +	pci_iounmap(vbox->ddev.pdev, vbox->guest_pool);
+> +	return ret;
+>  }
+>  
+>  void vbox_hw_fini(struct vbox_private *vbox)
+>  {
+>  	vbox_accel_fini(vbox);
+> +	pci_iounmap(vbox->ddev.pdev, vbox->guest_pool);
+>  }
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
