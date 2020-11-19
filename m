@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B978E2B9718
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:01:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4432B971A
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C98936E591;
-	Thu, 19 Nov 2020 16:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D9616E59B;
+	Thu, 19 Nov 2020 16:02:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02DAF6E591
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:55 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1qV5003154;
- Thu, 19 Nov 2020 10:01:52 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8285F6E59B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:58 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1tjC003188;
+ Thu, 19 Nov 2020 10:01:55 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605801712;
- bh=GTWIrA9E6t1KKjfc/h/3P4uANWOhmfE+rbTrAJlCaqk=;
+ s=ti-com-17Q1; t=1605801715;
+ bh=AH76u/JNzuyYiaEyRRM0VgCwzs/y6u3UdYsRA9KAN/w=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=Dt2NNJHN2bbbjo0twP4JuzmFRLHcmbgAoiKbHCNohbgci48Q2JmXM5AAP7d+/0MJO
- fzAUPddQ0zpJW3fJFaWUOw2wDu1NKida6gYTBHeX4725uC+MWj54mXlLL+KYDVolBY
- z+7ZQYvccAEzUW1IgNGBixNi8ITVSJTHV49J/bAI=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1qKv084976
+ b=Yr5tEE707Bws9kkuCsLunWyk9cjQQojoGdviYs7mOvoxipD/yFuNTfmngTKeKcdlU
+ wndSdVjD6+kmrFelDp912foJmYtutU9PQBsGIOrZyW6fzRsIV7Ax8yWVr5SEf+XppH
+ 9p4D5UntSlp7Zl9anUf5JFlYAmQ4WHT2rgcs4+HU=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1tXF004296
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Nov 2020 10:01:52 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 19 Nov 2020 10:01:55 -0600
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 19
- Nov 2020 10:01:52 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 10:01:54 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 19 Nov 2020 10:01:52 -0600
+ Frontend Transport; Thu, 19 Nov 2020 10:01:54 -0600
 Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1apu003251; 
- Thu, 19 Nov 2020 10:01:50 -0600
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1apv003251; 
+ Thu, 19 Nov 2020 10:01:52 -0600
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v3 5/6] drm/tidss: Move to newer connector model
-Date: Thu, 19 Nov 2020 21:31:33 +0530
-Message-ID: <20201119160134.9244-6-nikhil.nd@ti.com>
+Subject: [PATCH v3 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
+ enable/disable
+Date: Thu, 19 Nov 2020 21:31:34 +0530
+Message-ID: <20201119160134.9244-7-nikhil.nd@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201119160134.9244-1-nikhil.nd@ti.com>
 References: <20201119160134.9244-1-nikhil.nd@ti.com>
@@ -67,89 +68,112 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To be able to support connector operations across multiple
-bridges, it is recommended that the connector should be
-created by the SoC driver instead of the bridges.
+When removing the tidss driver, there is a warning reported by
+kernel about an unhandled interrupt for mhdp driver.
 
-Modify the tidss modesetting initialization sequence to
-create the connector and attach bridges with flag
-DRM_BRIDGE_ATTACH_NO_CONNECTOR
+[   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
+... [snipped backtrace]
+[   43.330735] handlers:
+[   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
+cdns_mhdp_irq_handler [cdns_mhdp8546]
+[   43.344607] Disabling IRQ #31
+
+This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
+to disable the interrupts. While disabling the SW_EVENT interrupts,
+it accidentally enables the MBOX interrupts, which are not handled by
+the driver.
+
+Fix this with a read-modify-write to update only required bits.
+Use the enable / disable function as required in other places.
 
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Swapnil Jakhade <sjakhade@cadence.com>
 ---
 
 Notes:
-    changes from v1:
-    * Add error handling
+    changes from v2:
+    * Fix the interrupt enable logic at other places in code
+    * Reorder functions so that they can be used earlier in the program
 
- drivers/gpu/drm/tidss/tidss_drv.h |  3 +++
- drivers/gpu/drm/tidss/tidss_kms.c | 19 ++++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 44 +++++++++----------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-index 7de4bba52e6f..cfbf85a4d92b 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.h
-+++ b/drivers/gpu/drm/tidss/tidss_drv.h
-@@ -27,6 +27,9 @@ struct tidss_device {
- 	unsigned int num_planes;
- 	struct drm_plane *planes[TIDSS_MAX_PLANES];
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index 2cd809eed827..0442269aeb03 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -52,6 +52,26 @@
  
-+	unsigned int num_connectors;
-+	struct drm_connector *connectors[TIDSS_MAX_PORTS];
-+
- 	spinlock_t wait_lock;	/* protects the irq masks */
- 	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
- };
-diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-index 09485c7f0d6f..1f5ae153b114 100644
---- a/drivers/gpu/drm/tidss/tidss_kms.c
-+++ b/drivers/gpu/drm/tidss/tidss_kms.c
-@@ -7,6 +7,7 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_fb_helper.h>
-@@ -192,6 +193,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 	for (i = 0; i < num_pipes; ++i) {
- 		struct tidss_plane *tplane;
- 		struct tidss_crtc *tcrtc;
-+		struct drm_connector *connector;
- 		struct drm_encoder *enc;
- 		u32 hw_plane_id = feat->vid_order[tidss->num_planes];
- 		int ret;
-@@ -222,11 +224,26 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
- 			return PTR_ERR(enc);
- 		}
+ #include "cdns-mhdp8546-j721e.h"
  
--		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
-+		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 		if (ret) {
- 			dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
- 			return ret;
- 		}
++static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
++{
++	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
 +
-+		connector = drm_bridge_connector_init(&tidss->ddev, enc);
-+		if (IS_ERR(connector)) {
-+			dev_err(tidss->dev, "bridge_connector create failed\n");
-+			return PTR_ERR(connector);
-+		}
++	/* Enable SW event interrupts */
++	if (mhdp->bridge_attached)
++		writel(readl(mhdp->regs + CDNS_APB_INT_MASK) &
++		       ~CDNS_APB_INT_MASK_SW_EVENT_INT,
++		       mhdp->regs + CDNS_APB_INT_MASK);
++}
 +
-+		tidss->connectors[tidss->num_connectors++] = connector;
++static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
++{
++	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
 +
-+		ret = drm_connector_attach_encoder(connector, enc);
-+		if (ret) {
-+			dev_err(tidss->dev, "attaching encoder to connector failed\n");
-+			return ret;
-+		}
- 	}
++	writel(readl(mhdp->regs + CDNS_APB_INT_MASK) |
++	       CDNS_APB_INT_MASK_SW_EVENT_INT,
++	       mhdp->regs + CDNS_APB_INT_MASK);
++}
++
+ static int cdns_mhdp_mailbox_read(struct cdns_mhdp_device *mhdp)
+ {
+ 	int ret, empty;
+@@ -747,9 +767,7 @@ static int cdns_mhdp_fw_activate(const struct firmware *fw,
+ 	 * MHDP_HW_STOPPED happens only due to driver removal when
+ 	 * bridge should already be detached.
+ 	 */
+-	if (mhdp->bridge_attached)
+-		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+-		       mhdp->regs + CDNS_APB_INT_MASK);
++	cdns_mhdp_bridge_hpd_enable(&mhdp->bridge);
  
- 	/* create overlay planes of the leftover planes */
+ 	spin_unlock(&mhdp->start_lock);
+ 
+@@ -1689,8 +1707,7 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
+ 
+ 	/* Enable SW event interrupts */
+ 	if (hw_ready)
+-		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+-		       mhdp->regs + CDNS_APB_INT_MASK);
++		cdns_mhdp_bridge_hpd_enable(bridge);
+ 
+ 	return 0;
+ }
+@@ -2140,23 +2157,6 @@ static struct edid *cdns_mhdp_bridge_get_edid(struct drm_bridge *bridge,
+ 	return cdns_mhdp_get_edid(mhdp, connector);
+ }
+ 
+-static void cdns_mhdp_bridge_hpd_enable(struct drm_bridge *bridge)
+-{
+-	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+-
+-	/* Enable SW event interrupts */
+-	if (mhdp->bridge_attached)
+-		writel(~(u32)CDNS_APB_INT_MASK_SW_EVENT_INT,
+-		       mhdp->regs + CDNS_APB_INT_MASK);
+-}
+-
+-static void cdns_mhdp_bridge_hpd_disable(struct drm_bridge *bridge)
+-{
+-	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+-
+-	writel(CDNS_APB_INT_MASK_SW_EVENT_INT, mhdp->regs + CDNS_APB_INT_MASK);
+-}
+-
+ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+ 	.atomic_enable = cdns_mhdp_atomic_enable,
+ 	.atomic_disable = cdns_mhdp_atomic_disable,
 -- 
 2.17.1
 
