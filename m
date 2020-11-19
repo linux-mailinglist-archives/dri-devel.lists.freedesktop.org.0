@@ -1,64 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727E82B8D7B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:34:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DADEF2B8D82
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:35:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1270A6E5A4;
-	Thu, 19 Nov 2020 08:34:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED7BF6E509;
+	Thu, 19 Nov 2020 08:35:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702736E581
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:33:08 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id w4so3550149pgg.13
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 00:33:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=AWtaE3tXlX6KkF6SbACxjxmzIgZO2jw7wJIis4kxiFE=;
- b=erzuebpFnP6Gt2cVg+ear4rCVwZ7bV1TMmBphb8RKyD3jrIiAaNEYF/RsgesHqObP0
- He6fyxoxyGGmeUZVMu55DzEB7jcra6cRQnvkfN30U6IDH2AVMoZ3r4zz+yw4phczW/Jg
- 5DjouAw+3mtdOjcmUn00gTai5TFmLOOALsNQjAMBdj0hv+RDsdHAH6LIu1vdCvwZuRvk
- ABxoG8DSqgG6cKZwCREawmItYpU4ofbFmo8XNIFaxMPJZ2Bz3RTZj4T3PbEz2A4i54tL
- vDc5j2p+cebrIwdKl0TAv9l5C1jvtPY8WU0arSK9KRm8+cU0n/85YEKbOOyC1USDLDGC
- ff+g==
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA95B6E509
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:35:30 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id v20so5333396ljk.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 00:35:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=CUAPPILQ+HlU7cec+WyW0vmuUkycQGR+EKCfVOKR5DA=;
+ b=xxlskXAtX870lOpywdkalnsMzFjOX7jemtarV+C0XroXPqfrChwDn/g05wGLVXiLwx
+ DZv2npwrVk2RKdH45J7ZWqU2vAt1m10srMqDqYyRxB61d26qoaxXSMRTETG9DXJ2hAcJ
+ N4kLWQX9cJNH3RH5lR3umlSF1OOyI0UJPv1RHKjx7zCyrRKjspUv/27o0lxRWuMcYYrI
+ O+IiOqTP0Or30LBmpNOxt2QBo25FdQEYfEWRO4sFrMf/TPM8AMtiIRXUj9ZgCTQClZG6
+ /2ulQQHD9n1kuB837CEi2PVIGJ89reg37c1AlK0zowtZLpiS7sfPwzHj9ot7ktmbWrJH
+ bCCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AWtaE3tXlX6KkF6SbACxjxmzIgZO2jw7wJIis4kxiFE=;
- b=CY8wVqIzM5dIkJCYVGjtV4tmzzd67o8XYHwDXET5IsrWD7LWOmFsTBA8UqxhWyNq8r
- AOg1pdlDXi90u7o67BPlLsWNE2R3guG3oKDimqTke5HLF7lY0qNLvjZrH3VlGS3//p4B
- ui8m/nhsKK80eYiNreqh7iVc2lWbNKYauekNHvIX5iarwyyL2Sagp1zVH8Y4WC/Ms/wb
- 8untE3gKF46TFSXKEmr4yAH61jqi/Jxe47SjvbAC4H9V+i1C8bI0SkezGNcIu8H63V74
- D+qCFSY/GR2UbVBj8uXGF1T29jE6qcebvHdOVEB5ryNLu97zqLmGVLK2U6/GBas4U6ia
- 3F8g==
-X-Gm-Message-State: AOAM5338We/KYZW3OvPMKRguGdrS2c6nM2m5CzdG6eEhIuIafY9yD6K/
- ErfuoFF4+PNH3topxYgWPA==
-X-Google-Smtp-Source: ABdhPJw2SvWZ1XI9W5K8nt/BB7nN8YTnKz+xeBgYnSGTG7BKTqQH4kXyF10cnpjO+13wTWBoHwQsNw==
-X-Received: by 2002:a63:c745:: with SMTP id v5mr11584885pgg.389.1605774787959; 
- Thu, 19 Nov 2020 00:33:07 -0800 (PST)
-Received: from PWN (59-125-13-244.HINET-IP.hinet.net. [59.125.13.244])
- by smtp.gmail.com with ESMTPSA id z5sm1626030pgi.27.2020.11.19.00.33.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 00:33:07 -0800 (PST)
-Date: Thu, 19 Nov 2020 03:32:57 -0500
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 0/5] console: Miscellaneous clean-ups, do not use
- FNTCHARCNT() in fbcon.c
-Message-ID: <20201119083257.GA9468@PWN>
-References: <cover.1605169912.git.yepeilin.cs@gmail.com>
- <20201113211633.GY401619@phenom.ffwll.local>
- <X68NFzaAuImemnqh@kroah.com> <20201114081021.GA11811@PWN>
- <X6/K/S9V7rj2hI5p@kroah.com> <X6/L/lE2pA7csBwd@kroah.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CUAPPILQ+HlU7cec+WyW0vmuUkycQGR+EKCfVOKR5DA=;
+ b=m2BQ9jxmdb3oHPG5xbZVKO/M59+KNCW09gUOKSbmltbmKuI/p8dlXVO1sgAQW+U9BH
+ zkhTEuzRwIQheDLaYhIVpFS7ojB8+oZqy0R9Kg0bMUSedXEouYH4qhF8T8mQPGCXt4cI
+ ECrMkNR1CrIlifvl/wh/GZYWbrYR/zCHo6hBfc+NvBxhlR2v/PqafgDNtggS/I7iO8WK
+ reLPnVbSwTqWQnIVs6yyg9oSQxZQ6rgGPuAPj5G3pTGNOGu+aXYIMgWhIXXzYk2HU04i
+ N/l8NTPxMAgo75SXzaW5VtwP+I6AXRE6ag++Z8tpmQ0NSQwGFD0eHEWwC2c2aKFmmVQD
+ oV4w==
+X-Gm-Message-State: AOAM532vsnCykNEF5JkQMmnZSAIpiLqV4FHRHWPUSdIoNWP1aQLVrGj8
+ rQbDC2tbgmvl4JCo45DQJfHrUVLTjXp3KAS6nN+PYA==
+X-Google-Smtp-Source: ABdhPJzb1eF+H7SQdr5ic1GZqIMIfLsKmdGEtadZ2F1hyOuZbWr/cgjdxlUVeSHl72yR9JRuHYa3dyZlsxsodk0gZic=
+X-Received: by 2002:a2e:998e:: with SMTP id w14mr5942998lji.100.1605774929224; 
+ Thu, 19 Nov 2020 00:35:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X6/L/lE2pA7csBwd@kroah.com>
+References: <cover.1605688147.git.agx@sigxcpu.org>
+In-Reply-To: <cover.1605688147.git.agx@sigxcpu.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 19 Nov 2020 09:35:17 +0100
+Message-ID: <CACRpkda97nJ+nJX4CuZHQnDVh1mhykc_vb6xFh7BcAWQoNjz7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] drm/panel: mantix and st7703 fixes and additions
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,44 +61,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Jiri Slaby <jirislaby@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ondrej Jirman <megous@megous.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
+ Mark Brown <broonie@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 14, 2020 at 01:22:22PM +0100, Greg Kroah-Hartman wrote:
-> Ah, here's a hint:
-> 	https://wiki.archlinux.org/index.php/Linux_console#Fonts
-> 
-> The setfont tool should help you out here.
-
-setfont seems to work fine, I tried Georgian-Fixed16 (256 chars) and
-Uni2-VGA16 (512 chars) under /usr/share/consolefonts/ in my Ubuntu box,
-including setting all consoles to the same font:
-
-for i in {1..6}; do
-        sudo setfont -C /dev/tty${i} /usr/share/consolefonts/Georgian-Fixed16.psf.gz
-done
-
-Font rotation also seems to work fine:
-
-for i in {1..4}; do
-        echo $i | sudo tee /sys/class/graphics/fbcon/rotate
-        sleep 1
-done
-
-One last thing I can think of is tile blitting, but I don't have the
-hardware (e.g. a Matrox G400 card, see FB_TILEBLITTING in
-drivers/video/fbdev/Kconfig) at hand, nor did I figure out how to
-simulate it after searching for a while.  However based on the other
-tests above I believe vc->vc_font.charcount is set properly.
-
-Thanks,
-Peilin Ye
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBOb3YgMTgsIDIwMjAgYXQgOToyOSBBTSBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hj
+cHUub3JnPiB3cm90ZToKCj4gVGhpcyBhZGRzIG5ldyBwYW5lbCB0eXBlIHRvIHRoZSBtYW50aXgg
+ZHJpdmVyIGFzIGZvdW5kIG9uIHRoZSBMaWJyZW0gNSBhbmQKPiBmaXhlcyBhIGdsaXRjaCBpbiB0
+aGUgaW5pdCBzZXF1ZW5jZSAoYWZmZWN0aW5nIGJvdGggcGFuZWxzKS4gVGhlIGZpeCBpcyBhdCB0
+aGUKPiBzdGFydCBvZiB0aGUgc2VyaWVzIHRvIG1ha2UgYmFja3BvcnRpbmcgc2ltcGxlci4KPiBJ
+dCBhbHNvIGFkZHMgYSBwYXRjaCB0byBtYWtlIHN0NzcwMyB1c2UgZGV2X2Vycl9wcm9iZSgpLgo+
+Cj4gY2hhbmdlcyBmcm9tIHYxCj4gLSBhcyBwZXIgcmV2aWV3IGNvbW1lbnRzIGJ5IExpbnVzIFdh
+bGxlaWoKPiAgIC0gZml4IGFscGhhYmV0aWNhbCBvcmRlcmluZyBpbiBEb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvdmVuZG9yLXByZWZpeGVzLnlhbWwKPiAgICAgaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvZHJpLWRldmVsL0NBQ1Jwa2Rhb19UTWNwUnNkSz03SzVmTktKc2UwQnF3azU4
+aVd1MHhzWGRETmRjZmZWQUBtYWlsLmdtYWlsLmNvbS8KPiAgIC0gYWRkIHJldmlld2VkIGJ5IHRv
+IGFsbCBleGNlcHQgNS82LCB0aGFua3MKClRoZSB3aG9sZSB2MiBsb29rcyBmaW5lIHRvIG1lLCBJ
+J2QgZ2l2ZSB0aGUgZGV2aWNldHJlZQptYWludGFpbmVycyBzb21lIHNsYWNrIHRvIHJldmlldyB0
+aGUgRFQgcGF0Y2hlcyB0aGVuIEkgY2FuCmFwcGx5IHRoZSB3aG9sZSBzZXJpZXMgdW5sZXNzIHlv
+dSBoYXZlIGNvbW1pdCBhY2Nlc3MgeW91cnNlbGYsCmp1c3QgdGVsbCBtZS4KCkZvciBhbGwgdjIg
+cGF0Y2hlczoKUmV2aWV3ZWQtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJv
+Lm9yZz4KCklmIHlvdSBoYXZlIHRpbWUsIHBsZWFzZSByZXZpZXcgbXkgczZlNjNtMCBzZXJpZXMu
+Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIwMTExNzE3NTYyMS44NzAwODUt
+MS1saW51cy53YWxsZWlqQGxpbmFyby5vcmcvCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1k
+ZXZlbC8yMDIwMTExNzE3NTYyMS44NzAwODUtMi1saW51cy53YWxsZWlqQGxpbmFyby5vcmcvCmh0
+dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIwMTExNzE3NTYyMS44NzAwODUtMy1s
+aW51cy53YWxsZWlqQGxpbmFyby5vcmcvCgpZb3VycywKTGludXMgV2FsbGVpagpfX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
+aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
+a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
