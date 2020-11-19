@@ -1,74 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703F32B9C13
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:43 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C95B62B9C0D
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5861D6E829;
-	Thu, 19 Nov 2020 20:32:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDC06E823;
+	Thu, 19 Nov 2020 20:32:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9B686E530
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:22:47 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id z21so8442084lfe.12
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 06:22:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZvOd3z2dVnB5SZQwK/dvDpMXJ4eITwmefRvuKa9tb0Q=;
- b=Y21dZRMZ+kNYHUNLiNCHQoS5QxGFMKf7KaEd+6a06G/hQ1bejJXAcijD6xiDcBiBUn
- JS4yWyB2+zZqqxEzarQ7y2NC3cKCRKUZ2CchFnZU6Kn5vLrutkvXtu+Lq1OFhxgn8Epp
- UuLT88qmv67A3sWVg1l8Ws05tNM98wJWDlT1hgGfbwXfCiTxIVlprvN48xiVZLuFi3Cn
- KI3oT4rlzLRHtD8EKwZRS29BsqsZh07SrjWWBHtLowX/toS83Dhlqd9OCn9mvofvfXic
- DHhrzPVHyIWzxM0YW/p1ZFuzvZaox6YeG/KIcRnpB6NKJzCgXsklV6r9OCr7nnEUUhRd
- hptw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ZvOd3z2dVnB5SZQwK/dvDpMXJ4eITwmefRvuKa9tb0Q=;
- b=iuc8C6PgQPd476nyQCMZJqHcRgb1DWWrbmJUzSNMYkDrVeGRIBDtquclXztJvNxLwf
- mcdg5nR1tkqW0Y7dJHCnD8XWsFgHtYzWdS7zeVcJ1TrtGY9OvDa+C2MxNi82n6sff5cT
- H2gN6CdJ85sE84mBAl3iiDKVZbxtgS0QfjNcbvPrYTlmasT2pE3RHcjLLsWJAPlDwic+
- r6XwoepKZoNcKbqDEW27reah3lbjrXYiyW4/P7aZPUWGGm4c8Rda5ns7IDLPCy6tx7Pv
- 1fsWyH7FHXx8GU5pGdluBSBFsVkQDkP6wrMjRNYAi3kGicbb1y58m6PF5JyWzuAFc4K9
- l9Wg==
-X-Gm-Message-State: AOAM530+IBOeKd75+gwh1GGH6mBOuw8vMf/YnbD0TVglyiVHAFybgC1w
- KQWnBZheka6pPeHUD0ah9OM=
-X-Google-Smtp-Source: ABdhPJyUwmqVByndGgJFiM7woqjbf8UJz72yW3W4B1Jv93hEMk1YatxireTGBSQxqAyLLyxkuXCkKw==
-X-Received: by 2002:a19:844a:: with SMTP id g71mr6446029lfd.414.1605795766096; 
- Thu, 19 Nov 2020 06:22:46 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id m16sm3851652lfa.57.2020.11.19.06.22.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Nov 2020 06:22:45 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To: Mark Brown <broonie@kernel.org>
-References: <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
- <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
- <20201113142937.GB4828@sirena.org.uk>
- <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
- <20201113161550.GC4828@sirena.org.uk>
- <3beaa12b-4a50-a3b6-fc43-ebb5ce7a8db7@gmail.com>
- <20201113172859.GF4828@sirena.org.uk>
- <74cfc6a9-3f59-d679-14b7-51102a6f11b3@gmail.com>
- <20201116133311.GB4739@sirena.org.uk>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <332ab946-daee-bb83-24ab-0bda4fd8e1ef@gmail.com>
-Date: Thu, 19 Nov 2020 17:22:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0E16E542
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:32:23 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id D99435806F5;
+ Thu, 19 Nov 2020 09:32:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 19 Nov 2020 09:32:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=fdeCJrw0Opv9LtMWbCk4M6wggdX
+ HkukfGAaUbw2IQ6g=; b=t9NaJ2J/XhRdNuXdea/oz7750HrVqWDGUjgBdFH5X0Q
+ TGh+KBJEGLBcjiibQRQpkDKdPHXnhB1TyBfw0WEoZLcjVM+A53oaLrgFApHO6EM8
+ N/3+KN0SUZZDoL+6AElNAxSul4scoP8mn4kleJz0xAThizx5L67x1GtOe8jnKBiG
+ UeOmDm9ObaC5xILY6RoP8WT4Sd+zbBHIVOMCXZBIZwRIbvTahn1AbhEMMJE8XJ3H
+ K4MQHdgUCzkQa448rUu3537SPw+Xx85cLBBaqQtBZxZmYSP2IptPX4i2pDSIp4HZ
+ ZEsCOJDbjAt/yuCWXSNZPDcmybgcEKqXapYw58wG2WA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=fdeCJr
+ w0Opv9LtMWbCk4M6wggdXHkukfGAaUbw2IQ6g=; b=U5bk7hAIdvzMZMWy+pxPIs
+ r+O6qgO1DSb7SXgnQ+3bemtMPOB2ycmLIPFFPxMM1FDE8h0OeytslPREtQwoxHDh
+ l6iDtcFSe+X5PQ7AM2rdou+9LtgCDMAebUxNwocC9AAigvOzwCk3B+y+JUEvlPhv
+ U1e4QMLDqxLVsS4DZv3OxDp+LmibO18QUMT45+5vkbKDsMINgBvYg74IwJfq/004
+ C4CkrBOh1g9TA3pSgpH2/78DjGF4wQ/ckBptmxiBgeJS/U8xqQp+dD2OIJGdltIs
+ /CVLBsxHYV7ESRp0e88Lvku+QTG8IKB+0gRtPXbf0B5yCrFW7TiqQznMyhN1e+eA
+ ==
+X-ME-Sender: <xms:74G2X4QwYv_sQLPCYBKUn28NMs9TrzIlF07RtTNirhel9yVfACe98A>
+ <xme:74G2X1xcC27qQnrQHEo3V2ujlKC2JIxA8-Dyoqcs6tLBo6wghwhE-V9eqz1aY7Xxa
+ vyt-5pfxfbDXGy_szQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefjedgieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:74G2X11TAfTvjyIsbY-kGepsS2t2DvCq3VVqyFSOOk4bK0OU3bcUaQ>
+ <xmx:74G2X8B4FdqcJEHvkhfdgkD6H4R_jB4ToyTZYGmcvN7sd3GX38XkIw>
+ <xmx:74G2Xxiu5DJr3Dmw-nnJ8BxbkMpuXzaCgqxIOYXPwvQ8Y8TTvbaydA>
+ <xmx:84G2Xx7aDLvuUx-Az1UuxTr13Y5daDSJY6Jo27cDwPwxQ0mPQE1kMA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D567A3280059;
+ Thu, 19 Nov 2020 09:32:14 -0500 (EST)
+Date: Thu, 19 Nov 2020 15:32:13 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 7/7] drm/vc4: kms: Don't disable the muxing of an
+ active CRTC
+Message-ID: <20201119143213.wqgvn2d3vphyeked@gilmour.lan>
+References: <20201105135656.383350-1-maxime@cerno.tech>
+ <20201105135656.383350-8-maxime@cerno.tech>
+ <2e61b179-35f3-f4b3-9ec0-c822370da663@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201116133311.GB4739@sirena.org.uk>
-Content-Language: en-US
+In-Reply-To: <2e61b179-35f3-f4b3-9ec0-c822370da663@suse.de>
 X-Mailman-Approved-At: Thu, 19 Nov 2020 20:32:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,75 +81,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Chen <Peter.Chen@nxp.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, dri-devel@lists.freedesktop.org,
- Adrian Hunter <adrian.hunter@intel.com>, devicetree@vger.kernel.org,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, devel@driverdev.osuosl.org,
- linux-samsung-soc@vger.kernel.org, Nicolas Chauvet <kwizart@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alan Stern <stern@rowland.harvard.edu>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-tegra@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Peter Geis <pgwipeout@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Phil Elwell <phil@raspberrypi.com>, Rob Herring <robh+dt@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1862516899=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MTYuMTEuMjAyMCAxNjozMywgTWFyayBCcm93biDQv9C40YjQtdGCOgo+IE9uIFN1biwgTm92IDE1
-LCAyMDIwIGF0IDA4OjQyOjEwUE0gKzAzMDAsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4gMTMu
-MTEuMjAyMCAyMDoyOCwgTWFyayBCcm93biDQv9C40YjQtdGCOgo+IAo+Pj4+IFdoYXQgc2hvdWxk
-IHdlIGRvPwo+IAo+Pj4gQXMgSSBrZWVwIHNheWluZyB0aGUgY29uc3VtZXIgZHJpdmVyIHNob3Vs
-ZCBiZSBlbnVtZXJhdGluZyB0aGUgdm9sdGFnZXMKPj4+IGl0IGNhbiBzZXQsIGlmIGl0IGNhbid0
-IGZpbmQgYW55IGFuZCB3YW50cyB0byBjb250aW51ZSB0aGVuIGl0IGNhbiBqdXN0Cj4+PiBza2lw
-IHNldHRpbmcgdm9sdGFnZXMgbGF0ZXIgb24uICBJZiBvbmx5IHNvbWUgYXJlIHVuYXZhaWxhYmxl
-IHRoZW4gaXQKPj4+IHByb2JhYmx5IHdhbnRzIHRvIGVsaW1pbmF0ZSB0aG9zZSBzcGVjaWZpYyBP
-UFBzIGluc3RlYWQuCj4gCj4+IEknbSBzZWVpbmcgYSBkdW1teSByZWd1bGF0b3IgYXMgYSBoZWxw
-ZXIgZm9yIGNvbnN1bWVyIGRyaXZlcnMgd2hpY2gKPj4gcmVtb3ZlcyBidXJkZW4gb2YgaGFuZGxp
-bmcgYW4gYWJzZW50IChvcHRpb25hbCkgcmVndWxhdG9yLiBJcyB0aGlzIGEKPj4gY29ycmVjdCB1
-bmRlcnN0YW5kaW5nIG9mIGEgZHVtbXkgcmVndWxhdG9yPwo+IAo+PiBPbGRlciBEVEJzIGRvbid0
-IGhhdmUgYSByZWd1bGF0b3IgYW5kIHdlIHdhbnQgdG8ga2VlcCB0aGVtIHdvcmtpbmcuIFRoaXMK
-Pj4gaXMgZXF1YWwgdG8gYSBwaHlzaWNhbGx5IGFic2VudCByZWd1bGF0b3IgYW5kIGluIHRoaXMg
-Y2FzZSBpdCdzIGFuCj4+IG9wdGlvbmFsIHJlZ3VsYXRvciwgSU1PLgo+IAo+IE5vLCB5b3UgYXJl
-IGZhaWxpbmcgdG8gdW5kZXJzdGFuZCB0aGUgcHVycG9zZSBvZiB0aGlzIGNvZGUuICBUbwo+IHJl
-aXRlcmF0ZSB1bmxlc3MgdGhlIGRldmljZSBzdXBwb3J0cyBvcGVyYXRpbmcgd2l0aCB0aGUgc3Vw
-cGx5Cj4gcGh5c2ljYWxseSBhYnNlbnQgdGhlbiB0aGUgZHJpdmVyIHNob3VsZCBub3QgYmUgYXR0
-ZW1wdGluZyB0byB1c2UKPiByZWd1bGF0b3JfZ2V0X29wdGlvbmFsKCkuICBUaGF0IGV4aXN0cyBz
-cGVjaWZpY2FsbHkgZm9yIHRoZSBjYXNlIHdoZXJlCj4gdGhlIHN1cHBseSBtYXkgYmUgYWJzZW50
-LCBub3RoaW5nIGVsc2UuICBUaGUgZHVtbXkgcmVndWxhdG9yIGlzIHRoZXJlCj4gcHJlY2lzZWx5
-IGZvciB0aGUgY2FzZSB3aGVyZSB0aGUgc3lzdGVtIGRvZXMgbm90IGRlc2NyaWJlIHN1cHBsaWVz
-IHRoYXQKPiB3ZSBrbm93IGFyZSByZXF1aXJlZCBmb3IgdGhlIGRldmljZSB0byBmdW5jdGlvbiwg
-aXQgZml4ZXMgdXAgdGhhdAo+IG9taXNzaW9uIHNvIHdlIGRvbid0IG5lZWQgdG8gb3BlbiBjb2Rl
-IGhhbmRsaW5nIG9mIHRoaXMgaW4gZXZlcnkgc2luZ2xlCj4gY29uc3VtZXIgZHJpdmVyLgoKVGhl
-IG9yaWdpbmFsIGludGVudGlvbiBvZiByZWd1bGF0b3JfZ2V0X29wdGlvbmFsKCkgaXMgY2xlYXIg
-dG8gbWUsIGJ1dApub3RoaW5nIHJlYWxseSBzdG9wcyBkcml2ZXJzIGZyb20gc2xpZ2h0bHkgcmUt
-cHVycG9zaW5nIHRoaXMgQVBJLCBJTU8uCgpEcml2ZXJzIHNob3VsZCBiZSBmcmVlIHRvIGFzc3Vt
-ZSB0aGF0IGlmIHJlZ3VsYXRvciBpc24ndCBkZWZpbmVkIGJ5CmZpcm13YXJlLCB0aGVuIGl0J3Mg
-cGh5c2ljYWxseSBhYnNlbnQgaWYgdGhpcyBkb2Vzbid0IGJyZWFrIGFueXRoaW5nLiBPZgpjb3Vy
-c2UgaW4gc29tZSBjYXNlcyBpdCdzIHVuc2FmZSB0byBtYWtlIHN1Y2ggYXNzdW1wdGlvbnMuIEkg
-dGhpbmsgaXQncwphIGJpdCB1bnByYWN0aWNhbCB0byBhcnRpZmljaWFsbHkgbGltaXQgQVBJIHVz
-YWdlIHdpdGhvdXQgYSBnb29kIHJlYXNvbiwKaS5lLiBpZiBub3RoaW5nIGJyZWFrcyB1bmRlcm5l
-YXRoIG9mIGEgZHJpdmVyLgoKPiBSZWd1bGF0b3JzIHRoYXQgYXJlIHByZXNlbnQgYnV0IG5vdCBk
-ZXNjcmliZWQgYnkgdGhlIGZpcm13YXJlIGFyZSBhCj4gY2xlYXJseSBkaWZmZXJlbnQgY2FzZSB0
-byByZWd1bGF0b3JzIHRoYXQgYXJlIG5vdCBwaHlzaWNhbGx5IHRoZXJlLAo+IGhhcmR3YXJlIHdp
-dGggYWN0dWFsbHkgb3B0aW9uYWwgcmVndWxhdG9ycyB3aWxsIGdlbmVyYWxseSByZXF1aXJlIHNv
-bWUKPiBjb25maWd1cmF0aW9uIGZvciB0aGlzIGNhc2UuCj4gCgpJIGhhdmUgZ29vZCBuZXdzLiBB
-ZnRlciBzcGVuZGluZyBzb21lIG1vcmUgdGltZSBvbiB0cnlpbmcgb3V0IGRpZmZlcmVudAp0aGlu
-Z3MsIEkgZm91bmQgdGhhdCBteSBwcmV2aW91cyBhc3N1bXB0aW9uIGFib3V0IHRoZSBmaXhlZC1y
-ZWd1bGF0b3IKd2FzIHdyb25nLCBpdCBhY3R1YWxseSBhY2NlcHRzIHZvbHRhZ2UgY2hhbmdlcywg
-aS5lLiByZWd1bGF0b3IgY29uc3VtZXIKZG9lc24ndCBnZXQgYSBlcnJvciBvbiBhIHZvbHRhZ2Ut
-Y2hhbmdlLiBUaGlzIGlzIGV4YWN0bHkgd2hhdCBpcyBuZWVkZWQKZm9yIHRoZSBPUFAgY29yZSB0
-byB3b3JrIHByb3Blcmx5LgoKVGhpcyBtZWFucyB0aGF0IHRoZXJlIGlzIG5vIG5lZWQgdG8gYWRk
-IHNwZWNpYWwgcXVpcmtzIHRvIHdvcmsgYXJvdW5kCmFic2VudCByZWd1bGF0b3JzLCB3ZSB3aWxs
-IGp1c3QgYWRkIGEgZml4ZWQgcmVndWxhdG9yIHRvIHRoZSBEVHMgd2hpY2gKZG9uJ3Qgc3BlY2lm
-eSBhIHJlYWwgcmVndWxhdG9yLiBUaGUgT1BQIGNvcmUgd2lsbCBwZXJmb3JtIHZvbHRhZ2UKY2hl
-Y2tpbmcgYW5kIGZpbHRlciBvdXQgdW5zdXBwb3J0ZWQgT1BQcy4gVGhlIG9sZGVyIERUQnMgd2ls
-bCBjb250aW51ZQp0byB3b3JrIGFzIHdlbGwuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============1862516899==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ywfvxmnqzpqjf2fz"
+Content-Disposition: inline
+
+
+--ywfvxmnqzpqjf2fz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Nov 19, 2020 at 10:12:43AM +0100, Thomas Zimmermann wrote:
+> Hi
+>=20
+> Am 05.11.20 um 14:56 schrieb Maxime Ripard:
+> > The current HVS muxing code will consider the CRTCs in a given state to
+> > setup their muxing in the HVS, and disable the other CRTCs muxes.
+> >=20
+> > However, it's valid to only update a single CRTC with a state, and in t=
+his
+> > situation we would mux out a CRTC that was enabled but left untouched by
+> > the new state.
+> >=20
+> > Fix this by setting a flag on the CRTC state when the muxing has been
+> > changed, and only change the muxing configuration when that flag is the=
+re.
+> >=20
+> > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
+ally")
+> > Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >   drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+> >   drivers/gpu/drm/vc4/vc4_kms.c | 82 ++++++++++++++++++++---------------
+> >   2 files changed, 48 insertions(+), 35 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
+v.h
+> > index 014113823647..325b53ff11b3 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> > @@ -524,6 +524,7 @@ struct vc4_crtc_state {
+> >   	struct drm_mm_node mm;
+> >   	bool feed_txp;
+> >   	bool txp_armed;
+> > +	bool needs_muxing;
+>=20
+> Maybe rather 'update_muxing'.
+>=20
+> More generally, I'd separate fields that contain actual CRTC state, such
+> assigned_channel, from those that only contain transitional state during
+> update-commit, such as needs_muxing.
+
+How would you separate them?
+
+I'll use your other suggestions, thanks!
+Maxime
+
+--ywfvxmnqzpqjf2fz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7aB7QAKCRDj7w1vZxhR
+xVTzAQCr+8IdXjnVaJWRPSPg5zJcI2nQ7fDeMLE8/dGK7/UOoAD/VPfcWb+Ve+pt
+QZWUFI5owJotbGGUDLCTNUcEWoYt/g0=
+=8pyD
+-----END PGP SIGNATURE-----
+
+--ywfvxmnqzpqjf2fz--
+
+--===============1862516899==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1862516899==--
