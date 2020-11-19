@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC0242B8E4C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:59:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9352B8E6E
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:12:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B006E50C;
-	Thu, 19 Nov 2020 08:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB80B89FAD;
+	Thu, 19 Nov 2020 09:12:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B217889CC4
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:59:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D539A89FAD
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:12:45 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 46EC4AD31;
- Thu, 19 Nov 2020 08:59:17 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 651B4AA4F;
+ Thu, 19 Nov 2020 09:12:44 +0000 (UTC)
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-7-maxime@cerno.tech>
+ <20201105135656.383350-8-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 6/7] drm/vc4: kms: Store the unassigned channel list in
- the state
-Message-ID: <c733bc70-8535-e4b9-1db6-a7b51e2781a7@suse.de>
-Date: Thu, 19 Nov 2020 09:59:15 +0100
+Subject: Re: [PATCH v3 7/7] drm/vc4: kms: Don't disable the muxing of an
+ active CRTC
+Message-ID: <2e61b179-35f3-f4b3-9ec0-c822370da663@suse.de>
+Date: Thu, 19 Nov 2020 10:12:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105135656.383350-7-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-8-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,19 +49,19 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1693914218=="
+Content-Type: multipart/mixed; boundary="===============0605483861=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1693914218==
+--===============0605483861==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Oi7AvY65G3xAJBsaMT0ftobatwcz7JZTf"
+ boundary="wUXyLnvODDduSOwUJMGIGbha6mdCCp3Cl"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Oi7AvY65G3xAJBsaMT0ftobatwcz7JZTf
-Content-Type: multipart/mixed; boundary="ClrxqTxfzC8SZXuU3jAGgHEkRdaYYcvNI";
+--wUXyLnvODDduSOwUJMGIGbha6mdCCp3Cl
+Content-Type: multipart/mixed; boundary="Y0tvX8j0sV8ZwJ1IfqwyAs19pfnM36AkO";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
@@ -75,43 +75,39 @@ Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  Tim Gover <tim.gover@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <c733bc70-8535-e4b9-1db6-a7b51e2781a7@suse.de>
-Subject: Re: [PATCH v3 6/7] drm/vc4: kms: Store the unassigned channel list in
- the state
+Message-ID: <2e61b179-35f3-f4b3-9ec0-c822370da663@suse.de>
+Subject: Re: [PATCH v3 7/7] drm/vc4: kms: Don't disable the muxing of an
+ active CRTC
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-7-maxime@cerno.tech>
-In-Reply-To: <20201105135656.383350-7-maxime@cerno.tech>
+ <20201105135656.383350-8-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-8-maxime@cerno.tech>
 
---ClrxqTxfzC8SZXuU3jAGgHEkRdaYYcvNI
+--Y0tvX8j0sV8ZwJ1IfqwyAs19pfnM36AkO
 Content-Type: multipart/mixed;
- boundary="------------F00D6C6C13C26C6D00FCEB58"
+ boundary="------------52B80DD9E187450BC308E5C7"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------F00D6C6C13C26C6D00FCEB58
+--------------52B80DD9E187450BC308E5C7
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
 Am 05.11.20 um 14:56 schrieb Maxime Ripard:
-> If a CRTC is enabled but not active, and that we're then doing a page
-> flip on another CRTC, drm_atomic_get_crtc_state will bring the first
-> CRTC state into the global state, and will make us wait for its vblank
-> as well, even though that might never occur.
+> The current HVS muxing code will consider the CRTCs in a given state to=
+
+> setup their muxing in the HVS, and disable the other CRTCs muxes.
 >=20
-> Instead of creating the list of the free channels each time atomic_chec=
-k
-> is called, and calling drm_atomic_get_crtc_state to retrieve the
-> allocated channels, let's create a private state object in the main
-> atomic state, and use it to store the available channels.
+> However, it's valid to only update a single CRTC with a state, and in t=
+his
+> situation we would mux out a CRTC that was enabled but left untouched b=
+y
+> the new state.
 >=20
-> Since vc4 has a semaphore (with a value of 1, so a lock) in its commit
-> implementation to serialize all the commits, even the nonblocking ones,=
- we
-> are free from the use-after-free race if two subsequent commits are not=
- ran
-> in their submission order.
+> Fix this by setting a flag on the CRTC state when the muxing has been
+> changed, and only change the muxing configuration when that flag is the=
+re.
 >=20
 > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
 ally")
@@ -119,260 +115,188 @@ ally")
 > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->   drivers/gpu/drm/vc4/vc4_drv.h |   1 +
->   drivers/gpu/drm/vc4/vc4_kms.c | 124 +++++++++++++++++++++++++++------=
+>   drivers/gpu/drm/vc4/vc4_drv.h |  1 +
+>   drivers/gpu/drm/vc4/vc4_kms.c | 82 ++++++++++++++++++++--------------=
 -
->   2 files changed, 100 insertions(+), 25 deletions(-)
+>   2 files changed, 48 insertions(+), 35 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
 v.h
-> index bdbb9540d47d..014113823647 100644
+> index 014113823647..325b53ff11b3 100644
 > --- a/drivers/gpu/drm/vc4/vc4_drv.h
 > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -219,6 +219,7 @@ struct vc4_dev {
+> @@ -524,6 +524,7 @@ struct vc4_crtc_state {
+>   	struct drm_mm_node mm;
+>   	bool feed_txp;
+>   	bool txp_armed;
+> +	bool needs_muxing;
+
+Maybe rather 'update_muxing'.
+
+More generally, I'd separate fields that contain actual CRTC state, such =
+
+assigned_channel, from those that only contain transitional state during =
+
+update-commit, such as needs_muxing.
+
+>   	unsigned int assigned_channel;
 >  =20
->   	struct drm_modeset_lock ctm_state_lock;
->   	struct drm_private_obj ctm_manager;
-> +	struct drm_private_obj hvs_channels;
->   	struct drm_private_obj load_tracker;
->  =20
->   	/* List of vc4_debugfs_info_entry for adding to debugfs once
+>   	struct {
 > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> index 499c6914fce4..0a231ae500e5 100644
+> index 0a231ae500e5..7ef164afa9e2 100644
 > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -37,6 +37,17 @@ static struct vc4_ctm_state *to_vc4_ctm_state(struct=
- drm_private_state *priv)
->   	return container_of(priv, struct vc4_ctm_state, base);
->   }
->  =20
-> +struct vc4_hvs_state {
-> +	struct drm_private_state base;
-> +	unsigned int unassigned_channels;
-> +};
-> +
-> +static struct vc4_hvs_state *
-> +to_vc4_hvs_state(struct drm_private_state *priv)
-> +{
-> +	return container_of(priv, struct vc4_hvs_state, base);
-> +}
-> +
->   struct vc4_load_tracker_state {
->   	struct drm_private_state base;
->   	u64 hvs_load;
-> @@ -662,6 +673,70 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
-v *vc4)
->   	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fin=
-i, NULL);
->   }
->  =20
-> +static struct drm_private_state *
-> +vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
-> +{
-> +	struct vc4_hvs_state *state;
-> +
-> +	state =3D kmemdup(obj->state, sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return NULL;
-> +
-> +	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
-> +
-> +	return &state->base;
-> +}
-> +
-> +static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj=
-,
-> +					   struct drm_private_state *state)
-> +{
-> +	struct vc4_hvs_state *hvs_state;
-> +
-> +	hvs_state =3D to_vc4_hvs_state(state);
-> +	kfree(hvs_state);
-> +}
-> +
-> +static const struct drm_private_state_funcs vc4_hvs_state_funcs =3D {
-> +	.atomic_duplicate_state =3D vc4_hvs_channels_duplicate_state,
-> +	.atomic_destroy_state =3D vc4_hvs_channels_destroy_state,
-> +};
-> +
-> +static void vc4_hvs_channels_obj_fini(struct drm_device *dev, void *un=
-used)
-> +{
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
-> +
-> +	drm_atomic_private_obj_fini(&vc4->hvs_channels);
-> +}
-> +
-> +static int vc4_hvs_channels_obj_init(struct vc4_dev *vc4)
-> +{
-> +	struct vc4_hvs_state *state;
-> +
-> +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
-> +	if (!state)
-> +		return -ENOMEM;
-> +
-> +	state->unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0);
-> +	drm_atomic_private_obj_init(&vc4->base, &vc4->hvs_channels,
-> +				    &state->base,
-> +				    &vc4_hvs_state_funcs);
-> +
-> +	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fini=
-, NULL);
-> +}
-> +
-> +static struct vc4_hvs_state *
-> +vc4_hvs_get_global_state(struct drm_atomic_state *state)
-> +{
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
-> +	struct drm_private_state *priv_state;
-> +
-> +	priv_state =3D drm_atomic_get_private_obj_state(state, &vc4->hvs_chan=
-nels);
-> +	if (IS_ERR(priv_state))
-> +		return ERR_CAST(priv_state);
-> +
-> +	return to_vc4_hvs_state(priv_state);
-> +}
-> +
->   /*
->    * The BCM2711 HVS has up to 7 output connected to the pixelvalves an=
-d
->    * the TXP (and therefore all the CRTCs found on that platform).
-> @@ -678,6 +753,14 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
-v *vc4)
->    *   need to consider all the running CRTCs in the DRM device to assi=
-gn
->    *   a FIFO, not just the one in the state.
->    *
-> + * - To fix the above, we can't use drm_atomic_get_crtc_state on all
-> + *   enabled CRTCs to pull their CRTC state into the global state, sin=
-ce
-> + *   a page flip would start considering their vblank to complete. Sin=
-ce
-> + *   we don't have a guarantee that they are actually active, that
-> + *   vblank might never happen, and shouldn't even be considered if we=
-
-> + *   want to do a page flip on a single CRTC. That can be tested by
-> + *   doing a modetest -v first on HDMI1 and then on HDMI0.
-> + *
->    * - Since we need the pixelvalve to be disabled and enabled back whe=
-n
->    *   the FIFO is changed, we should keep the FIFO assigned for as lon=
-g
->    *   as the CRTC is enabled, only considering it free again once that=
-
-> @@ -687,46 +770,33 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
-ev *vc4)
->   static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
->   				      struct drm_atomic_state *state)
+> @@ -226,10 +226,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_de=
+v *vc4,
 >   {
-> -	unsigned long unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0=
-);
-> +	struct vc4_hvs_state *hvs_state;
->   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+>   	struct drm_crtc_state *crtc_state;
 >   	struct drm_crtc *crtc;
+> -	unsigned char dsp2_mux =3D 0;
+> -	unsigned char dsp3_mux =3D 3;
+> -	unsigned char dsp4_mux =3D 3;
+> -	unsigned char dsp5_mux =3D 3;
+> +	unsigned char mux;
 >   	unsigned int i;
+>   	u32 reg;
 >  =20
-> -	/*
-> -	 * Since the HVS FIFOs are shared across all the pixelvalves and
-> -	 * the TXP (and thus all the CRTCs), we need to pull the current
-> -	 * state of all the enabled CRTCs so that an update to a single
-> -	 * CRTC still keeps the previous FIFOs enabled and assigned to
-> -	 * the same CRTCs, instead of evaluating only the CRTC being
-> -	 * modified.
-> -	 */
-> -	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
-> -		struct drm_crtc_state *crtc_state;
-> -
-> -		if (!crtc->state->enable)
-> -			continue;
-> -
-> -		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> -		if (IS_ERR(crtc_state))
-> -			return PTR_ERR(crtc_state);
-> -	}
-> +	hvs_state =3D vc4_hvs_get_global_state(state);
-> +	if (!hvs_state)
-> +		return -EINVAL;
+> @@ -237,50 +234,59 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_d=
+ev *vc4,
+>   		struct vc4_crtc_state *vc4_state =3D to_vc4_crtc_state(crtc_state);=
 
-I found this confusing. It's technically correct, but from hvs_state is=20
-not clear that it's the new state. Maybe call it hvs_new_state.
-
-If you want to be pedantic, maybe split the creation of the new state=20
-from the usage. Call vc4_hvs_get_global_state() at the top of=20
-vc4_atomic_check() to make the new state. (Maybe with a short comment.)=20
-And here only call an equivalent of=20
-drm_atomic_get_new_private_obj_state() for hvs_channels.
-
-In any case
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
+>   		struct vc4_crtc *vc4_crtc =3D to_vc4_crtc(crtc);
 >  =20
->   	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_=
-state, i) {
-> +		struct vc4_crtc_state *old_vc4_crtc_state =3D
-> +			to_vc4_crtc_state(old_crtc_state);
->   		struct vc4_crtc_state *new_vc4_crtc_state =3D
->   			to_vc4_crtc_state(new_crtc_state);
+> -		if (!crtc_state->active)
+> +		if (!vc4_state->needs_muxing)
+>   			continue;
+>  =20
+>   		switch (vc4_crtc->data->hvs_output) {
+>   		case 2:
+> -			dsp2_mux =3D (vc4_state->assigned_channel =3D=3D 2) ? 0 : 1;
+> +			mux =3D (vc4_state->assigned_channel =3D=3D 2) ? 0 : 1;
+> +			reg =3D HVS_READ(SCALER_DISPECTRL);
+> +			HVS_WRITE(SCALER_DISPECTRL,
+> +				  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
+> +				  VC4_SET_FIELD(mux, SCALER_DISPECTRL_DSP2_MUX));
+>   			break;
+>  =20
+>   		case 3:
+> -			dsp3_mux =3D vc4_state->assigned_channel;
+> +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
+> +				mux =3D 3;
+> +			else
+> +				mux =3D vc4_state->assigned_channel;
+> +
+> +			reg =3D HVS_READ(SCALER_DISPCTRL);
+> +			HVS_WRITE(SCALER_DISPCTRL,
+> +				  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
+> +				  VC4_SET_FIELD(mux, SCALER_DISPCTRL_DSP3_MUX));
+>   			break;
+>  =20
+>   		case 4:
+> -			dsp4_mux =3D vc4_state->assigned_channel;
+> +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
+> +				mux =3D 3;
+> +			else
+> +				mux =3D vc4_state->assigned_channel;
+> +
+> +			reg =3D HVS_READ(SCALER_DISPEOLN);
+> +			HVS_WRITE(SCALER_DISPEOLN,
+> +				  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
+> +				  VC4_SET_FIELD(mux, SCALER_DISPEOLN_DSP4_MUX));
+> +
+>   			break;
+>  =20
+>   		case 5:
+> -			dsp5_mux =3D vc4_state->assigned_channel;
+> +			if (vc4_state->assigned_channel =3D=3D VC4_HVS_CHANNEL_DISABLED)
+> +				mux =3D 3;
+> +			else
+> +				mux =3D vc4_state->assigned_channel;
+> +
+> +			reg =3D HVS_READ(SCALER_DISPDITHER);
+> +			HVS_WRITE(SCALER_DISPDITHER,
+> +				  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
+> +				  VC4_SET_FIELD(mux, SCALER_DISPDITHER_DSP5_MUX));
+>   			break;
+>  =20
+>   		default:
+>   			break;
+>   		}
+>   	}
+> -
+> -	reg =3D HVS_READ(SCALER_DISPECTRL);
+> -	HVS_WRITE(SCALER_DISPECTRL,
+> -		  (reg & ~SCALER_DISPECTRL_DSP2_MUX_MASK) |
+> -		  VC4_SET_FIELD(dsp2_mux, SCALER_DISPECTRL_DSP2_MUX));
+> -
+> -	reg =3D HVS_READ(SCALER_DISPCTRL);
+> -	HVS_WRITE(SCALER_DISPCTRL,
+> -		  (reg & ~SCALER_DISPCTRL_DSP3_MUX_MASK) |
+> -		  VC4_SET_FIELD(dsp3_mux, SCALER_DISPCTRL_DSP3_MUX));
+> -
+> -	reg =3D HVS_READ(SCALER_DISPEOLN);
+> -	HVS_WRITE(SCALER_DISPEOLN,
+> -		  (reg & ~SCALER_DISPEOLN_DSP4_MUX_MASK) |
+> -		  VC4_SET_FIELD(dsp4_mux, SCALER_DISPEOLN_DSP4_MUX));
+> -
+> -	reg =3D HVS_READ(SCALER_DISPDITHER);
+> -	HVS_WRITE(SCALER_DISPDITHER,
+> -		  (reg & ~SCALER_DISPDITHER_DSP5_MUX_MASK) |
+> -		  VC4_SET_FIELD(dsp5_mux, SCALER_DISPDITHER_DSP5_MUX));
+>   }
+>  =20
+>   static void
+> @@ -787,17 +793,23 @@ static int vc4_pv_muxing_atomic_check(struct drm_=
+device *dev,
 >   		struct vc4_crtc *vc4_crtc =3D to_vc4_crtc(crtc);
 >   		unsigned int matching_channels;
 >  =20
-> -		if (old_crtc_state->enable && !new_crtc_state->enable)
-> +		if (old_crtc_state->enable && !new_crtc_state->enable) {
-> +			hvs_state->unassigned_channels |=3D BIT(old_vc4_crtc_state->assigne=
-d_channel);
+> +		/* Nothing to do here, let's skip it */
+> +		if ((old_crtc_state->enable && new_crtc_state->enable) ||
+> +		    (!old_crtc_state->enable && !new_crtc_state->enable)) {
+
+'if (old_crtc_state->enable =3D=3D new_crtc_state->enable)' ?
+
+> +			new_vc4_crtc_state->needs_muxing =3D false;
+
+Shouldn't this be cleared after duplicating the crtc state? No need to=20
+clear it then.
+
+> +			continue;
+> +		}
+> +
+> +		/* Muxing will need to be modified, mark it as such */
+> +		new_vc4_crtc_state->needs_muxing =3D true;
+> +
+> +		/* If we're disabling our CRTC, we put back our channel */
+>   		if (old_crtc_state->enable && !new_crtc_state->enable) {
+
+You've already checked that enable is different, so you can leave out=20
+the test on old_crtc_state->enable
+
+With my suggestions considered
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+
+>   			hvs_state->unassigned_channels |=3D BIT(old_vc4_crtc_state->assign=
+ed_channel);
 >   			new_vc4_crtc_state->assigned_channel =3D VC4_HVS_CHANNEL_DISABLED;=
 
-> +		}
+> +			continue;
+>   		}
 >  =20
->   		if (!new_crtc_state->enable)
->   			continue;
->  =20
+> -		if (!new_crtc_state->enable)
+> -			continue;
+> -
 > -		if (new_vc4_crtc_state->assigned_channel !=3D VC4_HVS_CHANNEL_DISABL=
-ED) {
-> -			unassigned_channels &=3D ~BIT(new_vc4_crtc_state->assigned_channel)=
-;
-> +		if (new_vc4_crtc_state->assigned_channel !=3D VC4_HVS_CHANNEL_DISABL=
 ED)
->   			continue;
-> -		}
->  =20
+> -			continue;
+> -
 >   		/*
 >   		 * The problem we have to solve here is that we have
-> @@ -752,12 +822,12 @@ static int vc4_pv_muxing_atomic_check(struct drm_=
-device *dev,
->   		 * the future, we will need to have something smarter,
->   		 * but it works so far.
->   		 */
-> -		matching_channels =3D unassigned_channels & vc4_crtc->data->hvs_avai=
-lable_channels;
-> +		matching_channels =3D hvs_state->unassigned_channels & vc4_crtc->dat=
-a->hvs_available_channels;
->   		if (matching_channels) {
->   			unsigned int channel =3D ffs(matching_channels) - 1;
->  =20
->   			new_vc4_crtc_state->assigned_channel =3D channel;
-> -			unassigned_channels &=3D ~BIT(channel);
-> +			hvs_state->unassigned_channels &=3D ~BIT(channel);
->   		} else {
->   			return -EINVAL;
->   		}
-> @@ -841,6 +911,10 @@ int vc4_kms_load(struct drm_device *dev)
->   	if (ret)
->   		return ret;
->  =20
-> +	ret =3D vc4_hvs_channels_obj_init(vc4);
-> +	if (ret)
-> +		return ret;
-> +
->   	drm_mode_config_reset(dev);
->  =20
->   	drm_kms_helper_poll_init(dev);
+>   		 * up to 7 encoders, connected to up to 6 CRTCs.
 >=20
 
 --=20
@@ -383,7 +307,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------F00D6C6C13C26C6D00FCEB58
+--------------52B80DD9E187450BC308E5C7
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -586,34 +510,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------F00D6C6C13C26C6D00FCEB58--
+--------------52B80DD9E187450BC308E5C7--
 
---ClrxqTxfzC8SZXuU3jAGgHEkRdaYYcvNI--
+--Y0tvX8j0sV8ZwJ1IfqwyAs19pfnM36AkO--
 
---Oi7AvY65G3xAJBsaMT0ftobatwcz7JZTf
+--wUXyLnvODDduSOwUJMGIGbha6mdCCp3Cl
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2M+MFAwAAAAAACgkQlh/E3EQov+BI
-6w//QmL0AIsOLGhoKaGn5JDn2/fmTkC7ZUkx7tJm8DUZRyrGvBKV3lohV2fjbF3+2I2YglEQ7ASh
-S919OOiOjvAGHWCoCNVeNZJur2EZAjDYij8vmLMghH2NqquVvm7m9QtxojmNeLOGv2suO2XL04nI
-bwHg7XY3FplMBNTIZEqv6qIkl/i1EnLeTBgmgYpT1HRiLmlZc7HliOV3e0KBHqnYIMeNpZhDMOa5
-Ly1WjeHQHdBuUgPlgSkX/iKFpEBodNJILyt34b42R7vOyXftiIdhbMlk3o+jx/cV/oqYc3lBFyAZ
-ZbvXzmnzNCoAS4TTfgft7/Pkq8fvECq2MrhcYNWW2oQwuM1U/MNsEsGWV8KdNpOV4tiMtCxVgOQI
-OiZqd8tPQavOiZM9p7SSWPlh4CfBs8zUFgGeXAepn4OqRA0xhIDFn8/Xaqfd0RtX3rSWz0qHb8yb
-tah5qyUySnb6jTDB6Kp8o8RZT9T4osj8LtVMt4LcFzjYGePnFaj2noC/jszzQfsMk7E2DrJtDtCW
-ogtjVo2kWkUVfyY1udZoAcaOUtIH9joq1EmtJqXoM8jEyjrbtjFPGlpw5Qmw+tJJlp4xV7FbRpwC
-AxYzz/YVOecXoVOSrbTrzHHKBVGhV0c3311tqBQN+x9FTMfcT5XihyUBl4pZPOhd0RShvgXD6OZd
-l0g=
-=I8kQ
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2NwsFAwAAAAAACgkQlh/E3EQov+AO
+3hAAzggZ5ZpyR/kurwTA4bPY8qj+VR70HGeuvvzzr4rCHy9fPhmbHAQos3yvRyZftpB4MyjxQELV
+U07pWJZXRjxLrbJcT4HtKKNeU+LsvNonKiCxl+y0t+6VnfscD4jrksPOg1S8gTUGXrARXxkdi3Wq
+5wNr2CqDmfAVAugfYqN/VXR4HSMw06Z+o6ksvOb7XAGAgSClGDpp4wcvVuKsQ5wxaa4SbAq0t8k/
+mvV+1iUwyFKEXw/5kuOjr6QN+uRMC4gASADvCG/kxfHSgFarjWPjGnEnG0UZ7PMmlnuivXLjfadj
+Et+Nwl//RkWRzPrjp68xxxzwCvjFvGg0Vn8npelAn468ezrGiikpChxoT8idMCa8KZFkvH9BmJX1
+druhrLYA4gNA49axjAsaBtTWGTgvCj2YXMoM9gCJiInNJ4W452xBzPu5EAL9vUxF0OiMHrIoboUv
+eb1pRx0FqQaSOnhsz5aTuk/0MLqiOTYCTy6FAizO6nz4iFHk13td8xmOLWLU7N+95rHtgWhDy7Uw
+wVoh0kVKbh88Zvog8/Qo6aUZdb8+/FDfd87xfrdw6QKFseK5k3KdlJQzZG2kvDNP9m/alZP7RYcA
+nHD4yuBAg0CWIPEt1PQA6aT618xPtl4cGLgW7gQgQVagbbioQTrPDJpV5AXqB0rb9Pzc3dUpzmAF
+86A=
+=pTI1
 -----END PGP SIGNATURE-----
 
---Oi7AvY65G3xAJBsaMT0ftobatwcz7JZTf--
+--wUXyLnvODDduSOwUJMGIGbha6mdCCp3Cl--
 
---===============1693914218==
+--===============0605483861==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -624,4 +548,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1693914218==--
+--===============0605483861==--
