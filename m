@@ -1,49 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4EF12B940B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 15:02:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1448D2B9414
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 15:07:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1BDC6E527;
-	Thu, 19 Nov 2020 14:02:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C8366E52D;
+	Thu, 19 Nov 2020 14:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FDFD6E527
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:02:24 +0000 (UTC)
-IronPort-SDR: SrnTrGbt1gGXR5xy121JKY0V+oQIsiY6FX3iRzneTDbbhn5F2Euzj6sI1lQiGUK8LedEEQ6/tr
- Y8kL3tpHyTFg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="256000111"
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="256000111"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2020 06:02:06 -0800
-IronPort-SDR: gTcCNbt3OeOF/ouh7YLo8YmMJxeODvD/y5eR0dYU3T+vy4wHF/1XFG4wwTF2IXN3cU5bY+npQr
- 2DjdgbxtPXmw==
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="534787734"
-Received: from staskuzm-mobl1.ger.corp.intel.com (HELO [10.249.92.37])
- ([10.249.92.37])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2020 06:02:04 -0800
-Subject: Re: [PATCH] intel: Do not assert on unknown chips in
- drm_intel_decode_context_alloc
-To: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org
-References: <20201118163601.958254-1-tvrtko.ursulin@linux.intel.com>
- <160571907017.19853.2138891452982731448@build.alporthouse.com>
- <b8438d8f-bc6b-921d-adb2-cd6e25d70bdb@linux.intel.com>
- <160579393163.30679.15261134775534336025@build.alporthouse.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <baa196c2-ee8f-ca18-4f91-3b50bc1356b7@linux.intel.com>
-Date: Thu, 19 Nov 2020 13:58:15 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C52EB6E52D
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:07:39 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id a9so8427523lfh.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 06:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=by9rdaiSTNhh25rGcdMhydBPT1Ee6Q+Ur1BB4O7C4Tk=;
+ b=tWYBBjEyHLLcUdZV3JTAQ8MKQEQ2kqZgcQ5MDERuYEGvL2/ppp2n5esSze20TLaGOi
+ c4EhVEVoixCWm/H79N2t+a00SFj4PRlAhn5BU5e65yywr+THQA+MGDJqyzIRVwhJ8Ovm
+ uuenvZ+v4MZ/Tuj/3VnUKDo/htf5Otr0n62kEZLRThkQDgNlKNTdj5+Lt89zis6Y48Lv
+ VKggH458/phEKCV3+9wSUYCs9mvIZSPP8U8r8p0TMYcIEBjougHLM8NFPOtEww2hjN0h
+ t5wynqI6UqxEPWEBxA6bevACRN1z9bg3enfgsJGGIa4kUDVQGT8ULyjpwrb0j5MFL5ir
+ ZgyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=by9rdaiSTNhh25rGcdMhydBPT1Ee6Q+Ur1BB4O7C4Tk=;
+ b=EAFJq5LNaUPfVOc2iH/k7B5pm6pBDuqDxMzm5+2MbhmLpXmael5vgJusdpif6a4NwZ
+ Q25j7c3x5elRRw8LAiTRgsgs61DzlHyCMZnSm5YVTzbDSDZuCWVfbGNyMhw958+xM6eb
+ uayigOdb5ksVcrLgqgmys/q5WLxNteNnEpV/bBU2+8WbZ4HGnnKyC0DZW4akgFic/Tsj
+ DbuVmpzbgEpSo7l5fzNt8IQEnj2WY85fah1Axp8+lWgWtATaD4c6Xk334tHCh2HAruQu
+ A6PaftL9dTtNTUswA9jS4ox8WIUB+nX6Dk/WsV64/GG96Ldp1Bgb+sCSqF3F3QBy0R7o
+ D3+A==
+X-Gm-Message-State: AOAM530FcX8wcfJQDnwKXyNBQAPOEHHXGHkXlKtfYZ3JlXYWBC3ZuYGi
+ ebvrkUhNCCB9HVg6HkZR/LEgTczM13FVUNNN
+X-Google-Smtp-Source: ABdhPJz16YnQNj458eZvEVvW7NxGWSmTcZqoP1RkFR1v7kfmXpaxFUlpiU33ocN4k0m+m7d3/OdQfw==
+X-Received: by 2002:a05:6512:3048:: with SMTP id
+ b8mr5524416lfb.575.1605794857954; 
+ Thu, 19 Nov 2020 06:07:37 -0800 (PST)
+Received: from localhost.bredbandsbolaget
+ (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+ by smtp.gmail.com with ESMTPSA id r8sm3983292lff.238.2020.11.19.06.07.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 06:07:29 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>
+Subject: [PATCH] drm/mcde: Fix uninitialized value
+Date: Thu, 19 Nov 2020 15:07:07 +0100
+Message-Id: <20201119140707.1008407-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <160579393163.30679.15261134775534336025@build.alporthouse.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,82 +68,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>, kernel test robot <lkp@intel.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+"val" isn't initialized on the default: errorpath.
+Just return from the function if this happens.
 
-On 19/11/2020 13:52, Chris Wilson wrote:
-> Quoting Tvrtko Ursulin (2020-11-19 13:42:07)
->>
->> On 18/11/2020 17:04, Chris Wilson wrote:
->>> Quoting Tvrtko Ursulin (2020-11-18 16:36:01)
->>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>>
->>>> There is this long standing nit of igt/tools/intel_error_decode asserting
->>>> when you feed it an error state from a GPU the local libdrm does not know
->>>> of.
->>>>
->>>> To fix this I need a tweak in drm_intel_decode_context_alloc to make it
->>>> not assert but just return NULL (which seems an already possible return
->>>> value).
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>>
->>> Good riddance,
->>> Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
->>
->> Thanks, now how can push to drm and is there some testing to be
->> triggered before, or after?
-> 
-> cd intel; for i in tests/gen*.sh; do $i; done
-> 
-> But clearly I haven't built libdrm since automake was dropped.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpu/drm/mcde/mcde_display.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks, all good:
+diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+index 192e11c88d72..d941026b940c 100644
+--- a/drivers/gpu/drm/mcde/mcde_display.c
++++ b/drivers/gpu/drm/mcde/mcde_display.c
+@@ -569,7 +569,7 @@ static void mcde_configure_channel(struct mcde *mcde, enum mcde_channel ch,
+ 	default:
+ 		dev_err(mcde->dev, "unknown flow mode %d\n",
+ 			mcde->flow_mode);
+-		break;
++		return;
+ 	}
+ 
+ 	writel(val, mcde->regs + sync);
+-- 
+2.26.2
 
-$ for t in ../../intel/tests/gen*.sh; do bash -x $t; done
-++ echo ../../intel/tests/gen4-3d.batch.sh
-++ sed 's|\.sh$||'
-+ TEST_FILENAME=../../intel/tests/gen4-3d.batch
-+ ./test_decode ../../intel/tests/gen4-3d.batch
-+ ret=0
-+ test 0 = 1
-+ exit 0
-++ echo ../../intel/tests/gen5-3d.batch.sh
-++ sed 's|\.sh$||'
-+ TEST_FILENAME=../../intel/tests/gen5-3d.batch
-+ ./test_decode ../../intel/tests/gen5-3d.batch
-+ ret=0
-+ test 0 = 1
-+ exit 0
-++ echo ../../intel/tests/gen6-3d.batch.sh
-++ sed 's|\.sh$||'
-+ TEST_FILENAME=../../intel/tests/gen6-3d.batch
-+ ./test_decode ../../intel/tests/gen6-3d.batch
-+ ret=0
-+ test 0 = 1
-+ exit 0
-++ echo ../../intel/tests/gen7-2d-copy.batch.sh
-++ sed 's|\.sh$||'
-+ TEST_FILENAME=../../intel/tests/gen7-2d-copy.batch
-+ ./test_decode ../../intel/tests/gen7-2d-copy.batch
-+ ret=0
-+ test 0 = 1
-+ exit 0
-++ echo ../../intel/tests/gen7-3d.batch.sh
-++ sed 's|\.sh$||'
-+ TEST_FILENAME=../../intel/tests/gen7-3d.batch
-+ ./test_decode ../../intel/tests/gen7-3d.batch
-+ ret=0
-+ test 0 = 1
-+ exit 0
-
-Regards,
-
-Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
