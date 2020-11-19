@@ -2,35 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638942B8CED
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:14:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF122B8CC7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E310289CF8;
-	Thu, 19 Nov 2020 08:14:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E87846E503;
+	Thu, 19 Nov 2020 08:04:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56A8489CF8
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:14:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F7E6E503
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:04:22 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4713AAD31;
- Thu, 19 Nov 2020 07:56:49 +0000 (UTC)
-Subject: Re: [PATCH v3 3/7] drm/vc4: kms: Rename NUM_CHANNELS
+ by mx2.suse.de (Postfix) with ESMTP id 657E3AD8C;
+ Thu, 19 Nov 2020 08:04:21 +0000 (UTC)
+Subject: Re: [PATCH v3 4/7] drm/vc4: kms: Split the HVS muxing check in a
+ separate function
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-4-maxime@cerno.tech>
+ <20201105135656.383350-5-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c4f962fa-ec60-62b5-5d6c-ee823fa28819@suse.de>
-Date: Thu, 19 Nov 2020 08:56:48 +0100
+Message-ID: <0c2f81b6-89f8-6e19-04b3-3ed391baf0af@suse.de>
+Date: Thu, 19 Nov 2020 09:04:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105135656.383350-4-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-5-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,19 +49,19 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0808120892=="
+Content-Type: multipart/mixed; boundary="===============1954452234=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0808120892==
+--===============1954452234==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="PdiOKIMdipevBDgJn9whRfbJty67n93na"
+ boundary="10dlm9paI0yFGIebnvLI2wA6N1gWP7Rnv"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PdiOKIMdipevBDgJn9whRfbJty67n93na
-Content-Type: multipart/mixed; boundary="icKfuVRrliud0h97ihnm9siC2riKfbwH3";
+--10dlm9paI0yFGIebnvLI2wA6N1gWP7Rnv
+Content-Type: multipart/mixed; boundary="hrcUNhucegTMXjX1IDOeKCqDmFI5MKD7m";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
@@ -74,73 +75,91 @@ Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  Tim Gover <tim.gover@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <c4f962fa-ec60-62b5-5d6c-ee823fa28819@suse.de>
-Subject: Re: [PATCH v3 3/7] drm/vc4: kms: Rename NUM_CHANNELS
+Message-ID: <0c2f81b6-89f8-6e19-04b3-3ed391baf0af@suse.de>
+Subject: Re: [PATCH v3 4/7] drm/vc4: kms: Split the HVS muxing check in a
+ separate function
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-4-maxime@cerno.tech>
-In-Reply-To: <20201105135656.383350-4-maxime@cerno.tech>
+ <20201105135656.383350-5-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-5-maxime@cerno.tech>
 
---icKfuVRrliud0h97ihnm9siC2riKfbwH3
+--hrcUNhucegTMXjX1IDOeKCqDmFI5MKD7m
 Content-Type: multipart/mixed;
- boundary="------------AB02FBC355E33EB8D59E44CE"
+ boundary="------------67325AB2E7B72934D4CD040E"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------AB02FBC355E33EB8D59E44CE
+--------------67325AB2E7B72934D4CD040E
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 
 
 Am 05.11.20 um 14:56 schrieb Maxime Ripard:
-> The NUM_CHANNELS define has a pretty generic name and was right before =
-the
-> function using it. Let's move to something that makes the hardware-spec=
-ific
-> nature more obvious, and to a more appropriate place.
+> The code that assigns HVS channels during atomic_check is starting to g=
+row
+> a bit big, let's move it into a separate function.
 >=20
 > Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
 > ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/vc4/vc4_kms.c | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> index 4b558ccb18fe..ad69c70f66a2 100644
+> index ad69c70f66a2..bb2efc5d2d01 100644
 > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -24,6 +24,8 @@
->   #include "vc4_drv.h"
->   #include "vc4_regs.h"
->  =20
-> +#define HVS_NUM_CHANNELS 3
-> +
->   struct vc4_ctm_state {
->   	struct drm_private_state base;
->   	struct drm_color_ctm *ctm;
-> @@ -660,12 +662,10 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
+> @@ -662,13 +662,13 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
 ev *vc4)
 >   	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fin=
 i, NULL);
 >   }
 >  =20
-> -#define NUM_CHANNELS 3
-> -
->   static int
->   vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *sta=
-te)
+> -static int
+> -vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *stat=
+e)
+> +static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+> +				      struct drm_atomic_state *state)
 >   {
-> -	unsigned long unassigned_channels =3D GENMASK(NUM_CHANNELS - 1, 0);
-> +	unsigned long unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0=
-);
+>   	unsigned long unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, =
+0);
 >   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
 >   	struct drm_crtc *crtc;
->   	int i, ret;
+> -	int i, ret;
+> +	unsigned int i;
+
+Thanks for fixing the type. It's always itching me when people use=20
+signed types for counters and array indices. It's just... not right. :)=20
+If you want to be super-correct you might as well make it size_t. Anyway
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+>  =20
+>   	/*
+>   	 * Since the HVS FIFOs are shared across all the pixelvalves and
+> @@ -741,6 +741,18 @@ vc4_atomic_check(struct drm_device *dev, struct dr=
+m_atomic_state *state)
+>   		}
+>   	}
+>  =20
+> +	return 0;
+> +}
+> +
+> +static int
+> +vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *stat=
+e)
+> +{
+> +	int ret;
+> +
+> +	ret =3D vc4_pv_muxing_atomic_check(dev, state);
+> +	if (ret)
+> +		return ret;
+> +
+>   	ret =3D vc4_ctm_atomic_check(dev, state);
+>   	if (ret < 0)
+>   		return ret;
 >=20
 
 --=20
@@ -151,7 +170,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------AB02FBC355E33EB8D59E44CE
+--------------67325AB2E7B72934D4CD040E
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -354,34 +373,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------AB02FBC355E33EB8D59E44CE--
+--------------67325AB2E7B72934D4CD040E--
 
---icKfuVRrliud0h97ihnm9siC2riKfbwH3--
+--hrcUNhucegTMXjX1IDOeKCqDmFI5MKD7m--
 
---PdiOKIMdipevBDgJn9whRfbJty67n93na
+--10dlm9paI0yFGIebnvLI2wA6N1gWP7Rnv
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2JUAFAwAAAAAACgkQlh/E3EQov+D5
-jQ//ZyOZaummUfei5fhqRoOM2xg9el9W9IelgOfMEaqXAzjEhc0ilAhsD5yIGvkF1+acpb7oxm9D
-6g6lfS3w8azoOldIdbfH2ypJjYPAXHANgbIHzfLO1HPKHYn6Djtj+UuGQQ4NFxQtTWTd3/pMPBGM
-Vw9Sc8r/Ntj5XGCZ+Nyj/464XsT16FHhP2FTpep8v0XBEstgAisb4jB2VcetCP+64ulAuNPJWEXj
-JqhOxpl+miB44mXHYtLKi+HMAaho4N9ZIM3w+dR9AN45WO85vJxgDMCHx8xUE7beKQDYlAaHxYdb
-gXV/jwnxsUKWDwSO5nlszdO4rtUzVR6RBi3DYcx1UcqMnBrXXQVqlbx5/jgY6icBgFCatI+og4cJ
-EtLj5XUp/lo27EFP9XrSeMeMRJStWHVEX/RECCLvb6ZkVhpuBU0i8XVTUUew0I3MO8CGwYrvGCnG
-TSRiLE+BeNABZf1D6sQe9uj/xZZio0ingXr5c/ZzP1XcZyjtLvyVPgbqkWSSNfj3aluwpcrdkKYM
-BlO/bq9nSrR8eIdlc6V4YAmIUZvCjMQzw8AP2PlGIrncxXXswHw+84mYJts7raPr1wKQrhqE7lxu
-r0/FPdhUjgHitQ4JVNyTth/HFKFOHfXKS6gEXNlXER20d3N6MdeSePEeszWOZxfQlXYrjKGd0NGf
-dEg=
-=EqsQ
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2JwQFAwAAAAAACgkQlh/E3EQov+Cf
+KA/7Byrub2Asu86E6BYjUwdLEhRQ8+o/6SXtIRAyvuOHiuRJ92mRwelFgzbndy3L6FEZqf2+GIyp
+rKNpEM+QKDGLRWGg/6grgTS4LHfyXHfo8EMhpt+yCH6CcswZh4FTpkoVQ6oWQ/GmsJphJQBpwnLO
+saooldhm5SX73FpTvBAXwwpESSxBaJk9SYBz1UJaUTa8OxmxP6v2lXD42Ow9xeN9u2WC6ftcZ0BG
+p4MfnU74kgpE6Ct3m/kQI/FTNGxvtpr2aUXsAlU18LhK3A2FQaiGytSwL/piq2aT8xJgdaOXIs/w
+lm/XKk4+qHEAKOnPpWixLzhN52iYu+408s02CwUsvVYT8ifxOFgneHMkmAeLmwMkMdCWWNOVOadz
+UwTSoL81nrdyQR2SOc4WdfA3PFJQ/Ao9jySCx4yCWvGcABTTdsmitnqu/UuVlDnUtc6KVo2FNT3A
+JkrsWWGOxK2xh9PoNML7AJmWaeWzGhzX76U8BSzhicwwatJktqHT9Fpri/DwC2aruevJCF7S+y5I
+CkF0CGa5/q3gV5+uE0Dfzo20YVetujswk0MsjydihlaSlyb9+4fQZ3N0K3IxGb/BeRR7sszXfNW8
+Q9USbR592Aru2Mjvp738le2YIbsCOjBGSiUv9KYCD0Hh+HvWnLPcFKRTZIDxXxh422Q+Nusp232L
+WBw=
+=zDYn
 -----END PGP SIGNATURE-----
 
---PdiOKIMdipevBDgJn9whRfbJty67n93na--
+--10dlm9paI0yFGIebnvLI2wA6N1gWP7Rnv--
 
---===============0808120892==
+--===============1954452234==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -392,4 +411,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0808120892==--
+--===============1954452234==--
