@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372232B9716
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:01:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A598D2B9719
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:02:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D296E588;
-	Thu, 19 Nov 2020 16:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19F706E593;
+	Thu, 19 Nov 2020 16:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10626E588
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:50 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1l4f097038;
- Thu, 19 Nov 2020 10:01:47 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D60656E588
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:53 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1oi9003132;
+ Thu, 19 Nov 2020 10:01:50 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605801707;
- bh=CEsT9nh8ru/oo5U3jUQuPPkclxULVMgJ+FhKgCp0i6E=;
+ s=ti-com-17Q1; t=1605801710;
+ bh=F4WcLhHeUCXmbCVz5EUUAwWxaTgemkbXRD4Ndoakl9I=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=xaHpfZFVDL1dW4MFkdXRPDjmBA3UN/657tG1OWlqgZho+BGVxvbOywoGPf/SS9yI0
- LDnhCdQNLeH7pCfUhEqy6mPSkfjC4PveJz2+dI824/hY4KRYM2ElcRiuRWe6TF2gEy
- ghDtPaHVcLxQuVsE05Do24y7ygnlL1hIebOygTIM=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1lU2116182
+ b=vWXgP9K+mlonsxvXM7OF/j+6TzBhjh7mWe4HqJFKKD87FC4LWYuav14boIeQoEhKA
+ 41d9lg9JL6TdoThLa1TKWnNa9fiOp4D0K0DVF/OuTWtB7XfzYkGYFd7kvO5P+MHN3b
+ n5xDtiTiO+IKXmwsJE5Nrh3EjG3HPaf4YK7yRntw=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1o01004230
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Nov 2020 10:01:47 -0600
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 19 Nov 2020 10:01:50 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 19
- Nov 2020 10:01:47 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 10:01:49 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 19 Nov 2020 10:01:47 -0600
+ Frontend Transport; Thu, 19 Nov 2020 10:01:49 -0600
 Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1aps003251; 
- Thu, 19 Nov 2020 10:01:45 -0600
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1apt003251; 
+ Thu, 19 Nov 2020 10:01:47 -0600
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v3 3/6] drm/bridge: mhdp8546: Add minimal format negotiation
-Date: Thu, 19 Nov 2020 21:31:31 +0530
-Message-ID: <20201119160134.9244-4-nikhil.nd@ti.com>
+Subject: [PATCH v3 4/6] drm/tidss: Set bus_format correctly from
+ bridge/connector
+Date: Thu, 19 Nov 2020 21:31:32 +0530
+Message-ID: <20201119160134.9244-5-nikhil.nd@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201119160134.9244-1-nikhil.nd@ti.com>
 References: <20201119160134.9244-1-nikhil.nd@ti.com>
@@ -67,68 +68,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With new connector model, mhdp bridge will not create the connector and
-SoC driver will rely on format negotiation to setup the encoder format.
-
-Support minimal format negotiations hooks in the drm_bridge_funcs.
-Complete format negotiation can be added based on EDID data.
-This patch adds the minimal required support to avoid failure
-after moving to new connector model.
+Remove the old code to iterate over the bridge chain, as this is
+already done by the framework.
+The bridge state should have the negotiated bus format and flags.
+Use these from the bridge's state.
+If the bridge does not support format negotiation, error out
+and fail.
 
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
 
 Notes:
-    changes from v1:
-    * cosmetic fixes, commit message update
+    changes from v2:
+    * Remove the old code and use the flags from the bridge state
 
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/gpu/drm/tidss/tidss_encoder.c | 36 +++++++++++----------------
+ 1 file changed, 14 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d0c65610ebb5..2cd809eed827 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2078,6 +2078,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
- 	return &cdns_mhdp_state->base;
+diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
+index e278a9c89476..08d5083c5508 100644
+--- a/drivers/gpu/drm/tidss/tidss_encoder.c
++++ b/drivers/gpu/drm/tidss/tidss_encoder.c
+@@ -21,37 +21,29 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
+ {
+ 	struct drm_device *ddev = encoder->dev;
+ 	struct tidss_crtc_state *tcrtc_state = to_tidss_crtc_state(crtc_state);
+-	struct drm_display_info *di = &conn_state->connector->display_info;
++	struct drm_bridge_state *bstate;
+ 	struct drm_bridge *bridge;
+-	bool bus_flags_set = false;
+ 
+ 	dev_dbg(ddev->dev, "%s\n", __func__);
+ 
+-	/*
+-	 * Take the bus_flags from the first bridge that defines
+-	 * bridge timings, or from the connector's display_info if no
+-	 * bridge defines the timings.
+-	 */
+-	drm_for_each_bridge_in_chain(encoder, bridge) {
+-		if (!bridge->timings)
+-			continue;
+-
+-		tcrtc_state->bus_flags = bridge->timings->input_bus_flags;
+-		bus_flags_set = true;
+-		break;
++	/* Copy the bus_format and flags from the first bridge's state */
++	bridge = drm_bridge_chain_get_first_bridge(encoder);
++	bstate = drm_atomic_get_new_bridge_state(crtc_state->state, bridge);
++	if (bstate) {
++		tcrtc_state->bus_format = bstate->input_bus_cfg.format;
++		tcrtc_state->bus_flags = bstate->input_bus_cfg.flags;
++	} else {
++		dev_err(ddev->dev, "Could not get the bridge state\n");
++		return -EINVAL;
+ 	}
+ 
+-	if (!di->bus_formats || di->num_bus_formats == 0)  {
+-		dev_err(ddev->dev, "%s: No bus_formats in connected display\n",
+-			__func__);
++	if (tcrtc_state->bus_format == 0 ||
++	    tcrtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
++
++		dev_err(ddev->dev, "Bridge connected to the encoder did not specify media bus format\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	// XXX any cleaner way to set bus format and flags?
+-	tcrtc_state->bus_format = di->bus_formats[0];
+-	if (!bus_flags_set)
+-		tcrtc_state->bus_flags = di->bus_flags;
+-
+ 	return 0;
  }
  
-+static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state,
-+				      u32 output_fmt,
-+				      unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+	u32 default_bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
-+
-+	*num_input_fmts = 0;
-+
-+	if (output_fmt != MEDIA_BUS_FMT_FIXED)
-+		return NULL;
-+
-+	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+	input_fmts[0] = default_bus_format;
-+	return input_fmts;
-+}
-+
- static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *bridge_state,
- 				  struct drm_crtc_state *crtc_state,
-@@ -2142,6 +2166,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_duplicate_state = cdns_mhdp_bridge_atomic_duplicate_state,
- 	.atomic_destroy_state = cdns_mhdp_bridge_atomic_destroy_state,
- 	.atomic_reset = cdns_mhdp_bridge_atomic_reset,
-+	.atomic_get_input_bus_fmts = cdns_mhdp_get_input_bus_fmts,
- 	.detect = cdns_mhdp_bridge_detect,
- 	.get_edid = cdns_mhdp_bridge_get_edid,
- 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
 -- 
 2.17.1
 
