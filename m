@@ -2,58 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B632B9D07
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 22:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00AF32B9D32
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 22:55:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81A1D6E81B;
-	Thu, 19 Nov 2020 21:44:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 183B26E81F;
+	Thu, 19 Nov 2020 21:55:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D10E6E81B
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 21:44:19 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1605822260; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=N1TBPgiWEu6eeI48iATwp7Wbsru0LkqIRCOUWpWAh30=;
- b=n9oMN+dOjMO+FhsJE0MRUd1AXC+Ft1/ewtLBEy3cEQtEMNRviV6NdH2Nw18zELalrGfNbEBO
- Ev6jcPDSlWkzAGbAfguoxLWYZx9hYorI7HMl/rb5/xnZ9DiLX8zU92uri4AxU5uFDoS68+AA
- ZxqgGmI5J7zPDWXh0pqBzLHgJd0=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5fb6e71e77b63cdb34be5107 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 19 Nov 2020 21:43:58
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 6353FC43461; Thu, 19 Nov 2020 21:43:58 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 7D428C433C6;
- Thu, 19 Nov 2020 21:43:57 +0000 (UTC)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B24996E81E;
+ Thu, 19 Nov 2020 21:55:12 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id c9so8562338wml.5;
+ Thu, 19 Nov 2020 13:55:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QPqvc1x5t7qLXCW8n18+RH8/nuMRFmIb+j6wkjvSoac=;
+ b=Gwqz797TCkbOAVXSCqrZyYHhgCS7dzOjYtHH0GBsaR7yAMjfsqRYgOOflkXnGQoqak
+ sQ9s5hKxA3pyQoNSOp12r4A+7s8b69QGMD3QIdbXngX7xoUK7N4c5E7NSiy6u8iaxP5H
+ jIWTiAuptzNvlg/xBNvDmCANQYgytMNEnsMU1EDPZlYmBQ/9EDcOWj60bOZaKOIzZP/S
+ ujjFP/4/RCnlt+H8abbC0kmLlmuagt9dLZFUklOFACs+21kZifVVdWqbNVyWng3YGFZH
+ izvPt6qHxkhRnb6D0A8sL1LVc9B6G579wlb/QBQ8eTwx0Rk4frvNeRLCNqjV3jYNLSBF
+ jw6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QPqvc1x5t7qLXCW8n18+RH8/nuMRFmIb+j6wkjvSoac=;
+ b=SNwBVhlSmrAMWE8jOvHJN8mc1JTtBZA8ImtCU3FGCagJp4kCJmyiZH4I0P5Jl6/fRE
+ rfOTMGelJfYMQZ8gqUBN6q1aOj0Vlti9Hzlzts7rkX4nCc1S/Ae/wxnFiZUK03XeHGK4
+ ChvsEXcsbKDCebDn/ZxWs35xLeAtjdo4v6lt9zM4tkMyb7B47uGUId70gp1rEeuy20Ef
+ NaI6Zz904S/Mk3YQsYqoLxJUK46hBsJqs1iybgfI5pxK2aIHBDABxAWIGKiNZo5ivNcN
+ 7KEu419tjCt6hgFdYX2222VFpjmX6sj7tpXM4hDGCBVgnXcya1C6gHkEqwbOwspOaTj+
+ dFMA==
+X-Gm-Message-State: AOAM531nZgOsmJ2OhgV5PxVppnCjkGcej4PldylGV6GMscQjXYPdQvfB
+ LtsUyLQMUMvTn4JN2PaQItj1Aq0tfuSShk1RFCc=
+X-Google-Smtp-Source: ABdhPJwrarEP3o+nZ/cPmHQ+jbwoZm614gVVX5gD94S1cshyD2zw2A1NRL4NTTbfz8YAMyeIztWkhAVqGhHgLec1fR0=
+X-Received: by 2002:a1c:f017:: with SMTP id a23mr6746684wmb.56.1605822911406; 
+ Thu, 19 Nov 2020 13:55:11 -0800 (PST)
 MIME-Version: 1.0
-Date: Thu, 19 Nov 2020 13:43:57 -0800
-From: abhinavk@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm/dpu: Remove chatty vbif debug print
-In-Reply-To: <4c955afcc2eb28794a5bbcc0e1642592@codeaurora.org>
-References: <20201117172608.2091648-1-swboyd@chromium.org>
- <71aebca216babf4010c92d4d1ce9a9b4@codeaurora.org>
- <160565358127.60232.4382778730228368993@swboyd.mtv.corp.google.com>
- <CAF6AEGsDyvFVxAME1_VUprPKdrpEGdvP9XrQEG_-=1mRRcRBow@mail.gmail.com>
- <4c955afcc2eb28794a5bbcc0e1642592@codeaurora.org>
-Message-ID: <e8c2bc585f740fdb302c0c14a66d5b67@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20201118024234.102485-1-bernard@vivo.com>
+ <d61726de-c9a9-ee9c-cb8a-c34f0625a973@amd.com>
+In-Reply-To: <d61726de-c9a9-ee9c-cb8a-c34f0625a973@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 19 Nov 2020 16:54:59 -0500
+Message-ID: <CADnq5_M+seQ8Ui4p2uMKuGZ_9Y=jwmbSm1YiWxQV_=5PmEw9UA@mail.gmail.com>
+Subject: Re: [PATCH] amdgpu/amdgpu_ids: fix kmalloc_array not uses number as
+ first arg
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,115 +63,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
- Sean Paul <sean@poorly.run>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Fenghua Yu <fenghua.yu@intel.com>, Joerg Roedel <jroedel@suse.de>,
+ opensource.kernel@vivo.com, David Airlie <airlied@linux.ie>,
+ Bernard Zhao <bernard@vivo.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Borislav Petkov <bp@suse.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-18 12:03, abhinavk@codeaurora.org wrote:
-> Hi Stephen
-> 
-> On 2020-11-18 07:49, Rob Clark wrote:
->> On Tue, Nov 17, 2020 at 2:53 PM Stephen Boyd <swboyd@chromium.org> 
->> wrote:
->>> 
->>> Quoting abhinavk@codeaurora.org (2020-11-17 12:34:56)
->>> > On 2020-11-17 09:26, Stephen Boyd wrote:
->>> > > I don't know what this debug print is for but it is super chatty,
->>> > > throwing 8 lines of debug prints in the logs every time we update a
->>> > > plane. It looks like it has no value. Let's nuke it so we can get
->>> > > better logs.
->>> > >
->>> > > Cc: Sean Paul <sean@poorly.run>
->>> > > Cc: Abhinav Kumar <abhinavk@codeaurora.org>
->>> > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
->>> >
->>> > > ---
->>> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c | 3 ---
->>> > >  1 file changed, 3 deletions(-)
->>> > >
->>> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> > > index 5e8c3f3e6625..5eb2b2ee09f5 100644
->>> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
->>> > > @@ -245,9 +245,6 @@ void dpu_vbif_set_qos_remap(struct dpu_kms
->>> > > *dpu_kms,
->>> > >       forced_on = mdp->ops.setup_clk_force_ctrl(mdp, params->clk_ctrl,
->>> > > true);
->>> > >
->>> > >       for (i = 0; i < qos_tbl->npriority_lvl; i++) {
->>> > > -             DPU_DEBUG("vbif:%d xin:%d lvl:%d/%d\n",
->>> > > -                             params->vbif_idx, params->xin_id, i,
->>> > > -                             qos_tbl->priority_lvl[i]);
->>> >
->>> > Instead of getting rid of this print, we should optimize the caller of
->>> > this.
->>> 
->>> Does the print tell us anything? Right now it prints 8 lines where it
->>> feels like it could be trimmed down:
->>> 
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:0/3
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:1/3
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:2/4
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:3/4
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:4/5
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:5/5
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:6/6
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 lvl:7/6
->>> 
->>> maybe one line that combines the index into values?
->>> 
->>>            [drm:dpu_vbif_set_qos_remap] vbif:0 xin:0 [3 3 4 4 5 5 6 
->>> 6]
->>> 
->> 
->> or possibly convert to a tracepoint (so it doesn't spam the drm_trace 
->> buffer)
->> 
->> BR,
->> -R
->> 
->>> But again I have no idea if this print is really useful. Maybe we can
->>> print it only if the value changes from what was already there?
->>> Basically move the print into dpu_hw_set_qos_remap() and then skip 
->>> out
->>> early if nothing changed or print and modify the register.
->>> 
->>> > This is what
->>> > we are doing in downstream. So we need to update the property only if we
->>> > are switching from a RT client
->>> > to non-RT client for the plane and vice-versa. So we should try to do
->>> > the same thing here.
->>> >
->>> >         is_rt = sde_crtc_is_rt_client(crtc, crtc->state);
->>> >         if (is_rt != psde->is_rt_pipe) {
->>> >                 psde->is_rt_pipe = is_rt;
->>> >                 pstate->dirty |= SDE_PLANE_DIRTY_QOS;
->>> >         }
->>> >
->>> >
->>> >         if (pstate->dirty & DPU_PLANE_DIRTY_QOS)
->>> >                 _dpu_plane_set_qos_remap(plane);
->>> >
->>> 
->>> Sounds great! Can you send the patch?
-> 
-> Will finalize approach and send the patch in a day or two.
-> 
-> Thanks
-> 
-> Abhinav
-
-patch has been posted here for review : 
-https://patchwork.freedesktop.org/patch/401929/
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QXBwbGllZC4gIFRoYW5rcyEKCkFsZXgKCk9uIFdlZCwgTm92IDE4LCAyMDIwIGF0IDM6MTcgQU0g
+Q2hyaXN0aWFuIEvDtm5pZwo8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPiB3cm90ZToKPgo+IEFt
+IDE4LjExLjIwIHVtIDAzOjQyIHNjaHJpZWIgQmVybmFyZCBaaGFvOgo+ID4gRml4IGNoZWNrX3Bh
+dGNoLnBsIHdhcm5pbmc6Cj4gPiBrbWFsbG9jX2FycmF5IHVzZXMgbnVtYmVyIGFzIGZpcnN0IGFy
+Zywgc2l6ZW9mIGlzIGdlbmVyYWxseSB3cm9uZy4KPiA+ICtmZW5jZXMgPSBrbWFsbG9jX2FycmF5
+KHNpemVvZih2b2lkICopLCBpZF9tZ3ItPm51bV9pZHMsCj4gPiBHRlBfS0VSTkVMKTsKPiA+Cj4g
+PiBTaWduZWQtb2ZmLWJ5OiBCZXJuYXJkIFpoYW8gPGJlcm5hcmRAdml2by5jb20+Cj4KPiBSZXZp
+ZXdlZC1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Cj4g
+PiAtLS0KPiA+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lkcy5jIHwgMiAr
+LQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiA+
+Cj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lkcy5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2lkcy5jCj4gPiBpbmRleCA2ZTlh
+OWU1ZGJlYTAuLmYyYmQ0YjBlMDZmNiAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvYW1kZ3B1L2FtZGdwdV9pZHMuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2lkcy5jCj4gPiBAQCAtMjA4LDcgKzIwOCw3IEBAIHN0YXRpYyBpbnQgYW1kZ3B1
+X3ZtaWRfZ3JhYl9pZGxlKHN0cnVjdCBhbWRncHVfdm0gKnZtLAo+ID4gICAgICAgaWYgKHJpbmct
+PnZtaWRfd2FpdCAmJiAhZG1hX2ZlbmNlX2lzX3NpZ25hbGVkKHJpbmctPnZtaWRfd2FpdCkpCj4g
+PiAgICAgICAgICAgICAgIHJldHVybiBhbWRncHVfc3luY19mZW5jZShzeW5jLCByaW5nLT52bWlk
+X3dhaXQpOwo+ID4KPiA+IC0gICAgIGZlbmNlcyA9IGttYWxsb2NfYXJyYXkoc2l6ZW9mKHZvaWQg
+KiksIGlkX21nci0+bnVtX2lkcywgR0ZQX0tFUk5FTCk7Cj4gPiArICAgICBmZW5jZXMgPSBrbWFs
+bG9jX2FycmF5KGlkX21nci0+bnVtX2lkcywgc2l6ZW9mKHZvaWQgKiksIEdGUF9LRVJORUwpOwo+
+ID4gICAgICAgaWYgKCFmZW5jZXMpCj4gPiAgICAgICAgICAgICAgIHJldHVybiAtRU5PTUVNOwo+
+ID4KPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4g
+YW1kLWdmeCBtYWlsaW5nIGxpc3QKPiBhbWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vYW1kLWdmeApfX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFp
+bGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
