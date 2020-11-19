@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815782B9C06
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F982B9C0B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 21:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 453756E81C;
-	Thu, 19 Nov 2020 20:32:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE986E821;
+	Thu, 19 Nov 2020 20:32:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31E6B6E527
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 13:54:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 860BA6E52E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 14:08:45 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 834095806CD;
- Thu, 19 Nov 2020 08:53:59 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 19 Nov 2020 08:53:59 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id E05F25801E4;
+ Thu, 19 Nov 2020 09:08:44 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 19 Nov 2020 09:08:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=qwUwKAOnCXIO/VKCgdjuqrvU0jz
- rwqIByRKFslj4P0U=; b=Dh+cGrAaYY/69KWDDPVjXgWxTQz0wzEwEX7lFJH386b
- caMyUb9jvhJ9SR2YWxQnZowwip0unH3mY3SQtxzX+J8etZTiKe4RwSya4oy4FE7n
- ddF0TO5S0q/AIJdeskajgg/srKtVdxda3ZH7iW85a+GXoqAm6tURiWhNZC65KmKW
- p5qpIM0QladuSz9BfGBaAUrZ1Lo+j8nSBoW/hErewlTqAAAQfELb3CYGMwgVfPpK
- +CfjqHV7JZfqwog/IohmPsSDOTLBryBDAS1IInD62gieo7tQB9AJadoyLrmTnL91
- amnP6fYemvKAs7CIsPIW4alYa0c8AfmK792zUmO7OLw==
+ :content-type:in-reply-to; s=fm1; bh=zOUiA4xdq0VKjVdgG7aByqaE2HT
+ oPPZ3NqwgiaFPGP8=; b=RhfSlTOb247KDrSD/8GGRcwuuMgRvDfxPDnecSmqjz9
+ HPhRSBCiM0mjpdXHTCrl9RQq9C3xXR9Od/RkU8xZW9E3Yyohg4jlIHQRJQoaOfBC
+ qcZJyU4+2RzQMT46EBaxlKubc8RQjag09lpypMQZiNxIxYQmQmi6h7KF7OACd9uI
+ dK2qNCEjn/nWAfXuP0A1Gy2koR8pYrCUuPW6zw4JNX0G8eI2sz5nXAw/z4axfFh0
+ 4bFZbTQbz1XrgBYsDP12pw7ud7VnoPCH20IKUXX4C4IhhglF9NwJEMGdt0MqeVRK
+ PC73eNMxE+yY7+iW45EfLWWF7L5y5aL+S2n4YiS+rAQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qwUwKA
- OnCXIO/VKCgdjuqrvU0jzrwqIByRKFslj4P0U=; b=PuRk3DclKeylLTj5kLX52W
- zIGX0eVIUR4goaQyZt3qiIfGZ3IiQeIpx2Y098TniWyEGndcKnxHi5AyrGmrB+z5
- hdy1S97kc4KqudPrKMDDTaneXQp4yk/LqRJMSgOcVYwWelW9rlk/1HZv3+rQLx3s
- MMGNTIsbExRI3Mbed8tO5azICvk57byYCdgamVvWrcypVU3CDuDIFodYJBRR+Znw
- UtdrzMlVE6UOmGoQz6QUxgai82aCxGsCQMfsbB6G2Gvri1nPdvlnGn8LQYX1ors+
- y5lGINohUnsXbVKkDj9S9YmP8QCS/9O9uyedPzVODce2BY0V8pEopt9dtKnu3GEQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zOUiA4
+ xdq0VKjVdgG7aByqaE2HToPPZ3NqwgiaFPGP8=; b=buZp8DRiWuI8T9bmN4oXWS
+ 4uZ1jzxrLRFCNvJ4x8SENyOF/zUIQVviCGIL/n4E/5hHXU5OiISD0Z6L8tPAg3il
+ X8+XsADk7qlMuw3xOQZ0uVF9UZ8VSBBmkzCrVDROOTQKk3YG26hCrR5EUqJ2y60B
+ txUemn1XAM33mgZQeivKhoIxDOGdvH3R3meYF67FcK8aecAFk5O5yORCWEFZBvTo
+ zFDUYiU74S9z/+JPdPfZUqRu4Rc0TlUfSNmfDnsm4yo7VcO0UpEY+QtIZEHdvEnA
+ 2x74LdddL5VAxnfxa4AtWtsfmH12YNH34MInay3ieuhKkZYIKN8vU3q+JSKfIR7A
  ==
-X-ME-Sender: <xms:9ni2X14Ip3zmPoIcnxawnZxLtkonIcF7h2uzjWxEBWDT_fg1-3rKyg>
- <xme:9ni2Xy4gQac9DfDWvZ3wvi4qszIYvEsXF8gkTrZUTruzVM_ZivtU-nzmLEHm7DCea
- MNTJmKnJUJ9LYvN0qk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefjedgheejucetufdoteggodetrfdotf
+X-ME-Sender: <xms:any2XzarbbPmIFEFfnF6pljvLY0W8qk2MTp_JZpOamf0QTwGaccNag>
+ <xme:any2XyaGQt8_fJyfkBG306PoAXus4XrGr9xavr0v7YdrK9NWrWtRkPEoJ2Ib-Bcn1
+ xlDYVwtT2ePzm7vuV0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefjedgieduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -49,24 +49,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefjedgheejucetufdoteggod
  htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
  gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:9ni2X8dfbD9hxXXgTvVHuQHhj2zTkWAYjQdSA6q4oRrFnUM7KlxKZA>
- <xmx:9ni2X-L9iIHMoeyX_f3HKY51-dxvjkeTiG5rI1kkOeG8Skllif1u4w>
- <xmx:9ni2X5LpCIBDQk0jETlmvbE4k8zcgKt0D06_Df_CI9UjsZ6t6vKZPw>
- <xmx:93i2X7iNR9wy5l5_8eOrK4NQKpw76yljYUHY7IHILCkF3eWS-kDCuA>
+X-ME-Proxy: <xmx:any2X1-aQWrkF3LNjwUs840yMyxMvB6SDfPryukEpTd7x8EHMV8Sqg>
+ <xmx:any2X5qAFyUzIH4c0j1Ard9t_U46_ardNTF7ig70-3tbTmZPqlvzNg>
+ <xmx:any2X-rhxz65F2Op1eoRZe_cjal7pAFUo6YYVfUfsvSaPPodkhqWAQ>
+ <xmx:bHy2X5DZMw4fgWp5oLKE5ezYMmp0gch1cn2tmIsRXKkb9JevyFjkcA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1B5103280066;
- Thu, 19 Nov 2020 08:53:58 -0500 (EST)
-Date: Thu, 19 Nov 2020 14:53:56 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 41B8F3064AA7;
+ Thu, 19 Nov 2020 09:08:42 -0500 (EST)
+Date: Thu, 19 Nov 2020 15:08:40 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 5/7] drm/vc4: kms: Document the muxing corner cases
-Message-ID: <20201119135356.25tsxpbvjxopz6od@gilmour.lan>
+Subject: Re: [PATCH v3 6/7] drm/vc4: kms: Store the unassigned channel list
+ in the state
+Message-ID: <20201119140840.ufwhjzf26wsheltv@gilmour.lan>
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-6-maxime@cerno.tech>
- <2a79055f-a2e7-913c-b566-91780f199016@suse.de>
+ <20201105135656.383350-7-maxime@cerno.tech>
+ <c733bc70-8535-e4b9-1db6-a7b51e2781a7@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <2a79055f-a2e7-913c-b566-91780f199016@suse.de>
+In-Reply-To: <c733bc70-8535-e4b9-1db6-a7b51e2781a7@suse.de>
 X-Mailman-Approved-At: Thu, 19 Nov 2020 20:32:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,114 +89,247 @@ Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
  Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1270919057=="
+Content-Type: multipart/mixed; boundary="===============0587654762=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1270919057==
+--===============0587654762==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qihihgcaukra524q"
+	protocol="application/pgp-signature"; boundary="hkqcej6pdzntbht2"
 Content-Disposition: inline
 
 
---qihihgcaukra524q
+--hkqcej6pdzntbht2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Thomas,
 
-Thanks again for your review
-
-On Thu, Nov 19, 2020 at 09:11:58AM +0100, Thomas Zimmermann wrote:
-> Hi,
->=20
-> A few suggestions below. But I'm not a native speaker.
->=20
+On Thu, Nov 19, 2020 at 09:59:15AM +0100, Thomas Zimmermann wrote:
 > Am 05.11.20 um 14:56 schrieb Maxime Ripard:
-> > We've had a number of muxing corner-cases with specific ways to reprodu=
-ce
-> > them, so let's document them to make sure they aren't lost and introduce
-> > regressions later on.
+> > If a CRTC is enabled but not active, and that we're then doing a page
+> > flip on another CRTC, drm_atomic_get_crtc_state will bring the first
+> > CRTC state into the global state, and will make us wait for its vblank
+> > as well, even though that might never occur.
 > >=20
+> > Instead of creating the list of the free channels each time atomic_check
+> > is called, and calling drm_atomic_get_crtc_state to retrieve the
+> > allocated channels, let's create a private state object in the main
+> > atomic state, and use it to store the available channels.
+> >=20
+> > Since vc4 has a semaphore (with a value of 1, so a lock) in its commit
+> > implementation to serialize all the commits, even the nonblocking ones,=
+ we
+> > are free from the use-after-free race if two subsequent commits are not=
+ ran
+> > in their submission order.
+> >=20
+> > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
+ally")
 > > Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > > ---
-> >   drivers/gpu/drm/vc4/vc4_kms.c | 22 ++++++++++++++++++++++
-> >   1 file changed, 22 insertions(+)
+> >   drivers/gpu/drm/vc4/vc4_drv.h |   1 +
+> >   drivers/gpu/drm/vc4/vc4_kms.c | 124 +++++++++++++++++++++++++++-------
+> >   2 files changed, 100 insertions(+), 25 deletions(-)
 > >=20
+> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
+v.h
+> > index bdbb9540d47d..014113823647 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> > @@ -219,6 +219,7 @@ struct vc4_dev {
+> >   	struct drm_modeset_lock ctm_state_lock;
+> >   	struct drm_private_obj ctm_manager;
+> > +	struct drm_private_obj hvs_channels;
+> >   	struct drm_private_obj load_tracker;
+> >   	/* List of vc4_debugfs_info_entry for adding to debugfs once
 > > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> > index bb2efc5d2d01..499c6914fce4 100644
+> > index 499c6914fce4..0a231ae500e5 100644
 > > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> > @@ -662,6 +662,28 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
+> > @@ -37,6 +37,17 @@ static struct vc4_ctm_state *to_vc4_ctm_state(struct=
+ drm_private_state *priv)
+> >   	return container_of(priv, struct vc4_ctm_state, base);
+> >   }
+> > +struct vc4_hvs_state {
+> > +	struct drm_private_state base;
+> > +	unsigned int unassigned_channels;
+> > +};
+> > +
+> > +static struct vc4_hvs_state *
+> > +to_vc4_hvs_state(struct drm_private_state *priv)
+> > +{
+> > +	return container_of(priv, struct vc4_hvs_state, base);
+> > +}
+> > +
+> >   struct vc4_load_tracker_state {
+> >   	struct drm_private_state base;
+> >   	u64 hvs_load;
+> > @@ -662,6 +673,70 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
 v *vc4)
 > >   	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fin=
 i, NULL);
 > >   }
-> > +/*
-> > + * The BCM2711 HVS has up to 7 output connected to the pixelvalves and
->=20
-> '7 outputs'
->=20
-> Is it 'pixelvalves' or 'pixel valves'?
-
-The documentation uses both, but the driver uses the former all the
-time.
-
->=20
-> > + * the TXP (and therefore all the CRTCs found on that platform).
+> > +static struct drm_private_state *
+> > +vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
+> > +{
+> > +	struct vc4_hvs_state *state;
+> > +
+> > +	state =3D kmemdup(obj->state, sizeof(*state), GFP_KERNEL);
+> > +	if (!state)
+> > +		return NULL;
+> > +
+> > +	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
+> > +
+> > +	return &state->base;
+> > +}
+> > +
+> > +static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj,
+> > +					   struct drm_private_state *state)
+> > +{
+> > +	struct vc4_hvs_state *hvs_state;
+> > +
+> > +	hvs_state =3D to_vc4_hvs_state(state);
+> > +	kfree(hvs_state);
+> > +}
+> > +
+> > +static const struct drm_private_state_funcs vc4_hvs_state_funcs =3D {
+> > +	.atomic_duplicate_state =3D vc4_hvs_channels_duplicate_state,
+> > +	.atomic_destroy_state =3D vc4_hvs_channels_destroy_state,
+> > +};
+> > +
+> > +static void vc4_hvs_channels_obj_fini(struct drm_device *dev, void *un=
+used)
+> > +{
+> > +	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+> > +
+> > +	drm_atomic_private_obj_fini(&vc4->hvs_channels);
+> > +}
+> > +
+> > +static int vc4_hvs_channels_obj_init(struct vc4_dev *vc4)
+> > +{
+> > +	struct vc4_hvs_state *state;
+> > +
+> > +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
+> > +	if (!state)
+> > +		return -ENOMEM;
+> > +
+> > +	state->unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0);
+> > +	drm_atomic_private_obj_init(&vc4->base, &vc4->hvs_channels,
+> > +				    &state->base,
+> > +				    &vc4_hvs_state_funcs);
+> > +
+> > +	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fini=
+, NULL);
+> > +}
+> > +
+> > +static struct vc4_hvs_state *
+> > +vc4_hvs_get_global_state(struct drm_atomic_state *state)
+> > +{
+> > +	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
+> > +	struct drm_private_state *priv_state;
+> > +
+> > +	priv_state =3D drm_atomic_get_private_obj_state(state, &vc4->hvs_chan=
+nels);
+> > +	if (IS_ERR(priv_state))
+> > +		return ERR_CAST(priv_state);
+> > +
+> > +	return to_vc4_hvs_state(priv_state);
+> > +}
+> > +
+> >   /*
+> >    * The BCM2711 HVS has up to 7 output connected to the pixelvalves and
+> >    * the TXP (and therefore all the CRTCs found on that platform).
+> > @@ -678,6 +753,14 @@ static int vc4_load_tracker_obj_init(struct vc4_de=
+v *vc4)
+> >    *   need to consider all the running CRTCs in the DRM device to assi=
+gn
+> >    *   a FIFO, not just the one in the state.
+> >    *
+> > + * - To fix the above, we can't use drm_atomic_get_crtc_state on all
+> > + *   enabled CRTCs to pull their CRTC state into the global state, sin=
+ce
+> > + *   a page flip would start considering their vblank to complete. Sin=
+ce
+> > + *   we don't have a guarantee that they are actually active, that
+> > + *   vblank might never happen, and shouldn't even be considered if we
+> > + *   want to do a page flip on a single CRTC. That can be tested by
+> > + *   doing a modetest -v first on HDMI1 and then on HDMI0.
 > > + *
-> > + * The naive (and our initial) implementation would just iterate over
-> > + * all the active CRTCs, try to find a suitable FIFO, and then remove =
-it
-> > + * from the available FIFOs pool. However, there's a few corner cases
+> >    * - Since we need the pixelvalve to be disabled and enabled back when
+> >    *   the FIFO is changed, we should keep the FIFO assigned for as long
+> >    *   as the CRTC is enabled, only considering it free again once that
+> > @@ -687,46 +770,33 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
+ev *vc4)
+> >   static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+> >   				      struct drm_atomic_state *state)
+> >   {
+> > -	unsigned long unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0=
+);
+> > +	struct vc4_hvs_state *hvs_state;
+> >   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+> >   	struct drm_crtc *crtc;
+> >   	unsigned int i;
+> > -	/*
+> > -	 * Since the HVS FIFOs are shared across all the pixelvalves and
+> > -	 * the TXP (and thus all the CRTCs), we need to pull the current
+> > -	 * state of all the enabled CRTCs so that an update to a single
+> > -	 * CRTC still keeps the previous FIFOs enabled and assigned to
+> > -	 * the same CRTCs, instead of evaluating only the CRTC being
+> > -	 * modified.
+> > -	 */
+> > -	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+> > -		struct drm_crtc_state *crtc_state;
+> > -
+> > -		if (!crtc->state->enable)
+> > -			continue;
+> > -
+> > -		crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
+> > -		if (IS_ERR(crtc_state))
+> > -			return PTR_ERR(crtc_state);
+> > -	}
+> > +	hvs_state =3D vc4_hvs_get_global_state(state);
+> > +	if (!hvs_state)
+> > +		return -EINVAL;
 >=20
-> I'd write. 'and remove it from the pool of available FIFOs'. Sounds more
-> natural to me.
+> I found this confusing. It's technically correct, but from hvs_state is n=
+ot
+> clear that it's the new state. Maybe call it hvs_new_state.
 >=20
-> 'there are a few'
+> If you want to be pedantic, maybe split the creation of the new state from
+> the usage. Call vc4_hvs_get_global_state() at the top of vc4_atomic_check=
+()
+> to make the new state. (Maybe with a short comment.) And here only call an
+> equivalent of drm_atomic_get_new_private_obj_state() for hvs_channels.
 >=20
-> > + * that need to be considered:
-> > + *
-> > + * - When running in a dual-display setup (so with two CRTCs involved),
-> > + *   we can update the state of a single CRTC (for example by changing
-> > + *   its mode using xrandr under X11) without affecting the other. In
-> > + *   this case, the other CRTC wouldn't be in the state at all, so we
-> > + *   need to consider all the running CRTCs in the DRM device to assign
-> > + *   a FIFO, not just the one in the state.
-> > + *
-> > + * - Since we need the pixelvalve to be disabled and enabled back when
-> > + *   the FIFO is changed, we should keep the FIFO assigned for as long
-> > + *   as the CRTC is enabled, only considering it free again once that
-> > + *   CRTC has been disabled. This can be tested by booting X11 on a
-> > + *   single display, and changing the resolution down and then back up.
-> > + */
+> In any case
 >=20
-> With my suggestions considered,
->=20
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-I've applied it with your comments fixed. Thanks!
+That works for me, I'll change it.
+
+Thanks!
 Maxime
 
---qihihgcaukra524q
+--hkqcej6pdzntbht2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7Z49AAKCRDj7w1vZxhR
-xalWAQDV0Mhb4aB8CuICXvs1elL9yDhSUPAnD3GxJAFVjn7YkwEAi+bCZ7FhjS3y
-A1aNcwUHBin2gFbS7DYClW0EFE02twg=
-=M6qC
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7Z8aAAKCRDj7w1vZxhR
+xffcAPwO6cO3aKXIG8qyv85EVxyJsOHp5JSOhW732HpLEe8WJwD9GH+64ZVyKTti
+vviwthEMPWUMheB/IG8CFJVLJf2o3Qo=
+=XDsE
 -----END PGP SIGNATURE-----
 
---qihihgcaukra524q--
+--hkqcej6pdzntbht2--
 
---===============1270919057==
+--===============0587654762==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -206,4 +340,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1270919057==--
+--===============0587654762==--
