@@ -1,65 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6612B8CB7
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:00:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFC62B8CC9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 378C36E500;
-	Thu, 19 Nov 2020 08:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 381CD8984D;
+	Thu, 19 Nov 2020 08:04:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33B8D6E4FF;
- Thu, 19 Nov 2020 08:00:26 +0000 (UTC)
-IronPort-SDR: 20YdMX/eQnbtwunaw2kZSBrIifGOUB3bUr+CY3s5t9UT/zkFoqpQwuNiWqCfx8VcX/AD0NT5vq
- BN51LQU0ODhg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="170468056"
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="170468056"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2020 00:00:23 -0800
-IronPort-SDR: oyGuuoziXZOT9/cuJHpzJ/J5nRMk3a9z4ORkuSoYdzBi/I52kfohH+uEIGgIJ7SVrFqlJGl2Iz
- 8Rmq4ZKUMQUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="533071619"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by fmsmga006.fm.intel.com with ESMTP; 19 Nov 2020 00:00:22 -0800
-Received: from bgsmsx605.gar.corp.intel.com (10.67.234.7) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 19 Nov 2020 00:00:21 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX605.gar.corp.intel.com (10.67.234.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 19 Nov 2020 13:30:19 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Thu, 19 Nov 2020 13:30:19 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v2 06/13] drm/dp_helper: Add support for Configuring DSC
- for HDMI2.1 Pcon
-Thread-Topic: [PATCH v2 06/13] drm/dp_helper: Add support for Configuring DSC
- for HDMI2.1 Pcon
-Thread-Index: AQHWsDe2T8PqSqfU+EuO5Lta0Rb/qanPMrCw
-Date: Thu, 19 Nov 2020 08:00:19 +0000
-Message-ID: <253ae265167642acb29abe66675a66ed@intel.com>
-References: <20201101100657.12087-1-ankit.k.nautiyal@intel.com>
- <20201101100657.12087-7-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20201101100657.12087-7-ankit.k.nautiyal@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97D8897F6;
+ Thu, 19 Nov 2020 08:04:29 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id e18so4865212edy.6;
+ Thu, 19 Nov 2020 00:04:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=WyWbYDEJWAIUHmHGkFfA0PJqm8v8gLeuNb1569ZLXEQ=;
+ b=Gn7TzW5FFvQpwnjNXRNYmXFH6aaH989HgvPQbQYeTfYu32Qfy0Y6WLMDjN3X0MtRqB
+ w2Ai6Sti3bv2xOsHkXePtujj+o/4B5drp/nZ2OyAtnVRFLC5JqqjrpIz6+Bmspxv2sII
+ btsnbd1TDwa3EhSEGVnuFR8A3QyvXUp02mmTQCcUlbaAm0CPba4b+QqMclG7TV3TKxzf
+ aCI8mqNoZ7Hknw0gWRUe1UhMZI/p9t3YzndhFAX1NXwG4JL65FBuUZs7cL6H76WW2taG
+ a9icjqK2Z2oPDjiDlmLpQmgzAU/V7HVza1HEcN8HxsU5dJeFw8Rnts3l455CazuH+xDY
+ 3eyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=WyWbYDEJWAIUHmHGkFfA0PJqm8v8gLeuNb1569ZLXEQ=;
+ b=h1B6NmXQF5fCseUKI1nlT4LluoqYuWcE4qwboc34IsxVW3+KOfr/VRW774hS1ObQ8X
+ zmuMHngDdqAkGImQuBVlKTs4df2QZXiN6GoE8lxzI2ab9t79CMKnLyJvaMcRN7mkD2mf
+ CViDFW4In2DuPARBspSvTZ4/S3IhGSUHyVexb482NqB119xfXVr6oPwyUZWdfXi1S7m1
+ 6yY3VVG4jWNcnNqDjiEnIUY9mUASm5iExJJvQbpOkQLfyaB4DPgrB0ZrHzrlLF+5TpfH
+ E6K6hyYsLEgCBhhnzYVYipvmAh7heLV8ftAoNdH2usZP70wwmo1c2XsJgQnjS2B37myt
+ UR0Q==
+X-Gm-Message-State: AOAM531dG41z/4FkbGNqs+nHecRnXEMIzd2qyKRMkB710zNFA47Y35A/
+ VFEm8HsLL3/B/Y5smfmAmyEMXWKTubI=
+X-Google-Smtp-Source: ABdhPJx5r8i6cQl9AuYE4e48SEsqL67ChHcX8fNjrcilRHKGhCk12hJiHvDLoorT1b6x9eBc8XkDVQ==
+X-Received: by 2002:aa7:ce82:: with SMTP id y2mr30027485edv.6.1605772535707;
+ Wed, 18 Nov 2020 23:55:35 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id b9sm12495446ejb.0.2020.11.18.23.55.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Nov 2020 23:55:35 -0800 (PST)
+Subject: Re: [PATCH v2 8/8] drm/amdgpu: Prevent any job recoveries after
+ device is unplugged.
+To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, christian.koenig@amd.com,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <1592719388-13819-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1592719388-13819-9-git-send-email-andrey.grodzovsky@amd.com>
+ <20200622095345.GF20149@phenom.ffwll.local>
+ <24dd3691-5599-459c-2e5d-a8f2e504ec66@amd.com>
+ <20201117185255.GP401619@phenom.ffwll.local>
+ <b827fa7a-d89e-d138-d275-60a9f15c128a@amd.com>
+ <20201117194922.GW401619@phenom.ffwll.local>
+ <064ef461-8f59-2eb8-7777-6ff5b8d28cdd@amd.com>
+ <CAKMK7uF9uvT09zDb6fS0j68fWrq2qV7h_JQAt8vpaGPJ1d64cQ@mail.gmail.com>
+ <d0a3ee49-64f3-a223-7e84-0c8eb3481f61@gmail.com>
+ <e462f296-75d0-316a-e30f-c985e7aac88d@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <f65c5d45-8cb2-fde1-1785-756088aa95d5@gmail.com>
+Date: Thu, 19 Nov 2020 08:55:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <e462f296-75d0-316a-e30f-c985e7aac88d@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,432 +82,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma, 
- Swati2" <swati2.sharma@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> Sent: Sunday, November 1, 2020 3:37 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
-> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
-> Sharma, Swati2 <swati2.sharma@intel.com>
-> Subject: [PATCH v2 06/13] drm/dp_helper: Add support for Configuring DSC for
-> HDMI2.1 Pcon
-> 
-> This patch adds registers for getting DSC encoder capability for a HDMI2.1 PCon.
-> It also addes helper functions to configure DSC between the PCON and HDMI2.1
-> sink.
-> 
-> v2: Corrected offset for DSC encoder bpc and minor changes.
-> Also added helper functions for getting pcon dsc encoder capabilities as
-> suggested by Uma Shankar.
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> ---
->  drivers/gpu/drm/drm_dp_helper.c | 197 ++++++++++++++++++++++++++++++++
->  include/drm/drm_dp_helper.h     | 114 ++++++++++++++++++
->  2 files changed, 311 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_dp_helper.c
-> b/drivers/gpu/drm/drm_dp_helper.c index 05782091e7e1..8162ee856b5d 100644
-> --- a/drivers/gpu/drm/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/drm_dp_helper.c
-> @@ -2932,3 +2932,200 @@ void drm_dp_pcon_hdmi_frl_link_error_count(struct
-> drm_dp_aux *aux,
->  	}
->  }
->  EXPORT_SYMBOL(drm_dp_pcon_hdmi_frl_link_error_count);
-> +
-> +/*
-> + * drm_dp_pcon_enc_is_dsc_1_2 - Does PCON Encoder supports DSC 1.2
-> + * @pcon_dsc_dpcd: DSC capabilities of the PCON DSC Encoder
-> + *
-> + * Returns true is PCON encoder is DSC 1.2 else returns false.
-> + */
-> +bool drm_dp_pcon_enc_is_dsc_1_2(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-> +{
-> +	u8 buf;
-> +	u8 major_v, minor_v;
-> +
-> +	buf = pcon_dsc_dpcd[DP_PCON_DSC_VERSION -
-> DP_PCON_DSC_ENCODER];
-> +	major_v = (buf & DP_PCON_DSC_MAJOR_MASK) >>
-> DP_PCON_DSC_MAJOR_SHIFT;
-> +	minor_v = (buf & DP_PCON_DSC_MINOR_MASK) >>
-> DP_PCON_DSC_MINOR_SHIFT;
-> +
-> +	if (major_v == 1 && minor_v == 2)
-> +		return true;
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_enc_is_dsc_1_2);
-> +
-> +/*
-> + * drm_dp_pcon_dsc_max_slices - Get max slices supported by PCON DSC
-> +Encoder
-> + * @pcon_dsc_dpcd: DSC capabilities of the PCON DSC Encoder
-> + *
-> + * Returns maximum no. of slices supported by the PCON DSC Encoder.
-> + */
-> +int drm_dp_pcon_dsc_max_slices(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-> +{
-> +	u8 slice_cap1, slice_cap2;
-> +
-> +	slice_cap1 = pcon_dsc_dpcd[DP_PCON_DSC_SLICE_CAP_1 -
-> DP_PCON_DSC_ENCODER];
-> +	slice_cap2 = pcon_dsc_dpcd[DP_PCON_DSC_SLICE_CAP_2 -
-> +DP_PCON_DSC_ENCODER];
-> +
-> +	if (slice_cap2 & DP_PCON_DSC_24_PER_DSC_ENC)
-> +		return 24;
-
-You can use else if to optimize this up.
-
-> +	if (slice_cap2 & DP_PCON_DSC_20_PER_DSC_ENC)
-> +		return 20;
-> +	if (slice_cap2 & DP_PCON_DSC_16_PER_DSC_ENC)
-> +		return 16;
-> +	if (slice_cap1 & DP_PCON_DSC_12_PER_DSC_ENC)
-> +		return 12;
-> +	if (slice_cap1 & DP_PCON_DSC_10_PER_DSC_ENC)
-> +		return 10;
-> +	if (slice_cap1 & DP_PCON_DSC_8_PER_DSC_ENC)
-> +		return 8;
-> +	if (slice_cap1 & DP_PCON_DSC_6_PER_DSC_ENC)
-> +		return 6;
-> +	if (slice_cap1 & DP_PCON_DSC_4_PER_DSC_ENC)
-> +		return 4;
-> +	if (slice_cap1 & DP_PCON_DSC_2_PER_DSC_ENC)
-> +		return 2;
-> +	if (slice_cap1 & DP_PCON_DSC_1_PER_DSC_ENC)
-> +		return 1;
-
-Add else return 0.
-
-With this fixed:
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_dsc_max_slices);
-> +
-> +/*
-> + * drm_dp_pcon_dsc_max_slice_width() - Get max slice width for Pcon DSC
-> +encoder
-> + * @pcon_dsc_dpcd: DSC capabilities of the PCON DSC Encoder
-> + *
-> + * Returns maximum width of the slices in pixel width i.e. no. of pixels x 320.
-> + */
-> +int drm_dp_pcon_dsc_max_slice_width(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-> +{
-> +	u8 buf;
-> +
-> +	buf = pcon_dsc_dpcd[DP_PCON_DSC_MAX_SLICE_WIDTH -
-> +DP_PCON_DSC_ENCODER];
-> +
-> +	return buf * DP_DSC_SLICE_WIDTH_MULTIPLIER; }
-> +EXPORT_SYMBOL(drm_dp_pcon_dsc_max_slice_width);
-> +
-> +/*
-> + * drm_dp_pcon_dsc_bpp_incr() - Get bits per pixel increment for PCON
-> +DSC encoder
-> + * @pcon_dsc_dpcd: DSC capabilities of the PCON DSC Encoder
-> + *
-> + * Returns the bpp precision supported by the PCON encoder.
-> + */
-> +int drm_dp_pcon_dsc_bpp_incr(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE])
-> +{
-> +	u8 buf;
-> +
-> +	buf = pcon_dsc_dpcd[DP_PCON_DSC_BPP_INCR -
-> DP_PCON_DSC_ENCODER];
-> +
-> +	switch (buf & DP_PCON_DSC_BPP_INCR_MASK) {
-> +	case DP_PCON_DSC_ONE_16TH_BPP:
-> +		return 16;
-> +	case DP_PCON_DSC_ONE_8TH_BPP:
-> +		return 8;
-> +	case DP_PCON_DSC_ONE_4TH_BPP:
-> +		return 4;
-> +	case DP_PCON_DSC_ONE_HALF_BPP:
-> +		return 2;
-> +	case DP_PCON_DSC_ONE_BPP:
-> +		return 1;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_dsc_bpp_incr);
-> +
-> +static
-> +int drm_dp_pcon_configure_dsc_enc(struct drm_dp_aux *aux, u8
-> +pps_buf_config) {
-> +	u8 buf = DP_PCON_ENABLE_DSC_ENCODER;
-> +	int ret;
-> +
-> +	if (pps_buf_config <= DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER) {
-> +		buf &= ~DP_PCON_ENCODER_PPS_OVERRIDE_MASK;
-> +		buf |= pps_buf_config << 2;
-> +	}
-> +
-> +	ret = drm_dp_dpcd_writeb(aux,
-> DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * drm_dp_pcon_pps_default() - Let PCON fill the default pps parameters
-> + * for DSC1.2 between PCON & HDMI2.1 sink
-> + * @aux: DisplayPort AUX channel
-> + *
-> + * Returns 0 on success, else returns negative error code.
-> + * */
-> +int drm_dp_pcon_pps_default(struct drm_dp_aux *aux) {
-> +	int ret;
-> +
-> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
-> DP_PCON_ENC_PPS_OVERRIDE_DISABLED);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_pps_default);
-> +
-> +/**
-> + * drm_dp_pcon_pps_override_buf() - Configure PPS encoder override
-> +buffer for
-> + * HDMI sink
-> + * @aux: DisplayPort AUX channel
-> + * @pps_buf: 128 bytes to be written into PPS buffer for HDMI sink by PCON.
-> + *
-> + * Returns 0 on success, else returns negative error code.
-> + * */
-> +int drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8
-> +pps_buf[128]) {
-> +	int ret;
-> +
-> +	ret = drm_dp_dpcd_write(aux, DP_PCON_HDMI_PPS_OVERRIDE_BASE,
-> &pps_buf, 128);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
-> DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_pps_override_buf);
-> +
-> +/*
-> + * drm_dp_pcon_pps_override_param() - Write PPS parameters to DSC
-> +encoder
-> + * override registers
-> + * @aux: DisplayPort AUX channel
-> + * @pps_param: 3 Parameters (2 Bytes each) : Slice Width, Slice Height,
-> + * bits_per_pixel.
-> + *
-> + * Returns 0 on success, else returns negative error code.
-> + * */
-> +int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8
-> +pps_param[6]) {
-> +	int ret;
-> +
-> +	ret = drm_dp_dpcd_write(aux,
-> DP_PCON_HDMI_PPS_OVRD_SLICE_HEIGHT, &pps_param[0], 2);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret = drm_dp_dpcd_write(aux,
-> DP_PCON_HDMI_PPS_OVRD_SLICE_WIDTH, &pps_param[2], 2);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret = drm_dp_dpcd_write(aux, DP_PCON_HDMI_PPS_OVRD_BPP,
-> &pps_param[4], 2);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = drm_dp_pcon_configure_dsc_enc(aux,
-> DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
-> bdbe9bbdb244..a1565498a798 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -441,6 +441,84 @@ struct drm_device;
->  # define DP_FEC_CORR_BLK_ERROR_COUNT_CAP    (1 << 2)
->  # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
-> 
-> +/* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
-> +#define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
-> +#define DP_PCON_DSC_ENCODER                 0x092
-> +# define DP_PCON_DSC_ENCODER_SUPPORTED      (1 << 0)
-> +# define DP_PCON_DSC_PPS_ENC_OVERRIDE       (1 << 1)
-> +
-> +/* DP-HDMI2.1 PCON DSC Version */
-> +#define DP_PCON_DSC_VERSION                 0x093
-> +# define DP_PCON_DSC_MAJOR_MASK		    (0xF << 0)
-> +# define DP_PCON_DSC_MINOR_MASK		    (0xF << 4)
-> +# define DP_PCON_DSC_MAJOR_SHIFT	    0
-> +# define DP_PCON_DSC_MINOR_SHIFT	    4
-> +
-> +/* DP-HDMI2.1 PCON DSC RC Buffer block size */
-> +#define DP_PCON_DSC_RC_BUF_BLK_INFO	    0x094
-> +# define DP_PCON_DSC_RC_BUF_BLK_SIZE	    (0x3 << 0)
-> +# define DP_PCON_DSC_RC_BUF_BLK_1KB	    0
-> +# define DP_PCON_DSC_RC_BUF_BLK_4KB	    1
-> +# define DP_PCON_DSC_RC_BUF_BLK_16KB	    2
-> +# define DP_PCON_DSC_RC_BUF_BLK_64KB	    3
-> +
-> +/* DP-HDMI2.1 PCON DSC RC Buffer size */
-> +#define DP_PCON_DSC_RC_BUF_SIZE		    0x095
-> +
-> +/* DP-HDMI2.1 PCON DSC Slice capabilities-1 */
-> +#define DP_PCON_DSC_SLICE_CAP_1		    0x096
-> +# define DP_PCON_DSC_1_PER_DSC_ENC     (0x1 << 0)
-> +# define DP_PCON_DSC_2_PER_DSC_ENC     (0x1 << 1)
-> +# define DP_PCON_DSC_4_PER_DSC_ENC     (0x1 << 3)
-> +# define DP_PCON_DSC_6_PER_DSC_ENC     (0x1 << 4)
-> +# define DP_PCON_DSC_8_PER_DSC_ENC     (0x1 << 5)
-> +# define DP_PCON_DSC_10_PER_DSC_ENC    (0x1 << 6)
-> +# define DP_PCON_DSC_12_PER_DSC_ENC    (0x1 << 7)
-> +
-> +#define DP_PCON_DSC_BUF_BIT_DEPTH	    0x097
-> +# define DP_PCON_DSC_BIT_DEPTH_MASK	    (0xF << 0)
-> +# define DP_PCON_DSC_DEPTH_9_BITS	    0
-> +# define DP_PCON_DSC_DEPTH_10_BITS	    1
-> +# define DP_PCON_DSC_DEPTH_11_BITS	    2
-> +# define DP_PCON_DSC_DEPTH_12_BITS	    3
-> +# define DP_PCON_DSC_DEPTH_13_BITS	    4
-> +# define DP_PCON_DSC_DEPTH_14_BITS	    5
-> +# define DP_PCON_DSC_DEPTH_15_BITS	    6
-> +# define DP_PCON_DSC_DEPTH_16_BITS	    7
-> +# define DP_PCON_DSC_DEPTH_8_BITS	    8
-> +
-> +#define DP_PCON_DSC_BLOCK_PREDICTION	    0x098
-> +# define DP_PCON_DSC_BLOCK_PRED_SUPPORT	    (0x1 << 0)
-> +
-> +#define DP_PCON_DSC_ENC_COLOR_FMT_CAP	    0x099
-> +# define DP_PCON_DSC_ENC_RGB		    (0x1 << 0)
-> +# define DP_PCON_DSC_ENC_YUV444		    (0x1 << 1)
-> +# define DP_PCON_DSC_ENC_YUV422_S	    (0x1 << 2)
-> +# define DP_PCON_DSC_ENC_YUV422_N	    (0x1 << 3)
-> +# define DP_PCON_DSC_ENC_YUV420_N	    (0x1 << 4)
-> +
-> +#define DP_PCON_DSC_ENC_COLOR_DEPTH_CAP	    0x09A
-> +# define DP_PCON_DSC_ENC_8BPC		    (0x1 << 1)
-> +# define DP_PCON_DSC_ENC_10BPC		    (0x1 << 2)
-> +# define DP_PCON_DSC_ENC_12BPC		    (0x1 << 3)
-> +
-> +#define DP_PCON_DSC_MAX_SLICE_WIDTH	    0x09B
-> +
-> +/* DP-HDMI2.1 PCON DSC Slice capabilities-2 */
-> +#define DP_PCON_DSC_SLICE_CAP_2             0x09C
-> +# define DP_PCON_DSC_16_PER_DSC_ENC	    (0x1 << 0)
-> +# define DP_PCON_DSC_20_PER_DSC_ENC         (0x1 << 1)
-> +# define DP_PCON_DSC_24_PER_DSC_ENC         (0x1 << 2)
-> +
-> +/* DP-HDMI2.1 PCON HDMI TX Encoder Bits/pixel increment */
-> +#define DP_PCON_DSC_BPP_INCR		    0x09E
-> +# define DP_PCON_DSC_BPP_INCR_MASK	    (0x7 << 0)
-> +# define DP_PCON_DSC_ONE_16TH_BPP	    0
-> +# define DP_PCON_DSC_ONE_8TH_BPP	    1
-> +# define DP_PCON_DSC_ONE_4TH_BPP	    2
-> +# define DP_PCON_DSC_ONE_HALF_BPP	    3
-> +# define DP_PCON_DSC_ONE_BPP		    4
-> +
->  /* DP Extended DSC Capabilities */
->  #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_0  0x0a0   /* DP 1.4a SCR */
->  #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1 @@ -1134,6
-> +1212,12 @@ struct drm_device;
->  # define DP_HDMI_FORCE_SCRAMBLING		(1 << 3) /* DP 1.4 */
->  #define DP_PROTOCOL_CONVERTER_CONTROL_2		0x3052 /* DP 1.3
-> */
->  # define DP_CONVERSION_TO_YCBCR422_ENABLE	(1 << 0) /* DP 1.3 */
-> +# define DP_PCON_ENABLE_DSC_ENCODER	        (1 << 1)
-> +# define DP_PCON_ENCODER_PPS_OVERRIDE_MASK	(0x3 << 2)
-> +# define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
-> +# define DP_PCON_ENC_PPS_OVERRIDE_EN_PARAMS     1
-> +# define DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER     2
-> +
-> 
->  /* PCON Downstream HDMI ERROR Status per Lane */
->  #define DP_PCON_HDMI_ERROR_STATUS_LN0          0x3037
-> @@ -1145,6 +1229,29 @@ struct drm_device;
->  # define DP_PCON_HDMI_ERROR_COUNT_TEN_PLUS     (1 << 1)
->  # define DP_PCON_HDMI_ERROR_COUNT_HUNDRED_PLUS (1 << 2)
-> 
-> +/* PCON HDMI CONFIG PPS Override Buffer
-> + * Valid Offsets to be added to Base : 0-127  */
-> +#define DP_PCON_HDMI_PPS_OVERRIDE_BASE        0x3100
-> +
-> +/* PCON HDMI CONFIG PPS Override Parameter: Slice height
-> + * Offset-0 8LSBs of the Slice height.
-> + * Offset-1 8MSBs of the Slice height.
-> + */
-> +#define DP_PCON_HDMI_PPS_OVRD_SLICE_HEIGHT    0x3180
-> +
-> +/* PCON HDMI CONFIG PPS Override Parameter: Slice width
-> + * Offset-0 8LSBs of the Slice width.
-> + * Offset-1 8MSBs of the Slice width.
-> + */
-> +#define DP_PCON_HDMI_PPS_OVRD_SLICE_WIDTH    0x3182
-> +
-> +/* PCON HDMI CONFIG PPS Override Parameter: bits_per_pixel
-> + * Offset-0 8LSBs of the bits_per_pixel.
-> + * Offset-1 2MSBs of the bits_per_pixel.
-> + */
-> +#define DP_PCON_HDMI_PPS_OVRD_BPP	     0x3184
-> +
->  /* HDCP 1.3 and HDCP 2.2 */
->  #define DP_AUX_HDCP_BKSV		0x68000
->  #define DP_AUX_HDCP_RI_PRIME		0x68005
-> @@ -2064,5 +2171,12 @@ bool drm_dp_pcon_hdmi_link_active(struct
-> drm_dp_aux *aux);  int drm_dp_pcon_hdmi_link_mode(struct drm_dp_aux
-> *aux, u8 *frl_trained_mask);  void
-> drm_dp_pcon_hdmi_frl_link_error_count(struct drm_dp_aux *aux,
->  					  struct drm_connector *connector);
-> +bool drm_dp_pcon_enc_is_dsc_1_2(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE]);
-> +int drm_dp_pcon_dsc_max_slices(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE]);
-> +int drm_dp_pcon_dsc_max_slice_width(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE]);
-> +int drm_dp_pcon_dsc_bpp_incr(const u8
-> +pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE]);
-> +int drm_dp_pcon_pps_default(struct drm_dp_aux *aux); int
-> +drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8 pps_buf[128]);
-> +int drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8
-> +pps_param[6]);
-> 
->  #endif /* _DRM_DP_HELPER_H_ */
-> --
-> 2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMTguMTEuMjAgdW0gMTc6MjAgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPgo+IE9uIDEx
+LzE4LzIwIDc6MDEgQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEFtIDE4LjExLjIwIHVt
+IDA4OjM5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+IE9uIFR1ZSwgTm92IDE3LCAyMDIwIGF0
+IDk6MDcgUE0gQW5kcmV5IEdyb2R6b3Zza3kKPj4+IDxBbmRyZXkuR3JvZHpvdnNreUBhbWQuY29t
+PiB3cm90ZToKPj4+Pgo+Pj4+IE9uIDExLzE3LzIwIDI6NDkgUE0sIERhbmllbCBWZXR0ZXIgd3Jv
+dGU6Cj4+Pj4+IE9uIFR1ZSwgTm92IDE3LCAyMDIwIGF0IDAyOjE4OjQ5UE0gLTA1MDAsIEFuZHJl
+eSBHcm9kem92c2t5IHdyb3RlOgo+Pj4+Pj4gT24gMTEvMTcvMjAgMTo1MiBQTSwgRGFuaWVsIFZl
+dHRlciB3cm90ZToKPj4+Pj4+PiBPbiBUdWUsIE5vdiAxNywgMjAyMCBhdCAwMTozODoxNFBNIC0w
+NTAwLCBBbmRyZXkgR3JvZHpvdnNreSB3cm90ZToKPj4+Pj4+Pj4gT24gNi8yMi8yMCA1OjUzIEFN
+LCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+Pj4+Pj4+Pj4gT24gU3VuLCBKdW4gMjEsIDIwMjAgYXQg
+MDI6MDM6MDhBTSAtMDQwMCwgQW5kcmV5IEdyb2R6b3Zza3kgCj4+Pj4+Pj4+PiB3cm90ZToKPj4+
+Pj4+Pj4+PiBObyBwb2ludCB0byB0cnkgcmVjb3ZlcnkgaWYgZGV2aWNlIGlzIGdvbmUsIGp1c3Qg
+bWVzc2VzIHVwIAo+Pj4+Pj4+Pj4+IHRoaW5ncy4KPj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+IFNpZ25l
+ZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgo+
+Pj4+Pj4+Pj4+IC0tLQo+Pj4+Pj4+Pj4+IMKgwqDCoMKgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9kcnYuYyB8IDE2IAo+Pj4+Pj4+Pj4+ICsrKysrKysrKysrKysrKysKPj4+Pj4+
+Pj4+PiDCoMKgwqDCoCBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfam9iLmMgfCA4
+ICsrKysrKysrCj4+Pj4+Pj4+Pj4gwqDCoMKgwqAgMiBmaWxlcyBjaGFuZ2VkLCAyNCBpbnNlcnRp
+b25zKCspCj4+Pj4+Pj4+Pj4KPj4+Pj4+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvYW1kZ3B1X2Rydi5jIAo+Pj4+Pj4+Pj4+IGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2Rydi5jCj4+Pj4+Pj4+Pj4gaW5kZXggNjkzMmQ3NS4uNWQ2ZDNkOSAx
+MDA2NDQKPj4+Pj4+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+ZHJ2LmMKPj4+Pj4+Pj4+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVf
+ZHJ2LmMKPj4+Pj4+Pj4+PiBAQCAtMTEyOSwxMiArMTEyOSwyOCBAQCBzdGF0aWMgaW50IGFtZGdw
+dV9wY2lfcHJvYmUoc3RydWN0IAo+Pj4+Pj4+Pj4+IHBjaV9kZXYgKnBkZXYsCj4+Pj4+Pj4+Pj4g
+wqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7Cj4+Pj4+Pj4+Pj4gwqDCoMKgwqAgfQo+Pj4+
+Pj4+Pj4+ICtzdGF0aWMgdm9pZCBhbWRncHVfY2FuY2VsX2FsbF90ZHIoc3RydWN0IGFtZGdwdV9k
+ZXZpY2UgKmFkZXYpCj4+Pj4+Pj4+Pj4gK3sKPj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqAgaW50
+IGk7Cj4+Pj4+Pj4+Pj4gKwo+Pj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBmb3IgKGkgPSAwOyBp
+IDwgQU1ER1BVX01BWF9SSU5HUzsgKytpKSB7Cj4+Pj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCBzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcgPSBhZGV2LT5yaW5nc1tpXTsK
+Pj4+Pj4+Pj4+PiArCj4+Pj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBp
+ZiAoIXJpbmcgfHwgIXJpbmctPnNjaGVkLnRocmVhZCkKPj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb250aW51ZTsKPj4+Pj4+Pj4+PiAr
+Cj4+Pj4+Pj4+Pj4gKyBjYW5jZWxfZGVsYXllZF93b3JrX3N5bmMoJnJpbmctPnNjaGVkLndvcmtf
+dGRyKTsKPj4+Pj4+Pj4+PiArwqDCoMKgwqDCoMKgwqAgfQo+Pj4+Pj4+Pj4+ICt9Cj4+Pj4+Pj4+
+PiBJIHRoaW5rIHRoaXMgaXMgYSBmdW5jdGlvbiB0aGF0J3Mgc3VwcG9zZWQgdG8gYmUgaW4gCj4+
+Pj4+Pj4+PiBkcm0vc2NoZWR1bGVyLCBub3QKPj4+Pj4+Pj4+IGhlcmUuIE1pZ2h0IGFsc28ganVz
+dCBiZSB5b3VyIGNsZWFudXAgY29kZSBiZWluZyBvcmRlcmVkIAo+Pj4+Pj4+Pj4gd3JvbmdseSwg
+b3IgeW91cgo+Pj4+Pj4+Pj4gc3BsaXQgaW4gb25lIG9mIHRoZSBlYXJsaWVyIHBhdGNoZXMgbm90
+IGRvbmUgcXVpdGUgcmlnaHQuCj4+Pj4+Pj4+PiAtRGFuaWVsCj4+Pj4+Pj4+IFRoaXMgZnVuY3Rp
+b24gaXRlcmF0ZXMgYWNyb3NzIGFsbCB0aGUgc2NoZWR1bGVycyBwZXIgYW1kZ3B1IAo+Pj4+Pj4+
+PiBkZXZpY2UgYW5kIGFjY2Vzc2VzCj4+Pj4+Pj4+IGFtZGdwdSBzcGVjaWZpYyBzdHJ1Y3R1cmVz
+ICwgZHJtL3NjaGVkdWxlciBkZWFscyB3aXRoIHNpbmdsZSAKPj4+Pj4+Pj4gc2NoZWR1bGVyIGF0
+IG1vc3QKPj4+Pj4+Pj4gc28gbG9va3MgdG8gbWUgbGlrZSB0aGlzIGlzIHRoZSByaWdodCBwbGFj
+ZSBmb3IgdGhpcyBmdW5jdGlvbgo+Pj4+Pj4+IEkgZ3Vlc3Mgd2UgY291bGQga2VlcCB0cmFjayBv
+ZiBhbGwgc2NoZWR1bGVycyBzb21ld2hlcmUgaW4gYSAKPj4+Pj4+PiBsaXN0IGluCj4+Pj4+Pj4g
+c3RydWN0IGRybV9kZXZpY2UgYW5kIHdyYXAgdGhpcyB1cC4gVGhhdCB3YXMga2luZGEgdGhlIGlk
+ZWEuCj4+Pj4+Pj4KPj4+Pj4+PiBNaW5pbWFsbHkgSSB0aGluayBhIHRpbnkgd3JhcHBlciB3aXRo
+IGRvY3MgZm9yIHRoZQo+Pj4+Pj4+IGNhbmNlbF9kZWxheWVkX3dvcmtfc3luYygmc2NoZWQtPndv
+cmtfdGRyKTsgd2hpY2ggZXhwbGFpbnMgd2hhdCAKPj4+Pj4+PiB5b3UgbXVzdAo+Pj4+Pj4+IG9i
+c2VydmUgdG8gbWFrZSBzdXJlIHRoZXJlJ3Mgbm8gcmFjZS4KPj4+Pj4+IFdpbGwgZG8KPj4+Pj4+
+Cj4+Pj4+Pgo+Pj4+Pj4+IEknbSBub3QgZXhhY3RseSBzdXJlIHRoZXJlJ3Mgbm8KPj4+Pj4+PiBn
+dWFyYW50ZWUgaGVyZSB3ZSB3b24ndCBnZXQgYSBuZXcgdGRyIHdvcmsgbGF1bmNoZWQgcmlnaHQg
+Cj4+Pj4+Pj4gYWZ0ZXJ3YXJkcyBhdAo+Pj4+Pj4+IGxlYXN0LCBzbyB0aGlzIGxvb2tzIGEgYml0
+IGxpa2UgYSBoYWNrLgo+Pj4+Pj4gTm90ZSB0aGF0IGZvciBhbnkgVERSIHdvcmsgaGFwcGVuaW5n
+IHBvc3QgYW1kZ3B1X2NhbmNlbF9hbGxfdGRyCj4+Pj4+PiBhbWRncHVfam9iX3RpbWVkb3V0LT5k
+cm1fZGV2X2lzX3VucGx1Z2dlZAo+Pj4+Pj4gd2lsbCByZXR1cm4gdHJ1ZSBhbmQgc28gaXQgd2ls
+bCByZXR1cm4gZWFybHkuIFRvIG1ha2UgaXQgd2F0ZXIgCj4+Pj4+PiBwcm9vZiB0aWdodAo+Pj4+
+Pj4gYWdhaW5zdCByYWNlCj4+Pj4+PiBpIGNhbiBzd2l0Y2ggZnJvbSBkcm1fZGV2X2lzX3VucGx1
+Z2dlZCB0byBkcm1fZGV2X2VudGVyL2V4aXQKPj4+Pj4gSG0gdGhhdCdzIGNvbmZ1c2luZy4gWW91
+IGRvIGEgd29ya19jYW5jZWxfc3luYywgc28gdGhhdCBhdCBsZWFzdCAKPj4+Pj4gbG9va3MKPj4+
+Pj4gbGlrZSAidGRyIHdvcmsgbXVzdCBub3QgcnVuIGFmdGVyIHRoaXMgcG9pbnQiCj4+Pj4+Cj4+
+Pj4+IElmIHlvdSBvbmx5IHJlbHkgb24gZHJtX2Rldl9lbnRlci9leGl0IGNoZWNrIHdpdGggdGhl
+IHRkciB3b3JrLCB0aGVuCj4+Pj4+IHRoZXJlJ3Mgbm8gbmVlZCB0byBjYW5jZWwgYW55dGhpbmcu
+Cj4+Pj4KPj4+PiBBZ3JlZSwgc3luY2hyb25pemVfc3JjdSBmcm9tIGRybV9kZXZfdW5wbHVnIHNo
+b3VsZCBwbGF5IHRoZSByb2xlCj4+Pj4gb2YgJ2ZsdXNoaW5nJyBhbnkgZWFybGllciAoaW4gcHJv
+Z3Jlc3MpIHRkciB3b3JrIHdoaWNoIGlzCj4+Pj4gdXNpbmcgZHJtX2Rldl9lbnRlci9leGl0IHBh
+aXIuIEFueSBsYXRlciBhcmlzaW5nIHRkciB3aWxsIHRlcm1pbmF0ZSAKPj4+PiBlYXJseSB3aGVu
+Cj4+Pj4gZHJtX2Rldl9lbnRlcgo+Pj4+IHJldHVybnMgZmFsc2UuCj4+PiBOb3BlLCBhbnl0aGlu
+ZyB5b3UgcHV0IGludG8gdGhlIHdvcmsgaXRzZWxmIGNhbm5vdCBjbG9zZSB0aGlzIHJhY2UuCj4+
+PiBJdCdzIHRoZSBzY2hlZHVsZV93b3JrIHRoYXQgbWF0dGVycyBoZXJlLiBPciBJJ20gbWlzc2lu
+ZyBzb21ldGhpbmcgLi4uCj4+PiBJIHRob3VnaHQgdGhhdCB0aGUgdGRyIHdvcmsgeW91J3JlIGNh
+bmNlbGxpbmcgaGVyZSBpcyBsYXVuY2hlZCBieQo+Pj4gZHJtL3NjaGVkdWxlciBjb2RlLCBub3Qg
+YnkgdGhlIGFtZCBjYWxsYmFjaz8KPgo+Cj4gTXkgYmFkLCB5b3UgYXJlIHJpZ2h0LCBJIGFtIHN1
+cHBvc2VkIHRvIHB1dCBkcm1fZGV2X2VudGVyLmV4aXQgcGFpciAKPiBpbnRvIGRybV9zY2hlZF9q
+b2JfdGltZWRvdXQKPgo+Cj4+Cj4+IFllcyB0aGF0IGlzIGNvcnJlY3QuIENhbmNlbGluZyB0aGUg
+d29yayBpdGVtIGlzIG5vdCB0aGUgcmlnaHQgCj4+IGFwcHJvYWNoIGF0IGFsbCwgbm9yIGlzIGFk
+ZGluZyBkZXZfZW50ZXIvZXhpdCBwYWlyIGluIHRoZSByZWNvdmVyeSAKPj4gaGFuZGxlci4KPgo+
+Cj4gV2l0aG91dCBhZGRpbmcgdGhlIGRldl9lbnRlci9leGl0IGd1YXJkaW5nIHBhaXIgaW4gdGhl
+IHJlY292ZXJ5IAo+IGhhbmRsZXIgeW91IGFyZSBlbmRpbmcgdXAgd2l0aCBHUFUgcmVzZXQgc3Rh
+cnRpbmcgd2hpbGUKPiB0aGUgZGV2aWNlIGlzIGFscmVhZHkgdW5wbHVnZ2VkLCB0aGlzIGxlYWRz
+IHRvIG11bHRpcGxlIGVycm9ycyBhbmQgCj4gZ2VuZXJhbCBtZXNzLgo+Cj4KPj4KPj4gV2hhdCB3
+ZSBuZWVkIHRvIGRvIGhlcmUgaXMgdG8gc3RvcCB0aGUgc2NoZWR1bGVyIHRocmVhZCBhbmQgdGhl
+biB3YWl0IAo+PiBmb3IgYW55IHRpbWVvdXQgaGFuZGxpbmcgdG8gaGF2ZSBmaW5pc2hlZC4KPj4K
+Pj4gT3RoZXJ3aXNlIGl0IGNhbiBzY2hlZHVsZXIgYSBuZXcgdGltZW91dCBqdXN0IGFmdGVyIHdl
+IGhhdmUgY2FuY2VsZWQgCj4+IHRoaXMgb25lLgo+Pgo+PiBSZWdhcmRzLAo+PiBDaHJpc3RpYW4u
+Cj4KPgo+IFNjaGVkdWxlcnMgYXJlIHN0b3BwZWQgZnJvbSBhbWRncHVfZHJpdmVyX3VubG9hZF9r
+bXMgd2hpY2ggaW5kZWVkIAo+IGhhcHBlbnMgYWZ0ZXIgZHJtX2Rldl91bnBsdWcKPiBzbyB5ZXMs
+IHRoZXJlIGlzIHN0aWxsIGEgY2hhbmNlIGZvciBuZXcgd29yayBiZWluZyBzY2hlZHVsZXIgYW5k
+IAo+IHRpbWVvdXQgYXJtZWQgYWZ0ZXIgYnV0LCBvbmNlIGkgZml4IHRoZSBjb2RlCj4gdG8gcGxh
+Y2UgZHJtX2Rldl9lbnRlci9leGl0IHBhaXIgaW50byBkcm1fc2NoZWRfam9iX3RpbWVvdXQgSSBk
+b24ndCAKPiBzZWUgd2h5IHRoYXQgbm90IGEgZ29vZCBzb2x1dGlvbiA/CgpZZWFoIHRoYXQgc2hv
+dWxkIHdvcmsgYXMgd2VsbCwgYnV0IHRoZW4geW91IGFsc28gZG9uJ3QgbmVlZCB0byBjYW5jZWwg
+CnRoZSB3b3JrIGl0ZW0gZnJvbSB0aGUgZHJpdmVyLgoKPiBBbnkgdGRyIHdvcmsgc3RhcnRlZCBh
+ZnRlciBkcm1fZGV2X3VucGx1ZyBmaW5pc2hlZCB3aWxsIHNpbXBseSBhYm9ydCAKPiBvbiBlbnRy
+eSB0byBkcm1fc2NoZWRfam9iX3RpbWVkb3V0Cj4gYmVjYXVzZSBkcm1fZGV2X2VudGVyIHdpbGwg
+YmUgZmFsc2UgYW5kIHRoZSBmdW5jdGlvbiB3aWxsIHJldHVybiAKPiB3aXRob3V0IHJlYXJtaW5n
+IHRoZSB0aW1lb3V0IHRpbWVyIGFuZAo+IHNvIHdpbGwgaGF2ZSBubyBpbXBhY3QuCj4KPiBUaGUg
+b25seSBpc3N1ZSBpIHNlZSBoZXJlIG5vdyBpcyBvZiBwb3NzaWJsZSB1c2UgYWZ0ZXIgZnJlZSBp
+ZiBzb21lIAo+IGxhdGUgdGRyIHdvcmsgd2lsbCB0cnkgdG8gZXhlY3V0ZSBhZnRlcgo+IGRybSBk
+ZXZpY2UgYWxyZWFkeSBnb25lLCBmb3IgdGhpcyB3ZSBwcm9iYWJseSBzaG91bGQgYWRkIAo+IGNh
+bmNlbF9kZWxheWVkX3dvcmtfc3luYyhzY2hlZC53b3JrX3RkcikKPiB0byBkcm1fc2NoZWRfZmlu
+aSBhZnRlciBzY2hlZC0+dGhyZWFkIGlzIHN0b3BwZWQgdGhlcmUuCgpHb29kIHBvaW50LCB0aGF0
+IGlzIGluZGVlZCBtaXNzaW5nIGFzIGZhciBhcyBJIGNhbiBzZWUuCgpDaHJpc3RpYW4uCgo+Cj4g
+QW5kcmV5CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
