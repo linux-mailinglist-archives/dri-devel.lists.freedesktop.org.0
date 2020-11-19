@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD382B8CEC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:14:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 638942B8CED
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 09:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B37B89CE0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id E310289CF8;
 	Thu, 19 Nov 2020 08:14:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5180C89CE0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56A8489CF8
  for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 08:14:27 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A116CAA4F;
- Thu, 19 Nov 2020 07:56:20 +0000 (UTC)
-Subject: Re: [PATCH v3 1/7] drm/vc4: kms: Switch to drmm_add_action_or_reset
+ by mx2.suse.de (Postfix) with ESMTP id 4713AAD31;
+ Thu, 19 Nov 2020 07:56:49 +0000 (UTC)
+Subject: Re: [PATCH v3 3/7] drm/vc4: kms: Rename NUM_CHANNELS
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Frank Rowand <frowand.list@gmail.com>
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-2-maxime@cerno.tech>
+ <20201105135656.383350-4-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <0cd1b6d9-49ec-7a84-40c3-0671a3a4c312@suse.de>
-Date: Thu, 19 Nov 2020 08:56:18 +0100
+Message-ID: <c4f962fa-ec60-62b5-5d6c-ee823fa28819@suse.de>
+Date: Thu, 19 Nov 2020 08:56:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201105135656.383350-2-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-4-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,19 +48,19 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
  Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1249816753=="
+Content-Type: multipart/mixed; boundary="===============0808120892=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1249816753==
+--===============0808120892==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="cTij8sxdMqa6bGZ1hFI2Gwwj2tRTGAS8O"
+ boundary="PdiOKIMdipevBDgJn9whRfbJty67n93na"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cTij8sxdMqa6bGZ1hFI2Gwwj2tRTGAS8O
-Content-Type: multipart/mixed; boundary="boB0fPqy11drXijI2UcJ6j8NHyaQeARQX";
+--PdiOKIMdipevBDgJn9whRfbJty67n93na
+Content-Type: multipart/mixed; boundary="icKfuVRrliud0h97ihnm9siC2riKfbwH3";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
@@ -74,67 +74,73 @@ Cc: Hoegeun Kwon <hoegeun.kwon@samsung.com>,
  Tim Gover <tim.gover@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-Message-ID: <0cd1b6d9-49ec-7a84-40c3-0671a3a4c312@suse.de>
-Subject: Re: [PATCH v3 1/7] drm/vc4: kms: Switch to drmm_add_action_or_reset
+Message-ID: <c4f962fa-ec60-62b5-5d6c-ee823fa28819@suse.de>
+Subject: Re: [PATCH v3 3/7] drm/vc4: kms: Rename NUM_CHANNELS
 References: <20201105135656.383350-1-maxime@cerno.tech>
- <20201105135656.383350-2-maxime@cerno.tech>
-In-Reply-To: <20201105135656.383350-2-maxime@cerno.tech>
+ <20201105135656.383350-4-maxime@cerno.tech>
+In-Reply-To: <20201105135656.383350-4-maxime@cerno.tech>
 
---boB0fPqy11drXijI2UcJ6j8NHyaQeARQX
+--icKfuVRrliud0h97ihnm9siC2riKfbwH3
 Content-Type: multipart/mixed;
- boundary="------------687E53D0B91245CF080A162C"
+ boundary="------------AB02FBC355E33EB8D59E44CE"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------687E53D0B91245CF080A162C
+--------------AB02FBC355E33EB8D59E44CE
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 
 
 Am 05.11.20 um 14:56 schrieb Maxime Ripard:
-> Even though it was pointed in the review by Daniel, and I thought to ha=
-ve
-> fixed it while applying the patches, but it turns out I forgot to commi=
-t
-> the fixes in the process. Properly fix it this time.
+> The NUM_CHANNELS define has a pretty generic name and was right before =
+the
+> function using it. Let's move to something that makes the hardware-spec=
+ific
+> nature more obvious, and to a more appropriate place.
 >=20
-> Fixes: dcda7c28bff2 ("drm/vc4: kms: Add functions to create the state o=
-bjects")
+> Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
+> Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/vc4/vc4_kms.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> index 2b951cae04ad..44db31e16e91 100644
+> index 4b558ccb18fe..ad69c70f66a2 100644
 > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -113,7 +113,7 @@ static int vc4_ctm_obj_init(struct vc4_dev *vc4)
->   	drm_atomic_private_obj_init(&vc4->base, &vc4->ctm_manager, &ctm_stat=
-e->base,
->   				    &vc4_ctm_state_funcs);
+> @@ -24,6 +24,8 @@
+>   #include "vc4_drv.h"
+>   #include "vc4_regs.h"
 >  =20
-> -	return drmm_add_action(&vc4->base, vc4_ctm_obj_fini, NULL);
-> +	return drmm_add_action_or_reset(&vc4->base, vc4_ctm_obj_fini, NULL);
+> +#define HVS_NUM_CHANNELS 3
+> +
+>   struct vc4_ctm_state {
+>   	struct drm_private_state base;
+>   	struct drm_color_ctm *ctm;
+> @@ -660,12 +662,10 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
+ev *vc4)
+>   	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fin=
+i, NULL);
 >   }
 >  =20
->   /* Converts a DRM S31.32 value to the HW S0.9 format. */
-> @@ -657,7 +657,7 @@ static int vc4_load_tracker_obj_init(struct vc4_dev=
- *vc4)
->   				    &load_state->base,
->   				    &vc4_load_tracker_state_funcs);
->  =20
-> -	return drmm_add_action(&vc4->base, vc4_load_tracker_obj_fini, NULL);
-> +	return drmm_add_action_or_reset(&vc4->base, vc4_load_tracker_obj_fini=
-, NULL);
->   }
->  =20
->   #define NUM_OUTPUTS  6
+> -#define NUM_CHANNELS 3
+> -
+>   static int
+>   vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *sta=
+te)
+>   {
+> -	unsigned long unassigned_channels =3D GENMASK(NUM_CHANNELS - 1, 0);
+> +	unsigned long unassigned_channels =3D GENMASK(HVS_NUM_CHANNELS - 1, 0=
+);
+>   	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+>   	struct drm_crtc *crtc;
+>   	int i, ret;
 >=20
 
 --=20
@@ -145,7 +151,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------687E53D0B91245CF080A162C
+--------------AB02FBC355E33EB8D59E44CE
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -348,34 +354,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------687E53D0B91245CF080A162C--
+--------------AB02FBC355E33EB8D59E44CE--
 
---boB0fPqy11drXijI2UcJ6j8NHyaQeARQX--
+--icKfuVRrliud0h97ihnm9siC2riKfbwH3--
 
---cTij8sxdMqa6bGZ1hFI2Gwwj2tRTGAS8O
+--PdiOKIMdipevBDgJn9whRfbJty67n93na
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2JSIFAwAAAAAACgkQlh/E3EQov+Aw
-zxAAgdqcWyfoxLi0b8wV0PNpGclFMXQ0D30IURW5voFetOKHE8FsJNcSAIMr8Z7B4BSkGFnjfgT5
-atOb+4umZRp/QrEm+06tJf4YqI3QBNHogUQhFB9cAmuC0zJAHbOpZgCs1PIS7ngVKsxBqHewWo8E
-zn57F4Dv3O/Cr7q7Z7RID7y71fXd2zDB9aA8wO+EFZtHM5c7YNegp94OKA0C8YyoQ0WlbfoNhlcU
-IvxDS/1nXCwmDGbjFLTkRKBD/GMoT5GAt5kOUpxZY11vDC3hbeXX/C19aECAcxIFsAsSoLSniIrr
-zg3UyoqSEyyYeM2zc+tBzQy7nwGGYEGMfpwJ2NaC061L0QujzVzzuJ4eDYuAGDlPLIABsztXr2Mm
-JnKL/+jCtjYCck8K1mWDVinQrLxaxMBRPO3R5dh6KOtEqxkujtMgQVHBNUDUnLequfDL9GDC79vK
-FMJ5qujQvN0F/HOcBn8Pa5Tfn1wzKUrl2Jvnn2mAFw8Fza25r46Ow+XjgptrB+Hy+QdLm8JdE0E3
-X/94+6gQCjX5/TlE/UV/86VLotkAugLVMEo40riFeqHdvcEK1wEXdCuTwKkWndHT30/hkhjuRZmv
-on/1ZijI/TBkyzAnzLP/dXbE6wiOqEf0oAu6UgudYQLUk8yVmFdV0n9Ty9D6HorgiwIr2aTUvklX
-nMI=
-=LkR8
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2JUAFAwAAAAAACgkQlh/E3EQov+D5
+jQ//ZyOZaummUfei5fhqRoOM2xg9el9W9IelgOfMEaqXAzjEhc0ilAhsD5yIGvkF1+acpb7oxm9D
+6g6lfS3w8azoOldIdbfH2ypJjYPAXHANgbIHzfLO1HPKHYn6Djtj+UuGQQ4NFxQtTWTd3/pMPBGM
+Vw9Sc8r/Ntj5XGCZ+Nyj/464XsT16FHhP2FTpep8v0XBEstgAisb4jB2VcetCP+64ulAuNPJWEXj
+JqhOxpl+miB44mXHYtLKi+HMAaho4N9ZIM3w+dR9AN45WO85vJxgDMCHx8xUE7beKQDYlAaHxYdb
+gXV/jwnxsUKWDwSO5nlszdO4rtUzVR6RBi3DYcx1UcqMnBrXXQVqlbx5/jgY6icBgFCatI+og4cJ
+EtLj5XUp/lo27EFP9XrSeMeMRJStWHVEX/RECCLvb6ZkVhpuBU0i8XVTUUew0I3MO8CGwYrvGCnG
+TSRiLE+BeNABZf1D6sQe9uj/xZZio0ingXr5c/ZzP1XcZyjtLvyVPgbqkWSSNfj3aluwpcrdkKYM
+BlO/bq9nSrR8eIdlc6V4YAmIUZvCjMQzw8AP2PlGIrncxXXswHw+84mYJts7raPr1wKQrhqE7lxu
+r0/FPdhUjgHitQ4JVNyTth/HFKFOHfXKS6gEXNlXER20d3N6MdeSePEeszWOZxfQlXYrjKGd0NGf
+dEg=
+=EqsQ
 -----END PGP SIGNATURE-----
 
---cTij8sxdMqa6bGZ1hFI2Gwwj2tRTGAS8O--
+--PdiOKIMdipevBDgJn9whRfbJty67n93na--
 
---===============1249816753==
+--===============0808120892==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -386,4 +392,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1249816753==--
+--===============0808120892==--
