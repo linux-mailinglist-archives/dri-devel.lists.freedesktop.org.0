@@ -2,58 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DBA2B8E93
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A58082B8E94
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:20:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A506E517;
-	Thu, 19 Nov 2020 09:20:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 184996E52C;
+	Thu, 19 Nov 2020 09:20:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC4D6E517
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:20:22 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id r17so5480741ljg.5
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 01:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=ocT6OJmOVyTj2vsB/inL8OTug7LUvh68JRuu4GqIgLk=;
- b=XFsSdIYwW+qzl8zIaTli+LNRe57cnWw3WMGsbKzchHfOLVLwK+BG4SYov+GzOvvkFY
- qEbJu2IzaUA1VHfNTre1MEOK4dCfRKkYlAOZ2Be849F6qqv9TimHnzireH1QB9S2hFsz
- EEXV7IbOLLafybCK2no1gIfZlAOnbKB0j97iHgfQCrm7J8CrhIu3OifNHomnN8yfc4SW
- IrbA2KuLfeZceWSoltJpTCRl/Y0+FrQjcIdmelxjIE4sgfiup20aXhRNJkEXFObndVD/
- SRGyqXvN6aJOzO/OLGFYcUNlYjDwwWUHIHEGRYckG4TtkvdDxxs2rD2WsPT7EXiGa2t5
- GTtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=ocT6OJmOVyTj2vsB/inL8OTug7LUvh68JRuu4GqIgLk=;
- b=F1ychbKOK2hYIu6wo0I8UFktlN3gYtcx7ZoLBzNPLcXomNueFMQClxlIHsnrvk+JXj
- ZgjpXs4iIXbO9JPIoa909fAikmFEliJdGlaiOagUPx6bwHoKBZT1LKnbyLfvVl95R5+m
- Hrw4XpiDWiI7+KMAFDLgrw1mkEVrJsq/PtMihIIT45fu4/VLeGo9gIaMDa1giPaitHDD
- bmVAWd/I3np/5Fvxkycs/6/wZalFwIs7QnDkI7/NYddeiEpiQKQwS5VV38WxnRMwRmZ7
- CwurZKzO43usWuZ7U/Y22BFGT6SFflSxtGDGgiLjgAgctzOW2km+bXM/Og8MNMvXbXNw
- Hmaw==
-X-Gm-Message-State: AOAM531W6sZW1+tipH/MnwJXjrTRxC1dBAmJUMduwhYR8hJAvn8XBiJC
- 4x8sGw+gNEpHvDEDe1Jlkbg=
-X-Google-Smtp-Source: ABdhPJytOSwXqJu8OF+VD4QLuncjIIuGp9+H9ZyV2ggCHi2QgSEq12m8pOXd85jSiW7NAoNYISA77w==
-X-Received: by 2002:a05:651c:213:: with SMTP id
- y19mr5192972ljn.250.1605777621124; 
- Thu, 19 Nov 2020 01:20:21 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id 139sm3644256ljj.106.2020.11.19.01.20.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Nov 2020 01:20:20 -0800 (PST)
-Date: Thu, 19 Nov 2020 11:20:10 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: document drm_mode_get_connector
-Message-ID: <20201119112010.352a9b21@eldfell>
-In-Reply-To: <zvaqgUJLuDcSaX7hbo6wcjWOCFUkiwPThMV1D8tq7dc@cp3-web-020.plabs.ch>
-References: <zvaqgUJLuDcSaX7hbo6wcjWOCFUkiwPThMV1D8tq7dc@cp3-web-020.plabs.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA9EC6E526
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:20:27 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 61CA6AF93;
+ Thu, 19 Nov 2020 09:20:26 +0000 (UTC)
+Subject: Re: [PATCH v2 2/3] drm/vc4: hdmi: Disable Wifi Frequencies
+To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Eric Anholt <eric@anholt.net>
+References: <20201029134018.1948636-1-maxime@cerno.tech>
+ <20201029134018.1948636-2-maxime@cerno.tech>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <a5af9bc2-b2f0-9a03-f436-8b18d9af7b89@suse.de>
+Date: Thu, 19 Nov 2020 10:20:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201029134018.1948636-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,101 +43,403 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============2002682261=="
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: multipart/mixed; boundary="===============0637197870=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2002682261==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0637197870==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/snvZXkNcKRDH.lR5Pd=Lo9T"; protocol="application/pgp-signature"
+ protocol="application/pgp-signature";
+ boundary="vHaGzUJMAoIhm7Q9JW302Dfe54rIxQSbv"
 
---Sig_/snvZXkNcKRDH.lR5Pd=Lo9T
-Content-Type: text/plain; charset=US-ASCII
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--vHaGzUJMAoIhm7Q9JW302Dfe54rIxQSbv
+Content-Type: multipart/mixed; boundary="tVmd0nbkMF25RRuTvHTWlVIS8xF14uSzo";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Eric Anholt <eric@anholt.net>
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org,
+ Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
+Message-ID: <a5af9bc2-b2f0-9a03-f436-8b18d9af7b89@suse.de>
+Subject: Re: [PATCH v2 2/3] drm/vc4: hdmi: Disable Wifi Frequencies
+References: <20201029134018.1948636-1-maxime@cerno.tech>
+ <20201029134018.1948636-2-maxime@cerno.tech>
+In-Reply-To: <20201029134018.1948636-2-maxime@cerno.tech>
+
+--tVmd0nbkMF25RRuTvHTWlVIS8xF14uSzo
+Content-Type: multipart/mixed;
+ boundary="------------A9637589CEBA874E8CD49C61"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------A9637589CEBA874E8CD49C61
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 18 Nov 2020 10:52:12 +0000
-Simon Ser <contact@emersion.fr> wrote:
+Hi
 
-> Document how to perform a forced probe, and when should user-space do it.
+Am 29.10.20 um 14:40 schrieb Maxime Ripard:
+> There's cross-talk on the RPi4 between the 2.4GHz channels used by the =
+WiFi
+> chip and some resolutions, most notably 1440p at 60Hz.
 >=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> In such a case, we can either reject entirely the mode, or lower slight=
+ly
+> the pixel frequency to remove the overlap. Let's go for the latter.
+>=20
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
 > ---
->  include/uapi/drm/drm_mode.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
 >=20
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 5ad10ab2a577..09647b799f39 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -368,6 +368,19 @@ enum drm_mode_subconnector {
->  #define DRM_MODE_CONNECTOR_WRITEBACK	18
->  #define DRM_MODE_CONNECTOR_SPI		19
-> =20
-> +/**
-> + * struct drm_mode_get_connector - get connector metadata
-> + *
-> + * If the @count_modes field is set to zero, the kernel will perform a f=
-orced
-> + * probe on the connector to refresh the connector status, modes and EDI=
-D.
-> + * A forced-probe can be slow and the ioctl will block.
-> + *
+> Changes from v1:
+>    - Change the name of the property
+>    - Test for a range instead of an exact frequency
+> ---
+>   drivers/gpu/drm/vc4/vc4_hdmi.c | 21 +++++++++++++++++++++
+>   drivers/gpu/drm/vc4/vc4_hdmi.h |  8 ++++++++
+>   2 files changed, 29 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
+dmi.c
+> index 506c12454086..0d72e519aec4 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -760,6 +760,9 @@ static void vc4_hdmi_encoder_enable(struct drm_enco=
+der *encoder)
+>   {
+>   }
+>  =20
+> +#define WIFI_2_4GHz_CH1_MIN_FREQ	2400000000ULL
+> +#define WIFI_2_4GHz_CH1_MAX_FREQ	2422000000ULL
+> +
+>   static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,=
 
-Hi,
+>   					 struct drm_crtc_state *crtc_state,
+>   					 struct drm_connector_state *conn_state)
+> @@ -767,12 +770,27 @@ static int vc4_hdmi_encoder_atomic_check(struct d=
+rm_encoder *encoder,
+>   	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
+>   	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
+>   	unsigned long long pixel_rate =3D mode->clock * 1000;
+> +	unsigned long long tmds_rate;
+>  =20
+>   	if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+>   	    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+>   	     (mode->hsync_end % 2) || (mode->htotal % 2)))
+>   		return -EINVAL;
+>  =20
+> +	/*
+> +	 * The 1440p@60 pixel rate is in the same range than the first
+> +	 * WiFi channel (between 2.4GHz and 2.422GHz with 22MHz
+> +	 * bandwidth). Slightly lower the frequency to bring it out of
+> +	 * the WiFi range.
+> +	 */
+> +	tmds_rate =3D pixel_rate * 10;
+> +	if (vc4_hdmi->disable_wifi_frequencies &&
+> +	    (tmds_rate >=3D WIFI_2_4GHz_CH1_MIN_FREQ &&
+> +	     tmds_rate <=3D WIFI_2_4GHz_CH1_MAX_FREQ)) {
+> +		mode->clock =3D 238560;
+> +		pixel_rate =3D mode->clock * 1000;
+> +	}
+> +
+>   	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
+>   		return -EINVAL;
+>  =20
+> @@ -1717,6 +1735,9 @@ static int vc4_hdmi_bind(struct device *dev, stru=
+ct device *master, void *data)
+>   		vc4_hdmi->hpd_active_low =3D hpd_gpio_flags & OF_GPIO_ACTIVE_LOW;
+>   	}
+>  =20
+> +	vc4_hdmi->disable_wifi_frequencies =3D
+> +		of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
+> +
+>   	pm_runtime_enable(dev);
+>  =20
+>   	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_h=
+dmi.h
+> index 6815e93b1a48..3843be830601 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+> @@ -142,6 +142,14 @@ struct vc4_hdmi {
+>   	int hpd_gpio;
+>   	bool hpd_active_low;
+>  =20
+> +	/*
+> +	 * On some systems (like the RPi4), some modes are in the same
+> +	 * frequency range than the WiFi channels (1440p@60Hz for
+> +	 * example). Should we take evasive actions because that system
+> +	 * has a wifi adapter.
 
-as I have no prior knowledge at all about how struct
-drm_mode_get_connector works, the above paragraph only confuses me.
-count_modes sounds totally unrelated to probing, and what does that
-even do in this struct at all, how does one use this thing. I only know
-the libdrm API for this. So I can't ack this bit.
+The final sentence sounds like a question. Maybe just write 'Take=20
+evasive actions if...'
 
-> + * User-space shouldn't need to force-probe connectors in general: the k=
-ernel
-> + * will automatically take care of probing connectors that don't support
-> + * hot-plug detection when appropriate. However, user-space may force-pr=
-obe
-> + * connectors on user request (e.g. clicking a "Scan connectors" button,=
- or
-> + * opening a UI to manage screens).
+Assuming that the display mode still works
 
-This paragraph is good and clear to me.
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> + */
->  struct drm_mode_get_connector {
-> =20
->  	__u64 encoders_ptr;
+> +	 */
+> +	bool disable_wifi_frequencies;
+> +
+>   	struct cec_adapter *cec_adap;
+>   	struct cec_msg cec_rx_msg;
+>   	bool cec_tx_ok;
+>=20
 
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-Thanks,
-pq
+--------------A9637589CEBA874E8CD49C61
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x680DC11D530B7A23.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0x680DC11D530B7A23.asc"
 
---Sig_/snvZXkNcKRDH.lR5Pd=Lo9T
-Content-Type: application/pgp-signature
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
+H47
+fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
+bqP
+5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
+z9E
+ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
+nEm
+imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
+W1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
+BYC
+AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
+Onf
+G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
+GJm
+DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
++1Q
+DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
+p8n
+91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
+zF1
+CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
+gUC
+WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
+IiL
++he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
+42f
+CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
+Urj
+EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
+45N
+GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
+Tpy
+Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
+u5r
+A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
+/N8
+GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
+j0g
+voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
+bZM
+RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
+zWw
+iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
+Xy9
+RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
+cLA
+jgQTAQgAOAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC=
+3oj
+BQJftODHAAoJEGgNwR1TC3ojZSIIAIV3makffp4P4leU8JSLt0aTNewsOhy7VQzKUtlCw3PKD=
+3l/
+SuymZhQKgH+n6sijzFauZnZ+x0T+Oy+dDVZb3sNJuuMUDIHw18EO9daZBMcueaS54FGe73lAp=
+HUl
+7nxyocCxoqIG8+fP+75itV/ls2TSh5rJvjLvHC8J3NqfGlJ/jlSKrQUnzFbXfE5KGWiKNAn+I=
+1a2
+EE0I7uLpYgkdb8hcjtV9Rxr2ja+GWOaSoqB29P5GUzipkWo4144Q16JBO6QP2R9y/1ZK9VqH2=
+5T8
+lTKocLAaHCEdpDqY5KI15as9tIxlI1Vh+eqhTh/gwEm1ykO1gmrQ1zvGLDMB1EE6El3NJ1Rob=
+21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIbAwULCQgHAgYVC=
+gkI
+CwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJe/EheAAoJEGgNwR1TC3ojq=
+RgI
+AIoegtTp1prPzfHgTAuEPd8v58ssHubwi9tg69a8IJ+iMNozhs4iUou84WOLBJNjSieXHZRa8=
+fJj
+//2/sTuABn38AQ9FcKX9/B49hrdCo6c0WHHKqlPrSTzuXNKYyOdmSFd/pDhBb2Bn5DTxxH5RP=
+m/N
+U/C9nUlwi7Y+FgBlDNa5h592wmJfv0cJAfvF56C+QL65jHFOFIW9xSaTOAxxMXHGJHXki6Iwa=
+aTg
+s7QQlKQcd5XvvED1bwLyQ7rq+MEZo5N7IygpQMM3qqGMlCnDdyQ3W95rd0HCWpfa0oVRCOwdu=
+SL3
+5hG7ONqBpvBj8z5GjSbt4HLJGvpeT0k37qzRExrCXQQQEQIAHRYhBCfo46afO8//uS2Oai53o=
+TAR
+9dPCBQJbOh1XAAoJEC53oTAR9dPC05AAoIy0HQ2DBDYugQ42P4HfyxfZTIvKAJ0fqNBcBFW9S=
+tbR
+DEP9cfpNVOv8YMLAcwQQAQgAHRYhBB5dmCGZCKOVTtjMWKpQO8muD0enBQJbOfGzAAoJEKpQO=
+8mu
+D0enL0wIAM2NTeUDCofBAkbWHGTZopclefbh0xGPYQEfttNyalp0hn1CrVO7OsX5eTjRqgyOa=
+1C5
+OAsNghCM4PUmrfv5cZ9+sNn9bRM50uVW9IFRlq8wwBY4+7QejJ5gs7DW/0tZIMZ6iTGKK0WEO=
+7gd
+2K9hXadPBScTdIqXeWH82meiqElnEQL+K9UeGUBrku+1EQIOxwziKwTDlTvhyJ+xmEKj0uWRc=
+Ocl
+27xLS9XOWPGXcNQBtlZhF8e/E1kFRt5CPP5UBdUCN8qydUadseXivSNDiYob9dyJSFt7G0Bq4=
+/ac
+Ret5ANtGRWsp8xYJQRossRMWL0w9P8SiIc2IY/JrQrpz29nCwHMEEAEIAB0WIQS7I223sZ7vx=
+shH
+HWin83wZjDkxgQUCWzoywAAKCRCn83wZjDkxgQaDCACyFuBLQWNvLT8GTDqTf/gETzmtoEM6Y=
+r8O
+4jbYg05xiFzAqMZctQsm3zHakx2JrimxDvQJRQJQzp5ICJ7J/BOuSL4FE1SPeQIfjm4jyBZGH=
+P/W
+vgHsT5e3+ZCPePPZO+3irarTKVhaaP70Tpka6EsOCZzO6L8D6tUDkhxMX0ymy7p8w9Yt1eD0o=
+Ume
+mxrKdS1ulpNJUTBw7gJN8bMowVnycEm6wntxOjrCxuwbkKhFLdn0ejcXQ0UkfbUFKfU64gGBu=
+S53
+ZlM8XlOhQEIw/FrdXszhR+Tg3Ag130cmJhOrghgOBLzvJfUd6OvDT5VIz0QGbAm8SWlAIIms1=
+9Z8
+kBsLwsCOBBMBCAA4AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjla=
+A3B
+HVMLeiMFAl+04McACgkQaA3BHVMLeiPHXAf/SEoZa6CKoOAs1ctEP/hN8cEQqbEiuZ+71nm3u=
+/BQ
+p/CEUvqGq+iVc8kkpClDbPz5fa9mb+yWwufsnXKOs6ygmEoAEOL7dBZZIaRobBEkB09VXIkx8=
+lE0
+00grBVtToHUGRfZcMoMZ98XhPGU6lJDN200j/2CV46hQDz6PLySecNjOME05mosbYW5N2JwFd=
+uXP
+Qx++DjWB32QLBhcOcP3WslTy3PKVe/TcTvk0JpPFMz4UFc+awBVhDgZiGGAW3xLZRYyhpoAEs=
+N7u
+XkV2ct0MRxuZ3y4tTYJobhbZwutRojiPPZduRw9CSpNDcQHruFiSOIQTpnLeCA6K2JAZyqmP/=
+87A
+TQRbOdLgAQgAxiY/gz9X5PlFjlq3+DutR02wuFa/UA9iuH1FB584Nges1EdQT16ixhtPpcyvJ=
+H2F
+PxeUY5hHApbCJAGhZIOJMyj9eLb2NSefgFd8janHYNNfBzbYsq0sCBNGM/6ptTrdjTGdA3b1Q=
+YNt
+iDLIrnUNbcfQh/Zrck2yF4AAr5dz1tqPQsYhzxP26IRYcGcIf5F2GABOdZYYp0N6BRHkGQN8O=
+Dk7
+8UhLKYkEfHYPKiSW/mDgHOSCpOrCZpjOyXxTFkq9trGrTNt6EN1ryW+EVeh00UwCBMsmUu4Ng=
+4Ys
+rYDButLdKnQARuSl0kFvjipWUablsClmi4d4n/6f7uvXb6Wp2wARAQABwsB8BBgBCAAmFiEEc=
+hf7
+rIzpz2NEoWjlaA3BHVMLeiMFAls50uACGwwFCQPCZwAACgkQaA3BHVMLeiOl9wgAifA/k6VwQ=
+qiR
+OccKINPPg6fLgacdE/Z9cBNBkIrGa7gAljaH2J/D01/ZOMJnoAy8Le2EA3SsUOPnk32XizUKl=
+oOj
+gn7R+Sse7I1pydPbToJ4lXUTs1ie3FSf4tKJGs53LCfp6uPFGL0RhNUsIdwOEESMqYVl+DgAz=
+gZk
+xZfWWDT54dt3mgvVqzbxa+8j+4hozJXxFvJei3Wv/xAuVaV1Tc2tMXmntMxTbLdkfaZ/my5Io=
+cAy
+1sTiMonxkcU6jcaEuCNWsFYcT0lc7TzEqSAP7Dq/zf6eiawS5/oLotiupj+2xm/IRfrM3wK2K=
+s90
+9a79Vc1FgCX+Vq3uVIjcfbqqscLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojB=
+QJf
+tOH6AAoJEGgNwR1TC3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6=
+Baa
+6H7ufXNQtThRyIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3=
+T0T
+trijKP4ASAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446S=
+h8W
+n/2DYa8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRai=
+tYJ
+4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9fOwU0EX7ThE=
+wEQ
+ANJiTIb/nQ+MPgIBsSfBBhmXrVFUwFveO6DWPZ0M+Y5xBJhvDukosstSgcLCdld4SFF2JnnCo=
+yh9
+boM2j2Ksd5wNzTzXlo3lEzFRAipftboviUjap0qxoRwy1hBV3Ft1/VyNwwYY7qjGVATQU7cIT=
+/zL
+gb+Sd0NPQA8r2NvpJq1MnI8nFfA2ZH4diuRtavhEBUzp63SlCYxnyxqT5AQzSQGUpsjSyh1A5=
+ezt
+j1pwxgnkX7F9ZT0lUBo6zZM6ZBq8Nkyvox46l79QoWMBm9y+/nIXy/uXdT6RaumPjBzVttGmk=
+Onm
+TlGUJyQAndAE1boib9iWCJ4kIr2ezRKjXJXGuaM1m7hSfdQYWed0j52+nW9qGSNNk1GjYXM8Z=
+SWT
+agX6O5mfbpzRgBBK/XoE9NWRNAa4V+tUX4/vqqDl0m+O4F2GYs6Eu7WLredRgwjDuMF/VCKvQ=
+fr3
+yjIt90Zi10cHQw3khdJWmSDKYgenpvsffo4x56biifOh6IxS/whf5/BAx4nx8GyX7JO0DUnUu=
+ieC
+NfEGRu8QbYBSOkO/vdm4xy7RZwdzlqN8zjCLFOCG346Bnsx3ku2lNtX6qZoajmfD4oO6N0Xds=
+2pE
+wjufCfJW9sCLdBmqLD5OvsRljyv7vt5w28XSF1tyhQaxIs+8sFJtwfCliduffq56FcFrEXCxs=
+LQr
+ABEBAAHCwqwEGAEIACAWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCX7ThEwIbAgJACRBoDcEdU=
+wt6
+I8F0IAQZAQgAHRYhBMZ3Zv36bjFHcGBRaJYfxNxEKL/gBQJftOETAAoJEJYfxNxEKL/gkygQA=
+LQH
+pXm45ZfMCDx7u/d7rRH/R7EfEV5OAoS981IkzbTgrb9z6YYfhQqH+R2ImgoX/Lou7zSjyd22/=
+IaZ
+AnTKHKkXIFIM1uB144dqAi3tW/Bei/CSdiD7DY1q92Ebl6e+Gpf3TZdATSY00fVeLMNFnjbbz=
+CVX
+9+LEKYARNm7kYogVJMc5CuVmXBn9FFF3cioRvpuals8llsFc4WiUBJfDfOzjXExqv3OMtJj0s=
+qlK
+sXdnLkXbtAmEvFaxqUuO1ZwTCTGflrn/g4C8Cg0ifk0wZGgGYRindkJE1vOQZPaDI7GtNxJ+D=
+sx4
+fL/8tf7Wuk3TZ6t/ofKhjq8sUVCVhnlyd/3ujruDu/PhwwYBsHjNn+PmHeCCRJuOWwKapdfjH=
+9nt
+sHXTvyXBB2D3H7Oj7S/HOTXRNTUWhaxICKtq+XDSuJKOv7CNevkjMF4ybQDsrUxnaWd76YqNP=
+vZv
+PYoTqKzKukifjGXMsxC6HU4K2GscpvoaIk7glaD+NYi3fIGi/gR0UNc6cmXtOrYKSnCsNOwcO=
+CJL
+DjEr6YdbdAXO2wxCLqnupo8JRJgA8hjjHM5OoTGEyP/c+DKDqFO90YilX1XN8xchHrw+bDv0E=
+Zm0
+RZpVdL7WNr7qQE4UhDfuyo4Gis4Z+npzoOL4g3yaQQfK32zZD9iqk9152b7ny2Ke5oFIF5SSa=
+EwH
+/2tLNBevzgzWuEB6FtqoMT5RjDyx+xBeImRlhnP0EenRh+EP0nmLCAaFiP4tTp1bX54SyByp8=
+wcN
+7F2+v2Sgdd64w1pdrjT74Zf1xj0NTxEdt5jEaPfl5Vjv3cXiB8ACwPkMIXmkJx3uaGJynl4Os=
+irb
+nzzviEzvDVpLAxL7Qr6imlKUh92iAoz+XxEDqgMZnJJOTDFdDxEBhv911VzlRraDNdxw4MHMm=
+5Nr
+5pj4HGYh3PigzNo0KIreB50YqhGOesaC4Q75gv8mLc2Ec5dEq79BVMUOaCmYDShBN9j6JovNs=
+WSR
+5YP3tXi+jZ+VnyKLft9wo1fh1oYadFEVSHgGsEY=3D
+=3DfoRs
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------A9637589CEBA874E8CD49C61--
+
+--tVmd0nbkMF25RRuTvHTWlVIS8xF14uSzo--
+
+--vHaGzUJMAoIhm7Q9JW302Dfe54rIxQSbv
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl+2OMoACgkQI1/ltBGq
-qqf7iw/+LtgMh7X4KC/Kr0ReMjh556PpY2azYkf5vzgUqvu5wGe3tlKLFCFp2OD0
-otuLVp+2xtfS8Vh1bhATNqg7gj0kr+XxaTvDa5KMmuEne4AUK/5D4lbFvY2EiuDy
-QDlPKXr12Wv1VCXXaOnYJLjeDFc/gEq9EmceDXyIsL62KmngrIslHgMOQJcyzzcn
-95VgFhI0CEJSbbgLnBtLoqTzM2tOtfPX/ZLzcSswkYwacMQePZV7Am7WiJ/WSZa8
-MpaPsNO1cdrSg2yCf39l2G3QEzQ0p6C4W4ZtDTK1nLGiA8uSyt6mVuab9VfbfpfX
-hYXmPjlXJAY2tVr2dWaKoRggwdOOnyH+5y3JA0SjZbe1kx9bzDAfcHVLPNo2t3hN
-/NigMVmoNRTYVDiBOuHR+IfFeAoYarUErchHEEgvOuWUCg6tpOLFfS2YTPiklxep
-Y/fBMy7hgqQuZ6EoUSbblceZF4whZRBfr7h6qiUDLf5hL8NP/13j88tbIYWmKtC9
-qO9y3sZbA8wKYyMJ0JlCevV0GMICxnMuyQ7L/WGa/SEJ7EsWI5hwYN/QC5UUFB6p
-c8XnHN6LaD+Ejv+i4CAlM36anhTsd2rco/t2Fn+3uYRa/p4KYa/tsqWwDRExYAfw
-oOTde3Lyt1Omk33GNnWYD8o70JTCzucrneKsQgFCbVhB/hk2bMg=
-=mSWW
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2ONkFAwAAAAAACgkQlh/E3EQov+Du
+fhAAq8oxSMG/fWKQuc07QdtSeba8f6a8OCmFLQvSE4sZvwY1eEAH0rOYnIpdtNFbThNsvthdd2vA
+beG84ZUNWDTVvh0TZmuvDCgeFUkmk6mn7eqx1Q03W4jJCJfNP1nlRSppwbzJ07pyyDcf2KhtzcGv
+TTnGIeKnIcZptgBd3JI19nSz87JHHrC/CsoiMkg6r5SIywLRmSQ5QYjSv1X82lpjeeeWzeJMw6Vm
+7n4xVmnW1kjGiDwtjaqvYi168MH45z96O85KVMGUz9f5C/Hets+nPy6acQ12D2lU3Gwzz3wRpWtf
+sNT8sA4Oemel4+JlVNMdB5H2BRCDTOOYMKvePaBp+17wja2o6wry6J8sY7Kb31czTi5tcp+BH/9C
+YWQ5NrOsFt5oDuZz/iA3WNXx8omHfW7L++fmhqS17dYDTVk5pCmnFvXO5MZiqnQMvfG7Nj5mYMkH
+icszLqQbd1x4P0mDpAHqOMJXjho17R7EdxsdezL0ySD3sgZ/r9kELxgKnLwpTrDaKmk4eMwgSbjQ
+A71jZZlMLgjkDD7zxD2nHua/RJKO3MRHx8BM+ske3g8pzabYitXhWaakBL/1tcgcEDhlKjo5Ns29
+qMa/wA0+ZPzQAzNCPgGgAQxdKleKHCkXsvA9YWe+AIYw2Ekm/ttMMQ+8nk8pq7DyGZQ84LeOP77V
+yLM=
+=k1+h
 -----END PGP SIGNATURE-----
 
---Sig_/snvZXkNcKRDH.lR5Pd=Lo9T--
+--vHaGzUJMAoIhm7Q9JW302Dfe54rIxQSbv--
 
---===============2002682261==
+--===============0637197870==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -171,4 +450,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2002682261==--
+--===============0637197870==--
