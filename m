@@ -2,73 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA982BA410
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 08:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF5B2BA433
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 09:01:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48AF36E878;
-	Fri, 20 Nov 2020 07:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 010A06E87B;
+	Fri, 20 Nov 2020 08:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE4C36E878
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 07:58:41 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AK7shCf010192;
- Fri, 20 Nov 2020 07:58:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=Y4RFNpqmvwRmfaE/MJ3Ec7T7Pl5BWnx+oB3L5JuAkak=;
- b=nWsoCCpIsHDMybGnO9Ltu7z1hoXeg3rPLeHCWoxFMewybmiRCgDOTLmrJsCfGZQbJ1DP
- B/BxNJDZwCJM6dGLytBHu+5k3DfGCv3NhKu+bS/vWouItXXr8iZPma5C/HrE94HOCyz8
- ulaYmoyM5m4m2+o7Jq8shTsOPoOnN4TnXIeDGdKJ1DSWr1m6t66D+w7GkR/Zxq6xq+sA
- YO2H8rWzh3cT+7P30rpY5pd6gEvZhCKYlNxOOIj2mXldAx9ggGYZqA6MOe3Zpre8e+YW
- XUMT9AUBVFRb0XNHj0OV1y7+ELnDuRmLUbPIBMS7uHOSzq+vhyeeSk7f3MsOo3OcZJUb HA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 34t76m9bqy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Fri, 20 Nov 2020 07:58:34 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AK7pQKn140792;
- Fri, 20 Nov 2020 07:58:33 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 34umd34a9q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 20 Nov 2020 07:58:33 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AK7wOxm006704;
- Fri, 20 Nov 2020 07:58:24 GMT
-Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 19 Nov 2020 23:58:23 -0800
-Date: Fri, 20 Nov 2020 10:58:11 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/vboxvideo: Unmap iomem on probe-failure and remove
-Message-ID: <20201120075811.GJ18329@kadam>
-References: <20201027135153.324873-1-hdegoede@redhat.com>
- <f6b034c3-ef86-7214-f65e-af93b78bd456@redhat.com>
- <20201119175131.GI18329@kadam>
- <CAKMK7uGB5-aDSyA42PVs7_86NEfinftvKWx6AKsLFjoUS-1VGw@mail.gmail.com>
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC8F16E87A;
+ Fri, 20 Nov 2020 08:01:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bidqKMfKZ1hWfjTrLrga0/N96S/XhQSqGgxEcVftpUd10d3SVG8gQugnfbIRMB+5IUM83PPZ8AwjYRwxdbpqtCRE09wRuC91XAoFjRnHnvFWGeFjSJrmvhhdBh1ZZrZFcr+9Cki7kjLI2Z0MGy6FQQW/XnanRH8kqCJUvXpoJ+w2xaT1HuhxrT935C5F+7GYQQ9l/9x7/88xZ0EZGCIiKQysDqCrWsBBhs81Swevz2A8sjBKe8eJNodxAsgheJzdjix9C6mBkVjzxHHvwWNE6eXpcDjZ9a/iNcb0fZGgHLmf71GZabj0zZki3uqvcjbvPTAC2yI3EOfUKW7O81h1ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=slZdSZId28huXdLG+blOKEou52m84PqKYC6WmPyFrRY=;
+ b=VlSYfx/Z8Ici7Kmuh0RNerl9Og/w7lpVhGsW+baRG1/k8XVwmpFPeLUxKLyx9SaFNtPSjDkfuLzwckxFpRT1ahxHxu9+yPxr8tX3jT2CTrAFmI5/xkiTOFG4YK05rgCj8vL8/5ngLUn4SVsFRC7kjxZI3jFrCqB8hfHqSfbpNosSZWHjB67WUC5J/v2E2FgjPcjo4415D64SxsaTjZCKEPsJDT+qOe0hK+4OzcOylWfRzS++Yky7EkWNG1OF3DWlGi3yNX6m54e35tO8OyPsj3EP64D1aHjwImGraaQMTlAZJFMub9C5mj02f3uGVeIZrBj3+yazywhWlS7udrW2oA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=slZdSZId28huXdLG+blOKEou52m84PqKYC6WmPyFrRY=;
+ b=BY02aIur8rj22jXsmmFOU18zVjD/uZd2MTte6z0SqQASEGzgsnEaUw4U4IzA8rU+JVxNb1J1O24XYZGQleVZcKCjYP/j6aNkx3uaEtPUF80JGQbfsWkaQ1Xxp+Yb6CmWenfC72f1dJkgSTN5+dhV2BS5CgA19beUb1ONKT/81TM=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4660.namprd12.prod.outlook.com (2603:10b6:207:34::30)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Fri, 20 Nov
+ 2020 08:01:42 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3589.022; Fri, 20 Nov 2020
+ 08:01:42 +0000
+Subject: Re: [PATCH] drm/ttm: remove unused varibles
+To: Tian Tao <tiantao6@hisilicon.com>, bskeggs@redhat.com, airlied@linux.ie,
+ daniel@ffwll.ch, sumit.semwal@linaro.org
+References: <1605854993-50218-1-git-send-email-tiantao6@hisilicon.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <b01b7e6a-eb79-296e-7f65-2015f020b56d@amd.com>
+Date: Thu, 19 Nov 2020 21:18:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <1605854993-50218-1-git-send-email-tiantao6@hisilicon.com>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR06CA0103.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::44) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGB5-aDSyA42PVs7_86NEfinftvKWx6AKsLFjoUS-1VGw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- mlxscore=0 phishscore=0
- spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011200051
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 mlxlogscore=999
- malwarescore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011200051
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR06CA0103.eurprd06.prod.outlook.com (2603:10a6:208:fa::44) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 08:01:39 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 53e3935f-01b3-4331-4243-08d88d2a83b1
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4660:
+X-Microsoft-Antispam-PRVS: <BL0PR12MB4660DEB72304ABEEED70FC2183FF0@BL0PR12MB4660.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uYhq1YZG8pHDvrrzJxec/q2lsEpZphfrGwVBpNOzBXz6wbMLWZaHPc12Lhc2R8CLN1JjjoTpDk4PmUYy5zPPfu5TIWKjx11I9elTC5DTEjJeISapRlp+eQiMhej4Z1F70YpfqVqQvZGI7zm+gjt5F8d3mvhlXWXDfeH2bz1e+94LAYm5cmM1dGxORRFkilmPbJ/TnX2K0YlNR/2xvhQk/F9OWi7FnwzC/bAjl72abmL1vzoV5H0YwgJUi1P+B2jXPZpLdGxs/KSOGDVdKYZqvQGOq5ckkQVupyRcM4S8YGQiMzEwx13f9ja3maSwbewYT+dZr+rSG39AjQJHbzY0aTmi3e1OUgMLaJmfVdzV7PQ/ytwdnVQmoJQOvsinRrb7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(346002)(376002)(136003)(366004)(6486002)(7416002)(16526019)(83380400001)(316002)(36756003)(186003)(31696002)(66946007)(31686004)(8676002)(8936002)(4326008)(6666004)(5660300002)(66556008)(52116002)(66476007)(2906002)(86362001)(66574015)(478600001)(2616005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K3R0VlhEb21UelBHdlM1Z3lmMnA2T2FEZUhvR1ZMRi9pQTJNcERuK0d6Vk5U?=
+ =?utf-8?B?MkNNSTcxb2EvNjRoTGlXTTdwZFAyL0FwRFZQOGlHNmdzMm9ySnA3VFVHRlFO?=
+ =?utf-8?B?SEJRUFZpUjY5aE5DWGV4cXVsakVEZXl5ODFVQzFoUythWVJOQk84bUNnbElx?=
+ =?utf-8?B?TllOdnA3UjRRQ0RvZ3oxL0N4ZmtBS3Q0M2Vlb3RDcFp6aUN5UHdxWEFVWk9Y?=
+ =?utf-8?B?UDBCeGtUNXRlL2NsdHYva3RjemhpRWtSRGhuajkwVUw0Z1RJeWVPVm9PQUh0?=
+ =?utf-8?B?M1llbHBveGFPdUJpMExwR0tjaDFHcU5CQlRmejh5eG41RTRXMEdRbnZpajAw?=
+ =?utf-8?B?bThYWUxKbkl2dm9HWUZTaTNLVi9saGZOL2xOSWhLTFcvejg4bXE1QllrTjhn?=
+ =?utf-8?B?dXJGTEV3YlFFM2UvbGRjc2h2NWt4V1g1YjB5OHZRb0hMaHBOTEtwT0NyVXkx?=
+ =?utf-8?B?WjlHdWRXMFh2ZTBTeEdYb1VhWU82STZ0U2pMcEk0KzJmVTViZXJHQ01QdURB?=
+ =?utf-8?B?QWEwMnA0Wld1UVRZOTFBWU5vQ2JGeVJVelVjaUE5RUp4K1lsSVJhZjNubXFh?=
+ =?utf-8?B?bUpuUlh3RVhPZC8yMDV1RDZVbnNpUGpmdGtsR2ROaTZBU2hYNXRvRnMwTDk1?=
+ =?utf-8?B?UzF5TTZzVVJwQmkyQjY4TEVaVkw2a0hkOEZib1FOS2ozRDBFNW1lMnVJbHZD?=
+ =?utf-8?B?Rnp6UEFqNTlacS9VT0E3OHRuTnJad0V3RWNtRk1ZUUIrYzFQMmZmTGkvdmFQ?=
+ =?utf-8?B?NSsrUmRkbGpEeS9jZ3JoYWMwRmdhQ01EU2EyeXpUVkI2cUtPT1JCc3pPbFlL?=
+ =?utf-8?B?anhjS0VpYkZLSVh3YVRaTjhHVy9TYTV5UHdNK3d2M292ZWFtN0I4enlRdDRY?=
+ =?utf-8?B?RnhQVC9pSkFhQW9hUEw2THZ0SWNqMHlxTnphNmY2RXNTelQ3Rm5JcEdMdFp0?=
+ =?utf-8?B?VCs0ZFovQjMrYmUvOXNFQ3c0UGJtSEM0b3RFRXUxdTVwenNoeVpnSDNscDdW?=
+ =?utf-8?B?SjNzWGRVcDc0WlJTRy9jSU1LdVVJSS92MjlieitsRXZwbnlXRG9sdEl0TGxu?=
+ =?utf-8?B?NmxOOS90L2s3UThRVkFNK214RjFqUkdyblhGODE3K1JJdVIzNkx1bmFFQ3lK?=
+ =?utf-8?B?eHVBYXRVL0s4VTl4aU4yVXY2M0VIT21Wa0RPaHFObE1vSUVUcWNOeUlJOFJE?=
+ =?utf-8?B?NHlEQlY3dU1XSjNDSjZPZ2lXQy9FamJobnJJbFlhRjFkRnlpcU1rNkJiWC9K?=
+ =?utf-8?B?TnhTcWNEVzJ0UzhKV3J2NmxBRW1IQzI2eTlBL25CYkVvelNTQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53e3935f-01b3-4331-4243-08d88d2a83b1
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 08:01:42.0984 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1lQ1C/WwxCior8HHMz1Xl5RdEXoBy1nawGq4qMZpHQft++uR3U6ySt5C9XtPrXLH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4660
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,80 +118,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linaro-mm-sig@lists.linaro.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 19, 2020 at 08:30:59PM +0100, Daniel Vetter wrote:
-> On Thu, Nov 19, 2020 at 6:51 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >
-> > On Thu, Nov 19, 2020 at 12:35:56PM +0100, Hans de Goede wrote:
-> > > Hi,
-> > >
-> > > On 10/27/20 2:51 PM, Hans de Goede wrote:
-> > > > Add missing pci_iounmap() calls to properly unmap the memory on
-> > > > probe-failure and remove.
-> > > >
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > >
-> > > For some reason the spam-filter used by Red Hat's email system has eaten
-> > > Daniel Vetter's reply to this, so let me copy and paste that from patchwork:
-> > >
-> > > Daniel Vetter wrote:
-> > >
-> > > > I think switching over to devm would be really nice. And for pci all
-> > > > you need to do is use pcim_enable_device and delete all the cleanup
-> > > > code, and it's all done. Hand rolling device cleanup code really isn't
-> > > > a great idea and way too error-prone. Plus you're using lots of devm_
-> > > > already.
-> > >
-> > > Good point, so I just checked and the vboxvideo code is already
-> > > using pcim_enable_device() so it looks like this is a false-positive
-> > > from the lkp@intel.com bot, and Dan Carpenter missed that pcim_enable_device()
-> > > makes all subsequent pci-resource acquiring calls behave like devm calls,
-> > > when he forwarded the report to me.
-> > >
-> > > Tl;DR: there is no bug / leak and this patch can be dropped.
-> > >
-> > > Is there a place where I can report a bug against the lkp@intel.com bot
-> > > for this false-positive ?
-> >
-> > Ah.  Thanks!
-> >
-> > This is a Smatch bug.  There is a list for that smatch@vger.kernel.org
-> > but I already remove the pci_iomap() from the list of functions that
-> > needs to be unwound based on your report.
-> 
-> I guess if smatch sees a pci_enable_device but not pcim_enable_device
-> on the same device as passed to pci_iomap (and a pile of other pci
-> functions) then it still must be unwound. Could smatch detect that?
-> There's a lot of pci drivers not using the managed functions, catching
-> bugs in these would be good.
-
-It's a lot of code.  There would be two ways to implement this:
-
-1) Somehow store the links to figure out the value of:
-
-	 devres_find(vbox->ddev.pdev.dev)->enabled
-
-That's very complicated.  I'm sort of working on some of the steps
-involved but and it's probably a multi year process before it's
-possible.
-
-2) Create a data base table with driver data, then store if the driver
-calls pcim_enable_device().  This is still a bit of work, but probably
-straight forward.  Storing driver data would be useful for other things
-as well.
-
-regards,
-dan carpenter
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjAuMTEuMjAgdW0gMDc6NDkgc2NocmllYiBUaWFuIFRhbzoKPiBmaXhlZCB0aGUgZm9sbG93
+aW5nIHdhcm5pbmdzCj4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jOjEyMjc6
+MTc6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmGRlduKAmQo+IHNldCBidXQgbm90IHVzZWQgWy1XdW51
+c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4gZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9i
+by5jOjEyNTE6MTc6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmGRlduKAmQo+IHNldCBidXQgbm90IHVz
+ZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4KPiBTaWduZWQtb2ZmLWJ5OiBUaWFuIFRh
+byA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KClRoZSBzdWJqZWN0IHNob3VsZCByZWFkIGRybS9u
+b3V2ZWF1IGluc3RlYWQgb2YgZHJtL3R0bSwgYnV0IGFwYXJ0IGZyb20gCnRoYXQgdGhlIHBhdGNo
+IGlzIEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+Cgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jIHwgMiAtLQo+
+ICAgMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jIGIvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
+bm91dmVhdV9iby5jCj4gaW5kZXggN2FhNDI4Ni4uOTQ2NWY1NiAxMDA2NDQKPiAtLS0gYS9kcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0v
+bm91dmVhdS9ub3V2ZWF1X2JvLmMKPiBAQCAtMTIyOCw3ICsxMjI4LDYgQEAgbm91dmVhdV90dG1f
+dHRfcG9wdWxhdGUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJkZXYsCj4gICB7Cj4gICAJc3RydWN0
+IHR0bV90dCAqdHRtX2RtYSA9ICh2b2lkICopdHRtOwo+ICAgCXN0cnVjdCBub3V2ZWF1X2RybSAq
+ZHJtOwo+IC0Jc3RydWN0IGRldmljZSAqZGV2Owo+ICAgCWJvb2wgc2xhdmUgPSAhISh0dG0tPnBh
+Z2VfZmxhZ3MgJiBUVE1fUEFHRV9GTEFHX1NHKTsKPiAgIAo+ICAgCWlmICh0dG1fdHRfaXNfcG9w
+dWxhdGVkKHR0bSkpCj4gQEAgLTEyNDIsNyArMTI0MSw2IEBAIG5vdXZlYXVfdHRtX3R0X3BvcHVs
+YXRlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2LAo+ICAgCX0KPiAgIAo+ICAgCWRybSA9IG5v
+dXZlYXVfYmRldihiZGV2KTsKPiAtCWRldiA9IGRybS0+ZGV2LT5kZXY7Cj4gICAKPiAgIAlyZXR1
+cm4gdHRtX3Bvb2xfYWxsb2MoJmRybS0+dHRtLmJkZXYucG9vbCwgdHRtLCBjdHgpOwo+ICAgfQoK
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
+IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
