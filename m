@@ -2,87 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D34D2B9002
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 11:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296AF2B9004
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 11:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF0F56E57A;
-	Thu, 19 Nov 2020 10:23:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79D66E59B;
+	Thu, 19 Nov 2020 10:23:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C5C6E59B
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 10:23:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FdDU2wgxZ2ZP4yrX0fry6vVETaCRo0Sg4E2Au/48O12BwBIBoS12/e4LXbD347t4H18a8x+ekqrPPn1BoTQQreSKU+qKcTyeNhhTkkKiDCFk1y69aZdPz+L/8G1SUWy1tUR/C1PdkoLitdMncnws7ltXGcoXfaMZc1n5VgRyyVaqI/fyUjI47wDDcqeLR+y/f19UkRRVjEccTdIJi713UtKjvRvdVt2wV+ty8lFVMaj0zzfF629wZ2I0IL0NdxIkKCRXx5tF9vTXx/EpKtP9ALniDZFcMLhO5XPdg9AIs+7ugNC+bMlQQIuior++dN5Haslicp+WIkCFlhMpz+LKRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u16ohsnLEA/SFBVNFebFVkt4RulM+AcFgbeMvH5kRlk=;
- b=MJ+k7DhKpr8VEg1MBwO1/2G6vZqIGHid17OqbcCYVfoskaNv+aOEVdZ51JteHKeBu0PZqvLADLSMf59i1p7PBliR2aW79aqvCAlMLDFeJh5ITCTiTEKtbJVpaMOCv6gc12054KRPAA2PgxW8Ij0jqVZheH/0klCngoNV6TuY9KsvJts5pNThmkvGUcpd5Ffgl4CGFR/4j9YZh42Y+scmNGDJwLXVvLTiODCzub/Jzkx2mseXz/gLYrV+1WeW3rsVudO4aJPbOEZPSwzjWCvSSGpEs/DJgUmA7D0yFrqKpbeRrQErRJv7mGgDak046ILKNoKsOTorQLgDIuheTcRSvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u16ohsnLEA/SFBVNFebFVkt4RulM+AcFgbeMvH5kRlk=;
- b=gKsJWJ3op9zUWYLr9H9wmwDYSd7+ja+BGpAeJr1qYLtNlQ+BMKPgXyZjrCx3sMGo0C7ITZtgWvwtuQNc3iOkgIFIMqIu8r4lNhMuoeh0Y0XpHcHGPqwriUDsjFDjY4kvEwLxryeTX1Pn9PyQUYuqKOXl5u5YdKOUR7x/jtYX1+8=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-Received: from MWHPR12MB1248.namprd12.prod.outlook.com (2603:10b6:300:12::21)
- by MW3PR12MB4426.namprd12.prod.outlook.com (2603:10b6:303:58::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Thu, 19 Nov
- 2020 10:23:04 +0000
-Received: from MWHPR12MB1248.namprd12.prod.outlook.com
- ([fe80::4590:261a:f3b1:a1a2]) by MWHPR12MB1248.namprd12.prod.outlook.com
- ([fe80::4590:261a:f3b1:a1a2%9]) with mapi id 15.20.3589.021; Thu, 19 Nov 2020
- 10:23:04 +0000
-Date: Thu, 19 Nov 2020 18:22:54 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Subject: Re: [PATCH] drm/ttm: fix DMA32 handling in the global page pool
-Message-ID: <20201119102254.GA2562865@hr-amd>
-References: <20201117155334.7855-1-christian.koenig@amd.com>
- <cd99b824-f08b-f06c-bb0b-e25e6875f89a@gmail.com>
-Content-Disposition: inline
-In-Reply-To: <cd99b824-f08b-f06c-bb0b-e25e6875f89a@gmail.com>
-X-Originating-IP: [58.247.170.245]
-X-ClientProxiedBy: HK2PR03CA0055.apcprd03.prod.outlook.com
- (2603:1096:202:17::25) To MWHPR12MB1248.namprd12.prod.outlook.com
- (2603:10b6:300:12::21)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0BF6E59B;
+ Thu, 19 Nov 2020 10:23:52 +0000 (UTC)
+IronPort-SDR: hTdplzQBW6KUjgPsvk65oW9WBOWylfzYYA9NpeXXzAUQ3DWWVYnlgwOIRsTi1g1aI4SetCbAGJ
+ a054ziuhAhew==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="159037819"
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="159037819"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2020 02:23:51 -0800
+IronPort-SDR: 3KQHzzmTYQZlQinpzNdU/vTG91JRqSjqMbVbb+oUajpRI+a2naaK0IONSHjy0EWw8E2Mb55lbb
+ 141qLjtCwLhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="401473541"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by orsmga001.jf.intel.com with ESMTP; 19 Nov 2020 02:23:51 -0800
+Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 19 Nov 2020 02:23:50 -0800
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 19 Nov 2020 15:53:47 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
+ Thu, 19 Nov 2020 15:53:47 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v2 08/13] drm/i915: Add support for starting FRL training
+ for HDMI2.1 via PCON
+Thread-Topic: [PATCH v2 08/13] drm/i915: Add support for starting FRL training
+ for HDMI2.1 via PCON
+Thread-Index: AQHWsDe5hDntDBW61kuHro1Ov4TMu6nPW48w
+Date: Thu, 19 Nov 2020 10:23:47 +0000
+Message-ID: <f1a4c9a7959e47ef8e4e5060ba366e56@intel.com>
+References: <20201101100657.12087-1-ankit.k.nautiyal@intel.com>
+ <20201101100657.12087-9-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201101100657.12087-9-ankit.k.nautiyal@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from hr-amd (58.247.170.245) by
- HK2PR03CA0055.apcprd03.prod.outlook.com (2603:1096:202:17::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.11 via Frontend Transport; Thu, 19 Nov 2020 10:23:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: eb8bf63c-38c9-4982-6ba2-08d88c751996
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4426:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MW3PR12MB44264E5CE38DE770E0F4F43EECE00@MW3PR12MB4426.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /cel3pKOQWzvOOGuBg15PfUcoVOnShxqbrRXz7NzWr6GAyTJxWkd3y3JMUsDhYuaZ/dbcAmwgO5HIXnOZrNN6p0hk2kZDs3rCEbd8ISvUFSEeU059lSX/vFpOonOD/acbb1kuPiaWxSdTclVMOZLzPL59hdG/0kAbg2Z7aXyOi+6A2YKbqaQHapl94HzXJEXUSs+a4UAhKB/PGEnfL3F3Oabncols7Up0Y7vOjXLn/CZd4A4i9ouu5gCFbVBW9UOyUHcTKLw4FpANRq/+sqnMTCg1HUwxsyVEEkVT/37pUy1MjJtPW5RfLU2iqEaE2zJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR12MB1248.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(396003)(376002)(136003)(346002)(478600001)(8676002)(66574015)(6666004)(52116002)(4326008)(83380400001)(9686003)(1076003)(55016002)(86362001)(2906002)(6916009)(5660300002)(33716001)(66946007)(66556008)(66476007)(26005)(6496006)(8936002)(33656002)(316002)(186003)(956004)(16526019)(54906003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: pZILj7/C3QJFY0yEwtQCLuTY/jE8iHd7EcCFXcpmSPNkRmPaiCBH2GoEKNlzyXVHD69pCda5+j64VjqdicpXo2goOpWr4LeSy2CWmvbLSMM4Mh0h6xW9rK6F6ugbLyMtwVQViNfhnXq3IAfHeQQoMANrXdg2/uQ7tOs2PId8tu++8yg6TUoGKZjDZazilFAarPaIC/C4snH0p2WzXM0kSxCs7s28CgyPx+7bIeWys0dfsh+tyDqJrDDGwNajyFN+L1NwgRMn4uXkDQI+vqDdxcdlmBpAVLSaHq0nf9TublPCvEqRDK2UFjhfuGKplCDOCuWgzQodijcIbiURjef5CmSvTDobQsxfqcL+1v/IHjuNzZU7e4vxMtij1kRn5lYL9BBckEph9nkuVuZofTbSxCuRCiGXhjXPuhS0xD5968JmEm951RCEl1heKEgOntdm4w21hhg+BcjPpkFFxE8qyvCJwHgpGeLi1p8LUSYN6I2ROHwrIeIe4kiVglMZ2LjQoUNDeapKp3f4ixejco3D6DGyZ/qYshhKZcq5Wg9JbOj7OuBJTHycZFGOdtdhYqglBLxPW97gPGg0xbQq8+458MAqS3/CF1V3/87pES5HleoqYjyj80i/5eKkC0fsR2E1/U+7qtxOII1SaNB4vSG0uBKK+u+XyJ64tPuK6HPsjGbaUWJNHQgz7SW45xm79n8yaMAzah+VuoouEMotrc9Q9gIOgNQ06CZCeqUeyYPJR89+XTolSRbAdVxVvYuzejF5OCAmYrVxhpu6hLnuNHpGIeYrbKwb8TmLuW0LXXp4S2QYTKtZdk9r0BD3EUu3XjLoZL/3tcBc1xcIwQghuFMTr3WGhyuLgZk/S8V4MXpiJy3TWYhZX/TfY1HhuhfjpAgy8STeRXUOJt1CbIp9vxpkzA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb8bf63c-38c9-4982-6ba2-08d88c751996
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR12MB1248.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 10:23:04.3574 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jSUOaYfPxPAqAd0hFMv8qvFQqLo+z7ZrH4E3Ipjll1tRRHiEABvtQDLV/ujMhaL3YI+bmAm+GQh7YGGv5aIg6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4426
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,107 +72,308 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Zhou, David\(ChunMing\)" <David1.Zhou@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma, 
+ Swati2" <swati2.sharma@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 19, 2020 at 05:21:51PM +0800, Christian K=F6nig wrote:
-> Ping, can I get an rb or at least Acked-by for this?
-> =
 
-> Thanks in advance,
-> Christian.
-> =
 
-> Am 17.11.20 um 16:53 schrieb Christian K=F6nig:
-> > When we have mixed DMA32 and non DMA32 device in one system
-> > it could otherwise happen that the DMA32 device gets pages
-> > it can't work with.
-> >
-> > Signed-off-by: Christian K=F6nig <christian.koenig@amd.com>
+> -----Original Message-----
+> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
+> Sent: Sunday, November 1, 2020 3:37 PM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
+> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
+> Sharma, Swati2 <swati2.sharma@intel.com>
+> Subject: [PATCH v2 08/13] drm/i915: Add support for starting FRL training for
+> HDMI2.1 via PCON
+> 
+> This patch adds functions to start FRL training for an HDMI2.1 sink, connected via
+> a PCON as a DP branch device.
+> This patch also adds a new structure for storing frl training related data, when
+> FRL training is completed.
+> 
+> v2: As suggested by Uma Shankar:
+> -renamed couple of variables for better clarity -tweaked the macros used for
+> correct semantics for true/false -fixed other styling issues.
 
-Looks good for me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
-Reviewed-by: Huang Rui <ray.huang@amd.com>
-
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_pool.c | 22 ++++++++++++++++++++++
-> >   1 file changed, 22 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_p=
-ool.c
-> > index 1b96780b4989..5455b2044759 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> > @@ -63,6 +63,9 @@ static atomic_long_t allocated_pages;
-> >   static struct ttm_pool_type global_write_combined[MAX_ORDER];
-> >   static struct ttm_pool_type global_uncached[MAX_ORDER];
-> >   =
-
-> > +static struct ttm_pool_type global_dma32_write_combined[MAX_ORDER];
-> > +static struct ttm_pool_type global_dma32_uncached[MAX_ORDER];
-> > +
-> >   static spinlock_t shrinker_lock;
-> >   static struct list_head shrinker_list;
-> >   static struct shrinker mm_shrinker;
-> > @@ -290,8 +293,14 @@ static struct ttm_pool_type *ttm_pool_select_type(=
-struct ttm_pool *pool,
-> >   #ifdef CONFIG_X86
-> >   	switch (caching) {
-> >   	case ttm_write_combined:
-> > +		if (pool->use_dma32)
-> > +			return &global_dma32_write_combined[order];
-> > +
-> >   		return &global_write_combined[order];
-> >   	case ttm_uncached:
-> > +		if (pool->use_dma32)
-> > +			return &global_dma32_uncached[order];
-> > +
-> >   		return &global_uncached[order];
-> >   	default:
-> >   		break;
-> > @@ -570,6 +579,11 @@ int ttm_pool_debugfs(struct ttm_pool *pool, struct=
- seq_file *m)
-> >   	seq_puts(m, "uc\t:");
-> >   	ttm_pool_debugfs_orders(global_uncached, m);
-> >   =
-
-> > +	seq_puts(m, "wc 32\t:");
-> > +	ttm_pool_debugfs_orders(global_dma32_write_combined, m);
-> > +	seq_puts(m, "uc 32\t:");
-> > +	ttm_pool_debugfs_orders(global_dma32_uncached, m);
-> > +
-> >   	for (i =3D 0; i < TTM_NUM_CACHING_TYPES; ++i) {
-> >   		seq_puts(m, "DMA ");
-> >   		switch (i) {
-> > @@ -640,6 +654,11 @@ int ttm_pool_mgr_init(unsigned long num_pages)
-> >   		ttm_pool_type_init(&global_write_combined[i], NULL,
-> >   				   ttm_write_combined, i);
-> >   		ttm_pool_type_init(&global_uncached[i], NULL, ttm_uncached, i);
-> > +
-> > +		ttm_pool_type_init(&global_dma32_write_combined[i], NULL,
-> > +				   ttm_write_combined, i);
-> > +		ttm_pool_type_init(&global_dma32_uncached[i], NULL,
-> > +				   ttm_uncached, i);
-> >   	}
-> >   =
-
-> >   	mm_shrinker.count_objects =3D ttm_pool_shrinker_count;
-> > @@ -660,6 +679,9 @@ void ttm_pool_mgr_fini(void)
-> >   	for (i =3D 0; i < MAX_ORDER; ++i) {
-> >   		ttm_pool_type_fini(&global_write_combined[i]);
-> >   		ttm_pool_type_fini(&global_uncached[i]);
-> > +
-> > +		ttm_pool_type_fini(&global_dma32_write_combined[i]);
-> > +		ttm_pool_type_fini(&global_dma32_uncached[i]);
-> >   	}
-> >   =
-
-> >   	unregister_shrinker(&mm_shrinker);
-> =
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_types.h    |   7 +
+>  drivers/gpu/drm/i915/display/intel_dp.c       | 189 ++++++++++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.h       |   2 +
+>  3 files changed, 198 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
+> b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 282c6ee76384..2c58d63928b8 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1286,6 +1286,11 @@ struct intel_dp_compliance {
+>  	u8 test_lane_count;
+>  };
+> 
+> +struct intel_dp_pcon_frl {
+> +	bool is_trained;
+> +	int trained_rate_gbps;
+> +};
+> +
+>  struct intel_dp {
+>  	i915_reg_t output_reg;
+>  	u32 DP;
+> @@ -1407,6 +1412,8 @@ struct intel_dp {
+> 
+>  	bool hobl_failed;
+>  	bool hobl_active;
+> +
+> +	struct intel_dp_pcon_frl frl;
+>  };
+> 
+>  enum lspcon_vendor {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
+> b/drivers/gpu/drm/i915/display/intel_dp.c
+> index caf7666f1892..7feee2adf9b2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -2871,6 +2871,9 @@ static void intel_dp_prepare(struct intel_encoder
+> *encoder,
+>  			intel_dp->DP |= DP_PIPE_SEL_CHV(crtc->pipe);
+>  		else
+>  			intel_dp->DP |= DP_PIPE_SEL(crtc->pipe);
+> +
+> +		intel_dp->frl.is_trained = false;
+> +		intel_dp->frl.trained_rate_gbps = 0;
+>  	}
+>  }
+> 
+> @@ -3769,6 +3772,8 @@ static void intel_disable_dp(struct intel_atomic_state
+> *state,
+>  	intel_edp_backlight_off(old_conn_state);
+>  	intel_dp_set_power(intel_dp, DP_SET_POWER_D3);
+>  	intel_edp_panel_off(intel_dp);
+> +	intel_dp->frl.is_trained = false;
+> +	intel_dp->frl.trained_rate_gbps = 0;
+>  }
+> 
+>  static void g4x_disable_dp(struct intel_atomic_state *state, @@ -3864,6
+> +3869,190 @@ cpt_set_link_train(struct intel_dp *intel_dp,
+>  	intel_de_posting_read(dev_priv, intel_dp->output_reg);  }
+> 
+> +static int intel_dp_get_max_rate_gbps(struct intel_dp *intel_dp) {
+> +	int max_link_clock, max_lanes, max_rate_khz, max_rate_gbps;
+> +
+> +	max_link_clock = intel_dp_max_link_rate(intel_dp);
+> +	max_lanes = intel_dp_max_lane_count(intel_dp);
+> +	max_rate_khz = intel_dp_max_data_rate(max_link_clock, max_lanes);
+> +	max_rate_gbps = 8 * DIV_ROUND_UP(max_rate_khz, 1000000);
+> +
+> +	return max_rate_gbps;
+> +}
+> +
+> +static int intel_dp_pcon_get_frl_mask(u8 frl_bw_mask) {
+> +	int bw_gbps[] = {9, 18, 24, 32, 40, 48};
+> +	int i;
+> +
+> +	for (i = ARRAY_SIZE(bw_gbps) - 1; i >= 0; i--) {
+> +		if (frl_bw_mask & (1 << i))
+> +			return bw_gbps[i];
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int intel_dp_pcon_set_frl_mask(int max_frl) {
+> +
+> +	switch (max_frl) {
+> +	case 48:
+> +		return DP_PCON_FRL_BW_MASK_48GBPS;
+> +	case 40:
+> +		return DP_PCON_FRL_BW_MASK_40GBPS;
+> +	case 32:
+> +		return DP_PCON_FRL_BW_MASK_32GBPS;
+> +	case 24:
+> +		return DP_PCON_FRL_BW_MASK_24GBPS;
+> +	case 18:
+> +		return DP_PCON_FRL_BW_MASK_18GBPS;
+> +	case 9:
+> +		return DP_PCON_FRL_BW_MASK_9GBPS;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int intel_dp_hdmi_sink_max_frl(struct intel_dp *intel_dp) {
+> +	struct intel_connector *intel_connector = intel_dp->attached_connector;
+> +	struct drm_connector *connector = &intel_connector->base;
+> +
+> +	return (connector->display_info.hdmi.max_frl_rate_per_lane *
+> +		connector->display_info.hdmi.max_lanes);
+> +}
+> +
+> +static int intel_dp_pcon_start_frl_training(struct intel_dp *intel_dp)
+> +{ #define PCON_EXTENDED_TRAIN_MODE (1 > 0) #define
+> PCON_CONCURRENT_MODE
+> +(1 > 0) #define PCON_SEQUENTIAL_MODE !PCON_CONCURRENT_MODE #define
+> +PCON_NORMAL_TRAIN_MODE !PCON_EXTENDED_TRAIN_MODE #define
+> +TIMEOUT_FRL_READY_MS 500 #define TIMEOUT_HDMI_LINK_ACTIVE_MS 1000
+> +
+> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
+> +	int max_frl_bw, max_pcon_frl_bw, max_sink_frl_bw, max_rate_gbps,
+> max_edid_frl_bw, ret;
+> +	u8 max_frl_bw_mask = 0, frl_trained_mask;
+> +	bool is_active;
+> +
+> +	ret = drm_dp_pcon_reset_frl_config(&intel_dp->aux);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	max_rate_gbps = intel_dp_get_max_rate_gbps(intel_dp);
+> +	drm_dbg(&i915->drm, "Source max rate = %d Gbps\n", max_rate_gbps);
+> +
+> +	max_pcon_frl_bw = intel_dp->dfp.pcon_max_frl_bw;
+> +	drm_dbg(&i915->drm, "PCON max rate = %d Gbps\n", max_pcon_frl_bw);
+> +
+> +	/* Double Check from HDMI SINK EDID */
+> +	max_edid_frl_bw = intel_dp_hdmi_sink_max_frl(intel_dp);
+> +	drm_dbg(&i915->drm, "Sink max rate from EDID = %d Gbps\n",
+> +max_edid_frl_bw);
+> +
+> +	max_sink_frl_bw = intel_dp->dfp.sink_max_frl_bw;
+> +	drm_dbg(&i915->drm, "Sink max rate from PCON = %d Gbps\n",
+> +max_sink_frl_bw);
+> +
+> +	/*
+> +	 * TODO MAX SINK FRL from PCON is not enumerated. Using MAX FRL
+> value
+> +	 * directly from EDID. Need to confirm from Spec.
+> +	 */
+> +	max_frl_bw = min(max_rate_gbps, min(max_edid_frl_bw,
+> +max_pcon_frl_bw));
+> +
+> +	if (max_frl_bw <= 0)
+> +		return -EINVAL;
+> +
+> +	ret = drm_dp_pcon_frl_prepare(&intel_dp->aux, false);
+> +	if (ret < 0)
+> +		return ret;
+> +	/* Wait for PCON to be FRL Ready */
+> +	wait_for(is_active = drm_dp_pcon_is_frl_ready(&intel_dp->aux) == true,
+> +TIMEOUT_FRL_READY_MS);
+> +
+> +	if (!is_active)
+> +		return -ETIMEDOUT;
+> +
+> +	max_frl_bw_mask = intel_dp_pcon_set_frl_mask(max_frl_bw);
+> +	ret = drm_dp_pcon_frl_configure_1(&intel_dp->aux, max_frl_bw,
+> PCON_SEQUENTIAL_MODE);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = drm_dp_pcon_frl_configure_2(&intel_dp->aux, max_frl_bw_mask,
+> PCON_NORMAL_TRAIN_MODE);
+> +	if (ret < 0)
+> +		return ret;
+> +	ret = drm_dp_pcon_frl_enable(&intel_dp->aux);
+> +	if (ret < 0)
+> +		return ret;
+> +	/*
+> +	 * Wait for FRL to be completed
+> +	 * Check if the HDMI Link is up and active.
+> +	 */
+> +	wait_for(is_active = drm_dp_pcon_hdmi_link_active(&intel_dp->aux) ==
+> +true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
+> +
+> +	if (!is_active)
+> +		return -ETIMEDOUT;
+> +
+> +	/* Verify HDMI Link configuration shows FRL Mode */
+> +	if (DP_PCON_HDMI_MODE_FRL !=
+> drm_dp_pcon_hdmi_link_mode(&intel_dp->aux, &frl_trained_mask)) {
+> +		drm_dbg(&i915->drm, "HDMI couldn't be trained in FRL
+> Mode\n");
+> +		return -EINVAL;
+> +	}
+> +	drm_dbg(&i915->drm, "MAX_FRL_MASK = %u, FRL_TRAINED_MASK =
+> %u\n",
+> +max_frl_bw_mask, frl_trained_mask);
+> +
+> +	/*
+> +	 * Read HDMI_LINK_STATUS_TRAINED 0x2005 bit 5
+> +	 * TODO: Details not mentioned in spec. Need to check.
+> +	 */
+> +
+> +	intel_dp->frl.trained_rate_gbps =
+> intel_dp_pcon_get_frl_mask(frl_trained_mask);
+> +	intel_dp->frl.is_trained = true;
+> +	drm_dbg(&i915->drm, "FRL trained with : %d Gbps\n",
+> +intel_dp->frl.trained_rate_gbps);
+> +
+> +	return 0;
+> +}
+> +
+> +static bool intel_dp_is_frl_required(struct intel_dp *intel_dp) {
+> +	if (!intel_dp->frl.is_trained)
+> +		return true;
+> +	/*
+> +	 * #TODO check if the mode really required FRL or can work
+> +	 * with TMDS mode.
+> +	 */
+> +
+> +	return false;
+> +}
+> +
+> +static bool intel_dp_is_hdmi_2_1_sink(struct intel_dp *intel_dp) {
+> +	if (drm_dp_is_branch(intel_dp->dpcd) &&
+> +	    intel_dp_hdmi_sink_max_frl(intel_dp) > 0)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +void intel_dp_check_frl_training(struct intel_dp *intel_dp) {
+> +	struct drm_i915_private *dev_priv = dp_to_i915(intel_dp);
+> +
+> +	if (!intel_dp_is_hdmi_2_1_sink(intel_dp) ||
+> +	    !intel_dp_is_frl_required(intel_dp))
+> +		return;
+> +
+> +	if (intel_dp_pcon_start_frl_training(intel_dp) < 0) {
+> +		int ret, mode;
+> +
+> +		drm_dbg(&dev_priv->drm, "Couldnt set FRL mode, continuing
+> with TMDS mode\n");
+> +		ret = drm_dp_pcon_reset_frl_config(&intel_dp->aux);
+> +		mode = drm_dp_pcon_hdmi_link_mode(&intel_dp->aux, NULL);
+> +
+> +		if (ret < 0 || mode != DP_PCON_HDMI_MODE_TMDS)
+> +			drm_dbg(&dev_priv->drm, "Issue with PCON, cannot set
+> TMDS mode\n");
+> +	} else {
+> +		drm_dbg(&dev_priv->drm, "FRL training Completed\n");
+> +	}
+> +}
+> +
+>  static void
+>  g4x_set_link_train(struct intel_dp *intel_dp,
+>  		   const struct intel_crtc_state *crtc_state, diff --git
+> a/drivers/gpu/drm/i915/display/intel_dp.h
+> b/drivers/gpu/drm/i915/display/intel_dp.h
+> index 3f862b4fd34f..a667d3f578d6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.h
+> @@ -143,4 +143,6 @@ bool intel_dp_initial_fastset_check(struct intel_encoder
+> *encoder,  void intel_dp_sync_state(struct intel_encoder *encoder,
+>  			 const struct intel_crtc_state *crtc_state);
+> 
+> +void intel_dp_check_frl_training(struct intel_dp *intel_dp);
+> +
+>  #endif /* __INTEL_DP_H__ */
+> --
+> 2.17.1
 
 _______________________________________________
 dri-devel mailing list
