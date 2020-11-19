@@ -1,48 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263842B9713
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:01:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C2D2B9714
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 17:01:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD0F66E58E;
-	Thu, 19 Nov 2020 16:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B916E56A;
+	Thu, 19 Nov 2020 16:01:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E784B6E56A
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:44 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1dXD003081;
- Thu, 19 Nov 2020 10:01:39 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE616E593
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:01:47 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1gD1003102;
+ Thu, 19 Nov 2020 10:01:42 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1605801699;
- bh=c9S1iFwPdQGKJHdVmfukzCGnWnUbp22AYhsDCqoW174=;
- h=From:To:CC:Subject:Date;
- b=humrKrPlhdDV+oZ6tO7WES8tcYGKCQXgjVnWlibL0dRNucNzyRT67/0Zih+BK+Aga
- DDPmo6qfwe2i+Z4QgREC5z41HG+tQmbv1GNwks0RsZ4lmO4Gb8A0LHMMa0CQeAVP9x
- xjAGyhl5B0rutCwMaPjFeGZIic6IhFeBfco9nHas=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1dog116097
+ s=ti-com-17Q1; t=1605801702;
+ bh=u1HyB5az2e+4f2qxnBc7bPIEkA33h3rHnh4zU3Ipf5g=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References;
+ b=YFI1fTRIKu969Zguarksr272wpsD9YFXpSvM/4WliqoP8WljVESaLyPwOXKltrzFA
+ dFMDPaw25h9n9OeAHbbVavR2fuy4W4aDI0VlFPl41A/9kDnV8LB25B+R5iyOUdRx4q
+ m5NwaT0eKCEyhDJ1obxw76xVeC1dICUio4BEv8ME=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AJG1ggT004120
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 19 Nov 2020 10:01:39 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 19 Nov 2020 10:01:42 -0600
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 19
- Nov 2020 10:01:39 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 10:01:42 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 19 Nov 2020 10:01:39 -0600
+ Frontend Transport; Thu, 19 Nov 2020 10:01:42 -0600
 Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1app003251; 
- Thu, 19 Nov 2020 10:01:37 -0600
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AJG1apq003251; 
+ Thu, 19 Nov 2020 10:01:40 -0600
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v3 0/6] drm/tidss: Use new connector model for tidss
-Date: Thu, 19 Nov 2020 21:31:28 +0530
-Message-ID: <20201119160134.9244-1-nikhil.nd@ti.com>
+Subject: [PATCH v3 1/6] drm: bridge: Propagate the bus flags from
+ bridge->timings
+Date: Thu, 19 Nov 2020 21:31:29 +0530
+Message-ID: <20201119160134.9244-2-nikhil.nd@ti.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201119160134.9244-1-nikhil.nd@ti.com>
+References: <20201119160134.9244-1-nikhil.nd@ti.com>
 MIME-Version: 1.0
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -65,31 +68,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series moves the tidss to using new connectoe model, where the 
-SoC driver (tidss) creates the connector and all the bridges are 
-attached with the flag DRM_BRIDGE_ATTACH_NO_CONNECTOR
+bus_flags can be specified by a bridge in the timings.
+If the bridge provides it, Override the bus_flags when propagating
+from next bridge.
 
-Since the bridges do not create the connector, the bus format and
-bus_flag is set after the format negotiation.
-Support format negotiations in the tfp410 and mhdp bridge drivers
-as a first step before moving the connector model.
+Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+---
 
-Nikhil Devshatwar (6):
-  drm: bridge: Propagate the bus flags from bridge->timings
-  drm/bridge: tfp410: Support format negotiation hooks
-  drm/bridge: mhdp8546: Add minimal format negotiation
-  drm/tidss: Set bus_format correctly from bridge/connector
-  drm/tidss: Move to newer connector model
-  drm/bridge: cdns-mhdp8546: Fix the interrupt enable/disable
+Notes:
+    changes from v2:
+    * update comment
+    changes from v1:
+    * Check for timings
+    * Prioritize timings flags over next bridge's flags
 
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 69 +++++++++++++------
- drivers/gpu/drm/bridge/ti-tfp410.c            | 33 +++++++++
- drivers/gpu/drm/drm_bridge.c                  |  8 +++
- drivers/gpu/drm/tidss/tidss_drv.h             |  3 +
- drivers/gpu/drm/tidss/tidss_encoder.c         | 36 ++++------
- drivers/gpu/drm/tidss/tidss_kms.c             | 19 ++++-
- 6 files changed, 123 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 64f0effb52ac..13b67fc0dad3 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -975,6 +975,14 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+ 	 * duplicate the "dummy propagation" logic.
+ 	 */
+ 	bridge_state->input_bus_cfg.flags = output_flags;
++
++	/*
++	 * If legacy bus flags are provided in bridge->timings, use those as
++	 * input flags instead of propagating the output flags.
++	 */
++	if (bridge->timings && bridge->timings->input_bus_flags)
++		bridge_state->input_bus_cfg.flags =
++			bridge->timings->input_bus_flags;
+ }
+ 
+ /**
 -- 
 2.17.1
 
