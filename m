@@ -1,65 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2703A2B90E6
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 12:29:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4251C2B9110
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 12:33:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C130A89A1F;
-	Thu, 19 Nov 2020 11:29:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC29E89A1F;
+	Thu, 19 Nov 2020 11:33:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3471089A1F;
- Thu, 19 Nov 2020 11:29:33 +0000 (UTC)
-IronPort-SDR: Al8B74i2U15l7W7k9MVNcAOLbuwSw+8XAvTF+7szUC1ZuYgYZRdsDfN33K8PsdV7prIt/AgXvk
- ObVqVVCNy3AA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="150542737"
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="150542737"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2020 03:29:32 -0800
-IronPort-SDR: L4cEPObnkK6VyFCATmMMb0WqTLmDHTDm55lDeB+Wgj1LVcnizksBD2t8UyFfgYrNjJq4K0FzdA
- yyEkm3zdCrrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; d="scan'208";a="330902743"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga006.jf.intel.com with ESMTP; 19 Nov 2020 03:29:32 -0800
-Received: from bgsmsx602.gar.corp.intel.com (10.109.78.81) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 19 Nov 2020 03:29:31 -0800
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX602.gar.corp.intel.com (10.109.78.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 19 Nov 2020 16:59:28 +0530
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Thu, 19 Nov 2020 16:59:28 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v2 11/13] drm/i915: Read DSC capabilities of the HDMI2.1
- PCON encoder
-Thread-Topic: [PATCH v2 11/13] drm/i915: Read DSC capabilities of the HDMI2.1
- PCON encoder
-Thread-Index: AQHWsDe+QkZ9JTA55keeGWt424qgvKnPbRgA
-Date: Thu, 19 Nov 2020 11:29:28 +0000
-Message-ID: <cffc77289b9d41078dc4049ad5d5866a@intel.com>
-References: <20201101100657.12087-1-ankit.k.nautiyal@intel.com>
- <20201101100657.12087-12-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20201101100657.12087-12-ankit.k.nautiyal@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6749589A1F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 11:33:09 +0000 (UTC)
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id CBB7A20867;
+ Thu, 19 Nov 2020 11:33:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1605785589;
+ bh=IwzuzZJdgwM/mSCg/YGq4DFiccAa0AMjMOfLhF3JG8I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=KSMYoLedOZpStbTVjCff3VA/bScZg/ZBa6KN2hth62ft0nkMImZm0kHTF5TDUuxCj
+ 8rQwrf/w655P5dRXoelEcF1FC8r9D+7nMXVCDEv3HaDhKKjvQJ9u9NmQg1lZbGu2BT
+ Z8cIAWKKIxlLFh7MZ+3urSr8owbFL0odZfYyGCpI=
+Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
+ (envelope-from <maz@kernel.org>)
+ id 1kfiBW-00Bw2g-MO; Thu, 19 Nov 2020 11:33:06 +0000
 MIME-Version: 1.0
+Date: Thu, 19 Nov 2020 11:33:06 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: Neil Armstrong <narmstrong@baylibre.com>
+Subject: Re: next/master bisection: baseline.dmesg.emerg on meson-gxbb-p200
+In-Reply-To: <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
+References: <5fb5e094.1c69fb81.a2014.2e62@mx.google.com>
+ <a0bec7c4-9bec-8858-4879-52f4688d9992@collabora.com>
+ <630e00e83cdd07ee5a0eaba9d3479554@kernel.org>
+ <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <48731911dbbe869a6d3bdafd819fa9ff@kernel.org>
+X-Sender: maz@kernel.org
+X-SA-Exim-Connect-IP: 51.254.78.96
+X-SA-Exim-Rcpt-To: narmstrong@baylibre.com, guillaume.tucker@collabora.com,
+ kernelci-results@groups.io, khilman@baylibre.com, jbrunet@baylibre.com,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ martin.blumenstingl@googlemail.com, airlied@linux.ie, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,99 +64,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Kulkarni, Vandita" <vandita.kulkarni@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma, 
- Swati2" <swati2.sharma@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernelci-results@groups.io,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Guillaume Tucker <guillaume.tucker@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Jerome Brunet <jbrunet@baylibre.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
-> Sent: Sunday, November 1, 2020 3:37 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
-> Kulkarni, Vandita <vandita.kulkarni@intel.com>; ville.syrjala@linux.intel.com;
-> Sharma, Swati2 <swati2.sharma@intel.com>
-> Subject: [PATCH v2 11/13] drm/i915: Read DSC capabilities of the HDMI2.1 PCON
-> encoder
-> 
-> This patch adds support to read and store the DSC capabilities of the
-> HDMI2.1 PCon encoder. It also adds a new field to store these caps, The caps are
-> read during dfp update and can later be used to get the PPS parameters for
-> PCON-HDMI2.1 sink pair. Which inturn will be used to take a call to override the
-> existing PPS-metadata, by either writing the entire new PPS metadata, or by
-> writing only the PPS override parameters.
-> 
-> v2: Restructured the code to read all capability DPCDs at once and store in an
-> array in intel_dp structure.
-> 
-> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> ---
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 20 +++++++++++++++++++
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 2c58d63928b8..f43ded030c14 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1309,6 +1309,7 @@ struct intel_dp {
->  	u8 lttpr_common_caps[DP_LTTPR_COMMON_CAP_SIZE];
->  	u8 lttpr_phy_caps[DP_MAX_LTTPR_COUNT][DP_LTTPR_PHY_CAP_SIZE];
->  	u8 fec_capable;
-> +	u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE];
->  	/* source rates */
->  	int num_source_rates;
->  	const int *source_rates;
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 6177169c4401..2e7ddb062efe 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -3869,6 +3869,24 @@ cpt_set_link_train(struct intel_dp *intel_dp,
->  	intel_de_posting_read(dev_priv, intel_dp->output_reg);  }
-> 
-> +static void intel_dp_get_pcon_dsc_cap(struct intel_dp *intel_dp) {
-> +	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
-> +
-> +	/* Clear the cached register set to avoid using stale values */
-> +
-
-Drop this extra line. With this fixed
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> +	memset(intel_dp->pcon_dsc_dpcd, 0, sizeof(intel_dp->pcon_dsc_dpcd));
-> +
-> +	if (drm_dp_dpcd_read(&intel_dp->aux, DP_PCON_DSC_ENCODER,
-> +				     intel_dp->pcon_dsc_dpcd,
-> +				     sizeof(intel_dp->pcon_dsc_dpcd)) < 0)
-> +		drm_err(&i915->drm, "Failed to read DPCD register 0x%x\n",
-> +			DP_PCON_DSC_ENCODER);
-> +
-> +	drm_dbg_kms(&i915->drm, "PCON ENCODER DSC DPCD: %*ph\n",
-> +		   (int)sizeof(intel_dp->pcon_dsc_dpcd), intel_dp-
-> >pcon_dsc_dpcd); }
-> +
->  static int intel_dp_get_max_rate_gbps(struct intel_dp *intel_dp)  {
->  	int max_link_clock, max_lanes, max_rate_khz, max_rate_gbps; @@ -
-> 6645,6 +6663,8 @@ intel_dp_update_dfp(struct intel_dp *intel_dp,
->  		    intel_dp->dfp.max_tmds_clock,
->  		    intel_dp->dfp.pcon_max_frl_bw,
->  		    intel_dp->dfp.sink_max_frl_bw);
-> +
-> +	intel_dp_get_pcon_dsc_cap(intel_dp);
->  }
-> 
->  static void
-> --
-> 2.17.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMS0xOSAxMDoyNiwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4gT24gMTkvMTEvMjAy
+MCAxMToyMCwgTWFyYyBaeW5naWVyIHdyb3RlOgo+PiBPbiAyMDIwLTExLTE5IDA4OjUwLCBHdWls
+bGF1bWUgVHVja2VyIHdyb3RlOgo+Pj4gUGxlYXNlIHNlZSB0aGUgYXV0b21hdGVkIGJpc2VjdGlv
+biByZXBvcnQgYmVsb3cgYWJvdXQgc29tZSBrZXJuZWwKPj4+IGVycm9ycyBvbiBtZXNvbi1neGJi
+LXAyMDAuCj4+PiAKPj4+IFJlcG9ydHMgYXJlbid0IGF1dG9tYXRpY2FsbHkgc2VudCB0byB0aGUg
+cHVibGljIHdoaWxlIHdlJ3JlCj4+PiB0cmlhbGluZyBuZXcgYmlzZWN0aW9uIGZlYXR1cmVzIG9u
+IGtlcm5lbGNpLm9yZywgaG93ZXZlciB0aGlzIG9uZQo+Pj4gbG9va3MgdmFsaWQuCj4+PiAKPj4+
+IFRoZSBiaXNlY3Rpb24gc3RhcnRlZCB3aXRoIG5leHQtMjAyMDExMTggYnV0IHRoZSBlcnJvcnMg
+YXJlIHN0aWxsCj4+PiBwcmVzZW50IGluIG5leHQtMjAyMDExMTkuwqAgRGV0YWlscyBmb3IgdGhp
+cyByZWdyZXNzaW9uOgo+Pj4gCj4+PiDCoCBodHRwczovL2tlcm5lbGNpLm9yZy90ZXN0L2Nhc2Uv
+aWQvNWZiNjE5NmJmZDAxMjdmZDY4ZDhkOTAyLwo+Pj4gCj4+PiBUaGUgZmlyc3QgZXJyb3IgaXM6
+Cj4+PiAKPj4+IMKgIFvCoMKgIDE0Ljc1NzQ4OV0gSW50ZXJuYWwgZXJyb3I6IHN5bmNocm9ub3Vz
+IGV4dGVybmFsIGFib3J0OiA5NjAwMDIxMAo+Pj4gWyMxXSBQUkVFTVBUIFNNUAo+PiAKPj4gTG9v
+a3MgbGlrZSB5ZXQgYW5vdGhlciBjbG9jayBvcmRlcmluZyBzZXR1cC4gSSBndWVzcyBkaWZmZXJl
+bnQgQW1sb2dpYwo+PiBwbGF0Zm9ybXMgaGF2ZSBzbGlnaHRseSBkaWZmZXJlbnQgb3JkZXJpbmcg
+cmVxdWlyZW1lbnRzLgo+PiAKPj4gTmVpbCwgZG8geW91IGhhdmUgYW55IGlkZWEgb2Ygd2hpY2gg
+cGxhdGZvcm0gcmVxdWlyZXMgd2hpY2ggb3JkZXJpbmc/Cj4+IFRoZSB2YXJpYWJpbGl0eSBpbiBE
+VCBhbmQgcGxhdGZvcm1zIGlzIHByZXR0eSBkaWZmaWN1bHQgdG8gZm9sbG93IChhbmQKPj4gSSBk
+b24ndCB0aGluayBJIGhhdmUgc3VjaCBib2FyZCBhcm91bmQpLgo+IAo+IFRoZSByZXF1aXJlbWVu
+dHMgc2hvdWxkIGJlIHRoZSBzYW1lLCBoZXJlIHRoZSBpbml0IHdhcyBkb25lIGJlZm9yZSAKPiBj
+YWxsaW5nCj4gZHdfaGRtaV9wcm9iZSB0byBiZSBzdXJlIHRoZSBjbG9ja3MgYW5kIGludGVybmFs
+cyByZXNldHMgd2VyZSAKPiBkZWFzc2VydGVkLgo+IEJ1dCBzaW5jZSB5b3UgYm9vdCBmcm9tIHUt
+Ym9vdCBhbHJlYWR5IGVuYWJsaW5nIHRoZXNlLCBpdCdzIGFscmVhZHkgCj4gYWN0aXZlLgoKVGhl
+IGNyYXNoaW5nIHBsYXRmb3JtIGFsc28gYm9vdHMgd2l0aCB1LWJvb3QuIFdoYXQgaXMgdGhlIGRp
+ZmZlcmVuY2U/Ck5vIEhETUkgc3VwcG9ydD8KCj4gVGhlIHNvbHV0aW9uIHdvdWxkIGJlIHRvIHJl
+dmVydCBhbmQgZG8gc29tZSBjaGVjayBpbiAKPiBtZXNvbl9kd19oZG1pX2luaXQoKSB0bwo+IGNo
+ZWNrIGlmIGFscmVhZHkgZW5hYmxlZCBhbmQgZG8gbm90aGluZy4KCkl0IGxvb2tzIG1vcmUgc3Vi
+dGxlIHRoYW4gdGhhdCwgYXMgaXQgYWxzbyBkZXBlbmRzIG9uIHdoaWNoIERUIGlzIApwcm92aWRl
+ZAooYW4gZWFybHkgbWVzb25fZHdfaGRtaV9pbml0KCkgd29ya3Mgd2l0aCB0aGUga2VybmVsIERU
+LCBhbmQgYnJlYWtzIHdpdGggCnRoZQp1LWJvb3QgRFQpLiBTbyB3aGF0ZXZlciBkaWZmZXJlbmNl
+IGlzIGJldHdlZW4gdGhlIHR3byBEVHMgY2F1c2VzIGhhdm9jLgp1LWJvb3Qgb2J2aW91c2x5IG9u
+bHkgdXNlcyBpdHMgb3duIERULCBzbyB3ZSBhcmUgbG9va2luZyBhdCBhIGtlcm5lbCBidWcgCmhl
+cmUuCgpOb3QgaGF2aW5nIHRoaXMgcGF0Y2ggYWxzbyBicmVha3MgbW9kdWxlIHJlaW5zZXJ0aW9u
+IChIRE1JIGNsb2NrcyBhcmUgCmRpc2FibGVkCm9uIHVuYmluZCksIHNvICpzb21ldGhpbmcqIGhh
+cyB0byBiZSBkb25lIGxhdGUuCgpTbyBoZXJlIGFyZSBteSBxdWVzdGlvbnM6Ci0gV2hhdCBicmVh
+a3MgaW4gbXkgY29uZmlnIHdoZW4gSSBib290IHVzaW5nIHUtYm9vdCdzIERUPwotIEhvdyB0byBk
+ZXRlY3QgZWFybHkgdGhhdCB0aGUgcmVnaXN0ZXJzIGFyZSBjbG9ja2VkIG9yIG5vdD8KClRoYW5r
+cywKCiAgICAgICAgIE0uCi0tIApKYXp6IGlzIG5vdCBkZWFkLiBJdCBqdXN0IHNtZWxscyBmdW5u
+eS4uLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
+Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
