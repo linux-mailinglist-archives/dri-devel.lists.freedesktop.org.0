@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE372B8EAD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:26:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA302B8EAE
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Nov 2020 10:27:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68FB16E56D;
-	Thu, 19 Nov 2020 09:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72C5D6E570;
+	Thu, 19 Nov 2020 09:27:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 890B86E56D
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:26:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 688D46E570
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 09:27:20 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 18096AC48;
- Thu, 19 Nov 2020 09:26:33 +0000 (UTC)
-Subject: Re: [PATCH 3/8] drm/vc4: kms: Move HVS state helpers around
+ by mx2.suse.de (Postfix) with ESMTP id ED91CABF4;
+ Thu, 19 Nov 2020 09:27:18 +0000 (UTC)
+Subject: Re: [PATCH 4/8] drm/vc4: kms: Simplify a bit the private obj state
+ hooks
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-4-maxime@cerno.tech>
+ <20201113152956.139663-5-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6151cb29-2e12-d08c-fc96-1e871b78e643@suse.de>
-Date: Thu, 19 Nov 2020 10:26:32 +0100
+Message-ID: <83dc23f9-623d-5155-6c22-46a84f5405ad@suse.de>
+Date: Thu, 19 Nov 2020 10:27:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201113152956.139663-4-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-5-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,19 +49,19 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1377560637=="
+Content-Type: multipart/mixed; boundary="===============1715998315=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1377560637==
+--===============1715998315==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="dKZX5uTovdotVFIGWT8JyUEOh7IYiyMh9"
+ boundary="wJN1A8Iw20kxuzpBYZf1KP7Fa6MQSfRs1"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dKZX5uTovdotVFIGWT8JyUEOh7IYiyMh9
-Content-Type: multipart/mixed; boundary="skA7OLSXWo44aklj54YTlKWoW9R8gcuPQ";
+--wJN1A8Iw20kxuzpBYZf1KP7Fa6MQSfRs1
+Content-Type: multipart/mixed; boundary="daM8JQFEIksGKIysfiJkoBX4gHNo3EJPh";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
@@ -73,85 +74,72 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org
-Message-ID: <6151cb29-2e12-d08c-fc96-1e871b78e643@suse.de>
-Subject: Re: [PATCH 3/8] drm/vc4: kms: Move HVS state helpers around
+Message-ID: <83dc23f9-623d-5155-6c22-46a84f5405ad@suse.de>
+Subject: Re: [PATCH 4/8] drm/vc4: kms: Simplify a bit the private obj state
+ hooks
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-4-maxime@cerno.tech>
-In-Reply-To: <20201113152956.139663-4-maxime@cerno.tech>
+ <20201113152956.139663-5-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-5-maxime@cerno.tech>
 
---skA7OLSXWo44aklj54YTlKWoW9R8gcuPQ
+--daM8JQFEIksGKIysfiJkoBX4gHNo3EJPh
 Content-Type: multipart/mixed;
- boundary="------------7CC15EEB3DE93BA3CD5263BF"
+ boundary="------------B325C0FC382500E602E27A67"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------7CC15EEB3DE93BA3CD5263BF
+--------------B325C0FC382500E602E27A67
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-I'd merge this into the patch that introduces the function.
+Maybe merge this into the commit that introduces the functionality.
 
 Am 13.11.20 um 16:29 schrieb Maxime Ripard:
-> We're going to use those helpers in functions higher in that file, let'=
-s
-> move it around.
+> Some fields that we're going to add cannot be just copied over to the
+> new state, and thus kmemdup is a bit unnecessary. Let's move to kzalloc=
+
+> instead, and clean it up in the process.
 >=20
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
->   drivers/gpu/drm/vc4/vc4_kms.c | 26 +++++++++++++-------------
->   1 file changed, 13 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/vc4/vc4_kms.c | 8 +++++---
+>   1 file changed, 5 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> index 7ef164afa9e2..d6712924681e 100644
+> index d6712924681e..3d0065df10f9 100644
 > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -182,6 +182,19 @@ vc4_ctm_commit(struct vc4_dev *vc4, struct drm_ato=
-mic_state *state)
->   		  VC4_SET_FIELD(ctm_state->fifo, SCALER_OLEDOFFS_DISPFIFO));
->   }
->  =20
-> +static struct vc4_hvs_state *
-> +vc4_hvs_get_global_state(struct drm_atomic_state *state)
-> +{
-> +	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
-> +	struct drm_private_state *priv_state;
-> +
-> +	priv_state =3D drm_atomic_get_private_obj_state(state, &vc4->hvs_chan=
-nels);
-> +	if (IS_ERR(priv_state))
-> +		return ERR_CAST(priv_state);
-> +
-> +	return to_vc4_hvs_state(priv_state);
-> +}
-> +
->   static void vc4_hvs_pv_muxing_commit(struct vc4_dev *vc4,
->   				     struct drm_atomic_state *state)
+> @@ -695,23 +695,25 @@ static int vc4_load_tracker_obj_init(struct vc4_d=
+ev *vc4)
+>   static struct drm_private_state *
+>   vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
 >   {
-> @@ -730,19 +743,6 @@ static int vc4_hvs_channels_obj_init(struct vc4_de=
-v *vc4)
->   	return drmm_add_action_or_reset(&vc4->base, vc4_hvs_channels_obj_fin=
-i, NULL);
+> +	struct vc4_hvs_state *old_state =3D to_vc4_hvs_state(obj->state);
+>   	struct vc4_hvs_state *state;
+>  =20
+> -	state =3D kmemdup(obj->state, sizeof(*state), GFP_KERNEL);
+> +	state =3D kzalloc(sizeof(*state), GFP_KERNEL);
+>   	if (!state)
+>   		return NULL;
+>  =20
+>   	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
+>  =20
+> +	state->unassigned_channels =3D old_state->unassigned_channels;
+> +
+>   	return &state->base;
 >   }
 >  =20
-> -static struct vc4_hvs_state *
-> -vc4_hvs_get_global_state(struct drm_atomic_state *state)
-> -{
-> -	struct vc4_dev *vc4 =3D to_vc4_dev(state->dev);
-> -	struct drm_private_state *priv_state;
-> -
-> -	priv_state =3D drm_atomic_get_private_obj_state(state, &vc4->hvs_chan=
-nels);
-> -	if (IS_ERR(priv_state))
-> -		return ERR_CAST(priv_state);
-> -
-> -	return to_vc4_hvs_state(priv_state);
-> -}
-> -
->   /*
->    * The BCM2711 HVS has up to 7 output connected to the pixelvalves an=
-d
->    * the TXP (and therefore all the CRTCs found on that platform).
+>   static void vc4_hvs_channels_destroy_state(struct drm_private_obj *ob=
+j,
+>   					   struct drm_private_state *state)
+>   {
+> -	struct vc4_hvs_state *hvs_state;
+> +	struct vc4_hvs_state *hvs_state =3D to_vc4_hvs_state(state);
+>  =20
+> -	hvs_state =3D to_vc4_hvs_state(state);
+>   	kfree(hvs_state);
+>   }
+>  =20
 >=20
 
 --=20
@@ -162,7 +150,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------7CC15EEB3DE93BA3CD5263BF
+--------------B325C0FC382500E602E27A67
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -365,34 +353,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------7CC15EEB3DE93BA3CD5263BF--
+--------------B325C0FC382500E602E27A67--
 
---skA7OLSXWo44aklj54YTlKWoW9R8gcuPQ--
+--daM8JQFEIksGKIysfiJkoBX4gHNo3EJPh--
 
---dKZX5uTovdotVFIGWT8JyUEOh7IYiyMh9
+--wJN1A8Iw20kxuzpBYZf1KP7Fa6MQSfRs1
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2OkgFAwAAAAAACgkQlh/E3EQov+Dv
-ahAAkwbrz0V0wvas8Hc0tQTrEo6/1DIqrLs/AgxturLVSz3pqm7ajh6QY/f+rvXh78LVlDBdvZNP
-/ThzkxbMg1AOBJiQdzMI9GQjFsT9YL37WrS7XzTxTpG6FV256h7dJgDC2P0E4/askNYP21eIF6hT
-o7HECWb0dGQ2+BmrXx1FhylpYJmUW6+3vNx4yAqlh1A1syCr1Z2bK6+vLns+XJXFJqlAYKxZgd+w
-XY/ejTzn3MpNDwErA5v1tUzP4KOwGLdk9LqoZ9cY6qcJOqfL6SC0rEnh9Vm+1ya8CJwsZ5LlpQJE
-GIUMhYAmVhLkyW8rA8aJCiX5ggcSU3lIyeLJPICmmhjG1iRDGHP5wXpG40z02467Js5u0NBffuF+
-uNeDvGpF8YNQYL/+Gp+Et2ihulGqcKNf46Uo2ZVJwIbxmV3fVLWBwEXm1cgIY3h5K3Ckra/mBhL2
-KcZJndiI+7kpZey1JhPT1n9zkKWgin23Nf8CXhAGZJHcN2C+KnwooAdsBW7bMi6FglIlsJ0WPOx0
-RklPI36FMLzHvWB6trOM0Tb4PMhcKSNVcJvU5KyUGYzEjTKXCN+KxtHS7b/AalgxlB+HhdOeNwXe
-FwStFhau+PDMSCyVR0OaXcVh4FXG0bL/u0voAfpcohtQEsG3szbdbIzz1gfOLSuM3p/4PN1O4Nfe
-cVU=
-=VkEe
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+2OnYFAwAAAAAACgkQlh/E3EQov+Ct
+Iw//VaEFo1O6lRmp/Xyrw19pMHKMKpJRp9Y2WKngsyPVy/qIqQ/Oa3b/5G8LlUxEjlsn4OYp72yd
+kHN4/osRhIuLYBCuhpDA03YuWvQPpXIefOffbeNTOM15Y2v4WrIiwcEjtBgJHMjHIATGlTU3BJ47
+cBxPJjbKlANSBAHRQgrSN61JB2CxPUb6mLYCIV9v1JiiFL+nLbFRmUeGcRqw4zJfBE0E28JmLyMP
+Azw3J1TvF2HhlfAOn/htB9bCC6kBkCr+wjzBGS34R/CtC4hje5MPndOqqf51AxKH3Fm4ZjgX/ayZ
+6LXW0n9xNQGsjiIQlAvJybibIEp9gEqsdWjkiheG2wk4NoYXwAl2Xo/tHLN6Uirjf7zPFgy4DHa7
+1PzguqXWUTE38VeC4383DSUDo7ZMsBf3XZiHdU5iF0xpvj50kEH13wK1hTj2iblctkm3fwn3QHpZ
+Qyp9jvY+kz6QE6lx8Cu6FpgIl+GJPfAlQVL2+MG1xm85/RxbpjYQTyGftWHu/WBAWUDs1khqz6qr
+gfXOSbqOD1P/FPMnt/Ym30OO+x7xd1o155qXYu+ZiRqOmayoDOYwK+/sQ/q7egH6aeIrj5mhWSVX
+7KpqN7zBunVw3AuGfLYTaDoh2qv1mS+5MQyKAdv5C8x4D8566QLw+SBqky6qhhJOLj5LFiTNS5su
+CgA=
+=TDrP
 -----END PGP SIGNATURE-----
 
---dKZX5uTovdotVFIGWT8JyUEOh7IYiyMh9--
+--wJN1A8Iw20kxuzpBYZf1KP7Fa6MQSfRs1--
 
---===============1377560637==
+--===============1715998315==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -403,4 +391,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1377560637==--
+--===============1715998315==--
