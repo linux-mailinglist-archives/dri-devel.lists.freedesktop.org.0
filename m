@@ -1,39 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236F42BA83D
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:06:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EC42BA867
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:09:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5207F891DC;
-	Fri, 20 Nov 2020 11:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE00589A1E;
+	Fri, 20 Nov 2020 11:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
- [185.70.40.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F14A891DC
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 11:06:32 +0000 (UTC)
-Date: Fri, 20 Nov 2020 11:06:22 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1605870389;
- bh=Nr1F7optBUy3GdQvTqmGmtdajgwRavGjYdK/2ds0Trg=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=R431sgIBumSukz5jxRmmWHtev8NrB3FNxvi2JIH2omvzfIyg9vxeOc0QLj5+v0ZXM
- bZS4In0sJqD91qKnhp+3p1AEHxx3GyfOsSFLLBON2Aeyutw3xmiV9L9JUwgxuHMVWn
- AYFWq82IdULsh865ac3QzMxC2aF4J4ynALNTfEhL20Lb7gnbsyjroKbebp7ddz2OzE
- qNgIy4MFiYYgxPbtjAnm//oUeKA7/YIEKzFTMqpcoy9enj9hSYwo0yQIfAiKGD4Vey
- h+lMufLWiJPMBjGH7dz+FFWExKtFaCPeRqtFsN3wzR0jrM8T4AdoMxgza/GZMiUXfs
- UWiapVSW+LrHw==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: fix kernel-doc warnings for SCALING_FILTER
-Message-ID: <zJEUxNx4GwiY4FnqlVsuXdAWuH624SQ9VfN54NeH5E@cp7-web-043.plabs.ch>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E2FF89A1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 11:09:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1605870573;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5o4CuMX7zds8f9NkTIgSLfLXtIb+1K7o+NpuPPm7ico=;
+ b=Nz85+tbvoSon5rajs03D9dJMRwkyPiiMWbkyOqtbBebO+VhBdl8bhntmh2GaPdSD6c5Uei
+ vMPWqGjq9fCR6fDuA+cL7aJPu1688COuVfG0p20Q4DS4/pUIsGB4z2of2b6W9+rlodGsoj
+ hL8Ko4uAn3XLHxwq1cVZIOnjK2Ur4JA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-qx_WpxcMOAy-fz3UmJ6RAA-1; Fri, 20 Nov 2020 06:09:31 -0500
+X-MC-Unique: qx_WpxcMOAy-fz3UmJ6RAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B3C21005D59;
+ Fri, 20 Nov 2020 11:09:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-65.ams2.redhat.com
+ [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 234EC5D6AD;
+ Fri, 20 Nov 2020 11:09:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id EFBC317535; Fri, 20 Nov 2020 12:09:28 +0100 (CET)
+Date: Fri, 20 Nov 2020 12:09:28 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Subject: Re: [PATCH 1/5] drm/virtio: suffix create blob call with _ioctl like
+ any ioctl
+Message-ID: <20201120110928.2vm76cs5shw26flo@sirius.home.kraxel.org>
+References: <20201119010809.528-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <20201119010809.528-1-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +65,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Uma Shankar <uma.shankar@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBwYXRjaCBmaXhlcyB0aGUgZm9sbG93aW5nIGtlcm5lbC1kb2Mgd2FybmluZ3M6CgogICAg
-L2hvbWUvc2ltb24vc3JjL2xpbnV4L0RvY3VtZW50YXRpb24vZ3B1L2RybS1rbXM6NDY2OiAuL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fY3J0Yy5jOjIzNjogV0FSTklORzogVW5leHBlY3RlZCBpbmRlbnRh
-dGlvbi4KICAgIC9ob21lL3NpbW9uL3NyYy9saW51eC9Eb2N1bWVudGF0aW9uL2dwdS9kcm0ta21z
-OjQ2NjogLi9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGMuYzoyMzc6IFdBUk5JTkc6IEJsb2NrIHF1
-b3RlIGVuZHMgd2l0aG91dCBhIGJsYW5rIGxpbmU7IHVuZXhwZWN0ZWQgdW5pbmRlbnQuCiAgICAv
-aG9tZS9zaW1vbi9zcmMvbGludXgvRG9jdW1lbnRhdGlvbi9ncHUvZHJtLWttczo0NzI6IC4vZHJp
-dmVycy9ncHUvZHJtL2RybV9ibGVuZC5jOjIwMzogV0FSTklORzogVW5leHBlY3RlZCBpbmRlbnRh
-dGlvbi4KICAgIC9ob21lL3NpbW9uL3NyYy9saW51eC9Eb2N1bWVudGF0aW9uL2dwdS9kcm0ta21z
-OjQ3MjogLi9kcml2ZXJzL2dwdS9kcm0vZHJtX2JsZW5kLmM6MjA0OiBXQVJOSU5HOiBCbG9jayBx
-dW90ZSBlbmRzIHdpdGhvdXQgYSBibGFuayBsaW5lOyB1bmV4cGVjdGVkIHVuaW5kZW50LgoKU2ln
-bmVkLW9mZi1ieTogU2ltb24gU2VyIDxjb250YWN0QGVtZXJzaW9uLmZyPgpGaXhlczogNWM3NTll
-ZGE5YjA0ICgiZHJtOiBJbnRyb2R1Y2UgcGxhbmUgYW5kIENSVEMgc2NhbGluZyBmaWx0ZXIgcHJv
-cGVydGllcyIpCkNjOiBQYW5rYWogQmhhcmFkaXlhIDxwYW5rYWoubGF4bWluYXJheWFuLmJoYXJh
-ZGl5YUBpbnRlbC5jb20+CkNjOiBKYW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgpD
-YzogVmlsbGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFVt
-YSBTaGFua2FyIDx1bWEuc2hhbmthckBpbnRlbC5jb20+CkNjOiBEYW5pZWwgVmV0dGVyIDxkYW5p
-ZWxAZmZ3bGwuY2g+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jIHwgIDIgKy0KIGRy
-aXZlcnMvZ3B1L2RybS9kcm1fY3J0Yy5jICB8IDEyICsrKysrKy0tLS0tLQogMiBmaWxlcyBjaGFu
-Z2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2RybV9ibGVuZC5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jCmluZGV4
-IGFlMjIzNGFhZTkzZC4uNWMyMTQxZTlhOWY0IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2JsZW5kLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9ibGVuZC5jCkBAIC0xOTYsMTAg
-KzE5NiwxMCBAQAogICogZXhwb3NlZCBhbmQgYXNzdW1lZCB0byBiZSBibGFjaykuCiAgKgogICog
-U0NBTElOR19GSUxURVI6Ci0gKgogICogICAgIEluZGljYXRlcyBzY2FsaW5nIGZpbHRlciB0byBi
-ZSB1c2VkIGZvciBwbGFuZSBzY2FsZXIKICAqCiAgKiAgICAgVGhlIHZhbHVlIG9mIHRoaXMgcHJv
-cGVydHkgY2FuIGJlIG9uZSBvZiB0aGUgZm9sbG93aW5nOgorICoKICAqICAgICBEZWZhdWx0Ogog
-ICogICAgICAgICAgICAgRHJpdmVyJ3MgZGVmYXVsdCBzY2FsaW5nIGZpbHRlcgogICogICAgIE5l
-YXJlc3QgTmVpZ2hib3I6CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGMuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9kcm1fY3J0Yy5jCmluZGV4IGY5Mjc5NzZlY2E1MC4uNzQwOTBmYzNh
-YTU1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2NydGMuYworKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2NydGMuYwpAQCAtMjMwLDE0ICsyMzAsMTQgQEAgc3RydWN0IGRtYV9mZW5j
-ZSAqZHJtX2NydGNfY3JlYXRlX2ZlbmNlKHN0cnVjdCBkcm1fY3J0YyAqY3J0YykKICAqCiAgKiAJ
-U2V0dGluZyBNT0RFX0lEIHRvIDAgd2lsbCByZWxlYXNlIHJlc2VydmVkIHJlc291cmNlcyBmb3Ig
-dGhlIENSVEMuCiAgKiBTQ0FMSU5HX0ZJTFRFUjoKLSAqCUF0b21pYyBwcm9wZXJ0eSBmb3Igc2V0
-dGluZyB0aGUgc2NhbGluZyBmaWx0ZXIgZm9yIENSVEMgc2NhbGVyCisgKiAJQXRvbWljIHByb3Bl
-cnR5IGZvciBzZXR0aW5nIHRoZSBzY2FsaW5nIGZpbHRlciBmb3IgQ1JUQyBzY2FsZXIKICAqCi0g
-KglUaGUgdmFsdWUgb2YgdGhpcyBwcm9wZXJ0eSBjYW4gYmUgb25lIG9mIHRoZSBmb2xsb3dpbmc6
-Ci0gKglEZWZhdWx0OgotICoJCURyaXZlcidzIGRlZmF1bHQgc2NhbGluZyBmaWx0ZXIKLSAqCU5l
-YXJlc3QgTmVpZ2hib3I6Ci0gKgkJTmVhcmVzdCBOZWlnaGJvciBzY2FsaW5nIGZpbHRlcgorICog
-CVRoZSB2YWx1ZSBvZiB0aGlzIHByb3BlcnR5IGNhbiBiZSBvbmUgb2YgdGhlIGZvbGxvd2luZzoK
-ICAqCisgKiAJRGVmYXVsdDoKKyAqIAkJRHJpdmVyJ3MgZGVmYXVsdCBzY2FsaW5nIGZpbHRlcgor
-ICogCU5lYXJlc3QgTmVpZ2hib3I6CisgKiAJCU5lYXJlc3QgTmVpZ2hib3Igc2NhbGluZyBmaWx0
-ZXIKICAqLwogCiAvKioKLS0gCjIuMjkuMgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+On Wed, Nov 18, 2020 at 05:08:05PM -0800, Gurchetan Singh wrote:
+> From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+> 
+> For coherency, all ioctls are suffixed
+> 
+> Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+
+All pushed to drm-misc-next.
+
+thanks,
+  Gerd
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
