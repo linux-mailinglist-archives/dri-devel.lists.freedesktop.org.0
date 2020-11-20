@@ -1,56 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 719542BA8A5
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:10:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E93922BA8FF
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:27:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FC0A89A1E;
-	Fri, 20 Nov 2020 11:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A68BE6E8AF;
+	Fri, 20 Nov 2020 11:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D314789A1E
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 11:10:51 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 6830822201;
- Fri, 20 Nov 2020 11:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605870651;
- bh=yaMyGLR6+HErwF5fFCq7lMMRoVDnM2QpDVBXqkEnsds=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PBdHfcXKscivK28jgHEaCCLTplQlGEUp5fR8ZY+phVIf1SWL7ecBj3ZuQ5z0AU2rN
- UysVnyL5nosXSP94td0CLPwY4xkbwIAk2DLBWV6KsXVjXC+Rn97qv+MN9AppIYWo9r
- dyC9I5SfM/wPrYf4SvNXTN+Z0FisFqjW41Vj+u14=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1kg4JU-00CEWA-Sm; Fri, 20 Nov 2020 11:10:49 +0000
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C4056E8AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 11:26:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=5Yc2BLREqcKw6f5C9z13OvR6TxY5LaqFRa6M4LYUk0k=; b=bfHw1p7Ok5j/oCCmGvYEZujxTI
+ iPIh2fB+1Z+ommmqgA8a7vGhyXLqixUN3LOZKG7mxW3eJ8FZ8xFOVcFx8qJTtcoc8WSauyR6ss2IO
+ HY7LiBAVz0ziEGrKBYCjOx77+bJS69fNJXo48jfcFfvrz7JmP+88SMcgxAz+X3g9xAziRn828NfJn
+ 3pefwxwF1Sq5etHS+lsiqiZp8fDH8ZaMnmbO+sXnZfV6e7hfn3p0davShJaPykr2XSRSJOfRlQz4h
+ Bw0PJKzrvBrhRBcBoRnSJTvjLK4weDdWP0ng67KBn+9E8ni3x+nci4hQBRYD3//E0JtM8fItg9JZ/
+ LoWKKJRA==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
+ id 1kg4Yq-0003lG-9a; Fri, 20 Nov 2020 13:26:40 +0200
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v4 00/21] Host1x/TegraDRM UAPI
+Date: Fri, 20 Nov 2020 13:25:39 +0200
+Message-Id: <20201120112600.935082-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Date: Fri, 20 Nov 2020 11:10:48 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Guillaume Tucker <guillaume.tucker@collabora.com>
-Subject: Re: [PATCH 2/2] drm/meson: dw-hdmi: Enable the iahb clock early enough
-In-Reply-To: <966e90ba-5b38-9ba5-65b3-1a17dbd51871@collabora.com>
-References: <20201120094205.525228-1-maz@kernel.org>
- <20201120094205.525228-3-maz@kernel.org>
- <966e90ba-5b38-9ba5-65b3-1a17dbd51871@collabora.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <7e7ff26fdbc8540749522c23997549f6@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: guillaume.tucker@collabora.com, narmstrong@baylibre.com,
- khilman@baylibre.com, martin.blumenstingl@googlemail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org, jbrunet@baylibre.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,41 +52,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- kernel-team@android.com, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
+Cc: linux-tegra@vger.kernel.org, talho@nvidia.com, bhuntsman@nvidia.com,
+ dri-devel@lists.freedesktop.org, Mikko Perttunen <mperttunen@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-20 10:54, Guillaume Tucker wrote:
-> On 20/11/2020 09:42, Marc Zyngier wrote:
->> Instead of moving meson_dw_hdmi_init() around which breaks existing
->> platform, let's enable the clock meson_dw_hdmi_init() depends on.
->> This means we don't have to worry about this clock being enabled or
->> not, depending on the boot-loader features.
->> 
->> Fixes: b33340e33acd ("drm/meson: dw-hdmi: Ensure that clocks are 
->> enabled before touching the TOP registers")
->> Reported-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-> 
-> Although I am triaging kernelci bisections, it was initially
-> found thanks to our friendly bot.  So if you're OK with this, it
-> would most definitely appreciate a mention:
-> 
->   Reported-by: "kernelci.org bot" <bot@kernelci.org>
+Hi all,
 
-Sure. Neil can add this when (and if) he applies these patches.
+here's the fourth revision of the Host1x/TegraDRM UAPI proposal.
 
-Thanks,
+The changes at a high level in this revision are:
+* Small bugfixes for issues reported by CI bots
+* Removal of not strictly required features like sync_file FDs,
+  reservations, partial mappings etc. from the submit UAPI.
+* All new UAPI placed under CONFIG_DRM_TEGRA_STAGING.
 
-         M.
+The test suite[1] has been updated for the changes in this revision,
+
+The series can be also found in
+https://github.com/cyndis/linux/commits/work/host1x-uapi-v4.
+
+Older versions:
+v1: https://www.spinics.net/lists/linux-tegra/msg51000.html
+v2: https://www.spinics.net/lists/linux-tegra/msg53061.html
+v3: https://www.spinics.net/lists/linux-tegra/msg54370.html
+
+Thank you,
+Mikko
+
+[1] https://github.com/cyndis/uapi-test
+
+Mikko Perttunen (21):
+  gpu: host1x: Use different lock classes for each client
+  gpu: host1x: Allow syncpoints without associated client
+  gpu: host1x: Show number of pending waiters in debugfs
+  gpu: host1x: Remove cancelled waiters immediately
+  gpu: host1x: Use HW-equivalent syncpoint expiration check
+  gpu: host1x: Cleanup and refcounting for syncpoints
+  gpu: host1x: Introduce UAPI header
+  gpu: host1x: Implement /dev/host1x device node
+  gpu: host1x: DMA fences and userspace fence creation
+  gpu: host1x: Add no-recovery mode
+  gpu: host1x: Add job release callback
+  gpu: host1x: Add support for syncpoint waits in CDMA pushbuffer
+  gpu: host1x: Reset max value when freeing a syncpoint
+  gpu: host1x: Reserve VBLANK syncpoints at initialization
+  drm/tegra: Add new UAPI to header
+  drm/tegra: Boot VIC during runtime PM resume
+  drm/tegra: Set resv fields when importing/exporting GEMs
+  drm/tegra: Allocate per-engine channel in core code
+  drm/tegra: Implement new UAPI
+  drm/tegra: Implement job submission part of new UAPI
+  drm/tegra: Add job firewall
+
+ drivers/gpu/drm/tegra/Makefile         |   4 +
+ drivers/gpu/drm/tegra/dc.c             |  10 +-
+ drivers/gpu/drm/tegra/drm.c            |  72 +++--
+ drivers/gpu/drm/tegra/drm.h            |   9 +
+ drivers/gpu/drm/tegra/gem.c            |   2 +
+ drivers/gpu/drm/tegra/gr2d.c           |   4 +-
+ drivers/gpu/drm/tegra/gr3d.c           |   4 +-
+ drivers/gpu/drm/tegra/uapi.h           |  63 ++++
+ drivers/gpu/drm/tegra/uapi/firewall.c  | 197 ++++++++++++
+ drivers/gpu/drm/tegra/uapi/gather_bo.c |  86 +++++
+ drivers/gpu/drm/tegra/uapi/gather_bo.h |  22 ++
+ drivers/gpu/drm/tegra/uapi/submit.c    | 427 +++++++++++++++++++++++++
+ drivers/gpu/drm/tegra/uapi/submit.h    |  20 ++
+ drivers/gpu/drm/tegra/uapi/uapi.c      | 306 ++++++++++++++++++
+ drivers/gpu/drm/tegra/vic.c            | 118 ++++---
+ drivers/gpu/host1x/Makefile            |   2 +
+ drivers/gpu/host1x/bus.c               |   7 +-
+ drivers/gpu/host1x/cdma.c              |  69 +++-
+ drivers/gpu/host1x/debug.c             |  14 +-
+ drivers/gpu/host1x/dev.c               |  15 +
+ drivers/gpu/host1x/dev.h               |  16 +-
+ drivers/gpu/host1x/fence.c             | 208 ++++++++++++
+ drivers/gpu/host1x/fence.h             |  13 +
+ drivers/gpu/host1x/hw/cdma_hw.c        |   2 +-
+ drivers/gpu/host1x/hw/channel_hw.c     |  63 ++--
+ drivers/gpu/host1x/hw/debug_hw.c       |  11 +-
+ drivers/gpu/host1x/intr.c              |  23 +-
+ drivers/gpu/host1x/intr.h              |   2 +
+ drivers/gpu/host1x/job.c               |  79 +++--
+ drivers/gpu/host1x/job.h               |  14 +
+ drivers/gpu/host1x/syncpt.c            | 185 ++++++-----
+ drivers/gpu/host1x/syncpt.h            |  16 +-
+ drivers/gpu/host1x/uapi.c              | 385 ++++++++++++++++++++++
+ drivers/gpu/host1x/uapi.h              |  22 ++
+ drivers/staging/media/tegra-video/vi.c |   8 +-
+ include/linux/host1x.h                 |  47 ++-
+ include/uapi/drm/tegra_drm.h           | 338 +++++++++++++++++--
+ include/uapi/linux/host1x.h            | 134 ++++++++
+ 38 files changed, 2729 insertions(+), 288 deletions(-)
+ create mode 100644 drivers/gpu/drm/tegra/uapi.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/firewall.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/gather_bo.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.c
+ create mode 100644 drivers/gpu/drm/tegra/uapi/submit.h
+ create mode 100644 drivers/gpu/drm/tegra/uapi/uapi.c
+ create mode 100644 drivers/gpu/host1x/fence.c
+ create mode 100644 drivers/gpu/host1x/fence.h
+ create mode 100644 drivers/gpu/host1x/uapi.c
+ create mode 100644 drivers/gpu/host1x/uapi.h
+ create mode 100644 include/uapi/linux/host1x.h
+
 -- 
-Jazz is not dead. It just smells funny...
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
