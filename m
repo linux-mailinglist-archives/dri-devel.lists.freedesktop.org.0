@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67C8E2BBEB3
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:35:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DD332BBEB6
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:35:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA3A6E99E;
-	Sat, 21 Nov 2020 11:34:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1342C6E9AE;
+	Sat, 21 Nov 2020 11:34:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com
- [IPv6:2607:f8b0:4864:20::f44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42436E8F5
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 18:23:18 +0000 (UTC)
-Received: by mail-qv1-xf44.google.com with SMTP id g19so5135180qvy.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 10:23:18 -0800 (PST)
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com
+ [IPv6:2607:f8b0:4864:20::742])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22736E8F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 18:30:31 +0000 (UTC)
+Received: by mail-qk1-x742.google.com with SMTP id l2so9882288qkf.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 10:30:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=UCRF1tW/AZBL2cTgUwVNxqtk7LoMkUYo1UAbEj+RJjA=;
- b=B4hybK4yzaLM2Npm1+7g6r63APKMgeTYmtc+xA4iVzmdUpm8/fc6u8PaaYBUCEqsTa
- DQGtD0B85sfZ6AQDUGUUQC5pVjZlDUujNTP78g/UuI8FK4lpcR30mtecsvkVf7DRgiuW
- MlO955aCtgx98+WPuV3NTYdOklNjuBLotWjSZU4ObiQWcAx2srZjTgQUtz+nDfdm6w6W
- DZqPXoE1QXdh/pboRXeD4ejJgfX5GK2Q1BTBAtJtZmFj9fTPLr6v/mkTDWfR54U03nWV
- iXOwhBmbqACTOvfxkYtC+csJIypzFC+zmDe+YDbqWg3tSfxHioKaKSUTa24FTqD2nFIt
- rECQ==
+ :content-disposition:in-reply-to;
+ bh=qS9ZqheXF3qXlYveFf6+vMdNm1LP9a7sCRmU5tIj0vQ=;
+ b=DrFYWt+1hb4WfINS92U5IVQMCB6WKF5xEz75W+ZSkpzKVYZw8JxEaaLRhFgpFsX1Rs
+ XUxXlb8HtK40tSfGjjunkX8SU199oPuB/G80+Ihj5S6pCKGr2HFJlL7MHo65gDiv8c23
+ ofoLjjtqKLcM53/YSHMQnD2n64U/s4LGFx0MXmrxSwtmydzCFFOGbOgl5AefevNt9z4B
+ /AzLhrlEIRoOx3a/FI6xZiykdYU/2XpV/SH5UXKmuao5MFBbsI3vKTIdga3hvHSW64qo
+ Z/90o2IZQUfzW0ooGr7K6UIiRhh4E1F7jHOF81fznndZO1wpQBiuooGayp0HJjzgftiB
+ hUzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=UCRF1tW/AZBL2cTgUwVNxqtk7LoMkUYo1UAbEj+RJjA=;
- b=GVCdkOnllhKQKtG7dfOpRt3UN34kiH8ZFr/FERGA7h8Qqghu1cb7s2waEsYlYo5RMJ
- EHYIKzhLQQovcyayxlzNgrANBJJQM0y02xlv+HVEK7IoA+x71Oe2jg0H/NIvaMQzEHM1
- 6bbnH4dvg0Y8pQMDfKU2bPLMFqX5EbtL5W++r6oQPI9ivKRkZLs4hNStJRLQxBMNy3Iv
- 8/4g18MWTHtC1N2O8wu8NRhCqYu8K7f03fMGcpUsfmK0vFJB+4+1B9XNK/Sy6lIUMG92
- ptnHnLQg+7J5K11Zx90N4BFQQDtNtEa+m7FogCm0vWSoGAyOzyQE1+4h7GapLxHzHDAF
- /3hg==
-X-Gm-Message-State: AOAM532rwsLO0PVFwe/ma8po6Hx3Y++0z2onKnkxC1tds0NTgAfkIIna
- Z253tYBivWBSRnsay+ZE2/jsWA==
-X-Google-Smtp-Source: ABdhPJyYHlJdtw+Gau+17nV3WJLVIt14si/LWrTbl0K59MDQ0saInzPp33g3U6H6OWsC2O3yX2B0AQ==
-X-Received: by 2002:a0c:b18a:: with SMTP id v10mr16583162qvd.46.1605896597938; 
- Fri, 20 Nov 2020 10:23:17 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=qS9ZqheXF3qXlYveFf6+vMdNm1LP9a7sCRmU5tIj0vQ=;
+ b=NAEAvMoog1H1fN65DqvsDhc5PgOFYz/S06+FgR0o4tncuhCYgiWXgAN4kGHQF2WDBs
+ cF4K1MdYiDz480kJVUTqYzsjGlRhrb8asn+QAGtkOvUZcQbHfCOrNl5cSVdW4bfGuq7l
+ y4LK3wz/+QMQBk1yudSVn6vJ+HYo26TxoEiTegYGzUYpeFtLYIR1a+UY7g+HFZH+/taR
+ sRITgV/vkTVRtUv3HVueNghTEfJ4ct3XX0i/ep4lwHqOBrHvaLEOJssy99F44tCgHNYA
+ YzsPrJNVinY6Ec8X6ZbT2nygUvTGj8T4LoRZFCgp/+oGQmSS0jv/J19Clv1MRluT9LON
+ rZAQ==
+X-Gm-Message-State: AOAM5339+8JrPWFi21Hmwz8ja0u2CK7hZ/huR/jw4bF84bgDz8SG1zRr
+ UKQG9ipHgm5v29lbDyB1N/9m9A==
+X-Google-Smtp-Source: ABdhPJz9SdUwITc+pZGgA9oQw0nYR0dAsKTieY7dxiA1OR9ilvjUimdkoUQjm+gMpnpYWVeoTDxPfg==
+X-Received: by 2002:a37:9441:: with SMTP id w62mr17877583qkd.474.1605897030779; 
+ Fri, 20 Nov 2020 10:30:30 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id v9sm2453624qkv.34.2020.11.20.10.23.17
+ by smtp.gmail.com with ESMTPSA id f14sm2400142qkk.89.2020.11.20.10.30.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 10:23:17 -0800 (PST)
+ Fri, 20 Nov 2020 10:30:30 -0800 (PST)
 Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1kgB40-008ub6-IN; Fri, 20 Nov 2020 14:23:16 -0400
-Date: Fri, 20 Nov 2020 14:23:16 -0400
+ id 1kgBAz-008ujM-Ig; Fri, 20 Nov 2020 14:30:29 -0400
+Date: Fri, 20 Nov 2020 14:30:29 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH 1/3] mm: Track mmu notifiers in fs_reclaim_acquire/release
-Message-ID: <20201120182316.GP244516@ziepe.ca>
-References: <20201120095445.1195585-1-daniel.vetter@ffwll.ch>
- <20201120095445.1195585-2-daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v6 17/17] RFC: mm: add mmu_notifier argument to follow_pfn
+Message-ID: <20201120183029.GQ244516@ziepe.ca>
+References: <20201119144146.1045202-1-daniel.vetter@ffwll.ch>
+ <20201119144146.1045202-18-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201120095445.1195585-2-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201119144146.1045202-18-daniel.vetter@ffwll.ch>
 X-Mailman-Approved-At: Sat, 21 Nov 2020 11:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,75 +72,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Chinner <david@fromorbit.com>, LKML <linux-kernel@vger.kernel.org>,
+Cc: linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
+ Kees Cook <keescook@chromium.org>, kvm@vger.kernel.org,
+ John Hubbard <jhubbard@nvidia.com>, LKML <linux-kernel@vger.kernel.org>,
  DRI Development <dri-devel@lists.freedesktop.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org, Qian Cai <cai@lca.pw>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- linux-fsdevel@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
+ Christoph Hellwig <hch@infradead.org>, linux-mm@kvack.org,
+ =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Dan Williams <dan.j.williams@intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas_os@shipmail.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMjAsIDIwMjAgYXQgMTA6NTQ6NDJBTSArMDEwMCwgRGFuaWVsIFZldHRlciB3
-cm90ZToKPiBmc19yZWNsYWltX2FjcXVpcmUvcmVsZWFzZSBuaWNlbHkgY2F0Y2ggcmVjdXJzaW9u
-IGlzc3VlcyB3aGVuCj4gYWxsb2NhdGluZyBHRlBfS0VSTkVMIG1lbW9yeSBhZ2FpbnN0IHNocmlu
-a2VycyAod2hpY2ggZ3B1IGRyaXZlcnMgdGVuZAo+IHRvIHVzZSB0byBrZWVwIHRoZSBleGNlc3Np
-dmUgY2FjaGVzIGluIGNoZWNrKS4gRm9yIG1tdSBub3RpZmllcgo+IHJlY3Vyc2lvbnMgd2UgZG8g
-aGF2ZSBsb2NrZGVwIGFubm90YXRpb25zIHNpbmNlIDIzYjY4Mzk1YzdjNwo+ICgibW0vbW11X25v
-dGlmaWVyczogYWRkIGEgbG9ja2RlcCBtYXAgZm9yIGludmFsaWRhdGVfcmFuZ2Vfc3RhcnQvZW5k
-IikuCj4gCj4gQnV0IHRoZXNlIG9ubHkgZmlyZSBpZiBhIHBhdGggYWN0dWFsbHkgcmVzdWx0cyBp
-biBzb21lIHB0ZQo+IGludmFsaWRhdGlvbiAtIGZvciBtb3N0IHNtYWxsIGFsbG9jYXRpb25zIHRo
-YXQncyB2ZXJ5IHJhcmVseSB0aGUgY2FzZS4KPiBUaGUgb3RoZXIgdHJvdWJsZSBpcyB0aGF0IHB0
-ZSBpbnZhbGlkYXRpb24gY2FuIGhhcHBlbiBhbnkgdGltZSB3aGVuCj4gX19HRlBfUkVDTEFJTSBp
-cyBzZXQuIFdoaWNoIG1lYW5zIG9ubHkgcmVhbGx5IEdGUF9BVE9NSUMgaXMgYSBzYWZlCj4gY2hv
-aWNlLCBHRlBfTk9JTyBpc24ndCBnb29kIGVub3VnaCB0byBhdm9pZCBwb3RlbnRpYWwgbW11IG5v
-dGlmaWVyCj4gcmVjdXJzaW9uLgo+IAo+IEkgd2FzIHBvbmRlcmluZyB3aGV0aGVyIHdlIHNob3Vs
-ZCBqdXN0IGRvIHRoZSBnZW5lcmFsIGFubm90YXRpb24sIGJ1dAo+IHRoZXJlJ3MgYWx3YXlzIHRo
-ZSByaXNrIGZvciBmYWxzZSBwb3NpdGl2ZXMuIFBsdXMgSSdtIGFzc3VtaW5nIHRoYXQKPiB0aGUg
-Y29yZSBmcyBhbmQgaW8gY29kZSBpcyBhIGxvdCBiZXR0ZXIgcmV2aWV3ZWQgYW5kIHRlc3RlZCB0
-aGFuCj4gcmFuZG9tIG1tdSBub3RpZmllciBjb2RlIGluIGRyaXZlcnMuIEhlbmNlIHdoeSBJIGRl
-Y2lkZSB0byBvbmx5Cj4gYW5ub3RhdGUgZm9yIHRoYXQgc3BlY2lmaWMgY2FzZS4KPiAKPiBGdXJ0
-aGVybW9yZSBldmVuIGlmIHdlJ2QgY3JlYXRlIGEgbG9ja2RlcCBtYXAgZm9yIGRpcmVjdCByZWNs
-YWltLCB3ZSdkCj4gc3RpbGwgbmVlZCB0byBleHBsaWNpdCBwdWxsIGluIHRoZSBtbXUgbm90aWZp
-ZXIgbWFwIC0gdGhlcmUncyBhIGxvdAo+IG1vcmUgcGxhY2VzIHRoYXQgZG8gcHRlIGludmFsaWRh
-dGlvbiB0aGFuIGp1c3QgZGlyZWN0IHJlY2xhaW0sIHRoZXNlCj4gdHdvIGNvbnRleHRzIGFyZW50
-IHRoZSBzYW1lLgo+IAo+IE5vdGUgdGhhdCB0aGUgbW11IG5vdGlmaWVycyBuZWVkaW5nIHRoZWly
-IG93biBpbmRlcGVuZGVudCBsb2NrZGVwIG1hcAo+IGlzIGFsc28gdGhlIHJlYXNvbiB3ZSBjYW4n
-dCBob2xkIHRoZW0gZnJvbSBmc19yZWNsYWltX2FjcXVpcmUgdG8KPiBmc19yZWNsYWltX3JlbGVh
-c2UgLSBpdCB3b3VsZCBuZXN0IHdpdGggdGhlIGFjcXVpc3Rpb24gaW4gdGhlIHB0ZQo+IGludmFs
-aWRhdGlvbiBjb2RlLCBjYXVzaW5nIGEgbG9ja2RlcCBzcGxhdC4gQW5kIHdlIGNhbid0IHJlbW92
-ZSB0aGUKPiBhbm5vdGF0aW9ucyBmcm9tIHB0ZSBpbnZhbGlkYXRpb24gYW5kIGFsbCB0aGUgb3Ro
-ZXIgcGxhY2VzIHNpbmNlCj4gdGhleSdyZSBjYWxsZWQgZnJvbSBtYW55IG90aGVyIHBsYWNlcyB0
-aGFuIHBhZ2UgcmVjbGFpbS4gSGVuY2Ugd2UgY2FuCj4gb25seSBkbyB0aGUgZXF1aXZhbGVudCBv
-ZiBtaWdodF9sb2NrLCBidXQgb24gdGhlIHJhdyBsb2NrZGVwIG1hcC4KPiAKPiBXaXRoIHRoaXMg
-d2UgY2FuIGFsc28gcmVtb3ZlIHRoZSBsb2NrZGVwIHByaW1pbmcgYWRkZWQgaW4gNjYyMDRmMWQy
-ZDFiCj4gKCJtbS9tbXVfbm90aWZpZXJzOiBwcmltZSBsb2NrZGVwIikgc2luY2UgdGhlIG5ldyBh
-bm5vdGF0aW9ucyBhcmUKPiBzdHJpY3RseSBtb3JlIHBvd2VyZnVsLgo+IAo+IHYyOiBSZXZpZXcg
-ZnJvbSBUaG9tYXMgSGVsbHN0cm9tOgo+IC0gdW5ib3RjaCB0aGUgZnNfcmVjbGFpbSBjb250ZXh0
-IGNoZWNrLCBJIGFjY2lkZW50YWxseSBpbnZlcnRlZCBpdCwKPiAgIGJ1dCBpdCBkaWRuJ3QgYmxv
-dyB1cCBiZWNhdXNlIEkgaW52ZXJ0ZWQgaXQgaW1tZWRpYXRlbHkKPiAtIGZpeCBjb21waWxpbmcg
-Zm9yICFDT05GSUdfTU1VX05PVElGSUVSCj4gCj4gdjM6IFVuYnJlYWsgdGhlIFBGX01FTUFMTE9D
-XyBjb250ZXh0IGZsYWdzLiBUaGFua3MgdG8gUWlhbiBmb3IgdGhlCj4gcmVwb3J0IGFuZCBEYXZl
-IGZvciBleHBsYWluaW5nIHdoYXQgSSBmYWlsZWQgdG8gc2VlLgo+IAo+IENjOiBsaW51eC1mc2Rl
-dmVsQHZnZXIua2VybmVsLm9yZwo+IENjOiBEYXZlIENoaW5uZXIgPGRhdmlkQGZyb21vcmJpdC5j
-b20+Cj4gQ2M6IFFpYW4gQ2FpIDxjYWlAbGNhLnB3Pgo+IENjOiBsaW51eC14ZnNAdmdlci5rZXJu
-ZWwub3JnCj4gQ2M6IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCkgPHRob21hc19vc0BzaGlwbWFp
-bC5vcmc+Cj4gQ2M6IEFuZHJldyBNb3J0b24gPGFrcG1AbGludXgtZm91bmRhdGlvbi5vcmc+Cj4g
-Q2M6IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxhbm94LmNvbT4KPiBDYzogbGludXgtbW1Aa3Zh
-Y2sub3JnCj4gQ2M6IGxpbnV4LXJkbWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IE1hYXJ0ZW4gTGFu
-a2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+Cj4gQ2M6IENocmlzdGlh
-biBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogIk1hdHRoZXcgV2lsY294
-IChPcmFjbGUpIiA8d2lsbHlAaW5mcmFkZWFkLm9yZz4KPiBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwg
-VmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KPiAtLS0KPiAgbW0vbW11X25vdGlmaWVy
-LmMgfCAgNyAtLS0tLS0tCj4gIG1tL3BhZ2VfYWxsb2MuYyAgIHwgMzEgKysrKysrKysrKysrKysr
-KysrKystLS0tLS0tLS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDIwIGluc2VydGlvbnMoKyksIDE4
-IGRlbGV0aW9ucygtKQoKUmV2aWV3ZWQtYnk6IEphc29uIEd1bnRob3JwZSA8amdnQG52aWRpYS5j
-b20+CgpKYXNvbgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-XwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcK
-aHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Nov 19, 2020 at 03:41:46PM +0100, Daniel Vetter wrote:
+> @@ -4805,21 +4824,15 @@ EXPORT_SYMBOL(follow_pte_pmd);
+>   * Return: zero and the pfn at @pfn on success, -ve otherwise.
+>   */
+>  int follow_pfn(struct vm_area_struct *vma, unsigned long address,
+> -	unsigned long *pfn)
+> +	unsigned long *pfn, struct mmu_notifier *subscription)
+>  {
+> -	int ret = -EINVAL;
+> -	spinlock_t *ptl;
+> -	pte_t *ptep;
+> +	if (WARN_ON(!subscription->mm))
+> +		return -EINVAL;
+>  
+> +	if (WARN_ON(subscription->mm != vma->vm_mm))
+> +		return -EINVAL;
+
+These two things are redundant right? vma->vm_mm != NULL?
+
+BTW, why do we even have this for nommu? If the only caller is kvm,
+can you even compile kvm on nommu??
+
+Jason
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
