@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560CF2BB947
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 23:43:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480512BB94B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 23:45:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D815489FF9;
-	Fri, 20 Nov 2020 22:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2016E93A;
+	Fri, 20 Nov 2020 22:45:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com
- [IPv6:2607:f8b0:4864:20::b42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1FF89FF9;
- Fri, 20 Nov 2020 22:43:38 +0000 (UTC)
-Received: by mail-yb1-xb42.google.com with SMTP id t33so10038077ybd.0;
- Fri, 20 Nov 2020 14:43:38 -0800 (PST)
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com
+ [IPv6:2607:f8b0:4864:20::b44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFD586E93A;
+ Fri, 20 Nov 2020 22:45:19 +0000 (UTC)
+Received: by mail-yb1-xb44.google.com with SMTP id v92so10031402ybi.4;
+ Fri, 20 Nov 2020 14:45:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nu9Pci9XSkyd2dQdu9gYuDXeZiilDMpuYrk/Rd2PDx0=;
- b=vLazJgTbtfbaGpmbkmH9kjLDe/7YdZSR3IjSdTOC3a7M45J/PvYmtJ/ATBlPLtCXnS
- B9HxkvDhjflDpD9Je6i2J5DMk7XoIAuV+CgpkIE/GgKxvF081o4pPQZ7gGHBtBgIdozW
- a7gdWKUoPTaXlyivSbYHWO3GQFZuSqcPgv/qsmgMLwOAfQKjfjopSamtnb/TXGqobEhq
- cRMY/udYpwC+qW64oD+Kym32KEcD/EhXx/v2i960ZlYjlm+QAPJ1cpWunMuXQJ6H7fox
- m06GBTkn6shJ6Hk8qlWcQoLAGEg7fPky6YI3HaLP1o07U5OWbTUA5YtULqsV0Z71AA+S
- oppw==
+ :cc; bh=IGDOWKKq6xCnwWSk70Q1NBr14x+oJN9x0alo3n+41Pg=;
+ b=T3DJ41JXNehc3YEEyUuo5UvcD/cQ+JatOO/tdt3eh50lPdetbDtOJYdAPhYJTPdk1t
+ +6AFOHIME9KTQe0XLW8au3BnP8i+FCqBSF74pQAD2VJ1Ta+fC0cRMrVdOZKt7VZbGiKF
+ WBy0ZyY5/ccNsVar/FG0NF/kE3neLoEA5W/gWyaynqAljCK3P9et7g2Qt3c4np6pZUPW
+ 6MkwxwgE+N1arvNhqFf6WtXV4qfl0ecoZublkqxLjM3Gbab8ZSYwDgUdg0c+T3WxgMzG
+ 0KiY6BJEcezFhOtJfuWg09qtqK5EtWKnDEvtV5zB6oBjXTdXJwbBlisPz9Ze5/LMmB8i
+ j1JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nu9Pci9XSkyd2dQdu9gYuDXeZiilDMpuYrk/Rd2PDx0=;
- b=Mrp8HYpxzaDFSjBwbGEZ8pXzFaTnWHRoHWJ9OTY1FMnMnU7nD0WfEd4dUuP6cBV3zJ
- pvRCCpij9S+iELh6Lk5JN6u+zlZQC7J4dTkv0WaagF2IUergfLd+SGTdXDrlMXuUvCaB
- SSg3y2uZbfUdr/A9Hxu+AsimCQ03tUlQ2XYyLwEH7qIZvO5/l/zYQPUa4fWtVf6Gbrou
- fkEu70sglV9xv/x8E0rFe/LNnkmWFIGcy28D9PoD0Tp5taE8i7krTsVM5NkXBrz56pZF
- L4S5MpK1pPg85KdiYN/I5ZqUKiK6filemnAdKjqq9+V+8VnyXH8og7VQJj7Ilg0MmoHV
- hWtw==
-X-Gm-Message-State: AOAM530I8B2eNM6bsAJlONbU+dYiEo+q+gkGYd5POzujFZM9j9vg8eG2
- DnjDXLoZYSNp7hKN2SPgycl/VEGhvObIj8TnU4I=
-X-Google-Smtp-Source: ABdhPJwtW2ZdxXKGprnW3kFvpKNwPgrQ+lYf1VfvdBm8kxziqaJ0nTDG9tH90wmo+KGpy9hxejETqZf0R7aZrzO+0cs=
-X-Received: by 2002:a05:6902:102a:: with SMTP id
- x10mr20678016ybt.130.1605912217819; 
- Fri, 20 Nov 2020 14:43:37 -0800 (PST)
+ bh=IGDOWKKq6xCnwWSk70Q1NBr14x+oJN9x0alo3n+41Pg=;
+ b=U0eUpU/WHjyw19Iem7Dr9WcOOUPHrmTRAz+YKU4dJgwE9EyyjM2sWW5+5dc2VwKLWI
+ 8NbRauU5qJODKz0sq27QnySsV+OhMSZL7dsK3W2NGiN1N0xxOMbk+s2HwSXg7/p6IiO5
+ mTXSqXNs+A1U823c6SKPRTmTypKst7qf2wCAW5OV+R28BYF88HAnrsol36m/301CzASx
+ Hcp5vzeiWSW7oXfl6TI215vrveQ9ppxm0FMVWeH6ccVnwkHmP3/WXU3IW1ydcX6Eyi35
+ J7/jh9ATG8Imm9S4qPBCy4ESlItBJEjL7srxEUApQL+Aa7lOCnrIkD8BDcoSr2N0esW2
+ MG/w==
+X-Gm-Message-State: AOAM533IpSxr+vqDzCINvoT/0+r2Oc7dxi76pyPyTbFCrJ82XdBnLbu5
+ KdjHH//NsxnECSIYyUD6y9aG3+8DW66G/oKqqIs=
+X-Google-Smtp-Source: ABdhPJy4XXPGwSb5+sjtbSWzHe15A2qwK1ApZqcOU1rinnFDil8g58upNilSYntsp396xqgfbJ7fwyczHoFalkRV8eI=
+X-Received: by 2002:a25:397:: with SMTP id 145mr20533812ybd.6.1605912319170;
+ Fri, 20 Nov 2020 14:45:19 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1605896059.git.gustavoars@kernel.org>
- <4737ca598d8548f06e5cae6333c0e100b74ffa65.1605896059.git.gustavoars@kernel.org>
-In-Reply-To: <4737ca598d8548f06e5cae6333c0e100b74ffa65.1605896059.git.gustavoars@kernel.org>
+ <9ac81a4aab74e0b3317172e66a985fe6d1ae4e1b.1605896059.git.gustavoars@kernel.org>
+In-Reply-To: <9ac81a4aab74e0b3317172e66a985fe6d1ae4e1b.1605896059.git.gustavoars@kernel.org>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 20 Nov 2020 17:43:26 -0500
-Message-ID: <CADnq5_OFMOpG8ZDHBGXv4pcmHsm=5FJKPqCzYNyxTAJ28QPu9A@mail.gmail.com>
-Subject: Re: [PATCH 005/141] drm/radeon: Fix fall-through warnings for Clang
+Date: Fri, 20 Nov 2020 17:45:07 -0500
+Message-ID: <CADnq5_Ow_b35AuCGO=LncniDDcwSeS9fSpUiJd+vZYfc29TM0g@mail.gmail.com>
+Subject: Re: [PATCH 028/141] drm/amd/display: Fix fall-through warnings for
+ Clang
 To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,25 +62,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>, Leo Li <sunpeng.li@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>,
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-hardening@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@linux.ie>, linux-hardening@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 20, 2020 at 1:24 PM Gustavo A. R. Silva
+On Fri, Nov 20, 2020 at 1:28 PM Gustavo A. R. Silva
 <gustavoars@kernel.org> wrote:
 >
 > In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-> warnings by explicitly adding multiple fallthrough pseudo-keyword macros,
-> as replacement for /* fall through */ comments.
->
-> Notice that Clang doesn't recognize /* fall through */ comments as
-> implicit fall-through markings.
+> warnings by explicitly adding multiple break statements instead of just
+> letting the code fall through to the next case.
 >
 > Link: https://github.com/KSPP/linux/issues/115
 > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
@@ -90,58 +88,62 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/radeon/ci_dpm.c | 2 +-
->  drivers/gpu/drm/radeon/r300.c   | 1 +
->  drivers/gpu/drm/radeon/si_dpm.c | 2 +-
->  3 files changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  | 1 +
+>  drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 2 ++
+>  drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 1 +
+>  3 files changed, 4 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-> index 886e9959496f..3d0a2e81b2de 100644
-> --- a/drivers/gpu/drm/radeon/ci_dpm.c
-> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
-> @@ -4860,8 +4860,8 @@ static void ci_request_link_speed_change_before_state_change(struct radeon_devic
->                 case RADEON_PCIE_GEN2:
->                         if (radeon_acpi_pcie_performance_request(rdev, PCIE_PERF_REQ_PECI_GEN2, false) == 0)
->                                 break;
-> +                       fallthrough;
->  #endif
-> -                       /* fall through */
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> index ad394aefa5d9..23a373ca94b5 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+> @@ -1198,6 +1198,7 @@ static enum bp_result bios_parser_get_embedded_panel_info(
 >                 default:
->                         pi->force_pcie_gen = ci_get_current_pcie_speed(rdev);
 >                         break;
-> diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
-> index 73f67bf222e1..213dc49b6322 100644
-> --- a/drivers/gpu/drm/radeon/r300.c
-> +++ b/drivers/gpu/drm/radeon/r300.c
-> @@ -1162,6 +1162,7 @@ static int r300_packet0_check(struct radeon_cs_parser *p,
->                 /* valid register only on RV530 */
->                 if (p->rdev->family == CHIP_RV530)
->                         break;
-> +               fallthrough;
->                 /* fallthrough do not move */
+>                 }
+> +               break;
 >         default:
->                 goto fail;
-> diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
-> index d1c73e9db889..d19c08e0ad5a 100644
-> --- a/drivers/gpu/drm/radeon/si_dpm.c
-> +++ b/drivers/gpu/drm/radeon/si_dpm.c
-> @@ -5748,8 +5748,8 @@ static void si_request_link_speed_change_before_state_change(struct radeon_devic
->                 case RADEON_PCIE_GEN2:
->                         if (radeon_acpi_pcie_performance_request(rdev, PCIE_PERF_REQ_PECI_GEN2, false) == 0)
->                                 break;
-> +                       fallthrough;
->  #endif
-> -                       /* fall through */
->                 default:
->                         si_pi->force_pcie_gen = si_get_current_pcie_speed(rdev);
+>                 break;
+>         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> index 29d64e7e304f..fd1e64fa8744 100644
+> --- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> +++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+> @@ -903,6 +903,7 @@ static enum bp_result bios_parser_get_soc_bb_info(
 >                         break;
+>                 case 4:
+>                         result = get_soc_bb_info_v4_4(bp, soc_bb_info);
+> +                       break;
+>                 default:
+>                         break;
+>                 }
+> @@ -1019,6 +1020,7 @@ static enum bp_result bios_parser_get_embedded_panel_info(
+>                 default:
+>                         break;
+>                 }
+> +               break;
+>         default:
+>                 break;
+>         }
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> index fec87a2e210c..b9254a87ee73 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+> @@ -1052,6 +1052,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
+>
+>                                 return false;
+>                         }
+> +                       break;
+>                 default:
+>                         break;
+>                 }
 > --
 > 2.27.0
 >
 > _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
