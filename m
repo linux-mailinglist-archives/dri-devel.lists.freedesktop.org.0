@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2632BBEB2
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:35:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 490842BBEA7
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE3F26E9AD;
-	Sat, 21 Nov 2020 11:34:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836296E997;
+	Sat, 21 Nov 2020 11:34:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [207.82.80.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B81446E8D9
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 15:39:22 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-48-2DVZji6aPsmuGTvzOENjVg-1; Fri, 20 Nov 2020 15:39:17 +0000
-X-MC-Unique: 2DVZji6aPsmuGTvzOENjVg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Fri, 20 Nov 2020 15:39:16 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Fri, 20 Nov 2020 15:39:16 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Thomas Zimmermann' <tzimmermann@suse.de>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: RE: Linux 5.10-rc4; graphics alignment
-Thread-Topic: Linux 5.10-rc4; graphics alignment
-Thread-Index: Ada/IUdqcU2WLz13TDyBa91ssXd9zQABIUYAAAEibgAAAW3SAAAAkehgAAGiZoAAAIjkIAAB97YAAANWzKA=
-Date: Fri, 20 Nov 2020 15:39:16 +0000
-Message-ID: <fd7e7817781a43eb857fceb971502511@AcuMS.aculab.com>
-References: <2c474745ae884de3b4ecb8abe2152bfd@AcuMS.aculab.com>
- <fa5c887e-82d8-5347-ff18-85e3628dadbe@suse.de>
- <c01d2d95f1e64be984cff71e7bdf1c84@AcuMS.aculab.com>
- <c9bae016-413f-0db9-c9ee-d6f39d24a6ab@suse.de>
- <fa6346190d0b4936934d1f1359e5b71f@AcuMS.aculab.com>
- <fd66bfcc-072a-ddfb-0d12-af4a5207820d@suse.de>
- <ec3130c3d22a4d4dafe020d30fd224cd@AcuMS.aculab.com>
- <7d42ee6b-d72b-9f4d-21fe-4f5981eb425e@suse.de>
-In-Reply-To: <7d42ee6b-d72b-9f4d-21fe-4f5981eb425e@suse.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A34FA6E8C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 15:57:41 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1605887860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=USMB2Oora/OLgO94kKepkF0GaoTAGWU9NisPoIPkkqg=;
+ b=q/moGA/bK2sKeDvBbfEkntpJdbns+bY/vXpEOE0JtTKwNwHvuxWKS9RVyq55QbKF/tpv7y
+ JABpMkFz69lxH2n+9ym1DvD9OWJTYiHQLxePs8ItANAKq2xetUg1AhTxa7bCeCuhBhnYCe
+ PKUwuTmFKMeZGvcANi4Bn4NNQQoZni0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3C3AFACBA;
+ Fri, 20 Nov 2020 15:57:40 +0000 (UTC)
+Date: Fri, 20 Nov 2020 16:57:39 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <X7fnc+xsVXPg4Op6@alley>
+References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
 X-Mailman-Approved-At: Sat, 21 Nov 2020 11:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,38 +47,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang, Ray" <ray.huang@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>
+Cc: mchehab@kernel.org, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, laurent.pinchart@ideasonboard.com,
+ Joe Perches <joe@perches.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann
-> Sent: 20 November 2020 13:42
-...
-> I did a diff from v5.10-rc4 to drm-tip to look for suspicious changes.
-> Some candidates are
+On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
+> Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> so the same implementation can be used.
 > 
->    8e3784dfef8a ("drm/ast: Reload gamma LUT after changing primary
-> plane's color format")
+> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Ok, that one fixes the screen colours (etc).
-So 8e3784dfef8a was good and then HEAD^ was bad.
+The last version looks fine to me.
 
-I might try to bisect the breakage.
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-The stack splat is entirely different.
-I'll try to bisect that on Linus's tree.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+Best Regards,
+Petr
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
