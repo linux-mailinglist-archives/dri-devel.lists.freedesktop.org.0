@@ -1,63 +1,113 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C8242BA6D9
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 10:59:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B1A2BA6F3
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 11:04:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DD96E89D;
-	Fri, 20 Nov 2020 09:59:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7E7189B0C;
+	Fri, 20 Nov 2020 10:04:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B60286E89D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 09:59:04 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 3FE7722240;
- Fri, 20 Nov 2020 09:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605866344;
- bh=/9Svc1nB4x4FQpTn7Lh51eg63FO1h5B4OU0Pfe7eNec=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=wJtvxMFtDr40TCmI+wTiQIU2yKxHb8Jp3i/Ci+irezyklhocG0CV+5L7Xx7DEPAE9
- 86BPbtTyVEgag5qIdvDQRBG4jMeZV10ZbTKDynFeOMfsIv31QoSAZ49MOMowo4j8lc
- 8sZhm0o2zr5UIgNt79JWXQt4QMgVbk6V/hwxt6YU=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1kg3C2-00CDVO-29; Fri, 20 Nov 2020 09:59:02 +0000
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B254C89ADC;
+ Fri, 20 Nov 2020 10:04:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SZ/9QJ2RHqSOEXRGsGqSrdwiSyQps6OJo5QtqenwwxvpnZ5c6bKKxKGQ9pnbs3SYzz9xSIQBn4DnmMmzFMHckWua3mJf39NlonQ514wDQT0fh6uRitoHos9SnP2bVwX3QH5vZGbBjXmvqqP2v7QLavufL/m3ZmBRWkcZf7s+98xjVQO4QhK05ZBYBY0sdn0xLxZ+zxG9ONm56RKW/wLSVJjQt1YtNQLSDpHq5CtE/nIhy/8eqqbWKEcEK0WqJKNZGEOsbMnONbwTXrMJ1wfdC41nawVyuzWdE5iTBOjPqfGLW6gk2tU13XbO1i8RYpJnmX595Ar8pNHmRVZgmhtCSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ye5/l4TVoMn3SpqnHeLUQDNzjKXvddV+CZVjWO2uiL8=;
+ b=eQ4m5hmZuYrMatnnHFQSzuPCoRN2Ho9y5lO/ZpGA8UUhvMfbYN7T0raHPkZaGpDbeSzJJf4V32JD8FxImgAZd1exJA01qiZTFy2X4cFrGkwK3IcvM/AhX8dlbtfdvyx+WmZaLKI+OXfSgLec+ZEUUjxGSwd+qLMJOamU9HIqR/4lstxu4SGJkv6iz6uIkY1GZhwnIrmmNlSNGKCMTrQsed9aDZGwxh1kWX6wN6ilz1ODiMiDhjTnJxQ2aC7FOxjuLxAQ8w6IMq0MACMieb6YVJE3CMvUhZdGdPc4eqds1VPHm/DCX3X+P19bEo/xxB3nEsRclWhID9on7iqQ/dA3Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ye5/l4TVoMn3SpqnHeLUQDNzjKXvddV+CZVjWO2uiL8=;
+ b=4iCvcxomNpWsV0L36sczExOFa6K9SCGAg3PdA588mql2bxrhwFna0msz5Qj+5xS+uatikageLlh58xvSx5F4n5zOk+bb5F4KyQDIrZdwL6Ahwp2FtC6s/WgWOXTpZuq4yigWAljvuUBWjOFXNt3STnIAUZ8XI6mkm7WGD4H90fM=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4110.namprd12.prod.outlook.com (2603:10b6:208:1dd::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Fri, 20 Nov
+ 2020 10:04:33 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3589.022; Fri, 20 Nov 2020
+ 10:04:33 +0000
+Subject: Re: [PATCH] drm/ttm: don't set page->mapping
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20201120095445.1195585-1-daniel.vetter@ffwll.ch>
+ <20201120095445.1195585-5-daniel.vetter@ffwll.ch>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <26a62dfb-02e4-1707-c833-a3c8d5cbe828@amd.com>
+Date: Fri, 20 Nov 2020 11:04:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201120095445.1195585-5-daniel.vetter@ffwll.ch>
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM0PR04CA0059.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::36) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-Date: Fri, 20 Nov 2020 09:59:02 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Neil Armstrong <narmstrong@baylibre.com>
-Subject: Re: next/master bisection: baseline.dmesg.emerg on meson-gxbb-p200
-In-Reply-To: <93dcf61a-be80-8870-48f5-30e215cc56ed@baylibre.com>
-References: <5fb5e094.1c69fb81.a2014.2e62@mx.google.com>
- <a0bec7c4-9bec-8858-4879-52f4688d9992@collabora.com>
- <630e00e83cdd07ee5a0eaba9d3479554@kernel.org>
- <3f54de27-0fef-c5a1-8991-0a0614c90667@baylibre.com>
- <c76273f5fe483766e6a7f509f82d928a@kernel.org>
- <f59922c6-69f5-c70e-b424-0659bf91a4fd@collabora.com>
- <1jr1op8bbc.fsf@starbuckisacylon.baylibre.com>
- <00a10c12a4eb2a9cdd9f50e88a293c3f@kernel.org>
- <93dcf61a-be80-8870-48f5-30e215cc56ed@baylibre.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <45c711c9d5fb5ef0e3b80e82b10f5998@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: narmstrong@baylibre.com, jbrunet@baylibre.com,
- guillaume.tucker@collabora.com, kernelci-results@groups.io,
- khilman@baylibre.com, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, martin.blumenstingl@googlemail.com,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+ (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
+ AM0PR04CA0059.eurprd04.prod.outlook.com (2603:10a6:208:1::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.21 via Frontend Transport; Fri, 20 Nov 2020 10:04:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 24c86c8d-4f55-4b2b-86fd-08d88d3badb8
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4110:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4110A5A5BC5374DBDD4ABC4983FF0@MN2PR12MB4110.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3pvIGuJo9sNkFkSH7NHc1PR8hJ41iU6X3BHzu5c1hiBIBAJsQLtOL6xXi0nhNlCGR+4e2SPsl+2XYOUgDq7wNA2wAs4h7WlhGENDDYVQT79yFFmjjGHGyiZJO9pWliLHdl2UjPXE9evnTxUrpTFcf1VMqutDGf9U5Ght+LvJUs82Oa0+agilxaLlInBDaAQGwFNOVTB/9KbCVahltbfS6dr7W4WUKGwPhpSzZXuZ3VfwipKj9aCvE09TXg9SdWz9ewrYQLFrR113jKl15hC7HyEH/GRpUBIT+NnX13Q8lBxpk4Ch3TQL5KCJLVmPIa3vYNcrNcmGXnw/8Dm1tIRFX0MgGmEonzvl2zpvIlK2/tYZ1817V91+rIpHr1e/L+Gm
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(396003)(376002)(366004)(346002)(136003)(8676002)(8936002)(478600001)(5660300002)(6486002)(66946007)(66476007)(66556008)(83380400001)(86362001)(6666004)(2906002)(52116002)(4326008)(2616005)(7416002)(316002)(31696002)(186003)(16526019)(31686004)(36756003)(54906003)(110136005)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cERiRzJ0UTAwdWlSZ3VZRStZbVhwWVRyb2FvL1BuUURjSWl4RU1nSUtyNjEy?=
+ =?utf-8?B?QTB3dkY0SElnSnpGZ2Fva3FQSHl2U3Y0dHA3cEdOdHJVY1pvRFZ4dnZuRGU5?=
+ =?utf-8?B?VHhmQUhqVURaaE5DMHdOVnJMK0MwQ2RMRG5OLzRyK1RrOURiL0JKK1JLY3hs?=
+ =?utf-8?B?dWNQVGxkY2k1Y1RVdUc1bVQwSW5ZcFAwdVY2RUZpajFNUzk3YVIvbEJiWFYy?=
+ =?utf-8?B?ZUNjSFBtRlpVUnRrakNXeVJGM3VYR2t5WXU0bXdFS3I3aEFsTXc1Mnc4aEFX?=
+ =?utf-8?B?L1lUL0V1WW9sMFJ2WFJOd0JScVFEZFllSzB0QWhHcHFRWW1LSDFlQ20xd1I4?=
+ =?utf-8?B?a0FtbFBidGY3YWVXeWtVYWh0UERpdlgrNUtld244bEc4UXBIcWFqNSs2Z0lI?=
+ =?utf-8?B?K0ttMUg2aTE2dmlHNUxsNVFuV01uamhSZm9zd0JvYXRRd2loZmh1OTdvTUlm?=
+ =?utf-8?B?djU5SDJiZytFTFhuQS9SOWs3OWhTM0NEa1pKcWwxVi90amErUXJNQkZWNm9p?=
+ =?utf-8?B?MzVCdzBhcWRmZVZTZlNkaHBWM1EyRlZXY2syRWs0K1hSVU1Ma2JReXdLcFFC?=
+ =?utf-8?B?dEorcVEzYTNBaFpJUlZkTmlrdEFkNVNzSVZZeWI0TlRKME1yVEl3cnMyaXlV?=
+ =?utf-8?B?NHNTaEppL3lxQURIQzVpbENYaWM5OWlTeUFKVzNXUE1rV2N5N3Q1UmRpMUtH?=
+ =?utf-8?B?Uk56cGl1MlprT2xQZ1pZWklSdkdlSmJLVERURmRJU0IvaTQ5WDFRM0pJN0w5?=
+ =?utf-8?B?a0pmbktVdzJCNWI0S21LR2hHbVgwVFlXYVIyalk2emw1UmJETUhXNmU1WGlw?=
+ =?utf-8?B?NU54cFprMDRxT0RvZTh1c0hsVTNXRnFoYm53YTJEd2tRbTFWRjd4U1ZsRG90?=
+ =?utf-8?B?V2xsM2N1NDJBL2FWcUgrckczMkJlQmQ2K0NNV215WUIxdFhNc3JMMGM2Yi9J?=
+ =?utf-8?B?QWNkRE5HRGtjUFJVSDlsdjFXdkVweFBvZHlQcHNWa0NyeGpIWTU5eTIzZ3E1?=
+ =?utf-8?B?Z2hhZmQ4NEVEakFOWTJaT05qSWxBa3pwUWpya2FQV3ozcGMwKzhmd2ZoYlRS?=
+ =?utf-8?B?YStDdVpVVHJBMUN4SXNxejdwaThnaEl2ZzB3THhva2N6QjZBekgwdjBXSzY0?=
+ =?utf-8?B?UkYycVc0cVpadksweWk5RWJ1NkJLcU1rcEEycTc2OXBCdzdpSmlsZCtudjFW?=
+ =?utf-8?B?bGFqRGY2WCtIbUdJcWE2ckZmcmVPUkZrUGhZeW5PV1dBN0xFTGpWajFVYkll?=
+ =?utf-8?B?TGwzT0ozL2lGL3pKb3pYeWg4WGFXMURCR295aXpLS1ZKcHZkUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24c86c8d-4f55-4b2b-86fd-08d88d3badb8
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 10:04:33.4041 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FAN4sP/5dWv7QIjLqB5L7Vgxdp0HsEqZGHhYKnAsUTBQR5IviscF6z2AqcmUrT2V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,50 +120,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernelci-results@groups.io,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Guillaume Tucker <guillaume.tucker@collabora.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Kevin Hilman <khilman@baylibre.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Jerome Brunet <jbrunet@baylibre.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Thomas Hellstrom <thellstrom@vmware.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-xfs@vger.kernel.org,
+ linux-mm@kvack.org, Huang Rui <ray.huang@amd.com>,
+ Brian Paul <brianp@vmware.com>, linux-fsdevel@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0xMS0yMCAwOToyNiwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6Cj4gT24gMTkvMTEvMjAy
-MCAxOTozNSwgTWFyYyBaeW5naWVyIHdyb3RlOgo+Pj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL21lc29uL21lc29uX2R3X2hkbWkuYyAKPj4+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vbWVz
-b24vbWVzb25fZHdfaGRtaS5jCj4+Pj4+IGluZGV4IDdmOGVlYTQ5NDE0Ny4uNTJhZjhiYTk0MzEx
-IDEwMDY0NAo+Pj4+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vbWVzb24vbWVzb25fZHdfaGRtaS5j
-Cj4+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZXNvbi9tZXNvbl9kd19oZG1pLmMKPj4+Pj4g
-QEAgLTE0Niw2ICsxNDYsNyBAQCBzdHJ1Y3QgbWVzb25fZHdfaGRtaSB7Cj4+Pj4+IMKgwqDCoMKg
-IHN0cnVjdCByZXNldF9jb250cm9sICpoZG1pdHhfY3RybDsKPj4+Pj4gwqDCoMKgwqAgc3RydWN0
-IHJlc2V0X2NvbnRyb2wgKmhkbWl0eF9waHk7Cj4+Pj4+IMKgwqDCoMKgIHN0cnVjdCBjbGsgKmhk
-bWlfcGNsazsKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgY2xrICppYWhiX2NsazsKPj4+Pj4gwqDCoMKg
-wqAgc3RydWN0IGNsayAqdmVuY2lfY2xrOwo+Pj4+PiDCoMKgwqDCoCBzdHJ1Y3QgcmVndWxhdG9y
-ICpoZG1pX3N1cHBseTsKPj4+Pj4gwqDCoMKgwqAgdTMyIGlycV9zdGF0Owo+Pj4+PiBAQCAtMTAz
-Myw2ICsxMDM0LDEzIEBAIHN0YXRpYyBpbnQgbWVzb25fZHdfaGRtaV9iaW5kKHN0cnVjdCBkZXZp
-Y2UgCj4+Pj4+ICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKPj4+Pj4gwqDCoMKgwqAgfQo+
-Pj4+PiDCoMKgwqDCoCBjbGtfcHJlcGFyZV9lbmFibGUobWVzb25fZHdfaGRtaS0+aGRtaV9wY2xr
-KTsKPj4+Pj4gCj4+Pj4+ICvCoMKgwqAgbWVzb25fZHdfaGRtaS0+aWFoYl9jbGsgPSBkZXZtX2Ns
-a19nZXQoZGV2LCAiaWFoYiIpOwo+Pj4+PiArwqDCoMKgIGlmIChJU19FUlIobWVzb25fZHdfaGRt
-aS0+aWFoYl9jbGspKSB7Cj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBkZXZfZXJyKGRldiwgIlVuYWJs
-ZSB0byBnZXQgaWFoYiBjbGtcbiIpOwo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIFBUUl9F
-UlIobWVzb25fZHdfaGRtaS0+aWFoYl9jbGspOwo+Pj4+PiArwqDCoMKgIH0KPj4+Pj4gK8KgwqDC
-oCBjbGtfcHJlcGFyZV9lbmFibGUobWVzb25fZHdfaGRtaS0+aWFoYl9jbGspOwo+IAo+IAo+IE9u
-IHByZXZpb3VzIFNvQ3MsIGlhaGIgd2FzIGRpcmVjdGx5IHRoZSBidXMgY2xvY2sgKGNsazgxKSwg
-YW5kIG9uIAo+IHJlY2VudCBzb2NzCj4gdGhpcyBjbG9jayBpcyBhIGdhdGUuCj4gCj4gVGhlIHF1
-ZXN0aW9uIGlzIHdoeSBpcyBpdCBkaXNhYmxlZC4gTWF5YmUgYSBwcmV2aW91cyBmYWlsZWQgcHJv
-YmUgCj4gZGlzYWJsZWQgaXQKPiBpbiB0aGUgZHctaGRtaSBwcm9iZSBmYWlsdXJlIGNvZGUgYW5k
-IHRoaXMgY2xvY2sgaXMgbmVlZGVkIGZvcgo+IG1lc29uX2R3X2hkbWlfaW5pdCgpLAo+IHNvIHll
-YWggdGhpcyBpcyB0aGUgcmlnaHQgZml4Lgo+IAo+IFRoYW5rcy4KPiAKPiBDb3VsZCB5b3Ugc2Vu
-ZCBhIHJldmVydCBvZiBiMzMzNDBlMzNhY2RmZTVjYTZhNWFhMTI0NDcwOTU3NWFlMWUwNDMyCj4g
-YW5kIHRoZW4gcHJvcGVyIGZpeCB3aXRoIGNsa19kaXNhYmxlX3VucHJlcGFyZSBhZGRlZCA/CgpC
-YWguIEkgbWlzc2VkIHRoYXQgZW1haWwgYW5kIHNlbnQgYSBzbGlnaHRseSBkaWZmZXJlbnQgcmVz
-b2x1dGlvbi4KSG9wZWZ1bGx5IHRoYXQnbGwgYmUgZ29vZCBlbm91Z2guCgpUaGFua3MsCgogICAg
-ICAgICBNLgotLSAKSmF6eiBpcyBub3QgZGVhZC4gSXQganVzdCBzbWVsbHMgZnVubnkuLi4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Am 20.11.20 um 10:54 schrieb Daniel Vetter:
+> Random observation while trying to review Christian's patch series to
+> stop looking at struct page for dma-buf imports.
+>
+> This was originally added in
+>
+> commit 58aa6622d32af7d2c08d45085f44c54554a16ed7
+> Author: Thomas Hellstrom <thellstrom@vmware.com>
+> Date:   Fri Jan 3 11:47:23 2014 +0100
+>
+>      drm/ttm: Correctly set page mapping and -index members
+>
+>      Needed for some vm operations; most notably unmap_mapping_range() with
+>      even_cows = 0.
+>
+>      Signed-off-by: Thomas Hellstrom <thellstrom@vmware.com>
+>      Reviewed-by: Brian Paul <brianp@vmware.com>
+>
+> but we do not have a single caller of unmap_mapping_range with
+> even_cows == 0. And all the gem drivers don't do this, so another
+> small thing we could standardize between drm and ttm drivers.
+>
+> Plus I don't really see a need for unamp_mapping_range where we don't
+> want to indiscriminately shoot down all ptes.
+>
+> Cc: Thomas Hellstrom <thellstrom@vmware.com>
+> Cc: Brian Paul <brianp@vmware.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
+
+This is still a NAK as long as we can't come up with a better way to 
+track TTMs page allocations.
+
+Additional to that page_mapping() is used quite extensively in the mm 
+code and I'm not sure if that isn't needed for other stuff as well.
+
+Regards,
+Christian.
+
+> ---
+>   drivers/gpu/drm/ttm/ttm_tt.c | 12 ------------
+>   1 file changed, 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index da9eeffe0c6d..5b2eb6d58bb7 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -284,17 +284,6 @@ int ttm_tt_swapout(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+>   	return ret;
+>   }
+>   
+> -static void ttm_tt_add_mapping(struct ttm_bo_device *bdev, struct ttm_tt *ttm)
+> -{
+> -	pgoff_t i;
+> -
+> -	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
+> -		return;
+> -
+> -	for (i = 0; i < ttm->num_pages; ++i)
+> -		ttm->pages[i]->mapping = bdev->dev_mapping;
+> -}
+> -
+>   int ttm_tt_populate(struct ttm_bo_device *bdev,
+>   		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
+>   {
+> @@ -313,7 +302,6 @@ int ttm_tt_populate(struct ttm_bo_device *bdev,
+>   	if (ret)
+>   		return ret;
+>   
+> -	ttm_tt_add_mapping(bdev, ttm);
+>   	ttm->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
+>   	if (unlikely(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+>   		ret = ttm_tt_swapin(ttm);
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
