@@ -2,59 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F472BA25C
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 07:33:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA982BA410
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 08:58:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFBDC6E86C;
-	Fri, 20 Nov 2020 06:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48AF36E878;
+	Fri, 20 Nov 2020 07:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 176706E86C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 06:32:59 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id h23so8872816ljg.13
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 22:32:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EvWUGbwSraVs6ukN8hay7tuFs9ZWzBKsGVI7NzOXAmE=;
- b=ErrXRL+3x25mRtwhh7zt139WVEQXpcWhIO+pkABzCPYCtB1/F1TJ5xO0cjBXts7Jdt
- AZ+Dn2dnBXZBX8QSLrJNkQ+UQhrCs4E4WSnb4SeOMl8jahB9WOuzHmO7evtDCfbedTNj
- 3eRp6kiT4Xul7pn9Of4iZAKnUeuyk9zCcou1UXctmVqyrN2qqG5CKeoNuABy/VPZibVO
- p2EJqw1j95oJYmb0r5pxoMXF7yf7tbskVUvCQxIXa4WluMyCwtIkXqJNEHJOCvh1X1mr
- nDGJMyAZbo9DSS5ZTqG2wTkQQ5zeBUCXAClB7jHnDEcNOtYdLOYIz98eS92FFhGTd7E9
- y24g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EvWUGbwSraVs6ukN8hay7tuFs9ZWzBKsGVI7NzOXAmE=;
- b=S2FAmodUNQ+7pwffg36MfI1M2QNMx48ekTpYHN+GS06GivQUjlOvViJRjemWffkMpC
- GNuNwLWlI+BJcyijeDeeH/evUWp8Si2RN630bNXLShsKz5/pkfKshTdZtJXRWIWdoyke
- Q+UnlHakRXI3vv9IYovl4bWtV+J4rdchZGCoKN2O5amvpcJRtQk6cb95bzKUyf0Bdmw2
- 9p5knTtmOTTrN3ZgaEs0bUxE2860uc7lKQCFEve07KPypTJqYLoaWEuTMV13K7Qdqjyc
- 9hgYahft/bKsUtwAHQ3FNjxj+KmeOS/wS/5O9hBbc+0NEOH4SpDmQCPCELRYrg2EqoWd
- lCAw==
-X-Gm-Message-State: AOAM530R2pJiR4PAZFNhwhnmMGplXOjUm4zlcje8E9BPoPomiznDhYiA
- ydDGw07/4+UfnDLCi3pfYIGfEGaWdHXReE7GdTRsOA==
-X-Google-Smtp-Source: ABdhPJxHVBQmsR367b+JT3t3jfLxQaNPSvI2MNIraG8WGvwdHUkM8AV5nQtc5uMcxOeIJlBYOGqONXCRu+VvEYVHl4s=
-X-Received: by 2002:a2e:b059:: with SMTP id d25mr7732176ljl.304.1605853977149; 
- Thu, 19 Nov 2020 22:32:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20201110034934.70898-1-john.stultz@linaro.org>
- <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
- <20201112093237.GS401619@phenom.ffwll.local>
- <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
- <20201113203933.GT401619@phenom.ffwll.local>
- <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
- <CAKMK7uGew_sdw=NPrzuAQ_-5_kQnn-qvLHK9DGqSk=k22tQGDg@mail.gmail.com>
-In-Reply-To: <CAKMK7uGew_sdw=NPrzuAQ_-5_kQnn-qvLHK9DGqSk=k22tQGDg@mail.gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Fri, 20 Nov 2020 12:02:45 +0530
-Message-ID: <CAO_48GHLFJi+DKYf4fBs7NZr+f+Q0USoGEtL6nW_FQFv+OOJ5Q@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE4C36E878
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 07:58:41 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AK7shCf010192;
+ Fri, 20 Nov 2020 07:58:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=Y4RFNpqmvwRmfaE/MJ3Ec7T7Pl5BWnx+oB3L5JuAkak=;
+ b=nWsoCCpIsHDMybGnO9Ltu7z1hoXeg3rPLeHCWoxFMewybmiRCgDOTLmrJsCfGZQbJ1DP
+ B/BxNJDZwCJM6dGLytBHu+5k3DfGCv3NhKu+bS/vWouItXXr8iZPma5C/HrE94HOCyz8
+ ulaYmoyM5m4m2+o7Jq8shTsOPoOnN4TnXIeDGdKJ1DSWr1m6t66D+w7GkR/Zxq6xq+sA
+ YO2H8rWzh3cT+7P30rpY5pd6gEvZhCKYlNxOOIj2mXldAx9ggGYZqA6MOe3Zpre8e+YW
+ XUMT9AUBVFRb0XNHj0OV1y7+ELnDuRmLUbPIBMS7uHOSzq+vhyeeSk7f3MsOo3OcZJUb HA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 34t76m9bqy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 20 Nov 2020 07:58:34 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AK7pQKn140792;
+ Fri, 20 Nov 2020 07:58:33 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 34umd34a9q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Nov 2020 07:58:33 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AK7wOxm006704;
+ Fri, 20 Nov 2020 07:58:24 GMT
+Received: from kadam (/41.57.98.10) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 19 Nov 2020 23:58:23 -0800
+Date: Fri, 20 Nov 2020 10:58:11 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH] drm/vboxvideo: Unmap iomem on probe-failure and remove
+Message-ID: <20201120075811.GJ18329@kadam>
+References: <20201027135153.324873-1-hdegoede@redhat.com>
+ <f6b034c3-ef86-7214-f65e-af93b78bd456@redhat.com>
+ <20201119175131.GI18329@kadam>
+ <CAKMK7uGB5-aDSyA42PVs7_86NEfinftvKWx6AKsLFjoUS-1VGw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uGB5-aDSyA42PVs7_86NEfinftvKWx6AKsLFjoUS-1VGw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxscore=0 phishscore=0
+ spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011200051
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011200051
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,176 +81,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
- Liam Mark <lmark@codeaurora.org>, Christian Koenig <christian.koenig@amd.com>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-
-On Wed, 18 Nov 2020 at 13:16, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Wed, Nov 18, 2020 at 3:40 AM John Stultz <john.stultz@linaro.org> wrote:
-> > On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
-> > > > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
-> > > > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
-> > > > > > >
-> > > > > > > Hey All,
-> > > > > > >   So just wanted to send my last revision of my patch series
-> > > > > > > of performance optimizations to the dma-buf system heap.
-> > > > > >
-> > > > > > Thanks very much for your patches - I think the first 5 patches look good to me.
-> > > > > >
-> > > > > > I know there was a bit of discussion over adding a new system-uncached
-> > > > > > heap v/s using a flag to identify that; I think I prefer the separate
-> > > > > > heap idea, but lets ask one last time if any one else has any real
-> > > > > > objections to it.
-> > > > > >
-> > > > > > Daniel, Christian: any comments from your side on this?
-> > > > >
-> > > > > I do wonder a bit where the userspace stack for this all is, since tuning
-> > > > > allocators without a full stack is fairly pointless. dma-buf heaps is a
-> > > > > bit in a limbo situation here it feels like.
-> > > >
-> > > > As mentioned in the system-uncached patch:
-> > > > Pending opensource users of this code include:
-> > > > * AOSP HiKey960 gralloc:
-> > > >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
-> > > >   - Visibly improves performance over the system heap
-> > > > * AOSP Codec2 (possibly, needs more review):
-> > > >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
-> > > >
-> > > > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
-> > > > able to use the current dmabuf heaps instead of ION.
-> > > >
-> > > > So I'm not sure what you mean by limbo, other than it being in a
-> > > > transition state where the interface is upstream and we're working on
-> > > > moving vendors to it from ION (which is staged to be dropped in 5.11).
-> > > > Part of that work is making sure we don't regress the performance
-> > > > expectations.
-> > >
-> > > The mesa thing below, since if we test this with some downstream kernel
-> > > drivers or at least non-mesa userspace I'm somewhat worried we're just
-> > > creating a nice split world between the android gfx world and the
-> > > mesa/linux desktop gfx world.
-> > >
-> > > But then that's kinda how android rolls, so *shrug*
-> > >
-> > > > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
-> > > > > dma-api because dma api maintainers don't like us doing that. But
-> > > > > personally no concern on that front really, gpus need this. It's just that
-> > > > > we do need solid justification I think if we land this. Hence back to
-> > > > > first point.
-> > > > >
-> > > > > Ideally first point comes in the form of benchmarking on android together
-> > > > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
-> > > > > actually show the benefits, I have no idea).
-> > > >
-> > > > Tying it with mesa is a little tough as the grallocs for mesa devices
-> > > > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
-> > > > allocation path for dmabuf heaps there gets a little complex as last I
-> > > > tried that (when trying to get HiKey working with Lima graphics, as
-> > > > gbm wouldn't allocate the contiguous buffers required by the display),
-> > > > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
-> > > > private handle metadata in the buffer when it was passed in.
-> > > >
-> > > > But I might take a look at it again. I got a bit lost digging through
-> > > > the mesa gbm allocation paths last time.
-> > > >
-> > > > I'll also try to see if I can find a benchmark for the codec2 code
-> > > > (using dmabuf heaps with and without the uncached heap) on on db845c
-> > > > (w/ mesa), as that is already working and I suspect that might be
-> > > > close to what you're looking for.
-> > >
-> > > tbh I think trying to push for this long term is the best we can hope for.
-> > >
-> > > Media is also a lot more *meh* since it's deeply fragmented and a lot less
-> > > of it upstream than on the gles/display side.
-> > >
-> > > I think confirming that this at least doesn't horrible blow up on a
-> > > gralloc/gbm+mesa stack would be useful I think.
+On Thu, Nov 19, 2020 at 08:30:59PM +0100, Daniel Vetter wrote:
+> On Thu, Nov 19, 2020 at 6:51 PM Dan Carpenter <dan.carpenter@oracle.com> wrote:
 > >
-> > Sorry, I'm still a little foggy on precisely what you're suggesting here.
+> > On Thu, Nov 19, 2020 at 12:35:56PM +0100, Hans de Goede wrote:
+> > > Hi,
+> > >
+> > > On 10/27/20 2:51 PM, Hans de Goede wrote:
+> > > > Add missing pci_iounmap() calls to properly unmap the memory on
+> > > > probe-failure and remove.
+> > > >
+> > > > Reported-by: kernel test robot <lkp@intel.com>
+> > > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > >
+> > > For some reason the spam-filter used by Red Hat's email system has eaten
+> > > Daniel Vetter's reply to this, so let me copy and paste that from patchwork:
+> > >
+> > > Daniel Vetter wrote:
+> > >
+> > > > I think switching over to devm would be really nice. And for pci all
+> > > > you need to do is use pcim_enable_device and delete all the cleanup
+> > > > code, and it's all done. Hand rolling device cleanup code really isn't
+> > > > a great idea and way too error-prone. Plus you're using lots of devm_
+> > > > already.
+> > >
+> > > Good point, so I just checked and the vboxvideo code is already
+> > > using pcim_enable_device() so it looks like this is a false-positive
+> > > from the lkp@intel.com bot, and Dan Carpenter missed that pcim_enable_device()
+> > > makes all subsequent pci-resource acquiring calls behave like devm calls,
+> > > when he forwarded the report to me.
+> > >
+> > > Tl;DR: there is no bug / leak and this patch can be dropped.
+> > >
+> > > Is there a place where I can report a bug against the lkp@intel.com bot
+> > > for this false-positive ?
 > >
-> > The patch stack I have has already been used with db845c (mesa +
-> > gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
-> > So no blowing up there. And I'm working with Hridya to find a
-> > benchmark for codec2 so we can try to show the performance delta.
+> > Ah.  Thanks!
 > >
-> > However, if you're wanting a dma-buf gralloc implementation with mesa,
-> > that may be a little tougher to do, but I guess I can give it a go.
-> >
-> > Hopefully this will address concerns about the system-uncached heap
-> > patch (the last two patches in this series)?
-> >
-> > In the meantime I hope we can queue the first five patches, as it
-> > would be nice to get the code rearranging in as there are others
-> > trying to stage their own heaps, and I'd like to avoid dragging that
-> > churn out for too long (in addition to improving the allocation
-> > performance). Those changes have no ABI implications.
->
-> Maybe I'm also misunderstanding what dma-buf heaps is used for in
-> Android, at least usually. I thought it's used to allocate all the
-> winsys/shared buffers through gralloc (at least in the blobby stacks),
-> to handle the allocation constraints problem. In the open stacks we
-> don't seem to have a platform with both mesa and v4l (or some other
-> codec) with "interesting" allocations constraints, so no one using
-> that gralloc+dma-buf heaps combo for what it was meant for. Hence why
-> I'm a bit vary that we're creating something here which just misses
-> the point a bit when we try to actually use it (in that glorious
-> forever-future world where an android platform has enough drivers in
-> upstream to do so).
->
-> For other "this solves a system problem" we tend to be quite a bit
-> more picky with the demonstration use case, to make sure we're
-> actually creating something that solves the problem in reality.
->
-> But it also looks like Android's just not there yet, so *shrug* ...
+> > This is a Smatch bug.  There is a list for that smatch@vger.kernel.org
+> > but I already remove the pci_iomap() from the list of functions that
+> > needs to be unwound based on your report.
+> 
+> I guess if smatch sees a pci_enable_device but not pcim_enable_device
+> on the same device as passed to pci_iomap (and a pile of other pci
+> functions) then it still must be unwound. Could smatch detect that?
+> There's a lot of pci drivers not using the managed functions, catching
+> bugs in these would be good.
 
-For me, looking at the first 5 patches (listed below, for quick
-reference), they are only doing code reorganisation and minor updates
-for already existing heaps, and no ABI change, I am not able to
-clearly see your objection here. To me, these seem to be required
-updates that the existing system heap users can benefit from.
+It's a lot of code.  There would be two ways to implement this:
 
-dma-buf: system_heap: Rework system heap to use sgtables instead of
-    pagelists
-  dma-buf: heaps: Move heap-helper logic into the cma_heap
-    implementation
-  dma-buf: heaps: Remove heap-helpers code
-  dma-buf: heaps: Skip sync if not mapped
-  dma-buf: system_heap: Allocate higher order pages if available
+1) Somehow store the links to figure out the value of:
 
-If we talk about the last two patches - the ones that add system
-uncached heap, I somewhat agree that we should be able to show the
-performance gains with this approach (which has been in use on ION and
-in devices) using dma-buf gralloc or similar.
+	 devres_find(vbox->ddev.pdev.dev)->enabled
 
-We can discuss the system-uncached heap when the dma-buf gralloc or
-similar demonstration for performance benefits is done, but I am
-inclined to push these 5 patches listed above through.
+That's very complicated.  I'm sort of working on some of the steps
+involved but and it's probably a multi year process before it's
+possible.
 
-Best,
-Sumit.
+2) Create a data base table with driver data, then store if the driver
+calls pcim_enable_device().  This is still a bit of work, but probably
+straight forward.  Storing driver data would be useful for other things
+as well.
 
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+regards,
+dan carpenter
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
