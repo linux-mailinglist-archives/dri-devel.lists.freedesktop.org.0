@@ -1,55 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2E62BA622
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 10:29:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF9FC2BA647
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 10:35:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90BA389BA3;
-	Fri, 20 Nov 2020 09:29:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7809D6E88C;
+	Fri, 20 Nov 2020 09:35:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
- [IPv6:2607:f8b0:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA7696E88C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 09:29:46 +0000 (UTC)
-Received: by mail-oi1-x242.google.com with SMTP id a130so1619998oif.7
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 01:29:46 -0800 (PST)
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6DC16E88C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 09:35:01 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id k26so9784620oiw.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 01:35:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fPH8mrCMEezREYFMD3ZNWLYrrd6uERj/4DnYsMp+93E=;
- b=KlHd6adfqqq6zURrcaeaBVcby4HmEmMK32zwmLVMQaNIsUSuhURLn0xqeKgEhYZDHF
- RPUslFwLKSWidwTjIVUkLEcyLOvTnzJCMaR89bA0yExr1K7yCBBCH7mUs4fFsHzQhDvh
- hpca6vRf4IRq/9xcv3e/Q9yqpIVMv74gPxRSU=
+ :cc; bh=hgF4wfg69hNpww4OAKMoqR+eWE3jKpfJosXp9fxVBjI=;
+ b=X4UHOJmNLvGaGQarNMiO8EklXG6lG45+9sS//8PEIAcGFyr8tKX+5nnGXzRAbO6Ue6
+ 3W839yCL3pKJT002ic0S4VGSLeiJV67iqE0XZrHk+eXI21jAtiOEXzLIkiE0kqevhGVR
+ MPDC0aauVbAhrazQEsofDf0TWh93oG9z4Np2U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fPH8mrCMEezREYFMD3ZNWLYrrd6uERj/4DnYsMp+93E=;
- b=Y9D5KWZ3jEmwg5+c5GkYzbaUus1RaA8OQhf8qpEnQwdAVKbVMwoUH1a7oFCop6jRlZ
- tACup/WAkiHfuUI+hGqrjFfWNa8om6l8FCenPMgPECgl3LMisGRPoy+3p7BLIjbDr52P
- 5aX01JwFfuw0FmC4hzmZYtrPupbH49KHUVOFGRzz3DdtxKZTfHqF8nYS6taB/dacrXFO
- JBGSd/YHF2MVCUjMt0Pch1z+SQ4xYNC5Fr6OKrfoMgo4TW+nLqSCfXgj1xT3lYwvURC1
- My4yxvsSWoB5j7sU6JbF3+Vw5E+7MH9RkRYEdqeAmxQlpEp33tIkFjtShxvfLjSPohgi
- OFzw==
-X-Gm-Message-State: AOAM532814Gyo4lMfOt/hVRHedISkWU0Cn3/DXrLl2UJDMuHK0hxsBLm
- 16Mfx1/m54kczmqFTCjsCBswyr5WjcvfKXYdTfzVRw==
-X-Google-Smtp-Source: ABdhPJxBRgaWjMQUww6v7blQXCc/+7K4ZqWZN8B/y7DE/JOwQZL0cSxZL0ue6Toxi1WgOwMz18NdzQd/KHzufk4zRxA=
-X-Received: by 2002:aca:4f14:: with SMTP id d20mr5874563oib.14.1605864586236; 
- Fri, 20 Nov 2020 01:29:46 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=hgF4wfg69hNpww4OAKMoqR+eWE3jKpfJosXp9fxVBjI=;
+ b=h/NnDug2PsBmnltbG/jL5HY6XDZz31xXjruwfqz5tZPnAlQTNn4vep6evR3fuliNAS
+ 2h8PmCBuJ6qlCpMnisBuPlPmal/tWuYUI6PjGjxTNfIyFNYuGm4XT6a1sL0nNomp08oj
+ z/i4/kb2dsmxtDXnNJ82hY9ymQ76cRW3vOdT8sBoZqE8vZiXpcjdGW1c2vqMhQKKB5tH
+ yCVIAApT1PNvvxvsQWftBNGZYc+0RcBfnEE83fmlvvWWx/7a27xyzOsy/QrLOA/aqRSY
+ H7y/tpCuITJm0gjOSBmD8dtIPTW6xKTzCRFMbJ6+Y8W/ooTfgsjTYLaxwd97G9e3DJzC
+ sbGQ==
+X-Gm-Message-State: AOAM532wQn0wBiHnRMgBk/fqn1BV1CrHgiVPhRPo8X8MP+AfvjYSp9uR
+ jYfprN+hXz37LeyVsSNiWV0SneQNKOhB21DGHX9BOQ==
+X-Google-Smtp-Source: ABdhPJwGdgkRwcd6PL3pN7daWCrNpgUvuP86thM6e5fGMCZGTC6PnlV9Y7Fldm85Rp0ewgPAUXlSIvmIrS0hPfBByDs=
+X-Received: by 2002:aca:7506:: with SMTP id q6mr5872181oic.128.1605864900943; 
+ Fri, 20 Nov 2020 01:35:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-2-maxime@cerno.tech>
- <c08b5a11-3e28-4236-b516-01a3e52cc7a0@suse.de>
- <20201119153217.GE401619@phenom.ffwll.local>
- <a136d1bd-9712-fd81-900e-f10bfc5b3e8f@suse.de>
-In-Reply-To: <a136d1bd-9712-fd81-900e-f10bfc5b3e8f@suse.de>
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+ <20201112093237.GS401619@phenom.ffwll.local>
+ <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+ <20201113203933.GT401619@phenom.ffwll.local>
+ <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
+ <CAKMK7uGew_sdw=NPrzuAQ_-5_kQnn-qvLHK9DGqSk=k22tQGDg@mail.gmail.com>
+ <CAO_48GHLFJi+DKYf4fBs7NZr+f+Q0USoGEtL6nW_FQFv+OOJ5Q@mail.gmail.com>
+In-Reply-To: <CAO_48GHLFJi+DKYf4fBs7NZr+f+Q0USoGEtL6nW_FQFv+OOJ5Q@mail.gmail.com>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Fri, 20 Nov 2020 10:29:35 +0100
-Message-ID: <CAKMK7uGpcK+bJfq5FLxXjPumS4iFvsXzRTdQ67XbbU1D47bfBA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] drm: Introduce an atomic_commit_setup function
-To: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Fri, 20 Nov 2020 10:34:50 +0100
+Message-ID: <CAKMK7uFz6SbHqH_Q7f5v13-dSRokq16fy0z6YbPFY6X9sDAm1w@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To: Sumit Semwal <sumit.semwal@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,146 +65,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- devicetree <devicetree@vger.kernel.org>, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
- Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>,
- Frank Rowand <frowand.list@gmail.com>, Phil Elwell <phil@raspberrypi.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sandeep Patil <sspatil@google.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Christian Koenig <christian.koenig@amd.com>,
+ Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Daniel Mentz <danielmentz@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBOb3YgMjAsIDIwMjAgYXQgOTozOSBBTSBUaG9tYXMgWmltbWVybWFubiA8dHppbW1l
-cm1hbm5Ac3VzZS5kZT4gd3JvdGU6Cj4KPiBIaQo+Cj4gQW0gMTkuMTEuMjAgdW0gMTY6MzIgc2No
-cmllYiBEYW5pZWwgVmV0dGVyOgo+ID4gT24gVGh1LCBOb3YgMTksIDIwMjAgYXQgMTA6NTk6NDJB
-TSArMDEwMCwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gPj4gSGkKPiA+Pgo+ID4+IEFtIDEz
-LjExLjIwIHVtIDE2OjI5IHNjaHJpZWIgTWF4aW1lIFJpcGFyZDoKPiA+Pj4gUHJpdmF0ZSBvYmpl
-Y3RzIHN0b3JpbmcgYSBzdGF0ZSBzaGFyZWQgYWNyb3NzIGFsbCBDUlRDcyBuZWVkIHRvIGJlCj4g
-Pj4+IGNhcmVmdWxseSBoYW5kbGVkIHRvIGF2b2lkIGEgdXNlLWFmdGVyLWZyZWUgaXNzdWUuCj4g
-Pj4+Cj4gPj4+IFRoZSBwcm9wZXIgd2F5IHRvIGRvIHRoaXMgdG8gdHJhY2sgYWxsIHRoZSBjb21t
-aXRzIHVzaW5nIHRoYXQgc2hhcmVkCj4gPj4+IHN0YXRlIGFuZCB3YWl0IGZvciB0aGUgcHJldmlv
-dXMgY29tbWl0cyB0byBiZSBkb25lIGJlZm9yZSBnb2luZyBvbiB3aXRoCj4gPj4+IHRoZSBjdXJy
-ZW50IG9uZSB0byBhdm9pZCB0aGUgcmVvcmRlcmluZyBvZiBjb21taXRzIHRoYXQgY291bGQgb2Nj
-dXIuCj4gPj4+Cj4gPj4+IEhvd2V2ZXIsIHRoaXMgY29tbWl0IHNldHVwIG5lZWRzIHRvIGJlIGRv
-bmUgYWZ0ZXIKPiA+Pj4gZHJtX2F0b21pY19oZWxwZXJfc2V0dXBfY29tbWl0KCksIGJlY2F1c2Ug
-YmVmb3JlIHRoZSBDUlRDIGNvbW1pdAo+ID4+PiBzdHJ1Y3R1cmUgaGFzbid0IGJlZW4gYWxsb2Nh
-dGVkIGJlZm9yZSwgYW5kIGJlZm9yZSB0aGUgd29ya3F1ZXVlIGlzCj4gPj4+IHNjaGVkdWxlZCwg
-YmVjYXVzZSB3ZSB3b3VsZCBiZSBwb3RlbnRpYWxseSByZW9yZGVyZWQgYWxyZWFkeSBvdGhlcndp
-c2UuCj4gPj4+Cj4gPj4+IFRoYXQgbWVhbnMgdGhhdCBkcml2ZXJzIGN1cnJlbnRseSBoYXZlIHRv
-IHJvbGwgdGhlaXIgb3duCj4gPj4+IGRybV9hdG9taWNfaGVscGVyX2NvbW1pdCgpIGZ1bmN0aW9u
-LCBldmVuIHRob3VnaCBpdCB3b3VsZCBiZSBpZGVudGljYWwKPiA+Pj4gaWYgbm90IGZvciB0aGUg
-Y29tbWl0IHNldHVwLgo+ID4+Pgo+ID4+PiBMZXQncyBpbnRyb2R1Y2UgYSBob29rIHRvIGRvIHNv
-IHRoYXQgd291bGQgYmUgY2FsbGVkIGFzIHBhcnQgb2YKPiA+Pj4gZHJtX2F0b21pY19oZWxwZXJf
-Y29tbWl0LCBhbGxvd2luZyB1cyB0byByZXVzZSB0aGUgYXRvbWljIGhlbHBlcnMuCj4gPj4+Cj4g
-Pj4+IFN1Z2dlc3RlZC1ieTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4K
-PiA+Pj4gU2lnbmVkLW9mZi1ieTogTWF4aW1lIFJpcGFyZCA8bWF4aW1lQGNlcm5vLnRlY2g+Cj4g
-Pj4+IC0tLQo+ID4+PiAgICBkcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYyAgICAg
-IHwgIDYgKysrKysrCj4gPj4+ICAgIGluY2x1ZGUvZHJtL2RybV9tb2Rlc2V0X2hlbHBlcl92dGFi
-bGVzLmggfCAxOCArKysrKysrKysrKysrKysrKysKPiA+Pj4gICAgMiBmaWxlcyBjaGFuZ2VkLCAy
-NCBpbnNlcnRpb25zKCspCj4gPj4+Cj4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2F0b21pY19oZWxwZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5j
-Cj4gPj4+IGluZGV4IGRkZDBlMzIzOTE1MC4uN2Q2OWM3ODQ0ZGZjIDEwMDY0NAo+ID4+PiAtLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+ID4+PiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwo+ID4+PiBAQCAtMjA4Myw4ICsyMDgzLDExIEBA
-IGludCBkcm1fYXRvbWljX2hlbHBlcl9zZXR1cF9jb21taXQoc3RydWN0IGRybV9hdG9taWNfc3Rh
-dGUgKnN0YXRlLAo+ID4+PiAgICAgc3RydWN0IGRybV9wbGFuZSAqcGxhbmU7Cj4gPj4+ICAgICBz
-dHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpvbGRfcGxhbmVfc3RhdGUsICpuZXdfcGxhbmVfc3RhdGU7
-Cj4gPj4+ICAgICBzdHJ1Y3QgZHJtX2NydGNfY29tbWl0ICpjb21taXQ7Cj4gPj4+ICsgICBjb25z
-dCBzdHJ1Y3QgZHJtX21vZGVfY29uZmlnX2hlbHBlcl9mdW5jcyAqZnVuY3M7Cj4gPj4+ICAgICBp
-bnQgaSwgcmV0Owo+ID4+PiArICAgZnVuY3MgPSBzdGF0ZS0+ZGV2LT5tb2RlX2NvbmZpZy5oZWxw
-ZXJfcHJpdmF0ZTsKPiA+Pj4gKwo+ID4+PiAgICAgZm9yX2VhY2hfb2xkbmV3X2NydGNfaW5fc3Rh
-dGUoc3RhdGUsIGNydGMsIG9sZF9jcnRjX3N0YXRlLCBuZXdfY3J0Y19zdGF0ZSwgaSkgewo+ID4+
-PiAgICAgICAgICAgICBjb21taXQgPSBremFsbG9jKHNpemVvZigqY29tbWl0KSwgR0ZQX0tFUk5F
-TCk7Cj4gPj4+ICAgICAgICAgICAgIGlmICghY29tbWl0KQo+ID4+PiBAQCAtMjE2OSw2ICsyMTcy
-LDkgQEAgaW50IGRybV9hdG9taWNfaGVscGVyX3NldHVwX2NvbW1pdChzdHJ1Y3QgZHJtX2F0b21p
-Y19zdGF0ZSAqc3RhdGUsCj4gPj4+ICAgICAgICAgICAgIG5ld19wbGFuZV9zdGF0ZS0+Y29tbWl0
-ID0gZHJtX2NydGNfY29tbWl0X2dldChjb21taXQpOwo+ID4+PiAgICAgfQo+ID4+PiArICAgaWYg
-KGZ1bmNzICYmIGZ1bmNzLT5hdG9taWNfY29tbWl0X3NldHVwKQo+ID4+PiArICAgICAgICAgICBy
-ZXR1cm4gZnVuY3MtPmF0b21pY19jb21taXRfc2V0dXAoc3RhdGUpOwo+ID4+PiArCj4gPj4+ICAg
-ICByZXR1cm4gMDsKPiA+Pj4gICAgfQo+ID4+PiAgICBFWFBPUlRfU1lNQk9MKGRybV9hdG9taWNf
-aGVscGVyX3NldHVwX2NvbW1pdCk7Cj4gPj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1f
-bW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oIGIvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVy
-X3Z0YWJsZXMuaAo+ID4+PiBpbmRleCBmMmRlMDUwMDg1YmUuLjU2NDcwYmFmMDUxMyAxMDA2NDQK
-PiA+Pj4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX21vZGVzZXRfaGVscGVyX3Z0YWJsZXMuaAo+ID4+
-PiArKysgYi9pbmNsdWRlL2RybS9kcm1fbW9kZXNldF9oZWxwZXJfdnRhYmxlcy5oCj4gPj4+IEBA
-IC0xMzk2LDYgKzEzOTYsMjQgQEAgc3RydWN0IGRybV9tb2RlX2NvbmZpZ19oZWxwZXJfZnVuY3Mg
-ewo+ID4+PiAgICAgICogZHJtX2F0b21pY19oZWxwZXJfY29tbWl0X3RhaWwoKS4KPiA+Pj4gICAg
-ICAqLwo+ID4+PiAgICAgdm9pZCAoKmF0b21pY19jb21taXRfdGFpbCkoc3RydWN0IGRybV9hdG9t
-aWNfc3RhdGUgKnN0YXRlKTsKPiA+Pj4gKwo+ID4+PiArICAgLyoqCj4gPj4+ICsgICAgKiBAYXRv
-bWljX2NvbW1pdF9zZXR1cDoKPiA+Pj4gKyAgICAqCj4gPj4+ICsgICAgKiBUaGlzIGhvb2sgaXMg
-dXNlZCBieSB0aGUgZGVmYXVsdCBhdG9taWNfY29tbWl0KCkgaG9vayBpbXBsZW1lbnRlZCBpbgo+
-ID4+PiArICAgICogZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KCkgdG9nZXRoZXIgd2l0aCB0aGUg
-bm9uYmxvY2tpbmcgaGVscGVycyAoc2VlCj4gPj4+ICsgICAgKiBkcm1fYXRvbWljX2hlbHBlcl9z
-ZXR1cF9jb21taXQoKSkgdG8gZXh0ZW5kIHRoZSBEUk0gY29tbWl0IHNldHVwLiBJdAo+ID4+PiAr
-ICAgICogaXMgbm90IHVzZWQgYnkgdGhlIGF0b21pYyBoZWxwZXJzLgo+ID4+PiArICAgICoKPiA+
-Pj4gKyAgICAqIFRoaXMgZnVuY3Rpb24gaXMgY2FsbGVkIGF0IHRoZSBlbmQgb2YKPiA+Pj4gKyAg
-ICAqIGRybV9hdG9taWNfaGVscGVyX3NldHVwX2NvbW1pdCgpLCBzbyBvbmNlIHRoZSBjb21taXQg
-aGFzIGJlZW4KPiA+Pj4gKyAgICAqIHByb3Blcmx5IHNldHVwIGFjcm9zcyB0aGUgZ2VuZXJpYyBE
-Uk0gb2JqZWN0IHN0YXRlcy4gSXQgYWxsb3dzCj4gPj4+ICsgICAgKiBkcml2ZXJzIHRvIGRvIHNv
-bWUgYWRkaXRpb25hbCBjb21taXQgdHJhY2tpbmcgdGhhdCBpc24ndCByZWxhdGVkIHRvIGEKPiA+
-Pj4gKyAgICAqIENSVEMsIHBsYW5lIG9yIGNvbm5lY3RvciwgdHlwaWNhbGx5IGEgcHJpdmF0ZSBv
-YmplY3QuCj4gPj4+ICsgICAgKgo+ID4+PiArICAgICogVGhpcyBob29rIGlzIG9wdGlvbmFsLgo+
-ID4+PiArICAgICovCj4gPj4+ICsgICBpbnQgKCphdG9taWNfY29tbWl0X3NldHVwKShzdHJ1Y3Qg
-ZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpOwo+ID4+Cj4gPj4gSXQgZmVlbHMgaGFja3kgYW5kIHNj
-cmV3ZWQtb24gdG8gbWUuIEknZCBzdWdnZXN0IHRvIGFkZCBhbgo+ID4+IGF0b21pY19jb21taXRf
-cHJlcGFyZSBjYWxsYmFjayB0aGF0IGlzIGNhbGxlZCBieSBkcm1fYXRvbWljX2hlbHBlciB3aGVy
-ZSBpdAo+ID4+IGN1cnJlbnRseSBjYWxscyBkcm1fYXRvbWljX2hlbHBlcl9zZXR1cF9jb21taXQo
-KS4gVGhlIGRlZmF1bHQgaW1wbGVtZW50YXRpb24KPiA+PiB3b3VsZCBpbmNsdWRlIHNldHVwX2Nv
-bW1pdCBhbmQgcHJlcGFyZV9wbGFuZXMuIFNvbWUgZXhhbXBsZSBjb2RlIGZvcgo+ID4+IGRybV9h
-dG9taWNfaGVscGVyLmMKPiA+Pgo+ID4+IHN0YXRpYyBpbnQgY29tbWl0X3ByZXBhcmUoc3RhdGUp
-Cj4gPj4gewo+ID4+ICAgICAgZHJtX2F0b21pY19oZWxwZXJfc2V0dXBfY29tbWl0KHN0YXRlKQo+
-ID4+Cj4gPj4gICAgICBkcm1fYXRvbWljX2hlbHBlcl9wcmVwYXJlX3BsYW5lcyhzdGF0ZSkKPiA+
-PiB9Cj4gPj4KPiA+PiBpbnQgZHJtX2F0b21pY19oZWxwZXJfY29tbWl0KCkKPiA+PiB7Cj4gPj4g
-ICAgICBpZiAoYXN5bmNfdXBkYXRlKSB7Cj4gPj4gICAgICAgICAgICAgIC4uLgo+ID4+ICAgICAg
-fQo+ID4+Cj4gPj4gICAgICBpZiAoZnVuY3MtPmF0b21pY19jb21taXRfcHJlcGFyZSkKPiA+PiAg
-ICAgICAgICAgICAgZnVuY3MtPmF0b21pY19jb21taXRfcHJlcGFyZShzdGF0ZSkKPiA+PiAgICAg
-IGVsc2UKPiA+PiAgICAgICAgICAgICAgY29tbWl0X3ByZXBhcmUoc3RhdGUpCj4gPj4KPiA+PiAg
-ICAgIC8qIHRoZSByZXN0IG9mIHRoZSBjdXJyZW50IGZ1bmN0aW9uIGJlbG93ICovCj4gPj4gICAg
-ICBJTklUX1dPUksoJnN0YXRlLT5jb21taXRfd29yaywgY29tbWl0X3dvcmspOwo+ID4+ICAgICAg
-Li4uCj4gPj4gfQo+ID4+Cj4gPj4gRHJpdmVycyB0aGF0IGltcGxlbWVudCBhdG9taWNfY29tbWl0
-X3ByZXBhcmUgd291bGQgYmUgZXhwZWN0ZWQgdG8gY2FsbAo+ID4+IGRybV9hdG9taWNfaGVscGVy
-X3NldHVwX2NvbW1pdCgpIGFuZCBkcm1fYXRvbWljX2hlbHBlcl9wcmVwYXJlX3BsYW5lcygpIG9y
-Cj4gPj4gdGhlaXIgb3duIGltcGxlbWVudGF0aW9uIG9mIHRoZW0uCj4gPj4KPiA+PiBUaGUgd2hv
-bGUgY29uc3RydWN0IG1pbWljcyBob3cgY29tbWl0IHRhaWxzIHdvcmsuCj4gPgo+ID4gWWVhaCB3
-aGF0IEkgc3VnZ2VzdGVkIGlzIGEgYml0IG11Y2ggbWlkbGF5ZXIsIGJ1dCB3ZSd2ZSBkb25lIHdo
-YXQgeW91Cj4gPiBzdWdnZXN0ZWQgYWJvdmUgd2l0aCBhbGwgZHJpdmVycyByb2xsaW5nIHRoZWly
-IG93biBhdG9taWNfY29tbWl0LiBJdAo+ID4gd2Fzbid0IHByZXR0eS4gVGhlcmUncyBzdGlsbCBk
-cml2ZXJzIGxpa2UgdmM0IHdoaWNoIGhhdmVuJ3Qgc3dpdGNoZWQsIGFuZAo+ID4gd2hpY2ggaGF2
-ZSB0aGVpciBvd24gbG9ja2luZyBhbmQgc3luY2hyb25pemF0aW9uLgo+ID4KPiA+IEhlbmNlIHdo
-eSBJIHRoaW5rIHRoZSBjYWxsYmFjayBhcHByb2FjaCBoZXJlIGlzIGJldHRlciwgZ2l2ZXMgZHJp
-dmVycyBsZXNzCj4gPiBleGN1c2VzIHRvIHJvbGwgdGhlaXIgb3duIGFuZCBtYWtlIGEgbWVzcy4K
-Pgo+IEJ1dCBpdCBzb3VuZHMgbGlrZSB5b3UnbGwgcmVncmV0IHRoaXMuIEFzIHNvb24gYXMgYSBk
-cml2ZXIgaGFzIHRvIGRvCj4gYWRkaXRpb25hbCBzdHVmZiBhdCB0aGUgYmVnaW5uaW5nIG9mIHRo
-ZSBzZXR1cCBmdW5jdGlvbiwgYW5vdGhlciBoZWxwZXIKPiB3aWxsIGJlIHJlcXVpcmVkLCBhbmQg
-c28gb24uIE1heWJlIHJhdGhlciBnbyB3aXRoIHRoZSBjb21taXRfcHJlcGFyZQo+IGhlbHBlciBh
-bmQgcHVzaCBkcml2ZXIgYXV0aG9ycyB0byBub3QgdXNlIGl0LgoKRm9yIHRoZSBvdGhlciB0aGlu
-ZyB3ZSBhbHJlYWR5IGhhdmUgY2FsbGJhY2tzIChpdCdzIHByZXBhcmVfcGxhbmUpLgpUaGUgdXNl
-IGNhc2UgZm9yIHRoaXMgaXMgYWxzbyBmYWlybHkgbWluaW1hbCAoYW5kIHRoaXMgc2hvdWxkIGJl
-IGNsZWFyCndoZW4gdGhlIGtlcm5lbGRvYyBpcyBmdWxseSB1cGRhdGVkKS4KClRoZSB0aGluZyBp
-cywgYXZvaWRpbmcgdGhlIG1pZGxheWVyIG1pc3Rha2UgZG9lc24ndCBtZWFuIG5vIGNhbGxiYWNr
-cy4KSXQganVzdCBtZWFucyB0aGUgdG9wbW9zdCBlbnRyeSBwb2ludCBzaG91bGQgYmUgYSBkcml2
-ZXIgY2FsbGJhY2sgdG9vLAphbmQgaWRlYWxseSBhbGwgdGhlIHBpZWNlcyBhcmUgc3RpbGwgZmFp
-cmx5IG1vZHVsYXIuIFdlIGNoZWNrIGFsbAp0aGVzZSBib3hlcy4KCllvdXIgb3B0aW9uIG90b2gg
-bWVhbnMgYSBidW5jaCBtb3JlIGNvZGUgaW4gdmM0IChhZnRlciBNYXhpbWUncyBzZXJpZXMKaXMg
-ZG9uZSkgZm9yIG5vdCBtdWNoIHJlYXNvbi4gUGx1cyBJJ20gcmVhbGx5IG5vdCBzZWVpbmcgdGhl
-IGNvbmNlcm4uCkFsc28sIHJ1bGUgb2YgdGh1bWIgaXMgdG8gZG8gY2xlYW4gZGVzaWduIHdoZW4g
-d2UgaGF2ZSAzIGNhc2VzLCBhbmQKaGFjayB0aGluZ3MgdXAgZm9yIHRoZSBmaXJzdCAyLiBXZSdy
-ZSBhdCAxLgoKQWxzbyBub3RlIHRoYXQgdGhlIDJuZCBwYXJ0IG9mIHRoaXMgaXMgYWxzbyBub3Qg
-aW4gdGhlCmF0b21pY19jb21taXRfdGFpbCBjYWxsYmFjay4gQnV0IHdlIGdldCBhd2F5IHdpdGgg
-dGhhdCBiZWNhdXNlIHRoZQpkcml2ZXIgaGFuZGxpbmcgY2FuIGJlIGRvbmUgYXQgdGhlIHRvcCBv
-ZiBhdG9taWNfY29tbWl0X3RhaWwsIGhlbmNlCnRoZXJlJ3Mgbm8gbmVlZCBmb3IgYW4gYXRvbWlj
-X2NvbW1pdF93YWl0X2Zvcl9kZXBlbmRlbmNpZXMuCi1EYW5pZWwKCj4KPiBCZXN0IHJlZ2FyZHMK
-PiBUaG9tYXMKPgo+ID4gLURhbmllbAo+ID4KPgo+IC0tCj4gVGhvbWFzIFppbW1lcm1hbm4KPiBH
-cmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyCj4gU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJICj4gTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55Cj4gKEhSQiAz
-NjgwOSwgQUcgTsO8cm5iZXJnKQo+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZm
-ZXIKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBvcmF0
-aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Fri, Nov 20, 2020 at 7:32 AM Sumit Semwal <sumit.semwal@linaro.org> wrote:
+>
+> Hi Daniel,
+>
+>
+> On Wed, 18 Nov 2020 at 13:16, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Nov 18, 2020 at 3:40 AM John Stultz <john.stultz@linaro.org> wrote:
+> > > On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
+> > > > > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> > > > > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > > >
+> > > > > > > > Hey All,
+> > > > > > > >   So just wanted to send my last revision of my patch series
+> > > > > > > > of performance optimizations to the dma-buf system heap.
+> > > > > > >
+> > > > > > > Thanks very much for your patches - I think the first 5 patches look good to me.
+> > > > > > >
+> > > > > > > I know there was a bit of discussion over adding a new system-uncached
+> > > > > > > heap v/s using a flag to identify that; I think I prefer the separate
+> > > > > > > heap idea, but lets ask one last time if any one else has any real
+> > > > > > > objections to it.
+> > > > > > >
+> > > > > > > Daniel, Christian: any comments from your side on this?
+> > > > > >
+> > > > > > I do wonder a bit where the userspace stack for this all is, since tuning
+> > > > > > allocators without a full stack is fairly pointless. dma-buf heaps is a
+> > > > > > bit in a limbo situation here it feels like.
+> > > > >
+> > > > > As mentioned in the system-uncached patch:
+> > > > > Pending opensource users of this code include:
+> > > > > * AOSP HiKey960 gralloc:
+> > > > >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
+> > > > >   - Visibly improves performance over the system heap
+> > > > > * AOSP Codec2 (possibly, needs more review):
+> > > > >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
+> > > > >
+> > > > > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
+> > > > > able to use the current dmabuf heaps instead of ION.
+> > > > >
+> > > > > So I'm not sure what you mean by limbo, other than it being in a
+> > > > > transition state where the interface is upstream and we're working on
+> > > > > moving vendors to it from ION (which is staged to be dropped in 5.11).
+> > > > > Part of that work is making sure we don't regress the performance
+> > > > > expectations.
+> > > >
+> > > > The mesa thing below, since if we test this with some downstream kernel
+> > > > drivers or at least non-mesa userspace I'm somewhat worried we're just
+> > > > creating a nice split world between the android gfx world and the
+> > > > mesa/linux desktop gfx world.
+> > > >
+> > > > But then that's kinda how android rolls, so *shrug*
+> > > >
+> > > > > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
+> > > > > > dma-api because dma api maintainers don't like us doing that. But
+> > > > > > personally no concern on that front really, gpus need this. It's just that
+> > > > > > we do need solid justification I think if we land this. Hence back to
+> > > > > > first point.
+> > > > > >
+> > > > > > Ideally first point comes in the form of benchmarking on android together
+> > > > > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
+> > > > > > actually show the benefits, I have no idea).
+> > > > >
+> > > > > Tying it with mesa is a little tough as the grallocs for mesa devices
+> > > > > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
+> > > > > allocation path for dmabuf heaps there gets a little complex as last I
+> > > > > tried that (when trying to get HiKey working with Lima graphics, as
+> > > > > gbm wouldn't allocate the contiguous buffers required by the display),
+> > > > > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
+> > > > > private handle metadata in the buffer when it was passed in.
+> > > > >
+> > > > > But I might take a look at it again. I got a bit lost digging through
+> > > > > the mesa gbm allocation paths last time.
+> > > > >
+> > > > > I'll also try to see if I can find a benchmark for the codec2 code
+> > > > > (using dmabuf heaps with and without the uncached heap) on on db845c
+> > > > > (w/ mesa), as that is already working and I suspect that might be
+> > > > > close to what you're looking for.
+> > > >
+> > > > tbh I think trying to push for this long term is the best we can hope for.
+> > > >
+> > > > Media is also a lot more *meh* since it's deeply fragmented and a lot less
+> > > > of it upstream than on the gles/display side.
+> > > >
+> > > > I think confirming that this at least doesn't horrible blow up on a
+> > > > gralloc/gbm+mesa stack would be useful I think.
+> > >
+> > > Sorry, I'm still a little foggy on precisely what you're suggesting here.
+> > >
+> > > The patch stack I have has already been used with db845c (mesa +
+> > > gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
+> > > So no blowing up there. And I'm working with Hridya to find a
+> > > benchmark for codec2 so we can try to show the performance delta.
+> > >
+> > > However, if you're wanting a dma-buf gralloc implementation with mesa,
+> > > that may be a little tougher to do, but I guess I can give it a go.
+> > >
+> > > Hopefully this will address concerns about the system-uncached heap
+> > > patch (the last two patches in this series)?
+> > >
+> > > In the meantime I hope we can queue the first five patches, as it
+> > > would be nice to get the code rearranging in as there are others
+> > > trying to stage their own heaps, and I'd like to avoid dragging that
+> > > churn out for too long (in addition to improving the allocation
+> > > performance). Those changes have no ABI implications.
+> >
+> > Maybe I'm also misunderstanding what dma-buf heaps is used for in
+> > Android, at least usually. I thought it's used to allocate all the
+> > winsys/shared buffers through gralloc (at least in the blobby stacks),
+> > to handle the allocation constraints problem. In the open stacks we
+> > don't seem to have a platform with both mesa and v4l (or some other
+> > codec) with "interesting" allocations constraints, so no one using
+> > that gralloc+dma-buf heaps combo for what it was meant for. Hence why
+> > I'm a bit vary that we're creating something here which just misses
+> > the point a bit when we try to actually use it (in that glorious
+> > forever-future world where an android platform has enough drivers in
+> > upstream to do so).
+> >
+> > For other "this solves a system problem" we tend to be quite a bit
+> > more picky with the demonstration use case, to make sure we're
+> > actually creating something that solves the problem in reality.
+> >
+> > But it also looks like Android's just not there yet, so *shrug* ...
+>
+> For me, looking at the first 5 patches (listed below, for quick
+> reference), they are only doing code reorganisation and minor updates
+> for already existing heaps, and no ABI change, I am not able to
+> clearly see your objection here. To me, these seem to be required
+> updates that the existing system heap users can benefit from.
+>
+> dma-buf: system_heap: Rework system heap to use sgtables instead of
+>     pagelists
+>   dma-buf: heaps: Move heap-helper logic into the cma_heap
+>     implementation
+>   dma-buf: heaps: Remove heap-helpers code
+>   dma-buf: heaps: Skip sync if not mapped
+>   dma-buf: system_heap: Allocate higher order pages if available
+>
+> If we talk about the last two patches - the ones that add system
+> uncached heap, I somewhat agree that we should be able to show the
+> performance gains with this approach (which has been in use on ION and
+> in devices) using dma-buf gralloc or similar.
+>
+> We can discuss the system-uncached heap when the dma-buf gralloc or
+> similar demonstration for performance benefits is done, but I am
+> inclined to push these 5 patches listed above through.
+
+Yeah makes total sense - I was arguing about the new stuff, not the refactoring.
+-Daniel
+
+>
+> Best,
+> Sumit.
+>
+> > -Daniel
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
