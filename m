@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2629F2BA900
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF02F2BA8FE
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 12:26:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 585826E8B4;
-	Fri, 20 Nov 2020 11:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 837D86E8AB;
+	Fri, 20 Nov 2020 11:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9559B6E8B8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6FF6E8B4
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 11:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,24 +18,23 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=O3hj3BCdAYlTpve5LZhOzRjCcep0BRuZm2roFfTmKTY=; b=nH1K/Evrb1toP5acgZVA5CGzs9
- k07sK0Y706oJwS/SDJ+V14hdIkVLb2Xgngxm7zeIFmTDZ9EocDl8y2iH+O6yINIg+Sr1sOQ+R2Tp3
- mXJG/UTovXolOKlqEG+F3FKd5sVFe5aO1EucaoUcu8RuPgj1Kd1m/cV98D8Cp6MRTZPDjgQ/OjZET
- kDGwbPaprObag1ryR1YAVCgksRrTPCpFT7+SFuAao3PjXlpuBBq4bN+cc9LASRBgkRlkNixoW3u0V
- WIrxQXMSfKlOFXb8lDFO+i2rd+MwIAPZi8jNSkXdIuZrBJPJoVO2ThdkFY/1AihvyODx29T9Q+iXE
- tRZcthaA==;
+ bh=thECbuxl1V6W/EwmpL9lJtJKHaRjnN3YMRZgew1Nats=; b=CP5Dlz4FoswUsgaT/FNdFF2jBw
+ 2E6+TD7T434EebP9IS/0T1KxRcwDDp7ytr+tRyJ2n0JawKal1HWXLoqucGcTmWA6dCxPRHOYUscsu
+ MGCPIHMWZ2I8I8Y2Qq97+aOyLIu13noaMhBs74nuaSOM8xV1F5aQpM5jICkz5lECdSYeDJkrEmyZ3
+ /J/TBc6GmxhbDFR7IkCnGfg0bP2RQwFp2irlJT6u+4bWHO9KRjzcfdpGFi9VDwbcjl0SX6BXGq6Pu
+ +thDG9vwpuj6uNDV2NWJI9KYYxJp98UXkeu3uWwLKPSnzJ5/KMHkG8aWydPF2P62ooMV5ILkiKjWv
+ EpRCCYHA==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1kg4Yr-0003lG-Q4; Fri, 20 Nov 2020 13:26:41 +0200
+ id 1kg4Yr-0003lG-SD; Fri, 20 Nov 2020 13:26:41 +0200
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH v4 17/21] drm/tegra: Set resv fields when importing/exporting
- GEMs
-Date: Fri, 20 Nov 2020 13:25:56 +0200
-Message-Id: <20201120112600.935082-18-mperttunen@nvidia.com>
+Subject: [PATCH v4 18/21] drm/tegra: Allocate per-engine channel in core code
+Date: Fri, 20 Nov 2020 13:25:57 +0200
+Message-Id: <20201120112600.935082-19-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201120112600.935082-1-mperttunen@nvidia.com>
 References: <20201120112600.935082-1-mperttunen@nvidia.com>
@@ -62,35 +61,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allow sharing of implicit fences when exporting/importing dma_buf
-objects, set the 'resv' fields when importing or exporting GEM
-objects.
+To avoid duplication, allocate the per-engine shared channel in the
+core code instead. Once MLOCKs are implemented on Host1x side, we
+can also update this to avoid allocating a shared channel when
+MLOCKs are enabled.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/tegra/gem.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/tegra/drm.c | 11 +++++++++++
+ drivers/gpu/drm/tegra/drm.h |  4 ++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-index 723df142a981..4a8acd4724bd 100644
---- a/drivers/gpu/drm/tegra/gem.c
-+++ b/drivers/gpu/drm/tegra/gem.c
-@@ -423,6 +423,7 @@ static struct tegra_bo *tegra_bo_import(struct drm_device *drm,
- 	}
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 7437c67924aa..7124b0b0154b 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -887,6 +887,14 @@ static struct drm_driver tegra_drm_driver = {
+ int tegra_drm_register_client(struct tegra_drm *tegra,
+ 			      struct tegra_drm_client *client)
+ {
++	/*
++	 * When MLOCKs are implemented, change to allocate a shared channel
++	 * only when MLOCKs are disabled.
++	 */
++	client->shared_channel = host1x_channel_request(&client->base);
++	if (!client->shared_channel)
++		return -EBUSY;
++
+ 	mutex_lock(&tegra->clients_lock);
+ 	list_add_tail(&client->list, &tegra->clients);
+ 	client->drm = tegra;
+@@ -903,6 +911,9 @@ int tegra_drm_unregister_client(struct tegra_drm *tegra,
+ 	client->drm = NULL;
+ 	mutex_unlock(&tegra->clients_lock);
  
- 	bo->gem.import_attach = attach;
-+	bo->gem.resv = buf->resv;
- 
- 	return bo;
- 
-@@ -675,6 +676,7 @@ struct dma_buf *tegra_gem_prime_export(struct drm_gem_object *gem,
- 	exp_info.size = gem->size;
- 	exp_info.flags = flags;
- 	exp_info.priv = gem;
-+	exp_info.resv = gem->resv;
- 
- 	return drm_gem_dmabuf_export(gem->dev, &exp_info);
++	if (client->shared_channel)
++		host1x_channel_put(client->shared_channel);
++
+ 	return 0;
  }
+ 
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index b25443255be6..3fc42fd97911 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -86,8 +86,12 @@ struct tegra_drm_client {
+ 	struct list_head list;
+ 	struct tegra_drm *drm;
+ 
++	/* Set by driver */
+ 	unsigned int version;
+ 	const struct tegra_drm_client_ops *ops;
++
++	/* Set by TegraDRM core */
++	struct host1x_channel *shared_channel;
+ };
+ 
+ static inline struct tegra_drm_client *
 -- 
 2.29.2
 
