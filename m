@@ -2,36 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B58BA2BA4D7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 09:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C58A2BA4D8
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 09:41:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 090AD6E88F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210786E891;
 	Fri, 20 Nov 2020 08:41:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC3CD89336
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 21:19:25 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id EB1B33A9181
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 21:11:03 +0000 (UTC)
-X-Originating-IP: 91.224.148.103
-Received: from localhost.localdomain (unknown [91.224.148.103])
- (Authenticated sender: miquel.raynal@bootlin.com)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id DBFC4E0006;
- Thu, 19 Nov 2020 21:10:39 +0000 (UTC)
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH v3 07/23] mtd: spi-nor: hisi-sfc: Demote non-conformant
- kernel-doc
-Date: Thu, 19 Nov 2020 22:10:38 +0100
-Message-Id: <20201119211038.26454-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201109182206.3037326-8-lee.jones@linaro.org>
-References: 
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9478A6E836
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 00:30:00 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id d142so8839392wmd.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Nov 2020 16:30:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tVDijfDshOZ5EX5JCLPn1kfMb9n0yaU32SCV2DQVsFg=;
+ b=dC/Qm7TK0SdC/clTSEdXr+ZlvFVP6/r3El7Nj1d85rGH0xWL4QXS/SQmTtEHILh9YP
+ YzWHTlI9/+08wfIiXcVSPNk4Oyo0c0oTXUP+OHKR8PC4/+irR6FX3xGZDbucyPxOF6XC
+ TFHDhg10JUjzcHvg/NLWA2mBhPB44RbYU+ngMNqwotrIC0P6wSNOs7PArgE0rqkQeEEf
+ xLN8Ep0UUjTav28YLp11bWjs8VKmSq8nDgW7v+YXnzQef/BqP0LhqY6fO/aZSiCgz1CQ
+ uiIlxdF31UHobu8ieTnDNdtRem1oVC+3+Uz1V9I8Mjl+XxuqdBQgpwmFau0frUlWh56o
+ jB2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tVDijfDshOZ5EX5JCLPn1kfMb9n0yaU32SCV2DQVsFg=;
+ b=g8FMmxnH+Cz0lErkcgMGIsmp3b0PEj+cPCB1KcyvKrR7sIBqSdjtI8veWO1spmSTmp
+ IzRucC0MZjTL5Otkk7URiMPEWHwWl9kt+OjbYrLcfR047BuhcY5LdNb/tCe8Xs34BBKv
+ +w47rnnoD/ny3rrMWsQocnwbPtnssidDQgZpwwDBSOSlNdq7yyVY9vtPmj7pu5cbEO5V
+ DcRPBcWhvP83bAoo8/Rz6jX7DNO0F6ippGoYI0m3ClNlqgY5hGtpaS7BDHn1GTQERF4C
+ qJwjONYxi9slXn5UMxoNGkxmI+jaF/Ntryxpsiq8eE46S5M4x5iyh1GWWBXmVuLWtvSY
+ X2LA==
+X-Gm-Message-State: AOAM533ExiNv+vUGTXETjAZmGW+jmpVramHWqbu/1qCUrQOShOvkf6We
+ 17KPF9vJaekXrwGgicDNM14=
+X-Google-Smtp-Source: ABdhPJyxtKzKptFTtq9dzV6T1By5V/tWzrHZ3dAmfuqSv6J1FS5yP9p5uuDSbEtaaBzYolhgL2Ff7g==
+X-Received: by 2002:a7b:cb09:: with SMTP id u9mr7044795wmj.109.1605832199186; 
+ Thu, 19 Nov 2020 16:29:59 -0800 (PST)
+Received: from a-VirtualBox ([103.120.71.253])
+ by smtp.gmail.com with ESMTPSA id 89sm2554633wrp.58.2020.11.19.16.29.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Nov 2020 16:29:58 -0800 (PST)
+Date: Fri, 20 Nov 2020 05:29:50 +0500
+From: Bilal Wasim <bilalwasim676@gmail.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH] drm/mediatek: dsi: Modify horizontal front/back porch
+ byte formula
+Message-ID: <20201120052950.0ca597fb@a-VirtualBox>
+In-Reply-To: <20201119232335.6704-1-chunkuang.hu@kernel.org>
+References: <20201119232335.6704-1-chunkuang.hu@kernel.org>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-linux-mtd-patch-notification: thanks
-X-linux-mtd-patch-commit: d0992b41e3b5d9bb279355fcb14bf6a985d7f2fb
 X-Mailman-Approved-At: Fri, 20 Nov 2020 08:41:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,36 +68,143 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>,
- Tudor Ambarus <tudor.ambarus@microchip.com>,
- Richard Weinberger <richard@nod.at>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-mtd@lists.infradead.org, Miquel Raynal <miquel.raynal@bootlin.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Jitao Shi <jitao.shi@mediatek.com>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCAyMDIwLTExLTA5IGF0IDE4OjIxOjUwIFVUQywgTGVlIEpvbmVzIHdyb3RlOgo+IEZp
-eGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+IAo+ICBkcml2
-ZXJzL210ZC9zcGktbm9yL2NvbnRyb2xsZXJzL2hpc2ktc2ZjLmM6MzI4OiB3YXJuaW5nOiBGdW5j
-dGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICducCcgbm90IGRlc2NyaWJlZCBpbiAnaGlzaV9zcGlf
-bm9yX3JlZ2lzdGVyJwo+ICBkcml2ZXJzL210ZC9zcGktbm9yL2NvbnRyb2xsZXJzL2hpc2ktc2Zj
-LmM6MzI4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdob3N0JyBub3Qg
-ZGVzY3JpYmVkIGluICdoaXNpX3NwaV9ub3JfcmVnaXN0ZXInCj4gCj4gQ2M6IFR1ZG9yIEFtYmFy
-dXMgPHR1ZG9yLmFtYmFydXNAbWljcm9jaGlwLmNvbT4KPiBDYzogTWlxdWVsIFJheW5hbCA8bWlx
-dWVsLnJheW5hbEBib290bGluLmNvbT4KPiBDYzogUmljaGFyZCBXZWluYmVyZ2VyIDxyaWNoYXJk
-QG5vZC5hdD4KPiBDYzogVmlnbmVzaCBSYWdoYXZlbmRyYSA8dmlnbmVzaHJAdGkuY29tPgo+IENj
-OiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgo+IENjOiAiQ2hyaXN0aWFu
-IEvDtm5pZyIgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiBDYzogbGludXgtbXRkQGxpc3Rz
-LmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnCj4gQ2M6IGRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGluYXJvLW1tLXNpZ0BsaXN0cy5s
-aW5hcm8ub3JnCj4gU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGluYXJvLm9y
-Zz4KPiBSZXZpZXdlZC1ieTogVmlnbmVzaCBSYWdoYXZlbmRyYSA8dmlnbmVzaHJAdGkuY29tPgoK
-QXBwbGllZCB0byBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dp
-dC9tdGQvbGludXguZ2l0IG5hbmQvbmV4dCwgdGhhbmtzLgoKTWlxdWVsCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi CK, 
+
+On Fri, 20 Nov 2020 07:23:35 +0800
+Chun-Kuang Hu <chunkuang.hu@kernel.org> wrote:
+
+> From: CK Hu <ck.hu@mediatek.com>
+> 
+> In the patch to be fixed, horizontal_backporch_byte become to large
+> for some panel, so roll back that patch. For small hfp or hbp panel,
+> using vm->hfront_porch + vm->hback_porch to calculate
+> horizontal_backporch_byte would make it negtive, so
+> use horizontal_backporch_byte itself to make it positive.
+> 
+> Fixes: 35bf948f1edb ("drm/mediatek: dsi: Fix scrolling of panel with
+> small hfp or hbp")
+> 
+> Signed-off-by: CK Hu <ck.hu@mediatek.com>
+> Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 61
+> +++++++++++------------------- 1 file changed, 22 insertions(+), 39
+> deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> b/drivers/gpu/drm/mediatek/mtk_dsi.c index 4a188a942c38..65fd99c528af
+> 100644 --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -444,7 +444,10 @@ static void mtk_dsi_config_vdo_timing(struct
+> mtk_dsi *dsi) u32 horizontal_sync_active_byte;
+>  	u32 horizontal_backporch_byte;
+>  	u32 horizontal_frontporch_byte;
+> +	u32 horizontal_front_back_byte;
+> +	u32 data_phy_cycles_byte;
+>  	u32 dsi_tmp_buf_bpp, data_phy_cycles;
+> +	u32 delta;
+>  	struct mtk_phy_timing *timing = &dsi->phy_timing;
+>  
+>  	struct videomode *vm = &dsi->vm;
+> @@ -466,50 +469,30 @@ static void mtk_dsi_config_vdo_timing(struct
+> mtk_dsi *dsi) horizontal_sync_active_byte = (vm->hsync_len *
+> dsi_tmp_buf_bpp - 10); 
+>  	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
+> -		horizontal_backporch_byte = vm->hback_porch *
+> dsi_tmp_buf_bpp;
+> +		horizontal_backporch_byte = vm->hback_porch *
+> dsi_tmp_buf_bpp - 10; else
+>  		horizontal_backporch_byte = (vm->hback_porch +
+> vm->hsync_len) *
+> -					    dsi_tmp_buf_bpp;
+> +					    dsi_tmp_buf_bpp - 10;
+>  
+>  	data_phy_cycles = timing->lpx + timing->da_hs_prepare +
+> -			  timing->da_hs_zero + timing->da_hs_exit;
+> -
+> -	if (dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
+> -		if ((vm->hfront_porch + vm->hback_porch) *
+> dsi_tmp_buf_bpp >
+> -		    data_phy_cycles * dsi->lanes + 18) {
+> -			horizontal_frontporch_byte =
+> -				vm->hfront_porch * dsi_tmp_buf_bpp -
+> -				(data_phy_cycles * dsi->lanes + 18) *
+> -				vm->hfront_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -
+> -			horizontal_backporch_byte =
+> -				horizontal_backporch_byte -
+> -				(data_phy_cycles * dsi->lanes + 18) *
+> -				vm->hback_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -		} else {
+> -			DRM_WARN("HFP less than d-phy, FPS will
+> under 60Hz\n");
+> -			horizontal_frontporch_byte =
+> vm->hfront_porch *
+> -						     dsi_tmp_buf_bpp;
+> -		}
+> +			  timing->da_hs_zero + timing->da_hs_exit +
+> 3; +
+> +	delta = dsi->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ? 18 :
+> 12; +
+> +	horizontal_frontporch_byte = vm->hfront_porch *
+> dsi_tmp_buf_bpp;
+> +	horizontal_front_back_byte = horizontal_frontporch_byte +
+> horizontal_backporch_byte;
+> +	data_phy_cycles_byte = data_phy_cycles * dsi->lanes + delta;
+> +
+> +	if (horizontal_front_back_byte > data_phy_cycles_byte) {
+> +		horizontal_frontporch_byte -= data_phy_cycles_byte *
+> +
+> horizontal_frontporch_byte /
+> +
+> horizontal_front_back_byte; +
+> +		horizontal_backporch_byte -= data_phy_cycles_byte *
+> +
+> horizontal_backporch_byte /
+> +
+> horizontal_front_back_byte; } else {
+> -		if ((vm->hfront_porch + vm->hback_porch) *
+> dsi_tmp_buf_bpp >
+> -		    data_phy_cycles * dsi->lanes + 12) {
+> -			horizontal_frontporch_byte =
+> -				vm->hfront_porch * dsi_tmp_buf_bpp -
+> -				(data_phy_cycles * dsi->lanes + 12) *
+> -				vm->hfront_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -			horizontal_backporch_byte =
+> horizontal_backporch_byte -
+> -				(data_phy_cycles * dsi->lanes + 12) *
+> -				vm->hback_porch /
+> -				(vm->hfront_porch + vm->hback_porch);
+> -		} else {
+> -			DRM_WARN("HFP less than d-phy, FPS will
+> under 60Hz\n");
+> -			horizontal_frontporch_byte =
+> vm->hfront_porch *
+> -						     dsi_tmp_buf_bpp;
+> -		}
+> +		DRM_WARN("HFP + HBP less than d-phy, FPS will under
+> 60Hz\n"); }
+>  
+>  	writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+
+Tested on Chromebook ELM.
+
+Tested-by: Bilal Wasim <bilal.wasim@imgtec.com>
+
+Thanks,
+Bilal
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
