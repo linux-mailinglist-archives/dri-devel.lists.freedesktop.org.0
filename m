@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9912BB290
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 19:24:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F3C2BB29B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 19:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DAA66E8FA;
-	Fri, 20 Nov 2020 18:24:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 250366E8F8;
+	Fri, 20 Nov 2020 18:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5405A6E8FA;
- Fri, 20 Nov 2020 18:24:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60DD96E8F1;
+ Fri, 20 Nov 2020 18:28:07 +0000 (UTC)
 Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4B1C52224C;
- Fri, 20 Nov 2020 18:24:43 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id 16C8B2224C;
+ Fri, 20 Nov 2020 18:28:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1605896684;
- bh=F9oY8QqIOYHoDKOxegk1orF7e6RDnnMuym8/27lt+ok=;
+ s=default; t=1605896887;
+ bh=ITxFoy4MVc42ndwX0jIIAa7SbZop74YrE0LYwrVuP7M=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wL76BqgQ2cuxRvIAM08Eh1T29sfwwzqMJvw6FOnTn8mDOC9ACCJaKMed4tTudCL9K
- MjnpSALFurqwkJXrc9ARo7i9xw7XU2Yvo9Zew9OkOwvKKHZvsyTfp/nQVnIJ36XZLF
- FcY0q1NEDnltkG0FVVnZojYVG1uFZd1brPnfjuB8=
-Date: Fri, 20 Nov 2020 12:24:49 -0600
+ b=uPJCGoQjpThZZ/JXn1jpc3jG+TydIj7u88U/uy00mGaTTnBM+izlWhAKiNdNXj+lK
+ VXgqzUdX4pc21MyJ7ZxDyaCxelstxLQeqvBlgeez1ag623llErpw4KmzGvBJTw8T27
+ uzIF4bywLRRHqmLHXIKKuybf/tw4t2YF5JungJ+c=
+Date: Fri, 20 Nov 2020 12:28:12 -0600
 From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To: Alex Deucher <alexander.deucher@amd.com>,
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 005/141] drm/radeon: Fix fall-through warnings for Clang
-Message-ID: <4737ca598d8548f06e5cae6333c0e100b74ffa65.1605896059.git.gustavoars@kernel.org>
+Subject: [PATCH 028/141] drm/amd/display: Fix fall-through warnings for Clang
+Message-ID: <9ac81a4aab74e0b3317172e66a985fe6d1ae4e1b.1605896059.git.gustavoars@kernel.org>
 References: <cover.1605896059.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -57,60 +58,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-warnings by explicitly adding multiple fallthrough pseudo-keyword macros,
-as replacement for /* fall through */ comments.
-
-Notice that Clang doesn't recognize /* fall through */ comments as
-implicit fall-through markings.
+warnings by explicitly adding multiple break statements instead of just
+letting the code fall through to the next case.
 
 Link: https://github.com/KSPP/linux/issues/115
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/gpu/drm/radeon/ci_dpm.c | 2 +-
- drivers/gpu/drm/radeon/r300.c   | 1 +
- drivers/gpu/drm/radeon/si_dpm.c | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser.c  | 1 +
+ drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c | 2 ++
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      | 1 +
+ 3 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-index 886e9959496f..3d0a2e81b2de 100644
---- a/drivers/gpu/drm/radeon/ci_dpm.c
-+++ b/drivers/gpu/drm/radeon/ci_dpm.c
-@@ -4860,8 +4860,8 @@ static void ci_request_link_speed_change_before_state_change(struct radeon_devic
- 		case RADEON_PCIE_GEN2:
- 			if (radeon_acpi_pcie_performance_request(rdev, PCIE_PERF_REQ_PECI_GEN2, false) == 0)
- 				break;
-+			fallthrough;
- #endif
--			/* fall through */
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+index ad394aefa5d9..23a373ca94b5 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser.c
+@@ -1198,6 +1198,7 @@ static enum bp_result bios_parser_get_embedded_panel_info(
  		default:
- 			pi->force_pcie_gen = ci_get_current_pcie_speed(rdev);
  			break;
-diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
-index 73f67bf222e1..213dc49b6322 100644
---- a/drivers/gpu/drm/radeon/r300.c
-+++ b/drivers/gpu/drm/radeon/r300.c
-@@ -1162,6 +1162,7 @@ static int r300_packet0_check(struct radeon_cs_parser *p,
- 		/* valid register only on RV530 */
- 		if (p->rdev->family == CHIP_RV530)
- 			break;
-+		fallthrough;
- 		/* fallthrough do not move */
+ 		}
++		break;
  	default:
- 		goto fail;
-diff --git a/drivers/gpu/drm/radeon/si_dpm.c b/drivers/gpu/drm/radeon/si_dpm.c
-index d1c73e9db889..d19c08e0ad5a 100644
---- a/drivers/gpu/drm/radeon/si_dpm.c
-+++ b/drivers/gpu/drm/radeon/si_dpm.c
-@@ -5748,8 +5748,8 @@ static void si_request_link_speed_change_before_state_change(struct radeon_devic
- 		case RADEON_PCIE_GEN2:
- 			if (radeon_acpi_pcie_performance_request(rdev, PCIE_PERF_REQ_PECI_GEN2, false) == 0)
- 				break;
-+			fallthrough;
- #endif
--			/* fall through */
- 		default:
- 			si_pi->force_pcie_gen = si_get_current_pcie_speed(rdev);
+ 		break;
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+index 29d64e7e304f..fd1e64fa8744 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
+@@ -903,6 +903,7 @@ static enum bp_result bios_parser_get_soc_bb_info(
  			break;
+ 		case 4:
+ 			result = get_soc_bb_info_v4_4(bp, soc_bb_info);
++			break;
+ 		default:
+ 			break;
+ 		}
+@@ -1019,6 +1020,7 @@ static enum bp_result bios_parser_get_embedded_panel_info(
+ 		default:
+ 			break;
+ 		}
++		break;
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+index fec87a2e210c..b9254a87ee73 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
+@@ -1052,6 +1052,7 @@ static bool dc_link_detect_helper(struct dc_link *link,
+ 
+ 				return false;
+ 			}
++			break;
+ 		default:
+ 			break;
+ 		}
 -- 
 2.27.0
 
