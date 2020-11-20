@@ -1,88 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2472BA027
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 03:06:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 225B92BA04D
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 03:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10986E860;
-	Fri, 20 Nov 2020 02:06:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6CA56E85F;
+	Fri, 20 Nov 2020 02:25:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-eopbgr130088.outbound.protection.outlook.com [40.107.13.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F1D6E860
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 02:05:59 +0000 (UTC)
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+ (mail-eopbgr10058.outbound.protection.outlook.com [40.107.1.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A40746E85F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 02:25:02 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G6W+dm3Uh3rdFlbyGog5pNj3JdvZkMsqyBIvIM++XKWcgAfXB5Vh3mx7wMfhAFrH04wwiIvDZfjDP8o51DVatDhuKob8vxSXrlUL2IEdeHkmRrS12xDmpZA/KIASU/YJjvOsp5OP7lU9UvPlE0/m1JI67XYnN+zgZZVBBeUau6u/mhdNysh8RPjD10jHY5AirTRjlfmdIGbAIBtioBXmkaIjahIxO9i8+oRqtXGVGA2v9ygJDI0dBepJkGGFMdwMD+NLZ+xHpfWW4xx93HbhqaJ50SkfUHHMFcPWZhwUVXdb6SOnaSww/SYHr9Buu56eyc/ZI6TUdYNbZXGZZeqXMA==
+ b=kM7FNjj/XzfJzuj5Og+Mc45zjDyPBgKJf8VTLwD0rgPHH2LWp+yBgrio8ImLOudE2+V9uc9SZOF0DFPfY/u3rdmcMSRRz5rInjMShv9E04Hdw4VCzEa+amWLMDFg/45PoOS26dZx01pv09u5uXynYxxqNnxw+xjpei6ZdCm8j1X9EOrhUevzL6QuD8JYvBg2t7YlTfPvC2XOmgatcbCc5KGCO9PJrZOWTloelNZ2HzvxoSnTjsDCXayfDDkrz8CwwnA6Q2ryPylaK4lIll62WYH4ehSHNv48doiyqYEdGXYfaXCJi62LqFgqbfWDa6lKK9SrNGM9NnGrFWdR8XOyZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G4Kt7V2v4skTE4krkebTYvrnPs+wsr/aW+7+caxNO8A=;
- b=LrY5KRRWGaY+wpx1G8niaW0y1UCAfWP+a6EH+j8wZ1CEOHdvp8LXbSwTU8uueUl6ln2OTnfjItJ+sBAASLetSnbW463tQD0Q4XFCGGfq+EyH0i36DC63CMFGBFAICcGik0XT5JUuZY4PtQiWHxGyei8x+PFmy1YcWPkZwkhkF8HnOYh+/yjFGJQWF5pml70Ch8RkxiMV3xsPO/146s7DohtUcr75GB8Hm+WK0NyobV8PoT77pxsY+ue43tOVjix9ell/N5Z4o5zJRuA0xif26gHYQ7Q8trggFfdfgzw1Zp7VnWEP7yL1ANIfyPpmsGLNAzej7DUhq/9Mp4Jg4sdojg==
+ bh=8qRRka45cH5qHNlVMjSWD6D4w6zti43Sr8vA4EixUUc=;
+ b=Isbt1G8v2nk7/Mln3PBdWyZQYBBvAH8qNbJBqJnUfA742wYtYM83nifISvPp2ux9HuhXdnNsBow9atTujn4+qlcU6adol7bY70K3uzyT4k8L9U37MNRYheiopTZl6Ae+dFNai3CK/3gUAQkWV4hGYZiBXqFfsKPPomoDnkbHickeL8xcYK5X/L8JNusWMValxijUTkqGcdOA/J4TsoyZweGPJKZkuQ1KVqEGsg8KfS2qLuqPLc4CdF5kktW91sT5F9rrsyl1RPiF7SSESpiKqpgzQ7H9k3num8O0YVwKmurFzDgr6KYh76agn38lbsdhe6K7OJG1255UD9KrkKTAgQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G4Kt7V2v4skTE4krkebTYvrnPs+wsr/aW+7+caxNO8A=;
- b=XxOBpX2hgBLW223zaJ0nNvXPKXZs4mB9XeiwsJZsoWTdH9JJxyr+YnYeJjAahvssk/aj79mnBkIO07WAxSq49g432ba5L4tPPTOD83Gml9/yI8uSVClfT1BZAoNFrWzflp9V3IWikwhaOgfykw6gRFtPHQnt5em3jYGLzRAKNQw=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+ bh=8qRRka45cH5qHNlVMjSWD6D4w6zti43Sr8vA4EixUUc=;
+ b=c5CdF9Qy40xXYdLFFqEtlFIGHP948wOrebSINYitJ0arR+5ZJuUf7QAU6eASwdigpYRh/L2mZmGVPRPZD21cwa1CI4wqmoR0sM3HFcEJq9wSLn/+yBG3r2hrzeoxp5sUA1iACmaHZQr6+VvHwo6fSgcjYicruGVlKYqbf7dw2eE=
+Authentication-Results: oss.nxp.com; dkim=none (message not signed)
+ header.d=none;oss.nxp.com; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB5184.eurprd04.prod.outlook.com (2603:10a6:803:5d::27)
+ by VI1PR0401MB2317.eurprd04.prod.outlook.com (2603:10a6:800:28::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Fri, 20 Nov
- 2020 02:05:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Fri, 20 Nov
+ 2020 02:24:57 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3589.021; Fri, 20 Nov 2020
- 02:05:56 +0000
-Message-ID: <0f7cf14cd7cd57ad4f77d2e655c1f428641ecfc1.camel@nxp.com>
-Subject: Re: [PATCH v4] dt-bindings: display: panel: one file of all simple
- LVDS panels with dual ports
+ 02:24:57 +0000
+Message-ID: <fb134d2ac1e9cebdb27b780ebacf9d944d517205.camel@nxp.com>
+Subject: Re: [PATCH 0/8] drm/imx: Introduce i.MX8qxp DPU DRM
 From: Liu Ying <victor.liu@nxp.com>
-To: Sebastian Reichel <sre@kernel.org>
-Date: Fri, 20 Nov 2020 10:04:03 +0800
-In-Reply-To: <20201119232000.qipbppfz42sop5sm@earth.universe>
-References: <1605577645-32173-1-git-send-email-victor.liu@nxp.com>
- <20201119232000.qipbppfz42sop5sm@earth.universe>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Date: Fri, 20 Nov 2020 10:23:03 +0800
+In-Reply-To: <20201119173055.geaaori62wgtrfvh@fsr-ub1864-141>
+References: <1605777745-23625-1-git-send-email-victor.liu@nxp.com>
+ <20201119173055.geaaori62wgtrfvh@fsr-ub1864-141>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 X-Originating-IP: [119.31.174.66]
-X-ClientProxiedBy: SG2PR01CA0103.apcprd01.prod.exchangelabs.com
- (2603:1096:3:15::29) To VI1PR04MB3983.eurprd04.prod.outlook.com
+X-ClientProxiedBy: SG2PR06CA0102.apcprd06.prod.outlook.com
+ (2603:1096:3:14::28) To VI1PR04MB3983.eurprd04.prod.outlook.com
  (2603:10a6:803:4c::16)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from blueberry.ap.freescale.net (119.31.174.66) by
- SG2PR01CA0103.apcprd01.prod.exchangelabs.com (2603:1096:3:15::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Fri, 20 Nov 2020 02:05:52 +0000
+ SG2PR06CA0102.apcprd06.prod.outlook.com (2603:1096:3:14::28) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.20 via Frontend Transport; Fri, 20 Nov 2020 02:24:53 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3e9c04d7-e871-4c6a-afe8-08d88cf8d0bb
-X-MS-TrafficTypeDiagnostic: VI1PR04MB5184:
-X-Microsoft-Antispam-PRVS: <VI1PR04MB51844316797FB6108797FA7B98FF0@VI1PR04MB5184.eurprd04.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2337a684-9a2c-4371-21fd-08d88cfb78f7
+X-MS-TrafficTypeDiagnostic: VI1PR0401MB2317:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0401MB23172B050A0E128A14A63D5498FF0@VI1PR0401MB2317.eurprd04.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u5jVDoSPh03jWTUxDqauVDtYu8LO56FLyU/hEsntwWF1ooDlRKm4q1p3JLTLQbqQdA47nseMSfh5GgI4fdD3YzzLLp7H0UIe+PPZ+LRev36GLOBPpQHTcDpp76iXxAL0AA+kzmSPwKniZiqEYfZavyApAOpROOvlk+ziqwZlqPossWxa1UQkK2n6Q+1A1/cygBrAR0ir7G6CYNjDI3uaIBU0n/O5m4aZOjxQLThQuS3mdP3GaTAXntlscneC+NGn8vhDQeyNaYrhyiqmkx21EbhU8ybSqSEf+rhHU0wIRkA/JyqVhwFHYVlVwzYnvw2KOejXgxi5SyQ3voXpcx7RTQEKv44ZMIr+56hU+npf6V2HzOYfr75Lq59ccXou/cFWXgIklvOersCEloFBISjZ7Q==
+X-Microsoft-Antispam-Message-Info: yQniOzl1MRtjTHe7rLB35x1pJVFnVwACDq6Rwqw5x4oARGhMZalk7gR/m5sQ2jq2pey1jMQXOCHOnyQISNTolhRpoOq8WPnyvPXk3ZCNhs/GK0McmdX+EYo/j0w2OLLovUyHvlL0xfbeQLSZhTbHl5/pMwIwvaJKfOtc+6v37yDlJWPKSPSlxMafrnbaynXd1haGY6V1oLMzyqL+XRoDO32UeQPjE3jeEZKK5vkoK7D6Wo3io0FPuyv/pqL9yUcrCBmEoxP6maydvdpk/hIrGUWW5EOAPtRxIjmkBPF7wFxv91FoyXt+PJ+YuMnKdb4vqGumW6QiVOZdHhD+DDI75IjiHlg/RsdKA/3TPcWh61cVvYi/LTaks39QXX8BIJrKqRi93Oc+/aHxC2s/rSKmlQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(39850400004)(346002)(376002)(396003)(36756003)(66946007)(66476007)(956004)(478600001)(2906002)(8936002)(86362001)(2616005)(54906003)(26005)(966005)(186003)(5660300002)(52116002)(83380400001)(6666004)(8676002)(16526019)(6512007)(6506007)(316002)(66556008)(6916009)(4001150100001)(4326008)(6486002);
+ SFS:(4636009)(376002)(346002)(39850400004)(396003)(136003)(366004)(52116002)(83380400001)(86362001)(8676002)(36756003)(966005)(6506007)(6486002)(6666004)(6512007)(478600001)(5660300002)(4001150100001)(26005)(16526019)(66476007)(66946007)(2906002)(66556008)(186003)(2616005)(7416002)(6862004)(956004)(316002)(4326008)(8936002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: M1JkCiFlGeXcUIDZnhxz/ZwQtKlRt0EL5zTnxkSUeG2Jb8jidrqupd6Ce0SGQOrylIWKjjFG8iJ+u96YNMBJmFN4YmYb89bnrGqEt7kvJLAx5YoVt6eksYB5l4prxCwJg5BVAm+2VSSTMuWMJAxnOWrxo/lj1+UZh9sAaTH5HapYehjlmG3KuDhUi620PiCpuUoNWbal+7O7CvVCvyh8WzBEKWYb85hC4tSfJeOtp9ClhB2aWTAqPUqymLZic627bPfyLRxwyECEromgE0+lc3z+J4lsC6GMMnY2geleRZRXXqc/m5dinE9r9YpKrFEahMZafrK31kKkoUnOi4RSAMW4zhy20CCLm6AqRBWpyXjQpCvmEahAPn7M0ai4nJZnbafF327jfI4KlpCJ10AHyjblqUu2U8kzP4wv49knXhRnzrYvkz5F72i8/gazlbzjldsYJKIdS7oYYSQwF8YHe+bvkPFiGrRWaIKr2I9a6oNT31SuNInWHGocVjk+fsWyfUiOlX4iBBIq3zWdHqdGj7ngjl/7kG6RS84nQ/najGsPu7R6DIeHWsMZ2kbjsl2vSe6ghkRdHkVLwcQG90rQUWZLPvHk9PeC3Cgnp8oC7S579A7c7EoXmcqJNSVQTQVqds2lAxA/EaPcVmIKYMxmtQ==
+X-MS-Exchange-AntiSpam-MessageData: zbbo9Ayp4+D7Ts4I98/RCBQy96gDkZp3gVtfVAlZHtajhA9YxMGwFX2nOKjrsZZ0RV784Ar5QVyDw7FDm3Pq/TTLWa/k23lF19xlSES2HeT3ZsG5a/zbhlrHx0n8CboHs+cfNydqiHp05gwxBgA6Lz3CdItG9NrMsoLAFBYVbxkrzSBTuG2kC/Bm6kZgivhJbfkF89CgzEfq5Ixpi0BN3YKhvIUla3WBqpu0PH+I11Te+WXnejJpXoH8F6sdTMsYJNa/qU+XGuLTneh3qjCecO/oeGoireCvQJEE4jym80+OMVRiNYW4285akWsaN8mo9JLfJuuImDVixPS8kZ7GsUJ6soSbalMRZOs2BHgARtajMVw3fkYGuKGaKVLeR87vZK42vqtZb070lwF7JWlOOYVFGNZPOFehwqFbokVgemyijn2lxzLXlck5/oCxm2wZXuWjat2h8WNhyzed2GdyOaXMAPXbXHuAkmuxjOLbCb72u7JT2pyidhr+23kWVAnxgQlSkbP/556qkOmF5HrsVE2Ya+XwNRBx6H62qQM7LoFu3Gz5LAQmWV55qOEXdzUnbUIzA92fk6ow5pVGwwgZ1CDLsRhIqLZam7kpp2zZXLZMBXHomHfl/0BZL22YPgI/k08oHldeTsVXIE4+Ni/NOw==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e9c04d7-e871-4c6a-afe8-08d88cf8d0bb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2337a684-9a2c-4371-21fd-08d88cfb78f7
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 02:05:55.9521 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 02:24:57.4372 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G2sYQJS79uJhIWW/npNcWLstBNwwAxazCKjj0Ok/lT2KFMGoZCiuvKc4SidQN8ZEsc/lh+TlqGOp74W1Lfv8kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5184
+X-MS-Exchange-CrossTenant-UserPrincipalName: AuX6mq394qwXxRuHcpVH+xIl3qPTvrEb8byFeh5tPE9a2Lz6LF/J1uzIEunV8whY4Zyegrn988WUled8BKd3Ag==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2317
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,284 +94,197 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, kernel@pengutronix.de, airlied@linux.ie,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ tzimmermann@suse.de, shawnguo@kernel.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+Hi Laurentiu,
 
-On Fri, 2020-11-20 at 00:20 +0100, Sebastian Reichel wrote:
-> Hi,
+On Thu, 2020-11-19 at 19:30 +0200, Laurentiu Palcu wrote:
+> Hi Liu Ying,
 > 
-> On Tue, Nov 17, 2020 at 09:47:25AM +0800, Liu Ying wrote:
-> > To complement panel-simple.yaml, create panel-simple-lvds-dual-ports.yaml.
-> > panel-simple-lvds-dual-ports.yaml is for all simple LVDS panels that
-> > have dual LVDS ports and require only a single power-supply.
-> > The first port receives odd pixels, and the second port receives even pixels.
-> > Optionally, a backlight and an enable GPIO can be specified as properties.
+> On Thu, Nov 19, 2020 at 05:22:17PM +0800, Liu Ying wrote:
+> > Hi,
 > > 
-> > Panels with swapped pixel order, if any, need dedicated bindings.
 > > 
-> > Migrate 'auo,g133han01', 'auo,g185han01', 'auo,g190ean01',
-> > 'koe,tx26d202vm0bwa' and 'nlt,nl192108ac18-02d' over to the new file.
-> > 
-> > The objectives with one file for all the simple LVDS panels with dual ports are:
-> > - Make it simpler to add bindings for this kind of LVDS panels
-> > - Keep the number of bindings file lower
-> > - Keep the binding documentation for this kind of LVDS panels more consistent
-> > - Make it possible for drivers to get pixel order via
-> >   drm_of_lvds_get_dual_link_pixel_order(), as the optional 'ports' property is
-> >   allowed
-> > 
-> > Suggested-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> > ---
+> > This patch set introduces i.MX8qxp Display Processing Unit(DPU) DRM support.
 > 
-> Is this part of a bigger patchset updating the fsl,imx6q-ldb
-> binding [0] (and driver), which has the following property?
-
-I don't see such patchset.
-
-But, I will send patches to add generic ldb helper driver and i.MX8qxp
-ldb bridge driver(in drivers/gpu/drm/bridge/imx/) which would be able
-to get the pixel order.
-
-Then, perhaps, the i.MX6qdl ldb encoder driver can be converted into
-something similar with the i.MX8qxp one. And, also update the binding.
-That requires a fair amount of work, as the i.MX6qdl IPUv3 DRM driver
-needs to create DRM connectors.
-
+> Glad to see this series out. However, something went wrong with it as
+> patch 5/8 didn't make it to dri-devel mailing list... :/
 > 
->  - fsl,dual-channel : boolean. if it exists, only LVDS channel 0 should
->    be configured - one input will be distributed on both outputs in dual
->    channel mode
+> https://lists.freedesktop.org/archives/dri-devel/2020-November/thread.html
 > 
-> [0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/display/imx/ldb.txt
-> 
-> I have an out of tree platform (HW is still in development, DT will 
-> be upstreamed when hardware design is final) using "auo,g190ean01"
-> with that panel on i.MX6 and it currently works. It don't mind
-> updating the DT (new binding looks cleaner :)), but this patch by
-> itself seems to 'break' support for dual channel panels on i.MX6?
+> So, people on to dri-devel may not be able to review it...
 
-Yes, it may 'break' out-of-tree dual channel panels in the migration
-set on i.MX6qdl.  And, also the in-tree "innolux,n133hse-ea1" panel
-(seems no dt binding though) in imx6q-novena.dts.
+I think that patch was held for a moment, it appears on dri-devel
+archive now:
 
-The 'port' property was dropped in v3 as Rob suggested.
-If we add it back, then no such kind of 'breakage'.
-So, I'd like to see suggestions on whether to add it back or not. 
+https://lists.freedesktop.org/archives/dri-devel/2020-November/287958.html
 
-Thanks,
+I did receive an email from 'linux-arm-kernel' that says the msg body
+of that patch is too big(> 100KB), thus being held for moderator's
+review(I hope it pass now).
+Maybe, dri-devel did sth similar.
+
+Regards,
 Liu Ying
 
 > 
-> -- Sebastian
+> However, it did make it to LKML:
 > 
-> > v3->v4:
-> > * Add type and descriptions for dual-lvds-{odd,even}-pixels properties.
-> >   Also, update descriptions for port@0 and port@1 properties accordingly. (Rob)
+> https://lkml.org/lkml/2020/11/19/249
+> 
+> Not sure what happened here... :/
+> 
+> Thanks,
+> laurentiu
+> 
+> 
+> > DPU is comprised of a blit engine for 2D graphics, a display controller
+> > and a command sequencer.  Outside of DPU, optional prefetch engines can
+> > fetch data from memory prior to some DPU fetchunits of blit engine and
+> > display controller.  The pre-fetchers support linear formats and Vivante
+> > GPU tile formats.
 > > 
-> > v2->v3:
-> > * Do not allow 'port' property. (Rob)
-> > * Define port number. (Rob)
-> > * Specify 'dual-lvds-odd-pixels' and 'dual-lvds-even-pixels' properties. (Rob)
+> > Reference manual can be found at:
+> > https://www.nxp.com/webapp/Download?colCode=IMX8DQXPRM
 > > 
-> > v1->v2:
-> > * Correct pixel order in example LVDS panel node.
 > > 
-> >  .../panel/panel-simple-lvds-dual-ports.yaml        | 130 +++++++++++++++++++++
-> >  .../bindings/display/panel/panel-simple.yaml       |  10 --
-> >  2 files changed, 130 insertions(+), 10 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
+> > This patch set adds kernel modesetting support for the display controller part.
+> > It supports two CRTCs per display controller, several planes, prefetch
+> > engines and some properties of CRTC and plane.  Currently, the registers of
+> > the controller is accessed without command sequencer involved, instead just by
+> > using CPU.  DRM connectors would be created from the DPU KMS driver.
 > > 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> > new file mode 100644
-> > index 00000000..38a789b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-simple-lvds-dual-ports.yaml
-> > @@ -0,0 +1,130 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/panel/panel-simple-lvds-dual-ports.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Simple LVDS panels with one power supply and dual LVDS ports
-> > +
-> > +maintainers:
-> > +  - Liu Ying <victor.liu@nxp.com>
-> > +  - Thierry Reding <thierry.reding@gmail.com>
-> > +  - Sam Ravnborg <sam@ravnborg.org>
-> > +
-> > +description: |
-> > +  This binding file is a collection of the LVDS panels that
-> > +  has dual LVDS ports and requires only a single power-supply.
-> > +  The first port receives odd pixels, and the second port receives even pixels.
-> > +  There are optionally a backlight and an enable GPIO.
-> > +  The panel may use an OF graph binding for the association to the display,
-> > +  or it may be a direct child node of the display.
-> > +
-> > +  If the panel is more advanced a dedicated binding file is required.
-> > +
-> > +allOf:
-> > +  - $ref: panel-common.yaml#
-> > +
-> > +properties:
-> > +
-> > +  compatible:
-> > +    enum:
-> > +    # compatible must be listed in alphabetical order, ordered by compatible.
-> > +    # The description in the comment is mandatory for each compatible.
-> > +
-> > +        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-> > +      - auo,g133han01
-> > +        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-> > +      - auo,g185han01
-> > +        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
-> > +      - auo,g190ean01
-> > +        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-> > +      - koe,tx26d202vm0bwa
-> > +        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-> > +      - nlt,nl192108ac18-02d
-> > +
-> > +  ports:
-> > +    type: object
-> > +    properties:
-> > +      '#address-cells':
-> > +        const: 1
-> > +
-> > +      '#size-cells':
-> > +        const: 0
-> > +
-> > +      port@0:
-> > +        type: object
-> > +        description: The first sink port.
-> > +        properties:
-> > +          reg:
-> > +            const: 0
-> > +
-> > +          dual-lvds-odd-pixels:
-> > +            type: boolean
-> > +            description: The first sink port for odd pixels.
-> > +
-> > +        required:
-> > +          - reg
-> > +          - dual-lvds-odd-pixels
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: The second sink port.
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          dual-lvds-even-pixels:
-> > +            type: boolean
-> > +            description: The second sink port for even pixels.
-> > +
-> > +        required:
-> > +          - reg
-> > +          - dual-lvds-even-pixels
-> > +
-> > +    required:
-> > +      - "#address-cells"
-> > +      - "#size-cells"
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +    additionalProperties: false
-> > +
-> > +  backlight: true
-> > +  enable-gpios: true
-> > +  power-supply: true
-> > +
-> > +additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - power-supply
-> > +
-> > +examples:
-> > +  - |
-> > +    panel: panel-lvds {
-> > +      compatible = "koe,tx26d202vm0bwa";
-> > +      power-supply = <&vdd_lcd_reg>;
-> > +
-> > +      ports {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        port@0 {
-> > +          dual-lvds-odd-pixels;
-> > +          reg = <0>;
-> > +
-> > +          panel_lvds0_in: endpoint {
-> > +            remote-endpoint = <&lvds0_out>;
-> > +          };
-> > +        };
-> > +
-> > +        port@1 {
-> > +          dual-lvds-even-pixels;
-> > +          reg = <1>;
-> > +
-> > +          panel_lvds1_in: endpoint {
-> > +            remote-endpoint = <&lvds1_out>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > index f9750b0..62618e4 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > @@ -57,14 +57,8 @@ properties:
-> >        - auo,g104sn02
-> >          # AU Optronics Corporation 12.1" (1280x800) TFT LCD panel
-> >        - auo,g121ean01
-> > -        # AU Optronics Corporation 13.3" FHD (1920x1080) TFT LCD panel
-> > -      - auo,g133han01
-> >          # AU Optronics Corporation 15.6" (1366x768) TFT LCD panel
-> >        - auo,g156xtn01
-> > -        # AU Optronics Corporation 18.5" FHD (1920x1080) TFT LCD panel
-> > -      - auo,g185han01
-> > -        # AU Optronics Corporation 19.0" (1280x1024) TFT LCD panel
-> > -      - auo,g190ean01
-> >          # AU Optronics Corporation 31.5" FHD (1920x1080) TFT LCD panel
-> >        - auo,p320hvn03
-> >          # AU Optronics Corporation 21.5" FHD (1920x1080) color TFT LCD panel
-> > @@ -167,8 +161,6 @@ properties:
-> >        - kingdisplay,kd116n21-30nv-a010
-> >          # Kaohsiung Opto-Electronics Inc. 5.7" QVGA (320 x 240) TFT LCD panel
-> >        - koe,tx14d24vm1bpa
-> > -        # Kaohsiung Opto-Electronics Inc. 10.1" WUXGA (1920 x 1200) LVDS TFT LCD panel
-> > -      - koe,tx26d202vm0bwa
-> >          # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
-> >        - koe,tx31d200vm0baa
-> >          # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
-> > @@ -205,8 +197,6 @@ properties:
-> >        - neweast,wjfh116008a
-> >          # Newhaven Display International 480 x 272 TFT LCD panel
-> >        - newhaven,nhd-4.3-480272ef-atxl
-> > -        # NLT Technologies, Ltd. 15.6" FHD (1920x1080) LVDS TFT LCD panel
-> > -      - nlt,nl192108ac18-02d
-> >          # New Vision Display 7.0" 800 RGB x 480 TFT LCD panel
-> >        - nvd,9128
-> >          # OKAYA Electric America, Inc. RS800480T-7X0GP 7" WVGA LCD panel
+> > 
+> > If people want to try this series, clock patches can be found at:
+> > https://www.spinics.net/lists/arm-kernel/msg856137.html
+> > 
+> > and, power domain patches at:
+> > https://www.spinics.net/lists/arm-kernel/msg856097.html
+> > 
+> > 
+> > I will send other patch sets to add downstream bridges(embedded in i.MX8qxp)
+> > to support LVDS displays.
+> > 
+> > A brief look at the pipe:
+> > prefetch eng -> DPU -> pixel combiner -> pixel link -> pixel to DPI(pxl2dpi) ->
+> > LVDS display bridge(LDB)
+> > 
+> > 
+> > Patch 1 ~ 3 add dt-bindings for DPU and prefetch engines.
+> > Patch 4 is a minor improvement of a macro to suppress warning as the KMS driver
+> > uses it.
+> > Patch 5 introduces the DPU DRM support.
+> > Patch 6 updates MAINTAINERS.
+> > Patch 7 & 8 add DPU and prefetch engines support in the device tree of
+> > i.MX8qxp MEK platform.
+> > 
+> > 
+> > Welcome comments, thanks.
+> > 
+> > 
+> > Liu Ying (8):
+> >   dt-bindings: display: imx: Add i.MX8qxp/qm DPU binding
+> >   dt-bindings: display: imx: Add i.MX8qxp/qm PRG binding
+> >   dt-bindings: display: imx: Add i.MX8qxp/qm DPR channel binding
+> >   drm/atomic: Avoid unused-but-set-variable warning on
+> >     for_each_old_plane_in_state
+> >   drm/imx: Introduce i.MX8qxp DPU DRM
+> >   MAINTAINERS: add maintainer for i.MX8qxp DPU DRM driver
+> >   arm64: imx8qxp:dtsi: Introduce DC0 subsystem
+> >   arm64: dts: imx8qxp-mek: Enable DPU and it's prefetch engines
+> > 
+> >  .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     |  87 ++
+> >  .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      | 358 ++++++++
+> >  .../bindings/display/imx/fsl,imx8qxp-prg.yaml      |  60 ++
+> >  MAINTAINERS                                        |   9 +
+> >  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts      |  64 ++
+> >  arch/arm64/boot/dts/freescale/imx8qxp.dtsi         | 313 +++++++
+> >  drivers/gpu/drm/imx/Kconfig                        |   1 +
+> >  drivers/gpu/drm/imx/Makefile                       |   1 +
+> >  drivers/gpu/drm/imx/dpu/Kconfig                    |  10 +
+> >  drivers/gpu/drm/imx/dpu/Makefile                   |  10 +
+> >  drivers/gpu/drm/imx/dpu/dpu-constframe.c           | 170 ++++
+> >  drivers/gpu/drm/imx/dpu/dpu-core.c                 | 880 ++++++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-crtc.c                 | 926 +++++++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-crtc.h                 |  62 ++
+> >  drivers/gpu/drm/imx/dpu/dpu-disengcfg.c            | 114 +++
+> >  drivers/gpu/drm/imx/dpu/dpu-dprc.c                 | 721 ++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-dprc.h                 |  40 +
+> >  drivers/gpu/drm/imx/dpu/dpu-drv.c                  | 296 +++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-drv.h                  |  28 +
+> >  drivers/gpu/drm/imx/dpu/dpu-extdst.c               | 296 +++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c          | 291 +++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetcheco.c             | 221 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c           | 151 ++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.c            | 609 ++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchunit.h            | 191 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c            | 247 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-framegen.c             | 392 +++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-gammacor.c             | 220 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-hscaler.c              | 272 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-kms.c                  | 543 ++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-kms.h                  |  23 +
+> >  drivers/gpu/drm/imx/dpu/dpu-layerblend.c           | 345 ++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-plane.c                | 703 ++++++++++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-plane.h                |  56 ++
+> >  drivers/gpu/drm/imx/dpu/dpu-prg.c                  | 389 +++++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-prg.h                  |  45 +
+> >  drivers/gpu/drm/imx/dpu/dpu-prv.h                  | 203 +++++
+> >  drivers/gpu/drm/imx/dpu/dpu-tcon.c                 | 249 ++++++
+> >  drivers/gpu/drm/imx/dpu/dpu-vscaler.c              | 305 +++++++
+> >  drivers/gpu/drm/imx/dpu/dpu.h                      | 389 +++++++++
+> >  include/drm/drm_atomic.h                           |   4 +-
+> >  41 files changed, 10293 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/Kconfig
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/Makefile
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-constframe.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-core.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-crtc.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-disengcfg.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-dprc.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-drv.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-extdst.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchdecode.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetcheco.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchlayer.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchunit.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-fetchwarp.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-framegen.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-gammacor.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-hscaler.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-kms.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-layerblend.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-plane.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prg.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-prv.h
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-tcon.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu-vscaler.c
+> >  create mode 100644 drivers/gpu/drm/imx/dpu/dpu.h
+> > 
 > > -- 
 > > 2.7.4
 > > 
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 _______________________________________________
 dri-devel mailing list
