@@ -2,34 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6063B2BBEAB
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:34:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F9AA2BBEB4
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:35:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAC816E99A;
-	Sat, 21 Nov 2020 11:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82AE86E9A9;
+	Sat, 21 Nov 2020 11:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1976E8E1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 16:45:53 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AA707AC60;
- Fri, 20 Nov 2020 16:45:51 +0000 (UTC)
-Message-ID: <a876d42fb6ed34e5302d96698011a48c3f1023d6.camel@suse.de>
-Subject: Re: [PATCH v2 3/3] ARM: dts: rpi-4: disable wifi frequencies
-From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>, 
- Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  Eric Anholt <eric@anholt.net>
-Date: Fri, 20 Nov 2020 17:45:50 +0100
-In-Reply-To: <20201029134018.1948636-3-maxime@cerno.tech>
-References: <20201029134018.1948636-1-maxime@cerno.tech>
- <20201029134018.1948636-3-maxime@cerno.tech>
-User-Agent: Evolution 3.36.5 
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2860C6E89C;
+ Fri, 20 Nov 2020 17:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=S891HRVAXLMue2eb3ZaWv9TMDAthb1khr5PCwoXDFR4=; b=j66PMMpvppK+9LOqAod/s1ja5m
+ NVR3CJQ5wNAq2SNU16LOU8GllPMP3dWrlW0vWIkua0Q20gtch6gF283d57uK3CBa5mTngXGmftXl9
+ EoWhyx1dajSPLcrCy+az1qOxvLY8u/ryxMHXbLQY4wRWf6tfAyS5dJi34STTYLFpGVEVFckV6idcX
+ 8A2ryyyeBQPvBlZuB3VZ25y1x3p3+fuI2rkDBjo2pRYLKAAe2ynNubYwTSeWn1a4EEhMMWl8UeGO+
+ kKNrUMokjBiTf6Q9XupujrSzp+9OEjo+AQ1SZhNy8Gpw+6odKCdO8aO/7liRmMFfqiVNjewZRd/+x
+ igbQutPg==;
+Received: from [2601:1c0:6280:3f0::bcc4]
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kgA4p-0001xJ-Sm; Fri, 20 Nov 2020 17:20:04 +0000
+Subject: Re: [PATCH 2/3] mm: Extract might_alloc() debug check
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <20201120095445.1195585-1-daniel.vetter@ffwll.ch>
+ <20201120095445.1195585-3-daniel.vetter@ffwll.ch>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <bfe3b1a4-9cc0-358f-a62e-b6d9a68e735a@infradead.org>
+Date: Fri, 20 Nov 2020 09:19:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201120095445.1195585-3-daniel.vetter@ffwll.ch>
+Content-Language: en-US
 X-Mailman-Approved-At: Sat, 21 Nov 2020 11:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,70 +52,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1704588367=="
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Dave Chinner <david@fromorbit.com>, linux-mm@kvack.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Christoph Lameter <cl@linux.com>,
+ Michel Lespinasse <walken@google.com>, Ingo Molnar <mingo@kernel.org>,
+ linux-xfs@vger.kernel.org, "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>, Waiman Long <longman@redhat.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Qian Cai <cai@lca.pw>, Thomas Gleixner <tglx@linutronix.de>,
+ Joonsoo Kim <iamjoonsoo.kim@lge.com>, Vlastimil Babka <vbabka@suse.cz>,
+ LKML <linux-kernel@vger.kernel.org>, Pekka Enberg <penberg@kernel.org>,
+ linux-fsdevel@vger.kernel.org,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============1704588367==
-Content-Type: multipart/signed; micalg="pgp-sha256";
-	protocol="application/pgp-signature"; boundary="=-MQTJUKN3mWius9SLPf0c"
+On 11/20/20 1:54 AM, Daniel Vetter wrote:
+> diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
+> index d5ece7a9a403..f94405d43fd1 100644
+> --- a/include/linux/sched/mm.h
+> +++ b/include/linux/sched/mm.h
+> @@ -180,6 +180,22 @@ static inline void fs_reclaim_acquire(gfp_t gfp_mask) { }
+>  static inline void fs_reclaim_release(gfp_t gfp_mask) { }
+>  #endif
+>  
+> +/**
+> + * might_alloc - Marks possible allocation sites
 
+                    Mark
 
---=-MQTJUKN3mWius9SLPf0c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> + * @gfp_mask: gfp_t flags that would be use to allocate
 
-On Thu, 2020-10-29 at 14:40 +0100, Maxime Ripard wrote:
-> The RPi4 WiFi chip and HDMI outputs have some frequency overlap with
-> crosstalk around 2.4GHz. Let's mark it as such so we can use some evasive
-> maneuvers.
->=20
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> ---
->=20
-> Changes from v1:
->   - Changed the property name
+                                           used
 
-Applied for next. Thanks!
+> + *
+> + * Similar to might_sleep() and other annotations this can be used in functions
 
+                                         annotations,
 
---=-MQTJUKN3mWius9SLPf0c
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+> + * that might allocate, but often dont. Compiles to nothing without
 
------BEGIN PGP SIGNATURE-----
+                                     don't.
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+38r4ACgkQlfZmHno8
-x/5qYwgAsvpEd/jZHZT2ntJ3u1NyaFqM5OERxSlFLCyJosOZoo0pev871v8dZy4e
-RG+0sl3Mig4hP8SoHd2j5ioAzOmBgQUk4Imjm78AZQvBZlk+vsSxG2F/jk7JpIQg
-EYgsYXGR2OLOgrQk1lWnCJ7M+w+SUV/YNP3DMtgdcV2TXd0S/8v6+hqJQYzx7mY7
-byDJGbPSe1fzaRszTlyIf2QaJpnplQfwLMoao7P4cvdiyiyWGpeNgx1wEFSwfiB/
-OvmZXP2Sjyzmi+AkUkD6+IE6JcZnQ5+vKV+yl8GBBuRrDeIEc94pK9qx6FwMLARW
-gKG7hg3smCffh/dbJ83qOCUIbhzbUQ==
-=Idjk
------END PGP SIGNATURE-----
+> + * CONFIG_LOCKDEP. Includes a conditional might_sleep() if @gfp allows blocking.
 
---=-MQTJUKN3mWius9SLPf0c--
+?                                            might_sleep_if() if
+
+> + */
+> +static inline void might_alloc(gfp_t gfp_mask)
+> +{
+> +	fs_reclaim_acquire(gfp_mask);
+> +	fs_reclaim_release(gfp_mask);
+> +
+> +	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
+> +}
 
 
---===============1704588367==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+~Randy
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1704588367==--
-
