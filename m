@@ -1,38 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E382BAB71
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 14:41:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614E62BAB9B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 15:03:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A426E8B6;
-	Fri, 20 Nov 2020 13:41:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E96E8BB;
+	Fri, 20 Nov 2020 14:03:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36B4E6E8B6
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 13:41:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 612946E8BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 14:03:48 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C44CFAC23;
- Fri, 20 Nov 2020 13:41:42 +0000 (UTC)
-To: David Laight <David.Laight@ACULAB.COM>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <2c474745ae884de3b4ecb8abe2152bfd@AcuMS.aculab.com>
- <fa5c887e-82d8-5347-ff18-85e3628dadbe@suse.de>
- <c01d2d95f1e64be984cff71e7bdf1c84@AcuMS.aculab.com>
- <c9bae016-413f-0db9-c9ee-d6f39d24a6ab@suse.de>
- <fa6346190d0b4936934d1f1359e5b71f@AcuMS.aculab.com>
- <fd66bfcc-072a-ddfb-0d12-af4a5207820d@suse.de>
- <ec3130c3d22a4d4dafe020d30fd224cd@AcuMS.aculab.com>
+ by mx2.suse.de (Postfix) with ESMTP id E519DAA4F;
+ Fri, 20 Nov 2020 14:03:46 +0000 (UTC)
+Subject: Re: [PATCH 7/8] drm/vc4: kms: Remove async modeset semaphore
+To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+References: <20201113152956.139663-1-maxime@cerno.tech>
+ <20201113152956.139663-8-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: Linux 5.10-rc4; graphics alignment
-Message-ID: <7d42ee6b-d72b-9f4d-21fe-4f5981eb425e@suse.de>
-Date: Fri, 20 Nov 2020 14:41:42 +0100
+Message-ID: <c0985d0b-97ad-63d9-053e-41873baeb354@suse.de>
+Date: Fri, 20 Nov 2020 15:03:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <ec3130c3d22a4d4dafe020d30fd224cd@AcuMS.aculab.com>
+In-Reply-To: <20201113152956.139663-8-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,129 +43,208 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang, Ray" <ray.huang@amd.com>,
- Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Type: multipart/mixed; boundary="===============0902178044=="
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0343240754=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0902178044==
+--===============0343240754==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="JqgKexFhY0RRE2n6aBzAkOiodWThZTYoE"
+ boundary="CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JqgKexFhY0RRE2n6aBzAkOiodWThZTYoE
-Content-Type: multipart/mixed; boundary="ff4davbZMVG36vuLAxVaaySd19NzjtkkZ";
+--CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT
+Content-Type: multipart/mixed; boundary="D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: David Laight <David.Laight@ACULAB.COM>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, "Huang, Ray"
- <ray.huang@amd.com>, Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <7d42ee6b-d72b-9f4d-21fe-4f5981eb425e@suse.de>
-Subject: Re: Linux 5.10-rc4; graphics alignment
-References: <2c474745ae884de3b4ecb8abe2152bfd@AcuMS.aculab.com>
- <fa5c887e-82d8-5347-ff18-85e3628dadbe@suse.de>
- <c01d2d95f1e64be984cff71e7bdf1c84@AcuMS.aculab.com>
- <c9bae016-413f-0db9-c9ee-d6f39d24a6ab@suse.de>
- <fa6346190d0b4936934d1f1359e5b71f@AcuMS.aculab.com>
- <fd66bfcc-072a-ddfb-0d12-af4a5207820d@suse.de>
- <ec3130c3d22a4d4dafe020d30fd224cd@AcuMS.aculab.com>
-In-Reply-To: <ec3130c3d22a4d4dafe020d30fd224cd@AcuMS.aculab.com>
+To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
+ Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Tim Gover <tim.gover@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org
+Message-ID: <c0985d0b-97ad-63d9-053e-41873baeb354@suse.de>
+Subject: Re: [PATCH 7/8] drm/vc4: kms: Remove async modeset semaphore
+References: <20201113152956.139663-1-maxime@cerno.tech>
+ <20201113152956.139663-8-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-8-maxime@cerno.tech>
 
---ff4davbZMVG36vuLAxVaaySd19NzjtkkZ
+--D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V
 Content-Type: multipart/mixed;
- boundary="------------19390179BCA297FF6D9BB33A"
+ boundary="------------32AD5169F847D8DF029F8FF7"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------19390179BCA297FF6D9BB33A
+--------------32AD5169F847D8DF029F8FF7
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi
 
-Am 20.11.20 um 13:53 schrieb David Laight:
-> From: Thomas Zimmermann
->> Sent: 20 November 2020 12:30
->>
->> Am 20.11.20 um 12:45 schrieb David Laight:
->>> From: Thomas Zimmermann
->>>> Sent: 20 November 2020 11:27
->>> ...
->>>>>> You can use drm-tip for testing, where many of the DRM patches go =
-through.
->>>>>>
->>>>>>       https://cgit.freedesktop.org/drm/drm-tip/
->>>>>>
->>>>>> It's fairly up-to-date.
->>>>>
->>>>> Any idea of tags either side of the 5.10 merge?
->>>>
->>>> The final commit before v5.9 appears to be
->>>>
->>>>      Fixes: 33c8256b3bcc ("drm/amd/display: Change ABM config init i=
-nterface")
->>>>
->>>> I'd try this as a good commit. For the bad commit, just try HEAD.
->>>
->>> HEAD off that tree works.
->>> Colours ok and no stack backtrace.
->>>
->>> Ideas??
->>
->> The good news is that it's been fixed. All you have to do is wait for
->> the fix to hit upstream.
->>
->> Did you try the patch that Dave linked?
+
+Am 13.11.20 um 16:29 schrieb Maxime Ripard:
+> Now that we have proper ordering guaranteed by the previous patch, the
+> semaphore is redundant and can be removed.
 >=20
-> That patch makes no difference to my system.
-> The condition is false so it doesn't corrupt the flags.
-> (I printed the values to see.)
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-I see, so it's probably something else that has been fixed in drm-tip.=20
-It's likely that at least one commit in drm-tip is also broken. I'd try=20
-to find one of these. One idea is to go through the commits that went=20
-into the related files. Maybe go back to the HEAD of drm-tip and try=20
-something like
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-   git log --oneline -- drivers/gpu/drm/ast/=20
-drivers/gpu/drm/drm_gem_vram_helper.c drivers/gpu/drm/ttm/
-
-That lists recent ast and memory-management commits. One of them might=20
-be broken and can serve an a starting point for a bisect.
-
-I did a diff from v5.10-rc4 to drm-tip to look for suspicious changes.=20
-Some candidates are
-
-   8e3784dfef8a ("drm/ast: Reload gamma LUT after changing primary=20
-plane's color format")
-   2b8283ff1a60 ("drm/vram_helper: implement a ttm move callback.")
-   6a6e5988a265 ("drm/ttm: replace last move_notify with delete_mem_notif=
-y")
-
-I'd test them against their parent commits to see if anything changes.
-
-Thanks for all your efforts!
-
-Best regards
-Thomas
-
+> ---
+>   drivers/gpu/drm/vc4/vc4_crtc.c | 13 -------------
+>   drivers/gpu/drm/vc4/vc4_drv.h  |  2 --
+>   drivers/gpu/drm/vc4/vc4_kms.c  | 20 +-------------------
+>   3 files changed, 1 insertion(+), 34 deletions(-)
 >=20
-> 	David
->=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_c=
+rtc.c
+> index 29b77f4b4e56..65d43e2e1d51 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -699,7 +699,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *c=
+b)
+>   		container_of(cb, struct vc4_async_flip_state, cb);
+>   	struct drm_crtc *crtc =3D flip_state->crtc;
+>   	struct drm_device *dev =3D crtc->dev;
+> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+>   	struct drm_plane *plane =3D crtc->primary;
+>  =20
+>   	vc4_plane_async_set_fb(plane, flip_state->fb);
+> @@ -731,8 +730,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *c=
+b)
+>   	}
+>  =20
+>   	kfree(flip_state);
 > -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, M=
-K1 1PT, UK
-> Registration No: 1397386 (Wales)
+> -	up(&vc4->async_modeset);
+>   }
+>  =20
+>   /* Implements async (non-vblank-synced) page flips.
+> @@ -747,7 +744,6 @@ static int vc4_async_page_flip(struct drm_crtc *crt=
+c,
+>   			       uint32_t flags)
+>   {
+>   	struct drm_device *dev =3D crtc->dev;
+> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+>   	struct drm_plane *plane =3D crtc->primary;
+>   	int ret =3D 0;
+>   	struct vc4_async_flip_state *flip_state;
+> @@ -776,15 +772,6 @@ static int vc4_async_page_flip(struct drm_crtc *cr=
+tc,
+>   	flip_state->crtc =3D crtc;
+>   	flip_state->event =3D event;
+>  =20
+> -	/* Make sure all other async modesetes have landed. */
+> -	ret =3D down_interruptible(&vc4->async_modeset);
+> -	if (ret) {
+> -		drm_framebuffer_put(fb);
+> -		vc4_bo_dec_usecnt(bo);
+> -		kfree(flip_state);
+> -		return ret;
+> -	}
+> -
+>   	/* Save the current FB before it's replaced by the new one in
+>   	 * drm_atomic_set_fb_for_plane(). We'll need the old FB in
+>   	 * vc4_async_page_flip_complete() to decrement the BO usecnt and kee=
+p
+> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
+v.h
+> index 9eefd76cb09e..60062afba7b6 100644
+> --- a/drivers/gpu/drm/vc4/vc4_drv.h
+> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
+> @@ -215,8 +215,6 @@ struct vc4_dev {
+>   		struct work_struct reset_work;
+>   	} hangcheck;
+>  =20
+> -	struct semaphore async_modeset;
+> -
+>   	struct drm_modeset_lock ctm_state_lock;
+>   	struct drm_private_obj ctm_manager;
+>   	struct drm_private_obj hvs_channels;
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
+s.c
+> index 849bc6b4cea4..79ab7b8a5e0e 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -414,8 +414,6 @@ vc4_atomic_complete_commit(struct drm_atomic_state =
+*state)
+>   		clk_set_min_rate(hvs->core_clk, 0);
+>  =20
+>   	drm_atomic_state_put(state);
+> -
+> -	up(&vc4->async_modeset);
+>   }
+>  =20
+>   static void commit_work(struct work_struct *work)
+> @@ -473,14 +471,9 @@ static int vc4_atomic_commit(struct drm_device *de=
+v,
+>   			     struct drm_atomic_state *state,
+>   			     bool nonblock)
+>   {
+> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+>   	int ret;
+>  =20
+>   	if (state->async_update) {
+> -		ret =3D down_interruptible(&vc4->async_modeset);
+> -		if (ret)
+> -			return ret;
+> -
+>   		ret =3D drm_atomic_helper_prepare_planes(dev, state);
+>   		if (ret) {
+>   			up(&vc4->async_modeset);
+> @@ -491,8 +484,6 @@ static int vc4_atomic_commit(struct drm_device *dev=
+,
+>  =20
+>   		drm_atomic_helper_cleanup_planes(dev, state);
+>  =20
+> -		up(&vc4->async_modeset);
+> -
+>   		return 0;
+>   	}
+>  =20
+> @@ -508,21 +499,14 @@ static int vc4_atomic_commit(struct drm_device *d=
+ev,
+>  =20
+>   	INIT_WORK(&state->commit_work, commit_work);
+>  =20
+> -	ret =3D down_interruptible(&vc4->async_modeset);
+> -	if (ret)
+> -		return ret;
+> -
+>   	ret =3D drm_atomic_helper_prepare_planes(dev, state);
+> -	if (ret) {
+> -		up(&vc4->async_modeset);
+> +	if (ret)
+>   		return ret;
+> -	}
+>  =20
+>   	if (!nonblock) {
+>   		ret =3D drm_atomic_helper_wait_for_fences(dev, state, true);
+>   		if (ret) {
+>   			drm_atomic_helper_cleanup_planes(dev, state);
+> -			up(&vc4->async_modeset);
+>   			return ret;
+>   		}
+>   	}
+> @@ -1006,8 +990,6 @@ int vc4_kms_load(struct drm_device *dev)
+>   		vc4->load_tracker_enabled =3D true;
+>   	}
+>  =20
+> -	sema_init(&vc4->async_modeset, 1);
+> -
+>   	/* Set support for vblank irq fast disable, before drm_vblank_init()=
+ */
+>   	dev->vblank_disable_immediate =3D true;
+>  =20
 >=20
 
 --=20
@@ -178,7 +255,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------19390179BCA297FF6D9BB33A
+--------------32AD5169F847D8DF029F8FF7
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -381,34 +458,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------19390179BCA297FF6D9BB33A--
+--------------32AD5169F847D8DF029F8FF7--
 
---ff4davbZMVG36vuLAxVaaySd19NzjtkkZ--
+--D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V--
 
---JqgKexFhY0RRE2n6aBzAkOiodWThZTYoE
+--CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+3x5YFAwAAAAAACgkQlh/E3EQov+Db
-QBAAyTuWsCGu6T2Fah3X6/6YHT8tBkA8A6WmwsJgqMNgyOWjOH+7L9MiJuAj1IMt1J+OeiAdkM7N
-6SJ4xRmjgv+g8y9JhLVy5Z5ZYTbiDzzLWPnFlcwqoABFTLnJF2uUx+aqJPMMv8TvU9woMWTTPzpF
-+VHS/KHRI3CizjA3UWpjkLIOxb26QWP6DGJMJxUKg6TuV0Y66xjDsGUbCGXlkuheavE+29OawyeR
-VeXJ7/ANLxKZcihJQ8/tr2e7Kyxdc4nk1ulol/HbcZvehMikl0P8iztpa0xprn2tCT9C2UWFcq3h
-di4XnqbqFkLeaUoGBHhgKnbQ1WFIdt3JYo1yFynGXjfn2FTt4xL6spy35cEDPhfZGWTQrrWQMG02
-b6qgiwY4QedcDYGfjNJIxexi3AIRpXiPf/99moLyT38HUQHAO+c/FlEOO1mau/0j2ECaPzzP3EZ6
-KO3z6FTB+ayn9S5Fh4Fao5vHsGcXz1lWP2YRCydieIGyb61o/xUjV4coUg6+FoXMTLLDyQwyxXcT
-KmBzRJNPIReh5Nm2uEGFuW1Aa7dbmKLNPfp73n5YMRnlqcFDDCL6F2KheQFZKkutJgFwjknEaFjC
-5kH6rZnj+33AgOTDsPUzfrq0jJyawReGQg79tfHUwPnuCiGmuVYj9NfEBFkBZfOePlIU6HgNk1lC
-ly4=
-=Cmmu
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+3zMIFAwAAAAAACgkQlh/E3EQov+Cq
+cxAAix4Ze9P5qFU1SwEnZC6lkxs4ATMFQmclv04HHSlp2+bCTCoNjIofo+qoew9xb6xA7mRxp8zu
+S7KbFUFbZQYlVtOPLnwvnU+9KJAmK03SdeOnA/XB5mIRdnJrzj3SWUBNECCF0O0EDAgd5esfUkDJ
+BJ0IHiVciUyNq86QeRtAt91Ipo7x07wlSlAJfWwZs7k2tGJaXbNBN82fAf1OzsMV7msh34TlOMUO
+43cryfWltvI2qNLdC/g/9MIH2U8mfWp1EfpYwI12pvh4SEkPFn8uzqgJLvWJr8WHN+HpBwniGjEF
+145avvKOy+P/c/oGxF2KzR6Uif5Xnvq1T77bO2bL2aD9zyZyHzqkxbk31sXa2dUBJ2ey8FHoVTIw
+H+GeNv0YAL9yjmNZVsxbvXrXPpBza63H7D28UPyHCg9WEUMPPIARYwLUnsD13DjWPaSTuGDgxlox
+44Twgin2U2ENE4qad3ufO9NXX72NYDiaTFieOuTp77GHVQVHIoB6RcrjPlLDqL9QVZh2QItd5JWq
+fAMS4aapKqNWp35FVJPefBucuLKpyiKes9p6hruf1xPuhraChaLoYs3hagcpCGBSVW1TULuXUSMd
+GmJSGIj/WT4sRRURx1Fjwhg8R4jKr2TE1XCmAajyBXHcLr1FA9qw5G2oiVkghtd0kg9RGf96JDjy
+jVo=
+=wwmf
 -----END PGP SIGNATURE-----
 
---JqgKexFhY0RRE2n6aBzAkOiodWThZTYoE--
+--CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT--
 
---===============0902178044==
+--===============0343240754==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -419,4 +496,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0902178044==--
+--===============0343240754==--
