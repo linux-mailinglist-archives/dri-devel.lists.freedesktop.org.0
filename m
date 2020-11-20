@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897272BA6A7
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 10:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236D02BA6AA
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 10:56:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D70D66E890;
-	Fri, 20 Nov 2020 09:56:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCEAB6E89C;
+	Fri, 20 Nov 2020 09:56:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26B8F6E890
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 09:56:13 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id x13so2549194wmj.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 01:56:13 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CA46E89E
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 09:56:14 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id p1so9336361wrf.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 01:56:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=twJ9Iv0GrWi2HSfwSfV1gOqC9HMYu+pjSEuPdNwPfIY=;
- b=gbKAYR06usTeKaSMH6KvB92fHlEBNo4+RmCIx3it8RmRuweXViGkHt2NLqQg41aUEm
- /cdA7UEQtMS2Lfo2xXYvLteOUM15w6L4q4zFzc6iz6hRyia8XL8rj1a+ITjHiVkYOQnz
- kyhh2EagpE9UkW23wbuldKAJzF6KntErybybI=
+ bh=7+q8vKHO3EFjaJ879GkRcmDKHJR9JgE21VUyxKW3mY0=;
+ b=NHf9AOhApOcnNW/Sr7K7lwSXd9Ck9Z5/C9QZ4NYblHO1KiG0SUmf/3/kmWsXvPhkQT
+ 4FJM/oryQSQIsGzo7RJ1DYRxlHGoSPqMsoUII89W+KZZMQA32qYyL67Mj55nLL5PhTVd
+ UhLCk32vlvzz7bBzhH/KI4Qlskc0xIQ5mkZWA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=twJ9Iv0GrWi2HSfwSfV1gOqC9HMYu+pjSEuPdNwPfIY=;
- b=dp1W7dhQUBMTiXEG2wOY1tJCmIJkR59v5szYfE2KuNEi4LaP3APgyA4w7REsZn6f7l
- CX9X0WYcK7K0+kHxRUTC2H1zqomvckkjDGr8ptIZXj+/L95F2VwzfP5my2THeto+6igl
- nEEbNVrSmt3bHZoxYANvXt9fxTo4Jv+2CmRozjTNZFQvab/NNiO5dW/AeXzJBi9yewmW
- ZCGreaQQvKb4Eu6V5tVdkGdvZxpqqnmwAHUo2SM5H+68hCZLj7THmK09g2olo6QsFqEE
- Ih/h+sm93nCM4mQC1EeJao/8AtzbN9SmbHKQLraA0zZwjR1QIkOFW/cIbotJiTYttTx2
- x6vA==
-X-Gm-Message-State: AOAM532A3ktP3iUsTZMBjE0m95DS2kXlLbulqTz/QlLbwz6ojmDFBbXW
- 2SWP2WlkKoHbCvblEQuUFmUrwTPpu5zPYw==
-X-Google-Smtp-Source: ABdhPJyHPm9O3wkh7JZ6u0DEVaNnU3GqZO5vw/S+tBPm5AXz0/1G/C3ZbR8ZP3R+EG2BDhICxCw1Rg==
-X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr9261970wmk.4.1605866171520;
- Fri, 20 Nov 2020 01:56:11 -0800 (PST)
+ bh=7+q8vKHO3EFjaJ879GkRcmDKHJR9JgE21VUyxKW3mY0=;
+ b=SWvk9MZLJgPwGfWhiNcJ6FC7ap+hq2NuK393FEo+R3p/5W4QS8rx7yut8WHSTAggF7
+ cBUji6LLafos4GmjY9aYoEyZ2mcHTRWLM/Wm3l5XUFn8iEv2SDMHS1twuTVSNvAb+NX1
+ 9/JRpopKk/RPlSSZMb99EXTIddtcZRqbnhgqoQne9gFnMDfSRWBPyTfmU06f9KAa4zdh
+ cILiShGdOzQoB+KvWljiV7qEJ+EZvraPEruhLPEkzVjUXqboggenKJC7aDOUlcdscJCD
+ PM1KGuGpLqBpkRhIVwM/DdiRsjBSSwqgEQKzhgvdBO6+mZiJ4H6wyu9L4QDuhGLQBe4/
+ zO5Q==
+X-Gm-Message-State: AOAM533ZZxsJx+UU6JN8YW9lgTuGmuEYynIBZBmd+GeB3U38Jnb+S8Rq
+ 8gdvhiIPAeX13Y33qrvPQcgAGxHyEnTLJQ==
+X-Google-Smtp-Source: ABdhPJwJqZ9GhiqgSrImpdEVhjBbuglJqMxiUAwvoL3/huYCtyyfr42+HCgkw04wdaJDXAX4ODo8vQ==
+X-Received: by 2002:a5d:654b:: with SMTP id z11mr14013175wrv.291.1605866173041; 
+ Fri, 20 Nov 2020 01:56:13 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id t9sm4500208wrr.49.2020.11.20.01.56.10
+ by smtp.gmail.com with ESMTPSA id t9sm4500208wrr.49.2020.11.20.01.56.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 01:56:10 -0800 (PST)
+ Fri, 20 Nov 2020 01:56:12 -0800 (PST)
 From: Daniel Vetter <daniel.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 1/3] mm: Track mmu notifiers in fs_reclaim_acquire/release
-Date: Fri, 20 Nov 2020 10:54:42 +0100
-Message-Id: <20201120095445.1195585-2-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/3] mm: Extract might_alloc() debug check
+Date: Fri, 20 Nov 2020 10:54:43 +0100
+Message-Id: <20201120095445.1195585-3-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201120095445.1195585-1-daniel.vetter@ffwll.ch>
 References: <20201120095445.1195585-1-daniel.vetter@ffwll.ch>
@@ -63,116 +63,153 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: Peter Zijlstra <peterz@infradead.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Dave Chinner <david@fromorbit.com>, linux-mm@kvack.org,
+ Daniel Vetter <daniel.vetter@intel.com>, Christoph Lameter <cl@linux.com>,
+ Michel Lespinasse <walken@google.com>, Ingo Molnar <mingo@kernel.org>,
+ linux-xfs@vger.kernel.org, "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
+ David Rientjes <rientjes@google.com>, Waiman Long <longman@redhat.com>,
+ "Paul E . McKenney" <paulmck@kernel.org>,
  Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Dave Chinner <david@fromorbit.com>, LKML <linux-kernel@vger.kernel.org>,
- "Matthew Wilcox \(Oracle\)" <willy@infradead.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-xfs@vger.kernel.org, linux-mm@kvack.org,
- Jason Gunthorpe <jgg@mellanox.com>, Qian Cai <cai@lca.pw>,
- linux-fsdevel@vger.kernel.org, Daniel Vetter <daniel.vetter@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas_os@shipmail.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Randy Dunlap <rdunlap@infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>, Pekka Enberg <penberg@kernel.org>,
+ linux-fsdevel@vger.kernel.org, Qian Cai <cai@lca.pw>,
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ZnNfcmVjbGFpbV9hY3F1aXJlL3JlbGVhc2UgbmljZWx5IGNhdGNoIHJlY3Vyc2lvbiBpc3N1ZXMg
-d2hlbgphbGxvY2F0aW5nIEdGUF9LRVJORUwgbWVtb3J5IGFnYWluc3Qgc2hyaW5rZXJzICh3aGlj
-aCBncHUgZHJpdmVycyB0ZW5kCnRvIHVzZSB0byBrZWVwIHRoZSBleGNlc3NpdmUgY2FjaGVzIGlu
-IGNoZWNrKS4gRm9yIG1tdSBub3RpZmllcgpyZWN1cnNpb25zIHdlIGRvIGhhdmUgbG9ja2RlcCBh
-bm5vdGF0aW9ucyBzaW5jZSAyM2I2ODM5NWM3YzcKKCJtbS9tbXVfbm90aWZpZXJzOiBhZGQgYSBs
-b2NrZGVwIG1hcCBmb3IgaW52YWxpZGF0ZV9yYW5nZV9zdGFydC9lbmQiKS4KCkJ1dCB0aGVzZSBv
-bmx5IGZpcmUgaWYgYSBwYXRoIGFjdHVhbGx5IHJlc3VsdHMgaW4gc29tZSBwdGUKaW52YWxpZGF0
-aW9uIC0gZm9yIG1vc3Qgc21hbGwgYWxsb2NhdGlvbnMgdGhhdCdzIHZlcnkgcmFyZWx5IHRoZSBj
-YXNlLgpUaGUgb3RoZXIgdHJvdWJsZSBpcyB0aGF0IHB0ZSBpbnZhbGlkYXRpb24gY2FuIGhhcHBl
-biBhbnkgdGltZSB3aGVuCl9fR0ZQX1JFQ0xBSU0gaXMgc2V0LiBXaGljaCBtZWFucyBvbmx5IHJl
-YWxseSBHRlBfQVRPTUlDIGlzIGEgc2FmZQpjaG9pY2UsIEdGUF9OT0lPIGlzbid0IGdvb2QgZW5v
-dWdoIHRvIGF2b2lkIHBvdGVudGlhbCBtbXUgbm90aWZpZXIKcmVjdXJzaW9uLgoKSSB3YXMgcG9u
-ZGVyaW5nIHdoZXRoZXIgd2Ugc2hvdWxkIGp1c3QgZG8gdGhlIGdlbmVyYWwgYW5ub3RhdGlvbiwg
-YnV0CnRoZXJlJ3MgYWx3YXlzIHRoZSByaXNrIGZvciBmYWxzZSBwb3NpdGl2ZXMuIFBsdXMgSSdt
-IGFzc3VtaW5nIHRoYXQKdGhlIGNvcmUgZnMgYW5kIGlvIGNvZGUgaXMgYSBsb3QgYmV0dGVyIHJl
-dmlld2VkIGFuZCB0ZXN0ZWQgdGhhbgpyYW5kb20gbW11IG5vdGlmaWVyIGNvZGUgaW4gZHJpdmVy
-cy4gSGVuY2Ugd2h5IEkgZGVjaWRlIHRvIG9ubHkKYW5ub3RhdGUgZm9yIHRoYXQgc3BlY2lmaWMg
-Y2FzZS4KCkZ1cnRoZXJtb3JlIGV2ZW4gaWYgd2UnZCBjcmVhdGUgYSBsb2NrZGVwIG1hcCBmb3Ig
-ZGlyZWN0IHJlY2xhaW0sIHdlJ2QKc3RpbGwgbmVlZCB0byBleHBsaWNpdCBwdWxsIGluIHRoZSBt
-bXUgbm90aWZpZXIgbWFwIC0gdGhlcmUncyBhIGxvdAptb3JlIHBsYWNlcyB0aGF0IGRvIHB0ZSBp
-bnZhbGlkYXRpb24gdGhhbiBqdXN0IGRpcmVjdCByZWNsYWltLCB0aGVzZQp0d28gY29udGV4dHMg
-YXJlbnQgdGhlIHNhbWUuCgpOb3RlIHRoYXQgdGhlIG1tdSBub3RpZmllcnMgbmVlZGluZyB0aGVp
-ciBvd24gaW5kZXBlbmRlbnQgbG9ja2RlcCBtYXAKaXMgYWxzbyB0aGUgcmVhc29uIHdlIGNhbid0
-IGhvbGQgdGhlbSBmcm9tIGZzX3JlY2xhaW1fYWNxdWlyZSB0bwpmc19yZWNsYWltX3JlbGVhc2Ug
-LSBpdCB3b3VsZCBuZXN0IHdpdGggdGhlIGFjcXVpc3Rpb24gaW4gdGhlIHB0ZQppbnZhbGlkYXRp
-b24gY29kZSwgY2F1c2luZyBhIGxvY2tkZXAgc3BsYXQuIEFuZCB3ZSBjYW4ndCByZW1vdmUgdGhl
-CmFubm90YXRpb25zIGZyb20gcHRlIGludmFsaWRhdGlvbiBhbmQgYWxsIHRoZSBvdGhlciBwbGFj
-ZXMgc2luY2UKdGhleSdyZSBjYWxsZWQgZnJvbSBtYW55IG90aGVyIHBsYWNlcyB0aGFuIHBhZ2Ug
-cmVjbGFpbS4gSGVuY2Ugd2UgY2FuCm9ubHkgZG8gdGhlIGVxdWl2YWxlbnQgb2YgbWlnaHRfbG9j
-aywgYnV0IG9uIHRoZSByYXcgbG9ja2RlcCBtYXAuCgpXaXRoIHRoaXMgd2UgY2FuIGFsc28gcmVt
-b3ZlIHRoZSBsb2NrZGVwIHByaW1pbmcgYWRkZWQgaW4gNjYyMDRmMWQyZDFiCigibW0vbW11X25v
-dGlmaWVyczogcHJpbWUgbG9ja2RlcCIpIHNpbmNlIHRoZSBuZXcgYW5ub3RhdGlvbnMgYXJlCnN0
-cmljdGx5IG1vcmUgcG93ZXJmdWwuCgp2MjogUmV2aWV3IGZyb20gVGhvbWFzIEhlbGxzdHJvbToK
-LSB1bmJvdGNoIHRoZSBmc19yZWNsYWltIGNvbnRleHQgY2hlY2ssIEkgYWNjaWRlbnRhbGx5IGlu
-dmVydGVkIGl0LAogIGJ1dCBpdCBkaWRuJ3QgYmxvdyB1cCBiZWNhdXNlIEkgaW52ZXJ0ZWQgaXQg
-aW1tZWRpYXRlbHkKLSBmaXggY29tcGlsaW5nIGZvciAhQ09ORklHX01NVV9OT1RJRklFUgoKdjM6
-IFVuYnJlYWsgdGhlIFBGX01FTUFMTE9DXyBjb250ZXh0IGZsYWdzLiBUaGFua3MgdG8gUWlhbiBm
-b3IgdGhlCnJlcG9ydCBhbmQgRGF2ZSBmb3IgZXhwbGFpbmluZyB3aGF0IEkgZmFpbGVkIHRvIHNl
-ZS4KCkNjOiBsaW51eC1mc2RldmVsQHZnZXIua2VybmVsLm9yZwpDYzogRGF2ZSBDaGlubmVyIDxk
-YXZpZEBmcm9tb3JiaXQuY29tPgpDYzogUWlhbiBDYWkgPGNhaUBsY2EucHc+CkNjOiBsaW51eC14
-ZnNAdmdlci5rZXJuZWwub3JnCkNjOiBUaG9tYXMgSGVsbHN0csO2bSAoSW50ZWwpIDx0aG9tYXNf
-b3NAc2hpcG1haWwub3JnPgpDYzogQW5kcmV3IE1vcnRvbiA8YWtwbUBsaW51eC1mb3VuZGF0aW9u
-Lm9yZz4KQ2M6IEphc29uIEd1bnRob3JwZSA8amdnQG1lbGxhbm94LmNvbT4KQ2M6IGxpbnV4LW1t
-QGt2YWNrLm9yZwpDYzogbGludXgtcmRtYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IE1hYXJ0ZW4gTGFu
-a2hvcnN0IDxtYWFydGVuLmxhbmtob3JzdEBsaW51eC5pbnRlbC5jb20+CkNjOiBDaHJpc3RpYW4g
-S8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiAiTWF0dGhldyBXaWxjb3ggKE9y
-YWNsZSkiIDx3aWxseUBpbmZyYWRlYWQub3JnPgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVy
-IDxkYW5pZWwudmV0dGVyQGludGVsLmNvbT4KLS0tCiBtbS9tbXVfbm90aWZpZXIuYyB8ICA3IC0t
-LS0tLS0KIG1tL3BhZ2VfYWxsb2MuYyAgIHwgMzEgKysrKysrKysrKysrKysrKysrKystLS0tLS0t
-LS0tLQogMiBmaWxlcyBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCAxOCBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9tbS9tbXVfbm90aWZpZXIuYyBiL21tL21tdV9ub3RpZmllci5jCmluZGV4
-IDU2NTRkZDE5YWRkYy4uNjFlZTQwZWQ4MDRlIDEwMDY0NAotLS0gYS9tbS9tbXVfbm90aWZpZXIu
-YworKysgYi9tbS9tbXVfbm90aWZpZXIuYwpAQCAtNjEyLDEzICs2MTIsNiBAQCBpbnQgX19tbXVf
-bm90aWZpZXJfcmVnaXN0ZXIoc3RydWN0IG1tdV9ub3RpZmllciAqc3Vic2NyaXB0aW9uLAogCW1t
-YXBfYXNzZXJ0X3dyaXRlX2xvY2tlZChtbSk7CiAJQlVHX09OKGF0b21pY19yZWFkKCZtbS0+bW1f
-dXNlcnMpIDw9IDApOwogCi0JaWYgKElTX0VOQUJMRUQoQ09ORklHX0xPQ0tERVApKSB7Ci0JCWZz
-X3JlY2xhaW1fYWNxdWlyZShHRlBfS0VSTkVMKTsKLQkJbG9ja19tYXBfYWNxdWlyZSgmX19tbXVf
-bm90aWZpZXJfaW52YWxpZGF0ZV9yYW5nZV9zdGFydF9tYXApOwotCQlsb2NrX21hcF9yZWxlYXNl
-KCZfX21tdV9ub3RpZmllcl9pbnZhbGlkYXRlX3JhbmdlX3N0YXJ0X21hcCk7Ci0JCWZzX3JlY2xh
-aW1fcmVsZWFzZShHRlBfS0VSTkVMKTsKLQl9Ci0KIAlpZiAoIW1tLT5ub3RpZmllcl9zdWJzY3Jp
-cHRpb25zKSB7CiAJCS8qCiAJCSAqIGttYWxsb2MgY2Fubm90IGJlIGNhbGxlZCB1bmRlciBtbV90
-YWtlX2FsbF9sb2NrcygpLCBidXQgd2UKZGlmZiAtLWdpdCBhL21tL3BhZ2VfYWxsb2MuYyBiL21t
-L3BhZ2VfYWxsb2MuYwppbmRleCAyM2Y1MDY2YmQ0YTUuLmZmMGY5YTg0YjhkZSAxMDA2NDQKLS0t
-IGEvbW0vcGFnZV9hbGxvYy5jCisrKyBiL21tL3BhZ2VfYWxsb2MuYwpAQCAtNTcsNiArNTcsNyBA
-QAogI2luY2x1ZGUgPHRyYWNlL2V2ZW50cy9vb20uaD4KICNpbmNsdWRlIDxsaW51eC9wcmVmZXRj
-aC5oPgogI2luY2x1ZGUgPGxpbnV4L21tX2lubGluZS5oPgorI2luY2x1ZGUgPGxpbnV4L21tdV9u
-b3RpZmllci5oPgogI2luY2x1ZGUgPGxpbnV4L21pZ3JhdGUuaD4KICNpbmNsdWRlIDxsaW51eC9o
-dWdldGxiLmg+CiAjaW5jbHVkZSA8bGludXgvc2NoZWQvcnQuaD4KQEAgLTQyNjQsMTAgKzQyNjUs
-OCBAQCBzaG91bGRfY29tcGFjdF9yZXRyeShzdHJ1Y3QgYWxsb2NfY29udGV4dCAqYWMsIHVuc2ln
-bmVkIGludCBvcmRlciwgaW50IGFsbG9jX2ZsYQogc3RhdGljIHN0cnVjdCBsb2NrZGVwX21hcCBf
-X2ZzX3JlY2xhaW1fbWFwID0KIAlTVEFUSUNfTE9DS0RFUF9NQVBfSU5JVCgiZnNfcmVjbGFpbSIs
-ICZfX2ZzX3JlY2xhaW1fbWFwKTsKIAotc3RhdGljIGJvb2wgX19uZWVkX2ZzX3JlY2xhaW0oZ2Zw
-X3QgZ2ZwX21hc2spCitzdGF0aWMgYm9vbCBfX25lZWRfcmVjbGFpbShnZnBfdCBnZnBfbWFzaykK
-IHsKLQlnZnBfbWFzayA9IGN1cnJlbnRfZ2ZwX2NvbnRleHQoZ2ZwX21hc2spOwotCiAJLyogbm8g
-cmVjbGFpbSB3aXRob3V0IHdhaXRpbmcgb24gaXQgKi8KIAlpZiAoIShnZnBfbWFzayAmIF9fR0ZQ
-X0RJUkVDVF9SRUNMQUlNKSkKIAkJcmV0dXJuIGZhbHNlOwpAQCAtNDI3NiwxMCArNDI3NSw2IEBA
-IHN0YXRpYyBib29sIF9fbmVlZF9mc19yZWNsYWltKGdmcF90IGdmcF9tYXNrKQogCWlmIChjdXJy
-ZW50LT5mbGFncyAmIFBGX01FTUFMTE9DKQogCQlyZXR1cm4gZmFsc2U7CiAKLQkvKiBXZSdyZSBv
-bmx5IGludGVyZXN0ZWQgX19HRlBfRlMgYWxsb2NhdGlvbnMgZm9yIG5vdyAqLwotCWlmICghKGdm
-cF9tYXNrICYgX19HRlBfRlMpKQotCQlyZXR1cm4gZmFsc2U7Ci0KIAlpZiAoZ2ZwX21hc2sgJiBf
-X0dGUF9OT0xPQ0tERVApCiAJCXJldHVybiBmYWxzZTsKIApAQCAtNDI5OCwxNSArNDI5MywyOSBA
-QCB2b2lkIF9fZnNfcmVjbGFpbV9yZWxlYXNlKHZvaWQpCiAKIHZvaWQgZnNfcmVjbGFpbV9hY3F1
-aXJlKGdmcF90IGdmcF9tYXNrKQogewotCWlmIChfX25lZWRfZnNfcmVjbGFpbShnZnBfbWFzaykp
-Ci0JCV9fZnNfcmVjbGFpbV9hY3F1aXJlKCk7CisJZ2ZwX21hc2sgPSBjdXJyZW50X2dmcF9jb250
-ZXh0KGdmcF9tYXNrKTsKKworCWlmIChfX25lZWRfcmVjbGFpbShnZnBfbWFzaykpIHsKKwkJaWYg
-KGdmcF9tYXNrICYgX19HRlBfRlMpCisJCQlfX2ZzX3JlY2xhaW1fYWNxdWlyZSgpOworCisjaWZk
-ZWYgQ09ORklHX01NVV9OT1RJRklFUgorCQlsb2NrX21hcF9hY3F1aXJlKCZfX21tdV9ub3RpZmll
-cl9pbnZhbGlkYXRlX3JhbmdlX3N0YXJ0X21hcCk7CisJCWxvY2tfbWFwX3JlbGVhc2UoJl9fbW11
-X25vdGlmaWVyX2ludmFsaWRhdGVfcmFuZ2Vfc3RhcnRfbWFwKTsKKyNlbmRpZgorCisJfQogfQog
-RVhQT1JUX1NZTUJPTF9HUEwoZnNfcmVjbGFpbV9hY3F1aXJlKTsKIAogdm9pZCBmc19yZWNsYWlt
-X3JlbGVhc2UoZ2ZwX3QgZ2ZwX21hc2spCiB7Ci0JaWYgKF9fbmVlZF9mc19yZWNsYWltKGdmcF9t
-YXNrKSkKLQkJX19mc19yZWNsYWltX3JlbGVhc2UoKTsKKwlnZnBfbWFzayA9IGN1cnJlbnRfZ2Zw
-X2NvbnRleHQoZ2ZwX21hc2spOworCisJaWYgKF9fbmVlZF9yZWNsYWltKGdmcF9tYXNrKSkgewor
-CQlpZiAoZ2ZwX21hc2sgJiBfX0dGUF9GUykKKwkJCV9fZnNfcmVjbGFpbV9yZWxlYXNlKCk7CisJ
-fQogfQogRVhQT1JUX1NZTUJPTF9HUEwoZnNfcmVjbGFpbV9yZWxlYXNlKTsKICNlbmRpZgotLSAK
-Mi4yOS4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Extracted from slab.h, which seems to have the most complete version
+including the correct might_sleep() check. Roll it out to slob.c.
+
+Motivated by a discussion with Paul about possibly changing call_rcu
+behaviour to allocate memory, but only roughly every 500th call.
+
+There are a lot fewer places in the kernel that care about whether
+allocating memory is allowed or not (due to deadlocks with reclaim
+code) than places that care whether sleeping is allowed. But debugging
+these also tends to be a lot harder, so nice descriptive checks could
+come in handy. I might have some use eventually for annotations in
+drivers/gpu.
+
+Note that unlike fs_reclaim_acquire/release gfpflags_allow_blocking
+does not consult the PF_MEMALLOC flags. But there is no flag
+equivalent for GFP_NOWAIT, hence this check can't go wrong due to
+memalloc_no*_save/restore contexts. Willy is working on a patch series
+which might change this:
+
+https://lore.kernel.org/linux-mm/20200625113122.7540-7-willy@infradead.org/
+
+I think best would be if that updates gfpflags_allow_blocking(), since
+there's a ton of callers all over the place for that already.
+
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Paul E. McKenney <paulmck@kernel.org>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Michel Lespinasse <walken@google.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Dave Chinner <david@fromorbit.com>
+Cc: Qian Cai <cai@lca.pw>
+Cc: linux-xfs@vger.kernel.org
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ include/linux/sched/mm.h | 16 ++++++++++++++++
+ mm/slab.h                |  5 +----
+ mm/slob.c                |  6 ++----
+ 3 files changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/sched/mm.h b/include/linux/sched/mm.h
+index d5ece7a9a403..f94405d43fd1 100644
+--- a/include/linux/sched/mm.h
++++ b/include/linux/sched/mm.h
+@@ -180,6 +180,22 @@ static inline void fs_reclaim_acquire(gfp_t gfp_mask) { }
+ static inline void fs_reclaim_release(gfp_t gfp_mask) { }
+ #endif
+ 
++/**
++ * might_alloc - Marks possible allocation sites
++ * @gfp_mask: gfp_t flags that would be use to allocate
++ *
++ * Similar to might_sleep() and other annotations this can be used in functions
++ * that might allocate, but often dont. Compiles to nothing without
++ * CONFIG_LOCKDEP. Includes a conditional might_sleep() if @gfp allows blocking.
++ */
++static inline void might_alloc(gfp_t gfp_mask)
++{
++	fs_reclaim_acquire(gfp_mask);
++	fs_reclaim_release(gfp_mask);
++
++	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
++}
++
+ /**
+  * memalloc_noio_save - Marks implicit GFP_NOIO allocation scope.
+  *
+diff --git a/mm/slab.h b/mm/slab.h
+index 6d7c6a5056ba..37b981247e5d 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -500,10 +500,7 @@ static inline struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s,
+ {
+ 	flags &= gfp_allowed_mask;
+ 
+-	fs_reclaim_acquire(flags);
+-	fs_reclaim_release(flags);
+-
+-	might_sleep_if(gfpflags_allow_blocking(flags));
++	might_alloc(flags);
+ 
+ 	if (should_failslab(s, flags))
+ 		return NULL;
+diff --git a/mm/slob.c b/mm/slob.c
+index 7cc9805c8091..8d4bfa46247f 100644
+--- a/mm/slob.c
++++ b/mm/slob.c
+@@ -474,8 +474,7 @@ __do_kmalloc_node(size_t size, gfp_t gfp, int node, unsigned long caller)
+ 
+ 	gfp &= gfp_allowed_mask;
+ 
+-	fs_reclaim_acquire(gfp);
+-	fs_reclaim_release(gfp);
++	might_alloc(gfp);
+ 
+ 	if (size < PAGE_SIZE - minalign) {
+ 		int align = minalign;
+@@ -597,8 +596,7 @@ static void *slob_alloc_node(struct kmem_cache *c, gfp_t flags, int node)
+ 
+ 	flags &= gfp_allowed_mask;
+ 
+-	fs_reclaim_acquire(flags);
+-	fs_reclaim_release(flags);
++	might_alloc(flags);
+ 
+ 	if (c->size < PAGE_SIZE) {
+ 		b = slob_alloc(c->size, flags, c->align, node, 0);
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
