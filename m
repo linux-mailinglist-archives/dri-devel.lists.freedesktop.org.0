@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614E62BAB9B
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 15:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC302BABA2
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 15:08:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E96E8BB;
-	Fri, 20 Nov 2020 14:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27E186E8BC;
+	Fri, 20 Nov 2020 14:08:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612946E8BB
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 14:03:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59A86E8BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 14:08:42 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E519DAA4F;
- Fri, 20 Nov 2020 14:03:46 +0000 (UTC)
-Subject: Re: [PATCH 7/8] drm/vc4: kms: Remove async modeset semaphore
+ by mx2.suse.de (Postfix) with ESMTP id DBC99B004;
+ Fri, 20 Nov 2020 14:08:40 +0000 (UTC)
+Subject: Re: [PATCH 8/8] drm/vc4: kms: Convert to atomic helpers
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
  Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
  Eric Anholt <eric@anholt.net>, Daniel Vetter <daniel.vetter@intel.com>,
  David Airlie <airlied@linux.ie>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-8-maxime@cerno.tech>
+ <20201113152956.139663-9-maxime@cerno.tech>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <c0985d0b-97ad-63d9-053e-41873baeb354@suse.de>
-Date: Fri, 20 Nov 2020 15:03:45 +0100
+Message-ID: <71b02ee8-72a5-1790-0546-65213031ebc2@suse.de>
+Date: Fri, 20 Nov 2020 15:08:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201113152956.139663-8-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-9-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,19 +48,19 @@ Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
  dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
  linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
  linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0343240754=="
+Content-Type: multipart/mixed; boundary="===============1397628382=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0343240754==
+--===============1397628382==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT"
+ boundary="7ZYVUkYMR7W1tAf6W5z3rMonR3d5rh5rO"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT
-Content-Type: multipart/mixed; boundary="D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V";
+--7ZYVUkYMR7W1tAf6W5z3rMonR3d5rh5rO
+Content-Type: multipart/mixed; boundary="K5COaBdT2rW2zZrkFKkzTz1JrqkxkYJLG";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Maxime Ripard <maxime@cerno.tech>, Mark Rutland <mark.rutland@arm.com>,
@@ -73,177 +73,214 @@ Cc: linux-arm-kernel@lists.infradead.org,
  Tim Gover <tim.gover@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>,
  bcm-kernel-feedback-list@broadcom.com,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, devicetree@vger.kernel.org
-Message-ID: <c0985d0b-97ad-63d9-053e-41873baeb354@suse.de>
-Subject: Re: [PATCH 7/8] drm/vc4: kms: Remove async modeset semaphore
+Message-ID: <71b02ee8-72a5-1790-0546-65213031ebc2@suse.de>
+Subject: Re: [PATCH 8/8] drm/vc4: kms: Convert to atomic helpers
 References: <20201113152956.139663-1-maxime@cerno.tech>
- <20201113152956.139663-8-maxime@cerno.tech>
-In-Reply-To: <20201113152956.139663-8-maxime@cerno.tech>
+ <20201113152956.139663-9-maxime@cerno.tech>
+In-Reply-To: <20201113152956.139663-9-maxime@cerno.tech>
 
---D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V
+--K5COaBdT2rW2zZrkFKkzTz1JrqkxkYJLG
 Content-Type: multipart/mixed;
- boundary="------------32AD5169F847D8DF029F8FF7"
+ boundary="------------ED33B7EF027448178C549253"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------32AD5169F847D8DF029F8FF7
+--------------ED33B7EF027448178C549253
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 
 
 Am 13.11.20 um 16:29 schrieb Maxime Ripard:
-> Now that we have proper ordering guaranteed by the previous patch, the
-> semaphore is redundant and can be removed.
+> Now that the semaphore is gone, our atomic_commit implementation is
+> basically drm_atomic_helper_commit with a somewhat custom commit_tail,
+> the main difference being that we're using wait_for_flip_done instead o=
+f
+> wait_for_vblanks used in the drm_atomic_helper_commit_tail helper.
+>=20
+> Let's switch to using drm_atomic_helper_commit.
 >=20
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/vc4/vc4_crtc.c | 13 -------------
->   drivers/gpu/drm/vc4/vc4_drv.h  |  2 --
->   drivers/gpu/drm/vc4/vc4_kms.c  | 20 +-------------------
->   3 files changed, 1 insertion(+), 34 deletions(-)
+>   drivers/gpu/drm/vc4/vc4_kms.c | 112 +--------------------------------=
+-
+>   1 file changed, 3 insertions(+), 109 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_c=
-rtc.c
-> index 29b77f4b4e56..65d43e2e1d51 100644
-> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
-> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-> @@ -699,7 +699,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *c=
-b)
->   		container_of(cb, struct vc4_async_flip_state, cb);
->   	struct drm_crtc *crtc =3D flip_state->crtc;
->   	struct drm_device *dev =3D crtc->dev;
-> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->   	struct drm_plane *plane =3D crtc->primary;
->  =20
->   	vc4_plane_async_set_fb(plane, flip_state->fb);
-> @@ -731,8 +730,6 @@ vc4_async_page_flip_complete(struct vc4_seqno_cb *c=
-b)
->   	}
->  =20
->   	kfree(flip_state);
-> -
-> -	up(&vc4->async_modeset);
->   }
->  =20
->   /* Implements async (non-vblank-synced) page flips.
-> @@ -747,7 +744,6 @@ static int vc4_async_page_flip(struct drm_crtc *crt=
-c,
->   			       uint32_t flags)
->   {
->   	struct drm_device *dev =3D crtc->dev;
-> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->   	struct drm_plane *plane =3D crtc->primary;
->   	int ret =3D 0;
->   	struct vc4_async_flip_state *flip_state;
-> @@ -776,15 +772,6 @@ static int vc4_async_page_flip(struct drm_crtc *cr=
-tc,
->   	flip_state->crtc =3D crtc;
->   	flip_state->event =3D event;
->  =20
-> -	/* Make sure all other async modesetes have landed. */
-> -	ret =3D down_interruptible(&vc4->async_modeset);
-> -	if (ret) {
-> -		drm_framebuffer_put(fb);
-> -		vc4_bo_dec_usecnt(bo);
-> -		kfree(flip_state);
-> -		return ret;
-> -	}
-> -
->   	/* Save the current FB before it's replaced by the new one in
->   	 * drm_atomic_set_fb_for_plane(). We'll need the old FB in
->   	 * vc4_async_page_flip_complete() to decrement the BO usecnt and kee=
-p
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_dr=
-v.h
-> index 9eefd76cb09e..60062afba7b6 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -215,8 +215,6 @@ struct vc4_dev {
->   		struct work_struct reset_work;
->   	} hangcheck;
->  =20
-> -	struct semaphore async_modeset;
-> -
->   	struct drm_modeset_lock ctm_state_lock;
->   	struct drm_private_obj ctm_manager;
->   	struct drm_private_obj hvs_channels;
 > diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_km=
 s.c
-> index 849bc6b4cea4..79ab7b8a5e0e 100644
+> index 79ab7b8a5e0e..ede5d2b6ac65 100644
 > --- a/drivers/gpu/drm/vc4/vc4_kms.c
 > +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-> @@ -414,8 +414,6 @@ vc4_atomic_complete_commit(struct drm_atomic_state =
-*state)
->   		clk_set_min_rate(hvs->core_clk, 0);
->  =20
->   	drm_atomic_state_put(state);
-> -
-> -	up(&vc4->async_modeset);
+> @@ -333,8 +333,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev=
+ *vc4,
+>   	}
 >   }
 >  =20
->   static void commit_work(struct work_struct *work)
-> @@ -473,14 +471,9 @@ static int vc4_atomic_commit(struct drm_device *de=
-v,
->   			     struct drm_atomic_state *state,
->   			     bool nonblock)
+> -static void
+> -vc4_atomic_complete_commit(struct drm_atomic_state *state)
+> +static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
 >   {
-> -	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
->   	int ret;
+>   	struct drm_device *dev =3D state->dev;
+>   	struct vc4_dev *vc4 =3D to_vc4_dev(dev);
+> @@ -357,10 +356,6 @@ vc4_atomic_complete_commit(struct drm_atomic_state=
+ *state)
+>   	if (vc4->hvs->hvs5)
+>   		clk_set_min_rate(hvs->core_clk, 500000000);
 >  =20
->   	if (state->async_update) {
-> -		ret =3D down_interruptible(&vc4->async_modeset);
-> -		if (ret)
+> -	drm_atomic_helper_wait_for_fences(dev, state, false);
+> -
+> -	drm_atomic_helper_wait_for_dependencies(state);
+> -
+>   	old_hvs_state =3D vc4_hvs_get_old_global_state(state);
+>   	if (!old_hvs_state)
+>   		return;
+> @@ -408,20 +403,8 @@ vc4_atomic_complete_commit(struct drm_atomic_state=
+ *state)
+>  =20
+>   	drm_atomic_helper_cleanup_planes(dev, state);
+>  =20
+> -	drm_atomic_helper_commit_cleanup_done(state);
+> -
+>   	if (vc4->hvs->hvs5)
+>   		clk_set_min_rate(hvs->core_clk, 0);
+> -
+> -	drm_atomic_state_put(state);
+> -}
+> -
+> -static void commit_work(struct work_struct *work)
+> -{
+> -	struct drm_atomic_state *state =3D container_of(work,
+> -						      struct drm_atomic_state,
+> -						      commit_work);
+> -	vc4_atomic_complete_commit(state);
+>   }
+>  =20
+>   static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
+> @@ -454,96 +437,6 @@ static int vc4_atomic_commit_setup(struct drm_atom=
+ic_state *state)
+>   	return 0;
+>   }
+>  =20
+> -/**
+> - * vc4_atomic_commit - commit validated state object
+> - * @dev: DRM device
+> - * @state: the driver state object
+> - * @nonblock: nonblocking commit
+> - *
+> - * This function commits a with drm_atomic_helper_check() pre-validate=
+d state
+> - * object. This can still fail when e.g. the framebuffer reservation f=
+ails. For
+> - * now this doesn't implement asynchronous commits.
+> - *
+> - * RETURNS
+> - * Zero for success or -errno.
+> - */
+> -static int vc4_atomic_commit(struct drm_device *dev,
+> -			     struct drm_atomic_state *state,
+> -			     bool nonblock)
+> -{
+> -	int ret;
+> -
+> -	if (state->async_update) {
+> -		ret =3D drm_atomic_helper_prepare_planes(dev, state);
+> -		if (ret) {
+> -			up(&vc4->async_modeset);
 > -			return ret;
+> -		}
 > -
->   		ret =3D drm_atomic_helper_prepare_planes(dev, state);
->   		if (ret) {
->   			up(&vc4->async_modeset);
-> @@ -491,8 +484,6 @@ static int vc4_atomic_commit(struct drm_device *dev=
-,
->  =20
->   		drm_atomic_helper_cleanup_planes(dev, state);
->  =20
-> -		up(&vc4->async_modeset);
+> -		drm_atomic_helper_async_commit(dev, state);
 > -
->   		return 0;
->   	}
->  =20
-> @@ -508,21 +499,14 @@ static int vc4_atomic_commit(struct drm_device *d=
-ev,
->  =20
->   	INIT_WORK(&state->commit_work, commit_work);
->  =20
-> -	ret =3D down_interruptible(&vc4->async_modeset);
+> -		drm_atomic_helper_cleanup_planes(dev, state);
+> -
+> -		return 0;
+> -	}
+> -
+> -	/* We know for sure we don't want an async update here. Set
+> -	 * state->legacy_cursor_update to false to prevent
+> -	 * drm_atomic_helper_setup_commit() from auto-completing
+> -	 * commit->flip_done.
+> -	 */
+> -	state->legacy_cursor_update =3D false;
+> -	ret =3D drm_atomic_helper_setup_commit(state, nonblock);
 > -	if (ret)
 > -		return ret;
 > -
->   	ret =3D drm_atomic_helper_prepare_planes(dev, state);
-> -	if (ret) {
-> -		up(&vc4->async_modeset);
-> +	if (ret)
->   		return ret;
-> -	}
->  =20
->   	if (!nonblock) {
->   		ret =3D drm_atomic_helper_wait_for_fences(dev, state, true);
->   		if (ret) {
->   			drm_atomic_helper_cleanup_planes(dev, state);
-> -			up(&vc4->async_modeset);
->   			return ret;
->   		}
->   	}
-> @@ -1006,8 +990,6 @@ int vc4_kms_load(struct drm_device *dev)
->   		vc4->load_tracker_enabled =3D true;
->   	}
->  =20
-> -	sema_init(&vc4->async_modeset, 1);
+> -	INIT_WORK(&state->commit_work, commit_work);
 > -
->   	/* Set support for vblank irq fast disable, before drm_vblank_init()=
- */
->   	dev->vblank_disable_immediate =3D true;
+> -	ret =3D drm_atomic_helper_prepare_planes(dev, state);
+> -	if (ret)
+> -		return ret;
+> -
+> -	if (!nonblock) {
+> -		ret =3D drm_atomic_helper_wait_for_fences(dev, state, true);
+> -		if (ret) {
+> -			drm_atomic_helper_cleanup_planes(dev, state);
+> -			return ret;
+> -		}
+> -	}
+> -
+> -	/*
+> -	 * This is the point of no return - everything below never fails exce=
+pt
+> -	 * when the hw goes bonghits. Which means we can commit the new state=
+ on
+> -	 * the software side now.
+> -	 */
+> -
+> -	BUG_ON(drm_atomic_helper_swap_state(state, false) < 0);
+> -
+> -	/*
+> -	 * Everything below can be run asynchronously without the need to gra=
+b
+> -	 * any modeset locks at all under one condition: It must be guarantee=
+d
+> -	 * that the asynchronous work has either been cancelled (if the drive=
+r
+> -	 * supports it, which at least requires that the framebuffers get
+> -	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
+> -	 * before the new state gets committed on the software side with
+> -	 * drm_atomic_helper_swap_state().
+> -	 *
+> -	 * This scheme allows new atomic state updates to be prepared and
+> -	 * checked in parallel to the asynchronous completion of the previous=
+
+> -	 * update. Which is important since compositors need to figure out th=
+e
+> -	 * composition of the next frame right after having submitted the
+> -	 * current layout.
+> -	 */
+> -
+> -	drm_atomic_state_get(state);
+> -	if (nonblock)
+> -		queue_work(system_unbound_wq, &state->commit_work);
+> -	else
+> -		vc4_atomic_complete_commit(state);
+> -
+> -	return 0;
+> -}
+> -
+>   static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
+>   					     struct drm_file *file_priv,
+>   					     const struct drm_mode_fb_cmd2 *mode_cmd)
+> @@ -966,11 +859,12 @@ vc4_atomic_check(struct drm_device *dev, struct d=
+rm_atomic_state *state)
+>  =20
+>   static struct drm_mode_config_helper_funcs vc4_mode_config_helpers =3D=
+ {
+>   	.atomic_commit_setup	=3D vc4_atomic_commit_setup,
+> +	.atomic_commit_tail	=3D vc4_atomic_commit_tail,
+>   };
+>  =20
+>   static const struct drm_mode_config_funcs vc4_mode_funcs =3D {
+>   	.atomic_check =3D vc4_atomic_check,
+> -	.atomic_commit =3D vc4_atomic_commit,
+> +	.atomic_commit =3D drm_atomic_helper_commit,
+>   	.fb_create =3D vc4_fb_create,
+>   };
 >  =20
 >=20
 
@@ -255,7 +292,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------32AD5169F847D8DF029F8FF7
+--------------ED33B7EF027448178C549253
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -458,34 +495,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------32AD5169F847D8DF029F8FF7--
+--------------ED33B7EF027448178C549253--
 
---D85YJJMAB7UB7ioyFhIQlV6ffM47RHR3V--
+--K5COaBdT2rW2zZrkFKkzTz1JrqkxkYJLG--
 
---CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT
+--7ZYVUkYMR7W1tAf6W5z3rMonR3d5rh5rO
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+3zMIFAwAAAAAACgkQlh/E3EQov+Cq
-cxAAix4Ze9P5qFU1SwEnZC6lkxs4ATMFQmclv04HHSlp2+bCTCoNjIofo+qoew9xb6xA7mRxp8zu
-S7KbFUFbZQYlVtOPLnwvnU+9KJAmK03SdeOnA/XB5mIRdnJrzj3SWUBNECCF0O0EDAgd5esfUkDJ
-BJ0IHiVciUyNq86QeRtAt91Ipo7x07wlSlAJfWwZs7k2tGJaXbNBN82fAf1OzsMV7msh34TlOMUO
-43cryfWltvI2qNLdC/g/9MIH2U8mfWp1EfpYwI12pvh4SEkPFn8uzqgJLvWJr8WHN+HpBwniGjEF
-145avvKOy+P/c/oGxF2KzR6Uif5Xnvq1T77bO2bL2aD9zyZyHzqkxbk31sXa2dUBJ2ey8FHoVTIw
-H+GeNv0YAL9yjmNZVsxbvXrXPpBza63H7D28UPyHCg9WEUMPPIARYwLUnsD13DjWPaSTuGDgxlox
-44Twgin2U2ENE4qad3ufO9NXX72NYDiaTFieOuTp77GHVQVHIoB6RcrjPlLDqL9QVZh2QItd5JWq
-fAMS4aapKqNWp35FVJPefBucuLKpyiKes9p6hruf1xPuhraChaLoYs3hagcpCGBSVW1TULuXUSMd
-GmJSGIj/WT4sRRURx1Fjwhg8R4jKr2TE1XCmAajyBXHcLr1FA9qw5G2oiVkghtd0kg9RGf96JDjy
-jVo=
-=wwmf
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+3zeQFAwAAAAAACgkQlh/E3EQov+D+
+HQ//aCkjPt2DQWwEkUyc82k/fwzLAkkUg3UImaZG/t+3alImLN7VY+8XlQTR5vSpaJKvwLVK7lQC
+Hmb2dp+mblzQ5ZYCva9/DMWQgkQKos1NP+wu83/BdGQxyZbPLCvUMOjsL+0YqJSJmcwHPBLrBuGr
+lcmQUA/SD9siXeAqGUZgdXDVRE+n/3DLSow8O4eutsy+sj8vI5gPn+AwlxNLpTJqCUrRYDMMeaJ2
++KlLWekDKuNAi53v1ud6f5+8qXNw0D9+HK9c7oq3Ky/6l0me3R+Su7aypp2M9ZyWs65+pfrxiIPK
+i1I9WAeiJ7Aw+CKfDJlu9RbeH0htsbJpeei1a8g6gfSdNS+H/2wP0g2qCSm4YKnVFeJCXiiyiMgZ
+qJmZ+P3VF0V4XJrxqNU7wQv/wsYqO+sRPJE+7RSejUoCyIGAQMo0XOfoj4WQbOPa/D7Yt2OrLiLX
+yPa85nLDl8mF6jE3CoH+rFv6h6cMnbkMozPT+sAnRE60ODMsIh1eQXIUhog/nNvM7deLqdMpjPCf
+/OET7t8oKeRUkf3tBqklpzMSfUACc7vFm/cRFt7ks6cxjvW3K6Gkn8RNvfZW0KysXjjtIukpaUF/
+najxSJu/Wiq2tok0rTcH94lcloiOghSQ8qEhDLHxYocdDL1mLOY+nriNUSdEh7Cea4vI+xuv04eu
+9Uw=
+=O/23
 -----END PGP SIGNATURE-----
 
---CCbv54hNzqU0TrkL6trl6GjR9kmABd1OT--
+--7ZYVUkYMR7W1tAf6W5z3rMonR3d5rh5rO--
 
---===============0343240754==
+--===============1397628382==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -496,4 +533,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0343240754==--
+--===============1397628382==--
