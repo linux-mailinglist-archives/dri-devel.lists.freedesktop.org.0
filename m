@@ -2,34 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62A6A2BA9BF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 13:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C59F2BA9C6
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Nov 2020 13:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D52416E8B0;
-	Fri, 20 Nov 2020 12:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49F7E6E8B4;
+	Fri, 20 Nov 2020 12:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58ACF6E8B0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 12:02:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ED6E6E8B4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 12:04:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id EFBA1FB03;
- Fri, 20 Nov 2020 13:02:52 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 6FD90FB03;
+ Fri, 20 Nov 2020 13:04:12 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oIamRrRXpCEc; Fri, 20 Nov 2020 13:02:51 +0100 (CET)
+ with ESMTP id 9mru4xLJe_vU; Fri, 20 Nov 2020 13:04:11 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 48B6B43F6E; Fri, 20 Nov 2020 13:02:51 +0100 (CET)
-Date: Fri, 20 Nov 2020 13:02:51 +0100
+ id 2AAF743F6E; Fri, 20 Nov 2020 13:04:11 +0100 (CET)
+Date: Fri, 20 Nov 2020 13:04:11 +0100
 From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
 To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH 1/3] drm/panel: s6e63m0: Fix and extend MCS table
-Message-ID: <20201120120251.GA23988@bogon.m.sigxcpu.org>
-References: <20201117175621.870085-1-linus.walleij@linaro.org>
+Subject: Re: [PATCH v2 0/6] drm/panel: mantix and st7703 fixes and additions
+Message-ID: <20201120120411.GB23988@bogon.m.sigxcpu.org>
+References: <cover.1605688147.git.agx@sigxcpu.org>
+ <CACRpkda97nJ+nJX4CuZHQnDVh1mhykc_vb6xFh7BcAWQoNjz7Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201117175621.870085-1-linus.walleij@linaro.org>
+In-Reply-To: <CACRpkda97nJ+nJX4CuZHQnDVh1mhykc_vb6xFh7BcAWQoNjz7Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,51 +43,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org,
- =?utf-8?B?UGF3ZcWC?= Chmiel <pawel.mikolaj.chmiel@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Ondrej Jirman <megous@megous.com>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
+ Mark Brown <broonie@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTGludXMsClRoZSB3aG9sZSBzZXJpZXMgbG9va3MgZ29vZCB0byBtZSBjb2RlIHdpc2Ugc28K
-ClJldmlld2VkLWJ5OiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPiAKCmJ1dCBpIGhh
-dmUgbm8gbWVhbnMgdG8gdGVzdCB0aGUgY2hhbmdlcy4KQ2hlZXJzLAogLS0gR3VpZG8KCk9uIFR1
-ZSwgTm92IDE3LCAyMDIwIGF0IDA2OjU2OjE5UE0gKzAxMDAsIExpbnVzIFdhbGxlaWogd3JvdGU6
-Cj4gRml4IHVwIHRoZSBmb3JtYXQgb2YgdGhlIG1hbnVmYWN0dXJlciBjb21tYW5kIHNldCB0YWJs
-ZQo+IHRvIGJlIFRBQi1pbmRlbnRlZCBhbmQgbG93ZXJjYXNlLiBBZGQgdGhlIE1DU19URU1QX1NX
-SVJFCj4gY29tbWFuZCB0aGF0IHdlIHdpbGwgbWFrZSB1c2Ugb2YuCj4gCj4gQ2M6IFN0ZXBoYW4g
-R2VyaG9sZCA8c3RlcGhhbkBnZXJob2xkLm5ldD4KPiBDYzogUGF3ZcWCIENobWllbCA8cGF3ZWwu
-bWlrb2xhai5jaG1pZWxAZ21haWwuY29tPgo+IFNpZ25lZC1vZmYtYnk6IExpbnVzIFdhbGxlaWog
-PGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL3BhbmVs
-L3BhbmVsLXNhbXN1bmctczZlNjNtMC5jIHwgMTcgKysrKysrKysrLS0tLS0tLS0KPiAgMSBmaWxl
-IGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jIGIvZHJpdmVy
-cy9ncHUvZHJtL3BhbmVsL3BhbmVsLXNhbXN1bmctczZlNjNtMC5jCj4gaW5kZXggMjEwZTcwZGEz
-YTE1Li44ZmNlMzk5ZmI5N2QgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3Bh
-bmVsLXNhbXN1bmctczZlNjNtMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LXNhbXN1bmctczZlNjNtMC5jCj4gQEAgLTIzLDIwICsyMywyMSBAQAo+ICAjaW5jbHVkZSAicGFu
-ZWwtc2Ftc3VuZy1zNmU2M20wLmgiCj4gIAo+ICAvKiBNYW51ZmFjdHVyZXIgQ29tbWFuZCBTZXQg
-Ki8KPiAtI2RlZmluZSBNQ1NfRUxWU1NfT04gICAgICAgICAgICAgICAgMHhiMQo+IC0jZGVmaW5l
-IE1DU19NSUVDVEwxICAgICAgICAgICAgICAgIDB4YzAKPiAtI2RlZmluZSBNQ1NfQkNNT0RFICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgMHhjMQo+ICsjZGVmaW5lIE1DU19FTFZTU19PTgkJ
-MHhiMQo+ICsjZGVmaW5lIE1DU19URU1QX1NXSVJFCQkweGIyCj4gKyNkZWZpbmUgTUNTX01JRUNU
-TDEJCTB4YzAKPiArI2RlZmluZSBNQ1NfQkNNT0RFCQkweGMxCj4gICNkZWZpbmUgTUNTX0VSUk9S
-X0NIRUNLCQkweGQ1Cj4gICNkZWZpbmUgTUNTX1JFQURfSUQxCQkweGRhCj4gICNkZWZpbmUgTUNT
-X1JFQURfSUQyCQkweGRiCj4gICNkZWZpbmUgTUNTX1JFQURfSUQzCQkweGRjCj4gICNkZWZpbmUg
-TUNTX0xFVkVMXzJfS0VZCQkweGYwCj4gICNkZWZpbmUgTUNTX01UUF9LRVkJCTB4ZjEKPiAtI2Rl
-ZmluZSBNQ1NfRElTQ1RMICAgMHhmMgo+IC0jZGVmaW5lIE1DU19TUkNDVEwgICAgICAgICAgIDB4
-ZjYKPiAtI2RlZmluZSBNQ1NfSUZDVEwgICAgICAgICAgICAgICAgICAgICAgIDB4ZjcKPiAtI2Rl
-ZmluZSBNQ1NfUEFORUxDVEwgICAgICAgICAweEY4Cj4gLSNkZWZpbmUgTUNTX1BHQU1NQUNUTCAg
-ICAgICAgICAgICAgICAgICAweGZhCj4gKyNkZWZpbmUgTUNTX0RJU0NUTAkJMHhmMgo+ICsjZGVm
-aW5lIE1DU19TUkNDVEwJCTB4ZjYKPiArI2RlZmluZSBNQ1NfSUZDVEwJCTB4ZjcKPiArI2RlZmlu
-ZSBNQ1NfUEFORUxDVEwJCTB4ZjgKPiArI2RlZmluZSBNQ1NfUEdBTU1BQ1RMCQkweGZhCj4gIAo+
-ICAjZGVmaW5lIFM2RTYzTTBfTENEX0lEX1ZBTFVFX00yCQkweEE0Cj4gICNkZWZpbmUgUzZFNjNN
-MF9MQ0RfSURfVkFMVUVfU00yCTB4QjQKPiAtLSAKPiAyLjI2LjIKPiAKPiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxp
-c3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Linus,
+On Thu, Nov 19, 2020 at 09:35:17AM +0100, Linus Walleij wrote:
+> On Wed, Nov 18, 2020 at 9:29 AM Guido G=FCnther <agx@sigxcpu.org> wrote:
+> =
+
+> > This adds new panel type to the mantix driver as found on the Librem 5 =
+and
+> > fixes a glitch in the init sequence (affecting both panels). The fix is=
+ at the
+> > start of the series to make backporting simpler.
+> > It also adds a patch to make st7703 use dev_err_probe().
+> >
+> > changes from v1
+> > - as per review comments by Linus Walleij
+> >   - fix alphabetical ordering in Documentation/devicetree/bindings/vend=
+or-prefixes.yaml
+> >     https://lore.kernel.org/dri-devel/CACRpkdao_TMcpRsdK=3D7K5fNKJse0Bq=
+wk58iWu0xsXdDNdcffVA@mail.gmail.com/
+> >   - add reviewed by to all except 5/6, thanks
+> =
+
+> The whole v2 looks fine to me, I'd give the devicetree
+> maintainers some slack to review the DT patches then I can
+> apply the whole series unless you have commit access yourself,
+> just tell me.
+
+I have commit access, so i can push in a couple of days. Thanks!
+
+> =
+
+> For all v2 patches:
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> =
+
+> If you have time, please review my s6e63m0 series.
+> https://lore.kernel.org/dri-devel/20201117175621.870085-1-linus.walleij@l=
+inaro.org/
+> https://lore.kernel.org/dri-devel/20201117175621.870085-2-linus.walleij@l=
+inaro.org/
+> https://lore.kernel.org/dri-devel/20201117175621.870085-3-linus.walleij@l=
+inaro.org/
+
+Done. The panel stuff is always scary with all those magic values.
+ -- Guido
+
+> =
+
+> Yours,
+> Linus Walleij
+> =
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
