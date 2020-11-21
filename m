@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4D92BBEA9
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:34:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A6F22BBEB5
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 12:35:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AD026E996;
-	Sat, 21 Nov 2020 11:34:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE3266E9AC;
+	Sat, 21 Nov 2020 11:34:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com
  [199.106.114.39])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12BB06E95C
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Nov 2020 00:37:18 +0000 (UTC)
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Nov 2020 16:37:18 -0800
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A476E95C
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Nov 2020 00:37:20 +0000 (UTC)
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 20 Nov 2020 16:37:20 -0800
 X-QCInternal: smtphost
 Received: from veeras-linux.qualcomm.com ([10.134.68.137])
- by ironmsg05-sd.qualcomm.com with ESMTP; 20 Nov 2020 16:37:17 -0800
+ by ironmsg01-sd.qualcomm.com with ESMTP; 20 Nov 2020 16:37:19 -0800
 Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
- id A672421A89; Fri, 20 Nov 2020 16:37:17 -0800 (PST)
+ id C4A3221A89; Fri, 20 Nov 2020 16:37:19 -0800 (PST)
 From: Veera Sundaram Sankaran <veeras@codeaurora.org>
 To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
  daniel@ffwll.ch
-Subject: [PATCH v2 1/2] dma-fence: allow signaling drivers to set fence
- timestamp
-Date: Fri, 20 Nov 2020 16:37:13 -0800
-Message-Id: <1605919034-15065-1-git-send-email-veeras@codeaurora.org>
+Subject: [PATCH v2 2/2] drm/drm_vblank: set the dma-fence timestamp during
+ send_vblank_event
+Date: Fri, 20 Nov 2020 16:37:14 -0800
+Message-Id: <1605919034-15065-2-git-send-email-veeras@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1605919034-15065-1-git-send-email-veeras@codeaurora.org>
+References: <1605919034-15065-1-git-send-email-veeras@codeaurora.org>
 X-Mailman-Approved-At: Sat, 21 Nov 2020 11:34:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,148 +52,121 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some drivers have hardware capability to get the precise timestamp of
-certain events based on which the fences are triggered. This allows it to
-set accurate timestamp factoring out any software and IRQ latencies. Add
-a timestamp variant of fence signal function, dma_fence_signal_timestamp
-to allow drivers to update the precise timestamp for fences.
+The explicit out-fences in crtc are signaled as part of vblank event,
+indicating all framebuffers present on the Atomic Commit request are
+scanned out on the screen. Though the fence signal and the vblank event
+notification happens at the same time, triggered by the same hardware
+vsync event, the timestamp set in both are different. With drivers
+supporting precise vblank timestamp the difference between the two
+timestamps would be even higher. This might have an impact on use-mode
+frameworks using these fence timestamps for purposes other than simple
+buffer usage. For instance, the Android framework [1] uses the
+retire-fences as an alternative to vblank when frame-updates are in
+progress. Set the fence timestamp during send vblank event using a new
+drm_send_event_timestamp_locked variant to avoid discrepancies.
+
+[1] https://android.googlesource.com/platform/frameworks/native/+/master/
+services/surfaceflinger/Scheduler/Scheduler.cpp#397
 
 Changes in v2:
-- Add a new fence signal variant instead of modifying fence struct
+- Use drm_send_event_timestamp_locked to update fence timestamp
+- add more information to commit text
 
 Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
 ---
- drivers/dma-buf/dma-fence.c | 70 ++++++++++++++++++++++++++++++++++++++++-----
- include/linux/dma-fence.h   |  3 ++
- 2 files changed, 66 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/drm_file.c   | 43 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_vblank.c |  9 ++++++++-
+ include/drm/drm_file.h       |  3 +++
+ 3 files changed, 54 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 43624b4..ef9902d 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -311,22 +311,25 @@ void __dma_fence_might_wait(void)
- 
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index 0ac4566..5944bb9 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -775,6 +775,49 @@ void drm_event_cancel_free(struct drm_device *dev,
+ EXPORT_SYMBOL(drm_event_cancel_free);
  
  /**
-- * dma_fence_signal_locked - signal completion of a fence
-+ * dma_fence_signal_timestamp_locked - signal completion of a fence
-  * @fence: the fence to signal
-+ * @timestamp: fence signal timestamp
-  *
-  * Signal completion for software callbacks on a fence, this will unblock
-  * dma_fence_wait() calls and run all the callbacks added with
-  * dma_fence_add_callback(). Can be called multiple times, but since a fence
-  * can only go from the unsignaled to the signaled state and not back, it will
-- * only be effective the first time.
-+ * only be effective the first time. Set the timestamp provided as the fence
-+ * signal timestamp.
-  *
-- * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
-- * held.
-+ * Unlike dma_fence_signal_timestamp(), this function must be called with
-+ * &dma_fence.lock held.
-  *
-  * Returns 0 on success and a negative error value when @fence has been
-  * signalled already.
-  */
--int dma_fence_signal_locked(struct dma_fence *fence)
-+int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-+			ktime_t timestamp)
- {
- 	struct dma_fence_cb *cur, *tmp;
- 	struct list_head cb_list;
-@@ -340,7 +343,7 @@ int dma_fence_signal_locked(struct dma_fence *fence)
- 	/* Stash the cb_list before replacing it with the timestamp */
- 	list_replace(&fence->cb_list, &cb_list);
- 
--	fence->timestamp = ktime_get();
-+	fence->timestamp = timestamp;
- 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
- 	trace_dma_fence_signaled(fence);
- 
-@@ -351,6 +354,59 @@ int dma_fence_signal_locked(struct dma_fence *fence)
- 
- 	return 0;
++ * drm_send_event_timestamp_locked - send DRM event to file descriptor
++ * @dev: DRM device
++ * @e: DRM event to deliver
++ * @timestamp: timestamp to set for the fence event
++ *
++ * This function sends the event @e, initialized with drm_event_reserve_init(),
++ * to its associated userspace DRM file. Callers must already hold
++ * &drm_device.event_lock, see drm_send_event() for the unlocked version.
++ *
++ * Note that the core will take care of unlinking and disarming events when the
++ * corresponding DRM file is closed. Drivers need not worry about whether the
++ * DRM file for this event still exists and can call this function upon
++ * completion of the asynchronous work unconditionally.
++ */
++void drm_send_event_timestamp_locked(struct drm_device *dev,
++			struct drm_pending_event *e, ktime_t timestamp)
++{
++	assert_spin_locked(&dev->event_lock);
++
++	if (e->completion) {
++		complete_all(e->completion);
++		e->completion_release(e->completion);
++		e->completion = NULL;
++	}
++
++	if (e->fence) {
++		dma_fence_signal_timestamp(e->fence, timestamp);
++		dma_fence_put(e->fence);
++	}
++
++	if (!e->file_priv) {
++		kfree(e);
++		return;
++	}
++
++	list_del(&e->pending_link);
++	list_add_tail(&e->link,
++		      &e->file_priv->event_list);
++	wake_up_interruptible(&e->file_priv->event_wait);
++}
++EXPORT_SYMBOL(drm_send_event_timestamp_locked);
++
++/**
+  * drm_send_event_locked - send DRM event to file descriptor
+  * @dev: DRM device
+  * @e: DRM event to deliver
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index b18e1ef..9899187 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -1000,7 +1000,14 @@ static void send_vblank_event(struct drm_device *dev,
+ 		break;
+ 	}
+ 	trace_drm_vblank_event_delivered(e->base.file_priv, e->pipe, seq);
+-	drm_send_event_locked(dev, &e->base);
++	/*
++	 * Use the same timestamp for any associated fence signal to avoid
++	 * mismatch in timestamps for vsync & fence events triggered by the
++	 * same HW event. Frameworks like SurfaceFlinger in Android expects the
++	 * retire-fence timestamp to match exactly with HW vsync as it uses it
++	 * for its software vsync modeling.
++	 */
++	drm_send_event_timestamp_locked(dev, &e->base, now);
  }
-+EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
-+
-+/**
-+ * dma_fence_signal_timestamp - signal completion of a fence
-+ * @fence: the fence to signal
-+ * @timestamp: fence signal timestamp
-+ *
-+ * Signal completion for software callbacks on a fence, this will unblock
-+ * dma_fence_wait() calls and run all the callbacks added with
-+ * dma_fence_add_callback(). Can be called multiple times, but since a fence
-+ * can only go from the unsignaled to the signaled state and not back, it will
-+ * only be effective the first time. Set the timestamp provided as the fence
-+ * signal timestamp.
-+ *
-+ * Returns 0 on success and a negative error value when @fence has been
-+ * signalled already.
-+ */
-+int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
-+{
-+	unsigned long flags;
-+	int ret;
-+
-+	if (!fence)
-+		return -EINVAL;
-+
-+	spin_lock_irqsave(fence->lock, flags);
-+	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
-+	spin_unlock_irqrestore(fence->lock, flags);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(dma_fence_signal_timestamp);
-+
-+/**
-+ * dma_fence_signal_locked - signal completion of a fence
-+ * @fence: the fence to signal
-+ *
-+ * Signal completion for software callbacks on a fence, this will unblock
-+ * dma_fence_wait() calls and run all the callbacks added with
-+ * dma_fence_add_callback(). Can be called multiple times, but since a fence
-+ * can only go from the unsignaled to the signaled state and not back, it will
-+ * only be effective the first time.
-+ *
-+ * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
-+ * held.
-+ *
-+ * Returns 0 on success and a negative error value when @fence has been
-+ * signalled already.
-+ */
-+int dma_fence_signal_locked(struct dma_fence *fence)
-+{
-+	return dma_fence_signal_timestamp_locked(fence, ktime_get());
-+}
- EXPORT_SYMBOL(dma_fence_signal_locked);
  
  /**
-@@ -378,7 +434,7 @@ int dma_fence_signal(struct dma_fence *fence)
- 	tmp = dma_fence_begin_signalling();
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 716990b..b81b3bf 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -399,6 +399,9 @@ void drm_event_cancel_free(struct drm_device *dev,
+ 			   struct drm_pending_event *p);
+ void drm_send_event_locked(struct drm_device *dev, struct drm_pending_event *e);
+ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e);
++void drm_send_event_timestamp_locked(struct drm_device *dev,
++				     struct drm_pending_event *e,
++				     ktime_t timestamp);
  
- 	spin_lock_irqsave(fence->lock, flags);
--	ret = dma_fence_signal_locked(fence);
-+	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
- 	spin_unlock_irqrestore(fence->lock, flags);
+ struct file *mock_drm_getfile(struct drm_minor *minor, unsigned int flags);
  
- 	dma_fence_end_signalling(tmp);
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 09e23ad..9f12efa 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -372,6 +372,9 @@ static inline void __dma_fence_might_wait(void) {}
- 
- int dma_fence_signal(struct dma_fence *fence);
- int dma_fence_signal_locked(struct dma_fence *fence);
-+int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
-+int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-+				      ktime_t timestamp);
- signed long dma_fence_default_wait(struct dma_fence *fence,
- 				   bool intr, signed long timeout);
- int dma_fence_add_callback(struct dma_fence *fence,
 -- 
 2.7.4
 
