@@ -2,61 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6022BBD08
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 05:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ADB2BBD27
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 06:21:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2FC6E96B;
-	Sat, 21 Nov 2020 04:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA466E964;
+	Sat, 21 Nov 2020 05:21:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E03CB6E968
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Nov 2020 04:50:07 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id q34so9120452pgb.11
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Nov 2020 20:50:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GHpNF24q+TKBy5NU/YkjHOD8mOY77JiRU3YsnIt/B8o=;
- b=DCrKMrkRfr7pIobw9eFJ61OTFy8o6Mk8c8usKaJebs3hYGzyI5mm34lx1W72BDn0UK
- dKdVA/2b9wj9YUyc9BfAwlnPFRJr22kYTlUxkWP63lnGSM2R19BlOAk8Lhubi33p6YpL
- kXuTKlemDSfqrc1QgkebjmI37vhXwgvwEP1jBfPOommMfZx/kgfGlYw9nnm8JmY3HyAV
- 6HeKjrzWn1NdMz+c1iEKZg+0Lmu8981vgxxf/ZNA0TtWE2Cs/b4MuEuD9P2Q+RhHg7VK
- j0MbY+VVkmT/L2UXflqd/WIknCoxH15HI5OUthHmf1uRAfLVqVwytjq8VsJF3DHT8CPk
- vRWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GHpNF24q+TKBy5NU/YkjHOD8mOY77JiRU3YsnIt/B8o=;
- b=lO3NLZFKMczp0MUU92qMMvYvNR5Qiv1y+KCLTc0SC2vL8SuaiuAwR1u9it8X4VbDYC
- 8+8rzQHSGOUtT9OFXwVQRasy7ayXNwR9ch8kiVr71IlpuGCxTJY7C9YOM951k15ERD21
- blniJ3JzFstPfoCzP5MO05SQkdI6Wwa3rpcJG7x4UVxqIC+Zc/CgVQcMPU9ECdS/F1uZ
- mmkLpOmB0LrhcxOeXYyXflSXRX1VJpr7JhW2O9+Eo6mf6kC5rskv467QgD8RpXKlQDB8
- NNpD/gZFi2Kkdbw8gc/AlS8g3rPoKtyd9I9b3I0w0v06sVBS6gxM1vQFFdmFUT+Ndx27
- wC/w==
-X-Gm-Message-State: AOAM532YlPGZN2kn5AS3F4OTmr+rP2oxeFg0yxRTuPjNJXWMSXSGKK+Y
- jpE4ScqMSubdF+E+LsDINZJ+Vw==
-X-Google-Smtp-Source: ABdhPJxSUX5Zw8O37YM9KJak58EF62vq3SMAbc0DS/2cMEpBj1/bbfbSKiiRQQWrDtlqY+wdoqzfSw==
-X-Received: by 2002:a17:90a:12cc:: with SMTP id
- b12mr13258284pjg.150.1605934207573; 
- Fri, 20 Nov 2020 20:50:07 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
- by smtp.gmail.com with ESMTPSA id
- w196sm5407692pfd.177.2020.11.20.20.50.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Nov 2020 20:50:07 -0800 (PST)
-From: John Stultz <john.stultz@linaro.org>
-To: lkml <linux-kernel@vger.kernel.org>
-Subject: [PATCH v6 5/5] dma-buf: system_heap: Allocate higher order pages if
- available
-Date: Sat, 21 Nov 2020 04:49:55 +0000
-Message-Id: <20201121044955.58215-6-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201121044955.58215-1-john.stultz@linaro.org>
-References: <20201121044955.58215-1-john.stultz@linaro.org>
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-eopbgr750087.outbound.protection.outlook.com [40.107.75.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAC66E964;
+ Sat, 21 Nov 2020 05:21:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gyEKsPga/ozkF2YCFt8QemjMvjRLK9SgrvivuPVEPM1wDE1mki2TpJDtQ6FgjYtyjOU8VqYqWCuSPZKPEMNPeUnQhP4dchwxcBnmUVvcGFS+Tv68R13CDkF6mkiqxeHLg5p7xK6HCESzq2BBZLp9YcpZxTeFs/cNYcq1sSfj2EsvyaoFRJr3fzZrdranmakf0fPV9OS0BhNgncC0a5p6yCcNjz0mZ1y9rwKs+HDaimRsobCuWH6eM8L+py7NGVW7EyIDWAr/yilQuu2+YDIgzSpd0rvJErbo4Hyr4oQD5efh+OgIAtgHJfIuh6RSJDVzwZZ896lEOzECAmY6oDxMJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/I/1MtwsMgRWenf4GZV6nn14RI7xKiQWqyqVvEAmOno=;
+ b=k4GGJK+AxiuaMnI2oAOWHjEwQl4bRIipmTRqGYJyjjigy1VXsbChtSYBxiLM4OzWQm4qL6gJFFVvGxKz2sZchp4XDihnwQyt4gwd4Y7nOBGGsIkb73iUpRZ318Vh5OG6EN9f2xlKsJU33MQzRg2xGqrHzxYs8hbMJIZVyYDxTFnz862cwtj/0I1G0JnUyVEnbK9vKbLPWovlLGemQ5WWvPOvcFPy5hKHlUHuLds78ePTKGM68e86BGP57CdgMhfaJqLKdG9P9ytWjuehmUPZ1i9gok8NEN5IMzWRtDdKBwXeURrD/OH7Pq7bqt1XdUvALLtcUl9IucbfjAD/ONhZeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=amd.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/I/1MtwsMgRWenf4GZV6nn14RI7xKiQWqyqVvEAmOno=;
+ b=ou2WrkT3SwgI5TnyrEe8MGj0UAiU20LJ4WLHuWrn6kKt8daNh2WEWbpkmtAM4aKyOwEa2Vg0PAvMySHyJxxw+lrqK5GdnRt8s3eXl4MIu4kmndP84hczktHVDzqDCqGbvL8Imc7K4mnsn6zVQUGNjJRoLjKASMboL9qoURHoL78=
+Received: from BN0PR03CA0017.namprd03.prod.outlook.com (2603:10b6:408:e6::22)
+ by BYAPR12MB3558.namprd12.prod.outlook.com (2603:10b6:a03:aa::31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Sat, 21 Nov
+ 2020 05:21:29 +0000
+Received: from BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e6:cafe::af) by BN0PR03CA0017.outlook.office365.com
+ (2603:10b6:408:e6::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Sat, 21 Nov 2020 05:21:29 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 165.204.84.17) smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none
+ (message not signed) header.d=none;lists.freedesktop.org; dmarc=fail
+ action=none header.from=amd.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ amd.com discourages use of 165.204.84.17 as permitted sender)
+Received: from SATLEXMB01.amd.com (165.204.84.17) by
+ BN8NAM11FT047.mail.protection.outlook.com (10.13.177.220) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3589.22 via Frontend Transport; Sat, 21 Nov 2020 05:21:28 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 20 Nov
+ 2020 23:21:28 -0600
+Received: from SATLEXMB01.amd.com (10.181.40.142) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3; Fri, 20 Nov
+ 2020 23:21:28 -0600
+Received: from ubuntu-1604-test.amd.com (10.180.168.240) by SATLEXMB01.amd.com
+ (10.181.40.142) with Microsoft SMTP Server id 15.1.1979.3 via
+ Frontend Transport; Fri, 20 Nov 2020 23:21:27 -0600
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <ckoenig.leichtzumerken@gmail.com>, <daniel.vetter@ffwll.ch>,
+ <robh@kernel.org>, <l.stach@pengutronix.de>, <yuq825@gmail.com>,
+ <eric@anholt.net>
+Subject: [PATCH v3 00/12] RFC Support hot device unplug in amdgpu
+Date: Sat, 21 Nov 2020 00:21:10 -0500
+Message-ID: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89680b63-4ab5-4a1c-e924-08d88ddd4cdb
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3558:
+X-Microsoft-Antispam-PRVS: <BYAPR12MB3558663B4386F8EA8E547526EAFE0@BYAPR12MB3558.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qy5X1k4O0ld03vrJ8AWPffBQ3UPLK0euMB7qlc8XmmuVXC11bM/XVKsOUB5YofPbWwMLFrnRTRU7JhtRL3yJ/0HBipdiHPl/T57wwTe+41JqZeaoBy1P/vjhCY+y0CxeRzB6WcLhaFM7rDu235DNMSBe2JB/dFeGJs1j3pN9gNoyK7eD4EhjRyYexvmBdpoJZcmBZpw9qdpYECID5YAzk5He6xE2+Yp29Ve3dYyGlG2Z7iJn+0QpiwFtwoG5HvlRUdTXfPjA9cCcX7tzfYBim+/N4ipUSFWyA+bJZ5SaKbLPB4fycYeta0jWxliTDVby+rLT/ZTiYweyE+/9tMzzWx+fBsUqsNLIvRq0pAkz9wwisEX+eWHNVITnmMeyV/N1po3u9R8yb+rc4kwN/0NHWabfbFLHIbYCUW7fFVLbS4oyXbktm1Xy/FBELn4013om5n8y5XInfXtISI+DGMz9VlZWy6NUMM8qVLQaNWmi11TXg6U4ZvWfOrD2+ID1842h
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SATLEXMB01.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(376002)(136003)(39860400002)(46966005)(8676002)(336012)(70206006)(83380400001)(70586007)(86362001)(44832011)(8936002)(2616005)(316002)(186003)(6666004)(7416002)(26005)(356005)(110136005)(47076004)(7696005)(4326008)(426003)(478600001)(966005)(82740400003)(54906003)(81166007)(82310400003)(5660300002)(36756003)(2906002)(127564004);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2020 05:21:28.8914 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89680b63-4ab5-4a1c-e924-08d88ddd4cdb
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB01.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT047.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3558
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,114 +106,115 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
- Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
- James Jones <jajones@nvidia.com>, Liam Mark <lmark@codeaurora.org>,
- Laura Abbott <labbott@kernel.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>,
- Hridya Valsaraju <hridya@google.com>,
- =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
- linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
- Daniel Mentz <danielmentz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-V2hpbGUgdGhlIHN5c3RlbSBoZWFwIGNhbiByZXR1cm4gbm9uLWNvbnRpZ3VvdXMgcGFnZXMsCnRy
-eSB0byBhbGxvY2F0ZSBsYXJnZXIgb3JkZXIgcGFnZXMgaWYgcG9zc2libGUuCgpUaGlzIHdpbGwg
-YWxsb3cgc2xpZ2h0IHBlcmZvcm1hbmNlIGdhaW5zIGFuZCBtYWtlIGltcGxlbWVudGluZwpwYWdl
-IHBvb2xpbmcgZWFzaWVyLgoKQ2M6IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vtd2FsQGxpbmFyby5v
-cmc+CkNjOiBMaWFtIE1hcmsgPGxtYXJrQGNvZGVhdXJvcmEub3JnPgpDYzogTGF1cmEgQWJib3R0
-IDxsYWJib3R0QGtlcm5lbC5vcmc+CkNjOiBCcmlhbiBTdGFya2V5IDxCcmlhbi5TdGFya2V5QGFy
-bS5jb20+CkNjOiBIcmlkeWEgVmFsc2FyYWp1IDxocmlkeWFAZ29vZ2xlLmNvbT4KQ2M6IFN1cmVu
-IEJhZ2hkYXNhcnlhbiA8c3VyZW5iQGdvb2dsZS5jb20+CkNjOiBTYW5kZWVwIFBhdGlsIDxzc3Bh
-dGlsQGdvb2dsZS5jb20+CkNjOiBEYW5pZWwgTWVudHogPGRhbmllbG1lbnR6QGdvb2dsZS5jb20+
-CkNjOiBDaHJpcyBHb2xkc3dvcnRoeSA8Y2dvbGRzd29AY29kZWF1cm9yYS5vcmc+CkNjOiDDmHJq
-YW4gRWlkZSA8b3JqYW4uZWlkZUBhcm0uY29tPgpDYzogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJw
-aHlAYXJtLmNvbT4KQ2M6IEV6ZXF1aWVsIEdhcmNpYSA8ZXplcXVpZWxAY29sbGFib3JhLmNvbT4K
-Q2M6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KQ2M6IEphbWVzIEpvbmVzIDxqYWpv
-bmVzQG52aWRpYS5jb20+CkNjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKUmV2aWV3ZWQtYnk6IEJyaWFuIFN0YXJrZXkgPGJy
-aWFuLnN0YXJrZXlAYXJtLmNvbT4KU2lnbmVkLW9mZi1ieTogSm9obiBTdHVsdHogPGpvaG4uc3R1
-bHR6QGxpbmFyby5vcmc+Ci0tLQp2MzoKKiBVc2UgcGFnZV9zaXplKCkgcmF0aGVyIHRoZW4gb3Bl
-bmNvZGluZyBpdAp2NToKKiBBZGQgY29tbWVudCBleHBsYWluaW5nIG9yZGVyIHNpemUgcmF0aW9u
-YWwKLS0tCiBkcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYyB8IDg5ICsrKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNzEgaW5zZXJ0aW9ucygrKSwg
-MTggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3Rl
-bV9oZWFwLmMgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvc3lzdGVtX2hlYXAuYwppbmRleCBiMWE3
-YjM1NTEzMmYuLmRlMjc1YjdmZjFlZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9kbWEtYnVmL2hlYXBz
-L3N5c3RlbV9oZWFwLmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2hlYXBzL3N5c3RlbV9oZWFwLmMK
-QEAgLTQwLDYgKzQwLDIwIEBAIHN0cnVjdCBkbWFfaGVhcF9hdHRhY2htZW50IHsKIAlib29sIG1h
-cHBlZDsKIH07CiAKKyNkZWZpbmUgSElHSF9PUkRFUl9HRlAgICgoKEdGUF9ISUdIVVNFUiB8IF9f
-R0ZQX1pFUk8gfCBfX0dGUF9OT1dBUk4gXAorCQkJCXwgX19HRlBfTk9SRVRSWSkgJiB+X19HRlBf
-UkVDTEFJTSkgXAorCQkJCXwgX19HRlBfQ09NUCkKKyNkZWZpbmUgTE9XX09SREVSX0dGUCAoR0ZQ
-X0hJR0hVU0VSIHwgX19HRlBfWkVSTyB8IF9fR0ZQX0NPTVApCitzdGF0aWMgZ2ZwX3Qgb3JkZXJf
-ZmxhZ3NbXSA9IHtISUdIX09SREVSX0dGUCwgTE9XX09SREVSX0dGUCwgTE9XX09SREVSX0dGUH07
-CisvKgorICogVGhlIHNlbGVjdGlvbiBvZiB0aGUgb3JkZXJzIHVzZWQgZm9yIGFsbG9jYXRpb24g
-KDFNQiwgNjRLLCA0SykgaXMgZGVzaWduZWQKKyAqIHRvIG1hdGNoIHdpdGggdGhlIHNpemVzIG9m
-dGVuIGZvdW5kIGluIElPTU1Vcy4gVXNpbmcgb3JkZXIgNCBwYWdlcyBpbnN0ZWFkCisgKiBvZiBv
-cmRlciAwIHBhZ2VzIGNhbiBzaWduaWZpY2FudGx5IGltcHJvdmUgdGhlIHBlcmZvcm1hbmNlIG9m
-IG1hbnkgSU9NTVVzCisgKiBieSByZWR1Y2luZyBUTEIgcHJlc3N1cmUgYW5kIHRpbWUgc3BlbnQg
-dXBkYXRpbmcgcGFnZSB0YWJsZXMuCisgKi8KK3N0YXRpYyBjb25zdCB1bnNpZ25lZCBpbnQgb3Jk
-ZXJzW10gPSB7OCwgNCwgMH07CisjZGVmaW5lIE5VTV9PUkRFUlMgQVJSQVlfU0laRShvcmRlcnMp
-CisKIHN0YXRpYyBzdHJ1Y3Qgc2dfdGFibGUgKmR1cF9zZ190YWJsZShzdHJ1Y3Qgc2dfdGFibGUg
-KnRhYmxlKQogewogCXN0cnVjdCBzZ190YWJsZSAqbmV3X3RhYmxlOwpAQCAtMjcyLDggKzI4Niwx
-MSBAQCBzdGF0aWMgdm9pZCBzeXN0ZW1faGVhcF9kbWFfYnVmX3JlbGVhc2Uoc3RydWN0IGRtYV9i
-dWYgKmRtYWJ1ZikKIAlpbnQgaTsKIAogCXRhYmxlID0gJmJ1ZmZlci0+c2dfdGFibGU7Ci0JZm9y
-X2VhY2hfc2d0YWJsZV9zZyh0YWJsZSwgc2csIGkpCi0JCV9fZnJlZV9wYWdlKHNnX3BhZ2Uoc2cp
-KTsKKwlmb3JfZWFjaF9zZyh0YWJsZS0+c2dsLCBzZywgdGFibGUtPm5lbnRzLCBpKSB7CisJCXN0
-cnVjdCBwYWdlICpwYWdlID0gc2dfcGFnZShzZyk7CisKKwkJX19mcmVlX3BhZ2VzKHBhZ2UsIGNv
-bXBvdW5kX29yZGVyKHBhZ2UpKTsKKwl9CiAJc2dfZnJlZV90YWJsZSh0YWJsZSk7CiAJa2ZyZWUo
-YnVmZmVyKTsKIH0KQEAgLTI5MSw2ICszMDgsMjYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkbWFf
-YnVmX29wcyBzeXN0ZW1faGVhcF9idWZfb3BzID0gewogCS5yZWxlYXNlID0gc3lzdGVtX2hlYXBf
-ZG1hX2J1Zl9yZWxlYXNlLAogfTsKIAorc3RhdGljIHN0cnVjdCBwYWdlICphbGxvY19sYXJnZXN0
-X2F2YWlsYWJsZSh1bnNpZ25lZCBsb25nIHNpemUsCisJCQkJCSAgICB1bnNpZ25lZCBpbnQgbWF4
-X29yZGVyKQoreworCXN0cnVjdCBwYWdlICpwYWdlOworCWludCBpOworCisJZm9yIChpID0gMDsg
-aSA8IE5VTV9PUkRFUlM7IGkrKykgeworCQlpZiAoc2l6ZSA8ICAoUEFHRV9TSVpFIDw8IG9yZGVy
-c1tpXSkpCisJCQljb250aW51ZTsKKwkJaWYgKG1heF9vcmRlciA8IG9yZGVyc1tpXSkKKwkJCWNv
-bnRpbnVlOworCisJCXBhZ2UgPSBhbGxvY19wYWdlcyhvcmRlcl9mbGFnc1tpXSwgb3JkZXJzW2ld
-KTsKKwkJaWYgKCFwYWdlKQorCQkJY29udGludWU7CisJCXJldHVybiBwYWdlOworCX0KKwlyZXR1
-cm4gTlVMTDsKK30KKwogc3RhdGljIGludCBzeXN0ZW1faGVhcF9hbGxvY2F0ZShzdHJ1Y3QgZG1h
-X2hlYXAgKmhlYXAsCiAJCQkJdW5zaWduZWQgbG9uZyBsZW4sCiAJCQkJdW5zaWduZWQgbG9uZyBm
-ZF9mbGFncywKQEAgLTI5OCwxMSArMzM1LDEzIEBAIHN0YXRpYyBpbnQgc3lzdGVtX2hlYXBfYWxs
-b2NhdGUoc3RydWN0IGRtYV9oZWFwICpoZWFwLAogewogCXN0cnVjdCBzeXN0ZW1faGVhcF9idWZm
-ZXIgKmJ1ZmZlcjsKIAlERUZJTkVfRE1BX0JVRl9FWFBPUlRfSU5GTyhleHBfaW5mbyk7CisJdW5z
-aWduZWQgbG9uZyBzaXplX3JlbWFpbmluZyA9IGxlbjsKKwl1bnNpZ25lZCBpbnQgbWF4X29yZGVy
-ID0gb3JkZXJzWzBdOwogCXN0cnVjdCBkbWFfYnVmICpkbWFidWY7CiAJc3RydWN0IHNnX3RhYmxl
-ICp0YWJsZTsKIAlzdHJ1Y3Qgc2NhdHRlcmxpc3QgKnNnOwotCXBnb2ZmX3QgcGFnZWNvdW50Owot
-CXBnb2ZmX3QgcGc7CisJc3RydWN0IGxpc3RfaGVhZCBwYWdlczsKKwlzdHJ1Y3QgcGFnZSAqcGFn
-ZSwgKnRtcF9wYWdlOwogCWludCBpLCByZXQgPSAtRU5PTUVNOwogCiAJYnVmZmVyID0ga3phbGxv
-YyhzaXplb2YoKmJ1ZmZlciksIEdGUF9LRVJORUwpOwpAQCAtMzE0LDI1ICszNTMsMzUgQEAgc3Rh
-dGljIGludCBzeXN0ZW1faGVhcF9hbGxvY2F0ZShzdHJ1Y3QgZG1hX2hlYXAgKmhlYXAsCiAJYnVm
-ZmVyLT5oZWFwID0gaGVhcDsKIAlidWZmZXItPmxlbiA9IGxlbjsKIAotCXRhYmxlID0gJmJ1ZmZl
-ci0+c2dfdGFibGU7Ci0JcGFnZWNvdW50ID0gbGVuIC8gUEFHRV9TSVpFOwotCWlmIChzZ19hbGxv
-Y190YWJsZSh0YWJsZSwgcGFnZWNvdW50LCBHRlBfS0VSTkVMKSkKLQkJZ290byBmcmVlX2J1ZmZl
-cjsKLQotCXNnID0gdGFibGUtPnNnbDsKLQlmb3IgKHBnID0gMDsgcGcgPCBwYWdlY291bnQ7IHBn
-KyspIHsKLQkJc3RydWN0IHBhZ2UgKnBhZ2U7CisJSU5JVF9MSVNUX0hFQUQoJnBhZ2VzKTsKKwlp
-ID0gMDsKKwl3aGlsZSAoc2l6ZV9yZW1haW5pbmcgPiAwKSB7CiAJCS8qCiAJCSAqIEF2b2lkIHRy
-eWluZyB0byBhbGxvY2F0ZSBtZW1vcnkgaWYgdGhlIHByb2Nlc3MKIAkJICogaGFzIGJlZW4ga2ls
-bGVkIGJ5IFNJR0tJTEwKIAkJICovCiAJCWlmIChmYXRhbF9zaWduYWxfcGVuZGluZyhjdXJyZW50
-KSkKLQkJCWdvdG8gZnJlZV9wYWdlczsKLQkJcGFnZSA9IGFsbG9jX3BhZ2UoR0ZQX0tFUk5FTCB8
-IF9fR0ZQX1pFUk8pOworCQkJZ290byBmcmVlX2J1ZmZlcjsKKworCQlwYWdlID0gYWxsb2NfbGFy
-Z2VzdF9hdmFpbGFibGUoc2l6ZV9yZW1haW5pbmcsIG1heF9vcmRlcik7CiAJCWlmICghcGFnZSkK
-LQkJCWdvdG8gZnJlZV9wYWdlczsKKwkJCWdvdG8gZnJlZV9idWZmZXI7CisKKwkJbGlzdF9hZGRf
-dGFpbCgmcGFnZS0+bHJ1LCAmcGFnZXMpOworCQlzaXplX3JlbWFpbmluZyAtPSBwYWdlX3NpemUo
-cGFnZSk7CisJCW1heF9vcmRlciA9IGNvbXBvdW5kX29yZGVyKHBhZ2UpOworCQlpKys7CisJfQor
-CisJdGFibGUgPSAmYnVmZmVyLT5zZ190YWJsZTsKKwlpZiAoc2dfYWxsb2NfdGFibGUodGFibGUs
-IGksIEdGUF9LRVJORUwpKQorCQlnb3RvIGZyZWVfYnVmZmVyOworCisJc2cgPSB0YWJsZS0+c2ds
-OworCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShwYWdlLCB0bXBfcGFnZSwgJnBhZ2VzLCBscnUp
-IHsKIAkJc2dfc2V0X3BhZ2Uoc2csIHBhZ2UsIHBhZ2Vfc2l6ZShwYWdlKSwgMCk7CiAJCXNnID0g
-c2dfbmV4dChzZyk7CisJCWxpc3RfZGVsKCZwYWdlLT5scnUpOwogCX0KIAogCS8qIGNyZWF0ZSB0
-aGUgZG1hYnVmICovCkBAIC0zNTIsMTQgKzQwMSwxOCBAQCBzdGF0aWMgaW50IHN5c3RlbV9oZWFw
-X2FsbG9jYXRlKHN0cnVjdCBkbWFfaGVhcCAqaGVhcCwKIAkJLyoganVzdCByZXR1cm4sIGFzIHB1
-dCB3aWxsIGNhbGwgcmVsZWFzZSBhbmQgdGhhdCB3aWxsIGZyZWUgKi8KIAkJcmV0dXJuIHJldDsK
-IAl9Ci0KIAlyZXR1cm4gcmV0OwogCiBmcmVlX3BhZ2VzOgotCWZvcl9lYWNoX3NndGFibGVfc2co
-dGFibGUsIHNnLCBpKQotCQlfX2ZyZWVfcGFnZShzZ19wYWdlKHNnKSk7CisJZm9yX2VhY2hfc2d0
-YWJsZV9zZyh0YWJsZSwgc2csIGkpIHsKKwkJc3RydWN0IHBhZ2UgKnAgPSBzZ19wYWdlKHNnKTsK
-KworCQlfX2ZyZWVfcGFnZXMocCwgY29tcG91bmRfb3JkZXIocCkpOworCX0KIAlzZ19mcmVlX3Rh
-YmxlKHRhYmxlKTsKIGZyZWVfYnVmZmVyOgorCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShwYWdl
-LCB0bXBfcGFnZSwgJnBhZ2VzLCBscnUpCisJCV9fZnJlZV9wYWdlcyhwYWdlLCBjb21wb3VuZF9v
-cmRlcihwYWdlKSk7CiAJa2ZyZWUoYnVmZmVyKTsKIAogCXJldHVybiByZXQ7Ci0tIAoyLjE3LjEK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Until now extracting a card either by physical extraction (e.g. eGPU with 
+thunderbolt connection or by emulation through  syfs -> /sys/bus/pci/devices/device_id/remove) 
+would cause random crashes in user apps. The random crashes in apps were 
+mostly due to the app having mapped a device backed BO into its address 
+space was still trying to access the BO while the backing device was gone.
+To answer this first problem Christian suggested to fix the handling of mapped 
+memory in the clients when the device goes away by forcibly unmap all buffers the 
+user processes has by clearing their respective VMAs mapping the device BOs. 
+Then when the VMAs try to fill in the page tables again we check in the fault 
+handlerif the device is removed and if so, return an error. This will generate a 
+SIGBUS to the application which can then cleanly terminate.This indeed was done 
+but this in turn created a problem of kernel OOPs were the OOPSes were due to the 
+fact that while the app was terminating because of the SIGBUSit would trigger use 
+after free in the driver by calling to accesses device structures that were already 
+released from the pci remove sequence.This was handled by introducing a 'flush' 
+sequence during device removal were we wait for drm file reference to drop to 0 
+meaning all user clients directly using this device terminated.
+
+v2:
+Based on discussions in the mailing list with Daniel and Pekka [1] and based on the document 
+produced by Pekka from those discussions [2] the whole approach with returning SIGBUS and 
+waiting for all user clients having CPU mapping of device BOs to die was dropped. 
+Instead as per the document suggestion the device structures are kept alive until 
+the last reference to the device is dropped by user client and in the meanwhile all existing and new CPU mappings of the BOs 
+belonging to the device directly or by dma-buf import are rerouted to per user 
+process dummy rw page.Also, I skipped the 'Requirements for KMS UAPI' section of [2] 
+since i am trying to get the minimal set of requirements that still give useful solution 
+to work and this is the'Requirements for Render and Cross-Device UAPI' section and so my 
+test case is removing a secondary device, which is render only and is not involved 
+in KMS.
+
+v3:
+More updates following comments from v2 such as removing loop to find DRM file when rerouting 
+page faults to dummy page,getting rid of unnecessary sysfs handling refactoring and moving 
+prevention of GPU recovery post device unplug from amdgpu to scheduler layer. 
+On top of that added unplug support for the IOMMU enabled system.
+
+With these patches I am able to gracefully remove the secondary card using sysfs remove hook while glxgears 
+is running off of secondary card (DRI_PRIME=1) without kernel oopses or hangs and keep working 
+with the primary card or soft reset the device without hangs or oopses
+
+TODOs for followup work:
+Convert AMDGPU code to use devm (for hw stuff) and drmm (for sw stuff and allocations) (Daniel)
+Rework AMDGPU sysfs handling using default groups attributes (Greg)
+Support plugging the secondary device back after unplug - currently still experiencing HW error on plugging back.
+Add support for 'Requirements for KMS UAPI' section of [2] - unplugging primary, display connected card.
+
+[1] - Discussions during v2 of the patchset https://lists.freedesktop.org/archives/amd-gfx/2020-June/050806.html
+[2] - drm/doc: device hot-unplug for userspace https://www.spinics.net/lists/dri-devel/msg259755.html
+[3] - Related gitlab ticket https://gitlab.freedesktop.org/drm/amd/-/issues/1081
+
+
+Andrey Grodzovsky (12):
+  drm: Add dummy page per device or GEM object
+  drm: Unamp the entire device address space on device unplug
+  drm/ttm: Remap all page faults to per process dummy page.
+  drm/ttm: Set dma addr to null after freee
+  drm/ttm: Expose ttm_tt_unpopulate for driver use
+  drm/sched: Cancel and flush all oustatdning jobs before finish.
+  drm/sched: Prevent any job recoveries after device is unplugged.
+  drm/amdgpu: Split amdgpu_device_fini into early and late
+  drm/amdgpu: Add early fini callback
+  drm/amdgpu: Avoid sysfs dirs removal post device unplug
+  drm/amdgpu: Register IOMMU topology notifier per device.
+  drm/amdgpu: Fix a bunch of sdma code crash post device unplug
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h               | 11 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        | 82 +++++++++++++++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c           |  7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c         | 17 ++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c          |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h          |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c           | 24 ++++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h           |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c           | 12 +++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c        | 10 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h        |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c           |  7 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h          |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c         |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c            |  8 ++-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 12 +++-
+ drivers/gpu/drm/amd/include/amd_shared.h          |  2 +
+ drivers/gpu/drm/drm_drv.c                         |  3 +
+ drivers/gpu/drm/drm_file.c                        |  8 +++
+ drivers/gpu/drm/drm_prime.c                       | 10 +++
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c           |  3 +-
+ drivers/gpu/drm/lima/lima_sched.c                 |  3 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c           |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c            | 18 ++++-
+ drivers/gpu/drm/ttm/ttm_bo_vm.c                   | 54 ++++++++++++---
+ drivers/gpu/drm/ttm/ttm_page_alloc.c              |  2 +
+ drivers/gpu/drm/ttm/ttm_tt.c                      |  1 +
+ drivers/gpu/drm/v3d/v3d_sched.c                   | 15 +++--
+ include/drm/drm_file.h                            |  2 +
+ include/drm/drm_gem.h                             |  2 +
+ include/drm/gpu_scheduler.h                       |  6 +-
+ 31 files changed, 287 insertions(+), 47 deletions(-)
+
+-- 
+2.7.4
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
