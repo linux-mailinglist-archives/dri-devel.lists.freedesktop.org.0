@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12712BC19C
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 19:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925C22BC1BC
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Nov 2020 20:32:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF7B86E9D6;
-	Sat, 21 Nov 2020 18:51:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D576E047;
+	Sat, 21 Nov 2020 19:32:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF0086E9D6
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Nov 2020 18:51:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA1E06E047
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Nov 2020 19:32:23 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Sat, 21 Nov 2020 18:51:44 +0000
+Date: Sat, 21 Nov 2020 19:32:23 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -32,8 +32,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-205675-2300-yaECoPlAZn@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205675-2300-jNP8OPuMuM@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
 References: <bug-205675-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,38 +58,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205675
 
-swebwaer (gosesen253@tjuln.com) changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |gosesen253@tjuln.com
-
---- Comment #5 from swebwaer (gosesen253@tjuln.com) ---
-https://gitlab.com/gitlab-org/gitlab/-/issues/286123
-https://gitlab.com/gitlab-org/gitlab/-/issues/286124
-https://gitlab.com/gitlab-org/gitlab/-/issues/286125
-https://gitlab.com/gitlab-org/gitlab/-/issues/286126
-https://gitlab.com/gitlab-org/gitlab/-/issues/286127
-https://gitlab.com/gitlab-org/gitlab/-/issues/286128
-https://gitlab.com/gitlab-org/gitlab/-/issues/286129
-https://gitlab.com/gitlab-org/gitlab/-/issues/286130
-https://gitlab.com/gitlab-org/gitlab/-/issues/286131
-https://gitlab.com/gitlab-org/gitlab/-/issues/286132
-https://gitlab.com/gitlab-org/gitlab/-/issues/286133
-https://gitlab.com/gitlab-org/gitlab/-/issues/286134
-https://gitlab.com/gitlab-org/gitlab/-/issues/286135
-https://gitlab.com/gitlab-org/gitlab/-/issues/286136
-https://gitlab.com/gitlab-org/gitlab/-/issues/286137
-https://gitlab.com/gitlab-org/gitlab/-/issues/286138
-https://gitlab.com/gitlab-org/gitlab/-/issues/286139
-https://gitlab.com/gitlab-org/gitlab/-/issues/286140
-https://gitlab.com/gitlab-org/gitlab/-/issues/286141
-https://gitlab.com/gitlab-org/gitlab/-/issues/286142
-https://paiza.io/projects/IIgp4_PBF019w0QzJsAvmw?language=php
-https://blog.goo.ne.jp/seresrnetyrt/e/d3529dc2c010507019a112ae7cb55881
-https://pastebin.com/eTurKnYS
-https://note.com/wsrbwanretrytuy/n/n9f218cabe9df
-https://www.postads.ph/ad/man-utd-vs-west-brom-live-streaming
+--- Comment #6 from swebwaer (gosesen253@tjuln.com) ---
+https://gitlab.com/gitlab-org/gitlab/-/issues/286167
+https://gitlab.com/gitlab-org/gitlab/-/issues/286168
+https://gitlab.com/gitlab-org/gitlab/-/issues/286169
+https://gitlab.com/gitlab-org/gitlab/-/issues/286170
+https://gitlab.com/gitlab-org/gitlab/-/issues/286171
+https://gitlab.com/gitlab-org/gitlab/-/issues/286172
+https://gitlab.com/gitlab-org/gitlab/-/issues/286173
+https://gitlab.com/gitlab-org/gitlab/-/issues/286174
+https://gitlab.com/gitlab-org/gitlab/-/issues/286175
+https://gitlab.com/gitlab-org/gitlab/-/issues/286176
+https://gitlab.com/gitlab-org/gitlab/-/issues/286177
+https://gitlab.com/gitlab-org/gitlab/-/issues/286178
+https://gitlab.com/gitlab-org/gitlab/-/issues/286179
+https://gitlab.com/gitlab-org/gitlab/-/issues/286180
+https://gitlab.com/gitlab-org/gitlab/-/issues/286181
+https://gitlab.com/gitlab-org/gitlab/-/issues/286182
+https://gitlab.com/gitlab-org/gitlab/-/issues/286183
+https://gitlab.com/gitlab-org/gitlab/-/issues/286184
+https://paiza.io/projects/5D3ktOKdrf4Z1YHFAapxbA?language=php
+https://blog.goo.ne.jp/seresrnetyrt/e/7240a3317332aa012fdc434c385855e8
+https://pastebin.com/JS8t0Jkx
+https://note.com/wsrbwanretrytuy/n/n26eed81c2110
+https://www.postads.ph/ad/man-united-vs-west-brom-live-live-streamsfree
 
 -- 
 You are receiving this mail because:
