@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF6542BC958
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 21:40:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 115ED2BC972
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 22:01:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4AD2898F0;
-	Sun, 22 Nov 2020 20:39:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9967789B0B;
+	Sun, 22 Nov 2020 21:01:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCAB08984D
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 20:39:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0F089B0B
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 21:01:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Sun, 22 Nov 2020 20:39:58 +0000
+Date: Sun, 22 Nov 2020 21:01:26 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205675-2300-5qxgJqrmrs@https.bugzilla.kernel.org/>
+Message-ID: <bug-205675-2300-nNg9HLkikF@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
 References: <bug-205675-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,11 +58,28 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205675
 
---- Comment #30 from All Event Live Here (fasix52093@tjuln.com) ---
-https://www.pexels.com/@live-broncos-vs-dolphins-livestream-free-6230961
-https://www.pexels.com/@live-chargers-vs-jets-livestream-free-6230973
-https://www.pexels.com/@live-colts-vs-packers-livestream-free-6230982
-https://www.pexels.com/@live-packers-vs-colts-livestream-free-6230993
+--- Comment #31 from All Event Live Here (fasix52093@tjuln.com) ---
+https://gitlab.com/gitlab-org/gitlab/-/issues/287479
+https://gitlab.com/gitlab-org/gitlab/-/issues/287481
+https://gitlab.com/gitlab-org/gitlab/-/issues/287482
+https://gitlab.com/gitlab-org/gitlab/-/issues/287483
+https://gitlab.com/gitlab-org/gitlab/-/issues/287484
+https://gitlab.com/gitlab-org/gitlab/-/issues/287485
+https://gitlab.com/gitlab-org/gitlab/-/issues/287486
+https://gitlab.com/gitlab-org/gitlab/-/issues/287488
+https://gitlab.com/gitlab-org/gitlab/-/issues/287489
+https://gitlab.com/gitlab-org/gitlab/-/issues/287490
+https://gitlab.com/gitlab-org/gitlab/-/issues/287491
+https://gitlab.com/gitlab-org/gitlab/-/issues/287492
+https://gitlab.com/gitlab-org/gitlab/-/issues/287493
+https://gitlab.com/gitlab-org/gitlab/-/issues/287495
+https://gitlab.com/gitlab-org/gitlab/-/issues/287496
+https://gitlab.com/gitlab-org/gitlab/-/issues/287497
+https://gitlab.com/gitlab-org/gitlab/-/issues/287498
+https://gitlab.com/gitlab-org/gitlab/-/issues/287499
+https://paiza.io/projects/Wzr6UA9-Kb7fxKn6dUEi2Q?language=php
+https://blog.goo.ne.jp/fchfchhh/e/c21d829ce914bff03d87d9b11e8ffc68
+https://note.com/srnsetrdytfuygu/n/na87b757c0de2
 
 -- 
 You are receiving this mail because:
