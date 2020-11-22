@@ -1,44 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 115ED2BC972
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 22:01:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 085EC2BFBE2
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 23:03:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9967789B0B;
-	Sun, 22 Nov 2020 21:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2D49898E4;
+	Sun, 22 Nov 2020 22:03:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C0F089B0B
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 21:01:27 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Sun, 22 Nov 2020 21:01:26 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: fasix52093@tjuln.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205675-2300-nNg9HLkikF@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
-References: <bug-205675-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7434898E4
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 22:03:28 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 764E880567;
+ Sun, 22 Nov 2020 23:03:24 +0100 (CET)
+Date: Sun, 22 Nov 2020 23:03:22 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH 079/141] drm: Fix fall-through warnings for Clang
+Message-ID: <20201122220322.GA566387@ravnborg.org>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <111e9d3d55c686892357aa5269022024b4d48330.1605896059.git.gustavoars@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <111e9d3d55c686892357aa5269022024b4d48330.1605896059.git.gustavoars@kernel.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VafZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=iH7RfIX4AAAA:20 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8
+ a=ZN-qrr0goEvINV2_8DwA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,39 +45,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205675
+Hi Gustavo,
+On Fri, Nov 20, 2020 at 12:35:17PM -0600, Gustavo A. R. Silva wrote:
+> In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
+> by explicitly adding a break statement instead of letting the code fall
+> through to the next case.
+> 
+> Link: https://github.com/KSPP/linux/issues/115
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
---- Comment #31 from All Event Live Here (fasix52093@tjuln.com) ---
-https://gitlab.com/gitlab-org/gitlab/-/issues/287479
-https://gitlab.com/gitlab-org/gitlab/-/issues/287481
-https://gitlab.com/gitlab-org/gitlab/-/issues/287482
-https://gitlab.com/gitlab-org/gitlab/-/issues/287483
-https://gitlab.com/gitlab-org/gitlab/-/issues/287484
-https://gitlab.com/gitlab-org/gitlab/-/issues/287485
-https://gitlab.com/gitlab-org/gitlab/-/issues/287486
-https://gitlab.com/gitlab-org/gitlab/-/issues/287488
-https://gitlab.com/gitlab-org/gitlab/-/issues/287489
-https://gitlab.com/gitlab-org/gitlab/-/issues/287490
-https://gitlab.com/gitlab-org/gitlab/-/issues/287491
-https://gitlab.com/gitlab-org/gitlab/-/issues/287492
-https://gitlab.com/gitlab-org/gitlab/-/issues/287493
-https://gitlab.com/gitlab-org/gitlab/-/issues/287495
-https://gitlab.com/gitlab-org/gitlab/-/issues/287496
-https://gitlab.com/gitlab-org/gitlab/-/issues/287497
-https://gitlab.com/gitlab-org/gitlab/-/issues/287498
-https://gitlab.com/gitlab-org/gitlab/-/issues/287499
-https://paiza.io/projects/Wzr6UA9-Kb7fxKn6dUEi2Q?language=php
-https://blog.goo.ne.jp/fchfchhh/e/c21d829ce914bff03d87d9b11e8ffc68
-https://note.com/srnsetrdytfuygu/n/na87b757c0de2
+thanks, applied to drm-misc-next.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+	Sam
+
+> ---
+>  drivers/gpu/drm/drm_bufs.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+> index 7a01d0918861..aeb1327e3077 100644
+> --- a/drivers/gpu/drm/drm_bufs.c
+> +++ b/drivers/gpu/drm/drm_bufs.c
+> @@ -77,6 +77,7 @@ static struct drm_map_list *drm_find_matching_map(struct drm_device *dev,
+>  			if ((entry->map->offset & 0xffffffff) ==
+>  			    (map->offset & 0xffffffff))
+>  				return entry;
+> +			break;
+>  		default: /* Make gcc happy */
+>  			;
+>  		}
+> -- 
+> 2.27.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
