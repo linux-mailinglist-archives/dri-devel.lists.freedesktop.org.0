@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6B62BC776
-	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 18:23:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6872BC777
+	for <lists+dri-devel@lfdr.de>; Sun, 22 Nov 2020 18:23:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6CD89D7B;
-	Sun, 22 Nov 2020 17:23:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5ED89D8A;
+	Sun, 22 Nov 2020 17:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B16E89D7B
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 17:23:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7EA89D8A
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 17:23:52 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210303] Ryzen 3 PRO 4350G GPU Failed to updateMST allocation
  table
-Date: Sun, 22 Nov 2020 17:23:19 +0000
+Date: Sun, 22 Nov 2020 17:23:52 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,8 +33,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210303-2300-y8AYvOnk3B@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-210303-2300-JPJFpLy51s@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210303-2300@https.bugzilla.kernel.org/>
 References: <bug-210303-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,22 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210303
 
---- Comment #6 from mkkot (marcin2006@gmail.com) ---
-Xorg configuration files have nothing to do with this problem, but currently I
-have:
-/etc/X11/xorg.conf.d/10-monitor.conf 
-Section "Monitor"
- Identifier "HDMI-1"
- Option "Primary"       "False"
- Option "Enable"        "False"
-EndSection
-
-During debugging the issue I disabled some of the amdgpu module
-functionalities:
-
-amdgpu.dc=1 amdgpu.dpm=0 amdgpu.aspm=0 amdgpu.runpm=0 amdgpu.bapm=0
-
-But this seems to have no influence on this problem.
+--- Comment #7 from mkkot (marcin2006@gmail.com) ---
+Created attachment 293777
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293777&action=edit
+dmesg
 
 -- 
 You are receiving this mail because:
