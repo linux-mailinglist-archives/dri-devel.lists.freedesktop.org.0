@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC5B2C0129
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 09:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03ACE2C0127
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 09:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A7C789BA9;
-	Mon, 23 Nov 2020 08:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B4689B95;
+	Mon, 23 Nov 2020 08:12:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
  [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58CDA899AB
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:47:14 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id w16so621315pga.9
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 19:47:14 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F50A899C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:47:24 +0000 (UTC)
+Received: by mail-pg1-x544.google.com with SMTP id l17so2546823pgk.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 19:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NBFTSOV5X132dLJFilDGPY0gccuN+TXfuq0RMp4Oqzw=;
- b=JEuH55PhaK7IO9cw/CxjGzrdcTknRer/qrRcyHH+scTgYPXovzkSmgH5n9ZJp9T1uY
- JrbUAqwU2aZHbvaHIjeg5DFe5fhzeBWqivQEKX1vCZNnUKADweCUN0hQuZSeRIzAwKnI
- pZ8aiN5SLHO6+CQEKtN1cBrHrsfXgAsiSF4QI=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=D107g9ZBNTod+jLTCSbl9CuDKvxuScy2P8EkIE9S/Eo=;
+ b=NORWF+ovtP0SodsjQEdxEAQ2LdrlD3D4BNqeFDITFkM12Bvh1UDsTDi5KtObPCmaaC
+ MgOQ5jdhhA/Tk0AEK/tAg31MdRsFzzeo9O8rYTvMIdOGeGXkSxhuy7sBnM1S2FQ0pswq
+ eGOSumAvHHNsZzsElZiJKT4amStt/ZWrXfPhw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NBFTSOV5X132dLJFilDGPY0gccuN+TXfuq0RMp4Oqzw=;
- b=UDSTzQ++jPCb2nI/22/fJq0SnrAb2bbabMcJ/UT/58prOhYXffuWuLA6uA3lx/VJNa
- 7si8lcLEKn5lkbnXOjA0jCd9sbsHB2Sb5FOMiG0ot6uXgrlnduyXHI9WSaM49YzcDHTS
- KjUv3nviepK1zGAK/aO0cfC1VS44Y7Tpq4Rw+T0j/mbcadVCdPGNbsV1oMT/dSwwe2pN
- 936pBtUXrMAJ738VcMKccCPJvhZcVj825hnqeiNaVJPlpLHpW6uRqVE0sFkfh6hUqMbr
- s4uPZfHvdkIG+C3x0NlyH7ICrlSkNiR+j62x3Bma5EYCycsE5JPA5SA4QEbfq4wldFlX
- UhpA==
-X-Gm-Message-State: AOAM530U+euuiQ991Kk8IagMGDFCRASao20fzySjEyLi9C/V5tjfXeML
- EJctB+K9tTJwfk42C8+tE9J77w==
-X-Google-Smtp-Source: ABdhPJzpgoMOf+q/nprXjb6p03ctbOnQTmYQujTxfTsmLUeR6e38hwpr+BcyG1jJ5h09Ok3ZKHNC6w==
-X-Received: by 2002:a17:90b:3647:: with SMTP id
- nh7mr7221696pjb.114.1606103233806; 
- Sun, 22 Nov 2020 19:47:13 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=D107g9ZBNTod+jLTCSbl9CuDKvxuScy2P8EkIE9S/Eo=;
+ b=ondQyRtNkzPT73WiAoXb/Ia9XLTtW/AjRsXMbBpd68H+c2dRCuSX+Zp2VEqMgGeuOD
+ dp+zKxCIN5AoczbjxUaJFbYWlrzIlANt56q6IN/Fpw4d8+2D1sLb4T26giyl2ppFYDaO
+ WDXtovTiDl8PvFvc/X9ValLG7tyZnyKfSmtNFF3hhA+LIw6pIWwdaxFXxCAwdAwb3YuI
+ 2/BOxBKk2KZOntmAwAd1KdSZbvTRNO6enI66D+m9UTFZXBvPTGGLPu9rLrIhuchJGh7b
+ 3Qlf133aPFwKrnvKh5FuUDbVVJoNTtpRz+B2x9Zva6zApy/Y3immvpILa0l5ctEBLc+P
+ Q9Vw==
+X-Gm-Message-State: AOAM5325SeETMMfyY5WNbQUeBDzUDUW7ZNMG5qHcaAqXx58AmTR2bGpo
+ geultzcwYmc8yyJDNkCjmh6DCQ==
+X-Google-Smtp-Source: ABdhPJzrYPJfIVIbCKqGaDUUZUhn2bRpKIaSoZTNOX8zHL/bGVGXf4HljtWGezhOz5188uJCqfRhBA==
+X-Received: by 2002:a62:8cd6:0:b029:18b:ad92:503b with SMTP id
+ m205-20020a628cd60000b029018bad92503bmr23606716pfd.77.1606103244068; 
+ Sun, 22 Nov 2020 19:47:24 -0800 (PST)
 Received: from hsinyi-z840.tpe.corp.google.com
  ([2401:fa00:1:10:1a60:24ff:fe89:3e93])
- by smtp.gmail.com with ESMTPSA id m13sm149245pfa.115.2020.11.22.19.47.10
+ by smtp.gmail.com with ESMTPSA id m13sm149245pfa.115.2020.11.22.19.47.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Nov 2020 19:47:12 -0800 (PST)
+ Sun, 22 Nov 2020 19:47:23 -0800 (PST)
 From: Hsin-Yi Wang <hsinyi@chromium.org>
 To: Xin Ji <xji@analogixsemi.com>, Sam Ravnborg <sam@ravnborg.org>,
  Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 1/2] dt-bindings: drm/bridge: anx7625: Add power supplies
-Date: Mon, 23 Nov 2020 11:46:52 +0800
-Message-Id: <20201123034652.3660584-1-hsinyi@chromium.org>
+Subject: [PATCH v2 2/2] drm/bridge: anx7625: disable regulators when power off
+Date: Mon, 23 Nov 2020 11:46:54 +0800
+Message-Id: <20201123034652.3660584-2-hsinyi@chromium.org>
 X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+In-Reply-To: <20201123034652.3660584-1-hsinyi@chromium.org>
+References: <20201123034652.3660584-1-hsinyi@chromium.org>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 23 Nov 2020 08:12:51 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,56 +78,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-anx7625 requires 3 power supply regulators.
+When suspending the driver, anx7625_power_standby() will be called to
+turn off reset-gpios and enable-gpios. However, power supplies are not
+disabled. To save power, the driver can get the power supply regulators
+and turn off them in anx7625_power_standby().
 
 Signed-off-by: Hsin-Yi Wang <hsinyi@chromium.org>
 ---
 Change:
-v2: remove maxItems for supplies
+v2: none
 ---
- .../bindings/display/bridge/analogix,anx7625.yaml | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 25 +++++++++++++++++++++++
+ drivers/gpu/drm/bridge/analogix/anx7625.h |  1 +
+ 2 files changed, 26 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-index 60585a4fc22b..3ae97d9523e5 100644
---- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-@@ -34,6 +34,15 @@ properties:
-     description: used for reset chip control, RESET_N pin B7.
-     maxItems: 1
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 65cc05982f82..eb9c4cc2504a 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -11,6 +11,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
+@@ -875,12 +876,20 @@ static int sp_tx_edid_read(struct anx7625_data *ctx,
+ static void anx7625_power_on(struct anx7625_data *ctx)
+ {
+ 	struct device *dev = &ctx->client->dev;
++	int ret;
  
-+  vdd10-supply:
-+    description: Regulator that provides the supply 1.0V power.
+ 	if (!ctx->pdata.low_power_mode) {
+ 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
+ 		return;
+ 	}
+ 
++	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->pdata.supplies),
++				    ctx->pdata.supplies);
++	if (ret < 0) {
++		DRM_DEV_DEBUG_DRIVER(dev, "cannot enable regulators %d\n", ret);
++		return;
++	}
 +
-+  vdd18-supply:
-+    description: Regulator that provides the supply 1.8V power.
+ 	/* Power on pin enable */
+ 	gpiod_set_value(ctx->pdata.gpio_p_on, 1);
+ 	usleep_range(10000, 11000);
+@@ -894,6 +903,7 @@ static void anx7625_power_on(struct anx7625_data *ctx)
+ static void anx7625_power_standby(struct anx7625_data *ctx)
+ {
+ 	struct device *dev = &ctx->client->dev;
++	int ret;
+ 
+ 	if (!ctx->pdata.low_power_mode) {
+ 		DRM_DEV_DEBUG_DRIVER(dev, "not low power mode!\n");
+@@ -904,6 +914,12 @@ static void anx7625_power_standby(struct anx7625_data *ctx)
+ 	usleep_range(1000, 1100);
+ 	gpiod_set_value(ctx->pdata.gpio_p_on, 0);
+ 	usleep_range(1000, 1100);
 +
-+  vdd33-supply:
-+    description: Regulator that provides the supply 3.3V power.
++	ret = regulator_bulk_disable(ARRAY_SIZE(ctx->pdata.supplies),
++				     ctx->pdata.supplies);
++	if (ret < 0)
++		DRM_DEV_DEBUG_DRIVER(dev, "cannot disable regulators %d\n", ret);
 +
-   ports:
-     type: object
+ 	DRM_DEV_DEBUG_DRIVER(dev, "power down\n");
+ }
  
-@@ -55,6 +64,9 @@ properties:
- required:
-   - compatible
-   - reg
-+  - vdd10-supply
-+  - vdd18-supply
-+  - vdd33-supply
-   - ports
+@@ -1742,6 +1758,15 @@ static int anx7625_i2c_probe(struct i2c_client *client,
+ 	platform->client = client;
+ 	i2c_set_clientdata(client, platform);
  
- additionalProperties: false
-@@ -72,6 +84,9 @@ examples:
-             reg = <0x58>;
-             enable-gpios = <&pio 45 GPIO_ACTIVE_HIGH>;
-             reset-gpios = <&pio 73 GPIO_ACTIVE_HIGH>;
-+            vdd10-supply = <&pp1000_mipibrdg>;
-+            vdd18-supply = <&pp1800_mipibrdg>;
-+            vdd33-supply = <&pp3300_mipibrdg>;
++	pdata->supplies[0].supply = "vdd10";
++	pdata->supplies[1].supply = "vdd18";
++	pdata->supplies[2].supply = "vdd33";
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(pdata->supplies),
++				      pdata->supplies);
++	if (ret) {
++		DRM_DEV_ERROR(dev, "fail to get power supplies: %d\n", ret);
++		return ret;
++	}
+ 	anx7625_init_gpio(platform);
  
-             ports {
-                 #address-cells = <1>;
+ 	atomic_set(&platform->power_status, 0);
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
+index 193ad86c5450..e4a086b3a3d7 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.h
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
+@@ -350,6 +350,7 @@ struct s_edid_data {
+ struct anx7625_platform_data {
+ 	struct gpio_desc *gpio_p_on;
+ 	struct gpio_desc *gpio_reset;
++	struct regulator_bulk_data supplies[3];
+ 	struct drm_bridge *panel_bridge;
+ 	int intp_irq;
+ 	u32 low_power_mode;
 -- 
 2.29.2.454.gaff20da3a2-goog
 
