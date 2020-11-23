@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9ED52C041D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EE22C0423
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9770A89EB1;
-	Mon, 23 Nov 2020 11:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CB089F47;
+	Mon, 23 Nov 2020 11:20:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95C3D89A9A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:19:39 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id r17so18255277wrw.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:19:39 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D335089A94
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:19:40 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so2378579wrn.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gCZKU3j8clNV9/z+mSJexBSfvTb0PXc+UA+5nG1PO4U=;
- b=Oj2jCVRp8mxrSBXicPTrJ6Cjb3r3OcnFBR/iK8m1Di+xA+yQCWzhNblwi55dAJuP5k
- NwGqq/oSo6tOSdhXKl22884gM+qdojICcXDS6fKp1X6Yf1kRGTAVCR6jtXM6SSNhCbEu
- bOzqEuOL1BtF0ukiS0k6kT/r8jALx6ZhPbMbRUxxG0x1MV3fBOWRaKXKYUQiKNpMAJde
- 1bl0ThxjbqxbOo0fhFzBXfz+wfM62m+CyojimphzRX27w3UcEJBUjfizhXvPHp/wxgew
- QS33fM+XutaxzEwsZEvpaDqKMNWEQ/YO8rF6CcEWoqBWkNq7hjl6hCND+wHeFX+fXHeZ
- V/kg==
+ bh=OGha5UqBCWjGaqYLvn2kA/udGvrTgy+sHOhNO6DMwsQ=;
+ b=gXkkTC6H+UFH08yhkRlrTq+ECpl9TiCBAhPbhU1Q2wglsVlLTa7TPBuExVxAQA+h1+
+ buZgV1RE8zABspnufkBcR4QQvKnj1G39ZzRDpntI1skmsADHbqKcCs0xQQSrvF9O11el
+ +dicnKLrz/VtnwMKPy/RF4b/NX53AvADtyAFRPtpuMRz1itliQVhtIax7NvzUYFgIgQJ
+ hXyHUjHhambHyfU4mO4EYKKuAN0OFVZ2CHu5tv5tX62CaSc3lJ7FCcdmepmd7iUXXDzZ
+ 4cAnhemtLxIkDj9trzA8Tws0sJ85sJhQiQ9/kY9zBiw0KrWj8EpIjTDvsA2LEKfuKcEW
+ P3iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gCZKU3j8clNV9/z+mSJexBSfvTb0PXc+UA+5nG1PO4U=;
- b=bEHFegwnB2H/Pg+h4YZ9R4lemwrRQQXWE6VfZ23BArlG3zwlO4Y4ysOJLzqPjDYNkU
- s6NK7ylBpU/3m484VY3hX96JT82VKHQDPZ8pU+CeOhpjT+ME8esB0dUf+gOtOGy8Vl9e
- EIZxJylKVNUvyK0c7dF5Kskyk8uiygHGqzFHZDRya218sju+mn+OaVOsIRUoeHliseDn
- JDaUSIBeGZfRKH7Ka/cCAKh9plMgttvhvWMAHoO6Jxiuo7PYb5fJG4anfsUGakgzXKzd
- xsLGRM1d3UsXnZLR3Com8fv83N4iGRSfWbKRcUT+LwzR2fSKyON9lbO3+JF7TW/uWPW4
- iuOg==
-X-Gm-Message-State: AOAM533ZHXOo3Yx8Y9sdIV7dq4ykNBUf8AB8Odvy8Y6emlDsJIpYc3Vn
- UiQOWfytLoUJC41sSq/Z60zUsQ==
-X-Google-Smtp-Source: ABdhPJxK2djg0cErC0kW+yAJbREEdI98d1J1Lyc4tpab95gJ+j8Oxsfni5KxA196urUkBeY9GRoXig==
-X-Received: by 2002:adf:9d49:: with SMTP id o9mr30390561wre.413.1606130378268; 
- Mon, 23 Nov 2020 03:19:38 -0800 (PST)
+ bh=OGha5UqBCWjGaqYLvn2kA/udGvrTgy+sHOhNO6DMwsQ=;
+ b=lC1jbE6/8WPxMYfDWsPi7lYE23yBqd7eT7aB9c9v7xYUAqW88CEnmu+xArbTrfXB1H
+ 5Blw0NK5C0N3FEI6zldJ8q/f5gfLAQAUINsO8PyvTt0YezTjgiOO3+/RexSZN/c31j0N
+ orhtnL0LIm5sMCjvZDt3i0Vb3ESpVoW7hQ+bo6YELhC+HaZIjCjupA8be2uBYvQ1Raq0
+ HOpjxS4vLXfCwJgODdfgA9T2DTOeq5PjLYf04PmzsqF+jBdpolyRb/kfVNd7dAwLPiaS
+ mQ6TA7ZhmctEHZ/cFIhPPc2OGfZOosBOZzfq/acqviA455AtoLfV6j8wxCGP8PdGKPGR
+ 6AvQ==
+X-Gm-Message-State: AOAM531jEWfUj3BS7v3u+zWS2E6iqZRSGmJNDxZK8Kiejcaj16IaR5+j
+ oInc+uRldt9GHO8EbwZ/YsDu/rYapJd4GxIm
+X-Google-Smtp-Source: ABdhPJyV3tUNuLJgBT0X66FnuJfX13+uUiwhFMU2TsTA5vLgX4suC6ag1MBZQ//yuv6h1ps/wdxJfg==
+X-Received: by 2002:a5d:6805:: with SMTP id w5mr5882581wru.266.1606130379551; 
+ Mon, 23 Nov 2020 03:19:39 -0800 (PST)
 Received: from dell.default ([91.110.221.218])
- by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.19.37
+ by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.19.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:19:37 -0800 (PST)
+ Mon, 23 Nov 2020 03:19:38 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 12/40] drm/msm/disp/dpu1/dpu_formats: Demote non-conformant
- kernel-doc header
-Date: Mon, 23 Nov 2020 11:18:51 +0000
-Message-Id: <20201123111919.233376-13-lee.jones@linaro.org>
+Subject: [PATCH 13/40] drm/msm/disp/dpu1/dpu_hw_catalog: Remove duplicated
+ initialisation of 'max_linewidth'
+Date: Mon, 23 Nov 2020 11:18:52 +0000
+Message-Id: <20201123111919.233376-14-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201123111919.233376-1-lee.jones@linaro.org>
 References: <20201123111919.233376-1-lee.jones@linaro.org>
@@ -67,63 +67,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, Fritz Koenig <frkoenig@google.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'fmt' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'a' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'r' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'g' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'b' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'e0' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'e1' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'e2' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'e3' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'uc' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'alpha' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'bp' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'flg' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'fm' not described in 'INTERLEAVED_RGB_FMT'
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:50: warning: Function parameter or member 'np' not described in 'INTERLEAVED_RGB_FMT'
-
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Fritz Koenig <frkoenig@google.com>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-index a05282dede91b..21ff8f9e5dfd1 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
-@@ -22,7 +22,7 @@
- #define DPU_MAX_IMG_WIDTH		0x3FFF
- #define DPU_MAX_IMG_HEIGHT		0x3FFF
- 
--/**
-+/*
-  * DPU supported format packing, bpp, and other format
-  * information.
-  * DPU currently only supports interleaved RGB formats
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2h3X2NhdGFsb2cuYzoxMjQ6MTk6IHdhcm5pbmc6
+IGluaXRpYWxpemVkIGZpZWxkIG92ZXJ3cml0dGVuIFstV292ZXJyaWRlLWluaXRdCiBkcml2ZXJz
+L2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfaHdfY2F0YWxvZy5jOjEyNDoxOTogbm90ZTogKG5l
+YXIgaW5pdGlhbGl6YXRpb24gZm9yIOKAmHNtODI1MF9kcHVfY2Fwcy5tYXhfbGluZXdpZHRo4oCZ
+KQoKQ2M6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KQ2M6IFNlYW4gUGF1bCA8c2Vh
+bkBwb29ybHkucnVuPgpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFu
+aWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgpDYzogbGludXgtYXJtLW1zbUB2Z2VyLmtlcm5l
+bC5vcmcKQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGZyZWVkcmVub0Bs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNA
+bGluYXJvLm9yZz4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfaHdfY2F0
+YWxvZy5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9od19jYXRhbG9nLmMgYi9kcml2ZXJz
+L2dwdS9kcm0vbXNtL2Rpc3AvZHB1MS9kcHVfaHdfY2F0YWxvZy5jCmluZGV4IDZhNmE3MTcyZTNi
+ZWIuLmE3MDA0ZjE4NTIzYjAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9k
+cHUxL2RwdV9od19jYXRhbG9nLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEv
+ZHB1X2h3X2NhdGFsb2cuYwpAQCAtMTEzLDcgKzExMyw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+ZHB1X2NhcHMgc204MTUwX2RwdV9jYXBzID0gewogc3RhdGljIGNvbnN0IHN0cnVjdCBkcHVfY2Fw
+cyBzbTgyNTBfZHB1X2NhcHMgPSB7CiAJLm1heF9taXhlcl93aWR0aCA9IERFRkFVTFRfRFBVX09V
+VFBVVF9MSU5FX1dJRFRILAogCS5tYXhfbWl4ZXJfYmxlbmRzdGFnZXMgPSAweGIsCi0JLm1heF9s
+aW5ld2lkdGggPSA0MDk2LAogCS5xc2VlZF90eXBlID0gRFBVX1NTUFBfU0NBTEVSX1FTRUVEMywg
+LyogVE9ETzogcXNlZWQzIGxpdGUgKi8KIAkuc21hcnRfZG1hX3JldiA9IERQVV9TU1BQX1NNQVJU
+X0RNQV9WMiwgLyogVE9ETzogdjIuNSAqLwogCS51YndjX3ZlcnNpb24gPSBEUFVfSFdfVUJXQ19W
+RVJfNDAsCi0tIAoyLjI1LjEKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
