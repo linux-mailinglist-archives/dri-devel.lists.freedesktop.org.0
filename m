@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EBA2BFD1C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 00:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22DB62BFD43
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 01:19:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 091E6899C7;
-	Sun, 22 Nov 2020 23:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 030008984E;
+	Mon, 23 Nov 2020 00:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 879DD899C7
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 23:49:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA9D8984E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 00:19:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 205675] Display locks up. AMDGPU timeout
-Date: Sun, 22 Nov 2020 23:49:15 +0000
+Date: Mon, 23 Nov 2020 00:19:32 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205675-2300-6AWknrLIoa@https.bugzilla.kernel.org/>
+Message-ID: <bug-205675-2300-NUhI9ClmL4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205675-2300@https.bugzilla.kernel.org/>
 References: <bug-205675-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,21 +58,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205675
 
---- Comment #33 from All Event Live Here (fasix52093@tjuln.com) ---
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-01_0.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-02.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-03.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-04.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-05.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-06.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-07.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-08.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-09.html
-https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Raiders-v-Chiefs-liv-hd-tv-010.html
-https://paiza.io/projects/WH65FJcUIRItaxMq4Cxf6Q?language=php
-https://blog.goo.ne.jp/fchfchhh/e/003c12ec7461b363a817c45ec73ef80f
-https://note.com/srnsetrdytfuygu/n/n12b6cafd56e2
-https://www.postads.ph/ad/chiefs-vs-raiders-live-streamfree-nfl-online-hd
+--- Comment #34 from All Event Live Here (fasix52093@tjuln.com) ---
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-50.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-51.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-52.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-53.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-54.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-55.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-56.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-57.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-58.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-59.html
+https://www.cwu.edu/ce/sites/cts.cwu.edu.ce/files/webform/Chiefs-v-Raiders-live-60.html
+https://paiza.io/projects/1Xgk8B_vJYd7lAbgDAe36w?language=php
+https://blog.goo.ne.jp/fchfchhh/e/2ced99c826c25176b3064e655dc663d5
+https://note.com/srnsetrdytfuygu/n/n8de691e68e59
+https://caribbeanfever.com/photo/albums/chiefs-vs-raiders-live-stream-nfl
+https://www.postads.ph/ad/chiefs-vs-raiders-live-stream-nfl-free
 
 -- 
 You are receiving this mail because:
