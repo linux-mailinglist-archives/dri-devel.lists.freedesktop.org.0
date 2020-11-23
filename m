@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DCC2C17C9
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 22:42:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2DCE2C17E3
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 22:48:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E7486E0DD;
-	Mon, 23 Nov 2020 21:42:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7031F6E0DE;
+	Mon, 23 Nov 2020 21:48:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1FB96E0DC
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 21:42:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BD86E0DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 21:48:32 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id BE4AD20051;
- Mon, 23 Nov 2020 22:42:09 +0100 (CET)
-Date: Mon, 23 Nov 2020 22:42:08 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id E532B20051;
+ Mon, 23 Nov 2020 22:48:27 +0100 (CET)
+Date: Mon, 23 Nov 2020 22:48:26 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Bernard Zhao <bernard@vivo.com>
-Subject: Re: [PATCH] via/via_irq: use __func__ to replace string function name
-Message-ID: <20201123214208.GB675342@ravnborg.org>
-References: <20201119072957.108941-1-bernard@vivo.com>
+To: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH v2 0/6] drm/panel: mantix and st7703 fixes and additions
+Message-ID: <20201123214826.GC675342@ravnborg.org>
+References: <cover.1605688147.git.agx@sigxcpu.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201119072957.108941-1-bernard@vivo.com>
+In-Reply-To: <cover.1605688147.git.agx@sigxcpu.org>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=1WtWmnkvAAAA:8 a=iPqO3eFckTJRmb16J7wA:9
- a=CjuIK1q_8ugA:10 a=-_UHfarfsM-RsASml2Jt:22
+ a=8nJEP1OIZ-IA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=7gkXJVJtAAAA:8
+ a=meuEgf7b1xA4w4DmhCUA:9 a=wPNLvfGTeEIA:10 a=AjGcO6oz07-iQ99wixmX:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,43 +44,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, opensource.kernel@vivo.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Arnd Bergmann <arnd@arndb.de>,
+ David Airlie <airlied@linux.ie>, allen <allen.chen@ite.com.tw>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzk@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bernard.
+Hi Guido,
 
-On Wed, Nov 18, 2020 at 11:29:55PM -0800, Bernard Zhao wrote:
-> This change also fix checkpatch.pl warning:
-> WARNING: Prefer using '"%s...", __func__' to using
-> 'via_driver_irq_postinstall', this function's name, in a string
-> +	DRM_DEBUG("via_driver_irq_postinstall\n");
-> 
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> ---
->  drivers/gpu/drm/via/via_irq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/via/via_irq.c b/drivers/gpu/drm/via/via_irq.c
-> index 24cc445169e2..56ce5d4ee24a 100644
-> --- a/drivers/gpu/drm/via/via_irq.c
-> +++ b/drivers/gpu/drm/via/via_irq.c
-> @@ -308,7 +308,7 @@ int via_driver_irq_postinstall(struct drm_device *dev)
->  	drm_via_private_t *dev_priv = (drm_via_private_t *) dev->dev_private;
->  	u32 status;
->  
-> -	DRM_DEBUG("via_driver_irq_postinstall\n");
-> +	DRM_DEBUG("fun: %s\n", __func__);
+On Wed, Nov 18, 2020 at 09:29:47AM +0100, Guido G=FCnther wrote:
+> This adds new panel type to the mantix driver as found on the Librem 5 and
+> fixes a glitch in the init sequence (affecting both panels). The fix is a=
+t the
+> start of the series to make backporting simpler.
+> It also adds a patch to make st7703 use dev_err_probe().
+> =
 
-DRM_DEBUG() will print the name of the calling function so the use of
-__func__ here is not relevant.
+> changes from v1
+> - as per review comments by Linus Walleij
+>   - fix alphabetical ordering in Documentation/devicetree/bindings/vendor=
+-prefixes.yaml
+>     https://lore.kernel.org/dri-devel/CACRpkdao_TMcpRsdK=3D7K5fNKJse0Bqwk=
+58iWu0xsXdDNdcffVA@mail.gmail.com/
+>   - add reviewed by to all except 5/6, thanks
+> =
 
+> Guido G=FCnther (6):
+>   drm/panel: st7703: Use dev_err_probe
+>   drm/panel: mantix: Tweak init sequence
+>   drm/panel: mantix: Allow to specify default mode for different panels
+>   drm/panel: mantix: Support panel from Shenzhen Yashi Changhua
+>     Intelligent Technology Co
+>   dt-bindings: vendor-prefixes: Add ys vendor prefix
+The above are all:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-For this old driver we should try to limit patches to bug fixing and
-infrastructure updates.
+>   dt-binding: display: mantix: Add compatible for panel from YS
+Please fix the subjects to read "dt-bindings" - just to be consistent.
+With that:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+
 
 	Sam
 _______________________________________________
