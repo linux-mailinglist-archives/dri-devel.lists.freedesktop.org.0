@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBC72BFDEC
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 02:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CED2BFDF6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 02:07:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDBC089B61;
-	Mon, 23 Nov 2020 01:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C7C989BE8;
+	Mon, 23 Nov 2020 01:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
- [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E875089B5F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 00:31:28 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id t6so5310374lfl.13
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 16:31:28 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0343789B61
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 00:31:29 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s9so16124023ljo.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Nov 2020 16:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D4xxkreIJbgC8EFiVFdpV6nY5vDKa+iyrBL3x6vFvF8=;
- b=j5wtTWEksHtugVjQDOV918l/wpNPSChF6purMHsBn8LAeCu6ZVIAv+SaMnPF83CBOq
- neARTqolFKtUVM/vZrAFOZGX2MGc+6qL9/vaEuauG5I4ZkNQIi1TUkecubOeJYJmRr8x
- Dugrxd2zjESzX2HVknnUsPrPdGj2MjSqnEXB0QhBzyNnQtfGyFT/8vAx2H6Ppy/wjUPJ
- wzSHgl9LSGl8qRb0DHy3la817qASIj3Dp6M0IhxgzjdjY1q4dCypbDZg+2bPKWtAVmfg
- YtU0a5vZ2nSmUdF7H1gyIy+O/4ckxL/aftH8UqIBM3NXQHqXzAULgzpEBpkmj/IZVxVS
- kNqg==
+ bh=Dchum/w5tW6S8qZoSmLsyitcs7JqpsShTrIAD3uRjUU=;
+ b=J9nvRBz6Js/3sgpIHkpAp2rDUTMw5pKAFbwUpoYVu0lfan8DJ+kjCH8AtXBeEEvXSU
+ PJ7PWqIxA2GsCBg3XGIoiZebGSXQScYYX73Na/+STvQQ9iBlA9JVvINCDc+YWda7NsHu
+ 3hXqPpZQesgXDmVZI0DWF50yaJe0d7xjlBhTQM0PhgZw57NvhE2y2bIrCbJ2dwyNYDPp
+ jtKUIEcKoBoQYF0aReziDUA1ni67nQDgmk8Bz4ADBABGh9wr9wPXMeQgqs1lJbmnjlty
+ SBA6IfK601FUd+TmZafFA+BUiTfSaG9evjHWinTXr7EDqIylq3McyrREZ5w1CMBxCtaW
+ erSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D4xxkreIJbgC8EFiVFdpV6nY5vDKa+iyrBL3x6vFvF8=;
- b=fkhrVwoUyX1TjToxshmr/SZUuNNV3ubXmFiqabcvtwjL6F2lNLwrO8VQLEjetk/wYK
- BFHny9j3a6TPEI/um9qYYDe4jgqxZLhEexbzRB8n1ZNq3I6kQch4lbABkEPAR6EadqMg
- rR++cHjwd+BaGBw9XGG3SmlplGykhnfWcKE7DMbMHyKNHRLktGX6ryKFtSsqGXMtGj9D
- 2HuIkHPpITQJ2H4PX0c1ndnKq+iS4BzxTz+vzKDNVmEU7SolfsULlAXL/leOqoez8GfJ
- ovSAdLDFoxo85UB6U3I/CDiiz38KPAA5GtcNOmWAPZwmSLtlIN2VWKojo77tcfv26Bal
- s2Cg==
-X-Gm-Message-State: AOAM531iV7/6ye7VlrkEn/WTAyDSTbLYo6tZ90E7o7nFWd6J5YHwRpka
- DUlowuu7p6yfeM/m73Qv5HU=
-X-Google-Smtp-Source: ABdhPJyFo4qSHkHAs9XJqnPtJw51GVAKpIxJ00HuVbUW+dPFnqlzeHjCgSXu56dW7MZHwFGjow3kbg==
-X-Received: by 2002:ac2:4d89:: with SMTP id g9mr11864282lfe.341.1606091487351; 
- Sun, 22 Nov 2020 16:31:27 -0800 (PST)
+ bh=Dchum/w5tW6S8qZoSmLsyitcs7JqpsShTrIAD3uRjUU=;
+ b=KjNNHMgkQvvMs4qP+5DrGhjIMD9oKu5dHpFW9iZqzOagJ08QDsO84vy+cMM46DwMw6
+ i2Hgl1an55+kPfMee/3T5ytwc8ejnVLXyuZKX0fyXnIcIRppEWqbQ9BauOXuhuohSB7t
+ 4OpW85R3uFgXwanNtxIjvu7/c/9plcNgY+7lNLNpJEI6gzC1HUSvFtjKn+3wNwC1cF6p
+ vPDz2UnlA3IjSgWokZTvsmQVwfy/kaSmO/vvlKcvEs4AU9jMRd0Iw0bRwZER2JSVVNMi
+ KIO2C7Fnb/D234G2djrWLybi1/MKtT9SL/VdSoZpi5SoQPF25O7phzOLlAHq2lyDAtR+
+ 0M0w==
+X-Gm-Message-State: AOAM533CSIT0d2NE2UHfHFZOs+GsxrY6WJQ/OzKr1oPeEHS/CF4IGPSX
+ vyuu9sDuOAH0jz+QY7NfNZE=
+X-Google-Smtp-Source: ABdhPJxEJhSidQzxn6kqr5+uZqLMCHycJHz+Y9DBjIFbucmabSO5Jsye5L0YZOEMU5Jnnk1z0cyk3Q==
+X-Received: by 2002:a05:651c:119b:: with SMTP id
+ w27mr11546092ljo.189.1606091488478; 
+ Sun, 22 Nov 2020 16:31:28 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-159.dynamic.spd-mgts.ru.
  [109.252.193.159])
- by smtp.gmail.com with ESMTPSA id r27sm1225823lfn.290.2020.11.22.16.31.26
+ by smtp.gmail.com with ESMTPSA id r27sm1225823lfn.290.2020.11.22.16.31.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Nov 2020 16:31:26 -0800 (PST)
+ Sun, 22 Nov 2020 16:31:28 -0800 (PST)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -58,10 +59,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
  Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
  Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v10 12/19] ARM: tegra: Correct EMC registers size in Tegra20
+Subject: [PATCH v10 13/19] ARM: tegra: Add interconnect properties to Tegra20
  device-tree
-Date: Mon, 23 Nov 2020 03:27:16 +0300
-Message-Id: <20201123002723.28463-13-digetx@gmail.com>
+Date: Mon, 23 Nov 2020 03:27:17 +0300
+Message-Id: <20201123002723.28463-14-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201123002723.28463-1-digetx@gmail.com>
 References: <20201123002723.28463-1-digetx@gmail.com>
@@ -86,27 +87,74 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the size of Tegra20 EMC registers, which should be twice bigger.
+Add interconnect properties to the Memory Controller, External Memory
+Controller and the Display Controller nodes in order to describe hardware
+interconnection.
 
-Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra20.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/tegra20.dtsi | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index 72a4211a618f..9347f7789245 100644
+index 9347f7789245..2e1304493f7d 100644
 --- a/arch/arm/boot/dts/tegra20.dtsi
 +++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -634,7 +634,7 @@ mc: memory-controller@7000f000 {
+@@ -111,6 +111,17 @@ dc@54200000 {
  
- 	memory-controller@7000f400 {
+ 			nvidia,head = <0>;
+ 
++			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
++					<&mc TEGRA20_MC_DISPLAY0B &emc>,
++					<&mc TEGRA20_MC_DISPLAY1B &emc>,
++					<&mc TEGRA20_MC_DISPLAY0C &emc>,
++					<&mc TEGRA20_MC_DISPLAYHC &emc>;
++			interconnect-names = "wina",
++					     "winb",
++					     "winb-vfilter",
++					     "winc",
++					     "cursor";
++
+ 			rgb {
+ 				status = "disabled";
+ 			};
+@@ -128,6 +139,17 @@ dc@54240000 {
+ 
+ 			nvidia,head = <1>;
+ 
++			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
++					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
++					<&mc TEGRA20_MC_DISPLAY1BB &emc>,
++					<&mc TEGRA20_MC_DISPLAY0CB &emc>,
++					<&mc TEGRA20_MC_DISPLAYHCB &emc>;
++			interconnect-names = "wina",
++					     "winb",
++					     "winb-vfilter",
++					     "winc",
++					     "cursor";
++
+ 			rgb {
+ 				status = "disabled";
+ 			};
+@@ -630,15 +652,17 @@ mc: memory-controller@7000f000 {
+ 		interrupts = <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>;
+ 		#reset-cells = <1>;
+ 		#iommu-cells = <0>;
++		#interconnect-cells = <1>;
+ 	};
+ 
+-	memory-controller@7000f400 {
++	emc: memory-controller@7000f400 {
  		compatible = "nvidia,tegra20-emc";
--		reg = <0x7000f400 0x200>;
-+		reg = <0x7000f400 0x400>;
+ 		reg = <0x7000f400 0x400>;
  		interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
  		clocks = <&tegra_car TEGRA20_CLK_EMC>;
  		#address-cells = <1>;
+ 		#size-cells = <0>;
++		#interconnect-cells = <0>;
+ 	};
+ 
+ 	fuse@7000f800 {
 -- 
 2.29.2
 
