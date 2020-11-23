@@ -1,53 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023B72C1F7F
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3EC2C1F83
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 526036E22B;
-	Tue, 24 Nov 2020 08:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A515F6E21B;
+	Tue, 24 Nov 2020 08:08:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDE8897C3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 15:52:45 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id z7so3249054wrn.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 07:52:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
+ [IPv6:2607:f8b0:4864:20::d41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B62E9898E4;
+ Mon, 23 Nov 2020 16:17:12 +0000 (UTC)
+Received: by mail-io1-xd41.google.com with SMTP id i18so18703347ioa.3;
+ Mon, 23 Nov 2020 08:17:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FjYKtEXcBbCZ6/MbYZM9XmkyRoRkx/KzcRJbk79i4sI=;
- b=zsA/Kq8rvkY2W8nTxtXe4NjxMKB1/IcwQzyUhDPXPvb+In4LgnjHwVmHUNGvER/hYA
- roY6+Co9ZpF90EJQX8Pji1GurRdsH7+/j2RwVIDXEpbZQJ/2nF55XAmZSoNK6gsigvyD
- rY3HtRCV6BpkfCMaI+ocp8ybWXDjzpezZeWHI3O8Kp46po7mbmOv9w8C+/JaEyTdd/Ue
- aZFHaxdQIdy3JDQmRvTpzRS2Q6uQVZoZl+I1iUx+EsrUREw5bSDDggZCy3lx11UN1bb4
- X3EC9mqcNlWBd285AmAkTGO0BhkJ+DnIgbE7OHvrZ0TnpCxVRC0Q+ZJ3S5JRY9R4qPiC
- swWA==
+ :cc; bh=9G9wehhbpTZzWWOvGr3rWAgWQ0geLC9Yp77M/YC6Idw=;
+ b=jzsPhOCPkH8JcubkL+ilpCqrpmJxzR/ZZhmza1K1c0eddk7+QY69lMXZ1zjj7yUobv
+ UPOat94Oznz5N+aYQtyK2tx44PHGHvaT6c5ydFaOoT5387NjxS4giDE0liSNJKSpvdGp
+ HKiV67o8ZfM+QomP6uHJNCHgME5k654Lm9OlI5uZEZV/BZyGXhrMcp4osA9RqzKjR7Ze
+ 0dIcMPHMz9M6e1KbFfvtyGGjldyt3D137VsBHg9GBRp12UjhpWPsI6mtFPtV54IoaC+K
+ mSdXyd8g5UOodS4awURhueIsrAq2XHUWM9vJndBZGt3fLtR88qq6iY1NEsTPrUzb2MVL
+ n+0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=FjYKtEXcBbCZ6/MbYZM9XmkyRoRkx/KzcRJbk79i4sI=;
- b=CfbaFE1tzWv+zIgqWT2S1z+fkeqP9NlhQlKfcSb926bVt456uVojFuZmSqHLTnZKTI
- ePFmZvsiy5zPogCKdW2Wy7SHHaoVOMLgJL6V/+qepFBduxbJs2wnz0/SdOSQQMNVTAZi
- T1O6cIweuMWQICPUf5g+zECMbvuWU+oVYKJ6L/+U0eXU/4/orM5q5OhzTSHe+QUhL3c9
- N7ZZYbUhxqMKoORfoldqjJS8gfHBSDF/fFmV7jolFIBB3m4omY4elNF/mD02LaK2bjgZ
- 7P/UwzFp6copx654RPPWOheIAN46u8SailHWvmS44j5dkPrpyDEbL2BbiBHSEzHuEVw6
- u6kQ==
-X-Gm-Message-State: AOAM530dgSrONw3XNyCNI4JFj70fPvq8p+t886dUlomTZPrPcNYeBM1B
- B7DSFIhOTpTo87dAZgAl2rmGAO7R1XBUMTwLb0/xcA==
-X-Google-Smtp-Source: ABdhPJwDFXkVAmEEzDzQJi7TZh5WMlr6MZkPoxq7oYrlWXDQgXiH3RBf9yWiHxpPnNaudMC9BgsGypwqQzb7ltPoVu8=
-X-Received: by 2002:adf:8028:: with SMTP id 37mr282887wrk.111.1606146763502;
- Mon, 23 Nov 2020 07:52:43 -0800 (PST)
+ bh=9G9wehhbpTZzWWOvGr3rWAgWQ0geLC9Yp77M/YC6Idw=;
+ b=r14VZuPE97rurh1VIJDI5kRsfB1JnpG2JjIg6bj3c2dAN2lsJ5jIz3aFivwEtV4nHd
+ t1phpEXwqc3I2qmzBVS6XQMcJfv0Ir4CRavB/TYmnBpJv+btQE2h2MkEPMuOHbOGVBEY
+ ods8ssB/IYXXyn9l4vWSnJ3HxkFSxk9uPumh4U2DPZSSa5NTBhDtd1wpxyd5ViYZJj8O
+ 2oYOMvyC/zQULH9zFo5t1lEPFJyn3T4+KNxHcyfIKVRTwCukoiXQcTaAmx9SaLtFbELg
+ LqKmFqgidmCxYPXnS+CDhLoNjXw6A9rLf/Y/TdHmKnfbMjgcya8ZwatF72+8WfVRWpxU
+ O+7g==
+X-Gm-Message-State: AOAM532j90eIUBWMIzTN1rM2EoPvP/+MInJFDaOJI8mg1AF2yCVfykkh
+ vyrwOJNjEZGSsK/t2r8Go2pb62hKi35GVO9Ca5M=
+X-Google-Smtp-Source: ABdhPJw5wxDBX8QpwE2CghMfFtPIAtnmG9XIUqmbpxXD9wxvuYGnavpxLlav0NBfuecvTCMrGKLgN0Lee5ktV7i8vQ8=
+X-Received: by 2002:a05:6602:22c7:: with SMTP id
+ e7mr415585ioe.114.1606148231969; 
+ Mon, 23 Nov 2020 08:17:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20201123104616.1412688-1-robert.foss@linaro.org>
-In-Reply-To: <20201123104616.1412688-1-robert.foss@linaro.org>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Mon, 23 Nov 2020 10:04:17 -0600
-Message-ID: <CA+_Aqisu48D8M57qspasD8MD=we=JHjpF54iYZTsD0nN8gC_EQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drm/bridge: lt9611: Fix handling of 4k panels
-To: Robert Foss <robert.foss@linaro.org>
+References: <20201121165058.1644182-1-trix@redhat.com>
+ <5843ef910b0e86c00d9c0143dec20f93823b016b.camel@HansenPartnership.com>
+ <87y2ism5or.fsf@intel.com>
+In-Reply-To: <87y2ism5or.fsf@intel.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 23 Nov 2020 17:17:00 +0100
+Message-ID: <CAKXUXMydH+VtMeuftPRgCg_PYm2iChOMkUYjO=QTG=NRM3QFiw@mail.gmail.com>
+Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
+To: Jani Nikula <jani.nikula@linux.intel.com>
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,145 +64,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, jernej.skrabec@siol.net,
- Vinod Koul <vinod.koul@linaro.org>, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
- Peter Collingbourne <pcc@google.com>
-Content-Type: multipart/mixed; boundary="===============0126171046=="
+Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
+ Tom Rix <trix@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ ibm-acpi-devel@lists.sourceforge.net,
+ "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+ linux-mtd@lists.infradead.org, linux-scsi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ cluster-devel@redhat.com,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ tboot-devel@lists.sourceforge.net, coreteam@netfilter.org,
+ xen-devel@lists.xenproject.org, MPT-FusionLinux.pdl@broadcom.com,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ alsa-devel@alsa-project.org, intel-gfx@lists.freedesktop.org,
+ ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-omap@vger.kernel.org, devel@acpica.org, linux-nfs@vger.kernel.org,
+ Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
+ Joe Perches <joe@perches.com>, bpf@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0126171046==
-Content-Type: multipart/alternative; boundary="0000000000004bd19205b4c82f19"
-
---0000000000004bd19205b4c82f19
-Content-Type: text/plain; charset="UTF-8"
-
-I just tested on non 4k display. Looks good to me.
-
-On Mon, 23 Nov 2020 at 04:46, Robert Foss <robert.foss@linaro.org> wrote:
-
-> 4k requires two dsi pipes, so don't report MODE_OK when only a
-> single pipe is configured. But rather report MODE_PANEL to
-> signal that requirements of the panel are not being met.
+On Mon, Nov 23, 2020 at 4:52 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
 >
-> Reported-by: Peter Collingbourne <pcc@google.com>
-> Suggested-by: Peter Collingbourne <pcc@google.com>
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> Tested-by: John Stultz <john.stultz@linaro.org>
+> On Sat, 21 Nov 2020, James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
+> > On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
+> >> A difficult part of automating commits is composing the subsystem
+> >> preamble in the commit log.  For the ongoing effort of a fixer
+> >> producing
+> >> one or two fixes a release the use of 'treewide:' does not seem
+> >> appropriate.
+> >>
+> >> It would be better if the normal prefix was used.  Unfortunately
+> >> normal is
+> >> not consistent across the tree.
+> >>
+> >>
+> >>      D: Commit subsystem prefix
+> >>
+> >> ex/ for FPGA DFL DRIVERS
+> >>
+> >>      D: fpga: dfl:
+> >>
+> >
+> > I've got to bet this is going to cause more issues than it solves.
 >
-Tested-by: Anibal Limon <anibal.limon@linaro.org>
-
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index d734d9402c35..e8eb8deb444b 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -867,8 +867,14 @@ static enum drm_mode_status
-> lt9611_bridge_mode_valid(struct drm_bridge *bridge,
->                                                      const struct
-> drm_display_mode *mode)
->  {
->         struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
-> +       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->
-> -       return lt9611_mode ? MODE_OK : MODE_BAD;
-> +       if (!lt9611_mode)
-> +               return MODE_BAD;
-> +       else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-> +               return MODE_PANEL;
-> +       else
-> +               return MODE_OK;
->  }
->
->  static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
-> --
-> 2.27.0
->
+> Agreed.
 >
 
---0000000000004bd19205b4c82f19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Tom, this a problem only kernel janitors encounter; all other
+developers really do not have that issue. The time spent on creating
+the patch is much larger than the amount saved if the commit log
+header line prefix would be derived automatically. I believe Julia
+Lawall, Arnd Bergmann and Nathan Chancellor as long-term
+high-frequency janitors do have already scripted approaches to that
+issue. Maybe they simply need to share these scripts with you and you
+consolidate them and share with everyone?
 
-<div dir=3D"ltr"><div dir=3D"ltr">I just tested on non 4k display. Looks go=
-od to me.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
-il_attr">On Mon, 23 Nov 2020 at 04:46, Robert Foss &lt;<a href=3D"mailto:ro=
-bert.foss@linaro.org">robert.foss@linaro.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">4k requires two dsi pipes, so d=
-on&#39;t report MODE_OK when only a<br>
-single pipe is configured. But rather report MODE_PANEL to<br>
-signal that requirements of the panel are not being met.<br>
-<br>
-Reported-by: Peter Collingbourne &lt;<a href=3D"mailto:pcc@google.com" targ=
-et=3D"_blank">pcc@google.com</a>&gt;<br>
-Suggested-by: Peter Collingbourne &lt;<a href=3D"mailto:pcc@google.com" tar=
-get=3D"_blank">pcc@google.com</a>&gt;<br>
-Signed-off-by: Robert Foss &lt;<a href=3D"mailto:robert.foss@linaro.org" ta=
-rget=3D"_blank">robert.foss@linaro.org</a>&gt;<br>
-Tested-by: John Stultz &lt;<a href=3D"mailto:john.stultz@linaro.org" target=
-=3D"_blank">john.stultz@linaro.org</a>&gt;<br></blockquote><div>Tested-by: =
-Anibal Limon &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@li=
-naro.org</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
----<br>
-=C2=A0drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-<br>
-=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/brid=
-ge/lontium-lt9611.c<br>
-index d734d9402c35..e8eb8deb444b 100644<br>
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
-@@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(s=
-truct drm_bridge *bridge,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_display_mode *mod=
-e)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct lt9611_mode *lt9611_mode =3D lt9611_find=
-_mode(mode);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0struct lt9611 *lt9611 =3D bridge_to_lt9611(brid=
-ge);<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0return lt9611_mode ? MODE_OK : MODE_BAD;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!lt9611_mode)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_BAD;<br=
+Also, making clean-up patches cumbersome has a positive side as well;
+maintainers are not swamped with fully automated patch submissions.
+There have been some bad experiences with some submitters on that in
+the past...
+
+> > SCSI uses scsi: <driver>: for drivers but not every driver has a
+> > MAINTAINERS entry.  We use either scsi: or scsi: core: for mid layer
+> > things, but we're not consistent.  Block uses blk-<something>: for all
+> > of it's stuff but almost no <somtehing>s have a MAINTAINERS entry.  So
+> > the next thing you're going to cause is an explosion of suggested
+> > MAINTAINERs entries.
 >
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (lt9611_mode-&gt;intfs &gt; 1 &amp;&amp=
-; !lt9611-&gt;dsi1)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_PANEL;<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_OK;<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)<br>
--- <br>
-2.27.0<br>
-<br>
-</blockquote></div></div>
+> On the one hand, adoption of new MAINTAINERS entries has been really
+> slow. Look at B, C, or P, for instance. On the other hand, if this were
+> to get adopted, you'll potentially get conflicting prefixes for patches
+> touching multiple files. Then what?
+>
+> I'm guessing a script looking at git log could come up with better
+> suggestions for prefixes via popularity contest than manually maintained
+> MAINTAINERS entries. It might not always get it right, but then human
+> outsiders aren't going to always get it right either.
+>
+> Now you'll only need Someone(tm) to write the script. ;)
+>
+> Something quick like this:
+>
+> git log --since={1year} --pretty=format:%s -- <FILES> |\
+>         grep -v "^\(Merge\|Revert\)" |\
+>         sed 's/:[^:]*$//' |\
+>         sort | uniq -c | sort -rn | head -5
+>
+> already gives me results that really aren't worse than some of the
+> prefixes invented by drive-by contributors.
+>
 
---0000000000004bd19205b4c82f19--
+I agree I do not see the need to introduce something in MAINTAINERS;
+from my observations maintaining MAINTAINERS, there is sufficient work
+on adoption and maintenance of the existing entries already without
+such an yet another additional entry. Some entries are outdated or
+wrong and the janitor task of cleaning those up is already enough work
+for involved janitors and enough churn for involved maintainers. So a
+machine-learned approach as above is probably good enough, but if you
+think you need more complex rules try to learn them from the data at
+hand... certainly a nice task to do with machine learning on commit
+message prefixes.
 
---===============0126171046==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Lukas
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0126171046==--
