@@ -1,46 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5532C1015
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 17:26:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264602C1017
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 17:27:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0726E046;
-	Mon, 23 Nov 2020 16:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 517E089CE1;
+	Mon, 23 Nov 2020 16:27:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 699746E045
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 16:26:52 +0000 (UTC)
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id ECD53208FE
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 16:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606148812;
- bh=9KB5B51VKiYnXfipSV/d2k1zGqIeU6Dr42g+/xScmCw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Xf/Js/kh0lEtDIYBl6YGM+NZDBvjFAFBlyI9A/gpgD0kULhBOeiCEfAQhFpewFx/L
- 46WVCshHQrRzgSSkAt21v7v06xm8gP3pfHvBbWQazkO/ndBWuyMw3q4t2GfoOX8MKJ
- 9Gev1uQOJt/rNIPzkHDsZRr6s4ONJyAdMJRiPcK8=
-Received: by mail-oi1-f172.google.com with SMTP id t143so20257779oif.10
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 08:26:51 -0800 (PST)
-X-Gm-Message-State: AOAM532ZhkUrmhBEdtDbQL7iufip9OFoWafjuYZz2WRF7mwIBB60JAp+
- rytkFe66zPeVLHnTODxABYK40EVPK+aTkPld1XI=
-X-Google-Smtp-Source: ABdhPJxFalqPvikjQIVOo3YlO4cDEOXrIV9/1gHDApfYxZp6GpTCV0n7iI/MdrK+6fyEasBcbyXRNVdRK0Tds0gefYY=
-X-Received: by 2002:aca:3c54:: with SMTP id j81mr15777247oia.11.1606148811189; 
- Mon, 23 Nov 2020 08:26:51 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E678A89CE1
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 16:27:49 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201957] amdgpu: ring gfx timeout
+Date: Mon, 23 Nov 2020 16:27:48 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: blocking
+X-Bugzilla-Who: majorgonzo@juno.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201957-2300-dfLDbcC6T9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201957-2300@https.bugzilla.kernel.org/>
+References: <bug-201957-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20201118091303.wa5npxyop3cdsczb@gilmour.lan>
-In-Reply-To: <20201118091303.wa5npxyop3cdsczb@gilmour.lan>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 23 Nov 2020 17:26:35 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3gV6TOq4z8gtB0ciCmGhXUd=GinrPPGJBagkqKW=Pbnw@mail.gmail.com>
-Message-ID: <CAK8P3a3gV6TOq4z8gtB0ciCmGhXUd=GinrPPGJBagkqKW=Pbnw@mail.gmail.com>
-Subject: Re: [GIT PULL] Allwinner MBUS and DMA-ops rework
-To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,38 +51,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, David Airlie <airlied@linux.ie>,
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wens@csie.org>,
- arm-soc <arm@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 18, 2020 at 10:13 AM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi Arnd, Olof,
->
-> Here's the PR for the MBUS rework we discussed in the last couple of
-> weeks, for what will become 5.11.
->
-> As Arnd suggested, this is based on a PR sent to drm-misc-fixes to merge
-> the initial fix for a probe error in drm/sun4i due to
-> dma_direct_set_offset.
->
->   ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git tags/sunxi-rework-mbus
+https://bugzilla.kernel.org/show_bug.cgi?id=201957
 
-Looks good, nice cleanup!
+majorgonzo@juno.com changed:
 
-I've applied it to the arm/drivers branch now, but I almost missed it, as
-you sent it to the old arm@kernel.org address instead of soc@kernel.org
-that is connected to the patchwork.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |majorgonzo@juno.com
 
-Please also use http:// or git:// addresses in pull requests instead of ssh://
+--- Comment #38 from majorgonzo@juno.com ---
+I have a similar problem, a cascade of errors that typically starts with one of
+these:
+[drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx timeout, signaled
+seq=1093546, emitted seq=1093548
 
-      Arnd
+This used to occur only when playing Dauntless, and only after my MSI Radeon
+RX580 ran hot for a while.  Warframe never crashed.  Totally different methods
+of running the games (Dauntless=Lutris and Epic Games Store, Warframe = Steam
+and Proton).  Something then changed after one of the updates within the last
+month, and now it crashes on both Warframe and Dauntless well before the card
+is at a high temp.  Basically can't run more than about 5 minutes.  
+
+I was running Ubuntu 18.04, so I figured maybe a newer kernel would fix this,
+but updating to 20.10 did nothing but waste a couple of days of reloading
+everything.
+
+System:  Ryzen 5 3600 on Gigabyte x570 UD with a MSI Radeon RX580 8GB
+
+I'm willing to work with whoever sending whatever info/logs are necessary to
+get this fixed.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
