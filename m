@@ -2,62 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C4E2C1F81
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9EA2C1F90
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DCB6E235;
-	Tue, 24 Nov 2020 08:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC2A76E28A;
+	Tue, 24 Nov 2020 08:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CBAA89CB9
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 10:46:51 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id bo9so16836619ejb.13
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 02:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bf3Dad1zscNI33FoKwPu/py5sOPRwrYDQb8QYdxZRy4=;
- b=VyY/UaY2A1uZvQ9rve79LjJiOJL1CI3dvsrV3swg09sAABwIgosjjta5q8zhkrPoZZ
- 5zImlhFEsF3ai58SF4irPNNvGoRzCyvQztYAx8s+zLmSXjGZPa4RtMzUBMMT0cLt23/C
- yHjZ1Yj8/hds3Ex7rjyXLJLmFMIi2ICX9C4t2uVm1Fse395iKjIwzbqEi+10ZfRgT6Iq
- sAq6GIQrrm5vWPAyO3ox79zmrxHRCEhXPNxlT816oaz9+2B3VFo0jHrGboJxWIB/PPoG
- 7W+5YxoOUheRkD5Zysd3l0azMFn4ne6mj/iIiaJTmtMLK+ufVDO7sVGtP0KrUy8Hs0Lm
- QdQg==
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B9B89BE8
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 12:14:01 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id a9so23426311lfh.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 04:14:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DjiKfHQ2jA3vM7VGaFaknOPs7Hmg3cHuudIyVF1TtFs=;
+ b=CMfi6MciH6bpfSGoN1TGnqSBqrbvk/WZCOthEzuu9kuAVb40YeAebEnZp99bo2UFmd
+ WXhO1JkJr6Ntj7U6OlHe0/8Ra8ZfP3TULXSL2Nhg53rfU58FNNnQH9q5ZVxbl6n3mzVl
+ YrwKpxuF+/QVYrG/s2ZyNaM7PK6sVLn6o7uFmy+LriMggqgsEUpfq3u6QTa2JtXNZfbI
+ w7Y25cmZaCGAV0Ea1Ok2CrOd0mZOIychroyvv0aluwM1tQpSGFYto3uAtlV5GmE28b/G
+ q6L8xgGglgvoBt3wYGu7DtpdxIO1tycjMwR7H8f5OK/FQAZ25F/MMzYffMBMDem0Ccc3
+ ud/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bf3Dad1zscNI33FoKwPu/py5sOPRwrYDQb8QYdxZRy4=;
- b=YQZShUf40N6/Okpu9tfERcmeA45aFJpmp/CdKUTihOKoQZRsYDi8Q37xU3vGPmg4Yk
- OWI9Vy6o5zcjGOhHhcBEWe/a38+HkG0G2jhuXz7PEh21AzSwq03y9+tcyM+f5FzpefFb
- 8o4qwAdWJO+tYQwd5SrOT/ritEy2m+oe67GamRtnfX7/EaCix5BE+1XUeXxmhVgjKajx
- LGmQ7Qi2YQP/bkBGiGFXhgR0JgQ69fDVzvfvd7qAGlPgiW4khoB1cqiHnEA2P1/aVuzP
- HDZl6sQcXc+KzzYNG2fYida89dvpdUhDWC0J2CqJCT3oG/3SH9fq2Q6WUSpcWg7ybTDJ
- 74UQ==
-X-Gm-Message-State: AOAM532hOlnq44ZarxSGiueHVsnd84KTEa/mXqRFsEEX514yInPfCGAD
- KXlgdgK65msl+rFkm7qV4sdO/g==
-X-Google-Smtp-Source: ABdhPJyMBnVAkcORAG/kSFMYC3vQyJU5E/KKGMO0DHSQoIjEO9c+wUaT0pEXyAB7B9n3QJvhfEnEuQ==
-X-Received: by 2002:a17:906:468d:: with SMTP id
- a13mr45376085ejr.253.1606128409768; 
- Mon, 23 Nov 2020 02:46:49 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:102f:d6a:f25:a362:ce86:20d])
- by smtp.gmail.com with ESMTPSA id
- gf9sm4792416ejb.18.2020.11.23.02.46.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 02:46:49 -0800 (PST)
-From: Robert Foss <robert.foss@linaro.org>
-To: a.hajda@samsung.com, narmstrong@baylibre.com,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@siol.net, airlied@linux.ie, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- John Stultz <john.stultz@linaro.org>, Peter Collingbourne <pcc@google.com>
-Subject: [PATCH v1] drm/bridge: lt9611: Fix handling of 4k panels
-Date: Mon, 23 Nov 2020 11:46:16 +0100
-Message-Id: <20201123104616.1412688-1-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.27.0
+ bh=DjiKfHQ2jA3vM7VGaFaknOPs7Hmg3cHuudIyVF1TtFs=;
+ b=EtaBJOrTJnxpo9DLh3rs1Y9E9Gv0xZi+43m3f1lbdTkmRa90fXJI7AmOwgp4XuAQeZ
+ vUMx1dk+0IFTJqFMZlcbbIC+Mf3z24MYdzDyii5FFfv3eARd5tEVqeZRPLZV7fMGBDLA
+ QEc2SX+tx/X2XNoJjGOiyQmZESc5y9FNm/G4xmqNANkYOc0nPO2vlO1rIC55Cx5Rp7jm
+ wvH+58u/oMpCGIA7Lc6aGULhTYPBMX54/iqBloajhFhP5WQ8CIwOw7WIFA+1qr/VgHhd
+ 3cybgV9jmb8aOs05UxdAylXBIEbQTL8+pc28D141gp9jpWq2HaV7h2UKgO2wKmKyucJE
+ IUsQ==
+X-Gm-Message-State: AOAM5330P9lbWOp0ZPHuJBGsFb9B6bfd3MAJYQ6jzMsESYMPWoZCz6Vc
+ gQvvEJQJ64FPZhcscKmbJ6TlrQPRIYg=
+X-Google-Smtp-Source: ABdhPJz3EId7FG3SbCnHwZXerIiqFBWY6qT1WhZ9hmI2Ye3Y0OmzOJDJsnE3s7GTG/1UUT7pazvjjQ==
+X-Received: by 2002:ac2:5503:: with SMTP id j3mr14199009lfk.94.1606133639740; 
+ Mon, 23 Nov 2020 04:13:59 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id w15sm1366488lfn.297.2020.11.23.04.13.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Nov 2020 04:13:59 -0800 (PST)
+Subject: Re: [PATCH v10 00/19] Introduce memory interconnect for NVIDIA Tegra
+ SoCs
+To: Viresh Kumar <viresh.kumar@linaro.org>
+References: <20201123002723.28463-1-digetx@gmail.com>
+ <20201123061734.mpmkdxzullrh52o7@vireshk-i7>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1bfbeb36-29b3-30c2-899f-faa5b0682bd7@gmail.com>
+Date: Mon, 23 Nov 2020 15:13:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
+In-Reply-To: <20201123061734.mpmkdxzullrh52o7@vireshk-i7>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,50 +73,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, Anibal Limon <anibal.limon@linaro.org>,
- Vinod Koul <vinod.koul@linaro.org>, Robert Foss <robert.foss@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Georgi Djakov <georgi.djakov@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-4k requires two dsi pipes, so don't report MODE_OK when only a
-single pipe is configured. But rather report MODE_PANEL to
-signal that requirements of the panel are not being met.
-
-Reported-by: Peter Collingbourne <pcc@google.com>
-Suggested-by: Peter Collingbourne <pcc@google.com>
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
-Tested-by: John Stultz <john.stultz@linaro.org>
----
- drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index d734d9402c35..e8eb8deb444b 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
- 						     const struct drm_display_mode *mode)
- {
- 	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
-+	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
- 
--	return lt9611_mode ? MODE_OK : MODE_BAD;
-+	if (!lt9611_mode)
-+		return MODE_BAD;
-+	else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-+		return MODE_PANEL;
-+	else
-+		return MODE_OK;
- }
- 
- static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
--- 
-2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MjMuMTEuMjAyMCAwOToxNywgVmlyZXNoIEt1bWFyINC/0LjRiNC10YI6Cj4gT24gMjMtMTEtMjAs
+IDAzOjI3LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IFRoaXMgc2VyaWVzIGJyaW5ncyBpbml0
+aWFsIHN1cHBvcnQgZm9yIG1lbW9yeSBpbnRlcmNvbm5lY3QgdG8gVGVncmEyMCwKPj4gVGVncmEz
+MCBhbmQgVGVncmExMjQgU29Dcy4KPj4KPj4gRm9yIHRoZSBzdGFydGVyIG9ubHkgZGlzcGxheSBj
+b250cm9sbGVycyBhbmQgZGV2ZnJlcSBkZXZpY2VzIGFyZSBnZXR0aW5nCj4+IGludGVyY29ubmVj
+dCBBUEkgc3VwcG9ydCwgb3RoZXJzIGNvdWxkIGJlIHN1cHBvcnRlZCBsYXRlciBvbi4gVGhlIGRp
+c3BsYXkKPj4gY29udHJvbGxlcnMgaGF2ZSB0aGUgYmlnZ2VzdCBkZW1hbmQgZm9yIGludGVyY29u
+bmVjdCBBUEkgcmlnaHQgbm93IGJlY2F1c2UKPj4gZHluYW1pYyBtZW1vcnkgZnJlcXVlbmN5IHNj
+YWxpbmcgY2FuJ3QgYmUgZG9uZSBzYWZlbHkgd2l0aG91dCB0YWtpbmcgaW50bwo+PiBhY2NvdW50
+IGJhbmR3aWR0aCByZXF1aXJlbWVudCBmcm9tIHRoZSBkaXNwbGF5cy4gSW4gcGFydGljdWxhciB0
+aGlzIHNlcmllcwo+PiBmaXhlcyBkaXN0b3J0ZWQgZGlzcGxheSBvdXRwdXQgb24gVDMwIE91eWEg
+YW5kIFQxMjQgVEsxIGRldmljZXMuCj4+Cj4+IENoYW5nZWxvZzoKPj4KPj4gdjEwIC0gSW4gYSBs
+b25nZXIgcnVuIGl0IHdpbGwgYmUgbXVjaCBuaWNlciBpZiB3ZSBjb3VsZCBzdXBwb3J0IEVNQwo+
+PiAgICAgICBoYXJkd2FyZSB2ZXJzaW9uaW5nIG9uIFRlZ3JhMjAgYW5kIGl0J3Mgbm90IGxhdGUg
+dG8gc3VwcG9ydCBpdCBub3cuCj4+ICAgICAgIEhlbmNlIEkgYWRkZWQgdGhlc2UgbmV3IHBhdGNo
+ZXM6Cj4+Cj4+ICAgICAgICAgZHQtYmluZGluZ3M6IG1lbW9yeTogdGVncmEyMDogZW1jOiBEb2N1
+bWVudCBvcHAtc3VwcG9ydGVkLWh3IHByb3BlcnR5Cj4+ICAgICAgICAgbWVtb3J5OiB0ZWdyYTIw
+OiBTdXBwb3J0IGhhcmR3YXJlIHZlcnNpb25pbmcgYW5kIGNsZWFuIHVwIE9QUCB0YWJsZSBpbml0
+aWFsaXphdGlvbgo+Pgo+PiAgICAgLSBSZW1vdmVkIGVycm9yIG1lc3NhZ2UgZnJvbSB0ZWdyYTMw
+LWRldmZyZXEgZHJpdmVyIGFib3V0IG1pc3NpbmcgT1BQCj4+ICAgICAgIHByb3BlcnRpZXMgaW4g
+YSBkZXZpY2UtdHJlZSBiZWNhdXNlIEVNQyBkcml2ZXIgYWxyZWFkeSBwcmludHMgdGhhdAo+PiAg
+ICAgICBtZXNzYWdlIGFuZCBpdCB1c2VzIE9QUCBBUEkgZXJyb3IgY29kZSBpbnN0ZWFkIG9mIGNo
+ZWNraW5nIERUIGRpcmVjdGx5LAo+PiAgICAgICB3aGljaCBpcyBhIG1vcmUgY29ycmVjdCB3YXkg
+b2YgZG9pbmcgdGhhdC4KPiAKPiBMb29rcyBnb29kIHRvIG1lIChmcm9tIE9QUCBBUElzIHVzYWdl
+IHBlcnNwZWN0aXZlKS4gVGhhbmtzIGZvcgo+IGNvbnRpbnVpbmcgd2l0aCB0aGlzIGFuZCBmaXhp
+bmcgYWxsIHRoZSBpc3N1ZXMgRG1pdHJ5Lgo+IAoKSGVsbG8gVmlyZXNoLAoKVGhhbmsgeW91IGZv
+ciBhbGwgdGhlIGNsYXJpZmljYXRpb25zIGFuZCBmb3IgcmV2aWV3aW5nIG9mIHRoZSBwYXRjaGVz
+IQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
