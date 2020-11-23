@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E5A2C144F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 20:27:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C96E2C1450
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 20:28:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B9756E072;
-	Mon, 23 Nov 2020 19:27:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A0DB6E07B;
+	Mon, 23 Nov 2020 19:28:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2252F6E072
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 19:27:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE396E07B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 19:28:01 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 4B4E220062;
- Mon, 23 Nov 2020 20:27:37 +0100 (CET)
-Date: Mon, 23 Nov 2020 20:27:36 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 3114E20063;
+ Mon, 23 Nov 2020 20:27:59 +0100 (CET)
+Date: Mon, 23 Nov 2020 20:27:57 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 09/10] drm/fb-helper: Copy dma-buf map before flushing
- shadow fb
-Message-ID: <20201123192736.GH664585@ravnborg.org>
+Subject: Re: [PATCH v2 10/10] drm/fb-helper: Acquire modeset lock around
+ shadow-buffer flushing
+Message-ID: <20201123192757.GI664585@ravnborg.org>
 References: <20201120102545.4047-1-tzimmermann@suse.de>
- <20201120102545.4047-10-tzimmermann@suse.de>
+ <20201120102545.4047-11-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201120102545.4047-10-tzimmermann@suse.de>
+In-Reply-To: <20201120102545.4047-11-tzimmermann@suse.de>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=mf478Ei9RAXvuI5lB2cA:9
- a=CjuIK1q_8ugA:10 a=MA0ZqIdP2fwA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=1GCu4XmpyLFOX3tMFFgA:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,9 +51,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 20, 2020 at 11:25:44AM +0100, Thomas Zimmermann wrote:
-> Copy the vmap()'ed instance of struct dma_buf_map before modifying it,
-> in case the implementation of vunmap() depends on the exact address.
+On Fri, Nov 20, 2020 at 11:25:45AM +0100, Thomas Zimmermann wrote:
+> Flushing the fbdev's shadow buffer requires vmap'ing the BO memory, which
+> in turn requires pinning the BO. While being pinned, the BO cannot be moved
+> into VRAM for scanout. Consequently, a concurrent modeset operation that
+> involves the fbdev framebuffer would likely fail.
+> 
+> Resolve this problem be acquiring the modeset lock of the planes that use
+> the fbdev framebuffer. On non-atomic drivers, also acquire the mode-config
+> lock. This serializes the flushing of the framebuffer with concurrent
+> modeset operations.
+> 
+> v2:
+> 	* only acquire struct drm_fb_helper.lock in damage blitter (Daniel,
+> 	  Christian)
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
