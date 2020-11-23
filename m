@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D6A2C0F20
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 16:44:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C812C0F24
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 16:45:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2263589870;
-	Mon, 23 Nov 2020 15:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4019089A0F;
+	Mon, 23 Nov 2020 15:45:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E95989791
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 15:44:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AD889A0F
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 15:45:33 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210317] New: Sleep mode not working in ryzen 4000 laptop
-Date: Mon, 23 Nov 2020 15:44:28 +0000
+Subject: [Bug 210317] Sleep mode not working in ryzen 4000 laptop
+Date: Mon, 23 Nov 2020 15:45:32 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-210317-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210317-2300-JiRTOfNkJ9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210317-2300@https.bugzilla.kernel.org/>
+References: <bug-210317-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -58,32 +58,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210317
 
-            Bug ID: 210317
-           Summary: Sleep mode not working in ryzen 4000 laptop
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.10.rc4
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: high
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: sujay1844@protonmail.com
-        Regression: No
-
-Created attachment 293787
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293787&action=edit
-Output of inxi -Fxz
-
-I have an Acer Swift 3 with AMD Ryzen 5 4500U running Manjaro. When I close and
-open the laptop lid, the screen doesn't turn back on but the keyboard backlight
-does. If I remember correctly, when I installed 5.10.rc2, sleep worked normally
-for exactly twice and then never again till now. I have the output of inxi -Fxz
-in a text file attached. This is my first ever bug report so hopefully I have
-given all the required information.
+--- Comment #1 from Sujay1844 (sujay1844@protonmail.com) ---
+btw the same issue persists for 5.6, 5.7, 5.8 and 5.9 kernels.
 
 -- 
 You are receiving this mail because:
