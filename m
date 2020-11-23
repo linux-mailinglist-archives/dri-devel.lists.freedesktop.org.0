@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68AF52C1150
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 18:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FCE2C11E2
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 18:25:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446436E055;
-	Mon, 23 Nov 2020 17:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECFE46E054;
+	Mon, 23 Nov 2020 17:25:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A29356E055
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 17:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606151171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ETdBmUCF01QVQJOZ+sQu9TUGQeVKu9xOEmE1E5gBvfU=;
- b=BtEofZ03By1sp6OyH8lSI6IT4Bb/Q48OsWV2XnBXmdgQcceGh9rKSaQV86czSHO4W4CJHn
- vUaUaH4n0l1WmtKl1NY4JjZQEtZdHR6F0okj/kLdyZp+LnqjvTzaYPmjipu9+IS6RcbTNg
- lanzsvwsZXvmVS2IMlU/0SstZMlkjqs=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-177-S3bM1eXMPjuJD2gsTksNbQ-1; Mon, 23 Nov 2020 12:06:09 -0500
-X-MC-Unique: S3bM1eXMPjuJD2gsTksNbQ-1
-Received: by mail-qv1-f69.google.com with SMTP id o16so110456qvq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 09:06:09 -0800 (PST)
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 258986E054
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 17:25:06 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id y73so9540348vsc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 09:25:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YSNrpJ4OndNC4w4ulPWCJT3NfGZKd/DmZdSIZa2BOxk=;
+ b=nJp+E2XRY1AUEhkNEZ0HQHS0mF2b3UiEjmB0eFubyH+jomZHsIxS/S+CRJNMqXa1VJ
+ 5n94PenFnPDOTRSaNBhD1MUdycYZCzk31+4LRFmjGOBHqYTvqIs2NAX9q1aY3ueWjQ57
+ qRBCLSSlShNkU0MAOjUEX+nlzwIIqXAL/+ZpM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ETdBmUCF01QVQJOZ+sQu9TUGQeVKu9xOEmE1E5gBvfU=;
- b=M+q0VHtn2oCExBZCuMmx/F2ZaJbFULbJDfs5DXg2yWMIttkrLo40JMJsRvtbEfoTGH
- uYNhSnuxilcbKbZT7ewMmUt4FoluFXXfopQBGsikNLufmVTjbRB68CZymLvPAXRhXMac
- jsM1zHkoEp9sdO99KVl1o1yBvzl1FseFcJCfWTi126yEt1aD0sUUXrJGSVCsawK5HwFT
- pMGWIIvfaQjxZGHZOwgiG0F4DK6IhIOjv72XYYPKNYVrLp8di+L1QRNcDvxluOAORThu
- TWUd2b92OOr4/voCybEiOUndnYoYllshxLXtA8am0BKcNKB+UOSlYW8fFIo41SrMDspO
- lW6Q==
-X-Gm-Message-State: AOAM530LNpzr0oef6lz/3Q8eXeh8QOo10fCRGyLr8kHziNzV85rH4q9U
- o8d148650mxpKiRzUs7+0tGUcl9L0+Hnui6sCccZjnTKPaBuSRNAnJitU7tit1RbK5QswX2Kqyw
- Ek/4cOWeTxs6lKyXWgiSMEdQF7vaB
-X-Received: by 2002:ac8:5d53:: with SMTP id g19mr70877qtx.354.1606151168819;
- Mon, 23 Nov 2020 09:06:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHR8oVpP3xv7xpCkK6lH4mawBfXgRI3GL2dEiLGp13/vfLrDKV7SBtsWnvpv2iFDtHltekRw==
-X-Received: by 2002:ac8:5d53:: with SMTP id g19mr70839qtx.354.1606151168572;
- Mon, 23 Nov 2020 09:06:08 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id o187sm10226153qkb.120.2020.11.23.09.06.04
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YSNrpJ4OndNC4w4ulPWCJT3NfGZKd/DmZdSIZa2BOxk=;
+ b=ceEJ6PH5hOvdLKcp71T/Ke2klPlXEiuw1n4y+c5j+6Q/GYtq9F9szS4PWyGejis8eE
+ cuX+Cho5Kaa7UiW0aU0IrjfrNuiS4dXD2Ck0tFV/miHh0XP52fm/AHbcPgapJCixoeA9
+ ebSKbtsFGGglcqQo+66XPCBHmQq3F8+88/8QhxUvovBud18IPSQFxQ8rn6dLLyAyd17a
+ sW2pbs3IuqkCvDzYZozpStiS+CzzHqtOjAlYujfUQM4MlRlkS1lemEFg28mHlVOrZTC9
+ Fc/8/4beJui9XWYgbgw6eOjZJE3iEtEhddvD1MJVNH5KEeE5nqYBynVHDjm8ouSw+gQI
+ WrOA==
+X-Gm-Message-State: AOAM532Ffp0EAt8GA+qr2CamwutGrO/aq+g8OblSOu59QM+jqN/2RU7f
+ LziyKCPFmhE0d5Bh/pPos9H5QoBM13Aoyw==
+X-Google-Smtp-Source: ABdhPJw2XM8h4Cv2nBv9WOdBIg+xsl6MnrFiHiQraWt7Roac1DdAZrKHe8TffaqrGOZoN70e+9QOHA==
+X-Received: by 2002:a67:ce8e:: with SMTP id c14mr846990vse.42.1606152304759;
+ Mon, 23 Nov 2020 09:25:04 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com.
+ [209.85.222.44])
+ by smtp.gmail.com with ESMTPSA id o193sm1573693vkd.27.2020.11.23.09.25.03
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Nov 2020 09:06:07 -0800 (PST)
-Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-To: Joe Perches <joe@perches.com>, clang-built-linux@googlegroups.com
-References: <20201121165058.1644182-1-trix@redhat.com>
- <2105f0c05e9eae8bee8e17dcc5314474b3c0bc73.camel@perches.com>
- <6e8c1926-4209-8f10-d0f9-72c875a85a88@redhat.com>
- <859bae8ddae3238116824192f6ddf1c91a381913.camel@perches.com>
-From: Tom Rix <trix@redhat.com>
-Message-ID: <88eeba27-ee36-df63-8cd9-3cccbe5e0850@redhat.com>
-Date: Mon, 23 Nov 2020 09:06:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Mon, 23 Nov 2020 09:25:03 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id g3so5891396uae.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 09:25:03 -0800 (PST)
+X-Received: by 2002:a9f:24eb:: with SMTP id 98mr611949uar.90.1606152302603;
+ Mon, 23 Nov 2020 09:25:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <859bae8ddae3238116824192f6ddf1c91a381913.camel@perches.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+References: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
+In-Reply-To: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 23 Nov 2020 09:24:50 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WEL8OyZLGrdVz54XaHS-56D8zbKyN2ZZcnPMsHezPrbQ@mail.gmail.com>
+Message-ID: <CAD=FV=WEL8OyZLGrdVz54XaHS-56D8zbKyN2ZZcnPMsHezPrbQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] drm: panel: simple: Fixup the struct panel_desc
+ kernel doc
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,87 +69,57 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-scsi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- cluster-devel@redhat.com, linux-acpi@vger.kernel.org,
- tboot-devel@lists.sourceforge.net, coreteam@netfilter.org,
- xen-devel@lists.xenproject.org, MPT-FusionLinux.pdl@broadcom.com,
- linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
- intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
- linux-omap@vger.kernel.org, devel@acpica.org, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
+Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 11/22/20 10:22 AM, Joe Perches wrote:
-> On Sun, 2020-11-22 at 08:33 -0800, Tom Rix wrote:
->> On 11/21/20 9:10 AM, Joe Perches wrote:
->>> On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
->>>> A difficult part of automating commits is composing the subsystem
->>>> preamble in the commit log.  For the ongoing effort of a fixer producing
->>>> one or two fixes a release the use of 'treewide:' does not seem appropriate.
->>>>
->>>> It would be better if the normal prefix was used.  Unfortunately normal is
->>>> not consistent across the tree.
->>>>
->>>> So I am looking for comments for adding a new tag to the MAINTAINERS file
->>>>
->>>> 	D: Commit subsystem prefix
->>>>
->>>> ex/ for FPGA DFL DRIVERS
->>>>
->>>> 	D: fpga: dfl:
->>> I'm all for it.  Good luck with the effort.  It's not completely trivial.
->>>
->>> From a decade ago:
->>>
->>> https://lore.kernel.org/lkml/1289919077.28741.50.camel@Joe-Laptop/
->>>
->>> (and that thread started with extra semicolon patches too)
->> Reading the history, how about this.
->>
->> get_maintainer.pl outputs a single prefix, if multiple files have the
->> same prefix it works, if they don't its an error.
->>
->> Another script 'commit_one_file.sh' does the call to get_mainainter.pl
->> to get the prefix and be called by run-clang-tools.py to get the fixer
->> specific message.
-> It's not whether the script used is get_maintainer or any other script,
-> the question is really if the MAINTAINERS file is the appropriate place
-> to store per-subsystem patch specific prefixes.
+On Mon, Nov 9, 2020 at 5:01 PM Douglas Anderson <dianders@chromium.org> wrote:
 >
-> It is.
+> When I run:
+>   scripts/kernel-doc -rst drivers/gpu/drm/panel/panel-simple.c
 >
-> Then the question should be how are the forms described and what is the
-> inheritance priority.  My preference would be to have a default of
-> inherit the parent base and add basename(subsystem dirname).
+> I see that several of the kernel-doc entries aren't showing up because
+> they don't specify the full path down the hierarchy.  Let's fix that
+> and also move to inline kernel docs.
 >
-> Commit history seems to have standardized on using colons as the separator
-> between the commit prefix and the subject.
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 >
-> A good mechanism to explore how various subsystems have uses prefixes in
-> the past might be something like:
+> Changes in v4:
+> - ("drm: panel: simple: Fixup the struct panel_desc kernel doc") new for v4.
 >
-> $ git log --no-merges --pretty='%s' -<commit_count> <subsystem_path> | \
->   perl -n -e 'print substr($_, 0, rindex($_, ":") + 1) . "\n";' | \
->   sort | uniq -c | sort -rn
+>  drivers/gpu/drm/panel/panel-simple.c | 59 ++++++++++++++++++++--------
+>  1 file changed, 42 insertions(+), 17 deletions(-)
 
-Thanks, I have shamelessly stolen this line and limited the commits to the maintainer.
+I'm curious if there are any outstanding actions I need to take for
+this series.  I know I found that on patch #4 I should have added the
+sync flags [1] but I was waiting to see if there was any other
+feedback before sending a v5.  If there's nothing else I'm happy with
+any of:
 
-I will post something once the generation of the prefixes is done.
+a) I can send a v5 with that small fix.
 
-Tom
+b) v4 can land an the maintainer landing can add the ".flags =
+DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC," into the patch when
+landing.
 
+c) v4 can land and I can send a follow-up patch with the sync flags fix.
+
+I know it's the holidays right now and folks are busy, but I just
+wanted to see if there were any actions I needed to take.  Personally
+I'm on vacation the last 3 days this week and I imagine I'll come back
+to work Monday swamped with email, so today/tomorrow would be an ideal
+time to send a spin if one is needed.  Thanks!
+
+-Doug
+
+[1] https://lore.kernel.org/r/CAD=FV=UPkuJ5E2sCQeozNR3CO+LZW=DW9h77vfooeiSMqGnYpA@mail.gmail.com
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
