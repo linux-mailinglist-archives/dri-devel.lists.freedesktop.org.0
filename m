@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E08A2C0432
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF922C0430
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9AF989FC9;
-	Mon, 23 Nov 2020 11:20:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB0A8945B;
+	Mon, 23 Nov 2020 11:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F1C89FAD
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:20:08 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id p19so12927524wmg.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:20:08 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2628689F8E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:20:10 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id l1so18174057wrb.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=O0idKtGJTZ3eV2wLeGxjJ8blqSNYptwaWGPv5a5zic4=;
- b=hQxod/4O674zszb8RygkHLWu7NdAN+sjg/VYnQ1fWPLJQi+nO7oS/Q9B2PMoGUnfll
- u+d3BZWc4kp0yQUQXXMUoHnDNrgLelIdYT28LHhDGxoX17+8/oHPznTGWlh3N4BrKygd
- DMplyGtPJGFYBKof4mNSv2Y/5DuUfaJ7csCtOnuuOCNMMvI4IU7xiL7+hqdJaFoqHKiU
- /JzeUWNEJxi6vtabgHU5bE4Th+FL0Yuyw0sGYSYN8IiQykCkkczthgeTADQHfxbzuqfL
- ILU95YU9qbtYsl9Myx7i1hvj/fStJMZ5Y/HqcLvEIJb0pbliVeEyEV7HxZu/3HmtvbdP
- huqA==
+ bh=x7j4MAG3aMMAv+exH325swHGJEpjCRvoAo6+eP0jclY=;
+ b=lNK83QJS2ndVONnSis4ixIX5b3SXdsncFYR912rIshpJ18Ac3nGF4AFjIcTh74QQTU
+ WluvQPGONjU4NiFHaL4NTrNzC5IHdE3V0VQdNQ3pNKFyj11k+WjmlKX89yB5dimcFiov
+ 2f+MUMxY1HN5Z5LEbCTgklsEbN10IyQlYZBnA9RD3eqC9W6IzpjireyMxOiBAt9eA88J
+ Zj84a3y/mcHqA778ECrH8x2HuPUV/EFDP3URDRVk9vBqYxtzvTbcm587B2X6oGYOp9FV
+ L7vr57zATASuA1lLNskOEsiqrz50jCw1zFOMavSoUnLiKimFhQkVlXh0nOwOOG+ikK8b
+ XalA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O0idKtGJTZ3eV2wLeGxjJ8blqSNYptwaWGPv5a5zic4=;
- b=YXyZb9Kk5jsNWZwKQHgVErAp14tIVfOFhAbDGJczmq6OcSrOFtJLdqX7ysslV5kSTx
- poer+CGB3KJ4V8DWUrVFgatiDHSe0jNi77HDzmTb0JxLP5uk7vbirHjn2CxIIJNAFM2/
- yfMveFcoqbgqRrLDIB72FMG3Q4ObXeDQrPwrueAOtY9yxRvzB/pypLG8hfOzF2zh/8v0
- SBAx56le0G5/6F9svMJwfQ3fulP4OpAtKj8yecxO0hxM/l2fCJsGdXY4xlxmG6eeIK5+
- w6yjq5h2u860mHAgyx8CqOmS8JI9X4JiDEDKWz21KKZ39R6GZMJ+GL6OzYw8eM6gzDG3
- P71A==
-X-Gm-Message-State: AOAM5316bzVoeVOcZw8I1QXAXNol6SBmsCgM5RQe19hiYVivW1PnCtvs
- ETJhmvtsZ3fOAouwe+USmDCVVA==
-X-Google-Smtp-Source: ABdhPJyY8lH30XYo80J+rnqQXr9BnzfsFnx27ygSUV7MIdA3y1Hs37Qs509j3j5OsS3eU3WorwBbrA==
-X-Received: by 2002:a1c:f017:: with SMTP id a23mr23705686wmb.56.1606130407603; 
- Mon, 23 Nov 2020 03:20:07 -0800 (PST)
+ bh=x7j4MAG3aMMAv+exH325swHGJEpjCRvoAo6+eP0jclY=;
+ b=preVOpjVm/BnVCvl/DZhiHgrz7UmvN8CzKwrU3iMOAT1ZS0o0mk/rThFQsRBrwYJ0O
+ q+RfM1GKf8/gPOJ1N1iAUHuAqegIv7YLTAHM+enQY4pajeB5VT+8kdi947N9YpmX6SDy
+ Nd6NRZ1rF4TH/xWsKQ5+P0LhmmcEPo1H5p5VwK8fgVMu6bgd6eYBLVfjM+a4Lvl1I8WJ
+ 2QVOqPE9God+J7KmuK9qcMeHSqBFxv0qtXnnRB00LuHBk1O/ZX0ZPJ3eGMSfDYsu7yai
+ cCAXnAeWgcsM0XDMezZWe/UbLgfcsYHItu3ylViXwgUoYVBpriEl6H7DHR5AHIzNzcUG
+ 7zXw==
+X-Gm-Message-State: AOAM531qC/0BwEvivYYYGlXp73WqHtwyZ9i4MQQVGjF38n3zgtnowBsq
+ wDSfYZY7v83bmtKJzxiZcrUaTA==
+X-Google-Smtp-Source: ABdhPJzPAspljYVUUQw5F7zFIQt0YEnWI6OkhToahK3/SXM47FmrLku1L0vKnxwWd6+xB4+RbhoiJw==
+X-Received: by 2002:a5d:6892:: with SMTP id h18mr30002591wru.49.1606130408851; 
+ Mon, 23 Nov 2020 03:20:08 -0800 (PST)
 Received: from dell.default ([91.110.221.218])
- by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.20.06
+ by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:20:06 -0800 (PST)
+ Mon, 23 Nov 2020 03:20:08 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 32/40] drm/msm/disp/dpu1/dpu_vbif: Fix a couple of function
- param descriptions
-Date: Mon, 23 Nov 2020 11:19:11 +0000
-Message-Id: <20201123111919.233376-33-lee.jones@linaro.org>
+Subject: [PATCH 33/40] drm/amd/amdgpu/cik_sdma: Add one and remove another
+ function param description
+Date: Mon, 23 Nov 2020 11:19:12 +0000
+Message-Id: <20201123111919.233376-34-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201123111919.233376-1-lee.jones@linaro.org>
 References: <20201123111919.233376-1-lee.jones@linaro.org>
@@ -67,48 +67,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ Alex Deucher <alexander.deucher@amd.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following W=1 kernel build warning(s):
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c:150: warning: Function parameter or member 'dpu_kms' not described in 'dpu_vbif_set_ot_limit'
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c:150: warning: Excess function parameter 'vbif' description in 'dpu_vbif_set_ot_limit'
-
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-index 5e8c3f3e66256..7e08f40e7e6fe 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_vbif.c
-@@ -140,7 +140,7 @@ static u32 _dpu_vbif_get_ot_limit(struct dpu_hw_vbif *vbif,
- 
- /**
-  * dpu_vbif_set_ot_limit - set OT based on usecase & configuration parameters
-- * @vbif:	Pointer to hardware vbif driver
-+ * @dpu_kms:	DPU handler
-  * @params:	Pointer to usecase parameters
-  *
-  * Note this function would block waiting for bus halt.
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRncHUvY2lrX3NkbWEuYzoyODI6IHdhcm5pbmc6IEZ1bmN0aW9uIHBh
+cmFtZXRlciBvciBtZW1iZXIgJ2ZsYWdzJyBub3QgZGVzY3JpYmVkIGluICdjaWtfc2RtYV9yaW5n
+X2VtaXRfZmVuY2UnCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jaWtfc2RtYS5jOjI4Mjog
+d2FybmluZzogRXhjZXNzIGZ1bmN0aW9uIHBhcmFtZXRlciAnZmVuY2UnIGRlc2NyaXB0aW9uIGlu
+ICdjaWtfc2RtYV9yaW5nX2VtaXRfZmVuY2UnCgpDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5kZXIu
+ZGV1Y2hlckBhbWQuY29tPgpDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmln
+QGFtZC5jb20+CkNjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+CkNjOiBEYW5pZWwg
+VmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+CkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBs
+aW5hcm8ub3JnPgpDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZwpD
+YzogbGluYXJvLW1tLXNpZ0BsaXN0cy5saW5hcm8ub3JnClNpZ25lZC1vZmYtYnk6IExlZSBKb25l
+cyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUv
+Y2lrX3NkbWEuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9jaWtf
+c2RtYS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvY2lrX3NkbWEuYwppbmRleCBmMWU5
+OTY2ZTcyNDRlLi4yOGE2NGRlOGFlMGU2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1k
+L2FtZGdwdS9jaWtfc2RtYS5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Npa19z
+ZG1hLmMKQEAgLTI3MSw3ICsyNzEsNyBAQCBzdGF0aWMgdm9pZCBjaWtfc2RtYV9yaW5nX2VtaXRf
+aGRwX2ZsdXNoKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZykKICAqIEByaW5nOiBhbWRncHUgcmlu
+ZyBwb2ludGVyCiAgKiBAYWRkcjogYWRkcmVzcwogICogQHNlcTogc2VxdWVuY2UgbnVtYmVyCi0g
+KiBAZmVuY2U6IGFtZGdwdSBmZW5jZSBvYmplY3QKKyAqIEBmbGFnczogZmVuY2UgcmVsYXRlZCBm
+bGFncwogICoKICAqIEFkZCBhIERNQSBmZW5jZSBwYWNrZXQgdG8gdGhlIHJpbmcgdG8gd3JpdGUK
+ICAqIHRoZSBmZW5jZSBzZXEgbnVtYmVyIGFuZCBETUEgdHJhcCBwYWNrZXQgdG8gZ2VuZXJhdGUK
+QEAgLTI3OSw3ICsyNzksNyBAQCBzdGF0aWMgdm9pZCBjaWtfc2RtYV9yaW5nX2VtaXRfaGRwX2Zs
+dXNoKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZykKICAqLwogc3RhdGljIHZvaWQgY2lrX3NkbWFf
+cmluZ19lbWl0X2ZlbmNlKHN0cnVjdCBhbWRncHVfcmluZyAqcmluZywgdTY0IGFkZHIsIHU2NCBz
+ZXEsCiAJCQkJICAgICB1bnNpZ25lZCBmbGFncykKLXsKKyAgewogCWJvb2wgd3JpdGU2NGJpdCA9
+IGZsYWdzICYgQU1ER1BVX0ZFTkNFX0ZMQUdfNjRCSVQ7CiAJLyogd3JpdGUgdGhlIGZlbmNlICov
+CiAJYW1kZ3B1X3Jpbmdfd3JpdGUocmluZywgU0RNQV9QQUNLRVQoU0RNQV9PUENPREVfRkVOQ0Us
+IDAsIDApKTsKLS0gCjIuMjUuMQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8v
+ZHJpLWRldmVsCg==
