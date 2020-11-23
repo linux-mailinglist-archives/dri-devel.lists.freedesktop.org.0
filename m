@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14882C041C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8344B2C042D
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:20:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F04289EA6;
-	Mon, 23 Nov 2020 11:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDE189FDD;
+	Mon, 23 Nov 2020 11:20:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7672C89D4F
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:19:51 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id k2so18248181wrx.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:19:51 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B5D89D77
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:19:49 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id p22so17511979wmg.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 03:19:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5/zamWA9w0pOX2DctOX3yJEbpsZvbeKEF08oXx4R0JI=;
- b=OuMa9UaWIFPj86BbHXSs73Xo1Pusn+Lxmxt+3cAZmcGB5PQm7gFVsRy18MW3/CEdGv
- iiA7WZtPwOLtaRQDjnprrZephkR0OYEKOS7XhRvpvIUztFc15DlQ/HmBW27rHUvUGZ84
- xhQ13Jr83ctPTHNSZ2le8pTffof04hJ1dSgQKDsytfWNIgDhfi0BPTGwBEzBStmbG3Ia
- R0VKK2mdmfJ8jgYuljfIm3fX7cqTJkCg99LNM7I+2GAi5zHL7r+58DG3PHKZAxzEz//C
- TbiL/JlgCJ172UmD3iTorkzYwpyYtsN6u5GIdRGXQsxUYjYAfQjetzPTotyFYsdi71hQ
- 9tww==
+ bh=gKoITWdb0NAA2TK8pxTD/cxHUBVgW9vDIRLy1VQg+s8=;
+ b=CCyxnCMqaD6iY/pHwlqr9sW8pQD8avE8KqZDp/baOaadch63BqfnmFUxC2u2xSnwXi
+ JdKYp2wkcbJrzPIfpMoT6gtkHiai7DA2fnb3Ws2X24klPs4fyBX4jEyX8ZxxPfqHxDG+
+ Vr1ZKgJ15buJstTI+jCKRRnmDMwLjmqcWMNXvRDm4BreDc2ty++tMdtvs82ZJINBUEyi
+ /v+3eNY7PEWmWw5QzyOxBTpZ++zFTFv8a4GFEiy9xHCHE5PwKDw74pGHOziGcFNx47bV
+ 7AjL24ldFFtcp5lNCyqo/6Y0Rf44GruO/z3TIyADZ2Tn8lmp7g9LNdt96ZB5rZUly6Ld
+ Im/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5/zamWA9w0pOX2DctOX3yJEbpsZvbeKEF08oXx4R0JI=;
- b=iVqF6fIYtuDfJTJlNzSNHVqqnSFolpQiFSxaERuICQc0atAkVsf0HHhAeScqPXMGBF
- utUBiZupnjlsI8VNZh1oK2MuydEUMa3oAYUCeCnsjA2hLki77zI2Dn1OguSJzhqkB+/A
- I/ZWFjiI0KYfh6H7ALL5UW4iPIH4xL0rekKq4dbLFComfhG24r2lvrfkCQ7IIMz8B44S
- q6id9Kg1S7080SqX4arf5v4Dgdrs/s6I5DONp7uXWOa5uf28fFBlz+DYwCTUdb8ghAul
- 1Mp5CQRfX3dgUmfVlJtGmAmIr/6ksHWgYjPeWCDOu8SZ9RYzucAYmRfGsH2iT1C7UGl+
- LWeA==
-X-Gm-Message-State: AOAM533eNkeCakznRE0CP2caDpLPiHAOOdAMGS3iMHW1xT6Ee2NC5anB
- dQ+WDhhfIUyno6rrKf6/9VSI/A==
-X-Google-Smtp-Source: ABdhPJygg5mGjWKEpUGK18y+BwQVZ6dGUYGr/KB94FrRZQtceWE1L+PTGjoAE/gZYYVeSTSbikPGAQ==
-X-Received: by 2002:adf:fec6:: with SMTP id q6mr30804236wrs.168.1606130386916; 
- Mon, 23 Nov 2020 03:19:46 -0800 (PST)
+ bh=gKoITWdb0NAA2TK8pxTD/cxHUBVgW9vDIRLy1VQg+s8=;
+ b=Gi7F4K61BpxB43FglnaI73eNydXaVzbF5UswR79oufMcxsZYRgRGOWHu3JOMoxYFn7
+ F6Beh2SisoFPrcHsSpljNVT//3pmhVdTOTv3HN6DeQzhk0bSrt7EATegKFWO9FXtV14W
+ PNfVi25rEi6pixppsbNhI+wLjS/QogzRYyVMP85thlAWyB23YPe7x2SDfnc+26xGmT28
+ 7r6ThTV91AaKmN9JePo9SOYtoM1JwFpzfTuRFbPPLqIq0xZiDuuwzvN2Q8mS9D36d+am
+ v1gKowHTutMGZnoYh5AWYVb8G7Yft5zwfJhy28wKoDdYZ8SamTnMi4O6VdabRDQkJ8lC
+ mkRQ==
+X-Gm-Message-State: AOAM532asY6vJKAtMZdCEMFk2zD1hJN5KFRWrEU3+109JwzrDqG11hhZ
+ t8qz2so0wdl9ndGUoQfcnb2RLFmc+22uHbdG
+X-Google-Smtp-Source: ABdhPJwFR9JH8+waSGmVuFK54gn5FZd4IubjIUGmE3hzei8uwpKEfY8VjOTl1bSxhPdXOJ9MukO0MQ==
+X-Received: by 2002:a1c:1bcb:: with SMTP id
+ b194mr23539889wmb.139.1606130388099; 
+ Mon, 23 Nov 2020 03:19:48 -0800 (PST)
 Received: from dell.default ([91.110.221.218])
- by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.19.45
+ by smtp.gmail.com with ESMTPSA id n9sm16317290wmd.4.2020.11.23.03.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 03:19:46 -0800 (PST)
+ Mon, 23 Nov 2020 03:19:47 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 19/40] drm/msm/disp/dpu1/dpu_hw_lm: Fix misnaming of parameter
- 'ctx'
-Date: Mon, 23 Nov 2020 11:18:58 +0000
-Message-Id: <20201123111919.233376-20-lee.jones@linaro.org>
+Subject: [PATCH 20/40] drm/msm/disp/dpu1/dpu_hw_sspp: Fix kernel-doc
+ formatting abuse
+Date: Mon, 23 Nov 2020 11:18:59 +0000
+Message-Id: <20201123111919.233376-21-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201123111919.233376-1-lee.jones@linaro.org>
 References: <20201123111919.233376-1-lee.jones@linaro.org>
@@ -67,9 +68,10 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: freedreno@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sean Paul <sean@poorly.run>
+Cc: freedreno@lists.freedesktop.org, Jonathan Marek <jonathan@marek.ca>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -77,34 +79,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c:55: warning: Function parameter or member 'ctx' not described in '_stage_offset'
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c:55: warning: Excess function parameter 'c' description in '_stage_offset'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:240: warning: Function parameter or member 'ctx' not described in 'dpu_hw_sspp_setup_format'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:240: warning: Function parameter or member 'fmt' not described in 'dpu_hw_sspp_setup_format'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:240: warning: Function parameter or member 'flags' not described in 'dpu_hw_sspp_setup_format'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:240: warning: Function parameter or member 'rect_mode' not described in 'dpu_hw_sspp_setup_format'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:446: warning: Function parameter or member 'ctx' not described in 'dpu_hw_sspp_setup_rects'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:446: warning: Function parameter or member 'cfg' not described in 'dpu_hw_sspp_setup_rects'
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:446: warning: Function parameter or member 'rect_index' not described in 'dpu_hw_sspp_setup_rects'
 
 Cc: Rob Clark <robdclark@gmail.com>
 Cc: Sean Paul <sean@poorly.run>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Jonathan Marek <jonathan@marek.ca>
 Cc: linux-arm-msm@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-index 4b8baf71423f2..6ac0b5a0e0573 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_lm.c
-@@ -48,7 +48,7 @@ static const struct dpu_lm_cfg *_lm_offset(enum dpu_lm mixer,
- /**
-  * _stage_offset(): returns the relative offset of the blend registers
-  * for the stage to be setup
-- * @c:     mixer ctx contains the mixer to be programmed
-+ * @ctx:     mixer ctx contains the mixer to be programmed
-  * @stage: stage index to setup
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+index c940b69435e16..2c2ca5335aa8c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
+@@ -231,7 +231,7 @@ static void _sspp_setup_csc10_opmode(struct dpu_hw_pipe *ctx,
+ 	DPU_REG_WRITE(&ctx->hw, SSPP_VIG_CSC_10_OP_MODE + idx, opmode);
+ }
+ 
+-/**
++/*
+  * Setup source pixel format, flip,
   */
- static inline int _stage_offset(struct dpu_hw_mixer *ctx, enum dpu_stage stage)
+ static void dpu_hw_sspp_setup_format(struct dpu_hw_pipe *ctx,
+@@ -437,7 +437,7 @@ static u32 _dpu_hw_sspp_get_scaler3_ver(struct dpu_hw_pipe *ctx)
+ 	return dpu_hw_get_scaler3_ver(&ctx->hw, idx);
+ }
+ 
+-/**
++/*
+  * dpu_hw_sspp_setup_rects()
+  */
+ static void dpu_hw_sspp_setup_rects(struct dpu_hw_pipe *ctx,
 -- 
 2.25.1
 
