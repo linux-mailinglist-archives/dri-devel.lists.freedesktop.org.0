@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC972C120D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 18:38:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884D82C120F
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 18:38:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6056E069;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD0D96E06E;
 	Mon, 23 Nov 2020 17:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 903106E069
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECA76E06B
  for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 17:38:23 +0000 (UTC)
-IronPort-SDR: ZojZIQtxisqf1y7by//3OOdcjvgNIUqug50Y5Jut9MCpES1sK0oI5j57aORonsA9j2nI78mwN4
- 77lGeJEY1FgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9814"; a="235950311"
-X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; d="scan'208";a="235950311"
+IronPort-SDR: i+3H9/SBu3ab6uiQRX+3/FP7ULXFU0SRfKcvM+R9ScDRr029T3QXT41THbLFwtXv2T2Vs+RrSO
+ Am6SUJQ4Kv2A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9814"; a="235950313"
+X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; d="scan'208";a="235950313"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2020 09:38:22 -0800
-IronPort-SDR: +rBT6nv615Ez03BjJ2d7MJaEkrvGkydSiTK4Ncdl0nBV+cnG+w2P4L8IJ2ccus3T9JMjIqaFP9
- DhT6FGsr7Tbw==
+ 23 Nov 2020 09:38:23 -0800
+IronPort-SDR: xPA7SV9c7u9krEnacwvDrAlpybNWkjFeYP1eg8gq3ZOwbm0FWRvXWu0C6LU2uvVcnCNyY2EMF2
+ mAQeF4eNJ3Ig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; d="scan'208";a="364717871"
+X-IronPort-AV: E=Sophos;i="5.78,364,1599548400"; d="scan'208";a="364717877"
 Received: from cst-dev.jf.intel.com ([10.23.221.69])
- by fmsmga002.fm.intel.com with ESMTP; 23 Nov 2020 09:38:21 -0800
+ by fmsmga002.fm.intel.com with ESMTP; 23 Nov 2020 09:38:22 -0800
 From: Jianxin Xiong <jianxin.xiong@intel.com>
 To: linux-rdma@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v11 0/4] RDMA: Add dma-buf support
-Date: Mon, 23 Nov 2020 09:51:55 -0800
-Message-Id: <1606153919-104513-1-git-send-email-jianxin.xiong@intel.com>
+Subject: [PATCH v11 1/4] RDMA/umem: Support importing dma-buf as user memory
+ region
+Date: Mon, 23 Nov 2020 09:51:56 -0800
+Message-Id: <1606153919-104513-2-git-send-email-jianxin.xiong@intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1606153919-104513-1-git-send-email-jianxin.xiong@intel.com>
+References: <1606153919-104513-1-git-send-email-jianxin.xiong@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,212 +59,354 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the eleventh version of the patch set. Changelog:
+Dma-buf is a standard cross-driver buffer sharing mechanism that can be
+used to support peer-to-peer access from RDMA devices.
 
-v11:
-* Rework the parameter checking code inside ib_umem_dmabuf_get() 
-* Fix incorrect error handling in the new verbs command handler
-* Put a duplicated code sequence for checking iova and setting page size
-  into a function
-* In the invalidation callback, check for if the buffer has been mapped
-  and thus the presence of a valid driver mr is ensured
-* The patch that checks for dma_virt_ops is dropped because it is no
-  longer needed
-* The patch that documents that dma-buf size is fixed has landed at:
-  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=476b485be03c
-  and thus is no longer included here
-* The matching user space patch set is sent separately
+Device memory exported via dma-buf is associated with a file descriptor.
+This is passed to the user space as a property associated with the
+buffer allocation. When the buffer is registered as a memory region,
+the file descriptor is passed to the RDMA driver along with other
+parameters.
 
-v10: https://www.spinics.net/lists/linux-rdma/msg97483.html
-* Don't map the pages in ib_umem_dmabuf_get(); use the size information
-  of the dma-buf object to validate the umem size instead
-* Use PAGE_SIZE directly instead of use ib_umem_find_best_pgsz() when
-  the MR is created since the pages have not been mapped yet and dma-buf
-  requires PAGE_SIZE anyway
-* Always call mlx5_umem_find_best_pgsz() after mapping the pages to
-  verify that the page size requirement is satisfied
-* Add a patch to document that dma-buf size is fixed
+Implement the common code for importing dma-buf object and mapping
+dma-buf pages.
 
-v9: https://www.spinics.net/lists/linux-rdma/msg97432.html
-* Clean up the code for sg list in-place modification
-* Prevent dma-buf pages from being mapped multiple times
-* Map the pages in ib_umem_dmabuf_get() so that inproper values of
-  address/length/iova can be caught early
-* Check for unsupported flags in the new uverbs command
-* Add missing uverbs_finalize_uobj_create()
-* Sort uverbs objects by name
-* Fix formating issue -- unnecessary alignment of '='
-* Unmap pages in mlx5_ib_fence_dmabuf_mr()
-* Remove address range checking from pagefault_dmabuf_mr()
-
-v8: https://www.spinics.net/lists/linux-rdma/msg97370.html
-* Modify the dma-buf sg list in place to get a proper umem sg list and
-  restore it before calling dma_buf_unmap_attachment()
-* Validate the umem sg list with ib_umem_find_best_pgsz()
-* Remove the logic for slicing the sg list at runtime
-
-v7: https://www.spinics.net/lists/linux-rdma/msg97297.html
-* Rebase on top of latest mlx5 MR patch series
-* Slice dma-buf sg list at runtime instead of creating a new list
-* Preload the buffer page mapping when the MR is created
-* Move the 'dma_virt_ops' check into dma_buf_dynamic_attach()
-
-v6: https://www.spinics.net/lists/linux-rdma/msg96923.html
-* Move the dma-buf invalidation callback from the core to the device
-  driver
-* Move mapping update from work queue to pagefault handler
-* Add dma-buf based MRs to the xarray of mmkeys so that the pagefault
-  handler can be reached
-* Update the new driver method and uverbs command signature by changing
-  the paramter 'addr' to 'offset'
-* Modify the sg list returned from dma_buf_map_attachment() based on
-  the parameters 'offset' and 'length'
-* Don't import dma-buf if 'dma_virt_ops' is used by the dma device
-* The patch that clarifies dma-buf sg lists alignment has landed at
-  https://cgit.freedesktop.org/drm/drm-misc/commit/?id=ac80cd17a615
-  and thus is no longer included with this set
-
-v5: https://www.spinics.net/lists/linux-rdma/msg96786.html
-* Fix a few warnings reported by kernel test robot:
-    - no previous prototype for function 'ib_umem_dmabuf_release' 
-    - no previous prototype for function 'ib_umem_dmabuf_map_pages'
-    - comparison of distinct pointer types in 'check_add_overflow'
-* Add comment for the wait between getting the dma-buf sg tagle and
-  updating the NIC page table
-
-v4: https://www.spinics.net/lists/linux-rdma/msg96767.html
-* Add a new ib_device method reg_user_mr_dmabuf() instead of expanding
-  the existing method reg_user_mr()
-* Use a separate code flow for dma-buf instead of adding special cases
-  to the ODP memory region code path
-* In invalidation callback, new mapping is updated as whole using work
-  queue instead of being updated in page granularity in the page fault
-  handler
-* Use dma_resv_get_excl() and dma_fence_wait() to ensure the content of
-  the pages have been moved to the new location before the new mapping
-  is programmed into the NIC
-* Add code to the ODP page fault handler to check the mapping status
-* The new access flag added in v3 is removed.
-* The checking for on-demand paging support in the new uverbs command
-  is removed because it is implied by implementing the new ib_device
-  method
-* Clarify that dma-buf sg lists are page aligned
-
-v3: https://www.spinics.net/lists/linux-rdma/msg96330.html
-* Use dma_buf_dynamic_attach() instead of dma_buf_attach()
-* Use on-demand paging mechanism to avoid pinning the GPU memory
-* Instead of adding a new parameter to the device method for memory
-  registration, pass all the attributes including the file descriptor
-  as a structure
-* Define a new access flag for dma-buf based memory region
-* Check for on-demand paging support in the new uverbs command
-
-v2: https://www.spinics.net/lists/linux-rdma/msg93643.html
-* The Kconfig option is removed. There is no dependence issue since
-  dma-buf driver is always enabled.
-* The declaration of new data structure and functions is reorganized to
-  minimize the visibility of the changes.
-* The new uverbs command now goes through ioctl() instead of write().
-* The rereg functionality is removed.
-* Instead of adding new device method for dma-buf specific registration,
-  existing method is extended to accept an extra parameter. 
-* The correct function is now used for address range checking. 
-
-v1: https://www.spinics.net/lists/linux-rdma/msg90720.html
-* The initial patch set
-* Implement core functions for importing and mapping dma-buf
-* Use dma-buf static attach interface
-* Add two ib_device methods reg_user_mr_fd() and rereg_user_mr_fd()
-* Add two uverbs commands via the write() interface
-* Add Kconfig option
-* Add dma-buf support to mlx5 device
-
-When enabled, an RDMA capable NIC can perform peer-to-peer transactions
-over PCIe to access the local memory located on another device. This can
-often lead to better performance than using a system memory buffer for
-RDMA and copying data between the buffer and device memory.
-
-Current kernel RDMA stack uses get_user_pages() to pin the physical
-pages backing the user buffer and uses dma_map_sg_attrs() to get the
-dma addresses for memory access. This usually doesn't work for peer
-device memory due to the lack of associated page structures.
-
-Several mechanisms exist today to facilitate device memory access.
-
-ZONE_DEVICE is a new zone for device memory in the memory management
-subsystem. It allows pages from device memory being described with
-specialized page structures, but what can be done with these page
-structures may be different from system memory. ZONE_DEVICE is further
-specialized into multiple memory types, such as one type for PCI
-p2pmem/p2pdma and one type for HMM.
-
-PCI p2pmem/p2pdma uses ZONE_DEVICE to represent device memory residing
-in a PCI BAR and provides a set of calls to publish, discover, allocate,
-and map such memory for peer-to-peer transactions. One feature of the
-API is that the buffer is allocated by the side that does the DMA
-transfer. This works well with the storage usage case, but is awkward
-with GPU-NIC communication, where typically the buffer is allocated by
-the GPU driver rather than the NIC driver.
-
-Heterogeneous Memory Management (HMM) utilizes mmu_interval_notifier
-and ZONE_DEVICE to support shared virtual address space and page
-migration between system memory and device memory. HMM doesn't support
-pinning device memory because pages located on device must be able to
-migrate to system memory when accessed by CPU. Peer-to-peer access
-is currently not supported by HMM.
-
-Dma-buf is a standard mechanism for sharing buffers among different
-device drivers. The buffer to be shared is exported by the owning
-driver and imported by the driver that wants to use it. The exporter
-provides a set of ops that the importer can call to pin and map the
-buffer. In addition, a file descriptor can be associated with a dma-
-buf object as the handle that can be passed to user space.
-
-This patch series adds dma-buf importer role to the RDMA driver in
-attempt to support RDMA using device memory such as GPU VRAM. Dma-buf is
-chosen for a few reasons: first, the API is relatively simple and allows
-a lot of flexibility in implementing the buffer manipulation ops.
-Second, it doesn't require page structure. Third, dma-buf is already
-supported in many GPU drivers. However, we are aware that existing GPU
-drivers don't allow pinning device memory via the dma-buf interface.
-Pinning would simply cause the backing storage to migrate to system RAM.
-True peer-to-peer access is only possible using dynamic attach, which
-requires on-demand paging support from the NIC to work. For this reason,
-this series only works with ODP capable NICs.
-
-This series consists of four patches. The first patch adds the common
-code for importing dma-buf from a file descriptor and mapping the
-dma-buf pages. Patch 2 add the new driver method reg_user_mr_dmabuf().
-Patch 3 adds a new uverbs command for registering dma-buf based memory
-region. Patch 4 adds dma-buf support to the mlx5 driver.
-
-Related user space RDMA library changes are provided as a separate
-patch series.
-
-Jianxin Xiong (4):
-  RDMA/umem: Support importing dma-buf as user memory region
-  RDMA/core: Add device method for registering dma-buf based memory
-    region
-  RDMA/uverbs: Add uverbs command for dma-buf based MR registration
-  RDMA/mlx5: Support dma-buf based userspace memory region
-
- drivers/infiniband/core/Makefile              |   2 +-
- drivers/infiniband/core/device.c              |   1 +
- drivers/infiniband/core/umem.c                |   4 +
- drivers/infiniband/core/umem_dmabuf.c         | 174 ++++++++++++++++++++++++++
- drivers/infiniband/core/umem_dmabuf.h         |  11 ++
- drivers/infiniband/core/uverbs_std_types_mr.c | 114 ++++++++++++++++-
- drivers/infiniband/hw/mlx5/main.c             |   2 +
- drivers/infiniband/hw/mlx5/mlx5_ib.h          |  18 +++
- drivers/infiniband/hw/mlx5/mr.c               | 127 ++++++++++++++++++-
- drivers/infiniband/hw/mlx5/odp.c              |  86 ++++++++++++-
- include/rdma/ib_umem.h                        |  39 +++++-
- include/rdma/ib_verbs.h                       |   6 +-
- include/uapi/rdma/ib_user_ioctl_cmds.h        |  14 +++
- 13 files changed, 584 insertions(+), 14 deletions(-)
+Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+Reviewed-by: Sean Hefty <sean.hefty@intel.com>
+Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Acked-by: Christian Koenig <christian.koenig@amd.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/infiniband/core/Makefile      |   2 +-
+ drivers/infiniband/core/umem.c        |   4 +
+ drivers/infiniband/core/umem_dmabuf.c | 174 ++++++++++++++++++++++++++++++++++
+ drivers/infiniband/core/umem_dmabuf.h |  11 +++
+ include/rdma/ib_umem.h                |  39 +++++++-
+ 5 files changed, 228 insertions(+), 2 deletions(-)
  create mode 100644 drivers/infiniband/core/umem_dmabuf.c
  create mode 100644 drivers/infiniband/core/umem_dmabuf.h
 
+diff --git a/drivers/infiniband/core/Makefile b/drivers/infiniband/core/Makefile
+index ccf2670..8ab4eea 100644
+--- a/drivers/infiniband/core/Makefile
++++ b/drivers/infiniband/core/Makefile
+@@ -40,5 +40,5 @@ ib_uverbs-y :=			uverbs_main.o uverbs_cmd.o uverbs_marshall.o \
+ 				uverbs_std_types_srq.o \
+ 				uverbs_std_types_wq.o \
+ 				uverbs_std_types_qp.o
+-ib_uverbs-$(CONFIG_INFINIBAND_USER_MEM) += umem.o
++ib_uverbs-$(CONFIG_INFINIBAND_USER_MEM) += umem.o umem_dmabuf.o
+ ib_uverbs-$(CONFIG_INFINIBAND_ON_DEMAND_PAGING) += umem_odp.o
+diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+index f1fc7e3..4bc455f 100644
+--- a/drivers/infiniband/core/umem.c
++++ b/drivers/infiniband/core/umem.c
+@@ -2,6 +2,7 @@
+  * Copyright (c) 2005 Topspin Communications.  All rights reserved.
+  * Copyright (c) 2005 Cisco Systems.  All rights reserved.
+  * Copyright (c) 2005 Mellanox Technologies. All rights reserved.
++ * Copyright (c) 2020 Intel Corporation. All rights reserved.
+  *
+  * This software is available to you under a choice of one of two
+  * licenses.  You may choose to be licensed under the terms of the GNU
+@@ -43,6 +44,7 @@
+ #include <rdma/ib_umem_odp.h>
+ 
+ #include "uverbs.h"
++#include "umem_dmabuf.h"
+ 
+ static void __ib_umem_release(struct ib_device *dev, struct ib_umem *umem, int dirty)
+ {
+@@ -278,6 +280,8 @@ void ib_umem_release(struct ib_umem *umem)
+ {
+ 	if (!umem)
+ 		return;
++	if (umem->is_dmabuf)
++		return ib_umem_dmabuf_release(to_ib_umem_dmabuf(umem));
+ 	if (umem->is_odp)
+ 		return ib_umem_odp_release(to_ib_umem_odp(umem));
+ 
+diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
+new file mode 100644
+index 0000000..2fcd072
+--- /dev/null
++++ b/drivers/infiniband/core/umem_dmabuf.c
+@@ -0,0 +1,174 @@
++// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
++/*
++ * Copyright (c) 2020 Intel Corporation. All rights reserved.
++ */
++
++#include <linux/dma-buf.h>
++#include <linux/dma-resv.h>
++#include <linux/dma-mapping.h>
++
++#include "uverbs.h"
++#include "umem_dmabuf.h"
++
++int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
++{
++	struct sg_table *sgt;
++	struct scatterlist *sg;
++	struct dma_fence *fence;
++	unsigned long start, end, cur;
++	unsigned int nmap;
++	int i;
++
++	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
++
++	if (umem_dmabuf->sgt)
++		return 0;
++
++	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
++	if (IS_ERR(sgt))
++		return PTR_ERR(sgt);
++
++	/* modify the sg list in-place to match umem address and length */
++
++	start = ALIGN_DOWN(umem_dmabuf->umem.address, PAGE_SIZE);
++	end = ALIGN(umem_dmabuf->umem.address + umem_dmabuf->umem.length,
++		    PAGE_SIZE);
++	cur = 0;
++	nmap = 0;
++	for_each_sgtable_dma_sg(sgt, sg, i) {
++		if (start < cur + sg_dma_len(sg) && cur < end)
++			nmap++;
++		if (cur <= start && start < cur + sg_dma_len(sg)) {
++			unsigned long offset = start - cur;
++
++			umem_dmabuf->first_sg = sg;
++			umem_dmabuf->first_sg_offset = offset;
++			sg_dma_address(sg) += offset;
++			sg_dma_len(sg) -= offset;
++			cur += offset;
++		}
++		if (cur < end && end <= cur + sg_dma_len(sg)) {
++			unsigned long trim = cur + sg_dma_len(sg) - end;
++
++			umem_dmabuf->last_sg = sg;
++			umem_dmabuf->last_sg_trim = trim;
++			sg_dma_len(sg) -= trim;
++			break;
++		}
++		cur += sg_dma_len(sg);
++	}
++
++	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
++	umem_dmabuf->umem.sg_head.nents = nmap;
++	umem_dmabuf->umem.nmap = nmap;
++	umem_dmabuf->sgt = sgt;
++
++	/*
++	 * Although the sg list is valid now, the content of the pages
++	 * may be not up-to-date. Wait for the exporter to finish
++	 * the migration.
++	 */
++	fence = dma_resv_get_excl(umem_dmabuf->attach->dmabuf->resv);
++	if (fence)
++		dma_fence_wait(fence, false);
++
++	return 0;
++}
++EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
++
++void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf)
++{
++	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
++
++	if (!umem_dmabuf->sgt)
++		return;
++
++	/* retore the original sg list */
++	if (umem_dmabuf->first_sg) {
++		sg_dma_address(umem_dmabuf->first_sg) -=
++			umem_dmabuf->first_sg_offset;
++		sg_dma_len(umem_dmabuf->first_sg) +=
++			umem_dmabuf->first_sg_offset;
++		umem_dmabuf->first_sg = NULL;
++		umem_dmabuf->first_sg_offset = 0;
++	}
++	if (umem_dmabuf->last_sg) {
++		sg_dma_len(umem_dmabuf->last_sg) +=
++			umem_dmabuf->last_sg_trim;
++		umem_dmabuf->last_sg = NULL;
++		umem_dmabuf->last_sg_trim = 0;
++	}
++
++	dma_buf_unmap_attachment(umem_dmabuf->attach, umem_dmabuf->sgt,
++				 DMA_BIDIRECTIONAL);
++
++	umem_dmabuf->sgt = NULL;
++}
++EXPORT_SYMBOL(ib_umem_dmabuf_unmap_pages);
++
++struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
++				   unsigned long offset, size_t size,
++				   int fd, int access,
++				   const struct dma_buf_attach_ops *ops)
++{
++	struct dma_buf *dmabuf;
++	struct ib_umem_dmabuf *umem_dmabuf;
++	struct ib_umem *umem;
++	unsigned long end;
++	long ret = -EINVAL;
++
++	if (check_add_overflow(offset, (unsigned long)size, &end))
++		return ERR_PTR(-EINVAL);
++
++	if (unlikely(!ops || !ops->move_notify))
++		return ERR_PTR(-EINVAL);
++
++	dmabuf = dma_buf_get(fd);
++	if (IS_ERR(dmabuf))
++		return (void *)dmabuf;
++
++	if (dmabuf->size < end)
++		goto out_release_dmabuf;
++
++	umem_dmabuf = kzalloc(sizeof(*umem_dmabuf), GFP_KERNEL);
++	if (!umem_dmabuf)
++		return ERR_PTR(-ENOMEM);
++
++	umem = &umem_dmabuf->umem;
++	umem->ibdev = device;
++	umem->length = size;
++	umem->address = offset;
++	umem->writable = ib_access_writable(access);
++	umem->is_dmabuf = 1;
++
++	if (unlikely(!ib_umem_num_pages(umem)))
++		goto out_free_umem;
++
++	umem_dmabuf->attach = dma_buf_dynamic_attach(
++					dmabuf,
++					device->dma_device,
++					ops,
++					umem_dmabuf);
++	if (IS_ERR(umem_dmabuf->attach)) {
++		ret = PTR_ERR(umem_dmabuf->attach);
++		goto out_free_umem;
++	}
++	return umem;
++
++out_free_umem:
++	kfree(umem_dmabuf);
++
++out_release_dmabuf:
++	dma_buf_put(dmabuf);
++	return ERR_PTR(ret);
++}
++EXPORT_SYMBOL(ib_umem_dmabuf_get);
++
++void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf)
++{
++	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
++
++	dma_buf_detach(dmabuf, umem_dmabuf->attach);
++	dma_buf_put(dmabuf);
++	kfree(umem_dmabuf);
++}
+diff --git a/drivers/infiniband/core/umem_dmabuf.h b/drivers/infiniband/core/umem_dmabuf.h
+new file mode 100644
+index 0000000..13acf55
+--- /dev/null
++++ b/drivers/infiniband/core/umem_dmabuf.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
++/*
++ * Copyright (c) 2020 Intel Corporation. All rights reserved.
++ */
++
++#ifndef UMEM_DMABUF_H
++#define UMEM_DMABUF_H
++
++void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf);
++
++#endif /* UMEM_DMABUF_H */
+diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h
+index 7059750..e6e79bd 100644
+--- a/include/rdma/ib_umem.h
++++ b/include/rdma/ib_umem.h
+@@ -1,6 +1,7 @@
+ /* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
+ /*
+  * Copyright (c) 2007 Cisco Systems.  All rights reserved.
++ * Copyright (c) 2020 Intel Corporation.  All rights reserved.
+  */
+ 
+ #ifndef IB_UMEM_H
+@@ -13,6 +14,7 @@
+ 
+ struct ib_ucontext;
+ struct ib_umem_odp;
++struct dma_buf_attach_ops;
+ 
+ struct ib_umem {
+ 	struct ib_device       *ibdev;
+@@ -22,12 +24,29 @@ struct ib_umem {
+ 	unsigned long		address;
+ 	u32 writable : 1;
+ 	u32 is_odp : 1;
++	u32 is_dmabuf : 1;
+ 	struct work_struct	work;
+ 	struct sg_table sg_head;
+ 	int             nmap;
+ 	unsigned int    sg_nents;
+ };
+ 
++struct ib_umem_dmabuf {
++	struct ib_umem umem;
++	struct dma_buf_attachment *attach;
++	struct sg_table *sgt;
++	struct scatterlist *first_sg;
++	struct scatterlist *last_sg;
++	unsigned long first_sg_offset;
++	unsigned long last_sg_trim;
++	void *private;
++};
++
++static inline struct ib_umem_dmabuf *to_ib_umem_dmabuf(struct ib_umem *umem)
++{
++	return container_of(umem, struct ib_umem_dmabuf, umem);
++}
++
+ /* Returns the offset of the umem start relative to the first page. */
+ static inline int ib_umem_offset(struct ib_umem *umem)
+ {
+@@ -79,6 +98,12 @@ int ib_umem_copy_from(void *dst, struct ib_umem *umem, size_t offset,
+ unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ 				     unsigned long pgsz_bitmap,
+ 				     unsigned long virt);
++struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
++				   unsigned long offset, size_t size,
++				   int fd, int access,
++				   const struct dma_buf_attach_ops *ops);
++int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf);
++void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf);
+ 
+ #else /* CONFIG_INFINIBAND_USER_MEM */
+ 
+@@ -101,7 +126,19 @@ static inline unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
+ {
+ 	return 0;
+ }
++static inline struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
++						 unsigned long offset,
++						 size_t size, int fd,
++						 int access,
++						 struct dma_buf_attach_ops *ops)
++{
++	return ERR_PTR(-EINVAL);
++}
++static inline int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
++{
++	return -EINVAL;
++}
++static inline void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf) { }
+ 
+ #endif /* CONFIG_INFINIBAND_USER_MEM */
+-
+ #endif /* IB_UMEM_H */
 -- 
 1.8.3.1
 
