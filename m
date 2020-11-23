@@ -1,56 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3EC2C1F83
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED9A2C1F9A
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A515F6E21B;
-	Tue, 24 Nov 2020 08:08:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58B5C6E2B6;
+	Tue, 24 Nov 2020 08:09:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com
- [IPv6:2607:f8b0:4864:20::d41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B62E9898E4;
- Mon, 23 Nov 2020 16:17:12 +0000 (UTC)
-Received: by mail-io1-xd41.google.com with SMTP id i18so18703347ioa.3;
- Mon, 23 Nov 2020 08:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9G9wehhbpTZzWWOvGr3rWAgWQ0geLC9Yp77M/YC6Idw=;
- b=jzsPhOCPkH8JcubkL+ilpCqrpmJxzR/ZZhmza1K1c0eddk7+QY69lMXZ1zjj7yUobv
- UPOat94Oznz5N+aYQtyK2tx44PHGHvaT6c5ydFaOoT5387NjxS4giDE0liSNJKSpvdGp
- HKiV67o8ZfM+QomP6uHJNCHgME5k654Lm9OlI5uZEZV/BZyGXhrMcp4osA9RqzKjR7Ze
- 0dIcMPHMz9M6e1KbFfvtyGGjldyt3D137VsBHg9GBRp12UjhpWPsI6mtFPtV54IoaC+K
- mSdXyd8g5UOodS4awURhueIsrAq2XHUWM9vJndBZGt3fLtR88qq6iY1NEsTPrUzb2MVL
- n+0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9G9wehhbpTZzWWOvGr3rWAgWQ0geLC9Yp77M/YC6Idw=;
- b=r14VZuPE97rurh1VIJDI5kRsfB1JnpG2JjIg6bj3c2dAN2lsJ5jIz3aFivwEtV4nHd
- t1phpEXwqc3I2qmzBVS6XQMcJfv0Ir4CRavB/TYmnBpJv+btQE2h2MkEPMuOHbOGVBEY
- ods8ssB/IYXXyn9l4vWSnJ3HxkFSxk9uPumh4U2DPZSSa5NTBhDtd1wpxyd5ViYZJj8O
- 2oYOMvyC/zQULH9zFo5t1lEPFJyn3T4+KNxHcyfIKVRTwCukoiXQcTaAmx9SaLtFbELg
- LqKmFqgidmCxYPXnS+CDhLoNjXw6A9rLf/Y/TdHmKnfbMjgcya8ZwatF72+8WfVRWpxU
- O+7g==
-X-Gm-Message-State: AOAM532j90eIUBWMIzTN1rM2EoPvP/+MInJFDaOJI8mg1AF2yCVfykkh
- vyrwOJNjEZGSsK/t2r8Go2pb62hKi35GVO9Ca5M=
-X-Google-Smtp-Source: ABdhPJw5wxDBX8QpwE2CghMfFtPIAtnmG9XIUqmbpxXD9wxvuYGnavpxLlav0NBfuecvTCMrGKLgN0Lee5ktV7i8vQ8=
-X-Received: by 2002:a05:6602:22c7:: with SMTP id
- e7mr415585ioe.114.1606148231969; 
- Mon, 23 Nov 2020 08:17:11 -0800 (PST)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB7AC6E04B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 16:41:24 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1606149686; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=k1Ws3eLYJmyc8Z5gKvjwQtLfC/TAMUMLGzx+OItBEXk=;
+ b=ABqNOXxkKiU+lQS/xAipMDC6ONPz9IO/M2tBeeuaOelr+9atjMPGyJjgH+h8rrqS1euO0dHI
+ ihSX99gNJgarKXXNxYXoOC0T66RmnjpS+vlZmlV2hJpOpt1wR4lVEBsxSAN5NgN5KkY08Him
+ wF/FGloblrjNFd7DFoKC8q9uaB4=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n09.prod.us-east-1.postgun.com with SMTP id
+ 5fbbe630d64ea0b70326e9e0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 23 Nov 2020 16:41:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1FD68C43462; Mon, 23 Nov 2020 16:41:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 34592C433C6;
+ Mon, 23 Nov 2020 16:41:18 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201121165058.1644182-1-trix@redhat.com>
- <5843ef910b0e86c00d9c0143dec20f93823b016b.camel@HansenPartnership.com>
- <87y2ism5or.fsf@intel.com>
-In-Reply-To: <87y2ism5or.fsf@intel.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 23 Nov 2020 17:17:00 +0100
-Message-ID: <CAKXUXMydH+VtMeuftPRgCg_PYm2iChOMkUYjO=QTG=NRM3QFiw@mail.gmail.com>
-Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-To: Jani Nikula <jani.nikula@linux.intel.com>
+Date: Mon, 23 Nov 2020 22:11:18 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>
+Subject: Re: [PATCHv8 1/8] iommu/io-pgtable-arm: Add support to use system
+ cache
+In-Reply-To: <20201123150616.GB11033@willie-the-truck>
+References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ <699f30cd6b3d69cebbefd0e73850694b9852c5da.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ <20201123150616.GB11033@willie-the-truck>
+Message-ID: <fa32d9c8f869a5d96729d534ec26490a@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,116 +67,89 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- Tom Rix <trix@redhat.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- ibm-acpi-devel@lists.sourceforge.net,
- "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
- linux-mtd@lists.infradead.org, linux-scsi@vger.kernel.org,
- linux-acpi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- cluster-devel@redhat.com,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- tboot-devel@lists.sourceforge.net, coreteam@netfilter.org,
- xen-devel@lists.xenproject.org, MPT-FusionLinux.pdl@broadcom.com,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- alsa-devel@alsa-project.org, intel-gfx@lists.freedesktop.org,
- ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-omap@vger.kernel.org, devel@acpica.org, linux-nfs@vger.kernel.org,
- Netdev <netdev@vger.kernel.org>, linux-usb@vger.kernel.org,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
- Joe Perches <joe@perches.com>, bpf@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: linux-kernel@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, dri-devel@lists.freedesktop.org,
+ Akhil P Oommen <akhilpo@codeaurora.org>, iommu@lists.linux-foundation.org,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 23, 2020 at 4:52 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Sat, 21 Nov 2020, James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
-> > On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
-> >> A difficult part of automating commits is composing the subsystem
-> >> preamble in the commit log.  For the ongoing effort of a fixer
-> >> producing
-> >> one or two fixes a release the use of 'treewide:' does not seem
-> >> appropriate.
-> >>
-> >> It would be better if the normal prefix was used.  Unfortunately
-> >> normal is
-> >> not consistent across the tree.
-> >>
-> >>
-> >>      D: Commit subsystem prefix
-> >>
-> >> ex/ for FPGA DFL DRIVERS
-> >>
-> >>      D: fpga: dfl:
-> >>
-> >
-> > I've got to bet this is going to cause more issues than it solves.
->
-> Agreed.
->
+On 2020-11-23 20:36, Will Deacon wrote:
+> On Tue, Nov 17, 2020 at 08:00:40PM +0530, Sai Prakash Ranjan wrote:
+>> Add a quirk IO_PGTABLE_QUIRK_ARM_OUTER_WBWA to override
+>> the attributes set in TCR for the page table walker when
+>> using system cache.
+>> 
+>> Signed-off-by: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+>> ---
+>>  drivers/iommu/io-pgtable-arm.c | 10 ++++++++--
+>>  include/linux/io-pgtable.h     |  4 ++++
+>>  2 files changed, 12 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/iommu/io-pgtable-arm.c 
+>> b/drivers/iommu/io-pgtable-arm.c
+>> index a7a9bc08dcd1..7c9ea9d7874a 100644
+>> --- a/drivers/iommu/io-pgtable-arm.c
+>> +++ b/drivers/iommu/io-pgtable-arm.c
+>> @@ -761,7 +761,8 @@ arm_64_lpae_alloc_pgtable_s1(struct io_pgtable_cfg 
+>> *cfg, void *cookie)
+>> 
+>>  	if (cfg->quirks & ~(IO_PGTABLE_QUIRK_ARM_NS |
+>>  			    IO_PGTABLE_QUIRK_NON_STRICT |
+>> -			    IO_PGTABLE_QUIRK_ARM_TTBR1))
+>> +			    IO_PGTABLE_QUIRK_ARM_TTBR1 |
+>> +			    IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
+>>  		return NULL;
+>> 
+>>  	data = arm_lpae_alloc_pgtable(cfg);
+>> @@ -773,10 +774,15 @@ arm_64_lpae_alloc_pgtable_s1(struct 
+>> io_pgtable_cfg *cfg, void *cookie)
+>>  		tcr->sh = ARM_LPAE_TCR_SH_IS;
+>>  		tcr->irgn = ARM_LPAE_TCR_RGN_WBWA;
+>>  		tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
+>> +		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA)
+>> +			goto out_free_data;
+>>  	} else {
+>>  		tcr->sh = ARM_LPAE_TCR_SH_OS;
+>>  		tcr->irgn = ARM_LPAE_TCR_RGN_NC;
+>> -		tcr->orgn = ARM_LPAE_TCR_RGN_NC;
+>> +		if (!(cfg->quirks & IO_PGTABLE_QUIRK_ARM_OUTER_WBWA))
+>> +			tcr->orgn = ARM_LPAE_TCR_RGN_NC;
+>> +		else
+>> +			tcr->orgn = ARM_LPAE_TCR_RGN_WBWA;
+>>  	}
+>> 
+>>  	tg1 = cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1;
+>> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+>> index 4cde111e425b..a9a2c59fab37 100644
+>> --- a/include/linux/io-pgtable.h
+>> +++ b/include/linux/io-pgtable.h
+>> @@ -86,6 +86,9 @@ struct io_pgtable_cfg {
+>>  	 *
+>>  	 * IO_PGTABLE_QUIRK_ARM_TTBR1: (ARM LPAE format) Configure the table
+>>  	 *	for use in the upper half of a split address space.
+>> +	 *
+>> +	 * IO_PGTABLE_QUIRK_ARM_OUTER_WBWA: Override the attributes set in 
+>> TCR for
+>> +	 *	the page table walker when using system cache.
+> 
+> Please can you reword this to say:
+> 
+>   "Override the outer-cacheability attributes set in the TCR for a 
+> non-coherent
+>    page-table walker."
+> 
 
-Tom, this a problem only kernel janitors encounter; all other
-developers really do not have that issue. The time spent on creating
-the patch is much larger than the amount saved if the commit log
-header line prefix would be derived automatically. I believe Julia
-Lawall, Arnd Bergmann and Nathan Chancellor as long-term
-high-frequency janitors do have already scripted approaches to that
-issue. Maybe they simply need to share these scripts with you and you
-consolidate them and share with everyone?
+Sure, thanks.
 
-Also, making clean-up patches cumbersome has a positive side as well;
-maintainers are not swamped with fully automated patch submissions.
-There have been some bad experiences with some submitters on that in
-the past...
-
-> > SCSI uses scsi: <driver>: for drivers but not every driver has a
-> > MAINTAINERS entry.  We use either scsi: or scsi: core: for mid layer
-> > things, but we're not consistent.  Block uses blk-<something>: for all
-> > of it's stuff but almost no <somtehing>s have a MAINTAINERS entry.  So
-> > the next thing you're going to cause is an explosion of suggested
-> > MAINTAINERs entries.
->
-> On the one hand, adoption of new MAINTAINERS entries has been really
-> slow. Look at B, C, or P, for instance. On the other hand, if this were
-> to get adopted, you'll potentially get conflicting prefixes for patches
-> touching multiple files. Then what?
->
-> I'm guessing a script looking at git log could come up with better
-> suggestions for prefixes via popularity contest than manually maintained
-> MAINTAINERS entries. It might not always get it right, but then human
-> outsiders aren't going to always get it right either.
->
-> Now you'll only need Someone(tm) to write the script. ;)
->
-> Something quick like this:
->
-> git log --since={1year} --pretty=format:%s -- <FILES> |\
->         grep -v "^\(Merge\|Revert\)" |\
->         sed 's/:[^:]*$//' |\
->         sort | uniq -c | sort -rn | head -5
->
-> already gives me results that really aren't worse than some of the
-> prefixes invented by drive-by contributors.
->
-
-I agree I do not see the need to introduce something in MAINTAINERS;
-from my observations maintaining MAINTAINERS, there is sufficient work
-on adoption and maintenance of the existing entries already without
-such an yet another additional entry. Some entries are outdated or
-wrong and the janitor task of cleaning those up is already enough work
-for involved janitors and enough churn for involved maintainers. So a
-machine-learned approach as above is probably good enough, but if you
-think you need more complex rules try to learn them from the data at
-hand... certainly a nice task to do with machine learning on commit
-message prefixes.
-
-Lukas
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
