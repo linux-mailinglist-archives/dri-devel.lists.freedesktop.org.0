@@ -1,43 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BA82C0F49
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 16:52:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B762C0F78
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 16:58:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D43E6E03D;
-	Mon, 23 Nov 2020 15:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 483086E03D;
+	Mon, 23 Nov 2020 15:58:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EB0C6E039;
- Mon, 23 Nov 2020 15:52:36 +0000 (UTC)
-IronPort-SDR: jnldBEe1/4DdxIOfk+kie1UjOB6U2WOtL9A7QQV78SgVG+99T8kU1ZiprTk4G6RCpeTIQLhlin
- JBbSt7ky1pPQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="235929106"
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="235929106"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2020 07:52:35 -0800
-IronPort-SDR: o6LRPZSLFHblJ72nLIxI7QtuEJsSPQd11jVZTPC9b01xjBsR6V5ML2IOh4GsWUUm1pKbyVJ0KQ
- V9qBxJqg/0zw==
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; d="scan'208";a="546463497"
-Received: from suygunge-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.40.108])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Nov 2020 07:52:23 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: James Bottomley <James.Bottomley@HansenPartnership.com>, trix@redhat.com,
- joe@perches.com, clang-built-linux@googlegroups.com
-Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-In-Reply-To: <5843ef910b0e86c00d9c0143dec20f93823b016b.camel@HansenPartnership.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201121165058.1644182-1-trix@redhat.com>
- <5843ef910b0e86c00d9c0143dec20f93823b016b.camel@HansenPartnership.com>
-Date: Mon, 23 Nov 2020 17:52:20 +0200
-Message-ID: <87y2ism5or.fsf@intel.com>
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [IPv6:2607:fcd0:100:8a00::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A82D89F1B;
+ Mon, 23 Nov 2020 15:58:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 8958812803A6;
+ Mon, 23 Nov 2020 07:58:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1606147090;
+ bh=lBjYTVUJkmNX+Ql1BcMOHCS5uLgrfuyir/PBRp4vAgY=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=tw2BKkTzWzFWEQdrm6zgBKJtIh2PRfv5Mb0TfkjZKqSr5KeTmWZWgl8VEPx5No8bX
+ gdEQ1NYoCzrZ51ueWl3PIAwT19fSirwyiz4cqIKbNqhoqeMTMjHgs4jilQhkGLvH0x
+ +YA09wNIiuW9eCRS9chAzVTlxjJYgA69RXyn6sLU=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id pNOg0X0CRuCM; Mon, 23 Nov 2020 07:58:10 -0800 (PST)
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:600:8280:66d1::527])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 1690C12802D9;
+ Mon, 23 Nov 2020 07:58:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1606147090;
+ bh=lBjYTVUJkmNX+Ql1BcMOHCS5uLgrfuyir/PBRp4vAgY=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=tw2BKkTzWzFWEQdrm6zgBKJtIh2PRfv5Mb0TfkjZKqSr5KeTmWZWgl8VEPx5No8bX
+ gdEQ1NYoCzrZ51ueWl3PIAwT19fSirwyiz4cqIKbNqhoqeMTMjHgs4jilQhkGLvH0x
+ +YA09wNIiuW9eCRS9chAzVTlxjJYgA69RXyn6sLU=
+Message-ID: <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Nov 2020 07:58:06 -0800
+In-Reply-To: <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,92 +69,118 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-hyperv@vger.kernel.org, kvm@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
- keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-scsi@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- cluster-devel@redhat.com, linux-acpi@vger.kernel.org,
- tboot-devel@lists.sourceforge.net, coreteam@netfilter.org,
- xen-devel@lists.xenproject.org, MPT-FusionLinux.pdl@broadcom.com,
- linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
- intel-gfx@lists.freedesktop.org, ecryptfs@vger.kernel.org,
- linux-omap@vger.kernel.org, devel@acpica.org, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, netfilter-devel@vger.kernel.org,
- linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
- linux-fsdevel@vger.kernel.org, bpf@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
+ reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Nathan Chancellor <natechancellor@gmail.com>, linux-ide@vger.kernel.org,
+ dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+ linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, linux-can@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, nouveau@lists.freedesktop.org,
+ linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-nfs@vger.kernel.org,
+ GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
+ Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-renesas-soc@vger.kernel.org,
+ linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+ netfilter-devel@vger.kernel.org,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 21 Nov 2020, James Bottomley <James.Bottomley@HansenPartnership.com> wrote:
-> On Sat, 2020-11-21 at 08:50 -0800, trix@redhat.com wrote:
->> A difficult part of automating commits is composing the subsystem
->> preamble in the commit log.  For the ongoing effort of a fixer
->> producing
->> one or two fixes a release the use of 'treewide:' does not seem
->> appropriate.
->> 
->> It would be better if the normal prefix was used.  Unfortunately
->> normal is
->> not consistent across the tree.
->> 
->> 
->> 	D: Commit subsystem prefix
->> 
->> ex/ for FPGA DFL DRIVERS
->> 
->> 	D: fpga: dfl:
->> 
->
-> I've got to bet this is going to cause more issues than it solves.
+On Mon, 2020-11-23 at 15:19 +0100, Miguel Ojeda wrote:
+> On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
+> > Well, it seems to be three years of someone's time plus the
+> > maintainer review time and series disruption of nearly a thousand
+> > patches.  Let's be conservative and assume the producer worked
+> > about 30% on the series and it takes about 5-10 minutes per patch
+> > to review, merge and for others to rework existing series.  So
+> > let's say it's cost a person year of a relatively junior engineer
+> > producing the patches and say 100h of review and application
+> > time.  The latter is likely the big ticket item because it's what
+> > we have in least supply in the kernel (even though it's 20x vs the
+> > producer time).
+> 
+> How are you arriving at such numbers? It is a total of ~200 trivial
+> lines.
 
-Agreed.
+Well, I used git.  It says that as of today in Linus' tree we have 889
+patches related to fall throughs and the first series went in in
+october 2017 ... ignoring a couple of outliers back to February.
 
-> SCSI uses scsi: <driver>: for drivers but not every driver has a
-> MAINTAINERS entry.  We use either scsi: or scsi: core: for mid layer
-> things, but we're not consistent.  Block uses blk-<something>: for all
-> of it's stuff but almost no <somtehing>s have a MAINTAINERS entry.  So
-> the next thing you're going to cause is an explosion of suggested
-> MAINTAINERs entries.
+> > It's not about the risk of the changes it's about the cost of
+> > implementing them.  Even if you discount the producer time (which
+> > someone gets to pay for, and if I were the engineering manager, I'd
+> > be unhappy about), the review/merge/rework time is pretty
+> > significant in exchange for six minor bug fixes.  Fine, when a new
+> > compiler warning comes along it's certainly reasonable to see if we
+> > can benefit from it and the fact that the compiler people think
+> > it's worthwhile is enough evidence to assume this initially.  But
+> > at some point you have to ask whether that assumption is supported
+> > by the evidence we've accumulated over the time we've been using
+> > it.  And if the evidence doesn't support it perhaps it is time to
+> > stop the experiment.
+> 
+> Maintainers routinely review 1-line trivial patches, not to mention
+> internal API changes, etc.
 
-On the one hand, adoption of new MAINTAINERS entries has been really
-slow. Look at B, C, or P, for instance. On the other hand, if this were
-to get adopted, you'll potentially get conflicting prefixes for patches
-touching multiple files. Then what?
+We're also complaining about the inability to recruit maintainers:
 
-I'm guessing a script looking at git log could come up with better
-suggestions for prefixes via popularity contest than manually maintained
-MAINTAINERS entries. It might not always get it right, but then human
-outsiders aren't going to always get it right either.
+https://www.theregister.com/2020/06/30/hard_to_find_linux_maintainers_says_torvalds/
 
-Now you'll only need Someone(tm) to write the script. ;)
+And burn out:
 
-Something quick like this:
+http://antirez.com/news/129
 
-git log --since={1year} --pretty=format:%s -- <FILES> |\
-	grep -v "^\(Merge\|Revert\)" |\
-        sed 's/:[^:]*$//' |\
-        sort | uniq -c | sort -rn | head -5
+The whole crux of your argument seems to be maintainers' time isn't
+important so we should accept all trivial patches ... I'm pushing back
+on that assumption in two places, firstly the valulessness of the time
+and secondly that all trivial patches are valuable.
 
-already gives me results that really aren't worse than some of the
-prefixes invented by drive-by contributors.
+> If some company does not want to pay for that, that's fine, but they
+> don't get to be maintainers and claim `Supported`.
 
-> Has anyone actually complained about treewide:?
+What I'm actually trying to articulate is a way of measuring value of
+the patch vs cost ... it has nothing really to do with who foots the
+actual bill.
 
-As Joe said, I'd feel silly applying patches to drivers with that
-prefix. If it gets applied by someone else higher up, literally
-treewide, then no complaints.
+One thesis I'm actually starting to formulate is that this continual
+devaluing of maintainers is why we have so much difficulty keeping and
+recruiting them.
 
-BR,
-Jani.
+James
 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
