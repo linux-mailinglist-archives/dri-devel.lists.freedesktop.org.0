@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057672C1F91
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023B72C1F7F
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C2576E247;
-	Tue, 24 Nov 2020 08:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 526036E22B;
+	Tue, 24 Nov 2020 08:08:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
- [IPv6:2607:f8b0:4864:20::b41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B431898F5;
- Mon, 23 Nov 2020 14:20:06 +0000 (UTC)
-Received: by mail-yb1-xb41.google.com with SMTP id o144so16071843ybg.7;
- Mon, 23 Nov 2020 06:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDE8897C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 15:52:45 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id z7so3249054wrn.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 07:52:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
- b=b0LkeT2q71Z3peIccxL7MkU5QadaCN3igdEC89IE4ykmdOxIlhuoo/0+H7pQCoNmlh
- 0UX19Z7soasUpz2fDZHX56luUWrH4GLKAJ9K28HwPu9km7qlcvasqfBffaQW+LtXvh6a
- fVP4J8wQFxbi1QWFB10Wsq9dLONxRShLcqQtcaktrZCy3tSRV5R4FOw2MSdgwNuCxNwd
- cKQMyE/jYgmlc9Qm972BZKz9xJaasT5iW6gpZgai8YpCh1sxJNgZFzlfCpv21Fvd7rwb
- akOsznbnFT4mJT95mXFDUPnplTdAJirWAcm8YfzHFRAfOGn9Vk91PuRcq7JipLelDPMB
- VWgQ==
+ :cc; bh=FjYKtEXcBbCZ6/MbYZM9XmkyRoRkx/KzcRJbk79i4sI=;
+ b=zsA/Kq8rvkY2W8nTxtXe4NjxMKB1/IcwQzyUhDPXPvb+In4LgnjHwVmHUNGvER/hYA
+ roY6+Co9ZpF90EJQX8Pji1GurRdsH7+/j2RwVIDXEpbZQJ/2nF55XAmZSoNK6gsigvyD
+ rY3HtRCV6BpkfCMaI+ocp8ybWXDjzpezZeWHI3O8Kp46po7mbmOv9w8C+/JaEyTdd/Ue
+ aZFHaxdQIdy3JDQmRvTpzRS2Q6uQVZoZl+I1iUx+EsrUREw5bSDDggZCy3lx11UN1bb4
+ X3EC9mqcNlWBd285AmAkTGO0BhkJ+DnIgbE7OHvrZ0TnpCxVRC0Q+ZJ3S5JRY9R4qPiC
+ swWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
- b=sE1S6kNutuoG4Kzc2RDoAPlgPz8wU//qoVGxAR8Jsdb/mUtDezmB1JSRf5rZmvRw+e
- RDm6bqHm7XnhI8TLeFDeuIJvU+OmBgqDV9ME01hwRXb/Fbb2+JiinJE6MxHRsF82a31G
- nKpwbvxX7QaTEnMc20KRmdN5l3gyIR15IsbkkzkHAxx/qfvBRqejyIxjfAIGSOSbsSJD
- MUOZa+kNegPF3oSbv4WQcNLhrc/dLW/6jY0p3yZfKCpF2vKXOPpO8Axzih3xLZd1ym57
- F+ZP5OgP9V06QR4md+iKCufTlTO0h/rQ7IK9cEfDaBF+tt9sgoHyQxiTWHtq1EWQ/7WQ
- X2xA==
-X-Gm-Message-State: AOAM531LBRVJ4hKo3U5XCegtJUrn9yhO+G6cIY5ByYkKvpA37iWto8Op
- CN5sk48XmTJE3/d7fVXb5cx04/xzy5R/GURZKXY=
-X-Google-Smtp-Source: ABdhPJyiJqjBIpEzWlk5pyqpoGG3+KpoWdKnlyza2YA6ODhXnRhATytwh5Bq+iGOzNqc5gs+zuqHC8iB1cjfDTXU/ik=
-X-Received: by 2002:a25:bcc7:: with SMTP id l7mr32380985ybm.115.1606141205830; 
- Mon, 23 Nov 2020 06:20:05 -0800 (PST)
+ bh=FjYKtEXcBbCZ6/MbYZM9XmkyRoRkx/KzcRJbk79i4sI=;
+ b=CfbaFE1tzWv+zIgqWT2S1z+fkeqP9NlhQlKfcSb926bVt456uVojFuZmSqHLTnZKTI
+ ePFmZvsiy5zPogCKdW2Wy7SHHaoVOMLgJL6V/+qepFBduxbJs2wnz0/SdOSQQMNVTAZi
+ T1O6cIweuMWQICPUf5g+zECMbvuWU+oVYKJ6L/+U0eXU/4/orM5q5OhzTSHe+QUhL3c9
+ N7ZZYbUhxqMKoORfoldqjJS8gfHBSDF/fFmV7jolFIBB3m4omY4elNF/mD02LaK2bjgZ
+ 7P/UwzFp6copx654RPPWOheIAN46u8SailHWvmS44j5dkPrpyDEbL2BbiBHSEzHuEVw6
+ u6kQ==
+X-Gm-Message-State: AOAM530dgSrONw3XNyCNI4JFj70fPvq8p+t886dUlomTZPrPcNYeBM1B
+ B7DSFIhOTpTo87dAZgAl2rmGAO7R1XBUMTwLb0/xcA==
+X-Google-Smtp-Source: ABdhPJwDFXkVAmEEzDzQJi7TZh5WMlr6MZkPoxq7oYrlWXDQgXiH3RBf9yWiHxpPnNaudMC9BgsGypwqQzb7ltPoVu8=
+X-Received: by 2002:adf:8028:: with SMTP id 37mr282887wrk.111.1606146763502;
+ Mon, 23 Nov 2020 07:52:43 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
- <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-In-Reply-To: <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 23 Nov 2020 15:19:55 +0100
-Message-ID: <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
+References: <20201123104616.1412688-1-robert.foss@linaro.org>
+In-Reply-To: <20201123104616.1412688-1-robert.foss@linaro.org>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Mon, 23 Nov 2020 10:04:17 -0600
+Message-ID: <CA+_Aqisu48D8M57qspasD8MD=we=JHjpF54iYZTsD0nN8gC_EQ@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: lt9611: Fix handling of 4k panels
+To: Robert Foss <robert.foss@linaro.org>
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,89 +61,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
- reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-wireless <linux-wireless@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Nathan Chancellor <natechancellor@gmail.com>, linux-ide@vger.kernel.org,
- dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
- GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
- samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
- linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
- usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
- linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
- oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
- linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- linux-acpi@vger.kernel.org, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-geode@lists.infradead.org, linux-can@vger.kernel.org,
- linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, nouveau@lists.freedesktop.org,
- linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
- virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-nfs@vger.kernel.org,
- GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
- Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
- linux-kernel <linux-kernel@vger.kernel.org>, linux-renesas-soc@vger.kernel.org,
- linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
- netfilter-devel@vger.kernel.org,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
- linux-integrity@vger.kernel.org,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alistair Delva <adelva@google.com>, jernej.skrabec@siol.net,
+ Vinod Koul <vinod.koul@linaro.org>, jonas@kwiboo.se, airlied@linux.ie,
+ narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
+ Peter Collingbourne <pcc@google.com>
+Content-Type: multipart/mixed; boundary="===============0126171046=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
+--===============0126171046==
+Content-Type: multipart/alternative; boundary="0000000000004bd19205b4c82f19"
+
+--0000000000004bd19205b4c82f19
+Content-Type: text/plain; charset="UTF-8"
+
+I just tested on non 4k display. Looks good to me.
+
+On Mon, 23 Nov 2020 at 04:46, Robert Foss <robert.foss@linaro.org> wrote:
+
+> 4k requires two dsi pipes, so don't report MODE_OK when only a
+> single pipe is configured. But rather report MODE_PANEL to
+> signal that requirements of the panel are not being met.
 >
-> Well, it seems to be three years of someone's time plus the maintainer
-> review time and series disruption of nearly a thousand patches.  Let's
-> be conservative and assume the producer worked about 30% on the series
-> and it takes about 5-10 minutes per patch to review, merge and for
-> others to rework existing series.  So let's say it's cost a person year
-> of a relatively junior engineer producing the patches and say 100h of
-> review and application time.  The latter is likely the big ticket item
-> because it's what we have in least supply in the kernel (even though
-> it's 20x vs the producer time).
+> Reported-by: Peter Collingbourne <pcc@google.com>
+> Suggested-by: Peter Collingbourne <pcc@google.com>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> Tested-by: John Stultz <john.stultz@linaro.org>
+>
+Tested-by: Anibal Limon <anibal.limon@linaro.org>
 
-How are you arriving at such numbers? It is a total of ~200 trivial lines.
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index d734d9402c35..e8eb8deb444b 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -867,8 +867,14 @@ static enum drm_mode_status
+> lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+>                                                      const struct
+> drm_display_mode *mode)
+>  {
+>         struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
+> +       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+>
+> -       return lt9611_mode ? MODE_OK : MODE_BAD;
+> +       if (!lt9611_mode)
+> +               return MODE_BAD;
+> +       else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
+> +               return MODE_PANEL;
+> +       else
+> +               return MODE_OK;
+>  }
+>
+>  static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+> --
+> 2.27.0
+>
+>
 
-> It's not about the risk of the changes it's about the cost of
-> implementing them.  Even if you discount the producer time (which
-> someone gets to pay for, and if I were the engineering manager, I'd be
-> unhappy about), the review/merge/rework time is pretty significant in
-> exchange for six minor bug fixes.  Fine, when a new compiler warning
-> comes along it's certainly reasonable to see if we can benefit from it
-> and the fact that the compiler people think it's worthwhile is enough
-> evidence to assume this initially.  But at some point you have to ask
-> whether that assumption is supported by the evidence we've accumulated
-> over the time we've been using it.  And if the evidence doesn't support
-> it perhaps it is time to stop the experiment.
+--0000000000004bd19205b4c82f19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Maintainers routinely review 1-line trivial patches, not to mention
-internal API changes, etc.
+<div dir=3D"ltr"><div dir=3D"ltr">I just tested on non 4k display. Looks go=
+od to me.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
+il_attr">On Mon, 23 Nov 2020 at 04:46, Robert Foss &lt;<a href=3D"mailto:ro=
+bert.foss@linaro.org">robert.foss@linaro.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">4k requires two dsi pipes, so d=
+on&#39;t report MODE_OK when only a<br>
+single pipe is configured. But rather report MODE_PANEL to<br>
+signal that requirements of the panel are not being met.<br>
+<br>
+Reported-by: Peter Collingbourne &lt;<a href=3D"mailto:pcc@google.com" targ=
+et=3D"_blank">pcc@google.com</a>&gt;<br>
+Suggested-by: Peter Collingbourne &lt;<a href=3D"mailto:pcc@google.com" tar=
+get=3D"_blank">pcc@google.com</a>&gt;<br>
+Signed-off-by: Robert Foss &lt;<a href=3D"mailto:robert.foss@linaro.org" ta=
+rget=3D"_blank">robert.foss@linaro.org</a>&gt;<br>
+Tested-by: John Stultz &lt;<a href=3D"mailto:john.stultz@linaro.org" target=
+=3D"_blank">john.stultz@linaro.org</a>&gt;<br></blockquote><div>Tested-by: =
+Anibal Limon &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@li=
+naro.org</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+---<br>
+=C2=A0drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-<br>
+=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/brid=
+ge/lontium-lt9611.c<br>
+index d734d9402c35..e8eb8deb444b 100644<br>
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c<br>
+@@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(s=
+truct drm_bridge *bridge,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const struct drm_display_mode *mod=
+e)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct lt9611_mode *lt9611_mode =3D lt9611_find=
+_mode(mode);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0struct lt9611 *lt9611 =3D bridge_to_lt9611(brid=
+ge);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0return lt9611_mode ? MODE_OK : MODE_BAD;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!lt9611_mode)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_BAD;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else if (lt9611_mode-&gt;intfs &gt; 1 &amp;&amp=
+; !lt9611-&gt;dsi1)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_PANEL;<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return MODE_OK;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)<br>
+-- <br>
+2.27.0<br>
+<br>
+</blockquote></div></div>
 
-If some company does not want to pay for that, that's fine, but they
-don't get to be maintainers and claim `Supported`.
+--0000000000004bd19205b4c82f19--
 
-Cheers,
-Miguel
+--===============0126171046==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0126171046==--
