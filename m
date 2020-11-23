@@ -2,72 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 762462C1F88
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7D12C1F8B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE0A56E24E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E9646E241;
 	Tue, 24 Nov 2020 08:08:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A704C897B4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 16:59:52 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id C342A1B18;
- Mon, 23 Nov 2020 11:59:48 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 23 Nov 2020 11:59:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=wgFC61OjVWSeDUPQwJ2H5QF9kkH
- 3TAPaV4Y3u3AaIYg=; b=uk9OY4nHe2ExPoPigh2ddXjV69rW60dkum2bzVcDef2
- Dm/JMZ5/tgeJ39N7W1YCrL3QvfJt5kZ6GLmX8wBfT/ZG58vjmj3GsVy6PAm6ANaV
- VKLX0QlQ4ZJMbhWK6A6hULHdphoP5mX26MPCI6wyNl+zYcmhYZMSBwL9Uj6/9W33
- JD2WXoL7fZRCXPO0dqZWjBN1Zk+dWaalzU3eXVJxPH194gNvG1yZw5yoQFiVqOFI
- IrmkpvQEmqn9wfsGtrLyk+iMV6JyU4vzOoqclRC6fgcqhLJ5sijHYUT83voW2nqC
- MvIcVQ/j/MAARaUEDM4F578n3etNBIIn/3QsGBbFaEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=wgFC61
- OjVWSeDUPQwJ2H5QF9kkH3TAPaV4Y3u3AaIYg=; b=aoDKlIpjcMWlJtqpoPxaVl
- 0F8HJSpzV5GMDJoehG1jPfOO/UKuQXIAQ/eTjPayrB7l3q2YfCg5PuhnVro7ArA2
- B3GFTAYAERioaujunp3503c1zPGaXXdwN7tW6LXyG1G03SqLpXNlfV7jORp1DlPA
- fOUXBPjQ+ye7srByG795GaoUS5KKYZCSrvmjL+qYblIgUYOYJv3w6LCp8C6ubqCc
- i5zDZznJC52Ql9gB5A3wT8/K4vnEyalgq4zGtUnSnBqEl0pVZicFntXO5asryLBT
- 3ODHifhR0dYjDy66dZJkqfnfLag+UFbTPMBQOc4/csCAgBf31ka2ZJ+JWlrenA8w
- ==
-X-ME-Sender: <xms:geq7X6gX9vVLa8LpMzN8JUn4ukUxPdYmCMB9w4YrFnCCZqc1pvIaQQ>
- <xme:geq7X7Ae35nT90FLLkwSGmQ4Xd9s0klIJdKoD1cVMD8e1Evc2AWJP8-qLAunhm0BG
- pSVHgFGH_PBqSxVMgE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudegiedgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:geq7XyGJMtvwsR6R5MZhx5KAqaYc83VVaG5pY2mdHg2bjoJpgY-mhw>
- <xmx:geq7XzR1BwnpDxAkJe0sIc3oKCE7puA58Ec6jRlskg2-V9BDf6cjLw>
- <xmx:geq7X3xjret7awlxqzCrW1XwUjOF28GxxwuRiuUt6oCLfaHAmMLMQQ>
- <xmx:hOq7X8rMY1bD_Gr6IPh0x4TMUji160WQcBGYTjwDpbLMKlDZFnzbGmCvVvM>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 261B23064AB0;
- Mon, 23 Nov 2020 11:59:45 -0500 (EST)
-Date: Mon, 23 Nov 2020 17:59:44 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 2/2] drm/vc4: kms: Don't disable the muxing of an
- active CRTC
-Message-ID: <20201123165944.bl3544yiehlg65ma@gilmour>
-References: <20201120144245.398711-1-maxime@cerno.tech>
- <20201120144245.398711-3-maxime@cerno.tech>
- <c744c1b4-98d0-0ed8-347a-3e3539206596@suse.de>
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D10276E05A
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 17:02:01 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1606150926; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=OMLlds5ZASBxc6VI9c5Wt8OmEB5BECKe6YXf0Nc2/+A=;
+ b=tZ11JrKkuR3OrbX2FAMeKMGxqmmMH8OpLVDdjBe64xewjCBAQnaqX4ZlFuCykSlJXOzws1bN
+ /KcO5Cdw7oodBvZ8qD76JLLeoW23WvmYcRbleek7k3WX0ox1PLPw640PcRnCjF9UeT6JuTXD
+ eHLbPM8eCBGTAmf6RzN14rrgYLA=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
+ 5fbbeafe1dba509aaecd2e3e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 23 Nov 2020 17:01:50
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C8370C43465; Mon, 23 Nov 2020 17:01:49 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: saiprakash.ranjan)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0A71EC433C6;
+ Mon, 23 Nov 2020 17:01:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <c744c1b4-98d0-0ed8-347a-3e3539206596@suse.de>
+Date: Mon, 23 Nov 2020 22:31:48 +0530
+From: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To: Will Deacon <will@kernel.org>, Rob Clark <robdclark@gmail.com>
+Subject: Re: [PATCHv8 0/8] System Cache support for GPU and required SMMU
+ support
+In-Reply-To: <20201123152146.GE11033@willie-the-truck>
+References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ <20201123152146.GE11033@willie-the-truck>
+Message-ID: <50b68f2bdf9413b896fbe816ba4ddbc9@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,77 +66,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Phil Elwell <phil@raspberrypi.com>, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Daniel Vetter <daniel.vetter@intel.com>,
- Hoegeun Kwon <hoegeun.kwon@samsung.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1362245532=="
+Cc: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org, "Kristian H .
+ Kristensen" <hoegsberg@google.com>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2020-11-23 20:51, Will Deacon wrote:
+> On Tue, Nov 17, 2020 at 08:00:39PM +0530, Sai Prakash Ranjan wrote:
+>> Some hardware variants contain a system cache or the last level
+>> cache(llc). This cache is typically a large block which is shared
+>> by multiple clients on the SOC. GPU uses the system cache to cache
+>> both the GPU data buffers(like textures) as well the SMMU pagetables.
+>> This helps with improved render performance as well as lower power
+>> consumption by reducing the bus traffic to the system memory.
+>> 
+>> The system cache architecture allows the cache to be split into slices
+>> which then be used by multiple SOC clients. This patch series is an
+>> effort to enable and use two of those slices preallocated for the GPU,
+>> one for the GPU data buffers and another for the GPU SMMU hardware
+>> pagetables.
+>> 
+>> Patch 1 - Patch 6 adds system cache support in SMMU and GPU driver.
+>> Patch 7 and 8 are minor cleanups for arm-smmu impl.
+>> 
+>> Changes in v8:
+>>  * Introduce a generic domain attribute for pagetable config (Will)
+>>  * Rename quirk to more generic IO_PGTABLE_QUIRK_ARM_OUTER_WBWA (Will)
+>>  * Move non-strict mode to use new struct domain_attr_io_pgtbl_config 
+>> (Will)
+> 
+> Modulo some minor comments I've made, this looks good to me. What is 
+> the
+> plan for merging it? I can take the IOMMU parts, but patches 4-6 touch 
+> the
+> MSM GPU driver and I'd like to avoid conflicts with that.
+> 
 
---===============1362245532==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="u3w37pnpjw7z6bqw"
-Content-Disposition: inline
+SMMU bits are pretty much independent and GPU relies on the domain 
+attribute
+and the quirk exposed, so as long as SMMU changes go in first it should 
+be good.
+Rob?
 
+Thanks,
+Sai
 
---u3w37pnpjw7z6bqw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Nov 23, 2020 at 08:50:49AM +0100, Thomas Zimmermann wrote:
->=20
->=20
-> Am 20.11.20 um 15:42 schrieb Maxime Ripard:
-> > The current HVS muxing code will consider the CRTCs in a given state to
-> > setup their muxing in the HVS, and disable the other CRTCs muxes.
-> >=20
-> > However, it's valid to only update a single CRTC with a state, and in t=
-his
-> > situation we would mux out a CRTC that was enabled but left untouched by
-> > the new state.
-> >=20
-> > Fix this by setting a flag on the CRTC state when the muxing has been
-> > changed, and only change the muxing configuration when that flag is the=
-re.
-> >=20
-> > Fixes: 87ebcd42fb7b ("drm/vc4: crtc: Assign output to channel automatic=
-ally")
-> > Reviewed-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> > Tested-by: Hoegeun Kwon <hoegeun.kwon@samsung.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Applied both, thanks!
-Maxime
-
---u3w37pnpjw7z6bqw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7vqgAAKCRDj7w1vZxhR
-xROsAP0aZVtxJjmk1by+aRI2aZyJtkL2fvYypDyiv6PRTsJRhAD/Rzd7SP6uc72O
-LrpebYd2FmmHTG+tN75O1WB2c7Db8wg=
-=a2y6
------END PGP SIGNATURE-----
-
---u3w37pnpjw7z6bqw--
-
---===============1362245532==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1362245532==--
