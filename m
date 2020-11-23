@@ -2,30 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003F82C0506
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 12:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED2E2C05C4
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 13:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB0889AC6;
-	Mon, 23 Nov 2020 11:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2F3C89CF2;
+	Mon, 23 Nov 2020 12:30:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4566F8918E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 11:56:53 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D4B0EABCE;
- Mon, 23 Nov 2020 11:56:51 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- daniel@ffwll.ch, eric@anholt.net
-Subject: [PATCH 2/2] drm/cma-helper: Implement mmap as GEM CMA object functions
-Date: Mon, 23 Nov 2020 12:56:46 +0100
-Message-Id: <20201123115646.11004-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201123115646.11004-1-tzimmermann@suse.de>
-References: <20201123115646.11004-1-tzimmermann@suse.de>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9218B89D5C
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 12:30:20 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id d142so17707978wmd.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 04:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=hQ9274cJRcisj/k1DnNRPg/AWzSpXOLuASkzuQMMEJk=;
+ b=loC7jwFZZxCVRUrWK3gkEV+nGPQO8gNgJHe9CO8Ho/sjQ+3TR3d9I8PAGUmT32DpLd
+ XF45t36teSRWCy5rRGkpKWWKho4bfob6jVR4z87QtSvdZY+PWwuEG6552uCFfZYGYwWM
+ TeYvw5BHHdArvuLvMR6+jWWE7Gf3wl5/CHG1ip4kmRu8V0NI08HHBZtzJx2Nzs78Lifm
+ ofQpQZSHatSAZOcoxUFcKOu45nQW820RNRa6+iq0oOol4VBdbXPNzbW6QVWqZLRfRJMu
+ 8X1JkcflXcrN8J8rJ2VsTx30DouJ3eTevyQcQc/epohTycYBeGuQ+QjUC2P7tdgAjjFH
+ IThw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hQ9274cJRcisj/k1DnNRPg/AWzSpXOLuASkzuQMMEJk=;
+ b=TeJEV8bmqy4XwCkO+DwTKDIs6Tqxj3icP7NqoAO2lTEe3lCzSjKDyVXskNbpKjgEbD
+ rzaZCUO7qNINsQ8SlwXaMixjdgHaxjCMKvORiePxb96V94HnNQfxDnqgU6VegzQMOxql
+ UE6F7teTyrwJcC4XiOZogaM0iYl/AOiHZNRHtb8WTXAGaOC3yLISNJ5KuHIjqGLf3cDk
+ M41jYsZ0feyW2YyvhMSyC8uFP3FX1iDvOl3mR2MYPm5ynrVU+1oRiy8Zzneub9WyVabH
+ 8IwRz9CD86zPoHD9tnfQOjNNC/HxGjKb86UQ408RFJWVB+RcQAjfkpk2J+4H7KpomFx1
+ nTJw==
+X-Gm-Message-State: AOAM530UaV3dMiKAP92F3cRoZuiPRW8oSF3Gd7XjObBqrRAOc6nWFmAL
+ rIs8yqTsOwNEJ0jyA/Zr2Wle5A==
+X-Google-Smtp-Source: ABdhPJyDOBP0tlstfPSopOHwDgmQuvftD21pkr092ilv2i4DAaBWKV4gEPJF2xEJaLrKvkQTiu1XiQ==
+X-Received: by 2002:a1c:9804:: with SMTP id a4mr23315406wme.158.1606134619163; 
+ Mon, 23 Nov 2020 04:30:19 -0800 (PST)
+Received: from dell ([91.110.221.218])
+ by smtp.gmail.com with ESMTPSA id q16sm19309395wrn.13.2020.11.23.04.30.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Nov 2020 04:30:18 -0800 (PST)
+Date: Mon, 23 Nov 2020 12:30:16 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 00/40] [Set 8] Rid W=1 warnings from GPU
+Message-ID: <20201123123016.GA4716@dell>
+References: <20201123111919.233376-1-lee.jones@linaro.org>
+ <feda98c5-a677-7bf5-c1e7-2bf311ba8097@amd.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <feda98c5-a677-7bf5-c1e7-2bf311ba8097@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -38,270 +68,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, nouveau@lists.freedesktop.org,
+ Tao Zhou <tao.zhou1@amd.com>, dri-devel@lists.freedesktop.org,
+ Sonny Jiang <sonny.jiang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Qinglang Miao <miaoqinglang@huawei.com>, Likun Gao <Likun.Gao@amd.com>,
+ Jonathan Marek <jonathan@marek.ca>, amd-gfx@lists.freedesktop.org,
+ Luben Tuikov <luben.tuikov@amd.com>, Ben Skeggs <bskeggs@redhat.com>,
+ Jiansong Chen <Jiansong.Chen@amd.com>, linux-media@vger.kernel.org,
+ Fritz Koenig <frkoenig@google.com>, linux-arm-msm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, Alex Deucher <alexander.deucher@amd.com>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, Jerome Glisse <glisse@freedesktop.org>,
+ Drew Davenport <ddavenport@chromium.org>, freedreno@lists.freedesktop.org,
+ Hawking Zhang <Hawking.Zhang@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The new GEM object function drm_gem_cma_mmap() sets the VMA flags
-and offset as in the old implementation and immediately maps in the
-buffer's memory pages.
-
-Changing CMA helpers to use the GEM object function allows for the
-removal of the special implementations for mmap and gem_prime_mmap
-callbacks. The regular functions drm_gem_mmap() and drm_gem_prime_mmap()
-are now used.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_file.c           |   3 +-
- drivers/gpu/drm/drm_gem_cma_helper.c | 121 +++++++++------------------
- drivers/gpu/drm/pl111/pl111_drv.c    |   2 +-
- drivers/gpu/drm/vc4/vc4_bo.c         |   2 +-
- include/drm/drm_gem_cma_helper.h     |  10 +--
- 5 files changed, 44 insertions(+), 94 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index b50380fa80ce..80886d50d0f1 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -113,8 +113,7 @@ bool drm_dev_needs_global_mutex(struct drm_device *dev)
-  * The memory mapping implementation will vary depending on how the driver
-  * manages memory. Legacy drivers will use the deprecated drm_legacy_mmap()
-  * function, modern drivers should use one of the provided memory-manager
-- * specific implementations. For GEM-based drivers this is drm_gem_mmap(), and
-- * for drivers which use the CMA GEM helpers it's drm_gem_cma_mmap().
-+ * specific implementations. For GEM-based drivers this is drm_gem_mmap().
-  *
-  * No other file operations are supported by the DRM userspace API. Overall the
-  * following is an example &file_operations structure::
-diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-index 6a4ef335ebc9..7942cf05cd93 100644
---- a/drivers/gpu/drm/drm_gem_cma_helper.c
-+++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-@@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
- 	.print_info = drm_gem_cma_print_info,
- 	.get_sg_table = drm_gem_cma_get_sg_table,
- 	.vmap = drm_gem_cma_vmap,
-+	.mmap = drm_gem_cma_mmap,
- 	.vm_ops = &drm_gem_cma_vm_ops,
- };
- 
-@@ -277,62 +278,6 @@ const struct vm_operations_struct drm_gem_cma_vm_ops = {
- };
- EXPORT_SYMBOL_GPL(drm_gem_cma_vm_ops);
- 
--static int drm_gem_cma_mmap_obj(struct drm_gem_cma_object *cma_obj,
--				struct vm_area_struct *vma)
--{
--	int ret;
--
--	/*
--	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
--	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
--	 * the whole buffer.
--	 */
--	vma->vm_flags &= ~VM_PFNMAP;
--	vma->vm_pgoff = 0;
--
--	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
--			  cma_obj->paddr, vma->vm_end - vma->vm_start);
--	if (ret)
--		drm_gem_vm_close(vma);
--
--	return ret;
--}
--
--/**
-- * drm_gem_cma_mmap - memory-map a CMA GEM object
-- * @filp: file object
-- * @vma: VMA for the area to be mapped
-- *
-- * This function implements an augmented version of the GEM DRM file mmap
-- * operation for CMA objects: In addition to the usual GEM VMA setup it
-- * immediately faults in the entire object instead of using on-demaind
-- * faulting. Drivers which employ the CMA helpers should use this function
-- * as their ->mmap() handler in the DRM device file's file_operations
-- * structure.
-- *
-- * Instead of directly referencing this function, drivers should use the
-- * DEFINE_DRM_GEM_CMA_FOPS().macro.
-- *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-- */
--int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma)
--{
--	struct drm_gem_cma_object *cma_obj;
--	struct drm_gem_object *gem_obj;
--	int ret;
--
--	ret = drm_gem_mmap(filp, vma);
--	if (ret)
--		return ret;
--
--	gem_obj = vma->vm_private_data;
--	cma_obj = to_drm_gem_cma_obj(gem_obj);
--
--	return drm_gem_cma_mmap_obj(cma_obj, vma);
--}
--EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
--
- #ifndef CONFIG_MMU
- /**
-  * drm_gem_cma_get_unmapped_area - propose address for mapping in noMMU cases
-@@ -500,33 +445,6 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
- }
- EXPORT_SYMBOL_GPL(drm_gem_cma_prime_import_sg_table);
- 
--/**
-- * drm_gem_cma_prime_mmap - memory-map an exported CMA GEM object
-- * @obj: GEM object
-- * @vma: VMA for the area to be mapped
-- *
-- * This function maps a buffer imported via DRM PRIME into a userspace
-- * process's address space. Drivers that use the CMA helpers should set this
-- * as their &drm_driver.gem_prime_mmap callback.
-- *
-- * Returns:
-- * 0 on success or a negative error code on failure.
-- */
--int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
--			   struct vm_area_struct *vma)
--{
--	struct drm_gem_cma_object *cma_obj;
--	int ret;
--
--	ret = drm_gem_mmap_obj(obj, obj->size, vma);
--	if (ret < 0)
--		return ret;
--
--	cma_obj = to_drm_gem_cma_obj(obj);
--	return drm_gem_cma_mmap_obj(cma_obj, vma);
--}
--EXPORT_SYMBOL_GPL(drm_gem_cma_prime_mmap);
--
- /**
-  * drm_gem_cma_vmap - map a CMA GEM object into the kernel's virtual
-  *     address space
-@@ -553,6 +471,43 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
- }
- EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
- 
-+/**
-+ * drm_gem_cma_mmap - memory-map an exported CMA GEM object
-+ * @obj: GEM object
-+ * @vma: VMA for the area to be mapped
-+ *
-+ * This function maps a buffer into a userspace process's address space.
-+ * In addition to the usual GEM VMA setup it immediately faults in the entire
-+ * object instead of using on-demand faulting. Drivers that use the CMA
-+ * helpers should set this as their &drm_gem_object_funcs.mmap callback.
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
-+{
-+	struct drm_gem_cma_object *cma_obj;
-+	int ret;
-+
-+	/*
-+	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and set the
-+	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we want to map
-+	 * the whole buffer.
-+	 */
-+	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
-+	vma->vm_flags &= ~VM_PFNMAP;
-+
-+	cma_obj = to_drm_gem_cma_obj(obj);
-+
-+	ret = dma_mmap_wc(cma_obj->base.dev->dev, vma, cma_obj->vaddr,
-+			  cma_obj->paddr, vma->vm_end - vma->vm_start);
-+	if (ret)
-+		drm_gem_vm_close(vma);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
-+
- /**
-  * drm_gem_cma_prime_import_sg_table_vmap - PRIME import another driver's
-  *	scatter/gather table and get the virtual address of the buffer
-diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
-index 40e6708fbbe2..e4dcaef6c143 100644
---- a/drivers/gpu/drm/pl111/pl111_drv.c
-+++ b/drivers/gpu/drm/pl111/pl111_drv.c
-@@ -228,7 +228,7 @@ static const struct drm_driver pl111_drm_driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_import_sg_table = pl111_gem_import_sg_table,
--	.gem_prime_mmap = drm_gem_cma_prime_mmap,
-+	.gem_prime_mmap = drm_gem_prime_mmap,
- 
- #if defined(CONFIG_DEBUG_FS)
- 	.debugfs_init = pl111_debugfs_init,
-diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-index 813e6cb3f9af..dc316cb79e00 100644
---- a/drivers/gpu/drm/vc4/vc4_bo.c
-+++ b/drivers/gpu/drm/vc4/vc4_bo.c
-@@ -782,7 +782,7 @@ int vc4_prime_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
- 		return -EINVAL;
- 	}
- 
--	return drm_gem_cma_prime_mmap(obj, vma);
-+	return drm_gem_prime_mmap(obj, vma);
- }
- 
- int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-index 4680275ab339..0a9711caa3e8 100644
---- a/include/drm/drm_gem_cma_helper.h
-+++ b/include/drm/drm_gem_cma_helper.h
-@@ -59,7 +59,7 @@ struct drm_gem_cma_object {
- 		.poll		= drm_poll,\
- 		.read		= drm_read,\
- 		.llseek		= noop_llseek,\
--		.mmap		= drm_gem_cma_mmap,\
-+		.mmap		= drm_gem_mmap,\
- 		DRM_GEM_CMA_UNMAPPED_AREA_FOPS \
- 	}
- 
-@@ -76,9 +76,6 @@ int drm_gem_cma_dumb_create(struct drm_file *file_priv,
- 			    struct drm_device *drm,
- 			    struct drm_mode_create_dumb *args);
- 
--/* set vm_flags and we can change the VM attribute to other one at here */
--int drm_gem_cma_mmap(struct file *filp, struct vm_area_struct *vma);
--
- /* allocate physical memory */
- struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
- 					      size_t size);
-@@ -101,9 +98,8 @@ struct drm_gem_object *
- drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
- 				  struct dma_buf_attachment *attach,
- 				  struct sg_table *sgt);
--int drm_gem_cma_prime_mmap(struct drm_gem_object *obj,
--			   struct vm_area_struct *vma);
- int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-+int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
- 
- /**
-  * DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE - CMA GEM driver operations
-@@ -123,7 +119,7 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd, \
- 	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle, \
- 	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table, \
--	.gem_prime_mmap		= drm_gem_cma_prime_mmap
-+	.gem_prime_mmap		= drm_gem_prime_mmap
- 
- /**
-  * DRM_GEM_CMA_DRIVER_OPS - CMA GEM driver operations
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAyMyBOb3YgMjAyMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKCj4gT25seSBza2lt
+bWVkIG92ZXIgdGhlbSwgYnV0IG92ZXIgYWxsIGxvb2tzIHNhbmUgdG8gbWUuCj4gCj4gU2VyaWVz
+IGlzIEFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+
+CgpUaGFua3MgQ2hyaXN0aWFuLCBtdWNoIGFwcHJlY2lhdGVkLgoKPiBBbSAyMy4xMS4yMCB1bSAx
+MjoxOCBzY2hyaWViIExlZSBKb25lczoKPiA+IFRoaXMgc2V0IGlzIHBhcnQgb2YgYSBsYXJnZXIg
+ZWZmb3J0IGF0dGVtcHRpbmcgdG8gY2xlYW4tdXAgVz0xCj4gPiBrZXJuZWwgYnVpbGRzLCB3aGlj
+aCBhcmUgY3VycmVudGx5IG92ZXJ3aGVsbWluZ2x5IHJpZGRsZWQgd2l0aAo+ID4gbmlnZ2x5IGxp
+dHRsZSB3YXJuaW5ncy4KPiA+IAo+ID4gT25seSA5MDAgKGZyb20gNTAwMCkgdG8gZ28hCj4gPiAK
+PiA+IExlZSBKb25lcyAoNDApOgo+ID4gICAgZHJtL3JhZGVvbi9yYWRlb25fZGV2aWNlOiBDb25z
+dW1lIG91ciBvd24gaGVhZGVyIHdoZXJlIHRoZSBwcm90b3R5cGVzCj4gPiAgICAgIGFyZSBsb2Nh
+dGVkCj4gPiAgICBkcm0vYW1kL2FtZGdwdS9hbWRncHVfdHRtOiBBZGQgZGVzY3JpcHRpb24gZm9y
+ICdwYWdlX2ZsYWdzJwo+ID4gICAgZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2liOiBQcm92aWRlIGRv
+Y3MgZm9yICdhbWRncHVfaWJfc2NoZWR1bGUoKSdzCj4gPiAgICAgICdqb2InIHBhcmFtCj4gPiAg
+ICBkcm0vYW1kL2FtZGdwdS9hbWRncHVfdmlydDogQ29ycmVjdCBwb3NzaWJsZSBjb3B5L3Bhc3Rl
+IG9yIGRvYy1yb3QKPiA+ICAgICAgbWlzbmFtaW5nIGlzc3VlCj4gPiAgICBkcm0vYW1kL2FtZGdw
+dS9jaWtfaWg6IFN1cHBseSBkZXNjcmlwdGlvbiBmb3IgJ2loJyBpbgoKWy4uLl0KCi0tIApMZWUg
+Sm9uZXMgW+adjueQvOaWr10KU2VuaW9yIFRlY2huaWNhbCBMZWFkIC0gRGV2ZWxvcGVyIFNlcnZp
+Y2VzCkxpbmFyby5vcmcg4pSCIE9wZW4gc291cmNlIHNvZnR3YXJlIGZvciBBcm0gU29DcwpGb2xs
+b3cgTGluYXJvOiBGYWNlYm9vayB8IFR3aXR0ZXIgfCBCbG9nCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
+dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
