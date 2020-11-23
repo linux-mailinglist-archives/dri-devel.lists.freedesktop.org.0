@@ -1,64 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DED2C1F96
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:09:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C62B22C1F73
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 09:08:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9278B6E270;
-	Tue, 24 Nov 2020 08:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8A606E202;
+	Tue, 24 Nov 2020 08:08:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com
- [IPv6:2607:f8b0:4864:20::844])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30FFA6E071
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 18:05:07 +0000 (UTC)
-Received: by mail-qt1-x844.google.com with SMTP id 7so14048326qtp.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 10:05:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=Jr0GsxZsKmH5CvHfsmjJ1pm9nJzHVLL7xeqa5rwPMcU=;
- b=MCVyAoIMs2fBUjA1kgLBb3fyJSMltRxLstPY1Npd2TGqUi3BmylKKlhQx9yXCLYejk
- IbcBiOPK/Oau3CTnHox4Ij3jdGCU5ioO6226OvsHokjbyPho91R74bsGG7smwLcursHM
- P0mHZ4IGiO8+XEgi9Y+VaJ9oE1OoZk8HxO8J2s6oF5zHaNCtXABikghIgrRdaoEBSa/X
- 9LpAXRyU/z+LEgstZe2LtWBpv0YBFLG8IPFj6VvHukVhVum558NW8pa5/uy9J+Tb4hA9
- 6idV4qVXj9hRjy/m7aPX9rIqv56lV1NgMRZaihncfjTkadejxcPJ5POv15e4zhiEcI5a
- SntA==
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com
+ [IPv6:2607:f8b0:4864:20::b43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D90D6E072;
+ Mon, 23 Nov 2020 18:56:13 +0000 (UTC)
+Received: by mail-yb1-xb43.google.com with SMTP id g15so16889343ybq.6;
+ Mon, 23 Nov 2020 10:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KNG9rf3jiBLOHJ1Qe+5HClUHwDC8G2v5PJoNSRMQj2o=;
+ b=ZA1WcoeOdsWbRfOoumZEJTLTRH6V2Lpq2CDbZ0VVs1hbOT/vd/v8/YkJaULhb4MkV5
+ MHmDtgQZ7Y6vQOoRafNcjdab1m8jmYbh8Ox0xcyAJF866JXyArBCoNYzebFkQV1wRZF3
+ r3hM3WSnIq7Ht5VQ2PIwvurJMfamtV7PLgYZxEoHoT74qEv3IGeXPryfDRdu7AW/qetQ
+ L1ocOXaYsoIrsq1AVQ8cgaa4G2qWRkZviQ+mOBHOVW/MFUti3ALLJAr2MKUeWh+s4BW6
+ tAJsdEl41qUIuUvcW5DdLnVlmhWMC8lZFuXyyo4x1R3eX3DaWLHh1JzDrRZDt/CN6qga
+ 036w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Jr0GsxZsKmH5CvHfsmjJ1pm9nJzHVLL7xeqa5rwPMcU=;
- b=Msb8F1/mATU0kBjQL9sv3oS57qoqcAnudWiPofLQIILOL8GXrIHMSK42ew9cGP//cl
- wQJhkvsU4+dvDGPPQqhdWd7xJyPylLtOj1CmvN31l9kVt4zGfAMolKZCs3ZY2oKYzzqp
- QuSePtYpy6LiVXJWQOXKl4R94lpHv+uAVh0W09b24+TTeRI3c3nH6alCBP3WuNPRgoBT
- dHcmRzyczHd7UvdTgbRPyOInp/qWQ8G0vz/xA4wywVF+oicGVJqgeXl+uyetreNLAsu4
- Rl33fsnAZNolNfSsW70Dt+pcRCnpw/r0XjxirtzGcZOQfEB5Rw4vDsEVR77jcNrX2Qs7
- BiAQ==
-X-Gm-Message-State: AOAM530wMYG1j3ICKXsTlolFXNdOOXR5dx5JZ2AvFFlsjj2zbXRT1SLQ
- nQdpw4irtwCF2yXYkicPoTPX0g==
-X-Google-Smtp-Source: ABdhPJzCSu1k1ObRkVVik921t47hSdFUMnCL/IpfhPmDZOyMONADZqPpDPvBnsKEgLMYAxxH5tO5BQ==
-X-Received: by 2002:aed:31c5:: with SMTP id 63mr297760qth.367.1606154706309;
- Mon, 23 Nov 2020 10:05:06 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id y3sm3659532qkl.110.2020.11.23.10.05.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 10:05:05 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1khGD3-00AEXU-0H; Mon, 23 Nov 2020 14:05:05 -0400
-Date: Mon, 23 Nov 2020 14:05:04 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
-Message-ID: <20201123180504.GA244516@ziepe.ca>
-References: <1606153984-104583-1-git-send-email-jianxin.xiong@intel.com>
- <1606153984-104583-4-git-send-email-jianxin.xiong@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KNG9rf3jiBLOHJ1Qe+5HClUHwDC8G2v5PJoNSRMQj2o=;
+ b=bHzmiJh09W8JDxNkgWE08VfUooPAB0WmjpWRNr+cum/RmyLFjCLFcOyAKQhaU4ZOGT
+ gI9W17lm40hh9D+B3trKiDpuhbd+fZmhy33H8irLCoo5ROkE4N4OJhUWF9GKBreVyC1m
+ xcoDtSAS6gxujG8qdzEDdckKT+HKft5SypaO6+RDXKFt+LJIFFo1dTWj355BDmzs0zC2
+ oY6CAvL8fR7ZyabOV9tsjytPQIFrNdvxQGaNKItBL0IjlSTpCo1Zz6nTVyDFjHXhEA38
+ 1OaXpy2oRCo2Bp5hhCdjYztor5lMLBgoKggCrWg/ZcAVnpBLU7AVNx6/tpjQKl8djhS6
+ bWHw==
+X-Gm-Message-State: AOAM533L6FXfObHwNgiURa9cQASSffO5t4Wz0KeOLEkby6h57fPjVcqM
+ qvrDWRBjioTH1Jz3L9gMqsBYN+bUp2k1n+s0pJI=
+X-Google-Smtp-Source: ABdhPJyhWLCSkpSmtD0p55Cmpr9Ao1aJs0IYHWLu4Tcyj9q39OBvqgrIxMZMaEy7w1zacpD3mVr5R93EsjzwMBkGuSA=
+X-Received: by 2002:a25:df55:: with SMTP id w82mr977719ybg.135.1606157772316; 
+ Mon, 23 Nov 2020 10:56:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1606153984-104583-4-git-send-email-jianxin.xiong@intel.com>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+In-Reply-To: <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Nov 2020 19:56:01 +0100
+Message-ID: <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
 X-Mailman-Approved-At: Tue, 24 Nov 2020 08:08:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,60 +70,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
+ reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Nathan Chancellor <natechancellor@gmail.com>, linux-ide@vger.kernel.org,
+ dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+ linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, linux-can@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, nouveau@lists.freedesktop.org,
+ linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-nfs@vger.kernel.org,
+ GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
+ Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-renesas-soc@vger.kernel.org,
+ linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+ netfilter-devel@vger.kernel.org,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 23, 2020 at 09:53:02AM -0800, Jianxin Xiong wrote:
+On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> Well, I used git.  It says that as of today in Linus' tree we have 889
+> patches related to fall throughs and the first series went in in
+> october 2017 ... ignoring a couple of outliers back to February.
 
-> +cdef class DmaBuf:
-> +    def __init__(self, size, unit=0):
-> +        """
-> +        Allocate DmaBuf object from a GPU device. This is done through the
-> +        DRI device interface (/dev/dri/card*). Usually this requires the
-> +        effective user id being root or being a member of the 'video' group.
-> +        :param size: The size (in number of bytes) of the buffer.
-> +        :param unit: The unit number of the GPU to allocate the buffer from.
-> +        :return: The newly created DmaBuf object on success.
-> +        """
-> +        self.dmabuf_mrs = weakref.WeakSet()
-> +        self.dri_fd = open('/dev/dri/card'+str(unit), O_RDWR)
-> +
-> +        args = bytearray(32)
-> +        pack_into('=iiiiiiq', args, 0, 1, size, 8, 0, 0, 0, 0)
-> +        ioctl(self.dri_fd, DRM_IOCTL_MODE_CREATE_DUMB, args)
-> +        a, b, c, d, self.handle, e, self.size = unpack('=iiiiiiq', args)
-> +
-> +        args = bytearray(12)
-> +        pack_into('=iii', args, 0, self.handle, O_RDWR, 0)
-> +        ioctl(self.dri_fd, DRM_IOCTL_PRIME_HANDLE_TO_FD, args)
-> +        a, b, self.fd = unpack('=iii', args)
-> +
-> +        args = bytearray(16)
-> +        pack_into('=iiq', args, 0, self.handle, 0, 0)
-> +        ioctl(self.dri_fd, DRM_IOCTL_MODE_MAP_DUMB, args);
-> +        a, b, self.map_offset = unpack('=iiq', args);
+I can see ~10k insertions over ~1k commits and 15 years that mention a
+fallthrough in the entire repo. That is including some commits (like
+the biggest one, 960 insertions) that have nothing to do with C
+fallthrough. A single kernel release has an order of magnitude more
+changes than this...
 
-Wow, OK
+But if we do the math, for an author, at even 1 minute per line change
+and assuming nothing can be automated at all, it would take 1 month of
+work. For maintainers, a couple of trivial lines is noise compared to
+many other patches.
 
-Is it worth using ctypes here instead? Can you at least add a comment
-before each pack specifying the 'struct XXX' this is following?
+In fact, this discussion probably took more time than the time it
+would take to review the 200 lines. :-)
 
-Does this work with normal Intel GPUs, like in a Laptop? AMD too?
+> We're also complaining about the inability to recruit maintainers:
+>
+> https://www.theregister.com/2020/06/30/hard_to_find_linux_maintainers_says_torvalds/
+>
+> And burn out:
+>
+> http://antirez.com/news/129
 
-Christian, I would be very happy to hear from you that this entire
-work is good for AMD as well
+Accepting trivial and useful 1-line patches is not what makes a
+voluntary maintainer quit... Thankless work with demanding deadlines is.
 
-Edward should look through this, but I'm glad to see something like
-this
+> The whole crux of your argument seems to be maintainers' time isn't
+> important so we should accept all trivial patches
 
-Thanks,
-Jason
+I have not said that, at all. In fact, I am a voluntary one and I
+welcome patches like this. It takes very little effort on my side to
+review and it helps the kernel overall. Paid maintainers are the ones
+that can take care of big features/reviews.
+
+> What I'm actually trying to articulate is a way of measuring value of
+> the patch vs cost ... it has nothing really to do with who foots the
+> actual bill.
+
+I understand your point, but you were the one putting it in terms of a
+junior FTE. In my view, 1 month-work (worst case) is very much worth
+removing a class of errors from a critical codebase.
+
+> One thesis I'm actually starting to formulate is that this continual
+> devaluing of maintainers is why we have so much difficulty keeping and
+> recruiting them.
+
+That may very well be true, but I don't feel anybody has devalued
+maintainers in this discussion.
+
+Cheers,
+Miguel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
