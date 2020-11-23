@@ -2,55 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857CC2C0D0A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 15:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749A22C0D2D
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 15:24:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A59089FE3;
-	Mon, 23 Nov 2020 14:15:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3722288DF6;
+	Mon, 23 Nov 2020 14:24:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CAB389FE3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:15:49 +0000 (UTC)
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F10D88DF6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:24:52 +0000 (UTC)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 9B42120781;
- Mon, 23 Nov 2020 14:15:47 +0000 (UTC)
+ by mail.kernel.org (Postfix) with ESMTPSA id ACD3020782
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:24:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606140947;
- bh=8rpJx5QRw4RH0PddIzzUPjibWCFpM1TlEugxUnbUh3w=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fxeh1kppeBrBLSEKbdR/gqH+4lKVGDv9ByAYQwPqryRdXqiSV6BHomjTzrQpxxn7F
- 0X2v5od5ENGszhqM5pBaAc+lqDMo/IhzvuZsa59VoTL0NVoaercBVLEUcU/T/7OW7o
- N3p4LRTmbI10qkzi0bKBHpF2wmj25VwpNbRWStqE=
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1khCd7-00CyGd-69; Mon, 23 Nov 2020 14:15:45 +0000
+ s=default; t=1606141492;
+ bh=lZCzl0johvQt4EzTRuzuNOP1KrMWLVUidQpy3aajsgI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=P7Cl8QLhNbYBIQgtslh8lQHuMSb5dwsxLuIMs471DjcfDe77f731+wCIaQtkt4lE5
+ 6v4HWbmA9N8ofbbC9L7dBJTZ2RrjUH7xO/KvD2C2flmYMHJVmcqEE6yIoDEnue6W4S
+ etwFgMU6Y0Gj/NoGkwTdMGIoEwyxaCkY9nH9T9oY=
+Received: by mail-ej1-f50.google.com with SMTP id a16so23569748ejj.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 06:24:51 -0800 (PST)
+X-Gm-Message-State: AOAM533KpaE3+TNrX+Kkl5qaLnyHa9XpUxUvwmZNS4sF1oXq61zEvCdJ
+ AAd6SWQfwjA/Nkpp8X7QNA+UE2jAGeY7Fv1QXQ==
+X-Google-Smtp-Source: ABdhPJyoAB6xM6vm0HI3JsU62A3qbHNDSlXsLXP70jZX/dBoCx2jDlI/HbodoBhD1sIO1TUirrsog/XvxZvpcsWvhTo=
+X-Received: by 2002:a17:906:a106:: with SMTP id
+ t6mr42478451ejy.63.1606141490066; 
+ Mon, 23 Nov 2020 06:24:50 -0800 (PST)
 MIME-Version: 1.0
-Date: Mon, 23 Nov 2020 14:15:45 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Subject: Re: [PATCH 1/2] drm/meson: dw-hdmi: Disable clocks on driver teardown
-In-Reply-To: <1jwnyc41c6.fsf@starbuckisacylon.baylibre.com>
-References: <20201120094205.525228-1-maz@kernel.org>
- <20201120094205.525228-2-maz@kernel.org>
- <1jwnyc41c6.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <763f505eececa3b02bd794aec5e36d22@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: jbrunet@baylibre.com, narmstrong@baylibre.com,
- khilman@baylibre.com, martin.blumenstingl@googlemail.com,
- guillaume.tucker@collabora.com, kernel-team@android.com,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
+References: <d6f1943aaf58bb0ca527e048406e09cf387a12b0.1599166624.git.robin.murphy@arm.com>
+In-Reply-To: <d6f1943aaf58bb0ca527e048406e09cf387a12b0.1599166624.git.robin.murphy@arm.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 23 Nov 2020 22:24:38 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9TObKy8j+A1Wzo61dhqeWwfxW2NY6wTN_obGL6-fveww@mail.gmail.com>
+Message-ID: <CAAOTY_9TObKy8j+A1Wzo61dhqeWwfxW2NY6wTN_obGL6-fveww@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: Drop local dma_parms
+To: Robin Murphy <robin.murphy@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,98 +54,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Kevin Hilman <khilman@baylibre.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Guillaume Tucker <guillaume.tucker@collabora.com>,
- linux-amlogic@lists.infradead.org, kernel-team@android.com,
- linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-23 14:03, Jerome Brunet wrote:
-> On Fri 20 Nov 2020 at 10:42, Marc Zyngier <maz@kernel.org> wrote:
-> 
->> The HDMI driver request clocks early, but never disable them, leaving
->> the clocks on even when the driver is removed.
->> 
->> Fix it by slightly refactoring the clock code, and register a devm
->> action that will eventually disable/unprepare the enabled clocks.
->> 
->> Signed-off-by: Marc Zyngier <maz@kernel.org>
->> ---
->>  drivers/gpu/drm/meson/meson_dw_hdmi.c | 43 
->> ++++++++++++++++++---------
->>  1 file changed, 29 insertions(+), 14 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/meson/meson_dw_hdmi.c 
->> b/drivers/gpu/drm/meson/meson_dw_hdmi.c
->> index 7f8eea494147..29623b309cb1 100644
->> --- a/drivers/gpu/drm/meson/meson_dw_hdmi.c
->> +++ b/drivers/gpu/drm/meson/meson_dw_hdmi.c
->> @@ -145,8 +145,6 @@ struct meson_dw_hdmi {
->>  	struct reset_control *hdmitx_apb;
->>  	struct reset_control *hdmitx_ctrl;
->>  	struct reset_control *hdmitx_phy;
->> -	struct clk *hdmi_pclk;
->> -	struct clk *venci_clk;
->>  	struct regulator *hdmi_supply;
->>  	u32 irq_stat;
->>  	struct dw_hdmi *hdmi;
->> @@ -946,6 +944,29 @@ static void meson_disable_regulator(void *data)
->>  	regulator_disable(data);
->>  }
->> 
->> +static void meson_disable_clk(void *data)
->> +{
->> +	clk_disable_unprepare(data);
->> +}
->> +
->> +static int meson_enable_clk(struct device *dev, char *name)
->> +{
->> +	struct clk *clk;
->> +	int ret;
->> +
->> +	clk = devm_clk_get(dev, name);
->> +	if (IS_ERR(clk)) {
->> +		dev_err(dev, "Unable to get %s pclk\n", name);
->> +		return PTR_ERR(clk);
->> +	}
->> +
->> +	ret = clk_prepare_enable(clk);
->> +	if (!ret)
->> +		ret = devm_add_action_or_reset(dev, meson_disable_clk,
->> clk);
-> 
-> Thanks for fixing this Marc.
-> 
-> FYI, while it is fine to declare a function to disable the clocks, a 
-> quick
-> cast may avoid it
-> 
-> devm_add_action_or_reset(dev, (void(*)(void *))clk_disable_unprepare, 
-> clk);
-
-While this works for now, a change to the clk_disable_unprepare()
-prototype (such as adding a second argument) would now go completely
-unnoticed (after all, you've cast the function, it *must* be correct,
-right?), and someone would spend a few hours trying to track down memory
-corruption or some other interesting results.
-
-Yes, casting C functions can be hilarious.
-
-I can see a few uses of this hack in the tree, and I have my pop-corn
-ready.
-
-Thanks,
-
-         M.
--- 
-Jazz is not dead. It just smells funny...
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFJvYmluOgoKUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4g5pa8IDIwMjDl
+ubQ55pyINOaXpSDpgLHkupQg5LiK5Y2INDo1OeWvq+mBk++8mgo+Cj4gU2luY2UgY29tbWl0IDk0
+OTViN2U5MmY3MSAoImRyaXZlciBjb3JlOiBwbGF0Zm9ybTogSW5pdGlhbGl6ZSBkbWFfcGFybXMK
+PiBmb3IgcGxhdGZvcm0gZGV2aWNlcyIpLCBzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlIGFscmVhZHkg
+cHJvdmlkZXMgYQo+IGRtYV9wYXJtcyBzdHJ1Y3R1cmUsIHNvIHdlIGNhbiBzYXZlIGFsbG9jYXRp
+bmcgYW5vdGhlciBvbmUuCj4KPiBBbHNvIHRoZSBETUEgc2VnbWVudCBzaXplIGlzIHNpbXBseSBh
+IHNpemUsIG5vdCBhIGJpdG1hc2suCj4KCkFwcGxpZWQgdG8gbWVkaWF0ZWstZHJtLW5leHQgWzFd
+LCB0aGFua3MuCgpbMV0gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
+bC9naXQvY2h1bmt1YW5nLmh1L2xpbnV4LmdpdC9sb2cvP2g9bWVkaWF0ZWstZHJtLW5leHQKClJl
+Z2FyZHMsCkNodW4tS3VhbmcuCgo+IFNpZ25lZC1vZmYtYnk6IFJvYmluIE11cnBoeSA8cm9iaW4u
+bXVycGh5QGFybS5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJt
+X2Rydi5jIHwgMjMgKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgZHJpdmVycy9ncHUvZHJtL21l
+ZGlhdGVrL210a19kcm1fZHJ2LmggfCAgMiAtLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0
+aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L21lZGlhdGVrL210a19kcm1fZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
+bV9kcnYuYwo+IGluZGV4IDA0MGE4ZjM5M2ZlMi4uMzk0MWY2ZjZiMDAzIDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5jCj4gKysrIGIvZHJpdmVycy9n
+cHUvZHJtL21lZGlhdGVrL210a19kcm1fZHJ2LmMKPiBAQCAtMjIxLDIxICsyMjEsMTAgQEAgc3Rh
+dGljIGludCBtdGtfZHJtX2ttc19pbml0KHN0cnVjdCBkcm1fZGV2aWNlICpkcm0pCj4gICAgICAg
+ICAgKiBDb25maWd1cmUgdGhlIERNQSBzZWdtZW50IHNpemUgdG8gbWFrZSBzdXJlIHdlIGdldCBj
+b250aWd1b3VzIElPVkEKPiAgICAgICAgICAqIHdoZW4gaW1wb3J0aW5nIFBSSU1FIGJ1ZmZlcnMu
+Cj4gICAgICAgICAgKi8KPiAtICAgICAgIGlmICghZG1hX2Rldi0+ZG1hX3Bhcm1zKSB7Cj4gLSAg
+ICAgICAgICAgICAgIHByaXZhdGUtPmRtYV9wYXJtc19hbGxvY2F0ZWQgPSB0cnVlOwo+IC0gICAg
+ICAgICAgICAgICBkbWFfZGV2LT5kbWFfcGFybXMgPQo+IC0gICAgICAgICAgICAgICAgICAgICAg
+IGRldm1fa3phbGxvYyhkcm0tPmRldiwgc2l6ZW9mKCpkbWFfZGV2LT5kbWFfcGFybXMpLAo+IC0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBHRlBfS0VSTkVMKTsKPiAtICAgICAg
+IH0KPiAtICAgICAgIGlmICghZG1hX2Rldi0+ZG1hX3Bhcm1zKSB7Cj4gLSAgICAgICAgICAgICAg
+IHJldCA9IC1FTk9NRU07Cj4gLSAgICAgICAgICAgICAgIGdvdG8gZXJyX2NvbXBvbmVudF91bmJp
+bmQ7Cj4gLSAgICAgICB9Cj4gLQo+IC0gICAgICAgcmV0ID0gZG1hX3NldF9tYXhfc2VnX3NpemUo
+ZG1hX2RldiwgKHVuc2lnbmVkIGludClETUFfQklUX01BU0soMzIpKTsKPiArICAgICAgIHJldCA9
+IGRtYV9zZXRfbWF4X3NlZ19zaXplKGRtYV9kZXYsIFVJTlRfTUFYKTsKPiAgICAgICAgIGlmIChy
+ZXQpIHsKPiAgICAgICAgICAgICAgICAgZGV2X2VycihkbWFfZGV2LCAiRmFpbGVkIHRvIHNldCBE
+TUEgc2VnbWVudCBzaXplXG4iKTsKPiAtICAgICAgICAgICAgICAgZ290byBlcnJfdW5zZXRfZG1h
+X3Bhcm1zOwo+ICsgICAgICAgICAgICAgICBnb3RvIGVycl9jb21wb25lbnRfdW5iaW5kOwo+ICAg
+ICAgICAgfQo+Cj4gICAgICAgICAvKgo+IEBAIC0yNDYsMTYgKzIzNSwxMyBAQCBzdGF0aWMgaW50
+IG10a19kcm1fa21zX2luaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKPiAgICAgICAgIGRybS0+
+aXJxX2VuYWJsZWQgPSB0cnVlOwo+ICAgICAgICAgcmV0ID0gZHJtX3ZibGFua19pbml0KGRybSwg
+TUFYX0NSVEMpOwo+ICAgICAgICAgaWYgKHJldCA8IDApCj4gLSAgICAgICAgICAgICAgIGdvdG8g
+ZXJyX3Vuc2V0X2RtYV9wYXJtczsKPiArICAgICAgICAgICAgICAgZ290byBlcnJfY29tcG9uZW50
+X3VuYmluZDsKPgo+ICAgICAgICAgZHJtX2ttc19oZWxwZXJfcG9sbF9pbml0KGRybSk7Cj4gICAg
+ICAgICBkcm1fbW9kZV9jb25maWdfcmVzZXQoZHJtKTsKPgo+ICAgICAgICAgcmV0dXJuIDA7Cj4K
+PiAtZXJyX3Vuc2V0X2RtYV9wYXJtczoKPiAtICAgICAgIGlmIChwcml2YXRlLT5kbWFfcGFybXNf
+YWxsb2NhdGVkKQo+IC0gICAgICAgICAgICAgICBkbWFfZGV2LT5kbWFfcGFybXMgPSBOVUxMOwo+
+ICBlcnJfY29tcG9uZW50X3VuYmluZDoKPiAgICAgICAgIGNvbXBvbmVudF91bmJpbmRfYWxsKGRy
+bS0+ZGV2LCBkcm0pOwo+Cj4gQEAgLTI2OSw5ICsyNTUsNiBAQCBzdGF0aWMgdm9pZCBtdGtfZHJt
+X2ttc19kZWluaXQoc3RydWN0IGRybV9kZXZpY2UgKmRybSkKPiAgICAgICAgIGRybV9rbXNfaGVs
+cGVyX3BvbGxfZmluaShkcm0pOwo+ICAgICAgICAgZHJtX2F0b21pY19oZWxwZXJfc2h1dGRvd24o
+ZHJtKTsKPgo+IC0gICAgICAgaWYgKHByaXZhdGUtPmRtYV9wYXJtc19hbGxvY2F0ZWQpCj4gLSAg
+ICAgICAgICAgICAgIHByaXZhdGUtPmRtYV9kZXYtPmRtYV9wYXJtcyA9IE5VTEw7Cj4gLQo+ICAg
+ICAgICAgY29tcG9uZW50X3VuYmluZF9hbGwoZHJtLT5kZXYsIGRybSk7Cj4gIH0KPgo+IGRpZmYg
+LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaCBiL2RyaXZlcnMv
+Z3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2Rydi5oCj4gaW5kZXggYjViZTYzZTUzMTc2Li42YWZk
+MGI1ZjJiOTIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1f
+ZHJ2LmgKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kcnYuaAo+IEBA
+IC00NCw4ICs0NCw2IEBAIHN0cnVjdCBtdGtfZHJtX3ByaXZhdGUgewo+ICAgICAgICAgc3RydWN0
+IG10a19kZHBfY29tcCAqZGRwX2NvbXBbRERQX0NPTVBPTkVOVF9JRF9NQVhdOwo+ICAgICAgICAg
+Y29uc3Qgc3RydWN0IG10a19tbXN5c19kcml2ZXJfZGF0YSAqZGF0YTsKPiAgICAgICAgIHN0cnVj
+dCBkcm1fYXRvbWljX3N0YXRlICpzdXNwZW5kX3N0YXRlOwo+IC0KPiAtICAgICAgIGJvb2wgZG1h
+X3Bhcm1zX2FsbG9jYXRlZDsKPiAgfTsKPgo+ICBleHRlcm4gc3RydWN0IHBsYXRmb3JtX2RyaXZl
+ciBtdGtfZGRwX2RyaXZlcjsKPiAtLQo+IDIuMjguMC5kaXJ0eQo+Cl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
+LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
