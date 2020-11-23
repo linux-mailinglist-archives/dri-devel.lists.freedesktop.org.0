@@ -1,49 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0579E2C0D9C
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 15:37:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FE22C0E29
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 15:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EB8B6E037;
-	Mon, 23 Nov 2020 14:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 926AD899A5;
+	Mon, 23 Nov 2020 14:54:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75C2B6E029
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:37:08 +0000 (UTC)
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
- [209.85.218.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id DE6F12080A
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606142228;
- bh=OUEWYsBkqLktfnlUWZU93Abg+Nz/7mAOEsw44o/z+AY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=LWeEmYqRvIgVibJPvSUA2bNMZQKSwK4bFEbNihh1IZICbn9g73foiQyD2lJ+Kj9cW
- aHXTvbMmNhyKgCdAiOyMUqq9ko2uFsk4zH5WkqDSAiwX//khUaYb3iSdJ3ZinOQsLL
- KFYTslYgHiC7hm8tX+CcEdkzT3d+WvIAEY97IJxc=
-Received: by mail-ej1-f50.google.com with SMTP id i19so23585225ejx.9
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 06:37:07 -0800 (PST)
-X-Gm-Message-State: AOAM532sfhDW2oSceTtZxYzk9gk4kQVVwloZziGnP5rq6XgVbRe4Snol
- HNuZC1HdK0bh24jIHl5mq0zQ9UwcajoVGCEE/g==
-X-Google-Smtp-Source: ABdhPJwGasd9fgVLE5ED8mhWD3NZ+E+/6bwxsrrXYebqvxGYFpzg+IT9Mho0RkDbiY0q9WB2uZjp5mQd28XNDsFa8GI=
-X-Received: by 2002:a17:906:d0cc:: with SMTP id
- bq12mr42714267ejb.127.1606142226345; 
- Mon, 23 Nov 2020 06:37:06 -0800 (PST)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B28BB899A5
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 14:54:38 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0ANEsXCC025461;
+ Mon, 23 Nov 2020 08:54:33 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606143273;
+ bh=0U26LSVl82OgM0IJVaWDOHaWYbr2bf96lefxFn/2/LM=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=Uei2La13mQq7DXw7H4Kvbfy6S74V14vQDnlsSf7ZlFovsNVECUapvYGBL9PFG7CPq
+ Bspk0hfxjJohpB6yBxv0wXmb7XHHA/ClZWjXVOiB0YZaD3UHAYHyo9THegJWnUAIwQ
+ o1qEoJEs82IuL2lt8RyEwLkgBy+4AXwnjfNvJe6I=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0ANEsX67096764
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 23 Nov 2020 08:54:33 -0600
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 23
+ Nov 2020 08:54:32 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 23 Nov 2020 08:54:33 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0ANEsVmr018018;
+ Mon, 23 Nov 2020 08:54:31 -0600
+Subject: Re: [PATCH v3 6/6] drm/bridge: cdns-mhdp8546: Fix the interrupt
+ enable/disable
+To: Nikhil Devshatwar <nikhil.nd@ti.com>, <dri-devel@lists.freedesktop.org>
+References: <20201119160134.9244-1-nikhil.nd@ti.com>
+ <20201119160134.9244-7-nikhil.nd@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <784bb22e-2199-cdfd-985b-5c58474e1e88@ti.com>
+Date: Mon, 23 Nov 2020 16:54:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201113134938.4004947-1-lee.jones@linaro.org>
- <20201113134938.4004947-19-lee.jones@linaro.org>
-In-Reply-To: <20201113134938.4004947-19-lee.jones@linaro.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 23 Nov 2020 22:36:54 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9qciG6Cc4b8WqzCugdve99qjTO5ftsyK0PHJiOF+C19w@mail.gmail.com>
-Message-ID: <CAAOTY_9qciG6Cc4b8WqzCugdve99qjTO5ftsyK0PHJiOF+C19w@mail.gmail.com>
-Subject: Re: [PATCH 18/40] drm/mediatek/mtk_dpi: Remove unused struct
- definition 'mtk_dpi_encoder_funcs'
-To: Lee Jones <lee.jones@linaro.org>
+In-Reply-To: <20201119160134.9244-7-nikhil.nd@ti.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,49 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Jie Qiu <jie.qiu@mediatek.com>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sekhar Nori <nsekhar@ti.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Yuti Amonkar <yamonkar@cadence.com>, Swapnil Jakhade <sjakhade@cadence.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIExlZToKCkxlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+IOaWvCAyMDIw5bm0MTHm
-nIgxM+aXpSDpgLHkupQg5LiL5Y2IOTo1MOWvq+mBk++8mgo+Cj4gRml4ZXMgdGhlIGZvbGxvd2lu
-ZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6Cj4KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcGkuYzo1MzA6Mzk6IHdhcm5pbmc6IOKAmG10a19kcGlfZW5jb2Rlcl9mdW5jc+KA
-mSBkZWZpbmVkIGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtY29uc3QtdmFyaWFibGU9XQo+CgpUaGFu
-a3MgZm9yIHRoaXMgcGF0Y2gsIGJ1dCBJJ3ZlIGFwcGxpZWQgYW5vdGhlciBpZGVudGljYWwgcGF0
-Y2gKImRybS9tZWRpYXRlazogbXRrX2RwaTogRml4IHVudXNlZCB2YXJpYWJsZSAnbXRrX2RwaV9l
-bmNvZGVyX2Z1bmNzJyIKWzFdLgoKWzFdIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
-aW51eC9rZXJuZWwvZ2l0L2NodW5rdWFuZy5odS9saW51eC5naXQvY29tbWl0Lz9oPW1lZGlhdGVr
-LWRybS1maXhlcyZpZD00NmI5N2FlZDU0ODRhM2Y0NDU4NGExMGY5ZTA2OTFiZjg5ZDI5MDY0CgpS
-ZWdhcmRzLApDaHVuLUt1YW5nLgoKPiBDYzogQ2h1bi1LdWFuZyBIdSA8Y2h1bmt1YW5nLmh1QGtl
-cm5lbC5vcmc+Cj4gQ2M6IFBoaWxpcHAgWmFiZWwgPHAuemFiZWxAcGVuZ3V0cm9uaXguZGU+Cj4g
-Q2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzogRGFuaWVsIFZldHRlciA8
-ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBNYXR0aGlhcyBCcnVnZ2VyIDxtYXR0aGlhcy5iZ2dAZ21h
-aWwuY29tPgo+IENjOiBKaWUgUWl1IDxqaWUucWl1QG1lZGlhdGVrLmNvbT4KPiBDYzogZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmlu
-ZnJhZGVhZC5vcmcKPiBDYzogbGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+IFNp
-Z25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gLS0tCj4gIGRy
-aXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHBpLmMgfCA5IC0tLS0tLS0tLQo+ICAxIGZpbGUg
-Y2hhbmdlZCwgOSBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RwaS5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYwo+
-IGluZGV4IGNmMTFjNDg1MGI0MDUuLjUyZjExYTYzYTMzMDQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRp
-YXRlay9tdGtfZHBpLmMKPiBAQCAtNTIyLDE1ICs1MjIsNiBAQCBzdGF0aWMgaW50IG10a19kcGlf
-c2V0X2Rpc3BsYXlfbW9kZShzdHJ1Y3QgbXRrX2RwaSAqZHBpLAo+ICAgICAgICAgcmV0dXJuIDA7
-Cj4gIH0KPgo+IC1zdGF0aWMgdm9pZCBtdGtfZHBpX2VuY29kZXJfZGVzdHJveShzdHJ1Y3QgZHJt
-X2VuY29kZXIgKmVuY29kZXIpCj4gLXsKPiAtICAgICAgIGRybV9lbmNvZGVyX2NsZWFudXAoZW5j
-b2Rlcik7Cj4gLX0KPiAtCj4gLXN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX2VuY29kZXJfZnVuY3Mg
-bXRrX2RwaV9lbmNvZGVyX2Z1bmNzID0gewo+IC0gICAgICAgLmRlc3Ryb3kgPSBtdGtfZHBpX2Vu
-Y29kZXJfZGVzdHJveSwKPiAtfTsKPiAtCj4gIHN0YXRpYyBpbnQgbXRrX2RwaV9icmlkZ2VfYXR0
-YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UsCj4gICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgZW51bSBkcm1fYnJpZGdlX2F0dGFjaF9mbGFncyBmbGFncykKPiAgewo+IC0tCj4g
-Mi4yNS4xCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 19/11/2020 18:01, Nikhil Devshatwar wrote:
+> When removing the tidss driver, there is a warning reported by
+> kernel about an unhandled interrupt for mhdp driver.
+> 
+> [   43.238895] irq 31: nobody cared (try booting with the "irqpoll" option)
+> ... [snipped backtrace]
+> [   43.330735] handlers:
+> [   43.333020] [<000000005367c4f9>] irq_default_primary_handler threaded [<000000007e02b601>]
+> cdns_mhdp_irq_handler [cdns_mhdp8546]
+> [   43.344607] Disabling IRQ #31
+> 
+> This happens because as part of cdns_mhdp_bridge_hpd_disable, driver tries
+> to disable the interrupts. While disabling the SW_EVENT interrupts,
+> it accidentally enables the MBOX interrupts, which are not handled by
+> the driver.
+> 
+> Fix this with a read-modify-write to update only required bits.
+> Use the enable / disable function as required in other places.
+> 
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> Reviewed-by: Swapnil Jakhade <sjakhade@cadence.com>
+
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+I think this is fine as a fix for this issue, but at some point the irq management needs some work.
+E.g. we call cdns_mhdp_bridge_hpd_enable when attaching/enabling the hw, but also via
+drm_bridge_funcs->hpd_enable. This doesn't make sense, as one of those calls doesn't achieve
+anything, as cdns_mhdp_bridge_hpd_enable has already been called.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
