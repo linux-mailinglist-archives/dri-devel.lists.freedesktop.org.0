@@ -2,69 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59BD2C1584
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 21:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0487D2C1695
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 21:38:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E15FD89C0A;
-	Mon, 23 Nov 2020 20:20:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2AAF6E0B8;
+	Mon, 23 Nov 2020 20:38:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CA0C89C0A;
- Mon, 23 Nov 2020 20:20:04 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id k9so10343395ejc.11;
- Mon, 23 Nov 2020 12:20:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=8JSMIsOy0AyZyAetkv26+u/9hp8Eqpg6ovnXL0MjUz0=;
- b=RKAXRwRMks7CRNEEY2uki6yhoxEaXklAvwdeUTpSW1GLr/V+4e0Me7LNx196n0/3bZ
- h5CKdFA3h6u8wYJWa7RPv6nvZQfzb51H+Bb3xbfYsqE0NHQ/ZrbVSXs/Kt1DBSXcZSFP
- zEeTciL+qoD5xutpxIuA2FAAHPNw4qlniWQvAxralpsZR7BigYYxz3uMJFqGvF+tCKVp
- nayGd4vRgIgNyMeGd5wxIq/RB1pKF/qRvIoI3sXAD2yihflkMleyOsjxWFo1yXuYLzD6
- Tp92hHVy+TG3Sdb+0W5urFNWW5fIRvgs1tWCoxrlOhAle1dxAtfKk0WzXFccGJ3u1WJ7
- YoGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=8JSMIsOy0AyZyAetkv26+u/9hp8Eqpg6ovnXL0MjUz0=;
- b=ujt+7lcjiFT7XeipIWfoj4Drla1N0i1PwkFE7Lqajb8XPlw1I/jEMxGGVbnV5dx1y0
- 9MCVlSj3UjQpxZzRfR760dXCgIHDy3wzb9blp0heP1uX8eyARPlA8p84zGI/89766b5k
- 4BNsN0yYSJZFSLXXxMJfcDPvtQL45u2J1AAdIf5ckdYu+lHUlP6gYgR56SLKQmZ8jtIb
- pjETgy4geaPjM7YvT35cru7bqndzReqqgqJ+lJja6lcjBy1MvAwyu9vaaqEVFxsj7GFF
- lUDvqkHvrKv7ohDEWV1KgvB7RW50/fO2746pPozSsezYXpBOz1NjfcROI1UGTx9f6VEX
- 371w==
-X-Gm-Message-State: AOAM531o1mv4uXK4HHMLHWNKKUG6gU+vLFGLQa0PC14P+TC1wMhfWn+i
- iWglV7QmlSxyD7xZBhs/xhQ=
-X-Google-Smtp-Source: ABdhPJwUlg1eEuI6RhRMFWqF3dHJAi5Hj2rkcEZa/6IWlfpSmNCzvKUEcyoQRXtUbfrn+es7+gOOTw==
-X-Received: by 2002:a17:906:17d1:: with SMTP id
- u17mr1230827eje.6.1606162802653; 
- Mon, 23 Nov 2020 12:20:02 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id f24sm5658181edx.90.2020.11.23.12.20.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Nov 2020 12:20:02 -0800 (PST)
-Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>, christian.koenig@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, robh@kernel.org, l.stach@pengutronix.de,
- yuq825@gmail.com, eric@anholt.net
-References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
- <1605936082-3099-6-git-send-email-andrey.grodzovsky@amd.com>
- <28332cf0-612c-10bd-c64e-fff6e1f18653@gmail.com>
- <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
-Date: Mon, 23 Nov 2020 21:20:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com
+ [96.44.175.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9576E0AA;
+ Mon, 23 Nov 2020 20:38:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by bedivere.hansenpartnership.com (Postfix) with ESMTP id 81FC7128092C;
+ Mon, 23 Nov 2020 12:38:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1606163883;
+ bh=+EDGs3PYzl3z47JpXWUueALZlElPDdJywkYLk/HcIjg=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Tyy0xQy0htMQEdpfMUvFUuPG04g7ZXvYvYsCjWoq+QOlUp2WQfo8Vk+CnXXw5nkQT
+ a3Wz7+ONj/4K4WJ6m4qOiNdEl9e5tbHlW07s/zxEoMhv+eMdbQKfvYZ25zqNb6Olj/
+ onXIz2W3FBWOnXIoTYXwnsUNPzdRLL+aS2e3QsY4=
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new,
+ port 10024)
+ with ESMTP id Fm687JPabQpA; Mon, 23 Nov 2020 12:38:03 -0800 (PST)
+Received: from jarvis.int.hansenpartnership.com (unknown
+ [IPv6:2601:600:8280:66d1::527])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id EBC5C128091E;
+ Mon, 23 Nov 2020 12:37:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=hansenpartnership.com; s=20151216; t=1606163883;
+ bh=+EDGs3PYzl3z47JpXWUueALZlElPDdJywkYLk/HcIjg=;
+ h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+ b=Tyy0xQy0htMQEdpfMUvFUuPG04g7ZXvYvYsCjWoq+QOlUp2WQfo8Vk+CnXXw5nkQT
+ a3Wz7+ONj/4K4WJ6m4qOiNdEl9e5tbHlW07s/zxEoMhv+eMdbQKfvYZ25zqNb6Olj/
+ onXIz2W3FBWOnXIoTYXwnsUNPzdRLL+aS2e3QsY4=
+Message-ID: <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Nov 2020 12:37:58 -0800
+In-Reply-To: <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+ <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-In-Reply-To: <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,44 +71,156 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
+ reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Nathan Chancellor <natechancellor@gmail.com>, linux-ide@vger.kernel.org,
+ dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+ linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, linux-can@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, nouveau@lists.freedesktop.org,
+ linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, target-devel@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-nfs@vger.kernel.org,
+ GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
+ Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-renesas-soc@vger.kernel.org,
+ linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+ netfilter-devel@vger.kernel.org,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjMuMTEuMjAgdW0gMjE6MDUgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPgo+IE9uIDEx
-LzI1LzIwIDU6NDIgQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEFtIDIxLjExLjIwIHVt
-IDA2OjIxIHNjaHJpZWIgQW5kcmV5IEdyb2R6b3Zza3k6Cj4+PiBJdCdzIG5lZWRlZCB0byBkcm9w
-IGlvbW11IGJhY2tlZCBwYWdlcyBvbiBkZXZpY2UgdW5wbHVnCj4+PiBiZWZvcmUgZGV2aWNlJ3Mg
-SU9NTVUgZ3JvdXAgaXMgcmVsZWFzZWQuCj4+Cj4+IEl0IHdvdWxkIGJlIGNsZWFuZXIgaWYgd2Ug
-Y291bGQgZG8gdGhlIHdob2xlIGhhbmRsaW5nIGluIFRUTS4gSSBhbHNvIAo+PiBuZWVkIHRvIGRv
-dWJsZSBjaGVjayB3aGF0IHlvdSBhcmUgZG9pbmcgd2l0aCB0aGlzIGZ1bmN0aW9uLgo+Pgo+PiBD
-aHJpc3RpYW4uCj4KPgo+IENoZWNrIHBhdGNoICJkcm0vYW1kZ3B1OiBSZWdpc3RlciBJT01NVSB0
-b3BvbG9neSBub3RpZmllciBwZXIgZGV2aWNlLiIgCj4gdG8gc2VlCj4gaG93IGkgdXNlIGl0LiBJ
-IGRvbid0IHNlZSB3aHkgdGhpcyBzaG91bGQgZ28gaW50byBUVE0gbWlkLWxheWVyIC0gdGhlIAo+
-IHN0dWZmIEkgZG8gaW5zaWRlCj4gaXMgdmVuZG9yIHNwZWNpZmljIGFuZCBhbHNvIEkgZG9uJ3Qg
-dGhpbmsgVFRNIGlzIGV4cGxpY2l0bHkgYXdhcmUgb2YgCj4gSU9NTVUgPwo+IERvIHlvdSBtZWFu
-IHlvdSBwcmVmZXIgdGhlIElPTU1VIG5vdGlmaWVyIHRvIGJlIHJlZ2lzdGVyZWQgZnJvbSB3aXRo
-aW4gCj4gVFRNCj4gYW5kIHRoZW4gdXNlIGEgaG9vayB0byBjYWxsIGludG8gdmVuZG9yIHNwZWNp
-ZmljIGhhbmRsZXIgPwoKTm8sIHRoYXQgaXMgcmVhbGx5IHZlbmRvciBzcGVjaWZpYy4KCldoYXQg
-SSBtZWFudCBpcyB0byBoYXZlIGEgZnVuY3Rpb24gbGlrZSB0dG1fcmVzb3VyY2VfbWFuYWdlcl9l
-dmljdF9hbGwoKSAKd2hpY2ggeW91IG9ubHkgbmVlZCB0byBjYWxsIGFuZCBhbGwgdHQgb2JqZWN0
-cyBhcmUgdW5wb3B1bGF0ZWQuCgpHaXZlIG1lIGEgZGF5IG9yIHR3byB0byBsb29rIGludG8gdGhp
-cy4KCkNocmlzdGlhbi4KCj4KPiBBbmRyZXkKPgo+Cj4+Cj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTog
-QW5kcmV5IEdyb2R6b3Zza3kgPGFuZHJleS5ncm9kem92c2t5QGFtZC5jb20+Cj4+PiAtLS0KPj4+
-IMKgIGRyaXZlcnMvZ3B1L2RybS90dG0vdHRtX3R0LmMgfCAxICsKPj4+IMKgIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-dHRtL3R0bV90dC5jIAo+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vdHRtL3R0bV90dC5jCj4+PiBpbmRl
-eCAxY2NmMWVmLi4yOTI0OGE1IDEwMDY0NAo+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3R0bS90
-dG1fdHQuYwo+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3R0bS90dG1fdHQuYwo+Pj4gQEAgLTQ5
-NSwzICs0OTUsNCBAQCB2b2lkIHR0bV90dF91bnBvcHVsYXRlKHN0cnVjdCB0dG1fdHQgKnR0bSkK
-Pj4+IMKgwqDCoMKgwqAgZWxzZQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIHR0bV9wb29sX3VucG9w
-dWxhdGUodHRtKTsKPj4+IMKgIH0KPj4+ICtFWFBPUlRfU1lNQk9MKHR0bV90dF91bnBvcHVsYXRl
-KTsKPj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+
-IGFtZC1nZnggbWFpbGluZyBsaXN0Cj4gYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBo
-dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2FtZC1nZngKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, 2020-11-23 at 19:56 +0100, Miguel Ojeda wrote:
+> On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
+> > Well, I used git.  It says that as of today in Linus' tree we have
+> > 889 patches related to fall throughs and the first series went in
+> > in october 2017 ... ignoring a couple of outliers back to February.
+> 
+> I can see ~10k insertions over ~1k commits and 15 years that mention
+> a fallthrough in the entire repo. That is including some commits
+> (like the biggest one, 960 insertions) that have nothing to do with C
+> fallthrough. A single kernel release has an order of magnitude more
+> changes than this...
+> 
+> But if we do the math, for an author, at even 1 minute per line
+> change and assuming nothing can be automated at all, it would take 1
+> month of work. For maintainers, a couple of trivial lines is noise
+> compared to many other patches.
+
+So you think a one line patch should take one minute to produce ... I
+really don't think that's grounded in reality.  I suppose a one line
+patch only takes a minute to merge with b4 if no-one reviews or tests
+it, but that's not really desirable.
+
+> In fact, this discussion probably took more time than the time it
+> would take to review the 200 lines. :-)
+
+I'm framing the discussion in terms of the whole series of changes we
+have done for fall through, both what's in the tree currently (889
+patches) both in terms of the produce and the consumer.  That's what I
+used for my figures for cost.
+
+> > We're also complaining about the inability to recruit maintainers:
+> > 
+> > https://www.theregister.com/2020/06/30/hard_to_find_linux_maintainers_says_torvalds/
+> > 
+> > And burn out:
+> > 
+> > http://antirez.com/news/129
+> 
+> Accepting trivial and useful 1-line patches
+
+Part of what I'm trying to measure is the "and useful" bit because
+that's not a given.
+
+> is not what makes a voluntary maintainer quit...
+
+so the proverb "straw which broke the camel's back" uniquely doesn't
+apply to maintainers
+
+>  Thankless work with demanding deadlines is.
+
+That's another potential reason, but it doesn't may other reasons less
+valid.
+
+> > The whole crux of your argument seems to be maintainers' time isn't
+> > important so we should accept all trivial patches
+> 
+> I have not said that, at all. In fact, I am a voluntary one and I
+> welcome patches like this. It takes very little effort on my side to
+> review and it helps the kernel overall.
+
+Well, you know, subsystems are very different in terms of the amount of
+patches a maintainer has to process per release cycle of the kernel. 
+If a maintainer is close to capacity, additional patches, however
+trivial, become a problem.  If a maintainer has spare cycles, trivial
+patches may look easy.
+
+> Paid maintainers are the ones that can take care of big
+> features/reviews.
+> 
+> > What I'm actually trying to articulate is a way of measuring value
+> > of the patch vs cost ... it has nothing really to do with who foots
+> > the actual bill.
+> 
+> I understand your point, but you were the one putting it in terms of
+> a junior FTE.
+
+No, I evaluated the producer side in terms of an FTE.  What we're
+mostly arguing about here is the consumer side: the maintainers and
+people who have to rework their patch sets. I estimated that at 100h.
+
+>  In my view, 1 month-work (worst case) is very much worth
+> removing a class of errors from a critical codebase.
+> 
+> > One thesis I'm actually starting to formulate is that this
+> > continual devaluing of maintainers is why we have so much
+> > difficulty keeping and recruiting them.
+> 
+> That may very well be true, but I don't feel anybody has devalued
+> maintainers in this discussion.
+
+You seem to be saying that because you find it easy to merge trivial
+patches, everyone should.  I'm reminded of a friend long ago who
+thought being a Tees River Pilot was a sinecure because he could
+navigate the Tees blindfold.  What he forgot, of course, is that just
+because it's easy with a trawler doesn't mean it's easy with an oil
+tanker.  In fact it takes longer to qualify as a Tees River Pilot than
+it does to get a PhD.
+
+James
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
