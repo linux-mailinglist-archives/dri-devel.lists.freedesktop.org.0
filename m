@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F032C1738
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 22:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C3392C173B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Nov 2020 22:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4846E0D5;
-	Mon, 23 Nov 2020 21:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBCA96E0DA;
+	Mon, 23 Nov 2020 21:07:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from z5.mailgun.us (z5.mailgun.us [104.130.96.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 007AC6E0E3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 21:06:52 +0000 (UTC)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECA06E0DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 21:07:27 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1606165612; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1606165650; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=pVDvnBZoRhuxsGugrA9S3QxKjdkQCI4rMRDzzBJfqdg=;
- b=F9GdK+rMihKSGxfC2/VsUU5rBNhe6p0MBYLt2tnr6YLfyNUCd1HRQjgGVo9aaVTjZnlXcsn6
- gIiwhR949FgE2B68MHsmHvUWDlFal66nXEM4g56QMqeITEywqUUtQjEWK/TxBHToAGBnThux
- wOWMrBnaRviAAgQutsKhtH1tzYE=
-X-Mailgun-Sending-Ip: 104.130.96.5
+ MIME-Version: Sender; bh=FdKrt5CvzTP/ssLP4rRCX6O+jYFh6N5XUhxBj14QiFw=;
+ b=uLh6FPCX5/kEbKZoyXu24Dqdpw9jSpSqgEDsQQEMwDtbmIlyzBEFOCHof0PXK2tNLcXZPh/m
+ Q1EYHUU6VqEldflXILBiwnAgBh6FBTR46+fob0goPZpxrnmFaAdujZRAzhoHK4OFEGsueohx
+ ZZLNfqWDi97pbtel39B2xVI5+Ik=
+X-Mailgun-Sending-Ip: 69.72.42.4
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
- 5fbc246bd64ea0b7030e47c1 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 23 Nov 2020 21:06:51
+ smtp-out-n09.prod.us-west-2.postgun.com with SMTP id
+ 5fbc2485a5a29b56a1acdfc4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 23 Nov 2020 21:07:17
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id E3BF3C43462; Mon, 23 Nov 2020 21:06:50 +0000 (UTC)
+ id 4AD80C43468; Mon, 23 Nov 2020 21:07:17 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,18 +38,18 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id A11C0C433C6;
- Mon, 23 Nov 2020 21:06:49 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2DFA3C43462;
+ Mon, 23 Nov 2020 21:07:16 +0000 (UTC)
 MIME-Version: 1.0
-Date: Mon, 23 Nov 2020 13:06:49 -0800
+Date: Mon, 23 Nov 2020 13:07:16 -0800
 From: abhinavk@codeaurora.org
 To: Lee Jones <lee.jones@linaro.org>
-Subject: Re: [Freedreno] [PATCH 11/40] drm/msm/disp/dpu1/dpu_hw_blk: Add one
- missing and remove an extra param description
-In-Reply-To: <20201123111919.233376-12-lee.jones@linaro.org>
+Subject: Re: [Freedreno] [PATCH 13/40] drm/msm/disp/dpu1/dpu_hw_catalog:
+ Remove duplicated initialisation of 'max_linewidth'
+In-Reply-To: <20201123111919.233376-14-lee.jones@linaro.org>
 References: <20201123111919.233376-1-lee.jones@linaro.org>
- <20201123111919.233376-12-lee.jones@linaro.org>
-Message-ID: <bd9e7b914116e49b60b082fe40daf78c@codeaurora.org>
+ <20201123111919.233376-14-lee.jones@linaro.org>
+Message-ID: <a5dfd401fb36840bea08c496ffea8dc7@codeaurora.org>
 X-Sender: abhinavk@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,56 +67,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-23 03:18, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c:28: warning: Function
-> parameter or member 'hw_blk' not described in 'dpu_hw_blk_init'
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c:120: warning: Excess
-> function parameter 'free_blk' description in 'dpu_hw_blk_put'
-> 
-> Cc: Rob Clark <robdclark@gmail.com>
-> Cc: Sean Paul <sean@poorly.run>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: linux-arm-msm@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: freedreno@lists.freedesktop.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-> index ca26666d2af91..819b26e660b9c 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_blk.c
-> @@ -19,6 +19,7 @@ static LIST_HEAD(dpu_hw_blk_list);
-> 
->  /**
->   * dpu_hw_blk_init - initialize hw block object
-> + * @hw_blk: pointer to hw block object
->   * @type: hw block type - enum dpu_hw_blk_type
->   * @id: instance id of the hw block
->   * @ops: Pointer to block operations
-> @@ -114,7 +115,6 @@ struct dpu_hw_blk *dpu_hw_blk_get(struct
-> dpu_hw_blk *hw_blk, u32 type, int id)
->  /**
->   * dpu_hw_blk_put - put hw_blk to free pool if decremented refcount is 
-> zero
->   * @hw_blk: hw block to be freed
-> - * @free_blk: function to be called when reference count goes to zero
->   */
->  void dpu_hw_blk_put(struct dpu_hw_blk *hw_blk)
->  {
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMS0yMyAwMzoxOCwgTGVlIEpvbmVzIHdyb3RlOgo+IEZpeGVzIHRoZSBmb2xsb3dp
+bmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMpOgo+IAo+ICBkcml2ZXJzL2dwdS9kcm0vbXNt
+L2Rpc3AvZHB1MS9kcHVfaHdfY2F0YWxvZy5jOjEyNDoxOTogd2FybmluZzoKPiBpbml0aWFsaXpl
+ZCBmaWVsZCBvdmVyd3JpdHRlbiBbLVdvdmVycmlkZS1pbml0XQo+ICBkcml2ZXJzL2dwdS9kcm0v
+bXNtL2Rpc3AvZHB1MS9kcHVfaHdfY2F0YWxvZy5jOjEyNDoxOTogbm90ZTogKG5lYXIKPiBpbml0
+aWFsaXphdGlvbiBmb3Ig4oCYc204MjUwX2RwdV9jYXBzLm1heF9saW5ld2lkdGjigJkpCj4gCj4g
+Q2M6IFJvYiBDbGFyayA8cm9iZGNsYXJrQGdtYWlsLmNvbT4KPiBDYzogU2VhbiBQYXVsIDxzZWFu
+QHBvb3JseS5ydW4+Cj4gQ2M6IERhdmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KPiBDYzog
+RGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgo+IENjOiBsaW51eC1hcm0tbXNtQHZnZXIu
+a2VybmVsLm9yZwo+IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gQ2M6IGZy
+ZWVkcmVub0BsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBMZWUgSm9uZXMg
+PGxlZS5qb25lc0BsaW5hcm8ub3JnPgpSZXZpZXdlZC1ieTogQWJoaW5hdiBLdW1hciA8YWJoaW5h
+dmtAY29kZWF1cm9yYS5vcmc+Cj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9tc20vZGlzcC9kcHUx
+L2RwdV9od19jYXRhbG9nLmMgfCAxIC0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkK
+PiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2h3X2Nh
+dGFsb2cuYwo+IGIvZHJpdmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2h3X2NhdGFsb2cu
+Ywo+IGluZGV4IDZhNmE3MTcyZTNiZWIuLmE3MDA0ZjE4NTIzYjAgMTAwNjQ0Cj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL21zbS9kaXNwL2RwdTEvZHB1X2h3X2NhdGFsb2cuYwo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9tc20vZGlzcC9kcHUxL2RwdV9od19jYXRhbG9nLmMKPiBAQCAtMTEzLDcgKzEx
+Myw2IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHB1X2NhcHMgc204MTUwX2RwdV9jYXBzID0gewo+
+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGRwdV9jYXBzIHNtODI1MF9kcHVfY2FwcyA9IHsKPiAgCS5t
+YXhfbWl4ZXJfd2lkdGggPSBERUZBVUxUX0RQVV9PVVRQVVRfTElORV9XSURUSCwKPiAgCS5tYXhf
+bWl4ZXJfYmxlbmRzdGFnZXMgPSAweGIsCj4gLQkubWF4X2xpbmV3aWR0aCA9IDQwOTYsCj4gIAku
+cXNlZWRfdHlwZSA9IERQVV9TU1BQX1NDQUxFUl9RU0VFRDMsIC8qIFRPRE86IHFzZWVkMyBsaXRl
+ICovCj4gIAkuc21hcnRfZG1hX3JldiA9IERQVV9TU1BQX1NNQVJUX0RNQV9WMiwgLyogVE9ETzog
+djIuNSAqLwo+ICAJLnVid2NfdmVyc2lvbiA9IERQVV9IV19VQldDX1ZFUl80MCwKX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcg
+bGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRl
+c2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
