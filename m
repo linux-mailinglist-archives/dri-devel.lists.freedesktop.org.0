@@ -1,57 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626022C1A23
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 01:39:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8682C1A29
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 01:43:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 898206E162;
-	Tue, 24 Nov 2020 00:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E59976E170;
+	Tue, 24 Nov 2020 00:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 911046E162
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 00:38:55 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1606178338; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=hs8EW7bPfuYiy2WlNq9IsOrwvJXuF+szh5J2TAIP5RM=;
- b=Tqxa0sic4uUJqj1ITidi60F4iBjPGk057Jd6lahxfrST4bJ7sJdzFDAhQQGVDPES6v5C6dPv
- phxNqODjtfiVW8xi7q7xWJ+IAnLqNHLwEtYBzULmvX8ZSik719ctnWLkIlj2UliFmVciShcE
- Mm+fSKOwi1Bpw2ZofDK67fun9U4=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5fbc56160c9500dc7bc2d4db (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 24 Nov 2020 00:38:46
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4E695C43461; Tue, 24 Nov 2020 00:38:46 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BE2BDC433C6;
- Tue, 24 Nov 2020 00:38:44 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2067.outbound.protection.outlook.com [40.107.237.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 734166E15E;
+ Tue, 24 Nov 2020 00:42:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BHwq7kAewyZuCzc0CAMT6uLj7L4PbpKmNFBvTVZe4+0me0AS2GPYOSkKdBfs6XgEIytjESn+xO9vELLYVSsoM2oZ0+1JBkX44KQgUG4vJ5LbPQdNXVSDskQ0TG8rajc4pPUcVUMbJx9xv5DGxhbU4ctxxsrY1CVnbO1eoem35JMWtHU5U2LvwfQ77Y9joIJ2nlcy0UkDNGszOnptbULNwKKMyuuIxdbAleT8iUrQ4gteYCdgfMK2beEkUPHll+f9Az+nA2LmDHWJlfET8eg65+UFx8AJpgC85dby4qUOHLpfuUG0IvFLcFisGejHKclnrlfN9ire6Aap8U0kpyzb5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DeMfEUMNIlGhdLn7PS6D1YTJ/Kqg3Y/zwYuvYJ5MDXw=;
+ b=WsagQT9tEsXhgUb1kj+oUVAN0iG8OU40qxRDuXRREKXWPV/6scaC8K3QzpbE/tAdww0LdOPcdQQQxrexUsjEpzo+RS6MF3tNIS6yH4ZpbuLazEeNdwMx3y3dhUu6jU9hSUK/krQSJZpQRKiNvehZf2gdi2MUpJyDYvsPqW168z291Al///W81i6J+FCeMIOpDn7zEY1tq88F1KMsBgWqzmvoEIe1l23u3GwcF1qqA9HM0/uPIBQNyQ6j1kK/b0mW32VUVT1x4uFWtXNYbgSpOzxm+0Jw9kpzq0QLs2E7d0irVTUFScdrr7vP4Cmmk6DfwFXKd/lbFdkOft40cuISKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DeMfEUMNIlGhdLn7PS6D1YTJ/Kqg3Y/zwYuvYJ5MDXw=;
+ b=cp4qubYIk3N9rcfcRILDqNhSjLC8hB/S5+it7AxoKgW1ms9Jrq4uhVDxT+FFNX8qDFxFIWLfnv1thsyJaB1ESAPGd8+5StNtidEuf9U/wSehTdSfW4CjGbir1Acl/GLPlWyTF0QK+yf7Dy4KyiiPDEOV+JNgc1ST+qpfrFsUzbs=
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
+ DM5PR12MB2358.namprd12.prod.outlook.com (2603:10b6:4:b3::34) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3564.25; Tue, 24 Nov 2020 00:42:51 +0000
+Received: from DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::5a6:dfb2:fdfd:2d91]) by DM6PR12MB2619.namprd12.prod.outlook.com
+ ([fe80::5a6:dfb2:fdfd:2d91%6]) with mapi id 15.20.3589.030; Tue, 24 Nov 2020
+ 00:42:51 +0000
+From: "Quan, Evan" <Evan.Quan@amd.com>
+To: Colin King <colin.king@canonical.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Wang,
+ Kevin(Yang)" <Kevin1.Wang@amd.com>, "Gui, Jack" <Jack.Gui@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH] drm/amd/powerplay: fix spelling mistake
+ "smu_state_memroy_block" -> "smu_state_memory_block"
+Thread-Topic: [PATCH] drm/amd/powerplay: fix spelling mistake
+ "smu_state_memroy_block" -> "smu_state_memory_block"
+Thread-Index: AQHWwYb/QG3R3a5QL024dYjMdI9elanWckgQ
+Date: Tue, 24 Nov 2020 00:42:51 +0000
+Message-ID: <DM6PR12MB26197807564F833B9A2E18E8E4FB0@DM6PR12MB2619.namprd12.prod.outlook.com>
+References: <20201123105417.198314-1-colin.king@canonical.com>
+In-Reply-To: <20201123105417.198314-1-colin.king@canonical.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ActionId=f32d5e88-8f5d-4a47-bd4c-d72c443bef13;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_ContentBits=0;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Enabled=true;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Method=Standard;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_Name=Internal
+ Use Only - Unrestricted;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SetDate=2020-11-24T00:42:23Z;
+ MSIP_Label_76546daa-41b6-470c-bb85-f6f40f044d7f_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: canonical.com; dkim=none (message not signed)
+ header.d=none;canonical.com; dmarc=none action=none header.from=amd.com;
+x-originating-ip: [180.167.199.189]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: c045ddce-e8cf-4f82-be4f-08d89011dfb0
+x-ms-traffictypediagnostic: DM5PR12MB2358:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM5PR12MB23585D8AF6BDBDB0BFBBEB7AE4FB0@DM5PR12MB2358.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2399;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZlWHmH20f+n9uRJ6UqDUuAnpZgwCE+C2w+lhl7aNHo5IHf2vdkBl+XUnzttyM534c8uLEOMZnzfQj9mv6yvOLhGPkvPPEcU5wzaab9wVmBcBmqDIM4Q7mPJqsB6vF+ssH4GWRK0Q8YN5fcAoXjY8sYIkcUdnpFR/hXLa+p9bSLrh3KaJWnDA6SRR2Esb+ok+VFzpErs+BdZ7UFvVuNDNRlVufGKFtOln+iaI1CWUoB1wdMdm9prYvddxxIKJLCsku6G+V8eZjJxVMUiOFABiQ0UlCN0mSbny43tUwcZuDvgN/EmpTtIh7OVoFWK6/8nRvYs6dVgqTSxsdA57qmSkwUWFoWu87NCJMY0w2zylnp94J3GHxJvZqi28cyOwhOGQ
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(396003)(376002)(39860400002)(346002)(8676002)(26005)(478600001)(186003)(66556008)(76116006)(66446008)(4326008)(64756008)(33656002)(66946007)(2906002)(66476007)(5660300002)(71200400001)(7696005)(52536014)(53546011)(6506007)(86362001)(8936002)(55016002)(9686003)(83380400001)(316002)(54906003)(921005)(110136005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: tUhLQX6BP181GW+ZJWO44XWJp4pErCeGd047x/HgKXoCdyPv2LISo1cOJjLOs1Y8nS4ElFEVBP7JzMSqEPPJgDK8Dq7mWzWeO1X4FNDDPIIypwxCMhF7oUdQEx1bO35rAp4EvEP62RKKJ2jnexxTvt5Bk/B1Ye0jscW4h518Jl7D91P+O6Ci9tDv9nloaxNF3F6zfwNWo+93FhCxFHmO1sZCMGdEfb70OxLMqlqjKjvIJgUGBPj0nN7EPGP66oJYk95HUn/2z35ShMDjGcK6IXc+ntkfrAHfnxoM2O4FnAG7USqkKCUOqpNrR/Bx0mF7zY6EH0YYKN0p45z/4qEJp6gXBAnMSgaQX3RmF+sRUjdxO66lJ2AYSBHnRy8fxdStVH0MtzGXwxN32rYAVdqddKkTPE8IAyhjgA/C0MOXNWyGgl199Ifj7sqNU0oA17LWvO2wqOWE1wQ6CvLQbtneHpJzw7V1f1LrVCoFyjjrnZ6fULsSRGc3HR9/r1SEADAynBoqrcdktORfLStqFv0HxH//rlrgHCCvNO2dT6iRGaYQdSVwyYmJqhzCOvrYC5g68+17hLEjKck6RZW8X3NxvbuxN69dgSrwUmBurnYAdOKTdmTlnB5OBWS39XW07Wi43/AUto3inZhAtVV+8ljC0qysiU7bL2JNx0cbfYDXKrMNcMUR5nZTO0HHKlc0lJJGgjdGJLg3I4MUHAzaesnRZN7BncyOTBpAslokK8fI5Lf7PuGTe/wFlzcx/Z7TrMxLM5UFAVBDzoqJ98pwEc1uR+k2Pg12KmkBInJhyhgLR39vikolLOktctxFYMOWjFcxxXMFR+KRo9QfUr8oVXUt02RmWCDCPJxd3Rh/mYSxfIDT/Typ4H/cq+FTPEqdQICLEnTRIm4V8WmLLS+axFsxpA==
 MIME-Version: 1.0
-Date: Mon, 23 Nov 2020 16:38:44 -0800
-From: abhinavk@codeaurora.org
-To: Rob Clark <robdclark@gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: update the qos remap only if the client type
- changes
-In-Reply-To: <CAF6AEGsWVKCAE3CetZagbvRNZAU00FaoWSvaDxxOafNRY5dz1g@mail.gmail.com>
-References: <20201119214145.10182-1-abhinavk@codeaurora.org>
- <CAF6AEGsWVKCAE3CetZagbvRNZAU00FaoWSvaDxxOafNRY5dz1g@mail.gmail.com>
-Message-ID: <71e2d86b935fe043eb1203045783439d@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c045ddce-e8cf-4f82-be4f-08d89011dfb0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2020 00:42:51.3343 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Gyl3B0f3QWzaA0a7DbVI/wTHLhjLp5Z24qUFPyrrdD/FPZS8JlmAiPNAgfe1r0pi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2358
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,213 +106,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh <khsieh@codeaurora.org>,
- Sean Paul <seanpaul@chromium.org>, Tanmay Shah <tanmay@codeaurora.org>,
- aravindh@codeaurora.org, freedreno <freedreno@lists.freedesktop.org>
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob
+[AMD Official Use Only - Internal Distribution Only]
 
-On 2020-11-23 15:18, Rob Clark wrote:
-> On Thu, Nov 19, 2020 at 1:41 PM Abhinav Kumar <abhinavk@codeaurora.org> 
-> wrote:
->> 
->> Update the qos remap only if the client type changes for the plane.
->> This will avoid unnecessary register programming and also avoid log
->> spam from the dpu_vbif_set_qos_remap() function.
->> 
->> Signed-off-by: Abhinav Kumar <abhinavk@codeaurora.org>
->> ---
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 17 +++++++++++++++++
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |  7 +++++++
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c |  2 ++
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 12 ++++++++++--
->>  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h   |  5 +++++
->>  5 files changed, 41 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> index d4662e8184cc..3867da47c683 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
->> @@ -1037,6 +1037,23 @@ static int dpu_crtc_atomic_check(struct 
->> drm_crtc *crtc,
->>         return rc;
->>  }
->> 
->> +void dpu_crtc_set_qos_dirty(struct drm_crtc *crtc)
->> +{
->> +       struct drm_plane *plane;
->> +       struct drm_plane_state *state;
->> +       struct dpu_plane_state *pstate;
->> +
->> +       drm_atomic_crtc_for_each_plane(plane, crtc) {
->> +               state = plane->state;
->> +               if (!state)
->> +                       continue;
->> +
->> +               pstate = to_dpu_plane_state(state);
->> +
->> +               pstate->dirty |= DPU_PLANE_DIRTY_QOS;
->> +       }
->> +}
->> +
->>  int dpu_crtc_vblank(struct drm_crtc *crtc, bool en)
->>  {
->>         struct dpu_crtc *dpu_crtc = to_dpu_crtc(crtc);
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> index cec3474340e8..8ba11de605bc 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
->> @@ -231,6 +231,13 @@ static inline int dpu_crtc_frame_pending(struct 
->> drm_crtc *crtc)
->>   */
->>  int dpu_crtc_vblank(struct drm_crtc *crtc, bool en);
->> 
->> +/**
->> + * dpu_crtc_set_qos_dirty - update plane dirty flag to include
->> + * QoS reprogramming
->> + * @crtc: Pointer to drm crtc structure
->> + */
->> +void dpu_crtc_set_qos_dirty(struct drm_crtc *crtc);
->> +
->>  /**
->>   * dpu_crtc_vblank_callback - called on vblank irq, issues completion 
->> events
->>   * @crtc: Pointer to drm crtc object
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> index f7f5c258b553..c2db9dd6ec67 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
->> @@ -1001,6 +1001,8 @@ static void dpu_encoder_virt_mode_set(struct 
->> drm_encoder *drm_enc,
->> 
->>         trace_dpu_enc_mode_set(DRMID(drm_enc));
->> 
->> +       dpu_crtc_set_qos_dirty(drm_enc->crtc);
->> +
->>         if (drm_enc->encoder_type == DRM_MODE_ENCODER_TMDS && 
->> priv->dp)
->>                 msm_dp_display_mode_set(priv->dp, drm_enc, mode, 
->> adj_mode);
->> 
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> index 7ea90d25a3b6..f91d31a31e14 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
->> @@ -1066,6 +1066,7 @@ static void dpu_plane_sspp_atomic_update(struct 
->> drm_plane *plane)
->>         struct dpu_plane_state *pstate = to_dpu_plane_state(state);
->>         struct drm_crtc *crtc = state->crtc;
->>         struct drm_framebuffer *fb = state->fb;
->> +       bool is_rt_pipe;
->>         const struct dpu_format *fmt =
->>                 to_dpu_format(msm_framebuffer_format(fb));
->> 
->> @@ -1075,7 +1076,7 @@ static void dpu_plane_sspp_atomic_update(struct 
->> drm_plane *plane)
->> 
->>         pstate->pending = true;
->> 
->> -       pdpu->is_rt_pipe = (dpu_crtc_get_client_type(crtc) != 
->> NRT_CLIENT);
->> +       is_rt_pipe = (dpu_crtc_get_client_type(crtc) != NRT_CLIENT);
->>         _dpu_plane_set_qos_ctrl(plane, false, 
->> DPU_PLANE_QOS_PANIC_CTRL);
->> 
->>         DPU_DEBUG_PLANE(pdpu, "FB[%u] " DRM_RECT_FP_FMT "->crtc%u " 
->> DRM_RECT_FMT
->> @@ -1181,8 +1182,15 @@ static void dpu_plane_sspp_atomic_update(struct 
->> drm_plane *plane)
->>                 _dpu_plane_set_ot_limit(plane, crtc);
->>         }
->> 
->> -       _dpu_plane_set_qos_remap(plane);
->> +       if (is_rt_pipe != pdpu->is_rt_pipe) {
->> +               pdpu->is_rt_pipe = is_rt_pipe;
->> +               pstate->dirty |= DPU_PLANE_DIRTY_QOS;
->> +       }
->> 
->> +       if (pstate->dirty & DPU_PLANE_DIRTY_QOS) {
->> +               _dpu_plane_set_qos_remap(plane);
->> +               pstate->dirty = 0x0;
->> +       }
-> 
-> So in the end, this looks roughly like "set qos remap on modesets or
-> switching between right/left pipe"?  Couldn't this be simpler if in
-> plane->atomic_check() you do something like:
-> 
->    dpu_plane_state->needs_qos_remap = atomic_state->allow_modeset;
-> 
-> and then in plane->atomic_update:
-> 
->     if (pstate->needs_qos_remap || (is_rt_pipe != pdpu->is_rt_pipe) {
->          pdpu->is_rt_pipe = is_rt_pipe;
->          _dpu_plane_set_qos_remap(plane)
->     }
-> 
-> ?
-> 
-> BR,
-> -R
-Thanks for the suggestion, Yes this will make it much simpler. Let me 
-update it.
+Reviewed-by: Evan Quan <evan.quan@amd.com>
 
-Just one clarification, I believe you meant that
-dpu_plane_state->needs_qos_remap = 
-drm_atomic_crtc_needs_modeset(crtc_state)
+-----Original Message-----
+From: Colin King <colin.king@canonical.com>
+Sent: Monday, November 23, 2020 6:54 PM
+To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Quan, Evan <Evan.Quan@amd.com>; Wang, Kevin(Yang) <Kevin1.Wang@amd.com>; Gui, Jack <Jack.Gui@amd.com>; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/amd/powerplay: fix spelling mistake "smu_state_memroy_block" -> "smu_state_memory_block"
 
-and then the rest of it looks fine to me.
+From: Colin Ian King <colin.king@canonical.com>
 
-> 
-> 
->>         _dpu_plane_calc_bw(plane, fb);
->> 
->>         _dpu_plane_calc_clk(plane);
->> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h 
->> b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
->> index ca83b8753d59..47abd3686a86 100644
->> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
->> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h
->> @@ -14,11 +14,15 @@
->>  #include "dpu_hw_mdss.h"
->>  #include "dpu_hw_sspp.h"
->> 
->> +/* dirty bits to update QOS */
->> +#define DPU_PLANE_DIRTY_QOS 0x1
->> +
->>  /**
->>   * struct dpu_plane_state: Define dpu extension of drm plane state 
->> object
->>   * @base:      base drm plane state object
->>   * @aspace:    pointer to address space for input/output buffers
->>   * @stage:     assigned by crtc blender
->> + * @dirty:     bitmask for which pipe h/w config functions need to be 
->> updated
->>   * @multirect_index: index of the rectangle of SSPP
->>   * @multirect_mode: parallel or time multiplex multirect mode
->>   * @pending:   whether the current update is still pending
->> @@ -32,6 +36,7 @@ struct dpu_plane_state {
->>         struct drm_plane_state base;
->>         struct msm_gem_address_space *aspace;
->>         enum dpu_stage stage;
->> +       uint32_t dirty;
->>         uint32_t multirect_index;
->>         uint32_t multirect_mode;
->>         bool pending;
->> --
->> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
->> Forum,
->> a Linux Foundation Collaborative Project
->> 
+The struct name smu_state_memroy_block contains a spelling mistake, rename it to smu_state_memory_block
+
+Fixes: 8554e67d6e22 ("drm/amd/powerplay: implement power_dpm_state sys interface for SMU11")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
+index 7550757cc059..a559ea2204c1 100644
+--- a/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
++++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
+@@ -99,7 +99,7 @@ struct smu_state_display_block {
+ bool              enable_vari_bright;
+ };
+
+-struct smu_state_memroy_block {
++struct smu_state_memory_block {
+ bool              dll_off;
+ uint8_t                 m3arb;
+ uint8_t                 unused[3];
+@@ -146,7 +146,7 @@ struct smu_power_state {
+ struct smu_state_validation_block             validation;
+ struct smu_state_pcie_block                   pcie;
+ struct smu_state_display_block                display;
+-struct smu_state_memroy_block                 memory;
++struct smu_state_memory_block                 memory;
+ struct smu_state_software_algorithm_block     software;
+ struct smu_uvd_clocks                         uvd_clocks;
+ struct smu_hw_power_state                     hardware;
+--
+2.28.0
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
