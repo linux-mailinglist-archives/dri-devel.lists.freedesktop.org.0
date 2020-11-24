@@ -1,122 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42DF2C2427
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 12:30:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ECB72C2472
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 12:39:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C085E899C4;
-	Tue, 24 Nov 2020 11:30:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9FCF6E32F;
+	Tue, 24 Nov 2020 11:38:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2054.outbound.protection.outlook.com [40.107.243.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0529899B0;
- Tue, 24 Nov 2020 11:30:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BIHVunZjucBUdmBkHdQXIXqpVWvpuFoSTWknuRd4Hs7WqCQILuryCIJc8U9bCWC1l4qdxhKIwVMmMHkocMw38YPcDc0UcCMulL2kjG5ctx4CJ84keatYnzicq2iEqqPyB+appWxSxU3m5YkgIG7XdUEWY9b7ZftQX3B+QOpxve0AzxzwVINcpzYWQ/EJBgDf3Ukzk7TODQV6RX7Bi3GXUekRIZQR2RGwUJ33vExBV2zkdUyNOMsZr4KF27rZaZ7u0lhCD03ndDDZig6VxlSASFUVi32maOkUxPD8g97ndieYrvGlGXZtZPJ+VlgtiCULHMlbICR8usgXqY5g253GUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S+Jsb1bQX0LYdGSvDQx1ObI/8/u5+Rie9uomy8mUA+g=;
- b=iL3FCgdV56jF/EED3XoPf53/tDpj8+9enCaniIiCBycq8L4uQX0TWTX07WFzVOVcCnDlJ0xDWQ7BqgDa0CyNTdCE0h+vLsXRi/PbRY65CHfbks10tg639NLMk2RmZ/iLFuZNQDpOiwJQjmhp0ZAQG0sVmvBRxd3Qhukv0GREhPPSFEoMc2aiZ4nBuaNYNInAyszm2K/clcfCVTeKREW6QQ5gRQ7eVhlwFYuLKEf/MqPKkwmeEPwPM1O7Grq66liexDYtfuSXaXk9DniAQ66uB9m66kqAT9LMc7UePQTZNlyUSEHdqz3YkwHoa+8jureI4/6eGS9vJVUrErF1xPfh7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=S+Jsb1bQX0LYdGSvDQx1ObI/8/u5+Rie9uomy8mUA+g=;
- b=RPIbvp+er74sj1ulg753EBD/4QtMSxM7USkHZNhtqD+7B5XR3S9NjY2wHODmGkCTAkpNFYE3eAkRtoYZ9Pm6Yg87xSVT7yGNxt1NJBVERaelQ2VtReD+vIWw5zg4E0ds+qrfr+fHSgm1CnaB5e3atziDPGnIN1oUTp+fiKokjgk=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Tue, 24 Nov
- 2020 11:30:23 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3589.022; Tue, 24 Nov 2020
- 11:30:23 +0000
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-To: Thomas Zimmermann <tzimmermann@suse.de>, alexander.deucher@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
- <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
- <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
- <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <6319ba4d-f45f-77ec-8752-33f3cad443fd@amd.com>
-Date: Tue, 24 Nov 2020 12:30:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM9P193CA0028.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::33) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 635AB6E20B;
+ Tue, 24 Nov 2020 11:38:28 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 00416AC2D;
+ Tue, 24 Nov 2020 11:38:26 +0000 (UTC)
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: airlied@linux.ie,
+	daniel@ffwll.ch
+Subject: [PATCH 00/15] drm: Move struct drm_device.pdev to legacy
+Date: Tue, 24 Nov 2020 12:38:09 +0100
+Message-Id: <20201124113824.19994-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM9P193CA0028.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::33) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20 via Frontend Transport; Tue, 24 Nov 2020 11:30:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 921b5cb6-3df9-466a-e54a-08d8906c5520
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4111:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4111B07D41158DDB1AE70B9683FB0@MN2PR12MB4111.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +XQ2HWNAosAoAgjnyb1ptqNzu2WfLHfuLhrxC6vu58Dxye4Hsb4LqGmcxeCLCrwWu5SnIWjZ699dooTpkNVlDJcU4JJ8g7K2t3RwMko8b74zwciBRYoTx7xtH8SOODHfY+pKTBmhTdZtRUMOFmpteFrC7HeX4FGAr7+mRcFcy66ZU077MY+eZ6WH97b+OabhEoYBxt77pk/2qjfU47jTqHq0RyJZ1ecCwgzgRWH9NFZO+FYvtX6yy1MSpjubNFS29VKgnhRBv9YBVD18pohtpbg/meCytrxMod6r/GyF/qmMjX0yqI5av9nrgs5TQUV2Cpi8Q2IUBjLTuMxfQCAxn+TvA8U5ljkEsmXssTjoNbYpaG+gH7mDINE1gZOP/EliflBDYM/99SJT+IZJYShmUjde1GtVYdySzkYr/fZ3NMoNeQT6io+RpT6HZnkNhcZfnj8V20tA3MAHFezHxH2mhA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(39860400002)(366004)(346002)(396003)(66574015)(8936002)(31686004)(31696002)(966005)(6486002)(4326008)(6666004)(478600001)(2616005)(36756003)(66946007)(66556008)(186003)(83380400001)(2906002)(316002)(86362001)(66476007)(8676002)(16526019)(52116002)(45080400002)(5660300002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RzdnUG41Wi8zVFl3RkR0UTd6YkRWOCtzU2J5VG1SZmRkMzJKVGt1NWhYVVVD?=
- =?utf-8?B?WGhydGFjRHcwQUNTclJ6M01XYnRTc2d6N1JESXZWTHJqTG5YQ0lQSm9JQkJz?=
- =?utf-8?B?cE1tM3NiazhUN1hYa01oSUJSQXl2K3lPS25jNkZtNUFyM3E1T0N0UGd3cVRY?=
- =?utf-8?B?VzhYc243KzNUTHRtTlVyeWlzc25VeEhVcEd0UkZuS2M5S2NTcGpkcFl2dmpy?=
- =?utf-8?B?THh1VVhTZ24vNE1ZdkJMRzFzYnVBSzI0N3JPVlFScEprUDQxN0xsam8wcjZF?=
- =?utf-8?B?aDdERS8zZGlERWVlMktxc1RGVms1UE5DRWxMcmt6NDFLQXZza1hkanJSTU42?=
- =?utf-8?B?MmJKMWZhY3JVa3VvTjl2NnJZTUx1dzVaeXZTellla1hHY0VzVGVnL3lmUVNO?=
- =?utf-8?B?UCtzYng5VE9lN0l1S282YnhKVGFvazJ6T3FkV3ZpVHZYbzZVdzVpRXY1eWo0?=
- =?utf-8?B?SDR0VGFNVmNZZU1XY0x0Z0o1RjFhYWJBcytKVnBhSzJlOUc0ZTRtZS9jQ095?=
- =?utf-8?B?YnYyOEtOSzh3SzFHdXpWb0YyOFY3RFBleXRkcTgrV3RJdlZYaSs3dC9ubzQ4?=
- =?utf-8?B?aHpLVFd4bkp6ZEFSRWpMU2VySFRJSTlKTm1nK2lLR3FGV3BROUhoRlk1Y3Rv?=
- =?utf-8?B?Mno4cVMxYlFUOWVxZUl1Wk5YbXpXSU5ucDEwVmFiWkZvbjdpS2h2a0hDK0c0?=
- =?utf-8?B?TUdpWTdKTlByaVR0TEFZQndSa1M1VHBGTDEwRTdWd2hsSTdzN2lzSWxwalFy?=
- =?utf-8?B?dXpQeWxrS1RZek44TDQ3U2JHOWo3QUNtbUtxM2RJMHhPTjVnQzBWT1ZuZDlk?=
- =?utf-8?B?MUxLaVJ4RVJOaWRzYlhBRk9vbURLSWtwKzdyN2Zia0pCam1paXBUZkVySW9Y?=
- =?utf-8?B?cUlxZEV3UHFyN2dvUWxOaUM0UG1zUGl1d09CQVd2Vlc4R3hzUVhSYlVzQ1dt?=
- =?utf-8?B?RlZjcnFNMi9hUFg4c3pMWlBxaWhDdmFZWFlFbXVGRURjNzk3S0s2aGhORkR6?=
- =?utf-8?B?R2FPTWdpYmE1THNsTk1UOFc1VHAyZklCN1dkL2VRWVlzbjZYSjdJa0VPNzR0?=
- =?utf-8?B?MndIZWl4MFIzd3V4SmhwR2hIbXNxSTBsWWRrWUMyZVl5b0Q3ZHBaK1N5NzMr?=
- =?utf-8?B?RWhhb1dLN3hWZ2pvcWpnRzdRYXk4UUMraFRkdnUyWjR6a1pxZXlXM1A1Skxx?=
- =?utf-8?B?QjRsQ0VCTG9MMjdzMHliTzJ5ajBuN1ZmTlhFSDRsS2trcEc2Qkh0SERid1J6?=
- =?utf-8?B?clRWTCtjMFcrZXdsbFVQcllZRHl2cEUrbGVMT01TSjFGNEpndlllZlE0b3J6?=
- =?utf-8?B?bHY4S1E1bjRDaHkrMmhEamVJQ0MvaXV1dEk1SmVtSUNHZjZzSE92aDI3TGJP?=
- =?utf-8?B?UGtsNnVXRU5JUER2MjZESVMvdTNIRjZvT1VRdWNzaVQyZGlFWnRvcGhWQnlC?=
- =?utf-8?Q?gYcBxhQV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 921b5cb6-3df9-466a-e54a-08d8906c5520
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2020 11:30:23.6789 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rtPI4inW/tVbyECHP43DjH3O1Cic2m+ICQ/xd6uuhsq7jnMzWnh3G3dR8pJxc6D3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,145 +36,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ spice-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMTEuMjAgdW0gMTA6MTYgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPiBIaSBDaHJp
-c3RpYW4KPgo+IEFtIDE2LjExLjIwIHVtIDEyOjI4IHNjaHJpZWIgQ2hyaXN0aWFuIEvDtm5pZzoK
-Pj4gQW0gMTMuMTEuMjAgdW0gMDg6NTkgc2NocmllYiBUaG9tYXMgWmltbWVybWFubjoKPj4+IEhp
-IENocmlzdGlhbgo+Pj4KPj4+IEFtIDEyLjExLjIwIHVtIDE4OjE2IHNjaHJpZWIgQ2hyaXN0aWFu
-IEvDtm5pZzoKPj4+PiBBbSAxMi4xMS4yMCB1bSAxNDoyMSBzY2hyaWViIFRob21hcyBaaW1tZXJt
-YW5uOgo+Pj4+PiBJbiBvcmRlciB0byBhdm9pZCBldmljdGlvbiBvZiB2bWFwJ2VkIGJ1ZmZlcnMs
-IHBpbiB0aGVtIGluIHRoZWlyIEdFTQo+Pj4+PiBvYmplY3QncyB2bWFwIGltcGxlbWVudGF0aW9u
-LiBVbnBpbiB0aGVtIGluIHRoZSB2dW5tYXAgCj4+Pj4+IGltcGxlbWVudGF0aW9uLgo+Pj4+PiBU
-aGlzIGlzIG5lZWRlZCB0byBtYWtlIGdlbmVyaWMgZmJkZXYgc3VwcG9ydCB3b3JrIHJlbGlhYmx5
-LiBXaXRob3V0LAo+Pj4+PiB0aGUgYnVmZmVyIG9iamVjdCBjb3VsZCBiZSBldmljdGVkIHdoaWxl
-IGZiZGV2IGZsdXNoZWQgaXRzIHNoYWRvdyAKPj4+Pj4gYnVmZmVyLgo+Pj4+Pgo+Pj4+PiBJbiBk
-aWZmZXJlbmNlIHRvIHRoZSBQUklNRSBwaW4vdW5waW4gZnVuY3Rpb25zLCB0aGUgdm1hcCBjb2Rl
-IGRvZXMgCj4+Pj4+IG5vdAo+Pj4+PiBtb2RpZnkgdGhlIEJPcyBwcmltZV9zaGFyZWRfY291bnQs
-IHNvIGEgdm1hcC1waW5uZWQgQk8gZG9lcyBub3QgCj4+Pj4+IGNvdW50IGFzCj4+Pj4+IHNoYXJl
-ZC4KPj4+Pj4KPj4+Pj4gVGhlIGFjdHVhbCBwaW4gbG9jYXRpb24gaXMgbm90IGltcG9ydGFudCBh
-cyB0aGUgdm1hcCBjYWxsIHJldHVybnMKPj4+Pj4gaW5mb3JtYXRpb24gb24gaG93IHRvIGFjY2Vz
-cyB0aGUgYnVmZmVyLiBDYWxsZXJzIHRoYXQgcmVxdWlyZSBhCj4+Pj4+IHNwZWNpZmljIGxvY2F0
-aW9uIHNob3VsZCBleHBsaWNpdGx5IHBpbiB0aGUgQk8gYmVmb3JlIHZtYXBwaW5nIGl0Lgo+Pj4+
-IFdlbGwgaXMgdGhlIGJ1ZmZlciBzdXBwb3NlZCB0byBiZSBzY2FubmVkIG91dD8KPj4+IE5vLCBu
-b3QgYnkgdGhlIGZiZGV2IGhlbHBlci4KPj4KPj4gT2sgaW4gdGhpcyBjYXNlIHRoYXQgc2hvdWxk
-IHdvcmsuCj4+Cj4+Pj4gSWYgeWVzIHRoZW4gdGhlIHBpbiBsb2NhdGlvbiBpcyBhY3R1YWxseSBy
-YXRoZXIgaW1wb3J0YW50IHNpbmNlIHRoZQo+Pj4+IGhhcmR3YXJlIGNhbiBvbmx5IHNjYW4gb3V0
-IGZyb20gVlJBTS4KPj4+IEZvciByZWxvY2F0YWJsZSBCT3MsIGZiZGV2IHVzZXMgYSBzaGFkb3cg
-YnVmZmVyIHRoYXQgbWFrZXMgYWxsIGFueQo+Pj4gcmVsb2NhdGlvbiB0cmFuc3BhcmVudCB0byB1
-c2Vyc3BhY2UuIEl0IGZsdXNoZXMgdGhlIHNoYWRvdyBmYiBpbnRvIHRoZQo+Pj4gQk8ncyBtZW1v
-cnkgaWYgdGhlcmUgYXJlIHVwZGF0ZXMuIFRoZSBjb2RlIGlzIGluCj4+PiBkcm1fZmJfaGVscGVy
-X2RpcnR5X3dvcmsoKS4gWzFdIER1cmluZyB0aGUgZmx1c2ggb3BlcmF0aW9uLCB0aGUgdm1hcAo+
-Pj4gY2FsbCBub3cgcGlucyB0aGUgQk8gdG8gd2hlcmV2ZXIgaXQgaXMuIFRoZSBhY3R1YWwgbG9j
-YXRpb24gZG9lcyBub3QKPj4+IG1hdHRlci4gSXQncyB2dW5tYXAnZWQgaW1tZWRpYXRlbHkgYWZ0
-ZXJ3YXJkcy4KPj4KPj4gVGhlIHByb2JsZW0gaXMgd2hhdCBoYXBwZW5zIHdoZW4gaXQgaXMgcHJl
-cGFyZWQgZm9yIHNjYW5vdXQsIGJ1dCAKPj4gY2FuJ3QgYmUgbW92ZWQgdG8gVlJBTSBiZWNhdXNl
-IGl0IGlzIHZtYXBwZWQ/Cj4+Cj4+IFdoZW4gdGhlIHNoYWRvdyBpcyBuZXZlciBzY2FubmVkIG91
-dCB0aGF0IGlzbid0IGEgcHJvYmxlbSwgYnV0IHdlIAo+PiBuZWVkIHRvIGtlZXAgdGhhdCBpbiBt
-aW5kLgo+Pgo+Cj4gSSdkIGxpa2UgYXNrIGZvciB5b3VyIHN1Z2dlc3Rpb25zIGJlZm9yZSBzZW5k
-aW5nIGFuIHVwZGF0ZSBmb3IgdGhpcyAKPiBwYXRjaC4KPgo+IEFmdGVyIHRoZSBkaXNjdXNzaW9u
-IGFib3V0IGxvY2tpbmcgaW4gZmJkZXYsIFsxXSBJIGludGVuZGVkIHRvIHJlcGxhY2UgCj4gdGhl
-IHBpbiBjYWxsIHdpdGggY29kZSB0aGF0IGFjcXVpcmVzIHRoZSByZXNlcnZhdGlvbiBsb2NrLgoK
-WWVhaCwgdGhhdCBzb3VuZHMgbGlrZSBhIGdvb2QgaWRlYSB0byBtZSBhcyB3ZWxsLgoKPiBGaXJz
-dCBJIHdhbnRlZCB0byBwdXQgdGhpcyBpbnRvIGRybV9nZW1fdHRtX3ZtYXAvdnVubWFwKCksIGJ1
-dCB0aGVuIAo+IHdvbmRlcmVkIHdoeSB0dG1fYm9fdm1hcCgpIGRvZSBub3QgYWNxdWlyZSB0aGUg
-bG9jayBpbnRlcm5hbGx5PyBJJ2QgCj4gZXhwZWN0IHRoYXQgdm1hcC92dW5tYXAgYXJlIGNsb3Nl
-IHRvZ2V0aGVyIGFuZCBkbyBub3Qgb3ZlcmxhcCBmb3IgdGhlIAo+IHNhbWUgQk8uIAoKV2UgaGF2
-ZSB1c2UgY2FzZXMgbGlrZSB0aGUgZm9sbG93aW5nIGR1cmluZyBjb21tYW5kIHN1Ym1pc3Npb246
-CgoxLiBsb2NrCjIuIG1hcAozLiBjb3B5IHBhcnRzIG9mIHRoZSBCTyBjb250ZW50IHNvbWV3aGVy
-ZSBlbHNlIG9yIHBhdGNoIGl0IHdpdGggCmFkZGl0aW9uYWwgaW5mb3JtYXRpb24KNC4gdW5tYXAK
-NS4gc3VibWl0IEJPIHRvIHRoZSBoYXJkd2FyZQo2LiBhZGQgaGFyZHdhcmUgZmVuY2UgdG8gdGhl
-IEJPIHRvIG1ha2Ugc3VyZSBpdCBkb2Vzbid0IG1vdmUKNy4gdW5sb2NrCgpUaGF0IHVzZSBjYXNl
-IHdvbid0IGJlIHBvc3NpYmxlIHdpdGggdm1hcC92dW5tYXAgaWYgd2UgbW92ZSB0aGUgCmxvY2sv
-dW5sb2NrIGludG8gaXQgYW5kIEkgaG9wZSB0byByZXBsYWNlIHRoZSBrbWFwL2t1bm1hcCBmdW5j
-dGlvbnMgd2l0aCAKdGhlbSBpbiB0aGUgbmVhciB0ZXJtLgoKPiBPdGhlcndpc2UsIGFjcXVpcmlu
-ZyB0aGUgcmVzZXJ2YXRpb24gbG9jayB3b3VsZCByZXF1aXJlIGFub3RoZXIgCj4gcmVmLWNvdW50
-aW5nIHZhcmlhYmxlIG9yIHBlci1kcml2ZXIgY29kZS4KCkh1aSwgd2h5IHRoYXQ/IEp1c3QgcHV0
-IHRoaXMgaW50byBkcm1fZ2VtX3R0bV92bWFwL3Z1bm1hcCgpIGhlbHBlciBhcyAKeW91IGluaXRp
-YWxseSBwbGFubmVkLgoKUmVnYXJkcywKQ2hyaXN0aWFuLgoKPgo+IEJlc3QgcmVnYXJkcwo+IFRo
-b21hcwo+Cj4gWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVkZXNrdG9wLm9yZy9wYXRjaC80MDEw
-ODgvP3Nlcmllcz04MzkxOCZyZXY9MQo+Cj4+IFJlZ2FyZHMsCj4+IENocmlzdGlhbi4KPj4KPj4+
-Cj4+PiBGb3IgZG1hLWJ1ZiBzaGFyaW5nLCB0aGUgcmVndWxhciBwcm9jZWR1cmUgb2YgcGluICsg
-dm1hcCBzdGlsbCBhcHBseS4KPj4+IFRoaXMgc2hvdWxkIGFsd2F5cyBtb3ZlIHRoZSBCTyBpbnRv
-IEdUVC1tYW5hZ2VkIG1lbW9yeS4KPj4+Cj4+PiBCZXN0IHJlZ2FyZHMKPj4+IFRob21hcwo+Pj4K
-Pj4+IFsxXQo+Pj4gaHR0cHM6Ly9uYW0xMS5zYWZlbGlua3MucHJvdGVjdGlvbi5vdXRsb29rLmNv
-bS8/dXJsPWh0dHBzJTNBJTJGJTJGZ2l0Lmtlcm5lbC5vcmclMkZwdWIlMkZzY20lMkZsaW51eCUy
-Rmtlcm5lbCUyRmdpdCUyRnRvcnZhbGRzJTJGbGludXguZ2l0JTJGdHJlZSUyRmRyaXZlcnMlMkZn
-cHUlMkZkcm0lMkZkcm1fZmJfaGVscGVyLmMlMjNuNDMyJmFtcDtkYXRhPTA0JTdDMDElN0NjaHJp
-c3RpYW4ua29lbmlnJTQwYW1kLmNvbSU3QzMxYjg5MDY2NGNhNzQyOWZjNDU4MDhkODg3YWEwODQy
-JTdDM2RkODk2MWZlNDg4NGU2MDhlMTFhODJkOTk0ZTE4M2QlN0MwJTdDMCU3QzYzNzQwODUxMTY1
-MDYyOTU2OSU3Q1Vua25vd24lN0NUV0ZwYkdac2IzZDhleUpXSWpvaU1DNHdMakF3TURBaUxDSlFJ
-am9pVjJsdU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZGF0
-YT1STGF1dUF1WGtjbDByWHdXV0olMkZyS1AlMkJzQ3Iyd0F6VTFlakdWMWJuUTgwdyUzRCZhbXA7
-cmVzZXJ2ZWQ9MCAKPj4+Cj4+Pgo+Pj4+IFJlZ2FyZHMsCj4+Pj4gQ2hyaXN0aWFuLgo+Pj4+Cj4+
-Pj4+IFNpZ25lZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRl
-Pgo+Pj4+PiAtLS0KPj4+Pj4gwqDCoCBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nZW0u
-YyB8IDUxIAo+Pj4+PiArKysrKysrKysrKysrKysrKysrKysrKysrKystLQo+Pj4+PiDCoMKgIDEg
-ZmlsZSBjaGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+Pj4+Pgo+Pj4+
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fZ2VtLmMKPj4+Pj4g
-Yi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9nZW0uYwo+Pj4+PiBpbmRleCBkMjg3NmNl
-M2JjOWUuLmVhZjdmYzlhN2IwNyAxMDA2NDQKPj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9yYWRlb25fZ2VtLmMKPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRl
-b25fZ2VtLmMKPj4+Pj4gQEAgLTIyNiw2ICsyMjYsNTMgQEAgc3RhdGljIGludCByYWRlb25fZ2Vt
-X2hhbmRsZV9sb2NrdXAoc3RydWN0Cj4+Pj4+IHJhZGVvbl9kZXZpY2UgKnJkZXYsIGludCByKQo+
-Pj4+PiDCoMKgwqDCoMKgwqAgcmV0dXJuIHI7Cj4+Pj4+IMKgwqAgfQo+Pj4+PiDCoMKgICtzdGF0
-aWMgaW50IHJhZGVvbl9nZW1fb2JqZWN0X3ZtYXAoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmos
-Cj4+Pj4+IHN0cnVjdCBkbWFfYnVmX21hcCAqbWFwKQo+Pj4+PiArewo+Pj4+PiArwqDCoMKgIHN0
-YXRpYyBjb25zdCB1aW50MzJfdCBhbnlfZG9tYWluID0gUkFERU9OX0dFTV9ET01BSU5fVlJBTSB8
-Cj4+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBSQURF
-T05fR0VNX0RPTUFJTl9HVFQgfAo+Pj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgUkFERU9OX0dFTV9ET01BSU5fQ1BVOwo+Pj4+PiArCj4+Pj4+ICvCoMKg
-wqAgc3RydWN0IHJhZGVvbl9ibyAqYm8gPSBnZW1fdG9fcmFkZW9uX2JvKG9iaik7Cj4+Pj4+ICvC
-oMKgwqAgaW50IHJldDsKPj4+Pj4gKwo+Pj4+PiArwqDCoMKgIHJldCA9IHJhZGVvbl9ib19yZXNl
-cnZlKGJvLCBmYWxzZSk7Cj4+Pj4+ICvCoMKgwqAgaWYgKHJldCkKPj4+Pj4gK8KgwqDCoMKgwqDC
-oMKgIHJldHVybiByZXQ7Cj4+Pj4+ICsKPj4+Pj4gK8KgwqDCoCAvKiBwaW4gYnVmZmVyIGF0IGl0
-cyBjdXJyZW50IGxvY2F0aW9uICovCj4+Pj4+ICvCoMKgwqAgcmV0ID0gcmFkZW9uX2JvX3Bpbihi
-bywgYW55X2RvbWFpbiwgTlVMTCk7Cj4+Pj4+ICvCoMKgwqAgaWYgKHJldCkKPj4+Pj4gK8KgwqDC
-oMKgwqDCoMKgIGdvdG8gZXJyX3JhZGVvbl9ib191bnJlc2VydmU7Cj4+Pj4+ICsKPj4+Pj4gK8Kg
-wqDCoCByZXQgPSBkcm1fZ2VtX3R0bV92bWFwKG9iaiwgbWFwKTsKPj4+Pj4gK8KgwqDCoCBpZiAo
-cmV0KQo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgZ290byBlcnJfcmFkZW9uX2JvX3VucGluOwo+Pj4+
-PiArCj4+Pj4+ICvCoMKgwqAgcmFkZW9uX2JvX3VucmVzZXJ2ZShibyk7Cj4+Pj4+ICsKPj4+Pj4g
-K8KgwqDCoCByZXR1cm4gMDsKPj4+Pj4gKwo+Pj4+PiArZXJyX3JhZGVvbl9ib191bnBpbjoKPj4+
-Pj4gK8KgwqDCoCByYWRlb25fYm9fdW5waW4oYm8pOwo+Pj4+PiArZXJyX3JhZGVvbl9ib191bnJl
-c2VydmU6Cj4+Pj4+ICvCoMKgwqAgcmFkZW9uX2JvX3VucmVzZXJ2ZShibyk7Cj4+Pj4+ICvCoMKg
-wqAgcmV0dXJuIHJldDsKPj4+Pj4gK30KPj4+Pj4gKwo+Pj4+PiArc3RhdGljIHZvaWQgcmFkZW9u
-X2dlbV9vYmplY3RfdnVubWFwKHN0cnVjdCBkcm1fZ2VtX29iamVjdCAqb2JqLAo+Pj4+PiBzdHJ1
-Y3QgZG1hX2J1Zl9tYXAgKm1hcCkKPj4+Pj4gK3sKPj4+Pj4gK8KgwqDCoCBzdHJ1Y3QgcmFkZW9u
-X2JvICpibyA9IGdlbV90b19yYWRlb25fYm8ob2JqKTsKPj4+Pj4gK8KgwqDCoCBpbnQgcmV0Owo+
-Pj4+PiArCj4+Pj4+ICvCoMKgwqAgcmV0ID0gcmFkZW9uX2JvX3Jlc2VydmUoYm8sIGZhbHNlKTsK
-Pj4+Pj4gK8KgwqDCoCBpZiAocmV0KQo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuOwo+Pj4+
-PiArCj4+Pj4+ICvCoMKgwqAgZHJtX2dlbV90dG1fdnVubWFwKG9iaiwgbWFwKTsKPj4+Pj4gK8Kg
-wqDCoCByYWRlb25fYm9fdW5waW4oYm8pOwo+Pj4+PiArwqDCoMKgIHJhZGVvbl9ib191bnJlc2Vy
-dmUoYm8pOwo+Pj4+PiArfQo+Pj4+PiArCj4+Pj4+IMKgwqAgc3RhdGljIGNvbnN0IHN0cnVjdCBk
-cm1fZ2VtX29iamVjdF9mdW5jcyAKPj4+Pj4gcmFkZW9uX2dlbV9vYmplY3RfZnVuY3MgPSB7Cj4+
-Pj4+IMKgwqDCoMKgwqDCoCAuZnJlZSA9IHJhZGVvbl9nZW1fb2JqZWN0X2ZyZWUsCj4+Pj4+IMKg
-wqDCoMKgwqDCoCAub3BlbiA9IHJhZGVvbl9nZW1fb2JqZWN0X29wZW4sCj4+Pj4+IEBAIC0yMzQs
-OCArMjgxLDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fZ2VtX29iamVjdF9mdW5jcwo+Pj4+
-PiByYWRlb25fZ2VtX29iamVjdF9mdW5jcyA9IHsKPj4+Pj4gwqDCoMKgwqDCoMKgIC5waW4gPSBy
-YWRlb25fZ2VtX3ByaW1lX3BpbiwKPj4+Pj4gwqDCoMKgwqDCoMKgIC51bnBpbiA9IHJhZGVvbl9n
-ZW1fcHJpbWVfdW5waW4sCj4+Pj4+IMKgwqDCoMKgwqDCoCAuZ2V0X3NnX3RhYmxlID0gcmFkZW9u
-X2dlbV9wcmltZV9nZXRfc2dfdGFibGUsCj4+Pj4+IC3CoMKgwqAgLnZtYXAgPSBkcm1fZ2VtX3R0
-bV92bWFwLAo+Pj4+PiAtwqDCoMKgIC52dW5tYXAgPSBkcm1fZ2VtX3R0bV92dW5tYXAsCj4+Pj4+
-ICvCoMKgwqAgLnZtYXAgPSByYWRlb25fZ2VtX29iamVjdF92bWFwLAo+Pj4+PiArwqDCoMKgIC52
-dW5tYXAgPSByYWRlb25fZ2VtX29iamVjdF92dW5tYXAsCj4+Pj4+IMKgwqAgfTsKPj4+Pj4gwqDC
-oCDCoCAvKgo+Pj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPj4+PiBodHRwczovL25hbTExLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxv
-b2suY29tLz91cmw9aHR0cHMlM0ElMkYlMkZsaXN0cy5mcmVlZGVza3RvcC5vcmclMkZtYWlsbWFu
-JTJGbGlzdGluZm8lMkZkcmktZGV2ZWwmYW1wO2RhdGE9MDQlN0MwMSU3Q2NocmlzdGlhbi5rb2Vu
-aWclNDBhbWQuY29tJTdDMzFiODkwNjY0Y2E3NDI5ZmM0NTgwOGQ4ODdhYTA4NDIlN0MzZGQ4OTYx
-ZmU0ODg0ZTYwOGUxMWE4MmQ5OTRlMTgzZCU3QzAlN0MwJTdDNjM3NDA4NTExNjUwNjI5NTY5JTdD
-VW5rbm93biU3Q1RXRnBiR1pzYjNkOGV5SldJam9pTUM0d0xqQXdNREFpTENKUUlqb2lWMmx1TXpJ
-aUxDSkJUaUk2SWsxaGFXd2lMQ0pYVkNJNk1uMCUzRCU3QzEwMDAmYW1wO3NkYXRhPWgxVTlQbzgz
-Szd3ZWJ4c2lLcG4zWkdGejlGY2c2U1JreHRyWFdaMSUyQiUyRkVjJTNEJmFtcDtyZXNlcnZlZD0w
-IAo+Pj4+Cj4+Cj4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCj4+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
-dG9wLm9yZwo+PiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZv
-L2RyaS1kZXZlbAo+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+The pdev field in struct drm_device points to a PCI device structure and
+goes back to UMS-only days when all DRM drivers where for PCI devices.
+Meanwhile we also support USB, SPI and platform devices. Each of those
+uses the generic device stored in struct drm_device.dev.
+
+To reduce duplications and remove the special case of PCI, this patchset
+converts all modesetting drivers from pdev to dev and makes pdev a field
+for legacy UMS drivers.
+
+For PCI devices, the pointer in struct drm_device.dev can be upcasted to
+struct pci_device; or tested for PCI with dev_is_pci(). In several places
+the code can use the dev field directly.
+
+After converting all drivers and the DRM core, the pdev fields becomes
+only relevant for legacy drivers. In a later patchset, we may want to
+convert these as well and remove pdev entirely.
+
+The patchset touches many files, but the individual changes are mostly
+trivial. I suggest to merge each driver's patch through the respective
+tree and later the rest through drm-misc-next.
+
+Thomas Zimmermann (15):
+  drm/amdgpu: Remove references to struct drm_device.pdev
+  drm/ast: Remove references to struct drm_device.pdev
+  drm/bochs: Remove references to struct drm_device.pdev
+  drm/cirrus: Remove references to struct drm_device.pdev
+  drm/gma500: Remove references to struct drm_device.pdev
+  drm/hibmc: Remove references to struct drm_device.pdev
+  drm/i915: Remove references to struct drm_device.pdev
+  drm/mgag200: Remove references to struct drm_device.pdev
+  drm/nouveau: Remove references to struct drm_device.pdev
+  drm/qxl: Remove references to struct drm_device.pdev
+  drm/radeon: Remove references to struct drm_device.pdev
+  drm/vboxvideo: Remove references to struct drm_device.pdev
+  drm/virtgpu: Remove references to struct drm_device.pdev
+  drm/vmwgfx: Remove references to struct drm_device.pdev
+  drm: Upcast struct drm_device.dev to struct pci_device; replace pdev
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 23 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 10 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 10 +--
+ drivers/gpu/drm/ast/ast_drv.c                 |  4 +-
+ drivers/gpu/drm/ast/ast_main.c                | 25 +++---
+ drivers/gpu/drm/ast/ast_mm.c                  | 17 ++--
+ drivers/gpu/drm/ast/ast_mode.c                |  5 +-
+ drivers/gpu/drm/ast/ast_post.c                |  8 +-
+ drivers/gpu/drm/bochs/bochs_drv.c             |  1 -
+ drivers/gpu/drm/bochs/bochs_hw.c              |  4 +-
+ drivers/gpu/drm/drm_agpsupport.c              |  9 +-
+ drivers/gpu/drm/drm_bufs.c                    |  4 +-
+ drivers/gpu/drm/drm_edid.c                    |  7 +-
+ drivers/gpu/drm/drm_irq.c                     | 12 +--
+ drivers/gpu/drm/drm_pci.c                     | 26 +++---
+ drivers/gpu/drm/drm_vm.c                      |  2 +-
+ drivers/gpu/drm/gma500/cdv_device.c           | 30 ++++---
+ drivers/gpu/drm/gma500/cdv_intel_crt.c        |  3 +-
+ drivers/gpu/drm/gma500/cdv_intel_lvds.c       |  4 +-
+ drivers/gpu/drm/gma500/framebuffer.c          |  9 +-
+ drivers/gpu/drm/gma500/gma_device.c           |  3 +-
+ drivers/gpu/drm/gma500/gma_display.c          |  4 +-
+ drivers/gpu/drm/gma500/gtt.c                  | 20 +++--
+ drivers/gpu/drm/gma500/intel_bios.c           |  6 +-
+ drivers/gpu/drm/gma500/intel_gmbus.c          |  4 +-
+ drivers/gpu/drm/gma500/intel_i2c.c            |  2 +-
+ drivers/gpu/drm/gma500/mdfld_device.c         |  4 +-
+ drivers/gpu/drm/gma500/mdfld_dsi_dpi.c        |  8 +-
+ drivers/gpu/drm/gma500/mid_bios.c             |  9 +-
+ drivers/gpu/drm/gma500/oaktrail_device.c      |  5 +-
+ drivers/gpu/drm/gma500/oaktrail_lvds.c        |  2 +-
+ drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c    |  2 +-
+ drivers/gpu/drm/gma500/opregion.c             |  3 +-
+ drivers/gpu/drm/gma500/power.c                | 13 +--
+ drivers/gpu/drm/gma500/psb_drv.c              | 16 ++--
+ drivers/gpu/drm/gma500/psb_drv.h              |  8 +-
+ drivers/gpu/drm/gma500/psb_intel_lvds.c       |  6 +-
+ drivers/gpu/drm/gma500/psb_intel_sdvo.c       |  2 +-
+ drivers/gpu/drm/gma500/tc35876x-dsi-lvds.c    | 36 ++++----
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   | 10 +--
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c   |  2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c   |  4 +-
+ drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_cdclk.c    | 14 +--
+ drivers/gpu/drm/i915/display/intel_csr.c      |  2 +-
+ drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+ drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
+ .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 +-
+ drivers/gpu/drm/i915/display/intel_opregion.c |  6 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    |  4 +-
+ drivers/gpu/drm/i915/display/intel_quirks.c   |  2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
+ drivers/gpu/drm/i915/display/intel_vga.c      |  8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          | 10 +--
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 +-
+ drivers/gpu/drm/i915/gt/intel_reset.c         |  6 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 +-
+ drivers/gpu/drm/i915/gvt/firmware.c           | 10 +--
+ drivers/gpu/drm/i915/gvt/gtt.c                | 12 +--
+ drivers/gpu/drm/i915/gvt/gvt.c                |  6 +-
+ drivers/gpu/drm/i915/gvt/kvmgt.c              |  4 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
+ drivers/gpu/drm/i915/i915_drv.c               | 20 ++---
+ drivers/gpu/drm/i915/i915_drv.h               |  2 +-
+ drivers/gpu/drm/i915/i915_gem_gtt.c           |  4 +-
+ drivers/gpu/drm/i915/i915_getparam.c          |  5 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
+ drivers/gpu/drm/i915/i915_irq.c               |  6 +-
+ drivers/gpu/drm/i915/i915_pmu.c               |  5 +-
+ drivers/gpu/drm/i915/i915_suspend.c           |  4 +-
+ drivers/gpu/drm/i915/i915_switcheroo.c        |  4 +-
+ drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+ drivers/gpu/drm/i915/intel_device_info.c      |  2 +-
+ drivers/gpu/drm/i915/intel_region_lmem.c      |  8 +-
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
+ drivers/gpu/drm/i915/intel_uncore.c           |  4 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 -
+ drivers/gpu/drm/i915/selftests/mock_gtt.c     |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.c         | 20 +++--
+ drivers/gpu/drm/mgag200/mgag200_i2c.c         |  2 +-
+ drivers/gpu/drm/mgag200/mgag200_mm.c          | 10 ++-
+ drivers/gpu/drm/nouveau/dispnv04/arb.c        | 12 +--
+ drivers/gpu/drm/nouveau/dispnv04/disp.h       | 14 +--
+ drivers/gpu/drm/nouveau/dispnv04/hw.c         | 10 ++-
+ drivers/gpu/drm/nouveau/nouveau_abi16.c       |  7 +-
+ drivers/gpu/drm/nouveau/nouveau_acpi.c        |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_bios.c        | 11 ++-
+ drivers/gpu/drm/nouveau/nouveau_connector.c   | 10 ++-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |  5 +-
+ drivers/gpu/drm/nouveau/nouveau_fbcon.c       |  6 +-
+ drivers/gpu/drm/nouveau/nouveau_vga.c         | 20 +++--
+ drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
+ drivers/gpu/drm/qxl/qxl_ioctl.c               |  3 +-
+ drivers/gpu/drm/qxl/qxl_irq.c                 |  3 +-
+ drivers/gpu/drm/qxl/qxl_kms.c                 |  1 -
+ drivers/gpu/drm/radeon/atombios_encoders.c    |  6 +-
+ drivers/gpu/drm/radeon/r100.c                 | 27 +++---
+ drivers/gpu/drm/radeon/radeon.h               | 32 +++----
+ drivers/gpu/drm/radeon/radeon_atombios.c      | 89 ++++++++++---------
+ drivers/gpu/drm/radeon/radeon_bios.c          |  6 +-
+ drivers/gpu/drm/radeon/radeon_combios.c       | 55 ++++++------
+ drivers/gpu/drm/radeon/radeon_cs.c            |  3 +-
+ drivers/gpu/drm/radeon/radeon_device.c        | 17 ++--
+ drivers/gpu/drm/radeon/radeon_display.c       |  2 +-
+ drivers/gpu/drm/radeon/radeon_drv.c           |  3 +-
+ drivers/gpu/drm/radeon/radeon_fb.c            |  2 +-
+ drivers/gpu/drm/radeon/radeon_gem.c           |  6 +-
+ drivers/gpu/drm/radeon/radeon_i2c.c           |  2 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c       |  2 +-
+ drivers/gpu/drm/radeon/radeon_kms.c           | 20 ++---
+ .../gpu/drm/radeon/radeon_legacy_encoders.c   |  6 +-
+ drivers/gpu/drm/radeon/rs780_dpm.c            |  7 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |  1 -
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          | 11 +--
+ drivers/gpu/drm/vboxvideo/vbox_irq.c          |  4 +-
+ drivers/gpu/drm/vboxvideo/vbox_main.c         |  8 +-
+ drivers/gpu/drm/vboxvideo/vbox_ttm.c          |  7 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c        |  8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 27 +++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |  2 +-
+ include/drm/drm_device.h                      | 12 ++-
+ 132 files changed, 584 insertions(+), 507 deletions(-)
+
+--
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
