@@ -2,76 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD462C2D30
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 17:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83B1F2C2D45
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 17:49:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264686E49F;
-	Tue, 24 Nov 2020 16:44:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5616E4B7;
+	Tue, 24 Nov 2020 16:49:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 159FF6E49D;
- Tue, 24 Nov 2020 16:44:11 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id z5so9341497ejp.4;
- Tue, 24 Nov 2020 08:44:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=LKWqzt2Obr/Z3Sp249CV7zD1L9gCOLMMJ/3g3L3ofjM=;
- b=j3T2jqsLfl5ilz3bC9DiRlqIcG2BN8F2VOP+boX6eHSGQAAOUPeUJ1dZVEm2VpIyAA
- WZxj1r98dONQIYb0SMHBRAe4+EBNr2MxM7TtZ0dvqD5hC0YgJpiGSZ/yml2aKLRkADYd
- 9ER9N4Vk7QG9TPzO3WRUW2zdJV6Ze4G4aureireKpPkAgcPQWq/DTbfQyCTMkU94n0qT
- oY3tC/YjJr+tJuFXnaID6m1JEAvpHaRqEI/iRcchDcK4hz6Cz1qtRcPEnYaEkDpfTjQi
- tR+TK+FGzvKojzbgPks08Zx7DyiwuBEyXfXlrTPGmigkC02dKmVA0BnVN5cFX5xtHHEZ
- n9Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=LKWqzt2Obr/Z3Sp249CV7zD1L9gCOLMMJ/3g3L3ofjM=;
- b=W+gyfspHS9JgZJhEtTt0BikCFYRKYjS2xm4i84Q4qIORisbE3CQrY8CzXq1f5EN65R
- 8/7k4zwkQzp+RGhMKZZ+3jCOWxoEqrdn99ZVpGZp2aJh9dcQz72dfjU8ahMcEl5aHLdJ
- MPcXlIfNFY/5nV53usCD73231dzhfB6IMeKvnLu71IvHGtPFW3gLmyVCYIdEnT7X5rvX
- UtTr8DFEGNJwNPpz309s+RHqiQdev3XNOx1dmsMG9KIxLYjmx98UeUF/b3t+3MeyA8V9
- PDMeRpt0KnzmWieH+ZumT+pYhnEyng8/RuUgYRS2hUoZ9nnLaHt4yJPuap0BOBZjTmZb
- NQgw==
-X-Gm-Message-State: AOAM531G3dpnte+Brw0I8UMIWSxP9Tru47EpWrlxq9EwZD1bZTkb7CR5
- BRc7b4aaz/L802OeirI3+kU=
-X-Google-Smtp-Source: ABdhPJw2XkvY4Jq5drnYBJLtBqa8jB5VgfxsZoo2eAjzR1Yi92MUKJ6ISG7TfaYXHgbfPQldOasi8Q==
-X-Received: by 2002:a17:906:6a51:: with SMTP id
- n17mr5072004ejs.478.1606236249610; 
- Tue, 24 Nov 2020 08:44:09 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id o3sm6967303edj.41.2020.11.24.08.44.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Nov 2020 08:44:08 -0800 (PST)
-Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, robh@kernel.org, l.stach@pengutronix.de,
- yuq825@gmail.com, eric@anholt.net
-References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
- <1605936082-3099-6-git-send-email-andrey.grodzovsky@amd.com>
- <28332cf0-612c-10bd-c64e-fff6e1f18653@gmail.com>
- <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
- <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
- <e2f4f1dc-2a2a-face-87b2-6d61ed7d3305@amd.com>
- <01280cba-56b8-77c6-b40f-d7e69a5ad4c6@amd.com>
- <0ceca974-80f8-feb3-d5e9-5182f35bb2c4@amd.com>
- <20288c45-270c-3ed7-2ac4-eeb6e5c50776@amd.com>
- <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <041210e5-e237-b72e-dcbc-17027d057c55@gmail.com>
-Date: Tue, 24 Nov 2020 17:44:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 808406E4B3;
+ Tue, 24 Nov 2020 16:49:01 +0000 (UTC)
+IronPort-SDR: 12KvYwIqa+sNOvec/rp6knxf1wOs96zSJh551qIFfus+UKEtdk9sVnGzmI22F+Ry98BTOVlgDE
+ ZQKUmqhpT3rA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="169414923"
+X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="169414923"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2020 08:49:01 -0800
+IronPort-SDR: eraFQCsLjMBmLQ2dD0dkw9M2LKjIF69g+/zJIpBezdDQZSKX5FStRbQ4UanlEp5JEqGwXUMHZ/
+ 7L4zeA5yv42w==
+X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="365067788"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2020 08:48:58 -0800
+Date: Tue, 24 Nov 2020 22:19:57 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v5 13/17] drm/i915/hdcp: MST streams support in hdcp
+ port_data
+Message-ID: <20201124164957.GB25919@intel.com>
+References: <20201111062051.11529-1-anshuman.gupta@intel.com>
+ <20201111062051.11529-14-anshuman.gupta@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201111062051.11529-14-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,81 +51,275 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Alexander.Deucher@amd.com, gregkh@linuxfoundation.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, uma.shankar@intel.com, seanpaul@chromium.org,
+ juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjQuMTEuMjAgdW0gMTc6MjIgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPgo+IE9uIDEx
-LzI0LzIwIDI6NDEgQU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+IEFtIDIzLjExLjIwIHVt
-IDIyOjA4IHNjaHJpZWIgQW5kcmV5IEdyb2R6b3Zza3k6Cj4+Pgo+Pj4gT24gMTEvMjMvMjAgMzo0
-MSBQTSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPj4+PiBBbSAyMy4xMS4yMCB1bSAyMTozOCBz
-Y2hyaWViIEFuZHJleSBHcm9kem92c2t5Ogo+Pj4+Pgo+Pj4+PiBPbiAxMS8yMy8yMCAzOjIwIFBN
-LCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+Pj4+Pj4gQW0gMjMuMTEuMjAgdW0gMjE6MDUgc2No
-cmllYiBBbmRyZXkgR3JvZHpvdnNreToKPj4+Pj4+Pgo+Pj4+Pj4+IE9uIDExLzI1LzIwIDU6NDIg
-QU0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+Pj4+Pj4+IEFtIDIxLjExLjIwIHVtIDA2OjIx
-IHNjaHJpZWIgQW5kcmV5IEdyb2R6b3Zza3k6Cj4+Pj4+Pj4+PiBJdCdzIG5lZWRlZCB0byBkcm9w
-IGlvbW11IGJhY2tlZCBwYWdlcyBvbiBkZXZpY2UgdW5wbHVnCj4+Pj4+Pj4+PiBiZWZvcmUgZGV2
-aWNlJ3MgSU9NTVUgZ3JvdXAgaXMgcmVsZWFzZWQuCj4+Pj4+Pj4+Cj4+Pj4+Pj4+IEl0IHdvdWxk
-IGJlIGNsZWFuZXIgaWYgd2UgY291bGQgZG8gdGhlIHdob2xlIGhhbmRsaW5nIGluIFRUTS4gSSAK
-Pj4+Pj4+Pj4gYWxzbyBuZWVkIHRvIGRvdWJsZSBjaGVjayB3aGF0IHlvdSBhcmUgZG9pbmcgd2l0
-aCB0aGlzIGZ1bmN0aW9uLgo+Pj4+Pj4+Pgo+Pj4+Pj4+PiBDaHJpc3RpYW4uCj4+Pj4+Pj4KPj4+
-Pj4+Pgo+Pj4+Pj4+IENoZWNrIHBhdGNoICJkcm0vYW1kZ3B1OiBSZWdpc3RlciBJT01NVSB0b3Bv
-bG9neSBub3RpZmllciBwZXIgCj4+Pj4+Pj4gZGV2aWNlLiIgdG8gc2VlCj4+Pj4+Pj4gaG93IGkg
-dXNlIGl0LiBJIGRvbid0IHNlZSB3aHkgdGhpcyBzaG91bGQgZ28gaW50byBUVE0gbWlkLWxheWVy
-IAo+Pj4+Pj4+IC0gdGhlIHN0dWZmIEkgZG8gaW5zaWRlCj4+Pj4+Pj4gaXMgdmVuZG9yIHNwZWNp
-ZmljIGFuZCBhbHNvIEkgZG9uJ3QgdGhpbmsgVFRNIGlzIGV4cGxpY2l0bHkgCj4+Pj4+Pj4gYXdh
-cmUgb2YgSU9NTVUgPwo+Pj4+Pj4+IERvIHlvdSBtZWFuIHlvdSBwcmVmZXIgdGhlIElPTU1VIG5v
-dGlmaWVyIHRvIGJlIHJlZ2lzdGVyZWQgZnJvbSAKPj4+Pj4+PiB3aXRoaW4gVFRNCj4+Pj4+Pj4g
-YW5kIHRoZW4gdXNlIGEgaG9vayB0byBjYWxsIGludG8gdmVuZG9yIHNwZWNpZmljIGhhbmRsZXIg
-Pwo+Pj4+Pj4KPj4+Pj4+IE5vLCB0aGF0IGlzIHJlYWxseSB2ZW5kb3Igc3BlY2lmaWMuCj4+Pj4+
-Pgo+Pj4+Pj4gV2hhdCBJIG1lYW50IGlzIHRvIGhhdmUgYSBmdW5jdGlvbiBsaWtlIAo+Pj4+Pj4g
-dHRtX3Jlc291cmNlX21hbmFnZXJfZXZpY3RfYWxsKCkgd2hpY2ggeW91IG9ubHkgbmVlZCB0byBj
-YWxsIGFuZCAKPj4+Pj4+IGFsbCB0dCBvYmplY3RzIGFyZSB1bnBvcHVsYXRlZC4KPj4+Pj4KPj4+
-Pj4KPj4+Pj4gU28gaW5zdGVhZCBvZiB0aGlzIEJPIGxpc3QgaSBjcmVhdGUgYW5kIGxhdGVyIGl0
-ZXJhdGUgaW4gYW1kZ3B1IAo+Pj4+PiBmcm9tIHRoZSBJT01NVSBwYXRjaCB5b3UganVzdCB3YW50
-IHRvIGRvIGl0IHdpdGhpbgo+Pj4+PiBUVE0gd2l0aCBhIHNpbmdsZSBmdW5jdGlvbiA/IE1ha2Vz
-IG11Y2ggbW9yZSBzZW5zZS4KPj4+Pgo+Pj4+IFllcywgZXhhY3RseS4KPj4+Pgo+Pj4+IFRoZSBs
-aXN0X2VtcHR5KCkgY2hlY2tzIHdlIGhhdmUgaW4gVFRNIGZvciB0aGUgTFJVIGFyZSBhY3R1YWxs
-eSBub3QgCj4+Pj4gdGhlIGJlc3QgaWRlYSwgd2Ugc2hvdWxkIG5vdyBjaGVjayB0aGUgcGluX2Nv
-dW50IGluc3RlYWQuIFRoaXMgd2F5IAo+Pj4+IHdlIGNvdWxkIGFsc28gaGF2ZSBhIGxpc3Qgb2Yg
-dGhlIHBpbm5lZCBCT3MgaW4gVFRNLgo+Pj4KPj4+Cj4+PiBTbyBmcm9tIG15IElPTU1VIHRvcG9s
-b2d5IGhhbmRsZXIgSSB3aWxsIGl0ZXJhdGUgdGhlIFRUTSBMUlUgZm9yIHRoZSAKPj4+IHVucGlu
-bmVkIEJPcyBhbmQgdGhpcyBuZXcgZnVuY3Rpb24gZm9yIHRoZSBwaW5uZWQgb25lc8KgID8KPj4+
-IEl0J3MgcHJvYmFibHkgYSBnb29kIGlkZWEgdG8gY29tYmluZSBib3RoIGl0ZXJhdGlvbnMgaW50
-byB0aGlzIG5ldyAKPj4+IGZ1bmN0aW9uIHRvIGNvdmVyIGFsbCB0aGUgQk9zIGFsbG9jYXRlZCBv
-biB0aGUgZGV2aWNlLgo+Pgo+PiBZZXMsIHRoYXQncyB3aGF0IEkgaGFkIGluIG15IG1pbmQgYXMg
-d2VsbC4KPj4KPj4+Cj4+Pgo+Pj4+Cj4+Pj4gQlRXOiBIYXZlIHlvdSB0aG91Z2h0IGFib3V0IHdo
-YXQgaGFwcGVucyB3aGVuIHdlIHVucG9wdWxhdGUgYSBCTyAKPj4+PiB3aGlsZSB3ZSBzdGlsbCB0
-cnkgdG8gdXNlIGEga2VybmVsIG1hcHBpbmcgZm9yIGl0PyBUaGF0IGNvdWxkIGhhdmUgCj4+Pj4g
-dW5mb3Jlc2VlbiBjb25zZXF1ZW5jZXMuCj4+Pgo+Pj4KPj4+IEFyZSB5b3UgYXNraW5nIHdoYXQg
-aGFwcGVucyB0byBrbWFwIG9yIHZtYXAgc3R5bGUgbWFwcGVkIENQVSAKPj4+IGFjY2Vzc2VzIG9u
-Y2Ugd2UgZHJvcCBhbGwgdGhlIERNQSBiYWNraW5nIHBhZ2VzIGZvciBhIHBhcnRpY3VsYXIgQk8g
-Cj4+PiA/IEJlY2F1c2UgZm9yIHVzZXIgbWFwcGluZ3MKPj4+IChtbWFwKSB3ZSB0b29rIGNhcmUg
-b2YgdGhpcyB3aXRoIGR1bW15IHBhZ2UgcmVyb3V0ZSBidXQgaW5kZWVkIAo+Pj4gbm90aGluZyB3
-YXMgZG9uZSBmb3IgaW4ga2VybmVsIENQVSBtYXBwaW5ncy4KPj4KPj4gWWVzIGV4YWN0bHkgdGhh
-dC4KPj4KPj4gSW4gb3RoZXIgd29yZHMgd2hhdCBoYXBwZW5zIGlmIHdlIGZyZWUgdGhlIHJpbmcg
-YnVmZmVyIHdoaWxlIHRoZSAKPj4ga2VybmVsIHN0aWxsIHdyaXRlcyB0byBpdD8KPj4KPj4gQ2hy
-aXN0aWFuLgo+Cj4KPiBXaGlsZSB3ZSBjYW4ndCBjb250cm9sIHVzZXIgYXBwbGljYXRpb24gYWNj
-ZXNzZXMgdG8gdGhlIG1hcHBlZCBidWZmZXJzIAo+IGV4cGxpY2l0bHkgYW5kIGhlbmNlIHdlIHVz
-ZSBwYWdlIGZhdWx0IHJlcm91dGluZwo+IEkgYW0gdGhpbmtpbmcgdGhhdCBpbiB0aGlzwqAgY2Fz
-ZSB3ZSBtYXkgYmUgYWJsZSB0byBzcHJpbmtsZSAKPiBkcm1fZGV2X2VudGVyL2V4aXQgaW4gYW55
-IHN1Y2ggc2Vuc2l0aXZlIHBsYWNlIHdlcmUgd2UgbWlnaHQKPiBDUFUgYWNjZXNzIGEgRE1BIGJ1
-ZmZlciBmcm9tIHRoZSBrZXJuZWwgPwoKWWVzLCBJIGZlYXIgd2UgYXJlIGdvaW5nIHRvIG5lZWQg
-dGhhdC4KCj4gVGhpbmdzIGxpa2UgQ1BVIHBhZ2UgdGFibGUgdXBkYXRlcywgcmluZyBidWZmZXIg
-YWNjZXNzZXMgYW5kIEZXIG1lbWNweSAKPiA/IElzIHRoZXJlIG90aGVyIHBsYWNlcyA/CgpQdWgs
-IGdvb2QgcXVlc3Rpb24uIEkgaGF2ZSBubyBpZGVhLgoKPiBBbm90aGVyIHBvaW50IGlzIHRoYXQg
-YXQgdGhpcyBwb2ludCB0aGUgZHJpdmVyIHNob3VsZG4ndCBhY2Nlc3MgYW55IAo+IHN1Y2ggYnVm
-ZmVycyBhcyB3ZSBhcmUgYXQgdGhlIHByb2Nlc3MgZmluaXNoaW5nIHRoZSBkZXZpY2UuCj4gQUZB
-SUsgdGhlcmUgaXMgbm8gcGFnZSBmYXVsdCBtZWNoYW5pc20gZm9yIGtlcm5lbCBtYXBwaW5ncyBz
-byBJIGRvbid0IAo+IHRoaW5rIHRoZXJlIGlzIGFueXRoaW5nIGVsc2UgdG8gZG8gPwoKV2VsbCB0
-aGVyZSBpcyBhIHBhZ2UgZmF1bHQgaGFuZGxlciBmb3Iga2VybmVsIG1hcHBpbmdzLCBidXQgdGhh
-dCBvbmUgCmp1c3QgcHJpbnRzIHRoZSBzdGFjayB0cmFjZSBpbnRvIHRoZSBzeXN0ZW0gbG9nIGFu
-ZCBjYWxscyBCVUcoKTsgOikKCkxvbmcgc3Rvcnkgc2hvcnQgd2UgbmVlZCB0byBhdm9pZCBhbnkg
-YWNjZXNzIHRvIHJlbGVhc2VkIHBhZ2VzIGFmdGVyIAp1bnBsdWcuIE5vIG1hdHRlciBpZiBpdCdz
-IGZyb20gdGhlIGtlcm5lbCBvciB1c2Vyc3BhY2UuCgpSZWdhcmRzLApDaHJpc3RpYW4uCgo+Cj4g
-QW5kcmV5CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 2020-11-11 at 11:50:47 +0530, Anshuman Gupta wrote:
+> Add support for multiple mst stream in hdcp port data
+> which will be used by RepeaterAuthStreamManage msg and
+> HDCP 2.2 security f/w for m' validation.
+> 
+> Security f/w doesn't have any provision to mark the
+> stream_type for each stream separately, it just take
+> single input of stream_type while authentiating the
+> port. So driver mark each stream_type with common
+> highest supported content type for all streams in
+> DP MST Topology.
+> 
+> Security f/w supports RepeaterAuthStreamManage msg and m'
+> validation only once during port authentication and encryption.
+
+Could we make a note in commit msg that we need to support content type per stream
+when fw supports it?
+> 
+> v2:
+> - Init the hdcp port data k for HDMI/DP SST stream.
+> v3:
+> - Cosmetic changes. [Uma]
+> v4:
+> - 's/port_auth/hdcp_port_auth'. [Ram]
+> - Commit log improvement.
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_types.h    |   4 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 103 +++++++++++++++---
+>  2 files changed, 92 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 6e597f6aafe8..b93ecf4f21e3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -1445,10 +1445,12 @@ struct intel_digital_port {
+>  	enum phy_fia tc_phy_fia;
+>  	u8 tc_phy_fia_idx;
+>  
+> -	/* protects num_hdcp_streams reference count, port_data */
+> +	/* protects num_hdcp_streams reference count, port_data and port_auth */
+Either correct the variable names or refer it as "hdcp related
+variables"
+>  	struct mutex hdcp_mutex;
+>  	/* the number of pipes using HDCP signalling out of this port */
+>  	unsigned int num_hdcp_streams;
+> +	/* port HDCP auth status */
+> +	bool hdcp_auth_status;
+>  	/* HDCP port data need to pass to security f/w */
+>  	struct hdcp_port_data hdcp_port_data;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 829176df89e7..6a48110c7cd7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -26,6 +26,64 @@
+>  #define KEY_LOAD_TRIES	5
+>  #define HDCP2_LC_RETRY_CNT			3
+>  
+> +static int intel_conn_to_vcpi(struct intel_connector *connector)
+> +{
+> +	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
+> +	return connector->port	? connector->port->vcpi.vcpi : 0;
+> +}
+> +
+Lets add a comment about policy on content type selection and why. And
+mention that ideally we should be able to support different content type
+for different streams.
+> +static int
+> +intel_hdcp_required_content_stream(struct intel_digital_port *dig_port)
+> +{
+> +	struct drm_connector_list_iter conn_iter;
+> +	struct intel_digital_port *conn_dig_port;
+> +	struct intel_connector *connector;
+> +	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+> +	bool enforce_type0 = false;
+> +	int k;
+> +
+> +	if (dig_port->hdcp_auth_status)
+> +		return 0;
+> +
+> +	drm_connector_list_iter_begin(&i915->drm, &conn_iter);
+> +	for_each_intel_connector_iter(connector, &conn_iter) {
+> +		if (!intel_encoder_is_mst(intel_attached_encoder(connector)))
+> +			continue;
+> +
+> +		conn_dig_port = intel_attached_dig_port(connector);
+> +		if (conn_dig_port != dig_port)
+> +			continue;
+> +
+> +		if (connector->base.status == connector_status_disconnected)
+> +			continue;
+> +
+> +		if (!enforce_type0 && !intel_hdcp2_capable(connector))
+> +			enforce_type0 = true;
+> +
+> +		data->streams[data->k].stream_id = intel_conn_to_vcpi(connector);
+> +		data->k++;
+> +
+> +		/* if there is only one active stream */
+> +		if (dig_port->dp.active_mst_links <= 1)
+> +			break;
+> +	}
+> +	drm_connector_list_iter_end(&conn_iter);
+> +
+> +	if (drm_WARN_ON(&i915->drm, data->k > INTEL_NUM_PIPES(i915) || data->k == 0))
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Apply common protection level across all streams in DP MST Topology.
+> +	 * Use highest supported content type for all streams in DP MST Topology.
+> +	 */
+> +	for (k = 0; k < data->k; k++)
+> +		data->streams[k].stream_type =
+> +			enforce_type0 ? DRM_MODE_HDCP_CONTENT_TYPE0 : DRM_MODE_HDCP_CONTENT_TYPE1;
+> +
+> +	return 0;
+> +}
+> +
+>  static
+>  bool intel_hdcp_is_ksv_valid(u8 *ksv)
+>  {
+> @@ -1476,13 +1534,14 @@ static
+>  int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	union {
+>  		struct hdcp2_rep_stream_manage stream_manage;
+>  		struct hdcp2_rep_stream_ready stream_ready;
+>  	} msgs;
+>  	const struct intel_hdcp_shim *shim = hdcp->shim;
+> -	int ret;
+> +	int ret, streams_size_delta, i;
+>  
+>  	if (connector->hdcp.seq_num_m > HDCP_2_2_SEQ_NUM_MAX)
+>  		return -ERANGE;
+> @@ -1491,16 +1550,18 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  	msgs.stream_manage.msg_id = HDCP_2_2_REP_STREAM_MANAGE;
+>  	drm_hdcp_cpu_to_be24(msgs.stream_manage.seq_num_m, hdcp->seq_num_m);
+>  
+> -	/* K no of streams is fixed as 1. Stored as big-endian. */
+> -	msgs.stream_manage.k = cpu_to_be16(1);
+> +	msgs.stream_manage.k = cpu_to_be16(data->k);
+>  
+> -	/* For HDMI this is forced to be 0x0. For DP SST also this is 0x0. */
+> -	msgs.stream_manage.streams[0].stream_id = 0;
+> -	msgs.stream_manage.streams[0].stream_type = hdcp->content_type;
+> +	for (i = 0; i < data->k; i++) {
+> +		msgs.stream_manage.streams[i].stream_id = data->streams[i].stream_id;
+> +		msgs.stream_manage.streams[i].stream_type = data->streams[i].stream_type;
+> +	}
+>  
+> +	streams_size_delta = (HDCP_2_2_MAX_CONTENT_STREAMS_CNT - data->k) *
+> +				sizeof(struct hdcp2_streamid_type);
+>  	/* Send it to Repeater */
+>  	ret = shim->write_2_2_msg(dig_port, &msgs.stream_manage,
+> -				  sizeof(msgs.stream_manage));
+> +				  sizeof(msgs.stream_manage) - streams_size_delta);
+>  	if (ret < 0)
+>  		goto out;
+>  
+> @@ -1509,8 +1570,7 @@ int _hdcp2_propagate_stream_management_info(struct intel_connector *connector)
+>  	if (ret < 0)
+>  		goto out;
+>  
+> -	dig_port->hdcp_port_data.seq_num_m = hdcp->seq_num_m;
+> -	dig_port->hdcp_port_data.streams[0].stream_type = hdcp->content_type;
+> +	data->seq_num_m = hdcp->seq_num_m;
+>  
+>  	ret = hdcp2_verify_mprime(connector, &msgs.stream_ready);
+>  
+> @@ -1671,6 +1731,7 @@ static int hdcp2_enable_encryption(struct intel_connector *connector)
+>  						 port),
+>  				    LINK_ENCRYPTION_STATUS,
+>  				    HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS);
+> +	dig_port->hdcp_auth_status = true;
+>  
+>  	return ret;
+>  }
+> @@ -1745,11 +1806,9 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> -	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+> -	struct intel_hdcp *hdcp = &connector->hdcp;
+> -	int ret, i, tries = 3;
+> +	int ret = 0, i, tries = 3;
+>  
+> -	for (i = 0; i < tries; i++) {
+> +	for (i = 0; i < tries && !dig_port->hdcp_auth_status; i++) {
+>  		ret = hdcp2_authenticate_sink(connector);
+>  		if (!ret) {
+>  			ret = hdcp2_propagate_stream_management_info(connector);
+> @@ -1759,7 +1818,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  					    ret);
+>  				break;
+>  			}
+> -			data->streams[0].stream_type = hdcp->content_type;
+> +
+>  			ret = hdcp2_authenticate_port(connector);
+>  			if (!ret)
+>  				break;
+> @@ -1794,7 +1853,9 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  
+>  static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+>  	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret;
+>  
+> @@ -1802,6 +1863,16 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  		    connector->base.name, connector->base.base.id,
+>  		    hdcp->content_type);
+>  
+> +	/* Stream which requires encryption */
+> +	if (!intel_encoder_is_mst(intel_attached_encoder(connector))) {
+> +		data->k = 1;
+> +		data->streams[0].stream_type = hdcp->content_type;
+> +	} else {
+> +		ret = intel_hdcp_required_content_stream(dig_port);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	ret = hdcp2_authenticate_and_encrypt(connector);
+>  	if (ret) {
+>  		drm_dbg_kms(&i915->drm, "HDCP2 Type%d  Enabling Failed. (%d)\n",
+> @@ -1819,7 +1890,9 @@ static int _intel_hdcp2_enable(struct intel_connector *connector)
+>  
+>  static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  {
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+>  	int ret;
+>  
+>  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
+> @@ -1831,6 +1904,8 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  		drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
+>  
+>  	connector->hdcp.hdcp2_encrypted = false;
+> +	dig_port->hdcp_auth_status = false;
+> +	data->k = 0;
+>  
+>  	return ret;
+>  }
+With these comments addressed LGTM.
+
+Ram
+> -- 
+> 2.26.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
