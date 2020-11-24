@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DF42C25FA
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE8E2C25FB
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:46:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E31426E3F7;
-	Tue, 24 Nov 2020 12:46:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57FE46E30F;
+	Tue, 24 Nov 2020 12:46:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CD306E3E5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:46:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 113BE6E3E5
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:46:48 +0000 (UTC)
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCkcGB123342;
- Tue, 24 Nov 2020 06:46:38 -0600
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCkfDv123507;
+ Tue, 24 Nov 2020 06:46:41 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606221998;
- bh=ig9WWcHJL7zo6ED4FSOEpBHYvY96SMfpAY9Z6rYU8k8=;
+ s=ti-com-17Q1; t=1606222001;
+ bh=90qNZKbYLXxPKKKa9JrCal53szqbPIoc+ppwv0XIqFc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=SS3qoGJT1flVCMMSVx7Rh0aEyydCHzgYGxzZFSGEAKBowpI59JBgI2+crI2UBRzzN
- L5XnsoXfDeLckggc+SRuGsjbY87oTkvuWe5mMlD8H1Clt7TYdQ2XuGaxGUmXYOdqQ2
- iCXL2wLNXH9b5BcdDdqsYqYDhilfOqd94fCrS7I4=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCkcL7106277
+ b=QZtT2EOElMBoad2ho547rhNjzq2dGJEsu6Gc1JapGU3AZBP9VIH9PJpkT83b4QjKJ
+ lO+ffn0zZTUbGwzOzmbo8pDDVPSwGXDX87Z/F4cAzf1CKdWjv6ksU8WLkfbV1fkodQ
+ ySwHy172BfpAFioq22lSTNsp+pMni5/Iz6OAe2SA=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCkf9s106344
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Nov 2020 06:46:38 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Nov 2020 06:46:41 -0600
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 24
- Nov 2020 06:46:38 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:46:40 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 24 Nov 2020 06:46:38 -0600
+ Frontend Transport; Tue, 24 Nov 2020 06:46:40 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmp8040922;
- Tue, 24 Nov 2020 06:46:36 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmp9040922;
+ Tue, 24 Nov 2020 06:46:38 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 19/80] drm/omap: dsi: drop unused enable_te()
-Date: Tue, 24 Nov 2020 14:44:37 +0200
-Message-ID: <20201124124538.660710-20-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 20/80] drm/omap: dsi: drop useless sync()
+Date: Tue, 24 Nov 2020 14:44:38 +0200
+Message-ID: <20201124124538.660710-21-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124124538.660710-1-tomi.valkeinen@ti.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
@@ -72,85 +72,80 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-enable_te() is not used, so the custom API can be dropped.
+The DSI sync() function only locks the bus and then releases
+it again. Currently the only invocation is directly before
+update(), which locks the bus anyways.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 39 -------------------
- drivers/gpu/drm/omapdrm/dss/omapdss.h         |  2 -
- 2 files changed, 41 deletions(-)
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c    | 18 ------------------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h          |  1 -
+ drivers/gpu/drm/omapdrm/omap_crtc.c            |  3 ---
+ 3 files changed, 22 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index b4c666064c85..04d8a0e0e214 100644
+index 04d8a0e0e214..cfc31b777bae 100644
 --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -881,43 +881,6 @@ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+@@ -844,23 +844,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
  	return r;
  }
  
--static int dsicm_enable_te(struct omap_dss_device *dssdev, bool enable)
+-static int dsicm_sync(struct omap_dss_device *dssdev)
 -{
 -	struct panel_drv_data *ddata = to_panel_data(dssdev);
 -	struct omap_dss_device *src = ddata->src;
--	int r;
+-
+-	dev_dbg(&ddata->dsi->dev, "sync\n");
 -
 -	mutex_lock(&ddata->lock);
--
--	if (ddata->te_enabled == enable)
--		goto end;
--
 -	src->ops->dsi.bus_lock(src);
--
--	if (ddata->enabled) {
--		r = dsicm_wake_up(ddata);
--		if (r)
--			goto err;
--
--		r = _dsicm_enable_te(ddata, enable);
--		if (r)
--			goto err;
--	}
--
--	ddata->te_enabled = enable;
--
 -	src->ops->dsi.bus_unlock(src);
--end:
 -	mutex_unlock(&ddata->lock);
+-
+-	dev_dbg(&ddata->dsi->dev, "sync done\n");
 -
 -	return 0;
--err:
--	src->ops->dsi.bus_unlock(src);
--	mutex_unlock(&ddata->lock);
--
--	return r;
 -}
 -
- static void dsicm_ulps_work(struct work_struct *work)
+ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
  {
- 	struct panel_drv_data *ddata = container_of(work, struct panel_drv_data,
-@@ -987,8 +950,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
+ 	struct omap_dss_device *src = ddata->src;
+@@ -949,7 +932,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
+ 
  static const struct omap_dss_driver dsicm_dss_driver = {
  	.update		= dsicm_update,
- 	.sync		= dsicm_sync,
--
--	.enable_te	= dsicm_enable_te,
+-	.sync		= dsicm_sync,
  };
  
  static int dsicm_probe_of(struct mipi_dsi_device *dsi)
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index aa307f5ab9cf..55d5bca59f81 100644
+index 55d5bca59f81..9bbd2c0f3187 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -386,8 +386,6 @@ struct omap_dss_driver {
+@@ -385,7 +385,6 @@ struct omap_dss_device {
+ struct omap_dss_driver {
  	int (*update)(struct omap_dss_device *dssdev,
  			       u16 x, u16 y, u16 w, u16 h);
- 	int (*sync)(struct omap_dss_device *dssdev);
--
--	int (*enable_te)(struct omap_dss_device *dssdev, bool enable);
+-	int (*sync)(struct omap_dss_device *dssdev);
  };
  
  struct dss_device *omapdss_get_dss(void);
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 328a4a74f534..dac9ccda98df 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -379,9 +379,6 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
+ 		return;
+ 	}
+ 
+-	if (dssdrv->sync)
+-		dssdrv->sync(dssdev);
+-
+ 	ret = dssdrv->update(dssdev, 0, 0, mode->hdisplay, mode->vdisplay);
+ 	if (ret < 0) {
+ 		spin_lock_irq(&dev->event_lock);
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
