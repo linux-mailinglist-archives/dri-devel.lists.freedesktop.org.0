@@ -2,36 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2092C20F6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 10:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 191CC2C2225
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 10:54:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B916C6E207;
-	Tue, 24 Nov 2020 09:16:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700A36E209;
+	Tue, 24 Nov 2020 09:54:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696536E207;
- Tue, 24 Nov 2020 09:16:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A96DB6E209
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 09:54:48 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id E9128AFA7;
- Tue, 24 Nov 2020 09:16:18 +0000 (UTC)
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
- <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
- <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id 4813DAC2D;
+ Tue, 24 Nov 2020 09:54:47 +0000 (UTC)
+Subject: Re: [PATCH v2 05/10] drm/fb-helper: Return early in dirty worker
+To: Sam Ravnborg <sam@ravnborg.org>
+References: <20201120102545.4047-1-tzimmermann@suse.de>
+ <20201120102545.4047-6-tzimmermann@suse.de>
+ <20201123192337.GD664585@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-Message-ID: <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
-Date: Tue, 24 Nov 2020 10:16:18 +0100
+Message-ID: <b722c7b5-069f-5080-a2d3-b3c65732dc43@suse.de>
+Date: Tue, 24 Nov 2020 10:54:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
+In-Reply-To: <20201123192337.GD664585@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,245 +40,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0146599377=="
+Cc: airlied@linux.ie, christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============0815030167=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0146599377==
+--===============0815030167==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="s7343sXofuVZxunpR1baOYNrmHQXf0Y0E"
+ boundary="prCtu042KoI5cGO7riiw5mSmCFgnxhhZc"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---s7343sXofuVZxunpR1baOYNrmHQXf0Y0E
-Content-Type: multipart/mixed; boundary="uTONGUrvAmzUp8SKoF2mZqWFiMKMXd4Tz";
+--prCtu042KoI5cGO7riiw5mSmCFgnxhhZc
+Content-Type: multipart/mixed; boundary="1jDsSAYJoioC8jeK44b779nxnr7nAvxTd";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Message-ID: <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
- <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
- <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
-In-Reply-To: <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com
+Message-ID: <b722c7b5-069f-5080-a2d3-b3c65732dc43@suse.de>
+Subject: Re: [PATCH v2 05/10] drm/fb-helper: Return early in dirty worker
+References: <20201120102545.4047-1-tzimmermann@suse.de>
+ <20201120102545.4047-6-tzimmermann@suse.de>
+ <20201123192337.GD664585@ravnborg.org>
+In-Reply-To: <20201123192337.GD664585@ravnborg.org>
 
---uTONGUrvAmzUp8SKoF2mZqWFiMKMXd4Tz
+--1jDsSAYJoioC8jeK44b779nxnr7nAvxTd
 Content-Type: multipart/mixed;
- boundary="------------3070C15B61E88049E2E1AD19"
+ boundary="------------AE7EE0BA67592E066C97CE37"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------3070C15B61E88049E2E1AD19
+--------------AE7EE0BA67592E066C97CE37
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi Christian
+Hi
 
-Am 16.11.20 um 12:28 schrieb Christian K=C3=B6nig:
-> Am 13.11.20 um 08:59 schrieb Thomas Zimmermann:
->> Hi Christian
+Am 23.11.20 um 20:23 schrieb Sam Ravnborg:
+> On Fri, Nov 20, 2020 at 11:25:40AM +0100, Thomas Zimmermann wrote:
+>> Returning early in the dirty worker if no update is required makes the=
+
+>> code more readable. No functional changes are made.
 >>
->> Am 12.11.20 um 18:16 schrieb Christian K=C3=B6nig:
->>> Am 12.11.20 um 14:21 schrieb Thomas Zimmermann:
->>>> In order to avoid eviction of vmap'ed buffers, pin them in their GEM=
-
->>>> object's vmap implementation. Unpin them in the vunmap implementatio=
-n.
->>>> This is needed to make generic fbdev support work reliably. Without,=
-
->>>> the buffer object could be evicted while fbdev flushed its shadow=20
->>>> buffer.
->>>>
->>>> In difference to the PRIME pin/unpin functions, the vmap code does n=
-ot
->>>> modify the BOs prime_shared_count, so a vmap-pinned BO does not=20
->>>> count as
->>>> shared.
->>>>
->>>> The actual pin location is not important as the vmap call returns
->>>> information on how to access the buffer. Callers that require a
->>>> specific location should explicitly pin the BO before vmapping it.
->>> Well is the buffer supposed to be scanned out?
->> No, not by the fbdev helper.
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> Ok in this case that should work.
->=20
->>> If yes then the pin location is actually rather important since the
->>> hardware can only scan out from VRAM.
->> For relocatable BOs, fbdev uses a shadow buffer that makes all any
->> relocation transparent to userspace. It flushes the shadow fb into the=
+> It is a damage worker (both subject and changelog).
 
->> BO's memory if there are updates. The code is in
->> drm_fb_helper_dirty_work(). [1] During the flush operation, the vmap
->> call now pins the BO to wherever it is. The actual location does not
->> matter. It's vunmap'ed immediately afterwards.
->=20
-> The problem is what happens when it is prepared for scanout, but can't =
-
-> be moved to VRAM because it is vmapped?
->=20
-> When the shadow is never scanned out that isn't a problem, but we need =
-
-> to keep that in mind.
->=20
-
-I'd like ask for your suggestions before sending an update for this patch=
-=2E
-
-After the discussion about locking in fbdev, [1] I intended to replace=20
-the pin call with code that acquires the reservation lock.
-
-First I wanted to put this into drm_gem_ttm_vmap/vunmap(), but then=20
-wondered why ttm_bo_vmap() doe not acquire the lock internally? I'd=20
-expect that vmap/vunmap are close together and do not overlap for the=20
-same BO. Otherwise, acquiring the reservation lock would require another =
-
-ref-counting variable or per-driver code.
+I changed this before pushing the branches. Thanks!
 
 Best regards
 Thomas
 
-[1] https://patchwork.freedesktop.org/patch/401088/?series=3D83918&rev=3D=
-1
+>=20
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+>=20
+>> ---
+>>   drivers/gpu/drm/drm_fb_helper.c | 31 +++++++++++++++----------------=
 
-> Regards,
-> Christian.
->=20
+>>   1 file changed, 15 insertions(+), 16 deletions(-)
 >>
->> For dma-buf sharing, the regular procedure of pin + vmap still apply.
->> This should always move the BO into GTT-managed memory.
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
+helper.c
+>> index 87d4759de04a..c9018ffff5f9 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -407,24 +407,23 @@ static void drm_fb_helper_damage_work(struct wor=
+k_struct *work)
+>>   	clip->x2 =3D clip->y2 =3D 0;
+>>   	spin_unlock_irqrestore(&helper->damage_lock, flags);
+>>  =20
+>> -	/* call dirty callback only when it has been really touched */
+>> -	if (clip_copy.x1 < clip_copy.x2 && clip_copy.y1 < clip_copy.y2) {
+>> -
+>> -		/* Generic fbdev uses a shadow buffer */
+>> -		if (helper->buffer) {
+>> -			ret =3D drm_client_buffer_vmap(helper->buffer, &map);
+>> -			if (ret)
+>> -				return;
+>> -			drm_fb_helper_damage_blit_real(helper, &clip_copy, &map);
+>> -		}
+>> -
+>> -		if (helper->fb->funcs->dirty)
+>> -			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
+>> -						 &clip_copy, 1);
+>> +	/* Call damage handlers only if necessary */
+>> +	if (!(clip_copy.x1 < clip_copy.x2 && clip_copy.y1 < clip_copy.y2))
+>> +		return;
+>>  =20
+>> -		if (helper->buffer)
+>> -			drm_client_buffer_vunmap(helper->buffer);
+>> +	/* Generic fbdev uses a shadow buffer */
+>> +	if (helper->buffer) {
+>> +		ret =3D drm_client_buffer_vmap(helper->buffer, &map);
+>> +		if (ret)
+>> +			return;
+>> +		drm_fb_helper_damage_blit_real(helper, &clip_copy, &map);
+>>   	}
+>> +
+>> +	if (helper->fb->funcs->dirty)
+>> +		helper->fb->funcs->dirty(helper->fb, NULL, 0, 0, &clip_copy, 1);
+>> +
+>> +	if (helper->buffer)
+>> +		drm_client_buffer_vunmap(helper->buffer);
+>>   }
+>>  =20
+>>   /**
+>> --=20
+>> 2.29.2
 >>
->> Best regards
->> Thomas
->>
->> [1]
->> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
-t.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git%2F=
-tree%2Fdrivers%2Fgpu%2Fdrm%2Fdrm_fb_helper.c%23n432&amp;data=3D04%7C01%7C=
-christian.koenig%40amd.com%7C31b890664ca7429fc45808d887aa0842%7C3dd8961fe=
-4884e608e11a82d994e183d%7C0%7C0%7C637408511650629569%7CUnknown%7CTWFpbGZs=
-b3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C=
-1000&amp;sdata=3DRLauuAuXkcl0rXwWWJ%2FrKP%2BsCr2wAzU1ejGV1bnQ80w%3D&amp;r=
-eserved=3D0=20
->>
->>
->>> Regards,
->>> Christian.
->>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> ---
->>>> =C2=A0=C2=A0 drivers/gpu/drm/radeon/radeon_gem.c | 51=20
->>>> +++++++++++++++++++++++++++--
->>>> =C2=A0=C2=A0 1 file changed, 49 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c
->>>> b/drivers/gpu/drm/radeon/radeon_gem.c
->>>> index d2876ce3bc9e..eaf7fc9a7b07 100644
->>>> --- a/drivers/gpu/drm/radeon/radeon_gem.c
->>>> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
->>>> @@ -226,6 +226,53 @@ static int radeon_gem_handle_lockup(struct
->>>> radeon_device *rdev, int r)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return r;
->>>> =C2=A0=C2=A0 }
->>>> =C2=A0=C2=A0 +static int radeon_gem_object_vmap(struct drm_gem_objec=
-t *obj,
->>>> struct dma_buf_map *map)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 static const uint32_t any_domain =3D RADEON_GEM_=
-DOMAIN_VRAM |
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RADEON_GE=
-M_DOMAIN_GTT |
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RADEON_GE=
-M_DOMAIN_CPU;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 struct radeon_bo *bo =3D gem_to_radeon_bo(obj);
->>>> +=C2=A0=C2=A0=C2=A0 int ret;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 ret =3D radeon_bo_reserve(bo, false);
->>>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 /* pin buffer at its current location */
->>>> +=C2=A0=C2=A0=C2=A0 ret =3D radeon_bo_pin(bo, any_domain, NULL);
->>>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_radeon_bo_unres=
-erve;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 ret =3D drm_gem_ttm_vmap(obj, map);
->>>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_radeon_bo_unpin=
-;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 radeon_bo_unreserve(bo);
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 return 0;
->>>> +
->>>> +err_radeon_bo_unpin:
->>>> +=C2=A0=C2=A0=C2=A0 radeon_bo_unpin(bo);
->>>> +err_radeon_bo_unreserve:
->>>> +=C2=A0=C2=A0=C2=A0 radeon_bo_unreserve(bo);
->>>> +=C2=A0=C2=A0=C2=A0 return ret;
->>>> +}
->>>> +
->>>> +static void radeon_gem_object_vunmap(struct drm_gem_object *obj,
->>>> struct dma_buf_map *map)
->>>> +{
->>>> +=C2=A0=C2=A0=C2=A0 struct radeon_bo *bo =3D gem_to_radeon_bo(obj);
->>>> +=C2=A0=C2=A0=C2=A0 int ret;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 ret =3D radeon_bo_reserve(bo, false);
->>>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
->>>> +
->>>> +=C2=A0=C2=A0=C2=A0 drm_gem_ttm_vunmap(obj, map);
->>>> +=C2=A0=C2=A0=C2=A0 radeon_bo_unpin(bo);
->>>> +=C2=A0=C2=A0=C2=A0 radeon_bo_unreserve(bo);
->>>> +}
->>>> +
->>>> =C2=A0=C2=A0 static const struct drm_gem_object_funcs radeon_gem_obj=
-ect_funcs =3D {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .free =3D radeon_gem_object_fre=
-e,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .open =3D radeon_gem_object_ope=
-n,
->>>> @@ -234,8 +281,8 @@ static const struct drm_gem_object_funcs
->>>> radeon_gem_object_funcs =3D {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .pin =3D radeon_gem_prime_pin,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .unpin =3D radeon_gem_prime_unp=
-in,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .get_sg_table =3D radeon_gem_pr=
-ime_get_sg_table,
->>>> -=C2=A0=C2=A0=C2=A0 .vmap =3D drm_gem_ttm_vmap,
->>>> -=C2=A0=C2=A0=C2=A0 .vunmap =3D drm_gem_ttm_vunmap,
->>>> +=C2=A0=C2=A0=C2=A0 .vmap =3D radeon_gem_object_vmap,
->>>> +=C2=A0=C2=A0=C2=A0 .vunmap =3D radeon_gem_object_vunmap,
->>>> =C2=A0=C2=A0 };
->>>> =C2=A0=C2=A0 =C2=A0 /*
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fl=
-ists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D04%7C01%=
-7Cchristian.koenig%40amd.com%7C31b890664ca7429fc45808d887aa0842%7C3dd8961=
-fe4884e608e11a82d994e183d%7C0%7C0%7C637408511650629569%7CUnknown%7CTWFpbG=
-Zsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%=
-7C1000&amp;sdata=3Dh1U9Po83K7webxsiKpn3ZGFz9Fcg6SRkxtrXWZ1%2B%2FEc%3D&amp=
-;reserved=3D0=20
->>>
->=20
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
 
 --=20
 Thomas Zimmermann
@@ -292,7 +168,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------3070C15B61E88049E2E1AD19
+--------------AE7EE0BA67592E066C97CE37
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -495,34 +371,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------3070C15B61E88049E2E1AD19--
+--------------AE7EE0BA67592E066C97CE37--
 
---uTONGUrvAmzUp8SKoF2mZqWFiMKMXd4Tz--
+--1jDsSAYJoioC8jeK44b779nxnr7nAvxTd--
 
---s7343sXofuVZxunpR1baOYNrmHQXf0Y0E
+--prCtu042KoI5cGO7riiw5mSmCFgnxhhZc
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+8z2IFAwAAAAAACgkQlh/E3EQov+Ca
-cxAAnJEhX5sEYDWHu2tTvbLkYuhKUWoT5uNtvoLSMGgjsRMe+6kdrDk2Acxxtv/LHeFr5HoOISR3
-1f6aMqVWgOxK/Pjp/SQ0scqh59kDVTD2gmTgkAeg/3abYmSXbFEnqeM5U/UtBtDXdLrymUW2bJ/V
-WS3HZNrIj0iWpYdslW8008+Fx8lhOZArhqdMgNTY/KhONPKBpVK9pEGGbjyT++jrTiJRiGr42WqH
-YxiBDCBWPCmo50FA1QyGekBxmJ0t1yG7WqfrSOGxIcdul1QX7gga4Ie0qtbXeBGRJK3wsAcHYa3/
-fXPpF5kSoRYsb+0KC4Kq25awNlHjIdI2jEvjpnhUaYPjo866tYHNSPkBwRiP5l3CM64jGeReEy/I
-VwBfTgfGtAgtY1Xr1tHgrrcPu2DUSM6DrghKJZa8uPCy0OuL0YUg+9lokj5nS7h85MJc0uUwSxwX
-UeJrbRtvZNRy/Ecx7h0NgxG047EY1ByiXej5cOIafx43C3croFE90ckv8eDsSm/3Cou3pJP2Kjsq
-0GL32gOLW5W1l8JjKVoTYuvjzOTNMqkkcMuR2CnJ+jlAQSKTyqXmND1DMsKdZHcPIkpb6mZttukp
-do+WtTAwdGE8cHQvYm7QOWUMfsH0/ueXh9bDtMHgqK4gesEMy0Um2W+VRK8Yaj4h2+7gkuQSx5Zd
-yrI=
-=Ficl
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+82GYFAwAAAAAACgkQlh/E3EQov+D9
+ThAAxvnpgMOTtcR6pXOKvMJYbDcpKyJ+HnCrE5D5aEDo2w1RuJG9sa1t9y6mPy1N1I1ZdsZnymDq
+F58U9mnCtuklaqxoijaGVOPm59Mqwj99AstiRMXL7bKF3K8jD+v8+HIdnSF3wiyAgAEemCkY4RY/
+Ijv5eOjnnEeDMyoRTMkCoil59mPHZxWsXukAqZoYFJHhZWj/hGi51tAiG40z4np/SPzIuh0bTfdF
+VUoHVeM3+3vhLdbp7oRQpEWD/+tZ6THs0uulN2KWdS8znno+EHmY7Jzuzz+cJ8JvfEu/6Ei0ghc/
+Ypep6UrOB+KMux/k/2xYr7oqqxbCnDYoYAw7gXUaDdLYXB0c4aevzw3WpdovAGiXQNRglv0CqoN4
++Uu+gmg1hE790S1/7/ouAzm4RhD+4UVEMDPkFMqjbzZ6xp0FR8V0HkfavQ2RaLrjOUGJCRMSnJ/m
+DXA0xoTdnE5bN7Sxi3Ovv3JC870HksGpSSQcQUhofwO6PqBzwxccb7qA8U2RPJlvoOgyJ5u1YSc2
+al3kGQagD+GCOuHi79uwGj9HNhkUYocT6YEpPHj1F3NM37Y6lR5JrjN+llVOiOJTt5k6kQvdh6Sx
+p8ofesVzAuJrRvivj7M0Zx24X+emo8OPnC5fhGoDTVReFX9RZMJtmPskpQyzf+MG53+/6hsFGWtH
+Txk=
+=ft5M
 -----END PGP SIGNATURE-----
 
---s7343sXofuVZxunpR1baOYNrmHQXf0Y0E--
+--prCtu042KoI5cGO7riiw5mSmCFgnxhhZc--
 
---===============0146599377==
+--===============0815030167==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -533,4 +409,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0146599377==--
+--===============0815030167==--
