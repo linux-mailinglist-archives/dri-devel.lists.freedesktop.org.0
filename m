@@ -2,55 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C89E2C2BC4
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 16:50:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25372C2BC1
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 16:50:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 628906E43C;
-	Tue, 24 Nov 2020 15:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F05A6E453;
+	Tue, 24 Nov 2020 15:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B73E6E43C;
- Tue, 24 Nov 2020 15:50:08 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id z7so6988974wrn.3;
- Tue, 24 Nov 2020 07:50:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vEHV5NzbwJ9itZIOZg0YcV4vFlrMnth6sSMm0U/4U18=;
- b=HmasDWuex7mGSrEPKku7nbQd9pKEB0VIF/ooeC/H8gEFqGk0eOPrQOD7ULPnDUW1nF
- SEBqUzIDs3Q/b4NtGdRpz/Rhjt2mKTIMKQ/ifjbi9gBPMU8wshfy2o52ODxvXErCmkHS
- LSs2gJj3neMlfzcdel0xGs2Utc1QXnq9guR+oZcGhRV1t+vq/PhmAWj5+0XzOBXYJLk0
- uv5YY4FHNZrt29KHEjCtTqNnmmYAPLqKDfCqwCUejkQfGt9YcZO948F5E0Yw6DVf30zb
- TxP180NnVt7lApqwkS/V7cOWZq8z9wyZrytoGbrXfWOzu1Nw6Pg+rA2xEfAv8tiyu7Nb
- 73tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vEHV5NzbwJ9itZIOZg0YcV4vFlrMnth6sSMm0U/4U18=;
- b=UontRkIyretuUzmrS4mNym+MTPjhozWi9aCHYNqtd6LmpJ2aSyByBhZTTMujhKikAq
- T948HvUkpx+vnEplYGECX+dTiIuuPbmCE082WoOl8Za6jznFjkv3Ci4NFzaV2LXu82tD
- OX+bOEECiKFb/3pP6z+wV37GXuftlU/vngmAmFOZ5EUfOSsfwmNiYFHchgIwESE4fDp1
- vIoLwLKWjBpJ8QAQWgedE3MlNBU+SRSz1DWXoMhtsEbSsT2eybxxqHydtuiYYKn3lQNc
- v12FTv+VR8QyLlDeeTrilGPIdR3lTM0va9x+LGyRgyjj5oEjOvAlyBB4FXD3qutKzwDY
- Q+WQ==
-X-Gm-Message-State: AOAM533pGqLYPjG6OZ/qe+dqMW59WxlULT8ZVkl/5L2i8eXuM7/nJEa+
- o9mp7REcZz97Zl3pqyUd9LH3NErCb414qNXOhq8=
-X-Google-Smtp-Source: ABdhPJzerQP49Kf7yuyCXUUv4/+uMPHMJ+Frw4C4JWUo8vpK1xvcKt1uN5gVCEtR/4wUmA2B3xr5/nsHrOl93j4H360=
-X-Received: by 2002:a5d:400a:: with SMTP id n10mr5940385wrp.362.1606233007147; 
- Tue, 24 Nov 2020 07:50:07 -0800 (PST)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA6A6E453;
+ Tue, 24 Nov 2020 15:50:00 +0000 (UTC)
+IronPort-SDR: cpWCsGQbS1whqsGj6vyzbub8msXDVRNgVOoqmFDw6vjs+MYvPcxWdXgVrrLtArBHUS+aIQ19eS
+ DqwYnftCMZQw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9815"; a="151806768"
+X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="151806768"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2020 07:50:00 -0800
+IronPort-SDR: uukol10vZ3/84iSGEtI/4Ge+knvbmS2AgzM3MY6bD35NlsfndOW9MvSf5MzVeic0H2R4KpKub1
+ hUX86Mgn8JJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,366,1599548400"; d="scan'208";a="332602260"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga006.jf.intel.com with SMTP; 24 Nov 2020 07:49:57 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 24 Nov 2020 17:49:56 +0200
+Date: Tue, 24 Nov 2020 17:49:56 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH] drm/i915/dsi: Use unconditional msleep for the
+ panel_on_delay when there is no reset-deassert MIPI-sequence
+Message-ID: <20201124154956.GL6112@intel.com>
+References: <20201118124058.26021-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20201123111919.233376-1-lee.jones@linaro.org>
- <20201123111919.233376-4-lee.jones@linaro.org>
-In-Reply-To: <20201123111919.233376-4-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 24 Nov 2020 10:49:56 -0500
-Message-ID: <CADnq5_P=4f5gq+mS358d0zGEB6yr0PGruAKKLoiiEb9hq30thg@mail.gmail.com>
-Subject: Re: [PATCH 03/40] drm/amd/amdgpu/amdgpu_ib: Provide docs for
- 'amdgpu_ib_schedule()'s 'job' param
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20201118124058.26021-1-hdegoede@redhat.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,46 +53,96 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMjMsIDIwMjAgYXQgNjoxOSBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9pYi5jOjEy
-Nzogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAnam9iJyBub3QgZGVzY3Jp
-YmVkIGluICdhbWRncHVfaWJfc2NoZWR1bGUnCj4KPiBDYzogQWxleCBEZXVjaGVyIDxhbGV4YW5k
-ZXIuZGV1Y2hlckBhbWQuY29tPgo+IENjOiAiQ2hyaXN0aWFuIEvDtm5pZyIgPGNocmlzdGlhbi5r
-b2VuaWdAYW1kLmNvbT4KPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgo+IENj
-OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3bGwuY2g+Cj4gQ2M6IFN1bWl0IFNlbXdhbCA8c3Vt
-aXQuc2Vtd2FsQGxpbmFyby5vcmc+Cj4gQ2M6IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-Cj4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogbGludXgtbWVkaWFA
-dmdlci5rZXJuZWwub3JnCj4gQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwo+IFNp
-Z25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAg
-VGhhbmtzIQoKQWxleAoKCj4gLS0tCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9pYi5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+Cj4gZGlmZiAt
-LWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9pYi5jIGIvZHJpdmVycy9n
-cHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2liLmMKPiBpbmRleCBjNjlhZjliODZjYzYwLi4wMjRk
-MGE1NjNhNjUyIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdw
-dV9pYi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2liLmMKPiBA
-QCAtMTA2LDYgKzEwNiw3IEBAIHZvaWQgYW1kZ3B1X2liX2ZyZWUoc3RydWN0IGFtZGdwdV9kZXZp
-Y2UgKmFkZXYsIHN0cnVjdCBhbWRncHVfaWIgKmliLAo+ICAgKiBAcmluZzogcmluZyBpbmRleCB0
-aGUgSUIgaXMgYXNzb2NpYXRlZCB3aXRoCj4gICAqIEBudW1faWJzOiBudW1iZXIgb2YgSUJzIHRv
-IHNjaGVkdWxlCj4gICAqIEBpYnM6IElCIG9iamVjdHMgdG8gc2NoZWR1bGUKPiArICogQGpvYjog
-am9iIHRvIHNjaGVkdWxlCj4gICAqIEBmOiBmZW5jZSBjcmVhdGVkIGR1cmluZyB0aGlzIHN1Ym1p
-c3Npb24KPiAgICoKPiAgICogU2NoZWR1bGUgYW4gSUIgb24gdGhlIGFzc29jaWF0ZWQgcmluZyAo
-YWxsIGFzaWNzKS4KPiAtLQo+IDIuMjUuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
-aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+On Wed, Nov 18, 2020 at 01:40:58PM +0100, Hans de Goede wrote:
+> Commit 25b4620ee822 ("drm/i915/dsi: Skip delays for v3 VBTs in vid-mode")
+> added an intel_dsi_msleep() helper which skips sleeping if the
+> MIPI-sequences have a version of 3 or newer and the panel is in vid-mode;
+> and it moved a bunch of msleep-s over to this new helper.
+> =
+
+> This was based on my reading of the big comment around line 730 which
+> starts with "Panel enable/disable sequences from the VBT spec.",
+> where the "v3 video mode seq" column does not have any wait t# entries.
+> =
+
+> Given that this code has been used on a lot of different devices without
+> issues until now, it seems that my interpretation of the spec here is
+> mostly correct.
+> =
+
+> But now I have encountered one device, an Acer Aspire Switch 10 E
+> SW3-016, where the panel will not light up unless we do actually honor the
+> panel_on_delay after exexuting the MIPI_SEQ_PANEL_ON sequence.
+> =
+
+> What seems to set this model apart is that it is lacking a
+> MIPI_SEQ_DEASSERT_RESET sequence, which is where the power-on
+> delay usually happens.
+> =
+
+> Fix the panel not lighting up on this model by using an unconditional
+> msleep(panel_on_delay) instead of intel_dsi_msleep() when there is
+> no MIPI_SEQ_DEASSERT_RESET sequence.
+> =
+
+> Fixes: 25b4620ee822 ("drm/i915/dsi: Skip delays for v3 VBTs in vid-mode")
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/i915/display/vlv_dsi.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/i915/display/vlv_dsi.c b/drivers/gpu/drm/i91=
+5/display/vlv_dsi.c
+> index 194c239ab6b1..ef673277b36d 100644
+> --- a/drivers/gpu/drm/i915/display/vlv_dsi.c
+> +++ b/drivers/gpu/drm/i915/display/vlv_dsi.c
+> @@ -816,10 +816,14 @@ static void intel_dsi_pre_enable(struct intel_atomi=
+c_state *state,
+>  		intel_dsi_prepare(encoder, pipe_config);
+>  =
+
+>  	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_POWER_ON);
+> -	intel_dsi_msleep(intel_dsi, intel_dsi->panel_on_delay);
+>  =
+
+> -	/* Deassert reset */
+> -	intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_DEASSERT_RESET);
+> +	if (dev_priv->vbt.dsi.sequence[MIPI_SEQ_DEASSERT_RESET]) {
+> +		intel_dsi_msleep(intel_dsi, intel_dsi->panel_on_delay);
+> +		/* Deassert reset */
+> +		intel_dsi_vbt_exec_sequence(intel_dsi, MIPI_SEQ_DEASSERT_RESET);
+> +	} else {
+> +		msleep(intel_dsi->panel_on_delay);
+> +	}
+
+Could perhaps use a comment ot explain to the reader what's going on.
+
+Looks sane enough to me, and if we get this wrong we just get a bigger
+delay than necessary I guess. So mostly harmless.
+
+Reviewed-by: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
+
+>  =
+
+>  	if (IS_GEMINILAKE(dev_priv)) {
+>  		glk_cold_boot =3D glk_dsi_enable_io(encoder);
+> -- =
+
+> 2.28.0
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
