@@ -2,76 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5ED2C3AAD
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6A42C3A99
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:12:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BFE16E86B;
-	Wed, 25 Nov 2020 08:13:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612136E84B;
+	Wed, 25 Nov 2020 08:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com
- [IPv6:2607:f8b0:4864:20::743])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AFA36E223
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 15:55:30 +0000 (UTC)
-Received: by mail-qk1-x743.google.com with SMTP id i199so7389593qke.5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 07:55:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=oaa+hWx1KaHAmS3DtMmmCm5kDyFbE+baLseZRB4QB5M=;
- b=O5+yyy3ugn3/JU8d8MzJuhxMQSAXmFG+K4qLwFzZz9R/0yzGmphek8afsqJ5XmaX7K
- QFgr2UTIeMkWtrEUfgUgKbsoR4KB1EzCADhT2doRjFOEg0XNrQLFT7UfegvU6LtETQdH
- BNfxI2uepF2ckC2z3Hg3jdCWPASQ46yKLRwg1QiNwPCb0sAmz1+AfFialcU6UizGRLb/
- cFkrXVxqj0abamYnuOiwNBjY7IEIegPAbiNZQupZKDH6jzAd8pc/L3Rexp2KSypUx3WN
- r58Z5/hOA1lt5wCiVxmAus+J+0CeYWzJLI1kYadqPB7BHX4GvlOoLo7sQ3sz3WRenNdb
- j0ew==
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com
+ [IPv6:2607:f8b0:4864:20::b41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1B536E453
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 15:56:16 +0000 (UTC)
+Received: by mail-yb1-xb41.google.com with SMTP id l14so19733781ybq.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 07:56:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S2P83nucK526s4MeAO3ef03SmJgQO9NwAX+ho/0bpag=;
+ b=LEiwANAT5RKxUwb530+GU3ngUHfpY4CcH/7rZbALhW6cVviuWshxGFiHTP+cl0CdRW
+ Pls7iBNclidkQ5F04YYBuCVqnF9fohJH7zAu0kaOtMBIJaGPq3uPW6BUzQKgEOQoenUu
+ AbN7w68UNr6flX4vz+agTyomqgPJYU0EkrBkNjxOBnJ0oL2AnZ+ZnidxKLBmC1ranT4L
+ ooj3sv+Eh3pe8uy+14LYseKtBe+c91Kt1w+ZFoP8xebYef9yzUqJTcLf0qWZWX9gF6qt
+ rqKFYKccZtfNV818+JRRz/40qHqcMaDBfoET3sqoC2YeKIomy8e6vrAJ49mBQbNCS16V
+ XoSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=oaa+hWx1KaHAmS3DtMmmCm5kDyFbE+baLseZRB4QB5M=;
- b=QU4lXxyAmHi6QH2+OnrrSXGsLeB6dItCu2X3HfGHkgyBtYfu/cPymxLmnUFOBBV4Mp
- xwyZFdjHE0SLUj+mFkN5Jw5YBTxmuFYEo//Seb6QLo5qtD4Fa3YQ+fGR14ll4x+K6boM
- we5wSsgbclkiFXxqo/458GQYXFiUYc3J8zcTASgCzew7X2P47t3k0nkwM2+RvjN39mab
- plD1ziCuxxtnHCjc1aC2O/ZHmmpGY7ERLaVXTo5zz6eKH/Vd8zz9x4k2we850zgPph4L
- jrG8/Q256nZ04iXNf6NC4hBP4wQay5BEUCXYlrhQplNEF8WlHsuoF2jq83UyG1kSEziL
- nbRA==
-X-Gm-Message-State: AOAM530/1dQ+2cKXP/Y/nCqT2IKsaTFvViGI2WWWTBKa/ZNNAT1/cR39
- FOm/o8ixUssoQM+4oW6azedCEESiu6fjizti
-X-Google-Smtp-Source: ABdhPJzKvpnJwdDviRxMRDTdGK9+HHkdY7h1hzFeJT5r8VTnR/8g0865BSrf5PrqIcB8Qlf6akZbcQ==
-X-Received: by 2002:a05:620a:2106:: with SMTP id
- l6mr5371085qkl.302.1606233328732; 
- Tue, 24 Nov 2020 07:55:28 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id x24sm12795492qkx.23.2020.11.24.07.55.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 07:55:27 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1khaf8-000pJU-UM; Tue, 24 Nov 2020 11:55:26 -0400
-Date: Tue, 24 Nov 2020 11:55:26 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: DRI Development <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
- linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
- Daniel Vetter <daniel.vetter@intel.com>,
- Christoph Hellwig <hch@infradead.org>, Kees Cook <keescook@chromium.org>,
- Dan Williams <dan.j.williams@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- John Hubbard <jhubbard@nvidia.com>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v6 17/17] RFC: mm: add mmu_notifier argument to follow_pfn
-Message-ID: <20201124155526.GH5487@ziepe.ca>
-References: <20201119144146.1045202-1-daniel.vetter@ffwll.ch>
- <20201119144146.1045202-18-daniel.vetter@ffwll.ch>
- <20201120183029.GQ244516@ziepe.ca>
- <20201124142814.GM401619@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S2P83nucK526s4MeAO3ef03SmJgQO9NwAX+ho/0bpag=;
+ b=mrkpH9kjk9cvIM30nq7y3qfdw9YEP7MJikT2kBJtn9HfCyUuQE/p4wnffQRsGTykNc
+ ghug7auBeP46ybtdS2ZQ20HRYUC82qF3uSyqtIFvtBnER/zg4Cu+IyZZGmrkZJoCBspV
+ kn7DLoBbtRcKxld8QgbzR7mqDp9O0oFqUq3uM8hAAO0klOeCslhdzsZPO3lZEB3NOwSZ
+ slGa575nJ6WMYL0QpGVIpCr5uV6zCQCK2010QCm46ZdtmoFyxgvOWr3HR5PjFCEx7Aj5
+ nMis+zsd4DUe4dqmdzGpJx3BOzzbVSLo9uiUO6Gc2bIrgwUddxXsQs6y3h+g7fuMiDFG
+ FCCg==
+X-Gm-Message-State: AOAM533GUjzjZqiFyFIriR0l7OIRpVZjWMHTRR6+oZL0p1UOoxK1G7c7
+ 6S56OHNf06IQopLwvN8FcZL19LTxOAJ0KX9BtBYtCA==
+X-Google-Smtp-Source: ABdhPJw0wHy+GWOIUwTLlmESRTmLRZ/Jnp1OSuSOAtoxUCEZYv5ocbmTHY84rAlt1NUxwHAItTPdwVgoCeM1V0Ar0sY=
+X-Received: by 2002:a25:7481:: with SMTP id p123mr6036490ybc.167.1606233375845; 
+ Tue, 24 Nov 2020 07:56:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201124142814.GM401619@phenom.ffwll.local>
+References: <5b07a7be8d136392dc7f93933a7ee68e@codeaurora.org>
+In-Reply-To: <5b07a7be8d136392dc7f93933a7ee68e@codeaurora.org>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Tue, 24 Nov 2020 21:25:40 +0530
+Message-ID: <CAMi1Hd2vY0OaD=_3E_JBTCPkLGHq9CFOrOQ=OM9eVg=dJ6hbZg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 3/3] drm/msm/dpu: add support for clk and bw
+ scaling for display
+To: Kalyan Thota <kalyan_t@codeaurora.org>
 X-Mailman-Approved-At: Wed, 25 Nov 2020 08:11:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,57 +62,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Krishna Manikandan <mkrishn@codeaurora.org>,
+ Raviteja Tamatam <travitej@codeaurora.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Douglas Anderson <dianders@chromium.org>, Sean Paul <seanpaul@chromium.org>,
+ abhinavk@codeaurora.org, "Kristian H. Kristensen" <hoegsberg@chromium.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ Georgi Djakov <georgi.djakov@linaro.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 24, 2020 at 03:28:14PM +0100, Daniel Vetter wrote:
-> On Fri, Nov 20, 2020 at 02:30:29PM -0400, Jason Gunthorpe wrote:
-> > On Thu, Nov 19, 2020 at 03:41:46PM +0100, Daniel Vetter wrote:
-> > > @@ -4805,21 +4824,15 @@ EXPORT_SYMBOL(follow_pte_pmd);
-> > >   * Return: zero and the pfn at @pfn on success, -ve otherwise.
-> > >   */
-> > >  int follow_pfn(struct vm_area_struct *vma, unsigned long address,
-> > > -	unsigned long *pfn)
-> > > +	unsigned long *pfn, struct mmu_notifier *subscription)
-> > >  {
-> > > -	int ret = -EINVAL;
-> > > -	spinlock_t *ptl;
-> > > -	pte_t *ptep;
-> > > +	if (WARN_ON(!subscription->mm))
-> > > +		return -EINVAL;
-> > >  
-> > > +	if (WARN_ON(subscription->mm != vma->vm_mm))
-> > > +		return -EINVAL;
-> > 
-> > These two things are redundant right? vma->vm_mm != NULL?
-> 
-> Yup, will remove.
-> 
-> > BTW, why do we even have this for nommu? If the only caller is kvm,
-> > can you even compile kvm on nommu??
-> 
-> Kinda makes sense, but I have no idea how to make sure with compile
-> testing this is really the case. And I didn't see any hard evidence in
-> Kconfig or Makefile that mmu notifiers requires CONFIG_MMU. So not sure
-> what to do here.
+Hi Kalyan,
 
-It looks like only some arches have selectable CONFIG_MMU: arm,
-m68k, microblaze, riscv, sh
+On Tue, 24 Nov 2020 at 18:27, <kalyan_t@codeaurora.org> wrote:
+>
+> On 2020-11-08 23:25, Amit Pundir wrote:
+> > On Tue, 4 Aug 2020 at 21:09, Rob Clark <robdclark@gmail.com> wrote:
+> >>
+> >> On Thu, Jul 16, 2020 at 4:36 AM Kalyan Thota <kalyan_t@codeaurora.org>
+> >> wrote:
+> >> >
+> >> > This change adds support to scale src clk and bandwidth as
+> >> > per composition requirements.
+> >> >
+> >> > Interconnect registration for bw has been moved to mdp
+> >> > device node from mdss to facilitate the scaling.
+> >> >
+> >> > Changes in v1:
+> >> >  - Address armv7 compilation issues with the patch (Rob)
+> >> >
+> >> > Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+> >>
+> >> Reviewed-by: Rob Clark <robdclark@chromium.org>
+> >>
+> >
+> > Hi Kalyan, Rob,
+> >
+> > This patch broke the display on the PocoF1 phone
+> > (sdm845-xiaomi-beryllium.dts) running AOSP.
+> > I can boot to UI but the display is frozen soon after that and
+> > dmesg is full of following errors:
+> >
+> > [drm:dpu_core_perf_crtc_update:397] [dpu error]crtc-65: failed to
+> > update bus bw vote
+> > [drm:dpu_core_perf_crtc_check:203] [dpu error]exceeds bandwidth:
+> > 7649746kb > 6800000kb
+> > [drm:dpu_crtc_atomic_check:969] [dpu error]crtc65 failed performance
+> > check -7
+> > [drm:dpu_core_perf_crtc_check:203] [dpu error]exceeds bandwidth:
+> > 7649746kb > 6800000kb
+> > [drm:dpu_crtc_atomic_check:969] [dpu error]crtc65 failed performance
+> > check -7
+> > [drm:dpu_core_perf_crtc_check:203] [dpu error]exceeds bandwidth:
+> > 7649746kb > 6800000kb
+> > [drm:dpu_crtc_atomic_check:969] [dpu error]crtc65 failed performance
+> > check -7
+> >
+> > Here is the full dmesg https://pastebin.ubuntu.com/p/PcSdNgMnYw/.
+> > Georgi pointed out following patch but it didn't help,
+> > https://lore.kernel.org/dri-devel/20201027102304.945424-1-dmitry.baryshkov@linaro.org/
+> > Am I missing any other followup fix?
+> >
+> > Regards,
+> > Amit Pundir
+> > __
+>
+> Hi Amit,
+>
+> Apologies for the delay.
 
-If we look at arches that work with HAVE_KVM, I only see: arm64, mips,
-powerpc, s390, x86
+No worries at all.
 
-So my conclusion is there is no intersection between !MMU and HAVE_KVM?
+>
+> I have gone through the logs and referred to the below panel file for
+> the timings.
+> https://github.com/Matheus-Garbelini/Kernel-Sphinx-Pocophone-F1/blob/master/arch/arm64/boot/dts/qcom/dsi-panel-tianma-fhd-nt36672a-video.dtsi
+>
+> if the above is correct file, then below could be the possible root
+> cause.
+>
+> The panel back porch and pw is less and it is causing the prefill bw
+> requirement to shoot up per layer as currently we are not considering
+> front porch in the calculation. can you please try the attached patch in
+> the email as a solution and provide me the feedback, i'll post it as a
+> formal change.
 
-> Should I just remove the nommu version of follow_pfn and see what happens?
-> We can't remove it earlier since it's still used by other
-> subsystems.
+The attached patch worked for me. Thanks a lot for looking closely
+into this issue.
 
-This is what I was thinking might work
+Regards,
+Amit Pundir
 
-Jason
+>
+> Thanks,
+> Kalyan
+>
+> _____________________________________________
+> > Freedreno mailing list
+> > Freedreno@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/freedreno
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
