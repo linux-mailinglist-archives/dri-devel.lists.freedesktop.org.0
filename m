@@ -1,57 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0632C29D1
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 15:39:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C752C29E8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 15:43:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47EF46E41D;
-	Tue, 24 Nov 2020 14:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 850BF6E40A;
+	Tue, 24 Nov 2020 14:43:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD956E41D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 14:39:51 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id r3so4264272wrt.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 06:39:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=epUfeO4AC1EIvywUTH4FATyuakllCC9y8hkvy93TUhQ=;
- b=AwaUcFZ6ZkaIfSuqNGRtkXgW0w4m9qmY3TNhyvv/fHaRvDCo253VCxTlaD63fQYFyD
- HT7cOVJz/alpzd/1F3lTpPEx21EbaSDUsVt9YC4WoPBQ4Zllb2oxKFetsc2JINXsVCN+
- +r6s19tGSJdCFMEjUiU3nfj3ZlQb4FiZHEiUQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=epUfeO4AC1EIvywUTH4FATyuakllCC9y8hkvy93TUhQ=;
- b=enoPZJ9M8bwLNsyHPuwKGGiI6wi7Ds32NcysstTLpS+qVoCvXvO4QwsaE/3obqV2zD
- bYzvCMdArozytm1H8S7iU+7tk1JH+90nuPMsM/Uh1narZEJxRxKvM/73Nxa8lg6vYq6K
- GVICDaQpHdoYWFArWS8amF20EbGNIbIrEsrPxWthTgdxZ0WUA1XfDr1NxNoqtRHj6mRR
- wOpIL+84HvFiwX+EPRXy6sboEsJCix9ZzxAr26Y7vQ4KUxDe3XO32P5zGrIeGNlLXvYw
- FcmVagA0wZ5LPvZGImzpH/hbXkDinvftKdco/6Hg4AtY0MNppHKbynYRMJ2ojkbaiiFp
- UaZQ==
-X-Gm-Message-State: AOAM531G8tMdM9lNoeJu19j0iu8NZJ22Czi7dQwYrNir1eBFpmFkF7++
- TM9wnwr+iOMr6wxsdga1PpNfCg==
-X-Google-Smtp-Source: ABdhPJwcrOqwBovla4lz6xIzxOUFRXevwmyR+IWud9OTGYxJHWo84W+Zu4MJpJxa2IiWJ9pTYH+0Mw==
-X-Received: by 2002:adf:8521:: with SMTP id 30mr5548585wrh.265.1606228789975; 
- Tue, 24 Nov 2020 06:39:49 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b8sm5510680wmj.9.2020.11.24.06.39.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 06:39:49 -0800 (PST)
-Date: Tue, 24 Nov 2020 15:39:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Subject: Re: [BUG] drm/vkms: Failure when using drmGetConnectorCurrent()
-Message-ID: <20201124143947.GP401619@phenom.ffwll.local>
-References: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A4196E40A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 14:43:53 +0000 (UTC)
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id D9105206F9;
+ Tue, 24 Nov 2020 14:43:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606229032;
+ bh=8+Oaa7bvZ05Y2HZFAnDkMV/oiZMjQ6zVl9gG9O4TVQo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DLHFDVD4JFe0wJJJZiyfsxPA1CLFdIASTlSh88sa2UbiYHnT/8FEfnQO8E6pPdS+h
+ jQJJFEzMeVLo6tIugMSFmH5vTL0uN8VVdS0ijgQNZWAEUuNszU2VtfHWeIvJP8BCo8
+ sMuhFc27D3S1mYjpR3XaPky0bFlWab50KWn6Esx0=
+Date: Tue, 24 Nov 2020 08:44:07 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH 134/141] video: fbdev: lxfb_ops: Fix fall-through
+ warnings for Clang
+Message-ID: <20201124144407.GI16084@embeddedor>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <9c1dcb12aae7c7ff0907ffb99ffd227656cbe444.1605896060.git.gustavoars@kernel.org>
+ <20201122220540.GC566387@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201122220540.GC566387@ravnborg.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +49,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ linux-geode@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Andres Salomon <dilinger@queued.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 20, 2020 at 01:19:04PM -0300, Leandro Ribeiro wrote:
-> Hello,
-> 
-> We have a patch in Weston to replace drmGetConnector() calls with
-> drmGetConnectorCurrent():
-> 
-> https://gitlab.freedesktop.org/wayland/weston/-/issues/437
-> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/518
-> 
-> Unfortunately this is not working when we use VKMS (upstream version
-> tested). Please see
-> 
-> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/518#note_700345
+Hi Sam,
 
-I guess this is without fbdev configured on vkms? That's what usually
-papers over this problem for most drivers.
+On Sun, Nov 22, 2020 at 11:05:40PM +0100, Sam Ravnborg wrote:
+> Hi Gustavo,
+> On Fri, Nov 20, 2020 at 12:40:32PM -0600, Gustavo A. R. Silva wrote:
+> > In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
+> > by explicitly adding a break statement instead of letting the code fall
+> > through to the next case.
+> > 
+> > Link: https://github.com/KSPP/linux/issues/115
+> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> 
+> Thanks, applied this and the following patch to drm-misc-next.
+> Looks forward to have this warning enabled.
+> 
+> One can only wonder how many hours will be saved by lettting the
+> compiler tell you a break is missing. This is the kind of bugs you can
+> stare you blind at.
 
-> for more information, and feel free to jump into the discussion. If there's
-> more helpful information that I can share, please let me know.
+Absolutely. We'll never know how many bugs this will catch in the
+future decades of kernel development, before the code is even
+committed/submitted. :)
 
-Like Simon suggested, please submit that patch you have for discussion.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks!
+--
+Gustavo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
