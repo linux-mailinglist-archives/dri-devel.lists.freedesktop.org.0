@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F125E2C3A9E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:12:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B484D2C3A98
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:12:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59AC46E839;
-	Wed, 25 Nov 2020 08:12:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 177F46E859;
+	Wed, 25 Nov 2020 08:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from softboy.mntmn.com (softboy.mntmn.com [91.250.115.15])
- by gabe.freedesktop.org (Postfix) with ESMTP id AD3836E4D2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 17:26:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7A0E16E4DD
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 17:26:52 +0000 (UTC)
 From: "Lukas F. Hartmann" <lukas@mntre.com>
-DKIM-Filter: OpenDKIM Filter v2.11.0 softboy.mntmn.com A45C4720EE6
+DKIM-Filter: OpenDKIM Filter v2.11.0 softboy.mntmn.com 36201720F46
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mntre.com;
- s=mntremail; t=1606238800;
- bh=sMffCRC8t+pVcO6WbR04nkC1P/SDITAOk+2n+2D+EGg=;
- h=From:To:Cc:Subject:Date:From;
- b=QAKTCw8n2obR9UHANnvm8VhoMSBiqe+vsHOY0yp785hxcjZ0nCvt9RM9gzYMySAvd
- ynyQp4rNLA1zC+QtibDBOICDCwrsIAqaj5HQCXYkrewU92P9O9E20HjfWbCiLpGkVE
- OUR2bws5hkLvYarRGkqC+voJSu3jOnJC2tq1posC5FssgvxofC9RhWWpA/I8iqJkbs
- 3pmPk3wInhwZ8QY6O8BlqB9Zc0yvXyAS8iY+xv4iNEZggMOyi+4OqRrRVsk4PhGeTe
- o8VqON5W9V++UQrdiR4dzzWatrTzhMlCJOlu6H3OonPMUrnQyBJDEXSTHp+QFmeaIJ
- Nh82Im9OTQXWw==
+ s=mntremail; t=1606238811;
+ bh=8Jj0AmtAGplo7ayDkJLt5zNooDVeNlxY0dyEat7B+hQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=nJybrgiQY6dVhmKoAHKjQNVaAUk5xQcXofGN8wo76PACdPU5MXCIY7sgFhNuEkkTl
+ JWqi8XUvwMh9cQvhlyKXgBqPdY6jzRPXxHtddHAxxsgnbeJswm3lghMnotx/4oIZCM
+ 72D5fFKCaMuaEnXi6zAyr1yNmIGMyhq53RbgerLlkQMtDgX3ZHJPTK7iUjTpEXubU6
+ BBmcW1iFG2DaO35/wu1fCUpq8csQA6H0d1WzjsUC6cCxJC2AFPIoxBOP2+JhO/gFBI
+ eMxhgA6NDWKJqnTkhbEV6DGnseFLwvKsNvNVZNx3vXfjprq+N2Ym1oZF15MxjiSC+A
+ XbtaM0OKyzJ6w==
 To: lukas@mntre.com
-Subject: [PATCH 1/2] panel-simple: add Innolux N125HCE-GN1
-Date: Tue, 24 Nov 2020 18:26:04 +0100
-Message-Id: <20201124172604.981746-1-lukas@mntre.com>
+Subject: [PATCH 2/2] dt-bindings: display/panel: add Innolux N125HCE-GN1
+Date: Tue, 24 Nov 2020 18:26:06 +0100
+Message-Id: <20201124172604.981746-2-lukas@mntre.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201124172604.981746-1-lukas@mntre.com>
+References: <20201124172604.981746-1-lukas@mntre.com>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Wed, 25 Nov 2020 08:11:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -53,59 +55,27 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The Innolux N125HCE-GN1 display is used in the MNT Reform 2.0 laptop,
-attached via eDP to a SN65DSI86 MIPI-DSI to eDP bridge.
+attached via eDP to a SN65DSI86 MIPI-DSI to eDP bridge. This patch
+contains the DT binding for "innolux,n125hce-gn1".
 
 Signed-off-by: Lukas F. Hartmann <lukas@mntre.com>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 2be358fb4..774acab52 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2263,6 +2263,31 @@ static const struct panel_desc innolux_n116bge = {
- 	},
- };
- 
-+static const struct drm_display_mode innolux_n125hce_gn1_mode = {
-+	.clock = 162000,
-+	.hdisplay = 1920,
-+	.hsync_start = 1920 + 40,
-+	.hsync_end = 1920 + 40 + 40,
-+	.htotal = 1920 + 40 + 40 + 80,
-+	.vdisplay = 1080,
-+	.vsync_start = 1080 + 4,
-+	.vsync_end = 1080 + 4 + 4,
-+	.vtotal = 1080 + 4 + 4 + 24,
-+};
-+
-+static const struct panel_desc innolux_n125hce_gn1 = {
-+	.modes = &innolux_n125hce_gn1_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 276,
-+		.height = 155,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_DATA_MSB_TO_LSB,
-+	.connector_type = DRM_MODE_CONNECTOR_eDP,
-+};
-+
- static const struct drm_display_mode innolux_n156bge_l21_mode = {
- 	.clock = 69300,
- 	.hdisplay = 1366,
-@@ -4092,6 +4117,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "innolux,n116bge",
- 		.data = &innolux_n116bge,
-+	}, {
-+		.compatible = "innolux,n125hce-gn1",
-+		.data = &innolux_n125hce_gn1,
- 	}, {
- 		.compatible = "innolux,n156bge-l21",
- 		.data = &innolux_n156bge_l21,
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index edb53ab0d..03b3e0b9d 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -160,6 +160,8 @@ properties:
+         # Innolux Corporation 11.6" WXGA (1366x768) TFT LCD panel
+       - innolux,n116bge
+         # InnoLux 15.6" WXGA TFT LCD panel
++      - innolux,n125hce-gn1
++        # InnoLux 13.3" FHD (1920x1080) eDP TFT LCD panel
+       - innolux,n156bge-l21
+         # Innolux Corporation 7.0" WSVGA (1024x600) TFT LCD panel
+       - innolux,zj070na-01p
 -- 
 2.28.0
 
