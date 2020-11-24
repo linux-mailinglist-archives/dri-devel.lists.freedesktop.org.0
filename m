@@ -1,57 +1,99 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672EE2C1B60
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 03:19:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CB42C1B53
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 03:13:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D119B6E1B1;
-	Tue, 24 Nov 2020 02:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37E296E1A7;
+	Tue, 24 Nov 2020 02:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67DB36E1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 02:19:08 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id m9so16076636pgb.4
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Nov 2020 18:19:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NqhGugUbJorLXtJYLxm+cfpaPmbES7zUe994vKjJ41Q=;
- b=iuME6ZhVE9qVJrasg/Nse92AayTfe0uxkoyWkYEJjH4P0zs2OF++CQ0rRYI+WiPjnJ
- HFpI+czgEFg40QfHj8rNQDKGQn9hnAQDWTvbh7jfWykp2MCfdA95YTXmc72udc6JYGQC
- NR07orAXTBJ28cP1IibauTk+bBLN6YAoGq/0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NqhGugUbJorLXtJYLxm+cfpaPmbES7zUe994vKjJ41Q=;
- b=Hv8HN8RWYrx+ZlxOErLA6+x77fY1TznYDiG4IS+Q8WWL/4R5A5GhTW9ulOeLWlBSZ6
- 43Kn8Fi9xcrCWZs+CLVztbPADPshnSWMEdf7DZbQIgF8UPpQa2LKhmxZbuj5agvau4Gu
- gsNlo3wN0kZjPtW7n6UIAv4MVNsEv3B+u3vV+4AxZ1k+F2uNMcdqMP63hC4eeUql246/
- 4C8gj2f0rktcS2bzwyJvtWsDOQQmIR7smpn3dJz1g5nhO943Y9zVYH2TZLK5lgRE8zF3
- Umt2X6nA7Cz0MRDfaLjDiTy+viEizbE3aWVFYNPXN97oqh7fZkti52fVyMDr3DL4t/AQ
- W+5g==
-X-Gm-Message-State: AOAM53144MpIbFnmKQjCjg8Y1viN3FAUVUWZY84bJN5H1mjH68nQUug/
- BXnnsLYCJ95OFQvzHW/eKtJFp/eKQynbTA==
-X-Google-Smtp-Source: ABdhPJwctbmjAZhQf53B5tdX8x/CoG2uxcV6qfip7n+arLmaWpgkfJvPqefC3thrjABhp7ztWlyieQ==
-X-Received: by 2002:a63:f20:: with SMTP id e32mr1970082pgl.130.1606184347763; 
- Mon, 23 Nov 2020 18:19:07 -0800 (PST)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:5265:f3ff:fe2d:4d58])
- by smtp.gmail.com with ESMTPSA id o198sm6209642pfg.102.2020.11.23.18.19.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Nov 2020 18:19:07 -0800 (PST)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/virtio: consider dma-fence context when signaling
-Date: Mon, 23 Nov 2020 18:19:02 -0800
-Message-Id: <20201124021902.407-3-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201124021902.407-1-gurchetansingh@chromium.org>
-References: <20201124021902.407-1-gurchetansingh@chromium.org>
-MIME-Version: 1.0
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACAA6E1A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 02:13:54 +0000 (UTC)
+Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
+ by mailout2.samsung.com (KnoxPortal) with ESMTP id
+ 20201124021351epoutp024b6c82d8e88cf292a649fb5b3c998aff~KT93mIeR70476404764epoutp02V
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 02:13:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com
+ 20201124021351epoutp024b6c82d8e88cf292a649fb5b3c998aff~KT93mIeR70476404764epoutp02V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1606184031;
+ bh=REJZ6VBK7WJywsWVwQhl2cC21ZUNl7aTEHGVaQ0QBQI=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=FollUK0Yw9ndMMtJcHtbk9F4VDWVyVknFapIdFNxwBcULregb2l3VFrpXVkLYvyjC
+ lRp/fG2hA2AREnd6a0I4MDq2QVo3g76Ppo1KSFQxtFT91btYl+Zbij+dAIStbqgdj6
+ 8E+6IgrrkMY7Q2PKVmOPMRncLOpSYNojYf63reFc=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20201124021350epcas1p4d924c5a8cb6e617a7729568e9728d595~KT920Zjzg1373713737epcas1p4J;
+ Tue, 24 Nov 2020 02:13:50 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.40.155]) by
+ epsnrtp2.localdomain (Postfix) with ESMTP id 4Cg6yN2YRwzMqYkh; Tue, 24 Nov
+ 2020 02:13:48 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+ epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+ FF.08.09577.85C6CBF5; Tue, 24 Nov 2020 11:13:44 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20201124021344epcas1p35cdaad81e2682f4b59ae3f611e6176ea~KT9woMY3a2086520865epcas1p3-;
+ Tue, 24 Nov 2020 02:13:44 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201124021344epsmtrp14d9f436641238f101dc12ed2fcc66ad4~KT9wnhEGe0360303603epsmtrp1M;
+ Tue, 24 Nov 2020 02:13:44 +0000 (GMT)
+X-AuditID: b6c32a39-c13ff70000002569-4c-5fbc6c589a12
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 27.15.08745.75C6CBF5; Tue, 24 Nov 2020 11:13:43 +0900 (KST)
+Received: from localhost.localdomain (unknown [10.113.221.211]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201124021343epsmtip11a8d61c9f0a9f5795652cbad35ede2b0~KT9wX1v9o1094010940epsmtip1B;
+ Tue, 24 Nov 2020 02:13:43 +0000 (GMT)
+From: Inki Dae <inki.dae@samsung.com>
+To: airlied@linux.ie
+Subject: [GIT PULL] exynos-drm-fixes
+Date: Tue, 24 Nov 2020 11:21:18 +0900
+Message-Id: <1606184478-23384-1-git-send-email-inki.dae@samsung.com>
+X-Mailer: git-send-email 2.7.4
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrIKsWRmVeSWpSXmKPExsWy7bCmgW5Ezp54g13/pCx6z51ksrjy9T2b
+ xYzz+5gcmD22f3vA6nG/+ziTx+dNcgHMUdk2GamJKalFCql5yfkpmXnptkrewfHO8aZmBoa6
+ hpYW5koKeYm5qbZKLj4Bum6ZOUCLlBTKEnNKgUIBicXFSvp2NkX5pSWpChn5xSW2SqkFKTkF
+ lgV6xYm5xaV56XrJ+blWhgYGRqZAhQnZGYsubWIsuMdZse7UEtYGxgUcXYwcHBICJhKT5jJ3
+ MXJxCAnsYJTof3qeFcL5xCix4e9Vxi5GTiDnM6PEpznCIDZIw/Y7NxghinYxSuz48w2q/Quj
+ xP0N3ewgVWwCqhITV9xnA7FFBEQkji/7C2YzC7hJ/Fl6lgVktbCAisSBiXwgYRag8qZ528GW
+ 8Qq4SOxrfMgGsUxO4ua5TrD5EgLN7BI/r11jhUi4SCy61c8OYQtLvDq+BcqWknjZ38YO1cAo
+ MXHGaSYIp4NR4u7j6ywQVcYS+5dOZgK5gllAU2L9Ln2IsKLEzt9zGSEO5ZN497WHFRJGvBId
+ bUIQJUoSxy7eYISwJSQuLJkIdaiHxI3tj9ggoRUr8XDtIvYJjLKzEBYsYGRcxSiWWlCcm55a
+ bFhgihxJmxjBaUfLcgfj9Lcf9A4xMnEwHmKU4GBWEuFtldsZL8SbklhZlVqUH19UmpNafIjR
+ FBhiE5mlRJPzgYkvryTe0NTI2NjYwsTQzNTQUEmc9492R7yQQHpiSWp2ampBahFMHxMHp1QD
+ k51ywjaeSc8EY9NPNM++dHuH2p2za/covwuvEM6K/2cd9enSI02pBWFTjBQ0u0I2iHz5wpQl
+ zB3UPoMj8sWWLtb9Hz90HJWd81fT/5LWI4b2t2rTjXIecr4KkZkvHrCjKmTBj4JZd3YmL/u4
+ s9qXS2iS7ap9Fhz7Uq3PlS9or2Xl5+5o+e+W/fOQZnf9FWGme4qv3rC9es/3QcZlyrznZivt
+ myZ3b5sna74liIPrqwhP7kTmhgdmH8+WF/F7dby1tvq2Pt7kYiL3l6gp9/e/v9ETvddCfNuv
+ w7Omvlvjk8+6qyK7U19pyr0o7wV8MXc5lmotnSox28TleMyrkNZlaxn4T29jUC45EKB6Zsvx
+ +UosxRmJhlrMRcWJAP5Nj+nEAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHJMWRmVeSWpSXmKPExsWy7bCSnG54zp54gzufrCx6z51ksrjy9T2b
+ xYzz+5gcmD22f3vA6nG/+ziTx+dNcgHMUVw2Kak5mWWpRfp2CVwZiy5tYiy4x1mx7tQS1gbG
+ BRxdjJwcEgImEtvv3GDsYuTiEBLYwSixpnMiUxcjB1BCQmLLVg4IU1ji8OFiiJJPjBJ3d05i
+ AullE1CVmLjiPhuILSIgInF82V8wm1nAQ+L9ntXsIL3CAioSBybygYRZgMqb5m1nBLF5BVwk
+ 9jU+ZIM4QU7i5rlO5gmMPAsYGVYxSqYWFOem5xYbFhjlpZbrFSfmFpfmpesl5+duYgQHgZbW
+ DsY9qz7oHWJk4mA8xCjBwawkwtsqtzNeiDclsbIqtSg/vqg0J7X4EKM0B4uSOO/XWQvjhATS
+ E0tSs1NTC1KLYLJMHJxSDUyrnnonHk6vf/dEeHGw+WGuNesVci8o2jM2GIR8mmwaLvSEPXOy
+ pvGCVazzlxgtXr/5IK8046LXJmnTp78zm7jzAteWH9tLf/27uUt189ffUtxThYNnLLLnffnl
+ 5e4KRY8vDs9k8v/tf7/qRVai+vcFy84FuC6P8w4JSLUW33SN9feZZL15s8q92v0s1E141odL
+ Ggud2s/otDJkz4S/e7Omuxr1f7vftrLdbNXaD2oNp7YeDetqYraw7Enr+m3uv6/Go9dfVaJy
+ qrvR7OyNktnXBVnj0xru/GubL/162rl6trlxXZ82XGBaeuPDjZkG2q4JPom/17vXX6vtfDRB
+ zXDZZ9ayNrcKx7iIpVvf+f5TYinOSDTUYi4qTgQAxw2DaXECAAA=
+X-CMS-MailID: 20201124021344epcas1p35cdaad81e2682f4b59ae3f611e6176ea
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201124021344epcas1p35cdaad81e2682f4b59ae3f611e6176ea
+References: <CGME20201124021344epcas1p35cdaad81e2682f4b59ae3f611e6176ea@epcas1p3.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,148 +106,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: anthoine.bourgeois@gmail.co, kraxel@redhat.com
+Cc: linux-samsung-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This an incremental refactor towards multiple dma-fence contexts
-in virtio-gpu.  Since all fences are still allocated using
-&virtio_gpu_fence_driver.context, nothing should break and every
-processed fence will be signaled.
+Hi Dave,
 
-The overall idea is every 3D context can allocate a number of
-dma-fence contexts.  Each dma-fence context refers to it's own
-timeline.
+   Just one bug fix to a build error due to common framework dependency.
 
-For example, consider the following case where virgl submits
-commands to the GPU (fence ids 1, 3) and does a metadata query with
-the CPU (fence id 5).  In a different process, gfxstream submits
-commands to the GPU (fence ids 2, 4).
+   Please kindly let me know if there is any problem.
 
-fence_id (&dma_fence.seqno)       | 1 2 3 4 5
-----------------------------------|-----------
-fence_ctx 0 (virgl gpu)           | 1   3
-fence_ctx 1 (virgl metadata query)|         5
-fence_ctx 2 (gfxstream gpu)       |   2   4
 
-With multiple fence contexts, we can wait for the metadata query
-to finish without waiting for the virgl gpu to finish.  virgl gpu
-does not have to wait for gfxstream gpu.  The fence id still is the
-monotonically increasing sequence number, but it's only revelant to
-the specific dma-fence context.
+Thanks,
+Inki Dae
 
-To fully enable this feature, we'll need to:
-  - have each 3d context allocate a number of fence contexts. Not
-    too hard with explicit context initialization on the horizon.
-  - have guest userspace specify fence context when performing
-    ioctls.
-  - tag each fence emitted to the host with the fence context
-    information.  virtio_gpu_ctrl_hdr has padding + flags available,
-    so that should be easy.
 
-This change goes in the direction specified above, by:
-  - looking up the virtgpu_fence given a fence_id
-  - signalling all prior fences in a given context
-  - signalling current fence
+The following changes since commit 6600f9d52213b5c3455481b5c9e61cf5e305c0e6:
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  1 +
- drivers/gpu/drm/virtio/virtgpu_fence.c | 39 ++++++++++++++++++++------
- 2 files changed, 31 insertions(+), 9 deletions(-)
+  Merge tag 'drm-intel-fixes-2020-11-19' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-11-20 11:21:54 +1000)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 6a232553c99b..d9dbc4f258f3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -136,6 +136,7 @@ struct virtio_gpu_fence_driver {
- 
- struct virtio_gpu_fence {
- 	struct dma_fence f;
-+	uint64_t fence_id;
- 	struct virtio_gpu_fence_driver *drv;
- 	struct list_head node;
- };
-diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
-index b35fcd1d02d7..3de09d78dada 100644
---- a/drivers/gpu/drm/virtio/virtgpu_fence.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
-@@ -51,7 +51,7 @@ static bool virtio_gpu_fence_signaled(struct dma_fence *f)
- 
- static void virtio_gpu_fence_value_str(struct dma_fence *f, char *str, int size)
- {
--	snprintf(str, size, "%llu", f->seqno);
-+	snprintf(str, size, "[%llu, %llu]", f->context, f->seqno);
- }
- 
- static void virtio_gpu_timeline_value_str(struct dma_fence *f, char *str,
-@@ -99,7 +99,7 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
- 	unsigned long irq_flags;
- 
- 	spin_lock_irqsave(&drv->lock, irq_flags);
--	fence->f.seqno = ++drv->current_fence_id;
-+	fence->fence_id = fence->f.seqno = ++drv->current_fence_id;
- 	dma_fence_get(&fence->f);
- 	list_add_tail(&fence->node, &drv->fences);
- 	spin_unlock_irqrestore(&drv->lock, irq_flags);
-@@ -107,24 +107,45 @@ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
- 	trace_dma_fence_emit(&fence->f);
- 
- 	cmd_hdr->flags |= cpu_to_le32(VIRTIO_GPU_FLAG_FENCE);
--	cmd_hdr->fence_id = cpu_to_le64(fence->f.seqno);
-+	cmd_hdr->fence_id = cpu_to_le64(fence->fence_id);
- }
- 
- void virtio_gpu_fence_event_process(struct virtio_gpu_device *vgdev,
- 				    u64 fence_id)
- {
- 	struct virtio_gpu_fence_driver *drv = &vgdev->fence_drv;
--	struct virtio_gpu_fence *fence, *tmp;
-+	struct virtio_gpu_fence *signaled, *curr, *tmp;
- 	unsigned long irq_flags;
- 
- 	spin_lock_irqsave(&drv->lock, irq_flags);
- 	atomic64_set(&vgdev->fence_drv.last_fence_id, fence_id);
--	list_for_each_entry_safe(fence, tmp, &drv->fences, node) {
--		if (fence_id < fence->f.seqno)
-+	list_for_each_entry_safe(curr, tmp, &drv->fences, node) {
-+		if (fence_id != curr->fence_id)
- 			continue;
--		dma_fence_signal_locked(&fence->f);
--		list_del(&fence->node);
--		dma_fence_put(&fence->f);
-+
-+		signaled = curr;
-+
-+		/*
-+		 * Signal any fences with a strictly smaller sequence number
-+		 * the current signaled fence.
-+		 */
-+		list_for_each_entry_safe(curr, tmp, &drv->fences, node) {
-+			/* dma-fence contexts must match */
-+			if (signaled->f.context != curr->f.context)
-+				continue;
-+
-+			if (!dma_fence_is_later(&signaled->f, &curr->f))
-+				continue;
-+
-+			dma_fence_signal_locked(&curr->f);
-+			list_del(&curr->node);
-+			dma_fence_put(&curr->f);
-+		}
-+
-+		dma_fence_signal_locked(&signaled->f);
-+		list_del(&signaled->node);
-+		dma_fence_put(&signaled->f);
-+		break;
- 	}
- 	spin_unlock_irqrestore(&drv->lock, irq_flags);
- }
--- 
-2.29.2.454.gaff20da3a2-goog
+are available in the git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.10-rc6
+
+for you to fetch changes up to e2d3d2e904ad3d381753798dcd5cae03e3c47242:
+
+  drm/exynos: depend on COMMON_CLK to fix compile tests (2020-11-23 10:01:32 +0900)
+
+----------------------------------------------------------------
+One bug fix
+. Add COMMON_CLK dependency to fix a build error below,
+	/usr/bin/mips-linux-gnu-ld: drivers/gpu/drm/exynos/exynos_mixer.o: in function `mixer_bind':
+	exynos_mixer.c:(.text+0x958): undefined reference to `clk_set_parent'
+
+----------------------------------------------------------------
+Krzysztof Kozlowski (1):
+      drm/exynos: depend on COMMON_CLK to fix compile tests
+
+ drivers/gpu/drm/exynos/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
