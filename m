@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B83E32C29C4
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 15:35:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0632C29D1
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 15:39:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D87BB89FCA;
-	Tue, 24 Nov 2020 14:35:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47EF46E41D;
+	Tue, 24 Nov 2020 14:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84D1589FCA
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 14:35:29 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id 64so9129991wra.11
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 06:35:29 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AD956E41D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 14:39:51 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id r3so4264272wrt.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 06:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Rbfn0budLHmIrbAEQnbX0TB1KJiCFqQBLaK3ZTepOkg=;
- b=lfoHbkRXOccRnm6ZSwyBTBhvKD7n6el/1PaaNxyKWLdTLW7WkOYSAZopGIXvtZpTJS
- VrvfJV6OYSub2RevvxuPSZ4OsgKKAkRQjc/dSCa1k591l4FS5A6bXojcL1wGT6ndQSfG
- tBBID15a08BQ0TxE6SlCoan48bRSMnpFSqW5k=
+ :content-disposition:in-reply-to;
+ bh=epUfeO4AC1EIvywUTH4FATyuakllCC9y8hkvy93TUhQ=;
+ b=AwaUcFZ6ZkaIfSuqNGRtkXgW0w4m9qmY3TNhyvv/fHaRvDCo253VCxTlaD63fQYFyD
+ HT7cOVJz/alpzd/1F3lTpPEx21EbaSDUsVt9YC4WoPBQ4Zllb2oxKFetsc2JINXsVCN+
+ +r6s19tGSJdCFMEjUiU3nfj3ZlQb4FiZHEiUQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Rbfn0budLHmIrbAEQnbX0TB1KJiCFqQBLaK3ZTepOkg=;
- b=Pw2tmFo7sC4DUtjXfKur27MhkScvrJ2OYraUi8JdMTKcf4VyiUOFyiLYRX9I7MTv4F
- eKhuw5hkQ6NL9uvs4CdQgXDGogxBFPQoMF0i8YwfFQDBrptJcAxaMXzD5I1aBwJsYJ93
- HFht2vWxMU1xFnGYOr0K3oZ7b6TfRhnxuRnnGZHMkFUmLVlwzAqcOjjQS9cBdhXh4Kex
- 9cYn/RhNDUv6P5X2jXLxdOyUSmRBl8WXDLrdhCMInO+YoEtuguqJBhT3jlkz2hIRYSLF
- 6bSSuwmhmb6rUKp9T2QYZnQ4eS/AZm2ls2n1d4yli9N9S2eUQSvhsAGsfHryWVeOkC3M
- D7UQ==
-X-Gm-Message-State: AOAM532e6ja8+0YypVjul6yYVq/lfrp654/mCU27ohL5nGJP/rFMaWp9
- jMqFb07UR6fNDwIFLIZXui6rTuW5cQtvDg==
-X-Google-Smtp-Source: ABdhPJzhsXDiPd1yge7CEjnkD/Y0eyTLt/LbEBto2/cEOQstFbWfBzjevYt9T+1WrrMkZsEHIq7jzQ==
-X-Received: by 2002:adf:e544:: with SMTP id z4mr5695704wrm.83.1606228528264;
- Tue, 24 Nov 2020 06:35:28 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=epUfeO4AC1EIvywUTH4FATyuakllCC9y8hkvy93TUhQ=;
+ b=enoPZJ9M8bwLNsyHPuwKGGiI6wi7Ds32NcysstTLpS+qVoCvXvO4QwsaE/3obqV2zD
+ bYzvCMdArozytm1H8S7iU+7tk1JH+90nuPMsM/Uh1narZEJxRxKvM/73Nxa8lg6vYq6K
+ GVICDaQpHdoYWFArWS8amF20EbGNIbIrEsrPxWthTgdxZ0WUA1XfDr1NxNoqtRHj6mRR
+ wOpIL+84HvFiwX+EPRXy6sboEsJCix9ZzxAr26Y7vQ4KUxDe3XO32P5zGrIeGNlLXvYw
+ FcmVagA0wZ5LPvZGImzpH/hbXkDinvftKdco/6Hg4AtY0MNppHKbynYRMJ2ojkbaiiFp
+ UaZQ==
+X-Gm-Message-State: AOAM531G8tMdM9lNoeJu19j0iu8NZJ22Czi7dQwYrNir1eBFpmFkF7++
+ TM9wnwr+iOMr6wxsdga1PpNfCg==
+X-Google-Smtp-Source: ABdhPJwcrOqwBovla4lz6xIzxOUFRXevwmyR+IWud9OTGYxJHWo84W+Zu4MJpJxa2IiWJ9pTYH+0Mw==
+X-Received: by 2002:adf:8521:: with SMTP id 30mr5548585wrh.265.1606228789975; 
+ Tue, 24 Nov 2020 06:39:49 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w11sm5580132wmg.36.2020.11.24.06.35.27
+ by smtp.gmail.com with ESMTPSA id b8sm5510680wmj.9.2020.11.24.06.39.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 06:35:27 -0800 (PST)
-Date: Tue, 24 Nov 2020 15:35:25 +0100
+ Tue, 24 Nov 2020 06:39:49 -0800 (PST)
+Date: Tue, 24 Nov 2020 15:39:47 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: fix kernel-doc warnings for SCALING_FILTER
-Message-ID: <20201124143525.GO401619@phenom.ffwll.local>
-References: <zJEUxNx4GwiY4FnqlVsuXdAWuH624SQ9VfN54NeH5E@cp7-web-043.plabs.ch>
+To: Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Subject: Re: [BUG] drm/vkms: Failure when using drmGetConnectorCurrent()
+Message-ID: <20201124143947.GP401619@phenom.ffwll.local>
+References: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <zJEUxNx4GwiY4FnqlVsuXdAWuH624SQ9VfN54NeH5E@cp7-web-043.plabs.ch>
+In-Reply-To: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,99 +64,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- dri-devel@lists.freedesktop.org, Uma Shankar <uma.shankar@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Melissa Wen <melissa.srw@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 20, 2020 at 11:06:22AM +0000, Simon Ser wrote:
-> This patch fixes the following kernel-doc warnings:
-> =
+On Fri, Nov 20, 2020 at 01:19:04PM -0300, Leandro Ribeiro wrote:
+> Hello,
+> 
+> We have a patch in Weston to replace drmGetConnector() calls with
+> drmGetConnectorCurrent():
+> 
+> https://gitlab.freedesktop.org/wayland/weston/-/issues/437
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/518
+> 
+> Unfortunately this is not working when we use VKMS (upstream version
+> tested). Please see
+> 
+> https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/518#note_700345
 
->     /home/simon/src/linux/Documentation/gpu/drm-kms:466: ./drivers/gpu/dr=
-m/drm_crtc.c:236: WARNING: Unexpected indentation.
->     /home/simon/src/linux/Documentation/gpu/drm-kms:466: ./drivers/gpu/dr=
-m/drm_crtc.c:237: WARNING: Block quote ends without a blank line; unexpecte=
-d unindent.
->     /home/simon/src/linux/Documentation/gpu/drm-kms:472: ./drivers/gpu/dr=
-m/drm_blend.c:203: WARNING: Unexpected indentation.
->     /home/simon/src/linux/Documentation/gpu/drm-kms:472: ./drivers/gpu/dr=
-m/drm_blend.c:204: WARNING: Block quote ends without a blank line; unexpect=
-ed unindent.
-> =
+I guess this is without fbdev configured on vkms? That's what usually
+papers over this problem for most drivers.
 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Fixes: 5c759eda9b04 ("drm: Introduce plane and CRTC scaling filter proper=
-ties")
-> Cc: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Uma Shankar <uma.shankar@intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> for more information, and feel free to jump into the discussion. If there's
+> more helpful information that I can share, please let me know.
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/drm_blend.c |  2 +-
->  drivers/gpu/drm/drm_crtc.c  | 12 ++++++------
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index ae2234aae93d..5c2141e9a9f4 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -196,10 +196,10 @@
->   * exposed and assumed to be black).
->   *
->   * SCALING_FILTER:
-> - *
->   *     Indicates scaling filter to be used for plane scaler
->   *
->   *     The value of this property can be one of the following:
-> + *
->   *     Default:
->   *             Driver's default scaling filter
->   *     Nearest Neighbor:
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index f927976eca50..74090fc3aa55 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -230,14 +230,14 @@ struct dma_fence *drm_crtc_create_fence(struct drm_=
-crtc *crtc)
->   *
->   * 	Setting MODE_ID to 0 will release reserved resources for the CRTC.
->   * SCALING_FILTER:
-> - *	Atomic property for setting the scaling filter for CRTC scaler
-> + * 	Atomic property for setting the scaling filter for CRTC scaler
->   *
-> - *	The value of this property can be one of the following:
-> - *	Default:
-> - *		Driver's default scaling filter
-> - *	Nearest Neighbor:
-> - *		Nearest Neighbor scaling filter
-> + * 	The value of this property can be one of the following:
->   *
-> + * 	Default:
-> + * 		Driver's default scaling filter
-> + * 	Nearest Neighbor:
-> + * 		Nearest Neighbor scaling filter
->   */
->  =
-
->  /**
-> -- =
-
-> 2.29.2
-> =
-
-> =
-
-
--- =
-
+Like Simon suggested, please submit that patch you have for discussion.
+-Daniel
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
