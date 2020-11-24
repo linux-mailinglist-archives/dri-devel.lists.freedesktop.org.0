@@ -1,63 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912F72C3059
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 20:02:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1782C3065
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 20:03:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C17D56E519;
-	Tue, 24 Nov 2020 19:02:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0F06E51A;
+	Tue, 24 Nov 2020 19:03:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 776D16E519
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 19:02:08 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id w24so25021wmi.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 11:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Iqfo9keS2TpK9GfS0c0b6OiBQlmC8pD8aAHf7OaR9CI=;
- b=HpLbM+V0jq7UNWv0s31h85bdrOxL/5xJyr4X+waMFda7d4JHut00b11AorcytoyUtN
- yc05zp19+B6hk0tcP5+pMqJW6JswuODpPbEiJIrRNS8f3syEKd3rfr/jJJso5oMeC8U6
- toNcyx5kAUZ0sZwYUj1VDTelp9sf1KXX8OWxt5lMwnhDHg9NB+XkCDYJFBaDtvrUIIJn
- lkAjiRQKIgi6BESygC6wxEjIv+fHTgdVrbELD+HhjlZTR0NcST3xGIweqIg3nxffRm2m
- 8H6X49MT1ec7hpZFwM1o2lNu1czV1fdnifqMxZ1ofEc2KOSHxeT6myWUPRhjnAI9EfND
- LVDA==
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C70116E51A;
+ Tue, 24 Nov 2020 19:03:53 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id z7so7622887wrn.3;
+ Tue, 24 Nov 2020 11:03:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Kf8N/OmqZHAolew6L+ymXRNdjbnvIjwkoc3J3zrIO6o=;
+ b=e4XPfFafIyuCJA3/oM5IEkO0sIKvTxq5TB/vBw5VApjZmswLIR+ss8JeVCBQc3S0YB
+ utaTXD2KgvRBJSQYloFRQA3bwyim1R63U6DlE/t1zLaFkVf6C4xghKml39Z5tUdk8KE0
+ FOyMsVp/6YNj0a+F4KKDzno65iOfoowVa0154Sled8pW+rU69gDbIGFGIs379KCmm2Bn
+ ZxHpjoYkCCIPHBCgz4Q2ODoHHTiIRw2fRYAmW7CNSCRm8Dk2TSpWbBjoFGOb5k2sn5Wb
+ xzKdxqm90TYqRiKn+hjfi33FMMy2DdVYzrfu8Tg/n3hBDZ3JwSpF8wCnmejQd5TfPZa2
+ 1Tww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Iqfo9keS2TpK9GfS0c0b6OiBQlmC8pD8aAHf7OaR9CI=;
- b=DhwHV8DnQ++Io6RAfJTS/QS6QkIF0KP4tyhpTUey7rWq6MASiirHn1/ijq1wN3YQ99
- lPS+zcaumXgFYhGw5Hnk/wwn7vHzqJ8m6mW9UpCqEynrdgYG2tB+tJlQYQppVmYPo3we
- gaI76PerhBm4ZdvTkLm3ZeH91DXgpyTytUnzQcV6uc5/ZROnPVl7qcUTtFPYBovuC3e8
- EaW5FXzXLx7ZV7swl9V1nnJWxLsxzGQRFVIwW9u94QcBDBCwAexZHNqEnjlLoeOJz5x+
- dWZsaARPNS7D1aRZX2mehNTvHfG24MOZ9UPVvyt7uKHfXlQUnGthdjpdKsvegG+pDjIo
- y85Q==
-X-Gm-Message-State: AOAM531uIx4r2AsPEtHFYyabvcBKjEpYsFCvk2s8Mvo0zYcQN0fOq7ZC
- avaStmXufJ2IRbkHgb0QULIDBg==
-X-Google-Smtp-Source: ABdhPJw/HJ98oz834LeZOvm1TSSpQe1fptg/MS2M8idKTbhtYAnFb4PUY3/ynRryGMQT1piVK1X2KQ==
-X-Received: by 2002:a1c:b787:: with SMTP id h129mr5980131wmf.67.1606244527085; 
- Tue, 24 Nov 2020 11:02:07 -0800 (PST)
-Received: from dell ([91.110.221.235])
- by smtp.gmail.com with ESMTPSA id 6sm33311328wrn.72.2020.11.24.11.02.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 11:02:06 -0800 (PST)
-Date: Tue, 24 Nov 2020 19:02:04 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Subject: Re: [PATCH 01/40] drm/radeon/radeon_device: Consume our own header
- where the prototypes are located
-Message-ID: <20201124190204.GC4716@dell>
-References: <20201123111919.233376-1-lee.jones@linaro.org>
- <20201123111919.233376-2-lee.jones@linaro.org>
- <CADnq5_PaFeyNAc3a8e0MmZRKzPxPQCxGyhD_7TP+jcuPvRt9NQ@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Kf8N/OmqZHAolew6L+ymXRNdjbnvIjwkoc3J3zrIO6o=;
+ b=JhsdsSwOmw8GSyQt/DO7FokPKernJe9ZG7ncdSSeMte4xmHh77BfS+toktWpIGiVIt
+ o+Em01UXnuCDIRMz8yokccFDQuF8F1Sz4IGbIzK4qP4tWtf4XLU06ClnIQRgScJpFcIT
+ 6Pi2PF6QxAcBGu9NfYT2mDbt1E2hSjxou10JrbKm9AuderjTPEdMxn7Cgsl7eCbeCgEF
+ Uv/t3VUDgLGWstZA9RT8XJ3bF6s+SdlVBG1DT4sTc0y/KFLttuvPtGoaQrQGlt8I9Ekq
+ qrGSL6hbG6HWGZaZlwk7izRYdbmabMWHRJVzsLoBSUh+CaVFzDYTzaYFB7IxFwkGtwAe
+ u76A==
+X-Gm-Message-State: AOAM531by1Dv8mXo+FNdTqAW+xkRq6MXaKbiFAseV2ojg9nJ5C40QAHQ
+ +iPJM31E/JZkb09s05ExCxL/sGG4DdIs/Nb79nM=
+X-Google-Smtp-Source: ABdhPJwW1Dno1QctDapnpNYSFC4x+KGmIfQzh+3Rg5OpwpAmPAHWb0eqXoADDsWEL4IzwAxlcJmhREL9yr7VY0C/XTc=
+X-Received: by 2002:adf:f6c7:: with SMTP id y7mr6621316wrp.147.1606244632292; 
+ Tue, 24 Nov 2020 11:03:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CADnq5_PaFeyNAc3a8e0MmZRKzPxPQCxGyhD_7TP+jcuPvRt9NQ@mail.gmail.com>
+References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
+ <20201123152146.GE11033@willie-the-truck>
+ <50b68f2bdf9413b896fbe816ba4ddbc9@codeaurora.org>
+ <CAF6AEGse=WBAC1WbTi6aD5_m1_NBg91f=veYm-7V=Uds7NA0Lw@mail.gmail.com>
+ <1c665e33d1d27263fb5056c16d30b827@codeaurora.org>
+ <20201124111027.GA13151@willie-the-truck>
+In-Reply-To: <20201124111027.GA13151@willie-the-truck>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 24 Nov 2020 11:05:39 -0800
+Message-ID: <CAF6AEGuZ2YbY=ATFBX1KJw=LwhcpH8n+zzxckTHPwwopi6mOqw@mail.gmail.com>
+Subject: Re: [PATCHv8 0/8] System Cache support for GPU and required SMMU
+ support
+To: Will Deacon <will@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,32 +66,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "list@263.net:IOMMU DRIVERS , Joerg Roedel <joro@8bytes.org>,
+ " <iommu@lists.linux-foundation.org>,
+ "Kristian H . Kristensen" <hoegsberg@google.com>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyNCBOb3YgMjAyMCwgQWxleCBEZXVjaGVyIHdyb3RlOgoKPiBPbiBNb24sIE5vdiAy
-MywgMjAyMCBhdCA2OjE5IEFNIExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+IHdyb3Rl
-Ogo+ID4KPiA+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3YXJuaW5nKHMp
-Ogo+ID4KPiA+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl9kZXZpY2UuYzo2Mzc6Njog
-d2FybmluZzogbm8gcHJldmlvdXMgcHJvdG90eXBlIGZvciDigJhyYWRlb25fZGV2aWNlX2lzX3Zp
-cnR1YWzigJkgWy1XbWlzc2luZy1wcm90b3R5cGVzXQo+ID4KPiA+IENjOiBBbGV4IERldWNoZXIg
-PGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gPiBDYzogIkNocmlzdGlhbiBLw7ZuaWciIDxj
-aHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPiBDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxp
-bnV4LmllPgo+ID4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiA+IENjOiBh
-bWQtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+ID4gQ2M6IGRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKPiA+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFy
-by5vcmc+Cj4gCj4gQXBwbGllZC4gIFRoYW5rcyEKClRoYW5rcyBhZ2FpbiBBbGV4LiAgR3JlYXQg
-d29yayEKCkFsbW9zdCB0aGVyZSBub3cgLi4uCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dClNl
-bmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBP
-cGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sg
-fCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+On Tue, Nov 24, 2020 at 3:10 AM Will Deacon <will@kernel.org> wrote:
+>
+> On Tue, Nov 24, 2020 at 09:32:54AM +0530, Sai Prakash Ranjan wrote:
+> > On 2020-11-24 00:52, Rob Clark wrote:
+> > > On Mon, Nov 23, 2020 at 9:01 AM Sai Prakash Ranjan
+> > > <saiprakash.ranjan@codeaurora.org> wrote:
+> > > >
+> > > > On 2020-11-23 20:51, Will Deacon wrote:
+> > > > > On Tue, Nov 17, 2020 at 08:00:39PM +0530, Sai Prakash Ranjan wrote:
+> > > > >> Some hardware variants contain a system cache or the last level
+> > > > >> cache(llc). This cache is typically a large block which is shared
+> > > > >> by multiple clients on the SOC. GPU uses the system cache to cache
+> > > > >> both the GPU data buffers(like textures) as well the SMMU pagetables.
+> > > > >> This helps with improved render performance as well as lower power
+> > > > >> consumption by reducing the bus traffic to the system memory.
+> > > > >>
+> > > > >> The system cache architecture allows the cache to be split into slices
+> > > > >> which then be used by multiple SOC clients. This patch series is an
+> > > > >> effort to enable and use two of those slices preallocated for the GPU,
+> > > > >> one for the GPU data buffers and another for the GPU SMMU hardware
+> > > > >> pagetables.
+> > > > >>
+> > > > >> Patch 1 - Patch 6 adds system cache support in SMMU and GPU driver.
+> > > > >> Patch 7 and 8 are minor cleanups for arm-smmu impl.
+> > > > >>
+> > > > >> Changes in v8:
+> > > > >>  * Introduce a generic domain attribute for pagetable config (Will)
+> > > > >>  * Rename quirk to more generic IO_PGTABLE_QUIRK_ARM_OUTER_WBWA (Will)
+> > > > >>  * Move non-strict mode to use new struct domain_attr_io_pgtbl_config
+> > > > >> (Will)
+> > > > >
+> > > > > Modulo some minor comments I've made, this looks good to me. What is
+> > > > > the
+> > > > > plan for merging it? I can take the IOMMU parts, but patches 4-6 touch
+> > > > > the
+> > > > > MSM GPU driver and I'd like to avoid conflicts with that.
+> > > > >
+> > > >
+> > > > SMMU bits are pretty much independent and GPU relies on the domain
+> > > > attribute
+> > > > and the quirk exposed, so as long as SMMU changes go in first it
+> > > > should
+> > > > be good.
+> > > > Rob?
+> > >
+> > > I suppose one option would be to split out the patch that adds the
+> > > attribute into it's own patch, and merge that both thru drm and iommu?
+> > >
+> >
+> > Ok I can split out domain attr and quirk into its own patch if Will is
+> > fine with that approach.
+>
+> Why don't I just queue the first two patches on their own branch and we
+> both pull that?
+
+Ok, that works for me.  I normally base msm-next on -rc1 but I guess
+as long as we base the branch on the older or our two -next branches,
+that should work out nicely
+
+BR,
+-R
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
