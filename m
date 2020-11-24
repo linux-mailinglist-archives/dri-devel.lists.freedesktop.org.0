@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6C92C2624
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:47:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD802C2632
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:47:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 511866E323;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE5026E40A;
 	Tue, 24 Nov 2020 12:47:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2FB06E32F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:07 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCl18o123578;
- Tue, 24 Nov 2020 06:47:01 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 732CB6E22B
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:11 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCl3GL123592;
+ Tue, 24 Nov 2020 06:47:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606222021;
- bh=uR883z6A4dTNkzMvbvDe7F2OzEHKUR54P9yp2pTjbfc=;
+ s=ti-com-17Q1; t=1606222023;
+ bh=W4VnBUcUQUvyCL5t4LUwpNzSUtJcaLqnHozO7Jf1fR0=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=Ep1xEyFic6dDlfRp/LEpMl9ti7+A60jy4H8uZQ+ykSuFxmQgsEH+VWlImRxTCiRKN
- DGnzRo9RaQlb6JYFbMobN9k5XbfNdUDul9g3pfYWZru+Bi+r/KlOnwy0ojfJOlnxNA
- NkHaEtxl9UJzpuDwbxUtcr5sediX+z+PgRAPFnH0=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCl1cD106685
+ b=BJTItbKcW2AhCtOt27GegXc4HlJ5WPZ8OEl5t6OH758YDdV6bmaDlZhOeYsiDj0zX
+ 7ea/QkIgIwZ22CBIcPx6FrsR9qV27k4rmVRO6onGAO4JXsIyem1CMQzbL9vV/IXdLZ
+ CFZ/en7F/Gs6BqPO2Jz7Pk3ieuG5BNxx/hi+7HqQ=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCl33H043681
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Nov 2020 06:47:01 -0600
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Nov 2020 06:47:03 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 24
- Nov 2020 06:47:00 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:47:03 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 24 Nov 2020 06:47:00 -0600
+ Frontend Transport; Tue, 24 Nov 2020 06:47:03 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpH040922;
- Tue, 24 Nov 2020 06:46:58 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpI040922;
+ Tue, 24 Nov 2020 06:47:01 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 28/80] drm/omap: dsi: do ULPS in host driver
-Date: Tue, 24 Nov 2020 14:44:46 +0200
-Message-ID: <20201124124538.660710-29-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 29/80] drm/omap: dsi: move panel refresh function to host
+Date: Tue, 24 Nov 2020 14:44:47 +0200
+Message-ID: <20201124124538.660710-30-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124124538.660710-1-tomi.valkeinen@ti.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
@@ -72,570 +72,344 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Move ULPS handling into the DSI host controller, so that we
-no longer need a custom API for the DSI client.
-
-Note that for now ULPS is always disabled.
+This moves the panel refresh/update function from the panel
+driver into the DSI host driver to prepare for common drm_panel
+support.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 266 +-----------------
- drivers/gpu/drm/omapdrm/dss/dsi.c             |  71 +++--
- drivers/gpu/drm/omapdrm/dss/omapdss.h         |   2 -
- 3 files changed, 60 insertions(+), 279 deletions(-)
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 68 --------------
+ drivers/gpu/drm/omapdrm/dss/dsi.c             | 91 +++++++++++++++++--
+ drivers/gpu/drm/omapdrm/dss/omapdss.h         | 13 +--
+ drivers/gpu/drm/omapdrm/omap_crtc.c           | 11 +--
+ 4 files changed, 88 insertions(+), 95 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-index c6c237d15939..bd115d601f04 100644
+index bd115d601f04..98b50220ec31 100644
 --- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
 +++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-@@ -16,7 +16,6 @@
- #include <linux/module.h>
- #include <linux/sched/signal.h>
- #include <linux/slab.h>
--#include <linux/workqueue.h>
- #include <linux/of_device.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -66,22 +65,12 @@ struct panel_drv_data {
- 	bool enabled;
- 
- 	bool intro_printed;
--
--	struct workqueue_struct *workqueue;
--
--	bool ulps_enabled;
--	unsigned int ulps_timeout;
--	struct delayed_work ulps_work;
- };
- 
- #define to_panel_data(p) container_of(p, struct panel_drv_data, dssdev)
- 
- static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable);
- 
--static int dsicm_panel_reset(struct panel_drv_data *ddata);
--
--static void dsicm_ulps_work(struct work_struct *work);
--
- static void dsicm_bl_power(struct panel_drv_data *ddata, bool enable)
- {
- 	struct backlight_device *backlight;
-@@ -205,94 +194,6 @@ static int dsicm_set_update_window(struct panel_drv_data *ddata,
+@@ -173,27 +173,6 @@ static int dsicm_get_id(struct panel_drv_data *ddata, u8 *id1, u8 *id2, u8 *id3)
  	return 0;
  }
  
--static void dsicm_queue_ulps_work(struct panel_drv_data *ddata)
+-static int dsicm_set_update_window(struct panel_drv_data *ddata,
+-		u16 x, u16 y, u16 w, u16 h)
 -{
--	if (ddata->ulps_timeout > 0)
--		queue_delayed_work(ddata->workqueue, &ddata->ulps_work,
--				msecs_to_jiffies(ddata->ulps_timeout));
--}
--
--static void dsicm_cancel_ulps_work(struct panel_drv_data *ddata)
--{
--	cancel_delayed_work(&ddata->ulps_work);
--}
--
--static int dsicm_enter_ulps(struct panel_drv_data *ddata)
--{
--	struct omap_dss_device *src = ddata->src;
+-	struct mipi_dsi_device *dsi = ddata->dsi;
 -	int r;
+-	u16 x1 = x;
+-	u16 x2 = x + w - 1;
+-	u16 y1 = y;
+-	u16 y2 = y + h - 1;
 -
--	if (ddata->ulps_enabled)
--		return 0;
+-	r = mipi_dsi_dcs_set_column_address(dsi, x1, x2);
+-	if (r < 0)
+-		return r;
 -
--	dsicm_cancel_ulps_work(ddata);
+-	r = mipi_dsi_dcs_set_page_address(dsi, y1, y2);
+-	if (r < 0)
+-		return r;
 -
--	r = _dsicm_enable_te(ddata, false);
--	if (r)
--		goto err;
--
--	src->ops->dsi.ulps(src, true);
--
--	ddata->ulps_enabled = true;
--
--	return 0;
--
--err:
--	dev_err(&ddata->dsi->dev, "enter ULPS failed");
--	dsicm_panel_reset(ddata);
--
--	ddata->ulps_enabled = false;
--
--	dsicm_queue_ulps_work(ddata);
--
--	return r;
--}
--
--static int dsicm_exit_ulps(struct panel_drv_data *ddata)
--{
--	struct omap_dss_device *src = ddata->src;
--	int r;
--
--	if (!ddata->ulps_enabled)
--		return 0;
--
--	src->ops->dsi.ulps(src, false);
--	ddata->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
--
--	r = _dsicm_enable_te(ddata, true);
--	if (r) {
--		dev_err(&ddata->dsi->dev, "failed to re-enable TE");
--		goto err2;
--	}
--
--	dsicm_queue_ulps_work(ddata);
--
--	ddata->ulps_enabled = false;
--
--	return 0;
--
--err2:
--	dev_err(&ddata->dsi->dev, "failed to exit ULPS");
--
--	r = dsicm_panel_reset(ddata);
--	if (!r)
--		ddata->ulps_enabled = false;
--
--	dsicm_queue_ulps_work(ddata);
--
--	return r;
--}
--
--static int dsicm_wake_up(struct panel_drv_data *ddata)
--{
--	if (ddata->ulps_enabled)
--		return dsicm_exit_ulps(ddata);
--
--	dsicm_cancel_ulps_work(ddata);
--	dsicm_queue_ulps_work(ddata);
 -	return 0;
 -}
 -
  static int dsicm_bl_update_status(struct backlight_device *dev)
  {
  	struct panel_drv_data *ddata = dev_get_drvdata(&dev->dev);
-@@ -310,7 +211,6 @@ static int dsicm_bl_update_status(struct backlight_device *dev)
- 	mutex_lock(&ddata->lock);
- 
- 	if (ddata->enabled) {
--		r = dsicm_wake_up(ddata);
- 		if (!r)
- 			r = dsicm_dcs_write_1(
- 				ddata, MIPI_DCS_SET_DISPLAY_BRIGHTNESS, level);
-@@ -340,18 +240,12 @@ static ssize_t dsicm_num_errors_show(struct device *dev,
- {
- 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
- 	u8 errors = 0;
--	int r;
-+	int r = -ENODEV;
- 
- 	mutex_lock(&ddata->lock);
- 
--	if (ddata->enabled) {
--		r = dsicm_wake_up(ddata);
--		if (!r)
--			r = dsicm_dcs_read_1(ddata, DCS_READ_NUM_ERRORS,
--					&errors);
--	} else {
--		r = -ENODEV;
--	}
-+	if (ddata->enabled)
-+		r = dsicm_dcs_read_1(ddata, DCS_READ_NUM_ERRORS, &errors);
- 
- 	mutex_unlock(&ddata->lock);
- 
-@@ -366,17 +260,12 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
- {
- 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
- 	u8 id1, id2, id3;
--	int r;
-+	int r = -ENODEV;
- 
- 	mutex_lock(&ddata->lock);
- 
--	if (ddata->enabled) {
--		r = dsicm_wake_up(ddata);
--		if (!r)
--			r = dsicm_get_id(ddata, &id1, &id2, &id3);
--	} else {
--		r = -ENODEV;
--	}
-+	if (ddata->enabled)
-+		r = dsicm_get_id(ddata, &id1, &id2, &id3);
- 
- 	mutex_unlock(&ddata->lock);
- 
-@@ -386,103 +275,12 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
- 	return snprintf(buf, PAGE_SIZE, "%02x.%02x.%02x\n", id1, id2, id3);
- }
- 
--static ssize_t dsicm_store_ulps(struct device *dev,
--		struct device_attribute *attr,
--		const char *buf, size_t count)
--{
--	struct panel_drv_data *ddata = dev_get_drvdata(dev);
--	unsigned long t;
--	int r;
--
--	r = kstrtoul(buf, 0, &t);
--	if (r)
--		return r;
--
--	mutex_lock(&ddata->lock);
--
--	if (ddata->enabled) {
--		if (t)
--			r = dsicm_enter_ulps(ddata);
--		else
--			r = dsicm_wake_up(ddata);
--	}
--
--	mutex_unlock(&ddata->lock);
--
--	if (r)
--		return r;
--
--	return count;
--}
--
--static ssize_t dsicm_show_ulps(struct device *dev,
--		struct device_attribute *attr,
--		char *buf)
--{
--	struct panel_drv_data *ddata = dev_get_drvdata(dev);
--	unsigned int t;
--
--	mutex_lock(&ddata->lock);
--	t = ddata->ulps_enabled;
--	mutex_unlock(&ddata->lock);
--
--	return snprintf(buf, PAGE_SIZE, "%u\n", t);
--}
--
--static ssize_t dsicm_store_ulps_timeout(struct device *dev,
--		struct device_attribute *attr,
--		const char *buf, size_t count)
--{
--	struct panel_drv_data *ddata = dev_get_drvdata(dev);
--	unsigned long t;
--	int r;
--
--	r = kstrtoul(buf, 0, &t);
--	if (r)
--		return r;
--
--	mutex_lock(&ddata->lock);
--	ddata->ulps_timeout = t;
--
--	if (ddata->enabled) {
--		/* dsicm_wake_up will restart the timer */
--		r = dsicm_wake_up(ddata);
--	}
--
--	mutex_unlock(&ddata->lock);
--
--	if (r)
--		return r;
--
--	return count;
--}
--
--static ssize_t dsicm_show_ulps_timeout(struct device *dev,
--		struct device_attribute *attr,
--		char *buf)
--{
--	struct panel_drv_data *ddata = dev_get_drvdata(dev);
--	unsigned int t;
--
--	mutex_lock(&ddata->lock);
--	t = ddata->ulps_timeout;
--	mutex_unlock(&ddata->lock);
--
--	return snprintf(buf, PAGE_SIZE, "%u\n", t);
--}
--
- static DEVICE_ATTR(num_dsi_errors, S_IRUGO, dsicm_num_errors_show, NULL);
- static DEVICE_ATTR(hw_revision, S_IRUGO, dsicm_hw_revision_show, NULL);
--static DEVICE_ATTR(ulps, S_IRUGO | S_IWUSR,
--		dsicm_show_ulps, dsicm_store_ulps);
--static DEVICE_ATTR(ulps_timeout, S_IRUGO | S_IWUSR,
--		dsicm_show_ulps_timeout, dsicm_store_ulps_timeout);
- 
- static struct attribute *dsicm_attrs[] = {
- 	&dev_attr_num_dsi_errors.attr,
- 	&dev_attr_hw_revision.attr,
--	&dev_attr_ulps.attr,
--	&dev_attr_ulps_timeout.attr,
- 	NULL,
- };
- 
-@@ -618,15 +416,6 @@ static void dsicm_power_off(struct panel_drv_data *ddata)
- 	ddata->enabled = false;
- }
- 
--static int dsicm_panel_reset(struct panel_drv_data *ddata)
--{
--	dev_err(&ddata->dsi->dev, "performing LCD reset\n");
--
--	dsicm_power_off(ddata);
--	dsicm_hw_reset(ddata);
--	return dsicm_power_on(ddata);
--}
--
- static int dsicm_connect(struct omap_dss_device *src,
- 			 struct omap_dss_device *dst)
- {
-@@ -668,17 +457,12 @@ static void dsicm_enable(struct omap_dss_device *dssdev)
- static void dsicm_disable(struct omap_dss_device *dssdev)
- {
- 	struct panel_drv_data *ddata = to_panel_data(dssdev);
--	int r;
- 
- 	dsicm_bl_power(ddata, false);
- 
- 	mutex_lock(&ddata->lock);
- 
--	dsicm_cancel_ulps_work(ddata);
--
--	r = dsicm_wake_up(ddata);
--	if (!r)
--		dsicm_power_off(ddata);
-+	dsicm_power_off(ddata);
- 
+@@ -467,48 +446,6 @@ static void dsicm_disable(struct omap_dss_device *dssdev)
  	mutex_unlock(&ddata->lock);
  }
-@@ -701,10 +485,6 @@ static int dsicm_update(struct omap_dss_device *dssdev,
  
- 	mutex_lock(&ddata->lock);
- 
--	r = dsicm_wake_up(ddata);
+-static void dsicm_framedone_cb(int err, void *data)
+-{
+-	struct panel_drv_data *ddata = data;
+-
+-	dev_dbg(&ddata->dsi->dev, "framedone, err %d\n", err);
+-}
+-
+-static int dsicm_update(struct omap_dss_device *dssdev,
+-				    u16 x, u16 y, u16 w, u16 h)
+-{
+-	struct panel_drv_data *ddata = to_panel_data(dssdev);
+-	struct omap_dss_device *src = ddata->src;
+-	int r;
+-
+-	dev_dbg(&ddata->dsi->dev, "update %d, %d, %d x %d\n", x, y, w, h);
+-
+-	mutex_lock(&ddata->lock);
+-
+-	if (!ddata->enabled) {
+-		r = 0;
+-		goto err;
+-	}
+-
+-	/* XXX no need to send this every frame, but dsi break if not done */
+-	r = dsicm_set_update_window(ddata, 0, 0, ddata->vm.hactive,
+-				    ddata->vm.vactive);
 -	if (r)
 -		goto err;
 -
- 	if (!ddata->enabled) {
- 		r = 0;
- 		goto err;
-@@ -745,24 +525,6 @@ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
- 	return r;
- }
- 
--static void dsicm_ulps_work(struct work_struct *work)
--{
--	struct panel_drv_data *ddata = container_of(work, struct panel_drv_data,
--			ulps_work.work);
--	struct omap_dss_device *dssdev = &ddata->dssdev;
--
--	mutex_lock(&ddata->lock);
--
--	if (dssdev->state != OMAP_DSS_DISPLAY_ACTIVE || !ddata->enabled) {
--		mutex_unlock(&ddata->lock);
--		return;
--	}
--
--	dsicm_enter_ulps(ddata);
+-	r = src->ops->dsi.update(src, ddata->dsi->channel, dsicm_framedone_cb,
+-			ddata);
+-	if (r)
+-		goto err;
 -
 -	mutex_unlock(&ddata->lock);
+-
+-	return 0;
+-err:
+-	mutex_unlock(&ddata->lock);
+-	return r;
 -}
 -
- static int dsicm_get_modes(struct omap_dss_device *dssdev,
- 			   struct drm_connector *connector)
+ static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
  {
-@@ -860,8 +622,6 @@ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
- 	else
- 		ddata->use_dsi_backlight = true;
+ 	struct mipi_dsi_device *dsi = ddata->dsi;
+@@ -569,10 +506,6 @@ static const struct omap_dss_device_ops dsicm_ops = {
+ 	.check_timings	= dsicm_check_timings,
+ };
  
--	/* TODO: ulps */
+-static const struct omap_dss_driver dsicm_dss_driver = {
+-	.update		= dsicm_update,
+-};
 -
- 	return 0;
- }
- 
-@@ -908,13 +668,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
- 
- 	mutex_init(&ddata->lock);
- 
--	ddata->workqueue = create_singlethread_workqueue("dsicm_wq");
--	if (!ddata->workqueue) {
--		r = -ENOMEM;
--		goto err_reg;
--	}
--	INIT_DELAYED_WORK(&ddata->ulps_work, dsicm_ulps_work);
--
- 	dsicm_hw_reset(ddata);
- 
- 	if (ddata->use_dsi_backlight) {
-@@ -954,8 +707,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
- err_dsi_attach:
- 	sysfs_remove_group(&dsi->dev.kobj, &dsicm_attr_group);
- err_bl:
--	destroy_workqueue(ddata->workqueue);
--err_reg:
- 	if (ddata->extbldev)
- 		put_device(&ddata->extbldev->dev);
- 
-@@ -982,9 +733,6 @@ static int __exit dsicm_remove(struct mipi_dsi_device *dsi)
- 	if (ddata->extbldev)
- 		put_device(&ddata->extbldev->dev);
- 
--	dsicm_cancel_ulps_work(ddata);
--	destroy_workqueue(ddata->workqueue);
--
- 	/* reset, to be sure that the panel is in a valid state */
- 	dsicm_hw_reset(ddata);
- 
+ static int dsicm_probe_of(struct mipi_dsi_device *dsi)
+ {
+ 	struct device_node *node = dsi->dev.of_node;
+@@ -653,7 +586,6 @@ static int dsicm_probe(struct mipi_dsi_device *dsi)
+ 	dssdev = &ddata->dssdev;
+ 	dssdev->dev = dev;
+ 	dssdev->ops = &dsicm_ops;
+-	dssdev->driver = &dsicm_dss_driver;
+ 	dssdev->type = OMAP_DISPLAY_TYPE_DSI;
+ 	dssdev->display = true;
+ 	dssdev->owner = THIS_MODULE;
 diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index fdbc849c8944..5f120cf0fe4e 100644
+index 5f120cf0fe4e..288f92e95b6e 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -207,6 +207,8 @@ struct dsi_reg { u16 module; u16 idx; };
- typedef void (*omap_dsi_isr_t) (void *arg, u32 mask);
- struct dsi_data;
+@@ -214,6 +214,9 @@ static void dsi_display_uninit_dispc(struct dsi_data *dsi);
  
-+static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable);
+ static int dsi_vc_send_null(struct dsi_data *dsi, int channel);
+ 
++static ssize_t _omap_dsi_host_transfer(struct dsi_data *dsi,
++				       const struct mipi_dsi_msg *msg);
 +
- static int dsi_display_init_dispc(struct dsi_data *dsi);
- static void dsi_display_uninit_dispc(struct dsi_data *dsi);
+ /* DSI PLL HSDIV indices */
+ #define HSDIV_DISPC	0
+ #define HSDIV_DSI	1
+@@ -384,9 +387,6 @@ struct dsi_data {
  
-@@ -378,6 +380,9 @@ struct dsi_data {
+ 	struct delayed_work ulps_work;
  
- 	bool te_enabled;
- 	bool ulps_enabled;
-+	bool ulps_auto_idle;
-+
-+	struct delayed_work ulps_work;
+-	void (*framedone_callback)(int, void *);
+-	void *framedone_data;
+-
+ 	struct delayed_work framedone_timeout_work;
  
- 	void (*framedone_callback)(int, void *);
- 	void *framedone_data;
-@@ -3794,6 +3799,7 @@ static void dsi_handle_framedone(struct dsi_data *dsi, int error)
- 		REG_FLD_MOD(dsi, DSI_TIMING2, 1, 15, 15); /* LP_RX_TO */
- 	}
- 
-+	dsi_set_ulps_auto(dsi, true);
+ #ifdef DSI_CATCH_MISSING_TE
+@@ -3802,8 +3802,6 @@ static void dsi_handle_framedone(struct dsi_data *dsi, int error)
+ 	dsi_set_ulps_auto(dsi, true);
  	dsi_bus_unlock(dsi);
  
- 	dsi->framedone_callback(error, dsi->framedone_data);
-@@ -3856,6 +3862,7 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
- 	struct dsi_data *dsi = to_dsi_data(dssdev);
+-	dsi->framedone_callback(error, dsi->framedone_data);
+-
+ 	if (!error)
+ 		dsi_perf_show(dsi, "DISPC");
+ }
+@@ -3835,6 +3833,8 @@ static void dsi_framedone_irq_callback(void *data)
  
- 	dsi_bus_lock(dsi);
-+	dsi_set_ulps_auto(dsi, false);
+ 	cancel_delayed_work(&dsi->framedone_timeout_work);
  
- 	dsi->update_channel = channel;
- 	dsi->framedone_callback = callback;
-@@ -4124,22 +4131,6 @@ static void dsi_display_disable(struct omap_dss_device *dssdev)
- 	dsi_bus_unlock(dsi);
++	DSSDBG("Framedone received!\n");
++
+ 	dsi_handle_framedone(dsi, 0);
  }
  
--static void dsi_ulps(struct omap_dss_device *dssdev, bool enable)
--{
--	struct dsi_data *dsi = to_dsi_data(dssdev);
--
--	DSSDBG("dsi_ulps %d\n", enable);
--
--	dsi_bus_lock(dsi);
--
--	if (enable)
--		_dsi_display_disable(dsi, false, true);
--	else
--		_dsi_display_enable(dsi);
--
--	dsi_bus_unlock(dsi);
--}
--
- static int dsi_enable_te(struct dsi_data *dsi, bool enable)
- {
- 	dsi->te_enabled = enable;
-@@ -4154,6 +4145,42 @@ static int dsi_enable_te(struct dsi_data *dsi, bool enable)
+@@ -3856,17 +3856,69 @@ static int _dsi_update(struct dsi_data *dsi)
  	return 0;
  }
  
-+static void omap_dsi_ulps_work_callback(struct work_struct *work)
+-static int dsi_update(struct omap_dss_device *dssdev, int channel,
+-		void (*callback)(int, void *), void *data)
++static int _dsi_update_window(struct dsi_data *dsi, int channel,
++			      int x, int y, int w, int h)
 +{
-+	struct dsi_data *dsi = container_of(work, struct dsi_data,
-+					    ulps_work.work);
++	int x1 = x, x2 = (x + w - 1);
++	int y1 = y, y2 = (y + h - 1);
++	u8 payloadX[5] = { MIPI_DCS_SET_COLUMN_ADDRESS,
++			   x1 >> 8, x1 & 0xff, x2 >> 8, x2 & 0xff };
++	u8 payloadY[5] = { MIPI_DCS_SET_PAGE_ADDRESS,
++			   y1 >> 8, y1 & 0xff, y2 >> 8, y2 & 0xff };
++	struct mipi_dsi_msg msgX = { 0 }, msgY = { 0 };
++	int ret;
 +
-+	dsi_bus_lock(dsi);
-+
-+	dsi_enable_te(dsi, false);
-+
-+	_dsi_display_disable(dsi, false, true);
-+
-+	dsi_bus_unlock(dsi);
-+}
-+
-+static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable)
-+{
 +	WARN_ON(!dsi_bus_is_locked(dsi));
 +
-+	if (!dsi->ulps_auto_idle)
-+		return;
++	msgX.type = MIPI_DSI_DCS_LONG_WRITE;
++	msgX.channel = channel;
++	msgX.tx_buf = payloadX;
++	msgX.tx_len = sizeof(payloadX);
 +
-+	if (enable) {
-+		schedule_delayed_work(&dsi->ulps_work, msecs_to_jiffies(250));
-+	} else {
-+		cancel_delayed_work_sync(&dsi->ulps_work);
++	msgY.type = MIPI_DSI_DCS_LONG_WRITE;
++	msgY.channel = channel;
++	msgY.tx_buf = payloadY;
++	msgY.tx_len = sizeof(payloadY);
 +
-+		if (!dsi->ulps_enabled)
-+			return;
++	ret = _omap_dsi_host_transfer(dsi, &msgX);
++	if (ret != 0)
++		return ret;
 +
-+		dsi_bus_lock(dsi);
-+		_dsi_display_enable(dsi);
-+		dsi_enable_te(dsi, true);
-+		dsi_bus_unlock(dsi);
-+	}
++	return _omap_dsi_host_transfer(dsi, &msgY);
 +}
 +
- #ifdef PRINT_VERBOSE_VM_TIMINGS
- static void print_dsi_vm(const char *str,
- 		const struct omap_dss_dsi_videomode_timings *t)
-@@ -4804,7 +4831,9 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
- 	int r;
++static int dsi_update_channel(struct omap_dss_device *dssdev, int channel)
+ {
+ 	struct dsi_data *dsi = to_dsi_data(dssdev);
++	int r;
++
++	if (channel > 3)
++		return -EINVAL;
  
  	dsi_bus_lock(dsi);
-+	dsi_set_ulps_auto(dsi, false);
- 	r = _omap_dsi_host_transfer(dsi, msg);
-+	dsi_set_ulps_auto(dsi, true);
- 	dsi_bus_unlock(dsi);
- 
- 	return r;
-@@ -4844,8 +4873,6 @@ static const struct omap_dss_device_ops dsi_ops = {
- 	.disable = dsi_display_disable,
- 
- 	.dsi = {
--		.ulps = dsi_ulps,
--
- 		.set_config = dsi_set_config,
- 
- 		.enable_video_output = dsi_enable_video_output,
-@@ -4974,6 +5001,14 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
- 	dsi->vc[channel].dest = client;
- 	dsi->pix_fmt = client->format;
- 
-+	INIT_DEFERRABLE_WORK(&dsi->ulps_work,
-+			     omap_dsi_ulps_work_callback);
 +
-+	dsi_bus_lock(dsi);
-+	dsi->ulps_auto_idle = false;
++	if (!dsi->vc[channel].dest) {
++		r = -ENODEV;
++		goto err;
++	}
++
++	if (dsi->vm.hactive == 0 || dsi->vm.vactive == 0) {
++		r = -EINVAL;
++		goto err;
++	}
++
++	DSSDBG("dsi_update_channel: %d", channel);
++
+ 	dsi_set_ulps_auto(dsi, false);
+ 
++	r = _dsi_update_window(dsi, channel, 0, 0, dsi->vm.hactive,
++			       dsi->vm.vactive);
++	if (r < 0) {
++		DSSWARN("window update error: %d\n", r);
++		goto err;
++	}
++
+ 	dsi->update_channel = channel;
+-	dsi->framedone_callback = callback;
+-	dsi->framedone_data = data;
+ 
+ 	if (dsi->te_enabled && dsi->te_gpio) {
+ 		schedule_delayed_work(&dsi->te_timeout_work,
+@@ -3877,6 +3929,25 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
+ 	}
+ 
+ 	return 0;
++
++err:
 +	dsi_set_ulps_auto(dsi, true);
 +	dsi_bus_unlock(dsi);
++	return r;
++}
 +
- 	return 0;
++static int dsi_update_all(struct omap_dss_device *dssdev)
++{
++	unsigned int i;
++	int r;
++
++	for (i = 0; i < 4; i++) {
++		r = dsi_update_channel(dssdev, i);
++		if (r && r != -ENODEV)
++			return r;
++	}
++
++	return r;
  }
  
+ /* Display funcs */
+@@ -4878,7 +4949,7 @@ static const struct omap_dss_device_ops dsi_ops = {
+ 		.enable_video_output = dsi_enable_video_output,
+ 		.disable_video_output = dsi_disable_video_output,
+ 
+-		.update = dsi_update,
++		.update = dsi_update_all,
+ 	},
+ };
+ 
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 0d82ba34ca89..524cb87cd9ea 100644
+index 524cb87cd9ea..de4c779c358a 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -282,8 +282,6 @@ struct omap_dss_writeback_info {
+@@ -281,13 +281,12 @@ struct omap_dss_writeback_info {
+ };
  
  struct omapdss_dsi_ops {
- 	/* bus configuration */
--	void (*ulps)(struct omap_dss_device *dssdev, bool enable);
--
+-	/* bus configuration */
++	int (*update)(struct omap_dss_device *dssdev);
++
++	/* legacy API used by omapdss panels */
  	int (*set_config)(struct omap_dss_device *dssdev,
  			const struct omap_dss_dsi_config *cfg);
  
+-	int (*update)(struct omap_dss_device *dssdev, int channel,
+-			void (*callback)(int, void *), void *data);
+-
+ 	int (*enable_video_output)(struct omap_dss_device *dssdev, int channel);
+ 	void (*disable_video_output)(struct omap_dss_device *dssdev,
+ 			int channel);
+@@ -351,7 +350,6 @@ struct omap_dss_device {
+ 
+ 	const char *name;
+ 
+-	const struct omap_dss_driver *driver;
+ 	const struct omap_dss_device_ops *ops;
+ 	unsigned long ops_flags;
+ 	u32 bus_flags;
+@@ -372,11 +370,6 @@ struct omap_dss_device {
+ 	unsigned int of_port;
+ };
+ 
+-struct omap_dss_driver {
+-	int (*update)(struct omap_dss_device *dssdev,
+-			       u16 x, u16 y, u16 w, u16 h);
+-};
+-
+ struct dss_device *omapdss_get_dss(void);
+ void omapdss_set_dss(struct dss_device *dss);
+ static inline bool omapdss_is_initialized(void)
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index dac9ccda98df..3068e4fffa16 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -362,10 +362,8 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
+ {
+ 	struct omap_crtc *omap_crtc =
+ 			container_of(data, struct omap_crtc, update_work.work);
+-	struct drm_display_mode *mode = &omap_crtc->pipe->crtc->mode;
+-	struct omap_dss_device *dssdev = omap_crtc->pipe->output->next;
++	struct omap_dss_device *dssdev = omap_crtc->pipe->output;
+ 	struct drm_device *dev = omap_crtc->base.dev;
+-	const struct omap_dss_driver *dssdrv;
+ 	int ret;
+ 
+ 	if (!dssdev) {
+@@ -373,13 +371,12 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
+ 		return;
+ 	}
+ 
+-	dssdrv = dssdev->driver;
+-	if (!dssdrv || !dssdrv->update) {
+-		dev_err_once(dev->dev, "missing or incorrect dssdrv!");
++	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI || !dssdev->ops->dsi.update) {
++		dev_err_once(dev->dev, "no DSI update callback found!");
+ 		return;
+ 	}
+ 
+-	ret = dssdrv->update(dssdev, 0, 0, mode->hdisplay, mode->vdisplay);
++	ret = dssdev->ops->dsi.update(dssdev);
+ 	if (ret < 0) {
+ 		spin_lock_irq(&dev->event_lock);
+ 		omap_crtc->pending = false;
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
