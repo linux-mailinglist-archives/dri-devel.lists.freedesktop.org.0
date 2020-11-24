@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454612C3AA5
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:13:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 116442C3AA3
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0916E863;
-	Wed, 25 Nov 2020 08:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B34A6E857;
+	Wed, 25 Nov 2020 08:12:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2AC6E4FF
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 18:33:49 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id d5so7791913qtn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 10:33:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=odsbBeKSImj9d1Vv8raolHLvpmJrGUmkgBM9p8FNK3Q=;
- b=eLNZNZCQTAwNvP7xEmrTUCN5f1NDlDsjafaUM/HJUMB6EjXbHZ+bA1SNfHOcw83nD9
- ydyiFsplhGd8UN+pgnqim7lF0p6YxMhutezg55zTYcmVER4aXpTDApV0zsQ06T62pwwC
- hyOIl3cegy4mKfbIKMa2SC/5g0HeRUiqVO6On6jHP9EZbAckGKCaOkpFDqnlppjuTG/O
- BD0sdqpHptRUeecGpLSB5G9gJb+nJ2yztm/Fhf54ou5nz3bGH7T5x0JsVFWhA8hnUaLg
- dtbDcbcj+b6AjiblM4cU3e10jV6xM6azX/DlLqbgQ7e+dSro0Q0rlmHosPjSIVASBhXs
- K/pw==
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
+ [IPv6:2607:f8b0:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF2D36E506
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 18:57:45 +0000 (UTC)
+Received: by mail-oi1-x244.google.com with SMTP id h3so1378259oie.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 10:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YQvA+gzyOlwcrQTYLcbh+JVhQ8vrnP0glY0CX55ovyw=;
+ b=hoV9a0tru1XrM0PN94vfdrkGnGpCNWNEwo/32YusI1pTbAei+ybZdAf/eGFMo6toKh
+ 3Haebkuw9HUQ0bZb6CEo++QF+NCGOT9M3mw3ndGCPpFbUdNaGsmni6ltPI0e183aAilg
+ eUkCczMYH9u5/X6dLxzgo42js9o7y+c3SBnM4sOB6Y7fcnVWpQo78LVrzFqvXEAIF9Qp
+ cWrFXqlv+3DDq8NPAIcs8ghau3qujNzeJK4o4iKuZjJ33uQK33/x/r9JD0Spykdn2btX
+ r9+m/V85XrM15M8z1ZVsYb/DmekctbtqsFr6F6Ndr/6h8XCvPkyRw0iQe7kPXzXleicY
+ pRUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=odsbBeKSImj9d1Vv8raolHLvpmJrGUmkgBM9p8FNK3Q=;
- b=Sjr8Vqaw0YkR2CdeUExSCsBOOoRIt4QD/TQOW8f+6aUxkRcpkKRdQhMuvX8DOEymp5
- LeuS3SXXlbQeVAJF0rqR+FyqoCzVJpXBWasmLx2+kLnZxokLZN8KQtdF4pca915dklHG
- IyV3coyyaeTvq991Xk3AQShLIBFXNUmvvdH3sJXPkCpIuuz8bD/eIDGrmEqwZ/6NfPf/
- RhPyvwNbyUvJeOHODTZ6fnkVW/HKp0LbI15tkLfijZZwXvdshqjgMcvYSwHu2GQYj3jD
- z/IquUru52/qVAJID9ejNbwLi9WdKpIWGYA+qIB9tp7u8Ddt9l6Eqjwg1+BJ9tA2Kcyi
- nYtQ==
-X-Gm-Message-State: AOAM531JMWPBAMPNGe5VkoloUSFOrqzpG2t2oTVpKbsrFsrMVCPdhCRH
- WG9hSHcVND0hDRrJl8vhEtutuw==
-X-Google-Smtp-Source: ABdhPJzRkSGH4VGPVgluncPI5g1/7rvX0PdC+isyGXnvguOnIEpGZFiUrpVdGdfAGhO/9EaeK4vWEQ==
-X-Received: by 2002:ac8:34ea:: with SMTP id x39mr5691723qtb.26.1606242828227; 
- Tue, 24 Nov 2020 10:33:48 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id i9sm13437558qtp.72.2020.11.24.10.33.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YQvA+gzyOlwcrQTYLcbh+JVhQ8vrnP0glY0CX55ovyw=;
+ b=KYOG/MJoS3kz3e5lKnnlGYWU+RqTpNvmzUW9r7gmtMbUjY0qZTiuiNlJ5/Z1P46sNH
+ cRnqBz4ISpFqLhZkpIheuIt4VFAkDIu4TB28TIqk0pZuStHQ818ZNRIkk1ZUDcEh9rNE
+ 9eYeWRjLzdV40jJEewWl6I0Q8qB6nP6aljCv5LKhDOi795nMi3GlwHyL1rNpOV+ZoZo/
+ h9ATi+aE/k2iVR8JqHy7Me56R6xiD3m1v37q1cChd42OJwCAnOefxn5H9z69y7Gd8EkT
+ X1V+Dl3cWe5IOfeJBqGrKII8zj/oAWFIDYTbUIo2fgEIoFlDalmvaMRjoWbtHslEOWyE
+ WWSA==
+X-Gm-Message-State: AOAM531tJNGP4tFwrp+/jZJncAFppvBYI+5BpQWS+z2GrTeTMutYP3R6
+ SYE5aV90ewK241/HwRpvH6AYPQ==
+X-Google-Smtp-Source: ABdhPJyVCPwvTVWKEZBheVICFsAHDUw6QNEFpvQcHI9TbAmeovDh3KxOSb484UpKebcMuFh4bxvkAw==
+X-Received: by 2002:aca:4a51:: with SMTP id x78mr2449oia.86.1606244265287;
+ Tue, 24 Nov 2020 10:57:45 -0800 (PST)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id k20sm9079930ots.53.2020.11.24.10.57.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 10:33:47 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1khd8M-000tkv-TT; Tue, 24 Nov 2020 14:33:46 -0400
-Date: Tue, 24 Nov 2020 14:33:46 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v11 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Message-ID: <20201124183346.GK5487@ziepe.ca>
-References: <1606153919-104513-1-git-send-email-jianxin.xiong@intel.com>
- <1606153919-104513-2-git-send-email-jianxin.xiong@intel.com>
- <20201124093352.GB29715@infradead.org>
- <MW3PR11MB4555410B8487CA3B6627E463E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ Tue, 24 Nov 2020 10:57:44 -0800 (PST)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Akash Asthana <akashast@codeaurora.org>,
+ Mukesh Savaliya <msavaliy@codeaurora.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wolfram Sang <wsa@kernel.org>, Steev Klimaszewski <steev@kali.org>,
+ Shawn Guo <shawn.guo@linaro.org>
+Subject: [PATCH] Revert "i2c: qcom-geni: Disable DMA processing on the Lenovo
+ Yoga C630"
+Date: Tue, 24 Nov 2020 12:57:43 -0600
+Message-Id: <20201124185743.401946-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <MW3PR11MB4555410B8487CA3B6627E463E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Wed, 25 Nov 2020 08:11:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,52 +74,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>,
- Christoph Hellwig <hch@infradead.org>, Doug Ledford <dledford@redhat.com>,
- "Vetter, Daniel" <daniel.vetter@intel.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 24, 2020 at 06:24:43PM +0000, Xiong, Jianxin wrote:
-> > From: Christoph Hellwig <hch@infradead.org>
-> > Sent: Tuesday, November 24, 2020 1:34 AM
-> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Jason Gunthorpe <jgg@ziepe.ca>;
-> > Leon Romanovsky <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter,
-> > Daniel <daniel.vetter@intel.com>
-> > Subject: Re: [PATCH v11 1/4] RDMA/umem: Support importing dma-buf as user memory region
-> > 
-> > As these are mostly trivial wrappers around the EXPORT_SYMBOL_GPL dmabuf exports please stick to that export style.
-> > 
-> > > +++ b/drivers/infiniband/core/umem_dmabuf.h
-> > > @@ -0,0 +1,11 @@
-> > > +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause) */
-> > > +/*
-> > > + * Copyright (c) 2020 Intel Corporation. All rights reserved.
-> > > + */
-> > > +
-> > > +#ifndef UMEM_DMABUF_H
-> > > +#define UMEM_DMABUF_H
-> > > +
-> > > +void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf);
-> > > +
-> > > +#endif /* UMEM_DMABUF_H */
-> > 
-> > Does this really need a separate header?
-> 
-> The symbol doesn't need to be exported otherwise it can be put into "ib_umem.h".
-> Although the prototype could be put into the file where it is called directly, using a
-> separate header file provides a cleaner interface.
+A combination of recent bug fixes by Doug Anderson and the proper
+definition of iommu streams means that this hack is no longer needed.
+Let's clean up the code by reverting '127068abe85b ("i2c: qcom-geni:
+Disable DMA processing on the Lenovo Yoga C630")'.
 
-It is fine to put this single symbol in ib_umem.h
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/i2c/busses/i2c-qcom-geni.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-Thanks
-Jason
+diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
+index dce75b85253c..046d241183c5 100644
+--- a/drivers/i2c/busses/i2c-qcom-geni.c
++++ b/drivers/i2c/busses/i2c-qcom-geni.c
+@@ -353,13 +353,11 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ {
+ 	dma_addr_t rx_dma;
+ 	unsigned long time_left;
+-	void *dma_buf = NULL;
++	void *dma_buf;
+ 	struct geni_se *se = &gi2c->se;
+ 	size_t len = msg->len;
+ 
+-	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+-		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+-
++	dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+ 	if (dma_buf)
+ 		geni_se_select_mode(se, GENI_SE_DMA);
+ 	else
+@@ -394,13 +392,11 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
+ {
+ 	dma_addr_t tx_dma;
+ 	unsigned long time_left;
+-	void *dma_buf = NULL;
++	void *dma_buf;
+ 	struct geni_se *se = &gi2c->se;
+ 	size_t len = msg->len;
+ 
+-	if (!of_machine_is_compatible("lenovo,yoga-c630"))
+-		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+-
++	dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
+ 	if (dma_buf)
+ 		geni_se_select_mode(se, GENI_SE_DMA);
+ 	else
+-- 
+2.29.2
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
