@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1782C3065
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 20:03:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE0B2C308E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 20:16:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0F06E51A;
-	Tue, 24 Nov 2020 19:03:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2B296E523;
+	Tue, 24 Nov 2020 19:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C70116E51A;
- Tue, 24 Nov 2020 19:03:53 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id z7so7622887wrn.3;
- Tue, 24 Nov 2020 11:03:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Kf8N/OmqZHAolew6L+ymXRNdjbnvIjwkoc3J3zrIO6o=;
- b=e4XPfFafIyuCJA3/oM5IEkO0sIKvTxq5TB/vBw5VApjZmswLIR+ss8JeVCBQc3S0YB
- utaTXD2KgvRBJSQYloFRQA3bwyim1R63U6DlE/t1zLaFkVf6C4xghKml39Z5tUdk8KE0
- FOyMsVp/6YNj0a+F4KKDzno65iOfoowVa0154Sled8pW+rU69gDbIGFGIs379KCmm2Bn
- ZxHpjoYkCCIPHBCgz4Q2ODoHHTiIRw2fRYAmW7CNSCRm8Dk2TSpWbBjoFGOb5k2sn5Wb
- xzKdxqm90TYqRiKn+hjfi33FMMy2DdVYzrfu8Tg/n3hBDZ3JwSpF8wCnmejQd5TfPZa2
- 1Tww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Kf8N/OmqZHAolew6L+ymXRNdjbnvIjwkoc3J3zrIO6o=;
- b=JhsdsSwOmw8GSyQt/DO7FokPKernJe9ZG7ncdSSeMte4xmHh77BfS+toktWpIGiVIt
- o+Em01UXnuCDIRMz8yokccFDQuF8F1Sz4IGbIzK4qP4tWtf4XLU06ClnIQRgScJpFcIT
- 6Pi2PF6QxAcBGu9NfYT2mDbt1E2hSjxou10JrbKm9AuderjTPEdMxn7Cgsl7eCbeCgEF
- Uv/t3VUDgLGWstZA9RT8XJ3bF6s+SdlVBG1DT4sTc0y/KFLttuvPtGoaQrQGlt8I9Ekq
- qrGSL6hbG6HWGZaZlwk7izRYdbmabMWHRJVzsLoBSUh+CaVFzDYTzaYFB7IxFwkGtwAe
- u76A==
-X-Gm-Message-State: AOAM531by1Dv8mXo+FNdTqAW+xkRq6MXaKbiFAseV2ojg9nJ5C40QAHQ
- +iPJM31E/JZkb09s05ExCxL/sGG4DdIs/Nb79nM=
-X-Google-Smtp-Source: ABdhPJwW1Dno1QctDapnpNYSFC4x+KGmIfQzh+3Rg5OpwpAmPAHWb0eqXoADDsWEL4IzwAxlcJmhREL9yr7VY0C/XTc=
-X-Received: by 2002:adf:f6c7:: with SMTP id y7mr6621316wrp.147.1606244632292; 
- Tue, 24 Nov 2020 11:03:52 -0800 (PST)
+Received: from m42-4.mailgun.net (m42-4.mailgun.net [69.72.42.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18BA16E523
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 19:16:10 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1606245371; h=Content-Transfer-Encoding: MIME-Version:
+ Message-Id: Date: Subject: Cc: To: From: Sender;
+ bh=5buuSHSoW4H28tI/ERKmRVeWEk8S64oetvKCFJleVEE=;
+ b=HIY6XK7y1VnrvjBAYh/H20FW1bqQYylVNU7rCd/xWZNmu1ebCNJJ3p3MA+9DLz2I78BGf3tJ
+ omLpg6EdVmPXrFw7sj0OlfEMutRDW6wxxaRlqFY8rFWfQtuwjBC9sGDwgoY9eQ6BFdz6v905
+ PCu2amjmy+gnmtSvMoNozjZMIhQ=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5fbd5bf8a5a29b56a15c7f81 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 24 Nov 2020 19:16:08
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 95331C43470; Tue, 24 Nov 2020 19:16:08 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from jordan-laptop.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: jcrouse)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5FE67C433ED;
+ Tue, 24 Nov 2020 19:16:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5FE67C433ED
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=jcrouse@codeaurora.org
+From: Jordan Crouse <jcrouse@codeaurora.org>
+To: linux-arm-msm@vger.kernel.org
+Subject: [PATCH v2 0/3] iommu/arm-smmu: adreno-smmu page fault handling
+Date: Tue, 24 Nov 2020 12:15:57 -0700
+Message-Id: <20201124191600.2051751-1-jcrouse@codeaurora.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <cover.1605621785.git.saiprakash.ranjan@codeaurora.org>
- <20201123152146.GE11033@willie-the-truck>
- <50b68f2bdf9413b896fbe816ba4ddbc9@codeaurora.org>
- <CAF6AEGse=WBAC1WbTi6aD5_m1_NBg91f=veYm-7V=Uds7NA0Lw@mail.gmail.com>
- <1c665e33d1d27263fb5056c16d30b827@codeaurora.org>
- <20201124111027.GA13151@willie-the-truck>
-In-Reply-To: <20201124111027.GA13151@willie-the-truck>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 24 Nov 2020 11:05:39 -0800
-Message-ID: <CAF6AEGuZ2YbY=ATFBX1KJw=LwhcpH8n+zzxckTHPwwopi6mOqw@mail.gmail.com>
-Subject: Re: [PATCHv8 0/8] System Cache support for GPU and required SMMU
- support
-To: Will Deacon <will@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,84 +65,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "list@263.net:IOMMU DRIVERS , Joerg Roedel <joro@8bytes.org>,
- " <iommu@lists.linux-foundation.org>,
- "Kristian H . Kristensen" <hoegsberg@google.com>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>
+Cc: David Airlie <airlied@linux.ie>, Akhil P Oommen <akhilpo@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Will Deacon <will@kernel.org>, Emil Velikov <emil.velikov@collabora.com>,
+ Rob Clark <robdclark@chromium.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Joerg Roedel <joro@8bytes.org>,
+ iommu@lists.linux-foundation.org, freedreno@lists.freedesktop.org,
+ Sharat Masetty <smasetty@codeaurora.org>, Krishna Reddy <vdumpa@nvidia.com>,
+ Sean Paul <sean@poorly.run>, linux-arm-kernel@lists.infradead.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Robin Murphy <robin.murphy@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 24, 2020 at 3:10 AM Will Deacon <will@kernel.org> wrote:
->
-> On Tue, Nov 24, 2020 at 09:32:54AM +0530, Sai Prakash Ranjan wrote:
-> > On 2020-11-24 00:52, Rob Clark wrote:
-> > > On Mon, Nov 23, 2020 at 9:01 AM Sai Prakash Ranjan
-> > > <saiprakash.ranjan@codeaurora.org> wrote:
-> > > >
-> > > > On 2020-11-23 20:51, Will Deacon wrote:
-> > > > > On Tue, Nov 17, 2020 at 08:00:39PM +0530, Sai Prakash Ranjan wrote:
-> > > > >> Some hardware variants contain a system cache or the last level
-> > > > >> cache(llc). This cache is typically a large block which is shared
-> > > > >> by multiple clients on the SOC. GPU uses the system cache to cache
-> > > > >> both the GPU data buffers(like textures) as well the SMMU pagetables.
-> > > > >> This helps with improved render performance as well as lower power
-> > > > >> consumption by reducing the bus traffic to the system memory.
-> > > > >>
-> > > > >> The system cache architecture allows the cache to be split into slices
-> > > > >> which then be used by multiple SOC clients. This patch series is an
-> > > > >> effort to enable and use two of those slices preallocated for the GPU,
-> > > > >> one for the GPU data buffers and another for the GPU SMMU hardware
-> > > > >> pagetables.
-> > > > >>
-> > > > >> Patch 1 - Patch 6 adds system cache support in SMMU and GPU driver.
-> > > > >> Patch 7 and 8 are minor cleanups for arm-smmu impl.
-> > > > >>
-> > > > >> Changes in v8:
-> > > > >>  * Introduce a generic domain attribute for pagetable config (Will)
-> > > > >>  * Rename quirk to more generic IO_PGTABLE_QUIRK_ARM_OUTER_WBWA (Will)
-> > > > >>  * Move non-strict mode to use new struct domain_attr_io_pgtbl_config
-> > > > >> (Will)
-> > > > >
-> > > > > Modulo some minor comments I've made, this looks good to me. What is
-> > > > > the
-> > > > > plan for merging it? I can take the IOMMU parts, but patches 4-6 touch
-> > > > > the
-> > > > > MSM GPU driver and I'd like to avoid conflicts with that.
-> > > > >
-> > > >
-> > > > SMMU bits are pretty much independent and GPU relies on the domain
-> > > > attribute
-> > > > and the quirk exposed, so as long as SMMU changes go in first it
-> > > > should
-> > > > be good.
-> > > > Rob?
-> > >
-> > > I suppose one option would be to split out the patch that adds the
-> > > attribute into it's own patch, and merge that both thru drm and iommu?
-> > >
-> >
-> > Ok I can split out domain attr and quirk into its own patch if Will is
-> > fine with that approach.
->
-> Why don't I just queue the first two patches on their own branch and we
-> both pull that?
+This is a stack to add an Adreno GPU specific handler for pagefaults. The first
+patch starts by wiring up report_iommu_fault for arm-smmu. The next patch adds
+a adreno-smmu-priv function hook to capture a handful of important debugging
+registers such as TTBR0, CONTEXTIDR, FSYNR0 and others. This is used by the
+third patch to print more detailed information on page fault such as the TTBR0
+for the pagetable that caused the fault and the source of the fault as
+determined by a combination of the FSYNR1 register and an internal GPU
+register.
 
-Ok, that works for me.  I normally base msm-next on -rc1 but I guess
-as long as we base the branch on the older or our two -next branches,
-that should work out nicely
+This code provides a solid base that we can expand on later for even more
+extensive GPU side page fault debugging capabilities.
 
-BR,
--R
+v2: Fix comment wording and function pointer check per Rob Clark
+
+Jordan Crouse (3):
+  iommu/arm-smmu: Add support for driver IOMMU fault handlers
+  drm/msm: Add an adreno-smmu-priv callback to get pagefault info
+  drm/msm: Improve the a6xx page fault handler
+
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 76 +++++++++++++++++++++-
+ drivers/gpu/drm/msm/msm_iommu.c            | 11 +++-
+ drivers/gpu/drm/msm/msm_mmu.h              |  4 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c | 19 ++++++
+ drivers/iommu/arm/arm-smmu/arm-smmu.c      | 16 ++++-
+ drivers/iommu/arm/arm-smmu/arm-smmu.h      |  2 +
+ include/linux/adreno-smmu-priv.h           | 31 ++++++++-
+ 8 files changed, 151 insertions(+), 12 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
