@@ -2,65 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 116442C3AA3
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 402022C3A93
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:12:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B34A6E857;
-	Wed, 25 Nov 2020 08:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5416E84C;
+	Wed, 25 Nov 2020 08:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF2D36E506
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 18:57:45 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id h3so1378259oie.8
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 10:57:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YQvA+gzyOlwcrQTYLcbh+JVhQ8vrnP0glY0CX55ovyw=;
- b=hoV9a0tru1XrM0PN94vfdrkGnGpCNWNEwo/32YusI1pTbAei+ybZdAf/eGFMo6toKh
- 3Haebkuw9HUQ0bZb6CEo++QF+NCGOT9M3mw3ndGCPpFbUdNaGsmni6ltPI0e183aAilg
- eUkCczMYH9u5/X6dLxzgo42js9o7y+c3SBnM4sOB6Y7fcnVWpQo78LVrzFqvXEAIF9Qp
- cWrFXqlv+3DDq8NPAIcs8ghau3qujNzeJK4o4iKuZjJ33uQK33/x/r9JD0Spykdn2btX
- r9+m/V85XrM15M8z1ZVsYb/DmekctbtqsFr6F6Ndr/6h8XCvPkyRw0iQe7kPXzXleicY
- pRUA==
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E626C89733
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 21:05:14 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id p8so23762459wrx.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 13:05:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1YhGAyXK8n6pepeYvYtwgBpWdzXPSJrHj4IsMey64hg=;
+ b=UeZdTl51xak6P/TMw3T5lS6KBp+eup2WttsiEHBqGcrB5Bbq1feDNVXX0lCqQVKsju
+ P9MN5E5K8xmx/2PG0XBjeJcFYKn0Rk/eH+PYznDegPZLLvD0+d00DT4zlyzbkXjGhEST
+ e6mNTY84i6D1ic8OYoo00j2Ygn+eBcnerG8LDVK+33fj6fFlBdycPLAvKd3TkRtYC0CW
+ M6OyizSGgIPPlkM4tQEKrGF3yKBz0p6CuCuLCKkkPiwf59vNMRgWwkuMNGdNBhXJA0HD
+ srl3fAstlt/zgspguRSm0C3ZSpm/Wd6bXqi4m8REP7bJPW/uf4Xd2NClOnDBvWKrQXJv
+ OYJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YQvA+gzyOlwcrQTYLcbh+JVhQ8vrnP0glY0CX55ovyw=;
- b=KYOG/MJoS3kz3e5lKnnlGYWU+RqTpNvmzUW9r7gmtMbUjY0qZTiuiNlJ5/Z1P46sNH
- cRnqBz4ISpFqLhZkpIheuIt4VFAkDIu4TB28TIqk0pZuStHQ818ZNRIkk1ZUDcEh9rNE
- 9eYeWRjLzdV40jJEewWl6I0Q8qB6nP6aljCv5LKhDOi795nMi3GlwHyL1rNpOV+ZoZo/
- h9ATi+aE/k2iVR8JqHy7Me56R6xiD3m1v37q1cChd42OJwCAnOefxn5H9z69y7Gd8EkT
- X1V+Dl3cWe5IOfeJBqGrKII8zj/oAWFIDYTbUIo2fgEIoFlDalmvaMRjoWbtHslEOWyE
- WWSA==
-X-Gm-Message-State: AOAM531tJNGP4tFwrp+/jZJncAFppvBYI+5BpQWS+z2GrTeTMutYP3R6
- SYE5aV90ewK241/HwRpvH6AYPQ==
-X-Google-Smtp-Source: ABdhPJyVCPwvTVWKEZBheVICFsAHDUw6QNEFpvQcHI9TbAmeovDh3KxOSb484UpKebcMuFh4bxvkAw==
-X-Received: by 2002:aca:4a51:: with SMTP id x78mr2449oia.86.1606244265287;
- Tue, 24 Nov 2020 10:57:45 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id k20sm9079930ots.53.2020.11.24.10.57.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Nov 2020 10:57:44 -0800 (PST)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Akash Asthana <akashast@codeaurora.org>,
- Mukesh Savaliya <msavaliy@codeaurora.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Wolfram Sang <wsa@kernel.org>, Steev Klimaszewski <steev@kali.org>,
- Shawn Guo <shawn.guo@linaro.org>
-Subject: [PATCH] Revert "i2c: qcom-geni: Disable DMA processing on the Lenovo
- Yoga C630"
-Date: Tue, 24 Nov 2020 12:57:43 -0600
-Message-Id: <20201124185743.401946-1-bjorn.andersson@linaro.org>
-X-Mailer: git-send-email 2.29.2
+ bh=1YhGAyXK8n6pepeYvYtwgBpWdzXPSJrHj4IsMey64hg=;
+ b=tLCm/via4saGFHL7tLreNntrqVCFllOmC2/b9baB9ZZq47gjzNeBGgdUrIkZSYrFMl
+ FqYzKPlKgV6IFg0mCHrJIJl+DOcTUV5WZ/dhyl2WMFLVyQ3Maad5InBpUPs1ax4ZZHtD
+ BwKW4XNxclZyOWOSrTnTHxNIrdqlPyYhRbgS9u1+kQwu0hfhwefMAmcZb4J/F00pWzqh
+ NiQk7Yw7LaK74V9Cm8eUSOUy1tVAiup+gU0TrMhRefJmfOwEtAPiAU3BheHqhZjqVN4E
+ Sq/BwzqM6jGzr6ykPno7ajM09rsbH562qadtC0Ari2eSeOkwlQ17Lnkh9sX/f9ZTTwP7
+ Ti8Q==
+X-Gm-Message-State: AOAM531hSDnM/xLDPnA2t9VMmOWFTKwoW4wWfP3WVkuNxSRb9/v3ZldK
+ TWuMx8QeYQqxe1tItpmXvq0=
+X-Google-Smtp-Source: ABdhPJx1x1i3xswJqCRetOxjNmPdoHsnpHs5HNS6ZfGjM/dUJEoXH+FbCy/7Rww/fxtoadl/lb02qQ==
+X-Received: by 2002:adf:f349:: with SMTP id e9mr421186wrp.110.1606251913618;
+ Tue, 24 Nov 2020 13:05:13 -0800 (PST)
+Received: from [192.168.1.10] ([46.249.74.23])
+ by smtp.googlemail.com with ESMTPSA id g11sm204083wrq.7.2020.11.24.13.05.12
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 24 Nov 2020 13:05:12 -0800 (PST)
+Subject: Re: [REGRESSION] omapdrm/N900 display broken
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>
+References: <20200728181412.GA49617@darkstar.musicnaut.iki.fi>
+ <660b2fe1-343d-b83e-11d2-5a5eb530b83f@ti.com>
+ <448c1441-2cac-44ef-95ef-bb28b512297b@ti.com>
+ <20200823162625.GC4313@darkstar.musicnaut.iki.fi>
+ <ac42f7f9-2ac2-246e-69c1-3d56cea7e59b@ti.com>
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <5072a25d-e885-cdd2-978d-70942406c272@gmail.com>
+Date: Tue, 24 Nov 2020 23:03:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <ac42f7f9-2ac2-246e-69c1-3d56cea7e59b@ti.com>
+Content-Language: en-GB
 X-Mailman-Approved-At: Wed, 25 Nov 2020 08:11:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,64 +77,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A combination of recent bug fixes by Doug Anderson and the proper
-definition of iommu streams means that this hack is no longer needed.
-Let's clean up the code by reverting '127068abe85b ("i2c: qcom-geni:
-Disable DMA processing on the Lenovo Yoga C630")'.
-
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/i2c/busses/i2c-qcom-geni.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index dce75b85253c..046d241183c5 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -353,13 +353,11 @@ static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- {
- 	dma_addr_t rx_dma;
- 	unsigned long time_left;
--	void *dma_buf = NULL;
-+	void *dma_buf;
- 	struct geni_se *se = &gi2c->se;
- 	size_t len = msg->len;
- 
--	if (!of_machine_is_compatible("lenovo,yoga-c630"))
--		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
--
-+	dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
- 	if (dma_buf)
- 		geni_se_select_mode(se, GENI_SE_DMA);
- 	else
-@@ -394,13 +392,11 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- {
- 	dma_addr_t tx_dma;
- 	unsigned long time_left;
--	void *dma_buf = NULL;
-+	void *dma_buf;
- 	struct geni_se *se = &gi2c->se;
- 	size_t len = msg->len;
- 
--	if (!of_machine_is_compatible("lenovo,yoga-c630"))
--		dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
--
-+	dma_buf = i2c_get_dma_safe_msg_buf(msg, 32);
- 	if (dma_buf)
- 		geni_se_select_mode(se, GENI_SE_DMA);
- 	else
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksCgpPbiAyNS4wOC4yMCDQsy4gMTY6MTYg0YcuLCBUb21pIFZhbGtlaW5lbiB3cm90ZToKPiBI
+aSBMYXVyZW50LAo+IAo+IE9uIDIzLzA4LzIwMjAgMTk6MjYsIEFhcm8gS29za2luZW4gd3JvdGU6
+Cj4+IEhpLAo+Pgo+PiBPbiBUdWUsIEF1ZyAwNCwgMjAyMCBhdCAwMzozOTozN1BNICswMzAwLCBU
+b21pIFZhbGtlaW5lbiB3cm90ZToKPj4+IE9uIDA0LzA4LzIwMjAgMTU6MTMsIFRvbWkgVmFsa2Vp
+bmVuIHdyb3RlOgo+Pgo+Pj4+IENhbiB5b3UgdHJ5IHRvIHBpbnBvaW50IGEgYml0IHdoZXJlIHRo
+ZSBoYW5nIGhhcHBlbnM/IE1heWJlIGFkZAo+Pj4+IERSTS9vbWFwZHJtIGRlYnVnIHByaW50cywg
+b3IgcGVyaGFwcyBzeXNycSB3b3JrcyBhbmQgaXQgc2hvd3MgYSBsb2NrCj4+Pj4gdGhhdCdzIGlu
+IGRlYWRsb2NrLgo+Pj4KPj4+IEFsc28sIG9uZSBkYXRhIHBvaW50IHdvdWxkIGJlIHRvIGRpc2Fi
+bGUgdmVuYywgZS5nLiBzZXQgdmVuYyBzdGF0dXMgdG8KPj4+ICJkaXNhYmxlZCIgaW4gZHRzLgo+
+Pgo+PiBEaXNhYmxpbmcgdmVuYyBtYWtlcyBubyBkaWZmZXJlbmNlLgo+Pgo+PiBUaGUgaGFuZyBo
+YXBwZW5zIGluIGRybV9mYl9oZWxwZXJfaW5pdGlhbF9jb25maWcoKS4gSSBmb2xsb3dlZCB0aGUK
+Pj4gIkhBTkcgREVCVUdHSU5HIiB0aXBzIGluIHRoZSBmdW5jdGlvbiBjb21tZW50IHRleHQgYW5k
+IGVuYWJsZWQKPj4gZmIubG9ja2xlc3NfcmVnaXN0ZXJfZmI9MSB0byBnZXQgbW9yZSAoc2VyaWFs
+KSBjb25zb2xlIG91dHB1dC4KPj4KPj4gTm93IEkgZ2V0IHRoaXM6Cj4+Cj4+IFsgICAgNi41MTQ3
+MzldIG9tYXBkc3NfZHNzIDQ4MDUwMDAwLmRzczogc3VwcGx5IHZkZGFfdmlkZW8gbm90IGZvdW5k
+LCB1c2luZyBkdW1teSByZWd1bGF0b3IKPj4gWyAgICA2LjU2NjM3NV0gRFNTOiBPTUFQIERTUyBy
+ZXYgMi4wCj4+IFsgICAgNi41NzE4MDddIG9tYXBkc3NfZHNzIDQ4MDUwMDAwLmRzczogYm91bmQg
+NDgwNTA0MDAuZGlzcGMgKG9wcyBkaXNwY19jb21wb25lbnRfb3BzKQo+PiBbICAgIDYuNTgwNzQ5
+XSBvbWFwZHJtIG9tYXBkcm0uMDogRE1NIG5vdCBhdmFpbGFibGUsIGRpc2FibGUgRE1NIHN1cHBv
+cnQKPj4gWyAgICA2LjU4Nzk4Ml0gW2RybV0gU3VwcG9ydHMgdmJsYW5rIHRpbWVzdGFtcCBjYWNo
+aW5nIFJldiAyICgyMS4xMC4yMDEzKS4KPj4gWyAgICA2LjYyNjYxN10gLS0tLS0tLS0tLS0tWyBj
+dXQgaGVyZSBdLS0tLS0tLS0tLS0tCj4+IFsgICAgNi42MzE3NzRdIFdBUk5JTkc6IENQVTogMCBQ
+SUQ6IDE4IGF0IGRyaXZlcnMvZ3B1L2RybS9kcm1fYnJpZGdlLmM6NzA4IGRybV9hdG9taWNfaGVs
+cGVyX2NvbW1pdF9tb2Rlc2V0X2VuYWJsZXMrMHgxMzQvMHgyNjgKPj4gWyAgICA2LjY0Mzc2OF0g
+TW9kdWxlcyBsaW5rZWQgaW46Cj4+IFsgICAgNi42NDcwMzNdIENQVTogMCBQSUQ6IDE4IENvbW06
+IGt3b3JrZXIvMDoxIFRhaW50ZWQ6IEcgICAgIFUgICAgICAgICAgICA1LjguMC1vbWFwMy1sb3Nf
+MTYwNjgrLTAwMDA0LWcyZTdkNGE3ZWZlZmQtZGlydHkgIzIKPj4gWyAgICA2LjY1ODk2Nl0gSGFy
+ZHdhcmUgbmFtZTogTm9raWEgUlgtNTEgYm9hcmQKPj4gWyAgICA2LjY2MzYzNV0gV29ya3F1ZXVl
+OiBldmVudHMgZGVmZXJyZWRfcHJvYmVfd29ya19mdW5jCj4+IFsgICAgNi42NjkwOTddIFs8YzAx
+MGJmMTg+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBhMGY0Pl0gKHNob3dfc3RhY2sr
+MHgxMC8weDE0KQo+PiBbICAgIDYuNjc3NDI5XSBbPGMwMTBhMGY0Pl0gKHNob3dfc3RhY2spIGZy
+b20gWzxjMDEyNGYxOD5dIChfX3dhcm4rMHhiYy8weGQ0KQo+PiBbICAgIDYuNjg0ODQ0XSBbPGMw
+MTI0ZjE4Pl0gKF9fd2FybikgZnJvbSBbPGMwMTI0ZjkwPl0gKHdhcm5fc2xvd3BhdGhfZm10KzB4
+NjAvMHhiOCkKPj4gWyAgICA2LjY5MjkwMV0gWzxjMDEyNGY5MD5dICh3YXJuX3Nsb3dwYXRoX2Zt
+dCkgZnJvbSBbPGMwNDBjMGU4Pl0gKGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9tb2Rlc2V0X2Vu
+YWJsZXMrMHgxMzQvMHgyNjgpCj4+IFsgICAgNi43MDQyNTRdIFs8YzA0MGMwZTg+XSAoZHJtX2F0
+b21pY19oZWxwZXJfY29tbWl0X21vZGVzZXRfZW5hYmxlcykgZnJvbSBbPGMwNDU0NDJjPl0gKG9t
+YXBfYXRvbWljX2NvbW1pdF90YWlsKzB4YjQvMHhjMCkKPj4gWyAgICA2LjcxNTk3Ml0gWzxjMDQ1
+NDQyYz5dIChvbWFwX2F0b21pY19jb21taXRfdGFpbCkgZnJvbSBbPGMwNDBkMWI0Pl0gKGNvbW1p
+dF90YWlsKzB4OWMvMHgxYTgpCj4+IFsgICAgNi43MjUxMjhdIFs8YzA0MGQxYjQ+XSAoY29tbWl0
+X3RhaWwpIGZyb20gWzxjMDQwZGU3MD5dIChkcm1fYXRvbWljX2hlbHBlcl9jb21taXQrMHgxMzQv
+MHgxNTgpCj4+IFsgICAgNi43MzQ0NjZdIFs8YzA0MGRlNzA+XSAoZHJtX2F0b21pY19oZWxwZXJf
+Y29tbWl0KSBmcm9tIFs8YzA0M2IyMDQ+XSAoZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdF9hdG9t
+aWMrMHgxNmMvMHgyMDgpCj4+IFsgICAgNi43NDU3MjddIFs8YzA0M2IyMDQ+XSAoZHJtX2NsaWVu
+dF9tb2Rlc2V0X2NvbW1pdF9hdG9taWMpIGZyb20gWzxjMDQzYjJmOD5dIChkcm1fY2xpZW50X21v
+ZGVzZXRfY29tbWl0X2xvY2tlZCsweDU4LzB4MTg0KQo+PiBbICAgIDYuNzU3NjI5XSBbPGMwNDNi
+MmY4Pl0gKGRybV9jbGllbnRfbW9kZXNldF9jb21taXRfbG9ja2VkKSBmcm9tIFs8YzA0M2I0NDg+
+XSAoZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdCsweDI0LzB4NDApCj4+IFsgICAgNi43Njg3OThd
+IFs8YzA0M2I0NDg+XSAoZHJtX2NsaWVudF9tb2Rlc2V0X2NvbW1pdCkgZnJvbSBbPGMwNDEyNzc4
+Pl0gKF9fZHJtX2ZiX2hlbHBlcl9yZXN0b3JlX2ZiZGV2X21vZGVfdW5sb2NrZWQrMHhhMC8weGM4
+KQo+PiBbICAgIDYuNzgwOTc1XSBbPGMwNDEyNzc4Pl0gKF9fZHJtX2ZiX2hlbHBlcl9yZXN0b3Jl
+X2ZiZGV2X21vZGVfdW5sb2NrZWQpIGZyb20gWzxjMDQxMjgwOD5dIChkcm1fZmJfaGVscGVyX3Nl
+dF9wYXIrMHgzOC8weDY0KQo+PiBbICAgIDYuNzkyNzg1XSBbPGMwNDEyODA4Pl0gKGRybV9mYl9o
+ZWxwZXJfc2V0X3BhcikgZnJvbSBbPGMwM2E5YjI0Pl0gKGZiY29uX2luaXQrMHgzZDQvMHg1Njgp
+Cj4+IFsgICAgNi44MDE3NTddIFs8YzAzYTliMjQ+XSAoZmJjb25faW5pdCkgZnJvbSBbPGMwM2Vh
+YWIwPl0gKHZpc3VhbF9pbml0KzB4YjgvMHhmYykKPj4gWyAgICA2LjgwOTYzMV0gWzxjMDNlYWFi
+MD5dICh2aXN1YWxfaW5pdCkgZnJvbSBbPGMwM2VjMDcwPl0gKGRvX2JpbmRfY29uX2RyaXZlcisw
+eDFlMC8weDNiYykKPj4gWyAgICA2LjgxODI2N10gWzxjMDNlYzA3MD5dIChkb19iaW5kX2Nvbl9k
+cml2ZXIpIGZyb20gWzxjMDNlYzU5Yz5dIChkb190YWtlX292ZXJfY29uc29sZSsweDEzOC8weDFk
+OCkKPj4gWyAgICA2LjgyNzg4MF0gWzxjMDNlYzU5Yz5dIChkb190YWtlX292ZXJfY29uc29sZSkg
+ZnJvbSBbPGMwM2E4NTZjPl0gKGRvX2ZiY29uX3Rha2VvdmVyKzB4NzQvMHhkNCkKPj4gWyAgICA2
+LjgzNzIxOV0gWzxjMDNhODU2Yz5dIChkb19mYmNvbl90YWtlb3ZlcikgZnJvbSBbPGMwM2EyMmUw
+Pl0gKHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKzB4MjA0LzB4MmQ4KQo+PiBbICAgIDYuODQ2NzQwXSBb
+PGMwM2EyMmUwPl0gKHJlZ2lzdGVyX2ZyYW1lYnVmZmVyKSBmcm9tIFs8YzA0MTIyMjg+XSAoX19k
+cm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmlnX2FuZF91bmxvY2srMHgzYTQvMHg1NTQpCj4+IFsg
+ICAgNi44NTg0NTldIFs8YzA0MTIyMjg+XSAoX19kcm1fZmJfaGVscGVyX2luaXRpYWxfY29uZmln
+X2FuZF91bmxvY2spIGZyb20gWzxjMDQ1YzIzMD5dIChvbWFwX2ZiZGV2X2luaXQrMHg4NC8weGJj
+KQo+PiBbICAgIDYuODY5NTM3XSBbPGMwNDVjMjMwPl0gKG9tYXBfZmJkZXZfaW5pdCkgZnJvbSBb
+PGMwNDU0OWI4Pl0gKHBkZXZfcHJvYmUrMHg1ODAvMHg3ZDgpCj4+IFsgICAgNi44Nzc4MDddIFs8
+YzA0NTQ5Yjg+XSAocGRldl9wcm9iZSkgZnJvbSBbPGMwNDY2OWI0Pl0gKHBsYXRmb3JtX2Rydl9w
+cm9iZSsweDQ4LzB4OTgpCj4gCj4gTGF1cmVudCwgZG9lcyB0aGlzIHJpbmcgYW55IGJlbGxzPyBU
+aGUgV0FSTiBjb21lcyBpbiBkcm1fYXRvbWljX2JyaWRnZV9jaGFpbl9lbmFibGUoKSB3aGVuCj4g
+ZHJtX2F0b21pY19nZXRfb2xkX2JyaWRnZV9zdGF0ZSgpIHJldHVybnMgbnVsbCBmb3IgKHByZXN1
+bWFibHkpIHNkaSBicmlkZ2UuCj4gCj4gSSdtIG5vdCBzdXJlIHdoeSB0aGUgYnJpZGdlIHN0YXRl
+IHdvdWxkIG5vdCBiZSB0aGVyZS4KPiAKPiBBYXJvLCB5b3UgY2FuIHByb2JhYmx5IGRlYnVnIGVh
+c2llciBpZiB5b3UgZGlzYWJsZSBDT05GSUdfRlJBTUVCVUZGRVJfQ09OU09MRSwgb3IgZXZlbgo+
+IENPTkZJR19EUk1fRkJERVZfRU1VTEFUSU9OLgo+IAo+ICAgVG9taQo+IAoKSXMgdGhlcmUgYW55
+IHByb2dyZXNzIG9uIHRoZSBpc3N1ZT8gSSB0cmllZCA1LjkuMSBhbmQgc3RpbGwgbm90aGluZyAK
+ZGlzcGxheWVkLgoKUmVnYXJkcywKSXZvCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
+ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
+bmZvL2RyaS1kZXZlbAo=
