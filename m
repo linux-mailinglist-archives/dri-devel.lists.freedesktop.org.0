@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AAA2C2684
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:49:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD1E2C2643
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 708D86E442;
-	Tue, 24 Nov 2020 12:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CDA56E42A;
+	Tue, 24 Nov 2020 12:48:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4BFA6E425
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:45 +0000 (UTC)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E5B06E422
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:47 +0000 (UTC)
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOClc7G123704;
- Tue, 24 Nov 2020 06:47:38 -0600
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOClexB033034;
+ Tue, 24 Nov 2020 06:47:40 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606222058;
- bh=kja+/2G0ddDkBjUkNFS9BEVn/y7xwVunpOmv4Rz3u04=;
+ s=ti-com-17Q1; t=1606222060;
+ bh=3eI2ApL/FPYddTezmAne/JTDeaBdmyIGfMmTj91Mugg=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=tk+sExMRNQYby9oIloP+6KVqGrLDVXKKcyP2rcfH80tR/hWO6cRCYFV01ALjurnlX
- lzx2up62chl/ekHLot4n3E8E5fntIMzie+gw1Lcl52pPD/qdUt+dnnnSlF2ZEdswTO
- 8y6BEVRbI7VFY1nV6sFRhUkbzFxuYvio3WfCQQLc=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOClcJo043709
+ b=lTusmLG2AmudFHJXABTJhQSwDTjVQuLOcSuibdLQSYGmA6s8vk0ispHamudXhXK9Z
+ +nwUlSFyjDkLRQJFKjmZgfEuufSWFtGubA4i7sxisOpXJLIxRQAutAbXLHSQcdsT0g
+ dsU52AEttecNVyPrUiocjv/0xd0sv2rVZ3uZ8mNI=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCleAS043726
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Nov 2020 06:47:38 -0600
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Nov 2020 06:47:40 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 24
- Nov 2020 06:47:37 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:47:40 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 24 Nov 2020 06:47:38 -0600
+ Frontend Transport; Tue, 24 Nov 2020 06:47:40 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpW040922;
- Tue, 24 Nov 2020 06:47:35 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpX040922;
+ Tue, 24 Nov 2020 06:47:38 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 43/80] drm/omap: simplify omap_display_id
-Date: Tue, 24 Nov 2020 14:45:01 +0200
-Message-ID: <20201124124538.660710-44-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 44/80] drm/omap: drop unused DSS next pointer
+Date: Tue, 24 Nov 2020 14:45:02 +0200
+Message-ID: <20201124124538.660710-45-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124124538.660710-1-tomi.valkeinen@ti.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
@@ -72,36 +72,118 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-We no longer need to check for the DSS API, since all encoders,
-panels and connectors have been converted to the bridge API.
+Since all encoders and panels are using the bridge API now,
+we next pointer is no longer useful and can be dropped.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/omap_drv.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/base.c     |  2 +-
+ drivers/gpu/drm/omapdrm/dss/omapdss.h  |  1 -
+ drivers/gpu/drm/omapdrm/dss/output.c   | 13 +------------
+ drivers/gpu/drm/omapdrm/omap_encoder.c |  4 ----
+ 4 files changed, 2 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
-index 20b5b4e9071c..dbb8e95234b3 100644
---- a/drivers/gpu/drm/omapdrm/omap_drv.c
-+++ b/drivers/gpu/drm/omapdrm/omap_drv.c
-@@ -206,14 +206,7 @@ static int omap_display_id(struct omap_dss_device *output)
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index c2791305c332..6e948ea9e42b 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -135,7 +135,7 @@ struct omap_dss_device *omapdss_device_next_output(struct omap_dss_device *from)
+ 			goto done;
+ 		}
+ 
+-		if (dssdev->id && (dssdev->next || dssdev->bridge))
++		if (dssdev->id && dssdev->bridge)
+ 			goto done;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 5d6edec5a427..1f02d3e406dc 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -293,7 +293,6 @@ struct omap_dss_device {
+ 	struct module *owner;
+ 
+ 	struct dss_device *dss;
+-	struct omap_dss_device *next;
+ 	struct drm_bridge *bridge;
+ 	struct drm_bridge *next_bridge;
+ 	struct drm_panel *panel;
+diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
+index ce21c798cca6..40cb353572f6 100644
+--- a/drivers/gpu/drm/omapdrm/dss/output.c
++++ b/drivers/gpu/drm/omapdrm/dss/output.c
+@@ -30,7 +30,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		return 0;
+ 	}
+ 
+-	out->next = omapdss_find_device_by_node(remote_node);
+ 	out->bridge = of_drm_find_bridge(remote_node);
+ 	out->panel = of_drm_find_panel(remote_node);
+ 	if (IS_ERR(out->panel))
+@@ -38,12 +37,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 
+ 	of_node_put(remote_node);
+ 
+-	if (out->next && out->type != out->next->type) {
+-		dev_err(out->dev, "output type and display type don't match\n");
+-		ret = -EINVAL;
+-		goto error;
+-	}
+-
+ 	if (out->panel) {
+ 		struct drm_bridge *bridge;
+ 
+@@ -69,7 +62,7 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 		out->bridge = local_bridge;
+ 	}
+ 
+-	if (!out->next && !out->bridge) {
++	if (!out->bridge) {
+ 		ret = -EPROBE_DEFER;
+ 		goto error;
+ 	}
+@@ -78,7 +71,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
+ 
+ error:
+ 	omapdss_device_cleanup_output(out);
+-	out->next = NULL;
+ 	return ret;
+ }
+ EXPORT_SYMBOL(omapdss_device_init_output);
+@@ -88,9 +80,6 @@ void omapdss_device_cleanup_output(struct omap_dss_device *out)
+ 	if (out->bridge && out->panel)
+ 		drm_panel_bridge_remove(out->next_bridge ?
+ 					out->next_bridge : out->bridge);
+-
+-	if (out->next)
+-		omapdss_device_put(out->next);
+ }
+ EXPORT_SYMBOL(omapdss_device_cleanup_output);
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index 5da7e028ddf2..e24411fb9dac 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -75,7 +75,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
  {
- 	struct device_node *node = NULL;
- 
--	if (output->next) {
--		struct omap_dss_device *display = output;
+ 	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+ 	struct omap_dss_device *output = omap_encoder->output;
+-	struct omap_dss_device *dssdev;
+ 	struct drm_device *dev = encoder->dev;
+ 	struct drm_connector *connector;
+ 	struct drm_bridge *bridge;
+@@ -98,9 +97,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 	 *
+ 	 * A better solution is to use DRM's bus-flags through the whole driver.
+ 	 */
+-	for (dssdev = output; dssdev; dssdev = dssdev->next)
+-		omap_encoder_update_videomode_flags(&vm, dssdev->bus_flags);
 -
--		while (display->next)
--			display = display->next;
--
--		node = display->dev->of_node;
--	} else if (output->bridge) {
-+	if (output->bridge) {
- 		struct drm_bridge *bridge = output->bridge;
- 
- 		while (drm_bridge_get_next_bridge(bridge))
+ 	for (bridge = output->bridge; bridge;
+ 	     bridge = drm_bridge_get_next_bridge(bridge)) {
+ 		if (!bridge->timings)
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
