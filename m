@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56152C263D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:48:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7DF2C263C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB5576E42D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A916E40B;
 	Tue, 24 Nov 2020 12:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4769D6E422
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:52 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCljZ9033042;
- Tue, 24 Nov 2020 06:47:45 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C582A6E422
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:47:54 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOClmkm123728;
+ Tue, 24 Nov 2020 06:47:48 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606222065;
- bh=2TyKVjBktF3Z6yOQ19fOsmiuM12BfcmvgchdCdzBB4E=;
+ s=ti-com-17Q1; t=1606222068;
+ bh=J/0qsM6i7trmGuVmIzOTep4zYWCIntbMxuGf7CQTLLY=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=ibSBwJCyB9o7ulW5OvffooLc3lS1f1sZuatWLLIXZ3cbytspt+Dq0ClxgQAZ2PczA
- AEgsRSsDV+vijYzF+xOkNUW9UTpw8ggh0krQny43IcsagYqu4kaDLpnGrwPqQEFeSQ
- 8oEq60s1zyRqzFpv8G6+oVTcEgEdfZ20SOk3RFiY=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCljX8044757
+ b=TwGOVVhQwan6C3flbrKCaq0biaIVOmI5w+iApt5IzqOtdjutqdVLqp+QxVOfk05Cu
+ bTX5VuJyBK97K/YRAXR99xjtDTwyXOerOFx4vE2xVp43mzIlB3NkCawBq4NmdSbieP
+ 6lFJiOLMfwBIxexbH+8hL5vsq6kp5NryNiMLCvlQ=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOClmi0107972
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Nov 2020 06:47:45 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Nov 2020 06:47:48 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 24
- Nov 2020 06:47:45 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:47:47 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 24 Nov 2020 06:47:45 -0600
+ Frontend Transport; Tue, 24 Nov 2020 06:47:47 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpZ040922;
- Tue, 24 Nov 2020 06:47:43 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmpa040922;
+ Tue, 24 Nov 2020 06:47:45 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 46/80] drm/omap: drop dssdev display field
-Date: Tue, 24 Nov 2020 14:45:04 +0200
-Message-ID: <20201124124538.660710-47-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 47/80] drm/omap: simplify DSI manual update code
+Date: Tue, 24 Nov 2020 14:45:05 +0200
+Message-ID: <20201124124538.660710-48-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124124538.660710-1-tomi.valkeinen@ti.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
@@ -72,48 +72,109 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-All displays are now using a drm_panel or a drm_bridge that models the
-connector instead of dssdev, so this field is always 0 and can be
-dropped.
+Move dsi_ops into the main structure, since all other ops
+are gone. Instead of checking the device type we can simply
+check if dsi_ops are set.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/base.c    | 2 +-
- drivers/gpu/drm/omapdrm/dss/omapdss.h | 6 ------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dsi.c     | 10 ++++------
+ drivers/gpu/drm/omapdrm/dss/omapdss.h |  6 +-----
+ drivers/gpu/drm/omapdrm/omap_crtc.c   | 16 ++++------------
+ 3 files changed, 9 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
-index 6e948ea9e42b..d0d5d9c8ca76 100644
---- a/drivers/gpu/drm/omapdrm/dss/base.c
-+++ b/drivers/gpu/drm/omapdrm/dss/base.c
-@@ -198,7 +198,7 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
- 	}
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index fcb51aedf847..71dde45ada10 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -5014,11 +5014,9 @@ static int dsi_get_clocks(struct dsi_data *dsi)
+ 	return 0;
+ }
  
- 	if (!dst->id && !omapdss_device_is_connected(dst)) {
--		WARN_ON(!dst->display);
-+		WARN_ON(1);
- 		return;
- 	}
+-static const struct omap_dss_device_ops dsi_ops = {
+-	.dsi = {
+-		.update = dsi_update_all,
+-		.is_video_mode = dsi_is_video_mode,
+-	},
++static const struct omapdss_dsi_ops dsi_ops = {
++	.update = dsi_update_all,
++	.is_video_mode = dsi_is_video_mode,
+ };
  
+ static irqreturn_t omap_dsi_te_irq_handler(int irq, void *dev_id)
+@@ -5449,7 +5447,7 @@ static int dsi_init_output(struct dsi_data *dsi)
+ 	out->type = OMAP_DISPLAY_TYPE_DSI;
+ 	out->name = dsi->module_id == 0 ? "dsi.0" : "dsi.1";
+ 	out->dispc_channel = dsi_get_channel(dsi);
+-	out->ops = &dsi_ops;
++	out->dsi_ops = &dsi_ops;
+ 	out->owner = THIS_MODULE;
+ 	out->of_port = 0;
+ 	out->bus_flags = DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 916c55101629..c2199c4946ec 100644
+index c2199c4946ec..a1236b8ef7ea 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -298,12 +298,6 @@ struct omap_dss_device {
- 	 */
- 	enum omap_display_type type;
+@@ -275,10 +275,6 @@ struct omapdss_dsi_ops {
+ 	bool (*is_video_mode)(struct omap_dss_device *dssdev);
+ };
  
--	/*
--	 * True if the device is a display (panel or connector) at the end of
--	 * the pipeline, false otherwise.
--	 */
--	bool display;
+-struct omap_dss_device_ops {
+-	const struct omapdss_dsi_ops dsi;
+-};
 -
+ struct omap_dss_device {
+ 	struct device *dev;
+ 
+@@ -300,7 +296,7 @@ struct omap_dss_device {
+ 
  	const char *name;
  
- 	const struct omap_dss_device_ops *ops;
+-	const struct omap_dss_device_ops *ops;
++	const struct omapdss_dsi_ops *dsi_ops;
+ 	u32 bus_flags;
+ 
+ 	/* OMAP DSS output specific fields */
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index f6b968060cf0..5ab557c477ef 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -366,17 +366,10 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
+ 	struct drm_device *dev = omap_crtc->base.dev;
+ 	int ret;
+ 
+-	if (!dssdev) {
+-		dev_err_once(dev->dev, "missing display dssdev!");
++	if (!dssdev || !dssdev->dsi_ops || !dssdev->dsi_ops->update)
+ 		return;
+-	}
+-
+-	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI || !dssdev->ops->dsi.update) {
+-		dev_err_once(dev->dev, "no DSI update callback found!");
+-		return;
+-	}
+ 
+-	ret = dssdev->ops->dsi.update(dssdev);
++	ret = dssdev->dsi_ops->update(dssdev);
+ 	if (ret < 0) {
+ 		spin_lock_irq(&dev->event_lock);
+ 		omap_crtc->pending = false;
+@@ -550,11 +543,10 @@ static bool omap_crtc_is_manually_updated(struct drm_crtc *crtc)
+ 	struct omap_crtc *omap_crtc = to_omap_crtc(crtc);
+ 	struct omap_dss_device *dssdev = omap_crtc->pipe->output;
+ 
+-	if (dssdev->type != OMAP_DISPLAY_TYPE_DSI ||
+-	    !dssdev->ops->dsi.is_video_mode)
++	if (!dssdev || !dssdev->dsi_ops || !dssdev->dsi_ops->is_video_mode)
+ 		return false;
+ 
+-	if (dssdev->ops->dsi.is_video_mode(dssdev))
++	if (dssdev->dsi_ops->is_video_mode(dssdev))
+ 		return false;
+ 
+ 	DBG("detected manually updated display!");
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
