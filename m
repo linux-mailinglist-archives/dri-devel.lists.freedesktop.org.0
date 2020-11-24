@@ -1,50 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66FC2C25EF
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:46:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAE72C25EA
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 13:46:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD1A86E3B2;
-	Tue, 24 Nov 2020 12:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 665976E323;
+	Tue, 24 Nov 2020 12:46:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A49266E32F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:46:10 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCk3In031994;
- Tue, 24 Nov 2020 06:46:03 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C1E96E32A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 12:46:12 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCk6DY032004;
+ Tue, 24 Nov 2020 06:46:06 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606221963;
- bh=4ExlLv+xOJJD4BMMrRr7BaJ9JBxfuf5afMv6LIDw3r4=;
+ s=ti-com-17Q1; t=1606221966;
+ bh=hnF4DV4+cMeETFDK679o8D7OBq9C+rV4c/G0tOPSDmA=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=bgqaju01jKyhnudU/UBe+WLOWqXlLED18KjcnlCk45KFoNZis3gCPg7wLS+TEgQv8
- nAUcuXkckok+UvoMJDU/8npTRxiiKxswEpBGxJ+hNri6p+fIx8/eXBFE4Zyt48HmrD
- upeKEnDWTzuGwInBuw1majJbwtpSAI9yax7s0j0s=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCk3gt041167
+ b=dYM6kv8qG0zoIhsDe2EuSuX6uqESfI8SIkE8QsqF6hFFTvTirmjYq07vf3c9rzbJE
+ iCcWPkWtSpyzNsvez2fBqgSdX7o9cSoXhXJU3+rOFnsRe6iOLFn/UWamfSVQHcDA9O
+ f2V0mnnd9z33I/pSvcM3YcO+HEH2NSU+AN3492Hs=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AOCk6wa042565
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 24 Nov 2020 06:46:03 -0600
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Nov 2020 06:46:06 -0600
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 24
- Nov 2020 06:46:03 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 06:46:06 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 24 Nov 2020 06:46:03 -0600
+ Frontend Transport; Tue, 24 Nov 2020 06:46:06 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmos040922;
- Tue, 24 Nov 2020 06:46:01 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AOCjmot040922;
+ Tue, 24 Nov 2020 06:46:03 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: Sebastian Reichel <sre@kernel.org>, Laurent Pinchart
  <laurent.pinchart@ideasonboard.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>, <linux-omap@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v4 05/80] drm/omap: dsi: add generic transfer function
-Date: Tue, 24 Nov 2020 14:44:23 +0200
-Message-ID: <20201124124538.660710-6-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 06/80] drm/omap: panel-dsi-cm: convert to transfer API
+Date: Tue, 24 Nov 2020 14:44:24 +0200
+Message-ID: <20201124124538.660710-7-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124124538.660710-1-tomi.valkeinen@ti.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
@@ -72,106 +72,225 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-This prepares the driver for becoming a mipi_dsi_host implementation,
-which provides a generic transfer function instead of all kind of
-different read/write functions. The implementation will become more
-elegant after unexporting the specific functions in the following
-patches.
+This converts the panel-dsi-cm driver to use the transfer
+API instead of specific functions, so that the specific
+functions can be unexported and squashed into the generic
+transfer function.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c     | 54 +++++++++++++++++++++++++++
- drivers/gpu/drm/omapdrm/dss/omapdss.h |  3 ++
- 2 files changed, 57 insertions(+)
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 132 +++++++++++++-----
+ 1 file changed, 95 insertions(+), 37 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 22d74d762a10..9babe813a303 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -4842,6 +4842,58 @@ static void dsi_release_vc(struct omap_dss_device *dssdev, int channel)
- 	}
+diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+index b8f3a7aacbf4..8b2e80129bd8 100644
+--- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
++++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+@@ -140,45 +140,61 @@ static void hw_guard_wait(struct panel_drv_data *ddata)
+ static int dsicm_dcs_read_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 *data)
+ {
+ 	struct omap_dss_device *src = ddata->src;
+-	int r;
+-	u8 buf[1];
+-
+-	r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd, buf, 1);
+-
+-	if (r < 0)
+-		return r;
+-
+-	*data = buf[0];
++	const struct mipi_dsi_msg msg = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_DCS_READ,
++		.tx_len = 1,
++		.tx_buf = &dcs_cmd,
++		.rx_len = 1,
++		.rx_buf = data
++	};
+ 
+-	return 0;
++	return src->ops->dsi.transfer(src, &msg);
  }
  
-+static ssize_t omap_dsi_transfer(struct omap_dss_device *dssdev,
-+				 const struct mipi_dsi_msg *msg)
-+{
-+	/*
-+	 * TODO: no_sync can be used to optimize performance by sending e.g.
-+	 * column and page information without syncing in between. It's not
-+	 * absolutely required, so postpone this feature for now.
-+	 */
-+	bool no_sync = false;
-+	u16 val;
-+
-+	switch (msg->type) {
-+	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
-+	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
-+	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
-+	case MIPI_DSI_GENERIC_LONG_WRITE:
-+		if (no_sync)
-+			return dsi_vc_generic_write_nosync(dssdev, msg->channel,
-+							   msg->tx_buf,
-+							   msg->tx_len);
-+		else
-+			return dsi_vc_generic_write(dssdev, msg->channel,
-+						    msg->tx_buf, msg->tx_len);
-+	case MIPI_DSI_DCS_SHORT_WRITE:
-+	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
-+	case MIPI_DSI_DCS_LONG_WRITE:
-+		if (no_sync)
-+			return dsi_vc_dcs_write_nosync(dssdev, msg->channel,
-+						       msg->tx_buf,
-+						       msg->tx_len);
-+		else
-+			return dsi_vc_dcs_write(dssdev, msg->channel,
-+						msg->tx_buf, msg->tx_len);
-+	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
-+	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
-+	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
-+		return dsi_vc_generic_read(dssdev, msg->channel,
-+					   msg->tx_buf, msg->tx_len,
-+					   msg->rx_buf, msg->rx_len);
-+	case MIPI_DSI_DCS_READ:
-+		return dsi_vc_dcs_read(dssdev, msg->channel,
-+				       ((u8 *)msg->tx_buf)[0],
-+				       msg->rx_buf, msg->rx_len);
-+	case MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE:
-+		val = le16_to_cpu(*((__le16 *)msg->tx_buf));
-+		return dsi_vc_set_max_rx_packet_size(dssdev, msg->channel, val);
-+	case MIPI_DSI_NULL_PACKET:
-+		return dsi_vc_send_null(to_dsi_data(dssdev), msg->channel);
-+	}
-+
-+	return -EINVAL;
-+}
- 
- static int dsi_get_clocks(struct dsi_data *dsi)
+ static int dsicm_dcs_write_0(struct panel_drv_data *ddata, u8 dcs_cmd)
  {
-@@ -4896,6 +4948,8 @@ static const struct omap_dss_device_ops dsi_ops = {
- 		.set_vc_id = dsi_set_vc_id,
- 		.release_vc = dsi_release_vc,
+ 	struct omap_dss_device *src = ddata->src;
++	const struct mipi_dsi_msg msg = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_DCS_SHORT_WRITE,
++		.tx_buf = &dcs_cmd,
++		.tx_len = 1,
++	};
  
-+		.transfer = omap_dsi_transfer,
-+
- 		.dcs_write = dsi_vc_dcs_write,
- 		.dcs_write_nosync = dsi_vc_dcs_write_nosync,
- 		.dcs_read = dsi_vc_dcs_read,
-diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 8e96ab2f20b6..654618e5a4e5 100644
---- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-+++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -308,6 +308,9 @@ struct omapdss_dsi_ops {
- 	void (*release_vc)(struct omap_dss_device *dssdev, int channel);
+-	return src->ops->dsi.dcs_write(src, ddata->channel, &dcs_cmd, 1);
++	return src->ops->dsi.transfer(src, &msg);
+ }
  
- 	/* data transfer */
-+	ssize_t (*transfer)(struct omap_dss_device *dssdev,
-+			    const struct mipi_dsi_msg *msg);
+ static int dsicm_dcs_write_1(struct panel_drv_data *ddata, u8 dcs_cmd, u8 param)
+ {
+ 	struct omap_dss_device *src = ddata->src;
+-	u8 buf[2] = { dcs_cmd, param };
++	const u8 buf[] = { dcs_cmd, param };
++	const struct mipi_dsi_msg msg = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_DCS_SHORT_WRITE_PARAM,
++		.tx_buf = &buf,
++		.tx_len = 2,
++	};
+ 
+-	return src->ops->dsi.dcs_write(src, ddata->channel, buf, 2);
++	return src->ops->dsi.transfer(src, &msg);
+ }
+ 
+ static int dsicm_sleep_in(struct panel_drv_data *ddata)
+ 
+ {
+ 	struct omap_dss_device *src = ddata->src;
+-	u8 cmd;
+ 	int r;
++	const u8 cmd = MIPI_DCS_ENTER_SLEEP_MODE;
++	const struct mipi_dsi_msg msg = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_DCS_SHORT_WRITE,
++		.tx_buf = &cmd,
++		.tx_len = 1,
++	};
+ 
+ 	hw_guard_wait(ddata);
+ 
+-	cmd = MIPI_DCS_ENTER_SLEEP_MODE;
+-	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, &cmd, 1);
++	r = src->ops->dsi.transfer(src, &msg);
+ 	if (r)
+ 		return r;
+ 
+@@ -233,28 +249,43 @@ static int dsicm_set_update_window(struct panel_drv_data *ddata,
+ 	u16 y1 = y;
+ 	u16 y2 = y + h - 1;
+ 
+-	u8 buf[5];
+-	buf[0] = MIPI_DCS_SET_COLUMN_ADDRESS;
+-	buf[1] = (x1 >> 8) & 0xff;
+-	buf[2] = (x1 >> 0) & 0xff;
+-	buf[3] = (x2 >> 8) & 0xff;
+-	buf[4] = (x2 >> 0) & 0xff;
++	const u8 paramX[] = {
++		MIPI_DCS_SET_COLUMN_ADDRESS,
++		(x1 >> 8) & 0xff,
++		(x1 >> 0) & 0xff,
++		(x2 >> 8) & 0xff,
++		(x2 >> 0) & 0xff,
++	};
+ 
+-	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
+-	if (r)
+-		return r;
++	const struct mipi_dsi_msg msgX = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_GENERIC_LONG_WRITE,
++		.tx_buf = paramX,
++		.tx_len = 5,
++	};
 +
- 	int (*dcs_write)(struct omap_dss_device *dssdev, int channel,
- 			const u8 *data, int len);
- 	int (*dcs_write_nosync)(struct omap_dss_device *dssdev, int channel,
++	const u8 paramY[] = {
++		MIPI_DCS_SET_PAGE_ADDRESS,
++		(y1 >> 8) & 0xff,
++		(y1 >> 0) & 0xff,
++		(y2 >> 8) & 0xff,
++		(y2 >> 0) & 0xff,
++	};
+ 
+-	buf[0] = MIPI_DCS_SET_PAGE_ADDRESS;
+-	buf[1] = (y1 >> 8) & 0xff;
+-	buf[2] = (y1 >> 0) & 0xff;
+-	buf[3] = (y2 >> 8) & 0xff;
+-	buf[4] = (y2 >> 0) & 0xff;
++	const struct mipi_dsi_msg msgY = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_GENERIC_LONG_WRITE,
++		.tx_buf = paramY,
++		.tx_len = 5,
++	};
+ 
+-	r = src->ops->dsi.dcs_write_nosync(src, ddata->channel, buf, sizeof(buf));
++	r = src->ops->dsi.transfer(src, &msgX);
+ 	if (r)
+ 		return r;
+ 
+-	src->ops->dsi.bta_sync(src, ddata->channel);
++	r = src->ops->dsi.transfer(src, &msgY);
++	if (r)
++		return r;
+ 
+ 	return r;
+ }
+@@ -991,6 +1022,27 @@ static int dsicm_get_te(struct omap_dss_device *dssdev)
+ 	return r;
+ }
+ 
++static int dsicm_set_max_rx_packet_size(struct omap_dss_device *dssdev,
++					u16 size)
++{
++	struct panel_drv_data *ddata = to_panel_data(dssdev);
++	struct omap_dss_device *src = ddata->src;
++
++	const u8 buf[] = {
++		size & 0xff,
++		size >> 8 & 0xff,
++	};
++
++	const struct mipi_dsi_msg msg = {
++		.channel = ddata->channel,
++		.type = MIPI_DSI_SET_MAXIMUM_RETURN_PACKET_SIZE,
++		.tx_buf = buf,
++		.tx_len = 2,
++	};
++
++	return src->ops->dsi.transfer(src, &msg);
++}
++
+ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+ 		void *buf, size_t size,
+ 		u16 x, u16 y, u16 w, u16 h)
+@@ -1031,17 +1083,23 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+ 
+ 	dsicm_set_update_window(ddata, x, y, w, h);
+ 
+-	r = src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, plen);
++	r = dsicm_set_max_rx_packet_size(dssdev, plen);
+ 	if (r)
+ 		goto err2;
+ 
+ 	while (buf_used < size) {
+ 		u8 dcs_cmd = first ? 0x2e : 0x3e;
++		const struct mipi_dsi_msg msg = {
++			.channel = ddata->channel,
++			.type = MIPI_DSI_DCS_READ,
++			.tx_buf = &dcs_cmd,
++			.tx_len = 1,
++			.rx_buf = buf + buf_used,
++			.rx_len = size - buf_used,
++		};
+ 		first = 0;
+ 
+-		r = src->ops->dsi.dcs_read(src, ddata->channel, dcs_cmd,
+-				buf + buf_used, size - buf_used);
+-
++		r = src->ops->dsi.transfer(src, &msg);
+ 		if (r < 0) {
+ 			dev_err(dssdev->dev, "read error\n");
+ 			goto err3;
+@@ -1065,7 +1123,7 @@ static int dsicm_memory_read(struct omap_dss_device *dssdev,
+ 	r = buf_used;
+ 
+ err3:
+-	src->ops->dsi.set_max_rx_packet_size(src, ddata->channel, 1);
++	dsicm_set_max_rx_packet_size(dssdev, 1);
+ err2:
+ 	src->ops->dsi.bus_unlock(src);
+ err1:
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
