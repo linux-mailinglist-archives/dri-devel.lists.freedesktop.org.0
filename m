@@ -2,55 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6F32C2D07
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 17:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E6E2C2D13
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Nov 2020 17:38:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A34A6E4B5;
-	Tue, 24 Nov 2020 16:37:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D5AA6E455;
+	Tue, 24 Nov 2020 16:38:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A95D6E4B5;
- Tue, 24 Nov 2020 16:37:05 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id t4so10028876wrr.12;
- Tue, 24 Nov 2020 08:37:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D8z5dUSRrl31L37ZHuzIVMwY+qduRSvxquBzIWeK1EA=;
- b=CP0mL9qyVcg3I0wRgcqt4n4v/oW5jFZdIR00tPbAx/omKbEV+qAUIQLgGdOqJrQSjd
- h4/W2NkDS3Xyv7HgYsadJ9ugSljPPtKoSTMz8/vkpYaPI/74khn8dtm8vF27VIIxbXvB
- Rzf4TTJZZ8UPEpU3WakrVDpcEw/YVeZdKayQx2mbBl/+T6nBLhPZBtgkkX9punvKAiF6
- syOjvrD//GOdyumN24EIkwCrIUAaj0MND21hfUfj7poC3RXk4HVX1LFKrAOJ3uBn1Z7w
- Bc1UOLwpDnwVS21NQHgnP2PUVMDjHISxPpG4c0zUHjeuhRjXCaLBhDh/PNIDOaLymj2b
- /9oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D8z5dUSRrl31L37ZHuzIVMwY+qduRSvxquBzIWeK1EA=;
- b=eYPZjIjhnpAN1YI94ea5ST9N/ibjgSlvpTzgh4/LRaG2E4mBYvEU8maq9NwLKE8Xk0
- Siwu3Aaho6pip+SOzo2+joqO5AIskimts+ip9HH+G36hr6UrG4ucL3Jfs9UYYnDERzWF
- tiXON3EGdBOCB8pOQSnsgy0mn7mmi4lHGctDAc3gmbnRNrWzZHiJSMfOFvsP9wnXvf6u
- 84uD+NvAp7+b1ZFibNzqPr4h0J1s48lKgRqs06RhiQ8OYwPE0u/DWm0LSUIjoflI/8Zz
- atBQVxvnJLObH9idRcDH0ygttNGBTUCXbyFO4iMzprlLw1ELK1ZyEowbnlmWSVjKitYO
- Pg+Q==
-X-Gm-Message-State: AOAM530kIDMC/S4cVyfnvfmHMkmxkIofNAtyT3zGKT22k4Bz4d/QfRis
- pIAchVFl2e9zhGgWaa6jPYegfJrZiFCiwZjtRqc=
-X-Google-Smtp-Source: ABdhPJzfxDMC7ETJE9yWHcvshWf4V3ciNOuGH8E1IA2nDwH0ep/3485i7wz8onEl34b1p3KBHYSz6fri9+kQaZZcCLw=
-X-Received: by 2002:adf:e9c9:: with SMTP id l9mr6416532wrn.124.1606235823983; 
- Tue, 24 Nov 2020 08:37:03 -0800 (PST)
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 544436E455
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Nov 2020 16:38:52 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id B3D0020020;
+ Tue, 24 Nov 2020 17:38:49 +0100 (CET)
+Date: Tue, 24 Nov 2020 17:38:48 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v4 55/80] drm/panel: panel-dsi-cm: use
+ MIPI_DCS_GET_ERROR_COUNT_ON_DSI
+Message-ID: <20201124163848.GA51881@ravnborg.org>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-56-tomi.valkeinen@ti.com>
+ <20201124161836.GA50534@ravnborg.org>
+ <d8453eda-6d8b-23be-103e-6f4f07e1346e@ti.com>
 MIME-Version: 1.0
-References: <20201123105417.198314-1-colin.king@canonical.com>
- <DM6PR12MB26197807564F833B9A2E18E8E4FB0@DM6PR12MB2619.namprd12.prod.outlook.com>
-In-Reply-To: <DM6PR12MB26197807564F833B9A2E18E8E4FB0@DM6PR12MB2619.namprd12.prod.outlook.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 24 Nov 2020 11:36:52 -0500
-Message-ID: <CADnq5_OHzmR4SE4GXukZX2Z2byqYkMRy-G2EXUTvz+yuwsE6fw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/powerplay: fix spelling mistake
- "smu_state_memroy_block" -> "smu_state_memory_block"
-To: "Quan, Evan" <Evan.Quan@amd.com>
+Content-Disposition: inline
+In-Reply-To: <d8453eda-6d8b-23be-103e-6f4f07e1346e@ti.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=sozttTNsAAAA:8 a=7gkXJVJtAAAA:8
+ a=YxeggU3nrjKIOG3EjS0A:9 a=CjuIK1q_8ugA:10 a=aeg5Gbbo78KNqacMgKqU:22
+ a=E9Po1WZjFZOl8hwRPBS3:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,75 +48,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Gui, Jack" <Jack.Gui@amd.com>, David Airlie <airlied@linux.ie>, "Wang,
- Kevin\(Yang\)" <Kevin1.Wang@amd.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, Colin King <colin.king@canonical.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Hi Tomi
 
-Alex
+On Tue, Nov 24, 2020 at 06:26:47PM +0200, Tomi Valkeinen wrote:
+> Hi Sam,
+> 
+> On 24/11/2020 18:18, Sam Ravnborg wrote:
+> > Hi Tomi,
+> > 
+> > On Tue, Nov 24, 2020 at 02:45:13PM +0200, Tomi Valkeinen wrote:
+> >> Use the common MIPI_DCS_GET_ERROR_COUNT_ON_DSI define instead of
+> >> driver's own.
+> >>
+> > They are both 5 - OK
+> > 
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> > 
+> > IMO you should get all the patches at least up including this patch applied.
+> > They are all reviewed/acked. And then you have a much smaller stack of
+> > patches to spam us with.
+> 
+> Yes, I think that makes sense. I did not want to merge them earlier, as with the v3, I could not get
+> videomode panels work at all (while cmd mode panels did work). So I was not sure if something is
+> totally silly and broken in the series.
+> 
+> Now that I can get video mode panels work with some hacks on top, I'm fine with merging these.
+> 
+> But it's too late for 5.11, as we need testing and work on the video mode panels. So targeting 5.12.
+Obviously your call, but I see no reason to wait for working videomode
+panles if what you have now do not introduce any (known) regressions.
 
-On Mon, Nov 23, 2020 at 7:42 PM Quan, Evan <Evan.Quan@amd.com> wrote:
->
-> [AMD Official Use Only - Internal Distribution Only]
->
-> Reviewed-by: Evan Quan <evan.quan@amd.com>
->
-> -----Original Message-----
-> From: Colin King <colin.king@canonical.com>
-> Sent: Monday, November 23, 2020 6:54 PM
-> To: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Quan, Evan <Evan.Quan@amd.com>; Wang, Kevin(Yang) <Kevin1.Wang@amd.com>; Gui, Jack <Jack.Gui@amd.com>; amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Cc: kernel-janitors@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH] drm/amd/powerplay: fix spelling mistake "smu_state_memroy_block" -> "smu_state_memory_block"
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The struct name smu_state_memroy_block contains a spelling mistake, rename it to smu_state_memory_block
->
-> Fixes: 8554e67d6e22 ("drm/amd/powerplay: implement power_dpm_state sys interface for SMU11")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h b/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
-> index 7550757cc059..a559ea2204c1 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/amdgpu_smu.h
-> @@ -99,7 +99,7 @@ struct smu_state_display_block {
->  bool              enable_vari_bright;
->  };
->
-> -struct smu_state_memroy_block {
-> +struct smu_state_memory_block {
->  bool              dll_off;
->  uint8_t                 m3arb;
->  uint8_t                 unused[3];
-> @@ -146,7 +146,7 @@ struct smu_power_state {
->  struct smu_state_validation_block             validation;
->  struct smu_state_pcie_block                   pcie;
->  struct smu_state_display_block                display;
-> -struct smu_state_memroy_block                 memory;
-> +struct smu_state_memory_block                 memory;
->  struct smu_state_software_algorithm_block     software;
->  struct smu_uvd_clocks                         uvd_clocks;
->  struct smu_hw_power_state                     hardware;
-> --
-> 2.28.0
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+ofc I assume videomode panels is something new and not something that worked
+before.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
