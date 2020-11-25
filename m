@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7A82C3E69
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 11:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BF12C3E94
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 11:57:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA7CB6E896;
-	Wed, 25 Nov 2020 10:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31036E8A4;
+	Wed, 25 Nov 2020 10:57:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A038A6E896
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 10:50:45 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id m6so1427800wrg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 02:50:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dbid+wntBG+K6X7iyhkUNMneOKYkyXw5MgQKzeb759I=;
- b=lC0uLlGRy2XOpsw0TVgma76WzCM3ZO9W+Xt7mv3UgbEoJLMFH8u2xDLwfZJgZkTl+M
- 0ZklcnnTBeoWbEhC2ssDInpoit3B27T2MLh6utu0ciADHkxoLMEYSHr3tKWapdiE8E3N
- /mBKCwyBVjRLnhlYo59O6ktitGTcNr/Z5t11M=
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8616E8A4;
+ Wed, 25 Nov 2020 10:57:16 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id y4so2070031edy.5;
+ Wed, 25 Nov 2020 02:57:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=zwBgo2KKECD2Ji1Kiezf2VcPmQXft9b9HVB6RLRewy8=;
+ b=rlSxY1uLEqu3lIi+pDm4JjL5qQ5OmOIJhozc9lrIzuAuyP21jbzYj/Af6jvffM0iQ4
+ kRdvLXvfnARUpjvFlVHmbuLJoCi6yBmmhTKYE/8WxpMQK+9y8PTveI0vpZR2jKpzmrBi
+ Hr3yDJH8l0l5EkcugSisbN7EoX3EIs+VJy7irpZFttxzueOeHngPlrO5KJwLPfyRYdFX
+ 4njCpCx+/cyBg01Hgi4EVJr416TJsZaST2DovCpKArgQFB3CCyGFjif8XOIFtdS/aTOY
+ Hn5YK1TKmzt+8VE1SZEyA5REep0QT74CHyeX4ZRT4+P4E7oIlZDW/P+sCOhN3VffyTIh
+ 0RRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dbid+wntBG+K6X7iyhkUNMneOKYkyXw5MgQKzeb759I=;
- b=asaZPARmpouDGXM0MYzVyw9D70EZi5nk4VPh3SjKRQybmOiX5XGvPAJCmrQW/LyB0I
- OI+vl/KyfrO1B0OaBbe5/iV/eOOm4iaPPD7uZMJkrt89J/JsbSQdn3KG59bQLfODBfuc
- QaIx7KSnf/tkZkvVO+/ZtLFsa4l6Fmk6J81ZlJ0VEjelV35sMHHJliWo75VkrWh1HBJf
- UhK16X9uqtd8LOP/DCg/AXDnsMyIUCBbYnfiA2Ws8nces814YelLxwt7LMQM+xOnBQWL
- 3vR424dl1+zohvz7icbGNxkiR03xbZOFozC1+cYucZDNklVeashgb/pLvhYsPEpgm/pd
- Bckg==
-X-Gm-Message-State: AOAM531GwE1JWpkuOtp+2iHNDq+xjgfq8VkcmOIPEBlrnBc/zYR8ODEF
- R2JLYG3woAUIT+YOPE/fiUOHNQ==
-X-Google-Smtp-Source: ABdhPJygzAIvTOlpUoBDHn45BEkEBF9FjCc4t6mc0lKvBSO9U0pBJ4Me1FeEcIo9aXbaVoYQPyGpJw==
-X-Received: by 2002:a5d:474f:: with SMTP id o15mr3301528wrs.377.1606301444354; 
- Wed, 25 Nov 2020 02:50:44 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id u16sm4014316wrn.55.2020.11.25.02.50.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 02:50:43 -0800 (PST)
-Date: Wed, 25 Nov 2020 11:50:41 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
-Message-ID: <20201125105041.GX401619@phenom.ffwll.local>
-References: <1606153984-104583-1-git-send-email-jianxin.xiong@intel.com>
- <1606153984-104583-4-git-send-email-jianxin.xiong@intel.com>
- <20201123180504.GA244516@ziepe.ca>
- <20201124151658.GT401619@phenom.ffwll.local>
- <MW3PR11MB45554AAEB1C370A78EB87816E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=zwBgo2KKECD2Ji1Kiezf2VcPmQXft9b9HVB6RLRewy8=;
+ b=eEzto0Yb+U5XpRnZPDN6ENbtG0cdkbNuEKZPYTISfxledHW2hYC7/5A3w6DZz7NFqd
+ VJSVcI1pmyAprUZ2n1yh3f0+r/i1MULkks4BBRyTE9KUq41it/af5UfrqOeBbMIoH9Tl
+ NkNbWCy7X+C/MPKhHkZyUvmz0g/QERtgfOSkykX7g3uKCr6BdU3dNTi7jGPHFzwgtNfy
+ vK3kj70ef9qdjEE8kiJ3Voabt9xkZHKT2MirfqTnQC12eyb0SMLz/ZiNFW4ObtYIHXHa
+ NJeOIO8UlM++M4xd5YdcJDi+vJ9/eG2cVG3zFXrLkroWnliOSV1w8qr7SaIhVCtlZ/mL
+ QnGw==
+X-Gm-Message-State: AOAM531TrC3L6I5n6i+9TU2cNhlaKM42Ue8uYGkGYdg9BWoA93wyDiHc
+ Pk2ZQcZsA0pnRhKViR2Mc0Y=
+X-Google-Smtp-Source: ABdhPJw5hOowBrVxi6IKtT2ld93rvT+3wAazNPDrjMK7Ek5SZ79tacxIEjP0YDPLmIaCCg+jwZSEhQ==
+X-Received: by 2002:a05:6402:3d9:: with SMTP id
+ t25mr2852902edw.338.1606301834901; 
+ Wed, 25 Nov 2020 02:57:14 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id v8sm1008568edt.3.2020.11.25.02.57.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Nov 2020 02:57:14 -0800 (PST)
+Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
+ <6319ba4d-f45f-77ec-8752-33f3cad443fd@amd.com>
+ <d1508c4f-df3e-fa3c-3071-d8a58295e674@suse.de>
+ <cbfa3e8d-81a3-5620-d4fc-72188cfb42ee@amd.com>
+ <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
+ <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
+ <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
+ <20201124140937.GK401619@phenom.ffwll.local>
+ <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
+ <2f8a252a-5413-4b75-a367-f6233121e36e@amd.com>
+ <20201125103645.GU401619@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <c56c6563-e22d-3f63-59e5-272c19e983ed@gmail.com>
+Date: Wed, 25 Nov 2020 11:57:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <MW3PR11MB45554AAEB1C370A78EB87816E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201125103645.GU401619@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,179 +82,151 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, "Vetter,
- Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: christian.koenig@amd.com
+Cc: airlied@linux.ie, alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 24, 2020 at 06:45:06PM +0000, Xiong, Jianxin wrote:
-> > -----Original Message-----
-> > From: Daniel Vetter <daniel@ffwll.ch>
-> > Sent: Tuesday, November 24, 2020 7:17 AM
-> > To: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Xiong, Jianxin <jianxin.xiong@intel.com>; Leon Romanovsky <leon@kernel.org>; linux-rdma@vger.kernel.org; dri-
-> > devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig
-> > <christian.koenig@amd.com>
-> > Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
-> > 
-> > On Mon, Nov 23, 2020 at 02:05:04PM -0400, Jason Gunthorpe wrote:
-> > > On Mon, Nov 23, 2020 at 09:53:02AM -0800, Jianxin Xiong wrote:
-> > >
-> > > > +cdef class DmaBuf:
-> > > > +    def __init__(self, size, unit=0):
-> > > > +        """
-> > > > +        Allocate DmaBuf object from a GPU device. This is done through the
-> > > > +        DRI device interface (/dev/dri/card*). Usually this
-> > > > +requires the
-> > 
-> > Please use /dev/dri/renderD* instead. That's the interface meant for unpriviledged rendering access. card* is the legacy interface with
-> > backwards compat galore, don't use.
-> > 
-> > Specifically if you do this on a gpu which also has display (maybe some testing on a local developer machine, no idea ...) then you mess with
-> > compositors and stuff.
-> > 
-> > Also wherever you copied this from, please also educate those teams that using /dev/dri/card* for rendering stuff is a Bad Idea (tm)
-> 
-> /dev/dri/renderD* is not always available (e.g. for many iGPUs) and doesn't support
-> mode setting commands (including dumb_buf). The original intention here is to
-> have something to support the new tests added, not for general compute. 
-
-Not having dumb_buf available is a feature. So even more reasons to use
-that.
-
-Also note that amdgpu has killed card* access pretty much, it's for
-modesetting only.
-
-> > > > +        effective user id being root or being a member of the 'video' group.
-> > > > +        :param size: The size (in number of bytes) of the buffer.
-> > > > +        :param unit: The unit number of the GPU to allocate the buffer from.
-> > > > +        :return: The newly created DmaBuf object on success.
-> > > > +        """
-> > > > +        self.dmabuf_mrs = weakref.WeakSet()
-> > > > +        self.dri_fd = open('/dev/dri/card'+str(unit), O_RDWR)
-> > > > +
-> > > > +        args = bytearray(32)
-> > > > +        pack_into('=iiiiiiq', args, 0, 1, size, 8, 0, 0, 0, 0)
-> > > > +        ioctl(self.dri_fd, DRM_IOCTL_MODE_CREATE_DUMB, args)
-> > > > +        a, b, c, d, self.handle, e, self.size = unpack('=iiiiiiq',
-> > > > + args)
-> > 
-> > Yeah no, don't allocate render buffers with create_dumb. Every time this comes up I'm wondering whether we should just completely
-> > disable dma-buf operations on these. Dumb buffers are explicitly only for software rendering for display purposes when the gpu userspace
-> > stack isn't fully running yet, aka boot splash.
-> > 
-> > And yes I know there's endless amounts of abuse of that stuff floating around, especially on arm-soc/android systems.
-> 
-> One alternative is to use the GEM_CREATE method which can be done via the renderD*
-> device, but the command is vendor specific, so the logic is a little bit more complex. 
-
-Yup. I guess the most minimal thing is to have a per-vendor (you can ask
-drm for the driver name to match the right one) callback here to allocate
-buffers correctly. Might be less churn than trying to pull in vulkan or
-something like that.
-
-It's at least what we're doing in igt for testing drm drivers (although
-most of the generic igt tests for display, so dumb_buffer fallback is
-available).
-
-DRM_IOCTL_VERSION is the thing you'd need here, struct drm_version.name
-has the field for figuring out which driver it is.
-
-Also drivers without render node support won't ever be in the same system
-as an rdma card and actually useful (because well they're either very old,
-or display-only). So not an issue I think.
-
-> > > > +
-> > > > +        args = bytearray(12)
-> > > > +        pack_into('=iii', args, 0, self.handle, O_RDWR, 0)
-> > > > +        ioctl(self.dri_fd, DRM_IOCTL_PRIME_HANDLE_TO_FD, args)
-> > > > +        a, b, self.fd = unpack('=iii', args)
-> > > > +
-> > > > +        args = bytearray(16)
-> > > > +        pack_into('=iiq', args, 0, self.handle, 0, 0)
-> > > > +        ioctl(self.dri_fd, DRM_IOCTL_MODE_MAP_DUMB, args);
-> > > > +        a, b, self.map_offset = unpack('=iiq', args);
-> > >
-> > > Wow, OK
-> > >
-> > > Is it worth using ctypes here instead? Can you at least add a comment
-> > > before each pack specifying the 'struct XXX' this is following?
-> > >
-> > > Does this work with normal Intel GPUs, like in a Laptop? AMD too?
-> > >
-> > > Christian, I would be very happy to hear from you that this entire
-> > > work is good for AMD as well
-> > 
-> > I think the smallest generic interface for allocating gpu buffers which are more useful than the stuff you get from CREATE_DUMB is gbm.
-> > That's used by compositors to get bare metal opengl going on linux. Ofc Android has gralloc for the same purpose, and cros has minigbm
-> > (which isn't the same as gbm at all). So not so cool.
-> 
-> Again, would the "renderD* + GEM_CREATE" combination be an acceptable alternative? 
-> That would be much simpler than going with gbm and less dependency in setting up
-> the testing evrionment.
-
-Yeah imo makes sense. It's a bunch more code for you to make it work on
-i915 and amd, but it's not terrible. And avoids the dependencies, and also
-avoids the abuse of card* and dumb buffers. Plus not really more complex,
-you just need a table or something to match from the drm driver name to
-the driver-specific buffer create function. Everything else stays the
-same.
-
-Also this opens up the door to force-test stuff like p2p in the future,
-since at least on i915 you'll be able to ensure that a buffer is in vram
-only.
-
-Would be good if we also have a trick for amdgpu to make sure the buffer
-stays in vram. I think there's some flags you can pass to the amdgpu
-buffer create function. So maybe you want 2 testcases here, one allocates
-the buffer in system memory, the other in vram for testing p2p
-functionality. That kind of stuff isn't possible with dumb buffers.
--Daniel
-
-
-
-
-> > 
-> > The other generic option is using vulkan, which works directly on bare metal (without a compositor or anything running), and is cross vendor.
-> > So cool, except not used for compute, which is generally the thing you want if you have an rdma card.
-> > 
-> > Both gbm-egl/opengl and vulkan have extensions to hand you a dma-buf back, properly.
-> > 
-> > Compute is the worst, because opencl is widely considered a mistake (maybe opencl 3 is better, but nvidia is stuck on 1.2). The actually used
-> > stuff is cuda (nvidia-only), rocm (amd-only) and now with intel also playing we have xe (intel-only).
-> > 
-> > It's pretty glorious :-/
-> > 
-> > Also I think we discussed this already, but for actual p2p the intel patches aren't in upstream yet. We have some internally, but with very
-> > broken locking (in the process of getting fixed up, but it's taking time).
-> > 
-> > Cheers, Daniel
-> > 
-> > > Edward should look through this, but I'm glad to see something like
-> > > this
-> > >
-> > > Thanks,
-> > > Jason
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > 
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QW0gMjUuMTEuMjAgdW0gMTE6MzYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgTm92
+IDI1LCAyMDIwIGF0IDExOjEzOjEzQU0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
+IEFtIDI1LjExLjIwIHVtIDA5OjM3IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46Cj4+PiBIaQo+
+Pj4KPj4+IEFtIDI0LjExLjIwIHVtIDE1OjA5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+PiBP
+biBUdWUsIE5vdiAyNCwgMjAyMCBhdCAwMjo1Njo1MVBNICswMTAwLCBUaG9tYXMgWmltbWVybWFu
+biB3cm90ZToKPj4+Pj4gSGkKPj4+Pj4KPj4+Pj4gQW0gMjQuMTEuMjAgdW0gMTQ6MzYgc2Nocmll
+YiBDaHJpc3RpYW4gS8O2bmlnOgo+Pj4+Pj4gQW0gMjQuMTEuMjAgdW0gMTM6MTUgc2NocmllYiBU
+aG9tYXMgWmltbWVybWFubjoKPj4+Pj4+PiBbU05JUF0KPj4+Pj4+Pj4+Pj4gRmlyc3QgSSB3YW50
+ZWQgdG8gcHV0IHRoaXMgaW50bwo+Pj4+Pj4+Pj4+PiBkcm1fZ2VtX3R0bV92bWFwL3Z1bm1hcCgp
+LCBidXQgdGhlbiB3b25kZXJlZCB3aHkKPj4+Pj4+Pj4+Pj4gdHRtX2JvX3ZtYXAoKSBkb2Ugbm90
+IGFjcXVpcmUgdGhlIGxvY2sgaW50ZXJuYWxseT8KPj4+Pj4+Pj4+Pj4gSSdkIGV4cGVjdCB0aGF0
+IHZtYXAvdnVubWFwIGFyZSBjbG9zZSB0b2dldGhlciBhbmQKPj4+Pj4+Pj4+Pj4gZG8gbm90IG92
+ZXJsYXAgZm9yIHRoZSBzYW1lIEJPLgo+Pj4+Pj4+Pj4+IFdlIGhhdmUgdXNlIGNhc2VzIGxpa2Ug
+dGhlIGZvbGxvd2luZyBkdXJpbmcgY29tbWFuZCBzdWJtaXNzaW9uOgo+Pj4+Pj4+Pj4+Cj4+Pj4+
+Pj4+Pj4gMS4gbG9jawo+Pj4+Pj4+Pj4+IDIuIG1hcAo+Pj4+Pj4+Pj4+IDMuIGNvcHkgcGFydHMg
+b2YgdGhlIEJPIGNvbnRlbnQgc29tZXdoZXJlIGVsc2Ugb3IgcGF0Y2gKPj4+Pj4+Pj4+PiBpdCB3
+aXRoIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24KPj4+Pj4+Pj4+PiA0LiB1bm1hcAo+Pj4+Pj4+Pj4+
+IDUuIHN1Ym1pdCBCTyB0byB0aGUgaGFyZHdhcmUKPj4+Pj4+Pj4+PiA2LiBhZGQgaGFyZHdhcmUg
+ZmVuY2UgdG8gdGhlIEJPIHRvIG1ha2Ugc3VyZSBpdCBkb2Vzbid0IG1vdmUKPj4+Pj4+Pj4+PiA3
+LiB1bmxvY2sKPj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+IFRoYXQgdXNlIGNhc2Ugd29uJ3QgYmUgcG9z
+c2libGUgd2l0aCB2bWFwL3Z1bm1hcCBpZiB3ZQo+Pj4+Pj4+Pj4+IG1vdmUgdGhlIGxvY2svdW5s
+b2NrIGludG8gaXQgYW5kIEkgaG9wZSB0byByZXBsYWNlIHRoZQo+Pj4+Pj4+Pj4+IGttYXAva3Vu
+bWFwIGZ1bmN0aW9ucyB3aXRoIHRoZW0gaW4gdGhlIG5lYXIgdGVybS4KPj4+Pj4+Pj4+Pgo+Pj4+
+Pj4+Pj4+PiBPdGhlcndpc2UsIGFjcXVpcmluZyB0aGUgcmVzZXJ2YXRpb24gbG9jayB3b3VsZAo+
+Pj4+Pj4+Pj4+PiByZXF1aXJlIGFub3RoZXIgcmVmLWNvdW50aW5nIHZhcmlhYmxlIG9yIHBlci1k
+cml2ZXIKPj4+Pj4+Pj4+Pj4gY29kZS4KPj4+Pj4+Pj4+PiBIdWksIHdoeSB0aGF0PyBKdXN0IHB1
+dCB0aGlzIGludG8KPj4+Pj4+Pj4+PiBkcm1fZ2VtX3R0bV92bWFwL3Z1bm1hcCgpIGhlbHBlciBh
+cyB5b3UgaW5pdGlhbGx5Cj4+Pj4+Pj4+Pj4gcGxhbm5lZC4KPj4+Pj4+Pj4+IEdpdmVuIHlvdXIg
+ZXhhbXBsZSBhYm92ZSwgc3RlcCBvbmUgd291bGQgYWNxdWlyZSB0aGUgbG9jaywKPj4+Pj4+Pj4+
+IGFuZCBzdGVwIHR3byB3b3VsZCBhbHNvIGFjcXVpcmUgdGhlIGxvY2sgYXMgcGFydCBvZiB0aGUg
+dm1hcAo+Pj4+Pj4+Pj4gaW1wbGVtZW50YXRpb24uIFdvdWxkbid0IHRoaXMgZmFpbCAoQXQgbGVh
+c3QgZHVyaW5nIHVubWFwIG9yCj4+Pj4+Pj4+PiB1bmxvY2sgc3RlcHMpID8KPj4+Pj4+Pj4gT2gs
+IHNvIHlvdSB3YW50IHRvIG5lc3QgdGhlbT8gTm8sIHRoYXQgaXMgYSByYXRoZXIgYmFkIG5vLWdv
+Lgo+Pj4+Pj4+IEkgZG9uJ3Qgd2FudCB0byBuZXN0L292ZXJsYXAgdGhlbS4gTXkgcXVlc3Rpb24g
+d2FzIHdoZXRoZXIgdGhhdAo+Pj4+Pj4+IHdvdWxkIGJlIHJlcXVpcmVkLiBBcHBhcmVudGx5IG5v
+dC4KPj4+Pj4+Pgo+Pj4+Pj4+IFdoaWxlIHRoZSBjb25zb2xlJ3MgQk8gaXMgYmVpbmcgc2V0IGZv
+ciBzY2Fub3V0LCBpdCdzIHByb3RlY3RlZCBmcm9tCj4+Pj4+Pj4gbW92ZW1lbnQgdmlhIHRoZSBw
+aW4vdW5waW4gaW1wbGVtZW50YXRpb24sIHJpZ2h0Pwo+Pj4+Pj4gWWVzLCBjb3JyZWN0Lgo+Pj4+
+Pj4KPj4+Pj4+PiBUaGUgZHJpdmVyIGRvZXMgbm90IGFjcXVpcmUgdGhlIHJlc3YgbG9jayBmb3Ig
+bG9uZ2VyIHBlcmlvZHMuIEknbQo+Pj4+Pj4+IGFza2luZyBiZWNhdXNlIHRoaXMgd291bGQgcHJl
+dmVudCBhbnkgY29uc29sZS1idWZmZXIgdXBkYXRlcyB3aGlsZQo+Pj4+Pj4+IHRoZSBjb25zb2xl
+IGlzIGJlaW5nIGRpc3BsYXllZC4KPj4+Pj4+IENvcnJlY3QgYXMgd2VsbCwgd2Ugb25seSBob2xk
+IHRoZSBsb2NrIGZvciB0aGluZ3MgbGlrZSBjb21tYW5kCj4+Pj4+PiBzdWJtaXNzaW9uLCBwaW5u
+aW5nLCB1bnBpbm5pbmcgZXRjIGV0Yy4uLi4KPj4+Pj4+Cj4+Pj4+IFRoYW5rcyBmb3IgYW5zd2Vy
+aW5nIG15IHF1ZXN0aW9ucy4KPj4+Pj4KPj4+Pj4+Pj4gWW91IG5lZWQgdG8gbWFrZSBzdXJlIHRo
+YXQgdGhlIGxvY2sgaXMgb25seSB0YWtlbiBmcm9tIHRoZSBGQgo+Pj4+Pj4+PiBwYXRoIHdoaWNo
+IHdhbnRzIHRvIHZtYXAgdGhlIG9iamVjdC4KPj4+Pj4+Pj4KPj4+Pj4+Pj4gV2h5IGRvbid0IHlv
+dSBsb2NrIHRoZSBHRU0gb2JqZWN0IGZyb20gdGhlIGNhbGxlciBpbiB0aGUgZ2VuZXJpYwo+Pj4+
+Pj4+PiBGQiBpbXBsZW1lbnRhdGlvbj8KPj4+Pj4+PiBXaXRoIHRoZSBjdXJyZW50IGJsaXR0ZXIg
+Y29kZSwgaXQgYnJlYWtzIGFic3RyYWN0aW9uLiBpZiB2bWFwL3Z1bm1hcAo+Pj4+Pj4+IGhvbGQg
+dGhlIGxvY2sgaW1wbGljaXRseSwgdGhpbmdzIHdvdWxkIGJlIGVhc2llci4KPj4+Pj4+IERvIHlv
+dSBoYXZlIGEgbGluayB0byB0aGUgY29kZT8KPj4+Pj4gSXQncyB0aGUgZGFtYWdlIGJsaXR0ZXIg
+aW4gdGhlIGZiZGV2IGNvZGUuIFsxXSBXaGlsZSBpdCBmbHVzaGVzCj4+Pj4+IHRoZSBzaGFkb3cK
+Pj4+Pj4gYnVmZmVyIGludG8gdGhlIEJPLCB0aGUgQk8gaGFzIHRvIGJlIGtlcHQgaW4gcGxhY2Uu
+IEkgYWxyZWFkeQo+Pj4+PiBjaGFuZ2VkIGl0IHRvCj4+Pj4+IGxvY2sgc3RydWN0IGRybV9mYl9o
+ZWxwZXIubG9jaywgYnV0IEkgZG9uJ3QgdGhpbmsgdGhpcyBpcwo+Pj4+PiBlbm91Z2guIFRUTSBj
+b3VsZAo+Pj4+PiBzdGlsbCBldmljdCB0aGUgQk8gY29uY3VycmVudGx5Lgo+Pj4+IFNvIEknbSBu
+b3Qgc3VyZSB0aGlzIGlzIGFjdHVhbGx5IGEgcHJvYmxlbTogdHRtIGNvdWxkIHRyeSB0bwo+Pj4+
+IGNvbmN1cnJlbnRseQo+Pj4+IGV2aWN0IHRoZSBidWZmZXIgd2UgcGlubmVkIGludG8gdnJhbSwg
+YW5kIHRoZW4ganVzdCBza2lwIHRvIHRoZSBuZXh0Cj4+Pj4gb25lLgo+Pj4+Cj4+Pj4gUGx1cyBh
+dG0gZ2VuZXJpYyBmYmRldiBpc24ndCB1c2VkIG9uIGFueSBjaGlwIHdoZXJlIHdlIHJlYWxseSBj
+YXJlIGFib3V0Cj4+Pj4gdGhhdCBsYXN0IGZldyBtYiBvZiB2cmFtIGJlaW5nIHVzZWFibGUgZm9y
+IGNvbW1hbmQgc3VibWlzc2lvbiAod2VsbCBhdG0KPj4+PiB0aGVyZSdzIG5vIGRyaXZlciB1c2lu
+ZyBpdCkuCj4+PiBXZWxsLCB0aGlzIGlzIHRoZSBwYXRjaHNldCBmb3IgcmFkZW9uLiBJZiBpdCB3
+b3JrcyBvdXQsIGFtZGdwdSBhbmQKPj4+IG5vdXZlYXUgYXJlIG5hdHVyYWwgbmV4dCBjaG9pY2Vz
+LiBFc3BlY2lhbGx5IHJhZGVvbiBhbmQgbm91dmVhdSBzdXBwb3J0Cj4+PiBjYXJkcyB3aXRoIGxv
+dy0gdG8gbWVkaXVtLXNpemVkIFZSQU0uIFRoZSBNaUJzIHdhc3RlZCBvbiBmYmRldiBjZXJ0YWlu
+bHkKPj4+IG1hdHRlci4KPj4+Cj4+Pj4gSGF2aW5nIHRoZSBidWZmZXIgcGlubmVkIGludG8gc3lz
+dGVtIG1lbW9yeSBhbmQgdHJ5aW5nIHRvIGRvIGEKPj4+PiBjb25jdXJyZW50Cj4+Pj4gbW9kZXNl
+dCB0aGF0IHRyaWVzIHRvIHB1bGwgaXQgaW4gaXMgdGhlIGhhcmQgZmFpbHVyZSBtb2RlLiBBbmQg
+aG9sZGluZwo+Pj4+IGZiX2hlbHBlci5sb2NrIGZ1bGx5IHByZXZlbnRzIHRoYXQuCj4+Pj4KPj4+
+PiBTbyBub3QgcmVhbGx5IGNsZWFyIG9uIHdoYXQgZmFpbHVyZSBtb2RlIHlvdSdyZSBzZWVpbmcg
+aGVyZT8KPj4+IEltYWdpbmUgdGhlIGZiZGV2IEJPIGlzIGluIFZSQU0sIGJ1dCBub3QgcGlubmVk
+LiAoTWF5YmUgWG9yZyBvciBXYXlsYW5kCj4+PiBpcyBydW5uaW5nLikgVGhlIGZiZGV2IEJPIGlz
+IGEgZmV3IE1pQnMgYW5kIG5vdCBpbiB1c2UsIHNvIFRUTSB3b3VsZAo+Pj4gd2FudCB0byBldmlj
+dCBpdCBpZiBtZW1vcnkgZ2V0cyB0aWdodC4KPj4+Cj4+PiBXaGF0IEkgaGF2ZSBpbiBtaW5kIGlz
+IGEgY29uY3VycmVudCBtb2Rlc2V0IHRoYXQgcmVxdWlyZXMgdGhlIG1lbW9yeS4gSWYKPj4+IHdl
+IGRvIGEgY29uY3VycmVudCBkYW1hZ2UgYmxpdCB3aXRob3V0IHByb3RlY3RpbmcgYWdhaW5zdCBl
+dmljdGlvbiwKPj4+IHRoaW5ncyBnbyBib29tLiBTYW1lIGZvciBjb25jdXJyZW50IDNkIGdyYXBo
+aWNzIHdpdGggdGV4dHVyZXMsIG1vZGVsCj4+PiBkYXRhLCBldGMuCj4+IENvbXBsZXRlbHkgYWdy
+ZWUuCj4+Cj4+IFRoaXMgbmVlZHMgcHJvcGVyIGxvY2sgcHJvdGVjdGlvbiBvZiB0aGUgbWVtb3J5
+IG1hcHBlZCBidWZmZXIuIFJlbHlpbmcgb24KPj4gdGhhdCBzb21lIG90aGVyIGNvZGUgaXNuJ3Qg
+cnVuIGJlY2F1c2Ugd2UgaGF2ZSBzb21lIHRoaXJkIHBhcnQgbG9ja3MgdGFrZW4KPj4gaXMgbm90
+IHN1ZmZpY2llbnQgaGVyZS4KPiBXZSBhcmUgc3RpbGwgcHJvdGVjdGVkIGJ5IHRoZSBwaW4gY291
+bnQgaW4gdGhpcyBzY2VuYXJpby4gUGx1cywgd2l0aAo+IGN1cnJlbnQgZHJpdmVycyB3ZSBhbHdh
+eXMgcGluIHRoZSBmYmRldiBidWZmZXIgaW50byB2cmFtLCBzbyBvY2Nhc2lvbmFsbHkKPiBmYWls
+aW5nIHRvIG1vdmUgaXQgb3V0IGlzbid0IGEgcmVncmVzc2lvbi4KPgo+IFNvIEknbSBzdGlsbCBu
+b3Qgc2VlaW5nIGhvdyB0aGlzIGNhbiBnbyBib29tLgoKV2VsbCBhcyBmYXIgYXMgSSB1bmRlcnN0
+YW5kIGl0IHRoZSBwaW4gY291bnQgaXMgemVybyBmb3IgdGhpcyBidWZmZXIgaW4gCnRoaXMgY2Fz
+ZSBoZXJlIDopCgpJIG1pZ2h0IGJlIHdyb25nIG9uIHRoaXMgYmVjYXVzZSBJIGRvbid0IGtub3cg
+dGhlIEZCIGNvZGUgYXQgYWxsLCBidXQgClRob21hcyBzZWVtcyB0byBiZSBwcmV0dHkgY2xlYXIg
+dGhhdCB0aGlzIGlzIHRoZSBzaGFkb3cgYnVmZmVyIHdoaWNoIGlzIApub3Qgc2Nhbm5lZCBvdXQg
+ZnJvbS4KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBOb3cgbG9uZyB0ZXJtIGl0J2QgYmUgbmlj
+ZSB0byBjdXQgZXZlcnl0aGluZyBvdmVyIHRvIGRtYV9yZXN2IGxvY2tpbmcsIGJ1dAo+IHRoZSBp
+c3N1ZSB0aGVyZSBpcyB0aGF0IGJleW9uZCB0dG0sIG5vbmUgb2YgdGhlIGhlbHBlcnMgKGFuZCBm
+ZXcgb2YgdGhlCj4gZHJpdmVycykgdXNlIGRtYV9yZXN2LiBTbyB0aGlzIGlzIGEgZmFpcmx5IGJp
+ZyB1cGhpbGwgYmF0dGxlLiBRdWljawo+IGludGVyaW0gZml4IHNlZW1zIGxpa2UgdGhlIHJpZ2h0
+IHNvbHV0aW9uIHRvIG1lLgo+IC1EYW5pZWwKPgo+PiBSZWdhcmRzLAo+PiBDaHJpc3RpYW4uCj4+
+Cj4+PiBCZXN0IHJlZ2FyZHMKPj4+IFRob21hcwo+Pj4KPj4+Pj4gVGhlcmUncyBubyByZWN1cnNp
+b24gdGFraW5nIHBsYWNlLCBzbyBJIGd1ZXNzIHRoZSByZXNlcnZhdGlvbgo+Pj4+PiBsb2NrIGNv
+dWxkIGJlCj4+Pj4+IGFjcXVpcmVkL3JlbGVhc2UgaW4gZHJtX2NsaWVudF9idWZmZXJfdm1hcC92
+dW5tYXAoKSwgb3IgYQo+Pj4+PiBzZXBhcmF0ZSBwYWlyIG9mCj4+Pj4+IERSTSBjbGllbnQgZnVu
+Y3Rpb25zIGNvdWxkIGRvIHRoZSBsb2NraW5nLgo+Pj4+IEdpdmVuIGhvdyB0aGlzICJkbyB0aGUg
+cmlnaHQgbG9ja2luZyIgaXMgYSBjYW4gb2Ygd29ybXMgKGFuZCBJIHRoaW5rCj4+Pj4gaXQncwo+
+Pj4+IHdvcnNlIHRoYW4gd2hhdCB5b3UgZHVnIG91dCBhbHJlYWR5KSBJIHRoaW5rIHRoZSBmYl9o
+ZWxwZXIubG9jayBoYWNrIGlzCj4+Pj4gcGVyZmVjdGx5IGdvb2QgZW5vdWdoLgo+Pj4+Cj4+Pj4g
+SSdtIGFsc28gc29tZXdoYXQgd29ycmllZCB0aGF0IHN0YXJ0aW5nIHRvIHVzZSBkbWFfcmVzdiBs
+b2NrIGluIGdlbmVyaWMKPj4+PiBjb2RlLCB3aGlsZSBtYW55IGhlbHBlcnMvZHJpdmVycyBzdGls
+bCBoYXZlIHRoZWlyIGhhbmQtcm9sbGVkIGxvY2tpbmcsCj4+Pj4gd2lsbCBtYWtlIGNvbnZlcnNp
+b24gb3ZlciB0byBkbWFfcmVzdiBuZWVkbGVzc2x5IG1vcmUgY29tcGxpY2F0ZWQuCj4+Pj4gLURh
+bmllbAo+Pj4+Cj4+Pj4+IEJlc3QgcmVnYXJkcwo+Pj4+PiBUaG9tYXMKPj4+Pj4KPj4+Pj4gWzFd
+IGh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS10aXAvdHJlZS9kcml2ZXJzL2dw
+dS9kcm0vZHJtX2ZiX2hlbHBlci5jP2lkPWFjNjBmM2YzMDkwMTE1ZDIxZjAyOGJmZmEyZGNmYjY3
+ZjY5NWM0ZjIjbjM5NAo+Pj4+Pgo+Pj4+Pj4gUGxlYXNlIG5vdGUgdGhhdCB0aGUgcmVzZXJ2YXRp
+b24gbG9jayB5b3UgbmVlZCB0byB0YWtlIGhlcmUgaXMgcGFydCBvZgo+Pj4+Pj4gdGhlIEdFTSBv
+YmplY3QuCj4+Pj4+Pgo+Pj4+Pj4gVXN1YWxseSB3ZSBkZXNpZ24gdGhpbmdzIGluIHRoZSB3YXkg
+dGhhdCB0aGUgY29kZSBuZWVkcyB0byB0YWtlIGEgbG9jawo+Pj4+Pj4gd2hpY2ggcHJvdGVjdHMg
+YW4gb2JqZWN0LCB0aGVuIGRvIHNvbWUgb3BlcmF0aW9ucyB3aXRoIHRoZSBvYmplY3QgYW5kCj4+
+Pj4+PiB0aGVuIHJlbGVhc2UgdGhlIGxvY2sgYWdhaW4uCj4+Pj4+Pgo+Pj4+Pj4gSGF2aW5nIGlu
+IHRoZSBsb2NrIGluc2lkZSB0aGUgb3BlcmF0aW9uIGNhbiBiZSBkb25lIGFzIHdlbGwsIGJ1dAo+
+Pj4+Pj4gcmV0dXJuaW5nIHdpdGggaXQgaXMga2luZCBvZiB1bnVzdWFsIGRlc2lnbi4KPj4+Pj4+
+Cj4+Pj4+Pj4gU29ycnkgZm9yIHRoZSBub29iIHF1ZXN0aW9ucy4gSSdtIHN0aWxsIHRyeWluZyB0
+byB1bmRlcnN0YW5kIHRoZQo+Pj4+Pj4+IGltcGxpY2F0aW9ucyBvZiBhY3F1aXJpbmcgdGhlc2Ug
+bG9ja3MuCj4+Pj4+PiBXZWxsIHRoaXMgaXMgdGhlIHJlc2VydmF0aW9uIGxvY2sgb2YgdGhlIEdF
+TSBvYmplY3Qgd2UgYXJlCj4+Pj4+PiB0YWxraW5nIGFib3V0Cj4+Pj4+PiBoZXJlLiBXZSBuZWVk
+IHRvIHRha2UgdGhhdCBmb3IgYSBjb3VwbGUgb2YgZGlmZmVyZW50IG9wZXJhdGlvbnMsCj4+Pj4+
+PiB2bWFwL3Z1bm1hcCBkb2Vzbid0IHNvdW5kIGxpa2UgYSBzcGVjaWFsIGNhc2UgdG8gbWUuCj4+
+Pj4+Pgo+Pj4+Pj4gUmVnYXJkcywKPj4+Pj4+IENocmlzdGlhbi4KPj4+Pj4+Cj4+Pj4+Pj4gQmVz
+dCByZWdhcmRzCj4+Pj4+Pj4gVGhvbWFzCj4+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fXwo+Pj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+
+Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4+Pj4gaHR0cHM6Ly9saXN0cy5m
+cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPj4+Pj4gLS0gCj4+Pj4+
+IFRob21hcyBaaW1tZXJtYW5uCj4+Pj4+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPj4+Pj4g
+U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4+Pj4+IE1heGZlbGRzdHIuIDUs
+IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+Pj4+PiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
+Cj4+Pj4+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPj4+Pgo+Pj4+Cj4+
+Pj4KPj4+Pgo+Pj4+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
+cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
+ZWwK
