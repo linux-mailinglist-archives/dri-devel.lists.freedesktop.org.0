@@ -1,75 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BF12C3E94
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 11:57:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C236F2C3EB2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 12:04:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B31036E8A4;
-	Wed, 25 Nov 2020 10:57:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC616E923;
+	Wed, 25 Nov 2020 11:04:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
- [IPv6:2a00:1450:4864:20::543])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E8616E8A4;
- Wed, 25 Nov 2020 10:57:16 +0000 (UTC)
-Received: by mail-ed1-x543.google.com with SMTP id y4so2070031edy.5;
- Wed, 25 Nov 2020 02:57:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=zwBgo2KKECD2Ji1Kiezf2VcPmQXft9b9HVB6RLRewy8=;
- b=rlSxY1uLEqu3lIi+pDm4JjL5qQ5OmOIJhozc9lrIzuAuyP21jbzYj/Af6jvffM0iQ4
- kRdvLXvfnARUpjvFlVHmbuLJoCi6yBmmhTKYE/8WxpMQK+9y8PTveI0vpZR2jKpzmrBi
- Hr3yDJH8l0l5EkcugSisbN7EoX3EIs+VJy7irpZFttxzueOeHngPlrO5KJwLPfyRYdFX
- 4njCpCx+/cyBg01Hgi4EVJr416TJsZaST2DovCpKArgQFB3CCyGFjif8XOIFtdS/aTOY
- Hn5YK1TKmzt+8VE1SZEyA5REep0QT74CHyeX4ZRT4+P4E7oIlZDW/P+sCOhN3VffyTIh
- 0RRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=zwBgo2KKECD2Ji1Kiezf2VcPmQXft9b9HVB6RLRewy8=;
- b=eEzto0Yb+U5XpRnZPDN6ENbtG0cdkbNuEKZPYTISfxledHW2hYC7/5A3w6DZz7NFqd
- VJSVcI1pmyAprUZ2n1yh3f0+r/i1MULkks4BBRyTE9KUq41it/af5UfrqOeBbMIoH9Tl
- NkNbWCy7X+C/MPKhHkZyUvmz0g/QERtgfOSkykX7g3uKCr6BdU3dNTi7jGPHFzwgtNfy
- vK3kj70ef9qdjEE8kiJ3Voabt9xkZHKT2MirfqTnQC12eyb0SMLz/ZiNFW4ObtYIHXHa
- NJeOIO8UlM++M4xd5YdcJDi+vJ9/eG2cVG3zFXrLkroWnliOSV1w8qr7SaIhVCtlZ/mL
- QnGw==
-X-Gm-Message-State: AOAM531TrC3L6I5n6i+9TU2cNhlaKM42Ue8uYGkGYdg9BWoA93wyDiHc
- Pk2ZQcZsA0pnRhKViR2Mc0Y=
-X-Google-Smtp-Source: ABdhPJw5hOowBrVxi6IKtT2ld93rvT+3wAazNPDrjMK7Ek5SZ79tacxIEjP0YDPLmIaCCg+jwZSEhQ==
-X-Received: by 2002:a05:6402:3d9:: with SMTP id
- t25mr2852902edw.338.1606301834901; 
- Wed, 25 Nov 2020 02:57:14 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id v8sm1008568edt.3.2020.11.25.02.57.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Nov 2020 02:57:14 -0800 (PST)
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
- <6319ba4d-f45f-77ec-8752-33f3cad443fd@amd.com>
- <d1508c4f-df3e-fa3c-3071-d8a58295e674@suse.de>
- <cbfa3e8d-81a3-5620-d4fc-72188cfb42ee@amd.com>
- <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
- <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
- <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
- <20201124140937.GK401619@phenom.ffwll.local>
- <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
- <2f8a252a-5413-4b75-a367-f6233121e36e@amd.com>
- <20201125103645.GU401619@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c56c6563-e22d-3f63-59e5-272c19e983ed@gmail.com>
-Date: Wed, 25 Nov 2020 11:57:13 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6C1696E8A7;
+ Wed, 25 Nov 2020 11:04:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 88F9A106F;
+ Wed, 25 Nov 2020 03:04:06 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6E2973F70D;
+ Wed, 25 Nov 2020 03:04:05 -0800 (PST)
+Subject: Re: [PATCH 3/6] drm/scheduler: Job timeout handler returns status
+To: Luben Tuikov <luben.tuikov@amd.com>,
+ Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Alexander Deucher <Alexander.Deucher@amd.com>
+References: <769e72ee-b2d0-d75f-cc83-a85be08e231b@amd.com>
+ <20201125031708.6433-1-luben.tuikov@amd.com>
+ <20201125031708.6433-4-luben.tuikov@amd.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <40741fd8-4496-2c12-7850-b68fe8dc8e2a@arm.com>
+Date: Wed, 25 Nov 2020 11:04:00 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201125103645.GU401619@phenom.ffwll.local>
-Content-Language: en-US
+In-Reply-To: <20201125031708.6433-4-luben.tuikov@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,151 +47,103 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: airlied@linux.ie, alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Emily Deng <Emily.Deng@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjUuMTEuMjAgdW0gMTE6MzYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIFdlZCwgTm92
-IDI1LCAyMDIwIGF0IDExOjEzOjEzQU0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4+
-IEFtIDI1LjExLjIwIHVtIDA5OjM3IHNjaHJpZWIgVGhvbWFzIFppbW1lcm1hbm46Cj4+PiBIaQo+
-Pj4KPj4+IEFtIDI0LjExLjIwIHVtIDE1OjA5IHNjaHJpZWIgRGFuaWVsIFZldHRlcjoKPj4+PiBP
-biBUdWUsIE5vdiAyNCwgMjAyMCBhdCAwMjo1Njo1MVBNICswMTAwLCBUaG9tYXMgWmltbWVybWFu
-biB3cm90ZToKPj4+Pj4gSGkKPj4+Pj4KPj4+Pj4gQW0gMjQuMTEuMjAgdW0gMTQ6MzYgc2Nocmll
-YiBDaHJpc3RpYW4gS8O2bmlnOgo+Pj4+Pj4gQW0gMjQuMTEuMjAgdW0gMTM6MTUgc2NocmllYiBU
-aG9tYXMgWmltbWVybWFubjoKPj4+Pj4+PiBbU05JUF0KPj4+Pj4+Pj4+Pj4gRmlyc3QgSSB3YW50
-ZWQgdG8gcHV0IHRoaXMgaW50bwo+Pj4+Pj4+Pj4+PiBkcm1fZ2VtX3R0bV92bWFwL3Z1bm1hcCgp
-LCBidXQgdGhlbiB3b25kZXJlZCB3aHkKPj4+Pj4+Pj4+Pj4gdHRtX2JvX3ZtYXAoKSBkb2Ugbm90
-IGFjcXVpcmUgdGhlIGxvY2sgaW50ZXJuYWxseT8KPj4+Pj4+Pj4+Pj4gSSdkIGV4cGVjdCB0aGF0
-IHZtYXAvdnVubWFwIGFyZSBjbG9zZSB0b2dldGhlciBhbmQKPj4+Pj4+Pj4+Pj4gZG8gbm90IG92
-ZXJsYXAgZm9yIHRoZSBzYW1lIEJPLgo+Pj4+Pj4+Pj4+IFdlIGhhdmUgdXNlIGNhc2VzIGxpa2Ug
-dGhlIGZvbGxvd2luZyBkdXJpbmcgY29tbWFuZCBzdWJtaXNzaW9uOgo+Pj4+Pj4+Pj4+Cj4+Pj4+
-Pj4+Pj4gMS4gbG9jawo+Pj4+Pj4+Pj4+IDIuIG1hcAo+Pj4+Pj4+Pj4+IDMuIGNvcHkgcGFydHMg
-b2YgdGhlIEJPIGNvbnRlbnQgc29tZXdoZXJlIGVsc2Ugb3IgcGF0Y2gKPj4+Pj4+Pj4+PiBpdCB3
-aXRoIGFkZGl0aW9uYWwgaW5mb3JtYXRpb24KPj4+Pj4+Pj4+PiA0LiB1bm1hcAo+Pj4+Pj4+Pj4+
-IDUuIHN1Ym1pdCBCTyB0byB0aGUgaGFyZHdhcmUKPj4+Pj4+Pj4+PiA2LiBhZGQgaGFyZHdhcmUg
-ZmVuY2UgdG8gdGhlIEJPIHRvIG1ha2Ugc3VyZSBpdCBkb2Vzbid0IG1vdmUKPj4+Pj4+Pj4+PiA3
-LiB1bmxvY2sKPj4+Pj4+Pj4+Pgo+Pj4+Pj4+Pj4+IFRoYXQgdXNlIGNhc2Ugd29uJ3QgYmUgcG9z
-c2libGUgd2l0aCB2bWFwL3Z1bm1hcCBpZiB3ZQo+Pj4+Pj4+Pj4+IG1vdmUgdGhlIGxvY2svdW5s
-b2NrIGludG8gaXQgYW5kIEkgaG9wZSB0byByZXBsYWNlIHRoZQo+Pj4+Pj4+Pj4+IGttYXAva3Vu
-bWFwIGZ1bmN0aW9ucyB3aXRoIHRoZW0gaW4gdGhlIG5lYXIgdGVybS4KPj4+Pj4+Pj4+Pgo+Pj4+
-Pj4+Pj4+PiBPdGhlcndpc2UsIGFjcXVpcmluZyB0aGUgcmVzZXJ2YXRpb24gbG9jayB3b3VsZAo+
-Pj4+Pj4+Pj4+PiByZXF1aXJlIGFub3RoZXIgcmVmLWNvdW50aW5nIHZhcmlhYmxlIG9yIHBlci1k
-cml2ZXIKPj4+Pj4+Pj4+Pj4gY29kZS4KPj4+Pj4+Pj4+PiBIdWksIHdoeSB0aGF0PyBKdXN0IHB1
-dCB0aGlzIGludG8KPj4+Pj4+Pj4+PiBkcm1fZ2VtX3R0bV92bWFwL3Z1bm1hcCgpIGhlbHBlciBh
-cyB5b3UgaW5pdGlhbGx5Cj4+Pj4+Pj4+Pj4gcGxhbm5lZC4KPj4+Pj4+Pj4+IEdpdmVuIHlvdXIg
-ZXhhbXBsZSBhYm92ZSwgc3RlcCBvbmUgd291bGQgYWNxdWlyZSB0aGUgbG9jaywKPj4+Pj4+Pj4+
-IGFuZCBzdGVwIHR3byB3b3VsZCBhbHNvIGFjcXVpcmUgdGhlIGxvY2sgYXMgcGFydCBvZiB0aGUg
-dm1hcAo+Pj4+Pj4+Pj4gaW1wbGVtZW50YXRpb24uIFdvdWxkbid0IHRoaXMgZmFpbCAoQXQgbGVh
-c3QgZHVyaW5nIHVubWFwIG9yCj4+Pj4+Pj4+PiB1bmxvY2sgc3RlcHMpID8KPj4+Pj4+Pj4gT2gs
-IHNvIHlvdSB3YW50IHRvIG5lc3QgdGhlbT8gTm8sIHRoYXQgaXMgYSByYXRoZXIgYmFkIG5vLWdv
-Lgo+Pj4+Pj4+IEkgZG9uJ3Qgd2FudCB0byBuZXN0L292ZXJsYXAgdGhlbS4gTXkgcXVlc3Rpb24g
-d2FzIHdoZXRoZXIgdGhhdAo+Pj4+Pj4+IHdvdWxkIGJlIHJlcXVpcmVkLiBBcHBhcmVudGx5IG5v
-dC4KPj4+Pj4+Pgo+Pj4+Pj4+IFdoaWxlIHRoZSBjb25zb2xlJ3MgQk8gaXMgYmVpbmcgc2V0IGZv
-ciBzY2Fub3V0LCBpdCdzIHByb3RlY3RlZCBmcm9tCj4+Pj4+Pj4gbW92ZW1lbnQgdmlhIHRoZSBw
-aW4vdW5waW4gaW1wbGVtZW50YXRpb24sIHJpZ2h0Pwo+Pj4+Pj4gWWVzLCBjb3JyZWN0Lgo+Pj4+
-Pj4KPj4+Pj4+PiBUaGUgZHJpdmVyIGRvZXMgbm90IGFjcXVpcmUgdGhlIHJlc3YgbG9jayBmb3Ig
-bG9uZ2VyIHBlcmlvZHMuIEknbQo+Pj4+Pj4+IGFza2luZyBiZWNhdXNlIHRoaXMgd291bGQgcHJl
-dmVudCBhbnkgY29uc29sZS1idWZmZXIgdXBkYXRlcyB3aGlsZQo+Pj4+Pj4+IHRoZSBjb25zb2xl
-IGlzIGJlaW5nIGRpc3BsYXllZC4KPj4+Pj4+IENvcnJlY3QgYXMgd2VsbCwgd2Ugb25seSBob2xk
-IHRoZSBsb2NrIGZvciB0aGluZ3MgbGlrZSBjb21tYW5kCj4+Pj4+PiBzdWJtaXNzaW9uLCBwaW5u
-aW5nLCB1bnBpbm5pbmcgZXRjIGV0Yy4uLi4KPj4+Pj4+Cj4+Pj4+IFRoYW5rcyBmb3IgYW5zd2Vy
-aW5nIG15IHF1ZXN0aW9ucy4KPj4+Pj4KPj4+Pj4+Pj4gWW91IG5lZWQgdG8gbWFrZSBzdXJlIHRo
-YXQgdGhlIGxvY2sgaXMgb25seSB0YWtlbiBmcm9tIHRoZSBGQgo+Pj4+Pj4+PiBwYXRoIHdoaWNo
-IHdhbnRzIHRvIHZtYXAgdGhlIG9iamVjdC4KPj4+Pj4+Pj4KPj4+Pj4+Pj4gV2h5IGRvbid0IHlv
-dSBsb2NrIHRoZSBHRU0gb2JqZWN0IGZyb20gdGhlIGNhbGxlciBpbiB0aGUgZ2VuZXJpYwo+Pj4+
-Pj4+PiBGQiBpbXBsZW1lbnRhdGlvbj8KPj4+Pj4+PiBXaXRoIHRoZSBjdXJyZW50IGJsaXR0ZXIg
-Y29kZSwgaXQgYnJlYWtzIGFic3RyYWN0aW9uLiBpZiB2bWFwL3Z1bm1hcAo+Pj4+Pj4+IGhvbGQg
-dGhlIGxvY2sgaW1wbGljaXRseSwgdGhpbmdzIHdvdWxkIGJlIGVhc2llci4KPj4+Pj4+IERvIHlv
-dSBoYXZlIGEgbGluayB0byB0aGUgY29kZT8KPj4+Pj4gSXQncyB0aGUgZGFtYWdlIGJsaXR0ZXIg
-aW4gdGhlIGZiZGV2IGNvZGUuIFsxXSBXaGlsZSBpdCBmbHVzaGVzCj4+Pj4+IHRoZSBzaGFkb3cK
-Pj4+Pj4gYnVmZmVyIGludG8gdGhlIEJPLCB0aGUgQk8gaGFzIHRvIGJlIGtlcHQgaW4gcGxhY2Uu
-IEkgYWxyZWFkeQo+Pj4+PiBjaGFuZ2VkIGl0IHRvCj4+Pj4+IGxvY2sgc3RydWN0IGRybV9mYl9o
-ZWxwZXIubG9jaywgYnV0IEkgZG9uJ3QgdGhpbmsgdGhpcyBpcwo+Pj4+PiBlbm91Z2guIFRUTSBj
-b3VsZAo+Pj4+PiBzdGlsbCBldmljdCB0aGUgQk8gY29uY3VycmVudGx5Lgo+Pj4+IFNvIEknbSBu
-b3Qgc3VyZSB0aGlzIGlzIGFjdHVhbGx5IGEgcHJvYmxlbTogdHRtIGNvdWxkIHRyeSB0bwo+Pj4+
-IGNvbmN1cnJlbnRseQo+Pj4+IGV2aWN0IHRoZSBidWZmZXIgd2UgcGlubmVkIGludG8gdnJhbSwg
-YW5kIHRoZW4ganVzdCBza2lwIHRvIHRoZSBuZXh0Cj4+Pj4gb25lLgo+Pj4+Cj4+Pj4gUGx1cyBh
-dG0gZ2VuZXJpYyBmYmRldiBpc24ndCB1c2VkIG9uIGFueSBjaGlwIHdoZXJlIHdlIHJlYWxseSBj
-YXJlIGFib3V0Cj4+Pj4gdGhhdCBsYXN0IGZldyBtYiBvZiB2cmFtIGJlaW5nIHVzZWFibGUgZm9y
-IGNvbW1hbmQgc3VibWlzc2lvbiAod2VsbCBhdG0KPj4+PiB0aGVyZSdzIG5vIGRyaXZlciB1c2lu
-ZyBpdCkuCj4+PiBXZWxsLCB0aGlzIGlzIHRoZSBwYXRjaHNldCBmb3IgcmFkZW9uLiBJZiBpdCB3
-b3JrcyBvdXQsIGFtZGdwdSBhbmQKPj4+IG5vdXZlYXUgYXJlIG5hdHVyYWwgbmV4dCBjaG9pY2Vz
-LiBFc3BlY2lhbGx5IHJhZGVvbiBhbmQgbm91dmVhdSBzdXBwb3J0Cj4+PiBjYXJkcyB3aXRoIGxv
-dy0gdG8gbWVkaXVtLXNpemVkIFZSQU0uIFRoZSBNaUJzIHdhc3RlZCBvbiBmYmRldiBjZXJ0YWlu
-bHkKPj4+IG1hdHRlci4KPj4+Cj4+Pj4gSGF2aW5nIHRoZSBidWZmZXIgcGlubmVkIGludG8gc3lz
-dGVtIG1lbW9yeSBhbmQgdHJ5aW5nIHRvIGRvIGEKPj4+PiBjb25jdXJyZW50Cj4+Pj4gbW9kZXNl
-dCB0aGF0IHRyaWVzIHRvIHB1bGwgaXQgaW4gaXMgdGhlIGhhcmQgZmFpbHVyZSBtb2RlLiBBbmQg
-aG9sZGluZwo+Pj4+IGZiX2hlbHBlci5sb2NrIGZ1bGx5IHByZXZlbnRzIHRoYXQuCj4+Pj4KPj4+
-PiBTbyBub3QgcmVhbGx5IGNsZWFyIG9uIHdoYXQgZmFpbHVyZSBtb2RlIHlvdSdyZSBzZWVpbmcg
-aGVyZT8KPj4+IEltYWdpbmUgdGhlIGZiZGV2IEJPIGlzIGluIFZSQU0sIGJ1dCBub3QgcGlubmVk
-LiAoTWF5YmUgWG9yZyBvciBXYXlsYW5kCj4+PiBpcyBydW5uaW5nLikgVGhlIGZiZGV2IEJPIGlz
-IGEgZmV3IE1pQnMgYW5kIG5vdCBpbiB1c2UsIHNvIFRUTSB3b3VsZAo+Pj4gd2FudCB0byBldmlj
-dCBpdCBpZiBtZW1vcnkgZ2V0cyB0aWdodC4KPj4+Cj4+PiBXaGF0IEkgaGF2ZSBpbiBtaW5kIGlz
-IGEgY29uY3VycmVudCBtb2Rlc2V0IHRoYXQgcmVxdWlyZXMgdGhlIG1lbW9yeS4gSWYKPj4+IHdl
-IGRvIGEgY29uY3VycmVudCBkYW1hZ2UgYmxpdCB3aXRob3V0IHByb3RlY3RpbmcgYWdhaW5zdCBl
-dmljdGlvbiwKPj4+IHRoaW5ncyBnbyBib29tLiBTYW1lIGZvciBjb25jdXJyZW50IDNkIGdyYXBo
-aWNzIHdpdGggdGV4dHVyZXMsIG1vZGVsCj4+PiBkYXRhLCBldGMuCj4+IENvbXBsZXRlbHkgYWdy
-ZWUuCj4+Cj4+IFRoaXMgbmVlZHMgcHJvcGVyIGxvY2sgcHJvdGVjdGlvbiBvZiB0aGUgbWVtb3J5
-IG1hcHBlZCBidWZmZXIuIFJlbHlpbmcgb24KPj4gdGhhdCBzb21lIG90aGVyIGNvZGUgaXNuJ3Qg
-cnVuIGJlY2F1c2Ugd2UgaGF2ZSBzb21lIHRoaXJkIHBhcnQgbG9ja3MgdGFrZW4KPj4gaXMgbm90
-IHN1ZmZpY2llbnQgaGVyZS4KPiBXZSBhcmUgc3RpbGwgcHJvdGVjdGVkIGJ5IHRoZSBwaW4gY291
-bnQgaW4gdGhpcyBzY2VuYXJpby4gUGx1cywgd2l0aAo+IGN1cnJlbnQgZHJpdmVycyB3ZSBhbHdh
-eXMgcGluIHRoZSBmYmRldiBidWZmZXIgaW50byB2cmFtLCBzbyBvY2Nhc2lvbmFsbHkKPiBmYWls
-aW5nIHRvIG1vdmUgaXQgb3V0IGlzbid0IGEgcmVncmVzc2lvbi4KPgo+IFNvIEknbSBzdGlsbCBu
-b3Qgc2VlaW5nIGhvdyB0aGlzIGNhbiBnbyBib29tLgoKV2VsbCBhcyBmYXIgYXMgSSB1bmRlcnN0
-YW5kIGl0IHRoZSBwaW4gY291bnQgaXMgemVybyBmb3IgdGhpcyBidWZmZXIgaW4gCnRoaXMgY2Fz
-ZSBoZXJlIDopCgpJIG1pZ2h0IGJlIHdyb25nIG9uIHRoaXMgYmVjYXVzZSBJIGRvbid0IGtub3cg
-dGhlIEZCIGNvZGUgYXQgYWxsLCBidXQgClRob21hcyBzZWVtcyB0byBiZSBwcmV0dHkgY2xlYXIg
-dGhhdCB0aGlzIGlzIHRoZSBzaGFkb3cgYnVmZmVyIHdoaWNoIGlzIApub3Qgc2Nhbm5lZCBvdXQg
-ZnJvbS4KClJlZ2FyZHMsCkNocmlzdGlhbi4KCj4KPiBOb3cgbG9uZyB0ZXJtIGl0J2QgYmUgbmlj
-ZSB0byBjdXQgZXZlcnl0aGluZyBvdmVyIHRvIGRtYV9yZXN2IGxvY2tpbmcsIGJ1dAo+IHRoZSBp
-c3N1ZSB0aGVyZSBpcyB0aGF0IGJleW9uZCB0dG0sIG5vbmUgb2YgdGhlIGhlbHBlcnMgKGFuZCBm
-ZXcgb2YgdGhlCj4gZHJpdmVycykgdXNlIGRtYV9yZXN2LiBTbyB0aGlzIGlzIGEgZmFpcmx5IGJp
-ZyB1cGhpbGwgYmF0dGxlLiBRdWljawo+IGludGVyaW0gZml4IHNlZW1zIGxpa2UgdGhlIHJpZ2h0
-IHNvbHV0aW9uIHRvIG1lLgo+IC1EYW5pZWwKPgo+PiBSZWdhcmRzLAo+PiBDaHJpc3RpYW4uCj4+
-Cj4+PiBCZXN0IHJlZ2FyZHMKPj4+IFRob21hcwo+Pj4KPj4+Pj4gVGhlcmUncyBubyByZWN1cnNp
-b24gdGFraW5nIHBsYWNlLCBzbyBJIGd1ZXNzIHRoZSByZXNlcnZhdGlvbgo+Pj4+PiBsb2NrIGNv
-dWxkIGJlCj4+Pj4+IGFjcXVpcmVkL3JlbGVhc2UgaW4gZHJtX2NsaWVudF9idWZmZXJfdm1hcC92
-dW5tYXAoKSwgb3IgYQo+Pj4+PiBzZXBhcmF0ZSBwYWlyIG9mCj4+Pj4+IERSTSBjbGllbnQgZnVu
-Y3Rpb25zIGNvdWxkIGRvIHRoZSBsb2NraW5nLgo+Pj4+IEdpdmVuIGhvdyB0aGlzICJkbyB0aGUg
-cmlnaHQgbG9ja2luZyIgaXMgYSBjYW4gb2Ygd29ybXMgKGFuZCBJIHRoaW5rCj4+Pj4gaXQncwo+
-Pj4+IHdvcnNlIHRoYW4gd2hhdCB5b3UgZHVnIG91dCBhbHJlYWR5KSBJIHRoaW5rIHRoZSBmYl9o
-ZWxwZXIubG9jayBoYWNrIGlzCj4+Pj4gcGVyZmVjdGx5IGdvb2QgZW5vdWdoLgo+Pj4+Cj4+Pj4g
-SSdtIGFsc28gc29tZXdoYXQgd29ycmllZCB0aGF0IHN0YXJ0aW5nIHRvIHVzZSBkbWFfcmVzdiBs
-b2NrIGluIGdlbmVyaWMKPj4+PiBjb2RlLCB3aGlsZSBtYW55IGhlbHBlcnMvZHJpdmVycyBzdGls
-bCBoYXZlIHRoZWlyIGhhbmQtcm9sbGVkIGxvY2tpbmcsCj4+Pj4gd2lsbCBtYWtlIGNvbnZlcnNp
-b24gb3ZlciB0byBkbWFfcmVzdiBuZWVkbGVzc2x5IG1vcmUgY29tcGxpY2F0ZWQuCj4+Pj4gLURh
-bmllbAo+Pj4+Cj4+Pj4+IEJlc3QgcmVnYXJkcwo+Pj4+PiBUaG9tYXMKPj4+Pj4KPj4+Pj4gWzFd
-IGh0dHBzOi8vY2dpdC5mcmVlZGVza3RvcC5vcmcvZHJtL2RybS10aXAvdHJlZS9kcml2ZXJzL2dw
-dS9kcm0vZHJtX2ZiX2hlbHBlci5jP2lkPWFjNjBmM2YzMDkwMTE1ZDIxZjAyOGJmZmEyZGNmYjY3
-ZjY5NWM0ZjIjbjM5NAo+Pj4+Pgo+Pj4+Pj4gUGxlYXNlIG5vdGUgdGhhdCB0aGUgcmVzZXJ2YXRp
-b24gbG9jayB5b3UgbmVlZCB0byB0YWtlIGhlcmUgaXMgcGFydCBvZgo+Pj4+Pj4gdGhlIEdFTSBv
-YmplY3QuCj4+Pj4+Pgo+Pj4+Pj4gVXN1YWxseSB3ZSBkZXNpZ24gdGhpbmdzIGluIHRoZSB3YXkg
-dGhhdCB0aGUgY29kZSBuZWVkcyB0byB0YWtlIGEgbG9jawo+Pj4+Pj4gd2hpY2ggcHJvdGVjdHMg
-YW4gb2JqZWN0LCB0aGVuIGRvIHNvbWUgb3BlcmF0aW9ucyB3aXRoIHRoZSBvYmplY3QgYW5kCj4+
-Pj4+PiB0aGVuIHJlbGVhc2UgdGhlIGxvY2sgYWdhaW4uCj4+Pj4+Pgo+Pj4+Pj4gSGF2aW5nIGlu
-IHRoZSBsb2NrIGluc2lkZSB0aGUgb3BlcmF0aW9uIGNhbiBiZSBkb25lIGFzIHdlbGwsIGJ1dAo+
-Pj4+Pj4gcmV0dXJuaW5nIHdpdGggaXQgaXMga2luZCBvZiB1bnVzdWFsIGRlc2lnbi4KPj4+Pj4+
-Cj4+Pj4+Pj4gU29ycnkgZm9yIHRoZSBub29iIHF1ZXN0aW9ucy4gSSdtIHN0aWxsIHRyeWluZyB0
-byB1bmRlcnN0YW5kIHRoZQo+Pj4+Pj4+IGltcGxpY2F0aW9ucyBvZiBhY3F1aXJpbmcgdGhlc2Ug
-bG9ja3MuCj4+Pj4+PiBXZWxsIHRoaXMgaXMgdGhlIHJlc2VydmF0aW9uIGxvY2sgb2YgdGhlIEdF
-TSBvYmplY3Qgd2UgYXJlCj4+Pj4+PiB0YWxraW5nIGFib3V0Cj4+Pj4+PiBoZXJlLiBXZSBuZWVk
-IHRvIHRha2UgdGhhdCBmb3IgYSBjb3VwbGUgb2YgZGlmZmVyZW50IG9wZXJhdGlvbnMsCj4+Pj4+
-PiB2bWFwL3Z1bm1hcCBkb2Vzbid0IHNvdW5kIGxpa2UgYSBzcGVjaWFsIGNhc2UgdG8gbWUuCj4+
-Pj4+Pgo+Pj4+Pj4gUmVnYXJkcywKPj4+Pj4+IENocmlzdGlhbi4KPj4+Pj4+Cj4+Pj4+Pj4gQmVz
-dCByZWdhcmRzCj4+Pj4+Pj4gVGhvbWFzCj4+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+Pj4+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+Pj4+
-Pj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+Pj4+Pj4gaHR0cHM6Ly9saXN0cy5m
-cmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKPj4+Pj4gLS0gCj4+Pj4+
-IFRob21hcyBaaW1tZXJtYW5uCj4+Pj4+IEdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXIKPj4+Pj4g
-U1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJICj4+Pj4+IE1heGZlbGRzdHIuIDUs
-IDkwNDA5IE7DvHJuYmVyZywgR2VybWFueQo+Pj4+PiAoSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcp
-Cj4+Pj4+IEdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXIKPj4+Pgo+Pj4+Cj4+
-Pj4KPj4+Pgo+Pj4+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5v
-cmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2
-ZWwK
+On 25/11/2020 03:17, Luben Tuikov wrote:
+> The job timeout handler now returns status
+> indicating back to the DRM layer whether the job
+> was successfully cancelled or whether more time
+> should be given to the job to complete.
+
+I'm not sure I understand in what circumstances you would want to give 
+the job more time to complete. Could you expand on that?
+
+One thing we're missing at the moment in Panfrost is the ability to 
+suspend ("soft stop" is the Mali jargon) a job and pick something else 
+to run. The propitiatory driver stack uses this to avoid timing out long 
+running jobs while still allowing other processes to have time on the 
+GPU. But this interface as it stands doesn't seem to provide that.
+
+As the kernel test robot has already pointed out - you'll need to at the 
+very least update the other uses of this interface.
+
+Steve
+
+> 
+> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c |  6 ++++--
+>   include/drm/gpu_scheduler.h             | 13 ++++++++++---
+>   2 files changed, 14 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> index ff48101bab55..81b73790ecc6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+> @@ -28,7 +28,7 @@
+>   #include "amdgpu.h"
+>   #include "amdgpu_trace.h"
+>   
+> -static void amdgpu_job_timedout(struct drm_sched_job *s_job)
+> +static int amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   {
+>   	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
+>   	struct amdgpu_job *job = to_amdgpu_job(s_job);
+> @@ -41,7 +41,7 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   	    amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
+>   		DRM_ERROR("ring %s timeout, but soft recovered\n",
+>   			  s_job->sched->name);
+> -		return;
+> +		return 0;
+>   	}
+>   
+>   	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
+> @@ -53,10 +53,12 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
+>   
+>   	if (amdgpu_device_should_recover_gpu(ring->adev)) {
+>   		amdgpu_device_gpu_recover(ring->adev, job);
+> +		return 0;
+>   	} else {
+>   		drm_sched_suspend_timeout(&ring->sched);
+>   		if (amdgpu_sriov_vf(adev))
+>   			adev->virt.tdr_debug = true;
+> +		return 1;
+>   	}
+>   }
+>   
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 2e0c368e19f6..61f7121e1c19 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -230,10 +230,17 @@ struct drm_sched_backend_ops {
+>   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
+>   
+>   	/**
+> -         * @timedout_job: Called when a job has taken too long to execute,
+> -         * to trigger GPU recovery.
+> +	 * @timedout_job: Called when a job has taken too long to execute,
+> +	 * to trigger GPU recovery.
+> +	 *
+> +	 * Return 0, if the job has been aborted successfully and will
+> +	 * never be heard of from the device. Return non-zero if the
+> +	 * job wasn't able to be aborted, i.e. if more time should be
+> +	 * given to this job. The result is not "bool" as this
+> +	 * function is not a predicate, although its result may seem
+> +	 * as one.
+>   	 */
+> -	void (*timedout_job)(struct drm_sched_job *sched_job);
+> +	int (*timedout_job)(struct drm_sched_job *sched_job);
+>   
+>   	/**
+>            * @free_job: Called once the job's finished fence has been signaled
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
