@@ -1,44 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C17A2C5052
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D272C5047
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E72366E89D;
-	Thu, 26 Nov 2020 08:24:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A88A96E850;
+	Thu, 26 Nov 2020 08:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
- [98.124.60.144])
- by gabe.freedesktop.org (Postfix) with ESMTP id D3B5289F47;
- Wed, 25 Nov 2020 23:21:58 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 414EA2A490;
- Wed, 25 Nov 2020 18:21:54 -0500 (EST)
-Date: Thu, 26 Nov 2020 10:21:54 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
- Clang
-In-Reply-To: <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
-Message-ID: <alpine.LNX.2.23.453.2011260918510.6@nippy.intranet>
-References: <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
- <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
- <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
- <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
- <20201123130348.GA3119@embeddedor>
- <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
- <202011241327.BB28F12F6@keescook>
- <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
- <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
- <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
- <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
+ [IPv6:2607:f8b0:4864:20::741])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 658236E0B7
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 23:57:23 +0000 (UTC)
+Received: by mail-qk1-x741.google.com with SMTP id q22so152719qkq.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 15:57:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=1gLJhkwZL5WHnwEIFNB/JO9CIv8V2CHzH3Td89zgurk=;
+ b=GSfuslRTJrgxqEjDVUBmPEGmyMIn2pC+5TfmYI0jmUTxknWfVqTuN+vWRct7yucSZb
+ /pNmb3h40HTTGcy3Ru1Co7qqVywsR8Npt3aXTjec65ac4TIWAh5jwL1Gt5kQhOeGDdZ2
+ Jtx16L3J0Ct2uGH7EcUaMgwvDmWbcOqUUIUFzOSrVcb7vwyb7rQx/d3vEIaOXKEIHCT5
+ VWW0is8j2/kxqkVEwgvNjDgJNXvPtSpiqhfXUZTgg4kDxUPLVDwlhqSd42OX8SIB0MyG
+ bhMCpQFCPF/wUgJcMI4+CjUNy8JwyOaqJPOHHoLhXx4N9ssLqfFUMA9SW1xc62E2wZ8I
+ XxaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1gLJhkwZL5WHnwEIFNB/JO9CIv8V2CHzH3Td89zgurk=;
+ b=WJeu7wOn6sjwuplB/0O0r8UQqI4F5S58pmQrafSFvTLLxfT98xM8kyMIUv5YhlYAM9
+ XGumxdJw+T/+zE4Tq7PSrqEQd45o4nyjLtnbVnkwNAGYFRNzKqdyUy6ptUDpA/ZAvnBZ
+ SKlHdl8CxIMU5a8JtPf/dHYIG17p2hVcthGCilb2cMUC0WbOm8QtuhC3TOt2jeXVj6mm
+ JHGgtPIb1oYPz+41dWJU+j5NsZ9wFzDL6HaaWf39F67t3A2i2Wq3ZyMrjnxUnWya6pJ5
+ DNhtwQM3hUsFuigNZXlGTLLOiD0bGAaacX4vKfsiWiEfOUoEC6JuTXYfJQzV7jJN5Rqk
+ /ZpQ==
+X-Gm-Message-State: AOAM533d4lMFKjrIlsEqdSpR7zwoZiRNNkIU42j1b5fbOz1KzZ81NA/M
+ oddxq5mPFB4QGUclcWLXmITpUA==
+X-Google-Smtp-Source: ABdhPJyaalvrOWdezNgB6SjAER/qll6NTs9Dt1njWus9sIdv1t5iA8R0eLQMngEdaAP+frmCSD+eGg==
+X-Received: by 2002:a37:4893:: with SMTP id v141mr574084qka.361.1606348642398; 
+ Wed, 25 Nov 2020 15:57:22 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id x19sm901590qtr.65.2020.11.25.15.57.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Nov 2020 15:57:21 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1ki4f2-001QAA-Pf; Wed, 25 Nov 2020 19:57:20 -0400
+Date: Wed, 25 Nov 2020 19:57:20 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] drm/ttm: don't set page->mapping
+Message-ID: <20201125235720.GR5487@ziepe.ca>
+References: <20201125162532.1299794-1-daniel.vetter@ffwll.ch>
+ <20201125162532.1299794-5-daniel.vetter@ffwll.ch>
+ <CAKMK7uGXfqaPUtnX=VgA3tFn3S+Gt9GV+kPguakZ6FF_n8LKuA@mail.gmail.com>
+ <20201125180606.GQ5487@ziepe.ca>
+ <20201125181129.GA1858@infradead.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201125181129.GA1858@infradead.org>
 X-Mailman-Approved-At: Thu, 26 Nov 2020 08:24:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,94 +75,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
- target-devel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
- linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
- linux-mmc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
- linux-mtd@lists.infradead.org, GR-everest-linux-l2@marvell.com,
- wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
- linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
- drbd-dev@lists.linbit.com, devel@driverdev.osuosl.org,
- linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-scsi@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
- linux-atm-general@lists.sourceforge.net, ceph-devel@vger.kernel.org,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-ext4@vger.kernel.org, virtualization@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, linux-media@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, intel-gfx@lists.freedesktop.org,
- linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
- linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
- linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
- linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
- nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
- Nathan Chancellor <natechancellor@gmail.com>, linux-can@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-watchdog@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
- Linux Memory Management List <linux-mm@kvack.org>,
- Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+Cc: Thomas Hellstrom <thellstrom@vmware.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
  LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net,
- "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
- <linux-crypto@vger.kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
- linux-integrity@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-hardening@vger.kernel.org
+ DRI Development <dri-devel@lists.freedesktop.org>, linux-xfs@vger.kernel.org,
+ Linux MM <linux-mm@kvack.org>, Huang Rui <ray.huang@amd.com>,
+ Brian Paul <brianp@vmware.com>, linux-fsdevel@vger.kernel.org,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 25 Nov 2020, Nick Desaulniers wrote:
-
-> On Wed, Nov 25, 2020 at 1:33 PM Finn Thain <fthain@telegraphics.com.au> 
-> wrote:
-> >
-> > Or do you think that a codebase can somehow satisfy multiple checkers 
-> > and their divergent interpretations of the language spec?
+On Wed, Nov 25, 2020 at 06:11:29PM +0000, Christoph Hellwig wrote:
+> On Wed, Nov 25, 2020 at 02:06:06PM -0400, Jason Gunthorpe wrote:
+> > It uses a empty 'cover-letter' commit and automatically transforms it
+> > into exactly the right stuff. Keeps track of everything you send in
+> > git, and there is a little tool to auto-run git range-diff to help
+> > build change logs..
+> > 
+> > https://github.com/jgunthorpe/Kernel-Maintainer-Tools/blob/master/gj_tools/cmd_send_patches.py
+> > 
+> > I've been occasionaly wondering if I should suggest Konstantin add a
+> > sending side to b4, maybe using some of those ideas..
+> > 
+> > (careful if you run it, it does autosend without prompting)
 > 
-> Have we found any cases yet that are divergent? I don't think so.
-
-There are many implementations, so I think you are guaranteed to find more 
-divergence if you look. That's because the spec is full of language like 
-this: "implementations are encouraged not to emit a diagnostic" and 
-"implementations are encouraged to issue a diagnostic".
-
-Some implementations will decide to not emit (under the premise that vast 
-amounts of existing code would have to get patched until the compiler goes 
-quiet) whereas other implementations will decide to emit (under the 
-premise that the author is doing the checking and not the janitor or the 
-packager).
-
-> It sounds to me like GCC's cases it warns for is a subset of Clang's. 
-> Having additional coverage with Clang then should ensure coverage for 
-> both.
+> The looks pretty fancy.  Here is my trivial patchbomb.sh script
 > 
+> #!/bin/sh
+> 
+> COVERLETTER=$1
+> PATCHES=$2
+> 
+> git send-email --annotate --to-cover --cc-cover $1 $2
+> 
+> still needs the git basecommit..endcommit notation, but it fires
+> up the series for review.
 
-If that claim were true, the solution would be simple. (It's not.)
+annotate is OK, I used that for a long time..
 
-For the benefit of projects that enable -Werror and projects that 
-nominated gcc as their preferred compiler, clang would simply need a flag 
-to enable conformance with gcc by suppressing those additional warnings 
-that clang would normally produce.
+My main gripe was it didn't setup the to/cc until after the annotate
+editor closes.
 
-This simple solution is, of course, completely unworkable, since it would 
-force clang to copy some portion of gcc's logic (rewritten under LLVM's 
-unique license) and then to track future changes to that portion of gcc 
-indefinitely.
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
