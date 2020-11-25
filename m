@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3CF2C3E46
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 11:41:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7A82C3E69
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 11:50:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF1A46E925;
-	Wed, 25 Nov 2020 10:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA7CB6E896;
+	Wed, 25 Nov 2020 10:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C2F56E925
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 10:41:43 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id a3so1664494wmb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 02:41:42 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A038A6E896
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 10:50:45 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id m6so1427800wrg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 02:50:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=iY0w/rYhU4zQmtV4vIRlhxfmxncXrSZhBMnwcfQeBeY=;
- b=CFG5kTEekjvLVH5LPBBa/XVG5aPQwA5S0E9uQLYuRUPuHs+UEWQBSq3ZZwLXDlyO3E
- lzQ6qGX3nbo1l/Z9LCgMIV2XSyzzmIWbE92kjTTkBblEsdi32Y1MPtlBZB5C+mveUu3T
- y8weqUkcnnbrhY7tO5nDngbeMtCodvsnC4x7I=
+ bh=dbid+wntBG+K6X7iyhkUNMneOKYkyXw5MgQKzeb759I=;
+ b=lC0uLlGRy2XOpsw0TVgma76WzCM3ZO9W+Xt7mv3UgbEoJLMFH8u2xDLwfZJgZkTl+M
+ 0ZklcnnTBeoWbEhC2ssDInpoit3B27T2MLh6utu0ciADHkxoLMEYSHr3tKWapdiE8E3N
+ /mBKCwyBVjRLnhlYo59O6ktitGTcNr/Z5t11M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=iY0w/rYhU4zQmtV4vIRlhxfmxncXrSZhBMnwcfQeBeY=;
- b=E7zQns7D2RHJ5MUs3jQiz5C9U7te4jLVMrGEO8r5YFzdPxBI4LzDK6a9lIGj64KWT7
- cxwCpGCFm4WuwEYqMtIfwYFBNqCpFVXsIP5lNLizYzXjh+r6zfOp/kWZeHoxUXo0FMaY
- ya/cVyuDfOysOshNgFvvTokCGQKGLfggl32fF6+hJtHSp65c/eXeIHDYegjCwmclRlzO
- 7DnurzPYqakmDyduMu/nFZtgtahhonF+UDuURZ7C8XfWja5LrkjHNxtosF9JHm3BlRSV
- 3W9fobP84l9fkk/kTCJXLuI8nA+GiFqmtD8zi0OYXrztq7F8jSekBdZWwx3i6xwv9u+7
- wkYg==
-X-Gm-Message-State: AOAM532octwT58Te4BR33eeyfNJM7bmzRAjMZzYVAZ8jwBIfcT4+WqmT
- I5yXZuXHqxcKj59Nf/OH1c/ozA==
-X-Google-Smtp-Source: ABdhPJwMtjtfCp6ndhlm6QHnZqdB/BQqXsROKQj+rYtpwj2hdB1EDoR9fcA3ucHXkDTMBriiTtlFOA==
-X-Received: by 2002:a1c:44d4:: with SMTP id r203mr3238854wma.60.1606300901561; 
- Wed, 25 Nov 2020 02:41:41 -0800 (PST)
+ bh=dbid+wntBG+K6X7iyhkUNMneOKYkyXw5MgQKzeb759I=;
+ b=asaZPARmpouDGXM0MYzVyw9D70EZi5nk4VPh3SjKRQybmOiX5XGvPAJCmrQW/LyB0I
+ OI+vl/KyfrO1B0OaBbe5/iV/eOOm4iaPPD7uZMJkrt89J/JsbSQdn3KG59bQLfODBfuc
+ QaIx7KSnf/tkZkvVO+/ZtLFsa4l6Fmk6J81ZlJ0VEjelV35sMHHJliWo75VkrWh1HBJf
+ UhK16X9uqtd8LOP/DCg/AXDnsMyIUCBbYnfiA2Ws8nces814YelLxwt7LMQM+xOnBQWL
+ 3vR424dl1+zohvz7icbGNxkiR03xbZOFozC1+cYucZDNklVeashgb/pLvhYsPEpgm/pd
+ Bckg==
+X-Gm-Message-State: AOAM531GwE1JWpkuOtp+2iHNDq+xjgfq8VkcmOIPEBlrnBc/zYR8ODEF
+ R2JLYG3woAUIT+YOPE/fiUOHNQ==
+X-Google-Smtp-Source: ABdhPJygzAIvTOlpUoBDHn45BEkEBF9FjCc4t6mc0lKvBSO9U0pBJ4Me1FeEcIo9aXbaVoYQPyGpJw==
+X-Received: by 2002:a5d:474f:: with SMTP id o15mr3301528wrs.377.1606301444354; 
+ Wed, 25 Nov 2020 02:50:44 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w17sm4117545wru.82.2020.11.25.02.41.40
+ by smtp.gmail.com with ESMTPSA id u16sm4014316wrn.55.2020.11.25.02.50.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 02:41:40 -0800 (PST)
-Date: Wed, 25 Nov 2020 11:41:38 +0100
+ Wed, 25 Nov 2020 02:50:43 -0800 (PST)
+Date: Wed, 25 Nov 2020 11:50:41 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH v3 08/12] drm/amdgpu: Split amdgpu_device_fini into early
- and late
-Message-ID: <20201125104138.GW401619@phenom.ffwll.local>
-References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
- <1605936082-3099-9-git-send-email-andrey.grodzovsky@amd.com>
- <20201124145318.GS401619@phenom.ffwll.local>
- <21f9e551-495a-3c3e-09d9-7cdf2bbab8d1@amd.com>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
+Message-ID: <20201125105041.GX401619@phenom.ffwll.local>
+References: <1606153984-104583-1-git-send-email-jianxin.xiong@intel.com>
+ <1606153984-104583-4-git-send-email-jianxin.xiong@intel.com>
+ <20201123180504.GA244516@ziepe.ca>
+ <20201124151658.GT401619@phenom.ffwll.local>
+ <MW3PR11MB45554AAEB1C370A78EB87816E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <21f9e551-495a-3c3e-09d9-7cdf2bbab8d1@amd.com>
+In-Reply-To: <MW3PR11MB45554AAEB1C370A78EB87816E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,319 +68,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: gregkh@linuxfoundation.org, ckoenig.leichtzumerken@gmail.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, Alexander.Deucher@amd.com, yuq825@gmail.com
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Doug Ledford <dledford@redhat.com>, "Vetter,
+ Daniel" <daniel.vetter@intel.com>, Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 24, 2020 at 10:51:57AM -0500, Andrey Grodzovsky wrote:
-> 
-> On 11/24/20 9:53 AM, Daniel Vetter wrote:
-> > On Sat, Nov 21, 2020 at 12:21:18AM -0500, Andrey Grodzovsky wrote:
-> > > Some of the stuff in amdgpu_device_fini such as HW interrupts
-> > > disable and pending fences finilization must be done right away on
-> > > pci_remove while most of the stuff which relates to finilizing and
-> > > releasing driver data structures can be kept until
-> > > drm_driver.release hook is called, i.e. when the last device
-> > > reference is dropped.
-> > > 
-> > Uh fini_late and fini_early are rathare meaningless namings, since no
-> > clear why there's a split. If you used drm_connector_funcs as inspiration,
-> > that's kinda not good because 'register' itself is a reserved keyword.
-> > That's why we had to add late_ prefix, could as well have used
-> > C_sucks_ as prefix :-) And then the early_unregister for consistency.
+On Tue, Nov 24, 2020 at 06:45:06PM +0000, Xiong, Jianxin wrote:
+> > -----Original Message-----
+> > From: Daniel Vetter <daniel@ffwll.ch>
+> > Sent: Tuesday, November 24, 2020 7:17 AM
+> > To: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Xiong, Jianxin <jianxin.xiong@intel.com>; Leon Romanovsky <leon@kernel.org>; linux-rdma@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig
+> > <christian.koenig@amd.com>
+> > Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
 > > 
-> > I think fini_hw and fini_sw (or maybe fini_drm) would be a lot clearer
-> > about what they're doing.
+> > On Mon, Nov 23, 2020 at 02:05:04PM -0400, Jason Gunthorpe wrote:
+> > > On Mon, Nov 23, 2020 at 09:53:02AM -0800, Jianxin Xiong wrote:
+> > >
+> > > > +cdef class DmaBuf:
+> > > > +    def __init__(self, size, unit=0):
+> > > > +        """
+> > > > +        Allocate DmaBuf object from a GPU device. This is done through the
+> > > > +        DRI device interface (/dev/dri/card*). Usually this
+> > > > +requires the
 > > 
-> > I still strongly recommend that you cut over as much as possible of the
-> > fini_hw work to devm_ and for the fini_sw/drm stuff there's drmm_
-> > -Daniel
+> > Please use /dev/dri/renderD* instead. That's the interface meant for unpriviledged rendering access. card* is the legacy interface with
+> > backwards compat galore, don't use.
+> > 
+> > Specifically if you do this on a gpu which also has display (maybe some testing on a local developer machine, no idea ...) then you mess with
+> > compositors and stuff.
+> > 
+> > Also wherever you copied this from, please also educate those teams that using /dev/dri/card* for rendering stuff is a Bad Idea (tm)
 > 
-> 
-> Definitely, and I put it in a TODO list in the RFC patch.Also, as I
-> mentioned before -
-> I just prefer to leave it for a follow up work because it's non trivial and
-> requires shuffling
-> a lof of stuff around in the driver. I was thinking of committing the work
-> in incremental steps -
-> so it's easier to merge it and control for breakages.
+> /dev/dri/renderD* is not always available (e.g. for many iGPUs) and doesn't support
+> mode setting commands (including dumb_buf). The original intention here is to
+> have something to support the new tests added, not for general compute. 
 
-Yeah doing devm/drmm conversion later on makes sense. It'd still try to
-have better names than what you're currently going with. A few of these
-will likely stick around for very long, not just interim.
+Not having dumb_buf available is a feature. So even more reasons to use
+that.
+
+Also note that amdgpu has killed card* access pretty much, it's for
+modesetting only.
+
+> > > > +        effective user id being root or being a member of the 'video' group.
+> > > > +        :param size: The size (in number of bytes) of the buffer.
+> > > > +        :param unit: The unit number of the GPU to allocate the buffer from.
+> > > > +        :return: The newly created DmaBuf object on success.
+> > > > +        """
+> > > > +        self.dmabuf_mrs = weakref.WeakSet()
+> > > > +        self.dri_fd = open('/dev/dri/card'+str(unit), O_RDWR)
+> > > > +
+> > > > +        args = bytearray(32)
+> > > > +        pack_into('=iiiiiiq', args, 0, 1, size, 8, 0, 0, 0, 0)
+> > > > +        ioctl(self.dri_fd, DRM_IOCTL_MODE_CREATE_DUMB, args)
+> > > > +        a, b, c, d, self.handle, e, self.size = unpack('=iiiiiiq',
+> > > > + args)
+> > 
+> > Yeah no, don't allocate render buffers with create_dumb. Every time this comes up I'm wondering whether we should just completely
+> > disable dma-buf operations on these. Dumb buffers are explicitly only for software rendering for display purposes when the gpu userspace
+> > stack isn't fully running yet, aka boot splash.
+> > 
+> > And yes I know there's endless amounts of abuse of that stuff floating around, especially on arm-soc/android systems.
+> 
+> One alternative is to use the GEM_CREATE method which can be done via the renderD*
+> device, but the command is vendor specific, so the logic is a little bit more complex. 
+
+Yup. I guess the most minimal thing is to have a per-vendor (you can ask
+drm for the driver name to match the right one) callback here to allocate
+buffers correctly. Might be less churn than trying to pull in vulkan or
+something like that.
+
+It's at least what we're doing in igt for testing drm drivers (although
+most of the generic igt tests for display, so dumb_buffer fallback is
+available).
+
+DRM_IOCTL_VERSION is the thing you'd need here, struct drm_version.name
+has the field for figuring out which driver it is.
+
+Also drivers without render node support won't ever be in the same system
+as an rdma card and actually useful (because well they're either very old,
+or display-only). So not an issue I think.
+
+> > > > +
+> > > > +        args = bytearray(12)
+> > > > +        pack_into('=iii', args, 0, self.handle, O_RDWR, 0)
+> > > > +        ioctl(self.dri_fd, DRM_IOCTL_PRIME_HANDLE_TO_FD, args)
+> > > > +        a, b, self.fd = unpack('=iii', args)
+> > > > +
+> > > > +        args = bytearray(16)
+> > > > +        pack_into('=iiq', args, 0, self.handle, 0, 0)
+> > > > +        ioctl(self.dri_fd, DRM_IOCTL_MODE_MAP_DUMB, args);
+> > > > +        a, b, self.map_offset = unpack('=iiq', args);
+> > >
+> > > Wow, OK
+> > >
+> > > Is it worth using ctypes here instead? Can you at least add a comment
+> > > before each pack specifying the 'struct XXX' this is following?
+> > >
+> > > Does this work with normal Intel GPUs, like in a Laptop? AMD too?
+> > >
+> > > Christian, I would be very happy to hear from you that this entire
+> > > work is good for AMD as well
+> > 
+> > I think the smallest generic interface for allocating gpu buffers which are more useful than the stuff you get from CREATE_DUMB is gbm.
+> > That's used by compositors to get bare metal opengl going on linux. Ofc Android has gralloc for the same purpose, and cros has minigbm
+> > (which isn't the same as gbm at all). So not so cool.
+> 
+> Again, would the "renderD* + GEM_CREATE" combination be an acceptable alternative? 
+> That would be much simpler than going with gbm and less dependency in setting up
+> the testing evrionment.
+
+Yeah imo makes sense. It's a bunch more code for you to make it work on
+i915 and amd, but it's not terrible. And avoids the dependencies, and also
+avoids the abuse of card* and dumb buffers. Plus not really more complex,
+you just need a table or something to match from the drm driver name to
+the driver-specific buffer create function. Everything else stays the
+same.
+
+Also this opens up the door to force-test stuff like p2p in the future,
+since at least on i915 you'll be able to ensure that a buffer is in vram
+only.
+
+Would be good if we also have a trick for amdgpu to make sure the buffer
+stays in vram. I think there's some flags you can pass to the amdgpu
+buffer create function. So maybe you want 2 testcases here, one allocates
+the buffer in system memory, the other in vram for testing p2p
+functionality. That kind of stuff isn't possible with dumb buffers.
 -Daniel
 
-> 
-> Andrey
-> 
-> 
+
+
+
 > > 
-> > > Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-> > > ---
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu.h        |  6 +++++-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 16 ++++++++++++----
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  7 ++-----
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c  | 15 ++++++++++++++-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c    | 24 +++++++++++++++---------
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h    |  1 +
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c    | 12 +++++++++++-
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c    |  3 +++
-> > >   drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h   |  3 ++-
-> > >   9 files changed, 65 insertions(+), 22 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > index 83ac06a..6243f6d 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> > > @@ -1063,7 +1063,9 @@ static inline struct amdgpu_device *amdgpu_ttm_adev(struct ttm_bo_device *bdev)
-> > >   int amdgpu_device_init(struct amdgpu_device *adev,
-> > >   		       uint32_t flags);
-> > > -void amdgpu_device_fini(struct amdgpu_device *adev);
-> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev);
-> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev);
-> > > +
-> > >   int amdgpu_gpu_wait_for_idle(struct amdgpu_device *adev);
-> > >   void amdgpu_device_vram_access(struct amdgpu_device *adev, loff_t pos,
-> > > @@ -1275,6 +1277,8 @@ void amdgpu_driver_lastclose_kms(struct drm_device *dev);
-> > >   int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv);
-> > >   void amdgpu_driver_postclose_kms(struct drm_device *dev,
-> > >   				 struct drm_file *file_priv);
-> > > +void amdgpu_driver_release_kms(struct drm_device *dev);
-> > > +
-> > >   int amdgpu_device_ip_suspend(struct amdgpu_device *adev);
-> > >   int amdgpu_device_suspend(struct drm_device *dev, bool fbcon);
-> > >   int amdgpu_device_resume(struct drm_device *dev, bool fbcon);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > index 2f60b70..797d94d 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > > @@ -3557,14 +3557,12 @@ int amdgpu_device_init(struct amdgpu_device *adev,
-> > >    * Tear down the driver info (all asics).
-> > >    * Called at driver shutdown.
-> > >    */
-> > > -void amdgpu_device_fini(struct amdgpu_device *adev)
-> > > +void amdgpu_device_fini_early(struct amdgpu_device *adev)
-> > >   {
-> > >   	dev_info(adev->dev, "amdgpu: finishing device.\n");
-> > >   	flush_delayed_work(&adev->delayed_init_work);
-> > >   	adev->shutdown = true;
-> > > -	kfree(adev->pci_state);
-> > > -
-> > >   	/* make sure IB test finished before entering exclusive mode
-> > >   	 * to avoid preemption on IB test
-> > >   	 * */
-> > > @@ -3581,11 +3579,18 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
-> > >   		else
-> > >   			drm_atomic_helper_shutdown(adev_to_drm(adev));
-> > >   	}
-> > > -	amdgpu_fence_driver_fini(adev);
-> > > +	amdgpu_fence_driver_fini_early(adev);
-> > >   	if (adev->pm_sysfs_en)
-> > >   		amdgpu_pm_sysfs_fini(adev);
-> > >   	amdgpu_fbdev_fini(adev);
-> > > +
-> > > +	amdgpu_irq_fini_early(adev);
-> > > +}
-> > > +
-> > > +void amdgpu_device_fini_late(struct amdgpu_device *adev)
-> > > +{
-> > >   	amdgpu_device_ip_fini(adev);
-> > > +	amdgpu_fence_driver_fini_late(adev);
-> > >   	release_firmware(adev->firmware.gpu_info_fw);
-> > >   	adev->firmware.gpu_info_fw = NULL;
-> > >   	adev->accel_working = false;
-> > > @@ -3621,6 +3626,9 @@ void amdgpu_device_fini(struct amdgpu_device *adev)
-> > >   		amdgpu_pmu_fini(adev);
-> > >   	if (adev->mman.discovery_bin)
-> > >   		amdgpu_discovery_fini(adev);
-> > > +
-> > > +	kfree(adev->pci_state);
-> > > +
-> > >   }
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > index 7f98cf1..3d130fc 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> > > @@ -1244,14 +1244,10 @@ amdgpu_pci_remove(struct pci_dev *pdev)
-> > >   {
-> > >   	struct drm_device *dev = pci_get_drvdata(pdev);
-> > > -#ifdef MODULE
-> > > -	if (THIS_MODULE->state != MODULE_STATE_GOING)
-> > > -#endif
-> > > -		DRM_ERROR("Hotplug removal is not supported\n");
-> > >   	drm_dev_unplug(dev);
-> > >   	amdgpu_driver_unload_kms(dev);
-> > > +
-> > >   	pci_disable_device(pdev);
-> > > -	pci_set_drvdata(pdev, NULL);
-> > >   	drm_dev_put(dev);
-> > >   }
-> > > @@ -1557,6 +1553,7 @@ static struct drm_driver kms_driver = {
-> > >   	.dumb_create = amdgpu_mode_dumb_create,
-> > >   	.dumb_map_offset = amdgpu_mode_dumb_mmap,
-> > >   	.fops = &amdgpu_driver_kms_fops,
-> > > +	.release = &amdgpu_driver_release_kms,
-> > >   	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
-> > >   	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > index d0b0021..c123aa6 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-> > > @@ -523,7 +523,7 @@ int amdgpu_fence_driver_init(struct amdgpu_device *adev)
-> > >    *
-> > >    * Tear down the fence driver for all possible rings (all asics).
-> > >    */
-> > > -void amdgpu_fence_driver_fini(struct amdgpu_device *adev)
-> > > +void amdgpu_fence_driver_fini_early(struct amdgpu_device *adev)
-> > >   {
-> > >   	unsigned i, j;
-> > >   	int r;
-> > > @@ -544,6 +544,19 @@ void amdgpu_fence_driver_fini(struct amdgpu_device *adev)
-> > >   		if (!ring->no_scheduler)
-> > >   			drm_sched_fini(&ring->sched);
-> > >   		del_timer_sync(&ring->fence_drv.fallback_timer);
-> > > +	}
-> > > +}
-> > > +
-> > > +void amdgpu_fence_driver_fini_late(struct amdgpu_device *adev)
-> > > +{
-> > > +	unsigned int i, j;
-> > > +
-> > > +	for (i = 0; i < AMDGPU_MAX_RINGS; i++) {
-> > > +		struct amdgpu_ring *ring = adev->rings[i];
-> > > +
-> > > +		if (!ring || !ring->fence_drv.initialized)
-> > > +			continue;
-> > > +
-> > >   		for (j = 0; j <= ring->fence_drv.num_fences_mask; ++j)
-> > >   			dma_fence_put(ring->fence_drv.fences[j]);
-> > >   		kfree(ring->fence_drv.fences);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > index 300ac73..a833197 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-> > > @@ -49,6 +49,7 @@
-> > >   #include <drm/drm_irq.h>
-> > >   #include <drm/drm_vblank.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > +#include <drm/drm_drv.h>
-> > >   #include "amdgpu.h"
-> > >   #include "amdgpu_ih.h"
-> > >   #include "atom.h"
-> > > @@ -297,6 +298,20 @@ int amdgpu_irq_init(struct amdgpu_device *adev)
-> > >   	return 0;
-> > >   }
-> > > +
-> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev)
-> > > +{
-> > > +	if (adev->irq.installed) {
-> > > +		drm_irq_uninstall(&adev->ddev);
-> > > +		adev->irq.installed = false;
-> > > +		if (adev->irq.msi_enabled)
-> > > +			pci_free_irq_vectors(adev->pdev);
-> > > +
-> > > +		if (!amdgpu_device_has_dc_support(adev))
-> > > +			flush_work(&adev->hotplug_work);
-> > > +	}
-> > > +}
-> > > +
-> > >   /**
-> > >    * amdgpu_irq_fini - shut down interrupt handling
-> > >    *
-> > > @@ -310,15 +325,6 @@ void amdgpu_irq_fini(struct amdgpu_device *adev)
-> > >   {
-> > >   	unsigned i, j;
-> > > -	if (adev->irq.installed) {
-> > > -		drm_irq_uninstall(adev_to_drm(adev));
-> > > -		adev->irq.installed = false;
-> > > -		if (adev->irq.msi_enabled)
-> > > -			pci_free_irq_vectors(adev->pdev);
-> > > -		if (!amdgpu_device_has_dc_support(adev))
-> > > -			flush_work(&adev->hotplug_work);
-> > > -	}
-> > > -
-> > >   	for (i = 0; i < AMDGPU_IRQ_CLIENTID_MAX; ++i) {
-> > >   		if (!adev->irq.client[i].sources)
-> > >   			continue;
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > index c718e94..718c70f 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.h
-> > > @@ -104,6 +104,7 @@ irqreturn_t amdgpu_irq_handler(int irq, void *arg);
-> > >   int amdgpu_irq_init(struct amdgpu_device *adev);
-> > >   void amdgpu_irq_fini(struct amdgpu_device *adev);
-> > > +void amdgpu_irq_fini_early(struct amdgpu_device *adev);
-> > >   int amdgpu_irq_add_id(struct amdgpu_device *adev,
-> > >   		      unsigned client_id, unsigned src_id,
-> > >   		      struct amdgpu_irq_src *source);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > index a0af8a7..9e30c5c 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-> > > @@ -29,6 +29,7 @@
-> > >   #include "amdgpu.h"
-> > >   #include <drm/drm_debugfs.h>
-> > >   #include <drm/amdgpu_drm.h>
-> > > +#include <drm/drm_drv.h>
-> > >   #include "amdgpu_sched.h"
-> > >   #include "amdgpu_uvd.h"
-> > >   #include "amdgpu_vce.h"
-> > > @@ -94,7 +95,7 @@ void amdgpu_driver_unload_kms(struct drm_device *dev)
-> > >   	}
-> > >   	amdgpu_acpi_fini(adev);
-> > > -	amdgpu_device_fini(adev);
-> > > +	amdgpu_device_fini_early(adev);
-> > >   }
-> > >   void amdgpu_register_gpu_instance(struct amdgpu_device *adev)
-> > > @@ -1147,6 +1148,15 @@ void amdgpu_driver_postclose_kms(struct drm_device *dev,
-> > >   	pm_runtime_put_autosuspend(dev->dev);
-> > >   }
-> > > +
-> > > +void amdgpu_driver_release_kms(struct drm_device *dev)
-> > > +{
-> > > +	struct amdgpu_device *adev = drm_to_adev(dev);
-> > > +
-> > > +	amdgpu_device_fini_late(adev);
-> > > +	pci_set_drvdata(adev->pdev, NULL);
-> > > +}
-> > > +
-> > >   /*
-> > >    * VBlank related functions.
-> > >    */
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > index 9d11b84..caf828a 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-> > > @@ -2142,9 +2142,12 @@ int amdgpu_ras_pre_fini(struct amdgpu_device *adev)
-> > >   {
-> > >   	struct amdgpu_ras *con = amdgpu_ras_get_context(adev);
-> > > +	//DRM_ERROR("adev 0x%llx", (long long unsigned int)adev);
-> > > +
-> > >   	if (!con)
-> > >   		return 0;
-> > > +
-> > >   	/* Need disable ras on all IPs here before ip [hw/sw]fini */
-> > >   	amdgpu_ras_disable_all_features(adev, 0);
-> > >   	amdgpu_ras_recovery_fini(adev);
-> > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> > > index 7112137..074f36b 100644
-> > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h
-> > > @@ -107,7 +107,8 @@ struct amdgpu_fence_driver {
-> > >   };
-> > >   int amdgpu_fence_driver_init(struct amdgpu_device *adev);
-> > > -void amdgpu_fence_driver_fini(struct amdgpu_device *adev);
-> > > +void amdgpu_fence_driver_fini_early(struct amdgpu_device *adev);
-> > > +void amdgpu_fence_driver_fini_late(struct amdgpu_device *adev);
-> > >   void amdgpu_fence_driver_force_completion(struct amdgpu_ring *ring);
-> > >   int amdgpu_fence_driver_init_ring(struct amdgpu_ring *ring,
-> > > -- 
-> > > 2.7.4
-> > > 
+> > The other generic option is using vulkan, which works directly on bare metal (without a compositor or anything running), and is cross vendor.
+> > So cool, except not used for compute, which is generally the thing you want if you have an rdma card.
+> > 
+> > Both gbm-egl/opengl and vulkan have extensions to hand you a dma-buf back, properly.
+> > 
+> > Compute is the worst, because opencl is widely considered a mistake (maybe opencl 3 is better, but nvidia is stuck on 1.2). The actually used
+> > stuff is cuda (nvidia-only), rocm (amd-only) and now with intel also playing we have xe (intel-only).
+> > 
+> > It's pretty glorious :-/
+> > 
+> > Also I think we discussed this already, but for actual p2p the intel patches aren't in upstream yet. We have some internally, but with very
+> > broken locking (in the process of getting fixed up, but it's taking time).
+> > 
+> > Cheers, Daniel
+> > 
+> > > Edward should look through this, but I'm glad to see something like
+> > > this
+> > >
+> > > Thanks,
+> > > Jason
+> > > _______________________________________________
+> > > dri-devel mailing list
+> > > dri-devel@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > 
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
