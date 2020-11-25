@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E8412C4542
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 17:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BDD2C4558
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 17:36:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 059446EA2F;
-	Wed, 25 Nov 2020 16:32:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 099486EA30;
+	Wed, 25 Nov 2020 16:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A066D6EA2F
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 16:32:55 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id d142so2531483wmd.4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 08:32:55 -0800 (PST)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D314C6EA30
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 16:36:25 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id e7so2530604wrv.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 08:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=nBrO9nv1B1gyQCR7huherqy/ZakAicmiSzUs8NEZ6N4=;
- b=j0sAignAWpzqmJlmMp24fhf4E1P+BGw9y9KFTmi6ef70BIMF9Nz2rcS97Pj5wi0aj9
- KRqWu6HCkalZ0rCYrb5+QTe6cFr0hJZw7IqYoCyodYPEnzV1IxGJdJFZT1VePIfFgQQV
- DaFqkmVxbdjI+2AAdhBaQNS3KX3/wXsxFiQcY=
+ bh=LriS6d0FBYV8rAsDZpGllJl5N3dwmQ0tnvBZPdRFUZc=;
+ b=kyItuZpQTa5FD4nn0EMbms+3tj+yP5jG4SNJ6odV2dXvcbKT0Rae8Mxgv6zWcNt+hL
+ MfUR4xiFkvrWOaPsbxq93DSNv3z9wQFUSgzH/U6yLrf1VTpz/Gvrb+dgDWRpDFgMQxWi
+ grbfLfLC3w+fE19hvJAR0fGl6MgGgauFNSeTE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=nBrO9nv1B1gyQCR7huherqy/ZakAicmiSzUs8NEZ6N4=;
- b=FrbvBA+R1zR5/3TrlDzYg7OLsTcEqXi104NnSGaGC5TnonEhjK6znKH07JeoVN+NIK
- rYeHfrow4AH2P9e/cOZTSeLSJkG6RQke7JCHPz2FGNETGLsv28IrQCK827kB4JCLEDNB
- IU21EJISo3owUzy9LKEjNftKMqTBIUXYdDFim8OJ4OHc/ugVy1OU3Zf1oRsSzxZ6K+ZG
- VhrphFdMslO5R+Y9H8fBDK2RmEuHhfPw0hvtgS4scIo0XEYGwAuV+5ubh16ovnAED7uY
- z+v3iHttiJ0vm3sS5gvG8c400R50HV3jz/vhucN60zd/EF3TN7fPIM8AA2JW1rNTm//e
- ESyQ==
-X-Gm-Message-State: AOAM531ZXQylsrvFwMQlkHg8Db9cYrPvjE8Ingn4bMAQk6cL6bMcdqaH
- zF7oJ7aSbAatArZcATA5/f2HHQ==
-X-Google-Smtp-Source: ABdhPJyXObaftNXrs7sJvvMP37m6AMUeh8xZurf9v2L/qW66uc3ZRQTniVGf7x1/iQ2eIL4HRO7DOg==
-X-Received: by 2002:a7b:c349:: with SMTP id l9mr4959269wmj.129.1606321974192; 
- Wed, 25 Nov 2020 08:32:54 -0800 (PST)
+ bh=LriS6d0FBYV8rAsDZpGllJl5N3dwmQ0tnvBZPdRFUZc=;
+ b=IFLsYruJvb7dHe43CZVK6RKjOiDbcJBjX0u39de46AwyhhHdNOYYY/Saq81Q2UFBVa
+ aYWwXmYjkn+jDjyf+jHPZ7OF3U10WF7rQO7nJctIItHENYNx0UyFIcGshNHFH0yecXj8
+ 2s63LSj3PDlA9FfOX3Kwns8BXveS5V/YxPKPot1LmzLW4clq3JI6qoDdr3EsjWJcc7wd
+ n0plaoavldfXaNp1W3bAITQ1aVVmweFV/clbGV3ugwqBOpcJ/o53vnmBPFG9Cuf9SC7/
+ 5d48bSq8DdzApEyLRO/CQSYXfwCFaE+c5DQUxBkpRNQfBXLV/fpmrrAJV8pHbh/KUzvp
+ 8j2A==
+X-Gm-Message-State: AOAM530PKa/ulWynSd1eJ3y87igNxdHM9UBt9cI2wrPFmMnRNaccecU7
+ 9opjB4UuRuY14zNGoXlJpXC5NQ==
+X-Google-Smtp-Source: ABdhPJwjx1e3hKS5FBEJDg0EMwZuY62p3XYOLlrnEPtMtb/gzp7BodithLVrMpP64NX2bmFRy717zQ==
+X-Received: by 2002:adf:fec5:: with SMTP id q5mr5034139wrs.245.1606322184446; 
+ Wed, 25 Nov 2020 08:36:24 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 90sm5400218wrl.60.2020.11.25.08.32.52
+ by smtp.gmail.com with ESMTPSA id j8sm5451591wrx.11.2020.11.25.08.36.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 08:32:53 -0800 (PST)
-Date: Wed, 25 Nov 2020 17:32:51 +0100
+ Wed, 25 Nov 2020 08:36:23 -0800 (PST)
+Date: Wed, 25 Nov 2020 17:36:21 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-Message-ID: <20201125163251.GY401619@phenom.ffwll.local>
-References: <d1508c4f-df3e-fa3c-3071-d8a58295e674@suse.de>
- <cbfa3e8d-81a3-5620-d4fc-72188cfb42ee@amd.com>
- <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
- <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
- <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
- <20201124140937.GK401619@phenom.ffwll.local>
- <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
- <2f8a252a-5413-4b75-a367-f6233121e36e@amd.com>
- <20201125103645.GU401619@phenom.ffwll.local>
- <fd9dff4a-ec16-46d8-d892-b06dad5c11d3@suse.de>
+To: christian.koenig@amd.com
+Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
+Message-ID: <20201125163621.GZ401619@phenom.ffwll.local>
+References: <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
+ <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
+ <e2f4f1dc-2a2a-face-87b2-6d61ed7d3305@amd.com>
+ <01280cba-56b8-77c6-b40f-d7e69a5ad4c6@amd.com>
+ <0ceca974-80f8-feb3-d5e9-5182f35bb2c4@amd.com>
+ <20288c45-270c-3ed7-2ac4-eeb6e5c50776@amd.com>
+ <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
+ <041210e5-e237-b72e-dcbc-17027d057c55@gmail.com>
+ <20201125104021.GV401619@phenom.ffwll.local>
+ <71683ae7-f443-c15a-7003-6ba4ad3d4b15@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <fd9dff4a-ec16-46d8-d892-b06dad5c11d3@suse.de>
+In-Reply-To: <71683ae7-f443-c15a-7003-6ba4ad3d4b15@gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,392 +74,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, alexander.deucher@amd.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ Alexander.Deucher@amd.com, yuq825@gmail.com
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 25, 2020 at 12:38:01PM +0100, Thomas Zimmermann wrote:
-> Hi
-> =
-
-> Am 25.11.20 um 11:36 schrieb Daniel Vetter:
-> > On Wed, Nov 25, 2020 at 11:13:13AM +0100, Christian K=F6nig wrote:
-> > > Am 25.11.20 um 09:37 schrieb Thomas Zimmermann:
-> > > > Hi
-> > > > =
-
-> > > > Am 24.11.20 um 15:09 schrieb Daniel Vetter:
-> > > > > On Tue, Nov 24, 2020 at 02:56:51PM +0100, Thomas Zimmermann wrote:
-> > > > > > Hi
-> > > > > > =
-
-> > > > > > Am 24.11.20 um 14:36 schrieb Christian K=F6nig:
-> > > > > > > Am 24.11.20 um 13:15 schrieb Thomas Zimmermann:
-> > > > > > > > [SNIP]
-> > > > > > > > > > > > First I wanted to put this into
-> > > > > > > > > > > > drm_gem_ttm_vmap/vunmap(), but then wondered why
-> > > > > > > > > > > > ttm_bo_vmap() doe not acquire the lock internally?
-> > > > > > > > > > > > I'd expect that vmap/vunmap are close together and
-> > > > > > > > > > > > do not overlap for the same BO.
+On Wed, Nov 25, 2020 at 01:57:40PM +0100, Christian K=F6nig wrote:
+> Am 25.11.20 um 11:40 schrieb Daniel Vetter:
+> > On Tue, Nov 24, 2020 at 05:44:07PM +0100, Christian K=F6nig wrote:
+> > > Am 24.11.20 um 17:22 schrieb Andrey Grodzovsky:
+> > > > On 11/24/20 2:41 AM, Christian K=F6nig wrote:
+> > > > > Am 23.11.20 um 22:08 schrieb Andrey Grodzovsky:
+> > > > > > On 11/23/20 3:41 PM, Christian K=F6nig wrote:
+> > > > > > > Am 23.11.20 um 21:38 schrieb Andrey Grodzovsky:
+> > > > > > > > On 11/23/20 3:20 PM, Christian K=F6nig wrote:
+> > > > > > > > > Am 23.11.20 um 21:05 schrieb Andrey Grodzovsky:
+> > > > > > > > > > On 11/25/20 5:42 AM, Christian K=F6nig wrote:
+> > > > > > > > > > > Am 21.11.20 um 06:21 schrieb Andrey Grodzovsky:
+> > > > > > > > > > > > It's needed to drop iommu backed pages on device un=
+plug
+> > > > > > > > > > > > before device's IOMMU group is released.
+> > > > > > > > > > > It would be cleaner if we could do the whole
+> > > > > > > > > > > handling in TTM. I also need to double check
+> > > > > > > > > > > what you are doing with this function.
 > > > > > > > > > > > =
 
-> > > > > > > > > > > We have use cases like the following during command s=
-ubmission:
-> > > > > > > > > > > =
-
-> > > > > > > > > > > 1. lock
-> > > > > > > > > > > 2. map
-> > > > > > > > > > > 3. copy parts of the BO content somewhere else or pat=
-ch
-> > > > > > > > > > > it with additional information
-> > > > > > > > > > > 4. unmap
-> > > > > > > > > > > 5. submit BO to the hardware
-> > > > > > > > > > > 6. add hardware fence to the BO to make sure it doesn=
-'t move
-> > > > > > > > > > > 7. unlock
-> > > > > > > > > > > =
-
-> > > > > > > > > > > That use case won't be possible with vmap/vunmap if we
-> > > > > > > > > > > move the lock/unlock into it and I hope to replace the
-> > > > > > > > > > > kmap/kunmap functions with them in the near term.
-> > > > > > > > > > > =
-
-> > > > > > > > > > > > Otherwise, acquiring the reservation lock would
-> > > > > > > > > > > > require another ref-counting variable or per-driver
-> > > > > > > > > > > > code.
-> > > > > > > > > > > =
-
-> > > > > > > > > > > Hui, why that? Just put this into
-> > > > > > > > > > > drm_gem_ttm_vmap/vunmap() helper as you initially
-> > > > > > > > > > > planned.
+> > > > > > > > > > > Christian.
 > > > > > > > > > > =
 
-> > > > > > > > > > Given your example above, step one would acquire the lo=
-ck,
-> > > > > > > > > > and step two would also acquire the lock as part of the=
- vmap
-> > > > > > > > > > implementation. Wouldn't this fail (At least during unm=
-ap or
-> > > > > > > > > > unlock steps) ?
+> > > > > > > > > > Check patch "drm/amdgpu: Register IOMMU topology
+> > > > > > > > > > notifier per device." to see
+> > > > > > > > > > how i use it. I don't see why this should go
+> > > > > > > > > > into TTM mid-layer - the stuff I do inside
+> > > > > > > > > > is vendor specific and also I don't think TTM is
+> > > > > > > > > > explicitly aware of IOMMU ?
+> > > > > > > > > > Do you mean you prefer the IOMMU notifier to be
+> > > > > > > > > > registered from within TTM
+> > > > > > > > > > and then use a hook to call into vendor specific handle=
+r ?
+> > > > > > > > > No, that is really vendor specific.
 > > > > > > > > > =
 
-> > > > > > > > > Oh, so you want to nest them? No, that is a rather bad no=
--go.
+> > > > > > > > > What I meant is to have a function like
+> > > > > > > > > ttm_resource_manager_evict_all() which you only need
+> > > > > > > > > to call and all tt objects are unpopulated.
 > > > > > > > > =
 
-> > > > > > > > I don't want to nest/overlap them. My question was whether =
-that
-> > > > > > > > would be required. Apparently not.
-> > > > > > > > =
-
-> > > > > > > > While the console's BO is being set for scanout, it's prote=
-cted from
-> > > > > > > > movement via the pin/unpin implementation, right?
+> > > > > > > > So instead of this BO list i create and later iterate in
+> > > > > > > > amdgpu from the IOMMU patch you just want to do it
+> > > > > > > > within
+> > > > > > > > TTM with a single function ? Makes much more sense.
+> > > > > > > Yes, exactly.
 > > > > > > > =
 
-> > > > > > > Yes, correct.
-> > > > > > > =
+> > > > > > > The list_empty() checks we have in TTM for the LRU are
+> > > > > > > actually not the best idea, we should now check the
+> > > > > > > pin_count instead. This way we could also have a list of the
+> > > > > > > pinned BOs in TTM.
+> > > > > > =
 
-> > > > > > > > The driver does not acquire the resv lock for longer period=
-s. I'm
-> > > > > > > > asking because this would prevent any console-buffer update=
-s while
-> > > > > > > > the console is being displayed.
-> > > > > > > =
-
-> > > > > > > Correct as well, we only hold the lock for things like command
-> > > > > > > submission, pinning, unpinning etc etc....
-> > > > > > > =
+> > > > > > So from my IOMMU topology handler I will iterate the TTM LRU for
+> > > > > > the unpinned BOs and this new function for the pinned ones=A0 ?
+> > > > > > It's probably a good idea to combine both iterations into this
+> > > > > > new function to cover all the BOs allocated on the device.
+> > > > > Yes, that's what I had in my mind as well.
+> > > > > =
 
 > > > > > > =
 
-> > > > > > Thanks for answering my questions.
+> > > > > > > BTW: Have you thought about what happens when we unpopulate
+> > > > > > > a BO while we still try to use a kernel mapping for it? That
+> > > > > > > could have unforeseen consequences.
 > > > > > > =
 
-> > > > > > > > =
-
-> > > > > > > > > =
-
-> > > > > > > > > You need to make sure that the lock is only taken from th=
-e FB
-> > > > > > > > > path which wants to vmap the object.
-> > > > > > > > > =
-
-> > > > > > > > > Why don't you lock the GEM object from the caller in the =
-generic
-> > > > > > > > > FB implementation?
-> > > > > > > > =
-
-> > > > > > > > With the current blitter code, it breaks abstraction. if vm=
-ap/vunmap
-> > > > > > > > hold the lock implicitly, things would be easier.
-> > > > > > > =
-
-> > > > > > > Do you have a link to the code?
-> > > > > > =
-
-> > > > > > It's the damage blitter in the fbdev code. [1] While it flushes
-> > > > > > the shadow
-> > > > > > buffer into the BO, the BO has to be kept in place. I already
-> > > > > > changed it to
-> > > > > > lock struct drm_fb_helper.lock, but I don't think this is
-> > > > > > enough. TTM could
-> > > > > > still evict the BO concurrently.
+> > > > > > Are you asking what happens to kmap or vmap style mapped CPU
+> > > > > > accesses once we drop all the DMA backing pages for a particular
+> > > > > > BO ? Because for user mappings
+> > > > > > (mmap) we took care of this with dummy page reroute but indeed
+> > > > > > nothing was done for in kernel CPU mappings.
+> > > > > Yes exactly that.
 > > > > > =
 
-> > > > > So I'm not sure this is actually a problem: ttm could try to
-> > > > > concurrently
-> > > > > evict the buffer we pinned into vram, and then just skip to the n=
-ext
-> > > > > one.
+> > > > > In other words what happens if we free the ring buffer while the
+> > > > > kernel still writes to it?
 > > > > > =
 
-> > > > > Plus atm generic fbdev isn't used on any chip where we really car=
-e about
-> > > > > that last few mb of vram being useable for command submission (we=
-ll atm
-> > > > > there's no driver using it).
+> > > > > Christian.
 > > > > =
 
-> > > > Well, this is the patchset for radeon. If it works out, amdgpu and
-> > > > nouveau are natural next choices. Especially radeon and nouveau sup=
-port
-> > > > cards with low- to medium-sized VRAM. The MiBs wasted on fbdev cert=
-ainly
-> > > > matter.
-> > > > =
-
-> > > > > =
-
-> > > > > Having the buffer pinned into system memory and trying to do a
-> > > > > concurrent
-> > > > > modeset that tries to pull it in is the hard failure mode. And ho=
-lding
-> > > > > fb_helper.lock fully prevents that.
-> > > > > =
-
-> > > > > So not really clear on what failure mode you're seeing here?
-> > > > =
-
-> > > > Imagine the fbdev BO is in VRAM, but not pinned. (Maybe Xorg or Way=
-land
-> > > > is running.) The fbdev BO is a few MiBs and not in use, so TTM would
-> > > > want to evict it if memory gets tight.
-> > > > =
-
-> > > > What I have in mind is a concurrent modeset that requires the memor=
-y. If
-> > > > we do a concurrent damage blit without protecting against eviction,
-> > > > things go boom. Same for concurrent 3d graphics with textures, model
-> > > > data, etc.
-> > > =
-
-> > > Completely agree.
-> > > =
-
-> > > This needs proper lock protection of the memory mapped buffer. Relyin=
-g on
-> > > that some other code isn't run because we have some third part locks =
-taken
-> > > is not sufficient here.
-> > =
-
-> > We are still protected by the pin count in this scenario. Plus, with
-> > current drivers we always pin the fbdev buffer into vram, so occasional=
-ly
-> > failing to move it out isn't a regression.
+> > > > While we can't control user application accesses to the mapped buff=
+ers
+> > > > explicitly and hence we use page fault rerouting
+> > > > I am thinking that in this=A0 case we may be able to sprinkle
+> > > > drm_dev_enter/exit in any such sensitive place were we might
+> > > > CPU access a DMA buffer from the kernel ?
+> > > Yes, I fear we are going to need that.
+> > Uh ... problem is that dma_buf_vmap are usually permanent things. Maybe=
+ we
+> > could stuff this into begin/end_cpu_access (but only for the kernel, so=
+ a
+> > bit tricky)?
 > =
 
-> Why is this protected by the pin count? The counter should be zero in this
-> scenario. Otherwise, we could not evict the fbdev BO on all those systems
-> where that's a hard requirement (e.g., ast).
+> Oh very very good point! I haven't thought about DMA-buf mmaps in this
+> context yet.
+> =
 
-Ah yes, I mixed that up.
+> =
 
-I guess full locking is required :-/ I'm not exactly sure how to make this
-happen with the current plethora of helpers ... I think we need an
-_locked version of vmap/vunmap callbacks in drm_gem_object_funcs.
+> > btw the other issue with dma-buf (and even worse with dma_fence) is
+> > refcounting of the underlying drm_device. I'd expect that all your
+> > callbacks go boom if the dma_buf outlives your drm_device. That part is=
+n't
+> > yet solved in your series here.
+> =
 
-And then document that if the callers of the _locked version wants a
-permanent mapping, it also needs to pin it. Plus I guess ideally implement
-the unlocked/permanent versions in terms of that, so that drivers only
-have to implement one or the other.
+> Well thinking more about this, it seems to be a another really good argum=
+ent
+> why mapping pages from DMA-bufs into application address space directly i=
+s a
+> very bad idea :)
+> =
 
-That should give us at least some way forward to gradually conver all the
-drivers and helpers over to dma_resv locking.
+> But yes, we essentially can't remove the device as long as there is a
+> DMA-buf with mappings. No idea how to clean that one up.
+
+drm_dev_get/put in drm_prime helpers should get us like 90% there I think.
+
+The even more worrying thing is random dma_fence attached to the dma_resv
+object. We could try to clean all of ours up, but they could have escaped
+already into some other driver. And since we're talking about egpu
+hotunplug, dma_fence escaping to the igpu is a pretty reasonable use-case.
+
+I have no how to fix that one :-/
 -Daniel
 
-> The pin count is currently maintained by the vmap implementation in vram
-> helpers. Calling vmap is an implicit pin; calling vunmap is an implicit
-> unpin. This prevents eviction in the damage worker. But now I was told th=
-an
-> pinning is only for BOs that are controlled by userspace and internal use=
-rs
-> should acquire the resv lock. So vram helpers have to be fixed, actually.
 > =
 
-> In vram helpers, unmapping does not mean eviction. The unmap operation on=
-ly
-> marks the BO as unmappable. The real unmap happens when the eviction takes
-> place. This avoids many modifications to the page tables. IOW an unpinned,
-> unmapped BO will remain in VRAM until the memory is actually needed.
+> Christian.
 > =
 
-> Best regards
-> Thomas
-> =
-
-> > =
-
-> > So I'm still not seeing how this can go boom.
-> > =
-
-> > Now long term it'd be nice to cut everything over to dma_resv locking, =
-but
-> > the issue there is that beyond ttm, none of the helpers (and few of the
-> > drivers) use dma_resv. So this is a fairly big uphill battle. Quick
-> > interim fix seems like the right solution to me.
 > > -Daniel
 > > =
 
+> > > > Things like CPU page table updates, ring buffer accesses and FW mem=
+cpy ?
+> > > > Is there other places ?
+> > > Puh, good question. I have no idea.
+> > > =
+
+> > > > Another point is that at this point the driver shouldn't access any=
+ such
+> > > > buffers as we are at the process finishing the device.
+> > > > AFAIK there is no page fault mechanism for kernel mappings so I don=
+'t
+> > > > think there is anything else to do ?
+> > > Well there is a page fault handler for kernel mappings, but that one =
+just
+> > > prints the stack trace into the system log and calls BUG(); :)
+> > > =
+
+> > > Long story short we need to avoid any access to released pages after =
+unplug.
+> > > No matter if it's from the kernel or userspace.
 > > > =
 
 > > > Regards,
 > > > Christian.
 > > > =
 
-> > > > =
-
-> > > > Best regards
-> > > > Thomas
-> > > > =
-
-> > > > > =
-
-> > > > > > There's no recursion taking place, so I guess the reservation
-> > > > > > lock could be
-> > > > > > acquired/release in drm_client_buffer_vmap/vunmap(), or a
-> > > > > > separate pair of
-> > > > > > DRM client functions could do the locking.
-> > > > > =
-
-> > > > > Given how this "do the right locking" is a can of worms (and I th=
-ink
-> > > > > it's
-> > > > > worse than what you dug out already) I think the fb_helper.lock h=
-ack is
-> > > > > perfectly good enough.
-> > > > > =
-
-> > > > > I'm also somewhat worried that starting to use dma_resv lock in g=
-eneric
-> > > > > code, while many helpers/drivers still have their hand-rolled loc=
-king,
-> > > > > will make conversion over to dma_resv needlessly more complicated.
-> > > > > -Daniel
-> > > > > =
-
-> > > > > > =
-
-> > > > > > Best regards
-> > > > > > Thomas
-> > > > > > =
-
-> > > > > > [1] https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/d=
-rm/drm_fb_helper.c?id=3Dac60f3f3090115d21f028bffa2dcfb67f695c4f2#n394
-> > > > > > =
-
-> > > > > > > =
-
-> > > > > > > Please note that the reservation lock you need to take here i=
-s part of
-> > > > > > > the GEM object.
-> > > > > > > =
-
-> > > > > > > Usually we design things in the way that the code needs to ta=
-ke a lock
-> > > > > > > which protects an object, then do some operations with the ob=
-ject and
-> > > > > > > then release the lock again.
-> > > > > > > =
-
-> > > > > > > Having in the lock inside the operation can be done as well, =
-but
-> > > > > > > returning with it is kind of unusual design.
-> > > > > > > =
-
-> > > > > > > > Sorry for the noob questions. I'm still trying to understan=
-d the
-> > > > > > > > implications of acquiring these locks.
-> > > > > > > =
-
-> > > > > > > Well this is the reservation lock of the GEM object we are
-> > > > > > > talking about
-> > > > > > > here. We need to take that for a couple of different operatio=
-ns,
-> > > > > > > vmap/vunmap doesn't sound like a special case to me.
-> > > > > > > =
-
-> > > > > > > Regards,
-> > > > > > > Christian.
-> > > > > > > =
-
-> > > > > > > > =
-
-> > > > > > > > Best regards
-> > > > > > > > Thomas
-> > > > > > > =
-
-> > > > > > > _______________________________________________
-> > > > > > > dri-devel mailing list
-> > > > > > > dri-devel@lists.freedesktop.org
-> > > > > > > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> > > > > > =
-
-> > > > > > -- =
-
-> > > > > > Thomas Zimmermann
-> > > > > > Graphics Driver Developer
-> > > > > > SUSE Software Solutions Germany GmbH
-> > > > > > Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> > > > > > (HRB 36809, AG N=FCrnberg)
-> > > > > > Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-> > > > > =
-
-> > > > > =
-
-> > > > > =
-
-> > > > > =
-
-> > > > > =
-
-> > > > > =
-
-> > > > =
-
-> > > =
-
-> > =
-
+> > > > Andrey
 > =
-
-> -- =
-
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
-
-
-
 
 
 -- =
