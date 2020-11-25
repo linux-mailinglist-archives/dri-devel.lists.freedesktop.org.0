@@ -1,63 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 491ED2C4634
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 18:03:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 121792C46C5
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 18:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1F966EA55;
-	Wed, 25 Nov 2020 17:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86E816E8D9;
+	Wed, 25 Nov 2020 17:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com
- [IPv6:2607:f8b0:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 847F76EA54
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 17:03:03 +0000 (UTC)
-Received: by mail-oi1-x244.google.com with SMTP id t143so3538789oif.10
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 09:03:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=IUsoYH9UfIVVcykEVMChFcFvDOVK9fjkUz5PsSbBKY4=;
- b=Y4noN/AuajGaOeCp9TzS3SGgouUAz0CxwuuMoGRc/JZvjiJ56AzhZqQIX3TDoanYOh
- tailsffkXB3uZoaASZcZPXk5HyHaVawfXUgasvjni6h19HM4Y+w3XgRDNYCpregAYwzD
- 3No2Ay6/Hf8JvZGgrxyYpgb2wILYCFehtLAY4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=IUsoYH9UfIVVcykEVMChFcFvDOVK9fjkUz5PsSbBKY4=;
- b=PFEsDXsQN6teIl7/0nkdCl7e/BM+wlLjf3m7XNVOD49HeknUYFCY6/QmSyXkCi02/c
- Lfw0cNv0paaKcvYD0jK02Wkijzx6dVxWpa+GuWLhT0lpbdNOBGvHKLecdJvBoqPLdiRL
- ybdtPpyKIzHzAozdmgJOJUFIPYb9Z9B/W+svxdUrclu//ju0Blh6TV0JAPzUqISsD4hv
- uKcSuqxVsWKWbWMaSPwIFUS7cyXHGQGdZ5AaAFLkY4ceICF2f7UhfyNGEgGS45lPJImm
- Crt5yO/N78larqde0q5xbTdVJa9958JNZNAe9hli8DLa+j12IjDjWUWd7ojm9U+pXXRj
- uhyg==
-X-Gm-Message-State: AOAM530uF+v06h9KsvZTRHgIlPv1KbKNjd3OI3ucGEmMjU8hNB3t+vj8
- j5Rkp04adjfR5PUK3rCnkRTy3ZekiLPplPe6BH4tTT+IBpM=
-X-Google-Smtp-Source: ABdhPJwfM9p0Re3rpoo3rBTEznJf7PPtniciR2ZDsggmBTCHLyfTiUzfMOtkaiOAd9de2fHXv+OSW5v4fArBG+1X4ZE=
-X-Received: by 2002:aca:4f14:: with SMTP id d20mr2886595oib.14.1606323782777; 
- Wed, 25 Nov 2020 09:03:02 -0800 (PST)
-MIME-Version: 1.0
-References: <1605936082-3099-6-git-send-email-andrey.grodzovsky@amd.com>
- <28332cf0-612c-10bd-c64e-fff6e1f18653@gmail.com>
- <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
- <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
- <e2f4f1dc-2a2a-face-87b2-6d61ed7d3305@amd.com>
- <01280cba-56b8-77c6-b40f-d7e69a5ad4c6@amd.com>
- <0ceca974-80f8-feb3-d5e9-5182f35bb2c4@amd.com>
- <20288c45-270c-3ed7-2ac4-eeb6e5c50776@amd.com>
- <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
- <041210e5-e237-b72e-dcbc-17027d057c55@gmail.com>
- <20201125104021.GV401619@phenom.ffwll.local>
- <71683ae7-f443-c15a-7003-6ba4ad3d4b15@gmail.com>
- <6669f4ca-bfca-e54e-6d24-ee1bff0c17db@daenzer.net>
-In-Reply-To: <6669f4ca-bfca-e54e-6d24-ee1bff0c17db@daenzer.net>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 25 Nov 2020 18:02:51 +0100
-Message-ID: <CAKMK7uFZnk22EhYQKOPctZz+-YPspWGqh4EWAO3H_stesgpVRA@mail.gmail.com>
-Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 972E66E931
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 17:29:44 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B646831B;
+ Wed, 25 Nov 2020 09:29:43 -0800 (PST)
+Received: from DESKTOP-VLO843J.arm.com (unknown [10.57.59.159])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4FE5C3F23F;
+ Wed, 25 Nov 2020 09:29:42 -0800 (PST)
+From: Robin Murphy <robin.murphy@arm.com>
+To: will@kernel.org
+Subject: [PATCH] iommu/io-pgtable: Remove tlb_flush_leaf
+Date: Wed, 25 Nov 2020 17:29:39 +0000
+Message-Id: <9844ab0c5cb3da8b2f89c6c2da16941910702b41.1606324115.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +36,317 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: tomeu.vizoso@collabora.com, joro@8bytes.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ iommu@lists.linux-foundation.org, yong.wu@mediatek.com,
+ linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gV2VkLCBOb3YgMjUsIDIwMjAgYXQgNTo1NiBQTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
-ZW56ZXIubmV0PiB3cm90ZToKPgo+IE9uIDIwMjAtMTEtMjUgMTo1NyBwLm0uLCBDaHJpc3RpYW4g
-S8O2bmlnIHdyb3RlOgo+ID4KPiA+IFdlbGwgdGhpbmtpbmcgbW9yZSBhYm91dCB0aGlzLCBpdCBz
-ZWVtcyB0byBiZSBhIGFub3RoZXIgcmVhbGx5IGdvb2QKPiA+IGFyZ3VtZW50IHdoeSBtYXBwaW5n
-IHBhZ2VzIGZyb20gRE1BLWJ1ZnMgaW50byBhcHBsaWNhdGlvbiBhZGRyZXNzIHNwYWNlCj4gPiBk
-aXJlY3RseSBpcyBhIHZlcnkgYmFkIGlkZWEgOikKPgo+IEFwb2xvZ2llcyBmb3IgZ29pbmcgb2Zm
-IG9uIGEgdGFuZ2VudCBoZXJlLi4uCj4KPiBTaW5jZSBhbGxvd2luZyB1c2Vyc3BhY2UgbW1hcCB3
-aXRoIGRtYS1idWYgZmRzIHNlZW1zIHRvIGJlIGEgdHJhcCBpbgo+IGdlbmVyYWxbMF0sIEkgd29u
-ZGVyIGlmIHRoZXJlJ3MgYW55IHdheSB3ZSBjb3VsZCBzdG9wIHN1cHBvcnRpbmcgdGhhdD8KPgo+
-Cj4gWzBdIEUuZy4gbXV0dGVyIGhhZCB0byBkaXNhYmxlIGhhbmRpbmcgb3V0IGRtYS1idWZzIGZv
-ciBzY3JlZW4gY2FwdHVyZQo+IGJ5IGRlZmF1bHQgd2l0aCBub24taTkxNSBmb3Igbm93LCBiZWNh
-dXNlIGluIHBhcnRpY3VsYXIgd2l0aCBkaXNjcmV0ZQo+IEdQVXMsIGRpcmVjdCBDUFUgcmVhZHMg
-Y2FuIGJlIHVudXNhYmx5IHNsb3cgKHRoaW5rIHNpbmdsZS1kaWdpdCBmcmFtZXMKPiBwZXIgc2Vj
-b25kKSwgYW5kIG9mIGNvdXJzZSB0aGVyZSdzIG90aGVyIHVzZXJzcGFjZSB3aGljaCBnb2VzICJv
-b2gsCj4gZG1hLWJ1ZiwgbGV0J3MgbWFwIGFuZCByZWFkISIuCgpJIHRoaW5rIGEgcGlsZSBvZiBh
-cHBsaWNhdGlvbnMgKGNyb3MgaW5jbHVkZWQpIHVzZSBpdCB0byBkbyB1cGxvYWRzCmFjcm9zcyBw
-cm9jZXNzIGJvdW5kYXJpZXMuIFRoaW5rIGxvY2tlZCBkb3duIGpwZWcgZGVjb2RlciBhbmQgc3R1
-ZmYKbGlrZSB0aGF0LiBGb3IgdGhhdCB1c2UtY2FzZSBpdCBzZWVtcyB0byB3b3JrIG9rLgoKQnV0
-IHllYWggZG9uJ3QgcmVhZCBmcm9tIGRtYS1idWYuIEknbSBwcmV0dHkgc3VyZSBpdCdzIGRlYWQg
-c2xvdyBvbgphbG1vc3QgZXZlcnl0aGluZywgZXhjZXB0IGludGVncmF0ZWQgZ3B1IHdoaWNoIGhh
-dmUgQSkgYSBjb2hlcmVudApmYWJyaWMgd2l0aCB0aGUgZ3B1IGFuZCBCKSB0aGF0IGZhYnJpYyBp
-cyBhY3R1YWxseSBmYXN0ZXIgZm9yCnJlbmRlcmluZyBpbiBnZW5lcmFsLCBub3QganVzdCBmb3Ig
-ZGVkaWNhdGVkIGJ1ZmZlcnMgYWxsb2NhdGVkIGZvcgpkb3duL3VwbG9hZC4KLURhbmllbAotLSAK
-RGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDov
-L2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCg==
+The only user of tlb_flush_leaf is a particularly hairy corner of the
+Arm short-descriptor code, which wants a synchronous invalidation to
+minimise the races inherent in trying to split a large page mapping.
+This is already far enough into "here be dragons" territory that no
+sensible caller should ever hit it, and thus it really doesn't need
+optimising. Although using tlb_flush_walk there may technically be
+more heavyweight than needed, it does the job and saves everyone else
+having to carry around useless baggage.
+
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+
+Reviewing the Mediatek TLB optimisation patches just left me thinking
+"why do we even have this?"... Panfrost folks, this has zero functional
+impact to you, merely wants an ack for straying outside drivers/iommu.
+
+Robin.
+
+ drivers/gpu/drm/msm/msm_iommu.c             |  1 -
+ drivers/gpu/drm/panfrost/panfrost_mmu.c     |  7 ------
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  7 ------
+ drivers/iommu/arm/arm-smmu/arm-smmu.c       | 25 +++------------------
+ drivers/iommu/arm/arm-smmu/qcom_iommu.c     |  8 -------
+ drivers/iommu/io-pgtable-arm-v7s.c          |  3 +--
+ drivers/iommu/io-pgtable-arm.c              |  1 -
+ drivers/iommu/ipmmu-vmsa.c                  |  1 -
+ drivers/iommu/msm_iommu.c                   |  7 ------
+ drivers/iommu/mtk_iommu.c                   |  1 -
+ include/linux/io-pgtable.h                  | 11 ---------
+ 11 files changed, 4 insertions(+), 68 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
+index 22ac7c692a81..50d881794758 100644
+--- a/drivers/gpu/drm/msm/msm_iommu.c
++++ b/drivers/gpu/drm/msm/msm_iommu.c
+@@ -139,7 +139,6 @@ static void msm_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops null_tlb_ops = {
+ 	.tlb_flush_all = msm_iommu_tlb_flush_all,
+ 	.tlb_flush_walk = msm_iommu_tlb_flush_walk,
+-	.tlb_flush_leaf = msm_iommu_tlb_flush_walk,
+ 	.tlb_add_page = msm_iommu_tlb_add_page,
+ };
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index 776448c527ea..c186914cc4f9 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -347,16 +347,9 @@ static void mmu_tlb_flush_walk(unsigned long iova, size_t size, size_t granule,
+ 	mmu_tlb_sync_context(cookie);
+ }
+
+-static void mmu_tlb_flush_leaf(unsigned long iova, size_t size, size_t granule,
+-			       void *cookie)
+-{
+-	mmu_tlb_sync_context(cookie);
+-}
+-
+ static const struct iommu_flush_ops mmu_tlb_ops = {
+ 	.tlb_flush_all	= mmu_tlb_inv_context_s1,
+ 	.tlb_flush_walk = mmu_tlb_flush_walk,
+-	.tlb_flush_leaf = mmu_tlb_flush_leaf,
+ };
+
+ int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv)
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+index e634bbe60573..fb684a393118 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+@@ -1741,16 +1741,9 @@ static void arm_smmu_tlb_inv_walk(unsigned long iova, size_t size,
+ 	arm_smmu_tlb_inv_range(iova, size, granule, false, cookie);
+ }
+
+-static void arm_smmu_tlb_inv_leaf(unsigned long iova, size_t size,
+-				  size_t granule, void *cookie)
+-{
+-	arm_smmu_tlb_inv_range(iova, size, granule, true, cookie);
+-}
+-
+ static const struct iommu_flush_ops arm_smmu_flush_ops = {
+ 	.tlb_flush_all	= arm_smmu_tlb_inv_context,
+ 	.tlb_flush_walk = arm_smmu_tlb_inv_walk,
+-	.tlb_flush_leaf = arm_smmu_tlb_inv_leaf,
+ 	.tlb_add_page	= arm_smmu_tlb_inv_page_nosync,
+ };
+
+diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+index dad7fa86fbd4..0b8c59922a2b 100644
+--- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
++++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
+@@ -333,14 +333,6 @@ static void arm_smmu_tlb_inv_walk_s1(unsigned long iova, size_t size,
+ 	arm_smmu_tlb_sync_context(cookie);
+ }
+
+-static void arm_smmu_tlb_inv_leaf_s1(unsigned long iova, size_t size,
+-				     size_t granule, void *cookie)
+-{
+-	arm_smmu_tlb_inv_range_s1(iova, size, granule, cookie,
+-				  ARM_SMMU_CB_S1_TLBIVAL);
+-	arm_smmu_tlb_sync_context(cookie);
+-}
+-
+ static void arm_smmu_tlb_add_page_s1(struct iommu_iotlb_gather *gather,
+ 				     unsigned long iova, size_t granule,
+ 				     void *cookie)
+@@ -357,14 +349,6 @@ static void arm_smmu_tlb_inv_walk_s2(unsigned long iova, size_t size,
+ 	arm_smmu_tlb_sync_context(cookie);
+ }
+
+-static void arm_smmu_tlb_inv_leaf_s2(unsigned long iova, size_t size,
+-				     size_t granule, void *cookie)
+-{
+-	arm_smmu_tlb_inv_range_s2(iova, size, granule, cookie,
+-				  ARM_SMMU_CB_S2_TLBIIPAS2L);
+-	arm_smmu_tlb_sync_context(cookie);
+-}
+-
+ static void arm_smmu_tlb_add_page_s2(struct iommu_iotlb_gather *gather,
+ 				     unsigned long iova, size_t granule,
+ 				     void *cookie)
+@@ -373,8 +357,8 @@ static void arm_smmu_tlb_add_page_s2(struct iommu_iotlb_gather *gather,
+ 				  ARM_SMMU_CB_S2_TLBIIPAS2L);
+ }
+
+-static void arm_smmu_tlb_inv_any_s2_v1(unsigned long iova, size_t size,
+-				       size_t granule, void *cookie)
++static void arm_smmu_tlb_inv_walk_s2_v1(unsigned long iova, size_t size,
++					size_t granule, void *cookie)
+ {
+ 	arm_smmu_tlb_inv_context_s2(cookie);
+ }
+@@ -401,21 +385,18 @@ static void arm_smmu_tlb_add_page_s2_v1(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops arm_smmu_s1_tlb_ops = {
+ 	.tlb_flush_all	= arm_smmu_tlb_inv_context_s1,
+ 	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s1,
+-	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s1,
+ 	.tlb_add_page	= arm_smmu_tlb_add_page_s1,
+ };
+
+ static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v2 = {
+ 	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
+ 	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2,
+-	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s2,
+ 	.tlb_add_page	= arm_smmu_tlb_add_page_s2,
+ };
+
+ static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v1 = {
+ 	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
+-	.tlb_flush_walk	= arm_smmu_tlb_inv_any_s2_v1,
+-	.tlb_flush_leaf	= arm_smmu_tlb_inv_any_s2_v1,
++	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2_v1,
+ 	.tlb_add_page	= arm_smmu_tlb_add_page_s2_v1,
+ };
+
+diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+index b30d6c966e2c..7f280c8d5c53 100644
+--- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
++++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
+@@ -185,13 +185,6 @@ static void qcom_iommu_tlb_flush_walk(unsigned long iova, size_t size,
+ 	qcom_iommu_tlb_sync(cookie);
+ }
+
+-static void qcom_iommu_tlb_flush_leaf(unsigned long iova, size_t size,
+-				      size_t granule, void *cookie)
+-{
+-	qcom_iommu_tlb_inv_range_nosync(iova, size, granule, true, cookie);
+-	qcom_iommu_tlb_sync(cookie);
+-}
+-
+ static void qcom_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
+ 				    unsigned long iova, size_t granule,
+ 				    void *cookie)
+@@ -202,7 +195,6 @@ static void qcom_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops qcom_flush_ops = {
+ 	.tlb_flush_all	= qcom_iommu_tlb_inv_context,
+ 	.tlb_flush_walk = qcom_iommu_tlb_flush_walk,
+-	.tlb_flush_leaf = qcom_iommu_tlb_flush_leaf,
+ 	.tlb_add_page	= qcom_iommu_tlb_add_page,
+ };
+
+diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
+index a688f22cbe3b..3cf72c100add 100644
+--- a/drivers/iommu/io-pgtable-arm-v7s.c
++++ b/drivers/iommu/io-pgtable-arm-v7s.c
+@@ -584,7 +584,7 @@ static arm_v7s_iopte arm_v7s_split_cont(struct arm_v7s_io_pgtable *data,
+ 	__arm_v7s_pte_sync(ptep, ARM_V7S_CONT_PAGES, &iop->cfg);
+
+ 	size *= ARM_V7S_CONT_PAGES;
+-	io_pgtable_tlb_flush_leaf(iop, iova, size, size);
++	io_pgtable_tlb_flush_walk(iop, iova, size, size);
+ 	return pte;
+ }
+
+@@ -866,7 +866,6 @@ static void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops dummy_tlb_ops __initconst = {
+ 	.tlb_flush_all	= dummy_tlb_flush_all,
+ 	.tlb_flush_walk	= dummy_tlb_flush,
+-	.tlb_flush_leaf	= dummy_tlb_flush,
+ 	.tlb_add_page	= dummy_tlb_add_page,
+ };
+
+diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
+index a7a9bc08dcd1..938830e07dcf 100644
+--- a/drivers/iommu/io-pgtable-arm.c
++++ b/drivers/iommu/io-pgtable-arm.c
+@@ -1079,7 +1079,6 @@ static void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops dummy_tlb_ops __initconst = {
+ 	.tlb_flush_all	= dummy_tlb_flush_all,
+ 	.tlb_flush_walk	= dummy_tlb_flush,
+-	.tlb_flush_leaf	= dummy_tlb_flush,
+ 	.tlb_add_page	= dummy_tlb_add_page,
+ };
+
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index 0f18abda0e20..d71f10257f15 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -325,7 +325,6 @@ static void ipmmu_tlb_flush(unsigned long iova, size_t size,
+ static const struct iommu_flush_ops ipmmu_flush_ops = {
+ 	.tlb_flush_all = ipmmu_tlb_flush_all,
+ 	.tlb_flush_walk = ipmmu_tlb_flush,
+-	.tlb_flush_leaf = ipmmu_tlb_flush,
+ };
+
+ /* -----------------------------------------------------------------------------
+diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
+index 3615cd6241c4..040e85f70861 100644
+--- a/drivers/iommu/msm_iommu.c
++++ b/drivers/iommu/msm_iommu.c
+@@ -174,12 +174,6 @@ static void __flush_iotlb_walk(unsigned long iova, size_t size,
+ 	__flush_iotlb_range(iova, size, granule, false, cookie);
+ }
+
+-static void __flush_iotlb_leaf(unsigned long iova, size_t size,
+-			       size_t granule, void *cookie)
+-{
+-	__flush_iotlb_range(iova, size, granule, true, cookie);
+-}
+-
+ static void __flush_iotlb_page(struct iommu_iotlb_gather *gather,
+ 			       unsigned long iova, size_t granule, void *cookie)
+ {
+@@ -189,7 +183,6 @@ static void __flush_iotlb_page(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops msm_iommu_flush_ops = {
+ 	.tlb_flush_all = __flush_iotlb,
+ 	.tlb_flush_walk = __flush_iotlb_walk,
+-	.tlb_flush_leaf = __flush_iotlb_leaf,
+ 	.tlb_add_page = __flush_iotlb_page,
+ };
+
+diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+index c072cee532c2..8e56cec532e7 100644
+--- a/drivers/iommu/mtk_iommu.c
++++ b/drivers/iommu/mtk_iommu.c
+@@ -240,7 +240,6 @@ static void mtk_iommu_tlb_flush_page_nosync(struct iommu_iotlb_gather *gather,
+ static const struct iommu_flush_ops mtk_iommu_flush_ops = {
+ 	.tlb_flush_all = mtk_iommu_tlb_flush_all,
+ 	.tlb_flush_walk = mtk_iommu_tlb_flush_range_sync,
+-	.tlb_flush_leaf = mtk_iommu_tlb_flush_range_sync,
+ 	.tlb_add_page = mtk_iommu_tlb_flush_page_nosync,
+ };
+
+diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
+index 4cde111e425b..ec9fae37c0e4 100644
+--- a/include/linux/io-pgtable.h
++++ b/include/linux/io-pgtable.h
+@@ -25,8 +25,6 @@ enum io_pgtable_fmt {
+  * @tlb_flush_walk: Synchronously invalidate all intermediate TLB state
+  *                  (sometimes referred to as the "walk cache") for a virtual
+  *                  address range.
+- * @tlb_flush_leaf: Synchronously invalidate all leaf TLB state for a virtual
+- *                  address range.
+  * @tlb_add_page:   Optional callback to queue up leaf TLB invalidation for a
+  *                  single page.  IOMMUs that cannot batch TLB invalidation
+  *                  operations efficiently will typically issue them here, but
+@@ -40,8 +38,6 @@ struct iommu_flush_ops {
+ 	void (*tlb_flush_all)(void *cookie);
+ 	void (*tlb_flush_walk)(unsigned long iova, size_t size, size_t granule,
+ 			       void *cookie);
+-	void (*tlb_flush_leaf)(unsigned long iova, size_t size, size_t granule,
+-			       void *cookie);
+ 	void (*tlb_add_page)(struct iommu_iotlb_gather *gather,
+ 			     unsigned long iova, size_t granule, void *cookie);
+ };
+@@ -220,13 +216,6 @@ io_pgtable_tlb_flush_walk(struct io_pgtable *iop, unsigned long iova,
+ 	iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
+ }
+
+-static inline void
+-io_pgtable_tlb_flush_leaf(struct io_pgtable *iop, unsigned long iova,
+-			  size_t size, size_t granule)
+-{
+-	iop->cfg.tlb->tlb_flush_leaf(iova, size, granule, iop->cookie);
+-}
+-
+ static inline void
+ io_pgtable_tlb_add_page(struct io_pgtable *iop,
+ 			struct iommu_iotlb_gather * gather, unsigned long iova,
+--
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
