@@ -2,57 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC962C42AE
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 16:12:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD67D2C44D8
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 17:24:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7D836E8BE;
-	Wed, 25 Nov 2020 15:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B46A26EA19;
+	Wed, 25 Nov 2020 16:24:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 938BF6E8BE;
- Wed, 25 Nov 2020 15:11:55 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id z3so1786999qtw.9;
- Wed, 25 Nov 2020 07:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NbN+usI9dkWtUkhAV5x714S2MuiTlPFp3Bt6KB4Nktw=;
- b=L0Zlv3H8wOxJRFW2zIP/9O8WqMlwwQzme6Xj4XTKp9WsCHGjNUriVIp6XiLNMYeW/I
- ZzvHohPE65UeyQQvmRIAT0mDhpR1jw496d9Nzp3PzU7xCJK2yegIAoWakITSImJngy3k
- ghGbGuigXKxJe/5UhMqj4KKv6v8I1M37NgIinwR++2pDmVbhymLUSQSq3QrFabAm7rci
- sGE9IIylhSnQ69WKiKCJ9bzVgDTt4PT3Hua7CR24JQXYt1jC+T4f4KghY33sYBj//cev
- D80AYEsCRpQWt9RGq0D0NH0pou/3qUMIvwfHtOQfqPwD59q974J376mm6IY9ECYKw0vH
- +JpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NbN+usI9dkWtUkhAV5x714S2MuiTlPFp3Bt6KB4Nktw=;
- b=W8CPiJjzZCIiq2yI6cqa/sJL2uQoNdpZoB73R+BLKsV69M/qm79dkf8CGFVo06rYK6
- uBUwje6oo/7Kq/REbG6a8KcRV7Mw8sXRerdZ6xsw/+JqqN+YchS2zBEjBwtMx5pnXkzS
- /K/T3XJcT1zC4cJUwuDaYsTt+Qzp1k6he0W5xEAP1vLKxGCeN5JRwLG2g72QZ7yvRXTY
- H9TWLFKOcomVj9t0e/t3AsnpXULRaqiY83sbTjyvkHUF11KCNcqmTohQEJLURL0Ogs/G
- nUhK/3Q2VFtaJhCeFAs45+Y/JNoowzHJEgOdqM3aVD6B9dBSaSHCe/9dKgtG4bjo/Q4X
- ttAQ==
-X-Gm-Message-State: AOAM53326G8EpStXd9/LxrvhzRW+sXzWcK309ttfiZOYNNrsN31EmvhP
- fqjzqJ991U+8nxtQV6c8NqJ9WARvrvw=
-X-Google-Smtp-Source: ABdhPJzyOlpEXaVdfTZCHoDLn5SQweFpzI5QzOkGhYxLhFWTDOCTfqsB/ClOOU5JRnWbZzU9m5q0Vw==
-X-Received: by 2002:ac8:7395:: with SMTP id t21mr3578825qtp.358.1606317114275; 
- Wed, 25 Nov 2020 07:11:54 -0800 (PST)
-Received: from localhost.localdomain ([192.161.78.5])
- by smtp.gmail.com with ESMTPSA id z81sm728042qkb.116.2020.11.25.07.11.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 07:11:53 -0800 (PST)
-From: Alex Deucher <alexdeucher@gmail.com>
-X-Google-Original-From: Alex Deucher <alexander.deucher@amd.com>
-To: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, daniel.vetter@ffwll.ch
-Subject: [pull] amdgpu drm-fixes-5.10
-Date: Wed, 25 Nov 2020 10:11:45 -0500
-Message-Id: <20201125151145.4263-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.25.4
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39BB56EA18;
+ Wed, 25 Nov 2020 16:24:11 +0000 (UTC)
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown
+ [163.114.132.4])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 867952067C;
+ Wed, 25 Nov 2020 16:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606321450;
+ bh=GZ2k+AA6ahSTxK1Lb66nxQ5QpMsxQMwUtXM6UrJuD5k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=o0jPLXU5vRd5gkErOG+l7hZeBdnc0mPNkdd6O5DWsXDAKIVZ2C96zG0tcOWSvOOEW
+ +aPDAqgCVL2k+j5MKH8XxKfk9jsHh44ZvIyml45/mV5SL7Kf2RcLQB8xCvtxafIM4N
+ usaGZavY91klVUpIE9ogGjcSBu1B0MRmyXV9nrIc=
+Date: Wed, 25 Nov 2020 08:24:05 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
+ Clang
+Message-ID: <20201125082405.1d8c23dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
+References: <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
+ <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
+ <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
+ <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
+ <20201123130348.GA3119@embeddedor>
+ <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
+ <202011241327.BB28F12F6@keescook>
+ <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
+ <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,57 +58,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
+	open@freedesktop.org, "list:HARDWARE"@freedesktop.org,
+	RANDOM@freedesktop.org, NUMBER@freedesktop.org,
+	GENERATOR@freedesktop.org, CORE@freedesktop.org,
+	"          <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,  linux-integrity@vger.kernel.org, target-devel@vger.kernel.org,  linux-hardening@vger.kernel.org, Jonathan Cameron  <Jonathan.Cameron@huawei.com>, Greg KH <gregkh@linuxfoundation.org>,  linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,  linux-mmc@vger.kernel.org, linux-fbdev@vger.kernel.org,  dri-devel <dri-devel@lists.freedesktop.org>,  "@freedesktop.org,
+	Gustavo@freedesktop.org, A.R.Silva@freedesktop.org,
+	" <gustavoars@kernel.org>,  James Bottomley <James.Bottomley@hansenpartnership.com>,  linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,  linux-mtd@lists.infradead.org, GR-everest-linux-l2@marvell.com,  wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,  linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,  drbd-dev@lists.linbit.com, devel@driverdev.osuosl.org,  linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,  linux-scsi@vger.kernel.org, linux-acpi@vger.kernel.org,  linux-rdma@vger.kernel.org, oss-drivers@netronome.com,  linux-atm-general@lists.sourceforge.net, ceph-devel@vger.kernel.org,  amd-gfx list <amd-gfx@lists.freedesktop.org>,  linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,  usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,  intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,  Miguel Ojeda <ojeda@kernel.org>, xen-devel@lists.xenproject.org,  linux-ext4@vger.kernel.org, virtuali
+ zation@lists.linux-foundation.org,  netfilter-devel@vger.kernel.org, linux-media@vger.kernel.org,  Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,  linux-arm-msm <linux-arm-msm@vger.kernel.org>, intel-gfx@lists.freedesktop.org,  linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,  linux-geode@lists.infradead.org, linux-block@vger.kernel.org,  linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,  linux-mediatek@lists.infradead.org, nouveau@lists.freedesktop.org,  linux-hams@vger.kernel.org, Nathan Chancellor <natechancellor@gmail.com>,  linux-can@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,  linux-hwmon@vger.kernel.org,  "@freedesktop.org,
+	"maintainer:X86"@freedesktop.org, ARCHITECTURE@freedesktop.org,
+	"(32-BIT"@freedesktop.org, AND@freedesktop.org,
+	"64-BIT)"@freedesktop.org,
+	" <x86@kernel.org>,  linux-watchdog@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,  Linux Memory Management List <linux-mm@kvack.org>,  Network Development <netdev@vger.kernel.org>,  linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,  LKML <linux-kernel@vger.kernel.org>,  Linux-Renesas <linux-renesas-soc@vger.kernel.org>,  linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,  tipc-discussion@lists.sourceforge.net, Joe Perches <joe@perches.com>,  linux-nfs@vger.kernel.org"@freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+On Wed, 25 Nov 2020 04:24:27 -0800 Nick Desaulniers wrote:
+> I even agree that most of the churn comes from
+> 
+> case 0:
+>   ++x;
+> default:
+>   break;
 
-Fixes for 5.10.
+And just to spell it out,
 
-The following changes since commit 6600f9d52213b5c3455481b5c9e61cf5e305c0e6:
+case ENUM_VALUE1:
+	bla();
+	break;
+case ENUM_VALUE2:
+	bla();
+default:
+	break;
 
-  Merge tag 'drm-intel-fixes-2020-11-19' of git://anongit.freedesktop.org/drm/drm-intel into drm-fixes (2020-11-20 11:21:54 +1000)
+is a fairly idiomatic way of indicating that not all values of the enum
+are expected to be handled by the switch statement. 
 
-are available in the Git repository at:
+I really hope the Clang folks are reasonable and merge your patch.
 
-  git://people.freedesktop.org/~agd5f/linux tags/amd-drm-fixes-5.10-2020-11-25
+> If trivial patches are adding too much to your workload, consider
+> training a co-maintainer or asking for help from one of your reviewers
+> whom you trust.  I don't doubt it's hard to find maintainers, but
+> existing maintainers should go out of their way to entrust
+> co-maintainers especially when they find their workload becomes too
+> high.  And reviewing/picking up trivial patches is probably a great
+> way to get started.  If we allow too much knowledge of any one
+> subsystem to collect with one maintainer, what happens when that
+> maintainer leaves the community (which, given a finite lifespan, is an
+> inevitability)?
 
-for you to fetch changes up to 60734bd54679d7998a24a257b0403f7644005572:
+The burn out point is about enjoying your work and feeling that it
+matters. It really doesn't make much difference if you're doing
+something you don't like for 12 hours every day or only in shifts with
+another maintainer. You'll dislike it either way.
 
-  drm/amdgpu: update golden setting for sienna_cichlid (2020-11-24 12:33:07 -0500)
-
-----------------------------------------------------------------
-amd-drm-fixes-5.10-2020-11-25:
-
-amdgpu:
-- Runtime pm fix
-- SI UVD suspend/resume fix
-- HDCP fix for headless cards
-- Sienna Cichlid golden register update
-
-----------------------------------------------------------------
-Kenneth Feng (1):
-      drm/amd/amdgpu: fix null pointer in runtime pm
-
-Likun Gao (1):
-      drm/amdgpu: update golden setting for sienna_cichlid
-
-Rodrigo Siqueira (1):
-      drm/amd/display: Avoid HDCP initialization in devices without output
-
-Sonny Jiang (2):
-      drm/amdgpu: fix SI UVD firmware validate resume fail
-      drm/amdgpu: fix a page fault
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c        |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.h           |  1 +
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c            |  2 ++
- drivers/gpu/drm/amd/amdgpu/uvd_v3_1.c             | 20 +++++++++++---------
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
- 5 files changed, 17 insertions(+), 12 deletions(-)
+Applying a real patch set and then getting a few follow ups the next day
+for trivial coding things like fallthrough missing or static missing,
+just because I didn't have the full range of compilers to check with
+before applying makes me feel pretty shitty, like I'm not doing a good
+job. YMMV.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
