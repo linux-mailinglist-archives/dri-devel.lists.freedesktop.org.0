@@ -2,27 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A152C3B12
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99352C3B2A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Nov 2020 09:37:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A80266E885;
-	Wed, 25 Nov 2020 08:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2B26E86E;
+	Wed, 25 Nov 2020 08:37:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BC1C6E881;
- Wed, 25 Nov 2020 08:28:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D09656E86E;
+ Wed, 25 Nov 2020 08:37:40 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A7DDAAC75;
- Wed, 25 Nov 2020 08:28:57 +0000 (UTC)
-Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id 70CCDABD7;
+ Wed, 25 Nov 2020 08:37:39 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
  <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
  <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
  <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
@@ -32,14 +27,15 @@ References: <20201112132117.27228-1-tzimmermann@suse.de>
  <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
  <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
  <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
- <df307b3e-e98e-fa18-a171-61f2e3d7f3e9@amd.com>
+ <20201124140937.GK401619@phenom.ffwll.local>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <417642b4-cacf-f44b-3552-0fcac0507a0d@suse.de>
-Date: Wed, 25 Nov 2020 09:28:56 +0100
+Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
+Message-ID: <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
+Date: Wed, 25 Nov 2020 09:37:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <df307b3e-e98e-fa18-a171-61f2e3d7f3e9@amd.com>
+In-Reply-To: <20201124140937.GK401619@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,31 +48,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============2037432019=="
+Cc: airlied@linux.ie, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Type: multipart/mixed; boundary="===============0932005170=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2037432019==
+--===============0932005170==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="0JwTvFsv0rt6RXM7ZxPfLXQLJkUTgsJBM"
+ boundary="N7OPKHmdKB0h0lZflU37E0gNvSvlaqVxT"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0JwTvFsv0rt6RXM7ZxPfLXQLJkUTgsJBM
-Content-Type: multipart/mixed; boundary="ArWEi8kEJ7cEJNQ2GecYcTdOq2zDfqgJH";
+--N7OPKHmdKB0h0lZflU37E0gNvSvlaqVxT
+Content-Type: multipart/mixed; boundary="8GcQb1ZzC4nYhOFoVafhjNrGptxPtcRgp";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alexander.deucher@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Message-ID: <417642b4-cacf-f44b-3552-0fcac0507a0d@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
 Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
-References: <20201112132117.27228-1-tzimmermann@suse.de>
- <20201112132117.27228-5-tzimmermann@suse.de>
- <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
+References: <3daf9b24-034a-9791-ce30-9f5eba66e7c1@amd.com>
  <516877c4-3718-1415-9901-62bffdbf26c8@suse.de>
  <f5cfbae9-ba51-dce0-4398-2969971ffc99@amd.com>
  <94fa26eb-d899-8c83-9325-84532639d438@suse.de>
@@ -86,76 +82,78 @@ References: <20201112132117.27228-1-tzimmermann@suse.de>
  <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
  <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
  <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
- <df307b3e-e98e-fa18-a171-61f2e3d7f3e9@amd.com>
-In-Reply-To: <df307b3e-e98e-fa18-a171-61f2e3d7f3e9@amd.com>
+ <20201124140937.GK401619@phenom.ffwll.local>
+In-Reply-To: <20201124140937.GK401619@phenom.ffwll.local>
 
---ArWEi8kEJ7cEJNQ2GecYcTdOq2zDfqgJH
+--8GcQb1ZzC4nYhOFoVafhjNrGptxPtcRgp
 Content-Type: multipart/mixed;
- boundary="------------465790D07D1E284E09FD2077"
+ boundary="------------A03683CE103C3FCF6029B6AB"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------465790D07D1E284E09FD2077
+--------------A03683CE103C3FCF6029B6AB
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 24.11.20 um 15:06 schrieb Christian K=C3=B6nig:
-> Am 24.11.20 um 14:56 schrieb Thomas Zimmermann:
+Am 24.11.20 um 15:09 schrieb Daniel Vetter:
+> On Tue, Nov 24, 2020 at 02:56:51PM +0100, Thomas Zimmermann wrote:
 >> Hi
 >>
 >> Am 24.11.20 um 14:36 schrieb Christian K=C3=B6nig:
 >>> Am 24.11.20 um 13:15 schrieb Thomas Zimmermann:
 >>>> [SNIP]
->>>>>>>> First I wanted to put this into drm_gem_ttm_vmap/vunmap(), but=20
->>>>>>>> then wondered why ttm_bo_vmap() doe not acquire the lock=20
->>>>>>>> internally? I'd expect that vmap/vunmap are close together and=20
->>>>>>>> do not overlap for the same BO.=20
+>>>>>>>> First I wanted to put this into
+>>>>>>>> drm_gem_ttm_vmap/vunmap(), but then wondered why
+>>>>>>>> ttm_bo_vmap() doe not acquire the lock internally?
+>>>>>>>> I'd expect that vmap/vunmap are close together and
+>>>>>>>> do not overlap for the same BO.
 >>>>>>>
 >>>>>>> We have use cases like the following during command submission:
 >>>>>>>
 >>>>>>> 1. lock
 >>>>>>> 2. map
->>>>>>> 3. copy parts of the BO content somewhere else or patch it with=20
->>>>>>> additional information
+>>>>>>> 3. copy parts of the BO content somewhere else or patch
+>>>>>>> it with additional information
 >>>>>>> 4. unmap
 >>>>>>> 5. submit BO to the hardware
 >>>>>>> 6. add hardware fence to the BO to make sure it doesn't move
 >>>>>>> 7. unlock
 >>>>>>>
->>>>>>> That use case won't be possible with vmap/vunmap if we move the=20
->>>>>>> lock/unlock into it and I hope to replace the kmap/kunmap=20
->>>>>>> functions with them in the near term.
+>>>>>>> That use case won't be possible with vmap/vunmap if we
+>>>>>>> move the lock/unlock into it and I hope to replace the
+>>>>>>> kmap/kunmap functions with them in the near term.
 >>>>>>>
->>>>>>>> Otherwise, acquiring the reservation lock would require another =
-
->>>>>>>> ref-counting variable or per-driver code.
+>>>>>>>> Otherwise, acquiring the reservation lock would
+>>>>>>>> require another ref-counting variable or per-driver
+>>>>>>>> code.
 >>>>>>>
->>>>>>> Hui, why that? Just put this into drm_gem_ttm_vmap/vunmap()=20
->>>>>>> helper as you initially planned.
+>>>>>>> Hui, why that? Just put this into
+>>>>>>> drm_gem_ttm_vmap/vunmap() helper as you initially
+>>>>>>> planned.
 >>>>>>
->>>>>> Given your example above, step one would acquire the lock, and=20
->>>>>> step two would also acquire the lock as part of the vmap=20
->>>>>> implementation. Wouldn't this fail (At least during unmap or=20
+>>>>>> Given your example above, step one would acquire the lock,
+>>>>>> and step two would also acquire the lock as part of the vmap
+>>>>>> implementation. Wouldn't this fail (At least during unmap or
 >>>>>> unlock steps) ?
 >>>>>
 >>>>> Oh, so you want to nest them? No, that is a rather bad no-go.
 >>>>
->>>> I don't want to nest/overlap them. My question was whether that=20
+>>>> I don't want to nest/overlap them. My question was whether that
 >>>> would be required. Apparently not.
 >>>>
 >>>> While the console's BO is being set for scanout, it's protected from=
-=20
+
 >>>> movement via the pin/unpin implementation, right?
 >>>
 >>> Yes, correct.
 >>>
->>>> The driver does not acquire the resv lock for longer periods. I'm=20
->>>> asking because this would prevent any console-buffer updates while=20
+>>>> The driver does not acquire the resv lock for longer periods. I'm
+>>>> asking because this would prevent any console-buffer updates while
 >>>> the console is being displayed.
 >>>
->>> Correct as well, we only hold the lock for things like command=20
+>>> Correct as well, we only hold the lock for things like command
 >>> submission, pinning, unpinning etc etc....
 >>>
 >>
@@ -163,95 +161,110 @@ Am 24.11.20 um 15:06 schrieb Christian K=C3=B6nig:
 >>
 >>>>
 >>>>>
->>>>> You need to make sure that the lock is only taken from the FB path =
-
->>>>> which wants to vmap the object.
+>>>>> You need to make sure that the lock is only taken from the FB
+>>>>> path which wants to vmap the object.
 >>>>>
->>>>> Why don't you lock the GEM object from the caller in the generic FB=
-=20
->>>>> implementation?
+>>>>> Why don't you lock the GEM object from the caller in the generic
+>>>>> FB implementation?
 >>>>
 >>>> With the current blitter code, it breaks abstraction. if vmap/vunmap=
-=20
+
 >>>> hold the lock implicitly, things would be easier.
 >>>
 >>> Do you have a link to the code?
 >>
->> It's the damage blitter in the fbdev code. [1] While it flushes the=20
->> shadow buffer into the BO, the BO has to be kept in place. I already=20
->> changed it to lock struct drm_fb_helper.lock, but I don't think this=20
->> is enough. TTM could still evict the BO concurrently.
+>> It's the damage blitter in the fbdev code. [1] While it flushes the sh=
+adow
+>> buffer into the BO, the BO has to be kept in place. I already changed =
+it to
+>> lock struct drm_fb_helper.lock, but I don't think this is enough. TTM =
+could
+>> still evict the BO concurrently.
 >=20
-> Yeah, that's correct.
+> So I'm not sure this is actually a problem: ttm could try to concurrent=
+ly
+> evict the buffer we pinned into vram, and then just skip to the next on=
+e.
 >=20
-> But I still don't fully understand the problem. You just need to change=
-=20
-> the code like this:
->=20
->  =C2=A0=C2=A0=C2=A0 mutex_lock(&fb_helper->lock);
->  =C2=A0=C2=A0=C2=A0 dma_resv_lock(buffer->gem->resv, NULL);
->=20
->  =C2=A0=C2=A0=C2=A0 ret =3D drm_client_buffer_vmap(buffer, &map);
->  =C2=A0=C2=A0=C2=A0 if (ret)
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->=20
->  =C2=A0=C2=A0=C2=A0 dst =3D map;
->  =C2=A0=C2=A0=C2=A0 drm_fb_helper_damage_blit_real(fb_helper, clip, &ds=
-t);
->=20
->  =C2=A0=C2=A0=C2=A0 drm_client_buffer_vunmap(buffer);
->=20
-> out:
->  =C2=A0=C2=A0=C2=A0 dma_resv_unlock(buffer->gem->resv);
->  =C2=A0=C2=A0=C2=A0 mutex_unlock(&fb_helper->lock);
->=20
+> Plus atm generic fbdev isn't used on any chip where we really care abou=
+t
+> that last few mb of vram being useable for command submission (well atm=
 
-Yes, that's the code I had in mind.
+> there's no driver using it).
+
+Well, this is the patchset for radeon. If it works out, amdgpu and=20
+nouveau are natural next choices. Especially radeon and nouveau support=20
+cards with low- to medium-sized VRAM. The MiBs wasted on fbdev certainly =
+
+matter.
 
 >=20
-> You could abstract that in drm_client functions as well, but I don't=20
-> really see the value in that.
+> Having the buffer pinned into system memory and trying to do a concurre=
+nt
+> modeset that tries to pull it in is the hard failure mode. And holding
+> fb_helper.lock fully prevents that.
+>=20
+> So not really clear on what failure mode you're seeing here?
 
-The fbdev code tries hard to not use GEM directly, but to wrap=20
-everything behind client interfaces. I'm not sure if I like that, but=20
-for now I'd stick to this design.
+Imagine the fbdev BO is in VRAM, but not pinned. (Maybe Xorg or Wayland=20
+is running.) The fbdev BO is a few MiBs and not in use, so TTM would=20
+want to evict it if memory gets tight.
+
+What I have in mind is a concurrent modeset that requires the memory.=20
+If we do a concurrent damage blit without protecting against eviction,=20
+things go boom. Same for concurrent 3d graphics with textures, model=20
+data, etc.
 
 Best regards
 Thomas
 
 >=20
-> Regards,
-> Christian.
+>> There's no recursion taking place, so I guess the reservation lock cou=
+ld be
+>> acquired/release in drm_client_buffer_vmap/vunmap(), or a separate pai=
+r of
+>> DRM client functions could do the locking.
 >=20
->> There's no recursion taking place, so I guess the reservation lock=20
->> could be acquired/release in drm_client_buffer_vmap/vunmap(), or a=20
->> separate pair of DRM client functions could do the locking.
+> Given how this "do the right locking" is a can of worms (and I think it=
+'s
+> worse than what you dug out already) I think the fb_helper.lock hack is=
+
+> perfectly good enough.
+>=20
+> I'm also somewhat worried that starting to use dma_resv lock in generic=
+
+> code, while many helpers/drivers still have their hand-rolled locking,
+> will make conversion over to dma_resv needlessly more complicated.
+> -Daniel
+>=20
 >>
 >> Best regards
 >> Thomas
 >>
->> [1]=20
->> https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/drm_fb_h=
-elper.c?id=3Dac60f3f3090115d21f028bffa2dcfb67f695c4f2#n394=20
->>
+>> [1] https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/drm_=
+fb_helper.c?id=3Dac60f3f3090115d21f028bffa2dcfb67f695c4f2#n394
 >>
 >>>
->>> Please note that the reservation lock you need to take here is part=20
->>> of the GEM object.
+>>> Please note that the reservation lock you need to take here is part o=
+f
+>>> the GEM object.
 >>>
->>> Usually we design things in the way that the code needs to take a=20
->>> lock which protects an object, then do some operations with the=20
->>> object and then release the lock again.
+>>> Usually we design things in the way that the code needs to take a loc=
+k
+>>> which protects an object, then do some operations with the object and=
+
+>>> then release the lock again.
 >>>
->>> Having in the lock inside the operation can be done as well, but=20
+>>> Having in the lock inside the operation can be done as well, but
 >>> returning with it is kind of unusual design.
 >>>
->>>> Sorry for the noob questions. I'm still trying to understand the=20
+>>>> Sorry for the noob questions. I'm still trying to understand the
 >>>> implications of acquiring these locks.
 >>>
->>> Well this is the reservation lock of the GEM object we are talking=20
->>> about here. We need to take that for a couple of different=20
->>> operations, vmap/vunmap doesn't sound like a special case to me.
+>>> Well this is the reservation lock of the GEM object we are talking ab=
+out
+>>> here. We need to take that for a couple of different operations,
+>>> vmap/vunmap doesn't sound like a special case to me.
 >>>
 >>> Regards,
 >>> Christian.
@@ -265,11 +278,19 @@ elper.c?id=3Dac60f3f3090115d21f028bffa2dcfb67f695c4f2#n394=20
 >>> dri-devel@lists.freedesktop.org
 >>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+>=20
+>=20
+>=20
+>=20
 
 --=20
 Thomas Zimmermann
@@ -279,7 +300,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------465790D07D1E284E09FD2077
+--------------A03683CE103C3FCF6029B6AB
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -482,34 +503,34 @@ WSR
 =3DfoRs
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------465790D07D1E284E09FD2077--
+--------------A03683CE103C3FCF6029B6AB--
 
---ArWEi8kEJ7cEJNQ2GecYcTdOq2zDfqgJH--
+--8GcQb1ZzC4nYhOFoVafhjNrGptxPtcRgp--
 
---0JwTvFsv0rt6RXM7ZxPfLXQLJkUTgsJBM
+--N7OPKHmdKB0h0lZflU37E0gNvSvlaqVxT
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl++FcgFAwAAAAAACgkQlh/E3EQov+DF
-cw/9FPS+koN6TyhtyH+NU4vS0mDLpRHYTZjO8VeZKVg2kDRj3pJRQhGdtwpf05KBJ3+8YYLcegcZ
-q9040tmesfvt4XhQkktrZ9F2sp5jKCZdFfxwR+9i0eqFEcd8vcM6IzAGhN3Y8ACB/0k8hsj1mzsg
-gOLjKqieusxmbDp6saEMm8JwTCO9E7h71Vb+TZgKKEa4PlwvwntMTjLfzC+qNlVeSeBQvzvzWKOg
-vkvbQdIrxJrC0ZkT004upK8bz98wIj28eY68WpA4PNTDhDdxfLmp1Iqi1mSuUkaxHUEU2Oc5eJTm
-i+v/ALzR9RffQn325GWL8t7c0fbofJ78+ULE4DpQzktbdG7yu97fZDJ9A0wHB805msDDd9/O1Bjs
-FQ1mn1rmNh8rSM6cPQ1nYbpPmqqxr5kNHpnKnmeb1ITtkb5J4D/TahOlnOeD8NuoO9ng+J7qyggx
-flfyBMsQag4AEXaFz1a1CERMflNqkNxfThuWlzqq20AcJgUdRwM3eVqyM30fXVEt3mPEds3w9YV0
-a1ONAt90Te2NIyknpkEm0KIqJGWv+zVUtGXIRPDDaMELuLbZqKJeFozCZAtydE7z+az3fsNz52Xl
-mjbHPu027aNixvt0AE2mLzDUp9UQ8ZsaWSsqZbfz4YDWp4ZmduDk8qMK3UM4z9I+KuLJh6RIGHwM
-GJs=
-=nvIT
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl++F9IFAwAAAAAACgkQlh/E3EQov+BM
+EQ/+L9CZjg2Pnp5a+hGpqwUCeEsnUxwx+/jmMh5A1ViEbi1YRPVVj0R7P74CgdB7PhbIBGmHu8Xf
+oIaUxCmUYmgA5jnXAZ8FVExaeAfjl2lPcD7/ruZEEx6BZOr/Koy1hRekmcvxv9Ri/T2kHdTJ50N7
+CE/0pNjZGPy6YGJ59MhKCYAZCwI2lEfMvIi1+M9EyrVIbx3aDyOrZrTeF2awb2ood70CeDbWNRbw
+38sMUHHYtRWPiJbtm7f8jGLOADC6Z8qpYCM3UTqT68fe4aDAyvYg1+dVZiKEDUOjU3+860K8YB7B
+0uxcB5Rgm1EZgkTz15simbbOTqgY1WpAli0G8y5CflJafwUEczQHPBJmBI92DazUZ6fi2qp3wxc2
+sWt6BBGfG8Kp46NQ0z8X3w14TMlXqCGY3235RtaWqqFWb1AeSkrRgyDbFCHpYfMJYyFphDppQfqt
+ewi244rCFmZQJ/ntXIh+OKP7yRQFzAsuhq1ow/nYx1+qrma03ZiD4JcuDhmS/xZn5y8W1PgKcxwG
+3jpgE6I0v9Bc3bJwCELndt8ugNnGj3Z0qlWjAcLw4FHLKUjPlM1/0dpDAHl+ohM5fwDVzHmYAXGI
+6NEt0YdoolgndGXV74T/bGUjjYBIWnf2EavLuuRiIt2KEFNi2Ad7TUfCnTcbzZqB11bRyrZsLptw
+whI=
+=0EzJ
 -----END PGP SIGNATURE-----
 
---0JwTvFsv0rt6RXM7ZxPfLXQLJkUTgsJBM--
+--N7OPKHmdKB0h0lZflU37E0gNvSvlaqVxT--
 
---===============2037432019==
+--===============0932005170==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -520,4 +541,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2037432019==--
+--===============0932005170==--
