@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AB02C5613
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 14:43:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60922C5615
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 14:43:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F279D6E948;
-	Thu, 26 Nov 2020 13:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE6176E969;
+	Thu, 26 Nov 2020 13:43:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF5466E95D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 13:43:07 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id g14so2161468wrm.13
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 05:43:07 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BEF66E957
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 13:43:09 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id l1so2189917wrb.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 05:43:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b5HKCJC8iv4gibbIS6cltBxMH+DAVlqg/H12nTJ1XPY=;
- b=BdELhwgg2aXDCVPZiMApozkS+dDFnAj41prA+beMmkmtq5w/7jzoUYaN79lGhPg+b5
- Ao1NeiAYusWBvAPnbIbFxw256w0sjzeS37NG3I/ArloBXx9UsQGzPCHaZ7eq5GMUa9Hq
- xblCmIPAb04gorBKak04DKwX5Ouw95gD99jYEeYF5/t8k6AlIurKssHp9FLsnG/gfuKR
- 3bHvkYd8LpUPEBgWAJLoljaerBRARKDD7Z6hdxEPL1xUgeKW/drJy7CKcIkZgzlF8b5V
- 1clDkzXxjZPiHr0yHQ1cy4uKZyP94uOV98wuUeATSfrG5vyfKtu3Xud6idIgT8PSTifK
- F7fA==
+ bh=jh3Zn1ResYGUShWTof3m2Q8rRwpV0wK8w2BTM5dDuqo=;
+ b=rk6rWnUC9jqDQyGdupgrLNKrRSul0EHQaNGK+50NcidJxDqAvVUj56R5RyfXPBaGcW
+ bSBgt/Ie1likRXGMHTQK+17lYRwCLYfSq3BJCLm2XxwMb8WXepCS7ge8/eZVo7gr/XGq
+ kCuJM1R00G7RuwWlRH578S74u+AFIcbgHv3NFW66QOirRez6hZequRYFtFmwdFbg4jMK
+ 863oGkc9U1L7MDiHaIB9G4cRf6dOoqblbB/lUyg/otJbW4APSRCqt0ohAP2dgt2kagdA
+ XI8RlvPRmdMATCk3eqe/Xzypb6nIQ8pzFcx6S/gzizO08IQOCYIyaI3A+dQLX9ehNMoK
+ 2wyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b5HKCJC8iv4gibbIS6cltBxMH+DAVlqg/H12nTJ1XPY=;
- b=UaNjhSDbu4ff88mjHuroNoY30BGOaswy54JyfieTPRmFM3vrSSvy0sIf0urp8wat++
- 4HgKexyZEUE4h1pG4wAtSzylq2jl1zJDs8LSkQs+Qk3zWfgWKw3m2PCBjkvCzErhFzaA
- q5e9JecMEtYARRvwfzXMlQN6PdHuLjtSmt3jQYFmuQzOgTYHAkdNuwHUFuYTyRsQSduy
- cHt66vSmS6eVXyxzWbmpEi3iiPIBuM2HW6gQ38S9WwZvBSe94YTo+w8v75qti9T8eJlF
- t1abtG7D7Jdmuf+L4OgpdtxtsBRXi6WS/y9UEZyiIX71FLvMzR1EqrSP6S8CQdS3mUAY
- 9Yqg==
-X-Gm-Message-State: AOAM530AH71Gk2ePo/V08aLyfIb5m2zt4mtDITqBR5p5FvKRwdm/pRVJ
- 8xbRf5kPyxAI+RLCwr75yTLGZw==
-X-Google-Smtp-Source: ABdhPJwPA7XUfQ9Hktvglh4mawyljyRIWgMBX4yMO89KviHWcVv/KdRekllKFpPilB/5KPywm3QnNw==
-X-Received: by 2002:adf:e54f:: with SMTP id z15mr4046751wrm.159.1606398186510; 
- Thu, 26 Nov 2020 05:43:06 -0800 (PST)
+ bh=jh3Zn1ResYGUShWTof3m2Q8rRwpV0wK8w2BTM5dDuqo=;
+ b=cvN0zljLa5wRpftC0eH1daTjexn7GAiOgRceUrhe3UIb5rHohJvg2Jx+XPyk9+emlx
+ sSxuU9uJPMnp+R59FWipjovOv1W9EjkOYBZNkI0sCcOPExaVGCrlxDvLCehpJgKS2eZj
+ Pbvx5qcbzaFk0coaNLjlT9G6n2w3zjov3wptTbVbQGSE+jw4d0AKQsVF0g27JJWR+iBI
+ 6vXcGRS8KyueXuIJsQvpB469gcJloK2lablM+qRoBhiIiDxvExKUhIx1ar1cO0haa7C7
+ Mvp0IK9J1dWvAhkrJczegx3dOU2mhB221kKNgTW3cQIm25re4v0dpSHdbtry4r9K5F/a
+ P0cg==
+X-Gm-Message-State: AOAM532qx4pu3iOe2McNvBOUtEu5GLnM9VXOnt/CfiEQ8le/jyaNf5Oi
+ vdCTQD+TOwE40iqf1SeiuQsc9g==
+X-Google-Smtp-Source: ABdhPJyFeP+oHnYZ8ZhxN1ULaFwXRE6QX6gCCHEBKcQb558Ob57TmjG/rdCvrc4GTuL6sxomjXk/Zg==
+X-Received: by 2002:adf:ee51:: with SMTP id w17mr3923479wro.373.1606398187789; 
+ Thu, 26 Nov 2020 05:43:07 -0800 (PST)
 Received: from dell.default ([91.110.221.235])
- by smtp.gmail.com with ESMTPSA id k205sm9275738wmk.4.2020.11.26.05.43.05
+ by smtp.gmail.com with ESMTPSA id k205sm9275738wmk.4.2020.11.26.05.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Nov 2020 05:43:05 -0800 (PST)
+ Thu, 26 Nov 2020 05:43:07 -0800 (PST)
 From: Lee Jones <lee.jones@linaro.org>
 To: lee.jones@linaro.org
-Subject: [PATCH 14/40] drm/amd/pm/powerplay/hwmgr/ppatomfwctrl: Demote
- kernel-doc formatting abuses
-Date: Thu, 26 Nov 2020 13:42:14 +0000
-Message-Id: <20201126134240.3214176-15-lee.jones@linaro.org>
+Subject: [PATCH 15/40] drm/msm/disp/dpu1/dpu_hw_interrupts: Demote kernel-doc
+ formatting misuse
+Date: Thu, 26 Nov 2020 13:42:15 +0000
+Message-Id: <20201126134240.3214176-16-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201126134240.3214176-1-lee.jones@linaro.org>
 References: <20201126134240.3214176-1-lee.jones@linaro.org>
@@ -67,77 +67,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: freedreno@lists.freedesktop.org, Shubhashree Dhar <dhar@codeaurora.org>,
+ David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4ZXMgdGhlIGZvbGxvd2luZyBXPTEga2VybmVsIGJ1aWxkIHdhcm5pbmcocyk6CgogZHJpdmVy
-cy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG0vcG93ZXJwbGF5L2h3bWdyL3BwYXRvbWZ3Y3RybC5j
-Ojc4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdod21ncicgbm90IGRl
-c2NyaWJlZCBpbiAncHBfYXRvbWZ3Y3RybF9pc192b2x0YWdlX2NvbnRyb2xsZWRfYnlfZ3Bpb192
-NCcKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3Bvd2VycGxheS9od21nci9wcGF0
-b21md2N0cmwuYzo3ODogd2FybmluZzogRnVuY3Rpb24gcGFyYW1ldGVyIG9yIG1lbWJlciAndm9s
-dGFnZV90eXBlJyBub3QgZGVzY3JpYmVkIGluICdwcF9hdG9tZndjdHJsX2lzX3ZvbHRhZ2VfY29u
-dHJvbGxlZF9ieV9ncGlvX3Y0JwogZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvLi4vcG0vcG93
-ZXJwbGF5L2h3bWdyL3BwYXRvbWZ3Y3RybC5jOjc4OiB3YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0
-ZXIgb3IgbWVtYmVyICd2b2x0YWdlX21vZGUnIG5vdCBkZXNjcmliZWQgaW4gJ3BwX2F0b21md2N0
-cmxfaXNfdm9sdGFnZV9jb250cm9sbGVkX2J5X2dwaW9fdjQnCiBkcml2ZXJzL2dwdS9kcm0vYW1k
-L2FtZGdwdS8uLi9wbS9wb3dlcnBsYXkvaHdtZ3IvcHBhdG9tZndjdHJsLmM6MjExOiB3YXJuaW5n
-OiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdod21ncicgbm90IGRlc2NyaWJlZCBpbiAn
-cHBfYXRvbWZ3Y3RybF9nZXRfcHBfYXNzaWduX3BpbicKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1Ly4uL3BtL3Bvd2VycGxheS9od21nci9wcGF0b21md2N0cmwuYzoyMTE6IHdhcm5pbmc6IEZ1
-bmN0aW9uIHBhcmFtZXRlciBvciBtZW1iZXIgJ3Bpbl9pZCcgbm90IGRlc2NyaWJlZCBpbiAncHBf
-YXRvbWZ3Y3RybF9nZXRfcHBfYXNzaWduX3BpbicKIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1
-Ly4uL3BtL3Bvd2VycGxheS9od21nci9wcGF0b21md2N0cmwuYzoyMTE6IHdhcm5pbmc6IEZ1bmN0
-aW9uIHBhcmFtZXRlciBvciBtZW1iZXIgJ2dwaW9fcGluX2Fzc2lnbm1lbnQnIG5vdCBkZXNjcmli
-ZWQgaW4gJ3BwX2F0b21md2N0cmxfZ2V0X3BwX2Fzc2lnbl9waW4nCiBkcml2ZXJzL2dwdS9kcm0v
-YW1kL2FtZGdwdS8uLi9wbS9wb3dlcnBsYXkvaHdtZ3IvcHBhdG9tZndjdHJsLmM6MjMyOiB3YXJu
-aW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3IgbWVtYmVyICdod21ncicgbm90IGRlc2NyaWJlZCBp
-biAncHBfYXRvbWZ3Y3RybF9lbnRlcl9zZWxmX3JlZnJlc2gnCgpDYzogRXZhbiBRdWFuIDxldmFu
-LnF1YW5AYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNoZXJAYW1kLmNv
-bT4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzog
-RGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpDYzogRGFuaWVsIFZldHRlciA8ZGFuaWVs
-QGZmd2xsLmNoPgpDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKQ2M6IGRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9u
-ZXNAbGluYXJvLm9yZz4KLS0tCiAuLi4vZHJtL2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHBhdG9t
-ZndjdHJsLmMgfCAyNCArKysrKysrKystLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTIgaW5z
-ZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2FtZC9wbS9wb3dlcnBsYXkvaHdtZ3IvcHBhdG9tZndjdHJsLmMgYi9kcml2ZXJzL2dwdS9kcm0v
-YW1kL3BtL3Bvd2VycGxheS9od21nci9wcGF0b21md2N0cmwuYwppbmRleCA2MTVjZjJjMDllNTRl
-Li5hNDdhNDcyMzhlMmI5IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bvd2Vy
-cGxheS9od21nci9wcGF0b21md2N0cmwuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL3BtL3Bv
-d2VycGxheS9od21nci9wcGF0b21md2N0cmwuYwpAQCAtNjgsMTEgKzY4LDExIEBAIHN0YXRpYyBz
-dHJ1Y3QgYXRvbV92b2x0YWdlX29iamVjdHNfaW5mb192NF8xICpwcF9hdG9tZndjdHJsX2dldF92
-b2x0YWdlX2luZm9fdGFiCiAJcmV0dXJuIChzdHJ1Y3QgYXRvbV92b2x0YWdlX29iamVjdHNfaW5m
-b192NF8xICopdGFibGVfYWRkcmVzczsKIH0KIAotLyoqCi0qIFJldHVybnMgVFJVRSBpZiB0aGUg
-Z2l2ZW4gdm9sdGFnZSB0eXBlIGlzIGNvbnRyb2xsZWQgYnkgR1BJTyBwaW5zLgotKiB2b2x0YWdl
-X3R5cGUgaXMgb25lIG9mIFNFVF9WT0xUQUdFX1RZUEVfQVNJQ19WRERDLCBTRVRfVk9MVEFHRV9U
-WVBFX0FTSUNfTVZEREMsIFNFVF9WT0xUQUdFX1RZUEVfQVNJQ19NVkREUS4KLSogdm9sdGFnZV9t
-b2RlIGlzIG9uZSBvZiBBVE9NX1NFVF9WT0xUQUdFLCBBVE9NX1NFVF9WT0xUQUdFX1BIQVNFCi0q
-LworLyoKKyAqIFJldHVybnMgVFJVRSBpZiB0aGUgZ2l2ZW4gdm9sdGFnZSB0eXBlIGlzIGNvbnRy
-b2xsZWQgYnkgR1BJTyBwaW5zLgorICogdm9sdGFnZV90eXBlIGlzIG9uZSBvZiBTRVRfVk9MVEFH
-RV9UWVBFX0FTSUNfVkREQywgU0VUX1ZPTFRBR0VfVFlQRV9BU0lDX01WRERDLCBTRVRfVk9MVEFH
-RV9UWVBFX0FTSUNfTVZERFEuCisgKiB2b2x0YWdlX21vZGUgaXMgb25lIG9mIEFUT01fU0VUX1ZP
-TFRBR0UsIEFUT01fU0VUX1ZPTFRBR0VfUEhBU0UKKyAqLwogYm9vbCBwcF9hdG9tZndjdHJsX2lz
-X3ZvbHRhZ2VfY29udHJvbGxlZF9ieV9ncGlvX3Y0KHN0cnVjdCBwcF9od21nciAqaHdtZ3IsCiAJ
-CXVpbnQ4X3Qgdm9sdGFnZV90eXBlLCB1aW50OF90IHZvbHRhZ2VfbW9kZSkKIHsKQEAgLTIwMiw5
-ICsyMDIsOSBAQCBzdGF0aWMgYm9vbCBwcF9hdG9tZndjdHJsX2xvb2t1cF9ncGlvX3BpbigKIAly
-ZXR1cm4gZmFsc2U7CiB9CiAKLS8qKgotKiBSZXR1cm5zIFRSVUUgaWYgdGhlIGdpdmVuIHBpbiBp
-ZCBmaW5kIGluIGxvb2t1cCB0YWJsZS4KLSovCisvKgorICogUmV0dXJucyBUUlVFIGlmIHRoZSBn
-aXZlbiBwaW4gaWQgZmluZCBpbiBsb29rdXAgdGFibGUuCisgKi8KIGJvb2wgcHBfYXRvbWZ3Y3Ry
-bF9nZXRfcHBfYXNzaWduX3BpbihzdHJ1Y3QgcHBfaHdtZ3IgKmh3bWdyLAogCQljb25zdCB1aW50
-MzJfdCBwaW5faWQsCiAJCXN0cnVjdCBwcF9hdG9tZndjdHJsX2dwaW9fcGluX2Fzc2lnbm1lbnQg
-KmdwaW9fcGluX2Fzc2lnbm1lbnQpCkBAIC0yMjQsMTAgKzIyNCwxMCBAQCBib29sIHBwX2F0b21m
-d2N0cmxfZ2V0X3BwX2Fzc2lnbl9waW4oc3RydWN0IHBwX2h3bWdyICpod21nciwKIAlyZXR1cm4g
-cmV0OwogfQogCi0vKioKLSogRW50ZXIgdG8gU2VsZlJlZnJlc2ggbW9kZS4KLSogQHBhcmFtIGh3
-bWdyCi0qLworLyoKKyAqIEVudGVyIHRvIFNlbGZSZWZyZXNoIG1vZGUuCisgKiBAcGFyYW0gaHdt
-Z3IKKyAqLwogaW50IHBwX2F0b21md2N0cmxfZW50ZXJfc2VsZl9yZWZyZXNoKHN0cnVjdCBwcF9o
-d21nciAqaHdtZ3IpCiB7CiAJLyogMCAtIG5vIGFjdGlvbgotLSAKMi4yNS4xCgpfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Fixes the following W=1 kernel build warning(s):
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:246: error: Cannot parse struct or union!
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c:756: error: Cannot parse struct or union!
+
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Shubhashree Dhar <dhar@codeaurora.org>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+index 38482b1047745..5c521de715670 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_interrupts.c
+@@ -189,7 +189,7 @@ struct dpu_irq_type {
+ 	u32 reg_idx;
+ };
+ 
+-/**
++/*
+  * struct dpu_intr_reg -  List of DPU interrupt registers
+  */
+ static const struct dpu_intr_reg dpu_intr_set[] = {
+@@ -245,7 +245,7 @@ static const struct dpu_intr_reg dpu_intr_set[] = {
+ 	}
+ };
+ 
+-/**
++/*
+  * struct dpu_irq_type - IRQ mapping table use for lookup an irq_idx in this
+  *			 table that have a matching interface type and
+  *			 instance index.
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
