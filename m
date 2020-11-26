@@ -1,70 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39D22C504B
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD2A2C5050
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6741A6E879;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA6116E88D;
 	Thu, 26 Nov 2020 08:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com
- [IPv6:2607:f8b0:4864:20::741])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD9DD6E0FD
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 00:00:08 +0000 (UTC)
-Received: by mail-qk1-x741.google.com with SMTP id z188so141519qke.9
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Nov 2020 16:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=aKREM2LgpMemUitVe/ytv0SNKTIU13b/oPWuoX/JrCo=;
- b=UttOmsa4CIydIMlhmsf+mpL72ekN6XdJOKccupwa26yJabJffqzdKBszOdiAbyFnGb
- ycNvKmzKgO/6k7UOTismxzLPG6MKyJbVL5m2nXz60k8IZs91HAkIMmU1uydZP7woxuG7
- l4OEfrFRVONn5MZPaTjaF20xCPoTqyDOzK6n/GUx/cSR5CQfkIyFr/upm3oAOylDx5JM
- l/zDPZx6C2KT3uUV9+zFmcgPMSRoOloe9DmysxoEzrKgEo+s++Kc0svlJbDfURC4v+Cq
- ub/7SuADkb1ureevd8MfjBism6Dar2B6r6YV25fT8w2YFI83MHU4Dz+EbP9ZWRIaRAa/
- sjXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aKREM2LgpMemUitVe/ytv0SNKTIU13b/oPWuoX/JrCo=;
- b=ALk+RFeOv5BvwHn4ZkKiHLLSuJekVm2Ud+1YFlWWiFE7M3Tt1Y+YrLcSuN+fmNIEXo
- dla+A3BK0ZaUPpM5qV7J7ti4bKu+MnrNGAVuc1DcPL/eJSA/oV4N5qhqTh23GlZSVUcL
- dEcvwZ1KQ4U+UHk6HpmGFOX+clC2inNYDYhhwf0MbpFZWyww75duycdEAVs9lHsxMO/y
- BdxUIeqSlmCAxTyOkY3mKGISQwG6/yI6xXMl49JDMcYSAV7QuAgArybUwIQnf0opTcyZ
- LOk8SKwSA3xy9nyzEjh5DclDaoCcRJGJ0ztVuhAdjCM78PWlMMnBI0heEtk3afLds4x2
- AA/w==
-X-Gm-Message-State: AOAM531IsWa6QfaYgeWdRGz34ixyIOEsayzw33vpTExxZ1Hhnq9pJszZ
- RQTqaL+J47qK5gERkxIWWUUpIA==
-X-Google-Smtp-Source: ABdhPJy1oVswPNBIIEJRUXD9FYrqhWOv9OYbhoFw/mv9TlO+58lJs34Ve3mm23XrkxmRLPwP8foi1g==
-X-Received: by 2002:a37:65d2:: with SMTP id z201mr565748qkb.403.1606348808101; 
- Wed, 25 Nov 2020 16:00:08 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [156.34.48.30])
- by smtp.gmail.com with ESMTPSA id m62sm889145qkb.91.2020.11.25.16.00.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Nov 2020 16:00:07 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1ki4hi-001QF8-L6; Wed, 25 Nov 2020 20:00:06 -0400
-Date: Wed, 25 Nov 2020 20:00:06 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
-Message-ID: <20201126000006.GS5487@ziepe.ca>
-References: <1606153984-104583-1-git-send-email-jianxin.xiong@intel.com>
- <1606153984-104583-4-git-send-email-jianxin.xiong@intel.com>
- <20201123180504.GA244516@ziepe.ca>
- <20201124151658.GT401619@phenom.ffwll.local>
- <MW3PR11MB45554AAEB1C370A78EB87816E5FB0@MW3PR11MB4555.namprd11.prod.outlook.com>
- <20201125105041.GX401619@phenom.ffwll.local>
- <20201125121456.GM5487@ziepe.ca>
- <MW3PR11MB4555A91A6CF5D23AD538EF34E5FA0@MW3PR11MB4555.namprd11.prod.outlook.com>
+Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
+ [98.124.60.144])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5EE6C6E423;
+ Thu, 26 Nov 2020 00:30:41 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by kvm5.telegraphics.com.au (Postfix) with ESMTP id 742A42A495;
+ Wed, 25 Nov 2020 19:30:37 -0500 (EST)
+Date: Thu, 26 Nov 2020 11:30:36 +1100 (AEDT)
+From: Finn Thain <fthain@telegraphics.com.au>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
+ Clang
+In-Reply-To: <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
+Message-ID: <alpine.LNX.2.23.453.2011261031290.6@nippy.intranet>
+References: <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
+ <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
+ <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
+ <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
+ <20201123130348.GA3119@embeddedor>
+ <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
+ <202011241327.BB28F12F6@keescook>
+ <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
+ <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
+ <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
+ <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <MW3PR11MB4555A91A6CF5D23AD538EF34E5FA0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Thu, 26 Nov 2020 08:24:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,47 +52,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leon Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
- Christian Koenig <christian.koenig@amd.com>
+Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
+ linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
+ linux-mmc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
+ linux-mtd@lists.infradead.org, GR-everest-linux-l2@marvell.com,
+ wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ drbd-dev@lists.linbit.com, devel@driverdev.osuosl.org,
+ linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
+ linux-scsi@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
+ linux-atm-general@lists.sourceforge.net, ceph-devel@vger.kernel.org,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ linux-ext4@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ netfilter-devel@vger.kernel.org, linux-media@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, intel-gfx@lists.freedesktop.org,
+ linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+ linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
+ nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
+ Nathan Chancellor <natechancellor@gmail.com>, linux-can@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-watchdog@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net,
+ "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
+ <linux-crypto@vger.kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 25, 2020 at 07:27:07PM +0000, Xiong, Jianxin wrote:
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Wednesday, November 25, 2020 4:15 AM
-> > To: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Xiong, Jianxin <jianxin.xiong@intel.com>; Leon Romanovsky <leon@kernel.org>; linux-rdma@vger.kernel.org; dri-
-> > devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Vetter, Daniel <daniel.vetter@intel.com>; Christian Koenig
-> > <christian.koenig@amd.com>
-> > Subject: Re: [PATCH rdma-core 3/5] pyverbs: Add dma-buf based MR support
-> > 
-> > On Wed, Nov 25, 2020 at 11:50:41AM +0100, Daniel Vetter wrote:
-> > 
-> > > Yeah imo makes sense. It's a bunch more code for you to make it work
-> > > on
-> > > i915 and amd, but it's not terrible. And avoids the dependencies, and
-> > > also avoids the abuse of card* and dumb buffers. Plus not really more
-> > > complex, you just need a table or something to match from the drm
-> > > driver name to the driver-specific buffer create function. Everything
-> > > else stays the same.
-> > 
-> > If it is going to get more complicated please write it in C then. We haven't done it yet, but you can link a C function through cython to the
-> > python test script
-> > 
-> > If you struggle here I can probably work out the build system bits, but it should not be too terrible
+
+
+On Wed, 25 Nov 2020, Nick Desaulniers wrote:
+
+> On Wed, Nov 25, 2020 at 1:33 PM Finn Thain <fthain@telegraphics.com.au> wrote:
+> >
+> > Or do you think that a codebase can somehow satisfy multiple checkers 
+> > and their divergent interpretations of the language spec?
 > 
-> Thanks Daniel and Jason. I have started working in this direction. There should be no
-> technical obstacle here. 
+> Have we found any cases yet that are divergent? I don't think so. 
 
-Just to be clear I mean write some 'get dma buf fd' function in C, not
-the whole test
+You mean, aside from -Wimplicit-fallthrough? I'm glad you asked. How about 
+-Wincompatible-pointer-types and -Wframe-larger-than?
 
-Jason
+All of the following files have been affected by divergent diagnostics 
+produced by clang and gcc.
+
+arch/arm64/include/asm/neon-intrinsics.h
+arch/powerpc/xmon/Makefile
+drivers/gpu/drm/i915/Makefile
+drivers/gpu/drm/i915/i915_utils.h
+drivers/staging/media/atomisp/pci/atomisp_subdev.c
+fs/ext4/super.c
+include/trace/events/qla.h
+net/mac80211/rate.c
+tools/lib/string.c
+tools/perf/util/setup.py
+tools/scripts/Makefile.include
+
+And if I searched for 'smatch' or 'coverity' instead of 'clang' I'd 
+probably find more divergence.
+
+Here are some of the relevant commits.
+
+0738c8b5915c7eaf1e6007b441008e8f3b460443
+9c87156cce5a63735d1218f0096a65c50a7a32aa
+babaab2f473817f173a2d08e410c25abf5ed0f6b
+065e5e559555e2f100bc95792a8ef1b609bbe130
+93f56de259376d7e4fff2b2d104082e1fa66e237
+6c4798d3f08b81c2c52936b10e0fa872590c96ae
+b7a313d84e853049062011d78cb04b6decd12f5c
+093b75ef5995ea35d7f6bdb6c7b32a42a1999813
+
+And before you object, "but -Wconstant-logical-operand is a clang-only 
+warning! it can't be divergent with gcc!", consider that the special cases 
+added to deal with clang-only warnings have to be removed when gcc catches 
+up, which is more churn. Now multiply that by the number of checkers you 
+care about.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
