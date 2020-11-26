@@ -2,62 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039A92C587C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 16:49:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BEF2C590F
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 17:18:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9B616E98B;
-	Thu, 26 Nov 2020 15:49:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15ED66E990;
+	Thu, 26 Nov 2020 16:18:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
- [IPv6:2a00:1450:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFE066E98B;
- Thu, 26 Nov 2020 15:49:39 +0000 (UTC)
-Received: by mail-ed1-x541.google.com with SMTP id r22so2748543edw.6;
- Thu, 26 Nov 2020 07:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=QN+FVEUZmyt5RNWeA1F05R4E4PnEkkh79B7aisQ+j0w=;
- b=ZQrjIXs1Nx119suE8bD/Ex3bf6zv/BatTKXOVIdqnXbc+YpCCiDPWz5vgYRye2CvfI
- zrmf16r62UmseT3q88s14ko9tr6mwTKfKMOMgdidN90I59tMWGY3aA6u4nzg0JR6E8xH
- RCRooUei4Da1wl2pltkcps6jTm0GMYRs7cJSwZMGwr97U1TMb8+0QYeOtmrWjlJrGAAZ
- 323LJ09AEfQyYdcFbAn5q07Eyw5dnU3lP4Ul58QepC/UZBqKp+mxR2PveGiDvlC1CudR
- q+yj4sP3GkS1bJDe8B4Dm2tCwZxZncizdpn3B3Em16HQBCmzXmroxeeREbAXYslEDlco
- JtDg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0942F6E990
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 16:18:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1606407508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
+ b=UrXDoUgTxqj1WRS8neld6HV6fanuCB2c0WlpqmfwON3ejDu/FMVt0X7ml3vyqXOkPXTaHP
+ iyzjRcaEhT909GCHvuy4UukfBBVO3DDHbtx6yRTBEFxNxYSd2Xp6GyufOqP8gIVepFFwdR
+ sF5812evLGCZkSl+1M/68FsLiI2eGX4=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-rJg2s5k1NHapYqRCZ8fFVA-1; Thu, 26 Nov 2020 11:18:25 -0500
+X-MC-Unique: rJg2s5k1NHapYqRCZ8fFVA-1
+Received: by mail-qv1-f71.google.com with SMTP id v8so1505383qvq.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 08:18:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=QN+FVEUZmyt5RNWeA1F05R4E4PnEkkh79B7aisQ+j0w=;
- b=SNIZTHyrzqXf0NvanqOi/R/nTmazcm/YZRR6cHDJoAdeNvUnpeIbh8lfJhqM1EUZre
- BwaPeuVvidUgX5o9HTDK/Sk1m0tPbLeaN5Nyn3+xSXuBpu5LPYTfdMxgY4NRmLuLNcPZ
- 8bKWU9v8N3BtZqbtORoyYTF5KyuxFYFiofcExBKmU/RuIIuh3kt+o3zwWFEp3qE6/8bl
- h2mz3lQy+6xqGaKCWur1G7XEZjTeaHiiZsOnXN6pEsPPnhnESbmJoXSSqfDSZCCU+mza
- Ap1FckORVl/pGpCOPQ3vC/BLedVxDhnoEBbrDZ+FcCtfm8fuiPwMSc20gHqkAXw+UNTr
- 1iSA==
-X-Gm-Message-State: AOAM5325/fdcIcZWgS+F775nlt3vXaLII9GITcJ3Pf62CgCYc5pv6tni
- 9GbE8kTOkTegPNd6js2pfYlf9vNrans=
-X-Google-Smtp-Source: ABdhPJz3j4i/kB0kZ9vsUXS3qGSYxj3KG4rsfCqJ3yEXbotkjgGRHwtq9x1V7qyDk1NiNHW/nZ3fOQ==
-X-Received: by 2002:a50:c30d:: with SMTP id a13mr3119176edb.89.1606405778568; 
- Thu, 26 Nov 2020 07:49:38 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id c30sm3476014edd.68.2020.11.26.07.49.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Nov 2020 07:49:37 -0800 (PST)
-Subject: Re: [PATCH] drm/radeon: fix check order in radeon_bo_move
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
-References: <20201125143424.1434-1-christian.koenig@amd.com>
-Message-ID: <a16cc4d6-4a23-eb91-7d44-cf3ccac88db4@gmail.com>
-Date: Thu, 26 Nov 2020 16:49:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
+ b=t+yzpzAQtkGiVFej41MQmuwr3SnLfajk0ZvPHpGJvbHuZA+vZITy49owlaQ8lZnyIW
+ FpXBPSei9/7KW/gQLZ6YzDYzHUvl02fT7dJN1Z+JEn3ePdjenAVKr52bV4kFLtPq6gu/
+ 4b/9wKWoJi/nA9PRwIc1XaIG/SIzd4n/kAV0cKcE2Gq3iunfmtDdoBQGIcFF+XJzTtej
+ soKF/Epk7vKsu/ZmkP7MtSvey6me9qOzmvfhzIqxJdRQikgeM057gJtyQhQkbbbWp2pV
+ LeirB56wSGHrVTxOuBoyYBFJKbTAGwE2UA0XKKR5B/6QEHiaWsQlcc8QRtdmIOP2OTla
+ oGZQ==
+X-Gm-Message-State: AOAM532l37gwuEpM9Bg8G/xnaqZ2AYiTvRne0dSQUO+nd1HlENMVan/w
+ FKjIzJgZzAjpMex1ijjAyY5kCaY6vViaul5jl8kFWtj1vBwyx+Xp8YrwnoYpVeGkdKhpXz5EAVh
+ EnG36HGLFT3YAUnb45YvdMiit8lhRO6ROQ4nGd0pyBfHs
+X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793909qkk.381.1606407504809; 
+ Thu, 26 Nov 2020 08:18:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzCU4CKAolN2PpaYdMoKCHma/+NC3lHjkQkQkRPTWC20j3rANbYTTy+FG9V7n634RRlgf0kcsxPjR4LO+NB5fA=
+X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793888qkk.381.1606407504531; 
+ Thu, 26 Nov 2020 08:18:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201125143424.1434-1-christian.koenig@amd.com>
-Content-Language: en-US
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+ <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+ <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+ <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com>
+ <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
+ <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
+ <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
+In-Reply-To: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Thu, 26 Nov 2020 17:18:13 +0100
+Message-ID: <CACO55tsBj3gLECoMWtViDitd7fVTnW+Cp0LVmqYkR=QFBJkEmQ@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,74 +86,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ linux-atm-general@lists.sourceforge.net, linux-iio@vger.kernel.org,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com,
+ target-devel <target-devel@vger.kernel.org>,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
+ linux-afs@lists.infradead.org, usb-storage@lists.one-eyed-alien.net,
+ Lars Ellenberg <drbd-dev@lists.linbit.com>,
+ driverdevel <devel@driverdev.osuosl.org>, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, scsi <linux-scsi@vger.kernel.org>,
+ Edward Cree <ecree.xilinx@gmail.com>, linux-rdma <linux-rdma@vger.kernel.org>,
+ oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-input <linux-input@vger.kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
+ linux-block@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ samba-technical@lists.samba.org, "open list:NFS, SUNRPC,
+ AND..." <linux-nfs@vger.kernel.org>, xen-devel@lists.xenproject.org,
+ Nouveau Dev <nouveau@lists.freedesktop.org>, linux-hams@vger.kernel.org,
+ ceph-devel <ceph-devel@vger.kernel.org>, linux-can@vger.kernel.org,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
+ Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net,
+ Linux MMC List <linux-mmc@vger.kernel.org>, linux-sctp@vger.kernel.org,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ linux-security-module <linux-security-module@vger.kernel.org>,
+ keyrings@vger.kernel.org, NetFilter <netfilter-devel@vger.kernel.org>,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ linux-integrity <linux-integrity@vger.kernel.org>,
+ USB list <linux-usb@vger.kernel.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UGluZywgRGF2ZSB0aGlzIGlzIGFub3RoZXIgZml4IGZvciB0aGUgTXVsdGlob3AgcGF0Y2ggc2V0
-LgoKV2l0aG91dCBpdCByYWRlb24gaXMgY29tcGxldGVseSBicm9rZW4gb24gZHJtLW1pc2MtbmV4
-dC4KClRoYW5rcywKQ2hyaXN0aWFuLgoKQW0gMjUuMTEuMjAgdW0gMTU6MzQgc2NocmllYiBDaHJp
-c3RpYW4gS8O2bmlnOgo+IFJlb3JkZXIgdGhlIGNvZGUgdG8gZml4IGNoZWNraW5nIGlmIGJsaXR0
-aW5nIGlzIGF2YWlsYWJsZS4KPgo+IFNpZ25lZC1vZmYtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNo
-cmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KPiAtLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9yYWRlb24v
-cmFkZW9uX3R0bS5jIHwgNTQgKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0KPiAgIDEgZmls
-ZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gaW5kZXggMGNhMzgxYjk1ZDNkLi4yYjU5ODE0MTIyNWYg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IEBAIC0yMTYsMjcgKzIxNiwx
-NSBAQCBzdGF0aWMgaW50IHJhZGVvbl9ib19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAq
-Ym8sIGJvb2wgZXZpY3QsCj4gICAJc3RydWN0IHR0bV9yZXNvdXJjZSAqb2xkX21lbSA9ICZiby0+
-bWVtOwo+ICAgCWludCByOwo+ICAgCj4gLQlpZiAoKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9Q
-TF9TWVNURU0gJiYKPiAtCSAgICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0pIHx8
-Cj4gLQkgICAgKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9WUkFNICYmCj4gLQkgICAgIG5l
-d19tZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0pKSB7Cj4gLQkJaG9wLT5mcGZuID0gMDsK
-PiAtCQlob3AtPmxwZm4gPSAwOwo+IC0JCWhvcC0+bWVtX3R5cGUgPSBUVE1fUExfVFQ7Cj4gLQkJ
-aG9wLT5mbGFncyA9IDA7Cj4gLQkJcmV0dXJuIC1FTVVMVElIT1A7Cj4gLQl9Cj4gLQo+ICAgCWlm
-IChuZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfVFQpIHsKPiAgIAkJciA9IHJhZGVvbl90dG1f
-dHRfYmluZChiby0+YmRldiwgYm8tPnR0bSwgbmV3X21lbSk7Cj4gICAJCWlmIChyKQo+ICAgCQkJ
-cmV0dXJuIHI7Cj4gICAJfQo+IC0JcmFkZW9uX2JvX21vdmVfbm90aWZ5KGJvLCBldmljdCwgbmV3
-X21lbSk7Cj4gICAKPiAgIAlyID0gdHRtX2JvX3dhaXRfY3R4KGJvLCBjdHgpOwo+ICAgCWlmIChy
-KQo+IC0JCWdvdG8gZmFpbDsKPiArCQlyZXR1cm4gcjsKPiAgIAo+ICAgCS8qIENhbid0IG1vdmUg
-YSBwaW5uZWQgQk8gKi8KPiAgIAlyYm8gPSBjb250YWluZXJfb2YoYm8sIHN0cnVjdCByYWRlb25f
-Ym8sIHRibyk7Cj4gQEAgLTI0NiwxMiArMjM0LDEyIEBAIHN0YXRpYyBpbnQgcmFkZW9uX2JvX21v
-dmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwKPiAgIAlyZGV2ID0g
-cmFkZW9uX2dldF9yZGV2KGJvLT5iZGV2KTsKPiAgIAlpZiAob2xkX21lbS0+bWVtX3R5cGUgPT0g
-VFRNX1BMX1NZU1RFTSAmJiBiby0+dHRtID09IE5VTEwpIHsKPiAgIAkJdHRtX2JvX21vdmVfbnVs
-bChibywgbmV3X21lbSk7Cj4gLQkJcmV0dXJuIDA7Cj4gKwkJZ290byBvdXQ7Cj4gICAJfQo+ICAg
-CWlmIChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNICYmCj4gICAJICAgIG5ld19t
-ZW0tPm1lbV90eXBlID09IFRUTV9QTF9UVCkgewo+ICAgCQl0dG1fYm9fbW92ZV9udWxsKGJvLCBu
-ZXdfbWVtKTsKPiAtCQlyZXR1cm4gMDsKPiArCQlnb3RvIG91dDsKPiAgIAl9Cj4gICAKPiAgIAlp
-ZiAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1RUICYmCj4gQEAgLTI1OSwzMSArMjQ3LDM3
-IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2JvX21vdmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpi
-bywgYm9vbCBldmljdCwKPiAgIAkJcmFkZW9uX3R0bV90dF91bmJpbmQoYm8tPmJkZXYsIGJvLT50
-dG0pOwo+ICAgCQl0dG1fcmVzb3VyY2VfZnJlZShibywgJmJvLT5tZW0pOwo+ICAgCQl0dG1fYm9f
-YXNzaWduX21lbShibywgbmV3X21lbSk7Cj4gLQkJcmV0dXJuIDA7Cj4gKwkJZ290byBvdXQ7Cj4g
-ICAJfQo+IC0JaWYgKCFyZGV2LT5yaW5nW3JhZGVvbl9jb3B5X3JpbmdfaW5kZXgocmRldildLnJl
-YWR5IHx8Cj4gLQkgICAgcmRldi0+YXNpYy0+Y29weS5jb3B5ID09IE5VTEwpIHsKPiAtCQkvKiB1
-c2UgbWVtY3B5ICovCj4gLQkJZ290byBtZW1jcHk7Cj4gKwlpZiAocmRldi0+cmluZ1tyYWRlb25f
-Y29weV9yaW5nX2luZGV4KHJkZXYpXS5yZWFkeSAmJgo+ICsJICAgIHJkZXYtPmFzaWMtPmNvcHku
-Y29weSAhPSBOVUxMKSB7Cj4gKwkJaWYgKChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lT
-VEVNICYmCj4gKwkJICAgICBuZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfVlJBTSkgfHwKPiAr
-CQkgICAgKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9WUkFNICYmCj4gKwkJICAgICBuZXdf
-bWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNKSkgewo+ICsJCQlob3AtPmZwZm4gPSAwOwo+
-ICsJCQlob3AtPmxwZm4gPSAwOwo+ICsJCQlob3AtPm1lbV90eXBlID0gVFRNX1BMX1RUOwo+ICsJ
-CQlob3AtPmZsYWdzID0gMDsKPiArCQkJcmV0dXJuIC1FTVVMVElIT1A7Cj4gKwkJfQo+ICsKPiAr
-CQlyID0gcmFkZW9uX21vdmVfYmxpdChibywgZXZpY3QsIG5ld19tZW0sIG9sZF9tZW0pOwo+ICsJ
-fSBlbHNlIHsKPiArCQlyID0gLUVOT0RFVjsKPiAgIAl9Cj4gICAKPiAtCXIgPSByYWRlb25fbW92
-ZV9ibGl0KGJvLCBldmljdCwgbmV3X21lbSwgb2xkX21lbSk7Cj4gICAJaWYgKHIpIHsKPiAtbWVt
-Y3B5Ogo+ICAgCQlyID0gdHRtX2JvX21vdmVfbWVtY3B5KGJvLCBjdHgsIG5ld19tZW0pOwo+IC0J
-CWlmIChyKSB7Cj4gLQkJCWdvdG8gZmFpbDsKPiAtCQl9Cj4gKwkJaWYgKHIpCj4gKwkJCXJldHVy
-biByOwo+ICAgCX0KPiAgIAo+ICtvdXQ6Cj4gICAJLyogdXBkYXRlIHN0YXRpc3RpY3MgKi8KPiAg
-IAlhdG9taWM2NF9hZGQoKHU2NCliby0+bnVtX3BhZ2VzIDw8IFBBR0VfU0hJRlQsICZyZGV2LT5u
-dW1fYnl0ZXNfbW92ZWQpOwo+ICsJcmFkZW9uX2JvX21vdmVfbm90aWZ5KGJvLCBldmljdCwgbmV3
-X21lbSk7Cj4gICAJcmV0dXJuIDA7Cj4gLWZhaWw6Cj4gLQlzd2FwKCpuZXdfbWVtLCBiby0+bWVt
-KTsKPiAtCXJhZGVvbl9ib19tb3ZlX25vdGlmeShibywgZmFsc2UsIG5ld19tZW0pOwo+IC0Jc3dh
-cCgqbmV3X21lbSwgYm8tPm1lbSk7Cj4gLQlyZXR1cm4gcjsKPiAgIH0KPiAgIAo+ICAgc3RhdGlj
-IGludCByYWRlb25fdHRtX2lvX21lbV9yZXNlcnZlKHN0cnVjdCB0dG1fYm9fZGV2aWNlICpiZGV2
-LCBzdHJ1Y3QgdHRtX3Jlc291cmNlICptZW0pCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9s
-aXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Nov 26, 2020 at 4:28 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Miguel,
+>
+> On Thu, Nov 26, 2020 at 3:54 PM Miguel Ojeda
+> <miguel.ojeda.sandonis@gmail.com> wrote:
+> > On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
+> > > To make the intent clear, you have to first be certain that you
+> > >  understand the intent; otherwise by adding either a break or a
+> > >  fallthrough to suppress the warning you are just destroying the
+> > >  information that "the intent of this code is unknown".
+> >
+> > If you don't know what the intent of your own code is, then you
+> > *already* have a problem in your hands.
+>
+> The maintainer is not necessarily the owner/author of the code, and
+> thus may not know the intent of the code.
+>
+> > > or does it flag up code
+> > >  that can be mindlessly "fixed" (in which case the warning is
+> > >  worthless)?  Proponents in this thread seem to be trying to
+> > >  have it both ways.
+> >
+> > A warning is not worthless just because you can mindlessly fix it.
+> > There are many counterexamples, e.g. many
+> > checkpatch/lint/lang-format/indentation warnings, functional ones like
+> > the `if (a = b)` warning...
+>
+> BTW, you cannot mindlessly fix the latter, as you cannot know if
+> "(a == b)" or "((a = b))" was intended, without understanding the code
+> (and the (possibly unavailable) data sheet, and the hardware, ...).
+>
+
+to allow assignments in if statements was clearly a mistake and if you
+need outside information to understand the code, your code is the
+issue already.
+
+> P.S. So far I've stayed out of this thread, as I like it if the compiler
+>      flags possible mistakes.  After all I was the one fixing new
+>      "may be used uninitialized" warnings thrown up by gcc-4.1, until
+>      (a bit later than) support for that compiler was removed...
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
