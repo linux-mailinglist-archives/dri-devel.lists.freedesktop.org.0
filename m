@@ -1,79 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36BEF2C590F
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 17:18:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FE022C5954
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 17:34:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15ED66E990;
-	Thu, 26 Nov 2020 16:18:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1426E993;
+	Thu, 26 Nov 2020 16:34:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0942F6E990
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 16:18:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606407508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
- b=UrXDoUgTxqj1WRS8neld6HV6fanuCB2c0WlpqmfwON3ejDu/FMVt0X7ml3vyqXOkPXTaHP
- iyzjRcaEhT909GCHvuy4UukfBBVO3DDHbtx6yRTBEFxNxYSd2Xp6GyufOqP8gIVepFFwdR
- sF5812evLGCZkSl+1M/68FsLiI2eGX4=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-rJg2s5k1NHapYqRCZ8fFVA-1; Thu, 26 Nov 2020 11:18:25 -0500
-X-MC-Unique: rJg2s5k1NHapYqRCZ8fFVA-1
-Received: by mail-qv1-f71.google.com with SMTP id v8so1505383qvq.12
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 08:18:25 -0800 (PST)
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com
+ [IPv6:2607:f8b0:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D39EA6E993
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 16:34:34 +0000 (UTC)
+Received: by mail-ot1-x344.google.com with SMTP id f16so2300002otl.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 08:34:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WasaKsS9vZmB/RodaQX4PJ4WizBgru6N+g16poZOdgY=;
+ b=Hep8Gv+xrLpcWfWtjHD4UQKeXsEzNMyXMmcXiFWfM/pbXzq1Z4MfJ5UxMHCKGB4SMM
+ wKMTA9pJKih5xfbl4MXce4jU/msodm+HLxiE9ZJx92Z2FZB3gOo5mhIqzwnNITtEEguY
+ GrOrGeYpex+OVjEHnyzNq/J2H+w+jjKun5j/U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
- b=t+yzpzAQtkGiVFej41MQmuwr3SnLfajk0ZvPHpGJvbHuZA+vZITy49owlaQ8lZnyIW
- FpXBPSei9/7KW/gQLZ6YzDYzHUvl02fT7dJN1Z+JEn3ePdjenAVKr52bV4kFLtPq6gu/
- 4b/9wKWoJi/nA9PRwIc1XaIG/SIzd4n/kAV0cKcE2Gq3iunfmtDdoBQGIcFF+XJzTtej
- soKF/Epk7vKsu/ZmkP7MtSvey6me9qOzmvfhzIqxJdRQikgeM057gJtyQhQkbbbWp2pV
- LeirB56wSGHrVTxOuBoyYBFJKbTAGwE2UA0XKKR5B/6QEHiaWsQlcc8QRtdmIOP2OTla
- oGZQ==
-X-Gm-Message-State: AOAM532l37gwuEpM9Bg8G/xnaqZ2AYiTvRne0dSQUO+nd1HlENMVan/w
- FKjIzJgZzAjpMex1ijjAyY5kCaY6vViaul5jl8kFWtj1vBwyx+Xp8YrwnoYpVeGkdKhpXz5EAVh
- EnG36HGLFT3YAUnb45YvdMiit8lhRO6ROQ4nGd0pyBfHs
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793909qkk.381.1606407504809; 
- Thu, 26 Nov 2020 08:18:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCU4CKAolN2PpaYdMoKCHma/+NC3lHjkQkQkRPTWC20j3rANbYTTy+FG9V7n634RRlgf0kcsxPjR4LO+NB5fA=
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793888qkk.381.1606407504531; 
- Thu, 26 Nov 2020 08:18:24 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WasaKsS9vZmB/RodaQX4PJ4WizBgru6N+g16poZOdgY=;
+ b=UN6pmZAdxdRORz7R60V6F10wJK2Si6CcoJ51s7MRtVVdFcar+RgsJ89U9fEuMP3uPF
+ zyfOUnoZCXVexWQIkIDN0OIGjkbU7uFQwD+TbweFM/VrxyReuj+Df0Ry3oyB/8LgW/iW
+ /nMHW4K/VtM7/4zDSQ2xsQjR2qEar7Ukf62NS/ghSs82/DOT/PDsr8tj/R3jd3W5nPQC
+ qUQsKSK9xTmzIYlr0Bvlakn1ou73JVUEQkFG7GEhB/q0z6S9eAm/jqI5x2kLf9n8VypN
+ p6JVtO8fAx48lz9Fs9jb9PZDJ8HC1vqZ8SCgd3dF/Znl57Kox9BAkypdEyCKmd3nYy70
+ Dw2Q==
+X-Gm-Message-State: AOAM530uOnQKnyXVpYHHvk3hl3Ejld0cYM7lZR+vQ4AbXrOGGkJUkXGq
+ nLWjeHWHjnqG0uGbSlfsX1tqlYtE7tvZPUUB/JKpFSveM/bSRA==
+X-Google-Smtp-Source: ABdhPJwIATUV5RnZWrcPQ1J5j128hsqaCG5buXBmXdogI3EgPvoqX+wIBf05u5D64Hmm0R7k3q5KQpFrh0BQRweKDgM=
+X-Received: by 2002:a9d:3b4:: with SMTP id f49mr2881528otf.188.1606408474069; 
+ Thu, 26 Nov 2020 08:34:34 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
- <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
- <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
- <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
- <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
- <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
- <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com>
- <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
- <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
- <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Thu, 26 Nov 2020 17:18:13 +0100
-Message-ID: <CACO55tsBj3gLECoMWtViDitd7fVTnW+Cp0LVmqYkR=QFBJkEmQ@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20201125143424.1434-1-christian.koenig@amd.com>
+In-Reply-To: <20201125143424.1434-1-christian.koenig@amd.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 26 Nov 2020 17:34:23 +0100
+Message-ID: <CAKMK7uF7SZ_ihX+s6Rxg8Ws96vViu8Ab2vN+6VysWeDRkQMbNg@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix check order in radeon_bo_move
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,127 +58,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- linux-atm-general@lists.sourceforge.net, linux-iio@vger.kernel.org,
- linux-wireless <linux-wireless@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- linux-ide@vger.kernel.org, dm-devel@redhat.com,
- target-devel <target-devel@vger.kernel.org>,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
- linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
- linux-afs@lists.infradead.org, usb-storage@lists.one-eyed-alien.net,
- Lars Ellenberg <drbd-dev@lists.linbit.com>,
- driverdevel <devel@driverdev.osuosl.org>, linux-cifs@vger.kernel.org,
- rds-devel@oss.oracle.com, scsi <linux-scsi@vger.kernel.org>,
- Edward Cree <ecree.xilinx@gmail.com>, linux-rdma <linux-rdma@vger.kernel.org>,
- oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+Cc: Dave Airlie <airlied@linux.ie>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-input <linux-input@vger.kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
- linux-block@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
- samba-technical@lists.samba.org, "open list:NFS, SUNRPC,
- AND..." <linux-nfs@vger.kernel.org>, xen-devel@lists.xenproject.org,
- Nouveau Dev <nouveau@lists.freedesktop.org>, linux-hams@vger.kernel.org,
- ceph-devel <ceph-devel@vger.kernel.org>, linux-can@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- Nick Desaulniers <ndesaulniers@google.com>,
- Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
- GR-Linux-NIC-Dev@marvell.com, tipc-discussion@lists.sourceforge.net,
- Linux-MM <linux-mm@kvack.org>, Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net,
- Linux MMC List <linux-mmc@vger.kernel.org>, linux-sctp@vger.kernel.org,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- linux-security-module <linux-security-module@vger.kernel.org>,
- keyrings@vger.kernel.org, NetFilter <netfilter-devel@vger.kernel.org>,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-integrity <linux-integrity@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 26, 2020 at 4:28 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Miguel,
->
-> On Thu, Nov 26, 2020 at 3:54 PM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> > On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
-> > > To make the intent clear, you have to first be certain that you
-> > >  understand the intent; otherwise by adding either a break or a
-> > >  fallthrough to suppress the warning you are just destroying the
-> > >  information that "the intent of this code is unknown".
-> >
-> > If you don't know what the intent of your own code is, then you
-> > *already* have a problem in your hands.
->
-> The maintainer is not necessarily the owner/author of the code, and
-> thus may not know the intent of the code.
->
-> > > or does it flag up code
-> > >  that can be mindlessly "fixed" (in which case the warning is
-> > >  worthless)?  Proponents in this thread seem to be trying to
-> > >  have it both ways.
-> >
-> > A warning is not worthless just because you can mindlessly fix it.
-> > There are many counterexamples, e.g. many
-> > checkpatch/lint/lang-format/indentation warnings, functional ones like
-> > the `if (a = b)` warning...
->
-> BTW, you cannot mindlessly fix the latter, as you cannot know if
-> "(a == b)" or "((a = b))" was intended, without understanding the code
-> (and the (possibly unavailable) data sheet, and the hardware, ...).
->
-
-to allow assignments in if statements was clearly a mistake and if you
-need outside information to understand the code, your code is the
-issue already.
-
-> P.S. So far I've stayed out of this thread, as I like it if the compiler
->      flags possible mistakes.  After all I was the one fixing new
->      "may be used uninitialized" warnings thrown up by gcc-4.1, until
->      (a bit later than) support for that compiler was removed...
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBOb3YgMjUsIDIwMjAgYXQgMzozNCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBSZW9yZGVyIHRoZSBjb2RlIHRv
+IGZpeCBjaGVja2luZyBpZiBibGl0dGluZyBpcyBhdmFpbGFibGUuCgpNaWdodCBiZSBnb29kIHRv
+IGV4cGxhaW4gd2h5IGJsaXR0aW5nIG1pZ2h0IG5vdCBiZSBhdmFpbGFibGUsIGUuZy4Kc3VzcGVu
+ZC9yZXN1bWUgYW5kIG9yIGNoaXAgZGVhdGggYW5kIHN0dWZmIGxpa2UgdGhhdC4KCj4gU2lnbmVk
+LW9mZi1ieTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKTmVl
+ZHMgRml4ZXM6IDI4YTY4ZjgyODI2NiAoImRybS9yYWRlb24vdHRtOiB1c2UgbXVsdGlob3AiKQoK
+QnR3CgokIGRpbSBmaXhlcyBbc2hhMV0KCmdlbmVyYXRlcyB0aGF0IGZvciB5b3UgcGx1cyBuaWNl
+IGNjIGxpc3Qgb2Ygb2ZmZW5kZXJzLiBXaXRoIHRoZSBGaXhlcwpsaW5lIGFkZGVkOgoKUmV2aWV3
+ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJAZmZ3bGwuY2g+CgpBdCBsZWFzdCBJ
+J20gaGFuZ2luZyBvbnRvIHRoZSBpbGx1c2lvbiB0aGF0IEkgdW5kZXJzdGFuZCB3aGF0IHlvdSBk
+aWQgaGVyZSA6LSkKLURhbmllbAo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVv
+bl90dG0uYyB8IDU0ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFu
+Z2VkLCAyNCBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPgo+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRl
+b24vcmFkZW9uX3R0bS5jCj4gaW5kZXggMGNhMzgxYjk1ZDNkLi4yYjU5ODE0MTIyNWYgMTAwNjQ0
+Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMKPiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vcmFkZW9uL3JhZGVvbl90dG0uYwo+IEBAIC0yMTYsMjcgKzIxNiwxNSBAQCBz
+dGF0aWMgaW50IHJhZGVvbl9ib19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJv
+b2wgZXZpY3QsCj4gICAgICAgICBzdHJ1Y3QgdHRtX3Jlc291cmNlICpvbGRfbWVtID0gJmJvLT5t
+ZW07Cj4gICAgICAgICBpbnQgcjsKPgo+IC0gICAgICAgaWYgKChvbGRfbWVtLT5tZW1fdHlwZSA9
+PSBUVE1fUExfU1lTVEVNICYmCj4gLSAgICAgICAgICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRU
+TV9QTF9WUkFNKSB8fAo+IC0gICAgICAgICAgIChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExf
+VlJBTSAmJgo+IC0gICAgICAgICAgICBuZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVN
+KSkgewo+IC0gICAgICAgICAgICAgICBob3AtPmZwZm4gPSAwOwo+IC0gICAgICAgICAgICAgICBo
+b3AtPmxwZm4gPSAwOwo+IC0gICAgICAgICAgICAgICBob3AtPm1lbV90eXBlID0gVFRNX1BMX1RU
+Owo+IC0gICAgICAgICAgICAgICBob3AtPmZsYWdzID0gMDsKPiAtICAgICAgICAgICAgICAgcmV0
+dXJuIC1FTVVMVElIT1A7Cj4gLSAgICAgICB9Cj4gLQo+ICAgICAgICAgaWYgKG5ld19tZW0tPm1l
+bV90eXBlID09IFRUTV9QTF9UVCkgewo+ICAgICAgICAgICAgICAgICByID0gcmFkZW9uX3R0bV90
+dF9iaW5kKGJvLT5iZGV2LCBiby0+dHRtLCBuZXdfbWVtKTsKPiAgICAgICAgICAgICAgICAgaWYg
+KHIpCj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHI7Cj4gICAgICAgICB9Cj4gLSAg
+ICAgICByYWRlb25fYm9fbW92ZV9ub3RpZnkoYm8sIGV2aWN0LCBuZXdfbWVtKTsKPgo+ICAgICAg
+ICAgciA9IHR0bV9ib193YWl0X2N0eChibywgY3R4KTsKPiAgICAgICAgIGlmIChyKQo+IC0gICAg
+ICAgICAgICAgICBnb3RvIGZhaWw7Cj4gKyAgICAgICAgICAgICAgIHJldHVybiByOwo+Cj4gICAg
+ICAgICAvKiBDYW4ndCBtb3ZlIGEgcGlubmVkIEJPICovCj4gICAgICAgICByYm8gPSBjb250YWlu
+ZXJfb2YoYm8sIHN0cnVjdCByYWRlb25fYm8sIHRibyk7Cj4gQEAgLTI0NiwxMiArMjM0LDEyIEBA
+IHN0YXRpYyBpbnQgcmFkZW9uX2JvX21vdmUoc3RydWN0IHR0bV9idWZmZXJfb2JqZWN0ICpibywg
+Ym9vbCBldmljdCwKPiAgICAgICAgIHJkZXYgPSByYWRlb25fZ2V0X3JkZXYoYm8tPmJkZXYpOwo+
+ICAgICAgICAgaWYgKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9TWVNURU0gJiYgYm8tPnR0
+bSA9PSBOVUxMKSB7Cj4gICAgICAgICAgICAgICAgIHR0bV9ib19tb3ZlX251bGwoYm8sIG5ld19t
+ZW0pOwo+IC0gICAgICAgICAgICAgICByZXR1cm4gMDsKPiArICAgICAgICAgICAgICAgZ290byBv
+dXQ7Cj4gICAgICAgICB9Cj4gICAgICAgICBpZiAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BM
+X1NZU1RFTSAmJgo+ICAgICAgICAgICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9QTF9UVCkg
+ewo+ICAgICAgICAgICAgICAgICB0dG1fYm9fbW92ZV9udWxsKGJvLCBuZXdfbWVtKTsKPiAtICAg
+ICAgICAgICAgICAgcmV0dXJuIDA7Cj4gKyAgICAgICAgICAgICAgIGdvdG8gb3V0Owo+ICAgICAg
+ICAgfQo+Cj4gICAgICAgICBpZiAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1RUICYmCj4g
+QEAgLTI1OSwzMSArMjQ3LDM3IEBAIHN0YXRpYyBpbnQgcmFkZW9uX2JvX21vdmUoc3RydWN0IHR0
+bV9idWZmZXJfb2JqZWN0ICpibywgYm9vbCBldmljdCwKPiAgICAgICAgICAgICAgICAgcmFkZW9u
+X3R0bV90dF91bmJpbmQoYm8tPmJkZXYsIGJvLT50dG0pOwo+ICAgICAgICAgICAgICAgICB0dG1f
+cmVzb3VyY2VfZnJlZShibywgJmJvLT5tZW0pOwo+ICAgICAgICAgICAgICAgICB0dG1fYm9fYXNz
+aWduX21lbShibywgbmV3X21lbSk7Cj4gLSAgICAgICAgICAgICAgIHJldHVybiAwOwo+ICsgICAg
+ICAgICAgICAgICBnb3RvIG91dDsKPiAgICAgICAgIH0KPiAtICAgICAgIGlmICghcmRldi0+cmlu
+Z1tyYWRlb25fY29weV9yaW5nX2luZGV4KHJkZXYpXS5yZWFkeSB8fAo+IC0gICAgICAgICAgIHJk
+ZXYtPmFzaWMtPmNvcHkuY29weSA9PSBOVUxMKSB7Cj4gLSAgICAgICAgICAgICAgIC8qIHVzZSBt
+ZW1jcHkgKi8KPiAtICAgICAgICAgICAgICAgZ290byBtZW1jcHk7Cj4gKyAgICAgICBpZiAocmRl
+di0+cmluZ1tyYWRlb25fY29weV9yaW5nX2luZGV4KHJkZXYpXS5yZWFkeSAmJgo+ICsgICAgICAg
+ICAgIHJkZXYtPmFzaWMtPmNvcHkuY29weSAhPSBOVUxMKSB7Cj4gKyAgICAgICAgICAgICAgIGlm
+ICgob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJgo+ICsgICAgICAgICAgICAg
+ICAgICAgIG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9QTF9WUkFNKSB8fAo+ICsgICAgICAgICAg
+ICAgICAgICAgKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9WUkFNICYmCj4gKyAgICAgICAg
+ICAgICAgICAgICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSkpIHsKPiArICAg
+ICAgICAgICAgICAgICAgICAgICBob3AtPmZwZm4gPSAwOwo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgIGhvcC0+bHBmbiA9IDA7Cj4gKyAgICAgICAgICAgICAgICAgICAgICAgaG9wLT5tZW1fdHlw
+ZSA9IFRUTV9QTF9UVDsKPiArICAgICAgICAgICAgICAgICAgICAgICBob3AtPmZsYWdzID0gMDsK
+PiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVNVUxUSUhPUDsKPiArICAgICAgICAg
+ICAgICAgfQo+ICsKPiArICAgICAgICAgICAgICAgciA9IHJhZGVvbl9tb3ZlX2JsaXQoYm8sIGV2
+aWN0LCBuZXdfbWVtLCBvbGRfbWVtKTsKPiArICAgICAgIH0gZWxzZSB7Cj4gKyAgICAgICAgICAg
+ICAgIHIgPSAtRU5PREVWOwo+ICAgICAgICAgfQo+Cj4gLSAgICAgICByID0gcmFkZW9uX21vdmVf
+YmxpdChibywgZXZpY3QsIG5ld19tZW0sIG9sZF9tZW0pOwo+ICAgICAgICAgaWYgKHIpIHsKPiAt
+bWVtY3B5Ogo+ICAgICAgICAgICAgICAgICByID0gdHRtX2JvX21vdmVfbWVtY3B5KGJvLCBjdHgs
+IG5ld19tZW0pOwo+IC0gICAgICAgICAgICAgICBpZiAocikgewo+IC0gICAgICAgICAgICAgICAg
+ICAgICAgIGdvdG8gZmFpbDsKPiAtICAgICAgICAgICAgICAgfQo+ICsgICAgICAgICAgICAgICBp
+ZiAocikKPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcjsKPiAgICAgICAgIH0KPgo+
+ICtvdXQ6Cj4gICAgICAgICAvKiB1cGRhdGUgc3RhdGlzdGljcyAqLwo+ICAgICAgICAgYXRvbWlj
+NjRfYWRkKCh1NjQpYm8tPm51bV9wYWdlcyA8PCBQQUdFX1NISUZULCAmcmRldi0+bnVtX2J5dGVz
+X21vdmVkKTsKPiArICAgICAgIHJhZGVvbl9ib19tb3ZlX25vdGlmeShibywgZXZpY3QsIG5ld19t
+ZW0pOwo+ICAgICAgICAgcmV0dXJuIDA7Cj4gLWZhaWw6Cj4gLSAgICAgICBzd2FwKCpuZXdfbWVt
+LCBiby0+bWVtKTsKPiAtICAgICAgIHJhZGVvbl9ib19tb3ZlX25vdGlmeShibywgZmFsc2UsIG5l
+d19tZW0pOwo+IC0gICAgICAgc3dhcCgqbmV3X21lbSwgYm8tPm1lbSk7Cj4gLSAgICAgICByZXR1
+cm4gcjsKPiAgfQo+Cj4gIHN0YXRpYyBpbnQgcmFkZW9uX3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1
+Y3QgdHRtX2JvX2RldmljZSAqYmRldiwgc3RydWN0IHR0bV9yZXNvdXJjZSAqbWVtKQo+IC0tCj4g
+Mi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+Xwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
+ZGV2ZWwKCgoKLS0gCkRhbmllbCBWZXR0ZXIKU29mdHdhcmUgRW5naW5lZXIsIEludGVsIENvcnBv
+cmF0aW9uCmh0dHA6Ly9ibG9nLmZmd2xsLmNoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
