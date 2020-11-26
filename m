@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6632C4C62
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 02:06:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F452C4EA3
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 07:19:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5F656E4B7;
-	Thu, 26 Nov 2020 01:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73DF789D56;
+	Thu, 26 Nov 2020 06:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FA926E497;
- Thu, 26 Nov 2020 01:06:25 +0000 (UTC)
-IronPort-SDR: tw43qdgqH/ShGcCYbzqvsilh3iwLbFKAzbBuFYylMmoOdhWCc2U1KWzYHGYgbwgltkbEhC0r6H
- KUQ1TJk9OvuA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9816"; a="151479173"
-X-IronPort-AV: E=Sophos;i="5.78,370,1599548400"; d="scan'208";a="151479173"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2020 17:06:25 -0800
-IronPort-SDR: upjRiQvjyGWcbv0FPf3kSHKWWQ2nGqbPDXAJkP8if910RrNLBDEFASqX39zSZ50u1Wfy4ZeH00
- XFz6c+jE9VBQ==
-X-IronPort-AV: E=Sophos;i="5.78,370,1599548400"; d="scan'208";a="370963247"
-Received: from anyachat-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.251.131.193])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2020 17:06:24 -0800
-Date: Wed, 25 Nov 2020 17:06:23 -0800
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <20201126010623.GA827684@intel.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FAF89D56
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 06:19:45 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AQ6Ja20042813;
+ Thu, 26 Nov 2020 00:19:36 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606371576;
+ bh=e4U46c/ZSWjtdN/RPRLl1RQ1O+XoGB2Xmee9a5TINmg=;
+ h=Subject:To:References:From:Date:In-Reply-To;
+ b=brlZupJw8a+dBQPyhJEqKe1cHWhEfpGdi44KHI7/OpJbwgUGOvHVbCfZe/lSOMbvb
+ iip+p4b6SFFai9jYp0m/oD+eg4kib50eKS3SLwcdysO2ZzL4zc24ev4Ib5vKRMUObi
+ 8yMZnUiujnLe1M/iCQHpLqw93n3iN0jQ6ZJjw2qs=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AQ6Jaso064916
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 26 Nov 2020 00:19:36 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 26
+ Nov 2020 00:19:36 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 26 Nov 2020 00:19:36 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AQ6JYCb102804;
+ Thu, 26 Nov 2020 00:19:35 -0600
+Subject: Re: [PATCH] drm/omap: dmm_tiler: fix return error code in
+ omap_dmm_probe()
+To: Thomas Zimmermann <tzimmermann@suse.de>, Yang Yingliang
+ <yangyingliang@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20201117061045.3452287-1-yangyingliang@huawei.com>
+ <04c96207-3c67-0cab-d3e7-919b96fbb46b@suse.de>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <5b671522-1a98-3935-33e6-bfa307debb53@ti.com>
+Date: Thu, 26 Nov 2020 08:19:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
+In-Reply-To: <04c96207-3c67-0cab-d3e7-919b96fbb46b@suse.de>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,67 +65,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On 17/11/2020 15:41, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 17.11.20 um 07:10 schrieb Yang Yingliang:
+>> Return -ENOMEM when allocating refill memory failed.
+>>
+>> Fixes: 71e8831f6407 ("drm/omap: DMM/TILER support for OMAP4+ platform")
+>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+>> ---
+>>  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+>> index 42ec51bb7b1b..7f4317248812 100644
+>> --- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+>> +++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
+>> @@ -889,6 +889,7 @@ static int omap_dmm_probe(struct platform_device *dev)
+>>  					   &omap_dmm->refill_pa, GFP_KERNEL);
+>>  	if (!omap_dmm->refill_va) {
+>>  		dev_err(&dev->dev, "could not allocate refill memory\n");
+>> +		ret = -ENOMEM;
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Thanks for the patch. I'll add it to drm-misc-next. There are more such
+> errors here. If the very first allocation fails, the function returns
+> -EFAULT, which makes no sense.
 
-Please notice that commit eb0104ee498d ("drm/i915/gt: Track signaled breadcrumbs outside of the breadcrumb spinlock")
-is just a dependency of commit 2e6ce8313a53 ("drm/i915/gt: Don't cancel the interrupt shadow too early").
+Indeed. -EFAULT is quite an odd default value for ret... I'll drop the default and assign a real
+error value where needed.
 
-Here goes drm-intel-fixes-2020-11-25:
-- Fix Perf/OA workaround register corruption (Lionel)
-- Correct a comment statement in GVT (Yan)
-- Fix GT enable/disable iterrupts, including a race condition that prevented GPU to go idle (Chris)
-- Free stale request on destroying the virtual engine (Chris)
+ Tomi
 
-Thanks,
-Rodrigo.
-
-The following changes since commit 418baf2c28f3473039f2f7377760bd8f6897ae18:
-
-  Linux 5.10-rc5 (2020-11-22 15:36:08 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-11-25
-
-for you to fetch changes up to 280ffdb6ddb5de85eddd476a3bcdc19c9a80f089:
-
-  drm/i915/gt: Free stale request on destroying the virtual engine (2020-11-24 09:30:57 -0800)
-
-----------------------------------------------------------------
-- Fix Perf/OA workaround register corruption (Lionel)
-- Correct a comment statement in GVT (Yan)
-- Fix GT enable/disable iterrupts, including a race condition that prevented GPU to go idle (Chris)
-- Free stale request on destroying the virtual engine (Chris)
-
-----------------------------------------------------------------
-Chris Wilson (4):
-      drm/i915/gt: Defer enabling the breadcrumb interrupt to after submission
-      drm/i915/gt: Track signaled breadcrumbs outside of the breadcrumb spinlock
-      drm/i915/gt: Don't cancel the interrupt shadow too early
-      drm/i915/gt: Free stale request on destroying the virtual engine
-
-Lionel Landwerlin (1):
-      drm/i915/perf: workaround register corruption in OATAILPTR
-
-Yan Zhao (1):
-      drm/i915/gvt: correct a false comment of flag F_UNALIGN
-
- drivers/gpu/drm/i915/gt/intel_breadcrumbs.c       | 143 ++++++++++++++--------
- drivers/gpu/drm/i915/gt/intel_breadcrumbs_types.h |   2 +-
- drivers/gpu/drm/i915/gt/intel_lrc.c               |  60 +++++++--
- drivers/gpu/drm/i915/gvt/gvt.h                    |   2 +-
- drivers/gpu/drm/i915/i915_perf.c                  |   9 +-
- drivers/gpu/drm/i915/i915_reg.h                   |   2 +
- drivers/gpu/drm/i915/i915_request.h               |   6 +-
- 7 files changed, 161 insertions(+), 63 deletions(-)
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
