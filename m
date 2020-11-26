@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF212C629E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:12:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119A12C6293
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:11:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 730346EB87;
-	Fri, 27 Nov 2020 10:11:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5E4A6EB7D;
+	Fri, 27 Nov 2020 10:11:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E745A6E8D9
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 12:02:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B63E6E8D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 12:02:13 +0000 (UTC)
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Chbvr2W9nz73Ms;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Chbvr1Vr9z74Dm;
  Thu, 26 Nov 2020 20:01:44 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
@@ -23,10 +23,9 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>
-Subject: [PATCH drm/hisilicon 1/3] drm/hisilicon: Code refactoring for
- hibmc_drm_drv
-Date: Thu, 26 Nov 2020 20:02:18 +0800
-Message-ID: <1606392140-57954-2-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon 2/3] drm/irq: Add the new api to install irq
+Date: Thu, 26 Nov 2020 20:02:19 +0800
+Message-ID: <1606392140-57954-3-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
 References: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
@@ -52,213 +51,71 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the devm_drm_dev_alloc provided by the drm framework to alloc
-a struct hibmc_drm_private.
+Add new api devm_drm_irq_install() to register interrupts,
+no need to call drm_irq_uninstall() when the drm module is removed.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   |  2 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 51 +++++++++++-------------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  2 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  2 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c      |  8 ++--
- 5 files changed, 31 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/drm_irq.c | 34 ++++++++++++++++++++++++++++++++++
+ include/drm/drm_irq.h     |  2 +-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-index ea962ac..096eea9 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
-@@ -499,7 +499,7 @@ static const struct drm_crtc_helper_funcs hibmc_crtc_helper_funcs = {
- 
- int hibmc_de_init(struct hibmc_drm_private *priv)
- {
--	struct drm_device *dev = priv->dev;
-+	struct drm_device *dev = &priv->dev;
- 	struct drm_crtc *crtc = &priv->crtc;
- 	struct drm_plane *plane = &priv->primary_plane;
- 	int ret;
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index d845657..ea3d81b 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -80,30 +80,31 @@ static const struct dev_pm_ops hibmc_pm_ops = {
- static int hibmc_kms_init(struct hibmc_drm_private *priv)
- {
- 	int ret;
-+	struct drm_device *dev = &priv->dev;
- 
--	drm_mode_config_init(priv->dev);
-+	drm_mode_config_init(dev);
- 	priv->mode_config_initialized = true;
- 
--	priv->dev->mode_config.min_width = 0;
--	priv->dev->mode_config.min_height = 0;
--	priv->dev->mode_config.max_width = 1920;
--	priv->dev->mode_config.max_height = 1200;
-+	dev->mode_config.min_width = 0;
-+	dev->mode_config.min_height = 0;
-+	dev->mode_config.max_width = 1920;
-+	dev->mode_config.max_height = 1200;
- 
--	priv->dev->mode_config.fb_base = priv->fb_base;
--	priv->dev->mode_config.preferred_depth = 32;
--	priv->dev->mode_config.prefer_shadow = 1;
-+	dev->mode_config.fb_base = priv->fb_base;
-+	dev->mode_config.preferred_depth = 32;
-+	dev->mode_config.prefer_shadow = 1;
- 
--	priv->dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
-+	dev->mode_config.funcs = (void *)&hibmc_mode_funcs;
- 
- 	ret = hibmc_de_init(priv);
- 	if (ret) {
--		drm_err(priv->dev, "failed to init de: %d\n", ret);
-+		drm_err(dev, "failed to init de: %d\n", ret);
- 		return ret;
- 	}
- 
- 	ret = hibmc_vdac_init(priv);
- 	if (ret) {
--		drm_err(priv->dev, "failed to init vdac: %d\n", ret);
-+		drm_err(dev, "failed to init vdac: %d\n", ret);
- 		return ret;
- 	}
- 
-@@ -113,7 +114,7 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- static void hibmc_kms_fini(struct hibmc_drm_private *priv)
- {
- 	if (priv->mode_config_initialized) {
--		drm_mode_config_cleanup(priv->dev);
-+		drm_mode_config_cleanup(&priv->dev);
- 		priv->mode_config_initialized = false;
- 	}
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index 09d6e9e..983ad6b 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -214,6 +214,40 @@ int drm_irq_uninstall(struct drm_device *dev)
  }
-@@ -202,7 +203,7 @@ static void hibmc_hw_config(struct hibmc_drm_private *priv)
+ EXPORT_SYMBOL(drm_irq_uninstall);
  
- static int hibmc_hw_map(struct hibmc_drm_private *priv)
- {
--	struct drm_device *dev = priv->dev;
-+	struct drm_device *dev = &priv->dev;
- 	struct pci_dev *pdev = dev->pdev;
- 	resource_size_t addr, size, ioaddr, iosize;
- 
-@@ -258,17 +259,9 @@ static int hibmc_unload(struct drm_device *dev)
- 
- static int hibmc_load(struct drm_device *dev)
- {
--	struct hibmc_drm_private *priv;
-+	struct hibmc_drm_private *priv = dev->dev_private;
- 	int ret;
- 
--	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		drm_err(dev, "no memory to allocate for hibmc_drm_private\n");
--		return -ENOMEM;
--	}
--	dev->dev_private = priv;
--	priv->dev = dev;
--
- 	ret = hibmc_hw_init(priv);
- 	if (ret)
- 		goto err;
-@@ -310,6 +303,7 @@ static int hibmc_load(struct drm_device *dev)
- static int hibmc_pci_probe(struct pci_dev *pdev,
- 			   const struct pci_device_id *ent)
- {
-+	struct hibmc_drm_private *priv;
- 	struct drm_device *dev;
- 	int ret;
- 
-@@ -318,19 +312,22 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		return ret;
- 
--	dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
--	if (IS_ERR(dev)) {
-+	priv = devm_drm_dev_alloc(&pdev->dev, &hibmc_driver,
-+				  struct hibmc_drm_private, dev);
-+	if (IS_ERR(priv)) {
- 		DRM_ERROR("failed to allocate drm_device\n");
--		return PTR_ERR(dev);
-+		return PTR_ERR(priv);
- 	}
- 
-+	dev = &priv->dev;
-+	dev->dev_private = priv;
- 	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 
- 	ret = pci_enable_device(pdev);
- 	if (ret) {
- 		drm_err(dev, "failed to enable pci device: %d\n", ret);
--		goto err_free;
-+		return ret;
- 	}
- 
- 	ret = hibmc_load(dev);
-@@ -354,8 +351,6 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	hibmc_unload(dev);
- err_disable:
- 	pci_disable_device(pdev);
--err_free:
--	drm_dev_put(dev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index f310a83..e35353a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -37,7 +37,7 @@ struct hibmc_drm_private {
- 	resource_size_t  fb_size;
- 
- 	/* drm */
--	struct drm_device  *dev;
-+	struct drm_device dev;
- 	struct drm_plane primary_plane;
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-index 74e26c2..d35548d 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
-@@ -96,7 +96,7 @@ static const struct drm_encoder_funcs hibmc_encoder_funcs = {
- 
- int hibmc_vdac_init(struct hibmc_drm_private *priv)
- {
--	struct drm_device *dev = priv->dev;
-+	struct drm_device *dev = &priv->dev;
- 	struct hibmc_connector *hibmc_connector = &priv->connector;
- 	struct drm_encoder *encoder = &priv->encoder;
- 	struct drm_connector *connector = &hibmc_connector->base;
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-index 602ece1..e84fb81 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-@@ -25,7 +25,7 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
- {
- 	struct drm_vram_mm *vmm;
- 	int ret;
--	struct drm_device *dev = hibmc->dev;
-+	struct drm_device *dev = &hibmc->dev;
- 
- 	vmm = drm_vram_helper_alloc_mm(dev,
- 				       pci_resource_start(dev->pdev, 0),
-@@ -41,10 +41,12 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
- 
- void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
- {
--	if (!hibmc->dev->vram_mm)
-+	struct drm_device *dev = &hibmc->dev;
++static void devm_drm_irq_uninstall(void *data)
++{
++	drm_irq_uninstall(data);
++}
 +
-+	if (!dev->vram_mm)
- 		return;
++/**
++ * devm_drm_irq_install - install IRQ handler
++ * @dev: DRM device
++ * @irq: IRQ number to install the handler for
++ *
++ * devm_drm_irq_install is the help function of drm_irq_install,
++ * when the driver uses devm_drm_irq_install, there is no need
++ * to call drm_irq_uninstall when the drm module is uninstalled,
++ * and this will done automagically.
++ *
++ * Returns:
++ * Zero on success or a negative error code on failure.
++ */
++int devm_drm_irq_install(struct drm_device *dev, int irq)
++{
++	int ret;
++
++	ret = drm_irq_install(dev, irq);
++	if (ret)
++		return ret;
++
++	ret = devm_add_action(dev->dev, devm_drm_irq_uninstall, dev);
++	if (ret)
++		devm_drm_irq_uninstall(dev);
++
++	return ret;
++}
++EXPORT_SYMBOL(devm_drm_irq_install);
++
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
+ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ 			   struct drm_file *file_priv)
+diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
+index d77f6e6..631b22f 100644
+--- a/include/drm/drm_irq.h
++++ b/include/drm/drm_irq.h
+@@ -28,5 +28,5 @@ struct drm_device;
  
--	drm_vram_helper_release_mm(hibmc->dev);
-+	drm_vram_helper_release_mm(dev);
- }
- 
- int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+ int drm_irq_install(struct drm_device *dev, int irq);
+ int drm_irq_uninstall(struct drm_device *dev);
+-
++int devm_drm_irq_install(struct drm_device *dev, int irq);
+ #endif
 -- 
 2.7.4
 
