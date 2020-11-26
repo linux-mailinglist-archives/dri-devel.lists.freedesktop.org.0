@@ -1,119 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCA3B2C57D8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 16:06:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C01982C5817
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 16:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFFF6E967;
-	Thu, 26 Nov 2020 15:06:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CA86E980;
+	Thu, 26 Nov 2020 15:28:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81AFF6E955;
- Thu, 26 Nov 2020 15:06:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YJkoCxCcjcZcYVAqsqOtUdNTxokNDpnsbNJRytJ6XINshsis+AFS52G/WpZKOTLv2ZH2tVelypHe6XyYI3Z3NpA03j2YZyMe0rnRNg0kHQ29aboj2w2oyI3YImfoj8qMftRRpB9TrYBtkqs5pgTTQEXk1bV1hgU/4HA7tGYHmw05EJgiX/j1RmlUEC6A5TZkUSE88Rr2VR9k9FgBJhK54LtzAbGRFreH70i7ArdNxRDm3VKCY1hqOgLyOuvL7OqqA6lPRUhoNZS7NG48MlrVFptjvfrbGzGh0eg22VqnX9LOV7UAgykYxdfGOsukQeew+miz98XpIG08Tp/XX1N3EA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RTLyE3mVXGXaf6FTBrOd9k1KbdtRKshb2EVma+DInT0=;
- b=GHr5i3aHldIfZuAINLLbDDI6JfG4AP5kjIueieBykSrQXQ8QzwY9xyGOgUECiEyNwCL4CTgv8kFWOzypoJTj94rG/qbvAXRNp55cvP1sq6sGFKftKMcgIId//TeTvOM19c5G0ucVmDQYx39z+/3bI848WB1qDv0H2WD55n06pl8/By50gVr900iREGZANYBQ3rGlqyBECpFqN54BbszgOzOlcg8FG8J2E9t5+uqvHPqyreYe8Xqt2G9GTyxmRZcf0fOkC2o+MFCWH2tezIZQxJN75X+7Yla9bBrZ9wNz8nMHXasThXwWelmG+PIjn/+kwYJgmA6LfNw6I1XcYsPP4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RTLyE3mVXGXaf6FTBrOd9k1KbdtRKshb2EVma+DInT0=;
- b=lkaeWRPMx9YktA0txLFkoIMPcbJ2MQ9sRTG2QjLTfC6jtPJl/ECezLjpjk1Q3bZvgeTdsiPcQuYRuVk/XM4S6/WaJgPP9qPhpFQLsgQhr0CH8bD7vHpPHEykP1JKB1LsGFc60LXd1AZdbf3AzO3R/O3hb4jQka2/RNoo3tMlzJA=
-Authentication-Results: arm.com; dkim=none (message not signed)
- header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
- DM5PR12MB2438.namprd12.prod.outlook.com (2603:10b6:4:b5::25) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.25; Thu, 26 Nov 2020 15:06:48 +0000
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3589.022; Thu, 26 Nov 2020
- 15:06:48 +0000
-Subject: Re: [PATCH 3/6] drm/scheduler: Job timeout handler returns status
-To: Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Alexander Deucher <Alexander.Deucher@amd.com>
-References: <769e72ee-b2d0-d75f-cc83-a85be08e231b@amd.com>
- <20201125031708.6433-1-luben.tuikov@amd.com>
- <20201125031708.6433-4-luben.tuikov@amd.com>
-From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Message-ID: <f44fc646-7af0-13c8-71d9-ecd2becada0b@amd.com>
-Date: Thu, 26 Nov 2020 10:06:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-In-Reply-To: <20201125031708.6433-4-luben.tuikov@amd.com>
-Content-Language: en-US
-X-Originating-IP: [2607:fea8:3edf:49b0:69eb:68c9:c18d:f6e2]
-X-ClientProxiedBy: YT1PR01CA0105.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2c::14) To DM6PR12MB4340.namprd12.prod.outlook.com
- (2603:10b6:5:2a8::7)
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+ [209.85.210.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5B076E970;
+ Thu, 26 Nov 2020 15:28:24 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id h39so2172709otb.5;
+ Thu, 26 Nov 2020 07:28:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kP9MspVOPl/NnVl8oGn1EIC/+F8CcK5+OXo+jY56Nno=;
+ b=EQFWP+gplep/jyqSrjHPn2UeqckY+F7zvDwU2klOoq2QeKDgFNo2DB1ygnDXIj1BhB
+ 7qET9PswBjbcjVHePhVqrYDCwAEk+1b0OXWdao8XGK2Yh8g1VZS9Np+ewIXukM9Qj+5z
+ pwRCNRjKunkxD9gzxIcQmBhGpk7N5MPUI9db3qNyPxDo3je9ISvivle6vWMD1UYsfVR+
+ zIU6AeYldOE7LhbiJ5J8h6pWm0MzSD+e6duTWe9j4DTpy4pdhWVxBKmW7JeZubTI30QW
+ tjeO/2C7G8I8WFqIeTsFZ9uZX+49vUUB/4bRQ5nk0W38sknqt/7D/kUWb/F0oasfHz0D
+ BLrQ==
+X-Gm-Message-State: AOAM530oowk0or6b4J5GlY2rUVhHahT4A3WrTawIlpMHHZ07n+yXnhJg
+ GJC7pSOr/Ry5AEGIfCKlim4rdDQmP0M5UFPcRQ4=
+X-Google-Smtp-Source: ABdhPJyYtol6dSfaI6WhgTcuunq7fhBuSULViECyA4Z+K27bCejCuaia55DZ/aziu9dD69JTQZlYwW/4z6Mu7Di+rU4=
+X-Received: by 2002:a05:6830:210a:: with SMTP id
+ i10mr2551843otc.145.1606404504116; 
+ Thu, 26 Nov 2020 07:28:24 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2607:fea8:3edf:49b0:69eb:68c9:c18d:f6e2]
- (2607:fea8:3edf:49b0:69eb:68c9:c18d:f6e2) by
- YT1PR01CA0105.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.20 via Frontend Transport; Thu, 26 Nov 2020 15:06:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 6d88eb45-d07c-4b48-4d62-08d8921ce5bb
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2438:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB243841E4A6801D6992901571EAF90@DM5PR12MB2438.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t1T95fXE7abEv+ZmrnEI99iXxshlbm+89E5KFEthDOblStTfgVziLx8FzwMZVd0JTGvpJLj+WiypFhX0QB6uXbmF3xsunISTZGDvgoCT9sa8wlAWLzOE+25XW0br3hudq361zQHnOykQD4Zhs0/JOXmey04yKah8LfhjNswHXes3L7kmSDrhCgwSZ5fmspDfzQbdERi2q+qGIQSouD0hvFxOiSuqiUIRC+4TD7RXr6S7VVeQFmlmskdK2mQB014kolnL0nzJfZndFGdn1yt2y+fIc8pVqOlMyveX04Yeofi5jsoO0kxIDMT01wPixqiAeR/lPDF3FJo3QAe/hwqLUypaTnuPXF5cc+cc9AiwzEfMrJaB5O+JdoxpFkyUmMVk
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(136003)(39860400002)(376002)(366004)(2616005)(66556008)(316002)(6636002)(66946007)(86362001)(478600001)(31696002)(53546011)(110136005)(66476007)(2906002)(8676002)(4326008)(31686004)(6486002)(5660300002)(83380400001)(16526019)(36756003)(186003)(8936002)(52116002)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dnJJVnEvVENPU0pTcmJCb2V1YUlRQkNjcVJaOGw5S04vVGhFRHN6c1BmY2Zr?=
- =?utf-8?B?M3NWUUNMN0twUjhUa2VkUFU0bnEwSjBqcVdveHljc1JNV3VEOUVQK3NKSGxi?=
- =?utf-8?B?NW9jeXZ6c0R2cjRNcmEvZE1icEd0T3dsVlBPQXFmSTdndEZtcm1HQldBRlBS?=
- =?utf-8?B?cnRYQ0Qrckw0M0lDNTJCenZReXlQdThFTVVlYWpheW1JZHVqdVY0NXRCRE04?=
- =?utf-8?B?LzF0anpSUHRaaTFOdUV2M0pEdk1VcVlvN3JLSmlWcDhGb0cwS1cvOVVQSjhL?=
- =?utf-8?B?TFBOclViY3lGcUN3UXBGK0srdm1COThrZ3pqcmMzMkVtQzFvSGhGRVRyc1Bu?=
- =?utf-8?B?OXpsZUR5M2p0YVh6QXh1MWFYM2RQNURoZWM2WWptU2phMmdZeHRVTFRXUUYv?=
- =?utf-8?B?K0RZMVRFM0RKWjdmR0ExVkQ4dXhQMWIzM0JIbXJETG1UMEIvR1pLbTZpVWgw?=
- =?utf-8?B?cUZNY3Y0V044YllqbUticmNWMDN2ZU5FeEZLU0FEVEEvRVg4anJVQlM3eG5q?=
- =?utf-8?B?QlFvUzIwb21Qd0g0aExzRGdhcDY0dS9jaWJzbTRGYlhVS2dYd00rSVpMZGpE?=
- =?utf-8?B?Ty8wL1ZkYzNyRzhtZldrMWVVdUh4VEtjN1F0Ti94VVpkTnN4WEp2NGVnRFpy?=
- =?utf-8?B?Szk2OUQzVFUxcFRoTERKaTllaHc4THdqVlpQbTdsR1d2U3hCM0tKQUx1ZGlW?=
- =?utf-8?B?WVByWDlJdkF2YWZVUGNxdmNzYkFZNU1CVUpiTVVoOXNDS3pNZ1I0ekpxNk9U?=
- =?utf-8?B?Z3p4TFlzR25Za1BBTEJ3V1Zjb1FBU2VlMVA0QmZUVUZ1anp1bThteXoyc2hM?=
- =?utf-8?B?NTdrN05NNzVyb0d1akp5NnJCQ1FFRHJybDlkejdzejRnbkRGMEtlRVhNZEFZ?=
- =?utf-8?B?SUhpNmd2NGN2YW5neWJ4S0dvc0ZNTnZiaG5XV3FOMHZBend6Zk82em5Wc3hj?=
- =?utf-8?B?TGVRV0lkNkhqa1I5Z2pmd2RKK25ZbnVsZGJ4dWV6Y0oxUGE2L1NSSXFXNzJy?=
- =?utf-8?B?ZTdkMVVEbGxMZW9ETGhwc0pTa0VpYjdQQ2tNZzlhcXVreE45bGhhWkVjU3ls?=
- =?utf-8?B?Z0R2NUJJQkYyVjMvNWQyb2xtRVc4Qk9wVXUxOFc2RkFCUWVxZTMxZVRGQjB6?=
- =?utf-8?B?RlFUTjRvNUxKVWc4eEJuYzNBMFNDenZEcHU3NlVTQlFsMEVJa0RBamo0Ylov?=
- =?utf-8?B?bUwzaUhVaXNXdzN2ck1PcFVTL0FIS3RzNnBXY3lRRUpjUkR4VXF4VjdIb2Zj?=
- =?utf-8?B?alNVVHN5bUdyT3dhTVB0UlZESHk2cFJiOHdHd2pTUW9VbCtxNEpKUXVGRnBZ?=
- =?utf-8?B?SmhVWEtKNms1N1JzeEdRL1JSbnRieHVxcTJ1V08ybTlwK0JtRXlNNlFPb09X?=
- =?utf-8?B?a1h2Q2tXMnR2TVZ5YWhtbkFnemQ3THdlYXd0RnUyM0JZTjJWdjEveW85WG9i?=
- =?utf-8?Q?ZVwSHE4k?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d88eb45-d07c-4b48-4d62-08d8921ce5bb
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2020 15:06:48.5813 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MNd9BTtUbShU7yMCMCsqC6OAHsLJxAY1INaDeJXF+veagQJMWFi9ihw3Ne5uBa7NctqqBD5Z8XdNSx0M5apdBw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2438
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+ <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+ <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+ <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com>
+ <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
+ <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
+In-Reply-To: <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Nov 2020 16:28:12 +0100
+Message-ID: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,101 +66,110 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Emily Deng <Emily.Deng@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com
+Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+ bridge@lists.linux-foundation.org, target-devel <target-devel@vger.kernel.org>,
+ linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux MMC List <linux-mmc@vger.kernel.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ virtualization@lists.linux-foundation.org,
+ James Bottomley <James.Bottomley@hansenpartnership.com>,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
+ MTD Maling List <linux-mtd@lists.infradead.org>,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
+ linux-afs@lists.infradead.org, Lars Ellenberg <drbd-dev@lists.linbit.com>,
+ driverdevel <devel@driverdev.osuosl.org>, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, scsi <linux-scsi@vger.kernel.org>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, oss-drivers@netronome.com,
+ linux-atm-general@lists.sourceforge.net,
+ ceph-devel <ceph-devel@vger.kernel.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Ext4 Developers List <linux-ext4@vger.kernel.org>,
+ NetFilter <netfilter-devel@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+ linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, Nouveau Dev <nouveau@lists.freedesktop.org>,
+ linux-hams@vger.kernel.org, Nathan Chancellor <natechancellor@gmail.com>,
+ linux-can@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-hwmon@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+ Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+ GR-Linux-NIC-Dev@marvell.com, Linux-MM <linux-mm@kvack.org>,
+ Network Development <netdev@vger.kernel.org>,
+ linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Edward Cree <ecree.xilinx@gmail.com>,
+ linux-security-module <linux-security-module@vger.kernel.org>,
+ USB list <linux-usb@vger.kernel.org>, tipc-discussion@lists.sourceforge.net,
+ Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity <linux-integrity@vger.kernel.org>, "open list:NFS, SUNRPC,
+ AND..." <linux-nfs@vger.kernel.org>,
+ "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Miguel,
 
-On 11/24/20 10:17 PM, Luben Tuikov wrote:
-> The job timeout handler now returns status
-> indicating back to the DRM layer whether the job
-> was successfully cancelled or whether more time
-> should be given to the job to complete.
+On Thu, Nov 26, 2020 at 3:54 PM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+> On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
+> > To make the intent clear, you have to first be certain that you
+> >  understand the intent; otherwise by adding either a break or a
+> >  fallthrough to suppress the warning you are just destroying the
+> >  information that "the intent of this code is unknown".
 >
-> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c |  6 ++++--
->   include/drm/gpu_scheduler.h             | 13 ++++++++++---
->   2 files changed, 14 insertions(+), 5 deletions(-)
+> If you don't know what the intent of your own code is, then you
+> *already* have a problem in your hands.
+
+The maintainer is not necessarily the owner/author of the code, and
+thus may not know the intent of the code.
+
+> > or does it flag up code
+> >  that can be mindlessly "fixed" (in which case the warning is
+> >  worthless)?  Proponents in this thread seem to be trying to
+> >  have it both ways.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index ff48101bab55..81b73790ecc6 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -28,7 +28,7 @@
->   #include "amdgpu.h"
->   #include "amdgpu_trace.h"
->   
-> -static void amdgpu_job_timedout(struct drm_sched_job *s_job)
-> +static int amdgpu_job_timedout(struct drm_sched_job *s_job)
->   {
->   	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
->   	struct amdgpu_job *job = to_amdgpu_job(s_job);
-> @@ -41,7 +41,7 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
->   	    amdgpu_ring_soft_recovery(ring, job->vmid, s_job->s_fence->parent)) {
->   		DRM_ERROR("ring %s timeout, but soft recovered\n",
->   			  s_job->sched->name);
-> -		return;
-> +		return 0;
->   	}
->   
->   	amdgpu_vm_get_task_info(ring->adev, job->pasid, &ti);
-> @@ -53,10 +53,12 @@ static void amdgpu_job_timedout(struct drm_sched_job *s_job)
->   
->   	if (amdgpu_device_should_recover_gpu(ring->adev)) {
->   		amdgpu_device_gpu_recover(ring->adev, job);
-> +		return 0;
+> A warning is not worthless just because you can mindlessly fix it.
+> There are many counterexamples, e.g. many
+> checkpatch/lint/lang-format/indentation warnings, functional ones like
+> the `if (a = b)` warning...
 
+BTW, you cannot mindlessly fix the latter, as you cannot know if
+"(a == b)" or "((a = b))" was intended, without understanding the code
+(and the (possibly unavailable) data sheet, and the hardware, ...).
 
-For amdgpu specifically - not that amdgpu_device_gpu_recover returns a value 
-which is 0 for successful GPU reset
-meaning we reset the GPU and resubmitted to HW the job that triggered the 
-timeout to HW (guilty).
-It means the job is still should be considered part of pending list and so a non 
-zero value
-should be returned. I think only if we reset the GPU and don't submit back the 
-guilty job then
-it can be considered 'aborted' - but I don't think we even do this.
+P.S. So far I've stayed out of this thread, as I like it if the compiler
+     flags possible mistakes.  After all I was the one fixing new
+     "may be used uninitialized" warnings thrown up by gcc-4.1, until
+     (a bit later than) support for that compiler was removed...
 
-Andrey
+Gr{oetje,eeting}s,
 
+                        Geert
 
->   	} else {
->   		drm_sched_suspend_timeout(&ring->sched);
->   		if (amdgpu_sriov_vf(adev))
->   			adev->virt.tdr_debug = true;
-> +		return 1;
->   	}
->   }
->   
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index 2e0c368e19f6..61f7121e1c19 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -230,10 +230,17 @@ struct drm_sched_backend_ops {
->   	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
->   
->   	/**
-> -         * @timedout_job: Called when a job has taken too long to execute,
-> -         * to trigger GPU recovery.
-> +	 * @timedout_job: Called when a job has taken too long to execute,
-> +	 * to trigger GPU recovery.
-> +	 *
-> +	 * Return 0, if the job has been aborted successfully and will
-> +	 * never be heard of from the device. Return non-zero if the
-> +	 * job wasn't able to be aborted, i.e. if more time should be
-> +	 * given to this job. The result is not "bool" as this
-> +	 * function is not a predicate, although its result may seem
-> +	 * as one.
->   	 */
-> -	void (*timedout_job)(struct drm_sched_job *sched_job);
-> +	int (*timedout_job)(struct drm_sched_job *sched_job);
->   
->   	/**
->            * @free_job: Called once the job's finished fence has been signaled
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
