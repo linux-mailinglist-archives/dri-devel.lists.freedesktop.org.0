@@ -2,94 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FD62C4BFC
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 01:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FCA2C4C08
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 01:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B13196E497;
-	Thu, 26 Nov 2020 00:24:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05CD66E4B7;
+	Thu, 26 Nov 2020 00:30:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96AC06E423;
- Thu, 26 Nov 2020 00:24:11 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2056.outbound.protection.outlook.com [40.107.243.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE346E1F8;
+ Thu, 26 Nov 2020 00:30:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iTPOIa+fAETvYqajfPHupPKraaMVQviwy+QIPU0fVyDo7/8weCQq8IC26OTLmA3g9AhrZgLYmhQbEkYgNs1sDcIe22geolUImHr9tmiX2VHqEj2H38r3DZkmufUoajiWqO8OZNWs7zsNY8cwajI+snVrpIqhH11YwuSgd2Aa2VXoq3LRBHJUR/rezu7VXtKUI8uXTxCK0uTjcAv5cFvLH1bxin1FHEhud7O/nhsnt6pdWc6dUQE7n2U/c8CJyTYMWOSz3qwlh4zz4LeSVfhgAGgvnJhLuA5VPhBOxsSr4eNt0+9b/fZwwFSrOjqOIzkv57/c0nGOuXj3OtpERxG3jw==
+ b=LuPdmXORCywnR36uFnnfXzjvFEA9XAQ2DWoke5FSkC0OR5UlIz5rhx7/qtZSAReIMQuhvp3eLw0PsYkzyBW5pwRdeSMrSeWXoy+BGZ5OF1a1oQB5VMY4dFJpOyPxeFEIt3Te2bwYqkQixBvk7vdAXbu0CnOf7i08r+yFTAnoAdIjUoVcNNU7xwzQw9bu9t7yBtwvoJ5f6TG5mg3wb7zpFoLexq/XjAzeHJ30K66kUHRs85WhZ4HVOhNZPKJeBY2+93OV2+5qmLMVj4MLewxU2fDR7MHrSEOxXqGnDTYBjsjydi+Te/vdHTjFAh2KxyKAvIkkDL8kgxu3WrVx4pLeuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kk9SQSmYF6hhakHFNGaH2hgeuGNZTJ5J2suQDXg4wGA=;
- b=N9B0K2hVY5mmDnuHPEbIOwRUmOwMc+3PXEKbEUdM4eWAYImsUM4V2AQhKbz77npHth19ewwqRoj8873/7Ie6Wo9x5V3CaYiRUH5eqnqZkpM1aG1Gt6oSYoHBsoXzi41x0CX3Hv46xxoummdoR1reke1Hp+dQ9Pa5M4k4Ou0PGcZ6cvvvDkJlZlEYMsJ8vHWPEf4/LPqo5WdI1LJQvJDpJTyLjioVmwVyl4tkO04uhp/xJFZBk2SbfG6m4eMALuHf2S/IHf9ocsK3VpzOBgFLyr9hc/jqyAc77b02i/9PhueAIOtfQrxoTXEv8JV8WL26vdQJsOpUttfGoAKwt30ElQ==
+ bh=1fczOaMURfJ+qQNaS1xQs420Mj8xNSmiY/qySe5seAE=;
+ b=JQM2ti3oA04Yib7KsrbdqNE7YZY9R2IwygNW4zgdkQxil9+BqZ+lsmtC2/aSjre+83Y3yDWT6I+HwqBo1u8xpFev6nLc2PHW7ayXkcfqeBAFVjZqZV+2NjKz31WdmtlQsb6q3a8dO8GWfM3dWL2f9ekaRqOFkeZynOXWmPLeayyu7wlZU/+mEAnMvlG0ALX6BzrxqgK+ctksi5VrYkjaG/Qxy9blEyW8AwFzM056JZSzZrlo3jxLTEYszfnps/C+51sQbkkoy1LuujQKeREdZ+yeEfiHPHYH8VcN8ZnuuxV5pmvs8wjkUIRkMwgOm7SibK7rSIMPFiG35SM0cSiTzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kk9SQSmYF6hhakHFNGaH2hgeuGNZTJ5J2suQDXg4wGA=;
- b=zFBo1DHLvcJQF1Z1Ff3/VohlgQw0kZTCkkdMjvRQ4UD6qVkCWYLeWpolZ/4hDN3FtIuQOGHdz1X4qraH6WsdLIN4Rbxye9wU70eYY9lELdmd+CACFz/VJM5LfjWh0Aplk9e8k0tFeQxo3AAKkg2Jizzd/9hubSAW1Go7PgaxM7I=
-Authentication-Results: arm.com; dkim=none (message not signed)
- header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
+ bh=1fczOaMURfJ+qQNaS1xQs420Mj8xNSmiY/qySe5seAE=;
+ b=bWZTdaGJFtQDTni0+6RvfvX5L2lTJDpfEwalGDYOZiAZjYnh9v4mt3gEwukw3f9l4lTAZtnVTFi+1np8D64vJ8XG6W3N+9htLhbokpqK7R1gfEP1GhMUz4miS2+mbf8L51C50lOqpscrrWUrgP0hxToyby5KjpFyzh3EjCb5QKs=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
 Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
- by DM5PR1201MB2504.namprd12.prod.outlook.com (2603:10b6:3:e3::22) with
+ by DM6PR12MB2780.namprd12.prod.outlook.com (2603:10b6:5:4e::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.28; Thu, 26 Nov
- 2020 00:24:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.24; Thu, 26 Nov
+ 2020 00:30:17 +0000
 Received: from DM6PR12MB3962.namprd12.prod.outlook.com
  ([fe80::d055:19dc:5b0f:ed56]) by DM6PR12MB3962.namprd12.prod.outlook.com
  ([fe80::d055:19dc:5b0f:ed56%6]) with mapi id 15.20.3589.031; Thu, 26 Nov 2020
- 00:24:10 +0000
+ 00:30:17 +0000
 Subject: Re: [PATCH 6/6] drm/sched: Make use of a "done" thread
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+To: Steven Price <steven.price@arm.com>,
  Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Lucas Stach <l.stach@pengutronix.de>,
  Alexander Deucher <Alexander.Deucher@amd.com>
 References: <769e72ee-b2d0-d75f-cc83-a85be08e231b@amd.com>
  <20201125031708.6433-1-luben.tuikov@amd.com>
  <20201125031708.6433-7-luben.tuikov@amd.com>
- <86de40f3-730b-a877-8554-cd289456eb29@amd.com>
+ <6bdf3f46-effb-dea9-fffe-d8c78612d9ff@arm.com>
 From: Luben Tuikov <luben.tuikov@amd.com>
-Message-ID: <6e0f0307-6f57-1996-16d0-0f07cbf800f2@amd.com>
-Date: Wed, 25 Nov 2020 19:24:05 -0500
+Message-ID: <091729fe-e89b-82e2-981e-c38025e9678a@amd.com>
+Date: Wed, 25 Nov 2020 19:30:15 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
-In-Reply-To: <86de40f3-730b-a877-8554-cd289456eb29@amd.com>
+In-Reply-To: <6bdf3f46-effb-dea9-fffe-d8c78612d9ff@arm.com>
 Content-Language: en-CA
 X-Originating-IP: [165.204.54.211]
-X-ClientProxiedBy: CH2PR05CA0033.namprd05.prod.outlook.com (2603:10b6:610::46)
- To DM6PR12MB3962.namprd12.prod.outlook.com
+X-ClientProxiedBy: CH2PR20CA0004.namprd20.prod.outlook.com
+ (2603:10b6:610:58::14) To DM6PR12MB3962.namprd12.prod.outlook.com
  (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [172.31.18.65] (165.204.54.211) by
- CH2PR05CA0033.namprd05.prod.outlook.com (2603:10b6:610::46) with Microsoft
+ CH2PR20CA0004.namprd20.prod.outlook.com (2603:10b6:610:58::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.9 via Frontend Transport; Thu, 26 Nov 2020 00:24:08 +0000
+ 15.20.3611.20 via Frontend Transport; Thu, 26 Nov 2020 00:30:16 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7c3f05c1-5db6-4b85-53ac-08d891a197a9
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB2504:
+X-MS-Office365-Filtering-Correlation-Id: ec7dfbb5-e7ad-41e3-0a3a-08d891a272e7
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2780:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB2504EE872BFADAAE725B565D99F90@DM5PR1201MB2504.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB2780E7FC7AB6DFD88DE9C31199F90@DM6PR12MB2780.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:252;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sm/EL03N9M1lPg1VXJo4k0EHrHh+82nGoDIhRF7N7IYqwQc0eRJrvcQYlqMqfNhrjYlhsiopi66m+kCNX/keVgirJ+iTXUETHehAZjU+WgPLpmhJsuszijI7rE0m/gYY1+2JO6qqCr6EI6Gg3BsM9q9RnL/e+bj2gSJbNC6Ab2tKt2qBcV0ABZ+oGTRucpLvJAW0HO3KgIKxSyZOQMDR4OJvUE2aeT9GmqmZC55uoNPjXfq2ND5ARBz1SGCrDOH5yovV8WrQsYuCpTGWB0z8Bai+aKepAgn/kXL1YOpNx4sMcqQozU+z/SVP7qq8FR7tzilmLoCwjIX7Gt+O87R2lxav9kY0yvjzcw5TOdSXa4xGK16jP5OyJ/DwcMwIOt5w
+X-Microsoft-Antispam-Message-Info: 3lP/s4ZqdD5LgIzFPCweoAVle4Ts+W0IivDCtVkdhnAXAA42OPIXhVYY8fsrfPGwlrg4QNz9bLqvQvuOCRbwk4laoEDuY1yxx9zHLsxjv1nUsPXIvXLpy3lWPRBAITT+4W3eqUztkwq8oGIictq68IHu0fcno2i0bF4sVpd9+4wKVjZUi/RQGxPwoHursHsnBIpoE+IANN/kvI+Pu6DhEw9V6u3lij4+rrOIsvKodYi67d3uVzEnuNNXWFk37tohHX/H+d/pWTp1n8TLSf7szQQWC4VFuEMO1+cKZSLuacHsb3mAmyDn84UwntCAjx3r7AzL3vhZlJqdXN16wMGIZvlHkJ0mDpyijVKAYAEu01qBce5sBobAe7aDUHxVHgOr
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(346002)(396003)(39860400002)(31696002)(52116002)(478600001)(66556008)(66476007)(8936002)(26005)(83380400001)(53546011)(66946007)(36756003)(6666004)(31686004)(66574015)(316002)(110136005)(8676002)(6486002)(2906002)(4326008)(186003)(44832011)(30864003)(956004)(86362001)(2616005)(16526019)(4001150100001)(16576012)(6636002)(5660300002)(43740500002);
+ SFS:(4636009)(136003)(376002)(346002)(396003)(39860400002)(366004)(6636002)(478600001)(16576012)(30864003)(2616005)(956004)(31696002)(66556008)(66946007)(83380400001)(31686004)(44832011)(5660300002)(86362001)(66476007)(16526019)(36756003)(52116002)(2906002)(8936002)(53546011)(110136005)(4326008)(316002)(6486002)(4001150100001)(8676002)(186003)(26005)(43740500002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: hbn5RJIPoKziszHb3tc6HP3R5bAPkP3S8lxlHOqk8nzUkHgE9ZOepMXQ/AJqnCAzq6Ga19quV8P7AZ6Im11v76pDo0l28XL+lieqicwMTXDW9tKznEwxjC04HrMxBov7T2slwgb7b1qCQ0ebVbRk85heBkIcL3fHXd6t1VD1doWRxoFhXp+Ei91p2ReJ437i1rJKeAo8UdZW5nLIb18pcDt+8Hia30/1Q3SyzDSepemHGxJov3Z9bnu6/HkYXCOv7fUcURxPNVQyAz/gsLl5W/l/Xz8DcjVASF10dGYTUJxVTUVxGTgKiJ401QMTPCzKmqTMXrpgSF2wOQpVUOaZFNzZ+C9nTiRpPyGg4V1NOHgVU0br2y2re09F8NmMtyFkkc0U3Bjvk5FzfrYk95RQQXdp6nPT2hv/n9uvGUaoPWCoG2orOgAfXt4VPIDbQNvvpnCWixTC6zGirHFlfRJ3AWS+xw8IQUM838VVythrS4QUQ9kUpsbCCkPNHEFM06eFQC66CfUaTIHrn73P3gwyfwQw9oZTWH1LkCRuFEt1AmIboqzHUnk840Kou6s1Q4jPCjvhb+OhSy9bqCj53zLGR8euLtK/gQOUxqq9MKwKzqn+VefMuJNxycUw/tDGneFmAYbpKTakN0bBGDrx0fwZR1FyIX/p1ICvckbJSqFWSDezAwG92XS+UB+DPJTBTyiJDR/BDm9f9dqVmNrTQ6277/25x23wVaVIcyVSpk5EjSiwOKFDgs+0m0sAFvvV5/g0LK+8H7kHuc3J0L3X22mtNR3nrSsFsyCX9a35u2Lq5+nOn3XN14uaOXr86i4pxy+7ql4M17dJMP7qr+lF0p9/DszWBJxS6KXxTZtAGeg0Pa8m5MCfexIzlr85gf3n45DHep2H4uNkHESzgeZrW3sE4Q==
+X-MS-Exchange-AntiSpam-MessageData: B9tVfc1AhaJolxUHDi+UxbmstxaHDEmpJpd5ThJiynFURYCWU7cn0AK3nzRSs/IXz3y0L0evnybTeGQ6t/me9tH2tldz9v2F9zKuNpmnTdROL2gf9V6d0V66d3w0RKLI2Ous3CoBjr8DFHbAl/NwA1U/xZCSsHhnUm50wX3I+buVyf0desZf+6ZSS92B56W6dkOZcrinFeSeH62dVwIT/tlJp4cAgwEfSeXplbOto5Ujwk0RMkPvYZwP3AWCDTGt4CZRH0AAcZVqLs4t08RMBjAE/7m6U3hFF5nue8K1d0lmPy9sOkKwv0OAuL611us3+8fEgO6cIRSHmKKU1dX/HnD6cdJNatT9nXPCxIWDLd9Mk6QYVrIIz+5IB05ZN+UZCab335If2Cf37q9m2Lifvjr8FKngqVfAP/DEW2A+dpvISIJK551jU3yy2k99xM1fWxPvXsitB8y/POjZivhkHHc+W4icCMR49gCq7eK8ESeNOD33OdADiV1RfNtQiNzZTAK/Uau6/tWPjJtz3bbGoaP4rDVPINKgG6j1fjhNLZi0IA/PnWus4mumMoIkT6vh4DcfBF4vDRNsOo8dbd4YXLKFZ4cAlgntq76H9RzGeqSK9NK2gXegExtrjC4Zu/n8x7k5bziYKICEarsT16YiCIcgIvVes4jppM9bi2kIJRSfHcgXvB4hiIF6CyG3Fk1m01PsGo7Kp8bm+D/WVtNgYG1nXcXrIRNKTGysWKbOq9/bzK+AwRs8K7HyuoadHAk/pNemIiJQWmldquiA8uLJ3Lqr/EHyhrxPiF+s24AOkpE/OMGmQoMKz9RVf9i3KJZTYx0PitSUEqDBlbh01rVkGrSTPKxIXpDaAzUZDlTDup2bReM+UI4+tToh397vvui/jsFzNOP0hqIhwdI6nBH+7g==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c3f05c1-5db6-4b85-53ac-08d891a197a9
+X-MS-Exchange-CrossTenant-Network-Message-Id: ec7dfbb5-e7ad-41e3-0a3a-08d891a272e7
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2020 00:24:09.9790 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2020 00:30:17.3427 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hsYDZdcyqU6bhPZgvIZ8jQARR7+8KPEliUoZmBLb4VZAXvcKa3RINm9sgBAf4o0c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB2504
+X-MS-Exchange-CrossTenant-UserPrincipalName: khTKwwL1gFxz00oomI6RNklTMDMncOAndfCsZzOWnwTZ2DJOKi4/sW8hGJDnnRaw
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2780
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,286 +105,416 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Emily Deng <Emily.Deng@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, steven.price@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC0xMS0yNSAwNToxMCwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiBBbSAyNS4xMS4y
-MCB1bSAwNDoxNyBzY2hyaWViIEx1YmVuIFR1aWtvdjoKPj4gQWRkIGEgImRvbmUiIGxpc3QgdG8g
-d2hpY2ggYWxsIGNvbXBsZXRlZCBqb2JzIGFyZSBhZGRlZAo+PiB0byBiZSBmcmVlZC4gVGhlIGRy
-bV9zY2hlZF9qb2JfZG9uZSgpIGNhbGxiYWNrIGlzIHRoZQo+PiBwcm9kdWNlciBvZiBqb2JzIHRv
-IHRoaXMgbGlzdC4KPj4KPj4gQWRkIGEgImRvbmUiIHRocmVhZCB3aGljaCBjb25zdW1lcyBmcm9t
-IHRoZSBkb25lIGxpc3QKPj4gYW5kIGZyZWVzIHVwIGpvYnMuIE5vdywgdGhlIG1haW4gc2NoZWR1
-bGVyIHRocmVhZCBvbmx5Cj4+IHB1c2hlcyBqb2JzIHRvIHRoZSBHUFUgYW5kIHRoZSAiZG9uZSIg
-dGhyZWFkIGZyZWVzIHRoZW0KPj4gdXAsIG9uIHRoZSB3YXkgb3V0IG9mIHRoZSBHUFUgd2hlbiB0
-aGV5J3ZlIGNvbXBsZXRlZAo+PiBleGVjdXRpb24uCj4gCj4gV2VsbCB0aGVyZSBhcmUgcXVpdGUg
-YSBudW1iZXIgb2YgcHJvYmxlbXMgaW4gdGhpcyBwYXRjaC4KPiAKPiAgRnJvbSB0aGUgZGVzaWdu
-IEkgdGhpbmsgd2Ugc2hvdWxkIGJlIGdldHRpbmcgcmlkIG9mIHRoZSBsaW5rZWQgbGlzdCBhbmQK
-ClN1cmUsIHdlIGNhbiBkbyB0aGlzIGluIGEgc2VwYXJhdGUgZnV0dXJlIHBhdGNoLiBJJ2QgaW1h
-Z2luZSBpdCdsbAp0b3VjaCBhIGxvdCBvZiBwbGFjZXMgYW5kIEkgZGlkbid0IHdhbnQgdGhpcyBw
-YXRjaCBhbmQgdGhpcyBzZXJpZXMKb2YgcGF0Y2hlcyB0byBnZXQgb3V0IG9mIGhhbmQsIGJ5IGNo
-YW5naW5nIHRvbyBtYW55IHRoaW5ncy4KCkhlcmUgaW4gdGhpcyBwYXRjaCBJIHdhbnRlZCB0byBj
-aGFuZ2UgYXMgbGl0dGxlIGFzIHBvc3NpYmxlLgoKPiBub3QgZXh0ZW5kIGl0cyB1c2UuIEFuZCB3
-ZSBhbHNvIGRvbid0IHdhbnQgdG8gb2ZmbG9hZCB0aGUgZnJlZWluZyBvZiAKPiBqb2JzIGludG8g
-YSBkaWZmZXJlbnQgdGhyZWFkIGJlY2F1c2UgdGhhdCBjb3VsZCBwb3RlbnRpYWxseSBtZWFuIHRo
-YXQgCj4gdGhpcyBpcyBleGVjdXRlZCBvbiBhIGRpZmZlcmVudCBDUFUuCgpZZXMsIG9mIGNvdXJz
-ZSBpdCBjb3VsZC4KCkZyb20gbXkgZXhwZXJpZW5jZSB3b3JraW5nIHdpdGggaGFyZHdhcmUsIEkg
-YWx3YXlzIGVudmlzaW9uIHdvcmsKYmVpbmcgZG9uZSBieSBzbWFsbCB1bml0cywgaW4gYSBwaXBl
-bGluZSwgY29uY3VycmVudGx5LCB3aGlsZSBhbGwKb2YgdGhlbSB3b3JraW5nIGNvbmN1cnJlbnRs
-eSwgYWxsIHRoZSB0aW1lLgoKSXQncyBoYXJkIHRvIGdvIGJhY2sgdG8gdW5pdGFyeSBwcm9jZXNz
-aW5nLiA6LSkKCj4gCj4gVGhlbiBvbmUgb2J2aW91cyBwcm9ibGVtIHNlZW1zIHRvIGJlIHRoYXQg
-eW91IGRvbid0IHRha2UgaW50byBhY2NvdW50IAo+IHRoYXQgd2UgbW92ZWQgdGhlIGpvYiBmcmVl
-aW5nIGludG8gdGhlIHNjaGVkdWxlciB0aHJlYWQgdG8gbWFrZSBzdXJlIAo+IHRoYXQgdGhpcyBp
-cyBzdXNwZW5kZWQgd2hpbGUgdGhlIHNjaGVkdWxlciB0aHJlYWQgaXMgc3RvcHBlZC4gCgpJIGRv
-bid0IHVuZGVyc3RhbmQgd2hhdCAidGhpcyIgcmVmZXJzIHRvIGluICJ0aGF0IHRoaXMgaXMgc3Vz
-cGVuZGVkCndoaWxlIHRoZSBzY2hlZHVsZXIgdGhyZWFkIGlzIHN0b3BwZWQuIgoKPiBUaGlzIAo+
-IGJlaGF2aW9yIGlzIG5vdyBjb21wbGV0ZWx5IGdvbmUsIGUuZy4gdGhlIGRlbGV0ZSB0aHJlYWQg
-a2VlcHMgcnVubmluZyAKPiB3aGlsZSB0aGUgc2NoZWR1bGVyIHRocmVhZCBpcyBzdG9wcGVkLgoK
-WWVzLCBpbmRlZWQsIHRoYXQgaXMgdGhlIGNhc2UgYW5kIGludGVudGlvbmFsLgoKVGhlcmUgc2Vl
-bXMgdG8gYmUgbm8gcmVxdWlyZW1lbnQgdG8gaGF2ZSB0byBzdG9wIHRoZSBtYWluCnNjaGVkdWxl
-ciB0aHJlYWQsIHdoaWNoIHB1c2hlcyB0YXNrcyBkb3duIHRvIHRoZSBHUFUsCnNvIHRoYXQgd2Ug
-Y2FuIGZyZWUgam9icy4gSW4gb3RoZXIgd29yZHMsIGJvdGgKdGhyZWFkcyBjYW4gd29yayBjb25j
-dXJyZW50bHksIG9uZSBwdXNoaW5nIGpvYnMgZG93bgp0byB0aGUgR1BVLCB3aGlsZSB0aGUgb3Ro
-ZXIgZnJlZWluZyBkb25lIGpvYnMgY29taW5nCm91dCBvZiB0aGUgR1BVLgoKSWYgdGhpcyBjb25j
-dXJyZW5jeSBpcyBzb21ldGhpbmcgeW91IGRvbid0IGxpa2UsCnRoZW4gbm8gcHJvYmxlbSwgd2Ug
-Y2FuIGtlZXAgdGhlbSBpbnRlcmxvY2tlZCBpbiBvbmUKdGhyZWFkIGFzIGJlZm9yZS4KCj4gCj4g
-QSBmZXcgbW9yZSBjb21tZW50cyBiZWxvdy4KPiAKPj4gTWFrZSB1c2Ugb2YgdGhlIHN0YXR1cyBy
-ZXR1cm5lZCBieSB0aGUgR1BVIGRyaXZlcgo+PiB0aW1lb3V0IGhhbmRsZXIgdG8gZGVjaWRlIHdo
-ZXRoZXIgdG8gbGVhdmUgdGhlIGpvYiBpbgo+PiB0aGUgcGVuZGluZyBsaXN0LCBvciB0byBzZW5k
-IGl0IG9mZiB0byB0aGUgZG9uZSBsaXN0Lgo+PiBJZiBhIGpvYiBpcyBkb25lLCBpdCBpcyBhZGRl
-ZCB0byB0aGUgZG9uZSBsaXN0IGFuZCB0aGUKPj4gZG9uZSB0aHJlYWQgd29rZW4gdXAuIElmIGEg
-am9iIG5lZWRzIG1vcmUgdGltZSwgaXQgaXMKPj4gbGVmdCBvbiB0aGUgcGVuZGluZyBsaXN0IGFu
-ZCB0aGUgdGltZW91dCB0aW1lcgo+PiByZXN0YXJ0ZWQuCj4+Cj4+IEVsaW1pbmF0ZSB0aGUgcG9s
-bGluZyBtZWNoYW5pc20gb2YgcGlja2luZyBvdXQgZG9uZQo+PiBqb2JzIGZyb20gdGhlIHBlbmRp
-bmcgbGlzdCwgaS5lLiBlbGltaW5hdGUKPj4gZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYigpLiBO
-b3cgdGhlIG1haW4gc2NoZWR1bGVyCj4+IHRocmVhZCBvbmx5IHB1c2hlcyBqb2JzIGRvd24gdG8g
-dGhlIEdQVS4KPj4KPj4gVmFyaW91cyBvdGhlciBvcHRpbWl6YXRpb25zIHRvIHRoZSBHUFUgc2No
-ZWR1bGVyCj4+IGFuZCBqb2IgcmVjb3ZlcnkgYXJlIHBvc3NpYmxlIHdpdGggdGhpcyBmb3JtYXQu
-Cj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEx1YmVuIFR1aWtvdiA8bHViZW4udHVpa292QGFtZC5jb20+
-Cj4+IC0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2NoZWRfbWFpbi5jIHwgMTcz
-ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0KPj4gICBpbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVy
-LmggICAgICAgICAgICB8ICAxNCArKwo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgMTAxIGluc2VydGlv
-bnMoKyksIDg2IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L3NjaGVkdWxlci9zY2hlZF9tYWluLmMgYi9kcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVk
-X21haW4uYwo+PiBpbmRleCAzZWI3NjE4YTYyN2QuLjI4OWFlNjhjZDk3ZiAxMDA2NDQKPj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL3NjaGVkdWxlci9zY2hlZF9tYWluLmMKPj4gQEAgLTE2NCw3ICsxNjQsOCBAQCBk
-cm1fc2NoZWRfcnFfc2VsZWN0X2VudGl0eShzdHJ1Y3QgZHJtX3NjaGVkX3JxICpycSkKPj4gICAg
-KiBkcm1fc2NoZWRfam9iX2RvbmUgLSBjb21wbGV0ZSBhIGpvYgo+PiAgICAqIEBzX2pvYjogcG9p
-bnRlciB0byB0aGUgam9iIHdoaWNoIGlzIGRvbmUKPj4gICAgKgo+PiAtICogRmluaXNoIHRoZSBq
-b2IncyBmZW5jZSBhbmQgd2FrZSB1cCB0aGUgd29ya2VyIHRocmVhZC4KPj4gKyAqIEZpbmlzaCB0
-aGUgam9iJ3MgZmVuY2UsIG1vdmUgaXQgdG8gdGhlIGRvbmUgbGlzdCwKPj4gKyAqIGFuZCB3YWtl
-IHVwIHRoZSBkb25lIHRocmVhZC4KPj4gICAgKi8KPj4gICBzdGF0aWMgdm9pZCBkcm1fc2NoZWRf
-am9iX2RvbmUoc3RydWN0IGRybV9zY2hlZF9qb2IgKnNfam9iKQo+PiAgIHsKPj4gQEAgLTE3OSw3
-ICsxODAsMTIgQEAgc3RhdGljIHZvaWQgZHJtX3NjaGVkX2pvYl9kb25lKHN0cnVjdCBkcm1fc2No
-ZWRfam9iICpzX2pvYikKPj4gICAJZG1hX2ZlbmNlX2dldCgmc19mZW5jZS0+ZmluaXNoZWQpOwo+
-PiAgIAlkcm1fc2NoZWRfZmVuY2VfZmluaXNoZWQoc19mZW5jZSk7Cj4+ICAgCWRtYV9mZW5jZV9w
-dXQoJnNfZmVuY2UtPmZpbmlzaGVkKTsKPj4gLQl3YWtlX3VwX2ludGVycnVwdGlibGUoJnNjaGVk
-LT53YWtlX3VwX3dvcmtlcik7Cj4+ICsKPj4gKwlzcGluX2xvY2soJnNjaGVkLT5qb2JfbGlzdF9s
-b2NrKTsKPj4gKwlsaXN0X21vdmUoJnNfam9iLT5saXN0LCAmc2NoZWQtPmRvbmVfbGlzdCk7Cj4+
-ICsJc3Bpbl91bmxvY2soJnNjaGVkLT5qb2JfbGlzdF9sb2NrKTsKPj4gKwo+PiArCXdha2VfdXBf
-aW50ZXJydXB0aWJsZSgmc2NoZWQtPmRvbmVfd2FpdF9xKTsKPiAKPiBIb3cgaXMgdGhlIHdvcmtl
-ciB0aHJlYWQgdGhlbiB3b2tlbiB1cCB0byBwdXNoIG5ldyBqb2JzIHRvIHRoZSBoYXJkd2FyZT8K
-CkEtaGEhIFRoYW5rIHlvdSBDaHJpc3RpYW4gZm9yIGJyaW5naW5nIHRoaXMgdXAtLXBlcmhhcHMg
-dGhhdCBpcyB3aGF0CnRoZSBwcm9ibGVtIGlzIEkgd2FzIHNlZWluZyBvbiBteSB0ZXN0IG1hY2hp
-bmUsIHdoaWNoIEkgZGVzY3JpYmVkCmluIHRoZSBjb3ZlciBsZXR0ZXIgMC82LCB0aGF0IFgvR0RN
-IGp1c3Qgc2xlZXBpbmcgaW4gd2FpdC4KClNvLCBJJ2QgaW1hZ2luZWQgdGhhdCB3aG9tZXZlciBw
-dXNoZWQgam9icyBkb3duIHRvIERSTSwgaS5lLgp0aGUgcHJvZHVjZXIgb2Ygam9icywgYWxzbyBk
-aWQgYSAidXAiLyJ3YWtlLXVwIiBvZiB0aGUgbWFpbgpzY2hlZHVsZXIgdGhyZWFkLCBzbyB0aGF0
-IHRoZSBtYWluIHNjaGVkdWxlciB0aHJlYWQgd291bGQKdGhlbiB3YWtlIHVwIGFuZCAic2NoZWR1
-bGUiIHRhc2tzIGRvd24gaW50byB0aGUgR1BVLiBJdCBzZWVtcwpJJ3ZlIG9ubHkgImltYWdpbmVk
-IiA6LSkgc3VjaCBjb25jdXJyZW5jeSBhbmQgdGhlIHRoZSBtYWluIHNjaGVkdWxlcgp0aHJlYWQg
-bmVlZHMgdG8gYmUgd29rZW4gdXAgdG8gcG9sbD8gSSdsbCB0cnkgdGhpcyBuZXh0LgpUaGFua3Mg
-Zm9yIHRoZSB0aXAgQ2hyaXN0aWFuIQoKPiAKPj4gICB9Cj4+ICAgCj4+ICAgLyoqCj4+IEBAIC0y
-MjEsMTEgKzIyNywxMCBAQCBib29sIGRybV9zY2hlZF9kZXBlbmRlbmN5X29wdGltaXplZChzdHJ1
-Y3QgZG1hX2ZlbmNlKiBmZW5jZSwKPj4gICBFWFBPUlRfU1lNQk9MKGRybV9zY2hlZF9kZXBlbmRl
-bmN5X29wdGltaXplZCk7Cj4+ICAgCj4+ICAgLyoqCj4+IC0gKiBkcm1fc2NoZWRfc3RhcnRfdGlt
-ZW91dCAtIHN0YXJ0IHRpbWVvdXQgZm9yIHJlc2V0IHdvcmtlcgo+PiAtICoKPj4gLSAqIEBzY2hl
-ZDogc2NoZWR1bGVyIGluc3RhbmNlIHRvIHN0YXJ0IHRoZSB3b3JrZXIgZm9yCj4+ICsgKiBkcm1f
-c2NoZWRfc3RhcnRfdGltZW91dCAtIHN0YXJ0IGEgdGltZW91dCB0aW1lcgo+PiArICogQHNjaGVk
-OiBzY2hlZHVsZXIgaW5zdGFuY2Ugd2hvc2Ugam9iIHdlJ3JlIHRpbWluZwo+PiAgICAqCj4+IC0g
-KiBTdGFydCB0aGUgdGltZW91dCBmb3IgdGhlIGdpdmVuIHNjaGVkdWxlci4KPj4gKyAqIFN0YXJ0
-IGEgdGltZW91dCB0aW1lciBmb3IgdGhlIGdpdmVuIHNjaGVkdWxlci4KPj4gICAgKi8KPj4gICBz
-dGF0aWMgdm9pZCBkcm1fc2NoZWRfc3RhcnRfdGltZW91dChzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVs
-ZXIgKnNjaGVkKQo+PiAgIHsKPj4gQEAgLTMwNSw4ICszMTAsOCBAQCBzdGF0aWMgdm9pZCBkcm1f
-c2NoZWRfam9iX2JlZ2luKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzX2pvYikKPj4gICAKPj4gICAJ
-c3Bpbl9sb2NrKCZzY2hlZC0+am9iX2xpc3RfbG9jayk7Cj4+ICAgCWxpc3RfYWRkX3RhaWwoJnNf
-am9iLT5saXN0LCAmc2NoZWQtPnBlbmRpbmdfbGlzdCk7Cj4+IC0JZHJtX3NjaGVkX3N0YXJ0X3Rp
-bWVvdXQoc2NoZWQpOwo+PiAgIAlzcGluX3VubG9jaygmc2NoZWQtPmpvYl9saXN0X2xvY2spOwo+
-PiArCWRybV9zY2hlZF9zdGFydF90aW1lb3V0KHNjaGVkKTsKPiAKPiBUaGlzIGxvb2tzIHdyb25n
-LCB0aGUgZHJtX3NjaGVkX3N0YXJ0X3RpbWVvdXQoKSBmdW5jdGlvbiB1c2VkIHRvIG5lZWQgCj4g
-dGhlIGxvY2suIFdoeSBzaG91bGQgdGhhdCBoYXZlIGNoYW5nZWQ/CgpJJ2Qgb3JpZ2luYWxseSBy
-ZW1vdmVkIHRoZSBjaGVjayBpbiBkcm1fc2NoZWRfc3RhcnRfdGltZW91dCgpLApvZiB3aGV0aGVy
-IHRoZSAicGVuZGluZ19saXN0IiBpcyBlbXB0eSwgYmVjYXVzZSB0aGUgdXNlCm9mIHRoYXQgZnVu
-Y3Rpb24gYmVjYW1lIG1vcmUgX2RldGVybWluaXN0aWNfLCB3aXRoIHRoaXMgcGF0Y2guCkJ5IHRo
-aXMgSSBtZWFuIHRoYXQgdGhlIHRpbWVvdXQgdGltZXIgaXMgbm93IHN0YXJ0ZWQKX29ubHlfIHdo
-ZW4gd2UgcHVzaCBkb3duIG5ldyBqb2JzLgoKQnV0IHRoZW4gSSBub3RpY2VkIHRoYXQgImZ1bGwg
-cmVjb3ZlcnkiIGJ1c2luZXNzIGluCmluIGRybV9zY2hlZF9zdGFydCgpLCB3aGljaCBjYWxscyBk
-cm1fc2NoZWRfc3RhcnRfdGltZW91dCgpLAphbmQgcHV0IHRoYXQgIWxpc3RfZW1wdHkoKSBjaGVj
-ayBiYWNrIGluLCBhbmQgSSBzZWVtIHRvIGhhdmUKZm9yZ290dGVuIHRvIG1vdmUgdGhpcyBiYWNr
-IGluc2lkZSB0aGUgbG9jay4KCkknbGwgbW92ZSBpdCBiYWNrIGluLCBubyBwcm9ibGVtLCB0aGFu
-a3MgZm9yIGNhdGNoaW5nIHRoaXMuCgpSZWdhcmRzLApMdWJlbgoKPiAKPj4gICB9Cj4+ICAgCj4+
-ICAgc3RhdGljIHZvaWQgZHJtX3NjaGVkX2pvYl90aW1lZG91dChzdHJ1Y3Qgd29ya19zdHJ1Y3Qg
-KndvcmspCj4+IEBAIC0zMTYsMzcgKzMyMSwzMCBAQCBzdGF0aWMgdm9pZCBkcm1fc2NoZWRfam9i
-X3RpbWVkb3V0KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPj4gICAKPj4gICAJc2NoZWQgPSBj
-b250YWluZXJfb2Yod29yaywgc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyLCB3b3JrX3Rkci53b3Jr
-KTsKPj4gICAKPj4gLQkvKiBQcm90ZWN0cyBhZ2FpbnN0IGNvbmN1cnJlbnQgZGVsZXRpb24gaW4g
-ZHJtX3NjaGVkX2dldF9jbGVhbnVwX2pvYiAqLwo+PiAgIAlzcGluX2xvY2soJnNjaGVkLT5qb2Jf
-bGlzdF9sb2NrKTsKPj4gICAJam9iID0gbGlzdF9maXJzdF9lbnRyeV9vcl9udWxsKCZzY2hlZC0+
-cGVuZGluZ19saXN0LAo+PiAgIAkJCQkgICAgICAgc3RydWN0IGRybV9zY2hlZF9qb2IsIGxpc3Qp
-Owo+PiArCXNwaW5fdW5sb2NrKCZzY2hlZC0+am9iX2xpc3RfbG9jayk7Cj4+ICAgCj4+ICAgCWlm
-IChqb2IpIHsKPj4gLQkJLyoKPj4gLQkJICogUmVtb3ZlIHRoZSBiYWQgam9iIHNvIGl0IGNhbm5v
-dCBiZSBmcmVlZCBieSBjb25jdXJyZW50Cj4+IC0JCSAqIGRybV9zY2hlZF9jbGVhbnVwX2pvYnMu
-IEl0IHdpbGwgYmUgcmVpbnNlcnRlZCBiYWNrIGFmdGVyIHNjaGVkLT50aHJlYWQKPj4gLQkJICog
-aXMgcGFya2VkIGF0IHdoaWNoIHBvaW50IGl0J3Mgc2FmZS4KPj4gLQkJICovCj4+IC0JCWxpc3Rf
-ZGVsX2luaXQoJmpvYi0+bGlzdCk7Cj4+IC0JCXNwaW5fdW5sb2NrKCZzY2hlZC0+am9iX2xpc3Rf
-bG9jayk7Cj4+ICsJCWludCByZXM7Cj4+ICAgCj4+IC0JCWpvYi0+c2NoZWQtPm9wcy0+dGltZWRv
-dXRfam9iKGpvYik7Cj4+ICsJCWpvYi0+am9iX3N0YXR1cyB8PSBEUk1fSk9CX1NUQVRVU19USU1F
-T1VUOwo+PiArCQlyZXMgPSBqb2ItPnNjaGVkLT5vcHMtPnRpbWVkb3V0X2pvYihqb2IpOwo+PiAr
-CQlpZiAocmVzID09IDApIHsKPj4gKwkJCS8qIFRoZSBqb2IgaXMgb3V0IG9mIHRoZSBkZXZpY2Uu
-Cj4+ICsJCQkgKi8KPj4gKwkJCXNwaW5fbG9jaygmc2NoZWQtPmpvYl9saXN0X2xvY2spOwo+PiAr
-CQkJbGlzdF9tb3ZlKCZqb2ItPmxpc3QsICZzY2hlZC0+ZG9uZV9saXN0KTsKPj4gKwkJCXNwaW5f
-dW5sb2NrKCZzY2hlZC0+am9iX2xpc3RfbG9jayk7Cj4+ICAgCj4+IC0JCS8qCj4+IC0JCSAqIEd1
-aWx0eSBqb2IgZGlkIGNvbXBsZXRlIGFuZCBoZW5jZSBuZWVkcyB0byBiZSBtYW51YWxseSByZW1v
-dmVkCj4+IC0JCSAqIFNlZSBkcm1fc2NoZWRfc3RvcCBkb2MuCj4+IC0JCSAqLwo+PiAtCQlpZiAo
-c2NoZWQtPmZyZWVfZ3VpbHR5KSB7Cj4+IC0JCQlqb2ItPnNjaGVkLT5vcHMtPmZyZWVfam9iKGpv
-Yik7Cj4+IC0JCQlzY2hlZC0+ZnJlZV9ndWlsdHkgPSBmYWxzZTsKPj4gKwkJCXdha2VfdXBfaW50
-ZXJydXB0aWJsZSgmc2NoZWQtPmRvbmVfd2FpdF9xKTsKPj4gKwkJfSBlbHNlIHsKPj4gKwkJCS8q
-IFRoZSBqb2IgbmVlZHMgbW9yZSB0aW1lLgo+PiArCQkJICovCj4+ICsJCQlkcm1fc2NoZWRfc3Rh
-cnRfdGltZW91dChzY2hlZCk7Cj4+ICAgCQl9Cj4+IC0JfSBlbHNlIHsKPj4gLQkJc3Bpbl91bmxv
-Y2soJnNjaGVkLT5qb2JfbGlzdF9sb2NrKTsKPj4gICAJfQo+PiAtCj4+IC0Jc3Bpbl9sb2NrKCZz
-Y2hlZC0+am9iX2xpc3RfbG9jayk7Cj4+IC0JZHJtX3NjaGVkX3N0YXJ0X3RpbWVvdXQoc2NoZWQp
-Owo+PiAtCXNwaW5fdW5sb2NrKCZzY2hlZC0+am9iX2xpc3RfbG9jayk7Cj4+ICAgfQo+PiAgIAo+
-PiAgICAvKioKPj4gQEAgLTUxMSwxNSArNTA5LDEzIEBAIHZvaWQgZHJtX3NjaGVkX3N0YXJ0KHN0
-cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQsIGJvb2wgZnVsbF9yZWNvdmVyeSkKPj4gICAJ
-CQllbHNlIGlmIChyKQo+PiAgIAkJCQlEUk1fRVJST1IoImZlbmNlIGFkZCBjYWxsYmFjayBmYWls
-ZWQgKCVkKVxuIiwKPj4gICAJCQkJCSAgcik7Cj4+IC0JCX0gZWxzZQo+PiArCQl9IGVsc2Ugewo+
-PiAgIAkJCWRybV9zY2hlZF9qb2JfZG9uZShzX2pvYik7Cj4+ICsJCX0KPj4gICAJfQo+PiAgIAo+
-PiAtCWlmIChmdWxsX3JlY292ZXJ5KSB7Cj4+IC0JCXNwaW5fbG9jaygmc2NoZWQtPmpvYl9saXN0
-X2xvY2spOwo+PiArCWlmIChmdWxsX3JlY292ZXJ5KQo+PiAgIAkJZHJtX3NjaGVkX3N0YXJ0X3Rp
-bWVvdXQoc2NoZWQpOwo+PiAtCQlzcGluX3VubG9jaygmc2NoZWQtPmpvYl9saXN0X2xvY2spOwo+
-IAo+IFNhbWUgaGVyZS4KPiAKPiBSZWdhcmRzLAo+IENocmlzdGlhbi4KPiAKPj4gLQl9Cj4+ICAg
-Cj4+ICAgCWt0aHJlYWRfdW5wYXJrKHNjaGVkLT50aHJlYWQpOwo+PiAgIH0KPj4gQEAgLTY2Nyw0
-NyArNjYzLDYgQEAgZHJtX3NjaGVkX3NlbGVjdF9lbnRpdHkoc3RydWN0IGRybV9ncHVfc2NoZWR1
-bGVyICpzY2hlZCkKPj4gICAJcmV0dXJuIGVudGl0eTsKPj4gICB9Cj4+ICAgCj4+IC0vKioKPj4g
-LSAqIGRybV9zY2hlZF9nZXRfY2xlYW51cF9qb2IgLSBmZXRjaCB0aGUgbmV4dCBmaW5pc2hlZCBq
-b2IgdG8gYmUgZGVzdHJveWVkCj4+IC0gKgo+PiAtICogQHNjaGVkOiBzY2hlZHVsZXIgaW5zdGFu
-Y2UKPj4gLSAqCj4+IC0gKiBSZXR1cm5zIHRoZSBuZXh0IGZpbmlzaGVkIGpvYiBmcm9tIHRoZSBw
-ZW5kaW5nIGxpc3QgKGlmIHRoZXJlIGlzIG9uZSkKPj4gLSAqIHJlYWR5IGZvciBpdCB0byBiZSBk
-ZXN0cm95ZWQuCj4+IC0gKi8KPj4gLXN0YXRpYyBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiAqCj4+IC1k
-cm1fc2NoZWRfZ2V0X2NsZWFudXBfam9iKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQp
-Cj4+IC17Cj4+IC0Jc3RydWN0IGRybV9zY2hlZF9qb2IgKmpvYjsKPj4gLQo+PiAtCS8qCj4+IC0J
-ICogRG9uJ3QgZGVzdHJveSBqb2JzIHdoaWxlIHRoZSB0aW1lb3V0IHdvcmtlciBpcyBydW5uaW5n
-ICBPUiB0aHJlYWQKPj4gLQkgKiBpcyBiZWluZyBwYXJrZWQgYW5kIGhlbmNlIGFzc3VtZWQgdG8g
-bm90IHRvdWNoIHBlbmRpbmdfbGlzdAo+PiAtCSAqLwo+PiAtCWlmICgoc2NoZWQtPnRpbWVvdXQg
-IT0gTUFYX1NDSEVEVUxFX1RJTUVPVVQgJiYKPj4gLQkgICAgIWNhbmNlbF9kZWxheWVkX3dvcmso
-JnNjaGVkLT53b3JrX3RkcikpIHx8Cj4+IC0JICAgIGt0aHJlYWRfc2hvdWxkX3BhcmsoKSkKPj4g
-LQkJcmV0dXJuIE5VTEw7Cj4+IC0KPj4gLQlzcGluX2xvY2soJnNjaGVkLT5qb2JfbGlzdF9sb2Nr
-KTsKPj4gLQo+PiAtCWpvYiA9IGxpc3RfZmlyc3RfZW50cnlfb3JfbnVsbCgmc2NoZWQtPnBlbmRp
-bmdfbGlzdCwKPj4gLQkJCQkgICAgICAgc3RydWN0IGRybV9zY2hlZF9qb2IsIGxpc3QpOwo+PiAt
-Cj4+IC0JaWYgKGpvYiAmJiBkbWFfZmVuY2VfaXNfc2lnbmFsZWQoJmpvYi0+c19mZW5jZS0+Zmlu
-aXNoZWQpKSB7Cj4+IC0JCS8qIHJlbW92ZSBqb2IgZnJvbSBwZW5kaW5nX2xpc3QgKi8KPj4gLQkJ
-bGlzdF9kZWxfaW5pdCgmam9iLT5saXN0KTsKPj4gLQl9IGVsc2Ugewo+PiAtCQlqb2IgPSBOVUxM
-Owo+PiAtCQkvKiBxdWV1ZSB0aW1lb3V0IGZvciBuZXh0IGpvYiAqLwo+PiAtCQlkcm1fc2NoZWRf
-c3RhcnRfdGltZW91dChzY2hlZCk7Cj4+IC0JfQo+PiAtCj4+IC0Jc3Bpbl91bmxvY2soJnNjaGVk
-LT5qb2JfbGlzdF9sb2NrKTsKPj4gLQo+PiAtCXJldHVybiBqb2I7Cj4+IC19Cj4+IC0KPj4gICAv
-KioKPj4gICAgKiBkcm1fc2NoZWRfcGlja19iZXN0IC0gR2V0IGEgZHJtIHNjaGVkIGZyb20gYSBz
-Y2hlZF9saXN0IHdpdGggdGhlIGxlYXN0IGxvYWQKPj4gICAgKiBAc2NoZWRfbGlzdDogbGlzdCBv
-ZiBkcm1fZ3B1X3NjaGVkdWxlcnMKPj4gQEAgLTc2MSw2ICs3MTYsNDQgQEAgc3RhdGljIGJvb2wg
-ZHJtX3NjaGVkX2Jsb2NrZWQoc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCkKPj4gICAJ
-cmV0dXJuIGZhbHNlOwo+PiAgIH0KPj4gICAKPj4gKy8qKgo+PiArICogZHJtX3NjaGVkX2RvbmUg
-LSBmcmVlIGRvbmUgdGFza3MKPj4gKyAqIEBwYXJhbTogcG9pbnRlciB0byBhIHNjaGVkdWxlciBp
-bnN0YW5jZQo+PiArICoKPj4gKyAqIFJldHVybnMgMC4KPj4gKyAqLwo+PiArc3RhdGljIGludCBk
-cm1fc2NoZWRfZG9uZSh2b2lkICpwYXJhbSkKPj4gK3sKPj4gKwlzdHJ1Y3QgZHJtX2dwdV9zY2hl
-ZHVsZXIgKnNjaGVkID0gcGFyYW07Cj4+ICsKPj4gKwlkbyB7Cj4+ICsJCUxJU1RfSEVBRChkb25l
-X3EpOwo+PiArCj4+ICsJCXdhaXRfZXZlbnRfaW50ZXJydXB0aWJsZShzY2hlZC0+ZG9uZV93YWl0
-X3EsCj4+ICsJCQkJCSBrdGhyZWFkX3Nob3VsZF9zdG9wKCkgfHwKPj4gKwkJCQkJICFsaXN0X2Vt
-cHR5KCZzY2hlZC0+ZG9uZV9saXN0KSk7Cj4+ICsKPj4gKwkJc3Bpbl9sb2NrKCZzY2hlZC0+am9i
-X2xpc3RfbG9jayk7Cj4+ICsJCWxpc3Rfc3BsaWNlX2luaXQoJnNjaGVkLT5kb25lX2xpc3QsICZk
-b25lX3EpOwo+PiArCQlzcGluX3VubG9jaygmc2NoZWQtPmpvYl9saXN0X2xvY2spOwo+PiArCj4+
-ICsJCWlmIChsaXN0X2VtcHR5KCZkb25lX3EpKQo+PiArCQkJY29udGludWU7Cj4+ICsKPj4gKwkJ
-d2hpbGUgKCFsaXN0X2VtcHR5KCZkb25lX3EpKSB7Cj4+ICsJCQlzdHJ1Y3QgZHJtX3NjaGVkX2pv
-YiAqam9iOwo+PiArCj4+ICsJCQlqb2IgPSBsaXN0X2ZpcnN0X2VudHJ5KCZkb25lX3EsCj4+ICsJ
-CQkJCSAgICAgICBzdHJ1Y3QgZHJtX3NjaGVkX2pvYiwKPj4gKwkJCQkJICAgICAgIGxpc3QpOwo+
-PiArCQkJbGlzdF9kZWxfaW5pdCgmam9iLT5saXN0KTsKPj4gKwkJCXNjaGVkLT5vcHMtPmZyZWVf
-am9iKGpvYik7Cj4+ICsJCX0KPj4gKwl9IHdoaWxlICgha3RocmVhZF9zaG91bGRfc3RvcCgpKTsK
-Pj4gKwo+PiArCXJldHVybiAwOwo+PiArfQo+PiArCj4+ICAgLyoqCj4+ICAgICogZHJtX3NjaGVk
-X21haW4gLSBtYWluIHNjaGVkdWxlciB0aHJlYWQKPj4gICAgKgo+PiBAQCAtNzcwLDcgKzc2Myw3
-IEBAIHN0YXRpYyBib29sIGRybV9zY2hlZF9ibG9ja2VkKHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxl
-ciAqc2NoZWQpCj4+ICAgICovCj4+ICAgc3RhdGljIGludCBkcm1fc2NoZWRfbWFpbih2b2lkICpw
-YXJhbSkKPj4gICB7Cj4+IC0Jc3RydWN0IGRybV9ncHVfc2NoZWR1bGVyICpzY2hlZCA9IChzdHJ1
-Y3QgZHJtX2dwdV9zY2hlZHVsZXIgKilwYXJhbTsKPj4gKwlzdHJ1Y3QgZHJtX2dwdV9zY2hlZHVs
-ZXIgKnNjaGVkID0gcGFyYW07Cj4+ICAgCWludCByOwo+PiAgIAo+PiAgIAlzY2hlZF9zZXRfZmlm
-b19sb3coY3VycmVudCk7Cj4+IEBAIC03ODAsMjAgKzc3MywxMiBAQCBzdGF0aWMgaW50IGRybV9z
-Y2hlZF9tYWluKHZvaWQgKnBhcmFtKQo+PiAgIAkJc3RydWN0IGRybV9zY2hlZF9mZW5jZSAqc19m
-ZW5jZTsKPj4gICAJCXN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2I7Cj4+ICAgCQlzdHJ1
-Y3QgZG1hX2ZlbmNlICpmZW5jZTsKPj4gLQkJc3RydWN0IGRybV9zY2hlZF9qb2IgKmNsZWFudXBf
-am9iID0gTlVMTDsKPj4gICAKPj4gICAJCXdhaXRfZXZlbnRfaW50ZXJydXB0aWJsZShzY2hlZC0+
-d2FrZV91cF93b3JrZXIsCj4+IC0JCQkJCSAoY2xlYW51cF9qb2IgPSBkcm1fc2NoZWRfZ2V0X2Ns
-ZWFudXBfam9iKHNjaGVkKSkgfHwKPj4gICAJCQkJCSAoIWRybV9zY2hlZF9ibG9ja2VkKHNjaGVk
-KSAmJgo+PiAgIAkJCQkJICAoZW50aXR5ID0gZHJtX3NjaGVkX3NlbGVjdF9lbnRpdHkoc2NoZWQp
-KSkgfHwKPj4gICAJCQkJCSBrdGhyZWFkX3Nob3VsZF9zdG9wKCkpOwo+PiAgIAo+PiAtCQlpZiAo
-Y2xlYW51cF9qb2IpIHsKPj4gLQkJCXNjaGVkLT5vcHMtPmZyZWVfam9iKGNsZWFudXBfam9iKTsK
-Pj4gLQkJCS8qIHF1ZXVlIHRpbWVvdXQgZm9yIG5leHQgam9iICovCj4+IC0JCQlkcm1fc2NoZWRf
-c3RhcnRfdGltZW91dChzY2hlZCk7Cj4+IC0JCX0KPj4gLQo+PiAgIAkJaWYgKCFlbnRpdHkpCj4+
-ICAgCQkJY29udGludWU7Cj4+ICAgCj4+IEBAIC04MjAsOCArODA1LDcgQEAgc3RhdGljIGludCBk
-cm1fc2NoZWRfbWFpbih2b2lkICpwYXJhbSkKPj4gICAJCQlpZiAociA9PSAtRU5PRU5UKQo+PiAg
-IAkJCQlkcm1fc2NoZWRfam9iX2RvbmUoc2NoZWRfam9iKTsKPj4gICAJCQllbHNlIGlmIChyKQo+
-PiAtCQkJCURSTV9FUlJPUigiZmVuY2UgYWRkIGNhbGxiYWNrIGZhaWxlZCAoJWQpXG4iLAo+PiAt
-CQkJCQkgIHIpOwo+PiArCQkJCURSTV9FUlJPUigiZmVuY2UgYWRkIGNhbGxiYWNrIGZhaWxlZCAo
-JWQpXG4iLCByKTsKPj4gICAJCQlkbWFfZmVuY2VfcHV0KGZlbmNlKTsKPj4gICAJCX0gZWxzZSB7
-Cj4+ICAgCQkJaWYgKElTX0VSUihmZW5jZSkpCj4+IEBAIC04NjUsNyArODQ5LDkgQEAgaW50IGRy
-bV9zY2hlZF9pbml0KHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQsCj4+ICAgCj4+ICAg
-CWluaXRfd2FpdHF1ZXVlX2hlYWQoJnNjaGVkLT53YWtlX3VwX3dvcmtlcik7Cj4+ICAgCWluaXRf
-d2FpdHF1ZXVlX2hlYWQoJnNjaGVkLT5qb2Jfc2NoZWR1bGVkKTsKPj4gKwlpbml0X3dhaXRxdWV1
-ZV9oZWFkKCZzY2hlZC0+ZG9uZV93YWl0X3EpOwo+PiAgIAlJTklUX0xJU1RfSEVBRCgmc2NoZWQt
-PnBlbmRpbmdfbGlzdCk7Cj4+ICsJSU5JVF9MSVNUX0hFQUQoJnNjaGVkLT5kb25lX2xpc3QpOwo+
-PiAgIAlzcGluX2xvY2tfaW5pdCgmc2NoZWQtPmpvYl9saXN0X2xvY2spOwo+PiAgIAlhdG9taWNf
-c2V0KCZzY2hlZC0+aHdfcnFfY291bnQsIDApOwo+PiAgIAlJTklUX0RFTEFZRURfV09SSygmc2No
-ZWQtPndvcmtfdGRyLCBkcm1fc2NoZWRfam9iX3RpbWVkb3V0KTsKPj4gQEAgLTg4MSw2ICs4Njcs
-MjEgQEAgaW50IGRybV9zY2hlZF9pbml0KHN0cnVjdCBkcm1fZ3B1X3NjaGVkdWxlciAqc2NoZWQs
-Cj4+ICAgCQlyZXR1cm4gcmV0Owo+PiAgIAl9Cj4+ICAgCj4+ICsJc25wcmludGYoc2NoZWQtPnRo
-cmVhZF9kb25lX25hbWUsIERSTV9USFJFQURfTkFNRV9MRU4sICIlcyVzIiwKPj4gKwkJIHNjaGVk
-LT5uYW1lLCAiLWRvbmUiKTsKPj4gKwlzY2hlZC0+dGhyZWFkX2RvbmVfbmFtZVtEUk1fVEhSRUFE
-X05BTUVfTEVOIC0gMV0gPSAnXDAnOwo+PiArCXNjaGVkLT50aHJlYWRfZG9uZSA9IGt0aHJlYWRf
-cnVuKGRybV9zY2hlZF9kb25lLCBzY2hlZCwKPj4gKwkJCQkJIHNjaGVkLT50aHJlYWRfZG9uZV9u
-YW1lKTsKPj4gKwlpZiAoSVNfRVJSKHNjaGVkLT50aHJlYWRfZG9uZSkpIHsKPj4gKwkJcmV0ID0g
-a3RocmVhZF9zdG9wKHNjaGVkLT50aHJlYWQpOwo+PiArCQlpZiAoIXJldCkgewo+PiArCQkJLyog
-ZnJlZV9rdGhyZWFkX3N0cnVjdChzY2hlZC0+dGhyZWFkKTsgKi8KPj4gKwkJCXNjaGVkLT50aHJl
-YWQgPSBOVUxMOwo+PiArCQl9Cj4+ICsJCURSTV9FUlJPUigiRmFpbGVkIHRvIHN0YXJ0IHRocmVh
-ZCAlcyIsIHNjaGVkLT50aHJlYWRfZG9uZV9uYW1lKTsKPj4gKwkJcmV0dXJuIHJldDsKPj4gKwl9
-Cj4+ICsKPj4gICAJc2NoZWQtPnJlYWR5ID0gdHJ1ZTsKPj4gICAJcmV0dXJuIDA7Cj4+ICAgfQo+
-PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9kcm0vZ3B1X3NjaGVkdWxlci5oIGIvaW5jbHVkZS9kcm0v
-Z3B1X3NjaGVkdWxlci5oCj4+IGluZGV4IDNhNTY4NmMzYjVlOS4uYjI4MmQ2MTU4YjUwIDEwMDY0
-NAo+PiAtLS0gYS9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKPj4gKysrIGIvaW5jbHVkZS9k
-cm0vZ3B1X3NjaGVkdWxlci5oCj4+IEBAIC0xNjksNiArMTY5LDEyIEBAIHN0cnVjdCBkcm1fc2No
-ZWRfZmVuY2Ugewo+PiAgIAo+PiAgIHN0cnVjdCBkcm1fc2NoZWRfZmVuY2UgKnRvX2RybV9zY2hl
-ZF9mZW5jZShzdHJ1Y3QgZG1hX2ZlbmNlICpmKTsKPj4gICAKPj4gK2VudW0gZHJtX2pvYl9zdGF0
-dXMgewo+PiArCURSTV9KT0JfU1RBVFVTX05PTkUgICAgPSAwIDw8IDAsCj4+ICsJRFJNX0pPQl9T
-VEFUVVNfRE9ORSAgICA9IDEgPDwgMCwKPj4gKwlEUk1fSk9CX1NUQVRVU19USU1FT1VUID0gMSA8
-PCAxLAo+PiArfTsKPj4gKwo+PiAgIC8qKgo+PiAgICAqIHN0cnVjdCBkcm1fc2NoZWRfam9iIC0g
-QSBqb2IgdG8gYmUgcnVuIGJ5IGFuIGVudGl0eS4KPj4gICAgKgo+PiBAQCAtMTk4LDYgKzIwNCw3
-IEBAIHN0cnVjdCBkcm1fc2NoZWRfam9iIHsKPj4gICAJdWludDY0X3QJCQlpZDsKPj4gICAJYXRv
-bWljX3QJCQlrYXJtYTsKPj4gICAJZW51bSBkcm1fc2NoZWRfcHJpb3JpdHkJCXNfcHJpb3JpdHk7
-Cj4+ICsJZW51bSBkcm1fam9iX3N0YXR1cyAgICAgICAgICAgICBqb2Jfc3RhdHVzOwo+PiAgIAlz
-dHJ1Y3QgZHJtX3NjaGVkX2VudGl0eSAgICAgICAgICplbnRpdHk7Cj4+ICAgCXN0cnVjdCBkbWFf
-ZmVuY2VfY2IJCWNiOwo+PiAgIH07Cj4+IEBAIC0yODQsMTUgKzI5MSwyMiBAQCBzdHJ1Y3QgZHJt
-X2dwdV9zY2hlZHVsZXIgewo+PiAgIAl1aW50MzJfdAkJCWh3X3N1Ym1pc3Npb25fbGltaXQ7Cj4+
-ICAgCWxvbmcJCQkJdGltZW91dDsKPj4gICAJY29uc3QgY2hhcgkJCSpuYW1lOwo+PiArCWNoYXIg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgdGhyZWFkX2RvbmVfbmFtZVtEUk1fVEhSRUFEX05B
-TUVfTEVOXTsKPj4gKwo+PiAgIAlzdHJ1Y3QgZHJtX3NjaGVkX3JxCQlzY2hlZF9ycVtEUk1fU0NI
-RURfUFJJT1JJVFlfQ09VTlRdOwo+PiAgIAl3YWl0X3F1ZXVlX2hlYWRfdAkJd2FrZV91cF93b3Jr
-ZXI7Cj4+ICAgCXdhaXRfcXVldWVfaGVhZF90CQlqb2Jfc2NoZWR1bGVkOwo+PiArCXdhaXRfcXVl
-dWVfaGVhZF90ICAgICAgICAgICAgICAgZG9uZV93YWl0X3E7Cj4+ICAgCWF0b21pY190CQkJaHdf
-cnFfY291bnQ7Cj4+ICAgCWF0b21pYzY0X3QJCQlqb2JfaWRfY291bnQ7Cj4+ICAgCXN0cnVjdCBk
-ZWxheWVkX3dvcmsJCXdvcmtfdGRyOwo+PiAgIAlzdHJ1Y3QgdGFza19zdHJ1Y3QJCSp0aHJlYWQ7
-Cj4+ICsJc3RydWN0IHRhc2tfc3RydWN0CQkqdGhyZWFkX2RvbmU7Cj4+ICsKPj4gICAJc3RydWN0
-IGxpc3RfaGVhZAkJcGVuZGluZ19saXN0Owo+PiArCXN0cnVjdCBsaXN0X2hlYWQgICAgICAgICAg
-ICAgICAgZG9uZV9saXN0Owo+PiAgIAlzcGlubG9ja190CQkJam9iX2xpc3RfbG9jazsKPj4gKwo+
-PiAgIAlpbnQJCQkJaGFuZ19saW1pdDsKPj4gICAJYXRvbWljX3QgICAgICAgICAgICAgICAgICAg
-ICAgICBzY29yZTsKPj4gICAJYm9vbAkJCQlyZWFkeTsKPiAKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 2020-11-25 06:09, Steven Price wrote:
+> On 25/11/2020 03:17, Luben Tuikov wrote:
+>> Add a "done" list to which all completed jobs are added
+>> to be freed. The drm_sched_job_done() callback is the
+>> producer of jobs to this list.
+>>
+>> Add a "done" thread which consumes from the done list
+>> and frees up jobs. Now, the main scheduler thread only
+>> pushes jobs to the GPU and the "done" thread frees them
+>> up, on the way out of the GPU when they've completed
+>> execution.
+> 
+> Generally I'd be in favour of a "done thread" as I think there are some 
+> murky corners of Panfrost's locking that would be helped by deferring 
+> the free_job() callback.
+
+Check my response to his email.
+
+It seems you're okay with a separate thread, when both threads
+could be working concurrently, and Christian wants
+a single thread doing all this. You should probably address
+this in a follow-up to his email, so this can be hashed out.
+
+> 
+> But I think you're trying to do too much in one patch here. And as 
+> Christian has pointed out there's some dodgy looking changes to locking 
+> which aren't explained.
+
+I've addressed this in my response to his email, check it out.
+
+So, if you're in favour of a separate thread working concurrently,
+please follow up to his email, so this can be hashed out.
+
+Thanks and Regards,
+Luben
+
+> 
+> Steve
+> 
+>>
+>> Make use of the status returned by the GPU driver
+>> timeout handler to decide whether to leave the job in
+>> the pending list, or to send it off to the done list.
+>> If a job is done, it is added to the done list and the
+>> done thread woken up. If a job needs more time, it is
+>> left on the pending list and the timeout timer
+>> restarted.
+>>
+>> Eliminate the polling mechanism of picking out done
+>> jobs from the pending list, i.e. eliminate
+>> drm_sched_get_cleanup_job(). Now the main scheduler
+>> thread only pushes jobs down to the GPU.
+>>
+>> Various other optimizations to the GPU scheduler
+>> and job recovery are possible with this format.
+>>
+>> Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 173 +++++++++++++------------
+>>   include/drm/gpu_scheduler.h            |  14 ++
+>>   2 files changed, 101 insertions(+), 86 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>> index 3eb7618a627d..289ae68cd97f 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -164,7 +164,8 @@ drm_sched_rq_select_entity(struct drm_sched_rq *rq)
+>>    * drm_sched_job_done - complete a job
+>>    * @s_job: pointer to the job which is done
+>>    *
+>> - * Finish the job's fence and wake up the worker thread.
+>> + * Finish the job's fence, move it to the done list,
+>> + * and wake up the done thread.
+>>    */
+>>   static void drm_sched_job_done(struct drm_sched_job *s_job)
+>>   {
+>> @@ -179,7 +180,12 @@ static void drm_sched_job_done(struct drm_sched_job *s_job)
+>>   	dma_fence_get(&s_fence->finished);
+>>   	drm_sched_fence_finished(s_fence);
+>>   	dma_fence_put(&s_fence->finished);
+>> -	wake_up_interruptible(&sched->wake_up_worker);
+>> +
+>> +	spin_lock(&sched->job_list_lock);
+>> +	list_move(&s_job->list, &sched->done_list);
+>> +	spin_unlock(&sched->job_list_lock);
+>> +
+>> +	wake_up_interruptible(&sched->done_wait_q);
+>>   }
+>>   
+>>   /**
+>> @@ -221,11 +227,10 @@ bool drm_sched_dependency_optimized(struct dma_fence* fence,
+>>   EXPORT_SYMBOL(drm_sched_dependency_optimized);
+>>   
+>>   /**
+>> - * drm_sched_start_timeout - start timeout for reset worker
+>> - *
+>> - * @sched: scheduler instance to start the worker for
+>> + * drm_sched_start_timeout - start a timeout timer
+>> + * @sched: scheduler instance whose job we're timing
+>>    *
+>> - * Start the timeout for the given scheduler.
+>> + * Start a timeout timer for the given scheduler.
+>>    */
+>>   static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+>>   {
+>> @@ -305,8 +310,8 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
+>>   
+>>   	spin_lock(&sched->job_list_lock);
+>>   	list_add_tail(&s_job->list, &sched->pending_list);
+>> -	drm_sched_start_timeout(sched);
+>>   	spin_unlock(&sched->job_list_lock);
+>> +	drm_sched_start_timeout(sched);
+>>   }
+>>   
+>>   static void drm_sched_job_timedout(struct work_struct *work)
+>> @@ -316,37 +321,30 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>>   
+>>   	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+>>   
+>> -	/* Protects against concurrent deletion in drm_sched_get_cleanup_job */
+>>   	spin_lock(&sched->job_list_lock);
+>>   	job = list_first_entry_or_null(&sched->pending_list,
+>>   				       struct drm_sched_job, list);
+>> +	spin_unlock(&sched->job_list_lock);
+>>   
+>>   	if (job) {
+>> -		/*
+>> -		 * Remove the bad job so it cannot be freed by concurrent
+>> -		 * drm_sched_cleanup_jobs. It will be reinserted back after sched->thread
+>> -		 * is parked at which point it's safe.
+>> -		 */
+>> -		list_del_init(&job->list);
+>> -		spin_unlock(&sched->job_list_lock);
+>> +		int res;
+>>   
+>> -		job->sched->ops->timedout_job(job);
+>> +		job->job_status |= DRM_JOB_STATUS_TIMEOUT;
+>> +		res = job->sched->ops->timedout_job(job);
+>> +		if (res == 0) {
+>> +			/* The job is out of the device.
+>> +			 */
+>> +			spin_lock(&sched->job_list_lock);
+>> +			list_move(&job->list, &sched->done_list);
+>> +			spin_unlock(&sched->job_list_lock);
+>>   
+>> -		/*
+>> -		 * Guilty job did complete and hence needs to be manually removed
+>> -		 * See drm_sched_stop doc.
+>> -		 */
+>> -		if (sched->free_guilty) {
+>> -			job->sched->ops->free_job(job);
+>> -			sched->free_guilty = false;
+>> +			wake_up_interruptible(&sched->done_wait_q);
+>> +		} else {
+>> +			/* The job needs more time.
+>> +			 */
+>> +			drm_sched_start_timeout(sched);
+>>   		}
+>> -	} else {
+>> -		spin_unlock(&sched->job_list_lock);
+>>   	}
+>> -
+>> -	spin_lock(&sched->job_list_lock);
+>> -	drm_sched_start_timeout(sched);
+>> -	spin_unlock(&sched->job_list_lock);
+>>   }
+>>   
+>>    /**
+>> @@ -511,15 +509,13 @@ void drm_sched_start(struct drm_gpu_scheduler *sched, bool full_recovery)
+>>   			else if (r)
+>>   				DRM_ERROR("fence add callback failed (%d)\n",
+>>   					  r);
+>> -		} else
+>> +		} else {
+>>   			drm_sched_job_done(s_job);
+>> +		}
+>>   	}
+>>   
+>> -	if (full_recovery) {
+>> -		spin_lock(&sched->job_list_lock);
+>> +	if (full_recovery)
+>>   		drm_sched_start_timeout(sched);
+>> -		spin_unlock(&sched->job_list_lock);
+>> -	}
+>>   
+>>   	kthread_unpark(sched->thread);
+>>   }
+>> @@ -667,47 +663,6 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+>>   	return entity;
+>>   }
+>>   
+>> -/**
+>> - * drm_sched_get_cleanup_job - fetch the next finished job to be destroyed
+>> - *
+>> - * @sched: scheduler instance
+>> - *
+>> - * Returns the next finished job from the pending list (if there is one)
+>> - * ready for it to be destroyed.
+>> - */
+>> -static struct drm_sched_job *
+>> -drm_sched_get_cleanup_job(struct drm_gpu_scheduler *sched)
+>> -{
+>> -	struct drm_sched_job *job;
+>> -
+>> -	/*
+>> -	 * Don't destroy jobs while the timeout worker is running  OR thread
+>> -	 * is being parked and hence assumed to not touch pending_list
+>> -	 */
+>> -	if ((sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+>> -	    !cancel_delayed_work(&sched->work_tdr)) ||
+>> -	    kthread_should_park())
+>> -		return NULL;
+>> -
+>> -	spin_lock(&sched->job_list_lock);
+>> -
+>> -	job = list_first_entry_or_null(&sched->pending_list,
+>> -				       struct drm_sched_job, list);
+>> -
+>> -	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>> -		/* remove job from pending_list */
+>> -		list_del_init(&job->list);
+>> -	} else {
+>> -		job = NULL;
+>> -		/* queue timeout for next job */
+>> -		drm_sched_start_timeout(sched);
+>> -	}
+>> -
+>> -	spin_unlock(&sched->job_list_lock);
+>> -
+>> -	return job;
+>> -}
+>> -
+>>   /**
+>>    * drm_sched_pick_best - Get a drm sched from a sched_list with the least load
+>>    * @sched_list: list of drm_gpu_schedulers
+>> @@ -761,6 +716,44 @@ static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
+>>   	return false;
+>>   }
+>>   
+>> +/**
+>> + * drm_sched_done - free done tasks
+>> + * @param: pointer to a scheduler instance
+>> + *
+>> + * Returns 0.
+>> + */
+>> +static int drm_sched_done(void *param)
+>> +{
+>> +	struct drm_gpu_scheduler *sched = param;
+>> +
+>> +	do {
+>> +		LIST_HEAD(done_q);
+>> +
+>> +		wait_event_interruptible(sched->done_wait_q,
+>> +					 kthread_should_stop() ||
+>> +					 !list_empty(&sched->done_list));
+>> +
+>> +		spin_lock(&sched->job_list_lock);
+>> +		list_splice_init(&sched->done_list, &done_q);
+>> +		spin_unlock(&sched->job_list_lock);
+>> +
+>> +		if (list_empty(&done_q))
+>> +			continue;
+>> +
+>> +		while (!list_empty(&done_q)) {
+>> +			struct drm_sched_job *job;
+>> +
+>> +			job = list_first_entry(&done_q,
+>> +					       struct drm_sched_job,
+>> +					       list);
+>> +			list_del_init(&job->list);
+>> +			sched->ops->free_job(job);
+>> +		}
+>> +	} while (!kthread_should_stop());
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   /**
+>>    * drm_sched_main - main scheduler thread
+>>    *
+>> @@ -770,7 +763,7 @@ static bool drm_sched_blocked(struct drm_gpu_scheduler *sched)
+>>    */
+>>   static int drm_sched_main(void *param)
+>>   {
+>> -	struct drm_gpu_scheduler *sched = (struct drm_gpu_scheduler *)param;
+>> +	struct drm_gpu_scheduler *sched = param;
+>>   	int r;
+>>   
+>>   	sched_set_fifo_low(current);
+>> @@ -780,20 +773,12 @@ static int drm_sched_main(void *param)
+>>   		struct drm_sched_fence *s_fence;
+>>   		struct drm_sched_job *sched_job;
+>>   		struct dma_fence *fence;
+>> -		struct drm_sched_job *cleanup_job = NULL;
+>>   
+>>   		wait_event_interruptible(sched->wake_up_worker,
+>> -					 (cleanup_job = drm_sched_get_cleanup_job(sched)) ||
+>>   					 (!drm_sched_blocked(sched) &&
+>>   					  (entity = drm_sched_select_entity(sched))) ||
+>>   					 kthread_should_stop());
+>>   
+>> -		if (cleanup_job) {
+>> -			sched->ops->free_job(cleanup_job);
+>> -			/* queue timeout for next job */
+>> -			drm_sched_start_timeout(sched);
+>> -		}
+>> -
+>>   		if (!entity)
+>>   			continue;
+>>   
+>> @@ -820,8 +805,7 @@ static int drm_sched_main(void *param)
+>>   			if (r == -ENOENT)
+>>   				drm_sched_job_done(sched_job);
+>>   			else if (r)
+>> -				DRM_ERROR("fence add callback failed (%d)\n",
+>> -					  r);
+>> +				DRM_ERROR("fence add callback failed (%d)\n", r);
+>>   			dma_fence_put(fence);
+>>   		} else {
+>>   			if (IS_ERR(fence))
+>> @@ -865,7 +849,9 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>   
+>>   	init_waitqueue_head(&sched->wake_up_worker);
+>>   	init_waitqueue_head(&sched->job_scheduled);
+>> +	init_waitqueue_head(&sched->done_wait_q);
+>>   	INIT_LIST_HEAD(&sched->pending_list);
+>> +	INIT_LIST_HEAD(&sched->done_list);
+>>   	spin_lock_init(&sched->job_list_lock);
+>>   	atomic_set(&sched->hw_rq_count, 0);
+>>   	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
+>> @@ -881,6 +867,21 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+>>   		return ret;
+>>   	}
+>>   
+>> +	snprintf(sched->thread_done_name, DRM_THREAD_NAME_LEN, "%s%s",
+>> +		 sched->name, "-done");
+>> +	sched->thread_done_name[DRM_THREAD_NAME_LEN - 1] = '\0';
+>> +	sched->thread_done = kthread_run(drm_sched_done, sched,
+>> +					 sched->thread_done_name);
+>> +	if (IS_ERR(sched->thread_done)) {
+>> +		ret = kthread_stop(sched->thread);
+>> +		if (!ret) {
+>> +			/* free_kthread_struct(sched->thread); */
+>> +			sched->thread = NULL;
+>> +		}
+>> +		DRM_ERROR("Failed to start thread %s", sched->thread_done_name);
+>> +		return ret;
+>> +	}
+>> +
+>>   	sched->ready = true;
+>>   	return 0;
+>>   }
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index 3a5686c3b5e9..b282d6158b50 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -169,6 +169,12 @@ struct drm_sched_fence {
+>>   
+>>   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f);
+>>   
+>> +enum drm_job_status {
+>> +	DRM_JOB_STATUS_NONE    = 0 << 0,
+>> +	DRM_JOB_STATUS_DONE    = 1 << 0,
+>> +	DRM_JOB_STATUS_TIMEOUT = 1 << 1,
+>> +};
+>> +
+>>   /**
+>>    * struct drm_sched_job - A job to be run by an entity.
+>>    *
+>> @@ -198,6 +204,7 @@ struct drm_sched_job {
+>>   	uint64_t			id;
+>>   	atomic_t			karma;
+>>   	enum drm_sched_priority		s_priority;
+>> +	enum drm_job_status             job_status;
+>>   	struct drm_sched_entity         *entity;
+>>   	struct dma_fence_cb		cb;
+>>   };
+>> @@ -284,15 +291,22 @@ struct drm_gpu_scheduler {
+>>   	uint32_t			hw_submission_limit;
+>>   	long				timeout;
+>>   	const char			*name;
+>> +	char                            thread_done_name[DRM_THREAD_NAME_LEN];
+>> +
+>>   	struct drm_sched_rq		sched_rq[DRM_SCHED_PRIORITY_COUNT];
+>>   	wait_queue_head_t		wake_up_worker;
+>>   	wait_queue_head_t		job_scheduled;
+>> +	wait_queue_head_t               done_wait_q;
+>>   	atomic_t			hw_rq_count;
+>>   	atomic64_t			job_id_count;
+>>   	struct delayed_work		work_tdr;
+>>   	struct task_struct		*thread;
+>> +	struct task_struct		*thread_done;
+>> +
+>>   	struct list_head		pending_list;
+>> +	struct list_head                done_list;
+>>   	spinlock_t			job_list_lock;
+>> +
+>>   	int				hang_limit;
+>>   	atomic_t                        score;
+>>   	bool				ready;
+>>
+> 
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
