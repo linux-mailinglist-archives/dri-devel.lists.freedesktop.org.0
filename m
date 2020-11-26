@@ -2,67 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4700F2C6291
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:11:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C8702C629C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:12:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 926EB6EB7B;
-	Fri, 27 Nov 2020 10:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15996EB89;
+	Fri, 27 Nov 2020 10:11:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com
- [IPv6:2607:f8b0:4864:20::b31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE1B86E958;
- Thu, 26 Nov 2020 17:05:57 +0000 (UTC)
-Received: by mail-yb1-xb31.google.com with SMTP id 2so2170020ybc.12;
- Thu, 26 Nov 2020 09:05:57 -0800 (PST)
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA0B6E9AA
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 21:31:29 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id k5so1691284plt.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 13:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O/jaIJrbif54isUECHds/J8Ujq0NdoNxUTCCwJWwQ80=;
- b=YymqsvqKytU8xghgrWvO9q2MBm/qo/QfMLfSKpWw4/r/4uRHhZxuPq9ek+nW3ctzYi
- vs3zi1yLEuFoGUDgrnF15wpJAK9RqJ1aO9sTXa0PjOzjLe+d4O/pTFiiO013Mx2qKoL4
- SkUMUUIjag5bjqwHGLYc9f20TwOaOWbGTale/6i8ahvnaZymX26ArF3ReuQKFVdof495
- iKDDkr6mQvIIbdynQAd2wxd2GUAuBku/vDm4jIdtOw4Ph7wkJ5rD2TxigEVm3yQ5C9tu
- pJCfZKqtAfLebSyeKrm6VDCN2G4oKvj4TFU9uFOnavPNoLjuB5eIt+ODZ6yyvDDDthAD
- GeSQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=a/Yr17tyVZOzPtpOMI6fU0OKHLM5WkCR0ljB5tvI8jA=;
+ b=D8RjchmY2vqGT3P9AVhnqgY6EZOeq5cUgZpsHcPFeUzhReI1umerghInJIQ7fsZX7y
+ jpcgvmy9kxP+ovXVLd6vlQcb7tBfZcmRSNhQcdDZyMFDsEvpOKhvDR/VVDMAMRFwKDgx
+ Z/x5PB3DT65GTn10vW1G27KSi7ZjSQE9HQ5UqpZ78W7roIMluo5XD1smqy1kT72lEVih
+ QoNP6BRnQVftg6p8tfQf+twOMTJWGBeVgjSDebHhMaAoZ85Wwt2MTOGQctjQOfcj3gS8
+ jpLDxChoIVIZWoTQHdk/gzeeOeqjLlVmuVmtiZKhXN0VViCaBc754mBSpelZv9Bt35SG
+ qyeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O/jaIJrbif54isUECHds/J8Ujq0NdoNxUTCCwJWwQ80=;
- b=egxvuHZafGWnlWU6o7ijJ0cQNLOvVPJk3hXFZrdsm19wySgKuHmMex/l4cGiXCmb2Y
- +3Z0yOR7t1VyR5xzkg1WCq8AwkHKJ30U+QeAP4lQphQc4qbcdROsmzql3pM3boSBTPGC
- WONYgPReiv1ZUgdIu7D1ctlqN/B7F4qHqKICSZkjsjQReMynWrekURQcXE05QmsagcLO
- PTUhEl1aIHGS3L2TF793oq7jfEVotz8ebasjWBhi9GwtnJjG8QheNLGuwH0LaR/Zgnv+
- Lt87+2Utau0lvs7TS79q8UbUJwdmWFWxPDD2hePtBWWoiCJceLmasv++KOQMfgyUWbMx
- Cy5A==
-X-Gm-Message-State: AOAM533VFbiz5/OEQmf6GfVjB1HY7VAU8gMaUvqCGtlBxNTcgsq8AcpT
- G77FOfJgoocrFzVWZdv3jUmatoLvQCdL+m32QXI=
-X-Google-Smtp-Source: ABdhPJxMy5ncXEZ6TSWkZ0cAXTnkQ7iw+jjdg+cNNUWTZPlZcmFMrQQcJd2JAoeBontKFrtwmzLazAacI3fdsjx9xvQ=
-X-Received: by 2002:a5b:40e:: with SMTP id m14mr4835621ybp.33.1606410357153;
- Thu, 26 Nov 2020 09:05:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=a/Yr17tyVZOzPtpOMI6fU0OKHLM5WkCR0ljB5tvI8jA=;
+ b=Det9z+B0+jhE5nnMAFx5k48nUjYxG9lHHnJopoCsrib1+NYZh5T6qTZ5lZmQOtKLE5
+ c6F6KlJhWp/+14TQB3xqUJHAWZq4Ob6Fp+FUfs2Ipxse2q9jksxEe9u/MsqdMsTBY3XA
+ QvAtvPMWKX4fMzU81h7CWBlRHumkPLiQxoVitygSuWINBpr/+wAeItsn+xwx5SI4nWVp
+ CB+/7QX8dER95lCDGSQ7ifAJXYO27A4ngd0QN3OHbsxAYc6UrIDmi/wg0niUQMyw3nYe
+ Y+4UH9Wt5ZyrW8KFIa53zVQvk4ex4korpcx6gBfZqX9cfbQxWY189sYPHmcBQF3FWiYL
+ oARQ==
+X-Gm-Message-State: AOAM531A1Bdo4PAkWfRAbyfRULrqzkfIC0d2h62VG/MiND2fnG6CXcEZ
+ kPuOm5/vp651UoPNeWVv0XaGoQVTYFw=
+X-Google-Smtp-Source: ABdhPJwuTomeS7EFZhxZjn+m3VhPp+c1DdvHAF7qsX3/hB+phfqkRw3jbd2Tx7pvOzhRY+UkbU64mA==
+X-Received: by 2002:a17:902:7606:b029:da:246c:5bd8 with SMTP id
+ k6-20020a1709027606b02900da246c5bd8mr4236748pll.27.1606426288824; 
+ Thu, 26 Nov 2020 13:31:28 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+ by smtp.gmail.com with ESMTPSA id o133sm5409402pfg.97.2020.11.26.13.31.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Nov 2020 13:31:27 -0800 (PST)
+Date: Thu, 26 Nov 2020 13:31:25 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH] ARM: locomo: make locomo bus's remove callback return void
+Message-ID: <20201126213125.GG2034289@dtor-ws>
+References: <20201126110140.2021758-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
- <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
- <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
- <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
- <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
- <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
- <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com>
- <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
- <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
- <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 26 Nov 2020 18:05:45 +0100
-Message-ID: <CANiq72=n4rVvmKt0RCb5aOfQydA8bgDxfntRLDieV8Q2efP8Zg@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Disposition: inline
+In-Reply-To: <20201126110140.2021758-1-u.kleine-koenig@pengutronix.de>
 X-Mailman-Approved-At: Fri, 27 Nov 2020 10:11:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,88 +69,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- bridge@lists.linux-foundation.org, target-devel <target-devel@vger.kernel.org>,
- linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
- Linux MMC List <linux-mmc@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
- MTD Maling List <linux-mtd@lists.infradead.org>,
- GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
- linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
- linux-afs@lists.infradead.org, Lars Ellenberg <drbd-dev@lists.linbit.com>,
- driverdevel <devel@driverdev.osuosl.org>, linux-cifs@vger.kernel.org,
- rds-devel@oss.oracle.com, scsi <linux-scsi@vger.kernel.org>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, oss-drivers@netronome.com,
- linux-atm-general@lists.sourceforge.net,
- ceph-devel <ceph-devel@vger.kernel.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input <linux-input@vger.kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Ext4 Developers List <linux-ext4@vger.kernel.org>,
- NetFilter <netfilter-devel@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
- linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, Nouveau Dev <nouveau@lists.freedesktop.org>,
- linux-hams@vger.kernel.org, Nathan Chancellor <natechancellor@gmail.com>,
- linux-can@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-hwmon@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
- Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
- GR-Linux-NIC-Dev@marvell.com, Linux-MM <linux-mm@kvack.org>,
- Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- Edward Cree <ecree.xilinx@gmail.com>,
- linux-security-module <linux-security-module@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>, tipc-discussion@lists.sourceforge.net,
- Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
- patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
- linux-integrity <linux-integrity@vger.kernel.org>, "open list:NFS, SUNRPC,
- AND..." <linux-nfs@vger.kernel.org>,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Thompson <daniel.thompson@linaro.org>, kernel@pengutronix.de,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jingoo Han <jingoohan1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-input@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 26, 2020 at 4:28 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> The maintainer is not necessarily the owner/author of the code, and
-> thus may not know the intent of the code.
+On Thu, Nov 26, 2020 at 12:01:40PM +0100, Uwe Kleine-K=F6nig wrote:
+> The driver core ignores the return value of struct bus_type::remove
+> because there is only little that can be done. To simplify the quest to
+> make this function return void, let struct locomo_driver::remove return
+> void, too. All users already unconditionally return 0, this commit makes
+> it obvious that returning an error code is a bad idea and ensures future
+> users behave accordingly.
+> =
 
-Agreed, I was not blaming maintainers -- just trying to point out that
-the problem is there :-)
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> ---
+> Hello,
+> =
 
-In those cases, it is still very useful: we add the `fallthrough` and
-a comment saying `FIXME: fallthrough intended? Figure this out...`.
-Thus a previous unknown unknown is now a known unknown. And no new
-unknown unknowns will be introduced since we enabled the warning
-globally.
+> if desired the change to arch/arm/mach-sa1100/collie.c can be split out
+> of this patch. The change of prototype then doesn't affect this driver
+> any more. There is one locomo-driver that is already now unaffected:
+> drivers/leds/leds-locomo.c. This driver doesn't have a remove callback.
+> =
 
-> BTW, you cannot mindlessly fix the latter, as you cannot know if
-> "(a == b)" or "((a = b))" was intended, without understanding the code
-> (and the (possibly unavailable) data sheet, and the hardware, ...).
+> Best regards
+> Uwe
+> =
 
-That's right, I was referring to the cases where the compiler saves
-someone time from a typo they just made.
+>  arch/arm/common/locomo.c               | 5 ++---
+>  arch/arm/include/asm/hardware/locomo.h | 2 +-
+>  arch/arm/mach-sa1100/collie.c          | 6 ------
+>  drivers/input/keyboard/locomokbd.c     | 4 +---
 
-Cheers,
-Miguel
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+>  drivers/video/backlight/locomolcd.c    | 3 +--
+>  5 files changed, 5 insertions(+), 15 deletions(-)
+
+Thanks.
+
+-- =
+
+Dmitry
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
