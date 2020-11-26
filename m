@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F972C4F10
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 08:02:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E702C4F11
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 08:03:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBD76E59D;
-	Thu, 26 Nov 2020 07:02:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D8D6E59B;
+	Thu, 26 Nov 2020 07:03:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA3A6E59D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 07:02:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A3E26E59B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 07:03:22 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210369] New: amdgpu fails to resume from suspend
-Date: Thu, 26 Nov 2020 07:02:43 +0000
+Subject: [Bug 210369] amdgpu fails to resume from suspend
+Date: Thu, 26 Nov 2020 07:03:21 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -32,10 +32,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-210369-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210369-2300-NUyY6PjvC9@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210369-2300@https.bugzilla.kernel.org/>
+References: <bug-210369-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -58,53 +58,68 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210369
 
-            Bug ID: 210369
-           Summary: amdgpu fails to resume from suspend
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.9.10-050910-generic #202011221708
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: sevenever@gmail.com
-        Regression: No
-
-Created attachment 293817
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293817&action=edit
-syslog
-
-Computer fails to resume from suspend.
-From the logs it looks like AMDGPU fails to resume.
-
-It is a thinkpad T14 AMD APU R7 4750U, before suspend it is connected to an
-external display via USB-C to miniDP adapter, after resuming the external
-display is not light up.
-
-repeated logs like below in syslog:
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841180] amdgpu 0000:07:00.0: amdgpu:
-[gfxhub0] retry page fault (src_id:0 ring:0 vmid:6 pasid:32769, for process
-Xorg pid 1831 thread Xorg:cs0 pid 1833)
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841182] amdgpu 0000:07:00.0: amdgpu:  
-in page starting at address 0x000080010a004000 from client 27
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841184] amdgpu 0000:07:00.0: amdgpu:
-VM_L2_PROTECTION_FAULT_STATUS:0x00601031
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841186] amdgpu 0000:07:00.0: amdgpu:    
- Faulty UTCL2 client ID: 0x8
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841187] amdgpu 0000:07:00.0: amdgpu:    
- MORE_FAULTS: 0x1
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841189] amdgpu 0000:07:00.0: amdgpu:    
- WALKER_ERROR: 0x0
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841191] amdgpu 0000:07:00.0: amdgpu:    
- PERMISSION_FAULTS: 0x3
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841193] amdgpu 0000:07:00.0: amdgpu:    
- MAPPING_ERROR: 0x0
-Nov 26 13:21:46 FengsTP kernel: [ 3977.841195] amdgpu 0000:07:00.0: amdgpu:    
- RW: 0x0
+--- Comment #1 from sevenever (sevenever@gmail.com) ---
+lspci output:
+00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Root Complex
+00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Renoir IOMMU
+00:01.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe Dummy Host
+Bridge
+00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe Dummy Host
+Bridge
+00:02.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.2 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.6 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:02.7 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe GPP Bridge
+00:08.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir PCIe Dummy Host
+Bridge
+00:08.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Renoir Internal PCIe GPP
+Bridge to Bus
+00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev 51)
+00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev 51)
+00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 0
+00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 1
+00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 2
+00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 3
+00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 4
+00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 5
+00:18.6 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 6
+00:18.7 Host bridge: Advanced Micro Devices, Inc. [AMD] Renoir Device 24:
+Function 7
+01:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD
+Controller SM981/PM981/PM983
+02:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411
+PCI Express Gigabit Ethernet Controller (rev 0e)
+02:00.1 Serial controller: Realtek Semiconductor Co., Ltd. Device 816a (rev 0e)
+02:00.2 Serial controller: Realtek Semiconductor Co., Ltd. Device 816b (rev 0e)
+02:00.3 IPMI Interface: Realtek Semiconductor Co., Ltd. Device 816c (rev 0e)
+02:00.4 USB controller: Realtek Semiconductor Co., Ltd. Device 816d (rev 0e)
+03:00.0 Network controller: Intel Corporation Wi-Fi 6 AX200 (rev 1a)
+04:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTS522A PCI
+Express Card Reader (rev 01)
+05:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411
+PCI Express Gigabit Ethernet Controller (rev 15)
+06:00.0 USB controller: Renesas Technology Corp. uPD720202 USB 3.0 Host
+Controller (rev 02)
+07:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
+Renoir (rev d1)
+07:00.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Device 1637
+07:00.2 Encryption controller: Advanced Micro Devices, Inc. [AMD] Family 17h
+(Models 10h-1fh) Platform Security Processor
+07:00.3 USB controller: Advanced Micro Devices, Inc. [AMD] Renoir USB 3.1
+07:00.4 USB controller: Advanced Micro Devices, Inc. [AMD] Renoir USB 3.1
+07:00.5 Multimedia controller: Advanced Micro Devices, Inc. [AMD]
+Raven/Raven2/FireFlight/Renoir Audio Processor (rev 01)
+07:00.6 Audio device: Advanced Micro Devices, Inc. [AMD] Family 17h (Models
+10h-1fh) HD Audio Controller
 
 -- 
 You are receiving this mail because:
