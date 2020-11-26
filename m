@@ -1,58 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F452C4EA3
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 07:19:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F972C4F10
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 08:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 73DF789D56;
-	Thu, 26 Nov 2020 06:19:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBD76E59D;
+	Thu, 26 Nov 2020 07:02:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03FAF89D56
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 06:19:45 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AQ6Ja20042813;
- Thu, 26 Nov 2020 00:19:36 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606371576;
- bh=e4U46c/ZSWjtdN/RPRLl1RQ1O+XoGB2Xmee9a5TINmg=;
- h=Subject:To:References:From:Date:In-Reply-To;
- b=brlZupJw8a+dBQPyhJEqKe1cHWhEfpGdi44KHI7/OpJbwgUGOvHVbCfZe/lSOMbvb
- iip+p4b6SFFai9jYp0m/oD+eg4kib50eKS3SLwcdysO2ZzL4zc24ev4Ib5vKRMUObi
- 8yMZnUiujnLe1M/iCQHpLqw93n3iN0jQ6ZJjw2qs=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AQ6Jaso064916
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 26 Nov 2020 00:19:36 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 26
- Nov 2020 00:19:36 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 26 Nov 2020 00:19:36 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AQ6JYCb102804;
- Thu, 26 Nov 2020 00:19:35 -0600
-Subject: Re: [PATCH] drm/omap: dmm_tiler: fix return error code in
- omap_dmm_probe()
-To: Thomas Zimmermann <tzimmermann@suse.de>, Yang Yingliang
- <yangyingliang@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20201117061045.3452287-1-yangyingliang@huawei.com>
- <04c96207-3c67-0cab-d3e7-919b96fbb46b@suse.de>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <5b671522-1a98-3935-33e6-bfa307debb53@ti.com>
-Date: Thu, 26 Nov 2020 08:19:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFA3A6E59D
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 07:02:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210369] New: amdgpu fails to resume from suspend
+Date: Thu, 26 Nov 2020 07:02:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: sevenever@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-210369-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <04c96207-3c67-0cab-d3e7-919b96fbb46b@suse.de>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,43 +56,59 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/11/2020 15:41, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 17.11.20 um 07:10 schrieb Yang Yingliang:
->> Return -ENOMEM when allocating refill memory failed.
->>
->> Fixes: 71e8831f6407 ("drm/omap: DMM/TILER support for OMAP4+ platform")
->> Reported-by: Hulk Robot <hulkci@huawei.com>
->> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
->> ---
->>  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
->> index 42ec51bb7b1b..7f4317248812 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_dmm_tiler.c
->> @@ -889,6 +889,7 @@ static int omap_dmm_probe(struct platform_device *dev)
->>  					   &omap_dmm->refill_pa, GFP_KERNEL);
->>  	if (!omap_dmm->refill_va) {
->>  		dev_err(&dev->dev, "could not allocate refill memory\n");
->> +		ret = -ENOMEM;
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Thanks for the patch. I'll add it to drm-misc-next. There are more such
-> errors here. If the very first allocation fails, the function returns
-> -EFAULT, which makes no sense.
+https://bugzilla.kernel.org/show_bug.cgi?id=210369
 
-Indeed. -EFAULT is quite an odd default value for ret... I'll drop the default and assign a real
-error value where needed.
+            Bug ID: 210369
+           Summary: amdgpu fails to resume from suspend
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.9.10-050910-generic #202011221708
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: sevenever@gmail.com
+        Regression: No
 
- Tomi
+Created attachment 293817
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293817&action=edit
+syslog
+
+Computer fails to resume from suspend.
+From the logs it looks like AMDGPU fails to resume.
+
+It is a thinkpad T14 AMD APU R7 4750U, before suspend it is connected to an
+external display via USB-C to miniDP adapter, after resuming the external
+display is not light up.
+
+repeated logs like below in syslog:
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841180] amdgpu 0000:07:00.0: amdgpu:
+[gfxhub0] retry page fault (src_id:0 ring:0 vmid:6 pasid:32769, for process
+Xorg pid 1831 thread Xorg:cs0 pid 1833)
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841182] amdgpu 0000:07:00.0: amdgpu:  
+in page starting at address 0x000080010a004000 from client 27
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841184] amdgpu 0000:07:00.0: amdgpu:
+VM_L2_PROTECTION_FAULT_STATUS:0x00601031
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841186] amdgpu 0000:07:00.0: amdgpu:    
+ Faulty UTCL2 client ID: 0x8
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841187] amdgpu 0000:07:00.0: amdgpu:    
+ MORE_FAULTS: 0x1
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841189] amdgpu 0000:07:00.0: amdgpu:    
+ WALKER_ERROR: 0x0
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841191] amdgpu 0000:07:00.0: amdgpu:    
+ PERMISSION_FAULTS: 0x3
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841193] amdgpu 0000:07:00.0: amdgpu:    
+ MAPPING_ERROR: 0x0
+Nov 26 13:21:46 FengsTP kernel: [ 3977.841195] amdgpu 0000:07:00.0: amdgpu:    
+ RW: 0x0
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
