@@ -2,85 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BEF2C517E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 10:44:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77D3F2C51E1
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 11:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0A6A6E844;
-	Thu, 26 Nov 2020 09:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF2A6E855;
+	Thu, 26 Nov 2020 10:15:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD5B6E844
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 09:44:08 +0000 (UTC)
-Received: from fe0vm1650.rbesz01.com
- (lb41g3-ha-dmz-psi-sl1-mailout.fe.ssn.bosch.com [139.15.230.188])
- by fe0vms0186.rbdmz01.com (Postfix) with ESMTPS id 4ChXs30gThz1XLFjn;
- Thu, 26 Nov 2020 10:44:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
- s=key2-intmail; t=1606383847;
- bh=QOVT2mUwEso2r2vSzAbbRTE8tEp4jLn2WQ002C6w8rk=; l=10;
- h=From:Subject:From:Reply-To:Sender;
- b=I5uRHmDIe2oPOW2Fh1IQBnwOa9NQXvMUOMQbuoxRv91jDZXOcC7Ctxd88J8CE5O8P
- AKNOC9EmRaRH1EW49RbcsXntMP2OiDXGui69FZBqUvQ54WJRKXntZ+W28V2uKk3Ir+
- 9MI1R4VjRuHYuRy/X6W/TbRATnQ0ZE4IE91sS+NM=
-Received: from fe0vm7918.rbesz01.com (unknown [10.58.172.176])
- by fe0vm1650.rbesz01.com (Postfix) with ESMTPS id 4ChXs30KlMzNg9;
- Thu, 26 Nov 2020 10:44:07 +0100 (CET)
-X-AuditID: 0a3aad10-b0bff70000002230-2a-5fbf78e69abc
-Received: from fe0vm1651.rbesz01.com ( [10.58.173.29])
- (using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client did not present a certificate)
- by fe0vm7918.rbesz01.com (SMG Outbound) with SMTP id 60.84.08752.6E87FBF5;
- Thu, 26 Nov 2020 10:44:06 +0100 (CET)
-Received: from FE-MBX2052.de.bosch.com (unknown [10.3.231.146])
- by fe0vm1651.rbesz01.com (Postfix) with ESMTPS id 4ChXs25sZDzvlD;
- Thu, 26 Nov 2020 10:44:06 +0100 (CET)
-Received: from SGPMBX2031.APAC.bosch.com (10.187.56.92) by
- FE-MBX2052.de.bosch.com (10.3.231.146) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Thu, 26 Nov 2020 10:44:06 +0100
-Received: from FE-MBX2051.de.bosch.com (10.3.231.61) by
- SGPMBX2031.APAC.bosch.com (10.187.56.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2106.2; Thu, 26 Nov 2020 17:44:03 +0800
-Received: from FE-MBX2051.de.bosch.com ([fe80::9402:faf1:5852:4e2f]) by
- FE-MBX2051.de.bosch.com ([fe80::9402:faf1:5852:4e2f%6]) with mapi id
- 15.01.2106.004; Thu, 26 Nov 2020 10:44:02 +0100
-From: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 181816E853;
+ Thu, 26 Nov 2020 10:15:30 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9770EABD7;
+ Thu, 26 Nov 2020 10:15:28 +0000 (UTC)
 To: Daniel Vetter <daniel@ffwll.ch>
-Subject: AW: [PATCH] drm: imx: Move fbdev setup to before output polling
-Thread-Topic: [PATCH] drm: imx: Move fbdev setup to before output polling
-Thread-Index: AQHWvPnAfxZE9kwfn0Gz111spU5g9qnNecSAgAAN4oCAAAOfAIAAEkZQgAABggCADGtuUA==
-Date: Thu, 26 Nov 2020 09:44:02 +0000
-Message-ID: <98c874b923bd4e60bf2e727a29729dfc@de.bosch.com>
-References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
- <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
- <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
- <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
- <38c2d92ac5f04a228e55af43a12a4bd7@de.bosch.com>
- <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
-In-Reply-To: <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.142.160.117]
+References: <d1508c4f-df3e-fa3c-3071-d8a58295e674@suse.de>
+ <cbfa3e8d-81a3-5620-d4fc-72188cfb42ee@amd.com>
+ <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
+ <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
+ <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
+ <20201124140937.GK401619@phenom.ffwll.local>
+ <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
+ <2f8a252a-5413-4b75-a367-f6233121e36e@amd.com>
+ <20201125103645.GU401619@phenom.ffwll.local>
+ <fd9dff4a-ec16-46d8-d892-b06dad5c11d3@suse.de>
+ <20201125163251.GY401619@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
+Message-ID: <75385451-7969-e199-1a8e-f29fd08d5043@suse.de>
+Date: Thu, 26 Nov 2020 11:15:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRmVeSWpSXmKPExsXCZbVWVvdZxf54g9UTzC16z51ksvi/bSKz
- xZWv79ksVk3dyWKx6fE1VouuXyuZLS7vmsNm8Xf7JhaLF1vELba8mcjqwOWx99sCFo9NqzrZ
- PLZ/e8Dqcb/7OJPH5iX1Hhvf7WDy6P9r4LH5dLXH501yAZxRXDYpqTmZZalF+nYJXBnbl5QV
- rPOoeLLgF3MD4wG3LkZODgkBE4kVfWeYuhi5OIQEpjNJTHzQxwjhrGaUOPt2GzOE85FRYsH8
- GawQzgdGia6jjVBlBxglnvUsYgMZxiZgJ7H/9RsmEFtEQFmif/McsA5mgQvMEndfXgErEhbw
- kHj64iwLRJGnxLu5z9kg7DCJ2w+WsYPYLAKqEk3L5oHFeQWsJTq3voVafZdJom/3DrAiToFA
- iU9nWsG2MQrISmzYcJ4ZxGYWEJfY9Ow7K8R7AhJL9kDEJQREJV4+/gcVV5K4fqgJ6AUOoHpN
- ifW79CFaFSWmdD9kh9grKHFy5hOWCYwSs5BMnYXQMQtJxywkHQsYWVYxiqalGpTlmlsaWugV
- JaUWVxkY6iXn525ihCQAgR2Mt7s/6B1iZOJgPMQowcGsJMLrLrw3Xog3JbGyKrUoP76oNCe1
- +BCjNAeLkjivCs/GOCGB9MSS1OzU1ILUIpgsEwenVANTTEif5aM++a2O5VqaajbHlh656M7/
- a9rF3VJczu//REpc8nM/m3V/OceU+S+MPVg/5bk+5VN1n/tt7Q7hzd8Uk8WyTATuH3AzvLFk
- 36I6byudNft5nv7LjXvmaO+2bcsR67m5NnMvGue/P3s/8u/V+a97zEynHZPcuHWqp3Fh3pv9
- Tr+sNP7xeM7h3d7nd0gp9epEduWV2Yxu25d+vflMYf3XNV5zFuS+lFNov67kamd0uemUzNmA
- 2XEvVKuNNuldeLPY1Pi6hkrzTY7PvzKD8x02rnDX0WaV8nnfMifnIv8h17JPRfI1FdI5S0v4
- 3txgtkw1kb24tLXVtW/FjV3nX6Ze1jvE9E76zgL2Hw/LlViKMxINtZiLihMBDQMnf28DAAA=
+In-Reply-To: <20201125163251.GY401619@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,139 +48,519 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "RUAN Tingquan \(BT-FIR/ENG1-Zhu\)" <Tingquan.Ruan@cn.bosch.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Shawn Guo <shawnguo@kernel.org>, Linux
- ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1888302987=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGFuaWVsLA0KDQo+ID4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBmZWVkYmFjay4g
-V2UgYXBwcmVjaWF0ZSBpdC4NCj4gPg0KPiA+ID4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
-dS9kcm0vaW14L2lteC1kcm0tY29yZS5jDQo+ID4gPiA+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaW14
-L2lteC1kcm0tY29yZS5jDQo+ID4gPiA+Pj4gaW5kZXggOWJmNWFkNmQxOGEyLi4yNjY1MDQwZTEx
-YzcgMTAwNjQ0DQo+ID4gPiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNv
-cmUuYw0KPiA+ID4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMN
-Cj4gPiA+ID4+PiBAQCAtMjQwLDE0ICsyNDAsMTggQEAgc3RhdGljIGludCBpbXhfZHJtX2JpbmQo
-c3RydWN0IGRldmljZSAqZGV2KQ0KPiA+ID4gPj4+ICAgICAgICAgICAgICAgIGxlZ2FjeWZiX2Rl
-cHRoID0gMTY7DQo+ID4gPiA+Pj4gICAgICAgIH0NCj4gPiA+ID4+Pg0KPiA+ID4gPj4+ICsgICAg
-IC8qDQo+ID4gPiA+Pj4gKyAgICAgICogVGhlIGdlbmVyaWMgZmJkZXYgaGFzIHRvIGJlIHNldHVw
-IGJlZm9yZSBlbmFibGluZyBvdXRwdXQgcG9sbGluZy4NCj4gPiA+ID4+PiArICAgICAgKiBPdGhl
-cndpc2UgdGhlIGZiZGV2IGNsaWVudCBpcyBub3QgcmVhZHkgdG8gaGFuZGxlIGRlbGF5ZWQgZXZl
-bnRzLg0KPiA+ID4gPj4+ICsgICAgICAqLw0KPiA+ID4gPj4+ICsgICAgIGRybV9mYmRldl9nZW5l
-cmljX3NldHVwKGRybSwgbGVnYWN5ZmJfZGVwdGgpOw0KPiA+ID4gPj4+ICsNCj4gPiA+ID4+PiAg
-ICAgICAgZHJtX2ttc19oZWxwZXJfcG9sbF9pbml0KGRybSk7DQo+ID4gPiA+Pj4NCj4gPiA+ID4+
-PiAgICAgICAgcmV0ID0gZHJtX2Rldl9yZWdpc3Rlcihkcm0sIDApOw0KPiA+ID4gPj4+ICAgICAg
-ICBpZiAocmV0KQ0KPiA+ID4gPj4+ICAgICAgICAgICAgICAgIGdvdG8gZXJyX3BvbGxfZmluaTsN
-Cj4gPiA+ID4+Pg0KPiA+ID4gPj4+IC0gICAgIGRybV9mYmRldl9nZW5lcmljX3NldHVwKGRybSwg
-bGVnYWN5ZmJfZGVwdGgpOw0KPiA+ID4gPj4+IC0NCj4gPiA+ID4+DQo+ID4gPiA+PiBUaGlzIGRv
-ZXMgbm90IHdvcmsgd2VsbC4gZmJkZXYgaXMgc3VwcG9zZWQgdG8gYmUgYW5vdGhlciByZWd1bGFy
-DQo+ID4gPiA+PiBEUk0gY2xpZW50LiBJdCBoYXMgdG8gYmUgZW5hYmxlZCBhZnRlciByZWdpc3Rl
-cmluZyB0aGUgRFJNIGRldmljZS4NCj4gPiA+ID4+DQo+ID4gPiA+PiBJJ2QgcmF0aGVyIGltcHJv
-dmUgZmJkZXYgb3IgdGhlIGRyaXZlciB0byBoYW5kbGUgdGhpcyBncmFjZWZ1bGx5Lg0KPiA+ID4g
-Pg0KPiA+ID4gPiBZZWFoIEknbSBub3QgdW5kZXJzdGFuZGluZyB0aGUgcG9pbnQgaGVyZS4gT25j
-ZSBmYmNvbiBpcyBydW5uaW5nLA0KPiA+ID4gPiB5b3UgaGF2ZSBhIHNjcmVlbi4gQW55IGZiZGV2
-IHVzZXJzcGFjZSBjbGllbnQgIGFsc28gc2hvdWxkIGRvIGENCj4gPiA+ID4gbW9kZXNldCBmaXJz
-dC4gQW5kIGlmIHRoZXkgZG9udCBhbmQgaXQncyBleHBlY3RlZCB1YXBpIGZvciBmYmRldg0KPiA+
-ID4gPiBjaGFyZGV2IHRoYXQgdGhlIGRpc3BsYXkgYm9vdHMgdXAgZW5hYmxlZCwgdGhlbiB3ZSBu
-ZWVkIHRvIGZpeA0KPiA+ID4gPiB0aGF0IGluIHRoZSBmYmRldiBoZWxwZXJzLCBub3QgdGhyb3Vn
-aCBjbGV2ZXIgcmVvcmRlcmluZyBpbg0KPiA+ID4gPiBkcml2ZXJzIHNvIHRoYXQgYSBzaWRlLWVm
-ZmVjdCBjYXVzZXMgYSBtb2Rlc2V0Lg0KPiA+ID4gPg0KPiA+ID4gPiBOb3RlIHRoYXQgdGhpcyBp
-cyBhIGJpdCB0cmlja3kgc2luY2UgZmJkZXYgc2hvdWxkbid0IHRha2Ugb3ZlciB0aGUNCj4gPiA+
-ID4gc2NyZWVuIGJ5IGRlZmF1bHQsIHNvIHdlJ2QgbmVlZCB0byBkZWxheSB0aGlzIHVudGlsIGZp
-cnN0IG9wZW4gb2YNCj4gPiA+ID4gL2Rldi9mYjAuIEFuZCB3ZSBzaG91bGQgcHJvYmFibHkgYWxz
-byBkZWxheSB0aGUgaG90cGx1ZyBoYW5kbGluZw0KPiA+ID4gPiB1bnRpbCB0aGUgZmlyc3Qgb3Bl
-bi4gZmJjb24gYWxzbyBmYWtlLW9wZW5zIHRoZSBmYmRldiBmaWxlLCBzbw0KPiA+ID4gPiBpdCdz
-IHRoZSBzYW1lIGNvZGUgcGF0aC4NCj4gPiA+DQo+ID4gPiBBcyBmYXIgYXMgSSB1bmRlcnN0YW5k
-IHRoZSBjb21taXQgbWVzc2FnZSwgdGhlIHByb2JsZW0gaXMgdGhhdCB0aGUNCj4gPiA+IGRpc3Bs
-YXkgYmxhbmtzIG91dCBhZnRlciByZWdpc3RlcmluZyB0aGUgZHJpdmVyLiBBbmQgZmJkZXYgc29t
-ZXdoYXQNCj4gPiA+IG1pdGlnYXRlcyB0aGlzIGJ5IGRvaW5nIGFuIGVhcmx5IG1vZGVzZXQuIFVz
-ZXJzIHdpdGggZmJkZXYgZGlzYWJsZWQNCj4gPiA+IChtb3N0IG9mIHRoZW0gaW4gZW1iZWRkZWQs
-IEkgZ3Vlc3MpIHdvdWxkIHN0aWxsIHJ1biBpbnRvIHRoZSBpc3N1ZQ0KPiA+ID4gdW50aWwgdXNl
-cnNwYWNlIG1ha2VzIGEgbW9kZXNldC4NCj4gPiA+DQo+ID4gPiBNYXJrLCBpZiB0aGF0J3MgdGhl
-IGNhc2UsIGFuIG9wdGlvbiBtaWdodCBiZSB0byBwaWNrIHVwIHRoZSBkZXZpY2UNCj4gPiA+IHNl
-dHRpbmdzIGluc3RlYWQgb2YgY2FsbGluZyBkcm1fbW9kZV9jb25maWdfcmVzZXQoKS4gVGhlIGRy
-aXZlcg0KPiA+ID4gd291bGQgdGhlbiBjb250aW51ZSB0byBkaXNwbGF5IHdoYXRldmVyIGlzIG9u
-IHRoZSBzY3JlZW4uDQo+ID4NCj4gPiBXZSBhcmUgc3RhcnRlZCB1c2luZyBmYmRldiBpbiBvdXIg
-ZW1iZWRkZWQgYXBwbGljYXRpb24gd2l0aCBMaW51eA0KPiA+IDMuMTAsIGxhdGVyIHVwZGF0ZWQg
-dG8gNC4xNCBhbmQgYXJlIG5vdyBpbiB0aGUgcHJvY2VzcyBvZiB1cGRhdGluZyB0bw0KPiA+IDUu
-NC4gU28gZmFyIHRoZSB1YXBpIGFwcGVhcmVkIHRvIHVzIGFzIGlmIHdlIGNvdWxkIHJlbHkgb24g
-YW4gYWxyZWFkeQ0KPiA+IGVuYWJsZWQgZmJkZXYuIFRoYXQgaXMsIG5vbmUgb2Ygb3VyIGFwcGxp
-Y2F0aW9ucyBkb2VzIGEgbW9kZXNldC4NCj4gPg0KPiA+IFdoZW4gc3dpdGNoaW5nIHRvIDUuNCB3
-ZSBub3RpY2VkIHRoYXQgdGhlIGZiZGV2IHVhcGkgY2hhbmdlZC4gVGhhdCBpcywNCj4gPiB0aGUg
-TENEIGlzIHN3aXRjaGVkIG9mZiB1bnRpbCBpdCBpcyBleHBsaWNpdGx5IGVuYWJsZWQuIEl0IGNv
-dWxkIGJlDQo+ID4gZW5hYmxlZCBieSB3cml0aW5nIHRvIC9zeXMvY2xhc3MvZ3JhcGhpY3MvZmIw
-L2JsYW5rLg0KPiA+DQo+ID4gWW91IGFyZSByaWdodCwgd2UgYXJlIG5vdCB1c2luZyBmYmNvbi4g
-ZmJjb24gd2lsbCBzdGlsbCBlbmFibGUgdGhlIExDRA0KPiA+IGJ1dCBpbiBvdXIgZW1iZWRkZWQg
-ZG9tYWluIHdlIGhhdmUgaXQgZGlzYWJsZWQgYmVjYXVzZSB3ZSBtdXN0IG5vdCBzaG93IGENCj4g
-Y29uc29sZS4NCj4gPg0KPiA+IERvIHdlIHVuZGVyc3RhbmQgeW91ciBwcm9wb3NhbCBjb3JyZWN0
-bHkgdG8gcmVwbGFjZSB0aGUgY2FsbCB0bw0KPiA+IGRybV9tb2RlX2NvbmZpZ19yZXNldCgpIGlu
-IGlteF9kcm1fYmluZCgpIFtpbXgtZHJtLWNvcmUuY10gd2l0aA0KPiA+IHBpY2tpbmcgdXAgdGhl
-IGRldmljZSBzZXR0aW5ncyBpbnN0ZWFkPw0KPiA+DQo+ID4gaHR0cHM6Ly9ldXIwMy5zYWZlbGlu
-a3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZWxpeA0KPiA+IGly
-LmJvb3RsaW4uY29tJTJGbGludXglMkZ2NS4xMC0NCj4gcmM0JTJGc291cmNlJTJGZHJpdmVycyUy
-RmdwdSUyRmRybSUyRmltDQo+ID4geCUyRmlteC1kcm0tDQo+IGNvcmUuYyUyM0wyMzEmYW1wO2Rh
-dGE9MDQlN0MwMSU3Q01hcmsuSm9uYXMlNDBkZS5ib3NjaC5jb20NCj4gPg0KPiAlN0M5YmJmNWVk
-ZTI3ZWQ0MGJlOWFhYTA4ZDg4YmFjMGM1MyU3QzBhZTUxZTE5MDdjODRlNGJiYjZkNjQ4ZWUNCj4g
-NTg0MTBmNA0KPiA+DQo+ICU3QzAlN0MwJTdDNjM3NDEyOTE4MzM4ODE5NTA5JTdDVW5rbm93biU3
-Q1RXRnBiR1pzYjNkOGV5Sg0KPiBXSWpvaU1DNHdMakF3DQo+ID4NCj4gTURBaUxDSlFJam9pVjJs
-dU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZA0KPiBhdGE9
-NjgNCj4gPg0KPiAxa09TQXMyWHNJMWw0c09KN2o1VUFHa0FNY2lSNzhtYSUyRmdiRDVqUjk4JTNE
-JmFtcDtyZXNlcnZlZD0wDQo+ID4NCj4gPiBXZSBhcmUgYSBsaXR0bGUgY2x1ZWxlc3MgcmlnaHQg
-bm93OiBIb3cgZG8gd2UgcGljayB1cCB0aGUgZGV2aWNlIHNldHRpbmdzPw0KPiANCj4gTm9wZSwg
-bm90IHdoYXQgSSBoYWQgaW4gbWluZC4NCj4gDQo+IEluc3RlYWQgaW50ZXJjZXB0IHRoZSBmYl9v
-cHMtPm9wZW4gY2FsbCBhbmQgaW4gdGhlcmUgaWYgaXQncyBhIHVzZXJzcGFjZSBvcGVuDQo+ICh1
-c2VyIHBhcmFtZXRlciBvZiB0aGUgY2FsbGJhY2sgdGVsbHMgeW91IHRoYXQpIGFuZCBrbXMgaXMg
-bm90IGluIHVzZSwgdGhlbiB0cnkgdG8NCj4gbGlnaHQgdXAgdGhlIGRpc3BsYXkgZm9yIHRoZSBm
-YmRldiB1c2Vyc3BhY2UgdG8gdXNlLiBkcm0gZmJkZXYgaGVscGVycyBhbHJlYWR5DQo+IGhhdmUg
-dGhhdCBjYWxsYmFjayBhcyBkcm1fZmJkZXZfZmJfb3BlbigpLiBJIHRoaW5rIHlvdSBjb3VsZCB0
-cnkgYW5kIGp1c3QgY2FsbA0KPiBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcgZGlyZWN0bHksIHRo
-YXQgc2hvdWxkIGRvIHRoZSB0cmljay4gT3IgbWF5YmUgY2FsbGluZw0KPiBkcm1fZmJfaGVscGVy
-X2RwbXMgaXMgdGhlIGJldHRlciBvcHRpb24sIG5vdCBzdXJlLiBmYm1lbS5jIHNlZW1zIHRvIG5v
-dCBzdG9yZQ0KPiBhbnkgYmxhbmtpbmcgc3RhdGUgYXQgYWxsLCBzbyB0aGlzIGlzIHByb2JhYmx5
-IGFsbCBpbGwtZGVmaW5lZC4NCj4gDQo+IEltcG9ydGFudCBwYXJ0IGlzIHRvIGRvIHRoaXMgb25s
-eSBmb3IgdGhlIHVzZXIgZmJfb3BlbiBjYXNlLCBzaW5jZSBmYmNvbiB3aWxsIGRvIGl0cw0KPiBv
-d24gdGhpbmcgdG9vLg0KPiANCj4gUGx1cyBJIGd1ZXNzIHdlIG5lZWQgdG8gZG9jdW1lbnQgdGhh
-dCB0aGlzIGlzIHRoZSB1YXBpIHdlJ3JlIGhhdmluZyBmb3IgZmJkZXYNCj4gY2xpZW50cywgc28g
-aWRlYWxseSB0aGlzIHNob3VsZCBiZSBjYydlZCB3aWRlbHkgc28gd2UgY2FuIGdldCBzb21lIGFj
-a3MgZnJvbQ0KPiBmb3JtZXIgZmJkZXYgbWFpbnRhaW5lcnMuDQo+IA0KPiBBbHNvIGlkZWFsbHkg
-d2UnZCBoYXZlIGFuIGlndCBmb3IgdGhpcyB1YXBpIHRvIG1ha2Ugc3VyZSBpdCBuZXZlciBicmVh
-a3MgYWdhaW4uDQo+IFNvbWV0aGluZyBsaWtlOg0KPiAxLiBvcGVuIHRoZSBrbXMgZHJpdmVyIGZv
-ciB0aGlzLCBtYWtlIHN1cmUgZGlzcGxheSBpcyBjb21wbGV0ZWx5IG9mZi4NCj4gMi4gY2xvc2Ug
-a21zIGZpbGUNCj4gMy4gb3BlbiBmYmRldiBmaWxlDQo+IDQuIGNoZWNrICh0aHJvdWdoIG9wZW5p
-bmcga21zIHNpZGUgYWdhaW4pIHRoYXQgdGhlIGRpc3BsYXkgaGFzIGJlZW4gZW5hYmxlZC4NCj4g
-DQo+IFNlZQ0KPiBodHRwczovL2V1cjAzLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29t
-Lz91cmw9aHR0cHMlM0ElMkYlMkZkcmkuZnJlZWRlDQo+IHNrdG9wLm9yZyUyRmRvY3MlMkZkcm0l
-MkZncHUlMkZkcm0tdWFwaS5odG1sJTIzdmFsaWRhdGluZy1jaGFuZ2VzLQ0KPiB3aXRoLQ0KPiBp
-Z3QmYW1wO2RhdGE9MDQlN0MwMSU3Q01hcmsuSm9uYXMlNDBkZS5ib3NjaC5jb20lN0M5YmJmNWVk
-ZTI3ZWQ0DQo+IDBiZTlhYWEwOGQ4OGJhYzBjNTMlN0MwYWU1MWUxOTA3Yzg0ZTRiYmI2ZDY0OGVl
-NTg0MTBmNCU3QzAlN0MwDQo+ICU3QzYzNzQxMjkxODMzODgxOTUwOSU3Q1Vua25vd24lN0NUV0Zw
-Ykdac2IzZDhleUpXSWpvaU1DNHdMag0KPiBBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJ
-azFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbQ0KPiBwO3NkYXRhPXRnZGFPSlAyd0s3ZVhG
-bU9RbFZkVWElMkI3Q1J3WnhPeDk5QkNDTU5FOGlEMCUzRCZhDQo+IG1wO3Jlc2VydmVkPTANCj4g
-Zm9yIHNvbWUgZGV0YWlscyBvbiBvdXIgdmFsaWRhdGlvbiB0ZXN0aW5nLCB0aGVyZSdzIGFscmVh
-ZHkgYSB2ZXJ5IGJhc2ljIGZiZGV2DQo+IHRlc3RjYXNlIHRoZXJlLg0KDQpXZSBoYWQgYSBsb29r
-IGludG8gdGhlIHRvcGljIGFuZCBjYW1lIHRvIHRoZSBjb25jbHVzaW9uIHRoYXQgd2UgY2Fubm90
-IGRvIGl0DQpyaWdodCBub3cuIFdlIGFyZSBsYWNraW5nIGV4cGVyaWVuY2UgaW4gdGhlIGZpZWxk
-IGFuZCBuZWVkIHRvIGtlZXAgZHJpdmluZyBvdXINCmFwcGxpY2F0aW9uIGRldmVsb3BtZW50Lg0K
-DQpUaHVzLCB3aXRoIGEgaGVhdnkgaGVhcnQsIHdlIHdpbGwgaW5zdGVhZCBpbXBsZW1lbnQgYSB3
-b3JrYXJvdW5kIHdoaWNoIHdpbGwNCmVuYWJsZSB0aGUgTENEIGF0IGJvb3QgdGltZSBmcm9tIHVz
-ZXIgc3BhY2UuIFdoYXQgd29ya3MgZ29vZCBmb3IgdXMgaXMgd3JpdGluZw0KdG8gL3N5cy9jbGFz
-cy9ncmFwaGljcy9mYjAvYmxhbmsuDQoNCkdyZWV0aW5ncywNCk1hcmsNCg0KQnVpbGRpbmcgVGVj
-aG5vbG9naWVzLCBQYW5lbCBTb2Z0d2FyZSBGaXJlIChCVC1GSVIvRU5HMS1HcmIpDQpCb3NjaCBT
-aWNoZXJoZWl0c3N5c3RlbWXCoEdtYkggfCBQb3N0ZmFjaCAxMSAxMSB8IDg1NjI2IEdyYXNicnVu
-biB8IEdFUk1BTlkgfCB3d3cuYm9zY2hzZWN1cml0eS5jb20NCg0KU2l0ejogU3R1dHRnYXJ0LCBS
-ZWdpc3RlcmdlcmljaHQ6IEFtdHNnZXJpY2h0IFN0dXR0Z2FydCBIUkIgMjMxMTgNCkF1ZnNpY2h0
-c3JhdHN2b3JzaXR6ZW5kZXI6IENocmlzdGlhbiBGaXNjaGVyOyBHZXNjaMOkZnRzZsO8aHJ1bmc6
-IFRhbmphIFLDvGNrZXJ0LCBBbmRyZWFzIEJhcnR6LCBUaG9tYXMgUXVhbnRlDQoNCjEwMCBZZWFy
-cyBCb3NjaCBCdWlsZGluZyBUZWNobm9sb2dpZXMgMTkyMC0yMDIwDQpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1888302987==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="rSjEZaDj8hskUNw9zjDA5BmPVDY4XFxYg"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--rSjEZaDj8hskUNw9zjDA5BmPVDY4XFxYg
+Content-Type: multipart/mixed; boundary="SV8WelrpqD17zkr31S6FBXLLJ0DOJt4yN";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, alexander.deucher@amd.com
+Message-ID: <75385451-7969-e199-1a8e-f29fd08d5043@suse.de>
+Subject: Re: [PATCH 4/7] drm/radeon: Pin buffers while they are vmap'ed
+References: <d1508c4f-df3e-fa3c-3071-d8a58295e674@suse.de>
+ <cbfa3e8d-81a3-5620-d4fc-72188cfb42ee@amd.com>
+ <6d2ee787-0bf5-de1d-73af-7c87bad63cda@suse.de>
+ <2431a0e1-7159-b3e7-e1ca-3e7f55c38d8a@amd.com>
+ <b356ee3d-64bd-30c9-23f6-dea3a1b87bea@suse.de>
+ <20201124140937.GK401619@phenom.ffwll.local>
+ <278a4498-bdde-402a-1cea-668e9683f7eb@suse.de>
+ <2f8a252a-5413-4b75-a367-f6233121e36e@amd.com>
+ <20201125103645.GU401619@phenom.ffwll.local>
+ <fd9dff4a-ec16-46d8-d892-b06dad5c11d3@suse.de>
+ <20201125163251.GY401619@phenom.ffwll.local>
+In-Reply-To: <20201125163251.GY401619@phenom.ffwll.local>
+
+--SV8WelrpqD17zkr31S6FBXLLJ0DOJt4yN
+Content-Type: multipart/mixed;
+ boundary="------------0BC9D4C166C11B15BBB19B90"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------0BC9D4C166C11B15BBB19B90
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 25.11.20 um 17:32 schrieb Daniel Vetter:
+> [...]
+> I guess full locking is required :-/ I'm not exactly sure how to make t=
+his
+> happen with the current plethora of helpers ... I think we need an
+> _locked version of vmap/vunmap callbacks in drm_gem_object_funcs.
+
+I think we might be able to get away without new callbacks.
+
+I looked through the sources that implement and use vmap. All the=20
+implementations are without taking resv locks. For locking, we can wrap=20
+them in lock/unlock pairs. Having something like drm_gem_vmap_unlocked() =
+
+that locks and vmaps should make this easy.
+
+In terms of implementation, only vram helpers do a pin+map in their vmap =
+
+code. And as I mentioned before, this is actually wrong. The pattern=20
+dates back to when the code was still in individual drivers. It's time=20
+to clean this up. Vram helpers can use drm_gem_ttm_vmap() instead.
+
+Finally, there aren't that many users of vmap. A few drivers use it=20
+while blitting framebuffers into HW buffers and ast does some permanent=20
+mapping of the cursor BO. All this is trivial to turn into small pairs
+of lock+vmap and vunmap+unlock.
+
+That leaves generic fbdev. The shadow buffer is also trivial to fix, as=20
+outlined during this discussion.
+
+The code for fbdev in hardware buffers is a special case. It vmaps the=20
+buffer during initialization and only vunmaps it during shutdown. As=20
+this has worked so far without locking, I'd leave it as it is and put a=20
+big comment next to is.
+
+Hardware fbdev buffers is only required by few drivers; namely those=20
+that require the CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM config option to work.=20
+We should consider to make the fbdev shadow buffer the default and have=20
+drivers opt-in for the hardware buffer, if they need it.
+
+>=20
+> And then document that if the callers of the _locked version wants a
+> permanent mapping, it also needs to pin it. Plus I guess ideally implem=
+ent
+> the unlocked/permanent versions in terms of that, so that drivers only
+> have to implement one or the other.
+
+For my understanding, pinning is only done in prepare_fb code. And ast=20
+pins its cursor BOs into vram. We should document to hols vmap/vunmap=20
+only for time and cover them with resv locks. Pinning is for cases where =
+
+the hardware requires buffers in a special location, but does not=20
+protect against concurrent threat. I think those are the implicit rules=20
+already.
+
+I updated the radeon patchset, where all this appears to be working well.=
+
+
+Best regards
+Thomas
+
+>=20
+> That should give us at least some way forward to gradually conver all t=
+he
+> drivers and helpers over to dma_resv locking.
+> -Daniel
+>=20
+>> The pin count is currently maintained by the vmap implementation in vr=
+am
+>> helpers. Calling vmap is an implicit pin; calling vunmap is an implici=
+t
+>> unpin. This prevents eviction in the damage worker. But now I was told=
+ than
+>> pinning is only for BOs that are controlled by userspace and internal =
+users
+>> should acquire the resv lock. So vram helpers have to be fixed, actual=
+ly.
+>>
+>> In vram helpers, unmapping does not mean eviction. The unmap operation=
+ only
+>> marks the BO as unmappable. The real unmap happens when the eviction t=
+akes
+>> place. This avoids many modifications to the page tables. IOW an unpin=
+ned,
+>> unmapped BO will remain in VRAM until the memory is actually needed.
+>>
+>> Best regards
+>> Thomas
+>>
+>>>
+>>> So I'm still not seeing how this can go boom.
+>>>
+>>> Now long term it'd be nice to cut everything over to dma_resv locking=
+, but
+>>> the issue there is that beyond ttm, none of the helpers (and few of t=
+he
+>>> drivers) use dma_resv. So this is a fairly big uphill battle. Quick
+>>> interim fix seems like the right solution to me.
+>>> -Daniel
+>>>
+>>>>
+>>>> Regards,
+>>>> Christian.
+>>>>
+>>>>>
+>>>>> Best regards
+>>>>> Thomas
+>>>>>
+>>>>>>
+>>>>>>> There's no recursion taking place, so I guess the reservation
+>>>>>>> lock could be
+>>>>>>> acquired/release in drm_client_buffer_vmap/vunmap(), or a
+>>>>>>> separate pair of
+>>>>>>> DRM client functions could do the locking.
+>>>>>>
+>>>>>> Given how this "do the right locking" is a can of worms (and I thi=
+nk
+>>>>>> it's
+>>>>>> worse than what you dug out already) I think the fb_helper.lock ha=
+ck is
+>>>>>> perfectly good enough.
+>>>>>>
+>>>>>> I'm also somewhat worried that starting to use dma_resv lock in ge=
+neric
+>>>>>> code, while many helpers/drivers still have their hand-rolled lock=
+ing,
+>>>>>> will make conversion over to dma_resv needlessly more complicated.=
+
+>>>>>> -Daniel
+>>>>>>
+>>>>>>>
+>>>>>>> Best regards
+>>>>>>> Thomas
+>>>>>>>
+>>>>>>> [1] https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm=
+/drm_fb_helper.c?id=3Dac60f3f3090115d21f028bffa2dcfb67f695c4f2#n394
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Please note that the reservation lock you need to take here is p=
+art of
+>>>>>>>> the GEM object.
+>>>>>>>>
+>>>>>>>> Usually we design things in the way that the code needs to take =
+a lock
+>>>>>>>> which protects an object, then do some operations with the objec=
+t and
+>>>>>>>> then release the lock again.
+>>>>>>>>
+>>>>>>>> Having in the lock inside the operation can be done as well, but=
+
+>>>>>>>> returning with it is kind of unusual design.
+>>>>>>>>
+>>>>>>>>> Sorry for the noob questions. I'm still trying to understand th=
+e
+>>>>>>>>> implications of acquiring these locks.
+>>>>>>>>
+>>>>>>>> Well this is the reservation lock of the GEM object we are
+>>>>>>>> talking about
+>>>>>>>> here. We need to take that for a couple of different operations,=
+
+>>>>>>>> vmap/vunmap doesn't sound like a special case to me.
+>>>>>>>>
+>>>>>>>> Regards,
+>>>>>>>> Christian.
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Best regards
+>>>>>>>>> Thomas
+>>>>>>>>
+>>>>>>>> _______________________________________________
+>>>>>>>> dri-devel mailing list
+>>>>>>>> dri-devel@lists.freedesktop.org
+>>>>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>>>>>
+>>>>>>> --=20
+>>>>>>> Thomas Zimmermann
+>>>>>>> Graphics Driver Developer
+>>>>>>> SUSE Software Solutions Germany GmbH
+>>>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+>> --=20
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>> (HRB 36809, AG N=C3=BCrnberg)
+>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+--------------0BC9D4C166C11B15BBB19B90
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0x680DC11D530B7A23.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0x680DC11D530B7A23.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdgX=
+H47
+fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0BeB5B=
+bqP
+5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4YchdHm3bkPj=
+z9E
+ErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB9GluwvIhSezPg=
+nEm
+imZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEBAAHNKFRob21hcyBaa=
+W1t
+ZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmNvbT7CwI4EEwEIADgCGwMFCwkIBwIGFQoJCAsCB=
+BYC
+AwECHgECF4AWIQRyF/usjOnPY0ShaOVoDcEdUwt6IwUCXvxIWAAKCRBoDcEdUwt6I+aZB/9ih=
+Onf
+G4Lgf1L87cvoXh95/bnaJ6aQhP6/ZeRleuCXflnyDajlm3c9loQr0r2bQUi7JeYwUKbBab2QS=
+GJm
+DMRGlLMnmzWB8mHmZ6bHAu+2Sth8SraE42p6BB9d8dlYEID+dl/D/xUBeulfkck5rloGtYqDi=
++1Q
+DfkEZJaxVSZ6FFkXuQi/G9qcI4iklN2nv02iQ7mZe8WYAysix6s/6vIobhirEBreclSNxXqis=
+p8n
+91+v855JC11EgRdUXMRK81IAaCKXP8zLx3ixku7mvP9Om61yerHSbeU2HZbIggZYQlFh6llJm=
+zF1
+CjCWgPTJyk4t4kMTcNOw5ykD47vU/KW+wl0EEBECAB0WIQQn6OOmnzvP/7ktjmoud6EwEfXTw=
+gUC
+WzodVwAKCRAud6EwEfXTwidvAKDkOADDHfI0QNXqAZcg6i1kOndAYACeLXHBwpjnumkPSyoab=
+IiL
++he8r3zCwHMEEAEIAB0WIQQeXZghmQijlU7YzFiqUDvJrg9HpwUCWznxsQAKCRCqUDvJrg9Hp=
+42f
+CADIvsZcAd04PDFclRltHr2huy6s7+ZZA6PgYlMblEBh4bJA+dNPBTvzpJ7FJv/bmHOa+phWy=
+Urj
+EpfFGuOKGuWAfzgVAEu52fMrW3/mm+O26z1AKIu8hiZ/x9OAe4AM71ZO2lZrV1/53ZdzWnRuO=
+45N
+GQcotU8oeVfT9okAfmozmWMmIMq7Q0K6bV8W3qiD5XfDNxjr2caxc/9WX1bZPUo3n0H23MNaA=
+Tpy
+Oz732UtDh6sKUAB1RfzBBd/REbjHD7+quwJGAdRScyDRncX1vNb2+wihy0ipA69XY3bkhR5iD=
+u5r
+A9enuiMe6J1IBMI1PZh+vOufB/M6cd2D9RULIJaJwsBzBBABCAAdFiEEuyNtt7Ge78bIRx1op=
+/N8
+GYw5MYEFAls6MrsACgkQp/N8GYw5MYEnLQf/dwqlDJVQL2q+i8FFaqTMAm0n9jLRV6pN8JxFH=
+j0g
+voyWUOnQuNdAFgtKd26ZhN8NkLoSMO8E19eBPfLoBIFK5yNNVmRHAZm07MzGbA0uNWINJhmdR=
+bZM
+RMh0nneXjcEU/IvUmd8TPFTAd24X2mbzHgcaHMLJSVx1ohd4alRJXHIqDobKmiVwekyPnInJn=
+zWw
+iuZUkIotTkQple1PT/dF3S+KtPXBL6ldQ4NkAeCjsz4wnzSa9+VKOxEhiHM0PMzXSbkCMP+4m=
+Xy9
+RMplBw9Dm9hN2PSouBPifIrSodiiSWZYXOEkzLiBAB0frCKR63Dnx9kvjCD9Pz5wLd/70rjqI=
+cLA
+jgQTAQgAOAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC=
+3oj
+BQJftODHAAoJEGgNwR1TC3ojZSIIAIV3makffp4P4leU8JSLt0aTNewsOhy7VQzKUtlCw3PKD=
+3l/
+SuymZhQKgH+n6sijzFauZnZ+x0T+Oy+dDVZb3sNJuuMUDIHw18EO9daZBMcueaS54FGe73lAp=
+HUl
+7nxyocCxoqIG8+fP+75itV/ls2TSh5rJvjLvHC8J3NqfGlJ/jlSKrQUnzFbXfE5KGWiKNAn+I=
+1a2
+EE0I7uLpYgkdb8hcjtV9Rxr2ja+GWOaSoqB29P5GUzipkWo4144Q16JBO6QP2R9y/1ZK9VqH2=
+5T8
+lTKocLAaHCEdpDqY5KI15as9tIxlI1Vh+eqhTh/gwEm1ykO1gmrQ1zvGLDMB1EE6El3NJ1Rob=
+21h
+cyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIbAwULCQgHAgYVC=
+gkI
+CwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJe/EheAAoJEGgNwR1TC3ojq=
+RgI
+AIoegtTp1prPzfHgTAuEPd8v58ssHubwi9tg69a8IJ+iMNozhs4iUou84WOLBJNjSieXHZRa8=
+fJj
+//2/sTuABn38AQ9FcKX9/B49hrdCo6c0WHHKqlPrSTzuXNKYyOdmSFd/pDhBb2Bn5DTxxH5RP=
+m/N
+U/C9nUlwi7Y+FgBlDNa5h592wmJfv0cJAfvF56C+QL65jHFOFIW9xSaTOAxxMXHGJHXki6Iwa=
+aTg
+s7QQlKQcd5XvvED1bwLyQ7rq+MEZo5N7IygpQMM3qqGMlCnDdyQ3W95rd0HCWpfa0oVRCOwdu=
+SL3
+5hG7ONqBpvBj8z5GjSbt4HLJGvpeT0k37qzRExrCXQQQEQIAHRYhBCfo46afO8//uS2Oai53o=
+TAR
+9dPCBQJbOh1XAAoJEC53oTAR9dPC05AAoIy0HQ2DBDYugQ42P4HfyxfZTIvKAJ0fqNBcBFW9S=
+tbR
+DEP9cfpNVOv8YMLAcwQQAQgAHRYhBB5dmCGZCKOVTtjMWKpQO8muD0enBQJbOfGzAAoJEKpQO=
+8mu
+D0enL0wIAM2NTeUDCofBAkbWHGTZopclefbh0xGPYQEfttNyalp0hn1CrVO7OsX5eTjRqgyOa=
+1C5
+OAsNghCM4PUmrfv5cZ9+sNn9bRM50uVW9IFRlq8wwBY4+7QejJ5gs7DW/0tZIMZ6iTGKK0WEO=
+7gd
+2K9hXadPBScTdIqXeWH82meiqElnEQL+K9UeGUBrku+1EQIOxwziKwTDlTvhyJ+xmEKj0uWRc=
+Ocl
+27xLS9XOWPGXcNQBtlZhF8e/E1kFRt5CPP5UBdUCN8qydUadseXivSNDiYob9dyJSFt7G0Bq4=
+/ac
+Ret5ANtGRWsp8xYJQRossRMWL0w9P8SiIc2IY/JrQrpz29nCwHMEEAEIAB0WIQS7I223sZ7vx=
+shH
+HWin83wZjDkxgQUCWzoywAAKCRCn83wZjDkxgQaDCACyFuBLQWNvLT8GTDqTf/gETzmtoEM6Y=
+r8O
+4jbYg05xiFzAqMZctQsm3zHakx2JrimxDvQJRQJQzp5ICJ7J/BOuSL4FE1SPeQIfjm4jyBZGH=
+P/W
+vgHsT5e3+ZCPePPZO+3irarTKVhaaP70Tpka6EsOCZzO6L8D6tUDkhxMX0ymy7p8w9Yt1eD0o=
+Ume
+mxrKdS1ulpNJUTBw7gJN8bMowVnycEm6wntxOjrCxuwbkKhFLdn0ejcXQ0UkfbUFKfU64gGBu=
+S53
+ZlM8XlOhQEIw/FrdXszhR+Tg3Ag130cmJhOrghgOBLzvJfUd6OvDT5VIz0QGbAm8SWlAIIms1=
+9Z8
+kBsLwsCOBBMBCAA4AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEchf7rIzpz2NEoWjla=
+A3B
+HVMLeiMFAl+04McACgkQaA3BHVMLeiPHXAf/SEoZa6CKoOAs1ctEP/hN8cEQqbEiuZ+71nm3u=
+/BQ
+p/CEUvqGq+iVc8kkpClDbPz5fa9mb+yWwufsnXKOs6ygmEoAEOL7dBZZIaRobBEkB09VXIkx8=
+lE0
+00grBVtToHUGRfZcMoMZ98XhPGU6lJDN200j/2CV46hQDz6PLySecNjOME05mosbYW5N2JwFd=
+uXP
+Qx++DjWB32QLBhcOcP3WslTy3PKVe/TcTvk0JpPFMz4UFc+awBVhDgZiGGAW3xLZRYyhpoAEs=
+N7u
+XkV2ct0MRxuZ3y4tTYJobhbZwutRojiPPZduRw9CSpNDcQHruFiSOIQTpnLeCA6K2JAZyqmP/=
+8LA
+lAQTAQgAPhYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsDBQkDwmcABQsJCAcCBhUKC=
+QgL
+AgQWAgMBAh4BAheAAAoJEGgNwR1TC3ojR80H/jH+vYavwQ+TvO8ksXL9JQWc3IFSiGpuSVXLC=
+dg6
+2AmRirxW+qCwNncNQyb9rd30gzdectSkPWL3KSqEResBe24IbA5/jSkPweJasgXtfhuyoeCJ6=
+PXo
+clQQGKIoFIAEv1s8l0ggPZswvCinegl1diyJXUXmdEJRTWYAtxn/atut1o6Giv6D2qmYbXN7m=
+neM
+C5MzlLaJKUtoH7U/IjVw1sx2qtxAZGKVm4RZxPnMCp9E1MAr5t4dP5gJCIiqsdrVqI6iKupZs=
+tMx
+stPU//azmz7ZWWxT0JzgJqZSvPYx/SATeexTYBP47YFyri4jnsty2ErS91E6H8osBv6pnSn7e=
+ArO
+wE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYbT6XMr=
+yR9
+hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU63Y0xnQN29=
+UGD
+bYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWWGKdDegUR5BkDf=
+Dg5
+O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lvhFXodNFMAgTLJlLuD=
+YOG
+LK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsAEQEAAcLAfAQYAQgAJhYhB=
+HIX
++6yM6c9jRKFo5WgNwR1TC3ojBQJbOdLgAhsMBQkDwmcAAAoJEGgNwR1TC3ojpfcIAInwP5Olc=
+EKo
+kTnHCiDTz4Ony4GnHRP2fXATQZCKxmu4AJY2h9ifw9Nf2TjCZ6AMvC3thAN0rFDj55N9l4s1C=
+paD
+o4J+0fkrHuyNacnT206CeJV1E7NYntxUn+LSiRrOdywn6erjxRi9EYTVLCHcDhBEjKmFZfg4A=
+M4G
+ZMWX1lg0+eHbd5oL1as28WvvI/uIaMyV8RbyXot1r/8QLlWldU3NrTF5p7TMU2y3ZH2mf5suS=
+KHA
+MtbE4jKJ8ZHFOo3GhLgjVrBWHE9JXO08xKkgD+w6v83+nomsEuf6C6LYrqY/tsZvyEX6zN8Ct=
+irP
+dPWu/VXNRYAl/lat7lSI3H26qrHCwHYEGAEIACACGwwWIQRyF/usjOnPY0ShaOVoDcEdUwt6I=
+wUC
+X7Th+gAKCRBoDcEdUwt6I1UpCAC6QD5CCT0KFET29VVo4d+JdB5YJZmB72bMyVk12MGrx0fPp=
+OgW
+muh+7n1zULU4UciMSa0C1uq1eZZu044X3xIcVQp9+/nINM2d4+8yLEktK8f2jMIulYRSQOYX5=
+909
+E7a4oyj+AEgEDvcQ9WZPf+tSVpPDsrLiIezF5JdH8W0SlhPd13kAYSCR0H53PmAS6a3Z8UeOO=
+kof
+Fp/9g2GvHGr7ln9s6wenGbq7NOPMXtFG0luQDkqOFfTNI82COJ2ak5j8WMl25t9Cr5s9K2FUW=
+orW
+CeJMmGDIblC76yQzI2Ub2jXudrZCgLzHr3Bnbd/B+CklVwMpaskDluc7z3OP7KvXzsFNBF+04=
+RMB
+EADSYkyG/50PjD4CAbEnwQYZl61RVMBb3jug1j2dDPmOcQSYbw7pKLLLUoHCwnZXeEhRdiZ5w=
+qMo
+fW6DNo9irHecDc0815aN5RMxUQIqX7W6L4lI2qdKsaEcMtYQVdxbdf1cjcMGGO6oxlQE0FO3C=
+E/8
+y4G/kndDT0APK9jb6SatTJyPJxXwNmR+HYrkbWr4RAVM6et0pQmMZ8sak+QEM0kBlKbI0sodQ=
+OXs
+7Y9acMYJ5F+xfWU9JVAaOs2TOmQavDZMr6MeOpe/UKFjAZvcvv5yF8v7l3U+kWrpj4wc1bbRp=
+pDp
+5k5RlCckAJ3QBNW6Im/YlgieJCK9ns0So1yVxrmjNZu4Un3UGFnndI+dvp1vahkjTZNRo2FzP=
+GUl
+k2oF+juZn26c0YAQSv16BPTVkTQGuFfrVF+P76qg5dJvjuBdhmLOhLu1i63nUYMIw7jBf1Qir=
+0H6
+98oyLfdGYtdHB0MN5IXSVpkgymIHp6b7H36OMeem4onzoeiMUv8IX+fwQMeJ8fBsl+yTtA1J1=
+Lon
+gjXxBkbvEG2AUjpDv73ZuMcu0WcHc5ajfM4wixTght+OgZ7Md5LtpTbV+qmaGo5nw+KDujdF3=
+bNq
+RMI7nwnyVvbAi3QZqiw+Tr7EZY8r+77ecNvF0hdbcoUGsSLPvLBSbcHwpYnbn36uehXBaxFws=
+bC0
+KwARAQABwsKsBBgBCAAgFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl+04RMCGwICQAkQaA3BH=
+VML
+eiPBdCAEGQEIAB0WIQTGd2b9+m4xR3BgUWiWH8TcRCi/4AUCX7ThEwAKCRCWH8TcRCi/4JMoE=
+AC0
+B6V5uOWXzAg8e7v3e60R/0exHxFeTgKEvfNSJM204K2/c+mGH4UKh/kdiJoKF/y6Lu80o8ndt=
+vyG
+mQJ0yhypFyBSDNbgdeOHagIt7VvwXovwknYg+w2NavdhG5envhqX902XQE0mNNH1XizDRZ422=
+8wl
+V/fixCmAETZu5GKIFSTHOQrlZlwZ/RRRd3IqEb6bmpbPJZbBXOFolASXw3zs41xMar9zjLSY9=
+LKp
+SrF3Zy5F27QJhLxWsalLjtWcEwkxn5a5/4OAvAoNIn5NMGRoBmEYp3ZCRNbzkGT2gyOxrTcSf=
+g7M
+eHy//LX+1rpN02erf6HyoY6vLFFQlYZ5cnf97o67g7vz4cMGAbB4zZ/j5h3ggkSbjlsCmqXX4=
+x/Z
+7bB1078lwQdg9x+zo+0vxzk10TU1FoWsSAiravlw0riSjr+wjXr5IzBeMm0A7K1MZ2lne+mKj=
+T72
+bz2KE6isyrpIn4xlzLMQuh1OCthrHKb6GiJO4JWg/jWIt3yBov4EdFDXOnJl7Tq2CkpwrDTsH=
+Dgi
+Sw4xK+mHW3QFztsMQi6p7qaPCUSYAPIY4xzOTqExhMj/3Pgyg6hTvdGIpV9VzfMXIR68Pmw79=
+BGZ
+tEWaVXS+1ja+6kBOFIQ37sqOBorOGfp6c6Di+IN8mkEHyt9s2Q/YqpPdedm+58tinuaBSBeUk=
+mhM
+B/9rSzQXr84M1rhAehbaqDE+UYw8sfsQXiJkZYZz9BHp0YfhD9J5iwgGhYj+LU6dW1+eEsgcq=
+fMH
+Dexdvr9koHXeuMNaXa40++GX9cY9DU8RHbeYxGj35eVY793F4gfAAsD5DCF5pCcd7mhicp5eD=
+rIq
+258874hM7w1aSwMS+0K+oppSlIfdogKM/l8RA6oDGZySTkwxXQ8RAYb/ddVc5Ua2gzXccODBz=
+JuT
+a+aY+BxmIdz4oMzaNCiK3gedGKoRjnrGguEO+YL/Ji3NhHOXRKu/QVTFDmgpmA0oQTfY+iaLz=
+bFk
+keWD97V4vo2flZ8ii37fcKNX4daGGnRRFUh4BrBG
+=3DskgE
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------0BC9D4C166C11B15BBB19B90--
+
+--SV8WelrpqD17zkr31S6FBXLLJ0DOJt4yN--
+
+--rSjEZaDj8hskUNw9zjDA5BmPVDY4XFxYg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+/gD4FAwAAAAAACgkQlh/E3EQov+D5
+Aw/9HRLPjqXm0RVQpYGr1XN2wr2Zc+sCyhzcSChDLwRx5EyLcg/W96kJonw5BpbLH2D/bq/04jM/
+9sFRGZe7jffGupZVAeUyOvEmVRcJuhxfxFeQ/NjqZGENDvSW1mi523OBI/DcCUpjpVBS0+FdPbO3
+GWhnzjyeV7FIZNjKcTDP7siVKLtPm05037KEE3vUC8t3Yc3r+lOcvIryJjHkL9d31IyAvkwxYUvC
+/Oqflz5xRIFD8zh8uk0E20wcA1HBFdOAaZi3CFa+ucqH8y02HZwtcAqX3VRgu5uOAKLYSPfm/63y
+bTrS2Hx/UY1me/ObFx9kfoxOhh2G4amKa2uu1HYVhxGpLrCTKKtOFeeeQdpixeVD32bb4bCzx3Vs
+sI2wiRLFFRNYlDtX8jMcc6RWx9IvWFgEkz9sF85hWDkHE0W4dcPcoxbB/YopqfaoGAZAzUEQBiXH
+x9DcYIbzlt55VaTZWpBAD5kYg725W3PFOl0qTJZFE+v1yu8XJPIcGKKRih0CgRbFc0GCjnA4c6Z3
+RavmMV8uw4eYK0CITTdRMIJCfCF89DATJzMwPNxrnTzIT04NQ1WANUkyL6jNqb91qsPwwCeqiutT
+vXSfGtkK2EPvHfyINPylvoVPg5oM/1zznhd5q+J8ZDJYJQV9BUQIwFMBkDCl4Ht0d7SHFPYqx06h
+OXA=
+=cQ2k
+-----END PGP SIGNATURE-----
+
+--rSjEZaDj8hskUNw9zjDA5BmPVDY4XFxYg--
+
+--===============1888302987==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1888302987==--
