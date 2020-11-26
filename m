@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B132C5A7A
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 18:26:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67EC2C5AC6
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 18:39:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44246E987;
-	Thu, 26 Nov 2020 17:26:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC3C46E993;
+	Thu, 26 Nov 2020 17:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48A476E987
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 17:26:10 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id 64so2921462wra.11
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 09:26:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=6I0lhLGzPPM0MoECXGUi5YFC71JrYnGKvoQDQPmtiJ8=;
- b=l06CNRd31zgbywkafp4M3M36NmeEp98oXvZIbgFZaXjPDiITJXkrhLw6e82PRokFMq
- kSV+0rsWu3t278MiKn8FxZ0GpnGOdkRNRc8kI1ao3FfuuXk6Psqs49YxCD+ES1ohhwHn
- 778H50Vz+qsL2LOxPPnWXeM9yik6M3kLd5UNS8iViAW/shl88g/0RGv+uzDhvTh02TDU
- G2JiVIVyK5ICAVInvipDuRW8GKiL5EgPM4rcdsxRdWxIgGHo1Ciw4FZ6SmbNfL7H12Gh
- po6yduAQos4jRyU+BqDlJWwB5xzD/y7S8MFJIyFKNtTN5wOfjlurvHwLREINC+5TBPxt
- BhpQ==
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+ [209.85.128.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EF2B6E993
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 17:39:26 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id p22so2838675wmg.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 09:39:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=6I0lhLGzPPM0MoECXGUi5YFC71JrYnGKvoQDQPmtiJ8=;
- b=rGHSvZss6CGWwMWot382liYFBcIt6izNIQYApmUi5ogGKlts6hI6ovcFcKiCbTdeUv
- P/QD05fQAcvRTwKIkZlLWWCvHDO3+XL+s2xpJSZK0rObjEX2NNsQO7t4x5t1e2RamQDi
- bv4rsnRX5ClyDzfnx0n425Ccyf3VhAl9MGlTxpKmUQSAm763rQx0gpZ4Z5XYQmgXrYgb
- hbYlvCLh1FWvacKbPQLj+aBpDAamWBRQIYPx4HZe2JRcxhIae25fuvRki9HiTOEhRSy0
- nh0qyb/C6ihQRyWM62aN+LSr+kbvqVTg9f3K8aqTF899UbkslIENJb9nUPEpW1UT8zma
- /Paw==
-X-Gm-Message-State: AOAM5338zKrdD/Z/dSGoctHiPgvnXmAZ/76VUTtWY7CQpwuT6Jmmu/Z5
- Sh2DA1b8VnY2GF5if3GgOKw=
-X-Google-Smtp-Source: ABdhPJyaBeHdgoQF3J1Ovn0wtkH7fvTi8SaOzT7ic/NJzEli3QaHlrGWzuvtjGLemmZWpI00pWevgQ==
-X-Received: by 2002:a5d:690c:: with SMTP id t12mr5123901wru.405.1606411568938; 
- Thu, 26 Nov 2020 09:26:08 -0800 (PST)
-Received: from localhost ([217.111.27.204])
- by smtp.gmail.com with ESMTPSA id s4sm9982577wru.56.2020.11.26.09.26.06
+ :mime-version:content-disposition:in-reply-to;
+ bh=cjXv/ScxbZ0BiPP6MPGhGSZjdPE+o5XCx97qivgu68s=;
+ b=BlCgAdFPILms8OaO0heqH5iThc43uum2uniDT1YgkJJVgar+Ecn/s5PY+iqOgqBM6h
+ sjfSjSOLEZYG50DoKRcfe4elokiehEpr74LeXeEG5YyELtS5c50EohANmUYd+4U8sKnP
+ kFBW3/58fEuXyqXtnnXYYN2u2nDszMSMpYkqxW3SDmDJI6rjq7ZqAewhmhStO5dzghx8
+ +RXcBKuI0fXjpmyz7/I7dYRuevauMdRlQDxhHx7375LRvEII+l0f2CHOtC5+93XGzX0b
+ YfDEOaLa4TL1OJYl/U/SaCAp+jZnqiT+/zlfbJFl6QOm91bKo/7WFoGQnOHTH647Qzjw
+ 52rQ==
+X-Gm-Message-State: AOAM530QbUqoeIP/P+h7UpcxvM7tRlaLNLhfQClyvvME4AM/jcjZHlW+
+ OSZ7WK1hfMMWMuw6cnRtZhw=
+X-Google-Smtp-Source: ABdhPJym9BuTs4VMvKws9pdTIceCeRsKsxs2y5eVHiwUU6Em5mTTgU03rlmfFANSNsZ3NxhF5CkhzQ==
+X-Received: by 2002:a1c:66c4:: with SMTP id a187mr4694548wmc.186.1606412364616; 
+ Thu, 26 Nov 2020 09:39:24 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+ by smtp.googlemail.com with ESMTPSA id w21sm9198231wmi.29.2020.11.26.09.39.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Nov 2020 09:26:07 -0800 (PST)
-Date: Thu, 26 Nov 2020 18:26:05 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Dmitry Osipenko <digetx@gmail.com>
+ Thu, 26 Nov 2020 09:39:23 -0800 (PST)
+Date: Thu, 26 Nov 2020 18:39:22 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
 Subject: Re: [PATCH v7 17/47] dt-bindings: memory: tegra20: Add memory client
  IDs
-Message-ID: <X7/lLaZJNp+Vfczk@ulmo>
+Message-ID: <20201126173922.GA7048@kozik-lap>
 References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-18-digetx@gmail.com>
+ <20201104164923.21238-18-digetx@gmail.com> <X7/lLaZJNp+Vfczk@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20201104164923.21238-18-digetx@gmail.com>
-User-Agent: Mutt/2.0.2 (d9268908) (2020-11-20)
+Content-Disposition: inline
+In-Reply-To: <X7/lLaZJNp+Vfczk@ulmo>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +58,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
- dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, Nicolas Chauvet <kwizart@gmail.com>,
  Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
- Georgi Djakov <georgi.djakov@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
  Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
  MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>
-Content-Type: multipart/mixed; boundary="===============1745337529=="
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Nov 26, 2020 at 06:26:05PM +0100, Thierry Reding wrote:
+> On Wed, Nov 04, 2020 at 07:48:53PM +0300, Dmitry Osipenko wrote:
+> > Each memory client has unique hardware ID, add these IDs.
+> > 
+> > Acked-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> > ---
+> >  include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
+> >  1 file changed, 53 insertions(+)
+> 
+> Is there any chance you could drop these dt-bindings include patches
+> (17, 18 and 19) so that I can pick them up into the Tegra tree? The
+> device tree changes that I was going to pick up depend on this and
+> fail to build if applied as-is.
+> 
+> I was looking at your linux-mem-ctrl tree and had initially thought I
+> could just pull in one of the branches to get these dependencies, but it
+> looks like the dt-bindings patches are on the for-v5.11/tegra-mc branch,
+> which the ARM SoC maintainers wouldn't like to see me pull in for a
+> dependency on device tree changes.
 
---===============1745337529==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="u/+LBcE/GZY9+OI4"
-Content-Disposition: inline
+Partially you answered here. :) Since you should not pull my branch into
+a DT branch, you also should not put these include/dt-bindings patches
+there.  SoC guys will complain about this as well.
 
+These patches are also needed for the driver, so if you take them, I
+would need them back in a pull request. SoC folks could spot it as well
+and point that such merge should not happen.
 
---u/+LBcE/GZY9+OI4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> If this is all fixed at this point, I'll just have to push back the
+> device tree changes to v5.12, or perhaps see if the ARM SoC maintainers
+> are willing to take a late pull request that's based on v5.11-rc1.
 
-On Wed, Nov 04, 2020 at 07:48:53PM +0300, Dmitry Osipenko wrote:
-> Each memory client has unique hardware ID, add these IDs.
->=20
-> Acked-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
+Yeah, that's a known problem. I asked about this Arnd and Olof in the
+past and got reply with two solutions:
+1. Apply current version of patch without defines, just hard-coded
+   numbers. After merging to Linus, replace the numbers with defines.
 
-Is there any chance you could drop these dt-bindings include patches
-(17, 18 and 19) so that I can pick them up into the Tegra tree? The
-device tree changes that I was going to pick up depend on this and
-fail to build if applied as-is.
+2. Wait with DTS till dependencies reach Linus.
 
-I was looking at your linux-mem-ctrl tree and had initially thought I
-could just pull in one of the branches to get these dependencies, but it
-looks like the dt-bindings patches are on the for-v5.11/tegra-mc branch,
-which the ARM SoC maintainers wouldn't like to see me pull in for a
-dependency on device tree changes.
-
-If this is all fixed at this point, I'll just have to push back the
-device tree changes to v5.12, or perhaps see if the ARM SoC maintainers
-are willing to take a late pull request that's based on v5.11-rc1.
-
-Thierry
-
---u/+LBcE/GZY9+OI4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+/5SkACgkQ3SOs138+
-s6E7hA/+KCUsyWXHkq1zseaJ5gCXuvTLINqhxC1oK5TJvCQ7BFh3567X8Qg1Sd85
-W4KQS5u4lGrHEfDgGILPcdO/GdlOWrYLUpLVnwHMX4/F2Jy8Ey/cPHPDLN469A53
-B0qntX6JoeJKFU/mGmvf0xQie/QpZvjBfMFrCdQhA/UueGOdJYBMKb8o5hmQgLi9
-LWVnTdSrxaht6vl32SeO452KjQvUBZSnCh9weUvpzhcPtOJm8hn6Fnmc1erDw9bX
-QokJFiB0XDvsFJoBtbQQx2/jHXFihBCdlxiuxJvEKb/0n3qrYzr6n9Vasjpb0gap
-83nRKdl4MNJsJ6KjoMZtjVt93x37sam6giILq98SIKJos5jz4WK8PKUiOIyQZryb
-AJL2NRM9gdtfUkm3YHcePioeyNsr2baRqF2kuv+VsnyYOHKqSilmRX0fOXn63kKg
-0wNfDmMPA63/UfYSweeTnDZerFZdJwV04+PFOt6OCffoZEe+uDCnpmrn0Gv91Hrp
-HJEai7zzj8yZqHUCqNRP8SadYHWXQjz0a42CoD1UHyoeMQnvApxCdAn3vQ9R6WBM
-n0BdCx0blXhamA3xb2EPVwPZ4huLcxwCRTKDRcRMbMUL400k3MGk9EnHeXa85YgU
-NKeI2QOdzGQ788QbBHfdD7iBjEPcHLx98w3zxgISsEElIUXDMfY=
-=f5yy
------END PGP SIGNATURE-----
-
---u/+LBcE/GZY9+OI4--
-
---===============1745337529==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Best regards,
+Krzysztof
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1745337529==--
