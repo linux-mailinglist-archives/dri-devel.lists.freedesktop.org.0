@@ -2,31 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE9B2C5434
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 13:51:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3D82C546C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 14:05:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EAB96E925;
-	Thu, 26 Nov 2020 12:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C845E6E925;
+	Thu, 26 Nov 2020 13:05:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 823376E925
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 12:51:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDA6F6E925
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 13:05:52 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1E6AAAD21;
- Thu, 26 Nov 2020 12:51:16 +0000 (UTC)
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20201125090903.4436-1-kuohsiang_chou@aspeedtech.com>
+ by mx2.suse.de (Postfix) with ESMTP id 66C4BAD21;
+ Thu, 26 Nov 2020 13:05:51 +0000 (UTC)
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
+ <1606392140-57954-2-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/ast: Fixed CVE for DP501
-Message-ID: <4d9d5c42-842b-1152-1b81-da634fe4f124@suse.de>
-Date: Thu, 26 Nov 2020 13:51:14 +0100
+Subject: Re: [PATCH drm/hisilicon 1/3] drm/hisilicon: Code refactoring for
+ hibmc_drm_drv
+Message-ID: <e7ae66dc-6bfe-0413-687a-55f4f392f0fd@suse.de>
+Date: Thu, 26 Nov 2020 14:05:49 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20201125090903.4436-1-kuohsiang_chou@aspeedtech.com>
+In-Reply-To: <1606392140-57954-2-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,387 +43,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, jenmin_yuan@aspeedtech.com, tommy_huang@aspeedtech.com,
- arc_sung@aspeedtech.com, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============0719718935=="
+Cc: linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0807412280=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0719718935==
+--===============0807412280==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="esmsYFNQq4Xi6if2dcfeahjoc94Z1TFtn"
+ boundary="IXOfhhr90WUTexsH77RH73TvXPY0rJsGv"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---esmsYFNQq4Xi6if2dcfeahjoc94Z1TFtn
-Content-Type: multipart/mixed; boundary="zKbi531oV0Rblz1bLv8dyDgFcyRVEa7rx";
+--IXOfhhr90WUTexsH77RH73TvXPY0rJsGv
+Content-Type: multipart/mixed; boundary="TtE0nB4yElvNRRDtk7uZnjah9k8KfGcy8";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: airlied@linux.ie, tommy_huang@aspeedtech.com, jenmin_yuan@aspeedtech.com,
- airlied@redhat.com, arc_sung@aspeedtech.com
-Message-ID: <4d9d5c42-842b-1152-1b81-da634fe4f124@suse.de>
-Subject: Re: [PATCH] drm/ast: Fixed CVE for DP501
-References: <20201125090903.4436-1-kuohsiang_chou@aspeedtech.com>
-In-Reply-To: <20201125090903.4436-1-kuohsiang_chou@aspeedtech.com>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Message-ID: <e7ae66dc-6bfe-0413-687a-55f4f392f0fd@suse.de>
+Subject: Re: [PATCH drm/hisilicon 1/3] drm/hisilicon: Code refactoring for
+ hibmc_drm_drv
+References: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
+ <1606392140-57954-2-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1606392140-57954-2-git-send-email-tiantao6@hisilicon.com>
 
---zKbi531oV0Rblz1bLv8dyDgFcyRVEa7rx
+--TtE0nB4yElvNRRDtk7uZnjah9k8KfGcy8
 Content-Type: multipart/mixed;
- boundary="------------4FAE2011DCC64905125D52DC"
+ boundary="------------23E1404708D2B7816DE29839"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------4FAE2011DCC64905125D52DC
+--------------23E1404708D2B7816DE29839
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi
 
-please see below for a review.
-
-Am 25.11.20 um 10:09 schrieb KuoHsiang Chou:
-> [Bug][DP501]
-> 1. For security concerning, P2A have to be disabled by CVE regulation.
-> 2. FrameBuffer reverses last 2MB used for the image of DP501
-> 3. If P2A is disallowed, the default "ioremap()" behavior is non-cached=
-
->     and could be an alternative accessing on the image of DP501.
-
-Please provide a more verbose description of the change. Which problem=20
-does this patch solve?
-
+Am 26.11.20 um 13:02 schrieb Tian Tao:
+> Use the devm_drm_dev_alloc provided by the drm framework to alloc
+> a struct hibmc_drm_private.
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 > ---
->   drivers/gpu/drm/ast/ast_dp501.c | 131 +++++++++++++++++++++++--------=
--
->   drivers/gpu/drm/ast/ast_drv.h   |   2 +
->   drivers/gpu/drm/ast/ast_main.c  |  12 +++
->   drivers/gpu/drm/ast/ast_mm.c    |   1 +
->   4 files changed, 110 insertions(+), 36 deletions(-)
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   |  2 +-
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 51 +++++++++++----=
+---------
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  2 +-
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  2 +-
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c      |  8 ++--
+>   5 files changed, 31 insertions(+), 34 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_=
-dp501.c
-> index 88121c0e0d05..7640364ef2bc 100644
-> --- a/drivers/gpu/drm/ast/ast_dp501.c
-> +++ b/drivers/gpu/drm/ast/ast_dp501.c
-> @@ -189,6 +189,8 @@ bool ast_backup_fw(struct drm_device *dev, u8 *addr=
-, u32 size)
->   	u32 i, data;
->   	u32 boot_address;
->=20
-> +	if (ast->config_mode !=3D ast_use_p2a) return false;
-> +
-=09
-The coding style is incorrect. 'Return false' needs to be on the next=20
-line, indented by an additional tab. Here and in other place.
-
-
->   	data =3D ast_mindwm(ast, 0x1e6e2100) & 0x01;
->   	if (data) {
->   		boot_address =3D get_fw_base(ast);
-> @@ -207,6 +209,8 @@ static bool ast_launch_m68k(struct drm_device *dev)=
-
->   	u8 *fw_addr =3D NULL;
->   	u8 jreg;
->=20
-> +	if (ast->config_mode !=3D ast_use_p2a) return false;
-> +
-
-Coding style.
-
->   	data =3D ast_mindwm(ast, 0x1e6e2100) & 0x01;
->   	if (!data) {
->=20
-> @@ -272,24 +276,51 @@ u8 ast_get_dp501_max_clk(struct drm_device *dev)
->   	u32 boot_address, offset, data;
->   	u8 linkcap[4], linkrate, linklanes, maxclk =3D 0xff;
->=20
-> -	boot_address =3D get_fw_base(ast);
-> -
-> -	/* validate FW version */
-> -	offset =3D 0xf000;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if ((data & 0xf0) !=3D 0x10) /* version: 1x */
-> -		return maxclk;
-> -
-> -	/* Read Link Capability */
-> -	offset  =3D 0xf014;
-> -	*(u32 *)linkcap =3D ast_mindwm(ast, boot_address + offset);
-> -	if (linkcap[2] =3D=3D 0) {
-> -		linkrate =3D linkcap[0];
-> -		linklanes =3D linkcap[1];
-> -		data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklanes=
-);
-> -		if (data > 0xff)
-> -			data =3D 0xff;
-> -		maxclk =3D (u8)data;
-> +	if (ast->config_mode =3D=3D ast_use_p2a) {
-> +		boot_address =3D get_fw_base(ast);
-> +
-> +		/* validate FW version */
-> +		offset =3D 0xf000;
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if ((data & 0xf0) !=3D 0x10) /* version: 1x */
-> +			return maxclk;
-
-Please give these constants some meaningful names. I suggest something li=
-ke
-
-#define AST_DP501_FW_VERSION_MASK	GENMASK(7, 4)
-#define AST_DP501_FW_VERSION_1		BIT(4)
-
-There are already a few constants in ast_drv.h. I'd put them there as=20
-well. It's better than a comment.
-
-> +
-> +		/* Read Link Capability */
-> +		offset  =3D 0xf014;
-
-Please give the offset a meaningful name.
-
-
-> +		*(u32 *)linkcap =3D ast_mindwm(ast, boot_address + offset);
-
-The cast shoudl go to the right-hand side of the assignment.
-
-> +		if (linkcap[2] =3D=3D 0) {
-> +			linkrate =3D linkcap[0];
-> +			linklanes =3D linkcap[1];
-> +			data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklane=
-s);
-> +			if (data > 0xff)
-> +				data =3D 0xff;
-> +			maxclk =3D (u8)data;
-> +		}
-> +	}
-> +	else {
-
-else goes on the same line as }
-
-> +		if (!ast->reservedbuffer) return 65;	/* 1024x768 as default */
-
-Coding style. Please give a meaningful name to 65.
-
-> +
-> +		/* dummy read */
-> +		offset =3D 0x0000;
-> +		data =3D *(u32 *) (ast->reservedbuffer + offset);
-
-Why is this required?
-
-reservedbuffer is I/O memory accessed in 32-bit chunks. You should use=20
-readl and writel to access its content.
-
-> +
-> +			/* validate FW version */
-> +			offset =3D 0xf000;
-
-The indention is off.
-
-> +		data =3D *(u32 *) (ast->reservedbuffer + offset);
-> +			if ((data & 0xf0) !=3D 0x10) /* version: 1x */
-> +				return maxclk;
-
-Indention.
-
-> +
-> +		/* Read Link Capability */
-> +		offset  =3D 0xf014;
-> +		*(u32 *)linkcap =3D *(u32 *) (ast->reservedbuffer + offset);
-> +		if (linkcap[2] =3D=3D 0) {
-> +			linkrate =3D linkcap[0];
-> +			linklanes =3D linkcap[1];
-> +			data =3D (linkrate =3D=3D 0x0a) ? (90 * linklanes) : (54 * linklane=
-s);
-> +			if (data > 0xff)
-> +				data =3D 0xff;
-> +			maxclk =3D (u8)data;
-> +		}
->   	}
->   	return maxclk;
->   }
-> @@ -299,25 +330,53 @@ bool ast_dp501_read_edid(struct drm_device *dev, =
-u8 *ediddata)
->   	struct ast_private *ast =3D to_ast_private(dev);
->   	u32 i, boot_address, offset, data;
->=20
-> -	boot_address =3D get_fw_base(ast);
-> -
-> -	/* validate FW version */
-> -	offset =3D 0xf000;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if ((data & 0xf0) !=3D 0x10)
-> -		return false;
-> -
-> -	/* validate PnP Monitor */
-> -	offset =3D 0xf010;
-> -	data =3D ast_mindwm(ast, boot_address + offset);
-> -	if (!(data & 0x01))
-> -		return false;
-> +	if (ast->config_mode =3D=3D ast_use_p2a) {
-> +		boot_address =3D get_fw_base(ast);
->=20
-> -	/* Read EDID */
-> -	offset =3D 0xf020;
-> -	for (i =3D 0; i < 128; i +=3D 4) {
-> -		data =3D ast_mindwm(ast, boot_address + offset + i);
-> -		*(u32 *)(ediddata + i) =3D data;
-> +		/* validate FW version */
-> +		offset =3D 0xf000;
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if ((data & 0xf0) !=3D 0x10)
-> +			return false;
-> +
-> +		/* validate PnP Monitor */
-> +		offset =3D 0xf010;
-
-Please name the constant.
-
-> +		data =3D ast_mindwm(ast, boot_address + offset);
-> +		if (!(data & 0x01))
-
-Please name the constant.
-
-> +			return false;
-> +
-> +		/* Read EDID */
-> +		offset =3D 0xf020;
-> +		for (i =3D 0; i < 128; i +=3D 4) {
-> +			data =3D ast_mindwm(ast, boot_address + offset + i);
-> +			*(u32 *)(ediddata + i) =3D data;
-
-writel for I/O access
-
-> +		}
-> +	}
-> +	else {
-
-else on wrong line
-
-> +		if (!ast->reservedbuffer) return false;
-> +
-> +		/* dummy read */
-> +		offset =3D 0x0000;
-> +		data =3D *(u32 *) (ast->reservedbuffer + offset);
-> +
-> +		/* validate FW version */
-> +		offset =3D 0xf000;
-> +		data =3D *(u32 *) (ast->reservedbuffer + offset);
-> +		if ((data & 0xf0) !=3D 0x10)
-> +			return false;
-> +
-> +		/* validate PnP Monitor */
-> +		offset =3D 0xf010;
-> +		data =3D *(u32 *) (ast->reservedbuffer + offset);
-> +		if (!(data & 0x01))
-> +			return false;
-> +
-> +		/* Read EDID */
-> +		offset =3D 0xf020;
-> +		for (i =3D 0; i < 128; i+=3D4) {
-> +			data =3D *(u32 *) (ast->reservedbuffer + offset + i);
-> +			*(u32 *)(ediddata + i) =3D data;
-> +		}
->   	}
->=20
->   	return true;
-> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_dr=
-v.h
-> index 6b9e3b94a712..cd17e0683fd7 100644
-> --- a/drivers/gpu/drm/ast/ast_drv.h
-> +++ b/drivers/gpu/drm/ast/ast_drv.h
-> @@ -121,12 +121,14 @@ struct ast_private {
->=20
->   	void __iomem *regs;
->   	void __iomem *ioregs;
-> +	void __iomem *reservedbuffer;
-
-reservedbuffer has no meaning. As it stores the DP501's firmware, I'd=20
-call it dp501_fw.
-
->=20
->   	enum ast_chip chip;
->   	bool vga2_clone;
->   	uint32_t dram_bus_width;
->   	uint32_t dram_type;
->   	uint32_t mclk;
-> +	uint32_t vram_size;
->=20
->   	int fb_mtrr;
->=20
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_m=
-ain.c
-> index 4ec6884f6c65..4477b4cf1b06 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -393,6 +393,7 @@ static void ast_device_release(void *data)
->=20
->   	/* enable standard VGA decode */
->   	ast_set_index_reg(ast, AST_IO_CRTC_PORT, 0xa1, 0x04);
-> +	pci_iounmap(ast->base.pdev, ast->reservedbuffer);
->   }
->=20
->   struct ast_private *ast_device_create(struct drm_driver *drv,
-> @@ -449,6 +450,17 @@ struct ast_private *ast_device_create(struct drm_d=
-river *drv,
->   	if (ret)
->   		return ERR_PTR(ret);
->=20
-> +	/* map reserved buffer */
-> +	ast->reservedbuffer =3D NULL;
-> +	if (ast->vram_size < pci_resource_len(dev->pdev, 0)) {
-> +		ast->reservedbuffer =3D ioremap( \
-> +			pci_resource_start(ast->base.pdev, 0) + (unsigned long)ast->vram_si=
-ze, \
-> +			pci_resource_len(dev->pdev, 0) - ast->vram_size);
-
-Use pci_iomap_range() instead. The function's offset parameter is=20
-vram_size, the function's maxlen parameter is 0.
-
-You also won't need pci_iounmap(). pci_iomap_range() sets up the cleanup =
-
-for you.
-
-> +		if (!ast->reservedbuffer) {
-
-No braces around single-line branch.
-
-> +			DRM_INFO("failed to map reserved buffer! \n");
-
-Use drm_info() instead
-
-> +		}
-> +	}
-> +
->   	ret =3D ast_mode_config_init(ast);
->   	if (ret)
->   		return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/ast/ast_mm.c b/drivers/gpu/drm/ast/ast_mm.=
-c
-> index 8392ebde504b..c6fd24493fb3 100644
-> --- a/drivers/gpu/drm/ast/ast_mm.c
-> +++ b/drivers/gpu/drm/ast/ast_mm.c
-> @@ -90,6 +90,7 @@ int ast_mm_init(struct ast_private *ast)
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c b/drivers/g=
+pu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> index ea962ac..096eea9 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+> @@ -499,7 +499,7 @@ static const struct drm_crtc_helper_funcs hibmc_crt=
+c_helper_funcs =3D {
+>  =20
+>   int hibmc_de_init(struct hibmc_drm_private *priv)
+>   {
+> -	struct drm_device *dev =3D priv->dev;
+> +	struct drm_device *dev =3D &priv->dev;
+>   	struct drm_crtc *crtc =3D &priv->crtc;
+>   	struct drm_plane *plane =3D &priv->primary_plane;
 >   	int ret;
->=20
->   	vram_size =3D ast_get_vram_size(ast);
-> +	ast->vram_size =3D (uint32_t) vram_size;
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index d845657..ea3d81b 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -80,30 +80,31 @@ static const struct dev_pm_ops hibmc_pm_ops =3D {
+>   static int hibmc_kms_init(struct hibmc_drm_private *priv)
+>   {
+>   	int ret;
+> +	struct drm_device *dev =3D &priv->dev;
 
-You don't need to store vram_size. Look at dev->vram_mm->vram_size instea=
-d.
+I think that's good style. Pointers deserve their own local variable if=20
+they are used multiple times within a function. I would move this change =
 
->=20
->   	ret =3D drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),=
+into a separate patch, because it's only semi-related to the actual chang=
+es.
 
->   				    vram_size);
-> --
-> 2.18.4
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  =20
+> -	drm_mode_config_init(priv->dev);
+> +	drm_mode_config_init(dev);
+>   	priv->mode_config_initialized =3D true;
+>  =20
+> -	priv->dev->mode_config.min_width =3D 0;
+> -	priv->dev->mode_config.min_height =3D 0;
+> -	priv->dev->mode_config.max_width =3D 1920;
+> -	priv->dev->mode_config.max_height =3D 1200;
+> +	dev->mode_config.min_width =3D 0;
+> +	dev->mode_config.min_height =3D 0;
+> +	dev->mode_config.max_width =3D 1920;
+> +	dev->mode_config.max_height =3D 1200;
+>  =20
+> -	priv->dev->mode_config.fb_base =3D priv->fb_base;
+> -	priv->dev->mode_config.preferred_depth =3D 32;
+> -	priv->dev->mode_config.prefer_shadow =3D 1;
+> +	dev->mode_config.fb_base =3D priv->fb_base;
+> +	dev->mode_config.preferred_depth =3D 32;
+> +	dev->mode_config.prefer_shadow =3D 1;
+>  =20
+> -	priv->dev->mode_config.funcs =3D (void *)&hibmc_mode_funcs;
+> +	dev->mode_config.funcs =3D (void *)&hibmc_mode_funcs;
+>  =20
+>   	ret =3D hibmc_de_init(priv);
+>   	if (ret) {
+> -		drm_err(priv->dev, "failed to init de: %d\n", ret);
+> +		drm_err(dev, "failed to init de: %d\n", ret);
+>   		return ret;
+>   	}
+>  =20
+>   	ret =3D hibmc_vdac_init(priv);
+>   	if (ret) {
+> -		drm_err(priv->dev, "failed to init vdac: %d\n", ret);
+> +		drm_err(dev, "failed to init vdac: %d\n", ret);
+>   		return ret;
+>   	}
+>  =20
+> @@ -113,7 +114,7 @@ static int hibmc_kms_init(struct hibmc_drm_private =
+*priv)
+>   static void hibmc_kms_fini(struct hibmc_drm_private *priv)
+>   {
+>   	if (priv->mode_config_initialized) {
+> -		drm_mode_config_cleanup(priv->dev);
+> +		drm_mode_config_cleanup(&priv->dev);
+>   		priv->mode_config_initialized =3D false;
+>   	}
+>   }
+> @@ -202,7 +203,7 @@ static void hibmc_hw_config(struct hibmc_drm_privat=
+e *priv)
+>  =20
+>   static int hibmc_hw_map(struct hibmc_drm_private *priv)
+>   {
+> -	struct drm_device *dev =3D priv->dev;
+> +	struct drm_device *dev =3D &priv->dev;
+>   	struct pci_dev *pdev =3D dev->pdev;
+>   	resource_size_t addr, size, ioaddr, iosize;
+>  =20
+> @@ -258,17 +259,9 @@ static int hibmc_unload(struct drm_device *dev)
+>  =20
+>   static int hibmc_load(struct drm_device *dev)
+>   {
+> -	struct hibmc_drm_private *priv;
+> +	struct hibmc_drm_private *priv =3D dev->dev_private;
+
+Please use to_hibmc_drm_private() instead. dev_private is deprecated.
+
+>   	int ret;
+>  =20
+> -	priv =3D drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> -	if (!priv) {
+> -		drm_err(dev, "no memory to allocate for hibmc_drm_private\n");
+> -		return -ENOMEM;
+> -	}
+> -	dev->dev_private =3D priv;
+> -	priv->dev =3D dev;
+> -
+>   	ret =3D hibmc_hw_init(priv);
+>   	if (ret)
+>   		goto err;
+> @@ -310,6 +303,7 @@ static int hibmc_load(struct drm_device *dev)
+>   static int hibmc_pci_probe(struct pci_dev *pdev,
+>   			   const struct pci_device_id *ent)
+>   {
+> +	struct hibmc_drm_private *priv;
+>   	struct drm_device *dev;
+>   	int ret;
+>  =20
+> @@ -318,19 +312,22 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+>   	if (ret)
+>   		return ret;
+>  =20
+> -	dev =3D drm_dev_alloc(&hibmc_driver, &pdev->dev);
+> -	if (IS_ERR(dev)) {
+> +	priv =3D devm_drm_dev_alloc(&pdev->dev, &hibmc_driver,
+> +				  struct hibmc_drm_private, dev);
+> +	if (IS_ERR(priv)) {
+>   		DRM_ERROR("failed to allocate drm_device\n");
+> -		return PTR_ERR(dev);
+> +		return PTR_ERR(priv);
+>   	}
+>  =20
+> +	dev =3D &priv->dev;
+> +	dev->dev_private =3D priv;
+
+Don't do this assignment. After this patch, no code in hibmc should=20
+touch dev_private. Instead, change to_hibmc_drm_private() to upcast from =
+
+dev. As in [1].
+
+>   	dev->pdev =3D pdev;
+>   	pci_set_drvdata(pdev, dev);
+>  =20
+>   	ret =3D pci_enable_device(pdev);
+>   	if (ret) {
+>   		drm_err(dev, "failed to enable pci device: %d\n", ret);
+> -		goto err_free;
+> +		return ret;
+>   	}
+>  =20
+>   	ret =3D hibmc_load(dev);
+> @@ -354,8 +351,6 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
+>   	hibmc_unload(dev);
+>   err_disable:
+>   	pci_disable_device(pdev);
+> -err_free:
+> -	drm_dev_put(dev);
+>  =20
+>   	return ret;
+>   }
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> index f310a83..e35353a 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> @@ -37,7 +37,7 @@ struct hibmc_drm_private {
+>   	resource_size_t  fb_size;
+>  =20
+>   	/* drm */
+> -	struct drm_device  *dev;
+> +	struct drm_device dev;
+>   	struct drm_plane primary_plane;
+>   	struct drm_crtc crtc;
+>   	struct drm_encoder encoder;
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c b/drivers=
+/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> index 74e26c2..d35548d 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+> @@ -96,7 +96,7 @@ static const struct drm_encoder_funcs hibmc_encoder_f=
+uncs =3D {
+>  =20
+>   int hibmc_vdac_init(struct hibmc_drm_private *priv)
+>   {
+> -	struct drm_device *dev =3D priv->dev;
+> +	struct drm_device *dev =3D &priv->dev;
+>   	struct hibmc_connector *hibmc_connector =3D &priv->connector;
+>   	struct drm_encoder *encoder =3D &priv->encoder;
+>   	struct drm_connector *connector =3D &hibmc_connector->base;
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/=
+drm/hisilicon/hibmc/hibmc_ttm.c
+> index 602ece1..e84fb81 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+> @@ -25,7 +25,7 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+>   {
+>   	struct drm_vram_mm *vmm;
+>   	int ret;
+> -	struct drm_device *dev =3D hibmc->dev;
+> +	struct drm_device *dev =3D &hibmc->dev;
+>  =20
+>   	vmm =3D drm_vram_helper_alloc_mm(dev,
+>   				       pci_resource_start(dev->pdev, 0),
+> @@ -41,10 +41,12 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+>  =20
+>   void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+>   {
+> -	if (!hibmc->dev->vram_mm)
+> +	struct drm_device *dev =3D &hibmc->dev;
+> +
+> +	if (!dev->vram_mm)
+>   		return;
+>  =20
+> -	drm_vram_helper_release_mm(hibmc->dev);
+> +	drm_vram_helper_release_mm(dev);
+
+That's OK for now. A good follow-up patchset is the conversion to=20
+managed DRM helpers. We have these for modesetting, vram helpers and othe=
+rs.
+
+>   }
+>  =20
+>   int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
 >=20
 
 --=20
@@ -430,7 +332,7 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 (HRB 36809, AG N=C3=BCrnberg)
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
---------------4FAE2011DCC64905125D52DC
+--------------23E1404708D2B7816DE29839
 Content-Type: application/pgp-keys;
  name="OpenPGP_0x680DC11D530B7A23.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -645,34 +547,34 @@ keWD97V4vo2flZ8ii37fcKNX4daGGnRRFUh4BrBG
 =3DskgE
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------4FAE2011DCC64905125D52DC--
+--------------23E1404708D2B7816DE29839--
 
---zKbi531oV0Rblz1bLv8dyDgFcyRVEa7rx--
+--TtE0nB4yElvNRRDtk7uZnjah9k8KfGcy8--
 
---esmsYFNQq4Xi6if2dcfeahjoc94Z1TFtn
+--IXOfhhr90WUTexsH77RH73TvXPY0rJsGv
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+/pMIFAwAAAAAACgkQlh/E3EQov+Cq
-sBAAjVI1YbII1Xd4j1jnPCksul6DNIEpSbUFX9HpMq4X7T+YAI9L1ucsGgbqlntkxVz9jUiTIk+5
-CarY6Hdpb7jUpEqe08jclgDFBVeeKr+M5hoMrPnn05rmcTF7n6FNt1GpBPWPUeM9RB4K44rYMFwd
-QYQ6KXr53ReZMAPnubQnzZToDeT4GKk9JsQItMOuvd3ZUQjS11XWn7jvBQfqAlzH4sfZEJkMCWXM
-o08V9lyK/Gui79EvreR4WdE7ueYodRYh06yvOcJDj1hO8W0y80U1sVIJe9vi7+0M2ZFYxo9HKwK7
-R0inx8Zp5vs7shPLzjH7zvI7AfDscKtbMNYVkoyH2Cpzmw+Snmsa5yZoLXHizGsrssOpc48aDKV/
-MILhcJc+c5crHQ9IIFI1Dv2Y7/lQtE36r3wy1l2jPdNEwmOYWebQcONtkE0bqGRLZtHnWRv5Blgb
-GH+VyNjG7rtZOPzqr04DTam8JeWOC6dAVLQbAF7BirojZGvGjebh6O13HM2FKqA95ngZGJ8wjfxf
-juTKzuUu8lV/+1ZdLQyDSLEvG7+o3xlweCwqxAnR2RqHnDC3YcRIaNzztxk4RJcfsUdpOJvGB9kq
-Ih4O8uKi0FvChJYTkCyIw/jFMPH41CD0HDA1QNgsN2k6fz8dXYlTe5szXphGp9016H7FI4JfWSs5
-PDw=
-=x4CL
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl+/qC0FAwAAAAAACgkQlh/E3EQov+B9
+4RAAmDhVfFHSJ2XTTw3bC+3YNacgAaiSHEAeZ7vWRysKqBASNMFu0NpBnTEbFoGMZ0JkUrvOVcKg
+AY/qYGZgFLIC/H2SeT5PpGru9k4qQ9sqYAAuQOrrWrwcP2NbSBnkGaHjWWoKrS3xTAFPSqkr90RP
+CVbrEvMVrjUEPOplh+tUlqrKN20Lvsc3ilaKxCE5oDqvYkyXGrxxpk56xi9g8IAK7aVAnnVQcEJV
+abantmzhBrpVCluIZJCoqPczk0dhSzERrHGoHvRJxMxnIwi2eEzHFnNcJfcXF4bmeIkHHrW0Don2
+6wVRpKzgXkEnQ/fw1nZaDosWovwdzupA+QTEu8ah9fbB2F6LyapMjTEd2EbzlcAghFUMnnOFZqQw
+sI57NHz+YAQAo4bdIjlV5BFPs41Klas6VbvYyRW1eB+wnfieK678x1W/mGe5boErEQV5sH5KikLb
+8FtgNWvkGOdm3zHID7jX24Wifn0OnfSamC/hbvvxKnBYHC5C6mwNpwzlxBleX86SK0wossNyceb3
+T5BOorAbDGZ1QEfMnNYEhIyF8DLgQ//rYg4f3uMQmFpwECXpUPJyBqIZ3DIfB4brDu7kwuwhF4LM
+2Snmqx06Pq8Azk9Bh3ZlFugUgqG/nttPVZOP55rB8sRisey9ns8XBOEKPMzziKCFHZxmzoVKAssp
+zBE=
+=qkyn
 -----END PGP SIGNATURE-----
 
---esmsYFNQq4Xi6if2dcfeahjoc94Z1TFtn--
+--IXOfhhr90WUTexsH77RH73TvXPY0rJsGv--
 
---===============0719718935==
+--===============0807412280==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -683,4 +585,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0719718935==--
+--===============0807412280==--
