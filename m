@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119A12C6293
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6BB2C62A3
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 11:12:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5E4A6EB7D;
-	Fri, 27 Nov 2020 10:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C70B6EB8F;
+	Fri, 27 Nov 2020 10:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B63E6E8D9
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 12:02:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7AE66E8EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 12:02:10 +0000 (UTC)
 Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Chbvr1Vr9z74Dm;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Chbvr274wz74Dg;
  Thu, 26 Nov 2020 20:01:44 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
@@ -23,9 +23,10 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>
-Subject: [PATCH drm/hisilicon 2/3] drm/irq: Add the new api to install irq
-Date: Thu, 26 Nov 2020 20:02:19 +0800
-Message-ID: <1606392140-57954-3-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon 3/3] drm/hisilicon: Use the new api
+ devm_drm_irq_install
+Date: Thu, 26 Nov 2020 20:02:20 +0800
+Message-ID: <1606392140-57954-4-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
 References: <1606392140-57954-1-git-send-email-tiantao6@hisilicon.com>
@@ -51,71 +52,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new api devm_drm_irq_install() to register interrupts,
-no need to call drm_irq_uninstall() when the drm module is removed.
+Use devm_drm_irq_install to register interrupts so that
+drm_irq_uninstall is not called when hibmc is removed.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/drm_irq.c | 34 ++++++++++++++++++++++++++++++++++
- include/drm/drm_irq.h     |  2 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-index 09d6e9e..983ad6b 100644
---- a/drivers/gpu/drm/drm_irq.c
-+++ b/drivers/gpu/drm/drm_irq.c
-@@ -214,6 +214,40 @@ int drm_irq_uninstall(struct drm_device *dev)
- }
- EXPORT_SYMBOL(drm_irq_uninstall);
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index ea3d81b..77792e3 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -247,9 +247,6 @@ static int hibmc_unload(struct drm_device *dev)
  
-+static void devm_drm_irq_uninstall(void *data)
-+{
-+	drm_irq_uninstall(data);
-+}
-+
-+/**
-+ * devm_drm_irq_install - install IRQ handler
-+ * @dev: DRM device
-+ * @irq: IRQ number to install the handler for
-+ *
-+ * devm_drm_irq_install is the help function of drm_irq_install,
-+ * when the driver uses devm_drm_irq_install, there is no need
-+ * to call drm_irq_uninstall when the drm module is uninstalled,
-+ * and this will done automagically.
-+ *
-+ * Returns:
-+ * Zero on success or a negative error code on failure.
-+ */
-+int devm_drm_irq_install(struct drm_device *dev, int irq)
-+{
-+	int ret;
-+
-+	ret = drm_irq_install(dev, irq);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action(dev->dev, devm_drm_irq_uninstall, dev);
-+	if (ret)
-+		devm_drm_irq_uninstall(dev);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(devm_drm_irq_install);
-+
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
- int drm_legacy_irq_control(struct drm_device *dev, void *data,
- 			   struct drm_file *file_priv)
-diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
-index d77f6e6..631b22f 100644
---- a/include/drm/drm_irq.h
-+++ b/include/drm/drm_irq.h
-@@ -28,5 +28,5 @@ struct drm_device;
+ 	drm_atomic_helper_shutdown(dev);
  
- int drm_irq_install(struct drm_device *dev, int irq);
- int drm_irq_uninstall(struct drm_device *dev);
+-	if (dev->irq_enabled)
+-		drm_irq_uninstall(dev);
 -
-+int devm_drm_irq_install(struct drm_device *dev, int irq);
- #endif
+ 	pci_disable_msi(dev->pdev);
+ 	hibmc_kms_fini(priv);
+ 	hibmc_mm_fini(priv);
+@@ -284,7 +281,7 @@ static int hibmc_load(struct drm_device *dev)
+ 	if (ret) {
+ 		drm_warn(dev, "enabling MSI failed: %d\n", ret);
+ 	} else {
+-		ret = drm_irq_install(dev, dev->pdev->irq);
++		ret = devm_drm_irq_install(dev, dev->pdev->irq);
+ 		if (ret)
+ 			drm_warn(dev, "install irq failed: %d\n", ret);
+ 	}
 -- 
 2.7.4
 
