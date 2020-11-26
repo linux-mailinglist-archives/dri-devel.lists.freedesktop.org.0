@@ -1,34 +1,86 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B7D2C5070
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:34:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BEF2C517E
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 10:44:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 999516E81D;
-	Thu, 26 Nov 2020 08:34:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A6A6E844;
+	Thu, 26 Nov 2020 09:44:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3E6656E81D
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 08:34:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5426D31B;
- Thu, 26 Nov 2020 00:34:00 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06B263F70D;
- Thu, 26 Nov 2020 00:33:58 -0800 (PST)
-Subject: Re: [PATCH] iommu/io-pgtable: Remove tlb_flush_leaf
-To: Robin Murphy <robin.murphy@arm.com>, will@kernel.org
-References: <9844ab0c5cb3da8b2f89c6c2da16941910702b41.1606324115.git.robin.murphy@arm.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <954cd979-a3e4-ddde-8a3e-353124fc1cda@arm.com>
-Date: Thu, 26 Nov 2020 08:33:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from de-out1.bosch-org.com (de-out1.bosch-org.com [139.15.230.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DD5B6E844
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 09:44:08 +0000 (UTC)
+Received: from fe0vm1650.rbesz01.com
+ (lb41g3-ha-dmz-psi-sl1-mailout.fe.ssn.bosch.com [139.15.230.188])
+ by fe0vms0186.rbdmz01.com (Postfix) with ESMTPS id 4ChXs30gThz1XLFjn;
+ Thu, 26 Nov 2020 10:44:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
+ s=key2-intmail; t=1606383847;
+ bh=QOVT2mUwEso2r2vSzAbbRTE8tEp4jLn2WQ002C6w8rk=; l=10;
+ h=From:Subject:From:Reply-To:Sender;
+ b=I5uRHmDIe2oPOW2Fh1IQBnwOa9NQXvMUOMQbuoxRv91jDZXOcC7Ctxd88J8CE5O8P
+ AKNOC9EmRaRH1EW49RbcsXntMP2OiDXGui69FZBqUvQ54WJRKXntZ+W28V2uKk3Ir+
+ 9MI1R4VjRuHYuRy/X6W/TbRATnQ0ZE4IE91sS+NM=
+Received: from fe0vm7918.rbesz01.com (unknown [10.58.172.176])
+ by fe0vm1650.rbesz01.com (Postfix) with ESMTPS id 4ChXs30KlMzNg9;
+ Thu, 26 Nov 2020 10:44:07 +0100 (CET)
+X-AuditID: 0a3aad10-b0bff70000002230-2a-5fbf78e69abc
+Received: from fe0vm1651.rbesz01.com ( [10.58.173.29])
+ (using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client did not present a certificate)
+ by fe0vm7918.rbesz01.com (SMG Outbound) with SMTP id 60.84.08752.6E87FBF5;
+ Thu, 26 Nov 2020 10:44:06 +0100 (CET)
+Received: from FE-MBX2052.de.bosch.com (unknown [10.3.231.146])
+ by fe0vm1651.rbesz01.com (Postfix) with ESMTPS id 4ChXs25sZDzvlD;
+ Thu, 26 Nov 2020 10:44:06 +0100 (CET)
+Received: from SGPMBX2031.APAC.bosch.com (10.187.56.92) by
+ FE-MBX2052.de.bosch.com (10.3.231.146) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Thu, 26 Nov 2020 10:44:06 +0100
+Received: from FE-MBX2051.de.bosch.com (10.3.231.61) by
+ SGPMBX2031.APAC.bosch.com (10.187.56.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Thu, 26 Nov 2020 17:44:03 +0800
+Received: from FE-MBX2051.de.bosch.com ([fe80::9402:faf1:5852:4e2f]) by
+ FE-MBX2051.de.bosch.com ([fe80::9402:faf1:5852:4e2f%6]) with mapi id
+ 15.01.2106.004; Thu, 26 Nov 2020 10:44:02 +0100
+From: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: AW: [PATCH] drm: imx: Move fbdev setup to before output polling
+Thread-Topic: [PATCH] drm: imx: Move fbdev setup to before output polling
+Thread-Index: AQHWvPnAfxZE9kwfn0Gz111spU5g9qnNecSAgAAN4oCAAAOfAIAAEkZQgAABggCADGtuUA==
+Date: Thu, 26 Nov 2020 09:44:02 +0000
+Message-ID: <98c874b923bd4e60bf2e727a29729dfc@de.bosch.com>
+References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+ <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
+ <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
+ <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
+ <38c2d92ac5f04a228e55af43a12a4bd7@de.bosch.com>
+ <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
+In-Reply-To: <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.142.160.117]
 MIME-Version: 1.0
-In-Reply-To: <9844ab0c5cb3da8b2f89c6c2da16941910702b41.1606324115.git.robin.murphy@arm.com>
-Content-Language: en-GB
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrDIsWRmVeSWpSXmKPExsXCZbVWVvdZxf54g9UTzC16z51ksvi/bSKz
+ xZWv79ksVk3dyWKx6fE1VouuXyuZLS7vmsNm8Xf7JhaLF1vELba8mcjqwOWx99sCFo9NqzrZ
+ PLZ/e8Dqcb/7OJPH5iX1Hhvf7WDy6P9r4LH5dLXH501yAZxRXDYpqTmZZalF+nYJXBnbl5QV
+ rPOoeLLgF3MD4wG3LkZODgkBE4kVfWeYuhi5OIQEpjNJTHzQxwjhrGaUOPt2GzOE85FRYsH8
+ GawQzgdGia6jjVBlBxglnvUsYgMZxiZgJ7H/9RsmEFtEQFmif/McsA5mgQvMEndfXgErEhbw
+ kHj64iwLRJGnxLu5z9kg7DCJ2w+WsYPYLAKqEk3L5oHFeQWsJTq3voVafZdJom/3DrAiToFA
+ iU9nWsG2MQrISmzYcJ4ZxGYWEJfY9Ow7K8R7AhJL9kDEJQREJV4+/gcVV5K4fqgJ6AUOoHpN
+ ifW79CFaFSWmdD9kh9grKHFy5hOWCYwSs5BMnYXQMQtJxywkHQsYWVYxiqalGpTlmlsaWugV
+ JaUWVxkY6iXn525ihCQAgR2Mt7s/6B1iZOJgPMQowcGsJMLrLrw3Xog3JbGyKrUoP76oNCe1
+ +BCjNAeLkjivCs/GOCGB9MSS1OzU1ILUIpgsEwenVANTTEif5aM++a2O5VqaajbHlh656M7/
+ a9rF3VJczu//REpc8nM/m3V/OceU+S+MPVg/5bk+5VN1n/tt7Q7hzd8Uk8WyTATuH3AzvLFk
+ 36I6byudNft5nv7LjXvmaO+2bcsR67m5NnMvGue/P3s/8u/V+a97zEynHZPcuHWqp3Fh3pv9
+ Tr+sNP7xeM7h3d7nd0gp9epEduWV2Yxu25d+vflMYf3XNV5zFuS+lFNov67kamd0uemUzNmA
+ 2XEvVKuNNuldeLPY1Pi6hkrzTY7PvzKD8x02rnDX0WaV8nnfMifnIv8h17JPRfI1FdI5S0v4
+ 3txgtkw1kb24tLXVtW/FjV3nX6Ze1jvE9E76zgL2Hw/LlViKMxINtZiLihMBDQMnf28DAAA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,322 +93,139 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: tomeu.vizoso@collabora.com, joro@8bytes.org,
- dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- yong.wu@mediatek.com, linux-arm-kernel@lists.infradead.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: "RUAN Tingquan \(BT-FIR/ENG1-Zhu\)" <Tingquan.Ruan@cn.bosch.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Linux
+ ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 25/11/2020 17:29, Robin Murphy wrote:
-> The only user of tlb_flush_leaf is a particularly hairy corner of the
-> Arm short-descriptor code, which wants a synchronous invalidation to
-> minimise the races inherent in trying to split a large page mapping.
-> This is already far enough into "here be dragons" territory that no
-> sensible caller should ever hit it, and thus it really doesn't need
-> optimising. Although using tlb_flush_walk there may technically be
-> more heavyweight than needed, it does the job and saves everyone else
-> having to carry around useless baggage.
-> 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-
-LGTM
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-> ---
-> 
-> Reviewing the Mediatek TLB optimisation patches just left me thinking
-> "why do we even have this?"... Panfrost folks, this has zero functional
-> impact to you, merely wants an ack for straying outside drivers/iommu.
-> 
-> Robin.
-> 
->   drivers/gpu/drm/msm/msm_iommu.c             |  1 -
->   drivers/gpu/drm/panfrost/panfrost_mmu.c     |  7 ------
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c |  7 ------
->   drivers/iommu/arm/arm-smmu/arm-smmu.c       | 25 +++------------------
->   drivers/iommu/arm/arm-smmu/qcom_iommu.c     |  8 -------
->   drivers/iommu/io-pgtable-arm-v7s.c          |  3 +--
->   drivers/iommu/io-pgtable-arm.c              |  1 -
->   drivers/iommu/ipmmu-vmsa.c                  |  1 -
->   drivers/iommu/msm_iommu.c                   |  7 ------
->   drivers/iommu/mtk_iommu.c                   |  1 -
->   include/linux/io-pgtable.h                  | 11 ---------
->   11 files changed, 4 insertions(+), 68 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-> index 22ac7c692a81..50d881794758 100644
-> --- a/drivers/gpu/drm/msm/msm_iommu.c
-> +++ b/drivers/gpu/drm/msm/msm_iommu.c
-> @@ -139,7 +139,6 @@ static void msm_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops null_tlb_ops = {
->   	.tlb_flush_all = msm_iommu_tlb_flush_all,
->   	.tlb_flush_walk = msm_iommu_tlb_flush_walk,
-> -	.tlb_flush_leaf = msm_iommu_tlb_flush_walk,
->   	.tlb_add_page = msm_iommu_tlb_add_page,
->   };
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index 776448c527ea..c186914cc4f9 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -347,16 +347,9 @@ static void mmu_tlb_flush_walk(unsigned long iova, size_t size, size_t granule,
->   	mmu_tlb_sync_context(cookie);
->   }
-> 
-> -static void mmu_tlb_flush_leaf(unsigned long iova, size_t size, size_t granule,
-> -			       void *cookie)
-> -{
-> -	mmu_tlb_sync_context(cookie);
-> -}
-> -
->   static const struct iommu_flush_ops mmu_tlb_ops = {
->   	.tlb_flush_all	= mmu_tlb_inv_context_s1,
->   	.tlb_flush_walk = mmu_tlb_flush_walk,
-> -	.tlb_flush_leaf = mmu_tlb_flush_leaf,
->   };
-> 
->   int panfrost_mmu_pgtable_alloc(struct panfrost_file_priv *priv)
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index e634bbe60573..fb684a393118 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -1741,16 +1741,9 @@ static void arm_smmu_tlb_inv_walk(unsigned long iova, size_t size,
->   	arm_smmu_tlb_inv_range(iova, size, granule, false, cookie);
->   }
-> 
-> -static void arm_smmu_tlb_inv_leaf(unsigned long iova, size_t size,
-> -				  size_t granule, void *cookie)
-> -{
-> -	arm_smmu_tlb_inv_range(iova, size, granule, true, cookie);
-> -}
-> -
->   static const struct iommu_flush_ops arm_smmu_flush_ops = {
->   	.tlb_flush_all	= arm_smmu_tlb_inv_context,
->   	.tlb_flush_walk = arm_smmu_tlb_inv_walk,
-> -	.tlb_flush_leaf = arm_smmu_tlb_inv_leaf,
->   	.tlb_add_page	= arm_smmu_tlb_inv_page_nosync,
->   };
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> index dad7fa86fbd4..0b8c59922a2b 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> @@ -333,14 +333,6 @@ static void arm_smmu_tlb_inv_walk_s1(unsigned long iova, size_t size,
->   	arm_smmu_tlb_sync_context(cookie);
->   }
-> 
-> -static void arm_smmu_tlb_inv_leaf_s1(unsigned long iova, size_t size,
-> -				     size_t granule, void *cookie)
-> -{
-> -	arm_smmu_tlb_inv_range_s1(iova, size, granule, cookie,
-> -				  ARM_SMMU_CB_S1_TLBIVAL);
-> -	arm_smmu_tlb_sync_context(cookie);
-> -}
-> -
->   static void arm_smmu_tlb_add_page_s1(struct iommu_iotlb_gather *gather,
->   				     unsigned long iova, size_t granule,
->   				     void *cookie)
-> @@ -357,14 +349,6 @@ static void arm_smmu_tlb_inv_walk_s2(unsigned long iova, size_t size,
->   	arm_smmu_tlb_sync_context(cookie);
->   }
-> 
-> -static void arm_smmu_tlb_inv_leaf_s2(unsigned long iova, size_t size,
-> -				     size_t granule, void *cookie)
-> -{
-> -	arm_smmu_tlb_inv_range_s2(iova, size, granule, cookie,
-> -				  ARM_SMMU_CB_S2_TLBIIPAS2L);
-> -	arm_smmu_tlb_sync_context(cookie);
-> -}
-> -
->   static void arm_smmu_tlb_add_page_s2(struct iommu_iotlb_gather *gather,
->   				     unsigned long iova, size_t granule,
->   				     void *cookie)
-> @@ -373,8 +357,8 @@ static void arm_smmu_tlb_add_page_s2(struct iommu_iotlb_gather *gather,
->   				  ARM_SMMU_CB_S2_TLBIIPAS2L);
->   }
-> 
-> -static void arm_smmu_tlb_inv_any_s2_v1(unsigned long iova, size_t size,
-> -				       size_t granule, void *cookie)
-> +static void arm_smmu_tlb_inv_walk_s2_v1(unsigned long iova, size_t size,
-> +					size_t granule, void *cookie)
->   {
->   	arm_smmu_tlb_inv_context_s2(cookie);
->   }
-> @@ -401,21 +385,18 @@ static void arm_smmu_tlb_add_page_s2_v1(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops arm_smmu_s1_tlb_ops = {
->   	.tlb_flush_all	= arm_smmu_tlb_inv_context_s1,
->   	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s1,
-> -	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s1,
->   	.tlb_add_page	= arm_smmu_tlb_add_page_s1,
->   };
-> 
->   static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v2 = {
->   	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
->   	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2,
-> -	.tlb_flush_leaf	= arm_smmu_tlb_inv_leaf_s2,
->   	.tlb_add_page	= arm_smmu_tlb_add_page_s2,
->   };
-> 
->   static const struct iommu_flush_ops arm_smmu_s2_tlb_ops_v1 = {
->   	.tlb_flush_all	= arm_smmu_tlb_inv_context_s2,
-> -	.tlb_flush_walk	= arm_smmu_tlb_inv_any_s2_v1,
-> -	.tlb_flush_leaf	= arm_smmu_tlb_inv_any_s2_v1,
-> +	.tlb_flush_walk	= arm_smmu_tlb_inv_walk_s2_v1,
->   	.tlb_add_page	= arm_smmu_tlb_add_page_s2_v1,
->   };
-> 
-> diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> index b30d6c966e2c..7f280c8d5c53 100644
-> --- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> +++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> @@ -185,13 +185,6 @@ static void qcom_iommu_tlb_flush_walk(unsigned long iova, size_t size,
->   	qcom_iommu_tlb_sync(cookie);
->   }
-> 
-> -static void qcom_iommu_tlb_flush_leaf(unsigned long iova, size_t size,
-> -				      size_t granule, void *cookie)
-> -{
-> -	qcom_iommu_tlb_inv_range_nosync(iova, size, granule, true, cookie);
-> -	qcom_iommu_tlb_sync(cookie);
-> -}
-> -
->   static void qcom_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
->   				    unsigned long iova, size_t granule,
->   				    void *cookie)
-> @@ -202,7 +195,6 @@ static void qcom_iommu_tlb_add_page(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops qcom_flush_ops = {
->   	.tlb_flush_all	= qcom_iommu_tlb_inv_context,
->   	.tlb_flush_walk = qcom_iommu_tlb_flush_walk,
-> -	.tlb_flush_leaf = qcom_iommu_tlb_flush_leaf,
->   	.tlb_add_page	= qcom_iommu_tlb_add_page,
->   };
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-> index a688f22cbe3b..3cf72c100add 100644
-> --- a/drivers/iommu/io-pgtable-arm-v7s.c
-> +++ b/drivers/iommu/io-pgtable-arm-v7s.c
-> @@ -584,7 +584,7 @@ static arm_v7s_iopte arm_v7s_split_cont(struct arm_v7s_io_pgtable *data,
->   	__arm_v7s_pte_sync(ptep, ARM_V7S_CONT_PAGES, &iop->cfg);
-> 
->   	size *= ARM_V7S_CONT_PAGES;
-> -	io_pgtable_tlb_flush_leaf(iop, iova, size, size);
-> +	io_pgtable_tlb_flush_walk(iop, iova, size, size);
->   	return pte;
->   }
-> 
-> @@ -866,7 +866,6 @@ static void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops dummy_tlb_ops __initconst = {
->   	.tlb_flush_all	= dummy_tlb_flush_all,
->   	.tlb_flush_walk	= dummy_tlb_flush,
-> -	.tlb_flush_leaf	= dummy_tlb_flush,
->   	.tlb_add_page	= dummy_tlb_add_page,
->   };
-> 
-> diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-> index a7a9bc08dcd1..938830e07dcf 100644
-> --- a/drivers/iommu/io-pgtable-arm.c
-> +++ b/drivers/iommu/io-pgtable-arm.c
-> @@ -1079,7 +1079,6 @@ static void __init dummy_tlb_add_page(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops dummy_tlb_ops __initconst = {
->   	.tlb_flush_all	= dummy_tlb_flush_all,
->   	.tlb_flush_walk	= dummy_tlb_flush,
-> -	.tlb_flush_leaf	= dummy_tlb_flush,
->   	.tlb_add_page	= dummy_tlb_add_page,
->   };
-> 
-> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-> index 0f18abda0e20..d71f10257f15 100644
-> --- a/drivers/iommu/ipmmu-vmsa.c
-> +++ b/drivers/iommu/ipmmu-vmsa.c
-> @@ -325,7 +325,6 @@ static void ipmmu_tlb_flush(unsigned long iova, size_t size,
->   static const struct iommu_flush_ops ipmmu_flush_ops = {
->   	.tlb_flush_all = ipmmu_tlb_flush_all,
->   	.tlb_flush_walk = ipmmu_tlb_flush,
-> -	.tlb_flush_leaf = ipmmu_tlb_flush,
->   };
-> 
->   /* -----------------------------------------------------------------------------
-> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> index 3615cd6241c4..040e85f70861 100644
-> --- a/drivers/iommu/msm_iommu.c
-> +++ b/drivers/iommu/msm_iommu.c
-> @@ -174,12 +174,6 @@ static void __flush_iotlb_walk(unsigned long iova, size_t size,
->   	__flush_iotlb_range(iova, size, granule, false, cookie);
->   }
-> 
-> -static void __flush_iotlb_leaf(unsigned long iova, size_t size,
-> -			       size_t granule, void *cookie)
-> -{
-> -	__flush_iotlb_range(iova, size, granule, true, cookie);
-> -}
-> -
->   static void __flush_iotlb_page(struct iommu_iotlb_gather *gather,
->   			       unsigned long iova, size_t granule, void *cookie)
->   {
-> @@ -189,7 +183,6 @@ static void __flush_iotlb_page(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops msm_iommu_flush_ops = {
->   	.tlb_flush_all = __flush_iotlb,
->   	.tlb_flush_walk = __flush_iotlb_walk,
-> -	.tlb_flush_leaf = __flush_iotlb_leaf,
->   	.tlb_add_page = __flush_iotlb_page,
->   };
-> 
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index c072cee532c2..8e56cec532e7 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -240,7 +240,6 @@ static void mtk_iommu_tlb_flush_page_nosync(struct iommu_iotlb_gather *gather,
->   static const struct iommu_flush_ops mtk_iommu_flush_ops = {
->   	.tlb_flush_all = mtk_iommu_tlb_flush_all,
->   	.tlb_flush_walk = mtk_iommu_tlb_flush_range_sync,
-> -	.tlb_flush_leaf = mtk_iommu_tlb_flush_range_sync,
->   	.tlb_add_page = mtk_iommu_tlb_flush_page_nosync,
->   };
-> 
-> diff --git a/include/linux/io-pgtable.h b/include/linux/io-pgtable.h
-> index 4cde111e425b..ec9fae37c0e4 100644
-> --- a/include/linux/io-pgtable.h
-> +++ b/include/linux/io-pgtable.h
-> @@ -25,8 +25,6 @@ enum io_pgtable_fmt {
->    * @tlb_flush_walk: Synchronously invalidate all intermediate TLB state
->    *                  (sometimes referred to as the "walk cache") for a virtual
->    *                  address range.
-> - * @tlb_flush_leaf: Synchronously invalidate all leaf TLB state for a virtual
-> - *                  address range.
->    * @tlb_add_page:   Optional callback to queue up leaf TLB invalidation for a
->    *                  single page.  IOMMUs that cannot batch TLB invalidation
->    *                  operations efficiently will typically issue them here, but
-> @@ -40,8 +38,6 @@ struct iommu_flush_ops {
->   	void (*tlb_flush_all)(void *cookie);
->   	void (*tlb_flush_walk)(unsigned long iova, size_t size, size_t granule,
->   			       void *cookie);
-> -	void (*tlb_flush_leaf)(unsigned long iova, size_t size, size_t granule,
-> -			       void *cookie);
->   	void (*tlb_add_page)(struct iommu_iotlb_gather *gather,
->   			     unsigned long iova, size_t granule, void *cookie);
->   };
-> @@ -220,13 +216,6 @@ io_pgtable_tlb_flush_walk(struct io_pgtable *iop, unsigned long iova,
->   	iop->cfg.tlb->tlb_flush_walk(iova, size, granule, iop->cookie);
->   }
-> 
-> -static inline void
-> -io_pgtable_tlb_flush_leaf(struct io_pgtable *iop, unsigned long iova,
-> -			  size_t size, size_t granule)
-> -{
-> -	iop->cfg.tlb->tlb_flush_leaf(iova, size, granule, iop->cookie);
-> -}
-> -
->   static inline void
->   io_pgtable_tlb_add_page(struct io_pgtable *iop,
->   			struct iommu_iotlb_gather * gather, unsigned long iova,
-> --
-> 2.17.1
-> 
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLA0KDQo+ID4gVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBmZWVkYmFjay4g
+V2UgYXBwcmVjaWF0ZSBpdC4NCj4gPg0KPiA+ID4gPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dw
+dS9kcm0vaW14L2lteC1kcm0tY29yZS5jDQo+ID4gPiA+Pj4gYi9kcml2ZXJzL2dwdS9kcm0vaW14
+L2lteC1kcm0tY29yZS5jDQo+ID4gPiA+Pj4gaW5kZXggOWJmNWFkNmQxOGEyLi4yNjY1MDQwZTEx
+YzcgMTAwNjQ0DQo+ID4gPiA+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2lteC9pbXgtZHJtLWNv
+cmUuYw0KPiA+ID4gPj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pbXgvaW14LWRybS1jb3JlLmMN
+Cj4gPiA+ID4+PiBAQCAtMjQwLDE0ICsyNDAsMTggQEAgc3RhdGljIGludCBpbXhfZHJtX2JpbmQo
+c3RydWN0IGRldmljZSAqZGV2KQ0KPiA+ID4gPj4+ICAgICAgICAgICAgICAgIGxlZ2FjeWZiX2Rl
+cHRoID0gMTY7DQo+ID4gPiA+Pj4gICAgICAgIH0NCj4gPiA+ID4+Pg0KPiA+ID4gPj4+ICsgICAg
+IC8qDQo+ID4gPiA+Pj4gKyAgICAgICogVGhlIGdlbmVyaWMgZmJkZXYgaGFzIHRvIGJlIHNldHVw
+IGJlZm9yZSBlbmFibGluZyBvdXRwdXQgcG9sbGluZy4NCj4gPiA+ID4+PiArICAgICAgKiBPdGhl
+cndpc2UgdGhlIGZiZGV2IGNsaWVudCBpcyBub3QgcmVhZHkgdG8gaGFuZGxlIGRlbGF5ZWQgZXZl
+bnRzLg0KPiA+ID4gPj4+ICsgICAgICAqLw0KPiA+ID4gPj4+ICsgICAgIGRybV9mYmRldl9nZW5l
+cmljX3NldHVwKGRybSwgbGVnYWN5ZmJfZGVwdGgpOw0KPiA+ID4gPj4+ICsNCj4gPiA+ID4+PiAg
+ICAgICAgZHJtX2ttc19oZWxwZXJfcG9sbF9pbml0KGRybSk7DQo+ID4gPiA+Pj4NCj4gPiA+ID4+
+PiAgICAgICAgcmV0ID0gZHJtX2Rldl9yZWdpc3Rlcihkcm0sIDApOw0KPiA+ID4gPj4+ICAgICAg
+ICBpZiAocmV0KQ0KPiA+ID4gPj4+ICAgICAgICAgICAgICAgIGdvdG8gZXJyX3BvbGxfZmluaTsN
+Cj4gPiA+ID4+Pg0KPiA+ID4gPj4+IC0gICAgIGRybV9mYmRldl9nZW5lcmljX3NldHVwKGRybSwg
+bGVnYWN5ZmJfZGVwdGgpOw0KPiA+ID4gPj4+IC0NCj4gPiA+ID4+DQo+ID4gPiA+PiBUaGlzIGRv
+ZXMgbm90IHdvcmsgd2VsbC4gZmJkZXYgaXMgc3VwcG9zZWQgdG8gYmUgYW5vdGhlciByZWd1bGFy
+DQo+ID4gPiA+PiBEUk0gY2xpZW50LiBJdCBoYXMgdG8gYmUgZW5hYmxlZCBhZnRlciByZWdpc3Rl
+cmluZyB0aGUgRFJNIGRldmljZS4NCj4gPiA+ID4+DQo+ID4gPiA+PiBJJ2QgcmF0aGVyIGltcHJv
+dmUgZmJkZXYgb3IgdGhlIGRyaXZlciB0byBoYW5kbGUgdGhpcyBncmFjZWZ1bGx5Lg0KPiA+ID4g
+Pg0KPiA+ID4gPiBZZWFoIEknbSBub3QgdW5kZXJzdGFuZGluZyB0aGUgcG9pbnQgaGVyZS4gT25j
+ZSBmYmNvbiBpcyBydW5uaW5nLA0KPiA+ID4gPiB5b3UgaGF2ZSBhIHNjcmVlbi4gQW55IGZiZGV2
+IHVzZXJzcGFjZSBjbGllbnQgIGFsc28gc2hvdWxkIGRvIGENCj4gPiA+ID4gbW9kZXNldCBmaXJz
+dC4gQW5kIGlmIHRoZXkgZG9udCBhbmQgaXQncyBleHBlY3RlZCB1YXBpIGZvciBmYmRldg0KPiA+
+ID4gPiBjaGFyZGV2IHRoYXQgdGhlIGRpc3BsYXkgYm9vdHMgdXAgZW5hYmxlZCwgdGhlbiB3ZSBu
+ZWVkIHRvIGZpeA0KPiA+ID4gPiB0aGF0IGluIHRoZSBmYmRldiBoZWxwZXJzLCBub3QgdGhyb3Vn
+aCBjbGV2ZXIgcmVvcmRlcmluZyBpbg0KPiA+ID4gPiBkcml2ZXJzIHNvIHRoYXQgYSBzaWRlLWVm
+ZmVjdCBjYXVzZXMgYSBtb2Rlc2V0Lg0KPiA+ID4gPg0KPiA+ID4gPiBOb3RlIHRoYXQgdGhpcyBp
+cyBhIGJpdCB0cmlja3kgc2luY2UgZmJkZXYgc2hvdWxkbid0IHRha2Ugb3ZlciB0aGUNCj4gPiA+
+ID4gc2NyZWVuIGJ5IGRlZmF1bHQsIHNvIHdlJ2QgbmVlZCB0byBkZWxheSB0aGlzIHVudGlsIGZp
+cnN0IG9wZW4gb2YNCj4gPiA+ID4gL2Rldi9mYjAuIEFuZCB3ZSBzaG91bGQgcHJvYmFibHkgYWxz
+byBkZWxheSB0aGUgaG90cGx1ZyBoYW5kbGluZw0KPiA+ID4gPiB1bnRpbCB0aGUgZmlyc3Qgb3Bl
+bi4gZmJjb24gYWxzbyBmYWtlLW9wZW5zIHRoZSBmYmRldiBmaWxlLCBzbw0KPiA+ID4gPiBpdCdz
+IHRoZSBzYW1lIGNvZGUgcGF0aC4NCj4gPiA+DQo+ID4gPiBBcyBmYXIgYXMgSSB1bmRlcnN0YW5k
+IHRoZSBjb21taXQgbWVzc2FnZSwgdGhlIHByb2JsZW0gaXMgdGhhdCB0aGUNCj4gPiA+IGRpc3Bs
+YXkgYmxhbmtzIG91dCBhZnRlciByZWdpc3RlcmluZyB0aGUgZHJpdmVyLiBBbmQgZmJkZXYgc29t
+ZXdoYXQNCj4gPiA+IG1pdGlnYXRlcyB0aGlzIGJ5IGRvaW5nIGFuIGVhcmx5IG1vZGVzZXQuIFVz
+ZXJzIHdpdGggZmJkZXYgZGlzYWJsZWQNCj4gPiA+IChtb3N0IG9mIHRoZW0gaW4gZW1iZWRkZWQs
+IEkgZ3Vlc3MpIHdvdWxkIHN0aWxsIHJ1biBpbnRvIHRoZSBpc3N1ZQ0KPiA+ID4gdW50aWwgdXNl
+cnNwYWNlIG1ha2VzIGEgbW9kZXNldC4NCj4gPiA+DQo+ID4gPiBNYXJrLCBpZiB0aGF0J3MgdGhl
+IGNhc2UsIGFuIG9wdGlvbiBtaWdodCBiZSB0byBwaWNrIHVwIHRoZSBkZXZpY2UNCj4gPiA+IHNl
+dHRpbmdzIGluc3RlYWQgb2YgY2FsbGluZyBkcm1fbW9kZV9jb25maWdfcmVzZXQoKS4gVGhlIGRy
+aXZlcg0KPiA+ID4gd291bGQgdGhlbiBjb250aW51ZSB0byBkaXNwbGF5IHdoYXRldmVyIGlzIG9u
+IHRoZSBzY3JlZW4uDQo+ID4NCj4gPiBXZSBhcmUgc3RhcnRlZCB1c2luZyBmYmRldiBpbiBvdXIg
+ZW1iZWRkZWQgYXBwbGljYXRpb24gd2l0aCBMaW51eA0KPiA+IDMuMTAsIGxhdGVyIHVwZGF0ZWQg
+dG8gNC4xNCBhbmQgYXJlIG5vdyBpbiB0aGUgcHJvY2VzcyBvZiB1cGRhdGluZyB0bw0KPiA+IDUu
+NC4gU28gZmFyIHRoZSB1YXBpIGFwcGVhcmVkIHRvIHVzIGFzIGlmIHdlIGNvdWxkIHJlbHkgb24g
+YW4gYWxyZWFkeQ0KPiA+IGVuYWJsZWQgZmJkZXYuIFRoYXQgaXMsIG5vbmUgb2Ygb3VyIGFwcGxp
+Y2F0aW9ucyBkb2VzIGEgbW9kZXNldC4NCj4gPg0KPiA+IFdoZW4gc3dpdGNoaW5nIHRvIDUuNCB3
+ZSBub3RpY2VkIHRoYXQgdGhlIGZiZGV2IHVhcGkgY2hhbmdlZC4gVGhhdCBpcywNCj4gPiB0aGUg
+TENEIGlzIHN3aXRjaGVkIG9mZiB1bnRpbCBpdCBpcyBleHBsaWNpdGx5IGVuYWJsZWQuIEl0IGNv
+dWxkIGJlDQo+ID4gZW5hYmxlZCBieSB3cml0aW5nIHRvIC9zeXMvY2xhc3MvZ3JhcGhpY3MvZmIw
+L2JsYW5rLg0KPiA+DQo+ID4gWW91IGFyZSByaWdodCwgd2UgYXJlIG5vdCB1c2luZyBmYmNvbi4g
+ZmJjb24gd2lsbCBzdGlsbCBlbmFibGUgdGhlIExDRA0KPiA+IGJ1dCBpbiBvdXIgZW1iZWRkZWQg
+ZG9tYWluIHdlIGhhdmUgaXQgZGlzYWJsZWQgYmVjYXVzZSB3ZSBtdXN0IG5vdCBzaG93IGENCj4g
+Y29uc29sZS4NCj4gPg0KPiA+IERvIHdlIHVuZGVyc3RhbmQgeW91ciBwcm9wb3NhbCBjb3JyZWN0
+bHkgdG8gcmVwbGFjZSB0aGUgY2FsbCB0bw0KPiA+IGRybV9tb2RlX2NvbmZpZ19yZXNldCgpIGlu
+IGlteF9kcm1fYmluZCgpIFtpbXgtZHJtLWNvcmUuY10gd2l0aA0KPiA+IHBpY2tpbmcgdXAgdGhl
+IGRldmljZSBzZXR0aW5ncyBpbnN0ZWFkPw0KPiA+DQo+ID4gaHR0cHM6Ly9ldXIwMy5zYWZlbGlu
+a3MucHJvdGVjdGlvbi5vdXRsb29rLmNvbS8/dXJsPWh0dHBzJTNBJTJGJTJGZWxpeA0KPiA+IGly
+LmJvb3RsaW4uY29tJTJGbGludXglMkZ2NS4xMC0NCj4gcmM0JTJGc291cmNlJTJGZHJpdmVycyUy
+RmdwdSUyRmRybSUyRmltDQo+ID4geCUyRmlteC1kcm0tDQo+IGNvcmUuYyUyM0wyMzEmYW1wO2Rh
+dGE9MDQlN0MwMSU3Q01hcmsuSm9uYXMlNDBkZS5ib3NjaC5jb20NCj4gPg0KPiAlN0M5YmJmNWVk
+ZTI3ZWQ0MGJlOWFhYTA4ZDg4YmFjMGM1MyU3QzBhZTUxZTE5MDdjODRlNGJiYjZkNjQ4ZWUNCj4g
+NTg0MTBmNA0KPiA+DQo+ICU3QzAlN0MwJTdDNjM3NDEyOTE4MzM4ODE5NTA5JTdDVW5rbm93biU3
+Q1RXRnBiR1pzYjNkOGV5Sg0KPiBXSWpvaU1DNHdMakF3DQo+ID4NCj4gTURBaUxDSlFJam9pVjJs
+dU16SWlMQ0pCVGlJNklrMWhhV3dpTENKWFZDSTZNbjAlM0QlN0MxMDAwJmFtcDtzZA0KPiBhdGE9
+NjgNCj4gPg0KPiAxa09TQXMyWHNJMWw0c09KN2o1VUFHa0FNY2lSNzhtYSUyRmdiRDVqUjk4JTNE
+JmFtcDtyZXNlcnZlZD0wDQo+ID4NCj4gPiBXZSBhcmUgYSBsaXR0bGUgY2x1ZWxlc3MgcmlnaHQg
+bm93OiBIb3cgZG8gd2UgcGljayB1cCB0aGUgZGV2aWNlIHNldHRpbmdzPw0KPiANCj4gTm9wZSwg
+bm90IHdoYXQgSSBoYWQgaW4gbWluZC4NCj4gDQo+IEluc3RlYWQgaW50ZXJjZXB0IHRoZSBmYl9v
+cHMtPm9wZW4gY2FsbCBhbmQgaW4gdGhlcmUgaWYgaXQncyBhIHVzZXJzcGFjZSBvcGVuDQo+ICh1
+c2VyIHBhcmFtZXRlciBvZiB0aGUgY2FsbGJhY2sgdGVsbHMgeW91IHRoYXQpIGFuZCBrbXMgaXMg
+bm90IGluIHVzZSwgdGhlbiB0cnkgdG8NCj4gbGlnaHQgdXAgdGhlIGRpc3BsYXkgZm9yIHRoZSBm
+YmRldiB1c2Vyc3BhY2UgdG8gdXNlLiBkcm0gZmJkZXYgaGVscGVycyBhbHJlYWR5DQo+IGhhdmUg
+dGhhdCBjYWxsYmFjayBhcyBkcm1fZmJkZXZfZmJfb3BlbigpLiBJIHRoaW5rIHlvdSBjb3VsZCB0
+cnkgYW5kIGp1c3QgY2FsbA0KPiBkcm1fZmJkZXZfY2xpZW50X2hvdHBsdWcgZGlyZWN0bHksIHRo
+YXQgc2hvdWxkIGRvIHRoZSB0cmljay4gT3IgbWF5YmUgY2FsbGluZw0KPiBkcm1fZmJfaGVscGVy
+X2RwbXMgaXMgdGhlIGJldHRlciBvcHRpb24sIG5vdCBzdXJlLiBmYm1lbS5jIHNlZW1zIHRvIG5v
+dCBzdG9yZQ0KPiBhbnkgYmxhbmtpbmcgc3RhdGUgYXQgYWxsLCBzbyB0aGlzIGlzIHByb2JhYmx5
+IGFsbCBpbGwtZGVmaW5lZC4NCj4gDQo+IEltcG9ydGFudCBwYXJ0IGlzIHRvIGRvIHRoaXMgb25s
+eSBmb3IgdGhlIHVzZXIgZmJfb3BlbiBjYXNlLCBzaW5jZSBmYmNvbiB3aWxsIGRvIGl0cw0KPiBv
+d24gdGhpbmcgdG9vLg0KPiANCj4gUGx1cyBJIGd1ZXNzIHdlIG5lZWQgdG8gZG9jdW1lbnQgdGhh
+dCB0aGlzIGlzIHRoZSB1YXBpIHdlJ3JlIGhhdmluZyBmb3IgZmJkZXYNCj4gY2xpZW50cywgc28g
+aWRlYWxseSB0aGlzIHNob3VsZCBiZSBjYydlZCB3aWRlbHkgc28gd2UgY2FuIGdldCBzb21lIGFj
+a3MgZnJvbQ0KPiBmb3JtZXIgZmJkZXYgbWFpbnRhaW5lcnMuDQo+IA0KPiBBbHNvIGlkZWFsbHkg
+d2UnZCBoYXZlIGFuIGlndCBmb3IgdGhpcyB1YXBpIHRvIG1ha2Ugc3VyZSBpdCBuZXZlciBicmVh
+a3MgYWdhaW4uDQo+IFNvbWV0aGluZyBsaWtlOg0KPiAxLiBvcGVuIHRoZSBrbXMgZHJpdmVyIGZv
+ciB0aGlzLCBtYWtlIHN1cmUgZGlzcGxheSBpcyBjb21wbGV0ZWx5IG9mZi4NCj4gMi4gY2xvc2Ug
+a21zIGZpbGUNCj4gMy4gb3BlbiBmYmRldiBmaWxlDQo+IDQuIGNoZWNrICh0aHJvdWdoIG9wZW5p
+bmcga21zIHNpZGUgYWdhaW4pIHRoYXQgdGhlIGRpc3BsYXkgaGFzIGJlZW4gZW5hYmxlZC4NCj4g
+DQo+IFNlZQ0KPiBodHRwczovL2V1cjAzLnNhZmVsaW5rcy5wcm90ZWN0aW9uLm91dGxvb2suY29t
+Lz91cmw9aHR0cHMlM0ElMkYlMkZkcmkuZnJlZWRlDQo+IHNrdG9wLm9yZyUyRmRvY3MlMkZkcm0l
+MkZncHUlMkZkcm0tdWFwaS5odG1sJTIzdmFsaWRhdGluZy1jaGFuZ2VzLQ0KPiB3aXRoLQ0KPiBp
+Z3QmYW1wO2RhdGE9MDQlN0MwMSU3Q01hcmsuSm9uYXMlNDBkZS5ib3NjaC5jb20lN0M5YmJmNWVk
+ZTI3ZWQ0DQo+IDBiZTlhYWEwOGQ4OGJhYzBjNTMlN0MwYWU1MWUxOTA3Yzg0ZTRiYmI2ZDY0OGVl
+NTg0MTBmNCU3QzAlN0MwDQo+ICU3QzYzNzQxMjkxODMzODgxOTUwOSU3Q1Vua25vd24lN0NUV0Zw
+Ykdac2IzZDhleUpXSWpvaU1DNHdMag0KPiBBd01EQWlMQ0pRSWpvaVYybHVNeklpTENKQlRpSTZJ
+azFoYVd3aUxDSlhWQ0k2TW4wJTNEJTdDMTAwMCZhbQ0KPiBwO3NkYXRhPXRnZGFPSlAyd0s3ZVhG
+bU9RbFZkVWElMkI3Q1J3WnhPeDk5QkNDTU5FOGlEMCUzRCZhDQo+IG1wO3Jlc2VydmVkPTANCj4g
+Zm9yIHNvbWUgZGV0YWlscyBvbiBvdXIgdmFsaWRhdGlvbiB0ZXN0aW5nLCB0aGVyZSdzIGFscmVh
+ZHkgYSB2ZXJ5IGJhc2ljIGZiZGV2DQo+IHRlc3RjYXNlIHRoZXJlLg0KDQpXZSBoYWQgYSBsb29r
+IGludG8gdGhlIHRvcGljIGFuZCBjYW1lIHRvIHRoZSBjb25jbHVzaW9uIHRoYXQgd2UgY2Fubm90
+IGRvIGl0DQpyaWdodCBub3cuIFdlIGFyZSBsYWNraW5nIGV4cGVyaWVuY2UgaW4gdGhlIGZpZWxk
+IGFuZCBuZWVkIHRvIGtlZXAgZHJpdmluZyBvdXINCmFwcGxpY2F0aW9uIGRldmVsb3BtZW50Lg0K
+DQpUaHVzLCB3aXRoIGEgaGVhdnkgaGVhcnQsIHdlIHdpbGwgaW5zdGVhZCBpbXBsZW1lbnQgYSB3
+b3JrYXJvdW5kIHdoaWNoIHdpbGwNCmVuYWJsZSB0aGUgTENEIGF0IGJvb3QgdGltZSBmcm9tIHVz
+ZXIgc3BhY2UuIFdoYXQgd29ya3MgZ29vZCBmb3IgdXMgaXMgd3JpdGluZw0KdG8gL3N5cy9jbGFz
+cy9ncmFwaGljcy9mYjAvYmxhbmsuDQoNCkdyZWV0aW5ncywNCk1hcmsNCg0KQnVpbGRpbmcgVGVj
+aG5vbG9naWVzLCBQYW5lbCBTb2Z0d2FyZSBGaXJlIChCVC1GSVIvRU5HMS1HcmIpDQpCb3NjaCBT
+aWNoZXJoZWl0c3N5c3RlbWXCoEdtYkggfCBQb3N0ZmFjaCAxMSAxMSB8IDg1NjI2IEdyYXNicnVu
+biB8IEdFUk1BTlkgfCB3d3cuYm9zY2hzZWN1cml0eS5jb20NCg0KU2l0ejogU3R1dHRnYXJ0LCBS
+ZWdpc3RlcmdlcmljaHQ6IEFtdHNnZXJpY2h0IFN0dXR0Z2FydCBIUkIgMjMxMTgNCkF1ZnNpY2h0
+c3JhdHN2b3JzaXR6ZW5kZXI6IENocmlzdGlhbiBGaXNjaGVyOyBHZXNjaMOkZnRzZsO8aHJ1bmc6
+IFRhbmphIFLDvGNrZXJ0LCBBbmRyZWFzIEJhcnR6LCBUaG9tYXMgUXVhbnRlDQoNCjEwMCBZZWFy
+cyBCb3NjaCBCdWlsZGluZyBUZWNobm9sb2dpZXMgMTkyMC0yMDIwDQpfX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
+cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
