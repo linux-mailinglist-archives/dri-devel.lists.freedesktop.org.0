@@ -2,42 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD2A2C5050
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE05B2C5049
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 09:24:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6116E88D;
-	Thu, 26 Nov 2020 08:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26296E86D;
+	Thu, 26 Nov 2020 08:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from kvm5.telegraphics.com.au (kvm5.telegraphics.com.au
- [98.124.60.144])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5EE6C6E423;
- Thu, 26 Nov 2020 00:30:41 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by kvm5.telegraphics.com.au (Postfix) with ESMTP id 742A42A495;
- Wed, 25 Nov 2020 19:30:37 -0500 (EST)
-Date: Thu, 26 Nov 2020 11:30:36 +1100 (AEDT)
-From: Finn Thain <fthain@telegraphics.com.au>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
- Clang
-In-Reply-To: <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
-Message-ID: <alpine.LNX.2.23.453.2011261031290.6@nippy.intranet>
-References: <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
- <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
- <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
- <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
- <20201123130348.GA3119@embeddedor>
- <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
- <202011241327.BB28F12F6@keescook>
- <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
- <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com>
- <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
- <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5B86E1F8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 00:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=ai6vR/Gq0U/F21E/B8Ze23z6NDOsHvmNFcvHUMpigN4=; b=eFJf3F82xSUYckL4tj/YeCilvT
+ brc9m+c8mskh+yDyezs1CqjbmGzdyRldFj2RCf0IvFHPR0eRc0UXUn2sJQ3MT2QVlHV6WMg7ZrKKK
+ Yk668HMkX3INm9a6DvMV+EH8PQ7Djob198KYxKSTT3RPuUxXOr76HWeY3DEdK2uxhhAnJxp67SEru
+ zo2rYDBUMp9Y1m/5ElXiTlbnCHFQXEI7yUgs61M3EHEKLdOyWUwHs7X/3b0ecFjqg+qq4wwhe7IXl
+ Ni+hlhXbs7Gv15SpoSMfB5PG8mdqhnnhH3tgEXoNxRhf3snuu6Bo9VuI/5u2ALKLMT7G49VSkfWwl
+ ZKqjAa/w==;
+Received: from [2601:1c0:6280:3f0::cc1f] (helo=smtpauth.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1ki5KM-0005PK-U6; Thu, 26 Nov 2020 00:40:03 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] fbdev: aty: SPARC64 requires FB_ATY_CT
+Date: Wed, 25 Nov 2020 16:39:57 -0800
+Message-Id: <20201126003957.19604-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-Mailman-Approved-At: Thu, 26 Nov 2020 08:24:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -52,105 +46,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
- target-devel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>,
- linux-iio@vger.kernel.org, linux-wireless <linux-wireless@vger.kernel.org>,
- linux-mmc@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
- linux-mtd@lists.infradead.org, GR-everest-linux-l2@marvell.com,
- wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
- linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
- drbd-dev@lists.linbit.com, devel@driverdev.osuosl.org,
- linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
- linux-scsi@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
- linux-atm-general@lists.sourceforge.net, ceph-devel@vger.kernel.org,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-ext4@vger.kernel.org, virtualization@lists.linux-foundation.org,
- netfilter-devel@vger.kernel.org, linux-media@vger.kernel.org,
- Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, intel-gfx@lists.freedesktop.org,
- linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
- linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
- linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
- linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
- nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
- Nathan Chancellor <natechancellor@gmail.com>, linux-can@vger.kernel.org,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-hwmon@vger.kernel.org,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-watchdog@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
- Linux Memory Management List <linux-mm@kvack.org>,
- Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
- LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net,
- "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
- <linux-crypto@vger.kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
- linux-integrity@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-hardening@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, sparclinux@vger.kernel.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+It looks like SPARC64 requires FB_ATY_CT to build without errors,
+so adjust the Kconfig entry of FB_ATY_CT so that it is always 'y'
+for SPARC64 && PCI by disabling the prompt for SPARC64 && PCI.
 
+As it currently is, FB_ATY_CT can be disabled, resulting in build
+errors:
 
-On Wed, 25 Nov 2020, Nick Desaulniers wrote:
+ERROR: modpost: "aty_postdividers" [drivers/video/fbdev/aty/atyfb.ko] undefined!
+ERROR: modpost: "aty_ld_pll_ct" [drivers/video/fbdev/aty/atyfb.ko] undefined!
 
-> On Wed, Nov 25, 2020 at 1:33 PM Finn Thain <fthain@telegraphics.com.au> wrote:
-> >
-> > Or do you think that a codebase can somehow satisfy multiple checkers 
-> > and their divergent interpretations of the language spec?
-> 
-> Have we found any cases yet that are divergent? I don't think so. 
+Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+---
+ drivers/video/fbdev/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You mean, aside from -Wimplicit-fallthrough? I'm glad you asked. How about 
--Wincompatible-pointer-types and -Wframe-larger-than?
-
-All of the following files have been affected by divergent diagnostics 
-produced by clang and gcc.
-
-arch/arm64/include/asm/neon-intrinsics.h
-arch/powerpc/xmon/Makefile
-drivers/gpu/drm/i915/Makefile
-drivers/gpu/drm/i915/i915_utils.h
-drivers/staging/media/atomisp/pci/atomisp_subdev.c
-fs/ext4/super.c
-include/trace/events/qla.h
-net/mac80211/rate.c
-tools/lib/string.c
-tools/perf/util/setup.py
-tools/scripts/Makefile.include
-
-And if I searched for 'smatch' or 'coverity' instead of 'clang' I'd 
-probably find more divergence.
-
-Here are some of the relevant commits.
-
-0738c8b5915c7eaf1e6007b441008e8f3b460443
-9c87156cce5a63735d1218f0096a65c50a7a32aa
-babaab2f473817f173a2d08e410c25abf5ed0f6b
-065e5e559555e2f100bc95792a8ef1b609bbe130
-93f56de259376d7e4fff2b2d104082e1fa66e237
-6c4798d3f08b81c2c52936b10e0fa872590c96ae
-b7a313d84e853049062011d78cb04b6decd12f5c
-093b75ef5995ea35d7f6bdb6c7b32a42a1999813
-
-And before you object, "but -Wconstant-logical-operand is a clang-only 
-warning! it can't be divergent with gcc!", consider that the special cases 
-added to deal with clang-only warnings have to be removed when gcc catches 
-up, which is more churn. Now multiply that by the number of checkers you 
-care about.
+--- linux-next-20201124.orig/drivers/video/fbdev/Kconfig
++++ linux-next-20201124/drivers/video/fbdev/Kconfig
+@@ -1277,7 +1277,7 @@ config FB_ATY
+ 	  module will be called atyfb.
+ 
+ config FB_ATY_CT
+-	bool "Mach64 CT/VT/GT/LT (incl. 3D RAGE) support"
++	bool "Mach64 CT/VT/GT/LT (incl. 3D RAGE) support" if !(SPARC64 && PCI)
+ 	depends on PCI && FB_ATY
+ 	default y if SPARC64 && PCI
+ 	help
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
