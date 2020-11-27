@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800012C6580
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9D92C657E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45D826ED91;
-	Fri, 27 Nov 2020 12:12:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53BB6ED8A;
+	Fri, 27 Nov 2020 12:12:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CCDE6ED82;
- Fri, 27 Nov 2020 12:12:08 +0000 (UTC)
-IronPort-SDR: dTEykAMdS4hRxQlaRMosUmlsCOMPpGtpkB/PeV5gHXKhA+LONMIWDeWYBZ48xDdM/BL/MEPi5x
- bR2hyxMXRXWg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="168883829"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="168883829"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 660046ED82;
+ Fri, 27 Nov 2020 12:12:10 +0000 (UTC)
+IronPort-SDR: Y0L3Y3SnRvoAEdmIRWuaht4ctkd/dVQt7gMIUj3XgNb/sG0/8AU1qMvSPUhhXNJxs/dAHW+AxG
+ X1Gq3rqIbEzg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="168883836"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="168883836"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:07 -0800
-IronPort-SDR: LToREtdqm7tmXCn4cNNWIiponY0Tp0/30uUjhoh7JoyI/ML8bgVM7TMObD1T6GrsOqfcZOG0se
- pygw7kV6vIIQ==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029993"
+ 27 Nov 2020 04:12:10 -0800
+IronPort-SDR: wN0rkzspnFHUHmi3NzHRveqh3c4UjM14tbSGHx0OAOApdZv5VJ+6Zc2Xj96A/CiVfJP9n1U0R7
+ 52qzowtb5uCA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029998"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:06 -0800
+ 27 Nov 2020 04:12:07 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 145/162] drm/i915/dg1: Add dedicated context for blitter
- eviction
-Date: Fri, 27 Nov 2020 12:07:01 +0000
-Message-Id: <20201127120718.454037-146-matthew.auld@intel.com>
+Subject: [RFC PATCH 146/162] drm/i915/pm: suspend and restore ppgtt mapping
+Date: Fri, 27 Nov 2020 12:07:02 +0000
+Message-Id: <20201127120718.454037-147-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,184 +49,240 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>,
+ CQ Tang <cq.tang@intel.com>,
+ Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+From: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
 
-Without a dedicated context there can be a "deadlock" due inversion
-between object clearing and eviction on the shared blitter context
-timeline.
+During suspend we will lose all page tables as they are allocated in
+LMEM. In-order to  make sure that the contexts do not access the
+corrupted page table after we restore, we are evicting all vma's that
+are bound to vm's. This includes kernel vm.
 
-Clearing of a newly allocated objects emits it's request, but to execute
-the request, something may need to be evicted in order to make space for
-the new VMA. When the eviction code emits it's copy request it will be
-after the buffer clear one in the ringbuffer and so neither can complete.
+During resume, we are restoring the page tables back to scratch page.
 
-If we add a dedicated context for eviction then we can de-couple the two
-and break the "deadlock".
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: CQ Tang <cq.tang@intel.com>
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Cc: Ramalingam C <ramalingam.c@intel.com>
+Signed-off-by: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Signed-off-by: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
 Cc: CQ Tang <cq.tang@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_object.c   |  4 +-
- drivers/gpu/drm/i915/gt/intel_engine.h       |  2 +
- drivers/gpu/drm/i915/gt/intel_engine_cs.c    | 40 ++++++++++++++++++--
- drivers/gpu/drm/i915/gt/intel_engine_pm.c    |  9 +++--
- drivers/gpu/drm/i915/gt/intel_engine_types.h |  1 +
- 5 files changed, 47 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c  |  13 ++++
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h  |   2 +
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c |   4 +
+ drivers/gpu/drm/i915/i915_drv.c       | 102 +++++++++++++++++++++++---
+ 4 files changed, 112 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index c84443e01ef1..ddb448f275eb 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -767,7 +767,7 @@ static struct i915_vma *
- i915_window_vma_init(struct drm_i915_private *i915,
- 		     struct intel_memory_region *mem)
- {
--	struct intel_context *ce = i915->gt.engine[BCS0]->blitter_context;
-+	struct intel_context *ce = i915->gt.engine[BCS0]->evict_context;
- 	struct i915_address_space *vm = ce->vm;
- 	struct i915_vma *vma;
- 	int ret;
-@@ -984,7 +984,7 @@ int i915_window_blt_copy(struct drm_i915_gem_object *dst,
- 			 struct drm_i915_gem_object *src)
- {
- 	struct drm_i915_private *i915 = to_i915(src->base.dev);
--	struct intel_context *ce = i915->gt.engine[BCS0]->blitter_context;
-+	struct intel_context *ce = i915->gt.engine[BCS0]->evict_context;
- 	bool src_is_lmem = i915_gem_object_is_lmem(src);
- 	bool dst_is_lmem = i915_gem_object_is_lmem(dst);
- 	u64 remain = src->base.size, offset = 0;
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-index 188c5ff6dc64..623a6876dca5 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-@@ -188,6 +188,8 @@ intel_write_status_page(struct intel_engine_cs *engine, int reg, u32 value)
- #define I915_GEM_HWS_SEQNO_ADDR		(I915_GEM_HWS_SEQNO * sizeof(u32))
- #define I915_GEM_HWS_BLITTER		0x42
- #define I915_GEM_HWS_BLITTER_ADDR	(I915_GEM_HWS_BLITTER * sizeof(u32))
-+#define I915_GEM_HWS_EVICT		0x44
-+#define I915_GEM_HWS_EVICT_ADDR		(I915_GEM_HWS_EVICT * sizeof(u32))
- #define I915_GEM_HWS_SCRATCH		0x80
- 
- #define I915_HWS_CSB_BUF0_INDEX		0x10
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 9e0394b06f38..a83af8775a64 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -874,6 +874,20 @@ create_blitter_context(struct intel_engine_cs *engine)
- 	return ce;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+index b6fcebeef02a..704cab807e0b 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+@@ -775,3 +775,16 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+ 	kfree(ppgtt);
+ 	return ERR_PTR(err);
  }
- 
-+static struct intel_context *
-+create_evict_context(struct intel_engine_cs *engine)
++
++void gen8_restore_ppgtt_mappings(struct i915_address_space *vm)
 +{
-+	static struct lock_class_key evict;
-+	struct intel_context *ce;
++	const unsigned int count = gen8_pd_top_count(vm);
++	int i;
 +
-+	ce = create_pinned_context(engine, I915_GEM_HWS_EVICT_ADDR, &evict,
-+				   "evict_context");
-+	if (IS_ERR(ce))
-+		return ce;
++	for (i = 1; i <= vm->top; i++)
++		fill_px(vm->scratch[i], vm->scratch[i - 1]->encode);
 +
-+	return ce;
++	fill_page_dma(px_base(i915_vm_to_ppgtt(vm)->pd),
++		      vm->scratch[vm->top]->encode, count);
 +}
 +
- /**
-  * intel_engines_init_common - initialize cengine state which might require hw access
-  * @engine: Engine to initialize.
-@@ -912,22 +926,35 @@ static int engine_init_common(struct intel_engine_cs *engine)
- 	engine->emit_fini_breadcrumb_dw = ret;
+diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+index 76a08b9c1f5c..3fa4b95aaabd 100644
+--- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
++++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+@@ -6,8 +6,10 @@
+ #ifndef __GEN8_PPGTT_H__
+ #define __GEN8_PPGTT_H__
  
- 	/*
--	 * The blitter context is used to quickly memset or migrate objects
--	 * in local memory, so it has to always be available.
-+	 * The blitter and evict contexts are used to clear and migrate objects
-+	 * in local memory so they have to always be available.
- 	 */
- 	if (engine->class == COPY_ENGINE_CLASS) {
- 		ce = create_blitter_context(engine);
- 		if (IS_ERR(ce)) {
- 			ret = PTR_ERR(ce);
--			goto err_unpin;
-+			goto err_blitter;
- 		}
++struct i915_address_space;
+ struct intel_gt;
  
- 		engine->blitter_context = ce;
++void gen8_restore_ppgtt_mappings(struct i915_address_space *vm);
+ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt);
+ 
+ #endif
+diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+index 34a02643bb75..9b3eacd12a7e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
++++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+@@ -9,6 +9,8 @@
+ #include "intel_gtt.h"
+ #include "gem/i915_gem_lmem.h"
+ #include "gem/i915_gem_region.h"
++#include "gem/i915_gem_context.h"
++#include "gem/i915_gem_region.h"
+ #include "gen6_ppgtt.h"
+ #include "gen8_ppgtt.h"
+ 
+@@ -317,3 +319,5 @@ void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt)
+ 	ppgtt->vm.vma_ops.set_pages   = ppgtt_set_pages;
+ 	ppgtt->vm.vma_ops.clear_pages = clear_pages;
+ }
 +
-+		if (HAS_LMEM(engine->i915)) {
-+			ce = create_evict_context(engine);
-+			if (IS_ERR(ce)) {
-+				ret = PTR_ERR(ce);
-+				goto err_evict;
-+			}
 +
-+			engine->evict_context = ce;
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index e8c4931fc818..7115f4db5043 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -64,6 +64,7 @@
+ #include "gem/i915_gem_context.h"
+ #include "gem/i915_gem_ioctls.h"
+ #include "gem/i915_gem_mman.h"
++#include "gt/gen8_ppgtt.h"
+ #include "gt/intel_gt.h"
+ #include "gt/intel_gt_pm.h"
+ #include "gt/intel_rc6.h"
+@@ -1136,13 +1137,13 @@ static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
+ 
+ 				mutex_unlock(&mem->objects.lock);
+ 
+-				if (in_suspend)
+-					i915_gem_object_unbind(obj, 0);
+-
+ 				if (in_suspend) {
+ 					obj->swapto = NULL;
+ 					obj->evicted = false;
+ 					obj->do_swapping = true;
++
++					i915_gem_object_unbind(obj, 0);
++
+ 					ret = __i915_gem_object_put_pages(obj);
+ 					obj->do_swapping = false;
+ 					if (ret) {
+@@ -1176,6 +1177,43 @@ static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
+ 	return ret;
+ }
+ 
++static int i915_gem_suspend_ppgtt_mappings(struct drm_i915_private *i915)
++{
++	struct i915_gem_context *ctx, *cn;
++	int ret;
++
++	spin_lock(&i915->gem.contexts.lock);
++	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
++		struct i915_address_space *vm;
++
++		if (!kref_get_unless_zero(&ctx->ref))
++			continue;
++		spin_unlock(&i915->gem.contexts.lock);
++
++		vm = i915_gem_context_get_vm_rcu(ctx);
++		mutex_lock(&vm->mutex);
++		ret = i915_gem_evict_vm(vm);
++		mutex_unlock(&vm->mutex);
++		if (ret) {
++			GEM_WARN_ON(ret);
++			i915_vm_put(vm);
++			i915_gem_context_put(ctx);
++			return ret;
 +		}
- 	}
- 
- 	return 0;
- 
--err_unpin:
-+err_evict:
-+	intel_context_unpin(engine->blitter_context);
-+	intel_context_put(engine->blitter_context);
-+err_blitter:
- 	intel_context_unpin(engine->kernel_context);
- err_context:
- 	intel_context_put(engine->kernel_context);
-@@ -986,6 +1013,11 @@ void intel_engine_cleanup_common(struct intel_engine_cs *engine)
- 	if (engine->default_state)
- 		fput(engine->default_state);
- 
-+	if (engine->evict_context) {
-+		intel_context_unpin(engine->evict_context);
-+		intel_context_put(engine->evict_context);
++		i915_vm_put(vm);
++		spin_lock(&i915->gem.contexts.lock);
++		list_safe_reset_next(ctx, cn, link);
++		i915_gem_context_put(ctx);
 +	}
++	spin_unlock(&i915->gem.contexts.lock);
 +
- 	if (engine->blitter_context) {
- 		intel_context_unpin(engine->blitter_context);
- 		intel_context_put(engine->blitter_context);
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index 69c8ea70d1e8..a5ca95270e92 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -66,10 +66,13 @@ static int __engine_unpark(struct intel_wakeref *wf)
- 		ce->ops->reset(ce);
- 	}
- 
--	if (engine->class == COPY_ENGINE_CLASS) {
--		ce = engine->blitter_context;
-+	ce = engine->blitter_context;
-+	if (ce)
-+		ce->ops->reset(ce);
++	mutex_lock(&i915->gt.vm->mutex);
++	ret = i915_gem_evict_vm(i915->gt.vm);
++	mutex_unlock(&i915->gt.vm->mutex);
 +
-+	ce = engine->evict_context;
-+	if (ce)
- 		ce->ops->reset(ce);
--	}
++	return ret;
++}
++
+ static int i915_drm_suspend(struct drm_device *dev)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+@@ -1213,9 +1251,17 @@ static int i915_drm_suspend(struct drm_device *dev)
  
- 	if (engine->unpark)
- 		engine->unpark(engine);
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-index cb2de4bf86ba..14e92423661b 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-@@ -348,6 +348,7 @@ struct intel_engine_cs {
+ 	intel_fbdev_set_suspend(dev, FBINFO_STATE_SUSPENDED, true);
  
- 	struct intel_context *kernel_context; /* pinned */
- 	struct intel_context *blitter_context; /* pinned; exists for BCS only */
-+	struct intel_context *evict_context; /* pinned; exists for BCS only */
+-	ret = intel_dmem_evict_buffers(dev, true);
+-	if (ret)
+-		return ret;
++	if (HAS_LMEM(dev_priv))	{
++		ret = intel_dmem_evict_buffers(dev, true);
++		if (ret)
++			return ret;
++
++		i915_teardown_blt_windows(dev_priv);
++
++		ret = i915_gem_suspend_ppgtt_mappings(dev_priv);
++		if (ret)
++			return ret;
++	}
  
- 	intel_engine_mask_t saturated; /* submitting semaphores too late? */
+ 	dev_priv->suspend_count++;
+ 
+@@ -1306,6 +1352,36 @@ int i915_suspend_switcheroo(struct drm_i915_private *i915, pm_message_t state)
+ 	return i915_drm_suspend_late(&i915->drm, false);
+ }
+ 
++static void i915_gem_restore_ppgtt_mappings(struct drm_i915_private *i915)
++{
++	struct i915_gem_context *ctx, *cn;
++
++	spin_lock(&i915->gem.contexts.lock);
++
++	list_for_each_entry_safe(ctx, cn, &i915->gem.contexts.list, link) {
++		struct i915_address_space *vm;
++
++		if (!kref_get_unless_zero(&ctx->ref))
++			continue;
++
++		spin_unlock(&i915->gem.contexts.lock);
++
++		vm = i915_gem_context_get_vm_rcu(ctx);
++		mutex_lock(&vm->mutex);
++		gen8_restore_ppgtt_mappings(vm);
++		mutex_unlock(&vm->mutex);
++		i915_vm_put(vm);
++		spin_lock(&i915->gem.contexts.lock);
++		list_safe_reset_next(ctx, cn, link);
++		i915_gem_context_put(ctx);
++	}
++	spin_unlock(&i915->gem.contexts.lock);
++
++	mutex_lock(&i915->gt.vm->mutex);
++	gen8_restore_ppgtt_mappings(i915->gt.vm);
++	mutex_unlock(&i915->gt.vm->mutex);
++}
++
+ static int i915_drm_resume(struct drm_device *dev)
+ {
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+@@ -1342,9 +1418,17 @@ static int i915_drm_resume(struct drm_device *dev)
+ 
+ 	drm_mode_config_reset(dev);
+ 
+-	ret = intel_dmem_evict_buffers(dev, false);
+-	if (ret)
+-		DRM_ERROR("i915_resume:i915_gem_object_pin_pages failed with err=%d\n", ret);
++	if (HAS_LMEM(dev_priv)) {
++		i915_gem_restore_ppgtt_mappings(dev_priv);
++
++		ret = i915_setup_blt_windows(dev_priv);
++		if (ret)
++			GEM_BUG_ON(ret);
++
++		ret = intel_dmem_evict_buffers(dev, false);
++		if (ret)
++			DRM_ERROR("i915_resume:i915_gem_object_pin_pages failed with err=%d\n", ret);
++	}
+ 
+ 	i915_gem_resume(dev_priv);
  
 -- 
 2.26.2
