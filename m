@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B2E2C6543
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5932C6540
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3126ECFB;
-	Fri, 27 Nov 2020 12:11:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056466EC7B;
+	Fri, 27 Nov 2020 12:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C236ECF3;
- Fri, 27 Nov 2020 12:11:15 +0000 (UTC)
-IronPort-SDR: JmVHXIBqFTgWINqGZDfVoXkFTM8fQjQ/0lEc47zFdkng/3myROGJP8PyFLGcci/7axtgBYx3fk
- nLrQ3pRxhV8Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092861"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092861"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00A476ECE5;
+ Fri, 27 Nov 2020 12:11:16 +0000 (UTC)
+IronPort-SDR: dnyOVHbT1LjPVF6JDMz4T0t5KwXqsIQ9iwxtdyljAO/fcBBhxjIfeZiOVUds1t58zmsvicz3nT
+ yhD7qnvidMnA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092867"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092867"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:14 -0800
-IronPort-SDR: 3QyeH0i8+0meaZcphmIIdXHw0Jzh+pKyMAtTca40/PgLF3t634KcbbRjQXj2f/bx+yNXQW4Wf0
- Ev7Z4MH1LfRg==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029709"
+ 27 Nov 2020 04:11:16 -0800
+IronPort-SDR: hxhRV7ZrgI9cdjahXX5p4jVOStIkJguI/gpErpAzoCa0yvi/SFy3Q8dAiIi1Gq+/JUCrL3s2sU
+ 0Z3V8Sj2ud4A==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029722"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:12 -0800
+ 27 Nov 2020 04:11:14 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 116/162] drm/i915/dsb: Enable lmem for dsb
-Date: Fri, 27 Nov 2020 12:06:32 +0000
-Message-Id: <20201127120718.454037-117-matthew.auld@intel.com>
+Subject: [RFC PATCH 117/162] drm/i915: Reintroduce mem->reserved
+Date: Fri, 27 Nov 2020 12:06:33 +0000
+Message-Id: <20201127120718.454037-118-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,54 +49,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Animesh Manna <animesh.manna@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Animesh Manna <animesh.manna@intel.com>
+From: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
 
-For dgfx, DSB should use local memory instead of system memory. Using
-local memory surely brings performance improvement as local memory is
-close to gpu. Also want to avoid multiple gpu using system memory.
+In the following patch we need to reserve regions unaccessible to the
+driver during initialization, so add back mem->reserved for collecting
+such regions.
 
-Use LMEM API to create gem object needed for DSB command buffer.
-
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Animesh Manna <animesh.manna@intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Imre Deak <imre.deak@intel.com>
+Signed-off-by: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_dsb.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/intel_memory_region.c    |  2 +
+ drivers/gpu/drm/i915/intel_memory_region.h    |  2 +
+ .../drm/i915/selftests/intel_memory_region.c  | 89 +++++++++++++++++++
+ 3 files changed, 93 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dsb.c b/drivers/gpu/drm/i915/display/intel_dsb.c
-index 857126822a88..73795e415ad5 100644
---- a/drivers/gpu/drm/i915/display/intel_dsb.c
-+++ b/drivers/gpu/drm/i915/display/intel_dsb.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+index c7a1d84e7ee8..554fdd7735a8 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/intel_memory_region.c
+@@ -203,6 +203,7 @@ int intel_memory_region_init_buddy(struct intel_memory_region *mem)
  
- #include "i915_drv.h"
- #include "intel_display_types.h"
-+#include "gem/i915_gem_lmem.h"
+ void intel_memory_region_release_buddy(struct intel_memory_region *mem)
+ {
++	i915_buddy_free_list(&mem->mm, &mem->reserved);
+ 	i915_buddy_fini(&mem->mm);
+ }
  
- #define DSB_BUF_SIZE    (2 * PAGE_SIZE)
+@@ -232,6 +233,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
+ 	mutex_init(&mem->objects.lock);
+ 	INIT_LIST_HEAD(&mem->objects.list);
+ 	INIT_LIST_HEAD(&mem->objects.purgeable);
++	INIT_LIST_HEAD(&mem->reserved);
  
-@@ -278,7 +279,11 @@ void intel_dsb_prepare(struct intel_crtc_state *crtc_state)
+ 	mutex_init(&mem->mm_lock);
  
- 	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
+index 8da82cb2afe3..0bfc1fa36f74 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -97,6 +97,8 @@ struct intel_memory_region {
+ 	struct intel_gt *gt; /* GT closest to this region. */
+ 	bool is_devmem;	/* true for device memory */
  
--	obj = i915_gem_object_create_internal(i915, DSB_BUF_SIZE);
-+	if (HAS_LMEM(i915))
-+		obj = i915_gem_object_create_lmem(i915, DSB_BUF_SIZE, 0);
-+	else
-+		obj = i915_gem_object_create_internal(i915, DSB_BUF_SIZE);
++	struct list_head reserved;
 +
- 	if (IS_ERR(obj)) {
- 		drm_err(&i915->drm, "Gem object creation failed\n");
- 		kfree(dsb);
+ 	dma_addr_t remap_addr;
+ 
+ 	struct {
+diff --git a/drivers/gpu/drm/i915/selftests/intel_memory_region.c b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+index 93e067951e0f..9df0a4f657c1 100644
+--- a/drivers/gpu/drm/i915/selftests/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/selftests/intel_memory_region.c
+@@ -134,6 +134,94 @@ static void igt_object_release(struct drm_i915_gem_object *obj)
+ 	i915_gem_object_put(obj);
+ }
+ 
++static int igt_reserve_range(struct intel_memory_region *mem,
++			     struct list_head *reserved,
++			     u64 offset,
++			     u64 size)
++{
++	int ret;
++	LIST_HEAD(blocks);
++
++	ret = i915_buddy_alloc_range(&mem->mm, &blocks, offset, size);
++	if (!ret)
++		list_splice_tail(&blocks, reserved);
++
++	return ret;
++}
++
++static int igt_mock_reserve(void *arg)
++{
++	struct drm_i915_gem_object *obj;
++	struct intel_memory_region *mem = arg;
++	resource_size_t avail = resource_size(&mem->region);
++	I915_RND_STATE(prng);
++	LIST_HEAD(objects);
++	LIST_HEAD(reserved);
++	u32 i, offset, count, *order;
++	u64 allocated, cur_avail;
++	const u32 chunk_size = SZ_32M;
++	int err = 0;
++
++	count = avail / chunk_size;
++	order = i915_random_order(count, &prng);
++	if (!order)
++		return 0;
++
++	/* Reserve a bunch of ranges within the region */
++	for (i = 0; i < count; ++i) {
++		u64 start = order[i] * chunk_size;
++		u64 size = i915_prandom_u32_max_state(chunk_size, &prng);
++
++		/* Allow for some really big holes */
++		if (!size)
++			continue;
++
++		size = round_up(size, PAGE_SIZE);
++		offset = igt_random_offset(&prng, 0, chunk_size, size,
++					   PAGE_SIZE);
++
++		err = igt_reserve_range(mem, &reserved, start + offset, size);
++		if (err) {
++			pr_err("%s failed to reserve range", __func__);
++			goto out_close;
++		}
++
++		/* XXX: maybe sanity check the block range here? */
++		avail -= size;
++	}
++
++	/* Try to see if we can allocate from the remaining space */
++	allocated = 0;
++	cur_avail = avail;
++	do {
++		u64 size = i915_prandom_u32_max_state(cur_avail, &prng);
++
++		size = max_t(u64, round_up(size, PAGE_SIZE), (u64)PAGE_SIZE);
++		obj = igt_object_create(mem, &objects, size, 0);
++
++		if (IS_ERR(obj)) {
++			if (PTR_ERR(obj) == -ENXIO)
++				break;
++
++			err = PTR_ERR(obj);
++			goto out_close;
++		}
++		cur_avail -= size;
++		allocated += size;
++	} while (1);
++
++	if (allocated != avail) {
++		pr_err("%s mismatch between allocation and free space", __func__);
++		err = -EINVAL;
++	}
++
++out_close:
++	kfree(order);
++	close_objects(mem, &objects);
++	i915_buddy_free_list(&mem->mm, &reserved);
++	return err;
++}
++
+ static int igt_mock_contiguous(void *arg)
+ {
+ 	struct intel_memory_region *mem = arg;
+@@ -1180,6 +1268,7 @@ static int igt_lmem_pages_migrate(void *arg)
+ int intel_memory_region_mock_selftests(void)
+ {
+ 	static const struct i915_subtest tests[] = {
++		SUBTEST(igt_mock_reserve),
+ 		SUBTEST(igt_mock_fill),
+ 		SUBTEST(igt_mock_contiguous),
+ 		SUBTEST(igt_mock_splintered_region),
 -- 
 2.26.2
 
