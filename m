@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC132C6575
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 497062C6576
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 446916ED7E;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 834946ED80;
 	Fri, 27 Nov 2020 12:12:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B98886ED7E;
- Fri, 27 Nov 2020 12:12:02 +0000 (UTC)
-IronPort-SDR: 5EK3oSNyJEaUQpNknS6QNcsGn+kW5YQbuKLGXF5oUqjLmaAWQFKUcDDcVlyB/xQRt7kpn9gdu/
- mr/EYfM6tztA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092981"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092981"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4067A6ECF4;
+ Fri, 27 Nov 2020 12:12:06 +0000 (UTC)
+IronPort-SDR: b2HR2TT3dETgftFdnUVeGLqD/ePO8Rvn9u/K91UAR/0zSCogL2weDvhMIRHiPJ6pIweULicrSx
+ ZEmIRIHinO1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="168883823"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="168883823"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:02 -0800
-IronPort-SDR: cnviXRZT7QW76KiNtGmVjMgheffijRPcd7jlGatdzhEsTcreasxVCyI+6fDTYW6T2/mghfl9nX
- ybaWuuYrdwFw==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029964"
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2020 04:12:04 -0800
+IronPort-SDR: 3E0/ouAVpgdEP2P8cIEV2oLHco8psfG2eHURqA1KEjozRrifOvthpILH9LEqsVe/mojaEr1Xfm
+ k+tK0oPH6hcA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029975"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:00 -0800
+ 27 Nov 2020 04:12:02 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 142/162] drm/i915/gem/selftest: test and measure window
- based blt cpy
-Date: Fri, 27 Nov 2020 12:06:58 +0000
-Message-Id: <20201127120718.454037-143-matthew.auld@intel.com>
+Subject: [RFC PATCH 143/162] drm/i915: suspend/resume eviction
+Date: Fri, 27 Nov 2020 12:06:59 +0000
+Message-Id: <20201127120718.454037-144-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,225 +49,155 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>,
+ CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ramalingam C <ramalingam.c@intel.com>
+From: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
 
-Selftest live_blt_evict is written to create an lmem and smem objects and
-copy lmem into smem obj using the window based blt copy used for lmem
-eviction.
+As the initial phase of implementation, when the system in idle,
+copying the user objects from LMEM to SMEM during suspend and
+restoring back in resume. In present implementation using memcpy based
+eviction during swapout/swapin of objects. To test the functionality,
+suspend is initiated as part of igt application.
 
-And we test for range of object size from 4K to 64M with different
-usecase scenario w.r.t to window size.
-
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
 Cc: CQ Tang <cq.tang@intel.com>
 ---
- .../i915/gem/selftests/i915_gem_object_blt.c  | 166 ++++++++++++++++++
- .../drm/i915/selftests/i915_live_selftests.h  |   1 +
- 2 files changed, 167 insertions(+)
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  3 +
+ drivers/gpu/drm/i915/i915_drv.c               | 83 +++++++++++++++++++
+ 2 files changed, 86 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
-index ee9496f3d11d..4f7941dea291 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_object_blt.c
-@@ -16,6 +16,7 @@
- #include "selftests/mock_drm.h"
- #include "huge_gem_object.h"
- #include "mock_context.h"
-+#include "gem/i915_gem_region.h"
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index e9f42d3137b3..331d113f7d5b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -322,6 +322,9 @@ struct drm_i915_gem_object {
+ 	 */
+ 	bool do_swapping;
+ 	struct drm_i915_gem_object *swapto;
++
++	/** mark evicted object during suspend */
++	bool evicted;
+ };
  
- static int wrap_ktime_compare(const void *A, const void *B)
- {
-@@ -568,6 +569,171 @@ static int igt_copy_blt_ctx0(void *arg)
- 	return test_copy_engines(arg, igt_copy_blt_thread, SINGLE_CTX);
+ static inline struct drm_i915_gem_object *
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 78b528e89486..e8c4931fc818 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -1102,11 +1102,86 @@ static int i915_drm_prepare(struct drm_device *dev)
+ 	return 0;
  }
  
-+static int __igt_obj_window_blt_copy(struct drm_i915_private *i915,
-+				     struct intel_memory_region *src_mem,
-+				     struct intel_memory_region *dst_mem,
-+				     u64 size)
++static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
 +{
-+	struct drm_i915_gem_object *src, *dst;
-+	ktime_t t0, t1;
-+	u32 *vaddr, i;
-+	int err;
-+
-+	src = i915_gem_object_create_region(src_mem, size, 0);
-+	if (IS_ERR(src)) {
-+		err = PTR_ERR(src);
-+		goto err;
-+	}
-+	size = max_t(u64, size, src->base.size);
-+	i915_gem_object_lock_isolated(src);
-+
-+	dst = i915_gem_object_create_region(dst_mem, size, 0);
-+	if (IS_ERR(dst)) {
-+		err = PTR_ERR(dst);
-+		goto err_put_src;
-+	}
-+
-+	i915_gem_object_lock_isolated(dst);
-+
-+	vaddr = i915_gem_object_pin_map(src,
-+					i915_coherent_map_type(i915, src, true));
-+	if (IS_ERR(vaddr)) {
-+		err = PTR_ERR(vaddr);
-+		pr_err("Failed at pin map of src. %d\n", err);
-+		goto err_put_dst;
-+	}
-+
-+	for (i = 0; i < size / sizeof(u32); i++)
-+		vaddr[i] = i;
-+
-+	if (!(src->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
-+		src->cache_dirty = true;
-+
-+	vaddr = i915_gem_object_pin_map(dst,
-+					i915_coherent_map_type(i915, dst, true));
-+	if (IS_ERR(vaddr)) {
-+		err = PTR_ERR(vaddr);
-+		pr_err("Failed at pin map of dst. %d\n", err);
-+		goto err_unpin_src;
-+	}
-+	memset32(vaddr, 0xdeadbeaf, size / sizeof(u32));
-+
-+	if (!(dst->cache_coherent & I915_BO_CACHE_COHERENT_FOR_WRITE))
-+		dst->cache_dirty = true;
++	struct drm_i915_private *i915 = to_i915(dev);
++	struct drm_i915_gem_object *obj;
++	struct intel_memory_region *mem;
++	int id, ret = 0;
 +
 +	/*
-+	 * FIXME: Blitter based eviction is failing occasionally due to
-+	 * trylock approach. To avoid the selftest failure due to trylocks,
-+	 * we are adding retries with a delay inn between.
-+	 * Retry count and delay are fixed on trial and error basis.
-+	 * As soon as trylocks are removed from blt eviction, we should
-+	 * remove this retry attempts.
++	 * FIXME: Presently using memcpy,
++	 * will replace with blitter once
++	 * fix the issues.
 +	 */
-+#define WINDOW_BLT_COPY_RETRY		3
-+	for (i = 0; i <= WINDOW_BLT_COPY_RETRY; i++) {
-+		t0 = ktime_get();
-+		err = i915_window_blt_copy(dst, src);
-+		if (err == -EBUSY)
-+			msleep(1);
-+		else
-+			break;
-+	}
++	i915->params.enable_eviction = 1;
 +
-+	if (err)
-+		goto err_unpin_dst;
++	for_each_memory_region(mem, i915, id) {
++		struct list_head still_in_list;
++		INIT_LIST_HEAD(&still_in_list);
++		if (mem->type == INTEL_MEMORY_LOCAL && mem->total) {
++			mutex_lock(&mem->objects.lock);
++			while ((obj =  list_first_entry_or_null(&mem->objects.list,
++						typeof(*obj),
++						mm.region_link))) {
 +
-+	t1 = ktime_sub(ktime_get(), t0);
-+	pr_info("blt of %zd KiB at %lld MiB/s\n", src->base.size >> 10,
-+		div64_u64(mul_u32_u32(src->base.size, 1000 * 1000 * 1000),
-+			  t1) >> 20);
++				list_move_tail(&obj->mm.region_link, &still_in_list);
 +
-+	for (i = 0; i < size / sizeof(u32); i += 17) {
-+		if (!(dst->cache_coherent & I915_BO_CACHE_COHERENT_FOR_READ))
-+			drm_clflush_virt_range(&vaddr[i], sizeof(vaddr[i]));
++				if (!i915_gem_object_has_pages(obj) && in_suspend)
++					continue;
 +
-+		if (vaddr[i] != i) {
-+			pr_err("vaddr[%u]=%x, expected=%x\n", i,
-+			       vaddr[i], i);
-+			err = -EINVAL;
-+			goto err_unpin_dst;
++				/* Ignore previously evicted objects */
++				if (obj->swapto && in_suspend)
++					continue;
++
++				mutex_unlock(&mem->objects.lock);
++
++				if (in_suspend)
++					i915_gem_object_unbind(obj, 0);
++
++				if (in_suspend) {
++					obj->swapto = NULL;
++					obj->evicted = false;
++					obj->do_swapping = true;
++					ret = __i915_gem_object_put_pages(obj);
++					obj->do_swapping = false;
++					if (ret) {
++						/*
++						 * FIXME: internal ctx objects still pinned
++						 * returning as BUSY. Presently just evicting
++						 * the user objects, will fix it later
++						 */
++						obj->evicted = false;
++						ret = 0;
++					} else
++						obj->evicted = true;
++				} else {
++					if (obj->swapto && obj->evicted) {
++						ret = i915_gem_object_pin_pages(obj);
++						if (ret) {
++							i915_gem_object_put(obj);
++						} else {
++							i915_gem_object_unpin_pages(obj);
++							obj->evicted = false;
++						}
++					}
++				}
++				mutex_lock(&mem->objects.lock);
++			}
++			list_splice_tail(&still_in_list, &mem->objects.list);
++			mutex_unlock(&mem->objects.lock);
 +		}
 +	}
-+
-+err_unpin_dst:
-+	i915_gem_object_unpin_map(dst);
-+err_unpin_src:
-+	i915_gem_object_unpin_map(src);
-+err_put_dst:
-+	i915_gem_object_unlock(dst);
-+	i915_gem_object_put(dst);
-+err_put_src:
-+	i915_gem_object_unlock(src);
-+	i915_gem_object_put(src);
-+err:
-+	if (err == -ENODEV)
-+		err = 0;
-+	return err;
-+}
-+
-+static int igt_obj_window_blt_copy(void *data)
-+{
-+	struct drm_i915_private *i915 = data;
-+	u64 size[] = {SZ_2K, SZ_4K, SZ_64K, SZ_4M, SZ_8M + SZ_2K, SZ_64M};
-+	struct intel_memory_region *lmem =
-+		intel_memory_region_by_type(i915, INTEL_MEMORY_LOCAL);
-+	struct intel_memory_region *smem =
-+		intel_memory_region_by_type(i915, INTEL_MEMORY_SYSTEM);
-+	int i, ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(size); i++) {
-+		ret =  __igt_obj_window_blt_copy(i915, lmem, lmem, size[i]);
-+		if (ret < 0) {
-+			pr_err("%s: Failed at lmem->lmem size: %llu, err: %d\n",
-+			       __func__, size[i], ret);
-+			break;
-+		}
-+		ret =  __igt_obj_window_blt_copy(i915, smem, smem, size[i]);
-+		if (ret < 0) {
-+			pr_err("%s: Failed at smem->smem size: %llu, err: %d\n",
-+			       __func__, size[i], ret);
-+			break;
-+		}
-+		ret =  __igt_obj_window_blt_copy(i915, lmem, smem, size[i]);
-+		if (ret < 0) {
-+			pr_err("%s: Failed at lmem->smem size: %llu, err: %d\n",
-+			       __func__, size[i], ret);
-+			break;
-+		}
-+
-+		ret =  __igt_obj_window_blt_copy(i915, smem, lmem, size[i]);
-+		if (ret < 0) {
-+			pr_err("%s: Failed at smem->lmem size: %llu, err: %d\n",
-+			       __func__, size[i], ret);
-+			break;
-+		}
-+	}
-+
++	i915->params.enable_eviction = 3;
 +	return ret;
 +}
 +
-+int i915_obj_window_blt_copy_live_selftests(struct drm_i915_private *i915)
-+{
-+	static const struct i915_subtest tests[] = {
-+		SUBTEST(igt_obj_window_blt_copy),
-+	};
-+
-+	if (intel_gt_is_wedged(&i915->gt))
-+		return 0;
-+
-+	if (!HAS_ENGINE(&i915->gt, BCS0))
-+		return 0;
-+
-+	if (!HAS_LMEM(i915))
-+		return 0;
-+
-+	return i915_live_subtests(tests, i915);
-+}
-+
- int i915_gem_object_blt_live_selftests(struct drm_i915_private *i915)
+ static int i915_drm_suspend(struct drm_device *dev)
  {
- 	static const struct i915_subtest tests[] = {
-diff --git a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-index a92c0e9b7e6b..2bf900f5d8b0 100644
---- a/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-+++ b/drivers/gpu/drm/i915/selftests/i915_live_selftests.h
-@@ -39,6 +39,7 @@ selftest(hugepages, i915_gem_huge_page_live_selftests)
- selftest(gem_contexts, i915_gem_context_live_selftests)
- selftest(gem_execbuf, i915_gem_execbuffer_live_selftests)
- selftest(blt, i915_gem_object_blt_live_selftests)
-+selftest(win_blt_copy, i915_obj_window_blt_copy_live_selftests)
- selftest(client, i915_gem_client_blt_live_selftests)
- selftest(reset, intel_reset_live_selftests)
- selftest(memory_region, intel_memory_region_live_selftests)
+ 	struct drm_i915_private *dev_priv = to_i915(dev);
+ 	struct pci_dev *pdev = dev_priv->drm.pdev;
+ 	pci_power_t opregion_target_state;
++	int ret = 0;
+ 
+ 	disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+ 
+@@ -1138,6 +1213,10 @@ static int i915_drm_suspend(struct drm_device *dev)
+ 
+ 	intel_fbdev_set_suspend(dev, FBINFO_STATE_SUSPENDED, true);
+ 
++	ret = intel_dmem_evict_buffers(dev, true);
++	if (ret)
++		return ret;
++
+ 	dev_priv->suspend_count++;
+ 
+ 	intel_csr_ucode_suspend(dev_priv);
+@@ -1263,6 +1342,10 @@ static int i915_drm_resume(struct drm_device *dev)
+ 
+ 	drm_mode_config_reset(dev);
+ 
++	ret = intel_dmem_evict_buffers(dev, false);
++	if (ret)
++		DRM_ERROR("i915_resume:i915_gem_object_pin_pages failed with err=%d\n", ret);
++
+ 	i915_gem_resume(dev_priv);
+ 
+ 	intel_modeset_init_hw(dev_priv);
 -- 
 2.26.2
 
