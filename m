@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AFB72C6C38
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:58:38 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 192082C6C39
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:58:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9F16F3AD;
-	Fri, 27 Nov 2020 19:58:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D5A76F3B3;
+	Fri, 27 Nov 2020 19:58:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
  [IPv6:2a00:1450:4864:20::142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9CD76F3AD
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:32 +0000 (UTC)
-Received: by mail-lf1-x142.google.com with SMTP id u18so8535077lfd.9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:32 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5676F3B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:38 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id s30so8564382lfc.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GBucTroFP+M0Yy64eG6RzrvScB9IstEoTS95L4tQgXY=;
- b=W3dmwBXjuIPRH7fZg2XcDakW3tYopwPAkXNSUf0wmgR22IRn5UsZcUY8CzR6jI/yjo
- Nik/vdEMXu3yiWCFCI0nbdaS1RwG4U1MjpKBtEbWkgZ4iwUZIt1nzEkpiaCsEVlZdM3m
- R3ZGihrm6/pvVZqRR33bh5c6oCuYI6Exodu5oaAjZ86FpsbabRbFk0HHvQzr7QSIt/5Q
- cmGf2VI1o5SENT6BoE9mC4MNH0+WgUc3HrNmu0abqNAFIgnvCSTC4LAajxjoqqNytV+n
- pWTs80SwGCMs5eI67g3h/ybkdSM9dD06XfXdjCxQi1KPFXdgqXlayGM3WhJ8WLgPnMDd
- XXCQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Mlrk2a7fx8lHdZe7HNocdybelF9nJ2xwpzGpya7/neM=;
+ b=nbyG5HWv8PYaV2MYSK/V9y026abFr5qp19r6Mx+qPclojBrt+pbh0WG2/n1piQOA3P
+ uiimF504mugGaPERuOR019mjir/88EOl6cR5iCAfGJTPcIV/2G+i+ESDivkT2zpess2j
+ 1zVJKOceqHS6J/oZQFCYH6/3zFxVW9iPqVljmIiQSu3iKYWtG1vTsRSoW9MjLNOTxidQ
+ wncSiavaru70qkQme1ffLM4DzwQTHZpSpnNLSekMRwjhEuJKCVX9e8Hjqh4OpS5gIN1G
+ yUBhSTjZ85t0S4j2PKLTjbd7Dk/oAsAN77B0d4QfWUSLXQslevnjmXOg7FipUasZZZj+
+ Ub+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=GBucTroFP+M0Yy64eG6RzrvScB9IstEoTS95L4tQgXY=;
- b=tCYK9VmkYkr85BaEibIyZBbxlym5HLaamv1OSNB+sVMpnAZFXm72NuGJctRUcFcPmd
- TGlf7duSIKx6FIKqk262Isz7xVAv5Yr+uJ0AA0EWCfqhpGLOBKNxWDVCVRTNMJQwO6LL
- d3b01I6cS3Awziv5OQIIQMzwElNHZKumXCjFZMAgyDAZxkhZY1kuvvOFCQZ07YpXaCI3
- XPJTvQlkDCzrR5UoC1gcwhR4H3dlILx/mLxHi7g+EkBbGjjQkilcfWQXZ+zg2NRow00k
- YGEk6nIs+wksiWjoDRP2dY/5mAjC5axTaN91ZHA1vfPs8s8MMo6MupQv4CzMvXzM1e/r
- ZdLw==
-X-Gm-Message-State: AOAM531PvQVJDhrOE7ECGJPWnflcdJ80ndhrnw+fCtrBZxvaAHIiWG2m
- v2sYeE3crgiZKx4m85PKR44=
-X-Google-Smtp-Source: ABdhPJylIAu0KLBIroXyb9tC6gYTQuiUvN1EGzZkoJWcx5F+Qm8SIjI4a/0nnL+xr//qgqf4s4x9Hg==
-X-Received: by 2002:ac2:428d:: with SMTP id m13mr4080520lfh.137.1606507111125; 
- Fri, 27 Nov 2020 11:58:31 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Mlrk2a7fx8lHdZe7HNocdybelF9nJ2xwpzGpya7/neM=;
+ b=d3g7+Qih6idfw22Efo1OiSLGd3+i5ogTdx+GOM7OhXV2oEfMnKedfHuPFrk5xECaAQ
+ HZpiR1B4mkEiPrxLc14nFIrED+9yvmb+dyrUzDNjFaUEFZ+ZAzIsDGIZN4LCKfv23E6z
+ +xSs/Vul2PcU+oW2KMkoaD+XB8T9veFxD8sVsyLnzRJsQYGxKvnJ/p7az/pkU7shpp2Y
+ LwNRIM2KiQ+YW5s4kD4Qvi/ORm5KpWLQf2VD44Tu9oEw7881zX+Jbl1B12hsY+eNZiNv
+ 95+Zw2wFI2osNPatVAsk8QY01PCw5bYucwa9A6kHVMHCw22L7Q3XXFMGbCzBcpFlBs2f
+ bF8Q==
+X-Gm-Message-State: AOAM531myj8WT17qVLLdlrDlW1yo4XExLirasXCJ02JwKckJ9YLithL4
+ JLeHDVhoNNnL9qk1wjJKScs=
+X-Google-Smtp-Source: ABdhPJy1IKpFfgA/xgo2/hiiEZA4+34JhNpEV0cwiEJVzRGd+sjjU7oUZDTPsmHJEcur9GoPNNk63w==
+X-Received: by 2002:a19:f243:: with SMTP id d3mr3981629lfk.534.1606507116602; 
+ Fri, 27 Nov 2020 11:58:36 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.28
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:58:30 -0800 (PST)
+ Fri, 27 Nov 2020 11:58:36 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 0/28] drivers/video: W=1 warning fixes
-Date: Fri, 27 Nov 2020 20:57:57 +0100
-Message-Id: <20201127195825.858960-1-sam@ravnborg.org>
+Subject: [PATCH v1 01/28] video: Fix W=1 warnings in of_videomode +
+ of_display_timing
+Date: Fri, 27 Nov 2020 20:57:58 +0100
+Message-Id: <20201127195825.858960-2-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
+References: <20201127195825.858960-1-sam@ravnborg.org>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,95 +99,50 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Following the great work of Lee Jones in other subsystems
-here is a set of patches that address all remaining W=1
-warnings in drivers/video/.
-Lee Jones already fixed all warnings in video/backlight/ so
-this is mostly fbdev related fixes.
+Fix trivial W=1 warnings.
+Update kernel-doc to avoid the warnings.
 
-The general approach used were:
-- Fix kernel-doc, this is often very trivial
-- Drop unused local variables
-- Use no_printk for local logging support
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-fbdev@vger.kernel.org
+---
+ drivers/video/of_display_timing.c | 1 +
+ drivers/video/of_videomode.c      | 8 ++++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-Build tested on a set of architectures with various configs.
-
-The patches do not depends on each other and in most cases all
-fixes for one driver is kept in a single patch.
-
-The individual changes are trivial so this is a great
-starter task to try to review these patches.
-
-A timely Reviewed-by: or Acked-by: would be very nice so we can
-get the warnings fixes before we cut for the merge window.
-
-	Sam
-
-
-Sam Ravnborg (28):
-      video: Fix W=1 warnings in of_videomode + of_display_timing
-      video: fbcon: Use pr_debug() in fbcon
-      video: fbdev: core: Fix W=1 warnings in fbmon + fb_notify
-      video: fbdev: aty: Delete unused variable in radeon_monitor
-      video: fbdev: aty: Fix W=1 warnings in atyfb_base
-      video: fbdev: aty: Fix W=1 warnings in mach64_ct
-      video: fbdev: sis: Fix W=1 warnings about static symbols
-      video: fbdev: sis: Fix W=1 warning about SiS_TVDelay
-      video: fbdev: sis: Fix W=1 warnings in init.c
-      video: fbdev: sis: Fix W=1 warnings in sis_main
-      video: fbdev: via: Fix W=1 warnings
-      video: fbdev: tdfx: Fix W=1 warnings
-      video: fbdev: riva: Fix W=1 warnings
-      video: fbdev: pm2fb: Fix W=1 warnings
-      video: fbdev: neofb: Fix W=1 warnings
-      video: fbdev: hgafb: Fix W=1 warnings
-      video: fbdev: tgafb: Fix W=1 warnings
-      video: fbdev: mx3fb: Fix W=1 warnings
-      video: fbdev: sstfb: Fix W=1 warnings
-      video: fbdev: nvidia: Fix W=1 warnings
-      video: fbdev: tmiofb: Fix W=1 warnings
-      video: fbdev: omapfb: Fix W=1 warnings in dsi
-      video: fbdev: omapfb: Fix W=1 warnings in hdmi*_core
-      video: fbdev: s3c-fb: Fix W=1 warnings
-      video: fbdev: uvesafb: Fix W=1 warning
-      video: fbdev: uvesafb: Fix W=1 string related warnings
-      video: fbdev: cirrusfb: Fix W=1 warnings
-      video: fbdev: s1d13xxxfb: Fix W=1 warnings
-
- drivers/video/fbdev/aty/atyfb_base.c              | 12 ++------
- drivers/video/fbdev/aty/mach64_ct.c               | 15 ++++++----
- drivers/video/fbdev/aty/radeon_monitor.c          |  4 +--
- drivers/video/fbdev/cirrusfb.c                    | 20 ++++++-------
- drivers/video/fbdev/core/fb_notify.c              |  3 +-
- drivers/video/fbdev/core/fbcon.c                  | 20 ++++---------
- drivers/video/fbdev/core/fbmon.c                  |  2 +-
- drivers/video/fbdev/hgafb.c                       |  4 +--
- drivers/video/fbdev/mx3fb.c                       | 13 +++++----
- drivers/video/fbdev/neofb.c                       |  4 ---
- drivers/video/fbdev/nvidia/nv_setup.c             |  7 ++---
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c        | 12 ++------
- drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c |  4 +--
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c |  4 +--
- drivers/video/fbdev/pm2fb.c                       |  8 +++---
- drivers/video/fbdev/riva/fbdev.c                  |  9 +++---
- drivers/video/fbdev/riva/riva_hw.c                | 28 ++++++-------------
- drivers/video/fbdev/s1d13xxxfb.c                  |  3 +-
- drivers/video/fbdev/s3c-fb.c                      | 11 ++++----
- drivers/video/fbdev/sis/init.c                    | 34 ++++-------------------
- drivers/video/fbdev/sis/oem310.h                  |  2 ++
- drivers/video/fbdev/sis/sis.h                     |  1 -
- drivers/video/fbdev/sis/sis_main.c                |  9 +++---
- drivers/video/fbdev/sstfb.c                       |  2 +-
- drivers/video/fbdev/tdfxfb.c                      |  4 +--
- drivers/video/fbdev/tgafb.c                       |  7 ++---
- drivers/video/fbdev/tmiofb.c                      |  6 ++--
- drivers/video/fbdev/uvesafb.c                     |  8 +++---
- drivers/video/fbdev/via/lcd.c                     |  4 +--
- drivers/video/of_display_timing.c                 |  1 +
- drivers/video/of_videomode.c                      |  8 +++---
- include/video/sstfb.h                             |  4 +--
- 32 files changed, 104 insertions(+), 169 deletions(-)
-
+diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_display_timing.c
+index abc9ada798ee..f93b6abbe258 100644
+--- a/drivers/video/of_display_timing.c
++++ b/drivers/video/of_display_timing.c
+@@ -52,6 +52,7 @@ static int parse_timing_property(const struct device_node *np, const char *name,
+ /**
+  * of_parse_display_timing - parse display_timing entry from device_node
+  * @np: device_node with the properties
++ * @dt: display_timing that contains the result. I may be partially written in case of errors
+  **/
+ static int of_parse_display_timing(const struct device_node *np,
+ 		struct display_timing *dt)
+diff --git a/drivers/video/of_videomode.c b/drivers/video/of_videomode.c
+index 67aff2421c29..a5bb02f02b44 100644
+--- a/drivers/video/of_videomode.c
++++ b/drivers/video/of_videomode.c
+@@ -13,10 +13,10 @@
+ #include <video/videomode.h>
+ 
+ /**
+- * of_get_videomode - get the videomode #<index> from devicetree
+- * @np - devicenode with the display_timings
+- * @vm - set to return value
+- * @index - index into list of display_timings
++ * of_get_videomode: get the videomode #<index> from devicetree
++ * @np: devicenode with the display_timings
++ * @vm: set to return value
++ * @index: index into list of display_timings
+  *	    (Set this to OF_USE_NATIVE_MODE to use whatever mode is
+  *	     specified as native mode in the DT.)
+  *
+-- 
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
