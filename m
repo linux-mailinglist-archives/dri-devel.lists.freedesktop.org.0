@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1552C651E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:12:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0022C652D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:12:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 226886ECC7;
-	Fri, 27 Nov 2020 12:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 382D66ECB2;
+	Fri, 27 Nov 2020 12:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D91266ECC7;
- Fri, 27 Nov 2020 12:10:48 +0000 (UTC)
-IronPort-SDR: 1aV9j1d06nuGxW0ExZVOP/S0pf8sJMubd+UCXGVHch88WerCv4SS1ZizVhFZNwJu/NmAnDRKEo
- 4a4yqSAPCIww==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092798"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092798"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4E16ECCD;
+ Fri, 27 Nov 2020 12:10:49 +0000 (UTC)
+IronPort-SDR: GrIKPUBFLHr6tG5FHW0m4YuRfm0YqqPBaghbPuG01BddLdpJJ3/KuoKe2oAvFvP/6NYDoY2+/d
+ Oa33OKGhrcGg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092800"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092800"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:10:39 -0800
-IronPort-SDR: 7TjejjbqZVIF4Am2VbwmJRuSYG1OaP2RDKBaYNmhPyUWP1mKDzXF3jJsfdE1KpPawioR6VvsdG
- U5upukv8JjNQ==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029463"
+ 27 Nov 2020 04:10:41 -0800
+IronPort-SDR: ySW8Y6BziYYz3xRKM1Wb9oz5MzkWn1LIIW5fcWOafI6QeoxkTUlaSnETzDKJE1TcZouAL6PEEW
+ JgZWvMOxPK1w==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029476"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:10:38 -0800
+ 27 Nov 2020 04:10:39 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 104/162] drm/i915: move engine scratch to LMEM
-Date: Fri, 27 Nov 2020 12:06:20 +0000
-Message-Id: <20201127120718.454037-105-matthew.auld@intel.com>
+Subject: [RFC PATCH 105/162] drm/i915: Provide a way to disable PCIe relaxed
+ write ordering
+Date: Fri, 27 Nov 2020 12:06:21 +0000
+Message-Id: <20201127120718.454037-106-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,51 +51,68 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- dri-devel@lists.freedesktop.org
+ Stuart Summers <stuart.summers@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+From: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 44f1d51e5ae5..caf2e72de1a6 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -4,6 +4,8 @@
-  */
+For performance writes over PCIe may not be strictly ordered by default.
+This provides an option to expose a kernel configuration option to disable
+relaxed ordering and turn on strict ordering instead for debug purposes.
+
+Signed-off-by: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
+Signed-off-by: Stuart Summers <stuart.summers@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/Kconfig.debug         | 11 +++++++++++
+ drivers/gpu/drm/i915/intel_memory_region.c | 12 ++++++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+index 0fb7fd0ef717..65533cbbcb82 100644
+--- a/drivers/gpu/drm/i915/Kconfig.debug
++++ b/drivers/gpu/drm/i915/Kconfig.debug
+@@ -222,3 +222,14 @@ config DRM_I915_DEBUG_RUNTIME_PM
+ 	  driver loading, suspend and resume operations.
  
- #include "debugfs_gt.h"
+ 	  If in doubt, say "N"
 +
-+#include "gem/i915_gem_lmem.h"
- #include "i915_drv.h"
- #include "intel_context.h"
- #include "intel_gt.h"
-@@ -342,9 +344,15 @@ static int intel_gt_init_scratch(struct intel_gt *gt, unsigned int size)
- 	struct i915_vma *vma;
- 	int ret;
++config DRM_I915_PCIE_STRICT_WRITE_ORDERING
++	bool "Enable PCIe strict ordering "
++	depends on DRM_I915
++	default n
++	help
++	  Relaxed ordering in writes is enabled by default to improve system
++	  performance. Strict ordering can be selected instead to assist in
++	  debugging.
++
++	  If in doubt, say "N".
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+index cea44ddebe46..043541d409bd 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/intel_memory_region.c
+@@ -286,6 +286,18 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
+ {
+ 	int err, i;
  
--	obj = i915_gem_object_create_stolen(i915, size);
--	if (IS_ERR(obj))
--		obj = i915_gem_object_create_internal(i915, size);
-+	if (HAS_LMEM(i915)) {
-+		obj = i915_gem_object_create_lmem(i915, size,
-+						  I915_BO_ALLOC_CONTIGUOUS |
-+						  I915_BO_ALLOC_VOLATILE);
-+	} else {
-+		obj = i915_gem_object_create_stolen(i915, size);
-+		if (IS_ERR(obj))
-+			obj = i915_gem_object_create_internal(i915, size);
++	/* All platforms currently have system memory */
++	GEM_BUG_ON(!HAS_REGION(i915, REGION_SMEM));
++
++	if (IS_DGFX(i915)) {
++		if (IS_ENABLED(CONFIG_DRM_I915_PCIE_STRICT_WRITE_ORDERING))
++			pcie_capability_clear_word(i915->drm.pdev, PCI_EXP_DEVCTL,
++						   PCI_EXP_DEVCTL_RELAX_EN);
++		else
++			pcie_capability_set_word(i915->drm.pdev, PCI_EXP_DEVCTL,
++						 PCI_EXP_DEVCTL_RELAX_EN);
 +	}
- 	if (IS_ERR(obj)) {
- 		DRM_ERROR("Failed to allocate scratch page\n");
- 		return PTR_ERR(obj);
++
+ 	for (i = 0; i < ARRAY_SIZE(i915->mm.regions); i++) {
+ 		struct intel_memory_region *mem = ERR_PTR(-ENODEV);
+ 		u16 type, instance;
 -- 
 2.26.2
 
