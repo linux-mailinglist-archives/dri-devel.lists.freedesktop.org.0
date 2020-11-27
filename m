@@ -1,63 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2BD2C666E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:10:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA322C6673
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:12:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5DD6ECE6;
-	Fri, 27 Nov 2020 13:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD976EDAE;
+	Fri, 27 Nov 2020 13:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3C06EB8C;
- Fri, 27 Nov 2020 13:10:22 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2069.outbound.protection.outlook.com [40.107.236.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD86EB8C;
+ Fri, 27 Nov 2020 13:12:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MxPXklWvSyhcfRtbqDFeXVxXoitci/oe8qUXRNDLJRS7d8Jlf6wsr+zNXp3cHAUgqykLGVHedt60fN4q78uqhQ9RW4RNPjYNwHMBjFPh1gjBcUxQjTxUiMaBSkveMw0kfvUCNqExyL8pNQGwm8OiDrXZ2oBRF+L4ctPA8M9ubisiKsYEWcq49GcoCKds27K9SUFUzJTQmeCKuSS0gTUjW0v/JkJSwuU5Vpo/oUrGLtT5c3G9g1a2TqSD5nogIoKKyARFgeWJ1rqFbRZ1CB/jjuagiXc7UeK6EmUnrOOuAo4Fe6gl7S/9U/tff2ApZRaxUOZUftplDaWwPck7D0o7+w==
+ b=GmbjHsIDnHmywVbr59xE64W8BWWC+sC7+K2qxUKlK71qeegyldwW2uxNyq8+Riw2qc65vjSlpLWu58nz3FQtoBjaK6xc40gyAIi68oHcEiohRAxKZn8umoNxMvXzq4T6Lh6d2CR3bnKXEi7wU3kbXhOX/fQYcTA+Z7MXeslZISaO990CpEhTAQc1qC3BI0ExYA1rbLCwlDBeHNH5tLZ/sGWIejV7Uh7BpR+dARTozGo7hurXk5qcHxoZvmmuunCFqqarw+93w7NLvQTKvG89nt4Fg5arsv7MpIWskRNryEI2eEMQLdz5vXbweI2QmTpmqBGkwCmzk9uMsUb+WxADTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z6kL2qhYhDYnntR3Ej6FMT5ryXkHhxlNuhADaf4JILg=;
- b=alOd4R6PT/Ehb9rcwUHYOdO4dCdvzlfxJdhZvUsW71TgxaFIYgja3pmb9KY/0Pg3AhWftU1Ib9waHn/lD4zupsc+ddlxXIaNvatluyovBcP7/++UDxyBI4UEth62DdJOAk5DNBWJfIarRw5P0jCD/kkXLtfXCFvMLCWa6hlV+hc8NqbiEIOzZfuDoRbhFzMuDsZV43su2wsikYanr3DZV1eQgBPmskr290FFqChXj3J37/kEObP3D7soMCW7JkL4yrEotMxxH+ZmfYL8EcQKIJBy6q/3R8/34J/BMbLappT+mHosMEApAP/dWS/zq1CsRmUCiC30h+vwxlFgRLuMZQ==
+ bh=w0W+ePiLGJbEjJ87XmH6fmphTByuLINXwHHNwoRumU8=;
+ b=L47IY3E5ODV4IoKikTnbHngN+ipJuZsLx17GcJp5KUI1sQ7hn8zriz2OP92nxjWwFPpGCjS5Hl+H9EYvDGz8bf5ndMditGxG0GqvAAYPT4XRgG8WziCZKBDgdCR2XRuYtet9xuLXEQhua9YNcYngAu+VAJuyQOLuOhlP/gbEZ8AaPVfUgeiIh6vnbCeLGibfFBIcSYKljYO5HeJNb0KuYoeJ3G5gmtT4Vnq+cMgvp/Phx1VhmTbCKVQoMZDLfyfR1LHuWAonvyM/KvXKpLqEruUozwX3iGUP3WE/A19VwdenjooVKlHa8PrLPaz8G//rCsPyH1H8+WYH7mBhq/BzqA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z6kL2qhYhDYnntR3Ej6FMT5ryXkHhxlNuhADaf4JILg=;
- b=x1r5UscZzGLsdHOZSTbgnkxY9gwzka8O4lQosic3vN2a7qOFUGzf7I/LQ+U9YymgKyquHNLlvLQYAVfcGNh+iGzK7oXac8f/Qs/LqnYW2WpPZlXvNd+vm1o2sjjuq5+HYIAV51P2wIABR88pqyIbT2LdrhENBk/xrgu/BRynYyQ=
+ bh=w0W+ePiLGJbEjJ87XmH6fmphTByuLINXwHHNwoRumU8=;
+ b=wvl/FGK7U5Xf5RTbLE452KfzUxGyTeKymRMjY9m6DfSTggmVZR5Bl3Hx6uMl7jZ0sg2gzg2voMARHwlxcOMQqTtdoiP+98cOtEPdYJbbvAK8jPzWJMCbTahkK99jDXlzCLDnJ1G5LLgsR+9J9d6dQySnKQx9yXMz8Qh7AsoPbaM=
 Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
- DM6PR12MB4578.namprd12.prod.outlook.com (2603:10b6:5:2a9::22) with
+ DM6PR12MB3116.namprd12.prod.outlook.com (2603:10b6:5:38::12) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.22; Fri, 27 Nov 2020 13:10:19 +0000
+ 15.20.3589.20; Fri, 27 Nov 2020 13:12:18 +0000
 Received: from DM6PR12MB4340.namprd12.prod.outlook.com
  ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
  ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3611.025; Fri, 27 Nov 2020
- 13:10:19 +0000
+ 13:12:18 +0000
 From: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>, "Koenig, Christian"
- <Christian.Koenig@amd.com>
-Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
-Thread-Topic: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver use
-Thread-Index: AQHWv8Y7VDQsR3ZTHUC1s4OEGkqsDqnYr8uA//14koCAAAQfAP//sU2AgABUwoD//7PJAAAgkxgAABIww4AAAMG3gAAllkeAAATLtQAAB6MugAAGOt8AAFcf2N4=
-Date: Fri, 27 Nov 2020 13:10:18 +0000
-Message-ID: <DM6PR12MB434093420E04623E01ED1EB4EAF80@DM6PR12MB4340.namprd12.prod.outlook.com>
-References: <320ff94c-78f4-b9a5-4c6f-40f7ce162bd3@amd.com>
- <41b35672-2dd6-13e2-8383-c65279fdb648@gmail.com>
- <e2f4f1dc-2a2a-face-87b2-6d61ed7d3305@amd.com>
- <01280cba-56b8-77c6-b40f-d7e69a5ad4c6@amd.com>
- <0ceca974-80f8-feb3-d5e9-5182f35bb2c4@amd.com>
- <20288c45-270c-3ed7-2ac4-eeb6e5c50776@amd.com>
- <2df98c1a-8ed4-fb87-f8f7-e3962e8d9c52@amd.com>
- <041210e5-e237-b72e-dcbc-17027d057c55@gmail.com>
- <20201125104021.GV401619@phenom.ffwll.local>
- <71683ae7-f443-c15a-7003-6ba4ad3d4b15@gmail.com>
- <20201125163621.GZ401619@phenom.ffwll.local>,
- <bf6c0657-ac8f-545d-cf3f-e3f5e5d50a84@amd.com>
-In-Reply-To: <bf6c0657-ac8f-545d-cf3f-e3f5e5d50a84@amd.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post device
+ unplug
+Thread-Topic: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post
+ device unplug
+Thread-Index: AQHWv8Y7UCcLwWP0B0GTFJ1BNWsG+anXYoQAgAAsKQCAAQWcAIAAkBmAgALZsvI=
+Date: Fri, 27 Nov 2020 13:12:18 +0000
+Message-ID: <DM6PR12MB4340694885D1EE07361B330AEAF80@DM6PR12MB4340.namprd12.prod.outlook.com>
+References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
+ <1605936082-3099-11-git-send-email-andrey.grodzovsky@amd.com>
+ <20201124144938.GR401619@phenom.ffwll.local>
+ <36fdb2f8-2238-6321-201e-a25a3a828fc5@amd.com>
+ <CAKMK7uE=AfP2p=UKjG=TFuFh8d0vphyHndxxEqqNNa+ouX48AQ@mail.gmail.com>,
+ <1fcc5e3a-36d8-846d-032c-25fb8defd486@amd.com>
+In-Reply-To: <1fcc5e3a-36d8-846d-032c-25fb8defd486@amd.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-GB
 X-MS-Has-Attach: 
@@ -67,48 +62,49 @@ authentication-results: ffwll.ch; dkim=none (message not signed)
 x-originating-ip: [2607:fea8:3edf:49b0:3ca0:d57:1062:a8e9]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: aab9e64e-6732-4e58-91cf-08d892d5ca2c
-x-ms-traffictypediagnostic: DM6PR12MB4578:
+x-ms-office365-filtering-correlation-id: b0d2907a-43d0-46ff-8643-08d892d6119e
+x-ms-traffictypediagnostic: DM6PR12MB3116:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB457896109D115BD3DE2C0736EAF80@DM6PR12MB4578.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-microsoft-antispam-prvs: <DM6PR12MB3116134666BBBBB7CB14EBE9EAF80@DM6PR12MB3116.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ktH1Y5oHF53W0gzLYMYo+RvwM7Ru5xSaX4NJrDv8+4SqFKqudbslQt/peVs8dT1sYwVGgp3UrXP5xzvqZX4LwxiTnLSpvNSaQ+qnILrw3GDkcHGla7vDamPAyvom6WmYHzJ40ASzteu048zYVMiPMqke/073Ov/KAUWIQ8Dyc8Myh/I+Olyr8JWmbERi4LAYWKcKnxE1Pk13G0dUVPuxwAPby9SIin3WLoonGUhfyGJxGzcdwdjEO+G/MGZVXgjWplBQmkGFMJeVimgHLy621SKs6iGIfzvLymOhQ927kF/ckbZN6tMO0tWTEBT/M5x0xnhbtSX+sfECfi+hZq+LUw==
+x-microsoft-antispam-message-info: 8Gt3HVYd73dG9KHfJiSTnJ7Qen1oyXN/gPNJgAscyOP3fdlTrp9IlRpBAor/7HD/N6737SwL+4Z92qduPHH8Fs7gDcfXzo/RAf9+6BLi86jcnz63wa5hJ5T94mLk0bl6yPbO6emhLAizI+KG6RSLTEN1Z7+IZIg4puZboEzBAHIxRSDtSjLeeP2dLlLkoqRPG3s+8oWAzh6/rh9n3hz1S5j8r8mXC0uKCQ0+MwUjswRmluiavzMYJLUEmfHPuM+h39WbfGFPP97m4hypcUa2cF4n2sxmRJkn3Ubq40z1zKAXGe8v7BMf0rxXv5X41rfzEtPgRXiW55hqkSYjUUaBKNI/rKJHOUVN1rYjKfqOldv9FY8FlqfCMyewxfmBpmD5QSKP7kftiV+iuqsVRMQvW3/D6SjyVNhG0RlkC/pV8EV1Tv3vvmNz4Stq/B6sqWFnrM15p3dAWT5zd4VpJI3ICw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(396003)(136003)(346002)(39860400002)(110136005)(86362001)(33656002)(66574015)(9686003)(478600001)(71200400001)(5660300002)(7416002)(4326008)(54906003)(55016002)(7696005)(8676002)(2906002)(8936002)(52536014)(83380400001)(186003)(66446008)(91956017)(76116006)(53546011)(6506007)(316002)(66556008)(66946007)(66476007)(64756008)(6636002);
+ SFS:(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(66946007)(66446008)(66556008)(66476007)(9686003)(64756008)(71200400001)(6916009)(8676002)(55016002)(4326008)(8936002)(52536014)(166002)(76116006)(91956017)(86362001)(66574015)(2906002)(83380400001)(478600001)(316002)(966005)(33656002)(6506007)(54906003)(53546011)(7696005)(186003)(5660300002)(7416002)(87944003);
  DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?iso-8859-1?Q?XGkIjHAIKq+q7WBYRWqiXUKNsgDJ1KBFSIA4IF8AW4vsDmyQghgtE4qNTV?=
- =?iso-8859-1?Q?ZGEz3lADTNsd7jYlaD100hsvmSMnvs+ZS5Uq4NBAuW/KiV8ukv49iPdi6S?=
- =?iso-8859-1?Q?9fdcCkw5KiQkDzf8kzn3f9+hNtwKs/9pSL2gt2wLc6IZWIRh6kVBL4jIfy?=
- =?iso-8859-1?Q?ift74JHSeWmDRQYRnA9Og8hxkYfJGlhreyb0Y+pY4cQ8viQ/tANaSgL0Ze?=
- =?iso-8859-1?Q?BwvgEiBZYCys/6mKDPNp/UBcwMr0Flowy7sd77+ab7CGjQeUr+um63GpY1?=
- =?iso-8859-1?Q?dN/JEturT/u2NsVP8maX4znDOLmxZxUxJ3j/sjPgSGucOaf0VWHWqqhHUX?=
- =?iso-8859-1?Q?rIUemgcGwZDNNtOTJ0Xp+hOqTN1lp/foZDyv4C4Ay/tk0kPafsZzjVmkFm?=
- =?iso-8859-1?Q?SDkxzxq2AAOMiWmieznaEjiE5a8JJvR2dDHYSCjJybuYhwzZQZitxnXOnw?=
- =?iso-8859-1?Q?hiPHoFa2vFmX/hPM83+7iI2HN0gTG1JqWBEtt4+02+DiBwR4y42CjS6TyU?=
- =?iso-8859-1?Q?vh7cvgvwLnWefg8Gjwz7VznbbkiD/Fy4C16/020AD88swvZUSBdI+JwpQr?=
- =?iso-8859-1?Q?axTKAEw30+ImUgha/xc41qzfCRO72GR0QtZhlxQSKD0xSf1jK5w2bp0VAF?=
- =?iso-8859-1?Q?DuP2tEMQ6FkhtE+J0RgQYYrXrX+r/+/ZctEJSeF1ooAYNOCxTl6wgk4UTb?=
- =?iso-8859-1?Q?qoixgrqjUt9f9tmNlBhPnV5WuU9D07qZ8rUjsb9fboDBHVMprmPq09mh5f?=
- =?iso-8859-1?Q?kLwH2VQmWWO8VfHC1IleChjV/sD3eFLBG+isuP6G4IktTu1NUoYW9ll5rs?=
- =?iso-8859-1?Q?Tl4xHf78Og3sHYBt7E44blCQyDw0zBb/t0gPtqe01oyo2ShQLHpeqQtyDl?=
- =?iso-8859-1?Q?eNDXiwtEwoLgazk/Ntt5/+1MmgXU7ZVUH3No1pPBDg0hNgis7YcprQHA3F?=
- =?iso-8859-1?Q?A3IPLlx4o8KChY5dSXd9PEx70TIeHZeDD1xW7QLKfRuVjQRACcAXu7xiS6?=
- =?iso-8859-1?Q?5YQDv4G38uMSYKYrkM82oAlJHHgiUf0lGhQ5oeS3VGTHLK5hDwjWw2ob1c?=
- =?iso-8859-1?Q?I2qrcek1Cw0P/EnnTO1EZcA=3D?=
+x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?ZUcaCXG4rgx10/9Ei1I+/aqnFSf7O2f+oPwQYgf0kqAh3QHnBdURE2NU?=
+ =?Windows-1252?Q?+6vmz5VMzgRqYaAlyFqEDliZhybK36z8TKEwe9be26F4CBSVVA4rXtju?=
+ =?Windows-1252?Q?KeKSyKBKWvd7NLa5H5vtT75xvlqeK0zN1umJwhSYvalXHAFRRGXwnvUD?=
+ =?Windows-1252?Q?bV4o7AMcVbTo9eguWwKZIhIULQ26/p1gPSPLd6HGCyLT5WKCTS5mx07j?=
+ =?Windows-1252?Q?/vBZZH6YZ/VKf1Z5IaXNlkyaC7+R1zfIutDvC9t95Lyvxt/7Zcp6MUny?=
+ =?Windows-1252?Q?67zGzATcHAyBpPZFYCbN8uQGf6RAzDb1wzjPgJfziRjAvPuJVRpnLzSh?=
+ =?Windows-1252?Q?/Ip+kHzPCzf58g9I6VkycGKkofdNuBnjQUwhn3NdKcYDXE8gbhJ2Ux+W?=
+ =?Windows-1252?Q?pP9t8c1vpaqIUjpOme1n8RKk9n37d6fwhqePSCTpUlurXlDW2dsAASOn?=
+ =?Windows-1252?Q?DCHMdi7dLwnF7tlaO+ov7hhk8MAVbMP4kwNkFBmUc9Yn1klQCmdwjaGB?=
+ =?Windows-1252?Q?KTUqMoyWyYjQj3Skrqx6LCXiHYwZuCBL8lFk5wqwUknrewCVX8Y+q1Cw?=
+ =?Windows-1252?Q?9a+8pH1um7m4tOU79xN45oXCHz0++Hv6WVvKejPXqwvXgFKo9olId5Iy?=
+ =?Windows-1252?Q?CALahX887B9TAfh2PyAndpI00vgOC1kogBG/SBG3k5b3L9QNOdpJRCUn?=
+ =?Windows-1252?Q?SfDl3IyYmJG4skt7sBXmZsAX2gr8/gVdRc5rBjlK2Tm1J71M1rR+WjFO?=
+ =?Windows-1252?Q?EmtIOIT5u1hEePhkT+bVVjQAKLeDGjFyCxPFbmcPvnRere71KTJpHpgA?=
+ =?Windows-1252?Q?lVLlW9Ih6BrqBzmoicaGkyqEikyrBEM7gL0/LSew7hIycX6+7eewf9bS?=
+ =?Windows-1252?Q?fGbmmZ8SYpFyfYYCrj8kNmIqW8rnQ1abKRK6Mtx0NshlgU8xVYvQHnTR?=
+ =?Windows-1252?Q?Z5Rji9lFMgdF1PYcbjtvYdFgAy6Ho6ZlSf0WegdIEKHiqduVQivBdRjR?=
+ =?Windows-1252?Q?8g00gF8d2etJ0yCp6GtFtKivyjZwIUIsOpdTLnezN8n5MJXUCYJ98UUg?=
+ =?Windows-1252?Q?tZ5Hx71GmHwZeZWHqhZeucnqM+/UL3zq8wtB3tvSJHkqV2mlL3D0aRpm?=
+ =?Windows-1252?Q?9Rw=3D?=
 MIME-Version: 1.0
 X-OriginatorOrg: amd.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aab9e64e-6732-4e58-91cf-08d892d5ca2c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2020 13:10:18.8681 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0d2907a-43d0-46ff-8643-08d892d6119e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2020 13:12:18.8098 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: r74+aW3CUJwOI7pbPvTbHdBRFXbjrtsHqNXf7So0acr4k2fjuOnUVC9BwsunY+30cH3wXHh0dE92b0BA8pznsw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4578
+X-MS-Exchange-CrossTenant-userprincipalname: RMXlr1Vj7QT3FCJi2S5D5rB1mbDtKyvpEO9HL7BYgd8LeUabbiMOX+x/PEiaO0soRjHZ1is608R/8Fycgv54gg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,494 +117,570 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "yuq825@gmail.com" <yuq825@gmail.com>
-Content-Type: multipart/mixed; boundary="===============1763502626=="
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ =?Windows-1252?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Qiang Yu <yuq825@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>, "Deucher,
+ Alexander" <Alexander.Deucher@amd.com>
+Content-Type: multipart/mixed; boundary="===============1919690942=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1763502626==
+--===============1919690942==
 Content-Language: en-GB
 Content-Type: multipart/alternative;
-	boundary="_000_DM6PR12MB434093420E04623E01ED1EB4EAF80DM6PR12MB4340namp_"
+	boundary="_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_"
 
---_000_DM6PR12MB434093420E04623E01ED1EB4EAF80DM6PR12MB4340namp_
-Content-Type: text/plain; charset="iso-8859-1"
+--_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_
+Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
-Hey Daniel, just a ping on a bunch of questions i posted bellow.
+Hey, just a ping on my comments/question bellow.
 
-Andtey
+Andrey
 ________________________________
 From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-Sent: 25 November 2020 14:34
-To: Daniel Vetter <daniel@ffwll.ch>; Koenig, Christian <Christian.Koenig@am=
-d.com>
-Cc: robh@kernel.org <robh@kernel.org>; daniel.vetter@ffwll.ch <daniel.vette=
-r@ffwll.ch>; dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.o=
-rg>; eric@anholt.net <eric@anholt.net>; ppaalanen@gmail.com <ppaalanen@gmai=
-l.com>; amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; greg=
-kh@linuxfoundation.org <gregkh@linuxfoundation.org>; Deucher, Alexander <Al=
-exander.Deucher@amd.com>; l.stach@pengutronix.de <l.stach@pengutronix.de>; =
-Wentland, Harry <Harry.Wentland@amd.com>; yuq825@gmail.com <yuq825@gmail.co=
-m>
-Subject: Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for driver =
-use
+Sent: 25 November 2020 12:39
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>; dri-devel <dri-devel@list=
+s.freedesktop.org>; Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>; R=
+ob Herring <robh@kernel.org>; Lucas Stach <l.stach@pengutronix.de>; Qiang Y=
+u <yuq825@gmail.com>; Anholt, Eric <eric@anholt.net>; Pekka Paalanen <ppaal=
+anen@gmail.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Greg KH <g=
+regkh@linuxfoundation.org>; Wentland, Harry <Harry.Wentland@amd.com>
+Subject: Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post dev=
+ice unplug
 
 
-On 11/25/20 11:36 AM, Daniel Vetter wrote:
-> On Wed, Nov 25, 2020 at 01:57:40PM +0100, Christian K=F6nig wrote:
->> Am 25.11.20 um 11:40 schrieb Daniel Vetter:
->>> On Tue, Nov 24, 2020 at 05:44:07PM +0100, Christian K=F6nig wrote:
->>>> Am 24.11.20 um 17:22 schrieb Andrey Grodzovsky:
->>>>> On 11/24/20 2:41 AM, Christian K=F6nig wrote:
->>>>>> Am 23.11.20 um 22:08 schrieb Andrey Grodzovsky:
->>>>>>> On 11/23/20 3:41 PM, Christian K=F6nig wrote:
->>>>>>>> Am 23.11.20 um 21:38 schrieb Andrey Grodzovsky:
->>>>>>>>> On 11/23/20 3:20 PM, Christian K=F6nig wrote:
->>>>>>>>>> Am 23.11.20 um 21:05 schrieb Andrey Grodzovsky:
->>>>>>>>>>> On 11/25/20 5:42 AM, Christian K=F6nig wrote:
->>>>>>>>>>>> Am 21.11.20 um 06:21 schrieb Andrey Grodzovsky:
->>>>>>>>>>>>> It's needed to drop iommu backed pages on device unplug
->>>>>>>>>>>>> before device's IOMMU group is released.
->>>>>>>>>>>> It would be cleaner if we could do the whole
->>>>>>>>>>>> handling in TTM. I also need to double check
->>>>>>>>>>>> what you are doing with this function.
->>>>>>>>>>>>
->>>>>>>>>>>> Christian.
->>>>>>>>>>> Check patch "drm/amdgpu: Register IOMMU topology
->>>>>>>>>>> notifier per device." to see
->>>>>>>>>>> how i use it. I don't see why this should go
->>>>>>>>>>> into TTM mid-layer - the stuff I do inside
->>>>>>>>>>> is vendor specific and also I don't think TTM is
->>>>>>>>>>> explicitly aware of IOMMU ?
->>>>>>>>>>> Do you mean you prefer the IOMMU notifier to be
->>>>>>>>>>> registered from within TTM
->>>>>>>>>>> and then use a hook to call into vendor specific handler ?
->>>>>>>>>> No, that is really vendor specific.
->>>>>>>>>>
->>>>>>>>>> What I meant is to have a function like
->>>>>>>>>> ttm_resource_manager_evict_all() which you only need
->>>>>>>>>> to call and all tt objects are unpopulated.
->>>>>>>>> So instead of this BO list i create and later iterate in
->>>>>>>>> amdgpu from the IOMMU patch you just want to do it
->>>>>>>>> within
->>>>>>>>> TTM with a single function ? Makes much more sense.
->>>>>>>> Yes, exactly.
->>>>>>>>
->>>>>>>> The list_empty() checks we have in TTM for the LRU are
->>>>>>>> actually not the best idea, we should now check the
->>>>>>>> pin_count instead. This way we could also have a list of the
->>>>>>>> pinned BOs in TTM.
->>>>>>> So from my IOMMU topology handler I will iterate the TTM LRU for
->>>>>>> the unpinned BOs and this new function for the pinned ones  ?
->>>>>>> It's probably a good idea to combine both iterations into this
->>>>>>> new function to cover all the BOs allocated on the device.
->>>>>> Yes, that's what I had in my mind as well.
->>>>>>
->>>>>>>> BTW: Have you thought about what happens when we unpopulate
->>>>>>>> a BO while we still try to use a kernel mapping for it? That
->>>>>>>> could have unforeseen consequences.
->>>>>>> Are you asking what happens to kmap or vmap style mapped CPU
->>>>>>> accesses once we drop all the DMA backing pages for a particular
->>>>>>> BO ? Because for user mappings
->>>>>>> (mmap) we took care of this with dummy page reroute but indeed
->>>>>>> nothing was done for in kernel CPU mappings.
->>>>>> Yes exactly that.
->>>>>>
->>>>>> In other words what happens if we free the ring buffer while the
->>>>>> kernel still writes to it?
->>>>>>
->>>>>> Christian.
->>>>> While we can't control user application accesses to the mapped buffer=
-s
->>>>> explicitly and hence we use page fault rerouting
->>>>> I am thinking that in this  case we may be able to sprinkle
->>>>> drm_dev_enter/exit in any such sensitive place were we might
->>>>> CPU access a DMA buffer from the kernel ?
->>>> Yes, I fear we are going to need that.
->>> Uh ... problem is that dma_buf_vmap are usually permanent things. Maybe=
- we
->>> could stuff this into begin/end_cpu_access
+
+On 11/25/20 4:04 AM, Daniel Vetter wrote:
+
+On Tue, Nov 24, 2020 at 11:27 PM Andrey Grodzovsky
+<Andrey.Grodzovsky@amd.com><mailto:Andrey.Grodzovsky@amd.com> wrote:
 
 
-Do you mean guarding with drm_dev_enter/exit in dma_buf_ops.begin/end_cpu_a=
-ccess
-driver specific hook ?
 
 
->>> (but only for the kernel, so a
->>> bit tricky)?
+On 11/24/20 9:49 AM, Daniel Vetter wrote:
 
 
-Why only kernel ? Why is it a problem to do it if it comes from dma_buf_ioc=
-tl by
-some user process ? And  if we do need this distinction I think we should b=
-e able to
-differentiate by looking at current->mm (i.e. mm_struct) pointer being NULL=
- for
-kernel thread.
+On Sat, Nov 21, 2020 at 12:21:20AM -0500, Andrey Grodzovsky wrote:
 
 
->> Oh very very good point! I haven't thought about DMA-buf mmaps in this
->> context yet.
->>
->>
->>> btw the other issue with dma-buf (and even worse with dma_fence) is
->>> refcounting of the underlying drm_device. I'd expect that all your
->>> callbacks go boom if the dma_buf outlives your drm_device. That part is=
-n't
->>> yet solved in your series here.
->> Well thinking more about this, it seems to be a another really good argu=
-ment
->> why mapping pages from DMA-bufs into application address space directly =
-is a
->> very bad idea :)
->>
->> But yes, we essentially can't remove the device as long as there is a
->> DMA-buf with mappings. No idea how to clean that one up.
-> drm_dev_get/put in drm_prime helpers should get us like 90% there I think=
-.
+Avoids NULL ptr due to kobj->sd being unset on device removal.
+
+Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com><mailto:andrey.=
+grodzovsky@amd.com>
+---
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c   | 4 +++-
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 4 +++-
+  2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_ras.c
+index caf828a..812e592 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -27,6 +27,7 @@
+  #include <linux/uaccess.h>
+  #include <linux/reboot.h>
+  #include <linux/syscalls.h>
++#include <drm/drm_drv.h>
+
+  #include "amdgpu.h"
+  #include "amdgpu_ras.h"
+@@ -1043,7 +1044,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struc=
+t amdgpu_device *adev)
+             .attrs =3D attrs,
+     };
+
+-    sysfs_remove_group(&adev->dev->kobj, &group);
++    if (!drm_dev_is_unplugged(&adev->ddev))
++            sysfs_remove_group(&adev->dev->kobj, &group);
 
 
-What are the other 10% ?
+This looks wrong. sysfs, like any other interface, should be
+unconditionally thrown out when we do the drm_dev_unregister. Whether
+hotunplugged or not should matter at all. Either this isn't needed at all,
+or something is wrong with the ordering here. But definitely fishy.
+-Daniel
 
 
->
-> The even more worrying thing is random dma_fence attached to the dma_resv
-> object. We could try to clean all of ours up, but they could have escaped
-> already into some other driver. And since we're talking about egpu
-> hotunplug, dma_fence escaping to the igpu is a pretty reasonable use-case=
-.
->
-> I have no how to fix that one :-/
-> -Daniel
 
 
-I assume you are referring to sync_file_create/sync_file_get_fence API  for
-dma_fence export/import ?
-So with DMA bufs we have the drm_gem_object as exporter specific private da=
-ta
-and so we can do drm_dev_get and put at the drm_gem_object layer to bind de=
-vice
-life cycle
-to that of each GEM object but, we don't have such mid-layer for dma_fence =
-which
-could allow
-us to increment device reference for each fence out there related to that d=
-evice
-- is my understanding correct ?
+So technically this is needed because kobejct's sysfs directory entry kobj-=
+>sd
+is set to NULL
+on device removal (from sysfs_remove_dir) but because we don't finalize the=
+ device
+until last reference to drm file is dropped (which can happen later) we end=
+ up
+calling sysfs_remove_file/dir after
+this pointer is NULL. sysfs_remove_file checks for NULL and aborts while
+sysfs_remove_dir
+is not and that why I guard against calls to sysfs_remove_dir.
+But indeed the whole approach in the driver is incorrect, as Greg pointed o=
+ut -
+we should use
+default groups attributes instead of explicit calls to sysfs interface and =
+this
+would save those troubles.
+But again. the issue here of scope of work, converting all of amdgpu to def=
+ault
+groups attributes is somewhat
+lengthy process with extra testing as the entire driver is papered with sys=
+fs
+references and seems to me more of a standalone
+cleanup, just like switching to devm_ and drmm_ work. To me at least it see=
+ms
+that it makes more sense
+to finalize and push the hot unplug patches so that this new functionality =
+can
+be part of the driver sooner
+and then incrementally improve it by working on those other topics. Just as
+devm_/drmm_ I also added sysfs cleanup
+to my TODO list in the RFC patch.
+
+
+
+Hm, whether you solve this with the default group stuff to
+auto-remove, or remove explicitly at the right time doesn't matter
+much. The underlying problem you have here is that it's done way too
+late.
+
+As far as I understood correctly the default group attrs by reading this
+article by Greg - https://www.linux.com/news/how-create-sysfs-file-correctl=
+y/
+it will be removed together with the device and not too late like now and I=
+ quote
+from the last paragraph there:
+
+"By setting this value, you don=92t have to do anything in your
+probe() or release() functions at all in order for the
+sysfs files to be properly created and destroyed whenever your
+device is added or removed from the system. And you will, most
+importantly, do it in a race-free manner, which is always a good thing."
+
+To me this seems like the best solution to the late remove issue. What do
+you think ?
+
+
+ sysfs removal (like all uapi interfaces) need to be removed as
+part of drm_dev_unregister.
+
+
+Do you mean we need to trace and aggregate all sysfs files creation within
+the low level drivers and then call some sysfs release function inside drm_=
+dev_unregister
+to iterate and release them all ?
+
+
+ I guess aside from the split into fini_hw
+and fini_sw, you also need an unregister_late callback (like we have
+already for drm_connector, so that e.g. backlight and similar stuff
+can be unregistered).
+
+
+Is this the callback you suggest to call from within drm_dev_unregister and
+it will be responsible to release all sysfs files created within the driver=
+ ?
 
 Andrey
+
+
+
+
+Papering over the underlying bug like this doesn't really fix much,
+the lifetimes are still wrong.
+-Daniel
+
+
 
 
 Andrey
 
 
->> Christian.
->>
->>> -Daniel
->>>
->>>>> Things like CPU page table updates, ring buffer accesses and FW memcp=
-y ?
->>>>> Is there other places ?
->>>> Puh, good question. I have no idea.
->>>>
->>>>> Another point is that at this point the driver shouldn't access any s=
-uch
->>>>> buffers as we are at the process finishing the device.
->>>>> AFAIK there is no page fault mechanism for kernel mappings so I don't
->>>>> think there is anything else to do ?
->>>> Well there is a page fault handler for kernel mappings, but that one j=
-ust
->>>> prints the stack trace into the system log and calls BUG(); :)
->>>>
->>>> Long story short we need to avoid any access to released pages after u=
-nplug.
->>>> No matter if it's from the kernel or userspace.
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> Andrey
 
---_000_DM6PR12MB434093420E04623E01ED1EB4EAF80DM6PR12MB4340namp_
-Content-Type: text/html; charset="iso-8859-1"
+
+
+
+
+
+     return 0;
+  }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ucode.c
+index 2b7c90b..54331fc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+@@ -24,6 +24,7 @@
+  #include <linux/firmware.h>
+  #include <linux/slab.h>
+  #include <linux/module.h>
++#include <drm/drm_drv.h>
+
+  #include "amdgpu.h"
+  #include "amdgpu_ucode.h"
+@@ -464,7 +465,8 @@ int amdgpu_ucode_sysfs_init(struct amdgpu_device *adev)
+
+  void amdgpu_ucode_sysfs_fini(struct amdgpu_device *adev)
+  {
+-    sysfs_remove_group(&adev->dev->kobj, &fw_attr_group);
++    if (!drm_dev_is_unplugged(&adev->ddev))
++            sysfs_remove_group(&adev->dev->kobj, &fw_attr_group);
+  }
+
+  static int amdgpu_ucode_init_single_fw(struct amdgpu_device *adev,
+--
+2.7.4
+
+
+
+
+
+
+
+
+--_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_
+Content-Type: text/html; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
 <html>
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
 </head>
 <body>
-<div>Hey Daniel, just a ping on a bunch of questions i posted bellow.</div>
+<div>Hey, just a ping on my comments/question bellow.</div>
 <div><br>
 </div>
-<div>Andtey</div>
+<div>Andrey</div>
 <hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
 <div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
 yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Grodzovsky, Andrey &l=
 t;Andrey.Grodzovsky@amd.com&gt;<br>
-<b>Sent:</b> 25 November 2020 14:34<br>
-<b>To:</b> Daniel Vetter &lt;daniel@ffwll.ch&gt;; Koenig, Christian &lt;Chr=
-istian.Koenig@amd.com&gt;<br>
-<b>Cc:</b> robh@kernel.org &lt;robh@kernel.org&gt;; daniel.vetter@ffwll.ch =
-&lt;daniel.vetter@ffwll.ch&gt;; dri-devel@lists.freedesktop.org &lt;dri-dev=
-el@lists.freedesktop.org&gt;; eric@anholt.net &lt;eric@anholt.net&gt;; ppaa=
-lanen@gmail.com &lt;ppaalanen@gmail.com&gt;; amd-gfx@lists.freedesktop.org
- &lt;amd-gfx@lists.freedesktop.org&gt;; gregkh@linuxfoundation.org &lt;greg=
-kh@linuxfoundation.org&gt;; Deucher, Alexander &lt;Alexander.Deucher@amd.co=
-m&gt;; l.stach@pengutronix.de &lt;l.stach@pengutronix.de&gt;; Wentland, Har=
-ry &lt;Harry.Wentland@amd.com&gt;; yuq825@gmail.com &lt;yuq825@gmail.com&gt=
-;<br>
-<b>Subject:</b> Re: [PATCH v3 05/12] drm/ttm: Expose ttm_tt_unpopulate for =
-driver use</font>
+<b>Sent:</b> 25 November 2020 12:39<br>
+<b>To:</b> Daniel Vetter &lt;daniel@ffwll.ch&gt;<br>
+<b>Cc:</b> amd-gfx list &lt;amd-gfx@lists.freedesktop.org&gt;; dri-devel &l=
+t;dri-devel@lists.freedesktop.org&gt;; Christian K=F6nig &lt;ckoenig.leicht=
+zumerken@gmail.com&gt;; Rob Herring &lt;robh@kernel.org&gt;; Lucas Stach &l=
+t;l.stach@pengutronix.de&gt;; Qiang Yu &lt;yuq825@gmail.com&gt;; Anholt,
+ Eric &lt;eric@anholt.net&gt;; Pekka Paalanen &lt;ppaalanen@gmail.com&gt;; =
+Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Greg KH &lt;gregkh@li=
+nuxfoundation.org&gt;; Wentland, Harry &lt;Harry.Wentland@amd.com&gt;<br>
+<b>Subject:</b> Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal p=
+ost device unplug</font>
 <div>&nbsp;</div>
 </div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText"><br>
-On 11/25/20 11:36 AM, Daniel Vetter wrote:<br>
-&gt; On Wed, Nov 25, 2020 at 01:57:40PM +0100, Christian K=F6nig wrote:<br>
-&gt;&gt; Am 25.11.20 um 11:40 schrieb Daniel Vetter:<br>
-&gt;&gt;&gt; On Tue, Nov 24, 2020 at 05:44:07PM +0100, Christian K=F6nig wr=
-ote:<br>
-&gt;&gt;&gt;&gt; Am 24.11.20 um 17:22 schrieb Andrey Grodzovsky:<br>
-&gt;&gt;&gt;&gt;&gt; On 11/24/20 2:41 AM, Christian K=F6nig wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Am 23.11.20 um 22:08 schrieb Andrey Grodzovsky:<br=
->
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 11/23/20 3:41 PM, Christian K=F6nig wrote:<=
+<div style=3D"background-color:#FFFFFF">
+<p><br>
+</p>
+<div class=3D"x_moz-cite-prefix">On 11/25/20 4:04 AM, Daniel Vetter wrote:<=
 br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Am 23.11.20 um 21:38 schrieb Andrey Grodzo=
-vsky:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 11/23/20 3:20 PM, Christian K=F6nig=
- wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Am 23.11.20 um 21:05 schrieb Andre=
-y Grodzovsky:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; On 11/25/20 5:42 AM, Christian=
- K=F6nig wrote:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Am 21.11.20 um 06:21 schri=
-eb Andrey Grodzovsky:<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; It's needed to drop io=
-mmu backed pages on device unplug<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; before device's IOMMU =
-group is released.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; It would be cleaner if we =
-could do the whole<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; handling in TTM. I also ne=
-ed to double check<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; what you are doing with th=
-is function.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Christian.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Check patch &quot;drm/amdgpu: =
-Register IOMMU topology<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; notifier per device.&quot; to =
-see<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; how i use it. I don't see why =
-this should go<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; into TTM mid-layer - the stuff=
- I do inside<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; is vendor specific and also I =
-don't think TTM is<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; explicitly aware of IOMMU ?<br=
->
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Do you mean you prefer the IOM=
-MU notifier to be<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; registered from within TTM<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; and then use a hook to call in=
-to vendor specific handler ?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; No, that is really vendor specific=
-.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; What I meant is to have a function=
- like<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; ttm_resource_manager_evict_all() w=
-hich you only need<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; to call and all tt objects are unp=
-opulated.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; So instead of this BO list i create an=
-d later iterate in<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; amdgpu from the IOMMU patch you just w=
-ant to do it<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; within<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; TTM with a single function ? Makes muc=
-h more sense.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; Yes, exactly.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; The list_empty() checks we have in TTM for=
- the LRU are<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; actually not the best idea, we should now =
-check the<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; pin_count instead. This way we could also =
-have a list of the<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; pinned BOs in TTM.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; So from my IOMMU topology handler I will itera=
-te the TTM LRU for<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; the unpinned BOs and this new function for the=
- pinned ones&nbsp; ?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; It's probably a good idea to combine both iter=
-ations into this<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; new function to cover all the BOs allocated on=
- the device.<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Yes, that's what I had in my mind as well.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; BTW: Have you thought about what happens w=
-hen we unpopulate<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; a BO while we still try to use a kernel ma=
-pping for it? That<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt; could have unforeseen consequences.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; Are you asking what happens to kmap or vmap st=
-yle mapped CPU<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; accesses once we drop all the DMA backing page=
-s for a particular<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; BO ? Because for user mappings<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; (mmap) we took care of this with dummy page re=
-route but indeed<br>
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; nothing was done for in kernel CPU mappings.<b=
-r>
-&gt;&gt;&gt;&gt;&gt;&gt; Yes exactly that.<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; In other words what happens if we free the ring bu=
-ffer while the<br>
-&gt;&gt;&gt;&gt;&gt;&gt; kernel still writes to it?<br>
-&gt;&gt;&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt;&gt; Christian.<br>
-&gt;&gt;&gt;&gt;&gt; While we can't control user application accesses to th=
-e mapped buffers<br>
-&gt;&gt;&gt;&gt;&gt; explicitly and hence we use page fault rerouting<br>
-&gt;&gt;&gt;&gt;&gt; I am thinking that in this&nbsp; case we may be able t=
-o sprinkle<br>
-&gt;&gt;&gt;&gt;&gt; drm_dev_enter/exit in any such sensitive place were we=
- might<br>
-&gt;&gt;&gt;&gt;&gt; CPU access a DMA buffer from the kernel ?<br>
-&gt;&gt;&gt;&gt; Yes, I fear we are going to need that.<br>
-&gt;&gt;&gt; Uh ... problem is that dma_buf_vmap are usually permanent thin=
-gs. Maybe we<br>
-&gt;&gt;&gt; could stuff this into begin/end_cpu_access<br>
-<br>
-<br>
-Do you mean guarding with drm_dev_enter/exit in dma_buf_ops.begin/end_cpu_a=
-ccess<br>
-driver specific hook ?<br>
-<br>
-<br>
-&gt;&gt;&gt; (but only for the kernel, so a<br>
-&gt;&gt;&gt; bit tricky)?<br>
-<br>
-<br>
-Why only kernel ? Why is it a problem to do it if it comes from dma_buf_ioc=
-tl by<br>
-some user process ? And&nbsp; if we do need this distinction I think we sho=
-uld be able to<br>
-differentiate by looking at current-&gt;mm (i.e. mm_struct) pointer being N=
-ULL for <br>
-kernel thread.<br>
-<br>
-<br>
-&gt;&gt; Oh very very good point! I haven't thought about DMA-buf mmaps in =
-this<br>
-&gt;&gt; context yet.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; btw the other issue with dma-buf (and even worse with dma_fenc=
-e) is<br>
-&gt;&gt;&gt; refcounting of the underlying drm_device. I'd expect that all =
-your<br>
-&gt;&gt;&gt; callbacks go boom if the dma_buf outlives your drm_device. Tha=
-t part isn't<br>
-&gt;&gt;&gt; yet solved in your series here.<br>
-&gt;&gt; Well thinking more about this, it seems to be a another really goo=
-d argument<br>
-&gt;&gt; why mapping pages from DMA-bufs into application address space dir=
-ectly is a<br>
-&gt;&gt; very bad idea :)<br>
-&gt;&gt;<br>
-&gt;&gt; But yes, we essentially can't remove the device as long as there i=
-s a<br>
-&gt;&gt; DMA-buf with mappings. No idea how to clean that one up.<br>
-&gt; drm_dev_get/put in drm_prime helpers should get us like 90% there I th=
-ink.<br>
-<br>
-<br>
-What are the other 10% ?<br>
-<br>
-<br>
-&gt;<br>
-&gt; The even more worrying thing is random dma_fence attached to the dma_r=
-esv<br>
-&gt; object. We could try to clean all of ours up, but they could have esca=
-ped<br>
-&gt; already into some other driver. And since we're talking about egpu<br>
-&gt; hotunplug, dma_fence escaping to the igpu is a pretty reasonable use-c=
-ase.<br>
-&gt;<br>
-&gt; I have no how to fix that one :-/<br>
-&gt; -Daniel<br>
-<br>
-<br>
-I assume you are referring to sync_file_create/sync_file_get_fence API&nbsp=
-; for <br>
-dma_fence export/import ?<br>
-So with DMA bufs we have the drm_gem_object as exporter specific private da=
-ta<br>
-and so we can do drm_dev_get and put at the drm_gem_object layer to bind de=
-vice <br>
-life cycle<br>
-to that of each GEM object but, we don't have such mid-layer for dma_fence =
-which <br>
-could allow<br>
-us to increment device reference for each fence out there related to that d=
-evice <br>
-- is my understanding correct ?<br>
-<br>
-Andrey<br>
-<br>
-<br>
-Andrey<br>
-<br>
-<br>
-&gt;&gt; Christian.<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; -Daniel<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Things like CPU page table updates, ring buffer access=
-es and FW memcpy ?<br>
-&gt;&gt;&gt;&gt;&gt; Is there other places ?<br>
-&gt;&gt;&gt;&gt; Puh, good question. I have no idea.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Another point is that at this point the driver shouldn=
-'t access any such<br>
-&gt;&gt;&gt;&gt;&gt; buffers as we are at the process finishing the device.=
-<br>
-&gt;&gt;&gt;&gt;&gt; AFAIK there is no page fault mechanism for kernel mapp=
-ings so I don't<br>
-&gt;&gt;&gt;&gt;&gt; think there is anything else to do ?<br>
-&gt;&gt;&gt;&gt; Well there is a page fault handler for kernel mappings, bu=
-t that one just<br>
-&gt;&gt;&gt;&gt; prints the stack trace into the system log and calls BUG()=
-; :)<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Long story short we need to avoid any access to released p=
-ages after unplug.<br>
-&gt;&gt;&gt;&gt; No matter if it's from the kernel or userspace.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; Regards,<br>
-&gt;&gt;&gt;&gt; Christian.<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt;&gt; Andrey<br>
 </div>
-</span></font></div>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">On Tue, Nov 24, 2020 at 11:27 PM Andrey Grod=
+zovsky
+<a class=3D"x_moz-txt-link-rfc2396E" href=3D"mailto:Andrey.Grodzovsky@amd.c=
+om">&lt;Andrey.Grodzovsky@amd.com&gt;</a> wrote:
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">
+
+On 11/24/20 9:49 AM, Daniel Vetter wrote:
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">On Sat, Nov 21, 2020 at 12:21:20AM -0500, An=
+drey Grodzovsky wrote:
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">Avoids NULL ptr due to kobj-&gt;sd being uns=
+et on device removal.
+
+Signed-off-by: Andrey Grodzovsky <a class=3D"x_moz-txt-link-rfc2396E" href=
+=3D"mailto:andrey.grodzovsky@amd.com">&lt;andrey.grodzovsky@amd.com&gt;</a>
+---
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c   | 4 +++-
+  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 4 +++-
+  2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/=
+amdgpu/amdgpu_ras.c
+index caf828a..812e592 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -27,6 +27,7 @@
+  #include &lt;linux/uaccess.h&gt;
+  #include &lt;linux/reboot.h&gt;
+  #include &lt;linux/syscalls.h&gt;
++#include &lt;drm/drm_drv.h&gt;
+
+  #include &quot;amdgpu.h&quot;
+  #include &quot;amdgpu_ras.h&quot;
+@@ -1043,7 +1044,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struc=
+t amdgpu_device *adev)
+             .attrs =3D attrs,
+     };
+
+-    sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;group);
++    if (!drm_dev_is_unplugged(&amp;adev-&gt;ddev))
++            sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;group);
+</pre>
+</blockquote>
+<pre class=3D"x_moz-quote-pre">This looks wrong. sysfs, like any other inte=
+rface, should be
+unconditionally thrown out when we do the drm_dev_unregister. Whether
+hotunplugged or not should matter at all. Either this isn't needed at all,
+or something is wrong with the ordering here. But definitely fishy.
+-Daniel
+</pre>
+</blockquote>
+<pre class=3D"x_moz-quote-pre">
+
+So technically this is needed because kobejct's sysfs directory entry kobj-=
+&gt;sd
+is set to NULL
+on device removal (from sysfs_remove_dir) but because we don't finalize the=
+ device
+until last reference to drm file is dropped (which can happen later) we end=
+ up
+calling sysfs_remove_file/dir after
+this pointer is NULL. sysfs_remove_file checks for NULL and aborts while
+sysfs_remove_dir
+is not and that why I guard against calls to sysfs_remove_dir.
+But indeed the whole approach in the driver is incorrect, as Greg pointed o=
+ut -
+we should use
+default groups attributes instead of explicit calls to sysfs interface and =
+this
+would save those troubles.
+But again. the issue here of scope of work, converting all of amdgpu to def=
+ault
+groups attributes is somewhat
+lengthy process with extra testing as the entire driver is papered with sys=
+fs
+references and seems to me more of a standalone
+cleanup, just like switching to devm_ and drmm_ work. To me at least it see=
+ms
+that it makes more sense
+to finalize and push the hot unplug patches so that this new functionality =
+can
+be part of the driver sooner
+and then incrementally improve it by working on those other topics. Just as
+devm_/drmm_ I also added sysfs cleanup
+to my TODO list in the RFC patch.
+</pre>
+</blockquote>
+<pre class=3D"x_moz-quote-pre">
+Hm, whether you solve this with the default group stuff to
+auto-remove, or remove explicitly at the right time doesn't matter
+much. The underlying problem you have here is that it's done way too
+late.</pre>
+</blockquote>
+<p>As far as I understood correctly the default group attrs by reading this=
+<br>
+article by Greg - <a class=3D"x_moz-txt-link-freetext" href=3D"https://www.=
+linux.com/news/how-create-sysfs-file-correctly/">
+https://www.linux.com/news/how-create-sysfs-file-correctly/</a><br>
+it will be removed together with the device and not too late like now and I=
+ quote<br>
+from the last paragraph there:</p>
+<p>&quot;<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,san=
+s-serif; font-size:15px; font-style:normal; font-variant-ligatures:normal; =
+font-variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2=
+; text-align:start; text-indent:0px; text-transform:none; white-space:norma=
+l; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-deco=
+ration-style:initial; text-decoration-color:initial; display:inline!importa=
+nt; float:none">By
+ setting this value, you don=92t have to do anything in your</span><br styl=
+e=3D"box-sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva=
+,sans-serif; font-size:15px; font-style:normal; font-variant-ligatures:norm=
+al; font-variant-caps:normal; font-weight:400; letter-spacing:normal; orpha=
+ns:2; text-align:start; text-indent:0px; text-transform:none; white-space:n=
+ormal; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-=
+decoration-style:initial; text-decoration-color:initial">
+<tt style=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; fo=
+nt-style:normal; font-variant-ligatures:normal; font-variant-caps:normal; f=
+ont-weight:400; letter-spacing:normal; orphans:2; text-align:start; text-in=
+dent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0=
+px; background-color:rgb(255,255,255); text-decoration-style:initial; text-=
+decoration-color:initial">probe()</tt><span style=3D"color:rgb(34,34,34); f=
+ont-family:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; fo=
+nt-variant-ligatures:normal; font-variant-caps:normal; font-weight:400; let=
+ter-spacing:normal; orphans:2; text-align:start; text-indent:0px; text-tran=
+sform:none; white-space:normal; widows:2; word-spacing:0px; background-colo=
+r:rgb(255,255,255); text-decoration-style:initial; text-decoration-color:in=
+itial; display:inline!important; float:none">&nbsp;or&nbsp;</span><tt style=
+=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; font-style:=
+normal; font-variant-ligatures:normal; font-variant-caps:normal; font-weigh=
+t:400; letter-spacing:normal; orphans:2; text-align:start; text-indent:0px;=
+ text-transform:none; white-space:normal; widows:2; word-spacing:0px; backg=
+round-color:rgb(255,255,255); text-decoration-style:initial; text-decoratio=
+n-color:initial">release()</tt><span style=3D"color:rgb(34,34,34); font-fam=
+ily:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; font-vari=
+ant-ligatures:normal; font-variant-caps:normal; font-weight:400; letter-spa=
+cing:normal; orphans:2; text-align:start; text-indent:0px; text-transform:n=
+one; white-space:normal; widows:2; word-spacing:0px; background-color:rgb(2=
+55,255,255); text-decoration-style:initial; text-decoration-color:initial; =
+display:inline!important; float:none">&nbsp;functions
+ at all in order for the</span><br style=3D"box-sizing:border-box; color:rg=
+b(34,34,34); font-family:Verdana,Geneva,sans-serif; font-size:15px; font-st=
+yle:normal; font-variant-ligatures:normal; font-variant-caps:normal; font-w=
+eight:400; letter-spacing:normal; orphans:2; text-align:start; text-indent:=
+0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px; b=
+ackground-color:rgb(255,255,255); text-decoration-style:initial; text-decor=
+ation-color:initial">
+<tt style=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; fo=
+nt-style:normal; font-variant-ligatures:normal; font-variant-caps:normal; f=
+ont-weight:400; letter-spacing:normal; orphans:2; text-align:start; text-in=
+dent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0=
+px; background-color:rgb(255,255,255); text-decoration-style:initial; text-=
+decoration-color:initial">sysfs</tt><span style=3D"color:rgb(34,34,34); fon=
+t-family:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; font=
+-variant-ligatures:normal; font-variant-caps:normal; font-weight:400; lette=
+r-spacing:normal; orphans:2; text-align:start; text-indent:0px; text-transf=
+orm:none; white-space:normal; widows:2; word-spacing:0px; background-color:=
+rgb(255,255,255); text-decoration-style:initial; text-decoration-color:init=
+ial; display:inline!important; float:none">&nbsp;files
+ to be properly created and destroyed whenever your</span><br style=3D"box-=
+sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva,sans-ser=
+if; font-size:15px; font-style:normal; font-variant-ligatures:normal; font-=
+variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; tex=
+t-align:start; text-indent:0px; text-transform:none; white-space:normal; wi=
+dows:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoratio=
+n-style:initial; text-decoration-color:initial">
+<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-serif; =
+font-size:15px; font-style:normal; font-variant-ligatures:normal; font-vari=
+ant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text-al=
+ign:start; text-indent:0px; text-transform:none; white-space:normal; widows=
+:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration-st=
+yle:initial; text-decoration-color:initial; display:inline!important; float=
+:none">device
+ is added or removed from the system. And you will, most</span><br style=3D=
+"box-sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva,san=
+s-serif; font-size:15px; font-style:normal; font-variant-ligatures:normal; =
+font-variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2=
+; text-align:start; text-indent:0px; text-transform:none; white-space:norma=
+l; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-deco=
+ration-style:initial; text-decoration-color:initial">
+<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-serif; =
+font-size:15px; font-style:normal; font-variant-ligatures:normal; font-vari=
+ant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text-al=
+ign:start; text-indent:0px; text-transform:none; white-space:normal; widows=
+:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration-st=
+yle:initial; text-decoration-color:initial; display:inline!important; float=
+:none">importantly,
+ do it in a race-free manner, which is always a good thing.&quot;</span></p=
+>
+<p><span style=3D"color:rgb(34,34,34); font-size:15px; font-style:normal; f=
+ont-variant-ligatures:normal; font-variant-caps:normal; font-weight:400; le=
+tter-spacing:normal; text-align:start; text-indent:0px; text-transform:none=
+; white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); =
+text-decoration-style:initial; text-decoration-color:initial; display:inlin=
+e!important; float:none">To
+ me this seems like the best solution to the late remove issue. What do<br>
+you think ?</span></p>
+<p><span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-seri=
+f; font-size:15px; font-style:normal; font-variant-ligatures:normal; font-v=
+ariant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text=
+-align:start; text-indent:0px; text-transform:none; white-space:normal; wid=
+ows:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration=
+-style:initial; text-decoration-color:initial; display:inline!important; fl=
+oat:none"><br>
+</span></p>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre"> sysfs removal (like all uapi interfaces) ne=
+ed to be removed as
+part of drm_dev_unregister.</pre>
+</blockquote>
+<p><br>
+</p>
+<p>Do you mean we need to trace and aggregate all sysfs files creation with=
+in<br>
+the low level drivers and then call some sysfs release function inside drm_=
+dev_unregister<br>
+to iterate and release them all ?</p>
+<p><br>
+</p>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre"> I guess aside from the split into fini_hw
+and fini_sw, you also need an unregister_late callback (like we have
+already for drm_connector, so that e.g. backlight and similar stuff
+can be unregistered).</pre>
+</blockquote>
+<p><br>
+</p>
+<p>Is this the callback you suggest to call from within drm_dev_unregister =
+and<br>
+it will be responsible to release all sysfs files created within the driver=
+ ?</p>
+<p>Andrey</p>
+<p><br>
+</p>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">
+
+Papering over the underlying bug like this doesn't really fix much,
+the lifetimes are still wrong.
+-Daniel
+
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">
+Andrey
+
+
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">
+</pre>
+<blockquote type=3D"cite">
+<pre class=3D"x_moz-quote-pre">
+     return 0;
+  }
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_ucode.c
+index 2b7c90b..54331fc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+@@ -24,6 +24,7 @@
+  #include &lt;linux/firmware.h&gt;
+  #include &lt;linux/slab.h&gt;
+  #include &lt;linux/module.h&gt;
++#include &lt;drm/drm_drv.h&gt;
+
+  #include &quot;amdgpu.h&quot;
+  #include &quot;amdgpu_ucode.h&quot;
+@@ -464,7 +465,8 @@ int amdgpu_ucode_sysfs_init(struct amdgpu_device *adev)
+
+  void amdgpu_ucode_sysfs_fini(struct amdgpu_device *adev)
+  {
+-    sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;fw_attr_group);
++    if (!drm_dev_is_unplugged(&amp;adev-&gt;ddev))
++            sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;fw_attr_gr=
+oup);
+  }
+
+  static int amdgpu_ucode_init_single_fw(struct amdgpu_device *adev,
+--
+2.7.4
+
+</pre>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre class=3D"x_moz-quote-pre">
+
+
+</pre>
+</blockquote>
+</div>
 </body>
 </html>
 
---_000_DM6PR12MB434093420E04623E01ED1EB4EAF80DM6PR12MB4340namp_--
+--_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_--
 
---===============1763502626==
+--===============1919690942==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -619,4 +691,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1763502626==--
+--===============1919690942==--
