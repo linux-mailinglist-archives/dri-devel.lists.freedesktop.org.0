@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67102C654E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6DA2C654F
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E5516ED06;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBE706ED08;
 	Fri, 27 Nov 2020 12:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AD26ED01;
- Fri, 27 Nov 2020 12:11:31 +0000 (UTC)
-IronPort-SDR: 3H2UNiUB8j7eRPdEXzhMnghtsRSF2GzILqp0FOttnJuRhQ6bRkWSlhPt6+FZ7JdAKpQQyS5NBy
- sv4dZgDafngw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092906"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092906"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B856ED01;
+ Fri, 27 Nov 2020 12:11:33 +0000 (UTC)
+IronPort-SDR: aCPV1T4d5EblqO6GdjI/aAmbiHu2xEf9zvYJoE5F3lZKbkSk/ewuWLZ/LphZI/uXraugr2/lTp
+ EYUdXQfWBqYA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092908"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092908"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:31 -0800
-IronPort-SDR: 2si7V3/3/TrTwqUiiBqYf8YKIS29Fy9q9yZflD9aMgKMGW85yD6RkfqwwE1Y4zlE1EgSpqOCH4
- j9rnWh45AiBA==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029799"
+ 27 Nov 2020 04:11:32 -0800
+IronPort-SDR: 2UKWjAZM7WbmYmglnsDKE8pC0Y9EokeSDoKuwRi6O4Tn0ptW49YN4BXE2C6pZIx2+nWe3KwijT
+ Z2gUGiIpm8TA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029811"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:28 -0800
+ 27 Nov 2020 04:11:31 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 124/162] drm/i915/lmem: allocate HWSP in lmem
-Date: Fri, 27 Nov 2020 12:06:40 +0000
-Message-Id: <20201127120718.454037-125-matthew.auld@intel.com>
+Subject: [RFC PATCH 125/162] drm/i915/lmem: Limit block size to 4G
+Date: Fri, 27 Nov 2020 12:06:41 +0000
+Message-Id: <20201127120718.454037-126-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,79 +49,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- Michel Thierry <michel.thierry@intel.com>, dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
+ CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Michel Thierry <michel.thierry@intel.com>
+From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 
-Signed-off-by: Michel Thierry <michel.thierry@intel.com>
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+when allocating pages to lmem object of size 4G or greater
+we allocate memory blocks from buddy system. In this scenario
+buddy sytem can allocate blocks that can have size >= 4G and
+these blocks require >32b to represent block size with these
+blocks we run into an issue with sg list construction because
+sg->length field is only 32b wide.
+
+Hence limit the max allowed block size to less than 4G.
+
+Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_engine_cs.c | 10 +++++++++-
- drivers/gpu/drm/i915/gt/intel_timeline.c  |  8 +++++++-
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/intel_memory_region.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-index 0ba020346566..9e0394b06f38 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-@@ -25,6 +25,7 @@
- #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+index 554fdd7735a8..371cd88ff6d8 100644
+--- a/drivers/gpu/drm/i915/intel_memory_region.c
++++ b/drivers/gpu/drm/i915/intel_memory_region.c
+@@ -101,6 +101,7 @@ __intel_memory_region_get_pages_buddy(struct intel_memory_region *mem,
+ 				      struct list_head *blocks)
+ {
+ 	unsigned int min_order = 0;
++	unsigned int max_order;
+ 	unsigned long n_pages;
  
- #include "gem/i915_gem_context.h"
-+#include "gem/i915_gem_lmem.h"
+ 	GEM_BUG_ON(!IS_ALIGNED(size, mem->mm.chunk_size));
+@@ -121,6 +122,16 @@ __intel_memory_region_get_pages_buddy(struct intel_memory_region *mem,
  
- #include "i915_drv.h"
+ 	n_pages = size >> ilog2(mem->mm.chunk_size);
  
-@@ -657,7 +658,14 @@ static int init_status_page(struct intel_engine_cs *engine)
- 	 * in GFP_DMA32 for i965, and no earlier physical address users had
- 	 * access to more than 4G.
- 	 */
--	obj = i915_gem_object_create_internal(engine->i915, PAGE_SIZE);
-+	if (HAS_LMEM(engine->i915)) {
-+		obj = i915_gem_object_create_lmem(engine->i915,
-+						  PAGE_SIZE,
-+						  I915_BO_ALLOC_CONTIGUOUS |
-+						  I915_BO_ALLOC_VOLATILE);
-+	} else {
-+		obj = i915_gem_object_create_internal(engine->i915, PAGE_SIZE);
-+	}
- 	if (IS_ERR(obj)) {
- 		drm_err(&engine->i915->drm,
- 			"Failed to allocate status page\n");
-diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
-index 065943781586..589559b526eb 100644
---- a/drivers/gpu/drm/i915/gt/intel_timeline.c
-+++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
-@@ -6,6 +6,7 @@
++	/*
++	 * When allocating pages for an lmem object of size > 4G
++	 * the memory blocks allocated from buddy system could be
++	 * from sizes greater than 4G requiring > 32b to represent
++	 * block size. But those blocks cannot be used in sg list
++	 * construction(in caller) as sg->length is only 32b wide.
++	 * Hence limiting the block size to 4G.
++	 */
++	max_order = (ilog2(SZ_4G) - 1) - ilog2(mem->mm.chunk_size);
++
+ 	mutex_lock(&mem->mm_lock);
  
- #include "i915_drv.h"
- 
-+#include "gem/i915_gem_lmem.h"
- #include "i915_active.h"
- #include "i915_syncmap.h"
- #include "intel_gt.h"
-@@ -34,7 +35,12 @@ static int __hwsp_alloc(struct intel_gt *gt, struct intel_timeline_hwsp *hwsp)
- 	int type;
- 	int ret;
- 
--	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
-+	if (HAS_LMEM(i915))
-+		obj = i915_gem_object_create_lmem(i915, PAGE_SIZE,
-+						  I915_BO_ALLOC_CONTIGUOUS |
-+						  I915_BO_ALLOC_VOLATILE);
-+	else
-+		obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
- 	if (IS_ERR(obj))
- 		return PTR_ERR(obj);
+ 	do {
+@@ -128,7 +139,7 @@ __intel_memory_region_get_pages_buddy(struct intel_memory_region *mem,
+ 		unsigned int order;
+ 		bool retry = true;
+ retry:
+-		order = fls(n_pages) - 1;
++		order = min_t(u32, (fls(n_pages) - 1), max_order);
+ 		GEM_BUG_ON(order > mem->mm.max_order);
+ 		GEM_BUG_ON(order < min_order);
  
 -- 
 2.26.2
