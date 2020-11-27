@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4942C6C57
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B072C6C56
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE7D6F3ED;
-	Fri, 27 Nov 2020 20:00:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C39E96F3F0;
+	Fri, 27 Nov 2020 20:00:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F01756F3E7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:30 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id i17so7139254ljd.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:30 -0800 (PST)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9580E6F3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:33 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id j205so8559131lfj.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jVb7kx4jWo/2x//FtaTHCinUwYboF6da4/HiQYT27Ks=;
- b=DhdxkWmu2HCF3oKhPnt7WYf+9MAgkg+Km+yd6SRatM/3r3is1dT+DaXrkQ8rSgFavv
- DX0i0f31hM7FQ2N0ALQPr0hFERsaJ+qPKdtrsAi5GOfnpzfWwJ8iDj6pJDCQ/kAyP7y7
- 00kUBE1g2M3nNXwSq1iIx1JI1Pd8r1NO5SVAh/w4G89+4CCAIjgo1CD22Zc0uRf4ZZEo
- ITozi7jwnM0WKuQxKdMhk1YVPMW+yDWru7kH8vDhTbLFcDGYbi4+0+oTiqj5DNjt2cVw
- IclvTUdidm7N/DOPgjPidmbwVGZtVtweZWVsgcli+KBB8il6oVWpueUCX1m8goMAocr6
- mXRQ==
+ bh=rJy8+vjkzYcV3XZ9Y+7Fhqd4Ih76XwRBzaJbmXxDMAw=;
+ b=TCBYH4MoDC4EkijExZlsZmuW7pCHINO8ItDGIOhZpNfusWNsUwsPFSjpOj3DV1FYfq
+ U7rEdu3HkuAAtAPqhoC9k9YNFAdbYPSWUHxs8zNG6Wkd4BfEwYRxYzZReMO8HsrT96UA
+ TIXsjv6vxzOlkQK8X4r168/DpCnKzqBaLxYag3qdIwFpLzGNDSbDNTaLjNT/RS9MFNzK
+ GuxEHrhefBzz4opGqJsXeV1LE28StIAkEBTZLqF1vfe4UXaI2cKfqOE8wPRCw2IqU+Jh
+ 9sVtCEx725p2FYiEAlCLIfbbYsklFvoCjAbnmD8RbDnN6lKr7NGHecqvHhfsCCr6+2ho
+ p2xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jVb7kx4jWo/2x//FtaTHCinUwYboF6da4/HiQYT27Ks=;
- b=sh4q+uP2+P5cSoiDfRMkGi/Q8gtnXmWbFXkdVuKuvG8EXMsQ+NLyZdEUxchdhk3S2c
- FllCficko5kgZnGb66x7TNBlHWB85ujG0zcJMmf98y8frJgbYiRJCs8dcEvYcIxk1DAj
- 8RKO4yQJJggoL+tgoLe/lrZNIdpNG2907HiFD+kvDIn/eFgau44SR7AedpxfjaUNjme9
- mc1V+7vg2/2BiRHhkltZoUo/mv333tauRQUYvgJ51EoEs2nbqu6UD5Q7HQxo/LUI03al
- hGDZRWvLSGYLpGlBgC02NV14CJgE11LE9VzRqll7MDBWvTzeS1GCYPyCF5lU1HldYLG9
- UT6Q==
-X-Gm-Message-State: AOAM530+/8E8hpFPaid2E3Tt/HysmjBkCvgjabHqk0YTpysiBMlQAMWA
- JMi0n3DM8i22y5d2skOxfWQ=
-X-Google-Smtp-Source: ABdhPJyvGuhMzkR8UpVgq1X9d5l4d3Sk5qK0Lj6aoZPnFFRd6TL29IQGgk3UvpTPgVbijIdATGYAmg==
-X-Received: by 2002:a2e:9a95:: with SMTP id p21mr4547132lji.245.1606507169401; 
- Fri, 27 Nov 2020 11:59:29 -0800 (PST)
+ bh=rJy8+vjkzYcV3XZ9Y+7Fhqd4Ih76XwRBzaJbmXxDMAw=;
+ b=A8U3PlXeC//rqXnSLZ4QW4q2Rjqm7WyTJmYuJipsLH8m4IJZBqwhV4NYis+KAlCmlM
+ rucx2Ay7nJZzrFml+XU6WE/HV6hy+dpg4atZAhMsQ19Zx6hsICQc+pQj8pRyG+Gk6Rfl
+ 4mZEqvRGmS7YJdv9hIYDoJIOJFOHL7zrMXprjwmU3+hZZXDr9PC+gXeIiQWcUo3sCGcJ
+ J4p8CrXsrQM0hOA//d/vIoh5/Ay8Z1wSHUgjmupZn72r9YSAcBrOQKhmJM+0RjR74FAv
+ aqvr0O07VTbsjp6jY75erzipyJQLBfgJJkEMoovvcmYDTBPUN+iGSTp+LDqnOKSk91z7
+ yMmg==
+X-Gm-Message-State: AOAM531qieCteCw+Q+xjp1+gsIb085KCQU+MpMateAXQQf+9Z/keMPDU
+ ieC9NuEKKGcV5oaeUMpUEIM=
+X-Google-Smtp-Source: ABdhPJyOgA2kVm8O0iBLEqcMx9FEwMgL+93MG+gzwXYrmJwqzkMgjoJP3OWnlBdNp/YB6uBjS4Hc3g==
+X-Received: by 2002:ac2:562a:: with SMTP id b10mr4250758lff.227.1606507172012; 
+ Fri, 27 Nov 2020 11:59:32 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.26
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:28 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:31 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 21/28] video: fbdev: tmiofb: Fix W=1 warnings
-Date: Fri, 27 Nov 2020 20:58:18 +0100
-Message-Id: <20201127195825.858960-22-sam@ravnborg.org>
+Subject: [PATCH v1 22/28] video: fbdev: omapfb: Fix W=1 warnings in dsi
+Date: Fri, 27 Nov 2020 20:58:19 +0100
+Message-Id: <20201127195825.858960-23-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -98,42 +98,75 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 warnings by avoiding local variables and use direct references.
+Fix several W=1 warnings.
+This removes a little unused code and avoids an assignment by moving
+the use inside the conditional block.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Aditya Pakki <pakki001@umn.edu>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
- drivers/video/fbdev/tmiofb.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/video/fbdev/tmiofb.c b/drivers/video/fbdev/tmiofb.c
-index 50111966c981..b70faa3850f2 100644
---- a/drivers/video/fbdev/tmiofb.c
-+++ b/drivers/video/fbdev/tmiofb.c
-@@ -802,10 +802,8 @@ static int tmiofb_remove(struct platform_device *dev)
- 	const struct mfd_cell *cell = mfd_get_cell(dev);
- 	struct fb_info *info = platform_get_drvdata(dev);
- 	int irq = platform_get_irq(dev, 0);
--	struct tmiofb_par *par;
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+index 6f9c25fec994..72d45a02c3ac 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
+@@ -1178,13 +1178,12 @@ static int dsi_regulator_init(struct platform_device *dsidev)
  
- 	if (info) {
--		par = info->par;
- 		unregister_framebuffer(info);
+ static void _dsi_print_reset_status(struct platform_device *dsidev)
+ {
+-	u32 l;
+ 	int b0, b1, b2;
  
- 		tmiofb_hw_stop(dev);
-@@ -816,8 +814,8 @@ static int tmiofb_remove(struct platform_device *dev)
- 		free_irq(irq, info);
+ 	/* A dummy read using the SCP interface to any DSIPHY register is
+ 	 * required after DSIPHY reset to complete the reset of the DSI complex
+ 	 * I/O. */
+-	l = dsi_read_reg(dsidev, DSI_DSIPHY_CFG5);
++	dsi_read_reg(dsidev, DSI_DSIPHY_CFG5);
  
- 		iounmap(info->screen_base);
--		iounmap(par->lcr);
--		iounmap(par->ccr);
-+		iounmap(((struct tmiofb_par *)info->par)->lcr);
-+		iounmap(((struct tmiofb_par *)info->par)->ccr);
+ 	if (dss_has_feature(FEAT_DSI_REVERSE_TXCLKESC)) {
+ 		b0 = 28;
+@@ -3627,7 +3626,7 @@ static int dsi_proto_config(struct platform_device *dsidev)
+ static void dsi_proto_timings(struct platform_device *dsidev)
+ {
+ 	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
+-	unsigned tlpx, tclk_zero, tclk_prepare, tclk_trail;
++	unsigned tlpx, tclk_zero, tclk_prepare;
+ 	unsigned tclk_pre, tclk_post;
+ 	unsigned ths_prepare, ths_prepare_ths_zero, ths_zero;
+ 	unsigned ths_trail, ths_exit;
+@@ -3646,7 +3645,6 @@ static void dsi_proto_timings(struct platform_device *dsidev)
  
- 		framebuffer_release(info);
- 	}
+ 	r = dsi_read_reg(dsidev, DSI_DSIPHY_CFG1);
+ 	tlpx = FLD_GET(r, 20, 16) * 2;
+-	tclk_trail = FLD_GET(r, 15, 8);
+ 	tclk_zero = FLD_GET(r, 7, 0);
+ 
+ 	r = dsi_read_reg(dsidev, DSI_DSIPHY_CFG2);
+@@ -4040,7 +4038,6 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
+ {
+ 	struct platform_device *dsidev = dsi_get_dsidev_from_dssdev(dssdev);
+ 	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
+-	u16 dw, dh;
+ 
+ 	dsi_perf_mark_setup(dsidev);
+ 
+@@ -4049,11 +4046,8 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
+ 	dsi->framedone_callback = callback;
+ 	dsi->framedone_data = data;
+ 
+-	dw = dsi->timings.x_res;
+-	dh = dsi->timings.y_res;
+-
+ #ifdef DSI_PERF_MEASURE
+-	dsi->update_bytes = dw * dh *
++	dsi->update_bytes = dsi->timings.x_res * dsi->timings.y_res *
+ 		dsi_get_pixel_size(dsi->pix_fmt) / 8;
+ #endif
+ 	dsi_update_screen_dispc(dsidev);
 -- 
 2.27.0
 
