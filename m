@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032DA2C64EB
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A01932C64D7
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F46F6ECA7;
-	Fri, 27 Nov 2020 12:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F40156EC6E;
+	Fri, 27 Nov 2020 12:09:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0466EBFB;
- Fri, 27 Nov 2020 12:09:52 +0000 (UTC)
-IronPort-SDR: EwiYa3UoNPfjzTtvCeVuu3HS+u2dySPiKhNu6BlK5BPg6OBw1HfS3O4MXpjR/EOLsIqF6xGTYM
- sXXSZsLA5Ttg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540730"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540730"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8CFD6EC8C;
+ Fri, 27 Nov 2020 12:09:54 +0000 (UTC)
+IronPort-SDR: b/goNJDbFGaROM5eR0J8jaDQLbENukquC40T3Am2lQHx9+2z08c0TXN3BN4tIbAVBaGoffbnbQ
+ tMBSxsG4Cwuw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540733"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540733"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:52 -0800
-IronPort-SDR: oxCASUkANsZtaiU5LUnCuPrVeV+5ItOFQvTbdgLBQev50Ey7pMITp72VqaUv2N7FtCGsNCtcDe
- ezI5k9V4XITA==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029118"
+ 27 Nov 2020 04:09:54 -0800
+IronPort-SDR: fAZuwdj7LnS569lp2gyu3uRoKJKXgbg5sAsRKDb5WDUqjuQm16kmCSY1cqKlkNqHZz3B9KuV3q
+ bqI7lq7Vy8KA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029130"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:51 -0800
+ 27 Nov 2020 04:09:52 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 079/162] drm/i915/dmabuf: Disallow LMEM objects from
- dma-buf
-Date: Fri, 27 Nov 2020 12:05:55 +0000
-Message-Id: <20201127120718.454037-80-matthew.auld@intel.com>
+Subject: [RFC PATCH 080/162] drm/i915/lmem: Fail driver init if LMEM training
+ failed
+Date: Fri, 27 Nov 2020 12:05:56 +0000
+Message-Id: <20201127120718.454037-81-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,65 +50,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- dri-devel@lists.freedesktop.org
+Cc: Caz Yokoyama <Caz.Yokoyama@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
+From: Matt Roper <matthew.d.roper@intel.com>
 
-The dma-buf interface for i915 does not currently support
-LMEM backed objects.
+Boot firmware performs memory training and health assessment during
+startup.  If the memory training fails, the firmware will consider the
+GPU unusable and will instruct the punit to keep the GT powered down.
+If this happens, our driver will be unable to communicate with the GT
+(all GT registers will read back as 0, forcewake requests will timeout,
+etc.) so we should abort driver initialization if this happens.  We can
+confirm that LMEM was initialized successfully via sgunit register
+GU_CNTL.
 
-Check imported objects to see if they are from i915 and if they
-are LMEM.  If they are, reject the import.
-
-This check is needed in two places, once on import, and then a
-recheck in the mapping path in the off chance that an object
-was migrated to LMEM after import.
-
-Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+Bspec: 53111
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+Cc: Caz Yokoyama <Caz.Yokoyama@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/i915/i915_reg.h     |  3 +++
+ drivers/gpu/drm/i915/intel_uncore.c | 12 ++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-index c4b01e819786..018d02cc4af5 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-@@ -9,6 +9,7 @@
- #include <linux/dma-resv.h>
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 5375b219cc3b..bf9ba1e361bb 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -487,6 +487,9 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+ #define GAB_CTL				_MMIO(0x24000)
+ #define   GAB_CTL_CONT_AFTER_PAGEFAULT	(1 << 8)
  
- #include "i915_drv.h"
-+#include "i915_gem_lmem.h"
- #include "i915_gem_object.h"
- #include "i915_scatterlist.h"
++#define GU_CNTL				_MMIO(0x101010)
++#define   LMEM_INIT			REG_BIT(7)
++
+ #define GEN6_STOLEN_RESERVED		_MMIO(0x1082C0)
+ #define GEN6_STOLEN_RESERVED_ADDR_MASK	(0xFFF << 20)
+ #define GEN7_STOLEN_RESERVED_ADDR_MASK	(0x3FFF << 18)
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index 1c14a07eba7d..1630452e82b8 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -1901,6 +1901,18 @@ int intel_uncore_init_mmio(struct intel_uncore *uncore)
+ 	if (ret)
+ 		return ret;
  
-@@ -25,6 +26,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
- 	struct scatterlist *src, *dst;
- 	int ret, i;
- 
-+	if (i915_gem_object_is_lmem(obj)) {
-+		ret = -ENOTSUPP;
-+		goto err;
++	/*
++	 * The boot firmware initializes local memory and assesses its health.
++	 * If memory training fails, the punit will have been instructed to
++	 * keep the GT powered down; we won't be able to communicate with it
++	 * and we should not continue with driver initialization.
++	 */
++	if (IS_DGFX(i915) &&
++	    !(__raw_uncore_read32(uncore, GU_CNTL) & LMEM_INIT)) {
++		drm_err(&i915->drm, "LMEM not initialized by firmware\n");
++		return -ENODEV;
 +	}
 +
- 	ret = i915_gem_object_pin_pages(obj);
- 	if (ret)
- 		goto err;
-@@ -248,6 +254,10 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
- 			 */
- 			return &i915_gem_object_get(obj)->base;
- 		}
-+
-+		/* not our device, but still a i915 object? */
-+		if (i915_gem_object_is_lmem(obj))
-+			return ERR_PTR(-ENOTSUPP);
- 	}
+ 	if (INTEL_GEN(i915) > 5 && !intel_vgpu_active(i915))
+ 		uncore->flags |= UNCORE_HAS_FORCEWAKE;
  
- 	/* need to attach */
 -- 
 2.26.2
 
