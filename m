@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09BC2C6961
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 17:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36A42C697A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 17:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAE616EE50;
-	Fri, 27 Nov 2020 16:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 066466EE55;
+	Fri, 27 Nov 2020 16:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC8B6EE50
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 16:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606494517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type;
- bh=hBK4rF+UUZqxXGARBNA3+k4KA9RCCq8gUWcN+N8wXLI=;
- b=J8f1ojdi2RuSiw8CdiHuE/9dS1l+qr78yymjZKH63oTL6nr7m3fTTVrWwt0dINs+nxolMc
- I5c5rh232pC0z5V4HdWxPvfyLjO9QwhoHvBXwvMCT/5KQG+eD/2i61cObhoDMLI4YPwWko
- Tgr8ek2fwpi4BYTLOfZf1PPJxYg0PAw=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-_rsEpsnJOQSlE6fBQsN0wg-1; Fri, 27 Nov 2020 11:28:35 -0500
-X-MC-Unique: _rsEpsnJOQSlE6fBQsN0wg-1
-Received: by mail-qk1-f197.google.com with SMTP id 141so3994262qkh.18
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 08:28:35 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F436EE48
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 16:35:35 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id 3so3328132wmg.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 08:35:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wbQDpsnNx6iEwLidL6DLURUpC2nhApCFYPCzt297AgQ=;
+ b=hFlyhkgv/UKsp4jlIgNmlznoycZBXcZxFaAqGtjanshomvy+4uEKcgesEDVLcrT8vk
+ QA7Ys8FVro7udTMJFSQ7y8MrprQ/5J2RNE9soMnSMnBeDQ8JhNieIvbYxZ6uLyP7wkiL
+ QGUMXd7RqYb/1c3Pj9OB00M9h8AQQpPxxTgjg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=hBK4rF+UUZqxXGARBNA3+k4KA9RCCq8gUWcN+N8wXLI=;
- b=nNC8edPKKPr8HlFGkR/DUiHATBD+KFTHIvl3def6U9buOmVcTb4vxSj3v+h7TelYwt
- yTCYy0SpqxLiOLMxWiFfn338klQHpj6dn9a8yuIbJB5Wq7tBFNLWkIwDcB7AsboUr9MC
- THTxp1sR7eFC5wWuSVqj2YZqY14GyCmqJq9Izox6CShGlyLbGJkMiFVE76xysCX6PKPJ
- RdcKiBw67+GtukHsWeq7T3LKxoD/lrpgVjtX7IalhRjiEGaFTAs9Uz0tYH817VlQiUOW
- HqQvMfgxqGUysHDdFMSu5jf5s+J9j8kHrxua9aTNLXaiuE5vyRWkSn3reZzxjq75IY6I
- s34Q==
-X-Gm-Message-State: AOAM531xHsxCQqA0eh4cNTyQOsrqIDNnyGvEFhg++WJ57OYjbocTbM2M
- El9o82LDpr/RXJrirnA+rLPzIFYmPkYVhy/Nf9DZzEPxehT9MH8BXkpGx2RNkE1OKmtnRh1FPFK
- OqtMjm/9DqRv9syy75yEV8Z5y7oWq
-X-Received: by 2002:aed:3668:: with SMTP id e95mr8997836qtb.69.1606494514963; 
- Fri, 27 Nov 2020 08:28:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz3szdD1wWTn6Oo7LYsc3cKd7ZqSuuJJN25Ol+alAuJJ/qJilZvZbeVXDRkqjEGATTXuTCO6Q==
-X-Received: by 2002:aed:3668:: with SMTP id e95mr8997822qtb.69.1606494514757; 
- Fri, 27 Nov 2020 08:28:34 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
- [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id 187sm6632673qki.38.2020.11.27.08.28.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wbQDpsnNx6iEwLidL6DLURUpC2nhApCFYPCzt297AgQ=;
+ b=fb+vkR6AZwbSAvmKGkDQOJy6mINrO8yDaWFen1iG6IUrbbUqWfhaUfG+pXRUdtizJo
+ cv9jOr5iZIOxxRW9Fa7d3QyuY4ZL4Ch8caelWxZO+ZL17EtI/X0FoIhzh4aNsuGKnW/n
+ bUvNqGKY+SLHOA9UDZPyfs1/+UW1wHh845OPwwB7aL2KvdIsOLH4jGUQOgYHudcW3XzF
+ PlggMB4vneV7sy3XmNEX4VP1R6EGQsQDisdUxq5D9TMWpH1Q7AjZrmWIqDEK5TvvUEdp
+ ynI6YVdxdRtDiY8c6ipRWnPByZ+1ZgcC/5uIG+5rqPxtOxjDsnyVtYty3I62Xoe0DlQw
+ hRKg==
+X-Gm-Message-State: AOAM530VtVPERn+HKK0eUHTRtWcs7GyeX6Itj4EWaE1ipz5Zu6o8bZof
+ UdzPvC67xoZzuTZKJBZr2+zO53DGvN0TpQ==
+X-Google-Smtp-Source: ABdhPJzuLNM9EYTuTTLHSlGr2ozd09/eD3swjm8ptEHwhzLx5xhiHGzaF/RRUMAGf05+lO76W32ZhA==
+X-Received: by 2002:a05:600c:2110:: with SMTP id
+ u16mr10268028wml.4.1606494934178; 
+ Fri, 27 Nov 2020 08:35:34 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id q81sm14711898wme.34.2020.11.27.08.35.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 08:28:34 -0800 (PST)
-From: trix@redhat.com
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH] drm/i915: remove trailing semicolon in macro definition
-Date: Fri, 27 Nov 2020 08:28:28 -0800
-Message-Id: <20201127162828.2660230-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.4
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=trix@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Fri, 27 Nov 2020 08:35:33 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH RESEND] drm/nouveau: Drop mutex_lock_nested for atomic
+Date: Fri, 27 Nov 2020 17:35:28 +0100
+Message-Id: <20201127163528.2221671-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,38 +62,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-MIME-Version: 1.0
+Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Ben Skeggs <bskeggs@redhat.com>,
+ nouveau@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tom Rix <trix@redhat.com>
+Purely conjecture, but I think the original locking inversion with the
+legacy page flip code between flipping and ttm's bo move function
+shoudn't exist anymore with atomic: With atomic the bo pinning and
+actual modeset commit is completely separated in the code patsh.
 
-The macro use will already have a semicolon.
+This annotation was originally added in
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+commit 060810d7abaabcab282e062c595871d661561400
+Author: Ben Skeggs <bskeggs@redhat.com>
+Date:   Mon Jul 8 14:15:51 2013 +1000
+
+    drm/nouveau: fix locking issues in page flipping paths
+
+due to
+
+commit b580c9e2b7ba5030a795aa2fb73b796523d65a78
+Author: Maarten Lankhorst <m.b.lankhorst@gmail.com>
+Date:   Thu Jun 27 13:48:18 2013 +0200
+
+    drm/nouveau: make flipping lockdep safe
+
+Acked-by: Ben Skeggs <bskeggs@redhat.com>
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Maarten Lankhorst <m.b.lankhorst@gmail.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Dave Airlie <airlied@gmail.com>
+Cc: nouveau@lists.freedesktop.org
 ---
- drivers/gpu/drm/i915/intel_device_info.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
-index e67cec8fa2aa..ef767f04c37c 100644
---- a/drivers/gpu/drm/i915/intel_device_info.c
-+++ b/drivers/gpu/drm/i915/intel_device_info.c
-@@ -104,7 +104,7 @@ void intel_device_info_print_static(const struct intel_device_info *info,
- 	drm_printf(p, "ppgtt-type: %d\n", info->ppgtt_type);
- 	drm_printf(p, "dma_mask_size: %u\n", info->dma_mask_size);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 1386b0fc1640..43069dd8b027 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -774,7 +774,10 @@ nouveau_bo_move_m2mf(struct ttm_buffer_object *bo, int evict,
+ 			return ret;
+ 	}
  
--#define PRINT_FLAG(name) drm_printf(p, "%s: %s\n", #name, yesno(info->name));
-+#define PRINT_FLAG(name) drm_printf(p, "%s: %s\n", #name, yesno(info->name))
- 	DEV_INFO_FOR_EACH_FLAG(PRINT_FLAG);
- #undef PRINT_FLAG
- 
+-	mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
++	if (drm_drv_uses_atomic_modeset(drm->dev))
++		mutex_lock(&cli->mutex);
++	else
++		mutex_lock_nested(&cli->mutex, SINGLE_DEPTH_NESTING);
+ 	ret = nouveau_fence_sync(nouveau_bo(bo), chan, true, ctx->interruptible);
+ 	if (ret == 0) {
+ 		ret = drm->ttm.move(chan, bo, &bo->mem, new_reg);
 -- 
-2.18.4
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
