@@ -1,110 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA322C6673
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:12:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CED2C669E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:20:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD976EDAE;
-	Fri, 27 Nov 2020 13:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CEA76EDAB;
+	Fri, 27 Nov 2020 13:20:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2069.outbound.protection.outlook.com [40.107.236.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD86EB8C;
- Fri, 27 Nov 2020 13:12:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GmbjHsIDnHmywVbr59xE64W8BWWC+sC7+K2qxUKlK71qeegyldwW2uxNyq8+Riw2qc65vjSlpLWu58nz3FQtoBjaK6xc40gyAIi68oHcEiohRAxKZn8umoNxMvXzq4T6Lh6d2CR3bnKXEi7wU3kbXhOX/fQYcTA+Z7MXeslZISaO990CpEhTAQc1qC3BI0ExYA1rbLCwlDBeHNH5tLZ/sGWIejV7Uh7BpR+dARTozGo7hurXk5qcHxoZvmmuunCFqqarw+93w7NLvQTKvG89nt4Fg5arsv7MpIWskRNryEI2eEMQLdz5vXbweI2QmTpmqBGkwCmzk9uMsUb+WxADTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w0W+ePiLGJbEjJ87XmH6fmphTByuLINXwHHNwoRumU8=;
- b=L47IY3E5ODV4IoKikTnbHngN+ipJuZsLx17GcJp5KUI1sQ7hn8zriz2OP92nxjWwFPpGCjS5Hl+H9EYvDGz8bf5ndMditGxG0GqvAAYPT4XRgG8WziCZKBDgdCR2XRuYtet9xuLXEQhua9YNcYngAu+VAJuyQOLuOhlP/gbEZ8AaPVfUgeiIh6vnbCeLGibfFBIcSYKljYO5HeJNb0KuYoeJ3G5gmtT4Vnq+cMgvp/Phx1VhmTbCKVQoMZDLfyfR1LHuWAonvyM/KvXKpLqEruUozwX3iGUP3WE/A19VwdenjooVKlHa8PrLPaz8G//rCsPyH1H8+WYH7mBhq/BzqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w0W+ePiLGJbEjJ87XmH6fmphTByuLINXwHHNwoRumU8=;
- b=wvl/FGK7U5Xf5RTbLE452KfzUxGyTeKymRMjY9m6DfSTggmVZR5Bl3Hx6uMl7jZ0sg2gzg2voMARHwlxcOMQqTtdoiP+98cOtEPdYJbbvAK8jPzWJMCbTahkK99jDXlzCLDnJ1G5LLgsR+9J9d6dQySnKQx9yXMz8Qh7AsoPbaM=
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
- DM6PR12MB3116.namprd12.prod.outlook.com (2603:10b6:5:38::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20; Fri, 27 Nov 2020 13:12:18 +0000
-Received: from DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
- ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3611.025; Fri, 27 Nov 2020
- 13:12:18 +0000
-From: "Grodzovsky, Andrey" <Andrey.Grodzovsky@amd.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post device
- unplug
-Thread-Topic: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post
- device unplug
-Thread-Index: AQHWv8Y7UCcLwWP0B0GTFJ1BNWsG+anXYoQAgAAsKQCAAQWcAIAAkBmAgALZsvI=
-Date: Fri, 27 Nov 2020 13:12:18 +0000
-Message-ID: <DM6PR12MB4340694885D1EE07361B330AEAF80@DM6PR12MB4340.namprd12.prod.outlook.com>
-References: <1605936082-3099-1-git-send-email-andrey.grodzovsky@amd.com>
- <1605936082-3099-11-git-send-email-andrey.grodzovsky@amd.com>
- <20201124144938.GR401619@phenom.ffwll.local>
- <36fdb2f8-2238-6321-201e-a25a3a828fc5@amd.com>
- <CAKMK7uE=AfP2p=UKjG=TFuFh8d0vphyHndxxEqqNNa+ouX48AQ@mail.gmail.com>,
- <1fcc5e3a-36d8-846d-032c-25fb8defd486@amd.com>
-In-Reply-To: <1fcc5e3a-36d8-846d-032c-25fb8defd486@amd.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ffwll.ch; dkim=none (message not signed)
- header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
-x-originating-ip: [2607:fea8:3edf:49b0:3ca0:d57:1062:a8e9]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b0d2907a-43d0-46ff-8643-08d892d6119e
-x-ms-traffictypediagnostic: DM6PR12MB3116:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB3116134666BBBBB7CB14EBE9EAF80@DM6PR12MB3116.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 8Gt3HVYd73dG9KHfJiSTnJ7Qen1oyXN/gPNJgAscyOP3fdlTrp9IlRpBAor/7HD/N6737SwL+4Z92qduPHH8Fs7gDcfXzo/RAf9+6BLi86jcnz63wa5hJ5T94mLk0bl6yPbO6emhLAizI+KG6RSLTEN1Z7+IZIg4puZboEzBAHIxRSDtSjLeeP2dLlLkoqRPG3s+8oWAzh6/rh9n3hz1S5j8r8mXC0uKCQ0+MwUjswRmluiavzMYJLUEmfHPuM+h39WbfGFPP97m4hypcUa2cF4n2sxmRJkn3Ubq40z1zKAXGe8v7BMf0rxXv5X41rfzEtPgRXiW55hqkSYjUUaBKNI/rKJHOUVN1rYjKfqOldv9FY8FlqfCMyewxfmBpmD5QSKP7kftiV+iuqsVRMQvW3/D6SjyVNhG0RlkC/pV8EV1Tv3vvmNz4Stq/B6sqWFnrM15p3dAWT5zd4VpJI3ICw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(376002)(366004)(39860400002)(136003)(66946007)(66446008)(66556008)(66476007)(9686003)(64756008)(71200400001)(6916009)(8676002)(55016002)(4326008)(8936002)(52536014)(166002)(76116006)(91956017)(86362001)(66574015)(2906002)(83380400001)(478600001)(316002)(966005)(33656002)(6506007)(54906003)(53546011)(7696005)(186003)(5660300002)(7416002)(87944003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?Windows-1252?Q?ZUcaCXG4rgx10/9Ei1I+/aqnFSf7O2f+oPwQYgf0kqAh3QHnBdURE2NU?=
- =?Windows-1252?Q?+6vmz5VMzgRqYaAlyFqEDliZhybK36z8TKEwe9be26F4CBSVVA4rXtju?=
- =?Windows-1252?Q?KeKSyKBKWvd7NLa5H5vtT75xvlqeK0zN1umJwhSYvalXHAFRRGXwnvUD?=
- =?Windows-1252?Q?bV4o7AMcVbTo9eguWwKZIhIULQ26/p1gPSPLd6HGCyLT5WKCTS5mx07j?=
- =?Windows-1252?Q?/vBZZH6YZ/VKf1Z5IaXNlkyaC7+R1zfIutDvC9t95Lyvxt/7Zcp6MUny?=
- =?Windows-1252?Q?67zGzATcHAyBpPZFYCbN8uQGf6RAzDb1wzjPgJfziRjAvPuJVRpnLzSh?=
- =?Windows-1252?Q?/Ip+kHzPCzf58g9I6VkycGKkofdNuBnjQUwhn3NdKcYDXE8gbhJ2Ux+W?=
- =?Windows-1252?Q?pP9t8c1vpaqIUjpOme1n8RKk9n37d6fwhqePSCTpUlurXlDW2dsAASOn?=
- =?Windows-1252?Q?DCHMdi7dLwnF7tlaO+ov7hhk8MAVbMP4kwNkFBmUc9Yn1klQCmdwjaGB?=
- =?Windows-1252?Q?KTUqMoyWyYjQj3Skrqx6LCXiHYwZuCBL8lFk5wqwUknrewCVX8Y+q1Cw?=
- =?Windows-1252?Q?9a+8pH1um7m4tOU79xN45oXCHz0++Hv6WVvKejPXqwvXgFKo9olId5Iy?=
- =?Windows-1252?Q?CALahX887B9TAfh2PyAndpI00vgOC1kogBG/SBG3k5b3L9QNOdpJRCUn?=
- =?Windows-1252?Q?SfDl3IyYmJG4skt7sBXmZsAX2gr8/gVdRc5rBjlK2Tm1J71M1rR+WjFO?=
- =?Windows-1252?Q?EmtIOIT5u1hEePhkT+bVVjQAKLeDGjFyCxPFbmcPvnRere71KTJpHpgA?=
- =?Windows-1252?Q?lVLlW9Ih6BrqBzmoicaGkyqEikyrBEM7gL0/LSew7hIycX6+7eewf9bS?=
- =?Windows-1252?Q?fGbmmZ8SYpFyfYYCrj8kNmIqW8rnQ1abKRK6Mtx0NshlgU8xVYvQHnTR?=
- =?Windows-1252?Q?Z5Rji9lFMgdF1PYcbjtvYdFgAy6Ho6ZlSf0WegdIEKHiqduVQivBdRjR?=
- =?Windows-1252?Q?8g00gF8d2etJ0yCp6GtFtKivyjZwIUIsOpdTLnezN8n5MJXUCYJ98UUg?=
- =?Windows-1252?Q?tZ5Hx71GmHwZeZWHqhZeucnqM+/UL3zq8wtB3tvSJHkqV2mlL3D0aRpm?=
- =?Windows-1252?Q?9Rw=3D?=
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A9DA06ECD1;
+ Fri, 27 Nov 2020 13:20:35 +0000 (UTC)
+IronPort-SDR: svGaok0ChKpefT6QSvM+H9MvMiv/7ACED9+4qXEfQTtd2ZvxDgJroJQtbQpc7BtI6kg7SS2EjL
+ YPZQDSBCqfrw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="236521653"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="236521653"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2020 05:20:32 -0800
+IronPort-SDR: NwCT03cG18iWggYEN18Cv9y8rmCuW+t6PxqsceNYkmGDwLqY4Rz5nuhsdamvSJn+mKjw7NSFpQ
+ x/kqh5L5HdYg==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="479679277"
+Received: from jmikkola-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.252.21.161])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2020 05:20:27 -0800
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0d2907a-43d0-46ff-8643-08d892d6119e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2020 13:12:18.8098 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RMXlr1Vj7QT3FCJi2S5D5rB1mbDtKyvpEO9HL7BYgd8LeUabbiMOX+x/PEiaO0soRjHZ1is608R/8Fycgv54gg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3116
+In-Reply-To: <20201124113824.19994-8-tzimmermann@suse.de>
+References: <20201124113824.19994-1-tzimmermann@suse.de>
+ <20201124113824.19994-8-tzimmermann@suse.de>
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH 07/15] drm/i915: Remove references to struct
+ drm_device.pdev
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie, daniel@ffwll.ch
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Message-ID: <160648322408.10416.6891470923981405939@jlahtine-mobl.ger.corp.intel.com>
+User-Agent: alot/0.8.1
+Date: Fri, 27 Nov 2020 15:20:24 +0200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,578 +52,1131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>,
- =?Windows-1252?Q?Christian_K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Qiang Yu <yuq825@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>
-Content-Type: multipart/mixed; boundary="===============1919690942=="
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, spice-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1919690942==
-Content-Language: en-GB
-Content-Type: multipart/alternative;
-	boundary="_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_"
-
---_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-Hey, just a ping on my comments/question bellow.
-
-Andrey
-________________________________
-From: Grodzovsky, Andrey <Andrey.Grodzovsky@amd.com>
-Sent: 25 November 2020 12:39
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>; dri-devel <dri-devel@list=
-s.freedesktop.org>; Christian K=F6nig <ckoenig.leichtzumerken@gmail.com>; R=
-ob Herring <robh@kernel.org>; Lucas Stach <l.stach@pengutronix.de>; Qiang Y=
-u <yuq825@gmail.com>; Anholt, Eric <eric@anholt.net>; Pekka Paalanen <ppaal=
-anen@gmail.com>; Deucher, Alexander <Alexander.Deucher@amd.com>; Greg KH <g=
-regkh@linuxfoundation.org>; Wentland, Harry <Harry.Wentland@amd.com>
-Subject: Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal post dev=
-ice unplug
-
-
-
-On 11/25/20 4:04 AM, Daniel Vetter wrote:
-
-On Tue, Nov 24, 2020 at 11:27 PM Andrey Grodzovsky
-<Andrey.Grodzovsky@amd.com><mailto:Andrey.Grodzovsky@amd.com> wrote:
-
-
-
-
-On 11/24/20 9:49 AM, Daniel Vetter wrote:
-
-
-On Sat, Nov 21, 2020 at 12:21:20AM -0500, Andrey Grodzovsky wrote:
-
-
-Avoids NULL ptr due to kobj->sd being unset on device removal.
-
-Signed-off-by: Andrey Grodzovsky <andrey.grodzovsky@amd.com><mailto:andrey.=
-grodzovsky@amd.com>
----
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c   | 4 +++-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 4 +++-
-  2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/=
-amdgpu/amdgpu_ras.c
-index caf828a..812e592 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -27,6 +27,7 @@
-  #include <linux/uaccess.h>
-  #include <linux/reboot.h>
-  #include <linux/syscalls.h>
-+#include <drm/drm_drv.h>
-
-  #include "amdgpu.h"
-  #include "amdgpu_ras.h"
-@@ -1043,7 +1044,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struc=
-t amdgpu_device *adev)
-             .attrs =3D attrs,
-     };
-
--    sysfs_remove_group(&adev->dev->kobj, &group);
-+    if (!drm_dev_is_unplugged(&adev->ddev))
-+            sysfs_remove_group(&adev->dev->kobj, &group);
-
-
-This looks wrong. sysfs, like any other interface, should be
-unconditionally thrown out when we do the drm_dev_unregister. Whether
-hotunplugged or not should matter at all. Either this isn't needed at all,
-or something is wrong with the ordering here. But definitely fishy.
--Daniel
-
-
-
-
-So technically this is needed because kobejct's sysfs directory entry kobj-=
->sd
-is set to NULL
-on device removal (from sysfs_remove_dir) but because we don't finalize the=
- device
-until last reference to drm file is dropped (which can happen later) we end=
- up
-calling sysfs_remove_file/dir after
-this pointer is NULL. sysfs_remove_file checks for NULL and aborts while
-sysfs_remove_dir
-is not and that why I guard against calls to sysfs_remove_dir.
-But indeed the whole approach in the driver is incorrect, as Greg pointed o=
-ut -
-we should use
-default groups attributes instead of explicit calls to sysfs interface and =
-this
-would save those troubles.
-But again. the issue here of scope of work, converting all of amdgpu to def=
-ault
-groups attributes is somewhat
-lengthy process with extra testing as the entire driver is papered with sys=
-fs
-references and seems to me more of a standalone
-cleanup, just like switching to devm_ and drmm_ work. To me at least it see=
-ms
-that it makes more sense
-to finalize and push the hot unplug patches so that this new functionality =
-can
-be part of the driver sooner
-and then incrementally improve it by working on those other topics. Just as
-devm_/drmm_ I also added sysfs cleanup
-to my TODO list in the RFC patch.
-
-
-
-Hm, whether you solve this with the default group stuff to
-auto-remove, or remove explicitly at the right time doesn't matter
-much. The underlying problem you have here is that it's done way too
-late.
-
-As far as I understood correctly the default group attrs by reading this
-article by Greg - https://www.linux.com/news/how-create-sysfs-file-correctl=
-y/
-it will be removed together with the device and not too late like now and I=
- quote
-from the last paragraph there:
-
-"By setting this value, you don=92t have to do anything in your
-probe() or release() functions at all in order for the
-sysfs files to be properly created and destroyed whenever your
-device is added or removed from the system. And you will, most
-importantly, do it in a race-free manner, which is always a good thing."
-
-To me this seems like the best solution to the late remove issue. What do
-you think ?
-
-
- sysfs removal (like all uapi interfaces) need to be removed as
-part of drm_dev_unregister.
-
-
-Do you mean we need to trace and aggregate all sysfs files creation within
-the low level drivers and then call some sysfs release function inside drm_=
-dev_unregister
-to iterate and release them all ?
-
-
- I guess aside from the split into fini_hw
-and fini_sw, you also need an unregister_late callback (like we have
-already for drm_connector, so that e.g. backlight and similar stuff
-can be unregistered).
-
-
-Is this the callback you suggest to call from within drm_dev_unregister and
-it will be responsible to release all sysfs files created within the driver=
- ?
-
-Andrey
-
-
-
-
-Papering over the underlying bug like this doesn't really fix much,
-the lifetimes are still wrong.
--Daniel
-
-
-
-
-Andrey
-
-
-
-
-
-
-
-
-     return 0;
-  }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ucode.c
-index 2b7c90b..54331fc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-@@ -24,6 +24,7 @@
-  #include <linux/firmware.h>
-  #include <linux/slab.h>
-  #include <linux/module.h>
-+#include <drm/drm_drv.h>
-
-  #include "amdgpu.h"
-  #include "amdgpu_ucode.h"
-@@ -464,7 +465,8 @@ int amdgpu_ucode_sysfs_init(struct amdgpu_device *adev)
-
-  void amdgpu_ucode_sysfs_fini(struct amdgpu_device *adev)
-  {
--    sysfs_remove_group(&adev->dev->kobj, &fw_attr_group);
-+    if (!drm_dev_is_unplugged(&adev->ddev))
-+            sysfs_remove_group(&adev->dev->kobj, &fw_attr_group);
-  }
-
-  static int amdgpu_ucode_init_single_fw(struct amdgpu_device *adev,
---
-2.7.4
-
-
-
-
-
-
-
-
---_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-</head>
-<body>
-<div>Hey, just a ping on my comments/question bellow.</div>
-<div><br>
-</div>
-<div>Andrey</div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Grodzovsky, Andrey &l=
-t;Andrey.Grodzovsky@amd.com&gt;<br>
-<b>Sent:</b> 25 November 2020 12:39<br>
-<b>To:</b> Daniel Vetter &lt;daniel@ffwll.ch&gt;<br>
-<b>Cc:</b> amd-gfx list &lt;amd-gfx@lists.freedesktop.org&gt;; dri-devel &l=
-t;dri-devel@lists.freedesktop.org&gt;; Christian K=F6nig &lt;ckoenig.leicht=
-zumerken@gmail.com&gt;; Rob Herring &lt;robh@kernel.org&gt;; Lucas Stach &l=
-t;l.stach@pengutronix.de&gt;; Qiang Yu &lt;yuq825@gmail.com&gt;; Anholt,
- Eric &lt;eric@anholt.net&gt;; Pekka Paalanen &lt;ppaalanen@gmail.com&gt;; =
-Deucher, Alexander &lt;Alexander.Deucher@amd.com&gt;; Greg KH &lt;gregkh@li=
-nuxfoundation.org&gt;; Wentland, Harry &lt;Harry.Wentland@amd.com&gt;<br>
-<b>Subject:</b> Re: [PATCH v3 10/12] drm/amdgpu: Avoid sysfs dirs removal p=
-ost device unplug</font>
-<div>&nbsp;</div>
-</div>
-<div style=3D"background-color:#FFFFFF">
-<p><br>
-</p>
-<div class=3D"x_moz-cite-prefix">On 11/25/20 4:04 AM, Daniel Vetter wrote:<=
-br>
-</div>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">On Tue, Nov 24, 2020 at 11:27 PM Andrey Grod=
-zovsky
-<a class=3D"x_moz-txt-link-rfc2396E" href=3D"mailto:Andrey.Grodzovsky@amd.c=
-om">&lt;Andrey.Grodzovsky@amd.com&gt;</a> wrote:
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">
-
-On 11/24/20 9:49 AM, Daniel Vetter wrote:
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">On Sat, Nov 21, 2020 at 12:21:20AM -0500, An=
-drey Grodzovsky wrote:
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">Avoids NULL ptr due to kobj-&gt;sd being uns=
-et on device removal.
-
-Signed-off-by: Andrey Grodzovsky <a class=3D"x_moz-txt-link-rfc2396E" href=
-=3D"mailto:andrey.grodzovsky@amd.com">&lt;andrey.grodzovsky@amd.com&gt;</a>
----
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c   | 4 +++-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c | 4 +++-
-  2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c b/drivers/gpu/drm/amd/=
-amdgpu/amdgpu_ras.c
-index caf828a..812e592 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
-@@ -27,6 +27,7 @@
-  #include &lt;linux/uaccess.h&gt;
-  #include &lt;linux/reboot.h&gt;
-  #include &lt;linux/syscalls.h&gt;
-+#include &lt;drm/drm_drv.h&gt;
-
-  #include &quot;amdgpu.h&quot;
-  #include &quot;amdgpu_ras.h&quot;
-@@ -1043,7 +1044,8 @@ static int amdgpu_ras_sysfs_remove_feature_node(struc=
-t amdgpu_device *adev)
-             .attrs =3D attrs,
-     };
-
--    sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;group);
-+    if (!drm_dev_is_unplugged(&amp;adev-&gt;ddev))
-+            sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;group);
-</pre>
-</blockquote>
-<pre class=3D"x_moz-quote-pre">This looks wrong. sysfs, like any other inte=
-rface, should be
-unconditionally thrown out when we do the drm_dev_unregister. Whether
-hotunplugged or not should matter at all. Either this isn't needed at all,
-or something is wrong with the ordering here. But definitely fishy.
--Daniel
-</pre>
-</blockquote>
-<pre class=3D"x_moz-quote-pre">
-
-So technically this is needed because kobejct's sysfs directory entry kobj-=
-&gt;sd
-is set to NULL
-on device removal (from sysfs_remove_dir) but because we don't finalize the=
- device
-until last reference to drm file is dropped (which can happen later) we end=
- up
-calling sysfs_remove_file/dir after
-this pointer is NULL. sysfs_remove_file checks for NULL and aborts while
-sysfs_remove_dir
-is not and that why I guard against calls to sysfs_remove_dir.
-But indeed the whole approach in the driver is incorrect, as Greg pointed o=
-ut -
-we should use
-default groups attributes instead of explicit calls to sysfs interface and =
-this
-would save those troubles.
-But again. the issue here of scope of work, converting all of amdgpu to def=
-ault
-groups attributes is somewhat
-lengthy process with extra testing as the entire driver is papered with sys=
-fs
-references and seems to me more of a standalone
-cleanup, just like switching to devm_ and drmm_ work. To me at least it see=
-ms
-that it makes more sense
-to finalize and push the hot unplug patches so that this new functionality =
-can
-be part of the driver sooner
-and then incrementally improve it by working on those other topics. Just as
-devm_/drmm_ I also added sysfs cleanup
-to my TODO list in the RFC patch.
-</pre>
-</blockquote>
-<pre class=3D"x_moz-quote-pre">
-Hm, whether you solve this with the default group stuff to
-auto-remove, or remove explicitly at the right time doesn't matter
-much. The underlying problem you have here is that it's done way too
-late.</pre>
-</blockquote>
-<p>As far as I understood correctly the default group attrs by reading this=
-<br>
-article by Greg - <a class=3D"x_moz-txt-link-freetext" href=3D"https://www.=
-linux.com/news/how-create-sysfs-file-correctly/">
-https://www.linux.com/news/how-create-sysfs-file-correctly/</a><br>
-it will be removed together with the device and not too late like now and I=
- quote<br>
-from the last paragraph there:</p>
-<p>&quot;<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,san=
-s-serif; font-size:15px; font-style:normal; font-variant-ligatures:normal; =
-font-variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2=
-; text-align:start; text-indent:0px; text-transform:none; white-space:norma=
-l; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-deco=
-ration-style:initial; text-decoration-color:initial; display:inline!importa=
-nt; float:none">By
- setting this value, you don=92t have to do anything in your</span><br styl=
-e=3D"box-sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva=
-,sans-serif; font-size:15px; font-style:normal; font-variant-ligatures:norm=
-al; font-variant-caps:normal; font-weight:400; letter-spacing:normal; orpha=
-ns:2; text-align:start; text-indent:0px; text-transform:none; white-space:n=
-ormal; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-=
-decoration-style:initial; text-decoration-color:initial">
-<tt style=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; fo=
-nt-style:normal; font-variant-ligatures:normal; font-variant-caps:normal; f=
-ont-weight:400; letter-spacing:normal; orphans:2; text-align:start; text-in=
-dent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0=
-px; background-color:rgb(255,255,255); text-decoration-style:initial; text-=
-decoration-color:initial">probe()</tt><span style=3D"color:rgb(34,34,34); f=
-ont-family:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; fo=
-nt-variant-ligatures:normal; font-variant-caps:normal; font-weight:400; let=
-ter-spacing:normal; orphans:2; text-align:start; text-indent:0px; text-tran=
-sform:none; white-space:normal; widows:2; word-spacing:0px; background-colo=
-r:rgb(255,255,255); text-decoration-style:initial; text-decoration-color:in=
-itial; display:inline!important; float:none">&nbsp;or&nbsp;</span><tt style=
-=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; font-style:=
-normal; font-variant-ligatures:normal; font-variant-caps:normal; font-weigh=
-t:400; letter-spacing:normal; orphans:2; text-align:start; text-indent:0px;=
- text-transform:none; white-space:normal; widows:2; word-spacing:0px; backg=
-round-color:rgb(255,255,255); text-decoration-style:initial; text-decoratio=
-n-color:initial">release()</tt><span style=3D"color:rgb(34,34,34); font-fam=
-ily:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; font-vari=
-ant-ligatures:normal; font-variant-caps:normal; font-weight:400; letter-spa=
-cing:normal; orphans:2; text-align:start; text-indent:0px; text-transform:n=
-one; white-space:normal; widows:2; word-spacing:0px; background-color:rgb(2=
-55,255,255); text-decoration-style:initial; text-decoration-color:initial; =
-display:inline!important; float:none">&nbsp;functions
- at all in order for the</span><br style=3D"box-sizing:border-box; color:rg=
-b(34,34,34); font-family:Verdana,Geneva,sans-serif; font-size:15px; font-st=
-yle:normal; font-variant-ligatures:normal; font-variant-caps:normal; font-w=
-eight:400; letter-spacing:normal; orphans:2; text-align:start; text-indent:=
-0px; text-transform:none; white-space:normal; widows:2; word-spacing:0px; b=
-ackground-color:rgb(255,255,255); text-decoration-style:initial; text-decor=
-ation-color:initial">
-<tt style=3D"box-sizing:border-box; color:rgb(34,34,34); font-size:15px; fo=
-nt-style:normal; font-variant-ligatures:normal; font-variant-caps:normal; f=
-ont-weight:400; letter-spacing:normal; orphans:2; text-align:start; text-in=
-dent:0px; text-transform:none; white-space:normal; widows:2; word-spacing:0=
-px; background-color:rgb(255,255,255); text-decoration-style:initial; text-=
-decoration-color:initial">sysfs</tt><span style=3D"color:rgb(34,34,34); fon=
-t-family:Verdana,Geneva,sans-serif; font-size:15px; font-style:normal; font=
--variant-ligatures:normal; font-variant-caps:normal; font-weight:400; lette=
-r-spacing:normal; orphans:2; text-align:start; text-indent:0px; text-transf=
-orm:none; white-space:normal; widows:2; word-spacing:0px; background-color:=
-rgb(255,255,255); text-decoration-style:initial; text-decoration-color:init=
-ial; display:inline!important; float:none">&nbsp;files
- to be properly created and destroyed whenever your</span><br style=3D"box-=
-sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva,sans-ser=
-if; font-size:15px; font-style:normal; font-variant-ligatures:normal; font-=
-variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; tex=
-t-align:start; text-indent:0px; text-transform:none; white-space:normal; wi=
-dows:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoratio=
-n-style:initial; text-decoration-color:initial">
-<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-serif; =
-font-size:15px; font-style:normal; font-variant-ligatures:normal; font-vari=
-ant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text-al=
-ign:start; text-indent:0px; text-transform:none; white-space:normal; widows=
-:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration-st=
-yle:initial; text-decoration-color:initial; display:inline!important; float=
-:none">device
- is added or removed from the system. And you will, most</span><br style=3D=
-"box-sizing:border-box; color:rgb(34,34,34); font-family:Verdana,Geneva,san=
-s-serif; font-size:15px; font-style:normal; font-variant-ligatures:normal; =
-font-variant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2=
-; text-align:start; text-indent:0px; text-transform:none; white-space:norma=
-l; widows:2; word-spacing:0px; background-color:rgb(255,255,255); text-deco=
-ration-style:initial; text-decoration-color:initial">
-<span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-serif; =
-font-size:15px; font-style:normal; font-variant-ligatures:normal; font-vari=
-ant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text-al=
-ign:start; text-indent:0px; text-transform:none; white-space:normal; widows=
-:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration-st=
-yle:initial; text-decoration-color:initial; display:inline!important; float=
-:none">importantly,
- do it in a race-free manner, which is always a good thing.&quot;</span></p=
->
-<p><span style=3D"color:rgb(34,34,34); font-size:15px; font-style:normal; f=
-ont-variant-ligatures:normal; font-variant-caps:normal; font-weight:400; le=
-tter-spacing:normal; text-align:start; text-indent:0px; text-transform:none=
-; white-space:normal; word-spacing:0px; background-color:rgb(255,255,255); =
-text-decoration-style:initial; text-decoration-color:initial; display:inlin=
-e!important; float:none">To
- me this seems like the best solution to the late remove issue. What do<br>
-you think ?</span></p>
-<p><span style=3D"color:rgb(34,34,34); font-family:Verdana,Geneva,sans-seri=
-f; font-size:15px; font-style:normal; font-variant-ligatures:normal; font-v=
-ariant-caps:normal; font-weight:400; letter-spacing:normal; orphans:2; text=
--align:start; text-indent:0px; text-transform:none; white-space:normal; wid=
-ows:2; word-spacing:0px; background-color:rgb(255,255,255); text-decoration=
--style:initial; text-decoration-color:initial; display:inline!important; fl=
-oat:none"><br>
-</span></p>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre"> sysfs removal (like all uapi interfaces) ne=
-ed to be removed as
-part of drm_dev_unregister.</pre>
-</blockquote>
-<p><br>
-</p>
-<p>Do you mean we need to trace and aggregate all sysfs files creation with=
-in<br>
-the low level drivers and then call some sysfs release function inside drm_=
-dev_unregister<br>
-to iterate and release them all ?</p>
-<p><br>
-</p>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre"> I guess aside from the split into fini_hw
-and fini_sw, you also need an unregister_late callback (like we have
-already for drm_connector, so that e.g. backlight and similar stuff
-can be unregistered).</pre>
-</blockquote>
-<p><br>
-</p>
-<p>Is this the callback you suggest to call from within drm_dev_unregister =
-and<br>
-it will be responsible to release all sysfs files created within the driver=
- ?</p>
-<p>Andrey</p>
-<p><br>
-</p>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">
-
-Papering over the underlying bug like this doesn't really fix much,
-the lifetimes are still wrong.
--Daniel
-
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">
-Andrey
-
-
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">
-</pre>
-<blockquote type=3D"cite">
-<pre class=3D"x_moz-quote-pre">
-     return 0;
-  }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/am=
-d/amdgpu/amdgpu_ucode.c
-index 2b7c90b..54331fc 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
-@@ -24,6 +24,7 @@
-  #include &lt;linux/firmware.h&gt;
-  #include &lt;linux/slab.h&gt;
-  #include &lt;linux/module.h&gt;
-+#include &lt;drm/drm_drv.h&gt;
-
-  #include &quot;amdgpu.h&quot;
-  #include &quot;amdgpu_ucode.h&quot;
-@@ -464,7 +465,8 @@ int amdgpu_ucode_sysfs_init(struct amdgpu_device *adev)
-
-  void amdgpu_ucode_sysfs_fini(struct amdgpu_device *adev)
-  {
--    sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;fw_attr_group);
-+    if (!drm_dev_is_unplugged(&amp;adev-&gt;ddev))
-+            sysfs_remove_group(&amp;adev-&gt;dev-&gt;kobj, &amp;fw_attr_gr=
-oup);
-  }
-
-  static int amdgpu_ucode_init_single_fw(struct amdgpu_device *adev,
---
-2.7.4
-
-</pre>
-</blockquote>
-</blockquote>
-</blockquote>
-<pre class=3D"x_moz-quote-pre">
-
-
-</pre>
-</blockquote>
-</div>
-</body>
-</html>
-
---_000_DM6PR12MB4340694885D1EE07361B330AEAF80DM6PR12MB4340namp_--
-
---===============1919690942==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Quoting Thomas Zimmermann (2020-11-24 13:38:16)
+> Using struct drm_device.pdev is deprecated. Convert i915 to struct
+> drm_device.dev. No functional changes.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+Any chance of sharing used a cocci script(s)? think this will
+hit many in-flight series, so life would made easier :)
+
+Or is this done manually? I notice a few places hoist the pdev
+variable and others repeat the call. Regardless, using the cocci
+script as baseline would make review bit more comforting.
+
+The gvt changes would go in through the gvt tree, and we also
+probably need to split between drm-intel-next/drm-intel-gt-next,
+too.
+
+Jani or Rodrigo, any thoughts?
+
+Regards, Joonas
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_bios.c     |  2 +-
+>  drivers/gpu/drm/i915/display/intel_cdclk.c    | 14 ++++++-------
+>  drivers/gpu/drm/i915/display/intel_csr.c      |  2 +-
+>  drivers/gpu/drm/i915/display/intel_dsi_vbt.c  |  2 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+>  drivers/gpu/drm/i915/display/intel_gmbus.c    |  2 +-
+>  .../gpu/drm/i915/display/intel_lpe_audio.c    |  5 +++--
+>  drivers/gpu/drm/i915/display/intel_opregion.c |  6 +++---
+>  drivers/gpu/drm/i915/display/intel_overlay.c  |  2 +-
+>  drivers/gpu/drm/i915/display/intel_panel.c    |  4 ++--
+>  drivers/gpu/drm/i915/display/intel_quirks.c   |  2 +-
+>  drivers/gpu/drm/i915/display/intel_sdvo.c     |  2 +-
+>  drivers/gpu/drm/i915/display/intel_vga.c      |  8 ++++----
+>  drivers/gpu/drm/i915/gem/i915_gem_phys.c      |  6 +++---
+>  drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c          | 10 +++++-----
+>  drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  2 +-
+>  drivers/gpu/drm/i915/gt/intel_rc6.c           |  4 ++--
+>  drivers/gpu/drm/i915/gt/intel_reset.c         |  6 +++---
+>  drivers/gpu/drm/i915/gvt/cfg_space.c          |  5 +++--
+>  drivers/gpu/drm/i915/gvt/firmware.c           | 10 +++++-----
+>  drivers/gpu/drm/i915/gvt/gtt.c                | 12 +++++------
+>  drivers/gpu/drm/i915/gvt/gvt.c                |  6 +++---
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              |  4 ++--
+>  drivers/gpu/drm/i915/i915_debugfs.c           |  2 +-
+>  drivers/gpu/drm/i915/i915_drv.c               | 20 +++++++++----------
+>  drivers/gpu/drm/i915/i915_drv.h               |  2 +-
+>  drivers/gpu/drm/i915/i915_gem_gtt.c           |  4 ++--
+>  drivers/gpu/drm/i915/i915_getparam.c          |  5 +++--
+>  drivers/gpu/drm/i915/i915_gpu_error.c         |  2 +-
+>  drivers/gpu/drm/i915/i915_irq.c               |  6 +++---
+>  drivers/gpu/drm/i915/i915_pmu.c               |  5 +++--
+>  drivers/gpu/drm/i915/i915_suspend.c           |  4 ++--
+>  drivers/gpu/drm/i915/i915_switcheroo.c        |  4 ++--
+>  drivers/gpu/drm/i915/i915_vgpu.c              |  2 +-
+>  drivers/gpu/drm/i915/intel_device_info.c      |  2 +-
+>  drivers/gpu/drm/i915/intel_region_lmem.c      |  8 ++++----
+>  drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
+>  drivers/gpu/drm/i915/intel_uncore.c           |  4 ++--
+>  .../gpu/drm/i915/selftests/mock_gem_device.c  |  1 -
+>  drivers/gpu/drm/i915/selftests/mock_gtt.c     |  2 +-
+>  42 files changed, 99 insertions(+), 98 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+> index 4cc949b228f2..8879676372a3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+> @@ -2088,7 +2088,7 @@ bool intel_bios_is_valid_vbt(const void *buf, size_t size)
+>  
+>  static struct vbt_header *oprom_get_vbt(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         void __iomem *p = NULL, *oprom;
+>         struct vbt_header *vbt;
+>         u16 vbt_size;
+> diff --git a/drivers/gpu/drm/i915/display/intel_cdclk.c b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> index c449d28d0560..a6e13208dc50 100644
+> --- a/drivers/gpu/drm/i915/display/intel_cdclk.c
+> +++ b/drivers/gpu/drm/i915/display/intel_cdclk.c
+> @@ -96,7 +96,7 @@ static void fixed_450mhz_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void i85x_get_cdclk(struct drm_i915_private *dev_priv,
+>                            struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u16 hpllcc = 0;
+>  
+>         /*
+> @@ -138,7 +138,7 @@ static void i85x_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void i915gm_get_cdclk(struct drm_i915_private *dev_priv,
+>                              struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u16 gcfgc = 0;
+>  
+>         pci_read_config_word(pdev, GCFGC, &gcfgc);
+> @@ -162,7 +162,7 @@ static void i915gm_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void i945gm_get_cdclk(struct drm_i915_private *dev_priv,
+>                              struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u16 gcfgc = 0;
+>  
+>         pci_read_config_word(pdev, GCFGC, &gcfgc);
+> @@ -256,7 +256,7 @@ static unsigned int intel_hpll_vco(struct drm_i915_private *dev_priv)
+>  static void g33_get_cdclk(struct drm_i915_private *dev_priv,
+>                           struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         static const u8 div_3200[] = { 12, 10,  8,  7, 5, 16 };
+>         static const u8 div_4000[] = { 14, 12, 10,  8, 6, 20 };
+>         static const u8 div_4800[] = { 20, 14, 12, 10, 8, 24 };
+> @@ -305,7 +305,7 @@ static void g33_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void pnv_get_cdclk(struct drm_i915_private *dev_priv,
+>                           struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u16 gcfgc = 0;
+>  
+>         pci_read_config_word(pdev, GCFGC, &gcfgc);
+> @@ -339,7 +339,7 @@ static void pnv_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void i965gm_get_cdclk(struct drm_i915_private *dev_priv,
+>                              struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         static const u8 div_3200[] = { 16, 10,  8 };
+>         static const u8 div_4000[] = { 20, 12, 10 };
+>         static const u8 div_5333[] = { 24, 16, 14 };
+> @@ -384,7 +384,7 @@ static void i965gm_get_cdclk(struct drm_i915_private *dev_priv,
+>  static void gm45_get_cdclk(struct drm_i915_private *dev_priv,
+>                            struct intel_cdclk_config *cdclk_config)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         unsigned int cdclk_sel;
+>         u16 tmp = 0;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_csr.c b/drivers/gpu/drm/i915/display/intel_csr.c
+> index 67dc64df78a5..19cbcab69689 100644
+> --- a/drivers/gpu/drm/i915/display/intel_csr.c
+> +++ b/drivers/gpu/drm/i915/display/intel_csr.c
+> @@ -640,7 +640,7 @@ static void csr_load_work_fn(struct work_struct *work)
+>         dev_priv = container_of(work, typeof(*dev_priv), csr.work);
+>         csr = &dev_priv->csr;
+>  
+> -       request_firmware(&fw, dev_priv->csr.fw_path, &dev_priv->drm.pdev->dev);
+> +       request_firmware(&fw, dev_priv->csr.fw_path, dev_priv->drm.dev);
+>         parse_csr_fw(dev_priv, fw);
+>  
+>         if (dev_priv->csr.dmc_payload) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> index eed037ec0b29..e349caef1926 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dsi_vbt.c
+> @@ -425,7 +425,7 @@ static void i2c_acpi_find_adapter(struct intel_dsi *intel_dsi,
+>                                   const u16 slave_addr)
+>  {
+>         struct drm_device *drm_dev = intel_dsi->base.base.dev;
+> -       struct device *dev = &drm_dev->pdev->dev;
+> +       struct device *dev = drm_dev->dev;
+>         struct acpi_device *acpi_dev;
+>         struct list_head resource_list;
+>         struct i2c_adapter_lookup lookup;
+> diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> index 842c04e63214..4ccb462bd497 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fbdev.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+> @@ -167,7 +167,7 @@ static int intelfb_create(struct drm_fb_helper *helper,
+>         struct intel_framebuffer *intel_fb = ifbdev->fb;
+>         struct drm_device *dev = helper->dev;
+>         struct drm_i915_private *dev_priv = to_i915(dev);
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         struct i915_ggtt *ggtt = &dev_priv->ggtt;
+>         const struct i915_ggtt_view view = {
+>                 .type = I915_GGTT_VIEW_NORMAL,
+> diff --git a/drivers/gpu/drm/i915/display/intel_gmbus.c b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> index b0d71bbbf2ad..0c952e1d720e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_gmbus.c
+> +++ b/drivers/gpu/drm/i915/display/intel_gmbus.c
+> @@ -840,7 +840,7 @@ static const struct i2c_lock_operations gmbus_lock_ops = {
+>   */
+>  int intel_gmbus_setup(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         struct intel_gmbus *bus;
+>         unsigned int pin;
+>         int ret;
+> diff --git a/drivers/gpu/drm/i915/display/intel_lpe_audio.c b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> index ad5cc13037ae..98eb52a938d0 100644
+> --- a/drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> +++ b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
+> @@ -80,6 +80,7 @@ static struct platform_device *
+>  lpe_audio_platdev_create(struct drm_i915_private *dev_priv)
+>  {
+>         struct drm_device *dev = &dev_priv->drm;
+> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         struct platform_device_info pinfo = {};
+>         struct resource *rsc;
+>         struct platform_device *platdev;
+> @@ -99,9 +100,9 @@ lpe_audio_platdev_create(struct drm_i915_private *dev_priv)
+>         rsc[0].flags    = IORESOURCE_IRQ;
+>         rsc[0].name     = "hdmi-lpe-audio-irq";
+>  
+> -       rsc[1].start    = pci_resource_start(dev->pdev, 0) +
+> +       rsc[1].start    = pci_resource_start(pdev, 0) +
+>                 I915_HDMI_LPE_AUDIO_BASE;
+> -       rsc[1].end      = pci_resource_start(dev->pdev, 0) +
+> +       rsc[1].end      = pci_resource_start(pdev, 0) +
+>                 I915_HDMI_LPE_AUDIO_BASE + I915_HDMI_LPE_AUDIO_SIZE - 1;
+>         rsc[1].flags    = IORESOURCE_MEM;
+>         rsc[1].name     = "hdmi-lpe-audio-mmio";
+> diff --git a/drivers/gpu/drm/i915/display/intel_opregion.c b/drivers/gpu/drm/i915/display/intel_opregion.c
+> index 4f77cf849171..dfd724e506b5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_opregion.c
+> +++ b/drivers/gpu/drm/i915/display/intel_opregion.c
+> @@ -247,7 +247,7 @@ static int swsci(struct drm_i915_private *dev_priv,
+>                  u32 function, u32 parm, u32 *parm_out)
+>  {
+>         struct opregion_swsci *swsci = dev_priv->opregion.swsci;
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u32 main_function, sub_function, scic;
+>         u16 swsci_val;
+>         u32 dslp;
+> @@ -807,7 +807,7 @@ static int intel_load_vbt_firmware(struct drm_i915_private *dev_priv)
+>         if (!name || !*name)
+>                 return -ENOENT;
+>  
+> -       ret = request_firmware(&fw, name, &dev_priv->drm.pdev->dev);
+> +       ret = request_firmware(&fw, name, dev_priv->drm.dev);
+>         if (ret) {
+>                 drm_err(&dev_priv->drm,
+>                         "Requesting VBT firmware \"%s\" failed (%d)\n",
+> @@ -840,7 +840,7 @@ static int intel_load_vbt_firmware(struct drm_i915_private *dev_priv)
+>  int intel_opregion_setup(struct drm_i915_private *dev_priv)
+>  {
+>         struct intel_opregion *opregion = &dev_priv->opregion;
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u32 asls, mboxes;
+>         char buf[sizeof(OPREGION_SIGNATURE)];
+>         int err = 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
+> index 52b4f6193b4c..ea6a630cf6ef 100644
+> --- a/drivers/gpu/drm/i915/display/intel_overlay.c
+> +++ b/drivers/gpu/drm/i915/display/intel_overlay.c
+> @@ -201,7 +201,7 @@ struct intel_overlay {
+>  static void i830_overlay_clock_gating(struct drm_i915_private *dev_priv,
+>                                       bool enable)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u8 val;
+>  
+>         /* WA_OVERLAY_CLKGATE:alm */
+> diff --git a/drivers/gpu/drm/i915/display/intel_panel.c b/drivers/gpu/drm/i915/display/intel_panel.c
+> index 9f23bac0d792..1b643ed71f66 100644
+> --- a/drivers/gpu/drm/i915/display/intel_panel.c
+> +++ b/drivers/gpu/drm/i915/display/intel_panel.c
+> @@ -557,7 +557,7 @@ static u32 i9xx_get_backlight(struct intel_connector *connector)
+>         if (panel->backlight.combination_mode) {
+>                 u8 lbpc;
+>  
+> -               pci_read_config_byte(dev_priv->drm.pdev, LBPC, &lbpc);
+> +               pci_read_config_byte(to_pci_dev(dev_priv->drm.dev), LBPC, &lbpc);
+>                 val *= lbpc;
+>         }
+>  
+> @@ -631,7 +631,7 @@ static void i9xx_set_backlight(const struct drm_connector_state *conn_state, u32
+>  
+>                 lbpc = level * 0xfe / panel->backlight.max + 1;
+>                 level /= lbpc;
+> -               pci_write_config_byte(dev_priv->drm.pdev, LBPC, lbpc);
+> +               pci_write_config_byte(to_pci_dev(dev_priv->drm.dev), LBPC, lbpc);
+>         }
+>  
+>         if (IS_GEN(dev_priv, 4)) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+> index 46beb155d835..98dd787b00e3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
+> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+> @@ -160,7 +160,7 @@ static struct intel_quirk intel_quirks[] = {
+>  
+>  void intel_init_quirks(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *d = i915->drm.pdev;
+> +       struct pci_dev *d = to_pci_dev(i915->drm.dev);
+>         int i;
+>  
+>         for (i = 0; i < ARRAY_SIZE(intel_quirks); i++) {
+> diff --git a/drivers/gpu/drm/i915/display/intel_sdvo.c b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> index 4eaa4aa86ecd..3fac60899d8e 100644
+> --- a/drivers/gpu/drm/i915/display/intel_sdvo.c
+> +++ b/drivers/gpu/drm/i915/display/intel_sdvo.c
+> @@ -3281,7 +3281,7 @@ static bool
+>  intel_sdvo_init_ddc_proxy(struct intel_sdvo *sdvo,
+>                           struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>  
+>         sdvo->ddc.owner = THIS_MODULE;
+>         sdvo->ddc.class = I2C_CLASS_DDC;
+> diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
+> index be333699c515..5f8e4f53649d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vga.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
+> @@ -25,7 +25,7 @@ static i915_reg_t intel_vga_cntrl_reg(struct drm_i915_private *i915)
+>  /* Disable the VGA plane that we never use */
+>  void intel_vga_disable(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         i915_reg_t vga_reg = intel_vga_cntrl_reg(dev_priv);
+>         u8 sr1;
+>  
+> @@ -76,7 +76,7 @@ void intel_vga_redisable(struct drm_i915_private *i915)
+>  
+>  void intel_vga_reset_io_mem(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         /*
+>          * After we re-enable the power well, if we touch VGA register 0x3d5
+> @@ -136,7 +136,7 @@ intel_vga_set_decode(void *cookie, bool enable_decode)
+>  
+>  int intel_vga_register(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         int ret;
+>  
+>         /*
+> @@ -156,7 +156,7 @@ int intel_vga_register(struct drm_i915_private *i915)
+>  
+>  void intel_vga_unregister(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         vga_client_register(pdev, NULL, NULL, NULL);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_phys.c b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> index 3a4dfe2ef1da..f47dafdda539 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_phys.c
+> @@ -35,7 +35,7 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
+>          * to handle all possible callers, and given typical object sizes,
+>          * the alignment of the buddy allocation will naturally match.
+>          */
+> -       vaddr = dma_alloc_coherent(&obj->base.dev->pdev->dev,
+> +       vaddr = dma_alloc_coherent(obj->base.dev->dev,
+>                                    roundup_pow_of_two(obj->base.size),
+>                                    &dma, GFP_KERNEL);
+>         if (!vaddr)
+> @@ -83,7 +83,7 @@ static int i915_gem_object_get_pages_phys(struct drm_i915_gem_object *obj)
+>  err_st:
+>         kfree(st);
+>  err_pci:
+> -       dma_free_coherent(&obj->base.dev->pdev->dev,
+> +       dma_free_coherent(obj->base.dev->dev,
+>                           roundup_pow_of_two(obj->base.size),
+>                           vaddr, dma);
+>         return -ENOMEM;
+> @@ -129,7 +129,7 @@ i915_gem_object_put_pages_phys(struct drm_i915_gem_object *obj,
+>         sg_free_table(pages);
+>         kfree(pages);
+>  
+> -       dma_free_coherent(&obj->base.dev->pdev->dev,
+> +       dma_free_coherent(obj->base.dev->dev,
+>                           roundup_pow_of_two(obj->base.size),
+>                           vaddr, dma);
+>  }
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index 75e8b71c18b9..08c9c25f1109 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -172,7 +172,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>                         max_segment = PAGE_SIZE;
+>                         goto rebuild_st;
+>                 } else {
+> -                       dev_warn(&i915->drm.pdev->dev,
+> +                       dev_warn(i915->drm.dev,
+>                                  "Failed to DMA remap %lu pages\n",
+>                                  page_count);
+>                         goto err_pages;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> index d4e988b2816a..71bd2e22e7c6 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> @@ -1228,7 +1228,7 @@ bool intel_engine_is_idle(struct intel_engine_cs *engine)
+>  
+>         /* Waiting to drain ELSP? */
+>         if (execlists_active(&engine->execlists)) {
+> -               synchronize_hardirq(engine->i915->drm.pdev->irq);
+> +               synchronize_hardirq(to_pci_dev(engine->i915->drm.dev)->irq);
+>  
+>                 intel_engine_flush_submission(engine);
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index cf94525be2c1..591c6a2a0a8f 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -760,7 +760,7 @@ static unsigned int chv_get_total_gtt_size(u16 gmch_ctrl)
+>  static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+>  {
+>         struct drm_i915_private *i915 = ggtt->vm.i915;
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         phys_addr_t phys_addr;
+>         int ret;
+>  
+> @@ -830,7 +830,7 @@ static struct resource pci_resource(struct pci_dev *pdev, int bar)
+>  static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+>  {
+>         struct drm_i915_private *i915 = ggtt->vm.i915;
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         unsigned int size;
+>         u16 snb_gmch_ctl;
+>  
+> @@ -974,7 +974,7 @@ static u64 iris_pte_encode(dma_addr_t addr,
+>  static int gen6_gmch_probe(struct i915_ggtt *ggtt)
+>  {
+>         struct drm_i915_private *i915 = ggtt->vm.i915;
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         unsigned int size;
+>         u16 snb_gmch_ctl;
+>  
+> @@ -1037,7 +1037,7 @@ static int i915_gmch_probe(struct i915_ggtt *ggtt)
+>         phys_addr_t gmadr_base;
+>         int ret;
+>  
+> -       ret = intel_gmch_probe(i915->bridge_dev, i915->drm.pdev, NULL);
+> +       ret = intel_gmch_probe(i915->bridge_dev, to_pci_dev(i915->drm.dev), NULL);
+>         if (!ret) {
+>                 drm_err(&i915->drm, "failed to set up gmch\n");
+>                 return -EIO;
+> @@ -1077,7 +1077,7 @@ static int ggtt_probe_hw(struct i915_ggtt *ggtt, struct intel_gt *gt)
+>  
+>         ggtt->vm.gt = gt;
+>         ggtt->vm.i915 = i915;
+> -       ggtt->vm.dma = &i915->drm.pdev->dev;
+> +       ggtt->vm.dma = i915->drm.dev;
+>  
+>         if (INTEL_GEN(i915) <= 5)
+>                 ret = i915_gmch_probe(ggtt);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> index 46d9aceda64c..01b7d08532f2 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> @@ -301,7 +301,7 @@ void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt)
+>  
+>         ppgtt->vm.gt = gt;
+>         ppgtt->vm.i915 = i915;
+> -       ppgtt->vm.dma = &i915->drm.pdev->dev;
+> +       ppgtt->vm.dma = i915->drm.dev;
+>         ppgtt->vm.total = BIT_ULL(INTEL_INFO(i915)->ppgtt_size);
+>  
+>         i915_address_space_init(&ppgtt->vm, VM_CLASS_PPGTT);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rc6.c b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> index d7b8e4457fc2..cce53fb9589c 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rc6.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rc6.c
+> @@ -485,14 +485,14 @@ static bool rc6_supported(struct intel_rc6 *rc6)
+>  static void rpm_get(struct intel_rc6 *rc6)
+>  {
+>         GEM_BUG_ON(rc6->wakeref);
+> -       pm_runtime_get_sync(&rc6_to_i915(rc6)->drm.pdev->dev);
+> +       pm_runtime_get_sync(rc6_to_i915(rc6)->drm.dev);
+>         rc6->wakeref = true;
+>  }
+>  
+>  static void rpm_put(struct intel_rc6 *rc6)
+>  {
+>         GEM_BUG_ON(!rc6->wakeref);
+> -       pm_runtime_put(&rc6_to_i915(rc6)->drm.pdev->dev);
+> +       pm_runtime_put(rc6_to_i915(rc6)->drm.dev);
+>         rc6->wakeref = false;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+> index 3654c955e6be..a49faf4ec139 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_reset.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+> @@ -180,7 +180,7 @@ static int i915_do_reset(struct intel_gt *gt,
+>                          intel_engine_mask_t engine_mask,
+>                          unsigned int retry)
+>  {
+> -       struct pci_dev *pdev = gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gt->i915->drm.dev);
+>         int err;
+>  
+>         /* Assert reset for at least 20 usec, and wait for acknowledgement. */
+> @@ -209,7 +209,7 @@ static int g33_do_reset(struct intel_gt *gt,
+>                         intel_engine_mask_t engine_mask,
+>                         unsigned int retry)
+>  {
+> -       struct pci_dev *pdev = gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gt->i915->drm.dev);
+>  
+>         pci_write_config_byte(pdev, I915_GDRST, GRDOM_RESET_ENABLE);
+>         return wait_for_atomic(g4x_reset_complete(pdev), 50);
+> @@ -219,7 +219,7 @@ static int g4x_do_reset(struct intel_gt *gt,
+>                         intel_engine_mask_t engine_mask,
+>                         unsigned int retry)
+>  {
+> -       struct pci_dev *pdev = gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gt->i915->drm.dev);
+>         struct intel_uncore *uncore = gt->uncore;
+>         int ret;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/cfg_space.c b/drivers/gpu/drm/i915/gvt/cfg_space.c
+> index ad86c5eb5bba..b490e3db2e38 100644
+> --- a/drivers/gpu/drm/i915/gvt/cfg_space.c
+> +++ b/drivers/gpu/drm/i915/gvt/cfg_space.c
+> @@ -374,6 +374,7 @@ void intel_vgpu_init_cfg_space(struct intel_vgpu *vgpu,
+>                                bool primary)
+>  {
+>         struct intel_gvt *gvt = vgpu->gvt;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>         const struct intel_gvt_device_info *info = &gvt->device_info;
+>         u16 *gmch_ctl;
+>         u8 next;
+> @@ -407,9 +408,9 @@ void intel_vgpu_init_cfg_space(struct intel_vgpu *vgpu,
+>         memset(vgpu_cfg_space(vgpu) + INTEL_GVT_PCI_OPREGION, 0, 4);
+>  
+>         vgpu->cfg_space.bar[INTEL_GVT_PCI_BAR_GTTMMIO].size =
+> -               pci_resource_len(gvt->gt->i915->drm.pdev, 0);
+> +               pci_resource_len(pdev, 0);
+>         vgpu->cfg_space.bar[INTEL_GVT_PCI_BAR_APERTURE].size =
+> -               pci_resource_len(gvt->gt->i915->drm.pdev, 2);
+> +               pci_resource_len(pdev, 2);
+>  
+>         memset(vgpu_cfg_space(vgpu) + PCI_ROM_ADDRESS, 0, 4);
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/firmware.c b/drivers/gpu/drm/i915/gvt/firmware.c
+> index 990a181094e3..1a8274a3f4b1 100644
+> --- a/drivers/gpu/drm/i915/gvt/firmware.c
+> +++ b/drivers/gpu/drm/i915/gvt/firmware.c
+> @@ -76,7 +76,7 @@ static int mmio_snapshot_handler(struct intel_gvt *gvt, u32 offset, void *data)
+>  static int expose_firmware_sysfs(struct intel_gvt *gvt)
+>  {
+>         struct intel_gvt_device_info *info = &gvt->device_info;
+> -       struct pci_dev *pdev = gvt->gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>         struct gvt_firmware_header *h;
+>         void *firmware;
+>         void *p;
+> @@ -127,7 +127,7 @@ static int expose_firmware_sysfs(struct intel_gvt *gvt)
+>  
+>  static void clean_firmware_sysfs(struct intel_gvt *gvt)
+>  {
+> -       struct pci_dev *pdev = gvt->gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>  
+>         device_remove_bin_file(&pdev->dev, &firmware_attr);
+>         vfree(firmware_attr.private);
+> @@ -151,7 +151,7 @@ static int verify_firmware(struct intel_gvt *gvt,
+>                            const struct firmware *fw)
+>  {
+>         struct intel_gvt_device_info *info = &gvt->device_info;
+> -       struct pci_dev *pdev = gvt->gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>         struct gvt_firmware_header *h;
+>         unsigned long id, crc32_start;
+>         const void *mem;
+> @@ -205,7 +205,7 @@ static int verify_firmware(struct intel_gvt *gvt,
+>  int intel_gvt_load_firmware(struct intel_gvt *gvt)
+>  {
+>         struct intel_gvt_device_info *info = &gvt->device_info;
+> -       struct pci_dev *pdev = gvt->gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>         struct intel_gvt_firmware *firmware = &gvt->firmware;
+>         struct gvt_firmware_header *h;
+>         const struct firmware *fw;
+> @@ -240,7 +240,7 @@ int intel_gvt_load_firmware(struct intel_gvt *gvt)
+>  
+>         gvt_dbg_core("request hw state firmware %s...\n", path);
+>  
+> -       ret = request_firmware(&fw, path, &gvt->gt->i915->drm.pdev->dev);
+> +       ret = request_firmware(&fw, path, gvt->gt->i915->drm.dev);
+>         kfree(path);
+>  
+>         if (ret)
+> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> index a3a4305eda01..c9eb4c7ac608 100644
+> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> @@ -737,7 +737,7 @@ static int detach_oos_page(struct intel_vgpu *vgpu,
+>  
+>  static void ppgtt_free_spt(struct intel_vgpu_ppgtt_spt *spt)
+>  {
+> -       struct device *kdev = &spt->vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *kdev = spt->vgpu->gvt->gt->i915->drm.dev;
+>  
+>         trace_spt_free(spt->vgpu->id, spt, spt->guest_page.type);
+>  
+> @@ -822,7 +822,7 @@ static int reclaim_one_ppgtt_mm(struct intel_gvt *gvt);
+>  static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+>                 struct intel_vgpu *vgpu, enum intel_gvt_gtt_type type)
+>  {
+> -       struct device *kdev = &vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *kdev = vgpu->gvt->gt->i915->drm.dev;
+>         struct intel_vgpu_ppgtt_spt *spt = NULL;
+>         dma_addr_t daddr;
+>         int ret;
+> @@ -2376,7 +2376,7 @@ static int alloc_scratch_pages(struct intel_vgpu *vgpu,
+>                                 vgpu->gvt->device_info.gtt_entry_size_shift;
+>         void *scratch_pt;
+>         int i;
+> -       struct device *dev = &vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+>         dma_addr_t daddr;
+>  
+>         if (drm_WARN_ON(&i915->drm,
+> @@ -2434,7 +2434,7 @@ static int alloc_scratch_pages(struct intel_vgpu *vgpu,
+>  static int release_scratch_page_tree(struct intel_vgpu *vgpu)
+>  {
+>         int i;
+> -       struct device *dev = &vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+>         dma_addr_t daddr;
+>  
+>         for (i = GTT_TYPE_PPGTT_PTE_PT; i < GTT_TYPE_MAX; i++) {
+> @@ -2706,7 +2706,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+>  {
+>         int ret;
+>         void *page;
+> -       struct device *dev = &gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = gvt->gt->i915->drm.dev;
+>         dma_addr_t daddr;
+>  
+>         gvt_dbg_core("init gtt\n");
+> @@ -2755,7 +2755,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+>   */
+>  void intel_gvt_clean_gtt(struct intel_gvt *gvt)
+>  {
+> -       struct device *dev = &gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = gvt->gt->i915->drm.dev;
+>         dma_addr_t daddr = (dma_addr_t)(gvt->gtt.scratch_mfn <<
+>                                         I915_GTT_PAGE_SHIFT);
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gvt.c
+> index c7c561237883..65b1fb256e0c 100644
+> --- a/drivers/gpu/drm/i915/gvt/gvt.c
+> +++ b/drivers/gpu/drm/i915/gvt/gvt.c
+> @@ -50,7 +50,7 @@ static struct intel_vgpu_type *intel_gvt_find_vgpu_type(struct intel_gvt *gvt,
+>                 const char *name)
+>  {
+>         const char *driver_name =
+> -               dev_driver_string(&gvt->gt->i915->drm.pdev->dev);
+> +               dev_driver_string(gvt->gt->i915->drm.dev);
+>         int i;
+>  
+>         name += strlen(driver_name) + 1;
+> @@ -189,7 +189,7 @@ static const struct intel_gvt_ops intel_gvt_ops = {
+>  static void init_device_info(struct intel_gvt *gvt)
+>  {
+>         struct intel_gvt_device_info *info = &gvt->device_info;
+> -       struct pci_dev *pdev = gvt->gt->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(gvt->gt->i915->drm.dev);
+>  
+>         info->max_support_vgpus = 8;
+>         info->cfg_space_size = PCI_CFG_SPACE_EXP_SIZE;
+> @@ -376,7 +376,7 @@ int intel_gvt_init_device(struct drm_i915_private *i915)
+>         intel_gvt_debugfs_init(gvt);
+>  
+>         gvt_dbg_core("gvt device initialization is done\n");
+> -       intel_gvt_host.dev = &i915->drm.pdev->dev;
+> +       intel_gvt_host.dev = i915->drm.dev;
+>         intel_gvt_host.initialized = true;
+>         return 0;
+>  
+> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> index 778eb8cab610..7ffb90aa4402 100644
+> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> @@ -221,7 +221,7 @@ static int gvt_pin_guest_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>  static int gvt_dma_map_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>                 dma_addr_t *dma_addr, unsigned long size)
+>  {
+> -       struct device *dev = &vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+>         struct page *page = NULL;
+>         int ret;
+>  
+> @@ -244,7 +244,7 @@ static int gvt_dma_map_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>  static void gvt_dma_unmap_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>                 dma_addr_t dma_addr, unsigned long size)
+>  {
+> -       struct device *dev = &vgpu->gvt->gt->i915->drm.pdev->dev;
+> +       struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+>  
+>         dma_unmap_page(dev, dma_addr, size, PCI_DMA_BIDIRECTIONAL);
+>         gvt_unpin_guest_page(vgpu, gfn, size);
+> diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+> index 263074c2c097..b4d38f68a246 100644
+> --- a/drivers/gpu/drm/i915/i915_debugfs.c
+> +++ b/drivers/gpu/drm/i915/i915_debugfs.c
+> @@ -1275,7 +1275,7 @@ static int i915_llc(struct seq_file *m, void *data)
+>  static int i915_runtime_pm_status(struct seq_file *m, void *unused)
+>  {
+>         struct drm_i915_private *dev_priv = node_to_i915(m->private);
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>  
+>         if (!HAS_RUNTIME_PM(dev_priv))
+>                 seq_puts(m, "Runtime power management not supported\n");
+> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+> index f2389ba49c69..22cbd45f20f2 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.c
+> +++ b/drivers/gpu/drm/i915/i915_drv.c
+> @@ -91,7 +91,7 @@ static const struct drm_driver driver;
+>  
+>  static int i915_get_bridge_dev(struct drm_i915_private *dev_priv)
+>  {
+> -       int domain = pci_domain_nr(dev_priv->drm.pdev->bus);
+> +       int domain = pci_domain_nr(to_pci_dev(dev_priv->drm.dev)->bus);
+>  
+>         dev_priv->bridge_dev =
+>                 pci_get_domain_bus_and_slot(domain, 0, PCI_DEVFN(0, 0));
+> @@ -458,7 +458,6 @@ static void intel_sanitize_options(struct drm_i915_private *dev_priv)
+>   */
+>  static int i915_set_dma_info(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+>         unsigned int mask_size = INTEL_INFO(i915)->dma_mask_size;
+>         int ret;
+>  
+> @@ -468,9 +467,9 @@ static int i915_set_dma_info(struct drm_i915_private *i915)
+>          * We don't have a max segment size, so set it to the max so sg's
+>          * debugging layer doesn't complain
+>          */
+> -       dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> +       dma_set_max_seg_size(i915->drm.dev, UINT_MAX);
+>  
+> -       ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(mask_size));
+> +       ret = dma_set_mask(i915->drm.dev, DMA_BIT_MASK(mask_size));
+>         if (ret)
+>                 goto mask_err;
+>  
+> @@ -490,7 +489,7 @@ static int i915_set_dma_info(struct drm_i915_private *i915)
+>         if (IS_I965G(i915) || IS_I965GM(i915))
+>                 mask_size = 32;
+>  
+> -       ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(mask_size));
+> +       ret = dma_set_coherent_mask(i915->drm.dev, DMA_BIT_MASK(mask_size));
+>         if (ret)
+>                 goto mask_err;
+>  
+> @@ -510,7 +509,7 @@ static int i915_set_dma_info(struct drm_i915_private *i915)
+>   */
+>  static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         int ret;
+>  
+>         if (i915_inject_probe_failure(dev_priv))
+> @@ -642,7 +641,7 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
+>   */
+>  static void i915_driver_hw_remove(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>  
+>         i915_perf_fini(dev_priv);
+>  
+> @@ -792,7 +791,6 @@ i915_driver_create(struct pci_dev *pdev, const struct pci_device_id *ent)
+>         if (IS_ERR(i915))
+>                 return i915;
+>  
+> -       i915->drm.pdev = pdev;
+>         pci_set_drvdata(pdev, i915);
+>  
+>         /* Device parameters start as a copy of module parameters. */
+> @@ -1094,7 +1092,7 @@ static int i915_drm_prepare(struct drm_device *dev)
+>  static int i915_drm_suspend(struct drm_device *dev)
+>  {
+>         struct drm_i915_private *dev_priv = to_i915(dev);
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         pci_power_t opregion_target_state;
+>  
+>         disable_rpm_wakeref_asserts(&dev_priv->runtime_pm);
+> @@ -1151,7 +1149,7 @@ get_suspend_mode(struct drm_i915_private *dev_priv, bool hibernate)
+>  static int i915_drm_suspend_late(struct drm_device *dev, bool hibernation)
+>  {
+>         struct drm_i915_private *dev_priv = to_i915(dev);
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
+>         int ret;
+>  
+> @@ -1279,7 +1277,7 @@ static int i915_drm_resume(struct drm_device *dev)
+>  static int i915_drm_resume_early(struct drm_device *dev)
+>  {
+>         struct drm_i915_private *dev_priv = to_i915(dev);
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         int ret;
+>  
+>         /*
+> diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+> index 15be8debae54..b5a33430f3b7 100644
+> --- a/drivers/gpu/drm/i915/i915_drv.h
+> +++ b/drivers/gpu/drm/i915/i915_drv.h
+> @@ -1295,7 +1295,7 @@ static inline struct drm_i915_private *pdev_to_i915(struct pci_dev *pdev)
+>  #define INTEL_DEVID(dev_priv)  (RUNTIME_INFO(dev_priv)->device_id)
+>  
+>  #define REVID_FOREVER          0xff
+> -#define INTEL_REVID(dev_priv)  ((dev_priv)->drm.pdev->revision)
+> +#define INTEL_REVID(dev_priv)  (to_pci_dev((dev_priv)->drm.dev)->revision)
+>  
+>  #define INTEL_GEN_MASK(s, e) ( \
+>         BUILD_BUG_ON_ZERO(!__builtin_constant_p(s)) + \
+> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> index c5ee1567f3d1..55eb42e1c994 100644
+> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> @@ -28,7 +28,7 @@ int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+>                                struct sg_table *pages)
+>  {
+>         do {
+> -               if (dma_map_sg_attrs(&obj->base.dev->pdev->dev,
+> +               if (dma_map_sg_attrs(obj->base.dev->dev,
+>                                      pages->sgl, pages->nents,
+>                                      PCI_DMA_BIDIRECTIONAL,
+>                                      DMA_ATTR_SKIP_CPU_SYNC |
+> @@ -56,7 +56,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+>                                struct sg_table *pages)
+>  {
+>         struct drm_i915_private *dev_priv = to_i915(obj->base.dev);
+> -       struct device *kdev = &dev_priv->drm.pdev->dev;
+> +       struct device *kdev = dev_priv->drm.dev;
+>         struct i915_ggtt *ggtt = &dev_priv->ggtt;
+>  
+>         if (unlikely(ggtt->do_idle_maps)) {
+> diff --git a/drivers/gpu/drm/i915/i915_getparam.c b/drivers/gpu/drm/i915/i915_getparam.c
+> index f96032c60a12..8d37f4987cfa 100644
+> --- a/drivers/gpu/drm/i915/i915_getparam.c
+> +++ b/drivers/gpu/drm/i915/i915_getparam.c
+> @@ -12,6 +12,7 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+>                         struct drm_file *file_priv)
+>  {
+>         struct drm_i915_private *i915 = to_i915(dev);
+> +       struct pci_dev *pdev = to_pci_dev(dev->dev);
+>         const struct sseu_dev_info *sseu = &i915->gt.info.sseu;
+>         drm_i915_getparam_t *param = data;
+>         int value;
+> @@ -24,10 +25,10 @@ int i915_getparam_ioctl(struct drm_device *dev, void *data,
+>                 /* Reject all old ums/dri params. */
+>                 return -ENODEV;
+>         case I915_PARAM_CHIPSET_ID:
+> -               value = i915->drm.pdev->device;
+> +               value = pdev->device;
+>                 break;
+>         case I915_PARAM_REVISION:
+> -               value = i915->drm.pdev->revision;
+> +               value = pdev->revision;
+>                 break;
+>         case I915_PARAM_NUM_FENCES_AVAIL:
+>                 value = i915->ggtt.num_fences;
+> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+> index d8cac4c5881f..97aa2c0f27aa 100644
+> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+> @@ -644,7 +644,7 @@ static void err_print_params(struct drm_i915_error_state_buf *m,
+>  static void err_print_pciid(struct drm_i915_error_state_buf *m,
+>                             struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         err_printf(m, "PCI ID: 0x%04x\n", pdev->device);
+>         err_printf(m, "PCI Revision: 0x%02x\n", pdev->revision);
+> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+> index dc6febc63f1c..f8fade6af492 100644
+> --- a/drivers/gpu/drm/i915/i915_irq.c
+> +++ b/drivers/gpu/drm/i915/i915_irq.c
+> @@ -4354,7 +4354,7 @@ static void intel_irq_postinstall(struct drm_i915_private *dev_priv)
+>   */
+>  int intel_irq_install(struct drm_i915_private *dev_priv)
+>  {
+> -       int irq = dev_priv->drm.pdev->irq;
+> +       int irq = to_pci_dev(dev_priv->drm.dev)->irq;
+>         int ret;
+>  
+>         /*
+> @@ -4389,7 +4389,7 @@ int intel_irq_install(struct drm_i915_private *dev_priv)
+>   */
+>  void intel_irq_uninstall(struct drm_i915_private *dev_priv)
+>  {
+> -       int irq = dev_priv->drm.pdev->irq;
+> +       int irq = to_pci_dev(dev_priv->drm.dev)->irq;
+>  
+>         /*
+>          * FIXME we can get called twice during driver probe
+> @@ -4449,5 +4449,5 @@ bool intel_irqs_enabled(struct drm_i915_private *dev_priv)
+>  
+>  void intel_synchronize_irq(struct drm_i915_private *i915)
+>  {
+> -       synchronize_irq(i915->drm.pdev->irq);
+> +       synchronize_irq(to_pci_dev(i915->drm.dev)->irq);
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_pmu.c b/drivers/gpu/drm/i915/i915_pmu.c
+> index cd786ad12be7..58aa1aaaeb85 100644
+> --- a/drivers/gpu/drm/i915/i915_pmu.c
+> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+> @@ -427,7 +427,8 @@ static enum hrtimer_restart i915_sample(struct hrtimer *hrtimer)
+>  static u64 count_interrupts(struct drm_i915_private *i915)
+>  {
+>         /* open-coded kstat_irqs() */
+> -       struct irq_desc *desc = irq_to_desc(i915->drm.pdev->irq);
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+> +       struct irq_desc *desc = irq_to_desc(pdev->irq);
+>         u64 sum = 0;
+>         int cpu;
+>  
+> @@ -1117,7 +1118,7 @@ static void i915_pmu_unregister_cpuhp_state(struct i915_pmu *pmu)
+>  
+>  static bool is_igp(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         /* IGP is 0000:00:02.0 */
+>         return pci_domain_nr(pdev->bus) == 0 &&
+> diff --git a/drivers/gpu/drm/i915/i915_suspend.c b/drivers/gpu/drm/i915/i915_suspend.c
+> index db2111fc809e..2ec76acf778d 100644
+> --- a/drivers/gpu/drm/i915/i915_suspend.c
+> +++ b/drivers/gpu/drm/i915/i915_suspend.c
+> @@ -84,7 +84,7 @@ static void intel_restore_swf(struct drm_i915_private *dev_priv)
+>  
+>  void i915_save_display(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>  
+>         /* Display arbitration control */
+>         if (INTEL_GEN(dev_priv) <= 4)
+> @@ -99,7 +99,7 @@ void i915_save_display(struct drm_i915_private *dev_priv)
+>  
+>  void i915_restore_display(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>  
+>         intel_restore_swf(dev_priv);
+>  
+> diff --git a/drivers/gpu/drm/i915/i915_switcheroo.c b/drivers/gpu/drm/i915/i915_switcheroo.c
+> index b3a24eac21f1..de0e224b56ce 100644
+> --- a/drivers/gpu/drm/i915/i915_switcheroo.c
+> +++ b/drivers/gpu/drm/i915/i915_switcheroo.c
+> @@ -54,14 +54,14 @@ static const struct vga_switcheroo_client_ops i915_switcheroo_ops = {
+>  
+>  int i915_switcheroo_register(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         return vga_switcheroo_register_client(pdev, &i915_switcheroo_ops, false);
+>  }
+>  
+>  void i915_switcheroo_unregister(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>  
+>         vga_switcheroo_unregister_client(pdev);
+>  }
+> diff --git a/drivers/gpu/drm/i915/i915_vgpu.c b/drivers/gpu/drm/i915/i915_vgpu.c
+> index 70fca72f5162..172799277dd5 100644
+> --- a/drivers/gpu/drm/i915/i915_vgpu.c
+> +++ b/drivers/gpu/drm/i915/i915_vgpu.c
+> @@ -61,7 +61,7 @@
+>   */
+>  void intel_vgpu_detect(struct drm_i915_private *dev_priv)
+>  {
+> -       struct pci_dev *pdev = dev_priv->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
+>         u64 magic;
+>         u16 version_major;
+>         void __iomem *shared_area;
+> diff --git a/drivers/gpu/drm/i915/intel_device_info.c b/drivers/gpu/drm/i915/intel_device_info.c
+> index e67cec8fa2aa..fab8b8770ca3 100644
+> --- a/drivers/gpu/drm/i915/intel_device_info.c
+> +++ b/drivers/gpu/drm/i915/intel_device_info.c
+> @@ -348,7 +348,7 @@ void intel_device_info_subplatform_init(struct drm_i915_private *i915)
+>         }
+>  
+>         if (IS_TIGERLAKE(i915)) {
+> -               struct pci_dev *root, *pdev = i915->drm.pdev;
+> +               struct pci_dev *root, *pdev = to_pci_dev(i915->drm.dev);
+>  
+>                 root = list_first_entry(&pdev->bus->devices, typeof(*root), bus_list);
+>  
+> diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
+> index 40d8f1a95df6..0fe49b3adade 100644
+> --- a/drivers/gpu/drm/i915/intel_region_lmem.c
+> +++ b/drivers/gpu/drm/i915/intel_region_lmem.c
+> @@ -26,12 +26,12 @@ static int init_fake_lmem_bar(struct intel_memory_region *mem)
+>         if (ret)
+>                 return ret;
+>  
+> -       mem->remap_addr = dma_map_resource(&i915->drm.pdev->dev,
+> +       mem->remap_addr = dma_map_resource(i915->drm.dev,
+>                                            mem->region.start,
+>                                            mem->fake_mappable.size,
+>                                            PCI_DMA_BIDIRECTIONAL,
+>                                            DMA_ATTR_FORCE_CONTIGUOUS);
+> -       if (dma_mapping_error(&i915->drm.pdev->dev, mem->remap_addr)) {
+> +       if (dma_mapping_error(i915->drm.dev, mem->remap_addr)) {
+>                 drm_mm_remove_node(&mem->fake_mappable);
+>                 return -EINVAL;
+>         }
+> @@ -56,7 +56,7 @@ static void release_fake_lmem_bar(struct intel_memory_region *mem)
+>  
+>         drm_mm_remove_node(&mem->fake_mappable);
+>  
+> -       dma_unmap_resource(&mem->i915->drm.pdev->dev,
+> +       dma_unmap_resource(mem->i915->drm.dev,
+>                            mem->remap_addr,
+>                            mem->fake_mappable.size,
+>                            PCI_DMA_BIDIRECTIONAL,
+> @@ -104,7 +104,7 @@ const struct intel_memory_region_ops intel_region_lmem_ops = {
+>  struct intel_memory_region *
+>  intel_setup_fake_lmem(struct drm_i915_private *i915)
+>  {
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         struct intel_memory_region *mem;
+>         resource_size_t mappable_end;
+>         resource_size_t io_start;
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index 153ca9e65382..4970ef0843dc 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -625,7 +625,7 @@ void intel_runtime_pm_init_early(struct intel_runtime_pm *rpm)
+>  {
+>         struct drm_i915_private *i915 =
+>                         container_of(rpm, struct drm_i915_private, runtime_pm);
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         struct device *kdev = &pdev->dev;
+>  
+>         rpm->kdev = kdev;
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 1c14a07eba7d..4caee4d5c120 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -1780,7 +1780,7 @@ static int i915_pmic_bus_access_notifier(struct notifier_block *nb,
+>  static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  {
+>         struct drm_i915_private *i915 = uncore->i915;
+> -       struct pci_dev *pdev = i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>         int mmio_bar;
+>         int mmio_size;
+>  
+> @@ -1812,7 +1812,7 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  
+>  static void uncore_mmio_cleanup(struct intel_uncore *uncore)
+>  {
+> -       struct pci_dev *pdev = uncore->i915->drm.pdev;
+> +       struct pci_dev *pdev = to_pci_dev(uncore->i915->drm.dev);
+>  
+>         pci_iounmap(pdev, uncore->regs);
+>  }
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_gem_device.c b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> index e946bd2087d8..52513d5b7d03 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_gem_device.c
+> @@ -148,7 +148,6 @@ struct drm_i915_private *mock_gem_device(void)
+>         }
+>  
+>         pci_set_drvdata(pdev, i915);
+> -       i915->drm.pdev = pdev;
+>  
+>         dev_pm_domain_set(&pdev->dev, &pm_domain);
+>         pm_runtime_enable(&pdev->dev);
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_gtt.c b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+> index 7270fc8ca801..5c7ae40bba63 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_gtt.c
+> @@ -74,7 +74,7 @@ struct i915_ppgtt *mock_ppgtt(struct drm_i915_private *i915, const char *name)
+>         ppgtt->vm.i915 = i915;
+>         ppgtt->vm.total = round_down(U64_MAX, PAGE_SIZE);
+>         ppgtt->vm.file = ERR_PTR(-ENODEV);
+> -       ppgtt->vm.dma = &i915->drm.pdev->dev;
+> +       ppgtt->vm.dma = i915->drm.dev;
+>  
+>         i915_address_space_init(&ppgtt->vm, VM_CLASS_PPGTT);
+>  
+> -- 
+> 2.29.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1919690942==--
