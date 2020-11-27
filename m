@@ -1,39 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F712C6583
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CEFD2C6586
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E131A6ED8F;
-	Fri, 27 Nov 2020 12:12:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 178CD6ED9C;
+	Fri, 27 Nov 2020 12:12:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93CE16ED8F;
- Fri, 27 Nov 2020 12:12:15 +0000 (UTC)
-IronPort-SDR: w1b36wxSEBfWqVkoYZ/yMV6/QuTKO+TDmc82yoezYfXOfHxfXLywWIlSgrz5Ad4dB3D6WhucC3
- 2DmLvJIzWW+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="168883848"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="168883848"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D75306ED8F;
+ Fri, 27 Nov 2020 12:12:17 +0000 (UTC)
+IronPort-SDR: 57GVVoFoi1FOkIQfweP9lqQIm2Pd/ZZisYXE1AG3KfIRc1DaNd6Y+JpP2KaakZbSJPTq47ru2z
+ XB+I4Zx8oyDw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="168883856"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="168883856"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:15 -0800
-IronPort-SDR: k4pJ2m81oaZKz2rOL/Ff7b5GdE5K+K3xaPORIJvyjmYQ2D9zVnnz6Aa9+9rxisvGso556tL/YV
- T6lZhPilltkA==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548030013"
+ 27 Nov 2020 04:12:17 -0800
+IronPort-SDR: UGDmbgwzNigaSrZYg5Ox9fXxoGOyN0DZ2nA/rjvhE9iDt76NhzTHIdt+iaheUmFQRBqv9+SI6w
+ No8sbXAkujrg==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548030018"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:12:13 -0800
+ 27 Nov 2020 04:12:15 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 149/162] drm/i915: suspend/resume handling of perma-pinned
- objects
-Date: Fri, 27 Nov 2020 12:07:05 +0000
-Message-Id: <20201127120718.454037-150-matthew.auld@intel.com>
+Subject: [RFC PATCH 150/162] drm/i915: need consider system BO snoop for dgfx
+Date: Fri, 27 Nov 2020 12:07:06 +0000
+Message-Id: <20201127120718.454037-151-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,185 +49,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>,
- Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>,
+Cc: Sudeep Dutt <sudeep.dutt@intel.com>,
+ Chris P Wilson <chris.p.wilson@intel.com>, CQ Tang <cq.tang@intel.com>,
  dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
+From: CQ Tang <cq.tang@intel.com>
 
-The objects which are perma-pinned (like guc), use memcpy to evict these objects.
-Since the objects are always have pinned pages, so can't use present existing
-swapout/swapin functions.
+When cache_level is NONE, we check HAS_LLC(i915).
+But additionally for DGFX, we also need to check
+HAS_SNOOP(i915) on system memory object to use
+I915_BO_CACHE_COHERENT_FOR_READ. on dg1, has_llc=0, and
+has_snoop=1. Otherwise, we set obj->cache_choerent=0 and
+have performance impact.
 
-Signed-off-by: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
-Cc: Prathap Kumar Valsan <prathap.kumar.valsan@intel.com>
+Cc: Chris P Wilson <chris.p.wilson@intel.com>
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Cc: Sudeep Dutt <sudeep.dutt@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: CQ Tang <cq.tang@intel.com>
 ---
- drivers/gpu/drm/i915/i915_drv.c | 105 +++++++++++++++++++++++++++-----
- 1 file changed, 89 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index eb5383e4a30b..c8af68227020 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -1103,7 +1103,54 @@ static int i915_drm_prepare(struct drm_device *dev)
- 	return 0;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index ddb448f275eb..be603171c444 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -95,6 +95,20 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+ 	mutex_init(&obj->mm.get_dma_page.lock);
  }
  
--static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
-+static int i915_gem_perma_pinned_object_swapout(struct drm_i915_gem_object *obj)
++static bool i915_gem_object_use_llc(struct drm_i915_gem_object *obj)
 +{
 +	struct drm_i915_private *i915 = to_i915(obj->base.dev);
-+	struct drm_i915_gem_object *dst;
-+	int err = -EINVAL;
 +
-+	assert_object_held(obj);
-+	dst = i915_gem_object_create_shmem(i915, obj->base.size);
-+	if (IS_ERR(dst))
-+		return PTR_ERR(dst);
++	if (HAS_LLC(i915))
++		return true;
 +
-+	i915_gem_object_lock_isolated(dst);
-+	err = i915_gem_object_memcpy(dst, obj);
-+	i915_gem_object_unlock(dst);
++	if (IS_DGFX(i915) && HAS_SNOOP(i915) &&
++	    !i915_gem_object_is_lmem(obj))
++		return true;
 +
-+	if (!err) {
-+		obj->swapto = dst;
-+		obj->evicted = true;
-+	} else
-+		i915_gem_object_put(dst);
-+
-+	return err;
++	return false;
 +}
 +
-+static int i915_gem_perma_pinned_object_swapin(struct drm_i915_gem_object *obj)
-+{
-+	struct drm_i915_gem_object *src;
-+	int err = -EINVAL;
-+
-+	assert_object_held(obj);
-+	src = obj->swapto;
-+
-+	if (WARN_ON(!i915_gem_object_trylock(src)))
-+		return -EBUSY;
-+
-+	err = i915_gem_object_memcpy(obj, src);
-+	i915_gem_object_unlock(src);
-+
-+	if (!err) {
-+		obj->swapto = NULL;
-+		obj->evicted = false;
-+		i915_gem_object_put(src);
-+	}
-+	return err;
-+}
-+
-+static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend,
-+				    bool perma_pin)
- {
- 	struct drm_i915_private *i915 = to_i915(dev);
- 	struct drm_i915_gem_object *obj;
-@@ -1133,24 +1180,37 @@ static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
- 				if (in_suspend) {
- 					obj->swapto = NULL;
- 					obj->evicted = false;
--					obj->do_swapping = true;
- 
--					i915_gem_object_unbind(obj, 0);
-+					ret = i915_gem_object_unbind(obj, 0);
-+					if (ret || i915_gem_object_has_pinned_pages(obj)) {
-+						if (!i915_gem_object_trylock(obj)) {
-+							ret = -EBUSY;
-+							goto next;
-+						}
-+						ret = i915_gem_perma_pinned_object_swapout(obj);
-+						i915_gem_object_unlock(obj);
-+						goto next;
-+					}
- 
-+					obj->do_swapping = true;
- 					ret = __i915_gem_object_put_pages(obj);
- 					obj->do_swapping = false;
--					if (ret) {
--						/*
--						 * FIXME: internal ctx objects still pinned
--						 * returning as BUSY. Presently just evicting
--						 * the user objects, will fix it later
--						 */
-+					if (ret)
- 						obj->evicted = false;
--						ret = 0;
--					} else
-+					else
- 						obj->evicted = true;
- 				} else {
--					if (obj->swapto && obj->evicted) {
-+					if (i915_gem_object_has_pinned_pages(obj) && perma_pin) {
-+						if (!i915_gem_object_trylock(obj)) {
-+							ret = -EBUSY;
-+							goto next;
-+						}
-+						ret = i915_gem_perma_pinned_object_swapin(obj);
-+						/* FIXME: Where is this error message taken care of? */
-+						i915_gem_object_unlock(obj);
-+					}
-+
-+					if (obj->swapto && obj->evicted && !perma_pin) {
- 						ret = i915_gem_object_pin_pages(obj);
- 						if (ret) {
- 							i915_gem_object_put(obj);
-@@ -1160,7 +1220,10 @@ static int intel_dmem_evict_buffers(struct drm_device *dev, bool in_suspend)
- 						}
- 					}
- 				}
-+next:
- 				mutex_lock(&mem->objects.lock);
-+				if (ret)
-+					break;
- 			}
- 			list_splice_tail(&still_in_list, &mem->objects.list);
- 			mutex_unlock(&mem->objects.lock);
-@@ -1228,7 +1291,7 @@ static int i915_drm_suspend(struct drm_device *dev)
- 	intel_dp_mst_suspend(dev_priv);
- 
- 	if (HAS_LMEM(dev_priv))	{
--		ret = intel_dmem_evict_buffers(dev, true);
-+		ret = intel_dmem_evict_buffers(dev, true, false);
- 		if (ret)
- 			return ret;
- 
-@@ -1410,6 +1473,14 @@ static int i915_drm_resume(struct drm_device *dev)
- 
- 	drm_mode_config_reset(dev);
- 
-+	if (HAS_LMEM(dev_priv)) {
-+		ret = intel_dmem_evict_buffers(dev, false, true);
-+		if (ret) {
-+			DRM_ERROR("perma pinned obj's failed with err=%d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	i915_gem_resume(dev_priv);
- 
- 	if (HAS_LMEM(dev_priv)) {
-@@ -1419,9 +1490,11 @@ static int i915_drm_resume(struct drm_device *dev)
- 		if (ret)
- 			GEM_BUG_ON(ret);
- 
--		ret = intel_dmem_evict_buffers(dev, false);
--		if (ret)
--			DRM_ERROR("i915_resume:i915_gem_object_pin_pages failed with err=%d\n", ret);
-+		ret = intel_dmem_evict_buffers(dev, false, false);
-+		if (ret) {
-+			DRM_ERROR("gem_object_pin_pages failed with err=%d\n", ret);
-+			return ret;
-+		}
- 	}
- 
- 	intel_modeset_init_hw(dev_priv);
+ /**
+  * Mark up the object's coherency levels for a given cache_level
+  * @obj: #drm_i915_gem_object
+@@ -108,7 +122,7 @@ void i915_gem_object_set_cache_coherency(struct drm_i915_gem_object *obj,
+ 	if (cache_level != I915_CACHE_NONE)
+ 		obj->cache_coherent = (I915_BO_CACHE_COHERENT_FOR_READ |
+ 				       I915_BO_CACHE_COHERENT_FOR_WRITE);
+-	else if (HAS_LLC(to_i915(obj->base.dev)))
++	else if (i915_gem_object_use_llc(obj))
+ 		obj->cache_coherent = I915_BO_CACHE_COHERENT_FOR_READ;
+ 	else
+ 		obj->cache_coherent = 0;
 -- 
 2.26.2
 
