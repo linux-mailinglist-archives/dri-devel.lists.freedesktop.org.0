@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 373E72C6880
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 16:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DDD2C6886
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 16:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1419F6EE2D;
-	Fri, 27 Nov 2020 15:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A764B6EE2E;
+	Fri, 27 Nov 2020 15:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
  [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 285AE6EE2D
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 15:13:11 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id u12so5949386wrt.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 07:13:11 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB6856EE2E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 15:14:41 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id s8so5910397wrw.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 07:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=Jdic1AcrtNbfCiOP1a193foU7ToP7PxTGmucyyLllzY=;
- b=eFkd8QxSc1ZwnhEaZi3HO0lu4NUyuYVEKihdUegxYkQ76EDIVKbAU6Bz62Y0Twd/D9
- WkS/7z1edRNON6EjPBTY2oz0UK+fNJn9Pyyyy59BYkkszr1NG808l4n5I5/i4XFiGKGC
- MOjfFf3mv5H8mY0U13jMLH9zHk5TEpaTJimLI=
+ bh=ZMzwoE0Dd6fGdbZptz4gO2+Eta2edZWtpfnfREQIYBk=;
+ b=iNafPJ5ywOWSDkzoa418mygS+Pu6j0+b0FZhr6dG9lb3JOScnAd3oHUlc0LVjAmD3g
+ exwlJ3BhHTSl3vuBryhe7Kgc56fC1N5rj6jJWeqihvbS3H0kM3HY57LQzY/0PqTshM70
+ wHuQWaqK5Fxc12etXg9s39a4GbCEOsotO/7GU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=Jdic1AcrtNbfCiOP1a193foU7ToP7PxTGmucyyLllzY=;
- b=bkdeMPGY89/KkEJ8twDX9CL1cO8kvkq1AxsgmhlrmkHdpnxF/bGD4ZTfFmJNc2moyt
- WWjkDQyMC2FE0nYNJwFtfZF0dmThAfUHxDIfEZm0KRL1obagqyCyUZ3XNl+Pd2Ri9+2L
- 5NIAxXZM1uGn4xtaggDtDjrPFjUx9gevY6WMjxtwZg+BZV4Syv3v7SYZiwHpKpS87OW6
- LLghQQKHf0W37rmgTz/zw00stp5yAiBOX5osTNJOYcxVmIT3AW94M66UPff6ydyQ+ANU
- kFoz8VrUWnyuFSG59W5/bJoLKCcCNxtCqkdRJAtaKv5OAHZE8sTDbFtyWnavRn6zITFJ
- HkDQ==
-X-Gm-Message-State: AOAM533ElZUZzeNJCfH8NY3ySSs0zJeNffDpOIMJdkrTh2+EUg+XgdEG
- yl9eLxsPuv+cCW5ThwdJCBGPZg==
-X-Google-Smtp-Source: ABdhPJxS76ox3RylPH7RNmHVGlgnXkh2eKF8FznVgSxfvwW00r3yeMyg8znwZMIDlZzB206zrP/Pkw==
-X-Received: by 2002:a5d:4c4a:: with SMTP id n10mr11257523wrt.54.1606489989868; 
- Fri, 27 Nov 2020 07:13:09 -0800 (PST)
+ bh=ZMzwoE0Dd6fGdbZptz4gO2+Eta2edZWtpfnfREQIYBk=;
+ b=OSQwvZblV5+WDdyux6H9/lwfMFEb8ENxE1f9Zgz0xgMCwwKr6anhHVEMHPfDoxxgSv
+ lGmRj/8A/l7/iGWQwH748iywjRBu94rgj4GKo+FjEYWuND/rHyeLsdK8DAE7I80B08cH
+ A1GkBzJsilhAjdz71/+qOF1mn2Vv36izDYGGFFXdQwvd8IzP2BFnxGLoy8nKQarkOGiu
+ nvZ4WEMcfe7vkifNhuW9uymM+OoaFEYoaWaPMANG29GFRBsDs7AOFrDG/XQ64pwM/8Nn
+ bYmQVNEF6Vi9+vDXarURJmcpX6m4xqAN0/f2mMifNX8yCiZQ1qtdev+BN9RGxuXXMaww
+ okuQ==
+X-Gm-Message-State: AOAM531d2ru/5rHK84gDdfvy3ysg3Qehute1zhbV85okjGOgztgNuWSl
+ U20gIXxV8dau/BnOJ2CWu2Ff4g==
+X-Google-Smtp-Source: ABdhPJzeFZUg0q2fzZp1cBShV/TYpSR++GJRHPfRmFTBFUpON/ZCauJL86rwWuavStjri4mOLdoRew==
+X-Received: by 2002:adf:e444:: with SMTP id t4mr11341858wrm.152.1606490080594; 
+ Fri, 27 Nov 2020 07:14:40 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f16sm13178895wmh.7.2020.11.27.07.13.08
+ by smtp.gmail.com with ESMTPSA id j13sm8370481wrp.70.2020.11.27.07.14.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 07:13:09 -0800 (PST)
-Date: Fri, 27 Nov 2020 16:13:07 +0100
+ Fri, 27 Nov 2020 07:14:39 -0800 (PST)
+Date: Fri, 27 Nov 2020 16:14:37 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH] drm/vboxvideo: Used the vram helper
-Message-ID: <20201127151307.GG401619@phenom.ffwll.local>
-Mail-Followup-To: Tian Tao <tiantao6@hisilicon.com>, hdegoede@redhat.com,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <1606446882-36335-1-git-send-email-tiantao6@hisilicon.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2] fbdev: aty: SPARC64 requires FB_ATY_CT
+Message-ID: <20201127151437.GH401619@phenom.ffwll.local>
+Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ sparclinux <sparclinux@vger.kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <20201127031752.10371-1-rdunlap@infradead.org>
+ <CAMuHMdWup4D9A-giF9xDEhva8PPH4Yhg2NHYx3+0q_=Uoi+iRA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1606446882-36335-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <CAMuHMdWup4D9A-giF9xDEhva8PPH4Yhg2NHYx3+0q_=Uoi+iRA@mail.gmail.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,56 +76,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, hdegoede@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ sparclinux <sparclinux@vger.kernel.org>,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 27, 2020 at 11:14:42AM +0800, Tian Tao wrote:
-> if the driver uses drmm_vram_helper_init, there is no need to
-> call drm_vram_helper_release_mm when the drm module get unloaded,
-> as this will done automagically.
+On Fri, Nov 27, 2020 at 10:15:49AM +0100, Geert Uytterhoeven wrote:
+> On Fri, Nov 27, 2020 at 4:18 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> > It looks like SPARC64 requires FB_ATY_CT to build without errors,
+> > so have FB_ATY select FB_ATY_CT if both SPARC64 and PCI are enabled
+> > instead of using "default y if SPARC64 && PCI", which is not strong
+> > enough to prevent build errors.
+> >
+> > As it currently is, FB_ATY_CT can be disabled, resulting in build
+> > errors:
+> >
+> > ERROR: modpost: "aty_postdividers" [drivers/video/fbdev/aty/atyfb.ko] undefined!
+> > ERROR: modpost: "aty_ld_pll_ct" [drivers/video/fbdev/aty/atyfb.ko] undefined!
+> >
+> > Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-> ---
->  drivers/gpu/drm/vboxvideo/vbox_ttm.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Applied to drm-misc-next, thanks for the patch&review.
+-Daniel
+
 > 
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_ttm.c b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> index f5a0667..e1909a8 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> @@ -16,8 +16,8 @@ int vbox_mm_init(struct vbox_private *vbox)
->  	int ret;
->  	struct drm_device *dev = &vbox->ddev;
->  
-> -	vmm = drm_vram_helper_alloc_mm(dev, pci_resource_start(dev->pdev, 0),
-> -				       vbox->available_vram_size);
-> +	vmm = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
-> +				    vbox->available_vram_size);
-
-Pretty sure this doesn't compile without warnings, since the return value
-changes. With that fixed lgtm.
-
-Btw if you're bored, a devm_ version of arch_phys_wc_add is very much on
-the wishlist, and would allow us to complete remove vbox_mm_fini.
-
-Cheers, Daniel
-
->  	if (IS_ERR(vmm)) {
->  		ret = PTR_ERR(vmm);
->  		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
-> @@ -32,5 +32,4 @@ int vbox_mm_init(struct vbox_private *vbox)
->  void vbox_mm_fini(struct vbox_private *vbox)
->  {
->  	arch_phys_wc_del(vbox->fb_mtrr);
-> -	drm_vram_helper_release_mm(&vbox->ddev);
->  }
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 > -- 
-> 2.7.4
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 > 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
 -- 
 Daniel Vetter
