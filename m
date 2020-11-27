@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3BE92C6C4D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6A12C6C49
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32D5E6EEB9;
-	Fri, 27 Nov 2020 19:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 458966F3E2;
+	Fri, 27 Nov 2020 19:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
  [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD936F3D8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:20 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id r18so7136552ljc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:20 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 074B86F3D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:23 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id f18so7112859ljg.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xCWN7JDF/GtG5ZT98j8MKTwxgU6VMyLEQn0BdCwiEZg=;
- b=jbH3C6iDq7RWgytVy0NqJ9b8P5K30Cm7OdBwf8Ji9IkOVEjaGTEXkzXn/jjyXzr7kY
- sjLBjzNEg9oFpHLY24Tn7gC2A8ZCORXoCpF9YpsgdLCokn6acUS/J3u73rJxgj6AbLzU
- h8WHUVdRQHAjkyXkxkZ9lkE7tICAm32EGZ/EjMKh5YvrGhcx226zT2Utcb5FqPbogvRY
- 4nQynzKQAQk1J30F6wuA2tl7s+4Odrj08KY7ptk0YZ0WgZaJ8bV2yEAxaFmrlwu3ROhJ
- 7mIgPTjRQ94jK57rwZOIOYml+tAcX2ezQ9a7rIzmhCA7E1k1Cs4NCE8bzquqiB2US41P
- 322g==
+ bh=ekXPc5E7Fh5wD/Vc411Zf73OtfZn7TTfUSuqDZSxDOI=;
+ b=abL3wWcvsvIz2CzO/LLQDCf6XcLh3onTjaMFDbGE74/YxhdMd5qgru9TxPx1XN+iwj
+ uvlGQppWRm4tryk0y+YoqhT1zyKdQHFNHWdbwFnhNiLbPBWzLDb2Q4lL5/fNiKgNuGK3
+ qieT5nqi1qzBx9lSmNch74YLkmKW1LSxDX3omn3t33/G7J+bEEoNXDod3xPQOoffnTlC
+ UOs2GrcWE2DMYOkzM6z5qM0FmTWCvRFzHnn/yP/XWrevQjm19rxNz5m5bh3rApNBsDTS
+ UFW+++W0JdwSqoLqjua+cPbmHpauD1O2T5YtvRC7PECiKQkPylu3MlvlSjPYnA+FjUq2
+ qUHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xCWN7JDF/GtG5ZT98j8MKTwxgU6VMyLEQn0BdCwiEZg=;
- b=SRdLa3NZA58XmJ7yjy98XOBzVV+Urp/LM/yIGo0k0Bk50esLCjKpdm0ZDUmAmfTqFp
- wnlzXodSuRkMz+icmpU1tf8aiS5M9cod5RPV0sGdgdl+S3gKbDPtQy6ghDFk3UG2UNbD
- s6GSOZIN2RMSLKLh9vNgUBWZUMriETw5MMUNriS8pQ76MRHviVZysS3Nxbo7p7hwtwnv
- Cn0VSDdJIIC9W+qbdLUsAnpoy/1ViutLU/zVfcSdIJE6YcBakfn5yokbEl2f2H7TyYpw
- tfjDBNrUlH1a1Twb9vBLGF+7JQhaoYyMKfpDY78XnhlB9YD/5PHXjG0C0otcNxV9OZc0
- gVkQ==
-X-Gm-Message-State: AOAM531kQU3GQLz8vVhmw/fcFFfW5xtjnRvK01xJ4n5vmysT8lqoQhyL
- Kc7CP3NbvvTQ75jK8PHVs0o=
-X-Google-Smtp-Source: ABdhPJwfQQRY1xyFWQCeqxGmr8x+xQ8Y8oFVP5doJc1VCIcNMxQvxTGPTEVTuqS/GyeZgySJ4zyVnA==
-X-Received: by 2002:a2e:a54f:: with SMTP id e15mr1958143ljn.461.1606507158904; 
- Fri, 27 Nov 2020 11:59:18 -0800 (PST)
+ bh=ekXPc5E7Fh5wD/Vc411Zf73OtfZn7TTfUSuqDZSxDOI=;
+ b=ZcJrSoThMcYfXI6N9Iaxn7DrYZd9vqmK188cKNEXiZA/LNrC0G82NeAp2wB2eJ7j+4
+ EcXdvx2qMdI/VqYYInJ1U5I+HlqHn1DAAXa9L5Sl/N/2iuK0fx+Lvor2TdNRMJJLrHzP
+ KDCiVUH0jdTHQqR4IGv3crZP/3h5IGN/c2AvkuuAnMKDw/RSWVbEpa1vKj/8e46pLY85
+ Amb9oAADPNlm3/1aFcajp8qbrDqMqDIYVE+cj6Wv84Cdd94hrTj1A454eWRNafcw98Fg
+ jwgCeLdrOF67LuofNsD6sN5GxYUDNaYmIum6Sp0TRY6t4zpaGKmJfnk42FuKx4Y5V4Pq
+ /rsA==
+X-Gm-Message-State: AOAM533lVizz0QSEIpTy+wpdJcva3iVFpidgM9LZScSKU3gzhqpDqHG9
+ ymW0ZeHW95aO8QJ2ZPDq3qE=
+X-Google-Smtp-Source: ABdhPJyOyRLSvkVpVR1HEUfAKSuZ5ePdfs+N0TGYeMdvRv4fmzf7VQ4BrA1YQM7s6/4t3ORr021/gQ==
+X-Received: by 2002:a2e:80c4:: with SMTP id r4mr4469451ljg.284.1606507161441; 
+ Fri, 27 Nov 2020 11:59:21 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.16
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:18 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:20 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 17/28] video: fbdev: tgafb: Fix W=1 warnings
-Date: Fri, 27 Nov 2020 20:58:14 +0100
-Message-Id: <20201127195825.858960-18-sam@ravnborg.org>
+Subject: [PATCH v1 18/28] video: fbdev: mx3fb: Fix W=1 warnings
+Date: Fri, 27 Nov 2020 20:58:15 +0100
+Message-Id: <20201127195825.858960-19-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -100,58 +100,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix W=1 warnings:
 - Fix kernel-doc
-- Drop unused code
+- Drop unused code/variables
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Xiaofei Tan <tanxiaofei@huawei.com>
 Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Joe Perches <joe@perches.com>
 ---
- drivers/video/fbdev/tgafb.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/mx3fb.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
-index 666fbe2f671c..ae0cf5540636 100644
---- a/drivers/video/fbdev/tgafb.c
-+++ b/drivers/video/fbdev/tgafb.c
-@@ -555,7 +555,7 @@ tgafb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue,
+diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
+index 894617ddabcb..fabb271337ed 100644
+--- a/drivers/video/fbdev/mx3fb.c
++++ b/drivers/video/fbdev/mx3fb.c
+@@ -445,7 +445,6 @@ static void sdc_enable_channel(struct mx3fb_info *mx3_fbi)
+ static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
+ {
+ 	struct mx3fb_data *mx3fb = mx3_fbi->mx3fb;
+-	uint32_t enabled;
+ 	unsigned long flags;
+ 
+ 	if (mx3_fbi->txd == NULL)
+@@ -453,7 +452,7 @@ static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
+ 
+ 	spin_lock_irqsave(&mx3fb->lock, flags);
+ 
+-	enabled = sdc_fb_uninit(mx3_fbi);
++	sdc_fb_uninit(mx3_fbi);
+ 
+ 	spin_unlock_irqrestore(&mx3fb->lock, flags);
+ 
+@@ -732,7 +731,7 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi);
  
  /**
-  *      tgafb_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
+  * mx3fb_set_fix() - set fixed framebuffer parameters from variable settings.
+- * @info:	framebuffer information pointer
++ * @fbi:	framebuffer information pointer
+  * @return:	0 on success or negative error code on failure.
   */
- static int
-@@ -837,7 +837,7 @@ tgafb_clut_imageblit(struct fb_info *info, const struct fb_image *image)
- 	u32 *palette = ((u32 *)info->pseudo_palette);
- 	unsigned long pos, line_length, i, j;
- 	const unsigned char *data;
--	void __iomem *regs_base, *fb_base;
-+	void __iomem *fb_base;
+ static int mx3fb_set_fix(struct fb_info *fbi)
+@@ -740,7 +739,7 @@ static int mx3fb_set_fix(struct fb_info *fbi)
+ 	struct fb_fix_screeninfo *fix = &fbi->fix;
+ 	struct fb_var_screeninfo *var = &fbi->var;
  
- 	dx = image->dx;
- 	dy = image->dy;
-@@ -855,7 +855,6 @@ tgafb_clut_imageblit(struct fb_info *info, const struct fb_image *image)
- 	if (dy + height > vyres)
- 		height = vyres - dy;
+-	strncpy(fix->id, "DISP3 BG", 8);
++	memcpy(fix->id, "DISP3 BG", 8);
  
--	regs_base = par->tga_regs_base;
- 	fb_base = par->tga_fb_base;
+ 	fix->line_length = var->xres_virtual * var->bits_per_pixel / 8;
  
- 	pos = dy * line_length + (dx * 4);
-@@ -1034,7 +1033,7 @@ tgafb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
- 		     regs_base + TGA_MODE_REG);
- }
+@@ -1105,6 +1104,8 @@ static void __blank(int blank, struct fb_info *fbi)
  
--/**
-+/*
-  *      tgafb_copyarea - REQUIRED function. Can use generic routines if
-  *                       non acclerated hardware and packed pixel based.
-  *                       Copies on area of the screen to another area.
+ /**
+  * mx3fb_blank() - blank the display.
++ * @blank:	blank value for the panel
++ * @fbi:	framebuffer information pointer
+  */
+ static int mx3fb_blank(int blank, struct fb_info *fbi)
+ {
+@@ -1126,7 +1127,7 @@ static int mx3fb_blank(int blank, struct fb_info *fbi)
+ /**
+  * mx3fb_pan_display() - pan or wrap the display
+  * @var:	variable screen buffer information.
+- * @info:	framebuffer information pointer.
++ * @fbi:	framebuffer information pointer.
+  *
+  * We look only at xoffset, yoffset and the FB_VMODE_YWRAP flag
+  */
+@@ -1387,6 +1388,8 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi)
+ 
+ /**
+  * mx3fb_init_fbinfo() - initialize framebuffer information object.
++ * @dev: the device
++ * @ops:	framebuffer device operations
+  * @return:	initialized framebuffer structure.
+  */
+ static struct fb_info *mx3fb_init_fbinfo(struct device *dev,
 -- 
 2.27.0
 
