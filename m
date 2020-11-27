@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356042C6C4F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5132C6C4A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB52F6F3E7;
-	Fri, 27 Nov 2020 19:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 778496F3E3;
+	Fri, 27 Nov 2020 19:59:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 892816F3D8
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:12 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id t22so7143948ljk.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:12 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E9926F3D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:15 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id r18so7136347ljc.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dgiE3cPN0UhMAdrlJWfRmuc0aOS7JyS2T35N0ifDz8w=;
- b=R58XIdGE58Q9Aqsn5XSsimwgH605ifHUH233P5OBuNNPP/RYguS8aO5o3GlEgZt581
- spr/LRdVgVkbi1AhiYsfC98VaQ3JqvMaoBzBhZ4flEJST452YUwa9iU93QtLCCrczo3e
- 5cj9BzzHIAPRW5R/tWshMPWP5b4aWah2WsZPbTharCUvcAoIo77TXv4iEblCxXgm+QNh
- m/vcUOofhBOYXTHjdheU9gMIhM37Sd67xTqxYEjjpfdxZvhz69VQQ4G9dwRMBBYSkS+g
- uIAzMJJ1kqWn6ChaKymZa7rRNHDvTBbTPWH88HuvvjZOqQku8AY2DvaN6D25/XODOKZR
- 8SpQ==
+ bh=bZVUjqZPvk9JmE5Zg9zhFjt8GTdbfi/4bsMjlewJUWk=;
+ b=XrtZdKGu5/hNrxeMcY7JQje+7wV52fu30Ck/RUr5wsZpyQJcANFJZ39N0KWddETdEX
+ fOPkmhKTz1DW+fwvSOBvpDKgWwNZ91XoVSfOPIDK33hQY0hcdC9JHsjlQdYjok5aakxe
+ 1lDcFQ05uuljUZIeMgpbYUPatcYhMAqNE6jakOSRD6eCrf/VCMhQPcWqVxtIQEk6WaS7
+ /EuO9akDGzU266dv9OuffMUYSiox7QhVCEhyN3qTkL+CAKWNhEeQKfxGHd6uqH2Hz+EP
+ T4PIJQr2oREk9yV+SGzpgGoKrWxRkM5vR9tVIniIgYrgPTHJ8/gR4vcb+WJm7nPWuFIT
+ Jk3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dgiE3cPN0UhMAdrlJWfRmuc0aOS7JyS2T35N0ifDz8w=;
- b=WPcljMN3lSFbQjfCYjBLbZNX9FFv5/ZScdIIo2n1DOwl/KlewbK4XNqksvdXqegvRF
- NxPIJRh7NpiZOCdrfDraL2vtUxcVqjTbUnMmdIpkwyoFiHFI5OPNZYvEtmcYaZn4FKDd
- rtk6DPVsvgK1mlhqZH7wbve4MYMXgAuMTce/UiC5I+Mrz1wmm4w3CzzHYOo4etVeAzpD
- EZeqzUsCAavTg+x0DkoiBXkmmIiQK6hNDRlGClAPsnsh4e0rJqUAlNZOc+YGdGJMLomi
- lk34hidgJjHCd2tzej6mPFNzuOFr6fOH4APIvJ0u3xHCJDrmJqb+gx4XPtHbIkFfvaXE
- wNzw==
-X-Gm-Message-State: AOAM530lpjFSR5DNtdajsUmCs2RYLj8DFJ5Y34TbGRXMr23OU05BQ9h8
- KCxauawPwow3ckOaED3+lW6758RNLpcrYfEG
-X-Google-Smtp-Source: ABdhPJx/A+ivNr8kMaMUsxMdcnxwLhpbFPdQSjML9Bzel1DEIBHBsJjnBMP5knP9/Ca+mACkvp9t9w==
-X-Received: by 2002:a2e:95c7:: with SMTP id y7mr1233763ljh.115.1606507150978; 
- Fri, 27 Nov 2020 11:59:10 -0800 (PST)
+ bh=bZVUjqZPvk9JmE5Zg9zhFjt8GTdbfi/4bsMjlewJUWk=;
+ b=o+9IJHD+IFYI7AwcsjPCZFt3XJ9+gH4WmqasR1p4/7IQ0ZO/PpZVruxREExuGP163u
+ 82IDjQKrhwlKa2TaalOd85RulUZTlB5tHvMNdSF9RjCMBDiksyyD4V10kWB0Wobis+TO
+ BtRmR7GVFu/hhqxOQl5u21rQzx8ossxO2pbrxtSCpCWlTsRYhRUWuA8jCXz/iWKt9Ol+
+ YYQiqeegW00Gdw2vxx3oc6WU+4CTBQanIhC1Q+ROEOficTQ04vH5Zu/tWEoqIF7igY8J
+ IyyT/FA7NhQ0jw9br6swKLMvZo8gMEbkypXF9CyvAjDr+sq1C4rHiHLsZVZCI+KAzQ6r
+ cmtA==
+X-Gm-Message-State: AOAM5300Ie8fwjA+Q+YzXwZrpf/HWl8T8me197zzn9Lu71DfPTzo53O/
+ Vf5tW5Jari2N08ItjZ6CP9w=
+X-Google-Smtp-Source: ABdhPJzIf2J8nBqop7fmYzkcGAkj+y2xNYn0qrO6QCTJJblj1YqU+JBYf2vFEz2ZVBbbWeDXxgiKVw==
+X-Received: by 2002:a2e:9510:: with SMTP id f16mr4618994ljh.408.1606507153729; 
+ Fri, 27 Nov 2020 11:59:13 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.08
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:10 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:13 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 14/28] video: fbdev: pm2fb: Fix W=1 warnings
-Date: Fri, 27 Nov 2020 20:58:11 +0100
-Message-Id: <20201127195825.858960-15-sam@ravnborg.org>
+Subject: [PATCH v1 15/28] video: fbdev: neofb: Fix W=1 warnings
+Date: Fri, 27 Nov 2020 20:58:12 +0100
+Message-Id: <20201127195825.858960-16-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -91,59 +91,58 @@ Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  George Kennedy <george.kennedy@oracle.com>,
  Kristoffer Ericson <kristoffer.ericson@gmail.com>,
  Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Mike Rapoport <rppt@kernel.org>
+ Joe Perches <joe@perches.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Peilin Ye <yepeilin.cs@gmail.com>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixed a few kernel-doc issues to fix the warnings.
+Fix W=1 warnigns by removing unused code
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>
 Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Evgeny Novikov <novikov@ispras.ru>
 Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Mike Rapoport <rppt@kernel.org>
 ---
- drivers/video/fbdev/pm2fb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/neofb.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/pm2fb.c b/drivers/video/fbdev/pm2fb.c
-index 27893fa139b0..c68725eebee3 100644
---- a/drivers/video/fbdev/pm2fb.c
-+++ b/drivers/video/fbdev/pm2fb.c
-@@ -1508,8 +1508,8 @@ static const struct fb_ops pm2fb_ops = {
-  *
-  * Initialise and allocate resource for PCI device.
-  *
-- * @param	pdev	PCI device.
-- * @param	id	PCI device ID.
-+ * @pdev:	PCI device.
-+ * @id:		PCI device ID.
-  */
- static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-@@ -1715,7 +1715,7 @@ static int pm2fb_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  *
-  * Release all device resources.
-  *
-- * @param	pdev	PCI device to clean up.
-+ * @pdev:	PCI device to clean up.
-  */
- static void pm2fb_remove(struct pci_dev *pdev)
- {
-@@ -1756,7 +1756,7 @@ MODULE_DEVICE_TABLE(pci, pm2fb_id_table);
+diff --git a/drivers/video/fbdev/neofb.c b/drivers/video/fbdev/neofb.c
+index 09a20d4ab35f..c0f4f402da3f 100644
+--- a/drivers/video/fbdev/neofb.c
++++ b/drivers/video/fbdev/neofb.c
+@@ -1843,7 +1843,6 @@ static int neo_init_hw(struct fb_info *info)
+ 	struct neofb_par *par = info->par;
+ 	int videoRam = 896;
+ 	int maxClock = 65000;
+-	int CursorMem = 1024;
+ 	int CursorOff = 0x100;
  
+ 	DBG("neo_init_hw");
+@@ -1895,19 +1894,16 @@ static int neo_init_hw(struct fb_info *info)
+ 	case FB_ACCEL_NEOMAGIC_NM2070:
+ 	case FB_ACCEL_NEOMAGIC_NM2090:
+ 	case FB_ACCEL_NEOMAGIC_NM2093:
+-		CursorMem = 2048;
+ 		CursorOff = 0x100;
+ 		break;
+ 	case FB_ACCEL_NEOMAGIC_NM2097:
+ 	case FB_ACCEL_NEOMAGIC_NM2160:
+-		CursorMem = 1024;
+ 		CursorOff = 0x100;
+ 		break;
+ 	case FB_ACCEL_NEOMAGIC_NM2200:
+ 	case FB_ACCEL_NEOMAGIC_NM2230:
+ 	case FB_ACCEL_NEOMAGIC_NM2360:
+ 	case FB_ACCEL_NEOMAGIC_NM2380:
+-		CursorMem = 1024;
+ 		CursorOff = 0x1000;
  
- #ifndef MODULE
--/**
-+/*
-  * Parse user specified options.
-  *
-  * This is, comma-separated options following `video=pm2fb:'.
+ 		par->neo2200 = (Neo2200 __iomem *) par->mmio_vbase;
 -- 
 2.27.0
 
