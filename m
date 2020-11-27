@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1F52C5B8D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Nov 2020 19:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65FC82C5FC6
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 06:36:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 803C36E9D5;
-	Thu, 26 Nov 2020 18:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B4CC6E990;
+	Fri, 27 Nov 2020 05:36:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
- [209.85.221.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8CAF6E9D5
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 18:06:47 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id s8so3051182wrw.10
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Nov 2020 10:06:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1QLKFnMd0xMr/FuISvhLJSJ7sMuGt7dY11QW5pCEZlM=;
- b=Iw6uvp8qscESmeKAjRbqEqf6b5/MsEXDdusdWr2JnSpHUdde8GUpQqqytIuf1+DeOw
- 2jNjAssRHSrvI6Xi8+vY8p7m4z7K770+94XFpNHivkWZmX/ERHbaNKP0YzC79IIeube7
- hjjsVCtn6trsQNujaxHcCrkpGyZmoTqZi/Q6VhTwfXRmV3v/Mk84vGEloTGFt/2KoJpJ
- fTrhBPDPNZdO7+L2yWFQH/jAZJ+Y/m9bjOgQbJVUR3eL/J8ksthdFINnwhj23SEP3MoX
- PKnIP7taJGQYHp1dgDdA8o52T+QBgMAUED9XnAnq6rdrOmlCikhgp/K3yEEJNIp/IpCP
- 9iig==
-X-Gm-Message-State: AOAM533di3g9qE8g9gkS7DcDdvtJ/MaaGfwwB8P0DM5zU+LrZ20wfsHM
- tgpG2zTTL1SsLtEKEmNbgXQ=
-X-Google-Smtp-Source: ABdhPJwJIzd4XnJQtTCHV2LiRu+9UIhtQQYRHVWoL0G78pv9E0vIbZE77Fy9quW92PvulxW+y/CkuQ==
-X-Received: by 2002:adf:ec8a:: with SMTP id z10mr5467457wrn.113.1606414006586; 
- Thu, 26 Nov 2020 10:06:46 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id o5sm9374179wmh.8.2020.11.26.10.06.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Nov 2020 10:06:45 -0800 (PST)
-Date: Thu, 26 Nov 2020 19:06:43 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH v7 17/47] dt-bindings: memory: tegra20: Add memory client
- IDs
-Message-ID: <20201126180643.GA18074@kozik-lap>
-References: <20201104164923.21238-1-digetx@gmail.com>
- <20201104164923.21238-18-digetx@gmail.com> <X7/lLaZJNp+Vfczk@ulmo>
- <20201126173922.GA7048@kozik-lap> <X7/tz8KwCBEgA6vi@ulmo>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBCDC6E949;
+ Fri, 27 Nov 2020 05:36:20 +0000 (UTC)
+IronPort-SDR: 6V/+OxSYj0lv88ADNlMpX5qZ9elKumBWAJvvsOerOKQViEHYXa1dZ5kcflQ9gQQ3O5wtoMdThZ
+ XzigskN+vRHg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172509126"
+X-IronPort-AV: E=Sophos;i="5.78,373,1599548400"; d="scan'208";a="172509126"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2020 21:36:20 -0800
+IronPort-SDR: WiUjSQCdyA8NRLQx1NZPKejw1e8I2ubv33Xc7J0kyWInp4KRZBV07p2/4Gn2dTWrqU8t7xQvt7
+ 2ptPDgtBv18w==
+X-IronPort-AV: E=Sophos;i="5.78,373,1599548400"; d="scan'208";a="547936684"
+Received: from kbs1-mobl1.gar.corp.intel.com (HELO [10.215.141.221])
+ ([10.215.141.221])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2020 21:36:16 -0800
+Subject: Re: [Intel-gfx] [PATCH v6 00/18] HDCP 2.2 and HDCP 1.4 Gen12 DP MST
+ support
+To: Anshuman Gupta <anshuman.gupta@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20201126073722.19107-1-anshuman.gupta@intel.com>
+From: Karthik B S <karthik.b.s@intel.com>
+Message-ID: <40fd5cf9-b2ba-576f-9e84-252368db8c47@intel.com>
+Date: Fri, 27 Nov 2020 11:06:12 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X7/tz8KwCBEgA6vi@ulmo>
+In-Reply-To: <20201126073722.19107-1-anshuman.gupta@intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,78 +53,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, Nicolas Chauvet <kwizart@gmail.com>,
- Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Jonathan Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Georgi Djakov <georgi.djakov@linaro.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: jani.nikula@intel.com, seanpaul@chromium.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 26, 2020 at 07:02:55PM +0100, Thierry Reding wrote:
-> On Thu, Nov 26, 2020 at 06:39:22PM +0100, Krzysztof Kozlowski wrote:
-> > On Thu, Nov 26, 2020 at 06:26:05PM +0100, Thierry Reding wrote:
-> > > On Wed, Nov 04, 2020 at 07:48:53PM +0300, Dmitry Osipenko wrote:
-> > > > Each memory client has unique hardware ID, add these IDs.
-> > > > 
-> > > > Acked-by: Rob Herring <robh@kernel.org>
-> > > > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > > > ---
-> > > >  include/dt-bindings/memory/tegra20-mc.h | 53 +++++++++++++++++++++++++
-> > > >  1 file changed, 53 insertions(+)
-> > > 
-> > > Is there any chance you could drop these dt-bindings include patches
-> > > (17, 18 and 19) so that I can pick them up into the Tegra tree? The
-> > > device tree changes that I was going to pick up depend on this and
-> > > fail to build if applied as-is.
-> > > 
-> > > I was looking at your linux-mem-ctrl tree and had initially thought I
-> > > could just pull in one of the branches to get these dependencies, but it
-> > > looks like the dt-bindings patches are on the for-v5.11/tegra-mc branch,
-> > > which the ARM SoC maintainers wouldn't like to see me pull in for a
-> > > dependency on device tree changes.
-> > 
-> > Partially you answered here. :) Since you should not pull my branch into
-> > a DT branch, you also should not put these include/dt-bindings patches
-> > there.  SoC guys will complain about this as well.
-> > 
-> > These patches are also needed for the driver, so if you take them, I
-> > would need them back in a pull request. SoC folks could spot it as well
-> > and point that such merge should not happen.
-> > 
-> > > If this is all fixed at this point, I'll just have to push back the
-> > > device tree changes to v5.12, or perhaps see if the ARM SoC maintainers
-> > > are willing to take a late pull request that's based on v5.11-rc1.
-> > 
-> > Yeah, that's a known problem. I asked about this Arnd and Olof in the
-> > past and got reply with two solutions:
-> > 1. Apply current version of patch without defines, just hard-coded
-> >    numbers. After merging to Linus, replace the numbers with defines.
-> > 
-> > 2. Wait with DTS till dependencies reach Linus.
-> 
-> What I've done occasionally in the past was to put these kinds of
-> patches into a separate "dt-bindings" branch that I could use to resolve
-> dependencies from device tree files. The ARM SoC maintainers never had
-> any issues with that approach.
-> 
-> I guess this is a bit of a special case, because the DT includes are
-> ultimately really a part of the device tree, so mixing them both isn't
-> problematic.
+On 11/26/2020 1:07 PM, Anshuman Gupta wrote:
+> This is v6 version to test with IGT https://patchwork.freedesktop.org/series/82987/
+> This v6 has added a new patch to series to avoid a crash reported on Chrome-OS
+> and has addressed the few cosmetics review comments from Ram.
+> It has been also tested manually with above IGT series.
+>
+> [PATCH v6 12/18] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+> has an Ack from Tomas to merge it via drm-intel.
+>
+> [PATCH v6 13/18] drm/hdcp: Max MST content streams
+> has an Ack from drm-misc maintainer to merge it via drm-intel.
+>
+> Test-with: 20201126050320.2434-2-karthik.b.s@intel.com
 
-Indeed, that way could work... and no one would spot it. :) Many times
-these headers were for clock symbols so if they go via SoC/DT tree,
-merge back to clock tree could be accepted.
+As HDCP over MST set up is not present on CI,
 
-Best regards,
-Krzysztof
+tested this series locally with v4 of the IGT series. 
+https://patchwork.freedesktop.org/series/82987/
+
+Tested-by: Karthik B S <karthik.b.s@intel.com>
+
+>
+> Anshuman Gupta (18):
+>    drm/i915/hdcp: Update CP property in update_pipe
+>    drm/i915/hdcp: Get conn while content_type changed
+>    drm/i915/hotplug: Handle CP_IRQ for DP-MST
+>    drm/i915/hdcp: No HDCP when encoder is't initialized
+>    drm/i915/hdcp: DP MST transcoder for link and stream
+>    drm/i915/hdcp: Move HDCP enc status timeout to header
+>    drm/i915/hdcp: HDCP stream encryption support
+>    drm/i915/hdcp: Enable HDCP 1.4 stream encryption
+>    drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST support
+>    drm/i915/hdcp: Pass dig_port to intel_hdcp_init
+>    drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
+>    misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+>    drm/hdcp: Max MST content streams
+>    drm/i915/hdcp: MST streams support in hdcp port_data
+>    drm/i915/hdcp: Pass connector to check_2_2_link
+>    drm/i915/hdcp: Add HDCP 2.2 stream register
+>    drm/i915/hdcp: Support for HDCP 2.2 MST shim callbacks
+>    drm/i915/hdcp: Enable HDCP 2.2 MST support
+>
+>   drivers/gpu/drm/i915/display/intel_ddi.c      |  14 +-
+>   drivers/gpu/drm/i915/display/intel_ddi.h      |   6 +-
+>   .../drm/i915/display/intel_display_types.h    |  20 +-
+>   drivers/gpu/drm/i915/display/intel_dp.c       |  14 +-
+>   drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 186 +++++++++--
+>   drivers/gpu/drm/i915/display/intel_dp_mst.c   |   8 +-
+>   drivers/gpu/drm/i915/display/intel_hdcp.c     | 303 ++++++++++++++----
+>   drivers/gpu/drm/i915/display/intel_hdcp.h     |   8 +-
+>   drivers/gpu/drm/i915/display/intel_hdmi.c     |  19 +-
+>   drivers/gpu/drm/i915/i915_reg.h               |  31 ++
+>   drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
+>   include/drm/drm_hdcp.h                        |   8 +-
+>   12 files changed, 500 insertions(+), 120 deletions(-)
+>
 
 _______________________________________________
 dri-devel mailing list
