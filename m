@@ -2,38 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2282C6C67
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8DA2C6C99
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:37:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6EC6F3F1;
-	Fri, 27 Nov 2020 20:05:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 739466EEA4;
+	Fri, 27 Nov 2020 20:37:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49AA36F3F1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 20:05:56 +0000 (UTC)
-Subject: Re: [git pull] drm fixes for 5.10-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606507556;
- bh=Qd9CqSF8eXexGud6PiR4dlfq12llG814HMZe3+s5jkI=;
- h=From:In-Reply-To:References:Date:To:Cc:From;
- b=NYZUKAPom5QJ1rdIStKIAylNnl90AHMCGxLeQoNc+UNQ/qqNgzAapQWZImFR4sI9o
- YTshHDbOaujhDtHIU/lhVhpMeMySs+oSdWOvBCkBHrGXZQYVFP2QtMCvtLPMa+K9l+
- NBtu/G4yGVKQZSL3J43L3DOSsTQkvTTzmpsTeRic=
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9twQYg5nf=wGOMm=i=++dZswSvpkV2txDnBYFmj=SRDx9A@mail.gmail.com>
-References: <CAPM=9twQYg5nf=wGOMm=i=++dZswSvpkV2txDnBYFmj=SRDx9A@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAPM=9twQYg5nf=wGOMm=i=++dZswSvpkV2txDnBYFmj=SRDx9A@mail.gmail.com>
-X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
- tags/drm-fixes-2020-11-27-1
-X-PR-Tracked-Commit-Id: 9595930db4bb91433607441a5f26d90e9c6e34eb
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6910b676898934c2abe9f3ff3d60f4d4bc8afda8
-Message-Id: <160650755608.29509.16650003010743047178.pr-tracker-bot@kernel.org>
-Date: Fri, 27 Nov 2020 20:05:56 +0000
-To: Dave Airlie <airlied@gmail.com>
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7B66EE38;
+ Fri, 27 Nov 2020 20:37:02 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 23139148-1500050 for multiple; Fri, 27 Nov 2020 20:36:50 +0000
+MIME-Version: 1.0
+In-Reply-To: <CO1PR11MB50756238298DCDD2AFCC7F3EF6170@CO1PR11MB5075.namprd11.prod.outlook.com>
+References: <20201006145632.117291-1-srinivasx.k@intel.com>
+ <B6C174E8-161A-43BD-AFDA-21C94F6D56E3@intel.com>
+ <BY5PR11MB44341733BF4A7CCB79861322F6080@BY5PR11MB4434.namprd11.prod.outlook.com>
+ <BYAPR11MB30149153D9229142DD2CF96BF9020@BYAPR11MB3014.namprd11.prod.outlook.com>
+ <20201019182936.GA3149316@intel.com>
+ <160313241261.4425.3184593266306110227@build.alporthouse.com>
+ <CO1PR11MB50750A169A14FCC84C70C936F61F0@CO1PR11MB5075.namprd11.prod.outlook.com>
+ <CO1PR11MB5075AAFA3500F4A3A610FC52F6170@CO1PR11MB5075.namprd11.prod.outlook.com>
+ <D7AA9562-983D-4F83-BFD7-6E66801FA273@intel.com>
+ <CO1PR11MB50756238298DCDD2AFCC7F3EF6170@CO1PR11MB5075.namprd11.prod.outlook.com>
+Subject: RE: [Intel-gfx] [PATCH] drm/i915/ehl: Remove require_force_probe
+ protection
+From: Chris Wilson <chris@chris-wilson.co.uk>
+To: "Pandey, Hariom" <hariom.pandey@intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
+Date: Fri, 27 Nov 2020 20:36:48 +0000
+Message-ID: <160650940860.13437.11287039461548084896@build.alporthouse.com>
+User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,28 +49,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-MIME-Version: 1.0
+Cc: "Ausmus, James" <james.ausmus@intel.com>, "Nikula,
+ Jani" <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org, "Meena,
+ Mahesh" <mahesh.meena@intel.com>, "K, SrinivasX" <srinivasx.k@intel.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, "Souza,
+ Jose" <jose.souza@intel.com>, "Szwichtenberg,
+ Radoslaw" <radoslaw.szwichtenberg@intel.com>, "Surendrakumar Upadhyay,
+ TejaskumarX" <tejaskumarx.surendrakumar.upadhyay@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 27 Nov 2020 18:37:15 +1000:
+Quoting Pandey, Hariom (2020-10-28 11:55:04)
+> Ok, I have initiated the steps to upgrade the CI machine's silicon & BIOS.
 
-> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-11-27-1
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6910b676898934c2abe9f3ff3d60f4d4bc8afda8
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+The single ehl we have in CI is still failing to enter rc6, both in the
+selftest and runtime testing. And I note that RAPL doesn't recognise it,
+so it doesn't report the power consumption.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
