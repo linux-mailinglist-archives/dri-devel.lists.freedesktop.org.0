@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C501D2C64DE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032DA2C64EB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1CF36EC98;
-	Fri, 27 Nov 2020 12:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F46F6ECA7;
+	Fri, 27 Nov 2020 12:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628B56EC8C;
- Fri, 27 Nov 2020 12:09:51 +0000 (UTC)
-IronPort-SDR: R6qZP7JrootS1iuRtDpbScjiq4ig7azsMAkCfMArevifqnin4JH0LIXzxfVlnCrG1ONToba4xA
- Zf/mNiHpKshw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540724"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540724"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0466EBFB;
+ Fri, 27 Nov 2020 12:09:52 +0000 (UTC)
+IronPort-SDR: EwiYa3UoNPfjzTtvCeVuu3HS+u2dySPiKhNu6BlK5BPg6OBw1HfS3O4MXpjR/EOLsIqF6xGTYM
+ sXXSZsLA5Ttg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540730"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540730"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:51 -0800
-IronPort-SDR: 8V+sDq3gsCnIoU9DeD1WrPW7YnDyBMx4z5DEiPHY6ogDfiXpVycSR99rjSK9pOHp1mjXMtKObR
- A0082ZzGBRqg==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029105"
+ 27 Nov 2020 04:09:52 -0800
+IronPort-SDR: oxCASUkANsZtaiU5LUnCuPrVeV+5ItOFQvTbdgLBQev50Ey7pMITp72VqaUv2N7FtCGsNCtcDe
+ ezI5k9V4XITA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029118"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:49 -0800
+ 27 Nov 2020 04:09:51 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 078/162] drm/i915: Return error value when bo not in LMEM
- for discrete
-Date: Fri, 27 Nov 2020 12:05:54 +0000
-Message-Id: <20201127120718.454037-79-matthew.auld@intel.com>
+Subject: [RFC PATCH 079/162] drm/i915/dmabuf: Disallow LMEM objects from
+ dma-buf
+Date: Fri, 27 Nov 2020 12:05:55 +0000
+Message-Id: <20201127120718.454037-80-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -50,52 +50,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mohammed Khajapasha <mohammed.khajapasha@intel.com>,
- "Michael J . Ruhl" <michael.j.ruhl@intel.com>,
- Animesh Manna <animesh.manna@intel.com>, dri-devel@lists.freedesktop.org
+Cc: "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
+From: "Michael J. Ruhl" <michael.j.ruhl@intel.com>
 
-Return EREMOTE value when frame buffer object is not backed by LMEM
-for discrete. If Local memory is supported by hardware the framebuffer
-backing gem objects should be from local memory.
+The dma-buf interface for i915 does not currently support
+LMEM backed objects.
 
-Signed-off-by: Mohammed Khajapasha <mohammed.khajapasha@intel.com>
-Cc: Michael J. Ruhl <michael.j.ruhl@intel.com>
-Cc: Animesh Manna <animesh.manna@intel.com>
+Check imported objects to see if they are from i915 and if they
+are LMEM.  If they are, reject the import.
+
+This check is needed in two places, once on import, and then a
+recheck in the mapping path in the off chance that an object
+was migrated to LMEM after import.
+
+Signed-off-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 8a7945f55278..95ed1e06ea55 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -18054,11 +18054,20 @@ intel_user_framebuffer_create(struct drm_device *dev,
- 	struct drm_framebuffer *fb;
- 	struct drm_i915_gem_object *obj;
- 	struct drm_mode_fb_cmd2 mode_cmd = *user_mode_cmd;
-+	struct drm_i915_private *i915;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+index c4b01e819786..018d02cc4af5 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
+@@ -9,6 +9,7 @@
+ #include <linux/dma-resv.h>
  
- 	obj = i915_gem_object_lookup(filp, mode_cmd.handles[0]);
- 	if (!obj)
- 		return ERR_PTR(-ENOENT);
+ #include "i915_drv.h"
++#include "i915_gem_lmem.h"
+ #include "i915_gem_object.h"
+ #include "i915_scatterlist.h"
  
-+	/* object is backed with LMEM for discrete */
-+	i915 = to_i915(obj->base.dev);
-+	if (HAS_LMEM(i915) && !i915_gem_object_is_lmem(obj)) {
-+		/* object is "remote", not in local memory */
-+		i915_gem_object_put(obj);
-+		return ERR_PTR(-EREMOTE);
+@@ -25,6 +26,11 @@ static struct sg_table *i915_gem_map_dma_buf(struct dma_buf_attachment *attachme
+ 	struct scatterlist *src, *dst;
+ 	int ret, i;
+ 
++	if (i915_gem_object_is_lmem(obj)) {
++		ret = -ENOTSUPP;
++		goto err;
 +	}
 +
- 	fb = intel_framebuffer_create(obj, &mode_cmd);
- 	i915_gem_object_put(obj);
+ 	ret = i915_gem_object_pin_pages(obj);
+ 	if (ret)
+ 		goto err;
+@@ -248,6 +254,10 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
+ 			 */
+ 			return &i915_gem_object_get(obj)->base;
+ 		}
++
++		/* not our device, but still a i915 object? */
++		if (i915_gem_object_is_lmem(obj))
++			return ERR_PTR(-ENOTSUPP);
+ 	}
  
+ 	/* need to attach */
 -- 
 2.26.2
 
