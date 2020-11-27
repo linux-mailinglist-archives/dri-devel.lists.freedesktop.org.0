@@ -1,118 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8F92C682C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:49:46 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8962C6833
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:50:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF786EE02;
-	Fri, 27 Nov 2020 14:49:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 050196EE08;
+	Fri, 27 Nov 2020 14:50:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1DFF6EE02;
- Fri, 27 Nov 2020 14:49:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VAaGfCQuc1O3AiAaNZCaBjiUi2Xf/qEVJ5aApZw1U1ikD/Cja0WIJM27uE9fOPSYhahgHf4xJvfG6pjK3rE6eVVIVoCWZRFByqJgsSnRxGgTvnHwPbUF76UZx+D+m21GxTyJVLtTBSywpL58/mpmRkZdObm2iem3eqL673KmVbC1rsQMnSeUzondwxMm6BbVZ2KoZkB4jX0mzn3V9Gojo+YAu0lbaa6rFDKsuBNXCPkXNXtwC5aQSxhSs+caOvq4XjON1NbckA+kZ4mj/K57HwC6idUF2ULInBCGPlvEGUbF2QP3DrzUcfilK7350P20P+seb0PGt1bxwgqSxlo7Jw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tsPc9kSD3yolOsCkWQ0hfbB+7k7lQAmUDrlZPFUUWfQ=;
- b=kkLIimXWIuKl4CWALwoddjoDcYSH+L3j8P7Zp6hN8MuN7yelyIPyZ5Y7yRFJTdv8IF+4/2m7gy/BTLP+jihzVxZy3KKPnb2bjZrGxHr2DuMYLUIOuUE964Xufj0XpOozvOd22yJ445OmHsyYbqyuArlkbA6fx0KPuvpKUPf/qD15WlHZz2yehLiSqe4lGs196o4tFEIGgqpmjNuRYJex9flub04wNwfMXTFm4V7/FfmYI0sQgC7GB/bQfCfLE4LxP1VOdWfTnitHKe1WyItxOIeqHZuWjePCl/nHSyv+JktAlH/GGH2GANsuCGiFbXKMctjA9tfP5QfJM6D9XtI/WQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tsPc9kSD3yolOsCkWQ0hfbB+7k7lQAmUDrlZPFUUWfQ=;
- b=378++aR1PZXGQgvluVCyYl4d5e/w4LZpwPztSgxYRyayficWaBigkIYi9+yPHAUSsVO+m9c+ntr5g1P+6NDw7OG+xQwR231U5Gs7h/9mrTuGfnISvyvrJUM2UsKdlsd4pdepd8zXX29Nv8AFXkiwvJUiNjTp43dib1kQObpfbQU=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2420.namprd12.prod.outlook.com (2603:10b6:207:4c::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.24; Fri, 27 Nov
- 2020 14:49:37 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3589.032; Fri, 27 Nov 2020
- 14:49:37 +0000
-Subject: Re: [PATCH] drm/radeon: fix check order in radeon_bo_move
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20201125143424.1434-1-christian.koenig@amd.com>
- <CAKMK7uF7SZ_ihX+s6Rxg8Ws96vViu8Ab2vN+6VysWeDRkQMbNg@mail.gmail.com>
- <CAPM=9txqSCUcCoYKXxC6bX5Qx1SEBG4MPNTdKRybogwyOsZg5w@mail.gmail.com>
- <66a8a6f5-af8b-a46f-0dfa-417dd699b58f@gmail.com>
- <CAKMK7uEurRUDsK58xAiJ98xQckCeL6p+hFvbkx8AP6HAW-EsDw@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5a88c54c-3731-856a-da3c-b084c9b33187@amd.com>
-Date: Fri, 27 Nov 2020 15:49:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAKMK7uEurRUDsK58xAiJ98xQckCeL6p+hFvbkx8AP6HAW-EsDw@mail.gmail.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM9P192CA0029.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::34) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A70B96EE08
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 14:50:56 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id i2so5851645wrs.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 06:50:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=kQWV49pujlmRaIQ5jgnQgNVdngMEKYgj0984wCyTobw=;
+ b=htkftUcTu38rYgg+t8JxPCkONLao2x/5X3GVYqr8Ls8WHxCTkqn3L+nxYYamIEd/w5
+ D5YC8lCIyH6kzgTSL516AMymq5ltgH5rw8IMSmo7zMDxbrRl73yHxs/DZnGiKkp+QPOH
+ SxyUO9XTxbntJUPMw6ygrDhOonxhvnaqLXnh8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=kQWV49pujlmRaIQ5jgnQgNVdngMEKYgj0984wCyTobw=;
+ b=ouI7nt33GfhdVs//hP1sm2gBYcrmY27+RhPt0tOp9S2M9RmIOBhbu1IwHezI39FT6G
+ Ld6qTM5nsv65q4hOPIhOsfWQi6OoL3oVvFSLmC+DZKROWxXLM+7UIN7S6d3s4sq8/IcD
+ JCdJ0cnZW+0Zc/JEU05D+kYkuVEt5tgGd2REUN1GQmaLED577IFtlj+09Isc+WVMOTuL
+ jxiGKZ0vNZoFZRiZKo+i5YKc8XUmiNe0tFyiDlikizegkNvx6UBZaXNFul5jO8A+yes0
+ 232PCoSr16YNADuM54bIwrZjyF8OX5tLF8NdBLoX/PHDasPxRZIBuqwMHnoBVrOqAY4+
+ IEQg==
+X-Gm-Message-State: AOAM531drOw5FAL9YAuG+ek6H/RZPekA6amlucMPvXwKueB0akmYQ2BK
+ qq/zX5gh1sYIay+kn14io1s9tw==
+X-Google-Smtp-Source: ABdhPJxfv14p/J2HUql3b5ucaZxqOHa7FV0VkwiEL/oC16P/Ik/Z8q1X1fpPwwAqz029oAzqwGl7rw==
+X-Received: by 2002:adf:b74d:: with SMTP id n13mr11127354wre.101.1606488655177; 
+ Fri, 27 Nov 2020 06:50:55 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id w10sm14968203wra.34.2020.11.27.06.50.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Nov 2020 06:50:54 -0800 (PST)
+Date: Fri, 27 Nov 2020 15:50:52 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>
+Subject: Re: [PATCH] drm: imx: Move fbdev setup to before output polling
+Message-ID: <20201127145052.GB401619@phenom.ffwll.local>
+Mail-Followup-To: "Jonas Mark (BT-FIR/ENG1-Grb)" <Mark.Jonas@de.bosch.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "RUAN Tingquan (BT-FIR/ENG1-Zhu)" <Tingquan.Ruan@cn.bosch.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <20201117155229.9837-1-mark.jonas@de.bosch.com>
+ <e089d4d5-3bd8-c2cd-3011-ed87ae4284e8@suse.de>
+ <CAKMK7uEpEt4w4kVJLOd2Yw1MnsrCn-NMgT4TjcxROpZBa_xvYg@mail.gmail.com>
+ <68af913c-9f4e-73b5-a2cb-8692902a2847@suse.de>
+ <38c2d92ac5f04a228e55af43a12a4bd7@de.bosch.com>
+ <CAKMK7uFofJ2f4ozx=QMkfYHLAy0euOf6S0wou5qYC--QiEe5Qw@mail.gmail.com>
+ <98c874b923bd4e60bf2e727a29729dfc@de.bosch.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM9P192CA0029.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:21d::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.20 via Frontend Transport; Fri, 27 Nov 2020 14:49:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 8f101340-1d8f-45e4-cbbf-08d892e3a903
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2420:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB242048CD812D76D2CDD57DCE83F80@BL0PR12MB2420.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: z2wETkYnviAo4YlkMcRbT451kWDNuYmIlPAD6NiLq55TchPcP4+SMNDqWPHqnepQ2gOkQbIQ28b8m8HKRrS9PLVPXDPdwQ1UDTniPMlaUBQs6XVysv4zDj6546+NwzSpljlTFfZd5C/mzAotFS00u2JLqAq6j60q1jnjSBpYyXy26qtLGE7GOJnCkk72a2fuZrS06+MkygMkLHf0gD9jefepSNTGZTQBQ6xZgmLhBdwvNZVH/+6n0vyul5puRNavZTRqtL1my2EPMWUDpOeHXJLYcBcEUtxTza0TFRovxTcrroMyjVPhg6y6AoHAPwQPizXU00tA6sFGY/skXFxvcTnk6LcuqkGgYQg5he4lxx9NTgkKRlJvCls1NQ3JoU3T
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(6666004)(31686004)(86362001)(66946007)(66556008)(8676002)(8936002)(6486002)(4326008)(66476007)(5660300002)(36756003)(83380400001)(66574015)(54906003)(2616005)(186003)(16526019)(2906002)(53546011)(316002)(52116002)(31696002)(6916009)(478600001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?THB6QTdIVy9TV1JLcmxpR3l6U1ZJVXR6ck9EWnU4VFBRYXpYM0hMSkRPUTQ1?=
- =?utf-8?B?cEU1Zk1GdHFRRFFsZE9BT21LdWdwVS9oTVNXRm8rd0VTOU5lK0RDNzY3cW5R?=
- =?utf-8?B?L1BwN2NUUWJlM0F2aVJNN2RkeVhxck9lTHBkdVpUaFo1cWJqL1FpbW4rSDgz?=
- =?utf-8?B?dTZUOXVCUVhtNkw3WHoxeXVHVktNeWZjRU5kMkgxajRaRFZLd0JZU0QzelZD?=
- =?utf-8?B?cTltaFRZNVE5bkVJSnBYTnlzK05XZ3JoZHZNMlJpY1dDWHFJZEZHbUFuV3py?=
- =?utf-8?B?TXFvNzlHcUZKZ2U2ZlV0aUh0dDFFb3lQRUNsNktJOUViRWlYd0loMGI4ME52?=
- =?utf-8?B?dWtLK2hBY09wQ3ZzU1pxTkZSWUg0MjVjeUhxS3BnbXRxOE5aUEl4YTNURVhk?=
- =?utf-8?B?aXE2WDBFcTlFUW9TQ3NRNE9rMm5IemFuVjB2bDVMcHcxOXBmSE5Ec1BFWGY5?=
- =?utf-8?B?Nm1UOXlIcG0ycWxSQVQyZnkwMU1ldnAraE9wSjZvcWszZlFuaGJOTkIrQkxB?=
- =?utf-8?B?SDlJaEE1cGpsMEs0cjgwelNxaE9rUEpYNGd6d1NaVkYwWVdBbUpnb1Jta0xX?=
- =?utf-8?B?NGZxU09Ub2ZnSjdsZForVXVsMzlaaHVEaGNjM1hSR2hYM3AwM0VrVGNjenZI?=
- =?utf-8?B?NzVzcTkrMURaUmxXZ05EMlE3bG1Db3JueTFkSkJxV3dnbFV0Q0c0UjBlWm9Y?=
- =?utf-8?B?eVYvVXdPdzR1UmxFMXoyWUpuVHJoU0JlVEtSaURPcm5MNURmbElpa1VKK2x0?=
- =?utf-8?B?OXBwR1RnUEdpa1UvdWVYM0licXdUUjVMTzRFbEdvOTRCaVZ0YXdQZlFQYjhL?=
- =?utf-8?B?aDJtSVVBRXBpekpsUmNFZjdRdWZaK1R1NU9zWHlLckVwODdSNEtYR3NadnN3?=
- =?utf-8?B?L3crWTJ1WktMTytyaUxoaktFZ1RtUUlSaHBsR3c4U1c1RytuM0QzUG1ESWcw?=
- =?utf-8?B?MjRSMVJMYll4bU84WGVNVVJXMnBkOXl3R011ZDJEam95MHdPVXNnaTQxam83?=
- =?utf-8?B?NXdqMi92bXprL3JkcktBYVhkSkNST1dGeDdSYm4ySUE4V0U5c0N3ZWkwd1RE?=
- =?utf-8?B?aEg5ZkxZRklLRUNiajY3UjZmSWE4Qng1SndWL1d3Q2FXTThrWGJ1N0JjNXJs?=
- =?utf-8?B?elpCTmJGWTM0Q3hnb2c3VmtJWXA5QnByUkZQaWErdUdGRG5peTcwVUJBbGN4?=
- =?utf-8?B?aUc1S3NRL1M0SGpDS1k0Rk1GQVZhZS9PTFN1WFV5MlI2ZXZsZHhTSmwxd1NQ?=
- =?utf-8?B?QXQ4Qy9ScHFxTmY1ODg0NEdPdUhlbFg0eXRXb0ZlSjJ5WVdiS0pZVmkybXQw?=
- =?utf-8?B?WllUL3FmcVBFZWV4M2U4K1lyV0VoNHNtaDNoOG1YS0llQ1h1WE5rWmYrbXJU?=
- =?utf-8?B?NUlEWGl6aFhOQ1hWWldjR2o3cTdYNi9CUytWRUFUb1NZL3N2UHFlaG5KMnRY?=
- =?utf-8?Q?WFjGmTMB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f101340-1d8f-45e4-cbbf-08d892e3a903
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2020 14:49:37.1190 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jjZNv5+kGRA9LPWjUk0bQi+CHMKoYQtQoPR7jnVdSccS/a3nXy8XSvnaf1D80jJN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2420
+Content-Disposition: inline
+In-Reply-To: <98c874b923bd4e60bf2e727a29729dfc@de.bosch.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,43 +81,226 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: "RUAN Tingquan \(BT-FIR/ENG1-Zhu\)" <Tingquan.Ruan@cn.bosch.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjcuMTEuMjAgdW0gMTU6NDYgc2NocmllYiBEYW5pZWwgVmV0dGVyOgo+IE9uIEZyaSwgTm92
-IDI3LCAyMDIwIGF0IDM6MTAgUE0gQ2hyaXN0aWFuIEvDtm5pZwo+IDxja29lbmlnLmxlaWNodHp1
-bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4+IEFtIDI3LjExLjIwIHVtIDA5OjMxIHNjaHJpZWIg
-RGF2ZSBBaXJsaWU6Cj4+PiBPb3BzIHNvcnJ5IGZvciBkZWxheSBMR1RNCj4+Pgo+Pj4gUmV2aWV3
-ZWQtYnk6IERhdmUgQWlybGllIDxhaXJsaWVkQHJlZGhhdC5jb20+Cj4+IFRoYW5rcy4KPj4KPj4+
-IE9uIEZyaSwgMjcgTm92IDIwMjAgYXQgMDI6MzQsIERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4gd3JvdGU6Cj4+Pj4gT24gV2VkLCBOb3YgMjUsIDIwMjAgYXQgMzozNCBQTSBDaHJpc3Rp
-YW4gS8O2bmlnCj4+Pj4gPGNrb2VuaWcubGVpY2h0enVtZXJrZW5AZ21haWwuY29tPiB3cm90ZToK
-Pj4+Pj4gUmVvcmRlciB0aGUgY29kZSB0byBmaXggY2hlY2tpbmcgaWYgYmxpdHRpbmcgaXMgYXZh
-aWxhYmxlLgo+Pj4+IE1pZ2h0IGJlIGdvb2QgdG8gZXhwbGFpbiB3aHkgYmxpdHRpbmcgbWlnaHQg
-bm90IGJlIGF2YWlsYWJsZSwgZS5nLgo+Pj4+IHN1c3BlbmQvcmVzdW1lIGFuZCBvciBjaGlwIGRl
-YXRoIGFuZCBzdHVmZiBsaWtlIHRoYXQuCj4+Pj4KPj4+Pj4gU2lnbmVkLW9mZi1ieTogQ2hyaXN0
-aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+Pj4+IE5lZWRzIEZpeGVzOiAy
-OGE2OGY4MjgyNjYgKCJkcm0vcmFkZW9uL3R0bTogdXNlIG11bHRpaG9wIikKPj4gV2h5IGRvZXMg
-dGhlIHN1YmplY3Qgb2YgdGhlIHBhdGNoIG5lZWRzIHRvIGJlIGluICIoKSIgPyBJIHdhcyBhbHJl
-YWR5Cj4+IHdvbmRlcmluZyB3aHkgZGltIHNvbWV0aW1lcyBjb21wbGFpbnMgYWJvdXQgbXkgRml4
-ZXMgdGFnLgo+IEhtIEkgdGhvdWdodCB0aGF0J3MgdGhlIG9mZmljaWFsIHN0eWxlLiBJIGtpbmRh
-IGhhY2tlZCBhcm91bmQgb24gaXQKPiB1bnRpbCBsaW51eC1uZXh0IHN0b3BwZWQgY29tcGxhaW5p
-bmcgYWJvdXQgb3VyIEZpeGVzOiB0YWdzLiBNYXliZSBpdCdzCj4gbm90IHF1aXRlIGFjY3VyYXRl
-bHkgcmVmbGVjdGluZyB0aGUgY3VycmVudCBiaWtlc2hlZC4gSWlyYyBjaGVja3BhdGNoCj4gZXZl
-biBjb21wbGFpbnMgd2hlbiB5b3UgbGVhdmUgb3V0IHRoZSBjb21taXQgYmVmb3JlIHRoZSBzaGEx
-LCBhdCBsZWFzdAo+IGluIGZyZWUtZm9ybSB0ZXh0IGluIHRoZSBjb21taXQgbWVzc2FnZS4KCldl
-bGwgImdpdCBsb2cgLTEgLS1vbmVsaW5lIDI4YTY4ZjgyODI2NiIgZ2l2ZXMgbWU6CgoyOGE2OGY4
-MjgyNjYgZHJtL3JhZGVvbi90dG06IHVzZSBtdWx0aWhvcAoKV2hpY2ggaXMgd2hhdCBJIHdvdWxk
-IG5hdHVyYWxseSBleHBlY3QgaGVyZSwgYnV0IG5vIGlkZWEgd2hhdCB0aGUgCm9mZmljaWFsIGZv
-cm1hdCBzaG91bGQgYmUuCgpDaHJpc3RpYW4uCgo+IC1EYW5pZWwKPgo+Pj4+IEJ0dwo+Pj4+Cj4+
-Pj4gJCBkaW0gZml4ZXMgW3NoYTFdCj4+Pj4KPj4+PiBnZW5lcmF0ZXMgdGhhdCBmb3IgeW91IHBs
-dXMgbmljZSBjYyBsaXN0IG9mIG9mZmVuZGVycy4gV2l0aCB0aGUgRml4ZXMKPj4+PiBsaW5lIGFk
-ZGVkOgo+Pj4+Cj4+Pj4gUmV2aWV3ZWQtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJA
-ZmZ3bGwuY2g+Cj4+IFRoYW5rcywKPj4gQ2hyaXN0aWFuLgo+PgoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
-ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
-L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Thu, Nov 26, 2020 at 09:44:02AM +0000, Jonas Mark (BT-FIR/ENG1-Grb) wrot=
+e:
+> Hi Daniel,
+> =
+
+> > > Thank you very much for your feedback. We appreciate it.
+> > >
+> > > > >>> diff --git a/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > >>> b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > >>> index 9bf5ad6d18a2..2665040e11c7 100644
+> > > > >>> --- a/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > >>> +++ b/drivers/gpu/drm/imx/imx-drm-core.c
+> > > > >>> @@ -240,14 +240,18 @@ static int imx_drm_bind(struct device *de=
+v)
+> > > > >>>                legacyfb_depth =3D 16;
+> > > > >>>        }
+> > > > >>>
+> > > > >>> +     /*
+> > > > >>> +      * The generic fbdev has to be setup before enabling outp=
+ut polling.
+> > > > >>> +      * Otherwise the fbdev client is not ready to handle dela=
+yed events.
+> > > > >>> +      */
+> > > > >>> +     drm_fbdev_generic_setup(drm, legacyfb_depth);
+> > > > >>> +
+> > > > >>>        drm_kms_helper_poll_init(drm);
+> > > > >>>
+> > > > >>>        ret =3D drm_dev_register(drm, 0);
+> > > > >>>        if (ret)
+> > > > >>>                goto err_poll_fini;
+> > > > >>>
+> > > > >>> -     drm_fbdev_generic_setup(drm, legacyfb_depth);
+> > > > >>> -
+> > > > >>
+> > > > >> This does not work well. fbdev is supposed to be another regular
+> > > > >> DRM client. It has to be enabled after registering the DRM devic=
+e.
+> > > > >>
+> > > > >> I'd rather improve fbdev or the driver to handle this gracefully.
+> > > > >
+> > > > > Yeah I'm not understanding the point here. Once fbcon is running,
+> > > > > you have a screen. Any fbdev userspace client  also should do a
+> > > > > modeset first. And if they dont and it's expected uapi for fbdev
+> > > > > chardev that the display boots up enabled, then we need to fix
+> > > > > that in the fbdev helpers, not through clever reordering in
+> > > > > drivers so that a side-effect causes a modeset.
+> > > > >
+> > > > > Note that this is a bit tricky since fbdev shouldn't take over the
+> > > > > screen by default, so we'd need to delay this until first open of
+> > > > > /dev/fb0. And we should probably also delay the hotplug handling
+> > > > > until the first open. fbcon also fake-opens the fbdev file, so
+> > > > > it's the same code path.
+> > > >
+> > > > As far as I understand the commit message, the problem is that the
+> > > > display blanks out after registering the driver. And fbdev somewhat
+> > > > mitigates this by doing an early modeset. Users with fbdev disabled
+> > > > (most of them in embedded, I guess) would still run into the issue
+> > > > until userspace makes a modeset.
+> > > >
+> > > > Mark, if that's the case, an option might be to pick up the device
+> > > > settings instead of calling drm_mode_config_reset(). The driver
+> > > > would then continue to display whatever is on the screen.
+> > >
+> > > We are started using fbdev in our embedded application with Linux
+> > > 3.10, later updated to 4.14 and are now in the process of updating to
+> > > 5.4. So far the uapi appeared to us as if we could rely on an already
+> > > enabled fbdev. That is, none of our applications does a modeset.
+> > >
+> > > When switching to 5.4 we noticed that the fbdev uapi changed. That is,
+> > > the LCD is switched off until it is explicitly enabled. It could be
+> > > enabled by writing to /sys/class/graphics/fb0/blank.
+> > >
+> > > You are right, we are not using fbcon. fbcon will still enable the LCD
+> > > but in our embedded domain we have it disabled because we must not sh=
+ow a
+> > console.
+> > >
+> > > Do we understand your proposal correctly to replace the call to
+> > > drm_mode_config_reset() in imx_drm_bind() [imx-drm-core.c] with
+> > > picking up the device settings instead?
+> > >
+> > > https://eur03.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fe=
+lix
+> > > ir.bootlin.com%2Flinux%2Fv5.10-
+> > rc4%2Fsource%2Fdrivers%2Fgpu%2Fdrm%2Fim
+> > > x%2Fimx-drm-
+> > core.c%23L231&amp;data=3D04%7C01%7CMark.Jonas%40de.bosch.com
+> > >
+> > %7C9bbf5ede27ed40be9aaa08d88bac0c53%7C0ae51e1907c84e4bbb6d648ee
+> > 58410f4
+> > >
+> > %7C0%7C0%7C637412918338819509%7CUnknown%7CTWFpbGZsb3d8eyJ
+> > WIjoiMC4wLjAw
+> > >
+> > MDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sd
+> > ata=3D68
+> > >
+> > 1kOSAs2XsI1l4sOJ7j5UAGkAMciR78ma%2FgbD5jR98%3D&amp;reserved=3D0
+> > >
+> > > We are a little clueless right now: How do we pick up the device sett=
+ings?
+> > =
+
+> > Nope, not what I had in mind.
+> > =
+
+> > Instead intercept the fb_ops->open call and in there if it's a userspac=
+e open
+> > (user parameter of the callback tells you that) and kms is not in use, =
+then try to
+> > light up the display for the fbdev userspace to use. drm fbdev helpers =
+already
+> > have that callback as drm_fbdev_fb_open(). I think you could try and ju=
+st call
+> > drm_fbdev_client_hotplug directly, that should do the trick. Or maybe c=
+alling
+> > drm_fb_helper_dpms is the better option, not sure. fbmem.c seems to not=
+ store
+> > any blanking state at all, so this is probably all ill-defined.
+> > =
+
+> > Important part is to do this only for the user fb_open case, since fbco=
+n will do its
+> > own thing too.
+> > =
+
+> > Plus I guess we need to document that this is the uapi we're having for=
+ fbdev
+> > clients, so ideally this should be cc'ed widely so we can get some acks=
+ from
+> > former fbdev maintainers.
+> > =
+
+> > Also ideally we'd have an igt for this uapi to make sure it never break=
+s again.
+> > Something like:
+> > 1. open the kms driver for this, make sure display is completely off.
+> > 2. close kms file
+> > 3. open fbdev file
+> > 4. check (through opening kms side again) that the display has been ena=
+bled.
+> > =
+
+> > See
+> > https://eur03.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fdri=
+.freede
+> > sktop.org%2Fdocs%2Fdrm%2Fgpu%2Fdrm-uapi.html%23validating-changes-
+> > with-
+> > igt&amp;data=3D04%7C01%7CMark.Jonas%40de.bosch.com%7C9bbf5ede27ed4
+> > 0be9aaa08d88bac0c53%7C0ae51e1907c84e4bbb6d648ee58410f4%7C0%7C0
+> > %7C637412918338819509%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
+> > AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am
+> > p;sdata=3DtgdaOJP2wK7eXFmOQlVdUa%2B7CRwZxOx99BCCMNE8iD0%3D&a
+> > mp;reserved=3D0
+> > for some details on our validation testing, there's already a very basi=
+c fbdev
+> > testcase there.
+> =
+
+> We had a look into the topic and came to the conclusion that we cannot do=
+ it
+> right now. We are lacking experience in the field and need to keep drivin=
+g our
+> application development.
+> =
+
+> Thus, with a heavy heart, we will instead implement a workaround which wi=
+ll
+> enable the LCD at boot time from user space. What works good for us is wr=
+iting
+> to /sys/class/graphics/fb0/blank.
+
+I think this makes sense, the uapi for fbdev isn't so firmly established
+anyway. And it definitely doesn't hurt (at least on drm-kms drivers, where
+we no-op out changes that change nothing).
+
+Just in general, if you hit something like this, we're definitely
+interested in making fbdev a more well-defined uapi that can be relied
+upon a bit more across drivers. 20+ years after it landed, but hey if it
+keeps userspace happy, it imo makes sense.
+-Daniel
+
+> =
+
+> Greetings,
+> Mark
+> =
+
+> Building Technologies, Panel Software Fire (BT-FIR/ENG1-Grb)
+> Bosch Sicherheitssysteme=A0GmbH | Postfach 11 11 | 85626 Grasbrunn | GERM=
+ANY | www.boschsecurity.com
+> =
+
+> Sitz: Stuttgart, Registergericht: Amtsgericht Stuttgart HRB 23118
+> Aufsichtsratsvorsitzender: Christian Fischer; Gesch=E4ftsf=FChrung: Tanja=
+ R=FCckert, Andreas Bartz, Thomas Quante
+> =
+
+> 100 Years Bosch Building Technologies 1920-2020
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
