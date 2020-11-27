@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048AE2C6573
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3E12C6574
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7036ED42;
-	Fri, 27 Nov 2020 12:12:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA626ED7C;
+	Fri, 27 Nov 2020 12:12:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C886ED65;
- Fri, 27 Nov 2020 12:11:59 +0000 (UTC)
-IronPort-SDR: hfBAFWZ1Um4h/AziP+MPD4XZFmW4vaNF57a/K4Yri2nmmWBl1vNCxvFj2qkP022b6XZTakjgUS
- tKmlQJE3jptA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092972"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092972"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEA9C6ED65;
+ Fri, 27 Nov 2020 12:12:00 +0000 (UTC)
+IronPort-SDR: ZCVlz9UMYKhFo4e2JdhElOv4hfPohvLF+3Mp1FBLhow4QZkoZ1pk2HADyVIYggt/ROVtSXdqmf
+ to/Th4rghSQw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092978"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092978"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:59 -0800
-IronPort-SDR: rEpU1jGEQuwVf21rU3Xb6XTremC/vvnh8jWYm3VfZV8eS7sa66zUO3iCP4oVBxc36YSD005rxd
- VbBRowbE/w+A==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029945"
+ 27 Nov 2020 04:12:00 -0800
+IronPort-SDR: uPGXAOG3kv8kJ4S9jvWIFZ2t8plv42cOjgOwStYQl/+GqOt7BLJC23W2t556aglSDF9DtoqLp3
+ bQPyAfGNClyg==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029949"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:57 -0800
+ 27 Nov 2020 04:11:59 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 140/162] drm/i915: window_blt_copy is used for swapin and
- swapout
-Date: Fri, 27 Nov 2020 12:06:56 +0000
-Message-Id: <20201127120718.454037-141-matthew.auld@intel.com>
+Subject: [RFC PATCH 141/162] drm/i915: Lmem eviction statistics by category
+Date: Fri, 27 Nov 2020 12:06:57 +0000
+Message-Id: <20201127120718.454037-142-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -58,118 +57,178 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ramalingam C <ramalingam.c@intel.com>
 
-window_blt_copy feature is used for swapin and swapout based on the i915
-module parameter called enable_eviction.
+Number of bytes swapped in and out are captured for both blitter and
+memcpy based evictions with time taken for the process.
+
+Debugfs is extended to provide the eviction statistics through both
+methods with rate of transfer.
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: CQ Tang <cq.tang@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_region.c | 14 ++++++++++----
- drivers/gpu/drm/i915/i915_drv.c            |  4 ++--
- drivers/gpu/drm/i915/i915_params.c         |  6 ++++--
- drivers/gpu/drm/i915/i915_params.h         |  2 +-
- 4 files changed, 17 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_region.c | 32 +++++++++++++---
+ drivers/gpu/drm/i915/i915_debugfs.c        | 43 +++++++++++++++++++---
+ drivers/gpu/drm/i915/i915_drv.h            |  5 +++
+ 3 files changed, 68 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-index 4fab9f6b4bee..f9ff0aa31752 100644
+index f9ff0aa31752..1ec6528498c8 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-@@ -16,7 +16,7 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
+@@ -16,6 +16,7 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
  	struct drm_i915_gem_object *dst, *src;
  	unsigned long start, diff, msec;
--	int err;
-+	int err = -EINVAL;
++	bool blt_completed = false;
+ 	int err = -EINVAL;
  
  	GEM_BUG_ON(obj->swapto);
- 	GEM_BUG_ON(i915_gem_object_has_pages(obj));
-@@ -54,7 +54,10 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
+@@ -54,8 +55,11 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
  	__i915_gem_object_pin_pages(src);
  
  	/* copying the pages */
--	err = i915_gem_object_memcpy(dst, src);
-+	if (i915->params.enable_eviction >= 2)
-+		err = i915_window_blt_copy(dst, src);
-+	if (err && i915->params.enable_eviction != 2)
-+		err = i915_gem_object_memcpy(dst, src);
+-	if (i915->params.enable_eviction >= 2)
++	if (i915->params.enable_eviction >= 2) {
+ 		err = i915_window_blt_copy(dst, src);
++		if (!err)
++			blt_completed = true;
++	}
+ 	if (err && i915->params.enable_eviction != 2)
+ 		err = i915_gem_object_memcpy(dst, src);
  
- 	__i915_gem_object_unpin_pages(src);
- 	__i915_gem_object_unset_pages(src);
-@@ -83,7 +86,7 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
+@@ -72,8 +76,14 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
+ 	if (!err) {
+ 		diff = jiffies - start;
+ 		msec = diff * 1000 / HZ;
+-		atomic_long_add(msec, &i915->time_swap_out_ms);
+-		atomic_long_add(sizes, &i915->num_bytes_swapped_out);
++		if (blt_completed) {
++			atomic_long_add(sizes, &i915->num_bytes_swapped_out);
++			atomic_long_add(msec, &i915->time_swap_out_ms);
++		} else {
++			atomic_long_add(sizes,
++					&i915->num_bytes_swapped_out_memcpy);
++			atomic_long_add(msec, &i915->time_swap_out_ms_memcpy);
++		}
+ 	}
+ 
+ 	return err;
+@@ -86,6 +96,7 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
  	struct drm_i915_gem_object *dst, *src;
  	unsigned long start, diff, msec;
--	int err;
-+	int err = -EINVAL;
++	bool blt_completed = false;
+ 	int err = -EINVAL;
  
  	GEM_BUG_ON(!obj->swapto);
- 	GEM_BUG_ON(i915_gem_object_has_pages(obj));
-@@ -117,7 +120,10 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
+@@ -120,8 +131,11 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
  	__i915_gem_object_pin_pages(dst);
  
  	/* copying the pages */
--	err = i915_gem_object_memcpy(dst, src);
-+	if (i915->params.enable_eviction >= 2)
-+		err = i915_window_blt_copy(dst, src);
-+	if (err && i915->params.enable_eviction != 2)
-+		err = i915_gem_object_memcpy(dst, src);
+-	if (i915->params.enable_eviction >= 2)
++	if (i915->params.enable_eviction >= 2) {
+ 		err = i915_window_blt_copy(dst, src);
++		if (!err)
++			blt_completed = true;
++	}
+ 	if (err && i915->params.enable_eviction != 2)
+ 		err = i915_gem_object_memcpy(dst, src);
  
- 	__i915_gem_object_unpin_pages(dst);
- 	__i915_gem_object_unset_pages(dst);
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 683643b211fa..78b528e89486 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -891,7 +891,7 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -138,8 +152,14 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
+ 	if (!err) {
+ 		diff = jiffies - start;
+ 		msec = diff * 1000 / HZ;
+-		atomic_long_add(msec, &i915->time_swap_in_ms);
+-		atomic_long_add(sizes, &i915->num_bytes_swapped_in);
++		if (blt_completed) {
++			atomic_long_add(sizes, &i915->num_bytes_swapped_in);
++			atomic_long_add(msec, &i915->time_swap_in_ms);
++		} else {
++			atomic_long_add(sizes,
++					&i915->num_bytes_swapped_in_memcpy);
++			atomic_long_add(msec, &i915->time_swap_in_ms_memcpy);
++		}
+ 	}
  
- 	i915_driver_register(i915);
+ 	return err;
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index 2bf51dd9de7c..983030ac39e1 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -364,6 +364,7 @@ static int i915_gem_object_info(struct seq_file *m, void *data)
+ 	struct drm_i915_private *i915 = node_to_i915(m->private);
+ 	struct intel_memory_region *mr;
+ 	enum intel_region_id id;
++	u64 time, bytes, rate;
  
--	if (HAS_LMEM(i915)) {
-+	if (HAS_LMEM(i915) && i915->params.enable_eviction >= 2) {
- 		ret = i915_setup_blt_windows(i915);
- 		if (ret)
- 			goto out_cleanup_drv_register;
-@@ -939,7 +939,7 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	seq_printf(m, "%u shrinkable [%u free] objects, %llu bytes\n",
+ 		   i915->mm.shrink_count,
+@@ -372,12 +373,42 @@ static int i915_gem_object_info(struct seq_file *m, void *data)
+ 	for_each_memory_region(mr, i915, id)
+ 		seq_printf(m, "%s: total:%pa, available:%pa bytes\n",
+ 			   mr->name, &mr->total, &mr->avail);
+-	seq_printf(m, "num_bytes_swapped_out %ld num_bytes_swapped_in %ld\n",
+-		   atomic_long_read(&i915->num_bytes_swapped_out),
+-		   atomic_long_read(&i915->num_bytes_swapped_in));
+-	seq_printf(m, "time_swap_out_msec %ld time_swap_in_msec %ld\n",
+-		   atomic_long_read(&i915->time_swap_out_ms),
+-		   atomic_long_read(&i915->time_swap_in_ms));
++
++	time = atomic_long_read(&i915->time_swap_out_ms);
++	bytes = atomic_long_read(&i915->num_bytes_swapped_out);
++	if (time)
++		rate = div64_u64(bytes * 1000, time * 1024 * 1024);
++	else
++		rate = 0;
++	seq_printf(m, "BLT: swapout %llu Bytes in %llu mSec(%llu MB/Sec)\n",
++		   bytes, time, rate);
++
++	time = atomic_long_read(&i915->time_swap_in_ms);
++	bytes = atomic_long_read(&i915->num_bytes_swapped_in);
++	if (time)
++		rate = div64_u64(bytes * 1000, time * 1024 * 1024);
++	else
++		rate = 0;
++	seq_printf(m, "BLT: swapin %llu Bytes in %llu mSec(%llu MB/Sec)\n",
++		   bytes, time, rate);
++
++	time = atomic_long_read(&i915->time_swap_out_ms_memcpy);
++	bytes = atomic_long_read(&i915->num_bytes_swapped_out_memcpy);
++	if (time)
++		rate = div64_u64(bytes * 1000, time * 1024 * 1024);
++	else
++		rate = 0;
++	seq_printf(m, "Memcpy: swapout %llu Bytes in %llu mSec(%llu MB/Sec)\n",
++		   bytes, time, rate);
++
++	time = atomic_long_read(&i915->time_swap_in_ms_memcpy);
++	bytes = atomic_long_read(&i915->num_bytes_swapped_in_memcpy);
++	if (time)
++		rate = div64_u64(bytes * 1000, time * 1024 * 1024);
++	else
++		rate = 0;
++	seq_printf(m, "Memcpy: swapin %llu Bytes in %llu mSec(%llu MB/Sec)\n",
++		   bytes, time, rate);
+ 	seq_putc(m, '\n');
  
- void i915_driver_remove(struct drm_i915_private *i915)
- {
--	if (HAS_LMEM(i915))
-+	if (HAS_LMEM(i915) && i915->params.enable_eviction >= 2)
- 		i915_teardown_blt_windows(i915);
+ 	print_context_stats(m, i915);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 82f431cc38cd..6f0ab363bdee 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1225,6 +1225,11 @@ struct drm_i915_private {
+ 	atomic_long_t num_bytes_swapped_in;
+ 	atomic_long_t time_swap_out_ms;
+ 	atomic_long_t time_swap_in_ms;
++
++	atomic_long_t num_bytes_swapped_out_memcpy;
++	atomic_long_t num_bytes_swapped_in_memcpy;
++	atomic_long_t time_swap_out_ms_memcpy;
++	atomic_long_t time_swap_in_ms_memcpy;
+ };
  
- 	disable_rpm_wakeref_asserts(&i915->runtime_pm);
-diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-index 264de32f3d6a..9fa58ed76614 100644
---- a/drivers/gpu/drm/i915/i915_params.c
-+++ b/drivers/gpu/drm/i915/i915_params.c
-@@ -197,8 +197,10 @@ i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
- 	"Fake LMEM start offset (default: 0)");
- #endif
- 
--i915_param_named_unsafe(enable_eviction, bool, 0600,
--	"Enable memcpy based eviction which does not rely on DMA resv refactoring)");
-+i915_param_named_unsafe(enable_eviction, uint, 0600,
-+	"Enable eviction which does not rely on DMA resv refactoring "
-+	"0=disabled, 1=memcpy based only, 2=blt based only, "
-+	"3=blt based but fallsback to memcpy based [default])");
- 
- i915_param_named_unsafe(lmem_size, uint, 0400,
- 	"Change lmem size for each region. (default: 0, all memory)");
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index be6979e7feda..c835e592ee5f 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -72,8 +72,8 @@ struct drm_printer;
- 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
- 	param(unsigned long, fake_lmem_start, 0, 0400) \
- 	param(unsigned int, lmem_size, 0, 0400) \
-+	param(unsigned int, enable_eviction, 3, 0600) \
- 	/* leave bools at the end to not create holes */ \
--	param(bool, enable_eviction, true, 0600) \
- 	param(bool, enable_hangcheck, true, 0600) \
- 	param(bool, load_detect_test, false, 0600) \
- 	param(bool, force_reset_modeset_test, false, 0600) \
+ static inline struct drm_i915_private *to_i915(const struct drm_device *dev)
 -- 
 2.26.2
 
