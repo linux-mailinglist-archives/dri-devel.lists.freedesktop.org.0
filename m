@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5873C2C6C3A
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:58:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FE42C6C3B
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:58:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EAAF6F3C0;
-	Fri, 27 Nov 2020 19:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 622906F3BE;
+	Fri, 27 Nov 2020 19:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F5F6F3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:40 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id q13so7864205lfr.10
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:40 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A6B06F3BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:43 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id y16so7153686ljk.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=da1A3vPp/gSfs8uQBFTqVywhFC5di/xPXEUcczCTk0g=;
- b=OwYLqsrQMpPVt+ChWeSPEvd1NbyN39kT9QgmMexvDbvKZzxVnAwlLyDVRQXb+G1rnL
- /ucb0C5ndckRbVUSYtwh/nUcnPVHej9oHsdAPqX7HZBrS2o4yFZuL8gqW0iO7Rnw+RGp
- BOdTXa9LoGy6KWFz+70GzDU88IzQGWHSzET0qaVaW8FqEE2uSANZi68YS6jMU77KEcEZ
- /dbrJTXqWAlYs8e0rRuNKw3lPCje5DbyzN/R0S/3n9oBVPW9QjmM4QGmCPp6c94I3ocJ
- nYbkmEAT7umptMLc2DtxqEh5D6JYGKqa3zu+D2BqmuhD7qMvaUefYUU4ZZQq58ZmRfKi
- MSBw==
+ bh=EVfT86QX+ZDTrJRF8dQQHF/3gUwiFpKsxjnoB2Y1zu0=;
+ b=pNd5jXk94PdmMLkBuGrzXr5VZIBW1q4/xg/xvm8uzlWcYxvNlIoog29ix8O5eeFt69
+ tDiNvMPfY65I0w27OPdUQpExtBaF1oC03M6/njKb87rLyTOAqe9X3s8YvSpmrZK7GSTy
+ pN4AHHdFO0/+yVCNc/xawLRkTrtjdIfnFkQKwAta5zkNKDrkhdcd4UgR+yOOKyZ5rRQA
+ zNaj3P+Aa3W4vi6QSkptOCD7yJDl/nzgZnCOd3103/rTMcaYvblNF42qdxGTSZIWGwTl
+ KO5iUJB3JAh/gbw1Hco1syS42CJWlYzO4rvzedDiIdjlxoHecchXXRIF+i1fVfLvQTXk
+ lrfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=da1A3vPp/gSfs8uQBFTqVywhFC5di/xPXEUcczCTk0g=;
- b=koSZ3ecPul6TKo81r3h04k+8Qmea4S0NlTDBdhjVBS9sxg1R4dF+2ZWtZnTjp20Bae
- GUdRk759zyYjGnQbuUeU/YJmUpIoaOtWIbRlNnEYVEPR9JWdiT3Ewun8u1WcJ9cjYPez
- XRVk9DjAi//+FaGw/yfDX1DHoWClY1XPmPUWCtx/S9W43Sal6a6U52CLoa5PHLi54bzD
- rgqpVgKVBbVyuJhFIqe/xq/TEwsque4ESS/yU/ThGwjAEhLAmOJOM8vw3GpE7GrlnAKO
- 2dsmtoJRdUnNv0gvlbzX/kSYvKkDtw3dW9wu/B/nsDYltA12/wpPX6Elxc4klaZNgSlV
- Vdeg==
-X-Gm-Message-State: AOAM532K05/m6c43+KFXLwFAQE//SEIV75ZXdcnpc0OMNChv3XMCRe4K
- rEp/3uGeUk1gMeiegEiVHVY=
-X-Google-Smtp-Source: ABdhPJxeusx1caPeHdHB09plu8ypFBaVCpeZX2OYdt+vTNBu3WWgW/FB/EuDCLXCO8WH0av2bFYc7A==
-X-Received: by 2002:a05:6512:15e:: with SMTP id
- m30mr3937440lfo.213.1606507119250; 
- Fri, 27 Nov 2020 11:58:39 -0800 (PST)
+ bh=EVfT86QX+ZDTrJRF8dQQHF/3gUwiFpKsxjnoB2Y1zu0=;
+ b=IzGqCH4dbE/WWp/3om2jd5NschJPtcZYitNoZWABp/ix/RWzvCHwqNz21c5DRkVSy0
+ TTpJe+/OuWkzyHxy3b3QndRv/bXhjG91YYLz/wNVn3px+CXcMQKJxlovmXvxKqyHTgsw
+ /Btwzeu6Aicyn254lo8sno76PtNqMvM6DpeAClSRX6wrnwaA9l5C4igyqgarWHEUAKJu
+ icInGGvzxfBksDYTSe/tx3X1hnJLPwZbMlcCGwOUwHhc0Mgsah883OWElpEbzxPzRq3d
+ 3Y4XprwIIz4F/O/QMVxsooZMA6rCex8YfNf7AYsQy0AqbNJuaCBS5HnVErV9Sk3H3nzM
+ bPSA==
+X-Gm-Message-State: AOAM533+hbF2+WrNOaDsUJkZccI4qoPAfeoq4Qb8zoy1UHj2vNqw1EIw
+ GPbiO4iILqfFFdLil48JVjsi94UQNEUfn8P9
+X-Google-Smtp-Source: ABdhPJzXp9uTUQQnInL9K0DV22npUNTpOloTCcvJ9aj3htoMz9+JJ2m34eR+Chve2GRiCw8Q4sNScw==
+X-Received: by 2002:a2e:b529:: with SMTP id z9mr4499212ljm.307.1606507121906; 
+ Fri, 27 Nov 2020 11:58:41 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.36
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:58:38 -0800 (PST)
+ Fri, 27 Nov 2020 11:58:41 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 02/28] video: fbcon: Use pr_debug() in fbcon
-Date: Fri, 27 Nov 2020 20:57:59 +0100
-Message-Id: <20201127195825.858960-3-sam@ravnborg.org>
+Subject: [PATCH v1 03/28] video: fbdev: core: Fix W=1 warnings in fbmon +
+ fb_notify
+Date: Fri, 27 Nov 2020 20:58:00 +0100
+Message-Id: <20201127195825.858960-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -99,91 +99,53 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replacing DPRINTK() statements with pr_debug fixes
-W=1 warnings.
-And moves to a more standard logging setup at the same time.
+Fix W=1 warnings by updating kernel-doc to follow the correct syntax.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jiri Slaby <jirislaby@kernel.org>
-Cc: Peilin Ye <yepeilin.cs@gmail.com>
-Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: George Kennedy <george.kennedy@oracle.com>
-Cc: Nathan Chancellor <natechancellor@gmail.com>
-Cc: Peter Rosin <peda@axentia.se>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
 ---
- drivers/video/fbdev/core/fbcon.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ drivers/video/fbdev/core/fb_notify.c | 3 ++-
+ drivers/video/fbdev/core/fbmon.c     | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index bf61598bf1c3..2edf90f638f3 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -56,8 +56,6 @@
-  *  more details.
+diff --git a/drivers/video/fbdev/core/fb_notify.c b/drivers/video/fbdev/core/fb_notify.c
+index 74c2da528884..d85717b6e14a 100644
+--- a/drivers/video/fbdev/core/fb_notify.c
++++ b/drivers/video/fbdev/core/fb_notify.c
+@@ -38,7 +38,8 @@ EXPORT_SYMBOL(fb_unregister_client);
+ 
+ /**
+  * fb_notifier_call_chain - notify clients of fb_events
+- *
++ * @val: value passed to callback
++ * @v: pointer passed to callback
   */
- 
--#undef FBCONDEBUG
--
- #include <linux/module.h>
- #include <linux/types.h>
- #include <linux/fs.h>
-@@ -82,12 +80,6 @@
- 
- #include "fbcon.h"
- 
--#ifdef FBCONDEBUG
--#  define DPRINTK(fmt, args...) printk(KERN_DEBUG "%s: " fmt, __func__ , ## args)
--#else
--#  define DPRINTK(fmt, args...)
--#endif
--
- /*
-  * FIXME: Locking
+ int fb_notifier_call_chain(unsigned long val, void *v)
+ {
+diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
+index 1bf82dbc9e3c..b0e690f41025 100644
+--- a/drivers/video/fbdev/core/fbmon.c
++++ b/drivers/video/fbdev/core/fbmon.c
+@@ -605,6 +605,7 @@ static void get_detailed_timing(unsigned char *block,
+  * fb_create_modedb - create video mode database
+  * @edid: EDID data
+  * @dbsize: database size
++ * @specs: monitor specifications, may be NULL
   *
-@@ -1015,9 +1007,9 @@ static const char *fbcon_startup(void)
- 	rows /= vc->vc_font.height;
- 	vc_resize(vc, cols, rows);
- 
--	DPRINTK("mode:   %s\n", info->fix.id);
--	DPRINTK("visual: %d\n", info->fix.visual);
--	DPRINTK("res:    %dx%d-%d\n", info->var.xres,
-+	pr_debug("mode:   %s\n", info->fix.id);
-+	pr_debug("visual: %d\n", info->fix.visual);
-+	pr_debug("res:    %dx%d-%d\n", info->var.xres,
- 		info->var.yres,
- 		info->var.bits_per_pixel);
- 
-@@ -2013,7 +2005,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 	    y_diff < 0 || y_diff > virt_fh) {
- 		const struct fb_videomode *mode;
- 
--		DPRINTK("attempting resize %ix%i\n", var.xres, var.yres);
-+		pr_debug("attempting resize %ix%i\n", var.xres, var.yres);
- 		mode = fb_find_best_mode(&var, &info->modelist);
- 		if (mode == NULL)
- 			return -EINVAL;
-@@ -2023,7 +2015,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 		if (virt_w > var.xres/virt_fw || virt_h > var.yres/virt_fh)
- 			return -EINVAL;
- 
--		DPRINTK("resize now %ix%i\n", var.xres, var.yres);
-+		pr_debug("resize now %ix%i\n", var.xres, var.yres);
- 		if (con_is_visible(vc)) {
- 			var.activate = FB_ACTIVATE_NOW |
- 				FB_ACTIVATE_FORCE;
-@@ -3299,7 +3291,7 @@ static void fbcon_exit(void)
- 
- 		if (info->queue.func)
- 			pending = cancel_work_sync(&info->queue);
--		DPRINTK("fbcon: %s pending work\n", (pending ? "canceled" :
-+		pr_debug("fbcon: %s pending work\n", (pending ? "canceled" :
- 			"no"));
- 
- 		for (j = first_fb_vc; j <= last_fb_vc; j++) {
+  * RETURNS: struct fb_videomode, @dbsize contains length of database
+  *
+@@ -1100,7 +1101,6 @@ static u32 fb_get_hblank_by_hfreq(u32 hfreq, u32 xres)
+  *                                    2 * M
+  *        M = 300;
+  *        C = 30;
+-
+  */
+ static u32 fb_get_hblank_by_dclk(u32 dclk, u32 xres)
+ {
 -- 
 2.27.0
 
