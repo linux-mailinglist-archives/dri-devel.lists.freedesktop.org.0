@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38112C64EC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8272C64EA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:11:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9BB86ECA1;
-	Fri, 27 Nov 2020 12:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 679D76ECAB;
+	Fri, 27 Nov 2020 12:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8B26EC99;
- Fri, 27 Nov 2020 12:09:59 +0000 (UTC)
-IronPort-SDR: wJ/kjaqTGBDTTxW/8iVmsAbsICDrecb6JvYqACUJad1FzrXjplwnhlAC7rEM/6CTztg+H7alfN
- f3g0w2gzJf8g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540742"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540742"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE126EC9D;
+ Fri, 27 Nov 2020 12:10:01 +0000 (UTC)
+IronPort-SDR: MugP7D+Pmh9A6Yy9TwbWS8vut04oYFYaOtju8mQcTGlIn4/BOQ1ah87IJqwtYuL20hmYgPog6R
+ M7u0mtsqKz9A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="172540744"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="172540744"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:58 -0800
-IronPort-SDR: Jut6j93vbyxn2amu58UfcFuz0yUXwMMR1mBj2J6iFziVxLBo4WkVfbOM8AUIA68xaYcJiCglWf
- QtJVVdTwvLsQ==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029167"
+ 27 Nov 2020 04:10:00 -0800
+IronPort-SDR: HBWWFpiBYukguEVFSjF195e5wtFDTXdeIRvGIWwvRBYiCc7S5yYNVr/5P7A4ZvHOFPUCaDnBqY
+ tbgUe+eazmtA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029182"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:09:56 -0800
+ 27 Nov 2020 04:09:59 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 082/162] HAX drm/i915/lmem: support pread and pwrite
-Date: Fri, 27 Nov 2020 12:05:58 +0000
-Message-Id: <20201127120718.454037-83-matthew.auld@intel.com>
+Subject: [RFC PATCH 083/162] drm/i915: Update the helper to set correct mapping
+Date: Fri, 27 Nov 2020 12:05:59 +0000
+Message-Id: <20201127120718.454037-84-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,124 +49,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- Steve Hampson <steven.t.hampson@intel.com>, dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: CQ Tang <cq.tang@intel.com>,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
+ dri-devel@lists.freedesktop.org, Michal Wajdeczko <michal.wajdeczko@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-KiogRE8gTk9UIE1FUkdFLiBQUkVBRC9XUklURSBTVVBQT1JUIFdJTEwgQkUgRFJPUFBFRCBGUk9N
-IERHMSsgKioKCldlIG5lZWQgdG8gYWRkIHN1cHBvcnQgZm9yIHByZWFkJ2luZyBhbmQgcHdyaXRp
-bmcgYW4gTE1FTSBvYmplY3QuCgpDYzogSm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFodGluZW5A
-bGludXguaW50ZWwuY29tPgpDYzogQWJkaWVsIEphbnVsZ3VlIDxhYmRpZWwuamFudWxndWVAbGlu
-dXguaW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBp
-bnRlbC5jb20+ClNpZ25lZC1vZmYtYnk6IFN0ZXZlIEhhbXBzb24gPHN0ZXZlbi50LmhhbXBzb25A
-aW50ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxz
-dHJvbUBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xt
-ZW0uYyB8IDE4NiArKysrKysrKysrKysrKysrKysrKysrKwogZHJpdmVycy9ncHUvZHJtL2k5MTUv
-Z2VtL2k5MTVfZ2VtX2xtZW0uaCB8ICAgMiArCiAyIGZpbGVzIGNoYW5nZWQsIDE4OCBpbnNlcnRp
-b25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX2xt
-ZW0uYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9sbWVtLmMKaW5kZXggZjZj
-NGQ1OTk4ZmY5Li44NDBiNjhlYjEwZDMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
-L2dlbS9pOTE1X2dlbV9sbWVtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVf
-Z2VtX2xtZW0uYwpAQCAtOCw2ICs4LDE3NyBAQAogI2luY2x1ZGUgImdlbS9pOTE1X2dlbV9sbWVt
-LmgiCiAjaW5jbHVkZSAiaTkxNV9kcnYuaCIKIAorc3RhdGljIGludAoraTkxNV93d19waW5fbG9j
-a19pbnRlcnJ1cHRpYmxlKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmopCit7CisJc3Ry
-dWN0IGk5MTVfZ2VtX3d3X2N0eCB3dzsKKwlpbnQgcmV0OworCisJZm9yX2k5MTVfZ2VtX3d3KCZ3
-dywgcmV0LCB0cnVlKSB7CisJCXJldCA9IGk5MTVfZ2VtX29iamVjdF9sb2NrKG9iaiwgJnd3KTsK
-KwkJaWYgKHJldCkKKwkJCWNvbnRpbnVlOworCisJCXJldCA9IGk5MTVfZ2VtX29iamVjdF9waW5f
-cGFnZXMob2JqKTsKKwkJaWYgKHJldCkKKwkJCWNvbnRpbnVlOworCisJCXJldCA9IGk5MTVfZ2Vt
-X29iamVjdF9zZXRfdG9fd2NfZG9tYWluKG9iaiwgZmFsc2UpOworCQlpZiAocmV0KQorCQkJZ290
-byBvdXRfdW5waW47CisKKwkJcmV0ID0gaTkxNV9nZW1fb2JqZWN0X3dhaXQob2JqLAorCQkJCQkg
-ICBJOTE1X1dBSVRfSU5URVJSVVBUSUJMRSwKKwkJCQkJICAgTUFYX1NDSEVEVUxFX1RJTUVPVVQp
-OworCQlpZiAoIXJldCkKKwkJCWNvbnRpbnVlOworCitvdXRfdW5waW46CisJCWk5MTVfZ2VtX29i
-amVjdF91bnBpbl9wYWdlcyhvYmopOworCisJCS8qIFVubG9ja2luZyBpcyBkb25lIGltcGxpY2l0
-bHkgKi8KKwl9CisKKwlyZXR1cm4gcmV0OworfQorCitpbnQgaTkxNV9nZW1fb2JqZWN0X2xtZW1f
-cHJlYWQoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKKwkJCSAgICAgICBjb25zdCBz
-dHJ1Y3QgZHJtX2k5MTVfZ2VtX3ByZWFkICphcmcpCit7CisJc3RydWN0IGRybV9pOTE1X3ByaXZh
-dGUgKmk5MTUgPSB0b19pOTE1KG9iai0+YmFzZS5kZXYpOworCXN0cnVjdCBpbnRlbF9ydW50aW1l
-X3BtICpycG0gPSAmaTkxNS0+cnVudGltZV9wbTsKKwlpbnRlbF93YWtlcmVmX3Qgd2FrZXJlZjsK
-KwljaGFyIF9fdXNlciAqdXNlcl9kYXRhOworCXVuc2lnbmVkIGludCBvZmZzZXQ7CisJdW5zaWdu
-ZWQgbG9uZyBpZHg7CisJdTY0IHJlbWFpbjsKKwlpbnQgcmV0OworCisJcmV0ID0gaTkxNV9nZW1f
-b2JqZWN0X3dhaXQob2JqLAorCQkJCSAgIEk5MTVfV0FJVF9JTlRFUlJVUFRJQkxFLAorCQkJCSAg
-IE1BWF9TQ0hFRFVMRV9USU1FT1VUKTsKKwlpZiAocmV0KQorCQlyZXR1cm4gcmV0OworCisJcmV0
-ID0gaTkxNV93d19waW5fbG9ja19pbnRlcnJ1cHRpYmxlKG9iaik7CisJaWYgKHJldCkKKwkJcmV0
-dXJuIHJldDsKKworCXdha2VyZWYgPSBpbnRlbF9ydW50aW1lX3BtX2dldChycG0pOworCisJcmVt
-YWluID0gYXJnLT5zaXplOworCXVzZXJfZGF0YSA9IHU2NF90b191c2VyX3B0cihhcmctPmRhdGFf
-cHRyKTsKKwlvZmZzZXQgPSBvZmZzZXRfaW5fcGFnZShhcmctPm9mZnNldCk7CisJZm9yIChpZHgg
-PSBhcmctPm9mZnNldCA+PiBQQUdFX1NISUZUOyByZW1haW47IGlkeCsrKSB7CisJCXVuc2lnbmVk
-IGxvbmcgdW53cml0dGVuOworCQl2b2lkIF9faW9tZW0gKnZhZGRyOworCQlpbnQgbGVuZ3RoOwor
-CisJCWxlbmd0aCA9IHJlbWFpbjsKKwkJaWYgKG9mZnNldCArIGxlbmd0aCA+IFBBR0VfU0laRSkK
-KwkJCWxlbmd0aCA9IFBBR0VfU0laRSAtIG9mZnNldDsKKworCQl2YWRkciA9IGk5MTVfZ2VtX29i
-amVjdF9sbWVtX2lvX21hcF9wYWdlX2F0b21pYyhvYmosIGlkeCk7CisJCWlmICghdmFkZHIpIHsK
-KwkJCXJldCA9IC1FTk9NRU07CisJCQlnb3RvIG91dF9wdXQ7CisJCX0KKwkJdW53cml0dGVuID0g
-X19jb3B5X3RvX3VzZXJfaW5hdG9taWModXNlcl9kYXRhLAorCQkJCQkJICAgICh2b2lkIF9fZm9y
-Y2UgKil2YWRkciArIG9mZnNldCwKKwkJCQkJCSAgICBsZW5ndGgpOworCQlpb19tYXBwaW5nX3Vu
-bWFwX2F0b21pYyh2YWRkcik7CisJCWlmICh1bndyaXR0ZW4pIHsKKwkJCXZhZGRyID0gaTkxNV9n
-ZW1fb2JqZWN0X2xtZW1faW9fbWFwX3BhZ2Uob2JqLCBpZHgpOworCQkJdW53cml0dGVuID0gY29w
-eV90b191c2VyKHVzZXJfZGF0YSwKKwkJCQkJCSAodm9pZCBfX2ZvcmNlICopdmFkZHIgKyBvZmZz
-ZXQsCisJCQkJCQkgbGVuZ3RoKTsKKwkJCWlvX21hcHBpbmdfdW5tYXAodmFkZHIpOworCQl9CisJ
-CWlmICh1bndyaXR0ZW4pIHsKKwkJCXJldCA9IC1FRkFVTFQ7CisJCQlnb3RvIG91dF9wdXQ7CisJ
-CX0KKworCQlyZW1haW4gLT0gbGVuZ3RoOworCQl1c2VyX2RhdGEgKz0gbGVuZ3RoOworCQlvZmZz
-ZXQgPSAwOworCX0KKworb3V0X3B1dDoKKwlpbnRlbF9ydW50aW1lX3BtX3B1dChycG0sIHdha2Vy
-ZWYpOworCWk5MTVfZ2VtX29iamVjdF91bnBpbl9wYWdlcyhvYmopOworCisJcmV0dXJuIHJldDsK
-K30KKworc3RhdGljIGludCBpOTE1X2dlbV9vYmplY3RfbG1lbV9wd3JpdGUoc3RydWN0IGRybV9p
-OTE1X2dlbV9vYmplY3QgKm9iaiwKKwkJCQkgICAgICAgY29uc3Qgc3RydWN0IGRybV9pOTE1X2dl
-bV9wd3JpdGUgKmFyZykKK3sKKwlzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqaTkxNSA9IHRvX2k5
-MTUob2JqLT5iYXNlLmRldik7CisJc3RydWN0IGludGVsX3J1bnRpbWVfcG0gKnJwbSA9ICZpOTE1
-LT5ydW50aW1lX3BtOworCWludGVsX3dha2VyZWZfdCB3YWtlcmVmOworCWNoYXIgX191c2VyICp1
-c2VyX2RhdGE7CisJdW5zaWduZWQgaW50IG9mZnNldDsKKwl1bnNpZ25lZCBsb25nIGlkeDsKKwl1
-NjQgcmVtYWluOworCWludCByZXQ7CisKKwlyZXQgPSBpOTE1X2dlbV9vYmplY3Rfd2FpdChvYmos
-CisJCQkJICAgSTkxNV9XQUlUX0lOVEVSUlVQVElCTEUsCisJCQkJICAgTUFYX1NDSEVEVUxFX1RJ
-TUVPVVQpOworCWlmIChyZXQpCisJCXJldHVybiByZXQ7CisKKwlyZXQgPSBpOTE1X3d3X3Bpbl9s
-b2NrX2ludGVycnVwdGlibGUob2JqKTsKKwlpZiAocmV0KQorCQlyZXR1cm4gcmV0OworCisJd2Fr
-ZXJlZiA9IGludGVsX3J1bnRpbWVfcG1fZ2V0KHJwbSk7CisKKwlyZW1haW4gPSBhcmctPnNpemU7
-CisJdXNlcl9kYXRhID0gdTY0X3RvX3VzZXJfcHRyKGFyZy0+ZGF0YV9wdHIpOworCW9mZnNldCA9
-IG9mZnNldF9pbl9wYWdlKGFyZy0+b2Zmc2V0KTsKKwlmb3IgKGlkeCA9IGFyZy0+b2Zmc2V0ID4+
-IFBBR0VfU0hJRlQ7IHJlbWFpbjsgaWR4KyspIHsKKwkJdW5zaWduZWQgbG9uZyB1bndyaXR0ZW47
-CisJCXZvaWQgX19pb21lbSAqdmFkZHI7CisJCWludCBsZW5ndGg7CisKKwkJbGVuZ3RoID0gcmVt
-YWluOworCQlpZiAob2Zmc2V0ICsgbGVuZ3RoID4gUEFHRV9TSVpFKQorCQkJbGVuZ3RoID0gUEFH
-RV9TSVpFIC0gb2Zmc2V0OworCisJCXZhZGRyID0gaTkxNV9nZW1fb2JqZWN0X2xtZW1faW9fbWFw
-X3BhZ2VfYXRvbWljKG9iaiwgaWR4KTsKKwkJaWYgKCF2YWRkcikgeworCQkJcmV0ID0gLUVOT01F
-TTsKKwkJCWdvdG8gb3V0X3B1dDsKKwkJfQorCisJCXVud3JpdHRlbiA9IF9fY29weV9mcm9tX3Vz
-ZXJfaW5hdG9taWNfbm9jYWNoZSgodm9pZCBfX2ZvcmNlICopdmFkZHIgKyBvZmZzZXQsCisJCQkJ
-CQkJICAgICAgdXNlcl9kYXRhLCBsZW5ndGgpOworCQlpb19tYXBwaW5nX3VubWFwX2F0b21pYyh2
-YWRkcik7CisJCWlmICh1bndyaXR0ZW4pIHsKKwkJCXZhZGRyID0gaTkxNV9nZW1fb2JqZWN0X2xt
-ZW1faW9fbWFwX3BhZ2Uob2JqLCBpZHgpOworCQkJdW53cml0dGVuID0gY29weV9mcm9tX3VzZXIo
-KHZvaWQgX19mb3JjZSAqKXZhZGRyICsgb2Zmc2V0LAorCQkJCQkJICAgdXNlcl9kYXRhLCBsZW5n
-dGgpOworCQkJaW9fbWFwcGluZ191bm1hcCh2YWRkcik7CisJCX0KKwkJaWYgKHVud3JpdHRlbikg
-eworCQkJcmV0ID0gLUVGQVVMVDsKKwkJCWdvdG8gb3V0X3B1dDsKKwkJfQorCisJCXJlbWFpbiAt
-PSBsZW5ndGg7CisJCXVzZXJfZGF0YSArPSBsZW5ndGg7CisJCW9mZnNldCA9IDA7CisJfQorCitv
-dXRfcHV0OgorCWludGVsX3J1bnRpbWVfcG1fcHV0KHJwbSwgd2FrZXJlZik7CisJaTkxNV9nZW1f
-b2JqZWN0X3VucGluX3BhZ2VzKG9iaik7CisKKwlyZXR1cm4gcmV0OworfQorCiBjb25zdCBzdHJ1
-Y3QgZHJtX2k5MTVfZ2VtX29iamVjdF9vcHMgaTkxNV9nZW1fbG1lbV9vYmpfb3BzID0gewogCS5u
-YW1lID0gImk5MTVfZ2VtX29iamVjdF9sbWVtIiwKIAkuZmxhZ3MgPSBJOTE1X0dFTV9PQkpFQ1Rf
-SEFTX0lPTUVNLApAQCAtMTUsOCArMTg2LDIzIEBAIGNvbnN0IHN0cnVjdCBkcm1faTkxNV9nZW1f
-b2JqZWN0X29wcyBpOTE1X2dlbV9sbWVtX29ial9vcHMgPSB7CiAJLmdldF9wYWdlcyA9IGk5MTVf
-Z2VtX29iamVjdF9nZXRfcGFnZXNfYnVkZHksCiAJLnB1dF9wYWdlcyA9IGk5MTVfZ2VtX29iamVj
-dF9wdXRfcGFnZXNfYnVkZHksCiAJLnJlbGVhc2UgPSBpOTE1X2dlbV9vYmplY3RfcmVsZWFzZV9t
-ZW1vcnlfcmVnaW9uLAorCisJLnByZWFkID0gaTkxNV9nZW1fb2JqZWN0X2xtZW1fcHJlYWQsCisJ
-LnB3cml0ZSA9IGk5MTVfZ2VtX29iamVjdF9sbWVtX3B3cml0ZSwKIH07CiAKK3ZvaWQgX19pb21l
-bSAqCitpOTE1X2dlbV9vYmplY3RfbG1lbV9pb19tYXBfcGFnZShzdHJ1Y3QgZHJtX2k5MTVfZ2Vt
-X29iamVjdCAqb2JqLAorCQkJCSB1bnNpZ25lZCBsb25nIG4pCit7CisJcmVzb3VyY2Vfc2l6ZV90
-IG9mZnNldDsKKworCW9mZnNldCA9IGk5MTVfZ2VtX29iamVjdF9nZXRfZG1hX2FkZHJlc3Mob2Jq
-LCBuKTsKKwlvZmZzZXQgLT0gb2JqLT5tbS5yZWdpb24tPnJlZ2lvbi5zdGFydDsKKworCXJldHVy
-biBpb19tYXBwaW5nX21hcF93Yygmb2JqLT5tbS5yZWdpb24tPmlvbWFwLCBvZmZzZXQsIFBBR0Vf
-U0laRSk7Cit9CisKIHZvaWQgX19pb21lbSAqCiBpOTE1X2dlbV9vYmplY3RfbG1lbV9pb19tYXBf
-cGFnZV9hdG9taWMoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKIAkJCQkJdW5zaWdu
-ZWQgbG9uZyBuKQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2Vt
-X2xtZW0uaCBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9sbWVtLmgKaW5kZXgg
-YmY3ZTExZmFkMTdiLi5hMjRkOTRiYzM4MGYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9p
-OTE1L2dlbS9pOTE1X2dlbV9sbWVtLmgKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5
-MTVfZ2VtX2xtZW0uaApAQCAtMTQsNiArMTQsOCBAQCBzdHJ1Y3QgaW50ZWxfbWVtb3J5X3JlZ2lv
-bjsKIAogZXh0ZXJuIGNvbnN0IHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0X29wcyBpOTE1X2dl
-bV9sbWVtX29ial9vcHM7CiAKK3ZvaWQgX19pb21lbSAqaTkxNV9nZW1fb2JqZWN0X2xtZW1faW9f
-bWFwX3BhZ2Uoc3RydWN0IGRybV9pOTE1X2dlbV9vYmplY3QgKm9iaiwKKwkJCQkJICAgICAgIHVu
-c2lnbmVkIGxvbmcgbik7CiB2b2lkIF9faW9tZW0gKgogaTkxNV9nZW1fb2JqZWN0X2xtZW1faW9f
-bWFwX3BhZ2VfYXRvbWljKHN0cnVjdCBkcm1faTkxNV9nZW1fb2JqZWN0ICpvYmosCiAJCQkJCXVu
-c2lnbmVkIGxvbmcgbik7Ci0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
-LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2RyaS1kZXZlbAo=
+From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+
+Determine the possible coherent map type based on object location,
+and if target has llc or if user requires an always coherent
+mapping.
+
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: CQ Tang <cq.tang@intel.com>
+Suggested-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c            |  3 ++-
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c            |  2 +-
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_ring.c                 |  9 ++++++---
+ drivers/gpu/drm/i915/gt/intel_timeline.c             |  8 ++++++--
+ drivers/gpu/drm/i915/gt/selftest_context.c           |  3 ++-
+ drivers/gpu/drm/i915/gt/selftest_execlists.c         |  3 ++-
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c         |  4 ++--
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c               |  4 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c               |  4 +++-
+ drivers/gpu/drm/i915/i915_drv.h                      | 11 +++++++++--
+ drivers/gpu/drm/i915/selftests/igt_spinner.c         |  4 ++--
+ 12 files changed, 40 insertions(+), 19 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index 420c6a35f3ed..677c97ded81d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -680,7 +680,8 @@ static int init_status_page(struct intel_engine_cs *engine)
+ 	if (ret)
+ 		goto err;
+ 
+-	vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
++	vaddr = i915_gem_object_pin_map(obj,
++					i915_coherent_map_type(engine->i915, obj, true));
+ 	if (IS_ERR(vaddr)) {
+ 		ret = PTR_ERR(vaddr);
+ 		goto err_unpin;
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+index 5d51144ef074..1b2009b4dcb7 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
+@@ -24,7 +24,7 @@ static void dbg_poison_ce(struct intel_context *ce)
+ 
+ 	if (ce->state) {
+ 		struct drm_i915_gem_object *obj = ce->state->obj;
+-		int type = i915_coherent_map_type(ce->engine->i915);
++		int type = i915_coherent_map_type(ce->engine->i915, obj, true);
+ 		void *map;
+ 
+ 		if (!i915_gem_object_trylock(ce->state->obj))
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 7eec42b27bc1..582a9044727e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -3535,8 +3535,8 @@ __execlists_context_pre_pin(struct intel_context *ce,
+ 	GEM_BUG_ON(!i915_vma_is_pinned(ce->state));
+ 
+ 	*vaddr = i915_gem_object_pin_map(ce->state->obj,
+-					i915_coherent_map_type(ce->engine->i915) |
+-					I915_MAP_OVERRIDE);
++					 i915_coherent_map_type(ce->engine->i915, ce->state->obj, false) |
++					 I915_MAP_OVERRIDE);
+ 	if (IS_ERR(*vaddr))
+ 		return PTR_ERR(*vaddr);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_ring.c b/drivers/gpu/drm/i915/gt/intel_ring.c
+index 4034a4bac7f0..d636c6ed88b7 100644
+--- a/drivers/gpu/drm/i915/gt/intel_ring.c
++++ b/drivers/gpu/drm/i915/gt/intel_ring.c
+@@ -51,9 +51,12 @@ int intel_ring_pin(struct intel_ring *ring, struct i915_gem_ww_ctx *ww)
+ 
+ 	if (i915_vma_is_map_and_fenceable(vma))
+ 		addr = (void __force *)i915_vma_pin_iomap(vma);
+-	else
+-		addr = i915_gem_object_pin_map(vma->obj,
+-					       i915_coherent_map_type(vma->vm->i915));
++	else {
++		int type = i915_coherent_map_type(vma->vm->i915, vma->obj, false);
++
++		addr = i915_gem_object_pin_map(vma->obj, type);
++	}
++
+ 	if (IS_ERR(addr)) {
+ 		ret = PTR_ERR(addr);
+ 		goto err_ring;
+diff --git a/drivers/gpu/drm/i915/gt/intel_timeline.c b/drivers/gpu/drm/i915/gt/intel_timeline.c
+index b2d04717db20..065943781586 100644
+--- a/drivers/gpu/drm/i915/gt/intel_timeline.c
++++ b/drivers/gpu/drm/i915/gt/intel_timeline.c
+@@ -31,6 +31,7 @@ static int __hwsp_alloc(struct intel_gt *gt, struct intel_timeline_hwsp *hwsp)
+ {
+ 	struct drm_i915_private *i915 = gt->i915;
+ 	struct drm_i915_gem_object *obj;
++	int type;
+ 	int ret;
+ 
+ 	obj = i915_gem_object_create_internal(i915, PAGE_SIZE);
+@@ -47,7 +48,8 @@ static int __hwsp_alloc(struct intel_gt *gt, struct intel_timeline_hwsp *hwsp)
+ 	}
+ 
+ 	/* Pin early so we can call i915_ggtt_pin_unlocked(). */
+-	hwsp->vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
++	type = i915_coherent_map_type(i915, obj, true);
++	hwsp->vaddr = i915_gem_object_pin_map(obj, type);
+ 	if (IS_ERR(hwsp->vaddr)) {
+ 		ret = PTR_ERR(hwsp->vaddr);
+ 		goto out_unlock;
+@@ -235,9 +237,11 @@ intel_timeline_pin_map(struct intel_timeline *timeline)
+ 	if (!timeline->hwsp_cacheline) {
+ 		struct drm_i915_gem_object *obj = timeline->hwsp_ggtt->obj;
+ 		u32 ofs = offset_in_page(timeline->hwsp_offset);
++		int type;
+ 		void *vaddr;
+ 
+-		vaddr = i915_gem_object_pin_map(obj, I915_MAP_WB);
++		type = i915_coherent_map_type(timeline->gt->i915, obj, true);
++		vaddr = i915_gem_object_pin_map(obj, type);
+ 		if (IS_ERR(vaddr))
+ 			return PTR_ERR(vaddr);
+ 
+diff --git a/drivers/gpu/drm/i915/gt/selftest_context.c b/drivers/gpu/drm/i915/gt/selftest_context.c
+index d9b0ebc938f1..86b6795dc4f3 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_context.c
++++ b/drivers/gpu/drm/i915/gt/selftest_context.c
+@@ -89,7 +89,8 @@ static int __live_context_size(struct intel_engine_cs *engine)
+ 		goto err;
+ 
+ 	vaddr = i915_gem_object_pin_map_unlocked(ce->state->obj,
+-						 i915_coherent_map_type(engine->i915));
++						 i915_coherent_map_type(engine->i915,
++									ce->state->obj, false));
+ 	if (IS_ERR(vaddr)) {
+ 		err = PTR_ERR(vaddr);
+ 		intel_context_unpin(ce);
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index 124011f6fb51..cb17da6a616f 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -5854,7 +5854,8 @@ static int compare_isolation(struct intel_engine_cs *engine,
+ 	}
+ 
+ 	lrc = i915_gem_object_pin_map_unlocked(ce->state->obj,
+-				      i915_coherent_map_type(engine->i915));
++					       i915_coherent_map_type(engine->i915,
++								      ce->state->obj, true));
+ 	if (IS_ERR(lrc)) {
+ 		err = PTR_ERR(lrc);
+ 		goto err_B1;
+diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+index e3027cebab5b..bc93dba3c8df 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+@@ -88,7 +88,7 @@ static int hang_init(struct hang *h, struct intel_gt *gt)
+ 	h->seqno = memset(vaddr, 0xff, PAGE_SIZE);
+ 
+ 	vaddr = i915_gem_object_pin_map_unlocked(h->obj,
+-						 i915_coherent_map_type(gt->i915));
++						 i915_coherent_map_type(gt->i915, h->obj, false));
+ 	if (IS_ERR(vaddr)) {
+ 		err = PTR_ERR(vaddr);
+ 		goto err_unpin_hws;
+@@ -149,7 +149,7 @@ hang_create_request(struct hang *h, struct intel_engine_cs *engine)
+ 		return ERR_CAST(obj);
+ 	}
+ 
+-	vaddr = i915_gem_object_pin_map_unlocked(obj, i915_coherent_map_type(gt->i915));
++	vaddr = i915_gem_object_pin_map_unlocked(obj, i915_coherent_map_type(gt->i915, obj, false));
+ 	if (IS_ERR(vaddr)) {
+ 		i915_gem_object_put(obj);
+ 		i915_vm_put(vm);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+index a65661eb5d5d..b54b9de31c3e 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+@@ -694,7 +694,9 @@ int intel_guc_allocate_and_map_vma(struct intel_guc *guc, u32 size,
+ 	if (IS_ERR(vma))
+ 		return PTR_ERR(vma);
+ 
+-	vaddr = i915_gem_object_pin_map_unlocked(vma->obj, I915_MAP_WB);
++	vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
++						 i915_coherent_map_type(guc_to_gt(guc)->i915,
++									vma->obj, true));
+ 	if (IS_ERR(vaddr)) {
+ 		i915_vma_unpin_and_release(&vma, 0);
+ 		return PTR_ERR(vaddr);
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+index 2126dd81ac38..56d2144dc6a0 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
+@@ -82,7 +82,9 @@ static int intel_huc_rsa_data_create(struct intel_huc *huc)
+ 	if (IS_ERR(vma))
+ 		return PTR_ERR(vma);
+ 
+-	vaddr = i915_gem_object_pin_map_unlocked(vma->obj, I915_MAP_WB);
++	vaddr = i915_gem_object_pin_map_unlocked(vma->obj,
++						 i915_coherent_map_type(gt->i915,
++									vma->obj, true));
+ 	if (IS_ERR(vaddr)) {
+ 		i915_vma_unpin_and_release(&vma, 0);
+ 		return PTR_ERR(vaddr);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index ce8d5ff8b9f4..13cb4936f15c 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -78,6 +78,7 @@
+ #include "gem/i915_gem_context_types.h"
+ #include "gem/i915_gem_shrinker.h"
+ #include "gem/i915_gem_stolen.h"
++#include "gem/i915_gem_lmem.h"
+ 
+ #include "gt/intel_engine.h"
+ #include "gt/intel_gt_types.h"
+@@ -2027,9 +2028,15 @@ static inline int intel_hws_csb_write_index(struct drm_i915_private *i915)
+ }
+ 
+ static inline enum i915_map_type
+-i915_coherent_map_type(struct drm_i915_private *i915)
++i915_coherent_map_type(struct drm_i915_private *i915,
++		       struct drm_i915_gem_object *obj, bool always_coherent)
+ {
+-	return HAS_LLC(i915) ? I915_MAP_WB : I915_MAP_WC;
++	if (i915_gem_object_is_lmem(obj))
++		return I915_MAP_WC;
++	if (HAS_LLC(i915) || always_coherent)
++		return I915_MAP_WB;
++	else
++		return I915_MAP_WC;
+ }
+ 
+ static inline u64 i915_cs_timestamp_ns_to_ticks(struct drm_i915_private *i915, u64 val)
+diff --git a/drivers/gpu/drm/i915/selftests/igt_spinner.c b/drivers/gpu/drm/i915/selftests/igt_spinner.c
+index 9c461edb0b73..b2a1f98c97f5 100644
+--- a/drivers/gpu/drm/i915/selftests/igt_spinner.c
++++ b/drivers/gpu/drm/i915/selftests/igt_spinner.c
+@@ -93,9 +93,9 @@ int igt_spinner_pin(struct igt_spinner *spin,
+ 	}
+ 
+ 	if (!spin->batch) {
+-		unsigned int mode =
+-			i915_coherent_map_type(spin->gt->i915);
++		unsigned int mode;
+ 
++		mode = i915_coherent_map_type(spin->gt->i915, spin->obj, false);
+ 		vaddr = igt_spinner_pin_obj(ce, ww, spin->obj, mode, &spin->batch_vma);
+ 		if (IS_ERR(vaddr))
+ 			return PTR_ERR(vaddr);
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
