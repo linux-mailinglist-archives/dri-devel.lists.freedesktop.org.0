@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F222A2C6C43
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B17742C6C45
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B7B86F3D6;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C14A6F3DD;
 	Fri, 27 Nov 2020 19:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE326F3C9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:54 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id j10so7134873lja.5
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:54 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA71A6F3CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:58:56 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id z1so7129960ljn.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:58:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hlmg0QXcyBXkSQsSrsHccJseYumWnCfsbqf3yovwsZQ=;
- b=LoQV/HRoqkupk060ExH+xj6uc2BOYCLe+/fhhXr+djyJrScexTnQiICqX2SijJ5CUX
- sx5Ye76d3HMLlLvA7Kf1y7OzeABMF+DUkMOcrgoS28hcPIaCWKe7M40Eeq/FXGxh82+n
- pHihwnrBdOe8HURp8U9Xy1lh6JW2MeWSw9XBOSAy190vGHjdAuYb0pw7WR6hoxKLdFCj
- O42Rf9Cq4OpSxJejPEixC4sl0teW/2CrwQor6MQUWalB2M5js/5w0L6rPgPz/qLgL04O
- iK9jeSH9y4e9ZE1JFRAQB5Qr5nFOSxiGwLmV9h6wxY5714YuWeAd3KS8GSyO+db1Ud9c
- aCKw==
+ bh=3DqPrwDONktOgwN/CoiXWyViY/Qg5UYX+rJPHgpGJjk=;
+ b=P+RaYsbOnx2acYAr3uSsgohDNBxSOaEg2p+n2du3Hw9r2lHgqBPN6uoIYzal4dnKPO
+ n/72hIZvM5k86IY6eUYZovHeKZjX8JZedbxZF+MsFbRByjtZiO31SwXk1TPL3UVit0j0
+ XwTFPFIRGyVaDUSN1Fb3dA2p4y873sq2IrEEXCE2XKc/d9nhLphkUfWi/jAEkPSt377I
+ COlmuA9oHxtWkMNQ/Gk8lG3Vt98mr+BIAzo1LdBSNDc75umBhEMDphDOH3C71v2RCwEJ
+ xfKSnfq/CwSw3GT8qMAzvJ6qxcGCwergB6dRle+04X1r1S0U/UrOaOelkmujE7c5c+AM
+ Vdlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hlmg0QXcyBXkSQsSrsHccJseYumWnCfsbqf3yovwsZQ=;
- b=s87PjNC7tw5R+PgmE0ca4LsyqqUXAcG0Bs9NKB3ZsevnwGPG1ZAo54sreJXf+GOAxa
- uA4vV5XOcvMHI55ZtFw9yqu2Q85ovEbkiBqc9cCDK455qDaf3pMlbZnTAyv/LGh17Ieh
- YhuoFgkhHrWPqze4bxyCrStOqs1/Ee1Z8wesjK37TClDgFMLfFf5+QWPIQzERgGWMXiA
- v1IR9BvUUGBLZuNfaW0PW2yE514QM9HSc/s4/fgl8tItw4IYLZ+XcrIaOCaBXqzcop5N
- xNBIgPApDzXDPPBv6nlf95//he7Gbky9G428FSF/nNQniz4Qj2tH1L8x2x+emaWUEswT
- /s4Q==
-X-Gm-Message-State: AOAM530NPTHrrg/shTUYxeJ/euXq9SdH3pKBhS418k3zswUzmAEtXMck
- xHm1Z1oI4zUjOsSNI7n9b7I=
-X-Google-Smtp-Source: ABdhPJzRLomTEf1vvIm/1TdbxkZYDb34ZllLyKUDbE4zhUrgFXPDrbjJCxhX1h0uR2r7RcekIwtaLg==
-X-Received: by 2002:a2e:9cd4:: with SMTP id g20mr4110075ljj.174.1606507132537; 
- Fri, 27 Nov 2020 11:58:52 -0800 (PST)
+ bh=3DqPrwDONktOgwN/CoiXWyViY/Qg5UYX+rJPHgpGJjk=;
+ b=iGQoq1Ntjm4osUbWRkqnP4bX3i7GeZ2MxXDmXvE5jwwjMJ2zqi1bYLJdQAnU8e6s1z
+ ydL8Eevn5KTjzyYLVjewmrm0Zw5ks49U3Ojl4FQdY5FLiX8+um+M56smWg1WP30BKH/O
+ YJlEVYs5pB9iMzM43sbuaXpMVe0Lb+QFH9CA+Cxsv0GxgnsQ3kTG6tKsXVEeGDJNDNiH
+ rosNUuGPDpKyjwvjgYyrb4NElFw9BRjoE8nEnu+DDy/FHBewN6y7NwAGYL+L2haLcMu8
+ KEPjQBeEmEslzsE8wxvR97zbM1U8r9g4DeRnFzlsvA+4MfmB859OPPtMD1pcpqd2vkQ8
+ 7xhw==
+X-Gm-Message-State: AOAM530BfMsqS/tG52Ik/FZNyj9r3wClQGjWd1I/3c4iDS7Vfd3x1dy/
+ oubzebfjQ4VDZKrJyX3Ytlg=
+X-Google-Smtp-Source: ABdhPJzuQ2Prv1GUopct6yqHR86fQNHT0/F1E6ioU4/Kz0f0Fap2yxzWa6Upc/90vmj8G3YzFJJBsg==
+X-Received: by 2002:a2e:164b:: with SMTP id 11mr2781307ljw.34.1606507135224;
+ Fri, 27 Nov 2020 11:58:55 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.50
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.58.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:58:52 -0800 (PST)
+ Fri, 27 Nov 2020 11:58:54 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 07/28] video: fbdev: sis: Fix W=1 warnings about static
- symbols
-Date: Fri, 27 Nov 2020 20:58:04 +0100
-Message-Id: <20201127195825.858960-8-sam@ravnborg.org>
+Subject: [PATCH v1 08/28] video: fbdev: sis: Fix W=1 warning about SiS_TVDelay
+Date: Fri, 27 Nov 2020 20:58:05 +0100
+Message-Id: <20201127195825.858960-9-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -99,28 +98,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-init.h define static symbols, so should only be included
-once. Drop the include from sis.h as it is not needed.
-This fixes a lot of warnings seen with a W=1 build.
+Fix W=1 warning by commenting unused SiS_TVDelay* variables.
+
+The SiS_TVDelay* variables seem to contain some magic numbers
+so looks like data worth keeping around but not as code we build.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thomas Winischhofer <thomas@winischhofer.net>
 ---
- drivers/video/fbdev/sis/sis.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/video/fbdev/sis/oem310.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/video/fbdev/sis/sis.h b/drivers/video/fbdev/sis/sis.h
-index 9f4c3093ccb3..d632f096083b 100644
---- a/drivers/video/fbdev/sis/sis.h
-+++ b/drivers/video/fbdev/sis/sis.h
-@@ -15,7 +15,6 @@
+diff --git a/drivers/video/fbdev/sis/oem310.h b/drivers/video/fbdev/sis/oem310.h
+index 8fce56e4482c..ed28755715ce 100644
+--- a/drivers/video/fbdev/sis/oem310.h
++++ b/drivers/video/fbdev/sis/oem310.h
+@@ -200,6 +200,7 @@ static const unsigned char SiS310_TVDelayCompensation_651302LV[] =	/* M650, 651,
+ 	0x33,0x33
+ };
  
- #include "vgatypes.h"
- #include "vstruct.h"
--#include "init.h"
++#if 0 /* Not used */
+ static const unsigned char SiS_TVDelay661_301[] =			/* 661, 301 */
+ {
+ 	0x44,0x44,
+@@ -219,6 +220,7 @@ static const unsigned char SiS_TVDelay661_301B[] =			/* 661, 301B et al */
+ 	0x44,0x44,
+ 	0x44,0x44
+ };
++#endif
  
- #define VER_MAJOR		1
- #define VER_MINOR		8
+ static const unsigned char SiS310_TVDelayCompensation_LVDS[] =		/* LVDS */
+ {
 -- 
 2.27.0
 
