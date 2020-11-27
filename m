@@ -1,57 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2906C2C6C46
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DED2C6C44
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54BF66F3D5;
-	Fri, 27 Nov 2020 19:59:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 686136F3DA;
+	Fri, 27 Nov 2020 19:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EDDD6F3CB
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:04 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id q13so7865517lfr.10
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:04 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1823A6F3CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:07 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id s9so7093177ljo.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2z/dAT9naUmXE5qac+rK/70T5U7GBI/v+WhPmjvxr84=;
- b=nIf6uBH2ZKJjbyqV2d6fX1XuIPpHe14PCos51II/MmmX9UsTUjGWVLOj+XDbj6IH1j
- j8/sL1YQxZwFnx2Y3tpYvSe+iP7Q+1wGxsJ+yD4vkWHzQmSKxGjWR4+X0/5cnSJ9+E+U
- WU8L7VOqbnPDUiBgbuP1o8nKteYr8nUlMfIakz/XVdAJ6l6kAnJH338CdZnjgiCZ5DUD
- XOUI/EVS71x2AdQ/J+ls/NiRVVOmAiRLBTmVDFdOl0GQV6p5dRPdWOhIZ08Guhys9T6U
- JyMe7MXSkIUSlmCj3gncIzFiqAnQGd5mTmpCJ4wtyjkSqo3ODvAKCw2IRPkz4yJEK8PJ
- fFdg==
+ bh=UXPr2PFUFWtOrSiCc92D4zReH+aBrw7KABxE1MmXvi0=;
+ b=MPkJdyjnuRSSFVuV23mC35hdVygag39YRqbpZT90vWELA3QzBsTFq5Yj9kSg+3cQNc
+ ehjZjlOlpghvpSYf8mUACbykYk+t4mdLMypoZ3CkNsjJV5/cjbDoKpa/zgbdOZqcICmI
+ WeobA167yuRyuQvK0HL0M5KbICRjhmxNrEAj+IDE+gAs8fkt16WXbP8/cB3y6BsxWn2a
+ epRXQAtIusQjKM//TwjYCGvNTt1cW/Ar46c8TsUJrGKIRs0W9kLClsN2mpRr8GpoDOvU
+ LHeTKRTPtcLetlVpF6WgFtVfLZX4kUksh0X7OdA83X1QAzzuq5DDKqBKdnLKhj/aCyrA
+ +FTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2z/dAT9naUmXE5qac+rK/70T5U7GBI/v+WhPmjvxr84=;
- b=LDp/IV5/usjiK0gtBKGGeUviNTDdzv4c7J3XJRr4w9ff3gh+2IHgcFSTdZceBxJfZm
- aZ8gCSFyg3JQuLPH4MgPU/iUoySxW3cQpPiuMuL+PPQyRGhBnECAoFzj6bn7t6+65V+d
- 2yD7hKh6OS/0M+9iJDx+7iLGXKfPPaCnRQhYAxaL7BE6CIP2IcH/r9YaKMTdl7OKs/Tt
- loHC42tYe7AAoPay5aqIo5xYFiGHQXwfRhPZaA7Ym+DhzZT7qs+I7Oacu7ZZ77K7+aWo
- 1jWMp4oxwjeK7QH7TJGnmYtPxXEVi17jaWXaXfPnJgIWaUC6bo1LutlYCwYdF6eTPguF
- 9pzg==
-X-Gm-Message-State: AOAM530npUSbCGOtWDzDl+cQBuf6N7mzUPvMBLUIhJgZ3j+qM/Awjrrd
- +udNHPdoOyUbi6dX/ocQpvo=
-X-Google-Smtp-Source: ABdhPJxMUz94BHFF6rybfliMhdsF+17CnCkrgs8rTH0atREiGZy+JMiTw0e9sauLh8NOkSqqUM0QRg==
-X-Received: by 2002:a05:6512:6c6:: with SMTP id
- u6mr4036455lff.174.1606507142897; 
- Fri, 27 Nov 2020 11:59:02 -0800 (PST)
+ bh=UXPr2PFUFWtOrSiCc92D4zReH+aBrw7KABxE1MmXvi0=;
+ b=SKWxqyScOrFKQmip5y9emYRfTrzXnCSMYDOu0snQndWBoIGFRvbh6bOXGPGwlhJPDG
+ 2C0NHjw+WE6m6M2et5OBozUFjn9Xdx51j+qFeUuofoOyxB987NWZzLjmvdiiVtB+q+YF
+ nWOhnmJd16NwkcaSBiXWO7K5Hrt4iIwf9tI2f1SL5J3dEoQXBNPjyCERWu7o4+kAizHG
+ VmAQsEtGA4ojEM89j13uB/j/1kd1fZIugG0R2t5E3PCztGYQZ5+Bvjg/cIM3vmab5Ner
+ f+a377rQ73oLoKynU63fkaMIQZ5TUPYPyx0OxxJzfz19DP88BLHTKqFeGGSGSkp5O8E2
+ i9jQ==
+X-Gm-Message-State: AOAM532zSonzM8efhhiP2NKGk84yGWJmPsBDsrXvmu7Su484Nm7xjCtQ
+ bo86LFJVus7Q0CHe5ieXHVc=
+X-Google-Smtp-Source: ABdhPJzRp6Ac5f6uTM6zm36JYhmvj2mN3ZcYz0U/kr++s/q2VudV3yV5yPzJI8O3dXqZ1ktxoeYNYg==
+X-Received: by 2002:a2e:9cd8:: with SMTP id g24mr4537919ljj.32.1606507145500; 
+ Fri, 27 Nov 2020 11:59:05 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.00
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:02 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:05 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 11/28] video: fbdev: via: Fix W=1 warnings
-Date: Fri, 27 Nov 2020 20:58:08 +0100
-Message-Id: <20201127195825.858960-12-sam@ravnborg.org>
+Subject: [PATCH v1 12/28] video: fbdev: tdfx: Fix W=1 warnings
+Date: Fri, 27 Nov 2020 20:58:09 +0100
+Message-Id: <20201127195825.858960-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -99,33 +98,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 warnings about unused assignment.
-Fixed by dropping the assignment and deleting the local variable.
+Fix W=1 warning about unused assignment.
+Fix by dropping the local variable.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/video/fbdev/via/lcd.c | 4 +---
+ drivers/video/fbdev/tdfxfb.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/via/lcd.c b/drivers/video/fbdev/via/lcd.c
-index 4a869402d120..088b962076b5 100644
---- a/drivers/video/fbdev/via/lcd.c
-+++ b/drivers/video/fbdev/via/lcd.c
-@@ -537,11 +537,9 @@ void viafb_lcd_set_mode(const struct fb_var_screeninfo *var, u16 cxres,
- 	u32 clock;
- 	struct via_display_timing timing;
- 	struct fb_var_screeninfo panel_var;
--	const struct fb_videomode *mode_crt_table, *panel_crt_table;
-+	const struct fb_videomode *panel_crt_table;
+diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
+index f056d80f6359..67e37a62b07c 100644
+--- a/drivers/video/fbdev/tdfxfb.c
++++ b/drivers/video/fbdev/tdfxfb.c
+@@ -206,9 +206,7 @@ static inline u8 crt_inb(struct tdfx_par *par, u32 idx)
  
- 	DEBUG_MSG(KERN_INFO "viafb_lcd_set_mode!!\n");
--	/* Get mode table */
--	mode_crt_table = viafb_get_best_mode(set_hres, set_vres, 60);
- 	/* Get panel table Pointer */
- 	panel_crt_table = viafb_get_best_mode(panel_hres, panel_vres, 60);
- 	viafb_fill_var_timing_info(&panel_var, panel_crt_table);
+ static inline void att_outb(struct tdfx_par *par, u32 idx, u8 val)
+ {
+-	unsigned char tmp;
+-
+-	tmp = vga_inb(par, IS1_R);
++	vga_inb(par, IS1_R);
+ 	vga_outb(par, ATT_IW, idx);
+ 	vga_outb(par, ATT_IW, val);
+ }
 -- 
 2.27.0
 
