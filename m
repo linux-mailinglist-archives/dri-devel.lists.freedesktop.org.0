@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B072C6C56
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D1372C6C50
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39E96F3F0;
-	Fri, 27 Nov 2020 20:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE806F3E9;
+	Fri, 27 Nov 2020 19:59:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
  [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9580E6F3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:33 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id j205so8559131lfj.6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:33 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D9726F3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:36 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id j205so8559291lfj.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rJy8+vjkzYcV3XZ9Y+7Fhqd4Ih76XwRBzaJbmXxDMAw=;
- b=TCBYH4MoDC4EkijExZlsZmuW7pCHINO8ItDGIOhZpNfusWNsUwsPFSjpOj3DV1FYfq
- U7rEdu3HkuAAtAPqhoC9k9YNFAdbYPSWUHxs8zNG6Wkd4BfEwYRxYzZReMO8HsrT96UA
- TIXsjv6vxzOlkQK8X4r168/DpCnKzqBaLxYag3qdIwFpLzGNDSbDNTaLjNT/RS9MFNzK
- GuxEHrhefBzz4opGqJsXeV1LE28StIAkEBTZLqF1vfe4UXaI2cKfqOE8wPRCw2IqU+Jh
- 9sVtCEx725p2FYiEAlCLIfbbYsklFvoCjAbnmD8RbDnN6lKr7NGHecqvHhfsCCr6+2ho
- p2xA==
+ bh=MQ7x12uggS1hOxK6f7aoLRuOChXNZlZXJg/tbIyd2NE=;
+ b=ctjpvSvXytDB/DKOBAaGeJq6N+6ajZhDwwURDOm1a77ewn2epdHf91lKJmKsmV9Ntc
+ Wk7XOINOThuZoiwWZIwCNjvbaF28djxwFm9wYet8glHpvm53BKYrCKMwJYauCUMjmOmq
+ NxdjwfIK2Jnz4h/ah7pTKLyOLkSBMEdvoU3ifR3hRUcWGd/975WKCDBtdInczsSnIEg+
+ JeWR62v/ubFBf3s/ap4vXK2Ta0ZR6TBHKp7ez3oY7QFQLKm5WH6wK479iEQq3KwVKZU2
+ uw7IyT5qTtjFrWVxADiTkvkAYzbAuJ4tla5i6bd5kK5ffGxj2H1VYYZQbAFYeabjtXdB
+ jSsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rJy8+vjkzYcV3XZ9Y+7Fhqd4Ih76XwRBzaJbmXxDMAw=;
- b=A8U3PlXeC//rqXnSLZ4QW4q2Rjqm7WyTJmYuJipsLH8m4IJZBqwhV4NYis+KAlCmlM
- rucx2Ay7nJZzrFml+XU6WE/HV6hy+dpg4atZAhMsQ19Zx6hsICQc+pQj8pRyG+Gk6Rfl
- 4mZEqvRGmS7YJdv9hIYDoJIOJFOHL7zrMXprjwmU3+hZZXDr9PC+gXeIiQWcUo3sCGcJ
- J4p8CrXsrQM0hOA//d/vIoh5/Ay8Z1wSHUgjmupZn72r9YSAcBrOQKhmJM+0RjR74FAv
- aqvr0O07VTbsjp6jY75erzipyJQLBfgJJkEMoovvcmYDTBPUN+iGSTp+LDqnOKSk91z7
- yMmg==
-X-Gm-Message-State: AOAM531qieCteCw+Q+xjp1+gsIb085KCQU+MpMateAXQQf+9Z/keMPDU
- ieC9NuEKKGcV5oaeUMpUEIM=
-X-Google-Smtp-Source: ABdhPJyOgA2kVm8O0iBLEqcMx9FEwMgL+93MG+gzwXYrmJwqzkMgjoJP3OWnlBdNp/YB6uBjS4Hc3g==
-X-Received: by 2002:ac2:562a:: with SMTP id b10mr4250758lff.227.1606507172012; 
- Fri, 27 Nov 2020 11:59:32 -0800 (PST)
+ bh=MQ7x12uggS1hOxK6f7aoLRuOChXNZlZXJg/tbIyd2NE=;
+ b=AtEgQw9SoUmZM5UVvysZ0e17++inCJFrjJXOR6T97gjWTCMsT3ghjz/I/p82xZ4u7k
+ pL6Uh9+Tl8Te+whdVouZVqFkoD9/T4G9jIS8P62+nPzXWCTm+M3NqTjT/smebWbuxIAg
+ f1y+ISNiyjezhsMc0nPMliVZOXUBuI29CEgmOFupQJit+LM2xv1b4bZNY6wdvjoxXQC7
+ WlpcnXe8qBzesh3+bXkxR9Rhc9n+a8mOfwX5aktXd0BPtqntyDM4tH1N1i4odWpjbt0L
+ an11CK3moOKSUQY1+S34YH5NaBN34dx6onBl1Q97IpdTxj9ZkQvj5Nn7xYqrEiEdqaSr
+ EeFw==
+X-Gm-Message-State: AOAM532LhOKDI8rWtm9/MIhaiNlV/SpsZrjVQXVSmcugItlv+egtS8Qu
+ JBgR8x/wiTcMMBn0nalYW0Y=
+X-Google-Smtp-Source: ABdhPJwsswLBNRVwQvuTIB+FN9iriKOhhkmrAHLnDO+ZnWN0hmlyW5YbmkqfB7BJvDh/ZXx/oMQYeg==
+X-Received: by 2002:a05:6512:481:: with SMTP id
+ v1mr4168850lfq.132.1606507174690; 
+ Fri, 27 Nov 2020 11:59:34 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.29
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:31 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:34 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 22/28] video: fbdev: omapfb: Fix W=1 warnings in dsi
-Date: Fri, 27 Nov 2020 20:58:19 +0100
-Message-Id: <20201127195825.858960-23-sam@ravnborg.org>
+Subject: [PATCH v1 23/28] video: fbdev: omapfb: Fix W=1 warnings in hdmi*_core
+Date: Fri, 27 Nov 2020 20:58:20 +0100
+Message-Id: <20201127195825.858960-24-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -98,75 +99,63 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix several W=1 warnings.
-This removes a little unused code and avoids an assignment by moving
-the use inside the conditional block.
+Fix a few W=1 warnings about unused assignments.
+Drop the unused error code.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Aditya Pakki <pakki001@umn.edu>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Qilong Zhang <zhangqilong3@huawei.com>
+Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/video/fbdev/omap2/omapfb/dss/dsi.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c | 4 ++--
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-index 6f9c25fec994..72d45a02c3ac 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/dsi.c
-@@ -1178,13 +1178,12 @@ static int dsi_regulator_init(struct platform_device *dsidev)
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
+index 726c190862d4..e6363a420933 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
+@@ -679,7 +679,7 @@ int hdmi4_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+ 	struct hdmi_audio_format audio_format;
+ 	struct hdmi_audio_dma audio_dma;
+ 	struct hdmi_core_audio_config acore;
+-	int err, n, cts, channel_count;
++	int n, cts, channel_count;
+ 	unsigned int fs_nr;
+ 	bool word_length_16b = false;
  
- static void _dsi_print_reset_status(struct platform_device *dsidev)
- {
--	u32 l;
- 	int b0, b1, b2;
+@@ -741,7 +741,7 @@ int hdmi4_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+ 		return -EINVAL;
+ 	}
  
- 	/* A dummy read using the SCP interface to any DSIPHY register is
- 	 * required after DSIPHY reset to complete the reset of the DSI complex
- 	 * I/O. */
--	l = dsi_read_reg(dsidev, DSI_DSIPHY_CFG5);
-+	dsi_read_reg(dsidev, DSI_DSIPHY_CFG5);
+-	err = hdmi_compute_acr(pclk, fs_nr, &n, &cts);
++	hdmi_compute_acr(pclk, fs_nr, &n, &cts);
  
- 	if (dss_has_feature(FEAT_DSI_REVERSE_TXCLKESC)) {
- 		b0 = 28;
-@@ -3627,7 +3626,7 @@ static int dsi_proto_config(struct platform_device *dsidev)
- static void dsi_proto_timings(struct platform_device *dsidev)
- {
- 	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
--	unsigned tlpx, tclk_zero, tclk_prepare, tclk_trail;
-+	unsigned tlpx, tclk_zero, tclk_prepare;
- 	unsigned tclk_pre, tclk_post;
- 	unsigned ths_prepare, ths_prepare_ths_zero, ths_zero;
- 	unsigned ths_trail, ths_exit;
-@@ -3646,7 +3645,6 @@ static void dsi_proto_timings(struct platform_device *dsidev)
+ 	/* Audio clock regeneration settings */
+ 	acore.n = n;
+diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
+index eda29d3032e1..cb63bc0e92ca 100644
+--- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
++++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c
+@@ -790,7 +790,7 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+ 	struct hdmi_audio_format audio_format;
+ 	struct hdmi_audio_dma audio_dma;
+ 	struct hdmi_core_audio_config core_cfg;
+-	int err, n, cts, channel_count;
++	int n, cts, channel_count;
+ 	unsigned int fs_nr;
+ 	bool word_length_16b = false;
  
- 	r = dsi_read_reg(dsidev, DSI_DSIPHY_CFG1);
- 	tlpx = FLD_GET(r, 20, 16) * 2;
--	tclk_trail = FLD_GET(r, 15, 8);
- 	tclk_zero = FLD_GET(r, 7, 0);
+@@ -833,7 +833,7 @@ int hdmi5_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+ 		return -EINVAL;
+ 	}
  
- 	r = dsi_read_reg(dsidev, DSI_DSIPHY_CFG2);
-@@ -4040,7 +4038,6 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
- {
- 	struct platform_device *dsidev = dsi_get_dsidev_from_dssdev(dssdev);
- 	struct dsi_data *dsi = dsi_get_dsidrv_data(dsidev);
--	u16 dw, dh;
+-	err = hdmi_compute_acr(pclk, fs_nr, &n, &cts);
++	hdmi_compute_acr(pclk, fs_nr, &n, &cts);
+ 	core_cfg.n = n;
+ 	core_cfg.cts = cts;
  
- 	dsi_perf_mark_setup(dsidev);
- 
-@@ -4049,11 +4046,8 @@ static int dsi_update(struct omap_dss_device *dssdev, int channel,
- 	dsi->framedone_callback = callback;
- 	dsi->framedone_data = data;
- 
--	dw = dsi->timings.x_res;
--	dh = dsi->timings.y_res;
--
- #ifdef DSI_PERF_MEASURE
--	dsi->update_bytes = dw * dh *
-+	dsi->update_bytes = dsi->timings.x_res * dsi->timings.y_res *
- 		dsi_get_pixel_size(dsi->pix_fmt) / 8;
- #endif
- 	dsi_update_screen_dispc(dsidev);
 -- 
 2.27.0
 
