@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B74D32C6563
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B772C6567
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD5E46ED23;
-	Fri, 27 Nov 2020 12:11:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85D076ED22;
+	Fri, 27 Nov 2020 12:11:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6F76ED16;
- Fri, 27 Nov 2020 12:11:50 +0000 (UTC)
-IronPort-SDR: sD73h9JEILHCLWgQhKjqKB3+Q15QfzSAozZEzUXqcFgUcUDOw5l6Hvb0Jh46qRZMnvxdtO+Dk/
- AfLrlrA/9sHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092953"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092953"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0036ECEE;
+ Fri, 27 Nov 2020 12:11:52 +0000 (UTC)
+IronPort-SDR: iuzskKT09+mOWLAN2g0+MkOv3lpeYXGFhIgA88jgVZq6uzSAITRy5YHruOecCrFe9oQ1nl4Kol
+ Xuga40KmEWAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092959"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092959"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:50 -0800
-IronPort-SDR: OL4cnQI1SgYbkTM1vaomcOB3BQI7jOexcmukqC4bgoPLl0w9+1xDxd/xzvlcKq7BKsQxwqZdAB
- 22FFoeoqBsEw==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029892"
+ 27 Nov 2020 04:11:51 -0800
+IronPort-SDR: 6cOu9ZH6uaj+5lF5Awn33KEqHYu6N9PKFMmcap8xPb3cA3z6I3rfn7hqgpf9pl5BJkMcewA+Z+
+ FV98e4PZpjnQ==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029899"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:48 -0800
+ 27 Nov 2020 04:11:50 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 135/162] drm/i915: define intel_partial_pages_for_sg_table
-Date: Fri, 27 Nov 2020 12:06:51 +0000
-Message-Id: <20201127120718.454037-136-matthew.auld@intel.com>
+Subject: [RFC PATCH 136/162] drm/i915: create and destroy dummy vma
+Date: Fri, 27 Nov 2020 12:06:52 +0000
+Message-Id: <20201127120718.454037-137-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -57,135 +57,87 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ramalingam C <ramalingam.c@intel.com>
 
-Function to retrieve the partial pages from the object, from mentioned
-offset(pages). This is created as a subset of intel_partial pages to be
-used for window blt copy feature which is introduced in forthcoming
-patches.
+Functions for window_blt_copy defined to create and destroy
+the dummy vmas for virtual memory, which dont have any associated
+objects.
 
-This takes the sg_table to be filled in with pages and also passes out
-the ptr to last scatterlist used. sg_table is trimmed based on the
-parameter.
+These dummy vmas are used at window_blt_copy festure to associated to
+set of pages and create ptes at runtime and submit it for blt copy.
 
 Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
 Cc: Matthew Auld <matthew.auld@intel.com>
 Cc: CQ Tang <cq.tang@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_ggtt.c | 59 +++++++++++++++++-----------
- drivers/gpu/drm/i915/gt/intel_gtt.h  |  4 ++
- 2 files changed, 40 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/i915/i915_vma.c | 38 +++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.h |  6 ++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-index eed5b640e493..21804c4cef9c 100644
---- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-@@ -1383,25 +1383,17 @@ intel_remap_pages(struct intel_remapped_info *rem_info,
- 	return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 59fe82af48b2..5537950e310f 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -100,6 +100,44 @@ static void __i915_vma_retire(struct i915_active *ref)
+ 	i915_vma_put(active_to_vma(ref));
  }
  
--static noinline struct sg_table *
--intel_partial_pages(const struct i915_ggtt_view *view,
--		    struct drm_i915_gem_object *obj)
-+void intel_partial_pages_for_sg_table(struct drm_i915_gem_object *obj,
-+				      struct sg_table *st,
-+				      u32 obj_offset, u32 page_count,
-+				      struct scatterlist **sgl)
- {
--	struct sg_table *st;
- 	struct scatterlist *sg, *iter;
--	unsigned int count = view->partial.size;
- 	unsigned int offset;
--	int ret = -ENOMEM;
- 
--	st = kmalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		goto err_st_alloc;
-+	GEM_BUG_ON(!st);
- 
--	ret = sg_alloc_table(st, count, GFP_KERNEL);
--	if (ret)
--		goto err_sg_alloc;
--
--	iter = i915_gem_object_get_sg_dma(obj, view->partial.offset, &offset, true);
-+	iter = i915_gem_object_get_sg_dma(obj, obj_offset, &offset, true);
- 	GEM_BUG_ON(!iter);
- 
- 	sg = st->sgl;
-@@ -1410,30 +1402,51 @@ intel_partial_pages(const struct i915_ggtt_view *view,
- 		unsigned int len;
- 
- 		len = min(sg_dma_len(iter) - (offset << PAGE_SHIFT),
--			  count << PAGE_SHIFT);
-+			  page_count << PAGE_SHIFT);
-+
- 		sg_set_page(sg, NULL, len, 0);
- 		sg_dma_address(sg) =
- 			sg_dma_address(iter) + (offset << PAGE_SHIFT);
- 		sg_dma_len(sg) = len;
- 
- 		st->nents++;
--		count -= len >> PAGE_SHIFT;
--		if (count == 0) {
-+		page_count -= len >> PAGE_SHIFT;
-+		if (page_count == 0) {
- 			sg_mark_end(sg);
--			i915_sg_trim(st); /* Drop any unused tail entries. */
-+			if (sgl)
-+				*sgl = sg;
- 
--			return st;
-+			return;
- 		}
- 
- 		sg = __sg_next(sg);
- 		iter = __sg_next(iter);
- 		offset = 0;
- 	} while (1);
-+}
- 
--err_sg_alloc:
--	kfree(st);
--err_st_alloc:
--	return ERR_PTR(ret);
-+static noinline struct sg_table *
-+intel_partial_pages(const struct i915_ggtt_view *view,
-+		    struct drm_i915_gem_object *obj)
++struct i915_vma *
++i915_alloc_window_vma(struct drm_i915_private *i915,
++		      struct i915_address_space *vm, u64 size,
++		      u64 min_page_size)
 +{
-+	struct sg_table *st;
-+	int ret;
++	struct i915_vma *vma;
 +
-+	st = kmalloc(sizeof(*st), GFP_KERNEL);
-+	if (!st)
++	vma = i915_vma_alloc();
++	if (!vma)
 +		return ERR_PTR(-ENOMEM);
 +
-+	ret = sg_alloc_table(st, view->partial.size, GFP_KERNEL);
-+	if (ret) {
-+		kfree(st);
-+		return ERR_PTR(ret);
-+	}
++	kref_init(&vma->ref);
++	mutex_init(&vma->pages_mutex);
++	vma->vm = i915_vm_get(vm);
++	vma->ops = &vm->vma_ops;
++	vma->obj = NULL;
++	vma->resv = NULL;
++	vma->size = size;
++	vma->display_alignment = I915_GTT_MIN_ALIGNMENT;
++	vma->page_sizes.sg = min_page_size;
 +
-+	intel_partial_pages_for_sg_table(obj, st, view->partial.offset,
-+					 view->partial.size, NULL);
-+	i915_sg_trim(st);
++	i915_active_init(&vma->active, __i915_vma_active, __i915_vma_retire);
++	INIT_LIST_HEAD(&vma->closed_link);
 +
-+	return st;
- }
++	GEM_BUG_ON(!IS_ALIGNED(vma->size, I915_GTT_PAGE_SIZE));
++	GEM_BUG_ON(i915_is_ggtt(vm));
++
++	return vma;
++}
++
++void i915_destroy_window_vma(struct i915_vma *vma)
++{
++	i915_active_fini(&vma->active);
++	i915_vm_put(vma->vm);
++	mutex_destroy(&vma->pages_mutex);
++	i915_vma_free(vma);
++}
++
+ static struct i915_vma *
+ vma_create(struct drm_i915_gem_object *obj,
+ 	   struct i915_address_space *vm,
+diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
+index 2db4f25b8d5f..f595fe706010 100644
+--- a/drivers/gpu/drm/i915/i915_vma.h
++++ b/drivers/gpu/drm/i915/i915_vma.h
+@@ -44,6 +44,12 @@ i915_vma_instance(struct drm_i915_gem_object *obj,
+ 		  struct i915_address_space *vm,
+ 		  const struct i915_ggtt_view *view);
  
- static int
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index db3626c0ee20..37d2c692c0af 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -506,6 +506,10 @@ static inline bool i915_ggtt_has_aperture(const struct i915_ggtt *ggtt)
- 	return ggtt->mappable_end > 0;
- }
++struct i915_vma *
++i915_alloc_window_vma(struct drm_i915_private *i915,
++		      struct i915_address_space *vm, u64 size,
++		      u64 min_page_size);
++void i915_destroy_window_vma(struct i915_vma *vma);
++
+ void i915_vma_unpin_and_release(struct i915_vma **p_vma, unsigned int flags);
+ #define I915_VMA_RELEASE_MAP BIT(0)
  
-+void intel_partial_pages_for_sg_table(struct drm_i915_gem_object *obj,
-+				      struct sg_table *st,
-+				      u32 obj_offset, u32 page_count,
-+				      struct scatterlist **sgl);
- int i915_ppgtt_init_hw(struct intel_gt *gt);
- 
- struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt);
 -- 
 2.26.2
 
