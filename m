@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B682C6541
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35FF62C6542
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB8C6ECF9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69A8F6ECF7;
 	Fri, 27 Nov 2020 12:11:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 749826ECE5;
- Fri, 27 Nov 2020 12:11:18 +0000 (UTC)
-IronPort-SDR: 9BNwurLUZ0sYG+w554n1NfCm6W0NJwAsn0g0zuPqw0+VcGjJmie9GMXAE8XpMq0wD8yrsQE6Jh
- nU6Uy4ZA8Zsw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092872"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092872"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEC76ECF7;
+ Fri, 27 Nov 2020 12:11:20 +0000 (UTC)
+IronPort-SDR: kEIKuC4nQTFMS9cGwGjg5duhAWtj/yLPxuDnPrxXvgSqyJMZoNOirY0VRNoN3vQRvmdJze6/yb
+ C7RBDf9gwPOA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092882"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092882"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:18 -0800
-IronPort-SDR: nSNhSao8oTXZQgwTjAq1Mfz72AyqP4kyprtnZploumUCg3lAKHUbcQ27JJ+2FhjudqH0VCNdA/
- 34d0SicdK34Q==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029731"
+ 27 Nov 2020 04:11:20 -0800
+IronPort-SDR: QbZDRDTRxjbVLDvSym3f10KUJzybPex2O577SgXP4uPm887BcsOwOeptWz43su3Zdz3xbyX3+2
+ kH4RxhdquTEA==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029743"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:16 -0800
+ 27 Nov 2020 04:11:18 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 118/162] drm/i915/dg1: Reserve first 1MB of local memory
-Date: Fri, 27 Nov 2020 12:06:34 +0000
-Message-Id: <20201127120718.454037-119-matthew.auld@intel.com>
+Subject: [RFC PATCH 119/162] drm/i915/dg1: Read OPROM via SPI controller
+Date: Fri, 27 Nov 2020 12:06:35 +0000
+Message-Id: <20201127120718.454037-120-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,100 +49,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Tomas Winkler <tomas.winkler@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Imre Deak <imre.deak@intel.com>
-
-On DG1 A0/B0 steppings the first 1MB of local memory must be reserved.
-One reason for this is that the 0xA0000-0xB0000 range is not accessible
-by the display, probably since this region is redirected to another
-memory location for legacy VGA compatibility.
-
-BSpec: 50586
-Testcase: igt/kms_big_fb/linear-64bpp-rotate-0
-Signed-off-by: Imre Deak <imre.deak@intel.com>
----
- drivers/gpu/drm/i915/intel_region_lmem.c | 52 ++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
-index 939cf0d195a5..eafef7034680 100644
---- a/drivers/gpu/drm/i915/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/intel_region_lmem.c
-@@ -137,6 +137,48 @@ intel_setup_fake_lmem(struct drm_i915_private *i915)
- 	return mem;
- }
- 
-+static void get_legacy_lowmem_region(struct intel_uncore *uncore,
-+				     u64 *start, u32 *size)
-+{
-+	*start = 0;
-+	*size = 0;
-+
-+	if (!IS_DG1_REVID(uncore->i915, DG1_REVID_A0, DG1_REVID_B0))
-+		return;
-+
-+	*size = SZ_1M;
-+
-+	DRM_DEBUG_DRIVER("LMEM: reserved legacy low-memory [0x%llx-0x%llx]\n",
-+			 *start, *start + *size);
-+}
-+
-+static int reserve_lowmem_region(struct intel_uncore *uncore,
-+				 struct intel_memory_region *mem)
-+{
-+	u64 reserve_start;
-+	u64 reserve_end;
-+	u64 region_start;
-+	u32 region_size;
-+	int ret;
-+
-+	get_legacy_lowmem_region(uncore, &region_start, &region_size);
-+	reserve_start = region_start;
-+	reserve_end = region_start + region_size;
-+
-+	if (!reserve_end)
-+		return 0;
-+
-+	DRM_INFO("LMEM: reserving low-memory region [0x%llx-0x%llx]\n",
-+		 reserve_start, reserve_end);
-+	ret = i915_buddy_alloc_range(&mem->mm, &mem->reserved,
-+				     reserve_start,
-+				     reserve_end - reserve_start);
-+	if (ret)
-+		DRM_ERROR("LMEM: reserving low memory region failed\n");
-+
-+	return ret;
-+}
-+
- static struct intel_memory_region *
- setup_lmem(struct drm_i915_private *dev_priv)
- {
-@@ -160,6 +202,16 @@ setup_lmem(struct drm_i915_private *dev_priv)
- 					 I915_GTT_PAGE_SIZE_4K,
- 					 io_start,
- 					 &intel_region_lmem_ops);
-+	if (!IS_ERR(mem)) {
-+		int err;
-+
-+		err = reserve_lowmem_region(uncore, mem);
-+		if (err) {
-+			intel_memory_region_put(mem);
-+			return ERR_PTR(err);
-+		}
-+	}
-+
- 	if (!IS_ERR(mem)) {
- 		DRM_INFO("Intel graphics LMEM: %pR\n", &mem->region);
- 		DRM_INFO("Intel graphics LMEM IO start: %llx\n",
--- 
-2.26.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+RnJvbTogQ2xpbnQgVGF5bG9yIDxjbGludG9uLmEudGF5bG9yQGludGVsLmNvbT4KClJlYWQgT1BS
+T00gU1BJIHRocm91Z2ggTU1JTyBhbmQgZmluZCBWQlQgZW50cnkgc2luY2Ugd2UgY2FuJ3QgdXNl
+Ck9wUmVnaW9uIGFuZCBQQ0kgbWFwcGluZyBtYXkgbm90IHdvcmsgb24gc29tZSBzeXN0ZW1zIGR1
+ZSB0byB0aGUgQklPUwpub3QgbGVhdmluZyB0aGUgT3B0aW9uIFJPTSBtYXBwZWQuCgpDYzogVmls
+bGUgU3lyasOkbMOkIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4KQ2M6IFRvbWFzIFdp
+bmtsZXIgPHRvbWFzLndpbmtsZXJAaW50ZWwuY29tPgpDYzogSm9uIEJsb29tZmllbGQgPGpvbi5i
+bG9vbWZpZWxkQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogQ2xpbnQgVGF5bG9yIDxjbGludG9u
+LmEudGF5bG9yQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogTHVjYXMgRGUgTWFyY2hpIDxsdWNh
+cy5kZW1hcmNoaUBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
+bnRlbF9iaW9zLmMgfCA4MCArKysrKysrKysrKysrKysrKysrKystLQogZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV9yZWcuaCAgICAgICAgICAgfCAgOCArKysKIDIgZmlsZXMgY2hhbmdlZCwgODIg
+aW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vaTkxNS9kaXNwbGF5L2ludGVsX2Jpb3MuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfYmlvcy5jCmluZGV4IDRjYzk0OWIyMjhmMi4uOTEwNDRmYzUyYWNiIDEwMDY0NAot
+LS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Jpb3MuYworKysgYi9kcml2
+ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Jpb3MuYwpAQCAtMjA4Niw2ICsyMDg2LDY2
+IEBAIGJvb2wgaW50ZWxfYmlvc19pc192YWxpZF92YnQoY29uc3Qgdm9pZCAqYnVmLCBzaXplX3Qg
+c2l6ZSkKIAlyZXR1cm4gdmJ0OwogfQogCitzdGF0aWMgc3RydWN0IHZidF9oZWFkZXIgKnNwaV9v
+cHJvbV9nZXRfdmJ0KHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikKK3sKKwl1MzIg
+Y291bnQsIGRhdGEsIGZvdW5kLCBzdG9yZSA9IDA7CisJdTMyIHN0YXRpY19yZWdpb24sIG9wcm9t
+X29mZnNldDsKKwl1MzIgb3Byb21fc2l6ZSA9IDB4MjAwMDAwOworCXUxNiB2YnRfc2l6ZTsKKwl1
+MzIgKnZidDsKKworCXN0YXRpY19yZWdpb24gPSBJOTE1X1JFQUQoU1BJX1NUQVRJQ19SRUdJT05T
+KTsKKwlzdGF0aWNfcmVnaW9uICY9IE9QVElPTlJPTV9TUElfUkVHSU9OSURfTUFTSzsKKwlJOTE1
+X1dSSVRFKFBSSU1BUllfU1BJX1JFR0lPTklELCBzdGF0aWNfcmVnaW9uKTsKKworCW9wcm9tX29m
+ZnNldCA9IEk5MTVfUkVBRChPUk9NX09GRlNFVCk7CisJb3Byb21fb2Zmc2V0ICY9IE9ST01fT0ZG
+U0VUX01BU0s7CisKKwlmb3IgKGNvdW50ID0gMDsgY291bnQgPCBvcHJvbV9zaXplOyBjb3VudCAr
+PSA0KSB7CisJCUk5MTVfV1JJVEUoUFJJTUFSWV9TUElfQUREUkVTUywgb3Byb21fb2Zmc2V0ICsg
+Y291bnQpOworCQlkYXRhID0gSTkxNV9SRUFEKFBSSU1BUllfU1BJX1RSSUdHRVIpOworCisJCWlm
+IChkYXRhID09ICooKGNvbnN0IHUzMiAqKSIkVkJUIikpIHsKKwkJCWZvdW5kID0gb3Byb21fb2Zm
+c2V0ICsgY291bnQ7CisJCQlicmVhazsKKwkJfQorCX0KKworCWlmIChjb3VudCA+PSBvcHJvbV9z
+aXplKQorCQlnb3RvIGVycl9ub3RfZm91bmQ7CisKKwkvKiBHZXQgVkJUIHNpemUgYW5kIGFsbG9j
+YXRlIHNwYWNlIGZvciB0aGUgVkJUICovCisJSTkxNV9XUklURShQUklNQVJZX1NQSV9BRERSRVNT
+LCBmb3VuZCArCisJCSAgIG9mZnNldG9mKHN0cnVjdCB2YnRfaGVhZGVyLCB2YnRfc2l6ZSkpOwor
+CXZidF9zaXplID0gSTkxNV9SRUFEKFBSSU1BUllfU1BJX1RSSUdHRVIpOworCXZidF9zaXplICY9
+IDB4ZmZmZjsKKworCXZidCA9IGt6YWxsb2ModmJ0X3NpemUsIEdGUF9LRVJORUwpOworCWlmICgh
+dmJ0KSB7CisJCURSTV9FUlJPUigiVW5hYmxlIHRvIGFsbG9jYXRlICV1IGJ5dGVzIGZvciBWQlQg
+c3RvcmFnZVxuIiwKKwkJCSAgdmJ0X3NpemUpOworCQlnb3RvIGVycl9ub3RfZm91bmQ7CisJfQor
+CisJZm9yIChjb3VudCA9IDA7IGNvdW50IDwgdmJ0X3NpemU7IGNvdW50ICs9IDQpIHsKKwkJSTkx
+NV9XUklURShQUklNQVJZX1NQSV9BRERSRVNTLCBmb3VuZCArIGNvdW50KTsKKwkJZGF0YSA9IEk5
+MTVfUkVBRChQUklNQVJZX1NQSV9UUklHR0VSKTsKKwkJKih2YnQgKyBzdG9yZSsrKSA9IGRhdGE7
+CisJfQorCisJaWYgKCFpbnRlbF9iaW9zX2lzX3ZhbGlkX3ZidCh2YnQsIHZidF9zaXplKSkKKwkJ
+Z290byBlcnJfZnJlZV92YnQ7CisKKwlEUk1fREVCVUdfS01TKCJGb3VuZCB2YWxpZCBWQlQgaW4g
+U1BJIGZsYXNoXG4iKTsKKworCXJldHVybiAoc3RydWN0IHZidF9oZWFkZXIgKil2YnQ7CisKK2Vy
+cl9mcmVlX3ZidDoKKwlrZnJlZSh2YnQpOworZXJyX25vdF9mb3VuZDoKKwlyZXR1cm4gTlVMTDsK
+K30KKwogc3RhdGljIHN0cnVjdCB2YnRfaGVhZGVyICpvcHJvbV9nZXRfdmJ0KHN0cnVjdCBkcm1f
+aTkxNV9wcml2YXRlICpkZXZfcHJpdikKIHsKIAlzdHJ1Y3QgcGNpX2RldiAqcGRldiA9IGRldl9w
+cml2LT5kcm0ucGRldjsKQEAgLTIxMzUsNiArMjE5NSw4IEBAIHN0YXRpYyBzdHJ1Y3QgdmJ0X2hl
+YWRlciAqb3Byb21fZ2V0X3ZidChzdHJ1Y3QgZHJtX2k5MTVfcHJpdmF0ZSAqZGV2X3ByaXYpCiAK
+IAlwY2lfdW5tYXBfcm9tKHBkZXYsIG9wcm9tKTsKIAorCURSTV9ERUJVR19LTVMoIkZvdW5kIHZh
+bGlkIFZCVCBpbiBQQ0kgUk9NXG4iKTsKKwogCXJldHVybiB2YnQ7CiAKIGVycl9mcmVlX3ZidDoK
+QEAgLTIxNjksMTcgKzIyMzEsMjMgQEAgdm9pZCBpbnRlbF9iaW9zX2luaXQoc3RydWN0IGRybV9p
+OTE1X3ByaXZhdGUgKmRldl9wcml2KQogCiAJaW5pdF92YnRfZGVmYXVsdHMoZGV2X3ByaXYpOwog
+Ci0JLyogSWYgdGhlIE9wUmVnaW9uIGRvZXMgbm90IGhhdmUgVkJULCBsb29rIGluIFBDSSBST00u
+ICovCisJLyoKKwkgKiBJZiB0aGUgT3BSZWdpb24gZG9lcyBub3QgaGF2ZSBWQlQsIGxvb2sgaW4g
+U1BJIGZsYXNoIHRocm91Z2ggTU1JTyBvcgorCSAqIFBDSSBtYXBwaW5nCisJICovCisJaWYgKCF2
+YnQgJiYgSVNfREdGWChkZXZfcHJpdikpIHsKKwkJb3Byb21fdmJ0ID0gc3BpX29wcm9tX2dldF92
+YnQoZGV2X3ByaXYpOworCQl2YnQgPSBvcHJvbV92YnQ7CisJfQorCiAJaWYgKCF2YnQpIHsKIAkJ
+b3Byb21fdmJ0ID0gb3Byb21fZ2V0X3ZidChkZXZfcHJpdik7Ci0JCWlmICghb3Byb21fdmJ0KQot
+CQkJZ290byBvdXQ7Ci0KIAkJdmJ0ID0gb3Byb21fdmJ0OwotCi0JCWRybV9kYmdfa21zKCZkZXZf
+cHJpdi0+ZHJtLCAiRm91bmQgdmFsaWQgVkJUIGluIFBDSSBST01cbiIpOwogCX0KIAorCWlmICgh
+dmJ0KQorCQlnb3RvIG91dDsKKwogCWJkYiA9IGdldF9iZGJfaGVhZGVyKHZidCk7CiAKIAlkcm1f
+ZGJnX2ttcygmZGV2X3ByaXYtPmRybSwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1
+L2k5MTVfcmVnLmggYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X3JlZy5oCmluZGV4IDNjODM1
+MGYxMDhlNC4uZjAwMjg5NTc0YWM4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9p
+OTE1X3JlZy5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2k5MTVfcmVnLmgKQEAgLTEyNDEz
+LDYgKzEyNDEzLDE0IEBAIGVudW0gc2tsX3Bvd2VyX2dhdGUgewogI2RlZmluZSAgIERQX1BJTl9B
+U1NJR05NRU5UX01BU0soaWR4KQkJKDB4ZiA8PCAoKGlkeCkgKiA0KSkKICNkZWZpbmUgICBEUF9Q
+SU5fQVNTSUdOTUVOVChpZHgsIHgpCQkoKHgpIDw8ICgoaWR4KSAqIDQpKQogCisjZGVmaW5lIFBS
+SU1BUllfU1BJX1RSSUdHRVIJCQlfTU1JTygweDEwMjA0MCkKKyNkZWZpbmUgUFJJTUFSWV9TUElf
+QUREUkVTUwkJCV9NTUlPKDB4MTAyMDgwKQorI2RlZmluZSBQUklNQVJZX1NQSV9SRUdJT05JRAkJ
+CV9NTUlPKDB4MTAyMDg0KQorI2RlZmluZSBTUElfU1RBVElDX1JFR0lPTlMJCQlfTU1JTygweDEw
+MjA5MCkKKyNkZWZpbmUgICBPUFRJT05ST01fU1BJX1JFR0lPTklEX01BU0sJCVJFR19HRU5NQVNL
+KDcsIDApCisjZGVmaW5lIE9ST01fT0ZGU0VUCQkJCV9NTUlPKDB4MTAyMGMwKQorI2RlZmluZSAg
+IE9ST01fT0ZGU0VUX01BU0sJCQlSRUdfR0VOTUFTSygyMCwgMTYpCisKIC8qIFRoaXMgcmVnaXN0
+ZXIgY29udHJvbHMgdGhlIERpc3BsYXkgU3RhdGUgQnVmZmVyIChEU0IpIGVuZ2luZXMuICovCiAj
+ZGVmaW5lIF9EU0JTTF9JTlNUQU5DRV9CQVNFCQkweDcwQjAwCiAjZGVmaW5lIERTQlNMX0lOU1RB
+TkNFKHBpcGUsIGlkKQkoX0RTQlNMX0lOU1RBTkNFX0JBU0UgKyBcCi0tIAoyLjI2LjIKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
