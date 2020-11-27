@@ -1,68 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DDD2C6886
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 16:14:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31142C6899
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 16:19:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A764B6EE2E;
-	Fri, 27 Nov 2020 15:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B85926EE31;
+	Fri, 27 Nov 2020 15:19:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB6856EE2E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 15:14:41 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id s8so5910397wrw.10
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 07:14:41 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24F746EE31
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 15:19:24 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id s8so5924934wrw.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 07:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZMzwoE0Dd6fGdbZptz4gO2+Eta2edZWtpfnfREQIYBk=;
- b=iNafPJ5ywOWSDkzoa418mygS+Pu6j0+b0FZhr6dG9lb3JOScnAd3oHUlc0LVjAmD3g
- exwlJ3BhHTSl3vuBryhe7Kgc56fC1N5rj6jJWeqihvbS3H0kM3HY57LQzY/0PqTshM70
- wHuQWaqK5Fxc12etXg9s39a4GbCEOsotO/7GU=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Oycry3K1WhhTZ7hEJqA9SAwvS/LmKXcuYv7oms1gtCU=;
+ b=ljeX4APNPETLCWhmW1cQPjGhB/6JwdsWTw2uG+XXGCIjJ5ryWKwD5S9LT/rAYxku5P
+ Vq2mp9ZgbsRtOFeUCO8Gt8tqtYVvAvmy8z7iXYB7WDI2T9JwsyHOYGE1yuBvnI+aedpx
+ XqNnIPw5705PiIlx5mpx3K6HQnFQqg7xX/cco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=ZMzwoE0Dd6fGdbZptz4gO2+Eta2edZWtpfnfREQIYBk=;
- b=OSQwvZblV5+WDdyux6H9/lwfMFEb8ENxE1f9Zgz0xgMCwwKr6anhHVEMHPfDoxxgSv
- lGmRj/8A/l7/iGWQwH748iywjRBu94rgj4GKo+FjEYWuND/rHyeLsdK8DAE7I80B08cH
- A1GkBzJsilhAjdz71/+qOF1mn2Vv36izDYGGFFXdQwvd8IzP2BFnxGLoy8nKQarkOGiu
- nvZ4WEMcfe7vkifNhuW9uymM+OoaFEYoaWaPMANG29GFRBsDs7AOFrDG/XQ64pwM/8Nn
- bYmQVNEF6Vi9+vDXarURJmcpX6m4xqAN0/f2mMifNX8yCiZQ1qtdev+BN9RGxuXXMaww
- okuQ==
-X-Gm-Message-State: AOAM531d2ru/5rHK84gDdfvy3ysg3Qehute1zhbV85okjGOgztgNuWSl
- U20gIXxV8dau/BnOJ2CWu2Ff4g==
-X-Google-Smtp-Source: ABdhPJzeFZUg0q2fzZp1cBShV/TYpSR++GJRHPfRmFTBFUpON/ZCauJL86rwWuavStjri4mOLdoRew==
-X-Received: by 2002:adf:e444:: with SMTP id t4mr11341858wrm.152.1606490080594; 
- Fri, 27 Nov 2020 07:14:40 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Oycry3K1WhhTZ7hEJqA9SAwvS/LmKXcuYv7oms1gtCU=;
+ b=DgQ3w7mxerWnyGNNfz6zzNWcwFti08PPY4ymqvzGRqFER80ydDAD9CF+UMPPgqRViK
+ 5qSJOqhdLha2eH7nW/22wDGx/u2YE7uewCNJ6dpp3OhR8P2aAJLyt8Uc/o64TiuGsSvI
+ ZGlVPtmHrxvtcuAYGjd/yordjreV3NGf6rotlJTON8zCAWhC/4GZ0zCGsBvr56CprFbr
+ clkN+gtGO0VHTBe+PFVEZCVVSvLLvSZoIVRvcHtccZdlHjBcT2xiAGHysXi/271J2gzr
+ Q/WReZ7R+PY+3WnP6US6iQ7t6g6+O04gCDxIJRhR74hW6O5WFXjdpWPaafjiB52+XqCO
+ maAg==
+X-Gm-Message-State: AOAM5339RVmLoODseIE6xKgwMkuiUKKviDzAoQvGf5mwQkAMgkMUoxqL
+ 2v9E1r76BeNuQEQhV51btYmWuA==
+X-Google-Smtp-Source: ABdhPJxS6iZnYG6feLSYwTnrKKH98Taizf34WyRG9MRuJuW5ymtgnuvEvZ9XqWnj/sCM9DBL7rwafg==
+X-Received: by 2002:a5d:4141:: with SMTP id c1mr5275228wrq.80.1606490362845;
+ Fri, 27 Nov 2020 07:19:22 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j13sm8370481wrp.70.2020.11.27.07.14.39
+ by smtp.gmail.com with ESMTPSA id l14sm13461420wmi.33.2020.11.27.07.19.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 07:14:39 -0800 (PST)
-Date: Fri, 27 Nov 2020 16:14:37 +0100
+ Fri, 27 Nov 2020 07:19:22 -0800 (PST)
+Date: Fri, 27 Nov 2020 16:19:20 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2] fbdev: aty: SPARC64 requires FB_ATY_CT
-Message-ID: <20201127151437.GH401619@phenom.ffwll.local>
-Mail-Followup-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- sparclinux <sparclinux@vger.kernel.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- David Airlie <airlied@linux.ie>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <20201127031752.10371-1-rdunlap@infradead.org>
- <CAMuHMdWup4D9A-giF9xDEhva8PPH4Yhg2NHYx3+0q_=Uoi+iRA@mail.gmail.com>
+To: Imre Deak <imre.deak@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/framebuffer: Format modifier for
+ Intel Gen 12 render compression with Clear Color
+Message-ID: <20201127151920.GI401619@phenom.ffwll.local>
+References: <20201123182631.1740781-1-imre.deak@intel.com>
+ <20201127143100.GB2144692@ideak-desk.fi.intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWup4D9A-giF9xDEhva8PPH4Yhg2NHYx3+0q_=Uoi+iRA@mail.gmail.com>
+In-Reply-To: <20201127143100.GB2144692@ideak-desk.fi.intel.com>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,52 +66,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Tomi Valkeinen <tomi.valkeinen@ti.com>,
- sparclinux <sparclinux@vger.kernel.org>,
- "David S. Miller" <davem@davemloft.net>
+Cc: Nanley Chery <nanley.g.chery@intel.com>,
+ Jani Nikula <jani.nikula@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Rafael Antognolli <rafael.antognolli@intel.com>,
+ Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+ Kalyan Kondapally <kalyan.kondapally@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 27, 2020 at 10:15:49AM +0100, Geert Uytterhoeven wrote:
-> On Fri, Nov 27, 2020 at 4:18 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > It looks like SPARC64 requires FB_ATY_CT to build without errors,
-> > so have FB_ATY select FB_ATY_CT if both SPARC64 and PCI are enabled
-> > instead of using "default y if SPARC64 && PCI", which is not strong
-> > enough to prevent build errors.
-> >
-> > As it currently is, FB_ATY_CT can be disabled, resulting in build
-> > errors:
-> >
-> > ERROR: modpost: "aty_postdividers" [drivers/video/fbdev/aty/atyfb.ko] undefined!
-> > ERROR: modpost: "aty_ld_pll_ct" [drivers/video/fbdev/aty/atyfb.ko] undefined!
-> >
-> > Fixes: f7018c213502 ("video: move fbdev to drivers/video/fbdev")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+On Fri, Nov 27, 2020 at 04:31:00PM +0200, Imre Deak wrote:
+> Hi Daniel, Jani,
 > 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> is it ok to merge this patch along with 2/2 via the i915 tree?
 
-Applied to drm-misc-next, thanks for the patch&review.
--Daniel
+Ack from mesa (userspace in general, but mesa is kinda mandatory) is
+missing I think. With that
+
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 > 
-> Gr{oetje,eeting}s,
+> --Imre
 > 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> On Mon, Nov 23, 2020 at 08:26:30PM +0200, Imre Deak wrote:
+> > From: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> > 
+> > Gen12 display can decompress surfaces compressed by render engine with
+> > Clear Color, add a new modifier as the driver needs to know the surface
+> > was compressed by render engine.
+> > 
+> > V2: Description changes as suggested by Rafael.
+> > V3: Mention the Clear Color size of 64 bits in the comments(DK)
+> > v4: Fix trailing whitespaces
+> > v5: Explain Clear Color in the documentation.
+> > v6: Documentation Nitpicks(Nanley)
+> > 
+> > Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> > Cc: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
+> > Cc: Kalyan Kondapally <kalyan.kondapally@intel.com>
+> > Cc: Rafael Antognolli <rafael.antognolli@intel.com>
+> > Cc: Nanley Chery <nanley.g.chery@intel.com>
+> > Signed-off-by: Radhakrishna Sripada <radhakrishna.sripada@intel.com>
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >  include/uapi/drm/drm_fourcc.h | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> > index ca48ed0e6bc1..0a1b2c4c4bee 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -527,6 +527,25 @@ extern "C" {
+> >   */
+> >  #define I915_FORMAT_MOD_Y_TILED_GEN12_MC_CCS fourcc_mod_code(INTEL, 7)
+> >  
+> > +/*
+> > + * Intel Color Control Surface with Clear Color (CCS) for Gen-12 render
+> > + * compression.
+> > + *
+> > + * The main surface is Y-tiled and is at plane index 0 whereas CCS is linear
+> > + * and at index 1. The clear color is stored at index 2, and the pitch should
+> > + * be ignored. The clear color structure is 256 bits. The first 128 bits
+> > + * represents Raw Clear Color Red, Green, Blue and Alpha color each represented
+> > + * by 32 bits. The raw clear color is consumed by the 3d engine and generates
+> > + * the converted clear color of size 64 bits. The first 32 bits store the Lower
+> > + * Converted Clear Color value and the next 32 bits store the Higher Converted
+> > + * Clear Color value when applicable. The Converted Clear Color values are
+> > + * consumed by the DE. The last 64 bits are used to store Color Discard Enable
+> > + * and Depth Clear Value Valid which are ignored by the DE. A CCS cache line
+> > + * corresponds to an area of 4x1 tiles in the main surface. The main surface
+> > + * pitch is required to be a multiple of 4 tile widths.
+> > + */
+> > +#define I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC fourcc_mod_code(INTEL, 8)
+> > +
+> >  /*
+> >   * Tiled, NV12MT, grouped in 64 (pixels) x 32 (lines) -sized macroblocks
+> >   *
+> > -- 
+> > 2.25.1
+> > 
+> > _______________________________________________
+> > Intel-gfx mailing list
+> > Intel-gfx@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
 Daniel Vetter
