@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35C52C66E8
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:35:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31BB62C66FB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 14:37:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E68E56EDBB;
-	Fri, 27 Nov 2020 13:35:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B42006EDBF;
+	Fri, 27 Nov 2020 13:37:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17FC36EDBA;
- Fri, 27 Nov 2020 13:35:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E923B6EDBF;
+ Fri, 27 Nov 2020 13:37:23 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from localhost (unverified [78.156.65.138]) 
  by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23133517-1500050 for multiple; Fri, 27 Nov 2020 13:35:42 +0000
+ 23133542-1500050 for multiple; Fri, 27 Nov 2020 13:37:20 +0000
 MIME-Version: 1.0
-In-Reply-To: <20201127120718.454037-102-matthew.auld@intel.com>
+In-Reply-To: <20201127120718.454037-104-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-102-matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 101/162] drm/i915/gtt/dg1: add PTE_LM
- plumbing for PPGTT
+ <20201127120718.454037-104-matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 103/162] drm/i915: allocate context from
+ LMEM
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Fri, 27 Nov 2020 13:35:42 +0000
-Message-ID: <160648414221.2925.764003601534306071@build.alporthouse.com>
+Date: Fri, 27 Nov 2020 13:37:20 +0000
+Message-ID: <160648424005.2925.3851197595431719032@build.alporthouse.com>
 User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,66 +47,46 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Matthew Auld (2020-11-27 12:06:17)
-> For the PTEs we get an LM bit, to signal whether the page resides in
-> SMEM or LMEM.
+Quoting Matthew Auld (2020-11-27 12:06:19)
+> Based on a patch from Michel Thierry.
 > 
 > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 > Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 > ---
->  drivers/gpu/drm/i915/gt/gen8_ppgtt.c  | 35 ++++++++++++++++++++++-----
->  drivers/gpu/drm/i915/gt/intel_gtt.h   |  3 +++
->  drivers/gpu/drm/i915/gt/intel_ppgtt.c |  4 +++
->  3 files changed, 36 insertions(+), 6 deletions(-)
+>  .../drm/i915/gt/intel_execlists_submission.c  | 31 ++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> index e2f1dfc48d43..b6fcebeef02a 100644
-> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-> @@ -5,6 +5,7 @@
->  
->  #include <linux/log2.h>
+> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> index 582a9044727e..c640b90711fd 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> @@ -108,6 +108,8 @@
+>   */
+>  #include <linux/interrupt.h>
 >  
 > +#include "gem/i915_gem_lmem.h"
->  #include "gen8_ppgtt.h"
->  #include "i915_scatterlist.h"
+> +
+>  #include "i915_drv.h"
+>  #include "i915_perf.h"
 >  #include "i915_trace.h"
-> @@ -50,6 +51,21 @@ static u64 gen8_pte_encode(dma_addr_t addr,
->         return pte;
+> @@ -4660,6 +4662,21 @@ static struct intel_timeline *pinned_timeline(struct intel_context *ce)
+>                                                  page_unmask_bits(tl));
 >  }
 >  
-> +static u64 gen12_pte_encode(dma_addr_t addr,
-> +                           enum i915_cache_level level,
-> +                           u32 flags)
+> +static int context_clear_lmem(struct drm_i915_gem_object *ctx_obj)
 > +{
-> +       gen8_pte_t pte = addr | _PAGE_PRESENT | _PAGE_RW;
+> +       void *vaddr;
 > +
-> +       if (unlikely(flags & PTE_READ_ONLY))
-> +               pte &= ~_PAGE_RW;
+> +       vaddr = i915_gem_object_pin_map(ctx_obj, I915_MAP_WC);
+> +       if (IS_ERR(vaddr))
+> +               return PTR_ERR(vaddr);
 > +
-> +       if (flags & PTE_LM)
-> +               pte |= GEN12_PPGTT_PTE_LM;
+> +       memset64(vaddr, 0, ctx_obj->base.size / sizeof(u64));
 > +
-> +       return pte;
-> +}
-> +
->  static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
->  {
->         struct drm_i915_private *i915 = ppgtt->vm.i915;
-> @@ -365,7 +381,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
->                       u32 flags)
->  {
->         struct i915_page_directory *pd;
-> -       const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
-> +       const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
+> +       i915_gem_object_unpin_map(ctx_obj);
 
-We don't need the vfunc, since that flag will not be sent for gen8.
-
-That bit test will be cheaper than the retpoline.
+What? We copy over the entire object with the default state.
 -Chris
 _______________________________________________
 dri-devel mailing list
