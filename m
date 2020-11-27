@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535592C6520
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BA12C652E
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EE3B6ECD2;
-	Fri, 27 Nov 2020 12:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7B36ECD5;
+	Fri, 27 Nov 2020 12:10:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1999B6ECC8;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AB6C6ECC6;
  Fri, 27 Nov 2020 12:10:47 +0000 (UTC)
-IronPort-SDR: wRbWTWhp883a5JQ1gupnZTMTcO7wPhtVMYIDvgYkPNbMt4+U3eP/+3s3ix3tQWprP+tNNz6nJP
- dwJ8oBjOOhjg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092785"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092785"
+IronPort-SDR: HGxpSpwHM34dJjWe8PyYn8y3bc/vEKGJI0+hqik4QIc2QDVnBtFdP7hxVE2wLD0zsRJ6QTzwYb
+ gMfJ5NhsIzFw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092788"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092788"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:10:31 -0800
-IronPort-SDR: 3tBJ/ApMSaLex4087EGFuy4hDXLk+cpNmQHZOeNrc/8yswnfQ+n0IDw/duL/YNob7U6dWetZNn
- BoZpFWHPeGuw==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029378"
+ 27 Nov 2020 04:10:34 -0800
+IronPort-SDR: QxGEm1LV/I2MhDPSenSfOO17NjeRvZ1k16Se4YIapdUKjJGbepV8tM1ioj2qlpYdcuv7LL2KDc
+ fLh13ISHp/Pw==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029445"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:10:30 -0800
+ 27 Nov 2020 04:10:31 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 100/162] drm/i915/gtt: make flushing conditional
-Date: Fri, 27 Nov 2020 12:06:16 +0000
-Message-Id: <20201127120718.454037-101-matthew.auld@intel.com>
+Subject: [RFC PATCH 101/162] drm/i915/gtt/dg1: add PTE_LM plumbing for PPGTT
+Date: Fri, 27 Nov 2020 12:06:17 +0000
+Message-Id: <20201127120718.454037-102-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,262 +49,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that PDs can also be mapped as WC, we can forgo all the flushing for
-such mappings.
+For the PTEs we get an LM bit, to signal whether the page resides in
+SMEM or LMEM.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
+Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 ---
- .../drm/i915/gem/selftests/i915_gem_context.c |  2 +-
- drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |  6 ++---
- drivers/gpu/drm/i915/gt/gen8_ppgtt.c          | 26 ++++++++++++-------
- drivers/gpu/drm/i915/gt/intel_gtt.c           | 20 ++++++++++----
- drivers/gpu/drm/i915/gt/intel_gtt.h           |  4 +--
- drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  6 +++--
- drivers/gpu/drm/i915/selftests/i915_perf.c    |  2 +-
- 7 files changed, 42 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c  | 35 ++++++++++++++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_gtt.h   |  3 +++
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c |  4 +++
+ 3 files changed, 36 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-index ce70d0a3afb2..e52cc74db2b1 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-@@ -1752,7 +1752,7 @@ static int check_scratch_page(struct i915_gem_context *ctx, u32 *out)
- 		return -EINVAL;
- 	}
- 
--	vaddr = __px_vaddr(vm->scratch[0]);
-+	vaddr = __px_vaddr(vm->scratch[0], NULL);
- 
- 	memcpy(out, vaddr, sizeof(*out));
- 	if (memchr_inv(vaddr, *out, PAGE_SIZE)) {
-diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-index 78ad7d8a8bcc..8d12e9334861 100644
---- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-+++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
-@@ -105,7 +105,7 @@ static void gen6_ppgtt_clear_range(struct i915_address_space *vm,
- 		 * entries back to scratch.
- 		 */
- 
--		vaddr = px_vaddr(pt);
-+		vaddr = px_vaddr(pt, NULL);
- 		memset32(vaddr + pte, scratch_pte, count);
- 
- 		pte = 0;
-@@ -128,7 +128,7 @@ static void gen6_ppgtt_insert_entries(struct i915_address_space *vm,
- 
- 	GEM_BUG_ON(!pd->entry[act_pt]);
- 
--	vaddr = px_vaddr(i915_pt_entry(pd, act_pt));
-+	vaddr = px_vaddr(i915_pt_entry(pd, act_pt), NULL);
- 	do {
- 		GEM_BUG_ON(sg_dma_len(iter.sg) < I915_GTT_PAGE_SIZE);
- 		vaddr[act_pte] = pte_encode | GEN6_PTE_ADDR_ENCODE(iter.dma);
-@@ -144,7 +144,7 @@ static void gen6_ppgtt_insert_entries(struct i915_address_space *vm,
- 		}
- 
- 		if (++act_pte == GEN6_PTES) {
--			vaddr = px_vaddr(i915_pt_entry(pd, ++act_pt));
-+			vaddr = px_vaddr(i915_pt_entry(pd, ++act_pt), NULL);
- 			act_pte = 0;
- 		}
- 	} while (1);
 diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-index f67e0332ccbc..e2f1dfc48d43 100644
+index e2f1dfc48d43..b6fcebeef02a 100644
 --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
 +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
-@@ -237,7 +237,7 @@ static u64 __gen8_ppgtt_clear(struct i915_address_space * const vm,
- 			    atomic_read(&pt->used));
- 			GEM_BUG_ON(!count || count >= atomic_read(&pt->used));
+@@ -5,6 +5,7 @@
  
--			vaddr = px_vaddr(pt);
-+			vaddr = px_vaddr(pt, NULL);
- 			memset64(vaddr + gen8_pd_index(start, 0),
- 				 vm->scratch[0]->encode,
- 				 count);
-@@ -367,9 +367,10 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 	struct i915_page_directory *pd;
- 	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
- 	gen8_pte_t *vaddr;
-+	bool needs_flush;
+ #include <linux/log2.h>
  
- 	pd = i915_pd_entry(pdp, gen8_pd_index(idx, 2));
--	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
-+	vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)), &needs_flush);
- 	do {
- 		GEM_BUG_ON(sg_dma_len(iter->sg) < I915_GTT_PAGE_SIZE);
- 		vaddr[gen8_pd_index(idx, 0)] = pte_encode | iter->dma;
-@@ -395,11 +396,14 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
- 				pd = pdp->entry[gen8_pd_index(idx, 2)];
- 			}
- 
--			clflush_cache_range(vaddr, PAGE_SIZE);
--			vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)));
-+			if (needs_flush)
-+				clflush_cache_range(vaddr, PAGE_SIZE);
-+			vaddr = px_vaddr(i915_pt_entry(pd, gen8_pd_index(idx, 1)),
-+					 &needs_flush);
- 		}
- 	} while (1);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	if (needs_flush)
-+		clflush_cache_range(vaddr, PAGE_SIZE);
- 
- 	return idx;
++#include "gem/i915_gem_lmem.h"
+ #include "gen8_ppgtt.h"
+ #include "i915_scatterlist.h"
+ #include "i915_trace.h"
+@@ -50,6 +51,21 @@ static u64 gen8_pte_encode(dma_addr_t addr,
+ 	return pte;
  }
-@@ -412,6 +416,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
+ 
++static u64 gen12_pte_encode(dma_addr_t addr,
++			    enum i915_cache_level level,
++			    u32 flags)
++{
++	gen8_pte_t pte = addr | _PAGE_PRESENT | _PAGE_RW;
++
++	if (unlikely(flags & PTE_READ_ONLY))
++		pte &= ~_PAGE_RW;
++
++	if (flags & PTE_LM)
++		pte |= GEN12_PPGTT_PTE_LM;
++
++	return pte;
++}
++
+ static void gen8_ppgtt_notify_vgt(struct i915_ppgtt *ppgtt, bool create)
+ {
+ 	struct drm_i915_private *i915 = ppgtt->vm.i915;
+@@ -365,7 +381,7 @@ gen8_ppgtt_insert_pte(struct i915_ppgtt *ppgtt,
+ 		      u32 flags)
+ {
+ 	struct i915_page_directory *pd;
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = ppgtt->vm.pte_encode(0, cache_level, flags);
+ 	gen8_pte_t *vaddr;
+ 	bool needs_flush;
+ 
+@@ -413,7 +429,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
+ 				   enum i915_cache_level cache_level,
+ 				   u32 flags)
+ {
+-	const gen8_pte_t pte_encode = gen8_pte_encode(0, cache_level, flags);
++	const gen8_pte_t pte_encode = vma->vm->pte_encode(0, cache_level, flags);
  	unsigned int rem = sg_dma_len(iter->sg);
  	u64 start = vma->node.start;
-+	bool needs_flush;
+ 	bool needs_flush;
+@@ -558,6 +574,7 @@ static void gen8_ppgtt_insert(struct i915_address_space *vm,
  
- 	GEM_BUG_ON(!i915_vm_is_4lvl(vma->vm));
- 
-@@ -434,7 +439,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 			encode |= GEN8_PDE_PS_2M;
- 			page_size = I915_GTT_PAGE_SIZE_2M;
- 
--			vaddr = px_vaddr(pd);
-+			vaddr = px_vaddr(pd, &needs_flush);
- 		} else {
- 			struct i915_page_table *pt =
- 				i915_pt_entry(pd, __gen8_pte_index(start, 1));
-@@ -449,7 +454,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 			     rem >= (I915_PDES - index) * I915_GTT_PAGE_SIZE))
- 				maybe_64K = __gen8_pte_index(start, 1);
- 
--			vaddr = px_vaddr(pt);
-+			vaddr = px_vaddr(pt, &needs_flush);
- 		}
- 
- 		do {
-@@ -482,7 +487,8 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 			}
- 		} while (rem >= page_size && index < I915_PDES);
- 
--		clflush_cache_range(vaddr, PAGE_SIZE);
-+		if (needs_flush)
-+			clflush_cache_range(vaddr, PAGE_SIZE);
- 
- 		/*
- 		 * Is it safe to mark the 2M block as 64K? -- Either we have
-@@ -496,7 +502,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 		      !iter->sg && IS_ALIGNED(vma->node.start +
- 					      vma->node.size,
- 					      I915_GTT_PAGE_SIZE_2M)))) {
--			vaddr = px_vaddr(pd);
-+			vaddr = px_vaddr(pd, NULL);
- 			vaddr[maybe_64K] |= GEN8_PDE_IPS_64K;
- 			page_size = I915_GTT_PAGE_SIZE_64K;
- 
-@@ -513,7 +519,7 @@ static void gen8_ppgtt_insert_huge(struct i915_vma *vma,
- 				u16 i;
- 
- 				encode = vma->vm->scratch[0]->encode;
--				vaddr = px_vaddr(i915_pt_entry(pd, maybe_64K));
-+				vaddr = px_vaddr(i915_pt_entry(pd, maybe_64K), NULL);
- 
- 				for (i = 1; i < index; i += 16)
- 					memset64(vaddr + i, encode, 15);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
-index 2605bfd39a15..eee8338e330b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gtt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
-@@ -176,12 +176,19 @@ void clear_pages(struct i915_vma *vma)
- 	memset(&vma->page_sizes, 0, sizeof(vma->page_sizes));
- }
- 
--void *__px_vaddr(struct drm_i915_gem_object *p)
-+void *__px_vaddr(struct drm_i915_gem_object *p, bool *needs_flush)
+ static int gen8_init_scratch(struct i915_address_space *vm)
  {
- 	enum i915_map_type type;
-+	void *vaddr;
++	u32 pte_flags = vm->has_read_only;
+ 	int ret;
+ 	int i;
  
- 	GEM_BUG_ON(!i915_gem_object_has_pages(p));
--	return page_unpack_bits(p->mm.mapping, &type);
+@@ -581,9 +598,12 @@ static int gen8_init_scratch(struct i915_address_space *vm)
+ 	if (ret)
+ 		return ret;
+ 
++	if (i915_gem_object_is_lmem(vm->scratch[0]))
++		pte_flags |= PTE_LM;
 +
-+	vaddr = page_unpack_bits(p->mm.mapping, &type);
+ 	vm->scratch[0]->encode =
+-		gen8_pte_encode(px_dma(vm->scratch[0]),
+-				I915_CACHE_LLC, vm->has_read_only);
++		vm->pte_encode(px_dma(vm->scratch[0]),
++			       I915_CACHE_LLC, pte_flags);
+ 
+ 	for (i = 1; i <= vm->top; i++) {
+ 		struct drm_i915_gem_object *obj;
+@@ -713,6 +733,11 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+ 	else
+ 		ppgtt->vm.alloc_pt_dma = alloc_pt_dma;
+ 
++	if (INTEL_GEN(gt->i915) >= 12)
++		ppgtt->vm.pte_encode = gen12_pte_encode;
++	else
++		ppgtt->vm.pte_encode = gen8_pte_encode;
 +
-+	if (needs_flush)
-+		*needs_flush = type != I915_MAP_WC;
-+
-+	return vaddr;
- }
+ 	err = gen8_init_scratch(&ppgtt->vm);
+ 	if (err)
+ 		goto err_free;
+@@ -734,8 +759,6 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+ 	ppgtt->vm.allocate_va_range = gen8_ppgtt_alloc;
+ 	ppgtt->vm.clear_range = gen8_ppgtt_clear;
  
- dma_addr_t __px_dma(struct drm_i915_gem_object *p)
-@@ -199,15 +206,18 @@ struct page *__px_page(struct drm_i915_gem_object *p)
- void
- fill_page_dma(struct drm_i915_gem_object *p, const u64 val, unsigned int count)
- {
--	void *vaddr = __px_vaddr(p);
-+	bool needs_flush;
-+	void *vaddr;
+-	ppgtt->vm.pte_encode = gen8_pte_encode;
+-
+ 	if (intel_vgpu_active(gt->i915))
+ 		gen8_ppgtt_notify_vgt(ppgtt, true);
  
-+	vaddr = __px_vaddr(p, &needs_flush);
- 	memset64(vaddr, val, count);
--	clflush_cache_range(vaddr, PAGE_SIZE);
-+	if (needs_flush)
-+		clflush_cache_range(vaddr, PAGE_SIZE);
- }
- 
- static void poison_scratch_page(struct drm_i915_gem_object *scratch)
- {
--	void *vaddr = __px_vaddr(scratch);
-+	void *vaddr = __px_vaddr(scratch, NULL);
- 	u8 val;
- 
- 	val = 0;
 diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
-index bdbdfded60cc..d96bd19d1b47 100644
+index d96bd19d1b47..f47899ef36f4 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
 +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
-@@ -176,8 +176,8 @@ struct page *__px_page(struct drm_i915_gem_object *p);
- dma_addr_t __px_dma(struct drm_i915_gem_object *p);
- #define px_dma(px) (__px_dma(px_base(px)))
+@@ -85,6 +85,8 @@ typedef u64 gen8_pte_t;
+ #define BYT_PTE_SNOOPED_BY_CPU_CACHES	REG_BIT(2)
+ #define BYT_PTE_WRITEABLE		REG_BIT(1)
  
--void *__px_vaddr(struct drm_i915_gem_object *p);
--#define px_vaddr(px) (__px_vaddr(px_base(px)))
-+void *__px_vaddr(struct drm_i915_gem_object *p, bool *needs_flush);
-+#define px_vaddr(px, needs_flush) (__px_vaddr(px_base(px), needs_flush))
++#define GEN12_PPGTT_PTE_LM (1 << 11)
++
+ /*
+  * Cacheability Control is a 4-bit value. The low three bits are stored in bits
+  * 3:1 of the PTE, while the fourth bit is stored in bit 11 of the PTE.
+@@ -268,6 +270,7 @@ struct i915_address_space {
+ 			  enum i915_cache_level level,
+ 			  u32 flags); /* Create a valid PTE */
+ #define PTE_READ_ONLY	BIT(0)
++#define PTE_LM          BIT(1)
  
- #define px_pt(px) \
- 	__px_choose_expr(px, struct i915_page_table *, __x, \
+ 	void (*allocate_va_range)(struct i915_address_space *vm,
+ 				  struct i915_vm_pt_stash *stash,
 diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-index 8e7b77cc4594..2d74ae950e4b 100644
+index 2d74ae950e4b..731d8730fa5f 100644
 --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
 +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
-@@ -85,10 +85,12 @@ write_dma_entry(struct drm_i915_gem_object * const pdma,
- 		const unsigned short idx,
- 		const u64 encoded_entry)
- {
--	u64 * const vaddr = __px_vaddr(pdma);
-+	bool needs_flush;
-+	u64 * const vaddr = __px_vaddr(pdma, &needs_flush);
+@@ -7,6 +7,8 @@
  
- 	vaddr[idx] = encoded_entry;
--	clflush_cache_range(&vaddr[idx], sizeof(u64));
-+	if (needs_flush)
-+		clflush_cache_range(&vaddr[idx], sizeof(u64));
- }
+ #include "i915_trace.h"
+ #include "intel_gtt.h"
++#include "gem/i915_gem_lmem.h"
++#include "gem/i915_gem_region.h"
+ #include "gen6_ppgtt.h"
+ #include "gen8_ppgtt.h"
  
- void
-diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
-index 6a7abb3e2bb5..6698750ffe8d 100644
---- a/drivers/gpu/drm/i915/selftests/i915_perf.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
-@@ -307,7 +307,7 @@ static int live_noa_gpr(void *arg)
- 	}
+@@ -193,6 +195,8 @@ void ppgtt_bind_vma(struct i915_address_space *vm,
+ 	pte_flags = 0;
+ 	if (i915_gem_object_is_readonly(vma->obj))
+ 		pte_flags |= PTE_READ_ONLY;
++	if (i915_gem_object_is_lmem(vma->obj))
++		pte_flags |= PTE_LM;
  
- 	/* Poison the ce->vm so we detect writes not to the GGTT gt->scratch */
--	scratch = __px_vaddr(ce->vm->scratch[0]);
-+	scratch = __px_vaddr(ce->vm->scratch[0], NULL);
- 	memset(scratch, POISON_FREE, PAGE_SIZE);
- 
- 	rq = intel_context_create_request(ce);
+ 	vm->insert_entries(vm, vma, cache_level, pte_flags);
+ 	wmb();
 -- 
 2.26.2
 
