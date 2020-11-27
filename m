@@ -1,56 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374402C6C53
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0E52C6C52
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A0A86F3EB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D5D96F3DC;
 	Fri, 27 Nov 2020 20:00:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4E5A6F3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:38 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id u19so8567109lfr.7
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:38 -0800 (PST)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 767CC6F3B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:41 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id s27so8562144lfp.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b0Ju2b6VwP0rGTkHcCSaLjeBzsLdorcbkSm8ycWNFi8=;
- b=YVPokDiHGMOA9sbLmSAHlS5XU0a5XJHcHYLM/96x34Sb9JnoZklVkiVZFvgVRY2O8D
- aA1OqTdOfDklYRW9I7wUVCqlQ0/4GrkcCf41U9FMlKD+xy7gbgDYUUwIGVWxtsqFrhG2
- nqbnO9ryw5FC3dTTqfjBrXCQcB0EgzrMJeljIt3r87SKtBfGvrDaMrj40u65HM3CCX8j
- i4msTSZCAF2DtP7W/gqypD+z93w+e7DmqQjndJmsNb9jx5jYr/NLrkVBVTCi1VByfytN
- 9j44D4ggrk7zVgtZVCnPZVhSh+72mRIGxciTQnYfHWKKajkkcxnTW/evGXe33n1hYGDi
- //sg==
+ bh=0dUZy5AyOXYDj2k6s63lZ9ADEngOOXb1VvoVlRiIbSA=;
+ b=MjuKWshbXzpQxhEMy1+a7PgY3BUmh4NKhTLvba9JMkrPSZAUulqFr2FQHBqGVk9Cgc
+ Jsue6qrqGil2Huy/DKFQ8LjxZ/TGXPJUG/4d172uj1o/ffbZjypW7fMNlskOPL8R82Qb
+ 4jSwKbPC+Ec+57sXNmOzpM1PUlydBVZuRD2+aeSJT8yGM1xbZQ/PZwva2SUtdLdjdhqq
+ stBM+vQgRx44O7SxwewScrN8T4iqOymIm8aKr+9g8wAI9X93wrxdlNkK5QN/VMok5pB6
+ kUOcpS5nDqX8JlWdiAQ+VTORorBfMhjM91S/c2qf2uIrjnfgrJogZfUWj6mtVz6X12Vb
+ 2DiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=b0Ju2b6VwP0rGTkHcCSaLjeBzsLdorcbkSm8ycWNFi8=;
- b=kORcsbJo2oieWEEDuSNpdXRZesvPIiIRRaxLcoY2cRDUlb+h5c1a+t7SsJpF9BmgVh
- 5Yusk4h4emu4S3/UN+a0GUuL0sYxXxJhsWV6wQhZOO1WupT4I7D/rXo76apAiZRa+gvi
- WoenSOhxb827aHTiIPnuQg7GEeNiudmnl+HXxF9J91aiRTgzkGX2RbTgNKWpU+pehQzl
- ytOcWlNH87f1qMZ0HL5S02fQ+uQqvbmTGDA/AEGJeW/wnc0iJu7OcRKB8OgU11qOtgPq
- RKCLYY7YB0a1UBGi0hNyrWTYQzzTRZ84R0Sfv2cv/4p73+xGxbyQF7+NnXavd/P9Y8gs
- pqtA==
-X-Gm-Message-State: AOAM531mRUU6TS3trjcF0MuaDKjqIEK8drYWk1kfTT8TsRQ8YLkJewEt
- cRoANNbPwQhnwy6qacuNnDk=
-X-Google-Smtp-Source: ABdhPJw6mJwSIHR8X58y/nVsjR7+pYbL7xkqTpsYLQAhnaUTmtEaj/ktaFglnB3Ot6ORxhYINSCP/Q==
-X-Received: by 2002:a19:5602:: with SMTP id k2mr3959293lfb.359.1606507177274; 
- Fri, 27 Nov 2020 11:59:37 -0800 (PST)
+ bh=0dUZy5AyOXYDj2k6s63lZ9ADEngOOXb1VvoVlRiIbSA=;
+ b=mogyLoafJSR9zZGFQymIAUu2RWmzwEDb2KxcK1dXvwxNdahKmitZi99mDykIhYl0Mn
+ BOh5CHR5LSP0AvZU4BYuV1wEuGlUWVqtnhg1GTZUA50LSNHosz0ryT1kh5RDIzV7I14K
+ JZRCsf3TnQzAmwZ7coMsLPNNM+Po8utTLTCABwFwZyp3KSpHfFH14t/UDUZptMZV8Cc4
+ Kfj98hOXlWwopC2GhKOsY4VtpWcMmd2Uq1l1wDIPg468I+uR0+W3LlnTSgJ8FlKviHQH
+ qbZ3zyeHhBKQBHNLWfy+JSxXxaeYbBMSiCvkY0e7g5q7PVjq3WuTgTUyXdXlvzv7HJzH
+ sWVw==
+X-Gm-Message-State: AOAM531oWDjfdu537nmyHD8Mkr8ah7Kspa99Cq7W00bbmfFzaUYW/k7V
+ sHmZ9NcRvOLQQMGTODRP7Sk=
+X-Google-Smtp-Source: ABdhPJy2ZKM89RK3vlOw0vIIpP/pIYwaQgPn9/q3zJF7dVDoEGUxmqssdj4WEHCuxoR1HWo+YV/lHQ==
+X-Received: by 2002:ac2:550d:: with SMTP id j13mr4446626lfk.301.1606507179931; 
+ Fri, 27 Nov 2020 11:59:39 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.34
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:36 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:39 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 24/28] video: fbdev: s3c-fb: Fix W=1 warnings
-Date: Fri, 27 Nov 2020 20:58:21 +0100
-Message-Id: <20201127195825.858960-25-sam@ravnborg.org>
+Subject: [PATCH v1 25/28] video: fbdev: uvesafb: Fix W=1 warning
+Date: Fri, 27 Nov 2020 20:58:22 +0100
+Message-Id: <20201127195825.858960-26-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -98,88 +98,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix several W=1 warnings
-- Updated kernel-doc as needed
-- Deleted unused local variable, it was assigned but never used
+Fix W=1 warning by deleting unused local variable.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Michal Januszewski <spock@gentoo.org>
 Cc: linux-fbdev@vger.kernel.org
 ---
- drivers/video/fbdev/s3c-fb.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/video/fbdev/uvesafb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/s3c-fb.c b/drivers/video/fbdev/s3c-fb.c
-index ba316bd56efd..3b134e1bbc38 100644
---- a/drivers/video/fbdev/s3c-fb.c
-+++ b/drivers/video/fbdev/s3c-fb.c
-@@ -75,6 +75,7 @@ struct s3c_fb;
-  * @buf_size: Offset of buffer size registers.
-  * @buf_end: Offset of buffer end registers.
-  * @osd: The base for the OSD registers.
-+ * @osd_stride: stride of osd
-  * @palette: Address of palette memory, or 0 if none.
-  * @has_prtcon: Set if has PRTCON register.
-  * @has_shadowcon: Set if has SHADOWCON register.
-@@ -155,7 +156,7 @@ struct s3c_fb_palette {
-  * @windata: The platform data supplied for the window configuration.
-  * @parent: The hardware that this window is part of.
-  * @fbinfo: Pointer pack to the framebuffer info for this window.
-- * @varint: The variant information for this window.
-+ * @variant: The variant information for this window.
-  * @palette_buffer: Buffer/cache to hold palette entries.
-  * @pseudo_palette: For use in TRUECOLOUR modes for entries 0..15/
-  * @index: The window number of this window.
-@@ -336,7 +337,7 @@ static int s3c_fb_check_var(struct fb_var_screeninfo *var,
- /**
-  * s3c_fb_calc_pixclk() - calculate the divider to create the pixel clock.
-  * @sfb: The hardware state.
-- * @pixclock: The pixel clock wanted, in picoseconds.
-+ * @pixclk: The pixel clock wanted, in picoseconds.
-  *
-  * Given the specified pixel clock, work out the necessary divider to get
-  * close to the output frequency.
-@@ -733,7 +734,7 @@ static inline unsigned int chan_to_field(unsigned int chan,
-  * @red: The red field for the palette data.
-  * @green: The green field for the palette data.
-  * @blue: The blue field for the palette data.
-- * @trans: The transparency (alpha) field for the palette data.
-+ * @transp: The transparency (alpha) field for the palette data.
-  * @info: The framebuffer being changed.
-  */
- static int s3c_fb_setcolreg(unsigned regno,
-@@ -1133,6 +1134,7 @@ static void s3c_fb_free_memory(struct s3c_fb *sfb, struct s3c_fb_win *win)
- 
- /**
-  * s3c_fb_release_win() - release resources for a framebuffer window.
-+ * @sfb: The base resources for the hardware.
-  * @win: The window to cleanup the resources for.
-  *
-  * Release the resources that where claimed for the hardware window,
-@@ -1160,6 +1162,7 @@ static void s3c_fb_release_win(struct s3c_fb *sfb, struct s3c_fb_win *win)
- /**
-  * s3c_fb_probe_win() - register an hardware window
-  * @sfb: The base resources for the hardware
-+ * @win_no: The window number
-  * @variant: The variant information for this window.
-  * @res: Pointer to where to place the resultant window.
-  *
-@@ -1170,7 +1173,6 @@ static int s3c_fb_probe_win(struct s3c_fb *sfb, unsigned int win_no,
- 			    struct s3c_fb_win_variant *variant,
- 			    struct s3c_fb_win **res)
+diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
+index def14ac0ebe1..8ee0fc9c63cf 100644
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -554,12 +554,12 @@ static int uvesafb_vbe_getmodes(struct uvesafb_ktask *task,
+ static int uvesafb_vbe_getpmi(struct uvesafb_ktask *task,
+ 			      struct uvesafb_par *par)
  {
--	struct fb_var_screeninfo *var;
- 	struct fb_videomode initmode;
- 	struct s3c_fb_pd_win *windata;
- 	struct s3c_fb_win *win;
-@@ -1198,7 +1200,6 @@ static int s3c_fb_probe_win(struct s3c_fb *sfb, unsigned int win_no,
+-	int i, err;
++	int i;
  
- 	win = fbinfo->par;
- 	*res = win;
--	var = &fbinfo->var;
- 	win->variant = *variant;
- 	win->fbinfo = fbinfo;
- 	win->parent = sfb;
+ 	uvesafb_reset(task);
+ 	task->t.regs.eax = 0x4f0a;
+ 	task->t.regs.ebx = 0x0;
+-	err = uvesafb_exec(task);
++	uvesafb_exec(task);
+ 
+ 	if ((task->t.regs.eax & 0xffff) != 0x4f || task->t.regs.es < 0xc000) {
+ 		par->pmi_setpal = par->ypan = 0;
 -- 
 2.27.0
 
