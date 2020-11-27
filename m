@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1E02C6C4E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 20:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6046A2C6C54
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 21:00:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 566CA6F3CF;
-	Fri, 27 Nov 2020 19:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42C376F3EF;
+	Fri, 27 Nov 2020 20:00:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F84F6EEB9
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:44 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id o24so7124164ljj.6
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:43 -0800 (PST)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 979316F3EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 19:59:46 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id j205so8559934lfj.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 11:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cTz8UNZSB2sQnZVOY7U0wdeJbPp7ZoKiq9hM9XyTjD8=;
- b=dRT/DaQuxup56pjO/gXvCOHAFRuO1qWDIs0CBnqhSXDTtr/bSWQu2Ap+yUyq+B44+A
- neG0M7I0sJitoqxpbq2Yv0USUFFjoo6QhS/EEYu4HvbE8XHA+xb3ABCMI55iyfqUQdna
- yb0QgRDle+80a4z1OJrF3nyORqFTCGwJYztA3HK+rMcLIgnrNrLdcU0rtjUdmKBHKuLb
- vvInFX+bp4OkZ/2EEZ9lwNd07cypaYMY/o49aMZTVQQMGBaNI3fiK4OyR8I9tos2WUp6
- PnMnXcVo9CxblX4AV3NR0hsMeaf5lyqTZPMM24rlzSTWJHH3vMFitAk61/zxQnCnCFQr
- tJOw==
+ bh=Y8wtXUawbSNHT6itVp9PKOsqounZ7r/XQRvyXGYV8s4=;
+ b=uCchEecMQO/c968kGrHMi75DxnjAfug0UW+aYItCxW4i6Iwimiy9pksY5eUBYQwl4O
+ r8N9m1kaX8yO9kzMiUW421bnoXfJr7otEBXhAuYXIryg8whiIzfAUYBqIWws/ZaF7Db6
+ pUR8dvReqH2RzmOh2Ij82rZii5ClfkmrJcGUNcXSnm47I6Sx8veOKecG4zFG+TEV6VOx
+ GpLoAwvsDjFcGew/J71nPkwrXZuP327XdXLBE5wnMp2Lx8H2ZTUaglXR7eTKkIO+I9oV
+ huxDVJpCSoAeXhc6pxQuhKPDdR7CWYLz91ohFMgNqaRuE5RVnekpel+nxaAE+kFwn6Ji
+ xQgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cTz8UNZSB2sQnZVOY7U0wdeJbPp7ZoKiq9hM9XyTjD8=;
- b=dNpPmQfuT31ZSVZWOCPx56vQB2OOiltSChqKYigipCEZKWo4suzC5Xai32rkxgfi+1
- kqvGMHKO7NvAMYlHjeOCU3RLDCTGnNhOoA67fvuW2MaPmEpcET0wlHZANahKBCa2yOHN
- XyTZtffH78uS+wZoXKqZR/U+1r5W8xDlmC/kQnA2XHVwulLB5neQDf8G11Zr/P9SZ9XH
- Fp9P6ybDEwaRs5HslNRO23209Lknw8ZKitreseYeqngfLsGtzlsDEmVw809uZvwZsbZZ
- aXzlocdS1LmRzB/+/QXflehiEZ0wJrmE5a7QL5hlhsBx5pHjOIh8VgP9PyeKVtz4yopK
- 7ZIg==
-X-Gm-Message-State: AOAM530WNpyP1g3LOGzfapr7GdXM+uRYCfsspbw36HnBtPUYefKb4ZPT
- Zi008uN12o2Z7fmw9DC9EGo=
-X-Google-Smtp-Source: ABdhPJw+juNp86cxlqMgAnqmJUMMNTIlemg5zHcEmGRNGhL2jyUtf2DC8PEqnsNHMepTLTQNwgzflA==
-X-Received: by 2002:a2e:9951:: with SMTP id r17mr602111ljj.113.1606507182492; 
- Fri, 27 Nov 2020 11:59:42 -0800 (PST)
+ bh=Y8wtXUawbSNHT6itVp9PKOsqounZ7r/XQRvyXGYV8s4=;
+ b=pd/+0eQ2Vj90IIB+Ryb4OWuv5qBCHn6TU1xJtJ9puGI0Lygzt81wN+LvwQlkZYkuNF
+ 27xdDO3QzPX/IKETs5fgnky+eFkui7okiqDsOa42ef9HOsybGpANOBzkrDM4dsX5ujqA
+ TxDp2w4PNw7LUL9W412qvQ8+e8fg0c7UoMV6LKw435tP/hilNofno9sR7NkWXyvGiwCN
+ 6ftBVenzbbA6zboIUm4ELDnZxcfFTTWz5ID0tRnSPQge9cOSj+Nvftg2LFPjBjucOdfU
+ GzVi7zHPlMsPphERzBX2oBqlDevFj0WVSYoZViAT4OEJqkG9isaL29S/Fb8wdsj6XS9S
+ mXgw==
+X-Gm-Message-State: AOAM531hmcmeJ9w3x8Fvc5woEtjMHIpmCvPF/YnaStCLZT/6JbzQFuid
+ ZzbWxsBZg0OEbGaHqk+33FI=
+X-Google-Smtp-Source: ABdhPJwgFjbWLJCd/wY65mHVlJvS4se9f+t/fvMNSUof1QOLLwqOeklo9SNHoshiG83N34pr1A6+7w==
+X-Received: by 2002:a19:4bd2:: with SMTP id y201mr4378293lfa.330.1606507185047; 
+ Fri, 27 Nov 2020 11:59:45 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:9d62:990:4557:451])
- by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.40
+ by smtp.gmail.com with ESMTPSA id c6sm1070415ljj.140.2020.11.27.11.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Nov 2020 11:59:42 -0800 (PST)
+ Fri, 27 Nov 2020 11:59:44 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v1 26/28] video: fbdev: uvesafb: Fix W=1 string related
- warnings
-Date: Fri, 27 Nov 2020 20:58:23 +0100
-Message-Id: <20201127195825.858960-27-sam@ravnborg.org>
+Subject: [PATCH v1 27/28] video: fbdev: cirrusfb: Fix W=1 warnings
+Date: Fri, 27 Nov 2020 20:58:24 +0100
+Message-Id: <20201127195825.858960-28-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201127195825.858960-1-sam@ravnborg.org>
 References: <20201127195825.858960-1-sam@ravnborg.org>
@@ -99,42 +98,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Two W=1 string related warnings.
-- Using strncpy to copy string wihtout null-termination is not good.
-  Use memcpy to copy only the relevant chars
-
-- Fix a potential bug with a very long string, subtract one from the
-  length to make room for the termination null.
+Fix warnings:
+- fix kernel-doc
+- delete unused code
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Michal Januszewski <spock@gentoo.org>
-Cc: linux-fbdev@vger.kernel.org
+Cc: Thomas Zimemrmann <tzimmermann@suse.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Mike Rapoport <rppt@kernel.org>
 ---
- drivers/video/fbdev/uvesafb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/cirrusfb.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
-index 8ee0fc9c63cf..45dc8da191e4 100644
---- a/drivers/video/fbdev/uvesafb.c
-+++ b/drivers/video/fbdev/uvesafb.c
-@@ -423,7 +423,7 @@ static int uvesafb_vbe_getinfo(struct uvesafb_ktask *task,
- 	task->t.flags = TF_VBEIB;
- 	task->t.buf_len = sizeof(struct vbe_ib);
- 	task->buf = &par->vbe_ib;
--	strncpy(par->vbe_ib.vbe_signature, "VBE2", 4);
-+	memcpy(par->vbe_ib.vbe_signature, "VBE2", 4);
- 
- 	err = uvesafb_exec(task);
- 	if (err || (task->t.regs.eax & 0xffff) != 0x004f) {
-@@ -1871,7 +1871,7 @@ static ssize_t v86d_show(struct device_driver *dev, char *buf)
- static ssize_t v86d_store(struct device_driver *dev, const char *buf,
- 		size_t count)
+diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
+index e9027172c0f5..93802abbbc72 100644
+--- a/drivers/video/fbdev/cirrusfb.c
++++ b/drivers/video/fbdev/cirrusfb.c
+@@ -2463,8 +2463,6 @@ static void AttrOn(const struct cirrusfb_info *cinfo)
+  */
+ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
  {
--	strncpy(v86d_path, buf, PATH_MAX);
-+	strncpy(v86d_path, buf, PATH_MAX - 1);
- 	return count;
+-	unsigned char dummy;
+-
+ 	if (is_laguna(cinfo))
+ 		return;
+ 	if (cinfo->btype == BT_PICASSO) {
+@@ -2473,18 +2471,18 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
+ 		WGen(cinfo, VGA_PEL_MSK, 0x00);
+ 		udelay(200);
+ 		/* next read dummy from pixel address (3c8) */
+-		dummy = RGen(cinfo, VGA_PEL_IW);
++		RGen(cinfo, VGA_PEL_IW);
+ 		udelay(200);
+ 	}
+ 	/* now do the usual stuff to access the HDR */
+ 
+-	dummy = RGen(cinfo, VGA_PEL_MSK);
++	RGen(cinfo, VGA_PEL_MSK);
+ 	udelay(200);
+-	dummy = RGen(cinfo, VGA_PEL_MSK);
++	RGen(cinfo, VGA_PEL_MSK);
+ 	udelay(200);
+-	dummy = RGen(cinfo, VGA_PEL_MSK);
++	RGen(cinfo, VGA_PEL_MSK);
+ 	udelay(200);
+-	dummy = RGen(cinfo, VGA_PEL_MSK);
++	RGen(cinfo, VGA_PEL_MSK);
+ 	udelay(200);
+ 
+ 	WGen(cinfo, VGA_PEL_MSK, val);
+@@ -2492,7 +2490,7 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
+ 
+ 	if (cinfo->btype == BT_PICASSO) {
+ 		/* now first reset HDR access counter */
+-		dummy = RGen(cinfo, VGA_PEL_IW);
++		RGen(cinfo, VGA_PEL_IW);
+ 		udelay(200);
+ 
+ 		/* and at the end, restore the mask value */
+@@ -2800,9 +2798,9 @@ static void bestclock(long freq, int *nom, int *den, int *div)
+ 
+ #ifdef CIRRUSFB_DEBUG
+ 
+-/**
++/*
+  * cirrusfb_dbg_print_regs
+- * @base: If using newmmio, the newmmio base address, otherwise %NULL
++ * @regbase: If using newmmio, the newmmio base address, otherwise %NULL
+  * @reg_class: type of registers to read: %CRT, or %SEQ
+  *
+  * DESCRIPTION:
+@@ -2847,7 +2845,7 @@ static void cirrusfb_dbg_print_regs(struct fb_info *info,
+ 	va_end(list);
  }
- static DRIVER_ATTR_RW(v86d);
+ 
+-/**
++/*
+  * cirrusfb_dbg_reg_dump
+  * @base: If using newmmio, the newmmio base address, otherwise %NULL
+  *
 -- 
 2.27.0
 
