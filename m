@@ -1,31 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AB1C2C6760
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:04:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 054E32C6763
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:07:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 092456EDD3;
-	Fri, 27 Nov 2020 14:04:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CB7E6EDD8;
+	Fri, 27 Nov 2020 14:07:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EED16EDC2;
- Fri, 27 Nov 2020 14:04:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4F566EDD5;
+ Fri, 27 Nov 2020 14:07:11 +0000 (UTC)
 X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
  x-ip-name=78.156.65.138; 
 Received: from localhost (unverified [78.156.65.138]) 
  by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23133947-1500050 for multiple; Fri, 27 Nov 2020 14:04:39 +0000
+ 23133993-1500050 for multiple; Fri, 27 Nov 2020 14:07:08 +0000
 MIME-Version: 1.0
-In-Reply-To: <20201127120718.454037-127-matthew.auld@intel.com>
+In-Reply-To: <20201127120718.454037-129-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-127-matthew.auld@intel.com>
-Subject: Re: [RFC PATCH 126/162] drm/i915/gem: Update shmem available memory
+ <20201127120718.454037-129-matthew.auld@intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 128/162] drm/i915/dg1:
+ intel_memory_region_evict() changes for eviction
 From: Chris Wilson <chris@chris-wilson.co.uk>
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Fri, 27 Nov 2020 14:04:38 +0000
-Message-ID: <160648587887.2925.7439507938668226040@build.alporthouse.com>
+Date: Fri, 27 Nov 2020 14:07:07 +0000
+Message-ID: <160648602783.2925.6517069584093958650@build.alporthouse.com>
 User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -39,16 +40,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Bommu Krishnaiah <krishnaiah.bommu@intel.com>, Zbigniew Kempczyński <zbigniew.kempczynski@intel.com>, CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-UXVvdGluZyBNYXR0aGV3IEF1bGQgKDIwMjAtMTEtMjcgMTI6MDY6NDIpCj4gRnJvbTogQm9tbXUg
-S3Jpc2huYWlhaCA8a3Jpc2huYWlhaC5ib21tdUBpbnRlbC5jb20+Cj4gCj4gVXBkYXRlIHNobWVt
-IGF2YWlsYWJsZSBtZW1vcnkgaW4g4oCcaW50ZWxfbWVtb3J5X3JlZ2lvbuKAnQoKV2FzIGF2YWls
-IGV2ZXIgc2V0PwotQ2hyaXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJp
-LWRldmVsCg==
+Quoting Matthew Auld (2020-11-27 12:06:44)
+> From: CQ Tang <cq.tang@intel.com>
+> 
+> Function i915_gem_shrink_memory_region() is changed to
+> intel_memory_region_evict() and moved from i915_gem_shrinker.c
+> to intel_memory_region.c, this function is used to handle local
+> memory swapping, in addition to evict purgeable objects only.
+
+We really do not want to conflate the system shrinker with eviction.
+Reservation based eviction looks nothing like the shrinker.
+-Chris
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
