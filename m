@@ -2,32 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB262C680D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:44:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701542C6821
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 15:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 510766EDFD;
-	Fri, 27 Nov 2020 14:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E53C86EE04;
+	Fri, 27 Nov 2020 14:46:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F1246EDFD;
- Fri, 27 Nov 2020 14:44:06 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23134526-1500050 for multiple; Fri, 27 Nov 2020 14:44:02 +0000
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 634696EE04
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 14:46:44 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id h19so4926221otr.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 06:46:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=gP+TvsXwuEZr/udyDF2UcdlzNwNnBtf+MxF6Th4WNZ4=;
+ b=ERky2saLAol++2yNBL1sQhXNmC1r2tArUp6oHYvjs73IDnqGbFr7zjgGXFsqvB6rA6
+ zTwLRwma4ueSb0FMbxkoRXCCqeO4+M5OJhSTC3ItpWgQEtAGYcTwjtwAPOtBLOcP3E0Y
+ aIIuvvSL1/RiwBV4Fsc/FcoYAnt/ix/SSvrHQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=gP+TvsXwuEZr/udyDF2UcdlzNwNnBtf+MxF6Th4WNZ4=;
+ b=frJgh6T9Ocfdmp0X+v9bEP7uMm1xbNtcOaG+iptmB6cGFX8A4n0bDZ1zZVrxF5eEa6
+ uCKJowbjT4qaQy+TPm+0kQUVVwZDWc3M2LOw4ilP6yPnrmgSKuml2s3AhvnRGxvrk6yS
+ ok/U6thv78cDvqtv5NP6EIZ9husf/CKIdvfRvNw+wuLD5atTrcr5LBQ6kzPqT1yeGgFp
+ JsBhs4ccwwvSfTVvNeIZFGmtD5bLPwiCfF7eeAbkdQkFt2T2laTcpXBMKK2+NtZ2cKXi
+ ssCve265ycivm/sFfg8YIJsGjN7FBm9doKCqU3AMmDnGcDNkTK0SZKDtBgQJklxh0b91
+ oISA==
+X-Gm-Message-State: AOAM5301cMefBI9o8/YEOn4UlPtd3QfXPPeLVkTjGBxKjvP47q0t1XHu
+ jT4a0rRVDJzCWZFVd7UAqKBCYJHs1o/bfP/4o/Oezw==
+X-Google-Smtp-Source: ABdhPJxhtSWsEmnptryk9wtJJP/tOTzGg1oJILt2u/vkw1rJ62CBj7UsOwFlObN3bBHqiurtlzJINsVFQ7LbEbmwQvs=
+X-Received: by 2002:a05:6830:3155:: with SMTP id
+ c21mr6488703ots.281.1606488403682; 
+ Fri, 27 Nov 2020 06:46:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201127120718.454037-161-matthew.auld@intel.com>
-References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-161-matthew.auld@intel.com>
-Subject: Re: [Intel-gfx] [RFC PATCH 160/162] drm/i915/dg1: Fix GPU hang due to
- shmemfs page drop
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Fri, 27 Nov 2020 14:44:02 +0000
-Message-ID: <160648824214.2925.13439180367612166388@build.alporthouse.com>
-User-Agent: alot/0.9
+References: <20201125143424.1434-1-christian.koenig@amd.com>
+ <CAKMK7uF7SZ_ihX+s6Rxg8Ws96vViu8Ab2vN+6VysWeDRkQMbNg@mail.gmail.com>
+ <CAPM=9txqSCUcCoYKXxC6bX5Qx1SEBG4MPNTdKRybogwyOsZg5w@mail.gmail.com>
+ <66a8a6f5-af8b-a46f-0dfa-417dd699b58f@gmail.com>
+In-Reply-To: <66a8a6f5-af8b-a46f-0dfa-417dd699b58f@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 27 Nov 2020 15:46:32 +0100
+Message-ID: <CAKMK7uEurRUDsK58xAiJ98xQckCeL6p+hFvbkx8AP6HAW-EsDw@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: fix check order in radeon_bo_move
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,47 +62,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>,
- dri-devel@lists.freedesktop.org, Chris Wilson <chris@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Dave Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Matthew Auld (2020-11-27 12:07:16)
-> From: Venkata Ramana Nayana <venkata.ramana.nayana@intel.com>
-> 
-> This is to fix a bug in upstream
-> commit a6326a4f8ffb ("drm/i915/gt: Keep a no-frills swappable copy of the default context state")
-> 
-> We allocate context state obj ce->state from lmem, so in __engines_record_defaults(),
-> we call shmem_create_from_object(). Because it is lmem object, this call will
-> create a new shmemfs file, copy the contents into it, and return the file
-> pointer and assign to engine->default_state. Of course ce->state lmem object
-> is freed at the end of function __engines_record_redefaults().
-> 
-> Because a new shmemfs file is create for engine->default_state,
-> and more importantly, we DON'T mark the pages dirty after we write into it,
-> the OS page cache eviction will drop these pages.
-> 
-> Now with the test move forward, it will create new request/context, and will
-> copy the saved engine->default_state into ce->state. If the default_state
-> pages are dropped during page cache eviction, the copying will get new pages,
-> and copy garbage from the new pages. Next, ce->state will have wrong
-> instruction and causes GPU to hang.
-> 
-> The fixing is very simple, we just mark the shmemfs pages to be dirty when
-> writing into it, and also mark the pages to accessed when read/write to them.
-> 
-> Fixes: a6326a4f8ffb("drm/i915/gt: Keep a no-frills swappable copy of the default context state")
-
-A bug fix, send it. But please write a concise changelog first.
-
-I missed setting the dirty bit, and so the contents were not being saved
-on swap out as expected. Impact is severe; any context created after
-resume may be gibberish.
--Chris
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBOb3YgMjcsIDIwMjAgYXQgMzoxMCBQTSBDaHJpc3RpYW4gS8O2bmlnCjxja29lbmln
+LmxlaWNodHp1bWVya2VuQGdtYWlsLmNvbT4gd3JvdGU6Cj4KPiBBbSAyNy4xMS4yMCB1bSAwOToz
+MSBzY2hyaWViIERhdmUgQWlybGllOgo+ID4gT29wcyBzb3JyeSBmb3IgZGVsYXkgTEdUTQo+ID4K
+PiA+IFJldmlld2VkLWJ5OiBEYXZlIEFpcmxpZSA8YWlybGllZEByZWRoYXQuY29tPgo+Cj4gVGhh
+bmtzLgo+Cj4gPgo+ID4gT24gRnJpLCAyNyBOb3YgMjAyMCBhdCAwMjozNCwgRGFuaWVsIFZldHRl
+ciA8ZGFuaWVsQGZmd2xsLmNoPiB3cm90ZToKPiA+PiBPbiBXZWQsIE5vdiAyNSwgMjAyMCBhdCAz
+OjM0IFBNIENocmlzdGlhbiBLw7ZuaWcKPiA+PiA8Y2tvZW5pZy5sZWljaHR6dW1lcmtlbkBnbWFp
+bC5jb20+IHdyb3RlOgo+ID4+PiBSZW9yZGVyIHRoZSBjb2RlIHRvIGZpeCBjaGVja2luZyBpZiBi
+bGl0dGluZyBpcyBhdmFpbGFibGUuCj4gPj4gTWlnaHQgYmUgZ29vZCB0byBleHBsYWluIHdoeSBi
+bGl0dGluZyBtaWdodCBub3QgYmUgYXZhaWxhYmxlLCBlLmcuCj4gPj4gc3VzcGVuZC9yZXN1bWUg
+YW5kIG9yIGNoaXAgZGVhdGggYW5kIHN0dWZmIGxpa2UgdGhhdC4KPiA+Pgo+ID4+PiBTaWduZWQt
+b2ZmLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Cj4gPj4g
+TmVlZHMgRml4ZXM6IDI4YTY4ZjgyODI2NiAoImRybS9yYWRlb24vdHRtOiB1c2UgbXVsdGlob3Ai
+KQo+Cj4gV2h5IGRvZXMgdGhlIHN1YmplY3Qgb2YgdGhlIHBhdGNoIG5lZWRzIHRvIGJlIGluICIo
+KSIgPyBJIHdhcyBhbHJlYWR5Cj4gd29uZGVyaW5nIHdoeSBkaW0gc29tZXRpbWVzIGNvbXBsYWlu
+cyBhYm91dCBteSBGaXhlcyB0YWcuCgpIbSBJIHRob3VnaHQgdGhhdCdzIHRoZSBvZmZpY2lhbCBz
+dHlsZS4gSSBraW5kYSBoYWNrZWQgYXJvdW5kIG9uIGl0CnVudGlsIGxpbnV4LW5leHQgc3RvcHBl
+ZCBjb21wbGFpbmluZyBhYm91dCBvdXIgRml4ZXM6IHRhZ3MuIE1heWJlIGl0J3MKbm90IHF1aXRl
+IGFjY3VyYXRlbHkgcmVmbGVjdGluZyB0aGUgY3VycmVudCBiaWtlc2hlZC4gSWlyYyBjaGVja3Bh
+dGNoCmV2ZW4gY29tcGxhaW5zIHdoZW4geW91IGxlYXZlIG91dCB0aGUgY29tbWl0IGJlZm9yZSB0
+aGUgc2hhMSwgYXQgbGVhc3QKaW4gZnJlZS1mb3JtIHRleHQgaW4gdGhlIGNvbW1pdCBtZXNzYWdl
+LgotRGFuaWVsCgo+ID4+Cj4gPj4gQnR3Cj4gPj4KPiA+PiAkIGRpbSBmaXhlcyBbc2hhMV0KPiA+
+Pgo+ID4+IGdlbmVyYXRlcyB0aGF0IGZvciB5b3UgcGx1cyBuaWNlIGNjIGxpc3Qgb2Ygb2ZmZW5k
+ZXJzLiBXaXRoIHRoZSBGaXhlcwo+ID4+IGxpbmUgYWRkZWQ6Cj4gPj4KPiA+PiBSZXZpZXdlZC1i
+eTogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPgo+IFRoYW5rcywKPiBD
+aHJpc3RpYW4uCj4KPiA+Pgo+ID4+IEF0IGxlYXN0IEknbSBoYW5naW5nIG9udG8gdGhlIGlsbHVz
+aW9uIHRoYXQgSSB1bmRlcnN0YW5kIHdoYXQgeW91IGRpZCBoZXJlIDotKQo+ID4+IC1EYW5pZWwK
+PiA+Pj4gLS0tCj4gPj4+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fdHRtLmMgfCA1
+NCArKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLQo+ID4+PiAgIDEgZmlsZSBjaGFuZ2VkLCAy
+NCBpbnNlcnRpb25zKCspLCAzMCBkZWxldGlvbnMoLSkKPiA+Pj4KPiA+Pj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jIGIvZHJpdmVycy9ncHUvZHJtL3Jh
+ZGVvbi9yYWRlb25fdHRtLmMKPiA+Pj4gaW5kZXggMGNhMzgxYjk1ZDNkLi4yYjU5ODE0MTIyNWYg
+MTAwNjQ0Cj4gPj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4g
+Pj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX3R0bS5jCj4gPj4+IEBAIC0y
+MTYsMjcgKzIxNiwxNSBAQCBzdGF0aWMgaW50IHJhZGVvbl9ib19tb3ZlKHN0cnVjdCB0dG1fYnVm
+ZmVyX29iamVjdCAqYm8sIGJvb2wgZXZpY3QsCj4gPj4+ICAgICAgICAgIHN0cnVjdCB0dG1fcmVz
+b3VyY2UgKm9sZF9tZW0gPSAmYm8tPm1lbTsKPiA+Pj4gICAgICAgICAgaW50IHI7Cj4gPj4+Cj4g
+Pj4+IC0gICAgICAgaWYgKChvbGRfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNICYmCj4g
+Pj4+IC0gICAgICAgICAgICBuZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfVlJBTSkgfHwKPiA+
+Pj4gLSAgICAgICAgICAgKG9sZF9tZW0tPm1lbV90eXBlID09IFRUTV9QTF9WUkFNICYmCj4gPj4+
+IC0gICAgICAgICAgICBuZXdfbWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfU1lTVEVNKSkgewo+ID4+
+PiAtICAgICAgICAgICAgICAgaG9wLT5mcGZuID0gMDsKPiA+Pj4gLSAgICAgICAgICAgICAgIGhv
+cC0+bHBmbiA9IDA7Cj4gPj4+IC0gICAgICAgICAgICAgICBob3AtPm1lbV90eXBlID0gVFRNX1BM
+X1RUOwo+ID4+PiAtICAgICAgICAgICAgICAgaG9wLT5mbGFncyA9IDA7Cj4gPj4+IC0gICAgICAg
+ICAgICAgICByZXR1cm4gLUVNVUxUSUhPUDsKPiA+Pj4gLSAgICAgICB9Cj4gPj4+IC0KPiA+Pj4g
+ICAgICAgICAgaWYgKG5ld19tZW0tPm1lbV90eXBlID09IFRUTV9QTF9UVCkgewo+ID4+PiAgICAg
+ICAgICAgICAgICAgIHIgPSByYWRlb25fdHRtX3R0X2JpbmQoYm8tPmJkZXYsIGJvLT50dG0sIG5l
+d19tZW0pOwo+ID4+PiAgICAgICAgICAgICAgICAgIGlmIChyKQo+ID4+PiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgcmV0dXJuIHI7Cj4gPj4+ICAgICAgICAgIH0KPiA+Pj4gLSAgICAgICByYWRl
+b25fYm9fbW92ZV9ub3RpZnkoYm8sIGV2aWN0LCBuZXdfbWVtKTsKPiA+Pj4KPiA+Pj4gICAgICAg
+ICAgciA9IHR0bV9ib193YWl0X2N0eChibywgY3R4KTsKPiA+Pj4gICAgICAgICAgaWYgKHIpCj4g
+Pj4+IC0gICAgICAgICAgICAgICBnb3RvIGZhaWw7Cj4gPj4+ICsgICAgICAgICAgICAgICByZXR1
+cm4gcjsKPiA+Pj4KPiA+Pj4gICAgICAgICAgLyogQ2FuJ3QgbW92ZSBhIHBpbm5lZCBCTyAqLwo+
+ID4+PiAgICAgICAgICByYm8gPSBjb250YWluZXJfb2YoYm8sIHN0cnVjdCByYWRlb25fYm8sIHRi
+byk7Cj4gPj4+IEBAIC0yNDYsMTIgKzIzNCwxMiBAQCBzdGF0aWMgaW50IHJhZGVvbl9ib19tb3Zl
+KHN0cnVjdCB0dG1fYnVmZmVyX29iamVjdCAqYm8sIGJvb2wgZXZpY3QsCj4gPj4+ICAgICAgICAg
+IHJkZXYgPSByYWRlb25fZ2V0X3JkZXYoYm8tPmJkZXYpOwo+ID4+PiAgICAgICAgICBpZiAob2xk
+X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJiBiby0+dHRtID09IE5VTEwpIHsKPiA+
+Pj4gICAgICAgICAgICAgICAgICB0dG1fYm9fbW92ZV9udWxsKGJvLCBuZXdfbWVtKTsKPiA+Pj4g
+LSAgICAgICAgICAgICAgIHJldHVybiAwOwo+ID4+PiArICAgICAgICAgICAgICAgZ290byBvdXQ7
+Cj4gPj4+ICAgICAgICAgIH0KPiA+Pj4gICAgICAgICAgaWYgKG9sZF9tZW0tPm1lbV90eXBlID09
+IFRUTV9QTF9TWVNURU0gJiYKPiA+Pj4gICAgICAgICAgICAgIG5ld19tZW0tPm1lbV90eXBlID09
+IFRUTV9QTF9UVCkgewo+ID4+PiAgICAgICAgICAgICAgICAgIHR0bV9ib19tb3ZlX251bGwoYm8s
+IG5ld19tZW0pOwo+ID4+PiAtICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4gPj4+ICsgICAgICAg
+ICAgICAgICBnb3RvIG91dDsKPiA+Pj4gICAgICAgICAgfQo+ID4+Pgo+ID4+PiAgICAgICAgICBp
+ZiAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1RUICYmCj4gPj4+IEBAIC0yNTksMzEgKzI0
+NywzNyBAQCBzdGF0aWMgaW50IHJhZGVvbl9ib19tb3ZlKHN0cnVjdCB0dG1fYnVmZmVyX29iamVj
+dCAqYm8sIGJvb2wgZXZpY3QsCj4gPj4+ICAgICAgICAgICAgICAgICAgcmFkZW9uX3R0bV90dF91
+bmJpbmQoYm8tPmJkZXYsIGJvLT50dG0pOwo+ID4+PiAgICAgICAgICAgICAgICAgIHR0bV9yZXNv
+dXJjZV9mcmVlKGJvLCAmYm8tPm1lbSk7Cj4gPj4+ICAgICAgICAgICAgICAgICAgdHRtX2JvX2Fz
+c2lnbl9tZW0oYm8sIG5ld19tZW0pOwo+ID4+PiAtICAgICAgICAgICAgICAgcmV0dXJuIDA7Cj4g
+Pj4+ICsgICAgICAgICAgICAgICBnb3RvIG91dDsKPiA+Pj4gICAgICAgICAgfQo+ID4+PiAtICAg
+ICAgIGlmICghcmRldi0+cmluZ1tyYWRlb25fY29weV9yaW5nX2luZGV4KHJkZXYpXS5yZWFkeSB8
+fAo+ID4+PiAtICAgICAgICAgICByZGV2LT5hc2ljLT5jb3B5LmNvcHkgPT0gTlVMTCkgewo+ID4+
+PiAtICAgICAgICAgICAgICAgLyogdXNlIG1lbWNweSAqLwo+ID4+PiAtICAgICAgICAgICAgICAg
+Z290byBtZW1jcHk7Cj4gPj4+ICsgICAgICAgaWYgKHJkZXYtPnJpbmdbcmFkZW9uX2NvcHlfcmlu
+Z19pbmRleChyZGV2KV0ucmVhZHkgJiYKPiA+Pj4gKyAgICAgICAgICAgcmRldi0+YXNpYy0+Y29w
+eS5jb3B5ICE9IE5VTEwpIHsKPiA+Pj4gKyAgICAgICAgICAgICAgIGlmICgob2xkX21lbS0+bWVt
+X3R5cGUgPT0gVFRNX1BMX1NZU1RFTSAmJgo+ID4+PiArICAgICAgICAgICAgICAgICAgICBuZXdf
+bWVtLT5tZW1fdHlwZSA9PSBUVE1fUExfVlJBTSkgfHwKPiA+Pj4gKyAgICAgICAgICAgICAgICAg
+ICAob2xkX21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1ZSQU0gJiYKPiA+Pj4gKyAgICAgICAgICAg
+ICAgICAgICAgbmV3X21lbS0+bWVtX3R5cGUgPT0gVFRNX1BMX1NZU1RFTSkpIHsKPiA+Pj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgaG9wLT5mcGZuID0gMDsKPiA+Pj4gKyAgICAgICAgICAgICAg
+ICAgICAgICAgaG9wLT5scGZuID0gMDsKPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgaG9w
+LT5tZW1fdHlwZSA9IFRUTV9QTF9UVDsKPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgaG9w
+LT5mbGFncyA9IDA7Cj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRU1VTFRJ
+SE9QOwo+ID4+PiArICAgICAgICAgICAgICAgfQo+ID4+PiArCj4gPj4+ICsgICAgICAgICAgICAg
+ICByID0gcmFkZW9uX21vdmVfYmxpdChibywgZXZpY3QsIG5ld19tZW0sIG9sZF9tZW0pOwo+ID4+
+PiArICAgICAgIH0gZWxzZSB7Cj4gPj4+ICsgICAgICAgICAgICAgICByID0gLUVOT0RFVjsKPiA+
+Pj4gICAgICAgICAgfQo+ID4+Pgo+ID4+PiAtICAgICAgIHIgPSByYWRlb25fbW92ZV9ibGl0KGJv
+LCBldmljdCwgbmV3X21lbSwgb2xkX21lbSk7Cj4gPj4+ICAgICAgICAgIGlmIChyKSB7Cj4gPj4+
+IC1tZW1jcHk6Cj4gPj4+ICAgICAgICAgICAgICAgICAgciA9IHR0bV9ib19tb3ZlX21lbWNweShi
+bywgY3R4LCBuZXdfbWVtKTsKPiA+Pj4gLSAgICAgICAgICAgICAgIGlmIChyKSB7Cj4gPj4+IC0g
+ICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZmFpbDsKPiA+Pj4gLSAgICAgICAgICAgICAgIH0K
+PiA+Pj4gKyAgICAgICAgICAgICAgIGlmIChyKQo+ID4+PiArICAgICAgICAgICAgICAgICAgICAg
+ICByZXR1cm4gcjsKPiA+Pj4gICAgICAgICAgfQo+ID4+Pgo+ID4+PiArb3V0Ogo+ID4+PiAgICAg
+ICAgICAvKiB1cGRhdGUgc3RhdGlzdGljcyAqLwo+ID4+PiAgICAgICAgICBhdG9taWM2NF9hZGQo
+KHU2NCliby0+bnVtX3BhZ2VzIDw8IFBBR0VfU0hJRlQsICZyZGV2LT5udW1fYnl0ZXNfbW92ZWQp
+Owo+ID4+PiArICAgICAgIHJhZGVvbl9ib19tb3ZlX25vdGlmeShibywgZXZpY3QsIG5ld19tZW0p
+Owo+ID4+PiAgICAgICAgICByZXR1cm4gMDsKPiA+Pj4gLWZhaWw6Cj4gPj4+IC0gICAgICAgc3dh
+cCgqbmV3X21lbSwgYm8tPm1lbSk7Cj4gPj4+IC0gICAgICAgcmFkZW9uX2JvX21vdmVfbm90aWZ5
+KGJvLCBmYWxzZSwgbmV3X21lbSk7Cj4gPj4+IC0gICAgICAgc3dhcCgqbmV3X21lbSwgYm8tPm1l
+bSk7Cj4gPj4+IC0gICAgICAgcmV0dXJuIHI7Cj4gPj4+ICAgfQo+ID4+Pgo+ID4+PiAgIHN0YXRp
+YyBpbnQgcmFkZW9uX3R0bV9pb19tZW1fcmVzZXJ2ZShzdHJ1Y3QgdHRtX2JvX2RldmljZSAqYmRl
+diwgc3RydWN0IHR0bV9yZXNvdXJjZSAqbWVtKQo+ID4+PiAtLQo+ID4+PiAyLjI1LjEKPiA+Pj4K
+PiA+Pj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiA+
+Pj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+ID4+PiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0
+b3Aub3JnCj4gPj4+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCj4gPj4KPiA+Pgo+ID4+IC0tCj4gPj4gRGFuaWVsIFZldHRlcgo+ID4+IFNv
+ZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgo+ID4+IGh0dHA6Ly9ibG9nLmZmd2xs
+LmNoCj4gPj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+PiA+PiBhbWQtZ2Z4IG1haWxpbmcgbGlzdAo+ID4+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Au
+b3JnCj4gPj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9h
+bWQtZ2Z4Cj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29y
+cG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlz
+dHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4v
+bGlzdGluZm8vZHJpLWRldmVsCg==
