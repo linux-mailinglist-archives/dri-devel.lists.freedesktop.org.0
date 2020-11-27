@@ -2,72 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C49C32C7C41
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9942C7C33
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:03:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB8866E400;
-	Mon, 30 Nov 2020 01:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0066E3EF;
+	Mon, 30 Nov 2020 01:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 496CE6EEA3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 18:45:57 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id i2so6559903wrs.4
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 10:45:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dSpeTF5dkf6JO4oSmSVL/Gz5HzjVWXT8QGTspkUmOkI=;
- b=G7EdtkLfVBJcJuQcWz2HUWQ1trPaUW05ND72IDep0c/khHO76cq2cZUJaIZf2mVRNh
- qOeB8DcZmpVj2v8zvvXE70NunVIaBf5nUdbWwJDBUVT4pM0Zw4GlMJfQZdJkPQ6if3iB
- GFYyaAaSqXCCmRbVSyh8Vm/bdCDPJB1tXihqK7Y5i+a9dy08P4zMJ9hNVTNFHo0n+4sy
- 7jUOI3bfn8Mv4ScPXHv3pD9enWq4rOSbo2Lz8Vn4iJmenxQt+AvD0FG5+z6Tv4BbeEQN
- rMgeO0vWw/CKspUlb9TkZVcz5Yp39VjY4TvKNVqHaDfEKHkrBI9kSOWB2RV/ejAekJvH
- k55Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dSpeTF5dkf6JO4oSmSVL/Gz5HzjVWXT8QGTspkUmOkI=;
- b=EH8I18kysRE+riR/mg6P9pqJ06+M+N2RIPz5jHTmae1QM3fTS2pxXHjsOC70z9Mr2G
- m+oFdtWUwvN2sEsioOvnge4M3O3pjZe1LMwvMA7OOpw0evZg6vDpNu8f0T5+Ku6McZh4
- lr3KgDejugJ6DqeVnWKrtyOaaUgO7m/OGb8cQLWHR3kBkyTUJogoDsfo1XzQSmKZdU1Y
- +xyjItE6SxKxO0y3x+lfjVpJ54r7XnedvJJCAHAm2PBs7oA907O85Z2/EOberyDN5DaQ
- xLx9JRjNXvnNJG1Nt+p7Ip6bgNEy1PD+JeEHSK2zU8HplH9UoUhr8/cNTSr4JL+LG8Lj
- jPxw==
-X-Gm-Message-State: AOAM530tqNcBFT40G+OrNrmFVNSh6nr+LLSk59zEB+MnGEmHk9X20HZb
- 3kJiyx7ZYX30LYLk35dQ5AbmbyEvTIA=
-X-Google-Smtp-Source: ABdhPJyq0mMI3OCxgBoGVIvjn05MIOGizDE9GVA0/EOIksuKZa3NDm/cWIJWHeHw4h/3/1DdCMX+GA==
-X-Received: by 2002:adf:f8d2:: with SMTP id f18mr12091230wrq.379.1606502756008; 
- Fri, 27 Nov 2020 10:45:56 -0800 (PST)
-Received: from [192.168.1.10] ([46.249.74.23])
- by smtp.googlemail.com with ESMTPSA id i5sm16384915wrw.45.2020.11.27.10.45.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 Nov 2020 10:45:55 -0800 (PST)
-Subject: Re: [REGRESSION] omapdrm/N900 display broken
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-References: <20200728181412.GA49617@darkstar.musicnaut.iki.fi>
- <660b2fe1-343d-b83e-11d2-5a5eb530b83f@ti.com>
- <448c1441-2cac-44ef-95ef-bb28b512297b@ti.com>
- <20200823162625.GC4313@darkstar.musicnaut.iki.fi>
- <ac42f7f9-2ac2-246e-69c1-3d56cea7e59b@ti.com>
- <5072a25d-e885-cdd2-978d-70942406c272@gmail.com>
- <09044fd2-2926-c7b3-826b-52b742e84ff5@ti.com>
- <79ad8816-815c-14d3-ebe1-3c5007c81dd1@gmail.com>
- <1fe9fed7-f619-eb6a-6e31-b9eadbf09bad@ti.com>
- <8010e452-745a-ac12-bc02-5537305c70ed@gmail.com>
- <4948a40d-c887-5617-f5bc-1e0aff824ad7@gmail.com>
- <a86e0ef4-0b90-5aec-9632-e78fa4ca6d58@ti.com>
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <23e27b7a-d2b9-a0c0-7518-bb5105306a97@gmail.com>
-Date: Fri, 27 Nov 2020 20:44:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F00E6F3F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 20:05:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) (Authenticated sender: sre)
+ with ESMTPSA id 13F9A1F465A8
+Received: by jupiter.universe (Postfix, from userid 1000)
+ id C796D4800D9; Fri, 27 Nov 2020 21:05:07 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: dri-devel@lists.freedesktop.org, Thierry Reding <thierry.reding@gmail.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm/panel: sony-acx565akm: Fix race condition in probe
+Date: Fri, 27 Nov 2020 21:04:29 +0100
+Message-Id: <20201127200429.129868-1-sebastian.reichel@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <a86e0ef4-0b90-5aec-9632-e78fa4ca6d58@ti.com>
-Content-Language: en-GB
 X-Mailman-Approved-At: Mon, 30 Nov 2020 01:02:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -81,38 +37,79 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Tony Lindgren <tony@atomide.com>,
- linux-kernel@vger.kernel.org, ML dri-devel <dri-devel@lists.freedesktop.org>,
- Sebastian Reichel <sre@kernel.org>,
+Cc: kernel@collabora.com, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Tony Lindgren <tony@atomide.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Merlijn Wajer <merlijn@wizzup.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+ linux-omap@vger.kernel.org, Jarkko Nikula <jarkko.nikula@bitmer.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksCgpPbiAyNy4xMS4yMCDQsy4gMTk6MzAg0YcuLCBUb21pIFZhbGtlaW5lbiB3cm90ZToKPiBP
-biAyNy8xMS8yMDIwIDE3OjM3LCBJdmF5bG8gRGltaXRyb3Ygd3JvdGU6Cj4gCj4+IFdpdGggNS45
-LjExIGFuZCB0aGUgcGF0Y2ggb24gdG9wLCBuOTAwIGJvb3RzIGZpbmUsIGFsYmVpdCBkaXNwbGF5
-IHJlbWFpbnMgYmxhbmssIGNvdWxkIGJlIHJlbGF0ZWQgdG8KPj4gYnJpZ2h0bmVzcywgd2UncmUg
-c3RpbGwgaW52ZXN0aWdhdGluZy4KPiAKPiBPay4gQSBEU1MgcmVnZHVtcCBmb3IgYSB3b3JraW5n
-IHZlcnNpb24gYW5kIHRoZSBsYXRlc3Qgb25lIHdvdWxkIGJlIGdvb2QgdG9vLiBUaGVyZSdzIGEg
-b21hcGRzcwo+IGRlYnVnZnMgZGlyLCB3aXRoIGRzcywgZGlzcGMgYW5kIGNsayBmaWxlcyB3aGlj
-aCBhcmUgb2YgaW50ZXJlc3QgaGVyZS4KPiAKCkl0IHR1cm5lZCBvdXQgdG8gYmUgYSBsb25nIHN0
-YW5kaW5nIGJ1ZyBpbiB0aGUgcGFuZWwgZHJpdmVyLCB3aXRoIHRoZSAKYmVsbG93IGZpeCBpdCB3
-b3JrcyBmaW5lOgoKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc29u
-eS1hY3g1NjVha20uYyAKYi9kcml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtc29ueS1hY3g1NjVh
-a20uYwppbmRleCBmYzZhN2U0NTFhYmUuLjMwNDI2N2Y3ODQ5YQotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vcGFuZWwvcGFuZWwtc29ueS1hY3g1NjVha20uYworKysgYi9kcml2ZXJzL2dwdS9kcm0vcGFu
-ZWwvcGFuZWwtc29ueS1hY3g1NjVha20uYwpAQCAtNjI5LDcgKzYyOSw3IEBAIHN0YXRpYyBpbnQg
-YWN4NTY1YWttX3Byb2JlKHN0cnVjdCBzcGlfZGV2aWNlICpzcGkpCiAgICAgICAgIGxjZC0+c3Bp
-ID0gc3BpOwogICAgICAgICBtdXRleF9pbml0KCZsY2QtPm11dGV4KTsKCi0gICAgICAgbGNkLT5y
-ZXNldF9ncGlvID0gZGV2bV9ncGlvZF9nZXQoJnNwaS0+ZGV2LCAicmVzZXQiLCBHUElPRF9PVVRf
-TE9XKTsKKyAgICAgICBsY2QtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldCgmc3BpLT5kZXYs
-ICJyZXNldCIsIApHUElPRF9PVVRfSElHSCk7CiAgICAgICAgIGlmIChJU19FUlIobGNkLT5yZXNl
-dF9ncGlvKSkgewogICAgICAgICAgICAgICAgIGRldl9lcnIoJnNwaS0+ZGV2LCAiZmFpbGVkIHRv
-IGdldCByZXNldCBHUElPXG4iKTsKICAgICAgICAgICAgICAgICByZXR1cm4gUFRSX0VSUihsY2Qt
-PnJlc2V0X2dwaW8pOwoKUHJvcGVyIHBhdGNoIHdpbGwgZm9sbG93LgoKVGhhbmtzLApJdm8KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
-aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The probe routine acquires the reset GPIO using GPIOD_OUT_LOW. Directly
+afterwards it calls acx565akm_detect(), which sets the GPIO value to
+HIGH. If the bootloader initialized the GPIO to HIGH before the probe
+routine was called, there is only a very short time period of a few
+instructions where the reset signal is LOW. Exact time depends on
+compiler optimizations, kernel configuration and alignment of the stars,
+but I expect it to be always way less than 10us. There are no public
+datasheets for the panel, but acx565akm_power_on() has a comment with
+timings and reset period should be at least 10us. So this potentially
+brings the panel into a half-reset state.
+
+The result is, that panel may not work after boot and can get into a
+working state by re-enabling it (e.g. by blanking + unblanking), since
+that does a clean reset cycle. This bug has recently been hit by Ivaylo
+Dimitrov, but there are some older reports which are probably the same
+bug. At least Tony Lindgren, Peter Ujfalusi and Jarkko Nikula have
+experienced it in 2017 describing the blank/unblank procedure as
+possible workaround.
+
+Note, that the bug really goes back in time. It has originally been
+introduced in the predecessor of the omapfb driver in 3c45d05be382
+("OMAPDSS: acx565akm panel: handle gpios in panel driver") in 2012.
+That driver eventually got replaced by a newer one, which had the bug
+from the beginning in 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel
+driver") and still exists in fbdev world. That driver has later been
+copied to omapdrm and then was used as a basis for this driver. Last
+but not least the omapdrm specific driver has been removed in
+45f16c82db7e ("drm/omap: displays: Remove unused panel drivers").
+
+Reported-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+Reported-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Reported-by: Tony Lindgren <tony@atomide.com>
+Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: Merlijn Wajer <merlijn@wizzup.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Fixes: 1c8fc3f0c5d2 ("drm/panel: Add driver for the Sony ACX565AKM panel")
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+index e95fdfb16b6c..ba0b3ead150f 100644
+--- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
++++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+@@ -629,7 +629,7 @@ static int acx565akm_probe(struct spi_device *spi)
+ 	lcd->spi = spi;
+ 	mutex_init(&lcd->mutex);
+ 
+-	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_LOW);
++	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(lcd->reset_gpio)) {
+ 		dev_err(&spi->dev, "failed to get reset GPIO\n");
+ 		return PTR_ERR(lcd->reset_gpio);
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
