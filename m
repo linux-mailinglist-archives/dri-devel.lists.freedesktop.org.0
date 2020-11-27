@@ -2,45 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDC42C6109
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 09:40:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA6B2C6116
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 09:43:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97FC86E997;
-	Fri, 27 Nov 2020 08:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DAC76EB5A;
+	Fri, 27 Nov 2020 08:43:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
- [209.85.210.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CF86E997
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 08:40:16 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id h19so4076689otr.1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 00:40:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/D+lVsFpiig9p8Mfv+F/WnI4wKF69UpUHln9lDG06g4=;
- b=MK6trOUoj6Z+WgFzwE8VXa2B3hrNYthdJE5TXpOzs4Wtqjew0Piu4/LhPRlApBeJXK
- 7CAGxwFFwz81AD0zQzHbuQxIXNlTxeZrNqnrGWcPm8sq7MSztf9Wh275tUPKLTp1urRo
- JTO/JEFfgo9ZK8bmjZ+NKP6mewwj/mpL6WnF7MhrzLr1Nt2PKiv1RffWanQ0SwGlc4D1
- 8s2fzWc+befDXs4gObo6SeeKvJ3KB2BybyrqxIcceSbVB+xGKGOc+4SnKsuzbF7hoPp1
- duaaPDye6GZo3N4Yu9vBmKhCinxu90BCnkiwkVTdqbREBfErW6wtXqOw8MagfCr1wfHq
- GZ3g==
-X-Gm-Message-State: AOAM5321kX6ipDraGznWXRhUEQv/MWqsFFwc2kvE3AoPXQwQ8hla96Dv
- HKbtyLRlNt0cPW9f+3Jk+3etNzEY6Zgbhzf45+M=
-X-Google-Smtp-Source: ABdhPJy2I/IdfAm6V2ydZbwLB9NPNLYo9PucEpxX/NL/qzuCx8bfpYwJU7BhpITpgvBGwlFRBVNr8EmnqamS0CIYUsg=
-X-Received: by 2002:a9d:686:: with SMTP id 6mr4709371otx.107.1606466415531;
- Fri, 27 Nov 2020 00:40:15 -0800 (PST)
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C21CC6EB5A
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Nov 2020 08:43:39 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AR8hV57029011;
+ Fri, 27 Nov 2020 02:43:31 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606466611;
+ bh=aMzyk4R1VkVqE8u8Y1gkJ93UmYRtvSDrJWJA3BazLBI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=eiXc00S9zlRjJ3t94onJsSPWheIemhEs3ZquGJurOy7u+2xZxMdZvVDwcC0+0BbS2
+ 9tWMA0iebJ8hkhpP0Gd21eyt3QU5bDfDuRlvjdXGmyINuF6++rk3DzMmp4ib7Q4KER
+ 9tkvchaAGWRLc9y9XIg5N1PuEPGD56wlZrT9MdGw=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AR8hVom099118
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 27 Nov 2020 02:43:31 -0600
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 27
+ Nov 2020 02:43:30 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Fri, 27 Nov 2020 02:43:30 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AR8hSXW053143;
+ Fri, 27 Nov 2020 02:43:29 -0600
+Subject: Re: [REGRESSION] omapdrm/N900 display broken
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20200728181412.GA49617@darkstar.musicnaut.iki.fi>
+ <660b2fe1-343d-b83e-11d2-5a5eb530b83f@ti.com>
+ <448c1441-2cac-44ef-95ef-bb28b512297b@ti.com>
+ <20200823162625.GC4313@darkstar.musicnaut.iki.fi>
+ <ac42f7f9-2ac2-246e-69c1-3d56cea7e59b@ti.com>
+ <CAKMK7uEAaNhr__aYxWpNmUb1jTruf0FMoPwgn8_so9mGV=yAOQ@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <6f7e2f5c-3e88-25c1-d46a-8c52c15527ce@ti.com>
+Date: Fri, 27 Nov 2020 10:43:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201126165950.2554997-1-u.kleine-koenig@pengutronix.de>
- <20201126165950.2554997-2-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20201126165950.2554997-2-u.kleine-koenig@pengutronix.de>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 27 Nov 2020 09:40:04 +0100
-Message-ID: <CAMuHMdW4J0xA6T4AWqZdo1go1kxWqVSSo5JXQpUAM4yWEpDdOw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] powerpc/ps3: make system bus's remove and shutdown
- callbacks return void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+In-Reply-To: <CAKMK7uEAaNhr__aYxWpNmUb1jTruf0FMoPwgn8_so9mGV=yAOQ@mail.gmail.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,48 +66,38 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ALSA Development Mailing List <alsa-devel@alsa-project.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Jaroslav Kysela <perex@perex.cz>, Paul Mackerras <paulus@samba.org>,
- scsi <linux-scsi@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Alan Stern <stern@rowland.harvard.edu>, Jakub Kicinski <kuba@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-block@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Geoff Levand <geoff@infradead.org>, netdev <netdev@vger.kernel.org>,
- USB list <linux-usb@vger.kernel.org>, Takashi Iwai <tiwai@suse.com>,
- Jim Paris <jim@jtan.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Tony Lindgren <tony@atomide.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap <linux-omap@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgVXdlLAoKT24gVGh1LCBOb3YgMjYsIDIwMjAgYXQgNjowMyBQTSBVd2UgS2xlaW5lLUvDtm5p
-Zwo8dS5rbGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlPiB3cm90ZToKPiBUaGUgZHJpdmVyIGNv
-cmUgaWdub3JlcyB0aGUgcmV0dXJuIHZhbHVlIG9mIHN0cnVjdCBkZXZpY2VfZHJpdmVyOjpyZW1v
-dmUKPiBiZWNhdXNlIHRoZXJlIGlzIG9ubHkgbGl0dGxlIHRoYXQgY2FuIGJlIGRvbmUuIEZvciB0
-aGUgc2h1dGRvd24gY2FsbGJhY2sKPiBpdCdzIHBzM19zeXN0ZW1fYnVzX3NodXRkb3duKCkgd2hp
-Y2ggaWdub3JlcyB0aGUgcmV0dXJuIHZhbHVlLgo+Cj4gVG8gc2ltcGxpZnkgdGhlIHF1ZXN0IHRv
-IG1ha2Ugc3RydWN0IGRldmljZV9kcml2ZXI6OnJlbW92ZSByZXR1cm4gdm9pZCwKPiBsZXQgc3Ry
-dWN0IHBzM19zeXN0ZW1fYnVzX2RyaXZlcjo6cmVtb3ZlIHJldHVybiB2b2lkLCB0b28uIEFsbCB1
-c2Vycwo+IGFscmVhZHkgdW5jb25kaXRpb25hbGx5IHJldHVybiAwLCB0aGlzIGNvbW1pdCBtYWtl
-cyBpdCBvYnZpb3VzIHRoYXQKPiByZXR1cm5pbmcgYW4gZXJyb3IgY29kZSBpcyBhIGJhZCBpZGVh
-IGFuZCBlbnN1cmVzIGZ1dHVyZSB1c2VycyBiZWhhdmUKPiBhY2NvcmRpbmdseS4KPgo+IFNpZ25l
-ZC1vZmYtYnk6IFV3ZSBLbGVpbmUtS8O2bmlnIDx1LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXgu
-ZGU+CgpUaGFua3MgZm9yIHlvdXIgcGF0Y2ghCgpSZXZpZXdlZC1ieTogR2VlcnQgVXl0dGVyaG9l
-dmVuIDxnZWVydEBsaW51eC1tNjhrLm9yZz4KCk5vdGUgdGhhdCB0aGUgc2FtZSBjYW4gYmUgZG9u
-ZSBmb3IgcHMzX3Z1YXJ0X3BvcnRfZHJpdmVyLnJlbW92ZSgpLgoKR3J7b2V0amUsZWV0aW5nfXMs
-CgogICAgICAgICAgICAgICAgICAgICAgICBHZWVydAoKLS0gCkdlZXJ0IFV5dHRlcmhvZXZlbiAt
-LSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcKCkluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNh
-bGwgbXlzZWxmIGEgaGFja2VyLiBCdXQKd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJ
-IGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0LgogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 25/11/2020 11:07, Daniel Vetter wrote:
+
+>> Laurent, does this ring any bells? The WARN comes in drm_atomic_bridge_chain_enable() when
+>> drm_atomic_get_old_bridge_state() returns null for (presumably) sdi bridge.
+>>
+>> I'm not sure why the bridge state would not be there.
+> 
+> Lack of state on first modeset usually means your
+> drm_mode_config_reset didn't create one. Or whatever it is you're
+> using. I didn't look whether you're wiring this up correctly or not.
+> We might even want to add a ->reset function to
+> drm_private_state_funcs to make this work for everyone.
+
+The bridge driver set atomic_enable and atomic_disable, but no other atomic funcs. It was supposed
+to set the legacy enable & disable.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
