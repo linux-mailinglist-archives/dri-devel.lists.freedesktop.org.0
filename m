@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F2D2C6560
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:13:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 495A42C6561
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Nov 2020 13:14:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A4C56ED1B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906916ED1E;
 	Fri, 27 Nov 2020 12:11:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C3D66ED1A;
- Fri, 27 Nov 2020 12:11:45 +0000 (UTC)
-IronPort-SDR: iO9K7P0VhsYmfWZuQgkq4qweqFaPIA11yJ3I/sFuBy/KqVDhFeexQc2bQAyMy99WM9MCGktX2Q
- ckgkbrdzpovQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092938"
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092938"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4526ED16;
+ Fri, 27 Nov 2020 12:11:47 +0000 (UTC)
+IronPort-SDR: vLJLj/e1G4ljSgICJ7p35+oWHiOTZMqMKg4LJJD79Nyoonz/C+tZclNFEVlJRahvHOH404uTnl
+ jnqQIE23w6IA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="257092944"
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="257092944"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:45 -0800
-IronPort-SDR: Y9tn7tk3blS+fjhY4PCHLt8YiNQgylZ0En+LPLHNjgWtFVI7t0uvmT8VK6F1m1S6jVthQbVjA1
- tqeTSVx6rcXQ==
-X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029872"
+ 27 Nov 2020 04:11:46 -0800
+IronPort-SDR: f6MynuVDGA4ek55kaN7SxzQRmPlsWHjr4JerdkVPMIMuXpSAbEwB75aVVvEqIFYjC53eF13Qsz
+ qIR1T+tBHEAw==
+X-IronPort-AV: E=Sophos;i="5.78,374,1599548400"; d="scan'208";a="548029879"
 Received: from mjgleeso-mobl.ger.corp.intel.com (HELO
  mwauld-desk1.ger.corp.intel.com) ([10.251.85.2])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2020 04:11:43 -0800
+ 27 Nov 2020 04:11:45 -0800
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH 132/162] drm/i915/dg1: Add lmem_size modparam
-Date: Fri, 27 Nov 2020 12:06:48 +0000
-Message-Id: <20201127120718.454037-133-matthew.auld@intel.com>
+Subject: [RFC PATCH 133/162] drm/i915/dg1: Track swap in/out stats via debugfs
+Date: Fri, 27 Nov 2020 12:06:49 +0000
+Message-Id: <20201127120718.454037-134-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201127120718.454037-1-matthew.auld@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
@@ -49,66 +49,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: CQ Tang <cq.tang@intel.com>, dri-devel@lists.freedesktop.org
+Cc: Sudeep Dutt <sudeep.dutt@intel.com>, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: CQ Tang <cq.tang@intel.com>
+From: Sudeep Dutt <sudeep.dutt@intel.com>
 
-lmem_size is used to limit the amount of lmem_size. Default is to
-use hardware available lmem size, when setting this modpraram
-which is in MB unit.
+cat /sys/kernel/debug/dri/0/i915_gem_objects
+num_bytes_swapped_out 94170000 num_bytes_swapped_in 56120000
 
-Signed-off-by: CQ Tang <cq.tang@intel.com>
+Signed-off-by: Sudeep Dutt <sudeep.dutt@intel.com>
 ---
- drivers/gpu/drm/i915/i915_params.c       | 3 +++
- drivers/gpu/drm/i915/i915_params.h       | 1 +
- drivers/gpu/drm/i915/intel_region_lmem.c | 4 ++++
- 3 files changed, 8 insertions(+)
+ drivers/gpu/drm/i915/gem/i915_gem_region.c | 6 ++++++
+ drivers/gpu/drm/i915/i915_debugfs.c        | 3 +++
+ drivers/gpu/drm/i915/i915_drv.h            | 3 +++
+ 3 files changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
-index bb1ebb6ece95..264de32f3d6a 100644
---- a/drivers/gpu/drm/i915/i915_params.c
-+++ b/drivers/gpu/drm/i915/i915_params.c
-@@ -200,6 +200,9 @@ i915_param_named_unsafe(fake_lmem_start, ulong, 0400,
- i915_param_named_unsafe(enable_eviction, bool, 0600,
- 	"Enable memcpy based eviction which does not rely on DMA resv refactoring)");
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+index e1793c5f8d8c..ed108dbcb34e 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+@@ -64,6 +64,9 @@ i915_gem_object_swapout_pages(struct drm_i915_gem_object *obj,
+ 	else
+ 		i915_gem_object_put(dst);
  
-+i915_param_named_unsafe(lmem_size, uint, 0400,
-+	"Change lmem size for each region. (default: 0, all memory)");
++	if (!err)
++		atomic_long_add(sizes, &i915->num_bytes_swapped_out);
 +
- static __always_inline void _print_param(struct drm_printer *p,
- 					 const char *name,
- 					 const char *type,
-diff --git a/drivers/gpu/drm/i915/i915_params.h b/drivers/gpu/drm/i915/i915_params.h
-index 87df407d9afb..be6979e7feda 100644
---- a/drivers/gpu/drm/i915/i915_params.h
-+++ b/drivers/gpu/drm/i915/i915_params.h
-@@ -71,6 +71,7 @@ struct drm_printer;
- 	param(int, enable_dpcd_backlight, -1, 0600) \
- 	param(char *, force_probe, CONFIG_DRM_I915_FORCE_PROBE, 0400) \
- 	param(unsigned long, fake_lmem_start, 0, 0400) \
-+	param(unsigned int, lmem_size, 0, 0400) \
- 	/* leave bools at the end to not create holes */ \
- 	param(bool, enable_eviction, true, 0600) \
- 	param(bool, enable_hangcheck, true, 0600) \
-diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
-index eafef7034680..1cdb6354b968 100644
---- a/drivers/gpu/drm/i915/intel_region_lmem.c
-+++ b/drivers/gpu/drm/i915/intel_region_lmem.c
-@@ -196,6 +196,10 @@ setup_lmem(struct drm_i915_private *dev_priv)
+ 	return err;
+ }
  
- 	io_start = pci_resource_start(pdev, 2);
+@@ -118,6 +121,9 @@ i915_gem_object_swapin_pages(struct drm_i915_gem_object *obj,
+ 		i915_gem_object_put(src);
+ 	}
  
-+	if (dev_priv->params.lmem_size > 0)
-+		lmem_size = min_t(resource_size_t, lmem_size,
-+				  mul_u32_u32(dev_priv->params.lmem_size, SZ_1M));
++	if (!err)
++		atomic_long_add(sizes, &i915->num_bytes_swapped_in);
 +
- 	mem = intel_memory_region_create(dev_priv,
- 					 0,
- 					 lmem_size,
+ 	return err;
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index 6d1482c82694..1b7e9b6ab660 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -372,6 +372,9 @@ static int i915_gem_object_info(struct seq_file *m, void *data)
+ 	for_each_memory_region(mr, i915, id)
+ 		seq_printf(m, "%s: total:%pa, available:%pa bytes\n",
+ 			   mr->name, &mr->total, &mr->avail);
++	seq_printf(m, "num_bytes_swapped_out %ld num_bytes_swapped_in %ld\n",
++		   atomic_long_read(&i915->num_bytes_swapped_out),
++		   atomic_long_read(&i915->num_bytes_swapped_in));
+ 	seq_putc(m, '\n');
+ 
+ 	print_context_stats(m, i915);
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 1366b53ac8c9..7b1e95d494e6 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1214,6 +1214,9 @@ struct drm_i915_private {
+ 	 * NOTE: This is the dri1/ums dungeon, don't add stuff here. Your patch
+ 	 * will be rejected. Instead look for a better place.
+ 	 */
++
++	atomic_long_t num_bytes_swapped_out;
++	atomic_long_t num_bytes_swapped_in;
+ };
+ 
+ static inline struct drm_i915_private *to_i915(const struct drm_device *dev)
 -- 
 2.26.2
 
