@@ -2,45 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BBF2C6F5D
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 10:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850582C6FC0
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 16:15:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C14936EC59;
-	Sat, 28 Nov 2020 09:00:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E546E02A;
+	Sat, 28 Nov 2020 15:15:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D07F6EC59
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 09:00:22 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 705206E02A
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 15:15:44 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7D18922272
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 09:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606554021;
- bh=tCh3C64HLBruiQe7woUJh3PomiEkJaLuMsK2cYyZ3AE=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=f0Th5J3kNwanqwLrsUfcFVjKjBzG0T5dTMjmemdj2OHzf3R85LAQ5cvSp9donQn1q
- Da3O0EVQmMoPGwAkX8Q7/8OWXsu2pcL9ecIE8qQkDssINevLLPWWAEDfpQLrs9VO9q
- k0G2OrM0FzU/FxBRyGq71l4ts5SlyrbXAPQ5itYs=
-Received: by mail-wr1-f52.google.com with SMTP id g14so7938791wrm.13
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 01:00:21 -0800 (PST)
-X-Gm-Message-State: AOAM533w+JYycy5DVh5uQ/5Q2yzvoC5dDika+3lWza8eWA2c/ggoEanR
- V+hBvl12aFJtvCSbM7v5oVyi0suuWdoRYOMZsw==
-X-Google-Smtp-Source: ABdhPJwaGpEa4Ug6G0e4ekBFpVOFIur24PSU0U73IWrhh0O8+yKHfKhXm6k7CY8fPX51ghX7CTQgvKr1wmwXSEjAldg=
-X-Received: by 2002:adf:c147:: with SMTP id w7mr16556337wre.60.1606554020099; 
- Sat, 28 Nov 2020 01:00:20 -0800 (PST)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 6BB9380540;
+ Sat, 28 Nov 2020 16:15:36 +0100 (CET)
+Date: Sat, 28 Nov 2020 16:15:34 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v1 01/28] video: Fix W=1 warnings in of_videomode +
+ of_display_timing
+Message-ID: <20201128151534.GA981314@ravnborg.org>
+References: <20201127195825.858960-1-sam@ravnborg.org>
+ <20201127195825.858960-2-sam@ravnborg.org>
+ <20201128082820.GX2455276@dell>
 MIME-Version: 1.0
-References: <20201127110204.1984789-1-enric.balletbo@collabora.com>
-In-Reply-To: <20201127110204.1984789-1-enric.balletbo@collabora.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 28 Nov 2020 17:00:08 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9udVi7s5HoB+4SMNsTRQp9WPnHXLhz8b0CCWzW73BNSw@mail.gmail.com>
-Message-ID: <CAAOTY_9udVi7s5HoB+4SMNsTRQp9WPnHXLhz8b0CCWzW73BNSw@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: Use correct aliases name for ovl
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Content-Disposition: inline
+In-Reply-To: <20201128082820.GX2455276@dell>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=PMmVyNwjNFpPq2a28g8A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,46 +45,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Nicolas Boichat <drinkcat@chromium.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Hsin-Yi Wang <hsinyi@chromium.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Collabora Kernel ML <kernel@collabora.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ dri-devel@lists.freedesktop.org, Peter Rosin <peda@axentia.se>,
+ Michal Januszewski <spock@gentoo.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-nvidia@lists.surfsouth.com, Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Thomas Zimemrmann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>,
+ Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEVucmljOgoKRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFi
-b3JhLmNvbT4g5pa8IDIwMjDlubQxMeaciDI35pelIOmAseS6lCDkuIvljYg3OjAy5a+r6YGT77ya
-Cj4KPiBBbGlhc2VzIHByb3BlcnR5IG5hbWUgbXVzdCBpbmNsdWRlIG9ubHkgbG93ZXJjYXNlIGFu
-ZCAnLScsIHNvIGZpeCB0aGlzCj4gaW4gdGhlIGRyaXZlciwgc28gd2UncmUgbm90IHRlbXB0ZWQg
-dG8gZG8gIm92bF8ybDAgPSAmb3ZsXzJsMCIgaW4gdGhlCj4gZGV2aWNlLXRyZWUgaW5zdGVhZCBv
-ZiB0aGUgcmlnaHQgb25lIHdoaWNoIGlzICJvdmwtMmwwID0gJm92bF8ybDAiLgo+CgpBcHBsaWVk
-IHRvIG1lZGlhdGVrLWRybS1uZXh0IFsxXSwgdGhhbmtzLgoKWzFdIGh0dHBzOi8vZ2l0Lmtlcm5l
-bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2NodW5rdWFuZy5odS9saW51eC5naXQvbG9n
-Lz9oPW1lZGlhdGVrLWRybS1uZXh0CgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPiBGaXhlczogZGQ4
-ZmViMjI2MmQ5ICgiZHJtL21lZGlhdGVrOiBhZGQgY29tcG9uZW50IE9WTF8yTDEiKQo+IEZpeGVz
-OiBiMTdiZGQwZDdhNzMgKCJkcm0vbWVkaWF0ZWs6IGFkZCBjb21wb25lbnQgT1ZMXzJMMCIpCj4g
-U2lnbmVkLW9mZi1ieTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29s
-bGFib3JhLmNvbT4KPiAtLS0KPgo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9k
-ZHBfY29tcC5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVs
-ZXRpb24oLSkKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Ry
-bV9kZHBfY29tcC5jIGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAu
-Ywo+IGluZGV4IDhlYmE0NGJlM2E4YS4uMzA2NGVhYzFhNzUwIDEwMDY0NAo+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMKPiArKysgYi9kcml2ZXJzL2dw
-dS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jCj4gQEAgLTM1OSw3ICszNTksNyBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IG10a19kZHBfY29tcF9mdW5jcyBkZHBfdWZvZSA9IHsKPgo+ICBz
-dGF0aWMgY29uc3QgY2hhciAqIGNvbnN0IG10a19kZHBfY29tcF9zdGVtW01US19ERFBfQ09NUF9U
-WVBFX01BWF0gPSB7Cj4gICAgICAgICBbTVRLX0RJU1BfT1ZMXSA9ICJvdmwiLAo+IC0gICAgICAg
-W01US19ESVNQX09WTF8yTF0gPSAib3ZsXzJsIiwKPiArICAgICAgIFtNVEtfRElTUF9PVkxfMkxd
-ID0gIm92bC0ybCIsCj4gICAgICAgICBbTVRLX0RJU1BfUkRNQV0gPSAicmRtYSIsCj4gICAgICAg
-ICBbTVRLX0RJU1BfV0RNQV0gPSAid2RtYSIsCj4gICAgICAgICBbTVRLX0RJU1BfQ09MT1JdID0g
-ImNvbG9yIiwKPiAtLQo+IDIuMjkuMgo+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3Rp
-bmZvL2RyaS1kZXZlbAo=
+Hi Lee,
+On Sat, Nov 28, 2020 at 08:28:20AM +0000, Lee Jones wrote:
+> On Fri, 27 Nov 2020, Sam Ravnborg wrote:
+> 
+> > Fix trivial W=1 warnings.
+> > Update kernel-doc to avoid the warnings.
+> 
+> Can you put what's being fixed in the subject line please?
+> 
+> "fix w=1 warnings" is very bland and this it is unlikely to be the
+> only w=1 warning that gets fixed in these files, so has a high likely
+> hood of having an identical subject-line as a previous/future patch.
+> 
+> With regards to the latter point; I have personally found subject
+> lines to be a pretty reliable way of maintaining/backporting older
+> kernels.  The nomenclature here would taint that pretty readily.
+
+Thanks for the feedback and the background for your comment.
+Will fix them all for v2,
+
+	Sam
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
