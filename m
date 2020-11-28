@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42BD92C763F
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF05C2C7644
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3FCE6ECF7;
-	Sat, 28 Nov 2020 22:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237536ECFF;
+	Sat, 28 Nov 2020 22:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10166ECEB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:55 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id l11so12774968lfg.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:55 -0800 (PST)
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
+ [IPv6:2a00:1450:4864:20::244])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C756ECF9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:57 +0000 (UTC)
+Received: by mail-lj1-x244.google.com with SMTP id r18so10599685ljc.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=GX2d3CpgxJM36tqAcji4TF9AW0tELXUqa0FefTGKGkc=;
- b=WSratFFtrte4qjUbFg8xQAA6BVPAs2IyKsqMRnOQIDQGIrk/QEfbf7vQoIG+F6PFaE
- bHL2xZGJ53KoPsk5eeebn/EiGEL+0sQSATGEmLvqEf+OOaTz4qIuw0uStP36H2j8vzAx
- CqyoivsQCZFEqCmF7d5P4m+nJ5NxUSid3rmiuEyyaUn4E6z0TPGzGV0AgxE9PVVRmK0S
- ePHRG/qTw3Fq5fQy98aQauwSWFh1AyaJH4gB/wdxu0iPJxcBLMywNhlr9MkTG1FXPylN
- 5B4ih+9iS9tBFHM7TBLFYfQ/q0SE9yK/M6c78cAHKoX1880iGpjeWywLXJSGegnCFnDc
- pHIA==
+ bh=FUS2l8ow10S8HSMYNfPD1C147gZPvQOjrsInjizZFWo=;
+ b=ZuXVD4U+vOHha9du/xh79eB8mXwGkHog3AcYCmOiX/kyAI0CkHLEW4enjKDEADRidd
+ TEDCXyWF5O8L3obC0yEOfyv7VjYtT5EmyOXth8pyNpjR8iD+YMpeYLfMGXC2H+DIBzBf
+ Z4XvUtva0NtPBnsOYAOpJ4N7uLjCl5fZItorbBSj/Qjir5m8IIKwCoEPaOX+826UL4bq
+ pqXBJ/hdtIg19IZPJWrWPR7W3lQwOLMJADR5y9bMuFKcw0AwockLuPZgbW13duq6ezUN
+ 7kPQNGdRNwy6Pk5ZipS7fWaRqk/cctTHFv4Um1eRK1ATYLWt0wZppPuPWeprwXOhI22P
+ i38Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=GX2d3CpgxJM36tqAcji4TF9AW0tELXUqa0FefTGKGkc=;
- b=EoBXdoqokpBILTOfJQqSUqPo6UAKY7ZVo1QxUQNiN0FGisrn1ms5bd2fOQVWvhw2lr
- LqkY+cwoxFSx23Ps675CJABvwC8mHvEHOJAJlBicsDlCOKvcHUfhLVcaIbSrrYU0OavX
- eVFz5AV3mvQSXe65tlvFElq9DCL1BDL/guomKLVCmh2SMtxhrWxIPuX1RlkZMHND+3fj
- vm4ECgSh/rklDfHqRPwrpB61zB1JKmkpNe2Z7tSvgUJ+jWf/3MLrKLXy6/AhuJNqH3Cd
- 9zCg90gBPv0RL4jxWZSPzZWIA6QzrF53RFIg1N1yrimmMpzB/hT/MNqMSYOaZvWixfOm
- OLvA==
-X-Gm-Message-State: AOAM532rHNUhxLbsKn6nfowQ275ch9N4sjCsHUTZH80BACcfaZMC14U5
- T7K1GcyPLrDpPxolvZHF/ALtfqFiKD0p6Q==
-X-Google-Smtp-Source: ABdhPJyYzVm54GMBy2SMwgj7Vizf5O6IZYm8/ahMTwfLskutoesZO7VJzcBldtutdNQrv4hcHdOPLQ==
-X-Received: by 2002:a19:c70c:: with SMTP id x12mr6709305lff.474.1606603314364; 
- Sat, 28 Nov 2020 14:41:54 -0800 (PST)
+ bh=FUS2l8ow10S8HSMYNfPD1C147gZPvQOjrsInjizZFWo=;
+ b=QQbhrAFDInMVuDyjHTL7iUCkI6LncsCXgybMjLh+bI1JZevrcMXQDc2T0tZBhtYmAT
+ Ziyl3cGsGjmUULZ3IrwhFIgT5crbynh1vxRQR2BnGbxoIjlheU/HLFDS+9r9eFM4dsYa
+ Ql5Cjvq/4dtAJR45B4J9n68JTqEMbLDPZ5++aMdTJDwFqT7UjT0M0HBtkC5jxrUGXFTj
+ mDcOmFLUVMXIL6qcWGIgYcLlm0s5NgaYP1cv8Lx9LCfo18rr6LKaA9LsIp3BDeiZ5L0X
+ reEuC963c9sFTgeLBL5Oe7DVWsAN828y2w2TtSRZDg35jyLaOHJPVZGYvUhQSJjRUaw7
+ H6PQ==
+X-Gm-Message-State: AOAM533Uu5aGRE1z95VURH6oec7USAoUdYJKUUjM5lYcRjSENjs/103D
+ abpHC6R+p1azjUZkXbzr4EE=
+X-Google-Smtp-Source: ABdhPJwQp91sOBtClqT2B4BDuivw06O2VWWo97mJ17fzP30e5uvOsf2Sl/QfFQYeZZd1g8R+upOYhA==
+X-Received: by 2002:a05:651c:48f:: with SMTP id
+ s15mr6322341ljc.412.1606603316230; 
+ Sat, 28 Nov 2020 14:41:56 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.41.52
+ w21sm1236857lff.280.2020.11.28.14.41.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:41:53 -0800 (PST)
+ Sat, 28 Nov 2020 14:41:55 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 17/28] video: fbdev: tgafb: Fix kernel-doc and set but not
- used warnings
-Date: Sat, 28 Nov 2020 23:41:03 +0100
-Message-Id: <20201128224114.1033617-18-sam@ravnborg.org>
+Subject: [PATCH v2 18/28] video: fbdev: mx3fb: Fix kernel-doc,
+ set but not used and string warnings
+Date: Sat, 28 Nov 2020 23:41:04 +0100
+Message-Id: <20201128224114.1033617-19-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -99,7 +100,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix W=1 warnings:
 - Fix kernel-doc
-- Drop unused code
+- Drop unused code/variables
+- Use memcpy to copy a string without zero-termination
+  strncpy() generates a warning
 
 v2:
   - Updated subject (Lee)
@@ -107,54 +110,81 @@ v2:
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Xiaofei Tan <tanxiaofei@huawei.com>
 Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Joe Perches <joe@perches.com>
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/tgafb.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/video/fbdev/mx3fb.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/video/fbdev/tgafb.c b/drivers/video/fbdev/tgafb.c
-index 666fbe2f671c..ae0cf5540636 100644
---- a/drivers/video/fbdev/tgafb.c
-+++ b/drivers/video/fbdev/tgafb.c
-@@ -555,7 +555,7 @@ tgafb_setcolreg(unsigned regno, unsigned red, unsigned green, unsigned blue,
+diff --git a/drivers/video/fbdev/mx3fb.c b/drivers/video/fbdev/mx3fb.c
+index 894617ddabcb..fabb271337ed 100644
+--- a/drivers/video/fbdev/mx3fb.c
++++ b/drivers/video/fbdev/mx3fb.c
+@@ -445,7 +445,6 @@ static void sdc_enable_channel(struct mx3fb_info *mx3_fbi)
+ static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
+ {
+ 	struct mx3fb_data *mx3fb = mx3_fbi->mx3fb;
+-	uint32_t enabled;
+ 	unsigned long flags;
+ 
+ 	if (mx3_fbi->txd == NULL)
+@@ -453,7 +452,7 @@ static void sdc_disable_channel(struct mx3fb_info *mx3_fbi)
+ 
+ 	spin_lock_irqsave(&mx3fb->lock, flags);
+ 
+-	enabled = sdc_fb_uninit(mx3_fbi);
++	sdc_fb_uninit(mx3_fbi);
+ 
+ 	spin_unlock_irqrestore(&mx3fb->lock, flags);
+ 
+@@ -732,7 +731,7 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi);
  
  /**
-  *      tgafb_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
+  * mx3fb_set_fix() - set fixed framebuffer parameters from variable settings.
+- * @info:	framebuffer information pointer
++ * @fbi:	framebuffer information pointer
+  * @return:	0 on success or negative error code on failure.
   */
- static int
-@@ -837,7 +837,7 @@ tgafb_clut_imageblit(struct fb_info *info, const struct fb_image *image)
- 	u32 *palette = ((u32 *)info->pseudo_palette);
- 	unsigned long pos, line_length, i, j;
- 	const unsigned char *data;
--	void __iomem *regs_base, *fb_base;
-+	void __iomem *fb_base;
+ static int mx3fb_set_fix(struct fb_info *fbi)
+@@ -740,7 +739,7 @@ static int mx3fb_set_fix(struct fb_info *fbi)
+ 	struct fb_fix_screeninfo *fix = &fbi->fix;
+ 	struct fb_var_screeninfo *var = &fbi->var;
  
- 	dx = image->dx;
- 	dy = image->dy;
-@@ -855,7 +855,6 @@ tgafb_clut_imageblit(struct fb_info *info, const struct fb_image *image)
- 	if (dy + height > vyres)
- 		height = vyres - dy;
+-	strncpy(fix->id, "DISP3 BG", 8);
++	memcpy(fix->id, "DISP3 BG", 8);
  
--	regs_base = par->tga_regs_base;
- 	fb_base = par->tga_fb_base;
+ 	fix->line_length = var->xres_virtual * var->bits_per_pixel / 8;
  
- 	pos = dy * line_length + (dx * 4);
-@@ -1034,7 +1033,7 @@ tgafb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
- 		     regs_base + TGA_MODE_REG);
- }
+@@ -1105,6 +1104,8 @@ static void __blank(int blank, struct fb_info *fbi)
  
--/**
-+/*
-  *      tgafb_copyarea - REQUIRED function. Can use generic routines if
-  *                       non acclerated hardware and packed pixel based.
-  *                       Copies on area of the screen to another area.
+ /**
+  * mx3fb_blank() - blank the display.
++ * @blank:	blank value for the panel
++ * @fbi:	framebuffer information pointer
+  */
+ static int mx3fb_blank(int blank, struct fb_info *fbi)
+ {
+@@ -1126,7 +1127,7 @@ static int mx3fb_blank(int blank, struct fb_info *fbi)
+ /**
+  * mx3fb_pan_display() - pan or wrap the display
+  * @var:	variable screen buffer information.
+- * @info:	framebuffer information pointer.
++ * @fbi:	framebuffer information pointer.
+  *
+  * We look only at xoffset, yoffset and the FB_VMODE_YWRAP flag
+  */
+@@ -1387,6 +1388,8 @@ static int mx3fb_unmap_video_memory(struct fb_info *fbi)
+ 
+ /**
+  * mx3fb_init_fbinfo() - initialize framebuffer information object.
++ * @dev: the device
++ * @ops:	framebuffer device operations
+  * @return:	initialized framebuffer structure.
+  */
+ static struct fb_info *mx3fb_init_fbinfo(struct device *dev,
 -- 
 2.27.0
 
