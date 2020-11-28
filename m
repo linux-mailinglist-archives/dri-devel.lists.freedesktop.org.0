@@ -1,38 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C6D2C7265
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:09:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E082C7632
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:41:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E50F6E0CB;
-	Sat, 28 Nov 2020 22:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 120CB6E0D1;
+	Sat, 28 Nov 2020 22:41:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 323866E0CB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:08:58 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A038EBAB;
- Sat, 28 Nov 2020 23:08:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606601335;
- bh=m6Gsg3TUL0hF+pX0c1bRTcCtGsbMTNimbm6Fpp40zjk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lfk81SyhQBaHNtDIySllFw+hv3wEvBRz8SkalFhfst7Ww6nBI8rtEm9Mj19hDB8C9
- rZ0P7v2HozlXeA2AgqI8iYesN7ftbyPIx9traPaamtqxXrbBz+DUCN48NkE0TOaCeb
- YGwN3OdgRRWKunskiLdqV2HmlbeRQ06juAgVbOR4=
-Date: Sun, 29 Nov 2020 00:08:47 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH] drm/panel: sony-acx565akm: Fix race condition in probe
-Message-ID: <20201128220847.GC3865@pendragon.ideasonboard.com>
-References: <20201127200429.129868-1-sebastian.reichel@collabora.com>
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39CA16E0D1
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:22 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id s30so12753334lfc.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=es1AAe0TaPdJSHZcrk9xRxI2zSN1z9e2u/YAIJUcPNw=;
+ b=vCKLS+srhrN0XNUrKEXWi07drCxDzrzfD7pdaFGh0I9d3NOazGbiNW+/QOWUi1Uzpb
+ fxb6q1bv6exZXioWVBW0ty6q2wtzJCtnls5dMdxGGt49C7yUkWrH5KtiTSN4UBeQWUYV
+ Y+QXYeaYVD1MSsmfEMK6Cg98EjGJPS1h+S/wXGHPigLOQuzakkdYVjneojpC8uvpDAdP
+ eEDdvKbOoiVObXe2T6PVcUy5k+EVC1TMTSx5/ogvfCaa7hWXcCKnyOTqhtdp/8q5i4WU
+ fgZjqvCbGnfd9P7PoAvuqhFxFYojxAxd2sb+3Qm+VtfsN26VBVsITX6LcU8mkDzjiOlI
+ i4eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=es1AAe0TaPdJSHZcrk9xRxI2zSN1z9e2u/YAIJUcPNw=;
+ b=ua+sQggT4fDpRtu26QdlwFo0rm38tQTGKPfqGonWcFI7JzVyOQmTGRTXUEsLG7XFjm
+ 0RZqX0+DBvY+cGzqIl02VZHCH1HmzIt1ToIZ+aWV6Dg/hwnywc1k7vCV//JKUHpVTS6I
+ uRtsFCy9CKRzmmdsBtrE3XYToKzDdXWQz8hxgNE24l8KFQeAB3ZrUZ0T69/sokomjKeW
+ +1sFEtxwhOMhnetBK827sXyqmHq0CzWxwqhRKijWFivrw6j4ujmNfEr0LNytzXb9TY8y
+ 4fM9G/5Zrl/k+Ufut4i+sSJwp82X1soNWMHiUwzBYFE4uUZDBY0RcWMqOBsHuvtoQfPx
+ PyWg==
+X-Gm-Message-State: AOAM531CXwwyE6SEMo1Hkc5B57LWjG4/zWVP3ffKYG9mcgzd1OHwEEk3
+ /6PgWI9gKgoj/NgVRJQjODE=
+X-Google-Smtp-Source: ABdhPJxKFOaPRHulRxMfEZD7C6TvGRPUrDJjwXxOxPEC/xfnR/UxMWDFAhxDQgTcKvdEkF46U2xY7A==
+X-Received: by 2002:a19:d02:: with SMTP id 2mr6550674lfn.294.1606603280421;
+ Sat, 28 Nov 2020 14:41:20 -0800 (PST)
+Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
+ by smtp.gmail.com with ESMTPSA id
+ w21sm1236857lff.280.2020.11.28.14.41.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Nov 2020 14:41:19 -0800 (PST)
+From: Sam Ravnborg <sam@ravnborg.org>
+To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH v2 0/28] drivers/video: W=1 warning fixes
+Date: Sat, 28 Nov 2020 23:40:46 +0100
+Message-Id: <20201128224114.1033617-1-sam@ravnborg.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201127200429.129868-1-sebastian.reichel@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,96 +66,128 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@collabora.com, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Tony Lindgren <tony@atomide.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
- Merlijn Wajer <merlijn@wizzup.org>,
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, dri-devel@lists.freedesktop.org,
- Peter Ujfalusi <peter.ujfalusi@ti.com>,
- Thierry Reding <thierry.reding@gmail.com>, linux-omap@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Jarkko Nikula <jarkko.nikula@bitmer.com>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Sam Ravnborg <sam@ravnborg.org>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Thomas Zimemrmann <tzimmermann@suse.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sebastian,
+Following the great work of Lee Jones in other subsystems
+here is a set of patches that address all remaining W=1
+warnings in drivers/video/.
+Lee Jones already fixed all warnings in video/backlight/ so
+this is mostly fbdev related fixes.
 
-Thank you for the patch.
+The general approach used were:
+- Fix kernel-doc, this is often very trivial
+- Drop unused local variables
+- Use no_printk for local logging support
 
-On Fri, Nov 27, 2020 at 09:04:29PM +0100, Sebastian Reichel wrote:
-> The probe routine acquires the reset GPIO using GPIOD_OUT_LOW. Directly
-> afterwards it calls acx565akm_detect(), which sets the GPIO value to
-> HIGH. If the bootloader initialized the GPIO to HIGH before the probe
-> routine was called, there is only a very short time period of a few
-> instructions where the reset signal is LOW. Exact time depends on
-> compiler optimizations, kernel configuration and alignment of the stars,
-> but I expect it to be always way less than 10us. There are no public
-> datasheets for the panel, but acx565akm_power_on() has a comment with
-> timings and reset period should be at least 10us. So this potentially
-> brings the panel into a half-reset state.
+Build tested on a set of architectures with various configs.
 
-Good catch.
+The patches do not depends on each other and in most cases all
+fixes for one driver is kept in a single patch.
 
-Looks like we got the reset polarity wrong in the driver though.
-GPIOD_OUT_LOW should mean de-asserted, but the driver expects it to mean
-low level. We can't fix that as it would require changing the device
-tree :-(
+The individual changes are trivial so this is a great
+starter task to try to review these patches.
 
-> The result is, that panel may not work after boot and can get into a
-> working state by re-enabling it (e.g. by blanking + unblanking), since
-> that does a clean reset cycle. This bug has recently been hit by Ivaylo
-> Dimitrov, but there are some older reports which are probably the same
-> bug. At least Tony Lindgren, Peter Ujfalusi and Jarkko Nikula have
-> experienced it in 2017 describing the blank/unblank procedure as
-> possible workaround.
-> 
-> Note, that the bug really goes back in time. It has originally been
-> introduced in the predecessor of the omapfb driver in 3c45d05be382
-> ("OMAPDSS: acx565akm panel: handle gpios in panel driver") in 2012.
-> That driver eventually got replaced by a newer one, which had the bug
-> from the beginning in 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel
-> driver") and still exists in fbdev world. That driver has later been
-> copied to omapdrm and then was used as a basis for this driver. Last
-> but not least the omapdrm specific driver has been removed in
-> 45f16c82db7e ("drm/omap: displays: Remove unused panel drivers").
-> 
-> Reported-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
-> Reported-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> Reported-by: Tony Lindgren <tony@atomide.com>
-> Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-> Cc: Merlijn Wajer <merlijn@wizzup.org>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Fixes: 1c8fc3f0c5d2 ("drm/panel: Add driver for the Sony ACX565AKM panel")
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  drivers/gpu/drm/panel/panel-sony-acx565akm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> index e95fdfb16b6c..ba0b3ead150f 100644
-> --- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> +++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> @@ -629,7 +629,7 @@ static int acx565akm_probe(struct spi_device *spi)
->  	lcd->spi = spi;
->  	mutex_init(&lcd->mutex);
->  
-> -	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_LOW);
-> +	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
+A timely Reviewed-by: or Acked-by: would be very nice so we can
+get the warnings fixes before we cut for the merge window.
 
-Wouldn't it be better to instead add a delay here (or in
-acx565akm_detect()) ? If the panel is in a wrong state at boot time, a
-real reset can help.
+v2:
+  - Updated subject of the patches to tell what was fixed (Lee)
+  - Fixed build error in one patch (kernel test robot)
+  - A few editorials updates to the changelog messages
 
->  	if (IS_ERR(lcd->reset_gpio)) {
->  		dev_err(&spi->dev, "failed to get reset GPIO\n");
->  		return PTR_ERR(lcd->reset_gpio);
+	Sam
 
--- 
-Regards,
+Sam Ravnborg (28):
+      video: Fix kernel-doc warnings in of_display_timing + of_videomode
+      video: fbcon: Fix warnings by using pr_debug() in fbcon
+      video: fbdev: core: Fix kernel-doc warnings in fbmon + fb_notify
+      video: fbdev: aty: Delete unused variable in radeon_monitor
+      video: fbdev: aty: Fix set but not used warnings
+      video: fbdev: aty: Fix set but not used warnings in mach64_ct
+      video: fbdev: sis: Fix defined but not used warnings
+      video: fbdev: sis: Fix defined but not used warning of SiS_TVDelay
+      video: fbdev: sis: Fix set but not used warnings in init.c
+      video: fbdev: sis: Fix set but not used warnings in sis_main
+      video: fbdev: via: Fix set but not used warning for mode_crt_table
+      video: fbdev: tdfx: Fix set but not used warning in att_outb()
+      video: fbdev: riva: Fix kernel-doc and set but not used warnings
+      video: fbdev: pm2fb: Fix kernel-doc warnings
+      video: fbdev: neofb: Fix set but not used warning for CursorMem
+      video: fbdev: hgafb: Fix kernel-doc warnings
+      video: fbdev: tgafb: Fix kernel-doc and set but not used warnings
+      video: fbdev: mx3fb: Fix kernel-doc, set but not used and string warnings
+      video: fbdev: sstfb: Updated logging to fix set but not used warnings
+      video: fbdev: nvidia: Fix set but not used warnings
+      video: fbdev: tmiofb: Fix set but not used warnings
+      video: fbdev: omapfb: Fix set but not used warnings in dsi
+      video: fbdev: omapfb: Fix set but not used warnings in hdmi*_core
+      video: fbdev: s3c-fb: Fix kernel-doc and set but not used warnings
+      video: fbdev: uvesafb: Fix set but not used warning
+      video: fbdev: uvesafb: Fix string related warnings
+      video: fbdev: cirrusfb: Fix kernel-doc and set but not used warnings
+      video: fbdev: s1d13xxxfb: Fix kernel-doc and set but not used warnings
 
-Laurent Pinchart
+ drivers/video/fbdev/aty/atyfb_base.c              | 11 +++-----
+ drivers/video/fbdev/aty/mach64_ct.c               | 15 ++++++----
+ drivers/video/fbdev/aty/radeon_monitor.c          |  4 +--
+ drivers/video/fbdev/cirrusfb.c                    | 20 ++++++-------
+ drivers/video/fbdev/core/fb_notify.c              |  3 +-
+ drivers/video/fbdev/core/fbcon.c                  | 25 ++++++-----------
+ drivers/video/fbdev/core/fbmon.c                  |  2 +-
+ drivers/video/fbdev/hgafb.c                       |  4 +--
+ drivers/video/fbdev/mx3fb.c                       | 13 +++++----
+ drivers/video/fbdev/neofb.c                       |  4 ---
+ drivers/video/fbdev/nvidia/nv_setup.c             |  7 ++---
+ drivers/video/fbdev/omap2/omapfb/dss/dsi.c        | 12 ++------
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c |  4 +--
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c |  4 +--
+ drivers/video/fbdev/pm2fb.c                       |  8 +++---
+ drivers/video/fbdev/riva/fbdev.c                  |  9 +++---
+ drivers/video/fbdev/riva/riva_hw.c                | 28 ++++++-------------
+ drivers/video/fbdev/s1d13xxxfb.c                  |  3 +-
+ drivers/video/fbdev/s3c-fb.c                      | 11 ++++----
+ drivers/video/fbdev/sis/init.c                    | 34 ++++-------------------
+ drivers/video/fbdev/sis/oem310.h                  |  2 ++
+ drivers/video/fbdev/sis/sis.h                     |  1 -
+ drivers/video/fbdev/sis/sis_main.c                |  9 +++---
+ drivers/video/fbdev/sstfb.c                       |  2 +-
+ drivers/video/fbdev/tdfxfb.c                      |  4 +--
+ drivers/video/fbdev/tgafb.c                       |  7 ++---
+ drivers/video/fbdev/tmiofb.c                      |  6 ++--
+ drivers/video/fbdev/uvesafb.c                     |  8 +++---
+ drivers/video/fbdev/via/lcd.c                     |  4 +--
+ drivers/video/of_display_timing.c                 |  1 +
+ drivers/video/of_videomode.c                      |  8 +++---
+ include/video/sstfb.h                             |  4 +--
+ 32 files changed, 107 insertions(+), 170 deletions(-)
+
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
