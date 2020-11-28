@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD382C764A
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3701B2C7653
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E56426ED09;
-	Sat, 28 Nov 2020 22:42:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7BC6ED12;
+	Sat, 28 Nov 2020 22:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C07AA6ECFB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:42:14 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id y10so10589876ljc.7
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:42:14 -0800 (PST)
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com
+ [IPv6:2a00:1450:4864:20::142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE3D6ECFB
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:42:16 +0000 (UTC)
+Received: by mail-lf1-x142.google.com with SMTP id r24so12738886lfm.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:42:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BP0tdGdOicm/g6FYqITXj/E741V7SOdfxHbuSnOa2vI=;
- b=A4+pA68yf5NQVAPnKHbZYVBDWIiXGs+Bvvu5J6D3tuTktlHbucucuyXSkvyUy1Z1ad
- qugn8GtpY2nk3MyGG1NB0/O+SXqhFzV50AwcMgZMDEIzlcPovhiNq/Vp3PCTW362qNUS
- akY1e5rXqcvvcDXERh7JZfSHWjcCL7TT1XmLL6eKoNkpqDIadVv/n/BApO2EhP/R519x
- Xwk9g4doicNQ+LGaenNYRm+DemOqIRzrgbI3ZIYi5/QYHt4ULU/wupW4572a5bKokc1P
- GCVqE5qF8LeEuIz06k9OEgsBZgfX2rLwP5Lto5zDv6y9chUDrSbEr65fc8MNx0jvyhTX
- Xoag==
+ bh=/wOYQm62UhJJiBuQwa5K2rYcXYPHs0L5tvvEbAmKSNM=;
+ b=NZOYx0PXz29EI6oUGn7poLQOl3WKi1JE7XojDK9qkRt1BU3tYpqof835ajOsE3bAQz
+ +N1wIFEeoMctj3+aSVd02EbL/iO5MbQVuFj2whjZCstGYrBcODFncMIVBgimHZ+3a5PL
+ gVh6gU41uaM1BwqVOtKHmHqGlPGOQ4X7P1PPOgKr9hpd18xx2UTiyqDaCWiKF7JkhI60
+ ce3lz2iYacfvWKV7RE3bylfc1eqtTkqO4UaaaJ0zedIeRGJxwA/8gGcBcCGT4qnx8cMp
+ +qPPnntEcXBIsCrEs9J+ef8eLoYGcx9H2iK6p130Rw4ddHLBj1kB0XC70pVLiYc1F2sp
+ hqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BP0tdGdOicm/g6FYqITXj/E741V7SOdfxHbuSnOa2vI=;
- b=KmKBpuPLu2pVQSEVlAPE9GIRH1bXaVWbgsl9NC9I1TJWKN4BvTQZhO5yO/DqqZkLHz
- /qoOEldU98hHC8UV7pi5A1/71BDUEUMcJdaFSruYotK5o2UKCx8zHt0yQL7v/Dfvb7F8
- II7Iu1hdPG1nSIDCkSyetO9DT7GiQYQGm7P6VRBCCibIOMBYQhX1ccMt/Q/0tLNlWkJp
- NMqxUF8wHPYcorGTYumxznxTIm2x+QUshyXA5FrpKwu/NSXv0ggP/1yXxqALSXN2Fakt
- 5fJHeZI5g6YVBFKVHUA7pyZGQiiFAkkTaHzSm8MTCeIrW3g7olFq7QW2/03VHbszCTNE
- +joA==
-X-Gm-Message-State: AOAM530xJ/9B3npXDGqKL2tZ3ndmqEIbuATYGX5qO5OytJQc+qh2/b1+
- i5+sjaNYYgkyhAU4np59Jc0=
-X-Google-Smtp-Source: ABdhPJwwf1ZWhffUvstO1LtukDoI2Zp+qJq1Q3l5sM/werUk5+/LklnUG0w4Xy6qOp1ekvjP6B84Ew==
-X-Received: by 2002:a2e:888a:: with SMTP id k10mr6395463lji.341.1606603333226; 
- Sat, 28 Nov 2020 14:42:13 -0800 (PST)
+ bh=/wOYQm62UhJJiBuQwa5K2rYcXYPHs0L5tvvEbAmKSNM=;
+ b=ZgI6FG+h7RzPuikP8Ug+ze/YE4ufiFsydOUSFLwm/yRh+Cve3eEEA1/0Or1jDlQtFA
+ ISaV69djnmypOx1Yprrzp9yEl6yNMh0+uw8avy9XNmuvyzY9verOrf1ZkjR532qp4+go
+ +eld4vJWcTtFhOScckgi1IgwKhDRYS6eI0s5Pl5WhrRzeF+ct9Y6d0xVSe7E2YkePjEx
+ J/6foigkylrh2r/6Kch4zt1QM+pMXDGql/BS3zHr0Vp9+knZNHSOv7hYw8NDc7w5ItsK
+ R4WKtl5TYcM5A6baWxyTYC0/ue+QZ3DpeSz1m9IuQ003wO1Zdt8gPwTa3OT5UjVZW4Eb
+ 6WYA==
+X-Gm-Message-State: AOAM530PPpxXD0kCWcHO0uSfbaakrjH0UZ7AbgatkeAuzc+1kj01F4q7
+ J24bxeV6n2W9mkZms6+Xd4o=
+X-Google-Smtp-Source: ABdhPJwgu41H0h4BWPxtxzUlLXhRkkdQIo57ciP/l1l7Li+YJUMCKjT0gBiawsB+TaPikmiXCZpNPg==
+X-Received: by 2002:a19:4915:: with SMTP id w21mr6485130lfa.57.1606603335224; 
+ Sat, 28 Nov 2020 14:42:15 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.42.11
+ w21sm1236857lff.280.2020.11.28.14.42.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:42:12 -0800 (PST)
+ Sat, 28 Nov 2020 14:42:14 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 27/28] video: fbdev: cirrusfb: Fix kernel-doc and set but
+Subject: [PATCH v2 28/28] video: fbdev: s1d13xxxfb: Fix kernel-doc and set but
  not used warnings
-Date: Sat, 28 Nov 2020 23:41:13 +0100
-Message-Id: <20201128224114.1033617-28-sam@ravnborg.org>
+Date: Sat, 28 Nov 2020 23:41:14 +0100
+Message-Id: <20201128224114.1033617-29-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -97,93 +97,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix warnings:
-- drop kernel-doc for the two debug functions to avoid the warnings
-- delete unused code
+Fix following W=1 warnings:
+- Fix set but not nused variables which was used only for logging.
+  Fixed by introducing no_printk() to trick compiler to think variables
+  are used
+- Fix kernel-doc warning by deleting an empty comment line
 
 v2:
-  - Updated subject (Lee)
+  - Subject updated (Lee)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thomas Zimemrmann <tzimmermann@suse.de>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/cirrusfb.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ drivers/video/fbdev/s1d13xxxfb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/cirrusfb.c b/drivers/video/fbdev/cirrusfb.c
-index e9027172c0f5..93802abbbc72 100644
---- a/drivers/video/fbdev/cirrusfb.c
-+++ b/drivers/video/fbdev/cirrusfb.c
-@@ -2463,8 +2463,6 @@ static void AttrOn(const struct cirrusfb_info *cinfo)
-  */
- static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
- {
--	unsigned char dummy;
--
- 	if (is_laguna(cinfo))
- 		return;
- 	if (cinfo->btype == BT_PICASSO) {
-@@ -2473,18 +2471,18 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
- 		WGen(cinfo, VGA_PEL_MSK, 0x00);
- 		udelay(200);
- 		/* next read dummy from pixel address (3c8) */
--		dummy = RGen(cinfo, VGA_PEL_IW);
-+		RGen(cinfo, VGA_PEL_IW);
- 		udelay(200);
- 	}
- 	/* now do the usual stuff to access the HDR */
+diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d13xxxfb.c
+index 4541afcf9386..d1b5f965bc96 100644
+--- a/drivers/video/fbdev/s1d13xxxfb.c
++++ b/drivers/video/fbdev/s1d13xxxfb.c
+@@ -45,7 +45,7 @@
+ #if 0
+ #define dbg(fmt, args...) do { printk(KERN_INFO fmt, ## args); } while(0)
+ #else
+-#define dbg(fmt, args...) do { } while (0)
++#define dbg(fmt, args...) do { no_printk(KERN_INFO fmt, ## args); } while (0)
+ #endif
  
--	dummy = RGen(cinfo, VGA_PEL_MSK);
-+	RGen(cinfo, VGA_PEL_MSK);
- 	udelay(200);
--	dummy = RGen(cinfo, VGA_PEL_MSK);
-+	RGen(cinfo, VGA_PEL_MSK);
- 	udelay(200);
--	dummy = RGen(cinfo, VGA_PEL_MSK);
-+	RGen(cinfo, VGA_PEL_MSK);
- 	udelay(200);
--	dummy = RGen(cinfo, VGA_PEL_MSK);
-+	RGen(cinfo, VGA_PEL_MSK);
- 	udelay(200);
- 
- 	WGen(cinfo, VGA_PEL_MSK, val);
-@@ -2492,7 +2490,7 @@ static void WHDR(const struct cirrusfb_info *cinfo, unsigned char val)
- 
- 	if (cinfo->btype == BT_PICASSO) {
- 		/* now first reset HDR access counter */
--		dummy = RGen(cinfo, VGA_PEL_IW);
-+		RGen(cinfo, VGA_PEL_IW);
- 		udelay(200);
- 
- 		/* and at the end, restore the mask value */
-@@ -2800,9 +2798,9 @@ static void bestclock(long freq, int *nom, int *den, int *div)
- 
- #ifdef CIRRUSFB_DEBUG
- 
--/**
-+/*
-  * cirrusfb_dbg_print_regs
-- * @base: If using newmmio, the newmmio base address, otherwise %NULL
-+ * @regbase: If using newmmio, the newmmio base address, otherwise %NULL
-  * @reg_class: type of registers to read: %CRT, or %SEQ
-  *
-  * DESCRIPTION:
-@@ -2847,7 +2845,7 @@ static void cirrusfb_dbg_print_regs(struct fb_info *info,
- 	va_end(list);
+ /*
+@@ -512,7 +512,6 @@ s1d13xxxfb_bitblt_copyarea(struct fb_info *info, const struct fb_copyarea *area)
  }
  
--/**
-+/*
-  * cirrusfb_dbg_reg_dump
-  * @base: If using newmmio, the newmmio base address, otherwise %NULL
-  *
+ /**
+- *
+  *	s1d13xxxfb_bitblt_solidfill - accelerated solidfill function
+  *	@info : framebuffer structure
+  *	@rect : fb_fillrect structure
 -- 
 2.27.0
 
