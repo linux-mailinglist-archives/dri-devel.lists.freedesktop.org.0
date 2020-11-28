@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6182C7640
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5862C7646
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E90B6ECF9;
-	Sat, 28 Nov 2020 22:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 448EC6ED03;
+	Sat, 28 Nov 2020 22:42:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA6176ECEB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:46 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id z1so10597935ljn.4
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:46 -0800 (PST)
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
+ [IPv6:2a00:1450:4864:20::143])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5956ECEB
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:48 +0000 (UTC)
+Received: by mail-lf1-x143.google.com with SMTP id z21so12717030lfe.12
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=if4pzrzCg3q6ofCtFvf6yx5yT56Fowc0s0Pn6h0Zotc=;
- b=n+8fbCu6wuPRFXEnwNsFn69z5xcEOmjQjYUGqkvFjrF9Oz2C7XLsj5B831CoAIPv7Y
- a40kM24PL2nZRS0LvIpGjGHGBeIh8iv2Mv2+Gqxa14fcXzINfbbCuECej+XJPknAZZQs
- /8Z8ZT6RbCfihIhMpVsrjqAoKDaDfVDuNfTDB+CrIHaReoZMc3aoZdpmWWkH/KqGuUD1
- L/x3DSWTEwgGLKR/oPR4rafJLUtHa/s6n5JDX3eN6Sy92VZtGrwt56i4LuJPklmR21RB
- JZmbXKkYy90cUr9l/P5trM9dzq6I559NeXapOEPQs6RL/SSqRIDLq34Cl5QCvYaI6CM7
- mZdg==
+ bh=GO4HyonQKM+uiRKyJhgt5Ae8eU+jCIwu9BQ+Y1bEdq0=;
+ b=l+e7aw5uXxHSu6BWfxEs9s+vt+LQqdRgEY7AVwx/9rFVC/UlPyCplyoadMVzY4btdI
+ wWfAztM2iw9Zjnb5iyJoqjibcPyZSoK+W8uageWe9XEX5uaH6exFHhuoy4mIiwWd7i/H
+ NAp90wUPSvDWPfpcfFWzbxBqAJ3T7M4MVNRu6AOixDEjfgEzAieEF5Ivx9tnLj2iux12
+ IOLUuQ0fNyeQiFv2cInR4CBBkQHkUD0jULK1e9o1q74jpi1BLUq3CoHJILRlnWqKln3D
+ kUaBSSoXiDSHmJZmVUkZwzakyojzy3AXh2bymPJA2b53gUPL/pGPOBjuc0YkC5LcaClc
+ DkGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=if4pzrzCg3q6ofCtFvf6yx5yT56Fowc0s0Pn6h0Zotc=;
- b=WPXBpWG45ExGDjnLJqg8QnqvP+CZOl94TNrlXlzpaCZMcnU2Z5DsiNicgMt26iC/Az
- pQW9pBPMzJ9wOw+40O5jy9AGnaAdMe2TIP7J6tgh0JiI4qtQ1lrn7JyccaUka8AXWhcp
- O2WiUaJ624Um0wJ2fMU2DLKfhREjM0geC2324iBF4Z5J6XgIO9SA+gBPNgwHTXJQ2mZN
- 6hzTY5EW0a08KFcBagBkEVidjvAxVslV2X3fnlBOkiPPCbbFFq4qswMut+kPpMuIsyoz
- dlJUepeCTVyWT3dcmFlAjm+2iM1tlBGJHoWiAI35ypQ2/43Pq1DeT+xSvsg6UQpqiP+k
- NEhQ==
-X-Gm-Message-State: AOAM533LA/pxlnPwAn+4rTgOfA+MOlfaUSE7+V/HoPYoGLYhDS6lgVu8
- Zo7BzAMHMg5AcgSxrCIOouuQdMA/njMuOQ==
-X-Google-Smtp-Source: ABdhPJxjEjieR1eWGnWmOrKK7EqGckvOLz6a81CIg52CDCjBQ0NqMQcG6SpsgadZ2EWXdh3aRqGGYQ==
-X-Received: by 2002:a2e:9694:: with SMTP id q20mr6409864lji.279.1606603305138; 
- Sat, 28 Nov 2020 14:41:45 -0800 (PST)
+ bh=GO4HyonQKM+uiRKyJhgt5Ae8eU+jCIwu9BQ+Y1bEdq0=;
+ b=XWseR0/t1Fk8/V4SVdG+OnLMOzWrYo0/gEAJArki3eT/Ez148MPcTD8efywp50snok
+ gHZKP9ikJwrEu+O9lcb9P2X3zx/MPESpwSFkj9RjScO1a4WZkuyem59PgROVlXsWoqgy
+ CY9159JvEHGGUaylquDOULjWdEtur0cQV9lsNjYPgzmSZsm/zIYp9TWmVJfsWxHH9ZWg
+ SAVdL0Dg9eIQk48sXkNJflkldgNb/Bwup0gHotS6Fi4SHxRwLcXAbsWBldoJKh75D95+
+ NjWIw9XV6DhCrWgQxhScCGx2Ame3nAQqXYAbDAvytFbIlNrAhyy82B6sSHU5DrEoATwC
+ h2sw==
+X-Gm-Message-State: AOAM5336UPJGFqYsA75PQbMfUfViv9vau25Rqy7Y1aDO5EHLUAcqDdb+
+ VXq3WTXgBYrR5p+7Sdc8Avg=
+X-Google-Smtp-Source: ABdhPJzf7rpIocaqr7UuHf7lkRCgNvHSRQYgfFjw/JeQSkuWTfMrys3Za/nY803MZlmSagJSSAnR0w==
+X-Received: by 2002:a19:4815:: with SMTP id v21mr5654157lfa.368.1606603307034; 
+ Sat, 28 Nov 2020 14:41:47 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.41.43
+ w21sm1236857lff.280.2020.11.28.14.41.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:41:44 -0800 (PST)
+ Sat, 28 Nov 2020 14:41:46 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 12/28] video: fbdev: tdfx: Fix set but not used warning in
- att_outb()
-Date: Sat, 28 Nov 2020 23:40:58 +0100
-Message-Id: <20201128224114.1033617-13-sam@ravnborg.org>
+Subject: [PATCH v2 13/28] video: fbdev: riva: Fix kernel-doc and set but not
+ used warnings
+Date: Sat, 28 Nov 2020 23:40:59 +0100
+Message-Id: <20201128224114.1033617-14-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -97,38 +97,145 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tmp variable were assigned but the result was never used,
-so delete the tmp variable.
+Fix W=1 warnings:
+- Fix kernel-doc
+- Drop unused variables/code
 
 v2:
-  - Update subject (Lee)
+  - Updated subject (Lee)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Antonino Daplas <adaplas@gmail.com>
+Cc: linux-fbdev@vger.kernel.org
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/tdfxfb.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/video/fbdev/riva/fbdev.c   |  9 ++++-----
+ drivers/video/fbdev/riva/riva_hw.c | 28 ++++++++--------------------
+ 2 files changed, 12 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
-index f056d80f6359..67e37a62b07c 100644
---- a/drivers/video/fbdev/tdfxfb.c
-+++ b/drivers/video/fbdev/tdfxfb.c
-@@ -206,9 +206,7 @@ static inline u8 crt_inb(struct tdfx_par *par, u32 idx)
+diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
+index ce55b9d2e862..55554b0433cb 100644
+--- a/drivers/video/fbdev/riva/fbdev.c
++++ b/drivers/video/fbdev/riva/fbdev.c
+@@ -464,7 +464,7 @@ static inline void reverse_order(u32 *l)
  
- static inline void att_outb(struct tdfx_par *par, u32 idx, u8 val)
+ /**
+  * rivafb_load_cursor_image - load cursor image to hardware
+- * @data: address to monochrome bitmap (1 = foreground color, 0 = background)
++ * @data8: address to monochrome bitmap (1 = foreground color, 0 = background)
+  * @par:  pointer to private data
+  * @w:    width of cursor image in pixels
+  * @h:    height of cursor image in scanlines
+@@ -843,9 +843,9 @@ static void riva_update_var(struct fb_var_screeninfo *var,
+ /**
+  * rivafb_do_maximize - 
+  * @info: pointer to fb_info object containing info for current riva board
+- * @var:
+- * @nom:
+- * @den:
++ * @var: standard kernel fb changeable data
++ * @nom: nom
++ * @den: den
+  *
+  * DESCRIPTION:
+  * .
+@@ -1214,7 +1214,6 @@ static int rivafb_set_par(struct fb_info *info)
+ /**
+  * rivafb_pan_display
+  * @var: standard kernel fb changeable data
+- * @con: TODO
+  * @info: pointer to fb_info object containing info for current riva board
+  *
+  * DESCRIPTION:
+diff --git a/drivers/video/fbdev/riva/riva_hw.c b/drivers/video/fbdev/riva/riva_hw.c
+index bcf9c4b4de31..8b829b720064 100644
+--- a/drivers/video/fbdev/riva/riva_hw.c
++++ b/drivers/video/fbdev/riva/riva_hw.c
+@@ -836,17 +836,17 @@ static void nv10CalcArbitration
+     nv10_sim_state *arb
+ )
  {
--	unsigned char tmp;
--
--	tmp = vga_inb(par, IS1_R);
-+	vga_inb(par, IS1_R);
- 	vga_outb(par, ATT_IW, idx);
- 	vga_outb(par, ATT_IW, val);
- }
+-    int data, pagemiss, cas,width, video_enable, bpp;
+-    int nvclks, mclks, pclks, vpagemiss, crtpagemiss, vbs;
+-    int nvclk_fill, us_extra;
++    int data, pagemiss, width, video_enable, bpp;
++    int nvclks, mclks, pclks, vpagemiss, crtpagemiss;
++    int nvclk_fill;
+     int found, mclk_extra, mclk_loop, cbs, m1;
+     int mclk_freq, pclk_freq, nvclk_freq, mp_enable;
+-    int us_m, us_m_min, us_n, us_p, video_drain_rate, crtc_drain_rate;
+-    int vus_m, vus_n, vus_p;
+-    int vpm_us, us_video, vlwm, cpm_us, us_crt,clwm;
++    int us_m, us_m_min, us_n, us_p, crtc_drain_rate;
++    int vus_m;
++    int vpm_us, us_video, cpm_us, us_crt,clwm;
+     int clwm_rnd_down;
+-    int craw, m2us, us_pipe, us_pipe_min, vus_pipe, p1clk, p2;
+-    int pclks_2_top_fifo, min_mclk_extra;
++    int m2us, us_pipe_min, p1clk, p2;
++    int min_mclk_extra;
+     int us_min_mclk_extra;
+ 
+     fifo->valid = 1;
+@@ -854,16 +854,13 @@ static void nv10CalcArbitration
+     mclk_freq = arb->mclk_khz;
+     nvclk_freq = arb->nvclk_khz;
+     pagemiss = arb->mem_page_miss;
+-    cas = arb->mem_latency;
+     width = arb->memory_width/64;
+     video_enable = arb->enable_video;
+     bpp = arb->pix_bpp;
+     mp_enable = arb->enable_mp;
+     clwm = 0;
+-    vlwm = 1024;
+ 
+     cbs = 512;
+-    vbs = 512;
+ 
+     pclks = 4; /* lwm detect. */
+ 
+@@ -924,17 +921,11 @@ static void nv10CalcArbitration
+       us_min_mclk_extra = min_mclk_extra *1000*1000 / mclk_freq;
+       us_n = nvclks*1000*1000 / nvclk_freq;/* nvclk latency in us */
+       us_p = pclks*1000*1000 / pclk_freq;/* nvclk latency in us */
+-      us_pipe = us_m + us_n + us_p;
+       us_pipe_min = us_m_min + us_n + us_p;
+-      us_extra = 0;
+ 
+       vus_m = mclk_loop *1000*1000 / mclk_freq; /* Mclk latency in us */
+-      vus_n = (4)*1000*1000 / nvclk_freq;/* nvclk latency in us */
+-      vus_p = 0*1000*1000 / pclk_freq;/* pclk latency in us */
+-      vus_pipe = vus_m + vus_n + vus_p;
+ 
+       if(video_enable) {
+-        video_drain_rate = pclk_freq * 4; /* MB/s */
+         crtc_drain_rate = pclk_freq * bpp/8; /* MB/s */
+ 
+         vpagemiss = 1; /* self generating page miss */
+@@ -993,7 +984,6 @@ static void nv10CalcArbitration
+               else if(crtc_drain_rate * 100  >= nvclk_fill * 98) {
+                   clwm = 1024;
+                   cbs = 512;
+-                  us_extra = (cbs * 1000 * 1000)/ (8*width)/mclk_freq ;
+               }
+           }
+       }
+@@ -1010,7 +1000,6 @@ static void nv10CalcArbitration
+ 
+       m1 = clwm + cbs -  1024; /* Amount of overfill */
+       m2us = us_pipe_min + us_min_mclk_extra;
+-      pclks_2_top_fifo = (1024-clwm)/(8*width);
+ 
+       /* pclk cycles to drain */
+       p1clk = m2us * pclk_freq/(1000*1000); 
+@@ -1038,7 +1027,6 @@ static void nv10CalcArbitration
+               min_mclk_extra--;
+         }
+       }
+-      craw = clwm;
+ 
+       if(clwm < (1024-cbs+8)) clwm = 1024-cbs+8;
+       data = (int)(clwm);
 -- 
 2.27.0
 
