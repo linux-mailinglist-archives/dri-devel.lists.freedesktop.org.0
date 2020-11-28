@@ -2,32 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F822C7C3D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E40FE2C7C36
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E5166E3F4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7D46E3FC;
 	Mon, 30 Nov 2020 01:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 964 seconds by postgrey-1.36 at gabe;
- Sat, 28 Nov 2020 18:01:37 UTC
-Received: from fgw21-4.mail.saunalahti.fi (fgw21-4.mail.saunalahti.fi
- [62.142.5.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42D0A6E046
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 18:01:37 +0000 (UTC)
+Received: from fgw23-4.mail.saunalahti.fi (fgw23-4.mail.saunalahti.fi
+ [62.142.5.110])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ACD26E046
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 18:02:56 +0000 (UTC)
 Received: from darkstar.musicnaut.iki.fi (85-76-71-224-nat.elisa-mobile.fi
- [85.76.71.224]) by fgw21.mail.saunalahti.fi (Halon) with ESMTP
- id 8113492f-31a1-11eb-9eb8-005056bdd08f;
- Sat, 28 Nov 2020 19:45:30 +0200 (EET)
-Date: Sat, 28 Nov 2020 19:45:28 +0200
+ [85.76.71.224]) by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+ id b02e7da9-31a1-11eb-8ccd-005056bdfda7;
+ Sat, 28 Nov 2020 19:46:49 +0200 (EET)
+Date: Sat, 28 Nov 2020 19:46:47 +0200
 From: Aaro Koskinen <aaro.koskinen@iki.fi>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH] drm/omap: sdi: fix bridge enable/disable
-Message-ID: <20201128174528.GD551434@darkstar.musicnaut.iki.fi>
-References: <20201127085241.848461-1-tomi.valkeinen@ti.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH] drm/panel: sony-acx565akm: Fix race condition in probe
+Message-ID: <20201128174647.GE551434@darkstar.musicnaut.iki.fi>
+References: <20201127200429.129868-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201127085241.848461-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20201127200429.129868-1-sebastian.reichel@collabora.com>
 X-Mailman-Approved-At: Mon, 30 Nov 2020 01:02:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,10 +39,14 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
+Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Merlijn Wajer <merlijn@wizzup.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+ linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -52,22 +54,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, Nov 27, 2020 at 10:52:41AM +0200, Tomi Valkeinen wrote:
-> When the SDI output was converted to DRM bridge, the atomic versions of
-> enable and disable funcs were used. This was not intended, as that would
-> require implementing other atomic funcs too. This leads to:
+On Fri, Nov 27, 2020 at 09:04:29PM +0100, Sebastian Reichel wrote:
+> The probe routine acquires the reset GPIO using GPIOD_OUT_LOW. Directly
+> afterwards it calls acx565akm_detect(), which sets the GPIO value to
+> HIGH. If the bootloader initialized the GPIO to HIGH before the probe
+> routine was called, there is only a very short time period of a few
+> instructions where the reset signal is LOW. Exact time depends on
+> compiler optimizations, kernel configuration and alignment of the stars,
+> but I expect it to be always way less than 10us. There are no public
+> datasheets for the panel, but acx565akm_power_on() has a comment with
+> timings and reset period should be at least 10us. So this potentially
+> brings the panel into a half-reset state.
 > 
-> WARNING: CPU: 0 PID: 18 at drivers/gpu/drm/drm_bridge.c:708 drm_atomic_helper_commit_modeset_enables+0x134/0x268
+> The result is, that panel may not work after boot and can get into a
+> working state by re-enabling it (e.g. by blanking + unblanking), since
+> that does a clean reset cycle. This bug has recently been hit by Ivaylo
+> Dimitrov, but there are some older reports which are probably the same
+> bug. At least Tony Lindgren, Peter Ujfalusi and Jarkko Nikula have
+> experienced it in 2017 describing the blank/unblank procedure as
+> possible workaround.
 > 
-> and display not working.
+> Note, that the bug really goes back in time. It has originally been
+> introduced in the predecessor of the omapfb driver in 3c45d05be382
+> ("OMAPDSS: acx565akm panel: handle gpios in panel driver") in 2012.
+> That driver eventually got replaced by a newer one, which had the bug
+> from the beginning in 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel
+> driver") and still exists in fbdev world. That driver has later been
+> copied to omapdrm and then was used as a basis for this driver. Last
+> but not least the omapdrm specific driver has been removed in
+> 45f16c82db7e ("drm/omap: displays: Remove unused panel drivers").
 > 
-> Fix this by using the legacy enable/disable funcs.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Reported-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+> Reported-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Reported-by: Tony Lindgren <tony@atomide.com>
 > Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
-> Fixes: 8bef8a6d5da81b909a190822b96805a47348146f ("drm/omap: sdi: Register a drm_bridge")
-> Cc: stable@vger.kernel.org # v5.7+
-> Tested-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> Cc: Merlijn Wajer <merlijn@wizzup.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Fixes: 1c8fc3f0c5d2 ("drm/panel: Add driver for the Sony ACX565AKM panel")
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 Tested-by: Aaro Koskinen <aaro.koskinen@iki.fi>
 
@@ -76,47 +102,24 @@ Thanks,
 A.
 
 > ---
->  drivers/gpu/drm/omapdrm/dss/sdi.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/panel/panel-sony-acx565akm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/sdi.c b/drivers/gpu/drm/omapdrm/dss/sdi.c
-> index 033fd30074b0..282e4c837cd9 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/sdi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/sdi.c
-> @@ -195,8 +195,7 @@ static void sdi_bridge_mode_set(struct drm_bridge *bridge,
->  	sdi->pixelclock = adjusted_mode->clock * 1000;
->  }
+> diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> index e95fdfb16b6c..ba0b3ead150f 100644
+> --- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> +++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
+> @@ -629,7 +629,7 @@ static int acx565akm_probe(struct spi_device *spi)
+>  	lcd->spi = spi;
+>  	mutex_init(&lcd->mutex);
 >  
-> -static void sdi_bridge_enable(struct drm_bridge *bridge,
-> -			      struct drm_bridge_state *bridge_state)
-> +static void sdi_bridge_enable(struct drm_bridge *bridge)
->  {
->  	struct sdi_device *sdi = drm_bridge_to_sdi(bridge);
->  	struct dispc_clock_info dispc_cinfo;
-> @@ -259,8 +258,7 @@ static void sdi_bridge_enable(struct drm_bridge *bridge,
->  	regulator_disable(sdi->vdds_sdi_reg);
->  }
->  
-> -static void sdi_bridge_disable(struct drm_bridge *bridge,
-> -			       struct drm_bridge_state *bridge_state)
-> +static void sdi_bridge_disable(struct drm_bridge *bridge)
->  {
->  	struct sdi_device *sdi = drm_bridge_to_sdi(bridge);
->  
-> @@ -278,8 +276,8 @@ static const struct drm_bridge_funcs sdi_bridge_funcs = {
->  	.mode_valid = sdi_bridge_mode_valid,
->  	.mode_fixup = sdi_bridge_mode_fixup,
->  	.mode_set = sdi_bridge_mode_set,
-> -	.atomic_enable = sdi_bridge_enable,
-> -	.atomic_disable = sdi_bridge_disable,
-> +	.enable = sdi_bridge_enable,
-> +	.disable = sdi_bridge_disable,
->  };
->  
->  static void sdi_bridge_init(struct sdi_device *sdi)
+> -	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_LOW);
+> +	lcd->reset_gpio = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(lcd->reset_gpio)) {
+>  		dev_err(&spi->dev, "failed to get reset GPIO\n");
+>  		return PTR_ERR(lcd->reset_gpio);
 > -- 
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> 2.29.2
 > 
 _______________________________________________
 dri-devel mailing list
