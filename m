@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15CC2C763B
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:41:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6182C7640
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2EBB6ECEB;
-	Sat, 28 Nov 2020 22:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E90B6ECF9;
+	Sat, 28 Nov 2020 22:42:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F6106ECEA
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:44 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id y7so10570431lji.8
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:44 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA6176ECEB
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:46 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id z1so10597935ljn.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qQbdoMGfp7HI6Wmt4IR8iWJeCZkxPlinkDvEVc1r82A=;
- b=I6GqQD3fz1EqGD498t1GsLkIHDFsRv7/o3xRXWseWPdVQCKrCv2QN8njbKtX7/+cz+
- smvA7q0jnFm1q/Dd7pQ2F/L2yCX1fFZPKJj0Kw043RE5OWX9f2eAIn3tkU+6HpN70Cji
- AyBSZBvy9qs/unaX+yF8BwNQrOkMG/ffP2VFFu/g7pVCSjL9G+x7Q+Vup9KCo38ZNOIy
- VG2zGt8jy6PeULtQMpE8KtRVaMPR7wrdMa45Aho5tLl8Ai/h9m7nCT0zjkFDzxwxXw45
- bsU1QTW0NdlWDMGK4uCZL+WLbgDejqM9XOPK5RqZfGE7Vq/eMRQT9z11o0frnevy8AyM
- pZ4g==
+ bh=if4pzrzCg3q6ofCtFvf6yx5yT56Fowc0s0Pn6h0Zotc=;
+ b=n+8fbCu6wuPRFXEnwNsFn69z5xcEOmjQjYUGqkvFjrF9Oz2C7XLsj5B831CoAIPv7Y
+ a40kM24PL2nZRS0LvIpGjGHGBeIh8iv2Mv2+Gqxa14fcXzINfbbCuECej+XJPknAZZQs
+ /8Z8ZT6RbCfihIhMpVsrjqAoKDaDfVDuNfTDB+CrIHaReoZMc3aoZdpmWWkH/KqGuUD1
+ L/x3DSWTEwgGLKR/oPR4rafJLUtHa/s6n5JDX3eN6Sy92VZtGrwt56i4LuJPklmR21RB
+ JZmbXKkYy90cUr9l/P5trM9dzq6I559NeXapOEPQs6RL/SSqRIDLq34Cl5QCvYaI6CM7
+ mZdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qQbdoMGfp7HI6Wmt4IR8iWJeCZkxPlinkDvEVc1r82A=;
- b=sWdjXXQt74stSnjkGjLlLt8e4E7XDGWmmh5Lsl8zcwuMk99upapW72DkkvcZY+EQKt
- WA25WnHOHSwz9qVN9VMdaLn8fAWHMVo3QRHZMz9T1zQZNRNM58YSa/NqpdO++1sv/nL4
- KYdWTad0znWyBnwL3sHAiOZhSljokjVIFjBkRiwF1i1kb/IoihREJDaeovCpaIv0j5Yj
- cVmf941oWdQX8jA9Az+2gNZ/Os8Dk4gUDGLzxo2wjqOO6kNVRQvw0IXR0CSOjAlu2wXc
- bpcjZsYxK0V6hG4EN55orKxp8e+kR0gcVpUx1tEJN8rT5pVvIj6y+YFPM9cpFSnQaBQW
- NnnA==
-X-Gm-Message-State: AOAM533FUEbhJqRY9PNTD4hy5Xjj0LrPKEb9PlC8HJDKLxDgQGTS4vN9
- 6S8/Kkph+A7nGSqD2hvYh92wC1+JqvjPSg==
-X-Google-Smtp-Source: ABdhPJzFyXGSucNfx9yncv1e42W9SVj8LPo5R/vJS1rgbRNBov9ReHwMEZgrMKy4kizi21GFlNwCQA==
-X-Received: by 2002:a2e:535a:: with SMTP id t26mr6393928ljd.87.1606603303293; 
- Sat, 28 Nov 2020 14:41:43 -0800 (PST)
+ bh=if4pzrzCg3q6ofCtFvf6yx5yT56Fowc0s0Pn6h0Zotc=;
+ b=WPXBpWG45ExGDjnLJqg8QnqvP+CZOl94TNrlXlzpaCZMcnU2Z5DsiNicgMt26iC/Az
+ pQW9pBPMzJ9wOw+40O5jy9AGnaAdMe2TIP7J6tgh0JiI4qtQ1lrn7JyccaUka8AXWhcp
+ O2WiUaJ624Um0wJ2fMU2DLKfhREjM0geC2324iBF4Z5J6XgIO9SA+gBPNgwHTXJQ2mZN
+ 6hzTY5EW0a08KFcBagBkEVidjvAxVslV2X3fnlBOkiPPCbbFFq4qswMut+kPpMuIsyoz
+ dlJUepeCTVyWT3dcmFlAjm+2iM1tlBGJHoWiAI35ypQ2/43Pq1DeT+xSvsg6UQpqiP+k
+ NEhQ==
+X-Gm-Message-State: AOAM533LA/pxlnPwAn+4rTgOfA+MOlfaUSE7+V/HoPYoGLYhDS6lgVu8
+ Zo7BzAMHMg5AcgSxrCIOouuQdMA/njMuOQ==
+X-Google-Smtp-Source: ABdhPJxjEjieR1eWGnWmOrKK7EqGckvOLz6a81CIg52CDCjBQ0NqMQcG6SpsgadZ2EWXdh3aRqGGYQ==
+X-Received: by 2002:a2e:9694:: with SMTP id q20mr6409864lji.279.1606603305138; 
+ Sat, 28 Nov 2020 14:41:45 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.41.41
+ w21sm1236857lff.280.2020.11.28.14.41.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:41:42 -0800 (PST)
+ Sat, 28 Nov 2020 14:41:44 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 11/28] video: fbdev: via: Fix set but not used warning for
- mode_crt_table
-Date: Sat, 28 Nov 2020 23:40:57 +0100
-Message-Id: <20201128224114.1033617-12-sam@ravnborg.org>
+Subject: [PATCH v2 12/28] video: fbdev: tdfx: Fix set but not used warning in
+ att_outb()
+Date: Sat, 28 Nov 2020 23:40:58 +0100
+Message-Id: <20201128224114.1033617-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -97,38 +97,38 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix warning by deleting the variable. The function call
-viafb_get_best_mode() were verified to have no side-effects,
-and thus could be dropped too.
+The tmp variable were assigned but the result was never used,
+so delete the tmp variable.
 
 v2:
   - Update subject (Lee)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Florian Tobias Schandinat <FlorianSchandinat@gmx.de>
-Cc: linux-fbdev@vger.kernel.org
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Jani Nikula <jani.nikula@intel.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Arnd Bergmann <arnd@arndb.de>
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/via/lcd.c | 4 +---
+ drivers/video/fbdev/tdfxfb.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/via/lcd.c b/drivers/video/fbdev/via/lcd.c
-index 4a869402d120..088b962076b5 100644
---- a/drivers/video/fbdev/via/lcd.c
-+++ b/drivers/video/fbdev/via/lcd.c
-@@ -537,11 +537,9 @@ void viafb_lcd_set_mode(const struct fb_var_screeninfo *var, u16 cxres,
- 	u32 clock;
- 	struct via_display_timing timing;
- 	struct fb_var_screeninfo panel_var;
--	const struct fb_videomode *mode_crt_table, *panel_crt_table;
-+	const struct fb_videomode *panel_crt_table;
+diff --git a/drivers/video/fbdev/tdfxfb.c b/drivers/video/fbdev/tdfxfb.c
+index f056d80f6359..67e37a62b07c 100644
+--- a/drivers/video/fbdev/tdfxfb.c
++++ b/drivers/video/fbdev/tdfxfb.c
+@@ -206,9 +206,7 @@ static inline u8 crt_inb(struct tdfx_par *par, u32 idx)
  
- 	DEBUG_MSG(KERN_INFO "viafb_lcd_set_mode!!\n");
--	/* Get mode table */
--	mode_crt_table = viafb_get_best_mode(set_hres, set_vres, 60);
- 	/* Get panel table Pointer */
- 	panel_crt_table = viafb_get_best_mode(panel_hres, panel_vres, 60);
- 	viafb_fill_var_timing_info(&panel_var, panel_crt_table);
+ static inline void att_outb(struct tdfx_par *par, u32 idx, u8 val)
+ {
+-	unsigned char tmp;
+-
+-	tmp = vga_inb(par, IS1_R);
++	vga_inb(par, IS1_R);
+ 	vga_outb(par, ATT_IW, idx);
+ 	vga_outb(par, ATT_IW, val);
+ }
 -- 
 2.27.0
 
