@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3EC2C7652
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81E72C7650
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD1B66ED0F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66D396ED11;
 	Sat, 28 Nov 2020 22:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 085036ECF9
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:42:11 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id l11so12775676lfg.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:42:10 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D147B6ECF9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:42:12 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id f18so10580145ljg.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CjZfskooFlaX/DGp4t6swfhL0OZzCmQsrAHog/enb2E=;
- b=kbvH5lO6M/0b24ppZEXXjkELi137m8NHaDUi5sHcw9rgj9eEAMN+y8qSrVKSah43ZB
- kNzlmzEdaaOYOIiqJKn1QuTx4HECFGiNG5kIYtZVLjmzMMCYE8XksdHL9QrRejfF2L4k
- tc+pZ7F6yRNKZTfx/4k0M/8aHNQca6Le//TxOPNQg21tKPG0fpjao+tSkG0zUUx4C/p4
- Do2QuSanQTDFC5byyaFn272MmfSydSeWIcEeX7J1u6P/GHak3TWpJ9leOcXx3/rkepbU
- 0rENcy6xxB0X63NjVUvqHntifA7cH13M+jadh0Cqw6o1lQjgi4jhld/Dj9XzIOnlgCBa
- Rg6g==
+ bh=ZRt4lLEdkGpEheHIyz2EqOhIIOjIMs1Mga1VdLe78eQ=;
+ b=VoeefBvOMOJ6OPNTHJueecfrE6MmXuxLmNAA7cf5fmmxdPCgKYiwLWmH2i/opDC6sb
+ t2wUpQXZ0vl5Aq+uHV8XCavGj69kuY9c/wcywlu+r13J3tGkHyrSdt5gMtmDv1Or3Ieo
+ yd4NDx9JHaO3gnY3c+ayBjJbt6aOVoHx11VW2VKsVwOOiaPXataGW/2aFjxZPHDZzRnR
+ XWtn5MCmb/sz+kQbC/3AxqOkJtdleD6MXcqtqkossYU0oqoWKpofMfqz2eMEv2PIxj1k
+ Gs2DOrVRDxy78Lc4rwOQt6RY8+A6k13+Er2FE81M5dM0UojhZULp9TpP5VCeNlliMwkz
+ MosQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CjZfskooFlaX/DGp4t6swfhL0OZzCmQsrAHog/enb2E=;
- b=gQ94WkUUphV7JL4+2aL3ItNw97XLyAAXwTA5myOD1A2KIb/Isvj1fftDtbJDQ/rROk
- ecoCirUmyrV4F3IykG/7M03eby0+lzWTycoE6L+SM4meKs6FMpnwAISNShZ53VfN3zBo
- 1QxlWm3LXvC0P04RlaVPwQ3ubO+flxoLBIgGt9B/6BU3QfeyNmUiL2nZ0HvYF2e3Kzl8
- NSjncFJkpLydNr9BVrxjKmgsovhAEBanNNir4DcbuNJwyYH/g8MaLU0t2030usyRg/rX
- MQl7O1gcELui0wa6TWQEGaN3+VLi6SMe8WXD2VSDk25ilOZYRmBhV62I0ZqgYpnZ0ck4
- uF+A==
-X-Gm-Message-State: AOAM530h+qIJTDUvetho2dAFA7VYBv/YLgCmYFDf0Sk6LQQxya3GI05A
- BOFrRagTYOP2ScGwiG4XFdU=
-X-Google-Smtp-Source: ABdhPJw+VsDQ4zX/JWQzp6JQylXffQeZeYKR1WVyqNC7V1IDBPsnpo4ION23xSBTKahJANEMfTaLxA==
-X-Received: by 2002:a05:6512:5d7:: with SMTP id
- o23mr6317203lfo.272.1606603329464; 
- Sat, 28 Nov 2020 14:42:09 -0800 (PST)
+ bh=ZRt4lLEdkGpEheHIyz2EqOhIIOjIMs1Mga1VdLe78eQ=;
+ b=lY0OqGcfrH0GPRWZT9rqYOLlpEq+wybokca/4vjZ13WwddFeReD7lKOloyMVCU8UDo
+ 2gfGjPNjXsDA4v1Sq+kdsHrGh4MVrwIn54VxCei1FaZynTVI0PM5zWKtuY8XkxNY+XF0
+ rqcvySOEvw3YOujQ+bfGAb542fCfT4IbBnMyjJJn5ZrRmvo4OAm7FhjffeFjNNPCtcl5
+ s5LjrbU2cWopeVA5UIpAroGYpTueM61x65EzhD5/lAQjxVpFG+IvCKqDKAFpb47HjLYW
+ 5nL2UMETSBJypEwmlVrmMm+sbRxeHBxjJ5kbtdFRbE/5hBe3Xb68VyNQI0MbX+teOOJN
+ tuuA==
+X-Gm-Message-State: AOAM531rJpyjbIWXNRKwrf170hr82yI0MfOSxNWGU/Tkdh0rEBf4D+qe
+ CrFqy6YNG7dSPCcShm8ea1I=
+X-Google-Smtp-Source: ABdhPJw5sH53JFBNC5Ek0t8nEkH9FBrmhoJ3Sp4EDqPZMMaNkgPKGnG3059fsYGH0P8ePoAWQa4rXg==
+X-Received: by 2002:a2e:2416:: with SMTP id k22mr6507511ljk.201.1606603331314; 
+ Sat, 28 Nov 2020 14:42:11 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.42.07
+ w21sm1236857lff.280.2020.11.28.14.42.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:42:08 -0800 (PST)
+ Sat, 28 Nov 2020 14:42:10 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 25/28] video: fbdev: uvesafb: Fix set but not used warning
-Date: Sat, 28 Nov 2020 23:41:11 +0100
-Message-Id: <20201128224114.1033617-26-sam@ravnborg.org>
+Subject: [PATCH v2 26/28] video: fbdev: uvesafb: Fix string related warnings
+Date: Sat, 28 Nov 2020 23:41:12 +0100
+Message-Id: <20201128224114.1033617-27-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -98,38 +97,42 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 warning by deleting unused local variable.
+Two W=1 string related warnings.
+- Using strncpy to copy string without null-termination generates a
+  warning.  Use memcpy to copy only the relevant chars
 
-v2:
-  - Updated subject (Lee)
+- Fix a potential bug with a very long string, subtract one from the
+  length to make room for the termination null.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Michal Januszewski <spock@gentoo.org>
 Cc: linux-fbdev@vger.kernel.org
-Cc: Lee Jones <lee.jones@linaro.org>
 ---
  drivers/video/fbdev/uvesafb.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesafb.c
-index def14ac0ebe1..8ee0fc9c63cf 100644
+index 8ee0fc9c63cf..45dc8da191e4 100644
 --- a/drivers/video/fbdev/uvesafb.c
 +++ b/drivers/video/fbdev/uvesafb.c
-@@ -554,12 +554,12 @@ static int uvesafb_vbe_getmodes(struct uvesafb_ktask *task,
- static int uvesafb_vbe_getpmi(struct uvesafb_ktask *task,
- 			      struct uvesafb_par *par)
+@@ -423,7 +423,7 @@ static int uvesafb_vbe_getinfo(struct uvesafb_ktask *task,
+ 	task->t.flags = TF_VBEIB;
+ 	task->t.buf_len = sizeof(struct vbe_ib);
+ 	task->buf = &par->vbe_ib;
+-	strncpy(par->vbe_ib.vbe_signature, "VBE2", 4);
++	memcpy(par->vbe_ib.vbe_signature, "VBE2", 4);
+ 
+ 	err = uvesafb_exec(task);
+ 	if (err || (task->t.regs.eax & 0xffff) != 0x004f) {
+@@ -1871,7 +1871,7 @@ static ssize_t v86d_show(struct device_driver *dev, char *buf)
+ static ssize_t v86d_store(struct device_driver *dev, const char *buf,
+ 		size_t count)
  {
--	int i, err;
-+	int i;
- 
- 	uvesafb_reset(task);
- 	task->t.regs.eax = 0x4f0a;
- 	task->t.regs.ebx = 0x0;
--	err = uvesafb_exec(task);
-+	uvesafb_exec(task);
- 
- 	if ((task->t.regs.eax & 0xffff) != 0x4f || task->t.regs.es < 0xc000) {
- 		par->pmi_setpal = par->ypan = 0;
+-	strncpy(v86d_path, buf, PATH_MAX);
++	strncpy(v86d_path, buf, PATH_MAX - 1);
+ 	return count;
+ }
+ static DRIVER_ATTR_RW(v86d);
 -- 
 2.27.0
 
