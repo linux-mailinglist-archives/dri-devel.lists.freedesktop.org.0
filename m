@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED022C763C
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 319062C763D
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 434B86ECF4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFCD6ECF1;
 	Sat, 28 Nov 2020 22:41:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
- [IPv6:2a00:1450:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39D466ECEB
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:52 +0000 (UTC)
-Received: by mail-lj1-x243.google.com with SMTP id z1so10598129ljn.4
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:52 -0800 (PST)
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0524D6ECEB
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:54 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id d20so12699241lfe.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RGE3ZlcEoP1SxPsiy77Qp2XR/URo401XNflyUfm64IE=;
- b=NGdAgss+FahUORm2x4DH9YzsRqcLgj0lXXnanlCNTpQqTfgaHVlZbqLKRsMQzZYxr9
- zoNveiLLa1iWP5JzNJVbw2lOPyrYB0Sr9ombxq1voQHGB0Oo0GL1KsoUzlrx5S5Zj56f
- vBruRLtiEHiE1X6vaJoYrf7Du6qhuS43Nd6BzkBFhTZF4pLxxowsP4uUsT58x6nym+Ky
- AznbSHvNNjj+pDf4WbGInBM6Ze0G+zZbUtGflnyzFIGPHXIiuUqYL8MYj+aFqwOMzb0e
- HT14qrtojp/d8CjY0HP3bmUNZP/E3NNfrZqdf5SXo4FDLbagOAzajk3oioHmWKIFT+FU
- UTXw==
+ bh=4zXtp5JJ5kL9W0YA7a9u1oFQEkf6mUNDsE89w8XSjbA=;
+ b=ceUf4brj/n0hkaGfOYFJBYiH9gMwfM6dVxGXtjLzBxWUBrKdOiBcNBiwjbk6I+CgJ3
+ gI3ZS4XqlBZrmis/msFG4cYvku2FAl7iT+pZd7mTwUN+sAvY3OKBBRI8R9jT3nIJnz7G
+ Y/FXeJA1VgtIpovJ8bC2XO8Vnlg0CPuD4ZM9l35PmOSYNB1bQXK9UEHN4L7N79HhrjOP
+ rIKTYGJ55Bze+4fEzcwZgzXaNWenxz1Ag47/z9ITXQIM1e9Jzek+YaNUqrBh9XmKyPAV
+ QgbY8AzXHQZKAokd0sXKMHIrdzNHIcCwnfAp7pKAiG0Qss+kun1A28cwelQfUQqbkl8O
+ dwSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=RGE3ZlcEoP1SxPsiy77Qp2XR/URo401XNflyUfm64IE=;
- b=X9fz0QZxMLSRJBJWfJygozFEMVMSbVTb8/U67Dps1Y1NIKYXPa/mvJmyi9D18pPbnU
- qOUWAY8Yj1wXVfq64ZXFeynVbCyvKv7GlWuM6UQt7aO2b8DPBltIfX6uQfKzEF+/s657
- gsk+KJqfKRBpmKS+1StIggapFZuzM2BNLYy88mMe2B4Zt6ZMc52Iy3IMMxfh34TYMwnU
- kUroanJDev5PHrTaWUEcfgRJV3cwpcgv7+xHyCUZeSms7KrrGsv1hcY2R+dM7LRWsXJ5
- /xosYThjcRW4hoGoqBQM8fzN7YhUjQ7UvV0cYrgPhZPlXyIkmWuIXiaGeHuRZyKGoUo2
- EuWw==
-X-Gm-Message-State: AOAM532wgtW3BQBbpEQ0Q1ShoYmxWpwZTdt46j2As1ZaKiiM/M24uzIc
- Dsfxq1B3SWvgj3h2ScLGIPY=
-X-Google-Smtp-Source: ABdhPJxpScsB3nbNJ7Ym+OnGnfIL7YQp8eOIXX03B8zty9uORsv85KSdCb7dN3BdLWsJa159Bj2Bxg==
-X-Received: by 2002:a2e:99c8:: with SMTP id l8mr6101773ljj.469.1606603310634; 
- Sat, 28 Nov 2020 14:41:50 -0800 (PST)
+ bh=4zXtp5JJ5kL9W0YA7a9u1oFQEkf6mUNDsE89w8XSjbA=;
+ b=bNEdwJ0MT6n1zfhVTgjOEmPUeM103HgdrhhUh461HxltKG6yr+1swygQ0YewCXXSn8
+ GzhydzgOAt7hNrBjfgufoyCq33K1yzQeiPVwXTVXZWtOAj9CdQUJlzgNiR4ee4d8KOwN
+ eg6BLC+WCTnjXbllhwkssgB6N+bv8ay+m7Yv0rXtxYgTEa1p5H7KDv4iCFeNyqCSRfMa
+ aw9RpsWsWatu3RSjvZ+vRIE6Grwda8roO3lQ6Lt9K8tO39nwKWfvCyOIoj2S2FMZpHf9
+ wKvVM64VpzaFv45maf8FOJnDUsWaJF/M+ZdCzaB5AdqHlkVrx9Gjhk3NVPV5J9BE5PJ6
+ aSPg==
+X-Gm-Message-State: AOAM532bTwTOXYjhDZdiSWx2f92DVXa1Drj1LRdNLQ15EG+rC2l+3F0y
+ 0yBKHfrF8fOH7kdW7ATdoMk=
+X-Google-Smtp-Source: ABdhPJxss28jpDvSr/X/2726RDiBKWZyfMpYr3Grt4ZkKPwJPMW1Lii9D2KCP4lz4rLxgbgJM2IM8g==
+X-Received: by 2002:a19:8001:: with SMTP id b1mr6321877lfd.353.1606603312476; 
+ Sat, 28 Nov 2020 14:41:52 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.41.48
+ w21sm1236857lff.280.2020.11.28.14.41.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:41:50 -0800 (PST)
+ Sat, 28 Nov 2020 14:41:52 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 15/28] video: fbdev: neofb: Fix set but not used warning
- for CursorMem
-Date: Sat, 28 Nov 2020 23:41:01 +0100
-Message-Id: <20201128224114.1033617-16-sam@ravnborg.org>
+Subject: [PATCH v2 16/28] video: fbdev: hgafb: Fix kernel-doc warnings
+Date: Sat, 28 Nov 2020 23:41:02 +0100
+Message-Id: <20201128224114.1033617-17-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -72,6 +71,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-nvidia@lists.surfsouth.com, Ferenc Bakonyi <fero@drama.obuda.kando.hu>,
  Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
  Evgeny Novikov <novikov@ispras.ru>, Sam Ravnborg <sam@ravnborg.org>,
@@ -90,62 +90,48 @@ Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  George Kennedy <george.kennedy@oracle.com>,
  Kristoffer Ericson <kristoffer.ericson@gmail.com>,
  Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Andrew Morton <akpm@linux-foundation.org>,
- Peilin Ye <yepeilin.cs@gmail.com>, Mike Rapoport <rppt@kernel.org>
+ Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 warnings by removing unused code
+Fix kernel-doc comments.
 
 v2:
   - Updated subject (Lee)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Evgeny Novikov <novikov@ispras.ru>
-Cc: Jani Nikula <jani.nikula@intel.com>
-Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Ferenc Bakonyi <fero@drama.obuda.kando.hu>
+Cc: linux-nvidia@lists.surfsouth.com
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/neofb.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/video/fbdev/hgafb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/neofb.c b/drivers/video/fbdev/neofb.c
-index 09a20d4ab35f..c0f4f402da3f 100644
---- a/drivers/video/fbdev/neofb.c
-+++ b/drivers/video/fbdev/neofb.c
-@@ -1843,7 +1843,6 @@ static int neo_init_hw(struct fb_info *info)
- 	struct neofb_par *par = info->par;
- 	int videoRam = 896;
- 	int maxClock = 65000;
--	int CursorMem = 1024;
- 	int CursorOff = 0x100;
+diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+index a45fcff1461f..69af72937844 100644
+--- a/drivers/video/fbdev/hgafb.c
++++ b/drivers/video/fbdev/hgafb.c
+@@ -358,7 +358,7 @@ static int hga_card_detect(void)
+ /**
+  *	hgafb_open - open the framebuffer device
+  *	@info:pointer to fb_info object containing info for current hga board
+- *	@int:open by console system or userland.
++ *	@init:open by console system or userland.
+  */
  
- 	DBG("neo_init_hw");
-@@ -1895,19 +1894,16 @@ static int neo_init_hw(struct fb_info *info)
- 	case FB_ACCEL_NEOMAGIC_NM2070:
- 	case FB_ACCEL_NEOMAGIC_NM2090:
- 	case FB_ACCEL_NEOMAGIC_NM2093:
--		CursorMem = 2048;
- 		CursorOff = 0x100;
- 		break;
- 	case FB_ACCEL_NEOMAGIC_NM2097:
- 	case FB_ACCEL_NEOMAGIC_NM2160:
--		CursorMem = 1024;
- 		CursorOff = 0x100;
- 		break;
- 	case FB_ACCEL_NEOMAGIC_NM2200:
- 	case FB_ACCEL_NEOMAGIC_NM2230:
- 	case FB_ACCEL_NEOMAGIC_NM2360:
- 	case FB_ACCEL_NEOMAGIC_NM2380:
--		CursorMem = 1024;
- 		CursorOff = 0x1000;
+ static int hgafb_open(struct fb_info *info, int init)
+@@ -372,7 +372,7 @@ static int hgafb_open(struct fb_info *info, int init)
+ /**
+  *	hgafb_open - open the framebuffer device
+  *	@info:pointer to fb_info object containing info for current hga board
+- *	@int:open by console system or userland.
++ *	@init:open by console system or userland.
+  */
  
- 		par->neo2200 = (Neo2200 __iomem *) par->mmio_vbase;
+ static int hgafb_release(struct fb_info *info, int init)
 -- 
 2.27.0
 
