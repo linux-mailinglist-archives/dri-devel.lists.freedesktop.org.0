@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1111D2C763A
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:41:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623CA2C764F
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Nov 2020 23:42:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765C36E0DC;
-	Sat, 28 Nov 2020 22:41:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEE156ED0D;
+	Sat, 28 Nov 2020 22:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEE466E0D9
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:35 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id a9so12760218lfh.2
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:35 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9506E0D9
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 22:41:37 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id o24so10577677ljj.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Nov 2020 14:41:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FQt8Zy/RcRTV8RI+7xEG7mp4eH+bacz1GI81AvTRW6U=;
- b=nBaZDIVAfz80bCWu0yx2DfH3RI13Bv/U6WR5FSXtmNgxDUZXMLAKS8UEUBUWMDvuhH
- iSuHokAerrLo55ZyCEFz3mrNq97Efiej0UmE67ApNz9XOJhfmNvYS2iYP83fqoBPLROX
- BbHu6iprRb37DY6gDWPwEWKmzHulr1TV1D0BYXqNKnDt8u3DJFz/TytLcCZaol9EHDKK
- G3FYHO04RHFffxaqvqP24nuo6UMz2pKoXf5cvdLdbFdFRJLTFa92Yq2jg4aCfbX6v+YK
- /Mt7VGyqhY/26NVWBp0nAtKCVQ3YWvgLxqtlRAYSoa//bjwPkRu4sRtQb74AEgtPmqIl
- gJew==
+ bh=vo4cr0mfLt51Py8FoFo5ySrp+3Uu+WbwThawmdg5uCQ=;
+ b=rr082/bfmcgQVh1oGNkvsycPHb7jgLYqu/HTlitaos9mo8dFk+MxNnQcAMKYhTOz1G
+ nj1LrdF1YUNQ9IAMe2k6I+uAp+9pySXOyogw/6aYwtvF0oj11SXGTjG+hDZOVwfUW4Vh
+ 9LbkkP5yNUVSUdx21hrIgKOLXf+4I11SveX5JuUtwoT3jlqF5CiaXb9QZLtnQY8nZoW7
+ qS7J1V4thgMvocrZcf/rGKX4zsMr7A3kx9KfFseFz/dT2giLnxQUxWawESs4WL+NuwP/
+ 6XE0j4Lm9xbpiCeaHhQgEO9SE8T9yzD83V6/YvBVED/MIr9LPm4A7pawwrUFNAhv83yN
+ 3ang==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FQt8Zy/RcRTV8RI+7xEG7mp4eH+bacz1GI81AvTRW6U=;
- b=hQRUNgW3G63SJHXS/QQ7x1eIEgn8P998A11ijcO4bbKyPP6NMOa9dWxHo2R30L4IKa
- pPU15gVicIoS3OO9Op8glZsjjHzR37mQ2KR7wVoqjJfgx7T2xVwsF1TSoYuceUcNykWz
- u2C3uwYFZExyt4wseZmiGfgJug/C895d3AHnJYabTedDBhZhi0tGGXeNwZ2L47zjM5Ix
- Hi7AV81gM6Npn46oX8Dd0eYoxbExb6CLiojQ0BrL0KiHQS3GWf/ls12wG+6aGyHH/hEl
- Xeib8gVKy232mMaVvTZ70fLhA4UlWPypyLGnrRBURPWdJZ3PFPczUkxbXjG2pS7uRvE5
- nSTQ==
-X-Gm-Message-State: AOAM531BwVE7doONthXXfvmbDkd5wiPW0alhEyK3YfY/R8UVF6jkMaLg
- mezLoJ6kcEm4zH3selTGBGc=
-X-Google-Smtp-Source: ABdhPJzlQNjBNn705RJBUCQ/M55lwEEf/6mv51LCAvjVISvV38KZWfSsU8ScP0w3xaBDZ7N217vjFA==
-X-Received: by 2002:ac2:5b88:: with SMTP id o8mr6729659lfn.265.1606603294085; 
- Sat, 28 Nov 2020 14:41:34 -0800 (PST)
+ bh=vo4cr0mfLt51Py8FoFo5ySrp+3Uu+WbwThawmdg5uCQ=;
+ b=ZvWeMhCGCZi8WNdzNbmsHx3DDgZe+QBZHAuR1J5YYzO85b3kd03Dj8SAgiYLkvKHba
+ k2GupkBgsfBdeD3Knk80MoubRe7Evu5uFjCIznyu4lCVCG7HKt21Dn4v3RppfXP2ki79
+ GtQb2Jh3s0k7XVlFzIAWsYh1DXKOuvHpxi28bdkI5AmsE4EsObQbwG/TKVobVZ9GCGr2
+ Fg3pjEF0lBhrf5CH7J8T/6+7dBy5GqNURVe9uHAmDRtTMJ/Mvq9OQxJPJu6TBfCcpLMq
+ WGhB5yCD7MS8XbAIJb5RojHlRVomyRTFm44j6mst8M2I6A3RkqayNd+byGZLBcpy8QHM
+ ryHQ==
+X-Gm-Message-State: AOAM532fdrdh5dIuwpIlqoA5yRtagKQmfE5ujoA01lgHA4Sn3zn4hm5k
+ NnL+NyCt4oYc9FxkOpChPIJWPYON6zbaxw==
+X-Google-Smtp-Source: ABdhPJztBDdAKHiSNBdw1ZXYn1VBf8Peg+KZ0RY/iaTzhAAH+LYmPfiKXZsj0Hc9jhgaMObrsDNovA==
+X-Received: by 2002:a2e:580d:: with SMTP id m13mr6673046ljb.141.1606603295928; 
+ Sat, 28 Nov 2020 14:41:35 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:a4c7:9ff9:a160:aad0])
  by smtp.gmail.com with ESMTPSA id
- w21sm1236857lff.280.2020.11.28.14.41.32
+ w21sm1236857lff.280.2020.11.28.14.41.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Nov 2020 14:41:33 -0800 (PST)
+ Sat, 28 Nov 2020 14:41:35 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 06/28] video: fbdev: aty: Fix set but not used warnings in
- mach64_ct
-Date: Sat, 28 Nov 2020 23:40:52 +0100
-Message-Id: <20201128224114.1033617-7-sam@ravnborg.org>
+Subject: [PATCH v2 07/28] video: fbdev: sis: Fix defined but not used warnings
+Date: Sat, 28 Nov 2020 23:40:53 +0100
+Message-Id: <20201128224114.1033617-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128224114.1033617-1-sam@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
@@ -97,64 +96,32 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix W=1 warnings about variables assigned but never used.
-- One variable is only used when CONFIG_FB_ATY_GENERIC_LCD is defined
-  Fix so variable is only defined with CONFIG_FB_ATY_GENERIC_LCD
-- Several variables was only assigned by a call to aty_ld_le32().
-  Drop the variables but keep the call to aty_ld_le32() as it may
-  have unexpected side-effects.
+init.h define static symbols, so should only be included
+once. Drop the include from sis.h as it is not needed.
+This fixes a lot of warnings seen with a W=1 build.
 
 v2:
-  - Updated subject (Lee)
+  - Update subject (Lee)
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Winischhofer <thomas@winischhofer.net>
 Cc: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/video/fbdev/aty/mach64_ct.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/sis/sis.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/aty/mach64_ct.c b/drivers/video/fbdev/aty/mach64_ct.c
-index f87cc81f4fa2..011b07e44e0d 100644
---- a/drivers/video/fbdev/aty/mach64_ct.c
-+++ b/drivers/video/fbdev/aty/mach64_ct.c
-@@ -281,10 +281,13 @@ static u32 aty_pll_to_var_ct(const struct fb_info *info, const union aty_pll *pl
- void aty_set_pll_ct(const struct fb_info *info, const union aty_pll *pll)
- {
- 	struct atyfb_par *par = (struct atyfb_par *) info->par;
--	u32 crtc_gen_cntl, lcd_gen_cntrl;
-+	u32 crtc_gen_cntl;
- 	u8 tmp, tmp2;
+diff --git a/drivers/video/fbdev/sis/sis.h b/drivers/video/fbdev/sis/sis.h
+index 9f4c3093ccb3..d632f096083b 100644
+--- a/drivers/video/fbdev/sis/sis.h
++++ b/drivers/video/fbdev/sis/sis.h
+@@ -15,7 +15,6 @@
  
--	lcd_gen_cntrl = 0;
-+#ifdef CONFIG_FB_ATY_GENERIC_LCD
-+	u32 lcd_gen_cntrl = 0;
-+#endif
-+
- #ifdef DEBUG
- 	printk("atyfb(%s): about to program:\n"
- 		"pll_ext_cntl=0x%02x pll_gen_cntl=0x%02x pll_vclk_cntl=0x%02x\n",
-@@ -402,7 +405,7 @@ static int aty_init_pll_ct(const struct fb_info *info, union aty_pll *pll)
- 	struct atyfb_par *par = (struct atyfb_par *) info->par;
- 	u8 mpost_div, xpost_div, sclk_post_div_real;
- 	u32 q, memcntl, trp;
--	u32 dsp_config, dsp_on_off, vga_dsp_config, vga_dsp_on_off;
-+	u32 dsp_config;
- #ifdef DEBUG
- 	int pllmclk, pllsclk;
- #endif
-@@ -488,9 +491,9 @@ static int aty_init_pll_ct(const struct fb_info *info, union aty_pll *pll)
+ #include "vgatypes.h"
+ #include "vstruct.h"
+-#include "init.h"
  
- 	/* Allow BIOS to override */
- 	dsp_config = aty_ld_le32(DSP_CONFIG, par);
--	dsp_on_off = aty_ld_le32(DSP_ON_OFF, par);
--	vga_dsp_config = aty_ld_le32(VGA_DSP_CONFIG, par);
--	vga_dsp_on_off = aty_ld_le32(VGA_DSP_ON_OFF, par);
-+	aty_ld_le32(DSP_ON_OFF, par);
-+	aty_ld_le32(VGA_DSP_CONFIG, par);
-+	aty_ld_le32(VGA_DSP_ON_OFF, par);
- 
- 	if (dsp_config)
- 		pll->ct.dsp_loop_latency = (dsp_config & DSP_LOOP_LATENCY) >> 16;
+ #define VER_MAJOR		1
+ #define VER_MINOR		8
 -- 
 2.27.0
 
