@@ -1,48 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB7F2C7C42
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:04:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A162C7C35
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 02:03:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35E856E40B;
-	Mon, 30 Nov 2020 01:03:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 708526E3F2;
+	Mon, 30 Nov 2020 01:03:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2649 seconds by postgrey-1.36 at gabe;
- Sun, 29 Nov 2020 11:13:35 UTC
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B2F76E1A2
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 11:13:34 +0000 (UTC)
-Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 0ATAS9m8054657;
- Sun, 29 Nov 2020 19:28:10 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
- Sun, 29 Nov 2020 19:28:09 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
- (authenticated bits=0)
- by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 0ATAS9Ol054651
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Sun, 29 Nov 2020 19:28:09 +0900 (JST)
- (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH v2 02/28] video: fbcon: Fix warnings by using pr_debug()
- in fbcon
-To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>, 
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lee Jones <lee.jones@linaro.org>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-3-sam@ravnborg.org>
- <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <fe2a56cd-10bd-962c-4f65-96c23a78cdd7@i-love.sakura.ne.jp>
-Date: Sun, 29 Nov 2020 19:28:08 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+X-Greylist: delayed 1021 seconds by postgrey-1.36 at gabe;
+ Sun, 29 Nov 2020 15:23:38 UTC
+Received: from bitmer.com (49-237-179-185.static.tentacle.fi [185.179.237.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3DD6E1EC
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 15:23:38 +0000 (UTC)
+Received: from 88-114-184-87.elisa-laajakaista.fi ([88.114.184.87]
+ helo=[192.168.1.42])
+ by bitmer.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <jarkko.nikula@bitmer.com>)
+ id 1kjOHN-00068k-2t; Sun, 29 Nov 2020 17:06:21 +0200
+Subject: Re: [PATCH] drm/panel: sony-acx565akm: Fix race condition in probe
+To: Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+References: <20201127200429.129868-1-sebastian.reichel@collabora.com>
+ <20201128174647.GE551434@darkstar.musicnaut.iki.fi>
+From: Jarkko Nikula <jarkko.nikula@bitmer.com>
+Message-ID: <9a143b07-2449-134b-3915-622b8c8a10c5@bitmer.com>
+Date: Sun, 29 Nov 2020 17:06:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
+In-Reply-To: <20201128174647.GE551434@darkstar.musicnaut.iki.fi>
 Content-Language: en-US
 X-Mailman-Approved-At: Mon, 30 Nov 2020 01:02:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -57,42 +45,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+Cc: kernel@collabora.com, Tony Lindgren <tony@atomide.com>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, Merlijn Wajer <merlijn@wizzup.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMjAyMC8xMS8yOSAxOTowMywgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gQW0gMjguMTEu
-MjAgdW0gMjM6NDAgc2NocmllYiBTYW0gUmF2bmJvcmc6Cj4+IFJlcGxhY2luZyBEUFJJTlRLKCkg
-c3RhdGVtZW50cyB3aXRoIHByX2RlYnVnIGZpeGVzIHNldCBidXQgbm90IHVzZWQKPj4gd2Fybmlu
-Z3MuwqAgQW5kIG1vdmVzIHRvIGEgbW9yZSBzdGFuZGFyZCBsb2dnaW5nIHNldHVwIGF0IHRoZSBz
-YW1lIHRpbWUuCj4gCj4gSSBndWVzcyB0aGlzIHdhcyBhZGRlZCBmb3IgcXVpY2sgZGVidWdnaW5n
-IGR1cmluZyBkZXZlbG9wbWVudC4gQW55d2F5LCBJIG5ldmVyIGxpa2VkIHRoZXNlIGtpbmRzIG9m
-IGhhY2tzLgo+IAo+IEFja2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
-ZS5kZT4KPiAKCkJ1dCByZXBsYWNpbmcgcHJpbnRrKEtFUk5fREVCVUcpIHdpdGggcHJfZGVidWco
-KSBwcmV2ZW50cyBfX2Z1bmNfXyBmcm9tIGJlaW5nIHByaW50ZWQKd2hlbiBGQkNPTkRFQlVHIGlz
-IGRlZmluZWQuIElzIHN1Y2ggY2hhbmdlIHdoYXQgdGhlIGF1dGhvciBvZiB0aGlzIG1vZHVsZSBl
-eHBlY3RzPwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 11/28/20 7:46 PM, Aaro Koskinen wrote:
+> Hi,
+> 
+> On Fri, Nov 27, 2020 at 09:04:29PM +0100, Sebastian Reichel wrote:
+>> The probe routine acquires the reset GPIO using GPIOD_OUT_LOW. Directly
+>> afterwards it calls acx565akm_detect(), which sets the GPIO value to
+>> HIGH. If the bootloader initialized the GPIO to HIGH before the probe
+>> routine was called, there is only a very short time period of a few
+>> instructions where the reset signal is LOW. Exact time depends on
+>> compiler optimizations, kernel configuration and alignment of the stars,
+>> but I expect it to be always way less than 10us. There are no public
+>> datasheets for the panel, but acx565akm_power_on() has a comment with
+>> timings and reset period should be at least 10us. So this potentially
+>> brings the panel into a half-reset state.
+>>
+>> The result is, that panel may not work after boot and can get into a
+>> working state by re-enabling it (e.g. by blanking + unblanking), since
+>> that does a clean reset cycle. This bug has recently been hit by Ivaylo
+>> Dimitrov, but there are some older reports which are probably the same
+>> bug. At least Tony Lindgren, Peter Ujfalusi and Jarkko Nikula have
+>> experienced it in 2017 describing the blank/unblank procedure as
+>> possible workaround.
+>>
+>> Note, that the bug really goes back in time. It has originally been
+>> introduced in the predecessor of the omapfb driver in 3c45d05be382
+>> ("OMAPDSS: acx565akm panel: handle gpios in panel driver") in 2012.
+>> That driver eventually got replaced by a newer one, which had the bug
+>> from the beginning in 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel
+>> driver") and still exists in fbdev world. That driver has later been
+>> copied to omapdrm and then was used as a basis for this driver. Last
+>> but not least the omapdrm specific driver has been removed in
+>> 45f16c82db7e ("drm/omap: displays: Remove unused panel drivers").
+>>
+>> Reported-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+>> Reported-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+>> Reported-by: Tony Lindgren <tony@atomide.com>
+>> Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+>> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+>> Cc: Merlijn Wajer <merlijn@wizzup.org>
+>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> Fixes: 1c8fc3f0c5d2 ("drm/panel: Add driver for the Sony ACX565AKM panel")
+>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> Tested-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+> 
+I had difficulties with recent kernels. Yesterday's vanilla head
+c84e1efae022 and linux-next next-20201127 didn't boot, v5.9.11 had some
+other DRM issues. I went back to v5.4.80 which didn't show this panel
+issue and was actually working fine. Strange since obviously issue exist
+before.
+
+But v5.6.19 was testable, had the issue and this patch fixed it, so
+
+Tested-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
