@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930422C7AE1
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 20:13:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC2F2C7AE2
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 20:14:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B46EB6E23B;
-	Sun, 29 Nov 2020 19:13:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB56B6E237;
+	Sun, 29 Nov 2020 19:14:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BDA56E23D
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 19:13:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 069D56E241
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 19:14:06 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210415] [amdgpu] constant GPU hangs followed by kernel "BUG"
  and following kernel oops
-Date: Sun, 29 Nov 2020 19:13:43 +0000
+Date: Sun, 29 Nov 2020 19:14:05 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210415-2300-u5g4PAYDpA@https.bugzilla.kernel.org/>
+Message-ID: <bug-210415-2300-o2gM627oMN@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210415-2300@https.bugzilla.kernel.org/>
 References: <bug-210415-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210415
 
---- Comment #2 from David Rubio (david.alejandro.rubio@gmail.com) ---
-Created attachment 293865
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293865&action=edit
-lspci -vvv output
+--- Comment #3 from David Rubio (david.alejandro.rubio@gmail.com) ---
+Created attachment 293867
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293867&action=edit
+lscpu output
 
 -- 
 You are receiving this mail because:
