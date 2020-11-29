@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 671962C7A45
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 18:33:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF802C7A76
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 19:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D63026E21D;
-	Sun, 29 Nov 2020 17:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E844E6E221;
+	Sun, 29 Nov 2020 18:10:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A79A6E21D
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 17:33:24 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1kjQYS-0006zE-4U; Sun, 29 Nov 2020 18:32:08 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ukl@pengutronix.de>)
- id 1kjQYH-0003Mg-0E; Sun, 29 Nov 2020 18:31:57 +0100
-Date: Sun, 29 Nov 2020 18:31:53 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Takashi Iwai <tiwai@suse.de>, Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH 2/2] powerpc/ps3: make system bus's remove and shutdown
- callbacks return void
-Message-ID: <20201129173153.jbt3epcxnasbemir@pengutronix.de>
-References: <20201126165950.2554997-1-u.kleine-koenig@pengutronix.de>
- <20201126165950.2554997-2-u.kleine-koenig@pengutronix.de>
- <s5hv9dphnoh.wl-tiwai@suse.de>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08C896E221;
+ Sun, 29 Nov 2020 18:10:48 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id o4so6299525pgj.0;
+ Sun, 29 Nov 2020 10:10:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EVR6Dei8Bnt3OCxC95LBwIuM/4G2sFcsm8vaAAg9zHw=;
+ b=pLbgtMYF6C4LhXbvtthI4VE4GeH7PSNJTDAReVjFExXzpHh9hosl9/odkNkV8cZcrw
+ h6VVppYcTosIljKdoD3kiKU0YX/qPgzuZfq7ZcDsj8bs7QE1RJngAiyvogjZ3sr7y0yL
+ xgWvv+MEQ/6UQGIrPoFDhBrqwtuGIJ1eAMWkrDMWc61qzy1vuYYyYU5tHe04T3jjSwER
+ kCBH5Ygx0/uKXWSKacL1u32RRU/DL4njb62ZAE7h5iX9tSeCjugKGn0/fsV4B1G89s+a
+ KMd0FnmXwMDszqCCl8iGZXB47Z6SQ6q9unAnX2/vRMolOwnjTD1W8BtTMxwimExAdjIe
+ LawQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EVR6Dei8Bnt3OCxC95LBwIuM/4G2sFcsm8vaAAg9zHw=;
+ b=lrNmzYKEhVipFD//xuzLOS/BlUT2WpvpUGJemUMY6UJMUg5PKXm+lo1g+npDdE9gVI
+ geStOKZ6WN9CEPuD6Df67LbUrFO//fJI7Byb9Ho0yX6Q5fy2KiVxtItULnYd3TuPbOmP
+ 185xAXcI4atd6Y32YNPVoCiSDBi3Hw6Mt9I0BD8y/fxNKGKOlMm9JETKFq0U8MvmnPL4
+ c7PqVq94FiFVZoq89aVU29WKYZE4n+4z9Hkvsy3fdDNYWVOp5y9LKOrE4o/SdbSK/iK8
+ 788N6zpCyyuDBPJ1sJgwuN2lPFmVWv6DteTCa0gIEpzZFf9j3YgEhtjX/4tVtZCKTDuw
+ MKdg==
+X-Gm-Message-State: AOAM5320laBkFsMEdpWiJC0ZDk0poDStgddYheblNikinVKmk1kEbV3o
+ 2mGqPs36Sq7fyXPhGIxlx2AlWMOAuWM=
+X-Google-Smtp-Source: ABdhPJzn7CuP2SUe4fgH+BNUk3eUTnzgiUKfmd5REq9zmWNXr/V2XilbUSU9UY5tJ6B4x0F0B4Y7rg==
+X-Received: by 2002:a17:90a:5905:: with SMTP id
+ k5mr21915670pji.198.1606673446893; 
+ Sun, 29 Nov 2020 10:10:46 -0800 (PST)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ bf3sm5142567pjb.45.2020.11.29.10.10.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Nov 2020 10:10:45 -0800 (PST)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] msm/mdp5: Fix some kernel-doc warnings
+Date: Sun, 29 Nov 2020 10:12:40 -0800
+Message-Id: <20201129181243.1091742-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <s5hv9dphnoh.wl-tiwai@suse.de>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,96 +66,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
- Paul Mackerras <paulus@samba.org>, linux-scsi@vger.kernel.org,
- Alan Stern <stern@rowland.harvard.edu>, Jakub Kicinski <kuba@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, linux-block@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Geoff Levand <geoff@infradead.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, Jim Paris <jim@jtan.com>,
- netdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: multipart/mixed; boundary="===============0398229901=="
+Cc: Rob Clark <robdclark@chromium.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, David Airlie <airlied@linux.ie>,
+ Lee Jones <lee.jones@linaro.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Rob Clark <robdclark@chromium.org>
 
---===============0398229901==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q5fwi2prasbljs5f"
-Content-Disposition: inline
+Fixes the following W=1 kernel build warning(s):
 
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'ctl' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'pipeline' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Function parameter or member 'enabled' not described in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:227: warning: Excess function parameter 'enable' description in 'mdp5_ctl_set_encoder_state'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'ctl' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'pipeline' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'flush_mask' not described in 'mdp5_ctl_commit'
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c:529: warning: Function parameter or member 'start' not described in 'mdp5_ctl_commit'
 
---q5fwi2prasbljs5f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Cc: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Hello Michael,
-
-On Sat, Nov 28, 2020 at 09:48:30AM +0100, Takashi Iwai wrote:
-> On Thu, 26 Nov 2020 17:59:50 +0100,
-> Uwe Kleine-K=F6nig wrote:
-> >=20
-> > The driver core ignores the return value of struct device_driver::remove
-> > because there is only little that can be done. For the shutdown callback
-> > it's ps3_system_bus_shutdown() which ignores the return value.
-> >=20
-> > To simplify the quest to make struct device_driver::remove return void,
-> > let struct ps3_system_bus_driver::remove return void, too. All users
-> > already unconditionally return 0, this commit makes it obvious that
-> > returning an error code is a bad idea and ensures future users behave
-> > accordingly.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> For the sound bit:
-> Acked-by: Takashi Iwai <tiwai@suse.de>
-
-assuming that you are the one who will apply this patch: Note that it
-depends on patch 1 that Takashi already applied to his tree. So you
-either have to wait untils patch 1 appears in some tree that you merge
-before applying, or you have to take patch 1, too. (With Takashi
-optinally dropping it then.)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---q5fwi2prasbljs5f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/D2wYACgkQwfwUeK3K
-7AmmxQf+IiMtqhw/kONuYhwVAdprYhlgZyY9iZSe5xHA/6/1zNmBbfhPRm6PfStb
-RRMTewx97J4joVbCv7OhlZBsoA7lnpUKJD05Qt7eXIEMdnuscbTx8YZr/z94s9/Y
-/ElFT8e2Wx6crnEbjWeFcYVTLkGgf1pnUhpFmTq4LwQqqV5lQWUu6JMnS8THMhay
-RCwTJR+P84Nw4wv39uvWN4LFmuDeM5hjnPjoEFBbnAeUtQr62AAh7itX8pTNEyZp
-t6M09QdoxpJWDPe/vRxYZSZdsuE+vXsCuMWH5Kyo0hodOX9m6JpOhsPm/YiaCK5B
-IW1LSeEeHe9uPQSACw7mkNft9x6Zfg==
-=TO3P
------END PGP SIGNATURE-----
-
---q5fwi2prasbljs5f--
-
---===============0398229901==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+index 030279d7b64b..81b0c7cf954e 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c
+@@ -216,7 +216,9 @@ static void send_start_signal(struct mdp5_ctl *ctl)
+ /**
+  * mdp5_ctl_set_encoder_state() - set the encoder state
+  *
+- * @enable: true, when encoder is ready for data streaming; false, otherwise.
++ * @ctl:      the CTL instance
++ * @pipeline: the encoder's INTF + MIXER configuration
++ * @enabled:  true, when encoder is ready for data streaming; false, otherwise.
+  *
+  * Note:
+  * This encoder state is needed to trigger START signal (data path kickoff).
+@@ -510,6 +512,13 @@ static void fix_for_single_flush(struct mdp5_ctl *ctl, u32 *flush_mask,
+ /**
+  * mdp5_ctl_commit() - Register Flush
+  *
++ * @ctl:        the CTL instance
++ * @pipeline:   the encoder's INTF + MIXER configuration
++ * @flush_mask: bitmask of display controller hw blocks to flush
++ * @start:      if true, immediately update flush registers and set START
++ *              bit, otherwise accumulate flush_mask bits until we are
++ *              ready to START
++ *
+  * The flush register is used to indicate several registers are all
+  * programmed, and are safe to update to the back copy of the double
+  * buffered registers.
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0398229901==--
