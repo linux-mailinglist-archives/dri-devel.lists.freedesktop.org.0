@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1A42C788D
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 10:59:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3392C7890
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 11:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA6BE6E182;
-	Sun, 29 Nov 2020 09:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8EAB6E183;
+	Sun, 29 Nov 2020 10:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2FE589807
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 09:59:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDAB16E183
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 10:01:18 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 99878AC55;
- Sun, 29 Nov 2020 09:59:27 +0000 (UTC)
-Subject: Re: [PATCH v2 28/28] video: fbdev: s1d13xxxfb: Fix kernel-doc and set
- but not used warnings
+ by mx2.suse.de (Postfix) with ESMTP id 58566AC6A;
+ Sun, 29 Nov 2020 10:01:17 +0000 (UTC)
+Subject: Re: [PATCH v2 01/28] video: Fix kernel-doc warnings in
+ of_display_timing + of_videomode
 To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-29-sam@ravnborg.org>
+ <20201128224114.1033617-2-sam@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <18caca15-a6e7-cb4b-3028-c010922bda80@suse.de>
-Date: Sun, 29 Nov 2020 10:59:22 +0100
+Message-ID: <ca28a1e4-3e73-fdfc-e288-eaac4b228610@suse.de>
+Date: Sun, 29 Nov 2020 11:01:13 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201128224114.1033617-29-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-2-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,19 +63,19 @@ Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
  Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
  Mike Rapoport <rppt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============2063560397=="
+Content-Type: multipart/mixed; boundary="===============0342163753=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2063560397==
+--===============0342163753==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1aenue9Ch7R7POAKtsLeZ3WSZkYx4AW4x"
+ boundary="1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1aenue9Ch7R7POAKtsLeZ3WSZkYx4AW4x
-Content-Type: multipart/mixed; boundary="3rwwiIZG2PfCZYAyWfeCUtOOaevZuulxH";
+--1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8
+Content-Type: multipart/mixed; boundary="jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
@@ -103,72 +103,77 @@ Cc: Aditya Pakki <pakki001@umn.edu>,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Thomas Winischhofer <thomas@winischhofer.net>,
  Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Message-ID: <18caca15-a6e7-cb4b-3028-c010922bda80@suse.de>
-Subject: Re: [PATCH v2 28/28] video: fbdev: s1d13xxxfb: Fix kernel-doc and set
- but not used warnings
+Message-ID: <ca28a1e4-3e73-fdfc-e288-eaac4b228610@suse.de>
+Subject: Re: [PATCH v2 01/28] video: Fix kernel-doc warnings in
+ of_display_timing + of_videomode
 References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-29-sam@ravnborg.org>
-In-Reply-To: <20201128224114.1033617-29-sam@ravnborg.org>
+ <20201128224114.1033617-2-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-2-sam@ravnborg.org>
 
---3rwwiIZG2PfCZYAyWfeCUtOOaevZuulxH
+--jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
-> Fix following W=3D1 warnings:
-> - Fix set but not nused variables which was used only for logging.
-
-s/nused/used
-
-s/which was/that were
-
-Otherwise
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
->    Fixed by introducing no_printk() to trick compiler to think variable=
-s
->    are used
-> - Fix kernel-doc warning by deleting an empty comment line
+Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
+> Fix kernel-doc warnings reported when using W=3D1.
 >=20
 > v2:
->    - Subject updated (Lee)
+>    - Improve subject (Lee)
 >=20
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Kristoffer Ericson <kristoffer.ericson@gmail.com>
 > Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: linux-fbdev@vger.kernel.org
 > ---
->   drivers/video/fbdev/s1d13xxxfb.c | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+>   drivers/video/of_display_timing.c | 1 +
+>   drivers/video/of_videomode.c      | 8 ++++----
+>   2 files changed, 5 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/drivers/video/fbdev/s1d13xxxfb.c b/drivers/video/fbdev/s1d=
-13xxxfb.c
-> index 4541afcf9386..d1b5f965bc96 100644
-> --- a/drivers/video/fbdev/s1d13xxxfb.c
-> +++ b/drivers/video/fbdev/s1d13xxxfb.c
-> @@ -45,7 +45,7 @@
->   #if 0
->   #define dbg(fmt, args...) do { printk(KERN_INFO fmt, ## args); } whil=
-e(0)
->   #else
-> -#define dbg(fmt, args...) do { } while (0)
-> +#define dbg(fmt, args...) do { no_printk(KERN_INFO fmt, ## args); } wh=
-ile (0)
->   #endif
->  =20
->   /*
-> @@ -512,7 +512,6 @@ s1d13xxxfb_bitblt_copyarea(struct fb_info *info, co=
-nst struct fb_copyarea *area)
->   }
+> diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_displ=
+ay_timing.c
+> index abc9ada798ee..f93b6abbe258 100644
+> --- a/drivers/video/of_display_timing.c
+> +++ b/drivers/video/of_display_timing.c
+> @@ -52,6 +52,7 @@ static int parse_timing_property(const struct device_=
+node *np, const char *name,
+>   /**
+>    * of_parse_display_timing - parse display_timing entry from device_n=
+ode
+>    * @np: device_node with the properties
+> + * @dt: display_timing that contains the result. I may be partially wr=
+itten in case of errors
+>    **/
+>   static int of_parse_display_timing(const struct device_node *np,
+>   		struct display_timing *dt)
+> diff --git a/drivers/video/of_videomode.c b/drivers/video/of_videomode.=
+c
+> index 67aff2421c29..a5bb02f02b44 100644
+> --- a/drivers/video/of_videomode.c
+> +++ b/drivers/video/of_videomode.c
+> @@ -13,10 +13,10 @@
+>   #include <video/videomode.h>
 >  =20
 >   /**
-> - *
->    *	s1d13xxxfb_bitblt_solidfill - accelerated solidfill function
->    *	@info : framebuffer structure
->    *	@rect : fb_fillrect structure
+> - * of_get_videomode - get the videomode #<index> from devicetree
+
+What's wrong with this line? We use the dash in lots of places?
+
+Besides this,
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> - * @np - devicenode with the display_timings
+> - * @vm - set to return value
+> - * @index - index into list of display_timings
+> + * of_get_videomode: get the videomode #<index> from devicetree
+> + * @np: devicenode with the display_timings
+> + * @vm: set to return value
+> + * @index: index into list of display_timings
+>    *	    (Set this to OF_USE_NATIVE_MODE to use whatever mode is
+>    *	     specified as native mode in the DT.)
+>    *
 >=20
 
 --=20
@@ -180,32 +185,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---3rwwiIZG2PfCZYAyWfeCUtOOaevZuulxH--
+--jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z--
 
---1aenue9Ch7R7POAKtsLeZ3WSZkYx4AW4x
+--1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/DcPsFAwAAAAAACgkQlh/E3EQov+D/
-PQ//Z4e8OyqjSfevVlybAeU3nUQukcFGaXEjQWcUwdu0S+zPuKlT+9Oq4w0jrjrV+szBcvmqs/lj
-asiS4MpWTV1gQOfqr7k6JiQ/W2ickxkm7be/P8p0hGiMaYzEyz7Rd89YiyMVqDQLaIIQagQmhRt+
-jAkqzoEBn7Vt3wdQqSwWKUEYdXz7F3aVUflvYo2Nn0IG3jlA701PMCU4CqcPKko0I8e8FQfDc7/9
-2a4lDslxtUX4B7NX3n7e6Ni6rC04kWR7yVBzr2YsOXrGeDvdCez0tkL6vf3SwgAcSPo/S6tG/m+o
-PoiK5NL6Id5hf+qosNajjYj+fIQuvfUSTOXTDigbXbisGtgXU0QAeYI2k1VKX99kZTyaKR4tN7N3
-F08zBrkPU91VqFsyjzeZ3gUBHDK8Fw0EXdwfUrbRwzwysEIZHUpFj74bP7VCtUOpv/WWGN7tmQgk
-OtXFTD2Y2ZLxZ2AicH+hFWt5vcGL4Y2Wg5kXc7jVH5RALFIiLHEDabZwNnTtnhWLNBBfHGJb2KuD
-XJuil9roowZz35oQh6R+OfyQEXDxO00EW0Y5ObLW0CxPw2vu8o3eldLMNp3cY+mBrjt84KGG0Rpt
-WLKk3EoQuFalIRP9AUY1R13hmuq5XrBFUa7tveTeRs1TyUxAxopAuxcj+DI4IVwKZMf3hZPwGSvs
-mUc=
-=Co+r
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/DcWoFAwAAAAAACgkQlh/E3EQov+Ck
+uw/+NZZaNKEM71OIftYGO99SmsspRN1l6oj4lkDaZgU1yG9zusGI5XBBVo5gOiSltWNNU8MSCOL4
+FDiXieQ32OY5HxTLUofyWioY9HdT/RV2+sjoWJjSyJj1rYSjvIrr9ZTi//ZVefw5WyMB5KSsrr6O
+o2CcrbA7r5OdUasslvNeBPV3zTJVaC15D34HfQs01wNhjHXoHg4bPpPTW/vdqzNdelx/ipcFxJ7w
+nXUNvF/zDPn0YuaE/dGOgvUhyFm1xKq+o8VZXhRr0FGVPTjoYZUC9QHKHZAxDaVpgIe4wjU9lL0m
+rrhGlp2NNQ6n7MueAb8CxJkuykZc+AhnGEdZMYWd6WtPvXIxSeyAl77V9b+euRELnpusB0x/rp/z
+ElXEDB3Wo3vd1aa5HrDntePB4G0ls8UbW9DzhogSrKegQDqcgH5+ol4dsH5UvA4iaUAEfp5yJ4Ca
+SIQBX1qosZQyRZpaBjeiM53szkAFbxCUIgx5TFRJz8LJQQFDoj+OxZBRbqFEozT7EIoaUf8WBowc
+XNjRdjHjCJPzevI2Xe6Fzp8/ogKqM54FgP6HeJwNx2l17mTgsVrra5+xoABsJT//eALrc4sF0FVk
+7AqCjCd0z22Ys3ISQa4+ISJ9YUzMhmeu9JlpxBDLTiTm2eC0uAfwKdyebeU0BjHzQP9wIOXEDJcq
+C5o=
+=E/2+
 -----END PGP SIGNATURE-----
 
---1aenue9Ch7R7POAKtsLeZ3WSZkYx4AW4x--
+--1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8--
 
---===============2063560397==
+--===============0342163753==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -216,4 +221,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2063560397==--
+--===============0342163753==--
