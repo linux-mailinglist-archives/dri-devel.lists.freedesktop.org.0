@@ -2,32 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 804042C7A05
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 17:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64322C7A11
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 17:50:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B358A6E1EC;
-	Sun, 29 Nov 2020 16:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BFB6E1ED;
+	Sun, 29 Nov 2020 16:49:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81D276E1EC
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 16:38:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 670B86E1ED
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 16:49:56 +0000 (UTC)
 Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74]
- helo=phil.lan)
+ helo=diego.localnet)
  by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1kjPiS-0004tM-O4; Sun, 29 Nov 2020 17:38:24 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH] drm/rockchip: Avoid uninitialized use of endpoint id in
- LVDS
-Date: Sun, 29 Nov 2020 17:38:22 +0100
-Message-Id: <160666788608.935311.17420179487951916810.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201110200430.1713467-1-paul.kocialkowski@bootlin.com>
-References: <20201110200430.1713467-1-paul.kocialkowski@bootlin.com>
+ id 1kjPta-0004yQ-3z; Sun, 29 Nov 2020 17:49:54 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Liu <net147@gmail.com>
+Subject: Re: [PATCH] drm/rockchip: dw_hdmi: fix incorrect clock in vpll clock
+ error message
+Date: Sun, 29 Nov 2020 17:49:53 +0100
+Message-ID: <2205756.JbxMgk7veO@diego>
+In-Reply-To: <20201024035321.4898-1-net147@gmail.com>
+References: <20201024035321.4898-1-net147@gmail.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,30 +39,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Sandy Huang <hjc@rock-chips.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Mark Yao <markyao0591@gmail.com>
+Cc: linux-rockchip@lists.infradead.org, Jonathan Liu <net147@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 10 Nov 2020 21:04:30 +0100, Paul Kocialkowski wrote:
-> In the Rockchip DRM LVDS component driver, the endpoint id provided to
-> drm_of_find_panel_or_bridge is grabbed from the endpoint's reg property.
+Am Samstag, 24. Oktober 2020, 05:53:21 CET schrieb Jonathan Liu:
+> Error message incorrectly refers to grf clock instead of vpll clock.
 > 
-> However, the property may be missing in the case of a single endpoint.
-> Initialize the endpoint_id variable to 0 to avoid using an
-> uninitialized variable in that case.
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
 
-Applied, thanks!
+applied to drm-misc-next
 
-[1/1] drm/rockchip: Avoid uninitialized use of endpoint id in LVDS
-      commit: aec9fe892812ed10d0bffcf309d2a8fc380d8ce6
+Thanks
+Heiko
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
