@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3392C7890
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 11:01:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F1E2C7892
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 11:03:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8EAB6E183;
-	Sun, 29 Nov 2020 10:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2042E6E185;
+	Sun, 29 Nov 2020 10:03:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDAB16E183
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 10:01:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD2C6E185
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 10:03:35 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 58566AC6A;
- Sun, 29 Nov 2020 10:01:17 +0000 (UTC)
-Subject: Re: [PATCH v2 01/28] video: Fix kernel-doc warnings in
- of_display_timing + of_videomode
+ by mx2.suse.de (Postfix) with ESMTP id A0FD8AC6A;
+ Sun, 29 Nov 2020 10:03:33 +0000 (UTC)
+Subject: Re: [PATCH v2 02/28] video: fbcon: Fix warnings by using pr_debug()
+ in fbcon
 To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-2-sam@ravnborg.org>
+ <20201128224114.1033617-3-sam@ravnborg.org>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ca28a1e4-3e73-fdfc-e288-eaac4b228610@suse.de>
-Date: Sun, 29 Nov 2020 11:01:13 +0100
+Message-ID: <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
+Date: Sun, 29 Nov 2020 11:03:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201128224114.1033617-2-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-3-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,19 +63,19 @@ Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
  Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
  Mike Rapoport <rppt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============0342163753=="
+Content-Type: multipart/mixed; boundary="===============1655301654=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0342163753==
+--===============1655301654==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8"
+ boundary="Y1dyWBokTQjuohFD3fJHCxmzQeGgbDqBD"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8
-Content-Type: multipart/mixed; boundary="jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z";
+--Y1dyWBokTQjuohFD3fJHCxmzQeGgbDqBD
+Content-Type: multipart/mixed; boundary="uZqC5lgzqUgo9PxVBELLGxOPaxuKRXLNr";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
@@ -103,14 +103,14 @@ Cc: Aditya Pakki <pakki001@umn.edu>,
  Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
  Thomas Winischhofer <thomas@winischhofer.net>,
  Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Message-ID: <ca28a1e4-3e73-fdfc-e288-eaac4b228610@suse.de>
-Subject: Re: [PATCH v2 01/28] video: Fix kernel-doc warnings in
- of_display_timing + of_videomode
+Message-ID: <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
+Subject: Re: [PATCH v2 02/28] video: fbcon: Fix warnings by using pr_debug()
+ in fbcon
 References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-2-sam@ravnborg.org>
-In-Reply-To: <20201128224114.1033617-2-sam@ravnborg.org>
+ <20201128224114.1033617-3-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-3-sam@ravnborg.org>
 
---jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z
+--uZqC5lgzqUgo9PxVBELLGxOPaxuKRXLNr
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -118,62 +118,112 @@ Content-Transfer-Encoding: quoted-printable
 
 
 Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
-> Fix kernel-doc warnings reported when using W=3D1.
+> Replacing DPRINTK() statements with pr_debug fixes set but not used
+> warnings.  And moves to a more standard logging setup at the same time.=
+
 >=20
 > v2:
->    - Improve subject (Lee)
+>    - Fix indent (Joe)
 >=20
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: linux-fbdev@vger.kernel.org
+> Cc: Joe Perches <joe@perches.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: Peilin Ye <yepeilin.cs@gmail.com>
+> Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: George Kennedy <george.kennedy@oracle.com>
+> Cc: Nathan Chancellor <natechancellor@gmail.com>
+> Cc: Peter Rosin <peda@axentia.se>
 > ---
->   drivers/video/of_display_timing.c | 1 +
->   drivers/video/of_videomode.c      | 8 ++++----
->   2 files changed, 5 insertions(+), 4 deletions(-)
+>   drivers/video/fbdev/core/fbcon.c | 25 ++++++++-----------------
+>   1 file changed, 8 insertions(+), 17 deletions(-)
 >=20
-> diff --git a/drivers/video/of_display_timing.c b/drivers/video/of_displ=
-ay_timing.c
-> index abc9ada798ee..f93b6abbe258 100644
-> --- a/drivers/video/of_display_timing.c
-> +++ b/drivers/video/of_display_timing.c
-> @@ -52,6 +52,7 @@ static int parse_timing_property(const struct device_=
-node *np, const char *name,
->   /**
->    * of_parse_display_timing - parse display_timing entry from device_n=
-ode
->    * @np: device_node with the properties
-> + * @dt: display_timing that contains the result. I may be partially wr=
-itten in case of errors
->    **/
->   static int of_parse_display_timing(const struct device_node *np,
->   		struct display_timing *dt)
-> diff --git a/drivers/video/of_videomode.c b/drivers/video/of_videomode.=
-c
-> index 67aff2421c29..a5bb02f02b44 100644
-> --- a/drivers/video/of_videomode.c
-> +++ b/drivers/video/of_videomode.c
-> @@ -13,10 +13,10 @@
->   #include <video/videomode.h>
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/cor=
+e/fbcon.c
+> index bf61598bf1c3..44a5cd2f54cc 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -56,8 +56,6 @@
+>    *  more details.
+>    */
 >  =20
->   /**
-> - * of_get_videomode - get the videomode #<index> from devicetree
+> -#undef FBCONDEBUG
+> -
 
-What's wrong with this line? We use the dash in lots of places?
+I guess this was added for quick debugging during development. Anyway, I =
 
-Besides this,
+never liked these kinds of hacks.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-> - * @np - devicenode with the display_timings
-> - * @vm - set to return value
-> - * @index - index into list of display_timings
-> + * of_get_videomode: get the videomode #<index> from devicetree
-> + * @np: devicenode with the display_timings
-> + * @vm: set to return value
-> + * @index: index into list of display_timings
->    *	    (Set this to OF_USE_NATIVE_MODE to use whatever mode is
->    *	     specified as native mode in the DT.)
+>   #include <linux/module.h>
+>   #include <linux/types.h>
+>   #include <linux/fs.h>
+> @@ -82,12 +80,6 @@
+>  =20
+>   #include "fbcon.h"
+>  =20
+> -#ifdef FBCONDEBUG
+> -#  define DPRINTK(fmt, args...) printk(KERN_DEBUG "%s: " fmt, __func__=
+ , ## args)
+> -#else
+> -#  define DPRINTK(fmt, args...)
+> -#endif
+> -
+>   /*
+>    * FIXME: Locking
 >    *
+> @@ -1015,11 +1007,11 @@ static const char *fbcon_startup(void)
+>   	rows /=3D vc->vc_font.height;
+>   	vc_resize(vc, cols, rows);
+>  =20
+> -	DPRINTK("mode:   %s\n", info->fix.id);
+> -	DPRINTK("visual: %d\n", info->fix.visual);
+> -	DPRINTK("res:    %dx%d-%d\n", info->var.xres,
+> -		info->var.yres,
+> -		info->var.bits_per_pixel);
+> +	pr_debug("mode:   %s\n", info->fix.id);
+> +	pr_debug("visual: %d\n", info->fix.visual);
+> +	pr_debug("res:    %dx%d-%d\n", info->var.xres,
+> +		 info->var.yres,
+> +		 info->var.bits_per_pixel);
+>  =20
+>   	fbcon_add_cursor_timer(info);
+>   	return display_desc;
+> @@ -2013,7 +2005,7 @@ static int fbcon_resize(struct vc_data *vc, unsig=
+ned int width,
+>   	    y_diff < 0 || y_diff > virt_fh) {
+>   		const struct fb_videomode *mode;
+>  =20
+> -		DPRINTK("attempting resize %ix%i\n", var.xres, var.yres);
+> +		pr_debug("attempting resize %ix%i\n", var.xres, var.yres);
+>   		mode =3D fb_find_best_mode(&var, &info->modelist);
+>   		if (mode =3D=3D NULL)
+>   			return -EINVAL;
+> @@ -2023,7 +2015,7 @@ static int fbcon_resize(struct vc_data *vc, unsig=
+ned int width,
+>   		if (virt_w > var.xres/virt_fw || virt_h > var.yres/virt_fh)
+>   			return -EINVAL;
+>  =20
+> -		DPRINTK("resize now %ix%i\n", var.xres, var.yres);
+> +		pr_debug("resize now %ix%i\n", var.xres, var.yres);
+>   		if (con_is_visible(vc)) {
+>   			var.activate =3D FB_ACTIVATE_NOW |
+>   				FB_ACTIVATE_FORCE;
+> @@ -3299,8 +3291,7 @@ static void fbcon_exit(void)
+>  =20
+>   		if (info->queue.func)
+>   			pending =3D cancel_work_sync(&info->queue);
+> -		DPRINTK("fbcon: %s pending work\n", (pending ? "canceled" :
+> -			"no"));
+> +		pr_debug("fbcon: %s pending work\n", (pending ? "canceled" : "no"));=
+
+>  =20
+>   		for (j =3D first_fb_vc; j <=3D last_fb_vc; j++) {
+>   			if (con2fb_map[j] =3D=3D i) {
 >=20
 
 --=20
@@ -185,32 +235,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---jaqFPb8WKCfAZnv0LLMhfQHuvq0rArc0Z--
+--uZqC5lgzqUgo9PxVBELLGxOPaxuKRXLNr--
 
---1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8
+--Y1dyWBokTQjuohFD3fJHCxmzQeGgbDqBD
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/DcWoFAwAAAAAACgkQlh/E3EQov+Ck
-uw/+NZZaNKEM71OIftYGO99SmsspRN1l6oj4lkDaZgU1yG9zusGI5XBBVo5gOiSltWNNU8MSCOL4
-FDiXieQ32OY5HxTLUofyWioY9HdT/RV2+sjoWJjSyJj1rYSjvIrr9ZTi//ZVefw5WyMB5KSsrr6O
-o2CcrbA7r5OdUasslvNeBPV3zTJVaC15D34HfQs01wNhjHXoHg4bPpPTW/vdqzNdelx/ipcFxJ7w
-nXUNvF/zDPn0YuaE/dGOgvUhyFm1xKq+o8VZXhRr0FGVPTjoYZUC9QHKHZAxDaVpgIe4wjU9lL0m
-rrhGlp2NNQ6n7MueAb8CxJkuykZc+AhnGEdZMYWd6WtPvXIxSeyAl77V9b+euRELnpusB0x/rp/z
-ElXEDB3Wo3vd1aa5HrDntePB4G0ls8UbW9DzhogSrKegQDqcgH5+ol4dsH5UvA4iaUAEfp5yJ4Ca
-SIQBX1qosZQyRZpaBjeiM53szkAFbxCUIgx5TFRJz8LJQQFDoj+OxZBRbqFEozT7EIoaUf8WBowc
-XNjRdjHjCJPzevI2Xe6Fzp8/ogKqM54FgP6HeJwNx2l17mTgsVrra5+xoABsJT//eALrc4sF0FVk
-7AqCjCd0z22Ys3ISQa4+ISJ9YUzMhmeu9JlpxBDLTiTm2eC0uAfwKdyebeU0BjHzQP9wIOXEDJcq
-C5o=
-=E/2+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/Dce4FAwAAAAAACgkQlh/E3EQov+A/
+CRAAjppBMa+VYXc0pTyEpyWbGVVseOgW40U1A7JaKVHgR1tMMuOWNH6MelmMrYzgyhDh2OPa23xm
+KnroutrGTm0Afyxg8i4il360HOBXqZzIeIgqQYoBL0yjlTfYlR7PZTiY4dt1FPOHIoPEeolvDydj
+4r3GDvE7Av484u8caM9op8vKW+JLihMKlGGysUq/qV3Lm/Y6u8cN9yY8kJgLCiU/6UXXxhN2OW7F
+gQGiPI5mfR38eW0NprbJavBsdo0/3xLU9ZfNkvV6SQD10flbxcex0p4jfGhfUHpEn5nbvQ8JWrkR
+SceKvN1Pd+TgOolb7zZWFCoBgLPyzlQVh9CHHu97ce0zLEb651ZGWH5LSbRAc0ren1/0B3FY1eAH
+Vrs8RMdPsCsrSitSXkRiPybEk2yySLCVmRhwGoxcokOb9RwVWVmY6/PYoHJ3adPniye+XBxDh1S4
+XSWLatZz8jWRfLziaGn6j4ejse2e9TZgrEQSFEBQDPOy9zv2qMF8C5ur6YPrdn5gGuT2AsbqdNaf
++hMcCx9Y+AWJ0fh5dRO9pYIDJw3BbpUVKXZyLecl0JXGgbUodNPzf1HXAF6v5z/L0kwfczC2VKzl
+2iMHi4Cldx7ymrta8Xl/oA8t0ALOIfz7DyQLXKpdIH6ERF36JwPOy7jhBTA8HPieIN+J9oRKpnpf
+XFI=
+=/+Ig
 -----END PGP SIGNATURE-----
 
---1CP4wDi8pjHzun2NLp2A5lx1R4XiEByF8--
+--Y1dyWBokTQjuohFD3fJHCxmzQeGgbDqBD--
 
---===============0342163753==
+--===============1655301654==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -221,4 +271,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0342163753==--
+--===============1655301654==--
