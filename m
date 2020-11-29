@@ -1,36 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD65F2C7B84
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 22:59:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D397C2C7B95
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 23:04:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A1EF6E045;
-	Sun, 29 Nov 2020 21:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91F4B6E027;
+	Sun, 29 Nov 2020 22:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41756E045
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 21:59:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C07F6E027
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 22:04:14 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9B40C20034;
- Sun, 29 Nov 2020 22:59:27 +0100 (CET)
-Date: Sun, 29 Nov 2020 22:59:26 +0100
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 1EF4120034;
+ Sun, 29 Nov 2020 23:04:12 +0100 (CET)
+Date: Sun, 29 Nov 2020 23:04:11 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 0/3] drm/ingenic: Add support for delta-RGB panels
-Message-ID: <20201129215926.GF1162850@ravnborg.org>
-References: <20201119155559.14112-1-paul@crapouillou.net>
+To: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+Subject: Re: [PATCH] drm/kmb: Remove an unnecessary NULL check
+Message-ID: <20201129220411.GG1162850@ravnborg.org>
+References: <20201117072137.GB1111239@mwanda>
+ <BY5PR11MB4182EBE4FD5F42AC625945998CFF0@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <20201120082146.GA314029@ravnborg.org>
+ <460740bc-ffb8-91c1-47ec-94a38dd2308d@suse.de>
+ <BY5PR11MB4182170E428502EF005B27E48CFF0@BY5PR11MB4182.namprd11.prod.outlook.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201119155559.14112-1-paul@crapouillou.net>
+In-Reply-To: <BY5PR11MB4182170E428502EF005B27E48CFF0@BY5PR11MB4182.namprd11.prod.outlook.com>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=jAYXITO5OE7wJCMQ_rkA:9
- a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
+ a=e5mUnYsNAAAA:8 a=yPCof4ZbAAAA:8 a=-5daY3v0RUpMMgDoOU4A:9
+ a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=AjGcO6oz07-iQ99wixmX:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,37 +49,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- od@zcrc.me, linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>,
+ "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "Dea,
+ Edmund J" <edmund.j.dea@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <dan.carpenter@oracle.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul.
+Hi Anitha,
 
-On Thu, Nov 19, 2020 at 03:55:56PM +0000, Paul Cercueil wrote:
-> Hi,
+On Fri, Nov 20, 2020 at 05:28:59PM +0000, Chrisanthus, Anitha wrote:
 > 
-> This patchset adds support for delta-RGB panels to the ingenic-drm
-> driver. Delta-RGB panels have diamond-pattern subpixel layout, and
-> expect odd lines to have RGB subpixel ordering, and even lines to have
-> GBR subpixel ordering.
 > 
-> Such panel is used in the YLM (aka. Anbernic) RG-99, RG-300, RG-280M
-> and RG-280V handheld gaming consoles.
-> 
-> Cheers,
-> -Paul
-> 
-> Paul Cercueil (3):
->   drm/ingenic: Compute timings according to adjusted_mode->crtc_*
->   drm/ingenic: Properly compute timings when using a 3x8-bit panel
->   drm/ingenic: Add support for serial 8-bit delta-RGB panels
+> > -----Original Message-----
+> > From: Thomas Zimmermann <tzimmermann@suse.de>
+> > Sent: Friday, November 20, 2020 12:34 AM
+> > To: Sam Ravnborg <sam@ravnborg.org>; Chrisanthus, Anitha
+> > <anitha.chrisanthus@intel.com>
+> > Cc: David Airlie <airlied@linux.ie>; Dea, Edmund J <edmund.j.dea@intel.com>;
+> > kernel-janitors@vger.kernel.org; dri-devel@lists.freedesktop.org; Dan
+> > Carpenter <dan.carpenter@oracle.com>
+> > Subject: Re: [PATCH] drm/kmb: Remove an unnecessary NULL check
+> > 
+> > Hi
+> > 
+> > Am 20.11.20 um 09:21 schrieb Sam Ravnborg:
+> > > Hi Anitha.
+> > >
+> > > On Fri, Nov 20, 2020 at 01:19:06AM +0000, Chrisanthus, Anitha wrote:
+> > >> Looks good to me.
+> > >
+> > > Can we get either an "Acked-by:" or "Reviewed-by:"?
+> > > Then we can use this while applying.
+> Sorry, forgot that.
+> Reviewed-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
 
-Strange panel, at least strange bit order.
-Patches looks good and are all:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+Thanks, patch is now pushed to drm-misc-next.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
