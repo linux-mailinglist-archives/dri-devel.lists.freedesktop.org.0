@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA3D2C7B17
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 21:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF3D2C7B6D
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 22:41:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26628892ED;
-	Sun, 29 Nov 2020 20:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF4276E0B9;
+	Sun, 29 Nov 2020 21:41:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C96B892ED
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 20:09:32 +0000 (UTC)
-Received: from threadripper.lan
- (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 290686E0B9
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 21:41:18 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 685F320756;
- Sun, 29 Nov 2020 20:09:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606680572;
- bh=rQ5NWEEEPU4g45U80zBfT28KT/fxWWNh4bB2Arjzahk=;
- h=From:To:Cc:Subject:Date:From;
- b=HaBHq0rmQ3UUakU8auzk6mvEnyoOY5gHkt7DdwdL+XdzKV4NuuddNb01IJWJSZQ7J
- RF7AkL64t8au1LQVxNjL5/nfsTs4eLh3WIfmKxRJZ66nNDHIxVPhiIDTA8E3g446/P
- TJjkOnrB9/JVN2YyxvcrYkxABSRqQaYcsRJbBcKY=
-From: Arnd Bergmann <arnd@kernel.org>
-To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Edmund Dea <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/kmb: fix array bounds warning
-Date: Sun, 29 Nov 2020 21:09:08 +0100
-Message-Id: <20201129200927.1854104-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.27.0
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 540A220038;
+ Sun, 29 Nov 2020 22:41:14 +0100 (CET)
+Date: Sun, 29 Nov 2020 22:41:12 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH] drm/panel: sony-acx565akm: Fix race condition in probe
+Message-ID: <20201129214112.GA1162850@ravnborg.org>
+References: <20201127200429.129868-1-sebastian.reichel@collabora.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201127200429.129868-1-sebastian.reichel@collabora.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=e_45YWLtAAAA:8 a=sozttTNsAAAA:8 a=2KMo9-giAAAA:8
+ a=pGLkceISAAAA:8 a=_ua-DJzVAAAA:8 a=P1BnusSwAAAA:8 a=QX4gbG5DAAAA:8
+ a=BQNQBjKwHnm-onN-rZIA:9 a=CjuIK1q_8ugA:10 a=YCHTv42QAwKFWVm3vSJu:22
+ a=aeg5Gbbo78KNqacMgKqU:22 a=UeCTMeHK7YUBiLmz_SX7:22
+ a=Rns7OpQVW6Hshu8udh8j:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,59 +47,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel test robot <lkp@intel.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Cc: kernel@collabora.com, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Tony Lindgren <tony@atomide.com>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Merlijn Wajer <merlijn@wizzup.org>,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, dri-devel@lists.freedesktop.org,
+ Peter Ujfalusi <peter.ujfalusi@ti.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Jarkko Nikula <jarkko.nikula@bitmer.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Sebastian,
+On Fri, Nov 27, 2020 at 09:04:29PM +0100, Sebastian Reichel wrote:
+> The probe routine acquires the reset GPIO using GPIOD_OUT_LOW. Directly
+> afterwards it calls acx565akm_detect(), which sets the GPIO value to
+> HIGH. If the bootloader initialized the GPIO to HIGH before the probe
+> routine was called, there is only a very short time period of a few
+> instructions where the reset signal is LOW. Exact time depends on
+> compiler optimizations, kernel configuration and alignment of the stars,
+> but I expect it to be always way less than 10us. There are no public
+> datasheets for the panel, but acx565akm_power_on() has a comment with
+> timings and reset period should be at least 10us. So this potentially
+> brings the panel into a half-reset state.
+> 
+> The result is, that panel may not work after boot and can get into a
+> working state by re-enabling it (e.g. by blanking + unblanking), since
+> that does a clean reset cycle. This bug has recently been hit by Ivaylo
+> Dimitrov, but there are some older reports which are probably the same
+> bug. At least Tony Lindgren, Peter Ujfalusi and Jarkko Nikula have
+> experienced it in 2017 describing the blank/unblank procedure as
+> possible workaround.
+> 
+> Note, that the bug really goes back in time. It has originally been
+> introduced in the predecessor of the omapfb driver in 3c45d05be382
+> ("OMAPDSS: acx565akm panel: handle gpios in panel driver") in 2012.
+> That driver eventually got replaced by a newer one, which had the bug
+> from the beginning in 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel
+> driver") and still exists in fbdev world. That driver has later been
+> copied to omapdrm and then was used as a basis for this driver. Last
+> but not least the omapdrm specific driver has been removed in
+> 45f16c82db7e ("drm/omap: displays: Remove unused panel drivers").
+> 
+> Reported-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+> Reported-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Reported-by: Tony Lindgren <tony@atomide.com>
+> Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> Cc: Merlijn Wajer <merlijn@wizzup.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Fixes: 1c8fc3f0c5d2 ("drm/panel: Add driver for the Sony ACX565AKM panel")
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-gcc warns about an out-of-bounds access when the using nonzero
-values for 'plane_id' on kmb->plane_status:
 
-drivers/gpu/drm/kmb/kmb_plane.c: In function 'kmb_plane_atomic_disable':
-drivers/gpu/drm/kmb/kmb_plane.c:128:20: warning: array subscript 3 is above array bounds of 'struct layer_status[1]' [-Warray-bounds]
-  128 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL2_ENABLE;
-      |   ~~~~~~~~~~~~~~~~~^~~~~~~~~~
-drivers/gpu/drm/kmb/kmb_plane.c:125:20: warning: array subscript 2 is above array bounds of 'struct layer_status[1]' [-Warray-bounds]
-  125 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL1_ENABLE;
-      |   ~~~~~~~~~~~~~~~~~^~~~~~~~~~
-drivers/gpu/drm/kmb/kmb_plane.c:122:20: warning: array subscript 1 is above array bounds of 'struct layer_status[1]' [-Warray-bounds]
-  122 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL2_ENABLE;
+Fixed up the commit references, added Tested-by (impressive list) and
+committed to drm-misc-fixes.
 
-Having the array truncated to one entry seems intentional, so add
-a range check before indexing it to make it clearer what is going
-on and shut up the warning.
+Commit references shall look like this:
 
-I received the warning from the kernel test robot after a private
-patch that turns on Warray-bounds unconditionally.
+    commit 84192742d9c2 ("OMAPDSS: Add Sony ACX565AKM panel driver")
 
-Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/kmb/kmb_plane.c | 3 +++
- 1 file changed, 3 insertions(+)
+The word commit is required according to dim (the tool we use for
+drm-misc maintenance).
 
-diff --git a/drivers/gpu/drm/kmb/kmb_plane.c b/drivers/gpu/drm/kmb/kmb_plane.c
-index 8448d1edb553..be8eea3830c1 100644
---- a/drivers/gpu/drm/kmb/kmb_plane.c
-+++ b/drivers/gpu/drm/kmb/kmb_plane.c
-@@ -114,6 +114,9 @@ static void kmb_plane_atomic_disable(struct drm_plane *plane,
- 
- 	kmb = to_kmb(plane->dev);
- 
-+	if (WARN_ON(plane_id >= KMB_MAX_PLANES))
-+		return;
-+
- 	switch (plane_id) {
- 	case LAYER_0:
- 		kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL1_ENABLE;
--- 
-2.27.0
-
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
