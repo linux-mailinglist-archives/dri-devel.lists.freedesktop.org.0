@@ -2,33 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC382C7894
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 11:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6952C78C9
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Nov 2020 12:18:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF87A6E18E;
-	Sun, 29 Nov 2020 10:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5E336E1BB;
+	Sun, 29 Nov 2020 11:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782B66E18E
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 10:08:08 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CCE78AC6A;
- Sun, 29 Nov 2020 10:08:06 +0000 (UTC)
-Subject: Re: [PATCH v2 03/28] video: fbdev: core: Fix kernel-doc warnings in
- fbmon + fb_notify
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C7516E1BB
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Nov 2020 11:18:45 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 4A88220026;
+ Sun, 29 Nov 2020 12:18:37 +0100 (CET)
+Date: Sun, 29 Nov 2020 12:18:36 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: Re: [PATCH v2 02/28] video: fbcon: Fix warnings by using pr_debug()
+ in fbcon
+Message-ID: <20201129111836.GA1094053@ravnborg.org>
 References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-4-sam@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6b7947a5-05d9-7d05-7c23-b41c8aec4c77@suse.de>
-Date: Sun, 29 Nov 2020 11:08:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ <20201128224114.1033617-3-sam@ravnborg.org>
+ <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
+ <fe2a56cd-10bd-962c-4f65-96c23a78cdd7@i-love.sakura.ne.jp>
 MIME-Version: 1.0
-In-Reply-To: <20201128224114.1033617-4-sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <fe2a56cd-10bd-962c-4f65-96c23a78cdd7@i-love.sakura.ne.jp>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=8nJEP1OIZ-IA:10 a=-vdMUv8mziTCCqIVOngA:9 a=wPNLvfGTeEIA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,15 +46,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>,
+ Evgeny Novikov <novikov@ispras.ru>, Lee Jones <lee.jones@linaro.org>,
  Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>,
  Thomas Winischhofer <thomas@winischhofer.net>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
  Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
  Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
  Xiaofei Tan <tanxiaofei@huawei.com>,
@@ -60,167 +66,47 @@ Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
  Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
  George Kennedy <george.kennedy@oracle.com>,
  Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
  Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
  Mike Rapoport <rppt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============2120848073=="
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============2120848073==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VJY2dRwnvUOZMaikv8QPf4ItkoSqEu1tl"
+Hi Tetsuo,
+On Sun, Nov 29, 2020 at 07:28:08PM +0900, Tetsuo Handa wrote:
+> On 2020/11/29 19:03, Thomas Zimmermann wrote:
+> > Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
+> >> Replacing DPRINTK() statements with pr_debug fixes set but not used
+> >> warnings.=A0 And moves to a more standard logging setup at the same ti=
+me.
+> > =
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VJY2dRwnvUOZMaikv8QPf4ItkoSqEu1tl
-Content-Type: multipart/mixed; boundary="rGzynRqiuo45xMI1DpVJXx27eESZEURzH";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-Cc: Aditya Pakki <pakki001@umn.edu>,
- Alexander Klimov <grandmaster@al2klimov.de>,
- Alex Dewar <alex.dewar90@gmail.com>, Antonino Daplas <adaplas@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Evgeny Novikov <novikov@ispras.ru>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- George Kennedy <george.kennedy@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gustavo Silva <gustavoars@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Jason Yan <yanaijie@huawei.com>, Jingoo Han <jingoohan1@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, Joe Perches <joe@perches.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mike Rapoport <rppt@kernel.org>, Nathan Chancellor
- <natechancellor@gmail.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Peter Rosin <peda@axentia.se>, Qilong Zhang <zhangqilong3@huawei.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Message-ID: <6b7947a5-05d9-7d05-7c23-b41c8aec4c77@suse.de>
-Subject: Re: [PATCH v2 03/28] video: fbdev: core: Fix kernel-doc warnings in
- fbmon + fb_notify
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-4-sam@ravnborg.org>
-In-Reply-To: <20201128224114.1033617-4-sam@ravnborg.org>
+> > I guess this was added for quick debugging during development. Anyway, =
+I never liked these kinds of hacks.
+> > =
 
---rGzynRqiuo45xMI1DpVJXx27eESZEURzH
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > =
 
+> =
 
+> But replacing printk(KERN_DEBUG) with pr_debug() prevents __func__ from b=
+eing printed
+> when FBCONDEBUG is defined. Is such change what the author of this module=
+ expects?
 
-Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
-> Fix kernel-doc warnings reported when using W=3D1
->=20
-> v2:
->    - Improve subject (Lee)
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> ---
->   drivers/video/fbdev/core/fb_notify.c | 3 ++-
->   drivers/video/fbdev/core/fbmon.c     | 2 +-
->   2 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/video/fbdev/core/fb_notify.c b/drivers/video/fbdev=
-/core/fb_notify.c
-> index 74c2da528884..d85717b6e14a 100644
-> --- a/drivers/video/fbdev/core/fb_notify.c
-> +++ b/drivers/video/fbdev/core/fb_notify.c
-> @@ -38,7 +38,8 @@ EXPORT_SYMBOL(fb_unregister_client);
->  =20
->   /**
->    * fb_notifier_call_chain - notify clients of fb_events
-> - *
-> + * @val: value passed to callback
-> + * @v: pointer passed to callback
+When someone goes and enable DEBUG for fbcon they are also able to
+recognize the logging, so the printing of the function name is redundant
+in this case.
 
-Since you're at it, maybe add Returns.
+There is likely limited to no use for these few logging entries, but if
+they should be dropped then I expect Peilin Ye to do so as he is the
+only one doing active maintenance of fbcon lately.
 
->    */
->   int fb_notifier_call_chain(unsigned long val, void *v)
->   {
-> diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/cor=
-e/fbmon.c
-> index 1bf82dbc9e3c..b0e690f41025 100644
-> --- a/drivers/video/fbdev/core/fbmon.c
-> +++ b/drivers/video/fbdev/core/fbmon.c
-> @@ -605,6 +605,7 @@ static void get_detailed_timing(unsigned char *bloc=
-k,
->    * fb_create_modedb - create video mode database
->    * @edid: EDID data
->    * @dbsize: database size
-> + * @specs: monitor specifications, may be NULL
->    *
->    * RETURNS: struct fb_videomode, @dbsize contains length of database
->    *
-> @@ -1100,7 +1101,6 @@ static u32 fb_get_hblank_by_hfreq(u32 hfreq, u32 =
-xres)
->    *                                    2 * M
->    *        M =3D 300;
->    *        C =3D 30;
-> -
->    */
->   static u32 fb_get_hblank_by_dclk(u32 dclk, u32 xres)
->   {
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---rGzynRqiuo45xMI1DpVJXx27eESZEURzH--
-
---VJY2dRwnvUOZMaikv8QPf4ItkoSqEu1tl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/DcwMFAwAAAAAACgkQlh/E3EQov+Bl
-/w/7B/gxnC+cCqzLZUtuNR5XlKR9lnrDMQzJjyzgn0qG3WnDX1vy0fOfT5dncMYa4IFKOp0Hez9w
-9WV46rJf62D0dZClFG3YN7MrPbuQyrRboSfKf9SFMXu3j5FNlnkgFu2IoGoKkoHgPeyDgnWdmDoJ
-c++2KyKcKc91ekv6winod1tYRKpCiDbvnk7/kfvwpUR/sum2vXHWWKOg9C7a6cDEN9iyfnz/A6di
-kwVOEBx7GwnazsEgYg3BDtjozJtAeNaGJNzmpz+Oef2OhFP7iRuENdQIlCUa985xtxcI+20VvJ+H
-8ImsVBd2kSs8ouXqBdwB9y9pfJLK7Jd0+ZAxc6d6IV5zsQ4NCPkIVVjHXvXuLYr4wABWdYGNukOX
-CzUPO0TMAUpG9faP3rbCpt3rvxDkG1I1uE2KNwE4gjI2mIvI7zTKFwdQAPNGxKtEgAy55mfSS9rt
-vANZEWkmapXAXlHniAuAr0GTMsFQ9ujC26n2pr4AOn0sdwpLnFUZ78k+7hQSLTIgVB22ARWMwkJK
-Ik4OkHnMAee1wlypYSrWq30/KNgIxCzGMbq77DzRzonvZVvGFrb5xZaTbEHKHJn92if+I0pXmQMz
-b+Unergea1+csh0Le3pad1uKlPy6A5m0D0hjfzsuhw7F3HhRz6QXwA/MmFPxPd1FLRJcj9sG59n4
-6jk=
-=a2TV
------END PGP SIGNATURE-----
-
---VJY2dRwnvUOZMaikv8QPf4ItkoSqEu1tl--
-
---===============2120848073==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2120848073==--
