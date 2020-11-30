@@ -1,32 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D662C9947
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B1E2C994C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF316E4D7;
-	Tue,  1 Dec 2020 08:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1AB86E4FB;
+	Tue,  1 Dec 2020 08:23:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEFB6E8CC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 21:49:13 +0000 (UTC)
-Date: Mon, 30 Nov 2020 21:48:58 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A panel
- bindings
-To: Rob Herring <robh+dt@kernel.org>
-Message-Id: <MXPMKQ.PSU8COVVM0IV2@crapouillou.net>
-In-Reply-To: <CAL_JsqJDQMzHjtYa6ZCOxXW_U5nWrS+DhBj-w2myn-SkGB+KCA@mail.gmail.com>
-References: <20201101093150.8071-1-paul@crapouillou.net>
- <20201101093150.8071-3-paul@crapouillou.net>
- <20201101122900.GB1269759@ravnborg.org>
- <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
- <CAL_JsqLSGMFibm8tVKqNe1SFBzXTU2=M2jZmpfrHeGUqS3foRg@mail.gmail.com>
- <1XJMKQ.YER47WG3D7R41@crapouillou.net>
- <CAL_JsqJDQMzHjtYa6ZCOxXW_U5nWrS+DhBj-w2myn-SkGB+KCA@mail.gmail.com>
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
+ [IPv6:2a00:1450:4864:20::643])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF9489D00
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 22:34:13 +0000 (UTC)
+Received: by mail-ej1-x643.google.com with SMTP id f23so5154029ejt.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fKEdC66hJ5JGLsiLl3hBV9f87nrLsLENnZJ383Beve8=;
+ b=Hl4XxdMkJ2RDEu06Xnz1qMbOpFWfnI/RbbLjZwWSXyPJJAyRVk39Q8D+aioSqvMEY3
+ dMaprc0g8So5ez4Hj/80hfeEQLeZq9/9t+tGeitb43B2yb7SW3JpgNu/nrkMzRWfTIcK
+ nobNVsyfNL/QcUlDv/+SD+93thS85zPFRkf+c6608NjfRq8Iu1IxwyxoBMDKASBy/pe3
+ HR/5Y2p7ImfAQoikKXEBwUrLXycWd5nCUBKYbrfFf+1hTHwrnj7zOQza/VV9Ryh+Cdf1
+ kf8i57L8gAMsMWdMwaWbKGTPe5XlK4hkiv01xgepkCQzMOuyxQ6TuUFdC03+dIKKY1vp
+ epyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fKEdC66hJ5JGLsiLl3hBV9f87nrLsLENnZJ383Beve8=;
+ b=Wlr3wn6Mla792z1vPI/55359QSKGHu58fBLELzx/kx7TtYv2z/i07zrB7HALshLRJk
+ jHQ2trnLybhcjN3epsqlCOO64Wh/RjNCJZY/4uT6cmcIRiPwkzMSIeT+ZpAEaCzu8mOS
+ SMaZ76VAijNJgG/7Nu1lbsrEHkO5bKLMdWDVhw7kwYHtX5jktMiih8vQUlCB7dgz/ORI
+ hIxXaMrDwllnqwGD+L2DH0ej6pMw+Vr9263rnQEJEMInxAZQiYFNJxk9OfDxP61SEj6j
+ BDpfKx6CEH6QIYnV5fpnmqwmS2DJQdw7zul8XNjQEenBx79N0+ly033dEdXF+IHCJR+v
+ DLMw==
+X-Gm-Message-State: AOAM531k0K1VWI7BA77vpbgGh8tEC9Ln2YwdN7RNJAKtEzaPAxt/EjK4
+ c/5x8f+b9NdTqcEXF55gMcCGiQMgVkwnq2xU6ezI8Q==
+X-Google-Smtp-Source: ABdhPJy4mx9bz7eZi5E2l30s9A9eHdahnGhj0teAoOlrytTn7Qa2iVKl14LEOUHYXZY+466a9ZU6/pKEl8bMCpCk9Jc=
+X-Received: by 2002:a17:906:1c8e:: with SMTP id
+ g14mr9809987ejh.5.1606775651902; 
+ Mon, 30 Nov 2020 14:34:11 -0800 (PST)
 MIME-Version: 1.0
+References: <20200820162738.33053904@oasis.local.home>
+ <20201022173434.910879-1-lpy@google.com>
+ <CA+0soA=JR45Tad6+0jCDoiXPk_ctDmmFhg9NtPRrMFb9fM3V0Q@mail.gmail.com>
+In-Reply-To: <CA+0soA=JR45Tad6+0jCDoiXPk_ctDmmFhg9NtPRrMFb9fM3V0Q@mail.gmail.com>
+From: Peiyong Lin <lpy@google.com>
+Date: Mon, 30 Nov 2020 14:33:59 -0800
+Message-ID: <CA+0soAkd3nq0ys1TQ3m8DxMAT4-EGfo7obQ9OrGQ15bipT=wTA@mail.gmail.com>
+Subject: Re: [PATCH v4] Add power/gpu_frequency tracepoint.
+To: Steven Rostedt <rostedt@goodmis.org>, alexdeucher@gmail.com
 X-Mailman-Approved-At: Tue, 01 Dec 2020 08:23:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -40,183 +64,164 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me, Sam Ravnborg <sam@ravnborg.org>,
- linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe Branchereau <cbranchereau@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sidath Senanayake <sidaths@google.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <yamada.masahiro@socionext.com>,
+ Prahlad Kilambi <prahladk@google.com>, Ingo Molnar <mingo@redhat.com>,
+ Pavel Machek <pavel@ucw.cz>, Paul Walmsley <paul.walmsley@sifive.com>,
+ zzyiwei@android.com, android-kernel@google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Nov 17, 2020 at 1:31 PM Peiyong Lin <lpy@google.com> wrote:
+>
+> On Thu, Oct 22, 2020 at 10:34 AM Peiyong Lin <lpy@google.com> wrote:
+> >
+> > Historically there is no common trace event for GPU frequency, in
+> > downstream Android each different hardware vendor implements their own
+> > way to expose GPU frequency, for example as a debugfs node.  This patch
+> > standardize it as a common trace event in upstream linux kernel to help
+> > the ecosystem have a common implementation across hardware vendors.
+> > Toolings in the Linux ecosystem will benefit from this especially in the
+> > downstream Android, where this information is critical to graphics
+> > developers.
+> >
+> > Signed-off-by: Peiyong Lin <lpy@google.com>
+> > ---
+> >
+> > Changelog since v3:
+> >  - Correct copyright title.
+> >
+> > Changelog since v2:
+> >  - Add more comments to indicate when the event should be emitted.
+> >  - Change state to frequency.
+> >
+> > Changelog since v1:
+> >  - Use %u in TP_printk
+> >
+> >  drivers/gpu/Makefile                    |  1 +
+> >  drivers/gpu/trace/Kconfig               |  3 +++
+> >  drivers/gpu/trace/Makefile              |  1 +
+> >  drivers/gpu/trace/trace_gpu_frequency.c | 13 ++++++++++
+> >  include/trace/events/power.h            | 33 +++++++++++++++++++++++++
+> >  5 files changed, 51 insertions(+)
+> >  create mode 100644 drivers/gpu/trace/trace_gpu_frequency.c
+> >
+> > diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+> > index 835c88318cec..f289a47eb031 100644
+> > --- a/drivers/gpu/Makefile
+> > +++ b/drivers/gpu/Makefile
+> > @@ -6,3 +6,4 @@ obj-$(CONFIG_TEGRA_HOST1X)      += host1x/
+> >  obj-y                  += drm/ vga/
+> >  obj-$(CONFIG_IMX_IPUV3_CORE)   += ipu-v3/
+> >  obj-$(CONFIG_TRACE_GPU_MEM)            += trace/
+> > +obj-$(CONFIG_TRACE_GPU_FREQUENCY)              += trace/
+> > diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
+> > index c24e9edd022e..ac4aec8d5845 100644
+> > --- a/drivers/gpu/trace/Kconfig
+> > +++ b/drivers/gpu/trace/Kconfig
+> > @@ -2,3 +2,6 @@
+> >
+> >  config TRACE_GPU_MEM
+> >         bool
+> > +
+> > +config TRACE_GPU_FREQUENCY
+> > +       bool
+> > diff --git a/drivers/gpu/trace/Makefile b/drivers/gpu/trace/Makefile
+> > index b70fbdc5847f..2b7ae69327d6 100644
+> > --- a/drivers/gpu/trace/Makefile
+> > +++ b/drivers/gpu/trace/Makefile
+> > @@ -1,3 +1,4 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >
+> >  obj-$(CONFIG_TRACE_GPU_MEM) += trace_gpu_mem.o
+> > +obj-$(CONFIG_TRACE_GPU_FREQUENCY) += trace_gpu_frequency.o
+> > diff --git a/drivers/gpu/trace/trace_gpu_frequency.c b/drivers/gpu/trace/trace_gpu_frequency.c
+> > new file mode 100644
+> > index 000000000000..668fabd6b77a
+> > --- /dev/null
+> > +++ b/drivers/gpu/trace/trace_gpu_frequency.c
+> > @@ -0,0 +1,13 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * GPU frequency trace points
+> > + *
+> > + * Copyright (C) 2020 Google LLC
+> > + */
+> > +
+> > +#include <linux/module.h>
+> > +
+> > +#define CREATE_TRACE_POINTS
+> > +#include <trace/events/power.h>
+> > +
+> > +EXPORT_TRACEPOINT_SYMBOL(gpu_frequency);
+> > diff --git a/include/trace/events/power.h b/include/trace/events/power.h
+> > index af5018aa9517..343825a76953 100644
+> > --- a/include/trace/events/power.h
+> > +++ b/include/trace/events/power.h
+> > @@ -500,6 +500,39 @@ DEFINE_EVENT(dev_pm_qos_request, dev_pm_qos_remove_request,
+> >
+> >         TP_ARGS(name, type, new_value)
+> >  );
+> > +
+> > +/**
+> > + * gpu_frequency - Reports the GPU frequency in GPU clock domains.
+> > + *
+> > + * This event should be emitted whenever there's a GPU frequency change happens,
+> > + * or a GPU goes from idle state to active state, or vice versa.
+> > + *
+> > + * When the GPU goes from idle state to active state, this event should report
+> > + * the GPU frequency of the active state. When the GPU goes from active state to
+> > + * idle state, this event should report a zero frequency value.
+> > + *
+> > + * @frequency:  New frequency (in KHz)
+> > + * @gpu_id: Id for each GPU clock domain
+> > + */
+> > +TRACE_EVENT(gpu_frequency,
+> > +
+> > +       TP_PROTO(unsigned int frequency, unsigned int gpu_id),
+> > +
+> > +       TP_ARGS(frequency, gpu_id),
+> > +
+> > +       TP_STRUCT__entry(
+> > +               __field(unsigned int, frequency)
+> > +               __field(unsigned int, gpu_id)
+> > +       ),
+> > +
+> > +       TP_fast_assign(
+> > +               __entry->frequency = frequency;
+> > +               __entry->gpu_id = gpu_id;
+> > +       ),
+> > +
+> > +       TP_printk("frequency=%u gpu_id=%u",
+> > +               __entry->frequency, __entry->gpu_id)
+> > +);
+> >  #endif /* _TRACE_POWER_H */
+> >
+> >  /* This part must be outside protection */
+> > --
+> > 2.29.0.rc1.297.gfa9743e501-goog
+> >
+>
+>
+> Hi there,
+>
+> Per request, re-send this patch with dri-devel@ list CCed.
+>
+> Thanks,
+> Peiyong
 
+Hi there,
 
-Le lun. 30 nov. 2020 =E0 13:18, Rob Herring <robh+dt@kernel.org> a =
+For GPU drivers folks in dri-devel@ list, any input?
 
-=E9crit :
-> On Mon, Nov 30, 2020 at 12:39 PM Paul Cercueil <paul@crapouillou.net> =
-
-> wrote:
->> =
-
->>  Hi Rob,
->> =
-
->>  Le lun. 30 nov. 2020 =E0 7:32, Rob Herring <robh+dt@kernel.org> a =
-
->> =E9crit
->>  :
->>  > On Mon, Nov 2, 2020 at 3:19 AM Paul Cercueil =
-
->> <paul@crapouillou.net>
->>  > wrote:
->>  >>
->>  >>
->>  >>
->>  >>  Le dim. 1 nov. 2020 =E0 13:29, Sam Ravnborg <sam@ravnborg.org> a
->>  >> =E9crit :
->>  >>  > On Sun, Nov 01, 2020 at 09:31:48AM +0000, Paul Cercueil wrote:
->>  >>  >>  The Asia Better Technology (ABT) Y030XX067A panel is a 3.0"
->>  >> 320x480
->>  >>  >>  24-bit IPS LCD panel. Its particularity is that it has
->>  >> non-square
->>  >>  >> pixels
->>  >>  >>  (as it is 4:3 for a resolution of 320x480), and that it
->>  >> requires odd
->>  >>  >>  lines to be sent as RGB and even lines to be sent as GRB on =
-
->> its
->>  >>  >> 8-bit
->>  >>  >>  bus.
->>  >>  >>
->>  >>  >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  >>  >>  ---
->>  >>  >>   .../display/panel/abt,y030xx067a.yaml         | 54
->>  >>  >> +++++++++++++++++++
->>  >>  >>   1 file changed, 54 insertions(+)
->>  >>  >>   create mode 100644
->>  >>  >>
->>  >> =
-
->> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  >>  >>
->>  >>  >>  diff --git
->>  >>  >>
->>  >> =
-
->> a/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  >>  >>
->>  >> =
-
->> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  >>  >>  new file mode 100644
->>  >>  >>  index 000000000000..6407e8bf45fa
->>  >>  >>  --- /dev/null
->>  >>  >>  +++
->>  >>  >>
->>  >> =
-
->> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
->>  >>  >>  @@ -0,0 +1,54 @@
->>  >>  >>  +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>  >>  >>  +%YAML 1.2
->>  >>  >>  +---
->>  >>  >>  +$id:
->>  >>  >> =
-
->> http://devicetree.org/schemas/display/panel/abt,y030xx067a.yaml#
->>  >>  >>  +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>  >>  >>  +
->>  >>  >>  +title: Asia Better Technology 3.0" (320x480 pixels) 24-bit =
-
->> IPS
->>  >> LCD
->>  >>  >> panel
->>  >>  >>  +
->>  >>  >>  +description: |
->>  >>  >>  +  The panel must obey the rules for a SPI slave device as
->>  >>  >> specified in
->>  >>  >>  +  spi/spi-controller.yaml
->>  >>  >>  +
->>  >>  >>  +maintainers:
->>  >>  >>  +  - Paul Cercueil <paul@crapouillou.net>
->>  >>  >>  +
->>  >>  >>  +allOf:
->>  >>  >>  +  - $ref: panel-common.yaml#
->>  >>  >>  +
->>  >>  >>  +properties:
->>  >>  >>  +  compatible:
->>  >>  >>  +    const: abt,y030xx067a
->>  >>  >>  +
->>  >>  >>  +  backlight: true
->>  >>  >>  +  port: true
->>  >>  >>  +  power-supply: true
->>  >>  >>  +  reg: true
->>  >>  >>  +  reset-gpios: true
->>  >>  >
->>  >>  > The binding is missing:
->>  >>  > required:
->>  >>  >   - compatible
->>  >>  >   - reg
->>  >>  >   - power-supply
->>  >>  >   - reset-gpios
->>  >>  >   - ...
->>  >>  >
->>  >>  > additionalProperties: false
->>  >>  >
->>  >>  > So r-b only with these added.
->>  >>
->>  >>  Stupid mistake, sorry about that.
->>  >>
->>  >>  I'll V2.
->>  >
->>  > I don't have any V2 in my inbox, but looks like it is in =
-
->> linux-next
->>  > now:
->> =
-
->>  Yes, Sam told me on IRC I could fix it while applying and avoid the =
-
->> V2.
->> =
-
->>  > =
-
->> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/d=
-isplay/panel/abt,y030xx067a.example.dt.yaml:
->>  > panel@0: 'spi-max-frequency' does not match any of the regexes:
->>  > 'pinctrl-[0-9]+'
->>  >  From schema:
->>  > =
-
->> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/d=
-isplay/panel/abt,y030xx067a.yaml
->> =
-
->>  "make dt_binding_check
->>  =
-
->> DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/display/panel/abt,y0=
-30xx067a.yaml"
->>  doesn't complain here :(
-> =
-
-> Even if you do 'touch
-> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml'
-> or do a clean build?
-> =
-
-> I can't think of any kernel or dt-schema changes which would explain
-> the difference. This is purely related to 'additionalProperties:
-> false'.
-
-Ok, I see it now.
-Should I use 'unevaluatedProperties: false' instead?
-
--Paul
-
-
+Thanks,
+Peiyong
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
