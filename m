@@ -1,49 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82A52C86D2
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:32:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 686372C86D1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F25A46E4C5;
-	Mon, 30 Nov 2020 14:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A47CB89ED6;
+	Mon, 30 Nov 2020 14:32:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DB8E6E4C5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:32:51 +0000 (UTC)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
- [209.85.208.50])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7F2D72085B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606746770;
- bh=SuE4P++qmGoLIF8j33uj/kt53nUU2XUBIpidjDdUDcQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=XAxwCCneycEo0STLrtMaQhdKZ0vIy3KX2+qKn8bxFx6V2pJKlDfCwdebLr9GFYJyL
- 16lHebPujB7w6CV7vLOdcAwlEwmV3Ey2hf6UPW2xxW2DgOhsFtgMgpm43mDRnQaJt8
- mMzqeX9x7yi9OmkfOAPTltp96mvfQNpFA7OdHBYc=
-Received: by mail-ed1-f50.google.com with SMTP id q16so16373789edv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 06:32:50 -0800 (PST)
-X-Gm-Message-State: AOAM5331AXuI2bKAIHDFO1+/tlQcey6pNMMx048G/BNVT2LbmcnpIh0P
- b4koUkh8sJzuyOkn7XWfEDnz+VC6FmKoO+B58Q==
-X-Google-Smtp-Source: ABdhPJyTqjub2riyWhCOMyYIHeNVbIUSCia+ywmWQkoDk3lUZp34191pq9pG8Twi1LTvGpKxnvfe+omAGM3pVlOvnig=
-X-Received: by 2002:a50:c091:: with SMTP id k17mr1349767edf.137.1606746768862; 
- Mon, 30 Nov 2020 06:32:48 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EE4489ED6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:32:46 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id o1so2540731wrx.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 06:32:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1izSrE5tIgte+y1yJePg5s3+P+hBR2gHJhVi9jRqD4Q=;
+ b=NDVpU9VLchEJ8x8pxoh/NqTjZdE2GQ96DmheGPRwcS12219t7XRWd7c5RrCvm9jahr
+ rzpJQlmnqq9/m26nRRoxUctoabq+9THeNHT9vIxiRjyi2vvSnSafWEBbRW4TCwcUC5ZK
+ UOtdZ3APNagSW5LFgUW0fCEz+zBBKOy3G6xHM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=1izSrE5tIgte+y1yJePg5s3+P+hBR2gHJhVi9jRqD4Q=;
+ b=NrQNMf2KtmNq7IGjBI0cO5AZf1iae1KAUbnqYtvO/04UAFopulm1osfp72T9om7tvq
+ z/4GbeOiwcXHMoEectkf6bhCOaUK0evMvJA/hrAsNaomZsfSQZh8nTSptV27mYdrIEuF
+ /EfdWQ1r0RdcfF/cActfIivSr3+sFOtDFv9rQBIrlJZTM/HY4Z6iCKJ3yWUJus6OGUpQ
+ ie+f0ADYOIBWHa5fLKOcQEfGhivkt6s82tcwpH3Z8UuiMomLpM6wHXHUAd2h4QlUWA0g
+ eXRyA5FvWfV6XZLyiZvvOlo9cQnE/zUpREftodxRuQOij2/9T9uNRQk+B+qCAQxboGfC
+ 72fw==
+X-Gm-Message-State: AOAM533MYAYzHT62HZCItbL7dG+EZACU3gU+RJQRvH9197pTSK/p532i
+ 5nRox6xPhkAOXTR+ERIy5bOm4Diy6t303w==
+X-Google-Smtp-Source: ABdhPJzFZzm1pxUa1tzPVIl975jKOl71PdeKWbmbtr6Jv3Sb2mul/MxJ+GXaVbUEzZI9TgYlzlNxsQ==
+X-Received: by 2002:a5d:4746:: with SMTP id o6mr7734934wrs.324.1606746764681; 
+ Mon, 30 Nov 2020 06:32:44 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v20sm23112819wmh.44.2020.11.30.06.32.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 06:32:43 -0800 (PST)
+Date: Mon, 30 Nov 2020 15:32:41 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jialin Zhang <zhangjialin11@huawei.com>
+Subject: Re: [PATCH] drm/gma500: Fix error return code in psb_driver_load()
+Message-ID: <20201130143241.GO401619@phenom.ffwll.local>
+Mail-Followup-To: Jialin Zhang <zhangjialin11@huawei.com>,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ David Airlie <airlied@linux.ie>, Alan Cox <alan@linux.intel.com>,
+ Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, huawei.libin@huawei.com
+References: <20201130020216.1906141-1-zhangjialin11@huawei.com>
 MIME-Version: 1.0
-References: <20201101093150.8071-1-paul@crapouillou.net>
- <20201101093150.8071-3-paul@crapouillou.net>
- <20201101122900.GB1269759@ravnborg.org> <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
-In-Reply-To: <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Mon, 30 Nov 2020 07:32:37 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqLSGMFibm8tVKqNe1SFBzXTU2=M2jZmpfrHeGUqS3foRg@mail.gmail.com>
-Message-ID: <CAL_JsqLSGMFibm8tVKqNe1SFBzXTU2=M2jZmpfrHeGUqS3foRg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A panel
- bindings
-To: Paul Cercueil <paul@crapouillou.net>, Sam Ravnborg <sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <20201130020216.1906141-1-zhangjialin11@huawei.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,63 +70,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, od@zcrc.me,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Christophe Branchereau <cbranchereau@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: huawei.libin@huawei.com, David Airlie <airlied@linux.ie>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Dave Airlie <airlied@redhat.com>, Alan Cox <alan@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMiwgMjAyMCBhdCAzOjE5IEFNIFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91
-aWxsb3UubmV0PiB3cm90ZToKPgo+Cj4KPiBMZSBkaW0uIDEgbm92LiAyMDIwIMOgIDEzOjI5LCBT
-YW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+IGEgw6ljcml0IDoKPiA+IE9uIFN1biwgTm92
-IDAxLCAyMDIwIGF0IDA5OjMxOjQ4QU0gKzAwMDAsIFBhdWwgQ2VyY3VlaWwgd3JvdGU6Cj4gPj4g
-IFRoZSBBc2lhIEJldHRlciBUZWNobm9sb2d5IChBQlQpIFkwMzBYWDA2N0EgcGFuZWwgaXMgYSAz
-LjAiIDMyMHg0ODAKPiA+PiAgMjQtYml0IElQUyBMQ0QgcGFuZWwuIEl0cyBwYXJ0aWN1bGFyaXR5
-IGlzIHRoYXQgaXQgaGFzIG5vbi1zcXVhcmUKPiA+PiBwaXhlbHMKPiA+PiAgKGFzIGl0IGlzIDQ6
-MyBmb3IgYSByZXNvbHV0aW9uIG9mIDMyMHg0ODApLCBhbmQgdGhhdCBpdCByZXF1aXJlcyBvZGQK
-PiA+PiAgbGluZXMgdG8gYmUgc2VudCBhcyBSR0IgYW5kIGV2ZW4gbGluZXMgdG8gYmUgc2VudCBh
-cyBHUkIgb24gaXRzCj4gPj4gOC1iaXQKPiA+PiAgYnVzLgo+ID4+Cj4gPj4gIFNpZ25lZC1vZmYt
-Ynk6IFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0Pgo+ID4+ICAtLS0KPiA+PiAg
-IC4uLi9kaXNwbGF5L3BhbmVsL2FidCx5MDMweHgwNjdhLnlhbWwgICAgICAgICB8IDU0Cj4gPj4g
-KysrKysrKysrKysrKysrKysrKwo+ID4+ICAgMSBmaWxlIGNoYW5nZWQsIDU0IGluc2VydGlvbnMo
-KykKPiA+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NAo+ID4+IERvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2FidCx5MDMweHgwNjdhLnlhbWwKPiA+Pgo+ID4+ICBk
-aWZmIC0tZ2l0Cj4gPj4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
-eS9wYW5lbC9hYnQseTAzMHh4MDY3YS55YW1sCj4gPj4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hYnQseTAzMHh4MDY3YS55YW1sCj4gPj4gIG5ldyBm
-aWxlIG1vZGUgMTAwNjQ0Cj4gPj4gIGluZGV4IDAwMDAwMDAwMDAwMC4uNjQwN2U4YmY0NWZhCj4g
-Pj4gIC0tLSAvZGV2L251bGwKPiA+PiAgKysrCj4gPj4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
-ZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9hYnQseTAzMHh4MDY3YS55YW1sCj4gPj4gIEBAIC0w
-LDAgKzEsNTQgQEAKPiA+PiAgKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wIE9S
-IEJTRC0yLUNsYXVzZSkKPiA+PiAgKyVZQU1MIDEuMgo+ID4+ICArLS0tCj4gPj4gICskaWQ6Cj4g
-Pj4gaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvZGlzcGxheS9wYW5lbC9hYnQseTAzMHh4
-MDY3YS55YW1sIwo+ID4+ICArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2No
-ZW1hcy9jb3JlLnlhbWwjCj4gPj4gICsKPiA+PiAgK3RpdGxlOiBBc2lhIEJldHRlciBUZWNobm9s
-b2d5IDMuMCIgKDMyMHg0ODAgcGl4ZWxzKSAyNC1iaXQgSVBTIExDRAo+ID4+IHBhbmVsCj4gPj4g
-ICsKPiA+PiAgK2Rlc2NyaXB0aW9uOiB8Cj4gPj4gICsgIFRoZSBwYW5lbCBtdXN0IG9iZXkgdGhl
-IHJ1bGVzIGZvciBhIFNQSSBzbGF2ZSBkZXZpY2UgYXMKPiA+PiBzcGVjaWZpZWQgaW4KPiA+PiAg
-KyAgc3BpL3NwaS1jb250cm9sbGVyLnlhbWwKPiA+PiAgKwo+ID4+ICArbWFpbnRhaW5lcnM6Cj4g
-Pj4gICsgIC0gUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gPj4gICsKPiA+
-PiAgK2FsbE9mOgo+ID4+ICArICAtICRyZWY6IHBhbmVsLWNvbW1vbi55YW1sIwo+ID4+ICArCj4g
-Pj4gICtwcm9wZXJ0aWVzOgo+ID4+ICArICBjb21wYXRpYmxlOgo+ID4+ICArICAgIGNvbnN0OiBh
-YnQseTAzMHh4MDY3YQo+ID4+ICArCj4gPj4gICsgIGJhY2tsaWdodDogdHJ1ZQo+ID4+ICArICBw
-b3J0OiB0cnVlCj4gPj4gICsgIHBvd2VyLXN1cHBseTogdHJ1ZQo+ID4+ICArICByZWc6IHRydWUK
-PiA+PiAgKyAgcmVzZXQtZ3Bpb3M6IHRydWUKPiA+Cj4gPiBUaGUgYmluZGluZyBpcyBtaXNzaW5n
-Ogo+ID4gcmVxdWlyZWQ6Cj4gPiAgIC0gY29tcGF0aWJsZQo+ID4gICAtIHJlZwo+ID4gICAtIHBv
-d2VyLXN1cHBseQo+ID4gICAtIHJlc2V0LWdwaW9zCj4gPiAgIC0gLi4uCj4gPgo+ID4gYWRkaXRp
-b25hbFByb3BlcnRpZXM6IGZhbHNlCj4gPgo+ID4gU28gci1iIG9ubHkgd2l0aCB0aGVzZSBhZGRl
-ZC4KPgo+IFN0dXBpZCBtaXN0YWtlLCBzb3JyeSBhYm91dCB0aGF0Lgo+Cj4gSSdsbCBWMi4KCkkg
-ZG9uJ3QgaGF2ZSBhbnkgVjIgaW4gbXkgaW5ib3gsIGJ1dCBsb29rcyBsaWtlIGl0IGlzIGluIGxp
-bnV4LW5leHQgbm93OgoKL2J1aWxkcy9yb2JoZXJyaW5nL2xpbnV4LWR0LWJpbmRpbmdzL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL2FidCx5MDMweHgwNjdh
-LmV4YW1wbGUuZHQueWFtbDoKcGFuZWxAMDogJ3NwaS1tYXgtZnJlcXVlbmN5JyBkb2VzIG5vdCBt
-YXRjaCBhbnkgb2YgdGhlIHJlZ2V4ZXM6CidwaW5jdHJsLVswLTldKycKIEZyb20gc2NoZW1hOiAv
-YnVpbGRzL3JvYmhlcnJpbmcvbGludXgtZHQtYmluZGluZ3MvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvYWJ0LHkwMzB4eDA2N2EueWFtbApfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBs
-aXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVz
-a3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Mon, Nov 30, 2020 at 10:02:16AM +0800, Jialin Zhang wrote:
+> Fix to return a negative error code from the error handling
+> case instead of 0, as done elsewhere in this function.
+> 
+> Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Jialin Zhang <zhangjialin11@huawei.com>
+
+Out of curiosity, what is hulk robot matching here? This is a really
+interesting bug for automated checkers to find!
+
+Thanks for the patch, applied to drm-misc-next.
+-Daniel
+
+> ---
+>  drivers/gpu/drm/gma500/psb_drv.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+> index 34b4aae9a15e..074f403d7ca0 100644
+> --- a/drivers/gpu/drm/gma500/psb_drv.c
+> +++ b/drivers/gpu/drm/gma500/psb_drv.c
+> @@ -313,6 +313,8 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+>  	if (ret)
+>  		goto out_err;
+>  
+> +	ret = -ENOMEM;
+> +
+>  	dev_priv->mmu = psb_mmu_driver_init(dev, 1, 0, 0);
+>  	if (!dev_priv->mmu)
+>  		goto out_err;
+> -- 
+> 2.25.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
