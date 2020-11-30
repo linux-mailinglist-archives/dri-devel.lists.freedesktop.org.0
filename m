@@ -1,56 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B1E2C994C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E5A2C9962
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1AB86E4FB;
-	Tue,  1 Dec 2020 08:23:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AA246E54C;
+	Tue,  1 Dec 2020 08:23:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF9489D00
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 22:34:13 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id f23so5154029ejt.8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fKEdC66hJ5JGLsiLl3hBV9f87nrLsLENnZJ383Beve8=;
- b=Hl4XxdMkJ2RDEu06Xnz1qMbOpFWfnI/RbbLjZwWSXyPJJAyRVk39Q8D+aioSqvMEY3
- dMaprc0g8So5ez4Hj/80hfeEQLeZq9/9t+tGeitb43B2yb7SW3JpgNu/nrkMzRWfTIcK
- nobNVsyfNL/QcUlDv/+SD+93thS85zPFRkf+c6608NjfRq8Iu1IxwyxoBMDKASBy/pe3
- HR/5Y2p7ImfAQoikKXEBwUrLXycWd5nCUBKYbrfFf+1hTHwrnj7zOQza/VV9Ryh+Cdf1
- kf8i57L8gAMsMWdMwaWbKGTPe5XlK4hkiv01xgepkCQzMOuyxQ6TuUFdC03+dIKKY1vp
- epyQ==
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2C9689A4E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 22:57:47 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id r24so25137745lfm.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:57:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CF4VCvT4y1MxLEN3CJpvUBs6aS1caFV9qr8mvMQWWkQ=;
+ b=d2cpPCDwNOjwJ6zcyEH2OArFryPnDeS1v1mqLxiZ+cT8m5CMXk396ihiK1Z+IbhVGH
+ 1tDI2bfUXmCLyz0+wmsNpiZ8XBXhA1tumhbrUIKZiRJlzSGihfizD+UFCJu63/yAb4+K
+ rV3Zm1PIcTZyuCXFy1FHWMOmSyc7jFxs5KUvk5p4diMvitODg1SqQZUkVjyquBm3BdPC
+ N8Q2rwDqqHMfQsUGPskU3kXBiQdkLyCsLBgyldzxov3xNZ+QZpIqAjdOyAGQbGL41qm9
+ BL787np2iHPKbnFaf48ATS0ymrwLyBukH6pVmXsxfCrhm5VPqbwaZOEPhxRq3gN3bZqt
+ Bogg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fKEdC66hJ5JGLsiLl3hBV9f87nrLsLENnZJ383Beve8=;
- b=Wlr3wn6Mla792z1vPI/55359QSKGHu58fBLELzx/kx7TtYv2z/i07zrB7HALshLRJk
- jHQ2trnLybhcjN3epsqlCOO64Wh/RjNCJZY/4uT6cmcIRiPwkzMSIeT+ZpAEaCzu8mOS
- SMaZ76VAijNJgG/7Nu1lbsrEHkO5bKLMdWDVhw7kwYHtX5jktMiih8vQUlCB7dgz/ORI
- hIxXaMrDwllnqwGD+L2DH0ej6pMw+Vr9263rnQEJEMInxAZQiYFNJxk9OfDxP61SEj6j
- BDpfKx6CEH6QIYnV5fpnmqwmS2DJQdw7zul8XNjQEenBx79N0+ly033dEdXF+IHCJR+v
- DLMw==
-X-Gm-Message-State: AOAM531k0K1VWI7BA77vpbgGh8tEC9Ln2YwdN7RNJAKtEzaPAxt/EjK4
- c/5x8f+b9NdTqcEXF55gMcCGiQMgVkwnq2xU6ezI8Q==
-X-Google-Smtp-Source: ABdhPJy4mx9bz7eZi5E2l30s9A9eHdahnGhj0teAoOlrytTn7Qa2iVKl14LEOUHYXZY+466a9ZU6/pKEl8bMCpCk9Jc=
-X-Received: by 2002:a17:906:1c8e:: with SMTP id
- g14mr9809987ejh.5.1606775651902; 
- Mon, 30 Nov 2020 14:34:11 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CF4VCvT4y1MxLEN3CJpvUBs6aS1caFV9qr8mvMQWWkQ=;
+ b=eVNE2wH8jkRR4Uk03CoeeqvcPT52m7Lbov6fhcI7jsF6/OetFCilUChogwRp/VBxat
+ k0NteO90sKeIA4ptS/lYQgrH46Q7ndV1p5AGXoHEbNBZsVr2zH/Ax56evTf7dzHeLJRr
+ /ijbuGYHEXYU6orDxYGnKilOR0yb2emT6HYf0c0eP5xv+y6o9UXS1cU2PskY7oDYfQ9e
+ NT80ru5JaGDjJmg0MQ9SRDvA0H7JkEwvg62X5VAIKrWDXBiWJ6HlXQB8QquY7FPM9I5r
+ BtlNpT5FjSsGzjCEXmx+dnH2Q5Sx6JWOi8GstKuuiCTRnLcMbelmKt6RebkgdAeSx11A
+ zk6A==
+X-Gm-Message-State: AOAM5328iBr0yc4WEqzPfM+u2z77WpbclETPu80ZQMcwaN8MlViei0hk
+ OH0mAhm5GgTA5PocCJPUGWDHfzeGERE=
+X-Google-Smtp-Source: ABdhPJxPQ5c3K0b2ozPSWkF7iFJ7NCtYycGijm2HoLwZV/SOV1v33DiiclIeLz/+U3dd6zS5vKhPhQ==
+X-Received: by 2002:ac2:4890:: with SMTP id x16mr10210588lfc.4.1606777066004; 
+ Mon, 30 Nov 2020 14:57:46 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
+ [109.252.193.159])
+ by smtp.googlemail.com with ESMTPSA id p16sm2616059lfe.255.2020.11.30.14.57.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Nov 2020 14:57:45 -0800 (PST)
+Subject: Re: [PATCH v10 17/19] ARM: tegra: Add EMC OPP properties to Tegra20
+ device-trees
+To: Jon Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
+ Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
+References: <20201123002723.28463-1-digetx@gmail.com>
+ <20201123002723.28463-18-digetx@gmail.com>
+ <60657f5e-bd30-094e-f8df-6ba69e0d6a3e@nvidia.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <1ed05baf-3a01-3a2b-cd79-98b356c846cf@gmail.com>
+Date: Tue, 1 Dec 2020 01:57:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <20200820162738.33053904@oasis.local.home>
- <20201022173434.910879-1-lpy@google.com>
- <CA+0soA=JR45Tad6+0jCDoiXPk_ctDmmFhg9NtPRrMFb9fM3V0Q@mail.gmail.com>
-In-Reply-To: <CA+0soA=JR45Tad6+0jCDoiXPk_ctDmmFhg9NtPRrMFb9fM3V0Q@mail.gmail.com>
-From: Peiyong Lin <lpy@google.com>
-Date: Mon, 30 Nov 2020 14:33:59 -0800
-Message-ID: <CA+0soAkd3nq0ys1TQ3m8DxMAT4-EGfo7obQ9OrGQ15bipT=wTA@mail.gmail.com>
-Subject: Re: [PATCH v4] Add power/gpu_frequency tracepoint.
-To: Steven Rostedt <rostedt@goodmis.org>, alexdeucher@gmail.com
+In-Reply-To: <60657f5e-bd30-094e-f8df-6ba69e0d6a3e@nvidia.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 01 Dec 2020 08:23:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,165 +83,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sidath Senanayake <sidaths@google.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Masahiro Yamada <yamada.masahiro@socionext.com>,
- Prahlad Kilambi <prahladk@google.com>, Ingo Molnar <mingo@redhat.com>,
- Pavel Machek <pavel@ucw.cz>, Paul Walmsley <paul.walmsley@sifive.com>,
- zzyiwei@android.com, android-kernel@google.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 17, 2020 at 1:31 PM Peiyong Lin <lpy@google.com> wrote:
->
-> On Thu, Oct 22, 2020 at 10:34 AM Peiyong Lin <lpy@google.com> wrote:
-> >
-> > Historically there is no common trace event for GPU frequency, in
-> > downstream Android each different hardware vendor implements their own
-> > way to expose GPU frequency, for example as a debugfs node.  This patch
-> > standardize it as a common trace event in upstream linux kernel to help
-> > the ecosystem have a common implementation across hardware vendors.
-> > Toolings in the Linux ecosystem will benefit from this especially in the
-> > downstream Android, where this information is critical to graphics
-> > developers.
-> >
-> > Signed-off-by: Peiyong Lin <lpy@google.com>
-> > ---
-> >
-> > Changelog since v3:
-> >  - Correct copyright title.
-> >
-> > Changelog since v2:
-> >  - Add more comments to indicate when the event should be emitted.
-> >  - Change state to frequency.
-> >
-> > Changelog since v1:
-> >  - Use %u in TP_printk
-> >
-> >  drivers/gpu/Makefile                    |  1 +
-> >  drivers/gpu/trace/Kconfig               |  3 +++
-> >  drivers/gpu/trace/Makefile              |  1 +
-> >  drivers/gpu/trace/trace_gpu_frequency.c | 13 ++++++++++
-> >  include/trace/events/power.h            | 33 +++++++++++++++++++++++++
-> >  5 files changed, 51 insertions(+)
-> >  create mode 100644 drivers/gpu/trace/trace_gpu_frequency.c
-> >
-> > diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
-> > index 835c88318cec..f289a47eb031 100644
-> > --- a/drivers/gpu/Makefile
-> > +++ b/drivers/gpu/Makefile
-> > @@ -6,3 +6,4 @@ obj-$(CONFIG_TEGRA_HOST1X)      += host1x/
-> >  obj-y                  += drm/ vga/
-> >  obj-$(CONFIG_IMX_IPUV3_CORE)   += ipu-v3/
-> >  obj-$(CONFIG_TRACE_GPU_MEM)            += trace/
-> > +obj-$(CONFIG_TRACE_GPU_FREQUENCY)              += trace/
-> > diff --git a/drivers/gpu/trace/Kconfig b/drivers/gpu/trace/Kconfig
-> > index c24e9edd022e..ac4aec8d5845 100644
-> > --- a/drivers/gpu/trace/Kconfig
-> > +++ b/drivers/gpu/trace/Kconfig
-> > @@ -2,3 +2,6 @@
-> >
-> >  config TRACE_GPU_MEM
-> >         bool
-> > +
-> > +config TRACE_GPU_FREQUENCY
-> > +       bool
-> > diff --git a/drivers/gpu/trace/Makefile b/drivers/gpu/trace/Makefile
-> > index b70fbdc5847f..2b7ae69327d6 100644
-> > --- a/drivers/gpu/trace/Makefile
-> > +++ b/drivers/gpu/trace/Makefile
-> > @@ -1,3 +1,4 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >
-> >  obj-$(CONFIG_TRACE_GPU_MEM) += trace_gpu_mem.o
-> > +obj-$(CONFIG_TRACE_GPU_FREQUENCY) += trace_gpu_frequency.o
-> > diff --git a/drivers/gpu/trace/trace_gpu_frequency.c b/drivers/gpu/trace/trace_gpu_frequency.c
-> > new file mode 100644
-> > index 000000000000..668fabd6b77a
-> > --- /dev/null
-> > +++ b/drivers/gpu/trace/trace_gpu_frequency.c
-> > @@ -0,0 +1,13 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * GPU frequency trace points
-> > + *
-> > + * Copyright (C) 2020 Google LLC
-> > + */
-> > +
-> > +#include <linux/module.h>
-> > +
-> > +#define CREATE_TRACE_POINTS
-> > +#include <trace/events/power.h>
-> > +
-> > +EXPORT_TRACEPOINT_SYMBOL(gpu_frequency);
-> > diff --git a/include/trace/events/power.h b/include/trace/events/power.h
-> > index af5018aa9517..343825a76953 100644
-> > --- a/include/trace/events/power.h
-> > +++ b/include/trace/events/power.h
-> > @@ -500,6 +500,39 @@ DEFINE_EVENT(dev_pm_qos_request, dev_pm_qos_remove_request,
-> >
-> >         TP_ARGS(name, type, new_value)
-> >  );
-> > +
-> > +/**
-> > + * gpu_frequency - Reports the GPU frequency in GPU clock domains.
-> > + *
-> > + * This event should be emitted whenever there's a GPU frequency change happens,
-> > + * or a GPU goes from idle state to active state, or vice versa.
-> > + *
-> > + * When the GPU goes from idle state to active state, this event should report
-> > + * the GPU frequency of the active state. When the GPU goes from active state to
-> > + * idle state, this event should report a zero frequency value.
-> > + *
-> > + * @frequency:  New frequency (in KHz)
-> > + * @gpu_id: Id for each GPU clock domain
-> > + */
-> > +TRACE_EVENT(gpu_frequency,
-> > +
-> > +       TP_PROTO(unsigned int frequency, unsigned int gpu_id),
-> > +
-> > +       TP_ARGS(frequency, gpu_id),
-> > +
-> > +       TP_STRUCT__entry(
-> > +               __field(unsigned int, frequency)
-> > +               __field(unsigned int, gpu_id)
-> > +       ),
-> > +
-> > +       TP_fast_assign(
-> > +               __entry->frequency = frequency;
-> > +               __entry->gpu_id = gpu_id;
-> > +       ),
-> > +
-> > +       TP_printk("frequency=%u gpu_id=%u",
-> > +               __entry->frequency, __entry->gpu_id)
-> > +);
-> >  #endif /* _TRACE_POWER_H */
-> >
-> >  /* This part must be outside protection */
-> > --
-> > 2.29.0.rc1.297.gfa9743e501-goog
-> >
->
->
-> Hi there,
->
-> Per request, re-send this patch with dri-devel@ list CCed.
->
-> Thanks,
-> Peiyong
-
-Hi there,
-
-For GPU drivers folks in dri-devel@ list, any input?
-
-Thanks,
-Peiyong
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDEuMTIuMjAyMCAwMDoxNywgSm9uIEh1bnRlciDQv9C40YjQtdGCOgo+IEhpIERtaXRyeSwKPiAK
+PiBPbiAyMy8xMS8yMDIwIDAwOjI3LCBEbWl0cnkgT3NpcGVua28gd3JvdGU6Cj4+IEFkZCBFTUMg
+T1BQIERWRlMgdGFibGVzIGFuZCB1cGRhdGUgYm9hcmQgZGV2aWNlLXRyZWVzIGJ5IHJlbW92aW5n
+Cj4+IHVuc3VwcG9ydGVkIE9QUHMuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5r
+byA8ZGlnZXR4QGdtYWlsLmNvbT4KPiBUaGlzIGNoYW5nZSBpcyBnZW5lcmF0aW5nIHRoZSBmb2xs
+b3dpbmcgd2FybmluZyBvbiBUZWdyYTIwIFZlbnRhbmEKPiBhbmQgcHJldmVudHMgdGhlIEVNQyBm
+cm9tIHByb2JpbmcgLi4uCj4gCj4gWyAgICAyLjQ4NTcxMV0gdGVncmEyMC1lbWMgNzAwMGY0MDAu
+bWVtb3J5LWNvbnRyb2xsZXI6IGRldmljZS10cmVlIGRvZXNuJ3QgaGF2ZSBtZW1vcnkgdGltaW5n
+cwo+IFsgICAgMi40OTkzODZdIHRlZ3JhMjAtZW1jIDcwMDBmNDAwLm1lbW9yeS1jb250cm9sbGVy
+OiAzMmJpdCBEUkFNIGJ1cwo+IFsgICAgMi41MDU4MTBdIC0tLS0tLS0tLS0tLVsgY3V0IGhlcmUg
+XS0tLS0tLS0tLS0tLQo+IFsgICAgMi41MTA1MTFdIFdBUk5JTkc6IENQVTogMCBQSUQ6IDEgYXQg
+L2xvY2FsL3dvcmtkaXIvdGVncmEvbWx0LWxpbnV4X25leHQva2VybmVsL2RyaXZlcnMvb3BwL29m
+LmM6ODc1IF9vZl9hZGRfb3BwX3RhYmxlX3YyKzB4NTk4LzB4NjFjCj4gWyAgICAyLjUyOTc0Nl0g
+TW9kdWxlcyBsaW5rZWQgaW46Cj4gWyAgICAyLjU0MDE0MF0gQ1BVOiAwIFBJRDogMSBDb21tOiBz
+d2FwcGVyLzAgTm90IHRhaW50ZWQgNS4xMC4wLXJjNS1uZXh0LTIwMjAxMTMwICMxCj4gWyAgICAy
+LjU1NDYwNl0gSGFyZHdhcmUgbmFtZTogTlZJRElBIFRlZ3JhIFNvQyAoRmxhdHRlbmVkIERldmlj
+ZSBUcmVlKQo+IFsgICAgMi41NjA4OTJdIFs8YzAxMTEzNmM+XSAodW53aW5kX2JhY2t0cmFjZSkg
+ZnJvbSBbPGMwMTBiYjYwPl0gKHNob3dfc3RhY2srMHgxMC8weDE0KQo+IFsgICAgMi41Njg2NDBd
+IFs8YzAxMGJiNjA+XSAoc2hvd19zdGFjaykgZnJvbSBbPGMwYmNlZTU0Pl0gKGR1bXBfc3RhY2sr
+MHhjOC8weGRjKQo+IFsgICAgMi41NzU4NjZdIFs8YzBiY2VlNTQ+XSAoZHVtcF9zdGFjaykgZnJv
+bSBbPGMwMTIzNWRjPl0gKF9fd2FybisweDEwNC8weDEwOCkKPiBbICAgIDIuNTgyOTEyXSBbPGMw
+MTIzNWRjPl0gKF9fd2FybikgZnJvbSBbPGMwMTIzNjkwPl0gKHdhcm5fc2xvd3BhdGhfZm10KzB4
+YjAvMHhiOCkKPiBbICAgIDIuNTkwMzk3XSBbPGMwMTIzNjkwPl0gKHdhcm5fc2xvd3BhdGhfZm10
+KSBmcm9tIFs8YzA4MjVhZDA+XSAoX29mX2FkZF9vcHBfdGFibGVfdjIrMHg1OTgvMHg2MWMpCj4g
+WyAgICAyLjU5OTI2OV0gWzxjMDgyNWFkMD5dIChfb2ZfYWRkX29wcF90YWJsZV92MikgZnJvbSBb
+PGMwODI1YjkwPl0gKGRldl9wbV9vcHBfb2ZfYWRkX3RhYmxlKzB4M2MvMHgxYTApCj4gWyAgICAy
+LjYwODU4Ml0gWzxjMDgyNWI5MD5dIChkZXZfcG1fb3BwX29mX2FkZF90YWJsZSkgZnJvbSBbPGMw
+ODdiNzc0Pl0gKHRlZ3JhX2VtY19wcm9iZSsweDQ3OC8weDk0MCkKPiBbICAgIDIuNjE3NTQ4XSBb
+PGMwODdiNzc0Pl0gKHRlZ3JhX2VtY19wcm9iZSkgZnJvbSBbPGMwNjU0Mzk4Pl0gKHBsYXRmb3Jt
+X2Rydl9wcm9iZSsweDQ4LzB4OTgpCj4gWyAgICAyLjYyNTg5OV0gWzxjMDY1NDM5OD5dIChwbGF0
+Zm9ybV9kcnZfcHJvYmUpIGZyb20gWzxjMDY1MjIzOD5dIChyZWFsbHlfcHJvYmUrMHgyMTgvMHgz
+YjgpCj4gWyAgICAyLjYzNDE2Ml0gWzxjMDY1MjIzOD5dIChyZWFsbHlfcHJvYmUpIGZyb20gWzxj
+MDY1MjU0MD5dIChkcml2ZXJfcHJvYmVfZGV2aWNlKzB4NWMvMHhiNCkKPiBbICAgIDIuNjQyMzM4
+XSBbPGMwNjUyNTQwPl0gKGRyaXZlcl9wcm9iZV9kZXZpY2UpIGZyb20gWzxjMDY1Mjc0MD5dIChk
+ZXZpY2VfZHJpdmVyX2F0dGFjaCsweDU4LzB4NjApCj4gWyAgICAyLjY1MTIwOF0gWzxjMDY1Mjc0
+MD5dIChkZXZpY2VfZHJpdmVyX2F0dGFjaCkgZnJvbSBbPGMwNjUyN2M4Pl0gKF9fZHJpdmVyX2F0
+dGFjaCsweDgwLzB4YmMpCj4gWyAgICAyLjY1OTczMF0gWzxjMDY1MjdjOD5dIChfX2RyaXZlcl9h
+dHRhY2gpIGZyb20gWzxjMDY1MDYxMD5dIChidXNfZm9yX2VhY2hfZGV2KzB4NzQvMHhiNCkKPiBb
+ICAgIDIuNjY3OTA1XSBbPGMwNjUwNjEwPl0gKGJ1c19mb3JfZWFjaF9kZXYpIGZyb20gWzxjMDY1
+MTVmOD5dIChidXNfYWRkX2RyaXZlcisweDE2NC8weDFlOCkKPiBbICAgIDIuNjc2MTY4XSBbPGMw
+NjUxNWY4Pl0gKGJ1c19hZGRfZHJpdmVyKSBmcm9tIFs8YzA2NTMyYTg+XSAoZHJpdmVyX3JlZ2lz
+dGVyKzB4N2MvMHgxMTQpCj4gWyAgICAyLjY4NDI1OV0gWzxjMDY1MzJhOD5dIChkcml2ZXJfcmVn
+aXN0ZXIpIGZyb20gWzxjMDEwMjIwOD5dIChkb19vbmVfaW5pdGNhbGwrMHg1NC8weDJiMCkKPiBb
+ICAgIDIuNjkyNDQxXSBbPGMwMTAyMjA4Pl0gKGRvX29uZV9pbml0Y2FsbCkgZnJvbSBbPGMxMDAx
+MGNjPl0gKGtlcm5lbF9pbml0X2ZyZWVhYmxlKzB4MWE0LzB4MWY0KQo+IFsgICAgMi43MDExNDVd
+IFs8YzEwMDEwY2M+XSAoa2VybmVsX2luaXRfZnJlZWFibGUpIGZyb20gWzxjMGJkNDUxMD5dIChr
+ZXJuZWxfaW5pdCsweDgvMHgxMTgpCj4gWyAgICAyLjcwOTMyMV0gWzxjMGJkNDUxMD5dIChrZXJu
+ZWxfaW5pdCkgZnJvbSBbPGMwMTAwMWIwPl0gKHJldF9mcm9tX2ZvcmsrMHgxNC8weDI0KQo+IFsg
+ICAgMi43MTY4ODVdIEV4Y2VwdGlvbiBzdGFjaygweGMxNTAxZmIwIHRvIDB4YzE1MDFmZjgpCj4g
+WyAgICAyLjcyMTkzM10gMWZhMDogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+MDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAKPiBbICAgIDIuNzMwMTA2XSAxZmMw
+OiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAw
+MDAwMDAwMCAwMDAwMDAwMAo+IFsgICAgMi43MzgyNzhdIDFmZTA6IDAwMDAwMDAwIDAwMDAwMDAw
+IDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDEzIDAwMDAwMDAwCj4gWyAgICAyLjc1MTk0MF0gLS0t
+WyBlbmQgdHJhY2UgNjFlM2I3NmRlY2EyN2VmMyBdLS0tCj4gCj4gCj4gQ2hlZXJzCj4gSm9uCj4g
+CgpIZWxsbyBKb24sCgpUaGF0IGlzIGhhcm1sZXNzIGFuZCBleHBlY3RlZCB0byBoYXBwZW4gYmVj
+YXVzZSB0aGUgcGF0Y2ggIm1lbW9yeToKdGVncmEyMDogU3VwcG9ydCBoYXJkd2FyZSB2ZXJzaW9u
+aW5nIGFuZCBjbGVhbiB1cCBPUFAgdGFibGUKaW5pdGlhbGl6YXRpb24iIGlzbid0IGFwcGxpZWQg
+eWV0LCB3aGlsZSBUaGllcnJ5IGFscmVhZHkgYXBwbGllZCB0aGUgRFQKcGF0Y2hlcyBmcm9tIHRo
+aXMgdjEwLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
+cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
+cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
