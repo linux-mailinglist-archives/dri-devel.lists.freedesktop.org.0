@@ -2,46 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1565D2C82E1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:10:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 330C82C82EB
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:13:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B42AB89F27;
-	Mon, 30 Nov 2020 11:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9772889F27;
+	Mon, 30 Nov 2020 11:13:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22B2289F27;
- Mon, 30 Nov 2020 11:10:01 +0000 (UTC)
-IronPort-SDR: 7QvU+Q35FJUAu011rZ7N4SQzwuDDAzkIQxPdZanBFOZRgPLMqJ47NmELGgV37LYCTxomM7W3Ai
- VoGfDBJqhJQw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="171833042"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="171833042"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 03:10:00 -0800
-IronPort-SDR: sA+KxObpPDuIbBScTiloxTAd926WmPkmERdBjZgb14/Qxy7PiNyHucmj1CfYFiM/N5+h5aXBcZ
- dP4Y4u+cS2vw==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="538558124"
-Received: from ekiperwa-mobl.ger.corp.intel.com (HELO [10.252.22.113])
- ([10.252.22.113])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 03:09:59 -0800
-Subject: Re: [Intel-gfx] [RFC PATCH 118/162] drm/i915/dg1: Reserve first 1MB
- of local memory
-To: Chris Wilson <chris@chris-wilson.co.uk>, intel-gfx@lists.freedesktop.org
-References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-119-matthew.auld@intel.com>
- <160648517402.2925.2248861493310859776@build.alporthouse.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <5177b585-06d5-2432-791f-f9cf0e6f0613@intel.com>
-Date: Mon, 30 Nov 2020 11:09:57 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
+ [IPv6:2a00:1450:4864:20::141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF9889F27
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 11:13:32 +0000 (UTC)
+Received: by mail-lf1-x141.google.com with SMTP id a9so20830631lfh.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 03:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=poP6Q1l+eqOFBI64nm9FltMgPlHwyCaSOi0P93RPgSA=;
+ b=g3lnTDUK+Ae/1gTQTeQ10vfuD7VM6oCKHUHHX5iYHlvj20azmv1jTxOCemWmjCaTsr
+ sSkq7KJCapovFR24xNRKbI1tyuDokhohpMyn17ienDbiQ+ExoGHT7Yi/uq7RMX/J+r2b
+ lSLMLJ9KGd3JG4i9Hx1ns2yUBENEQ3at8vTJdRjMmZBG0aBVImeyycMYxHQVig/PlWRo
+ upCn1rA6LbKp3t4azAcwOA6qXC/8Hy/BTYLNX6G1DkQkPKyGS2D4Qg4vNAMBqM0CYAXw
+ G/mszOaMkI/K8wVC1zTAJZT5ngeN0UVS4Y+sQIYv9BmXSN+JneZbThoOZ+fA6RqW9+dE
+ CiPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=poP6Q1l+eqOFBI64nm9FltMgPlHwyCaSOi0P93RPgSA=;
+ b=EjcXNi9Y1Njc3n/VDaFuXtuia1EtP+j6CbfIcijA6CagyV1se2pgbnT/TZ4zvbn/MK
+ kgut5AeqErHlnKVmYJkf97AM2qcJ7FGGhRshLwW1ob6rYLI8WAvgb4CzfORf9lfu9Cf6
+ kMMMEJ3bMM3aoiWsAM0PyQGFAxiXW2zenVpphS8NoNAC5THl2tV6O2FCk/wlRhsTxQod
+ FqpVzEfEj7n3T1H636mVBSD3MUhOqcW0EeCmK5ZBkMUB8U7BtIUZ7wiESj/y27Patetz
+ VrmRwiJPyAg4ijPrT8McwB9uWf2jD2cjUiSUVqPQ6OXyWbC6BecWcREhhwIQlJLpBK4L
+ TJjg==
+X-Gm-Message-State: AOAM532WFtJ982zxm5wTsUO20v94pSHaSlql0vrSMi1rXYVUM2y4DURO
+ UaSv8pLViu0F+WzeI7Ydh/I=
+X-Google-Smtp-Source: ABdhPJxwdSFczpm9NFMtnvpf5Z6p8bWzq/NQnB4/pG0MN/4GEoizfMq8uiS6wUY4HmIlUqS75lXbBQ==
+X-Received: by 2002:a19:655c:: with SMTP id c28mr9524178lfj.549.1606734810483; 
+ Mon, 30 Nov 2020 03:13:30 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id t6sm2422425lfk.207.2020.11.30.03.13.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 03:13:30 -0800 (PST)
+Date: Mon, 30 Nov 2020 13:13:26 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm/vkms: detect modes during output initialization
+Message-ID: <20201130131326.7ac87605@eldfell>
+In-Reply-To: <H5TtDGvtYXHmWmVpmi1NyWShzr17yAkVlxZOuKcP-fekJpvYX_Ec7JQtizWk8Xpkaw95TIkTqhzWZER4xwl0mOguSjIQSGLBgGQVMPAejyY=@emersion.fr>
+References: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
+ <20201124143947.GP401619@phenom.ffwll.local>
+ <9365f1d0-2bb7-d7e8-dad6-62111abadee8@collabora.com>
+ <H5TtDGvtYXHmWmVpmi1NyWShzr17yAkVlxZOuKcP-fekJpvYX_Ec7JQtizWk8Xpkaw95TIkTqhzWZER4xwl0mOguSjIQSGLBgGQVMPAejyY=@emersion.fr>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <160648517402.2925.2248861493310859776@build.alporthouse.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,87 +68,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Leandro Ribeiro <leandro.ribeiro@collabora.com>
+Content-Type: multipart/mixed; boundary="===============0497442584=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/11/2020 13:52, Chris Wilson wrote:
-> Quoting Matthew Auld (2020-11-27 12:06:34)
->> From: Imre Deak <imre.deak@intel.com>
->>
->> On DG1 A0/B0 steppings the first 1MB of local memory must be reserved.
->> One reason for this is that the 0xA0000-0xB0000 range is not accessible
->> by the display, probably since this region is redirected to another
->> memory location for legacy VGA compatibility.
->>
->> BSpec: 50586
->> Testcase: igt/kms_big_fb/linear-64bpp-rotate-0
->> Signed-off-by: Imre Deak <imre.deak@intel.com>
->> ---
->>   drivers/gpu/drm/i915/intel_region_lmem.c | 52 ++++++++++++++++++++++++
->>   1 file changed, 52 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
->> index 939cf0d195a5..eafef7034680 100644
->> --- a/drivers/gpu/drm/i915/intel_region_lmem.c
->> +++ b/drivers/gpu/drm/i915/intel_region_lmem.c
->> @@ -137,6 +137,48 @@ intel_setup_fake_lmem(struct drm_i915_private *i915)
->>          return mem;
->>   }
->>   
->> +static void get_legacy_lowmem_region(struct intel_uncore *uncore,
->> +                                    u64 *start, u32 *size)
->> +{
->> +       *start = 0;
->> +       *size = 0;
->> +
->> +       if (!IS_DG1_REVID(uncore->i915, DG1_REVID_A0, DG1_REVID_B0))
->> +               return;
->> +
->> +       *size = SZ_1M;
->> +
->> +       DRM_DEBUG_DRIVER("LMEM: reserved legacy low-memory [0x%llx-0x%llx]\n",
->> +                        *start, *start + *size);
->> +}
->> +
->> +static int reserve_lowmem_region(struct intel_uncore *uncore,
->> +                                struct intel_memory_region *mem)
->> +{
->> +       u64 reserve_start;
->> +       u64 reserve_end;
->> +       u64 region_start;
->> +       u32 region_size;
->> +       int ret;
->> +
->> +       get_legacy_lowmem_region(uncore, &region_start, &region_size);
->> +       reserve_start = region_start;
->> +       reserve_end = region_start + region_size;
->> +
->> +       if (!reserve_end)
->> +               return 0;
->> +
->> +       DRM_INFO("LMEM: reserving low-memory region [0x%llx-0x%llx]\n",
->> +                reserve_start, reserve_end);
->> +       ret = i915_buddy_alloc_range(&mem->mm, &mem->reserved,
->> +                                    reserve_start,
->> +                                    reserve_end - reserve_start);
-> 
-> Isn't this now relative to the stolen offset? Should this be reserved,
-> or excluded like stolen?
+--===============0497442584==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/xBRTMpo0U=NO.p0go12Gys."; protocol="application/pgp-signature"
 
-AFAIK stolen is just snipped off at the end of lmem, so I don't think it 
-really matters if we exclude or reserve. But for this if we exclude then 
-the region.start might have "strange" alignment, which is annoying since 
-alloc(some_power_of_two) might not give us the expected alignment, 
-whereas if we reserve then the allocator is aware, and so we should get 
-the proper alignment. Maybe you have better ideas with how to handle 
-this, but I think keeping the alignment property is nice.
+--Sig_/xBRTMpo0U=NO.p0go12Gys.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> -Chris
-> 
+On Mon, 30 Nov 2020 10:23:04 +0000
+Simon Ser <contact@emersion.fr> wrote:
+
+> On Monday, November 30, 2020 2:03 AM, Leandro Ribeiro <leandro.ribeiro@co=
+llabora.com> wrote:
+>=20
+> > In userspace we can use drmGetConnector() or drmGetConnectorCurrent() in
+> > order to retrieve connector information. The difference between both is
+> > that the former retrieves the complete set of modes and encoders
+> > associated with the connector, while the latter only retrieves the
+> > currently known set of modes and encoders - but is much faster.
+> >
+> > This performance improvement is the reason why userspace applications
+> > may prefer to use drmGetConnectorCurrent() when they need to retrieve
+> > information from a device. =20
+>=20
+> We discussed with Daniel Vetter and it turns out user-space should
+> always use drmGetConnector(). See [1].
+
+Hi,=20
+
+where is the discussion?
+
+> [1]: https://lists.freedesktop.org/archives/dri-devel/2020-November/28950=
+6.html
+
+Please record the justitication for that patch in its commit message.
+"Can't" does not explain anything.
+
+
+Thanks,
+pq
+
+--Sig_/xBRTMpo0U=NO.p0go12Gys.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/E09YACgkQI1/ltBGq
+qqdJZw/+O5H0/vfT3s9oiEuYgVMGtvNZSkxM0oedmPY6YHQbKxy+qwoUfiIGZ00V
+izDbgCA37XIE5Nq2bxMIcyBl8drFOI2cLoQD6n78rU19LHTXTrZQ7nDRaimxT8xK
+azGrbXz4iqKxdSSnCx+kHE1MpY34ntHfSWIm5OVxRzmbQVxpcnI7Vf7MaI0EWFym
+Ag4venykxafNKYpxuByxQDX23tlmefL2Zm4MTbLncl4uQddlb3wxwgxqCrr+rQce
+SGAu9qASU+uufC88i/hsx6P+zA6hqvZN0W59cu6kteDmV5J1POdeW2RxiC/WkRIr
+2vIPzSrVS+oa66mA3IN3Sq1paKzLLTrbvcQ4er7pYFW+orTsFhEimylePPH18czU
+sikwVeAjB+nYsePfSRaSyS4B5kNTv6F7I/f8vKZT7GMu5QWD6RhY7A3+rgspvZ7y
+eE/J+qpQIGccl/qMZn2O8uzmDDxJvu0yTX3HpTAbzNXLinwblYyrvZNOKUhYaE4W
+C8gH4NtO/YBu+oUfKyCoaHvfwdVMcKE3fdukd+cd67kD+annuAhdcmQ0bJkGJsEi
+M0/V3K1SjQcxtJf0h8twgnbtbxx5QFLM3zc5uH6VzmtvFSiL24vOzmpK+znyJtA5
+dsRmp+fx0eGI4cJEp1u7+HR05/c3WyPUHZAs6UzjLumM9FI6V5k=
+=56UH
+-----END PGP SIGNATURE-----
+
+--Sig_/xBRTMpo0U=NO.p0go12Gys.--
+
+--===============0497442584==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0497442584==--
