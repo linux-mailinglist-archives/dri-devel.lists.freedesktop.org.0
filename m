@@ -1,34 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08FA42C869E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:25:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3EC72C86A9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96176E4C7;
-	Mon, 30 Nov 2020 14:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7556E4D0;
+	Mon, 30 Nov 2020 14:28:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1D106E4C7
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:25:52 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2E7C5AD43;
- Mon, 30 Nov 2020 14:25:51 +0000 (UTC)
-Subject: Re: [PATCH v2 19/28] video: fbdev: sstfb: Updated logging to fix set
- but not used warnings
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-20-sam@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <ebdbca1d-6d09-2ec3-c9ba-e54fcb4d486e@suse.de>
-Date: Mon, 30 Nov 2020 15:25:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FFA6E4D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:28:26 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id f190so22372181wme.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 06:28:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eHLcaoGR3OBMxI8Ka9Vg7O4WIQrlDq3JLjO4ywGlLGY=;
+ b=dfMrMYg+Imtd1PT+Ug3KAxUR66mYTe9vAIQKEVg0p13ToattxxKgowHojH4QkVsl8o
+ qWCIFLhhk7c1mD01OWMkZ5hkSkRlkmPm+bVkb34eSimeJ1VnWw2ym78YElm9GSziyfkJ
+ EEgXBw3Tprvet3blzGCzAx/h7Dl9EX4sL5AEk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=eHLcaoGR3OBMxI8Ka9Vg7O4WIQrlDq3JLjO4ywGlLGY=;
+ b=gK1+YpNrzMrwym66RmIItVPOaGIu7Nlo7Cc/w8MCxvL6VXnwNdqPziG0OjMOuLeUI4
+ 4Qoss2bpkFNhPOhh6Pp2ssZsbEGkS6Zj/MmUh0eHuoBpZmrH9VYanRCQdn3ZCwOrUwTM
+ 3F+7za0HBCmZdQVIOIwP9ATNuAyjNRf+HUFMr5KN4JhmLmvrerdbkF24j3bqu6sueFkv
+ C7/fEmLLy0sqAwq4lZZ02cZaLf5tzMCy03i0YnGp6BiO/6P/ehjsRrqvbbaLvDQdOuRN
+ dLIhH8k9n3Q3KIEIxDxZogqB+9Z+8ME3DqgSR6/AvLsB05GxYTrboSTrlj59C0IB7oYG
+ 0uhA==
+X-Gm-Message-State: AOAM533ns5nSLiSqvYZQeKKgEnXevPIZIPI+2NZo5JKCpV7CVeSiO157
+ c4QqL1AMWPwFAxQDeIq1R7kesg==
+X-Google-Smtp-Source: ABdhPJw0HCNBfCYYbfgmPNymctRPGyVxi7hp50ZBAm3Q4du98rsXy8jIiPNtdF8UeMGO2YaRzuWbEw==
+X-Received: by 2002:a7b:c05a:: with SMTP id u26mr23719527wmc.159.1606746503617; 
+ Mon, 30 Nov 2020 06:28:23 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id v3sm270080wrq.72.2020.11.30.06.28.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 06:28:22 -0800 (PST)
+Date: Mon, 30 Nov 2020 15:28:20 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v7 17/17] mm: add mmu_notifier argument to follow_pfn
+Message-ID: <20201130142820.GN401619@phenom.ffwll.local>
+Mail-Followup-To: kernel test robot <lkp@intel.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, kbuild-all@lists.01.org,
+ clang-built-linux@googlegroups.com, kvm@vger.kernel.org,
+ linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ Christoph Hellwig <hch@infradead.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20201127164131.2244124-18-daniel.vetter@ffwll.ch>
+ <202011280356.rPWHFNW4-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201128224114.1033617-20-sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <202011280356.rPWHFNW4-lkp@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,193 +74,235 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Mike Rapoport <rppt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1312408480=="
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-samsung-soc@vger.kernel.org,
+ kbuild-all@lists.01.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, LKML <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Christoph Hellwig <hch@infradead.org>, clang-built-linux@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1312408480==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="oKVEZsQ4Gl1QO64DcmU7A6quOhonPA1yU"
+So I guess kvm platforms that don't set KVM_ARCH_WANT_MMU_NOTIFIER exist,
+and at least on powerpc they're consistent with KVM_CAP_SYNC_MMU
+signalling that the guest pagetables stays in sync automatically with any
+updates. So for that case I guess we could use unsafe_follow_pfn.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---oKVEZsQ4Gl1QO64DcmU7A6quOhonPA1yU
-Content-Type: multipart/mixed; boundary="6GlW8RECNrgYltyKYJL7sik5kPo4Y6MLP";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-Cc: Aditya Pakki <pakki001@umn.edu>,
- Alexander Klimov <grandmaster@al2klimov.de>,
- Alex Dewar <alex.dewar90@gmail.com>, Antonino Daplas <adaplas@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Evgeny Novikov <novikov@ispras.ru>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- George Kennedy <george.kennedy@oracle.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gustavo Silva <gustavoars@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Jason Yan <yanaijie@huawei.com>, Jingoo Han <jingoohan1@gmail.com>,
- Jiri Slaby <jirislaby@kernel.org>, Joe Perches <joe@perches.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mike Rapoport <rppt@kernel.org>, Nathan Chancellor
- <natechancellor@gmail.com>, Peilin Ye <yepeilin.cs@gmail.com>,
- Peter Rosin <peda@axentia.se>, Qilong Zhang <zhangqilong3@huawei.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Message-ID: <ebdbca1d-6d09-2ec3-c9ba-e54fcb4d486e@suse.de>
-Subject: Re: [PATCH v2 19/28] video: fbdev: sstfb: Updated logging to fix set
- but not used warnings
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-20-sam@ravnborg.org>
-In-Reply-To: <20201128224114.1033617-20-sam@ravnborg.org>
+But on s390 this seems different: No mmu notifier, but KVM_CAP_SYNC_MMU is
+set. So I guess there's some hardware magic on s390 that I don't know
+about.
 
---6GlW8RECNrgYltyKYJL7sik5kPo4Y6MLP
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Not sure what to do with this now here ...
+-Daniel
 
 
-
-Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
-> Fix set but not used warnings by introducing no_printk variants
-> for the internal logging system for this driver.
->=20
-> Fix a new warning that popped up now that logging was checked for
-> correct printf format strings.
->=20
-> A more invasive fix had been to replace all the internal logging with
-> standard logging primitives - thats for another day.
->=20
-> v2:
->    - Update subject (Lee)
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> Cc: Alex Dewar <alex.dewar90@gmail.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: Lee Jones <lee.jones@linaro.org>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+On Sat, Nov 28, 2020 at 03:10:40AM +0800, kernel test robot wrote:
+> Hi Daniel,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on linuxtv-media/master]
+> [also build test ERROR on char-misc/char-misc-testing v5.10-rc5]
+> [cannot apply to hnaz-linux-mm/master next-20201127]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/follow_pfn-and-other-iomap-races/20201128-004421
+> base:   git://linuxtv.org/media_tree.git master
+> config: s390-randconfig-r032-20201127 (attached as .config)
+> compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project f095ac11a9550530a4a54298debb8b04b36422be)
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install s390 cross compiling tool for clang build
+>         # apt-get install binutils-s390x-linux-gnu
+>         # https://github.com/0day-ci/linux/commit/d76a3489433ce67d45da86aa12953385427f0ac9
+>         git remote add linux-review https://github.com/0day-ci/linux
+>         git fetch --no-tags linux-review Daniel-Vetter/follow_pfn-and-other-iomap-races/20201128-004421
+>         git checkout d76a3489433ce67d45da86aa12953385427f0ac9
+>         # save the attached .config to linux build tree
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390 
+> 
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from arch/s390/include/asm/kvm_para.h:25:
+>    In file included from arch/s390/include/asm/diag.h:12:
+>    In file included from include/linux/if_ether.h:19:
+>    In file included from include/linux/skbuff.h:31:
+>    In file included from include/linux/dma-mapping.h:10:
+>    In file included from include/linux/scatterlist.h:9:
+>    In file included from arch/s390/include/asm/io.h:80:
+>    include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+>                                                              ^
+>    include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
+>            ___constant_swab32(x) :                 \
+>                               ^
+>    include/uapi/linux/swab.h:21:12: note: expanded from macro '___constant_swab32'
+>            (((__u32)(x) & (__u32)0x00ff0000UL) >>  8) |            \
+>                      ^
+>    In file included from arch/s390/kvm/../../../virt/kvm/kvm_main.c:18:
+>    In file included from include/linux/kvm_host.h:32:
+>    In file included from include/linux/kvm_para.h:5:
+>    In file included from include/uapi/linux/kvm_para.h:36:
+>    In file included from arch/s390/include/asm/kvm_para.h:25:
+>    In file included from arch/s390/include/asm/diag.h:12:
+>    In file included from include/linux/if_ether.h:19:
+>    In file included from include/linux/skbuff.h:31:
+>    In file included from include/linux/dma-mapping.h:10:
+>    In file included from include/linux/scatterlist.h:9:
+>    In file included from arch/s390/include/asm/io.h:80:
+>    include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+>                                                              ^
+>    include/uapi/linux/swab.h:119:21: note: expanded from macro '__swab32'
+>            ___constant_swab32(x) :                 \
+>                               ^
+>    include/uapi/linux/swab.h:22:12: note: expanded from macro '___constant_swab32'
+>            (((__u32)(x) & (__u32)0xff000000UL) >> 24)))
+>                      ^
+>    In file included from arch/s390/kvm/../../../virt/kvm/kvm_main.c:18:
+>    In file included from include/linux/kvm_host.h:32:
+>    In file included from include/linux/kvm_para.h:5:
+>    In file included from include/uapi/linux/kvm_para.h:36:
+>    In file included from arch/s390/include/asm/kvm_para.h:25:
+>    In file included from arch/s390/include/asm/diag.h:12:
+>    In file included from include/linux/if_ether.h:19:
+>    In file included from include/linux/skbuff.h:31:
+>    In file included from include/linux/dma-mapping.h:10:
+>    In file included from include/linux/scatterlist.h:9:
+>    In file included from arch/s390/include/asm/io.h:80:
+>    include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+>                                                            ~~~~~~~~~~ ^
+>    include/uapi/linux/byteorder/big_endian.h:34:59: note: expanded from macro '__le32_to_cpu'
+>    #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+>                                                              ^
+>    include/uapi/linux/swab.h:120:12: note: expanded from macro '__swab32'
+>            __fswab32(x))
+>                      ^
+>    In file included from arch/s390/kvm/../../../virt/kvm/kvm_main.c:18:
+>    In file included from include/linux/kvm_host.h:32:
+>    In file included from include/linux/kvm_para.h:5:
+>    In file included from include/uapi/linux/kvm_para.h:36:
+>    In file included from arch/s390/include/asm/kvm_para.h:25:
+>    In file included from arch/s390/include/asm/diag.h:12:
+>    In file included from include/linux/if_ether.h:19:
+>    In file included from include/linux/skbuff.h:31:
+>    In file included from include/linux/dma-mapping.h:10:
+>    In file included from include/linux/scatterlist.h:9:
+>    In file included from arch/s390/include/asm/io.h:80:
+>    include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writeb(value, PCI_IOBASE + addr);
+>                                ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+>                                                          ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+>                                                          ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            readsb(PCI_IOBASE + addr, buffer, count);
+>                   ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            readsw(PCI_IOBASE + addr, buffer, count);
+>                   ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            readsl(PCI_IOBASE + addr, buffer, count);
+>                   ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            writesb(PCI_IOBASE + addr, buffer, count);
+>                    ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            writesw(PCI_IOBASE + addr, buffer, count);
+>                    ~~~~~~~~~~ ^
+>    include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+>            writesl(PCI_IOBASE + addr, buffer, count);
+>                    ~~~~~~~~~~ ^
+> >> arch/s390/kvm/../../../virt/kvm/kvm_main.c:1894:40: error: no member named 'mmu_notifier' in 'struct kvm'
+>            r = follow_pfn(vma, addr, &pfn, &kvm->mmu_notifier);
+>                                             ~~~  ^
+>    arch/s390/kvm/../../../virt/kvm/kvm_main.c:1909:41: error: no member named 'mmu_notifier' in 'struct kvm'
+>                    r = follow_pfn(vma, addr, &pfn, &kvm->mmu_notifier);
+>                                                     ~~~  ^
+>    20 warnings and 2 errors generated.
+> 
+> vim +1894 arch/s390/kvm/../../../virt/kvm/kvm_main.c
+> 
+>   1885	
+>   1886	static int hva_to_pfn_remapped(struct kvm *kvm, struct vm_area_struct *vma,
+>   1887				       unsigned long addr, bool *async,
+>   1888				       bool write_fault, bool *writable,
+>   1889				       kvm_pfn_t *p_pfn)
+>   1890	{
+>   1891		unsigned long pfn;
+>   1892		int r;
+>   1893	
+> > 1894		r = follow_pfn(vma, addr, &pfn, &kvm->mmu_notifier);
+>   1895		if (r) {
+>   1896			/*
+>   1897			 * get_user_pages fails for VM_IO and VM_PFNMAP vmas and does
+>   1898			 * not call the fault handler, so do it here.
+>   1899			 */
+>   1900			bool unlocked = false;
+>   1901			r = fixup_user_fault(current->mm, addr,
+>   1902					     (write_fault ? FAULT_FLAG_WRITE : 0),
+>   1903					     &unlocked);
+>   1904			if (unlocked)
+>   1905				return -EAGAIN;
+>   1906			if (r)
+>   1907				return r;
+>   1908	
+>   1909			r = follow_pfn(vma, addr, &pfn, &kvm->mmu_notifier);
+>   1910			if (r)
+>   1911				return r;
+>   1912	
+>   1913		}
+>   1914	
+>   1915		if (writable)
+>   1916			*writable = true;
+>   1917	
+>   1918		/*
+>   1919		 * Get a reference here because callers of *hva_to_pfn* and
+>   1920		 * *gfn_to_pfn* ultimately call kvm_release_pfn_clean on the
+>   1921		 * returned pfn.  This is only needed if the VMA has VM_MIXEDMAP
+>   1922		 * set, but the kvm_get_pfn/kvm_release_pfn_clean pair will
+>   1923		 * simply do nothing for reserved pfns.
+>   1924		 *
+>   1925		 * Whoever called remap_pfn_range is also going to call e.g.
+>   1926		 * unmap_mapping_range before the underlying pages are freed,
+>   1927		 * causing a call to our MMU notifier.
+>   1928		 */ 
+>   1929		kvm_get_pfn(pfn);
+>   1930	
+>   1931		*p_pfn = pfn;
+>   1932		return 0;
+>   1933	}
+>   1934	
+> 
 > ---
->   drivers/video/fbdev/sstfb.c | 2 +-
->   include/video/sstfb.h       | 4 ++--
->   2 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/video/fbdev/sstfb.c b/drivers/video/fbdev/sstfb.c
-> index c05cdabeb11c..27d4b0ace2d6 100644
-> --- a/drivers/video/fbdev/sstfb.c
-> +++ b/drivers/video/fbdev/sstfb.c
-> @@ -1390,7 +1390,7 @@ static int sstfb_probe(struct pci_dev *pdev, cons=
-t struct pci_device_id *id)
->   	        fix->smem_start, info->screen_base,
->   	        fix->smem_len >> 20);
->  =20
-> -	f_ddprintk("regbase_virt: %#lx\n", par->mmio_vbase);
-> +	f_ddprintk("regbase_virt: %p\n", par->mmio_vbase);
->   	f_ddprintk("membase_phys: %#lx\n", fix->smem_start);
->   	f_ddprintk("fbbase_virt: %p\n", info->screen_base);
->  =20
-> diff --git a/include/video/sstfb.h b/include/video/sstfb.h
-> index 28384f354773..d4a5e41d1173 100644
-> --- a/include/video/sstfb.h
-> +++ b/include/video/sstfb.h
-> @@ -23,7 +23,7 @@
->   #  define SST_DEBUG_FUNC 1
->   #  define SST_DEBUG_VAR  1
->   #else
-> -#  define dprintk(X...)
-> +#  define dprintk(X...)		no_printk(X)
->   #  define SST_DEBUG_REG  0
->   #  define SST_DEBUG_FUNC 0
->   #  define SST_DEBUG_VAR  0
-> @@ -48,7 +48,7 @@
->   #if (SST_DEBUG_FUNC > 1)
->   #  define f_ddprintk(X...)	dprintk(" " X)
->   #else
-> -#  define f_ddprintk(X...)
-> +#  define f_ddprintk(X...)	no_printk(X)
->   #endif
->   #if (SST_DEBUG_FUNC > 2)
->   #  define f_dddprintk(X...)	dprintk(" " X)
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
 
---6GlW8RECNrgYltyKYJL7sik5kPo4Y6MLP--
 
---oKVEZsQ4Gl1QO64DcmU7A6quOhonPA1yU
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/FAOwFAwAAAAAACgkQlh/E3EQov+Ay
-vg//aNDZXepK3P18TsWlcA6nJvsIP31yia5U1XM6hjj+31jZOHUiZRAScme7wJnnxLIzJuxDwiBW
-rgnv7+hcgCOGMiTH+o+8wGIbLaGFvAl17Zay7O5IwrXRxOuOgFL9mri7zZZyLbixt3JP/haJjJf0
-itIYeXmIVxQUe5htYgvjJhXDqbJ4dhYKKEeWKhCsztHKqFv7QHWwncSjUZEtgCjJUVtgRKONBdA3
-QM1AbWUn048esaSdTiqA2EvkN69aOhObqbY1Hpn2LhQNKTCMJV9ZlWOaaDtvre68VQ1NJQVdig+N
-nJ20YES1jF1mXcKn0cQvVgpZWMNbXPQsZFvPnMr/MVmg31zaSfWajfx+p5ReIlO7Drp0iErpBS/C
-gxRJsRqedVRwAzQKvkBmoWgHId7GncwfPZ3mydl4imwF76dKnUR6hAnzwysKApu99sHsmkWoy2FK
-EnudL6lm9eFwJgEX8K4GQmqHMhzlqxRdW+JNAyn7mrSp5MpvbNAOckmMMP74NQqSxKhNtT2T/WIN
-zdmkE2RlNCfKrtkeQq9VCMonYYZnXUFsg8TnVUhS7hrwxjvjIwV/9kanHR5mo/vYWF21CPUDOMD8
-NQBzZBDo4nssBi0l3tlJOl7Kf5ykD1Bqz3pNZyLY6pDop7J076X5Vr9RUNFaU8jpKMnz1ggGeL3c
-h0U=
-=uuZz
------END PGP SIGNATURE-----
-
---oKVEZsQ4Gl1QO64DcmU7A6quOhonPA1yU--
-
---===============1312408480==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1312408480==--
