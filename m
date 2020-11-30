@@ -1,41 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 157A42C830C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:19:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7812C8319
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:22:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 879B36E463;
-	Mon, 30 Nov 2020 11:19:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB4A89D00;
+	Mon, 30 Nov 2020 11:22:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D153F6E463;
- Mon, 30 Nov 2020 11:19:06 +0000 (UTC)
-IronPort-SDR: xeBkrqrZB1vkNSPQQkWGYiqd6xjsjssVei1BoS9UhNGP4upOSUp5tpJQEKiToQgDsUQkvnSwFd
- 9pv4A8cTaRNw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="151869178"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="151869178"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 03:19:05 -0800
-IronPort-SDR: GVNS5TdGDwBhSI3M7qSVKPGak+6uBtF63a3y7Hl2VZMW6XCh6Ju8zAR6SSN39aqsyI6eRRBoKr
- KcgxI6thldIA==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="329549544"
-Received: from cwilso3-mobl.fi.intel.com (HELO localhost) ([10.214.219.106])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 03:19:00 -0800
+Received: from fireflyinternet.com (unknown [77.68.26.236])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A45889D00;
+ Mon, 30 Nov 2020 11:22:43 +0000 (UTC)
+X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
+ x-ip-name=78.156.65.138; 
+Received: from localhost (unverified [78.156.65.138]) 
+ by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
+ 23160512-1500050 for multiple; Mon, 30 Nov 2020 11:22:39 +0000
 MIME-Version: 1.0
-In-Reply-To: <20201127120718.454037-108-matthew.auld@intel.com>
+In-Reply-To: <5177b585-06d5-2432-791f-f9cf0e6f0613@intel.com>
 References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-108-matthew.auld@intel.com>
-Subject: Re: [RFC PATCH 107/162] drm/i915: setup GPU device lmem region
-From: Chris Wilson <chris.p.wilson@intel.com>
+ <20201127120718.454037-119-matthew.auld@intel.com>
+ <160648517402.2925.2248861493310859776@build.alporthouse.com>
+ <5177b585-06d5-2432-791f-f9cf0e6f0613@intel.com>
+Subject: Re: [Intel-gfx] [RFC PATCH 118/162] drm/i915/dg1: Reserve first 1MB
+ of local memory
+From: Chris Wilson <chris@chris-wilson.co.uk>
 To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Date: Mon, 30 Nov 2020 11:18:55 +0000
-Message-ID: <160673513539.8815.7095510536023948003@build.alporthouse.com>
+Date: Mon, 30 Nov 2020 11:22:40 +0000
+Message-ID: <160673536025.8815.17208653978179049232@build.alporthouse.com>
 User-Agent: alot/0.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,121 +42,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Sudeep Dutt <sudeep.dutt@intel.com>, dri-devel@lists.freedesktop.org,
-	CQ Tang <cq.tang@intel.com>,
-	Venkata S Dhanalakota <venkata.s.dhanalakota@intel.com>,
-	Neel Desai <neel.desai@intel.com>,
-	Francesco <francesco.balestrieri@intel.com>,
-	Balestrieri@freedesktop.org,
-	Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Matthew Auld (2020-11-27 12:06:23)
-> From: CQ Tang <cq.tang@intel.com>
+Quoting Matthew Auld (2020-11-30 11:09:57)
+> On 27/11/2020 13:52, Chris Wilson wrote:
+> > Quoting Matthew Auld (2020-11-27 12:06:34)
+> >> From: Imre Deak <imre.deak@intel.com>
+> >>
+> >> On DG1 A0/B0 steppings the first 1MB of local memory must be reserved.
+> >> One reason for this is that the 0xA0000-0xB0000 range is not accessible
+> >> by the display, probably since this region is redirected to another
+> >> memory location for legacy VGA compatibility.
+> >>
+> >> BSpec: 50586
+> >> Testcase: igt/kms_big_fb/linear-64bpp-rotate-0
+> >> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> >> ---
+> >>   drivers/gpu/drm/i915/intel_region_lmem.c | 52 ++++++++++++++++++++++++
+> >>   1 file changed, 52 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
+> >> index 939cf0d195a5..eafef7034680 100644
+> >> --- a/drivers/gpu/drm/i915/intel_region_lmem.c
+> >> +++ b/drivers/gpu/drm/i915/intel_region_lmem.c
+> >> @@ -137,6 +137,48 @@ intel_setup_fake_lmem(struct drm_i915_private *i915)
+> >>          return mem;
+> >>   }
+> >>   
+> >> +static void get_legacy_lowmem_region(struct intel_uncore *uncore,
+> >> +                                    u64 *start, u32 *size)
+> >> +{
+> >> +       *start = 0;
+> >> +       *size = 0;
+> >> +
+> >> +       if (!IS_DG1_REVID(uncore->i915, DG1_REVID_A0, DG1_REVID_B0))
+> >> +               return;
+> >> +
+> >> +       *size = SZ_1M;
+> >> +
+> >> +       DRM_DEBUG_DRIVER("LMEM: reserved legacy low-memory [0x%llx-0x%llx]\n",
+> >> +                        *start, *start + *size);
+> >> +}
+> >> +
+> >> +static int reserve_lowmem_region(struct intel_uncore *uncore,
+> >> +                                struct intel_memory_region *mem)
+> >> +{
+> >> +       u64 reserve_start;
+> >> +       u64 reserve_end;
+> >> +       u64 region_start;
+> >> +       u32 region_size;
+> >> +       int ret;
+> >> +
+> >> +       get_legacy_lowmem_region(uncore, &region_start, &region_size);
+> >> +       reserve_start = region_start;
+> >> +       reserve_end = region_start + region_size;
+> >> +
+> >> +       if (!reserve_end)
+> >> +               return 0;
+> >> +
+> >> +       DRM_INFO("LMEM: reserving low-memory region [0x%llx-0x%llx]\n",
+> >> +                reserve_start, reserve_end);
+> >> +       ret = i915_buddy_alloc_range(&mem->mm, &mem->reserved,
+> >> +                                    reserve_start,
+> >> +                                    reserve_end - reserve_start);
+> > 
+> > Isn't this now relative to the stolen offset? Should this be reserved,
+> > or excluded like stolen?
 > 
-> The lmem region needs to remove the stolen part.
-> 
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
-> Cc: Chris P Wilson <chris.p.wilson@intel.com>
-> Cc: Balestrieri, Francesco <francesco.balestrieri@intel.com>
-> Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Cc: Venkata S Dhanalakota <venkata.s.dhanalakota@intel.com>
-> Cc: Neel Desai <neel.desai@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
-> Signed-off-by: CQ Tang <cq.tang@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_reg.h          |  2 ++
->  drivers/gpu/drm/i915/intel_region_lmem.c | 11 +++++++----
->  2 files changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 1af1966ac461..0e01ea0cb0a4 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -12066,6 +12066,8 @@ enum skl_power_gate {
->  #define GEN12_LMEM_CFG_ADDR            _MMIO(0xcf58)
->  #define   LMEM_ENABLE                  (1 << 31)
->  
-> +#define GEN12_GSMBASE                  _MMIO(0x108100)
-> +
->  /* gamt regs */
->  #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
->  #define   GEN8_L3_LRA_1_GPGPU_DEFAULT_VALUE_BDW  0x67F1427F /* max/min for LRA1/2 */
-> diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
-> index e98582c76de1..7f2b31d469b0 100644
-> --- a/drivers/gpu/drm/i915/intel_region_lmem.c
-> +++ b/drivers/gpu/drm/i915/intel_region_lmem.c
-> @@ -140,20 +140,23 @@ intel_setup_fake_lmem(struct drm_i915_private *i915)
->  static struct intel_memory_region *
->  setup_lmem(struct drm_i915_private *dev_priv)
+> AFAIK stolen is just snipped off at the end of lmem, so I don't think it 
+> really matters if we exclude or reserve.
 
-Am I wrong in thinking lmem should be under gt?
+Right, misread, thought it was moving the start point.
 
->  {
-> +       struct intel_uncore *uncore = &dev_priv->uncore;
->         struct pci_dev *pdev = dev_priv->drm.pdev;
->         struct intel_memory_region *mem;
->         resource_size_t io_start;
-> -       resource_size_t size;
-> +       resource_size_t lmem_size;
->  
->         /* Enables Local Memory functionality in GAM */
->         I915_WRITE(GEN12_LMEM_CFG_ADDR, I915_READ(GEN12_LMEM_CFG_ADDR) | LMEM_ENABLE);
->  
-> +       /* Stolen starts from GSMBASE on DG1 */
-> +       lmem_size = intel_uncore_read64(uncore, GEN12_GSMBASE);
-> +
->         io_start = pci_resource_start(pdev, 2);
-> -       size = pci_resource_len(pdev, 2);
+> But for this if we exclude then 
+> the region.start might have "strange" alignment, which is annoying since 
+> alloc(some_power_of_two) might not give us the expected alignment, 
+> whereas if we reserve then the allocator is aware, and so we should get 
+> the proper alignment. Maybe you have better ideas with how to handle 
+> this, but I think keeping the alignment property is nice.
 
-Sanitycheck the two.
-
-size = min(size, lmem_size);
-
->  
->         mem = intel_memory_region_create(dev_priv,
->                                          0,
-> -                                        size,
-> +                                        lmem_size,
-
-Ok, stolen is at tail not start. 
-
->                                          I915_GTT_PAGE_SIZE_4K,
->                                          io_start,
->                                          &intel_region_lmem_ops);
-> @@ -162,7 +165,7 @@ setup_lmem(struct drm_i915_private *dev_priv)
->                 DRM_INFO("Intel graphics LMEM IO start: %llx\n",
->                          (u64)mem->io_start);
->                 DRM_INFO("Intel graphics LMEM size: %llx\n",
-> -                        (u64)size);
-> +                        (u64)lmem_size);
-
-Use the correct printf-formats, %pa.
-
->         }
->  
->         return mem;
-> -- 
-> 2.26.2
->
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+The only tweak I would look at is making this reservation be the
+property of the VGA decode. But if this promises not to live into
+production, kiss.
+-Chris
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
