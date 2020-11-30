@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A950C2C825E
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777882C825F
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:42:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F586E44E;
-	Mon, 30 Nov 2020 10:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9D916E44F;
+	Mon, 30 Nov 2020 10:42:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E24FB6E44E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:41:50 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7146E44F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:42:18 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4150799;
- Mon, 30 Nov 2020 11:41:49 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99422B26;
+ Mon, 30 Nov 2020 11:42:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606732909;
- bh=M6pUb2OoeX9QTWD3qLQMxG7hTSlwV3plPMj+VvhEpvQ=;
+ s=mail; t=1606732936;
+ bh=nccvof+bLS6m3IRK7ODyI1Qp7X5cMr+LeoTk3Ain1bY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YBrcBVuLRDyhSUIRAafEfi8T4lNxRyV7hm2EQIMEgPNaX0BAEYHSK9vjSPveH1LCZ
- NZzDRcWz89P0Z5DkyGi1BuSJIEEa4a7oaEBKcXk3/+iuqv9fyoIv8wEhVNCsnH3vnG
- iIFDqaBhvxW7UcF4vImszXFBaq4DNGwI79545M6U=
-Date: Mon, 30 Nov 2020 12:41:41 +0200
+ b=H0TA8KBtlbPfR/drXg8SlDaZlv9zyEyzkSLXMA8IigojQqF+26OwbUs7uM2rP5ka5
+ NvNlmGXXJhk+jztElkDYE5rVRUkMUODXAYb3ievH9VF85XS+PsEVVaiDqdm9cwgKRa
+ DDt20ZxvIxzXzUuSteun8FysAm2pEs1KEyazMCI0=
+Date: Mon, 30 Nov 2020 12:42:08 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v2 3/5] drm/omap: Implement CTM property for CRTC using
- OVL managers CPR matrix
-Message-ID: <20201130104141.GS4141@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 4/5] drm/omap: rearrange includes in omapdss.h
+Message-ID: <20201130104208.GT4141@pendragon.ideasonboard.com>
 References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
- <20201103080310.164453-4-tomi.valkeinen@ti.com>
+ <20201103080310.164453-5-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201103080310.164453-4-tomi.valkeinen@ti.com>
+In-Reply-To: <20201103080310.164453-5-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,95 +55,43 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi and Jyri,
+Hi Tomi,
 
 Thank you for the patch.
 
-On Tue, Nov 03, 2020 at 10:03:08AM +0200, Tomi Valkeinen wrote:
-> From: Jyri Sarha <jsarha@ti.com>
+On Tue, Nov 03, 2020 at 10:03:09AM +0200, Tomi Valkeinen wrote:
+> Drop "uapi/" and rearrange alphabetically.
 > 
-> Implement CTM color management property for OMAP CRTC using DSS
-> overlay manager's Color Phase Rotation matrix. The CPR matrix does not
-> exactly match the CTM property documentation. On DSS the CPR matrix is
-> applied after gamma table look up. However, it seems stupid to add a
-> custom property just for that.
-
-Should this be updated now that the driver has switched to using degamma
-?
-
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/omapdrm/omap_crtc.c | 39 +++++++++++++++++++++++++++--
->  1 file changed, 37 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> index d40220b2f312..b2c251a8b404 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-> @@ -391,6 +391,33 @@ static void omap_crtc_manual_display_update(struct work_struct *data)
->  	}
->  }
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index ab19d4af8de7..8e9a2019f173 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -7,13 +7,13 @@
+>  #ifndef __OMAP_DRM_DSS_H
+>  #define __OMAP_DRM_DSS_H
 >  
-> +static s16 omap_crtc_s31_32_to_s2_8(s64 coef)
-> +{
-> +	u64 sign_bit = 1ULL << 63;
-> +	u64 cbits = (u64)coef;
-> +
-> +	s16 ret = clamp_val(((cbits & ~sign_bit) >> 24), 0, 0x1ff);
-> +
-> +	if (cbits & sign_bit)
-> +		ret = -ret;
-> +
-> +	return ret;
-> +}
-> +
-> +static void omap_crtc_cpr_coefs_from_ctm(const struct drm_color_ctm *ctm,
-> +					 struct omap_dss_cpr_coefs *cpr)
-> +{
-> +	cpr->rr = omap_crtc_s31_32_to_s2_8(ctm->matrix[0]);
-> +	cpr->rg = omap_crtc_s31_32_to_s2_8(ctm->matrix[1]);
-> +	cpr->rb = omap_crtc_s31_32_to_s2_8(ctm->matrix[2]);
-> +	cpr->gr = omap_crtc_s31_32_to_s2_8(ctm->matrix[3]);
-> +	cpr->gg = omap_crtc_s31_32_to_s2_8(ctm->matrix[4]);
-> +	cpr->gb = omap_crtc_s31_32_to_s2_8(ctm->matrix[5]);
-> +	cpr->br = omap_crtc_s31_32_to_s2_8(ctm->matrix[6]);
-> +	cpr->bg = omap_crtc_s31_32_to_s2_8(ctm->matrix[7]);
-> +	cpr->bb = omap_crtc_s31_32_to_s2_8(ctm->matrix[8]);
-> +}
-> +
->  static void omap_crtc_write_crtc_properties(struct drm_crtc *crtc)
->  {
->  	struct omap_drm_private *priv = crtc->dev->dev_private;
-> @@ -402,7 +429,15 @@ static void omap_crtc_write_crtc_properties(struct drm_crtc *crtc)
->  	info.default_color = 0x000000;
->  	info.trans_enabled = false;
->  	info.partial_alpha_enabled = false;
-> -	info.cpr_enable = false;
-> +
-> +	if (crtc->state->ctm) {
-> +		struct drm_color_ctm *ctm = crtc->state->ctm->data;
-> +
-> +		info.cpr_enable = true;
-> +		omap_crtc_cpr_coefs_from_ctm(ctm, &info.cpr_coefs);
-> +	} else {
-> +		info.cpr_enable = false;
-> +	}
+> -#include <linux/list.h>
+> +#include <drm/drm_crtc.h>
+> +#include <drm/drm_mode.h>
+>  #include <linux/device.h>
+>  #include <linux/interrupt.h>
+> -#include <video/videomode.h>
+> +#include <linux/list.h>
+>  #include <linux/platform_data/omapdss.h>
+> -#include <uapi/drm/drm_mode.h>
+> -#include <drm/drm_crtc.h>
+> +#include <video/videomode.h>
 >  
->  	priv->dispc_ops->mgr_setup(priv->dispc, omap_crtc->channel, &info);
->  }
-> @@ -842,7 +877,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
->  	if (priv->dispc_ops->mgr_gamma_size(priv->dispc, channel)) {
->  		unsigned int gamma_lut_size = 256;
->  
-> -		drm_crtc_enable_color_mgmt(crtc, gamma_lut_size, false, 0);
-> +		drm_crtc_enable_color_mgmt(crtc, gamma_lut_size, true, 0);
->  		drm_mode_crtc_set_gamma_size(crtc, gamma_lut_size);
->  	}
->  
+>  #define DISPC_IRQ_FRAMEDONE		(1 << 0)
+>  #define DISPC_IRQ_VSYNC			(1 << 1)
 
 -- 
 Regards,
