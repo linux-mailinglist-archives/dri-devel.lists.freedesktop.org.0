@@ -2,39 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF012C8163
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2012C8164
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052AF6E43B;
-	Mon, 30 Nov 2020 09:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5556E43C;
+	Mon, 30 Nov 2020 09:51:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 423066E43B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:50:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8EE6E43C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:51:48 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 924F197E;
- Mon, 30 Nov 2020 10:50:53 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A745597E;
+ Mon, 30 Nov 2020 10:51:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606729853;
- bh=jgGcxDrGgvJfwj7QC6mhQ6E7qBS/ynmMBNEswr5RBiM=;
+ s=mail; t=1606729906;
+ bh=AKEHU3dP0wNBPbEjiXFcjEZ7/oG4coxrRJ4tWBtzFm4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jGAwx6bvSAt5aaqXjEgRqm7BUV3XQ5sphFyxcEG6bRySBY/xH2tIql+jPyt+hBxxA
- VeRSVMxmOmm5jVwOkduDZXZS9RBAyqxkUAw3j2uxmdSQtmGJCOc/fR4i/GdhTZV2Rp
- xhSSnIJ9QgLBCeukt1Gur039Z1+MsJR3Aj/wWBDI=
-Date: Mon, 30 Nov 2020 11:50:45 +0200
+ b=B0N9NIMXjpk4eJlAQ8ZH68eIBPvlAp6oJPki1XiVdVkTTvyyetBlTZovWz+AjKv6E
+ Le3rvZx16wgp57Q3PIP+4krmE/MDT5dvV2BNpAU5FnIDwUdqze6k7o5w88VWZAly5k
+ V1x36A7USlvXfAJ1IpNd4tdRSLJo1sNCnBcvMHvU=
+Date: Mon, 30 Nov 2020 11:51:38 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v4 55/80] drm/panel: panel-dsi-cm: use
- MIPI_DCS_GET_ERROR_COUNT_ON_DSI
-Message-ID: <20201130095045.GG4141@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 56/80] drm/panel: panel-dsi-cm: cleanup tear enable
+Message-ID: <20201130095138.GH4141@pendragon.ideasonboard.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
- <20201124124538.660710-56-tomi.valkeinen@ti.com>
+ <20201124124538.660710-57-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201124124538.660710-56-tomi.valkeinen@ti.com>
+In-Reply-To: <20201124124538.660710-57-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,39 +59,69 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Tue, Nov 24, 2020 at 02:45:13PM +0200, Tomi Valkeinen wrote:
-> Use the common MIPI_DCS_GET_ERROR_COUNT_ON_DSI define instead of
-> driver's own.
+On Tue, Nov 24, 2020 at 02:45:14PM +0200, Tomi Valkeinen wrote:
+> Simplify the code by moving code from _dsicm_enable_te() into
+> dsicm_power_on().
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/panel/panel-dsi-cm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/panel/panel-dsi-cm.c | 23 ++++-------------------
+>  1 file changed, 4 insertions(+), 19 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-> index 35a0c7da1974..cb0d27a38555 100644
+> index cb0d27a38555..59e8e6b18e97 100644
 > --- a/drivers/gpu/drm/panel/panel-dsi-cm.c
 > +++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-> @@ -27,7 +27,6 @@
->  #include <video/of_display_timing.h>
->  #include <video/videomode.h>
+> @@ -69,8 +69,6 @@ static inline struct panel_drv_data *panel_to_ddata(struct drm_panel *panel)
+>  	return container_of(panel, struct panel_drv_data, panel);
+>  }
 >  
-> -#define DCS_READ_NUM_ERRORS	0x05
->  #define DCS_GET_ID1		0xda
->  #define DCS_GET_ID2		0xdb
->  #define DCS_GET_ID3		0xdc
-> @@ -225,7 +224,7 @@ static ssize_t num_dsi_errors_show(struct device *dev,
->  	mutex_lock(&ddata->lock);
+> -static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable);
+> -
+>  static void dsicm_bl_power(struct panel_drv_data *ddata, bool enable)
+>  {
+>  	struct backlight_device *backlight;
+> @@ -314,10 +312,13 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
+>  	if (r)
+>  		goto err;
 >  
->  	if (ddata->enabled)
-> -		r = dsicm_dcs_read_1(ddata, DCS_READ_NUM_ERRORS, &errors);
-> +		r = dsicm_dcs_read_1(ddata, MIPI_DCS_GET_ERROR_COUNT_ON_DSI, &errors);
+> -	r = _dsicm_enable_te(ddata, true);
+> +	r = mipi_dsi_dcs_set_tear_on(ddata->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+>  	if (r)
+>  		goto err;
 >  
->  	mutex_unlock(&ddata->lock);
+> +	/* possible panel bug */
+> +	msleep(100);
+> +
+>  	ddata->enabled = true;
 >  
+>  	if (!ddata->intro_printed) {
+> @@ -418,22 +419,6 @@ static int dsicm_disable(struct drm_panel *panel)
+>  	return r;
+>  }
+>  
+> -static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
+> -{
+> -	struct mipi_dsi_device *dsi = ddata->dsi;
+> -	int r;
+> -
+> -	if (enable)
+> -		r = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+> -	else
+> -		r = mipi_dsi_dcs_set_tear_off(dsi);
+> -
+> -	/* possible panel bug */
+> -	msleep(100);
+> -
+> -	return r;
+> -}
+> -
+>  static int dsicm_get_modes(struct drm_panel *panel,
+>  			   struct drm_connector *connector)
+>  {
 
 -- 
 Regards,
