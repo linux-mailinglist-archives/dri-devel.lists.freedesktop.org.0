@@ -2,117 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1AD2C7F79
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 09:01:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DD72C7FD9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 09:30:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529A46E40A;
-	Mon, 30 Nov 2020 08:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 906B46E40A;
+	Mon, 30 Nov 2020 08:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7524C6E409;
- Mon, 30 Nov 2020 08:00:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B7uxUGi9LXG9dzEOBd6HocWdI/TGlF5faNOctynci1QlbRRKiW9YyrsbBMk5CVBOPlgZCelHtD6gImwdew/PEH8BgqXoGZis+8FdxtjP+UNwkSYJLaM3ZMijLbMTR8cIkN/MGBs0DiO96/sgffvFZHw2Nlizb/f+BO7TkC1/StA/co0lE8HRCxidxCPqIpBty9BNB3iLdiYcokfsEHIfowQwLLQW/cjIhVcedgazGoWaMMQ39HddDj31oJpvLJMd4SgPsdH+7y+JqG30EDQLa0ZW1oD7Do1n50u9fu8UyyQoNw8PK34+CFzDEJFTHK58QT/7Ad2yAyDG/J8rgtFlAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dfT098x6O37EqXhhFT76Up+MyHdvzkyDgWcTTtSfE60=;
- b=FbWOHpRk7fNahIQOBrBkb0G3eV8y7JHNXjFoGoAmzZp5a+xz1fpyP5KBd/X+Vz6Yaq1Yjctsm2qAT09jl7K5hGtU5c1GnE6ib/NrBvpwVOeA8tPbsbShVUm4zYgOZEvMHWw04Rfn6mcDuFQoZlnev2ALMxZVAwB4+rqVdjaeN2weNGJNGkYKbgMSbzlbezpJWwh5BN8mC6vo68j5k+4FiFdCZGrHJCJlBiczVQOyvru3dBlAMZgkMpO5AF0bKiSD0IA9rJqY/eic68+tW2bPPnBX2suErGnK7OhztImP8T31JoDOFXe0VJMFCIh0Ie8UW57Pd9vvWko7qgI0IG9q7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dfT098x6O37EqXhhFT76Up+MyHdvzkyDgWcTTtSfE60=;
- b=V5UzsppR/V1fWiL6/tFkX1gpG92WQkq5MCbJIyyQRbwJHxaedV8bJ4MGemSEL4TTXeqZ6MafZoBPpwu9hs/sM8/a3shuA9NxDGLdnQu9vwqD+RT5Ljey7rLWvrnqzqTcZ/hsNdDZ+whPTirptql6XbFti/83NehZYkpgdrzWTi8=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB4755.namprd12.prod.outlook.com (2603:10b6:208:82::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.23; Mon, 30 Nov
- 2020 08:00:56 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3611.025; Mon, 30 Nov 2020
- 08:00:56 +0000
-Subject: Re: [PATCH] drm/amdgpu/display: remove trailing semicolon in macro
- definition
-To: trix@redhat.com, alexander.deucher@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, Hawking.Zhang@amd.com, evan.quan@amd.com,
- Felix.Kuehling@amd.com, luben.tuikov@amd.com, Dennis.Li@amd.com,
- andrey.grodzovsky@amd.com, Joseph.Greathouse@amd.com, jonathan.kim@amd.com
-References: <20201127162607.2656353-1-trix@redhat.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <01583ef8-4d70-82b2-a643-754d95d47a0a@amd.com>
-Date: Mon, 30 Nov 2020 09:00:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201127162607.2656353-1-trix@redhat.com>
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR04CA0062.eurprd04.prod.outlook.com
- (2603:10a6:208:1::39) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9246E40A
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 08:30:08 +0000 (UTC)
+Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20201130083006epoutp036de77cd3ac92cbcaf1df4de9e40e3406~MO_Fz2n7t1530615306epoutp03N
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 08:30:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20201130083006epoutp036de77cd3ac92cbcaf1df4de9e40e3406~MO_Fz2n7t1530615306epoutp03N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1606725006;
+ bh=Mt/gdIsFl1M12MFRytnwm1abg7voXmSQOUlTijrF/j0=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=c0tNLxwRL6vnJ4bVraRUOGFIW9tS1CI4ZkPOkDqhPU0HyxViSVDAN0V5iteGeupAa
+ kdYvZdlaaUlnCIrY4ye0HFg38Np30JFL62smFYrzL3orB+aEsCZ5dIaLYJAEIxhykH
+ pv5LR0yBMkvPcPpk1+ePrDoQyHUHYOtegcJ7lG7g=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas1p4.samsung.com (KnoxPortal) with ESMTP id
+ 20201130083005epcas1p480f9d22c867543847495688f7331db92~MO_E2dxFa0894908949epcas1p4p;
+ Mon, 30 Nov 2020 08:30:05 +0000 (GMT)
+Received: from epsmges1p2.samsung.com (unknown [182.195.40.156]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4Ckz1l1yvtz4x9QC; Mon, 30 Nov
+ 2020 08:30:03 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+ epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ BF.F7.63458.B8DA4CF5; Mon, 30 Nov 2020 17:30:03 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20201130083001epcas1p22f14f300f10546db02dc53183e8c196c~MO_BcgFtV1026010260epcas1p2r;
+ Mon, 30 Nov 2020 08:30:01 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20201130083001epsmtrp12bba35f31748f0e58ac47cddc8699ce0~MO_BaMzuj3161831618epsmtrp1Y;
+ Mon, 30 Nov 2020 08:30:01 +0000 (GMT)
+X-AuditID: b6c32a36-6dfff7000000f7e2-a0-5fc4ad8b140e
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B8.54.13470.98DA4CF5; Mon, 30 Nov 2020 17:30:01 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+ epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20201130083001epsmtip1b15540c60c5e93579b52f1ed5fe124d5~MO_Ay9IdD3262532625epsmtip1X;
+ Mon, 30 Nov 2020 08:30:01 +0000 (GMT)
+Subject: Re: [PATCH v10 00/19] Introduce memory interconnect for NVIDIA
+ Tegra SoCs
+To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
+ Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Peter
+ De Schrijver <pdeschrijver@nvidia.com>, MyungJoo Ham
+ <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Mikko
+ Perttunen <cyndis@kapsi.fi>, Viresh Kumar <vireshk@kernel.org>, Peter Geis
+ <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>, Krzysztof
+ Kozlowski <krzk@kernel.org>
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <d12880ba-6780-cfee-7667-3723fcad9f3a@samsung.com>
+Date: Mon, 30 Nov 2020 17:44:39 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+ Thunderbird/59.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
- (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by
- AM0PR04CA0062.eurprd04.prod.outlook.com (2603:10a6:208:1::39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3611.20 via Frontend Transport; Mon, 30 Nov 2020 08:00:53 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ca18d484-b665-48e2-d41b-08d8950610d7
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4755:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4755650B209323F158BB7D8683F50@BL0PR12MB4755.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:363;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Xcd7qts3TEJ44tPQD1rQXLTfHykQ7E6k0Pz52K6e5xHmcTHZOQUmbJkx+AeZ4xZOc23/672pOlUmUHQyWY3JDIotQwbU7Ox5RuvjfOR7ZVHHUPCvm0cY/jrdwjasA/SOpDG4rOuLG3Y3SEPOP/kCgJJpg5OLkfwMbPdn5jcmtV9VyAVj47aCIptscbRdZ/qS3PaQ5wfMq+c4gATj+44jfCba5G6MRnyWTVBLRxlHsYkGgHncvkJftCdP4BJgPkqOeDuXMxTy2AGbhSkCLUvaIFjMVylVZFote8Fda0vXrnY5y9FvaEh5Q9Scqm2APztmGrZ2s0oXJvnsquFaaaTJH81ABNUR4QEBTxAwGxrFi91svv3X5qp7l67Hh+JkvJlw6F0p0aAWh6MxHb118gpHOw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(396003)(376002)(366004)(39860400002)(136003)(8676002)(2616005)(316002)(66574015)(66556008)(6666004)(478600001)(6636002)(66946007)(36756003)(83380400001)(31696002)(186003)(2906002)(8936002)(66476007)(921005)(5660300002)(52116002)(16526019)(31686004)(4326008)(6486002)(86362001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?K05kWmx5WlBHa01OZU5xRU9VRHQyc0JvZWFJb0l6TnJ6Y1l6a09MNkdIZXRS?=
- =?utf-8?B?YzhiRUo5WGVMQ1J2OHc4VGx5NjRTQzlZTG0yQnFrbUd4SkRKVVlIWDlJOWpz?=
- =?utf-8?B?R1B5eHlqM1JVVUFhQXVnRlJob2FEb0xpRTc5Y0VqeEZUVE0xV1pKRVJ6eTM1?=
- =?utf-8?B?d0xONEN5YXRkK2FtVVVqa2xHaTVmVno1KzR5QzBRaUhVYkc0UFJaYU5WSlJ6?=
- =?utf-8?B?WFN4aGpoVzJuY3Y4cjVNWk5Lb0psc2Fnc3Jtcm1GUHRFUS9DeFNhekwyQ3Y2?=
- =?utf-8?B?OXErMHcrb21NMTFRUURWeUxpVEx1dmQ4d3Vaak1zVXFkc3hRM3lmUGJVRS8r?=
- =?utf-8?B?c1JyT25SZFZxeElYV3I3b2N3SmJBTWlTUnBhcFJVRm5SYk45anRRZCtxeUg2?=
- =?utf-8?B?cERMbUhmR21hRnJrNkg3K1BJZ0lFbHYwSTMvc0JLNUJZQ3pEN25qMWh1NDY1?=
- =?utf-8?B?akhzcUdNK3BkT1YzRjlxRTQzaktlWnE2YzlmRStqNlpPNXkzSjFFTng3WjFD?=
- =?utf-8?B?YUhHVmI5bWoxZ3RTNHU0eHJ4ZlprbG9HVnd3RDZkdGhMRCt5cGEzNmRFcWhl?=
- =?utf-8?B?eERIL04yenZiaVZuWFNubDl4YlU4dWxIZzI3UzJmNE9neEJvWWFUM3pieEda?=
- =?utf-8?B?enE3M2lPNHlXNUlBb1l3RVNXckxIYy9uQTFvNFRjU0NndHEydHRBcUtyODlw?=
- =?utf-8?B?VHkxSXdtS3VqOTAzcUVUVGlMbHJ2cVVnZ29ucmZENnhBRkpVN0ZiYnN0dnRM?=
- =?utf-8?B?Zlg1U2NXaXhXcXkvTTVoODI1enBhdFkvSzRQR09VbmtMdzQwNzdSandVZTFj?=
- =?utf-8?B?WUJSWm1Tamt4R3ZSRjlyeVhvV3hxd2FIVXdBZC9oZE15OWNCbkdzL2laTEQv?=
- =?utf-8?B?NVdua3ZzU2xQTTBtejBlUTQzbUoxTW9YajB1Rnlxa2dMSmdCTndaa0t4RWRi?=
- =?utf-8?B?N0pjVzR5UURxZlBpYWszTi9NUFVNNjFRNTlaSlBjdXFLdWRHWWFVZWFidjd1?=
- =?utf-8?B?MFpiT0lsVEpydWVZd3pod2phVUdwK2NEcDlQZGxUREh5K1RlTzNvL2FlTDM3?=
- =?utf-8?B?Rzg4a2lUaEN6ZUN1NTY3ZjQ5blpUd2pIcE01THgrcTJPcE9rekN0SzFnQklY?=
- =?utf-8?B?L3puQ2FOODhMRi83WCtTSW1BbHJrWUlsRW1JL3V5L1lBa0JmeWNINWpEWHB5?=
- =?utf-8?B?Ulh3M3JVZlV1M1ZFemZjMklDL2JjdjA5eS9JSnZ0UVVaeVY0L2c0dytLYkU2?=
- =?utf-8?B?dEpuaVNPdEpXb1hnYTRCMk5qZ1pXTSsxNkViUW1tZlVjVTk4V2c0djlrZHlG?=
- =?utf-8?B?Q0VpTHZOSGUzQTBML0JYam9ZMTBIM0hLTUF3RVB1OS9GNWNhQ0NQdTJjeVVF?=
- =?utf-8?B?ZEpiMWJMNUJrQUdYcFdhZWZCQ0k3QU50cFRjaHhWSDR4STR2c0k1L2U5UXhX?=
- =?utf-8?Q?sD1MxzJB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca18d484-b665-48e2-d41b-08d8950610d7
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2020 08:00:56.3804 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TguXV0qTTwX7Hs1+JPWK0ZATnH7k7Tp0SXp5B9RtnDEy5qHWWf+fbJqwkB+bAu9f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4755
+In-Reply-To: <20201123002723.28463-1-digetx@gmail.com>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrOJsWRmVeSWpSXmKPExsWy7bCmvm732iPxBu9WcFq8+/SU1WL1x8eM
+ Fle+vmezmL53E5tFy6xFLBbnz29gt9j6dA2TxdmmN+wWl3fNYbP43HuE0aLzyyw2i4unXC1u
+ N65gs5i0diqjxdln3hate4+wW/y7tpHF4ueueSwWmx8cY3MQ9nh/o5XdY+esu+wel879YfbY
+ tKqTzePOtT1sHve7jzN59Da/Y/Po27KK0ePzJrkAzqhsm4zUxJTUIoXUvOT8lMy8dFsl7+B4
+ 53hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygp5QUyhJzSoFCAYnFxUr6djZF+aUlqQoZ+cUl
+ tkqpBSk5BZYFesWJucWleel6yfm5VoYGBkamQIUJ2Rl/W66zFuwxrzh7YRNLA+NyzS5GTg4J
+ AROJb3NXsnUxcnEICexglHjxaB4LhPOJUeLJtm4o5xujxOydF9lgWtZvXMUKkdjLKPFtRxMj
+ hPOeUWLJ7DUsIFXCAiESd/+8BqsSEbjJIrF8xT+gdg4OZoEqiU1/vEFq2AS0JPa/uAE2lV9A
+ UeLqj8eMIDavgJ1E45QTTCA2i4CqxK8ri8FsUYEwiZPbWqBqBCVOznwCtotTwEzi5+GjYDaz
+ gLjErSfzmSBseYntb+cwg9wgIdDPKXFpyj9miBdcJFbNmghlC0u8Or6FHcKWknjZ3wZlV0us
+ PHmEDaK5g1Fiy/4LrBAJY4n9SyczQTyjKbF+lz5EWFFi5++5jBCL+STefe1hBSmREOCV6GgT
+ gihRlrj84C4ThC0psbi9k20Co9IsJO/MQvLCLCQvzEJYtoCRZRWjWGpBcW56arFhgRFydG9i
+ BKd4LbMdjJPeftA7xMjEwXiIUYKDWUmEN4PjYLwQb0piZVVqUX58UWlOavEhRlNgAE9klhJN
+ zgdmmbySeENTI2NjYwsTQzNTQ0Mlcd4/2h3xQgLpiSWp2ampBalFMH1MHJxSDUxy7tfXVRZO
+ WnV33a2YCY8PpxXIeaUHpHDlf0t8sPNSeM2JlYltSoX/7OpOFv588HK1x8PJ3w/t6Z2p+LVv
+ RV3kR6sj08MPCD+rMDgZ5/84QXi3YoWLbv724vh9W7TfxKiFla75tm/JvG92qUs/3ZV+n7h+
+ tWD8tdQK5aMBWxdaC9xfU7H9bc2DLoaIhmvbg06yrNZ48Nq0aPKFAnvvu4wRix5n7zyuNtvn
+ v2bB+bu257+yxYkzCr6J1vM8Zbq479OKyyUNtbF2D1p/3DGSm9xtzr9lxezgtZ8yVmz4lvjh
+ 07En2xiilibbTbiX9Izv0yNzGT22nq9mNUEC6aF7pXqeyc+Rt3XSF9lRK/a6572KEktxRqKh
+ FnNRcSIAjXo+K3oEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIIsWRmVeSWpSXmKPExsWy7bCSnG7n2iPxBque6Vi8+/SU1WL1x8eM
+ Fle+vmezmL53E5tFy6xFLBbnz29gt9j6dA2TxdmmN+wWl3fNYbP43HuE0aLzyyw2i4unXC1u
+ N65gs5i0diqjxdln3hate4+wW/y7tpHF4ueueSwWmx8cY3MQ9nh/o5XdY+esu+wel879YfbY
+ tKqTzePOtT1sHve7jzN59Da/Y/Po27KK0ePzJrkAzigum5TUnMyy1CJ9uwSujL8t11kL9phX
+ nL2wiaWBcblmFyMnh4SAicT6jatYQWwhgd2MEhPfWEPEJSWmXTzK3MXIAWQLSxw+XNzFyAVU
+ 8pZRYun5JrB6YYEQiWk3PjGDJEQE7rJITPpxiw0kwSxQJbFw7WI2iI5ORon2hqOMIAk2AS2J
+ /S9ugBXxCyhKXP3xGCzOK2An0TjlBBOIzSKgKvHrymIwW1QgTGLnksdMEDWCEidnPmEBsTkF
+ zCR+Hj7KArFMXeLPvEvMELa4xK0n85kgbHmJ7W/nME9gFJ6FpH0WkpZZSFpmIWlZwMiyilEy
+ taA4Nz232LDAMC+1XK84Mbe4NC9dLzk/dxMjONa1NHcwbl/1Qe8QIxMH4yFGCQ5mJRHeDI6D
+ 8UK8KYmVValF+fFFpTmpxYcYpTlYlMR5bxQujBMSSE8sSc1OTS1ILYLJMnFwSjUwJQrLxCjf
+ 2mfh4JjsG2A2IfRLBpu+XduNphWrtW45y59/nTsnVGKOsKWPa6NY2Z/k+Gb2sy0iXzbHPLg9
+ 5ew9i4sn3f6pG7xp2iL31iIy3eSe1OcXhb8+HvmywSx3o+Hq/cz5ZbG/LYWTNHT+v1jecXnn
+ j1krpIMr56lauH/xNbxq0Fl7+tg9Zseij6fSn/AWLQ9alFfTsOuHhrGkrPTT3ubFTrKzjRKe
+ yJ/LSL/hGcd/Sm2h6c0vvB2lGd9WbxVk22xxuGHNJq8Qf446Q1n1rHfMYuuf//W5bzn9S9cZ
+ +Qh+2cyUOfN4NWI0mOJ9L5RUHfmxJDE12mDT0anl/5T3t9yXPDttsY7d/DMGPySVWIozEg21
+ mIuKEwGzxjm4ZAMAAA==
+X-CMS-MailID: 20201130083001epcas1p22f14f300f10546db02dc53183e8c196c
+X-Msg-Generator: CA
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201123003254epcas1p1763e1ce693d7cb8e2f20d521e701ad5f
+References: <CGME20201123003254epcas1p1763e1ce693d7cb8e2f20d521e701ad5f@epcas1p1.samsung.com>
+ <20201123002723.28463-1-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,32 +128,148 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMjcuMTEuMjAgdW0gMTc6MjYgc2NocmllYiB0cml4QHJlZGhhdC5jb206Cj4gRnJvbTogVG9t
-IFJpeCA8dHJpeEByZWRoYXQuY29tPgo+Cj4gVGhlIG1hY3JvIHVzZSB3aWxsIGFscmVhZHkgaGF2
-ZSBhIHNlbWljb2xvbi4KPgo+IFNpZ25lZC1vZmYtYnk6IFRvbSBSaXggPHRyaXhAcmVkaGF0LmNv
-bT4KClJldmlld2VkLWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5j
-b20+Cgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmggfCAyICst
-Cj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPgo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHUuaCBiL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdS5oCj4gaW5kZXggZjljODFiYzIxYmE0Li4zMDFlOTNj
-OWU3MmEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1LmgK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHUuaAo+IEBAIC0xMjEzLDcg
-KzEyMTMsNyBAQCBpbnQgZW11X3NvY19hc2ljX2luaXQoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFk
-ZXYpOwo+ICAgI2RlZmluZSBhbWRncHVfYXNpY191cGRhdGVfdW1kX3N0YWJsZV9wc3RhdGUoYWRl
-diwgZW50ZXIpIFwKPiAgIAkoKGFkZXYpLT5hc2ljX2Z1bmNzLT51cGRhdGVfdW1kX3N0YWJsZV9w
-c3RhdGUgPyAoYWRldiktPmFzaWNfZnVuY3MtPnVwZGF0ZV91bWRfc3RhYmxlX3BzdGF0ZSgoYWRl
-diksIChlbnRlcikpIDogMCkKPiAgIAo+IC0jZGVmaW5lIGFtZGdwdV9pbmNfdnJhbV9sb3N0KGFk
-ZXYpIGF0b21pY19pbmMoJigoYWRldiktPnZyYW1fbG9zdF9jb3VudGVyKSk7Cj4gKyNkZWZpbmUg
-YW1kZ3B1X2luY192cmFtX2xvc3QoYWRldikgYXRvbWljX2luYygmKChhZGV2KS0+dnJhbV9sb3N0
-X2NvdW50ZXIpKQo+ICAgCj4gICAvKiBDb21tb24gZnVuY3Rpb25zICovCj4gICBib29sIGFtZGdw
-dV9kZXZpY2VfaGFzX2pvYl9ydW5uaW5nKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KTsKCl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
-YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
-LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi Dmitry,
+
+The v5.10-rc6 was released from linus git tree.
+Generally, I will send the pull-quest about devfreq to linux-pm.git maintainer
+after releasing the v5.1-rc7 for the integration test on linux-pm.git.
+
+The icc patches in this patch have not yet merged. If these patches
+are not merged before v5.10-rc7, Maybe, I'll apply the devfreq patches
+for v5.12-rc1.
+
+Best Regards,
+Chanwoo Choi
+
+
+On 11/23/20 9:27 AM, Dmitry Osipenko wrote:
+> This series brings initial support for memory interconnect to Tegra20,
+> Tegra30 and Tegra124 SoCs.
+> 
+> For the starter only display controllers and devfreq devices are getting
+> interconnect API support, others could be supported later on. The display
+> controllers have the biggest demand for interconnect API right now because
+> dynamic memory frequency scaling can't be done safely without taking into
+> account bandwidth requirement from the displays. In particular this series
+> fixes distorted display output on T30 Ouya and T124 TK1 devices.
+> 
+> Changelog:
+> 
+> v10 - In a longer run it will be much nicer if we could support EMC
+>       hardware versioning on Tegra20 and it's not late to support it now.
+>       Hence I added these new patches:
+> 
+>         dt-bindings: memory: tegra20: emc: Document opp-supported-hw property
+>         memory: tegra20: Support hardware versioning and clean up OPP table initialization
+> 
+>     - Removed error message from tegra30-devfreq driver about missing OPP
+>       properties in a device-tree because EMC driver already prints that
+>       message and it uses OPP API error code instead of checking DT directly,
+>       which is a more correct way of doing that.
+> 
+> v9: - Squashed "memory: tegra30-emc: Factor out clk initialization" into
+>       patch "tegra30: Support interconnect framework".
+>       Suggested by Krzysztof Kozlowski.
+> 
+>     - Improved Kconfig in the patch "memory: tegra124-emc: Make driver modular"
+>       by adding CONFIG_TEGRA124_CLK_EMC entry, which makes clk-driver changes
+>       to look a bit more cleaner. Suggested by Krzysztof Kozlowski.
+> 
+>     - Dropped voltage regulator support from ICC and DT patches for now
+>       because there is a new discussion about using a power domain abstraction
+>       for controlling the regulator, which is likely to happen.
+> 
+>     - Replaced direct "operating-points-v2" property checking in EMC drivers
+>       with checking of a returned error code from dev_pm_opp_of_add_table().
+>       Note that I haven't touched T20 EMC driver because it's very likely
+>       that we'll replace that code with a common helper soon anyways.
+>       Suggested by Viresh Kumar.
+> 
+>     - The T30 DT patches now include EMC OPP changes for Ouya board, which
+>       is available now in linux-next.
+> 
+> Dmitry Osipenko (19):
+>   dt-bindings: memory: tegra20: emc: Document opp-supported-hw property
+>   memory: tegra20: Support hardware versioning and clean up OPP table
+>     initialization
+>   memory: tegra30: Support interconnect framework
+>   memory: tegra124-emc: Make driver modular
+>   memory: tegra124-emc: Continue probing if timings are missing in
+>     device-tree
+>   memory: tegra124: Support interconnect framework
+>   drm/tegra: dc: Support memory bandwidth management
+>   drm/tegra: dc: Extend debug stats with total number of events
+>   PM / devfreq: tegra30: Support interconnect and OPPs from device-tree
+>   PM / devfreq: tegra30: Separate configurations per-SoC generation
+>   PM / devfreq: tegra20: Deprecate in a favor of emc-stat based driver
+>   ARM: tegra: Correct EMC registers size in Tegra20 device-tree
+>   ARM: tegra: Add interconnect properties to Tegra20 device-tree
+>   ARM: tegra: Add interconnect properties to Tegra30 device-tree
+>   ARM: tegra: Add interconnect properties to Tegra124 device-tree
+>   ARM: tegra: Add nvidia,memory-controller phandle to Tegra20 EMC
+>     device-tree
+>   ARM: tegra: Add EMC OPP properties to Tegra20 device-trees
+>   ARM: tegra: Add EMC OPP and ICC properties to Tegra30 EMC and ACTMON
+>     device-tree nodes
+>   ARM: tegra: Add EMC OPP and ICC properties to Tegra124 EMC and ACTMON
+>     device-tree nodes
+> 
+>  .../memory-controllers/nvidia,tegra20-emc.txt |   6 +
+>  MAINTAINERS                                   |   1 -
+>  arch/arm/boot/dts/tegra124-apalis-emc.dtsi    |   8 +
+>  .../arm/boot/dts/tegra124-jetson-tk1-emc.dtsi |   8 +
+>  arch/arm/boot/dts/tegra124-nyan-big-emc.dtsi  |  10 +
+>  .../arm/boot/dts/tegra124-nyan-blaze-emc.dtsi |  10 +
+>  .../boot/dts/tegra124-peripherals-opp.dtsi    | 419 ++++++++++++++++++
+>  arch/arm/boot/dts/tegra124.dtsi               |  31 ++
+>  .../boot/dts/tegra20-acer-a500-picasso.dts    |   5 +
+>  arch/arm/boot/dts/tegra20-colibri.dtsi        |   4 +
+>  arch/arm/boot/dts/tegra20-paz00.dts           |   4 +
+>  .../arm/boot/dts/tegra20-peripherals-opp.dtsi | 109 +++++
+>  arch/arm/boot/dts/tegra20.dtsi                |  33 +-
+>  ...30-asus-nexus7-grouper-memory-timings.dtsi |  12 +
+>  arch/arm/boot/dts/tegra30-ouya.dts            |   8 +
+>  .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 383 ++++++++++++++++
+>  arch/arm/boot/dts/tegra30.dtsi                |  33 +-
+>  drivers/clk/tegra/Kconfig                     |   3 +
+>  drivers/clk/tegra/Makefile                    |   2 +-
+>  drivers/clk/tegra/clk-tegra124-emc.c          |  41 +-
+>  drivers/clk/tegra/clk-tegra124.c              |  26 +-
+>  drivers/clk/tegra/clk.h                       |  18 +-
+>  drivers/devfreq/Kconfig                       |  10 -
+>  drivers/devfreq/Makefile                      |   1 -
+>  drivers/devfreq/tegra20-devfreq.c             | 210 ---------
+>  drivers/devfreq/tegra30-devfreq.c             | 147 +++---
+>  drivers/gpu/drm/tegra/Kconfig                 |   1 +
+>  drivers/gpu/drm/tegra/dc.c                    | 359 +++++++++++++++
+>  drivers/gpu/drm/tegra/dc.h                    |  19 +
+>  drivers/gpu/drm/tegra/drm.c                   |  14 +
+>  drivers/gpu/drm/tegra/hub.c                   |   3 +
+>  drivers/gpu/drm/tegra/plane.c                 | 121 +++++
+>  drivers/gpu/drm/tegra/plane.h                 |  15 +
+>  drivers/memory/tegra/Kconfig                  |   5 +-
+>  drivers/memory/tegra/tegra124-emc.c           | 377 ++++++++++++++--
+>  drivers/memory/tegra/tegra124.c               |  82 +++-
+>  drivers/memory/tegra/tegra20-emc.c            |  48 +-
+>  drivers/memory/tegra/tegra30-emc.c            | 344 +++++++++++++-
+>  drivers/memory/tegra/tegra30.c                | 173 +++++++-
+>  include/linux/clk/tegra.h                     |   8 +
+>  include/soc/tegra/emc.h                       |  16 -
+>  41 files changed, 2725 insertions(+), 402 deletions(-)
+>  create mode 100644 arch/arm/boot/dts/tegra124-peripherals-opp.dtsi
+>  create mode 100644 arch/arm/boot/dts/tegra20-peripherals-opp.dtsi
+>  create mode 100644 arch/arm/boot/dts/tegra30-peripherals-opp.dtsi
+>  delete mode 100644 drivers/devfreq/tegra20-devfreq.c
+>  delete mode 100644 include/soc/tegra/emc.h
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
