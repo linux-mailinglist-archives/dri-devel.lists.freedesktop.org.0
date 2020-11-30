@@ -2,56 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9482C826B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECE92C8296
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:50:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E576E44E;
-	Mon, 30 Nov 2020 10:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03DFE6E44F;
+	Mon, 30 Nov 2020 10:50:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5A836E44E
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:43:13 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AUAh31D058172;
- Mon, 30 Nov 2020 04:43:03 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606732983;
- bh=LARdVfnyTKuQafGDo4JhDvX+ACNwfxfqgieMVqPcEk0=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=UqMHgxmlkmeSUhGaXbUJhimsaMuYUoz6W900+ilStHdWFsZHMjcNVIUnN3AAOZ9FP
- js0zpjnFi2WpIf5aIzrGX7Ni4OP5I4CkyuBue3zXKVJJtuTD8+WLrnWf5CplXJTo9i
- 2RjK7chYtsQRYVGNWclFEP7GbD8U01huTJa7lr5E=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AUAh3ve099979
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Nov 2020 04:43:03 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 30
- Nov 2020 04:43:02 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 30 Nov 2020 04:43:02 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AUAgxOD024315;
- Mon, 30 Nov 2020 04:43:00 -0600
-Subject: Re: [PATCH RESEND v3 1/2] dt-bindings: dp-connector: add binding for
- DisplayPort connector
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201124071155.76868-1-tomi.valkeinen@ti.com>
- <20201124071155.76868-2-tomi.valkeinen@ti.com>
- <20201130101057.GP4141@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <41e8f578-ef37-9aa9-85fc-53228e2d6f6c@ti.com>
-Date: Mon, 30 Nov 2020 12:42:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 106AB6E44F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:50:48 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63D96B26;
+ Mon, 30 Nov 2020 11:50:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1606733446;
+ bh=T5/ef+oYd69MSH5UNl41SQXH0+Cd+8CNxR9CjZ/2ZYs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fxTpb8OzDT4vvB2VzeiYI3KOy4r1RY6KqabvuuSF4neLeb7bvryfWSkUvK6H23iWa
+ 0IE8MkUUVPxCck67zsasJ/vAJp/BmTxhG5cEBbbE71CbTsUrn26/U9B+kBQuHLvfHX
+ F8vr2DYHBSyR8+IcvY/ykz5yPvjMF1+mr3mfrE/k=
+Date: Mon, 30 Nov 2020 12:50:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 5/5] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
+ properties for planes
+Message-ID: <20201130105038.GU4141@pendragon.ideasonboard.com>
+References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
+ <20201103080310.164453-6-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20201130101057.GP4141@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201103080310.164453-6-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,99 +47,297 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Jonas Karlman <jonas@kwiboo.se>,
- Neil Armstrong <narmstrong@baylibre.com>, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
- Rob Herring <robh+dt@kernel.org>,
- Swapnil Kashinath Jakhade <sjakhade@cadence.com>,
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Sekhar Nori <nsekhar@ti.com>, Jyri Sarha <jsarha@ti.com>,
  Nikhil Devshatwar <nikhil.nd@ti.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/11/2020 12:10, Laurent Pinchart wrote:
-> Hi Tomi,
+Hi Tomi and Jyri,
+
+Thank you for the patch.
+
+On Tue, Nov 03, 2020 at 10:03:10AM +0200, Tomi Valkeinen wrote:
+> From: Jyri Sarha <jsarha@ti.com>
 > 
-> Thank you for the patch.
+> Adds support for COLOR_ENCODING and COLOR_RANGE properties to
+> omap_plane.c and dispc.c. The supported encodings and ranges are
+> presets are:
 > 
-> On Tue, Nov 24, 2020 at 09:11:54AM +0200, Tomi Valkeinen wrote:
->> Add binding for DisplayPort connector. A few notes:
->>
->> * Similar to hdmi-connector, it has hpd-gpios as an optional property,
->>   as the HPD could also be handled by, e.g., the DP bridge.
->>
->> * dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
->>   is not strictly required: standard DP cables do not even have the pin
->>   connected.
->>
->> * Connector type. Full size and mini connectors are identical except for
->>   the connector size and form, so I believe there is no functional need
->>   for this property. But similar to 'label' property, it might be used
->>   to present information about the connector to the userspace.
->>
->> * No eDP. There's really no "eDP connector", as it's always a custom
->>   made connection between the DP and the DP panel, although the eDP spec
->>   does offer a few suggested pin setups. So possibly there is no need for
->>   edp-connector binding, but even if there is, I don't want to guess what
->>   it could look like, and could it be part of the dp-connector binding.
->>
->> * No DP++. I'm not familiar with DP++. DP++ might need an i2c bus added
->>   to the bindings.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> Cc: Rob Herring <robh+dt@kernel.org>
->> ---
->>  .../display/connector/dp-connector.yaml       | 55 +++++++++++++++++++
->>  1 file changed, 55 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
->> new file mode 100644
->> index 000000000000..b5fc3e52899e
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
->> @@ -0,0 +1,55 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: DisplayPort Connector
->> +
->> +maintainers:
->> +  - Tomi Valkeinen <tomi.valkeinen@ti.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: dp-connector
->> +
->> +  label: true
->> +
->> +  type:
->> +    enum:
->> +      - full-size
->> +      - mini
+> For COLOR_ENCODING:
+> - YCbCr BT.601 (default)
+> - YCbCr BT.709
 > 
-> I wonder if "full" would be better than "full-size" to match "mini". Up
-> to you.
+> For COLOR_RANGE:
+> - YCbCr limited range
+> - YCbCr full range (default)
+> 
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dispc.c   | 104 ++++++++++++++++----------
+>  drivers/gpu/drm/omapdrm/dss/omapdss.h |   4 +
+>  drivers/gpu/drm/omapdrm/omap_plane.c  |  30 ++++++++
+>  3 files changed, 97 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> index 48593932bddf..bf0c9d293077 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
+> @@ -874,50 +874,67 @@ static void dispc_ovl_write_color_conv_coef(struct dispc_device *dispc,
+>  #undef CVAL
+>  }
+>  
+> -static void dispc_wb_write_color_conv_coef(struct dispc_device *dispc,
+> -					   const struct csc_coef_rgb2yuv *ct)
+> -{
+> -	const enum omap_plane_id plane = OMAP_DSS_WB;
+> -
+> -#define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
+> +/* YUV -> RGB, ITU-R BT.601, full range */
+> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_full = {
+> +	256,   0,  358,		/* ry, rcb, rcr |1.000  0.000  1.402|*/
+> +	256, -88, -182,		/* gy, gcb, gcr |1.000 -0.344 -0.714|*/
+> +	256, 452,    0,		/* by, bcb, bcr |1.000  1.772  0.000|*/
+> +	true,			/* full range */
+> +};
+>  
+> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 0), CVAL(ct->yg,  ct->yr));
+> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 1), CVAL(ct->crr, ct->yb));
+> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->crb, ct->crg));
+> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 3), CVAL(ct->cbg, ct->cbr));
+> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 4), CVAL(0, ct->cbb));
+> +/* YUV -> RGB, ITU-R BT.601, limited range */
+> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
+> +	298,    0,  409,	/* ry, rcb, rcr |1.164  0.000  1.596|*/
+> +	298, -100, -208,	/* gy, gcb, gcr |1.164 -0.392 -0.813|*/
+> +	298,  516,    0,	/* by, bcb, bcr |1.164  2.017  0.000|*/
+> +	false,			/* limited range */
+> +};
+>  
+> -	REG_FLD_MOD(dispc, DISPC_OVL_ATTRIBUTES(plane), ct->full_range, 11, 11);
+> +/* YUV -> RGB, ITU-R BT.709, full range */
+> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_full = {
+> +	256,    0,  402,        /* ry, rcb, rcr |1.000  0.000  1.570|*/
+> +	256,  -48, -120,        /* gy, gcb, gcr |1.000 -0.187 -0.467|*/
+> +	256,  475,    0,        /* by, bcb, bcr |1.000  1.856  0.000|*/
+> +	true,                   /* full range */
+> +};
+>  
+> -#undef CVAL
+> -}
+> +/* YUV -> RGB, ITU-R BT.709, limited range */
+> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_lim = {
+> +	298,    0,  459,	/* ry, rcb, rcr |1.164  0.000  1.793|*/
+> +	298,  -55, -136,	/* gy, gcb, gcr |1.164 -0.213 -0.533|*/
+> +	298,  541,    0,	/* by, bcb, bcr |1.164  2.112  0.000|*/
+> +	false,			/* limited range */
+> +};
+>  
+> -static void dispc_setup_color_conv_coef(struct dispc_device *dispc)
+> +static int dispc_ovl_set_csc(struct dispc_device *dispc,
+> +			     enum omap_plane_id plane,
+> +			     enum drm_color_encoding color_encoding,
+> +			     enum drm_color_range color_range)
+>  {
+> -	int i;
+> -	int num_ovl = dispc_get_num_ovls(dispc);
+> -
+> -	/* YUV -> RGB, ITU-R BT.601, limited range */
+> -	const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
+> -		298,    0,  409,	/* ry, rcb, rcr */
+> -		298, -100, -208,	/* gy, gcb, gcr */
+> -		298,  516,    0,	/* by, bcb, bcr */
+> -		false,			/* limited range */
+> -	};
+> +	const struct csc_coef_yuv2rgb *csc;
+>  
+> -	/* RGB -> YUV, ITU-R BT.601, limited range */
+> -	const struct csc_coef_rgb2yuv coefs_rgb2yuv_bt601_lim = {
+> -		 66, 129,  25,		/* yr,   yg,  yb */
+> -		-38, -74, 112,		/* cbr, cbg, cbb */
+> -		112, -94, -18,		/* crr, crg, crb */
+> -		false,			/* limited range */
+> -	};
+> +	switch (color_encoding) {
+> +	case DRM_COLOR_YCBCR_BT601:
+> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
+> +			csc = &coefs_yuv2rgb_bt601_full;
+> +		else
+> +			csc = &coefs_yuv2rgb_bt601_lim;
+> +		break;
+> +	case DRM_COLOR_YCBCR_BT709:
+> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
+> +			csc = &coefs_yuv2rgb_bt709_full;
+> +		else
+> +			csc = &coefs_yuv2rgb_bt709_lim;
+> +		break;
+> +	default:
+> +		DSSERR("Unsupported CSC mode %d for plane %d\n",
+> +		       color_encoding, plane);
+> +		return -EINVAL;
 
-The DP spec (and e.g. wikipedia) uses "full-size" and "mini". Well, the spec mostly uses "mDP",
-which is explained to mean "Mini DisplayPort". And full-size is used as "full-size DP".
+Can this happen, given that the properties are created with only the
+above four combinations being allowed ?
 
-E.g. "The plug on either end may be a full-size DP plug or an mDP plug."
+> +	}
+>  
+> -	for (i = 1; i < num_ovl; i++)
+> -		dispc_ovl_write_color_conv_coef(dispc, i, &coefs_yuv2rgb_bt601_lim);
+> +	dispc_ovl_write_color_conv_coef(dispc, plane, csc);
+>  
+> -	if (dispc->feat->has_writeback)
+> -		dispc_wb_write_color_conv_coef(dispc, &coefs_rgb2yuv_bt601_lim);
 
-We could use mDP here, but I think "mini" is more commonly used. And if we use mDP for mini, maybe
-we should use DP for the full-size. But then it's maybe a bit confusing.
+Unless I'm mistaken, the writeback plane doesn't have the CSC matrix
+configured anymore. Is that intentional ?
 
-So I think "full-size" and "mini" match best to the spec and are still obvious for the human reader.
-
- Tomi
+> +	return 0;
+>  }
+>  
+>  static void dispc_ovl_set_ba0(struct dispc_device *dispc,
+> @@ -2598,7 +2615,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
+>  				  u8 pre_mult_alpha, u8 global_alpha,
+>  				  enum omap_dss_rotation_type rotation_type,
+>  				  bool replication, const struct videomode *vm,
+> -				  bool mem_to_mem)
+> +				  bool mem_to_mem,
+> +				  enum drm_color_encoding color_encoding,
+> +				  enum drm_color_range color_range)
+>  {
+>  	bool five_taps = true;
+>  	bool fieldmode = false;
+> @@ -2747,6 +2766,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
+>  				      fieldmode, fourcc, rotation);
+>  		dispc_ovl_set_output_size(dispc, plane, out_width, out_height);
+>  		dispc_ovl_set_vid_color_conv(dispc, plane, cconv);
+> +
+> +		if (plane != OMAP_DSS_WB)
+> +			dispc_ovl_set_csc(dispc, plane, color_encoding, color_range);
+>  	}
+>  
+>  	dispc_ovl_set_rotation_attrs(dispc, plane, rotation, rotation_type,
+> @@ -2783,7 +2805,8 @@ static int dispc_ovl_setup(struct dispc_device *dispc,
+>  		oi->screen_width, oi->pos_x, oi->pos_y, oi->width, oi->height,
+>  		oi->out_width, oi->out_height, oi->fourcc, oi->rotation,
+>  		oi->zorder, oi->pre_mult_alpha, oi->global_alpha,
+> -		oi->rotation_type, replication, vm, mem_to_mem);
+> +		oi->rotation_type, replication, vm, mem_to_mem,
+> +		oi->color_encoding, oi->color_range);
+>  
+>  	return r;
+>  }
+> @@ -2816,7 +2839,8 @@ static int dispc_wb_setup(struct dispc_device *dispc,
+>  		wi->buf_width, pos_x, pos_y, in_width, in_height, wi->width,
+>  		wi->height, wi->fourcc, wi->rotation, zorder,
+>  		wi->pre_mult_alpha, global_alpha, wi->rotation_type,
+> -		replication, vm, mem_to_mem);
+> +		replication, vm, mem_to_mem, DRM_COLOR_YCBCR_BT601,
+> +		DRM_COLOR_YCBCR_LIMITED_RANGE);
+>  	if (r)
+>  		return r;
+>  
+> @@ -3927,8 +3951,6 @@ static void _omap_dispc_initial_config(struct dispc_device *dispc)
+>  	    dispc->feat->has_gamma_table)
+>  		REG_FLD_MOD(dispc, DISPC_CONFIG, 1, 9, 9);
+>  
+> -	dispc_setup_color_conv_coef(dispc);
+> -
+>  	dispc_set_loadmode(dispc, OMAP_DSS_LOAD_FRAME_ONLY);
+>  
+>  	dispc_init_fifos(dispc);
+> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> index 8e9a2019f173..816424eb2d41 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+> @@ -7,6 +7,7 @@
+>  #ifndef __OMAP_DRM_DSS_H
+>  #define __OMAP_DRM_DSS_H
+>  
+> +#include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_mode.h>
+>  #include <linux/device.h>
+> @@ -243,6 +244,9 @@ struct omap_overlay_info {
+>  	u8 global_alpha;
+>  	u8 pre_mult_alpha;
+>  	u8 zorder;
+> +
+> +	enum drm_color_encoding color_encoding;
+> +	enum drm_color_range color_range;
+>  };
+>  
+>  struct omap_overlay_manager_info {
+> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+> index 73ec99819a3d..1f433fb5f207 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+> @@ -59,6 +59,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
+>  		info.pre_mult_alpha = 1;
+>  	else
+>  		info.pre_mult_alpha = 0;
+> +	info.color_encoding = state->color_encoding;
+> +	info.color_range = state->color_range;
+>  
+>  	/* update scanout: */
+>  	omap_framebuffer_update_scanout(state->fb, state, &info);
+> @@ -189,6 +191,8 @@ static void omap_plane_reset(struct drm_plane *plane)
+>  	 */
+>  	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
+>  			   ? 0 : omap_plane->id;
+> +	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
+> +	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
+>  }
+>  
+>  static int omap_plane_atomic_set_property(struct drm_plane *plane,
+> @@ -232,6 +236,23 @@ static const struct drm_plane_funcs omap_plane_funcs = {
+>  	.atomic_get_property = omap_plane_atomic_get_property,
+>  };
+>  
+> +static bool omap_plane_supports_yuv(struct drm_plane *plane)
+> +{
+> +	struct omap_drm_private *priv = plane->dev->dev_private;
+> +	struct omap_plane *omap_plane = to_omap_plane(plane);
+> +	const u32 *formats =
+> +		priv->dispc_ops->ovl_get_color_modes(priv->dispc, omap_plane->id);
+> +	u32 i;
+> +
+> +	for (i = 0; formats[i]; i++)
+> +		if (formats[i] == DRM_FORMAT_YUYV ||
+> +		    formats[i] == DRM_FORMAT_UYVY ||
+> +		    formats[i] == DRM_FORMAT_NV12)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>  static const char *plane_id_to_name[] = {
+>  	[OMAP_DSS_GFX] = "gfx",
+>  	[OMAP_DSS_VIDEO1] = "vid1",
+> @@ -293,6 +314,15 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
+>  	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
+>  					     BIT(DRM_MODE_BLEND_COVERAGE));
+>  
+> +	if (omap_plane_supports_yuv(plane))
+> +		drm_plane_create_color_properties(plane,
+> +						  BIT(DRM_COLOR_YCBCR_BT601) |
+> +						  BIT(DRM_COLOR_YCBCR_BT709),
+> +						  BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
+> +						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE),
+> +						  DRM_COLOR_YCBCR_BT601,
+> +						  DRM_COLOR_YCBCR_FULL_RANGE);
+> +
+>  	return plane;
+>  
+>  error:
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
