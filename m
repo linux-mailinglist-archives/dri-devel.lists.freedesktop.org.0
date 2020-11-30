@@ -2,58 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A833A2C86E8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:36:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C292C86E7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:36:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD106E4F1;
-	Mon, 30 Nov 2020 14:36:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62E4C6E4E8;
+	Mon, 30 Nov 2020 14:36:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FD1E6E4F1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:36:55 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AUEakL0008923;
- Mon, 30 Nov 2020 08:36:46 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606747006;
- bh=7DBeTod5EdnnhhKfHPbhvDPCVBSBhP6TblzvWLrEH8Y=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=sgLBE7fWkLsM+yIORLx+XxlgFTvFAdc6rXa/wp7HABxyQTeuvwLuzY1b32+FLUKpV
- vkIew80D7w77V1RBFY9PI1pB1BRogoDejNzJb8IsvMswLD9KBPMmRoUR90T7bUXAWq
- sdkjFdP+3hk8FV3udCfyjTRLXqaZzkLnZHkAsMSY=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AUEak7g050146
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Nov 2020 08:36:46 -0600
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 30
- Nov 2020 08:36:46 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 30 Nov 2020 08:36:46 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AUEaiDM062125;
- Mon, 30 Nov 2020 08:36:44 -0600
-Subject: Re: [PATCH v2 5/5] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
- properties for planes
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
- <20201103080310.164453-6-tomi.valkeinen@ti.com>
- <20201130105038.GU4141@pendragon.ideasonboard.com>
- <762454cd-56e5-bcb7-cef0-f4fa3833591f@ti.com>
- <20201130141917.GA13082@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <554852e9-46ca-38dd-4ec9-d405d341b5cb@ti.com>
-Date: Mon, 30 Nov 2020 16:36:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0159E6E4E8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:36:47 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 79297AB63;
+ Mon, 30 Nov 2020 14:36:46 +0000 (UTC)
+Subject: Re: [PATCH v2 21/28] video: fbdev: tmiofb: Fix set but not used
+ warnings
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-22-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <e2300be8-525f-f289-5e78-d4fd488c90d4@suse.de>
+Date: Mon, 30 Nov 2020 15:36:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201130141917.GA13082@pendragon.ideasonboard.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20201128224114.1033617-22-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,55 +41,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Sekhar Nori <nsekhar@ti.com>, Jyri Sarha <jsarha@ti.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
+ Aditya Pakki <pakki001@umn.edu>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1352473337=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/11/2020 16:19, Laurent Pinchart wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1352473337==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P"
 
->>>> +	switch (color_encoding) {
->>>> +	case DRM_COLOR_YCBCR_BT601:
->>>> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
->>>> +			csc = &coefs_yuv2rgb_bt601_full;
->>>> +		else
->>>> +			csc = &coefs_yuv2rgb_bt601_lim;
->>>> +		break;
->>>> +	case DRM_COLOR_YCBCR_BT709:
->>>> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
->>>> +			csc = &coefs_yuv2rgb_bt709_full;
->>>> +		else
->>>> +			csc = &coefs_yuv2rgb_bt709_lim;
->>>> +		break;
->>>> +	default:
->>>> +		DSSERR("Unsupported CSC mode %d for plane %d\n",
->>>> +		       color_encoding, plane);
->>>> +		return -EINVAL;
->>>
->>> Can this happen, given that the properties are created with only the
->>> above four combinations being allowed ?
->>
->> No, it shouldn't happen. Are you just asking, or are you suggesting that we shouldn't check if
->> color_encoding is valid here?
->>
->> I don't usually check parameters which we can expect to be correct, but with we use switch/if with
->> the parameter, we have to deal with the "else" case too.
-> 
-> I use a default in that case, especially if it can avoid turning the
-> function from void to int.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P
+Content-Type: multipart/mixed; boundary="RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Gustavo Silva <gustavoars@kernel.org>,
+ Peter Rosin <peda@axentia.se>, George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Joe Perches <joe@perches.com>,
+ Peilin Ye <yepeilin.cs@gmail.com>, Mike Rapoport <rppt@kernel.org>
+Message-ID: <e2300be8-525f-f289-5e78-d4fd488c90d4@suse.de>
+Subject: Re: [PATCH v2 21/28] video: fbdev: tmiofb: Fix set but not used
+ warnings
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-22-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-22-sam@ravnborg.org>
 
-Yes, that's true. I'll do the change.
+--RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
- Tomi
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
+Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
+> Fix W=3D1 warnings by avoiding local variables and use direct reference=
+s.
+
+What's the bug here?
+
+>=20
+> v2:
+>    - Updated subject (Lee)
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Jani Nikula <jani.nikula@intel.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/video/fbdev/tmiofb.c | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/video/fbdev/tmiofb.c b/drivers/video/fbdev/tmiofb.=
+c
+> index 50111966c981..b70faa3850f2 100644
+> --- a/drivers/video/fbdev/tmiofb.c
+> +++ b/drivers/video/fbdev/tmiofb.c
+> @@ -802,10 +802,8 @@ static int tmiofb_remove(struct platform_device *d=
+ev)
+>   	const struct mfd_cell *cell =3D mfd_get_cell(dev);
+>   	struct fb_info *info =3D platform_get_drvdata(dev);
+>   	int irq =3D platform_get_irq(dev, 0);
+> -	struct tmiofb_par *par;
+>  =20
+>   	if (info) {
+> -		par =3D info->par;
+>   		unregister_framebuffer(info);
+>  =20
+>   		tmiofb_hw_stop(dev);
+> @@ -816,8 +814,8 @@ static int tmiofb_remove(struct platform_device *de=
+v)
+>   		free_irq(irq, info);
+>  =20
+>   		iounmap(info->screen_base);
+> -		iounmap(par->lcr);
+> -		iounmap(par->ccr);
+> +		iounmap(((struct tmiofb_par *)info->par)->lcr);
+> +		iounmap(((struct tmiofb_par *)info->par)->ccr);
+>  =20
+>   		framebuffer_release(info);
+>   	}
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l--
+
+--QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/FA3wFAwAAAAAACgkQlh/E3EQov+DM
+iA/+JgdFZnsq9XfA9+2juS/nvCSr+KP1c6p5lvq7E1zAAqKijVAWvyHrioVbJzja2cvpTf/DRHRp
+PSReRllIA9PcampHYNUm4ZNGw3fVwpEoeSpiAtytDWiqmk/D8fmJW421ujLUjHrDER4OuNMsTxFW
+zgiFHdixRLSNYISvKLKqrToLfLs8fZByOHKkY9G/gIcg7r2mNaIRJfpmRyc7VA2fDFu5gp21D64F
+UJLbSBu8/f9hgbE95CZqIhX5l2kj2/a+ErR71PpGEb0A5U4Q0uo4pUHer4gRoMOhHRED4+DTrOeW
+T64MlPPzYqqfsbbL1Knk+eIwKi8o6lBC51T0hVjAW4niPFmfb7tQvVRGi5zPB5c0A9aikEqfenuw
+Q2fM6nbRAfNSE22qO00RkqzA84oE2rTu0ondBOOOLKV3OII9EzIz6IeSbEtCiyweqegse1nZtHm7
+VOfwEjX14nhL1lzQgy0xgP5R+jZm5/iymoLx1Az8toMzHDCwKqrYoEXdtg29rEsF3JU4gkxw7zZq
+pgAqdH+fwtPY/iyaeGLc0K9epbPLqBCtXXysQUtYVli1c8P2pHTHlpXz8gcD7cz0IETZB8bvN7XE
+slERm6AxAeQEEJuMxtNKW12wJG4nD0Z7Ov/IBmalRnErhMymsXUp/Dr1J/Mb/DGcEySEX1xXiAWA
+j2A=
+=hmCa
+-----END PGP SIGNATURE-----
+
+--QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P--
+
+--===============1352473337==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1352473337==--
