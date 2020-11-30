@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01AD2C8D88
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 19:59:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6DD2C8D93
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 20:01:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C303E89BF1;
-	Mon, 30 Nov 2020 18:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0B836E7EA;
+	Mon, 30 Nov 2020 19:01:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4803189BF1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 18:59:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F0F345D;
- Mon, 30 Nov 2020 19:59:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606762787;
- bh=EzfSClH5SgPv4zlei6VSCHhfVk//M6lq9WBgxFsM2vY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Oj3uVSc4aZFFSE1hGKm/5FGS+y5uA8XVFH7jGEqseaE4+bpG7z0um9izgBFrqBum7
- aJh21GgVN1TVIkl6ZncN0OrAiR3gzka6Wa6NwFIdWmzffZ0aAP22tI2zuan+VQOsRX
- 2x1m+obfV5+XUd8R+7BqBRrgem0CxNfLT5KjHcLc=
-Date: Mon, 30 Nov 2020 20:59:39 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v3 1/6] drm: bridge: Propagate the bus flags from
- bridge->timings
-Message-ID: <20201130185939.GD4141@pendragon.ideasonboard.com>
-References: <20201119160134.9244-1-nikhil.nd@ti.com>
- <20201119160134.9244-2-nikhil.nd@ti.com>
- <20201130093600.GB4141@pendragon.ideasonboard.com>
- <39d7cf1d-d25b-abc6-a6c6-5d1d18a6b3ff@ti.com>
- <20201130094753.GF4141@pendragon.ideasonboard.com>
- <86a8d1a6-3464-245b-a08a-ad212ab0ae53@ti.com>
- <e8ca17ee-5a62-3944-825e-7066646c1db1@ti.com>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD936E7EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 19:01:37 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id DE81920034;
+ Mon, 30 Nov 2020 20:01:33 +0100 (CET)
+Date: Mon, 30 Nov 2020 20:01:32 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 08/28] video: fbdev: sis: Fix defined but not used
+ warning of SiS_TVDelay
+Message-ID: <20201130190132.GB1502362@ravnborg.org>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-9-sam@ravnborg.org>
+ <2b2809ab-a9ab-cf6d-248d-828ca584bdee@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <e8ca17ee-5a62-3944-825e-7066646c1db1@ti.com>
+In-Reply-To: <2b2809ab-a9ab-cf6d-248d-828ca584bdee@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=BZ3jWuhE78cdEAZxi54A:9 a=CjuIK1q_8ugA:10
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,58 +45,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yuti Amonkar <yamonkar@cadence.com>, Sekhar Nori <nsekhar@ti.com>,
- dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Swapnil Jakhade <sjakhade@cadence.com>, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Lee Jones <lee.jones@linaro.org>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
+ Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+Hi Thomas.
 
-On Mon, Nov 30, 2020 at 12:04:27PM +0200, Tomi Valkeinen wrote:
-> On 30/11/2020 12:02, Tomi Valkeinen wrote:
-> > On 30/11/2020 11:47, Laurent Pinchart wrote:
+On Mon, Nov 30, 2020 at 10:13:05AM +0100, Thomas Zimmermann wrote:
+> 
+> 
+> Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
+> > Fix W=1 warning by commenting unused SiS_TVDelay* variables.
 > > 
-> >>>> Hasn't Boris commented in his review of v1 that bus flags should be set
-> >>>> in atomic_check, even when they're static ? We're moving towards
-> >>>> removing timings->input_bus_flags, so this patch goes in the wrong
-> >>>> direction :-S
-> >>>
-> >>> We have atomic_check only if the bridge has implemented atomic funcs. And even if there's
-> >>> atomic_check, not all bridges set the bus_flags there. So we need to either 1) fix the issue for now
-> >>> as in this patch, or 2) convert all bridges to use atomic funcs and fix all the bridges to set the
-> >>> bus_flags.
-> >>
-> >> The second option is what we'd like to achieve. Wouldn't it be best to
-> >> already start going in that direction ? We don't need to convert all
-> >> bridge drivers in one go here, just the ones that are used by tidss.
-> > 
-> > I think that sounds fine, except that this is blocking the DisplayPort support for J7. We have
-> > everything in for DP except dts changes (can be added only when the drivers work), and the connector
-> > stuff.
-> > 
-> > The connector stuff includes this series (so that tidss supports the new connector model), and
-> > "[PATCH RESEND v3 0/2] drm: add DisplayPort connector", which adds the connector driver.
-> > 
-> > The bridges currently used (that I know of) with tidss are cdns-mhdp, tfp410 and sii9022. I don't
-> > expect converting those would be a huge job, but I'd still really like to get the DP working in
-> > upstream without starting to expand the scope of the patches we need to enable it.
-> > 
-> > That said, we missed 5.11 so perhaps we have the time.
+> > The SiS_TVDelay* variables seem to contain some magic numbers
+> > so looks like data worth keeping around but not as code we build.
+> 
+> I would remove it. sisfb is broken beyond repair and no one's going to try
+> to use it anyway. In any case
+> 
+> Acked-by: Thomas Zimemrmann <tzimmermann@suse.de>
 
-If there's not enough time to address the bridges, I'm fine with this
-series assuming the bridge changes will go on top. If we have enough
-time, let's go for it :-)
+Thanks for your patience pointing out all my spelling and grammar errors.
+I once had codespell set up to catch some of this, will need to do so
+again.
 
-> Looks like Boris was missing from Cc in this series. Adding him.
+Ironically I copied the above "Acked-by:" line to most of the commits
+and just noticed it had a spelling error :-)
 
--- 
-Regards,
+I have applied everything that you acked and will push when
+I have fixed the above and verified I did not break anything.
+Will post a v3 with the remaining patches later.
 
-Laurent Pinchart
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
