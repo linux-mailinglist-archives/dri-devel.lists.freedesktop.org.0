@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0870F2C83CA
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 13:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C1C2C83CB
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 13:04:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7203089DED;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A9ED89DB9;
 	Mon, 30 Nov 2020 12:04:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A5E589D66
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A27B089D66
  for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 12:04:42 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C506CAB63;
- Mon, 30 Nov 2020 12:04:40 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 45ECEABD2;
+ Mon, 30 Nov 2020 12:04:41 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, hdegoede@redhat.com, christian.koenig@amd.com
-Subject: [PATCH 7/8] drm/vram-helper: Remove vmap reference counting
-Date: Mon, 30 Nov 2020 13:04:32 +0100
-Message-Id: <20201130120433.7205-8-tzimmermann@suse.de>
+Subject: [PATCH 8/8] drm/vram-helper: Simplify vmap implementation
+Date: Mon, 30 Nov 2020 13:04:33 +0100
+Message-Id: <20201130120433.7205-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201130120433.7205-1-tzimmermann@suse.de>
 References: <20201130120433.7205-1-tzimmermann@suse.de>
@@ -44,113 +44,114 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Overlapping or nested mappings of the same BO are not allowed by the
-semantics of the GEM vmap/vunmap operations. Concurent access to the
-GEM object is prevented by reservation locks.
-
-So we don't need the reference counter in the GEM VRAM object. Remove
-it.
+After removing the pinning operations, the vmap/vunmap code as been
+reduced to what used to be an internal helper. Inline the helper to
+simplify the implementation.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_vram_helper.c | 19 ++++---------------
- include/drm/drm_gem_vram_helper.h     | 17 +++--------------
- 2 files changed, 7 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/drm_gem_vram_helper.c | 57 +++++++++++----------------
+ 1 file changed, 23 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index ac0fa9da1c83..a44718dd66cb 100644
+index a44718dd66cb..10d89c01990f 100644
 --- a/drivers/gpu/drm/drm_gem_vram_helper.c
 +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -113,7 +113,6 @@ static void drm_gem_vram_cleanup(struct drm_gem_vram_object *gbo)
- 	 * up; only release the GEM object.
- 	 */
+@@ -378,36 +378,6 @@ int drm_gem_vram_unpin(struct drm_gem_vram_object *gbo)
+ }
+ EXPORT_SYMBOL(drm_gem_vram_unpin);
  
--	WARN_ON(gbo->vmap_use_count);
- 	WARN_ON(dma_buf_map_is_set(&gbo->map));
- 
- 	drm_gem_object_release(&gbo->bo.base);
-@@ -384,15 +383,10 @@ static int drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
- {
- 	int ret;
- 
--	if (gbo->vmap_use_count > 0)
--		goto out;
+-static int drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
+-				    struct dma_buf_map *map)
+-{
+-	int ret;
 -
- 	ret = ttm_bo_vmap(&gbo->bo, &gbo->map);
+-	ret = ttm_bo_vmap(&gbo->bo, &gbo->map);
+-	if (ret)
+-		return ret;
+-
+-	*map = gbo->map;
+-
+-	return 0;
+-}
+-
+-static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo,
+-				       struct dma_buf_map *map)
+-{
+-	struct drm_device *dev = gbo->bo.base.dev;
+-
+-	if (drm_WARN_ON_ONCE(dev, !dma_buf_map_is_equal(&gbo->map, map)))
+-		return; /* BUG: map not mapped from this BO */
+-
+-	/*
+-	 * Permanently mapping and unmapping buffers adds overhead from
+-	 * updating the page tables and creates debugging output. Therefore,
+-	 * we delay the actual unmap operation until the BO gets evicted
+-	 * from memory. See drm_gem_vram_bo_driver_move_notify().
+-	 */
+-}
+-
+ /**
+  * drm_gem_vram_vmap() - Pins and maps a GEM VRAM object into kernel address
+  *                       space
+@@ -426,9 +396,17 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo,
+  */
+ int drm_gem_vram_vmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map)
+ {
++	int ret;
++
+ 	dma_resv_assert_held(gbo->bo.base.resv);
+ 
+-	return drm_gem_vram_kmap_locked(gbo, map);
++	ret = ttm_bo_vmap(&gbo->bo, &gbo->map);
++	if (ret)
++		return ret;
++
++	*map = gbo->map;
++
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_gem_vram_vmap);
+ 
+@@ -442,8 +420,19 @@ EXPORT_SYMBOL(drm_gem_vram_vmap);
+  */
+ void drm_gem_vram_vunmap(struct drm_gem_vram_object *gbo, struct dma_buf_map *map)
+ {
++	struct drm_device *dev = gbo->bo.base.dev;
++
+ 	dma_resv_assert_held(gbo->bo.base.resv);
+-	drm_gem_vram_kunmap_locked(gbo, map);
++
++	if (drm_WARN_ON_ONCE(dev, !dma_buf_map_is_equal(&gbo->map, map)))
++		return; /* BUG: map not mapped from this BO */
++
++	/*
++	 * Permanently mapping and unmapping buffers adds overhead from
++	 * updating the page tables and creates debugging output. Therefore,
++	 * we delay the actual unmap operation until the BO gets evicted
++	 * from memory. See drm_gem_vram_bo_driver_move_notify().
++	 */
+ }
+ EXPORT_SYMBOL(drm_gem_vram_vunmap);
+ 
+@@ -471,7 +460,7 @@ int drm_gem_vram_vmap_unlocked(struct drm_gem_vram_object *gbo, struct dma_buf_m
  	if (ret)
  		return ret;
  
--out:
--	++gbo->vmap_use_count;
- 	*map = gbo->map;
+-	ret = drm_gem_vram_kmap_locked(gbo, map);
++	ret = drm_gem_vram_vmap(gbo, map);
+ 	if (ret)
+ 		goto err_ttm_bo_unreserve;
  
- 	return 0;
-@@ -403,15 +397,9 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo,
- {
- 	struct drm_device *dev = gbo->bo.base.dev;
- 
--	if (drm_WARN_ON_ONCE(dev, !gbo->vmap_use_count))
--		return;
--
- 	if (drm_WARN_ON_ONCE(dev, !dma_buf_map_is_equal(&gbo->map, map)))
- 		return; /* BUG: map not mapped from this BO */
- 
--	if (--gbo->vmap_use_count > 0)
--		return;
--
- 	/*
- 	 * Permanently mapping and unmapping buffers adds overhead from
- 	 * updating the page tables and creates debugging output. Therefore,
-@@ -596,12 +584,13 @@ static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_object *gbo,
- 					       struct ttm_resource *new_mem)
- {
- 	struct ttm_buffer_object *bo = &gbo->bo;
--	struct drm_device *dev = bo->base.dev;
-+	struct dma_buf_map *map = &gbo->map;
- 
--	if (drm_WARN_ON_ONCE(dev, gbo->vmap_use_count))
-+	if (dma_buf_map_is_null(map))
- 		return;
- 
--	ttm_bo_vunmap(bo, &gbo->map);
-+	ttm_bo_vunmap(bo, map);
-+	dma_buf_map_clear(map);
- }
- 
- static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index 2d22888b5754..b679349bbfb2 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -42,25 +42,14 @@ struct ww_acquire_ctx;
-  * dedicated memory. The buffer object can be evicted to system memory if
-  * video memory becomes scarce.
-  *
-- * GEM VRAM objects perform reference counting for pin and mapping
-- * operations. So a buffer object that has been pinned N times with
-- * drm_gem_vram_pin() must be unpinned N times with
-- * drm_gem_vram_unpin(). The same applies to pairs of
-- * drm_gem_vram_kmap() and drm_gem_vram_kunmap(), as well as pairs of
-- * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
-+ * GEM VRAM objects perform reference counting for pin operations. So a
-+ * buffer object that has been pinned N times with drm_gem_vram_pin() must
-+ * be unpinned N times with drm_gem_vram_unpin().
+@@ -494,7 +483,7 @@ EXPORT_SYMBOL(drm_gem_vram_vmap_unlocked);
   */
- struct drm_gem_vram_object {
- 	struct ttm_buffer_object bo;
- 	struct dma_buf_map map;
- 
--	/**
--	 * @vmap_use_count:
--	 *
--	 * Reference count on the virtual address.
--	 * The address are un-mapped when the count reaches zero.
--	 */
--	unsigned int vmap_use_count;
--
- 	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
- 	struct ttm_placement placement;
- 	struct ttm_place placements[2];
+ void drm_gem_vram_vunmap_unlocked(struct drm_gem_vram_object *gbo, struct dma_buf_map *map)
+ {
+-	drm_gem_vram_kunmap_locked(gbo, map);
++	drm_gem_vram_vunmap(gbo, map);
+ 	ttm_bo_unreserve(&gbo->bo);
+ }
+ EXPORT_SYMBOL(drm_gem_vram_vunmap_unlocked);
 -- 
 2.29.2
 
