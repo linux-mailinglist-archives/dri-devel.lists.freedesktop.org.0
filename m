@@ -1,34 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C292C86E7
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:36:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D53BB2C873B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 15:57:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62E4C6E4E8;
-	Mon, 30 Nov 2020 14:36:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ACA18952F;
+	Mon, 30 Nov 2020 14:57:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0159E6E4E8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:36:47 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 79297AB63;
- Mon, 30 Nov 2020 14:36:46 +0000 (UTC)
-Subject: Re: [PATCH v2 21/28] video: fbdev: tmiofb: Fix set but not used
- warnings
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-22-sam@ravnborg.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e2300be8-525f-f289-5e78-d4fd488c90d4@suse.de>
-Date: Mon, 30 Nov 2020 15:36:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE8398952F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 14:57:45 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id d3so15636227wmb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 06:57:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QvIcjvyGmSpmjbrrJbAgTwIYEUzY2wPVaZI3QiYUDSA=;
+ b=Je64bDwrgnW4iphPO4AMHxOR8v2Iwzyzq7tczzA8V1FpZUrC60f/XJbsdGkU6MjwVJ
+ W89H/RqXw657TFQkGBdYjVugsYqI8xoV2FrKIBond3RoLKpNL0YCXi4rIup/zfzeBNeV
+ yMAfTl3ZH+hskvUpWbO2b+852v/LZLzGzZny4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QvIcjvyGmSpmjbrrJbAgTwIYEUzY2wPVaZI3QiYUDSA=;
+ b=dD5gSInhIyJUrI4glK2vlpWiojjOEogSzP5XGpvv3tJCUgEx3skPNczRh3pgY8++Bb
+ P/TgA60qJqKr0se4OGbAKzhxmTmDHhdKg4FkfzSs0f/zFSXQuhJXcsN5SWaT52Rx7O04
+ DByoy9S5b+i8KmEV5lL81yV8wk0gf5YwaqjFxwSgyPLhdQu25vS0hLYJHW4VovQQvD4G
+ QHKCwlaf/jGzsoNWzeUWKhWcr3RiaZdunNXOMLepXGisdKGE7DCowQecFASXyOzQBq7V
+ hVRO/8Yh9GiuorSgFUTjf+C8wMw9aGgyymDFaHxV1sx/7ZaXBmGZ8EJTGSLh4e5qu+2U
+ t+Cw==
+X-Gm-Message-State: AOAM533cmuugDaIDTVnsNU3ltarLnoAIaZmg6aGyy5E1OHz4r1u7DM1/
+ aHbfRFd8g7BXZcbfuFCp/fBh7g==
+X-Google-Smtp-Source: ABdhPJxB8TzeE+IFsR2ihFYRKCW5z0jNBCRDk1tazAuelbZRiuZHg4c8QSm6dZ6cN4vvohPfwF3jvw==
+X-Received: by 2002:a1c:2b03:: with SMTP id r3mr23723236wmr.184.1606748264015; 
+ Mon, 30 Nov 2020 06:57:44 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s8sm28972663wrn.33.2020.11.30.06.57.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 06:57:43 -0800 (PST)
+Date: Mon, 30 Nov 2020 15:57:41 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jianxin Xiong <jianxin.xiong@intel.com>
+Subject: Re: [PATCH rdma-core v3 4/6] pyverbs: Add dma-buf based MR support
+Message-ID: <20201130145741.GP401619@phenom.ffwll.local>
+References: <1606510543-45567-1-git-send-email-jianxin.xiong@intel.com>
+ <1606510543-45567-5-git-send-email-jianxin.xiong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201128224114.1033617-22-sam@ravnborg.org>
+Content-Disposition: inline
+In-Reply-To: <1606510543-45567-5-git-send-email-jianxin.xiong@intel.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,174 +65,771 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
- Aditya Pakki <pakki001@umn.edu>, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
- Mike Rapoport <rppt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1352473337=="
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug Ledford <dledford@redhat.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1352473337==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P
-Content-Type: multipart/mixed; boundary="RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
-Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap
- <rdunlap@infradead.org>, Gustavo Silva <gustavoars@kernel.org>,
- Peter Rosin <peda@axentia.se>, George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>,
- Jingoo Han <jingoohan1@gmail.com>, Joe Perches <joe@perches.com>,
- Peilin Ye <yepeilin.cs@gmail.com>, Mike Rapoport <rppt@kernel.org>
-Message-ID: <e2300be8-525f-f289-5e78-d4fd488c90d4@suse.de>
-Subject: Re: [PATCH v2 21/28] video: fbdev: tmiofb: Fix set but not used
- warnings
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-22-sam@ravnborg.org>
-In-Reply-To: <20201128224114.1033617-22-sam@ravnborg.org>
-
---RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
-> Fix W=3D1 warnings by avoiding local variables and use direct reference=
-s.
-
-What's the bug here?
-
->=20
-> v2:
->    - Updated subject (Lee)
->=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
+On Fri, Nov 27, 2020 at 12:55:41PM -0800, Jianxin Xiong wrote:
+> Define a new sub-class of 'MR' that uses dma-buf object for the memory
+> region. Define a new class 'DmaBuf' as a wrapper for dma-buf allocation
+> mechanism implemented in C.
+> 
+> Add a method to buildlib for building modules with mixed Cython and C
+> source.
+> 
+> Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
 > ---
->   drivers/video/fbdev/tmiofb.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/video/fbdev/tmiofb.c b/drivers/video/fbdev/tmiofb.=
-c
-> index 50111966c981..b70faa3850f2 100644
-> --- a/drivers/video/fbdev/tmiofb.c
-> +++ b/drivers/video/fbdev/tmiofb.c
-> @@ -802,10 +802,8 @@ static int tmiofb_remove(struct platform_device *d=
-ev)
->   	const struct mfd_cell *cell =3D mfd_get_cell(dev);
->   	struct fb_info *info =3D platform_get_drvdata(dev);
->   	int irq =3D platform_get_irq(dev, 0);
-> -	struct tmiofb_par *par;
->  =20
->   	if (info) {
-> -		par =3D info->par;
->   		unregister_framebuffer(info);
->  =20
->   		tmiofb_hw_stop(dev);
-> @@ -816,8 +814,8 @@ static int tmiofb_remove(struct platform_device *de=
-v)
->   		free_irq(irq, info);
->  =20
->   		iounmap(info->screen_base);
-> -		iounmap(par->lcr);
-> -		iounmap(par->ccr);
-> +		iounmap(((struct tmiofb_par *)info->par)->lcr);
-> +		iounmap(((struct tmiofb_par *)info->par)->ccr);
->  =20
->   		framebuffer_release(info);
->   	}
->=20
+>  buildlib/pyverbs_functions.cmake |  52 +++++++
+>  pyverbs/CMakeLists.txt           |   7 +
+>  pyverbs/dmabuf.pxd               |  15 ++
+>  pyverbs/dmabuf.pyx               |  72 ++++++++++
+>  pyverbs/dmabuf_alloc.c           | 296 +++++++++++++++++++++++++++++++++++++++
+>  pyverbs/dmabuf_alloc.h           |  19 +++
+>  pyverbs/libibverbs.pxd           |   2 +
+>  pyverbs/mr.pxd                   |   6 +
+>  pyverbs/mr.pyx                   | 103 +++++++++++++-
+>  9 files changed, 570 insertions(+), 2 deletions(-)
+>  create mode 100644 pyverbs/dmabuf.pxd
+>  create mode 100644 pyverbs/dmabuf.pyx
+>  create mode 100644 pyverbs/dmabuf_alloc.c
+>  create mode 100644 pyverbs/dmabuf_alloc.h
+> 
+> diff --git a/buildlib/pyverbs_functions.cmake b/buildlib/pyverbs_functions.cmake
+> index 953cec2..2f6788e 100644
+> --- a/buildlib/pyverbs_functions.cmake
+> +++ b/buildlib/pyverbs_functions.cmake
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+>  # Copyright (c) 2018, Mellanox Technologies. All rights reserved.  See COPYING file
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved.  See COPYING file
+>  
+>  function(rdma_cython_module PY_MODULE LINKER_FLAGS)
+>    foreach(PYX_FILE ${ARGN})
+> @@ -32,6 +33,57 @@ function(rdma_cython_module PY_MODULE LINKER_FLAGS)
+>    endforeach()
+>  endfunction()
+>  
+> +function(rdma_multifile_module PY_MODULE MODULE_NAME LINKER_FLAGS)
+> +  set(ALL_CFILES "")
+> +  foreach(SRC_FILE ${ARGN})
+> +    get_filename_component(FILENAME ${SRC_FILE} NAME_WE)
+> +    get_filename_component(DIR ${SRC_FILE} DIRECTORY)
+> +    get_filename_component(EXT ${SRC_FILE} EXT)
+> +    if (DIR)
+> +      set(SRC_PATH "${CMAKE_CURRENT_SOURCE_DIR}/${DIR}")
+> +    else()
+> +      set(SRC_PATH "${CMAKE_CURRENT_SOURCE_DIR}")
+> +    endif()
+> +    if (${EXT} STREQUAL ".pyx")
+> +      set(PYX "${SRC_PATH}/${FILENAME}.pyx")
+> +      set(CFILE "${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}.c")
+> +      include_directories(${PYTHON_INCLUDE_DIRS})
+> +      add_custom_command(
+> +        OUTPUT "${CFILE}"
+> +        MAIN_DEPENDENCY "${PYX}"
+> +        COMMAND ${CYTHON_EXECUTABLE} "${PYX}" -o "${CFILE}"
+> +        "-I${PYTHON_INCLUDE_DIRS}"
+> +        COMMENT "Cythonizing ${PYX}"
+> +      )
+> +      set(ALL_CFILES "${ALL_CFILES};${CFILE}")
+> +    elseif(${EXT} STREQUAL ".c")
+> +      set(CFILE_ORIG "${SRC_PATH}/${FILENAME}.c")
+> +      set(CFILE "${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}.c")
+> +      if (NOT ${CFILE_ORIG} STREQUAL ${CFILE})
+> +        rdma_create_symlink("${CFILE_ORIG}" "${CFILE}")
+> +      endif()
+> +      set(ALL_CFILES "${ALL_CFILES};${CFILE}")
+> +    elseif(${EXT} STREQUAL ".h")
+> +      set(HFILE_ORIG "${SRC_PATH}/${FILENAME}.h")
+> +      set(HFILE "${CMAKE_CURRENT_BINARY_DIR}/${FILENAME}.h")
+> +      if (NOT ${HFILE_ORIG} STREQUAL ${HFILE})
+> +        rdma_create_symlink("${HFILE_ORIG}" "${HFILE}")
+> +      endif()
+> +    else()
+> +      continue()
+> +    endif()
+> +  endforeach()
+> +  string(REGEX REPLACE "\\.so$" "" SONAME "${MODULE_NAME}${CMAKE_PYTHON_SO_SUFFIX}")
+> +  add_library(${SONAME} SHARED ${ALL_CFILES})
+> +  set_target_properties(${SONAME} PROPERTIES
+> +    COMPILE_FLAGS "${CMAKE_C_FLAGS} -fPIC -fno-strict-aliasing -Wno-unused-function -Wno-redundant-decls -Wno-shadow -Wno-cast-function-type -Wno-implicit-fallthrough -Wno-unknown-warning -Wno-unknown-warning-option -Wno-deprecated-declarations ${NO_VAR_TRACKING_FLAGS}"
+> +    LIBRARY_OUTPUT_DIRECTORY "${BUILD_PYTHON}/${PY_MODULE}"
+> +    PREFIX "")
+> +  target_link_libraries(${SONAME} LINK_PRIVATE ${PYTHON_LIBRARIES} ibverbs rdmacm ${LINKER_FLAGS})
+> +  install(TARGETS ${SONAME}
+> +    DESTINATION ${CMAKE_INSTALL_PYTHON_ARCH_LIB}/${PY_MODULE})
+> +endfunction()
+> +
+>  function(rdma_python_module PY_MODULE)
+>    foreach(PY_FILE ${ARGN})
+>      get_filename_component(LINK "${CMAKE_CURRENT_SOURCE_DIR}/${PY_FILE}" ABSOLUTE)
+> diff --git a/pyverbs/CMakeLists.txt b/pyverbs/CMakeLists.txt
+> index 9542c4b..1b21e7b 100644
+> --- a/pyverbs/CMakeLists.txt
+> +++ b/pyverbs/CMakeLists.txt
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+>  # Copyright (c) 2019, Mellanox Technologies. All rights reserved. See COPYING file
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved. See COPYING file
+>  
+>  rdma_cython_module(pyverbs ""
+>    addr.pyx
+> @@ -24,6 +25,12 @@ rdma_python_module(pyverbs
+>    utils.py
+>    )
+>  
+> +rdma_multifile_module(pyverbs dmabuf ""
+> +  dmabuf.pyx
+> +  dmabuf_alloc.c
+> +  dmabuf_alloc.h
+> +  )
+> +
+>  # mlx5 and efa providers are not built without coherent DMA, e.g. ARM32 build.
+>  if (HAVE_COHERENT_DMA)
+>  add_subdirectory(providers/mlx5)
+> diff --git a/pyverbs/dmabuf.pxd b/pyverbs/dmabuf.pxd
+> new file mode 100644
+> index 0000000..3ef5dfb
+> --- /dev/null
+> +++ b/pyverbs/dmabuf.pxd
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved. See COPYING file
+> +
+> +#cython: language_level=3
+> +
+> +cdef class DmaBuf:
+> +    cdef int dri_fd
+> +    cdef int handle
+> +    cdef int fd
+> +    cdef unsigned long size
+> +    cdef unsigned long map_offset
+> +    cdef void *dmabuf
+> +    cdef object dmabuf_mrs
+> +    cdef add_ref(self, obj)
+> +    cpdef close(self)
+> diff --git a/pyverbs/dmabuf.pyx b/pyverbs/dmabuf.pyx
+> new file mode 100644
+> index 0000000..23d8e2a
+> --- /dev/null
+> +++ b/pyverbs/dmabuf.pyx
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved. See COPYING file
+> +
+> +#cython: language_level=3
+> +
+> +import weakref
+> +
+> +from pyverbs.base cimport close_weakrefs
+> +from pyverbs.base import PyverbsRDMAErrno
+> +from pyverbs.mr cimport DmaBufMR
+> +
+> +cdef extern from "dmabuf_alloc.h":
+> +    cdef struct dmabuf:
+> +        pass
+> +    dmabuf *dmabuf_alloc(int unit, unsigned long size)
+> +    void dmabuf_free(dmabuf *dmabuf)
+> +    int dmabuf_get_dri_fd(dmabuf *dmabuf)
+> +    int dmabuf_get_fd(dmabuf *dmabuf)
+> +    unsigned long dmabuf_get_offset(dmabuf *dmabuf)
+> +
+> +
+> +cdef class DmaBuf:
+> +    def __init__(self, size, unit=0):
+> +        """
+> +        Allocate DmaBuf object from a GPU device. This is done through the
+> +        DRI device interface. Usually this requires the effective user id
+> +        being a member of the 'render' group.
+> +        :param size: The size (in number of bytes) of the buffer.
+> +        :param unit: The unit number of the GPU to allocate the buffer from.
+> +        :return: The newly created DmaBuf object on success.
+> +        """
+> +        self.dmabuf_mrs = weakref.WeakSet()
+> +        self.dmabuf = dmabuf_alloc(size, unit)
+> +        if self.dmabuf == NULL:
+> +            raise PyverbsRDMAErrno(f'Failed to allocate dmabuf of size {size} on unit {unit}')
+> +        self.dri_fd = dmabuf_get_dri_fd(<dmabuf *>self.dmabuf)
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+dri_fd seems unused by the tests
+> +        self.fd = dmabuf_get_fd(<dmabuf *>self.dmabuf)
+> +        self.map_offset = dmabuf_get_offset(<dmabuf *>self.dmabuf)
+> +
+> +    def __dealloc__(self):
+> +        self.close()
+> +
+> +    cpdef close(self):
+> +        if self.dmabuf == NULL:
+> +            return None
+> +        close_weakrefs([self.dmabuf_mrs])
+> +        dmabuf_free(<dmabuf *>self.dmabuf)
+> +        self.dmabuf = NULL
+> +
+> +    cdef add_ref(self, obj):
+> +        if isinstance(obj, DmaBufMR):
+> +            self.dmabuf_mrs.add(obj)
+> +
+> +    @property
+> +    def dri_fd(self):
+> +        return self.dri_fd
+> +
+> +    @property
+> +    def handle(self):
+> +        return self.handle
+> +
+> +    @property
+> +    def fd(self):
+> +        return self.fd
+> +
+> +    @property
+> +    def size(self):
+> +        return self.size
+> +
+> +    @property
+> +    def map_offset(self):
+> +        return self.map_offset
+> diff --git a/pyverbs/dmabuf_alloc.c b/pyverbs/dmabuf_alloc.c
+> new file mode 100644
+> index 0000000..b958a3e
+> --- /dev/null
+> +++ b/pyverbs/dmabuf_alloc.c
+> @@ -0,0 +1,296 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
+> +/*
+> + * Copyright 2020 Intel Corporation. All rights reserved. See COPYING file
+> + */
+> +
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <stdint.h>
+> +#include <unistd.h>
+> +#include <string.h>
+> +#include <errno.h>
+> +#include <drm/drm.h>
+> +#include <drm/i915_drm.h>
+> +#include <drm/amdgpu_drm.h>
+> +#include <drm/radeon_drm.h>
+> +#include <fcntl.h>
+> +#include <sys/ioctl.h>
+> +#include "dmabuf_alloc.h"
+> +
+> +/*
+> + * Abstraction of the buffer allocation mechanism using the DRI interface.
+> + * The interface is accessed by ioctl() calls over the '/dev/dri/renderD*'
+> + * device. Successful access usually requires the effective user id being
+> + * in the 'render' group.
+> + */
+> +
+> +struct dri {
+> +	int fd;
+> +	int (*alloc)(struct dri *dri, uint64_t size, uint32_t *handle);
+> +	int (*mmap_offset)(struct dri *dri, uint32_t handle, uint64_t *offset);
+> +};
+> +
+> +static int i915_alloc(struct dri *dri, uint64_t size, uint32_t *handle)
+> +{
+> +	struct drm_i915_gem_create gem_create = {0};
+> +	int err;
+> +
+> +	gem_create.size = size;
+> +	err = ioctl(dri->fd, DRM_IOCTL_I915_GEM_CREATE, &gem_create);
+> +	if (err)
+> +		return err;
+> +
+> +	*handle = gem_create.handle;
+> +	return 0;
+> +}
+> +
+> +static int amdgpu_alloc(struct dri *dri, size_t size, uint32_t *handle)
+> +{
+> +	union drm_amdgpu_gem_create gem_create = {{0}};
+> +	int err;
+> +
+> +	gem_create.in.bo_size = size;
+> +	gem_create.in.domains = AMDGPU_GEM_DOMAIN_VRAM;
 
+I think you minimally also need domain_flags =
+AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED, otherwise you can end up being
+unlucky and the mmap fails.
 
---RlufnoLl5dw7XZkBLvZDTR2SAvzElte5l--
+I think it would also be good to have a separate mode where the buffer is
+forced to be in system memory (AMDGPU_GEM_DOMAIN_GTT and additionally
+AMDGPU_GEM_CREATE_CPU_GTT_USWC needed). This should be useful for cases
+where p2p doesn't work, but we still want to check the dma-buf
+functionality.
 
---QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> +	err = ioctl(dri->fd, DRM_IOCTL_AMDGPU_GEM_CREATE, &gem_create);
+> +	if (err)
+> +		return err;
+> +
+> +	*handle = gem_create.out.handle;
+> +	return 0;
+> +}
+> +
+> +static int radeon_alloc(struct dri *dri, size_t size, uint32_t *handle)
 
------BEGIN PGP SIGNATURE-----
+Tbh radeon chips are old enough I wouldn't care. Also doesn't support p2p
+dma-buf, so always going to be in system memory when you share. Plus you
+also need some more flags like I suggested above I think.
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/FA3wFAwAAAAAACgkQlh/E3EQov+DM
-iA/+JgdFZnsq9XfA9+2juS/nvCSr+KP1c6p5lvq7E1zAAqKijVAWvyHrioVbJzja2cvpTf/DRHRp
-PSReRllIA9PcampHYNUm4ZNGw3fVwpEoeSpiAtytDWiqmk/D8fmJW421ujLUjHrDER4OuNMsTxFW
-zgiFHdixRLSNYISvKLKqrToLfLs8fZByOHKkY9G/gIcg7r2mNaIRJfpmRyc7VA2fDFu5gp21D64F
-UJLbSBu8/f9hgbE95CZqIhX5l2kj2/a+ErR71PpGEb0A5U4Q0uo4pUHer4gRoMOhHRED4+DTrOeW
-T64MlPPzYqqfsbbL1Knk+eIwKi8o6lBC51T0hVjAW4niPFmfb7tQvVRGi5zPB5c0A9aikEqfenuw
-Q2fM6nbRAfNSE22qO00RkqzA84oE2rTu0ondBOOOLKV3OII9EzIz6IeSbEtCiyweqegse1nZtHm7
-VOfwEjX14nhL1lzQgy0xgP5R+jZm5/iymoLx1Az8toMzHDCwKqrYoEXdtg29rEsF3JU4gkxw7zZq
-pgAqdH+fwtPY/iyaeGLc0K9epbPLqBCtXXysQUtYVli1c8P2pHTHlpXz8gcD7cz0IETZB8bvN7XE
-slERm6AxAeQEEJuMxtNKW12wJG4nD0Z7Ov/IBmalRnErhMymsXUp/Dr1J/Mb/DGcEySEX1xXiAWA
-j2A=
-=hmCa
------END PGP SIGNATURE-----
+> +{
+> +	struct drm_radeon_gem_create gem_create = {0};
+> +	int err;
+> +
+> +	gem_create.size = size;
+> +	gem_create.initial_domain = RADEON_GEM_DOMAIN_VRAM;
+> +	err = ioctl(dri->fd, DRM_IOCTL_RADEON_GEM_CREATE, &gem_create);
+> +	if (err)
+> +		return err;
+> +
+> +	*handle = gem_create.handle;
+> +	return 0;
+> +}
+> +
+> +static int i915_mmap_offset(struct dri *dri, uint32_t handle, uint64_t *offset)
+> +{
+> +	struct drm_i915_gem_mmap_gtt gem_mmap = {0};
+> +	int err;
+> +
+> +	gem_mmap.handle = handle;
+> +	err = ioctl(dri->fd, DRM_IOCTL_I915_GEM_MMAP_GTT, &gem_mmap);
+> +	if (err)
+> +		return err;
+> +
+> +	*offset = gem_mmap.offset;
+> +	return 0;
+> +}
+> +
+> +static int amdgpu_mmap_offset(struct dri *dri, uint32_t handle
+> +			      uint64_t *offset)
+> +{
+> +	union drm_amdgpu_gem_mmap gem_mmap = {{0}};
+> +	int err;
+> +
+> +	gem_mmap.in.handle = handle;
+> +	err = ioctl(dri->fd, DRM_IOCTL_AMDGPU_GEM_MMAP, &gem_mmap);
+> +	if (err)
+> +		return err;
+> +
+> +	*offset = gem_mmap.out.addr_ptr;
+> +	return 0;
+> +}
+> +
+> +static int radeon_mmap_offset(struct dri *dri, uint32_t handle,
+> +			      uint64_t *offset)
+> +{
+> +	struct drm_radeon_gem_mmap gem_mmap = {0};
+> +	int err;
+> +
+> +	gem_mmap.handle = handle;
+> +	err = ioctl(dri->fd, DRM_IOCTL_RADEON_GEM_MMAP, &gem_mmap);
+> +	if (err)
+> +		return err;
+> +
+> +	*offset = gem_mmap.addr_ptr;
+> +	return 0;
+> +}
+> +
+> +static struct dri *dri_open(int unit)
+> +{
+> +	char path[32];
+> +	struct drm_version version = {0};
+> +	char name[16] = {0};
+> +	int err;
+> +	struct dri *dri;
+> +
+> +	dri = malloc(sizeof(*dri));
+> +	if (!dri)
+> +		return NULL;
+> +
+> +	sprintf(path, "/dev/dri/renderD%d", unit + 128);
+> +
+> +	dri->fd = open(path, O_RDWR);
+> +	if (dri->fd < 0)
+> +		goto out_free;
+> +
+> +	version.name = name;
+> +	version.name_len = 16;
+> +	err = ioctl(dri->fd, DRM_IOCTL_VERSION, &version);
+> +	if (err)
+> +		goto out_close;
+> +
+> +	if (!strcmp(name, "amdgpu")) {
+> +		dri->alloc = amdgpu_alloc;
+> +		dri->mmap_offset = amdgpu_mmap_offset;
+> +	} else if (!strcmp(name, "i915")) {
+> +		dri->alloc = i915_alloc;
+> +		dri->mmap_offset = i915_mmap_offset;
+> +	} else if (!strcmp(name, "radeon")) {
+> +		dri->alloc = radeon_alloc;
+> +		dri->mmap_offset = radeon_mmap_offset;
+> +	} else {
+> +		goto out_close;
+> +	}
+> +	return dri;
+> +
+> +out_close:
+> +	close(dri->fd);
+> +
+> +out_free:
+> +	free(dri);
+> +	return NULL;
+> +}
+> +
+> +static void dri_close(struct dri *dri)
+> +{
+> +	if (!dri || dri->fd < 0)
+> +		return;
+> +
+> +	close(dri->fd);
+> +	free(dri);
+> +}
+> +
+> +static void dri_free_buf(struct dri *dri, uint32_t handle)
+> +{
+> +	struct drm_gem_close close = {0};
+> +
+> +	close.handle = handle;
+> +	ioctl(dri->fd, DRM_IOCTL_GEM_CLOSE, &close);
+> +}
+> +
+> +static int dri_alloc_buf(struct dri *dri, size_t size, uint32_t *handle, int *fd)
+> +{
+> +	struct drm_prime_handle prime_handle = {0};
+> +	int err;
+> +
+> +	if (!dri || dri->fd < 0)
+> +		return -EINVAL;
+> +
+> +	err = dri->alloc(dri, size, handle);
+> +	if (err)
+> +		return err;
+> +
+> +	prime_handle.handle = *handle;
+> +	prime_handle.flags = O_RDWR;
+> +	err = ioctl(dri->fd, DRM_IOCTL_PRIME_HANDLE_TO_FD, &prime_handle);
+> +	if (err) {
+> +		dri_free_buf(dri, *handle);
+> +		return err;
+> +	}
+> +
+> +	*fd = prime_handle.fd;
+> +	return 0;
+> +}
+> +
+> +static int dri_map_buf(struct dri *dri, uint32_t handle, uint64_t *offset)
+> +{
+> +	if (!dri || dri->fd < 0)
+> +		return -EINVAL;
+> +
+> +	return dri->mmap_offset(dri, handle, offset);
+> +}
+> +
+> +/*
+> + * Abstraction of dmabuf object, allocated using the DRI abstraction defined
+> + * above.
+> + */
+> +
+> +struct dmabuf {
+> +	struct dri *dri;
+> +	int fd;
+> +	uint32_t handle;
+> +	uint64_t map_offset;
+> +};
+> +
+> +struct dmabuf *dmabuf_alloc(uint64_t size, int unit)
+> +{
+> +	struct dmabuf *dmabuf;
+> +	int err;
+> +
+> +	dmabuf = malloc(sizeof *dmabuf);
+> +	if (!dmabuf)
+> +		return NULL;
+> +
+> +	dmabuf->dri = dri_open(unit);
+> +	if (!dmabuf->dri)
+> +		goto out_free;
+> +
+> +	err = dri_alloc_buf(dmabuf->dri, size, &dmabuf->handle, &dmabuf->fd);
+> +	if (err)
+> +		goto out_close;
+> +
+> +	err = dri_map_buf(dmabuf->dri, dmabuf->handle, &dmabuf->map_offset);
+> +	if (err)
+> +		goto out_free_buf;
+> +
+> +	return dmabuf;
+> +
+> +out_free_buf:
+> +	dri_free_buf(dmabuf->dri, dmabuf->handle);
+> +
+> +out_close:
+> +	dri_close(dmabuf->dri);
+> +
+> +out_free:
+> +	free(dmabuf);
+> +	return NULL;
+> +}
+> +
+> +void dmabuf_free(struct dmabuf *dmabuf)
+> +{
+> +	if (!dmabuf)
+> +		return;
+> +
+> +	close(dmabuf->fd);
+> +	dri_free_buf(dmabuf->dri, dmabuf->handle);
+> +	dri_close(dmabuf->dri);
+> +	free(dmabuf);
+> +}
+> +
+> +int dmabuf_get_dri_fd(struct dmabuf *dmabuf)
+> +{
+> +	if (!dmabuf || !dmabuf->dri)
+> +		return -1;
+> +
+> +	return dmabuf->dri->fd;
+> +}
+> +
+> +int dmabuf_get_fd(struct dmabuf *dmabuf)
+> +{
+> +	if (!dmabuf)
+> +		return -1;
+> +
+> +	return dmabuf->fd;
+> +}
+> +
+> +uint64_t dmabuf_get_offset(struct dmabuf *dmabuf)
+> +{
+> +	if (!dmabuf)
+> +		return -1;
+> +
+> +	return dmabuf->map_offset;
+> +}
+> +
+> diff --git a/pyverbs/dmabuf_alloc.h b/pyverbs/dmabuf_alloc.h
+> new file mode 100644
+> index 0000000..f36c337
+> --- /dev/null
+> +++ b/pyverbs/dmabuf_alloc.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
+> +/*
+> + * Copyright 2020 Intel Corporation. All rights reserved. See COPYING file
+> + */
+> +
+> +#ifndef _DRI_H_
+> +#define _DRI_H_
+> +
+> +#include <stdint.h>
+> +
+> +struct dmabuf;
+> +
+> +struct dmabuf *dmabuf_alloc(uint64_t size, int unit);
+> +void dmabuf_free(struct dmabuf *dmabuf);
+> +int dmabuf_get_dri_fd(struct dmabuf *dmabuf);
+> +int dmabuf_get_fd(struct dmabuf *dmabuf);
+> +uint64_t dmabuf_get_offset(struct dmabuf *dmabuf);
+> +
+> +#endif /* _DRI_H_ */
+> diff --git a/pyverbs/libibverbs.pxd b/pyverbs/libibverbs.pxd
+> index 6fbba54..d76f633 100644
+> --- a/pyverbs/libibverbs.pxd
+> +++ b/pyverbs/libibverbs.pxd
+> @@ -507,6 +507,8 @@ cdef extern from 'infiniband/verbs.h':
+>      ibv_pd *ibv_alloc_pd(ibv_context *context)
+>      int ibv_dealloc_pd(ibv_pd *pd)
+>      ibv_mr *ibv_reg_mr(ibv_pd *pd, void *addr, size_t length, int access)
+> +    ibv_mr *ibv_reg_dmabuf_mr(ibv_pd *pd, uint64_t offset, size_t length,
+> +                              uint64_t iova, int fd, int access)
+>      int ibv_dereg_mr(ibv_mr *mr)
+>      int ibv_advise_mr(ibv_pd *pd, uint32_t advice, uint32_t flags,
+>                        ibv_sge *sg_list, uint32_t num_sge)
+> diff --git a/pyverbs/mr.pxd b/pyverbs/mr.pxd
+> index ebe8ada..d9a79ff 100644
+> --- a/pyverbs/mr.pxd
+> +++ b/pyverbs/mr.pxd
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+>  # Copyright (c) 2019, Mellanox Technologies. All rights reserved. See COPYING file
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved. See COPYING file
+>  
+>  #cython: language_level=3
+>  
+> @@ -33,3 +34,8 @@ cdef class MW(PyverbsCM):
+>  
+>  cdef class DMMR(MR):
+>      cdef object dm
+> +
+> +cdef class DmaBufMR(MR):
+> +    cdef object dmabuf
+> +    cdef unsigned long offset
+> +    cdef object is_dmabuf_internal
+> diff --git a/pyverbs/mr.pyx b/pyverbs/mr.pyx
+> index 7011da1..e4ed2dc 100644
+> --- a/pyverbs/mr.pyx
+> +++ b/pyverbs/mr.pyx
+> @@ -1,11 +1,12 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR Linux-OpenIB)
+>  # Copyright (c) 2019, Mellanox Technologies. All rights reserved. See COPYING file
+> +# Copyright (c) 2020, Intel Corporation. All rights reserved. See COPYING file
+>  
+>  import resource
+>  import logging
+>  
+>  from posix.mman cimport mmap, munmap, MAP_PRIVATE, PROT_READ, PROT_WRITE, \
+> -    MAP_ANONYMOUS, MAP_HUGETLB
+> +    MAP_ANONYMOUS, MAP_HUGETLB, MAP_SHARED
+>  from pyverbs.pyverbs_error import PyverbsError, PyverbsRDMAError, \
+>      PyverbsUserError
+>  from libc.stdint cimport uintptr_t, SIZE_MAX
+> @@ -14,9 +15,10 @@ from posix.stdlib cimport posix_memalign
+>  from libc.string cimport memcpy, memset
+>  cimport pyverbs.libibverbs_enums as e
+>  from pyverbs.device cimport DM
+> -from libc.stdlib cimport free
+> +from libc.stdlib cimport free, malloc
+>  from .cmid cimport CMID
+>  from .pd cimport PD
+> +from .dmabuf cimport DmaBuf
+>  
+>  cdef extern from 'sys/mman.h':
+>      cdef void* MAP_FAILED
+> @@ -348,6 +350,103 @@ cdef class DMMR(MR):
+>      cpdef read(self, length, offset):
+>          return self.dm.copy_from_dm(offset, length)
+>  
+> +cdef class DmaBufMR(MR):
+> +    def __init__(self, PD pd not None, length, access, DmaBuf dmabuf=None,
+> +                 offset=0):
+> +        """
+> +        Initializes a DmaBufMR (DMA-BUF Memory Region) of the given length
+> +        and access flags using the given PD and DmaBuf objects.
+> +        :param pd: A PD object
+> +        :param length: Length in bytes
+> +        :param access: Access flags, see ibv_access_flags enum
+> +        :param dmabuf: A DmaBuf object. One will be allocated if absent
+> +        :param offset: Byte offset from the beginning of the dma-buf
+> +        :return: The newly created DMABUFMR
+> +        """
+> +        self.logger = logging.getLogger(self.__class__.__name__)
+> +        if dmabuf is None:
+> +            self.is_dmabuf_internal = True
+> +            dmabuf = DmaBuf(length + offset)
+> +        self.mr = v.ibv_reg_dmabuf_mr(pd.pd, offset, length, offset, dmabuf.fd, access)
+> +        if self.mr == NULL:
+> +            raise PyverbsRDMAErrno(f'Failed to register a dma-buf MR. length: {length}, access flags: {access}')
+> +        super().__init__(pd, length, access)
+> +        self.pd = pd
+> +        self.dmabuf = dmabuf
+> +        self.offset = offset
+> +        pd.add_ref(self)
+> +        dmabuf.add_ref(self)
+> +        self.logger.debug(f'Registered dma-buf ibv_mr. Length: {length}, access flags {access}')
+> +
+> +    def __dealloc__(self):
+> +        self.close()
+> +
+> +    cpdef close(self):
+> +        """
+> +        Closes the underlying C object of the MR and frees the memory allocated.
+> +        :return: None
+> +        """
+> +        if self.mr != NULL:
+> +            self.logger.debug('Closing dma-buf MR')
+> +            rc = v.ibv_dereg_mr(self.mr)
+> +            if rc != 0:
+> +                raise PyverbsRDMAError('Failed to dereg dma-buf MR', rc)
+> +            self.pd = None
+> +            self.mr = NULL
+> +            # Set self.mr to NULL before closing dmabuf because this method is
+> +            # re-entered when close_weakrefs() is called inside dmabuf.close().
+> +            if self.is_dmabuf_internal:
+> +                self.dmabuf.close()
+> +            self.dmabuf = None
+> +
+> +    @property
+> +    def offset(self):
+> +        return self.offset
+> +
+> +    @property
+> +    def dmabuf(self):
+> +        return self.dmabuf
+> +
+> +    def write(self, data, length, offset=0):
+> +        """
+> +        Write user data to the dma-buf backing the MR
+> +        :param data: User data to write
+> +        :param length: Length of the data to write
+> +        :param offset: Writing offset
+> +        :return: None
+> +        """
+> +        if isinstance(data, str):
+> +            data = data.encode()
+> +        cdef int off = offset + self.offset
+> +        cdef void *buf = mmap(NULL, length + off, PROT_READ | PROT_WRITE,
+> +                              MAP_SHARED, self.dmabuf.dri_fd,
+> +                              self.dmabuf.map_offset)
+> +        if buf == MAP_FAILED:
+> +            raise PyverbsError(f'Failed to map dma-buf of size {length}')
+> +        memcpy(<char*>(buf + off), <char *>data, length)
+> +        munmap(buf, length + off)
+> +
+> +    cpdef read(self, length, offset):
 
---QUsycVs42ZsdUMJRsopGrV3rUmjtQxy7P--
+Note reads are generally uncached so really slow. Maybe put that as a
+warning somewhere.
 
---===============1352473337==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+> +        """
+> +        Reads data from the dma-buf backing the MR
+> +        :param length: Length of data to read
+> +        :param offset: Reading offset
+> +        :return: The data on the buffer in the requested offset
+> +        """
+> +        cdef int off = offset + self.offset
+> +        cdef void *buf = mmap(NULL, length + off, PROT_READ | PROT_WRITE,
+> +                              MAP_SHARED, self.dmabuf.dri_fd,
+> +                              self.dmabuf.map_offset)
+> +        if buf == MAP_FAILED:
+> +            raise PyverbsError(f'Failed to map dma-buf of size {length}')
+> +        cdef char *data =<char*>malloc(length)
+> +        memset(data, 0, length)
+> +        memcpy(data, <char*>(buf + off), length)
+> +        munmap(buf, length + off)
+> +        res = data[:length]
+> +        free(data)
+> +        return res
+> +
+>  
+>  def mwtype2str(mw_type):
+>      mw_types = {1:'IBV_MW_TYPE_1', 2:'IBV_MW_TYPE_2'}
 
+gpu side looks reasonable.
+
+One bikeshed maybe: Kernel gpu drivers are drm (for direct rendering
+manager). DRI is the X11 protocols to support glx direct rendering (i.e.
+it's direct rendering infrastructure). devnodes being put into dri is an
+unfortunate historical accident. I'd rename all the dri_ to drm_ for
+consistency with other drm users, e.g. libdrm.
+
+Cheers, Daniel
+> -- 
+> 1.8.3.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1352473337==--
