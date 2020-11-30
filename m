@@ -2,40 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921D92C7F60
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 08:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338FC2C7FB4
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 09:25:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 361BD89F33;
-	Mon, 30 Nov 2020 07:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3684F6E413;
+	Mon, 30 Nov 2020 08:25:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4659089F33
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 07:56:55 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 4557C20026;
- Mon, 30 Nov 2020 08:56:47 +0100 (CET)
-Date: Mon, 30 Nov 2020 08:56:45 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Peilin Ye <yepeilin.cs@gmail.com>
-Subject: Re: [PATCH v2 02/28] video: fbcon: Fix warnings by using pr_debug()
- in fbcon
-Message-ID: <20201130075645.GA1442147@ravnborg.org>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-3-sam@ravnborg.org>
- <9fbdaff8-18af-223d-6cec-4b44aeb94fec@suse.de>
- <fe2a56cd-10bd-962c-4f65-96c23a78cdd7@i-love.sakura.ne.jp>
- <20201129111836.GA1094053@ravnborg.org>
- <20201130063805.GA21500@PWN>
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7780B6E419
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 02:04:18 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CkpS63TmDz75sm;
+ Mon, 30 Nov 2020 10:03:50 +0800 (CST)
+Received: from localhost.localdomain (10.175.103.91) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 30 Nov 2020 10:04:08 +0800
+From: Jialin Zhang <zhangjialin11@huawei.com>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Alan Cox
+ <alan@linux.intel.com>, Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] drm/gma500: Fix error return code in psb_driver_load()
+Date: Mon, 30 Nov 2020 10:02:16 +0800
+Message-ID: <20201130020216.1906141-1-zhangjialin11@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201130063805.GA21500@PWN>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=1bFr7IoaHJKwnvFcCG0A:9 a=CjuIK1q_8ugA:10
+X-Originating-IP: [10.175.103.91]
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Mon, 30 Nov 2020 08:25:11 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,61 +42,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Jiri Slaby <jirislaby@kernel.org>,
- Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
- Alexander Klimov <grandmaster@al2klimov.de>, Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
- Mike Rapoport <rppt@kernel.org>
+Cc: huawei.libin@huawei.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Peilin,
-On Mon, Nov 30, 2020 at 01:38:05AM -0500, Peilin Ye wrote:
-> Hi Sam,
-> 
-> On Sun, Nov 29, 2020 at 12:18:36PM +0100, Sam Ravnborg wrote:
-> > On Sun, Nov 29, 2020 at 07:28:08PM +0900, Tetsuo Handa wrote:
-> > > But replacing printk(KERN_DEBUG) with pr_debug() prevents __func__ from being printed
-> > > when FBCONDEBUG is defined. Is such change what the author of this module expects?
-> > 
-> > When someone goes and enable DEBUG for fbcon they are also able to
-> > recognize the logging, so the printing of the function name is redundant
-> > in this case.
-> > 
-> > There is likely limited to no use for these few logging entries, but if
-> > they should be dropped then I expect Peilin Ye to do so as he is the
-> > only one doing active maintenance of fbcon lately.
-> 
-> Sure, I will take another look at them. Also sorry for the delay in that
-> printk() -> dev_*() patch you suggested, overwhelmed by some other
-> things this week. Sometimes fbcon.c accesses dev structs in a pretty
-> weird way (e.g. registered_fb[con2fb_map[vc->vc_num]]->dev), I will get
-> back to it when I understand this better.
-Please just keep up the good work cleaning up fbcon and related stuff.
-This is an area that needs some love and care and there is work for many
-long nights yet to do.
+Fix to return a negative error code from the error handling
+case instead of 0, as done elsewhere in this function.
 
-	Sam
+Fixes: 5c49fd3aa0ab ("gma500: Add the core DRM files and headers")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Jialin Zhang <zhangjialin11@huawei.com>
+---
+ drivers/gpu/drm/gma500/psb_drv.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
+index 34b4aae9a15e..074f403d7ca0 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.c
++++ b/drivers/gpu/drm/gma500/psb_drv.c
+@@ -313,6 +313,8 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+ 	if (ret)
+ 		goto out_err;
+ 
++	ret = -ENOMEM;
++
+ 	dev_priv->mmu = psb_mmu_driver_init(dev, 1, 0, 0);
+ 	if (!dev_priv->mmu)
+ 		goto out_err;
+-- 
+2.25.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
