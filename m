@@ -2,134 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7B62C90D3
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 23:19:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426DE2C90D6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 23:20:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02D0A6E8FE;
-	Mon, 30 Nov 2020 22:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77F6D6E8FB;
+	Mon, 30 Nov 2020 22:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0209D6E900
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 22:19:21 +0000 (UTC)
-IronPort-SDR: 5/SQDjlfWkUCwgAATWe3OOUBBJWW6gkUxxyIXCDS04DK5L9z4wNAtuHIxz/MNa+XTJZzIfMbKI
- c8cuffgukwGQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="151975108"
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; d="scan'208";a="151975108"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 14:19:21 -0800
-IronPort-SDR: NcGdWr4bWSLqPOZK9DFoDM+WSAycYF8L4nNj/zOKfpsce3Ktuhz/k22AG+vcV64QYrLMUBh4qL
- JuyPoXgCX7Nw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,382,1599548400"; d="scan'208";a="314732247"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga008.fm.intel.com with ESMTP; 30 Nov 2020 14:19:21 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 30 Nov 2020 14:19:20 -0800
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 30 Nov 2020 14:19:20 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 30 Nov 2020 14:19:20 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.44) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Mon, 30 Nov 2020 14:19:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ezDwg1qWnQVejOrxeU5Vx0BIrD6/JZlRyJc5xT+YqjaG6HXWaPvwdqXmd0F6bygFVsxJ3CnxrbXSL4my+jWdA3hJpoGg/UkLizBugxm91knUShZuifwK7T4cNuPE+h8yChAQwf1E573rxbtp+1Ih59FFZNxdmx9/+H9Ze6iyuYYSQ/TPLqEpT5qtIBx3KgyasI+3KpkxtPLkNnMIDAEwF0IqsiEEs2BTuS9N6O92X3nWAIE4asnNPBA0YFXpW3Bdm8M/73TNI5HcrDI5kfFPLI4F25WlQVnElocOchOR7RDBTjTjms8SpF4sLX58Kgtew8b4g1TqDUcJsMAAJtsHbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vRDOFefwR1emV1seqHtQ5kwuW0m9E7ebutEBaQH81dI=;
- b=m8IrNiYIRy8FnPGu4om7GcomXZYT2gSfa7vvUNxs02yPTe/IwlWKe/8kMS3bM7yrbDg6YYQtYDIQ+Ng/K2VAB14syfOcELVydAIElAJ5bQZoK5+samOLLhLLorIl8alGDJ43xQ4JluoCAfsTF9CaCz5YG6T+tuwPRsTBq0oQ4GDbvKP9ZeRnMBMIEGocaV6KIS12GKg1xfY/jOdxM0s0cEb58b475JvKQE5QhexwMh/ghDiVqru34RwAKFPEjjh/7YvHlM0+hxW4hLz5Ft0D8ACQNiyHuQcZImDfT8/r5D1eYLFyGTWbCfuoxfneNzJVwY2oq+AHL5AdQXUt0eOyMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vRDOFefwR1emV1seqHtQ5kwuW0m9E7ebutEBaQH81dI=;
- b=ERoKYmtMny5twOSIKIeqQ0KHWFsarabwAVT0FbWWUvZ156uA7cKpL5FRcUp3cUI/vBI260kFwwKq5A60EeMU5aQsv2LSOSgKuWDsZGjpE0KTHGJ20CdvI0lj/4zNnef7kk9Y8C8KgM92G1RFK1A/W/B12aZxpW2fP74nMTGGy5k=
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by BYAPR11MB3061.namprd11.prod.outlook.com (2603:10b6:a03:83::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.31; Mon, 30 Nov
- 2020 22:19:14 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::285a:2709:d92f:3394]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::285a:2709:d92f:3394%5]) with mapi id 15.20.3611.025; Mon, 30 Nov 2020
- 22:19:14 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, "Dea, Edmund J" <edmund.j.dea@intel.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Sam
- Ravnborg" <sam@ravnborg.org>
-Subject: RE: [PATCH] drm/kmb: fix array bounds warning
-Thread-Topic: [PATCH] drm/kmb: fix array bounds warning
-Thread-Index: AQHWxouYX6RKw2p6RUm12CsNuNmoW6nhP/Ug
-Date: Mon, 30 Nov 2020 22:19:13 +0000
-Message-ID: <BY5PR11MB4182B94E480EFACBF817DFFF8CF50@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <20201129200927.1854104-1-arnd@kernel.org>
-In-Reply-To: <20201129200927.1854104-1-arnd@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.151.242.136]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5ca015c6-b3c7-4226-7e62-08d8957df83c
-x-ms-traffictypediagnostic: BYAPR11MB3061:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB30613C631CB624AC355A00208CF50@BYAPR11MB3061.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:83;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Cu6K0TgBTVuIaOLmC9K3pfmE5NxU8hWQh1qAIUfRm/VsULeVIf9HBg5lY0InkpXa4Zz3Cak5yGyEL8/ZdAgPeou+OZxIKrGkVAeHDyAjVWHcmWOcRfulBYla2rF8tQClH2fjJIBjjX4BqQt9Mj7rVkK2F3xE6yrwpBqpLyR2AiiBqeP6yR3lrBWWLe3rjAKnTshz6STQLuC/h3RlGlkVkhRIRZARLce05XbbzXFVkdRZEVAAsIc05hn6N+iHDcb5p5qqD50N+ZTf54HQUuw+P9KUPpMPDELYNDzhY1ioiHmq63fpSZhYVzFOA+UUJ+6VQFc/yvMSmToUm3jmj4cQPw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(376002)(396003)(346002)(136003)(39860400002)(186003)(8676002)(8936002)(7696005)(52536014)(83380400001)(4326008)(5660300002)(53546011)(6506007)(66446008)(478600001)(66556008)(55016002)(66476007)(76116006)(64756008)(71200400001)(26005)(33656002)(2906002)(86362001)(316002)(66946007)(110136005)(9686003)(54906003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?gX1IToyszOLOp0CReUpnmM1aSKG+Cms83AiiqN6nYtXq1oRb04XlEnp9WrHK?=
- =?us-ascii?Q?ucbJ7HLudPYRs5O+wrEHwO1xTAVZZ2k1tuFvkB33PhaoHWLwvQQX4r9SSx8N?=
- =?us-ascii?Q?8JqtIsyfubdjBeNmdWOuIAO30k1bAZVc/FHetFFDcn6AhTE2JLrfX2GY5JFo?=
- =?us-ascii?Q?yVNFxpng4XXlJg2lfAqt12ke+kpL0/nlO6lKBo2N+erAOCOGxJRaGr9ACtxc?=
- =?us-ascii?Q?zFmFcPfZfIgr9XOjqbYfrEpONEjzvmJGkWKD30zjSVsq3Vwd7Mn+CK9OBgdL?=
- =?us-ascii?Q?JIa2tSKWeNn870QyluNZ2UhnSmYVqqTumN37D2/YLL5uYmy8lSWw5qZ2W0cQ?=
- =?us-ascii?Q?hS/yw4WRnBKWIMO3YW789WyI3GVAuzrkFl5wLXobQJDtDEwGXiySateci6gb?=
- =?us-ascii?Q?/q+209EEXlDoY8CDr/dwJCev3J2TSQtuPMLlOeRQQA9QgakUUyF0X9EOJ4Ir?=
- =?us-ascii?Q?0vdRGujMXGI/4D5N4fGfyLKF7Vb+a053ttcFaZ0B0zbuulV4wS6WsXYRxRZz?=
- =?us-ascii?Q?euoyFpMjQd0TT14CMvhw7v5IB9xP3djVl+fXzBVyRH7i7E9ZKd/1i9wv5/CF?=
- =?us-ascii?Q?jbxSqjpa5ClH6XBklalc5eO5DkxsSxYAzMBhiXPW01TrgdjM2OFcJ0gB5qlu?=
- =?us-ascii?Q?CfAkgcGHrT222Uk8I165UMORBcunnwbtBKdb7+fbgA+Jq55kUCOvgrB8qeln?=
- =?us-ascii?Q?ZdmQKI2nshf6Wu0S0URxRv04sJIvkP6gpVhq0QD+7GvuFLOo6sIAiGVpKv3b?=
- =?us-ascii?Q?xjKAiQsIvj/d6bNVWWJK2o1/WaQ3FJremw7CUhd0nq6SNLjBuDqSZnr1LDtV?=
- =?us-ascii?Q?/rlpUuf+sBp1jklycrnkFtYvgl2zgIZnCGgMostOY/jkkU5EuzDsQm6Mujpf?=
- =?us-ascii?Q?g1Ljy8YDWpcehXg3I6hw83JE7Gmza6x7QwwIRgDPFNK52udS4doAJ8NdNZqX?=
- =?us-ascii?Q?js+19rMKkwVhwkWamd7qYGNjp/P0upSXRuitn7uvc+o=3D?=
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com
+ [IPv6:2607:f8b0:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A60EE6E8FB;
+ Mon, 30 Nov 2020 22:20:20 +0000 (UTC)
+Received: by mail-oi1-x241.google.com with SMTP id l206so15953051oif.12;
+ Mon, 30 Nov 2020 14:20:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+xii/CM8RmygCIt+QaUy7AnG00s6vO35LXvnr7JAkeY=;
+ b=qvpTFABbvh0b34A8Ymd1yjwaxyPcDf33m1dzMGftsIq2eYr1pvdCjlDzFxw0JopDKz
+ SG1kWafR6RC99C/5FKhMlcKT1GKVh48P5jO//AEo2XZy4EQrGZ39fWXVa6lUwEJhOcL8
+ Dt53Rcaf+l1m4d2BMxscfrC+Kgfb0JcVnBqQGk7Hum/4WVP8WZ/C2plQu2nXj5znALzs
+ rh8JlB8B7yE1BarKZ28j57R0rn8XrjA/VwiepPAE4FPTMMHzrBgRUS3D7lhu5vv0lYdJ
+ vmDfASSgml0zca3mlvJ2hnPCUkG+zWDe0N6Kn6Ny72RM9TtYzpd5sdpA026h1yZR/aeo
+ TYqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+xii/CM8RmygCIt+QaUy7AnG00s6vO35LXvnr7JAkeY=;
+ b=gfsOBsMM5rCs/t75lZm/t92EjU+RKvcev9tpANWPPnJQRPTeq7GXfPjJA91+Bq12x8
+ A/juOdLfaVXDDmHP7ShxIy48Ea6u7xFQzbtWyzDudi4IOjlPx/96KVutEMEyOnhwa0EW
+ FImXdiehAKxEkCumeFUTABDa0kj+DBHLaPWIBjpJciaELN2WyXJ/vcoSpvKe5AJa++hB
+ UikrlgWH+iT662QvCLj11xjzB0RjR97586CpSl0b/FPk/BvdeTG0ei9BhhgGWnk9tXV5
+ wfIMEgecVbtw6o4XvsN0oudATb1gdMF/vrCv8lyx/ZInxzcsFnugQjLKgJ0RUxNUrP6a
+ h/3A==
+X-Gm-Message-State: AOAM5310hW9Dqv0/Yh8c3Kf+wHwHdbM/iD0KhFcz2ZZHFIxQ7tfCuKJ2
+ yFCtwQRoh/QK5Q2rJysaOB7QkglWzokeBBDbSMQ=
+X-Google-Smtp-Source: ABdhPJzk0kwsPGBe+AGMcf76Sr+IFHJX7wXHRT4IV1q+OfBehvzRPc30BvZc/0mGAdJM3ot/vldyWtcPgFVUilMtcWc=
+X-Received: by 2002:aca:4f53:: with SMTP id d80mr903002oib.120.1606774820130; 
+ Mon, 30 Nov 2020 14:20:20 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ca015c6-b3c7-4226-7e62-08d8957df83c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Nov 2020 22:19:13.9730 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RApg5hlgkB5KaAXxKjYzk6P1AXy5Rhlzg2kQC8YjNlfIgtDAttp3WLXfwpExOXFeurMKySPk/8tBSAkf+lCUPfa+tiIjIOIN3z5donuHAno=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3061
-X-OriginatorOrg: intel.com
+References: <20201124193824.1118741-1-lee.jones@linaro.org>
+ <20201124193824.1118741-17-lee.jones@linaro.org>
+In-Reply-To: <20201124193824.1118741-17-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 30 Nov 2020 17:20:09 -0500
+Message-ID: <CADnq5_Nhc-deK-BY_ede4Rbzru0U1xNy2X0nQ+9ZJU5BOz-uEw@mail.gmail.com>
+Subject: Re: [PATCH 16/40] drm/amd/amdgpu/gfx_v10_0: Remove a bunch of set but
+ unused variables
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,82 +63,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- lkp <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd,
-Thanks for your patch.
-
-> -----Original Message-----
-> From: Arnd Bergmann <arnd@kernel.org>
-> Sent: Sunday, November 29, 2020 12:09 PM
-> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>; Dea, Edmund J
-> <edmund.j.dea@intel.com>; David Airlie <airlied@linux.ie>; Daniel Vetter
-> <daniel@ffwll.ch>; Sam Ravnborg <sam@ravnborg.org>
-> Cc: Arnd Bergmann <arnd@arndb.de>; lkp <lkp@intel.com>; dri-
-> devel@lists.freedesktop.org; linux-kernel@vger.kernel.org
-> Subject: [PATCH] drm/kmb: fix array bounds warning
-> 
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> gcc warns about an out-of-bounds access when the using nonzero
-> values for 'plane_id' on kmb->plane_status:
-> 
-> drivers/gpu/drm/kmb/kmb_plane.c: In function 'kmb_plane_atomic_disable':
-> drivers/gpu/drm/kmb/kmb_plane.c:128:20: warning: array subscript 3 is
-> above array bounds of 'struct layer_status[1]' [-Warray-bounds]
->   128 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL2_ENABLE;
->       |   ~~~~~~~~~~~~~~~~~^~~~~~~~~~
-> drivers/gpu/drm/kmb/kmb_plane.c:125:20: warning: array subscript 2 is
-> above array bounds of 'struct layer_status[1]' [-Warray-bounds]
->   125 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_GL1_ENABLE;
->       |   ~~~~~~~~~~~~~~~~~^~~~~~~~~~
-> drivers/gpu/drm/kmb/kmb_plane.c:122:20: warning: array subscript 1 is
-> above array bounds of 'struct layer_status[1]' [-Warray-bounds]
->   122 |   kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL2_ENABLE;
-> 
-> Having the array truncated to one entry seems intentional, so add
-> a range check before indexing it to make it clearer what is going
-> on and shut up the warning.
-> 
-> I received the warning from the kernel test robot after a private
-> patch that turns on Warray-bounds unconditionally.
-> 
-> Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/gpu/drm/kmb/kmb_plane.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/kmb/kmb_plane.c
-> b/drivers/gpu/drm/kmb/kmb_plane.c
-> index 8448d1edb553..be8eea3830c1 100644
-> --- a/drivers/gpu/drm/kmb/kmb_plane.c
-> +++ b/drivers/gpu/drm/kmb/kmb_plane.c
-> @@ -114,6 +114,9 @@ static void kmb_plane_atomic_disable(struct
-> drm_plane *plane,
-> 
->  	kmb = to_kmb(plane->dev);
-> 
-> +	if (WARN_ON(plane_id >= KMB_MAX_PLANES))
-> +		return;
-> +
-Looks good.
-
-Reviewed-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
->  	switch (plane_id) {
->  	case LAYER_0:
->  		kmb->plane_status[plane_id].ctrl = LCD_CTRL_VL1_ENABLE;
-> --
-> 2.27.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVHVlLCBOb3YgMjQsIDIwMjAgYXQgMjo0NCBQTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
+YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jOiBJ
+biBmdW5jdGlvbiDigJhnZnhfdjEwX3JsY2dfd3JlZ+KAmToKPiAgZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvZ2Z4X3YxMF8wLmM6MTQxNjoxODogd2FybmluZzogdmFyaWFibGUg4oCYZ3JibV9p
+ZHjigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiAgZHJp
+dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmM6MTQxNToxODogd2FybmluZzogdmFy
+aWFibGUg4oCYZ3JibV9jbnRs4oCZIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQt
+dmFyaWFibGVdCj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jOjE0MTM6
+MTU6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHNjcmF0Y2hfcmVnM+KAmSBzZXQgYnV0IG5vdCB1c2Vk
+IFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdw
+dS9nZnhfdjEwXzAuYzoxNDEyOjE1OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhzY3JhdGNoX3JlZzLi
+gJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPgo+IENjOiBB
+bGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4g
+S8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFp
+cmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBD
+YzogU3VtaXQgU2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KPiBDYzogYW1kLWdmeEBs
+aXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+IENjOiBsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcKPiBDYzogbGluYXJvLW1tLXNpZ0Bs
+aXN0cy5saW5hcm8ub3JnCj4gU2lnbmVkLW9mZi1ieTogTGVlIEpvbmVzIDxsZWUuam9uZXNAbGlu
+YXJvLm9yZz4KCkFwcGxpZWQuICBUaGFua3MhCgpBbGV4Cgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9nZnhfdjEwXzAuYyB8IDkgLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2Vk
+LCA5IGRlbGV0aW9ucygtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2dmeF92MTBfMC5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmMK
+PiBpbmRleCBhNmQwMzkzMWY3ZmE0Li5kNDc2MGY0ZTI2OWExIDEwMDY0NAo+IC0tLSBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2dmeF92MTBfMC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2FtZC9hbWRncHUvZ2Z4X3YxMF8wLmMKPiBAQCAtMTQwOSwyMyArMTQwOSwxNCBAQCBzdGF0aWMg
+dm9pZCBnZnhfdjEwX3JsY2dfd3JlZyhzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgdTMyIG9m
+ZnNldCwgdTMyIHYpCj4gIHsKPiAgICAgICAgIHN0YXRpYyB2b2lkICpzY3JhdGNoX3JlZzA7Cj4g
+ICAgICAgICBzdGF0aWMgdm9pZCAqc2NyYXRjaF9yZWcxOwo+IC0gICAgICAgc3RhdGljIHZvaWQg
+KnNjcmF0Y2hfcmVnMjsKPiAtICAgICAgIHN0YXRpYyB2b2lkICpzY3JhdGNoX3JlZzM7Cj4gICAg
+ICAgICBzdGF0aWMgdm9pZCAqc3BhcmVfaW50Owo+IC0gICAgICAgc3RhdGljIHVpbnQzMl90IGdy
+Ym1fY250bDsKPiAtICAgICAgIHN0YXRpYyB1aW50MzJfdCBncmJtX2lkeDsKPiAgICAgICAgIHVp
+bnQzMl90IGkgPSAwOwo+ICAgICAgICAgdWludDMyX3QgcmV0cmllcyA9IDUwMDAwOwo+Cj4gICAg
+ICAgICBzY3JhdGNoX3JlZzAgPSBhZGV2LT5ybW1pbyArIChhZGV2LT5yZWdfb2Zmc2V0W0dDX0hX
+SVBdWzBdW21tU0NSQVRDSF9SRUcwX0JBU0VfSURYXSArIG1tU0NSQVRDSF9SRUcwKSo0Owo+ICAg
+ICAgICAgc2NyYXRjaF9yZWcxID0gYWRldi0+cm1taW8gKyAoYWRldi0+cmVnX29mZnNldFtHQ19I
+V0lQXVswXVttbVNDUkFUQ0hfUkVHMV9CQVNFX0lEWF0gKyBtbVNDUkFUQ0hfUkVHMSkqNDsKPiAt
+ICAgICAgIHNjcmF0Y2hfcmVnMiA9IGFkZXYtPnJtbWlvICsgKGFkZXYtPnJlZ19vZmZzZXRbR0Nf
+SFdJUF1bMF1bbW1TQ1JBVENIX1JFRzFfQkFTRV9JRFhdICsgbW1TQ1JBVENIX1JFRzIpKjQ7Cj4g
+LSAgICAgICBzY3JhdGNoX3JlZzMgPSBhZGV2LT5ybW1pbyArIChhZGV2LT5yZWdfb2Zmc2V0W0dD
+X0hXSVBdWzBdW21tU0NSQVRDSF9SRUcxX0JBU0VfSURYXSArIG1tU0NSQVRDSF9SRUczKSo0Owo+
+ICAgICAgICAgc3BhcmVfaW50ID0gYWRldi0+cm1taW8gKyAoYWRldi0+cmVnX29mZnNldFtHQ19I
+V0lQXVswXVttbVJMQ19TUEFSRV9JTlRfQkFTRV9JRFhdICsgbW1STENfU1BBUkVfSU5UKSo0Owo+
+Cj4gLSAgICAgICBncmJtX2NudGwgPSBhZGV2LT5yZWdfb2Zmc2V0W0dDX0hXSVBdWzBdW21tR1JC
+TV9HRlhfQ05UTF9CQVNFX0lEWF0gKyBtbUdSQk1fR0ZYX0NOVEw7Cj4gLSAgICAgICBncmJtX2lk
+eCA9IGFkZXYtPnJlZ19vZmZzZXRbR0NfSFdJUF1bMF1bbW1HUkJNX0dGWF9JTkRFWF9CQVNFX0lE
+WF0gKyBtbUdSQk1fR0ZYX0lOREVYOwo+IC0KPiAgICAgICAgIGlmIChhbWRncHVfc3Jpb3ZfcnVu
+dGltZShhZGV2KSkgewo+ICAgICAgICAgICAgICAgICBwcl9lcnIoInNob3VsZG4ndCBjYWxsIHJs
+Y2cgd3JpdGUgcmVnaXN0ZXIgZHVyaW5nIHJ1bnRpbWVcbiIpOwo+ICAgICAgICAgICAgICAgICBy
+ZXR1cm47Cj4gLS0KPiAyLjI1LjEKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRyaS1kZXZlbEBsaXN0
+cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
+L2xpc3RpbmZvL2RyaS1kZXZlbApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
