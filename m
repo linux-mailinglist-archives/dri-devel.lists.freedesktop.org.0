@@ -2,54 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C0E2C8111
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2557F2C8119
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:36:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1E126E43B;
-	Mon, 30 Nov 2020 09:31:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C1876E43C;
+	Mon, 30 Nov 2020 09:36:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F19B26E40A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:31:23 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AU9VA4X033975;
- Mon, 30 Nov 2020 03:31:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606728670;
- bh=FN32bD3RxP2OJReQ02Kv5gT9peBg8Tvy2u0Ql8xRkG4=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=duQZ9M9x8GO6hkSzph+4i3TrB3Rrp/gJDoZoksRHhAZkFR+GnT7kKr3Vs+LrS83V5
- +GcrIVBR2MQDOWvEKKwIIMJT4+Wc81Jvoq7Nccm2R5vSMpAF+8yrwNXGIMDJVbGbUG
- x0pgD9GuA3p/ViCdvhBnSBznkb704J8Qpgx7JAUA=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AU9VAJ3119062
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Nov 2020 03:31:10 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 30
- Nov 2020 03:31:09 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 30 Nov 2020 03:31:09 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AU9V7Ij024957;
- Mon, 30 Nov 2020 03:31:08 -0600
-Subject: Re: [PATCH] drm/omap: sdi: fix bridge enable/disable
-To: Aaro Koskinen <aaro.koskinen@iki.fi>
-References: <20201127085241.848461-1-tomi.valkeinen@ti.com>
- <20201128174528.GD551434@darkstar.musicnaut.iki.fi>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <e8b01da0-96af-7e98-2a62-fb6775cf5a4e@ti.com>
-Date: Mon, 30 Nov 2020 11:31:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 963606E43C
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:36:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A794F538;
+ Mon, 30 Nov 2020 10:36:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1606728968;
+ bh=cGaOyd/ORtDbRCEdMagZsxaI1iPZ37RPraGt0jkMy0c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WR2s/Ftsm7uL5+sOP6trAee1DIMwonUz61bnejjNkl1NA9HBjKT9t7DGL6tgMpNBu
+ oVP34xbJMIhDxDgPlBG5cCY4piFXPERMe9MeFoVfo1+1XBdLnOZxKKlxI0tbnFHXNG
+ YYiGalphS1LIgdyyAw2ddZ8PybGEpIDtwCRfBMHg=
+Date: Mon, 30 Nov 2020 11:36:00 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nikhil Devshatwar <nikhil.nd@ti.com>
+Subject: Re: [PATCH v3 1/6] drm: bridge: Propagate the bus flags from
+ bridge->timings
+Message-ID: <20201130093600.GB4141@pendragon.ideasonboard.com>
+References: <20201119160134.9244-1-nikhil.nd@ti.com>
+ <20201119160134.9244-2-nikhil.nd@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20201128174528.GD551434@darkstar.musicnaut.iki.fi>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Disposition: inline
+In-Reply-To: <20201119160134.9244-2-nikhil.nd@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,45 +47,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
- dri-devel@lists.freedesktop.org, stable@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>, Sekhar Nori <nsekhar@ti.com>,
+ Yuti Amonkar <yamonkar@cadence.com>, dri-devel@lists.freedesktop.org,
+ Swapnil Jakhade <sjakhade@cadence.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/11/2020 19:45, Aaro Koskinen wrote:
-> Hi,
-> 
-> On Fri, Nov 27, 2020 at 10:52:41AM +0200, Tomi Valkeinen wrote:
->> When the SDI output was converted to DRM bridge, the atomic versions of
->> enable and disable funcs were used. This was not intended, as that would
->> require implementing other atomic funcs too. This leads to:
->>
->> WARNING: CPU: 0 PID: 18 at drivers/gpu/drm/drm_bridge.c:708 drm_atomic_helper_commit_modeset_enables+0x134/0x268
->>
->> and display not working.
->>
->> Fix this by using the legacy enable/disable funcs.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> Reported-by: Aaro Koskinen <aaro.koskinen@iki.fi>
->> Fixes: 8bef8a6d5da81b909a190822b96805a47348146f ("drm/omap: sdi: Register a drm_bridge")
->> Cc: stable@vger.kernel.org # v5.7+
->> Tested-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-> 
-> Tested-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+Hi Nikhil,
 
-Thanks! I pushed this to drm-misc-fixes. Hopefully with this and Sebastian's patch N900 display now
-works.
+Thank you for the patch.
 
- Tomi
+On Thu, Nov 19, 2020 at 09:31:29PM +0530, Nikhil Devshatwar wrote:
+> bus_flags can be specified by a bridge in the timings.
+> If the bridge provides it, Override the bus_flags when propagating
+> from next bridge.
+> 
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+> 
+> Notes:
+>     changes from v2:
+>     * update comment
+>     changes from v1:
+>     * Check for timings
+>     * Prioritize timings flags over next bridge's flags
+> 
+>  drivers/gpu/drm/drm_bridge.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 64f0effb52ac..13b67fc0dad3 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -975,6 +975,14 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+>  	 * duplicate the "dummy propagation" logic.
+>  	 */
+>  	bridge_state->input_bus_cfg.flags = output_flags;
+> +
+> +	/*
+> +	 * If legacy bus flags are provided in bridge->timings, use those as
+> +	 * input flags instead of propagating the output flags.
+> +	 */
+> +	if (bridge->timings && bridge->timings->input_bus_flags)
+> +		bridge_state->input_bus_cfg.flags =
+> +			bridge->timings->input_bus_flags;
+
+Hasn't Boris commented in his review of v1 that bus flags should be set
+in atomic_check, even when they're static ? We're moving towards
+removing timings->input_bus_flags, so this patch goes in the wrong
+direction :-S
+
+>  }
+>  
+>  /**
 
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Regards,
+
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
