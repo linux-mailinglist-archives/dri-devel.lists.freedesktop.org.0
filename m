@@ -2,39 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B81A2C8242
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:34:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DC162C824B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:36:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A3089CF8;
-	Mon, 30 Nov 2020 10:34:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A095389CF8;
+	Mon, 30 Nov 2020 10:36:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D93B389CF8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:34:26 +0000 (UTC)
-Received: from localhost (unknown [122.171.214.243])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7C1B320708;
- Mon, 30 Nov 2020 10:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606732466;
- bh=cd7xzSNXU4GZ6Gqay09NnkHkMf3Per69FTphsUamKNQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gL41pa0T8tfuA6jEkcmcf5863usEzbgjoNyoy4QCfSPq8IlTI1eLuYGWBunii+YN7
- CX+JJOiUPFp8h9TrFoo5HvK4bebXJz86csJ9pzAMgRAOXRcFz0u0T5M9NH3j2jUmhJ
- DxnGMXjGqekR98uLejLgbmBsdaNspMLdATJYPgIs=
-Date: Mon, 30 Nov 2020 16:04:11 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [RESEND PATCH 2/3] phy: mediatek: Move mtk_mipi_dsi_phy driver
- into drivers/phy/mediatek folder
-Message-ID: <20201130103411.GN8403@vkoul-mobl>
-References: <20201116231407.94-1-chunkuang.hu@kernel.org>
- <20201116231407.94-3-chunkuang.hu@kernel.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFD2289CF8;
+ Mon, 30 Nov 2020 10:36:52 +0000 (UTC)
+IronPort-SDR: o8NpDkCZd3DzGFgWtXiJarOsV8xiIoeL3oARVmSv+xEO3yPMHbX6M2tQdujA+FLtjjtIS8SUgp
+ ZzWtyDBwODnw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="160386000"
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="160386000"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 02:36:50 -0800
+IronPort-SDR: 3Oq2z9eo+GPn0GeAr9vThEeAk+CuRu3Eq1bMpGDJMtpwrFdNFTQqkFGiQg4r3Ca6DrbuijJSyb
+ 9MZ8e2jGGbZA==
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="480605490"
+Received: from mdubovsk-mobl1.ger.corp.intel.com (HELO [10.254.157.9])
+ ([10.254.157.9])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 02:36:48 -0800
+Subject: Re: [Intel-gfx] [RFC PATCH 157/162] drm/i915: Improve accuracy of
+ eviction stats
+To: Chris Wilson <chris@chris-wilson.co.uk>,
+ Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+References: <20201127120718.454037-1-matthew.auld@intel.com>
+ <20201127120718.454037-158-matthew.auld@intel.com>
+ <160648802888.2925.2681758176898405257@build.alporthouse.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <f66fed08-e57a-0dbe-2a0f-be865f207647@linux.intel.com>
+Date: Mon, 30 Nov 2020 10:36:45 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201116231407.94-3-chunkuang.hu@kernel.org>
+In-Reply-To: <160648802888.2925.2681758176898405257@build.alporthouse.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,27 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-mediatek@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-11-20, 07:14, Chun-Kuang Hu wrote:
-> mtk_mipi_dsi_phy is currently placed inside mediatek drm driver, but it's
-> more suitable to place a phy driver into phy driver folder, so move
-> mtk_mipi_dsi_phy driver into phy driver folder.
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
+On 27/11/2020 14:40, Chris Wilson wrote:
+> Quoting Matthew Auld (2020-11-27 12:07:13)
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> Current code uses jiffie time to do the accounting and then does:
+>>
+>>    diff = jiffies - start;
+>>    msec = diff * 1000 / HZ;
+>>    ...
+>>    atomic_long_add(msec, &i915->time_swap_out_ms);
+>>
+>> If we assume jiffie can be as non-granular as 10ms and that the current
+>> accounting records all evictions faster than one jiffie as infinite speed,
+>> we can end up over-estimating the reported eviction throughput.
+>>
+>> Fix this by accumulating ktime_t and only dividing to more user friendly
+>> granularity at presentation time (debugfs read).
+>>
+>> At the same time consolidate the code a bit and convert from multiple
+>> atomics to single seqlock per stat.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: CQ Tang <cq.tang@intel.com>
+>> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
+>> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> 
+> A lot of effort to fix up patches after the fact, might as well make it
+> a real PMU interface.
 
-I am thinking this would go thru drm-tree, if not let me know I would
-apply this
+It did cross my mind and should be easy to add on top if deemed useful 
+or interesting.
 
--- 
-~Vinod
+More importantly, it is okay with me to incorporate this patch into the 
+earlier one(s) which first added statistics.
+
+Regards,
+
+Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
