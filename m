@@ -1,38 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97A662C8965
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 17:26:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A20D2C89F6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 17:55:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 856006E588;
-	Mon, 30 Nov 2020 16:26:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A34FA6E5B0;
+	Mon, 30 Nov 2020 16:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36DD6E588
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 16:26:20 +0000 (UTC)
-Date: Mon, 30 Nov 2020 16:26:12 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1606753577;
- bh=dZ+2Pl+KVgCtGUYNX9hD5fpJINhreoChb+IeaNn/Xjw=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=TUJrPO3U9CZf6q3VU1qvaW9rb8KFSof/RyFJTH6I88xMp7f/bO+NICKrTaduA8B3s
- AF5FFwKZbM7VEJFZ77AcpQ3AxsecGiuRbhsTMoqq3l1T+v8t+/by/VLideDqFP3hSN
- T/7qaguWtIGggEUc3hi/Qdbk0c3E7C+PcatD4cmHBjUnQSP5/nKxIZumVX2PQzGkeL
- yGoPH9OK+njzudCZZk+lBzQuURodupE6sXPpxwg5btzvBXrpCPqNIHtmwe5bFv2QXZ
- qYnM3aNDo+w2Of3uPLTQc+1TT8unkttZBztjgc6SzPGVIddFBYiMPAmh+l7UG3I5/O
- 5M+QcnTjNsY+Q==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2] drm: document that user-space should force-probe connectors
-Message-ID: <AxqLnTAsFCRishOVB5CLsqIesmrMrm7oytnOVB7oPA@cp7-web-043.plabs.ch>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83DCA6E5B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 16:55:41 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id d3so16031420wmb.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 08:55:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sdakq9XhpJ+KrmP4fx7Gl71XIguvQHaFIVLLDLyf8Cw=;
+ b=D7Tedd+/Optb8nLNAPKq+zL98736O+zvVf8Mm2ibr2JXit50xF6OTY1CjVOmB8ZCfW
+ p9XEAoQx8LQ/u5/tFXQ+5OirEaaREDxDgXGbzbM1/ncW+2kzqH0xofoysA/AThIRmKci
+ GqysJYaJWkUcmz/EWeZH+zEz5+18/TsAP3Zyc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sdakq9XhpJ+KrmP4fx7Gl71XIguvQHaFIVLLDLyf8Cw=;
+ b=oc5KD+pKPRk2UAkGdUHmJExe+R8+1hNoRuVVddI0O1SLAr7XYLt0IcUqPZN4CHlx30
+ LvPRQ/2btTnfFAuT14KPeRNcVkxTMEYxNivI+3R//FkGAZ5xgWlzSeJXHVXVNBWHKUim
+ vwexQv28D1Umx7Upf65jCJtnpeNSSTCwtp8EK+KMoiSmyj+EVuF2AOoHHHxGOLM8ZV0j
+ 6Xv2K3msWJyOwla9n8ydr5jiaw4DHU7pG30Bz+psIX+3pittSJ4fVMxbEnu9I59cwN3s
+ vEkW3tjxnIsOVczbsgK+d5+dk+DTnF6ZMmLuNFQZ/IFUWD0apAp/JTFu8eJ4XKjZ0Gb0
+ 8nHg==
+X-Gm-Message-State: AOAM533LdDtxme7IqwMzrEDqEP4YktMmbP8CcjxLBMcxWMA275ioXqOd
+ 81UOGlk1WKet43bawH8yX1q8hUNpmrZL+g==
+X-Google-Smtp-Source: ABdhPJwWxaLNesXJvW7im41SZbH7ex71A7ZkUqVIqznJ9lzsvuUs9EstlepkcMbmFh0h/f5MLeOycw==
+X-Received: by 2002:a05:600c:229a:: with SMTP id
+ 26mr24696901wmf.100.1606755338827; 
+ Mon, 30 Nov 2020 08:55:38 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k64sm24529970wmb.11.2020.11.30.08.55.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Nov 2020 08:55:38 -0800 (PST)
+Date: Mon, 30 Nov 2020 17:55:35 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH rdma-core v3 4/6] pyverbs: Add dma-buf based MR support
+Message-ID: <20201130165535.GW401619@phenom.ffwll.local>
+References: <1606510543-45567-1-git-send-email-jianxin.xiong@intel.com>
+ <1606510543-45567-5-git-send-email-jianxin.xiong@intel.com>
+ <20201130145741.GP401619@phenom.ffwll.local>
+ <20201130155544.GA5487@ziepe.ca>
+ <20201130160443.GV401619@phenom.ffwll.local>
+ <20201130163642.GC5487@ziepe.ca>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <20201130163642.GC5487@ziepe.ca>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,64 +70,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Doug Ledford <dledford@redhat.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It seems like we can't have nice things, so let's just document the
-disappointing behaviour instead.
+On Mon, Nov 30, 2020 at 12:36:42PM -0400, Jason Gunthorpe wrote:
+> On Mon, Nov 30, 2020 at 05:04:43PM +0100, Daniel Vetter wrote:
+> > On Mon, Nov 30, 2020 at 11:55:44AM -0400, Jason Gunthorpe wrote:
+> > > On Mon, Nov 30, 2020 at 03:57:41PM +0100, Daniel Vetter wrote:
+> > > > > +	err = ioctl(dri->fd, DRM_IOCTL_AMDGPU_GEM_CREATE, &gem_create);
+> > > > > +	if (err)
+> > > > > +		return err;
+> > > > > +
+> > > > > +	*handle = gem_create.out.handle;
+> > > > > +	return 0;
+> > > > > +}
+> > > > > +
+> > > > > +static int radeon_alloc(struct dri *dri, size_t size, uint32_t *handle)
+> > > > 
+> > > > Tbh radeon chips are old enough I wouldn't care. Also doesn't support p2p
+> > > > dma-buf, so always going to be in system memory when you share. Plus you
+> > > > also need some more flags like I suggested above I think.
+> > > 
+> > > What about nouveau?
+> > 
+> > Reallistically chances that someone wants to use rdma together with the
+> > upstream nouveau driver are roughly nil. Imo also needs someone with the
+> > right hardware to make sure it works (since the flags are all kinda arcane
+> > driver specific stuff testing is really needed).
+> 
+> Well, it would be helpful if we can test the mlx5 part of the
+> implementation, and I have a lab stocked with nouveau compatible HW..
+> 
+> But you are right someone needs to test/etc, so this does not seem
+> like Jianxin should worry
 
-The previous version assumed the kernel would perform the probing work
-when appropriate, however this is not the case today. Update the
-documentation to reflect reality.
+Ah yes sounds good. I can help with trying to find how to allocate vram
+with nouveau if you don't find it. Caveat is that nouveau doesn't do
+dynamic dma-buf exports and hence none of the intersting flows and also
+not p2p. Not sure how much work it would be to roll that out (iirc it
+wasnt that much amdgpu code really, just endless discussions on the
+interface semantics and how to roll it out without breaking any of the
+existing dma-buf users).
 
-v2:
+Another thing that just crossed my mind: Do we have a testcase for forcing
+the eviction? Should be fairly easy to provoke with something like this:
 
-- Improve commit message to explain why this change is made (Pekka)
-- Keep the bit about flickering (Daniel)
-- Explain when user-space should force-probe, and when it shouldn't (Daniel)
+- register vram-only buffer with mlx5 and do something that binds it
+- allocate enough vram-only buffers to overfill vram (again figuring out
+  how much vram you have is driver specific)
+- touch each buffer with mmap. that should force the mlx5 buffer out. it
+  might be that eviction isn't lru but preferentially idle buffers (i.e.
+  not used by hw, so anything register to mlx5 won't qualify as first
+  victims). so we might need to instead register a ton of buffers with
+  mlx5 and access them through ibverbs
+- do something with mlx5 again to force the rebinding and test it all
+  keeps working
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Fixes: 2ac5ef3b2362 ("drm: document drm_mode_get_connector")
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
----
- include/uapi/drm/drm_mode.h | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index b49fbf2bdc40..1c064627e6c3 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -414,15 +414,12 @@ enum drm_mode_subconnector {
-  *
-  * If the @count_modes field is set to zero, the kernel will perform a forced
-  * probe on the connector to refresh the connector status, modes and EDID.
-- * A forced-probe can be slow and the ioctl will block. A force-probe can cause
-- * flickering and temporary freezes, so it should not be performed
-- * automatically.
-+ * A forced-probe can be slow, might cause flickering and the ioctl will block.
-  *
-- * User-space shouldn't need to force-probe connectors in general: the kernel
-- * will automatically take care of probing connectors that don't support
-- * hot-plug detection when appropriate. However, user-space may force-probe
-- * connectors on user request (e.g. clicking a "Scan connectors" button, or
-- * opening a UI to manage screens).
-+ * User-space needs to force-probe connectors to ensure their metadata is
-+ * up-to-date at startup and after receiving a hot-plug event. User-space
-+ * may perform a forced-probe when the user explicitly requests it. User-space
-+ * shouldn't perform a forced-probe in other situations.
-  */
- struct drm_mode_get_connector {
- 	/** @encoders_ptr: Pointer to ``__u32`` array of object IDs. */
+That entire invalidate/buffer move flow is the most complex interaction I
+think.
+-Daniel
 -- 
-2.29.2
-
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
