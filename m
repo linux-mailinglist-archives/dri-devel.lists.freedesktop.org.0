@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2A912C9943
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:23:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17B12C9954
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 051436E4BA;
-	Tue,  1 Dec 2020 08:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E0BC6E523;
+	Tue,  1 Dec 2020 08:23:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C028C6E3BB
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 13:36:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE23C6E3BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 13:36:39 +0000 (UTC)
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cl5q041TJzhkld;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cl5q03WM8zhkdw;
  Mon, 30 Nov 2020 21:36:12 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
  DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 30 Nov 2020 21:36:26 +0800
+ 14.3.487.0; Mon, 30 Nov 2020 21:36:27 +0800
 From: Qinglang Miao <miaoqinglang@huawei.com>
 To: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?q?Heiko=20St=C3=BCbner?=
  <heiko@sntech.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
  <daniel@ffwll.ch>
-Subject: [PATCH 2/3] drm/rockchip: vop: fix reference leak when
+Subject: [PATCH 3/3] drm/rockchip: lvds: fix reference leak when
  pm_runtime_get_sync fails
-Date: Mon, 30 Nov 2020 21:44:26 +0800
-Message-ID: <20201130134427.57545-3-miaoqinglang@huawei.com>
+Date: Mon, 30 Nov 2020 21:44:27 +0800
+Message-ID: <20201130134427.57545-4-miaoqinglang@huawei.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201130134427.57545-1-miaoqinglang@huawei.com>
 References: <20201130134427.57545-1-miaoqinglang@huawei.com>
@@ -60,34 +60,34 @@ reference leak here.
 Replace it with pm_runtime_resume_and_get to keep usage
 counter balanced.
 
-Fixes: 5e570373c015 ("drm/rockchip: vop: Enable pm domain before vop_initial")
+Fixes: cca1705c3d89 ("drm/rockchip: lvds: Add PX30 support")
 Reported-by: Hulk Robot <hulkci@huawei.com>
 Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 4 ++--
+ drivers/gpu/drm/rockchip/rockchip_lvds.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index c80f7d9fd..006988a6e 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -587,7 +587,7 @@ static int vop_enable(struct drm_crtc *crtc, struct drm_crtc_state *old_state)
- 	struct vop *vop = to_vop(crtc);
- 	int ret, i;
- 
--	ret = pm_runtime_get_sync(vop->dev);
-+	ret = pm_runtime_resume_and_get(vop->dev);
- 	if (ret < 0) {
- 		DRM_DEV_ERROR(vop->dev, "failed to get pm runtime: %d\n", ret);
+diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.c b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+index f292c6a6e..c3b1ac484 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_lvds.c
++++ b/drivers/gpu/drm/rockchip/rockchip_lvds.c
+@@ -145,7 +145,7 @@ static int rk3288_lvds_poweron(struct rockchip_lvds *lvds)
+ 		DRM_DEV_ERROR(lvds->dev, "failed to enable lvds pclk %d\n", ret);
  		return ret;
-@@ -1908,7 +1908,7 @@ static int vop_initial(struct vop *vop)
- 		return PTR_ERR(vop->dclk);
  	}
- 
--	ret = pm_runtime_get_sync(vop->dev);
-+	ret = pm_runtime_resume_and_get(vop->dev);
+-	ret = pm_runtime_get_sync(lvds->dev);
++	ret = pm_runtime_resume_and_get(lvds->dev);
  	if (ret < 0) {
- 		DRM_DEV_ERROR(vop->dev, "failed to get pm runtime: %d\n", ret);
+ 		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
+ 		clk_disable(lvds->pclk);
+@@ -329,7 +329,7 @@ static int px30_lvds_poweron(struct rockchip_lvds *lvds)
+ {
+ 	int ret;
+ 
+-	ret = pm_runtime_get_sync(lvds->dev);
++	ret = pm_runtime_resume_and_get(lvds->dev);
+ 	if (ret < 0) {
+ 		DRM_DEV_ERROR(lvds->dev, "failed to get pm runtime: %d\n", ret);
  		return ret;
 -- 
 2.23.0
