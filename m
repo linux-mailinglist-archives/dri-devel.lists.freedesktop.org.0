@@ -1,68 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F6E2C994D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:09 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D662C9947
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4D9B6E52A;
-	Tue,  1 Dec 2020 08:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEF316E4D7;
+	Tue,  1 Dec 2020 08:23:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8667F6E80B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 20:03:49 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id f18so19931016ljg.9
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 12:03:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vEhR+Du89PZ5uHlmTZPVOeMBpk4ZhmnPvG7++GYzT48=;
- b=nBOB4vH5fDSmMiI/v/KOP5Ztcc6gTG6ASlCRAPZhAb9QgYDhofOwwasWO/d1BRsUkk
- Cnupc2ovJEBaBFe93fntQP+ZixTtvkH5q6FIHboY6BK87SY4WkJ9fFWtR9ZFnw1dj+Sf
- J4ys4VkWRj+fnHA8vvebgnOgB0bML3F69nf786Y/dESEr9E6R9oVuV213MrxeuGCkMDN
- QLcHFPwJgjO9/9+MHinqfxKIJmcmWdFOlYB5/N1bMSPckEB1yIP5Ye/GlqAwp7GiTNPU
- NPUIIzw57SzwVWTkj5WmK1U8g4O1qfaIUQE6qimGPW4DPikyT7bO5mbHN2ckFEAqX2jQ
- DWHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vEhR+Du89PZ5uHlmTZPVOeMBpk4ZhmnPvG7++GYzT48=;
- b=Ph+N2LIn/obgUBBQrj+ZwBBMfypalRHjCapcMxFh4ptCwjZdD81NWUhUecsnj/uXLU
- 8Rzb5z4A6SaMPOMJp9fAHDlji6QtbXPNhOELdNrFXqmu9/N0Q10tWFuvQJRhWhuPuPw+
- OhYfaaSzzYjW+EANEdFtldKUZRs1WgpamZE3jVAKGGeDTQ7tNc0J5aFD2/gKu3qMkMoE
- +OQDbexUSkvpjCTuTX4V2knfHJwIIbD9Y4Z2c4PC0ZooGHF2rm7qszK8PNnVwKLQz895
- z3VjtSIGxceLUOU46SFrjR7br3arahl8xUhiqlKaaZjrTGwgu/pF5syNL3lbyold9/Ky
- LVGw==
-X-Gm-Message-State: AOAM5312CC03/GGbjAZXl/MoEX+DR3ucwzo+OMOIOZS8Ip2dQHaKzqES
- hguPb6kw27ZWzD2/dfAX+EtmBcUI9fk=
-X-Google-Smtp-Source: ABdhPJwUMn+ecDX4H4n6Wk18z6ki+FFE/Gwq+LcNPFp5nQTq6WKmEZqr7eMcBen1vKLu0kYmPs69jA==
-X-Received: by 2002:a2e:b386:: with SMTP id f6mr10398273lje.320.1606766627766; 
- Mon, 30 Nov 2020 12:03:47 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru.
- [109.252.193.159])
- by smtp.googlemail.com with ESMTPSA id l6sm2606668lfk.150.2020.11.30.12.03.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Nov 2020 12:03:46 -0800 (PST)
-Subject: Re: [PATCH v10 01/19] dt-bindings: memory: tegra20: emc: Document
- opp-supported-hw property
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Georgi Djakov <georgi.djakov@linaro.org>
-References: <20201123002723.28463-1-digetx@gmail.com>
- <20201123002723.28463-2-digetx@gmail.com>
- <46b3bab7-1c2c-2f50-6e41-f411e532357b@linaro.org>
- <20201130182345.GA28450@kozik-lap>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <4ff3fe7f-ec17-dd89-3cde-d677b3a92104@gmail.com>
-Date: Mon, 30 Nov 2020 23:03:45 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BEFB6E8CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 21:49:13 +0000 (UTC)
+Date: Mon, 30 Nov 2020 21:48:58 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A panel
+ bindings
+To: Rob Herring <robh+dt@kernel.org>
+Message-Id: <MXPMKQ.PSU8COVVM0IV2@crapouillou.net>
+In-Reply-To: <CAL_JsqJDQMzHjtYa6ZCOxXW_U5nWrS+DhBj-w2myn-SkGB+KCA@mail.gmail.com>
+References: <20201101093150.8071-1-paul@crapouillou.net>
+ <20201101093150.8071-3-paul@crapouillou.net>
+ <20201101122900.GB1269759@ravnborg.org>
+ <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
+ <CAL_JsqLSGMFibm8tVKqNe1SFBzXTU2=M2jZmpfrHeGUqS3foRg@mail.gmail.com>
+ <1XJMKQ.YER47WG3D7R41@crapouillou.net>
+ <CAL_JsqJDQMzHjtYa6ZCOxXW_U5nWrS+DhBj-w2myn-SkGB+KCA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201130182345.GA28450@kozik-lap>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 01 Dec 2020 08:23:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,37 +40,184 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
+Cc: devicetree@vger.kernel.org, od@zcrc.me, Sam Ravnborg <sam@ravnborg.org>,
+ linux-kernel@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
  Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Peter De Schrijver <pdeschrijver@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ Christophe Branchereau <cbranchereau@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MzAuMTEuMjAyMCAyMToyMywgS3J6eXN6dG9mIEtvemxvd3NraSDQv9C40YjQtdGCOgo+IE9uIE1v
-biwgTm92IDMwLCAyMDIwIGF0IDExOjQ4OjE4QU0gKzAyMDAsIEdlb3JnaSBEamFrb3Ygd3JvdGU6
-Cj4+IE9uIDIzLjExLjIwIDI6MjcsIERtaXRyeSBPc2lwZW5rbyB3cm90ZToKPj4+IERvY3VtZW50
-IG9wcC1zdXBwb3J0ZWQtaHcgcHJvcGVydHksIHdoaWNoIGlzIG5vdCBzdHJpY3RseSBuZWNlc3Nh
-cnkgdG8KPj4+IGhhdmUgb24gVGVncmEyMCwgYnV0IGl0J3MgdmVyeSBjb252ZW5pZW50IHRvIGhh
-dmUgYmVjYXVzZSBhbGwgb3RoZXIgU29DCj4+PiBjb3JlIGRldmljZXMgd2lsbCB1c2UgaGFyZHdh
-cmUgdmVyc2lvbmluZywgYW5kIHRodXMsIGl0J3MgZ29vZCB0byBtYWludGFpbgo+Pj4gdGhlIGNv
-bnNpc3RlbmN5Lgo+Pgo+PiBIaSBEbWl0cnksCj4+Cj4+IEkgYmVsaWV2ZSBLcnp5c3p0b2YgaXMg
-d2FpdGluZyBmb3IgQWNrIG9uIHRoZSBiaW5kaW5nIGJlZm9yZSBtZXJnaW5nCj4+IHRoaXMgcGF0
-Y2ggKGFuZCB0aGUgcmVzdCksIGJ1dCB1bmZvcnR1bmF0ZWx5IGl0IHdhcyBub3Qgc2VudCB0byB0
-aGUKPj4gRFQgbWFpbGluZyBsaXN0IGZvciByZXZpZXcuCgpHb29kIGNhdGNoLCB0aGFuayB5b3Uu
-Cgo+IEluZGVlZCBJIGFtIHN0aWxsIHdhaXRpbmcgZm9yIFJvYidzIGFuZCBUaGllcnJ5J3MgYWNr
-cyBmb3IgdGhpcyBhbmQgdGhlCj4gZm9sbG93aW5nIHBhdGNoZXMuICBJdCBoYXMgYmVlbiBqdXN0
-IGEgd2VlayBzbyBJJ2xsIGdpdmUgaXQgZmV3IG1vcmUKPiBkYXlzLgoKUm9iIGRvZXNuJ3QgcmV2
-aWV3IHBhdGNoZXMgd2hpY2ggYXJlbid0IHNlbnQgdG8gdGhlIERUIE1MLCB3aGljaCBpc24ndApj
-YydlZCBpbiB2MTAgYnkgYWNjaWRlbnQuIEknbGwgbWFrZSB2MTEuCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+
+Le lun. 30 nov. 2020 =E0 13:18, Rob Herring <robh+dt@kernel.org> a =
+
+=E9crit :
+> On Mon, Nov 30, 2020 at 12:39 PM Paul Cercueil <paul@crapouillou.net> =
+
+> wrote:
+>> =
+
+>>  Hi Rob,
+>> =
+
+>>  Le lun. 30 nov. 2020 =E0 7:32, Rob Herring <robh+dt@kernel.org> a =
+
+>> =E9crit
+>>  :
+>>  > On Mon, Nov 2, 2020 at 3:19 AM Paul Cercueil =
+
+>> <paul@crapouillou.net>
+>>  > wrote:
+>>  >>
+>>  >>
+>>  >>
+>>  >>  Le dim. 1 nov. 2020 =E0 13:29, Sam Ravnborg <sam@ravnborg.org> a
+>>  >> =E9crit :
+>>  >>  > On Sun, Nov 01, 2020 at 09:31:48AM +0000, Paul Cercueil wrote:
+>>  >>  >>  The Asia Better Technology (ABT) Y030XX067A panel is a 3.0"
+>>  >> 320x480
+>>  >>  >>  24-bit IPS LCD panel. Its particularity is that it has
+>>  >> non-square
+>>  >>  >> pixels
+>>  >>  >>  (as it is 4:3 for a resolution of 320x480), and that it
+>>  >> requires odd
+>>  >>  >>  lines to be sent as RGB and even lines to be sent as GRB on =
+
+>> its
+>>  >>  >> 8-bit
+>>  >>  >>  bus.
+>>  >>  >>
+>>  >>  >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>  >>  >>  ---
+>>  >>  >>   .../display/panel/abt,y030xx067a.yaml         | 54
+>>  >>  >> +++++++++++++++++++
+>>  >>  >>   1 file changed, 54 insertions(+)
+>>  >>  >>   create mode 100644
+>>  >>  >>
+>>  >> =
+
+>> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
+>>  >>  >>
+>>  >>  >>  diff --git
+>>  >>  >>
+>>  >> =
+
+>> a/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
+>>  >>  >>
+>>  >> =
+
+>> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
+>>  >>  >>  new file mode 100644
+>>  >>  >>  index 000000000000..6407e8bf45fa
+>>  >>  >>  --- /dev/null
+>>  >>  >>  +++
+>>  >>  >>
+>>  >> =
+
+>> b/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
+>>  >>  >>  @@ -0,0 +1,54 @@
+>>  >>  >>  +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>  >>  >>  +%YAML 1.2
+>>  >>  >>  +---
+>>  >>  >>  +$id:
+>>  >>  >> =
+
+>> http://devicetree.org/schemas/display/panel/abt,y030xx067a.yaml#
+>>  >>  >>  +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>  >>  >>  +
+>>  >>  >>  +title: Asia Better Technology 3.0" (320x480 pixels) 24-bit =
+
+>> IPS
+>>  >> LCD
+>>  >>  >> panel
+>>  >>  >>  +
+>>  >>  >>  +description: |
+>>  >>  >>  +  The panel must obey the rules for a SPI slave device as
+>>  >>  >> specified in
+>>  >>  >>  +  spi/spi-controller.yaml
+>>  >>  >>  +
+>>  >>  >>  +maintainers:
+>>  >>  >>  +  - Paul Cercueil <paul@crapouillou.net>
+>>  >>  >>  +
+>>  >>  >>  +allOf:
+>>  >>  >>  +  - $ref: panel-common.yaml#
+>>  >>  >>  +
+>>  >>  >>  +properties:
+>>  >>  >>  +  compatible:
+>>  >>  >>  +    const: abt,y030xx067a
+>>  >>  >>  +
+>>  >>  >>  +  backlight: true
+>>  >>  >>  +  port: true
+>>  >>  >>  +  power-supply: true
+>>  >>  >>  +  reg: true
+>>  >>  >>  +  reset-gpios: true
+>>  >>  >
+>>  >>  > The binding is missing:
+>>  >>  > required:
+>>  >>  >   - compatible
+>>  >>  >   - reg
+>>  >>  >   - power-supply
+>>  >>  >   - reset-gpios
+>>  >>  >   - ...
+>>  >>  >
+>>  >>  > additionalProperties: false
+>>  >>  >
+>>  >>  > So r-b only with these added.
+>>  >>
+>>  >>  Stupid mistake, sorry about that.
+>>  >>
+>>  >>  I'll V2.
+>>  >
+>>  > I don't have any V2 in my inbox, but looks like it is in =
+
+>> linux-next
+>>  > now:
+>> =
+
+>>  Yes, Sam told me on IRC I could fix it while applying and avoid the =
+
+>> V2.
+>> =
+
+>>  > =
+
+>> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/d=
+isplay/panel/abt,y030xx067a.example.dt.yaml:
+>>  > panel@0: 'spi-max-frequency' does not match any of the regexes:
+>>  > 'pinctrl-[0-9]+'
+>>  >  From schema:
+>>  > =
+
+>> /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/d=
+isplay/panel/abt,y030xx067a.yaml
+>> =
+
+>>  "make dt_binding_check
+>>  =
+
+>> DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/display/panel/abt,y0=
+30xx067a.yaml"
+>>  doesn't complain here :(
+> =
+
+> Even if you do 'touch
+> Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml'
+> or do a clean build?
+> =
+
+> I can't think of any kernel or dt-schema changes which would explain
+> the difference. This is purely related to 'additionalProperties:
+> false'.
+
+Ok, I see it now.
+Should I use 'unevaluatedProperties: false' instead?
+
+-Paul
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
