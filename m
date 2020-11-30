@@ -2,51 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D947C2C8CA4
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 19:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 375642C8CB9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 19:26:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4326E5D5;
-	Mon, 30 Nov 2020 18:23:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D9166E5D5;
+	Mon, 30 Nov 2020 18:26:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
- [209.85.208.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7726E6E5D5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 18:23:49 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id y22so9259953edv.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:23:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=I9ONVBtfScKIMTye82bfGQ5rddLKQrmuSaE2Zj5EgGI=;
- b=KSjplbCH1Lnhnlu294EdtZNzIp2VPCRBM4o22ncVGKc3DvHGLAHAaZdIc1eMGViaru
- WendEmc3t5sgpCsaZ7lkdb+U/mhr8tTc2VXpMebO0VoESDN+zixTwdGy7YcYLJe7hQuh
- zOvJalvGHEa28a/akew88BuNM20hS14dmAErUJ5hlF/+EiQD+VRTPJQhJgKOEmGa8SNS
- yN/urFDanoOjnzBVx8IifgK/pROQO7LtylWiokfoKBjpRjw3dJqqInyS2RPWvEpzMA3j
- EuPGmzqEhqnr65ZNHv/wv2/1EPVPwHFVkhbBv2GCow3JT3OJMXdH+ZF34bUDL6kwTpvs
- Yqfg==
-X-Gm-Message-State: AOAM533+bbSf7FD2Z36iE92EInWFp1IzaeD8H2eQTBOfRAWHYtdBkAll
- nEjKI9+OMheZYe7ChpVX72M=
-X-Google-Smtp-Source: ABdhPJwYHGbHVMApFqE392EkdKd4CbGtej8nEk3tKKJMIPVxgXA2gu998VoT05uHS0KZ4By5J9o3BA==
-X-Received: by 2002:a50:8f64:: with SMTP id 91mr23297490edy.310.1606760628069; 
- Mon, 30 Nov 2020 10:23:48 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id v18sm789274edx.30.2020.11.30.10.23.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Nov 2020 10:23:47 -0800 (PST)
-Date: Mon, 30 Nov 2020 20:23:45 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Georgi Djakov <georgi.djakov@linaro.org>
-Subject: Re: [PATCH v10 01/19] dt-bindings: memory: tegra20: emc: Document
- opp-supported-hw property
-Message-ID: <20201130182345.GA28450@kozik-lap>
-References: <20201123002723.28463-1-digetx@gmail.com>
- <20201123002723.28463-2-digetx@gmail.com>
- <46b3bab7-1c2c-2f50-6e41-f411e532357b@linaro.org>
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 284CD6E5D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 18:26:48 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id 849552001F;
+ Mon, 30 Nov 2020 19:26:45 +0100 (CET)
+Date: Mon, 30 Nov 2020 19:26:43 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: dri-devel@lists.freedesktop.org, Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>
+Subject: [PATCH] drm: panel: add flags to BOE NV110WTM-N61
+Message-ID: <20201130182643.GA1497637@ravnborg.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <46b3bab7-1c2c-2f50-6e41-f411e532357b@linaro.org>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=cm27Pg_UAAAA:8 a=pGLkceISAAAA:8
+ a=e5mUnYsNAAAA:8 a=KWTeLqc14gzOAJQ15WEA:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=xmb-EsYY8bH0VWELuYED:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +44,46 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- Nicolas Chauvet <kwizart@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Peter De Schrijver <pdeschrijver@nvidia.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 30, 2020 at 11:48:18AM +0200, Georgi Djakov wrote:
-> On 23.11.20 2:27, Dmitry Osipenko wrote:
-> > Document opp-supported-hw property, which is not strictly necessary to
-> > have on Tegra20, but it's very convenient to have because all other SoC
-> > core devices will use hardware versioning, and thus, it's good to maintain
-> > the consistency.
-> 
-> Hi Dmitry,
-> 
-> I believe Krzysztof is waiting for Ack on the binding before merging
-> this patch (and the rest), but unfortunately it was not sent to the
-> DT mailing list for review.
+When applying a patch to add the BOE NV110WTM-N61 panel I forgot
+to add the changes that added flags to drm_display_mode.
 
-Indeed I am still waiting for Rob's and Thierry's acks for this and the
-following patches.  It has been just a week so I'll give it few more
-days.
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Fixes: a96ee0f6b58d ("drm: panel: simple: Add BOE NV110WTM-N61")
+Cc: Douglas Anderson <dianders@chromium.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/panel/panel-simple.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 216cde33b5c4..2d093b5a513c 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1367,6 +1367,7 @@ static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+ 		.vsync_start = 800 + 3,
+ 		.vsync_end = 800 + 3 + 5,
+ 		.vtotal = 800 + 3 + 5 + 24,
++		.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+ 	},
+ 	{
+ 		.clock = 57500,
+@@ -1378,6 +1379,7 @@ static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+ 		.vsync_start = 800 + 3,
+ 		.vsync_end = 800 + 3 + 5,
+ 		.vtotal = 800 + 3 + 5 + 24,
++		.flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+ 	},
+ };
+ 
+-- 
+2.27.0
 
 _______________________________________________
 dri-devel mailing list
