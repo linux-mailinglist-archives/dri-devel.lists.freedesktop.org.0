@@ -1,53 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 080E82C8015
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 09:36:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 858182C8048
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 09:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F401D89E32;
-	Mon, 30 Nov 2020 08:36:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A836E40F;
+	Mon, 30 Nov 2020 08:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
- [209.85.128.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14BF589E32
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 08:36:50 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id e25so4594358wme.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 00:36:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hGLe4cToDIvo4HB3a/5ZfuG6qTk6bfRGM4GcipNY+6Q=;
- b=I78Fskb9m8cvj2c1of3Aiy9XRpXDZG5AVjZO7oeIC+URwmk6pjwZwW3S6haq5FWdtj
- 7/FkN3dRur5yVHVepNEiblf8KjpFhtfzQF6scMpGN9iYeZ8aO73XuIBPoh6Sw5YGIi0h
- adgFGXQD6ThThRNjDD7V81iLn7HtOdy4Pu7dVEX1z0sYpOlIUO5M9Omi0wxxtiWQrkkA
- bXc6kwPGWYGh+AOfiff1KA7+G+f2tGduGKKQyajQuD5Lg0pzigOeH6N3+9lp7trl1CJW
- qsBw9ZgSnpJLWBQ6ovUKSQErQfSsFozGqG8bMyUBJcqvVABv5Zx+rG8PtuvnijWhUNKq
- AWzw==
-X-Gm-Message-State: AOAM532Df7GFl7tvz/4WsNRPhBbxuE+CuwcoFRHwBSYIZ3oi81p/ud0J
- vCzdgJFvi+zzmP54QeVP1KQ=
-X-Google-Smtp-Source: ABdhPJyIIikaJAewDDxbe7eDP7AKT83BXDJQ2y9y2Mtw+U8S4nGzCPJAQAG2vZ+ozkayNtJFvTW3gQ==
-X-Received: by 2002:a05:600c:58e:: with SMTP id
- o14mr22175684wmd.47.1606725408530; 
- Mon, 30 Nov 2020 00:36:48 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id r1sm26179377wra.97.2020.11.30.00.36.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Nov 2020 00:36:47 -0800 (PST)
-Date: Mon, 30 Nov 2020 09:36:46 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Chanwoo Choi <cw00.choi@samsung.com>
-Subject: Re: [PATCH v10 00/19] Introduce memory interconnect for NVIDIA Tegra
- SoCs
-Message-ID: <20201130083646.GA6711@kozik-lap>
-References: <CGME20201123003254epcas1p1763e1ce693d7cb8e2f20d521e701ad5f@epcas1p1.samsung.com>
- <20201123002723.28463-1-digetx@gmail.com>
- <d12880ba-6780-cfee-7667-3723fcad9f3a@samsung.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1EC6E40F
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 08:52:00 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6482CAC55;
+ Mon, 30 Nov 2020 08:51:58 +0000 (UTC)
+Subject: Re: [PATCH v2 04/28] video: fbdev: aty: Delete unused variable in
+ radeon_monitor
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-5-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <bd320748-07b8-21fa-e700-1e909a75fae7@suse.de>
+Date: Mon, 30 Nov 2020 09:51:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <d12880ba-6780-cfee-7667-3723fcad9f3a@samsung.com>
+In-Reply-To: <20201128224114.1033617-5-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +41,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <cyndis@kapsi.fi>, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Viresh Kumar <vireshk@kernel.org>, Michael Turquette <mturquette@baylibre.com>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>, Nicolas Chauvet <kwizart@gmail.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
- linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
- Georgi Djakov <georgi.djakov@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============0111841377=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 30, 2020 at 05:44:39PM +0900, Chanwoo Choi wrote:
-> Hi Dmitry,
-> 
-> The v5.10-rc6 was released from linus git tree.
-> Generally, I will send the pull-quest about devfreq to linux-pm.git maintainer
-> after releasing the v5.1-rc7 for the integration test on linux-pm.git.
-> 
-> The icc patches in this patch have not yet merged. If these patches
-> are not merged before v5.10-rc7, Maybe, I'll apply the devfreq patches
-> for v5.12-rc1.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0111841377==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="E8UWEARDM6HKRI0Y34nYhs7OJMNkv2y9G"
 
-None of the patches here are going to be merged to Linus' in the current
-cycle. They will only go to the next so if there is dependency,
-everything will be broken and non-bisectable.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--E8UWEARDM6HKRI0Y34nYhs7OJMNkv2y9G
+Content-Type: multipart/mixed; boundary="tR22UzywLGkBbCrLGNbCUw0R5cbSyRwBY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: Aditya Pakki <pakki001@umn.edu>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Alex Dewar <alex.dewar90@gmail.com>, Antonino Daplas <adaplas@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Evgeny Novikov <novikov@ispras.ru>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Jason Yan <yanaijie@huawei.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Joe Perches <joe@perches.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mike Rapoport <rppt@kernel.org>, Nathan Chancellor
+ <natechancellor@gmail.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Peter Rosin <peda@axentia.se>, Qilong Zhang <zhangqilong3@huawei.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan <tanxiaofei@huawei.com>
+Message-ID: <bd320748-07b8-21fa-e700-1e909a75fae7@suse.de>
+Subject: Re: [PATCH v2 04/28] video: fbdev: aty: Delete unused variable in
+ radeon_monitor
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-5-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-5-sam@ravnborg.org>
 
-However no such dependencies or merging requirements were mention in the
-cover letter.
+--tR22UzywLGkBbCrLGNbCUw0R5cbSyRwBY
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+
+
+Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
+> Fix warning about variable that is asssigned a value but never used.
+> The variable was indeed never used so delete it.
+>=20
+> Keep the call to radeon_probe_i2c_connector() as it may have
+> side-effects. It is unlikely but I could not verify that is was safe to=
+
+> drop the call.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> Cc: linux-fbdev@vger.kernel.org
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/video/fbdev/aty/radeon_monitor.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/video/fbdev/aty/radeon_monitor.c b/drivers/video/f=
+bdev/aty/radeon_monitor.c
+> index 9966c58aa26c..df55e23b7a5a 100644
+> --- a/drivers/video/fbdev/aty/radeon_monitor.c
+> +++ b/drivers/video/fbdev/aty/radeon_monitor.c
+> @@ -488,12 +488,10 @@ void radeon_probe_screens(struct radeonfb_info *r=
+info,
+>   #if defined(DEBUG) && defined(CONFIG_FB_RADEON_I2C)
+>   		{
+>   			u8 *EDIDs[4] =3D { NULL, NULL, NULL, NULL };
+> -			int mon_types[4] =3D {MT_NONE, MT_NONE, MT_NONE, MT_NONE};
+>   			int i;
+>  =20
+>   			for (i =3D 0; i < 4; i++)
+> -				mon_types[i] =3D radeon_probe_i2c_connector(rinfo,
+> -									  i+1, &EDIDs[i]);
+> +				radeon_probe_i2c_connector(rinfo, i + 1, &EDIDs[i]);
+>   		}
+>   #endif /* DEBUG */
+>   		/*
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--tR22UzywLGkBbCrLGNbCUw0R5cbSyRwBY--
+
+--E8UWEARDM6HKRI0Y34nYhs7OJMNkv2y9G
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/EsqkFAwAAAAAACgkQlh/E3EQov+Ci
+aQ/+PDD2ItqHotyPeMPdMLOY+1KaRXwasH3WHlmEX9uJIQRq7sgtHcHU44fYq97DfTe4WK+VlWSf
+x3XWM363J/QUBDImn77Gjc930WVvCBUWWUf+BDJhWg60vLaEbKC9C4BzKL81Bd14AXJIEHc1/Mpy
+jvL2nEs6L1E+2FrLV+jw0U+m6FHRcSIqeOZ3E7Am0F/XrRaB72AifDnCpc2qjxwgHhiytOKCpRNg
+BLvrboOjHBbCYfsanY1j+Z9afl9JDGYKmm1KM1Okq4+iH3+bTqThrErBf+x6g4mtv4TgLo/YZ8gx
+QpCXmulYOfsQ4UHbSF+wa+Na1rLWTWpX8muY/7bTbgRG/n/siTHkyF1lqzJHwLXoj9HbpqMCkNu1
+10qDbf52SHfDBwmagECqwJnwcIwSEyHY0Q+xGLk8PJoXh/CQhaAekg3B1wLbIl4S8Fe7YcRy+Lfr
+rZnAzVvf3cH1yeSrYadyv9sTMWZjpOSJe2/OJNcNrJtUiwCleTDd9YfZadqSJGaC228S1b+xz7OX
+2qu+eIzzsRmtjVDq1QpFJ1QPV3u93fFCOAoPri4n0FkyC1NXAsI+jkCUhcdIPo/EGY6EaKBppagb
+vXIIkh4lo98v/h01gUHM+S4aWGosaFK/B7TIjBznPwf4BvwiwTaIa2lHBj7Sf6JbUk3V6ta+kO1m
+ACY=
+=kgZS
+-----END PGP SIGNATURE-----
+
+--E8UWEARDM6HKRI0Y34nYhs7OJMNkv2y9G--
+
+--===============0111841377==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0111841377==--
