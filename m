@@ -1,49 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC162C824B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:36:57 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5C52C8251
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:38:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A095389CF8;
-	Mon, 30 Nov 2020 10:36:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 968A389CF8;
+	Mon, 30 Nov 2020 10:38:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD2289CF8;
- Mon, 30 Nov 2020 10:36:52 +0000 (UTC)
-IronPort-SDR: o8NpDkCZd3DzGFgWtXiJarOsV8xiIoeL3oARVmSv+xEO3yPMHbX6M2tQdujA+FLtjjtIS8SUgp
- ZzWtyDBwODnw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="160386000"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="160386000"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 02:36:50 -0800
-IronPort-SDR: 3Oq2z9eo+GPn0GeAr9vThEeAk+CuRu3Eq1bMpGDJMtpwrFdNFTQqkFGiQg4r3Ca6DrbuijJSyb
- 9MZ8e2jGGbZA==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="480605490"
-Received: from mdubovsk-mobl1.ger.corp.intel.com (HELO [10.254.157.9])
- ([10.254.157.9])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2020 02:36:48 -0800
-Subject: Re: [Intel-gfx] [RFC PATCH 157/162] drm/i915: Improve accuracy of
- eviction stats
-To: Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-158-matthew.auld@intel.com>
- <160648802888.2925.2681758176898405257@build.alporthouse.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <f66fed08-e57a-0dbe-2a0f-be865f207647@linux.intel.com>
-Date: Mon, 30 Nov 2020 10:36:45 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00D189CF8
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:38:49 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 06909B26;
+ Mon, 30 Nov 2020 11:38:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1606732728;
+ bh=tNlqFDieH6EVkNaDkuWQdrpNJJbZMVE4+smxPwBiXTo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BbKLbutU9ObKAQR6OFQ5ox8TYRKV7tqeM/f7e9jQvMSIV1xJ+wli6rA1Zxb/f7U0k
+ aG4xEakTNqMVEfhchpSjSyn4wBDWQfpORhWLQ7t9Ed+dN90UnMWiWf1t0jiKc5Olje
+ ulc+SBP/YqMbRo1JRRoCxSj+sCW7m6yRB0qyxpao=
+Date: Mon, 30 Nov 2020 12:38:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 1/5] drm: add legacy support for using degamma for gamma
+Message-ID: <20201130103840.GR4141@pendragon.ideasonboard.com>
+References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
+ <20201103080310.164453-2-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <160648802888.2925.2681758176898405257@build.alporthouse.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201103080310.164453-2-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,51 +46,192 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Sekhar Nori <nsekhar@ti.com>, Jyri Sarha <jsarha@ti.com>,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Tomi,
 
-On 27/11/2020 14:40, Chris Wilson wrote:
-> Quoting Matthew Auld (2020-11-27 12:07:13)
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Current code uses jiffie time to do the accounting and then does:
->>
->>    diff = jiffies - start;
->>    msec = diff * 1000 / HZ;
->>    ...
->>    atomic_long_add(msec, &i915->time_swap_out_ms);
->>
->> If we assume jiffie can be as non-granular as 10ms and that the current
->> accounting records all evictions faster than one jiffie as infinite speed,
->> we can end up over-estimating the reported eviction throughput.
->>
->> Fix this by accumulating ktime_t and only dividing to more user friendly
->> granularity at presentation time (debugfs read).
->>
->> At the same time consolidate the code a bit and convert from multiple
->> atomics to single seqlock per stat.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: CQ Tang <cq.tang@intel.com>
->> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
->> Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+Thank you for the patch.
+
+On Tue, Nov 03, 2020 at 10:03:06AM +0200, Tomi Valkeinen wrote:
+> We currently have drm_atomic_helper_legacy_gamma_set() helper which can
+> be used to handle legacy gamma-set ioctl.
+> drm_atomic_helper_legacy_gamma_set() sets GAMMA_LUT, and clears
+> CTM and DEGAMMA_LUT. This works fine on HW where we have either:
 > 
-> A lot of effort to fix up patches after the fact, might as well make it
-> a real PMU interface.
+> degamma -> ctm -> gamma -> out
+> 
+> or
+> 
+> ctm -> gamma -> out
+> 
+> However, if the HW has gamma table before ctm, the atomic property
+> should be DEGAMMA_LUT, and thus we have:
+> 
+> degamma -> ctm -> out
+> 
+> This is fine for userspace which sets gamma table using the properties,
+> as the userspace can check for the existence of gamma & degamma, but the
+> legacy gamma-set ioctl does not work.
+> 
+> This patch adds a new helper, drm_atomic_helper_legacy_degamma_set(),
+> which can be used instead of drm_atomic_helper_legacy_gamma_set() when
+> the DEGAMMA_LUT is the underlying property that needs to be set.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 81 ++++++++++++++++++++++-------
+>  include/drm/drm_atomic_helper.h     |  4 ++
+>  2 files changed, 65 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index ddd0e3239150..23cbed541dc7 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3499,24 +3499,11 @@ int drm_atomic_helper_page_flip_target(struct drm_crtc *crtc,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
+>  
+> -/**
+> - * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table
+> - * @crtc: CRTC object
+> - * @red: red correction table
+> - * @green: green correction table
+> - * @blue: green correction table
+> - * @size: size of the tables
+> - * @ctx: lock acquire context
+> - *
+> - * Implements support for legacy gamma correction table for drivers
+> - * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+> - * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+> - * how the atomic color management and gamma tables work.
+> - */
+> -int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+> -				       u16 *red, u16 *green, u16 *blue,
+> -				       uint32_t size,
+> -				       struct drm_modeset_acquire_ctx *ctx)
+> +static int legacy_gamma_degamma_set(struct drm_crtc *crtc,
+> +				    u16 *red, u16 *green, u16 *blue,
+> +				    uint32_t size,
+> +				    struct drm_modeset_acquire_ctx *ctx,
+> +				    bool use_degamma)
+>  {
+>  	struct drm_device *dev = crtc->dev;
+>  	struct drm_atomic_state *state;
+> @@ -3555,9 +3542,11 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  	}
+>  
+>  	/* Reset DEGAMMA_LUT and CTM properties. */
+> -	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
+> +	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+> +					      use_degamma ? blob : NULL);
+>  	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+> -	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
+> +	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+> +					      use_degamma ? NULL : blob);
+>  	crtc_state->color_mgmt_changed |= replaced;
+>  
+>  	ret = drm_atomic_commit(state);
+> @@ -3567,8 +3556,60 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  	drm_property_blob_put(blob);
+>  	return ret;
+>  }
+> +
+> +/**
+> + * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table using gamma_lut
+> + * @crtc: CRTC object
+> + * @red: red correction table
+> + * @green: green correction table
+> + * @blue: green correction table
+> + * @size: size of the tables
+> + * @ctx: lock acquire context
+> + *
+> + * Implements support for legacy gamma correction table for drivers
+> + * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+> + * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+> + * how the atomic color management and gamma tables work.
+> + *
+> + * This function uses GAMMA_LUT property for the gamma table. This function
 
-It did cross my mind and should be easy to add on top if deemed useful 
-or interesting.
+s/uses/uses the/
+s/This function$/It/
 
-More importantly, it is okay with me to incorporate this patch into the 
-earlier one(s) which first added statistics.
+Same below.
 
+> + * can be used when the driver exposes either only GAMMA_LUT or both GAMMA_LUT
+> + * and DEGAMMA_LUT.
+> + */
+> +int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+> +				       u16 *red, u16 *green, u16 *blue,
+> +				       uint32_t size,
+> +				       struct drm_modeset_acquire_ctx *ctx)
+> +{
+> +	return legacy_gamma_degamma_set(crtc, red, green, blue, size, ctx, false);
+> +}
+
+I wonder, would it make sense to make this automatic by setting the
+degamma LUT when only the DEGAMMA_LUT property exists, and the gamma LUT
+otherwise ? Are there use cases for drm_atomic_helper_legacy_degamma_set
+for drivers that support both gamma and degamma ?
+
+>  EXPORT_SYMBOL(drm_atomic_helper_legacy_gamma_set);
+>  
+> +/**
+> + * drm_atomic_helper_legacy_degamma_set - set the legacy gamma correction table using degamma_lut
+> + * @crtc: CRTC object
+> + * @red: red correction table
+> + * @green: green correction table
+> + * @blue: green correction table
+> + * @size: size of the tables
+> + * @ctx: lock acquire context
+> + *
+> + * Implements support for legacy gamma correction table for drivers
+> + * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+> + * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+> + * how the atomic color management and gamma tables work.
+> + *
+> + * This function uses DEGAMMA_LUT property for the gamma table. This function
+> + * can be used when the driver exposes only DEGAMNMA_LUT.
+> + */
+> +int drm_atomic_helper_legacy_degamma_set(struct drm_crtc *crtc,
+> +					 u16 *red, u16 *green, u16 *blue,
+> +					 uint32_t size,
+> +					 struct drm_modeset_acquire_ctx *ctx)
+> +{
+> +	return legacy_gamma_degamma_set(crtc, red, green, blue, size, ctx, true);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_legacy_degamma_set);
+> +
+>  /**
+>   * drm_atomic_helper_bridge_propagate_bus_fmt() - Propagate output format to
+>   *						  the input end of a bridge
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index 85df04c8e62f..561c78680388 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -151,6 +151,10 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  				       u16 *red, u16 *green, u16 *blue,
+>  				       uint32_t size,
+>  				       struct drm_modeset_acquire_ctx *ctx);
+> +int drm_atomic_helper_legacy_degamma_set(struct drm_crtc *crtc,
+> +					 u16 *red, u16 *green, u16 *blue,
+> +					 uint32_t size,
+> +					 struct drm_modeset_acquire_ctx *ctx);
+>  
+>  /**
+>   * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
+
+-- 
 Regards,
 
-Tvrtko
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
