@@ -1,38 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688202C8092
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:08:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6502C80AF
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 10:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181C46E43D;
-	Mon, 30 Nov 2020 09:08:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637A36E40A;
+	Mon, 30 Nov 2020 09:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F2A6E43D
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:08:31 +0000 (UTC)
-Date: Mon, 30 Nov 2020 09:08:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1606727308;
- bh=IR3DcdjsoRVuVZ4rtvKRvqddXRleaItnhvHKv4WO6xg=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=lDLw0jNxG2eR+iZthRaijL5sMOAC56hGDvqA4zospJObyPFkeg68vMayNpctOPTSo
- lrc9YV5cuX6r9tG0Tcsd0X/+cR+Z553ToZCAtS3IvsHtv/0LJ3y0qu0p2C87oG/rNG
- em+lYHDsAuDaspvLXAQa7bXGlRcecHTQ0jf67fuVt61z/Ewz2xW/th4chXgNvnLJyz
- aDk191fQC5xvoMaXvYqMblQJdU2Jp0n8/r6HKLwbnEdEw2UHoNhp8RUDzf91YXIE3T
- 0ETylw5ipMV2ECsXSZgl3J5mgP5e8aMlYWjKUjpWIrw3MNPvkP1K+w28EfOvdBSn5U
- fERX7Ay2Vk1yQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH] drm: document that user-space should force-probe connectors
-Message-ID: <PMgUyeZTj1TlgnS4s5MIkNFDuGbth7EfFW73Gq2fQ@cp4-web-038.plabs.ch>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D78256E40A
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 09:13:09 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 5F329AD89;
+ Mon, 30 Nov 2020 09:13:08 +0000 (UTC)
+Subject: Re: [PATCH v2 08/28] video: fbdev: sis: Fix defined but not used
+ warning of SiS_TVDelay
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-9-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <2b2809ab-a9ab-cf6d-248d-828ca584bdee@suse.de>
+Date: Mon, 30 Nov 2020 10:13:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <20201128224114.1033617-9-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,53 +41,172 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
+ Aditya Pakki <pakki001@umn.edu>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1163172467=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It seems like we can't have nice things, so let's just document the
-disappointing behaviour instead.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1163172467==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="p8bfYqIBnPG8eyTYnGJQcuVf04r3Z35CF"
 
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Fixes: 2ac5ef3b2362 ("drm: document drm_mode_get_connector")
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
----
- include/uapi/drm/drm_mode.h | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--p8bfYqIBnPG8eyTYnGJQcuVf04r3Z35CF
+Content-Type: multipart/mixed; boundary="JO7obVMGflrwGfzxp3HQvgsxvJhHjbm3X";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Gustavo Silva <gustavoars@kernel.org>,
+ Peter Rosin <peda@axentia.se>, George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Jingoo Han <jingoohan1@gmail.com>, Joe Perches <joe@perches.com>,
+ Peilin Ye <yepeilin.cs@gmail.com>, Mike Rapoport <rppt@kernel.org>
+Message-ID: <2b2809ab-a9ab-cf6d-248d-828ca584bdee@suse.de>
+Subject: Re: [PATCH v2 08/28] video: fbdev: sis: Fix defined but not used
+ warning of SiS_TVDelay
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-9-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-9-sam@ravnborg.org>
 
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index b49fbf2bdc40..2e99f29d7f81 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -414,15 +414,10 @@ enum drm_mode_subconnector {
-  *
-  * If the @count_modes field is set to zero, the kernel will perform a forced
-  * probe on the connector to refresh the connector status, modes and EDID.
-- * A forced-probe can be slow and the ioctl will block. A force-probe can cause
-- * flickering and temporary freezes, so it should not be performed
-- * automatically.
-+ * A forced-probe can be slow and the ioctl will block.
-  *
-- * User-space shouldn't need to force-probe connectors in general: the kernel
-- * will automatically take care of probing connectors that don't support
-- * hot-plug detection when appropriate. However, user-space may force-probe
-- * connectors on user request (e.g. clicking a "Scan connectors" button, or
-- * opening a UI to manage screens).
-+ * User-space needs to force-probe connectors to ensure their metadata is
-+ * up-to-date.
-  */
- struct drm_mode_get_connector {
- 	/** @encoders_ptr: Pointer to ``__u32`` array of object IDs. */
--- 
-2.29.2
+--JO7obVMGflrwGfzxp3HQvgsxvJhHjbm3X
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+
+
+Am 28.11.20 um 23:40 schrieb Sam Ravnborg:
+> Fix W=3D1 warning by commenting unused SiS_TVDelay* variables.
+>=20
+> The SiS_TVDelay* variables seem to contain some magic numbers
+> so looks like data worth keeping around but not as code we build.
+
+I would remove it. sisfb is broken beyond repair and no one's going to=20
+try to use it anyway. In any case
+
+Acked-by: Thomas Zimemrmann <tzimmermann@suse.de>
+
+>=20
+> v2:
+>    - Update subject (Lee)
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Thomas Winischhofer <thomas@winischhofer.net>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> ---
+>   drivers/video/fbdev/sis/oem310.h | 2 ++
+>   1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/video/fbdev/sis/oem310.h b/drivers/video/fbdev/sis=
+/oem310.h
+> index 8fce56e4482c..ed28755715ce 100644
+> --- a/drivers/video/fbdev/sis/oem310.h
+> +++ b/drivers/video/fbdev/sis/oem310.h
+> @@ -200,6 +200,7 @@ static const unsigned char SiS310_TVDelayCompensati=
+on_651302LV[] =3D	/* M650, 651,
+>   	0x33,0x33
+>   };
+>  =20
+> +#if 0 /* Not used */
+>   static const unsigned char SiS_TVDelay661_301[] =3D			/* 661, 301 */
+>   {
+>   	0x44,0x44,
+> @@ -219,6 +220,7 @@ static const unsigned char SiS_TVDelay661_301B[] =3D=
+			/* 661, 301B et al */
+>   	0x44,0x44,
+>   	0x44,0x44
+>   };
+> +#endif
+>  =20
+>   static const unsigned char SiS310_TVDelayCompensation_LVDS[] =3D		/* =
+LVDS */
+>   {
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--JO7obVMGflrwGfzxp3HQvgsxvJhHjbm3X--
+
+--p8bfYqIBnPG8eyTYnGJQcuVf04r3Z35CF
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/Et6EFAwAAAAAACgkQlh/E3EQov+CC
+BQ/+McYEQMk7L3ovNuVUeW+tDTYFyjPOeJXGjT27f1X2kf3YadEZ+n/72CvS5F50/99JWY9n+xbe
+ODBQY5VeIOL4b0WQaBllTAfwUJOhmg33SZ0Ff0ONtqDCkLv8MFo8dOBqTFEoLrNZ/lhYafswbKr4
+5n0q8CsAUhawNYJiNz0hoqIkFxuI9e+AGXGCWQ3VALa2ZpFUiBC8udSVKAOx/kQxbsfDmrAMqLVq
+vdI7gJir6bVV+K9VY+LA5Ls83zZA+IYFb+NeyXb5MqobW3FbmGau4r2OWnTlhsBsD2upuEB3G6ZX
+i52zWjDFWEXCFGptuY5ImM5VwaRVoBZ7yDWu+oEmwcllj8FF1e0nnPtGj6/EKFMaelXC6mj6u/CH
+75n4svxYb1Q/vMwRWXfTQDYgiif5rtQ6doi4xKleiGdfsZ/mDLiAdY9cAB36omRlKYHcHELwU5Su
+PD1b/FZH8jnjRzDVz3YDgmnm8E3jEIZPTgVhSDVrL9a2Jiitj2pPa7TTHIqC3C22mecNrlf2+3Fh
+eLwQMYbgjVf/ikeXoH7kd2tOoTzoD6lx754fdi7rV1cB2W2NvoYBEo8OhShVvc5hqjkyQ/it6w2W
+N6gdJBVo9hC5V185tRNkGPhyHXS3FAkwI0UBQ2o3cNg9YMVGgTZ+W4hIexkLCcvk4m/ZD08QwZjL
+t2Y=
+=oB0P
+-----END PGP SIGNATURE-----
+
+--p8bfYqIBnPG8eyTYnGJQcuVf04r3Z35CF--
+
+--===============1163172467==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1163172467==--
