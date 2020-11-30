@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754FE2C8337
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2CE2C8338
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:29:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0CF989907;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA5B289B7B;
 	Mon, 30 Nov 2020 11:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2B4889907
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E62389907
  for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 11:29:45 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AUBTZ7S071705;
- Mon, 30 Nov 2020 05:29:35 -0600
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AUBTcAb071715;
+ Mon, 30 Nov 2020 05:29:38 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606735775;
- bh=9eVVrcPHVKYHIwRVICkrJQ0TOFsgS1/qtJ65d3RGgdI=;
+ s=ti-com-17Q1; t=1606735778;
+ bh=TjBN0NXqqYSaqwmN5l3Qfp52xfEoL7nhUZ7nOsXPtMw=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=S/O/NbUuxZYSG2FYRRDobAI3S2pnQfZSzWYdfhmvZ5Lh6vKjzdfMuMMmZbeBdy0ty
- /hZ+KjQ+2MxYH6jkSdtN6IBHj7gL+f95X+nkxAqWgl3+m2UoJHI6q/CTohwDnkCTMD
- pHKO0iuOuKUtOzl+hm42nZAip4xh1O769y4AN8vM=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AUBTYbQ030432
+ b=PwoXzR/G2BMW/UiaN0Q+PmGgERDB4ffSTHwPOS7nZ+1TmjM13Ku16fqOkOZB4pxy4
+ SjwUDTJYBhpUeFuLAxc1nC7ZxOlhLnqzbOA+AkGFaawY4byt07uUQCtsKEicFAv4Ie
+ Hq7Q84qwKYCyLPz+tSNIbiMKRr4vzobgKWO1hPoA=
+Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AUBTc1m031432
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 30 Nov 2020 05:29:35 -0600
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ Mon, 30 Nov 2020 05:29:38 -0600
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 30
- Nov 2020 05:29:34 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2020 05:29:37 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 30 Nov 2020 05:29:34 -0600
+ Frontend Transport; Mon, 30 Nov 2020 05:29:37 -0600
 Received: from deskari.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AUBTSFY047293;
- Mon, 30 Nov 2020 05:29:31 -0600
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AUBTSFZ047293;
+ Mon, 30 Nov 2020 05:29:35 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v4 1/2] dt-bindings: dp-connector: add binding for DisplayPort
- connector
-Date: Mon, 30 Nov 2020 13:29:18 +0200
-Message-ID: <20201130112919.241054-2-tomi.valkeinen@ti.com>
+Subject: [PATCH v4 2/2] drm/bridge: display-connector: add DP support
+Date: Mon, 30 Nov 2020 13:29:19 +0200
+Message-ID: <20201130112919.241054-3-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201130112919.241054-1-tomi.valkeinen@ti.com>
 References: <20201130112919.241054-1-tomi.valkeinen@ti.com>
@@ -71,98 +70,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add binding for DisplayPort connector. A few notes:
+Add DP support to display-connector driver. The driver will support HPD
+via a GPIO and DP PWR.
 
-* Similar to hdmi-connector, it has hpd-gpios as an optional property,
-  as the HPD could also be handled by, e.g., the DP bridge.
+DP PWR will be enabled at probe, which is not optimal, but I'm not sure
+what would be a good place to enable and disable DP PWR. Perhaps
+attach/detach, but I don't know if enabling HW is something that attach
+is supposed to do.
 
-* dp-pwr-supply, which provides 3.3V on DP_PWR pin, is optional, as it
-  is not strictly required: standard DP cables do not even have the pin
-  connected.
-
-* Connector type. Full size and mini connectors are identical except for
-  the connector size and form, so I believe there is no functional need
-  for this property. But similar to 'label' property, it might be used
-  to present information about the connector to the userspace.
-
-* No eDP. There's really no "eDP connector", as it's always a custom
-  made connection between the DP and the DP panel, although the eDP spec
-  does offer a few suggested pin setups. So possibly there is no need for
-  edp-connector binding, but even if there is, I don't want to guess what
-  it could look like, and could it be part of the dp-connector binding.
-
-* No DP++. I'm not familiar with DP++. DP++ might need an i2c bus added
-  to the bindings.
+In any case, I don't think there's much difference in power consumption
+between the version in this patch and enabling the regulator later: if
+the driver probes, supposedly it will attach very soon afterwards, and
+we need to enable the DP PWR as soon as possible.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../display/connector/dp-connector.yaml       | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/connector/dp-connector.yaml
+ drivers/gpu/drm/bridge/display-connector.c | 46 +++++++++++++++++++++-
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/connector/dp-connector.yaml b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-new file mode 100644
-index 000000000000..1c17d60e7760
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/connector/dp-connector.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/connector/dp-connector.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+index 4d278573cdb9..05eb759da6fc 100644
+--- a/drivers/gpu/drm/bridge/display-connector.c
++++ b/drivers/gpu/drm/bridge/display-connector.c
+@@ -11,6 +11,7 @@
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
++#include <linux/regulator/consumer.h>
+ 
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_edid.h>
+@@ -20,6 +21,8 @@ struct display_connector {
+ 
+ 	struct gpio_desc	*hpd_gpio;
+ 	int			hpd_irq;
 +
-+title: DisplayPort Connector
++	struct regulator	*dp_pwr;
+ };
+ 
+ static inline struct display_connector *
+@@ -172,11 +175,12 @@ static int display_connector_probe(struct platform_device *pdev)
+ 	of_property_read_string(pdev->dev.of_node, "label", &label);
+ 
+ 	/*
+-	 * Get the HPD GPIO for DVI and HDMI connectors. If the GPIO can provide
++	 * Get the HPD GPIO for DVI, HDMI and DP connectors. If the GPIO can provide
+ 	 * edge interrupts, register an interrupt handler.
+ 	 */
+ 	if (type == DRM_MODE_CONNECTOR_DVII ||
+-	    type == DRM_MODE_CONNECTOR_HDMIA) {
++	    type == DRM_MODE_CONNECTOR_HDMIA ||
++	    type == DRM_MODE_CONNECTOR_DisplayPort) {
+ 		conn->hpd_gpio = devm_gpiod_get_optional(&pdev->dev, "hpd",
+ 							 GPIOD_IN);
+ 		if (IS_ERR(conn->hpd_gpio)) {
+@@ -223,6 +227,38 @@ static int display_connector_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	/* Get the DP PWR for DP connector. */
++	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
++		int ret;
 +
-+maintainers:
-+  - Tomi Valkeinen <tomi.valkeinen@ti.com>
++		conn->dp_pwr = devm_regulator_get_optional(&pdev->dev, "dp-pwr");
 +
-+properties:
-+  compatible:
-+    const: dp-connector
++		if (IS_ERR(conn->dp_pwr)) {
++			ret = PTR_ERR(conn->dp_pwr);
 +
-+  label: true
++			switch (ret) {
++			case -ENODEV:
++				conn->dp_pwr = NULL;
++				break;
 +
-+  type:
-+    enum:
-+      - full-size
-+      - mini
++			case -EPROBE_DEFER:
++				return -EPROBE_DEFER;
 +
-+  hpd-gpios:
-+    description: A GPIO line connected to HPD
-+    maxItems: 1
++			default:
++				dev_err(&pdev->dev, "failed to get DP PWR regulator: %d\n", ret);
++				return ret;
++			}
++		}
 +
-+  dp-pwr-supply:
-+    description: Power supply for the DP_PWR pin
-+    maxItems: 1
++		if (conn->dp_pwr) {
++			ret = regulator_enable(conn->dp_pwr);
++			if (ret) {
++				dev_err(&pdev->dev, "failed to enable DP PWR regulator: %d\n", ret);
++				return ret;
++			}
++		}
++	}
 +
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description: Connection to controller providing DP signals
+ 	conn->bridge.funcs = &display_connector_bridge_funcs;
+ 	conn->bridge.of_node = pdev->dev.of_node;
+ 
+@@ -251,6 +287,9 @@ static int display_connector_remove(struct platform_device *pdev)
+ {
+ 	struct display_connector *conn = platform_get_drvdata(pdev);
+ 
++	if (conn->dp_pwr)
++		regulator_disable(conn->dp_pwr);
 +
-+required:
-+  - compatible
-+  - type
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    connector {
-+        compatible = "dp-connector";
-+        label = "dp0";
-+        type = "full-size";
-+
-+        port {
-+            dp_connector_in: endpoint {
-+                remote-endpoint = <&dp_out>;
-+            };
-+        };
-+    };
-+
-+...
+ 	drm_bridge_remove(&conn->bridge);
+ 
+ 	if (!IS_ERR(conn->bridge.ddc))
+@@ -275,6 +314,9 @@ static const struct of_device_id display_connector_match[] = {
+ 	}, {
+ 		.compatible = "vga-connector",
+ 		.data = (void *)DRM_MODE_CONNECTOR_VGA,
++	}, {
++		.compatible = "dp-connector",
++		.data = (void *)DRM_MODE_CONNECTOR_DisplayPort,
+ 	},
+ 	{},
+ };
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
