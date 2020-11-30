@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECE92C8296
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 11:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1565D2C82E1
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Nov 2020 12:10:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DFE6E44F;
-	Mon, 30 Nov 2020 10:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B42AB89F27;
+	Mon, 30 Nov 2020 11:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 106AB6E44F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 10:50:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63D96B26;
- Mon, 30 Nov 2020 11:50:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606733446;
- bh=T5/ef+oYd69MSH5UNl41SQXH0+Cd+8CNxR9CjZ/2ZYs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fxTpb8OzDT4vvB2VzeiYI3KOy4r1RY6KqabvuuSF4neLeb7bvryfWSkUvK6H23iWa
- 0IE8MkUUVPxCck67zsasJ/vAJp/BmTxhG5cEBbbE71CbTsUrn26/U9B+kBQuHLvfHX
- F8vr2DYHBSyR8+IcvY/ykz5yPvjMF1+mr3mfrE/k=
-Date: Mon, 30 Nov 2020 12:50:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v2 5/5] drm/omap: Enable COLOR_ENCODING and COLOR_RANGE
- properties for planes
-Message-ID: <20201130105038.GU4141@pendragon.ideasonboard.com>
-References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
- <20201103080310.164453-6-tomi.valkeinen@ti.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22B2289F27;
+ Mon, 30 Nov 2020 11:10:01 +0000 (UTC)
+IronPort-SDR: 7QvU+Q35FJUAu011rZ7N4SQzwuDDAzkIQxPdZanBFOZRgPLMqJ47NmELGgV37LYCTxomM7W3Ai
+ VoGfDBJqhJQw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="171833042"
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="171833042"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 03:10:00 -0800
+IronPort-SDR: sA+KxObpPDuIbBScTiloxTAd926WmPkmERdBjZgb14/Qxy7PiNyHucmj1CfYFiM/N5+h5aXBcZ
+ dP4Y4u+cS2vw==
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; d="scan'208";a="538558124"
+Received: from ekiperwa-mobl.ger.corp.intel.com (HELO [10.252.22.113])
+ ([10.252.22.113])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Nov 2020 03:09:59 -0800
+Subject: Re: [Intel-gfx] [RFC PATCH 118/162] drm/i915/dg1: Reserve first 1MB
+ of local memory
+To: Chris Wilson <chris@chris-wilson.co.uk>, intel-gfx@lists.freedesktop.org
+References: <20201127120718.454037-1-matthew.auld@intel.com>
+ <20201127120718.454037-119-matthew.auld@intel.com>
+ <160648517402.2925.2248861493310859776@build.alporthouse.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <5177b585-06d5-2432-791f-f9cf0e6f0613@intel.com>
+Date: Mon, 30 Nov 2020 11:09:57 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201103080310.164453-6-tomi.valkeinen@ti.com>
+In-Reply-To: <160648517402.2925.2248861493310859776@build.alporthouse.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,297 +54,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Sekhar Nori <nsekhar@ti.com>, Jyri Sarha <jsarha@ti.com>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi and Jyri,
-
-Thank you for the patch.
-
-On Tue, Nov 03, 2020 at 10:03:10AM +0200, Tomi Valkeinen wrote:
-> From: Jyri Sarha <jsarha@ti.com>
+On 27/11/2020 13:52, Chris Wilson wrote:
+> Quoting Matthew Auld (2020-11-27 12:06:34)
+>> From: Imre Deak <imre.deak@intel.com>
+>>
+>> On DG1 A0/B0 steppings the first 1MB of local memory must be reserved.
+>> One reason for this is that the 0xA0000-0xB0000 range is not accessible
+>> by the display, probably since this region is redirected to another
+>> memory location for legacy VGA compatibility.
+>>
+>> BSpec: 50586
+>> Testcase: igt/kms_big_fb/linear-64bpp-rotate-0
+>> Signed-off-by: Imre Deak <imre.deak@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/intel_region_lmem.c | 52 ++++++++++++++++++++++++
+>>   1 file changed, 52 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/i915/intel_region_lmem.c b/drivers/gpu/drm/i915/intel_region_lmem.c
+>> index 939cf0d195a5..eafef7034680 100644
+>> --- a/drivers/gpu/drm/i915/intel_region_lmem.c
+>> +++ b/drivers/gpu/drm/i915/intel_region_lmem.c
+>> @@ -137,6 +137,48 @@ intel_setup_fake_lmem(struct drm_i915_private *i915)
+>>          return mem;
+>>   }
+>>   
+>> +static void get_legacy_lowmem_region(struct intel_uncore *uncore,
+>> +                                    u64 *start, u32 *size)
+>> +{
+>> +       *start = 0;
+>> +       *size = 0;
+>> +
+>> +       if (!IS_DG1_REVID(uncore->i915, DG1_REVID_A0, DG1_REVID_B0))
+>> +               return;
+>> +
+>> +       *size = SZ_1M;
+>> +
+>> +       DRM_DEBUG_DRIVER("LMEM: reserved legacy low-memory [0x%llx-0x%llx]\n",
+>> +                        *start, *start + *size);
+>> +}
+>> +
+>> +static int reserve_lowmem_region(struct intel_uncore *uncore,
+>> +                                struct intel_memory_region *mem)
+>> +{
+>> +       u64 reserve_start;
+>> +       u64 reserve_end;
+>> +       u64 region_start;
+>> +       u32 region_size;
+>> +       int ret;
+>> +
+>> +       get_legacy_lowmem_region(uncore, &region_start, &region_size);
+>> +       reserve_start = region_start;
+>> +       reserve_end = region_start + region_size;
+>> +
+>> +       if (!reserve_end)
+>> +               return 0;
+>> +
+>> +       DRM_INFO("LMEM: reserving low-memory region [0x%llx-0x%llx]\n",
+>> +                reserve_start, reserve_end);
+>> +       ret = i915_buddy_alloc_range(&mem->mm, &mem->reserved,
+>> +                                    reserve_start,
+>> +                                    reserve_end - reserve_start);
 > 
-> Adds support for COLOR_ENCODING and COLOR_RANGE properties to
-> omap_plane.c and dispc.c. The supported encodings and ranges are
-> presets are:
+> Isn't this now relative to the stolen offset? Should this be reserved,
+> or excluded like stolen?
+
+AFAIK stolen is just snipped off at the end of lmem, so I don't think it 
+really matters if we exclude or reserve. But for this if we exclude then 
+the region.start might have "strange" alignment, which is annoying since 
+alloc(some_power_of_two) might not give us the expected alignment, 
+whereas if we reserve then the allocator is aware, and so we should get 
+the proper alignment. Maybe you have better ideas with how to handle 
+this, but I think keeping the alignment property is nice.
+
+> -Chris
 > 
-> For COLOR_ENCODING:
-> - YCbCr BT.601 (default)
-> - YCbCr BT.709
-> 
-> For COLOR_RANGE:
-> - YCbCr limited range
-> - YCbCr full range (default)
-> 
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/gpu/drm/omapdrm/dss/dispc.c   | 104 ++++++++++++++++----------
->  drivers/gpu/drm/omapdrm/dss/omapdss.h |   4 +
->  drivers/gpu/drm/omapdrm/omap_plane.c  |  30 ++++++++
->  3 files changed, 97 insertions(+), 41 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> index 48593932bddf..bf0c9d293077 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> @@ -874,50 +874,67 @@ static void dispc_ovl_write_color_conv_coef(struct dispc_device *dispc,
->  #undef CVAL
->  }
->  
-> -static void dispc_wb_write_color_conv_coef(struct dispc_device *dispc,
-> -					   const struct csc_coef_rgb2yuv *ct)
-> -{
-> -	const enum omap_plane_id plane = OMAP_DSS_WB;
-> -
-> -#define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
-> +/* YUV -> RGB, ITU-R BT.601, full range */
-> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_full = {
-> +	256,   0,  358,		/* ry, rcb, rcr |1.000  0.000  1.402|*/
-> +	256, -88, -182,		/* gy, gcb, gcr |1.000 -0.344 -0.714|*/
-> +	256, 452,    0,		/* by, bcb, bcr |1.000  1.772  0.000|*/
-> +	true,			/* full range */
-> +};
->  
-> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 0), CVAL(ct->yg,  ct->yr));
-> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 1), CVAL(ct->crr, ct->yb));
-> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->crb, ct->crg));
-> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 3), CVAL(ct->cbg, ct->cbr));
-> -	dispc_write_reg(dispc, DISPC_OVL_CONV_COEF(plane, 4), CVAL(0, ct->cbb));
-> +/* YUV -> RGB, ITU-R BT.601, limited range */
-> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
-> +	298,    0,  409,	/* ry, rcb, rcr |1.164  0.000  1.596|*/
-> +	298, -100, -208,	/* gy, gcb, gcr |1.164 -0.392 -0.813|*/
-> +	298,  516,    0,	/* by, bcb, bcr |1.164  2.017  0.000|*/
-> +	false,			/* limited range */
-> +};
->  
-> -	REG_FLD_MOD(dispc, DISPC_OVL_ATTRIBUTES(plane), ct->full_range, 11, 11);
-> +/* YUV -> RGB, ITU-R BT.709, full range */
-> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_full = {
-> +	256,    0,  402,        /* ry, rcb, rcr |1.000  0.000  1.570|*/
-> +	256,  -48, -120,        /* gy, gcb, gcr |1.000 -0.187 -0.467|*/
-> +	256,  475,    0,        /* by, bcb, bcr |1.000  1.856  0.000|*/
-> +	true,                   /* full range */
-> +};
->  
-> -#undef CVAL
-> -}
-> +/* YUV -> RGB, ITU-R BT.709, limited range */
-> +static const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt709_lim = {
-> +	298,    0,  459,	/* ry, rcb, rcr |1.164  0.000  1.793|*/
-> +	298,  -55, -136,	/* gy, gcb, gcr |1.164 -0.213 -0.533|*/
-> +	298,  541,    0,	/* by, bcb, bcr |1.164  2.112  0.000|*/
-> +	false,			/* limited range */
-> +};
->  
-> -static void dispc_setup_color_conv_coef(struct dispc_device *dispc)
-> +static int dispc_ovl_set_csc(struct dispc_device *dispc,
-> +			     enum omap_plane_id plane,
-> +			     enum drm_color_encoding color_encoding,
-> +			     enum drm_color_range color_range)
->  {
-> -	int i;
-> -	int num_ovl = dispc_get_num_ovls(dispc);
-> -
-> -	/* YUV -> RGB, ITU-R BT.601, limited range */
-> -	const struct csc_coef_yuv2rgb coefs_yuv2rgb_bt601_lim = {
-> -		298,    0,  409,	/* ry, rcb, rcr */
-> -		298, -100, -208,	/* gy, gcb, gcr */
-> -		298,  516,    0,	/* by, bcb, bcr */
-> -		false,			/* limited range */
-> -	};
-> +	const struct csc_coef_yuv2rgb *csc;
->  
-> -	/* RGB -> YUV, ITU-R BT.601, limited range */
-> -	const struct csc_coef_rgb2yuv coefs_rgb2yuv_bt601_lim = {
-> -		 66, 129,  25,		/* yr,   yg,  yb */
-> -		-38, -74, 112,		/* cbr, cbg, cbb */
-> -		112, -94, -18,		/* crr, crg, crb */
-> -		false,			/* limited range */
-> -	};
-> +	switch (color_encoding) {
-> +	case DRM_COLOR_YCBCR_BT601:
-> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-> +			csc = &coefs_yuv2rgb_bt601_full;
-> +		else
-> +			csc = &coefs_yuv2rgb_bt601_lim;
-> +		break;
-> +	case DRM_COLOR_YCBCR_BT709:
-> +		if (color_range == DRM_COLOR_YCBCR_FULL_RANGE)
-> +			csc = &coefs_yuv2rgb_bt709_full;
-> +		else
-> +			csc = &coefs_yuv2rgb_bt709_lim;
-> +		break;
-> +	default:
-> +		DSSERR("Unsupported CSC mode %d for plane %d\n",
-> +		       color_encoding, plane);
-> +		return -EINVAL;
-
-Can this happen, given that the properties are created with only the
-above four combinations being allowed ?
-
-> +	}
->  
-> -	for (i = 1; i < num_ovl; i++)
-> -		dispc_ovl_write_color_conv_coef(dispc, i, &coefs_yuv2rgb_bt601_lim);
-> +	dispc_ovl_write_color_conv_coef(dispc, plane, csc);
->  
-> -	if (dispc->feat->has_writeback)
-> -		dispc_wb_write_color_conv_coef(dispc, &coefs_rgb2yuv_bt601_lim);
-
-Unless I'm mistaken, the writeback plane doesn't have the CSC matrix
-configured anymore. Is that intentional ?
-
-> +	return 0;
->  }
->  
->  static void dispc_ovl_set_ba0(struct dispc_device *dispc,
-> @@ -2598,7 +2615,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
->  				  u8 pre_mult_alpha, u8 global_alpha,
->  				  enum omap_dss_rotation_type rotation_type,
->  				  bool replication, const struct videomode *vm,
-> -				  bool mem_to_mem)
-> +				  bool mem_to_mem,
-> +				  enum drm_color_encoding color_encoding,
-> +				  enum drm_color_range color_range)
->  {
->  	bool five_taps = true;
->  	bool fieldmode = false;
-> @@ -2747,6 +2766,9 @@ static int dispc_ovl_setup_common(struct dispc_device *dispc,
->  				      fieldmode, fourcc, rotation);
->  		dispc_ovl_set_output_size(dispc, plane, out_width, out_height);
->  		dispc_ovl_set_vid_color_conv(dispc, plane, cconv);
-> +
-> +		if (plane != OMAP_DSS_WB)
-> +			dispc_ovl_set_csc(dispc, plane, color_encoding, color_range);
->  	}
->  
->  	dispc_ovl_set_rotation_attrs(dispc, plane, rotation, rotation_type,
-> @@ -2783,7 +2805,8 @@ static int dispc_ovl_setup(struct dispc_device *dispc,
->  		oi->screen_width, oi->pos_x, oi->pos_y, oi->width, oi->height,
->  		oi->out_width, oi->out_height, oi->fourcc, oi->rotation,
->  		oi->zorder, oi->pre_mult_alpha, oi->global_alpha,
-> -		oi->rotation_type, replication, vm, mem_to_mem);
-> +		oi->rotation_type, replication, vm, mem_to_mem,
-> +		oi->color_encoding, oi->color_range);
->  
->  	return r;
->  }
-> @@ -2816,7 +2839,8 @@ static int dispc_wb_setup(struct dispc_device *dispc,
->  		wi->buf_width, pos_x, pos_y, in_width, in_height, wi->width,
->  		wi->height, wi->fourcc, wi->rotation, zorder,
->  		wi->pre_mult_alpha, global_alpha, wi->rotation_type,
-> -		replication, vm, mem_to_mem);
-> +		replication, vm, mem_to_mem, DRM_COLOR_YCBCR_BT601,
-> +		DRM_COLOR_YCBCR_LIMITED_RANGE);
->  	if (r)
->  		return r;
->  
-> @@ -3927,8 +3951,6 @@ static void _omap_dispc_initial_config(struct dispc_device *dispc)
->  	    dispc->feat->has_gamma_table)
->  		REG_FLD_MOD(dispc, DISPC_CONFIG, 1, 9, 9);
->  
-> -	dispc_setup_color_conv_coef(dispc);
-> -
->  	dispc_set_loadmode(dispc, OMAP_DSS_LOAD_FRAME_ONLY);
->  
->  	dispc_init_fifos(dispc);
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 8e9a2019f173..816424eb2d41 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -7,6 +7,7 @@
->  #ifndef __OMAP_DRM_DSS_H
->  #define __OMAP_DRM_DSS_H
->  
-> +#include <drm/drm_color_mgmt.h>
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_mode.h>
->  #include <linux/device.h>
-> @@ -243,6 +244,9 @@ struct omap_overlay_info {
->  	u8 global_alpha;
->  	u8 pre_mult_alpha;
->  	u8 zorder;
-> +
-> +	enum drm_color_encoding color_encoding;
-> +	enum drm_color_range color_range;
->  };
->  
->  struct omap_overlay_manager_info {
-> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-> index 73ec99819a3d..1f433fb5f207 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-> @@ -59,6 +59,8 @@ static void omap_plane_atomic_update(struct drm_plane *plane,
->  		info.pre_mult_alpha = 1;
->  	else
->  		info.pre_mult_alpha = 0;
-> +	info.color_encoding = state->color_encoding;
-> +	info.color_range = state->color_range;
->  
->  	/* update scanout: */
->  	omap_framebuffer_update_scanout(state->fb, state, &info);
-> @@ -189,6 +191,8 @@ static void omap_plane_reset(struct drm_plane *plane)
->  	 */
->  	plane->state->zpos = plane->type == DRM_PLANE_TYPE_PRIMARY
->  			   ? 0 : omap_plane->id;
-> +	plane->state->color_encoding = DRM_COLOR_YCBCR_BT601;
-> +	plane->state->color_range = DRM_COLOR_YCBCR_FULL_RANGE;
->  }
->  
->  static int omap_plane_atomic_set_property(struct drm_plane *plane,
-> @@ -232,6 +236,23 @@ static const struct drm_plane_funcs omap_plane_funcs = {
->  	.atomic_get_property = omap_plane_atomic_get_property,
->  };
->  
-> +static bool omap_plane_supports_yuv(struct drm_plane *plane)
-> +{
-> +	struct omap_drm_private *priv = plane->dev->dev_private;
-> +	struct omap_plane *omap_plane = to_omap_plane(plane);
-> +	const u32 *formats =
-> +		priv->dispc_ops->ovl_get_color_modes(priv->dispc, omap_plane->id);
-> +	u32 i;
-> +
-> +	for (i = 0; formats[i]; i++)
-> +		if (formats[i] == DRM_FORMAT_YUYV ||
-> +		    formats[i] == DRM_FORMAT_UYVY ||
-> +		    formats[i] == DRM_FORMAT_NV12)
-> +			return true;
-> +
-> +	return false;
-> +}
-> +
->  static const char *plane_id_to_name[] = {
->  	[OMAP_DSS_GFX] = "gfx",
->  	[OMAP_DSS_VIDEO1] = "vid1",
-> @@ -293,6 +314,15 @@ struct drm_plane *omap_plane_init(struct drm_device *dev,
->  	drm_plane_create_blend_mode_property(plane, BIT(DRM_MODE_BLEND_PREMULTI) |
->  					     BIT(DRM_MODE_BLEND_COVERAGE));
->  
-> +	if (omap_plane_supports_yuv(plane))
-> +		drm_plane_create_color_properties(plane,
-> +						  BIT(DRM_COLOR_YCBCR_BT601) |
-> +						  BIT(DRM_COLOR_YCBCR_BT709),
-> +						  BIT(DRM_COLOR_YCBCR_FULL_RANGE) |
-> +						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE),
-> +						  DRM_COLOR_YCBCR_BT601,
-> +						  DRM_COLOR_YCBCR_FULL_RANGE);
-> +
->  	return plane;
->  
->  error:
-
--- 
-Regards,
-
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
