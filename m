@@ -2,75 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C0802CA537
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 15:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE3D2CA571
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 15:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 828CC6E544;
-	Tue,  1 Dec 2020 14:11:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E01289CB9;
+	Tue,  1 Dec 2020 14:20:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB7189CA1;
- Tue,  1 Dec 2020 14:11:39 +0000 (UTC)
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1Dt8Jx186047;
- Tue, 1 Dec 2020 14:11:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=CVxJrJvszPiYRoVvo8QMoaANjq0rT1w3VAIVepGqitY=;
- b=Q8Pq03hifJp4hxcZYQuiJvbKTKZMKP2mLNTS1aHW6hAxlDpObu2xNteC6Yj/L36I1kmY
- WSfMJZMdSk8bN2J9+UmYiF9MWo5KvhVT37I7ctRf5KKEocNW4v8PFVCDeiU3k6pn404k
- Igra+V15xZpvhIpriUlAo6fac2mI985JVt4CqtU5vfkzzkfANqieFePUQJBzO6eRndXt
- r4RGB+aUeJDKgHUaSwwmUD5k/B0oZ1T+RFudNU+Upzz4yF4kbfdExpcaXwIzXbiJCqdd
- NFMbLYQpnYBf2dU4wooUhfeXNwTuWm/ESbR6RxVNN2eeS+ZfeOwZNtuQUXq4Dn72Z2fB vg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 353c2attky-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 01 Dec 2020 14:11:31 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1Du5hA003823;
- Tue, 1 Dec 2020 14:09:31 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by aserp3020.oracle.com with ESMTP id 3540ey0nwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 01 Dec 2020 14:09:31 +0000
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B1E8IaF039759;
- Tue, 1 Dec 2020 14:09:29 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 3540ey0nvu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 01 Dec 2020 14:09:29 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B1E9NOp018011;
- Tue, 1 Dec 2020 14:09:24 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 01 Dec 2020 06:09:23 -0800
-Date: Tue, 1 Dec 2020 17:08:49 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-Message-ID: <20201201140849.GH2767@kadam>
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <CAKwvOdntVfXj2WRR5n6Kw7BfG7FdKpTeHeh5nPu5AzwVMhOHTg@mail.gmail.com>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3468489DD8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 14:20:02 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id ABE3FAC55;
+ Tue,  1 Dec 2020 14:20:00 +0000 (UTC)
+Subject: Re: [PATCH v2 26/28] video: fbdev: uvesafb: Fix string related
+ warnings
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-27-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <371d184b-2a7c-6135-4816-635684d8481d@suse.de>
+Date: Tue, 1 Dec 2020 15:19:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdntVfXj2WRR5n6Kw7BfG7FdKpTeHeh5nPu5AzwVMhOHTg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9821
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- lowpriorityscore=0
- clxscore=1015 bulkscore=0 mlxlogscore=924 phishscore=0 malwarescore=0
- spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012010090
+In-Reply-To: <20201128224114.1033617-27-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,118 +41,176 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
- target-devel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-wireless <linux-wireless@vger.kernel.org>, linux-mmc@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel <dri-devel@lists.freedesktop.org>,
- virtualization@lists.linux-foundation.org,
- Linux Memory Management List <linux-mm@kvack.org>, linux-ide@vger.kernel.org,
- dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
- GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
- linux-i3c@lists.infradead.org, linux1394-devel@lists.sourceforge.net,
- linux-afs@lists.infradead.org, linux-watchdog@vger.kernel.org,
- devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
- rds-devel@oss.oracle.com, linux-scsi@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-rdma@vger.kernel.org,
- oss-drivers@netronome.com, linux-atm-general@lists.sourceforge.net,
- ceph-devel@vger.kernel.org, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
- usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
- intel-wired-lan@lists.osuosl.org,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-input@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- linux-ext4@vger.kernel.org, netfilter-devel@vger.kernel.org,
- linux-media@vger.kernel.org, Kees Cook <keescook@chromium.org>,
- selinux@vger.kernel.org, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
- reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
- linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
- xen-devel@lists.xenproject.org, drbd-dev@tron.linbit.com,
- linux-hams@vger.kernel.org, Nathan Chancellor <natechancellor@gmail.com>,
- linux-can@vger.kernel.org, Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-hwmon@vger.kernel.org,
- "maintainer:X86 ARCHITECTURE \(32-BIT AND 64-BIT\)" <x86@kernel.org>,
- linux-nfs@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
- nouveau@lists.freedesktop.org, Network Development <netdev@vger.kernel.org>,
- linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
- LKML <linux-kernel@vger.kernel.org>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
- linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
- tipc-discussion@lists.sourceforge.net,
- "open list:HARDWARE RANDOM NUMBER GENERATOR CORE"
- <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
- Joe Perches <joe@perches.com>, linux-integrity@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Michal Januszewski <spock@gentoo.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peter Rosin <peda@axentia.se>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============1592878461=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 23, 2020 at 05:32:51PM -0800, Nick Desaulniers wrote:
-> On Sun, Nov 22, 2020 at 8:17 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Fri, Nov 20, 2020 at 11:51:42AM -0800, Jakub Kicinski wrote:
-> > > If none of the 140 patches here fix a real bug, and there is no change
-> > > to machine code then it sounds to me like a W=2 kind of a warning.
-> >
-> > FWIW, this series has found at least one bug so far:
-> > https://lore.kernel.org/lkml/CAFCwf11izHF=g1mGry1fE5kvFFFrxzhPSM6qKAO8gxSp=Kr_CQ@mail.gmail.com/
-> 
-> So looks like the bulk of these are:
-> switch (x) {
->   case 0:
->     ++x;
->   default:
->     break;
-> }
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1592878461==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="JfZld2eGqcvHKT9MDWgJ3Txd9h3PcmMoU"
 
-This should not generate a warning.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JfZld2eGqcvHKT9MDWgJ3Txd9h3PcmMoU
+Content-Type: multipart/mixed; boundary="UBR5qugZwEwYLrXvY9M5OibDwLul69cQx";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: Aditya Pakki <pakki001@umn.edu>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Alex Dewar <alex.dewar90@gmail.com>, Antonino Daplas <adaplas@gmail.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Evgeny Novikov <novikov@ispras.ru>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Jason Yan <yanaijie@huawei.com>, Jingoo Han <jingoohan1@gmail.com>,
+ Jiri Slaby <jirislaby@kernel.org>, Joe Perches <joe@perches.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mike Rapoport <rppt@kernel.org>, Nathan Chancellor
+ <natechancellor@gmail.com>, Peilin Ye <yepeilin.cs@gmail.com>,
+ Peter Rosin <peda@axentia.se>, Qilong Zhang <zhangqilong3@huawei.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Vaibhav Gupta <vaibhavgupta40@gmail.com>, Xiaofei Tan
+ <tanxiaofei@huawei.com>, Michal Januszewski <spock@gentoo.org>
+Message-ID: <371d184b-2a7c-6135-4816-635684d8481d@suse.de>
+Subject: Re: [PATCH v2 26/28] video: fbdev: uvesafb: Fix string related
+ warnings
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-27-sam@ravnborg.org>
+In-Reply-To: <20201128224114.1033617-27-sam@ravnborg.org>
 
-> 
-> I have a patch that fixes those up for clang:
-> https://reviews.llvm.org/D91895
-> 
-> There's 3 other cases that don't quite match between GCC and Clang I
-> observe in the kernel:
-> switch (x) {
->   case 0:
->     ++x;
->   default:
->     goto y;
-> }
-> y:;
+--UBR5qugZwEwYLrXvY9M5OibDwLul69cQx
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-This should generate a warning.
+Hi
 
-> 
-> switch (x) {
->   case 0:
->     ++x;
->   default:
->     return;
-> }
+Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
+> Two W=3D1 string related warnings.
+> - Using strncpy to copy string without null-termination generates a
+>    warning.  Use memcpy to copy only the relevant chars
+>=20
+> - Fix a potential bug with a very long string, subtract one from the
+>    length to make room for the termination null.
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Michal Januszewski <spock@gentoo.org>
+> Cc: linux-fbdev@vger.kernel.org
+> ---
+>   drivers/video/fbdev/uvesafb.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/video/fbdev/uvesafb.c b/drivers/video/fbdev/uvesaf=
+b.c
+> index 8ee0fc9c63cf..45dc8da191e4 100644
+> --- a/drivers/video/fbdev/uvesafb.c
+> +++ b/drivers/video/fbdev/uvesafb.c
+> @@ -423,7 +423,7 @@ static int uvesafb_vbe_getinfo(struct uvesafb_ktask=
+ *task,
+>   	task->t.flags =3D TF_VBEIB;
+>   	task->t.buf_len =3D sizeof(struct vbe_ib);
+>   	task->buf =3D &par->vbe_ib;
+> -	strncpy(par->vbe_ib.vbe_signature, "VBE2", 4);
+> +	memcpy(par->vbe_ib.vbe_signature, "VBE2", 4);
+>  =20
+>   	err =3D uvesafb_exec(task);
+>   	if (err || (task->t.regs.eax & 0xffff) !=3D 0x004f) {
+> @@ -1871,7 +1871,7 @@ static ssize_t v86d_show(struct device_driver *de=
+v, char *buf)
+>   static ssize_t v86d_store(struct device_driver *dev, const char *buf,=
 
-Warn for this.
+>   		size_t count)
+>   {
+> -	strncpy(v86d_path, buf, PATH_MAX);
+> +	strncpy(v86d_path, buf, PATH_MAX - 1);
+
+ From lookign a the drive rcode, I assume that the code never touches=20
+the final byte in v86d_path. So it remains \0 indefinitely.
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+>   	return count;
+>   }
+>   static DRIVER_ATTR_RW(v86d);
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-> 
-> switch (x) {
->   case 0:
->     ++x;
->   default:
->     ;
-> }
+--UBR5qugZwEwYLrXvY9M5OibDwLul69cQx--
 
-Don't warn for this.
+--JfZld2eGqcvHKT9MDWgJ3Txd9h3PcmMoU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-If adding a break statement changes the flow of the code then warn about
-potentially missing break statements, but if it doesn't change anything
-then don't warn about it.
+-----BEGIN PGP SIGNATURE-----
 
-regards,
-dan carpenter
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GUQ0FAwAAAAAACgkQlh/E3EQov+A4
+whAAmnx+/ghdkNbUQYtMRgGcEtLA8ikDqj18hnPB20yzGCeEuIHaNDHGkA3gkDz6/NdseY/8mGhe
+LcJf7e3PGZSRzGhZ5Vwiagdl+44SO5pwj6HFNxU/uq9dnWGHaBi/rbRw+S8acKmWg5lKaWS+oW5H
+CYwZdRRr7iQPwvk/YJJt93Vda2QArCNcn8EtuR27YJZ50KPhEXbBu8iRdvEEoOiH5cbOPPyBgcR+
+j/q7uaWlAZ3Oc9RlkLK2iNPZ53mKQ6bWzUamuA7OG0eL16kRSNW/zs9c54Pwo51BwTQrfhDHnblr
+ejDz71Fw+m6mRYFF40TMuWSYmTzXgRQYxJOr4BFHomD0Muwy3YyPnMjamjFD9N2Bd+NBHUbhS2Ul
+z2KvNsfTp+1VFk6rgigdbhUq4zPCIxxWUNGOy3RBTAbQdjoPcWZU/Hhpfk5RSuINWRZ4EINuhD+p
+y2WJA9P9Zzr4liDcMY38Rnx0i/fCIjtPtF4VCoTq8WENwljVUoRbWj1J5Pl2nWH/E1LuDWYSrDDK
+SN4RnLPCVuqJFFgUkm0AYsEgOiqb0Sra7qn2fyZ3Aqsxdx8bbXJp7JbKN3e/KCO2YNnepjPGLoRT
+4alss5WQ40bh2UH6mf23vcGho6RMmq1iwzLRSxRhHXQ5FMXnU7d+Win722SjMTgaG0GdgmkmB8kB
+PFY=
+=umm4
+-----END PGP SIGNATURE-----
+
+--JfZld2eGqcvHKT9MDWgJ3Txd9h3PcmMoU--
+
+--===============1592878461==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1592878461==--
