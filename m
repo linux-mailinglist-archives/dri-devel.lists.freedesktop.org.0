@@ -1,56 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854092C93AC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:08:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3752C93B7
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90F0F89D89;
-	Tue,  1 Dec 2020 00:08:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70394896AF;
+	Tue,  1 Dec 2020 00:14:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
- [IPv6:2607:f8b0:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D2989D5C;
- Tue,  1 Dec 2020 00:07:59 +0000 (UTC)
-Received: by mail-ot1-x342.google.com with SMTP id t18so12208otk.2;
- Mon, 30 Nov 2020 16:07:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ojzw4xN3z1NHS/JOfvKKkvXoTTW/H9rPegUeJQAjVt4=;
- b=pWDEP0JZ4NsbcnuXYudpYTF8qNyQj9Eb7+ZzmVDYucX2LKe4UE6e3sHosTDI1JTKXW
- Q5uXunDPRGE/pyyaDTvlb/hvNqjx+YTRH2aKDaTdwDZFun9MoVa0OVZaM1N1XJkcwVSq
- TfvqLafMDH2Wj3Hv0T+CC4IWTiUlLmDIDhY9MLa604Vc76tTFlISpLAIHPR7jstELi/n
- HJeFHiuNyC9Cz7R09ukeiRLoQLUrHQvOpfAMnfpZowD/NGDmRa/VmgtlusN2DBYgyOUQ
- kG9nbDHsf1Xco0C2NcXKrZfgyKGswyeUMtYzpp4H0a9p252fflQ21pZ9wklJbvWh0b9v
- VbJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ojzw4xN3z1NHS/JOfvKKkvXoTTW/H9rPegUeJQAjVt4=;
- b=e96Ksor4D0X8+sjVuGaLvxptASq7x8kQwBXPEHSkPsrWCZDRiqr/0keXHGiCUQTzoM
- 4LDaAxHT/RwybTMmkt5REb4FRj5nN626mH/z6E9z5iuFSRip0tdXU8d/uEbvO/7mgxCm
- QsLj7Dtm3kVqUh13Eth1EbxKtL88fwx8GcESRc7Ro2JlYvTp33gVW3deAtlF0AEbmtP/
- kcYvUkwQkXHHmgaZ+QI1ypBaIJlBzVte3CNjwR8gkZQ9pr7AU6jC0h2O4E+O6/CP+5a4
- GLwqL08HreONEhU1U3dZPoC3uf+cPVDTo7v1oy1s9AqS3PFO1dvJfsAsquf0S/IFpp4j
- OdaA==
-X-Gm-Message-State: AOAM5317a06zIYdlSETcrHmidqIqZwb89fFUuIpyKL67VWrDulTRE8Np
- +zWcph5+CkHtiHTeZbq3fWGFep5kIYeT31bSX7u1CHzS
-X-Google-Smtp-Source: ABdhPJzb/gQaeen1+FWj7OPjgqLdHzxWmmarrQNQCKZLj6PwepiGrb0+6NyKKpzZQPBY6jSebkv0UOHBf+YWAym5ONg=
-X-Received: by 2002:a9d:4713:: with SMTP id a19mr19501543otf.132.1606781277532; 
- Mon, 30 Nov 2020 16:07:57 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12A54896AF
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 00:14:34 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2E4B45D;
+ Tue,  1 Dec 2020 01:14:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1606781673;
+ bh=bp/jKcjuawrEpNsQkKheCqxJ3yqTyJ/4xaFlHTjRFjA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aBjwG075lKbbeZs48mr7i6UnPvhS+eOlztgbzYvMPjq7eQhuEsTnjIYudWnb/vrV/
+ Ne5SuRoe+VBsrxSZ5erT8WQI1Tl+pd3+r8n/AQvGG/G4g3jo6I5SzOBHZAdgb78OjM
+ EJxzFjt2yFxc79mkoroVLvRrLK0FI3xcYdt06X88=
+Date: Tue, 1 Dec 2020 02:14:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v4 63/80] drm/omap: dsi: drop useless channel checks
+Message-ID: <20201201001424.GH25713@pendragon.ideasonboard.com>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-64-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-References: <20201126134240.3214176-1-lee.jones@linaro.org>
- <20201126134240.3214176-41-lee.jones@linaro.org>
-In-Reply-To: <20201126134240.3214176-41-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 30 Nov 2020 19:07:46 -0500
-Message-ID: <CADnq5_MeaHtEKC_c8Va8jN3Le15oWqdPket6WWTTG+1DB5G8hQ@mail.gmail.com>
-Subject: Re: [PATCH 40/40] drm/amd/display/dc/basics/vector: Make local
- function 'dal_vector_presized_costruct' static
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <20201124124538.660710-64-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,43 +46,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Leo Li <sunpeng.li@amd.com>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBOb3YgMjYsIDIwMjAgYXQgODo0NCBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL2Rpc3BsYXkvZGMv
-YmFzaWNzL3ZlY3Rvci5jOjU1OjY6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHByb3RvdHlwZSBmb3Ig
-4oCYZGFsX3ZlY3Rvcl9wcmVzaXplZF9jb3N0cnVjdOKAmSBbLVdtaXNzaW5nLXByb3RvdHlwZXNd
-Cj4KPiBDYzogSGFycnkgV2VudGxhbmQgPGhhcnJ5LndlbnRsYW5kQGFtZC5jb20+Cj4gQ2M6IExl
-byBMaSA8c3VucGVuZy5saUBhbWQuY29tPgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5k
-ZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5p
-Z0BhbWQuY29tPgo+IENjOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERh
-bmllbCBWZXR0ZXIgPGRhbmllbEBmZndsbC5jaD4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKPiBDYzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1v
-ZmYtYnk6IExlZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtz
-IQoKQWxleAoKPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jhc2ljcy92
-ZWN0b3IuYyB8IDIgKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2Jh
-c2ljcy92ZWN0b3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9iYXNpY3MvdmVj
-dG9yLmMKPiBpbmRleCA4ZjkzZDI1ZjkxZWUyLi43MDZjODAzYzRkM2IwIDEwMDY0NAo+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9iYXNpY3MvdmVjdG9yLmMKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvYmFzaWNzL3ZlY3Rvci5jCj4gQEAgLTUyLDcg
-KzUyLDcgQEAgYm9vbCBkYWxfdmVjdG9yX2NvbnN0cnVjdCgKPiAgICAgICAgIHJldHVybiB0cnVl
-Owo+ICB9Cj4KPiAtYm9vbCBkYWxfdmVjdG9yX3ByZXNpemVkX2Nvc3RydWN0KAo+ICtzdGF0aWMg
-Ym9vbCBkYWxfdmVjdG9yX3ByZXNpemVkX2Nvc3RydWN0KAo+ICAgICAgICAgc3RydWN0IHZlY3Rv
-ciAqdmVjdG9yLAo+ICAgICAgICAgc3RydWN0IGRjX2NvbnRleHQgKmN0eCwKPiAgICAgICAgIHVp
-bnQzMl90IGNvdW50LAo+IC0tCj4gMi4yNS4xCj4KPiBfX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fXwo+IGRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKPiBkcmktZGV2
-ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCj4gaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+Hi Tomi,
+
+Thank you for the patch.
+
+On Tue, Nov 24, 2020 at 02:45:21PM +0200, Tomi Valkeinen wrote:
+> A DSI peripheral can have virtual channel ID of 0-3. This should be
+> always the case, and there's no need in the driver to validate the
+> channel.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 11 -----------
+>  1 file changed, 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> index 63338324c564..fbf05097612f 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -3902,9 +3902,6 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int channel)
+>  	struct dsi_data *dsi = to_dsi_data(dssdev);
+>  	int r;
+>  
+> -	if (channel > 3)
+> -		return -EINVAL;
+> -
+>  	dsi_bus_lock(dsi);
+>  
+>  	if (!dsi->video_enabled) {
+> @@ -5063,12 +5060,8 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+>  				struct mipi_dsi_device *client)
+>  {
+>  	struct dsi_data *dsi = host_to_omap(host);
+> -	unsigned int channel = client->channel;
+>  	int r;
+>  
+> -	if (channel > 3)
+> -		return -EINVAL;
+> -
+>  	if (dsi->dsidev) {
+>  		DSSERR("dsi client already attached\n");
+>  		return -EBUSY;
+> @@ -5118,10 +5111,6 @@ static int omap_dsi_host_detach(struct mipi_dsi_host *host,
+>  				struct mipi_dsi_device *client)
+>  {
+>  	struct dsi_data *dsi = host_to_omap(host);
+> -	unsigned int channel = client->channel;
+> -
+> -	if (channel > 3)
+> -		return -EINVAL;
+>  
+>  	if (WARN_ON(dsi->dsidev != client))
+>  		return -EINVAL;
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
