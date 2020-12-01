@@ -2,73 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24EE2CB6CF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:21:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DE72CB6CE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:21:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 077E26EA42;
-	Wed,  2 Dec 2020 08:20:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699EB6EA38;
+	Wed,  2 Dec 2020 08:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCC506E544
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 13:13:01 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 347EF5805BC;
- Tue,  1 Dec 2020 08:13:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 01 Dec 2020 08:13:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=gjirH4tCkOMp3
- 2nOf7b6jHsguy0OwGB4w7Pts1s2yUo=; b=bCqLvx6/TYNLN9xTgv8/5i2uRxzZ4
- 096e6nHj+nJpcgV2WRqR6hKYRtO6pgAijZXJRqxXFtslHk9Na5GnMZmL6QI7sJDR
- 7PvQIGEAEqtVdrKfYh15HZSm2vNY/yBZ0BDJMDc+HiG/lxL/wfJ9eoPadC6qCbRO
- thJBzPc17rU2DHe+s08vdBI+96oGCENev04pgMrWFDarFZN2zaLWX79T6wDnhBkS
- EOSZNFsGrvsT8hAtNSC125n9XY/C6qJRb1R3lP8iyJaatKNM5Iy0gXAD9xt6Qrx7
- ietmuJMhLEsafIwkzwKA5Vca4XVSQgIGBCNHDOpn1TZFTrnAzI9q24rlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=gjirH4tCkOMp32nOf7b6jHsguy0OwGB4w7Pts1s2yUo=; b=NrAFCyLK
- 46an0wjqom9WpX6UzD4F2v+aR16f/uvPAzw5UKckCZkJRbUaodHy+9+UHSsNA7d7
- SquYYHHqXjUUJn8P3os7MWSDJh0tZtwOZytHMo1lUaHnwGxgZJKBbY8/m3if+hcD
- fLaMLoOarsneFF8/Pl+17mo7SXtpUrIwrvuZW4PTgqBRpOlqEiVMr6DC6JcSaosr
- 8mEqv5ZkZg42KEl+IaJlH8J+dqZfGyBFsFbU1z2jAsw29FnxAIWjfesJhIXDkT1X
- 2vISgYp4no2pnAdD4Pgj71cKdG+Kid8C0G5u7BQfXUeqOfQ+V56mzMqsVcYcSWlT
- F5vtbnZPxHALoQ==
-X-ME-Sender: <xms:XEHGX9mx-zPLI5J9rv7jwhL8qaaUSxfEh5fdPvkQB9ClVT2MJr7cuA>
- <xme:XEHGX43L9a1zwraBT9RB4hBbfOTGafvFqPS7PjhcnbpwA6GCrXAuQTdnIvuM8ihiI
- O9Kd2ziVFWsDVxdaA0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddgheduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:XEHGXzqx5Mmjas_Shpc9XrqGeHLZJclgQl2PQUn2Zw3XSKPATiviEQ>
- <xmx:XEHGX9n99F_wePVfigSp_Ws6J5AvG2ZcOn9Tume7rg-ZSl6U35O8dA>
- <xmx:XEHGX73PsGUdK7QZThCcB3bM8r6kDrudcAE_hb310INEWOKIbqA85A>
- <xmx:XUHGX0JcalIqK9lNCOckUuxl1q3LfJOHckHyaGgJ8mAOnJn7ak0Cyw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9DB661080067;
- Tue,  1 Dec 2020 08:13:00 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Eric Anholt <eric@anholt.net>
-Subject: [PATCH v3 7/7] drm/vc4: hdmi: Enable 10/12 bpc output
-Date: Tue,  1 Dec 2020 14:12:49 +0100
-Message-Id: <20201201131249.438273-8-maxime@cerno.tech>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201201131249.438273-1-maxime@cerno.tech>
-References: <20201201131249.438273-1-maxime@cerno.tech>
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D0706E578
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 13:56:46 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id t6so4217548lfl.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 05:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2KvR6OJg5uBA6p5cNMRVwqZpG6XuQfN+LpQq11yonrk=;
+ b=cLF5eVEz2xwriJwnfmC/PrHXgPaM/Te61TjXq+z1HAFBU3chxawoWaN54OeM/4Wsml
+ j19mvESwdIAzWARPGMl2SJR+dc9rQerftf1+Sy7JN/jiGSw6o82s/pnzUgsmPDbrqDgI
+ U+8pZrHMXQwuIJ3IZR2qnXkxLOrVculvtkls31JWZe7qh2+xCF4LUhEJEryjzqVggQm4
+ 9nU+YdwmDv3MG+lxkUGw9Kqiu/F2XHDmHq5RcJFnsa8y2wFu5HyIp99X6GhwQvt5l4b5
+ hfR2KdiTFVaFyOf8vvT9K/lXsRXBQcc9adpWLk7wOXE3diZLOll414Mcf8s7qybQX3Q3
+ AHMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2KvR6OJg5uBA6p5cNMRVwqZpG6XuQfN+LpQq11yonrk=;
+ b=cwjNNU/ao7txax/LNTXtZdrxBSnWqXi27inRXOoa3TA/oSxd4S6QM8h1y+4iCnSs+P
+ y35aIMmQHSaN+pICJSu2TN75xxC3Vn9t4iPJGdDBTsXmhFl8mlWm3c6N+PXLurDtp3hA
+ OTG4QReP69UQevOv9LPbLBI9+mgpaETpH3SwDQvWsmQLEO2/peX3vtRw1IQLmq1nTVrd
+ mhIug88VgmE3DZXNeZ15tJZVodEcQxoOM6GjpVG/D1Z3m/OUTcxyhsPDARMXCdCps00r
+ ePHZJU2LfjoFISK1uXEIigiTdLrItE15UK54g8CV+zo9eVf78SNsL9/5gifcMdNbFXZ2
+ zMDA==
+X-Gm-Message-State: AOAM530EBL6Vls50pnlaeSP4A43hCvCVEiYuVaP2acAkQizJbXPUbxht
+ LvoMe8SCFUmUGnv1JCcUvzYBPz4g/yCIcWzF7Nw=
+X-Google-Smtp-Source: ABdhPJwLxQT56nvK8cdItWajIDXoFhYAN7MULV9MKBKY11k54slCe4FgxAg4AaJ2OknGlsAFd96HgWMaZrzK4L5r/WQ=
+X-Received: by 2002:ac2:5939:: with SMTP id v25mr1225295lfi.490.1606831004741; 
+ Tue, 01 Dec 2020 05:56:44 -0800 (PST)
 MIME-Version: 1.0
+References: <1606746513-30909-1-git-send-email-kevin3.tang@gmail.com>
+ <1606746513-30909-6-git-send-email-kevin3.tang@gmail.com>
+ <CAL_JsqKZKZtOaduTEuu2dgD9sFf5YDvcSkQfBVA9Ssn4n_mDsg@mail.gmail.com>
+In-Reply-To: <CAL_JsqKZKZtOaduTEuu2dgD9sFf5YDvcSkQfBVA9Ssn4n_mDsg@mail.gmail.com>
+From: Kevin Tang <kevin3.tang@gmail.com>
+Date: Tue, 1 Dec 2020 21:56:32 +0800
+Message-ID: <CAFPSGXYwHyF7xEpc-OiVtpSOKiorRO=jGGftKArK-NeGDGMvdw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] dt-bindings: display: add Unisoc's mipi dsi&dphy
+ bindings
+To: Rob Herring <robh+dt@kernel.org>
 X-Mailman-Approved-At: Wed, 02 Dec 2020 08:19:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,222 +64,491 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rpi-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
+ Lyra Zhang <zhang.lyra@gmail.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Content-Type: multipart/mixed; boundary="===============1886721930=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 supports higher bpc count than just 8, so let's support it in
-our driver.
+--===============1886721930==
+Content-Type: multipart/alternative; boundary="0000000000004075a305b5677f7b"
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 71 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_hdmi.h      |  1 +
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  9 ++++
- 3 files changed, 80 insertions(+), 1 deletion(-)
+--0000000000004075a305b5677f7b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index b5a97931af30..47768f582261 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -76,6 +76,17 @@
- #define VC5_HDMI_VERTB_VSPO_SHIFT		16
- #define VC5_HDMI_VERTB_VSPO_MASK		VC4_MASK(29, 16)
- 
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_SHIFT	8
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK	VC4_MASK(10, 8)
-+
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_SHIFT		0
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK		VC4_MASK(3, 0)
-+
-+#define VC5_HDMI_GCP_CONFIG_GCP_ENABLE		BIT(31)
-+
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_SHIFT	8
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK	VC4_MASK(15, 8)
-+
- # define VC4_HD_M_SW_RST			BIT(2)
- # define VC4_HD_M_ENABLE			BIT(0)
- 
-@@ -179,6 +190,9 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
- 
- 	kfree(connector->state);
- 
-+	conn_state->base.max_bpc = 8;
-+	conn_state->base.max_requested_bpc = 8;
-+
- 	__drm_atomic_helper_connector_reset(connector, &conn_state->base);
- 	drm_atomic_helper_connector_tv_reset(connector);
- }
-@@ -226,12 +240,20 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
- 				    vc4_hdmi->ddc);
- 	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
- 
-+	/*
-+	 * Some of the properties below require access to state, like bpc.
-+	 * Allocate some default initial connector state with our reset helper.
-+	 */
-+	if (connector->funcs->reset)
-+		connector->funcs->reset(connector);
-+
- 	/* Create and attach TV margin props to this connector. */
- 	ret = drm_mode_create_tv_margin_properties(dev);
- 	if (ret)
- 		return ret;
- 
- 	drm_connector_attach_tv_margin_properties(connector);
-+	drm_connector_attach_max_bpc_property(connector, 8, 12);
- 
- 	connector->polled = (DRM_CONNECTOR_POLL_CONNECT |
- 			     DRM_CONNECTOR_POLL_DISCONNECT);
-@@ -497,6 +519,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
- }
- 
- static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
-+				 struct drm_connector_state *state,
- 				 struct drm_display_mode *mode)
- {
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -540,7 +563,9 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
- 	HDMI_WRITE(HDMI_VERTB1, vertb);
- }
-+
- static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
-+				 struct drm_connector_state *state,
- 				 struct drm_display_mode *mode)
- {
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -560,6 +585,9 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 					mode->crtc_vsync_end -
- 					interlaced,
- 					VC4_HDMI_VERTB_VBP));
-+	unsigned char gcp;
-+	bool gcp_en;
-+	u32 reg;
- 
- 	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
- 	HDMI_WRITE(HDMI_HORZA,
-@@ -585,6 +613,39 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
- 	HDMI_WRITE(HDMI_VERTB1, vertb);
- 
-+	switch (state->max_bpc) {
-+	case 12:
-+		gcp = 6;
-+		gcp_en = true;
-+		break;
-+	case 10:
-+		gcp = 5;
-+		gcp_en = true;
-+		break;
-+	case 8:
-+	default:
-+		gcp = 4;
-+		gcp_en = false;
-+		break;
-+	}
-+
-+	reg = HDMI_READ(HDMI_DEEP_COLOR_CONFIG_1);
-+	reg &= ~(VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK |
-+		 VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK);
-+	reg |= VC4_SET_FIELD(2, VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE) |
-+	       VC4_SET_FIELD(gcp, VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH);
-+	HDMI_WRITE(HDMI_DEEP_COLOR_CONFIG_1, reg);
-+
-+	reg = HDMI_READ(HDMI_GCP_WORD_1);
-+	reg &= ~VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK;
-+	reg |= VC4_SET_FIELD(gcp, VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1);
-+	HDMI_WRITE(HDMI_GCP_WORD_1, reg);
-+
-+	reg = HDMI_READ(HDMI_GCP_CONFIG);
-+	reg &= ~VC5_HDMI_GCP_CONFIG_GCP_ENABLE;
-+	reg |= gcp_en ? VC5_HDMI_GCP_CONFIG_GCP_ENABLE : 0;
-+	HDMI_WRITE(HDMI_GCP_CONFIG, reg);
-+
- 	HDMI_WRITE(HDMI_CLOCK_STOP, 0);
- }
- 
-@@ -722,7 +783,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 		   VC4_HDMI_SCHEDULER_CONTROL_IGNORE_VSYNC_PREDICTS);
- 
- 	if (vc4_hdmi->variant->set_timings)
--		vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
-+		vc4_hdmi->variant->set_timings(vc4_hdmi, conn_state, mode);
- }
- 
- static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
-@@ -843,6 +904,14 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 		pixel_rate = mode->clock * 1000;
- 	}
- 
-+	if (conn_state->max_bpc == 12) {
-+		pixel_rate = pixel_rate * 150;
-+		do_div(pixel_rate, 100);
-+	} else if (conn_state->max_bpc == 10) {
-+		pixel_rate = pixel_rate * 125;
-+		do_div(pixel_rate, 100);
-+	}
-+
- 	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 6cc5b6652cca..720914761261 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -77,6 +77,7 @@ struct vc4_hdmi_variant {
- 
- 	/* Callback to configure the video timings in the HDMI block */
- 	void (*set_timings)(struct vc4_hdmi *vc4_hdmi,
-+			    struct drm_connector_state *state,
- 			    struct drm_display_mode *mode);
- 
- 	/* Callback to initialize the PHY according to the mode */
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index 7c6b4818f245..013fd57febd8 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -59,9 +59,12 @@ enum vc4_hdmi_field {
- 	 */
- 	HDMI_CTS_0,
- 	HDMI_CTS_1,
-+	HDMI_DEEP_COLOR_CONFIG_1,
- 	HDMI_DVP_CTL,
- 	HDMI_FIFO_CTL,
- 	HDMI_FRAME_COUNT,
-+	HDMI_GCP_CONFIG,
-+	HDMI_GCP_WORD_1,
- 	HDMI_HORZA,
- 	HDMI_HORZB,
- 	HDMI_HOTPLUG,
-@@ -229,6 +232,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi0_fields[] = {
- 	VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
-+	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
-+	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-@@ -305,6 +311,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi1_fields[] = {
- 	VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
-+	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
-+	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
--- 
-2.28.0
+Hi Rob,
+
+Rob Herring <robh+dt@kernel.org> =E4=BA=8E2020=E5=B9=B412=E6=9C=881=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=884:31=E5=86=99=E9=81=93=EF=BC=9A
+
+> On Mon, Nov 30, 2020 at 7:29 AM Kevin Tang <kevin3.tang@gmail.com> wrote:
+> >
+> > From: Kevin Tang <kevin.tang@unisoc.com>
+> >
+> > Adds MIPI DSI Master and MIPI DSI-PHY (D-PHY)
+> > support for Unisoc's display subsystem.
+> >
+> > Cc: Orson Zhai <orsonzhai@gmail.com>
+> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
+> > ---
+> >  .../display/sprd/sprd,sharkl3-dsi-host.yaml        | 107
+> +++++++++++++++++++++
+> >  .../display/sprd/sprd,sharkl3-dsi-phy.yaml         |  84
+> ++++++++++++++++
+> >  2 files changed, 191 insertions(+)
+> >  create mode 100644
+> Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.yaml
+> >  create mode 100644
+> Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-phy.yaml
+> >
+> > diff --git
+> a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.ya=
+ml
+> b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.ya=
+ml
+> > new file mode 100644
+> > index 0000000..fe0e89d
+> > --- /dev/null
+> > +++
+> b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-host.ya=
+ml
+> > @@ -0,0 +1,107 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id:
+> http://devicetree.org/schemas/display/sprd/sprd,sharkl3-dsi-host.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Unisoc MIPI DSI Controller
+> > +
+> > +maintainers:
+> > +  - Kevin Tang <kevin.tang@unisoc.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sprd,sharkl3-dsi-host
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +    description:
+> > +      Physical base address and length of the registers set for the
+> device.
+> > +
+> > +  interrupts:
+> > +    maxItems: 2
+> > +    description:
+> > +      Should contain DSI interrupt.
+> > +
+> > +  clocks:
+> > +    minItems: 1
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: clk_src_96m
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +    description: A phandle to DSIM power domain node
+> > +
+> > +  ports:
+> > +    type: object
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description:
+> > +          A port node with endpoint definitions as defined in
+> > +          Documentation/devicetree/bindings/media/video-interfaces.txt=
+.
+> > +          That port should be the input endpoint, usually coming from
+> > +          the associated DPU.
+> > +      port@1:
+> > +        type: object
+> > +        description:
+> > +          A port node with endpoint definitions as defined in
+> > +          Documentation/devicetree/bindings/media/video-interfaces.txt=
+.
+> > +          That port should be the output endpoint, usually output to
+> > +          the associated DPHY.
+> > +
+> > +    required:
+> > +      - "#address-cells"
+> > +      - "#size-cells"
+> > +      - port@0
+> > +      - port@1
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sprd,sc9860-clk.h>
+> > +    dsi: dsi@63100000 {
+> > +        compatible =3D "sprd,sharkl3-dsi-host";
+> > +        reg =3D <0x63100000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 48 IRQ_TYPE_LEVEL_HIGH>,
+> > +          <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clock-names =3D "clk_src_96m";
+> > +        clocks =3D <&pll CLK_TWPLL_96M>;
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +                dsi_in: endpoint {
+> > +                    remote-endpoint =3D <&dpu_out>;
+> > +                };
+> > +            };
+> > +            port@1 {
+> > +                reg =3D <1>;
+> > +                dsi_out: endpoint {
+> > +                    remote-endpoint =3D <&dphy_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > diff --git
+> a/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-phy.yam=
+l
+> b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-phy.yam=
+l
+> > new file mode 100644
+> > index 0000000..b4715d5
+> > --- /dev/null
+> > +++
+> b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-phy.yam=
+l
+> > @@ -0,0 +1,84 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id:
+> http://devicetree.org/schemas/display/sprd/sprd,sharkl3-dsi-phy.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Unisoc MIPI DSI-PHY (D-PHY)
+> > +
+> > +maintainers:
+> > +  - Kevin Tang <kevin.tang@unisoc.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sprd,sharkl3-dsi-phy
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +    description:
+> > +      Must be the dsi controller base address.
+> > +
+> > +  ports:
+> > +    type: object
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description:
+> > +          A port node with endpoint definitions as defined in
+> > +          Documentation/devicetree/bindings/media/video-interfaces.txt=
+.
+> > +          That port should be the output endpoint, usually output to
+> > +          the associated panel.
+> > +      port@1:
+>
+> For PHYs, we use the PHY binding, not the graph binding. Please follow
+> what practically every other DSI PHY does.
+>
+It seems that the dphy driver does not need to exist alone, so i remove
+dphy and dsi graph binding, merge the dphy driver into the dsi driver.
+
+>
+> Rob
+>
+
+--0000000000004075a305b5677f7b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Rob,<br></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">Rob Herring &lt;<a href=3D"mailto:robh%2Bd=
+t@kernel.org">robh+dt@kernel.org</a>&gt; =E4=BA=8E2020=E5=B9=B412=E6=9C=881=
+=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=884:31=E5=86=99=E9=81=93=EF=BC=
+=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, Nov =
+30, 2020 at 7:29 AM Kevin Tang &lt;<a href=3D"mailto:kevin3.tang@gmail.com"=
+ target=3D"_blank">kevin3.tang@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" target=
+=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt;<br>
+&gt; Adds MIPI DSI Master and MIPI DSI-PHY (D-PHY)<br>
+&gt; support for Unisoc&#39;s display subsystem.<br>
+&gt;<br>
+&gt; Cc: Orson Zhai &lt;<a href=3D"mailto:orsonzhai@gmail.com" target=3D"_b=
+lank">orsonzhai@gmail.com</a>&gt;<br>
+&gt; Cc: Chunyan Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com" target=
+=3D"_blank">zhang.lyra@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com"=
+ target=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../display/sprd/sprd,sharkl3-dsi-host.yaml=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | 107 +++++++++++++++++++++<br>
+&gt;=C2=A0 .../display/sprd/sprd,sharkl3-dsi-phy.yaml=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 84 ++++++++++++++++<br>
+&gt;=C2=A0 2 files changed, 191 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 Documentation/devicetree/bindings/display/spr=
+d/sprd,sharkl3-dsi-host.yaml<br>
+&gt;=C2=A0 create mode 100644 Documentation/devicetree/bindings/display/spr=
+d/sprd,sharkl3-dsi-phy.yaml<br>
+&gt;<br>
+&gt; diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,shark=
+l3-dsi-host.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,shar=
+kl3-dsi-host.yaml<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..fe0e89d<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-=
+host.yaml<br>
+&gt; @@ -0,0 +1,107 @@<br>
+&gt; +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)<br>
+&gt; +%YAML 1.2<br>
+&gt; +---<br>
+&gt; +$id: <a href=3D"http://devicetree.org/schemas/display/sprd/sprd,shark=
+l3-dsi-host.yaml#" rel=3D"noreferrer" target=3D"_blank">http://devicetree.o=
+rg/schemas/display/sprd/sprd,sharkl3-dsi-host.yaml#</a><br>
+&gt; +$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#" re=
+l=3D"noreferrer" target=3D"_blank">http://devicetree.org/meta-schemas/core.=
+yaml#</a><br>
+&gt; +<br>
+&gt; +title: Unisoc MIPI DSI Controller<br>
+&gt; +<br>
+&gt; +maintainers:<br>
+&gt; +=C2=A0 - Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" targ=
+et=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt; +<br>
+&gt; +properties:<br>
+&gt; +=C2=A0 compatible:<br>
+&gt; +=C2=A0 =C2=A0 const: sprd,sharkl3-dsi-host<br>
+&gt; +<br>
+&gt; +=C2=A0 reg:<br>
+&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
+&gt; +=C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 Physical base address and length of the register=
+s set for the device.<br>
+&gt; +<br>
+&gt; +=C2=A0 interrupts:<br>
+&gt; +=C2=A0 =C2=A0 maxItems: 2<br>
+&gt; +=C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 Should contain DSI interrupt.<br>
+&gt; +<br>
+&gt; +=C2=A0 clocks:<br>
+&gt; +=C2=A0 =C2=A0 minItems: 1<br>
+&gt; +<br>
+&gt; +=C2=A0 clock-names:<br>
+&gt; +=C2=A0 =C2=A0 items:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 - const: clk_src_96m<br>
+&gt; +<br>
+&gt; +=C2=A0 power-domains:<br>
+&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
+&gt; +=C2=A0 =C2=A0 description: A phandle to DSIM power domain node<br>
+&gt; +<br>
+&gt; +=C2=A0 ports:<br>
+&gt; +=C2=A0 =C2=A0 type: object<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 properties:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 &quot;#address-cells&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 1<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 &quot;#size-cells&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 0<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 port@0:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 A port node with endpoint definiti=
+ons as defined in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Documentation/devicetree/bindings/=
+media/video-interfaces.txt.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 That port should be the input endp=
+oint, usually coming from<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the associated DPU.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 port@1:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 A port node with endpoint definiti=
+ons as defined in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Documentation/devicetree/bindings/=
+media/video-interfaces.txt.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 That port should be the output end=
+point, usually output to<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the associated DPHY.<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 required:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 - &quot;#address-cells&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 - &quot;#size-cells&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 - port@0<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 - port@1<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 additionalProperties: false<br>
+&gt; +<br>
+&gt; +required:<br>
+&gt; +=C2=A0 - compatible<br>
+&gt; +=C2=A0 - reg<br>
+&gt; +=C2=A0 - interrupts<br>
+&gt; +=C2=A0 - clocks<br>
+&gt; +=C2=A0 - clock-names<br>
+&gt; +=C2=A0 - ports<br>
+&gt; +<br>
+&gt; +additionalProperties: false<br>
+&gt; +<br>
+&gt; +examples:<br>
+&gt; +=C2=A0 - |<br>
+&gt; +=C2=A0 =C2=A0 #include &lt;dt-bindings/interrupt-controller/arm-gic.h=
+&gt;<br>
+&gt; +=C2=A0 =C2=A0 #include &lt;dt-bindings/clock/sprd,sc9860-clk.h&gt;<br=
+>
+&gt; +=C2=A0 =C2=A0 dsi: dsi@63100000 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 compatible =3D &quot;sprd,sharkl3-dsi-hos=
+t&quot;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0x63100000 0x1000&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 interrupts =3D &lt;GIC_SPI 48 IRQ_TYPE_LE=
+VEL_HIGH&gt;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH=
+&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 clock-names =3D &quot;clk_src_96m&quot;;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 clocks =3D &lt;&amp;pll CLK_TWPLL_96M&gt;=
+;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #address-cells =3D &lt;1&gt=
+;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 #size-cells =3D &lt;0&gt;;<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@0 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;0=
+&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dsi_in: endpo=
+int {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ remote-endpoint =3D &lt;&amp;dpu_out&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port@1 {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reg =3D &lt;1=
+&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dsi_out: endp=
+oint {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ remote-endpoint =3D &lt;&amp;dphy_in&gt;;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 };<br>
+&gt; +=C2=A0 =C2=A0 };<br>
+&gt; diff --git a/Documentation/devicetree/bindings/display/sprd/sprd,shark=
+l3-dsi-phy.yaml b/Documentation/devicetree/bindings/display/sprd/sprd,shark=
+l3-dsi-phy.yaml<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..b4715d5<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/Documentation/devicetree/bindings/display/sprd/sprd,sharkl3-dsi-=
+phy.yaml<br>
+&gt; @@ -0,0 +1,84 @@<br>
+&gt; +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)<br>
+&gt; +%YAML 1.2<br>
+&gt; +---<br>
+&gt; +$id: <a href=3D"http://devicetree.org/schemas/display/sprd/sprd,shark=
+l3-dsi-phy.yaml#" rel=3D"noreferrer" target=3D"_blank">http://devicetree.or=
+g/schemas/display/sprd/sprd,sharkl3-dsi-phy.yaml#</a><br>
+&gt; +$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#" re=
+l=3D"noreferrer" target=3D"_blank">http://devicetree.org/meta-schemas/core.=
+yaml#</a><br>
+&gt; +<br>
+&gt; +title: Unisoc MIPI DSI-PHY (D-PHY)<br>
+&gt; +<br>
+&gt; +maintainers:<br>
+&gt; +=C2=A0 - Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unisoc.com" targ=
+et=3D"_blank">kevin.tang@unisoc.com</a>&gt;<br>
+&gt; +<br>
+&gt; +properties:<br>
+&gt; +=C2=A0 compatible:<br>
+&gt; +=C2=A0 =C2=A0 const: sprd,sharkl3-dsi-phy<br>
+&gt; +<br>
+&gt; +=C2=A0 reg:<br>
+&gt; +=C2=A0 =C2=A0 maxItems: 1<br>
+&gt; +=C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 Must be the dsi controller base address.<br>
+&gt; +<br>
+&gt; +=C2=A0 ports:<br>
+&gt; +=C2=A0 =C2=A0 type: object<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 properties:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 &quot;#address-cells&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 1<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 &quot;#size-cells&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 const: 0<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 port@0:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 type: object<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 description:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 A port node with endpoint definiti=
+ons as defined in<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Documentation/devicetree/bindings/=
+media/video-interfaces.txt.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 That port should be the output end=
+point, usually output to<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 the associated panel.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 port@1:<br>
+<br>
+For PHYs, we use the PHY binding, not the graph binding. Please follow<br>
+what practically every other DSI PHY does.<br></blockquote><div><span class=
+=3D"gmail-VIiyi" lang=3D"en"><span class=3D"gmail-JLqJ4b gmail-ChMk0b"><spa=
+n>It seems that the dphy driver does not need to exist alone</span></span><=
+/span>, so i remove dphy and dsi graph binding, merge the dphy driver into =
+the dsi driver.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Rob<br>
+</blockquote></div></div>
+
+--0000000000004075a305b5677f7b--
+
+--===============1886721930==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1886721930==--
