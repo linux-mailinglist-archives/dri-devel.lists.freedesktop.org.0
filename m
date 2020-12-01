@@ -2,35 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A822C9D6C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 10:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A65902C9E3C
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 10:46:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 851A36E4CA;
-	Tue,  1 Dec 2020 09:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFC6189D46;
+	Tue,  1 Dec 2020 09:46:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 974DF6E4CA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 09:40:22 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2EDE5ACD5;
- Tue,  1 Dec 2020 09:40:21 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
- <092068b8-1f3d-4fc8-48fb-cc5dc33ae7c5@amd.com>
- <0237fafc-f57e-b60b-f92c-0b0a79e9448e@suse.de>
- <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-Message-ID: <d50074f7-145d-2af5-e8cd-08b57e204ede@suse.de>
-Date: Tue, 1 Dec 2020 10:40:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA43A89D46
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 09:46:33 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id k10so1840239wmi.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 01:46:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=yc69n6TYS8s8mnl2FbsGRORIwflmhq2kMj7KnUSbA8k=;
+ b=j6J/Qqlfd872o2nRB+YDqXzI7k4zFcKHVgUFc5Ab63Wu7cMN64yIeAnt2k/a/xb53l
+ MtWSIH6oUfi68e3zbL4zpM389zXYEFyuieUcGBkf+qtAUlDcQavpVG6qVzsf+NXRByD5
+ SGogUzW8o7rpZh2HtMStj7vhHnblQQnpwwdqZRbJoPc7NZDm5/QlYlhroDNSsjpH8tTi
+ U0whcFsBzSDBU7mpWG5Fk/ylTYb/IAwZJoztAb4RF4Qvs2byaDeKcdyUGIWwgOLQrrfG
+ MP53rZxR6Ttla7TSW7GCFxnPLELTNL5XPtvRwH9sUYXcKTWkUZX2jGE+n5aoNz4WaD+C
+ Dlgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=yc69n6TYS8s8mnl2FbsGRORIwflmhq2kMj7KnUSbA8k=;
+ b=AXQLMW15LodaRNOCRqMdmGXzoGXo+7vf9lZFjMQA0dS61zpBZEcI4SReXpMGHecnFy
+ ZZhru9wzivBm9OYVTwR7EVVJ6Vf5VMkNTReHayh6a1a+DXRrTDlhaT7HJpW5zU5scuV9
+ kQtIA03oku1EcRXaiAxC2CBPofcc8Cix4vtQ4T7KYKBAXGWDq2MwIb/B/JG5tTMw4ICd
+ L+5FxRkCuGqEveSs8HQFoJhARQivwhMirifFPyEH4X4xfw6k/vRPG46TDZaP7/PjtxkA
+ sgJqnEIYAa5cQ/DO1HTeor1Tjww5PgXZjVt7/pVqq/l7b3sFTP2Aop1GkuRgTgNQrA4z
+ ogxw==
+X-Gm-Message-State: AOAM531VJItS43fA1KIZexAT7C7z/BMJe/0FzUkLF4rbq5YzAJsGORHQ
+ zRWqP/sQ6oFazJbcZfI+9Oakfw==
+X-Google-Smtp-Source: ABdhPJz89N1wsgduPoOJWxEC6lffQ1jGcCwQStOOlbZe4E9zySHh35HkIlQMklSS8+ephNH5LixsPQ==
+X-Received: by 2002:a1c:55ca:: with SMTP id j193mr1816945wmb.87.1606815992493; 
+ Tue, 01 Dec 2020 01:46:32 -0800 (PST)
+Received: from dell ([91.110.221.235])
+ by smtp.gmail.com with ESMTPSA id v7sm2028079wma.26.2020.12.01.01.46.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Dec 2020 01:46:31 -0800 (PST)
+Date: Tue, 1 Dec 2020 09:46:29 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 13/28] video: fbdev: riva: Fix kernel-doc and set but
+ not used warnings
+Message-ID: <20201201094629.GG4801@dell>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-14-sam@ravnborg.org>
+ <53f3e91e-d8da-bce6-878c-7842250a7a7c@suse.de>
+ <20201130183549.GA1498572@ravnborg.org>
+ <20201201084718.GF4801@dell>
+ <20201201090745.GA1980788@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20201201090745.GA1980788@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,358 +73,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>
-Content-Type: multipart/mixed; boundary="===============0394411724=="
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
+ Aditya Pakki <pakki001@umn.edu>, Alexander Klimov <grandmaster@al2klimov.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0394411724==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xq0rigkKXjpv9evbDAVS4ZF5IpariWd4f"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xq0rigkKXjpv9evbDAVS4ZF5IpariWd4f
-Content-Type: multipart/mixed; boundary="pJ5zNfKs8iPdMWifA6siVGLlewD8iqpim";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>
-Message-ID: <d50074f7-145d-2af5-e8cd-08b57e204ede@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
- <092068b8-1f3d-4fc8-48fb-cc5dc33ae7c5@amd.com>
- <0237fafc-f57e-b60b-f92c-0b0a79e9448e@suse.de>
- <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
-In-Reply-To: <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
-
---pJ5zNfKs8iPdMWifA6siVGLlewD8iqpim
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 01.12.20 um 10:10 schrieb Daniel Vetter:
-> On Tue, Dec 1, 2020 at 9:32 AM Thomas Zimmermann <tzimmermann@suse.de> =
-wrote:
->>
->> Hi
->>
->> Am 30.11.20 um 16:33 schrieb Christian K=C3=B6nig:
->>> Am 30.11.20 um 16:30 schrieb Daniel Vetter:
->>>> On Mon, Nov 30, 2020 at 01:04:26PM +0100, Thomas Zimmermann wrote:
->>>>> Mapping a GEM object's buffer into kernel address space prevents th=
-e
->>>>> buffer from being evicted from VRAM, which in turn may result in
->>>>> out-of-memory errors. It's therefore required to only vmap GEM BOs =
-for
->>>>> short periods of time; unless the GEM implementation provides addit=
-ional
->>>>> guarantees.
->>>>>
->>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> ---
->>>>>    drivers/gpu/drm/drm_prime.c |  6 ++++++
->>>>>    include/drm/drm_gem.h       | 16 ++++++++++++++++
->>>>>    2 files changed, 22 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prim=
-e.c
->>>>> index 7db55fce35d8..9c9ece9833e0 100644
->>>>> --- a/drivers/gpu/drm/drm_prime.c
->>>>> +++ b/drivers/gpu/drm/drm_prime.c
->>>>> @@ -669,6 +669,12 @@ EXPORT_SYMBOL(drm_gem_unmap_dma_buf);
->>>>>     * callback. Calls into &drm_gem_object_funcs.vmap for device
->>>>> specific handling.
->>>>>     * The kernel virtual address is returned in map.
->>>>>     *
->>>>> + * To prevent the GEM object from being relocated, callers must ho=
-ld
->>>>> the GEM
->>>>> + * object's reservation lock from when calling this function until=
-
->>>>> releasing the
->>>>> + * mapping. Holding onto a mapping and the associated reservation
->>>>> lock for an
->>>>> + * unbound time may result in out-of-memory errors. Calls to
->>>>> drm_gem_dmabuf_vmap()
->>>>> + * should therefore be accompanied by a call to
->>>>> drm_gem_dmabuf_vunmap().
->>>>> + *
->>>>>     * Returns 0 on success or a negative errno code otherwise.
->>>> This is a dma-buf hook, which means just documenting the rules you'd=
- like
->>>> to have here isn't enough. We need to roll this out at the dma-buf l=
-evel,
->>>> and enforce it.
->>>>
->>>> Enforce it =3D assert_lock_held
->>>>
->>>> Roll out =3D review everyone. Because this goes through dma-buf it'l=
-l come
->>>> back through shmem helpers (and other helpers and other subsystems) =
-back
->>>> to any driver using vmap for gpu buffers. This includes the media
->>>> subsystem, and the media subsystem definitely doesn't cope with just=
-
->>>> temporarily mapping buffers. So there we need to pin them, which I t=
-hink
->>>> means we'll need 2 version of dma_buf_vmap - one that's temporary an=
-d
->>>> requires we hold dma_resv lock, the other requires that the buffer i=
-s
->>>> pinned.
->>>
->>> OR start to proper use the dma_buf_pin/dma_buf_unpin functions which =
-I
->>> added to cover this use case as well.
->>
->> While I generally agree, here are some thoughts:
->>
->> I found all generic pin functions useless, because they don't allow fo=
-r
->> specifying where to pin. With fbdev emulation, this means that console=
-
->> buffers might never make it to VRAM for scanout. If anything, the poli=
-cy
->> should be that pin always pins in HW-accessible memory.
->>
->> Pin has quite a bit of overhead (more locking, buffer movement), so it=
-
->> should be the second choice after regular vmap. To make both work
->> together, pin probably relies on holding the reservation lock internal=
-ly.
->>
->> Therefore I think we still would want some additional helpers, such as=
-:
->>
->>     pin_unlocked(), which acquires the resv lock, calls regular pin an=
-d
->> then drops the resv lock. Same for unpin_unlocked()
->>
->>     vmap_pinned(), which enforces that the buffer has been pinned and
->> then calls regalar vmap. Same for vunmap_pinned()
->>
->> A typical pattern with these functions would look like this.
->>
->>          drm_gem_object bo;
->>          dma_buf_map map;
->>
->>          init() {
->>                  pin_unlocked(bo);
->>                  vmap_pinned(bo, map);
->>          }
->>
->>          worker() {
->>                  begin_cpu_access()
->>                  // access bo via map
->>                  end_cpu_access()
->>          }
->>
->>          fini() {
->>                  vunmap_pinned(bo, map);
->>                  unpin_unlocked(bo);
->>          }
->>
->>          init()
->>          while (...) {
->>                  worker()
->>          }
->>          fini()
->>
->> Is that reasonable for media drivers?
->=20
-> So media drivers go through dma-buf, which means we always pin into
-> system memory. Which I guess for vram-only display drivers makes no
-> sense and should be rejected, but we still need somewhat consistent
-> rules.
->=20
-> The other thing is that if you do a dma_buf_attach without dynamic
-> mode, dma-buf will pin things for you already. So in many cases it
-
-Do you have a pointer to code that illustrates this well?
-
-> could be that we don't need a separate pin (but since the pin is in
-> the exporter, not dma-buf layer, we can't check for that). I'm also
-> not seeing why existing users need to split up their dma_buf_vmap into
-> a pin + vmap, they don't need them separately.
-
-It's two different operations, with pin having some possible overhead=20
-and failure conditions. And during the last discussion, pin was say to=20
-be for userspace-managed buffers. Kernel code should hold the=20
-reservation lock.
-
-For my POV, the current interfaces have no clear policy or semantics.=20
-Looking through the different GEM implementations, each one seems to=20
-have its own interpretation.
-
->=20
-> I think we could use what we've done for dynamic dma-buf attachment
-> (which also change locking rules) and just have new functions for the
-> new way (i.e. short term vmap protected by dma_resv lock. Maybe call
-> these dma_buf_vmap_local, in the spirit of the new kmap_local which
-> are currently under discussion. I think _local suffix is better, for
-> otherwise people might do something silly like
->=20
->      dma_resv_lock();
->      dma_buf_vmap_locked();
->      dma_resv_unlock();
->=20
->      /* actual access maybe even in some other thread */
->=20
->     dma_buf_resv_lock();
->     dma_buf_vunmap_unlocked();
->     dma_resv_unlock();
->=20
-> _local suffix is better at telling that the resulting pointer has very
-> limited use (essentially just local to the calling context, if you
-> don't change any locking or anything).
-
-_local sounds good.
-
-Best regards
-Thomas
-
->=20
-> I think encouraging importers to call dma_buf_pin/unpin isn't a good
-> idea. Yes dynamic ones need it, but maybe we should check for that
-> somehow in the exporterd interface (atm only amdgpu is using it).
-> -Daniel
->=20
->=20
->=20
->=20
->=20
->> Best regards
->> Thomas
->>
->>
->>>
->>> Cheers,
->>> Christian.
->>>
->>>>
->>>> That's what I meant with that this approach here is very sprawling :=
--/
->>>> -Daniel
->>>>
->>>>>     */
->>>>>    int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_=
-map
->>>>> *map)
->>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>>> index 5e6daa1c982f..7c34cd5ec261 100644
->>>>> --- a/include/drm/drm_gem.h
->>>>> +++ b/include/drm/drm_gem.h
->>>>> @@ -137,7 +137,21 @@ struct drm_gem_object_funcs {
->>>>>         * Returns a virtual address for the buffer. Used by the
->>>>>         * drm_gem_dmabuf_vmap() helper.
->>>>>         *
->>>>> +     * Notes to implementors:
->>>>> +     *
->>>>> +     * - Implementations must expect pairs of @vmap and @vunmap to=
- be
->>>>> +     *   called frequently and should optimize for this case.
->>>>> +     *
->>>>> +     * - Implemenations may expect the caller to hold the GEM obje=
-ct's
->>>>> +     *   reservation lock to protect against concurrent calls and
->>>>> relocation
->>>>> +     *   of the GEM object.
->>>>> +     *
->>>>> +     * - Implementations may provide additional guarantees (e.g.,
->>>>> working
->>>>> +     *   without holding the reservation lock).
->>>>> +     *
->>>>>         * This callback is optional.
->>>>> +     *
->>>>> +     * See also drm_gem_dmabuf_vmap()
->>>>>         */
->>>>>        int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *=
-map);
->>>>> @@ -148,6 +162,8 @@ struct drm_gem_object_funcs {
->>>>>         * drm_gem_dmabuf_vunmap() helper.
->>>>>         *
->>>>>         * This callback is optional.
->>>>> +     *
->>>>> +     * See also @vmap.
->>>>>         */
->>>>>        void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_ma=
-p
->>>>> *map);
->>>>> --
->>>>> 2.29.2
->>>>>
->>>
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---pJ5zNfKs8iPdMWifA6siVGLlewD8iqpim--
-
---xq0rigkKXjpv9evbDAVS4ZF5IpariWd4f
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GD4MFAwAAAAAACgkQlh/E3EQov+Cm
-8g/8DIJTpzeoZh2t+r0eIaw7YMvWSz7hH6iRpG4aAMTOBNf71QTe6vR5tupvgYujwJSeLBDQM2DD
-GAhhF6h7uqs6x99mXDmHIJ4i/IkcixB8T68ylbrVHgIxXYeqsXL2PqTrjlSsKkYeMgDRtI46mPlH
-oE8QZRuB4QIwC5BO5HMiMYMUKdw8q30nY+X5xhrT/bdv+8UOBLx33CZR3RgCaamgxcBIWmhETR7i
-a9O5f/w7cXlv6gMgRZeRxislYTnrUp1zm70g1pIwwrb3wDy3x/alHFYeD+zTjwEQ5JNiMpOQJNI4
-7G5LoUAYjQi7vl9k39S8KDbHfvtRiyTlReOv2LmiJvop+27qvceFk0VNXiir/5hW6t+mUr5oNYuR
-Hj6feNPbhO+2gwKwzEeCEt3r2VU4UNWthp8eIILzdvnyZGSGrZyYcUhcu9p+xXEJhQEglL8evZsn
-qKupr1k8t7mNgse+Bj7VqLvscTHMf/VwVOlGKqr5RjDomQSAJQTM22pA854R01RibZ/GOl7xJQDF
-6uTyLjsMD2m6TR1B7etbRdU2w3gixMyXRlUhpvCQgehU7DRxwAwoknhm34DVqwYVJRfPA/kmzPCZ
-9JafRH8MqrNNmKxO/pbQon17M6aDqf+JdJiwNWI7aO4LWARE7sjmK2g3ZeHi05aSsNmxz2HF6a3l
-AlA=
-=9p/f
------END PGP SIGNATURE-----
-
---xq0rigkKXjpv9evbDAVS4ZF5IpariWd4f--
-
---===============0394411724==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0394411724==--
+T24gVHVlLCAwMSBEZWMgMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPiBIaSBMZWUsCj4gCj4g
+PiAKPiA+IENvcC1vdXQhCj4gPiAKPiA+IERvIHdoYXQgSSBkbyBhbmQgbWFrZSBzb21ldGhpbmcg
+dXAgKGpva2UpISA6J0QKPiAKPiBJZiBJIHRob3VnaHQgYW55b25lIHdvdWxkIGFjdHVhbGx5IHJl
+YWQgdGhlIGNvbW1lbnRzIHRoZW4gbWF5YmUgeWVzLgo+IEJ1dCBJIGFzc3VtZSB0aGF0IGFwYXJ0
+IGZyb20gdGhpcyB0aHJlYWQgbm8tb25lIHdpbGwgcmVhZCBpdC4KPiAKPiA+IAo+ID4gPiA+IFdl
+bGwsIGl0IGZpeGVzIHRoZSB3YXJuaW5nIDspCj4gPiA+IAo+ID4gPiBZZWFoLCBJIGNvdWxkIG5v
+dCBkaWcgdXAgYW55dGhpbmcgdXNlZnVsIHRvIHNheSBoZXJlLgo+ID4gPiBXYXMgdGVtcHRlZCB0
+byBqdXN0IGRyb3AgYWxsIHRoZSBrZXJuZWwtZG9jIHN5bnRheCBidXQgdGhhdAo+ID4gPiB3YXMg
+YSBsYXJnZXIgY2hhbmdlLgo+ID4gCj4gPiBEaWQgeW91IHRyYWNlIGl0IGZyb20gaXQncyBvcmln
+aW4gZG93biB0byBpdCdzIGZpbmFsIHVzZT8KPiBZZWFoLCBidXQgbm90IHNvbWV0aGluZyB0aGF0
+IHNlZW1lZCB1c2VmdWwuCj4gSSBjb3VsZCBoYXZlIGFkZGVkICJ0cmFuc2xhdGluZyBmcm9tIHBp
+eGVscy0+Ynl0ZXMiIGFzIHRoZXkKPiBhcmUgZGVzY3JpYmVkIHNvbWV3aGVyZSBlbHNlLiBCdXQg
+SSBjb3VsZCBub3QgY29udmluY2UgbXlzZWxmCj4gdGhpcyB3YXMgcmlnaHQgc28gSSBqdXN0IHNp
+bGVuY2VkIHRoZSB3YXJuaW5nLgo+IAo+IFRoZSBvbmx5IHJlYXNvbiBJIGtlcHQgdGhlIGtlcm5l
+bC1kb2MgaW4gdGhlIGZpcnN0IHBsYWNlIGlzCj4gdGhhdCBJIGFtIHRvbGQgc29tZSBlZGl0b3Jz
+IHVzZSBpdC4KPiAKPiBUaGUgb25seSBlZmZlY3QgdGhlIGtlcm5lbC1kb2MgaW4gZmJkZXYgaGFz
+IHJpZ2h0IG5vdyBpcyBidXJuaW5nCj4gZWZmb3J0IHRoYXQgY291bGQgaGF2ZSBiZWVuIHNwZW50
+IChiZXR0ZXI/KSBzb21ld2hlcmUgZWxzZSwgYW5kCj4gSSB3b3VsZCBwZXJzb25hbGx5IHByZWZl
+ciB0byBkcm9wIHRoZSBrZXJuZWwtZG9jIGFubm90YXRpb25zLgo+IAo+IEJ1dCBJIGFscmVhZHkg
+ZGlzY3Vzc2VkIHRoaXMgaW4gYW5vdGhlciB0aHJlYWQgKG5vdCBmYmRldiByZWxhdGVkKQo+IGFu
+ZCBJIHdhcyB0b2xkIGl0IHdhcyB1c2VmdWwgZm9yIHNvbWUsIHNvIGl0IGlzIGtlcHQuCgpJIHBl
+cnNvbmFsbHkgdGhpbmsgdGhleSBzaG91bGQgYmUga2VwdC4gIERlc3BpdGUgbm90IGJlaW5nIHJl
+ZmVyZW5jZWQKYnkgYW55IGtlcm5lbC1kb2M6OiBrZXktd29yZHMuICBBcyB5b3Ugc2F5LCBpdCBj
+YW4gYmUgaGVscGZ1bCBhcyBhbgppbi1jb2RlIHJlZmVyZW5jZSBmb3IgZHJpdmVyIHdyaXRlcnMs
+IHBlb3BsZSBkZWJ1Z2dpbmcgY29kZSwgZXQgYWwuCgpOb3Qgc3VyZSBJIHdvdWxkIGp1c3QgcmVw
+ZWF0IHRoZSB2YXJpYWJsZSBuYW1lIGp1c3QgdG8gc2lsZW5jZSB0aGUKd2FybmluZyB0aG91Z2gg
+LSB0aGF0IGlzIGRlZmluaXRlbHkgYSBoYWNrLiAgSW4gdGhlIHRob3VzYW5kcwoobGl0ZXJhbGx5
+ISkgb2YgdGhlc2UgdGhhdCBJJ3ZlIGZpeGVkIHRodXMgZmFyLCBJIGhhdmVuJ3QgbmVlZGVkIHRv
+IGRvCnRoYXQuCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVh
+ZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2Fy
+ZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpf
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
+bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
+cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
