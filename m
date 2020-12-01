@@ -1,33 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C85D2C98F1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:15:28 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 542342C9902
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:21:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23C26E4B7;
-	Tue,  1 Dec 2020 08:15:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B06FC6E4CD;
+	Tue,  1 Dec 2020 08:21:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 466666E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 08:15:24 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 8D8FDAC2F;
- Tue,  1 Dec 2020 08:15:11 +0000 (UTC)
-To: Daniel Vetter <daniel@ffwll.ch>
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-Message-ID: <b940ba0c-8c8e-7f8f-8545-9ff6f10959e2@suse.de>
-Date: Tue, 1 Dec 2020 09:15:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A8F86E4AF;
+ Tue,  1 Dec 2020 08:21:24 +0000 (UTC)
+Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 94ECB20659;
+ Tue,  1 Dec 2020 08:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1606810884;
+ bh=xHTFstOj6O/KMLPWIJ9livXkeh5E3cNJZoMEX1ICbl0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=0ugfFVtmDEFz3qweRxNJGIbdlhHbJEbe+SPrGbc9I44gM+O6I2rVgrcZagGiPQlJe
+ qDa/e9cJY/n7rREFFqWQI6CYR7sTmaWJfiub5J4ReXH3L76qQfPF0XWoTZ+/KCqBa1
+ 43uSa/AsDxhQJOFTJrlenu8ULt+S2HlexiyIiZjk=
+Date: Tue, 1 Dec 2020 02:20:47 -0600
+From: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+Message-ID: <20201201082047.GA11832@embeddedor>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <yq1h7p6gjkk.fsf@ca-mkp.ca.oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201130153048.GS401619@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <yq1h7p6gjkk.fsf@ca-mkp.ca.oracle.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,205 +47,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hdegoede@redhat.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, airlied@redhat.com
-Content-Type: multipart/mixed; boundary="===============0088023830=="
+Cc: alsa-devel@alsa-project.org, linux-atm-general@lists.sourceforge.net,
+ reiserfs-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ linux-iio@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org,
+ Nathan Chancellor <natechancellor@gmail.com>, linux-ide@vger.kernel.org,
+ dm-devel@redhat.com, keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
+ GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
+ samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ usb-storage@lists.one-eyed-alien.net, target-devel@vger.kernel.org,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
+ linux-security-module@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ linux-acpi@vger.kernel.org, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, tipc-discussion@lists.sourceforge.net,
+ linux-ext4@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, selinux@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-geode@lists.infradead.org, linux-can@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, drbd-dev@tron.linbit.com,
+ linux-hams@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ x86@kernel.org, linux-nfs@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
+ Kees Cook <keescook@chromium.org>, linux-mm@kvack.org, netdev@vger.kernel.org,
+ linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0088023830==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="x3AMs3fEYTpWNSY0vdYuabPdxX3IJqiIk"
+On Tue, Dec 01, 2020 at 12:52:27AM -0500, Martin K. Petersen wrote:
+> 
+> Gustavo,
+> 
+> > This series aims to fix almost all remaining fall-through warnings in
+> > order to enable -Wimplicit-fallthrough for Clang.
+> 
+> Applied 20-22,54,120-124 to 5.11/scsi-staging, thanks.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---x3AMs3fEYTpWNSY0vdYuabPdxX3IJqiIk
-Content-Type: multipart/mixed; boundary="mcWyBTCEkV9sfx4uXVeOUgojYW8xfUKUS";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: hdegoede@redhat.com, dri-devel@lists.freedesktop.org, airlied@redhat.com,
- christian.koenig@amd.com
-Message-ID: <b940ba0c-8c8e-7f8f-8545-9ff6f10959e2@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
-In-Reply-To: <20201130153048.GS401619@phenom.ffwll.local>
+Awesome! :)
 
---mcWyBTCEkV9sfx4uXVeOUgojYW8xfUKUS
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-
-
-Am 30.11.20 um 16:30 schrieb Daniel Vetter:
-> On Mon, Nov 30, 2020 at 01:04:26PM +0100, Thomas Zimmermann wrote:
->> Mapping a GEM object's buffer into kernel address space prevents the
->> buffer from being evicted from VRAM, which in turn may result in
->> out-of-memory errors. It's therefore required to only vmap GEM BOs for=
-
->> short periods of time; unless the GEM implementation provides addition=
-al
->> guarantees.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> ---
->>   drivers/gpu/drm/drm_prime.c |  6 ++++++
->>   include/drm/drm_gem.h       | 16 ++++++++++++++++
->>   2 files changed, 22 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c=
-
->> index 7db55fce35d8..9c9ece9833e0 100644
->> --- a/drivers/gpu/drm/drm_prime.c
->> +++ b/drivers/gpu/drm/drm_prime.c
->> @@ -669,6 +669,12 @@ EXPORT_SYMBOL(drm_gem_unmap_dma_buf);
->>    * callback. Calls into &drm_gem_object_funcs.vmap for device specif=
-ic handling.
->>    * The kernel virtual address is returned in map.
->>    *
->> + * To prevent the GEM object from being relocated, callers must hold =
-the GEM
->> + * object's reservation lock from when calling this function until re=
-leasing the
->> + * mapping. Holding onto a mapping and the associated reservation loc=
-k for an
->> + * unbound time may result in out-of-memory errors. Calls to drm_gem_=
-dmabuf_vmap()
->> + * should therefore be accompanied by a call to drm_gem_dmabuf_vunmap=
-().
->> + *
->>    * Returns 0 on success or a negative errno code otherwise.
->=20
-> This is a dma-buf hook, which means just documenting the rules you'd li=
-ke
-> to have here isn't enough. We need to roll this out at the dma-buf leve=
-l,
-> and enforce it.
->=20
-
-The documentation for GEM vmap callbacks point here, so it was a good=20
-point to start.
-
-I know about the dependencies on dmabuf. But fixing everything now is=20
-unrealistic. My hope for this patch is that we can find the necessary=20
-rules and document them.
-
-> Enforce it =3D assert_lock_held
-
-That's probably the final step of many.
-
-Best regards
-Thomas
-
->=20
-> Roll out =3D review everyone. Because this goes through dma-buf it'll c=
-ome
-> back through shmem helpers (and other helpers and other subsystems) bac=
-k
-> to any driver using vmap for gpu buffers. This includes the media
-> subsystem, and the media subsystem definitely doesn't cope with just
-> temporarily mapping buffers. So there we need to pin them, which I thin=
-k
-> means we'll need 2 version of dma_buf_vmap - one that's temporary and
-> requires we hold dma_resv lock, the other requires that the buffer is
-> pinned.
->=20
-> That's what I meant with that this approach here is very sprawling :-/
-> -Daniel
->=20
->>    */
->>   int drm_gem_dmabuf_vmap(struct dma_buf *dma_buf, struct dma_buf_map =
-*map)
->> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->> index 5e6daa1c982f..7c34cd5ec261 100644
->> --- a/include/drm/drm_gem.h
->> +++ b/include/drm/drm_gem.h
->> @@ -137,7 +137,21 @@ struct drm_gem_object_funcs {
->>   	 * Returns a virtual address for the buffer. Used by the
->>   	 * drm_gem_dmabuf_vmap() helper.
->>   	 *
->> +	 * Notes to implementors:
->> +	 *
->> +	 * - Implementations must expect pairs of @vmap and @vunmap to be
->> +	 *   called frequently and should optimize for this case.
->> +	 *
->> +	 * - Implemenations may expect the caller to hold the GEM object's
->> +	 *   reservation lock to protect against concurrent calls and reloca=
-tion
->> +	 *   of the GEM object.
->> +	 *
->> +	 * - Implementations may provide additional guarantees (e.g., workin=
-g
->> +	 *   without holding the reservation lock).
->> +	 *
->>   	 * This callback is optional.
->> +	 *
->> +	 * See also drm_gem_dmabuf_vmap()
->>   	 */
->>   	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->>  =20
->> @@ -148,6 +162,8 @@ struct drm_gem_object_funcs {
->>   	 * drm_gem_dmabuf_vunmap() helper.
->>   	 *
->>   	 * This callback is optional.
->> +	 *
->> +	 * See also @vmap.
->>   	 */
->>   	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map)=
-;
->>  =20
->> --=20
->> 2.29.2
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---mcWyBTCEkV9sfx4uXVeOUgojYW8xfUKUS--
-
---x3AMs3fEYTpWNSY0vdYuabPdxX3IJqiIk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/F+44FAwAAAAAACgkQlh/E3EQov+A8
-CRAAiWD98GoRNHzmzIWo6fCndhDPkoD0txFo1Rm2qoGTH4tW6u4ZDEHXVE91RhxKCORNCQKxfkS/
-SFIHdAl00ihuyG1SLohQrxeRbUZz7rHgfp/Ej6xnLX3foVL0BWnzGuEaCJRQjWySsvhLUZTVwvjX
-9odpDbiDAiua1RUQ8zsx5GeerlFXYUSNEYsm8oPt/P0vjkP9cUO364BMVoS1GEMKHQ+Y/pI6kL9k
-VzvcAnBOdFiVzE0EYnpq+Z4EdeYL5h72LO4ZZUSWmqjXU2BO47qh2lk3MlXGa+bz+VG2cIeyKrNX
-VzbchpQXDG3OxlIwpc0FwHOceAlkDeB9vhCJ/OoYU0ZOkxQAsiYY+yIwB3R5L01bVy5vqgn6jLmd
-tk0oAsy7Rga/Gx3mkvRUr77UlX3uorWqPrOLCv17/RGCsd9NQ3ovX9iFyeqSCq1lxj+jJpRk8XOo
-AhQbFiSs6mHvJ3TsejSFdHnVVGzyHNYW/13h6tjLJafurLeo9EQ/YSZBDpFJhXte5Bvyolb/0cnU
-hFE+KynEPpw2kU9+WiRFk47iFqWVG06JauOxg7NqbcWvGTZB16XOfJE7iFR76+wZkyuxF2KIIDsB
-EwFxXKLVM23kXmYiIKn8IFfXzx2GPBroY8zRBjVZ7vOMotpmPFwyweRXOEEqIfws/3Nwncphya/G
-nuM=
-=0iac
------END PGP SIGNATURE-----
-
---x3AMs3fEYTpWNSY0vdYuabPdxX3IJqiIk--
-
---===============0088023830==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks, Martin.
+--
+Gustavo
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0088023830==--
