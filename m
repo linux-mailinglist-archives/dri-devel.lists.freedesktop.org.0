@@ -2,55 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1072C9944
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8413B2C98C2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AC406E4CD;
-	Tue,  1 Dec 2020 08:23:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1B8789D8D;
+	Tue,  1 Dec 2020 08:02:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB8596E4B5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 07:36:51 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id y7so1262380lji.8
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 23:36:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cXglQpHm9MwIvRQAvsLvHQkyJUKjCvdKJgxGIAFmErw=;
- b=Fe3DuZVPxhKxX8nLhq+e19JjWU6yTVLW+iTLxUOG8hMjiYtZ5XCVo6hGPQeAxU8q3Q
- mljYFr3t6kyvrgAsiR5VUjG5BGBDdPwwRtG6HLAgZgiyCnFWuzsJVmv4lRsRm6RrdjxT
- nW0lb5XLX/5y8CGiS7esIofD0ITg5iETs72EAcjQRrUmpOesXiGcxHMa5jOrXn+FLU+m
- qjEna+PGsT85iTqDLGRuC/i7tES420dzlZZyyCeKzgheg0YxWG0vX6vQpPakn0N4Mt8o
- 5/WMy33Mh8zH1OoO/zw6ZCwCBhjej2bQH2dUEn9qanTLuvxnQhcwLHIGCbF9s36NBQK0
- 4t7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cXglQpHm9MwIvRQAvsLvHQkyJUKjCvdKJgxGIAFmErw=;
- b=ClDre+IbECBxdgpLTfZid6zZ3txUVbBEz9dNfh96MBGSyBJx2dD9TUqDhlWVBqF+kG
- KXCuyYcjtnyQDiv3rqUSSxzaaothF9MJ71RxQhshd8lCbe3YgbHXoFNvIpclbGywbCw3
- pYAhGgF81WJyH/M5Hipu2aAsUgN5KAnkjlYHG3wPHMLraEKtAY4CuDlnhCt0fi4bT5S1
- PMILNqRbVlVdWvk3ZZeyleGlWswxrBbBWJPPbyoS6YyFJjEuTnIKKE1b3udyWAR04B+j
- n1fqkDVjFn4QPUfB0TBTJX5GDBRay1v7t2e/+wgBgNuPhbfTkUZQNY7In29HLP/d1xrF
- nsrg==
-X-Gm-Message-State: AOAM533UBv9SgdXolffGMX0+HfEIL5hLaTgny+jXcaTqI3fJm8MswvLT
- y1yBf02GsZasx6Q6bLUzopRRG0f0QZZmldeTSg0=
-X-Google-Smtp-Source: ABdhPJzBSYAppy63lxS9DAEtLl+luQIqPpCxDYsJ3UlF55qsLJ1fDkrqs125GJ0gYNE/TVAgaVb3B+ma9L2u0VLo/kk=
-X-Received: by 2002:a2e:b5d9:: with SMTP id g25mr684875ljn.234.1606808210333; 
- Mon, 30 Nov 2020 23:36:50 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA5289D8D
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 08:02:35 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B06C5AC2F;
+ Tue,  1 Dec 2020 08:02:33 +0000 (UTC)
+To: Mikulas Patocka <mpatocka@redhat.com>
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+Message-ID: <336a41ef-1e49-6799-1bfd-06fb42419fb8@suse.de>
+Date: Tue, 1 Dec 2020 09:02:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <1606746513-30909-1-git-send-email-kevin3.tang@gmail.com>
- <1606746513-30909-2-git-send-email-kevin3.tang@gmail.com>
- <CAL_Jsq+fC1TzygUopiwVtwBN8JtwmnGy=VMTEvkudSQUdXiMqg@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+fC1TzygUopiwVtwBN8JtwmnGy=VMTEvkudSQUdXiMqg@mail.gmail.com>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Tue, 1 Dec 2020 15:36:26 +0800
-Message-ID: <CAFPSGXZLXh__GuXT2NPqF0jpO2DnMAhz+NtE721EZfMCSKLBjQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: display: add Unisoc's drm master bindings
-To: Rob Herring <robh+dt@kernel.org>
-X-Mailman-Approved-At: Tue, 01 Dec 2020 08:23:37 +0000
+In-Reply-To: <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,184 +39,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, David Airlie <airlied@linux.ie>,
- Lyra Zhang <zhang.lyra@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Orson Zhai <orsonzhai@gmail.com>,
- Sean Paul <sean@poorly.run>
-Content-Type: multipart/mixed; boundary="===============1307305068=="
+Cc: linux-fbdev@vger.kernel.org, geert+renesas@glider.be, corbet@lwn.net,
+ daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org, bernie@plugable.com,
+ dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Content-Type: multipart/mixed; boundary="===============0486525340=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1307305068==
-Content-Type: multipart/alternative; boundary="00000000000099628405b5623056"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0486525340==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="jETQjiqHPQ4ssdDqzOpb6mlFH3OMj7CrU"
 
---00000000000099628405b5623056
-Content-Type: text/plain; charset="UTF-8"
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jETQjiqHPQ4ssdDqzOpb6mlFH3OMj7CrU
+Content-Type: multipart/mixed; boundary="MZI83QV9cxoq5fqjHDyDJ9hsnk2pJTnp6";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: daniel.vetter@ffwll.ch, sam@ravnborg.org, geert+renesas@glider.be,
+ bernie@plugable.com, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org
+Message-ID: <336a41ef-1e49-6799-1bfd-06fb42419fb8@suse.de>
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+In-Reply-To: <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+
+--MZI83QV9cxoq5fqjHDyDJ9hsnk2pJTnp6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-Hi Rob
+Hi
 
-Rob Herring <robh+dt@kernel.org> =E4=BA=8E2020=E5=B9=B412=E6=9C=881=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=884:29=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Nov 30, 2020 at 7:28 AM Kevin Tang <kevin3.tang@gmail.com> wrote:
-> >
-> > From: Kevin Tang <kevin.tang@unisoc.com>
->
-> Once again, DT patches must Cc the DT list if you want them reviewed.
-Ok, i will add DT list to my Cc list.
->
-> >
-> > The Unisoc DRM master device is a virtual device needed to list all
-> > DPU devices or other display interface nodes that comprise the
-> > graphics subsystem
-> >
-> > Cc: Orson Zhai <orsonzhai@gmail.com>
-> > Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> > Signed-off-by: Kevin Tang <kevin.tang@unisoc.com>
-> > ---
-> >  .../display/sprd/sprd,display-subsystem.yaml       | 39
-++++++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
-> >  create mode 100644
-Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yaml
-> >
-> > diff --git
-a/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yam=
-l
-b/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yam=
-l
-> > new file mode 100644
-> > index 0000000..9487a39
-> > --- /dev/null
-> > +++
-b/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.yam=
-l
-> > @@ -0,0 +1,39 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id:
-http://devicetree.org/schemas/display/sprd/sprd,display-subsystem.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Unisoc DRM master device
-> > +
-> > +maintainers:
-> > +  - Kevin Tang <kevin.tang@unisoc.com>
-> > +
-> > +description: |
-> > +  The Unisoc DRM master device is a virtual device needed to list all
-> > +  DPU devices or other display interface nodes that comprise the
-> > +  graphics subsystem.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sprd,display-subsystem
->
-> As I said before, we try to avoid these virtual nodes. Make the DRM
-> driver bind to the DPU node.
->
-> The case where this might be needed is if you have h/w that's a
-> mixture of shared and discrete blocks. I don't see anything here
-> matching that.
+Am 30.11.20 um 15:31 schrieb Mikulas Patocka:
+>=20
+>=20
+> On Mon, 30 Nov 2020, Thomas Zimmermann wrote:
+>=20
+>> Udlfb has been superseded by DRM's udl. The DRM driver is better by
+>> any means and actively maintained. Remove udlfb.
+>=20
+> Hi
+>=20
+> I am using udlfb and it's definitely better than the DRM driver. The DR=
+M
+> driver will crash the kernel if you unplug the device while Xorg is
+> running. The framebuffer driver doesn't crash in this case. (I have a c=
+at
+> and the cat sometimes unplugs cables and I don't want to reboot the sys=
+tem
+> because of it :-)
 
-This is how I understand this sentence: "h/w that's a mixture of shared and
-discrete blocks"
-We have multiple display controllers and corresponding physical interfaces,
-typical dual-screen display scenario
-E.g:
-1. dpu0 and dpu1 both binding to DSI for dual mipi-dsi display;
-2. dpu0 binding to DSI for primary display, and dpu1 binding to DP for
-external display;
+What's the exact STR here? Just open the /dev/fb* and pull the cable.
 
-It looks like this:
-dpu0------>MIPI-DSI------>DPHY/CPHY Combo------>Panel0
-                        ^
-    ----------------|
-    |
-dpu1------>DisplayPort------>PHY------>Panel1
+Do I need a cat? :)
 
-For DTS like this:
-display-subsystem {
-compatible =3D "sprd,display-subsystem";
-ports =3D <&dpu0_out>, <&dpu1_out>;
-};
+> The framebuffer driver is faster, it keeps back buffer and updates only=
 
-But this is our first time submitting code to the community, following the
-suggestions of other reviewers, we only submitted a basic version. Other
-virtual nodes and corresponding drivers will be submitted later.
->
-> Rob
+> data that differ between the front and back buffer. The DRM driver does=
+n't
+> have such optimization, it will update everything in a given rectangle =
+-
+> this increases USB traffic and makes video playback more jerky.
 
---00000000000099628405b5623056
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+That's not quite true, but not false either. I think we could optimize=20
+what we have.
 
-<div dir=3D"ltr">Hi Rob<br><br>Rob Herring &lt;<a href=3D"mailto:robh%2Bdt@=
-kernel.org">robh+dt@kernel.org</a>&gt; =E4=BA=8E2020=E5=B9=B412=E6=9C=881=
-=E6=97=A5=E5=91=A8=E4=BA=8C =E4=B8=8A=E5=8D=884:29=E5=86=99=E9=81=93=EF=BC=
-=9A<br>&gt;<br>&gt; On Mon, Nov 30, 2020 at 7:28 AM Kevin Tang &lt;<a href=
-=3D"mailto:kevin3.tang@gmail.com">kevin3.tang@gmail.com</a>&gt; wrote:<br>&=
-gt; &gt;<br>&gt; &gt; From: Kevin Tang &lt;<a href=3D"mailto:kevin.tang@uni=
-soc.com">kevin.tang@unisoc.com</a>&gt;<br>&gt;<br>&gt; Once again, DT patch=
-es must Cc the DT list if you want them reviewed.<div>Ok, i will add DT lis=
-t=C2=A0to my Cc list.</div><div>&gt;<br>&gt; &gt;<br>&gt; &gt; The Unisoc D=
-RM master device is a virtual device needed to list all<br>&gt; &gt; DPU de=
-vices or other display interface nodes that comprise the<br>&gt; &gt; graph=
-ics subsystem<br>&gt; &gt;<br>&gt; &gt; Cc: Orson Zhai &lt;<a href=3D"mailt=
-o:orsonzhai@gmail.com">orsonzhai@gmail.com</a>&gt;<br>&gt; &gt; Cc: Chunyan=
- Zhang &lt;<a href=3D"mailto:zhang.lyra@gmail.com">zhang.lyra@gmail.com</a>=
-&gt;<br>&gt; &gt; Signed-off-by: Kevin Tang &lt;<a href=3D"mailto:kevin.tan=
-g@unisoc.com">kevin.tang@unisoc.com</a>&gt;<br>&gt; &gt; ---<br>&gt; &gt; =
-=C2=A0.../display/sprd/sprd,display-subsystem.yaml =C2=A0 =C2=A0 =C2=A0 | 3=
-9 ++++++++++++++++++++++<br>&gt; &gt; =C2=A01 file changed, 39 insertions(+=
-)<br>&gt; &gt; =C2=A0create mode 100644 Documentation/devicetree/bindings/d=
-isplay/sprd/sprd,display-subsystem.yaml<br>&gt; &gt;<br>&gt; &gt; diff --gi=
-t a/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem.y=
-aml b/Documentation/devicetree/bindings/display/sprd/sprd,display-subsystem=
-.yaml<br>&gt; &gt; new file mode 100644<br>&gt; &gt; index 0000000..9487a39=
-<br>&gt; &gt; --- /dev/null<br>&gt; &gt; +++ b/Documentation/devicetree/bin=
-dings/display/sprd/sprd,display-subsystem.yaml<br>&gt; &gt; @@ -0,0 +1,39 @=
-@<br>&gt; &gt; +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)<b=
-r>&gt; &gt; +%YAML 1.2<br>&gt; &gt; +---<br>&gt; &gt; +$id: <a href=3D"http=
-://devicetree.org/schemas/display/sprd/sprd,display-subsystem.yaml#">http:/=
-/devicetree.org/schemas/display/sprd/sprd,display-subsystem.yaml#</a><br>&g=
-t; &gt; +$schema: <a href=3D"http://devicetree.org/meta-schemas/core.yaml#"=
->http://devicetree.org/meta-schemas/core.yaml#</a><br>&gt; &gt; +<br>&gt; &=
-gt; +title: Unisoc DRM master device<br>&gt; &gt; +<br>&gt; &gt; +maintaine=
-rs:<br>&gt; &gt; + =C2=A0- Kevin Tang &lt;<a href=3D"mailto:kevin.tang@unis=
-oc.com">kevin.tang@unisoc.com</a>&gt;<br>&gt; &gt; +<br>&gt; &gt; +descript=
-ion: |<br>&gt; &gt; + =C2=A0The Unisoc DRM master device is a virtual devic=
-e needed to list all<br>&gt; &gt; + =C2=A0DPU devices or other display inte=
-rface nodes that comprise the<br>&gt; &gt; + =C2=A0graphics subsystem.<br>&=
-gt; &gt; +<br>&gt; &gt; +properties:<br>&gt; &gt; + =C2=A0compatible:<br>&g=
-t; &gt; + =C2=A0 =C2=A0const: sprd,display-subsystem<br>&gt;<br>&gt; As I s=
-aid before, we try to avoid these virtual nodes. Make the DRM<br>&gt; drive=
-r bind to the DPU node.<br>&gt;<br>&gt; The case where this might be needed=
- is if you have h/w that&#39;s a<br>&gt; mixture of shared and discrete blo=
-cks. I don&#39;t see anything here<br>&gt; matching that.<br><br>This is ho=
-w I understand this sentence: &quot;h/w that&#39;s a mixture of shared and =
-discrete blocks&quot;<br>We have multiple display controllers and correspon=
-ding physical interfaces, typical dual-screen display scenario<div>E.g:</di=
-v><div>1. dpu0 and dpu1 both binding to DSI for dual mipi-dsi display;</div=
-><div>2. dpu0 binding to DSI for primary display, and dpu1 binding to DP fo=
-r external display;<br></div><div><br>It looks like this:<br>dpu0------&gt;=
-MIPI-DSI------&gt;DPHY/CPHY Combo------&gt;Panel0<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>=C2=A0 =
-=C2=A0 ----------------|<br>=C2=A0 =C2=A0 |<br>dpu1------&gt;DisplayPort---=
----&gt;PHY------&gt;Panel1<br><br>For DTS like this:<br>display-subsystem {=
-<br>compatible =3D &quot;sprd,display-subsystem&quot;;<br>ports =3D &lt;&am=
-p;dpu0_out&gt;, &lt;&amp;dpu1_out&gt;;<br>};<br><br>But this is our first t=
-ime submitting code to the community, following the suggestions of other re=
-viewers, we only submitted a basic version. Other virtual nodes and corresp=
-onding drivers will be submitted later.<div><div>&gt;<br></div><div>&gt; Ro=
-b</div></div></div></div></div>
+>=20
+> The framebuffer driver supports programs running full-screen directly o=
+n
+> the framebuffer console, such as web browser "links -g", image viewer
+> "fbi", postscript+pdf viewer "fbgs", ZX Spectrum emulator "fuse-sdl",
+> movie player "mplayer -vo fbdev". The DRM driver doesn't run them.
 
---00000000000099628405b5623056--
+I would expect that most programs have an SDL2 backend. (?) IIRC SDL2=20
+has support for DRI interfaces.
 
---===============1307305068==
+>=20
+> If you seach for someone to maintain the framebuffer driver, I can do i=
+t.
+
+I'm looking for reasons why udlfb is still around. What I got from this=20
+thread is the possible crash and a lack of DRM's fbdev performance.=20
+Thanks for the feedback.
+
+Best regards
+Thomas
+
+>=20
+> Mikulas
+>=20
+>=20
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   CREDITS                      |    5 +
+>>   Documentation/fb/index.rst   |    1 -
+>>   Documentation/fb/udlfb.rst   |  162 ---
+>>   MAINTAINERS                  |    9 -
+>>   drivers/video/fbdev/Kconfig  |   17 +-
+>>   drivers/video/fbdev/Makefile |    1 -
+>>   drivers/video/fbdev/udlfb.c  | 1994 --------------------------------=
+--
+>>   7 files changed, 6 insertions(+), 2183 deletions(-)
+>>   delete mode 100644 Documentation/fb/udlfb.rst
+>>   delete mode 100644 drivers/video/fbdev/udlfb.c
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--MZI83QV9cxoq5fqjHDyDJ9hsnk2pJTnp6--
+
+--jETQjiqHPQ4ssdDqzOpb6mlFH3OMj7CrU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/F+JgFAwAAAAAACgkQlh/E3EQov+BM
+LQ//Vg6mZxBQkKGfk81NgT+i4Xu2RchOn+gnnNMFhpIvLKmvbOtIntaqSJu0Iqy7xWTqarZW3Qrr
+pzGxGfnBvIb6YcrEXLY+pwnJsVHy8sTSMYjX2sFCcBjsur9IT1mXyNOUyI6KY/4RvdSSFXZkiBBX
+HWUuFwCqfdKh314jzLKMO/yy7THc0SwX5JUGzm7KSqg+wZjelDMUu1ztO5QfQ5HpoSxgHX93MkNI
+LarMTG53CD3F7fV8pJpDWit2LOxhGOwHHUCNOPGyKMpO5Fr1p1grrqc9D6w/IDdyyLonaRNCJoHt
+BZc/aKRUIJ17yJsBU1N63Tm9Qwcps8lT3OmOw9qXCzVZf/AQSj3nKpV6iMVlErHtRc8n5CaTmUB9
+2uulKUxYyaGS9mOpNJhF4g6CdmJc0DrUIaIRtdr9cdspC0oufYtAdSnDQhB5mVD+dGZSvHjMurNA
+Fiy9KnWAWiJWT2vHgVv8YE1JRGrt4DxTtL9TjWhxKcS6WCHzPBKW26p86jrPamw91ub/PsK3/Xzs
+juQAmNdYZpwg/1r1dwmWztORHgiqyl+SHjAo4s9RBT7dCCz2N9pb4EGIj0XNjYTeyifYyhrHMIxc
+rxkEotDoYh28s8MvB2zaEgY5QEDguGNt1kZkImsy2WCQCRG68rc42SUkzSpj7dBX68287w2gQfrQ
+kKo=
+=42KM
+-----END PGP SIGNATURE-----
+
+--jETQjiqHPQ4ssdDqzOpb6mlFH3OMj7CrU--
+
+--===============0486525340==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -251,4 +193,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1307305068==--
+--===============0486525340==--
