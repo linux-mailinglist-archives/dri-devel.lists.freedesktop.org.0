@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A402C9FD2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 11:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDC12C9FD3
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 11:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 849486E588;
-	Tue,  1 Dec 2020 10:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 519B66E889;
+	Tue,  1 Dec 2020 10:36:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A85E06E8C0;
- Tue,  1 Dec 2020 10:36:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5620A6E832;
+ Tue,  1 Dec 2020 10:36:05 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 43EF4ACF1;
+ by mx2.suse.de (Postfix) with ESMTP id EE17FACF4;
  Tue,  1 Dec 2020 10:36:03 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH v2 19/20] drm/vmwgfx: Remove references to struct
- drm_device.pdev
-Date: Tue,  1 Dec 2020 11:35:41 +0100
-Message-Id: <20201201103542.2182-20-tzimmermann@suse.de>
+Subject: [PATCH v2 20/20] drm: Upcast struct drm_device.dev to struct
+ pci_device; replace pdev
+Date: Tue,  1 Dec 2020 11:35:42 +0100
+Message-Id: <20201201103542.2182-21-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201103542.2182-1-tzimmermann@suse.de>
 References: <20201201103542.2182-1-tzimmermann@suse.de>
@@ -40,191 +40,302 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Sam Ravnborg <sam@ravnborg.org>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, Roland Scheidegger <sroland@vmware.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- spice-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, spice-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using struct drm_device.pdev is deprecated. Convert vmwgfx to struct
-drm_device.dev. No functional changes.
+We have DRM drivers based on USB, SPI and platform devices. All of them
+are fine with storing their device reference in struct drm_device.dev.
+PCI devices should be no exception. Therefore struct drm_device.pdev is
+deprecated.
+
+Instead upcast from struct drm_device.dev with to_pci_dev(). PCI-specific
+code can use dev_is_pci() to test for a PCI device. This patch changes
+the DRM core code and documentation accordingly. Struct drm_device.pdev
+is being moved to legacy status.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Roland Scheidegger <sroland@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c |  8 ++++----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c    | 27 +++++++++++++-------------
- drivers/gpu/drm/vmwgfx/vmwgfx_fb.c     |  2 +-
- 3 files changed, 19 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/drm_agpsupport.c |  9 ++++++---
+ drivers/gpu/drm/drm_bufs.c       |  4 ++--
+ drivers/gpu/drm/drm_edid.c       |  7 ++++++-
+ drivers/gpu/drm/drm_irq.c        | 12 +++++++-----
+ drivers/gpu/drm/drm_pci.c        | 26 +++++++++++++++-----------
+ drivers/gpu/drm/drm_vm.c         |  2 +-
+ include/drm/drm_device.h         | 12 +++++++++---
+ 7 files changed, 46 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-index 9a9fe10d829b..83a8d34704ea 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_cmdbuf.c
-@@ -1230,7 +1230,7 @@ int vmw_cmdbuf_set_pool_size(struct vmw_cmdbuf_man *man,
- 
- 	/* First, try to allocate a huge chunk of DMA memory */
- 	size = PAGE_ALIGN(size);
--	man->map = dma_alloc_coherent(&dev_priv->dev->pdev->dev, size,
-+	man->map = dma_alloc_coherent(dev_priv->dev->dev, size,
- 				      &man->handle, GFP_KERNEL);
- 	if (man->map) {
- 		man->using_mob = false;
-@@ -1313,7 +1313,7 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
- 	man->num_contexts = (dev_priv->capabilities & SVGA_CAP_HP_CMD_QUEUE) ?
- 		2 : 1;
- 	man->headers = dma_pool_create("vmwgfx cmdbuf",
--				       &dev_priv->dev->pdev->dev,
-+				       dev_priv->dev->dev,
- 				       sizeof(SVGACBHeader),
- 				       64, PAGE_SIZE);
- 	if (!man->headers) {
-@@ -1322,7 +1322,7 @@ struct vmw_cmdbuf_man *vmw_cmdbuf_man_create(struct vmw_private *dev_priv)
- 	}
- 
- 	man->dheaders = dma_pool_create("vmwgfx inline cmdbuf",
--					&dev_priv->dev->pdev->dev,
-+					dev_priv->dev->dev,
- 					sizeof(struct vmw_cmdbuf_dheader),
- 					64, PAGE_SIZE);
- 	if (!man->dheaders) {
-@@ -1387,7 +1387,7 @@ void vmw_cmdbuf_remove_pool(struct vmw_cmdbuf_man *man)
- 		ttm_bo_put(man->cmd_space);
- 		man->cmd_space = NULL;
- 	} else {
--		dma_free_coherent(&man->dev_priv->dev->pdev->dev,
-+		dma_free_coherent(man->dev_priv->dev->dev,
- 				  man->size, man->map, man->handle);
- 	}
- }
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 216daf93022c..e63e08f5b14f 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -652,6 +652,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	enum vmw_res_type i;
- 	bool refuse_dma = false;
- 	char host_log[100] = {0};
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	dev_priv = kzalloc(sizeof(*dev_priv), GFP_KERNEL);
- 	if (unlikely(!dev_priv)) {
-@@ -659,7 +660,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 		return -ENOMEM;
- 	}
- 
--	pci_set_master(dev->pdev);
-+	pci_set_master(pdev);
- 
- 	dev_priv->dev = dev;
- 	dev_priv->vmw_chipset = chipset;
-@@ -688,9 +689,9 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 
- 	dev_priv->used_memory_size = 0;
- 
--	dev_priv->io_start = pci_resource_start(dev->pdev, 0);
--	dev_priv->vram_start = pci_resource_start(dev->pdev, 1);
--	dev_priv->mmio_start = pci_resource_start(dev->pdev, 2);
-+	dev_priv->io_start = pci_resource_start(pdev, 0);
-+	dev_priv->vram_start = pci_resource_start(pdev, 1);
-+	dev_priv->mmio_start = pci_resource_start(pdev, 2);
- 
- 	dev_priv->assume_16bpp = !!vmw_assume_16bpp;
- 
-@@ -840,7 +841,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 
- 	dev->dev_private = dev_priv;
- 
--	ret = pci_request_regions(dev->pdev, "vmwgfx probe");
-+	ret = pci_request_regions(pdev, "vmwgfx probe");
- 	dev_priv->stealth = (ret != 0);
- 	if (dev_priv->stealth) {
- 		/**
-@@ -849,7 +850,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 
- 		DRM_INFO("It appears like vesafb is loaded. "
- 			 "Ignore above error if any.\n");
--		ret = pci_request_region(dev->pdev, 2, "vmwgfx stealth probe");
-+		ret = pci_request_region(pdev, 2, "vmwgfx stealth probe");
- 		if (unlikely(ret != 0)) {
- 			DRM_ERROR("Failed reserving the SVGA MMIO resource.\n");
- 			goto out_no_device;
-@@ -857,7 +858,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 	}
- 
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK) {
--		ret = vmw_irq_install(dev, dev->pdev->irq);
-+		ret = vmw_irq_install(dev, pdev->irq);
- 		if (ret != 0) {
- 			DRM_ERROR("Failed installing irq: %d\n", ret);
- 			goto out_no_irq;
-@@ -1003,9 +1004,9 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- 		vmw_irq_uninstall(dev_priv->dev);
- out_no_irq:
- 	if (dev_priv->stealth)
--		pci_release_region(dev->pdev, 2);
-+		pci_release_region(pdev, 2);
- 	else
--		pci_release_regions(dev->pdev);
-+		pci_release_regions(pdev);
- out_no_device:
- 	ttm_object_device_release(&dev_priv->tdev);
- out_err4:
-@@ -1023,6 +1024,7 @@ static int vmw_driver_load(struct drm_device *dev, unsigned long chipset)
- static void vmw_driver_unload(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/drm_agpsupport.c b/drivers/gpu/drm/drm_agpsupport.c
+index 4c7ad46fdd21..a4040fe4f4ba 100644
+--- a/drivers/gpu/drm/drm_agpsupport.c
++++ b/drivers/gpu/drm/drm_agpsupport.c
+@@ -103,11 +103,13 @@ int drm_agp_info_ioctl(struct drm_device *dev, void *data,
+  */
+ int drm_agp_acquire(struct drm_device *dev)
  {
- 	struct vmw_private *dev_priv = vmw_priv(dev);
 +	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	enum vmw_res_type i;
- 
- 	unregister_pm_notifier(&dev_priv->pm_nb);
-@@ -1054,9 +1056,9 @@ static void vmw_driver_unload(struct drm_device *dev)
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK)
- 		vmw_irq_uninstall(dev_priv->dev);
- 	if (dev_priv->stealth)
--		pci_release_region(dev->pdev, 2);
-+		pci_release_region(pdev, 2);
- 	else
--		pci_release_regions(dev->pdev);
-+		pci_release_regions(pdev);
- 
- 	ttm_object_device_release(&dev_priv->tdev);
- 	memunmap(dev_priv->mmio_virt);
-@@ -1409,7 +1411,7 @@ static int vmw_pm_freeze(struct device *kdev)
- 
- 	vmw_fence_fifo_down(dev_priv->fman);
- 	__vmw_svga_disable(dev_priv);
--	
 +
- 	vmw_release_device_late(dev_priv);
- 	return 0;
- }
-@@ -1520,7 +1522,6 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 		goto err_pci_disable_device;
- 	}
- 
--	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 
- 	ret = vmw_driver_load(dev, ent->driver_data);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-index 4d60201037d1..a244b6c3e5a1 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fb.c
-@@ -638,7 +638,7 @@ static const struct fb_ops vmw_fb_ops = {
- 
- int vmw_fb_init(struct vmw_private *vmw_priv)
+ 	if (!dev->agp)
+ 		return -ENODEV;
+ 	if (dev->agp->acquired)
+ 		return -EBUSY;
+-	dev->agp->bridge = agp_backend_acquire(dev->pdev);
++	dev->agp->bridge = agp_backend_acquire(pdev);
+ 	if (!dev->agp->bridge)
+ 		return -ENODEV;
+ 	dev->agp->acquired = 1;
+@@ -402,14 +404,15 @@ int drm_agp_free_ioctl(struct drm_device *dev, void *data,
+  */
+ struct drm_agp_head *drm_agp_init(struct drm_device *dev)
  {
--	struct device *device = &vmw_priv->dev->pdev->dev;
-+	struct device *device = vmw_priv->dev->dev;
- 	struct vmw_fb_par *par;
- 	struct fb_info *info;
- 	unsigned fb_width, fb_height;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	struct drm_agp_head *head = NULL;
+ 
+ 	head = kzalloc(sizeof(*head), GFP_KERNEL);
+ 	if (!head)
+ 		return NULL;
+-	head->bridge = agp_find_bridge(dev->pdev);
++	head->bridge = agp_find_bridge(pdev);
+ 	if (!head->bridge) {
+-		head->bridge = agp_backend_acquire(dev->pdev);
++		head->bridge = agp_backend_acquire(pdev);
+ 		if (!head->bridge) {
+ 			kfree(head);
+ 			return NULL;
+diff --git a/drivers/gpu/drm/drm_bufs.c b/drivers/gpu/drm/drm_bufs.c
+index aeb1327e3077..e3d77dfefb0a 100644
+--- a/drivers/gpu/drm/drm_bufs.c
++++ b/drivers/gpu/drm/drm_bufs.c
+@@ -326,7 +326,7 @@ static int drm_addmap_core(struct drm_device *dev, resource_size_t offset,
+ 		 * As we're limiting the address to 2^32-1 (or less),
+ 		 * casting it down to 32 bits is no problem, but we
+ 		 * need to point to a 64bit variable first. */
+-		map->handle = dma_alloc_coherent(&dev->pdev->dev,
++		map->handle = dma_alloc_coherent(dev->dev,
+ 						 map->size,
+ 						 &map->offset,
+ 						 GFP_KERNEL);
+@@ -556,7 +556,7 @@ int drm_legacy_rmmap_locked(struct drm_device *dev, struct drm_local_map *map)
+ 	case _DRM_SCATTER_GATHER:
+ 		break;
+ 	case _DRM_CONSISTENT:
+-		dma_free_coherent(&dev->pdev->dev,
++		dma_free_coherent(dev->dev,
+ 				  map->size,
+ 				  map->handle,
+ 				  map->offset);
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 74f5a3197214..555a04ce2179 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -32,6 +32,7 @@
+ #include <linux/i2c.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
++#include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/vga_switcheroo.h>
+ 
+@@ -2075,9 +2076,13 @@ EXPORT_SYMBOL(drm_get_edid);
+ struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
+ 				     struct i2c_adapter *adapter)
+ {
+-	struct pci_dev *pdev = connector->dev->pdev;
++	struct drm_device *dev = connector->dev;
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	struct edid *edid;
+ 
++	if (drm_WARN_ON_ONCE(dev, !dev_is_pci(dev->dev)))
++		return NULL;
++
+ 	vga_switcheroo_lock_ddc(pdev);
+ 	edid = drm_get_edid(connector, adapter);
+ 	vga_switcheroo_unlock_ddc(pdev);
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index 09d6e9e2e075..22986a9a593b 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -122,7 +122,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+ 		dev->driver->irq_preinstall(dev);
+ 
+ 	/* PCI devices require shared interrupts. */
+-	if (dev->pdev)
++	if (dev_is_pci(dev->dev))
+ 		sh_flags = IRQF_SHARED;
+ 
+ 	ret = request_irq(irq, dev->driver->irq_handler,
+@@ -140,7 +140,7 @@ int drm_irq_install(struct drm_device *dev, int irq)
+ 	if (ret < 0) {
+ 		dev->irq_enabled = false;
+ 		if (drm_core_check_feature(dev, DRIVER_LEGACY))
+-			vga_client_register(dev->pdev, NULL, NULL, NULL);
++			vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+ 		free_irq(irq, dev);
+ 	} else {
+ 		dev->irq = irq;
+@@ -203,7 +203,7 @@ int drm_irq_uninstall(struct drm_device *dev)
+ 	DRM_DEBUG("irq=%d\n", dev->irq);
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_LEGACY))
+-		vga_client_register(dev->pdev, NULL, NULL, NULL);
++		vga_client_register(to_pci_dev(dev->dev), NULL, NULL, NULL);
+ 
+ 	if (dev->driver->irq_uninstall)
+ 		dev->driver->irq_uninstall(dev);
+@@ -220,6 +220,7 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ {
+ 	struct drm_control *ctl = data;
+ 	int ret = 0, irq;
++	struct pci_dev *pdev;
+ 
+ 	/* if we haven't irq we fallback for compatibility reasons -
+ 	 * this used to be a separate function in drm_dma.h
+@@ -230,12 +231,13 @@ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ 	if (!drm_core_check_feature(dev, DRIVER_LEGACY))
+ 		return 0;
+ 	/* UMS was only ever supported on pci devices. */
+-	if (WARN_ON(!dev->pdev))
++	if (WARN_ON(!dev_is_pci(dev->dev)))
+ 		return -EINVAL;
+ 
+ 	switch (ctl->func) {
+ 	case DRM_INST_HANDLER:
+-		irq = dev->pdev->irq;
++		pdev = to_pci_dev(dev->dev);
++		irq = pdev->irq;
+ 
+ 		if (dev->if_version < DRM_IF_VERSION(1, 2) &&
+ 		    ctl->irq != irq)
+diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
+index 6dba4b8ce4fe..c7868418e36d 100644
+--- a/drivers/gpu/drm/drm_pci.c
++++ b/drivers/gpu/drm/drm_pci.c
+@@ -65,7 +65,7 @@ drm_dma_handle_t *drm_pci_alloc(struct drm_device * dev, size_t size, size_t ali
+ 		return NULL;
+ 
+ 	dmah->size = size;
+-	dmah->vaddr = dma_alloc_coherent(&dev->pdev->dev, size,
++	dmah->vaddr = dma_alloc_coherent(dev->dev, size,
+ 					 &dmah->busaddr,
+ 					 GFP_KERNEL);
+ 
+@@ -88,7 +88,7 @@ EXPORT_SYMBOL(drm_pci_alloc);
+  */
+ void drm_pci_free(struct drm_device * dev, drm_dma_handle_t * dmah)
+ {
+-	dma_free_coherent(&dev->pdev->dev, dmah->size, dmah->vaddr,
++	dma_free_coherent(dev->dev, dmah->size, dmah->vaddr,
+ 			  dmah->busaddr);
+ 	kfree(dmah);
+ }
+@@ -107,16 +107,18 @@ static int drm_get_pci_domain(struct drm_device *dev)
+ 		return 0;
+ #endif /* __alpha__ */
+ 
+-	return pci_domain_nr(dev->pdev->bus);
++	return pci_domain_nr(to_pci_dev(dev->dev)->bus);
+ }
+ 
+ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
+ 	master->unique = kasprintf(GFP_KERNEL, "pci:%04x:%02x:%02x.%d",
+ 					drm_get_pci_domain(dev),
+-					dev->pdev->bus->number,
+-					PCI_SLOT(dev->pdev->devfn),
+-					PCI_FUNC(dev->pdev->devfn));
++					pdev->bus->number,
++					PCI_SLOT(pdev->devfn),
++					PCI_FUNC(pdev->devfn));
+ 	if (!master->unique)
+ 		return -ENOMEM;
+ 
+@@ -126,12 +128,14 @@ int drm_pci_set_busid(struct drm_device *dev, struct drm_master *master)
+ 
+ static int drm_pci_irq_by_busid(struct drm_device *dev, struct drm_irq_busid *p)
+ {
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
+ 	if ((p->busnum >> 8) != drm_get_pci_domain(dev) ||
+-	    (p->busnum & 0xff) != dev->pdev->bus->number ||
+-	    p->devnum != PCI_SLOT(dev->pdev->devfn) || p->funcnum != PCI_FUNC(dev->pdev->devfn))
++	    (p->busnum & 0xff) != pdev->bus->number ||
++	    p->devnum != PCI_SLOT(pdev->devfn) || p->funcnum != PCI_FUNC(pdev->devfn))
+ 		return -EINVAL;
+ 
+-	p->irq = dev->pdev->irq;
++	p->irq = pdev->irq;
+ 
+ 	DRM_DEBUG("%d:%d:%d => IRQ %d\n", p->busnum, p->devnum, p->funcnum,
+ 		  p->irq);
+@@ -159,7 +163,7 @@ int drm_legacy_irq_by_busid(struct drm_device *dev, void *data,
+ 		return -EOPNOTSUPP;
+ 
+ 	/* UMS was only ever support on PCI devices. */
+-	if (WARN_ON(!dev->pdev))
++	if (WARN_ON(!dev_is_pci(dev->dev)))
+ 		return -EINVAL;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_HAVE_IRQ))
+@@ -183,7 +187,7 @@ void drm_pci_agp_destroy(struct drm_device *dev)
+ static void drm_pci_agp_init(struct drm_device *dev)
+ {
+ 	if (drm_core_check_feature(dev, DRIVER_USE_AGP)) {
+-		if (pci_find_capability(dev->pdev, PCI_CAP_ID_AGP))
++		if (pci_find_capability(to_pci_dev(dev->dev), PCI_CAP_ID_AGP))
+ 			dev->agp = drm_agp_init(dev);
+ 		if (dev->agp) {
+ 			dev->agp->agp_mtrr = arch_phys_wc_add(
+diff --git a/drivers/gpu/drm/drm_vm.c b/drivers/gpu/drm/drm_vm.c
+index 6d5a03b32238..9b3b989d7cad 100644
+--- a/drivers/gpu/drm/drm_vm.c
++++ b/drivers/gpu/drm/drm_vm.c
+@@ -278,7 +278,7 @@ static void drm_vm_shm_close(struct vm_area_struct *vma)
+ 			case _DRM_SCATTER_GATHER:
+ 				break;
+ 			case _DRM_CONSISTENT:
+-				dma_free_coherent(&dev->pdev->dev,
++				dma_free_coherent(dev->dev,
+ 						  map->size,
+ 						  map->handle,
+ 						  map->offset);
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index 283a93ce4617..9d9db178119a 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -290,9 +290,6 @@ struct drm_device {
+ 	/** @agp: AGP data */
+ 	struct drm_agp_head *agp;
+ 
+-	/** @pdev: PCI device structure */
+-	struct pci_dev *pdev;
+-
+ #ifdef __alpha__
+ 	/** @hose: PCI hose, only used on ALPHA platforms. */
+ 	struct pci_controller *hose;
+@@ -336,6 +333,15 @@ struct drm_device {
+ 	/* Everything below here is for legacy driver, never use! */
+ 	/* private: */
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
++	/**
++	 * @pdev: PCI device structure
++	 *
++	 * This is deprecated. to get the PCI device, upcast from @dev
++	 * with to_pci_dev(). To test if the hardware is a PCI device,
++	 * use dev_is_pci() with @dev.
++	 */
++	struct pci_dev *pdev;
++
+ 	/* Context handle management - linked list of context handles */
+ 	struct list_head ctxlist;
+ 
 -- 
 2.29.2
 
