@@ -1,45 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B272CA193
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 12:42:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 351902CA1C5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 12:51:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FAEE6E4D7;
-	Tue,  1 Dec 2020 11:42:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4E856E4DD;
+	Tue,  1 Dec 2020 11:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B5B06E4D7
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:42:02 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1kk42f-0000To-Ns; Tue, 01 Dec 2020 12:41:57 +0100
-Message-ID: <350854e574f87f0e14f16702d53b22109fe1ab35.camel@pengutronix.de>
-Subject: Re: [PATCH v1 1/1] drm/imx/dcss: Add interconnect support
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Guido =?ISO-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>, Laurentiu Palcu
- <laurentiu.palcu@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Shawn Guo
- <shawnguo@kernel.org>,  Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,  dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
-Date: Tue, 01 Dec 2020 12:41:56 +0100
-In-Reply-To: <f44d42dd9b3750e2516413b2cbb3bc799b2a5628.1606822378.git.agx@sigxcpu.org>
-References: <cover.1606822378.git.agx@sigxcpu.org>
- <f44d42dd9b3750e2516413b2cbb3bc799b2a5628.1606822378.git.agx@sigxcpu.org>
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 579846E546
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:51:14 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1Bp6ek052532;
+ Tue, 1 Dec 2020 05:51:06 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606823466;
+ bh=9W0hK1rpFo4DdhY4YKrSkkcWO4Yj6WnlMmE/FypurwQ=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=d76vLOfrNb4z/1xY5NnaEM1d6RrHwTd4Q9XLUdCoM6M3ba9dF3x2HznDnZ++4v+ps
+ wt5vEBfgWaT2DmgLWsXNqvG6WliXvkHAQe1xXyCqEs7rCwClOOUhYIAFvu5KHcf0BW
+ D1zCEXwNhrUcoGeZNrUoapGM2K+PwXPvpx6PNLMU=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1Bp5U7070361
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 1 Dec 2020 05:51:06 -0600
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Dec
+ 2020 05:51:05 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 1 Dec 2020 05:51:05 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1Bp3em096756;
+ Tue, 1 Dec 2020 05:51:03 -0600
+Subject: Re: [PATCH v4 76/80] drm/omap: dsi: cleanup initial vc setup
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-77-tomi.valkeinen@ti.com>
+ <20201201003628.GU25713@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <040c5a51-8c57-68ab-4db5-619774b4ffd6@ti.com>
+Date: Tue, 1 Dec 2020 13:51:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <20201201003628.GU25713@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,97 +63,136 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gRGllbnN0YWcsIGRlbiAwMS4xMi4yMDIwLCAxMjozNCArMDEwMCBzY2hyaWViIEd1aWRvIEfD
-vG50aGVyOgo+IFRoaXMgYWxsb3dzIHVzIHRvIHJhaXNlIERSQU0gYmFuZGl3dGggdG8gYSBoaWdo
-IGVub3VnaCB2YWx1ZSBmb3IgYQo+IHN0YWJsZSBwaWN0dXJlIG9uIGkubXg4bXEuIFdlIHBpY2sg
-YSBiYW5kd2lkdGggdGhhdCBzaG91bGQgYmUgc3VmZmljaWVudAo+IGZvciA0a0A2MEh6Lgo+IAo+
-IE1vZGVsbGVkIGxpa2UgbWRwNV9rbXMuCj4gCj4gU2lnbmVkLW9mZi1ieTogR3VpZG8gR8O8bnRo
-ZXIgPGFneEBzaWd4Y3B1Lm9yZz4KPiAtLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9k
-Y3NzLWRldi5jIHwgNDcgKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0KPiDCoGRyaXZlcnMv
-Z3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5oIHwgIDMgKysKPiDCoDIgZmlsZXMgY2hhbmdlZCwg
-NDggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmMgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3Mv
-ZGNzcy1kZXYuYwo+IGluZGV4IGM4NDk1MzNjYTgzZS4uZTMzNmYwMzQ0OGQ2IDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5jCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmMKPiBAQCAtMTUsNiArMTUsOSBAQAo+IMKgI2luY2x1
-ZGUgImRjc3MtZGV2LmgiCj4gwqAjaW5jbHVkZSAiZGNzcy1rbXMuaCIKPiDCoAo+ICsvKiBzdWZm
-aWNpZW50IGZvciA0SyBhdCA2MCBIeiAqLwo+ICsjZGVmaW5lIERDU1NfQldfTUFYIEdCcHNfdG9f
-aWNjKDIpCj4gKwoKU2FtZSBjb21tZW50IGFzIGZvciB0aGUgc2ltaWxhciBjaGFuZ2UgaW4gbXhz
-ZmI6IHRoaXMgc2hvdWxkIG5vdCBiZSBhCnN0YXRpYyB2YWx1ZSwgYnV0IHNob3VsZCBiZSBzY2Fs
-ZWQgcHJvcG9ydGlvbmFsIHRvIHRoZSBjdXJyZW50IG1vZGUgYW5kCnBsYW5lIHNldHRpbmdzLiBX
-aXRoIGEgc2luZ2xlIHN0YXRpYyB2YWx1ZSB5b3Uga2VlcCB0aGUgY2xvY2tzIHdheSB0b28KaGln
-aCBmb3IgbW9zdCB1c2UtY2FzZXMgd2l0aCBzbWFsbGVyIGRpc3BsYXlzLCBidXQgZmFpbCB0byBh
-Y2NvdW50IGZvcgp0aGUgYWRkaXRpb25hbCBiYW5kd2lkdGggcmVxdWlyZW1lbnQgd2hlbiBtb3Jl
-IHRoYW4gb25lIHBsYW5lIGlzCmFjdGl2ZS4KClJlZ2FyZHMsCkx1Y2FzCgo+IMKgc3RhdGljIHZv
-aWQgZGNzc19jbG9ja3NfZW5hYmxlKHN0cnVjdCBkY3NzX2RldiAqZGNzcykKPiDCoHsKPiDCoAlj
-bGtfcHJlcGFyZV9lbmFibGUoZGNzcy0+YXhpX2Nsayk7Cj4gQEAgLTE2Miw2ICsxNjUsMzEgQEAg
-c3RhdGljIHZvaWQgZGNzc19jbGtzX3JlbGVhc2Uoc3RydWN0IGRjc3NfZGV2ICpkY3NzKQo+IMKg
-CWRldm1fY2xrX3B1dChkY3NzLT5kZXYsIGRjc3MtPmFwYl9jbGspOwo+IMKgfQo+IMKgCj4gCj4g
-Cj4gCj4gK3N0YXRpYyBpbnQgZGNzc19pbml0X2ljYyhzdHJ1Y3QgZGNzc19kZXYgKmRjc3MpCj4g
-K3sKPiArCWludCByZXQ7Cj4gKwlzdHJ1Y3QgaWNjX3BhdGggKmljY19wYXRoOwo+ICsKPiArCS8q
-IE9wdGlvbmFsIGludGVyY29ubmVjdCByZXF1ZXN0ICovCj4gKwlpY2NfcGF0aCA9IG9mX2ljY19n
-ZXQoZGNzcy0+ZGV2LCBOVUxMKTsKPiArCWlmIChJU19FUlIoaWNjX3BhdGgpKSB7Cj4gKwkJcmV0
-ID0gUFRSX0VSUihpY2NfcGF0aCk7Cj4gKwkJaWYgKHJldCA9PSAtRVBST0JFX0RFRkVSKQo+ICsJ
-CQlyZXR1cm4gcmV0Owo+ICsJCS8qIG5vIGludGVyY29ubmVjdCBzdXBwb3J0IGlzIG5vdCBuZWNl
-c3NhcmlseSBhIGZhdGFsCj4gKwkJICogY29uZGl0aW9uLCB0aGUgcGxhdGZvcm0gbWF5IHNpbXBs
-eSBub3QgaGF2ZSBhbgo+ICsJCSAqIGludGVyY29ubmVjdCBkcml2ZXIgeWV0LiAgQnV0IHdhcm4g
-YWJvdXQgaXQgaW4gY2FzZQo+ICsJCSAqIGJvb3Rsb2FkZXIgZGlkbid0IHNldHVwIGJ1cyBjbG9j
-a3MgaGlnaCBlbm91Z2ggZm9yCj4gKwkJICogc2Nhbm91dC4KPiArCQkgKi8KPiArCQlkZXZfd2Fy
-bihkY3NzLT5kZXYsICJObyBpbnRlcmNvbm5lY3Qgc3VwcG9ydCBtYXkgY2F1c2UgZGlzcGxheSB1
-bmRlcmZsb3dzIVxuIik7Cj4gKwkJcmV0dXJuIDA7Cj4gKwl9Cj4gKwlkY3NzLT5pY2NfcGF0aCA9
-IGljY19wYXRoOwo+ICsJZGNzcy0+aWNjX3BlYWtfYncgPSBEQ1NTX0JXX01BWDsKPiArCXJldHVy
-biAwOwo+ICt9Cj4gKwo+IMKgc3RydWN0IGRjc3NfZGV2ICpkY3NzX2Rldl9jcmVhdGUoc3RydWN0
-IGRldmljZSAqZGV2LCBib29sIGhkbWlfb3V0cHV0KQo+IMKgewo+IMKgCXN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKnBkZXYgPSB0b19wbGF0Zm9ybV9kZXZpY2UoZGV2KTsKPiBAQCAtMTkwLDEwICsy
-MTgsMTQgQEAgc3RydWN0IGRjc3NfZGV2ICpkY3NzX2Rldl9jcmVhdGUoc3RydWN0IGRldmljZSAq
-ZGV2LCBib29sIGhkbWlfb3V0cHV0KQo+IMKgCWRjc3MtPmRldnR5cGUgPSBkZXZ0eXBlOwo+IMKg
-CWRjc3MtPmhkbWlfb3V0cHV0ID0gaGRtaV9vdXRwdXQ7Cj4gwqAKPiAKPiAKPiAKPiArCXJldCA9
-IGRjc3NfaW5pdF9pY2MoZGNzcyk7Cj4gKwlpZiAocmV0IDwgMCkKPiArCQlnb3RvIGVycjsKPiAr
-Cj4gwqAJcmV0ID0gZGNzc19jbGtzX2luaXQoZGNzcyk7Cj4gwqAJaWYgKHJldCkgewo+IMKgCQlk
-ZXZfZXJyKGRldiwgImNsb2NrcyBpbml0aWFsaXphdGlvbiBmYWlsZWRcbiIpOwo+IC0JCWdvdG8g
-ZXJyOwo+ICsJCWdvdG8gaWNjX2VycjsKPiDCoAl9Cj4gwqAKPiAKPiAKPiAKPiDCoAlkY3NzLT5v
-Zl9wb3J0ID0gb2ZfZ3JhcGhfZ2V0X3BvcnRfYnlfaWQoZGV2LT5vZl9ub2RlLCAwKTsKPiBAQCAt
-MjIzLDcgKzI1NSw4IEBAIHN0cnVjdCBkY3NzX2RldiAqZGNzc19kZXZfY3JlYXRlKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgYm9vbCBoZG1pX291dHB1dCkKPiDCoAo+IAo+IAo+IAo+IMKgY2xrc19lcnI6
-Cj4gwqAJZGNzc19jbGtzX3JlbGVhc2UoZGNzcyk7Cj4gLQo+ICtpY2NfZXJyOgo+ICsJaWNjX3B1
-dChkY3NzLT5pY2NfcGF0aCk7Cj4gwqBlcnI6Cj4gwqAJa2ZyZWUoZGNzcyk7Cj4gwqAKPiAKPiAK
-PiAKPiBAQCAtMjQzLDYgKzI3Niw4IEBAIHZvaWQgZGNzc19kZXZfZGVzdHJveShzdHJ1Y3QgZGNz
-c19kZXYgKmRjc3MpCj4gwqAKPiAKPiAKPiAKPiDCoAlkY3NzX2Nsa3NfcmVsZWFzZShkY3NzKTsK
-PiDCoAo+IAo+IAo+IAo+ICsJaWNjX3B1dChkY3NzLT5pY2NfcGF0aCk7Cj4gKwo+IMKgCWtmcmVl
-KGRjc3MpOwo+IMKgfQo+IMKgCj4gCj4gCj4gCj4gQEAgLTI2Nyw2ICszMDIsOCBAQCBpbnQgZGNz
-c19kZXZfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpCj4gwqAKPiAKPiAKPiAKPiDCoAlkY3Nz
-X2Nsb2Nrc19kaXNhYmxlKGRjc3MpOwo+IMKgCj4gCj4gCj4gCj4gKwlpY2Nfc2V0X2J3KGRjc3Mt
-PmljY19wYXRoLCAwLCAwKTsKPiArCj4gwqAJcmV0dXJuIDA7Cj4gwqB9Cj4gwqAKPiAKPiAKPiAK
-PiBAQCAtMjgxLDYgKzMxOCw4IEBAIGludCBkY3NzX2Rldl9yZXN1bWUoc3RydWN0IGRldmljZSAq
-ZGV2KQo+IMKgCQlyZXR1cm4gMDsKPiDCoAl9Cj4gwqAKPiAKPiAKPiAKPiArCWljY19zZXRfYnco
-ZGNzcy0+aWNjX3BhdGgsIDAsIGRjc3MtPmljY19wZWFrX2J3KTsKPiArCj4gwqAJZGNzc19jbG9j
-a3NfZW5hYmxlKGRjc3MpOwo+IMKgCj4gCj4gCj4gCj4gwqAJZGNzc19ibGtjdGxfY2ZnKGRjc3Mt
-PmJsa2N0bCk7Cj4gQEAgLTMwNyw2ICszNDYsOCBAQCBpbnQgZGNzc19kZXZfcnVudGltZV9zdXNw
-ZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiDCoAo+IAo+IAo+IAo+IMKgCWRjc3NfY2xvY2tzX2Rp
-c2FibGUoZGNzcyk7Cj4gwqAKPiAKPiAKPiAKPiArCWljY19zZXRfYncoZGNzcy0+aWNjX3BhdGgs
-IDAsIDApOwo+ICsKPiDCoAlyZXR1cm4gMDsKPiDCoH0KPiDCoAo+IAo+IAo+IAo+IEBAIC0zMTQs
-NiArMzU1LDggQEAgaW50IGRjc3NfZGV2X3J1bnRpbWVfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRl
-dikKPiDCoHsKPiDCoAlzdHJ1Y3QgZGNzc19kZXYgKmRjc3MgPSBkY3NzX2Rydl9kZXZfdG9fZGNz
-cyhkZXYpOwo+IMKgCj4gCj4gCj4gCj4gKwlpY2Nfc2V0X2J3KGRjc3MtPmljY19wYXRoLCAwLCBk
-Y3NzLT5pY2NfcGVha19idyk7Cj4gKwo+IMKgCWRjc3NfY2xvY2tzX2VuYWJsZShkY3NzKTsKPiDC
-oAo+IAo+IAo+IAo+IMKgCWRjc3NfYmxrY3RsX2NmZyhkY3NzLT5ibGtjdGwpOwo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuaCBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pbXgvZGNzcy9kY3NzLWRldi5oCj4gaW5kZXggYzY0MmFlMTc4MzdmLi4xYjM1YTZmMGQwZDQg
-MTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2lteC9kY3NzL2Rjc3MtZGV2LmgKPiArKysg
-Yi9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuaAo+IEBAIC04LDYgKzgsNyBAQAo+
-IMKgCj4gCj4gCj4gCj4gwqAjaW5jbHVkZSA8ZHJtL2RybV9mb3VyY2MuaD4KPiDCoCNpbmNsdWRl
-IDxsaW51eC9pby5oPgo+ICsjaW5jbHVkZSA8bGludXgvaW50ZXJjb25uZWN0Lmg+Cj4gwqAjaW5j
-bHVkZSA8dmlkZW8vdmlkZW9tb2RlLmg+Cj4gwqAKPiAKPiAKPiAKPiDCoCNkZWZpbmUgU0VUCQkJ
-MHgwNAo+IEBAIC04NSw2ICs4Niw4IEBAIHN0cnVjdCBkY3NzX2RldiB7Cj4gwqAJc3RydWN0IGNs
-ayAqcGxsX3BoeV9yZWZfY2xrOwo+IMKgCj4gCj4gCj4gCj4gwqAJYm9vbCBoZG1pX291dHB1dDsK
-PiArCXN0cnVjdCBpY2NfcGF0aCAqaWNjX3BhdGg7Cj4gKwl1MzIgaWNjX3BlYWtfYnc7Cj4gwqAK
-PiAKPiAKPiAKPiDCoAl2b2lkICgqZGlzYWJsZV9jYWxsYmFjaykodm9pZCAqZGF0YSk7Cj4gwqAJ
-c3RydWN0IGNvbXBsZXRpb24gZGlzYWJsZV9jb21wbGV0aW9uOwoKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On 01/12/2020 02:36, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Nov 24, 2020 at 02:45:34PM +0200, Tomi Valkeinen wrote:
+>> As we now have a fixed setup for VCs (VC0 for video stream, VC1 for
+>> commands), we can simplify the VC setup.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>> ---
+>>  drivers/gpu/drm/omapdrm/dss/dsi.c | 85 +++++++++++--------------------
+>>  1 file changed, 31 insertions(+), 54 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> index ff8ace957291..27d0d119668b 100644
+>> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+>> @@ -2017,40 +2017,6 @@ static void dsi_vc_initial_config(struct dsi_data *dsi, int vc)
+>>  	dsi->vc[vc].source = DSI_VC_SOURCE_L4;
+>>  }
+>>  
+>> -static int dsi_vc_config_source(struct dsi_data *dsi, int vc,
+>> -				enum dsi_vc_source source)
+>> -{
+>> -	if (dsi->vc[vc].source == source)
+>> -		return 0;
+>> -
+>> -	DSSDBG("Source config of VC %d", vc);
+>> -
+>> -	dsi_sync_vc(dsi, vc);
+>> -
+>> -	dsi_vc_enable(dsi, vc, 0);
+>> -
+>> -	/* VC_BUSY */
+>> -	if (!wait_for_bit_change(dsi, DSI_VC_CTRL(vc), 15, 0)) {
+>> -		DSSERR("vc(%d) busy when trying to config for VP\n", vc);
+>> -		return -EIO;
+>> -	}
+>> -
+>> -	/* SOURCE, 0 = L4, 1 = video port */
+>> -	REG_FLD_MOD(dsi, DSI_VC_CTRL(vc), source, 1, 1);
+>> -
+>> -	/* DCS_CMD_ENABLE */
+>> -	if (dsi->data->quirks & DSI_QUIRK_DCS_CMD_CONFIG_VC) {
+>> -		bool enable = source == DSI_VC_SOURCE_VP;
+>> -		REG_FLD_MOD(dsi, DSI_VC_CTRL(vc), enable, 30, 30);
+>> -	}
+>> -
+>> -	dsi_vc_enable(dsi, vc, 1);
+>> -
+>> -	dsi->vc[vc].source = source;
+>> -
+>> -	return 0;
+>> -}
+>> -
+>>  static void dsi_vc_enable_hs(struct omap_dss_device *dssdev, int vc,
+>>  		bool enable)
+>>  {
+>> @@ -2072,10 +2038,6 @@ static void dsi_vc_enable_hs(struct omap_dss_device *dssdev, int vc,
+>>  	dsi_if_enable(dsi, 1);
+>>  
+>>  	dsi_force_tx_stop_mode_io(dsi);
+>> -
+>> -	/* start the DDR clock by sending a NULL packet */
+>> -	if (dsi->vm_timings.ddr_clk_always_on && enable)
+>> -		dsi_vc_send_null(dsi, vc, dsi->dsidev->channel);
+>>  }
+>>  
+>>  static void dsi_vc_flush_long_data(struct dsi_data *dsi, int vc)
+>> @@ -2270,8 +2232,6 @@ static int dsi_vc_send_long(struct dsi_data *dsi, int vc,
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+>> -
+>>  	dsi_vc_write_long_header(dsi, vc, msg->channel, msg->type, msg->tx_len, 0);
+>>  
+>>  	p = msg->tx_buf;
+>> @@ -2331,8 +2291,6 @@ static int dsi_vc_send_short(struct dsi_data *dsi, int vc,
+>>  		DSSDBG("dsi_vc_send_short(ch%d, dt %#x, b1 %#x, b2 %#x)\n",
+>>  		       vc, msg->type, pkt.header[1], pkt.header[2]);
+>>  
+>> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+>> -
+>>  	if (FLD_GET(dsi_read_reg(dsi, DSI_VC_CTRL(vc)), 16, 16)) {
+>>  		DSSERR("ERROR FIFO FULL, aborting transfer\n");
+>>  		return -EINVAL;
+>> @@ -3351,8 +3309,6 @@ static void dsi_update_screen_dispc(struct dsi_data *dsi)
+>>  
+>>  	DSSDBG("dsi_update_screen_dispc(%dx%d)\n", w, h);
+>>  
+>> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_VP);
+>> -
+>>  	bytespp	= mipi_dsi_pixel_format_to_bpp(dsi->pix_fmt) / 8;
+>>  	bytespl = w * bytespp;
+>>  	bytespf = bytespl * h;
+>> @@ -3522,9 +3478,7 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int vc)
+>>  
+>>  	dsi_set_ulps_auto(dsi, false);
+>>  
+>> -	dsi_vc_enable_hs(dssdev, vc, !(dsi->dsidev->mode_flags & MIPI_DSI_MODE_LPM));
+> 
+> Why is this not needed anymore ?
+
+This is in dsi_update_channel(), so about sending the frame. We always want to send the frame in HS,
+and we set the VC to HS in the dsi_setup_dsi_vcs() in this patch. So there's no longer need to
+configure the speed for each dsi_update_channel invocation.
+
+So there's a slight change in behavior, as before this patch you could send frames in LP, but can't
+after this. But who would want to do that...
+
+I think I can clean this up by changing "drm/omap: dsi: set LP/HS before update" to "always enable
+HS before update". And then dropping the line here.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
