@@ -2,55 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DF92CA4CD
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 15:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712212CA4ED
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 15:06:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58ED6E53E;
-	Tue,  1 Dec 2020 14:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A872D6E570;
+	Tue,  1 Dec 2020 14:05:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
- [IPv6:2607:f8b0:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D899F6E530;
- Tue,  1 Dec 2020 14:01:00 +0000 (UTC)
-Received: by mail-ot1-x343.google.com with SMTP id k3so1677413otp.12;
- Tue, 01 Dec 2020 06:01:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KKW3EOUonoHk4bmKwuL1uydL+Yh3MzQ7U0560ouys3s=;
- b=ZP5LL+gqFwGVSjiJEWCGJpcE5N9QencikDl3FtJy626LsjuOehhztcP4aGZtTJJFm0
- KbiS+F7/oFJutQdexf7unem5E7Jw3Cfbzq91dP72FLF5Fk2lWP5jKx+hjzDDUktyna8l
- b9wsZAqq6uiMTDSf7vxuN3sxy6cLUBez117eH8kT0Q4HbhWPOCYiMHXKkq+fDv4BMN8M
- RPkpvsSVjLl7DRUu0lbIsv7O5C5jU3B+jftk4B2ky0pLG68EeUTqK3oyWPGWrirhDX9D
- dq8oXSbGaiJ9UiBgQTmTjuHXpjp1dqugBSrz/b3Io8VCFPfD+BLmy+ZoPHH7Og3YPRV6
- Lkyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KKW3EOUonoHk4bmKwuL1uydL+Yh3MzQ7U0560ouys3s=;
- b=b4NN4DHKGbxdj14pNt3sRSYNZdqOl5H5djpQb3UCfQeYe4uhh95Bw1JmArWpl/zzn+
- VwEstGWPWcTmszCvY7wsMclAAb34jrWsRSxuE+pHM4mGtwx+2AS0iJf7Rq94k7stoHvm
- jWmQhG/KocK5og9uFRLrkJLOog1UaAVJwpPwWLGG/ZhZZRSSplo0DFLUKtTTSnmeSfIi
- E1w8y05qIn2AMfDDtJjyGQmuFPACYo+FK6O51WuLdr+Dhvr32xTM2cenIJ1za9pByvap
- vauHfM+tZr1BcdC7yDj8CUxZ2lGi38h2Dj3JyTZZe6SflDjq34ivbAkhhvv+xcy82EnU
- o8MA==
-X-Gm-Message-State: AOAM530WojQC9p2oPvn36UE4XbEq+4q0CFYxxW9ppC6xNasfk5G24gnU
- JCuBW4KtPW9g+5oD386j3mqeY2/+MURMe1xuNCk=
-X-Google-Smtp-Source: ABdhPJyM2cWPlndVwe1fEAo//Tvbj+hC/zbtvm6PxxkdYuHnDDGP1BKbyzgcygvu1QAu5sADiA+8vC46eHwb0zQbgKQ=
-X-Received: by 2002:a9d:4713:: with SMTP id a19mr1911439otf.132.1606831258589; 
- Tue, 01 Dec 2020 06:00:58 -0800 (PST)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEEAE6E530;
+ Tue,  1 Dec 2020 14:05:53 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1DstBi119028;
+ Tue, 1 Dec 2020 14:05:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=pTmh0fAx41hLIvYDyOekZfZD8/4rzzXxS/TqqdPExwg=;
+ b=vLWTsjjic+1p3i9uxybiHNVi42dcBKcTvA6AfpFTEr0sUNmVqp9yRxLgg7kIK5qGUN0J
+ oofgNIgToJJBxsPbFd+Am4pBxk6JPpjzRqo19VpEwymshbhsnRALOcfpiO21XOp3kmxr
+ lgOLJrUqyUshUH+0ojxyxXIg1LFHdnj2t2Bklh5y68LsxqqiRxoSPtOWNIoWynIJF754
+ 5bVkuWqCYCEFs8tq7LyeOV+zI3/vr+tI5ZKBss7pqjTfnpXNJRaPwJeD8R6AGcywA+BA
+ lerBH0PS/hUi55aURtflNdJ2juhGcYo6ht8r8gtlOn38U9XkoMGDxbASv62fD9VykISM Rg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 353egkjkku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 01 Dec 2020 14:05:42 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B1Du5XW003807;
+ Tue, 1 Dec 2020 14:05:42 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3020.oracle.com with ESMTP id 3540ey0hqs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 01 Dec 2020 14:05:42 +0000
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B1E1twO021849;
+ Tue, 1 Dec 2020 14:05:41 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 3540ey0hp9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 01 Dec 2020 14:05:40 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B1E5MSD015816;
+ Tue, 1 Dec 2020 14:05:23 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 01 Dec 2020 06:05:21 -0800
+Date: Tue, 1 Dec 2020 17:04:49 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+Message-ID: <20201201140449.GG2767@kadam>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook>
+ <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook>
 MIME-Version: 1.0
-References: <20201126134240.3214176-1-lee.jones@linaro.org>
- <20201126134240.3214176-32-lee.jones@linaro.org>
-In-Reply-To: <20201126134240.3214176-32-lee.jones@linaro.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 1 Dec 2020 09:00:47 -0500
-Message-ID: <CADnq5_Piuz9Oua5FBeMGuMb98cwtf5+6WSqCPKi3UqkN+5Z=mw@mail.gmail.com>
-Subject: Re: [PATCH 31/40] drm/amd/pm/powerplay/kv_dpm: Remove unused variable
- 'ret'
-To: Lee Jones <lee.jones@linaro.org>
+Content-Disposition: inline
+In-Reply-To: <202011220816.8B6591A@keescook>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9821
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ bulkscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=944 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012010090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,93 +82,102 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: alsa-devel@alsa-project.org, bridge@lists.linux-foundation.org,
+ target-devel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+ linux-ide@vger.kernel.org, dm-devel@redhat.com, keyrings@vger.kernel.org,
+ linux-mtd@lists.infradead.org, GR-everest-linux-l2@marvell.com,
+ wcn36xx@lists.infradead.org, linux-i3c@lists.infradead.org,
+ linux1394-devel@lists.sourceforge.net, linux-afs@lists.infradead.org,
+ devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-scsi@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-rdma@vger.kernel.org,
+ oss-drivers@netronome.com, linux-atm-general@lists.sourceforge.net,
+ ceph-devel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
+ usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
+ intel-wired-lan@lists.osuosl.org,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, linux-input@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ linux-ext4@vger.kernel.org, netfilter-devel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
+ selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+ reiserfs-devel@vger.kernel.org, linux-geode@lists.infradead.org,
+ linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
+ op-tee@lists.trustedfirmware.org, linux-mediatek@lists.infradead.org,
+ xen-devel@lists.xenproject.org, drbd-dev@tron.linbit.com,
+ linux-hams@vger.kernel.org, Nathan Chancellor <natechancellor@gmail.com>,
+ linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hwmon@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+ linux-nfs@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
+ nouveau@lists.freedesktop.org, netdev@vger.kernel.org,
+ linux-decnet-user@lists.sourceforge.net, samba-technical@lists.samba.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
+ tipc-discussion@lists.sourceforge.net, linux-crypto@vger.kernel.org,
+ patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
+ linux-integrity@vger.kernel.org, x86@kernel.org,
+ linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBOb3YgMjYsIDIwMjAgYXQgODo0MyBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
-YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3Bvd2VycGxh
-eS9rdl9kcG0uYzogSW4gZnVuY3Rpb24g4oCYa3ZfZHBtX3Bvd2VyZ2F0ZV91dmTigJk6Cj4gIGRy
-aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3Bvd2VycGxheS9rdl9kcG0uYzoxNjc4OjY6
-IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1i
-dXQtc2V0LXZhcmlhYmxlXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9wb3dl
-cnBsYXkva3ZfZHBtLmM6IEluIGZ1bmN0aW9uIOKAmGt2X2RwbV9wb3dlcmdhdGVfdmNl4oCZOgo+
-ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9wb3dlcnBsYXkva3ZfZHBtLmM6MTcw
-Njo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVz
-ZWQtYnV0LXNldC12YXJpYWJsZV0KPgo+IENjOiBFdmFuIFF1YW4gPGV2YW4ucXVhbkBhbWQuY29t
-Pgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJD
-aHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBB
-aXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
-bC5jaD4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpv
-bmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKCj4gLS0tCj4gIGRyaXZl
-cnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5jIHwgMTggKysrKysrKystLS0tLS0t
-LS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5j
-IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkva3ZfZHBtLmMKPiBpbmRleCA0YjNm
-YWFjY2VjYjk0Li42NmRhYWJlYmVlMzU4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
-bWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9w
-b3dlcnBsYXkva3ZfZHBtLmMKPiBAQCAtMTY3NSwxNCArMTY3NSwxMyBAQCBzdGF0aWMgdm9pZCBr
-dl9kcG1fcG93ZXJnYXRlX3V2ZCh2b2lkICpoYW5kbGUsIGJvb2wgZ2F0ZSkKPiAgewo+ICAgICAg
-ICAgc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSAoc3RydWN0IGFtZGdwdV9kZXZpY2UgKilo
-YW5kbGU7Cj4gICAgICAgICBzdHJ1Y3Qga3ZfcG93ZXJfaW5mbyAqcGkgPSBrdl9nZXRfcGkoYWRl
-dik7Cj4gLSAgICAgICBpbnQgcmV0Owo+Cj4gICAgICAgICBwaS0+dXZkX3Bvd2VyX2dhdGVkID0g
-Z2F0ZTsKPgo+ICAgICAgICAgaWYgKGdhdGUpIHsKPiAgICAgICAgICAgICAgICAgLyogc3RvcCB0
-aGUgVVZEIGJsb2NrICovCj4gLSAgICAgICAgICAgICAgIHJldCA9IGFtZGdwdV9kZXZpY2VfaXBf
-c2V0X3Bvd2VyZ2F0aW5nX3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiAtICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-QU1EX1BHX1NUQVRFX0dBVEUpOwo+ICsgICAgICAgICAgICAgICBhbWRncHVfZGV2aWNlX2lwX3Nl
-dF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQRV9VVkQsCj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEFNRF9QR19T
-VEFURV9HQVRFKTsKPiAgICAgICAgICAgICAgICAga3ZfdXBkYXRlX3V2ZF9kcG0oYWRldiwgZ2F0
-ZSk7Cj4gICAgICAgICAgICAgICAgIGlmIChwaS0+Y2Fwc191dmRfcGcpCj4gICAgICAgICAgICAg
-ICAgICAgICAgICAgLyogcG93ZXIgb2ZmIHRoZSBVVkQgYmxvY2sgKi8KPiBAQCAtMTY5NCw4ICsx
-NjkzLDggQEAgc3RhdGljIHZvaWQga3ZfZHBtX3Bvd2VyZ2F0ZV91dmQodm9pZCAqaGFuZGxlLCBi
-b29sIGdhdGUpCj4gICAgICAgICAgICAgICAgICAgICAgICAgLyogcmUtaW5pdCB0aGUgVVZEIGJs
-b2NrICovCj4gICAgICAgICAgICAgICAgIGt2X3VwZGF0ZV91dmRfZHBtKGFkZXYsIGdhdGUpOwo+
-Cj4gLSAgICAgICAgICAgICAgIHJldCA9IGFtZGdwdV9kZXZpY2VfaXBfc2V0X3Bvd2VyZ2F0aW5n
-X3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiAtICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BHX1NUQVRFX1VO
-R0FURSk7Cj4gKyAgICAgICAgICAgICAgIGFtZGdwdV9kZXZpY2VfaXBfc2V0X3Bvd2VyZ2F0aW5n
-X3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiArICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BHX1NUQVRFX1VOR0FURSk7
-Cj4gICAgICAgICB9Cj4gIH0KPgo+IEBAIC0xNzAzLDE0ICsxNzAyLDEzIEBAIHN0YXRpYyB2b2lk
-IGt2X2RwbV9wb3dlcmdhdGVfdmNlKHZvaWQgKmhhbmRsZSwgYm9vbCBnYXRlKQo+ICB7Cj4gICAg
-ICAgICBzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiA9IChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAq
-KWhhbmRsZTsKPiAgICAgICAgIHN0cnVjdCBrdl9wb3dlcl9pbmZvICpwaSA9IGt2X2dldF9waShh
-ZGV2KTsKPiAtICAgICAgIGludCByZXQ7Cj4KPiAgICAgICAgIHBpLT52Y2VfcG93ZXJfZ2F0ZWQg
-PSBnYXRlOwo+Cj4gICAgICAgICBpZiAoZ2F0ZSkgewo+ICAgICAgICAgICAgICAgICAvKiBzdG9w
-IHRoZSBWQ0UgYmxvY2sgKi8KPiAtICAgICAgICAgICAgICAgcmV0ID0gYW1kZ3B1X2RldmljZV9p
-cF9zZXRfcG93ZXJnYXRpbmdfc3RhdGUoYWRldiwgQU1EX0lQX0JMT0NLX1RZUEVfVkNFLAo+IC0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBBTURfUEdfU1RBVEVfR0FURSk7Cj4gKyAgICAgICAgICAgICAgIGFtZGdwdV9kZXZpY2VfaXBf
-c2V0X3Bvd2VyZ2F0aW5nX3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1ZDRSwKPiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BH
-X1NUQVRFX0dBVEUpOwo+ICAgICAgICAgICAgICAgICBrdl9lbmFibGVfdmNlX2RwbShhZGV2LCBm
-YWxzZSk7Cj4gICAgICAgICAgICAgICAgIGlmIChwaS0+Y2Fwc192Y2VfcGcpIC8qIHBvd2VyIG9m
-ZiB0aGUgVkNFIGJsb2NrICovCj4gICAgICAgICAgICAgICAgICAgICAgICAgYW1kZ3B1X2t2X25v
-dGlmeV9tZXNzYWdlX3RvX3NtdShhZGV2LCBQUFNNQ19NU0dfVkNFUG93ZXJPRkYpOwo+IEBAIC0x
-NzE5LDggKzE3MTcsOCBAQCBzdGF0aWMgdm9pZCBrdl9kcG1fcG93ZXJnYXRlX3ZjZSh2b2lkICpo
-YW5kbGUsIGJvb2wgZ2F0ZSkKPiAgICAgICAgICAgICAgICAgICAgICAgICBhbWRncHVfa3Zfbm90
-aWZ5X21lc3NhZ2VfdG9fc211KGFkZXYsIFBQU01DX01TR19WQ0VQb3dlck9OKTsKPiAgICAgICAg
-ICAgICAgICAga3ZfZW5hYmxlX3ZjZV9kcG0oYWRldiwgdHJ1ZSk7Cj4gICAgICAgICAgICAgICAg
-IC8qIHJlLWluaXQgdGhlIFZDRSBibG9jayAqLwo+IC0gICAgICAgICAgICAgICByZXQgPSBhbWRn
-cHVfZGV2aWNlX2lwX3NldF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQ
-RV9WQ0UsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIEFNRF9QR19TVEFURV9VTkdBVEUpOwo+ICsgICAgICAgICAgICAgICBhbWRn
-cHVfZGV2aWNlX2lwX3NldF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQ
-RV9WQ0UsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIEFNRF9QR19TVEFURV9VTkdBVEUpOwo+ICAgICAgICAgfQo+ICB9Cj4KPiAtLQo+IDIu
-MjUuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
-Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
-dmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sun, Nov 22, 2020 at 08:17:03AM -0800, Kees Cook wrote:
+> On Fri, Nov 20, 2020 at 11:51:42AM -0800, Jakub Kicinski wrote:
+> > On Fri, 20 Nov 2020 11:30:40 -0800 Kees Cook wrote:
+> > > On Fri, Nov 20, 2020 at 10:53:44AM -0800, Jakub Kicinski wrote:
+> > > > On Fri, 20 Nov 2020 12:21:39 -0600 Gustavo A. R. Silva wrote:  
+> > > > > This series aims to fix almost all remaining fall-through warnings in
+> > > > > order to enable -Wimplicit-fallthrough for Clang.
+> > > > > 
+> > > > > In preparation to enable -Wimplicit-fallthrough for Clang, explicitly
+> > > > > add multiple break/goto/return/fallthrough statements instead of just
+> > > > > letting the code fall through to the next case.
+> > > > > 
+> > > > > Notice that in order to enable -Wimplicit-fallthrough for Clang, this
+> > > > > change[1] is meant to be reverted at some point. So, this patch helps
+> > > > > to move in that direction.
+> > > > > 
+> > > > > Something important to mention is that there is currently a discrepancy
+> > > > > between GCC and Clang when dealing with switch fall-through to empty case
+> > > > > statements or to cases that only contain a break/continue/return
+> > > > > statement[2][3][4].  
+> > > > 
+> > > > Are we sure we want to make this change? Was it discussed before?
+> > > > 
+> > > > Are there any bugs Clangs puritanical definition of fallthrough helped
+> > > > find?
+> > > > 
+> > > > IMVHO compiler warnings are supposed to warn about issues that could
+> > > > be bugs. Falling through to default: break; can hardly be a bug?!  
+> > > 
+> > > It's certainly a place where the intent is not always clear. I think
+> > > this makes all the cases unambiguous, and doesn't impact the machine
+> > > code, since the compiler will happily optimize away any behavioral
+> > > redundancy.
+> > 
+> > If none of the 140 patches here fix a real bug, and there is no change
+> > to machine code then it sounds to me like a W=2 kind of a warning.
+> 
+> FWIW, this series has found at least one bug so far:
+> https://lore.kernel.org/lkml/CAFCwf11izHF=g1mGry1fE5kvFFFrxzhPSM6qKAO8gxSp=Kr_CQ@mail.gmail.com/
+
+This is a fallthrough to a return and not to a break.  That should
+trigger a warning.  The fallthrough to a break should not generate a
+warning.
+
+The bug we're trying to fix is "missing break statement" but if the
+result of the bug is "we hit a break statement" then now we're just
+talking about style.  GCC should limit itself to warning about
+potentially buggy code.
+
+regards,
+dan carpenter
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
