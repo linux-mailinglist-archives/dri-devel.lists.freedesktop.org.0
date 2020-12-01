@@ -1,63 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 651472CAD05
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 21:09:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BDA2CAD4B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 21:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C85436E8C0;
-	Tue,  1 Dec 2020 20:09:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 274D56E02B;
+	Tue,  1 Dec 2020 20:28:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD8B46E8C0
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 20:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606853368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=z9xBuIwvHlgEYVcinhRR/M3/VaorTrBcdWGpGOVdNeU=;
- b=gyAhGPYUFm8y3ewTqzGrM8kqbrOCnYdkWYFuBDiBu4KGxFky9lppc9HM+7jNgReyJAaiif
- mx9JePHQiaLOPN0jWNHIB9c0pcBmwvwHo0EtlzvkBfImZoeEYFlPbtaq7ybhZYSD62SDOU
- OEYZX3gTsJGABSsmhD6H4Zvdcjhj7QE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-iuFG615qMPK1Fc5-5Lrjvw-1; Tue, 01 Dec 2020 15:09:22 -0500
-X-MC-Unique: iuFG615qMPK1Fc5-5Lrjvw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 485BD6E02B
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 20:28:38 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E08A158220;
- Tue,  1 Dec 2020 20:09:20 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com
- (file01.intranet.prod.int.rdu2.redhat.com [10.11.5.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3077189A4;
- Tue,  1 Dec 2020 20:09:19 +0000 (UTC)
-Received: from file01.intranet.prod.int.rdu2.redhat.com (localhost [127.0.0.1])
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4) with ESMTP id
- 0B1K9JVF025796; Tue, 1 Dec 2020 15:09:19 -0500
-Received: from localhost (mpatocka@localhost)
- by file01.intranet.prod.int.rdu2.redhat.com (8.14.4/8.14.4/Submit) with ESMTP
- id 0B1K9I7G025792; Tue, 1 Dec 2020 15:09:18 -0500
-X-Authentication-Warning: file01.intranet.prod.int.rdu2.redhat.com: mpatocka
- owned process doing -bs
-Date: Tue, 1 Dec 2020 15:09:18 -0500 (EST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-X-X-Sender: mpatocka@file01.intranet.prod.int.rdu2.redhat.com
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] fbdev: Remove udlfb driver
-In-Reply-To: <alpine.LRH.2.02.2012010500310.27495@file01.intranet.prod.int.rdu2.redhat.com>
-Message-ID: <alpine.LRH.2.02.2012011505060.25490@file01.intranet.prod.int.rdu2.redhat.com>
-References: <20201130125200.10416-1-tzimmermann@suse.de>
- <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
- <336a41ef-1e49-6799-1bfd-06fb42419fb8@suse.de>
- <alpine.LRH.2.02.2012010500310.27495@file01.intranet.prod.int.rdu2.redhat.com>
-User-Agent: Alpine 2.02 (LRH 1266 2009-07-14)
+ by asavdk3.altibox.net (Postfix) with ESMTPS id C52D72001F;
+ Tue,  1 Dec 2020 21:28:34 +0100 (CET)
+Date: Tue, 1 Dec 2020 21:28:33 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Doug Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] drm: panel: add flags to BOE NV110WTM-N61
+Message-ID: <20201201202833.GA2040622@ravnborg.org>
+References: <20201130182643.GA1497637@ravnborg.org>
+ <CAD=FV=Ur+dENMpHHN7b=fahhtMFZ_BCDcr7cTDyPzZgn7rqbMw@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=Ur+dENMpHHN7b=fahhtMFZ_BCDcr7cTDyPzZgn7rqbMw@mail.gmail.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=cm27Pg_UAAAA:8 a=pGLkceISAAAA:8
+ a=e5mUnYsNAAAA:8 a=DW601nYS4FH9a570c1EA:9 a=CjuIK1q_8ugA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=xmb-EsYY8bH0VWELuYED:22
+ a=Vxmtnl_E_bksehYqCbjh:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,26 +46,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, geert+renesas@glider.be, corbet@lwn.net,
- daniel.vetter@ffwll.ch, linux-doc@vger.kernel.org, bernie@plugable.com,
- dri-devel@lists.freedesktop.org, sam@ravnborg.org
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Doug,
 
+On Tue, Dec 01, 2020 at 10:53:17AM -0800, Doug Anderson wrote:
+> Hi,
+> 
+> On Mon, Nov 30, 2020 at 10:26 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+> >
+> > When applying a patch to add the BOE NV110WTM-N61 panel I forgot
+> > to add the changes that added flags to drm_display_mode.
+> 
+> Sorry, I didn't mean to make more work for you!
+> 
+> 
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Fixes: a96ee0f6b58d ("drm: panel: simple: Add BOE NV110WTM-N61")
+> > Cc: Douglas Anderson <dianders@chromium.org>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > ---
+> >  drivers/gpu/drm/panel/panel-simple.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> > index 216cde33b5c4..2d093b5a513c 100644
+> > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > @@ -1367,6 +1367,7 @@ static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+> >                 .vsync_start = 800 + 3,
+> >                 .vsync_end = 800 + 3 + 5,
+> >                 .vtotal = 800 + 3 + 5 + 24,
+> > +               .flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+> >         },
+> >         {
+> >                 .clock = 57500,
+> > @@ -1378,6 +1379,7 @@ static const struct drm_display_mode boe_nv101wxmn51_modes[] = {
+> >                 .vsync_start = 800 + 3,
+> >                 .vsync_end = 800 + 3 + 5,
+> >                 .vtotal = 800 + 3 + 5 + 24,
+> > +               .flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC,
+> 
+> I think you're off by 10 and a letter.
+> 
+> The subject talks about:
+>   NV110WTM-N61
+> 
+> You're modifying the structs for:
+>   NV101WXM-N51
+> 
+> I'm happy to post this if it's helpful to you, or I can review a v2
+> from you.  :-)
+Please do so, that would be very nice.
 
-On Tue, 1 Dec 2020, Mikulas Patocka wrote:
-
-> When I try to run Xorg (from Debian 9) with the kernel 5.10-rc6, it 
-> doesn't work at all, I get this crash:
-
-I tried to rux Xorg on another machine (with up-to-date Debian ports) and 
-it didn't crash on unplug.
-
-Mikulas
-
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
