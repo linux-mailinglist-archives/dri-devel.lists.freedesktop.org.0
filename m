@@ -1,60 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E152C995F
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0842C995B
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 767716E56A;
-	Tue,  1 Dec 2020 08:23:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79FF6E53E;
+	Tue,  1 Dec 2020 08:23:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47C589996
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 23:06:11 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id t4so18557344wrr.12
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Nov 2020 15:06:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HwnFymWMQTV9oikYfEqk9Alj6I5f+hN6S3yVGaHyZC0=;
- b=s0zassctoH8n02oQHks/DKQgmIxXJvp0+pGaAJ5Z7zstCbNvY1h+lryQqKeFU4ArEw
- 2vTRujPBkS8+7Fxxme6nYq1CJt3xeb4Bd+bUmED+2CAxS/hSZBYTD/0Yaakq9xhXfMgN
- zvPPk0YfEXz0mLIExfdcvywGG8sbt9xXisC/p/Z7t3VexAuZBy5TTUL5yyxjiaEqRhfS
- aL3eyWdd0otiJD2JfZCF/bpcn8nXfLm3dzhr5kbPObt1fESzVbdgHSikvb9h4d/XXnH/
- MlhrW6KHA9pymEzxZeflRC9xhzc0vqKJhf9mZJ+AMkKLBx9Y2dgGL7oe64fEs8xogUow
- IAlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=HwnFymWMQTV9oikYfEqk9Alj6I5f+hN6S3yVGaHyZC0=;
- b=J9VH5Sz5sZfDm4MlRru1Knw2JOjiSchmEoHAqTHHl/X8Kas4UB7XjwhbIcObzUsj/w
- jnRkPsKuZhgsJrxoEfw1UFISBt6ULzfIu0uAYigh1ni4JH3AMOCkU95Yx53TNL8m7dvn
- HQDGtQjzU9OV9n3kh74XiWba0InHyPy+QvhT46yBulyThuhjjnlA+jLbTBhYbnjYkn7x
- jwmtVpWdgS1Z4hrMiWxcIOD6l3ZqXK3r8fdxNn4KQjwSb9nMUpjw3vfFroj3+3KoyOxh
- EPupj6J68Ttg2+AO/T3l4aKwYqnkE0q5VzzWoG7sl7cNEChWnRfZpuf1GfKpSlWffLT6
- BMAw==
-X-Gm-Message-State: AOAM5327vUDEfhjw/YzqXVrwP2SmkZGQ/rAPOWiF4boTJ/XXO1PkcS79
- C6M4nc4/z9qe6YSQkDZOhOARzmseXBOJkg==
-X-Google-Smtp-Source: ABdhPJwjJU070XxJynPiqttnwBLHDlKswKPyoUaRS3l5vHPhaQdcULTnfMTuiYnFTst9gDkx5n56rw==
-X-Received: by 2002:adf:f84b:: with SMTP id d11mr31419411wrq.216.1606777570513; 
- Mon, 30 Nov 2020 15:06:10 -0800 (PST)
-Received: from rum-mikhail-dt.world.mentorg.com (nat-rum.mentorg.com.
- [139.181.33.34])
- by smtp.gmail.com with ESMTPSA id p4sm30427985wrm.51.2020.11.30.15.06.08
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 30 Nov 2020 15:06:10 -0800 (PST)
-From: mdurnev@gmail.com
-X-Google-Original-From: mikhail_durnev@mentor.com
-To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- noralf@tronnes.org
-Subject: [PATCH v2 3/3] dt-bindings: panel: Add bindings for MRB2801
-Date: Tue,  1 Dec 2020 09:05:36 +1000
-Message-Id: <1606777536-14783-4-git-send-email-mikhail_durnev@mentor.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1606777536-14783-1-git-send-email-mikhail_durnev@mentor.com>
-References: <1606777536-14783-1-git-send-email-mikhail_durnev@mentor.com>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A0489AB9;
+ Tue,  1 Dec 2020 01:29:41 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fc59c830000>; Mon, 30 Nov 2020 17:29:39 -0800
+Received: from localhost (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 1 Dec
+ 2020 01:29:38 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: <nouveau@lists.freedesktop.org>
+Subject: [PATCH] drm/nouveau/svm: Only map migrating pages
+Date: Tue, 1 Dec 2020 12:29:36 +1100
+Message-ID: <20201201012936.9046-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1606786179; bh=U2FLmjEm94rPLnGodJhcYwZBdpdbhTX9UL1a65sI3bI=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+ Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+ X-ClientProxiedBy;
+ b=FhgNlKphVf9oOOynU0gD9eLLDsorI+EotpUqSf8jOBf+GNKe/PnzOUBfizzEXTZ6I
+ Nk2lDdBcBE7zxrOZjniP9rtuTSUCFME1er5nTEM75pUcTtcTQ3QLnqhLm2q+nsdqXN
+ kF3WgO2Lohicz68fGDinflQYxSGiXwk56VWviw1uhu0Xhkmb3WKpFyyLBD/aJqBeKz
+ ABVnrPp+jkKOOTGRzo36dPdcqFVHkGM5kOCbANft6wiXJiurj5C6YQ0VBGC5S5t4M1
+ VHKDQEHYji1fG2224bbE6e5isZWjW4gxqO97RAZ9rGUmjL7AsUVv3P5l6Whqtf02V+
+ OyIp/3rhTN6Uw==
 X-Mailman-Approved-At: Tue, 01 Dec 2020 08:23:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,76 +53,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: mikhail_durnev@mentor.com
-MIME-Version: 1.0
+Cc: rcampbell@nvidia.com, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ bskeggs@redhat.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikhail Durnev <mikhail_durnev@mentor.com>
+Only pages which were actually migrated should be mapped on the GPU.
+migrate_vma_pages() clears MIGRATE_PFN_MIGRATE in the src_pfn array, so
+test this prior to mapping the pages on the GPU. If any pages failed to
+migrate don't install any mappings - the GPU will demand fault any as
+required.
 
-Add binding for Ronbo MRB2801 display module.
-
-This binding is for display panels using an Ilitek ILI9341 controller in
-parallel mode.
-
-Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+Fixes: e3d8b0890469 ("drm/nouveau/svm: map pages after migration")
+Signed-off-by: Alistair Popple <apopple@nvidia.com>
 ---
- .../devicetree/bindings/display/ronbo,mrb2801.txt  | 42 ++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/ronbo,mrb2801.txt b/Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
-new file mode 100644
-index 0000000..db1a861e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
-@@ -0,0 +1,42 @@
-+MRB2801 display panel
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index 92987daa5e17..a2169644f114 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -618,8 +618,9 @@ static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+ 		dma_addr_t *dma_addrs, u64 *pfns)
+ {
+ 	struct nouveau_fence *fence;
+-	unsigned long addr = args->start, nr_dma = 0, i;
++	unsigned long addr = args->start, nr_dma = 0, i, npages;
+ 
++	npages = (args->end - args->start) >> PAGE_SHIFT;
+ 	for (i = 0; addr < args->end; i++) {
+ 		args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+ 				args->src[i], dma_addrs + nr_dma, pfns + i);
+@@ -631,7 +632,16 @@ static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+ 	nouveau_fence_new(drm->dmem->migrate.chan, false, &fence);
+ 	migrate_vma_pages(args);
+ 	nouveau_dmem_fence_done(&fence);
+-	nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
 +
-+This binding is for display panels using an Ilitek ILI9341 controller in
-+parallel mode.
++	for (i = 0; i < npages; i++)
++		if (!(args->src[i] & MIGRATE_PFN_MIGRATE))
++			break;
 +
-+Required properties:
-+- compatible:		"ronbo,mrb2801"
-+- dc-gpios:		D/C pin
-+- wr-gpios:		W/R pin
-+- db-gpios:		8 or 16 DB pins
-+- reset-gpios:		Reset pin
-+- wr-up-down-delays:	Delays in ns for changing W/R from down to up and from up to down
-+
-+Optional properties:
-+- backlight:	phandle of the backlight device attached to the panel
-+- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
-+
-+Example:
-+	mrb2801{
-+		compatible = "ronbo,mrb2801";
-+		db-gpios = <&gpio 17 0>, /* DB0 */
-+			   <&gpio 18 0>, /* DB1 */
-+			   <&gpio 27 0>, /* DB2 */
-+			   <&gpio 22 0>, /* DB3 */
-+			   <&gpio 23 0>, /* DB4 */
-+			   <&gpio 24 0>, /* DB5 */
-+			   <&gpio 25 0>, /* DB6 */
-+			   <&gpio  4 0>, /* DB7 */
-+			   <&gpio 14 0>, /* DB8 */
-+			   <&gpio 15 0>, /* DB9 */
-+			   <&gpio  5 0>, /* DB10 */
-+			   <&gpio  6 0>, /* DB11 */
-+			   <&gpio 13 0>, /* DB12 */
-+			   <&gpio 19 0>, /* DB13 */
-+			   <&gpio 26 0>, /* DB14 */
-+			   <&gpio 12 0>; /* DB15 */
-+		dc-gpios = <&gpio 16 0>; /* D/C */
-+		wr-gpios = <&gpio 20 0>; /* W/R */
-+		wr-up-down-delays = <10 51>;
-+		reset-gpios = <&gpio 21 0>; /* RST */
-+		backlight = <&backlight>;
-+	};
++	/* If all pages were migrated successfully map them on the GPU. If any
++	 * failed just let the GPU fault to create the mapping.
++	 */
++	if (i == npages)
++		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, npages);
+ 
+ 	while (nr_dma--) {
+ 		dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
 -- 
-2.7.4
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
