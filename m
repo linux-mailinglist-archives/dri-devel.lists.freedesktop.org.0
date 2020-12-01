@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E82C9403
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:34:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4BD2C940F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:36:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E8D7898F5;
-	Tue,  1 Dec 2020 00:34:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B328F89DED;
+	Tue,  1 Dec 2020 00:36:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C2D898F5
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 00:34:36 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97A3D89DED
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 00:36:38 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18F6031D;
- Tue,  1 Dec 2020 01:34:35 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04C3931D;
+ Tue,  1 Dec 2020 01:36:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606782875;
- bh=Aq6VO2P9+ZtDGkIFiJn3gx0NdnB5wG8jOkCm3y9kRBw=;
+ s=mail; t=1606782997;
+ bh=QrZzDHpOcsK4YhRz1DEz1CyWpFmoIXil5VmlG/oFXbU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YogvSyAgBOkObJiF/S4Fezm6mStqdgUrR+B2/RPkUu0EeGAfqE4QlkurBnvxzHmRI
- v/kfy+5xKYZ/Kt12cw6brhr1zNvOitQtbQaMMEyPO+VXSgcCUlWt8REBjvxK+hWfGQ
- gCmjMVZUVmiZum8CnfEOe1Z0jmtW99ydV1Tkdx0Q=
-Date: Tue, 1 Dec 2020 02:34:27 +0200
+ b=g2nEGcEDMuHhjDpfc8LoarSmdk5bbuwDXBXuIGbM25s7v7mBNsb63AAu6oD1WWQZ6
+ GEhypiumBHu/PHTHTWnygDJoG/vUGyC6hflsXwHT3Q4OHyzowG70sQYKYDp5HS9zwB
+ a3qP3QFrE/71jINkMYT+mQYxIRi4U291N3UFDQ5U=
+Date: Tue, 1 Dec 2020 02:36:28 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v4 75/80] drm/omap: dsi: rename dsi_display_* functions
-Message-ID: <20201201003427.GT25713@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 76/80] drm/omap: dsi: cleanup initial vc setup
+Message-ID: <20201201003628.GU25713@pendragon.ideasonboard.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
- <20201124124538.660710-76-tomi.valkeinen@ti.com>
+ <20201124124538.660710-77-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201124124538.660710-76-tomi.valkeinen@ti.com>
+In-Reply-To: <20201124124538.660710-77-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,174 +59,163 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Tue, Nov 24, 2020 at 02:45:33PM +0200, Tomi Valkeinen wrote:
-> The function names have evolved to be very confusing, and bunch of them
-> have "display" in them even if the function doesn't deal with display as
-> such (e.g. dsi_display_enable which just enables the DSI interface).
-> Rename them by dropping the "display".
+On Tue, Nov 24, 2020 at 02:45:34PM +0200, Tomi Valkeinen wrote:
+> As we now have a fixed setup for VCs (VC0 for video stream, VC1 for
+> commands), we can simplify the VC setup.
 > 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
 > ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 36 +++++++++++++++----------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 85 +++++++++++--------------------
+>  1 file changed, 31 insertions(+), 54 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index d23fc43f1d1e..ff8ace957291 100644
+> index ff8ace957291..27d0d119668b 100644
 > --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 > +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -55,8 +55,8 @@
+> @@ -2017,40 +2017,6 @@ static void dsi_vc_initial_config(struct dsi_data *dsi, int vc)
+>  	dsi->vc[vc].source = DSI_VC_SOURCE_L4;
+>  }
 >  
->  static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable);
+> -static int dsi_vc_config_source(struct dsi_data *dsi, int vc,
+> -				enum dsi_vc_source source)
+> -{
+> -	if (dsi->vc[vc].source == source)
+> -		return 0;
+> -
+> -	DSSDBG("Source config of VC %d", vc);
+> -
+> -	dsi_sync_vc(dsi, vc);
+> -
+> -	dsi_vc_enable(dsi, vc, 0);
+> -
+> -	/* VC_BUSY */
+> -	if (!wait_for_bit_change(dsi, DSI_VC_CTRL(vc), 15, 0)) {
+> -		DSSERR("vc(%d) busy when trying to config for VP\n", vc);
+> -		return -EIO;
+> -	}
+> -
+> -	/* SOURCE, 0 = L4, 1 = video port */
+> -	REG_FLD_MOD(dsi, DSI_VC_CTRL(vc), source, 1, 1);
+> -
+> -	/* DCS_CMD_ENABLE */
+> -	if (dsi->data->quirks & DSI_QUIRK_DCS_CMD_CONFIG_VC) {
+> -		bool enable = source == DSI_VC_SOURCE_VP;
+> -		REG_FLD_MOD(dsi, DSI_VC_CTRL(vc), enable, 30, 30);
+> -	}
+> -
+> -	dsi_vc_enable(dsi, vc, 1);
+> -
+> -	dsi->vc[vc].source = source;
+> -
+> -	return 0;
+> -}
+> -
+>  static void dsi_vc_enable_hs(struct omap_dss_device *dssdev, int vc,
+>  		bool enable)
+>  {
+> @@ -2072,10 +2038,6 @@ static void dsi_vc_enable_hs(struct omap_dss_device *dssdev, int vc,
+>  	dsi_if_enable(dsi, 1);
 >  
-> -static int dsi_display_init_dispc(struct dsi_data *dsi);
-> -static void dsi_display_uninit_dispc(struct dsi_data *dsi);
-> +static int dsi_init_dispc(struct dsi_data *dsi);
-> +static void dsi_uninit_dispc(struct dsi_data *dsi);
+>  	dsi_force_tx_stop_mode_io(dsi);
+> -
+> -	/* start the DDR clock by sending a NULL packet */
+> -	if (dsi->vm_timings.ddr_clk_always_on && enable)
+> -		dsi_vc_send_null(dsi, vc, dsi->dsidev->channel);
+>  }
 >  
->  static int dsi_vc_send_null(struct dsi_data *dsi, int vc, int channel);
->  
-> @@ -3257,7 +3257,7 @@ static void dsi_enable_video_output(struct omap_dss_device *dssdev, int vc)
->  	u16 word_count;
->  	int r;
->  
-> -	r = dsi_display_init_dispc(dsi);
-> +	r = dsi_init_dispc(dsi);
->  	if (r) {
->  		dev_err(dsi->dev, "failed to init dispc!\n");
->  		return;
-> @@ -3309,7 +3309,7 @@ static void dsi_enable_video_output(struct omap_dss_device *dssdev, int vc)
->  		dsi_vc_enable(dsi, vc, false);
+>  static void dsi_vc_flush_long_data(struct dsi_data *dsi, int vc)
+> @@ -2270,8 +2232,6 @@ static int dsi_vc_send_long(struct dsi_data *dsi, int vc,
+>  		return -EINVAL;
 >  	}
->  err_pix_fmt:
-> -	dsi_display_uninit_dispc(dsi);
-> +	dsi_uninit_dispc(dsi);
->  	dev_err(dsi->dev, "failed to enable DSI encoder!\n");
->  	return;
->  }
-> @@ -3331,7 +3331,7 @@ static void dsi_disable_video_output(struct omap_dss_device *dssdev, int vc)
 >  
->  	dss_mgr_disable(&dsi->output);
+> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+> -
+>  	dsi_vc_write_long_header(dsi, vc, msg->channel, msg->type, msg->tx_len, 0);
 >  
-> -	dsi_display_uninit_dispc(dsi);
-> +	dsi_uninit_dispc(dsi);
->  }
+>  	p = msg->tx_buf;
+> @@ -2331,8 +2291,6 @@ static int dsi_vc_send_short(struct dsi_data *dsi, int vc,
+>  		DSSDBG("dsi_vc_send_short(ch%d, dt %#x, b1 %#x, b2 %#x)\n",
+>  		       vc, msg->type, pkt.header[1], pkt.header[2]);
 >  
->  static void dsi_update_screen_dispc(struct dsi_data *dsi)
-> @@ -3577,7 +3577,7 @@ static int dsi_configure_dispc_clocks(struct dsi_data *dsi)
+> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+> -
+>  	if (FLD_GET(dsi_read_reg(dsi, DSI_VC_CTRL(vc)), 16, 16)) {
+>  		DSSERR("ERROR FIFO FULL, aborting transfer\n");
+>  		return -EINVAL;
+> @@ -3351,8 +3309,6 @@ static void dsi_update_screen_dispc(struct dsi_data *dsi)
+>  
+>  	DSSDBG("dsi_update_screen_dispc(%dx%d)\n", w, h);
+>  
+> -	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_VP);
+> -
+>  	bytespp	= mipi_dsi_pixel_format_to_bpp(dsi->pix_fmt) / 8;
+>  	bytespl = w * bytespp;
+>  	bytespf = bytespl * h;
+> @@ -3522,9 +3478,7 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int vc)
+>  
+>  	dsi_set_ulps_auto(dsi, false);
+>  
+> -	dsi_vc_enable_hs(dssdev, vc, !(dsi->dsidev->mode_flags & MIPI_DSI_MODE_LPM));
+
+Why is this not needed anymore ?
+
+> -
+> -	r = _dsi_send_nop(dsi, vc, dsi->dsidev->channel);
+> +	r = _dsi_send_nop(dsi, VC_CMD, dsi->dsidev->channel);
+>  	if (r < 0) {
+>  		DSSWARN("failed to send nop between frames: %d\n", r);
+>  		goto err;
+> @@ -3649,6 +3603,35 @@ static int dsi_configure_dsi_clocks(struct dsi_data *dsi)
 >  	return 0;
 >  }
 >  
-> -static int dsi_display_init_dispc(struct dsi_data *dsi)
-> +static int dsi_init_dispc(struct dsi_data *dsi)
->  {
->  	enum omap_channel dispc_channel = dsi->output.dispc_channel;
->  	int r;
-> @@ -3622,7 +3622,7 @@ static int dsi_display_init_dispc(struct dsi_data *dsi)
->  	return r;
->  }
->  
-> -static void dsi_display_uninit_dispc(struct dsi_data *dsi)
-> +static void dsi_uninit_dispc(struct dsi_data *dsi)
->  {
->  	enum omap_channel dispc_channel = dsi->output.dispc_channel;
->  
-> @@ -3649,7 +3649,7 @@ static int dsi_configure_dsi_clocks(struct dsi_data *dsi)
->  	return 0;
->  }
->  
-> -static int dsi_display_init_dsi(struct dsi_data *dsi)
-> +static int dsi_init_dsi(struct dsi_data *dsi)
->  {
->  	int r;
->  
-> @@ -3713,7 +3713,7 @@ static int dsi_display_init_dsi(struct dsi_data *dsi)
->  	return r;
->  }
->  
-> -static void dsi_display_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
-> +static void dsi_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
->  				   bool enter_ulps)
->  {
->  	if (enter_ulps && !dsi->ulps_enabled)
-> @@ -3736,7 +3736,7 @@ static void dsi_display_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
->  	}
->  }
->  
-> -static void dsi_display_enable(struct dsi_data *dsi)
-> +static void dsi_enable(struct dsi_data *dsi)
+> +static void dsi_setup_dsi_vcs(struct dsi_data *dsi)
+> +{
+> +	/* Setup VC_CMD for LP and cpu transfers */
+> +	REG_FLD_MOD(dsi, DSI_VC_CTRL(VC_CMD), 0, 9, 9); /* LP */
+> +
+> +	REG_FLD_MOD(dsi, DSI_VC_CTRL(VC_CMD), 0, 1, 1); /* SOURCE_L4 */
+> +	dsi->vc[VC_CMD].source = DSI_VC_SOURCE_L4;
+> +
+> +	/* Setup VC_VIDEO for HS and dispc transfers */
+> +	REG_FLD_MOD(dsi, DSI_VC_CTRL(VC_VIDEO), 1, 9, 9); /* HS */
+> +
+> +	REG_FLD_MOD(dsi, DSI_VC_CTRL(VC_VIDEO), 1, 1, 1); /* SOURCE_VP */
+> +	dsi->vc[VC_VIDEO].source = DSI_VC_SOURCE_VP;
+> +
+> +	if (dsi->data->quirks & DSI_QUIRK_DCS_CMD_CONFIG_VC)
+> +		REG_FLD_MOD(dsi, DSI_VC_CTRL(VC_VIDEO), 1, 30, 30); /* DCS_CMD_ENABLE */
+> +
+> +	dsi_vc_enable(dsi, VC_CMD, 1);
+> +	dsi_vc_enable(dsi, VC_VIDEO, 1);
+> +
+> +	dsi_if_enable(dsi, 1);
+> +
+> +	dsi_force_tx_stop_mode_io(dsi);
+> +
+> +	/* start the DDR clock by sending a NULL packet */
+> +	if (dsi->vm_timings.ddr_clk_always_on)
+> +		dsi_vc_send_null(dsi, VC_CMD, dsi->dsidev->channel);
+> +}
+> +
+>  static int dsi_init_dsi(struct dsi_data *dsi)
 >  {
 >  	int r;
->  
-> @@ -3750,7 +3750,7 @@ static void dsi_display_enable(struct dsi_data *dsi)
->  
->  	_dsi_initialize_irq(dsi);
->  
-> -	r = dsi_display_init_dsi(dsi);
-> +	r = dsi_init_dsi(dsi);
+> @@ -3691,13 +3674,7 @@ static int dsi_init_dsi(struct dsi_data *dsi)
 >  	if (r)
->  		goto err_init_dsi;
+>  		goto err3;
 >  
-> @@ -3762,10 +3762,10 @@ static void dsi_display_enable(struct dsi_data *dsi)
->  	dsi_runtime_put(dsi);
->  err_get_dsi:
->  	mutex_unlock(&dsi->lock);
-> -	DSSDBG("dsi_display_ulps_enable FAILED\n");
-> +	DSSDBG("dsi_enable FAILED\n");
->  }
+> -	/* enable interface */
+> -	dsi_vc_enable(dsi, 0, 1);
+> -	dsi_vc_enable(dsi, 1, 1);
+> -	dsi_vc_enable(dsi, 2, 1);
+> -	dsi_vc_enable(dsi, 3, 1);
+> -	dsi_if_enable(dsi, 1);
+> -	dsi_force_tx_stop_mode_io(dsi);
+> +	dsi_setup_dsi_vcs(dsi);
 >  
-> -static void dsi_display_disable(struct dsi_data *dsi,
-> +static void dsi_disable(struct dsi_data *dsi,
->  		bool disconnect_lanes, bool enter_ulps)
->  {
->  	WARN_ON(!dsi_bus_is_locked(dsi));
-> @@ -3777,7 +3777,7 @@ static void dsi_display_disable(struct dsi_data *dsi,
->  	dsi_sync_vc(dsi, 2);
->  	dsi_sync_vc(dsi, 3);
->  
-> -	dsi_display_uninit_dsi(dsi, disconnect_lanes, enter_ulps);
-> +	dsi_uninit_dsi(dsi, disconnect_lanes, enter_ulps);
->  
->  	dsi_runtime_put(dsi);
->  
-> @@ -3807,7 +3807,7 @@ static void omap_dsi_ulps_work_callback(struct work_struct *work)
->  
->  	dsi_enable_te(dsi, false);
->  
-> -	dsi_display_disable(dsi, false, true);
-> +	dsi_disable(dsi, false, true);
->  
->  	dsi_bus_unlock(dsi);
->  }
-> @@ -3828,7 +3828,7 @@ static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable)
->  			return;
->  
->  		dsi_bus_lock(dsi);
-> -		dsi_display_enable(dsi);
-> +		dsi_enable(dsi);
->  		dsi_enable_te(dsi, true);
->  		dsi_bus_unlock(dsi);
->  	}
-> @@ -4919,7 +4919,7 @@ static void dsi_bridge_enable(struct drm_bridge *bridge)
->  
->  	dsi_bus_lock(dsi);
->  
-> -	dsi_display_enable(dsi);
-> +	dsi_enable(dsi);
->  
->  	dsi_enable_video_output(dssdev, VC_VIDEO);
->  
-> @@ -4941,7 +4941,7 @@ static void dsi_bridge_disable(struct drm_bridge *bridge)
->  
->  	dsi_disable_video_output(dssdev, VC_VIDEO);
->  
-> -	dsi_display_disable(dsi, true, false);
-> +	dsi_disable(dsi, true, false);
->  
->  	dsi_bus_unlock(dsi);
->  }
+>  	return 0;
+>  err3:
 
 -- 
 Regards,
