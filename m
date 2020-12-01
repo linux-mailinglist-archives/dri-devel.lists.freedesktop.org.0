@@ -1,27 +1,27 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989FA2C9FBB
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 11:37:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE022C9FC5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 11:37:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24B1E6E917;
-	Tue,  1 Dec 2020 10:36:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CF86E928;
+	Tue,  1 Dec 2020 10:36:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBEF06E7FE;
- Tue,  1 Dec 2020 10:36:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50196E865;
+ Tue,  1 Dec 2020 10:36:01 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7CB6BAD0B;
- Tue,  1 Dec 2020 10:35:59 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 426AAACF1;
+ Tue,  1 Dec 2020 10:36:00 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@linux.ie,
 	daniel@ffwll.ch
-Subject: [PATCH v2 14/20] drm/qxl: Remove references to struct drm_device.pdev
-Date: Tue,  1 Dec 2020 11:35:36 +0100
-Message-Id: <20201201103542.2182-15-tzimmermann@suse.de>
+Subject: [PATCH v2 15/20] drm/radeon: Fix trailing whitespaces
+Date: Tue,  1 Dec 2020 11:35:37 +0100
+Message-Id: <20201201103542.2182-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201103542.2182-1-tzimmermann@suse.de>
 References: <20201201103542.2182-1-tzimmermann@suse.de>
@@ -38,99 +38,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>, spice-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ amd-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alex Deucher <alexander.deucher@amd.com>, spice-devel@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using struct drm_device.pdev is deprecated. Convert qxl to struct
-drm_device.dev. No functional changes.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
----
- drivers/gpu/drm/qxl/qxl_drv.c   | 2 +-
- drivers/gpu/drm/qxl/qxl_ioctl.c | 3 ++-
- drivers/gpu/drm/qxl/qxl_irq.c   | 3 ++-
- drivers/gpu/drm/qxl/qxl_kms.c   | 1 -
- 4 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index 6e7f16f4cec7..fb5f6a5e81d7 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -163,7 +163,7 @@ DEFINE_DRM_GEM_FOPS(qxl_fops);
- 
- static int qxl_drm_freeze(struct drm_device *dev)
- {
--	struct pci_dev *pdev = dev->pdev;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct qxl_device *qdev = to_qxl(dev);
- 	int ret;
- 
-diff --git a/drivers/gpu/drm/qxl/qxl_ioctl.c b/drivers/gpu/drm/qxl/qxl_ioctl.c
-index 16e1e589508e..b6075f452b9e 100644
---- a/drivers/gpu/drm/qxl/qxl_ioctl.c
-+++ b/drivers/gpu/drm/qxl/qxl_ioctl.c
-@@ -370,13 +370,14 @@ static int qxl_clientcap_ioctl(struct drm_device *dev, void *data,
- 				  struct drm_file *file_priv)
- {
- 	struct qxl_device *qdev = to_qxl(dev);
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	struct drm_qxl_clientcap *param = data;
- 	int byte, idx;
- 
- 	byte = param->index / 8;
- 	idx = param->index % 8;
- 
--	if (dev->pdev->revision < 4)
-+	if (pdev->revision < 4)
- 		return -ENOSYS;
- 
- 	if (byte >= 58)
-diff --git a/drivers/gpu/drm/qxl/qxl_irq.c b/drivers/gpu/drm/qxl/qxl_irq.c
-index 1ba5a702d763..ddf6588a2a38 100644
---- a/drivers/gpu/drm/qxl/qxl_irq.c
-+++ b/drivers/gpu/drm/qxl/qxl_irq.c
-@@ -81,6 +81,7 @@ static void qxl_client_monitors_config_work_func(struct work_struct *work)
- 
- int qxl_irq_init(struct qxl_device *qdev)
- {
-+	struct pci_dev *pdev = to_pci_dev(qdev->ddev.dev);
- 	int ret;
- 
- 	init_waitqueue_head(&qdev->display_event);
-@@ -93,7 +94,7 @@ int qxl_irq_init(struct qxl_device *qdev)
- 	atomic_set(&qdev->irq_received_cursor, 0);
- 	atomic_set(&qdev->irq_received_io_cmd, 0);
- 	qdev->irq_received_error = 0;
--	ret = drm_irq_install(&qdev->ddev, qdev->ddev.pdev->irq);
-+	ret = drm_irq_install(&qdev->ddev, pdev->irq);
- 	qdev->ram_header->int_mask = QXL_INTERRUPT_MASK;
- 	if (unlikely(ret != 0)) {
- 		DRM_ERROR("Failed installing irq: %d\n", ret);
-diff --git a/drivers/gpu/drm/qxl/qxl_kms.c b/drivers/gpu/drm/qxl/qxl_kms.c
-index 228e2b9198f1..4a60a52ab62e 100644
---- a/drivers/gpu/drm/qxl/qxl_kms.c
-+++ b/drivers/gpu/drm/qxl/qxl_kms.c
-@@ -111,7 +111,6 @@ int qxl_device_init(struct qxl_device *qdev,
- {
- 	int r, sb;
- 
--	qdev->ddev.pdev = pdev;
- 	pci_set_drvdata(pdev, &qdev->ddev);
- 
- 	mutex_init(&qdev->gem.mutex);
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWRoZXJlIHRvIGtlcm5lbCBjb2Rpbmcgc3R5bGUuCgpTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmlt
+bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KQWNrZWQtYnk6IEFsZXggRGV1Y2hlciA8YWxl
+eGFuZGVyLmRldWNoZXJAYW1kLmNvbT4KQ2M6IEFsZXggRGV1Y2hlciA8YWxleGFuZGVyLmRldWNo
+ZXJAYW1kLmNvbT4KQ2M6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNv
+bT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3IxMDAuYyAgICAgICB8IDIgKy0KIGRyaXZl
+cnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2ttcy5jIHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCAy
+IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL3JhZGVvbi9yMTAwLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL3IxMDAuYwppbmRleCAy
+NGM4ZGI2NzM5MzEuLmU0YWUwOWI1Mjk0ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Jh
+ZGVvbi9yMTAwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9yMTAwLmMKQEAgLTI3OTcs
+NyArMjc5Nyw3IEBAIHZvaWQgcjEwMF92cmFtX2luaXRfc2l6ZXMoc3RydWN0IHJhZGVvbl9kZXZp
+Y2UgKnJkZXYpCiAJCQlyZGV2LT5tYy5yZWFsX3ZyYW1fc2l6ZSA9IDgxOTIgKiAxMDI0OwogCQkJ
+V1JFRzMyKFJBREVPTl9DT05GSUdfTUVNU0laRSwgcmRldi0+bWMucmVhbF92cmFtX3NpemUpOwog
+CQl9Ci0JCS8qIEZpeCBmb3IgUk41MCwgTTYsIE03IHdpdGggOC8xNi8zMig/PykgTUJzIG9mIFZS
+QU0gLSAKKwkJLyogRml4IGZvciBSTjUwLCBNNiwgTTcgd2l0aCA4LzE2LzMyKD8/KSBNQnMgb2Yg
+VlJBTSAtCiAJCSAqIE5vdmVsbCBidWcgMjA0ODgyICsgYWxvbmcgd2l0aCBsb3RzIG9mIHVidW50
+dSBvbmVzCiAJCSAqLwogCQlpZiAocmRldi0+bWMuYXBlcl9zaXplID4gY29uZmlnX2FwZXJfc2l6
+ZSkKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2ttcy5jIGIvZHJp
+dmVycy9ncHUvZHJtL3JhZGVvbi9yYWRlb25fa21zLmMKaW5kZXggYWJiM2JkZDljYTI1Li43NWIw
+Mzg3NDBlYTggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2ttcy5j
+CisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yYWRlb24vcmFkZW9uX2ttcy5jCkBAIC03NCw3ICs3NCw3
+IEBAIHZvaWQgcmFkZW9uX2RyaXZlcl91bmxvYWRfa21zKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYp
+CiAJfQogCiAJcmFkZW9uX2FjcGlfZmluaShyZGV2KTsKLQkKKwogCXJhZGVvbl9tb2Rlc2V0X2Zp
+bmkocmRldik7CiAJcmFkZW9uX2RldmljZV9maW5pKHJkZXYpOwogCi0tIAoyLjI5LjIKCl9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
+aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
