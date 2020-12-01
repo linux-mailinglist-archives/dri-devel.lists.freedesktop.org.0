@@ -1,65 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9B62C99D6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:47:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 961D22C99D7
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 09:47:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF116E4C4;
-	Tue,  1 Dec 2020 08:47:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 848F56E523;
+	Tue,  1 Dec 2020 08:47:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 510776E4CA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 08:47:05 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id z1so1593548ljn.4
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 00:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=eFciGfZ8gBTe0kVSk8d6z32xm2elKo84gCzqFPfCHKU=;
- b=B0v1/yuYUIM7QFDK1Y8iRAEsNvuNECG1escQSvxkyR+zN+5FY7fOSegcN6lCkSd2wB
- Chutmmxxgq+YbhgaCf1lHdtyclhWSCDCAndu9nE3mfb0LsZlbUCkeMuaCulPGEzTpqKU
- BDLBDOXvNZTBzq0WH0vGoZcpQmdFVUO40JnlkQPcUcYLRVpf/LlFPfkosv49WAM6Jj0+
- 6VutaAYknaXowCyfGRTIOK5vsvojgI//R16h9HdMQ3uRSr94NfQyqbOsaUtIfht8HhBB
- dUudsOazSIVKwDpGFttnO33S0j4gB0xo+aGlEtFlxC1h8qFbDkAwVBA+FSWAGYQ3GZ8A
- r6SA==
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C68A16E4B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 08:47:22 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id a6so1587592wmc.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 00:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=W9tZXtjV5gZd9yQL3k71kPC77lVS3zwQx87dfhVC2Y0=;
+ b=aL0K95uFWJ7uaTbCLsTWdDM5SOrx+owLJllv1IfR6wy1EtCzdNbQAzgRjcMEVoPDjK
+ VL9GS/3eBAcqKeWwtgSuqD6ApVULZ6C1KClolU83fxc6OAiY3kdrfaH7LPPRsDNrr8so
+ fzq5Oz1Im+db7Xmrg+pZ3wUVORHQEub9cEiP7lUanBcQ2+x4dqfKdlvXPZeQhWkG2Ntu
+ FpCOAz6zKamUbAxno/JmkB5B0pZD4TnpUwdhVegpntsS5RUtYA0/YKVE8I9bMXwZ56OT
+ 2Ayl+L5MhTi4lXjLroG6Kr2CGhIsXEwgbMsHz0l95pjZ1Ql0kjrmVcx5hJV0p6erWTBO
+ 2ZJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=eFciGfZ8gBTe0kVSk8d6z32xm2elKo84gCzqFPfCHKU=;
- b=RA6l9KmzDXFofz2GKWUDuAhMAHXsznUXcC+g7ZRTf8QBSyGc3FnAWcAXf3jVnCx1hZ
- CV6SKuvaPkNpsg1Rxo2Xz53UC0SlKEkrdI/Hcv/T3y9C2Q6HLkWiCIo5NXp7Ad9Uq2BW
- uTRkNXcsJsVkBnV6duAEKsqFBaylh/MtK3U/AAKQ7AdYC2mSV7KdohQwwr6Z9kBA+S4G
- IoUoHoXQwHaqJwHfJ+GmfIxvn8JF8wcp7sxYTTBHUQe0T9YlIoBHNY93G3fyWBWxBsR3
- 7PBOCNez8o9wwrQBPYWPFwQLuJlpSrt5cI610F9Vq3IirFjhe8GTIw1WPRSULkM9aGft
- t3Og==
-X-Gm-Message-State: AOAM531kNjsqTeL96GeDBny1frFAkEj4mPm9qvUvL7nlJLQL1su/vtYo
- 8y8Wa55y34GpnTgS0FwEkdk=
-X-Google-Smtp-Source: ABdhPJx924Z/WI+MYVQSbLmPjrdSURNZTj1wLGTiPZIdf51n9i05Tkg0qbrHrL8WL1gmkvoaAWg6FA==
-X-Received: by 2002:a2e:9cd8:: with SMTP id g24mr837987ljj.32.1606812423709;
- Tue, 01 Dec 2020 00:47:03 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id u18sm128801ljd.107.2020.12.01.00.47.02
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=W9tZXtjV5gZd9yQL3k71kPC77lVS3zwQx87dfhVC2Y0=;
+ b=HGd/thrGvzmjGx9KuI8az/QSDo7yRZsu6xl2+9RGr26Ww1dlq+Ac6vJtybKlj6de+z
+ kqoJK6RB+EP+DUCVyNCjkpt3V484YZgi/WHcSNbQpEQ5COLlDcpi3cgKqM4njc+3RYZu
+ sW3AcRzt3Bask70zP6L1Awx5RXbj5yM5UafFh3SIG8/enN55oriCa4MzoOhRtZm4RGvI
+ B9HYGdpRSYCfTxbQRmrDT7jICm6/SSJKd4/42WeJ5yI+lvKk25X2YbTje+O1I86bqxAb
+ oJaYLnwDA0cO3vEsZch428V4VHcc0PG/K/GjxWw5rCD56bSZKNev78HvQUksyu3iCCVa
+ 3lvw==
+X-Gm-Message-State: AOAM531OQntFqLf6xaFPxe4T67mvbiCQx8mjtmL6BmZhVRrfamvZmeFy
+ eWUG2ioQdje4jQRAJDENVWpKUQ==
+X-Google-Smtp-Source: ABdhPJylIAK+x6QT9XRKDB6QgkCHkbEGZBwv1vU+ri8O4FXofjLSukeW/8a5PnTnrNrXlCq9Ied3BQ==
+X-Received: by 2002:a05:600c:211:: with SMTP id
+ 17mr1600527wmi.84.1606812441276; 
+ Tue, 01 Dec 2020 00:47:21 -0800 (PST)
+Received: from dell ([91.110.221.235])
+ by smtp.gmail.com with ESMTPSA id u23sm1667281wmc.32.2020.12.01.00.47.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Dec 2020 00:47:03 -0800 (PST)
-Date: Tue, 1 Dec 2020 10:46:59 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm/vkms: detect modes during output initialization
-Message-ID: <20201201104659.4c250d7b@eldfell>
-In-Reply-To: <mIkeaGvvD78FCgaiPQol6Kurxl1_qb3W5WU1hCf6KFNt0JkSRkN71TbNEy9wC4dLyWHW6dPFynuBY4Nw4xNNM6f2gLSxB0d3Hc87xErbL-o=@emersion.fr>
-References: <d589025b-76b2-1826-1798-60f61000b14a@collabora.com>
- <20201124143947.GP401619@phenom.ffwll.local>
- <9365f1d0-2bb7-d7e8-dad6-62111abadee8@collabora.com>
- <H5TtDGvtYXHmWmVpmi1NyWShzr17yAkVlxZOuKcP-fekJpvYX_Ec7JQtizWk8Xpkaw95TIkTqhzWZER4xwl0mOguSjIQSGLBgGQVMPAejyY=@emersion.fr>
- <20201130131326.7ac87605@eldfell>
- <YRhSWPjik2k5GCYf4l8kqw1zY3oERBjpDYT2eNMzDwKMiO3J1qI7U0kj-6OoR0fjWuOndwgIXknXIGauQYHRzohhiefgzvW7EOfFz-hPf2w=@emersion.fr>
- <20201130132446.79fffe6e@eldfell>
- <mIkeaGvvD78FCgaiPQol6Kurxl1_qb3W5WU1hCf6KFNt0JkSRkN71TbNEy9wC4dLyWHW6dPFynuBY4Nw4xNNM6f2gLSxB0d3Hc87xErbL-o=@emersion.fr>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ Tue, 01 Dec 2020 00:47:20 -0800 (PST)
+Date: Tue, 1 Dec 2020 08:47:18 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 13/28] video: fbdev: riva: Fix kernel-doc and set but
+ not used warnings
+Message-ID: <20201201084718.GF4801@dell>
+References: <20201128224114.1033617-1-sam@ravnborg.org>
+ <20201128224114.1033617-14-sam@ravnborg.org>
+ <53f3e91e-d8da-bce6-878c-7842250a7a7c@suse.de>
+ <20201130183549.GA1498572@ravnborg.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201130183549.GA1498572@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,87 +72,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Melissa Wen <melissa.srw@gmail.com>,
- Leandro Ribeiro <leandro.ribeiro@collabora.com>
-Content-Type: multipart/mixed; boundary="===============0588916324=="
+Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+ Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
+ Aditya Pakki <pakki001@umn.edu>, Alexander Klimov <grandmaster@al2klimov.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Xiaofei Tan <tanxiaofei@huawei.com>,
+ Nathan Chancellor <natechancellor@gmail.com>,
+ Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
+ George Kennedy <george.kennedy@oracle.com>,
+ Kristoffer Ericson <kristoffer.ericson@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
+ Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
+ Mike Rapoport <rppt@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0588916324==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/9Us6k/4P6+vaX7NKLKWwpGt"; protocol="application/pgp-signature"
-
---Sig_/9Us6k/4P6+vaX7NKLKWwpGt
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, 30 Nov 2020 12:20:08 +0000
-Simon Ser <contact@emersion.fr> wrote:
-
-> CC Daniel and Ville
->=20
-> On Monday, November 30, 2020 12:24 PM, Pekka Paalanen <ppaalanen@gmail.co=
-m> wrote:
->=20
-> > > > Please record the justitication for that patch in its commit messag=
-e.
-> > > > "Can't" does not explain anything. =20
-> > >
-> > > Yeah, sorry about that. I'm just annoyed by all of this get_connector
-> > > uAPI, so I don't really want to spend a lot of time documenting why
-> > > it's so gross. =20
-> >
-> > But I still don't understand why the kernel cannot be fixed to do the
-> > right thing that most of us assumed it should be doing: probe
-> > automatically so userspace never needs to. =20
->=20
-> My understanding is that it could maybe be implemented this way, but
-> that it's not the way it works right now. So someone would need to go
-> through all DRM drivers and implement the better behavior, then could
-> restore this doc section.
-
-Right, so that would be really good to explain in the commit message.
-
-
-Thanks,
-pq
-
---Sig_/9Us6k/4P6+vaX7NKLKWwpGt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/GAwMACgkQI1/ltBGq
-qqd3KhAAs6I+tVdXQtWYFl7VL6grE4qXwUDSXc4mw0ywcc1vxr+oO55v8IQEXWqc
-uXX2IaKwDkz7TNFv/YMZekC2ovXpULbU5cjtNS/UGXcNjU3mDMrVy0aSPNAKspCR
-QP3N/OvO0vqmo0cqpZImj1uQKxTVDdrQqMSuymJrdyv4BltdIOYis0kWeqKNVvKJ
-eQYXjmtdBlwtVFuloOlSkFybH+FfoRfTc0aR1NO+gShEwNBn4xhrmtkGvJzmKHyh
-PT0IMf1M81r19Xu8l8YPtzZEhfzFOTnQcD2F9zcCgmbkjeP1UnckrLHhITuP9NFx
-Lzy6cMiyVVDamwDCafW43xFkNXKx1bEHye+gcjD7ikkjiZfj9QOJpg1fph1ad4hh
-z/fgY4HP27nSk9GJJFNihdCyWuR6VzfpojICxIhQQlYAJ3tB9xM4tgVrN33T3Hbo
-gX24MIjasAsHHkQliF2oSgu4Mrf2A2cj+psu5HLG/Sj/AhHzZWNkvUVd15M7PBSc
-JVwRmt9/9ABBG7N/ob0OzUuNM7bqGyCJ84iHC9+6380X6WYrLsvz9u+DCgFnsG9o
-FfUzbPxebsapPEEUaGeOa07PEw4weKc6g80lQdTGUTNdrU9kovRCpglnpJJKJ4It
-FakzU132SJc6Nmoxt8SyHTXAFuzg9EhWUQ1/+OvO8x5w9CJB5JM=
-=EfrL
------END PGP SIGNATURE-----
-
---Sig_/9Us6k/4P6+vaX7NKLKWwpGt--
-
---===============0588916324==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0588916324==--
+T24gTW9uLCAzMCBOb3YgMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPiBPbiBNb24sIE5vdiAz
+MCwgMjAyMCBhdCAwMToxNDo1MlBNICswMTAwLCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToKPiA+
+IAo+ID4gCj4gPiBBbSAyOC4xMS4yMCB1bSAyMzo0MCBzY2hyaWViIFNhbSBSYXZuYm9yZzoKPiA+
+ID4gRml4IFc9MSB3YXJuaW5nczoKPiA+ID4gLSBGaXgga2VybmVsLWRvYwo+ID4gPiAtIERyb3Ag
+dW51c2VkIHZhcmlhYmxlcy9jb2RlCj4gPiA+IAo+ID4gPiB2MjoKPiA+ID4gICAgLSBVcGRhdGVk
+IHN1YmplY3QgKExlZSkKPiA+ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8
+c2FtQHJhdm5ib3JnLm9yZz4KPiA+ID4gQ2M6IEFudG9uaW5vIERhcGxhcyA8YWRhcGxhc0BnbWFp
+bC5jb20+Cj4gPiA+IENjOiBsaW51eC1mYmRldkB2Z2VyLmtlcm5lbC5vcmcKPiA+ID4gQ2M6IExl
+ZSBKb25lcyA8bGVlLmpvbmVzQGxpbmFyby5vcmc+Cj4gPiA+IC0tLQo+ID4gPiAgIGRyaXZlcnMv
+dmlkZW8vZmJkZXYvcml2YS9mYmRldi5jICAgfCAgOSArKysrLS0tLS0KPiA+ID4gICBkcml2ZXJz
+L3ZpZGVvL2ZiZGV2L3JpdmEvcml2YV9ody5jIHwgMjggKysrKysrKystLS0tLS0tLS0tLS0tLS0t
+LS0tLQo+ID4gPiAgIDIgZmlsZXMgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMjUgZGVsZXRp
+b25zKC0pCj4gPiA+IAo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy92aWRlby9mYmRldi9yaXZh
+L2ZiZGV2LmMgYi9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3JpdmEvZmJkZXYuYwo+ID4gPiBpbmRleCBj
+ZTU1YjlkMmU4NjIuLjU1NTU0YjA0MzNjYiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy92aWRl
+by9mYmRldi9yaXZhL2ZiZGV2LmMKPiA+ID4gKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9yaXZh
+L2ZiZGV2LmMKPiA+ID4gQEAgLTQ2NCw3ICs0NjQsNyBAQCBzdGF0aWMgaW5saW5lIHZvaWQgcmV2
+ZXJzZV9vcmRlcih1MzIgKmwpCj4gPiA+ICAgLyoqCj4gPiA+ICAgICogcml2YWZiX2xvYWRfY3Vy
+c29yX2ltYWdlIC0gbG9hZCBjdXJzb3IgaW1hZ2UgdG8gaGFyZHdhcmUKPiA+ID4gLSAqIEBkYXRh
+OiBhZGRyZXNzIHRvIG1vbm9jaHJvbWUgYml0bWFwICgxID0gZm9yZWdyb3VuZCBjb2xvciwgMCA9
+IGJhY2tncm91bmQpCj4gPiA+ICsgKiBAZGF0YTg6IGFkZHJlc3MgdG8gbW9ub2Nocm9tZSBiaXRt
+YXAgKDEgPSBmb3JlZ3JvdW5kIGNvbG9yLCAwID0gYmFja2dyb3VuZCkKPiA+ID4gICAgKiBAcGFy
+OiAgcG9pbnRlciB0byBwcml2YXRlIGRhdGEKPiA+ID4gICAgKiBAdzogICAgd2lkdGggb2YgY3Vy
+c29yIGltYWdlIGluIHBpeGVscwo+ID4gPiAgICAqIEBoOiAgICBoZWlnaHQgb2YgY3Vyc29yIGlt
+YWdlIGluIHNjYW5saW5lcwo+ID4gPiBAQCAtODQzLDkgKzg0Myw5IEBAIHN0YXRpYyB2b2lkIHJp
+dmFfdXBkYXRlX3ZhcihzdHJ1Y3QgZmJfdmFyX3NjcmVlbmluZm8gKnZhciwKPiA+ID4gICAvKioK
+PiA+ID4gICAgKiByaXZhZmJfZG9fbWF4aW1pemUgLQo+ID4gPiAgICAqIEBpbmZvOiBwb2ludGVy
+IHRvIGZiX2luZm8gb2JqZWN0IGNvbnRhaW5pbmcgaW5mbyBmb3IgY3VycmVudCByaXZhIGJvYXJk
+Cj4gPiA+IC0gKiBAdmFyOgo+ID4gPiAtICogQG5vbToKPiA+ID4gLSAqIEBkZW46Cj4gPiA+ICsg
+KiBAdmFyOiBzdGFuZGFyZCBrZXJuZWwgZmIgY2hhbmdlYWJsZSBkYXRhCj4gPiA+ICsgKiBAbm9t
+OiBub20KPiA+ID4gKyAqIEBkZW46IGRlbgoKQ29wLW91dCEKCkRvIHdoYXQgSSBkbyBhbmQgbWFr
+ZSBzb21ldGhpbmcgdXAgKGpva2UpISA6J0QKCj4gPiBXZWxsLCBpdCBmaXhlcyB0aGUgd2Fybmlu
+ZyA7KQo+IAo+IFllYWgsIEkgY291bGQgbm90IGRpZyB1cCBhbnl0aGluZyB1c2VmdWwgdG8gc2F5
+IGhlcmUuCj4gV2FzIHRlbXB0ZWQgdG8ganVzdCBkcm9wIGFsbCB0aGUga2VybmVsLWRvYyBzeW50
+YXggYnV0IHRoYXQKPiB3YXMgYSBsYXJnZXIgY2hhbmdlLgoKRGlkIHlvdSB0cmFjZSBpdCBmcm9t
+IGl0J3Mgb3JpZ2luIGRvd24gdG8gaXQncyBmaW5hbCB1c2U/CgotLSAKTGVlIEpvbmVzIFvmnY7n
+kLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVhZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8u
+b3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2FyZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzog
+RmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
