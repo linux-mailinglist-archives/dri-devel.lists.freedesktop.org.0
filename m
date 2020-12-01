@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04462CA274
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1872CA275
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:19:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF5DF6E53E;
-	Tue,  1 Dec 2020 12:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EAAC6E52F;
+	Tue,  1 Dec 2020 12:19:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14C0A6E53E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:19:05 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CJ0Jo061859;
- Tue, 1 Dec 2020 06:19:00 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7EC56E52F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:19:07 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CJ3Up082278;
+ Tue, 1 Dec 2020 06:19:03 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606825140;
- bh=CEsT9nh8ru/oo5U3jUQuPPkclxULVMgJ+FhKgCp0i6E=;
+ s=ti-com-17Q1; t=1606825143;
+ bh=3Qr3bHa5cJqaiRnyvYkT2ee/Z+lSIEIOl+t8UP0Cc64=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=BhEyPxEjpJ/ib5g5sv2XguCchR2gFffdpOlB1dl2cOdmOp3yRSi4Ra0dDTSN65mdJ
- zcMX9gGc3TCCdm2e9zAdKCV/zdGh/wWHt7zftu4D47sJWscnl4oTAuky6f69oTKCKm
- 3glY7+qYjGmWHoSQu2iO33trx+ziI7FOCYDrWLEo=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1CJ0En111127
+ b=v6jtbUlL6oolFXGKrZFZ8kNR/mzw3Kw5o19SfYlzbV9EI7Mzbo0lcNEj0FxVMY4Cz
+ PNsAZL9UBxj2BniK/G4Xmhh10cXp1CX8jI/lQw/kW9EO0Mmdcl1nWFq6+1WegsPw4J
+ OX2ysjzOINEl1Dhufx5F97DPuIa2eppQ4pCfB1Rc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1CJ2gI128116
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 1 Dec 2020 06:19:00 -0600
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 1 Dec 2020 06:19:03 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Dec
- 2020 06:19:00 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 06:19:03 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 1 Dec 2020 06:19:00 -0600
+ Frontend Transport; Tue, 1 Dec 2020 06:19:03 -0600
 Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CIn3O118162; 
- Tue, 1 Dec 2020 06:18:58 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CIn3P118162; 
+ Tue, 1 Dec 2020 06:19:00 -0600
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Boris Brezillon
  <boris.brezillon@collabora.com>
-Subject: [PATCH v4 3/7] drm/bridge: mhdp8546: Add minimal format negotiation
-Date: Tue, 1 Dec 2020 17:48:26 +0530
-Message-ID: <20201201121830.29704-4-nikhil.nd@ti.com>
+Subject: [PATCH v4 4/7] drm/bridge: mhdp8546: Set input_bus_flags from
+ atomic_check
+Date: Tue, 1 Dec 2020 17:48:27 +0530
+Message-ID: <20201201121830.29704-5-nikhil.nd@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201201121830.29704-1-nikhil.nd@ti.com>
 References: <20201201121830.29704-1-nikhil.nd@ti.com>
@@ -68,68 +69,47 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With new connector model, mhdp bridge will not create the connector and
-SoC driver will rely on format negotiation to setup the encoder format.
+input_bus_flags are specified in drm_bridge_timings (legacy) as well
+as drm_bridge_state->input_bus_cfg.flags
 
-Support minimal format negotiations hooks in the drm_bridge_funcs.
-Complete format negotiation can be added based on EDID data.
-This patch adds the minimal required support to avoid failure
-after moving to new connector model.
+The flags from the timings will be deprecated. Bridges are supposed
+to validate and set the bridge state flags from atomic_check.
 
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
-
-Notes:
-    changes from v1:
-    * cosmetic fixes, commit message update
-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 ++++++
+ drivers/gpu/drm/bridge/ti-tfp410.c                  | 1 +
+ 2 files changed, 7 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index d0c65610ebb5..2cd809eed827 100644
+index 2cd809eed827..9c17e4bb517e 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2078,6 +2078,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
- 	return &cdns_mhdp_state->base;
+@@ -2121,6 +2121,12 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ 		return -EINVAL;
+ 	}
+ 
++	/*
++	 * There might be flags negotiation supported in future
++	 * Set the bus flags in atomic_check statically for now
++	 */
++	bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
++
+ 	mutex_unlock(&mhdp->link_mutex);
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
+index 4c536df003c8..9035d2145a28 100644
+--- a/drivers/gpu/drm/bridge/ti-tfp410.c
++++ b/drivers/gpu/drm/bridge/ti-tfp410.c
+@@ -245,6 +245,7 @@ int tfp410_atomic_check(struct drm_bridge *bridge,
+ 	 * Set the bus flags in atomic_check statically for now
+ 	 */
+ 	bridge_state->input_bus_cfg.flags = dvi->timings.input_bus_flags;
++	return 0;
  }
  
-+static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
-+				      struct drm_bridge_state *bridge_state,
-+				      struct drm_crtc_state *crtc_state,
-+				      struct drm_connector_state *conn_state,
-+				      u32 output_fmt,
-+				      unsigned int *num_input_fmts)
-+{
-+	u32 *input_fmts;
-+	u32 default_bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
-+
-+	*num_input_fmts = 0;
-+
-+	if (output_fmt != MEDIA_BUS_FMT_FIXED)
-+		return NULL;
-+
-+	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	*num_input_fmts = 1;
-+	input_fmts[0] = default_bus_format;
-+	return input_fmts;
-+}
-+
- static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- 				  struct drm_bridge_state *bridge_state,
- 				  struct drm_crtc_state *crtc_state,
-@@ -2142,6 +2166,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_duplicate_state = cdns_mhdp_bridge_atomic_duplicate_state,
- 	.atomic_destroy_state = cdns_mhdp_bridge_atomic_destroy_state,
- 	.atomic_reset = cdns_mhdp_bridge_atomic_reset,
-+	.atomic_get_input_bus_fmts = cdns_mhdp_get_input_bus_fmts,
- 	.detect = cdns_mhdp_bridge_detect,
- 	.get_edid = cdns_mhdp_bridge_get_edid,
- 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
+ static const struct drm_bridge_funcs tfp410_bridge_funcs = {
 -- 
 2.17.1
 
