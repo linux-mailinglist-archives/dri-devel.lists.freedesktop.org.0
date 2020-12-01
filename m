@@ -2,62 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCC42CADF4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 22:01:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F084E2CAF31
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 22:55:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFDC36E02B;
-	Tue,  1 Dec 2020 21:01:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F3889BF6;
+	Tue,  1 Dec 2020 21:54:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-x944.google.com (mail-ua1-x944.google.com
- [IPv6:2607:f8b0:4864:20::944])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 098E16E02B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 21:01:06 +0000 (UTC)
-Received: by mail-ua1-x944.google.com with SMTP id g23so1050144uan.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 13:01:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aWYVSLoMbHTMBYXNZeA1jDQCPhRLUCzYMMW57m2xkJc=;
- b=dNmi4nRyPM2wRJRGonutC+zgIyr66kWdax56icmne/Z0wivDKzLX/ICd2nHQHlClGT
- 3mr6iu8pvafMB7o/B9BZmlE96NPBGn6Jaf75OERBl6VuKu1z0ZEd0+BvGftZCp2edQAX
- 5OPQ7mvMfTkYFVtwpcvMp1XlX/2ebq3CKnu9A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aWYVSLoMbHTMBYXNZeA1jDQCPhRLUCzYMMW57m2xkJc=;
- b=D6rrG4Gf6Jf33ZmD7/KPNAdC83DLmVfQ1mGgSKEwCanhH/f+550vZ9CPhyoCnLU3sE
- X11QWGMGWIbJOCto93RkU0eJklUDYcWe8LVfLY26TcjeamBAy9J6JuiPCaOLRwVapmiY
- +0CQ15OawYQ9T12Z+JTaf5EL1mklVVEH7V62Z/v47YcrwViz+n56Yp69ahpxFuB/rnjy
- o7jSNCQ+uIoq/5UdRkUPRdkLUK0JVcE/3vt4PRsBx8LPFPdRLthBaOucCrP8xvUb81On
- lmo/E+C88yd3P81A3N/xjmxJUQcnM46NC4WzBIBb/35peg/vXJ5R9p1UpvEoT9teM8Mj
- ha+w==
-X-Gm-Message-State: AOAM532C7zP+4oyZEEuJ5h8u6dbV4M9i3vqpcM3pAS7kGBpDqxrzSsoO
- QuCjfwEQQN/Y0tpKYbtmIlU7mgjC3oS5EA==
-X-Google-Smtp-Source: ABdhPJwPjENjFNeyYhUBfxuqAsYeBKK3On5toqHomJMty7r60eY3UHOV7vnHBxfkR0zb8SBYk7PmlA==
-X-Received: by 2002:ab0:2986:: with SMTP id u6mr4273917uap.118.1606856464936; 
- Tue, 01 Dec 2020 13:01:04 -0800 (PST)
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com.
- [209.85.217.51])
- by smtp.gmail.com with ESMTPSA id y24sm84060vsd.5.2020.12.01.13.01.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Dec 2020 13:01:04 -0800 (PST)
-Received: by mail-vs1-f51.google.com with SMTP id x26so1715078vsq.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 13:01:04 -0800 (PST)
-X-Received: by 2002:a67:8c41:: with SMTP id o62mr4909937vsd.49.1606856463746; 
- Tue, 01 Dec 2020 13:01:03 -0800 (PST)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5510389BF6
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 21:54:55 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
+ 4.19/4.20/5.0
+Date: Tue, 01 Dec 2020 21:54:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: fawz@negentropy.io
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-201539-2300-1eFwR5twmb@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
+References: <bug-201539-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-References: <20201109170018.v4.1.Icaa86f0a4ca45a9a7184da4bc63386b29792d613@changeid>
- <20201129221047.GH1162850@ravnborg.org>
-In-Reply-To: <20201129221047.GH1162850@ravnborg.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 1 Dec 2020 13:00:52 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=X=qA9jB9KJZopWM5qmW5XYonX7LVQdmQ1cqoajcsBGUg@mail.gmail.com>
-Message-ID: <CAD=FV=X=qA9jB9KJZopWM5qmW5XYonX7LVQdmQ1cqoajcsBGUg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] drm: panel: simple: Fixup the struct panel_desc
- kernel doc
-To: Sam Ravnborg <sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,44 +52,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=201539
 
-On Sun, Nov 29, 2020 at 2:10 PM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Douglas,
-> On Mon, Nov 09, 2020 at 05:00:55PM -0800, Douglas Anderson wrote:
-> > When I run:
-> >   scripts/kernel-doc -rst drivers/gpu/drm/panel/panel-simple.c
-> >
-> > I see that several of the kernel-doc entries aren't showing up because
-> > they don't specify the full path down the hierarchy.  Let's fix that
-> > and also move to inline kernel docs.
-> >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
->
-> Thanks, applied to drm-misc-next.
->
-> Could you do a follow-up patch that moves the rest as inline comments
-> and verify that all fields are described.  (W=1 should show no warnings).
-> That would be appreciated!
+fawz (fawz@negentropy.io) changed:
 
-Ah, I hadn't realized that you wanted it all moved and thought
-originally you just wanted the deeply nested stuff.  See if:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |fawz@negentropy.io
 
-https://lore.kernel.org/r/20201201125822.1.I3c4191336014bd57364309439e56f600c94bb12b@changeid
+--- Comment #57 from fawz (fawz@negentropy.io) ---
+Hi all!
 
-...looks like what you want.  :-)
+I'm running a Radeon R9 290 with amdgpu.
 
--Doug
+I've had the same issue of pwm1_enable being set to MANUAL on boot, and then
+being stuck to AUTO after switching to AUTO. I've had a quick browse of the
+code and have a fix that seems to work for me.
+
+See the attached patch for my fix/work-around.
+
+Thoughts and explanations follow.
+
+Some comments and questions on the code. My card seems to use the smu7_* code
+for handling fan and power related functionality. I'm not sure if this is
+correct, but it seems that MANUAL is simply the default state for the card at
+boot, and the software (maybe on purpose? it's unclear) mirrors because there's
+a variable called fan_ctrl_enabled which is never explicitly initialized, and
+thus is default-initialized to false, which equates to MANUAL in the
+get_pwm1_enable() logic, which again means you may set the fan speed manually.
+
+For those who want to take a look themselves, this is roughly what happens when
+you write 2 (auto) to pwm1_enable:
+
+> amdgpu_pm.c: amdgpu_hwmon_set_pwm1()
+> smu7_hwmgr.c: smu7_set_fan_control_mode()
+> smu7_thermal.c: smu7_fan_ctrl_set_static_mode()
+> smu7_thermal.c: smu7_fan_ctrl_start_smc_fan_control()
+> 
+> // Send PPSMC_StartFanControl with parameter FAN_CONTROL_TABLE
+> smumgr.c: smum_send_msg_to_smc_with_parameter 
+> smu7_thermal.c: hwmgr->fan_ctrl_enabled = true;
+
+Note that fan_ctrl_enabled is now true. When reading pwm1_enable, this is the
+value that's checked.
+
+Now, this happens when we try to write 1 (manualy) to pwm1_enable again:
+
+> amdgpu_pm.c: amdgpu_hwmon_set_pwm1_enable()
+> smu7_hwmgr.c: smu7_set_fan_control_mode()
+> smu7_hwmgr.c: smu7_fan_ctrl_stop_smc_fan_control
+> 
+> // Now, a so-called phm platform cap is checked
+> // See hardwaremanager.h for its definition
+> // Its description is simply "Fan is controlled by the SMC microcode."
+> if (phm_cap_enabled(hwmgr->platform_descriptor.platformCaps,
+>                       PHM_PlatformCaps_MicrocodeFanControl))
+>               smu7_fan_ctrl_stop_smc_fan_control(hwmgr);
+
+If the above check were to succeed, it would continue to send a smum message of
+PPSMC_StopFanControl and set fan_ctrl_enabled = false, and we would be back in
+MANUAL land. However, the PHM_PlatformCaps_MicrocodeFanControl cap is never
+set. AFAICT, this cap is only ever set for vega12 and vega20 cards, in
+vega20_processpptables.c and vega12_processpptables.c. It's checked in a bunch
+of places for smu7, but never in a way that explicitly prevents manual fan
+control once manual fan control is enabled, such as after boot.
+
+Simply commenting out the check above fixed the problem for me, and I have seen
+no strange side-effects yet. This makes sense to me; after boot, setting fan
+speed manually works and the code responsible doesn't require the
+MicrocodeFanControl cap to be set for that. However, I don't know what the
+purpose of that cap is, whether the only reason for it being present in smu7
+and elsewhere is a situation of copy-pasting skeleton code, or what.
+
+From looking at vega10_hwmgr.c, it looks like vega10 (AMDGPU_FAMILY_AI, arctic
+islands?) cards should have the same problem and I assume the same fix should
+work, so I included it in the patch. It would be great if someone with an
+arctic islands card (RX 400 series?) could test and confirm this.
+
+Comments and feedback are very welcome.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
