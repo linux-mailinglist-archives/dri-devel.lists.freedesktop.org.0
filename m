@@ -1,37 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276822CA1E0
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 12:56:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E62612CA20F
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:05:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 280706E4DD;
-	Tue,  1 Dec 2020 11:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB9446E4DD;
+	Tue,  1 Dec 2020 12:05:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C415E6E4DD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:56:19 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 08B5B804D0;
- Tue,  1 Dec 2020 12:56:13 +0100 (CET)
-Date: Tue, 1 Dec 2020 12:56:12 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v5 1/6] dt-bindings: display: simple: Add EDT
- ETM0700G0BDH6 display
-Message-ID: <20201201115612.GA1989765@ravnborg.org>
-References: <20201201092742.17658-1-o.rempel@pengutronix.de>
- <20201201092742.17658-2-o.rempel@pengutronix.de>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBE66E4DD;
+ Tue,  1 Dec 2020 12:05:08 +0000 (UTC)
+IronPort-SDR: 507T64TTDkOwRPXQ1fVCS6NaXY3PHsNgzdWNbtzuza6c9cJwBzzoGoc6QVODPK/alfG9bqELm9
+ H0DOUE/CY54Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="172029157"
+X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; d="scan'208";a="172029157"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2020 04:05:04 -0800
+IronPort-SDR: Xuxp6ebtBehzvYJ8Ak+c74hyfkUmtOVz9HSGx4vXJFQ2p9L5jkPCx3igOuYW3y1M9byrRPjRAW
+ zU9f3xwc0Iew==
+X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; d="scan'208";a="481073569"
+Received: from ideak-desk.fi.intel.com ([10.237.68.141])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2020 04:05:00 -0800
+Date: Tue, 1 Dec 2020 14:04:56 +0200
+From: Imre Deak <imre.deak@intel.com>
+To: "Chery, Nanley G" <nanley.g.chery@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 1/2] drm/framebuffer: Format modifier for
+ Intel Gen 12 render compression with Clear Color
+Message-ID: <20201201120456.GC2849269@ideak-desk.fi.intel.com>
+References: <20201123182631.1740781-1-imre.deak@intel.com>
+ <20201127143100.GB2144692@ideak-desk.fi.intel.com>
+ <20201127151920.GI401619@phenom.ffwll.local>
+ <20201127180604.GA2169344@ideak-desk.fi.intel.com>
+ <0048c10f7b8047b18934e730ae57386c@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201201092742.17658-2-o.rempel@pengutronix.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=8OBsB-vj1QKdv3JTGIwA:9 a=CjuIK1q_8ugA:10
+In-Reply-To: <0048c10f7b8047b18934e730ae57386c@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,50 +55,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
- Sascha Hauer <s.hauer@pengutronix.de>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, David Jander <david@protonic.nl>,
- Shawn Guo <shawnguo@kernel.org>, linux-arm-kernel@lists.infradead.org
+Reply-To: imre.deak@intel.com
+Cc: "Nikula, Jani" <jani.nikula@intel.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Pandiyan,
+ Dhinakaran" <dhinakaran.pandiyan@intel.com>, "Kondapally,
+ Kalyan" <kalyan.kondapally@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Oleksij
+Hi Nanley,
 
-On Tue, Dec 01, 2020 at 10:27:37AM +0100, Oleksij Rempel wrote:
-> This display is already supported by the panel-simple driver, so add it
-> to the bindings documentation.
-> 
-> This patch is needed to fix checkpatch warnings for the PLYM2M dts.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index edb53ab0d9eb..a011d9e44af3 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -117,6 +117,8 @@ properties:
->        - edt,etm0700g0dh6
->          # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
->          # Same as ETM0700G0DH6 but with inverted pixel clock.
-> +      - edt,etm0700g0bdh6
-> +        # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
->        - edt,etm070080bdh6
->          # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
->          # Same display as the ETM0700G0BDH6, but with changed hardware for the
+thanks for the review.
 
-The panels should be listed in alphabetic order which is not the case
-here. Could you fix the alphabetic order for the edt panels and then
-insert the new panel in the right spot?
++Ville, Chris.
 
-	Sam
+On Tue, Dec 01, 2020 at 02:18:26AM +0200, Chery, Nanley G wrote:
+> Hi Imre,
+>  
+> I have a question and a couple comments:
+> 
+> Is the map of the clear color address creating a new synchronization
+> point between the GPU and CPU? If so, I wonder how this will impact
+> performance.
+
+The kmap to read the clear value is not adding any sync overhead if
+that's what you mean. But the clear value must be in place before we
+read it out and that should be guaranteed by the flush we do anyway to wait
+for the render result (even considering the explicit L3/RT flush, depth
+stall the spec requires for fast clears).
+
+However now that you mention: atm the kmap/readout happens after the
+explicit but before the implicit fence-wait. I think it should happen
+after the implicit fence-wait.
+
+Ville, Chris, could you confirm the above and also that the above flush
+is enough to ensure the CPU read is coherent?
+
+> There was some talk of asynchronously updating the clear color
+> register a while back. 
+
+Couldn't find anything with a quick search, do you have a pointer? Just
+before the flip we must wait for the render results anyway, as we do
+now, so not sure how it could be optimized.
+
+> We probably don't have to update the header, but we noticed in our
+> testing that the clear color prefers an alignment greater than 64B.
+> Unfortunately, I can't find any bspec note about this. As long as the
+> buffer creators are aware though, I think we should be fine. I don't
+> know if this is the best forum to bring it up, but I thought I'd
+> share.
+
+Yes, would be good to clarify this and get it also to the spec. Then the
+driver should also check the alignment of the 3rd FB plane.
+
+> Seems like the upper converted clear color is untested due to the lack
+> of RGBX16 support. I suppose that if there are any issues there, they
+> can be fixed later...
+
+Yes, a 64bpp RC-CC subtest in IGT is missing, should be easy to add
+that.
+
+--Imre
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
