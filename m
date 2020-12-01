@@ -2,59 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937A92CB6A5
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A242CB6B9
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BEC06EA0A;
-	Wed,  2 Dec 2020 08:19:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BB156EA20;
+	Wed,  2 Dec 2020 08:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe63.google.com (mail-vs1-xe63.google.com
- [IPv6:2607:f8b0:4864:20::e63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C396E4F8
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 10:03:16 +0000 (UTC)
-Received: by mail-vs1-xe63.google.com with SMTP id 128so584314vsw.10
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 02:03:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Tf4BNwPZVCDQqTYJXSff2QjTFdZMI3QqwgcnCg3ZkwU=;
- b=BAjQ8aMgCNd4sJ751HwtQQoePSxxMNw8oiWEh9Qr1QW3OPxUshUeLLC5aCAf2eHml2
- nfjEA1UJ4WJo8BX8IPY+JamcnVdHMlMUmhI4/LsSoQRSok+aMqIvYafAZ/TzVZA0fRZ2
- +gMlTp/mN2gKG1L6a4tSJh4oNrxuzYEi3PTXKL5k1LZUeXcHAmlTnexsZF9Cne6Gr+jo
- lRUqMXVtERZX22GBg/1g1c8ex32cJGqOlKw+9QxSd93Nk3b1LhFkxlkYnQJpdXz1/9eZ
- Jd2AjGihxRjVgJrUUjeYxxW6r1upNRIIR2D1SaigjwWTp+zbN52URUUTTLiRgp4iJxTL
- IafA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Tf4BNwPZVCDQqTYJXSff2QjTFdZMI3QqwgcnCg3ZkwU=;
- b=gUnhX5TSa9KwZitFZi7JT4KDiSQ0PZjl0p49dMlZwGoO7AbtTXnnL3/IIIxtSEaMBb
- 5D85r2N8NMY3h7GgqrCUngdianjImFUKNIY7Imuw7ZSoBoU/+U09xpqcbSITjXsBBdj9
- zAaP4OPOXdp0AU5+aw07IELhW38AZr8A3c+buwk0oL8JhSVhvZGvwQBzupdF83GOrUWe
- 2wkYhp+Nhv5KF4ie229BiUQIuNZtm6cxlk+5+0DvgMt0Au7QqW721X+hOBz8/TyqDbs3
- uEuwRrO2XT2KGgFDm+mABQ/f595ibnicn/aWNt6O1y7kPhZi2ayI78CmnvK9eaUKO5iT
- 9KnQ==
-X-Gm-Message-State: AOAM533+SulCcs+hpoQxA69XE7d+NmVZHZwJhsx5HLLWU5uO1+2f52BN
- jP6b3PxJe6T5xyF40OtgEfFUMmXZoqW8VOHMYlDD/Y+3KdzCVQ==
-X-Google-Smtp-Source: ABdhPJzazIEhlvuGiJito3lKWRcmmM07KEHbtT85SsAIx9VT57UdkmqNWtnkso3QfA0htOML7DttH1Dndfz1
-X-Received: by 2002:a67:ec3:: with SMTP id 186mr1714964vso.14.1606816996033;
- Tue, 01 Dec 2020 02:03:16 -0800 (PST)
-Received: from DESKTOP-G3VVM7A.localdomain (c-24-5-176-39.hsd1.ca.comcast.net.
- [24.5.176.39])
- by smtp-relay.gmail.com with ESMTPS id e67sm206279vke.13.2020.12.01.02.03.15
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 01 Dec 2020 02:03:16 -0800 (PST)
-X-Relaying-Domain: lagfreegames.com
-From: James Park <jpark37@lagfreegames.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Fix drm.h uapi header for Windows
-Date: Tue,  1 Dec 2020 02:01:56 -0800
-Message-Id: <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id D47706E868
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 10:36:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B37D101E;
+ Tue,  1 Dec 2020 02:36:16 -0800 (PST)
+Received: from localhost (unknown [10.1.198.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECDBD3F66B;
+ Tue,  1 Dec 2020 02:36:15 -0800 (PST)
+Date: Tue, 1 Dec 2020 10:36:14 +0000
+From: Ionela Voinescu <ionela.voinescu@arm.com>
+To: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH 2/5] thermal: devfreq_cooling: get a copy of device status
+Message-ID: <20201201103614.GA1908@arm.com>
+References: <20200921122007.29610-1-lukasz.luba@arm.com>
+ <20200921122007.29610-3-lukasz.luba@arm.com>
+ <20201007161120.GC15063@arm.com>
+ <76e0ef49-5898-adbb-0c54-23d5999f4907@arm.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <76e0ef49-5898-adbb-0c54-23d5999f4907@arm.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-Mailman-Approved-At: Wed, 02 Dec 2020 08:19:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,67 +44,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Park <jpark37@lagfreegames.com>
-MIME-Version: 1.0
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ daniel.lezcano@linaro.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, orjan.eide@arm.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will allow Mesa to port code to Windows more easily.
+Hi,
 
-Hide BSD header and drm_handle_t behind _WIN32 check.
+Sorry for the delay and for the noise on this older version. I first
+want to understand the code better.
 
-Change __volatile__ to volatile, which is standard.
----
- include/uapi/drm/drm.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+On Thursday 22 Oct 2020 at 11:55:28 (+0100), Lukasz Luba wrote:
+[..]
+> 
+> > 
+> > > +{
+> > > +	/* Make some space if needed */
+> > > +	if (status->busy_time > 0xffff) {
+> > > +		status->busy_time >>= 10;
+> > > +		status->total_time >>= 10;
+> > > +	}
+> > 
+> > How about removing the above code and adding here:
+> > 
+> > status->busy_time = status->busy_time ? : 1;
+> 
+> It's not equivalent. The code operates on raw device values, which
+> might be big (e.g. read from counters). If it's lager than the 0xffff,
+> it is going to be shifted to get smaller.
+> 
 
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 808b48a..53dc3c9 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -48,10 +48,9 @@ typedef unsigned int drm_handle_t;
- #include <asm/ioctl.h>
- typedef unsigned int drm_handle_t;
- 
--#else /* One of the BSDs */
-+#else
- 
- #include <stdint.h>
--#include <sys/ioccom.h>
- #include <sys/types.h>
- typedef int8_t   __s8;
- typedef uint8_t  __u8;
-@@ -62,10 +61,16 @@ typedef uint32_t __u32;
- typedef int64_t  __s64;
- typedef uint64_t __u64;
- typedef size_t   __kernel_size_t;
-+
-+#ifndef _WIN32 /* One of the BSDs */
-+
-+#include <sys/ioccom.h>
- typedef unsigned long drm_handle_t;
- 
- #endif
- 
-+#endif
-+
- #if defined(__cplusplus)
- extern "C" {
- #endif
-@@ -128,7 +133,7 @@ struct drm_tex_region {
-  * other data stored in the same cache line.
-  */
- struct drm_hw_lock {
--	__volatile__ unsigned int lock;		/**< lock variable */
-+	volatile unsigned int lock;		/**< lock variable */
- 	char padding[60];			/**< Pad to cache line */
- };
- 
--- 
-2.7.4
+Yes, the big values are handled below through the division and by making
+total_time = 1024. These two initial checks are only to cover the
+possibility for busy_time and total_time being 0, or busy_time >
+total_time.
 
+> > 
+> > > +
+> > > +	if (status->busy_time > status->total_time)
+> > 
+> > This check would then cover the possibility that total_time is 0.
+> > 
+> > > +		status->busy_time = status->total_time;
+> > 
+> > But a reversal is needed here:
+> > 		status->total_time = status->busy_time;
+> 
+> No, I want to clamp the busy_time, which should not be bigger that
+> total time. It could happen when we deal with 'raw' values from device
+> counters.
+> 
+
+Yes, I understand. But isn't making total_time = busy_time accomplishing
+the same thing?
+
+> > 
+> > > +
+> > > +	status->busy_time *= 100;
+> > > +	status->busy_time /= status->total_time ? : 1;
+> > > +
+> > > +	/* Avoid division by 0 */
+> > > +	status->busy_time = status->busy_time ? : 1;
+> > > +	status->total_time = 100;
+> > 
+> > Then all of this code can be replaced by:
+> > 
+> > status->busy_time = (unsigned long)div64_u64((u64)status->busy_time << 10,
+> > 					     status->total_time);
+> > status->total_time = 1 << 10;
+> 
+> No, the total_time closed to 'unsigned long' would overflow.
+> 
+
+I'm not sure I understand. total_time gets a value of 1024, it's not
+itself shifted by 10.
+
+> > 
+> > This way you gain some resolution to busy_time and the divisions in the
+> > callers would just become shifts by 10.
+> 
+> 
+> I don't want to gain more resolution here. I want to be prepare for raw
+> (not processed yet) big values coming from driver.
+>
+
+Agreed! The higher resolution is an extra benefit. The more important
+benefit is that, through my suggestion, you'd be replacing all future
+divisions by shifts.
+
+Thanks,
+Ionela.
+
+> Regards,
+> Lukasz
+> 
+> > 
+> > Hope it helps,
+> > Ionela.
+> > 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
