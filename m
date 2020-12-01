@@ -2,21 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECC42CA31D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF02CA32D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:54:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6B56E529;
-	Tue,  1 Dec 2020 12:51:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC42F6E519;
+	Tue,  1 Dec 2020 12:54:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B5356E526
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:51:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE886E519
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:54:00 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A163AACC1;
- Tue,  1 Dec 2020 12:51:53 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id A02C5ACC1;
+ Tue,  1 Dec 2020 12:53:58 +0000 (UTC)
 Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
+From: Thomas Zimmermann <tzimmermann@suse.de>
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
  Daniel Vetter <daniel@ffwll.ch>
 References: <20201130120433.7205-1-tzimmermann@suse.de>
@@ -33,13 +34,13 @@ References: <20201130120433.7205-1-tzimmermann@suse.de>
  <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
  <7211f3d5-8298-6df3-05b5-c56b5e89f162@suse.de>
  <870cfd16-02a8-8a6d-8b7f-8ee4b57ef222@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
-Date: Tue, 1 Dec 2020 13:51:52 +0100
+ <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
+Message-ID: <49c3560d-08f4-f49d-a55b-18ea87b2c2ad@suse.de>
+Date: Tue, 1 Dec 2020 13:53:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <870cfd16-02a8-8a6d-8b7f-8ee4b57ef222@amd.com>
+In-Reply-To: <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,19 +56,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Dave Airlie <airlied@redhat.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Hans de Goede <hdegoede@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1480510364=="
+Content-Type: multipart/mixed; boundary="===============0772505557=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1480510364==
+--===============0772505557==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="ip9Ini8cBSmNV79vDPXN8wCABxTKlmlib"
+ boundary="7G6Hm7V7yLK8FK12MmeuLH7tKCjM9JEOM"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ip9Ini8cBSmNV79vDPXN8wCABxTKlmlib
-Content-Type: multipart/mixed; boundary="lf4QTAtVN8AbUhCBThT3dpXsCDkacj7Mf";
+--7G6Hm7V7yLK8FK12MmeuLH7tKCjM9JEOM
+Content-Type: multipart/mixed; boundary="EUem3EXcvIMt1ljf2t3esh1YTe4Xo3ucH";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
@@ -75,7 +76,7 @@ To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
 Cc: Dave Airlie <airlied@redhat.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  Hans de Goede <hdegoede@redhat.com>
-Message-ID: <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
+Message-ID: <49c3560d-08f4-f49d-a55b-18ea87b2c2ad@suse.de>
 Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
 References: <20201130120433.7205-1-tzimmermann@suse.de>
  <20201130120433.7205-2-tzimmermann@suse.de>
@@ -91,123 +92,139 @@ References: <20201130120433.7205-1-tzimmermann@suse.de>
  <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
  <7211f3d5-8298-6df3-05b5-c56b5e89f162@suse.de>
  <870cfd16-02a8-8a6d-8b7f-8ee4b57ef222@amd.com>
-In-Reply-To: <870cfd16-02a8-8a6d-8b7f-8ee4b57ef222@amd.com>
+ <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
+In-Reply-To: <974e9258-d50c-c6ef-73e8-e5a762a58aa7@suse.de>
 
---lf4QTAtVN8AbUhCBThT3dpXsCDkacj7Mf
+--EUem3EXcvIMt1ljf2t3esh1YTe4Xo3ucH
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 01.12.20 um 13:38 schrieb Christian K=C3=B6nig:
-> Am 01.12.20 um 13:33 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 01.12.20 um 13:14 schrieb Christian K=C3=B6nig:
->>> Am 01.12.20 um 12:30 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 01.12.20 um 11:34 schrieb Christian K=C3=B6nig:
->>>>>> [...]
->>>>>> In patch 6 of this series, there's ast cursor code that acquires=20
->>>>>> two BO's reservation locks and vmaps them afterwards. That's=20
->>>>>> probably how you intend to use dma_buf_vmap_local.
->>>>>>
->>>>>> However, I think it's more logically to have a vmap callback that =
-
->>>>>> only does the actual vmap. This is all that exporters would have=20
->>>>>> to implement.
->>>>>>
->>>>>> And with that, build one helper that pins before vmap and one=20
->>>>>> helper that gets the resv lock.
+Am 01.12.20 um 13:51 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 01.12.20 um 13:38 schrieb Christian K=C3=B6nig:
+>> Am 01.12.20 um 13:33 schrieb Thomas Zimmermann:
+>>> Hi
+>>>
+>>> Am 01.12.20 um 13:14 schrieb Christian K=C3=B6nig:
+>>>> Am 01.12.20 um 12:30 schrieb Thomas Zimmermann:
+>>>>> Hi
 >>>>>
->>>>> I don't think that this is will work nor is it a good approach.
+>>>>> Am 01.12.20 um 11:34 schrieb Christian K=C3=B6nig:
+>>>>>>> [...]
+>>>>>>> In patch 6 of this series, there's ast cursor code that acquires =
+
+>>>>>>> two BO's reservation locks and vmaps them afterwards. That's=20
+>>>>>>> probably how you intend to use dma_buf_vmap_local.
+>>>>>>>
+>>>>>>> However, I think it's more logically to have a vmap callback that=
+=20
+>>>>>>> only does the actual vmap. This is all that exporters would have =
+
+>>>>>>> to implement.
+>>>>>>>
+>>>>>>> And with that, build one helper that pins before vmap and one=20
+>>>>>>> helper that gets the resv lock.
+>>>>>>
+>>>>>> I don't think that this is will work nor is it a good approach.
+>>>>>>
+>>>>>> See the ast cursor handling for example. You need to acquire two=20
+>>>>>> BOs here, not just one. And this can't be done cleanly with a=20
+>>>>>> single vmap call.
 >>>>>
->>>>> See the ast cursor handling for example. You need to acquire two=20
->>>>> BOs here, not just one. And this can't be done cleanly with a=20
->>>>> single vmap call.
+>>>>> That seems to be a misunderstanding.
+>>>>>
+>>>>> I don't mentioned it explicitly, but there's of course another=20
+>>>>> helper that only vmaps and nothing else. This would be useful for=20
+>>>>> cases like the cursor code. So there would be:
+>>>>>
+>>>>> =C2=A0dma_buf_vmap() - pin + vmap
+>>>>> =C2=A0dma_buf_vmap_local() - lock + vmap
+>>>>> =C2=A0dma_buf_vmap_locked() - only vmap; caller has set up the BOs
 >>>>
->>>> That seems to be a misunderstanding.
+>>>> Well that zoo of helpers will certainly get a NAK from my side.
 >>>>
->>>> I don't mentioned it explicitly, but there's of course another=20
->>>> helper that only vmaps and nothing else. This would be useful for=20
->>>> cases like the cursor code. So there would be:
->>>>
->>>> =C2=A0dma_buf_vmap() - pin + vmap
->>>> =C2=A0dma_buf_vmap_local() - lock + vmap
->>>> =C2=A0dma_buf_vmap_locked() - only vmap; caller has set up the BOs
->>>
->>> Well that zoo of helpers will certainly get a NAK from my side.
->>>
->>> See interfaces like this should implement simple functions and not=20
->>> hide what's actually needs to be done inside the drivers using this=20
->>> interface.
->>
->> If 9 of 10 invocations use the same pattern, why not put that pattern =
+>>>> See interfaces like this should implement simple functions and not=20
+>>>> hide what's actually needs to be done inside the drivers using this =
 
->> in a helper? I see nothing wrong with that.
->=20
-> Because it hides the locking semantics inside the helper. See when you =
+>>>> interface.
+>>>
+>>> If 9 of 10 invocations use the same pattern, why not put that pattern=
+=20
+>>> in a helper? I see nothing wrong with that.
+>>
+>> Because it hides the locking semantics inside the helper. See when you=
+=20
+>> have the lock/unlock inside the driver it is obvious that you need to =
 
-> have the lock/unlock inside the driver it is obvious that you need to b=
-e=20
-> careful not to take locks in different orders.
->=20
->>> What we could do is to add a pin count to the DMA-buf and then do=20
->>> WARN_ON(dma_buf->pin_count || dma_resv_lock_help(dma_buf->resv)) in=20
->>> the vmap/vunmap calls.
+>> be careful not to take locks in different orders.
 >>
->> Most of the vmap code is either CMA or SHMEM GEM stuff. They don't=20
->> need to pin. It's just baggage to them. The TTM stuff that does need=20
->> pinning is the minority.
->>
+>>>> What we could do is to add a pin count to the DMA-buf and then do=20
+>>>> WARN_ON(dma_buf->pin_count || dma_resv_lock_help(dma_buf->resv)) in =
+
+>>>> the vmap/vunmap calls.
+>>>
+>>> Most of the vmap code is either CMA or SHMEM GEM stuff. They don't=20
+>>> need to pin. It's just baggage to them. The TTM stuff that does need =
+
+>>> pinning is the minority.
 >>>
 >>>>
->>>> I did some conversion of drivers that use vram and shmem. They=20
->>>> occasionally update a buffer (ast cursors) or flush a BO from system=
+>>>>>
+>>>>> I did some conversion of drivers that use vram and shmem. They=20
+>>>>> occasionally update a buffer (ast cursors) or flush a BO from=20
+>>>>> system memory to HW (udl, cirrus, mgag200). In terms of these 3=20
+>>>>> interfaces: I never needed dma_buf_vmap() because pinning was never=
 =20
->>>> memory to HW (udl, cirrus, mgag200). In terms of these 3 interfaces:=
-=20
->>>> I never needed dma_buf_vmap() because pinning was never really=20
->>>> required here. Almost all of the cases were handled by=20
->>>> dma_buf_vmap_local(). And the ast cursor code uses the equivalent of=
-=20
->>>> dma_buf_vmap_locked().
+>>>>> really required here. Almost all of the cases were handled by=20
+>>>>> dma_buf_vmap_local(). And the ast cursor code uses the equivalent=20
+>>>>> of dma_buf_vmap_locked().
+>>>>
+>>>> Yeah, that is kind of expected. I was already wondering as well why =
+
+>>>> we didn't used the reservation lock more extensively.
 >>>
->>> Yeah, that is kind of expected. I was already wondering as well why=20
->>> we didn't used the reservation lock more extensively.
+>>> As a side note, I found only 6 trivial implementations of vmap=20
+>>> outside of drivers/gpu/drm. I cannot find a single implementation of =
+
+>>> pin there. =C2=A0What am I missing?
 >>
->> As a side note, I found only 6 trivial implementations of vmap outside=
-=20
->> of drivers/gpu/drm. I cannot find a single implementation of pin=20
->> there. =C2=A0What am I missing?
->=20
-> Amdgpu is the only one currently implementing the new interface. So far=
-=20
-> we didn't had the time nor the need to correctly move the locking into =
+>> Amdgpu is the only one currently implementing the new interface. So=20
+>> far we didn't had the time nor the need to correctly move the locking =
 
-> the calling drivers.
+>> into the calling drivers.
+>>
+>> That's what the whole dynamic DMA-buf patches where all about.
 >=20
-> That's what the whole dynamic DMA-buf patches where all about.
+> Thanks for the pointer.
 
-Thanks for the pointer.
+That was not a snarky comment, although it might sound like one. I found =
+
+the series in my inbox. :)
 
 Best regards
 Thomas
 
 >=20
-> Regards,
-> Christian.
+> Best regards
+> Thomas
 >=20
 >>
->> Best regards
->> Thomas
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Best regards
+>>> Thomas
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 --=20
 Thomas Zimmermann
@@ -218,32 +235,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---lf4QTAtVN8AbUhCBThT3dpXsCDkacj7Mf--
+--EUem3EXcvIMt1ljf2t3esh1YTe4Xo3ucH--
 
---ip9Ini8cBSmNV79vDPXN8wCABxTKlmlib
+--7G6Hm7V7yLK8FK12MmeuLH7tKCjM9JEOM
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GPGgFAwAAAAAACgkQlh/E3EQov+DJ
-kBAAlX/wOBCIyxcFRsVe3unmDGz+9rfIawTqXdriY/S47oVTEEF9O6tyfnV1L6bVZRO/tPHhHC6j
-wYtzgOugM75BKu79JCMvKKWzjSogE9fQHBCaG9Q/KAIFodZXSP286bX2gqrVStki2ECx7JjVj39S
-5YHk2sa7u3Pm066Ed72w/PRXoLkWOMdOV/MX1tLdFyOzbdTnqWN+X9t+njgBPdx7z3QNXBjpSrZt
-AI3++Ag8bbtwDCvJIE+xmzs0wuWyQ0k/l+9TK7WKcnVJxGAs9yIkblK13AzgY+E91mqGCJZis2On
-lSwqYgQNgTTw5eyLidgm8iJsl0W0gfJF2NaNVaWsCIbTK2wg9RdS3SScpjwZJbDamE2slexPrV8a
-LOtEGCnfdpPT4ihMrNKiVDB2FFW9gm1CrefAsttlAf3Ya01pg0Beoejkl1Rf5OFn0mgDiEFuGpSp
-ghVWM/P6Waawdd1jIu5B+sIWMJ31n3jyOH2fZPb4Rxq8TZ0W8m75qk3aiKWdb3NGvIkXZbTTyWuF
-TzhjBYPCzbWjTCIqzRQpyX3by/T+XzJXPxrECDbVAQ2Qq3U+4mlqHzmiyZVEtvTxPJM6vDse9rwb
-M8e1s5Xi+UM/JpDyyvZzs6BZn0vL7fONm0LA70OwcvELtYhqTuXjQL0C1bda2FADC5KbOON1jR4k
-iCs=
-=6D5q
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GPOUFAwAAAAAACgkQlh/E3EQov+BO
+1hAAlQHe0Ap0Jt95WHmNCZ3rIly1znO31FODE5Wcf1/U+3PYgoD1E7w5OSW5AO/rJExatLcCUuZX
+OaWSrBC6/Hwew+MDwAa0Fvnhzv/vW7s5GXP/UARWxXD5r9heIEoe/pgcnyLxlX3EjaC4PxJ6CM2Y
+9Szor+K6dxEQlI22NMvZJpsA1oZlIRCd+TRGtJVN679n+B5X6uLCa8h7wGjf6F6nvfScqIWdbz4W
+pkXOL7RzpudgZJelhLqCvlMO8ldjUO6n1Clr39/+oaj+DMc4VHD1qWzU6qFCx05DIhHwRhA72+f+
+KVkQ9KmCTFkRPnRDsQL5izNXa/25K0l4rUWWL9Ep44zOevWro3vmvG751tBE3PJDTrlxuVIrwCCd
+kwo8eZSblUT3H94EgZcBuf6uUGa3aFvwIb63Q9XUSjOIMU83GA+yJNBnVJ1IbymtSkLbn9il27BM
+594mHikSY3Q62kFNVlwd2czwg88yjc0SYMnfMqlR3nYMVpGr7bFFmRYf2V5obfkqIpnpNt2h7gs1
+To8lmANIQJYKB6bEgvOrJdnRh8AXabxvG5Vr1W49mVZxOjILhFTlJzpzUv5sCMjcW3rY3CGQULht
+KoA1fl8DBINS6mOuTqE/06pppIIIcsYjktNU952v8YC6LQCamA/Cry3H/OS4JudpCpCBJ8QWPngd
+8rw=
+=xrFy
 -----END PGP SIGNATURE-----
 
---ip9Ini8cBSmNV79vDPXN8wCABxTKlmlib--
+--7G6Hm7V7yLK8FK12MmeuLH7tKCjM9JEOM--
 
---===============1480510364==
+--===============0772505557==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -254,4 +271,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1480510364==--
+--===============0772505557==--
