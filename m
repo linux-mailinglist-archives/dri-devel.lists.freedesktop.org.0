@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDDB82C93F8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:33:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CBC2C93F9
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 01:33:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1815389DFA;
-	Tue,  1 Dec 2020 00:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4C2889E03;
+	Tue,  1 Dec 2020 00:33:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E658889DFA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 00:33:08 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7117889DFC
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 00:33:47 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18AE831D;
- Tue,  1 Dec 2020 01:33:06 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C16F31D;
+ Tue,  1 Dec 2020 01:33:45 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1606782787;
- bh=zHkFpFJk1EHrcOyzIYV3F+ExzvqPuUphPS1SQfgLM0E=;
+ s=mail; t=1606782826;
+ bh=PNlJMlKMDZLvPTxNTkvuBa+89L37a2Wh9uDw7vvIt6o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YYCkRCmVWkRdDQG//iQz4n26oHvkFoBjx4R//UCZ6/SQdwtGMnUbvANtI7IeSD/xs
- q16EYkjIVQSfNzHzZWF2Ohdf5oO3Jh35ELQTQAKoZXR73L3RRfqxeSi5NO8lbmRWBh
- PS7vUnL1bpg4W5uVnvE+VB+me5z1d5iF3CdssNKc=
-Date: Tue, 1 Dec 2020 02:32:57 +0200
+ b=foUlpfLtrX/JXdO+L/1pfH7wufKqIuiv/0TvNQsZWqSkLOpRgm9TFWLLxiLsjElJm
+ L1IJ8TNJNH6nUAQXd1ymLHo9sel4NrmFDCzryFGTwNtaAAawHlwf+PLznXyl1QcxmC
+ QM0VuHOwdaYaEaE22iQQ40iiTKRYKnpWSZEzyiC0=
+Date: Tue, 1 Dec 2020 02:33:36 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v4 73/80] drm/omap: dsi: display_enable cleanup
-Message-ID: <20201201003257.GR25713@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 74/80] drm/omap: dsi: display_disable cleanup
+Message-ID: <20201201003336.GS25713@pendragon.ideasonboard.com>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
- <20201124124538.660710-74-tomi.valkeinen@ti.com>
+ <20201124124538.660710-75-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201124124538.660710-74-tomi.valkeinen@ti.com>
+In-Reply-To: <20201124124538.660710-75-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,69 +59,78 @@ Hi Tomi,
 
 Thank you for the patch.
 
-On Tue, Nov 24, 2020 at 02:45:31PM +0200, Tomi Valkeinen wrote:
-> We can drop dsi_display_enable(), which just calls
-> _dsi_display_enable(), and rename _dsi_display_enable() to
-> dsi_display_enable().
+On Tue, Nov 24, 2020 at 02:45:32PM +0200, Tomi Valkeinen wrote:
+> We can drop dsi_display_disable() which just calls
+> _dsi_display_disable(), and rename _dsi_display_disable() to
+> dsi_display_disable().
 
-How about adding a comment here to explain why the WARN_ON() is needed
-anymore ?
+Same comment as for the previous patch. I'd actually squash the two.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 16 +++-------------
->  1 file changed, 3 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 19 +++----------------
+>  1 file changed, 3 insertions(+), 16 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> index 4f79d6c664ff..e50418db71ef 100644
+> index e50418db71ef..d23fc43f1d1e 100644
 > --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 > +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -3738,7 +3738,7 @@ static void dsi_display_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
->  	}
->  }
+> @@ -63,8 +63,6 @@ static int dsi_vc_send_null(struct dsi_data *dsi, int vc, int channel);
+>  static ssize_t _omap_dsi_host_transfer(struct dsi_data *dsi, int vc,
+>  				       const struct mipi_dsi_msg *msg);
 >  
-> -static void _dsi_display_enable(struct dsi_data *dsi)
-> +static void dsi_display_enable(struct dsi_data *dsi)
->  {
->  	int r;
->  
-> @@ -3767,16 +3767,6 @@ static void _dsi_display_enable(struct dsi_data *dsi)
+> -static void dsi_display_disable(struct omap_dss_device *dssdev);
+> -
+>  #ifdef DSI_PERF_MEASURE
+>  static bool dsi_perf;
+>  module_param(dsi_perf, bool, 0644);
+> @@ -3767,7 +3765,7 @@ static void dsi_display_enable(struct dsi_data *dsi)
 >  	DSSDBG("dsi_display_ulps_enable FAILED\n");
 >  }
 >  
-> -static void dsi_display_enable(struct omap_dss_device *dssdev)
+> -static void _dsi_display_disable(struct dsi_data *dsi,
+> +static void dsi_display_disable(struct dsi_data *dsi,
+>  		bool disconnect_lanes, bool enter_ulps)
+>  {
+>  	WARN_ON(!dsi_bus_is_locked(dsi));
+> @@ -3786,17 +3784,6 @@ static void _dsi_display_disable(struct dsi_data *dsi,
+>  	mutex_unlock(&dsi->lock);
+>  }
+>  
+> -static void dsi_display_disable(struct omap_dss_device *dssdev)
 > -{
 > -	struct dsi_data *dsi = to_dsi_data(dssdev);
-> -	DSSDBG("dsi_display_enable\n");
 > -
 > -	WARN_ON(!dsi_bus_is_locked(dsi));
 > -
-> -	_dsi_display_enable(dsi);
+> -	DSSDBG("dsi_display_disable\n");
+> -
+> -	_dsi_display_disable(dsi, true, false);
 > -}
 > -
->  static void _dsi_display_disable(struct dsi_data *dsi,
->  		bool disconnect_lanes, bool enter_ulps)
+>  static int dsi_enable_te(struct dsi_data *dsi, bool enable)
 >  {
-> @@ -3851,7 +3841,7 @@ static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable)
->  			return;
+>  	dsi->te_enabled = enable;
+> @@ -3820,7 +3807,7 @@ static void omap_dsi_ulps_work_callback(struct work_struct *work)
 >  
->  		dsi_bus_lock(dsi);
-> -		_dsi_display_enable(dsi);
-> +		dsi_display_enable(dsi);
->  		dsi_enable_te(dsi, true);
->  		dsi_bus_unlock(dsi);
->  	}
-> @@ -4942,7 +4932,7 @@ static void dsi_bridge_enable(struct drm_bridge *bridge)
+>  	dsi_enable_te(dsi, false);
 >  
->  	dsi_bus_lock(dsi);
+> -	_dsi_display_disable(dsi, false, true);
+> +	dsi_display_disable(dsi, false, true);
 >  
-> -	dsi_display_enable(dssdev);
-> +	dsi_display_enable(dsi);
+>  	dsi_bus_unlock(dsi);
+>  }
+> @@ -4954,7 +4941,7 @@ static void dsi_bridge_disable(struct drm_bridge *bridge)
 >  
->  	dsi_enable_video_output(dssdev, VC_VIDEO);
+>  	dsi_disable_video_output(dssdev, VC_VIDEO);
 >  
+> -	dsi_display_disable(dssdev);
+> +	dsi_display_disable(dsi, true, false);
+>  
+>  	dsi_bus_unlock(dsi);
+>  }
 
 -- 
 Regards,
