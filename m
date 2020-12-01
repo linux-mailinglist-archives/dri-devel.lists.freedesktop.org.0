@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234D82CA491
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 14:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DF92CA4CD
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 15:01:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0116E56D;
-	Tue,  1 Dec 2020 13:59:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A58ED6E53E;
+	Tue,  1 Dec 2020 14:01:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 803B46E575
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 13:59:16 +0000 (UTC)
-Received: from localhost (cpc102334-sgyl38-2-0-cust884.18-2.cable.virginm.net
- [92.233.91.117])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 7A093206A5;
- Tue,  1 Dec 2020 13:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1606831156;
- bh=wO6D9hVJI1FSdXrdne6qjmQ/6oyJBk8iHfvjh/Ul6I4=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=Q/HCqosobNkyzmwSD+vLB8zI1q7HKy2Mb/SjGlpmkgJkPU41HvTK32XyMkbtyR2c8
- bfcF6Tu0nVjautlDP5qfxi6DMGTEuzZAC4kGMbA4jrGgjVMFax+DYld7gfu7dg9air
- LY0cxjKMnmkppKQkJdiI8nSoJ+KL3ELubpvq2wy4=
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Peter Chen <Peter.Chen@nxp.com>, Jonathan Hunter <jonathanh@nvidia.com>, Uwe Kleine-König <u.kleine-koenig@pengutronix.de>, Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, Adrian Hunter <adrian.hunter@intel.com>, Peter Geis <pgwipeout@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Dmitry Osipenko <digetx@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee.jones@linaro.org>, Thierry Reding <thierry.reding@gmail.com>
-In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
-References: <20201104234427.26477-1-digetx@gmail.com>
-Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
- Tegra20/30 SoCs
-Message-Id: <160683107675.35139.13466076210885462180.b4-ty@kernel.org>
-Date: Tue, 01 Dec 2020 13:57:56 +0000
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D899F6E530;
+ Tue,  1 Dec 2020 14:01:00 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id k3so1677413otp.12;
+ Tue, 01 Dec 2020 06:01:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=KKW3EOUonoHk4bmKwuL1uydL+Yh3MzQ7U0560ouys3s=;
+ b=ZP5LL+gqFwGVSjiJEWCGJpcE5N9QencikDl3FtJy626LsjuOehhztcP4aGZtTJJFm0
+ KbiS+F7/oFJutQdexf7unem5E7Jw3Cfbzq91dP72FLF5Fk2lWP5jKx+hjzDDUktyna8l
+ b9wsZAqq6uiMTDSf7vxuN3sxy6cLUBez117eH8kT0Q4HbhWPOCYiMHXKkq+fDv4BMN8M
+ RPkpvsSVjLl7DRUu0lbIsv7O5C5jU3B+jftk4B2ky0pLG68EeUTqK3oyWPGWrirhDX9D
+ dq8oXSbGaiJ9UiBgQTmTjuHXpjp1dqugBSrz/b3Io8VCFPfD+BLmy+ZoPHH7Og3YPRV6
+ Lkyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=KKW3EOUonoHk4bmKwuL1uydL+Yh3MzQ7U0560ouys3s=;
+ b=b4NN4DHKGbxdj14pNt3sRSYNZdqOl5H5djpQb3UCfQeYe4uhh95Bw1JmArWpl/zzn+
+ VwEstGWPWcTmszCvY7wsMclAAb34jrWsRSxuE+pHM4mGtwx+2AS0iJf7Rq94k7stoHvm
+ jWmQhG/KocK5og9uFRLrkJLOog1UaAVJwpPwWLGG/ZhZZRSSplo0DFLUKtTTSnmeSfIi
+ E1w8y05qIn2AMfDDtJjyGQmuFPACYo+FK6O51WuLdr+Dhvr32xTM2cenIJ1za9pByvap
+ vauHfM+tZr1BcdC7yDj8CUxZ2lGi38h2Dj3JyTZZe6SflDjq34ivbAkhhvv+xcy82EnU
+ o8MA==
+X-Gm-Message-State: AOAM530WojQC9p2oPvn36UE4XbEq+4q0CFYxxW9ppC6xNasfk5G24gnU
+ JCuBW4KtPW9g+5oD386j3mqeY2/+MURMe1xuNCk=
+X-Google-Smtp-Source: ABdhPJyM2cWPlndVwe1fEAo//Tvbj+hC/zbtvm6PxxkdYuHnDDGP1BKbyzgcygvu1QAu5sADiA+8vC46eHwb0zQbgKQ=
+X-Received: by 2002:a9d:4713:: with SMTP id a19mr1911439otf.132.1606831258589; 
+ Tue, 01 Dec 2020 06:00:58 -0800 (PST)
 MIME-Version: 1.0
+References: <20201126134240.3214176-1-lee.jones@linaro.org>
+ <20201126134240.3214176-32-lee.jones@linaro.org>
+In-Reply-To: <20201126134240.3214176-32-lee.jones@linaro.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 1 Dec 2020 09:00:47 -0500
+Message-ID: <CADnq5_Piuz9Oua5FBeMGuMb98cwtf5+6WSqCPKi3UqkN+5Z=mw@mail.gmail.com>
+Subject: Re: [PATCH 31/40] drm/amd/pm/powerplay/kv_dpm: Remove unused variable
+ 'ret'
+To: Lee Jones <lee.jones@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,55 +63,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, LKML <linux-kernel@vger.kernel.org>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Alex Deucher <alexander.deucher@amd.com>, Evan Quan <evan.quan@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 5 Nov 2020 02:43:57 +0300, Dmitry Osipenko wrote:
-> Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs, which reduces
-> power consumption and heating of the Tegra chips. Tegra SoC has multiple
-> hardware units which belong to a core power domain of the SoC and share
-> the core voltage. The voltage must be selected in accordance to a minimum
-> requirement of every core hardware unit.
-> 
-> The minimum core voltage requirement depends on:
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] regulator: Allow skipping disabled regulators in regulator_check_consumers()
-      (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBOb3YgMjYsIDIwMjAgYXQgODo0MyBBTSBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPiB3cm90ZToKPgo+IEZpeGVzIHRoZSBmb2xsb3dpbmcgVz0xIGtlcm5lbCBidWlsZCB3
+YXJuaW5nKHMpOgo+Cj4gIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3Bvd2VycGxh
+eS9rdl9kcG0uYzogSW4gZnVuY3Rpb24g4oCYa3ZfZHBtX3Bvd2VyZ2F0ZV91dmTigJk6Cj4gIGRy
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1Ly4uL3BtL3Bvd2VycGxheS9rdl9kcG0uYzoxNjc4OjY6
+IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJldOKAmSBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1i
+dXQtc2V0LXZhcmlhYmxlXQo+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9wb3dl
+cnBsYXkva3ZfZHBtLmM6IEluIGZ1bmN0aW9uIOKAmGt2X2RwbV9wb3dlcmdhdGVfdmNl4oCZOgo+
+ICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS8uLi9wbS9wb3dlcnBsYXkva3ZfZHBtLmM6MTcw
+Njo2OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhyZXTigJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVz
+ZWQtYnV0LXNldC12YXJpYWJsZV0KPgo+IENjOiBFdmFuIFF1YW4gPGV2YW4ucXVhbkBhbWQuY29t
+Pgo+IENjOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5jb20+Cj4gQ2M6ICJD
+aHJpc3RpYW4gS8O2bmlnIiA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYXZpZCBB
+aXJsaWUgPGFpcmxpZWRAbGludXguaWU+Cj4gQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4KPiBDYzogYW1kLWdmeEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBDYzogZHJpLWRldmVs
+QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IFNpZ25lZC1vZmYtYnk6IExlZSBKb25lcyA8bGVlLmpv
+bmVzQGxpbmFyby5vcmc+CgpBcHBsaWVkLiAgVGhhbmtzIQoKQWxleAoKCj4gLS0tCj4gIGRyaXZl
+cnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5jIHwgMTggKysrKysrKystLS0tLS0t
+LS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEwIGRlbGV0aW9ucygtKQo+
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5j
+IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9wb3dlcnBsYXkva3ZfZHBtLmMKPiBpbmRleCA0YjNm
+YWFjY2VjYjk0Li42NmRhYWJlYmVlMzU4IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9h
+bWQvcG0vcG93ZXJwbGF5L2t2X2RwbS5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9wbS9w
+b3dlcnBsYXkva3ZfZHBtLmMKPiBAQCAtMTY3NSwxNCArMTY3NSwxMyBAQCBzdGF0aWMgdm9pZCBr
+dl9kcG1fcG93ZXJnYXRlX3V2ZCh2b2lkICpoYW5kbGUsIGJvb2wgZ2F0ZSkKPiAgewo+ICAgICAg
+ICAgc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYgPSAoc3RydWN0IGFtZGdwdV9kZXZpY2UgKilo
+YW5kbGU7Cj4gICAgICAgICBzdHJ1Y3Qga3ZfcG93ZXJfaW5mbyAqcGkgPSBrdl9nZXRfcGkoYWRl
+dik7Cj4gLSAgICAgICBpbnQgcmV0Owo+Cj4gICAgICAgICBwaS0+dXZkX3Bvd2VyX2dhdGVkID0g
+Z2F0ZTsKPgo+ICAgICAgICAgaWYgKGdhdGUpIHsKPiAgICAgICAgICAgICAgICAgLyogc3RvcCB0
+aGUgVVZEIGJsb2NrICovCj4gLSAgICAgICAgICAgICAgIHJldCA9IGFtZGdwdV9kZXZpY2VfaXBf
+c2V0X3Bvd2VyZ2F0aW5nX3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiAtICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+QU1EX1BHX1NUQVRFX0dBVEUpOwo+ICsgICAgICAgICAgICAgICBhbWRncHVfZGV2aWNlX2lwX3Nl
+dF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQRV9VVkQsCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEFNRF9QR19T
+VEFURV9HQVRFKTsKPiAgICAgICAgICAgICAgICAga3ZfdXBkYXRlX3V2ZF9kcG0oYWRldiwgZ2F0
+ZSk7Cj4gICAgICAgICAgICAgICAgIGlmIChwaS0+Y2Fwc191dmRfcGcpCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgLyogcG93ZXIgb2ZmIHRoZSBVVkQgYmxvY2sgKi8KPiBAQCAtMTY5NCw4ICsx
+NjkzLDggQEAgc3RhdGljIHZvaWQga3ZfZHBtX3Bvd2VyZ2F0ZV91dmQodm9pZCAqaGFuZGxlLCBi
+b29sIGdhdGUpCj4gICAgICAgICAgICAgICAgICAgICAgICAgLyogcmUtaW5pdCB0aGUgVVZEIGJs
+b2NrICovCj4gICAgICAgICAgICAgICAgIGt2X3VwZGF0ZV91dmRfZHBtKGFkZXYsIGdhdGUpOwo+
+Cj4gLSAgICAgICAgICAgICAgIHJldCA9IGFtZGdwdV9kZXZpY2VfaXBfc2V0X3Bvd2VyZ2F0aW5n
+X3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiAtICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BHX1NUQVRFX1VO
+R0FURSk7Cj4gKyAgICAgICAgICAgICAgIGFtZGdwdV9kZXZpY2VfaXBfc2V0X3Bvd2VyZ2F0aW5n
+X3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1VWRCwKPiArICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BHX1NUQVRFX1VOR0FURSk7
+Cj4gICAgICAgICB9Cj4gIH0KPgo+IEBAIC0xNzAzLDE0ICsxNzAyLDEzIEBAIHN0YXRpYyB2b2lk
+IGt2X2RwbV9wb3dlcmdhdGVfdmNlKHZvaWQgKmhhbmRsZSwgYm9vbCBnYXRlKQo+ICB7Cj4gICAg
+ICAgICBzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiA9IChzdHJ1Y3QgYW1kZ3B1X2RldmljZSAq
+KWhhbmRsZTsKPiAgICAgICAgIHN0cnVjdCBrdl9wb3dlcl9pbmZvICpwaSA9IGt2X2dldF9waShh
+ZGV2KTsKPiAtICAgICAgIGludCByZXQ7Cj4KPiAgICAgICAgIHBpLT52Y2VfcG93ZXJfZ2F0ZWQg
+PSBnYXRlOwo+Cj4gICAgICAgICBpZiAoZ2F0ZSkgewo+ICAgICAgICAgICAgICAgICAvKiBzdG9w
+IHRoZSBWQ0UgYmxvY2sgKi8KPiAtICAgICAgICAgICAgICAgcmV0ID0gYW1kZ3B1X2RldmljZV9p
+cF9zZXRfcG93ZXJnYXRpbmdfc3RhdGUoYWRldiwgQU1EX0lQX0JMT0NLX1RZUEVfVkNFLAo+IC0g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBBTURfUEdfU1RBVEVfR0FURSk7Cj4gKyAgICAgICAgICAgICAgIGFtZGdwdV9kZXZpY2VfaXBf
+c2V0X3Bvd2VyZ2F0aW5nX3N0YXRlKGFkZXYsIEFNRF9JUF9CTE9DS19UWVBFX1ZDRSwKPiArICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQU1EX1BH
+X1NUQVRFX0dBVEUpOwo+ICAgICAgICAgICAgICAgICBrdl9lbmFibGVfdmNlX2RwbShhZGV2LCBm
+YWxzZSk7Cj4gICAgICAgICAgICAgICAgIGlmIChwaS0+Y2Fwc192Y2VfcGcpIC8qIHBvd2VyIG9m
+ZiB0aGUgVkNFIGJsb2NrICovCj4gICAgICAgICAgICAgICAgICAgICAgICAgYW1kZ3B1X2t2X25v
+dGlmeV9tZXNzYWdlX3RvX3NtdShhZGV2LCBQUFNNQ19NU0dfVkNFUG93ZXJPRkYpOwo+IEBAIC0x
+NzE5LDggKzE3MTcsOCBAQCBzdGF0aWMgdm9pZCBrdl9kcG1fcG93ZXJnYXRlX3ZjZSh2b2lkICpo
+YW5kbGUsIGJvb2wgZ2F0ZSkKPiAgICAgICAgICAgICAgICAgICAgICAgICBhbWRncHVfa3Zfbm90
+aWZ5X21lc3NhZ2VfdG9fc211KGFkZXYsIFBQU01DX01TR19WQ0VQb3dlck9OKTsKPiAgICAgICAg
+ICAgICAgICAga3ZfZW5hYmxlX3ZjZV9kcG0oYWRldiwgdHJ1ZSk7Cj4gICAgICAgICAgICAgICAg
+IC8qIHJlLWluaXQgdGhlIFZDRSBibG9jayAqLwo+IC0gICAgICAgICAgICAgICByZXQgPSBhbWRn
+cHVfZGV2aWNlX2lwX3NldF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQ
+RV9WQ0UsCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIEFNRF9QR19TVEFURV9VTkdBVEUpOwo+ICsgICAgICAgICAgICAgICBhbWRn
+cHVfZGV2aWNlX2lwX3NldF9wb3dlcmdhdGluZ19zdGF0ZShhZGV2LCBBTURfSVBfQkxPQ0tfVFlQ
+RV9WQ0UsCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIEFNRF9QR19TVEFURV9VTkdBVEUpOwo+ICAgICAgICAgfQo+ICB9Cj4KPiAtLQo+IDIu
+MjUuMQo+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+PiBkcmktZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+Zwo+IGh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRl
+dmVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
