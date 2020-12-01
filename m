@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D572CB6A9
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474C82CB6B6
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 199E16EA10;
-	Wed,  2 Dec 2020 08:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97CE06EA26;
+	Wed,  2 Dec 2020 08:19:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 387FC6E526
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:55:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C86F6E4DD
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:55:46 +0000 (UTC)
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4ClgX43lcNz15VbT;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4ClgX445Qmz15VtD;
  Tue,  1 Dec 2020 19:55:16 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
@@ -23,10 +23,9 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>
-Subject: [PATCH drm/hisilicon v2 2/4] drm/hisilicon: Code refactoring for
- hibmc_drm_drv
-Date: Tue, 1 Dec 2020 19:55:52 +0800
-Message-ID: <1606823754-52451-3-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon v2 3/4] drm/irq: Add the new api to install irq
+Date: Tue, 1 Dec 2020 19:55:53 +0800
+Message-ID: <1606823754-52451-4-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1606823754-52451-1-git-send-email-tiantao6@hisilicon.com>
 References: <1606823754-52451-1-git-send-email-tiantao6@hisilicon.com>
@@ -52,72 +51,72 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the devm_drm_dev_alloc provided by the drm framework to alloc
-a struct hibmc_drm_private.
+Add new api devm_drm_irq_install() to register interrupts,
+no need to call drm_irq_uninstall() when the drm module is removed.
 
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 16 ++++++----------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  2 +-
- 2 files changed, 7 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/drm_irq.c | 35 +++++++++++++++++++++++++++++++++++
+ include/drm/drm_irq.h     |  2 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index dd9fadc..c5b0b57 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -262,13 +262,6 @@ static int hibmc_load(struct drm_device *dev)
- 	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
- 	int ret;
- 
--	priv = drmm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
--	if (!priv) {
--		drm_err(dev, "no memory to allocate for hibmc_drm_private\n");
--		return -ENOMEM;
--	}
--	dev->dev_private = priv;
--
- 	ret = hibmc_hw_init(priv);
- 	if (ret)
- 		goto err;
-@@ -311,6 +304,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 			   const struct pci_device_id *ent)
- {
- 	struct drm_device *dev;
-+	struct hibmc_drm_private *priv;
- 	int ret;
- 
- 	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
-@@ -318,12 +312,14 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	if (ret)
- 		return ret;
- 
--	dev = drm_dev_alloc(&hibmc_driver, &pdev->dev);
--	if (IS_ERR(dev)) {
-+	priv = devm_drm_dev_alloc(&pdev->dev, &hibmc_driver,
-+				  struct hibmc_drm_private, dev);
-+	if (IS_ERR(priv)) {
- 		DRM_ERROR("failed to allocate drm_device\n");
--		return PTR_ERR(dev);
-+		return PTR_ERR(priv);
- 	}
- 
-+	dev = &priv->dev;
- 	dev->pdev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index e35353a..7e0c756 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -52,7 +52,7 @@ static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *c
- 
- static inline struct hibmc_drm_private *to_hibmc_drm_private(struct drm_device *dev)
- {
--	return dev->dev_private;
-+	return container_of(dev, struct hibmc_drm_private, dev);
+diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+index 09d6e9e..b363dec 100644
+--- a/drivers/gpu/drm/drm_irq.c
++++ b/drivers/gpu/drm/drm_irq.c
+@@ -214,6 +214,41 @@ int drm_irq_uninstall(struct drm_device *dev)
  }
+ EXPORT_SYMBOL(drm_irq_uninstall);
  
- void hibmc_set_power_mode(struct hibmc_drm_private *priv,
++static void devm_drm_irq_uninstall(void *data)
++{
++	drm_irq_uninstall(data);
++}
++
++/**
++ * devm_drm_irq_install - install IRQ handler
++ * @dev: DRM device
++ * @irq: IRQ number to install the handler for
++ *
++ * devm_drm_irq_install is a  help function of drm_irq_install.
++ *
++ * if the driver uses devm_drm_irq_install, there is no need
++ * to call drm_irq_uninstall when the drm module get unloaded,
++ * as this will done automagically.
++ *
++ * Returns:
++ * Zero on success or a negative error code on failure.
++ */
++int devm_drm_irq_install(struct drm_device *dev, int irq)
++{
++	int ret;
++
++	ret = drm_irq_install(dev, irq);
++	if (ret)
++		return ret;
++
++	ret = devm_add_action_or_reset(dev->dev, devm_drm_irq_uninstall, dev);
++	if (ret)
++		devm_drm_irq_uninstall(dev);
++
++	return ret;
++}
++EXPORT_SYMBOL(devm_drm_irq_install);
++
+ #if IS_ENABLED(CONFIG_DRM_LEGACY)
+ int drm_legacy_irq_control(struct drm_device *dev, void *data,
+ 			   struct drm_file *file_priv)
+diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
+index d77f6e6..631b22f 100644
+--- a/include/drm/drm_irq.h
++++ b/include/drm/drm_irq.h
+@@ -28,5 +28,5 @@ struct drm_device;
+ 
+ int drm_irq_install(struct drm_device *dev, int irq);
+ int drm_irq_uninstall(struct drm_device *dev);
+-
++int devm_drm_irq_install(struct drm_device *dev, int irq);
+ #endif
 -- 
 2.7.4
 
