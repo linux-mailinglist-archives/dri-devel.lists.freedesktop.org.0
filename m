@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2397C2CB6BC
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:41 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 791CA2CB6C3
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB51D6EA1C;
-	Wed,  2 Dec 2020 08:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E35F6EA32;
+	Wed,  2 Dec 2020 08:19:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 007B26E4EA
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 09:27:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4A46E4F8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 09:28:36 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1kk1wn-0000MQ-9v; Tue, 01 Dec 2020 10:27:45 +0100
+ id 1kk1wn-0000MR-9v; Tue, 01 Dec 2020 10:27:45 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1kk1wl-0004gs-N7; Tue, 01 Dec 2020 10:27:43 +0100
+ id 1kk1wl-0004h2-O9; Tue, 01 Dec 2020 10:27:43 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v5 1/6] dt-bindings: display: simple: Add EDT ETM0700G0BDH6
- display
-Date: Tue,  1 Dec 2020 10:27:37 +0100
-Message-Id: <20201201092742.17658-2-o.rempel@pengutronix.de>
+Subject: [PATCH v5 2/6] dt-bindings: vendor-prefixes: Add an entry for
+ Plymovent
+Date: Tue,  1 Dec 2020 10:27:38 +0100
+Message-Id: <20201201092742.17658-3-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201092742.17658-1-o.rempel@pengutronix.de>
 References: <20201201092742.17658-1-o.rempel@pengutronix.de>
@@ -62,29 +62,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This display is already supported by the panel-simple driver, so add it
-to the bindings documentation.
-
-This patch is needed to fix checkpatch warnings for the PLYM2M dts.
+Add "ply" entry for Plymovent Group BV: https://www.plymovent.com/
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index edb53ab0d9eb..a011d9e44af3 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -117,6 +117,8 @@ properties:
-       - edt,etm0700g0dh6
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-         # Same as ETM0700G0DH6 but with inverted pixel clock.
-+      - edt,etm0700g0bdh6
-+        # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-       - edt,etm070080bdh6
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-         # Same display as the ETM0700G0BDH6, but with changed hardware for the
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 6a9be2bbbcb6..8332d50301ea 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -840,6 +840,8 @@ patternProperties:
+     description: PLDA
+   "^plx,.*":
+     description: Broadcom Corporation (formerly PLX Technology)
++  "^ply,.*":
++    description: Plymovent Group BV
+   "^pni,.*":
+     description: PNI Sensor Corporation
+   "^pocketbook,.*":
 -- 
 2.29.2
 
