@@ -1,43 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DAF2CA166
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 12:34:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7BB22CA189
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 12:37:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E63389DD5;
-	Tue,  1 Dec 2020 11:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DAB89E69;
+	Tue,  1 Dec 2020 11:37:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 089D089C6B
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:34:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 0E9DEFB02;
- Tue,  1 Dec 2020 12:34:10 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P6r1QewT6znn; Tue,  1 Dec 2020 12:34:08 +0100 (CET)
-Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 051124026B; Tue,  1 Dec 2020 12:34:07 +0100 (CET)
-From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1] drm/imx/dcss: Add interconnect support
-Date: Tue,  1 Dec 2020 12:34:07 +0100
-Message-Id: <f44d42dd9b3750e2516413b2cbb3bc799b2a5628.1606822378.git.agx@sigxcpu.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1606822378.git.agx@sigxcpu.org>
-References: <cover.1606822378.git.agx@sigxcpu.org>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A802E89E69
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 11:37:23 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1BbGV0069247;
+ Tue, 1 Dec 2020 05:37:16 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606822636;
+ bh=jEq7ysfM/MmVZ2xizqReURrPG2TOZjPsyQUB6CXL2CQ=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=t1FjgA+iMGxkySYKNOTQMqmYhT2Omol3aisv1vYqNs19ZWzuq5wLqrI0uZ4WrXfWs
+ X3WiC1RTtR9F62mZzusBD3zYNRYieRMAJ8r5eL3bkDq6hT3GsH+oc9ZzHHRRWIjH1B
+ qz9ZxFKd8WJKwVLI0VlpQ+8hSZW1DJ4vzcpnuhns=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1BbG8j089583
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 1 Dec 2020 05:37:16 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Dec
+ 2020 05:37:15 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 1 Dec 2020 05:37:15 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1BbDtP074868;
+ Tue, 1 Dec 2020 05:37:14 -0600
+Subject: Re: [PATCH v4 71/80] drm/omap: dsi: move structs & defines to dsi.h
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
+ <20201124124538.660710-72-tomi.valkeinen@ti.com>
+ <20201201003112.GP25713@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <213843e4-3d14-7dc1-0250-8c9f254d02fb@ti.com>
+Date: Tue, 1 Dec 2020 13:37:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201201003112.GP25713@pendragon.ideasonboard.com>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,79 +63,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBhbGxvd3MgdXMgdG8gcmFpc2UgRFJBTSBiYW5kaXd0aCB0byBhIGhpZ2ggZW5vdWdoIHZh
-bHVlIGZvciBhCnN0YWJsZSBwaWN0dXJlIG9uIGkubXg4bXEuIFdlIHBpY2sgYSBiYW5kd2lkdGgg
-dGhhdCBzaG91bGQgYmUgc3VmZmljaWVudApmb3IgNGtANjBIei4KCk1vZGVsbGVkIGxpa2UgbWRw
-NV9rbXMuCgpTaWduZWQtb2ZmLWJ5OiBHdWlkbyBHw7xudGhlciA8YWd4QHNpZ3hjcHUub3JnPgot
-LS0KIGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5jIHwgNDcgKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0KIGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5oIHwg
-IDMgKysKIDIgZmlsZXMgY2hhbmdlZCwgNDggaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYyBiL2RyaXZl
-cnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5jCmluZGV4IGM4NDk1MzNjYTgzZS4uZTMzNmYw
-MzQ0OGQ2IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYwor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vaW14L2Rjc3MvZGNzcy1kZXYuYwpAQCAtMTUsNiArMTUsOSBA
-QAogI2luY2x1ZGUgImRjc3MtZGV2LmgiCiAjaW5jbHVkZSAiZGNzcy1rbXMuaCIKIAorLyogc3Vm
-ZmljaWVudCBmb3IgNEsgYXQgNjAgSHogKi8KKyNkZWZpbmUgRENTU19CV19NQVggR0Jwc190b19p
-Y2MoMikKKwogc3RhdGljIHZvaWQgZGNzc19jbG9ja3NfZW5hYmxlKHN0cnVjdCBkY3NzX2RldiAq
-ZGNzcykKIHsKIAljbGtfcHJlcGFyZV9lbmFibGUoZGNzcy0+YXhpX2Nsayk7CkBAIC0xNjIsNiAr
-MTY1LDMxIEBAIHN0YXRpYyB2b2lkIGRjc3NfY2xrc19yZWxlYXNlKHN0cnVjdCBkY3NzX2RldiAq
-ZGNzcykKIAlkZXZtX2Nsa19wdXQoZGNzcy0+ZGV2LCBkY3NzLT5hcGJfY2xrKTsKIH0KIAorc3Rh
-dGljIGludCBkY3NzX2luaXRfaWNjKHN0cnVjdCBkY3NzX2RldiAqZGNzcykKK3sKKwlpbnQgcmV0
-OworCXN0cnVjdCBpY2NfcGF0aCAqaWNjX3BhdGg7CisKKwkvKiBPcHRpb25hbCBpbnRlcmNvbm5l
-Y3QgcmVxdWVzdCAqLworCWljY19wYXRoID0gb2ZfaWNjX2dldChkY3NzLT5kZXYsIE5VTEwpOwor
-CWlmIChJU19FUlIoaWNjX3BhdGgpKSB7CisJCXJldCA9IFBUUl9FUlIoaWNjX3BhdGgpOworCQlp
-ZiAocmV0ID09IC1FUFJPQkVfREVGRVIpCisJCQlyZXR1cm4gcmV0OworCQkvKiBubyBpbnRlcmNv
-bm5lY3Qgc3VwcG9ydCBpcyBub3QgbmVjZXNzYXJpbHkgYSBmYXRhbAorCQkgKiBjb25kaXRpb24s
-IHRoZSBwbGF0Zm9ybSBtYXkgc2ltcGx5IG5vdCBoYXZlIGFuCisJCSAqIGludGVyY29ubmVjdCBk
-cml2ZXIgeWV0LiAgQnV0IHdhcm4gYWJvdXQgaXQgaW4gY2FzZQorCQkgKiBib290bG9hZGVyIGRp
-ZG4ndCBzZXR1cCBidXMgY2xvY2tzIGhpZ2ggZW5vdWdoIGZvcgorCQkgKiBzY2Fub3V0LgorCQkg
-Ki8KKwkJZGV2X3dhcm4oZGNzcy0+ZGV2LCAiTm8gaW50ZXJjb25uZWN0IHN1cHBvcnQgbWF5IGNh
-dXNlIGRpc3BsYXkgdW5kZXJmbG93cyFcbiIpOworCQlyZXR1cm4gMDsKKwl9CisJZGNzcy0+aWNj
-X3BhdGggPSBpY2NfcGF0aDsKKwlkY3NzLT5pY2NfcGVha19idyA9IERDU1NfQldfTUFYOworCXJl
-dHVybiAwOworfQorCiBzdHJ1Y3QgZGNzc19kZXYgKmRjc3NfZGV2X2NyZWF0ZShzdHJ1Y3QgZGV2
-aWNlICpkZXYsIGJvb2wgaGRtaV9vdXRwdXQpCiB7CiAJc3RydWN0IHBsYXRmb3JtX2RldmljZSAq
-cGRldiA9IHRvX3BsYXRmb3JtX2RldmljZShkZXYpOwpAQCAtMTkwLDEwICsyMTgsMTQgQEAgc3Ry
-dWN0IGRjc3NfZGV2ICpkY3NzX2Rldl9jcmVhdGUoc3RydWN0IGRldmljZSAqZGV2LCBib29sIGhk
-bWlfb3V0cHV0KQogCWRjc3MtPmRldnR5cGUgPSBkZXZ0eXBlOwogCWRjc3MtPmhkbWlfb3V0cHV0
-ID0gaGRtaV9vdXRwdXQ7CiAKKwlyZXQgPSBkY3NzX2luaXRfaWNjKGRjc3MpOworCWlmIChyZXQg
-PCAwKQorCQlnb3RvIGVycjsKKwogCXJldCA9IGRjc3NfY2xrc19pbml0KGRjc3MpOwogCWlmIChy
-ZXQpIHsKIAkJZGV2X2VycihkZXYsICJjbG9ja3MgaW5pdGlhbGl6YXRpb24gZmFpbGVkXG4iKTsK
-LQkJZ290byBlcnI7CisJCWdvdG8gaWNjX2VycjsKIAl9CiAKIAlkY3NzLT5vZl9wb3J0ID0gb2Zf
-Z3JhcGhfZ2V0X3BvcnRfYnlfaWQoZGV2LT5vZl9ub2RlLCAwKTsKQEAgLTIyMyw3ICsyNTUsOCBA
-QCBzdHJ1Y3QgZGNzc19kZXYgKmRjc3NfZGV2X2NyZWF0ZShzdHJ1Y3QgZGV2aWNlICpkZXYsIGJv
-b2wgaGRtaV9vdXRwdXQpCiAKIGNsa3NfZXJyOgogCWRjc3NfY2xrc19yZWxlYXNlKGRjc3MpOwot
-CitpY2NfZXJyOgorCWljY19wdXQoZGNzcy0+aWNjX3BhdGgpOwogZXJyOgogCWtmcmVlKGRjc3Mp
-OwogCkBAIC0yNDMsNiArMjc2LDggQEAgdm9pZCBkY3NzX2Rldl9kZXN0cm95KHN0cnVjdCBkY3Nz
-X2RldiAqZGNzcykKIAogCWRjc3NfY2xrc19yZWxlYXNlKGRjc3MpOwogCisJaWNjX3B1dChkY3Nz
-LT5pY2NfcGF0aCk7CisKIAlrZnJlZShkY3NzKTsKIH0KIApAQCAtMjY3LDYgKzMwMiw4IEBAIGlu
-dCBkY3NzX2Rldl9zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKIAogCWRjc3NfY2xvY2tzX2Rp
-c2FibGUoZGNzcyk7CiAKKwlpY2Nfc2V0X2J3KGRjc3MtPmljY19wYXRoLCAwLCAwKTsKKwogCXJl
-dHVybiAwOwogfQogCkBAIC0yODEsNiArMzE4LDggQEAgaW50IGRjc3NfZGV2X3Jlc3VtZShzdHJ1
-Y3QgZGV2aWNlICpkZXYpCiAJCXJldHVybiAwOwogCX0KIAorCWljY19zZXRfYncoZGNzcy0+aWNj
-X3BhdGgsIDAsIGRjc3MtPmljY19wZWFrX2J3KTsKKwogCWRjc3NfY2xvY2tzX2VuYWJsZShkY3Nz
-KTsKIAogCWRjc3NfYmxrY3RsX2NmZyhkY3NzLT5ibGtjdGwpOwpAQCAtMzA3LDYgKzM0Niw4IEBA
-IGludCBkY3NzX2Rldl9ydW50aW1lX3N1c3BlbmQoc3RydWN0IGRldmljZSAqZGV2KQogCiAJZGNz
-c19jbG9ja3NfZGlzYWJsZShkY3NzKTsKIAorCWljY19zZXRfYncoZGNzcy0+aWNjX3BhdGgsIDAs
-IDApOworCiAJcmV0dXJuIDA7CiB9CiAKQEAgLTMxNCw2ICszNTUsOCBAQCBpbnQgZGNzc19kZXZf
-cnVudGltZV9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQogewogCXN0cnVjdCBkY3NzX2RldiAq
-ZGNzcyA9IGRjc3NfZHJ2X2Rldl90b19kY3NzKGRldik7CiAKKwlpY2Nfc2V0X2J3KGRjc3MtPmlj
-Y19wYXRoLCAwLCBkY3NzLT5pY2NfcGVha19idyk7CisKIAlkY3NzX2Nsb2Nrc19lbmFibGUoZGNz
-cyk7CiAKIAlkY3NzX2Jsa2N0bF9jZmcoZGNzcy0+YmxrY3RsKTsKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5oIGIvZHJpdmVycy9ncHUvZHJtL2lteC9kY3Nz
-L2Rjc3MtZGV2LmgKaW5kZXggYzY0MmFlMTc4MzdmLi4xYjM1YTZmMGQwZDQgMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWRldi5oCisrKyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9pbXgvZGNzcy9kY3NzLWRldi5oCkBAIC04LDYgKzgsNyBAQAogCiAjaW5jbHVkZSA8ZHJtL2Ry
-bV9mb3VyY2MuaD4KICNpbmNsdWRlIDxsaW51eC9pby5oPgorI2luY2x1ZGUgPGxpbnV4L2ludGVy
-Y29ubmVjdC5oPgogI2luY2x1ZGUgPHZpZGVvL3ZpZGVvbW9kZS5oPgogCiAjZGVmaW5lIFNFVAkJ
-CTB4MDQKQEAgLTg1LDYgKzg2LDggQEAgc3RydWN0IGRjc3NfZGV2IHsKIAlzdHJ1Y3QgY2xrICpw
-bGxfcGh5X3JlZl9jbGs7CiAKIAlib29sIGhkbWlfb3V0cHV0OworCXN0cnVjdCBpY2NfcGF0aCAq
-aWNjX3BhdGg7CisJdTMyIGljY19wZWFrX2J3OwogCiAJdm9pZCAoKmRpc2FibGVfY2FsbGJhY2sp
-KHZvaWQgKmRhdGEpOwogCXN0cnVjdCBjb21wbGV0aW9uIGRpc2FibGVfY29tcGxldGlvbjsKLS0g
-CjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On 01/12/2020 02:31, Laurent Pinchart wrote:
+> Hi Tomi,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Nov 24, 2020 at 02:45:29PM +0200, Tomi Valkeinen wrote:
+>> Move structs and defines to a private dsi.h header file to make dsi.c a
+>> bit easier to navigate. Also move the (now) private structs and defines
+>> from omapdss.h to dsi.h.
+> 
+> I usually tend to keep structures used by a single .c file in that file,
+> but it's a matter of personal preference I suppose.
+
+We already had dsi.h. After all the recent changes, it was now only used by dsi.c. So I could have
+moved everything from there to dsi.c. But dsi.c was pretty crowded already, and I had trouble
+navigating it, so I thought it's better to move structs and macros from dsi.c to dsi.h.
+
+>> +struct dsi_reg { u16 module; u16 idx; };
+> 
+> How about using the common kernel coding style ?
+> 
+> struct dsi_reg {
+> 	u16 module;
+> 	u16 idx;
+> };
+
+Ok.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
