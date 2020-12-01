@@ -2,65 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65902C9E3C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 10:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DED2C9E59
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 10:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFC6189D46;
-	Tue,  1 Dec 2020 09:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF2896E4F8;
+	Tue,  1 Dec 2020 09:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA43A89D46
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 09:46:33 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id k10so1840239wmi.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 01:46:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=yc69n6TYS8s8mnl2FbsGRORIwflmhq2kMj7KnUSbA8k=;
- b=j6J/Qqlfd872o2nRB+YDqXzI7k4zFcKHVgUFc5Ab63Wu7cMN64yIeAnt2k/a/xb53l
- MtWSIH6oUfi68e3zbL4zpM389zXYEFyuieUcGBkf+qtAUlDcQavpVG6qVzsf+NXRByD5
- SGogUzW8o7rpZh2HtMStj7vhHnblQQnpwwdqZRbJoPc7NZDm5/QlYlhroDNSsjpH8tTi
- U0whcFsBzSDBU7mpWG5Fk/ylTYb/IAwZJoztAb4RF4Qvs2byaDeKcdyUGIWwgOLQrrfG
- MP53rZxR6Ttla7TSW7GCFxnPLELTNL5XPtvRwH9sUYXcKTWkUZX2jGE+n5aoNz4WaD+C
- Dlgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=yc69n6TYS8s8mnl2FbsGRORIwflmhq2kMj7KnUSbA8k=;
- b=AXQLMW15LodaRNOCRqMdmGXzoGXo+7vf9lZFjMQA0dS61zpBZEcI4SReXpMGHecnFy
- ZZhru9wzivBm9OYVTwR7EVVJ6Vf5VMkNTReHayh6a1a+DXRrTDlhaT7HJpW5zU5scuV9
- kQtIA03oku1EcRXaiAxC2CBPofcc8Cix4vtQ4T7KYKBAXGWDq2MwIb/B/JG5tTMw4ICd
- L+5FxRkCuGqEveSs8HQFoJhARQivwhMirifFPyEH4X4xfw6k/vRPG46TDZaP7/PjtxkA
- sgJqnEIYAa5cQ/DO1HTeor1Tjww5PgXZjVt7/pVqq/l7b3sFTP2Aop1GkuRgTgNQrA4z
- ogxw==
-X-Gm-Message-State: AOAM531VJItS43fA1KIZexAT7C7z/BMJe/0FzUkLF4rbq5YzAJsGORHQ
- zRWqP/sQ6oFazJbcZfI+9Oakfw==
-X-Google-Smtp-Source: ABdhPJz89N1wsgduPoOJWxEC6lffQ1jGcCwQStOOlbZe4E9zySHh35HkIlQMklSS8+ephNH5LixsPQ==
-X-Received: by 2002:a1c:55ca:: with SMTP id j193mr1816945wmb.87.1606815992493; 
- Tue, 01 Dec 2020 01:46:32 -0800 (PST)
-Received: from dell ([91.110.221.235])
- by smtp.gmail.com with ESMTPSA id v7sm2028079wma.26.2020.12.01.01.46.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Dec 2020 01:46:31 -0800 (PST)
-Date: Tue, 1 Dec 2020 09:46:29 +0000
-From: Lee Jones <lee.jones@linaro.org>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AE586E4BA;
+ Tue,  1 Dec 2020 09:50:23 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 8C5F8AC65;
+ Tue,  1 Dec 2020 09:50:21 +0000 (UTC)
 To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 13/28] video: fbdev: riva: Fix kernel-doc and set but
- not used warnings
-Message-ID: <20201201094629.GG4801@dell>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-14-sam@ravnborg.org>
- <53f3e91e-d8da-bce6-878c-7842250a7a7c@suse.de>
- <20201130183549.GA1498572@ravnborg.org>
- <20201201084718.GF4801@dell>
- <20201201090745.GA1980788@ravnborg.org>
+References: <20201124113824.19994-1-tzimmermann@suse.de>
+ <20201124113824.19994-10-tzimmermann@suse.de>
+ <20201124214208.GB93095@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 09/15] drm/nouveau: Remove references to struct
+ drm_device.pdev
+Message-ID: <77dcf689-d22c-5ae8-8c46-10ce7a546a63@suse.de>
+Date: Tue, 1 Dec 2020 10:50:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201201090745.GA1980788@ravnborg.org>
+In-Reply-To: <20201124214208.GB93095@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,65 +41,265 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Jani Nikula <jani.nikula@intel.com>,
- Aditya Pakki <pakki001@umn.edu>, Alexander Klimov <grandmaster@al2klimov.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
- Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Content-Type: multipart/mixed; boundary="===============1819869398=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAwMSBEZWMgMjAyMCwgU2FtIFJhdm5ib3JnIHdyb3RlOgoKPiBIaSBMZWUsCj4gCj4g
-PiAKPiA+IENvcC1vdXQhCj4gPiAKPiA+IERvIHdoYXQgSSBkbyBhbmQgbWFrZSBzb21ldGhpbmcg
-dXAgKGpva2UpISA6J0QKPiAKPiBJZiBJIHRob3VnaHQgYW55b25lIHdvdWxkIGFjdHVhbGx5IHJl
-YWQgdGhlIGNvbW1lbnRzIHRoZW4gbWF5YmUgeWVzLgo+IEJ1dCBJIGFzc3VtZSB0aGF0IGFwYXJ0
-IGZyb20gdGhpcyB0aHJlYWQgbm8tb25lIHdpbGwgcmVhZCBpdC4KPiAKPiA+IAo+ID4gPiA+IFdl
-bGwsIGl0IGZpeGVzIHRoZSB3YXJuaW5nIDspCj4gPiA+IAo+ID4gPiBZZWFoLCBJIGNvdWxkIG5v
-dCBkaWcgdXAgYW55dGhpbmcgdXNlZnVsIHRvIHNheSBoZXJlLgo+ID4gPiBXYXMgdGVtcHRlZCB0
-byBqdXN0IGRyb3AgYWxsIHRoZSBrZXJuZWwtZG9jIHN5bnRheCBidXQgdGhhdAo+ID4gPiB3YXMg
-YSBsYXJnZXIgY2hhbmdlLgo+ID4gCj4gPiBEaWQgeW91IHRyYWNlIGl0IGZyb20gaXQncyBvcmln
-aW4gZG93biB0byBpdCdzIGZpbmFsIHVzZT8KPiBZZWFoLCBidXQgbm90IHNvbWV0aGluZyB0aGF0
-IHNlZW1lZCB1c2VmdWwuCj4gSSBjb3VsZCBoYXZlIGFkZGVkICJ0cmFuc2xhdGluZyBmcm9tIHBp
-eGVscy0+Ynl0ZXMiIGFzIHRoZXkKPiBhcmUgZGVzY3JpYmVkIHNvbWV3aGVyZSBlbHNlLiBCdXQg
-SSBjb3VsZCBub3QgY29udmluY2UgbXlzZWxmCj4gdGhpcyB3YXMgcmlnaHQgc28gSSBqdXN0IHNp
-bGVuY2VkIHRoZSB3YXJuaW5nLgo+IAo+IFRoZSBvbmx5IHJlYXNvbiBJIGtlcHQgdGhlIGtlcm5l
-bC1kb2MgaW4gdGhlIGZpcnN0IHBsYWNlIGlzCj4gdGhhdCBJIGFtIHRvbGQgc29tZSBlZGl0b3Jz
-IHVzZSBpdC4KPiAKPiBUaGUgb25seSBlZmZlY3QgdGhlIGtlcm5lbC1kb2MgaW4gZmJkZXYgaGFz
-IHJpZ2h0IG5vdyBpcyBidXJuaW5nCj4gZWZmb3J0IHRoYXQgY291bGQgaGF2ZSBiZWVuIHNwZW50
-IChiZXR0ZXI/KSBzb21ld2hlcmUgZWxzZSwgYW5kCj4gSSB3b3VsZCBwZXJzb25hbGx5IHByZWZl
-ciB0byBkcm9wIHRoZSBrZXJuZWwtZG9jIGFubm90YXRpb25zLgo+IAo+IEJ1dCBJIGFscmVhZHkg
-ZGlzY3Vzc2VkIHRoaXMgaW4gYW5vdGhlciB0aHJlYWQgKG5vdCBmYmRldiByZWxhdGVkKQo+IGFu
-ZCBJIHdhcyB0b2xkIGl0IHdhcyB1c2VmdWwgZm9yIHNvbWUsIHNvIGl0IGlzIGtlcHQuCgpJIHBl
-cnNvbmFsbHkgdGhpbmsgdGhleSBzaG91bGQgYmUga2VwdC4gIERlc3BpdGUgbm90IGJlaW5nIHJl
-ZmVyZW5jZWQKYnkgYW55IGtlcm5lbC1kb2M6OiBrZXktd29yZHMuICBBcyB5b3Ugc2F5LCBpdCBj
-YW4gYmUgaGVscGZ1bCBhcyBhbgppbi1jb2RlIHJlZmVyZW5jZSBmb3IgZHJpdmVyIHdyaXRlcnMs
-IHBlb3BsZSBkZWJ1Z2dpbmcgY29kZSwgZXQgYWwuCgpOb3Qgc3VyZSBJIHdvdWxkIGp1c3QgcmVw
-ZWF0IHRoZSB2YXJpYWJsZSBuYW1lIGp1c3QgdG8gc2lsZW5jZSB0aGUKd2FybmluZyB0aG91Z2gg
-LSB0aGF0IGlzIGRlZmluaXRlbHkgYSBoYWNrLiAgSW4gdGhlIHRob3VzYW5kcwoobGl0ZXJhbGx5
-ISkgb2YgdGhlc2UgdGhhdCBJJ3ZlIGZpeGVkIHRodXMgZmFyLCBJIGhhdmVuJ3QgbmVlZGVkIHRv
-IGRvCnRoYXQuCgotLSAKTGVlIEpvbmVzIFvmnY7nkLzmlq9dClNlbmlvciBUZWNobmljYWwgTGVh
-ZCAtIERldmVsb3BlciBTZXJ2aWNlcwpMaW5hcm8ub3JnIOKUgiBPcGVuIHNvdXJjZSBzb2Z0d2Fy
-ZSBmb3IgQXJtIFNvQ3MKRm9sbG93IExpbmFybzogRmFjZWJvb2sgfCBUd2l0dGVyIHwgQmxvZwpf
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwg
-bWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0
-cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1819869398==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="4bE8wtoD18K52eefsY2TD0VT1msAv6pGQ"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--4bE8wtoD18K52eefsY2TD0VT1msAv6pGQ
+Content-Type: multipart/mixed; boundary="h9BtDHO1BkSllNSHbFLWYUa8dv8v2U8Rv";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: airlied@linux.ie, daniel@ffwll.ch, nouveau@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
+ spice-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Ben Skeggs <bskeggs@redhat.com>
+Message-ID: <77dcf689-d22c-5ae8-8c46-10ce7a546a63@suse.de>
+Subject: Re: [PATCH 09/15] drm/nouveau: Remove references to struct
+ drm_device.pdev
+References: <20201124113824.19994-1-tzimmermann@suse.de>
+ <20201124113824.19994-10-tzimmermann@suse.de>
+ <20201124214208.GB93095@ravnborg.org>
+In-Reply-To: <20201124214208.GB93095@ravnborg.org>
+
+--h9BtDHO1BkSllNSHbFLWYUa8dv8v2U8Rv
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sam
+
+Am 24.11.20 um 22:42 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> On Tue, Nov 24, 2020 at 12:38:18PM +0100, Thomas Zimmermann wrote:
+>> Using struct drm_device.pdev is deprecated. Convert nouveau to struct
+>> drm_device.dev. No functional changes.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Ben Skeggs <bskeggs@redhat.com>
+>=20
+> Suggestion to an alternative implmentation below.
+>=20
+>> ---
+>>   drivers/gpu/drm/nouveau/dispnv04/arb.c      | 12 +++++++-----
+>>   drivers/gpu/drm/nouveau/dispnv04/disp.h     | 14 ++++++++------
+>>   drivers/gpu/drm/nouveau/dispnv04/hw.c       | 10 ++++++----
+>>   drivers/gpu/drm/nouveau/nouveau_abi16.c     |  7 ++++---
+>>   drivers/gpu/drm/nouveau/nouveau_acpi.c      |  2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_bios.c      | 11 ++++++++---
+>>   drivers/gpu/drm/nouveau/nouveau_connector.c | 10 ++++++----
+>>   drivers/gpu/drm/nouveau/nouveau_drm.c       |  5 ++---
+>>   drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  6 ++++--
+>>   drivers/gpu/drm/nouveau/nouveau_vga.c       | 20 ++++++++++++-------=
+-
+>>   10 files changed, 58 insertions(+), 39 deletions(-)
+>>
+>=20
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/=
+nouveau/nouveau_bios.c
+>> index d204ea8a5618..7cc683b8dc7a 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_bios.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
+>> @@ -110,6 +110,9 @@ static int call_lvds_manufacturer_script(struct dr=
+m_device *dev, struct dcb_outp
+>>   	struct nvbios *bios =3D &drm->vbios;
+>>   	uint8_t sub =3D bios->data[bios->fp.xlated_entry + script] + (bios-=
+>fp.link_c_increment && dcbent->or & DCB_OUTPUT_C ? 1 : 0);
+>>   	uint16_t scriptofs =3D ROM16(bios->data[bios->init_script_tbls_ptr =
++ sub * 2]);
+>> +#ifdef __powerpc__
+>> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
+>> +#endif
+> Or
+> 	int device =3D 0;
+>>  =20
+>>   	if (!bios->fp.xlated_entry || !sub || !scriptofs)
+>>   		return -EINVAL;
+>> @@ -123,8 +126,8 @@ static int call_lvds_manufacturer_script(struct dr=
+m_device *dev, struct dcb_outp
+>>   #ifdef __powerpc__
+>>   	/* Powerbook specific quirks */
+> 	device =3D to_pci_dev(dev->dev)->device;
+> 	if (script =3D=3D LVDS_RESET && (device =3D=3D 0x0179 || device =3D=3D=
+ 0x0189 || device =3D=3D 0x0329))
+
+I see the point, but I'm trying to not change the existing=20
+implementation too much.
+
+>=20
+>>   	if (script =3D=3D LVDS_RESET &&
+>> -	    (dev->pdev->device =3D=3D 0x0179 || dev->pdev->device =3D=3D 0x0=
+189 ||
+>> -	     dev->pdev->device =3D=3D 0x0329))
+>> +	    (pdev->device =3D=3D 0x0179 || pdev->device =3D=3D 0x0189 ||
+>> +	     pdev->device =3D=3D 0x0329))
+>>   		nv_write_tmds(dev, dcbent->or, 0, 0x02, 0x72);
+>>   #endif
+>>  =20
+>=20
+>=20
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm=
+/nouveau/nouveau_fbcon.c
+>> index 24ec5339efb4..4fc0fa696461 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
+>> @@ -396,7 +396,9 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,=
+
+>>   	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
+>>   		fb->width, fb->height, nvbo->offset, nvbo);
+>>  =20
+>> -	vga_switcheroo_client_fb_set(dev->pdev, info);
+>> +	if (dev_is_pci(dev->dev))
+>> +		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), info);
+>> +
+> I cannot see why dev_is_pci() is needed here.
+> So I am obviously missing something :-(
+
+vga_switcheroo_client_fb_set() expects a PCI device. It's a bit of a=20
+stretch, but at least it is possible to pass NULL for non-PCI devices.=20
+Passing the upcasted dev->dev is just garbage.
+
+As the VGA switcheroo is only relevant for PCI devices, I added the=20
+branching to make this work reliably.
+
+Best regards
+Thomas
+
+>=20
+>>   	return 0;
+>>  =20
+>>   out_unlock:
+>> @@ -548,7 +550,7 @@ nouveau_fbcon_init(struct drm_device *dev)
+>>   	int ret;
+>>  =20
+>>   	if (!dev->mode_config.num_crtc ||
+>> -	    (dev->pdev->class >> 8) !=3D PCI_CLASS_DISPLAY_VGA)
+>> +	    (to_pci_dev(dev->dev)->class >> 8) !=3D PCI_CLASS_DISPLAY_VGA)
+>>   		return 0;
+>>  =20
+>>   	fbcon =3D kzalloc(sizeof(struct nouveau_fbdev), GFP_KERNEL);
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/n=
+ouveau/nouveau_vga.c
+>> index c85dd8afa3c3..7c4b374b3eca 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
+>> @@ -87,18 +87,20 @@ nouveau_vga_init(struct nouveau_drm *drm)
+>>   {
+>>   	struct drm_device *dev =3D drm->dev;
+>>   	bool runtime =3D nouveau_pmops_runtime();
+>> +	struct pci_dev *pdev;
+>>  =20
+>>   	/* only relevant for PCI devices */
+>> -	if (!dev->pdev)
+>> +	if (!dev_is_pci(dev->dev))
+>>   		return;
+>> +	pdev =3D to_pci_dev(dev->dev);
+>>  =20
+>> -	vga_client_register(dev->pdev, dev, NULL, nouveau_vga_set_decode);
+>> +	vga_client_register(pdev, dev, NULL, nouveau_vga_set_decode);
+>>  =20
+>>   	/* don't register Thunderbolt eGPU with vga_switcheroo */
+>> -	if (pci_is_thunderbolt_attached(dev->pdev))
+>> +	if (pci_is_thunderbolt_attached(pdev))
+>>   		return;
+>>  =20
+>> -	vga_switcheroo_register_client(dev->pdev, &nouveau_switcheroo_ops, r=
+untime);
+>> +	vga_switcheroo_register_client(pdev, &nouveau_switcheroo_ops, runtim=
+e);
+>>  =20
+>>   	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
+>>   		vga_switcheroo_init_domain_pm_ops(drm->dev->dev, &drm->vga_pm_doma=
+in);
+>> @@ -109,17 +111,19 @@ nouveau_vga_fini(struct nouveau_drm *drm)
+>>   {
+>>   	struct drm_device *dev =3D drm->dev;
+>>   	bool runtime =3D nouveau_pmops_runtime();
+>> +	struct pci_dev *pdev;
+>>  =20
+>>   	/* only relevant for PCI devices */
+>> -	if (!dev->pdev)
+>> +	if (!dev_is_pci(dev->dev))
+>>   		return;
+>> +	pdev =3D to_pci_dev(dev->dev);
+>>  =20
+>> -	vga_client_register(dev->pdev, NULL, NULL, NULL);
+>> +	vga_client_register(pdev, NULL, NULL, NULL);
+>>  =20
+>> -	if (pci_is_thunderbolt_attached(dev->pdev))
+>> +	if (pci_is_thunderbolt_attached(pdev))
+>>   		return;
+>>  =20
+>> -	vga_switcheroo_unregister_client(dev->pdev);
+>> +	vga_switcheroo_unregister_client(pdev);
+>>   	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
+>>   		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
+>>   }
+>> --=20
+>> 2.29.2
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--h9BtDHO1BkSllNSHbFLWYUa8dv8v2U8Rv--
+
+--4bE8wtoD18K52eefsY2TD0VT1msAv6pGQ
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GEdsFAwAAAAAACgkQlh/E3EQov+Df
+kRAAvj2+LkBCXz/2aIbjZjTpvfqk5RKkEA3ePFiR6UttUmznYEPIJkPmdsqr2JNUU5YI85JJRvM7
+7/QvWO4KXVqYbbPAzFhdHqySRrSnWpV89jseDccMSnjcHEKc1cNj386s3YDWeJ3/pmAuysLnOU30
+bTdrdkKpYL4CvHWI6RQyGG/5D65TteLwDT6ZAXThOVthuraz2XvGwt2pOhVSiwX1mNfibm2lQ0G6
+7b7sv+5l5sKaq5uETZi4iW++TmdotLrd40VioW/dttTfBwtfiIFHZm2jcO8Kb0+WkpZ4JKEDPZT2
+nfxMeK2euCeehZYCWFz4xlDg3SiBAbTTB2uhasE7McPPA25P3MoR4d8Ivf237PbA1EVSGNuTshKU
+zc4S9Rnw6zyqD9lc5rlofsyDUrESgMGQlbneHb52dUwFxIcgfdvg3nitUSBGw9deFIRDd6Rjrbu+
++ns4Z223cVq+TEmRNSERvAxVwCDlSN2x7Q0U4P0MIBd/4cPKsmwOvjZlWlGMfpTKlfkhWyMVV0aZ
+mK6WZxRrV827KprLxdT9vSGLlPNEbYYOz1dqRsaRgtSk+XhplfGJwPBnsbPiUVt7NlOGmltFHFl8
+8+vR4ygf4RBTIO4Y23B8ba2NwuvqxMEo9asKO0hZ1IqPbQQYYRZnkqXtZtKMlIo7TUb41I8gNFHR
+Yc4=
+=91fY
+-----END PGP SIGNATURE-----
+
+--4bE8wtoD18K52eefsY2TD0VT1msAv6pGQ--
+
+--===============1819869398==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1819869398==--
