@@ -1,63 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA212CA6C6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 16:16:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 106902CA769
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 16:53:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A630D89D39;
-	Tue,  1 Dec 2020 15:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B81416E550;
+	Tue,  1 Dec 2020 15:53:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 591 seconds by postgrey-1.36 at gabe;
- Tue, 01 Dec 2020 15:16:29 UTC
-Received: from ste-pvt-msa1.bahnhof.se (ste-pvt-msa1.bahnhof.se
- [213.80.101.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2226089D39
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 15:16:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id CE7423F889;
- Tue,  1 Dec 2020 16:06:35 +0100 (CET)
-Authentication-Results: ste-pvt-msa1.bahnhof.se; dkim=pass (1024-bit key;
- unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=lUaJSaT2; 
- dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
- tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
-Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
- by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IY3woNyNHaLd; Tue,  1 Dec 2020 16:06:34 +0100 (CET)
-Received: by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id BB7FB3F704;
- Tue,  1 Dec 2020 16:06:31 +0100 (CET)
-Received: from [10.249.254.172] (unknown [192.198.151.44])
- by mail1.shipmail.org (Postfix) with ESMTPSA id A3843360191;
- Tue,  1 Dec 2020 16:06:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
- t=1606835191; bh=+XT7UCHl4SOaQJ/q/gxUAuxwgazhzTvU8MAgtj7oFpQ=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=lUaJSaT2hMblxsMTLHae8KgsYThTYKk7Uu/bWDG/H3T7jTaszmTJq4NEppLipW2TL
- kfIPgSdalg/gpbDft/vaDoqW4YqN2v4Ic2XKmjCPdWhB7c9BIi0rh/J2m3JX5J+ThZ
- W3p4YjgNIagUBgyepul7xV8RmSaL4N9rB2aX4pzU=
-Subject: Re: [Intel-gfx] [RFC PATCH 092/162] drm/i915/uapi: introduce
- drm_i915_gem_create_ext
-To: Chris Wilson <chris@chris-wilson.co.uk>,
- Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-93-matthew.auld@intel.com>
- <160648354092.2925.6626091620345514242@build.alporthouse.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-Message-ID: <18b31c2f-eb77-4912-7267-8d65be50d9d4@shipmail.org>
-Date: Tue, 1 Dec 2020 16:06:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE69B6E550
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 15:53:25 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1FrLFY028173;
+ Tue, 1 Dec 2020 09:53:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1606838001;
+ bh=A+G37+Ba5YvC8b0uBrXQZvf8tQCtDGVcSd50XQWIcvI=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=pfkTlf7iAEImroGMzPqdzoYeZJxc9EfeswW085d6Rtj6kVSkBUUq9CQNJ3h3MRLHl
+ Ccq/2BeZ0xQhxn47p9R52AvNRDWAr6U1OoPiG3WuaZj6uVB7GNacuKSSdhW6swFae6
+ 9i2XM2FCk0VXQNMF/zH5X7YBhGYovWfNAq7QJ5HM=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1FrL19058551
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 1 Dec 2020 09:53:21 -0600
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Dec
+ 2020 09:53:21 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 1 Dec 2020 09:53:21 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1FrJXi100463;
+ Tue, 1 Dec 2020 09:53:19 -0600
+Subject: Re: [PATCH v3 4/6] drm/tidss: Set bus_format correctly from
+ bridge/connector
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Nikhil Devshatwar
+ <nikhil.nd@ti.com>
+References: <20201119160134.9244-1-nikhil.nd@ti.com>
+ <20201119160134.9244-5-nikhil.nd@ti.com>
+ <a36967dc-ca5f-d231-198b-1153c9720d65@ti.com>
+ <20201130063503.phivehin7l2cx53j@NiksLab>
+ <20201130094617.GE4141@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <9785cafb-4b04-6132-a636-3d43c1f89d3b@ti.com>
+Date: Tue, 1 Dec 2020 17:53:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <160648354092.2925.6626091620345514242@build.alporthouse.com>
+In-Reply-To: <20201130094617.GE4141@pendragon.ideasonboard.com>
 Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,119 +67,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Sekhar Nori <nsekhar@ti.com>, Yuti Amonkar <yamonkar@cadence.com>,
+ dri-devel@lists.freedesktop.org, Swapnil Jakhade <sjakhade@cadence.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDExLzI3LzIwIDI6MjUgUE0sIENocmlzIFdpbHNvbiB3cm90ZToKPiBRdW90aW5nIE1hdHRo
-ZXcgQXVsZCAoMjAyMC0xMS0yNyAxMjowNjowOCkKPj4gU2FtZSBvbGQgZ2VtX2NyZWF0ZSBidXQg
-d2l0aCBub3cgd2l0aCBleHRlbnNpb25zIHN1cHBvcnQuIFRoaXMgaXMgbmVlZGVkCj4+IHRvIHN1
-cHBvcnQgdmFyaW91cyB1cGNvbWluZyB1c2VjYXNlcy4gRm9yIG5vdyB3ZSB1c2UgdGhlIGV4dGVu
-c2lvbnMKPj4gbWVjaGFuaXNtIHRvIHN1cHBvcnQgc2V0dGluZyBhbiBpbW11dGFibGUtcHJpb3Jp
-dHktbGlzdCBvZiBwb3RlbnRpYWwKPj4gcGxhY2VtZW50cywgYXQgY3JlYXRpb24gdGltZS4KPj4K
-Pj4gSWYgd2Ugd2lzaCB0byBzZXQgdGhlIHBsYWNlbWVudHMvcmVnaW9ucyB3ZSBjYW4gc2ltcGx5
-IGRvOgo+Pgo+PiBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29iamVjdF9wYXJhbSByZWdpb25fcGFyYW0g
-PSB7IOKApiB9OyAvKiBVbmNoYW5nZWQgKi8KPj4gc3RydWN0IGRybV9pOTE1X2dlbV9jcmVhdGVf
-ZXh0X3NldHBhcmFtIHNldHBhcmFtX3JlZ2lvbiA9IHsKPj4gICAgICAuYmFzZSA9IHsgLm5hbWUg
-PSBJOTE1X0dFTV9DUkVBVEVfRVhUX1NFVFBBUkFNIH0sCj4+ICAgICAgLnBhcmFtID0gcmVnaW9u
-X3BhcmFtLAo+PiB9Cj4+Cj4+IHN0cnVjdCBkcm1faTkxNV9nZW1fY3JlYXRlX2V4dCBjcmVhdGVf
-ZXh0ID0gewo+PiAgICAgICAgICAuc2l6ZSA9IDE2ICogUEFHRV9TSVpFLAo+PiAgICAgICAgICAu
-ZXh0ZW5zaW9ucyA9ICh1aW50cHRyX3QpJnNldHBhcmFtX3JlZ2lvbiwKPj4gfTsKPj4gaW50IGVy
-ciA9IGlvY3RsKGZkLCBEUk1fSU9DVExfSTkxNV9HRU1fQ1JFQVRFX0VYVCwgJmNyZWF0ZV9leHQp
-Owo+PiBpZiAoZXJyKSAuLi4KPj4KPj4gSWYgd2UgdXNlIHRoZSBub3JtYWwgZ2VtX2NyZWF0ZSBv
-ciBnZW1fY3JlYXRlX2V4dCB3aXRob3V0IHRoZQo+PiBleHRlbnNpb25zL3BsYWNlbWVudHMgdGhl
-biB3ZSBzdGlsbCBnZXQgdGhlIG9sZCBiZWhhdmlvdXIgd2l0aCBvbmx5Cj4+IHBsYWNpbmcgdGhl
-IG9iamVjdCBpbiBzeXN0ZW0gbWVtb3J5Lgo+Pgo+PiBPbmUgaW1wb3J0YW50IGNoYW5nZSBoZXJl
-IGlzIHRoZSByZXR1cm5lZCBzaXplIHdpbGwgbm93IGJlIHJvdW5kZWQgdXAgdG8KPj4gdGhlIGNv
-cnJlY3Qgc2l6ZSwgZGVwZW5kaW5nIG9uIHRoZSBsaXN0IG9mIHBsYWNlbWVudHMsIHdoZXJlIHdl
-IG1pZ2h0Cj4+IGhhdmUgbWluaW11bSBwYWdlLXNpemUgcmVzdHJpY3Rpb25zIG9uIHNvbWUgcGxh
-dGZvcm1zIHdoZW4gZGVhbGluZyB3aXRoCj4+IGRldmljZSBsb2NhbC1tZW1vcnkuCj4+Cj4+IEFs
-c28sIHdlIHN0aWxsIGtlZXAgYXJvdW5kIHRoZSBpOTE1X2dlbV9vYmplY3Rfc2V0cGFyYW0gaW9j
-dGwsIGFsdGhvdWdoCj4+IHRoYXQgaXMgbm93IHJlc3RyaWN0ZWQgYnkgdGhlIHBsYWNlbWVudCBs
-aXN0KGkuZSB3ZSBhcmUgbm90IGFsbG93ZWQgdG8KPj4gYWRkIG5ldyBwbGFjZW1lbnRzKSwgYW5k
-IGxvbmdlciB0ZXJtIHRoYXQgd2lsbCBiZSBnb2luZyBhd2F5IHdydCBzZXR0aW5nCj4+IHBsYWNl
-bWVudHMsIHNpbmNlIGl0IHdhcyBkZWVtZWQgdGhhdCB0aGUga2VybmVsIGRvZXNuJ3QgbmVlZCB0
-byBzdXBwb3J0Cj4+IGEgZHluYW1pYyBsaXN0IG9mIHBsYWNlbWVudHMsIHdoaWNoIGlzIG5vdyBz
-b2xpZGlmaWVkIGJ5IHRoaXMgdWFwaQo+PiBjaGFuZ2UuCj4+Cj4+IFRlc3RjYXNlOiBpZ3QvZ2Vt
-X2NyZWF0ZS9jcmVhdGUtZXh0LXBsYWNlbWVudC1zYW5pdHktY2hlY2sKPj4gVGVzdGNhc2U6IGln
-dC9nZW1fY3JlYXRlL2NyZWF0ZS1leHQtcGxhY2VtZW50LWVhY2gKPj4gVGVzdGNhc2U6IGlndC9n
-ZW1fY3JlYXRlL2NyZWF0ZS1leHQtcGxhY2VtZW50LWFsbAo+PiBTaWduZWQtb2ZmLWJ5OiBNYXR0
-aGV3IEF1bGQgPG1hdHRoZXcuYXVsZEBpbnRlbC5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IENRIFRh
-bmcgPGNxLnRhbmdAaW50ZWwuY29tPgo+PiBDYzogSm9vbmFzIExhaHRpbmVuIDxqb29uYXMubGFo
-dGluZW5AbGludXguaW50ZWwuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9N
-YWtlZmlsZSAgICAgICAgICAgICAgICAgfCAgIDEgKwo+PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1
-L2dlbS9pOTE1X2dlbV9jcmVhdGUuYyAgICB8IDM5OCArKysrKysrKysrKysrKysrKysKPj4gICBk
-cml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0LmMgICAgfCAgIDIgKwo+PiAg
-IC4uLi9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdF90eXBlcy5oICB8ICAgOSArCj4+
-ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3JlZ2lvbi5jICAgIHwgICA0ICsK
-Pj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2Rydi5jICAgICAgICAgICAgICAgfCAgIDIg
-Ky0KPj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2dlbS5jICAgICAgICAgICAgICAgfCAx
-MDMgKy0tLS0KPj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9pbnRlbF9tZW1vcnlfcmVnaW9uLmMg
-ICAgfCAgMjAgKwo+PiAgIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2ludGVsX21lbW9yeV9yZWdpb24u
-aCAgICB8ICAgNCArCj4+ICAgaW5jbHVkZS91YXBpL2RybS9pOTE1X2RybS5oICAgICAgICAgICAg
-ICAgICAgIHwgIDYwICsrKwo+PiAgIDEwIGZpbGVzIGNoYW5nZWQsIDUwMCBpbnNlcnRpb25zKCsp
-LCAxMDMgZGVsZXRpb25zKC0pCj4+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvZ3B1L2Ry
-bS9pOTE1L2dlbS9pOTE1X2dlbV9jcmVhdGUuYwo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvTWFrZWZpbGUgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9NYWtlZmlsZQo+PiBp
-bmRleCBlYzM2MWQ2MTIzMGIuLjM5NTUxMzRmZWNhNyAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9n
-cHUvZHJtL2k5MTUvTWFrZWZpbGUKPj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvTWFrZWZp
-bGUKPj4gQEAgLTEzNCw2ICsxMzQsNyBAQCBnZW0teSArPSBcCj4+ICAgICAgICAgIGdlbS9pOTE1
-X2dlbV9jbGZsdXNoLm8gXAo+PiAgICAgICAgICBnZW0vaTkxNV9nZW1fY2xpZW50X2JsdC5vIFwK
-Pj4gICAgICAgICAgZ2VtL2k5MTVfZ2VtX2NvbnRleHQubyBcCj4+ICsgICAgICAgZ2VtL2k5MTVf
-Z2VtX2NyZWF0ZS5vIFwKPj4gICAgICAgICAgZ2VtL2k5MTVfZ2VtX2RtYWJ1Zi5vIFwKPj4gICAg
-ICAgICAgZ2VtL2k5MTVfZ2VtX2RvbWFpbi5vIFwKPj4gICAgICAgICAgZ2VtL2k5MTVfZ2VtX2V4
-ZWNidWZmZXIubyBcCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkx
-NV9nZW1fY3JlYXRlLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fY3JlYXRl
-LmMKPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQKPj4gaW5kZXggMDAwMDAwMDAwMDAwLi42ZjZkZDRm
-MWNlN2UKPj4gLS0tIC9kZXYvbnVsbAo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9nZW0v
-aTkxNV9nZW1fY3JlYXRlLmMKPj4gQEAgLTAsMCArMSwzOTggQEAKPj4gKy8vIFNQRFgtTGljZW5z
-ZS1JZGVudGlmaWVyOiBNSVQKPj4gKy8qCj4+ICsgKiBDb3B5cmlnaHQgwqkgMjAyMCBJbnRlbCBD
-b3Jwb3JhdGlvbgo+PiArICovCj4+ICsKPj4gKyNpbmNsdWRlICJnZW0vaTkxNV9nZW1faW9jdGxz
-LmgiCj4+ICsjaW5jbHVkZSAiZ2VtL2k5MTVfZ2VtX2xtZW0uaCIKPj4gKyNpbmNsdWRlICJnZW0v
-aTkxNV9nZW1fb2JqZWN0X2JsdC5oIgo+PiArI2luY2x1ZGUgImdlbS9pOTE1X2dlbV9yZWdpb24u
-aCIKPj4gKwo+PiArI2luY2x1ZGUgImk5MTVfZHJ2LmgiCj4+ICsjaW5jbHVkZSAiaTkxNV91c2Vy
-X2V4dGVuc2lvbnMuaCIKPj4gKwo+PiArc3RhdGljIHUzMiBtYXhfcGFnZV9zaXplKHN0cnVjdCBp
-bnRlbF9tZW1vcnlfcmVnaW9uICoqcGxhY2VtZW50cywKPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgIGludCBuX3BsYWNlbWVudHMpCj4+ICt7Cj4+ICsgICAgICAgdTMyIG1heF9wYWdlX3NpemUg
-PSAwOwo+PiArICAgICAgIGludCBpOwo+PiArCj4+ICsgICAgICAgZm9yIChpID0gMDsgaSA8IG5f
-cGxhY2VtZW50czsgKytpKSB7Cj4+ICsgICAgICAgICAgICAgICBtYXhfcGFnZV9zaXplID0gbWF4
-X3QodTMyLCBtYXhfcGFnZV9zaXplLAo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIHBsYWNlbWVudHNbaV0tPm1pbl9wYWdlX3NpemUpOwo+PiArICAgICAgIH0KPj4gKwo+
-PiArICAgICAgIEdFTV9CVUdfT04oIW1heF9wYWdlX3NpemUpOwo+PiArICAgICAgIHJldHVybiBt
-YXhfcGFnZV9zaXplOwo+PiArfQo+PiArCj4+ICtzdGF0aWMgaW50Cj4+ICtpOTE1X2dlbV9jcmVh
-dGUoc3RydWN0IGRybV9maWxlICpmaWxlLAo+PiArICAgICAgICAgICAgICAgc3RydWN0IGludGVs
-X21lbW9yeV9yZWdpb24gKipwbGFjZW1lbnRzLAo+PiArICAgICAgICAgICAgICAgaW50IG5fcGxh
-Y2VtZW50cywKPj4gKyAgICAgICAgICAgICAgIHU2NCAqc2l6ZV9wLAo+PiArICAgICAgICAgICAg
-ICAgdTMyICpoYW5kbGVfcCkKPj4gK3sKPj4gKyAgICAgICBzdHJ1Y3QgZHJtX2k5MTVfZ2VtX29i
-amVjdCAqb2JqOwo+PiArICAgICAgIHUzMiBoYW5kbGU7Cj4+ICsgICAgICAgdTY0IHNpemU7Cj4+
-ICsgICAgICAgaW50IHJldDsKPj4gKwo+PiArICAgICAgIHNpemUgPSByb3VuZF91cCgqc2l6ZV9w
-LCBtYXhfcGFnZV9zaXplKHBsYWNlbWVudHMsIG5fcGxhY2VtZW50cykpOwo+PiArICAgICAgIGlm
-IChzaXplID09IDApCj4+ICsgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZBTDsKPj4gKwo+PiAr
-ICAgICAgIC8qIEZvciBtb3N0IG9mIHRoZSBBQkkgKGUuZy4gbW1hcCkgd2UgdGhpbmsgaW4gc3lz
-dGVtIHBhZ2VzICovCj4+ICsgICAgICAgR0VNX0JVR19PTighSVNfQUxJR05FRChzaXplLCBQQUdF
-X1NJWkUpKTsKPj4gKwo+PiArICAgICAgIC8qIEFsbG9jYXRlIHRoZSBuZXcgb2JqZWN0ICovCj4+
-ICsgICAgICAgb2JqID0gaTkxNV9nZW1fb2JqZWN0X2NyZWF0ZV9yZWdpb24ocGxhY2VtZW50c1sw
-XSwgc2l6ZSwgMCk7Cj4+ICsgICAgICAgaWYgKElTX0VSUihvYmopKQo+PiArICAgICAgICAgICAg
-ICAgcmV0dXJuIFBUUl9FUlIob2JqKTsKPj4gKwo+PiArICAgICAgIGlmIChpOTE1X2dlbV9vYmpl
-Y3RfaXNfbG1lbShvYmopKSB7Cj4+ICsgICAgICAgICAgICAgICBzdHJ1Y3QgaW50ZWxfZ3QgKmd0
-ID0gb2JqLT5tbS5yZWdpb24tPmd0Owo+PiArICAgICAgICAgICAgICAgc3RydWN0IGludGVsX2Nv
-bnRleHQgKmNlID0gZ3QtPmVuZ2luZVtCQ1MwXS0+YmxpdHRlcl9jb250ZXh0Owo+PiArCj4+ICsg
-ICAgICAgICAgICAgICAvKgo+PiArICAgICAgICAgICAgICAgICogWFhYOiBXZSByZWFsbHkgd2Fu
-dCB0byBtb3ZlIHRoaXMgdG8gZ2V0X3BhZ2VzKCksIGJ1dCB3ZQo+PiArICAgICAgICAgICAgICAg
-ICogcmVxdWlyZSBncmFiYmluZyB0aGUgQktMIGZvciB0aGUgYmxpdHRpbmcgb3BlcmF0aW9uIHdo
-aWNoIGlzCj4+ICsgICAgICAgICAgICAgICAgKiBhbm5veWluZy4gSW4gdGhlIHBpcGVsaW5lIGlz
-IHN1cHBvcnQgZm9yIGFzeW5jIGdldF9wYWdlcygpCj4+ICsgICAgICAgICAgICAgICAgKiB3aGlj
-aCBzaG91bGQgZml0IG5pY2VseSBmb3IgdGhpcy4gQWxzbyBub3RlIHRoYXQgdGhlIGFjdHVhbAo+
-PiArICAgICAgICAgICAgICAgICogY2xlYXIgc2hvdWxkIGJlIGRvbmUgYXN5bmMod2UgY3VycmVu
-dGx5IGRvIGFuIG9iamVjdF93YWl0Cj4+ICsgICAgICAgICAgICAgICAgKiB3aGljaCBpcyBwdXJl
-IGdhcmJhZ2UpLCB3ZSBqdXN0IG5lZWQgdG8gdGFrZSBjYXJlIGlmCj4+ICsgICAgICAgICAgICAg
-ICAgKiB1c2Vyc3BhY2Ugb3B0cyBvZiBpbXBsaWNpdCBzeW5jIGZvciB0aGUgZXhlY2J1ZiwgdG8g
-YXZvaWQgYW55Cj4+ICsgICAgICAgICAgICAgICAgKiBwb3RlbnRpYWwgaW5mbyBsZWFrLgo+PiAr
-ICAgICAgICAgICAgICAgICovCj4gTm90IGp1c3QgWFhYLCBidXQgdGhlIGRlc2lnbiBzaG91bGQg
-YmUgY29tcGxldGVkIGZpcnN0LgoKTWF0dGhldywgSSBoYXZlIGEgcGF0Y2ggc2VyaWVzIGluIHRo
-ZSBtYWtpbmdzIHRoYXQgbW92ZXMgdGhpcyBibGl0IHRvIApnZXRfcGFnZXMoKS4KCi9UaG9tYXMK
-CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On 30/11/2020 11:46, Laurent Pinchart wrote:
+> Hi Nikhil,
+> 
+> On Mon, Nov 30, 2020 at 12:05:03PM +0530, Nikhil Devshatwar wrote:
+>> On 14:51-20201125, Tomi Valkeinen wrote:
+>>> On 19/11/2020 18:01, Nikhil Devshatwar wrote:
+>>>> Remove the old code to iterate over the bridge chain, as this is
+>>>> already done by the framework.
+>>>> The bridge state should have the negotiated bus format and flags.
+>>>> Use these from the bridge's state.
+>>>> If the bridge does not support format negotiation, error out
+>>>> and fail.
+>>>>
+>>>> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+>>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+>>>> ---
+>>>>
+>>>> Notes:
+>>>>     changes from v2:
+>>>>     * Remove the old code and use the flags from the bridge state
+>>>>
+>>>>  drivers/gpu/drm/tidss/tidss_encoder.c | 36 +++++++++++----------------
+>>>>  1 file changed, 14 insertions(+), 22 deletions(-)
+>>>
+>>> If a first bridge (after the crtc) supports two bus formats as input, how does tidss choose between
+>>> those? This patch just picks bstate->input_bus_cfg.format, and it's not clear to me which one that
+>>> is (the first one?). Also, we don't check if tidss actually supports the bus format.
+>>
+>> The selection is done by the framework in
+>> select_bus_fmt_recursive at drivers/gpu/drm/drm_bridge.c:810
+>>
+>> My understanding is that currently, the format negotiation logic does
+>> not negotiate all the way till encoder, it stops only at the
+>> first_bridge.
+> 
+> Should we then implement a bridge in the tidss driver to model the
+> internal encoder, in order to support format negotiation all the way to
+> the tidss ?
+
+I don't know, but it feels perhaps a bit odd. Then we would have crtc + encoder + bridge, which are
+actually all about the same HW block. And this would have to be done for all DRM drivers.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
