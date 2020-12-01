@@ -1,50 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3213C2CA276
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:19:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 592922CA277
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:19:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 146E06E544;
-	Tue,  1 Dec 2020 12:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72C616E526;
+	Tue,  1 Dec 2020 12:19:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 505FC6E544
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:19:10 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CJ6Dr082313;
- Tue, 1 Dec 2020 06:19:06 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE8656E546
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:19:12 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CJ8Vx061907;
+ Tue, 1 Dec 2020 06:19:08 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606825146;
- bh=lRiRQvM7ASp8oacnxRHdyTCWGc/9CUtthgkgm6J/LxA=;
+ s=ti-com-17Q1; t=1606825148;
+ bh=GTWIrA9E6t1KKjfc/h/3P4uANWOhmfE+rbTrAJlCaqk=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=W4k7PAriEPYyKD6JMXKgyYrpjvg2DyTxcLzWGPKPrFmVJG3yIf/SuhMYeqVxpJ5R2
- mN9x3a9FPT8RsLr3WIfrzgU6Lj+B5pqABSXVPouIJa9gVHRGiyospzToiPq7wxVxUS
- UJp25YXslnZXhRLr6pJVjLn3+s8A9RoHnfCCIYPw=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1CJ65v002316
+ b=XzMNTJoGbW1r8Ivyr657Od2OCR1nLuKvEFa4sPVYo3EC7XYGV1XLn61aIBFswtWrB
+ 1XT42qSZgX9JWcoQTa+0n9uKqO03ZkPn5WNUbHt+ssbVIeOk71VopwGikDINBNXlBI
+ NRoJMktWHV5HKW7Q5PcJRKUk1s5Yq17bNLLfgh1A=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B1CJ8uY016624
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 1 Dec 2020 06:19:06 -0600
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 1 Dec 2020 06:19:08 -0600
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 1 Dec
- 2020 06:19:05 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 06:19:08 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 1 Dec 2020 06:19:05 -0600
+ Frontend Transport; Tue, 1 Dec 2020 06:19:08 -0600
 Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CIn3Q118162; 
- Tue, 1 Dec 2020 06:19:03 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B1CIn3R118162; 
+ Tue, 1 Dec 2020 06:19:06 -0600
 From: Nikhil Devshatwar <nikhil.nd@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Boris Brezillon
  <boris.brezillon@collabora.com>
-Subject: [PATCH v4 5/7] drm/tidss: Set bus_format correctly from
- bridge/connector
-Date: Tue, 1 Dec 2020 17:48:28 +0530
-Message-ID: <20201201121830.29704-6-nikhil.nd@ti.com>
+Subject: [PATCH v4 6/7] drm/tidss: Move to newer connector model
+Date: Tue, 1 Dec 2020 17:48:29 +0530
+Message-ID: <20201201121830.29704-7-nikhil.nd@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201201121830.29704-1-nikhil.nd@ti.com>
 References: <20201201121830.29704-1-nikhil.nd@ti.com>
@@ -69,82 +68,89 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the old code to iterate over the bridge chain, as this is
-already done by the framework.
-The bridge state should have the negotiated bus format and flags.
-Use these from the bridge's state.
-If the bridge does not support format negotiation, error out
-and fail.
+To be able to support connector operations across multiple
+bridges, it is recommended that the connector should be
+created by the SoC driver instead of the bridges.
+
+Modify the tidss modesetting initialization sequence to
+create the connector and attach bridges with flag
+DRM_BRIDGE_ATTACH_NO_CONNECTOR
 
 Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
 
 Notes:
-    changes from v3:
-    * cosmetic updates
-    changes from v2:
-    * Remove the old code and use the flags from the bridge state
+    changes from v1:
+    * Add error handling
 
- drivers/gpu/drm/tidss/tidss_encoder.c | 36 +++++++++++----------------
- 1 file changed, 14 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/tidss/tidss_drv.h |  3 +++
+ drivers/gpu/drm/tidss/tidss_kms.c | 19 ++++++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/tidss/tidss_encoder.c b/drivers/gpu/drm/tidss/tidss_encoder.c
-index e278a9c89476..5deb8102e4d3 100644
---- a/drivers/gpu/drm/tidss/tidss_encoder.c
-+++ b/drivers/gpu/drm/tidss/tidss_encoder.c
-@@ -21,37 +21,29 @@ static int tidss_encoder_atomic_check(struct drm_encoder *encoder,
- {
- 	struct drm_device *ddev = encoder->dev;
- 	struct tidss_crtc_state *tcrtc_state = to_tidss_crtc_state(crtc_state);
--	struct drm_display_info *di = &conn_state->connector->display_info;
-+	struct drm_bridge_state *bstate;
- 	struct drm_bridge *bridge;
--	bool bus_flags_set = false;
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+index 7de4bba52e6f..cfbf85a4d92b 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.h
++++ b/drivers/gpu/drm/tidss/tidss_drv.h
+@@ -27,6 +27,9 @@ struct tidss_device {
+ 	unsigned int num_planes;
+ 	struct drm_plane *planes[TIDSS_MAX_PLANES];
  
- 	dev_dbg(ddev->dev, "%s\n", __func__);
++	unsigned int num_connectors;
++	struct drm_connector *connectors[TIDSS_MAX_PORTS];
++
+ 	spinlock_t wait_lock;	/* protects the irq masks */
+ 	dispc_irq_t irq_mask;	/* enabled irqs in addition to wait_list */
+ };
+diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
+index 09485c7f0d6f..1f5ae153b114 100644
+--- a/drivers/gpu/drm/tidss/tidss_kms.c
++++ b/drivers/gpu/drm/tidss/tidss_kms.c
+@@ -7,6 +7,7 @@
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
++#include <drm/drm_bridge_connector.h>
+ #include <drm/drm_crtc_helper.h>
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_fb_helper.h>
+@@ -192,6 +193,7 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
+ 	for (i = 0; i < num_pipes; ++i) {
+ 		struct tidss_plane *tplane;
+ 		struct tidss_crtc *tcrtc;
++		struct drm_connector *connector;
+ 		struct drm_encoder *enc;
+ 		u32 hw_plane_id = feat->vid_order[tidss->num_planes];
+ 		int ret;
+@@ -222,11 +224,26 @@ static int tidss_dispc_modeset_init(struct tidss_device *tidss)
+ 			return PTR_ERR(enc);
+ 		}
  
--	/*
--	 * Take the bus_flags from the first bridge that defines
--	 * bridge timings, or from the connector's display_info if no
--	 * bridge defines the timings.
--	 */
--	drm_for_each_bridge_in_chain(encoder, bridge) {
--		if (!bridge->timings)
--			continue;
--
--		tcrtc_state->bus_flags = bridge->timings->input_bus_flags;
--		bus_flags_set = true;
--		break;
-+	/* Copy the bus_format and flags from the first bridge's state */
-+	bridge = drm_bridge_chain_get_first_bridge(encoder);
-+	bstate = drm_atomic_get_new_bridge_state(crtc_state->state, bridge);
-+	if (!bstate) {
-+		dev_err(ddev->dev, "Could not get the bridge state\n");
-+		return -EINVAL;
+-		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL, 0);
++		ret = drm_bridge_attach(enc, pipes[i].bridge, NULL,
++					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+ 		if (ret) {
+ 			dev_err(tidss->dev, "bridge attach failed: %d\n", ret);
+ 			return ret;
+ 		}
++
++		connector = drm_bridge_connector_init(&tidss->ddev, enc);
++		if (IS_ERR(connector)) {
++			dev_err(tidss->dev, "bridge_connector create failed\n");
++			return PTR_ERR(connector);
++		}
++
++		tidss->connectors[tidss->num_connectors++] = connector;
++
++		ret = drm_connector_attach_encoder(connector, enc);
++		if (ret) {
++			dev_err(tidss->dev, "attaching encoder to connector failed\n");
++			return ret;
++		}
  	}
  
--	if (!di->bus_formats || di->num_bus_formats == 0)  {
--		dev_err(ddev->dev, "%s: No bus_formats in connected display\n",
--			__func__);
-+	tcrtc_state->bus_format = bstate->input_bus_cfg.format;
-+	tcrtc_state->bus_flags = bstate->input_bus_cfg.flags;
-+
-+	if (tcrtc_state->bus_format == 0 ||
-+	    tcrtc_state->bus_format == MEDIA_BUS_FMT_FIXED) {
-+
-+		dev_err(ddev->dev, "Bridge connected to the encoder did not specify media bus format\n");
- 		return -EINVAL;
- 	}
- 
--	// XXX any cleaner way to set bus format and flags?
--	tcrtc_state->bus_format = di->bus_formats[0];
--	if (!bus_flags_set)
--		tcrtc_state->bus_flags = di->bus_flags;
--
- 	return 0;
- }
- 
+ 	/* create overlay planes of the leftover planes */
 -- 
 2.17.1
 
