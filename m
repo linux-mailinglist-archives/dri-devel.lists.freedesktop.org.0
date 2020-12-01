@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7BA2CAD60
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 21:33:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84BC02CAD64
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 21:33:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 850BA6E8D6;
-	Tue,  1 Dec 2020 20:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7932D6E8EC;
+	Tue,  1 Dec 2020 20:33:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
  [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2CC96E8D6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC3A16E8D0
  for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 20:33:36 +0000 (UTC)
 Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
  EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
  15.0.1156.6; Tue, 1 Dec 2020 12:18:29 -0800
 Received: from vertex.vmware.com (unknown [10.21.244.133])
- by sc9-mailhost3.vmware.com (Postfix) with ESMTP id A55E720ABB;
- Tue,  1 Dec 2020 12:18:31 -0800 (PST)
+ by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 74CC520AB9;
+ Tue,  1 Dec 2020 12:18:32 -0800 (PST)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 5/8] drm/vmwgfx: Cleanup pci resource allocation
-Date: Tue, 1 Dec 2020 15:18:25 -0500
-Message-ID: <20201201201828.808888-5-zackr@vmware.com>
+Subject: [PATCH 6/8] drm/vmwgfx: Remove the throttling code
+Date: Tue, 1 Dec 2020 15:18:26 -0500
+Message-ID: <20201201201828.808888-6-zackr@vmware.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201201201828.808888-1-zackr@vmware.com>
 References: <20201201201828.808888-1-zackr@vmware.com>
@@ -49,224 +49,305 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of doing it in multiple spots lets centralize the code
-to handle pci resources. This also cleans up the error
-handling a bit and will make it a lot easier to add additional
-svga versions to the driver.
+Throttling was used before fencing to implement early vsync
+support in the xorg state tracker a long time ago. The xorg
+state tracker has been removed years ago and no one else
+has ever used throttling. It's time to remove this code,
+it hasn't been used or tested in years.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
 Reviewed-by: Roland Scheidegger <sroland@vmware.com>
 ---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 112 +++++++++++++++++-----------
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |   5 +-
- 2 files changed, 72 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/vmwgfx/Makefile         |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h     |  21 ----
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c    |   4 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c     |   1 -
+ drivers/gpu/drm/vmwgfx/vmwgfx_marker.c  | 155 ------------------------
+ 6 files changed, 3 insertions(+), 188 deletions(-)
+ delete mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_marker.c
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 23ae86ab9250..43fb7ff27e99 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -44,8 +44,6 @@
- #include "vmwgfx_drv.h"
- 
- #define VMWGFX_DRIVER_DESC "Linux drm driver for VMware graphics devices"
--#define VMWGFX_CHIP_SVGAII 0
--#define VMW_FB_RESERVATION 0
- 
- #define VMW_MIN_INITIAL_WIDTH 800
- #define VMW_MIN_INITIAL_HEIGHT 600
-@@ -254,8 +252,8 @@ static const struct drm_ioctl_desc vmw_ioctls[] = {
- };
- 
- static const struct pci_device_id vmw_pci_id_list[] = {
--	{0x15ad, 0x0405, PCI_ANY_ID, PCI_ANY_ID, 0, 0, VMWGFX_CHIP_SVGAII},
--	{0, 0, 0}
-+	{ PCI_DEVICE(0x15ad, VMWGFX_PCI_ID_SVGA2) },
-+	{ }
- };
- MODULE_DEVICE_TABLE(pci, vmw_pci_id_list);
- 
-@@ -643,18 +641,81 @@ static void vmw_vram_manager_fini(struct vmw_private *dev_priv)
- #endif
- }
- 
--static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
-+static int vmw_setup_pci_resources(struct vmw_private *dev,
-+				   unsigned long pci_id)
- {
-+	resource_size_t fifo_start;
-+	resource_size_t fifo_size;
- 	int ret;
-+
-+	pci_set_master(dev->drm.pdev);
-+
-+	ret = pci_request_regions(dev->drm.pdev, "vmwgfx probe");
-+	if (ret)
-+		return ret;
-+
-+	dev->io_start = pci_resource_start(dev->drm.pdev, 0);
-+	dev->vram_start = pci_resource_start(dev->drm.pdev, 1);
-+	dev->vram_size = pci_resource_len(dev->drm.pdev, 1);
-+	fifo_start = pci_resource_start(dev->drm.pdev, 2);
-+	fifo_size = pci_resource_len(dev->drm.pdev, 2);
-+
-+	DRM_INFO("FIFO at 0x%llx size is %llu kiB\n",
-+		 fifo_start, fifo_size / 1024);
-+	dev->fifo_mem = devm_memremap(dev->drm.dev,
-+				       fifo_start,
-+				       fifo_size,
-+				       MEMREMAP_WB);
-+
-+	if (unlikely(dev->fifo_mem == NULL)) {
-+		DRM_ERROR("Failed mapping FIFO memory.\n");
-+		return -ENOMEM;
-+	}
-+
-+	/*
-+	 * This is approximate size of the vram, the exact size will only
-+	 * be known after we read SVGA_REG_VRAM_SIZE. The PCI resource
-+	 * size will be equal to or bigger than the size reported by
-+	 * SVGA_REG_VRAM_SIZE.
-+	 */
-+	DRM_INFO("VRAM at 0x%llx size is %llu kiB\n",
-+		 dev->vram_start, dev->vram_size / 1024);
-+
-+	return 0;
-+}
-+
-+static int vmw_detect_version(struct vmw_private *dev)
-+{
- 	uint32_t svga_id;
-+
-+	vmw_write(dev, SVGA_REG_ID, SVGA_ID_2);
-+	svga_id = vmw_read(dev, SVGA_REG_ID);
-+	if (svga_id != SVGA_ID_2) {
-+		DRM_ERROR("Unsupported SVGA ID 0x%x on chipset 0x%x\n",
-+			  svga_id, dev->vmw_chipset);
-+		return -ENOSYS;
-+	}
-+	return 0;
-+}
-+
-+static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
-+{
-+	int ret;
- 	enum vmw_res_type i;
- 	bool refuse_dma = false;
- 	char host_log[100] = {0};
- 
--	pci_set_master(dev_priv->drm.pdev);
--
--	dev_priv->vmw_chipset = chipset;
-+	dev_priv->vmw_chipset = pci_id;
- 	dev_priv->last_read_seqno = (uint32_t) -100;
-+	dev_priv->drm.dev_private = dev_priv;
-+
-+	ret = vmw_setup_pci_resources(dev_priv, pci_id);
-+	if (ret)
-+		return ret;
-+	ret = vmw_detect_version(dev_priv);
-+	if (ret)
-+		return ret;
-+
- 	mutex_init(&dev_priv->cmdbuf_mutex);
- 	mutex_init(&dev_priv->release_mutex);
- 	mutex_init(&dev_priv->binding_mutex);
-@@ -679,21 +740,10 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
- 
- 	dev_priv->used_memory_size = 0;
- 
--	dev_priv->io_start = pci_resource_start(dev_priv->drm.pdev, 0);
--	dev_priv->vram_start = pci_resource_start(dev_priv->drm.pdev, 1);
--	dev_priv->fifo_mem_start = pci_resource_start(dev_priv->drm.pdev, 2);
--
- 	dev_priv->assume_16bpp = !!vmw_assume_16bpp;
- 
- 	dev_priv->enable_fb = enable_fbdev;
- 
--	vmw_write(dev_priv, SVGA_REG_ID, SVGA_ID_2);
--	svga_id = vmw_read(dev_priv, SVGA_REG_ID);
--	if (svga_id != SVGA_ID_2) {
--		ret = -ENOSYS;
--		DRM_ERROR("Unsupported SVGA ID 0x%x\n", svga_id);
--		goto out_err0;
--	}
- 
- 	dev_priv->capabilities = vmw_read(dev_priv, SVGA_REG_CAPABILITIES);
- 
-@@ -798,21 +848,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
- 	}
- 	DRM_INFO("Maximum display memory size is %llu kiB\n",
- 		 dev_priv->prim_bb_mem / 1024);
--	DRM_INFO("VRAM at 0x%08llx size is %llu kiB\n",
--		 dev_priv->vram_start, dev_priv->vram_size / 1024);
--	DRM_INFO("MMIO at 0x%08llx size is %llu kiB\n",
--		 dev_priv->fifo_mem_start, dev_priv->fifo_mem_size / 1024);
--
--	dev_priv->fifo_mem = devm_memremap(dev_priv->drm.dev,
--					   dev_priv->fifo_mem_start,
--					   dev_priv->fifo_mem_size,
--					   MEMREMAP_WB);
--
--	if (unlikely(dev_priv->fifo_mem == NULL)) {
--		ret = -ENOMEM;
--		DRM_ERROR("Failed mapping the FIFO MMIO.\n");
--		goto out_err0;
--	}
- 
- 	/* Need mmio memory to check for fifo pitchlock cap. */
- 	if (!(dev_priv->capabilities & SVGA_CAP_DISPLAY_TOPOLOGY) &&
-@@ -832,14 +867,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
- 		goto out_err0;
- 	}
- 
--	dev_priv->drm.dev_private = dev_priv;
--
--	ret = pci_request_regions(dev_priv->drm.pdev, "vmwgfx probe");
--	if (ret) {
--		DRM_ERROR("Failed reserving PCI regions.\n");
--		goto out_no_device;
--	}
--
- 	if (dev_priv->capabilities & SVGA_CAP_IRQMASK) {
- 		ret = vmw_irq_install(&dev_priv->drm, dev_priv->drm.pdev->irq);
- 		if (ret != 0) {
-@@ -986,7 +1013,6 @@ static int vmw_driver_load(struct vmw_private *dev_priv, unsigned long chipset)
- 		vmw_irq_uninstall(&dev_priv->drm);
- out_no_irq:
- 	pci_release_regions(dev_priv->drm.pdev);
--out_no_device:
- 	ttm_object_device_release(&dev_priv->tdev);
- out_err0:
- 	for (i = vmw_res_context; i < vmw_res_max; ++i)
+diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+index 31f85f09f1fc..ef455d6d7c3f 100644
+--- a/drivers/gpu/drm/vmwgfx/Makefile
++++ b/drivers/gpu/drm/vmwgfx/Makefile
+@@ -2,8 +2,8 @@
+ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
+ 	    vmwgfx_fb.o vmwgfx_ioctl.o vmwgfx_resource.o vmwgfx_ttm_buffer.o \
+ 	    vmwgfx_fifo.o vmwgfx_irq.o vmwgfx_ldu.o vmwgfx_ttm_glue.o \
+-	    vmwgfx_overlay.o vmwgfx_marker.o vmwgfx_gmrid_manager.o \
+-	    vmwgfx_fence.o vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
++	    vmwgfx_overlay.o vmwgfx_gmrid_manager.o vmwgfx_fence.o \
++	    vmwgfx_bo.o vmwgfx_scrn.o vmwgfx_context.o \
+ 	    vmwgfx_surface.o vmwgfx_prime.o vmwgfx_mob.o vmwgfx_shader.o \
+ 	    vmwgfx_cmdbuf_res.o vmwgfx_cmdbuf.o vmwgfx_stdu.o \
+ 	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index e388edb9e50f..738a9371013f 100644
+index 738a9371013f..fb531790f4bb 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -67,6 +67,8 @@
- #define VMWGFX_CMD_BOUNCE_INIT_SIZE 32768
- #define VMWGFX_ENABLE_SCREEN_TARGET_OTABLE 1
+@@ -279,13 +279,6 @@ struct vmw_surface {
+ 	struct list_head view_list;
+ };
  
-+#define VMWGFX_PCI_ID_SVGA2              0x0405
-+
- /*
-  * Perhaps we should have sysfs entries for these.
-  */
-@@ -498,13 +500,12 @@ struct vmw_private {
- 	struct vmw_fifo_state fifo;
+-struct vmw_marker_queue {
+-	struct list_head head;
+-	u64 lag;
+-	u64 lag_time;
+-	spinlock_t lock;
+-};
+-
+ struct vmw_fifo_state {
+ 	unsigned long reserved_size;
+ 	u32 *dynamic_buffer;
+@@ -295,7 +288,6 @@ struct vmw_fifo_state {
+ 	uint32_t capabilities;
+ 	struct mutex fifo_mutex;
+ 	struct rw_semaphore rwsem;
+-	struct vmw_marker_queue marker_queue;
+ 	bool dx;
+ };
  
- 	struct drm_vma_offset_manager vma_manager;
--	unsigned long vmw_chipset;
-+	u32 vmw_chipset;
- 	resource_size_t io_start;
- 	resource_size_t vram_start;
- 	resource_size_t vram_size;
- 	resource_size_t prim_bb_mem;
- 	u32 *fifo_mem;
--	resource_size_t fifo_mem_start;
- 	resource_size_t fifo_mem_size;
- 	uint32_t fb_max_width;
- 	uint32_t fb_max_height;
+@@ -1123,19 +1115,6 @@ extern void vmw_generic_waiter_add(struct vmw_private *dev_priv, u32 flag,
+ extern void vmw_generic_waiter_remove(struct vmw_private *dev_priv,
+ 				      u32 flag, int *waiter_count);
+ 
+-/**
+- * Rudimentary fence-like objects currently used only for throttling -
+- * vmwgfx_marker.c
+- */
+-
+-extern void vmw_marker_queue_init(struct vmw_marker_queue *queue);
+-extern void vmw_marker_queue_takedown(struct vmw_marker_queue *queue);
+-extern int vmw_marker_push(struct vmw_marker_queue *queue,
+-			   uint32_t seqno);
+-extern int vmw_marker_pull(struct vmw_marker_queue *queue,
+-			   uint32_t signaled_seqno);
+-extern int vmw_wait_lag(struct vmw_private *dev_priv,
+-			struct vmw_marker_queue *queue, uint32_t us);
+ 
+ /**
+  * Kernel framebuffer - vmwgfx_fb.c
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+index e67e2e8f6e6f..7c7d4b147d85 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
+@@ -4046,11 +4046,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
+ 	}
+ 
+ 	if (throttle_us) {
+-		ret = vmw_wait_lag(dev_priv, &dev_priv->fifo.marker_queue,
+-				   throttle_us);
+-
+-		if (ret)
+-			goto out_free_fence_fd;
++		VMW_DEBUG_USER("Throttling is no longer supported.\n");
+ 	}
+ 
+ 	kernel_commands = vmw_execbuf_cmdbuf(dev_priv, user_commands,
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+index 4674bc1c32f0..f4b9af67551f 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+@@ -157,7 +157,6 @@ int vmw_fifo_init(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 
+ 	atomic_set(&dev_priv->marker_seq, dev_priv->last_read_seqno);
+ 	vmw_fifo_mem_write(dev_priv, SVGA_FIFO_FENCE, dev_priv->last_read_seqno);
+-	vmw_marker_queue_init(&fifo->marker_queue);
+ 
+ 	return 0;
+ }
+@@ -185,8 +184,6 @@ void vmw_fifo_release(struct vmw_private *dev_priv, struct vmw_fifo_state *fifo)
+ 	vmw_write(dev_priv, SVGA_REG_TRACES,
+ 		  dev_priv->traces_state);
+ 
+-	vmw_marker_queue_takedown(&fifo->marker_queue);
+-
+ 	if (likely(fifo->static_buffer != NULL)) {
+ 		vfree(fifo->static_buffer);
+ 		fifo->static_buffer = NULL;
+@@ -563,7 +560,6 @@ int vmw_fifo_send_fence(struct vmw_private *dev_priv, uint32_t *seqno)
+ 	cmd_fence = (struct svga_fifo_cmd_fence *) fm;
+ 	cmd_fence->fence = *seqno;
+ 	vmw_fifo_commit_flush(dev_priv, bytes);
+-	(void) vmw_marker_push(&fifo_state->marker_queue, *seqno);
+ 	vmw_update_seqno(dev_priv, fifo_state);
+ 
+ out_err:
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+index c62bbe1d2eb6..6c2a569f1fcb 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+@@ -121,7 +121,6 @@ void vmw_update_seqno(struct vmw_private *dev_priv,
+ 
+ 	if (dev_priv->last_read_seqno != seqno) {
+ 		dev_priv->last_read_seqno = seqno;
+-		vmw_marker_pull(&fifo_state->marker_queue, seqno);
+ 		vmw_fences_update(dev_priv->fman);
+ 	}
+ }
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_marker.c b/drivers/gpu/drm/vmwgfx/vmwgfx_marker.c
+deleted file mode 100644
+index e53bc639a754..000000000000
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_marker.c
++++ /dev/null
+@@ -1,155 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0 OR MIT
+-/**************************************************************************
+- *
+- * Copyright 2010 VMware, Inc., Palo Alto, CA., USA
+- *
+- * Permission is hereby granted, free of charge, to any person obtaining a
+- * copy of this software and associated documentation files (the
+- * "Software"), to deal in the Software without restriction, including
+- * without limitation the rights to use, copy, modify, merge, publish,
+- * distribute, sub license, and/or sell copies of the Software, and to
+- * permit persons to whom the Software is furnished to do so, subject to
+- * the following conditions:
+- *
+- * The above copyright notice and this permission notice (including the
+- * next paragraph) shall be included in all copies or substantial portions
+- * of the Software.
+- *
+- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+- * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+- * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+- * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+- * USE OR OTHER DEALINGS IN THE SOFTWARE.
+- *
+- **************************************************************************/
+-
+-
+-#include "vmwgfx_drv.h"
+-
+-struct vmw_marker {
+-	struct list_head head;
+-	uint32_t seqno;
+-	u64 submitted;
+-};
+-
+-void vmw_marker_queue_init(struct vmw_marker_queue *queue)
+-{
+-	INIT_LIST_HEAD(&queue->head);
+-	queue->lag = 0;
+-	queue->lag_time = ktime_get_raw_ns();
+-	spin_lock_init(&queue->lock);
+-}
+-
+-void vmw_marker_queue_takedown(struct vmw_marker_queue *queue)
+-{
+-	struct vmw_marker *marker, *next;
+-
+-	spin_lock(&queue->lock);
+-	list_for_each_entry_safe(marker, next, &queue->head, head) {
+-		kfree(marker);
+-	}
+-	spin_unlock(&queue->lock);
+-}
+-
+-int vmw_marker_push(struct vmw_marker_queue *queue,
+-		   uint32_t seqno)
+-{
+-	struct vmw_marker *marker = kmalloc(sizeof(*marker), GFP_KERNEL);
+-
+-	if (unlikely(!marker))
+-		return -ENOMEM;
+-
+-	marker->seqno = seqno;
+-	marker->submitted = ktime_get_raw_ns();
+-	spin_lock(&queue->lock);
+-	list_add_tail(&marker->head, &queue->head);
+-	spin_unlock(&queue->lock);
+-
+-	return 0;
+-}
+-
+-int vmw_marker_pull(struct vmw_marker_queue *queue,
+-		   uint32_t signaled_seqno)
+-{
+-	struct vmw_marker *marker, *next;
+-	bool updated = false;
+-	u64 now;
+-
+-	spin_lock(&queue->lock);
+-	now = ktime_get_raw_ns();
+-
+-	if (list_empty(&queue->head)) {
+-		queue->lag = 0;
+-		queue->lag_time = now;
+-		updated = true;
+-		goto out_unlock;
+-	}
+-
+-	list_for_each_entry_safe(marker, next, &queue->head, head) {
+-		if (signaled_seqno - marker->seqno > (1 << 30))
+-			continue;
+-
+-		queue->lag = now - marker->submitted;
+-		queue->lag_time = now;
+-		updated = true;
+-		list_del(&marker->head);
+-		kfree(marker);
+-	}
+-
+-out_unlock:
+-	spin_unlock(&queue->lock);
+-
+-	return (updated) ? 0 : -EBUSY;
+-}
+-
+-static u64 vmw_fifo_lag(struct vmw_marker_queue *queue)
+-{
+-	u64 now;
+-
+-	spin_lock(&queue->lock);
+-	now = ktime_get_raw_ns();
+-	queue->lag += now - queue->lag_time;
+-	queue->lag_time = now;
+-	spin_unlock(&queue->lock);
+-	return queue->lag;
+-}
+-
+-
+-static bool vmw_lag_lt(struct vmw_marker_queue *queue,
+-		       uint32_t us)
+-{
+-	u64 cond = (u64) us * NSEC_PER_USEC;
+-
+-	return vmw_fifo_lag(queue) <= cond;
+-}
+-
+-int vmw_wait_lag(struct vmw_private *dev_priv,
+-		 struct vmw_marker_queue *queue, uint32_t us)
+-{
+-	struct vmw_marker *marker;
+-	uint32_t seqno;
+-	int ret;
+-
+-	while (!vmw_lag_lt(queue, us)) {
+-		spin_lock(&queue->lock);
+-		if (list_empty(&queue->head))
+-			seqno = atomic_read(&dev_priv->marker_seq);
+-		else {
+-			marker = list_first_entry(&queue->head,
+-						 struct vmw_marker, head);
+-			seqno = marker->seqno;
+-		}
+-		spin_unlock(&queue->lock);
+-
+-		ret = vmw_wait_seqno(dev_priv, false, seqno, true,
+-					3*HZ);
+-
+-		if (unlikely(ret != 0))
+-			return ret;
+-
+-		(void) vmw_marker_pull(queue, seqno);
+-	}
+-	return 0;
+-}
 -- 
 2.25.1
 
