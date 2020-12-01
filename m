@@ -2,42 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D8302CA2BB
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD70E2CA2C4
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Dec 2020 13:36:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D33E6E519;
-	Tue,  1 Dec 2020 12:33:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 789B789CAD;
+	Tue,  1 Dec 2020 12:36:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 920436E554
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:33:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5942989CAD
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Dec 2020 12:36:26 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2F095AC75;
- Tue,  1 Dec 2020 12:33:39 +0000 (UTC)
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
- <092068b8-1f3d-4fc8-48fb-cc5dc33ae7c5@amd.com>
- <0237fafc-f57e-b60b-f92c-0b0a79e9448e@suse.de>
- <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
- <d50074f7-145d-2af5-e8cd-08b57e204ede@suse.de>
- <CAKMK7uHe+Or2mnbESXoTm=yTFxyWK01DjHLdnxzGkK=PYb4_9g@mail.gmail.com>
- <56f730f5-eda1-3d87-0d35-63faf91c79e5@suse.de>
- <a8e15d38-2b92-a278-2ad9-e44c368c6a15@amd.com>
- <0e31f447-4195-77fe-a68d-97b96f46f327@suse.de>
- <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id D5DB0ACC0;
+ Tue,  1 Dec 2020 12:36:24 +0000 (UTC)
+Subject: Re: [PATCH drm/hisilicon v2 1/4] drm/hisilicon: Assgin local variable
+ to drm_device
+To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <1606823754-52451-1-git-send-email-tiantao6@hisilicon.com>
+ <1606823754-52451-2-git-send-email-tiantao6@hisilicon.com>
+ <fc644426-67db-7128-5f73-8630373ab0e8@suse.de>
+ <3f235e08-bb58-be41-8e92-ccd2dfd68b33@huawei.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-Message-ID: <7211f3d5-8298-6df3-05b5-c56b5e89f162@suse.de>
-Date: Tue, 1 Dec 2020 13:33:37 +0100
+Message-ID: <389548c9-772c-d86b-700e-032f7d7bde1f@suse.de>
+Date: Tue, 1 Dec 2020 13:36:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
+In-Reply-To: <3f235e08-bb58-be41-8e92-ccd2dfd68b33@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,336 +46,270 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1915657097=="
+Cc: linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============1720599392=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1915657097==
+--===============1720599392==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="Po5HPdGxxQFl3HSWANaKpBIhomWCRibyK"
+ boundary="x2d7DFiRiPY134QtF4u86i5nmflirnT5p"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Po5HPdGxxQFl3HSWANaKpBIhomWCRibyK
-Content-Type: multipart/mixed; boundary="DnaxYoi3DxIWrKXX2tivzicZvGCqL2nN6";
+--x2d7DFiRiPY134QtF4u86i5nmflirnT5p
+Content-Type: multipart/mixed; boundary="woR6XCC6iBKuSAIfUoOJlpIefUmfLp1dm";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Dave Airlie <airlied@redhat.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>
-Message-ID: <7211f3d5-8298-6df3-05b5-c56b5e89f162@suse.de>
-Subject: Re: [PATCH 1/8] drm/gem: Write down some rules for vmap usage
-References: <20201130120433.7205-1-tzimmermann@suse.de>
- <20201130120433.7205-2-tzimmermann@suse.de>
- <20201130153048.GS401619@phenom.ffwll.local>
- <092068b8-1f3d-4fc8-48fb-cc5dc33ae7c5@amd.com>
- <0237fafc-f57e-b60b-f92c-0b0a79e9448e@suse.de>
- <CAKMK7uG186rtmopf9h-ZrR+D1r7c2-5nrxg86dZxwmnLN1QGZg@mail.gmail.com>
- <d50074f7-145d-2af5-e8cd-08b57e204ede@suse.de>
- <CAKMK7uHe+Or2mnbESXoTm=yTFxyWK01DjHLdnxzGkK=PYb4_9g@mail.gmail.com>
- <56f730f5-eda1-3d87-0d35-63faf91c79e5@suse.de>
- <a8e15d38-2b92-a278-2ad9-e44c368c6a15@amd.com>
- <0e31f447-4195-77fe-a68d-97b96f46f327@suse.de>
- <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
-In-Reply-To: <aa3c4ad6-f99e-de48-e797-0748c9706e9e@amd.com>
+To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
+ airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
+ alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Message-ID: <389548c9-772c-d86b-700e-032f7d7bde1f@suse.de>
+Subject: Re: [PATCH drm/hisilicon v2 1/4] drm/hisilicon: Assgin local variable
+ to drm_device
+References: <1606823754-52451-1-git-send-email-tiantao6@hisilicon.com>
+ <1606823754-52451-2-git-send-email-tiantao6@hisilicon.com>
+ <fc644426-67db-7128-5f73-8630373ab0e8@suse.de>
+ <3f235e08-bb58-be41-8e92-ccd2dfd68b33@huawei.com>
+In-Reply-To: <3f235e08-bb58-be41-8e92-ccd2dfd68b33@huawei.com>
 
---DnaxYoi3DxIWrKXX2tivzicZvGCqL2nN6
+--woR6XCC6iBKuSAIfUoOJlpIefUmfLp1dm
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 01.12.20 um 13:14 schrieb Christian K=C3=B6nig:
-> Am 01.12.20 um 12:30 schrieb Thomas Zimmermann:
+Am 01.12.20 um 13:26 schrieb tiantao (H):
+>=20
+>=20
+> =E5=9C=A8 2020/12/1 20:17, Thomas Zimmermann =E5=86=99=E9=81=93:
 >> Hi
 >>
->> Am 01.12.20 um 11:34 schrieb Christian K=C3=B6nig:
->>>> [...]
->>>> In patch 6 of this series, there's ast cursor code that acquires two=
-=20
->>>> BO's reservation locks and vmaps them afterwards. That's probably=20
->>>> how you intend to use dma_buf_vmap_local.
->>>>
->>>> However, I think it's more logically to have a vmap callback that=20
->>>> only does the actual vmap. This is all that exporters would have to =
-
->>>> implement.
->>>>
->>>> And with that, build one helper that pins before vmap and one helper=
-=20
->>>> that gets the resv lock.
+>> Am 01.12.20 um 12:55 schrieb Tian Tao:
+>>> Assign local variable to struct drm_device *dev because they are
+>>> used multiple times within a function.
 >>>
->>> I don't think that this is will work nor is it a good approach.
+>>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+>>> ---
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c=C2=A0=C2=A0 |=C2=
+=A0 2 +-
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c=C2=A0 | 30=20
+>>> ++++++++++++------------
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h=C2=A0 |=C2=A0 =
+2 +-
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |=C2=A0 2 +-
+>>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 8 ++++---
+>>> =C2=A0 5 files changed, 23 insertions(+), 21 deletions(-)
 >>>
->>> See the ast cursor handling for example. You need to acquire two BOs =
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c=20
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+>>> index ea962ac..096eea9 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c
+>>> @@ -499,7 +499,7 @@ static const struct drm_crtc_helper_funcs=20
+>>> hibmc_crtc_helper_funcs =3D {
+>>> =C2=A0 int hibmc_de_init(struct hibmc_drm_private *priv)
+>>> =C2=A0 {
+>>> -=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D priv->dev;
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &priv->dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_crtc *crtc =3D &priv->crtc;=
 
->>> here, not just one. And this can't be done cleanly with a single vmap=
-=20
->>> call.
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane *plane =3D &priv->pri=
+mary_plane;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c=20
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> index d845657..dd9fadc 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>>> @@ -79,31 +79,32 @@ static const struct dev_pm_ops hibmc_pm_ops =3D {=
+
+>>> =C2=A0 static int hibmc_kms_init(struct hibmc_drm_private *priv)
+>>> =C2=A0 {
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &priv->dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>> -=C2=A0=C2=A0=C2=A0 drm_mode_config_init(priv->dev);
+>>> +=C2=A0=C2=A0=C2=A0 drm_mode_config_init(dev);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 priv->mode_config_initialized =3D true=
+;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.min_width =3D 0;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.min_height =3D 0;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.max_width =3D 1920;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.max_height =3D 1200;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.min_width =3D 0;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.min_height =3D 0;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.max_width =3D 1920;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.max_height =3D 1200;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.fb_base =3D priv->fb_base;=
+
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.preferred_depth =3D 32;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.prefer_shadow =3D 1;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.fb_base =3D priv->fb_base;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.preferred_depth =3D 32;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.prefer_shadow =3D 1;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev->mode_config.funcs =3D (void *)&hibmc_m=
+ode_funcs;
+>>> +=C2=A0=C2=A0=C2=A0 dev->mode_config.funcs =3D (void *)&hibmc_mode_fu=
+ncs;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hibmc_de_init(priv);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(priv->dev, "faile=
+d to init de: %d\n", ret);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(dev, "failed to i=
+nit de: %d\n", ret);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hibmc_vdac_init(priv);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(priv->dev, "faile=
+d to init vdac: %d\n", ret);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_err(dev, "failed to i=
+nit vdac: %d\n", ret);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> @@ -113,7 +114,7 @@ static int hibmc_kms_init(struct=20
+>>> hibmc_drm_private *priv)
+>>> =C2=A0 static void hibmc_kms_fini(struct hibmc_drm_private *priv)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (priv->mode_config_initialized) {
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mode_config_cleanup(p=
+riv->dev);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mode_config_cleanup(&=
+priv->dev);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 priv->mode_con=
+fig_initialized =3D false;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0 }
+>>> @@ -202,7 +203,7 @@ static void hibmc_hw_config(struct=20
+>>> hibmc_drm_private *priv)
+>>> =C2=A0 static int hibmc_hw_map(struct hibmc_drm_private *priv)
+>>> =C2=A0 {
+>>> -=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D priv->dev;
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &priv->dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct pci_dev *pdev =3D dev->pdev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resource_size_t addr, size, ioaddr, io=
+size;
+>>> @@ -258,7 +259,7 @@ static int hibmc_unload(struct drm_device *dev)
+>>> =C2=A0 static int hibmc_load(struct drm_device *dev)
+>>> =C2=A0 {
+>>> -=C2=A0=C2=A0=C2=A0 struct hibmc_drm_private *priv;
+>>> +=C2=A0=C2=A0=C2=A0 struct hibmc_drm_private *priv =3D to_hibmc_drm_p=
+rivate(dev);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 priv =3D drmm_kzalloc(dev, sizeof(*pri=
+v), GFP_KERNEL);
+>>> @@ -267,7 +268,6 @@ static int hibmc_load(struct drm_device *dev)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM=
+;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->dev_private =3D priv;
+>>> -=C2=A0=C2=A0=C2=A0 priv->dev =3D dev;
 >>
->> That seems to be a misunderstanding.
+>> I'm sure this either does not build or does not work. There's a call=20
+>> to drm_dev_alloc(), which initialized the DRM device. You need to=20
+>> assign the returned device here. The embedding of dev only work after =
+
+>> you switched to devm_drm_dev_alloc() in the next patch.
 >>
->> I don't mentioned it explicitly, but there's of course another helper =
-
->> that only vmaps and nothing else. This would be useful for cases like =
-
->> the cursor code. So there would be:
+>> For the patch at hand, just keep struct hibmc_drm_private.dev as a=20
+>> pointer and you should be fine.
 >>
->> =C2=A0dma_buf_vmap() - pin + vmap
->> =C2=A0dma_buf_vmap_local() - lock + vmap
->> =C2=A0dma_buf_vmap_locked() - only vmap; caller has set up the BOs
->=20
-> Well that zoo of helpers will certainly get a NAK from my side.
->=20
-> See interfaces like this should implement simple functions and not hide=
+> Changing drm_device *dev to drm_device dev and using devm_drm_dev_alloc=
 =20
-> what's actually needs to be done inside the drivers using this interfac=
-e.
+> does not easily split into two patches.
+> The patch does not compile well on its own, but it will compile fine=20
+> with patch #2.
+> Can patch #1 and patch #2 be combined into a single patch,just like V1.=
 
-If 9 of 10 invocations use the same pattern, why not put that pattern in =
 
-a helper? I see nothing wrong with that.
+Most of the code in this patch does
 
->=20
-> What we could do is to add a pin count to the DMA-buf and then do=20
-> WARN_ON(dma_buf->pin_count || dma_resv_lock_help(dma_buf->resv)) in the=
-=20
-> vmap/vunmap calls.
+   struct drm_device *dev =3D &priv->dev;
 
-Most of the vmap code is either CMA or SHMEM GEM stuff. They don't need=20
-to pin. It's just baggage to them. The TTM stuff that does need pinning=20
-is the minority.
+to get dev as a local variable. Why don't you do
 
->=20
->>
->> I did some conversion of drivers that use vram and shmem. They=20
->> occasionally update a buffer (ast cursors) or flush a BO from system=20
->> memory to HW (udl, cirrus, mgag200). In terms of these 3 interfaces: I=
-=20
->> never needed dma_buf_vmap() because pinning was never really required =
+   struct drm_device *dev =3D priv->dev;
 
->> here. Almost all of the cases were handled by dma_buf_vmap_local().=20
->> And the ast cursor code uses the equivalent of dma_buf_vmap_locked().
->=20
-> Yeah, that is kind of expected. I was already wondering as well why we =
+?
 
-> didn't used the reservation lock more extensively.
-
-As a side note, I found only 6 trivial implementations of vmap outside=20
-of drivers/gpu/drm. I cannot find a single implementation of pin there.=20
-  What am I missing?
+That's all that's really needed.
 
 Best regards
 Thomas
 
->=20
-> Regards,
-> Christian.
->=20
->>
->> The driver exporting the buffer would only have to implement vmap()=20
->> and =C2=A0pin() interfaces. Each does only its one thing and would ass=
-ume=20
->> that the caller holds the lock.
->>
 >> Best regards
 >> Thomas
 >>
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D hibmc_hw_init(priv);
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h=20
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> index f310a83..e35353a 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+>>> @@ -37,7 +37,7 @@ struct hibmc_drm_private {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resource_size_t=C2=A0 fb_size;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* drm */
+>>> -=C2=A0=C2=A0=C2=A0 struct drm_device=C2=A0 *dev;
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_plane primary_plane;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_crtc crtc;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_encoder encoder;
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c=20
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>>> index 74e26c2..d35548d 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c
+>>> @@ -96,7 +96,7 @@ static const struct drm_encoder_funcs=20
+>>> hibmc_encoder_funcs =3D {
+>>> =C2=A0 int hibmc_vdac_init(struct hibmc_drm_private *priv)
+>>> =C2=A0 {
+>>> -=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D priv->dev;
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &priv->dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct hibmc_connector *hibmc_connecto=
+r =3D &priv->connector;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_encoder *encoder =3D &priv-=
+>encoder;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_connector *connector =3D &h=
+ibmc_connector->base;
+>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c=20
+>>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+>>> index 602ece1..e84fb81 100644
+>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+>>> @@ -25,7 +25,7 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_vram_mm *vmm;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
+>>> -=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D hibmc->dev;
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &hibmc->dev;
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vmm =3D drm_vram_helper_alloc_mm(dev,
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ pci_resource_start(dev->pdev, 0),
+>>> @@ -41,10 +41,12 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc=
+)
+>>> =C2=A0 void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+>>> =C2=A0 {
+>>> -=C2=A0=C2=A0=C2=A0 if (!hibmc->dev->vram_mm)
+>>> +=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &hibmc->dev;
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 if (!dev->vram_mm)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>>> -=C2=A0=C2=A0=C2=A0 drm_vram_helper_release_mm(hibmc->dev);
+>>> +=C2=A0=C2=A0=C2=A0 drm_vram_helper_release_mm(dev);
+>>> =C2=A0 }
+>>> =C2=A0 int hibmc_dumb_create(struct drm_file *file, struct drm_device=
+ *dev,
 >>>
->>> Regards,
->>> Christian.
->>>
->>>>
->>>> I know that it might require some work on exporting drivers. But=20
->>>> with your proposal, we probably need another dma-buf callback just=20
->>>> for vmap_local. (?) That seems even less appealing to me.
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>>
->>>>> Trying to shovel both semantics into one interface, depending upon
->>>>> which implementation we have backing the buffer, doesn't work indee=
-d.
->>>>>
->>>>> Also on the pin topic, I think neither interface should require
->>>>> callers to explicitly pin anything. For existing users it should
->>>>> happen automatically behind the scenes imo, that's what they're
->>>>> expecting.
->>>>> -Daniel
->>>>>
->>>>>
->>>>>>> I think we could use what we've done for dynamic dma-buf attachme=
-nt
->>>>>>> (which also change locking rules) and just have new functions for=
-=20
->>>>>>> the
->>>>>>> new way (i.e. short term vmap protected by dma_resv lock. Maybe c=
-all
->>>>>>> these dma_buf_vmap_local, in the spirit of the new kmap_local whi=
-ch
->>>>>>> are currently under discussion. I think _local suffix is better, =
-for
->>>>>>> otherwise people might do something silly like
->>>>>>>
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_resv_lock();
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_vmap_locked();
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_resv_unlock();
->>>>>>>
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* actual access maybe even in som=
-e other thread */
->>>>>>>
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_resv_lock();
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_vunmap_unlocked();
->>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 dma_resv_unlock();
->>>>>>>
->>>>>>> _local suffix is better at telling that the resulting pointer has=
-=20
->>>>>>> very
->>>>>>> limited use (essentially just local to the calling context, if yo=
-u
->>>>>>> don't change any locking or anything).
->>>>>>
->>>>>> _local sounds good.
->>>>>>
->>>>>> Best regards
->>>>>> Thomas
->>>>>>
->>>>>>>
->>>>>>> I think encouraging importers to call dma_buf_pin/unpin isn't a g=
-ood
->>>>>>> idea. Yes dynamic ones need it, but maybe we should check for tha=
-t
->>>>>>> somehow in the exporterd interface (atm only amdgpu is using it).=
-
->>>>>>> -Daniel
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>>> Best regards
->>>>>>>> Thomas
->>>>>>>>
->>>>>>>>
->>>>>>>>>
->>>>>>>>> Cheers,
->>>>>>>>> Christian.
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> That's what I meant with that this approach here is very=20
->>>>>>>>>> sprawling :-/
->>>>>>>>>> -Daniel
->>>>>>>>>>
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0 int drm_gem_dmabuf_vmap(struct dma_buf *dm=
-a_buf, struct=20
->>>>>>>>>>> dma_buf_map
->>>>>>>>>>> *map)
->>>>>>>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>>>>>>>>> index 5e6daa1c982f..7c34cd5ec261 100644
->>>>>>>>>>> --- a/include/drm/drm_gem.h
->>>>>>>>>>> +++ b/include/drm/drm_gem.h
->>>>>>>>>>> @@ -137,7 +137,21 @@ struct drm_gem_object_funcs {
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Returns a =
-virtual address for the buffer. Used by the
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * drm_gem_dm=
-abuf_vmap() helper.
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Notes to implementors:
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations must expect pai=
-rs of @vmap and=20
->>>>>>>>>>> @vunmap to be
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 called frequently and=
- should optimize for this case.
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implemenations may expect the c=
-aller to hold the=20
->>>>>>>>>>> GEM object's
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 reservation lock to p=
-rotect against concurrent=20
->>>>>>>>>>> calls and
->>>>>>>>>>> relocation
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 of the GEM object.
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations may provide add=
-itional guarantees=20
->>>>>>>>>>> (e.g.,
->>>>>>>>>>> working
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 without holding the r=
-eservation lock).
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This callb=
-ack is optional.
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * See also drm_gem_dmabuf_vmap()
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int (*vmap)(struct=
- drm_gem_object *obj, struct=20
->>>>>>>>>>> dma_buf_map *map);
->>>>>>>>>>> @@ -148,6 +162,8 @@ struct drm_gem_object_funcs {
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * drm_gem_dm=
-abuf_vunmap() helper.
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This callb=
-ack is optional.
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * See also @vmap.
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*vunmap)(str=
-uct drm_gem_object *obj, struct=20
->>>>>>>>>>> dma_buf_map
->>>>>>>>>>> *map);
->>>>>>>>>>> --=20
->>>>>>>>>>> 2.29.2
->>>>>>>>>>>
->>>>>>>>>
->>>>>>>>> _______________________________________________
->>>>>>>>> dri-devel mailing list
->>>>>>>>> dri-devel@lists.freedesktop.org
->>>>>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->>>>>>>>
->>>>>>>> --=20
->>>>>>>> Thomas Zimmermann
->>>>>>>> Graphics Driver Developer
->>>>>>>> SUSE Software Solutions Germany GmbH
->>>>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>>>>>> (HRB 36809, AG N=C3=BCrnberg)
->>>>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>>>>>
->>>>>>>
->>>>>>>
->>>>>>
->>>>>> --=20
->>>>>> Thomas Zimmermann
->>>>>> Graphics Driver Developer
->>>>>> SUSE Software Solutions Germany GmbH
->>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>>>> (HRB 36809, AG N=C3=BCrnberg)
->>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>>>
->>>>>
->>>>>
->>>>
->>>
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 >>
 >=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 --=20
 Thomas Zimmermann
@@ -390,32 +320,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---DnaxYoi3DxIWrKXX2tivzicZvGCqL2nN6--
+--woR6XCC6iBKuSAIfUoOJlpIefUmfLp1dm--
 
---Po5HPdGxxQFl3HSWANaKpBIhomWCRibyK
+--x2d7DFiRiPY134QtF4u86i5nmflirnT5p
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GOCEFAwAAAAAACgkQlh/E3EQov+A0
-IBAAiR22na0KsKEtzpN9fTwVfaOSlDFU4r4PILy44vgG+X4piIJzCAK4GY/styb8Y2fLySD8VQGB
-sJSzKQXJSWeLcO0cZ+4Zfjr288Y/TNNzA9NUf7oiL/Eni+mRBZ/BpEbUC5JqnT2+z2MhWCAKuoBH
-QPqR0ZjikHsp9oGVy/inQRHa2CWHSzhvNIxXBBiTOWvbK9p0ALUrDi8rWaSy9PWEN+Fsp7yURPwm
-YYm7fClZ8iXzvPB+BlZpZlQRICAnPZSdnMVEwODsTViTJV4+FKzmiSquffk53hwTVXxb+PNlvBXf
-KYxGmANwhcxd1P4pPORxx1y0jMLtS8TBrhNnL1bbjjzYBXUARZCQRxJp6qHuQT4UfXeP+kcszyBF
-1vlzMXmeLl5aYXO8C6UbPoc6G9v/ui2A5fIpq84bBBiQByesATINFKW612i2QfDXOaX3GjaBR8FP
-kGc27BsZ+G0OsgeCh+igDjOJ1aPIH3m3s/5xtvYMFYspeQ2juNKj8YTcUvrKKumI6VygO5HTZQMl
-qGY5eea8EBne+dO4+t/HN2wd1+pTgM8pDQXkczqlVPE7Z4gh0VEqesW+qjBsQcXC58Nm4mXQpThg
-nRS7w+CmVLLuGeuEOZUzbIzyae+BWNsI59mHlnfSbLH/ue/KLPLMuEObDKJTa+kzcHdFmnQaVNXS
-iXU=
-=UJba
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/GOMYFAwAAAAAACgkQlh/E3EQov+DG
+/w/+OqVMCrLsnDPUtYl4zb6IIub19d6CnT2x+6F8Z2400MPRaLrN/HAgCa07oWBkMBgkyWdr0emi
+KY2BqkZVm8oFmMjxW9mD9Lotxr3AqMIDdcV/hUuaiCxz5nrFH5n2dCoCqWkaBLRo8KbkqmBeGOBg
+KrZp0rVnJEW3xDGwGrCcmzRA9loIGpaFG1Z863KHHY6jsENws96EvgiUaBcEoN4ra3bPW51Edg4n
+32btnblcg7AI6/zeHC9AYtZVYT5QQNxZAR8GTmx9KHNo5V9rfjAPXcLSTYKZGnQOgooZOcRQUgFi
+nuX53rptIFlC+0ARzXG0thfUaYGAHvoZ89r1mURI5uRghejJICjRAmMqKlAY0eoBYUZ0Aym2FeCM
+ge43PjBSXNkJqKRGTQrpMx0cmYfca2VPSNR5k1oBg7wVrqOKu+4WJYm4ofp0NIw42sKXcBiZdX0u
+WBpo/oi0X1gTiZszy2sd+bVOmclbSCmqyoUNVatIMtFCtO4QrJfPWDCL2/tsFWjBgRTwTBywk9JV
+xdkpl4uguwka0f8EFSdRBQV3OF7ycoN7CmY+WEa+MWJ7SxWwP4Xv+eQB+ck8oTHAvgjD6YA8qzMR
+RyMMuL9qBGlns9vBMuS/Yc+35Epopp2/vZ5vidS9Vyfqi5pYPgmtarvbOoYaqQBwleGuXo07Y8jV
+Rrg=
+=3jxm
 -----END PGP SIGNATURE-----
 
---Po5HPdGxxQFl3HSWANaKpBIhomWCRibyK--
+--x2d7DFiRiPY134QtF4u86i5nmflirnT5p--
 
---===============1915657097==
+--===============1720599392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -426,4 +356,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1915657097==--
+--===============1720599392==--
