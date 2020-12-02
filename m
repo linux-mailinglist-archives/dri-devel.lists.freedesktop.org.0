@@ -2,42 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAEA92CB6BF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9984C2CB6CD
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:21:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFD9E6EA2F;
-	Wed,  2 Dec 2020 08:19:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09FDA6EA36;
+	Wed,  2 Dec 2020 08:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from shell.v3.sk (mail.v3.sk [167.172.186.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73B2B6E8D6;
- Tue,  1 Dec 2020 20:38:41 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id 71A26E0711;
- Tue,  1 Dec 2020 20:35:44 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
- with ESMTP id tiPaO2CeI9fH; Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by zimbra.v3.sk (Postfix) with ESMTP id C0A36E0714;
- Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
- by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id 4EAlXu_6aPnQ; Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
- by zimbra.v3.sk (Postfix) with ESMTPSA id 92344E0713;
- Tue,  1 Dec 2020 20:35:43 +0000 (UTC)
-From: Lubomir Rintel <lkundrak@v3.sk>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH libdrm 3/3] tests/etnaviv_2d_test: check whether the rendering
- is correct
-Date: Tue,  1 Dec 2020 21:38:29 +0100
-Message-Id: <20201201203829.1735559-4-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201201203829.1735559-1-lkundrak@v3.sk>
-References: <20201201203829.1735559-1-lkundrak@v3.sk>
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com
+ [IPv6:2607:f8b0:4864:20::f42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9916E9A4
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 00:39:25 +0000 (UTC)
+Received: by mail-qv1-xf42.google.com with SMTP id 4so1839167qvh.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Dec 2020 16:39:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=uqFnA4wlIT9Sy7S8bA1zmlv7ZeBGWwkq7YIi+6/Fl7M=;
+ b=eosQAu2h9055luOQLikH91uBAk1IZRYNH2FBpVUNBk3cIAzEr2iNx1WVdSEvkNhnC+
+ vQrQAKnmUbjRjqEgOokhJlbpdGzIzqXWHOwE90vWFjDZe7vVoHPVkfXG7ysGahxbj8ST
+ Cbxje4qi4tD4m6NxuwtGlADjLvXOm2jT25GaCaxaIrrvKeZTDmgWk8LGQlgzAt1VyEjz
+ kMWios7ott+E5MY1U4wIKvyhr4ZrCB+zdLBcpecnbJL4ViQj82ToZftwJL2e5+odl5Q9
+ Ta66UcnHpf5NWYsGwhDSHShCp8+SubMxjQ+db8u0jP7geEyrdOfReXIgczufYiCyj2t1
+ J5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=uqFnA4wlIT9Sy7S8bA1zmlv7ZeBGWwkq7YIi+6/Fl7M=;
+ b=aRZzPyacxQPjMwtxv0rH+9NWgnR2BfU/28+bVzR0C0Xj5t2HjX1AYceGwHC+JIxLDk
+ +PUF7LhwURe32fbazq6bM3GXOA2ivSJLPg2AuGg9PWPfNs28+V4yIk8Uka+D2Ov5lmfL
+ jiajeYm4hcNYICrTbbhHwElg+uZ0VfyzckBaLpYCjiZsy5FuuBNRTS9+LlZnBIrCQbbr
+ YytLuDWPdifyLDOdSTJBlb3Iyd594lNkRVDZKPPy4+WNTGj+o3c/9kdBhz6DAAnCuWqL
+ 0mUI3bvn9twJXsxgNuaXc/XNOszcmih5NJevw4yMWZ+nbPo7l1qct7COL0JU0ts5Zfqo
+ GBdA==
+X-Gm-Message-State: AOAM530vR70pXU31SYqL6QAbrfaEErbTMQHq97DO861RiwXMjWkFctQN
+ h70car4Du8wh91JcMotjhyE2DA==
+X-Google-Smtp-Source: ABdhPJyZ+D1oBjr6GvYx10q3kexS42dlrJyY492YKNNXXdAAqN0ekmKqh97rzBrzrurkVHG9wS5vlw==
+X-Received: by 2002:ad4:5043:: with SMTP id m3mr6088503qvq.45.1606869565176;
+ Tue, 01 Dec 2020 16:39:25 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [156.34.48.30])
+ by smtp.gmail.com with ESMTPSA id z73sm129097qkb.112.2020.12.01.16.39.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Dec 2020 16:39:24 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kkGB1-004cmh-S8; Tue, 01 Dec 2020 20:39:23 -0400
+Date: Tue, 1 Dec 2020 20:39:23 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH rdma-core v3 4/6] pyverbs: Add dma-buf based MR support
+Message-ID: <20201202003923.GI5487@ziepe.ca>
+References: <1606510543-45567-1-git-send-email-jianxin.xiong@intel.com>
+ <1606510543-45567-5-git-send-email-jianxin.xiong@intel.com>
+ <20201130160821.GB5487@ziepe.ca>
+ <MW3PR11MB45556C1BAD4AF795DF0F783EE5F50@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <MW3PR11MB45556C1BAD4AF795DF0F783EE5F50@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Wed, 02 Dec 2020 08:19:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,82 +74,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Lubomir Rintel <lkundrak@v3.sk>, etnaviv@lists.freedesktop.org
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of always dumping the rendered picture, check whether it matches
-the expectations. This makes more sense for automated testing.
+On Mon, Nov 30, 2020 at 05:53:39PM +0000, Xiong, Jianxin wrote:
+> > From: Jason Gunthorpe <jgg@ziepe.ca>
+> > Sent: Monday, November 30, 2020 8:08 AM
+> > To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> > Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Leon Romanovsky
+> > <leon@kernel.org>; Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel
+> > <daniel.vetter@intel.com>
+> > Subject: Re: [PATCH rdma-core v3 4/6] pyverbs: Add dma-buf based MR support
+> > 
+> > On Fri, Nov 27, 2020 at 12:55:41PM -0800, Jianxin Xiong wrote:
+> > >
+> > > +function(rdma_multifile_module PY_MODULE MODULE_NAME LINKER_FLAGS)
+> > 
+> > I think just replace rdma_cython_module with this? No good reason I can see to have two APIs?
+> 
+> rdma_cython_module can handle many modules, but this one is for a single module.
+> If you agree, I can merge the two by slightly tweaking the logic: each module starts 
+> with a .pyx file, followed by 0 or more .c and .h files.
 
-Retain the ability to dump the picture instead of checking it when a
-file name is given as an argument. This also removes use of a hardcoded
-file name in a world writable directory, which is an unsafe thing to
-do anyway.
+Then have rdma_cython_module call some rdam_single_cython_module()
+multiple times that has this code below?
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- tests/etnaviv/etnaviv_2d_test.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+> > Here too? You probably don't need to specify h files at all, at
+> > worst they should only be used with publish_internal_headers
+> 
+> Without the .h link, the compiler fail to find the header file (both
+> dmabuf_alloc.c and the generated "dmabuf.c" contain #include
+> "dmabuf_alloc.h").
 
-diff --git a/tests/etnaviv/etnaviv_2d_test.c b/tests/etnaviv/etnaviv_2d_test.c
-index a75a4a89..9fcdae18 100644
---- a/tests/etnaviv/etnaviv_2d_test.c
-+++ b/tests/etnaviv/etnaviv_2d_test.c
-@@ -147,6 +147,27 @@ static void gen_cmd_stream(struct etna_cmd_stream *stream, struct etna_bo *bmp,
- 	etna_set_state(stream, VIVS_GL_FLUSH_CACHE, VIVS_GL_FLUSH_CACHE_PE2D);
- }
- 
-+int etna_check_image(uint32_t *p, int width, int height)
-+{
-+	int i;
-+	uint32_t expected;
-+
-+	for (i = 0; i < width * height; i++) {
-+		if (i%8 < 4 && i%(width*8) < width*4 && i%width < 8*16 && i < width*8*16)
-+			expected = 0xff40ff40;
-+		else
-+			expected = 0x00000000;
-+
-+		if (p[i] != expected) {
-+			fprintf(stderr, "Offset %d: expected: 0x%08x, got: 0x%08x\n",
-+				i, expected, p[i]);
-+			return -1;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int main(int argc, char *argv[])
- {
- 	const int width = 256;
-@@ -165,7 +186,7 @@ int main(int argc, char *argv[])
- 	int core = 0;
- 
- 	if (argc < 2) {
--		fprintf(stderr, "Usage: %s /dev/dri/<device>\n", argv[0]);
-+		fprintf(stderr, "Usage: %s /dev/dri/<device> [<etna.bmp>]\n", argv[0]);
- 		return 1;
- 	}
- 
-@@ -242,7 +263,11 @@ int main(int argc, char *argv[])
- 
- 	etna_cmd_stream_finish(stream);
- 
--	bmp_dump32(etna_bo_map(bmp), width, height, false, "/tmp/etna.bmp");
-+	if (argc > 2)
-+		bmp_dump32(etna_bo_map(bmp), width, height, false, argv[2]);
-+
-+	if (etna_check_image(etna_bo_map(bmp), width, height))
-+		ret = 7;
- 
- 	etna_cmd_stream_del(stream);
- 
--- 
-2.28.0
+Header files are made 'cross module' using the
+"publish_internal_headers" command
 
+But we could also hack in a -I directive to fix up the "" include for
+the cython outupt..
+
+But it should not be handled here in the cython module command
+
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
