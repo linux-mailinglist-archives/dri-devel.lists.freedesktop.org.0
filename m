@@ -1,57 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DE72CBB11
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 11:54:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F612CBBBF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 12:43:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EF056E9C7;
-	Wed,  2 Dec 2020 10:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF906EA0A;
+	Wed,  2 Dec 2020 11:43:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 511106E955
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 10:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1606906484;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bDhg0e54KqWItlIwVaNbMhY0EADw3VOU6X+TQ2UtJfw=;
- b=WlWlfCWxSbLiD3yKZ0Mui880oY6hPPf9OPjS7e03V54VJYFjcoILUikEPrmUiS6yYJJjsC
- Pyko3Kd2+GhwGmFMuCJsBCaycd7wdCXb1X7JmS4/CYy/89ULoCtpjqtrwz+dgCBfx+rnAo
- Ol3yAtHaeItk1VcIIQwSFo1AHS+mW2U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-RRy7KmE5MqW-gyiEFccctA-1; Wed, 02 Dec 2020 05:54:42 -0500
-X-MC-Unique: RRy7KmE5MqW-gyiEFccctA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DF73800D55;
- Wed,  2 Dec 2020 10:54:41 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-94.ams2.redhat.com
- [10.36.112.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0A319D80;
- Wed,  2 Dec 2020 10:54:41 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 32FDF17532; Wed,  2 Dec 2020 11:54:40 +0100 (CET)
-Date: Wed, 2 Dec 2020 11:54:40 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Gurchetan Singh <gurchetansingh@chromium.org>
-Subject: Re: [PATCH v3 1/3] drm/virtio: virtio_{blah} --> virtio_gpu_{blah}
-Message-ID: <20201202105440.2wlthj5wxnax4ptf@sirius.home.kraxel.org>
-References: <20201201021623.619-1-gurchetansingh@chromium.org>
+Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.178])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 430326EA0A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 11:42:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by netline-mail3.netline.ch (Postfix) with ESMTP id 31DB02A6045;
+ Wed,  2 Dec 2020 12:42:58 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
+Received: from netline-mail3.netline.ch ([127.0.0.1])
+ by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id wZ5dR-yCLF8y; Wed,  2 Dec 2020 12:42:57 +0100 (CET)
+Received: from thor (212.174.63.188.dynamic.wline.res.cust.swisscom.ch
+ [188.63.174.212])
+ by netline-mail3.netline.ch (Postfix) with ESMTPSA id DC3C42A6016;
+ Wed,  2 Dec 2020 12:42:57 +0100 (CET)
+Received: from localhost ([::1]) by thor with esmtp (Exim 4.94)
+ (envelope-from <michel@daenzer.net>)
+ id 1kkQXB-001yYM-1f; Wed, 02 Dec 2020 12:42:57 +0100
+To: James Park <jpark37@lagfreegames.com>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+Message-ID: <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
+Date: Wed, 2 Dec 2020 12:42:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201201021623.619-1-gurchetansingh@chromium.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+In-Reply-To: <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+Content-Language: en-CA
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,27 +51,19 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 30, 2020 at 06:16:21PM -0800, Gurchetan Singh wrote:
-> virtio_gpu typically uses the prefix virtio_gpu, but there are
-> a few places where the virtio prefix is used.  Modify this for
-> consistency.
-> 
-> v3: add r-b tags
-> 
-> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-> Reviewed-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-
-Pushed all to drm-misc-next.
-
-thanks,
-  Gerd
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMjAyMC0xMi0wMSAxMTowMSBhLm0uLCBKYW1lcyBQYXJrIHdyb3RlOgo+IFRoaXMgd2lsbCBh
+bGxvdyBNZXNhIHRvIHBvcnQgY29kZSB0byBXaW5kb3dzIG1vcmUgZWFzaWx5LgoKQXMgZGlzY3Vz
+c2VkIGluIApodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9tZXNhLy0vbWVyZ2Vf
+cmVxdWVzdHMvNjE2MiNub3RlXzcxMjc3OSAKLCBpbmNsdWRpbmcgZHJtLmggbWFrZXMgbm8gc2Vu
+c2Ugd2hlbiBidWlsZGluZyBmb3IgV2luZG93cy4KCgotLSAKRWFydGhsaW5nIE1pY2hlbCBEw6Ru
+emVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0dHBzOi8vcmVkaGF0LmNvbQpMaWJy
+ZSBzb2Z0d2FyZSBlbnRodXNpYXN0ICAgICAgICAgICAgIHwgICAgICAgICAgICAgTWVzYSBhbmQg
+WCBkZXZlbG9wZXIKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+Cmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVs
+Cg==
