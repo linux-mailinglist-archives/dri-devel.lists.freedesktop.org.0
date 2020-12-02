@@ -2,34 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D452CC19F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 17:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9342CC1D2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 17:15:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEC16EA55;
-	Wed,  2 Dec 2020 16:06:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169596EA49;
+	Wed,  2 Dec 2020 16:15:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1782 seconds by postgrey-1.36 at gabe;
- Wed, 02 Dec 2020 16:06:44 UTC
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED8A96EA55
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 16:06:44 +0000 (UTC)
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
- (Authenticated sender: paul.kocialkowski@bootlin.com)
- by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 40F5E40012;
- Wed,  2 Dec 2020 16:06:41 +0000 (UTC)
-Date: Wed, 2 Dec 2020 17:06:40 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH v7 2/3] drm: Add support for the LogiCVC display controller
-Message-ID: <X8e7kBx/OYpN2HqB@aptenodytes>
-References: <20201102155308.142691-1-paul.kocialkowski@bootlin.com>
- <20201102155308.142691-3-paul.kocialkowski@bootlin.com>
- <20201103094659.56sdcerwwzqu2gdy@gilmour.lan>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 859F76EA49
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 16:15:05 +0000 (UTC)
+IronPort-SDR: aH0pYoE14QjDES8Eb5tAwGM2bGLUHNKcSWrOufOorTKpeVTfASoO0wUfYNhrLxujX+/hqCVEST
+ 98E7BHzZitWw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="170474905"
+X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; 
+ d="gz'50?scan'50,208,50";a="170474905"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2020 08:14:54 -0800
+IronPort-SDR: TDvyp0jRJzO3noE5DDKZyUV1Ln032tTUuTbUF+vXUPt+wOsxsYFxr7ZiHNh/c/OqMOQ+IF89jN
+ 0omMxl0vzl9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; 
+ d="gz'50?scan'50,208,50";a="539749913"
+Received: from lkp-server01.sh.intel.com (HELO 54133fc185c3) ([10.239.97.150])
+ by fmsmga005.fm.intel.com with ESMTP; 02 Dec 2020 08:14:52 -0800
+Received: from kbuild by 54133fc185c3 with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1kkUmJ-0000Ca-I5; Wed, 02 Dec 2020 16:14:51 +0000
+Date: Thu, 3 Dec 2020 00:14:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: mdurnev@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, noralf@tronnes.org
+Subject: Re: [PATCH v2 2/3] drm/tiny: Add driver for ili9341 with parallel bus
+Message-ID: <202012030053.Jd9g07RF-lkp@intel.com>
+References: <1606777536-14783-3-git-send-email-mikhail_durnev@mentor.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103094659.56sdcerwwzqu2gdy@gilmour.lan>
+Content-Type: multipart/mixed; boundary="45Z9DzgjV8m4Oswq"
+Content-Disposition: inline
+In-Reply-To: <1606777536-14783-3-git-send-email-mikhail_durnev@mentor.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,2194 +57,591 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>
-Content-Type: multipart/mixed; boundary="===============1450444632=="
+Cc: clang-built-linux@googlegroups.com, kbuild-all@lists.01.org,
+ mikhail_durnev@mentor.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1450444632==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="8NEs3e9AvDpnH85A"
+--45Z9DzgjV8m4Oswq
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-
-
---8NEs3e9AvDpnH85A
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Tue 03 Nov 20, 10:46, Maxime Ripard wrote:
-> On Mon, Nov 02, 2020 at 04:53:07PM +0100, Paul Kocialkowski wrote:
-> > Introduces a driver for the LogiCVC display controller, a programmable
-> > logic controller optimized for use in Xilinx Zynq-7000 SoCs and other
-> > Xilinx FPGAs. The controller is mostly configured at logic synthesis
-> > time so only a subset of configuration is left for the driver to
-> > handle.
-> >=20
-> > The following features are implemented and tested:
-> > - LVDS 4-bit interface;
-> > - RGB565 pixel formats;
-> > - Multiple layers and hardware composition;
-> > - Layer-wide alpha mode;
-> >=20
-> > The following features are implemented but untested:
-> > - Other RGB pixel formats;
-> > - Layer framebuffer configuration for version 4;
-> > - Lowest-layer used as background color;
-> > - Per-pixel alpha mode.
-> >=20
-> > The following features are not implemented:
-> > - YUV pixel formats;
-> > - DVI, LVDS 3-bit, ITU656 and camera link interfaces;
-> > - External parallel input for layer;
-> > - Color-keying;
-> > - LUT-based alpha modes.
-> >=20
-> > Additional implementation-specific notes:
-> > - Panels are only enabled after the first page flip to avoid flashing a
-> >   white screen.
-> > - Depth used in context of the LogiCVC driver only counts color compone=
-nts
-> >   to match the definition of the synthesis parameters.
-> >=20
-> > Support is implemented for both version 3 and 4 of the controller.
-> >=20
-> > With version 3, framebuffers are stored in a dedicated contiguous
-> > memory area, with a base address hardcoded for each layer. This requires
-> > using a dedicated CMA pool registered at the base address and tweaking a
-> > few offset-related registers to try to use any buffer allocated from
-> > the pool. This is done on a best-effort basis to have the hardware cope
-> > with the DRM framebuffer allocation model and there is no guarantee
-> > that each buffer allocated by GEM CMA can be used for any layer.
-> > In particular, buffers allocated below the base address for a layer are
-> > guaranteed not to be configurable for that layer. See the implementatio=
-n of
-> > logicvc_layer_buffer_find_setup for specifics.
-> >=20
-> > Version 4 allows configuring each buffer address directly, which
-> > guarantees that any buffer can be configured.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
->=20
-> There's a bunch of checkpatch issues here
+Thank you for the patch! Yet something to improve:
 
-Okay, I'll take a look!
+[auto build test ERROR on linux/master]
+[also build test ERROR on drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next drm-tip/drm-tip linus/master v5.10-rc6 next-20201201]
+[cannot apply to drm/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-> > ---
-> >  MAINTAINERS                                 |   6 +
-> >  drivers/gpu/drm/Kconfig                     |   2 +
-> >  drivers/gpu/drm/Makefile                    |   1 +
-> >  drivers/gpu/drm/logicvc/Kconfig             |   9 +
-> >  drivers/gpu/drm/logicvc/Makefile            |   4 +
-> >  drivers/gpu/drm/logicvc/logicvc_crtc.c      | 277 +++++++++
-> >  drivers/gpu/drm/logicvc/logicvc_crtc.h      |  21 +
-> >  drivers/gpu/drm/logicvc/logicvc_drm.c       | 472 +++++++++++++++
-> >  drivers/gpu/drm/logicvc/logicvc_drm.h       |  64 ++
-> >  drivers/gpu/drm/logicvc/logicvc_interface.c | 224 +++++++
-> >  drivers/gpu/drm/logicvc/logicvc_interface.h |  30 +
-> >  drivers/gpu/drm/logicvc/logicvc_layer.c     | 615 ++++++++++++++++++++
-> >  drivers/gpu/drm/logicvc/logicvc_layer.h     |  64 ++
-> >  drivers/gpu/drm/logicvc/logicvc_mode.c      | 101 ++++
-> >  drivers/gpu/drm/logicvc/logicvc_mode.h      |  15 +
-> >  drivers/gpu/drm/logicvc/logicvc_of.c        | 197 +++++++
-> >  drivers/gpu/drm/logicvc/logicvc_of.h        |  46 ++
-> >  drivers/gpu/drm/logicvc/logicvc_regs.h      |  88 +++
-> >  18 files changed, 2236 insertions(+)
-> >  create mode 100644 drivers/gpu/drm/logicvc/Kconfig
-> >  create mode 100644 drivers/gpu/drm/logicvc/Makefile
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.c
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.h
-> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_regs.h
-> >=20
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 71e29dc0ab9d..9c4c5edef0ba 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -5522,6 +5522,12 @@ S:	Orphan / Obsolete
-> >  F:	drivers/gpu/drm/i810/
-> >  F:	include/uapi/drm/i810_drm.h
-> > =20
-> > +DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
-> > +M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +T:	git git://anongit.freedesktop.org/drm/drm-misc
-> > +S:	Supported
-> > +F:	drivers/gpu/drm/logicvc/
-> > +
->=20
-> Do you have the rights to commit in drm-misc or will you need it?
+url:    https://github.com/0day-ci/linux/commits/mdurnev-gmail-com/drm-mipi-dbi-Type-B-bus-support-drm-tiny-MRB2801/20201201-071109
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 09162bc32c880a791c6c0668ce0745cf7958f576
+config: riscv-randconfig-r024-20201202 (attached as .config)
+compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project 2671fccf0381769276ca8246ec0499adcb9b0355)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/6d76a991fa9d2c883126667b704c729eaa22df0e
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review mdurnev-gmail-com/drm-mipi-dbi-Type-B-bus-support-drm-tiny-MRB2801/20201201-071109
+        git checkout 6d76a991fa9d2c883126667b704c729eaa22df0e
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=riscv 
 
-Yes I think I still have the right to push, but it's probably better if
-someone else pushes the series ;)
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> > +static int logicvc_crtc_atomic_check(struct drm_crtc *drm_crtc,
-> > +				     struct drm_atomic_state *state)
-> > +{
-> > +	struct drm_crtc_state *crtc_state =3D
-> > +		drm_atomic_get_new_crtc_state(state, drm_crtc);
-> > +	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
-> > +		return -EINVAL;
-> > +
-> > +	return 0;
-> > +}
->=20
-> You probably want to have a mode_valid here to check for this as well,
-> it would be weird to expose a mode that we outright reject.
+All errors (new ones prefixed by >>):
 
-You're right, mode_valid looks like a more appropriate place to check this.
+>> drivers/gpu/drm/tiny/ili9341_gpio.c:157:14: error: use of undeclared identifier 'mipi_dbi_release'; did you mean 'mipi_dbi_hw_reset'?
+           .release                = mipi_dbi_release,
+                                     ^~~~~~~~~~~~~~~~
+                                     mipi_dbi_hw_reset
+   include/drm/drm_mipi_dbi.h:184:6: note: 'mipi_dbi_hw_reset' declared here
+   void mipi_dbi_hw_reset(struct mipi_dbi *dbi);
+        ^
+>> drivers/gpu/drm/tiny/ili9341_gpio.c:158:2: error: use of undeclared identifier 'DRM_GEM_CMA_VMAP_DRIVER_OPS'
+           DRM_GEM_CMA_VMAP_DRIVER_OPS,
+           ^
+>> drivers/gpu/drm/tiny/ili9341_gpio.c:192:8: error: implicit declaration of function 'devm_drm_dev_init' [-Werror,-Wimplicit-function-declaration]
+           ret = devm_drm_dev_init(dev, drm, &ili9341gpio_driver);
+                 ^
+   3 errors generated.
 
-> > +static void logicvc_crtc_atomic_begin(struct drm_crtc *drm_crtc,
-> > +				      struct drm_atomic_state *state)
-> > +{
-> > +	struct logicvc_crtc *crtc =3D logicvc_crtc(drm_crtc);
-> > +	struct drm_crtc_state *crtc_state =3D
-> > +		drm_atomic_get_old_crtc_state(state, drm_crtc);
-> > +	struct drm_device *drm_dev =3D drm_crtc->dev;
-> > +	unsigned long flags;
-> > +
-> > +	/* Register pending event, only if vblank is already on. */
-> > +	if (drm_crtc->state->event && crtc_state->active) {
-> > +		spin_lock_irqsave(&drm_dev->event_lock, flags);
-> > +		WARN_ON(drm_crtc_vblank_get(drm_crtc) !=3D 0);
-> > +
-> > +		crtc->event =3D drm_crtc->state->event;
-> > +		drm_crtc->state->event =3D NULL;
-> > +
-> > +		spin_unlock_irqrestore(&drm_dev->event_lock, flags);
-> > +	}
-> > +}
->=20
-> That's unusual to do it in atomic_begin, why do you need it?
+vim +157 drivers/gpu/drm/tiny/ili9341_gpio.c
 
-This is to cover the case where we need to send a page flip event but the
-crtc is already on. In that case, neither atomic_enable nor atomic_disable
-will be called so we need to rely on atomic_begin to grab that event.
-This happens for example when a single plane is updated.
+   153	
+   154	static struct drm_driver ili9341gpio_driver = {
+   155		.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+   156		.fops			= &ili9341gpio_fops,
+ > 157		.release		= mipi_dbi_release,
+ > 158		DRM_GEM_CMA_VMAP_DRIVER_OPS,
+   159		.debugfs_init		= mipi_dbi_debugfs_init,
+   160		.name			= "ili9341gpio",
+   161		.desc			= "Ilitek ILI9341",
+   162		.date			= "20201114",
+   163		.major			= 1,
+   164		.minor			= 0,
+   165	};
+   166	
+   167	static const struct of_device_id ili9341gpio_of_match[] = {
+   168		{ .compatible = "ronbo,mrb2801" },
+   169		{ }
+   170	};
+   171	MODULE_DEVICE_TABLE(of, ili9341gpio_of_match);
+   172	
+   173	static int ili9341gpio_probe(struct platform_device *pdev)
+   174	{
+   175		struct device *dev = &pdev->dev;
+   176		struct mipi_dbi_dev *dbidev;
+   177		struct drm_device *drm;
+   178		struct mipi_dbi *dbi;
+   179		struct gpio_desc *dc;
+   180		struct gpio_desc *wr;
+   181		struct gpio_descs *db;
+   182		u32 rotation = 0;
+   183		u32 wr_delays[2] = {15, 60};
+   184		int ret;
+   185	
+   186		dbidev = kzalloc(sizeof(*dbidev), GFP_KERNEL);
+   187		if (!dbidev)
+   188			return -ENOMEM;
+   189	
+   190		dbi = &dbidev->dbi;
+   191		drm = &dbidev->drm;
+ > 192		ret = devm_drm_dev_init(dev, drm, &ili9341gpio_driver);
+   193		if (ret) {
+   194			kfree(dbidev);
+   195			return ret;
+   196		}
+   197	
+   198		drm_mode_config_init(drm);
+   199	
+   200		dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+   201		if (IS_ERR(dbi->reset)) {
+   202			DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
+   203			return PTR_ERR(dbi->reset);
+   204		}
+   205	
+   206		dc = devm_gpiod_get(dev, "dc", GPIOD_OUT_HIGH);
+   207		if (IS_ERR(dc)) {
+   208			DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
+   209			return PTR_ERR(dc);
+   210		}
+   211	
+   212		wr = devm_gpiod_get(dev, "wr", GPIOD_OUT_HIGH);
+   213		if (IS_ERR(wr)) {
+   214			DRM_DEV_ERROR(dev, "Failed to get gpio 'wr'\n");
+   215			return PTR_ERR(wr);
+   216		}
+   217	
+   218		db = devm_gpiod_get_array(dev, "db", GPIOD_OUT_LOW);
+   219		if (IS_ERR(db)) {
+   220			DRM_DEV_ERROR(dev, "Failed to get gpio 'db'\n");
+   221			return PTR_ERR(db);
+   222		}
+   223		if (db->ndescs != 16 && db->ndescs != 8) {
+   224			/*
+   225			 * The data bus can be either 8 or 16 bits wide.
+   226			 * ILI9341 can work with 6, 8, 9, 16, and 18-bit parallel interfaces,
+   227			 * but the MRB2801 board supports only 8 or 16-bit interfaces.
+   228			 */
+   229			DRM_DEV_ERROR(dev, "Wrong number of bits in gpio 'db': %u\n", db->ndescs);
+   230			return PTR_ERR(db);
+   231		}
+   232	
+   233		dbidev->backlight = devm_of_find_backlight(dev);
+   234		if (IS_ERR(dbidev->backlight))
+   235			return PTR_ERR(dbidev->backlight);
+   236	
+   237		device_property_read_u32(dev, "rotation", &rotation);
+   238	
+   239		device_property_read_u32_array(dev, "wr-up-down-delays", wr_delays, 2);
+   240	
+   241		ret = mipi_dbi_gpio_init(dbi, dc, wr, db, wr_delays[0], wr_delays[1]);
+   242		if (ret)
+   243			return ret;
+   244	
+   245		ret = mipi_dbi_dev_init(dbidev, &ili9341gpio_pipe_funcs, &yx240qv29_mode, rotation);
+   246		if (ret)
+   247			return ret;
+   248	
+   249		drm_mode_config_reset(drm);
+   250	
+   251		ret = drm_dev_register(drm, 0);
+   252		if (ret)
+   253			return ret;
+   254	
+   255		platform_set_drvdata(pdev, drm);
+   256	
+   257		drm_fbdev_generic_setup(drm, 0);
+   258	
+   259		return 0;
+   260	}
+   261	
 
-The same thing is done in e.g. sun4i-drm.
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-> > +static void logicvc_crtc_atomic_enable(struct drm_crtc *drm_crtc,
-> > +				       struct drm_atomic_state *state)
-> > +{
-> > +	struct logicvc_crtc *crtc =3D logicvc_crtc(drm_crtc);
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_crtc->dev);
-> > +	struct drm_display_mode *mode =3D &drm_crtc->state->adjusted_mode;
->=20
-> You should use drm_atomic_get_new_crtc_state here, we're removing the
-> direct references of crtc->state to make it more obvious if we're using
-> the old or new state.
+--45Z9DzgjV8m4Oswq
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
-Okay, will do!
+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
 
-> > +	struct drm_crtc_state *crtc_state =3D
-> > +		drm_atomic_get_old_crtc_state(state, drm_crtc);
-> > +	struct drm_device *drm_dev =3D drm_crtc->dev;
-> > +	unsigned int hact, hfp, hsl, hbp;
-> > +	unsigned int vact, vfp, vsl, vbp;
-> > +	unsigned long flags;
-> > +	u32 ctrl;
-> > +
-> > +	/* Timings */
-> > +
-> > +	hact =3D mode->hdisplay;
-> > +	hfp =3D mode->hsync_start - mode->hdisplay;
-> > +	hsl =3D mode->hsync_end - mode->hsync_start;
-> > +	hbp =3D mode->htotal - mode->hsync_end;
-> > +
-> > +	vact =3D mode->vdisplay;
-> > +	vfp =3D mode->vsync_start - mode->vdisplay;
-> > +	vsl =3D mode->vsync_end - mode->vsync_start;
-> > +	vbp =3D mode->vtotal - mode->vsync_end;
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_HSYNC_FRONT_PORCH_REG, hfp - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_HSYNC_REG, hsl - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_HSYNC_BACK_PORCH_REG, hbp - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_HRES_REG, hact - 1);
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_VSYNC_FRONT_PORCH_REG, vfp - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_VSYNC_REG, vsl - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_VSYNC_BACK_PORCH_REG, vbp - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_VRES_REG, vact - 1);
-> > +
-> > +	/* Signals */
-> > +
-> > +	ctrl =3D LOGICVC_CTRL_HSYNC_ENABLE | LOGICVC_CTRL_VSYNC_ENABLE |
-> > +	       LOGICVC_CTRL_DE_ENABLE;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
-> > +		ctrl |=3D LOGICVC_CTRL_HSYNC_INVERT;
-> > +
-> > +	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-> > +		ctrl |=3D LOGICVC_CTRL_VSYNC_INVERT;
-> > +
-> > +	if (logicvc->interface) {
-> > +		struct drm_connector *connector =3D
-> > +			&logicvc->interface->drm_connector;
-> > +		struct drm_display_info *display_info =3D
-> > +			&connector->display_info;
-> > +
-> > +		if (display_info->bus_flags & DRM_BUS_FLAG_DE_LOW)
-> > +			ctrl |=3D LOGICVC_CTRL_DE_INVERT;
-> > +
-> > +		if (display_info->bus_flags &
-> > +		    DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
-> > +			ctrl |=3D LOGICVC_CTRL_CLOCK_INVERT;
-> > +	}
-> > +
-> > +	regmap_update_bits(logicvc->regmap, LOGICVC_CTRL_REG,
-> > +			   LOGICVC_CTRL_HSYNC_ENABLE |
-> > +			   LOGICVC_CTRL_HSYNC_INVERT |
-> > +			   LOGICVC_CTRL_VSYNC_ENABLE |
-> > +			   LOGICVC_CTRL_VSYNC_INVERT |
-> > +			   LOGICVC_CTRL_DE_ENABLE |
-> > +			   LOGICVC_CTRL_DE_INVERT |
-> > +			   LOGICVC_CTRL_PIXEL_INVERT |
-> > +			   LOGICVC_CTRL_CLOCK_INVERT, ctrl);
-> > +
-> > +	/* Generate internal state reset. */
-> > +	regmap_write(logicvc->regmap, LOGICVC_DTYPE_REG, 0);
-> > +
-> > +	drm_crtc_vblank_on(drm_crtc);
-> > +
-> > +	/* Register our event after vblank is enabled. */
-> > +	if (drm_crtc->state->event && !crtc_state->active) {
-> > +		spin_lock_irqsave(&drm_dev->event_lock, flags);
-> > +		WARN_ON(drm_crtc_vblank_get(drm_crtc) !=3D 0);
-> > +
-> > +		crtc->event =3D drm_crtc->state->event;
-> > +		drm_crtc->state->event =3D NULL;
-> > +		spin_unlock_irqrestore(&drm_dev->event_lock, flags);
-> > +	}
->=20
-> Haven't you done that in atomic_begin already?
-
-No, atomic_begin grabs a page flip event when the CRTC is already enabled.
-This will grab it when the CRTC was previously disabled and we are now
-enabling it. Maybe both cases could be merged into atomic_begin since it's
-called in both situations.
-
-> > +}
-> > +
-> > +static void logicvc_crtc_atomic_disable(struct drm_crtc *drm_crtc,
-> > +					struct drm_atomic_state *state)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_crtc->dev);
-> > +	struct drm_device *drm_dev =3D drm_crtc->dev;
-> > +
-> > +	drm_crtc_vblank_off(drm_crtc);
-> > +
-> > +	/* Disable and clear CRTC bits. */
-> > +	regmap_update_bits(logicvc->regmap, LOGICVC_CTRL_REG,
-> > +			   LOGICVC_CTRL_HSYNC_ENABLE |
-> > +			   LOGICVC_CTRL_HSYNC_INVERT |
-> > +			   LOGICVC_CTRL_VSYNC_ENABLE |
-> > +			   LOGICVC_CTRL_VSYNC_INVERT |
-> > +			   LOGICVC_CTRL_DE_ENABLE |
-> > +			   LOGICVC_CTRL_DE_INVERT |
-> > +			   LOGICVC_CTRL_PIXEL_INVERT |
-> > +			   LOGICVC_CTRL_CLOCK_INVERT, 0);
-> > +
-> > +	/* Generate internal state reset. */
-> > +	regmap_write(logicvc->regmap, LOGICVC_DTYPE_REG, 0);
-> > +
-> > +	/* Consume leftover event since vblank is now disabled. */
-> > +	if (drm_crtc->state->event && !drm_crtc->state->active) {
-> > +		spin_lock_irq(&drm_dev->event_lock);
-> > +
-> > +		drm_crtc_send_vblank_event(drm_crtc, drm_crtc->state->event);
-> > +		drm_crtc->state->event =3D NULL;
-> > +		spin_unlock_irq(&drm_dev->event_lock);
-> > +	}
->=20
-> And here too. It's definitely worth explaining in the commit log and /
-> or comments what you're trying to address.
-
-Well, there are already comments there but maybe the one in atomic_begin wo=
-uld
-need more details to be explicit. In any case, the three blocks cover the
-three distinct cases that can happen:
-- page flip is requested and CRTC was already enabled
-- page flip is requested and CRTC is getting enabled
-- page flip is requested and CRTC is getting disabled
-
-> > +}
-> > +
-> > +static const struct drm_crtc_helper_funcs logicvc_crtc_helper_funcs =
-=3D {
-> > +	.atomic_check		=3D logicvc_crtc_atomic_check,
-> > +	.atomic_begin		=3D logicvc_crtc_atomic_begin,
-> > +	.atomic_enable		=3D logicvc_crtc_atomic_enable,
-> > +	.atomic_disable		=3D logicvc_crtc_atomic_disable,
-> > +};
-> > +
-> > +static int logicvc_crtc_enable_vblank(struct drm_crtc *drm_crtc)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_crtc->dev);
-> > +
-> > +	/* Clear any pending V_SYNC interrupt. */
-> > +	regmap_write_bits(logicvc->regmap, LOGICVC_INT_STAT_REG,
-> > +			  LOGICVC_INT_STAT_V_SYNC, LOGICVC_INT_STAT_V_SYNC);
-> > +
-> > +	/* Unmask V_SYNC interrupt. */
-> > +	regmap_write_bits(logicvc->regmap, LOGICVC_INT_MASK_REG,
-> > +			  LOGICVC_INT_MASK_V_SYNC, 0);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void logicvc_crtc_disable_vblank(struct drm_crtc *drm_crtc)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_crtc->dev);
-> > +
-> > +	/* Mask V_SYNC interrupt. */
-> > +	regmap_write_bits(logicvc->regmap, LOGICVC_INT_MASK_REG,
-> > +			  LOGICVC_INT_MASK_V_SYNC, LOGICVC_INT_MASK_V_SYNC);
-> > +}
-> > +
-> > +static const struct drm_crtc_funcs logicvc_crtc_funcs =3D {
-> > +	.reset			=3D drm_atomic_helper_crtc_reset,
-> > +	.destroy		=3D drm_crtc_cleanup,
-> > +	.set_config		=3D drm_atomic_helper_set_config,
-> > +	.page_flip		=3D drm_atomic_helper_page_flip,
-> > +	.atomic_duplicate_state	=3D drm_atomic_helper_crtc_duplicate_state,
-> > +	.atomic_destroy_state	=3D drm_atomic_helper_crtc_destroy_state,
-> > +	.enable_vblank		=3D logicvc_crtc_enable_vblank,
-> > +	.disable_vblank		=3D logicvc_crtc_disable_vblank,
-> > +};
-> > +
-> > +void logicvc_crtc_vblank_handler(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct logicvc_crtc *crtc =3D logicvc->crtc;
-> > +	unsigned long flags;
-> > +
-> > +	if (!crtc)
-> > +		return;
-> > +
-> > +	drm_crtc_handle_vblank(&crtc->drm_crtc);
-> > +
-> > +	if (crtc->event) {
-> > +		spin_lock_irqsave(&drm_dev->event_lock, flags);
-> > +		drm_crtc_send_vblank_event(&crtc->drm_crtc, crtc->event);
-> > +		drm_crtc_vblank_put(&crtc->drm_crtc);
-> > +		crtc->event =3D NULL;
-> > +		spin_unlock_irqrestore(&drm_dev->event_lock, flags);
-> > +	}
-> > +}
-> > +
-> > +int logicvc_crtc_init(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +	struct device_node *of_node =3D dev->of_node;
-> > +	struct logicvc_crtc *crtc;
-> > +	struct logicvc_layer *layer_primary;
-> > +	int ret;
-> > +
-> > +	crtc =3D devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
-> > +	if (!crtc)
-> > +		return -ENOMEM;
-> > +
-> > +	layer_primary =3D logicvc_layer_get_primary(logicvc);
-> > +	if (!layer_primary) {
-> > +		DRM_ERROR("Failed to get primary layer\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	ret =3D drm_crtc_init_with_planes(drm_dev, &crtc->drm_crtc,
-> > +					&layer_primary->drm_plane, NULL,
-> > +					&logicvc_crtc_funcs, NULL);
-> > +	if (ret) {
-> > +		DRM_ERROR("Failed to initalize CRTC\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	drm_crtc_helper_add(&crtc->drm_crtc, &logicvc_crtc_helper_funcs);
-> > +
-> > +	crtc->drm_crtc.port =3D of_graph_get_port_by_id(of_node, 1);
-> > +
-> > +	logicvc->crtc =3D crtc;
-> > +
-> > +	return 0;
-> > +}
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.h b/drivers/gpu/drm/l=
-ogicvc/logicvc_crtc.h
-> > new file mode 100644
-> > index 000000000000..6a1291c37704
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_crtc.h
-> > @@ -0,0 +1,21 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _LOGICVC_CRTC_H_
-> > +#define _LOGICVC_CRTC_H_
-> > +
-> > +struct drm_pending_vblank_event;
-> > +struct logicvc_drm;
-> > +
-> > +struct logicvc_crtc {
-> > +	struct drm_crtc drm_crtc;
-> > +	struct drm_pending_vblank_event *event;
-> > +};
-> > +
-> > +void logicvc_crtc_vblank_handler(struct logicvc_drm *logicvc);
-> > +int logicvc_crtc_init(struct logicvc_drm *logicvc);
-> > +
-> > +#endif
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/lo=
-gicvc/logicvc_drm.c
-> > new file mode 100644
-> > index 000000000000..b73e92fb2026
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> > @@ -0,0 +1,472 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/mfd/syscon.h>
-> > +#include <linux/module.h>
-> > +#include <linux/of.h>
-> > +#include <linux/of_address.h>
-> > +#include <linux/of_device.h>
-> > +#include <linux/of_reserved_mem.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_fb_helper.h>
-> > +#include <drm/drm_gem_cma_helper.h>
-> > +#include <drm/drm_print.h>
-> > +
-> > +#include "logicvc_crtc.h"
-> > +#include "logicvc_drm.h"
-> > +#include "logicvc_interface.h"
-> > +#include "logicvc_mode.h"
-> > +#include "logicvc_layer.h"
-> > +#include "logicvc_of.h"
-> > +#include "logicvc_regs.h"
-> > +
-> > +DEFINE_DRM_GEM_CMA_FOPS(logicvc_drm_fops);
-> > +
-> > +static int logicvc_drm_gem_cma_dumb_create(struct drm_file *file_priv,
-> > +					   struct drm_device *drm_dev,
-> > +					   struct drm_mode_create_dumb *args)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_dev);
-> > +
-> > +	/* Stride is always fixed to its configuration value. */
-> > +	args->pitch =3D logicvc->config.row_stride * DIV_ROUND_UP(args->bpp, =
-8);
-> > +
-> > +	return drm_gem_cma_dumb_create_internal(file_priv, drm_dev, args);
-> > +}
-> > +
-> > +static struct drm_driver logicvc_drm_driver =3D {
-> > +	.driver_features		=3D DRIVER_GEM | DRIVER_MODESET |
-> > +					  DRIVER_ATOMIC,
-> > +
-> > +	.fops				=3D &logicvc_drm_fops,
-> > +	.name				=3D "logicvc-drm",
-> > +	.desc				=3D "Xylon LogiCVC DRM driver",
-> > +	.date				=3D "20200403",
-> > +	.major				=3D 1,
-> > +	.minor				=3D 0,
-> > +
-> > +	DRM_GEM_CMA_DRIVER_OPS_VMAP_WITH_DUMB_CREATE(logicvc_drm_gem_cma_dumb=
-_create),
-> > +};
-> > +
-> > +static struct regmap_config logicvc_drm_regmap_config =3D {
-> > +	.reg_bits	=3D 32,
-> > +	.val_bits	=3D 32,
-> > +	.reg_stride	=3D 4,
-> > +	.name		=3D "logicvc-drm",
-> > +};
-> > +
-> > +static irqreturn_t logicvc_drm_irq_handler(int irq, void *data)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D data;
-> > +	irqreturn_t ret =3D IRQ_NONE;
-> > +	u32 stat =3D 0;
-> > +
-> > +	/* Get pending interrupt sources. */
-> > +	regmap_read(logicvc->regmap, LOGICVC_INT_STAT_REG, &stat);
-> > +
-> > +	/* Clear all pending interrupt sources. */
-> > +	regmap_write(logicvc->regmap, LOGICVC_INT_STAT_REG, stat);
-> > +
-> > +	if (stat & LOGICVC_INT_STAT_V_SYNC) {
-> > +		logicvc_crtc_vblank_handler(logicvc);
-> > +		ret =3D IRQ_HANDLED;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int logicvc_drm_config_parse(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +	struct device_node *of_node =3D dev->of_node;
-> > +	struct logicvc_drm_config *config =3D &logicvc->config;
-> > +	struct device_node *layers_node;
-> > +	int ret;
-> > +
-> > +	logicvc_of_property_parse_bool(of_node, LOGICVC_OF_PROPERTY_DITHERING,
-> > +				       &config->dithering);
-> > +	logicvc_of_property_parse_bool(of_node,
-> > +				       LOGICVC_OF_PROPERTY_BACKGROUND_LAYER,
-> > +				       &config->background_layer);
-> > +	logicvc_of_property_parse_bool(of_node,
-> > +				       LOGICVC_OF_PROPERTY_LAYERS_CONFIGURABLE,
-> > +				       &config->layers_configurable);
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_DISPLAY_INTERFACE,
-> > +					    &config->display_interface);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_DISPLAY_COLORSPACE,
-> > +					    &config->display_colorspace);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_DISPLAY_DEPTH,
-> > +					    &config->display_depth);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_ROW_STRIDE,
-> > +					    &config->row_stride);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	layers_node =3D of_get_child_by_name(of_node, "layers");
-> > +	if (!layers_node) {
-> > +		DRM_ERROR("Missing non-optional layers node\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	config->layers_count =3D of_get_child_count(layers_node);
-> > +	if (!config->layers_count) {
-> > +		DRM_ERROR("Missing a non-optional layers children node\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void logicvc_version_print(struct logicvc_drm *logicvc)
-> > +{
-> > +	u32 version;
-> > +
-> > +	regmap_read(logicvc->regmap, LOGICVC_IP_VERSION_REG, &version);
-> > +
-> > +	DRM_INFO("LogiCVC version %d.%02d.%c\n",
-> > +		 (int)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_MAJOR, version),
-> > +		 (int)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_MINOR, version),
-> > +		 (char)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_LEVEL, version) +
-> > +		 'a');
->=20
-> DRM_DEV_INFO?
-
-Okay but now according to Sam, "DRM_DEV_ERROR() and friends are deprecated"
-so I wonder which is the right one to use at this point.
-
-> > +}
-> > +
-> > +static int logicvc_clocks_prepare(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +
-> > +	struct {
-> > +		struct clk **clk;
-> > +		char *name;
-> > +		bool optional;
-> > +	} clocks_map[] =3D {
-> > +		{
-> > +			.clk =3D &logicvc->vclk,
-> > +			.name =3D "vclk",
-> > +			.optional =3D false,
-> > +		},
-> > +		{
-> > +			.clk =3D &logicvc->vclk2,
-> > +			.name =3D "vclk2",
-> > +			.optional =3D true,
-> > +		},
-> > +		{
-> > +			.clk =3D &logicvc->lvdsclk,
-> > +			.name =3D "lvdsclk",
-> > +			.optional =3D true,
-> > +		},
-> > +		{
-> > +			.clk =3D &logicvc->lvdsclkn,
-> > +			.name =3D "lvdsclkn",
-> > +			.optional =3D true,
-> > +		},
-> > +	};
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(clocks_map); i++) {
-> > +		struct clk *clk;
-> > +
-> > +		clk =3D devm_clk_get(dev, clocks_map[i].name);
-> > +		if (IS_ERR(clk)) {
-> > +			if (PTR_ERR(clk) =3D=3D -ENOENT && clocks_map[i].optional)
-> > +				continue;
-> > +
-> > +			DRM_ERROR("Missing non-optional clock %s\n",
-> > +				  clocks_map[i].name);
-> > +
-> > +			ret =3D PTR_ERR(clk);
-> > +			goto error;
-> > +		}
-> > +
-> > +		ret =3D clk_prepare_enable(clk);
-> > +		if (ret) {
-> > +			DRM_ERROR("Failed to prepare and enable clock %s\n",
-> > +				  clocks_map[i].name);
-> > +			goto error;
-> > +		}
-> > +
-> > +		*clocks_map[i].clk =3D clk;
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	for (i =3D 0; i < ARRAY_SIZE(clocks_map); i++) {
-> > +		if (!*clocks_map[i].clk)
-> > +			continue;
-> > +
-> > +		clk_disable_unprepare(*clocks_map[i].clk);
-> > +		*clocks_map[i].clk =3D NULL;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int logicvc_clocks_unprepare(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct clk **clocks[] =3D {
-> > +		&logicvc->vclk,
-> > +		&logicvc->vclk2,
-> > +		&logicvc->lvdsclk,
-> > +		&logicvc->lvdsclkn,
-> > +	};
-> > +	unsigned int i;
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(clocks); i++) {
-> > +		if (!*clocks[i])
-> > +			continue;
-> > +
-> > +		clk_disable_unprepare(*clocks[i]);
-> > +		*clocks[i] =3D NULL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int logicvc_drm_probe(struct platform_device *pdev)
-> > +{
-> > +	struct device_node *of_node =3D pdev->dev.of_node;
-> > +	struct device_node *reserved_mem_node;
-> > +	struct reserved_mem *reserved_mem =3D NULL;
-> > +	const struct logicvc_drm_caps *caps;
-> > +	struct logicvc_drm *logicvc;
-> > +	struct device *dev =3D &pdev->dev;
-> > +	struct drm_device *drm_dev;
-> > +	struct regmap *regmap;
-> > +	struct resource res;
-> > +	void __iomem *base;
-> > +	int irq;
-> > +	int ret;
-> > +
-> > +	caps =3D of_device_get_match_data(dev);
-> > +	if (!caps)
-> > +		return -EINVAL;
-> > +
-> > +	ret =3D of_reserved_mem_device_init(dev);
-> > +	if (ret && ret !=3D -ENODEV) {
-> > +		dev_err(dev, "Failed to init memory region\n");
-> > +		goto error_early;
-> > +	}
-> > +
-> > +	reserved_mem_node =3D of_parse_phandle(of_node, "memory-region", 0);
-> > +	if (reserved_mem_node) {
-> > +		reserved_mem =3D of_reserved_mem_lookup(reserved_mem_node);
-> > +		of_node_put(reserved_mem_node);
-> > +	}
-> > +
-> > +	/* Get regmap from syscon first if available. */
-> > +	regmap =3D syscon_regmap_lookup_by_phandle(of_node, "xylon,syscon");
-> > +
-> > +	/* Then get regmap from parent if available. */
-> > +	if (IS_ERR(regmap) && of_node->parent)
-> > +		regmap =3D syscon_node_to_regmap(of_node->parent);
-> > +
-> > +	/* Register our own regmap otherwise. */
-> > +	if (IS_ERR(regmap)) {
-> > +		ret =3D of_address_to_resource(of_node, 0, &res);
-> > +		if (ret) {
-> > +			dev_err(dev, "Failed to get resource from address\n");
-> > +			goto error_reserved_mem;
-> > +		}
-> > +
-> > +		base =3D devm_ioremap_resource(dev, &res);
-> > +		if (IS_ERR(base)) {
-> > +			dev_err(dev, "Failed to map I/O base\n");
-> > +			ret =3D PTR_ERR(base);
-> > +			goto error_reserved_mem;
-> > +		}
-> > +
-> > +		logicvc_drm_regmap_config.max_register =3D resource_size(&res) -
-> > +							 4;
-> > +
-> > +		regmap =3D devm_regmap_init_mmio(dev, base,
-> > +					       &logicvc_drm_regmap_config);
-> > +		if (IS_ERR(regmap)) {
-> > +			dev_err(dev, "Failed to create regmap for I/O\n");
-> > +			ret =3D PTR_ERR(regmap);
-> > +			goto error_reserved_mem;
-> > +		}
-> > +	}
-> > +
-> > +	irq =3D platform_get_irq(pdev, 0);
-> > +	if (irq < 0) {
-> > +		dev_err(dev, "Failed to get IRQ\n");
-> > +		ret =3D -ENODEV;
-> > +		goto error_reserved_mem;
-> > +	}
-> > +
-> > +	logicvc =3D devm_drm_dev_alloc(dev, &logicvc_drm_driver,
-> > +				     struct logicvc_drm, drm_dev);
-> > +	if (IS_ERR(logicvc)) {
-> > +		ret =3D PTR_ERR(logicvc);
-> > +		goto error_reserved_mem;
-> > +	}
-> > +
-> > +	platform_set_drvdata(pdev, logicvc);
-> > +	drm_dev =3D &logicvc->drm_dev;
-> > +
-> > +	logicvc->caps =3D caps;
-> > +	logicvc->regmap =3D regmap;
-> > +	INIT_LIST_HEAD(&logicvc->layers_list);
-> > +
-> > +	if (reserved_mem)
-> > +		logicvc->reserved_mem_base =3D reserved_mem->base;
-> > +
-> > +	ret =3D logicvc_clocks_prepare(logicvc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to prepare clocks\n");
-> > +		goto error_logicvc;
-> > +	}
-> > +
-> > +	ret =3D devm_request_irq(dev, irq, logicvc_drm_irq_handler, 0,
-> > +			       dev_name(dev), logicvc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to request IRQ\n");
-> > +		goto error_clocks;
-> > +	}
->=20
-> have you considered drm_irq_install?
-
-I did and concluded that there is no particular advantage in using that,
-only unnecessary code overhead. But maybe I'm missing something here.
-
-> > +
-> > +	logicvc_version_print(logicvc);
-> > +
-> > +	ret =3D logicvc_drm_config_parse(logicvc);
-> > +	if (ret && ret !=3D -ENODEV) {
-> > +		drm_err(drm_dev, "Failed to parse config\n");
-> > +		goto error_clocks;
-> > +	}
-> > +
-> > +	drm_mode_config_init(drm_dev);
->=20
-> You're supposed to call drm_mode_config_cleanup when using
-> drm_mode_config_init. You'd be better off switching to
-> drmm_mode_config_init though.
-
-Okay I'll look into it.
-
-> > +	ret =3D logicvc_layers_init(logicvc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initialize layers\n");
-> > +		goto error_clocks;
-> > +	}
-> > +
-> > +	ret =3D logicvc_crtc_init(logicvc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initialize CRTC\n");
-> > +		goto error_clocks;
-> > +	}
-> > +
-> > +	logicvc_layers_attach_crtc(logicvc);
-> > +
-> > +	ret =3D logicvc_interface_init(logicvc);
-> > +	if (ret) {
-> > +		if (ret !=3D -EPROBE_DEFER)
-> > +			drm_err(drm_dev, "Failed to initialize interface\n");
-> > +
-> > +		goto error_clocks;
-> > +	}
-> > +
-> > +	logicvc_interface_attach_crtc(logicvc);
-> > +
-> > +	ret =3D logicvc_mode_init(logicvc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initialize KMS\n");
-> > +		goto error_clocks;
-> > +	}
-> > +
-> > +	ret =3D drm_dev_register(drm_dev, 0);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to register DRM device\n");
-> > +		goto error_mode;
-> > +	}
-> > +
-> > +	drm_fbdev_generic_setup(drm_dev, drm_dev->mode_config.preferred_depth=
-);
-> > +
-> > +	return 0;
-> > +
-> > +error_mode:
-> > +	logicvc_mode_fini(logicvc);
-> > +
-> > +error_clocks:
-> > +	logicvc_clocks_unprepare(logicvc);
-> > +
-> > +error_logicvc:
-> > +	drm_dev_put(drm_dev);
->=20
-> You don't need drm_dev_put with devm_drm_dev_alloc
-
-Ah right, thanks.
-
-> > +error_reserved_mem:
-> > +	of_reserved_mem_device_release(dev);
-> > +
-> > +error_early:
-> > +	return ret;
-> > +}
-> > +
-> > +static int logicvc_drm_remove(struct platform_device *pdev)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D platform_get_drvdata(pdev);
-> > +	struct device *dev =3D &pdev->dev;
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +
-> > +	drm_dev_unregister(drm_dev);
-> > +	drm_atomic_helper_shutdown(drm_dev);
-> > +
-> > +	logicvc_mode_fini(logicvc);
-> > +
-> > +	logicvc_clocks_unprepare(logicvc);
-> > +
-> > +	drm_dev_put(drm_dev);
->=20
-> Ditto
->=20
-> > +	of_reserved_mem_device_release(dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct logicvc_drm_caps logicvc_drm_caps_3 =3D {
-> > +	.layer_address =3D false,
-> > +};
-> > +
-> > +static const struct logicvc_drm_caps logicvc_drm_caps_4 =3D {
-> > +	.layer_address =3D true,
-> > +};
-> > +
-> > +static struct of_device_id logicvc_drm_of_table[] =3D {
-> > +	{
-> > +		.compatible =3D "xylon,logicvc-3.02.a-display",
-> > +		.data =3D &logicvc_drm_caps_3,
-> > +	},
-> > +	{
-> > +		.compatible =3D "xylon,logicvc-4.01.a-display",
-> > +		.data =3D &logicvc_drm_caps_4,
-> > +	},
-> > +	{ },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, logicvc_drm_of_table);
-> > +
-> > +static struct platform_driver logicvc_drm_platform_driver =3D {
-> > +	.probe		=3D logicvc_drm_probe,
-> > +	.remove		=3D logicvc_drm_remove,
-> > +	.driver		=3D {
-> > +		.name		=3D "logicvc-drm",
-> > +		.of_match_table	=3D logicvc_drm_of_table,
-> > +	},
-> > +};
-> > +
-> > +module_platform_driver(logicvc_drm_platform_driver);
-> > +
-> > +MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
-> > +MODULE_DESCRIPTION("Xylon LogiCVC DRM driver");
-> > +MODULE_LICENSE("GPL");
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.h b/drivers/gpu/drm/lo=
-gicvc/logicvc_drm.h
-> > new file mode 100644
-> > index 000000000000..68bbac6c4ab9
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_drm.h
-> > @@ -0,0 +1,64 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _LOGICVC_DRM_H_
-> > +#define _LOGICVC_DRM_H_
-> > +
-> > +#include <linux/regmap.h>
-> > +#include <linux/types.h>
-> > +#include <drm/drm_device.h>
-> > +
-> > +#define LOGICVC_DISPLAY_INTERFACE_RGB			0
-> > +#define LOGICVC_DISPLAY_INTERFACE_ITU656		1
-> > +#define LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS		2
-> > +#define LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS_CAMERA	3
-> > +#define LOGICVC_DISPLAY_INTERFACE_LVDS_3BITS		4
-> > +#define LOGICVC_DISPLAY_INTERFACE_DVI			5
-> > +
-> > +#define LOGICVC_DISPLAY_COLORSPACE_RGB		0
-> > +#define LOGICVC_DISPLAY_COLORSPACE_YUV422	1
-> > +#define LOGICVC_DISPLAY_COLORSPACE_YUV444	2
-> > +
-> > +#define logicvc_drm(d) \
-> > +	container_of(d, struct logicvc_drm, drm_dev)
-> > +
-> > +struct logicvc_crtc;
-> > +struct logicvc_interface;
-> > +
-> > +struct logicvc_drm_config {
-> > +	u32 display_interface;
-> > +	u32 display_colorspace;
-> > +	u32 display_depth;
-> > +	u32 row_stride;
-> > +	bool dithering;
-> > +	bool background_layer;
-> > +	bool layers_configurable;
-> > +	u32 layers_count;
-> > +};
-> > +
-> > +struct logicvc_drm_caps {
-> > +	bool layer_address;
-> > +};
-> > +
-> > +struct logicvc_drm {
-> > +	const struct logicvc_drm_caps *caps;
-> > +	struct logicvc_drm_config config;
-> > +
-> > +	struct drm_device drm_dev;
-> > +	phys_addr_t reserved_mem_base;
-> > +	struct regmap *regmap;
-> > +
-> > +	struct clk *vclk;
-> > +	struct clk *vclk2;
-> > +	struct clk *lvdsclk;
-> > +	struct clk *lvdsclkn;
-> > +
-> > +	struct list_head layers_list;
-> > +	struct logicvc_crtc *crtc;
-> > +	struct logicvc_interface *interface;
-> > +};
-> > +
-> > +#endif
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_interface.c b/drivers/gpu/=
-drm/logicvc/logicvc_interface.c
-> > new file mode 100644
-> > index 000000000000..0cfded3792d8
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_interface.c
-> > @@ -0,0 +1,224 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_connector.h>
-> > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_encoder.h>
-> > +#include <drm/drm_gem_cma_helper.h>
-> > +#include <drm/drm_modeset_helper_vtables.h>
-> > +#include <drm/drm_of.h>
-> > +#include <drm/drm_panel.h>
-> > +#include <drm/drm_print.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +
-> > +#include "logicvc_crtc.h"
-> > +#include "logicvc_drm.h"
-> > +#include "logicvc_interface.h"
-> > +#include "logicvc_regs.h"
-> > +
-> > +#define logicvc_interface_from_drm_encoder(c) \
-> > +	container_of(c, struct logicvc_interface, drm_encoder)
-> > +#define logicvc_interface_from_drm_connector(c) \
-> > +	container_of(c, struct logicvc_interface, drm_connector)
-> > +
-> > +static void logicvc_encoder_enable(struct drm_encoder *drm_encoder)
-> > +{
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_encoder->dev);
-> > +	struct logicvc_interface *interface =3D
-> > +		logicvc_interface_from_drm_encoder(drm_encoder);
-> > +
-> > +	regmap_update_bits(logicvc->regmap, LOGICVC_POWER_CTRL_REG,
-> > +			   LOGICVC_POWER_CTRL_VIDEO_ENABLE,
-> > +			   LOGICVC_POWER_CTRL_VIDEO_ENABLE);
-> > +
-> > +	if (interface->drm_panel) {
-> > +		drm_panel_prepare(interface->drm_panel);
-> > +
-> > +		/* Encoder enable is too early to enable the panel and a white
-> > +		 * screen will be seen if the panel gets enabled before the
-> > +		 * first page flip is done (and no other framebuffer
-> > +		 * configuration remains from the boot software). */
-> > +		interface->drm_panel_enabled =3D false;
-> > +	}
-> > +}
->=20
-> That's fishy (and the similar stuff in commit_tail). Is it because you
-> need to have the CRTC powered before the encoder?
->=20
-> If so, you should try the commit_tail_rpm variant, it makes sure the
-> CRTC is powered on before making a commit.
-
-No, this is unrelated to CRTC vs encoder enable order. Instead, it's about
-panel enable order: I don't want to enable the panel before a buffer was
-flipped on the CRTC otherwise a blank/white/garbage screen will be shown.
-
-This is why this drm_panel_enabled variable is used to make sure we don't
-enable the panel before.
-
-This is nothing specific to my hardware, but a general concern that probably
-exists in every DRM driver. Nobody really seems to care about it but I've
-decided that I would in this driver. Now if you think this is too exotic,
-I don't mind removing it.
-
-> > +static void logicvc_encoder_disable(struct drm_encoder *drm_encoder)
-> > +{
-> > +	struct logicvc_interface *interface =3D
-> > +		logicvc_interface_from_drm_encoder(drm_encoder);
-> > +
-> > +	if (interface->drm_panel) {
-> > +		drm_panel_disable(interface->drm_panel);
-> > +		drm_panel_unprepare(interface->drm_panel);
-> > +	}
-> > +}
-> > +
-> > +static const struct drm_encoder_helper_funcs logicvc_encoder_helper_fu=
-ncs =3D {
-> > +	.enable			=3D logicvc_encoder_enable,
-> > +	.disable		=3D logicvc_encoder_disable,
-> > +};
-> > +
-> > +static const struct drm_encoder_funcs logicvc_encoder_funcs =3D {
-> > +	.destroy		=3D drm_encoder_cleanup,
-> > +};
-> > +
-> > +static int logicvc_connector_get_modes(struct drm_connector *drm_conne=
-ctor)
-> > +{
-> > +	struct logicvc_interface *interface =3D
-> > +		logicvc_interface_from_drm_connector(drm_connector);
-> > +
-> > +	if (interface->drm_panel)
-> > +		return drm_panel_get_modes(interface->drm_panel, drm_connector);
-> > +	else
-> > +		WARN_ONCE(1, "Retrieving modes from a native connector is not implem=
-ented.");
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct drm_connector_helper_funcs logicvc_connector_helpe=
-r_funcs =3D {
-> > +	.get_modes		=3D logicvc_connector_get_modes,
-> > +};
-> > +
-> > +static void logicvc_connector_destroy(struct drm_connector *drm_connec=
-tor)
-> > +{
-> > +	drm_connector_cleanup(drm_connector);
-> > +}
->=20
-> I guess you don't need that intermediate function?
-
-I would need to check if that call is necessary or if some implied mechanism
-calls it for me already.
-
-> > +static const struct drm_connector_funcs logicvc_connector_funcs =3D {
-> > +	.reset			=3D drm_atomic_helper_connector_reset,
-> > +	.fill_modes		=3D drm_helper_probe_single_connector_modes,
-> > +	.destroy		=3D logicvc_connector_destroy,
-> > +	.atomic_duplicate_state	=3D drm_atomic_helper_connector_duplicate_sta=
-te,
-> > +	.atomic_destroy_state	=3D drm_atomic_helper_connector_destroy_state,
-> > +};
-> > +
-> > +static int logicvc_interface_encoder_type(struct logicvc_drm *logicvc)
-> > +{
-> > +	switch (logicvc->config.display_interface) {
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS:
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS_CAMERA:
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_3BITS:
-> > +		return DRM_MODE_ENCODER_LVDS;
-> > +	case LOGICVC_DISPLAY_INTERFACE_DVI:
-> > +		return DRM_MODE_ENCODER_TMDS;
-> > +	case LOGICVC_DISPLAY_INTERFACE_RGB:
-> > +		return DRM_MODE_ENCODER_DPI;
-> > +	default:
-> > +		return DRM_MODE_ENCODER_NONE;
-> > +	}
-> > +}
-> > +
-> > +static int logicvc_interface_connector_type(struct logicvc_drm *logicv=
-c)
-> > +{
-> > +	switch (logicvc->config.display_interface) {
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS:
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_4BITS_CAMERA:
-> > +	case LOGICVC_DISPLAY_INTERFACE_LVDS_3BITS:
-> > +		return DRM_MODE_CONNECTOR_LVDS;
-> > +	case LOGICVC_DISPLAY_INTERFACE_DVI:
-> > +		return DRM_MODE_CONNECTOR_DVID;
-> > +	case LOGICVC_DISPLAY_INTERFACE_RGB:
-> > +		return DRM_MODE_CONNECTOR_DPI;
-> > +	default:
-> > +		return DRM_MODE_CONNECTOR_Unknown;
-> > +	}
-> > +}
-> > +
-> > +static bool logicvc_interface_native_connector(struct logicvc_drm *log=
-icvc)
-> > +{
-> > +	switch (logicvc->config.display_interface) {
-> > +	case LOGICVC_DISPLAY_INTERFACE_DVI:
-> > +		return true;
-> > +	default:
-> > +		return false;
-> > +	}
-> > +}
-> > +
-> > +void logicvc_interface_attach_crtc(struct logicvc_drm *logicvc)
-> > +{
-> > +	uint32_t possible_crtcs =3D drm_crtc_mask(&logicvc->crtc->drm_crtc);
-> > +
-> > +	logicvc->interface->drm_encoder.possible_crtcs =3D possible_crtcs;
-> > +}
-> > +
-> > +int logicvc_interface_init(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct logicvc_interface *interface;
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +	struct device_node *of_node =3D dev->of_node;
-> > +	int encoder_type =3D logicvc_interface_encoder_type(logicvc);
-> > +	int connector_type =3D logicvc_interface_connector_type(logicvc);
-> > +	bool native_connector =3D logicvc_interface_native_connector(logicvc);
-> > +	int ret;
-> > +
-> > +	interface =3D devm_kzalloc(dev, sizeof(*interface), GFP_KERNEL);
-> > +	if (!interface) {
-> > +		ret =3D -ENOMEM;
-> > +		goto error_early;
-> > +	}
-> > +
-> > +	ret =3D drm_of_find_panel_or_bridge(of_node, 1, 0, &interface->drm_pa=
-nel,
-> > +					  &interface->drm_bridge);
-> > +	if (ret =3D=3D -EPROBE_DEFER)
-> > +		goto error_early;
-> > +
-> > +	ret =3D drm_encoder_init(drm_dev, &interface->drm_encoder,
-> > +			       &logicvc_encoder_funcs, encoder_type, NULL);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initalize encoder\n");
-> > +		goto error_early;
-> > +	}
-> > +
-> > +	drm_encoder_helper_add(&interface->drm_encoder,
-> > +			       &logicvc_encoder_helper_funcs);
-> > +
-> > +	if (native_connector || interface->drm_panel) {
-> > +		ret =3D drm_connector_init(drm_dev, &interface->drm_connector,
-> > +					 &logicvc_connector_funcs,
-> > +					 connector_type);
-> > +		if (ret) {
-> > +			drm_err(drm_dev, "Failed to initalize connector\n");
-> > +			goto error_encoder;
-> > +		}
-> > +
-> > +		drm_connector_helper_add(&interface->drm_connector,
-> > +					 &logicvc_connector_helper_funcs);
-> > +
-> > +		ret =3D drm_connector_attach_encoder(&interface->drm_connector,
-> > +						   &interface->drm_encoder);
-> > +		if (ret) {
-> > +			drm_err(drm_dev,
-> > +				"Failed to attach connector to encoder\n");
-> > +			goto error_encoder;
-> > +		}
-> > +	}
-> > +
-> > +	if (interface->drm_bridge) {
-> > +		ret =3D drm_bridge_attach(&interface->drm_encoder,
-> > +					interface->drm_bridge, NULL, 0);
-> > +		if (ret) {
-> > +			drm_err(drm_dev,
-> > +				"Failed to attach bridge to encoder\n");
-> > +			goto error_encoder;
-> > +		}
-> > +	}
->=20
-> You should consider using the bridge_or_panel API.
-
-I have considered it and concluded that it's not a good fit given that the
-hardware can support a DVI connector.
-
-> > +	logicvc->interface =3D interface;
-> > +
-> > +	return 0;
-> > +
-> > +error_encoder:
-> > +	drm_encoder_cleanup(&interface->drm_encoder);
-> > +
-> > +error_early:
-> > +	return ret;
-> > +}
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_interface.h b/drivers/gpu/=
-drm/logicvc/logicvc_interface.h
-> > new file mode 100644
-> > index 000000000000..fb2e9e6e04aa
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_interface.h
-> > @@ -0,0 +1,30 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _LOGICVC_INTERFACE_H_
-> > +#define _LOGICVC_INTERFACE_H_
-> > +
-> > +#include <drm/drm_bridge.h>
-> > +#include <drm/drm_connector.h>
-> > +#include <drm/drm_encoder.h>
-> > +#include <drm/drm_panel.h>
-> > +
-> > +struct logicvc_drm;
-> > +
-> > +struct logicvc_interface {
-> > +	struct drm_encoder drm_encoder;
-> > +	struct drm_connector drm_connector;
-> > +
-> > +	struct drm_panel *drm_panel;
-> > +	struct drm_bridge *drm_bridge;
-> > +
-> > +	bool drm_panel_enabled;
-> > +};
-> > +
-> > +void logicvc_interface_attach_crtc(struct logicvc_drm *logicvc);
-> > +int logicvc_interface_init(struct logicvc_drm *logicvc);
-> > +
-> > +#endif
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.c b/drivers/gpu/drm/=
-logicvc/logicvc_layer.c
-> > new file mode 100644
-> > index 000000000000..9188d45cef77
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.c
-> > @@ -0,0 +1,615 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#include <linux/of.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include <drm/drm_atomic.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_fb_cma_helper.h>
-> > +#include <drm/drm_fourcc.h>
-> > +#include <drm/drm_plane.h>
-> > +#include <drm/drm_plane_helper.h>
-> > +#include <drm/drm_print.h>
-> > +
-> > +#include "logicvc_crtc.h"
-> > +#include "logicvc_drm.h"
-> > +#include "logicvc_layer.h"
-> > +#include "logicvc_of.h"
-> > +#include "logicvc_regs.h"
-> > +
-> > +#define logicvc_layer(p) \
-> > +	container_of(p, struct logicvc_layer, drm_plane)
-> > +
-> > +static uint32_t logicvc_layer_formats_rgb16[] =3D {
-> > +	DRM_FORMAT_RGB565,
-> > +	DRM_FORMAT_BGR565,
-> > +	DRM_FORMAT_INVALID,
-> > +};
-> > +
-> > +static uint32_t logicvc_layer_formats_rgb24[] =3D {
-> > +	DRM_FORMAT_XRGB8888,
-> > +	DRM_FORMAT_XBGR8888,
-> > +	DRM_FORMAT_INVALID,
-> > +};
-> > +
-> > +/* What we call depth in this driver only counts color components, not=
- alpha.
-> > + * This allows us to stay compatible with the LogiCVC bistream definit=
-ions. */
-> > +static uint32_t logicvc_layer_formats_rgb24_alpha[] =3D {
-> > +	DRM_FORMAT_ARGB8888,
-> > +	DRM_FORMAT_ABGR8888,
-> > +	DRM_FORMAT_INVALID,
-> > +};
-> > +
-> > +static struct logicvc_layer_formats logicvc_layer_formats[] =3D {
-> > +	{
-> > +		.colorspace	=3D LOGICVC_LAYER_COLORSPACE_RGB,
-> > +		.depth		=3D 16,
-> > +		.formats	=3D logicvc_layer_formats_rgb16,
-> > +	},
-> > +	{
-> > +		.colorspace	=3D LOGICVC_LAYER_COLORSPACE_RGB,
-> > +		.depth		=3D 24,
-> > +		.formats	=3D logicvc_layer_formats_rgb24,
-> > +	},
-> > +	{
-> > +		.colorspace	=3D LOGICVC_LAYER_COLORSPACE_RGB,
-> > +		.depth		=3D 24,
-> > +		.alpha		=3D true,
-> > +		.formats	=3D logicvc_layer_formats_rgb24_alpha,
-> > +	},
-> > +	{ }
-> > +};
-> > +
-> > +static bool logicvc_layer_format_inverted(uint32_t format)
-> > +{
-> > +	switch (format) {
-> > +	case DRM_FORMAT_BGR565:
-> > +	case DRM_FORMAT_BGR888:
-> > +	case DRM_FORMAT_XBGR8888:
-> > +	case DRM_FORMAT_ABGR8888:
-> > +		return true;
-> > +	default:
-> > +		return false;
-> > +	}
-> > +}
-> > +
-> > +static int logicvc_plane_atomic_check(struct drm_plane *drm_plane,
-> > +				      struct drm_plane_state *state)
-> > +{
-> > +	struct drm_device *drm_dev =3D drm_plane->dev;
-> > +	struct logicvc_layer *layer =3D logicvc_layer(drm_plane);
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_dev);
-> > +	struct drm_crtc_state *crtc_state;
-> > +	int min_scale, max_scale;
-> > +	bool can_position;
-> > +	int ret;
-> > +
-> > +	if (!state->crtc)
-> > +		return 0;
-> > +
-> > +	crtc_state =3D drm_atomic_get_existing_crtc_state(state->state,
-> > +							state->crtc);
-> > +	if (WARN_ON(!crtc_state))
-> > +		return -EINVAL;
-> > +
-> > +	if (state->crtc_x < 0 || state->crtc_y < 0) {
-> > +		drm_err(drm_dev,
-> > +			"Negative on-CRTC positions are not supported.\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (!logicvc->caps->layer_address) {
-> > +		ret =3D logicvc_layer_buffer_find_setup(logicvc, layer, state,
-> > +						      NULL);
-> > +		if (ret) {
-> > +			drm_err(drm_dev, "No viable setup for buffer found.\n");
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> > +	min_scale =3D DRM_PLANE_HELPER_NO_SCALING;
-> > +	max_scale =3D DRM_PLANE_HELPER_NO_SCALING;
-> > +
-> > +	can_position =3D (drm_plane->type =3D=3D DRM_PLANE_TYPE_OVERLAY &&
-> > +			layer->index !=3D (logicvc->config.layers_count - 1) &&
-> > +			logicvc->config.layers_configurable);
-> > +
-> > +	ret =3D drm_atomic_helper_check_plane_state(state, crtc_state,
-> > +						  min_scale, max_scale,
-> > +						  can_position, true);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Invalid plane state\n\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void logicvc_plane_atomic_update(struct drm_plane *drm_plane,
-> > +					struct drm_plane_state *old_state)
-> > +{
-> > +	struct logicvc_layer *layer =3D logicvc_layer(drm_plane);
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_plane->dev);
-> > +	struct drm_plane_state *state =3D drm_plane->state;
-> > +	struct drm_crtc *drm_crtc =3D &logicvc->crtc->drm_crtc;
-> > +	struct drm_display_mode *mode =3D &drm_crtc->state->adjusted_mode;
-> > +	struct drm_framebuffer *fb =3D state->fb;
-> > +	struct logicvc_layer_buffer_setup setup =3D {};
-> > +	u32 index =3D layer->index;
-> > +	u32 reg;
-> > +
-> > +	/* Layer dimensions */
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_WIDTH_REG(index),
-> > +		     state->crtc_w - 1);
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_HEIGHT_REG(index),
-> > +		     state->crtc_h - 1);
-> > +
-> > +	if (logicvc->caps->layer_address) {
-> > +		phys_addr_t fb_addr =3D drm_fb_cma_get_gem_addr(fb, state, 0);
-> > +
-> > +		regmap_write(logicvc->regmap, LOGICVC_LAYER_ADDRESS_REG(index),
-> > +			     fb_addr);
-> > +	} else {
-> > +		/* Rely on offsets to configure the address. */
-> > +
-> > +		logicvc_layer_buffer_find_setup(logicvc, layer, state, &setup);
-> > +
-> > +		/* Layer memory offsets */
-> > +
-> > +		regmap_write(logicvc->regmap, LOGICVC_BUFFER_SEL_REG,
-> > +			     LOGICVC_BUFFER_SEL_VALUE(index, setup.buffer_sel));
-> > +		regmap_write(logicvc->regmap, LOGICVC_LAYER_HOFFSET_REG(index),
-> > +			     setup.hoffset);
-> > +		regmap_write(logicvc->regmap, LOGICVC_LAYER_VOFFSET_REG(index),
-> > +			     setup.voffset);
-> > +	}
-> > +
-> > +	/* Layer position */
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_HPOSITION_REG(index),
-> > +		     mode->hdisplay - 1 - state->crtc_x);
-> > +
-> > +	/* Vertical position must be set last to sync layer register changes.=
- */
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_VPOSITION_REG(index),
-> > +		     mode->vdisplay - 1 - state->crtc_y);
-> > +
-> > +	/* Layer alpha */
-> > +
-> > +	if (layer->config.alpha_mode =3D=3D LOGICVC_LAYER_ALPHA_LAYER) {
-> > +		u32 alpha_bits;
-> > +		u32 alpha_max;
-> > +		u32 alpha;
-> > +
-> > +		switch (layer->config.depth) {
-> > +		case 8:
-> > +			alpha_bits =3D 3;
-> > +			break;
-> > +		case 16:
-> > +			if (layer->config.colorspace =3D=3D LOGICVC_LAYER_COLORSPACE_YUV)
-> > +				alpha_bits =3D 8;
-> > +			else
-> > +				alpha_bits =3D 6;
-> > +			break;
-> > +		default:
-> > +			alpha_bits =3D 8;
-> > +			break;
-> > +		}
-> > +
-> > +		alpha_max =3D BIT(alpha_bits) - 1;
-> > +		alpha =3D state->alpha * alpha_max / DRM_BLEND_ALPHA_OPAQUE;
-> > +
-> > +		DRM_DEBUG_DRIVER("Setting layer %d alpha to %d/%d\n", index,
-> > +				 alpha, alpha_max);
-> > +
-> > +		regmap_write(logicvc->regmap, LOGICVC_LAYER_ALPHA_REG(index),
-> > +			     alpha);
-> > +	}
-> > +
-> > +	/* Layer control */
-> > +
-> > +	reg =3D LOGICVC_LAYER_CTRL_ENABLE;
-> > +
-> > +	if (logicvc_layer_format_inverted(fb->format->format))
-> > +		reg |=3D LOGICVC_LAYER_CTRL_PIXEL_FORMAT_INVERT;
-> > +
-> > +	reg |=3D LOGICVC_LAYER_CTRL_COLOR_KEY_DISABLE;
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_CTRL_REG(index), reg);
-> > +}
-> > +
-> > +static void logicvc_plane_atomic_disable(struct drm_plane *drm_plane,
-> > +					 struct drm_plane_state *old_state)
-> > +{
-> > +	struct logicvc_layer *layer =3D logicvc_layer(drm_plane);
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_plane->dev);
-> > +	u32 index =3D layer->index;
-> > +
-> > +	regmap_write(logicvc->regmap, LOGICVC_LAYER_CTRL_REG(index), 0);
-> > +}
-> > +
-> > +static struct drm_plane_helper_funcs logicvc_plane_helper_funcs =3D {
-> > +	.atomic_check		=3D logicvc_plane_atomic_check,
-> > +	.atomic_update		=3D logicvc_plane_atomic_update,
-> > +	.atomic_disable		=3D logicvc_plane_atomic_disable,
-> > +};
-> > +
-> > +static const struct drm_plane_funcs logicvc_plane_funcs =3D {
-> > +	.update_plane		=3D drm_atomic_helper_update_plane,
-> > +	.disable_plane		=3D drm_atomic_helper_disable_plane,
-> > +	.destroy		=3D drm_plane_cleanup,
-> > +	.reset			=3D drm_atomic_helper_plane_reset,
-> > +	.atomic_duplicate_state	=3D drm_atomic_helper_plane_duplicate_state,
-> > +	.atomic_destroy_state	=3D drm_atomic_helper_plane_destroy_state,
-> > +};
-> > +
-> > +int logicvc_layer_buffer_find_setup(struct logicvc_drm *logicvc,
-> > +				    struct logicvc_layer *layer,
-> > +				    struct drm_plane_state *state,
-> > +				    struct logicvc_layer_buffer_setup *setup)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct drm_framebuffer *fb =3D state->fb;
-> > +	/* All the supported formats have a single data plane. */
-> > +	u32 layer_bytespp =3D fb->format->cpp[0];
-> > +	u32 layer_stride =3D layer_bytespp * logicvc->config.row_stride;
-> > +	u32 base_offset =3D layer->config.base_offset * layer_stride;
-> > +	u32 buffer_offset =3D layer->config.buffer_offset * layer_stride;
-> > +	u8 buffer_sel =3D 0;
-> > +	u16 voffset =3D 0;
-> > +	u16 hoffset =3D 0;
-> > +	phys_addr_t fb_addr;
-> > +	u32 fb_offset;
-> > +	u32 gap;
-> > +
-> > +	if (!logicvc->reserved_mem_base) {
-> > +		drm_err(drm_dev, "No reserved memory base was registered!\n");
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	fb_addr =3D drm_fb_cma_get_gem_addr(fb, state, 0);
-> > +	if (fb_addr < logicvc->reserved_mem_base) {
-> > +		drm_err(drm_dev,
-> > +			"Framebuffer memory below reserved memory base!\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	fb_offset =3D (u32) (fb_addr - logicvc->reserved_mem_base);
-> > +
-> > +	if (fb_offset < base_offset) {
-> > +		drm_err(drm_dev,
-> > +			"Framebuffer offset below layer base offset!\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	gap =3D fb_offset - base_offset;
-> > +
-> > +	/* Use the possible video buffers selection. */
-> > +	if (gap && buffer_offset) {
-> > +		buffer_sel =3D gap / buffer_offset;
-> > +		if (buffer_sel > LOGICVC_BUFFER_SEL_MAX)
-> > +			buffer_sel =3D LOGICVC_BUFFER_SEL_MAX;
-> > +
-> > +		gap -=3D buffer_sel * buffer_offset;
-> > +	}
-> > +
-> > +	/* Use the vertical offset. */
-> > +	if (gap && layer_stride && logicvc->config.layers_configurable) {
-> > +		voffset =3D gap / layer_stride;
-> > +		if (voffset > LOGICVC_LAYER_VOFFSET_MAX)
-> > +			voffset =3D LOGICVC_LAYER_VOFFSET_MAX;
-> > +
-> > +		gap -=3D voffset * layer_stride;
-> > +	}
-> > +
-> > +	/* Use the horizontal offset. */
-> > +	if (gap && layer_bytespp && logicvc->config.layers_configurable) {
-> > +		hoffset =3D gap / layer_bytespp;
-> > +		if (hoffset > LOGICVC_DIMENSIONS_MAX)
-> > +			hoffset =3D LOGICVC_DIMENSIONS_MAX;
-> > +
-> > +		gap -=3D hoffset * layer_bytespp;
-> > +	}
-> > +
-> > +	if (gap) {
-> > +		drm_err(drm_dev,
-> > +			"Unable to find layer %d buffer setup for 0x%x byte gap\n",
-> > +			layer->index, fb_offset - base_offset);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	DRM_DEBUG_DRIVER("Found layer %d buffer setup for 0x%x byte gap:\n",
-> > +			 layer->index, fb_offset - base_offset);
-> > +
-> > +	DRM_DEBUG_DRIVER("- buffer_sel =3D 0x%x chunks of 0x%x bytes\n",
-> > +			 buffer_sel, buffer_offset);
-> > +	DRM_DEBUG_DRIVER("- voffset =3D 0x%x chunks of 0x%x bytes\n", voffset,
-> > +			 layer_stride);
-> > +	DRM_DEBUG_DRIVER("- hoffset =3D 0x%x chunks of 0x%x bytes\n", hoffset,
-> > +			 layer_bytespp);
-> > +
-> > +	if (setup) {
-> > +		setup->buffer_sel =3D buffer_sel;
-> > +		setup->voffset =3D voffset;
-> > +		setup->hoffset =3D hoffset;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct logicvc_layer_formats *logicvc_layer_formats_lookup(stru=
-ct logicvc_layer *layer)
-> > +{
-> > +	bool alpha;
-> > +	unsigned int i =3D 0;
-> > +
-> > +	alpha =3D (layer->config.alpha_mode =3D=3D LOGICVC_LAYER_ALPHA_PIXEL);
-> > +
-> > +	while (logicvc_layer_formats[i].formats) {
-> > +		if (logicvc_layer_formats[i].colorspace =3D=3D layer->config.colorsp=
-ace &&
-> > +		    logicvc_layer_formats[i].depth =3D=3D layer->config.depth &&
-> > +		    logicvc_layer_formats[i].alpha =3D=3D alpha)
-> > +			return &logicvc_layer_formats[i];
-> > +
-> > +		i++;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +static unsigned int logicvc_layer_formats_count(struct logicvc_layer_f=
-ormats *formats)
-> > +{
-> > +	unsigned int count =3D 0;
-> > +
-> > +	while (formats->formats[count] !=3D DRM_FORMAT_INVALID)
-> > +		count++;
-> > +
-> > +	return count;
-> > +}
-> > +
-> > +static int logicvc_layer_config_parse(struct logicvc_drm *logicvc,
-> > +				      struct logicvc_layer *layer)
-> > +{
-> > +	struct device_node *of_node =3D layer->of_node;
-> > +	struct logicvc_layer_config *config =3D &layer->config;
-> > +	int ret;
-> > +
-> > +	logicvc_of_property_parse_bool(of_node,
-> > +				       LOGICVC_OF_PROPERTY_LAYER_PRIMARY,
-> > +				       &config->primary);
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_LAYER_COLORSPACE,
-> > +					    &config->colorspace);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_LAYER_DEPTH,
-> > +					    &config->depth);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_LAYER_ALPHA_MODE,
-> > +					    &config->alpha_mode);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Memory offset is only relevant without layer address configuration=
-=2E */
-> > +	if (logicvc->caps->layer_address)
-> > +		return 0;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_LAYER_BASE_OFFSET,
-> > +					    &config->base_offset);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret =3D logicvc_of_property_parse_u32(of_node,
-> > +					    LOGICVC_OF_PROPERTY_LAYER_BUFFER_OFFSET,
-> > +					    &config->buffer_offset);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +struct logicvc_layer *logicvc_layer_get_from_index(struct logicvc_drm =
-*logicvc,
-> > +						   u32 index)
-> > +{
-> > +	struct logicvc_layer *layer;
-> > +
-> > +	list_for_each_entry(layer, &logicvc->layers_list, list)
-> > +		if (layer->index =3D=3D index)
-> > +			return layer;
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +struct logicvc_layer *logicvc_layer_get_from_type(struct logicvc_drm *=
-logicvc,
-> > +						  enum drm_plane_type type)
-> > +{
-> > +	struct logicvc_layer *layer;
-> > +
-> > +	list_for_each_entry(layer, &logicvc->layers_list, list)
-> > +		if (layer->drm_plane.type =3D=3D type)
-> > +			return layer;
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +struct logicvc_layer *logicvc_layer_get_primary(struct logicvc_drm *lo=
-gicvc)
-> > +{
-> > +	return logicvc_layer_get_from_type(logicvc, DRM_PLANE_TYPE_PRIMARY);
-> > +}
-> > +
-> > +static int logicvc_layer_init(struct logicvc_drm *logicvc,
-> > +			      struct device_node *of_node, u32 index)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +	struct logicvc_layer *layer =3D NULL;
-> > +	struct logicvc_layer_formats *formats;
-> > +	unsigned int formats_count;
-> > +	enum drm_plane_type type;
-> > +	unsigned int zpos;
-> > +	int ret;
-> > +
-> > +	layer =3D devm_kzalloc(dev, sizeof(*layer), GFP_KERNEL);
-> > +	if (!layer) {
-> > +		ret =3D -ENOMEM;
-> > +		goto error;
-> > +	}
-> > +
-> > +	layer->of_node =3D of_node;
-> > +	layer->index =3D index;
-> > +
-> > +	ret =3D logicvc_layer_config_parse(logicvc, layer);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to parse config for layer #%d\n",
-> > +			index);
-> > +		goto error;
-> > +	}
-> > +
-> > +	formats =3D logicvc_layer_formats_lookup(layer);
-> > +	if (!formats) {
-> > +		drm_err(drm_dev, "Failed to lookup formats for layer #%d\n",
-> > +			index);
-> > +		goto error;
-> > +	}
-> > +
-> > +	formats_count =3D logicvc_layer_formats_count(formats);
-> > +
-> > +	/* The final layer can be configured as a background layer. */
-> > +	if (logicvc->config.background_layer &&
-> > +	    index =3D=3D (logicvc->config.layers_count - 1)) {
-> > +		/* A zero value for black is only valid for RGB, not for YUV,
-> > +		 * so this will need to take the format in account for YUV. */
-> > +		u32 background =3D 0;
-> > +
-> > +		DRM_DEBUG_DRIVER("Using layer #%d as background layer\n",
-> > +				 index);
-> > +
-> > +		regmap_write(logicvc->regmap, LOGICVC_BACKGROUND_COLOR_REG,
-> > +			     background);
-> > +
-> > +		devm_kfree(dev, layer);
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	if (layer->config.primary)
-> > +		type =3D DRM_PLANE_TYPE_PRIMARY;
-> > +	else
-> > +		type =3D DRM_PLANE_TYPE_OVERLAY;
-> > +
-> > +	ret =3D drm_universal_plane_init(drm_dev, &layer->drm_plane, 0,
-> > +				       &logicvc_plane_funcs, formats->formats,
-> > +				       formats_count, NULL, type, NULL);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initialize layer plane\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	drm_plane_helper_add(&layer->drm_plane, &logicvc_plane_helper_funcs);
-> > +
-> > +	zpos =3D logicvc->config.layers_count - index - 1;
-> > +	DRM_DEBUG_DRIVER("Giving layer #%d zpos %d\n", index, zpos);
-> > +
-> > +	if (layer->config.alpha_mode =3D=3D LOGICVC_LAYER_ALPHA_LAYER)
-> > +		drm_plane_create_alpha_property(&layer->drm_plane);
-> > +
-> > +	drm_plane_create_zpos_immutable_property(&layer->drm_plane, zpos);
-> > +
-> > +	DRM_DEBUG_DRIVER("Registering layer #%d\n", index);
-> > +
-> > +	layer->formats =3D formats;
-> > +
-> > +	list_add_tail(&layer->list, &logicvc->layers_list);
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	if (layer)
-> > +		devm_kfree(dev, layer);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void logicvc_layer_fini(struct logicvc_drm *logicvc,
-> > +			       struct logicvc_layer *layer)
-> > +{
-> > +	struct device *dev =3D logicvc->drm_dev.dev;
-> > +
-> > +	list_del(&layer->list);
-> > +	devm_kfree(dev, layer);
-> > +}
-> > +
-> > +void logicvc_layers_attach_crtc(struct logicvc_drm *logicvc)
-> > +{
-> > +	uint32_t possible_crtcs =3D drm_crtc_mask(&logicvc->crtc->drm_crtc);
-> > +	struct logicvc_layer *layer;
-> > +
-> > +	list_for_each_entry(layer, &logicvc->layers_list, list) {
-> > +		if (layer->drm_plane.type !=3D DRM_PLANE_TYPE_OVERLAY)
-> > +			continue;
-> > +
-> > +		layer->drm_plane.possible_crtcs =3D possible_crtcs;
-> > +	}
-> > +}
-> > +
-> > +int logicvc_layers_init(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct device *dev =3D drm_dev->dev;
-> > +	struct device_node *of_node =3D dev->of_node;
-> > +	struct device_node *layer_node =3D NULL;
-> > +	struct device_node *layers_node;
-> > +	struct logicvc_layer *layer;
-> > +	struct logicvc_layer *next;
-> > +	int ret =3D 0;
-> > +
-> > +	layers_node =3D of_get_child_by_name(of_node, "layers");
-> > +	if (!layers_node) {
-> > +		DRM_ERROR("No layers node found in the description\n");
-> > +		ret =3D -ENODEV;
-> > +		goto error;
-> > +	}
-> > +
-> > +	for_each_child_of_node(layers_node, layer_node) {
-> > +		u32 index =3D 0;
-> > +
-> > +		if (!logicvc_of_node_is_layer(layer_node))
-> > +			continue;
-> > +
-> > +		ret =3D of_property_read_u32(layer_node, "reg", &index);
-> > +		if (ret)
-> > +			continue;
-> > +
-> > +		layer =3D logicvc_layer_get_from_index(logicvc, index);
-> > +		if (layer) {
-> > +			DRM_ERROR("Duplicated entry for layer #%d\n", index);
-> > +			continue;
-> > +		}
-> > +
-> > +		ret =3D logicvc_layer_init(logicvc, layer_node, index);
-> > +		if (ret)
-> > +			goto error;
-> > +
-> > +		of_node_put(layer_node);
-> > +	}
-> > +
-> > +	of_node_put(layers_node);
-> > +
-> > +	return 0;
-> > +
-> > +error:
-> > +	list_for_each_entry_safe(layer, next, &logicvc->layers_list, list)
-> > +		logicvc_layer_fini(logicvc, layer);
-> > +
-> > +	return ret;
-> > +}
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_layer.h b/drivers/gpu/drm/=
-logicvc/logicvc_layer.h
-> > new file mode 100644
-> > index 000000000000..c5767c81f446
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_layer.h
-> > @@ -0,0 +1,64 @@
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _LOGICVC_LAYER_H_
-> > +#define _LOGICVC_LAYER_H_
-> > +
-> > +#include <linux/of.h>
-> > +#include <linux/types.h>
-> > +#include <drm/drm_plane.h>
-> > +
-> > +#define LOGICVC_LAYER_COLORSPACE_RGB		0
-> > +#define LOGICVC_LAYER_COLORSPACE_YUV		1
-> > +
-> > +#define LOGICVC_LAYER_ALPHA_LAYER		0
-> > +#define LOGICVC_LAYER_ALPHA_PIXEL		1
-> > +
-> > +struct logicvc_layer_buffer_setup {
-> > +	u8 buffer_sel;
-> > +	u16 voffset;
-> > +	u16 hoffset;
-> > +};
-> > +
-> > +struct logicvc_layer_config {
-> > +	u32 colorspace;
-> > +	u32 depth;
-> > +	u32 alpha_mode;
-> > +	u32 base_offset;
-> > +	u32 buffer_offset;
-> > +	bool primary;
-> > +};
-> > +
-> > +struct logicvc_layer_formats {
-> > +	u32 colorspace;
-> > +	u32 depth;
-> > +	bool alpha;
-> > +	uint32_t *formats;
-> > +};
-> > +
-> > +struct logicvc_layer {
-> > +	struct logicvc_layer_config config;
-> > +	struct logicvc_layer_formats *formats;
-> > +	struct device_node *of_node;
-> > +
-> > +	struct drm_plane drm_plane;
-> > +	struct list_head list;
-> > +	u32 index;
-> > +};
-> > +
-> > +int logicvc_layer_buffer_find_setup(struct logicvc_drm *logicvc,
-> > +				    struct logicvc_layer *layer,
-> > +				    struct drm_plane_state *state,
-> > +				    struct logicvc_layer_buffer_setup *setup);
-> > +struct logicvc_layer *logicvc_layer_get_from_index(struct logicvc_drm =
-*logicvc,
-> > +						   u32 index);
-> > +struct logicvc_layer *logicvc_layer_get_from_type(struct logicvc_drm *=
-logicvc,
-> > +						  enum drm_plane_type type);
-> > +struct logicvc_layer *logicvc_layer_get_primary(struct logicvc_drm *lo=
-gicvc);
-> > +void logicvc_layers_attach_crtc(struct logicvc_drm *logicvc);
-> > +int logicvc_layers_init(struct logicvc_drm *logicvc);
-> > +
-> > +#endif
-> > diff --git a/drivers/gpu/drm/logicvc/logicvc_mode.c b/drivers/gpu/drm/l=
-ogicvc/logicvc_mode.c
-> > new file mode 100644
-> > index 000000000000..aa8f35b64c75
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/logicvc/logicvc_mode.c
-> > @@ -0,0 +1,101 @@
-> > +// SPDX-License-Identifier: GPL-2.0+
-> > +/*
-> > + * Copyright (C) 2019 Bootlin
-> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > + */
-> > +
-> > +#include <linux/types.h>
-> > +
-> > +#include <drm/drm_atomic.h>
-> > +#include <drm/drm_atomic_helper.h>
-> > +#include <drm/drm_crtc_helper.h>
-> > +#include <drm/drm_drv.h>
-> > +#include <drm/drm_fb_cma_helper.h>
-> > +#include <drm/drm_fb_helper.h>
-> > +#include <drm/drm_gem_cma_helper.h>
-> > +#include <drm/drm_gem_framebuffer_helper.h>
-> > +#include <drm/drm_mode_config.h>
-> > +#include <drm/drm_panel.h>
-> > +#include <drm/drm_print.h>
-> > +#include <drm/drm_probe_helper.h>
-> > +#include <drm/drm_vblank.h>
-> > +
-> > +#include "logicvc_drm.h"
-> > +#include "logicvc_interface.h"
-> > +#include "logicvc_layer.h"
-> > +#include "logicvc_mode.h"
-> > +
-> > +static void logicvc_mode_atomic_commit_tail(struct drm_atomic_state *o=
-ld_state)
-> > +{
-> > +	struct drm_device *drm_dev =3D old_state->dev;
-> > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_dev);
-> > +	struct logicvc_interface *interface =3D logicvc->interface;
-> > +
-> > +	drm_atomic_helper_commit_tail(old_state);
-> > +
-> > +	/* Enable the panel after the first commit, which concerns our panel
-> > +	 * since we only support a single interface. */
-> > +	if (interface->drm_panel && !interface->drm_panel_enabled) {
-> > +		drm_panel_enable(interface->drm_panel);
-> > +		interface->drm_panel_enabled =3D true;
-> > +	}
-> > +}
-> > +
-> > +static const struct drm_mode_config_helper_funcs logicvc_mode_config_h=
-elper_funcs =3D {
-> > +	.atomic_commit_tail	=3D logicvc_mode_atomic_commit_tail,
-> > +};
-> > +
-> > +static const struct drm_mode_config_funcs logicvc_mode_config_funcs =
-=3D {
-> > +	.fb_create		=3D drm_gem_fb_create,
-> > +	.output_poll_changed	=3D drm_fb_helper_output_poll_changed,
-> > +	.atomic_check		=3D drm_atomic_helper_check,
-> > +	.atomic_commit		=3D drm_atomic_helper_commit,
-> > +};
-> > +
-> > +int logicvc_mode_init(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +	struct drm_mode_config *mode_config =3D &drm_dev->mode_config;
-> > +	struct logicvc_layer *layer_primary;
-> > +	uint32_t preferred_depth;
-> > +	int ret;
-> > +
-> > +	ret =3D drm_vblank_init(drm_dev, mode_config->num_crtc);
-> > +	if (ret) {
-> > +		drm_err(drm_dev, "Failed to initialize vblank\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	layer_primary =3D logicvc_layer_get_primary(logicvc);
-> > +	if (!layer_primary) {
-> > +		drm_err(drm_dev, "Failed to get primary layer\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	preferred_depth =3D layer_primary->formats->depth;
-> > +
-> > +	/* DRM counts alpha in depth, our driver doesn't. */
-> > +	if (layer_primary->formats->alpha)
-> > +		preferred_depth +=3D 8;
-> > +
-> > +	mode_config->min_width =3D 64;
-> > +	mode_config->max_width =3D 2048;
-> > +	mode_config->min_height =3D 1;
-> > +	mode_config->max_height =3D 2048;
-> > +	mode_config->preferred_depth =3D preferred_depth;
-> > +	mode_config->funcs =3D &logicvc_mode_config_funcs;
-> > +	mode_config->helper_private =3D &logicvc_mode_config_helper_funcs;
-> > +
-> > +	drm_mode_config_reset(drm_dev);
-> > +
-> > +	drm_kms_helper_poll_init(drm_dev);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void logicvc_mode_fini(struct logicvc_drm *logicvc)
-> > +{
-> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
-> > +
-> > +	drm_kms_helper_poll_fini(drm_dev);
-> > +}
->=20
-> You should consider using a drmm_add_action_or_reset here to simplify
-> your error / remove path.
-
-Thanks for the suggestion (and the review)!
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---8NEs3e9AvDpnH85A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/Hu5AACgkQ3cLmz3+f
-v9H9rwf/Td4p79vRXgw0xrcd/Ib0H4KLmCJlAeCmwC/z9TAseb6fbfptTyh7cenw
-ZVon+miSRN/nzDqvA8LXMjy++jC7mZ3m3uGZQsU1/HV6TMyB33GVel6RLzh3d/vs
-1OT+N02WgOoLIVmD8a/0Yrhc9xrwZL0Dqs1wnDKIFj3Acrm97g8nxuXiQmxfBUfk
-sy5cUxhsMw5YoPJ109g44MRvWo39RrOxExvay+lofMqaLGRaDyIFz325OxyzdVln
-zTzlnY8iL3gqRZBLgpve7imJkuCajCEJcI09cwDi4il4L6D4sAlYYGMijCnAALpD
-nkhRMdsfFoKNwLnmzZnRqekO5IsYqA==
-=Hi8I
------END PGP SIGNATURE-----
-
---8NEs3e9AvDpnH85A--
-
---===============1450444632==
+--45Z9DzgjV8m4Oswq
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -2240,4 +652,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1450444632==--
+--45Z9DzgjV8m4Oswq--
