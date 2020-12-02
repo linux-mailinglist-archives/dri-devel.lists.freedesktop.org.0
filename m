@@ -2,41 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69D82CC3E3
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 18:33:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E7C92CC443
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 18:52:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B28A6EA8C;
-	Wed,  2 Dec 2020 17:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C0026EA5E;
+	Wed,  2 Dec 2020 17:52:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F12426EA8C;
- Wed,  2 Dec 2020 17:33:49 +0000 (UTC)
-Date: Wed, 2 Dec 2020 18:34:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1606930429;
- bh=0L0lBWTpNJYKmS/y536wXr7++nDF5nyAFlhvD7IUwB0=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=GIuZR+OysBpQBUoHS8njNEjN5f4Aq17WkzN1qycTdBFh6K3oymBTI8BbSBQUbXTC2
- FZ9N3kFlsysHMtOBJ340qLEuq3PDSSuOiNpVTzX3TI0s0uOWdp9+IYj+j4StYIUqw+
- 2ofnL/0jzgDeEk3J/BgkCTu0T3ViKdDUoiFpYVXU=
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
-Subject: Re: [PATCH v2 5/8] drm/amdgpu: Refactor sysfs removal
-Message-ID: <X8fQQpYDqsgGJUPt@kroah.com>
-References: <20200622164551.GA112181@kroah.com>
- <4787b2a9-e7bf-ea3c-02e9-484a4fcb4742@amd.com>
- <20200623060532.GB3818201@kroah.com>
- <090c5a35-3088-d6d0-dcaf-5ce5542a4298@amd.com>
- <20200624061153.GA933050@kroah.com>
- <c864c559-71f4-08a5-f692-3f067a9a32f8@amd.com>
- <X6rU6lKDCyl6RN+V@kroah.com>
- <9db66134-0690-0972-2312-9d9155a0c5d8@amd.com>
- <X6wEbtSDm69gzFbR@kroah.com>
- <bc6cc476-4f09-1c0f-37b9-522723ecdc85@amd.com>
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com
+ [IPv6:2607:f8b0:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA8D6EA5E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 17:52:16 +0000 (UTC)
+Received: by mail-ot1-x342.google.com with SMTP id b62so2445431otc.5
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Dec 2020 09:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ub8cvY3qgnScNwJepLWbSZHUuE+KWCIwpEaiHVULiDk=;
+ b=YYhhOq5rM11r/DYVxE+GM0kf8PnGMhv17Z/znUSeHBB4osEZriQSZV45RzcvS6eqEn
+ of/mWynxxW2a7mtavqCqQ5XqTuS8ZWsuNSOM78rCIC3k9lzfLiIHnl1x0nmSG5ZbUsy0
+ KAVTIYxALPO2r8K6Mw35t1yDupbKAHt5sdhO4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ub8cvY3qgnScNwJepLWbSZHUuE+KWCIwpEaiHVULiDk=;
+ b=dHf4ZgIh0S9CehyO7bdaLKUMF171GscXjMQcQ3N5tIro3w/o2GCFvV5TmMTsSh4QeO
+ Jp1qlaYbcnEsBlUBV9TE5AU0pCYAmaarfv4iuJeHzDKk5fb1fg2wd1Ay6w1lh0DOFX/I
+ nrblHN3+ElEceuOwqIk+qt4+ZZ3cWrebaqdsrKJPaPUBGlIlOukQG3uwpVO+NCzP9rls
+ DJMi4mixIF5DSD00YZqT8HfRwkLpdcYGBAz/u0pURhF9Fa0cgVYy7uTkorIBDsA1hS80
+ 6Q9dQ6yHCfB9kPjzau8kjtmMb+1lpaZ78RfvsIe6hvX5/R3/mLlvcItjumMlcUm7Pd1j
+ JJYA==
+X-Gm-Message-State: AOAM5314L6Ph2Kyk288GddWq42rRMLUFBouxZ6ufFc8KA+I+bgC/JY7w
+ xQ4HMMsQA4Xxa5mDeMq8J6DuUqH2jqOnsRzAUQfw8A==
+X-Google-Smtp-Source: ABdhPJxurEjYCrkjAS5zpbushlqwhl+1dnUfia/FFKtk2OK04p/DGX12blqcAxKbH8XK0kE8WFAQdoiEcp2DBTPmG+w=
+X-Received: by 2002:a05:6830:12d5:: with SMTP id
+ a21mr2757816otq.281.1606931535626; 
+ Wed, 02 Dec 2020 09:52:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <bc6cc476-4f09-1c0f-37b9-522723ecdc85@amd.com>
+References: <20201130125200.10416-1-tzimmermann@suse.de>
+ <alpine.LRH.2.02.2011300843270.29199@file01.intranet.prod.int.rdu2.redhat.com>
+ <20201130154147.GT401619@phenom.ffwll.local>
+ <alpine.LRH.2.02.2011301241470.21432@file01.intranet.prod.int.rdu2.redhat.com>
+ <ac639546-d97e-b197-8998-180b0535fae2@suse.de>
+ <alpine.LRH.2.02.2012010615080.1371@file01.intranet.prod.int.rdu2.redhat.com>
+ <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
+In-Reply-To: <9e7cad29-a9c0-2e02-04a9-3149d7e15838@suse.de>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Wed, 2 Dec 2020 18:52:04 +0100
+Message-ID: <CAKMK7uF+uu3taQL-FPXymvnVhKyWWtNy9Z2xes=+j-B+BHaTgA@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: Remove udlfb driver
+To: Thomas Zimmermann <tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,93 +65,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: daniel.vetter@ffwll.ch, michel@daenzer.net, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, ckoenig.leichtzumerken@gmail.com
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Bernie Thompson <bernie@plugable.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 02, 2020 at 10:48:01AM -0500, Andrey Grodzovsky wrote:
-> =
-
-> On 11/11/20 10:34 AM, Greg KH wrote:
-> > On Wed, Nov 11, 2020 at 10:13:13AM -0500, Andrey Grodzovsky wrote:
-> > > On 11/10/20 12:59 PM, Greg KH wrote:
-> > > > On Tue, Nov 10, 2020 at 12:54:21PM -0500, Andrey Grodzovsky wrote:
-> > > > > Hi, back to this after a long context switch for some higher prio=
-rity stuff.
-> > > > > =
-
-> > > > > So here I was able eventually to drop all this code and this chan=
-ge here https://nam11.safelinks.protection.outlook.com/?url=3Dhttps:%2F%2Fc=
-git.freedesktop.org%2F~agrodzov%2Flinux%2Fcommit%2F%3Fh%3Damd-staging-drm-n=
-ext-device-unplug%26id%3D61852c8a59b4dd89d637693552c73175b9f2ccd6&amp;data=
-=3D04%7C01%7CAndrey.Grodzovsky%40amd.com%7C9fbfecac94a340dfb68408d886571609=
-%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637407055896651058%7CUnknown%=
-7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6M=
-n0%3D%7C1000&amp;sdata=3DYe8HJR1vidppcOBnlOgVu5GwKD2%2Bb5ztHbiI%2BubKKT0%3D=
-&amp;reserved=3D0
-> > > > > was enough for me. Seems like while device_remove_file can handle=
- the use
-> > > > > case where the file and the parent directory already gone,
-> > > > > sysfs_remove_group goes down in flames in that case
-> > > > > due to kobj->sd being unset on device removal.
-> > > > A driver shouldn't ever have to remove individual sysfs groups, the
-> > > > driver core/bus logic should do it for them automatically.
-> > > > =
-
-> > > > And whenever a driver calls a sysfs_* call, that's a hint that some=
-thing
-> > > > is not working properly.
-> > > =
-
-> > > =
-
-> > > Do you mean that while the driver creates the groups and files explic=
-itly
-> > > from it's different subsystems it should not explicitly remove each
-> > > one of them because all of them should be removed at once (and
-> > > recursively) when the device is being removed ?
-> > Individual drivers should never add groups/files in sysfs, the driver
-> > core should do it properly for you if you have everything set up
-> > properly.  And yes, the driver core will automatically remove them as
-> > well.
-> > =
-
-> > Please use the default groups attribute for your bus/subsystem and this
-> > will happen automagically.
-> =
-
-> =
-
-> Hi Greg, I tried your suggestion to hang amdgpu's sysfs
-> attributes on default attributes in struct device.groups but turns out it=
-'s
-> not usable since by the
-> time i have access to struct device from amdgpu code it has already been
-> initialized by pci core
-> (i.e.=A0 past the point where device_add->device_add_attrs->device_add_gr=
-oups
-> with dev->groups is called)
-> and so i can't really use it.
-
-That's odd, why can't you just set the groups pointer in your pci_driver
-structure?  That's what it is there for, right?
-
-> What I can only think of using is creating my own struct attribute_group =
-**
-> array in amdgpu where I aggregate all
-> amdgpu sysfs attributes, call device_add_groups in the end of amgpu pci
-> probe with that array and on device remove call
-> device_remove_groups with the same array.
-
-Horrid, no, see above :)
-
-thanks,
-
-greg k-h
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBEZWMgMiwgMjAyMCBhdCA4OjU1IEFNIFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVy
+bWFubkBzdXNlLmRlPiB3cm90ZToKPgo+IEhpCj4KPiBBbSAwMS4xMi4yMCB1bSAxMjoyMCBzY2hy
+aWViIE1pa3VsYXMgUGF0b2NrYToKPiA+Cj4gPgo+ID4gT24gVHVlLCAxIERlYyAyMDIwLCBUaG9t
+YXMgWmltbWVybWFubiB3cm90ZToKPiA+Cj4gPj4gSGkKPiA+Pgo+ID4+IEFtIDMwLjExLjIwIHVt
+IDE5OjM5IHNjaHJpZWIgTWlrdWxhcyBQYXRvY2thOgo+ID4+Pgo+ID4+Pgo+ID4+PiBPbiBNb24s
+IDMwIE5vdiAyMDIwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4+Pgo+ID4+Pj4gT24gTW9uLCBO
+b3YgMzAsIDIwMjAgYXQgMDk6MzE6MTVBTSAtMDUwMCwgTWlrdWxhcyBQYXRvY2thIHdyb3RlOgo+
+ID4+Pj4+Cj4gPj4+Pj4gVGhlIGZyYW1lYnVmZmVyIGRyaXZlciBzdXBwb3J0cyBwcm9ncmFtcyBy
+dW5uaW5nIGZ1bGwtc2NyZWVuIGRpcmVjdGx5IG9uCj4gPj4+Pj4gdGhlIGZyYW1lYnVmZmVyIGNv
+bnNvbGUsIHN1Y2ggYXMgd2ViIGJyb3dzZXIgImxpbmtzIC1nIiwgaW1hZ2Ugdmlld2VyCj4gPj4+
+Pj4gImZiaSIsIHBvc3RzY3JpcHQrcGRmIHZpZXdlciAiZmJncyIsIFpYIFNwZWN0cnVtIGVtdWxh
+dG9yICJmdXNlLXNkbCIsCj4gPj4+Pj4gbW92aWUgcGxheWVyICJtcGxheWVyIC12byBmYmRldiIu
+IFRoZSBEUk0gZHJpdmVyIGRvZXNuJ3QgcnVuIHRoZW0uCj4gPj4+Pgo+ID4+Pj4gSG0gdGhpcyBz
+aG91bGQgaW4gZ2VuZXJhbCB3b3JrIG9uIGRybSBkcml2ZXJzLiBXaXRob3V0IHRoYXQgaXQncyBj
+bGVhciB0aGUKPiA+Pj4+IHN3aXRjaC1vdmVyIGlzbid0IHJlYWxseSByZWFkeSB5ZXQuCj4gPj4+
+Cj4gPj4+IEkgZml4ZWQgaXQgd2l0aCB0aGlzIHBhdGNoIHR3byB5ZWFycyBhZ286Cj4gPj4+IGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL2FyY2hpdmVzL2RyaS1kZXZlbC8yMDE4LUp1bmUv
+MTc5MDIzLmh0bWwKPiA+Pj4KPiA+Pj4gQnV0IHRoZSBwYXRjaCBuZXZlciB3ZW50IHRocm91Z2gg
+YW5kIHRoZSBmYl9kZWZpbyBmZWF0dXJlIHdhcyByZW1vdmVkIGluCj4gPj4+IHRoZSBrZXJuZWwg
+NS42IChjb21taXQgZDBjNGZjNWE0ODE0ZTQzMWMxNTI3MjkzNWM4ZGM5NzNjMTgwNzNhYSkuCj4g
+Pj4+Cj4gPj4+Cj4gPj4+IFdpdGhvdXQgZmJfZGVmaW8sIHRoZSBvbmx5IG90aGVyIHBvc3NpYmls
+aXR5IGhvdyB0byB1cGRhdGUgdGhlIHNjcmVlbiBpcwo+ID4+PiB0aGUgaW9jdGwgRFJNX0lPQ1RM
+X01PREVfRElSVFlGQi4gQnV0IHRoaXMgaW9jdGwgcmVxdWlyZXMgbWFzdGVyIG1vZGUsIHNvCj4g
+Pj4+IHVzZXIgcHJvZ3JhbXMgbGlrZSAibGlua3MgLWciIGNhbid0IGlzc3VlIGl0Lgo+ID4+Cj4g
+Pj4gVGhhdCdzIGNvbmZ1c2luZy4gRElSVFlGQiBpcyBvbmx5IGZvciBEUk0uCj4gPgo+ID4gWWVz
+LCB5b3UncmUgcmlnaHQuCj4gPgo+ID4+IEFuZCB3aHkgY2FuIGxpbmtzIG5vdCBydW4gYXMgRFJN
+IG1hc3RlciBtb2RlPyBJZiBpdCByZW5kZXJzIHRvIHRoZSB0ZXJtaW5hbCwKPiA+PiBpdCBzaG91
+bGQgYWN0IGxpa2UgYSBjb21wb3Nlci4gSW4gdGhhdCBjYXNlIGl0IGFsbW9zdCBjZXJ0YWlubHkg
+d2FudHMgbWFzdGVyCj4gPj4gc3RhdHVzLgo+ID4+Cj4gPj4gQmVzdCByZWdhcmRzCj4gPj4gVGhv
+bWFzCj4gPgo+ID4gSG93IGNhbiBhIHVzZXJzcGFjZSBwcm9ncmFtIGFjcXVpcmUgbWFzdGVyIG1v
+ZGUgd2l0aG91dCBiZWluZyBzdWlkPwo+Cj4gRm9yIG15IHVuZGVyc3RhbmRpbmcsIHRoZXJlJ3Mg
+bm8gZWFzeSBzb2x1dGlvbiB0byB0aGF0LiA6LwoKSWYgeW91J3JlIGFic29sdXRlbHkgdGhlIG9u
+bHkgdGhpbmcgcnVubmluZywgdGhlIGZpcnN0IG9uZSB0byBvcGVuIHRoZQpjYXJkKiBub2RlIHdp
+bnMuIEJ1dCB1c3VhbGx5IHlvdSBoYXZlIHNvbWV0aGluZyBsaWtlIGxvZ2luZCBtYW5hZ2luZwp0
+aGlzIGZvciB5b3UgKGZvciB2dCBzd2l0Y2hpbmcpLCBzaW5jZSBhZC1ob2MgdGhpcyBpcyBhIHZl
+cnkgZnJhZ2lsZQpzY2hlbWUuCgpJJ20gbm90IGV4YWN0bHkgc3VyZSBob3cgbG9naW5kIGdpdmVz
+IHlvdSBhbiBhbHJlYWR5IG9wZW5lZCBkcm0gZGV2aWNlCmluIG1hc3RlciBtb2RlLCB0aGF0J3Mg
+YSBiaXQgdHJpY2t5LiBXaXRob3V0IGVpdGhlciBiZWluZyBzdWlkIHJvb3Qgb3IKcGFydGljaXBh
+dGluZyBpbiB0aGUgbG9naW5kIHNjaGVtZSB5b3Ugd29uJ3QgYmUgYWJsZSB0byB2dCBzd2l0Y2gK
+dGhvdWdoLgoKQnV0IGJhcmUgbWV0YWwga21zIHVzYWdlIHNob3VsZCB3b3JrIEkgYXMtaXMuCi1E
+YW5pZWwKCj4KPiBJIGd1ZXNzIHdlIChEUk0gZGV2cykgaGF2ZSB0byB0cmVhdCBmYmRldiBhcyB0
+aGUgc29sdXRpb24gZm9yIHVzZSBjYXNlcwo+IHN1Y2ggYXMgb3Vycy4KPgo+IEZvciB0aGUgdW5w
+bHVnIGlzc3VlLCBJJ2xsIHRyeSB0byByZXByb2R1Y2UgYW5kIGZpeCBpdC4KPgo+IEZvciB0aGUg
+cGVyZm9ybWFuY2UgcHJvYmxlbXMsIHdlIG1pZ2h0IGJlIGFibGUgdG8gc3F1ZWV6ZSBhIGZldyBt
+b3JlCj4gY3ljbGVzIG91dCBvZiBpdC4KPgo+IEJlc3QgcmVnYXJkcwo+IFRob21hcwo+Cj4gPgo+
+ID4gSXMgdGhlcmUgc29tZSAiSGVsbG8gV29ybGQhIiBwcm9ncmFtIHRoYXQgc2hvd3MgaG93IHRv
+IHVzZSBEUk0/IEknbSBub3QgYW4KPiA+IGV4cGVydCBpbiBEUk0sIGJ1dCBpZiB0aGVyZSB3ZXJl
+IHNvbWUgdHV0b3JpYWwrZG9jdW1lbnRhdGlvbiwgSSBjb3VsZAo+ID4gY29uc2lkZXIgcG9ydGlu
+ZyAibGlua3MiIHRvIGl0Lgo+ID4KPiA+IE1pa3VsYXMKPiA+Cj4KPiAtLQo+IFRob21hcyBaaW1t
+ZXJtYW5uCj4gR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcgo+IFNVU0UgU29mdHdhcmUgU29sdXRp
+b25zIEdlcm1hbnkgR21iSAo+IE1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
+eQo+IChIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykKPiBHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXgg
+SW1lbmTDtnJmZmVyCj4KCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0d2FyZSBFbmdpbmVlciwgSW50
+ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
