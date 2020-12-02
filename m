@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DA12CD0E7
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:14 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DD6F2CD0EB
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB5656E0BF;
-	Thu,  3 Dec 2020 08:14:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4BC16E0C9;
+	Thu,  3 Dec 2020 08:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8146EA0C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 08:18:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF5A6E967
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 08:18:53 +0000 (UTC)
 Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1kkNLI-0004hZ-66; Wed, 02 Dec 2020 09:18:28 +0100
+ id 1kkNLI-0004ha-6H; Wed, 02 Dec 2020 09:18:28 +0100
 Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
  (envelope-from <ore@pengutronix.de>)
- id 1kkNLH-0007hJ-Jn; Wed, 02 Dec 2020 09:18:27 +0100
+ id 1kkNLH-0007hR-Km; Wed, 02 Dec 2020 09:18:27 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
  Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v6 2/8] dt-bindings: display: simple: add EDT compatibles
- already supported by the driver
-Date: Wed,  2 Dec 2020 09:18:20 +0100
-Message-Id: <20201202081826.29512-3-o.rempel@pengutronix.de>
+Subject: [PATCH v6 3/8] dt-bindings: display: simple: Add Kyocera tcg070wvlq
+ panel
+Date: Wed,  2 Dec 2020 09:18:21 +0100
+Message-Id: <20201202081826.29512-4-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201202081826.29512-1-o.rempel@pengutronix.de>
 References: <20201202081826.29512-1-o.rempel@pengutronix.de>
@@ -62,40 +62,28 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some EDT compatibles are already supported by the driver but will fail
-on checkpatch script. Fix it by syncing dt-bindings documentation with the
-driver.
+So far, this panel seems to be compatible with "lg,lb070wv8", on other
+hand it is better to set this compatible in the devicetree. So, let's
+add it for now only to the dt-binding documentation to fix the
+checkpatch warnings.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- .../devicetree/bindings/display/panel/panel-simple.yaml        | 3 +++
- 1 file changed, 3 insertions(+)
+ .../devicetree/bindings/display/panel/panel-simple.yaml          | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-index 428b03342fea..0bb3e67fb58c 100644
+index 0bb3e67fb58c..8f7a0e409eee 100644
 --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
 +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-@@ -108,10 +108,12 @@ properties:
-         # Emerging Display Technology Corp. 480x272 TFT Display with capacitive touch
-       - edt,et057090dhu
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-+      - edt,et070080dh6
-       - edt,etm043080dh6gp
-         # Emerging Display Technology Corp. 480x272 TFT Display
-       - edt,etm0430g0dh6
-         # Emerging Display Technology Corp. 5.7" VGA TFT LCD panel
-+      - edt,etm0700g0bdh6
-       - edt,etm070080bdh6
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-         # Same display as the ETM0700G0BDH6, but with changed hardware for the
-@@ -124,6 +126,7 @@ properties:
-       - edt,etm0700g0dh6
-         # Emerging Display Technology Corp. WVGA TFT Display with capacitive touch
-         # Same as ETM0700G0DH6 but with inverted pixel clock.
-+      - edt,etm0700g0edh6
-       - evervision,vgg804821
-         # Foxlink Group 5" WVGA TFT LCD panel
-       - foxlink,fl500wvr00-a0t
+@@ -172,6 +172,7 @@ properties:
+       - koe,tx26d202vm0bwa
+         # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
+       - koe,tx31d200vm0baa
++      - kyo,tcg070wvlq
+         # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
+       - kyo,tcg121xglp
+         # LeMaker BL035-RGB-002 3.5" QVGA TFT LCD panel
 -- 
 2.29.2
 
