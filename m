@@ -1,36 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E242CB7CA
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:53:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 515A92CB7E6
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 09:59:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 497C16EA07;
-	Wed,  2 Dec 2020 08:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 705A76E955;
+	Wed,  2 Dec 2020 08:59:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAF8C6E955;
- Wed,  2 Dec 2020 08:52:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B688B6E955
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 08:59:35 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 67124AC2E;
- Wed,  2 Dec 2020 08:52:57 +0000 (UTC)
-Subject: Re: [PATCH v2 01/20] drm/amdgpu: Fix trailing whitespaces
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- airlied@linux.ie, daniel@ffwll.ch
-References: <20201201103542.2182-1-tzimmermann@suse.de>
- <20201201103542.2182-2-tzimmermann@suse.de>
- <d79aa7c0-9b0b-4f1b-c4e5-54f53a8d2931@amd.com>
- <63150504-fda0-48fd-9ecd-fb19ea0ae9d7@suse.de>
- <997ad04d-2acb-1dfb-0733-78f79a45b453@amd.com>
+ by mx2.suse.de (Postfix) with ESMTP id 47911ACC2;
+ Wed,  2 Dec 2020 08:59:34 +0000 (UTC)
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+References: <1606898835-40775-1-git-send-email-tiantao6@hisilicon.com>
+ <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <99ce8db3-a53f-7432-6e05-428c414174a2@suse.de>
-Date: Wed, 2 Dec 2020 09:52:55 +0100
+Subject: Re: [PATCH drm/hisilicon 2/3] drm/irq: Add the new api to install irq
+Message-ID: <0582b2bc-cba5-af9e-3da1-dddc65dc859a@suse.de>
+Date: Wed, 2 Dec 2020 09:59:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <997ad04d-2acb-1dfb-0733-78f79a45b453@amd.com>
+In-Reply-To: <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,133 +42,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
- Alex Deucher <alexander.deucher@amd.com>, spice-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1788405546=="
+Cc: linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0663903473=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1788405546==
+--===============0663903473==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="NQTeTFwofrKnxF5g51AsjTFX2APrlinPw"
+ boundary="D2ArB4BjPyH4gDC0vZ4coFadlRx6osh0i"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---NQTeTFwofrKnxF5g51AsjTFX2APrlinPw
-Content-Type: multipart/mixed; boundary="0BmrJzoA6VxuSPrcTVlHO9W1ExU5R1O1i";
+--D2ArB4BjPyH4gDC0vZ4coFadlRx6osh0i
+Content-Type: multipart/mixed; boundary="dtcKyPVlomp4LMREjCRK4bfjpc1oBkVK4";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- airlied@linux.ie, daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Message-ID: <99ce8db3-a53f-7432-6e05-428c414174a2@suse.de>
-Subject: Re: [PATCH v2 01/20] drm/amdgpu: Fix trailing whitespaces
-References: <20201201103542.2182-1-tzimmermann@suse.de>
- <20201201103542.2182-2-tzimmermann@suse.de>
- <d79aa7c0-9b0b-4f1b-c4e5-54f53a8d2931@amd.com>
- <63150504-fda0-48fd-9ecd-fb19ea0ae9d7@suse.de>
- <997ad04d-2acb-1dfb-0733-78f79a45b453@amd.com>
-In-Reply-To: <997ad04d-2acb-1dfb-0733-78f79a45b453@amd.com>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: linux-kernel@vger.kernel.org
+Message-ID: <0582b2bc-cba5-af9e-3da1-dddc65dc859a@suse.de>
+Subject: Re: [PATCH drm/hisilicon 2/3] drm/irq: Add the new api to install irq
+References: <1606898835-40775-1-git-send-email-tiantao6@hisilicon.com>
+ <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
 
---0BmrJzoA6VxuSPrcTVlHO9W1ExU5R1O1i
+--dtcKyPVlomp4LMREjCRK4bfjpc1oBkVK4
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 02.12.20 um 09:43 schrieb Christian K=C3=B6nig:
-> Am 02.12.20 um 08:59 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 01.12.20 um 11:40 schrieb Christian K=C3=B6nig:
->>> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> on patch=
- #1=20
->>> and #15.
->>>
->>> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com> on patch #2=
- and=20
->>> #16.
->>
->> Could you add these patches to the AMD tree?
+Am 02.12.20 um 09:47 schrieb Tian Tao:
+> Add new api devm_drm_irq_install() to register interrupts,
+> no need to call drm_irq_uninstall() when the drm module is removed.
 >=20
-> Alex is usually the one who picks such stuff up.
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+> ---
+>   drivers/gpu/drm/drm_irq.c | 35 +++++++++++++++++++++++++++++++++++
+>   include/drm/drm_irq.h     |  2 +-
+>   2 files changed, 36 insertions(+), 1 deletion(-)
 >=20
-> But when people send out patch sets which mix changes from different=20
-> drivers it is more common to push them through drm-misc-next.
+> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> index 09d6e9e..b363dec 100644
+> --- a/drivers/gpu/drm/drm_irq.c
+> +++ b/drivers/gpu/drm/drm_irq.c
+> @@ -214,6 +214,41 @@ int drm_irq_uninstall(struct drm_device *dev)
+>   }
+>   EXPORT_SYMBOL(drm_irq_uninstall);
+>  =20
+> +static void devm_drm_irq_uninstall(void *data)
+> +{
+> +	drm_irq_uninstall(data);
+> +}
+> +
+> +/**
+> + * devm_drm_irq_install - install IRQ handler
+> + * @dev: DRM device
+> + * @irq: IRQ number to install the handler for
+> + *
+> + * devm_drm_irq_install is a  help function of drm_irq_install.
+> + *
+> + * if the driver uses devm_drm_irq_install, there is no need
+> + * to call drm_irq_uninstall when the drm module get unloaded,
+> + * as this will done automagically.
+> + *
+> + * Returns:
+> + * Zero on success or a negative error code on failure.
+> + */
+> +int devm_drm_irq_install(struct drm_device *dev, int irq)
+> +{
+> +	int ret;
+> +
+> +	ret =3D drm_irq_install(dev, irq);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret =3D devm_add_action_or_reset(dev->dev, devm_drm_irq_uninstall, de=
+v);
+> +	if (ret)
+> +		devm_drm_irq_uninstall(dev);
 
-I'm OK with drm-misc-next. I just don't want to add too many merge=20
-conflicts in your side.
+If anything went wrong, devm_add_action_or_reset() will have already=20
+cleaned up for you. [1] So just return the result of=20
+devm_add_action_or_reset().
 
 Best regards
 Thomas
 
->=20
-> Regards,
-> Christian.
->=20
->>
->> Best regards
->> Thomas
->>
->>>
->>> Regards,
->>> Christian.
->>>
->>> Am 01.12.20 um 11:35 schrieb Thomas Zimmermann:
->>>> Adhere to kernel coding style.
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Acked-by: Alex Deucher <alexander.deucher@amd.com>
->>>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>>> Cc: Alex Deucher <alexander.deucher@amd.com>
->>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
->>>> ---
->>>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 6 +++---
->>>> =C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c=20
->>>> b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> index 5f304425c948..da23c0f21311 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
->>>> @@ -4922,8 +4922,8 @@ pci_ers_result_t=20
->>>> amdgpu_pci_error_detected(struct pci_dev *pdev, pci_channel_sta
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case pci_channel_io_normal:
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return PCI_ER=
-S_RESULT_CAN_RECOVER;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Fatal error, prepare for slot rese=
-t */
->>>> -=C2=A0=C2=A0=C2=A0 case pci_channel_io_frozen:
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>> +=C2=A0=C2=A0=C2=A0 case pci_channel_io_frozen:
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Cance=
-l and wait for all TDRs in progress if failing to
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * set=C2=
-=A0 adev->in_gpu_reset in amdgpu_device_lock_adev
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
->>>> @@ -5014,7 +5014,7 @@ pci_ers_result_t amdgpu_pci_slot_reset(struct =
+[1]=20
+https://elixir.bootlin.com/linux/latest/source/include/linux/device.h#L25=
+5
 
->>>> pci_dev *pdev)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto out;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->>>> -=C2=A0=C2=A0=C2=A0 adev->in_pci_err_recovery =3D true;
->>>> +=C2=A0=C2=A0=C2=A0 adev->in_pci_err_recovery =3D true;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 r =3D amdgpu_device_pre_asic_reset(ad=
-ev, NULL, &need_full_reset);
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adev->in_pci_err_recovery =3D false;
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (r)
->>>
->>
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(devm_drm_irq_install);
+> +
+>   #if IS_ENABLED(CONFIG_DRM_LEGACY)
+>   int drm_legacy_irq_control(struct drm_device *dev, void *data,
+>   			   struct drm_file *file_priv)
+> diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
+> index d77f6e6..631b22f 100644
+> --- a/include/drm/drm_irq.h
+> +++ b/include/drm/drm_irq.h
+> @@ -28,5 +28,5 @@ struct drm_device;
+>  =20
+>   int drm_irq_install(struct drm_device *dev, int irq);
+>   int drm_irq_uninstall(struct drm_device *dev);
+> -
+> +int devm_drm_irq_install(struct drm_device *dev, int irq);
+>   #endif
 >=20
 
 --=20
@@ -181,32 +167,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---0BmrJzoA6VxuSPrcTVlHO9W1ExU5R1O1i--
+--dtcKyPVlomp4LMREjCRK4bfjpc1oBkVK4--
 
---NQTeTFwofrKnxF5g51AsjTFX2APrlinPw
+--D2ArB4BjPyH4gDC0vZ4coFadlRx6osh0i
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/HVecFAwAAAAAACgkQlh/E3EQov+A4
-/BAAm0Pz98qDnqqGJB82OfHn5e/hyEFmeHLwezK4YrvzbM4y5raTkGeAx6eXfbKKJV0PweE8wbGz
-joUVnqAkB5kUtpM8YPdph7p2c/re2x2x0ZIBepouw5cnpYAYfbYrDxOgrEe82+BBeyx6ZtOJU+k3
-DqPOsCUHMGkG1HFmYn3ejnp8HaDCPMTzoZOUjqXKNpNgf+iLbiPJypq8rei2Rquvb++VDI4+e0p1
-+hQCPBMqTEDDqn3Wv+dVz4O2B7YoTsalcDBLyqTOCyxmoQwaBTKchYuUeFpIax+kov+J82Ju1qek
-C7pz1JZbtArmXzYtxBzUJvuAjzIFzxY5OBzDFfbKAc7BvlpBZKim4GBVG/UXkbGCCS46McSSMilg
-bSey0ZjMvfvTo5AOJ/8ovXaBtAmiPLwnS7JpuGHjgq6eCVwd8IHLHtXGYC17lUTLmPIaGJM5jswN
-PWCbhkwRMRqIxD+GMiBpMp8SJ/1AqmNwAKpOo2YvELe2c9SmtUmhhVqG2izX/T8Lh94LJpbYyOev
-U8UZssaUEZZsi7zoOVWV8V/Yoh0oclIRBGeVH3riljhpcsEIpNHtxupt4YWrwk9QmaQdz0Z8MJbH
-TBQWlyIjzu682rqKskzhY6cavglZhv0ata8vuUuoxNfiZc05QXFwb/+qP28HyQmR7DpSf2QUqKeT
-+N8=
-=1A9q
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/HV3QFAwAAAAAACgkQlh/E3EQov+Aa
+7Q/8CvfrnS6P1zg9BpA9ogBz2v+5GhfIQ3opWto2b2dVaQMSOeEv2PYPrl9lz14cKqQsActOxSY4
+97qDlQAZYFw3uyMIqFHEUrIqaX0+5rC4xryCtOeo5yo2rqvB9t3gj1lJ1lPBzTqxhXVZoUgFROaK
+d6G+i6ik7nKLBxFULVFcYMivu8IrSD2Y9Qi8ED13AXAQwYSX51OTcNyRSgdSNjKOpPPdw1OBoyqP
+wng29OVeE/qbO5b2Rm5aWHwOXxQeY1MSG4ik4erBoK3X27cj/NrbJUnyXYJf5OYTm1T4zK6cFB9M
+tLSopJsv+gXmH5S1j6nM2k/G8riS9ZDFstt+NwFXxKAb2QjhxGY6xYFUiiJNeFEqAccy5zSWRHFf
+UCnqLJf7d0h2pSvksr7RVPXKZEFprHkEwuUqeBM4EjjE3zwNahpAKv6Bm+JuqeW72UjqU6Iwv+Ki
+nyba/Fcw579VJE6y88X7WBk4+VDbBX3moCBCkc9fRH10hCQIm5K5aemzSZVyu7BERVPz7gYwCVcD
+5TP4NQSTSoBWfTgQS8ignw0Z6Tj72FY3e+htbeDTmMkdWdL1cQH4EQ0at61Vp5bUwJlTO/TZqlZ8
+gGbrk+SEyzGhofpQFvCclP1TxoxsQlVMWK4gBpp2Nnv/wSCRn+GD6vxRmPF0QPcjuX4HQjqA6wuz
+/Xk=
+=BUWM
 -----END PGP SIGNATURE-----
 
---NQTeTFwofrKnxF5g51AsjTFX2APrlinPw--
+--D2ArB4BjPyH4gDC0vZ4coFadlRx6osh0i--
 
---===============1788405546==
+--===============0663903473==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -217,4 +203,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1788405546==--
+--===============0663903473==--
