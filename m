@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D50682CB246
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 02:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB052CB25D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 02:33:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56056E99A;
-	Wed,  2 Dec 2020 01:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 648F06E9C6;
+	Wed,  2 Dec 2020 01:33:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D9A56E99A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 01:26:10 +0000 (UTC)
-IronPort-SDR: FQDj0BYwIGM4IxuOPjI9ZjvNhODJBNQjG/HUuFaWtccNlyvD40spRhH2rbz/t4fsuzxkL3rX5q
- uBSQ5R0FbY5A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="173032776"
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; d="scan'208";a="173032776"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2020 17:26:09 -0800
-IronPort-SDR: 7E1A3p49cuTtTS+7zsM0/iv47juIqaLTWRUXLCeLkO4ukMZqSUxLoNshY/zqKORzcc61DHu1+5
- yieFGEbTdJ2Q==
-X-IronPort-AV: E=Sophos;i="5.78,385,1599548400"; d="scan'208";a="405330191"
-Received: from msotoflo-mobl2.amr.corp.intel.com (HELO intel.com)
- ([10.213.166.26])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2020 17:26:08 -0800
-Date: Tue, 1 Dec 2020 17:26:07 -0800
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: Dim blowing up in my face
-Message-ID: <20201202012607.GA1383659@intel.com>
-References: <3a1d46a8-cefe-cebb-2ab9-7bee1dea1d82@amd.com>
- <CAKMK7uHZmsMmJGu_wj7L=XjJcay_VLW8V=0mPiN_FcbRQB5LgQ@mail.gmail.com>
- <CAKMK7uG7xt7N265oi+HnWJkKU=B3TWfW4CWs-PAPVhiEqwnBUg@mail.gmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7500A6E9C6
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 01:33:16 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
+ 4.19/4.20/5.0
+Date: Wed, 02 Dec 2020 01:33:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mastercatz@hotmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-201539-2300-bZsNYNzZqv@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
+References: <bug-201539-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uG7xt7N265oi+HnWJkKU=B3TWfW4CWs-PAPVhiEqwnBUg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,80 +50,95 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 01, 2020 at 06:24:56PM +0100, Daniel Vetter wrote:
-> On Tue, Dec 1, 2020 at 6:22 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Tue, Dec 1, 2020 at 5:58 PM Christian K=F6nig <christian.koenig@amd.=
-com> wrote:
-> > >
-> > > Hi Daniel,
-> > >
-> > > I've just pushed a minor TTM cleanup and dim is complaining that
-> > > drm-intel/drm-intel-gt-next merge into drm-tip failed.
-> > >
-> > > Investigating that looks like something completely unrelated and I do=
-n't
-> > > know the Intel code well enough to fix it myself.
-> > >
-> > > How to we proceed?
-> >
-> > Probably just someone concurrently pushing and hasn't resolved their
-> > conflicts yet. Best is to ask on #intel-gfx who did it to make sure it
-> > gets fixed.
-> =
-
-> btw gitk --merge (and not --merges, that's a totally different knob)
-> in the conflicting branch is really good to figure out what's
-> conflicting with what and whom to blame for the mess. Looks like it
-> was Rodrigo and already resolved.
-
-yeap, caused by the drm-intel-fixes' cherry-picks from drm-intel-gt-next.
-
-All of them solved by simply going with the drm-intel-gt-next side.
-
-(Well, plus a silent conflict which left a duplication and broken the compi=
-lation)
-
-Sorry for any temporary inconvenience.
-
-> -Daniel
-> =
-
-> > -Daniel
-> >
-> > >
-> > > Thanks,
-> > > Christian.
-> >
-> >
-> >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> =
-
-> =
-
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMDE1MzkKCi0tLSBD
+b21tZW50ICM2MSBmcm9tIE1hc3RlckNBVFogKG1hc3RlcmNhdHpAaG90bWFpbC5jb20pIC0tLQoK
+Tm93IGl0IGp1c3QgcnVucyAxMDAlIEAgMzAwbWh6IGNvcmUgMTAwbWh6IG1lbW9yeSBAIH42MGRl
+ZyAKCmFpb0BhaW86L3N5cy9jbGFzcy9kcm0vY2FyZDAvZGV2aWNlL2h3bW9uL2h3bW9uMSQgc2Vu
+c29ycwprMTB0ZW1wLXBjaS0wMGMzCkFkYXB0ZXI6IFBDSSBhZGFwdGVyClZjb3JlOiAgICAgICAg
+IDEuMzggViAgClZzb2M6ICAgICAgICAgIDEuMDggViAgClRjdGw6ICAgICAgICAgKzc5LjjCsEMg
+IApUZGllOiAgICAgICAgICs3OS44wrBDICAKVGNjZDE6ICAgICAgICArNjYuMsKwQyAgClRjY2Qy
+OiAgICAgICAgKzYxLjDCsEMgIApJY29yZTogICAgICAgIDMyLjAwIEEgIApJc29jOiAgICAgICAg
+IDEwLjAwIEEgIAoKYWNwaXR6LWFjcGktMApBZGFwdGVyOiBBQ1BJIGludGVyZmFjZQp0ZW1wMTog
+ICAgICAgICsxNi44wrBDICAoY3JpdCA9ICsyMC44wrBDKQp0ZW1wMjogICAgICAgICsxNi44wrBD
+ICAoY3JpdCA9ICsyMC44wrBDKQoKYW1kZ3B1LXBjaS0wYjAwCkFkYXB0ZXI6IFBDSSBhZGFwdGVy
+CmZhbjE6ICAgICAgICAyODg0IFJQTSAgKG1pbiA9ICAgIDAgUlBNLCBtYXggPSA2MDAwIFJQTSkK
+ZWRnZTogICAgICAgICArNTkuMMKwQyAgKGNyaXQgPSArMTA0MDAwLjDCsEMsIGh5c3QgPSAtMjcz
+LjHCsEMpCnBvd2VyMTogICAgICAgMTIuMTUgVyAgKGNhcCA9IDIwOC4wMCBXKQoKYWlvQGFpbzov
+c3lzL2NsYXNzL2RybS9jYXJkMC9kZXZpY2UvaHdtb24vaHdtb24xJCBwd21jb25maWcKWW91IG5l
+ZWQgdG8gYmUgcm9vdCB0byBydW4gdGhpcyBzY3JpcHQuCmFpb0BhaW86L3N5cy9jbGFzcy9kcm0v
+Y2FyZDAvZGV2aWNlL2h3bW9uL2h3bW9uMSQgc3VkbyBwd21jb25maWcKW3N1ZG9dIHBhc3N3b3Jk
+IGZvciBhaW86IAojIHB3bWNvbmZpZyB2ZXJzaW9uIDMuNi4wClRoaXMgcHJvZ3JhbSB3aWxsIHNl
+YXJjaCB5b3VyIHNlbnNvcnMgZm9yIHB1bHNlIHdpZHRoIG1vZHVsYXRpb24gKHB3bSkKY29udHJv
+bHMsIGFuZCB0ZXN0IGVhY2ggb25lIHRvIHNlZSBpZiBpdCBjb250cm9scyBhIGZhbiBvbgp5b3Vy
+IG1vdGhlcmJvYXJkLiBOb3RlIHRoYXQgbWFueSBtb3RoZXJib2FyZHMgZG8gbm90IGhhdmUgcHdt
+CmNpcmN1aXRyeSBpbnN0YWxsZWQsIGV2ZW4gaWYgeW91ciBzZW5zb3IgY2hpcCBzdXBwb3J0cyBw
+d20uCgpXZSB3aWxsIGF0dGVtcHQgdG8gYnJpZWZseSBzdG9wIGVhY2ggZmFuIHVzaW5nIHRoZSBw
+d20gY29udHJvbHMuClRoZSBwcm9ncmFtIHdpbGwgYXR0ZW1wdCB0byByZXN0b3JlIGVhY2ggZmFu
+IHRvIGZ1bGwgc3BlZWQKYWZ0ZXIgdGVzdGluZy4gSG93ZXZlciwgaXQgaXMgKiogdmVyeSBpbXBv
+cnRhbnQgKiogdGhhdCB5b3UKcGh5c2ljYWxseSB2ZXJpZnkgdGhhdCB0aGUgZmFucyBoYXZlIGJl
+ZW4gdG8gZnVsbCBzcGVlZAphZnRlciB0aGUgcHJvZ3JhbSBoYXMgY29tcGxldGVkLgoKRm91bmQg
+dGhlIGZvbGxvd2luZyBkZXZpY2VzOgogICBod21vbjAgaXMgYWNwaXR6CiAgIGh3bW9uMSBpcyBh
+bWRncHUKICAgaHdtb24yIGlzIGsxMHRlbXAKICAgaHdtb24zIGlzIGhpZHBwX2JhdHRlcnlfMgoK
+Rm91bmQgdGhlIGZvbGxvd2luZyBQV00gY29udHJvbHM6CiAgIGh3bW9uMS9wd20xICAgICAgICAg
+ICBjdXJyZW50IHZhbHVlOiAxMjIKCkdpdmluZyB0aGUgZmFucyBzb21lIHRpbWUgdG8gcmVhY2gg
+ZnVsbCBzcGVlZC4uLgpGb3VuZCB0aGUgZm9sbG93aW5nIGZhbiBzZW5zb3JzOgogICBod21vbjEv
+ZmFuMV9pbnB1dCAgICAgY3VycmVudCBzcGVlZDogNTQ5OSBSUE0KCldhcm5pbmchISEgVGhpcyBw
+cm9ncmFtIHdpbGwgc3RvcCB5b3VyIGZhbnMsIG9uZSBhdCBhIHRpbWUsCmZvciBhcHByb3hpbWF0
+ZWx5IDUgc2Vjb25kcyBlYWNoISEhClRoaXMgbWF5IGNhdXNlIHlvdXIgcHJvY2Vzc29yIHRlbXBl
+cmF0dXJlIHRvIHJpc2UhISEKSWYgeW91IGRvIG5vdCB3YW50IHRvIGRvIHRoaXMgaGl0IGNvbnRy
+b2wtQyBub3chISEKSGl0IHJldHVybiB0byBjb250aW51ZTogCgpUZXN0aW5nIHB3bSBjb250cm9s
+IGh3bW9uMS9wd20xIC4uLgogIGh3bW9uMS9mYW4xX2lucHV0IC4uLiBzcGVlZCB3YXMgNTQ5OSBu
+b3cgMTEyMAogICAgSXQgYXBwZWFycyB0aGF0IGZhbiBod21vbjEvZmFuMV9pbnB1dAogICAgaXMg
+Y29udHJvbGxlZCBieSBwd20gaHdtb24xL3B3bTEKV291bGQgeW91IGxpa2UgdG8gZ2VuZXJhdGUg
+YSBkZXRhaWxlZCBjb3JyZWxhdGlvbiAoeSk/IHkKTm90ZTogSWYgeW91IGhhZCBnbnVwbG90IGlu
+c3RhbGxlZCwgSSBjb3VsZCBnZW5lcmF0ZSBhIGdyYXBoaWNhbCBwbG90LgogICAgUFdNIDI1NSBG
+QU4gNTUwOAogICAgUFdNIDI0MCBGQU4gNTQ5MgogICAgUFdNIDIyNSBGQU4gNTI0NQogICAgUFdN
+IDIxMCBGQU4gNDk2MgogICAgUFdNIDE5NSBGQU4gNDY1OQogICAgUFdNIDE4MCBGQU4gNDMyOAog
+ICAgUFdNIDE2NSBGQU4gMzk3NAogICAgUFdNIDE1MCBGQU4gMzU2NwogICAgUFdNIDEzNSBGQU4g
+MzE0MAogICAgUFdNIDEyMCBGQU4gMjc0NwogICAgUFdNIDEwNSBGQU4gMjMyMAogICAgUFdNIDkw
+IEZBTiAxODkyCiAgICBQV00gNzUgRkFOIDE0NzYKICAgIFBXTSA2MCBGQU4gMTE3OAogICAgUFdN
+IDQ1IEZBTiAxMDkyCiAgICBQV00gMzAgRkFOIDEwODMKICAgIFBXTSAyOCBGQU4gMTA4MgogICAg
+UFdNIDI2IEZBTiAxMDgxCiAgICBQV00gMjQgRkFOIDEwODAKICAgIFBXTSAyMiBGQU4gMTA4MQog
+ICAgUFdNIDIwIEZBTiAxMDgwCiAgICBQV00gMTggRkFOIDEwNzkKICAgIFBXTSAxNiBGQU4gMTA4
+MAogICAgUFdNIDE0IEZBTiAxMDc5CiAgICBQV00gMTIgRkFOIDEwNzkKICAgIFBXTSAxMCBGQU4g
+MTA4MAogICAgUFdNIDggRkFOIDEwODAKICAgIFBXTSA2IEZBTiAxMDc5CiAgICBQV00gNCBGQU4g
+MTA4MAogICAgUFdNIDIgRkFOIDEwNzkKICAgIFBXTSAwIEZBTiAxMDgwCgoKVGVzdGluZyBpcyBj
+b21wbGV0ZS4KUGxlYXNlIHZlcmlmeSB0aGF0IGFsbCBmYW5zIGhhdmUgcmV0dXJuZWQgdG8gdGhl
+aXIgbm9ybWFsIHNwZWVkLgoKVGhlIGZhbmNvbnRyb2wgc2NyaXB0IGNhbiBhdXRvbWF0aWNhbGx5
+IHJlc3BvbmQgdG8gdGVtcGVyYXR1cmUgY2hhbmdlcwpvZiB5b3VyIHN5c3RlbSBieSBjaGFuZ2lu
+ZyBmYW5zcGVlZHMuCkRvIHlvdSB3YW50IHRvIHNldCB1cCBpdHMgY29uZmlndXJhdGlvbiBmaWxl
+IG5vdyAoeSk/IHkKV2hhdCBzaG91bGQgYmUgdGhlIHBhdGggdG8geW91ciBmYW5jb250cm9sIGNv
+bmZpZyBmaWxlICgvZXRjL2ZhbmNvbnRyb2wpPyAKClNlbGVjdCBmYW4gb3V0cHV0IHRvIGNvbmZp
+Z3VyZSwgb3Igb3RoZXIgYWN0aW9uOgoxKSBod21vbjEvcHdtMSAgICAgICAgIDMpIEp1c3QgcXVp
+dCAgICAgICAgICAgNSkgU2hvdyBjb25maWd1cmF0aW9uCjIpIENoYW5nZSBJTlRFUlZBTCAgICAg
+NCkgU2F2ZSBhbmQgcXVpdApzZWxlY3QgKDEtbik6IDEKCkRldmljZXM6Cmh3bW9uMCBpcyBhY3Bp
+dHoKaHdtb24xIGlzIGFtZGdwdQpod21vbjIgaXMgazEwdGVtcApod21vbjMgaXMgaGlkcHBfYmF0
+dGVyeV8yCgpDdXJyZW50IHRlbXBlcmF0dXJlIHJlYWRpbmdzIGFyZSBhcyBmb2xsb3dzOgpod21v
+bjAvdGVtcDFfaW5wdXQgICAgICAxNgpod21vbjAvdGVtcDJfaW5wdXQgICAgICAxNgpod21vbjEv
+dGVtcDFfaW5wdXQgICAgICA1OQpod21vbjIvdGVtcDFfaW5wdXQgICAgICA4Mwpod21vbjIvdGVt
+cDJfaW5wdXQgICAgICA4Mwpod21vbjIvdGVtcDNfaW5wdXQgICAgICA2Mgpod21vbjIvdGVtcDRf
+aW5wdXQgICAgICA1OQoKU2VsZWN0IGEgdGVtcGVyYXR1cmUgc2Vuc29yIGFzIHNvdXJjZSBmb3Ig
+aHdtb24xL3B3bTE6CjEpIGh3bW9uMC90ZW1wMV9pbnB1dAoyKSBod21vbjAvdGVtcDJfaW5wdXQK
+MykgaHdtb24xL3RlbXAxX2lucHV0CjQpIGh3bW9uMi90ZW1wMV9pbnB1dAo1KSBod21vbjIvdGVt
+cDJfaW5wdXQKNikgaHdtb24yL3RlbXAzX2lucHV0CjcpIGh3bW9uMi90ZW1wNF9pbnB1dAo4KSBO
+b25lIChEbyBub3QgYWZmZWN0IHRoaXMgUFdNIG91dHB1dCkKc2VsZWN0ICgxLW4pOiAzCgpFbnRl
+ciB0aGUgbG93IHRlbXBlcmF0dXJlIChkZWdyZWUgQykKYmVsb3cgd2hpY2ggdGhlIGZhbiBzaG91
+bGQgc3BpbiBhdCBtaW5pbXVtIHNwZWVkICgyMCk6IDMwCgpFbnRlciB0aGUgaGlnaCB0ZW1wZXJh
+dHVyZSAoZGVncmVlIEMpCm92ZXIgd2hpY2ggdGhlIGZhbiBzaG91bGQgc3BpbiBhdCBtYXhpbXVt
+IHNwZWVkICg2MCk6IDcwCgpFbnRlciB0aGUgUFdNIHZhbHVlICgwLTI1NSkgdG8gdXNlIHdoZW4g
+dGhlIHRlbXBlcmF0dXJlCmlzIG92ZXIgdGhlIGhpZ2ggdGVtcGVyYXR1cmUgbGltaXQgKDI1NSk6
+IDI1MAoKClNlbGVjdCBmYW4gb3V0cHV0IHRvIGNvbmZpZ3VyZSwgb3Igb3RoZXIgYWN0aW9uOgox
+KSBod21vbjEvcHdtMSAgICAgICAgIDMpIEp1c3QgcXVpdCAgICAgICAgICAgNSkgU2hvdyBjb25m
+aWd1cmF0aW9uCjIpIENoYW5nZSBJTlRFUlZBTCAgICAgNCkgU2F2ZSBhbmQgcXVpdApzZWxlY3Qg
+KDEtbik6IDQKClNhdmluZyBjb25maWd1cmF0aW9uIHRvIC9ldGMvZmFuY29udHJvbC4uLgpDb25m
+aWd1cmF0aW9uIHNhdmVkCmFpb0BhaW86L3N5cy9jbGFzcy9kcm0vY2FyZDAvZGV2aWNlL2h3bW9u
+L2h3bW9uMSQKCi0tIApZb3UgYXJlIHJlY2VpdmluZyB0aGlzIG1haWwgYmVjYXVzZToKWW91IGFy
+ZSB3YXRjaGluZyB0aGUgYXNzaWduZWUgb2YgdGhlIGJ1Zy4KX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2
+ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21h
+aWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
