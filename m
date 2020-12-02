@@ -1,63 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BC22CC0D4
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 16:30:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADAE2CC0FE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 16:37:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB3546EA4F;
-	Wed,  2 Dec 2020 15:30:29 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-Received: from m42-5.mailgun.net (m42-5.mailgun.net [69.72.42.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702DE6EA4F
- for <dri-devel@freedesktop.org>; Wed,  2 Dec 2020 15:30:27 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1606923029; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: Cc: References: To:
- Subject: Sender; bh=5rUeJ6LWlxgf2QHCG6p9Jcm7Xnd4H8U2FkW6B8MHO1E=;
- b=RrRBL8hkcjQtSXYXyvECkbjMvtsgCcrrmUf7xPQFCQ2FZP7fOYek9LpMqY8eTueDEBKiVVRE
- E+rWmbo+9eZ5DUSMgSG1sj2NW/qlGWVOB2KR5whnoUXJ5eZDQpaZfXbMXADXor8U3pYtIjdt
- FcJTA4yhidcFBwowuGXorD+twtk=
-X-Mailgun-Sending-Ip: 69.72.42.5
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 5fc7b3080f9adc18c7015d30 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Dec 2020 15:30:16
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id D9590C43461; Wed,  2 Dec 2020 15:30:15 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.10] (unknown [117.217.239.80])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 3958DC433ED;
- Wed,  2 Dec 2020 15:30:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3958DC433ED
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2 1/3] drm/msm: adreno: Make speed-bin support generic
-To: Jordan Crouse <jcrouse@codeaurora.org>
-References: <1606481386-22867-1-git-send-email-akhilpo@codeaurora.org>
- <20201130170231.GF16856@jcrouse1-lnx.qualcomm.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <1911b3dc-407d-01a0-e4f2-72c0e331236b@codeaurora.org>
-Date: Wed, 2 Dec 2020 21:00:09 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8067A6EA58;
+	Wed,  2 Dec 2020 15:37:28 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 718716EA5B
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 15:37:27 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 2D12C3B9A17
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 15:37:23 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+ (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id CA480C0009;
+ Wed,  2 Dec 2020 15:36:59 +0000 (UTC)
+Date: Wed, 2 Dec 2020 16:36:59 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v7 2/3] drm: Add support for the LogiCVC display controller
+Message-ID: <X8e0mwSnhVZBUcU2@aptenodytes>
+References: <20201102155308.142691-1-paul.kocialkowski@bootlin.com>
+ <20201102155308.142691-3-paul.kocialkowski@bootlin.com>
+ <20201104212221.GA5588@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20201130170231.GF16856@jcrouse1-lnx.qualcomm.com>
-Content-Language: en-US
+In-Reply-To: <20201104212221.GA5588@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,263 +42,299 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
- dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: devicetree@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: multipart/mixed; boundary="===============0081424732=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-<< Resending since Jordan wasn't in the CC list >>
 
-On 11/30/2020 10:32 PM, Jordan Crouse wrote:
-> On Fri, Nov 27, 2020 at 06:19:44PM +0530, Akhil P Oommen wrote:
->> So far a530v2 gpu has support for detecting its supported opps
->> based on a fuse value called speed-bin. This patch makes this
->> support generic across gpu families. This is in preparation to
->> extend speed-bin support to a6x family.
->>
->> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
->> ---
->> Changes from v1:
->> 	1. Added the changes to support a618 sku to the series.
->> 	2. Avoid failing probe in case of an unsupported sku. (Rob)
->>
->>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
->>   drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
->>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
->>   4 files changed, 80 insertions(+), 34 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> index 8fa5c91..7d42321 100644
->> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->> @@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
->>   	.get_timestamp = a5xx_get_timestamp,
->>   };
->>   
->> -static void check_speed_bin(struct device *dev)
->> -{
->> -	struct nvmem_cell *cell;
->> -	u32 val;
->> -
->> -	/*
->> -	 * If the OPP table specifies a opp-supported-hw property then we have
->> -	 * to set something with dev_pm_opp_set_supported_hw() or the table
->> -	 * doesn't get populated so pick an arbitrary value that should
->> -	 * ensure the default frequencies are selected but not conflict with any
->> -	 * actual bins
->> -	 */
->> -	val = 0x80;
->> -
->> -	cell = nvmem_cell_get(dev, "speed_bin");
->> -
->> -	if (!IS_ERR(cell)) {
->> -		void *buf = nvmem_cell_read(cell, NULL);
->> -
->> -		if (!IS_ERR(buf)) {
->> -			u8 bin = *((u8 *) buf);
->> -
->> -			val = (1 << bin);
->> -			kfree(buf);
->> -		}
->> -
->> -		nvmem_cell_put(cell);
->> -	}
->> -
->> -	dev_pm_opp_set_supported_hw(dev, &val, 1);
->> -}
->> -
->>   struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>   {
->>   	struct msm_drm_private *priv = dev->dev_private;
->> @@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>   
->>   	a5xx_gpu->lm_leakage = 0x4E001A;
->>   
->> -	check_speed_bin(&pdev->dev);
->> -
->>   	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
->>   	if (ret) {
->>   		a5xx_destroy(&(a5xx_gpu->base.base));
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> index 87c8b03..e0ff16c 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->> @@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
->>   MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
->>   module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
->>   
->> +const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
->> +
->>   static const struct adreno_info gpulist[] = {
->>   	{
->>   		.rev   = ADRENO_REV(2, 0, 0, 0),
->> @@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
->>   			ADRENO_QUIRK_FAULT_DETECT_MASK,
->>   		.init = a5xx_gpu_init,
->>   		.zapfw = "a530_zap.mdt",
->> +		.speedbins = a530v2_speedbins,
->> +		.speedbins_count = ARRAY_SIZE(a530v2_speedbins),
->>   	}, {
->>   		.rev = ADRENO_REV(5, 4, 0, 2),
->>   		.revn = 540,
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> index f21561d..b342fa4 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->> @@ -14,6 +14,7 @@
->>   #include <linux/pm_opp.h>
->>   #include <linux/slab.h>
->>   #include <linux/soc/qcom/mdt_loader.h>
->> +#include <linux/nvmem-consumer.h>
->>   #include <soc/qcom/ocmem.h>
->>   #include "adreno_gpu.h"
->>   #include "msm_gem.h"
->> @@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
->>   			   adreno_ocmem->hdl);
->>   }
->>   
->> +static int adreno_set_supported_hw(struct device *dev,
->> +		struct adreno_gpu *adreno_gpu)
->> +{
->> +	u8 speedbins_count = adreno_gpu->info->speedbins_count;
->> +	const u32 *speedbins = adreno_gpu->info->speedbins;
->> +	struct nvmem_cell *cell;
->> +	u32 bin, i;
->> +	u32 val = 0;
->> +	void *buf, *opp_table;
->> +
->> +	cell = nvmem_cell_get(dev, "speed_bin");
->> +	/*
->> +	 * -ENOENT means that the platform doesn't support speedbin which is
->> +	 * fine
->> +	 */
->> +	if (PTR_ERR(cell) == -ENOENT)
->> +		return 0;
->> +	else if (IS_ERR(cell))
->> +		return PTR_ERR(cell);
->> +
->> +	if (!speedbins)
->> +		goto done;
->> +
->> +	buf = nvmem_cell_read(cell, NULL);
->> +	if (IS_ERR(buf)) {
->> +		nvmem_cell_put(cell);
->> +		return PTR_ERR(buf);
->> +	}
->> +
->> +	bin = *((u32 *) buf);
->> +
->> +	for (i = 0; i < speedbins_count; i++) {
->> +		if (bin == speedbins[i]) {
->> +			val = (1 << i);
->> +			break;
->> +		}
->> +	}
->> +
->> +	kfree(buf);
->> +done:
->> +	nvmem_cell_put(cell);
->> +
->> +	if (!val) {
->> +		DRM_DEV_ERROR(dev,
->> +				"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
->> +				bin);
->> +		val = ~0U;
->> +	}
->> +
->> +	opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
->> +	if (IS_ERR(opp_table))
->> +		return PTR_ERR(opp_table);
->> +
->> +	adreno_gpu->opp_table = opp_table;
->> +	return 0;
->> +}
->> +
->> +static void adreno_put_supported_hw(struct opp_table *opp_table)
->> +{
->> +	if (opp_table)
->> +		dev_pm_opp_put_supported_hw(opp_table);
->> +}
->> +
->>   int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>   		struct adreno_gpu *adreno_gpu,
->>   		const struct adreno_gpu_funcs *funcs, int nr_rings)
->> @@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>   	struct adreno_platform_config *config = dev->platform_data;
->>   	struct msm_gpu_config adreno_gpu_config  = { 0 };
->>   	struct msm_gpu *gpu = &adreno_gpu->base;
->> +	int ret;
->>   
->>   	adreno_gpu->funcs = funcs;
->>   	adreno_gpu->info = adreno_info(config->rev);
->> @@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>   
->>   	adreno_gpu_config.nr_rings = nr_rings;
->>   
->> +	ret = adreno_set_supported_hw(dev, adreno_gpu);
->> +	if (ret)
->> +		return ret;
->> +
-> 
-> I still don't understand why we are doing this here instead of a5xx_gpu.c and
-> a6xx_gpu.c.
-> 
-> Jordan
+--===============0081424732==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2Xz4AXsuSr8pfC7G"
+Content-Disposition: inline
 
-Could you please clarify why you prefer so?
 
--Akhil
-> 
->>   	adreno_get_pwrlevels(dev, gpu);
->>   
->>   	pm_runtime_set_autosuspend_delay(dev,
->> @@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
->>   
->>   	icc_put(gpu->icc_path);
->>   	icc_put(gpu->ocmem_icc_path);
->> +
->> +	adreno_put_supported_hw(adreno_gpu->opp_table);
->>   }
->> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> index c3775f7..a756ad7 100644
->> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->> @@ -55,6 +55,7 @@ struct adreno_reglist {
->>   };
->>   
->>   extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
->> +extern const u32 a618_speedbins[];
->>   
->>   struct adreno_info {
->>   	struct adreno_rev rev;
->> @@ -67,6 +68,8 @@ struct adreno_info {
->>   	const char *zapfw;
->>   	u32 inactive_period;
->>   	const struct adreno_reglist *hwcg;
->> +	const u32 *speedbins;
->> +	const u8 speedbins_count;
->>   };
->>   
->>   const struct adreno_info *adreno_info(struct adreno_rev rev);
->> @@ -112,6 +115,8 @@ struct adreno_gpu {
->>   	 * code (a3xx_gpu.c) and stored in this common location.
->>   	 */
->>   	const unsigned int *reg_offsets;
->> +
->> +	struct opp_table *opp_table;
->>   };
->>   #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
->>   
->> -- 
->> 2.7.4
->>
-> 
+--2Xz4AXsuSr8pfC7G
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sam,
+
+On Wed 04 Nov 20, 22:22, Sam Ravnborg wrote:
+> Hi Paul.
+>=20
+> A few comments in the following. I did not find time to read all of the
+> driver.
+
+Thanks for taking a look at the driver!
+
+>=20
+> 	Sam
+>=20
+> On Mon, Nov 02, 2020 at 04:53:07PM +0100, Paul Kocialkowski wrote:
+> > Introduces a driver for the LogiCVC display controller, a programmable
+> > logic controller optimized for use in Xilinx Zynq-7000 SoCs and other
+> > Xilinx FPGAs. The controller is mostly configured at logic synthesis
+> > time so only a subset of configuration is left for the driver to
+> > handle.
+> >=20
+> > The following features are implemented and tested:
+> > - LVDS 4-bit interface;
+> > - RGB565 pixel formats;
+> > - Multiple layers and hardware composition;
+> > - Layer-wide alpha mode;
+> >=20
+> > The following features are implemented but untested:
+> > - Other RGB pixel formats;
+> > - Layer framebuffer configuration for version 4;
+> > - Lowest-layer used as background color;
+> > - Per-pixel alpha mode.
+> >=20
+> > The following features are not implemented:
+> > - YUV pixel formats;
+> > - DVI, LVDS 3-bit, ITU656 and camera link interfaces;
+> > - External parallel input for layer;
+> > - Color-keying;
+> > - LUT-based alpha modes.
+> >=20
+> > Additional implementation-specific notes:
+> > - Panels are only enabled after the first page flip to avoid flashing a
+> >   white screen.
+> > - Depth used in context of the LogiCVC driver only counts color compone=
+nts
+> >   to match the definition of the synthesis parameters.
+> >=20
+> > Support is implemented for both version 3 and 4 of the controller.
+> >=20
+> > With version 3, framebuffers are stored in a dedicated contiguous
+> > memory area, with a base address hardcoded for each layer. This requires
+> > using a dedicated CMA pool registered at the base address and tweaking a
+> > few offset-related registers to try to use any buffer allocated from
+> > the pool. This is done on a best-effort basis to have the hardware cope
+> > with the DRM framebuffer allocation model and there is no guarantee
+> > that each buffer allocated by GEM CMA can be used for any layer.
+> > In particular, buffers allocated below the base address for a layer are
+> > guaranteed not to be configurable for that layer. See the implementatio=
+n of
+> > logicvc_layer_buffer_find_setup for specifics.
+> >=20
+> > Version 4 allows configuring each buffer address directly, which
+> > guarantees that any buffer can be configured.
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  MAINTAINERS                                 |   6 +
+> >  drivers/gpu/drm/Kconfig                     |   2 +
+> >  drivers/gpu/drm/Makefile                    |   1 +
+> >  drivers/gpu/drm/logicvc/Kconfig             |   9 +
+> >  drivers/gpu/drm/logicvc/Makefile            |   4 +
+> >  drivers/gpu/drm/logicvc/logicvc_crtc.c      | 277 +++++++++
+> >  drivers/gpu/drm/logicvc/logicvc_crtc.h      |  21 +
+> >  drivers/gpu/drm/logicvc/logicvc_drm.c       | 472 +++++++++++++++
+> >  drivers/gpu/drm/logicvc/logicvc_drm.h       |  64 ++
+> >  drivers/gpu/drm/logicvc/logicvc_interface.c | 224 +++++++
+> >  drivers/gpu/drm/logicvc/logicvc_interface.h |  30 +
+> >  drivers/gpu/drm/logicvc/logicvc_layer.c     | 615 ++++++++++++++++++++
+> >  drivers/gpu/drm/logicvc/logicvc_layer.h     |  64 ++
+> >  drivers/gpu/drm/logicvc/logicvc_mode.c      | 101 ++++
+> >  drivers/gpu/drm/logicvc/logicvc_mode.h      |  15 +
+> >  drivers/gpu/drm/logicvc/logicvc_of.c        | 197 +++++++
+> >  drivers/gpu/drm/logicvc/logicvc_of.h        |  46 ++
+> >  drivers/gpu/drm/logicvc/logicvc_regs.h      |  88 +++
+> >  18 files changed, 2236 insertions(+)
+> >  create mode 100644 drivers/gpu/drm/logicvc/Kconfig
+> >  create mode 100644 drivers/gpu/drm/logicvc/Makefile
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.c
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.h
+> >  create mode 100644 drivers/gpu/drm/logicvc/logicvc_regs.h
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 71e29dc0ab9d..9c4c5edef0ba 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -5522,6 +5522,12 @@ S:	Orphan / Obsolete
+> >  F:	drivers/gpu/drm/i810/
+> >  F:	include/uapi/drm/i810_drm.h
+> > =20
+> > +DRM DRIVER FOR LOGICVC DISPLAY CONTROLLER
+> > +M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +T:	git git://anongit.freedesktop.org/drm/drm-misc
+> > +S:	Supported
+> > +F:	drivers/gpu/drm/logicvc/
+> > +
+> >  DRM DRIVER FOR LVDS PANELS
+> >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >  L:	dri-devel@lists.freedesktop.org
+> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> > index 64376dd298ed..7b280056207f 100644
+> > --- a/drivers/gpu/drm/Kconfig
+> > +++ b/drivers/gpu/drm/Kconfig
+> > @@ -352,6 +352,8 @@ source "drivers/gpu/drm/arc/Kconfig"
+> > =20
+> >  source "drivers/gpu/drm/hisilicon/Kconfig"
+> > =20
+> > +source "drivers/gpu/drm/logicvc/Kconfig"
+> > +
+> >  source "drivers/gpu/drm/mediatek/Kconfig"
+> > =20
+> >  source "drivers/gpu/drm/zte/Kconfig"
+> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> > index 81569009f884..29fbb7cd9570 100644
+> > --- a/drivers/gpu/drm/Makefile
+> > +++ b/drivers/gpu/drm/Makefile
+> > @@ -102,6 +102,7 @@ obj-$(CONFIG_DRM_STM) +=3D stm/
+> >  obj-$(CONFIG_DRM_STI) +=3D sti/
+> >  obj-y 			+=3D imx/
+> >  obj-$(CONFIG_DRM_INGENIC) +=3D ingenic/
+> > +obj-$(CONFIG_DRM_LOGICVC) +=3D logicvc/
+> >  obj-$(CONFIG_DRM_MEDIATEK) +=3D mediatek/
+> >  obj-$(CONFIG_DRM_MESON)	+=3D meson/
+> >  obj-y			+=3D i2c/
+> > diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/=
+Kconfig
+> > new file mode 100644
+> > index 000000000000..300b2be07385
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/logicvc/Kconfig
+> > @@ -0,0 +1,9 @@
+> > +config DRM_LOGICVC
+> > +	tristate "LogiCVC DRM"
+> > +	depends on DRM
+> > +	depends on OF || COMPILE_TEST
+> > +	select DRM_KMS_HELPER
+> > +	select DRM_KMS_CMA_HELPER
+> > +	select DRM_GEM_CMA_HELPER
+> > +	help
+> > +	  DRM display driver for the logiCVC programmable logic block from Xy=
+lon
+> > diff --git a/drivers/gpu/drm/logicvc/Makefile b/drivers/gpu/drm/logicvc=
+/Makefile
+> > new file mode 100644
+> > index 000000000000..c09531fbd6ad
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/logicvc/Makefile
+> > @@ -0,0 +1,4 @@
+> > +logicvc-drm-y +=3D logicvc_crtc.o logicvc_drm.o logicvc_interface.o \
+> > +		 logicvc_layer.o logicvc_mode.o logicvc_of.o
+> > +
+> Even after maintaining kbuild for several years and reading far too many
+> Makefile I still dislike the use of '\' to break long assignments.
+>=20
+> logicvc-drm-y :=3D logicvc_crtc.o
+> logicvc-drm-y +=3D logicvc_drm.o
+> logicvc-drm-y +=3D logicvc_interface.o
+> logicvc-drm-y +=3D logicvc_layer.o
+> logicvc-drm-y +=3D logicvc_mode.o
+> logicvc-drm-y +=3D logicvc_of.o
+>=20
+> Or if this is too much repeated the shorter:
+> logicvc-drm-y :=3D logicvc_crtc.o logicvc_drm.o logicvc_interface.o
+> logicvc-drm-y +=3D logicvc_layer.o logicvc_mode.o logicvc_of.o
+>=20
+> Also note that the first stement is an assingnment and not an addition.
+>=20
+> It is a personal thing - so feel free to ignore.
+
+I agree that it looks ugly and starting with +=3D doesn't really make sense.
+But personally, I find that repeating the variable name doesn't look quite
+nice either. I think I'll settle for something like:
+
+logicvc-drm-y =3D logicvc_crtc.o \
+		logicvc_drm.o \
+		...
+		logicvc_of.o
+>=20
+> > +obj-$(CONFIG_DRM_LOGICVC) +=3D logicvc-drm.o
+> > diff --git a/drivers/gpu/drm/logicvc/logicvc_crtc.c b/drivers/gpu/drm/l=
+ogicvc/logicvc_crtc.c
+> > new file mode 100644
+> > index 000000000000..75e6a47a7724
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/logicvc/logicvc_crtc.c
+> > @@ -0,0 +1,277 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * Copyright (C) 2019 Bootlin
+> > + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > + */
+> > +
+> ...
+>=20
+>  +
+> > +int logicvc_crtc_init(struct logicvc_drm *logicvc)
+> > +{
+> > +	struct drm_device *drm_dev =3D &logicvc->drm_dev;
+> > +	struct device *dev =3D drm_dev->dev;
+> > +	struct device_node *of_node =3D dev->of_node;
+> > +	struct logicvc_crtc *crtc;
+> > +	struct logicvc_layer *layer_primary;
+> > +	int ret;
+> > +
+> > +	crtc =3D devm_kzalloc(dev, sizeof(*crtc), GFP_KERNEL);
+> > +	if (!crtc)
+> > +		return -ENOMEM;
+> > +
+> > +	layer_primary =3D logicvc_layer_get_primary(logicvc);
+> > +	if (!layer_primary) {
+> > +		DRM_ERROR("Failed to get primary layer\n");
+> > +		return -EINVAL;
+> > +	}
+> Please use drm_err(logicvc->drm, "...") and friends all over the file.
+> DRM_DEV_ERROR() and friends are deprecated.
+> If you have no drm_device use whatever.
+
+Understood, I'll change that in the next revision!
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--2Xz4AXsuSr8pfC7G
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/HtJsACgkQ3cLmz3+f
+v9FQDgf/fZpfvWdvgx3Tm9BVP4vHB4lWjs4uxfn2wWWfJYpvh/uJ6j8a/Z9y+BxH
+V7Dgt44xakQhnYa5D1Y8B+3gtRb+aSlwV1bzErc4pRv0Hb/Ld1zeN23Ic8Kf+7I9
+YOrKntMHEunF4QB+CMO0n0yEvQLubl/wWt2Y0SDhS0hvE5bWEMJn1mT+JByhpZYL
+BxMHpUPYAoi3HEnYhm/IJ1sEEk4GIiOa4mn/qZ4LO2PQvNc9WpCAC4iGyrW7xOMU
+a6sGcXcUSyjl2M8I4DhqAe7efcK/e9clRXMxG5HS9vcw6Y36TkAiyiDiMiKKBlPt
+kvlwDl6NWSwGwJUj3nmh8xWbUC727Q==
+=zAa+
+-----END PGP SIGNATURE-----
+
+--2Xz4AXsuSr8pfC7G--
+
+--===============0081424732==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0081424732==--
