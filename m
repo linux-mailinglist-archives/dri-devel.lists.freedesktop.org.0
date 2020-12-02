@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FFA2CC0CB
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 16:29:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BC22CC0D4
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 16:30:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD69889D39;
-	Wed,  2 Dec 2020 15:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB3546EA4F;
+	Wed,  2 Dec 2020 15:30:29 +0000 (UTC)
 X-Original-To: dri-devel@freedesktop.org
 Delivered-To: dri-devel@freedesktop.org
-X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
- Wed, 02 Dec 2020 15:29:05 UTC
-Received: from a2.mail.mailgun.net (a2.mail.mailgun.net [198.61.254.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FFE89CF8
- for <dri-devel@freedesktop.org>; Wed,  2 Dec 2020 15:29:05 +0000 (UTC)
+Received: from m42-5.mailgun.net (m42-5.mailgun.net [69.72.42.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 702DE6EA4F
+ for <dri-devel@freedesktop.org>; Wed,  2 Dec 2020 15:30:27 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1606922945; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: To:
- Subject: Sender; bh=y1GfFfb2NADmN9/ynVFbfAXYeakeEn3izIGAhfXcrC4=;
- b=i6uD5/SmS7vrj+xHLO8D03rCVDoSn1nQA+ZfDSA4HlNvsydJpsBaC6q591FRHy5ARW4O6ilQ
- WigIQkewslIVJ5VOVlq4ya+LgiscfeAmyNFyDLvSDiT5bjpXFVti2l04E4KICsxQDbUxQjpA
- vVfwhKSegkscIXLb3eAa7wZJ6iE=
-X-Mailgun-Sending-Ip: 198.61.254.61
+ s=smtp; t=1606923029; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: Cc: References: To:
+ Subject: Sender; bh=5rUeJ6LWlxgf2QHCG6p9Jcm7Xnd4H8U2FkW6B8MHO1E=;
+ b=RrRBL8hkcjQtSXYXyvECkbjMvtsgCcrrmUf7xPQFCQ2FZP7fOYek9LpMqY8eTueDEBKiVVRE
+ E+rWmbo+9eZ5DUSMgSG1sj2NW/qlGWVOB2KR5whnoUXJ5eZDQpaZfXbMXADXor8U3pYtIjdt
+ FcJTA4yhidcFBwowuGXorD+twtk=
+X-Mailgun-Sending-Ip: 69.72.42.5
 X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5fc7b18d0b1f6587dda5eb19 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Dec 2020 15:23:57
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 5fc7b3080f9adc18c7015d30 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Dec 2020 15:30:16
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 547E4C43460; Wed,  2 Dec 2020 15:23:57 +0000 (UTC)
+ id D9590C43461; Wed,  2 Dec 2020 15:30:15 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -41,23 +39,20 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
 Received: from [192.168.1.10] (unknown [117.217.239.80])
  (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
  (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id F2513C433ED;
- Wed,  2 Dec 2020 15:23:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F2513C433ED
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 3958DC433ED;
+ Wed,  2 Dec 2020 15:30:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 3958DC433ED
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
  spf=fail smtp.mailfrom=akhilpo@codeaurora.org
 Subject: Re: [PATCH v2 1/3] drm/msm: adreno: Make speed-bin support generic
-To: freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- robh@kernel.org, dri-devel@freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, mka@chromium.org, robdclark@gmail.com,
- dianders@chromium.org
+To: Jordan Crouse <jcrouse@codeaurora.org>
 References: <1606481386-22867-1-git-send-email-akhilpo@codeaurora.org>
  <20201130170231.GF16856@jcrouse1-lnx.qualcomm.com>
 From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <39ae4584-e935-363e-62af-17558781e913@codeaurora.org>
-Date: Wed, 2 Dec 2020 20:53:51 +0530
+Message-ID: <1911b3dc-407d-01a0-e4f2-72c0e331236b@codeaurora.org>
+Date: Wed, 2 Dec 2020 21:00:09 +0530
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
@@ -75,10 +70,15 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
+ dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
+
+<< Resending since Jordan wasn't in the CC list >>
 
 On 11/30/2020 10:32 PM, Jordan Crouse wrote:
 > On Fri, Nov 27, 2020 at 06:19:44PM +0530, Akhil P Oommen wrote:
