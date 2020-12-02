@@ -2,61 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA372CD0F2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7542CD0DE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:14:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9B586E9AC;
-	Thu,  3 Dec 2020 08:14:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A4036E09F;
+	Thu,  3 Dec 2020 08:14:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x264.google.com (mail-oi1-x264.google.com
- [IPv6:2607:f8b0:4864:20::264])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DDAC6EA20
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 09:08:39 +0000 (UTC)
-Received: by mail-oi1-x264.google.com with SMTP id l206so833710oif.12
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Dec 2020 01:08:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=V4idFGquiUXOkAc94/NmXxjQ6gkldevHuT9OINnY+Bo=;
- b=SkGdRemI5tcyrXqI/jkk5YaTTIvdv24kwbJh5pBa7CmdOUMFr0qPW0wsjMRnxTqkQb
- +RFEvpyd/NJvRbzd3uzmAPJQ8cGQrS/KlpG2IRuFRfRIz7O6d11Xw9+PgNIY4zesgKzl
- /CJQQ0GIDyzoyT1X5YSe6TayD9H4qf1qaJ9H4dBiczg0wmvm4K7scpLkNyQcZIkQwlOo
- MSe/HWaUwQN3vIIK1c/5beWT0rQ4lXg1tJj5EYf2m7A7kh05PC8ZNBJE+N5iZBl9cqdK
- UV5QBIPG9hcHuRZ6lj2JH6rT4VH5ePteNBeQEit5lYI+a9nb/fQ98dmYGyUjQzbC5dj8
- yrZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=V4idFGquiUXOkAc94/NmXxjQ6gkldevHuT9OINnY+Bo=;
- b=gcgcJS31SPVeLATiXmtb/v60BrOl/pKVO0APQzgBE1kCFWhwMQ4vjzMx6Mp52aqFix
- U9uyYI/NHy5I5Rl9/J1LrZIqv3iS0zjgmHTYZLsAZLrAZ+19fEfnifs54/rDWOhvGqYw
- RFsNpY2DJtg8dSIM+QSOcs6sFcFTkz/SYyy2/pStx1kHeLity+xEHxazK4Ms8ic6nGw1
- /l/aanSOwJzpbu6nT5dyomFOlSB8bn1+BJGQr+jcCPL7k8r/KJfWnviZnLpim1w697Wi
- /m/CYuvFe0755wILBNuK9O6He+h1F6suU8hohAuH8bipPwLvHVq+XBzLKr5bP1l7Ifde
- y5ow==
-X-Gm-Message-State: AOAM530SIXPGYzUeQjvyY+Tq09mjlb/HdJ6CFAYj1bAoQQV4CD54LBIY
- BoBz57X9rpv2V9PdavaLUM7YZSLwSgR/wi02+JoDvjZ5ycf7eQ==
-X-Google-Smtp-Source: ABdhPJyhAxvgatgjuvv+ieru1G2RtGJ6VZN1CuOmgBB/wT6Y3oJQqAzXZE76qDu9SM9zyvEZtMGBOsvg+Zq2
-X-Received: by 2002:aca:5286:: with SMTP id g128mr917427oib.91.1606900118984; 
- Wed, 02 Dec 2020 01:08:38 -0800 (PST)
-Received: from DESKTOP-G3VVM7A.localdomain (c-24-5-176-39.hsd1.ca.comcast.net.
- [24.5.176.39])
- by smtp-relay.gmail.com with ESMTPS id l13sm198262otb.10.2020.12.02.01.08.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 02 Dec 2020 01:08:38 -0800 (PST)
-X-Relaying-Domain: lagfreegames.com
-From: James Park <jpark37@lagfreegames.com>
-To: contact@emersion.fr,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: Fix drm.h uapi header for Windows
-Date: Wed,  2 Dec 2020 01:07:16 -0800
-Message-Id: <1606900036-126-2-git-send-email-jpark37@lagfreegames.com>
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B96F6E9C7
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 09:26:41 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CmD9R4kk2zLyXN;
+ Wed,  2 Dec 2020 17:26:03 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 2 Dec 2020 17:26:34 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>
+Subject: [PATCH drm/hisilicon v2 0/3] Add the new api to install irq
+Date: Wed, 2 Dec 2020 17:26:49 +0800
+Message-ID: <1606901212-8214-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1606900036-126-1-git-send-email-jpark37@lagfreegames.com>
-References: <xOk1dXNl1GdnDlbmgZsJHYWhW2KQB2oQCBLJ9NvRfmjr7mLqEtX2Bn85XMOWwagoS9diq7pu0EddxiiPncxxN-ZrY8KoueFO67kmqiw1CdM=@emersion.fr>
- <1606900036-126-1-git-send-email-jpark37@lagfreegames.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 03 Dec 2020 08:14:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,66 +43,34 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Park <jpark37@lagfreegames.com>
-MIME-Version: 1.0
+Cc: linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This will allow Mesa to port code to Windows more easily.
+patch #1 is code refactorings to use devm_drm_dev_alloc.
+patch #2 add the new api to install irq, patch #3 is hibmc driver uses
+the newly added api to register interrupts.
 
-Hide BSD header and drm_handle_t behind _WIN32 check.
+Changes since v1:
+The devm_drm_irq_install function returns devm_add_action_or_reset directly
+without checking that devm_add_action_or_reset returns the correct value.
 
-Change __volatile__ to volatile, which is standard.
+Tian Tao (3):
+  drm/hisilicon: Code refactoring for hibmc_drm_drv
+  drm/irq: Add the new api to install irq
+  drm/hisilicon: Use the new api devm_drm_irq_install
 
-Signed-off-by: James Park <jpark37@lagfreegames.com>
----
- include/uapi/drm/drm.h | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_irq.c                        | 32 +++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c   |  2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c  | 51 ++++++++++--------------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  |  4 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c |  2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c      |  8 ++--
+ include/drm/drm_irq.h                            |  2 +-
+ 7 files changed, 64 insertions(+), 37 deletions(-)
 
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 808b48a..53dc3c9 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -48,10 +48,9 @@ typedef unsigned int drm_handle_t;
- #include <asm/ioctl.h>
- typedef unsigned int drm_handle_t;
- 
--#else /* One of the BSDs */
-+#else
- 
- #include <stdint.h>
--#include <sys/ioccom.h>
- #include <sys/types.h>
- typedef int8_t   __s8;
- typedef uint8_t  __u8;
-@@ -62,10 +61,16 @@ typedef uint32_t __u32;
- typedef int64_t  __s64;
- typedef uint64_t __u64;
- typedef size_t   __kernel_size_t;
-+
-+#ifndef _WIN32 /* One of the BSDs */
-+
-+#include <sys/ioccom.h>
- typedef unsigned long drm_handle_t;
- 
- #endif
- 
-+#endif
-+
- #if defined(__cplusplus)
- extern "C" {
- #endif
-@@ -128,7 +133,7 @@ struct drm_tex_region {
-  * other data stored in the same cache line.
-  */
- struct drm_hw_lock {
--	__volatile__ unsigned int lock;		/**< lock variable */
-+	volatile unsigned int lock;		/**< lock variable */
- 	char padding[60];			/**< Pad to cache line */
- };
- 
 -- 
 2.7.4
 
