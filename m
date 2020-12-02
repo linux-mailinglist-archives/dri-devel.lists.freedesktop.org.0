@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28622CBFBF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 15:31:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C54A2CBFC2
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 15:31:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2D5F6EA64;
-	Wed,  2 Dec 2020 14:31:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 620D36EA66;
+	Wed,  2 Dec 2020 14:31:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC826EA60;
- Wed,  2 Dec 2020 14:31:34 +0000 (UTC)
-IronPort-SDR: jB+qDc8wuNjD1j1nxNmH9ybLd9qtXLp8AmlJt3hNF3zMnM/Hofauw6Jln4YHpCpZpsoTH2DTaa
- fGpEfFcyBbfg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="257733889"
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; d="scan'208";a="257733889"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA016EA60;
+ Wed,  2 Dec 2020 14:31:36 +0000 (UTC)
+IronPort-SDR: qhp5kfUf/l3HFzR32FbdkwEGJQ+a4b6DpeY5hUbL57yNuTsuzhrEky5bPNQaNG9tcCckiTbf6M
+ Ql4XHE9DyW4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="257733903"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; d="scan'208";a="257733903"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2020 06:31:02 -0800
-IronPort-SDR: HB+r4voohkBvnRAiuRnsbFV2y/c1D2kPWKt1WdvVuevcX6WS8y9nSC4Wibf9CwObv89w8hQ5lr
- pwObwhA8UFkA==
+ 02 Dec 2020 06:31:05 -0800
+IronPort-SDR: 9NJZAljEC45FXiOCj5dEWW7fqIevo7LinyQ4+ozHVxZL46kt9rFG+Qc8bkNw5yJ56PRlADGuS8
+ Yq+tpW/XSzVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; d="scan'208";a="373191599"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; d="scan'208";a="373191633"
 Received: from linux-akn.iind.intel.com ([10.223.34.148])
- by orsmga007.jf.intel.com with ESMTP; 02 Dec 2020 06:30:59 -0800
+ by orsmga007.jf.intel.com with ESMTP; 02 Dec 2020 06:31:02 -0800
 From: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v3 10/13] drm/i915: Add support for enabling link status and
- recovery
-Date: Wed,  2 Dec 2020 19:54:02 +0530
-Message-Id: <20201202142405.14951-11-ankit.k.nautiyal@intel.com>
+Subject: [PATCH v3 11/13] drm/i915: Read DSC capabilities of the HDMI2.1 PCON
+ encoder
+Date: Wed,  2 Dec 2020 19:54:03 +0530
+Message-Id: <20201202142405.14951-12-ankit.k.nautiyal@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201202142405.14951-1-ankit.k.nautiyal@intel.com>
 References: <20201202142405.14951-1-ankit.k.nautiyal@intel.com>
-MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,89 +50,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: swati2.sharma@intel.com, airlied@linux.ie, vandita.kulkarni@intel.com,
  uma.shankar@intel.com, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hhcm1hQGludGVsLmNvbT4KCkluIHRoaXMgcGF0
-Y2ggZW5hYmxlcyBzdXBwb3J0IGZvciBkZXRlY3RpbmcgbGluayBmYWlsdXJlcyBiZXR3ZWVuClBD
-T04gYW5kIEhETUkgc2luayBpbiBpOTE1IGRyaXZlci4gSERNSSBsaW5rIGxvc3MgaW5kaWNhdGlv
-biB0bwp1cHN0cmVhbSBEUCBzb3VyY2UgaXMgaW5kaWNhdGVkIHZpYSBJUlFfSFBELiBUaGlzIGlz
-IGZvbGxvd2VkIGJ5CnJlYWRpbmcgb2YgSERNSSBsaW5rIGNvbmZpZ3VyYXRpb24gc3RhdHVzIChI
-RE1JX1RYX0xJTktfQUNUSVZFX1NUQVRVUykuCklmIHRoZSBQQ09OIOKGkiBIRE1JIDIuMSBsaW5r
-IHN0YXR1cyBpcyBvZmY7IHJlaW5pdGlhdGUgZnJsIGxpbmsKdHJhaW5pbmcgdG8gcmVjb3Zlci4g
-QWxzbywgcmVwb3J0IEhETUkgRlJMIGxpbmsgZXJyb3IgY291bnQgcmFuZ2UgZm9yCmVhY2ggaW5k
-aXZpZHVhbCBGUkwgYWN0aXZlIGxhbmUgaXMgaW5kaWNhdGVkIGJ5CkRPV05TVFJFQU1fSERNSV9F
-UlJPUl9TVEFUVVNfTE4gcmVnaXN0ZXJzLgoKdjI6IENoZWNrZWQgZm9yIGRwY2QgcmVhZCBhbmQg
-d3JpdGUgZmFpbHVyZXMgYW5kIGFkZGVkIGRlYnVnIG1lc3NhZ2UuCihVbWEgU2hhbmthcikKdjM6
-IHJlYXJyYW5nZWQgY29kZSB0byByZS1zdGFydCBGUkwgbGluayB0cmFpbmluZyBvciBmYWxsIGJh
-Y2sgdG8KVE1EUyBtb2RlLgoKU2lnbmVkLW9mZi1ieTogU3dhdGkgU2hhcm1hIDxzd2F0aTIuc2hh
-cm1hQGludGVsLmNvbT4KU2lnbmVkLW9mZi1ieTogQW5raXQgTmF1dGl5YWwgPGFua2l0LmsubmF1
-dGl5YWxAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogVW1hIFNoYW5rYXIgPHVtYS5zaGFua2FyQGlu
-dGVsLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMgfCA2
-OCArKysrKysrKysrKysrKysrKysrKysrKy0tCiAxIGZpbGUgY2hhbmdlZCwgNjUgaW5zZXJ0aW9u
-cygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9k
-aXNwbGF5L2ludGVsX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2Rw
-LmMKaW5kZXggNThjN2UwODBkOTE4Li43ZDcwMTBiMTQ4ZWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2RwLmMKQEAgLTYwMjgsNiArNjAyOCw0MyBAQCBpbnRlbF9kcF9jaGVj
-a19tc3Rfc3RhdHVzKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJcmV0dXJuIGxpbmtfb2s7
-CiB9CiAKK3N0YXRpYyB2b2lkCitpbnRlbF9kcF9oYW5kbGVfaGRtaV9saW5rX3N0YXR1c19jaGFu
-Z2Uoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKK3sKKwlib29sIGlzX2FjdGl2ZTsKKwl1OCBi
-dWYgPSAwOworCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdiA9IGRwX3RvX2k5MTUo
-aW50ZWxfZHApOworCisJaXNfYWN0aXZlID0gZHJtX2RwX3Bjb25faGRtaV9saW5rX2FjdGl2ZSgm
-aW50ZWxfZHAtPmF1eCk7CisJaWYgKGludGVsX2RwLT5mcmwuaXNfdHJhaW5lZCAmJiAhaXNfYWN0
-aXZlKSB7CisJCWlmIChkcm1fZHBfZHBjZF9yZWFkYigmaW50ZWxfZHAtPmF1eCwgRFBfUENPTl9I
-RE1JX0xJTktfQ09ORklHXzEsICZidWYpIDwgMCkKKwkJCXJldHVybjsKKworCQlidWYgJj0gIH5E
-UF9QQ09OX0VOQUJMRV9IRE1JX0xJTks7CisJCWlmIChkcm1fZHBfZHBjZF93cml0ZWIoJmludGVs
-X2RwLT5hdXgsIERQX1BDT05fSERNSV9MSU5LX0NPTkZJR18xLCBidWYpIDwgMCkKKwkJCXJldHVy
-bjsKKworCQlkcm1fZHBfcGNvbl9oZG1pX2ZybF9saW5rX2Vycm9yX2NvdW50KCZpbnRlbF9kcC0+
-YXV4LCAmaW50ZWxfZHAtPmF0dGFjaGVkX2Nvbm5lY3Rvci0+YmFzZSk7CisKKwkJaW50ZWxfZHAt
-PmZybC5pc190cmFpbmVkID0gZmFsc2U7CisJCWludGVsX2RwLT5mcmwudHJhaW5lZF9yYXRlX2di
-cHMgPSAwOworCisJCS8qIFJlc3RhcnQgRlJMIHRyYWluaW5nIG9yIGZhbGwgYmFjayB0byBUTURT
-IG1vZGUgKi8KKwkJaWYgKGludGVsX2RwX3Bjb25fc3RhcnRfZnJsX3RyYWluaW5nKGludGVsX2Rw
-KSA8IDApIHsKKwkJCWludCByZXQsIG1vZGU7CisKKwkJCWRybV9kYmcoJmRldl9wcml2LT5kcm0s
-ICJDb3VsZG50IHJlc3RhcnQgRlJMLCBjb250aW51aW5nIHdpdGggVE1EUyBtb2RlXG4iKTsKKwkJ
-CXJldCA9IGRybV9kcF9wY29uX3Jlc2V0X2ZybF9jb25maWcoJmludGVsX2RwLT5hdXgpOworCQkJ
-bW9kZSA9IGRybV9kcF9wY29uX2hkbWlfbGlua19tb2RlKCZpbnRlbF9kcC0+YXV4LCBOVUxMKTsK
-KworCQkJaWYgKHJldCA8IDAgfHwgbW9kZSAhPSBEUF9QQ09OX0hETUlfTU9ERV9UTURTKQorCQkJ
-ZHJtX2RiZygmZGV2X3ByaXYtPmRybSwgIklzc3VlIHdpdGggUENPTiwgY2Fubm90IHNldCBUTURT
-IG1vZGVcbiIpOworCQl9IGVsc2UgeworCQkJZHJtX2RiZygmZGV2X3ByaXYtPmRybSwgIkZSTCBS
-ZS10cmFpbmluZyBDb21wbGV0ZWRcbiIpOworCQl9CisJfQorfQorCiBzdGF0aWMgYm9vbAogaW50
-ZWxfZHBfbmVlZHNfbGlua19yZXRyYWluKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiB7CkBA
-IC02MzkzLDcgKzY0MzAsNyBAQCBpbnRlbF9kcF9ob3RwbHVnKHN0cnVjdCBpbnRlbF9lbmNvZGVy
-ICplbmNvZGVyLAogCXJldHVybiBzdGF0ZTsKIH0KIAotc3RhdGljIHZvaWQgaW50ZWxfZHBfY2hl
-Y2tfc2VydmljZV9pcnEoc3RydWN0IGludGVsX2RwICppbnRlbF9kcCkKK3N0YXRpYyB2b2lkIGlu
-dGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2lycShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2Rw
-KQogewogCXN0cnVjdCBkcm1faTkxNV9wcml2YXRlICppOTE1ID0gZHBfdG9faTkxNShpbnRlbF9k
-cCk7CiAJdTggdmFsOwpAQCAtNjQxNyw2ICs2NDU0LDMwIEBAIHN0YXRpYyB2b2lkIGludGVsX2Rw
-X2NoZWNrX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHApCiAJCWRybV9kYmdf
-a21zKCZpOTE1LT5kcm0sICJTaW5rIHNwZWNpZmljIGlycSB1bmhhbmRsZWRcbiIpOwogfQogCitz
-dGF0aWMgdm9pZCBpbnRlbF9kcF9jaGVja19saW5rX3NlcnZpY2VfaXJxKHN0cnVjdCBpbnRlbF9k
-cCAqaW50ZWxfZHApCit7CisJc3RydWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUgPSBkcF90b19p
-OTE1KGludGVsX2RwKTsKKwl1OCB2YWw7CisKKwlpZiAoaW50ZWxfZHAtPmRwY2RbRFBfRFBDRF9S
-RVZdIDwgMHgxMSkKKwkJcmV0dXJuOworCisJaWYgKGRybV9kcF9kcGNkX3JlYWRiKCZpbnRlbF9k
-cC0+YXV4LAorCQkJICAgICAgRFBfTElOS19TRVJWSUNFX0lSUV9WRUNUT1JfRVNJMCwgJnZhbCkg
-IT0gMSB8fCAhdmFsKSB7CisJCWRybV9kYmdfa21zKCZpOTE1LT5kcm0sICJFcnJvciBpbiByZWFk
-aW5nIGxpbmsgc2VydmljZSBpcnEgdmVjdG9yXG4iKTsKKwkJcmV0dXJuOworCX0KKworCWlmIChk
-cm1fZHBfZHBjZF93cml0ZWIoJmludGVsX2RwLT5hdXgsCisJCQkgICAgICAgRFBfTElOS19TRVJW
-SUNFX0lSUV9WRUNUT1JfRVNJMCwgdmFsKSAhPSAxKSB7CisJCWRybV9kYmdfa21zKCZpOTE1LT5k
-cm0sICJFcnJvciBpbiB3cml0aW5nIGxpbmsgc2VydmljZSBpcnEgdmVjdG9yXG4iKTsKKwkJcmV0
-dXJuOworCX0KKworCWlmICh2YWwgJiBIRE1JX0xJTktfU1RBVFVTX0NIQU5HRUQpCisJCWludGVs
-X2RwX2hhbmRsZV9oZG1pX2xpbmtfc3RhdHVzX2NoYW5nZShpbnRlbF9kcCk7Cit9CisKIC8qCiAg
-KiBBY2NvcmRpbmcgdG8gRFAgc3BlYwogICogNS4xLjI6CkBAIC02NDU2LDcgKzY1MTcsOCBAQCBp
-bnRlbF9kcF9zaG9ydF9wdWxzZShzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQogCQlyZXR1cm4g
-ZmFsc2U7CiAJfQogCi0JaW50ZWxfZHBfY2hlY2tfc2VydmljZV9pcnEoaW50ZWxfZHApOworCWlu
-dGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2lycShpbnRlbF9kcCk7CisJaW50ZWxfZHBfY2hl
-Y2tfbGlua19zZXJ2aWNlX2lycShpbnRlbF9kcCk7CiAKIAkvKiBIYW5kbGUgQ0VDIGludGVycnVw
-dHMsIGlmIGFueSAqLwogCWRybV9kcF9jZWNfaXJxKCZpbnRlbF9kcC0+YXV4KTsKQEAgLTY4OTAs
-NyArNjk1Miw3IEBAIGludGVsX2RwX2RldGVjdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVj
-dG9yLAogCSAgICB0b19pbnRlbF9jb25uZWN0b3IoY29ubmVjdG9yKS0+ZGV0ZWN0X2VkaWQpCiAJ
-CXN0YXR1cyA9IGNvbm5lY3Rvcl9zdGF0dXNfY29ubmVjdGVkOwogCi0JaW50ZWxfZHBfY2hlY2tf
-c2VydmljZV9pcnEoaW50ZWxfZHApOworCWludGVsX2RwX2NoZWNrX2RldmljZV9zZXJ2aWNlX2ly
-cShpbnRlbF9kcCk7CiAKIG91dDoKIAlpZiAoc3RhdHVzICE9IGNvbm5lY3Rvcl9zdGF0dXNfY29u
-bmVjdGVkICYmICFpbnRlbF9kcC0+aXNfbXN0KQotLSAKMi4xNy4xCgpfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRy
-aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5v
-cmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This patch adds support to read and store the DSC capabilities of the
+HDMI2.1 PCon encoder. It also adds a new field to store these caps,
+The caps are read during dfp update and can later be used to get the
+PPS parameters for PCON-HDMI2.1 sink pair. Which inturn will be used
+to take a call to override the existing PPS-metadata, by either
+writing the entire new PPS metadata, or by writing only the
+PPS override parameters.
+
+v2: Restructured the code to read all capability DPCDs at once and store
+in an array in intel_dp structure.
+
+v3: rebase
+
+Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+---
+ .../drm/i915/display/intel_display_types.h    |  1 +
+ drivers/gpu/drm/i915/display/intel_dp.c       | 20 +++++++++++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index 997247db499c..604ba249fa51 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -1346,6 +1346,7 @@ struct intel_dp {
+ 	u8 lttpr_common_caps[DP_LTTPR_COMMON_CAP_SIZE];
+ 	u8 lttpr_phy_caps[DP_MAX_LTTPR_COUNT][DP_LTTPR_PHY_CAP_SIZE];
+ 	u8 fec_capable;
++	u8 pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE];
+ 	/* source rates */
+ 	int num_source_rates;
+ 	const int *source_rates;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 7d7010b148ec..e3da73499e5a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -3980,6 +3980,24 @@ cpt_set_link_train(struct intel_dp *intel_dp,
+ 	intel_de_posting_read(dev_priv, intel_dp->output_reg);
+ }
+ 
++static void intel_dp_get_pcon_dsc_cap(struct intel_dp *intel_dp)
++{
++	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
++
++	/* Clear the cached register set to avoid using stale values */
++
++	memset(intel_dp->pcon_dsc_dpcd, 0, sizeof(intel_dp->pcon_dsc_dpcd));
++
++	if (drm_dp_dpcd_read(&intel_dp->aux, DP_PCON_DSC_ENCODER,
++				     intel_dp->pcon_dsc_dpcd,
++				     sizeof(intel_dp->pcon_dsc_dpcd)) < 0)
++		drm_err(&i915->drm, "Failed to read DPCD register 0x%x\n",
++			DP_PCON_DSC_ENCODER);
++
++	drm_dbg_kms(&i915->drm, "PCON ENCODER DSC DPCD: %*ph\n",
++		   (int)sizeof(intel_dp->pcon_dsc_dpcd), intel_dp->pcon_dsc_dpcd);
++}
++
+ static int intel_dp_pcon_get_frl_mask(u8 frl_bw_mask)
+ {
+ 	int bw_gbps[] = {9, 18, 24, 32, 40, 48};
+@@ -6753,6 +6771,8 @@ intel_dp_update_dfp(struct intel_dp *intel_dp,
+ 		    intel_dp->dfp.max_tmds_clock,
+ 		    intel_dp->dfp.pcon_max_frl_bw,
+ 		    intel_dp->dfp.sink_max_frl_bw);
++
++	intel_dp_get_pcon_dsc_cap(intel_dp);
+ }
+ 
+ static void
+-- 
+2.17.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
