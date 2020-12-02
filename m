@@ -1,55 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FAC32CBD23
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 13:38:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B6C2CBD40
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Dec 2020 13:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE186EA17;
-	Wed,  2 Dec 2020 12:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F8A06E58E;
+	Wed,  2 Dec 2020 12:46:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com
- [IPv6:2607:f8b0:4864:20::243])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F13AD6EA17
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 12:38:53 +0000 (UTC)
-Received: by mail-oi1-x243.google.com with SMTP id w15so1361993oie.13
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Dec 2020 04:38:53 -0800 (PST)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E906E58E
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Dec 2020 12:46:25 +0000 (UTC)
+Received: by mail-oo1-xc32.google.com with SMTP id i13so317021oou.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Dec 2020 04:46:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=II2Z8fMkjiyLwOGWTX9ol8gURECc5ZUa4Jue4e2kl7c=;
- b=DkuhBlnL/fwT/2DNXJltkE8pY73ouylF+jlKsK2EHz7H0/t/JC+UfJA80O9UVxpewQ
- C/Sh6Bg9MEReH+4ae+pD1DY5vpqH+JgeOioTAQagqbM3vcmh75iuVtwmfkYQA/RVjOwp
- 00ZS7AdQ4eqz7tDcfWx/sqTiDnbIOADaCScTs=
+ :cc:content-transfer-encoding;
+ bh=pV9ftpQ958woxShpES/uiCgfpgzUt6IWswu1CxIBbug=;
+ b=hqEXNjQscMUnwNnu0Ip/q4SHyToUOD1k9Ztd1vI4quyuWysDkYtzTWQhpLuZ0VckGM
+ IbV45w7XV9sUKZc9klqSq8SVqiDm7aiXiVemcScN87/rriml/3PrR52Yk8JO5aT7H6V+
+ txiWzZIdIY8bOBj7FXDtAABK4XaIk9XCTC+1U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=II2Z8fMkjiyLwOGWTX9ol8gURECc5ZUa4Jue4e2kl7c=;
- b=sXEqO6m95/q9B1aq11WH3qZFJ7I+cqZs6+joWc5VWNArOm+qXcLhufjWmiYaltdMAa
- GcnEUo6xkXa/pa47uAK/BfXKs098nBcdarsfbRgxaA7Ft4jPPYj0uFh7N5GXfP1g08rc
- iKA2dZpiN9+kyxSvcU2FXKbfwbWdTNAHQ214wfn7Tmx2f4fS6bdtqXBiSdmt2nkEPBeM
- jgKv6wfhDe5ApVkE3qaK+q1APytu103k2jwV3Ji6AWZnsKegZMX+0i2Av6G5pejCGI6f
- QLdgUJ2g5tgR9NfRxIHNC7BPw6mXScElPJthNOqUaRC8ogSmwy6N7LcQtn4qmka4FdyT
- Op1w==
-X-Gm-Message-State: AOAM5337SHmh+a8hVYB6weMgpabxA6PuUlHI98wGHhm+8sUoJeYzHA4m
- R/WRzW+HFaOafHR6PvqzqirF2oIm7eS2UfoIR2+IEy+/UQM=
-X-Google-Smtp-Source: ABdhPJyGoDgEnQgtboXPL56SJdIYWIV2Px1HTwMT7dIcG5fCZjw2dX3FX8kaxz8kjlePg1zVYw7/scNKqw1ksUHWlT8=
-X-Received: by 2002:aca:7506:: with SMTP id q6mr1397294oic.128.1606912733236; 
- Wed, 02 Dec 2020 04:38:53 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pV9ftpQ958woxShpES/uiCgfpgzUt6IWswu1CxIBbug=;
+ b=mI05eb4UdLqIoJpnrsvqiwlP7i+r5youNh7R1fZ3ryLeJHxtsEOC6/v1+KyPS8tfM6
+ D4kyuHy8xKKl3IzMO1UjXvYaTWkrNkYc60q/H2dHQY+n72pC5ixKa3bJ2CHr6RiCI4ZN
+ PKUBhXkoLxUP/jqWgG6iztcWAluYZV+LWkCGAS7eJhZrnk4792QsRCkczhe9ccoXYejN
+ sK836Vh3EnKexyP9bZxQ0Wggs+Narqju7WN+hjREVtgzvx27CE2uaz3eQtpBGV13CDtE
+ fXEX+elfX16XMD0cJGBJMrLvzZM9l0ohaJqlbP7PDOb6UGC723Ecc7/RbyD/kC4oxvme
+ AE5w==
+X-Gm-Message-State: AOAM5331Eqva0IML/GId8AFBlGwsEp8a3P0bbpb59moWk+u6bltjOVOh
+ PmSZGmvjaHUs335+lm1Nfodb3sh/e47TFDzE5NpZC3EF4n8=
+X-Google-Smtp-Source: ABdhPJzPpRupSs4a/sGX1VfncZnGdVhtkNTpOllSCc71OQLlNL4ZJuHDCnV2jh+VQEcEqUdKOxHLOI0drl9P9Eq8cnw=
+X-Received: by 2002:a4a:84c9:: with SMTP id o9mr1480986oog.28.1606913184790;
+ Wed, 02 Dec 2020 04:46:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103080310.164453-1-tomi.valkeinen@ti.com>
- <20201103080310.164453-2-tomi.valkeinen@ti.com>
- <20201130103840.GR4141@pendragon.ideasonboard.com>
- <f744a803-6d8c-5188-7bfa-93cc05cc26bf@ti.com>
- <20201130141057.GL401619@phenom.ffwll.local>
- <93e718be-01ff-fc5c-6497-f7afb2becb38@ti.com>
-In-Reply-To: <93e718be-01ff-fc5c-6497-f7afb2becb38@ti.com>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+ <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
+In-Reply-To: <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 2 Dec 2020 13:38:42 +0100
-Message-ID: <CAKMK7uGY91+-HUuZfignoFJHWTm-zCAdsH4jLrC=EOXAHdEmvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] drm: add legacy support for using degamma for gamma
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Date: Wed, 2 Dec 2020 13:46:13 +0100
+Message-ID: <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,59 +60,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, Sekhar Nori <nsekhar@ti.com>,
- Jyri Sarha <jsarha@ti.com>, Nikhil Devshatwar <nikhil.nd@ti.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 2, 2020 at 12:52 PM Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
->
-> On 30/11/2020 16:10, Daniel Vetter wrote:
->
-> > The thing is, the legacy helpers should be able to pull off what userspace
-> > needs to do when it's using atomic anyway. Hard-coding information in the
-> > kernel means we have a gap here. Hence imo legacy helpers doing the right
-> > thing in all reasonable cases is imo better.
-> >
-> > In many cases I think we should even go further, and ditch driver ability
-> > to overwrite legacy helper hooks like this. I thought we'd need that
-> > flexibility for legacy userspace being incompatible in awkward ways, but
-> > wasn't ever really needed. Worse, many drivers forget to wire up the
-> > compat hooks.
-> >
-> > tldr, imo right thing to do here:
-> > - move legacy gamma function from helpers into core code
-> > - call it unconditionally for all atomic drivers (if there's no legacy
-> >   drivers using the hook left then we can outright remove it)
-> > - make sure it dtrt in all cases
->
-> There are atomic drivers which have their custom gamma_set function. I guess they don't support
-> atomic color mgmt, but do support (legacy) gamma.
-
-Hm yeah, but it's this kind of feature disparity which is why I think
-we should at least try to unify more.
-
-> We could make the core code call the gamma legacy helper automatically for atomic drivers that don't
-> have gamma_set defined but do have GAMMA_LUT or DEGAMMA_LUT. But the gamma_set function is called
-> also in a few places from drm_fb_helper.c, so this code wouldn't be fully inside drm_color_mgmt.c.
->
-> Or we could just change drm_atomic_helper_legacy_gamma_set() to do the right thing, depending on
-> GAMMA_LUT & DEGAMMA_LUT existence.
-
-Yeah that would be at least better than pushing more decisions onto
-drivers as hard-coding. I still think that maybe just automatically
-calling the helper when either a GAMMA or DEGAMMA lut is set up would
-be better.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gV2VkLCBEZWMgMiwgMjAyMCBhdCAxMjo0MyBQTSBNaWNoZWwgRMOkbnplciA8bWljaGVsQGRh
+ZW56ZXIubmV0PiB3cm90ZToKPgo+IE9uIDIwMjAtMTItMDEgMTE6MDEgYS5tLiwgSmFtZXMgUGFy
+ayB3cm90ZToKPiA+IFRoaXMgd2lsbCBhbGxvdyBNZXNhIHRvIHBvcnQgY29kZSB0byBXaW5kb3dz
+IG1vcmUgZWFzaWx5Lgo+Cj4gQXMgZGlzY3Vzc2VkIGluCj4gaHR0cHM6Ly9naXRsYWIuZnJlZWRl
+c2t0b3Aub3JnL21lc2EvbWVzYS8tL21lcmdlX3JlcXVlc3RzLzYxNjIjbm90ZV83MTI3NzkKPiAs
+IGluY2x1ZGluZyBkcm0uaCBtYWtlcyBubyBzZW5zZSB3aGVuIGJ1aWxkaW5nIGZvciBXaW5kb3dz
+LgoKWWVhaCBJIHRoaW5rIGl0J2QgYmUgY2xlYW5lc3QgaWYgd2UgY2FuIGF2b2lkIHRoaXMuIElm
+IG5vdCBJIHRoaW5rIHRoZQpyaWdodCBmaXggd291bGQgYmUgdG8gc3BsaXQgb3V0IHRoZSBhY3R1
+YWxseSBuZWVkZWQgcGFydHMgZnJvbSBkcm0uaAppbnRvIGEgbmV3IGhlYWRlciAoc3RpbGwgaW5j
+bHVkZWQgYnkgZHJtLmggZm9yIGJhY2t3YXJkcyBjb21wYXQKcmVhc29ucykgd2hpY2ggbWVzYSBj
+YW4gdXNlLiBTaW5jZSBpdCBsb29rcyBsaWtlIHRoZSBwcm9ibGVtYXRpYyBwYXJ0cwphcmUgdGhl
+IGxlZ2FjeSBndW5rLCBhbmQgbm90IHRoZSBuZXcgaW9jdGwgc3RydWN0dXJlcy4gUHVsbGluZyBv
+dXQKZHJtX3JlbmRlci5oIGZvciBhbGwgdGhlIHJlbmRlciBzdHVmZiBhbmQgbWFiZSBkcm1fdmJs
+YW5rLmggZm9yIHRoZQp2Ymxhbmsgc3R1ZmYgKHdoaWNoIHdvdWxkIGZpdCBiZXR0ZXIgaW4gZHJt
+X21vZGUuaCBidXQgbWlzdGFrZXMgd2VyZQptYWRlLCBvb3BzKS4KLURhbmllbAoKPgo+IC0tCj4g
+RWFydGhsaW5nIE1pY2hlbCBEw6RuemVyICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgIGh0
+dHBzOi8vcmVkaGF0LmNvbQo+IExpYnJlIHNvZnR3YXJlIGVudGh1c2lhc3QgICAgICAgICAgICAg
+fCAgICAgICAgICAgICBNZXNhIGFuZCBYIGRldmVsb3Blcgo+IF9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gZHJpLWRldmVsIG1haWxpbmcgbGlzdAo+IGRy
+aS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKPiBodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAoKCgotLSAKRGFuaWVsIFZldHRlcgpTb2Z0
+d2FyZSBFbmdpbmVlciwgSW50ZWwgQ29ycG9yYXRpb24KaHR0cDovL2Jsb2cuZmZ3bGwuY2gKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
