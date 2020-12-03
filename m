@@ -1,57 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5742A2CE9B4
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F0E2CE9A7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:33:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17CE96E15A;
-	Fri,  4 Dec 2020 08:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5436C6E13A;
+	Fri,  4 Dec 2020 08:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
- [IPv6:2a00:1450:4864:20::344])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921FE6E0C6
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 10:28:38 +0000 (UTC)
-Received: by mail-wm1-x344.google.com with SMTP id f190so3376591wme.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 02:28:38 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81DCB6E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 10:28:40 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id o1so1318191wrx.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 02:28:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=wyWoP5jyt4pdrp5btFVKihgluvIPDgPMzZdR+o5haPA=;
- b=hw6/q45nxmmWi7sNrk66g5wxJBuqR8V2jrzzmO+AB4VonjAcd5xyq+jLx6PPcK+McE
- SVy4Lkep/8tZU545XcJCcbqdcOPYIGcZRw8b/YG7SEovgLH3GIlHQwXqWwowbAbiYlYW
- jqgmH2m0soKlYpmj859+v3bDUDHUe5W4rBfsh8piF/h/hKLAjTsT0OpG5Pq+Uj+SdgQz
- b62WeixHJHZnN9FuxBgwSIWr3obNL6/zNN17+PiqXiD58WcmfEpY+PKNJN8CcV7kIyqB
- P2hy5YdMzf3RXKCBOoeS5KjmYyivDcUj2dg8/ihkOpdF+tsw80XKQ/IdWMnHkPlrWsKK
- pplQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=WR5N2RgMXKbZVcZ/NAjb1kgdYhbDz+iPAQbu94t8kvY=;
+ b=d2kWMJ2zMZ7Lnc4DdgNhYIjcFmHmlPVQ4XBmctmfpBjPrlFiLQomkxBpT4Ojf5xVVy
+ ZmNoGrdHXTBzhQ1pNfnJYg7F/rAcPehbkIi2yo+7LbuN+vA0hWa9YlfDHHKWdG9eN9Nk
+ D3Bhsh05m5IEiXJ8BEvFedRya+mjAuT8NXBCP2rjW2d/2LByk2S8yZuDr0cDl9YOD6sw
+ /dNT32wGce4VJMvjW0YOnpcNjI+Ysiic4mO+mUJJSl4uU9FmmmNuOAgeKBrer6rhTOuh
+ iGMBBYZ2EoXEGGpuSWDgHrvaEDvl2VJz2Nk1xn5Ivs7dMO2XNL0y6E11PvY2th2X65D+
+ cbVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=wyWoP5jyt4pdrp5btFVKihgluvIPDgPMzZdR+o5haPA=;
- b=Mbex3achB3zLH6Q7wH+V3fnrXO4upYnKW79wzpbZ7fxuBTorMDlXmgotCZBRjDriyR
- u/byd6rFWTWzBi719ryOerxZNzcYBTqdChlaL87U615/U+9nPxXOl0Wgts2GnOQaOFe5
- /3vWLpScNvb7YHuCLIcklT5o6XWW0u3VDlLjsss0fEVomMzR4//1pjzAY4brjPmt+qFl
- 0a32PXCBt+39di6tUlU2EYuANeUVQ+ZxEC0Q0UjOMYkzAjW4PlGwRHLEev69uH9DG6PS
- bkiLmOgcIMMoom5pybaNkYLT0cOBIM1Tw3btH6plh72QztLdDgxqppJ6l0JUNGc7wPM+
- JXeg==
-X-Gm-Message-State: AOAM531u3rt1vO3gKmdXaF5QXTYlRNPil+p6cW5q4M2hgp6JOlXIrbba
- KycXv3+fGtUsyJiXb730KRE=
-X-Google-Smtp-Source: ABdhPJwnYzay01lLTx+5UOxeAHUD2SIw2hzQJ97P7sMnMzN398unva76/FQzyTVlCM6VnylxnBuQYw==
-X-Received: by 2002:a1c:b0c4:: with SMTP id z187mr2505071wme.113.1606991317108; 
- Thu, 03 Dec 2020 02:28:37 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=WR5N2RgMXKbZVcZ/NAjb1kgdYhbDz+iPAQbu94t8kvY=;
+ b=gyecSMfMJllsv3TChscJlUhN6KtuW96qB2WPnonyp8kDklEIQzBEb2fgmBJj3PaIPk
+ clXqTBr12Sfy4MLZZfpLSDxya2AXzT255YyRtIo9Pp6WgJLcxhgFMJrv1y5n/7tVFq/4
+ R7NUMx9GP0wjcu1pYuLb+thZWrefSk2Jnm7kyZU4ZqHL9kOeuiU0A9wB0C7SUzoYqK8V
+ Ctke9C4XCNLghyKcP0sJOjxxi3B8O4PrMEnOcWPbE23EybXsSnVmN2Iby9Qxog1qKAvn
+ L85ZRIgX05O/sOknZl7vhvFKkeoaU1FN09wBXT1sUnB4gHMVoLTZwV0l06d15Cxwh1gr
+ 5kyA==
+X-Gm-Message-State: AOAM533LdBaKdD/pXDUmwGASYM2GgNhxZc52L9I3pgPTWNNoZ7qxp+gB
+ uvuJ2IaNlM/ZeFiB8d+rbno=
+X-Google-Smtp-Source: ABdhPJzromFGjJKml15S3oOM+NPM3ztFfBiRIIEMEselUcOP28JoglyKgODK5zBdJyamKki8mUUdUA==
+X-Received: by 2002:a5d:654c:: with SMTP id z12mr2931042wrv.46.1606991319101; 
+ Thu, 03 Dec 2020 02:28:39 -0800 (PST)
 Received: from rum-mikhail-dt.world.mentorg.com (nat-rum.mentorg.com.
  [139.181.33.34])
- by smtp.gmail.com with ESMTPSA id o13sm847589wmc.44.2020.12.03.02.28.35
+ by smtp.gmail.com with ESMTPSA id o13sm847589wmc.44.2020.12.03.02.28.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 03 Dec 2020 02:28:36 -0800 (PST)
+ Thu, 03 Dec 2020 02:28:38 -0800 (PST)
 From: mdurnev@gmail.com
 X-Google-Original-From: mikhail_durnev@mentor.com
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  noralf@tronnes.org
-Subject: [PATCH v3 0/3] drm/mipi-dbi: Type B bus support, drm/tiny: MRB2801
-Date: Thu,  3 Dec 2020 20:28:10 +1000
-Message-Id: <1606991293-29539-1-git-send-email-mikhail_durnev@mentor.com>
+Subject: [PATCH v3 1/3] drm/mipi-dbi: Add support for Type B
+Date: Thu,  3 Dec 2020 20:28:11 +1000
+Message-Id: <1606991293-29539-2-git-send-email-mikhail_durnev@mentor.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1606991293-29539-1-git-send-email-mikhail_durnev@mentor.com>
+References: <1606991293-29539-1-git-send-email-mikhail_durnev@mentor.com>
 X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,79 +77,252 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-Hi All,
-
-This patch series is aiming at extending the mipi-dbi bus driver
-to support Intel 8080 type parallel bus (Type B) over GPIO and
-adding a new driver for ILI9341 display panels with 8- or 16-bit
-parallel interface.
-
-It was tested with the MRB2801 display module [1] that had
-a connector compatible with the ALIENTEK STM32 development board.
-The module was connected to Raspberry Pi 3 via GPIO pins.
+Intel 8080 type (Type B) parallel bus over GPIO.
 
 The parallel bus is implemented partially. It supports only write
 operations from the host to the display. Read operations would
 require switching GPIO mode between input and output back and
 forth. But this implementation is very simple, and GPIO mode can
 be set for all used pins to output once at initialization.
-The RD pin of the display has to always receive the logic high
-signal to make sure the data bus pins from the dislay side are
-always in the high impedance state. Otherwise the display module
-as well as the GPIO controller of the host can be damaged.
-To be on the safe side I recommend using protective resistors
-for all GPIO pins conneced to DB pins of the display. Resistors
-of 10 kOhms are just fine for RPi 3. The WR and DC pins may not
-work well with 10K resistors. Although there is no need to protect
-them, you can try using 1K resistors if you want.
 
-Bit banging is used to transmit data over the parallel bus from
-host to display. There are two numbers that contol timings. They
-should be defined in the device tree via the wr-up-down-delays
-property. The first number is related to the write control pulse
-duration, and the second number is related to the write cycle
-duration. For ILI9341, the write pulse cannot be shorter than 15 ns,
-and the write duration cannot be shorter than 66 ns. Delays of
-10 and 51 ns respectively allow to meet the specifications on
-RPi 3. Faster machines may need values closer to 15 and 66.
+It is enough to support only write operations to initialize displays
+and output video data. The bus driver returns EOPNOTSUPP for all read
+operations requested through a display driver.
 
-[1] http://www.lcdwiki.com/2.8inch_16BIT_Module_ILI9341_SKU:MRB2801
+Bit banging is used to transmit data over the parallel bus from host
+to display. There are two numbers that contol timings: wr_up_delay
+and wr_down_delay. They should be provided by the display driver.
+The first number is related to the write control pulse duration, and
+the second number is related to the write cycle duration that can
+be found in the specification of the display.
 
 Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+---
+ drivers/gpu/drm/drm_mipi_dbi.c | 134 ++++++++++++++++++++++++++++++++++++++---
+ include/drm/drm_mipi_dbi.h     |  30 ++++++++-
+ 2 files changed, 153 insertions(+), 11 deletions(-)
 
-v2 -> v3:
-	- Fixed build errors reported by the kernel test robot
-
-v1 -> v2:
-	- Moved the definition of mipi_dbi_machine_little_endian()
-	  out of the "#if IS_ENABLED(CONFIG_SPI)" clause. That static
-	  function is used in mipi_dbi_gpio_init which does not need
-	  CONFIG_SPI enabled
-
-v0 -> v1:
-	- Rebased on v5.10-rc6
-	- Replaced "dbi->spi = 0;" with "dbi->spi = NULL;" in
-	  mipi_dbi_gpio_init
-
-v0:
-	- Based on branch rpi-5.10.y
-	- Tested on Raspberry Pi 3 Model B V 1.2
-
-Mikhail Durnev (3):
-  drm/mipi-dbi: Add support for Type B
-  drm/tiny: Add driver for ili9341 with parallel bus
-  dt-bindings: panel: Add bindings for MRB2801
-
- .../devicetree/bindings/display/ronbo,mrb2801.txt  |  42 +++
- drivers/gpu/drm/drm_mipi_dbi.c                     | 134 +++++++++-
- drivers/gpu/drm/tiny/Kconfig                       |  13 +
- drivers/gpu/drm/tiny/Makefile                      |   1 +
- drivers/gpu/drm/tiny/ili9341_gpio.c                | 284 +++++++++++++++++++++
- include/drm/drm_mipi_dbi.h                         |  30 ++-
- 6 files changed, 493 insertions(+), 11 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
- create mode 100644 drivers/gpu/drm/tiny/ili9341_gpio.c
-
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index 230c4fd..3edb041 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -61,7 +61,7 @@
+  *    3. 8-bit with the Data/Command signal as a separate D/CX pin
+  *
+  * Currently mipi_dbi only supports Type C options 1 and 3 with
+- * mipi_dbi_spi_init().
++ * mipi_dbi_spi_init() and Type B with mipi_dbi_gpio_init().
+  */
+ 
+ #define MIPI_DBI_DEBUG_COMMAND(cmd, data, len) \
+@@ -701,6 +701,15 @@ int mipi_dbi_poweron_conditional_reset(struct mipi_dbi_dev *dbidev)
+ }
+ EXPORT_SYMBOL(mipi_dbi_poweron_conditional_reset);
+ 
++static bool mipi_dbi_machine_little_endian(void)
++{
++#if defined(__LITTLE_ENDIAN)
++	return true;
++#else
++	return false;
++#endif
++}
++
+ #if IS_ENABLED(CONFIG_SPI)
+ 
+ /**
+@@ -721,15 +730,6 @@ u32 mipi_dbi_spi_cmd_max_speed(struct spi_device *spi, size_t len)
+ }
+ EXPORT_SYMBOL(mipi_dbi_spi_cmd_max_speed);
+ 
+-static bool mipi_dbi_machine_little_endian(void)
+-{
+-#if defined(__LITTLE_ENDIAN)
+-	return true;
+-#else
+-	return false;
+-#endif
+-}
+-
+ /*
+  * MIPI DBI Type C Option 1
+  *
+@@ -1158,6 +1158,120 @@ EXPORT_SYMBOL(mipi_dbi_spi_transfer);
+ 
+ #endif /* CONFIG_SPI */
+ 
++/*
++ * This function implements data transfer only from host to display.
++ */
++static void mipi_dbi_gpio_transfer(struct mipi_dbi *dbi, u16 data)
++{
++	unsigned long ldata = data;
++
++	/*
++	 * Set W/R to low to start transfer.
++	 * Set DB bits with provided data when W/R is low.
++	 */
++	gpiod_set_value_cansleep(dbi->wr, 0);
++	gpiod_set_array_value_cansleep(dbi->db->ndescs, dbi->db->desc,
++				       dbi->db->info, &ldata);
++
++	/*
++	 * The bus usually needs additional delay.
++	 */
++	ndelay(dbi->wr_up_delay);
++
++	/*
++	 * Set W/R to high to indicate that DB lines are set.
++	 */
++	gpiod_set_value_cansleep(dbi->wr, 1);
++
++	/*
++	 * The connected display needs some time to read the data.
++	 */
++	ndelay(dbi->wr_down_delay);
++}
++
++static int mipi_dbi_gpio_command(struct mipi_dbi *dbi, u8 *cmd,
++				u8 *par, size_t num)
++{
++	int i;
++
++	/*
++	 * Read commands are not currently supported.
++	 */
++	if (mipi_dbi_command_is_read(dbi, *cmd))
++		return -EOPNOTSUPP;
++
++	MIPI_DBI_DEBUG_COMMAND(*cmd, par, num);
++
++	gpiod_set_value_cansleep(dbi->dc, 0);
++	mipi_dbi_gpio_transfer(dbi, (u16)*cmd);
++	gpiod_set_value_cansleep(dbi->dc, 1);
++
++	if (dbi->db->ndescs == 16 &&
++	    (*cmd == MIPI_DCS_WRITE_MEMORY_START ||
++	     *cmd == MIPI_DCS_WRITE_MEMORY_CONTINUE)) {
++		/*
++		 * Only a couple of commands supports 16-bit transfer.
++		 */
++		for (i = 0; i < num; i += 2) {
++			u16 data = *(u16 *)&par[i];
++
++			if (dbi->swap_bytes)
++				data = (data >> 8) | (data << 8);
++
++			mipi_dbi_gpio_transfer(dbi, data);
++		}
++	} else {
++		for (i = 0; i < num; i++) {
++			/*
++			 * Other commands ignore most significant bits.
++			 */
++			mipi_dbi_gpio_transfer(dbi, (u16)par[i]);
++		}
++	}
++
++	return 0;
++}
++
++/**
++ * mipi_dbi_gpio_init - Initialize MIPI DBI Type B interface implemented via GPIO
++ * @dbi: MIPI DBI structure to initialize
++ * @dc: D/C gpio
++ * @wr: W/R gpio
++ * @db: DB gpios
++ * @wr_up_delay: Delay after setting DB and before changing W/R from low to high
++ * @wr_down_delay: Delay after changing W/R from low to high
++ *
++ * This function sets &mipi_dbi->command, enables &mipi_dbi->read_commands for the
++ * usual read commands. It should be followed by a call to mipi_dbi_dev_init() or
++ * a driver-specific init.
++ *
++ * Returns:
++ * Zero on success, negative error code on failure.
++ */
++int mipi_dbi_gpio_init(struct mipi_dbi *dbi, struct gpio_desc *dc,
++		      struct gpio_desc *wr, struct gpio_descs *db,
++		      unsigned long wr_up_delay, unsigned long wr_down_delay)
++{
++	dbi->spi = NULL; /* Type B uses GPIO lines rather than SPI */
++
++	dbi->read_commands = mipi_dbi_dcs_read_commands;
++	dbi->command = mipi_dbi_gpio_command;
++
++	dbi->dc = dc;
++	dbi->wr = wr;
++	dbi->db = db;
++	dbi->wr_up_delay = wr_up_delay;
++	dbi->wr_down_delay = wr_down_delay;
++
++	if (mipi_dbi_machine_little_endian())
++		dbi->swap_bytes = true;
++
++	mutex_init(&dbi->cmdlock);
++
++	return 0;
++}
++EXPORT_SYMBOL(mipi_dbi_gpio_init);
++
+ #ifdef CONFIG_DEBUG_FS
+ 
+ static ssize_t mipi_dbi_debugfs_command_write(struct file *file,
+diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+index c2827ce..c4be5ca 100644
+--- a/include/drm/drm_mipi_dbi.h
++++ b/include/drm/drm_mipi_dbi.h
+@@ -55,7 +55,7 @@ struct mipi_dbi {
+ 	struct spi_device *spi;
+ 
+ 	/**
+-	 * @dc: Optional D/C gpio.
++	 * @dc: D/C gpio, optional for Type C and mandatory for Type B.
+ 	 */
+ 	struct gpio_desc *dc;
+ 
+@@ -68,6 +68,31 @@ struct mipi_dbi {
+ 	 * @tx_buf9_len: Size of tx_buf9.
+ 	 */
+ 	size_t tx_buf9_len;
++
++	/* Type B specific */
++
++	/**
++	 * @wr: W/R gpio.
++	 */
++	struct gpio_desc *wr;
++
++	/**
++	 * @db: Data Bus gpios (usually 8 or 16).
++	 */
++	struct gpio_descs *db;
++
++	/**
++	 * @wr_up_delay: Delay after setting all db lines and before changing
++	 * wr from low to high.
++	 */
++	unsigned long wr_up_delay;
++
++	/**
++	 * @wr_down_delay: Delay after changing wr from low to high and
++	 * before wr can be changed again from hight to low to start a new
++	 * write operation.
++	 */
++	unsigned long wr_down_delay;
+ };
+ 
+ /**
+@@ -139,6 +164,9 @@ static inline struct mipi_dbi_dev *drm_to_mipi_dbi_dev(struct drm_device *drm)
+ 
+ int mipi_dbi_spi_init(struct spi_device *spi, struct mipi_dbi *dbi,
+ 		      struct gpio_desc *dc);
++int mipi_dbi_gpio_init(struct mipi_dbi *dbi, struct gpio_desc *dc,
++		      struct gpio_desc *wr, struct gpio_descs *db,
++		      unsigned long wr_up_delay, unsigned long wr_down_delay);
+ int mipi_dbi_dev_init_with_formats(struct mipi_dbi_dev *dbidev,
+ 				   const struct drm_simple_display_pipe_funcs *funcs,
+ 				   const uint32_t *formats, unsigned int format_count,
 -- 
 2.7.4
 
