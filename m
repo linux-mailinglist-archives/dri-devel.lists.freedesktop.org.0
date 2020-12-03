@@ -2,37 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2802CDF4E
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 21:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFD32CDF7E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 21:15:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D099E6E038;
-	Thu,  3 Dec 2020 20:07:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568F36E038;
+	Thu,  3 Dec 2020 20:15:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FCC6E038
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 20:07:18 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id B63F880534;
- Thu,  3 Dec 2020 21:07:13 +0100 (CET)
-Date: Thu, 3 Dec 2020 21:07:11 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH drm/hisilicon 2/3] drm/irq: Add the new api to install irq
-Message-ID: <20201203200711.GA74163@ravnborg.org>
-References: <1606898835-40775-1-git-send-email-tiantao6@hisilicon.com>
- <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF82A6EC1A
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 20:15:32 +0000 (UTC)
+Date: Thu, 3 Dec 2020 21:15:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607026532;
+ bh=sTLisENEUL1Kv4Gz8uUtUdHhZyPXG36W6EFw4wIEQvg=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZSDST5lJb21dROcR57sKm7LwP0X3KrZicV4vjl4MnY8wyN/ah9rq2kHPfQb+7WGy/
+ 373wjhiEnu4m+vYcKQYuHQsu1NoFon76VbN9Q4RUvwpTGVeffdni9evz0J92DUxqna
+ cU48ClV+lvqfmlPKcj3ZgaDxIoPeUZUqbUfCGolZlbnLaMG6HulC/UpYKpwVwW3os8
+ QoLUXffxYDxpOVED+mN/erN5qz5B0a307VbLVQUsY9ksJERlmuQSHTq9TY3NzZysD4
+ xs81xIrAFNVHnSMvYn08BD3hm8c7jpytk+QBXZGnJQVOhXc3R/bfu0+UZswvy/evtn
+ MDUw1MTOmB8aQ==
+From: Wolfram Sang <wsa@kernel.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH] Revert "i2c: qcom-geni: Disable DMA processing on the
+ Lenovo Yoga C630"
+Message-ID: <20201203201523.GA3585@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Andy Gross <agross@kernel.org>,
+ Akash Asthana <akashast@codeaurora.org>,
+ Mukesh Savaliya <msavaliy@codeaurora.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Steev Klimaszewski <steev@kali.org>,
+ Shawn Guo <shawn.guo@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20201124185743.401946-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1606898835-40775-3-git-send-email-tiantao6@hisilicon.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=BTeA3XvPAAAA:8 a=e5mUnYsNAAAA:8
- a=ZRss9xuAS5q6kMSJnlUA:9 a=CjuIK1q_8ugA:10 a=tafbbOV3vt1XuEhzTjGK:22
- a=Vxmtnl_E_bksehYqCbjh:22
+In-Reply-To: <20201124185743.401946-1-bjorn.andersson@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,105 +55,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org, kraxel@redhat.com,
- tzimmermann@suse.de, alexander.deucher@amd.com, tglx@linutronix.de
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linaro-mm-sig@lists.linaro.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Steev Klimaszewski <steev@kali.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Akash Asthana <akashast@codeaurora.org>, Andy Gross <agross@kernel.org>,
+ linux-i2c@vger.kernel.org, Mukesh Savaliya <msavaliy@codeaurora.org>,
+ linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0351403585=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tian.
 
-On Wed, Dec 02, 2020 at 04:47:14PM +0800, Tian Tao wrote:
-> Add new api devm_drm_irq_install() to register interrupts,
-> no need to call drm_irq_uninstall() when the drm module is removed.
-> 
-> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+--===============0351403585==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u3/rZRmxL6MmkK24"
+Content-Disposition: inline
 
-Just a few details to fix.
 
-	Sam
+--u3/rZRmxL6MmkK24
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 24, 2020 at 12:57:43PM -0600, Bjorn Andersson wrote:
+> A combination of recent bug fixes by Doug Anderson and the proper
+> definition of iommu streams means that this hack is no longer needed.
+> Let's clean up the code by reverting '127068abe85b ("i2c: qcom-geni:
+> Disable DMA processing on the Lenovo Yoga C630")'.
+>=20
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
->  drivers/gpu/drm/drm_irq.c | 35 +++++++++++++++++++++++++++++++++++
->  include/drm/drm_irq.h     |  2 +-
->  2 files changed, 36 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-> index 09d6e9e..b363dec 100644
-> --- a/drivers/gpu/drm/drm_irq.c
-> +++ b/drivers/gpu/drm/drm_irq.c
-> @@ -214,6 +214,41 @@ int drm_irq_uninstall(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_irq_uninstall);
->  
-> +static void devm_drm_irq_uninstall(void *data)
-> +{
-> +	drm_irq_uninstall(data);
-> +}
-> +
-> +/**
-> + * devm_drm_irq_install - install IRQ handler
-> + * @dev: DRM device
-> + * @irq: IRQ number to install the handler for
-> + *
-> + * devm_drm_irq_install is a  help function of drm_irq_install.
-Drop the extra space after "is a"
-> + *
-> + * if the driver uses devm_drm_irq_install, there is no need
-Start with capital "I" in If
-> + * to call drm_irq_uninstall when the drm module get unloaded,
-> + * as this will done automagically.
-> + *
-> + * Returns:
-> + * Zero on success or a negative error code on failure.
-> + */
-> +int devm_drm_irq_install(struct drm_device *dev, int irq)
-> +{
-> +	int ret;
-> +
-> +	ret = drm_irq_install(dev, irq);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_add_action_or_reset(dev->dev, devm_drm_irq_uninstall, dev);
-> +	if (ret)
-> +		devm_drm_irq_uninstall(dev);
-devm_add_action_or_reset() will call devm_drm_irq_uninstall() if ret is
-!= 0. See include/device.h.
 
-I guess that is the "_or_reset" part of the name that can tell us that.
-So you can drop the if condition as it just will cause the code to call
-drm_irq_uninstall() twice.
+Added another ack from Caleb and applied to for-next, thanks!
 
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(devm_drm_irq_install);
-> +
->  #if IS_ENABLED(CONFIG_DRM_LEGACY)
->  int drm_legacy_irq_control(struct drm_device *dev, void *data,
->  			   struct drm_file *file_priv)
-> diff --git a/include/drm/drm_irq.h b/include/drm/drm_irq.h
-> index d77f6e6..631b22f 100644
-> --- a/include/drm/drm_irq.h
-> +++ b/include/drm/drm_irq.h
-> @@ -28,5 +28,5 @@ struct drm_device;
->  
->  int drm_irq_install(struct drm_device *dev, int irq);
->  int drm_irq_uninstall(struct drm_device *dev);
-> -
-> +int devm_drm_irq_install(struct drm_device *dev, int irq);
->  #endif
-> -- 
-> 2.7.4
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--u3/rZRmxL6MmkK24
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl/JR1cACgkQFA3kzBSg
+Kbb+gg//Uss4phLY7CH1vEfZhKbhoLdilPpKsolr8PnK/C8XLY2X7Os1NS88WNJp
+Y47uFbVlPeH03Y415omWj35uB9Rx95Oe1y5dwKcD/M8lBC6PZD0R9zXUswkuspZY
+u3TzNmlTZfh9N/i2A0S3zJibePIdpfXe1H1LlMND/oFik/Kfi66aM+nPAVOAER46
+y+I8peLv0fDKZ4moscpaZJQAGivsB75bNoB6II77Sit6Ip+Y8YR/RB7aOQ3rd572
+FbyTYcvxyjsGfsEIGzH/uxR+39tJv62jmnSK7n2CxBhEYKvjVv8Qm4tmhumjgYdm
+SXOZ+TeHhU/ecp6crtIT53KiGC//uMqry3hXnloZ0IOkMlPB92Mp6F5E32SwWvtY
+sEZjLDchVsDFcKoj6Ya7JuuT33736fW426BwKQEbUXpC3QMnLC1gDjwYotmRBEG1
+CxzSjsVzaRFsDY5fzmmggx74gHQ2Cat6HbrvpgensnHX46o3SsPt4vB0eKHvtDJ4
+oDCtKh2xURGJzq3CneR9qFSDtTvUmMrF/MxIpTw5GaWfp3O+GXgIAMkZsFQYR4YN
+rTJlLRmhyoJfxHDwJarGeI6A1RK+1RWJ8UpKItZ6C8aAZALpBKVDnaAEWnUxfiMh
+6CxWnINqceXPu9fo6mi5ZTwpuVMXautJ5Y2vr4bWkecXgOdJHMg=
+=Uqhs
+-----END PGP SIGNATURE-----
+
+--u3/rZRmxL6MmkK24--
+
+--===============0351403585==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0351403585==--
