@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332D22CD868
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 15:03:19 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EF332CD867
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 15:03:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 401DF6EB68;
-	Thu,  3 Dec 2020 14:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB2E76EB71;
+	Thu,  3 Dec 2020 14:03:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 358AD6EB70
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9DC76EB68
  for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 14:03:10 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C2D9BADB3;
- Thu,  3 Dec 2020 14:03:08 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 5A9A1ADC1;
+ Thu,  3 Dec 2020 14:03:09 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, hdegoede@redhat.com, christian.koenig@amd.com,
  sumit.semwal@linaro.org
-Subject: [PATCH v2 5/7] drm/vram-helper: Remove vmap reference counting
-Date: Thu,  3 Dec 2020 15:02:57 +0100
-Message-Id: <20201203140259.26580-6-tzimmermann@suse.de>
+Subject: [PATCH v2 6/7] drm/vram-helper: Simplify vmap implementation
+Date: Thu,  3 Dec 2020 15:02:58 +0100
+Message-Id: <20201203140259.26580-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201203140259.26580-1-tzimmermann@suse.de>
 References: <20201203140259.26580-1-tzimmermann@suse.de>
@@ -41,122 +41,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Overlapping or nested mappings of the same BO are not allowed by the
-semantics of the GEM vmap/vunmap operations. Concurent access to the
-GEM object is prevented by reservation locks.
-
-So we don't need the reference counter in the GEM VRAM object. Remove
-it.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_gem_vram_helper.c | 19 ++++---------------
- include/drm/drm_gem_vram_helper.h     | 17 +++--------------
- 2 files changed, 7 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-index 760d77c6c3c0..276e8f8ea663 100644
---- a/drivers/gpu/drm/drm_gem_vram_helper.c
-+++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-@@ -113,7 +113,6 @@ static void drm_gem_vram_cleanup(struct drm_gem_vram_object *gbo)
- 	 * up; only release the GEM object.
- 	 */
- 
--	WARN_ON(gbo->vmap_use_count);
- 	WARN_ON(dma_buf_map_is_set(&gbo->map));
- 
- 	drm_gem_object_release(&gbo->bo.base);
-@@ -384,15 +383,10 @@ static int drm_gem_vram_kmap_locked(struct drm_gem_vram_object *gbo,
- {
- 	int ret;
- 
--	if (gbo->vmap_use_count > 0)
--		goto out;
--
- 	ret = ttm_bo_vmap(&gbo->bo, &gbo->map);
- 	if (ret)
- 		return ret;
- 
--out:
--	++gbo->vmap_use_count;
- 	*map = gbo->map;
- 
- 	return 0;
-@@ -403,15 +397,9 @@ static void drm_gem_vram_kunmap_locked(struct drm_gem_vram_object *gbo,
- {
- 	struct drm_device *dev = gbo->bo.base.dev;
- 
--	if (drm_WARN_ON_ONCE(dev, !gbo->vmap_use_count))
--		return;
--
- 	if (drm_WARN_ON_ONCE(dev, !dma_buf_map_is_equal(&gbo->map, map)))
- 		return; /* BUG: map not mapped from this BO */
- 
--	if (--gbo->vmap_use_count > 0)
--		return;
--
- 	/*
- 	 * Permanently mapping and unmapping buffers adds overhead from
- 	 * updating the page tables and creates debugging output. Therefore,
-@@ -545,12 +533,13 @@ static void drm_gem_vram_bo_driver_move_notify(struct drm_gem_vram_object *gbo,
- 					       struct ttm_resource *new_mem)
- {
- 	struct ttm_buffer_object *bo = &gbo->bo;
--	struct drm_device *dev = bo->base.dev;
-+	struct dma_buf_map *map = &gbo->map;
- 
--	if (drm_WARN_ON_ONCE(dev, gbo->vmap_use_count))
-+	if (dma_buf_map_is_null(map))
- 		return;
- 
--	ttm_bo_vunmap(bo, &gbo->map);
-+	ttm_bo_vunmap(bo, map);
-+	dma_buf_map_clear(map);
- }
- 
- static int drm_gem_vram_bo_driver_move(struct drm_gem_vram_object *gbo,
-diff --git a/include/drm/drm_gem_vram_helper.h b/include/drm/drm_gem_vram_helper.h
-index a4bac02249c2..48af238b5ca9 100644
---- a/include/drm/drm_gem_vram_helper.h
-+++ b/include/drm/drm_gem_vram_helper.h
-@@ -41,25 +41,14 @@ struct vm_area_struct;
-  * dedicated memory. The buffer object can be evicted to system memory if
-  * video memory becomes scarce.
-  *
-- * GEM VRAM objects perform reference counting for pin and mapping
-- * operations. So a buffer object that has been pinned N times with
-- * drm_gem_vram_pin() must be unpinned N times with
-- * drm_gem_vram_unpin(). The same applies to pairs of
-- * drm_gem_vram_kmap() and drm_gem_vram_kunmap(), as well as pairs of
-- * drm_gem_vram_vmap() and drm_gem_vram_vunmap().
-+ * GEM VRAM objects perform reference counting for pin operations. So a
-+ * buffer object that has been pinned N times with drm_gem_vram_pin() must
-+ * be unpinned N times with drm_gem_vram_unpin().
-  */
- struct drm_gem_vram_object {
- 	struct ttm_buffer_object bo;
- 	struct dma_buf_map map;
- 
--	/**
--	 * @vmap_use_count:
--	 *
--	 * Reference count on the virtual address.
--	 * The address are un-mapped when the count reaches zero.
--	 */
--	unsigned int vmap_use_count;
--
- 	/* Supported placements are %TTM_PL_VRAM and %TTM_PL_SYSTEM */
- 	struct ttm_placement placement;
- 	struct ttm_place placements[2];
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWZ0ZXIgcmVtb3ZpbmcgdGhlIHBpbm5pbmcgb3BlcmF0aW9ucywgdGhlIHZtYXAvdnVubWFwIGNv
+ZGUgYXMgYmVlbgpyZWR1Y2VkIHRvIHdoYXQgdXNlZCB0byBiZSBhbiBpbnRlcm5hbCBoZWxwZXIu
+IElubGluZSB0aGUgaGVscGVyIHRvCnNpbXBsaWZ5IHRoZSBpbXBsZW1lbnRhdGlvbi4KClNpZ25l
+ZC1vZmYtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpBY2tlZC1i
+eTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgotLS0KIGRyaXZl
+cnMvZ3B1L2RybS9kcm1fZ2VtX3ZyYW1faGVscGVyLmMgfCA1MiArKysrKysrKysrKy0tLS0tLS0t
+LS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCspLCAzMiBkZWxldGlvbnMo
+LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jIGIv
+ZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9oZWxwZXIuYwppbmRleCAyNzZlOGY4ZWE2NjMu
+LjYxNTlmNWRjOGYxZiAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fdnJhbV9o
+ZWxwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2dlbV92cmFtX2hlbHBlci5jCkBAIC0z
+NzgsMzYgKzM3OCw2IEBAIGludCBkcm1fZ2VtX3ZyYW1fdW5waW4oc3RydWN0IGRybV9nZW1fdnJh
+bV9vYmplY3QgKmdibykKIH0KIEVYUE9SVF9TWU1CT0woZHJtX2dlbV92cmFtX3VucGluKTsKIAot
+c3RhdGljIGludCBkcm1fZ2VtX3ZyYW1fa21hcF9sb2NrZWQoc3RydWN0IGRybV9nZW1fdnJhbV9v
+YmplY3QgKmdibywKLQkJCQkgICAgc3RydWN0IGRtYV9idWZfbWFwICptYXApCi17Ci0JaW50IHJl
+dDsKLQotCXJldCA9IHR0bV9ib192bWFwKCZnYm8tPmJvLCAmZ2JvLT5tYXApOwotCWlmIChyZXQp
+Ci0JCXJldHVybiByZXQ7Ci0KLQkqbWFwID0gZ2JvLT5tYXA7Ci0KLQlyZXR1cm4gMDsKLX0KLQot
+c3RhdGljIHZvaWQgZHJtX2dlbV92cmFtX2t1bm1hcF9sb2NrZWQoc3RydWN0IGRybV9nZW1fdnJh
+bV9vYmplY3QgKmdibywKLQkJCQkgICAgICAgc3RydWN0IGRtYV9idWZfbWFwICptYXApCi17Ci0J
+c3RydWN0IGRybV9kZXZpY2UgKmRldiA9IGdiby0+Ym8uYmFzZS5kZXY7Ci0KLQlpZiAoZHJtX1dB
+Uk5fT05fT05DRShkZXYsICFkbWFfYnVmX21hcF9pc19lcXVhbCgmZ2JvLT5tYXAsIG1hcCkpKQot
+CQlyZXR1cm47IC8qIEJVRzogbWFwIG5vdCBtYXBwZWQgZnJvbSB0aGlzIEJPICovCi0KLQkvKgot
+CSAqIFBlcm1hbmVudGx5IG1hcHBpbmcgYW5kIHVubWFwcGluZyBidWZmZXJzIGFkZHMgb3Zlcmhl
+YWQgZnJvbQotCSAqIHVwZGF0aW5nIHRoZSBwYWdlIHRhYmxlcyBhbmQgY3JlYXRlcyBkZWJ1Z2dp
+bmcgb3V0cHV0LiBUaGVyZWZvcmUsCi0JICogd2UgZGVsYXkgdGhlIGFjdHVhbCB1bm1hcCBvcGVy
+YXRpb24gdW50aWwgdGhlIEJPIGdldHMgZXZpY3RlZAotCSAqIGZyb20gbWVtb3J5LiBTZWUgZHJt
+X2dlbV92cmFtX2JvX2RyaXZlcl9tb3ZlX25vdGlmeSgpLgotCSAqLwotfQotCiAvKioKICAqIGRy
+bV9nZW1fdnJhbV92bWFwKCkgLSBQaW5zIGFuZCBtYXBzIGEgR0VNIFZSQU0gb2JqZWN0IGludG8g
+a2VybmVsIGFkZHJlc3MKICAqICAgICAgICAgICAgICAgICAgICAgICBzcGFjZQpAQCAtNDI2LDkg
+KzM5NiwxNyBAQCBzdGF0aWMgdm9pZCBkcm1fZ2VtX3ZyYW1fa3VubWFwX2xvY2tlZChzdHJ1Y3Qg
+ZHJtX2dlbV92cmFtX29iamVjdCAqZ2JvLAogICovCiBpbnQgZHJtX2dlbV92cmFtX3ZtYXAoc3Ry
+dWN0IGRybV9nZW1fdnJhbV9vYmplY3QgKmdibywgc3RydWN0IGRtYV9idWZfbWFwICptYXApCiB7
+CisJaW50IHJldDsKKwogCWRtYV9yZXN2X2Fzc2VydF9oZWxkKGdiby0+Ym8uYmFzZS5yZXN2KTsK
+IAotCXJldHVybiBkcm1fZ2VtX3ZyYW1fa21hcF9sb2NrZWQoZ2JvLCBtYXApOworCXJldCA9IHR0
+bV9ib192bWFwKCZnYm8tPmJvLCAmZ2JvLT5tYXApOworCWlmIChyZXQpCisJCXJldHVybiByZXQ7
+CisKKwkqbWFwID0gZ2JvLT5tYXA7CisKKwlyZXR1cm4gMDsKIH0KIEVYUE9SVF9TWU1CT0woZHJt
+X2dlbV92cmFtX3ZtYXApOwogCkBAIC00NDIsOSArNDIwLDE5IEBAIEVYUE9SVF9TWU1CT0woZHJt
+X2dlbV92cmFtX3ZtYXApOwogICovCiB2b2lkIGRybV9nZW1fdnJhbV92dW5tYXAoc3RydWN0IGRy
+bV9nZW1fdnJhbV9vYmplY3QgKmdibywgc3RydWN0IGRtYV9idWZfbWFwICptYXApCiB7CisJc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiA9IGdiby0+Ym8uYmFzZS5kZXY7CisKIAlkbWFfcmVzdl9hc3Nl
+cnRfaGVsZChnYm8tPmJvLmJhc2UucmVzdik7CiAKLQlkcm1fZ2VtX3ZyYW1fa3VubWFwX2xvY2tl
+ZChnYm8sIG1hcCk7CisJaWYgKGRybV9XQVJOX09OX09OQ0UoZGV2LCAhZG1hX2J1Zl9tYXBfaXNf
+ZXF1YWwoJmdiby0+bWFwLCBtYXApKSkKKwkJcmV0dXJuOyAvKiBCVUc6IG1hcCBub3QgbWFwcGVk
+IGZyb20gdGhpcyBCTyAqLworCisJLyoKKwkgKiBQZXJtYW5lbnRseSBtYXBwaW5nIGFuZCB1bm1h
+cHBpbmcgYnVmZmVycyBhZGRzIG92ZXJoZWFkIGZyb20KKwkgKiB1cGRhdGluZyB0aGUgcGFnZSB0
+YWJsZXMgYW5kIGNyZWF0ZXMgZGVidWdnaW5nIG91dHB1dC4gVGhlcmVmb3JlLAorCSAqIHdlIGRl
+bGF5IHRoZSBhY3R1YWwgdW5tYXAgb3BlcmF0aW9uIHVudGlsIHRoZSBCTyBnZXRzIGV2aWN0ZWQK
+KwkgKiBmcm9tIG1lbW9yeS4gU2VlIGRybV9nZW1fdnJhbV9ib19kcml2ZXJfbW92ZV9ub3RpZnko
+KS4KKwkgKi8KIH0KIEVYUE9SVF9TWU1CT0woZHJtX2dlbV92cmFtX3Z1bm1hcCk7CiAKLS0gCjIu
+MjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJp
+LWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBz
+Oi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
