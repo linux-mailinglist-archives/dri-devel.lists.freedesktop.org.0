@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B364A2CE9C3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777BB2CE9E8
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:35:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716E16EC71;
-	Fri,  4 Dec 2020 08:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 862FF6EC8E;
+	Fri,  4 Dec 2020 08:34:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com
- [IPv6:2607:f8b0:4864:20::a2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 876866E056
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 18:55:55 +0000 (UTC)
-Received: by mail-vk1-xa2d.google.com with SMTP id 145so659984vky.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 10:55:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ROBCAp0290we+VI2Iq0YmJ+Slmu/Ml/AstasaU/FxAA=;
- b=AFHQqrIszh36CQQZ23M5iM4JxOjADMjZS0KLXpyJwiQ8VEWPkVCjFHFswXICM/G64j
- GZn/sWF9LsZLAWpDLNVBGtMiYizFgYuS5UcN33ZjCWp/6gUTaQ1KK+SsbTTIq+GOC8Fv
- jGpy472xOFWciIwjoMG78ybzVTT5GB3b/QVul+R6OptK4ODbYRSS5IUPdA56nayegIQC
- +vQx5DlXgRmVpgTupGPQ7RoFAE9K6nnB2wTGhK+v7HIcgZCy9Yzc+7hNoIFu7uvn8C7P
- J80nwE7ZchPa7wOdute5DOucESZSp9aIHhinEx+s/SS3R+qdFjRerWzJFKt1SxRmCRYk
- h4Xw==
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32F8489C1C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 19:24:54 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id s9so3786406ljo.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 11:24:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vdqoVk7jZ2jxWA9BC/vseouYc6KoArds7fmTvWx1ic=;
+ b=RMYisD79xUNJyOuYEIpNL+qBI6QzRZS7dnU5G7l/ngi5uAuA7KDp8yYjPTsMAsnjHV
+ byuQdmvjH5mevMbisQSAfoDF/3FHJyQBSiSTaUQtirVIM58NV1AuhDozTtKvCqqMo5wo
+ RrcgRA/3fVXNoMv6hLdjWWhrDUq9sZZQ/4xF5d8e82K7aYQxVZXvo28PffZIosP9OOF2
+ YVJTHxEBDLcMK1ltKHy05N1KgeNytMxmY7+RUylPTR6tyNvKufZQNVwEVY5FVnuz7qKK
+ 016RxKKwnVblujB7AKFUPuODy+5p4p78eAUmVm6XvuUm28D1gJO9aD919cQXYwY08tVw
+ qnGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ROBCAp0290we+VI2Iq0YmJ+Slmu/Ml/AstasaU/FxAA=;
- b=qpBVK+W4KDjxpC3wBOj6hs61qLo6UWY+W3OamtGVvIePEeOr3xYPVJyOgFce51bHS6
- mBNl+RSpVAvBEpGQu7Y6apz+gwY2iDWjFoiTpDMhOvUrARtXyXHRztyEO2rk/DxhYp0e
- us1vp3PAh3ENf7jMw3xpObeXiBhe1/K72m+28IAsedGqGx/ITlpWbaQptR6NMsnAByWs
- BEIA6293JPawlHszkN6iGW5W8+LLlXD1PPdLgc5PKbK15+GRrEay0a9NHSW/spXAR/42
- PsbSbF2ljHgDqAbOxvlKANAMTXiIrhCd70Il/wkFOTdwYzmmltKhEaX5b1PbciSrkb4b
- IaNg==
-X-Gm-Message-State: AOAM531tlftqmbnTjoD4Jvzi8e5LyGtBVbJXVQDTg1t8kGL+ni0wscym
- 7jucirfpz9DR1rq/faQEimOrzpZ/DIQB7EFSuG5xUg==
-X-Google-Smtp-Source: ABdhPJxjTEHVzagN7NuZoTQW3Gt/ln/UX3XiZVzlV5wIECBcTwYrJFYY/fxti8hzCs0YJV/JznGnZ0CgzIJ9WFN/hcE=
-X-Received: by 2002:a05:6122:84f:: with SMTP id 15mr617018vkk.25.1607021754610; 
- Thu, 03 Dec 2020 10:55:54 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0vdqoVk7jZ2jxWA9BC/vseouYc6KoArds7fmTvWx1ic=;
+ b=dhe5s9wzgAf0MOqZTTl9tejXfrVw9GjK+3ejmudAB4I7QhbqEm7WAIOtLs6CwCiXAl
+ WdA/SlCvEAVLVqbN7j/qhDF1DrWlwhcpk7abkOOt+nU1ZJC2EsBC7ulDa84iEu9RvP2k
+ 5c0ri7FrR9v41mlwa+hYa1hldARShSXDRQLngL8GpZovjgAOMJd/3LppU2v/IJ5TDyJM
+ 66g4vS6sXI0S4OYiQAg/XV8sY24oJUnMhekCNlEIz94lL0JZYLlbkiwEtdYHsQxkmlmG
+ xPrzkTH8Qwz+OiPvxGN5T+GjGmaBUb/O3xm+sF3TR8r7gscoiBFRx2FzDYeMJORKcHVa
+ d2Ig==
+X-Gm-Message-State: AOAM532s1NqGImPbosbMt7fj3eudF5MyRFAXhDX5kUqErJZH27G3SHQt
+ aRTR0BfTonyFaN8XWQ1nFWg=
+X-Google-Smtp-Source: ABdhPJxw4Qgyc1vVgaMWRobIch5SX5jjIzX5fai8cPaaY+T91gaDkGMOwxpj2FF6xBiUDJXWx0Q62g==
+X-Received: by 2002:a2e:a547:: with SMTP id e7mr1746599ljn.108.1607023491036; 
+ Thu, 03 Dec 2020 11:24:51 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-53.dynamic.spd-mgts.ru.
+ [109.252.192.53])
+ by smtp.gmail.com with ESMTPSA id z7sm861932lfq.50.2020.12.03.11.24.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Dec 2020 11:24:50 -0800 (PST)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>, Mikko Perttunen <cyndis@kapsi.fi>,
+ Viresh Kumar <vireshk@kernel.org>, Peter Geis <pgwipeout@gmail.com>,
+ Nicolas Chauvet <kwizart@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v11 00/10] Introduce memory interconnect for NVIDIA Tegra SoCs
+Date: Thu,  3 Dec 2020 22:24:29 +0300
+Message-Id: <20201203192439.16177-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
- <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
- <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
- <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
- <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
- <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
- <c68d121c-ead2-dbe9-cb26-8b18ccb86011@daenzer.net>
- <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
-In-Reply-To: <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
-From: James Park <james.park@lagfreegames.com>
-Date: Thu, 3 Dec 2020 10:55:07 -0800
-Message-ID: <CABjik9dFoGSaxOouXsMdNgeFK57-RP28dhrPi4EXX81OswgeSw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
-To: Daniel Vetter <daniel@ffwll.ch>
-X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
+X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,191 +76,120 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- James Park <jpark37@lagfreegames.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1192418987=="
+Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1192418987==
-Content-Type: multipart/alternative; boundary="000000000000d4906d05b593e89f"
+This series brings initial support for memory interconnect to Tegra20,
+Tegra30 and Tegra124 SoCs.
 
---000000000000d4906d05b593e89f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+For the starter only display controllers and devfreq devices are getting
+interconnect API support, others could be supported later on. The display
+controllers have the biggest demand for interconnect API right now because
+dynamic memory frequency scaling can't be done safely without taking into
+account bandwidth requirement from the displays. In particular this series
+fixes distorted display output on T30 Ouya and T124 TK1 devices.
 
-The trailing underscore for  DRM_FOURCC_STANDALONE_ isn't intentional,
-right? Should I put all the integer types, or just the ones that are used
-in that file?
+Changelog:
 
-Thanks,
-James
+v11: - Added acks from Georgi Djakov.
 
-On Thu, Dec 3, 2020 at 6:52 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+     - CC'ed devicetree@vger.kernel.org in order to make the dt-bindings
+       patch ("Document opp-supported-hw property") visible to the DT
+       maintainers.
 
-> On Thu, Dec 3, 2020 at 9:18 AM Michel D=C3=A4nzer <michel@daenzer.net> wr=
-ote:
-> >
-> > On 2020-12-02 8:47 p.m., James Park wrote:
-> > >
-> > > If we're trying to cut ties with the drm-uapi folder entirely, the
-> stuff
-> > > ac_surface.c need includes the AMD_FMT_MOD stuff in drm_fourcc.h,
-> > > and AMDGPU_TILING_* under amdgpu_drm.h. Is there a better spot for
-> these
-> > > definitions?
-> >
-> > The Mesa src/amd/ code should use platform-neutral abstractions for
-> > these. This wasn't deemed necessary before, because nobody was trying t=
-o
-> > build these drivers for non-UNIX OSes. But now you are.
->
-> I think that's a bit much busy work for not much gain. drm_fourcc.h is
-> even included as the official source of truth of some khr extensions,
-> making that header stand-alone and useable cross-platform sounds like
-> a good idea to me. Something like the below is imo perfectly fine:
->
-> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.=
-h
-> index ca48ed0e6bc1..0a121b3efb58 100644
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -24,7 +24,11 @@
-> #ifndef DRM_FOURCC_H
-> #define DRM_FOURCC_H
->
-> +#ifndef DRM_FOURCC_STANDALONE_
-> +/* include the linux uapi types here */
-> +#else
-> #include "drm.h"
-> +#endif
->
-> #if defined(__cplusplus)
-> extern "C" {
->
->
-> Cheers, Daniel
->
-> >
-> >
-> > --
-> > Earthling Michel D=C3=A4nzer               |               https://redh=
-at.com
-> > Libre software enthusiast             |             Mesa and X develope=
-r
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
+     - Rebased on a recent linux-next, note that some of v10 DT patches
+       were already applied by Thierry into tegra tree, as well as one
+       devfreq patch which removed the older tegra20-devfreq driver was
+       applied by Chanwoo Choi to the devfreq tree.
 
---000000000000d4906d05b593e89f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+     - Note that patch "memory: tegra20: Support hardware versioning and
+       clean up OPP table initialization" fixes the noisy (but harmless)
+       warning which happens because DT patches were applied before the
+       code changes. This problem was spotted in current linux-next by
+       Jonathan Hunter, hence could be worthwhile to pick up this patch
+       for the v5.11.
 
-<div dir=3D"ltr">The trailing underscore for=C2=A0
+v10 - In a longer run it will be much nicer if we could support EMC
+      hardware versioning on Tegra20 and it's not late to support it now.
+      Hence I added these new patches:
 
-DRM_FOURCC_STANDALONE_
+        dt-bindings: memory: tegra20: emc: Document opp-supported-hw property
+        memory: tegra20: Support hardware versioning and clean up OPP table initialization
 
- isn&#39;t intentional, right? Should I put all the integer types, or just =
-the ones that are used in that file?<div><br></div><div>Thanks,</div><div>J=
-ames</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, Dec 3, 2020 at 6:52 AM Daniel Vetter &lt;<a href=3D"mailt=
-o:daniel@ffwll.ch">daniel@ffwll.ch</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">On Thu, Dec 3, 2020 at 9:18 AM Michel D=
-=C3=A4nzer &lt;<a href=3D"mailto:michel@daenzer.net" target=3D"_blank">mich=
-el@daenzer.net</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 2020-12-02 8:47 p.m., James Park wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; If we&#39;re trying to cut ties with the drm-uapi folder entirely=
-, the stuff<br>
-&gt; &gt; ac_surface.c need includes the AMD_FMT_MOD stuff in drm_fourcc.h,=
-<br>
-&gt; &gt; and AMDGPU_TILING_* under amdgpu_drm.h. Is there a better spot fo=
-r these<br>
-&gt; &gt; definitions?<br>
-&gt;<br>
-&gt; The Mesa src/amd/ code should use platform-neutral abstractions for<br=
->
-&gt; these. This wasn&#39;t deemed necessary before, because nobody was try=
-ing to<br>
-&gt; build these drivers for non-UNIX OSes. But now you are.<br>
-<br>
-I think that&#39;s a bit much busy work for not much gain. drm_fourcc.h is<=
-br>
-even included as the official source of truth of some khr extensions,<br>
-making that header stand-alone and useable cross-platform sounds like<br>
-a good idea to me. Something like the below is imo perfectly fine:<br>
-<br>
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h<=
-br>
-index ca48ed0e6bc1..0a121b3efb58 100644<br>
---- a/include/uapi/drm/drm_fourcc.h<br>
-+++ b/include/uapi/drm/drm_fourcc.h<br>
-@@ -24,7 +24,11 @@<br>
-#ifndef DRM_FOURCC_H<br>
-#define DRM_FOURCC_H<br>
-<br>
-+#ifndef DRM_FOURCC_STANDALONE_<br>
-+/* include the linux uapi types here */<br>
-+#else<br>
-#include &quot;drm.h&quot;<br>
-+#endif<br>
-<br>
-#if defined(__cplusplus)<br>
-extern &quot;C&quot; {<br>
-<br>
-<br>
-Cheers, Daniel<br>
-<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a hre=
-f=3D"https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://redha=
-t.com</a><br>
-&gt; Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and X developer<br=
->
-&gt; _______________________________________________<br>
-&gt; dri-devel mailing list<br>
-&gt; <a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_blank">d=
-ri-devel@lists.freedesktop.org</a><br>
-&gt; <a href=3D"https://lists.freedesktop.org/mailman/listinfo/dri-devel" r=
-el=3D"noreferrer" target=3D"_blank">https://lists.freedesktop.org/mailman/l=
-istinfo/dri-devel</a><br>
-<br>
-<br>
-<br>
--- <br>
-Daniel Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
-//blog.ffwll.ch</a><br>
-</blockquote></div>
+    - Removed error message from tegra30-devfreq driver about missing OPP
+      properties in a device-tree because EMC driver already prints that
+      message and it uses OPP API error code instead of checking DT directly,
+      which is a more correct way of doing that.
 
---000000000000d4906d05b593e89f--
+v9: - Squashed "memory: tegra30-emc: Factor out clk initialization" into
+      patch "tegra30: Support interconnect framework".
+      Suggested by Krzysztof Kozlowski.
 
---===============1192418987==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+    - Improved Kconfig in the patch "memory: tegra124-emc: Make driver modular"
+      by adding CONFIG_TEGRA124_CLK_EMC entry, which makes clk-driver changes
+      to look a bit more cleaner. Suggested by Krzysztof Kozlowski.
+
+    - Dropped voltage regulator support from ICC and DT patches for now
+      because there is a new discussion about using a power domain abstraction
+      for controlling the regulator, which is likely to happen.
+
+    - Replaced direct "operating-points-v2" property checking in EMC drivers
+      with checking of a returned error code from dev_pm_opp_of_add_table().
+      Note that I haven't touched T20 EMC driver because it's very likely
+      that we'll replace that code with a common helper soon anyways.
+      Suggested by Viresh Kumar.
+
+    - The T30 DT patches now include EMC OPP changes for Ouya board, which
+      is available now in linux-next.
+
+Dmitry Osipenko (10):
+  dt-bindings: memory: tegra20: emc: Document opp-supported-hw property
+  memory: tegra20: Support hardware versioning and clean up OPP table
+    initialization
+  memory: tegra30: Support interconnect framework
+  memory: tegra124-emc: Make driver modular
+  memory: tegra124-emc: Continue probing if timings are missing in
+    device-tree
+  memory: tegra124: Support interconnect framework
+  drm/tegra: dc: Support memory bandwidth management
+  drm/tegra: dc: Extend debug stats with total number of events
+  PM / devfreq: tegra30: Support interconnect and OPPs from device-tree
+  PM / devfreq: tegra30: Separate configurations per-SoC generation
+
+ .../memory-controllers/nvidia,tegra20-emc.txt |   6 +
+ drivers/clk/tegra/Kconfig                     |   3 +
+ drivers/clk/tegra/Makefile                    |   2 +-
+ drivers/clk/tegra/clk-tegra124-emc.c          |  41 +-
+ drivers/clk/tegra/clk-tegra124.c              |  26 +-
+ drivers/clk/tegra/clk.h                       |  18 +-
+ drivers/devfreq/tegra30-devfreq.c             | 147 ++++---
+ drivers/gpu/drm/tegra/Kconfig                 |   1 +
+ drivers/gpu/drm/tegra/dc.c                    | 359 +++++++++++++++++
+ drivers/gpu/drm/tegra/dc.h                    |  19 +
+ drivers/gpu/drm/tegra/drm.c                   |  14 +
+ drivers/gpu/drm/tegra/hub.c                   |   3 +
+ drivers/gpu/drm/tegra/plane.c                 | 121 ++++++
+ drivers/gpu/drm/tegra/plane.h                 |  15 +
+ drivers/memory/tegra/Kconfig                  |   5 +-
+ drivers/memory/tegra/tegra124-emc.c           | 377 ++++++++++++++++--
+ drivers/memory/tegra/tegra124.c               |  82 +++-
+ drivers/memory/tegra/tegra20-emc.c            |  48 +--
+ drivers/memory/tegra/tegra30-emc.c            | 344 +++++++++++++++-
+ drivers/memory/tegra/tegra30.c                | 173 +++++++-
+ include/linux/clk/tegra.h                     |   8 +
+ include/soc/tegra/emc.h                       |  16 -
+ 22 files changed, 1651 insertions(+), 177 deletions(-)
+ delete mode 100644 include/soc/tegra/emc.h
+
+-- 
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1192418987==--
