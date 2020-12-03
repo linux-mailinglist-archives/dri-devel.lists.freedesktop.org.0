@@ -1,51 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9C62CD624
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 13:54:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 677F12CD6C9
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 14:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 966896E9AF;
-	Thu,  3 Dec 2020 12:54:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 894DF6E9B8;
+	Thu,  3 Dec 2020 13:30:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 429206E9AF
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 12:54:06 +0000 (UTC)
-IronPort-SDR: O4eL6sXBYW5FPu4CgtTNVZgxCTxLzCNX4qMYpm0vVfszJqSoo2LJR9kCjVFmhgwxtGMTA0+9un
- Fizb5bJp5DRw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="153012880"
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; d="scan'208";a="153012880"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2020 04:54:05 -0800
-IronPort-SDR: u/ZzMiE6b+dhj9SHs1bfz6iOvmo6Alof09j1Nwdr8V6CvUMLSPMAD2AMFOY9b4burfPVVnCsN7
- JPPU3+rZLT6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; d="scan'208";a="346224350"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga002.jf.intel.com with SMTP; 03 Dec 2020 04:54:02 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 03 Dec 2020 14:54:02 +0200
-Date: Thu, 3 Dec 2020 14:54:02 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
-Message-ID: <20201203125402.GH6112@intel.com>
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
- <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
- <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
- <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
- <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
- <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
- <CAKMK7uFQcyKRb90FiWFGf3pqotMmLvsTDf9yc7m1Or1tYkdOOA@mail.gmail.com>
+X-Greylist: delayed 16986 seconds by postgrey-1.36 at gabe;
+ Thu, 03 Dec 2020 13:30:48 UTC
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD6066E9B8;
+ Thu,  3 Dec 2020 13:30:48 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38hf2u099371;
+ Thu, 3 Dec 2020 08:47:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=M+k/zGDQThbNKCjsn4dd82clzTq/I1N4YqLVvEgK2U8=;
+ b=W9/M7hTPW+Ltz4AkDw8vKYMJgtVHnBvkVzh88+CCh2h9xAVrqI7sQgIArYvwVnNjk0oe
+ zcw7hwCCgNkoeetyaC8Ohup4UjDO1jBvzeNod2Ym2L/MWbzweC+Hq0f9ip2Z9+jGWtVY
+ xuZfNP8+3gi1KQvpnb3kB5TmkqY2XDTvfhgU6OZy0Cj/96/Wdk/XnLFYuFcJ6uCpu+I1
+ 0h4oeUSB0sPaMA2MsXrRepMrcgLAT5s0cw/RguI0NmdiFaJMtqZqXYTzhFdJrfRj530v
+ bWpiVf38Y54yxOoKOJAYAdwa8V2x68mtG8F0s1lgsuGJSR4h6uqwxCE84Fu+xO3fim3Q Hw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 353dyqvms4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 03 Dec 2020 08:47:30 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38eNqh133268;
+ Thu, 3 Dec 2020 08:45:30 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3020.oracle.com with ESMTP id 3540avq27e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 03 Dec 2020 08:45:29 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B38jR35001450;
+ Thu, 3 Dec 2020 08:45:27 GMT
+Received: from mwanda (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 03 Dec 2020 00:45:26 -0800
+Date: Thu, 3 Dec 2020 11:45:17 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH] drm/i915: Check the correct variable
+Message-ID: <X8ilneOcJAjwqU4t@mwanda>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uFQcyKRb90FiWFGf3pqotMmLvsTDf9yc7m1Or1tYkdOOA@mail.gmail.com>
-X-Patchwork-Hint: comment
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0
+ phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012030053
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0
+ clxscore=1011 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012030053
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,68 +77,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- James Park <jpark37@lagfreegames.com>,
- James Park <james.park@lagfreegames.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: kernel-janitors@vger.kernel.org, Andi Shyti <andi.shyti@intel.com>,
+ David Airlie <airlied@linux.ie>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 02, 2020 at 11:25:58PM +0100, Daniel Vetter wrote:
-> On Wed, Dec 2, 2020 at 8:48 PM James Park <james.park@lagfreegames.com> w=
-rote:
-> >
-> > I can avoid modifying drm.h by doing this to drm_fourcc.h:
-> >
-> > #ifdef _WIN32
-> > #include <stdint.h>
-> > typedef uint64_t __u64;
-> > #else
-> > #include "drm.h"
-> > #endif
-> >
-> > And this to amdgpu_drm.h:
-> >
-> > #ifdef _WIN32
-> > #include <stdint.h>
-> > typedef int32_t  __s32;
-> > typedef uint32_t __u32;
-> > typedef uint64_t __u64;
-> > #else
-> > #include "drm.h"
-> > #endif
-> >
-> > But now I'm touching two files under drm-uapi instead of one, and weird=
-ly.
-> >
-> > If we're trying to cut ties with the drm-uapi folder entirely, the stuf=
-f ac_surface.c need includes the AMD_FMT_MOD stuff in drm_fourcc.h, and AMD=
-GPU_TILING_* under amdgpu_drm.h. Is there a better spot for these definitio=
-ns?
-> =
+There is a copy and paste bug in this code.  It's supposed to check
+"obj2" instead of checking "obj" a second time.
 
-> The drm_fourcc.h maybe makes some sense (I think in some places mesa
-> uses these internally, and many drivers use the modifiers directly in
-> the main driver). But the amdgpu header should be all ioctl stuff,
-> which should be all entirely in the winsys only.
-> =
+Fixes: 80f0b679d6f0 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_gem.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Also kinda disappointing that drm_fourcc.h includes drm.h and isn't
-> standalone, but I guess that sailed (at least for linux).
+diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
+index 23a6132c5f4e..412e21604a05 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_gem.c
++++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
+@@ -211,8 +211,8 @@ static int igt_gem_ww_ctx(void *arg)
+ 		return PTR_ERR(obj);
+ 
+ 	obj2 = i915_gem_object_create_internal(i915, PAGE_SIZE);
+-	if (IS_ERR(obj)) {
+-		err = PTR_ERR(obj);
++	if (IS_ERR(obj2)) {
++		err = PTR_ERR(obj2);
+ 		goto put1;
+ 	}
+ 
+-- 
+2.29.2
 
-Isn't the only thing it needs the __u32? I would think we could just
-replace those with unsigned int (DRM_FORMAT_BIG_ENDIAN already assumes
-int is 32bit it seems) and drop the drm.h.
-
-Or are we're worried something already depends on getting drm.h via
-just including drm_fourcc.h?
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
