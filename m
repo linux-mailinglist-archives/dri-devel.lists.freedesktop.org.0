@@ -2,34 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FED2CD0E5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7802CD0F8
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8FE66E0C5;
-	Thu,  3 Dec 2020 08:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 384EF6E9B2;
+	Thu,  3 Dec 2020 08:14:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DE176EB33
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 03:09:06 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CmglY37FJzhm0B;
- Thu,  3 Dec 2020 11:08:41 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 3 Dec 2020 11:08:56 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon: Use managed VRAM-helper initialization
-Date: Thu, 3 Dec 2020 11:09:13 +0800
-Message-ID: <1606964953-24309-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E48DB6E09C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 07:46:32 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id F1FF0AF1;
+ Thu,  3 Dec 2020 02:46:28 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Thu, 03 Dec 2020 02:46:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=N+BQRic3iW0+eTCgj+5qRIEZsS
+ caDy3vJuM6wbY1Gsg=; b=lODXlz6JB8wcaLyV6/KQcilidmua0A/yT/XB93FCY9
+ gQdMooYoHmTQg/BDO64owWDoowIrxK7/sKUIDwbmwU6OwGavWmEhGxlrN3CgZrIF
+ Hsi9aTeoEe4WeUQ96imtt6m3qpJXwJHD1OfmJv+P+T7B1+8L/DNeOpyZDgADkfok
+ HinzPIF+STA/1OwZjYNlE5EunDRoVcBshoON8JW6lPBh7zp2Y16iexjf89sron5l
+ 7hoLktUKECZz3ewOsbg6U8J/pyXqHAOBklnFvah3GyEvDzoND6D4psGPzskea3Uh
+ SU//QGdB7w8/ZfckoYGcjCHsSOOY3TkqZSoJc45s+UeQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=N+BQRic3iW0+eTCgj
+ +5qRIEZsScaDy3vJuM6wbY1Gsg=; b=YrchcTtuhKZohOTvwE09+tYL6cWd2YLzm
+ rFojR+dWpqUBkDMAQCgET45Hv/vL6DeTcwH9oLdWKVDJ1BD6GTV/Du+cKudsdBzm
+ M5/zaxyC4QvJ5KWnmjwQ9JQ3pYIurogRmuM+XJBWFAFbDcgkzaQOxj1OvB+tRcpK
+ qkn02sfOuLTu3w8yTuo/jaOnaHtMf5GW9iCOJSQoYOSAawKCOXidzN4NGSI9Nmqx
+ TiSlPe8Xvc6KtoRJwiswFGOGEgvGTNgnARn31tAlluteVpq/hcW/J8BpCYOOgQyk
+ XsP8ApspHe6aVR6yJjm6+gaVb/gU+ivcXwL0fufsKAOKRdmRhiCMQ==
+X-ME-Sender: <xms:05fIX_BNa2upBqHSyw7IvSH2XzEsEBbsptCaLaqmhnEHj-vuFJ6yQQ>
+ <xme:05fIX1jr62U95HXCKJ_vr-cu6aYsfsSiCB_mS2Q-T3203Ujh86sXqYEuGE-85rPYu
+ mMAAFlUiX6NWAyCj2s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeihedgudduudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeej
+ geenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:05fIX6mcZJeXz1vXaUhxb7pNRzYcOjuepqWWMjq0St6Chfg1UaxV_g>
+ <xmx:05fIXxz2RRlgBaQAgqcYNvddgSS50AtJRKal8KvBlvUJvVi4-QwLnA>
+ <xmx:05fIX0S2-gPpt5h4ePS7abNcNYjaxyIwz2fmOUCON4gvRfq63x8JtA>
+ <xmx:1JfIX3EBCM6W2BIFl3vltUS_PtSA_kfUGBG-G19c4bgnTkGYvncUpN30uyY>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id F38A2240057;
+ Thu,  3 Dec 2020 02:46:26 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Eric Anholt <eric@anholt.net>
+Subject: [PATCH v2] drm/vc4: hdmi: Don't poll for the infoframes status on
+ setup
+Date: Thu,  3 Dec 2020 08:46:24 +0100
+Message-Id: <20201203074624.721559-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Thu, 03 Dec 2020 08:14:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,86 +80,78 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-updated to use drmm_vram_helper_init()
+The infoframes are sent at a regular interval as a data island packet,
+so we don't need to wait for them to be sent when we're setting them up.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+However, we do need to poll when we're enabling since the we can't
+update the packet RAM until it has been sent.
+
+Let's add a boolean flag to tell whether we want to poll or not to
+support both cases.
+
+Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  1 -
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  1 -
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c     | 19 +++----------------
- 3 files changed, 3 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 8020604..5aea2e9 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -249,7 +249,6 @@ static int hibmc_unload(struct drm_device *dev)
- 
- 	pci_disable_msi(dev->pdev);
- 	hibmc_kms_fini(priv);
--	hibmc_mm_fini(priv);
- 	dev->dev_private = NULL;
- 	return 0;
+Changes from v1:
+  - Inverted when to poll
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index a2c5b5e9786a..d3c4a9b5bb6d 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -265,7 +265,8 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
  }
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 7e0c756..2786de5 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -64,7 +64,6 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
  
- int hibmc_mm_init(struct hibmc_drm_private *hibmc);
--void hibmc_mm_fini(struct hibmc_drm_private *hibmc);
- int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
- 		      struct drm_mode_create_dumb *args);
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-index e84fb81..892d566 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-@@ -23,15 +23,12 @@
- 
- int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+ static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
+-				enum hdmi_infoframe_type type)
++				enum hdmi_infoframe_type type,
++				bool poll)
  {
--	struct drm_vram_mm *vmm;
+ 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+ 	u32 packet_id = type - 0x80;
+@@ -273,6 +274,9 @@ static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
+ 	HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
+ 		   HDMI_READ(HDMI_RAM_PACKET_CONFIG) & ~BIT(packet_id));
+ 
++	if (!poll)
++		return 0;
++
+ 	return wait_for(!(HDMI_READ(HDMI_RAM_PACKET_STATUS) &
+ 			  BIT(packet_id)), 100);
+ }
+@@ -299,7 +303,7 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
+ 	if (len < 0)
+ 		return;
+ 
+-	ret = vc4_hdmi_stop_packet(encoder, frame->any.type);
++	ret = vc4_hdmi_stop_packet(encoder, frame->any.type, true);
+ 	if (ret) {
+ 		DRM_ERROR("Failed to wait for infoframe to go idle: %d\n", ret);
+ 		return;
+@@ -1056,7 +1060,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
  	int ret;
- 	struct drm_device *dev = &hibmc->dev;
  
--	vmm = drm_vram_helper_alloc_mm(dev,
--				       pci_resource_start(dev->pdev, 0),
--				       hibmc->fb_size);
--	if (IS_ERR(vmm)) {
--		ret = PTR_ERR(vmm);
-+	ret = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
-+				    hibmc->fb_size);
-+	if (ret) {
- 		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
- 		return ret;
- 	}
-@@ -39,16 +36,6 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
- 	return 0;
- }
+ 	vc4_hdmi->audio.streaming = false;
+-	ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO);
++	ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO, false);
+ 	if (ret)
+ 		dev_err(dev, "Failed to stop audio infoframe: %d\n", ret);
  
--void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
--{
--	struct drm_device *dev = &hibmc->dev;
--
--	if (!dev->vram_mm)
--		return;
--
--	drm_vram_helper_release_mm(dev);
--}
--
- int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
- 		      struct drm_mode_create_dumb *args)
- {
 -- 
-2.7.4
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
