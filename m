@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250C42CD0E6
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8D32CD0FE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 09:15:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA166E0C4;
-	Thu,  3 Dec 2020 08:14:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06E7D6E9AE;
+	Thu,  3 Dec 2020 08:14:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m42-5.mailgun.net (m42-5.mailgun.net [69.72.42.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DED389F4F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 01:14:56 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1606958098; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Jx2bJnvscSS0IAaRCjKGvC/AZvsByrOUW8lInylOR/0=;
- b=MmUQd9tPakIx4kWvkxzXrZ7htarq81OPuB/X0BHPKFILQR+ZgmDHbgLqjvikS1waNKbNnK6X
- McQWpZVrvhsoOpgGbM3zfMePlqlT6AGhFXJ44r3uje43lrrPIx6IH2SdjILjHlFxCSrek3bi
- +CopSwUvyW7Z1KQ954X9OBY8UGQ=
-X-Mailgun-Sending-Ip: 69.72.42.5
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 5fc83bf4caf15f7f9a73aea5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 03 Dec 2020 01:14:28
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2787EC43464; Thu,  3 Dec 2020 01:14:28 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: veeras)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id D387DC433ED;
- Thu,  3 Dec 2020 01:14:26 +0000 (UTC)
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com
+ [IPv6:2607:f8b0:4864:20::e44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1E8A6EB23
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 01:24:55 +0000 (UTC)
+Received: by mail-vs1-xe44.google.com with SMTP id x26so396154vsq.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Dec 2020 17:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+yxhhPrMEBdL5xRvAmFZ0mDRr0SdyYp+fnZaYiPyrk4=;
+ b=EhyEzdfsVYWWAAC+D72PnOnPSSe0TV6DrvSrkDTN0eJj6AnV/Oww2btyDfdgwgx7An
+ yGBzX6e/zcZ9Hs+WPQZro6+2y5uoDp1vHZWNDln+PSKnhmjBRrRGgCmQbg1bRGwsaSB1
+ IeJG4rfZoMe+xq/fQDxb0dX+MqorBAalsTqnWXD5bJi3MR+dnsTtIugSouIzF4IgtKyp
+ tz0o58nw4WcMkLT+SEK4/WZKC1JY+8hUxJfn5rtEB+TYhW6nsHuFyNtzWttC7B0+Itcy
+ nH5O9w/QWAoh0UdhRHlqkE5A1pNYRrxm8CTOEndO03IoCDWJYQSa69kMrZl06WkXvk1s
+ us+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+yxhhPrMEBdL5xRvAmFZ0mDRr0SdyYp+fnZaYiPyrk4=;
+ b=Mlg6zFeXTExC6iXx+A2w7vnHnc4UF8Er+F3zMEXFwr3KaCTdYzVW5fd0gkDaqp1JZn
+ uoGTjpeDecGAMrV/Ong1XPWQgMSRP6kEjaTk7iQqadLAcul5Skyh947l3I7dSkaAvDHo
+ mKvQxzpvYymnDb5Ze6i+9Zs+m0aRpnI+NDVkKIt9y/dlOuLbOV3+EVsI0mAbcoRVjUlQ
+ sxOtv7fUjuwkOhwtGZ5hWuXu4UEyIL0dmWWRVDkSk7BL6hLwW0DWOGr+3zC+89bIzDPe
+ A1Lj14O2bgqhGujtNmd9ewCGLTlMGkfSovZtlMem+qBpL4SmsEa8N3M8jo9N8rujXNqm
+ LEuw==
+X-Gm-Message-State: AOAM5319lmjiYVsANfKuISdXkr+RQzHGYnqpMB3WjXQE0G18JhquTRzS
+ aqWEFn4vf02mweG87jxiPzMUnT/TkpF4P0u5xU9ap2JpbMePAHr1
+X-Google-Smtp-Source: ABdhPJypgBdNT6iBivbqeE77XzRHE8GP0ug9A196oWKrx1MbKgubZhrF25WkVcvJwfIj3bOpmKeheKpdPuIY8UqeWQQ=
+X-Received: by 2002:a05:6102:30aa:: with SMTP id
+ y10mr751871vsd.45.1606958694783; 
+ Wed, 02 Dec 2020 17:24:54 -0800 (PST)
 MIME-Version: 1.0
-Date: Wed, 02 Dec 2020 17:14:26 -0800
-From: veeras@codeaurora.org
-To: Daniel Vetter <daniel@ffwll.ch>, dri-devel
- <dri-devel@lists.freedesktop.org>, "open list:DMA BUFFER SHARING FRAMEWORK"
- <linux-media@vger.kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Dave Airlie <airlied@linux.ie>
-Subject: Re: [PATCH RESEND 1/2] dma-fence: allow signaling drivers to set
- fence timestamp
-In-Reply-To: <CAKMK7uEaYQmu6zBR5rYj=O1DdhzO2q_bMhntwxEuqbMqh_E9aQ@mail.gmail.com>
-References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
- <CAKMK7uEaYQmu6zBR5rYj=O1DdhzO2q_bMhntwxEuqbMqh_E9aQ@mail.gmail.com>
-Message-ID: <c356da0d7b5a945e415620585073e40c@codeaurora.org>
-X-Sender: veeras@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+ <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
+ <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
+ <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
+ <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
+ <CAKMK7uFQcyKRb90FiWFGf3pqotMmLvsTDf9yc7m1Or1tYkdOOA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFQcyKRb90FiWFGf3pqotMmLvsTDf9yc7m1Or1tYkdOOA@mail.gmail.com>
+From: James Park <james.park@lagfreegames.com>
+Date: Wed, 2 Dec 2020 17:24:10 -0800
+Message-ID: <CABjik9cQpjYNiuihLZUtJfHDtjrhuAmaXMXj5uo_4Ay5iuKnZw@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+To: Daniel Vetter <daniel@ffwll.ch>
 X-Mailman-Approved-At: Thu, 03 Dec 2020 08:14:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,152 +69,262 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: ostedt@goodmis.org, Abhinav Kumar <abhinavk@codeaurora.org>,
- pdhaval@codeaurora.org, Sean Paul <sean@poorly.run>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: multipart/mixed; boundary="===============1053128531=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-11-19 03:58, Daniel Vetter wrote:
-> On Thu, Nov 12, 2020 at 7:27 PM Veera Sundaram Sankaran
-> <veeras@codeaurora.org> wrote:
->> 
->> Some drivers have hardware capability to get the precise timestamp of
->> certain events based on which the fences are triggered. This allows it
->> to set accurate timestamp factoring out any software and IRQ 
->> latencies.
->> Move the timestamp parameter out of union in dma_fence struct to allow
->> signaling drivers to set it. If the parameter is not set, ktime_get is
->> used to set the current time to fence timestamp during 
->> dma_fence_signal.
->> 
->> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
-> 
-> So with they "why?" question fully resolved, I think this is a bit too
-> much a hack. I think much better if we pass the timestamp explicitly,
-> in a new dma_fence_signal_timestamp variant. That means a bit more
-> work, but I think it will handle this special case cleaner.
-> 
-> Also means we need to wire the timestamp through the entire call stack
-> on the drm side too. So we need a drm_send_event_locked_timestamp
-> variant too for send_vblank_event.
-> -Daniel
-> 
+--===============1053128531==
+Content-Type: multipart/alternative; boundary="0000000000002bf05a05b5853a61"
 
-@Sumit Semwal, @Gustavo Padovan, @Steven Rostedt
-Can you please help in getting review for the v2 patches.
-I have addressed the earlier comments from Daniel Vetter.
-https://patchwork.kernel.org/project/dri-devel/list/?series=388881&archive=both
+--0000000000002bf05a05b5853a61
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+If the definitions in drm_fourcc.h make sense to live there, and we can't
+remove drm.h from that header for backward compatibility, and the code that
+I'm trying to compile on Windows needs the definitions in drm_fourcc.h,
+then doesn't it make sense to adjust drm.h?
+
+The patch that I'm proposing doesn't change very much. It might be easier
+to read here:
+https://github.com/jpark37/linux/commit/648e9281824ddc943c3ea6b34d6d6c15471=
+7a0a3
+
 Thanks,
-Veera
+James
 
->> ---
->>  drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
->>  include/linux/dma-fence.h   | 15 +++------------
->>  2 files changed, 13 insertions(+), 20 deletions(-)
->> 
->> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->> index 43624b4..7cef49a 100644
->> --- a/drivers/dma-buf/dma-fence.c
->> +++ b/drivers/dma-buf/dma-fence.c
->> @@ -4,6 +4,7 @@
->>   *
->>   * Copyright (C) 2012 Canonical Ltd
->>   * Copyright (C) 2012 Texas Instruments
->> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->>   *
->>   * Authors:
->>   * Rob Clark <robdclark@gmail.com>
->> @@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
->>  int dma_fence_signal_locked(struct dma_fence *fence)
->>  {
->>         struct dma_fence_cb *cur, *tmp;
->> -       struct list_head cb_list;
->> 
->>         lockdep_assert_held(fence->lock);
->> 
->> @@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence 
->> *fence)
->>                                       &fence->flags)))
->>                 return -EINVAL;
->> 
->> -       /* Stash the cb_list before replacing it with the timestamp */
->> -       list_replace(&fence->cb_list, &cb_list);
->> -
->> -       fence->timestamp = ktime_get();
->> +       /* set current time, if not set by signaling driver */
->> +       if (!fence->timestamp)
->> +               fence->timestamp = ktime_get();
->>         set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->>         trace_dma_fence_signaled(fence);
->> 
->> -       list_for_each_entry_safe(cur, tmp, &cb_list, node) {
->> -               INIT_LIST_HEAD(&cur->node);
->> -               cur->func(fence, cur);
->> +       if (!list_empty(&fence->cb_list)) {
->> +               list_for_each_entry_safe(cur, tmp, &fence->cb_list, 
->> node) {
->> +                       INIT_LIST_HEAD(&cur->node);
->> +                       cur->func(fence, cur);
->> +               }
->> +               INIT_LIST_HEAD(&fence->cb_list);
->>         }
->> 
->>         return 0;
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index 09e23ad..a9eebaf 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -4,6 +4,7 @@
->>   *
->>   * Copyright (C) 2012 Canonical Ltd
->>   * Copyright (C) 2012 Texas Instruments
->> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->>   *
->>   * Authors:
->>   * Rob Clark <robdclark@gmail.com>
->> @@ -70,26 +71,16 @@ struct dma_fence {
->>          * release the fence it is unused. No one should be adding to 
->> the
->>          * cb_list that they don't themselves hold a reference for.
->>          *
->> -        * The lifetime of the timestamp is similarly tied to both the
->> -        * rcu freelist and the cb_list. The timestamp is only set 
->> upon
->> -        * signaling while simultaneously notifying the cb_list. Ergo, 
->> we
->> -        * only use either the cb_list of timestamp. Upon destruction,
->> -        * neither are accessible, and so we can use the rcu. This 
->> means
->> -        * that the cb_list is *only* valid until the signal bit is 
->> set,
->> -        * and to read either you *must* hold a reference to the 
->> fence,
->> -        * and not just the rcu_read_lock.
->> -        *
->>          * Listed in chronological order.
->>          */
->>         union {
->>                 struct list_head cb_list;
->> -               /* @cb_list replaced by @timestamp on 
->> dma_fence_signal() */
->> -               ktime_t timestamp;
->> -               /* @timestamp replaced by @rcu on dma_fence_release() 
->> */
->> +               /* @cb_list replaced by @rcu on dma_fence_release() */
->>                 struct rcu_head rcu;
->>         };
->>         u64 context;
->>         u64 seqno;
->> +       ktime_t timestamp;
->>         unsigned long flags;
->>         struct kref refcount;
->>         int error;
->> --
->> 2.7.4
->> 
+On Wed, Dec 2, 2020 at 2:26 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+
+> On Wed, Dec 2, 2020 at 8:48 PM James Park <james.park@lagfreegames.com>
+> wrote:
+> >
+> > I can avoid modifying drm.h by doing this to drm_fourcc.h:
+> >
+> > #ifdef _WIN32
+> > #include <stdint.h>
+> > typedef uint64_t __u64;
+> > #else
+> > #include "drm.h"
+> > #endif
+> >
+> > And this to amdgpu_drm.h:
+> >
+> > #ifdef _WIN32
+> > #include <stdint.h>
+> > typedef int32_t  __s32;
+> > typedef uint32_t __u32;
+> > typedef uint64_t __u64;
+> > #else
+> > #include "drm.h"
+> > #endif
+> >
+> > But now I'm touching two files under drm-uapi instead of one, and
+> weirdly.
+> >
+> > If we're trying to cut ties with the drm-uapi folder entirely, the stuf=
+f
+> ac_surface.c need includes the AMD_FMT_MOD stuff in drm_fourcc.h, and
+> AMDGPU_TILING_* under amdgpu_drm.h. Is there a better spot for these
+> definitions?
+>
+> The drm_fourcc.h maybe makes some sense (I think in some places mesa
+> uses these internally, and many drivers use the modifiers directly in
+> the main driver). But the amdgpu header should be all ioctl stuff,
+> which should be all entirely in the winsys only.
+>
+> Also kinda disappointing that drm_fourcc.h includes drm.h and isn't
+> standalone, but I guess that sailed (at least for linux).
+> -Daniel
+>
+> > Thanks,
+> > James
+> >
+> > On Wed, Dec 2, 2020 at 10:06 AM Michel D=C3=A4nzer <michel@daenzer.net>
+> wrote:
+> >>
+> >> On 2020-12-02 1:46 p.m., Daniel Vetter wrote:
+> >> > On Wed, Dec 2, 2020 at 12:43 PM Michel D=C3=A4nzer <michel@daenzer.n=
+et>
+> wrote:
+> >> >>
+> >> >> On 2020-12-01 11:01 a.m., James Park wrote:
+> >> >>> This will allow Mesa to port code to Windows more easily.
+> >> >>
+> >> >> As discussed in
+> >> >>
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6162#note_71277=
+9
+> >> >> , including drm.h makes no sense when building for Windows.
+> >> >
+> >> > Yeah I think it'd be cleanest if we can avoid this. If not I think t=
+he
+> >> > right fix would be to split out the actually needed parts from drm.h
+> >> > into a new header (still included by drm.h for backwards compat
+> >> > reasons) which mesa can use. Since it looks like the problematic par=
+ts
+> >> > are the legacy gunk, and not the new ioctl structures. Pulling out
+> >> > drm_render.h for all the render stuff and mabe drm_vblank.h for the
+> >> > vblank stuff (which would fit better in drm_mode.h but mistakes were
+> >> > made, oops).
+> >>
+> >> If anything currently in drm.h is needed while building for Windows, i=
+t
+> >> points to a broken abstraction somewhere in userspace. (Specifically,
+> >> the Mesa Gallium/Vulkan winsys is supposed to abstract away platform
+> >> details like these)
+> >>
+> >>
+> >> --
+> >> Earthling Michel D=C3=A4nzer               |
+> https://redhat.com
+> >> Libre software enthusiast             |             Mesa and X develop=
+er
+>
+>
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+>
+
+--0000000000002bf05a05b5853a61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">If the definitions in drm_fourcc.h make sense to live ther=
+e, and we can&#39;t remove drm.h from that header for backward compatibilit=
+y, and the code that I&#39;m trying to compile on Windows needs the definit=
+ions in drm_fourcc.h, then doesn&#39;t it make sense to adjust drm.h?<div><=
+br></div><div>The patch that I&#39;m proposing doesn&#39;t change very much=
+. It might be easier to read here:</div><div><a href=3D"https://github.com/=
+jpark37/linux/commit/648e9281824ddc943c3ea6b34d6d6c154717a0a3">https://gith=
+ub.com/jpark37/linux/commit/648e9281824ddc943c3ea6b34d6d6c154717a0a3</a></d=
+iv><div><br></div><div>Thanks,</div><div>James</div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 2, 2020 at =
+2:26 PM Daniel Vetter &lt;<a href=3D"mailto:daniel@ffwll.ch">daniel@ffwll.c=
+h</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>On Wed, Dec 2, 2020 at 8:48 PM James Park &lt;<a href=3D"mailto:james.park=
+@lagfreegames.com" target=3D"_blank">james.park@lagfreegames.com</a>&gt; wr=
+ote:<br>
+&gt;<br>
+&gt; I can avoid modifying drm.h by doing this to drm_fourcc.h:<br>
+&gt;<br>
+&gt; #ifdef _WIN32<br>
+&gt; #include &lt;stdint.h&gt;<br>
+&gt; typedef uint64_t __u64;<br>
+&gt; #else<br>
+&gt; #include &quot;drm.h&quot;<br>
+&gt; #endif<br>
+&gt;<br>
+&gt; And this to amdgpu_drm.h:<br>
+&gt;<br>
+&gt; #ifdef _WIN32<br>
+&gt; #include &lt;stdint.h&gt;<br>
+&gt; typedef int32_t=C2=A0 __s32;<br>
+&gt; typedef uint32_t __u32;<br>
+&gt; typedef uint64_t __u64;<br>
+&gt; #else<br>
+&gt; #include &quot;drm.h&quot;<br>
+&gt; #endif<br>
+&gt;<br>
+&gt; But now I&#39;m touching two files under drm-uapi instead of one, and =
+weirdly.<br>
+&gt;<br>
+&gt; If we&#39;re trying to cut ties with the drm-uapi folder entirely, the=
+ stuff ac_surface.c need includes the AMD_FMT_MOD stuff in drm_fourcc.h, an=
+d AMDGPU_TILING_* under amdgpu_drm.h. Is there a better spot for these defi=
+nitions?<br>
+<br>
+The drm_fourcc.h maybe makes some sense (I think in some places mesa<br>
+uses these internally, and many drivers use the modifiers directly in<br>
+the main driver). But the amdgpu header should be all ioctl stuff,<br>
+which should be all entirely in the winsys only.<br>
+<br>
+Also kinda disappointing that drm_fourcc.h includes drm.h and isn&#39;t<br>
+standalone, but I guess that sailed (at least for linux).<br>
+-Daniel<br>
+<br>
+&gt; Thanks,<br>
+&gt; James<br>
+&gt;<br>
+&gt; On Wed, Dec 2, 2020 at 10:06 AM Michel D=C3=A4nzer &lt;<a href=3D"mail=
+to:michel@daenzer.net" target=3D"_blank">michel@daenzer.net</a>&gt; wrote:<=
+br>
+&gt;&gt;<br>
+&gt;&gt; On 2020-12-02 1:46 p.m., Daniel Vetter wrote:<br>
+&gt;&gt; &gt; On Wed, Dec 2, 2020 at 12:43 PM Michel D=C3=A4nzer &lt;<a hre=
+f=3D"mailto:michel@daenzer.net" target=3D"_blank">michel@daenzer.net</a>&gt=
+; wrote:<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; On 2020-12-01 11:01 a.m., James Park wrote:<br>
+&gt;&gt; &gt;&gt;&gt; This will allow Mesa to port code to Windows more eas=
+ily.<br>
+&gt;&gt; &gt;&gt;<br>
+&gt;&gt; &gt;&gt; As discussed in<br>
+&gt;&gt; &gt;&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/-/mer=
+ge_requests/6162#note_712779" rel=3D"noreferrer" target=3D"_blank">https://=
+gitlab.freedesktop.org/mesa/mesa/-/merge_requests/6162#note_712779</a><br>
+&gt;&gt; &gt;&gt; , including drm.h makes no sense when building for Window=
+s.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Yeah I think it&#39;d be cleanest if we can avoid this. If no=
+t I think the<br>
+&gt;&gt; &gt; right fix would be to split out the actually needed parts fro=
+m drm.h<br>
+&gt;&gt; &gt; into a new header (still included by drm.h for backwards comp=
+at<br>
+&gt;&gt; &gt; reasons) which mesa can use. Since it looks like the problema=
+tic parts<br>
+&gt;&gt; &gt; are the legacy gunk, and not the new ioctl structures. Pullin=
+g out<br>
+&gt;&gt; &gt; drm_render.h for all the render stuff and mabe drm_vblank.h f=
+or the<br>
+&gt;&gt; &gt; vblank stuff (which would fit better in drm_mode.h but mistak=
+es were<br>
+&gt;&gt; &gt; made, oops).<br>
+&gt;&gt;<br>
+&gt;&gt; If anything currently in drm.h is needed while building for Window=
+s, it<br>
+&gt;&gt; points to a broken abstraction somewhere in userspace. (Specifical=
+ly,<br>
+&gt;&gt; the Mesa Gallium/Vulkan winsys is supposed to abstract away platfo=
+rm<br>
+&gt;&gt; details like these)<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; Earthling Michel D=C3=A4nzer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a=
+ href=3D"https://redhat.com" rel=3D"noreferrer" target=3D"_blank">https://r=
+edhat.com</a><br>
+&gt;&gt; Libre software enthusiast=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mesa and X develope=
+r<br>
+<br>
+<br>
+<br>
+-- <br>
+Daniel Vetter<br>
+Software Engineer, Intel Corporation<br>
+<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
+//blog.ffwll.ch</a><br>
+</blockquote></div>
+
+--0000000000002bf05a05b5853a61--
+
+--===============1053128531==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1053128531==--
