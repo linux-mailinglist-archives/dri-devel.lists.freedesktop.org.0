@@ -1,35 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B862CE9B7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5742A2CE9B4
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDAF86E157;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17CE96E15A;
 	Fri,  4 Dec 2020 08:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C43C6E0BE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 09:47:10 +0000 (UTC)
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CmrZm1TKNz782q;
- Thu,  3 Dec 2020 17:46:40 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 3 Dec 2020 17:47:04 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/hisilicon: Delete the entire file hibmc_ttm.c
-Date: Thu, 3 Dec 2020 17:47:21 +0800
-Message-ID: <1606988841-1373-1-git-send-email-tiantao6@hisilicon.com>
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com
+ [IPv6:2a00:1450:4864:20::344])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921FE6E0C6
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 10:28:38 +0000 (UTC)
+Received: by mail-wm1-x344.google.com with SMTP id f190so3376591wme.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 02:28:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=wyWoP5jyt4pdrp5btFVKihgluvIPDgPMzZdR+o5haPA=;
+ b=hw6/q45nxmmWi7sNrk66g5wxJBuqR8V2jrzzmO+AB4VonjAcd5xyq+jLx6PPcK+McE
+ SVy4Lkep/8tZU545XcJCcbqdcOPYIGcZRw8b/YG7SEovgLH3GIlHQwXqWwowbAbiYlYW
+ jqgmH2m0soKlYpmj859+v3bDUDHUe5W4rBfsh8piF/h/hKLAjTsT0OpG5Pq+Uj+SdgQz
+ b62WeixHJHZnN9FuxBgwSIWr3obNL6/zNN17+PiqXiD58WcmfEpY+PKNJN8CcV7kIyqB
+ P2hy5YdMzf3RXKCBOoeS5KjmYyivDcUj2dg8/ihkOpdF+tsw80XKQ/IdWMnHkPlrWsKK
+ pplQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=wyWoP5jyt4pdrp5btFVKihgluvIPDgPMzZdR+o5haPA=;
+ b=Mbex3achB3zLH6Q7wH+V3fnrXO4upYnKW79wzpbZ7fxuBTorMDlXmgotCZBRjDriyR
+ u/byd6rFWTWzBi719ryOerxZNzcYBTqdChlaL87U615/U+9nPxXOl0Wgts2GnOQaOFe5
+ /3vWLpScNvb7YHuCLIcklT5o6XWW0u3VDlLjsss0fEVomMzR4//1pjzAY4brjPmt+qFl
+ 0a32PXCBt+39di6tUlU2EYuANeUVQ+ZxEC0Q0UjOMYkzAjW4PlGwRHLEev69uH9DG6PS
+ bkiLmOgcIMMoom5pybaNkYLT0cOBIM1Tw3btH6plh72QztLdDgxqppJ6l0JUNGc7wPM+
+ JXeg==
+X-Gm-Message-State: AOAM531u3rt1vO3gKmdXaF5QXTYlRNPil+p6cW5q4M2hgp6JOlXIrbba
+ KycXv3+fGtUsyJiXb730KRE=
+X-Google-Smtp-Source: ABdhPJwnYzay01lLTx+5UOxeAHUD2SIw2hzQJ97P7sMnMzN398unva76/FQzyTVlCM6VnylxnBuQYw==
+X-Received: by 2002:a1c:b0c4:: with SMTP id z187mr2505071wme.113.1606991317108; 
+ Thu, 03 Dec 2020 02:28:37 -0800 (PST)
+Received: from rum-mikhail-dt.world.mentorg.com (nat-rum.mentorg.com.
+ [139.181.33.34])
+ by smtp.gmail.com with ESMTPSA id o13sm847589wmc.44.2020.12.03.02.28.35
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 03 Dec 2020 02:28:36 -0800 (PST)
+From: mdurnev@gmail.com
+X-Google-Original-From: mikhail_durnev@mentor.com
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ noralf@tronnes.org
+Subject: [PATCH v3 0/3] drm/mipi-dbi: Type B bus support, drm/tiny: MRB2801
+Date: Thu,  3 Dec 2020 20:28:10 +1000
+Message-Id: <1606991293-29539-1-git-send-email-mikhail_durnev@mentor.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -43,163 +65,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mikhail_durnev@mentor.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Delete the entire file hibmc_ttm.c. drmm_vram_helper_init() can be
-called directly from hibmc_load(). hibmc_dumb_create() and
-hibmc_mode_funcs can go to hibmc_drm_drv.c
+From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-v2:
-change Deletted to Delete
+Hi All,
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/hisilicon/hibmc/Makefile        |  2 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 21 ++++++++++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  4 --
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c     | 50 -------------------------
- 4 files changed, 20 insertions(+), 57 deletions(-)
- delete mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+This patch series is aiming at extending the mipi-dbi bus driver
+to support Intel 8080 type parallel bus (Type B) over GPIO and
+adding a new driver for ILI9341 display panels with 8- or 16-bit
+parallel interface.
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 684ef79..d25c75e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_ttm.o hibmc_drm_i2c.o
-+hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o
- 
- obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 5aea2e9..3687753 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -16,6 +16,7 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
-@@ -43,6 +44,12 @@ static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
-+static int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
-+			     struct drm_mode_create_dumb *args)
-+{
-+	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
-+}
-+
- static const struct drm_driver hibmc_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &hibmc_fops,
-@@ -77,6 +84,13 @@ static const struct dev_pm_ops hibmc_pm_ops = {
- 				hibmc_pm_resume)
- };
- 
-+static const struct drm_mode_config_funcs hibmc_mode_funcs = {
-+	.mode_valid = drm_vram_helper_mode_valid,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+	.fb_create = drm_gem_fb_create,
-+};
-+
- static int hibmc_kms_init(struct hibmc_drm_private *priv)
- {
- 	struct drm_device *dev = &priv->dev;
-@@ -262,9 +276,12 @@ static int hibmc_load(struct drm_device *dev)
- 	if (ret)
- 		goto err;
- 
--	ret = hibmc_mm_init(priv);
--	if (ret)
-+	ret = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
-+				    priv->fb_size);
-+	if (ret) {
-+		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
- 		goto err;
-+	}
- 
- 	ret = hibmc_kms_init(priv);
- 	if (ret)
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 2786de5..a49c10e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -64,10 +64,6 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
- 
- int hibmc_mm_init(struct hibmc_drm_private *hibmc);
--int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
--		      struct drm_mode_create_dumb *args);
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
- 
--extern const struct drm_mode_config_funcs hibmc_mode_funcs;
--
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-deleted file mode 100644
-index 892d566..0000000
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-+++ /dev/null
-@@ -1,50 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* Hisilicon Hibmc SoC drm driver
-- *
-- * Based on the bochs drm driver.
-- *
-- * Copyright (c) 2016 Huawei Limited.
-- *
-- * Author:
-- *	Rongrong Zou <zourongrong@huawei.com>
-- *	Rongrong Zou <zourongrong@gmail.com>
-- *	Jianhua Li <lijianhua@huawei.com>
-- */
--
--#include <linux/pci.h>
--
--#include <drm/drm_atomic_helper.h>
--#include <drm/drm_gem.h>
--#include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_print.h>
--
--#include "hibmc_drm_drv.h"
--
--int hibmc_mm_init(struct hibmc_drm_private *hibmc)
--{
--	int ret;
--	struct drm_device *dev = &hibmc->dev;
--
--	ret = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
--				    hibmc->fb_size);
--	if (ret) {
--		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
--		return ret;
--	}
--
--	return 0;
--}
--
--int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
--		      struct drm_mode_create_dumb *args)
--{
--	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
--}
--
--const struct drm_mode_config_funcs hibmc_mode_funcs = {
--	.mode_valid = drm_vram_helper_mode_valid,
--	.atomic_check = drm_atomic_helper_check,
--	.atomic_commit = drm_atomic_helper_commit,
--	.fb_create = drm_gem_fb_create,
--};
+It was tested with the MRB2801 display module [1] that had
+a connector compatible with the ALIENTEK STM32 development board.
+The module was connected to Raspberry Pi 3 via GPIO pins.
+
+The parallel bus is implemented partially. It supports only write
+operations from the host to the display. Read operations would
+require switching GPIO mode between input and output back and
+forth. But this implementation is very simple, and GPIO mode can
+be set for all used pins to output once at initialization.
+The RD pin of the display has to always receive the logic high
+signal to make sure the data bus pins from the dislay side are
+always in the high impedance state. Otherwise the display module
+as well as the GPIO controller of the host can be damaged.
+To be on the safe side I recommend using protective resistors
+for all GPIO pins conneced to DB pins of the display. Resistors
+of 10 kOhms are just fine for RPi 3. The WR and DC pins may not
+work well with 10K resistors. Although there is no need to protect
+them, you can try using 1K resistors if you want.
+
+Bit banging is used to transmit data over the parallel bus from
+host to display. There are two numbers that contol timings. They
+should be defined in the device tree via the wr-up-down-delays
+property. The first number is related to the write control pulse
+duration, and the second number is related to the write cycle
+duration. For ILI9341, the write pulse cannot be shorter than 15 ns,
+and the write duration cannot be shorter than 66 ns. Delays of
+10 and 51 ns respectively allow to meet the specifications on
+RPi 3. Faster machines may need values closer to 15 and 66.
+
+[1] http://www.lcdwiki.com/2.8inch_16BIT_Module_ILI9341_SKU:MRB2801
+
+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
+
+v2 -> v3:
+	- Fixed build errors reported by the kernel test robot
+
+v1 -> v2:
+	- Moved the definition of mipi_dbi_machine_little_endian()
+	  out of the "#if IS_ENABLED(CONFIG_SPI)" clause. That static
+	  function is used in mipi_dbi_gpio_init which does not need
+	  CONFIG_SPI enabled
+
+v0 -> v1:
+	- Rebased on v5.10-rc6
+	- Replaced "dbi->spi = 0;" with "dbi->spi = NULL;" in
+	  mipi_dbi_gpio_init
+
+v0:
+	- Based on branch rpi-5.10.y
+	- Tested on Raspberry Pi 3 Model B V 1.2
+
+Mikhail Durnev (3):
+  drm/mipi-dbi: Add support for Type B
+  drm/tiny: Add driver for ili9341 with parallel bus
+  dt-bindings: panel: Add bindings for MRB2801
+
+ .../devicetree/bindings/display/ronbo,mrb2801.txt  |  42 +++
+ drivers/gpu/drm/drm_mipi_dbi.c                     | 134 +++++++++-
+ drivers/gpu/drm/tiny/Kconfig                       |  13 +
+ drivers/gpu/drm/tiny/Makefile                      |   1 +
+ drivers/gpu/drm/tiny/ili9341_gpio.c                | 284 +++++++++++++++++++++
+ include/drm/drm_mipi_dbi.h                         |  30 ++-
+ 6 files changed, 493 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/ronbo,mrb2801.txt
+ create mode 100644 drivers/gpu/drm/tiny/ili9341_gpio.c
+
 -- 
 2.7.4
 
