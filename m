@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB962CD4E5
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 12:49:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 221192CD4E6
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 12:49:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8C96E995;
-	Thu,  3 Dec 2020 11:49:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB806E98D;
+	Thu,  3 Dec 2020 11:49:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B42986E983
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 11:49:23 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B3BnAla046631;
- Thu, 3 Dec 2020 05:49:10 -0600
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76D3C6E983
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 11:49:24 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B3BnE6s030316;
+ Thu, 3 Dec 2020 05:49:14 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1606996150;
- bh=XwkbjGydtQkeR6TkGAX4trHaIW+i6Rld6FCr/CUKqVc=;
+ s=ti-com-17Q1; t=1606996154;
+ bh=KBKPXevgiVL65ZIIHFJU4y53JXwAF4FELTcfkacrNpc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=HEtLsXT6inmRkTzHvxehuRPdG2pgtuYuuxi0U27djpvVaEUZI6rs4/DdTMxUpmAbY
- EXky6afTHWzfxY0qUXWiQ/OzQ1IScvYPZMsduVbiNVIlEWjCWL+DAwWChd22V4ZuTP
- Ga9zRxfJan5NRJw7gEWkObE9DTKA3+oxhckgQ3LI=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B3Bn9EA098519
+ b=O1LKR21RI+eRR3LY9p+Aauw0ra7vn9Bj9XJTI8TO8sFBCJPGUP/B9/FmiDDtC4lfM
+ L+lNPfHlhMvUbxjfK1by+WgBjavCo94vChzbLbUn+FDkeICDVmvzBcGQe0RA+teZBI
+ MOfhQcrdfYqPR3BG6l2jsazMPyDdv0ixFAT0ZZjE=
+Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B3BnE33114699
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 3 Dec 2020 05:49:09 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ Thu, 3 Dec 2020 05:49:14 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 3 Dec
- 2020 05:49:09 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ 2020 05:49:13 -0600
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 3 Dec 2020 05:49:09 -0600
+ Frontend Transport; Thu, 3 Dec 2020 05:49:13 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B3Bn0PJ094649;
- Thu, 3 Dec 2020 05:49:05 -0600
+ by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B3Bn0PK094649;
+ Thu, 3 Dec 2020 05:49:09 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 1/2] drm: add legacy support for using degamma for gamma
-Date: Thu, 3 Dec 2020 13:48:44 +0200
-Message-ID: <20201203114845.232911-2-tomi.valkeinen@ti.com>
+Subject: [PATCH 2/2] drm: automatic legacy gamma support
+Date: Thu, 3 Dec 2020 13:48:45 +0200
+Message-ID: <20201203114845.232911-3-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201203114845.232911-1-tomi.valkeinen@ti.com>
 References: <20201203114845.232911-1-tomi.valkeinen@ti.com>
@@ -74,117 +74,555 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We currently have drm_atomic_helper_legacy_gamma_set() helper which can
-be used to handle legacy gamma-set ioctl.
-drm_atomic_helper_legacy_gamma_set() sets GAMMA_LUT, and clears
-CTM and DEGAMMA_LUT. This works fine on HW where we have either:
+To support legacy gamma ioctls the drivers need to set
+drm_crtc_funcs.gamma_set either to a custom implementation or to
+drm_atomic_helper_legacy_gamma_set. Most of the atomic drivers do the
+latter.
 
-degamma -> ctm -> gamma -> out
+We can simplify this by making the core handle it automatically.
 
-or
+Add two functions: drm_crtc_supports_legacy_gamma() which tells if the
+legacy gamma table can be set, and drm_crtc_legacy_gamma_set() which
+does the work by either calling the drm_crtc_funcs.gamma_set or using
+GAMMA_LUT or DEGAMMA_LUT.
 
-ctm -> gamma -> out
-
-However, if the HW has gamma table before ctm, the atomic property
-should be DEGAMMA_LUT, and thus we have:
-
-degamma -> ctm -> out
-
-This is fine for userspace which sets gamma table using the properties,
-as the userspace can check for the existence of gamma & degamma, but the
-legacy gamma-set ioctl does not work.
-
-This patch fixes the issue by changing
-drm_atomic_helper_legacy_gamma_set() so that GAMMA_LUT will be used if
-it exists, and DEGAMMA_LUT will be used as a fallback.
+We can then drop drm_atomic_helper_legacy_gamma_set() and remove all its
+uses.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 18 +++++++++++++++---
- drivers/gpu/drm/drm_color_mgmt.c    |  4 ++++
- include/drm/drm_crtc.h              |  3 +++
- 3 files changed, 22 insertions(+), 3 deletions(-)
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 -
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |   1 -
+ drivers/gpu/drm/arm/malidp_crtc.c             |   1 -
+ drivers/gpu/drm/armada/armada_crtc.c          |   1 -
+ drivers/gpu/drm/ast/ast_mode.c                |   1 -
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    |   1 -
+ drivers/gpu/drm/drm_atomic_helper.c           |  82 -------------
+ drivers/gpu/drm/drm_color_mgmt.c              | 113 +++++++++++++++++-
+ drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   2 -
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   1 -
+ drivers/gpu/drm/nouveau/dispnv50/head.c       |   2 -
+ drivers/gpu/drm/omapdrm/omap_crtc.c           |   1 -
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   1 -
+ drivers/gpu/drm/stm/ltdc.c                    |   1 -
+ drivers/gpu/drm/vc4/vc4_crtc.c                |   1 -
+ drivers/gpu/drm/vc4/vc4_txp.c                 |   1 -
+ include/drm/drm_atomic_helper.h               |   4 -
+ include/drm/drm_color_mgmt.h                  |   7 ++
+ 20 files changed, 123 insertions(+), 112 deletions(-)
 
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 2855bb918535..848b06c51b0e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -5396,7 +5396,6 @@ static void dm_disable_vblank(struct drm_crtc *crtc)
+ static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+ 	.reset = dm_crtc_reset_state,
+ 	.destroy = amdgpu_dm_crtc_destroy,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.atomic_duplicate_state = dm_crtc_duplicate_state,
+diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+index 4b485eb512e2..59172acb9738 100644
+--- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
++++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+@@ -550,7 +550,6 @@ static void komeda_crtc_vblank_disable(struct drm_crtc *crtc)
+ }
+ 
+ static const struct drm_crtc_funcs komeda_crtc_funcs = {
+-	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+ 	.destroy		= drm_crtc_cleanup,
+ 	.set_config		= drm_atomic_helper_set_config,
+ 	.page_flip		= drm_atomic_helper_page_flip,
+diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
+index 108e7a31bd26..494075ddbef6 100644
+--- a/drivers/gpu/drm/arm/malidp_crtc.c
++++ b/drivers/gpu/drm/arm/malidp_crtc.c
+@@ -510,7 +510,6 @@ static void malidp_crtc_disable_vblank(struct drm_crtc *crtc)
+ }
+ 
+ static const struct drm_crtc_funcs malidp_crtc_funcs = {
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
+index 3ebcf5a52c8b..b7bb90ae787f 100644
+--- a/drivers/gpu/drm/armada/armada_crtc.c
++++ b/drivers/gpu/drm/armada/armada_crtc.c
+@@ -820,7 +820,6 @@ static const struct drm_crtc_funcs armada_crtc_funcs = {
+ 	.cursor_set	= armada_drm_crtc_cursor_set,
+ 	.cursor_move	= armada_drm_crtc_cursor_move,
+ 	.destroy	= armada_drm_crtc_destroy,
+-	.gamma_set	= drm_atomic_helper_legacy_gamma_set,
+ 	.set_config	= drm_atomic_helper_set_config,
+ 	.page_flip	= drm_atomic_helper_page_flip,
+ 	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index 9db371f4054f..5b0ec785c516 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -903,7 +903,6 @@ static void ast_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+ 
+ static const struct drm_crtc_funcs ast_crtc_funcs = {
+ 	.reset = ast_crtc_reset,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.destroy = drm_crtc_cleanup,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+index c58fa00b4848..05ad75d155e8 100644
+--- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
++++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+@@ -473,7 +473,6 @@ static const struct drm_crtc_funcs atmel_hlcdc_crtc_funcs = {
+ 	.atomic_destroy_state = atmel_hlcdc_crtc_destroy_state,
+ 	.enable_vblank = atmel_hlcdc_crtc_enable_vblank,
+ 	.disable_vblank = atmel_hlcdc_crtc_disable_vblank,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ };
+ 
+ int atmel_hlcdc_crtc_create(struct drm_device *dev)
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index ba1507036f26..fe59c8ea42a9 100644
+index fe59c8ea42a9..b114658100b3 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -3512,6 +3512,10 @@ EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
-  * that support color management through the DEGAMMA_LUT/GAMMA_LUT
-  * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
-  * how the atomic color management and gamma tables work.
+@@ -3499,88 +3499,6 @@ int drm_atomic_helper_page_flip_target(struct drm_crtc *crtc,
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
+ 
+-/**
+- * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table
+- * @crtc: CRTC object
+- * @red: red correction table
+- * @green: green correction table
+- * @blue: green correction table
+- * @size: size of the tables
+- * @ctx: lock acquire context
+- *
+- * Implements support for legacy gamma correction table for drivers
+- * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+- * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+- * how the atomic color management and gamma tables work.
+- *
+- * This function uses the GAMMA_LUT or DEGAMMA_LUT property for the gamma table.
+- * GAMMA_LUT property is used if it exists, and DEGAMMA_LUT property is used as
+- * a fallback.
+- */
+-int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+-				       u16 *red, u16 *green, u16 *blue,
+-				       uint32_t size,
+-				       struct drm_modeset_acquire_ctx *ctx)
+-{
+-	struct drm_device *dev = crtc->dev;
+-	struct drm_atomic_state *state;
+-	struct drm_crtc_state *crtc_state;
+-	struct drm_property_blob *blob = NULL;
+-	struct drm_color_lut *blob_data;
+-	int i, ret = 0;
+-	bool replaced;
+-	bool use_degamma;
+-
+-	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
+-		return -ENODEV;
+-
+-	use_degamma = !crtc->has_gamma_prop;
+-
+-	state = drm_atomic_state_alloc(crtc->dev);
+-	if (!state)
+-		return -ENOMEM;
+-
+-	blob = drm_property_create_blob(dev,
+-					sizeof(struct drm_color_lut) * size,
+-					NULL);
+-	if (IS_ERR(blob)) {
+-		ret = PTR_ERR(blob);
+-		blob = NULL;
+-		goto fail;
+-	}
+-
+-	/* Prepare GAMMA_LUT with the legacy values. */
+-	blob_data = blob->data;
+-	for (i = 0; i < size; i++) {
+-		blob_data[i].red = red[i];
+-		blob_data[i].green = green[i];
+-		blob_data[i].blue = blue[i];
+-	}
+-
+-	state->acquire_ctx = ctx;
+-	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+-	if (IS_ERR(crtc_state)) {
+-		ret = PTR_ERR(crtc_state);
+-		goto fail;
+-	}
+-
+-	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
+-	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+-					      use_degamma ? blob : NULL);
+-	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+-	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+-					      use_degamma ? NULL : blob);
+-	crtc_state->color_mgmt_changed |= replaced;
+-
+-	ret = drm_atomic_commit(state);
+-
+-fail:
+-	drm_atomic_state_put(state);
+-	drm_property_blob_put(blob);
+-	return ret;
+-}
+-EXPORT_SYMBOL(drm_atomic_helper_legacy_gamma_set);
+-
+ /**
+  * drm_atomic_helper_bridge_propagate_bus_fmt() - Propagate output format to
+  *						  the input end of a bridge
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 956e59d5f6a7..21f667ad9c79 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -22,6 +22,7 @@
+ 
+ #include <linux/uaccess.h>
+ 
++#include <drm/drm_atomic.h>
+ #include <drm/drm_color_mgmt.h>
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_device.h>
+@@ -235,6 +236,112 @@ int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
+ }
+ EXPORT_SYMBOL(drm_mode_crtc_set_gamma_size);
+ 
++/**
++ * drm_crtc_supports_legacy_gamma - does the crtc support legacy gamma correction table
++ * @crtc: CRTC object
 + *
-+ * This function uses the GAMMA_LUT or DEGAMMA_LUT property for the gamma table.
-+ * GAMMA_LUT property is used if it exists, and DEGAMMA_LUT property is used as
-+ * a fallback.
-  */
- int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 				       u16 *red, u16 *green, u16 *blue,
-@@ -3525,6 +3529,12 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 	struct drm_color_lut *blob_data;
- 	int i, ret = 0;
- 	bool replaced;
++ * Returns true/false if the given crtc supports setting the legacy gamma
++ * correction table.
++ */
++bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
++{
++	if (!crtc->gamma_size)
++		return false;
++
++	if (crtc->funcs->gamma_set)
++		return true;
++
++	return crtc->has_gamma_prop || crtc->has_degamma_prop;
++}
++EXPORT_SYMBOL(drm_crtc_supports_legacy_gamma);
++
++/**
++ * drm_crtc_legacy_gamma_set - set the legacy gamma correction table
++ * @crtc: CRTC object
++ * @red: red correction table
++ * @green: green correction table
++ * @blue: green correction table
++ * @size: size of the tables
++ * @ctx: lock acquire context
++ *
++ * Implements support for legacy gamma correction table for drivers
++ * that have set drm_crtc_funcs.gamma_set or that support color management
++ * through the DEGAMMA_LUT/GAMMA_LUT properties. See
++ * drm_crtc_enable_color_mgmt() and the containing chapter for
++ * how the atomic color management and gamma tables work.
++ *
++ * This function sets the gamma using the first one available:
++ * - drm_crtc_funcs.gamma_set()
++ * - GAMMA_LUT
++ * - DEGAMMA_LUT
++ */
++int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
++			      u16 *red, u16 *green, u16 *blue,
++			      uint32_t size,
++			      struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_device *dev = crtc->dev;
++	struct drm_atomic_state *state;
++	struct drm_crtc_state *crtc_state;
++	struct drm_property_blob *blob = NULL;
++	struct drm_color_lut *blob_data;
++	int i, ret = 0;
++	bool replaced;
 +	bool use_degamma;
++
++	if (crtc->funcs->gamma_set)
++		return crtc->funcs->gamma_set(crtc, red, green, blue, size, ctx);
 +
 +	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
 +		return -ENODEV;
 +
 +	use_degamma = !crtc->has_gamma_prop;
- 
- 	state = drm_atomic_state_alloc(crtc->dev);
- 	if (!state)
-@@ -3554,10 +3564,12 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
- 		goto fail;
- 	}
- 
--	/* Reset DEGAMMA_LUT and CTM properties. */
--	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
++
++	state = drm_atomic_state_alloc(crtc->dev);
++	if (!state)
++		return -ENOMEM;
++
++	blob = drm_property_create_blob(dev,
++					sizeof(struct drm_color_lut) * size,
++					NULL);
++	if (IS_ERR(blob)) {
++		ret = PTR_ERR(blob);
++		blob = NULL;
++		goto fail;
++	}
++
++	/* Prepare GAMMA_LUT with the legacy values. */
++	blob_data = blob->data;
++	for (i = 0; i < size; i++) {
++		blob_data[i].red = red[i];
++		blob_data[i].green = green[i];
++		blob_data[i].blue = blue[i];
++	}
++
++	state->acquire_ctx = ctx;
++	crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	if (IS_ERR(crtc_state)) {
++		ret = PTR_ERR(crtc_state);
++		goto fail;
++	}
++
 +	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
 +	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
 +					      use_degamma ? blob : NULL);
- 	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
--	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
++	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
 +	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
 +					      use_degamma ? NULL : blob);
- 	crtc_state->color_mgmt_changed |= replaced;
++	crtc_state->color_mgmt_changed |= replaced;
++
++	ret = drm_atomic_commit(state);
++
++fail:
++	drm_atomic_state_put(state);
++	drm_property_blob_put(blob);
++	return ret;
++}
++EXPORT_SYMBOL(drm_crtc_legacy_gamma_set);
++
+ /**
+  * drm_mode_gamma_set_ioctl - set the gamma table
+  * @dev: DRM device
+@@ -266,7 +373,7 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+ 	if (!crtc)
+ 		return -ENOENT;
  
- 	ret = drm_atomic_commit(state);
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index 3bcabc2f6e0e..956e59d5f6a7 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -176,6 +176,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
- 					   degamma_lut_size);
+-	if (crtc->funcs->gamma_set == NULL)
++	if (!drm_crtc_supports_legacy_gamma(crtc))
+ 		return -ENOSYS;
+ 
+ 	/* memcpy into gamma store */
+@@ -294,8 +401,8 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+ 		goto out;
  	}
  
-+	crtc->has_degamma_prop = !!degamma_lut_size;
-+
- 	if (has_ctm)
- 		drm_object_attach_property(&crtc->base,
- 					   config->ctm_property, 0);
-@@ -187,6 +189,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
- 					   config->gamma_lut_size_property,
- 					   gamma_lut_size);
- 	}
-+
-+	crtc->has_gamma_prop = !!gamma_lut_size;
+-	ret = crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+-				     crtc->gamma_size, &ctx);
++	ret = drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
++					crtc->gamma_size, &ctx);
+ 
+ out:
+ 	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 25edf670867c..446e321779e6 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -136,15 +136,15 @@ static void drm_fb_helper_restore_lut_atomic(struct drm_crtc *crtc)
+ {
+ 	uint16_t *r_base, *g_base, *b_base;
+ 
+-	if (crtc->funcs->gamma_set == NULL)
++	if (!drm_crtc_supports_legacy_gamma(crtc))
+ 		return;
+ 
+ 	r_base = crtc->gamma_store;
+ 	g_base = r_base + crtc->gamma_size;
+ 	b_base = g_base + crtc->gamma_size;
+ 
+-	crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+-			       crtc->gamma_size, NULL);
++	drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
++				  crtc->gamma_size, NULL);
  }
- EXPORT_SYMBOL(drm_crtc_enable_color_mgmt);
  
-diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-index ba839e5e357d..9e1f06047e3d 100644
---- a/include/drm/drm_crtc.h
-+++ b/include/drm/drm_crtc.h
-@@ -1084,6 +1084,9 @@ struct drm_crtc {
- 	 */
- 	uint16_t *gamma_store;
+ /**
+@@ -907,7 +907,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+ 	drm_modeset_lock_all(fb_helper->dev);
+ 	drm_client_for_each_modeset(modeset, &fb_helper->client) {
+ 		crtc = modeset->crtc;
+-		if (!crtc->funcs->gamma_set || !crtc->gamma_size)
++		if (!drm_crtc_supports_legacy_gamma(crtc))
+ 			return -EINVAL;
  
-+	bool has_gamma_prop;
-+	bool has_degamma_prop;
+ 		if (cmap->start + cmap->len > crtc->gamma_size)
+@@ -921,8 +921,8 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+ 		memcpy(g + cmap->start, cmap->green, cmap->len * sizeof(*g));
+ 		memcpy(b + cmap->start, cmap->blue, cmap->len * sizeof(*b));
+ 
+-		ret = crtc->funcs->gamma_set(crtc, r, g, b,
+-					     crtc->gamma_size, NULL);
++		ret = drm_crtc_legacy_gamma_set(crtc, r, g, b, crtc->gamma_size,
++						NULL);
+ 		if (ret)
+ 			return ret;
+ 	}
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index 368bfef8b340..75f948d41b0a 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -755,8 +755,6 @@ static const struct drm_crtc_funcs ingenic_drm_crtc_funcs = {
+ 
+ 	.enable_vblank		= ingenic_drm_enable_vblank,
+ 	.disable_vblank		= ingenic_drm_disable_vblank,
+-
+-	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+ };
+ 
+ static const struct drm_plane_helper_funcs ingenic_drm_plane_helper_funcs = {
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+index bfe994230543..b665bd498a4a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+@@ -619,7 +619,6 @@ static const struct drm_crtc_funcs mtk_crtc_funcs = {
+ 	.reset			= mtk_drm_crtc_reset,
+ 	.atomic_duplicate_state	= mtk_drm_crtc_duplicate_state,
+ 	.atomic_destroy_state	= mtk_drm_crtc_destroy_state,
+-	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+ 	.enable_vblank		= mtk_drm_crtc_enable_vblank,
+ 	.disable_vblank		= mtk_drm_crtc_disable_vblank,
+ };
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+index 537c1ef2e464..ec361d17e900 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/head.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+@@ -503,7 +503,6 @@ nv50_head_destroy(struct drm_crtc *crtc)
+ static const struct drm_crtc_funcs
+ nv50_head_func = {
+ 	.reset = nv50_head_reset,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.destroy = nv50_head_destroy,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+@@ -518,7 +517,6 @@ nv50_head_func = {
+ static const struct drm_crtc_funcs
+ nvd9_head_func = {
+ 	.reset = nv50_head_reset,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.destroy = nv50_head_destroy,
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.page_flip = drm_atomic_helper_page_flip,
+diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+index 7d66269ad998..b97f21cf4a91 100644
+--- a/drivers/gpu/drm/omapdrm/omap_crtc.c
++++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+@@ -741,7 +741,6 @@ static const struct drm_crtc_funcs omap_crtc_funcs = {
+ 	.set_config = drm_atomic_helper_set_config,
+ 	.destroy = omap_crtc_destroy,
+ 	.page_flip = drm_atomic_helper_page_flip,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.atomic_duplicate_state = omap_crtc_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+ 	.atomic_set_property = omap_crtc_atomic_set_property,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index b5fb941e0f53..f93e0750431d 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -1144,7 +1144,6 @@ static const struct drm_crtc_funcs crtc_funcs_gen3 = {
+ 	.set_crc_source = rcar_du_crtc_set_crc_source,
+ 	.verify_crc_source = rcar_du_crtc_verify_crc_source,
+ 	.get_crc_sources = rcar_du_crtc_get_crc_sources,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ };
+ 
+ /* -----------------------------------------------------------------------------
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index d1e05482641b..8d15cabdcb02 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1643,7 +1643,6 @@ static const struct drm_crtc_funcs vop_crtc_funcs = {
+ 	.disable_vblank = vop_crtc_disable_vblank,
+ 	.set_crc_source = vop_crtc_set_crc_source,
+ 	.verify_crc_source = vop_crtc_verify_crc_source,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ };
+ 
+ static void vop_fb_unref_worker(struct drm_flip_work *work, void *val)
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 3980677435cb..7812094f93d6 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -713,7 +713,6 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+ 	.enable_vblank = ltdc_crtc_enable_vblank,
+ 	.disable_vblank = ltdc_crtc_disable_vblank,
+ 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ };
+ 
+ /*
+diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+index ea710beb8e00..7495d70d6a32 100644
+--- a/drivers/gpu/drm/vc4/vc4_crtc.c
++++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+@@ -884,7 +884,6 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
+ 	.reset = vc4_crtc_reset,
+ 	.atomic_duplicate_state = vc4_crtc_duplicate_state,
+ 	.atomic_destroy_state = vc4_crtc_destroy_state,
+-	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+ 	.enable_vblank = vc4_enable_vblank,
+ 	.disable_vblank = vc4_disable_vblank,
+ 	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+index 8aa5220885f4..e4b782e42f69 100644
+--- a/drivers/gpu/drm/vc4/vc4_txp.c
++++ b/drivers/gpu/drm/vc4/vc4_txp.c
+@@ -382,7 +382,6 @@ static const struct drm_crtc_funcs vc4_txp_crtc_funcs = {
+ 	.reset			= vc4_crtc_reset,
+ 	.atomic_duplicate_state	= vc4_crtc_duplicate_state,
+ 	.atomic_destroy_state	= vc4_crtc_destroy_state,
+-	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+ 	.enable_vblank		= vc4_txp_enable_vblank,
+ 	.disable_vblank		= vc4_txp_disable_vblank,
+ };
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 5f47720440fa..4045e2507e11 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -147,10 +147,6 @@ int drm_atomic_helper_page_flip_target(
+ 				uint32_t flags,
+ 				uint32_t target,
+ 				struct drm_modeset_acquire_ctx *ctx);
+-int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+-				       u16 *red, u16 *green, u16 *blue,
+-				       uint32_t size,
+-				       struct drm_modeset_acquire_ctx *ctx);
+ 
+ /**
+  * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c..a899be9404a0 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -28,6 +28,7 @@
+ 
+ struct drm_crtc;
+ struct drm_plane;
++struct drm_modeset_acquire_ctx;
+ 
+ /**
+  * drm_color_lut_extract - clamp and round LUT entries
+@@ -62,6 +63,12 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+ int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
+ 				 int gamma_size);
+ 
++bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc);
++int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
++			      u16 *red, u16 *green, u16 *blue,
++			      uint32_t size,
++			      struct drm_modeset_acquire_ctx *ctx);
 +
- 	/** @helper_private: mid-layer private data */
- 	const struct drm_crtc_helper_funcs *helper_private;
- 
+ /**
+  * drm_color_lut_size - calculate the number of entries in the LUT
+  * @blob: blob containing the LUT
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
