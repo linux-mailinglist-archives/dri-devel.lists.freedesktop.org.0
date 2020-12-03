@@ -1,67 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D67CA2CE9B3
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABFA82CE9A9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:33:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7F16E15C;
-	Fri,  4 Dec 2020 08:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 339FF6E14D;
+	Fri,  4 Dec 2020 08:33:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25EE76E995
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 13:09:40 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id o1so1813512wrx.7
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 05:09:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rkrWWgy/zAJu0GV6hLcEd4kiWgcX7eH0p2FvB1NfSaM=;
- b=GnT4MwE0rexDgVy9iVAB+xaJVO2aSitrLemSfO3X0m/uHDffUgDe99WVZ7CmIyHEgE
- ySVZiyXirmMf99StbP7Z1KdhL2NRzx2ls+pHaZNWF0Tzny41rYvPjmd2mkQsHvSbHOr+
- iNmpyrX8GjO8eRdX5dR4LkLqp1KX3fUk+RrSZhoqgS2OAzHGfJwkfeY1N4qlGqpmx2C5
- 4i0gAUIDx+sfRyWHJWfCSFRXGJIB3clsDFb9xH/bUDNgKpPECzXMjyx5Rx/b1kfq0ImY
- YlXYuXLA7hTAPuUQZuE2xpPQqsXk4reC5W0ntOFl5QToPjLrTl0CSQMTgPYDsMKLKmQU
- Zu3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rkrWWgy/zAJu0GV6hLcEd4kiWgcX7eH0p2FvB1NfSaM=;
- b=XRSb4c7Vh8MdH4r6oUxE04/sD425Uj7S9me7shbdb1U1Zl9nWGy9EIP1QDz0Wq9euH
- EGSBR7i7liBgDuk4GJPT/k6r+jQW+5GtirCBsqLh9PPqQ/ojA9JSccQDwNlGwYH7lMcK
- YC6LzjD38dQdYXHuK6c8s/p05UIm/et+NnxUtmVn7ksCEl22G5co+CSkeoYgIlbB5Mlw
- oUxChbMhMzJxmd5FOBtW7BXrvOLIaEwh8eFMD827gdDh5z/n9IC9uTN+rrINbWjGmwSN
- D3l3oRAOq1dzYJU/ADQkxZTL9NjhdKsDA1Ugxr4hnvlsQpjktN/qTg5hhatoXiq0jd7t
- OHEA==
-X-Gm-Message-State: AOAM531Ze9Fk0RJo4Dnos4DLgkVzPTAo7DkTAonU6SlbcLUtMllmYlKm
- A/FX1zzcUNc6gx8A3Na4YAgR1g==
-X-Google-Smtp-Source: ABdhPJz8FWWXiz2Jj8ehlbzz4IZAsN6vLYDaoQyFJcPRXYhvTfUYcQJ7n9arDiqpba2Wmv2W4Vsyig==
-X-Received: by 2002:adf:e7d0:: with SMTP id e16mr3772346wrn.114.1607000978486; 
- Thu, 03 Dec 2020 05:09:38 -0800 (PST)
-Received: from ?IPv6:2a01:e34:ed2f:f020:1c7d:2d7a:9709:b9a2?
- ([2a01:e34:ed2f:f020:1c7d:2d7a:9709:b9a2])
- by smtp.googlemail.com with ESMTPSA id d17sm1861139wro.62.2020.12.03.05.09.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 03 Dec 2020 05:09:37 -0800 (PST)
-Subject: Re: [PATCH v2 2/5] thermal: devfreq_cooling: get a copy of device
- status
-To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20201118120358.17150-1-lukasz.luba@arm.com>
- <20201118120358.17150-3-lukasz.luba@arm.com>
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-ID: <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
-Date: Thu, 3 Dec 2020 14:09:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFFD96E9C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 13:25:49 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4172E58040B;
+ Thu,  3 Dec 2020 08:25:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 03 Dec 2020 08:25:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=CNvjhntOkgVG9DQrm1pmQkB6An
+ 7R60GdwompaBK6wCU=; b=AAl1HsCMVxJX8VLMEOZfuw1RsltY62sLBewIWaqi0S
+ vxVIGr5lX97uraE5XmgCqh9VcWqo1LVE1bvdYWRiJS18viGPCqoLH2eaqLijHuqc
+ +/xuKks0H0/BdUe99cohk8G18WkM6hi8Kk3daTqT9zRu06HuR/hZULKEoagY08Ml
+ UBj22tk42/uU9XxR+nqEixuWuTtxSmFwEc/HXPcMLiuP3XwR5X6rmznhx4rIUnVr
+ ZGKlePHpxX7/zlkPlW3n+xIfslOiefvmPA5CRWhlRdO+Kfb1vBIChVB67CxBjRsQ
+ UjjHL4x6wQFz5jIt/QVKtEMx0c63f2hAgkfyCyTARxcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=CNvjhn
+ tOkgVG9DQrm1pmQkB6An7R60GdwompaBK6wCU=; b=jHm87+8RIEpWwBIWYKdJzn
+ uHW/MQOTSj+1cmgWnQW4XZg4QjleAlJz0apBiVJuNuu7dDCDfRUa6PvZGIFkptB2
+ UIAkh/8hWAHG8+ubKM6sOc7XNRWrW+ro48NTNpFFigu5vjnExADX0ku87oIMqmbm
+ 5v50DyD/Ai6XHOekonQO0GmUroFaWN/gtd+tGmu2mWBukO5eD3jKNCK+1rsu9FiC
+ t7YKKzXWihY/3XmRK3/7bAqRRGrK/vr70Eexh8B4ovqbMBpkuY4Y5azLbAL/3Xnq
+ l+qon6qpXLX3Xf9grQ6wagBPXMTfzQzrBnWeEYAM12+7YpZPSQvaxc25DoZYrYFg
+ ==
+X-ME-Sender: <xms:WOfIXzr1xOw3vKWMOjIfhRviQ8sYR1aSG6eO5sJOv0vk3sWEoPSFuQ>
+ <xme:WOfIX9qhnGlQWh2bF-NV-HwxCqhuzRLgXO9zjB5ZLaRZmDLAoySI99ad-voxckBfR
+ SozgxmYjFwxPKCbM3g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeiiedgheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:WOfIXwMec-kFgKy1NcuAlz8PG-moaMNmH9pQeKnsIICVT34YIXjqMg>
+ <xmx:WOfIX27loVyQs8XyEwlqV6nd1btGXhenuwrxFOPq7uogBt_VBM1cug>
+ <xmx:WOfIXy5IuwYZlPta2mUyrVg1Jf5ysATytefleAfgIMVcRapdwgtAOQ>
+ <xmx:XOfIX0uNgR2ZFlSf8JYQWocRHZDQpy9McU4KRvqnldUa0XMRjWmlOA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8E0DD1080067;
+ Thu,  3 Dec 2020 08:25:44 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Eric Anholt <eric@anholt.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
+Subject: [PATCH 0/8] drm/vc4: DSI improvements and BCM2711 support
+Date: Thu,  3 Dec 2020 14:25:35 +0100
+Message-Id: <20201203132543.861591-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201118120358.17150-3-lukasz.luba@arm.com>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
+X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,107 +80,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amit.kucheria@verdurent.com, airlied@linux.ie, steven.price@arm.com,
- alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, ionela.voinescu@arm.com,
- orjan.eide@arm.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTgvMTEvMjAyMCAxMzowMywgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gRGV2ZnJlcSBjb29saW5n
-IG5lZWRzIHRvIG5vdyB0aGUgY29ycmVjdCBzdGF0dXMgb2YgdGhlIGRldmljZSBpbiBvcmRlcgo+
-IHRvIG9wZXJhdGUuIERvIG5vdCByZWx5IG9uIERldmZyZXEgbGFzdF9zdGF0dXMgd2hpY2ggbWln
-aHQgYmUgYSBzdGFsZSBkYXRhCj4gYW5kIGdldCBtb3JlIHVwLXRvLWRhdGUgdmFsdWVzIG9mIHRo
-ZSBsb2FkLgo+IAo+IERldmZyZXEgZnJhbWV3b3JrIGNhbiBjaGFuZ2UgdGhlIGRldmljZSBzdGF0
-dXMgaW4gdGhlIGJhY2tncm91bmQuIFRvCj4gbWl0aWdhdGUgdGhpcyBzaXR1YXRpb24gbWFrZSBh
-IGNvcHkgb2YgdGhlIHN0YXR1cyBzdHJ1Y3R1cmUgYW5kIHVzZSBpdAo+IGZvciBpbnRlcm5hbCBj
-YWxjdWxhdGlvbnMuCj4gCj4gSW4gYWRkaXRpb24gdGhpcyBwYXRjaCBhZGRzIG5vcm1hbGl6YXRp
-b24gZnVuY3Rpb24sIHdoaWNoIGFsc28gbWFrZXMgc3VyZQo+IHRoYXQgd2hhdGV2ZXIgZGF0YSBj
-b21lcyBmcm9tIHRoZSBkZXZpY2UsIGl0IGlzIGluIGEgc2FuZSByYW5nZS4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBMdWthc3ogTHViYSA8bHVrYXN6Lmx1YmFAYXJtLmNvbT4KPiAtLS0KPiAgZHJpdmVy
-cy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jIHwgNTIgKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMo
-LSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jIGIv
-ZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4gaW5kZXggNjU5YzAxNDNjOWYwLi45
-MjU1MjM2OTQ0NjIgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGlu
-Zy5jCj4gKysrIGIvZHJpdmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4gQEAgLTIyNywy
-MCArMjI3LDQ2IEBAIHN0YXRpYyBpbmxpbmUgdW5zaWduZWQgbG9uZyBnZXRfdG90YWxfcG93ZXIo
-c3RydWN0IGRldmZyZXFfY29vbGluZ19kZXZpY2UgKmRmYywKPiAgCQkJCQkJCSAgICAgICB2b2x0
-YWdlKTsKPiAgfQo+ICAKPiArc3RhdGljIHZvaWQgX25vcm1hbGl6ZV9sb2FkKHN0cnVjdCBkZXZm
-cmVxX2Rldl9zdGF0dXMgKnN0YXR1cykKPiArewo+ICsJLyogTWFrZSBzb21lIHNwYWNlIGlmIG5l
-ZWRlZCAqLwo+ICsJaWYgKHN0YXR1cy0+YnVzeV90aW1lID4gMHhmZmZmKSB7Cj4gKwkJc3RhdHVz
-LT5idXN5X3RpbWUgPj49IDEwOwo+ICsJCXN0YXR1cy0+dG90YWxfdGltZSA+Pj0gMTA7Cj4gKwl9
-Cj4gKwo+ICsJaWYgKHN0YXR1cy0+YnVzeV90aW1lID4gc3RhdHVzLT50b3RhbF90aW1lKQo+ICsJ
-CXN0YXR1cy0+YnVzeV90aW1lID0gc3RhdHVzLT50b3RhbF90aW1lOwoKSG93IHRoZSBjb25kaXRp
-b24gYWJvdmUgaXMgcG9zc2libGU/Cgo+ICsJc3RhdHVzLT5idXN5X3RpbWUgKj0gMTAwOwo+ICsJ
-c3RhdHVzLT5idXN5X3RpbWUgLz0gc3RhdHVzLT50b3RhbF90aW1lID8gOiAxOwo+ICsKPiArCS8q
-IEF2b2lkIGRpdmlzaW9uIGJ5IDAgKi8KPiArCXN0YXR1cy0+YnVzeV90aW1lID0gc3RhdHVzLT5i
-dXN5X3RpbWUgPyA6IDE7Cj4gKwlzdGF0dXMtPnRvdGFsX3RpbWUgPSAxMDA7CgpXaHkgbm90IGJh
-c2UgdGhlIG5vcm1hbGl6YXRpb24gb24gMTAyND8gYW5kIHVzZSBhbiBpbnRlcm1lZGlhdGUgdTY0
-LgoKRm9yIGV4YW1wbGU6CgpzdGF0aWMgdTMyIF9ub3JtYWxpemVfbG9hZChzdHJ1Y3QgZGV2ZnJl
-cV9kZXZfc3RhdHVzICpzdGF0dXMpCnsKCXU2NCBsb2FkID0gMDsKCgkvKiBQcmV2ZW50IGRpdmlz
-b24gYnkgemVybyAqLwoJaWYgKCFzdGF0dXMtPmJ1c3lfdGltZSkKCQlyZXR1cm4gMDsKCgkvKgoJ
-ICogQXNzdW1pbmcgc3RhdHVzLT50b3RhbF90aW1lIGlzIGFsd2F5cyBncmVhdGVyIG9yIGVxdWFs
-CgkgKiB0byBzdGF0dXMtPmJ1c3lfdGltZSwgaXQgY2FuIG5vdCBiZSBlcXVhbCB0byB6ZXJvIGJl
-Y2F1c2UKCSAqIG9mIHRoZSB0ZXN0IGFib3ZlCgkgKi8KCWxvYWQgPSBzdGF0dXMtPmJ1c3lfdGlt
-ZSAqIDEwMjQ7Cglsb2FkIC89IHN0YXR1cy0+dG90YWxfdGltZTsKCgkvKgoJICogbG9hZCBpcyBh
-bHdheXMgWzEuLjEwMjRbLCBzbyBpdCBjYW4gbm90IGJlIHRydW5jYXRlZCBieSBhCgkgKiB1NjQg
-LT4gdTMyIGNvZXJjaXZlIGNhc3QKCSAqLwoJcmV0dXJuICh1MzIpbG9hZDsKfQoKCj4gK30KPiAg
-Cj4gIHN0YXRpYyBpbnQgZGV2ZnJlcV9jb29saW5nX2dldF9yZXF1ZXN0ZWRfcG93ZXIoc3RydWN0
-IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKmNkZXYsCj4gIAkJCQkJICAgICAgIHUzMiAqcG93ZXIp
-Cj4gIHsKPiAgCXN0cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlICpkZmMgPSBjZGV2LT5kZXZk
-YXRhOwo+ICAJc3RydWN0IGRldmZyZXEgKmRmID0gZGZjLT5kZXZmcmVxOwo+IC0Jc3RydWN0IGRl
-dmZyZXFfZGV2X3N0YXR1cyAqc3RhdHVzID0gJmRmLT5sYXN0X3N0YXR1czsKPiArCXN0cnVjdCBk
-ZXZmcmVxX2Rldl9zdGF0dXMgc3RhdHVzOwo+ICAJdW5zaWduZWQgbG9uZyBzdGF0ZTsKPiAtCXVu
-c2lnbmVkIGxvbmcgZnJlcSA9IHN0YXR1cy0+Y3VycmVudF9mcmVxdWVuY3k7Cj4gKwl1bnNpZ25l
-ZCBsb25nIGZyZXE7Cj4gIAl1bnNpZ25lZCBsb25nIHZvbHRhZ2U7Cj4gIAl1MzIgZHluX3Bvd2Vy
-ID0gMDsKPiAgCXUzMiBzdGF0aWNfcG93ZXIgPSAwOwo+ICAJaW50IHJlczsKPiAgCj4gKwltdXRl
-eF9sb2NrKCZkZi0+bG9jayk7Cj4gKwlyZXMgPSBkZi0+cHJvZmlsZS0+Z2V0X2Rldl9zdGF0dXMo
-ZGYtPmRldi5wYXJlbnQsICZzdGF0dXMpOwo+ICsJbXV0ZXhfdW5sb2NrKCZkZi0+bG9jayk7Cj4g
-KwlpZiAocmVzKQo+ICsJCXJldHVybiByZXM7Cj4gKwo+ICsJZnJlcSA9IHN0YXR1cy5jdXJyZW50
-X2ZyZXF1ZW5jeTsKPiArCj4gIAlzdGF0ZSA9IGZyZXFfZ2V0X3N0YXRlKGRmYywgZnJlcSk7Cj4g
-IAlpZiAoc3RhdGUgPT0gVEhFUk1BTF9DU1RBVEVfSU5WQUxJRCkgewo+ICAJCXJlcyA9IC1FQUdB
-SU47Cj4gQEAgLTI2OCwxNiArMjk0LDE4IEBAIHN0YXRpYyBpbnQgZGV2ZnJlcV9jb29saW5nX2dl
-dF9yZXF1ZXN0ZWRfcG93ZXIoc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKmNkCj4gIAl9
-IGVsc2Ugewo+ICAJCWR5bl9wb3dlciA9IGRmYy0+cG93ZXJfdGFibGVbc3RhdGVdOwo+ICAKPiAr
-CQlfbm9ybWFsaXplX2xvYWQoJnN0YXR1cyk7CgoJCWxvYWQgPSBfbm9ybWFsaXplX2xvYWQoJnN0
-YXR1cyk7Cgo+ICsKPiAgCQkvKiBTY2FsZSBkeW5hbWljIHBvd2VyIGZvciB1dGlsaXphdGlvbiAq
-Lwo+IC0JCWR5bl9wb3dlciAqPSBzdGF0dXMtPmJ1c3lfdGltZTsKPiAtCQlkeW5fcG93ZXIgLz0g
-c3RhdHVzLT50b3RhbF90aW1lOwo+ICsJCWR5bl9wb3dlciAqPSBzdGF0dXMuYnVzeV90aW1lOwo+
-ICsJCWR5bl9wb3dlciAvPSBzdGF0dXMudG90YWxfdGltZTsKCgkJLyoKCQkgKiBNYXkgYmUgY2hh
-bmdlIGR5bl9wb3dlciB0byBhIHU2NCB0byBwcmV2ZW50IG92ZXJmbG93CgkJICogd2hlbiBtdWx0
-aXBsaWVkIGJ5ICdsb2FkJwoJCSAqLwoJCWR5bl9wb3dlciA9IChkeW5fcG93ZXIgKiBsb2FkKSAv
-IDEwMjQ7Cgo+ICAJCS8qIEdldCBzdGF0aWMgcG93ZXIgKi8KPiAgCQlzdGF0aWNfcG93ZXIgPSBn
-ZXRfc3RhdGljX3Bvd2VyKGRmYywgZnJlcSk7Cj4gIAo+ICAJCSpwb3dlciA9IGR5bl9wb3dlciAr
-IHN0YXRpY19wb3dlcjsKPiAgCX0KPiAgCj4gLQl0cmFjZV90aGVybWFsX3Bvd2VyX2RldmZyZXFf
-Z2V0X3Bvd2VyKGNkZXYsIHN0YXR1cywgZnJlcSwgKnBvd2VyKTsKPiArCXRyYWNlX3RoZXJtYWxf
-cG93ZXJfZGV2ZnJlcV9nZXRfcG93ZXIoY2RldiwgJnN0YXR1cywgZnJlcSwgKnBvd2VyKTsKPiAg
-Cj4gIAlyZXR1cm4gMDsKPiAgZmFpbDoKPiBAQCAtMzA5LDE0ICszMzcsMjAgQEAgc3RhdGljIGlu
-dCBkZXZmcmVxX2Nvb2xpbmdfcG93ZXIyc3RhdGUoc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZp
-Y2UgKmNkZXYsCj4gIHsKPiAgCXN0cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlICpkZmMgPSBj
-ZGV2LT5kZXZkYXRhOwo+ICAJc3RydWN0IGRldmZyZXEgKmRmID0gZGZjLT5kZXZmcmVxOwo+IC0J
-c3RydWN0IGRldmZyZXFfZGV2X3N0YXR1cyAqc3RhdHVzID0gJmRmLT5sYXN0X3N0YXR1czsKPiAt
-CXVuc2lnbmVkIGxvbmcgZnJlcSA9IHN0YXR1cy0+Y3VycmVudF9mcmVxdWVuY3k7Cj4gKwlzdHJ1
-Y3QgZGV2ZnJlcV9kZXZfc3RhdHVzIHN0YXR1czsKPiAgCXVuc2lnbmVkIGxvbmcgYnVzeV90aW1l
-Owo+ICsJdW5zaWduZWQgbG9uZyBmcmVxOwo+ICAJczMyIGR5bl9wb3dlcjsKPiAgCXUzMiBzdGF0
-aWNfcG93ZXI7Cj4gIAlzMzIgZXN0X3Bvd2VyOwo+ICAJaW50IGk7Cj4gIAo+ICsJbXV0ZXhfbG9j
-aygmZGYtPmxvY2spOwo+ICsJc3RhdHVzID0gZGYtPmxhc3Rfc3RhdHVzOwo+ICsJbXV0ZXhfdW5s
-b2NrKCZkZi0+bG9jayk7Cj4gKwo+ICsJZnJlcSA9IHN0YXR1cy5jdXJyZW50X2ZyZXF1ZW5jeTsK
-PiArCj4gIAlpZiAoZGZjLT5wb3dlcl9vcHMtPmdldF9yZWFsX3Bvd2VyKSB7Cj4gIAkJLyogU2Nh
-bGUgZm9yIHJlc291cmNlIHV0aWxpemF0aW9uICovCj4gIAkJZXN0X3Bvd2VyID0gcG93ZXIgKiBk
-ZmMtPnJlc191dGlsOwo+IEBAIC0zMjgsOCArMzYyLDggQEAgc3RhdGljIGludCBkZXZmcmVxX2Nv
-b2xpbmdfcG93ZXIyc3RhdGUoc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKmNkZXYsCj4g
-IAkJZHluX3Bvd2VyID0gZHluX3Bvd2VyID4gMCA/IGR5bl9wb3dlciA6IDA7Cj4gIAo+ICAJCS8q
-IFNjYWxlIGR5bmFtaWMgcG93ZXIgZm9yIHV0aWxpemF0aW9uICovCj4gLQkJYnVzeV90aW1lID0g
-c3RhdHVzLT5idXN5X3RpbWUgPzogMTsKPiAtCQllc3RfcG93ZXIgPSAoZHluX3Bvd2VyICogc3Rh
-dHVzLT50b3RhbF90aW1lKSAvIGJ1c3lfdGltZTsKPiArCQlidXN5X3RpbWUgPSBzdGF0dXMuYnVz
-eV90aW1lID86IDE7Cj4gKwkJZXN0X3Bvd2VyID0gKGR5bl9wb3dlciAqIHN0YXR1cy50b3RhbF90
-aW1lKSAvIGJ1c3lfdGltZTsKPiAgCX0KPiAgCj4gIAkvKgo+IAoKCi0tIAo8aHR0cDovL3d3dy5s
-aW5hcm8ub3JnLz4gTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFSTSBT
-b0NzCgpGb2xsb3cgTGluYXJvOiAgPGh0dHA6Ly93d3cuZmFjZWJvb2suY29tL3BhZ2VzL0xpbmFy
-bz4gRmFjZWJvb2sgfAo8aHR0cDovL3R3aXR0ZXIuY29tLyMhL2xpbmFyb29yZz4gVHdpdHRlciB8
-CjxodHRwOi8vd3d3LmxpbmFyby5vcmcvbGluYXJvLWJsb2cvPiBCbG9nCl9fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QK
-ZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9w
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+Hi,
+
+Here's a series adding support for the DSI0 controller in the BCM2835 and the
+DSI1 controller found in the BCM2711.
+
+Let me know what you think,
+Maxime
+
+Dave Stevenson (5):
+  drm/vc4: dsi: Correct DSI register definition
+  drm/vc4: dsi: Add support for DSI0
+  dt-bindings: Add compatible for BCM2711 DSI1
+  drm/vc4: dsi: Add configuration for BCM2711 DSI1
+  ARM: dts: bcm2711: Use compatible string for BCM2711 DSI1
+
+Maxime Ripard (3):
+  drm/vc4: drv: Remove the DSI pointer in vc4_drv
+  drm/vc4: dsi: Use snprintf for the PHY clocks instead of an array
+  drm/vc4: dsi: Introduce a variant structure
+
+ .../bindings/display/brcm,bcm2835-dsi0.yaml   |   1 +
+ arch/arm/boot/dts/bcm2711.dtsi                |   1 +
+ drivers/gpu/drm/vc4/vc4_drv.h                 |   1 -
+ drivers/gpu/drm/vc4/vc4_dsi.c                 | 111 ++++++++++--------
+ 4 files changed, 67 insertions(+), 47 deletions(-)
+
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
