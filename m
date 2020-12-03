@@ -1,59 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DBF2CDA13
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 16:26:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 351FF2CDACA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 17:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2656EB7C;
-	Thu,  3 Dec 2020 15:26:07 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAC7B6EB90
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 15:26:05 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k10so3087328wmi.3
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 07:26:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=wM/I8RV7zXyM3w+Dkw/l/K1Ahb7hTXXO2nGI9ZI6qDI=;
- b=UTxbnPO8yma/9M2WO0Ofzv0cR6DIY4+0GTAN+ucvqunjLN2tIoBApn6YL0vlpL2vx3
- wNJULpqjmW9u5dXOxcQN/mMXGY/h24T0tM2bi/fRsx6ZzbZMqcYJ8h1UIbtn4MjaqjbY
- eMBn9MwbFh2VpWGtXBjtfZKKFLeQc5V4XInS0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=wM/I8RV7zXyM3w+Dkw/l/K1Ahb7hTXXO2nGI9ZI6qDI=;
- b=Pia6enMvt/DCcyEwTXORzj2eRzDd7cxLPRT7zw0/QBoOe+bGziejTFz27anwRa/AeW
- kuzNqF2rvAMArDMbBDaBxXtcAKDNkS8A+cHvYUvEyT7uxkQc2iR9wgueLeuBf1rrIJ1j
- 874sk7RCuPsNmXH2IqljQbJvY4CWC7UpP4yniERQRx1DQ1uxbuWmGOOFb/PklB73yKyM
- bUShMxfAVq3Kuw6hiZAnWW14FUjFNJXKA+r+E+zgiCNZsNbV6BK95k9q4uDo4G6anP13
- RpGPYH8f8pKd7Qo3HPQw4pj6uVBHej3hi5vLo6ZXi7Nm3JLE+BNOZ/wIJAnm7i7CoK2r
- TzJA==
-X-Gm-Message-State: AOAM531fcGYhNLwjsvcjDnulrEDHmyFitTwOnVVWHrZ7tAgtoIwOWdm3
- OsuIbP7gTkeKGSWKQHHh/3BJdQ==
-X-Google-Smtp-Source: ABdhPJwVV7mzdVhmNF2JM9gT7DntsOQF8ddieFxeGRPluwW9caDktD7s/Al9byRdu81G0haQqwBfQw==
-X-Received: by 2002:a1c:9901:: with SMTP id b1mr3947710wme.18.1607009164432;
- Thu, 03 Dec 2020 07:26:04 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id f199sm1915466wme.15.2020.12.03.07.26.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Dec 2020 07:26:03 -0800 (PST)
-Date: Thu, 3 Dec 2020 16:26:01 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
-Message-ID: <20201203152601.GB401619@phenom.ffwll.local>
-References: <20201203140259.26580-1-tzimmermann@suse.de>
- <20201203140259.26580-8-tzimmermann@suse.de>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2DB6EB6F;
+	Thu,  3 Dec 2020 16:08:02 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
+ Thu, 03 Dec 2020 16:07:59 UTC
+Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1C36EB6F
+ for <dri-devel@freedesktop.org>; Thu,  3 Dec 2020 16:07:59 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1607011680; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: Cc: References: To:
+ Subject: Sender; bh=7ANFtGnf0oNJK5+hIiLtqzococFZCRezjE3zTlu+MFA=;
+ b=umF8D3Z4TE7xJIRjJjvr8eYmJ9mcFkeOW7eqMJ9GuWF93eFQmIyPZIZm2n1XJo/BDldgfVUm
+ bDH0PMQezoUVssP2HbqkCqO931+vt9wKq9EjGGRsuXq8mSyRiEtvgTFCEoXZhuGhg0CKulgG
+ QpbSclR4THrVln6fuBBJuil1XjU=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
+ 5fc90c0478aa37c3bcaeae36 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 03 Dec 2020 16:02:12
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 1C9ADC43461; Thu,  3 Dec 2020 16:02:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
+Received: from [192.168.1.10] (unknown [61.3.236.97])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0BB72C433C6;
+ Thu,  3 Dec 2020 16:02:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0BB72C433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+Subject: Re: [PATCH v2 1/3] drm/msm: adreno: Make speed-bin support generic
+To: Jordan Crouse <jcrouse@codeaurora.org>
+References: <1606481386-22867-1-git-send-email-akhilpo@codeaurora.org>
+ <20201130170231.GF16856@jcrouse1-lnx.qualcomm.com>
+ <39ae4584-e935-363e-62af-17558781e913@codeaurora.org>
+ <20201202163032.GG16856@jcrouse1-lnx.qualcomm.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+Message-ID: <244772bd-bde1-ebb7-e3f7-e4af870d968c@codeaurora.org>
+Date: Thu, 3 Dec 2020 21:32:05 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201203140259.26580-8-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64
+In-Reply-To: <20201202163032.GG16856@jcrouse1-lnx.qualcomm.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,171 +73,266 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, airlied@redhat.com, christian.koenig@amd.com,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
+ dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:
-> Dma-buf's vmap and vunmap callbacks are undocumented and various
-> exporters currently have slightly different semantics for them. Add
-> documentation on how to implement and use these interfaces correctly.
-> =
+On 12/2/2020 10:00 PM, Jordan Crouse wrote:
+> On Wed, Dec 02, 2020 at 08:53:51PM +0530, Akhil P Oommen wrote:
+>> On 11/30/2020 10:32 PM, Jordan Crouse wrote:
+>>> On Fri, Nov 27, 2020 at 06:19:44PM +0530, Akhil P Oommen wrote:
+>>>> So far a530v2 gpu has support for detecting its supported opps
+>>>> based on a fuse value called speed-bin. This patch makes this
+>>>> support generic across gpu families. This is in preparation to
+>>>> extend speed-bin support to a6x family.
+>>>>
+>>>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+>>>> ---
+>>>> Changes from v1:
+>>>> 	1. Added the changes to support a618 sku to the series.
+>>>> 	2. Avoid failing probe in case of an unsupported sku. (Rob)
+>>>>
+>>>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
+>>>>   drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
+>>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
+>>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
+>>>>   4 files changed, 80 insertions(+), 34 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> index 8fa5c91..7d42321 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+>>>> @@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
+>>>>   	.get_timestamp = a5xx_get_timestamp,
+>>>>   };
+>>>> -static void check_speed_bin(struct device *dev)
+>>>> -{
+>>>> -	struct nvmem_cell *cell;
+>>>> -	u32 val;
+>>>> -
+>>>> -	/*
+>>>> -	 * If the OPP table specifies a opp-supported-hw property then we have
+>>>> -	 * to set something with dev_pm_opp_set_supported_hw() or the table
+>>>> -	 * doesn't get populated so pick an arbitrary value that should
+>>>> -	 * ensure the default frequencies are selected but not conflict with any
+>>>> -	 * actual bins
+>>>> -	 */
+>>>> -	val = 0x80;
+>>>> -
+>>>> -	cell = nvmem_cell_get(dev, "speed_bin");
+>>>> -
+>>>> -	if (!IS_ERR(cell)) {
+>>>> -		void *buf = nvmem_cell_read(cell, NULL);
+>>>> -
+>>>> -		if (!IS_ERR(buf)) {
+>>>> -			u8 bin = *((u8 *) buf);
+>>>> -
+>>>> -			val = (1 << bin);
+>>>> -			kfree(buf);
+>>>> -		}
+>>>> -
+>>>> -		nvmem_cell_put(cell);
+>>>> -	}
+>>>> -
+>>>> -	dev_pm_opp_set_supported_hw(dev, &val, 1);
+>>>> -}
+>>>> -
+>>>>   struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>>>   {
+>>>>   	struct msm_drm_private *priv = dev->dev_private;
+>>>> @@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+>>>>   	a5xx_gpu->lm_leakage = 0x4E001A;
+>>>> -	check_speed_bin(&pdev->dev);
+>>>> -
+>>>>   	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
+>>>>   	if (ret) {
+>>>>   		a5xx_destroy(&(a5xx_gpu->base.base));
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>> index 87c8b03..e0ff16c 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+>>>> @@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
+>>>>   MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
+>>>>   module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
+>>>> +const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
+>>>> +
+>>>>   static const struct adreno_info gpulist[] = {
+>>>>   	{
+>>>>   		.rev   = ADRENO_REV(2, 0, 0, 0),
+>>>> @@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
+>>>>   			ADRENO_QUIRK_FAULT_DETECT_MASK,
+>>>>   		.init = a5xx_gpu_init,
+>>>>   		.zapfw = "a530_zap.mdt",
+>>>> +		.speedbins = a530v2_speedbins,
+>>>> +		.speedbins_count = ARRAY_SIZE(a530v2_speedbins),
+>>>>   	}, {
+>>>>   		.rev = ADRENO_REV(5, 4, 0, 2),
+>>>>   		.revn = 540,
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> index f21561d..b342fa4 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+>>>> @@ -14,6 +14,7 @@
+>>>>   #include <linux/pm_opp.h>
+>>>>   #include <linux/slab.h>
+>>>>   #include <linux/soc/qcom/mdt_loader.h>
+>>>> +#include <linux/nvmem-consumer.h>
+>>>>   #include <soc/qcom/ocmem.h>
+>>>>   #include "adreno_gpu.h"
+>>>>   #include "msm_gem.h"
+>>>> @@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+>>>>   			   adreno_ocmem->hdl);
+>>>>   }
+>>>> +static int adreno_set_supported_hw(struct device *dev,
+>>>> +		struct adreno_gpu *adreno_gpu)
+>>>> +{
+>>>> +	u8 speedbins_count = adreno_gpu->info->speedbins_count;
+>>>> +	const u32 *speedbins = adreno_gpu->info->speedbins;
+>>>> +	struct nvmem_cell *cell;
+>>>> +	u32 bin, i;
+>>>> +	u32 val = 0;
+>>>> +	void *buf, *opp_table;
+>>>> +
+>>>> +	cell = nvmem_cell_get(dev, "speed_bin");
+>>>> +	/*
+>>>> +	 * -ENOENT means that the platform doesn't support speedbin which is
+>>>> +	 * fine
+>>>> +	 */
+>>>> +	if (PTR_ERR(cell) == -ENOENT)
+>>>> +		return 0;
+>>>> +	else if (IS_ERR(cell))
+>>>> +		return PTR_ERR(cell);
+>>>> +
+>>>> +	if (!speedbins)
+>>>> +		goto done;
+>>>> +
+>>>> +	buf = nvmem_cell_read(cell, NULL);
+>>>> +	if (IS_ERR(buf)) {
+>>>> +		nvmem_cell_put(cell);
+>>>> +		return PTR_ERR(buf);
+>>>> +	}
+>>>> +
+>>>> +	bin = *((u32 *) buf);
+>>>> +
+>>>> +	for (i = 0; i < speedbins_count; i++) {
+>>>> +		if (bin == speedbins[i]) {
+>>>> +			val = (1 << i);
+>>>> +			break;
+>>>> +		}
+>>>> +	}
+>>>> +
+>>>> +	kfree(buf);
+>>>> +done:
+>>>> +	nvmem_cell_put(cell);
+>>>> +
+>>>> +	if (!val) {
+>>>> +		DRM_DEV_ERROR(dev,
+>>>> +				"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
+>>>> +				bin);
+>>>> +		val = ~0U;
+>>>> +	}
+>>>> +
+>>>> +	opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
+>>>> +	if (IS_ERR(opp_table))
+>>>> +		return PTR_ERR(opp_table);
+>>>> +
+>>>> +	adreno_gpu->opp_table = opp_table;
+>>>> +	return 0;
+>>>> +}
+>>>> +
+>>>> +static void adreno_put_supported_hw(struct opp_table *opp_table)
+>>>> +{
+>>>> +	if (opp_table)
+>>>> +		dev_pm_opp_put_supported_hw(opp_table);
+>>>> +}
+>>>> +
+>>>>   int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>   		struct adreno_gpu *adreno_gpu,
+>>>>   		const struct adreno_gpu_funcs *funcs, int nr_rings)
+>>>> @@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>   	struct adreno_platform_config *config = dev->platform_data;
+>>>>   	struct msm_gpu_config adreno_gpu_config  = { 0 };
+>>>>   	struct msm_gpu *gpu = &adreno_gpu->base;
+>>>> +	int ret;
+>>>>   	adreno_gpu->funcs = funcs;
+>>>>   	adreno_gpu->info = adreno_info(config->rev);
+>>>> @@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+>>>>   	adreno_gpu_config.nr_rings = nr_rings;
+>>>> +	ret = adreno_set_supported_hw(dev, adreno_gpu);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>
+>>> I still don't understand why we are doing this here instead of a5xx_gpu.c and
+>>> a6xx_gpu.c.
+>>>
+>>> Jordan
+>>
+>> Could you please clarify why you prefer so?
+> 
+> Putting this support in the target specific code avoids declaring more global
+> variables and skips a bit of extra code for the vast majority of targets that do
+> not have speed bins. I don't mind sharing the common helper function but a5xx
+> has shown that this can be safely done in the target specific code and I don't
+> see any reason to deviate from that.
+> 
+> Jordan
+Alright. Then it seems better to move everything to target specific 
+code. Will post another patch shortly.
 
-> v2:
-> 	* document vmap semantics in struct dma_buf_ops
-> 	* add TODO item for reviewing and maybe fixing dma-buf exporters
-> =
+-Akhil.
+>>
+>> -Akhil
+>>>
+>>>>   	adreno_get_pwrlevels(dev, gpu);
+>>>>   	pm_runtime_set_autosuspend_delay(dev,
+>>>> @@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
+>>>>   	icc_put(gpu->icc_path);
+>>>>   	icc_put(gpu->ocmem_icc_path);
+>>>> +
+>>>> +	adreno_put_supported_hw(adreno_gpu->opp_table);
+>>>>   }
+>>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> index c3775f7..a756ad7 100644
+>>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+>>>> @@ -55,6 +55,7 @@ struct adreno_reglist {
+>>>>   };
+>>>>   extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
+>>>> +extern const u32 a618_speedbins[];
+>>>>   struct adreno_info {
+>>>>   	struct adreno_rev rev;
+>>>> @@ -67,6 +68,8 @@ struct adreno_info {
+>>>>   	const char *zapfw;
+>>>>   	u32 inactive_period;
+>>>>   	const struct adreno_reglist *hwcg;
+>>>> +	const u32 *speedbins;
+>>>> +	const u8 speedbins_count;
+>>>>   };
+>>>>   const struct adreno_info *adreno_info(struct adreno_rev rev);
+>>>> @@ -112,6 +115,8 @@ struct adreno_gpu {
+>>>>   	 * code (a3xx_gpu.c) and stored in this common location.
+>>>>   	 */
+>>>>   	const unsigned int *reg_offsets;
+>>>> +
+>>>> +	struct opp_table *opp_table;
+>>>>   };
+>>>>   #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
+>>>> -- 
+>>>> 2.7.4
+>>>>
+>>>
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I still don't think this works, we're breaking dma_buf_vmap for everyone
-else here.
-
-> ---
->  Documentation/gpu/todo.rst | 15 +++++++++++++
->  include/drm/drm_gem.h      |  4 ++++
->  include/linux/dma-buf.h    | 45 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 64 insertions(+)
-> =
-
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 009d8e6c7e3c..32bb797a84fc 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>, Ch=
-ristian K=F6nig, Daniel Vette
->  Level: Intermediate
->  =
-
->  =
-
-> +Enforce rules for dma-buf vmap and pin ops
-> +------------------------------------------
-> +
-> +Exporter implementations of vmap and pin in struct dma_buf_ops (and cons=
-equently
-> +struct drm_gem_object_funcs) use a variety of locking semantics. Some re=
-ly on
-> +the caller holding the dma-buf's reservation lock, some do their own loc=
-king,
-> +some don't require any locking. VRAM helpers even used to pin as part of=
- vmap.
-> +
-> +We need to review each exporter and enforce the documented rules.
-> +
-> +Contact: Christian K=F6nig, Daniel Vetter, Thomas Zimmermann <tzimmerman=
-n@suse.de>
-> +
-> +Level: Advanced
-> +
-> +
->  Core refactorings
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  =
-
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 5e6daa1c982f..1864c6a721b1 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
->  	 * drm_gem_dmabuf_vmap() helper.
->  	 *
->  	 * This callback is optional.
-> +	 *
-> +	 * See also struct dma_buf_ops.vmap
->  	 */
->  	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->  =
-
-> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
->  	 * drm_gem_dmabuf_vunmap() helper.
->  	 *
->  	 * This callback is optional.
-> +	 *
-> +	 * See also struct dma_buf_ops.vunmap
->  	 */
->  	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->  =
-
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index cf72699cb2bc..dc81fdc01dda 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -267,7 +267,52 @@ struct dma_buf_ops {
->  	 */
->  	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
->  =
-
-> +	/**
-> +	 * @vmap:
-
-There's already a @vmap and @vunamp kerneldoc at the top comment, that
-needs to be removed.
--Daniel
-
-> +	 *
-> +	 * Returns a virtual address for the buffer.
-> +	 *
-> +	 * Notes to callers:
-> +	 *
-> +	 * - Callers must hold the struct dma_buf.resv lock before calling
-> +	 *   this interface.
-> +	 *
-> +	 * - Callers must provide means to prevent the mappings from going
-> +	 *   stale, such as holding the reservation lock or providing a
-> +	 *   move-notify callback to the exporter.
-> +	 *
-> +	 * Notes to implementors:
-> +	 *
-> +	 * - Implementations must expect pairs of @vmap and @vunmap to be
-> +	 *   called frequently and should optimize for this case.
-> +	 *
-> +	 * - Implementations should avoid additional operations, such as
-> +	 *   pinning.
-> +	 *
-> +	 * - Implementations may expect the caller to hold the dma-buf's
-> +	 *   reservation lock to protect against concurrent calls and
-> +	 *   relocation.
-> +	 *
-> +	 * - Implementations may provide additional guarantees, such as working
-> +	 *   without holding the reservation lock.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
->  	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> +
-> +	/**
-> +	 * @vunmap:
-> +	 *
-> +	 * Releases the address previously returned by @vmap.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * See also @vmap()
-> +	 */
->  	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->  };
->  =
-
-> -- =
-
-> 2.29.2
-> =
-
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
