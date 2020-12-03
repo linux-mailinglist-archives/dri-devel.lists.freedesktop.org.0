@@ -2,65 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351FF2CDACA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 17:08:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80D2A2CDA90
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 17:02:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A2DB6EB6F;
-	Thu,  3 Dec 2020 16:08:02 +0000 (UTC)
-X-Original-To: dri-devel@freedesktop.org
-Delivered-To: dri-devel@freedesktop.org
-X-Greylist: delayed 307 seconds by postgrey-1.36 at gabe;
- Thu, 03 Dec 2020 16:07:59 UTC
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F1C36EB6F
- for <dri-devel@freedesktop.org>; Thu,  3 Dec 2020 16:07:59 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1607011680; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: Cc: References: To:
- Subject: Sender; bh=7ANFtGnf0oNJK5+hIiLtqzococFZCRezjE3zTlu+MFA=;
- b=umF8D3Z4TE7xJIRjJjvr8eYmJ9mcFkeOW7eqMJ9GuWF93eFQmIyPZIZm2n1XJo/BDldgfVUm
- bDH0PMQezoUVssP2HbqkCqO931+vt9wKq9EjGGRsuXq8mSyRiEtvgTFCEoXZhuGhg0CKulgG
- QpbSclR4THrVln6fuBBJuil1XjU=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-west-2.postgun.com with SMTP id
- 5fc90c0478aa37c3bcaeae36 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 03 Dec 2020 16:02:12
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1C9ADC43461; Thu,  3 Dec 2020 16:02:12 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from [192.168.1.10] (unknown [61.3.236.97])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 0BB72C433C6;
- Thu,  3 Dec 2020 16:02:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0BB72C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=akhilpo@codeaurora.org
-Subject: Re: [PATCH v2 1/3] drm/msm: adreno: Make speed-bin support generic
-To: Jordan Crouse <jcrouse@codeaurora.org>
-References: <1606481386-22867-1-git-send-email-akhilpo@codeaurora.org>
- <20201130170231.GF16856@jcrouse1-lnx.qualcomm.com>
- <39ae4584-e935-363e-62af-17558781e913@codeaurora.org>
- <20201202163032.GG16856@jcrouse1-lnx.qualcomm.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <244772bd-bde1-ebb7-e3f7-e4af870d968c@codeaurora.org>
-Date: Thu, 3 Dec 2020 21:32:05 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46F196EB79;
+	Thu,  3 Dec 2020 16:02:24 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60F86EB79
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 16:02:22 +0000 (UTC)
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1kkr3i-0004X0-5K; Thu, 03 Dec 2020 17:02:18 +0100
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>
+Date: Thu,  3 Dec 2020 17:02:17 +0100
+Message-Id: <20201203160217.3479319-1-l.stach@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201202163032.GG16856@jcrouse1-lnx.qualcomm.com>
-Content-Language: en-US
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+ metis.ext.pengutronix.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=4.0 tests=AWL,BAYES_00,RDNS_NONE,
+ SPF_HELO_NONE,SPF_SOFTFAIL,URIBL_BLOCKED autolearn=no
+ autolearn_force=no version=3.4.2
+Subject: [PATCH] drm/sched: remove superfluous whitespace in
+ drm_sched_resubmit_jobs
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,265 +49,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dianders@chromium.org, mka@chromium.org,
- dri-devel@freedesktop.org, freedreno@lists.freedesktop.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ patchwork-lst@pengutronix.de
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/2/2020 10:00 PM, Jordan Crouse wrote:
-> On Wed, Dec 02, 2020 at 08:53:51PM +0530, Akhil P Oommen wrote:
->> On 11/30/2020 10:32 PM, Jordan Crouse wrote:
->>> On Fri, Nov 27, 2020 at 06:19:44PM +0530, Akhil P Oommen wrote:
->>>> So far a530v2 gpu has support for detecting its supported opps
->>>> based on a fuse value called speed-bin. This patch makes this
->>>> support generic across gpu families. This is in preparation to
->>>> extend speed-bin support to a6x family.
->>>>
->>>> Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
->>>> ---
->>>> Changes from v1:
->>>> 	1. Added the changes to support a618 sku to the series.
->>>> 	2. Avoid failing probe in case of an unsupported sku. (Rob)
->>>>
->>>>   drivers/gpu/drm/msm/adreno/a5xx_gpu.c      | 34 --------------
->>>>   drivers/gpu/drm/msm/adreno/adreno_device.c |  4 ++
->>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.c    | 71 ++++++++++++++++++++++++++++++
->>>>   drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  5 +++
->>>>   4 files changed, 80 insertions(+), 34 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>>> index 8fa5c91..7d42321 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
->>>> @@ -1531,38 +1531,6 @@ static const struct adreno_gpu_funcs funcs = {
->>>>   	.get_timestamp = a5xx_get_timestamp,
->>>>   };
->>>> -static void check_speed_bin(struct device *dev)
->>>> -{
->>>> -	struct nvmem_cell *cell;
->>>> -	u32 val;
->>>> -
->>>> -	/*
->>>> -	 * If the OPP table specifies a opp-supported-hw property then we have
->>>> -	 * to set something with dev_pm_opp_set_supported_hw() or the table
->>>> -	 * doesn't get populated so pick an arbitrary value that should
->>>> -	 * ensure the default frequencies are selected but not conflict with any
->>>> -	 * actual bins
->>>> -	 */
->>>> -	val = 0x80;
->>>> -
->>>> -	cell = nvmem_cell_get(dev, "speed_bin");
->>>> -
->>>> -	if (!IS_ERR(cell)) {
->>>> -		void *buf = nvmem_cell_read(cell, NULL);
->>>> -
->>>> -		if (!IS_ERR(buf)) {
->>>> -			u8 bin = *((u8 *) buf);
->>>> -
->>>> -			val = (1 << bin);
->>>> -			kfree(buf);
->>>> -		}
->>>> -
->>>> -		nvmem_cell_put(cell);
->>>> -	}
->>>> -
->>>> -	dev_pm_opp_set_supported_hw(dev, &val, 1);
->>>> -}
->>>> -
->>>>   struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>>>   {
->>>>   	struct msm_drm_private *priv = dev->dev_private;
->>>> @@ -1588,8 +1556,6 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
->>>>   	a5xx_gpu->lm_leakage = 0x4E001A;
->>>> -	check_speed_bin(&pdev->dev);
->>>> -
->>>>   	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 4);
->>>>   	if (ret) {
->>>>   		a5xx_destroy(&(a5xx_gpu->base.base));
->>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>>> index 87c8b03..e0ff16c 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/adreno_device.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
->>>> @@ -18,6 +18,8 @@ bool snapshot_debugbus = false;
->>>>   MODULE_PARM_DESC(snapshot_debugbus, "Include debugbus sections in GPU devcoredump (if not fused off)");
->>>>   module_param_named(snapshot_debugbus, snapshot_debugbus, bool, 0600);
->>>> +const u32 a530v2_speedbins[] = {0, 1, 2, 3, 4, 5, 6, 7};
->>>> +
->>>>   static const struct adreno_info gpulist[] = {
->>>>   	{
->>>>   		.rev   = ADRENO_REV(2, 0, 0, 0),
->>>> @@ -163,6 +165,8 @@ static const struct adreno_info gpulist[] = {
->>>>   			ADRENO_QUIRK_FAULT_DETECT_MASK,
->>>>   		.init = a5xx_gpu_init,
->>>>   		.zapfw = "a530_zap.mdt",
->>>> +		.speedbins = a530v2_speedbins,
->>>> +		.speedbins_count = ARRAY_SIZE(a530v2_speedbins),
->>>>   	}, {
->>>>   		.rev = ADRENO_REV(5, 4, 0, 2),
->>>>   		.revn = 540,
->>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> index f21561d..b342fa4 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
->>>> @@ -14,6 +14,7 @@
->>>>   #include <linux/pm_opp.h>
->>>>   #include <linux/slab.h>
->>>>   #include <linux/soc/qcom/mdt_loader.h>
->>>> +#include <linux/nvmem-consumer.h>
->>>>   #include <soc/qcom/ocmem.h>
->>>>   #include "adreno_gpu.h"
->>>>   #include "msm_gem.h"
->>>> @@ -891,6 +892,69 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
->>>>   			   adreno_ocmem->hdl);
->>>>   }
->>>> +static int adreno_set_supported_hw(struct device *dev,
->>>> +		struct adreno_gpu *adreno_gpu)
->>>> +{
->>>> +	u8 speedbins_count = adreno_gpu->info->speedbins_count;
->>>> +	const u32 *speedbins = adreno_gpu->info->speedbins;
->>>> +	struct nvmem_cell *cell;
->>>> +	u32 bin, i;
->>>> +	u32 val = 0;
->>>> +	void *buf, *opp_table;
->>>> +
->>>> +	cell = nvmem_cell_get(dev, "speed_bin");
->>>> +	/*
->>>> +	 * -ENOENT means that the platform doesn't support speedbin which is
->>>> +	 * fine
->>>> +	 */
->>>> +	if (PTR_ERR(cell) == -ENOENT)
->>>> +		return 0;
->>>> +	else if (IS_ERR(cell))
->>>> +		return PTR_ERR(cell);
->>>> +
->>>> +	if (!speedbins)
->>>> +		goto done;
->>>> +
->>>> +	buf = nvmem_cell_read(cell, NULL);
->>>> +	if (IS_ERR(buf)) {
->>>> +		nvmem_cell_put(cell);
->>>> +		return PTR_ERR(buf);
->>>> +	}
->>>> +
->>>> +	bin = *((u32 *) buf);
->>>> +
->>>> +	for (i = 0; i < speedbins_count; i++) {
->>>> +		if (bin == speedbins[i]) {
->>>> +			val = (1 << i);
->>>> +			break;
->>>> +		}
->>>> +	}
->>>> +
->>>> +	kfree(buf);
->>>> +done:
->>>> +	nvmem_cell_put(cell);
->>>> +
->>>> +	if (!val) {
->>>> +		DRM_DEV_ERROR(dev,
->>>> +				"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
->>>> +				bin);
->>>> +		val = ~0U;
->>>> +	}
->>>> +
->>>> +	opp_table = dev_pm_opp_set_supported_hw(dev, &val, 1);
->>>> +	if (IS_ERR(opp_table))
->>>> +		return PTR_ERR(opp_table);
->>>> +
->>>> +	adreno_gpu->opp_table = opp_table;
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static void adreno_put_supported_hw(struct opp_table *opp_table)
->>>> +{
->>>> +	if (opp_table)
->>>> +		dev_pm_opp_put_supported_hw(opp_table);
->>>> +}
->>>> +
->>>>   int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>   		struct adreno_gpu *adreno_gpu,
->>>>   		const struct adreno_gpu_funcs *funcs, int nr_rings)
->>>> @@ -899,6 +963,7 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>   	struct adreno_platform_config *config = dev->platform_data;
->>>>   	struct msm_gpu_config adreno_gpu_config  = { 0 };
->>>>   	struct msm_gpu *gpu = &adreno_gpu->base;
->>>> +	int ret;
->>>>   	adreno_gpu->funcs = funcs;
->>>>   	adreno_gpu->info = adreno_info(config->rev);
->>>> @@ -910,6 +975,10 @@ int adreno_gpu_init(struct drm_device *drm, struct platform_device *pdev,
->>>>   	adreno_gpu_config.nr_rings = nr_rings;
->>>> +	ret = adreno_set_supported_hw(dev, adreno_gpu);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>
->>> I still don't understand why we are doing this here instead of a5xx_gpu.c and
->>> a6xx_gpu.c.
->>>
->>> Jordan
->>
->> Could you please clarify why you prefer so?
-> 
-> Putting this support in the target specific code avoids declaring more global
-> variables and skips a bit of extra code for the vast majority of targets that do
-> not have speed bins. I don't mind sharing the common helper function but a5xx
-> has shown that this can be safely done in the target specific code and I don't
-> see any reason to deviate from that.
-> 
-> Jordan
-Alright. Then it seems better to move everything to target specific 
-code. Will post another patch shortly.
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 2 --
+ 1 file changed, 2 deletions(-)
 
--Akhil.
->>
->> -Akhil
->>>
->>>>   	adreno_get_pwrlevels(dev, gpu);
->>>>   	pm_runtime_set_autosuspend_delay(dev,
->>>> @@ -936,4 +1005,6 @@ void adreno_gpu_cleanup(struct adreno_gpu *adreno_gpu)
->>>>   	icc_put(gpu->icc_path);
->>>>   	icc_put(gpu->ocmem_icc_path);
->>>> +
->>>> +	adreno_put_supported_hw(adreno_gpu->opp_table);
->>>>   }
->>>> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>>> index c3775f7..a756ad7 100644
->>>> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>>> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
->>>> @@ -55,6 +55,7 @@ struct adreno_reglist {
->>>>   };
->>>>   extern const struct adreno_reglist a630_hwcg[], a640_hwcg[], a650_hwcg[];
->>>> +extern const u32 a618_speedbins[];
->>>>   struct adreno_info {
->>>>   	struct adreno_rev rev;
->>>> @@ -67,6 +68,8 @@ struct adreno_info {
->>>>   	const char *zapfw;
->>>>   	u32 inactive_period;
->>>>   	const struct adreno_reglist *hwcg;
->>>> +	const u32 *speedbins;
->>>> +	const u8 speedbins_count;
->>>>   };
->>>>   const struct adreno_info *adreno_info(struct adreno_rev rev);
->>>> @@ -112,6 +115,8 @@ struct adreno_gpu {
->>>>   	 * code (a3xx_gpu.c) and stored in this common location.
->>>>   	 */
->>>>   	const unsigned int *reg_offsets;
->>>> +
->>>> +	struct opp_table *opp_table;
->>>>   };
->>>>   #define to_adreno_gpu(x) container_of(x, struct adreno_gpu, base)
->>>> -- 
->>>> 2.7.4
->>>>
->>>
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 9a0d77a68018..f517ffd53847 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -527,8 +527,6 @@ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched)
+ 		} else {
+ 			s_job->s_fence->parent = fence;
+ 		}
+-
+-
+ 	}
+ }
+ EXPORT_SYMBOL(drm_sched_resubmit_jobs);
+-- 
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
