@@ -2,22 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CD12CDC95
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 18:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453A62CDCAF
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 18:50:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 582CC6E051;
-	Thu,  3 Dec 2020 17:42:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A41E6E03E;
+	Thu,  3 Dec 2020 17:49:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E5986EB7C
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 17:42:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE466E03E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 17:49:56 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 78111] APU turbo core boost not working when radeon.dpm=1
-Date: Thu, 03 Dec 2020 17:42:25 +0000
+Subject: [Bug 94061] [radeon - Kaveri] dpm works badly - much to high power
+ consumption compared to catalyst
+Date: Thu, 03 Dec 2020 17:49:56 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,9 +34,9 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-78111-2300-Luq2eJVvWo@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-78111-2300@https.bugzilla.kernel.org/>
-References: <bug-78111-2300@https.bugzilla.kernel.org/>
+Message-ID: <bug-94061-2300-qtKCmBOMdk@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-94061-2300@https.bugzilla.kernel.org/>
+References: <bug-94061-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -56,7 +57,7 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=78111
+https://bugzilla.kernel.org/show_bug.cgi?id=94061
 
 mirh (mirh@protonmail.ch) changed:
 
@@ -64,10 +65,13 @@ mirh (mirh@protonmail.ch) changed:
 ----------------------------------------------------------------------------
                  CC|                            |mirh@protonmail.ch
 
---- Comment #14 from mirh (mirh@protonmail.ch) ---
-OP has a Temash/Kabini APU, that afaict has bapm enabled by default since 3.16. 
+--- Comment #10 from mirh (mirh@protonmail.ch) ---
+Stable kernels are stable exactly because you don't backport too much sensitive
+cruft..
 
-Can this be closed?
+Anyway, while bapm is still disabled by default on radeon on kaveri, am I right
+to understand that if you switch to amdgpu it's good to go?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/amd/pm/powerplay/kv_dpm.c?h=v5.10-rc6#n2833
 
 -- 
 You are receiving this mail because:
