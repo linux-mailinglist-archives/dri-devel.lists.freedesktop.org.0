@@ -2,129 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E027A2CCB70
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 02:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000482CCCFA
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 04:06:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED1C6EB23;
-	Thu,  3 Dec 2020 01:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 457626EB36;
+	Thu,  3 Dec 2020 03:06:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB49B6EB23
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 01:11:13 +0000 (UTC)
-IronPort-SDR: KVoTW+3UNlcY3bogM6bid0p3wChqQujgHBYmBrug+d74KHJQ3k8HYKJIuNnXUS1cW8EVvLtlVm
- Q4LgBj1siwVA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="170548075"
-X-IronPort-AV: E=Sophos;i="5.78,388,1599548400"; d="scan'208";a="170548075"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2020 17:11:12 -0800
-IronPort-SDR: jrquowGmL/YG0yBVo2K7IjJi1jD5GicGSwhpPLOrYevF2OMXxQS/gOPzZ22fK3AczHn95lm2N9
- mjYCBMHvuOow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,388,1599548400"; d="scan'208";a="361616728"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga008.jf.intel.com with ESMTP; 02 Dec 2020 17:11:12 -0800
-Received: from fmsmsx605.amr.corp.intel.com (10.18.126.85) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 2 Dec 2020 17:11:11 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 2 Dec 2020 17:11:11 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 2 Dec 2020 17:11:11 -0800
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr700066.outbound.protection.outlook.com [40.107.70.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A216EB33;
+ Thu,  3 Dec 2020 03:06:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eE2NpcCBP4QBSD4D4UOXoILmbS1m589ufEmE7Juml7N92YjTwWb/UDYDYk4RW5EpaqCBxF9MEthU/Duj4VJebPaQs+f5PYyXVfqNwJ/nINU4Q5BBoHnP5gGm7BP1zJuKSysqBhX4ZkQHba/pb99+wYSY90ZqZl4W7PQKuVaz0d2nNflGY1D5hbEsJeQZRWg1GQf4L2cpMi2t62CnsM64f9Z2zIdmSA9NgRnkH7azyAcs5vzlgzhsnqKX1j+cKstVXPhEQWNGTQWo9UFDROfdgH1pBOjCCuqAsnKCBtr/Bsy1krjkhL3XShdPNgyKZrn22itMhIqjeQbvjhSQlcRsWw==
+ b=YgAktVOpT5bXfIsjsDMC8xHrJRN6+jgnVu8c7JXOTEC4CzRdAPG3wqa2V1jKBFlJCNB5oaO3XCk/qHMq86QIRmKvOWWBUcKmSuYjeKlA7hl381fHcLHZtE+nYV860nphOx/a594SM3GIzv121rB+TxHINBZUVFC9mvD4+JkgP42v1++TZ1FKlrCwidOQkdkDKm9I4woySQccFqCmk6v+eirwVDTw7gpgzIr/H6VvMhzGPTrxqY39Atv5ZXcwK7uDXnGAnIgvcJiqWW+IHIqyg/n/qSpof2PUHQ2nyRtHnYG8hoEkiMSuHHIhjlAV4I+SlvAF2M9kkY2W8bqWh071VQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SjuLVl+TcRKpUQEr7pGBqZwR7QCRkPbgCmv+iPt35q8=;
- b=nS07tUsljri9pNib/jflse3oZ9SfQyLpE8J2ryHDc2oqzNacw38r1iBbbDlirRHuWblBJjFg6Ge4T0jEZNe+s2CjaSJ6IqMXMF2yJQSU9hebifOMla7fl/c4k670x5FX3gYJNWAdiagKkUH8lYdBIxrF8R7loNGIXglj2PazQj4RJaoz4OfBP1q782UOoc+mUCAgiyZvIBMfgSe6OiEnNQVbevJvXoFBEg/QngyjSNA5Nrp4WIW4kcQYewrloWwQZ549eEV2Fj5ZSfuej7hknkuBSQgfI+aBPCcK9Dh+ZehbLBX4i0l0cVOwClaB1drJNbonCfZoEXszUjJRGE9PTw==
+ bh=tlk3aNS402pqOGoxmAYXOQXYoQZTmpRf4WzD6P2sWhM=;
+ b=cGF0z1Aoh/25Vonz+u+Rn4wj3/X/oGSHzk6p4C7T9W9QIbBV7BTfeIOohSrFUniE9rQd9TcC6PfmlJWHuPb4L7a7h2zOX1Hp719OYfLNTsQzCmnOSnJvkasf3wZZTBOfJCPCR/hZRyTjUcBe7veTvu+iz3V/lAvPr/xRWDGJkcUQbDGNh8sU3ODKJW3yhIbiKEk9UOpQ2ijsf/Xus02TIzeLok1t6Fx8SicI06iQifcji14uiXrubEGLXr5P7QYQRM6XQ2QIukBUEAEljEQfHQl3qCwD2qBD1R8tY3m2iN/1WX58ika3QiFYvFcQAOD2pzzWZfOZ3miB1Snihq3Wvw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SjuLVl+TcRKpUQEr7pGBqZwR7QCRkPbgCmv+iPt35q8=;
- b=S0BuGRphS916qWHnm/2IZCZce0pPC5FiLsvFsSsveUOIjKJwSv9i2/GpJyn9Slu6O+Nhwshlvf68PbI7j2rKXdRzkTw4PvEpjMdKqbnr1pXzsSulbAF/zqstvESdaElYGzO5yCkyD3FxBxixE9HNdG3eBtmLUZe8xBszqjVIt0M=
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
- by BYAPR11MB3719.namprd11.prod.outlook.com (2603:10b6:a03:fa::24)
+ bh=tlk3aNS402pqOGoxmAYXOQXYoQZTmpRf4WzD6P2sWhM=;
+ b=bx5IfV1UDVc/13j7lE0YroaM3g7jw4McvUNADoC3D6awEKBoJTfrP4haWjE0FPXmAJp9Z5BdefZtuTsJ32rZwSARrP/kCi21ADUiQEbr3mRGtpBKXg+ie0XAeohmetMmli8JbroSfNH8rlhWIK8s3CD9I9LCpuVL/O6SZDC1O74=
+Received: from BL0PR05MB5186.namprd05.prod.outlook.com (2603:10b6:208:8f::18)
+ by BL0PR05MB5345.namprd05.prod.outlook.com (2603:10b6:208:6e::33)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.23; Thu, 3 Dec
- 2020 01:11:10 +0000
-Received: from BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::285a:2709:d92f:3394]) by BY5PR11MB4182.namprd11.prod.outlook.com
- ([fe80::285a:2709:d92f:3394%5]) with mapi id 15.20.3611.025; Thu, 3 Dec 2020
- 01:11:10 +0000
-From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: RE: [PATCH v2] drm/kmb: Fix possible oops in probe error handling
-Thread-Topic: [PATCH v2] drm/kmb: Fix possible oops in probe error handling
-Thread-Index: AQHWvxTE9qkNihoFXEWyzr7cwy2qgKnRlOEggA7HV4CABEeXsA==
-Date: Thu, 3 Dec 2020 01:11:10 +0000
-Message-ID: <BY5PR11MB418203A5451498557B1EA0458CF20@BY5PR11MB4182.namprd11.prod.outlook.com>
-References: <20201117072103.GA1111239@mwanda> <20201120081113.GL18329@kadam>
- <BY5PR11MB41823E214598EC70A9EAEEA08CFF0@BY5PR11MB4182.namprd11.prod.outlook.com>
- <20201130074829.GA2767@kadam>
-In-Reply-To: <20201130074829.GA2767@kadam>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.6; Thu, 3 Dec
+ 2020 03:06:21 +0000
+Received: from BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::59ed:18ca:252d:72f6]) by BL0PR05MB5186.namprd05.prod.outlook.com
+ ([fe80::59ed:18ca:252d:72f6%7]) with mapi id 15.20.3654.005; Thu, 3 Dec 2020
+ 03:06:21 +0000
+From: Zack Rusin <zackr@vmware.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 14/15] drm/vmwgfx: Remove references to struct
+ drm_device.pdev
+Thread-Topic: [PATCH 14/15] drm/vmwgfx: Remove references to struct
+ drm_device.pdev
+Thread-Index: AQHWwlaG5WlZT6CPxU6T7GsrbIaTjanhMtCAgAJLGYCAAGvzgIAAE2oAgAAHUICAALlJAA==
+Date: Thu, 3 Dec 2020 03:06:20 +0000
+Message-ID: <96A4A47D-4B6B-4038-B094-DD490B99C698@vmware.com>
+References: <20201124113824.19994-1-tzimmermann@suse.de>
+ <20201124113824.19994-15-tzimmermann@suse.de>
+ <31E75B1A-AAC0-49E3-985E-2DF5B59CD883@vmware.com>
+ <e8102216-edd0-bec3-79af-3925e9668e95@suse.de>
+ <d43d06e6-d13c-ef9b-b372-8d30d9494417@suse.de>
+ <FBC4840D-C1A8-4492-9E2E-D31E00B8D61A@vmware.com>
+ <CAKMK7uFaCVLu9GWR0Jkvf8iXP4RdcG3TmMsLmFVDoERBOk1ZOQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uFaCVLu9GWR0Jkvf8iXP4RdcG3TmMsLmFVDoERBOk1ZOQ@mail.gmail.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.151.242.136]
+x-mailer: Apple Mail (2.3608.120.23.2.4)
+authentication-results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=vmware.com;
+x-originating-ip: [71.175.59.246]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 941cbfc4-a6d8-4bbb-ca68-08d8972851f4
-x-ms-traffictypediagnostic: BYAPR11MB3719:
+x-ms-office365-filtering-correlation-id: b5eb206a-3316-480b-5ab7-08d897386925
+x-ms-traffictypediagnostic: BL0PR05MB5345:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB3719C38E6A6A82C3F2F66FB28CF20@BYAPR11MB3719.namprd11.prod.outlook.com>
+x-microsoft-antispam-prvs: <BL0PR05MB5345B875674D15ED83B48934CEF20@BL0PR05MB5345.namprd05.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:10000;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: H3TPSs7KRmiflOia6zsL/dF2h/Pga9lT9iOiVHxMkNcMwY/MqPvDnFRxd1P+j9+trUdznQIIlSptgkWG/HJU5an4IvRH9mTENt4XLCtM3kiVQ5wVqef8JiLtYogR3+iUwFUDZRCmpXTCa2iH1Z5b5UqZdSUbje7Eu88B4yh/r8sCdOUWKPwMR+oUctZWPFho0n/viGsZjWykvauz99pcaeLzAdop8zymqk4U3quegED0XXGvVaKH2b63tOnsqEjsGaVBw0F3DuPlCmtfVxGdVmmVigeXbFzS7thIIPk4UaA5AQqcjxppq7G6M4wR2pk+yns18j0rVkKllPKE3XGnjw==
+x-microsoft-antispam-message-info: d6mIlkZLkosupY3Y1mEGYiEn3woLGE+HJp/CCwaD8XGDACACPOaOiMTrtvhMvC/PdvmNlkjp1QxtnA+MMOi0u5kxY0meQqnlMZA8GdBRjMAOg/OaMnUa//dSnGRoHTriC/KKwA/h/9othg05lsLUXnYmPWoaP0W4mBqzd6ufSGATpw7CSa1WFCv+kEr0YxhENILa4tb/i5Q0CHKxNhI6Vyh0ejHj1KMVus9yHcizsWzovUJWw+wEEBLY5NSUGX3I598GWZQMd2zigBtVc8rtN1noZDLXXrT6I8HyndTIeQD+O8iQZyzGTT06p8HC2iIobUmJ/YKKzKxxKBh4iyl9YhQ+xaK+70h/Mvl3C75YaxZGvKhVSpDCDJAasNaIiiiG
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39860400002)(396003)(346002)(376002)(366004)(71200400001)(6506007)(52536014)(55016002)(8936002)(478600001)(9686003)(8676002)(6916009)(53546011)(83380400001)(54906003)(33656002)(2906002)(66476007)(316002)(186003)(66556008)(66446008)(86362001)(5660300002)(7696005)(66946007)(4326008)(76116006)(26005)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?cwfPO+HxanJzVBtAEQ5subSj56WOYgMh5/KP/FQxyPs2KpmfTNmMw6LwN3sg?=
- =?us-ascii?Q?Bi0D7zQIiAIopDzPHhkGntwIk4BCd5gYAKRRpdkKH5ZK2EMFBpNMYVHHpXuW?=
- =?us-ascii?Q?/wHf0o+MVlsVZ9dYhsLXWc+tL0eUNhLHsOJID3panYIRdz8J2tqkEHtRn+zH?=
- =?us-ascii?Q?lX2LKFp3eVRM8tPxIidrt8vuxUYL8SkcQP8vi68XtQExt23fPgsfv/Yldul+?=
- =?us-ascii?Q?FxxdwV0eHj4psxozXgdVbqrgjz3ZdEDyld7mpPusc/tcrU/tJLr3xHyjKSkY?=
- =?us-ascii?Q?cjgp/2di/gn2HhO2EhFEUkfKBK+gge3vzLzGQiO+ys58qcNijyFFhlBevmJt?=
- =?us-ascii?Q?yPNR8K9IbAt3LPic5zqYU2fDbJ/ts48Wv8dvZMBVwqHRCrTOqMItJFJlb+Zc?=
- =?us-ascii?Q?Dq7A2lPqx3oog1/HbuBO1ApL39DWZwC6Ip+k5EFrfuq3Lp68sGKAEi2DjZH7?=
- =?us-ascii?Q?L3S60N63UQc23YNHvGIINDnWAoTvRylgkDwn1VxHQQwm2+nlP7digujvdlg9?=
- =?us-ascii?Q?Mp009leLFPvLxdSUITj6OuZ6h4ICM/acRZWFoBh0bFS0lwubmUT694CBz0EW?=
- =?us-ascii?Q?Hm13lp7fXydnPDzeA6GWJAne4yYI5zx2deeaNZywWM9GC6MJn7SnmDk0I2lB?=
- =?us-ascii?Q?8dyp07iX/ucTKJDuoi3IMhvg+HDZ2Bw1g1BBPH9O+9QU4cxqnrnbMLxTXpEl?=
- =?us-ascii?Q?9QWt7q09xQHkaJ0TFwUPQmoY22OWTBG8BLvJYMoAYThXqJqT1uy54TMnzcB0?=
- =?us-ascii?Q?SBtaKxR5Mi+TmniqHrWgE8jFaZoOH4BpmiVOkJWkTJP5UKOPJfcYP/V6tqeG?=
- =?us-ascii?Q?6juXeaSOkR3J6kjVhhNcT6l6CbYJluXxMrZLT37weTOT0IrTm7Mn6srPJEpJ?=
- =?us-ascii?Q?h+1vSuhsCVdhkuh+u7wf+2af8b/TBrMb4djwAuUAfrL2RtAsn9Zn5BpG+P3+?=
- =?us-ascii?Q?qf5ULmzbWIidqRagBNz44XmSaMXoJ2/ihZegQXxDlb8=3D?=
+ IPV:NLI; SFV:NSPM; H:BL0PR05MB5186.namprd05.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(376002)(396003)(39860400002)(366004)(346002)(6486002)(186003)(2616005)(7416002)(33656002)(26005)(6506007)(53546011)(71200400001)(54906003)(316002)(6512007)(8676002)(6916009)(8936002)(5660300002)(66556008)(66476007)(64756008)(478600001)(4326008)(66946007)(66446008)(76116006)(86362001)(2906002)(36756003)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?Smx1Y3p5K2toU1hDenpKeHdEVXk4R3R1bklNOUt0Qm1leFNEbjRLQW9DZ2pz?=
+ =?utf-8?B?cy9WS0dHYnNOZTBDd2wvWGkvdTN1VmxCdHEzcjdBbTB0VXpKcU51Qm1ONjVG?=
+ =?utf-8?B?cGkrWmVyYWhnczR0TytLenhjV3dyWVhOZ0pqeForZTFrYUxKcmVRMlJ1a3Ev?=
+ =?utf-8?B?REo2QzRvazNMdDJBU29MQmN3V1ptTXNwbEEwK25qcGplY0FEb2pybFgwTldJ?=
+ =?utf-8?B?T3Z0VS81TGpWWm9aTUorQ3NwNklid01ZYjlBMS9kanRTanVCYW5tZ09WQ3Nu?=
+ =?utf-8?B?S3JtNkVza0FLaUNabnFqc2drMlZUYklySm5QOWx4SXM4VWZvNE5heDVxM2Vr?=
+ =?utf-8?B?M0ErNFFIQ1ZadXJ2dlMzZTlQTzBKSW9NaDJSTFZlU3gxNnU4VFRBZ3dodTNR?=
+ =?utf-8?B?L0p6K0k3dkVGK0g4MU44TVp1TlFReHRXM0pxeExabk9QMDhYVGpVWGFEdDdS?=
+ =?utf-8?B?YjhLU1N6UWVOUDdSVGtMU0tOdUJTYVFwV3k2aVNkTTA3N0UrU0xKVE96b1lr?=
+ =?utf-8?B?eTAxT3VlVzFFVFNtbmdnaWc2eTNkak1vbjB1SktXRUJhWUlKcjFIMHpoNVRi?=
+ =?utf-8?B?ajVGSHpocVVPWDNWa2QvdGRTZlh6OG1YYTltaDFBbHp4WlZEWmt6dlF3ZlF6?=
+ =?utf-8?B?STVUMDhhaWtHZUFtZS81U3BnekYrUWx4SThxeGk0ZGpKcXQ5Tnd5NTdRRU1S?=
+ =?utf-8?B?MWduc2s4aTlFSVl5NDE1M3hKZTg3bFZDVitRSGhPQ3paRHdGNkhQc2Y3Zm9S?=
+ =?utf-8?B?WXUzWUttbitYNi9SMmdHcitJNVk3WGtOc042ZVA0UXdzZWhXOVBjcnVCYSsx?=
+ =?utf-8?B?clRFUXVqb2tGV1UvVy90MlpmY0N6Yy9BZ2dlV3Q2ZkNqaHJLb3lFYzFWZmk3?=
+ =?utf-8?B?akdhbmJmZVpXT1huQ3NtVkZqSHRyajJtZzVzUzRCd25NMFpOZjhWZWVZN0hF?=
+ =?utf-8?B?aHpuUjRtS2thT25WRDVXR25CVFR4bkZHSEhLQWUwd1g2anZiTDhSTk5xZ2dJ?=
+ =?utf-8?B?WE1KTGYzZVYwTEw4R2VBWndZTlZNTHV5L1htYkVISmJUd1crcWtiaU9XMXdy?=
+ =?utf-8?B?UEEwOTdKZjZudUh1NVBhZ3ZtaG9iK25NZThWbE81S3B5VWRzenphbDhlYW41?=
+ =?utf-8?B?UXFTcWdYaGlnSzhXUWpIVVRkRVhxUEpFTnRua2V2cjBQSE9PZ1R5ZFdlUWZH?=
+ =?utf-8?B?czQ0MVVyK1d6b2ZUeHkwRjBqeklMMm1odG5aNk4vTHo3aUZxUS9lK3k2M2Zl?=
+ =?utf-8?B?NDdLeTFFMGdna0pZSW9sUmpzR3dTdStnVy80cGFEWmpOdWVGUXQ4bWlJNzU4?=
+ =?utf-8?Q?Nx1yjI3ZDuj3ZkCYVlAA5nhwxhC5UM1Ffi?=
+Content-ID: <BF2D78E3B1C3A44291981436524356FC@namprd05.prod.outlook.com>
 MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 941cbfc4-a6d8-4bbb-ca68-08d8972851f4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2020 01:11:10.1109 (UTC)
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR05MB5186.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b5eb206a-3316-480b-5ab7-08d897386925
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2020 03:06:21.0144 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KFIi0pcUo7bX7V9H56mbBlh13gpxTE57CohUXHYoiEAAGfC3GX5pJy5QmUYAiqWhxPKVmW1Ks9Lohmc/8+GjTSR7MnQqaPc5mrb+pPAoJq8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3719
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-userprincipalname: tH3jKIo5gecr+QxTjfx4HBmgMbmyh2fSO38UHTvfAqfQn8tnYyFX9Wvz7fSPFWYR9cYWZRBr0V1js8/SYQDRRQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR05MB5345
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,193 +122,60 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, "Dea, Edmund J" <edmund.j.dea@intel.com>,
- "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Roland Scheidegger <sroland@vmware.com>,
  "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ "spice-devel@lists.freedesktop.org" <spice-devel@lists.freedesktop.org>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Dan.
-
-> -----Original Message-----
-> From: Dan Carpenter <dan.carpenter@oracle.com>
-> Sent: Sunday, November 29, 2020 11:48 PM
-> To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
-> Cc: Dea, Edmund J <edmund.j.dea@intel.com>; David Airlie <airlied@linux.ie>;
-> Daniel Vetter <daniel@ffwll.ch>; Sam Ravnborg <sam@ravnborg.org>; dri-
-> devel@lists.freedesktop.org; kernel-janitors@vger.kernel.org
-> Subject: Re: [PATCH v2] drm/kmb: Fix possible oops in probe error handling
-> 
-> On Fri, Nov 20, 2020 at 10:15:57PM +0000, Chrisanthus, Anitha wrote:
-> > Hi Dan,
-> > I see the problem now, thanks for the patch.
-> >
-> > > -----Original Message-----
-> > > From: Dan Carpenter <dan.carpenter@oracle.com>
-> > > Sent: Friday, November 20, 2020 12:11 AM
-> > > To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
-> > > Cc: Dea, Edmund J <edmund.j.dea@intel.com>; David Airlie
-> <airlied@linux.ie>;
-> > > Daniel Vetter <daniel@ffwll.ch>; Sam Ravnborg <sam@ravnborg.org>; dri-
-> > > devel@lists.freedesktop.org; kernel-janitors@vger.kernel.org
-> > > Subject: [PATCH v2] drm/kmb: Fix possible oops in probe error handling
-> > >
-> > > If kmb_dsi_init() fails the "kmb->kmb_dsi" variable is an error pointer.
-> > > The kernel will Oops when we pass it to kmb_dsi_host_unregister().
-> > >
-> > > Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
-> > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > > ---
-> > > v2: write a better commit message
-> > >
-> > >  drivers/gpu/drm/kmb/kmb_drv.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/kmb/kmb_drv.c
-> > > b/drivers/gpu/drm/kmb/kmb_drv.c
-> > > index a31a840ce634..8c43b136765c 100644
-> > > --- a/drivers/gpu/drm/kmb/kmb_drv.c
-> > > +++ b/drivers/gpu/drm/kmb/kmb_drv.c
-> > > @@ -504,7 +504,7 @@ static int kmb_probe(struct platform_device
-> *pdev)
-> > >  	if (IS_ERR(kmb->kmb_dsi)) {
-> > >  		drm_err(&kmb->drm, "failed to initialize DSI\n");
-> > >  		ret = PTR_ERR(kmb->kmb_dsi);
-> > > -		goto err_free1;
-> > > +		goto err_clear_drvdata;
-> > >  	}
-> > >
-> > >  	kmb->kmb_dsi->dev = &dsi_pdev->dev;
-> > > @@ -540,8 +540,9 @@ static int kmb_probe(struct platform_device
-> *pdev)
-> > >  	drm_crtc_cleanup(&kmb->crtc);
-> > >  	drm_mode_config_cleanup(&kmb->drm);
-> > >   err_free1:
-> > > -	dev_set_drvdata(dev, NULL);
-> > >  	kmb_dsi_host_unregister(kmb->kmb_dsi);
-> > > + err_clear_drvdata:
-> > We still need to unregister the dsi_host that was registered in this call
-> kmb_dsi_host_bridge_init.
-> > This will require more changes in kmb_dsi_host_unregister and/or separate
-> out mipi_dsi_host_unregister.
-> > FYI - I will be out all of next week, will be back the next Monday.
-> 
-> Hm...  Yes.  Now that you point it out, there are several bugs related
-> to kmb_dsi_host_bridge_init()...
-> 
->    182  void kmb_dsi_host_unregister(struct kmb_dsi *kmb_dsi)
->    183  {
->    184          kmb_dsi_clk_disable(kmb_dsi);
->    185          mipi_dsi_host_unregister(kmb_dsi->host);
->                                          ^^^^^^^^^^^^^
-> kmb_dsi->host is dsi_host.
-> 
-> Every user unregisters it, but only the first user registers it.  So
-> if there are multiple users it will be unregistered prematurely.  Should
-> there be a kfree to prevent a leak?
-> 
-> 		kfree(kmb_dsi->host);
-> 		dsi_host = NULL;
-> 
->    186  }
-> 
-> [ snip ]
-> 
->    216  int kmb_dsi_host_bridge_init(struct device *dev)
->    217  {
->    218          struct device_node *encoder_node, *dsi_out;
->    219
->    220          /* Create and register MIPI DSI host */
->    221          if (!dsi_host) {
->                      ^^^^^^^^
-> This is only allocated for the first user.
-> 
->    222                  dsi_host = kzalloc(sizeof(*dsi_host), GFP_KERNEL);
->    223                  if (!dsi_host)
->    224                          return -ENOMEM;
->    225
->    226                  dsi_host->ops = &kmb_dsi_host_ops;
->    227
->    228                  if (!dsi_device) {
->    229                          dsi_device = kzalloc(sizeof(*dsi_device), GFP_KERNEL);
->    230                          if (!dsi_device) {
->    231                                  kfree(dsi_host);
->                                         ^^^^^^^^^^^^^^^
-> But now it is non-NULL but it is a freed pointer.  dsi_host = NULL;
-> 
->    232                                  return -ENOMEM;
->    233                          }
->    234                  }
->    235
->    236                  dsi_host->dev = dev;
->    237                  mipi_dsi_host_register(dsi_host);
->    238          }
->    239
-> 
-> [ snip ]
-> 
->    482
->    483          of_node_put(dsi_in);
->    484          of_node_put(dsi_node);
->    485          ret = kmb_dsi_host_bridge_init(get_device(&dsi_pdev->dev));
->                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> This get_device() needs a matching put_device().  I kind of like to put
-> the kref_get() calls on their own line so that they're more obvious to
-> the reader.
-> 
-> 	get_device(&dsi_pdev->dev);
-> 	kmb_dsi_host_bridge_init(&dsi_pdev->dev);
-> 
->    486
->    487          if (ret == -EPROBE_DEFER) {
->    488                  return -EPROBE_DEFER;
->    489          } else if (ret) {
->    490                  DRM_ERROR("probe failed to initialize DSI host bridge\n");
->    491                  return ret;
->    492          }
->    493
->    494          /* Create DRM device */
->    495          kmb = devm_drm_dev_alloc(dev, &kmb_driver,
->    496                                   struct kmb_drm_private, drm);
->    497          if (IS_ERR(kmb))
->    498                  return PTR_ERR(kmb);
-> 
-> On these error paths we would want to unwind using a call to
-> kmb_dsi_host_unregister().
-> 
->    499
->    500          dev_set_drvdata(dev, &kmb->drm);
->    501
->    502          /* Initialize MIPI DSI */
->    503          kmb->kmb_dsi = kmb_dsi_init(dsi_pdev);
->                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> This is the call where the "kmb_dsi->host = dsi_host;" assignment
-> actually happens.
-> 
->    504          if (IS_ERR(kmb->kmb_dsi)) {
->    505                  drm_err(&kmb->drm, "failed to initialize DSI\n");
->    506                  ret = PTR_ERR(kmb->kmb_dsi);
->    507                  goto err_free1;
->    508          }
->    509
->    510          kmb->kmb_dsi->dev = &dsi_pdev->dev;
->    511          kmb->kmb_dsi->pdev = dsi_pdev;
->    512          ret = kmb_hw_init(&kmb->drm, 0);
-> 
-> It feels like it would be a lot easier if the kmb_dsi_init() and
-> kmb_dsi_host_bridge_init() functions were combined.  Probably the
-> dsi_host and dsi_device stuff needs to be refcounted?
-> 
-> Anyway, I can't test this stuff and I'm not really familiar with the
-> driver.  Could you fix it and CC me on the fix?
-I will work on the fix later and will CC you, very busy with other stuff right now.
-> 
-> regards,
-> dan carpenter
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+DQoNCj4gT24gRGVjIDIsIDIwMjAsIGF0IDExOjAzLCBEYW5pZWwgVmV0dGVyIDxkYW5pZWxAZmZ3
+bGwuY2g+IHdyb3RlOg0KPiANCj4gT24gV2VkLCBEZWMgMiwgMjAyMCBhdCA0OjM3IFBNIFphY2sg
+UnVzaW4gPHphY2tyQHZtd2FyZS5jb20+IHdyb3RlOg0KPj4gDQo+PiANCj4+IA0KPj4+IE9uIERl
+YyAyLCAyMDIwLCBhdCAwOToyNywgVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2Uu
+ZGU+IHdyb3RlOg0KPj4+IA0KPj4+IEhpDQo+Pj4gDQo+Pj4gQW0gMDIuMTIuMjAgdW0gMDk6MDEg
+c2NocmllYiBUaG9tYXMgWmltbWVybWFubjoNCj4+Pj4gSGkNCj4+Pj4gQW0gMzAuMTEuMjAgdW0g
+MjE6NTkgc2NocmllYiBaYWNrIFJ1c2luOg0KPj4+Pj4gDQo+Pj4+PiANCj4+Pj4+PiBPbiBOb3Yg
+MjQsIDIwMjAsIGF0IDA2OjM4LCBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5k
+ZT4gd3JvdGU6DQo+Pj4+Pj4gDQo+Pj4+Pj4gVXNpbmcgc3RydWN0IGRybV9kZXZpY2UucGRldiBp
+cyBkZXByZWNhdGVkLiBDb252ZXJ0IHZtd2dmeCB0byBzdHJ1Y3QNCj4+Pj4+PiBkcm1fZGV2aWNl
+LmRldi4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPj4+Pj4+IA0KPj4+Pj4+IFNpZ25lZC1vZmYt
+Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4+Pj4+IENjOiBS
+b2xhbmQgU2NoZWlkZWdnZXIgPHNyb2xhbmRAdm13YXJlLmNvbT4NCj4+Pj4+PiAtLS0NCj4+Pj4+
+PiBkcml2ZXJzL2dwdS9kcm0vdm13Z2Z4L3Ztd2dmeF9jbWRidWYuYyB8ICA4ICsrKystLS0tDQo+
+Pj4+Pj4gZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZHJ2LmMgICAgfCAyNyArKysrKysr
+KysrKysrLS0tLS0tLS0tLS0tLQ0KPj4+Pj4+IGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4
+X2ZiLmMgICAgIHwgIDIgKy0NCj4+Pj4+IA0KPj4+Pj4gUmV2aWV3ZWQtYnk6IFphY2sgUnVzaW4g
+PHphY2tyQHZtd2FyZS5jb20+DQo+Pj4+IENvdWxkIHlvdSBhZGQgdGhpcyBwYXRjaCB0byB0aGUg
+dm13Z2Z4IHRyZWU/DQo+Pj4gDQo+Pj4gQU1EIGRldnMgaW5kaWNhdGVkIHRoYXQgdGhleSdkIHBy
+ZWZlciB0byBtZXJnZSB0aGUgcGF0Y2hzZXQgdHJvdWdoIGRybS1taXNjLW5leHQuIElmIHlvdSdy
+ZSBPSyB3aXRoIHRoYXQsIEknZCBtZXJnZSB0aGUgdm13Z2Z4IHBhdGNoIHRocm91Z2ggZHJtLW1p
+c2MtbmV4dCBhcyB3ZWxsLg0KPj4gDQo+PiBTb3VuZHMgZ29vZC4gSeKAmWxsIG1ha2Ugc3VyZSB0
+byByZWJhc2Ugb3VyIGxhdGVzdCBwYXRjaCBzZXQgb24gdG9wIG9mIGl0IHdoZW4gaXTigJlzIGlu
+LiBUaGFua3MhDQo+IA0KPiBidHcgaWYgeW91IHdhbnQgdG8gYXZvaWQgbXVsdGktdHJlZSBjb29y
+ZGluYXRpb24gaGVhZGFjaGVzLCB3ZSBjYW4NCj4gYWxzbyBtYW5hZ2Ugdm13Z2Z4IGluIGRybS1t
+aXNjIGFuZCBnaXZlIHlvdSAmIFJvbGFuZCBjb21taXQgcmlnaHRzDQo+IHRoZXJlLiBVcCB0byB5
+b3UuIFRoZXJlIGlzIHNvbWUgc2NyaXB0aW5nIGludm9sdmVkIGZvciBub3cgKGJ1dCBJIGhvcGUN
+Cj4gd2hlbmV2ZXIgd2UgbW92ZSB0byBnaXRsYWIgd2UgY291bGQgZG8gdGhlIGNoZWNrcyBzZXJ2
+ZXItc2lkZSk6DQoNCknigJlkIGJlIGhhcHB5IHRvIHRha2UgeW91IHVwIG9uIHRoYXQuIEkgd291
+bGQgbGlrZSB0byBtb3ZlIGEgbG90IG1vcmUgb2Ygb3VyIGRldmVsb3BtZW50IGludG8gcHVibGlj
+IHJlcG9zIGFuZCByZWR1Y2luZyB0aGUgYnVyZGVuIG9mIG1haW50YWluaW5nIG11bHRpcGxlIHRy
+ZWVzIHdvdWxkIGhlbHAuIElzIHRoZXJlIGEgbG90IG9mIGNoYW5nZXMgdG8gZHJtIGNvcmUgdGhh
+dCBkb2VzbuKAmXQgZ28gdGhyb3VnaCBkcm0tbWlzYz8gT3IgYWx0ZXJuYXRpdmVseSBpcyBkcm0t
+bWlzYyBvZnRlbiBwdWxsaW5nIGZyb20gTGludXPigJkgbWFzdGVyPyBJ4oCZbSB0cnlpbmcgdG8g
+ZmlndXJlIG91dCBob3cgbXVjaCB3b3VsZCBvdXIgbmVlZCB0byByZWJhc2UvbWVyZ2UgYmUgcmVk
+dWNlZCBpZiB3ZSBqdXN0IHVzZWQgZHJtLW1pc2MtbmV4dC9kcm0tbWlzYy1maXhlcyBiZWNhdXNl
+IHRoYXQgd291bGQgYWxzbyBhbGxvdyBtZSB0byBwb2ludCBzb21lIGludGVybmFsIHRlc3Rpbmcg
+aW5mcmFzdHJ1Y3R1cmUgYXQgaXQgYXMgd2VsbC4NCg0KegpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
+bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
+bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
