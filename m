@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A773F2CDCF2
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 19:02:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 759812CDD16
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 19:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5EE36EB9F;
-	Thu,  3 Dec 2020 18:02:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7AB86E047;
+	Thu,  3 Dec 2020 18:08:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3697D6EB9F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 18:02:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9C16E047
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 18:08:36 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 94061] [radeon - Kaveri] dpm works badly - much to high power
- consumption compared to catalyst
-Date: Thu, 03 Dec 2020 18:02:12 +0000
+Subject: [Bug 210479] amdgpu: Monitor connected to RX 6800XT loses signal
+ when module is loaded
+Date: Thu, 03 Dec 2020 18:08:34 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,10 +33,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-94061-2300-B7gJtM5Ric@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-94061-2300@https.bugzilla.kernel.org/>
-References: <bug-94061-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-210479-2300-YD4atCsBjC@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210479-2300@https.bugzilla.kernel.org/>
+References: <bug-210479-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
 Auto-Submitted: auto-generated
 MIME-Version: 1.0
@@ -57,10 +57,20 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=94061
+https://bugzilla.kernel.org/show_bug.cgi?id=210479
 
---- Comment #11 from Alex Deucher (alexdeucher@gmail.com) ---
-The dpm code for kaveri is identical for both radeon and amdgpu.
+Alex Deucher (alexdeucher@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
+
+--- Comment #1 from Alex Deucher (alexdeucher@gmail.com) ---
+It looks like you don't have support for the display hardware configured in
+your kernel config.  Make sure your config has:
+CONFIG_DRM_AMD_DC=y
+CONFIG_DRM_AMD_DC_DCN=y
+CONFIG_DRM_AMD_DC_DCN3_0=y
 
 -- 
 You are receiving this mail because:
