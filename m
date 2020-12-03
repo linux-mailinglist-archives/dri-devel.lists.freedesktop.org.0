@@ -2,31 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1352CD319
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 11:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5AA2CD458
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 12:12:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA0B96E983;
-	Thu,  3 Dec 2020 10:05:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F1E96E0C9;
+	Thu,  3 Dec 2020 11:12:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fireflyinternet.com (unknown [77.68.26.236])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7E846E0AA;
- Thu,  3 Dec 2020 10:05:16 +0000 (UTC)
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS))
- x-ip-name=78.156.65.138; 
-Received: from localhost (unverified [78.156.65.138]) 
- by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id
- 23199470-1500050 for multiple; Thu, 03 Dec 2020 10:04:13 +0000
-MIME-Version: 1.0
-In-Reply-To: <X8ilneOcJAjwqU4t@mwanda>
-References: <X8ilneOcJAjwqU4t@mwanda>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C696E9B2;
+ Thu,  3 Dec 2020 11:12:31 +0000 (UTC)
+IronPort-SDR: d3kR/iBznKKHcQFLU0B6WimG/5TnMUBDkUGFzztT6F/XmMS4R+Ir3fr+RHfvQaTekOQ0sSQosQ
+ lEX9CnRcDdDA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="191405402"
+X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; d="scan'208";a="191405402"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2020 03:12:31 -0800
+IronPort-SDR: gfY19NmtkxHDKSG4JVnhmnvQWWEwwwE4BKcTynSEGMQ4YCIeMCgbsqio2Oc+fj5qz7BRs9OkxQ
+ sjKua80N/W6Q==
+X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; d="scan'208";a="550445583"
+Received: from pjfraser-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.252.11.14])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2020 03:12:27 -0800
+Date: Thu, 3 Dec 2020 13:12:24 +0200
+From: Andi Shyti <andi.shyti@intel.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
 Subject: Re: [PATCH] drm/i915: Check the correct variable
-From: Chris Wilson <chris@chris-wilson.co.uk>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Date: Thu, 03 Dec 2020 10:04:11 +0000
-Message-ID: <160698985186.1736.12329246997505578645@build.alporthouse.com>
-User-Agent: alot/0.9
+Message-ID: <X8jH5D//XHDsXKtQ@intel.intel>
+References: <X8ilneOcJAjwqU4t@mwanda>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <X8ilneOcJAjwqU4t@mwanda>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,13 +49,18 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Andi Shyti <andi.shyti@intel.com>, David Airlie <airlied@linux.ie>, Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Thomas Hellström <thomas.hellstrom@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: kernel-janitors@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-gfx@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Thomas =?iso-8859-15?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
+ dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Dan Carpenter (2020-12-03 08:45:17)
+Hi Dan,
+
 > There is a copy and paste bug in this code.  It's supposed to check
 > "obj2" instead of checking "obj" a second time.
 > 
@@ -60,16 +75,18 @@ Quoting Dan Carpenter (2020-12-03 08:45:17)
 > --- a/drivers/gpu/drm/i915/selftests/i915_gem.c
 > +++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
 > @@ -211,8 +211,8 @@ static int igt_gem_ww_ctx(void *arg)
->                 return PTR_ERR(obj);
+>  		return PTR_ERR(obj);
 >  
->         obj2 = i915_gem_object_create_internal(i915, PAGE_SIZE);
-> -       if (IS_ERR(obj)) {
-> -               err = PTR_ERR(obj);
-> +       if (IS_ERR(obj2)) {
-> +               err = PTR_ERR(obj2);
+>  	obj2 = i915_gem_object_create_internal(i915, PAGE_SIZE);
+> -	if (IS_ERR(obj)) {
+> -		err = PTR_ERR(obj);
+> +	if (IS_ERR(obj2)) {
+> +		err = PTR_ERR(obj2);
 
-Reviewed-by: Chris Wilson <chris@chris-wilson.co.uk>
--Chris
+Reviewed-by: Andi Shyti <andi.shyti@intel.com>
+
+Thanks,
+Andi
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
