@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A26962CE9DD
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:35:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614222CE9DB
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:35:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F84E6EC82;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09F6F6EC7D;
 	Fri,  4 Dec 2020 08:33:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0014ca01.pphosted.com (mx0b-0014ca01.pphosted.com
  [208.86.201.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6EF6EB78
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAEF6EB79
  for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 14:03:39 +0000 (UTC)
 Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
  by mx0b-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 0B3E0haC031334; Thu, 3 Dec 2020 06:03:27 -0800
+ 0B3E0joN031452; Thu, 3 Dec 2020 06:03:25 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type; s=proofpoint;
- bh=NrKIqyLhj91qrGoEHTKSE8vZBk+vF/t2ziiLJj+MleU=;
- b=J4s24LtT/M4pWm9QA578/xjH9CtEcpQVOxa5zAvSHM6hNio+SZajVsQhzXwg/5TyUvVD
- whVJNVF3jyfhaEaeJrKbtP1IT9iIQGZJQA+ptYSBtgAiF/T4M8CjpQkBfZDYPPMMr8Kp
- f6G78SSH6BUK0GdpKw++l/wWissDmrRSwI5I2fXKot+IpCXo27R5XK1XJ6nG1rPEQnib
- vRc1oSFrTK4spqTeJyJXyTEBCNotz3rECJ7PKoPBY5gQZDHtI0gxWAUyzKOe3hUxrhWd
- UOk7BEjm2S+e1fqAwDeXsvIuVTyR/3LwAbP3nPf+dozD0nkNEQhvNuRMjSdr+EZMAGZ/ 0A== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2170.outbound.protection.outlook.com [104.47.57.170])
- by mx0b-0014ca01.pphosted.com with ESMTP id 355vn6f66g-1
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=proofpoint;
+ bh=buYtU5jcisfDtmYDGcAm9iGBYG25F+WgL38x6RHz/xg=;
+ b=RyaIr6HMhpO0DGhZE91YElZJSveUX1y0CcSE553KHQ9q77ROPyvVBzp8NSaI2oSyGHbG
+ 0K7uT9XzT63Eg+2jbaHE9aOqR3eX4lMSBRj7cBZAnfLGhbuU0OI2IO2gDzOJZurd3Ifs
+ ZdNOYdyA0XVJVV5mdIH2qm/LA2DOWGEjZYDfU0P77xhAwoCPsdHBB4/ElzhG1czTtFTa
+ XmXueGtuYhXOUEQ+WXf1GAOa2oBNuNuAWb4EqV5wfINAA4aarnrQqUJQL5O44JU1lcCH
+ gKJy5RMoBcKzLBkEdPRK8VdanknfjkUD1R7aDDOL+waymqjBn8TW9gKTXf1nBH7cqihf 9Q== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2102.outbound.protection.outlook.com [104.47.58.102])
+ by mx0b-0014ca01.pphosted.com with ESMTP id 355vn6f66e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 03 Dec 2020 06:03:26 -0800
+ Thu, 03 Dec 2020 06:03:24 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DbYMoSLj68++naItfKGBATXL62GE7RXlwZC9fPTWPHfGhvfiC06dZgTXBr5auQ+kUPSJqqMK4QvOTJErUf7jEk3jAnrxTMW/QISJ19fq9q+e6pikWXCopRVmT1RMQSyhq/66RTILXnAWlik+89wIa3vfEB8uNzHSXo2E9PZGENNuZ4kvuSc8S2WYjW9BpJSUBCZXC/pI7N1ha3fuAeaItcqmutLDJnWzhX0/AfgNigwH0K+yIX2L/iC42EzhCyLwbjoXqVdtf71l7cZ4BHaSZ28CAVp9wW+4mRRNr7GszZbXJ/DJhF1K2f4Xo9LMk1w0H5xR1Seg7xqWRRCCsUQSkQ==
+ b=FBpufUhZp2s9CpXfcixlpkkPVy2K2jOA6OZg9aO9BGItTJlaRtzhR4KofSUT8AKLNbjP7aXFMDMUYuUNXTwHfA99zNPs/yzpGI3XAw++3RFeU8WL7Mx9exnErqBBqAobHf3YZ8zQ7LKnCWuGrpR0tfalQzNAqJ1Y7ndsVa2AcCvCX2X9/GAwcS12adisyjfqwRmivBNhbc+se6FWU8dREMNgdw+63e4Kmvrafga50p09tNLwCDlQ5j4s21xDCUrxcqh4+zOfAxvIa0HtcuG/Ifpecof7UD37Xz6wfXp7kUzLFzP9paE81cDVH9Ec+Rv8bnxRr15fBV4dZd1nG1e0rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NrKIqyLhj91qrGoEHTKSE8vZBk+vF/t2ziiLJj+MleU=;
- b=YrR35rz80t6eJUnTs0X5IVXbywzBYylcruQOl70nGHNRDgaEmt71mIe7fN7g7XmelOKB73wMq8dS2A2mt3prUjUvuzlEi98ufc34nm77tdeqo0fsaHi7MPxpMWFx/Z9/LqHbMjM4s41g4dpZG4qh+v0+8j42dH5l4yHtLKElOtWhh/a3dh3y3yDlp0r2/04ZS7sH8uy1TnDV6dctq9rNRTNKFXhM+2IahVw7rkiG1aBYDxsGlRMSp6066II2FhRuBUtG1pK9Mmt5gAJT/ee8h5PQmOIjeI4TPITRdMcZ8iz2k0o8QRHmPe3un+Ld4aONkBMRhEAe5prN/r5cWJP7Pg==
+ bh=buYtU5jcisfDtmYDGcAm9iGBYG25F+WgL38x6RHz/xg=;
+ b=QJ1MW9pv+v2moTvkEtl2BmrHVG5eQ+N2ClfqVFNEkSAtSnh4kDkpd6i+t13DRjacuVbYOS8ZFkJK1cfsv+gjsFRZbhwAAwFFXCJinPjSFNdutO0YW0lr5tjq34xmEvh5hfsNVo6fEpIbBzPEe1Yqwir+Bix6pOsP7+y1SvB0Vsf1zunR//2NRo5Vyg2QmppZ983Lh6TDxaEYSH3wX+aYlVBcp8zoAoqikH4A7kv2/VYQBzcLNudW+igWCboKyc0mUjFeMG0QDlYpNsh89OmYumo6n3Urds7ouFjKA02jIRet7A4ipZErCoPK8WEc8GUUfjVkEfHcy39H9cmRaZJxLA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  199.43.4.23) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=cadence.com; dmarc=pass
  (p=none sp=none pct=100) action=none header.from=cadence.com; dkim=none
@@ -44,17 +45,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NrKIqyLhj91qrGoEHTKSE8vZBk+vF/t2ziiLJj+MleU=;
- b=uViFsmRvYyt3a53kSy7llxW1ylA6yq+ig+2aJ6hMKNxpAjsGSa2RYwW5cFNTxZOLlQaFj5FAzMagfM89l1g6X/8pRxLnjzMthmk9IByaleMe+sqOFi6MJvWYTkhHVVt59g6Y/NygqR7XtW84OXtMHPXNSbzyP8sQHmcjanoQaXA=
-Received: from BN6PR07CA0005.namprd07.prod.outlook.com (2603:10b6:404:8c::15)
- by BN6PR07MB3426.namprd07.prod.outlook.com (2603:10b6:405:62::35)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Thu, 3 Dec
+ bh=buYtU5jcisfDtmYDGcAm9iGBYG25F+WgL38x6RHz/xg=;
+ b=7oVvzMAQzw+gHIPG8hGF8GK+NGsPTDlFFAZ4Cn7tasNU+KYZZbtT68BIftcnUrHJDTCCs+0lCv3koISyhFIRJrOJcE7pAP2Kp4/kHP/BfTFFZXDdLBDwGQh2FOoqtqm8V46Bo6HiAmtoRI9kb1QsMC4Qxl2yAwc1+yyW2MjVvns=
+Received: from BN8PR15CA0014.namprd15.prod.outlook.com (2603:10b6:408:c0::27)
+ by DM6PR07MB6476.namprd07.prod.outlook.com (2603:10b6:5:148::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 3 Dec
  2020 14:03:22 +0000
-Received: from BN8NAM12FT052.eop-nam12.prod.protection.outlook.com
- (2603:10b6:404:8c:cafe::1e) by BN6PR07CA0005.outlook.office365.com
- (2603:10b6:404:8c::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18 via Frontend
+Received: from BN8NAM12FT040.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:408:c0:cafe::e7) by BN8PR15CA0014.outlook.office365.com
+ (2603:10b6:408:c0::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
  Transport; Thu, 3 Dec 2020 14:03:22 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 199.43.4.23)
  smtp.mailfrom=cadence.com; ffwll.ch; dkim=none (message not signed)
@@ -63,14 +64,14 @@ Received-SPF: Pass (protection.outlook.com: domain of cadence.com designates
  199.43.4.23 as permitted sender) receiver=protection.outlook.com;
  client-ip=199.43.4.23; helo=rmmaillnx1.cadence.com;
 Received: from rmmaillnx1.cadence.com (199.43.4.23) by
- BN8NAM12FT052.mail.protection.outlook.com (10.13.182.236) with Microsoft SMTP
+ BN8NAM12FT040.mail.protection.outlook.com (10.13.182.129) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.20.3611.11 via Frontend Transport; Thu, 3 Dec 2020 14:03:22 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
  by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id
- 0B3E3FRK020918
+ 0B3E3FRJ020918
  (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
- Thu, 3 Dec 2020 09:03:21 -0500
+ Thu, 3 Dec 2020 09:03:17 -0500
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -79,48 +80,50 @@ Received: from vleu-orange.cadence.com (10.160.88.83) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1367.3 via Frontend Transport; Thu, 3 Dec 2020 15:03:14 +0100
 Received: from vleu-orange.cadence.com (localhost.localdomain [127.0.0.1])
- by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0B3E3EY2022337;
+ by vleu-orange.cadence.com (8.14.4/8.14.4) with ESMTP id 0B3E3E27022341;
  Thu, 3 Dec 2020 15:03:14 +0100
 Received: (from yamonkar@localhost)
- by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0B3E3Bju022333;
- Thu, 3 Dec 2020 15:03:11 +0100
+ by vleu-orange.cadence.com (8.14.4/8.14.4/Submit) id 0B3E3ECU022340;
+ Thu, 3 Dec 2020 15:03:14 +0100
 From: Yuti Amonkar <yamonkar@cadence.com>
 To: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <maxime@cerno.tech>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <mark.rutland@arm.com>, <a.hajda@samsung.com>,
  <narmstrong@baylibre.com>, <Laurent.pinchart@ideasonboard.com>,
  <jonas@kwiboo.se>, <jernej.skrabec@siol.net>
-Subject: [PATCH v3 0/3] Add bus format negotiation support for Cadence
- MHDP8546 driver
-Date: Thu, 3 Dec 2020 15:03:08 +0100
-Message-ID: <1607004191-22294-1-git-send-email-yamonkar@cadence.com>
+Subject: [PATCH v3 1/3] drm: bridge: cdns-mhdp8546: Modify
+ atomic_get_input_bus_format bridge function
+Date: Thu, 3 Dec 2020 15:03:09 +0100
+Message-ID: <1607004191-22294-2-git-send-email-yamonkar@cadence.com>
 X-Mailer: git-send-email 2.4.5
+In-Reply-To: <1607004191-22294-1-git-send-email-yamonkar@cadence.com>
+References: <1607004191-22294-1-git-send-email-yamonkar@cadence.com>
 MIME-Version: 1.0
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8f5bfab3-3786-489a-b13e-08d89794320c
-X-MS-TrafficTypeDiagnostic: BN6PR07MB3426:
-X-Microsoft-Antispam-PRVS: <BN6PR07MB34269A855E627CF1F47DA8FFD2F20@BN6PR07MB3426.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Office365-Filtering-Correlation-Id: 3b3ee1fd-b965-4e89-866c-08d8979431e6
+X-MS-TrafficTypeDiagnostic: DM6PR07MB6476:
+X-Microsoft-Antispam-PRVS: <DM6PR07MB6476643ABEF1D6549D761C39D2F20@DM6PR07MB6476.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:334;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E+fvkdmyjDyDzH2Du32Suh7+f6jZZ0TSPnTd5fgN5ogbmaAyxA/5zBZjqPcmjiaVYkD8Zcp5iqeIBH58zC85t+mainXaxI/MNv1myTYENXBcsi9Qx9eARozADyr2nkagsDFnx2LZ2Dxk44vpAbwzXwvLv6UfqFbCmAOaxI97xHk2yslQXx7el0Lprp4Gr+l4dYCLoOzo69uIB6wqctoycJRsOU5J1+Josn5q4T3TRT2k4RNLE5SpuVydzrd3zuq3SaGicdV12ig170dc418Z+iU2rM3x66znPa0ToMa/qwPpsVDmeZf8G50K4/1zFrHvZtqNtKFhgvC7NvJ4KXYxFm1c9oZ6wVo9L8c5kYr7BSpwPm6TIxBCFwB3erCJD5lOc1Q7DeLDY9BWCZxcKkIUthvvp6oxB1tf8WzTqESXH56dd3Hk/O41/JA9Se6l3lZuVjQnlONbWwc43syLVi52hT5SHxBsLVLlYRPxX5zaX2iv7bTgGpqUkbPH2KVUJ0lShcWRHAV9ZSO+i4m/Ey6y1nJJnftMkkILMFvyY6K+ZRju4FS/TmT4bQjj7vA+Ipp8
+X-Microsoft-Antispam-Message-Info: ewx51zdaieraCkE7sfktrHARvx0O0jknpVdNoCrUXdMj/jrP3oM2MzcT2UtI16klgs2mUB6edJgSad4FO95/xVAhkbpqdoHvceVn49QdvZLpkFzcQJZZr47GD4N2iwy5T2olhyz1HHpNMYGM/be2H8+9kI2nnNTz8A9Vf5mkIQPSeY9XFllfS1DHlfZOian6Nv7iM2xbpNqaK8v3BR4/NUJ5I/Kjeo5WuJEOSbjqlyK+FobSds8FEUbLeooZzFgzrAksOE0FD4pRhOLH4i0/aHBfPI3S3t/WwUopVQb2yw+tWWWUK+h06/+6FqE648mgHcEKmIlFdNryx8mOUG0kpixrOH0dRYwsGZr6aHg6uOvLCRPQm7znEqZFirrzDctb8SL3PaOmgJHaKS773cg3G8KX5dMdTImEV1FecQ4W7z6WiIQuLMmTYVg5FezqEGUUhdWfy8YJ2zsXtxiWL+pwmU2W3m9Coyk995AG+RtKksk=
 X-Forefront-Antispam-Report: CIP:199.43.4.23; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:rmmaillnx1.cadence.com; PTR:InfoDomainNonexistent;
  CAT:NONE;
- SFS:(4636009)(396003)(136003)(376002)(39860400002)(346002)(36092001)(46966005)(966005)(2616005)(70586007)(70206006)(36756003)(83380400001)(5660300002)(54906003)(110136005)(316002)(6666004)(42186006)(36906005)(82310400003)(26005)(426003)(186003)(81166007)(478600001)(356005)(4326008)(107886003)(336012)(7416002)(8676002)(82740400003)(8936002)(2906002)(86362001)(47076004)(921005)(2101003)(83996005);
+ SFS:(4636009)(136003)(39860400002)(396003)(376002)(346002)(36092001)(46966005)(107886003)(186003)(5660300002)(82310400003)(426003)(54906003)(356005)(7416002)(36756003)(26005)(6666004)(2616005)(110136005)(42186006)(316002)(36906005)(47076004)(81166007)(86362001)(478600001)(336012)(70586007)(70206006)(921005)(82740400003)(83380400001)(4326008)(8676002)(8936002)(2906002)(2101003)(83996005);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 14:03:22.3261 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f5bfab3-3786-489a-b13e-08d89794320c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 14:03:22.0760 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b3ee1fd-b965-4e89-866c-08d8979431e6
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9; Ip=[199.43.4.23];
  Helo=[rmmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT052.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM12FT040.eop-nam12.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR07MB3426
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB6476
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-12-03_07:2020-12-03,
  2020-12-03 signatures=0
@@ -130,7 +133,7 @@ X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check
  suspectscore=0 malwarescore=0 phishscore=0 clxscore=1015 bulkscore=0
  lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2012030085
-X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:33 +0000
+X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,46 +153,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series add bus format negotiation support for Cadence MHDP8546 bridge driver.
+Modify atomic_get_input_bus_format function to return input formats
+supported instead of using hardcoded value.
 
-The patch series has four patches in the below sequence:
-1. drm: bridge: cdns-mhdp8546: Modify atomic_get_input_bus_format bridge function.
-   Return all the input formats supported.
-2. drm: bridge: cdns-mhdp8546: Remove setting of bus format using connector info 
-   Remove the bus format configuration using connector info structure.
-3. drm: bridge: cdns-mhdp8546: Retrieve the pixel format and bpc based on bus format 
-   Get the pixel format and bpc based on negotiated output bus format.
+Signed-off-by: Yuti Amonkar <yamonkar@cadence.com>
+---
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 83 +++++++++++++++++--
+ 1 file changed, 74 insertions(+), 9 deletions(-)
 
-This patch series is dependent on tidss series [1] for the new connector model support.
-
-[1]
-https://patchwork.kernel.org/project/dri-devel/cover/20201201121830.29704-1-nikhil.nd@ti.com/
-
-Version History:
-
-v3:
- - Modify the atomic_get_input_bus_fmts to return the MEDIA_BUS_FMT_RGB121212_1X36
-   as default format.along as tidss currently supports only this format.
-
-v2:
- - Remove the Add output bus format negotiation patch from the series, 
-   as we use ouput format as MEDIA_BUS_FMT_FIXED and that is  the 
-   default value if atomic_get_output_bus_fmts function is not implemented.
- - Return NULL if output format is not MEDIA_BUS_FMT_FIXED.
- - Return the supported color formats based on the display info structure.
-
-
-Yuti Amonkar (3):
-  drm: bridge: cdns-mhdp8546: Modify atomic_get_input_bus_format bridge
-    function
-  drm: bridge: cdns-mhdp8546: Remove setting of bus format using
-    connector info
-  drm: bridge: cdns-mhdp8546: Retrieve the pixel format and bpc based on
-    bus format
-
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 171 ++++++++++++++----
- 1 file changed, 138 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+index d0ed950f4f87..5ef6adb8bc82 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+@@ -2095,27 +2095,92 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
+ 	return &cdns_mhdp_state->base;
+ }
+ 
++#define MAX_INPUT_FORMAT 11
++
+ static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
+-				      struct drm_bridge_state *bridge_state,
+-				      struct drm_crtc_state *crtc_state,
+-				      struct drm_connector_state *conn_state,
+-				      u32 output_fmt,
+-				      unsigned int *num_input_fmts)
+-{
++					 struct drm_bridge_state *bridge_state,
++					 struct drm_crtc_state *crtc_state,
++					 struct drm_connector_state *conn_state,
++					 u32 output_fmt,
++					 unsigned int *num_input_fmts)
++{
++	struct drm_connector *conn = conn_state->connector;
++	struct drm_display_info *info = &conn->display_info;
+ 	u32 *input_fmts;
+ 	u32 default_bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
++	unsigned int i = 0;
+ 
+ 	*num_input_fmts = 0;
+ 
+ 	if (output_fmt != MEDIA_BUS_FMT_FIXED)
+ 		return NULL;
+ 
+-	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
++	input_fmts = kcalloc(MAX_INPUT_FORMAT,
++			     sizeof(*input_fmts), GFP_KERNEL);
+ 	if (!input_fmts)
+ 		return NULL;
+ 
+-	*num_input_fmts = 1;
+-	input_fmts[0] = default_bus_format;
++	input_fmts[i++] = default_bus_format;
++
++	if (info->color_formats & DRM_COLOR_FORMAT_RGB444) {
++		if (info->bpc == 16) {
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB161616_1X48;
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++		}
++
++		if (info->bpc == 12) {
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++		}
++
++		if (info->bpc == 10) {
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB101010_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++		}
++
++		input_fmts[i++] = MEDIA_BUS_FMT_RGB888_1X24;
++	}
++
++	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB444) {
++		if (info->bpc == 16) {
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV16_1X48;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++		}
++
++		if (info->bpc == 12) {
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV12_1X36;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++		}
++
++		if (info->bpc == 10) {
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV10_1X30;
++			input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++		}
++
++		input_fmts[i++] = MEDIA_BUS_FMT_YUV8_1X24;
++	}
++
++	if (info->color_formats & DRM_COLOR_FORMAT_YCRCB422) {
++		if (info->bpc == 12) {
++			input_fmts[i++] = MEDIA_BUS_FMT_UYVY12_1X24;
++			input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
++			input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++		}
++
++		if (info->bpc == 10) {
++			input_fmts[i++] = MEDIA_BUS_FMT_UYVY10_1X20;
++			input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++		}
++
++		input_fmts[i++] = MEDIA_BUS_FMT_UYVY8_1X16;
++	}
++
++	*num_input_fmts = i;
++
+ 	return input_fmts;
+ }
+ 
 -- 
 2.17.1
 
