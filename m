@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65812CE9C5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6B862CE9B7
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37BAA6EC6D;
-	Fri,  4 Dec 2020 08:33:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDAF86E157;
+	Fri,  4 Dec 2020 08:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8709E6E0AA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 09:05:54 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cmqg60x3Qz15Ws1;
- Thu,  3 Dec 2020 17:05:22 +0800 (CST)
+Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C43C6E0BE
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 09:47:10 +0000 (UTC)
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CmrZm1TKNz782q;
+ Thu,  3 Dec 2020 17:46:40 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 3 Dec 2020 17:05:30 +0800
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 3 Dec 2020 17:47:04 +0800
 From: Tian Tao <tiantao6@hisilicon.com>
 To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/hisilicon: Deletted the entire file hibmc_ttm.c
-Date: Thu, 3 Dec 2020 17:05:47 +0800
-Message-ID: <1606986347-54007-1-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH v2] drm/hisilicon: Delete the entire file hibmc_ttm.c
+Date: Thu, 3 Dec 2020 17:47:21 +0800
+Message-ID: <1606988841-1373-1-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
@@ -48,11 +48,15 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Deletted the entire file hibmc_ttm.c. drmm_vram_helper_init() can be
+Delete the entire file hibmc_ttm.c. drmm_vram_helper_init() can be
 called directly from hibmc_load(). hibmc_dumb_create() and
 hibmc_mode_funcs can go to hibmc_drm_drv.c
 
+v2:
+change Deletted to Delete
+
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
  drivers/gpu/drm/hisilicon/hibmc/Makefile        |  2 +-
  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 21 ++++++++++-
