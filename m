@@ -1,46 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C132CCEAC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 06:32:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF07F2CCEDD
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 06:57:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF29A6E97D;
-	Thu,  3 Dec 2020 05:32:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79E4C6E834;
+	Thu,  3 Dec 2020 05:57:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
- [209.85.221.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6786E97A;
- Thu,  3 Dec 2020 05:32:45 +0000 (UTC)
-Received: by mail-vk1-f195.google.com with SMTP id e5so143514vkd.4;
- Wed, 02 Dec 2020 21:32:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wA1b9A9EUPLRGe8RJxQwQAdWvMshGblOc4esYqWRa/c=;
- b=UL4KhnAbV3OZHK3VU0YTNS8HwR8Bng7HRlvbYOTK5UIQUDLCcX6C3hKz+66RxDMcjO
- eEc57bPbRaIrC6f+tSl9P1K7VyxIaJVxF55+Zgy6FVUU1wwiEMMAc2DeWZwLwN7yeoBx
- 9Xkl6PywiyIHonuJd9Tcwz4YgE5DIZ3sd0Uo7snjYIaWGVTpYPnk0IwYAk+ysyAT1fCo
- jqR90OeU+X97e3y/ZffAEZpBsAA9HwY/xk29Q0SWEwVm+H4KEdzEcEGin26bL55Ncr79
- 7Pq+HCgAhbeqJhSCImpQ6ahucVM2q1cmuXqw0116edaODgcfw0EbINLVTGez9VDXwH+t
- gN/A==
-X-Gm-Message-State: AOAM5303UR3Emkf705oSQVb+BdBX9oS1+CxlLxYVVpBrcVsdgsSK7KEJ
- Ejz7MtA1cUhRY286nUQJ3q6dtteJR7kuxBS0TOI=
-X-Google-Smtp-Source: ABdhPJzrgCPbCkQrp1O+EjETCBTW1fcDvmIkvtDkh7hDu4X8dJI0fUOJI+akiL0Vi8enVSxXMj9nX5Pb8FzB75BXODs=
-X-Received: by 2002:ac5:c995:: with SMTP id e21mr743879vkm.5.1606973565149;
- Wed, 02 Dec 2020 21:32:45 -0800 (PST)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 662966E834
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 05:57:50 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B6804ABCE;
+ Thu,  3 Dec 2020 05:57:48 +0000 (UTC)
+Subject: Re: [PATCH] drm/hisilicon: Use managed VRAM-helper initialization
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1606964953-24309-1-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <7baf0a61-bef8-e847-afd2-3a1d05875cdf@suse.de>
+Date: Thu, 3 Dec 2020 06:57:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <5d3e93cb-1a95-589c-71ed-2413932884d5@telusplanet.net>
- <CAPM=9tw8jSy-uapN-VY5v_+rm6awGdmMzyy_ArBUoXEPhqk9ZQ@mail.gmail.com>
-In-Reply-To: <CAPM=9tw8jSy-uapN-VY5v_+rm6awGdmMzyy_ArBUoXEPhqk9ZQ@mail.gmail.com>
-From: Ilia Mirkin <imirkin@alum.mit.edu>
-Date: Thu, 3 Dec 2020 00:32:34 -0500
-Message-ID: <CAKb7UvhUmMrFchhvp6446TNaPVMt9Xv-kUsiNrCFqx4jNuYfrA@mail.gmail.com>
-Subject: Re: [Nouveau] Nouveau video --- [ cut here ] ----- crash dump
- 5.10.0-rc6
-To: Dave Airlie <airlied@gmail.com>
+In-Reply-To: <1606964953-24309-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,114 +41,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau <Nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Ben Skeggs <skeggsb@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, bob <gillb4@telusplanet.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1144440080=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unfortunately this isn't a crash, but rather a warning that things are
-timing out. By the time you get this, the display is most likely hung.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1144440080==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="u1SpjsDYRN3Hc6zNiGVIKjVTnIrTErLNb"
 
-Was there anything before this, e.g. an error state dump perhaps?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--u1SpjsDYRN3Hc6zNiGVIKjVTnIrTErLNb
+Content-Type: multipart/mixed; boundary="GOyPcIWYUn6LwumklnAr7qdZcUdyNCe3H";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <7baf0a61-bef8-e847-afd2-3a1d05875cdf@suse.de>
+Subject: Re: [PATCH] drm/hisilicon: Use managed VRAM-helper initialization
+References: <1606964953-24309-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1606964953-24309-1-git-send-email-tiantao6@hisilicon.com>
 
-What GPU are you using, what displays, and how are they connected?
-What kind of userspace is running here? X or a Wayland compositor (or
-something else entirely)?
+--GOyPcIWYUn6LwumklnAr7qdZcUdyNCe3H
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 3, 2020 at 12:13 AM Dave Airlie <airlied@gmail.com> wrote:
->
-> cc'ing Ben + nouveau
->
-> On Thu, 3 Dec 2020 at 14:59, bob <gillb4@telusplanet.net> wrote:
-> >
-> > Hello.  I have a crash dump for:
-> >
-> > $ uname -a
-> > Linux freedom 5.10.0-rc6 #1 SMP Sun Nov 29 17:26:13 MST 2020 x86_64
-> > x86_64 x86_64 GNU/Linux
-> >
-> > Occasionally when this dumps it likes to lock up the computer, but I
-> > caught it this time.
-> >
-> > Also video likes to flicker a lot.   Nouveau has been iffy since kernel
-> > 5.8.0.
-> >
-> > This isn't the only dump, it dumped probably 50 times.  If you are
-> > really desperate for all of it,
-> >
-> > reply to me directly as I'm not on the mailing list.  Here is one of them.
-> >
-> > [39019.426580] ------------[ cut here ]------------
-> > [39019.426589] WARNING: CPU: 6 PID: 14136 at
-> > drivers/gpu/drm/nouveau/dispnv50/disp.c:211 nv50_dmac_wait+0x1e1/0x230
-> > [39019.426590] Modules linked in: mt2131 s5h1409 fuse tda8290 tuner
-> > cx25840 rt2800usb rt2x00usb rt2800lib snd_hda_codec_analog
-> > snd_hda_codec_generic ledtrig_audio rt2x00lib binfmt_misc
-> > intel_powerclamp coretemp cx23885 mac80211 tda18271 altera_stapl
-> > videobuf2_dvb m88ds3103 tveeprom cx2341x dvb_core rc_core i2c_mux
-> > snd_hda_codec_hdmi videobuf2_dma_sg videobuf2_memops videobuf2_v4l2
-> > snd_hda_intel videobuf2_common snd_intel_dspcfg kvm_intel snd_hda_codec
-> > videodev snd_hda_core kvm mc snd_hwdep snd_pcm_oss snd_mixer_oss
-> > irqbypass snd_pcm cfg80211 snd_seq_dummy snd_seq_midi snd_seq_oss
-> > snd_seq_midi_event snd_rawmidi snd_seq intel_cstate snd_seq_device
-> > serio_raw snd_timer input_leds nfsd libarc4 snd asus_atk0110 i7core_edac
-> > soundcore i5500_temp auth_rpcgss nfs_acl lockd grace sch_fq_codel sunrpc
-> > parport_pc ppdev lp parport ip_tables x_tables btrfs blake2b_generic
-> > libcrc32c xor zstd_compress raid6_pq dm_mirror dm_region_hash dm_log
-> > pata_acpi pata_marvell hid_generic usbhid hid psmouse firewire_ohci
-> > [39019.426650]  firewire_core crc_itu_t i2c_i801 ahci sky2 libahci
-> > i2c_smbus lpc_ich
-> > [39019.426658] CPU: 6 PID: 14136 Comm: kworker/u16:0 Tainted: G        W
-> > I       5.10.0-rc6 #1
-> > [39019.426659] Hardware name: System manufacturer System Product
-> > Name/P6T DELUXE, BIOS 2209    09/21/2010
-> > [39019.426662] Workqueue: events_unbound nv50_disp_atomic_commit_work
-> > [39019.426665] RIP: 0010:nv50_dmac_wait+0x1e1/0x230
-> > [39019.426667] Code: 8d 48 04 48 89 4a 68 c7 00 00 00 00 20 49 8b 46 38
-> > 41 c7 86 20 01 00 00 00 00 00 00 49 89 46 68 e8 e4 fc ff ff e9 76 fe ff
-> > ff <0f> 0b b8 92 ff ff ff e9 ed fe ff ff 49 8b be 80 00 00 00 e8 c7 fc
-> > [39019.426668] RSP: 0018:ffffb79d028ebd48 EFLAGS: 00010282
-> > [39019.426670] RAX: ffffffffffffff92 RBX: 000000000000000d RCX:
-> > 0000000000000000
-> > [39019.426671] RDX: ffffffffffffff92 RSI: ffffb79d028ebc88 RDI:
-> > ffffb79d028ebd28
-> > [39019.426671] RBP: ffffb79d028ebd48 R08: 0000000000000000 R09:
-> > ffffb79d028ebc58
-> > [39019.426672] R10: 0000000000000030 R11: 00000000000011c4 R12:
-> > 00000000fffffffb
-> > [39019.426673] R13: ffffa05fc1ebd368 R14: ffffa05fc1ebd3a8 R15:
-> > ffffa05fc2425000
-> > [39019.426675] FS:  0000000000000000(0000) GS:ffffa061f3d80000(0000)
-> > knlGS:0000000000000000
-> > [39019.426676] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [39019.426677] CR2: 00007fb2d58e0000 CR3: 000000026280a000 CR4:
-> > 00000000000006e0
-> > [39019.426678] Call Trace:
-> > [39019.426685]  base827c_image_set+0x2f/0x1d0
-> > [39019.426687]  nv50_wndw_flush_set+0x89/0x1c0
-> > [39019.426688]  nv50_disp_atomic_commit_tail+0x4e7/0x7e0
-> > [39019.426693]  process_one_work+0x1d4/0x370
-> > [39019.426695]  worker_thread+0x4a/0x3b0
-> > [39019.426697]  ? process_one_work+0x370/0x370
-> > [39019.426699]  kthread+0xfe/0x140
-> > [39019.426701]  ? kthread_park+0x90/0x90
-> > [39019.426704]  ret_from_fork+0x22/0x30
-> > [39019.426706] ---[ end trace d512d675211c738c ]---
-> > [39021.426751] ------------[ cut here ]------------
-> >
-> >
-> > Thanks in advance,
-> >
-> > Bob
-> >
-> _______________________________________________
-> Nouveau mailing list
-> Nouveau@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/nouveau
+Hi
+
+Am 03.12.20 um 04:09 schrieb Tian Tao:
+> updated to use drmm_vram_helper_init()
+>=20
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+As a good follow-up patch, I would suggest to get rig of the entire file =
+
+hibmc_ttm.c. drmm_vram_helper_init() can be called directly from=20
+hibmc_load(). hibmc_dumb_create() and hibmc_mode_funcs can go to=20
+hibmc_drm_drv.c.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  1 -
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  1 -
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c     | 19 +++-------------=
+---
+>   3 files changed, 3 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index 8020604..5aea2e9 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -249,7 +249,6 @@ static int hibmc_unload(struct drm_device *dev)
+>  =20
+>   	pci_disable_msi(dev->pdev);
+>   	hibmc_kms_fini(priv);
+> -	hibmc_mm_fini(priv);
+>   	dev->dev_private =3D NULL;
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> index 7e0c756..2786de5 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> @@ -64,7 +64,6 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
+>   int hibmc_vdac_init(struct hibmc_drm_private *priv);
+>  =20
+>   int hibmc_mm_init(struct hibmc_drm_private *hibmc);
+> -void hibmc_mm_fini(struct hibmc_drm_private *hibmc);
+>   int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+>   		      struct drm_mode_create_dumb *args);
+>   int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connect=
+or *connector);
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/=
+drm/hisilicon/hibmc/hibmc_ttm.c
+> index e84fb81..892d566 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+> @@ -23,15 +23,12 @@
+>  =20
+>   int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+>   {
+> -	struct drm_vram_mm *vmm;
+>   	int ret;
+>   	struct drm_device *dev =3D &hibmc->dev;
+>  =20
+> -	vmm =3D drm_vram_helper_alloc_mm(dev,
+> -				       pci_resource_start(dev->pdev, 0),
+> -				       hibmc->fb_size);
+> -	if (IS_ERR(vmm)) {
+> -		ret =3D PTR_ERR(vmm);
+> +	ret =3D drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
+> +				    hibmc->fb_size);
+> +	if (ret) {
+>   		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
+>   		return ret;
+>   	}
+> @@ -39,16 +36,6 @@ int hibmc_mm_init(struct hibmc_drm_private *hibmc)
+>   	return 0;
+>   }
+>  =20
+> -void hibmc_mm_fini(struct hibmc_drm_private *hibmc)
+> -{
+> -	struct drm_device *dev =3D &hibmc->dev;
+> -
+> -	if (!dev->vram_mm)
+> -		return;
+> -
+> -	drm_vram_helper_release_mm(dev);
+> -}
+> -
+>   int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
+>   		      struct drm_mode_create_dumb *args)
+>   {
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--GOyPcIWYUn6LwumklnAr7qdZcUdyNCe3H--
+
+--u1SpjsDYRN3Hc6zNiGVIKjVTnIrTErLNb
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/IflsFAwAAAAAACgkQlh/E3EQov+CP
+PQ//cjecoEHrzdZ8LnQJiFRKZf7AbsBkUZ/97lsnbGFBPPHPfls3fG9vW9m4maAn0o1n6esiRMgC
+9eB1aA3aZKaw7unXcBCh/8NzfiLDFbihpveV30f584zlU3+cm5MBcfgjb8HTS5ThC3/xPBJ6E1/j
+L9ClTB2R7YA08JsPn9T+Ge7dujYSg7IJyidWZY4w2vfpl0zFV7qy5W8CyQR9orNxsNCWekGYH02f
+OnhHnh7u+Iw1ByVFkPxA5vgLiRisl8A/Zfk9MZ41rqz4bQ+qb0Xi5EdhQpufrY2zhnjxj4mmkA2f
+2xJmhMRMm5D1OK5R++Rtyu87pvFfcb/omst9WF9SER9axDh8wrD5Ib8u6u2BmvYhwFqoBkdfuQDR
+IfpoN3aK9do0yGpaV/cl1UO3r7ugWOy/krMiEwT0d5FKgsv+vI7YQX+gWGHFMvLyKUKUJS4l1BEl
++hEzKBTh3nmBn2XxzoOFTiJZnBbmiRZkbMCw/+bUY6WXdj0VvLuJrNunbQvyldrg3qLz0flIsj+/
+iIxqTo9bAJohL7IHSMCpcoDL7mhXUNrRrqKljVugjtsWcO7YtJtzBsPqoLetUrSU2ljYrEWFGWQJ
+MqAFYioz7FnsH87aF3Qge5xE3RmUZ4iUoOQ5KDULhwUpTlgtjF6/6bN9XNncepVfrUjESFs7LTkL
+7Tg=
+=BnE5
+-----END PGP SIGNATURE-----
+
+--u1SpjsDYRN3Hc6zNiGVIKjVTnIrTErLNb--
+
+--===============1144440080==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1144440080==--
