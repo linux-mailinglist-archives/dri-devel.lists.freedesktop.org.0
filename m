@@ -2,35 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8125B2CE9D9
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244942CE9DA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:35:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580E76EC75;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DA3A6EC78;
 	Fri,  4 Dec 2020 08:33:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 034E16E02F
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 15:38:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8A311063;
- Thu,  3 Dec 2020 07:38:07 -0800 (PST)
-Received: from [10.57.31.242] (unknown [10.57.31.242])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 304173F718;
- Thu,  3 Dec 2020 07:38:05 -0800 (PST)
-Subject: Re: [PATCH v2 2/5] thermal: devfreq_cooling: get a copy of device
- status
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D0F6E02F
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 15:40:58 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id c198so3184639wmd.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Dec 2020 07:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kCQS8T9IzaK7qsrPFGKkQow9sRMix1gp13CfkJxVIA0=;
+ b=VXideQU4m746yyi4UAyDiWJeEJZT5L3Vw5k/xn06MXy3jlMwGBHa+GGn7QqEtNPCER
+ FDdVWuKd+KJClvrz0z+GKBzLzpx8ZWuHikTch0FrWWRcqlwY7DqoY/6iVFSHbOJPMxqP
+ 6OXWx6S0Hb13t0jCiI+Tugt06DUWS8vDj5G6LhXFoMBi3LaIxKfNDpqhOwTIj6au4KWH
+ OP/ndNlq6g46XazbTSibOJlf6GcDeLIkDHGClUaaKQGlHWXDg+0KbY20RPNdp/ZrfUak
+ 7qzNy098gY1pCT+PZXnk6/8Mu8jcP+oFn62Pt8LGdy2t3oZBmhPp2RyTaC4NP6EW2fF6
+ 2Zwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kCQS8T9IzaK7qsrPFGKkQow9sRMix1gp13CfkJxVIA0=;
+ b=QzgKQRManb9ZLYP0BttYltp/8vsQZUUgYLS62fVgc1wbHwKXs2oBAjQ4bZZa4l78cc
+ W5FW9YbigOOshMOGd9059tjl4lm2RmaEYfb/ZRSlRO6E4/zIEtSVhL/CaCsj2vf6Jc/y
+ bOoC/SicW0Ni0s7EzAnIyi1SihwQ1eXk6QYQgej1dlHxrm5nHYS0KYgPK8jrjB5+oTzv
+ Dff4yJPqvUTyvJL9vJ6f6oOxWzf0jUnt432VkDGw68DzMpCBE7C7qtXFLsgLZx0R0YqI
+ wzNNefWu8jsu7dvW1uNW4wKOmymQX+C0zM25kXVpXb2F5KJpk++HZOsevUrJQl/WgINz
+ vxUg==
+X-Gm-Message-State: AOAM530YcH5Npd+wAWBtPVOr26NliC1zKos5XLhmZGdDzIHFXTwZg8f7
+ qNU+u+HRAsqtGDWQ7mXRXPLCQw==
+X-Google-Smtp-Source: ABdhPJzLB9zF1QadPDaL6kyXpahnC6RjyhmYQddcNPWEmYzU80qn43ICc2D9JRNcwrSz4Uv2vjnDsA==
+X-Received: by 2002:a1c:5605:: with SMTP id k5mr3976889wmb.99.1607010057394;
+ Thu, 03 Dec 2020 07:40:57 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:1c7d:2d7a:9709:b9a2?
+ ([2a01:e34:ed2f:f020:1c7d:2d7a:9709:b9a2])
+ by smtp.googlemail.com with ESMTPSA id e27sm2710605wrc.9.2020.12.03.07.40.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 03 Dec 2020 07:40:56 -0800 (PST)
+Subject: Re: [PATCH v2 3/5] thermal: devfreq_cooling: add new registration
+ functions with Energy Model
+To: Lukasz Luba <lukasz.luba@arm.com>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
 References: <20201118120358.17150-1-lukasz.luba@arm.com>
- <20201118120358.17150-3-lukasz.luba@arm.com>
- <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <d9906ed8-e3bf-5e42-2e43-09071848ae48@arm.com>
-Date: Thu, 3 Dec 2020 15:38:03 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <20201118120358.17150-4-lukasz.luba@arm.com>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+Message-ID: <2eb16ccf-f635-af2d-616f-9cd0cec88ca0@linaro.org>
+Date: Thu, 3 Dec 2020 16:40:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
+In-Reply-To: <20201118120358.17150-4-lukasz.luba@arm.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -45,180 +74,145 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
- ionela.voinescu@arm.com, orjan.eide@arm.com
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: amit.kucheria@verdurent.com, airlied@linux.ie, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, rui.zhang@intel.com, ionela.voinescu@arm.com,
+ orjan.eide@arm.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 12/3/20 1:09 PM, Daniel Lezcano wrote:
-> On 18/11/2020 13:03, Lukasz Luba wrote:
->> Devfreq cooling needs to now the correct status of the device in order
->> to operate. Do not rely on Devfreq last_status which might be a stale data
->> and get more up-to-date values of the load.
->>
->> Devfreq framework can change the device status in the background. To
->> mitigate this situation make a copy of the status structure and use it
->> for internal calculations.
->>
->> In addition this patch adds normalization function, which also makes sure
->> that whatever data comes from the device, it is in a sane range.
->>
->> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
->> ---
->>   drivers/thermal/devfreq_cooling.c | 52 +++++++++++++++++++++++++------
->>   1 file changed, 43 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
->> index 659c0143c9f0..925523694462 100644
->> --- a/drivers/thermal/devfreq_cooling.c
->> +++ b/drivers/thermal/devfreq_cooling.c
->> @@ -227,20 +227,46 @@ static inline unsigned long get_total_power(struct devfreq_cooling_device *dfc,
->>   							       voltage);
->>   }
->>   
->> +static void _normalize_load(struct devfreq_dev_status *status)
->> +{
->> +	/* Make some space if needed */
->> +	if (status->busy_time > 0xffff) {
->> +		status->busy_time >>= 10;
->> +		status->total_time >>= 10;
->> +	}
->> +
->> +	if (status->busy_time > status->total_time)
->> +		status->busy_time = status->total_time;
-> 
-> How the condition above is possible?
-
-They should, be checked by the driver, but I cannot trust
-and have to check for all corner cases: (div by 0, overflow
-one of them, etc). The busy_time and total_time are unsigned long,
-which means 4B on 32bit machines.
-If these values are coming from device counters, which count every
-busy cycle and total cycles of a clock of a device running at e.g.
-1GHz they would overflow every ~4s.
-
-Normally IPA polling are 1s and 100ms, it's platform specific. But there
-are also 'empty' periods when IPA sees temperature very low and does not
-even call the .get_requested_power() callbacks for the cooling devices,
-just grants max freq to all. This is problematic. I am investigating it
-and will propose a solution for IPA soon.
-
-I would avoid all of this if devfreq core would have default for all
-devices a reliable polling timer... Let me check some possibilities also
-for this case.
-
-> 
->> +	status->busy_time *= 100;
->> +	status->busy_time /= status->total_time ? : 1;
->> +
->> +	/* Avoid division by 0 */
->> +	status->busy_time = status->busy_time ? : 1;
->> +	status->total_time = 100;
-> 
-> Why not base the normalization on 1024? and use an intermediate u64.
-
-You are the 2nd reviewer who is asking this. I tried to keep 'load' as
-in range [0, 100] since we also have 'load' in cpufreq cooling in this
-range. Maybe I should switch to 1024 (Ionela was also asking for this).
-
-> 
-> For example:
-> 
-> static u32 _normalize_load(struct devfreq_dev_status *status)
-> {
-> 	u64 load = 0;
-> 
-> 	/* Prevent divison by zero */
-> 	if (!status->busy_time)
-> 		return 0;
-> 
-> 	/*
-> 	 * Assuming status->total_time is always greater or equal
-> 	 * to status->busy_time, it can not be equal to zero because
-> 	 * of the test above
-> 	 */
-> 	load = status->busy_time * 1024;
-> 	load /= status->total_time;
-
-I wanted to avoid any divisions which involve 64bit var on 32bit
-machine.
-
-> 
-> 	/*
-> 	 * load is always [1..1024[, so it can not be truncated by a
-> 	 * u64 -> u32 coercive cast
-> 	 */
-> 	return (u32)load;
-> }
-> 
-> 
->> +}
->>   
->>   static int devfreq_cooling_get_requested_power(struct thermal_cooling_device *cdev,
->>   					       u32 *power)
->>   {
->>   	struct devfreq_cooling_device *dfc = cdev->devdata;
->>   	struct devfreq *df = dfc->devfreq;
->> -	struct devfreq_dev_status *status = &df->last_status;
->> +	struct devfreq_dev_status status;
->>   	unsigned long state;
->> -	unsigned long freq = status->current_frequency;
->> +	unsigned long freq;
->>   	unsigned long voltage;
->>   	u32 dyn_power = 0;
->>   	u32 static_power = 0;
->>   	int res;
->>   
->> +	mutex_lock(&df->lock);
->> +	res = df->profile->get_dev_status(df->dev.parent, &status);
->> +	mutex_unlock(&df->lock);
->> +	if (res)
->> +		return res;
->> +
->> +	freq = status.current_frequency;
->> +
->>   	state = freq_get_state(dfc, freq);
->>   	if (state == THERMAL_CSTATE_INVALID) {
->>   		res = -EAGAIN;
->> @@ -268,16 +294,18 @@ static int devfreq_cooling_get_requested_power(struct thermal_cooling_device *cd
->>   	} else {
->>   		dyn_power = dfc->power_table[state];
->>   
->> +		_normalize_load(&status);
-> 
-> 		load = _normalize_load(&status);
-> 
->> +
->>   		/* Scale dynamic power for utilization */
->> -		dyn_power *= status->busy_time;
->> -		dyn_power /= status->total_time;
->> +		dyn_power *= status.busy_time;
->> +		dyn_power /= status.total_time;
-> 
-> 		/*
-> 		 * May be change dyn_power to a u64 to prevent overflow
-> 		 * when multiplied by 'load'
-> 		 */
-> 		dyn_power = (dyn_power * load) / 1024;
-
-dyn_power value from EM should fit in 16bit [1], so we should be safe.
-
-I will experiment with the 1024 code and check some corner cases.
-
-Thank you Daniel for the review!
-
-Regards,
-Lukasz
-
-[1] 
-https://elixir.bootlin.com/linux/v5.10-rc5/source/kernel/power/energy_model.c#L135
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTgvMTEvMjAyMCAxMzowMywgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gVGhlIEVuZXJneSBNb2Rl
+bCAoRU0pIGZyYW1ld29yayBzdXBwb3J0cyBkZXZpY2VzIHN1Y2ggYXMgRGV2ZnJlcS4gQ3JlYXRl
+Cj4gbmV3IHJlZ2lzdHJhdGlvbiBmdW5jdGlvbnMgd2hpY2ggYXV0b21hdGljYWxseSByZWdpc3Rl
+ciBFTSBmb3IgdGhlIHRoZXJtYWwKPiBkZXZmcmVxX2Nvb2xpbmcgZGV2aWNlcy4gVGhpcyBwYXRj
+aCBwcmVwYXJlcyB0aGUgY29kZSBmb3IgY29taW5nIGNoYW5nZXMKPiB3aGljaCBhcmUgZ29pbmcg
+dG8gcmVwbGFjZSBvbGQgcG93ZXIgbW9kZWwgd2l0aCB0aGUgbmV3IEVNLgo+IAo+IFNpZ25lZC1v
+ZmYtYnk6IEx1a2FzeiBMdWJhIDxsdWthc3oubHViYUBhcm0uY29tPgo+IC0tLQo+ICBkcml2ZXJz
+L3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMgfCA5OSArKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKystCj4gIGluY2x1ZGUvbGludXgvZGV2ZnJlcV9jb29saW5nLmggICB8IDIyICsrKysrKysK
+PiAgMiBmaWxlcyBjaGFuZ2VkLCAxMjAgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+IAo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMgYi9kcml2ZXJz
+L3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPiBpbmRleCA5MjU1MjM2OTQ0NjIuLmIzNTQyNzE3
+NDJjNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPiAr
+KysgYi9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPiBAQCAtNTAsNiArNTAsOCBA
+QCBzdGF0aWMgREVGSU5FX0lEQShkZXZmcmVxX2lkYSk7Cj4gICAqIEBjYXBwZWRfc3RhdGU6CWlu
+ZGV4IHRvIGNvb2xpbmcgc3RhdGUgd2l0aCBpbiBkeW5hbWljIHBvd2VyIGJ1ZGdldAo+ICAgKiBA
+cmVxX21heF9mcmVxOglQTSBRb1MgcmVxdWVzdCBmb3IgbGltaXRpbmcgdGhlIG1heGltdW0gZnJl
+cXVlbmN5Cj4gICAqCQkJb2YgdGhlIGRldmZyZXEgZGV2aWNlLgo+ICsgKiBAZW06CQlFbmVyZ3kg
+TW9kZWwgZm9yIHRoZSBhc3NvY2lhdGVkIERldmZyZXEgZGV2aWNlCj4gKyAqIEBlbV9yZWdpc3Rl
+cmVkOglEZXZmcmVxIGNvb2xpbmcgcmVnaXN0ZXJlZCB0aGUgRU0gYW5kIHNob3VsZCBmcmVlIGl0
+Lgo+ICAgKi8KPiAgc3RydWN0IGRldmZyZXFfY29vbGluZ19kZXZpY2Ugewo+ICAJaW50IGlkOwo+
+IEBAIC02Myw2ICs2NSw4IEBAIHN0cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlIHsKPiAgCXUz
+MiByZXNfdXRpbDsKPiAgCWludCBjYXBwZWRfc3RhdGU7Cj4gIAlzdHJ1Y3QgZGV2X3BtX3Fvc19y
+ZXF1ZXN0IHJlcV9tYXhfZnJlcTsKPiArCXN0cnVjdCBlbV9wZXJmX2RvbWFpbiAqZW07CgpUaGlz
+IHBvaW50ZXIgaXMgbm90IG5lZWRlZCwgaXQgaXMgaW4gdGhlIHN0cnVjdCBkZXZpY2UuCgo+ICsJ
+Ym9vbCBlbV9yZWdpc3RlcmVkOwoKVGhlIGJvb2xlYW4gZW1fcmVnaXN0ZXJlZCBpcyBub3QgbmVl
+ZGVkIGJlY2F1c2Ugb2YgdGhlIHRlc3QgaW4gdGhlCmZ1bmN0aW9uIGVtX2Rldl91bnJlZ2lzdGVy
+X3BlcmZfZG9tYWluKCk6CgppZiAoSVNfRVJSX09SX05VTEwoZGV2KSB8fCAhZGV2LT5lbV9wZCkK
+ICAgICAgICAgICAgICAgIHJldHVybjsKCkxvZ2ljYWxseSBpZiB0aGUgJ2VtJyB3YXMgbm90IGlu
+aXRpYWxpemVkLCBpdCBtdXN0IGJlIE5VTEwsIHRoZQpjb3JyZXNwb25kaW5nIHN0cnVjdCBkZXZp
+Y2Ugd2FzIHplcm8tYWxsb2NhdGVkLgoKCj4gIH07Cj4gIAo+ICBzdGF0aWMgaW50IGRldmZyZXFf
+Y29vbGluZ19nZXRfbWF4X3N0YXRlKHN0cnVjdCB0aGVybWFsX2Nvb2xpbmdfZGV2aWNlICpjZGV2
+LAo+IEBAIC01ODMsMjIgKzU4NywxMTUgQEAgc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2Ug
+KmRldmZyZXFfY29vbGluZ19yZWdpc3RlcihzdHJ1Y3QgZGV2ZnJlcSAqZGYpCj4gIH0KPiAgRVhQ
+T1JUX1NZTUJPTF9HUEwoZGV2ZnJlcV9jb29saW5nX3JlZ2lzdGVyKTsKPiAgCj4gKy8qKgo+ICsg
+KiBkZXZmcmVxX2Nvb2xpbmdfZW1fcmVnaXN0ZXJfcG93ZXIoKSAtIFJlZ2lzdGVyIGRldmZyZXEg
+Y29vbGluZyBkZXZpY2Ugd2l0aAo+ICsgKgkJcG93ZXIgaW5mb3JtYXRpb24gYW5kIGF0dGVtcHQg
+dG8gcmVnaXN0ZXIgRW5lcmd5IE1vZGVsIChFTSkKPiArICogQGRmOgkJUG9pbnRlciB0byBkZXZm
+cmVxIGRldmljZS4KPiArICogQGRmY19wb3dlcjoJUG9pbnRlciB0byBkZXZmcmVxX2Nvb2xpbmdf
+cG93ZXIuCj4gKyAqIEBlbV9jYjoJQ2FsbGJhY2sgZnVuY3Rpb25zIHByb3ZpZGluZyB0aGUgZGF0
+YSBvZiB0aGUgRU0KPiArICoKPiArICogUmVnaXN0ZXIgYSBkZXZmcmVxIGNvb2xpbmcgZGV2aWNl
+IGFuZCBhdHRlbXB0IHRvIHJlZ2lzdGVyIEVuZXJneSBNb2RlbC4gVGhlCj4gKyAqIGF2YWlsYWJs
+ZSBPUFBzIG11c3QgYmUgcmVnaXN0ZXJlZCBmb3IgdGhlIGRldmljZS4KPiArICoKPiArICogSWYg
+QGRmY19wb3dlciBpcyBwcm92aWRlZCwgdGhlIGNvb2xpbmcgZGV2aWNlIGlzIHJlZ2lzdGVyZWQg
+d2l0aCB0aGUKPiArICogcG93ZXIgZXh0ZW5zaW9ucy4gSWYgQGVtX2NiIGlzIHByb3ZpZGVkIGl0
+IHdpbGwgYmUgY2FsbGVkIGZvciBlYWNoIE9QUCB0bwo+ICsgKiBjYWxjdWxhdGUgcG93ZXIgdmFs
+dWUgYW5kIGNvc3QuIElmIEBlbV9jYiBpcyBub3QgcHJvdmlkZWQgdGhlbiBzaW1wbGUgRW5lcmd5
+Cj4gKyAqIE1vZGVsIGlzIGdvaW5nIHRvIGJlIHVzZWQsIHdoaWNoIHJlcXVpcmVzICJkeW5hbWlj
+LXBvd2VyLWNvZWZmaWNpZW50IiBhCj4gKyAqIGRldmljZXRyZWUgcHJvcGVydHkuCj4gKyAqLwo+
+ICtzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqCj4gK2RldmZyZXFfY29vbGluZ19lbV9y
+ZWdpc3Rlcl9wb3dlcihzdHJ1Y3QgZGV2ZnJlcSAqZGYsCj4gKwkJCQkgIHN0cnVjdCBkZXZmcmVx
+X2Nvb2xpbmdfcG93ZXIgKmRmY19wb3dlciwKPiArCQkJCSAgc3RydWN0IGVtX2RhdGFfY2FsbGJh
+Y2sgKmVtX2NiKQo+ICt7Cj4gKwlzdHJ1Y3QgdGhlcm1hbF9jb29saW5nX2RldmljZSAqY2RldjsK
+PiArCXN0cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlICpkZmM7Cj4gKwlzdHJ1Y3QgZGV2aWNl
+X25vZGUgKm5wID0gTlVMTDsKPiArCXN0cnVjdCBkZXZpY2UgKmRldjsKPiArCWludCBucl9vcHAs
+IHJldDsKPiArCj4gKwlpZiAoSVNfRVJSX09SX05VTEwoZGYpKQo+ICsJCXJldHVybiBFUlJfUFRS
+KC1FSU5WQUwpOwo+ICsKPiArCWRldiA9IGRmLT5kZXYucGFyZW50OwoKV2h5IHRoZSBwYXJlbnQg
+PwoKPiArCj4gKwlpZiAoZW1fY2IpIHsKPiArCQlucl9vcHAgPSBkZXZfcG1fb3BwX2dldF9vcHBf
+Y291bnQoZGV2KTsKPiArCQlpZiAobnJfb3BwIDw9IDApIHsKPiArCQkJZGV2X2VycihkZXYsICJO
+byB2YWxpZCBPUFBzIGZvdW5kXG4iKTsKPiArCQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4g
+KwkJfQo+ICsKPiArCQlyZXQgPSBlbV9kZXZfcmVnaXN0ZXJfcGVyZl9kb21haW4oZGV2LCBucl9v
+cHAsIGVtX2NiLCBOVUxMLCBmYWxzZSk7Cj4gKwl9IGVsc2Ugewo+ICsJCXJldCA9IGRldl9wbV9v
+cHBfb2ZfcmVnaXN0ZXJfZW0oZGV2LCBOVUxMKTsKPiArCX0KPiArCj4gKwlpZiAocmV0KQo+ICsJ
+CWRldl93YXJuKGRldiwgIlVuYWJsZSB0byByZWdpc3RlciBFTSBmb3IgZGV2ZnJlcSBjb29saW5n
+IGRldmljZSAoJWQpXG4iLAo+ICsJCQkgcmV0KTsKPiArCj4gKwlpZiAoZGV2LT5vZl9ub2RlKQo+
+ICsJCW5wID0gb2Zfbm9kZV9nZXQoZGV2LT5vZl9ub2RlKTsKPiArCj4gKwljZGV2ID0gb2ZfZGV2
+ZnJlcV9jb29saW5nX3JlZ2lzdGVyX3Bvd2VyKG5wLCBkZiwgZGZjX3Bvd2VyKTsKPiArCj4gKwlp
+ZiAobnApCj4gKwkJb2Zfbm9kZV9wdXQobnApOz4gKwo+ICsJaWYgKElTX0VSUl9PUl9OVUxMKGNk
+ZXYpKSB7Cj4gKwkJaWYgKCFyZXQpCj4gKwkJCWVtX2Rldl91bnJlZ2lzdGVyX3BlcmZfZG9tYWlu
+KGRldik7Cj4gKwl9IGVsc2Ugewo+ICsJCWRmYyA9IGNkZXYtPmRldmRhdGE7Cj4gKwkJZGZjLT5l
+bV9yZWdpc3RlcmVkID0gIXJldDsKPiArCX0KPiArCj4gKwlyZXR1cm4gY2RldjsKPiArfQo+ICtF
+WFBPUlRfU1lNQk9MX0dQTChkZXZmcmVxX2Nvb2xpbmdfZW1fcmVnaXN0ZXJfcG93ZXIpOwo+ICsK
+PiArLyoqCj4gKyAqIGRldmZyZXFfY29vbGluZ19lbV9yZWdpc3RlcigpIC0gUmVnaXN0ZXIgZGV2
+ZnJlcSBjb29saW5nIGRldmljZSB0b2dldGhlcgo+ICsgKgkJCQl3aXRoIEVuZXJneSBNb2RlbC4K
+PiArICogQGRmOgkJUG9pbnRlciB0byBkZXZmcmVxIGRldmljZS4KPiArICogQGVtX2NiOglDYWxs
+YmFjayBmdW5jdGlvbnMgcHJvdmlkaW5nIHRoZSBkYXRhIG9mIHRoZSBFbmVyZ3kgTW9kZWwKPiAr
+ICoKPiArICogVGhpcyBmdW5jdGlvbiBhdHRlbXB0cyB0byByZWdpc3RlciBFbmVyZ3kgTW9kZWwg
+Zm9yIGRldmZyZXEgZGV2aWNlIGFuZCB0aGVuCj4gKyAqIHJlZ2lzdGVyIHRoZSBkZXZmcmVxIGNv
+b2xpbmcgZGV2aWNlLgo+ICsgKi8KPiArc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKgo+
+ICtkZXZmcmVxX2Nvb2xpbmdfZW1fcmVnaXN0ZXIoc3RydWN0IGRldmZyZXEgKmRmLCBzdHJ1Y3Qg
+ZW1fZGF0YV9jYWxsYmFjayAqZW1fY2IpCj4gK3sKPiArCXJldHVybiBkZXZmcmVxX2Nvb2xpbmdf
+ZW1fcmVnaXN0ZXJfcG93ZXIoZGYsIE5VTEwsIGVtX2NiKTsKPiArfQo+ICtFWFBPUlRfU1lNQk9M
+X0dQTChkZXZmcmVxX2Nvb2xpbmdfZW1fcmVnaXN0ZXIpOwo+ICsKPiAgLyoqCj4gICAqIGRldmZy
+ZXFfY29vbGluZ191bnJlZ2lzdGVyKCkgLSBVbnJlZ2lzdGVyIGRldmZyZXEgY29vbGluZyBkZXZp
+Y2UuCj4gICAqIEBjZGV2OiBQb2ludGVyIHRvIGRldmZyZXEgY29vbGluZyBkZXZpY2UgdG8gdW5y
+ZWdpc3Rlci4KPiArICoKPiArICogVW5yZWdpc3RlcnMgZGV2ZnJlcSBjb29saW5nIGRldmljZSBh
+bmQgcmVsYXRlZCBFbmVyZ3kgTW9kZWwgaWYgaXQgd2FzCj4gKyAqIHByZXNlbnQuCj4gICAqLwo+
+ICB2b2lkIGRldmZyZXFfY29vbGluZ191bnJlZ2lzdGVyKHN0cnVjdCB0aGVybWFsX2Nvb2xpbmdf
+ZGV2aWNlICpjZGV2KQo+ICB7Cj4gIAlzdHJ1Y3QgZGV2ZnJlcV9jb29saW5nX2RldmljZSAqZGZj
+Owo+ICsJc3RydWN0IGRldmljZSAqZGV2Owo+ICAKPiAtCWlmICghY2RldikKPiArCWlmIChJU19F
+UlJfT1JfTlVMTChjZGV2KSkKCldoeSB0aGlzIGFkZGl0aW9uYWwgSVNfRVJSIGNoZWNrID8KCj4g
+IAkJcmV0dXJuOwo+ICAKPiAgCWRmYyA9IGNkZXYtPmRldmRhdGE7Cj4gKwlkZXYgPSBkZmMtPmRl
+dmZyZXEtPmRldi5wYXJlbnQ7Cj4gIAo+ICAJdGhlcm1hbF9jb29saW5nX2RldmljZV91bnJlZ2lz
+dGVyKGRmYy0+Y2Rldik7Cj4gIAlpZGFfc2ltcGxlX3JlbW92ZSgmZGV2ZnJlcV9pZGEsIGRmYy0+
+aWQpOwo+ICAJZGV2X3BtX3Fvc19yZW1vdmVfcmVxdWVzdCgmZGZjLT5yZXFfbWF4X2ZyZXEpOwo+
+ICsKPiArCWlmIChkZmMtPmVtX3JlZ2lzdGVyZWQpCj4gKwkJZW1fZGV2X3VucmVnaXN0ZXJfcGVy
+Zl9kb21haW4oZGV2KTsKPiArCgpBcyBzdGF0ZWQgYmVmb3JlIGl0IGNhbiBiZSBjYWxsZWQgdW5j
+b25kaXRpb25hbGx5Cgo+ICAJa2ZyZWUoZGZjLT5wb3dlcl90YWJsZSk7Cj4gIAlrZnJlZShkZmMt
+PmZyZXFfdGFibGUpOwo+ICAKPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kZXZmcmVxX2Nv
+b2xpbmcuaCBiL2luY2x1ZGUvbGludXgvZGV2ZnJlcV9jb29saW5nLmgKPiBpbmRleCA5ZGYyZGZj
+YTY4ZGQuLjE5ODY4ZmI5MjJmMSAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2RldmZyZXFf
+Y29vbGluZy5oCj4gKysrIGIvaW5jbHVkZS9saW51eC9kZXZmcmVxX2Nvb2xpbmcuaAo+IEBAIC0x
+MSw2ICsxMSw3IEBACj4gICNkZWZpbmUgX19ERVZGUkVRX0NPT0xJTkdfSF9fCj4gIAo+ICAjaW5j
+bHVkZSA8bGludXgvZGV2ZnJlcS5oPgo+ICsjaW5jbHVkZSA8bGludXgvZW5lcmd5X21vZGVsLmg+
+Cj4gICNpbmNsdWRlIDxsaW51eC90aGVybWFsLmg+Cj4gIAo+ICAKPiBAQCAtNjUsNiArNjYsMTMg
+QEAgc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKgo+ICBvZl9kZXZmcmVxX2Nvb2xpbmdf
+cmVnaXN0ZXIoc3RydWN0IGRldmljZV9ub2RlICpucCwgc3RydWN0IGRldmZyZXEgKmRmKTsKPiAg
+c3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKmRldmZyZXFfY29vbGluZ19yZWdpc3Rlcihz
+dHJ1Y3QgZGV2ZnJlcSAqZGYpOwo+ICB2b2lkIGRldmZyZXFfY29vbGluZ191bnJlZ2lzdGVyKHN0
+cnVjdCB0aGVybWFsX2Nvb2xpbmdfZGV2aWNlICpkZmMpOwo+ICtzdHJ1Y3QgdGhlcm1hbF9jb29s
+aW5nX2RldmljZSAqCj4gK2RldmZyZXFfY29vbGluZ19lbV9yZWdpc3Rlcl9wb3dlcihzdHJ1Y3Qg
+ZGV2ZnJlcSAqZGYsCj4gKwkJCQkgIHN0cnVjdCBkZXZmcmVxX2Nvb2xpbmdfcG93ZXIgKmRmY19w
+b3dlciwKPiArCQkJCSAgc3RydWN0IGVtX2RhdGFfY2FsbGJhY2sgKmVtX2NiKTsKPiArc3RydWN0
+IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKgo+ICtkZXZmcmVxX2Nvb2xpbmdfZW1fcmVnaXN0ZXIo
+c3RydWN0IGRldmZyZXEgKmRmLAo+ICsJCQkgICAgc3RydWN0IGVtX2RhdGFfY2FsbGJhY2sgKmVt
+X2NiKTsKPiAgCj4gICNlbHNlIC8qICFDT05GSUdfREVWRlJFUV9USEVSTUFMICovCj4gIAo+IEBA
+IC04Nyw2ICs5NSwyMCBAQCBkZXZmcmVxX2Nvb2xpbmdfcmVnaXN0ZXIoc3RydWN0IGRldmZyZXEg
+KmRmKQo+ICAJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gIH0KPiAgCj4gK3N0YXRpYyBpbmxp
+bmUgc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKgo+ICtkZXZmcmVxX2Nvb2xpbmdfZW1f
+cmVnaXN0ZXJfcG93ZXIoc3RydWN0IGRldmZyZXEgKmRmLAo+ICsJCQkJICBzdHJ1Y3QgZGV2ZnJl
+cV9jb29saW5nX3Bvd2VyICpkZmNfcG93ZXIsCj4gKwkJCQkgIHN0cnVjdCBlbV9kYXRhX2NhbGxi
+YWNrICplbV9jYikKPiArewo+ICsJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7Cj4gK30KPiArCj4g
+K3N0YXRpYyBpbmxpbmUgc3RydWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKgo+ICtkZXZmcmVx
+X2Nvb2xpbmdfZW1fcmVnaXN0ZXIoc3RydWN0IGRldmZyZXEgKmRmLAlzdHJ1Y3QgZW1fZGF0YV9j
+YWxsYmFjayAqZW1fY2IpCj4gK3sKPiArCXJldHVybiBFUlJfUFRSKC1FSU5WQUwpOwo+ICt9Cj4g
+Kwo+ICBzdGF0aWMgaW5saW5lIHZvaWQKPiAgZGV2ZnJlcV9jb29saW5nX3VucmVnaXN0ZXIoc3Ry
+dWN0IHRoZXJtYWxfY29vbGluZ19kZXZpY2UgKmRmYykKPiAgewo+IAoKCi0tIAo8aHR0cDovL3d3
+dy5saW5hcm8ub3JnLz4gTGluYXJvLm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFS
+TSBTb0NzCgpGb2xsb3cgTGluYXJvOiAgPGh0dHA6Ly93d3cuZmFjZWJvb2suY29tL3BhZ2VzL0xp
+bmFybz4gRmFjZWJvb2sgfAo8aHR0cDovL3R3aXR0ZXIuY29tLyMhL2xpbmFyb29yZz4gVHdpdHRl
+ciB8CjxodHRwOi8vd3d3LmxpbmFyby5vcmcvbGluYXJvLWJsb2cvPiBCbG9nCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxp
+c3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNr
+dG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
