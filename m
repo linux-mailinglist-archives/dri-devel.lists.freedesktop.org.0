@@ -1,70 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677F12CD6C9
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 14:30:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3AC2CD66C
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Dec 2020 14:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 894DF6E9B8;
-	Thu,  3 Dec 2020 13:30:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E3B6E995;
+	Thu,  3 Dec 2020 13:13:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 16986 seconds by postgrey-1.36 at gabe;
- Thu, 03 Dec 2020 13:30:48 UTC
-Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD6066E9B8;
- Thu,  3 Dec 2020 13:30:48 +0000 (UTC)
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38hf2u099371;
- Thu, 3 Dec 2020 08:47:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=M+k/zGDQThbNKCjsn4dd82clzTq/I1N4YqLVvEgK2U8=;
- b=W9/M7hTPW+Ltz4AkDw8vKYMJgtVHnBvkVzh88+CCh2h9xAVrqI7sQgIArYvwVnNjk0oe
- zcw7hwCCgNkoeetyaC8Ohup4UjDO1jBvzeNod2Ym2L/MWbzweC+Hq0f9ip2Z9+jGWtVY
- xuZfNP8+3gi1KQvpnb3kB5TmkqY2XDTvfhgU6OZy0Cj/96/Wdk/XnLFYuFcJ6uCpu+I1
- 0h4oeUSB0sPaMA2MsXrRepMrcgLAT5s0cw/RguI0NmdiFaJMtqZqXYTzhFdJrfRj530v
- bWpiVf38Y54yxOoKOJAYAdwa8V2x68mtG8F0s1lgsuGJSR4h6uqwxCE84Fu+xO3fim3Q Hw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 353dyqvms4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 03 Dec 2020 08:47:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38eNqh133268;
- Thu, 3 Dec 2020 08:45:30 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 3540avq27e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 03 Dec 2020 08:45:29 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B38jR35001450;
- Thu, 3 Dec 2020 08:45:27 GMT
-Received: from mwanda (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 03 Dec 2020 00:45:26 -0800
-Date: Thu, 3 Dec 2020 11:45:17 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Subject: [PATCH] drm/i915: Check the correct variable
-Message-ID: <X8ilneOcJAjwqU4t@mwanda>
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586C56E995
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Dec 2020 13:13:52 +0000 (UTC)
+Date: Thu, 03 Dec 2020 13:13:37 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1607001228;
+ bh=ZS5RacJcaSTTGoiqn3bBe/xM6blHvWRiq+vsTnhZvgo=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=hHSjdWr99qUkdrQeNApSQ50SPoC6x9JK0hno2OwfG+I6fQx2+pLUv0qpuatHAjILZ
+ 3z73GGGSx/Y0I8KKvesRdRvhYQ8sYNjQLN2zfplEMb+S/5IA3B7udj0JM0l+G8UUhX
+ EmTBE6Ujk3X7xYpyq2VH2ezajIFXyALhiKlCsZw1gB9ykCmokszxWQDFZW5k3v+hjV
+ AegTeCLGtmbZHkvXdCzm5qUQuItI8vrPn/qRYRIRSafe2SXj6oGu6EihwQNan5dZUw
+ /wVWcjnnptOp5IhYeUbtkYnZ5q8+8TAOJsWepVc7h6XHmxKLJEcpDmZO81V7ziWK3N
+ RPIJsAR7d9YaQ==
+To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+Message-ID: <uS0tWzV8KGnvxJm8AgHsNpYruoy-QmO1UkCgokwE5upl_ykS-5aOxS4ennordEC42dctZE2KOr2SuLXJg0wt9NgwpiHwa_2GjT-2-Sp2JgI=@emersion.fr>
+In-Reply-To: <20201203125402.GH6112@intel.com>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+ <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
+ <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
+ <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
+ <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
+ <CAKMK7uFQcyKRb90FiWFGf3pqotMmLvsTDf9yc7m1Or1tYkdOOA@mail.gmail.com>
+ <20201203125402.GH6112@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- bulkscore=0
- phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012030053
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- bulkscore=0
- clxscore=1011 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012030053
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,45 +55,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-janitors@vger.kernel.org, Andi Shyti <andi.shyti@intel.com>,
- David Airlie <airlied@linux.ie>, Mika Kuoppala <mika.kuoppala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ James Park <jpark37@lagfreegames.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <james.park@lagfreegames.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a copy and paste bug in this code.  It's supposed to check
-"obj2" instead of checking "obj" a second time.
-
-Fixes: 80f0b679d6f0 ("drm/i915: Add an implementation for i915_gem_ww_ctx locking, v2.")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/i915/selftests/i915_gem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/selftests/i915_gem.c b/drivers/gpu/drm/i915/selftests/i915_gem.c
-index 23a6132c5f4e..412e21604a05 100644
---- a/drivers/gpu/drm/i915/selftests/i915_gem.c
-+++ b/drivers/gpu/drm/i915/selftests/i915_gem.c
-@@ -211,8 +211,8 @@ static int igt_gem_ww_ctx(void *arg)
- 		return PTR_ERR(obj);
- 
- 	obj2 = i915_gem_object_create_internal(i915, PAGE_SIZE);
--	if (IS_ERR(obj)) {
--		err = PTR_ERR(obj);
-+	if (IS_ERR(obj2)) {
-+		err = PTR_ERR(obj2);
- 		goto put1;
- 	}
- 
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1cnNkYXksIERlY2VtYmVyIDMsIDIwMjAgMTo1NCBQTSwgVmlsbGUgU3lyasOkbMOkIDx2
+aWxsZS5zeXJqYWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cgo+ID4gVGhlIGRybV9mb3VyY2Mu
+aCBtYXliZSBtYWtlcyBzb21lIHNlbnNlIChJIHRoaW5rIGluIHNvbWUgcGxhY2VzIG1lc2EKPiA+
+IHVzZXMgdGhlc2UgaW50ZXJuYWxseSwgYW5kIG1hbnkgZHJpdmVycyB1c2UgdGhlIG1vZGlmaWVy
+cyBkaXJlY3RseSBpbgo+ID4gdGhlIG1haW4gZHJpdmVyKS4gQnV0IHRoZSBhbWRncHUgaGVhZGVy
+IHNob3VsZCBiZSBhbGwgaW9jdGwgc3R1ZmYsCj4gPiB3aGljaCBzaG91bGQgYmUgYWxsIGVudGly
+ZWx5IGluIHRoZSB3aW5zeXMgb25seS4KPiA+IEFsc28ga2luZGEgZGlzYXBwb2ludGluZyB0aGF0
+IGRybV9mb3VyY2MuaCBpbmNsdWRlcyBkcm0uaCBhbmQgaXNuJ3QKPiA+IHN0YW5kYWxvbmUsIGJ1
+dCBJIGd1ZXNzIHRoYXQgc2FpbGVkIChhdCBsZWFzdCBmb3IgbGludXgpLgo+Cj4gSXNuJ3QgdGhl
+IG9ubHkgdGhpbmcgaXQgbmVlZHMgdGhlIF9fdTMyPyBJIHdvdWxkIHRoaW5rIHdlIGNvdWxkIGp1
+c3QKPiByZXBsYWNlIHRob3NlIHdpdGggdW5zaWduZWQgaW50IChEUk1fRk9STUFUX0JJR19FTkRJ
+QU4gYWxyZWFkeSBhc3N1bWVzCj4gaW50IGlzIDMyYml0IGl0IHNlZW1zKSBhbmQgZHJvcCB0aGUg
+ZHJtLmguCj4KPiBPciBhcmUgd2UncmUgd29ycmllZCBzb21ldGhpbmcgYWxyZWFkeSBkZXBlbmRz
+IG9uIGdldHRpbmcgZHJtLmggdmlhCj4ganVzdCBpbmNsdWRpbmcgZHJtX2ZvdXJjYy5oPwoKWWVz
+LCBzb21lIHVzZXItc3BhY2UgbWlnaHQgb25seSBpbmNsdWRlIGRybV9mb3VyY2MuaCBhbmQgdXNl
+IHN0dWZmCmNvbWluZyBmcm9tIGRybS5oLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
+cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
+aW5mby9kcmktZGV2ZWwK
