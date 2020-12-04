@@ -2,60 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AA52CF1C2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 17:20:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CDF2CF1E1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 17:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E92D6E19A;
-	Fri,  4 Dec 2020 16:20:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65B946E199;
+	Fri,  4 Dec 2020 16:27:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
- [IPv6:2a00:1450:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84EF96E19A
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 16:20:13 +0000 (UTC)
-Received: by mail-ej1-x641.google.com with SMTP id 7so9520175ejm.0
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 08:20:13 -0800 (PST)
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com
+ [IPv6:2a00:1450:4864:20::541])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B9A06E199
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 16:27:29 +0000 (UTC)
+Received: by mail-ed1-x541.google.com with SMTP id q16so6413886edv.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 08:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=035wWkNcQ1j/nClUbKgpC4qFMyacZpddWNDtASSt8zk=;
- b=RVwC7rXLNVM/WW+lIEXEvod+oQJMf3BbR8yKrYlPT9p6jZKxLIBADh0Vt8mUyr/s+0
- eT6twdK3TzOp6LNSd+cQFUhHWgUtxmxfQmuQ8GUUite4935p0D8QSgnhqQuuhVAk5j4m
- Nh9j45XXUjatvNABsebWxHoc1MnG2G8xDCQbibGqz9uozsJQizhaxU/T4ZypYhWqr6xN
- T2lGddZbFgxUDKVa+Z0SCzmVTiu8JBEq/oWad/1+q9+DKIq0PeohU0WbQL55Cj+uMT3R
- aKJBoyrR9sJTi12xBw9yO4OwDl2cq2WRro8qEjAvA+bJw5PRgbgy80WVSj426YCTZy9s
- Vjew==
+ bh=T+HmOhYRAWoPzFvO+6AKczOw7jzGt+H4bxGuXLCQXoc=;
+ b=kgiRgJ4ywoZVvlEdS4dzVI217OLzYENw/cza8A9shThLkxM/Vo/JQhk1OFW+iwbf8p
+ faqrHR4b0hyVBjAlknDZRqu5bNRkd1mMhJKxJuE+31Go9GbP7LcCSSw7WMt2KQqF+jnp
+ nac4bYVxJ8GzsKoxFjCJTUGBOFwvRPzSEza0YzSseFzSvguVeQ1oOXIkKrvYZg1LRvis
+ cuP011H/Rq04vO7HYRunZBmJ7vXbGr/7Hv8gnUIC5g75DzPP/+kqMsMqs3FUJxsSm2EN
+ Na3R59zfW/HnR9eNGEzKA6RRdpSTpUCkBi6skZyrKB3QHHBeql3rinhsWPnH2THiFv/n
+ HiTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=035wWkNcQ1j/nClUbKgpC4qFMyacZpddWNDtASSt8zk=;
- b=CqjCX/OuR8MUFtCFgDQ1Qa3EJuqvyAdN6ZCfpIxkdWJbhY46Ltj0T+QfRNjEeO2mKQ
- uCL8KM+Cnox049BzDx31Ncfa4RB1DhNIEIbbZj7Z9AtWCTAGNppvefTc6y5282Mzo9BM
- lOxfBSTONH9N9/4FPiGMFOU0lJq/15brZ1u5PiS9tV/A/pmFCrEQx+ih9CX9zshDfCXH
- id1QGUjZUfqM3AQCuzN2K80wq5o6CAXpQPiNYtRHXB3rZbfg+TJpZ/i/HS+cf/Ytb7LK
- rLF0PMjtl/mx1vGwe0DYBSfj2QtOr06h2w5eYgo5tUGc95wTVvapsJnXhla2PLhCHMUl
- zjVA==
-X-Gm-Message-State: AOAM5304mwJrIhe2H45VDlz9sYQ7l19M1GosemECMjfwrCtQxKDaaduX
- QgXbiNaxfWYUgu3H3WLwt30=
-X-Google-Smtp-Source: ABdhPJwBwoR6getHAK2tH0Nrb/IrJb+AU/KJjtdwJouNJ/xJKA6T1sMLaeAZQXXerBfC8gKVBvp5CA==
-X-Received: by 2002:a17:907:60a:: with SMTP id
- wp10mr7967611ejb.205.1607098812155; 
- Fri, 04 Dec 2020 08:20:12 -0800 (PST)
+ bh=T+HmOhYRAWoPzFvO+6AKczOw7jzGt+H4bxGuXLCQXoc=;
+ b=B9ueLeR4KIioYfQxEhn+erjaVn3JHqX3II6tgkQ2yA7/giqksjbFgYME9GwmG8KdKu
+ Gx4nW8o3xensItQ+4TsHtytkv9lhZxEAD5GuEm+gvZ3RxCnu1cvGohgt1XthWQNBYEKS
+ FilpmRzoPju5K4INGo0AlvduesS/K31385F4rLNgj8SU5XKEUvMhz1a7p9Ff6C+BV0J8
+ EGK+X+gYSKkP6HrM4rn9MlQBnz29uDgIbquJTG/rgFE36ZQcIGhbWAn6fGlI7UTnD/JB
+ sSLKfx1BHmBiyECPjgnC1gzxZ9BC9rUaGReUkL+lR5d4w3vuKLQDXbYKNbi9XGqN3Llk
+ hyWA==
+X-Gm-Message-State: AOAM532JplL62eNcMosW4TY1l7nkY6gj0m9rFMZfuDFyXAXSU7dEV3fJ
+ M73HI2kRQFT6QumSq5qBazQ=
+X-Google-Smtp-Source: ABdhPJz4k6hB4aIWeMlptTvr8/KtGOvqe1S5zLT5t102zABDLV44vRb0th7M+TZOofj//Zr2RU6sgw==
+X-Received: by 2002:a05:6402:746:: with SMTP id
+ p6mr8397102edy.313.1607099248170; 
+ Fri, 04 Dec 2020 08:27:28 -0800 (PST)
 Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id 65sm3780181edj.83.2020.12.04.08.20.10
+ by smtp.gmail.com with ESMTPSA id b7sm3521209ejj.85.2020.12.04.08.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 08:20:10 -0800 (PST)
-Date: Fri, 4 Dec 2020 17:20:09 +0100
+ Fri, 04 Dec 2020 08:27:26 -0800 (PST)
+Date: Fri, 4 Dec 2020 17:27:25 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v11 02/10] memory: tegra20: Support hardware versioning
- and clean up OPP table initialization
-Message-ID: <X8phuUGCBrp5JGMv@ulmo>
+Subject: Re: [PATCH v11 03/10] memory: tegra30: Support interconnect framework
+Message-ID: <X8pjbV/gEIOp/2sM@ulmo>
 References: <20201203192439.16177-1-digetx@gmail.com>
- <20201203192439.16177-3-digetx@gmail.com>
+ <20201203192439.16177-4-digetx@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201203192439.16177-3-digetx@gmail.com>
+In-Reply-To: <20201203192439.16177-4-digetx@gmail.com>
 User-Agent: Mutt/2.0.2 (d9268908) (2020-11-20)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,60 +78,63 @@ Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
  MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
  linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
  Michael Turquette <mturquette@baylibre.com>
-Content-Type: multipart/mixed; boundary="===============0974076818=="
+Content-Type: multipart/mixed; boundary="===============1709403943=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0974076818==
+--===============1709403943==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="CqLZrd1Ou7JwelE5"
+	protocol="application/pgp-signature"; boundary="bTHofWPXsdPAY1Vz"
 Content-Disposition: inline
 
 
---CqLZrd1Ou7JwelE5
+--bTHofWPXsdPAY1Vz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 03, 2020 at 10:24:31PM +0300, Dmitry Osipenko wrote:
-> Support hardware versioning, which is now required for Tegra20 EMC OPP.
-> Clean up OPP table initialization by using a error code returned by OPP
-> API for judging about the OPP table presence in a device-tree and remove
-> OPP regulator initialization because we're now going to use power domain
-> instead of a raw regulator. This puts Tegra20 EMC OPP preparation on par
-> with the Tegra30/124 EMC drivers.
+On Thu, Dec 03, 2020 at 10:24:32PM +0300, Dmitry Osipenko wrote:
+> Now Internal and External memory controllers are memory interconnection
+> providers. This allows us to use interconnect API for tuning of memory
+> configuration. EMC driver now supports OPPs and DVFS. MC driver now
+> supports tuning of memory arbitration latency, which needs to be done
+> for ISO memory clients, like a Display client for example.
 >=20
+> Tested-by: Peter Geis <pgwipeout@gmail.com>
+> Acked-by: Georgi Djakov <georgi.djakov@linaro.org>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/memory/tegra/tegra20-emc.c | 48 +++++++++++++-----------------
->  1 file changed, 20 insertions(+), 28 deletions(-)
+>  drivers/memory/tegra/Kconfig       |   1 +
+>  drivers/memory/tegra/tegra30-emc.c | 344 +++++++++++++++++++++++++++--
+>  drivers/memory/tegra/tegra30.c     | 173 ++++++++++++++-
+>  3 files changed, 496 insertions(+), 22 deletions(-)
 
 Acked-by: Thierry Reding <treding@nvidia.com>
 
---CqLZrd1Ou7JwelE5
+--bTHofWPXsdPAY1Vz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl/KYbYACgkQ3SOs138+
-s6E9YhAAnOW3eb6mWSwXsc8ATDZpYmZzCt5wUz/tcuNcBgmEuAEVp2nrgpLPnTUt
-Z0RZg4fL9ZotBwu4tVStVGgIZpO0gzJo9DSYGiNWT52+ra3MWsuFiK7BYkkHAuwL
-wu+P6UOOYFNO8MZVxNlitgTILStuH5M+Jc0wRf1AGLMKtmdSe7AU9uw+sL5YmVXB
-HJEQPxKEOtTCiZYRkooNuX7+mGyIYUiejglm9Zrcv11dHRY393QokuQTlTHn6sbW
-rIU4MpcArmq+8QN29f7fmztCgCvWesZFfIyZjZooKEYE9gGeUKXAqmi/zvQ/2JZp
-Hlycx3udPsV21QQW+scftfWJm7s3lPw04X60FPrYzPm+DN2PpZc7HIlbC/g4gcUD
-p4Pa27/kvn89RKDBNtfVAgk821zgeXmTSKI97ydjfKtibefTChay5jGDpqh979r8
-3cKMU38k/ogdRprC6Z8Quv6u6b53uz0wjXBpmlEPRRmzNck1egsx9prQ8eiKIG9o
-a93VcDOFRRG3eeiWjv8JmHFGNIGq9QILlMDNWh6jxbJt/WJ5ZGJ+1vbORrk4JbBA
-RIUvhzkzxt9UD0PS9/pFoAyaec0CjQL8X1u/6U9JW2vENqYCoxCiUDVxJ2t4hVUK
-RHEQDUzlURczgksNpLikJ4H1MIQ7Cb1a9mGst3BiGX/7LOEUt60=
-=LWwG
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl/KY20ACgkQ3SOs138+
+s6Engg//drHa8HENx4EvSwA5eoE9FKgNLKJPQdW/7BBtgBPmv0ImXomL5kKddSn5
+O6SomluwfhV8QxJZR4eiIv04ptvLC8CuKtY21mgZFLZwJRBrVYq40h+VIqt3guAd
+y5nEw3fALyFOeqOK76P80q2Qa7aLQguoPzfaa3dsDsBfnNG/CbgBj9vCL868UoB9
+3u7oEv58jd+3YYx4HhlilcoHQp9yL2S5N3PEt/9hxxVTo+k6j6Vxk5+LnUz4Afl3
+JsP4sOuwvFxWDIPoghYuaCc5dZ9qJurZ9z1SRIf6sYl/NU2t5ob+0Ec3f8X5OcuR
+6tL1vHwlZ9UbB5t+qOJDfwdPO4Lx2dcxT70lxsBimV3Jc0i2oamRDMhK5VTBlKoQ
+11GwxrrrS5uxuIr/60KA94IAptu+X98Nn9sZEJznuMZvKbBUBC6X2vJGd9WuL7uD
+rx9xU3rulWs9BsBf9Rd+LeiJFpdVIukDTerJTIDsx2x9FEVc1m5gnz/2yVkcpCdU
+AvpsRwbwO5pcl56U+fZ/EwljblwRLY3sX3mGTA7vk2PKSgigLDgB7itXStFPNR5j
+PLMih36DUjxruXDwUK9R2P4o9Uxfb+A26WwPd/o84qIHj6hJneG3kW0WioV6dnwk
+oItg/WELcMS+7DveCKW2IdpVkzJMc4PzeNqeGZxYvIbZc1BSPL4=
+=UulD
 -----END PGP SIGNATURE-----
 
---CqLZrd1Ou7JwelE5--
+--bTHofWPXsdPAY1Vz--
 
---===============0974076818==
+--===============1709403943==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -143,4 +145,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0974076818==--
+--===============1709403943==--
