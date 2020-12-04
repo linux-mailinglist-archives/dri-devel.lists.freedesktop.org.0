@@ -1,74 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCFE2D0C36
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F0C2D0C50
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD2B589DA2;
-	Mon,  7 Dec 2020 08:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D245A6E598;
+	Mon,  7 Dec 2020 08:57:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
- [66.111.4.230])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C58396E196
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 15:11:51 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 3DAE758016F;
- Fri,  4 Dec 2020 10:11:51 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 04 Dec 2020 10:11:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=KIbGMqANMpUGy
- omEfr64e+hVoWsMUljgRPHO1eQw31c=; b=HXtXLcZ+6VwMCqTbSTcMlCzbM8Sc8
- tjtpM0ZcCzY8m29068d7tZCiIl9UB49XlkLiUWZBteHzdYOVXNQGutal3JPVKO9S
- fUYoDelFc1FC597m9Y3V2qXeOfVGw6LWq3eYH4NGAMemehv10stUC/Aw6OVblkMT
- jVHnbRv73kMn2yEj+wpMNzcrIrfy/550/vZmPYypFwcCJEJSvCeDCKf/DVCUmXF7
- Nsp4Gln+BvrSL/hXVuCieKo0BpmWGbU4G1rJDyc/CDhn9J8Al8sbh3e3MwJwGar6
- tfeae+yveXXUW3b7S/n+8kjFP18H90Rpu0lWrKwsYs4MOyjftKH3BtdNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=KIbGMqANMpUGyomEfr64e+hVoWsMUljgRPHO1eQw31c=; b=pJStvFHa
- 1K9/htmo3an9h4VDd/6UjfLG4Jw6iLj/ocJEMBlkBeS1O+QbCNJ/eJqmvpysZbnG
- 2sP/GRJJg7yJrowM+x/1kvMYVaR1hx7x2O10Y8OBpN6wVc6b42doSe20E0KeNZUo
- TRm6E4udrEuTeNdkUmDmnxN0ncEOfGyVUssmzL49EbW1Mhr0U3WRQOE5/CW2CM0F
- eqSNLZlJZOlkiVs8pMi63qM8WYnpekPbdP6oms2QVQyU2tJSvShCDE/eUR1RQSmg
- D3CBMWAyuqdW23NJwSFOrtYNDzxzhKCtoGMkjiLTgH9+th8mjDadsGU3B2wXo7cw
- ZrvMUuqd1vAojQ==
-X-ME-Sender: <xms:t1HKX5kq7gi3JoOOcgUxyyCp60I17S-ZoeEUH20sw0-3ZAptsthCig>
- <xme:t1HKX-ccBTcjPlRGA-nZU--QxlX1OrWInVY86ySukap6EHQ6hxnDQHItRssk7h35t
- sqHlJ_YJ6-qZ8-15w8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeikedgjeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:t1HKXzFAfigrVLyc8iDKBcW9xaUSNK5eBrD_zAOehLSPAhxD-8k50A>
- <xmx:t1HKXwc7ocQpc7owF7dsm9S285_TUkO9UDcjH1G8rBVE8t7PuXzRYg>
- <xmx:t1HKXy_K-ArtWlswwLfTDnSEL-YK9KeVh6w3HhD3WUSs3dlW8rHKAg>
- <xmx:t1HKXxCy6jazxVzczuStCXXcdGSe5xF-JHrIxzo-k6zhYLRxE1uYTw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id EF58E24005C;
- Fri,  4 Dec 2020 10:11:50 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>
-Subject: [PATCH v2 7/7] drm/vc4: kms: Convert to atomic helpers
-Date: Fri,  4 Dec 2020 16:11:38 +0100
-Message-Id: <20201204151138.1739736-8-maxime@cerno.tech>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201204151138.1739736-1-maxime@cerno.tech>
-References: <20201204151138.1739736-1-maxime@cerno.tech>
+X-Greylist: delayed 478 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Dec 2020 17:12:06 UTC
+Received: from latitanza.investici.org (latitanza.investici.org
+ [IPv6:2001:888:2000:56::19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71A6F6E197
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 17:12:06 +0000 (UTC)
+Received: from mx3.investici.org (unknown [127.0.0.1])
+ by latitanza.investici.org (Postfix) with ESMTP id 4CnfF12X1nz8shk;
+ Fri,  4 Dec 2020 17:04:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=privacyrequired.com;
+ s=stigmate; t=1607101445;
+ bh=CNSPo3rU73iLufUhzAAlkyJdrqDxV3HykhrbciRVVqg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=CAj2903IlbaunC80bM+z7sehEdvvySRvMXF2B7QVSeGl9c1o2+R49o1Johhg6BSQ4
+ Q4EMyEP3bIuGgoqirMK1uT98XPrJ1OTptjksAJf1V5Duw6RhXyRn+MKAiMRbwunKkr
+ vE228J0uaZtyVw5ECCzsQr3hgtGk8lvECyg5M/Pg=
+Received: from [82.94.249.234] (mx3.investici.org [82.94.249.234])
+ (Authenticated sender: laniel_francis@privacyrequired.com) by localhost
+ (Postfix) with ESMTPSA id 4CnfDy1SRgz8sfb; 
+ Fri,  4 Dec 2020 17:04:02 +0000 (UTC)
+From: laniel_francis@privacyrequired.com
+To: Russell King <linux@armlinux.org.uk>, Hauke Mehrtens <hauke@hauke-m.de>,
+ =?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ bcm-kernel-feedback-list@broadcom.com,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Ard Biesheuvel <ardb@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@redhat.com>,
+ dm-devel@redhat.com, Bin Liu <b-liu@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jessica Yu <jeyu@kernel.org>
+Subject: [RFC PATCH v1 00/12] Replace strstarts() by str_has_prefix()
+Date: Fri,  4 Dec 2020 18:03:06 +0100
+Message-Id: <20201204170319.20383-1-laniel_francis@privacyrequired.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,186 +63,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+Cc: linux-efi@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
  linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the semaphore is gone, our atomic_commit implementation is
-basically drm_atomic_helper_commit with a somewhat custom commit_tail,
-the main difference being that we're using wait_for_flip_done instead of
-wait_for_vblanks used in the drm_atomic_helper_commit_tail helper.
+From: Francis Laniel <laniel_francis@privacyrequired.com>
 
-Let's switch to using drm_atomic_helper_commit.
+Hi.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_kms.c | 110 +---------------------------------
- 1 file changed, 3 insertions(+), 107 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index ffbfdde55fff..05f451f3e642 100644
---- a/drivers/gpu/drm/vc4/vc4_kms.c
-+++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -332,8 +332,7 @@ static void vc5_hvs_pv_muxing_commit(struct vc4_dev *vc4,
- 	}
- }
- 
--static void
--vc4_atomic_complete_commit(struct drm_atomic_state *state)
-+static void vc4_atomic_commit_tail(struct drm_atomic_state *state)
- {
- 	struct drm_device *dev = state->dev;
- 	struct vc4_dev *vc4 = to_vc4_dev(dev);
-@@ -357,10 +356,6 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
- 	if (vc4->hvs->hvs5)
- 		clk_set_min_rate(hvs->core_clk, 500000000);
- 
--	drm_atomic_helper_wait_for_fences(dev, state, false);
--
--	drm_atomic_helper_wait_for_dependencies(state);
--
- 	old_hvs_state = vc4_hvs_get_old_global_state(state);
- 	if (!old_hvs_state)
- 		return;
-@@ -412,20 +407,8 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
- 
- 	drm_atomic_helper_cleanup_planes(dev, state);
- 
--	drm_atomic_helper_commit_cleanup_done(state);
--
- 	if (vc4->hvs->hvs5)
- 		clk_set_min_rate(hvs->core_clk, 0);
--
--	drm_atomic_state_put(state);
--}
--
--static void commit_work(struct work_struct *work)
--{
--	struct drm_atomic_state *state = container_of(work,
--						      struct drm_atomic_state,
--						      commit_work);
--	vc4_atomic_complete_commit(state);
- }
- 
- static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
-@@ -458,94 +441,6 @@ static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
- 	return 0;
- }
- 
--/**
-- * vc4_atomic_commit - commit validated state object
-- * @dev: DRM device
-- * @state: the driver state object
-- * @nonblock: nonblocking commit
-- *
-- * This function commits a with drm_atomic_helper_check() pre-validated state
-- * object. This can still fail when e.g. the framebuffer reservation fails. For
-- * now this doesn't implement asynchronous commits.
-- *
-- * RETURNS
-- * Zero for success or -errno.
-- */
--static int vc4_atomic_commit(struct drm_device *dev,
--			     struct drm_atomic_state *state,
--			     bool nonblock)
--{
--	int ret;
--
--	if (state->async_update) {
--		ret = drm_atomic_helper_prepare_planes(dev, state);
--		if (ret)
--			return ret;
--
--		drm_atomic_helper_async_commit(dev, state);
--
--		drm_atomic_helper_cleanup_planes(dev, state);
--
--		return 0;
--	}
--
--	/* We know for sure we don't want an async update here. Set
--	 * state->legacy_cursor_update to false to prevent
--	 * drm_atomic_helper_setup_commit() from auto-completing
--	 * commit->flip_done.
--	 */
--	state->legacy_cursor_update = false;
--	ret = drm_atomic_helper_setup_commit(state, nonblock);
--	if (ret)
--		return ret;
--
--	INIT_WORK(&state->commit_work, commit_work);
--
--	ret = drm_atomic_helper_prepare_planes(dev, state);
--	if (ret)
--		return ret;
--
--	if (!nonblock) {
--		ret = drm_atomic_helper_wait_for_fences(dev, state, true);
--		if (ret) {
--			drm_atomic_helper_cleanup_planes(dev, state);
--			return ret;
--		}
--	}
--
--	/*
--	 * This is the point of no return - everything below never fails except
--	 * when the hw goes bonghits. Which means we can commit the new state on
--	 * the software side now.
--	 */
--
--	BUG_ON(drm_atomic_helper_swap_state(state, false) < 0);
--
--	/*
--	 * Everything below can be run asynchronously without the need to grab
--	 * any modeset locks at all under one condition: It must be guaranteed
--	 * that the asynchronous work has either been cancelled (if the driver
--	 * supports it, which at least requires that the framebuffers get
--	 * cleaned up with drm_atomic_helper_cleanup_planes()) or completed
--	 * before the new state gets committed on the software side with
--	 * drm_atomic_helper_swap_state().
--	 *
--	 * This scheme allows new atomic state updates to be prepared and
--	 * checked in parallel to the asynchronous completion of the previous
--	 * update. Which is important since compositors need to figure out the
--	 * composition of the next frame right after having submitted the
--	 * current layout.
--	 */
--
--	drm_atomic_state_get(state);
--	if (nonblock)
--		queue_work(system_unbound_wq, &state->commit_work);
--	else
--		vc4_atomic_complete_commit(state);
--
--	return 0;
--}
--
- static struct drm_framebuffer *vc4_fb_create(struct drm_device *dev,
- 					     struct drm_file *file_priv,
- 					     const struct drm_mode_fb_cmd2 *mode_cmd)
-@@ -966,11 +861,12 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 
- static struct drm_mode_config_helper_funcs vc4_mode_config_helpers = {
- 	.atomic_commit_setup	= vc4_atomic_commit_setup,
-+	.atomic_commit_tail	= vc4_atomic_commit_tail,
- };
- 
- static const struct drm_mode_config_funcs vc4_mode_funcs = {
- 	.atomic_check = vc4_atomic_check,
--	.atomic_commit = vc4_atomic_commit,
-+	.atomic_commit = drm_atomic_helper_commit,
- 	.fb_create = vc4_fb_create,
- };
- 
+First, I hope you are fine and the same for your relatives.
+
+In this patch set, I replaced all calls to strstarts() by calls to
+str_has_prefix().
+Indeed, the kernel has two functions to test if a string begins with an other:
+1. strstarts() which returns a bool, so 1 if the string begins with the prefix,
+0 otherwise.
+2. str_has_prefix() which returns the length of the prefix or 0.
+
+str_has_prefix() was introduced later than strstarts(), in commit 495d714ad140
+which also stated that str_has_prefix() should replace strstarts().
+This is what this patch set does.
+
+Concerning the patches, the modifications cover different areas of the kernel.
+I compiled all of them and they compile smoothly.
+Unfortunately, I did not test all of them, so here are the status of the patches
+regarding test:
+1. Tested with qemu-system-arm using insmod.
+2. I do not have access to a bcm47xx MIPS CPU an qemu-system-mips does not
+emulate this board.
+3. Tested with qemu-system-x86_64 calling
+crypto_alloc_skcipher("essiv(authenc(hmac(sha256),cbc(aes)),sha256)", 0, 0)
+through LKDTM.
+4. Tested with qemu-system-x86_64 using crypsetup.
+5. I do not have access to a renesas board and I lack some context to test it
+with qemu-system-arm.
+6. I do not have access to an OMAP board and I lack some context to test it with
+qemu-system-arm.
+7. I did not find how to boot from the EFI_STUB with qemu. If you know how to
+do, I would be happy to try running this code.
+8. I ran qemu-system-x86_64 with a floppy disk attached but impossible to go
+through this module code...
+9. I do not have access to a bcm63xx MIPS CPU an qemu-system-mips does not
+emulate this board.
+10. Tested with qemu-system-x86_64 using insmod.
+11. I do not have access to an AM335x or DA8xx platforms and I lack some context
+to test it with qemu-system-arm.
+
+If you see a way to improve the patches or if I did something wrong with the
+mail do not hesitate to ask.
+
+
+Best regards.
+
+Francis Laniel (12):
+  arm: Replace strstarts() by str_has_prefix().
+  mips: Replace strstarts() by str_has_prefix().
+  crypto: Replace strstarts() by str_has_prefix().
+  device-mapper: Replace strstarts() by str_has_prefix().
+  renesas: Replace strstarts() by str_has_prefix().
+  omap: Replace strstarts() by str_has_prefix().
+  efi: Replace strstarts() by str_has_prefix().
+  ide: Replace strstarts() by str_has_prefix().
+  mips: Replace strstarts() by str_has_prefix().
+  module: Replace strstarts() by str_has_prefix().
+  musb: Replace strstarts() by str_has_prefix().
+  string.h: Remove strstarts().
+
+ arch/arm/kernel/module.c                      | 12 +++++------
+ arch/mips/bcm47xx/board.c                     |  4 ++--
+ arch/mips/bcm63xx/boards/board_bcm963xx.c     |  2 +-
+ crypto/essiv.c                                |  2 +-
+ .../firmware/efi/libstub/efi-stub-helper.c    |  2 +-
+ drivers/firmware/efi/libstub/gop.c            | 10 +++++-----
+ drivers/gpu/drm/omapdrm/dss/base.c            |  2 +-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  2 +-
+ drivers/ide/ide-floppy.c                      |  4 ++--
+ drivers/md/dm-crypt.c                         |  4 ++--
+ drivers/usb/musb/musb_cppi41.c                |  4 ++--
+ drivers/usb/musb/musb_debugfs.c               | 20 +++++++++----------
+ include/linux/string.h                        | 10 ----------
+ kernel/module.c                               |  6 +++---
+ 14 files changed, 37 insertions(+), 47 deletions(-)
+
 -- 
-2.28.0
+2.20.1
 
 _______________________________________________
 dri-devel mailing list
