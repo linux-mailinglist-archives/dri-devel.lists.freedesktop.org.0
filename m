@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7841D2CE9D7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA802CE9CA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFD56EC64;
-	Fri,  4 Dec 2020 08:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 264726EC7B;
+	Fri,  4 Dec 2020 08:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 694486E0E9
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 01:23:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1E36E0E6
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 01:23:13 +0000 (UTC)
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CnFLq5D4jz15XBJ;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CnFLq3txfz15Vft;
  Fri,  4 Dec 2020 09:22:43 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
@@ -23,9 +23,9 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/hisilicon: Delete the entire file hibmc_ttm.c
-Date: Fri, 4 Dec 2020 09:23:18 +0800
-Message-ID: <1607044999-47666-13-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon v3 0/2] support reading resolutions from EDID 
+Date: Fri, 4 Dec 2020 09:23:19 +0800
+Message-ID: <1607044999-47666-14-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607044999-47666-1-git-send-email-tiantao6@hisilicon.com>
 References: <1607044999-47666-1-git-send-email-tiantao6@hisilicon.com>
@@ -50,158 +50,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Delete the entire file hibmc_ttm.c. drmm_vram_helper_init() can be
-called directly from hibmc_load(). hibmc_dumb_create() and
-hibmc_mode_funcs can go to hibmc_drm_drv.c
+patch #1 add a new file to implements i2c adapters, #2 read the
+resolution from the edid, if that fails, set the resolution to fixed.
+and update the destroy callback function to release the i2c adapters
 
-v2:
-change Deletted to Delete
+Changes since v1:
+-merge patch #3 into patch #2.
+-add new function to_hibmc_drm_private, modify three functions in
+hibmc_drm_i2c.c with the newly added function.
+-deleting the member variable dev from the structure hibmc_connector.
+-modify print log incorrectly.
+-Modify hibmc_connector_get_modes.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/hisilicon/hibmc/Makefile        |  2 +-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 21 ++++++++++-
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  4 --
- drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c     | 50 -------------------------
- 4 files changed, 20 insertions(+), 57 deletions(-)
- delete mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
+Changes since v2:
+-rewrite the funtion to_hibmc_drm_private, and rename GPIO_SCL_MASK
+to I2C_SCL_MASK
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-index 684ef79..d25c75e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-+++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_ttm.o hibmc_drm_i2c.o
-+hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o
- 
- obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 5aea2e9..3687753 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -16,6 +16,7 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_irq.h>
- #include <drm/drm_managed.h>
-@@ -43,6 +44,12 @@ static irqreturn_t hibmc_drm_interrupt(int irq, void *arg)
- 	return IRQ_HANDLED;
- }
- 
-+static int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
-+			     struct drm_mode_create_dumb *args)
-+{
-+	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
-+}
-+
- static const struct drm_driver hibmc_driver = {
- 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
- 	.fops			= &hibmc_fops,
-@@ -77,6 +84,13 @@ static const struct dev_pm_ops hibmc_pm_ops = {
- 				hibmc_pm_resume)
- };
- 
-+static const struct drm_mode_config_funcs hibmc_mode_funcs = {
-+	.mode_valid = drm_vram_helper_mode_valid,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+	.fb_create = drm_gem_fb_create,
-+};
-+
- static int hibmc_kms_init(struct hibmc_drm_private *priv)
- {
- 	struct drm_device *dev = &priv->dev;
-@@ -262,9 +276,12 @@ static int hibmc_load(struct drm_device *dev)
- 	if (ret)
- 		goto err;
- 
--	ret = hibmc_mm_init(priv);
--	if (ret)
-+	ret = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
-+				    priv->fb_size);
-+	if (ret) {
-+		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
- 		goto err;
-+	}
- 
- 	ret = hibmc_kms_init(priv);
- 	if (ret)
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index 2786de5..a49c10e 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -64,10 +64,6 @@ int hibmc_de_init(struct hibmc_drm_private *priv);
- int hibmc_vdac_init(struct hibmc_drm_private *priv);
- 
- int hibmc_mm_init(struct hibmc_drm_private *hibmc);
--int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
--		      struct drm_mode_create_dumb *args);
- int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_connector *connector);
- 
--extern const struct drm_mode_config_funcs hibmc_mode_funcs;
--
- #endif
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-deleted file mode 100644
-index 892d566..0000000
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_ttm.c
-+++ /dev/null
-@@ -1,50 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/* Hisilicon Hibmc SoC drm driver
-- *
-- * Based on the bochs drm driver.
-- *
-- * Copyright (c) 2016 Huawei Limited.
-- *
-- * Author:
-- *	Rongrong Zou <zourongrong@huawei.com>
-- *	Rongrong Zou <zourongrong@gmail.com>
-- *	Jianhua Li <lijianhua@huawei.com>
-- */
--
--#include <linux/pci.h>
--
--#include <drm/drm_atomic_helper.h>
--#include <drm/drm_gem.h>
--#include <drm/drm_gem_framebuffer_helper.h>
--#include <drm/drm_gem_vram_helper.h>
--#include <drm/drm_print.h>
--
--#include "hibmc_drm_drv.h"
--
--int hibmc_mm_init(struct hibmc_drm_private *hibmc)
--{
--	int ret;
--	struct drm_device *dev = &hibmc->dev;
--
--	ret = drmm_vram_helper_init(dev, pci_resource_start(dev->pdev, 0),
--				    hibmc->fb_size);
--	if (ret) {
--		drm_err(dev, "Error initializing VRAM MM; %d\n", ret);
--		return ret;
--	}
--
--	return 0;
--}
--
--int hibmc_dumb_create(struct drm_file *file, struct drm_device *dev,
--		      struct drm_mode_create_dumb *args)
--{
--	return drm_gem_vram_fill_create_dumb(file, dev, 0, 128, args);
--}
--
--const struct drm_mode_config_funcs hibmc_mode_funcs = {
--	.mode_valid = drm_vram_helper_mode_valid,
--	.atomic_check = drm_atomic_helper_check,
--	.atomic_commit = drm_atomic_helper_commit,
--	.fb_create = drm_gem_fb_create,
--};
+Tian Tao (2):
+  drm/hisilicon: Support i2c driver algorithms for bit-shift adapters
+  drm/hisilicon: Features to support reading resolutions from EDID
+
+ drivers/gpu/drm/hisilicon/hibmc/Makefile         |  2 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h  | 25 +++++-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c  | 99 ++++++++++++++++++++++++
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_vdac.c | 38 ++++++++-
+ 4 files changed, 158 insertions(+), 6 deletions(-)
+ create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_i2c.c
+
 -- 
 2.7.4
 
