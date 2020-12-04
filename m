@@ -1,33 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB98D2CF682
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:02:08 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 333EC2CF684
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:02:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB586E0BA;
-	Fri,  4 Dec 2020 22:01:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB3EC6EC78;
+	Fri,  4 Dec 2020 22:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30C76E23D
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:01:52 +0000 (UTC)
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7CC6E0BA
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:01:54 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9093D1828;
- Fri,  4 Dec 2020 23:01:48 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C59A1A4E;
+ Fri,  4 Dec 2020 23:01:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607119308;
- bh=Bz4lp25BOuPRcY1GTpM5arN1X06adEO+L28VZgNyIrI=;
+ s=mail; t=1607119309;
+ bh=HOnaX6KfpKoC/W74ZpcKUcAVLIntcsiKk6xTRXkEC0s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=tpfJ5OoqdBpd5yA8K+DCkKXtnWuVCW6J1AFHd1Otpb7TrYJgMBbKQcoTS1X+MCfnV
- nn5OPgaQXPa2H1XGhhQO5MKgRtHBhgEih9o69wulqBIG+5Pk4DVGGll4DpHjEjMDJS
- upE7THtpeyJPAiS6M73rov4/JKbh6Q88xIVNlZhk=
+ b=TZaKIk56ogLnNzp23WV/F0Z0Wk9vJc4ean3IhqQTxvGuyb06hW4otVoPJRWf98mtM
+ 7RhhM2bwIe40ajMiqrzWRKzBUiB79AQmonCsY7OmwTGfzW61i9igGTipg7IVDHdoMQ
+ hIkJsGvCpAhOSspr8MTIYsEiTGp94w5xxVXBWlGU=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 7/9] drm: rcar-du: Replace dev_private with container_of
-Date: Sat,  5 Dec 2020 00:01:37 +0200
-Message-Id: <20201204220139.15272-8-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 8/9] drm: rcar-du: Skip encoder allocation for LVDS1 in
+ dual-link mode
+Date: Sat,  5 Dec 2020 00:01:38 +0200
+Message-Id: <20201204220139.15272-9-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -52,100 +53,102 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that drm_device is embedded in rcar_du_device, we can use
-container_of to get the rcar_du_device pointer from the drm_device,
-instead of using the drm_device.dev_private field.
+The rcar-du driver skips registration of the encoder for the LVDS1
+output when LVDS is used in dual-link mode, as the LVDS0 and LVDS1 links
+are bundled and handled through the LVDS0 output. It however still
+allocates the encoder and immediately destroys it, which is pointless.
+Skip allocation of the encoder altogether in that case.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 2 --
- drivers/gpu/drm/rcar-du/rcar_du_drv.h   | 5 +++++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 8 ++++----
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 2 +-
- 4 files changed, 10 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 51 ++++++++++-------------
+ 1 file changed, 22 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 4ab99ac49891..d6a8b7899952 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -587,8 +587,6 @@ static int rcar_du_probe(struct platform_device *pdev)
- 		return PTR_ERR(rcdu->mmio);
- 
- 	/* DRM/KMS objects */
--	rcdu->ddev.dev_private = rcdu;
--
- 	ret = rcar_du_modeset_init(rcdu);
- 	if (ret < 0) {
- 		if (ret != -EPROBE_DEFER)
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-index e5b6f456357e..98d6bac3f2fa 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-@@ -102,6 +102,11 @@ struct rcar_du_device {
- 	unsigned int vspd1_sink;
- };
- 
-+static inline struct rcar_du_device *to_rcar_du_device(struct drm_device *dev)
-+{
-+	return container_of(dev, struct rcar_du_device, ddev);
-+}
-+
- static inline bool rcar_du_has(struct rcar_du_device *rcdu,
- 			       unsigned int feature)
- {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 57bb0dc22807..d6b71a9361ca 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -327,7 +327,7 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
- int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
- 			struct drm_mode_create_dumb *args)
- {
--	struct rcar_du_device *rcdu = dev->dev_private;
-+	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	unsigned int min_pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
- 	unsigned int align;
- 
-@@ -349,7 +349,7 @@ static struct drm_framebuffer *
- rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		  const struct drm_mode_fb_cmd2 *mode_cmd)
- {
--	struct rcar_du_device *rcdu = dev->dev_private;
-+	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	const struct rcar_du_format_info *format;
- 	unsigned int chroma_pitch;
- 	unsigned int max_pitch;
-@@ -421,7 +421,7 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- static int rcar_du_atomic_check(struct drm_device *dev,
- 				struct drm_atomic_state *state)
- {
--	struct rcar_du_device *rcdu = dev->dev_private;
-+	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index e4f35a88d00f..49c0b27e2f5a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -65,17 +65,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	struct drm_bridge *bridge;
  	int ret;
  
- 	ret = drm_atomic_helper_check(dev, state);
-@@ -437,7 +437,7 @@ static int rcar_du_atomic_check(struct drm_device *dev,
- static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- {
- 	struct drm_device *dev = old_state->dev;
--	struct rcar_du_device *rcdu = dev->dev_private;
-+	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	struct drm_crtc_state *crtc_state;
- 	struct drm_crtc *crtc;
- 	unsigned int i;
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index 5f69ff4502c1..02e5f11f38eb 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -128,7 +128,7 @@ static int rcar_du_plane_hwalloc(struct rcar_du_plane *plane,
- int rcar_du_atomic_check_planes(struct drm_device *dev,
- 				struct drm_atomic_state *state)
- {
--	struct rcar_du_device *rcdu = dev->dev_private;
-+	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
- 	unsigned int group_freed_planes[RCAR_DU_MAX_GROUPS] = { 0, };
- 	unsigned int group_free_planes[RCAR_DU_MAX_GROUPS] = { 0, };
- 	bool needs_realloc = false;
+-	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
+-	if (renc == NULL)
+-		return -ENOMEM;
+-
+-	rcdu->encoders[output] = renc;
+-	renc->output = output;
+-	encoder = rcar_encoder_to_drm_encoder(renc);
+-
+-	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+-		enc_node, output);
+-
+ 	/*
+ 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+ 	 * DT node has a single port, assume that it describes a panel and
+@@ -86,23 +75,17 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	    rcar_du_encoder_count_ports(enc_node) == 1) {
+ 		struct drm_panel *panel = of_drm_find_panel(enc_node);
+ 
+-		if (IS_ERR(panel)) {
+-			ret = PTR_ERR(panel);
+-			goto error;
+-		}
++		if (IS_ERR(panel))
++			return PTR_ERR(panel);
+ 
+ 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+ 							 DRM_MODE_CONNECTOR_DPI);
+-		if (IS_ERR(bridge)) {
+-			ret = PTR_ERR(bridge);
+-			goto error;
+-		}
++		if (IS_ERR(bridge))
++			return PTR_ERR(bridge);
+ 	} else {
+ 		bridge = of_drm_find_bridge(enc_node);
+-		if (!bridge) {
+-			ret = -EPROBE_DEFER;
+-			goto error;
+-		}
++		if (!bridge)
++			return -EPROBE_DEFER;
+ 
+ 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+ 		    output == RCAR_DU_OUTPUT_LVDS1)
+@@ -110,16 +93,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	}
+ 
+ 	/*
+-	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
+-	 * companion for LVDS0 in dual-link mode.
++	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
++	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
++	 * mode.
+ 	 */
+ 	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
+-		if (rcar_lvds_dual_link(bridge)) {
+-			ret = -ENOLINK;
+-			goto error;
+-		}
++		if (rcar_lvds_dual_link(bridge))
++			return -ENOLINK;
+ 	}
+ 
++	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
++	if (renc == NULL)
++		return -ENOMEM;
++
++	rcdu->encoders[output] = renc;
++	renc->output = output;
++	encoder = rcar_encoder_to_drm_encoder(renc);
++
++	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
++		enc_node, output);
++
+ 	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
+ 			       DRM_MODE_ENCODER_NONE, NULL);
+ 	if (ret < 0)
 -- 
 Regards,
 
