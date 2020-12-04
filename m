@@ -1,53 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84562CF6E5
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:37:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B772CF6FA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:40:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7296E220;
-	Fri,  4 Dec 2020 22:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670BD6EC82;
+	Fri,  4 Dec 2020 22:40:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D941C6E220
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607121426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dOpTSn6SI6y5Rh7gDOIWm3dktjrCyDTNhSmJhSUipYs=;
- b=QuGOyp0A3TwylJBmMEoyugmlteUTM+lz4GoYoRExEep/5lXFhKIywYV8g8TLJYkUA4KeUR
- syit2X+TPoG3CZt0BbHrMQ3PxmwIJzuFE8aDrgRVEylwgmaI0gQw4HPFEFLDfJQZ0Byyqb
- B4h5H367KK/eS37Jl36glKxlYcnlk2g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-jD6jRF6wN6OQSOKR_tyEkw-1; Fri, 04 Dec 2020 17:37:03 -0500
-X-MC-Unique: jD6jRF6wN6OQSOKR_tyEkw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15DF4800D53;
- Fri,  4 Dec 2020 22:37:00 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-112-159.rdu2.redhat.com
- [10.10.112.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B01E56E717;
- Fri,  4 Dec 2020 22:36:57 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3 9/9] drm/dp: Revert "drm/dp: Introduce EDID-based quirks"
-Date: Fri,  4 Dec 2020 17:36:03 -0500
-Message-Id: <20201204223603.249878-10-lyude@redhat.com>
-In-Reply-To: <20201204223603.249878-1-lyude@redhat.com>
-References: <20201204223603.249878-1-lyude@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70C1B6EC82
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:40:24 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C04C99A;
+ Fri,  4 Dec 2020 23:40:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607121622;
+ bh=ttoJ3kbmWzYZbia3zymgWEBbwdywjTEpR+fTiLG6P5o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lM7l6rvyRq3g9bjJVwvpKxn04jCk3MIIjsg2VCzyDkzVh5qxhbzQGnK+9ZW4K6Ma2
+ rv5zazgezlH6+bxzG60v9PusS1X2VISQOY9d0zpzbw6vxNtVQOaldNF+Z6Yf6BnXL9
+ Cu9GJn8+R1n4wCUTojG/iv93ypf8Hdj1dzLRvXX0=
+Date: Sat, 5 Dec 2020 00:40:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 2/2] drm: automatic legacy gamma support
+Message-ID: <20201204224021.GK4109@pendragon.ideasonboard.com>
+References: <20201203114845.232911-1-tomi.valkeinen@ti.com>
+ <20201203114845.232911-3-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Disposition: inline
+In-Reply-To: <20201203114845.232911-3-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,328 +46,585 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: thaytan@noraisin.net, Anshuman Gupta <anshuman.gupta@intel.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
- Vasily Khoruzhick <anarsoul@gmail.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
+Cc: Yannick Fertre <yannick.fertre@st.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, Lee Shawn C <shawn.c.lee@intel.com>,
- Wambui Karuga <wambui.karugax@gmail.com>
+ Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
+ Russell King <linux@armlinux.org.uk>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Alexandre Torgue <alexandre.torgue@st.com>, dri-devel@lists.freedesktop.org,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit 0883ce8146ed6074c76399f4e70dbed788582e12. Originally
-these quirks were added because of the issues with using the eDP
-backlight interfaces on certain laptop panels, which made it impossible
-to properly probe for DPCD backlight support without having a whitelist
-for panels that we know have working VESA backlight control interfaces
-over DPCD. As well, it should be noted it was impossible to use the
-normal sink OUI for recognizing these panels as none of them actually
-filled out their OUIs, hence needing to resort to checking EDIDs.
+Hi Tomi,
 
-At the time we weren't really sure why certain panels had issues with
-DPCD backlight controls, but we eventually figured out that there was a
-second interface that these problematic laptop panels actually did work
-with and advertise properly: Intel's proprietary backlight interface for
-HDR panels. So far the testing we've done hasn't brought any panels to
-light that advertise this interface and don't support it properly, which
-means we finally have a real solution to this problem.
+Thank you for the patch.
 
-As a result, we now have no need for the force DPCD backlight quirk, and
-furthermore this also removes the need for any kind of EDID quirk
-checking in DRM. So, let's just revert it for now since we were the only
-driver using this.
+On Thu, Dec 03, 2020 at 01:48:45PM +0200, Tomi Valkeinen wrote:
+> To support legacy gamma ioctls the drivers need to set
+> drm_crtc_funcs.gamma_set either to a custom implementation or to
+> drm_atomic_helper_legacy_gamma_set. Most of the atomic drivers do the
+> latter.
+> 
+> We can simplify this by making the core handle it automatically.
+> 
+> Add two functions: drm_crtc_supports_legacy_gamma() which tells if the
+> legacy gamma table can be set, and drm_crtc_legacy_gamma_set() which
+> does the work by either calling the drm_crtc_funcs.gamma_set or using
+> GAMMA_LUT or DEGAMMA_LUT.
+> 
+> We can then drop drm_atomic_helper_legacy_gamma_set() and remove all its
+> uses.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 -
+>  .../gpu/drm/arm/display/komeda/komeda_crtc.c  |   1 -
+>  drivers/gpu/drm/arm/malidp_crtc.c             |   1 -
+>  drivers/gpu/drm/armada/armada_crtc.c          |   1 -
+>  drivers/gpu/drm/ast/ast_mode.c                |   1 -
+>  .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    |   1 -
+>  drivers/gpu/drm/drm_atomic_helper.c           |  82 -------------
+>  drivers/gpu/drm/drm_color_mgmt.c              | 113 +++++++++++++++++-
+>  drivers/gpu/drm/drm_fb_helper.c               |  12 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   2 -
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   1 -
+>  drivers/gpu/drm/nouveau/dispnv50/head.c       |   2 -
+>  drivers/gpu/drm/omapdrm/omap_crtc.c           |   1 -
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   1 -
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   1 -
+>  drivers/gpu/drm/stm/ltdc.c                    |   1 -
+>  drivers/gpu/drm/vc4/vc4_crtc.c                |   1 -
+>  drivers/gpu/drm/vc4/vc4_txp.c                 |   1 -
+>  include/drm/drm_atomic_helper.h               |   4 -
+>  include/drm/drm_color_mgmt.h                  |   7 ++
+>  20 files changed, 123 insertions(+), 112 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 2855bb918535..848b06c51b0e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -5396,7 +5396,6 @@ static void dm_disable_vblank(struct drm_crtc *crtc)
+>  static const struct drm_crtc_funcs amdgpu_dm_crtc_funcs = {
+>  	.reset = dm_crtc_reset_state,
+>  	.destroy = amdgpu_dm_crtc_destroy,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+>  	.atomic_duplicate_state = dm_crtc_duplicate_state,
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> index 4b485eb512e2..59172acb9738 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_crtc.c
+> @@ -550,7 +550,6 @@ static void komeda_crtc_vblank_disable(struct drm_crtc *crtc)
+>  }
+>  
+>  static const struct drm_crtc_funcs komeda_crtc_funcs = {
+> -	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+>  	.destroy		= drm_crtc_cleanup,
+>  	.set_config		= drm_atomic_helper_set_config,
+>  	.page_flip		= drm_atomic_helper_page_flip,
+> diff --git a/drivers/gpu/drm/arm/malidp_crtc.c b/drivers/gpu/drm/arm/malidp_crtc.c
+> index 108e7a31bd26..494075ddbef6 100644
+> --- a/drivers/gpu/drm/arm/malidp_crtc.c
+> +++ b/drivers/gpu/drm/arm/malidp_crtc.c
+> @@ -510,7 +510,6 @@ static void malidp_crtc_disable_vblank(struct drm_crtc *crtc)
+>  }
+>  
+>  static const struct drm_crtc_funcs malidp_crtc_funcs = {
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.destroy = drm_crtc_cleanup,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> diff --git a/drivers/gpu/drm/armada/armada_crtc.c b/drivers/gpu/drm/armada/armada_crtc.c
+> index 3ebcf5a52c8b..b7bb90ae787f 100644
+> --- a/drivers/gpu/drm/armada/armada_crtc.c
+> +++ b/drivers/gpu/drm/armada/armada_crtc.c
+> @@ -820,7 +820,6 @@ static const struct drm_crtc_funcs armada_crtc_funcs = {
+>  	.cursor_set	= armada_drm_crtc_cursor_set,
+>  	.cursor_move	= armada_drm_crtc_cursor_move,
+>  	.destroy	= armada_drm_crtc_destroy,
+> -	.gamma_set	= drm_atomic_helper_legacy_gamma_set,
+>  	.set_config	= drm_atomic_helper_set_config,
+>  	.page_flip	= drm_atomic_helper_page_flip,
+>  	.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 9db371f4054f..5b0ec785c516 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -903,7 +903,6 @@ static void ast_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+>  
+>  static const struct drm_crtc_funcs ast_crtc_funcs = {
+>  	.reset = ast_crtc_reset,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.destroy = drm_crtc_cleanup,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> index c58fa00b4848..05ad75d155e8 100644
+> --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c
+> @@ -473,7 +473,6 @@ static const struct drm_crtc_funcs atmel_hlcdc_crtc_funcs = {
+>  	.atomic_destroy_state = atmel_hlcdc_crtc_destroy_state,
+>  	.enable_vblank = atmel_hlcdc_crtc_enable_vblank,
+>  	.disable_vblank = atmel_hlcdc_crtc_disable_vblank,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  };
+>  
+>  int atmel_hlcdc_crtc_create(struct drm_device *dev)
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index fe59c8ea42a9..b114658100b3 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3499,88 +3499,6 @@ int drm_atomic_helper_page_flip_target(struct drm_crtc *crtc,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
+>  
+> -/**
+> - * drm_atomic_helper_legacy_gamma_set - set the legacy gamma correction table
+> - * @crtc: CRTC object
+> - * @red: red correction table
+> - * @green: green correction table
+> - * @blue: green correction table
+> - * @size: size of the tables
+> - * @ctx: lock acquire context
+> - *
+> - * Implements support for legacy gamma correction table for drivers
+> - * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+> - * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+> - * how the atomic color management and gamma tables work.
+> - *
+> - * This function uses the GAMMA_LUT or DEGAMMA_LUT property for the gamma table.
+> - * GAMMA_LUT property is used if it exists, and DEGAMMA_LUT property is used as
+> - * a fallback.
+> - */
+> -int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+> -				       u16 *red, u16 *green, u16 *blue,
+> -				       uint32_t size,
+> -				       struct drm_modeset_acquire_ctx *ctx)
+> -{
+> -	struct drm_device *dev = crtc->dev;
+> -	struct drm_atomic_state *state;
+> -	struct drm_crtc_state *crtc_state;
+> -	struct drm_property_blob *blob = NULL;
+> -	struct drm_color_lut *blob_data;
+> -	int i, ret = 0;
+> -	bool replaced;
+> -	bool use_degamma;
+> -
+> -	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
+> -		return -ENODEV;
+> -
+> -	use_degamma = !crtc->has_gamma_prop;
+> -
+> -	state = drm_atomic_state_alloc(crtc->dev);
+> -	if (!state)
+> -		return -ENOMEM;
+> -
+> -	blob = drm_property_create_blob(dev,
+> -					sizeof(struct drm_color_lut) * size,
+> -					NULL);
+> -	if (IS_ERR(blob)) {
+> -		ret = PTR_ERR(blob);
+> -		blob = NULL;
+> -		goto fail;
+> -	}
+> -
+> -	/* Prepare GAMMA_LUT with the legacy values. */
+> -	blob_data = blob->data;
+> -	for (i = 0; i < size; i++) {
+> -		blob_data[i].red = red[i];
+> -		blob_data[i].green = green[i];
+> -		blob_data[i].blue = blue[i];
+> -	}
+> -
+> -	state->acquire_ctx = ctx;
+> -	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> -	if (IS_ERR(crtc_state)) {
+> -		ret = PTR_ERR(crtc_state);
+> -		goto fail;
+> -	}
+> -
+> -	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
+> -	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+> -					      use_degamma ? blob : NULL);
+> -	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+> -	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+> -					      use_degamma ? NULL : blob);
+> -	crtc_state->color_mgmt_changed |= replaced;
+> -
+> -	ret = drm_atomic_commit(state);
+> -
+> -fail:
+> -	drm_atomic_state_put(state);
+> -	drm_property_blob_put(blob);
+> -	return ret;
+> -}
+> -EXPORT_SYMBOL(drm_atomic_helper_legacy_gamma_set);
+> -
+>  /**
+>   * drm_atomic_helper_bridge_propagate_bus_fmt() - Propagate output format to
+>   *						  the input end of a bridge
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index 956e59d5f6a7..21f667ad9c79 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -22,6 +22,7 @@
+>  
+>  #include <linux/uaccess.h>
+>  
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_color_mgmt.h>
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_device.h>
+> @@ -235,6 +236,112 @@ int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
+>  }
+>  EXPORT_SYMBOL(drm_mode_crtc_set_gamma_size);
+>  
+> +/**
+> + * drm_crtc_supports_legacy_gamma - does the crtc support legacy gamma correction table
+> + * @crtc: CRTC object
+> + *
+> + * Returns true/false if the given crtc supports setting the legacy gamma
+> + * correction table.
+> + */
+> +bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
+> +{
+> +	if (!crtc->gamma_size)
+> +		return false;
+> +
+> +	if (crtc->funcs->gamma_set)
+> +		return true;
+> +
+> +	return crtc->has_gamma_prop || crtc->has_degamma_prop;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_supports_legacy_gamma);
+> +
+> +/**
+> + * drm_crtc_legacy_gamma_set - set the legacy gamma correction table
+> + * @crtc: CRTC object
+> + * @red: red correction table
+> + * @green: green correction table
+> + * @blue: green correction table
+> + * @size: size of the tables
+> + * @ctx: lock acquire context
+> + *
+> + * Implements support for legacy gamma correction table for drivers
+> + * that have set drm_crtc_funcs.gamma_set or that support color management
+> + * through the DEGAMMA_LUT/GAMMA_LUT properties. See
+> + * drm_crtc_enable_color_mgmt() and the containing chapter for
+> + * how the atomic color management and gamma tables work.
+> + *
+> + * This function sets the gamma using the first one available:
+> + * - drm_crtc_funcs.gamma_set()
+> + * - GAMMA_LUT
+> + * - DEGAMMA_LUT
+> + */
+> +int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
+> +			      u16 *red, u16 *green, u16 *blue,
+> +			      uint32_t size,
+> +			      struct drm_modeset_acquire_ctx *ctx)
+> +{
+> +	struct drm_device *dev = crtc->dev;
+> +	struct drm_atomic_state *state;
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_property_blob *blob = NULL;
+> +	struct drm_color_lut *blob_data;
+> +	int i, ret = 0;
+> +	bool replaced;
+> +	bool use_degamma;
+> +
+> +	if (crtc->funcs->gamma_set)
+> +		return crtc->funcs->gamma_set(crtc, red, green, blue, size, ctx);
+> +
+> +	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
+> +		return -ENODEV;
+> +
+> +	use_degamma = !crtc->has_gamma_prop;
+> +
+> +	state = drm_atomic_state_alloc(crtc->dev);
+> +	if (!state)
+> +		return -ENOMEM;
+> +
+> +	blob = drm_property_create_blob(dev,
+> +					sizeof(struct drm_color_lut) * size,
+> +					NULL);
+> +	if (IS_ERR(blob)) {
+> +		ret = PTR_ERR(blob);
+> +		blob = NULL;
+> +		goto fail;
+> +	}
+> +
+> +	/* Prepare GAMMA_LUT with the legacy values. */
+> +	blob_data = blob->data;
+> +	for (i = 0; i < size; i++) {
+> +		blob_data[i].red = red[i];
+> +		blob_data[i].green = green[i];
+> +		blob_data[i].blue = blue[i];
+> +	}
+> +
+> +	state->acquire_ctx = ctx;
+> +	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+> +	if (IS_ERR(crtc_state)) {
+> +		ret = PTR_ERR(crtc_state);
+> +		goto fail;
+> +	}
+> +
+> +	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
+> +	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+> +					      use_degamma ? blob : NULL);
+> +	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+> +	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+> +					      use_degamma ? NULL : blob);
+> +	crtc_state->color_mgmt_changed |= replaced;
+> +
+> +	ret = drm_atomic_commit(state);
+> +
+> +fail:
+> +	drm_atomic_state_put(state);
+> +	drm_property_blob_put(blob);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(drm_crtc_legacy_gamma_set);
+> +
+>  /**
+>   * drm_mode_gamma_set_ioctl - set the gamma table
+>   * @dev: DRM device
+> @@ -266,7 +373,7 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+>  	if (!crtc)
+>  		return -ENOENT;
+>  
+> -	if (crtc->funcs->gamma_set == NULL)
+> +	if (!drm_crtc_supports_legacy_gamma(crtc))
+>  		return -ENOSYS;
+>  
+>  	/* memcpy into gamma store */
+> @@ -294,8 +401,8 @@ int drm_mode_gamma_set_ioctl(struct drm_device *dev,
+>  		goto out;
+>  	}
+>  
+> -	ret = crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+> -				     crtc->gamma_size, &ctx);
+> +	ret = drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
+> +					crtc->gamma_size, &ctx);
+>  
+>  out:
+>  	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 25edf670867c..446e321779e6 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -136,15 +136,15 @@ static void drm_fb_helper_restore_lut_atomic(struct drm_crtc *crtc)
+>  {
+>  	uint16_t *r_base, *g_base, *b_base;
+>  
+> -	if (crtc->funcs->gamma_set == NULL)
+> +	if (!drm_crtc_supports_legacy_gamma(crtc))
+>  		return;
+>  
+>  	r_base = crtc->gamma_store;
+>  	g_base = r_base + crtc->gamma_size;
+>  	b_base = g_base + crtc->gamma_size;
+>  
+> -	crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+> -			       crtc->gamma_size, NULL);
+> +	drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
+> +				  crtc->gamma_size, NULL);
+>  }
+>  
+>  /**
+> @@ -907,7 +907,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+>  	drm_modeset_lock_all(fb_helper->dev);
+>  	drm_client_for_each_modeset(modeset, &fb_helper->client) {
+>  		crtc = modeset->crtc;
+> -		if (!crtc->funcs->gamma_set || !crtc->gamma_size)
+> +		if (!drm_crtc_supports_legacy_gamma(crtc))
+>  			return -EINVAL;
+>  
+>  		if (cmap->start + cmap->len > crtc->gamma_size)
+> @@ -921,8 +921,8 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+>  		memcpy(g + cmap->start, cmap->green, cmap->len * sizeof(*g));
+>  		memcpy(b + cmap->start, cmap->blue, cmap->len * sizeof(*b));
+>  
+> -		ret = crtc->funcs->gamma_set(crtc, r, g, b,
+> -					     crtc->gamma_size, NULL);
+> +		ret = drm_crtc_legacy_gamma_set(crtc, r, g, b, crtc->gamma_size,
+> +						NULL);
+>  		if (ret)
+>  			return ret;
+>  	}
+> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> index 368bfef8b340..75f948d41b0a 100644
+> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> @@ -755,8 +755,6 @@ static const struct drm_crtc_funcs ingenic_drm_crtc_funcs = {
+>  
+>  	.enable_vblank		= ingenic_drm_enable_vblank,
+>  	.disable_vblank		= ingenic_drm_disable_vblank,
+> -
+> -	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+>  };
+>  
+>  static const struct drm_plane_helper_funcs ingenic_drm_plane_helper_funcs = {
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index bfe994230543..b665bd498a4a 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -619,7 +619,6 @@ static const struct drm_crtc_funcs mtk_crtc_funcs = {
+>  	.reset			= mtk_drm_crtc_reset,
+>  	.atomic_duplicate_state	= mtk_drm_crtc_duplicate_state,
+>  	.atomic_destroy_state	= mtk_drm_crtc_destroy_state,
+> -	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+>  	.enable_vblank		= mtk_drm_crtc_enable_vblank,
+>  	.disable_vblank		= mtk_drm_crtc_disable_vblank,
+>  };
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/head.c b/drivers/gpu/drm/nouveau/dispnv50/head.c
+> index 537c1ef2e464..ec361d17e900 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/head.c
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/head.c
+> @@ -503,7 +503,6 @@ nv50_head_destroy(struct drm_crtc *crtc)
+>  static const struct drm_crtc_funcs
+>  nv50_head_func = {
+>  	.reset = nv50_head_reset,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.destroy = nv50_head_destroy,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> @@ -518,7 +517,6 @@ nv50_head_func = {
+>  static const struct drm_crtc_funcs
+>  nvd9_head_func = {
+>  	.reset = nv50_head_reset,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.destroy = nv50_head_destroy,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> index 7d66269ad998..b97f21cf4a91 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_crtc.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
+> @@ -741,7 +741,6 @@ static const struct drm_crtc_funcs omap_crtc_funcs = {
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.destroy = omap_crtc_destroy,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.atomic_duplicate_state = omap_crtc_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+>  	.atomic_set_property = omap_crtc_atomic_set_property,
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index b5fb941e0f53..f93e0750431d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -1144,7 +1144,6 @@ static const struct drm_crtc_funcs crtc_funcs_gen3 = {
+>  	.set_crc_source = rcar_du_crtc_set_crc_source,
+>  	.verify_crc_source = rcar_du_crtc_verify_crc_source,
+>  	.get_crc_sources = rcar_du_crtc_get_crc_sources,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  };
+>  
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> index d1e05482641b..8d15cabdcb02 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+> @@ -1643,7 +1643,6 @@ static const struct drm_crtc_funcs vop_crtc_funcs = {
+>  	.disable_vblank = vop_crtc_disable_vblank,
+>  	.set_crc_source = vop_crtc_set_crc_source,
+>  	.verify_crc_source = vop_crtc_verify_crc_source,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  };
+>  
+>  static void vop_fb_unref_worker(struct drm_flip_work *work, void *val)
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 3980677435cb..7812094f93d6 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -713,7 +713,6 @@ static const struct drm_crtc_funcs ltdc_crtc_funcs = {
+>  	.enable_vblank = ltdc_crtc_enable_vblank,
+>  	.disable_vblank = ltdc_crtc_disable_vblank,
+>  	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  };
+>  
+>  /*
+> diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
+> index ea710beb8e00..7495d70d6a32 100644
+> --- a/drivers/gpu/drm/vc4/vc4_crtc.c
+> +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
+> @@ -884,7 +884,6 @@ static const struct drm_crtc_funcs vc4_crtc_funcs = {
+>  	.reset = vc4_crtc_reset,
+>  	.atomic_duplicate_state = vc4_crtc_duplicate_state,
+>  	.atomic_destroy_state = vc4_crtc_destroy_state,
+> -	.gamma_set = drm_atomic_helper_legacy_gamma_set,
+>  	.enable_vblank = vc4_enable_vblank,
+>  	.disable_vblank = vc4_disable_vblank,
+>  	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.c
+> index 8aa5220885f4..e4b782e42f69 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -382,7 +382,6 @@ static const struct drm_crtc_funcs vc4_txp_crtc_funcs = {
+>  	.reset			= vc4_crtc_reset,
+>  	.atomic_duplicate_state	= vc4_crtc_duplicate_state,
+>  	.atomic_destroy_state	= vc4_crtc_destroy_state,
+> -	.gamma_set		= drm_atomic_helper_legacy_gamma_set,
+>  	.enable_vblank		= vc4_txp_enable_vblank,
+>  	.disable_vblank		= vc4_txp_disable_vblank,
+>  };
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index 5f47720440fa..4045e2507e11 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -147,10 +147,6 @@ int drm_atomic_helper_page_flip_target(
+>  				uint32_t flags,
+>  				uint32_t target,
+>  				struct drm_modeset_acquire_ctx *ctx);
+> -int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+> -				       u16 *red, u16 *green, u16 *blue,
+> -				       uint32_t size,
+> -				       struct drm_modeset_acquire_ctx *ctx);
+>  
+>  /**
+>   * drm_atomic_crtc_for_each_plane - iterate over planes currently attached to CRTC
+> diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+> index 81c298488b0c..a899be9404a0 100644
+> --- a/include/drm/drm_color_mgmt.h
+> +++ b/include/drm/drm_color_mgmt.h
+> @@ -28,6 +28,7 @@
+>  
+>  struct drm_crtc;
+>  struct drm_plane;
+> +struct drm_modeset_acquire_ctx;
+>  
+>  /**
+>   * drm_color_lut_extract - clamp and round LUT entries
+> @@ -62,6 +63,12 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+>  int drm_mode_crtc_set_gamma_size(struct drm_crtc *crtc,
+>  				 int gamma_size);
+>  
+> +bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc);
+> +int drm_crtc_legacy_gamma_set(struct drm_crtc *crtc,
+> +			      u16 *red, u16 *green, u16 *blue,
+> +			      uint32_t size,
+> +			      struct drm_modeset_acquire_ctx *ctx);
+> +
 
-v3:
-* Rebase
-v2:
-* Fix indenting error picked up by checkpatch in
-  intel_edp_init_connector()
+As those two functions are not meant to be called by drivers, I wonder
+if they shouldn't go to drm_internal.h.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Cc: thaytan@noraisin.net
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>
----
- drivers/gpu/drm/drm_dp_helper.c               | 83 +------------------
- drivers/gpu/drm/drm_dp_mst_topology.c         |  3 +-
- .../drm/i915/display/intel_display_types.h    |  1 -
- drivers/gpu/drm/i915/display/intel_dp.c       |  9 +-
- drivers/gpu/drm/i915/display/intel_dp_mst.c   |  3 +-
- drivers/gpu/drm/i915/display/intel_psr.c      |  2 +-
- include/drm/drm_dp_helper.h                   | 21 +----
- 7 files changed, 9 insertions(+), 113 deletions(-)
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-diff --git a/drivers/gpu/drm/drm_dp_helper.c b/drivers/gpu/drm/drm_dp_helper.c
-index 5bd0934004e3..62f696fe511e 100644
---- a/drivers/gpu/drm/drm_dp_helper.c
-+++ b/drivers/gpu/drm/drm_dp_helper.c
-@@ -1204,7 +1204,7 @@ bool drm_dp_read_sink_count_cap(struct drm_connector *connector,
- 	return connector->connector_type != DRM_MODE_CONNECTOR_eDP &&
- 		dpcd[DP_DPCD_REV] >= DP_DPCD_REV_11 &&
- 		dpcd[DP_DOWNSTREAMPORT_PRESENT] & DP_DWN_STRM_PORT_PRESENT &&
--		!drm_dp_has_quirk(desc, 0, DP_DPCD_QUIRK_NO_SINK_COUNT);
-+		!drm_dp_has_quirk(desc, DP_DPCD_QUIRK_NO_SINK_COUNT);
- }
- EXPORT_SYMBOL(drm_dp_read_sink_count_cap);
- 
-@@ -1925,87 +1925,6 @@ drm_dp_get_quirks(const struct drm_dp_dpcd_ident *ident, bool is_branch)
- #undef DEVICE_ID_ANY
- #undef DEVICE_ID
- 
--struct edid_quirk {
--	u8 mfg_id[2];
--	u8 prod_id[2];
--	u32 quirks;
--};
--
--#define MFG(first, second) { (first), (second) }
--#define PROD_ID(first, second) { (first), (second) }
--
--/*
-- * Some devices have unreliable OUIDs where they don't set the device ID
-- * correctly, and as a result we need to use the EDID for finding additional
-- * DP quirks in such cases.
-- */
--static const struct edid_quirk edid_quirk_list[] = {
--	/* Optional 4K AMOLED panel in the ThinkPad X1 Extreme 2nd Generation
--	 * only supports DPCD backlight controls
--	 */
--	{ MFG(0x4c, 0x83), PROD_ID(0x41, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	/*
--	 * Some Dell CML 2020 systems have panels support both AUX and PWM
--	 * backlight control, and some only support AUX backlight control. All
--	 * said panels start up in AUX mode by default, and we don't have any
--	 * support for disabling HDR mode on these panels which would be
--	 * required to switch to PWM backlight control mode (plus, I'm not
--	 * even sure we want PWM backlight controls over DPCD backlight
--	 * controls anyway...). Until we have a better way of detecting these,
--	 * force DPCD backlight mode on all of them.
--	 */
--	{ MFG(0x06, 0xaf), PROD_ID(0x9b, 0x32), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x06, 0xaf), PROD_ID(0xeb, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4d, 0x10), PROD_ID(0xc7, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4d, 0x10), PROD_ID(0xe6, 0x14), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x4c, 0x83), PROD_ID(0x47, 0x41), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--	{ MFG(0x09, 0xe5), PROD_ID(0xde, 0x08), BIT(DP_QUIRK_FORCE_DPCD_BACKLIGHT) },
--};
--
--#undef MFG
--#undef PROD_ID
--
--/**
-- * drm_dp_get_edid_quirks() - Check the EDID of a DP device to find additional
-- * DP-specific quirks
-- * @edid: The EDID to check
-- *
-- * While OUIDs are meant to be used to recognize a DisplayPort device, a lot
-- * of manufacturers don't seem to like following standards and neglect to fill
-- * the dev-ID in, making it impossible to only use OUIDs for determining
-- * quirks in some cases. This function can be used to check the EDID and look
-- * up any additional DP quirks. The bits returned by this function correspond
-- * to the quirk bits in &drm_dp_quirk.
-- *
-- * Returns: a bitmask of quirks, if any. The driver can check this using
-- * drm_dp_has_quirk().
-- */
--u32 drm_dp_get_edid_quirks(const struct edid *edid)
--{
--	const struct edid_quirk *quirk;
--	u32 quirks = 0;
--	int i;
--
--	if (!edid)
--		return 0;
--
--	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
--		quirk = &edid_quirk_list[i];
--		if (memcmp(quirk->mfg_id, edid->mfg_id,
--			   sizeof(edid->mfg_id)) == 0 &&
--		    memcmp(quirk->prod_id, edid->prod_code,
--			   sizeof(edid->prod_code)) == 0)
--			quirks |= quirk->quirks;
--	}
--
--	DRM_DEBUG_KMS("DP sink: EDID mfg %*phD prod-ID %*phD quirks: 0x%04x\n",
--		      (int)sizeof(edid->mfg_id), edid->mfg_id,
--		      (int)sizeof(edid->prod_code), edid->prod_code, quirks);
--
--	return quirks;
--}
--EXPORT_SYMBOL(drm_dp_get_edid_quirks);
--
- /**
-  * drm_dp_read_desc - read sink/branch descriptor from DPCD
-  * @aux: DisplayPort AUX channel
-diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-index 0401b2f47500..a2e692a0c6c2 100644
---- a/drivers/gpu/drm/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-@@ -5824,8 +5824,7 @@ struct drm_dp_aux *drm_dp_mst_dsc_aux_for_port(struct drm_dp_mst_port *port)
- 	if (drm_dp_read_desc(port->mgr->aux, &desc, true))
- 		return NULL;
- 
--	if (drm_dp_has_quirk(&desc, 0,
--			     DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
-+	if (drm_dp_has_quirk(&desc, DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD) &&
- 	    port->mgr->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14 &&
- 	    port->parent == port->mgr->mst_primary) {
- 		u8 downstreamport;
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 889b6f9c1aa9..fcc2b12564e6 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1381,7 +1381,6 @@ struct intel_dp {
- 	int max_link_rate;
- 	/* sink or branch descriptor */
- 	struct drm_dp_desc desc;
--	u32 edid_quirks;
- 	struct drm_dp_aux aux;
- 	u32 aux_busy_last_status;
- 	u8 train_set[4];
-diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-index 4cb2bfee9c40..6157eaf0432d 100644
---- a/drivers/gpu/drm/i915/display/intel_dp.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp.c
-@@ -162,8 +162,7 @@ static void intel_dp_set_sink_rates(struct intel_dp *intel_dp)
- 	int i, max_rate;
- 	int max_lttpr_rate;
- 
--	if (drm_dp_has_quirk(&intel_dp->desc, 0,
--			     DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS)) {
-+	if (drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS)) {
- 		/* Needed, e.g., for Apple MBP 2017, 15 inch eDP Retina panel */
- 		static const int quirk_rates[] = { 162000, 270000, 324000 };
- 
-@@ -2788,8 +2787,7 @@ intel_dp_compute_config(struct intel_encoder *encoder,
- 	struct intel_connector *intel_connector = intel_dp->attached_connector;
- 	struct intel_digital_connector_state *intel_conn_state =
- 		to_intel_digital_connector_state(conn_state);
--	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, 0,
--					   DP_DPCD_QUIRK_CONSTANT_N);
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
- 	int ret = 0, output_bpp;
- 
- 	if (HAS_PCH_SPLIT(dev_priv) && !HAS_DDI(dev_priv) && port != PORT_A)
-@@ -6594,7 +6592,6 @@ intel_dp_set_edid(struct intel_dp *intel_dp)
- 	}
- 
- 	drm_dp_cec_set_edid(&intel_dp->aux, edid);
--	intel_dp->edid_quirks = drm_dp_get_edid_quirks(edid);
- }
- 
- static void
-@@ -6608,7 +6605,6 @@ intel_dp_unset_edid(struct intel_dp *intel_dp)
- 
- 	intel_dp->has_hdmi_sink = false;
- 	intel_dp->has_audio = false;
--	intel_dp->edid_quirks = 0;
- 
- 	intel_dp->dfp.max_bpc = 0;
- 	intel_dp->dfp.max_dotclock = 0;
-@@ -8010,7 +8006,6 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
- 	if (edid) {
- 		if (drm_add_edid_modes(connector, edid)) {
- 			drm_connector_update_edid_property(connector, edid);
--			intel_dp->edid_quirks = drm_dp_get_edid_quirks(edid);
- 		} else {
- 			kfree(edid);
- 			edid = ERR_PTR(-EINVAL);
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_mst.c b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-index 27f04aed8764..3e7bbf8d6620 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@ -53,8 +53,7 @@ static int intel_dp_mst_compute_link_config(struct intel_encoder *encoder,
- 	struct drm_i915_private *i915 = to_i915(connector->base.dev);
- 	const struct drm_display_mode *adjusted_mode =
- 		&crtc_state->hw.adjusted_mode;
--	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, 0,
--					   DP_DPCD_QUIRK_CONSTANT_N);
-+	bool constant_n = drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_CONSTANT_N);
- 	int bpp, slots = -EINVAL;
- 
- 	crtc_state->lane_count = limits->max_lane_count;
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index d9a395c486d3..c5c276a4fb91 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -305,7 +305,7 @@ void intel_psr_init_dpcd(struct intel_dp *intel_dp)
- 	drm_dbg_kms(&dev_priv->drm, "eDP panel supports PSR version %x\n",
- 		    intel_dp->psr_dpcd[0]);
- 
--	if (drm_dp_has_quirk(&intel_dp->desc, 0, DP_DPCD_QUIRK_NO_PSR)) {
-+	if (drm_dp_has_quirk(&intel_dp->desc, DP_DPCD_QUIRK_NO_PSR)) {
- 		drm_dbg_kms(&dev_priv->drm,
- 			    "PSR support not currently available for this panel\n");
- 		return;
-diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-index 6b40258927bf..cad6a4b1b4a3 100644
---- a/include/drm/drm_dp_helper.h
-+++ b/include/drm/drm_dp_helper.h
-@@ -1837,16 +1837,13 @@ struct drm_dp_desc {
- 
- int drm_dp_read_desc(struct drm_dp_aux *aux, struct drm_dp_desc *desc,
- 		     bool is_branch);
--u32 drm_dp_get_edid_quirks(const struct edid *edid);
- 
- /**
-  * enum drm_dp_quirk - Display Port sink/branch device specific quirks
-  *
-  * Display Port sink and branch devices in the wild have a variety of bugs, try
-  * to collect them here. The quirks are shared, but it's up to the drivers to
-- * implement workarounds for them. Note that because some devices have
-- * unreliable OUIDs, the EDID of sinks should also be checked for quirks using
-- * drm_dp_get_edid_quirks().
-+ * implement workarounds for them.
-  */
- enum drm_dp_quirk {
- 	/**
-@@ -1878,16 +1875,6 @@ enum drm_dp_quirk {
- 	 * The DSC caps can be read from the physical aux instead.
- 	 */
- 	DP_DPCD_QUIRK_DSC_WITHOUT_VIRTUAL_DPCD,
--	/**
--	 * @DP_QUIRK_FORCE_DPCD_BACKLIGHT:
--	 *
--	 * The device is telling the truth when it says that it uses DPCD
--	 * backlight controls, even if the system's firmware disagrees. This
--	 * quirk should be checked against both the ident and panel EDID.
--	 * When present, the driver should honor the DPCD backlight
--	 * capabilities advertised.
--	 */
--	DP_QUIRK_FORCE_DPCD_BACKLIGHT,
- 	/**
- 	 * @DP_DPCD_QUIRK_CAN_DO_MAX_LINK_RATE_3_24_GBPS:
- 	 *
-@@ -1900,16 +1887,14 @@ enum drm_dp_quirk {
- /**
-  * drm_dp_has_quirk() - does the DP device have a specific quirk
-  * @desc: Device descriptor filled by drm_dp_read_desc()
-- * @edid_quirks: Optional quirk bitmask filled by drm_dp_get_edid_quirks()
-  * @quirk: Quirk to query for
-  *
-  * Return true if DP device identified by @desc has @quirk.
-  */
- static inline bool
--drm_dp_has_quirk(const struct drm_dp_desc *desc, u32 edid_quirks,
--		 enum drm_dp_quirk quirk)
-+drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
- {
--	return (desc->quirks | edid_quirks) & BIT(quirk);
-+	return desc->quirks & BIT(quirk);
- }
- 
- #ifdef CONFIG_DRM_DP_CEC
+>  /**
+>   * drm_color_lut_size - calculate the number of entries in the LUT
+>   * @blob: blob containing the LUT
+
 -- 
-2.28.0
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
