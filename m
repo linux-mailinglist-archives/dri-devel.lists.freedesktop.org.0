@@ -2,34 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADD42CEBE8
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 11:12:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ECB2CEBEE
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 11:13:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 894A46E138;
-	Fri,  4 Dec 2020 10:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3366E167;
+	Fri,  4 Dec 2020 10:13:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B966E138
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 10:12:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFEB96E152
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 10:13:35 +0000 (UTC)
 Received: from lupine.hi.pengutronix.de
  ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kl84b-0008Ou-7o; Fri, 04 Dec 2020 11:12:21 +0100
+ id 1kl85m-0000Fc-BS; Fri, 04 Dec 2020 11:13:34 +0100
 Received: from pza by lupine with local (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kl84a-0002AZ-V1; Fri, 04 Dec 2020 11:12:20 +0100
-Message-ID: <ad437c826a6c4c578c99858da8dc64bfcce7410f.camel@pengutronix.de>
-Subject: Re: [PATCH v3 1/7] drm: add drmm_encoder_alloc()
+ id 1kl85m-0002EU-2m; Fri, 04 Dec 2020 11:13:34 +0100
+Message-ID: <e1fa81a821ee6e5c296cc0e89d9d90a28534b79a.camel@pengutronix.de>
+Subject: Re: [PATCH v3 2/7] drm/simple_kms_helper: add
+ drmm_simple_encoder_alloc()
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Fri, 04 Dec 2020 11:12:20 +0100
-In-Reply-To: <20201204091732.GD4109@pendragon.ideasonboard.com>
+Date: Fri, 04 Dec 2020 11:13:33 +0100
+In-Reply-To: <20201204091943.GE4109@pendragon.ideasonboard.com>
 References: <20200911135724.25833-1-p.zabel@pengutronix.de>
- <20201204091732.GD4109@pendragon.ideasonboard.com>
+ <20200911135724.25833-2-p.zabel@pengutronix.de>
+ <20201204091943.GE4109@pendragon.ideasonboard.com>
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
@@ -57,173 +59,133 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi Laurent,
 
-On Fri, 2020-12-04 at 11:17 +0200, Laurent Pinchart wrote:
+On Fri, 2020-12-04 at 11:19 +0200, Laurent Pinchart wrote:
 > Hi Philipp,
 > 
 > Thank you for the patch.
-
-Thank you for the review.
-
-> On Fri, Sep 11, 2020 at 03:57:18PM +0200, Philipp Zabel wrote:
-> > Add an alternative to drm_encoder_init() that allocates and initializes
-> > an encoder and registers drm_encoder_cleanup() with
+> 
+> On Fri, Sep 11, 2020 at 03:57:19PM +0200, Philipp Zabel wrote:
+> > Add an alternative to drm_simple_encoder_init() that allocates and
+> > initializes a simple encoder and registers drm_encoder_cleanup() with
 > > drmm_add_action_or_reset().
 > > 
 > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 > > ---
-> > Changes since v2:
-> >  - call va_start() / va_end() unconditionally
-> > ---
-> >  drivers/gpu/drm/drm_encoder.c | 101 ++++++++++++++++++++++++++--------
-> >  include/drm/drm_encoder.h     |  30 ++++++++++
-> >  2 files changed, 108 insertions(+), 23 deletions(-)
+> >  drivers/gpu/drm/drm_simple_kms_helper.c | 12 ++++++++++++
+> >  include/drm/drm_simple_kms_helper.h     | 24 ++++++++++++++++++++++++
+> >  2 files changed, 36 insertions(+)
 > > 
-> > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> > index e555281f43d4..f5414705f9ad 100644
-> > --- a/drivers/gpu/drm/drm_encoder.c
-> > +++ b/drivers/gpu/drm/drm_encoder.c
-> > @@ -26,6 +26,7 @@
-> >  #include <drm/drm_device.h>
-> >  #include <drm/drm_drv.h>
-> >  #include <drm/drm_encoder.h>
+> > diff --git a/drivers/gpu/drm/drm_simple_kms_helper.c b/drivers/gpu/drm/drm_simple_kms_helper.c
+> > index 74946690aba4..3cbbfb0f9b51 100644
+> > --- a/drivers/gpu/drm/drm_simple_kms_helper.c
+> > +++ b/drivers/gpu/drm/drm_simple_kms_helper.c
+> > @@ -9,6 +9,7 @@
+> >  #include <drm/drm_atomic.h>
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_bridge.h>
 > > +#include <drm/drm_managed.h>
-> >  
-> >  #include "drm_crtc_internal.h"
-> >  
-> > @@ -91,25 +92,11 @@ void drm_encoder_unregister_all(struct drm_device *dev)
-> >  	}
+> >  #include <drm/drm_plane_helper.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_simple_kms_helper.h>
+> > @@ -71,6 +72,17 @@ int drm_simple_encoder_init(struct drm_device *dev,
 > >  }
+> >  EXPORT_SYMBOL(drm_simple_encoder_init);
 > >  
-> > -/**
-> > - * drm_encoder_init - Init a preallocated encoder
-> > - * @dev: drm device
-> > - * @encoder: the encoder to init
-> > - * @funcs: callbacks for this encoder
-> > - * @encoder_type: user visible type of the encoder
-> > - * @name: printf style format string for the encoder name, or NULL for default name
-> > - *
-> > - * Initialises a preallocated encoder. Encoder should be subclassed as part of
-> > - * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > - * called from the driver's &drm_encoder_funcs.destroy hook.
-> > - *
-> > - * Returns:
-> > - * Zero on success, error code on failure.
-> > - */
-> > -int drm_encoder_init(struct drm_device *dev,
-> > -		     struct drm_encoder *encoder,
-> > -		     const struct drm_encoder_funcs *funcs,
-> > -		     int encoder_type, const char *name, ...)
-> > +__printf(5, 0)
-> > +static int __drm_encoder_init(struct drm_device *dev,
-> > +			      struct drm_encoder *encoder,
-> > +			      const struct drm_encoder_funcs *funcs,
-> > +			      int encoder_type, const char *name, va_list ap)
-> >  {
-> >  	int ret;
-> >  
-> > @@ -125,11 +112,7 @@ int drm_encoder_init(struct drm_device *dev,
-> >  	encoder->encoder_type = encoder_type;
-> >  	encoder->funcs = funcs;
-> >  	if (name) {
-> > -		va_list ap;
-> > -
-> > -		va_start(ap, name);
-> >  		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
-> > -		va_end(ap);
-> >  	} else {
-> >  		encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
-> >  					  drm_encoder_enum_list[encoder_type].name,
-> > @@ -150,6 +133,36 @@ int drm_encoder_init(struct drm_device *dev,
-> >  
-> >  	return ret;
-> >  }
+> > +static const struct drm_encoder_funcs drmm_simple_encoder_funcs_empty = { };
 > > +
-> > +/**
-> > + * drm_encoder_init - Init a preallocated encoder
-> > + * @dev: drm device
-> > + * @encoder: the encoder to init
-> > + * @funcs: callbacks for this encoder
-> > + * @encoder_type: user visible type of the encoder
-> > + * @name: printf style format string for the encoder name, or NULL for default name
-> > + *
-> > + * Initializes a preallocated encoder. Encoder should be subclassed as part of
-> > + * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > + * called from the driver's &drm_encoder_funcs.destroy hook.
-> > + *
-> > + * Returns:
-> > + * Zero on success, error code on failure.
-> > + */
-> > +int drm_encoder_init(struct drm_device *dev,
-> > +		     struct drm_encoder *encoder,
-> > +		     const struct drm_encoder_funcs *funcs,
-> > +		     int encoder_type, const char *name, ...)
+> > +void *__drmm_simple_encoder_alloc(struct drm_device *dev, size_t size,
+> > +				  size_t offset, int encoder_type)
 > > +{
-> > +	va_list ap;
-> > +	int ret;
-> > +
-> > +	va_start(ap, name);
-> > +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > +	va_end(ap);
-> > +
-> > +	return ret;
+> > +	return __drmm_encoder_alloc(dev, size, offset,
+> > +				    &drmm_simple_encoder_funcs_empty,
+> > +				    encoder_type, NULL);
 > > +}
-> >  EXPORT_SYMBOL(drm_encoder_init);
-> >  
-> >  /**
-> > @@ -181,6 +194,48 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
-> >  }
-> >  EXPORT_SYMBOL(drm_encoder_cleanup);
-> >  
-> > +static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
-> > +{
-> > +	struct drm_encoder *encoder = ptr;
-> > +
-> > +	if (WARN_ON(!encoder->dev))
-> > +		return;
-> > +
-> > +	drm_encoder_cleanup(encoder);
-> > +}
-> > +
-> > +void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
-> > +			   const struct drm_encoder_funcs *funcs,
-> > +			   int encoder_type, const char *name, ...)
-> > +{
-> > +	void *container;
-> > +	struct drm_encoder *encoder;
-> > +	va_list ap;
-> > +	int ret;
-> > +
-> > +	if (WARN_ON(!funcs || funcs->destroy))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	container = drmm_kzalloc(dev, size, GFP_KERNEL);
-> > +	if (!container)
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	encoder = container + offset;
-> > +
-> > +	va_start(ap, name);
-> > +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > +	va_end(ap);
-> > +	if (ret)
-> > +		return ERR_PTR(ret);
-> > +
-> > +	ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
-> > +	if (ret)
-> > +		return ERR_PTR(ret);
+> > +EXPORT_SYMBOL(__drmm_simple_encoder_alloc);
 > 
-> Given that drmm_encoder_alloc_release() will be called right before the
-> kfree related to the above drmm_kzalloc(), wouldn't it be more efficient
-> to replace drmm_kzalloc() with kzalloc() and add a kfree() in
-> drmm_encoder_alloc_release() ? That will save one context allocation.
+> Do we need this ? Wouldn't it be better support a NULL drm_encoder_funcs
+> in the core (if we don't already) and use drmm_encoder_alloc() directly
+> in drivers ?
 
-That is not quite as trivial: drmm_encoder_alloc_release() doesn't know
-the container pointer that must be passed to kfree(), nor the offset
-between container and encoder.
+I could change it to remove the empty drm_encoder_funcs, and prepend
+something like this:
 
-> With this addressed,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+----------8<----------
+From 12147d90a8ae48dabc16ca8750fa0f629cc46570 Mon Sep 17 00:00:00 2001
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Date: Fri, 4 Dec 2020 10:49:41 +0100
+Subject: [PATCH] drm/encoder: make encoder control functions optional
+
+Simple managed encoders do not require the .destroy callback,
+make the whole funcs structure optional.
+
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/gpu/drm/drm_encoder.c     | 4 ++--
+ drivers/gpu/drm/drm_mode_config.c | 5 +++--
+ include/drm/drm_encoder.h         | 2 +-
+ 3 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+index e555281f43d4..b0b86a3c08f5 100644
+--- a/drivers/gpu/drm/drm_encoder.c
++++ b/drivers/gpu/drm/drm_encoder.c
+@@ -72,7 +72,7 @@ int drm_encoder_register_all(struct drm_device *dev)
+ 	int ret = 0;
+ 
+ 	drm_for_each_encoder(encoder, dev) {
+-		if (encoder->funcs->late_register)
++		if (encoder->funcs && encoder->funcs->late_register)
+ 			ret = encoder->funcs->late_register(encoder);
+ 		if (ret)
+ 			return ret;
+@@ -86,7 +86,7 @@ void drm_encoder_unregister_all(struct drm_device *dev)
+ 	struct drm_encoder *encoder;
+ 
+ 	drm_for_each_encoder(encoder, dev) {
+-		if (encoder->funcs->early_unregister)
++		if (encoder->funcs && encoder->funcs->early_unregister)
+ 			encoder->funcs->early_unregister(encoder);
+ 	}
+ }
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index f1affc1bb679..87e144155456 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -195,7 +195,7 @@ void drm_mode_config_reset(struct drm_device *dev)
+ 			crtc->funcs->reset(crtc);
+ 
+ 	drm_for_each_encoder(encoder, dev)
+-		if (encoder->funcs->reset)
++		if (encoder->funcs && encoder->funcs->reset)
+ 			encoder->funcs->reset(encoder);
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+@@ -487,7 +487,8 @@ void drm_mode_config_cleanup(struct drm_device *dev)
+ 
+ 	list_for_each_entry_safe(encoder, enct, &dev->mode_config.encoder_list,
+ 				 head) {
+-		encoder->funcs->destroy(encoder);
++		if (encoder->funcs)
++			encoder->funcs->destroy(encoder);
+ 	}
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 5dfa5f7a80a7..833123637fbf 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -89,7 +89,7 @@ struct drm_encoder_funcs {
+  * @head: list management
+  * @base: base KMS object
+  * @name: human readable name, can be overwritten by the driver
+- * @funcs: control functions
++ * @funcs: control functions, can be NULL for simple managed encoders
+  * @helper_private: mid-layer private data
+  *
+  * CRTCs drive pixels to encoders, which convert them into signals
+-- 
+2.20.1
+---------->8----------
 
 regards
 Philipp
