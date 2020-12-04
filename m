@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33C22CE9AB
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:33:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8D52CE9D4
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:34:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 417C16E139;
-	Fri,  4 Dec 2020 08:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 920926EC77;
+	Fri,  4 Dec 2020 08:33:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B41C26E0E1
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE3186E0E5
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 01:23:09 +0000 (UTC)
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CnFLk4FbYzhmDP;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CnFLk4swBzhmDW;
  Fri,  4 Dec 2020 09:22:38 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
@@ -23,16 +23,16 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/fsl-dcu: remove redundant platform_get_irq error message
-Date: Fri, 4 Dec 2020 09:23:07 +0800
-Message-ID: <1607044999-47666-2-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH 1/2] drm/hisilicon: Use managed mode-config init
+Date: Fri, 4 Dec 2020 09:23:08 +0800
+Message-ID: <1607044999-47666-3-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607044999-47666-1-git-send-email-tiantao6@hisilicon.com>
 References: <1607044999-47666-1-git-send-email-tiantao6@hisilicon.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.69.192.56]
 X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:34 +0000
+X-Mailman-Approved-At: Fri, 04 Dec 2020 08:33:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,26 +50,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Function dev_err() after platform_get_irq() is redundant because
-platform_get_irq() already prints an error.
-
+Using drmm_mode_config_init() sets up managed release of modesetting
+resources.
 Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-index 7528e8a..476b196 100644
---- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-+++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
-@@ -259,7 +259,6 @@ static int fsl_dcu_drm_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 5aea2e9..04fee18 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -82,7 +82,9 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+ 	struct drm_device *dev = &priv->dev;
+ 	int ret;
  
- 	fsl_dev->irq = platform_get_irq(pdev, 0);
- 	if (fsl_dev->irq < 0) {
--		dev_err(dev, "failed to get irq\n");
- 		return fsl_dev->irq;
- 	}
+-	drm_mode_config_init(dev);
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ret;
+ 	priv->mode_config_initialized = true;
  
+ 	dev->mode_config.min_width = 0;
+@@ -111,14 +113,6 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+ 	return 0;
+ }
+ 
+-static void hibmc_kms_fini(struct hibmc_drm_private *priv)
+-{
+-	if (priv->mode_config_initialized) {
+-		drm_mode_config_cleanup(&priv->dev);
+-		priv->mode_config_initialized = false;
+-	}
+-}
+-
+ /*
+  * It can operate in one of three modes: 0, 1 or Sleep.
+  */
+@@ -248,7 +242,6 @@ static int hibmc_unload(struct drm_device *dev)
+ 	drm_atomic_helper_shutdown(dev);
+ 
+ 	pci_disable_msi(dev->pdev);
+-	hibmc_kms_fini(priv);
+ 	dev->dev_private = NULL;
+ 	return 0;
+ }
 -- 
 2.7.4
 
