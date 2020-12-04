@@ -1,55 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46CDC2CF0D2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 16:36:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF472CF0E9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 16:43:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA556E17F;
-	Fri,  4 Dec 2020 15:36:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBF116E17F;
+	Fri,  4 Dec 2020 15:42:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE5E16E17F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 15:36:28 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id k10so5857672wmi.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 07:36:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0v566WzwVM5IixZEI6M5GdbCg0P5kKkDNz+vnQsiMHc=;
- b=C+Tvsth0hE7h8bxuxdV29xKYFR5ez6kPMqHicRyVXIRw4nqz3q1/pmwpNKjgZ4sP2+
- tbUnNpcXusLp2AAIAeWGJGGqnWZKQiBug9QLuZji1RgeW5vL8vlnHTsUqtyXdH/CfY0+
- goyKQvsADHt2Rnxkg30M4zoMnlkUPGdQ1qr/CUQjEOvojbALWN7YjBXm6+UtAa8RchDt
- 8vo2Kfar5+7a+NwSE1ftp90KsC1N7pp3tdUt1Ar0NsP4PcoDL7o9x99Zwd4qschPRUW7
- 4kt0HAnNXq2b4kWMxe1FwsyqnZYFJCM06eVZrir037jgQYk/wC3mvGQvcaIf2HdY+oN6
- yhfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0v566WzwVM5IixZEI6M5GdbCg0P5kKkDNz+vnQsiMHc=;
- b=L0bQWkOYCZ3Theo+QREEo2h7IAIW/S/6skx2w0QsuOVlT0HFpwz65cdKBkl5oXCYlv
- elwmmuiOeC48sjN6LdIExOA8+LaI1Tuor4G2OR/dzW+rfTc7rEMSPp89Hxf2jRVXRG23
- VUtuQOhqmwcdJbfnPJFrUjrgHYPydr011I/A2Qzn2pov8pfRrB6HBlPW+M7JBKUKh/Dp
- fgNTWnvaGp4ztCnggD4R9gDm/v/ntHDoXV5FkJctI5Z2lVmaWzbZnFJ2ajXrjhOHnZuw
- uFOUd50P24QtjOdb4ep4SWVatzzdOevMU46nphILhc6rQ0V3nU2+FIMrNh2Mj9HoAvXq
- kSrQ==
-X-Gm-Message-State: AOAM532hmJ2DfOF0OiXjuRzQ8HEA8RZgGMNDEedFeG4wpbog83BZ9sLT
- itSuOsDXtfWkVHORbckA2n5snGlwOdHA3x84gpyN1Q==
-X-Google-Smtp-Source: ABdhPJyfoO7NououpVsC9vMpf0YzY0uMz1QWtkxNdyjTPpV5zF1Cbpy0i6SQAuI4ZXBn37+iygqqNa5/+004xpRcp94=
-X-Received: by 2002:a1c:810c:: with SMTP id c12mr4951170wmd.96.1607096187567; 
- Fri, 04 Dec 2020 07:36:27 -0800 (PST)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E476A6E17F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 15:42:56 +0000 (UTC)
+IronPort-SDR: Cozgg8O5P/gvApZcds5l84zh6dvIQ1Dq3wArJx2XnuXoJ7ni7vGBNVs8ixO1sCO6m1TEdLKe7d
+ fpzZlKDWiOgQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9825"; a="161162561"
+X-IronPort-AV: E=Sophos;i="5.78,393,1599548400"; d="scan'208";a="161162561"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2020 07:42:56 -0800
+IronPort-SDR: QBY5aObDt9H17hjFSFTnnSxenr+YFGz8uaEG1QTAGlfKcv4T0jZf4Pn2X1HDp3775gIGJKyaDb
+ WzAD7P3nLCCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,393,1599548400"; d="scan'208";a="362212294"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga008.jf.intel.com with SMTP; 04 Dec 2020 07:42:53 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 04 Dec 2020 17:42:52 +0200
+Date: Fri, 4 Dec 2020 17:42:52 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Subject: Re: [RFC PATCH 1/2] drm: RFC add choice to use dynamic debug in
+ drm-debug
+Message-ID: <X8pY/H512EMR3bUX@intel.com>
+References: <20201204035318.332419-1-jim.cromie@gmail.com>
+ <20201204035318.332419-2-jim.cromie@gmail.com>
 MIME-Version: 1.0
-References: <20201203074624.721559-1-maxime@cerno.tech>
-In-Reply-To: <20201203074624.721559-1-maxime@cerno.tech>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Fri, 4 Dec 2020 15:36:11 +0000
-Message-ID: <CAPY8ntAo+nDY=aJy+5TCiJ_xUWZhkDtXtXxu6_9Mj5hvgmHfaQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/vc4: hdmi: Don't poll for the infoframes status on
- setup
-To: Maxime Ripard <maxime@cerno.tech>
+Content-Disposition: inline
+In-Reply-To: <20201204035318.332419-2-jim.cromie@gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,89 +53,485 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
+ jbaron@akamai.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+On Thu, Dec 03, 2020 at 08:53:17PM -0700, Jim Cromie wrote:
+> drm's debug system uses distinct categories of debug messages, mapped
+> to bits in drm.debug.  Currently, code does a lot of unlikely bit-mask
+> checks on drm.debug (in drm_debug_enabled), we can use dynamic debug
+> instead, and get all that jump_label goodness.
 
-On Thu, 3 Dec 2020 at 07:46, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> The infoframes are sent at a regular interval as a data island packet,
-> so we don't need to wait for them to be sent when we're setting them up.
->
-> However, we do need to poll when we're enabling since the we can't
-> update the packet RAM until it has been sent.
->
-> Let's add a boolean flag to tell whether we want to poll or not to
-> support both cases.
->
-> Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+whatis jump_label?
 
-That looks like it should do what was intended - thanks.
+One thing that bugs me about the current drm_dbg() stuff is that
+it's a function, and thus we pay the cost of setting up the
+arguments even when debugs are not enabled. I played around a bit
+with making it a macro again with the unlikely bit check moved
+into the macro. That did seem to make some of the asm a bit nicer
+where the debug stuff got shoved out the main codepath, but
+it did result in a slight net increase in code size. What I didn't
+have time to do is check if this has any measurable speed effect
+on eg. TEST_ONLY commits.
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+And while doing that I started to ponder if we could use something
+like the alternate() instruction stuff to patch the code at runtime
+in order to turn all those debug checks into nops when debugging
+is not enabled. But I couldn't immediately find any generic
+infrastructure for it. So now I wonder if this jump_label is something
+like that?
 
+> =
+
+> RFC: dynamic debug has no concept of category, but we can do without
+> one if we can prepend a class-prefix to each printk format.  Then we
+> can use "format ^prefix" to select the whole category with one query.
+> This is a log-facing and user visible change, but it seems unlikely to
+> cause trouble for log watchers; they're not relying on the absence of
+> class prefix strings.
+> =
+
+> This conversion yields ~2100 new callsites on my i7 laptop:
+> =
+
+>   dyndbg: 195 debug prints in module drm_kms_helper
+>   dyndbg: 298 debug prints in module drm
+>   dyndbg: 1630 debug prints in module i915
+> =
+
+> Since this change has wide-ranging effects (many drm drivers, with
+> many callsites, and kernel image growth), and most vendors don't
+> enable DYNAMIC_DEBUG, we supplement the existing mechanism, adding
+> CONFIG_DRM_USE_DYNAMIC_DEBUG to enable the new one.
+> =
+
+> The indirection/switchover has a few parts:
+> =
+
+> 1 a new callback on drm.debug which calls dynamic_debug_exec_queries
+>   to map those bits to specific query/commands
+>   dynamic_debug_exec_queries("format ^drm:kms: +p", "drm*");
+> =
+
+> 2 a "converted" or "classy" DRM_UT_* map
+>   similar to DRM_UT_* ( symbol =3D> bit-mask )
+>   named it  cDRM_UT_* ( symbol =3D> format-class-prefix-string )
+> =
+
+>   cDRM_UT_* is either ( CONFIG_DRM_USE_DYNAMIC_DEBUG )
+>   legacy: cDRM_UT_* <-- DRM_UT_*
+>   enabled:
+>   +#define cDRM_UT_KMS    "drm:kms: "
+>   +#define cDRM_UT_PRIME  "drm:prime: "
+>   +#define cDRM_UT_ATOMIC "drm:atomic: "
+> =
+
+>   these are similar to "gvt: cmd:" in i915/gvt
+>   and effectively a replacement for DRM_NAME
+>   please bikeshed on keys, values. latter are log-facing.
+> =
+
+> 3 drm_dev_dbg & drm_debug are renamed (prefixed with '_')
+>   old names are now macros, which are ifdefd
+>   legacy:  -> to renamed fn
+>   enabled: -> dev_dbg & pr_debug, after prepending prefix to format.
+> =
+
+> 4 names in (2) are called from DRM_DEBUG_<Category> and drm_dbg_<Category=
+>.
+>   all these get "converted" to use cDRM_UT_*, to get right token type.
+> =
+
+> RFC: for dynamic debug, category is a source-facing addition;
+> something like pr_debug_cat(cat, ...) would do it, iff cat is a
+> compile-time const.  Note that cat isn't needed in the printing, it
+> would be saved into a new field in struct _ddebug, and used only for
+> callsite selection, activation and control.
+> =
+
+> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 > ---
->
-> Changes from v1:
->   - Inverted when to poll
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index a2c5b5e9786a..d3c4a9b5bb6d 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -265,7 +265,8 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
->  }
->
->  static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
-> -                               enum hdmi_infoframe_type type)
-> +                               enum hdmi_infoframe_type type,
-> +                               bool poll)
->  {
->         struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
->         u32 packet_id = type - 0x80;
-> @@ -273,6 +274,9 @@ static int vc4_hdmi_stop_packet(struct drm_encoder *encoder,
->         HDMI_WRITE(HDMI_RAM_PACKET_CONFIG,
->                    HDMI_READ(HDMI_RAM_PACKET_CONFIG) & ~BIT(packet_id));
->
-> +       if (!poll)
-> +               return 0;
+>  drivers/gpu/drm/Kconfig     | 13 ++++++
+>  drivers/gpu/drm/drm_print.c | 75 ++++++++++++++++++++++++++++--
+>  include/drm/drm_print.h     | 92 +++++++++++++++++++++++++++----------
+>  3 files changed, 153 insertions(+), 27 deletions(-)
+> =
+
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index 147d61b9674e..854bc1ad21fb 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -54,6 +54,19 @@ config DRM_DEBUG_MM
+>  =
+
+>  	  If in doubt, say "N".
+>  =
+
+> +config DRM_USE_DYNAMIC_DEBUG
+> +	bool "use dynamic debug to implement drm.debug"
+> +	default n
+> +	depends on DRM
+> +	depends on DYNAMIC_DEBUG
+> +	depends on JUMP_LABEL
+> +	help
+> +	  The drm debug category facility does a lot of unlikely bit-field
+> +	  tests at runtime; while cheap individually, the cost accumulates.
+> +	  This option uses dynamic debug facility (if configured and
+> +	  using jump_label) to avoid those runtime checks, patching
+> +	  the kernel when those debugs are desired.
 > +
->         return wait_for(!(HDMI_READ(HDMI_RAM_PACKET_STATUS) &
->                           BIT(packet_id)), 100);
+>  config DRM_DEBUG_SELFTEST
+>  	tristate "kselftests for DRM"
+>  	depends on DRM
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 111b932cf2a9..e2acdfc7088b 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -52,8 +52,75 @@ MODULE_PARM_DESC(debug, "Enable debug output, where ea=
+ch bit enables a debug cat
+>  "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+>  "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+>  "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> +
+> +#ifndef CONFIG_DRM_USE_DYNAMIC_DEBUG
+>  module_param_named(debug, __drm_debug, int, 0600);
+>  =
+
+> +#else
+> +static char *format_class_prefixes[] =3D {
+> +	cDRM_UT_CORE,
+> +	cDRM_UT_DRIVER,
+> +	cDRM_UT_KMS,
+> +	cDRM_UT_PRIME,
+> +	cDRM_UT_ATOMIC,
+> +	cDRM_UT_VBL,
+> +	cDRM_UT_STATE,
+> +	cDRM_UT_LEASE,
+> +	cDRM_UT_DP,
+> +	cDRM_UT_DRMRES
+> +};
+> +
+> +#define OUR_QUERY_SIZE 64 /* > strlen "format '^%s' %cp" + longest prefi=
+x */
+> +
+> +static int param_set_dyndbg(const char *instr, const struct kernel_param=
+ *kp)
+> +{
+> +	unsigned int val;
+> +	unsigned long changes, result;
+> +	int rc, chgct =3D 0, totct =3D 0, bitpos;
+> +	char query[OUR_QUERY_SIZE];
+> +
+> +	rc =3D kstrtouint(instr, 0, &val);
+> +	if (rc) {
+> +		pr_err("%s: failed\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +	result =3D val;
+> +	changes =3D result ^ __drm_debug;
+> +
+> +	pr_debug("changes:0x%lx from result:0x%lx\n", changes, result);
+> +
+> +	for_each_set_bit(bitpos, &changes, ARRAY_SIZE(format_class_prefixes)) {
+> +
+> +		sprintf(query, "format '^%s' %cp", format_class_prefixes[bitpos],
+> +			test_bit(bitpos, &result) ? '+' : '-');
+> +
+> +		chgct =3D dynamic_debug_exec_queries(query, "drm*");
+> +		if (chgct < 0) {
+> +			pr_err("%s: exec err:%d on: %s\n", __func__, chgct, query);
+> +			continue;
+> +		}
+> +		pr_debug("change ct:%d on %s\n", chgct, query);
+> +		totct +=3D chgct;
+> +	}
+> +	pr_debug("total changes: %d\n", totct);
+> +	__drm_debug =3D result;
+> +	return 0;
+> +}
+> +
+> +static int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
+> +{
+> +	pr_debug("debug-val:0x%x %u\n", __drm_debug, *((unsigned int *)kp->arg)=
+);
+> +	return scnprintf(buffer, PAGE_SIZE, "%u\n",
+> +			 *((unsigned int *)kp->arg));
+> +}
+> +static const struct kernel_param_ops param_ops_debug =3D {
+> +	.set =3D param_set_dyndbg,
+> +	.get =3D param_get_dyndbg,
+> +};
+> +module_param_cb(debug, &param_ops_debug, &__drm_debug, 0644);
+> +
+> +#endif /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
+> +
+>  void __drm_puts_coredump(struct drm_printer *p, const char *str)
+>  {
+>  	struct drm_print_iterator *iterator =3D p->arg;
+> @@ -256,7 +323,7 @@ void drm_dev_printk(const struct device *dev, const c=
+har *level,
 >  }
-> @@ -299,7 +303,7 @@ static void vc4_hdmi_write_infoframe(struct drm_encoder *encoder,
->         if (len < 0)
->                 return;
->
-> -       ret = vc4_hdmi_stop_packet(encoder, frame->any.type);
-> +       ret = vc4_hdmi_stop_packet(encoder, frame->any.type, true);
->         if (ret) {
->                 DRM_ERROR("Failed to wait for infoframe to go idle: %d\n", ret);
->                 return;
-> @@ -1056,7 +1060,7 @@ static void vc4_hdmi_audio_reset(struct vc4_hdmi *vc4_hdmi)
->         int ret;
->
->         vc4_hdmi->audio.streaming = false;
-> -       ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO);
-> +       ret = vc4_hdmi_stop_packet(encoder, HDMI_INFOFRAME_TYPE_AUDIO, false);
->         if (ret)
->                 dev_err(dev, "Failed to stop audio infoframe: %d\n", ret);
->
-> --
+>  EXPORT_SYMBOL(drm_dev_printk);
+>  =
+
+> -void drm_dev_dbg(const struct device *dev, enum drm_debug_category categ=
+ory,
+> +void _drm_dev_dbg(const struct device *dev, enum drm_debug_category cate=
+gory,
+>  		 const char *format, ...)
+>  {
+>  	struct va_format vaf;
+> @@ -278,9 +345,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
+ebug_category category,
+>  =
+
+>  	va_end(args);
+>  }
+> -EXPORT_SYMBOL(drm_dev_dbg);
+> +EXPORT_SYMBOL(_drm_dev_dbg);
+>  =
+
+> -void __drm_dbg(enum drm_debug_category category, const char *format, ...)
+> +void ___drm_dbg(enum drm_debug_category category, const char *format, ..=
+.)
+>  {
+>  	struct va_format vaf;
+>  	va_list args;
+> @@ -297,7 +364,7 @@ void __drm_dbg(enum drm_debug_category category, cons=
+t char *format, ...)
+>  =
+
+>  	va_end(args);
+>  }
+> -EXPORT_SYMBOL(__drm_dbg);
+> +EXPORT_SYMBOL(___drm_dbg);
+>  =
+
+>  void __drm_err(const char *format, ...)
+>  {
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index f32d179e139d..2bd5c38aa100 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -319,6 +319,51 @@ enum drm_debug_category {
+>  	DRM_UT_DRMRES		=3D 0x200,
+>  };
+>  =
+
+> +#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+> +
+> +/* Use legacy drm-debug functions, implying drm_debug_enabled().
+> + * For cDRM_UT_* (converted category), identity map to DRM_UT_*
+> + */
+> +#define __drm_dbg(cls, fmt, ...)					\
+> +	___drm_dbg(cls, fmt, ##__VA_ARGS__)
+> +#define drm_dev_dbg(dev, cls, fmt, ...)					\
+> +	_drm_dev_dbg(dev, cls, fmt, ##__VA_ARGS__)
+> +
+> +#define cDRM_UT_CORE	DRM_UT_CORE
+> +#define cDRM_UT_DRIVER	DRM_UT_DRIVER
+> +#define cDRM_UT_KMS	DRM_UT_KMS
+> +#define cDRM_UT_PRIME	DRM_UT_PRIME
+> +#define cDRM_UT_ATOMIC	DRM_UT_ATOMIC
+> +#define cDRM_UT_VBL	DRM_UT_VBL
+> +#define cDRM_UT_STATE	DRM_UT_STATE
+> +#define cDRM_UT_LEASE	DRM_UT_LEASE
+> +#define cDRM_UT_DP	DRM_UT_DP
+> +#define cDRM_UT_DRMRES	DRM_UT_DRMRES
+> +
+> +#else /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
+> +
+> +/* use dynamic_debug to avoid drm_debug_enabled.
+> + * dyndbg has no category, so we prefix format with a class-string,
+> + * and alter cDRM_UT_* to provide those class strings
+> + */
+> +#define __drm_dbg(cls, fmt, ...)					\
+> +	pr_debug(cls # fmt, ##__VA_ARGS__)
+> +#define drm_dev_dbg(dev, cls, fmt, ...)					\
+> +	dev_dbg(dev, cls fmt, ##__VA_ARGS__)
+> +
+> +#define cDRM_UT_CORE	"drm:core: "
+> +#define cDRM_UT_DRIVER	"drm:drvr: "
+> +#define cDRM_UT_KMS	"drm:kms: "
+> +#define cDRM_UT_PRIME	"drm:prime: "
+> +#define cDRM_UT_ATOMIC	"drm:atomic: "
+> +#define cDRM_UT_VBL	"drm:vbl: "
+> +#define cDRM_UT_STATE	"drm:state: "
+> +#define cDRM_UT_LEASE	"drm:lease: "
+> +#define cDRM_UT_DP	"drm:dp: "
+> +#define cDRM_UT_DRMRES	"drm:res "
+> +
+> +#endif /* !CONFIG_DRM_USE_DYNAMIC_DEBUG */
+> +
+>  static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  {
+>  	return unlikely(__drm_debug & category);
+> @@ -334,7 +379,7 @@ __printf(3, 4)
+>  void drm_dev_printk(const struct device *dev, const char *level,
+>  		    const char *format, ...);
+>  __printf(3, 4)
+> -void drm_dev_dbg(const struct device *dev, enum drm_debug_category categ=
+ory,
+> +void _drm_dev_dbg(const struct device *dev, enum drm_debug_category cate=
+gory,
+>  		 const char *format, ...);
+>  =
+
+>  /**
+> @@ -383,7 +428,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
+ebug_category category,
+>   * @fmt: printf() like format string.
+>   */
+>  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+> -	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(dev, cDRM_UT_CORE, fmt, ##__VA_ARGS__)
+>  /**
+>   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the=
+ driver
+>   *
+> @@ -391,7 +436,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
+ebug_category category,
+>   * @fmt: printf() like format string.
+>   */
+>  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+> -	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg(dev, cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+>  /**
+>   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+>   *
+> @@ -443,25 +488,25 @@ void drm_dev_dbg(const struct device *dev, enum drm=
+_debug_category category,
+>  =
+
+>  =
+
+>  #define drm_dbg_core(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_CORE, fmt, ##__VA_ARGS__)
+>  #define drm_dbg(drm, fmt, ...)						\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_kms(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_prime(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_PRIME, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_atomic(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_vbl(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_VBL, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_state(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_STATE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_STATE, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_lease(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_LEASE, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_dp(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_DP, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_DP, fmt, ##__VA_ARGS__)
+>  #define drm_dbg_drmres(drm, fmt, ...)					\
+> -	drm_dev_dbg((drm)->dev, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+> +	drm_dev_dbg((drm)->dev, cDRM_UT_DRMRES, fmt, ##__VA_ARGS__)
+>  =
+
+>  =
+
+>  /*
+> @@ -471,7 +516,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
+ebug_category category,
+>   */
+>  =
+
+>  __printf(2, 3)
+> -void __drm_dbg(enum drm_debug_category category, const char *format, ...=
+);
+> +void ___drm_dbg(enum drm_debug_category category, const char *format, ..=
+.);
+>  __printf(1, 2)
+>  void __drm_err(const char *format, ...);
+>  =
+
+> @@ -500,29 +545,30 @@ void __drm_err(const char *format, ...);
+>  #define DRM_ERROR_RATELIMITED(fmt, ...)					\
+>  	DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
+>  =
+
+> +
+>  #define DRM_DEBUG(fmt, ...)						\
+> -	__drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_CORE, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_DRIVER(fmt, ...)					\
+> -	__drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_KMS(fmt, ...)						\
+> -	__drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_KMS, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_PRIME(fmt, ...)					\
+> -	__drm_dbg(DRM_UT_PRIME, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_PRIME, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_ATOMIC(fmt, ...)					\
+> -	__drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_VBL(fmt, ...)						\
+> -	__drm_dbg(DRM_UT_VBL, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_VBL, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_LEASE(fmt, ...)					\
+> -	__drm_dbg(DRM_UT_LEASE, fmt, ##__VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_LEASE, fmt, ##__VA_ARGS__)
+>  =
+
+>  #define DRM_DEBUG_DP(fmt, ...)						\
+> -	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
+> +	__drm_dbg(cDRM_UT_DP, fmt, ## __VA_ARGS__)
+>  =
+
+>  =
+
+>  #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
+> @@ -531,7 +577,7 @@ void __drm_err(const char *format, ...);
+>  				      DEFAULT_RATELIMIT_INTERVAL,       \
+>  				      DEFAULT_RATELIMIT_BURST);         \
+>  	if (__ratelimit(&_rs))						\
+> -		drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);	\
+> +		drm_dev_dbg(NULL, cDRM_UT_KMS, fmt, ##__VA_ARGS__);	\
+>  })
+>  =
+
+>  /*
+> -- =
+
 > 2.28.0
->
+> =
+
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
