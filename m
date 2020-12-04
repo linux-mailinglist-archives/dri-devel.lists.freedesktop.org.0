@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3042CE965
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0CE2CE966
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:20:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757976E138;
-	Fri,  4 Dec 2020 08:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1B36E134;
+	Fri,  4 Dec 2020 08:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C42076E134
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 08:19:59 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id 23so4423017wrc.8
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 00:19:59 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B716E138
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 08:20:01 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id k10so4788176wmi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 00:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uFjKy1JMQGds6QCWv9HgfQo7basi56RFkixKbM89qBQ=;
- b=iLmFK7YliCdlWPtPemg20hSOC9+X0t97zFpxwojlugyjm5Ntx5rhE2aymcQjZFsI7A
- FcAkMDcv4bJ4q7Wv/C9JK60TLmp0sRkQFNE1k8Qk8lt2bSoIoKCak+UH5vbtlcXeBdRz
- m73MSfm60b/c4NPBoAaarCInCaV2yx1Wh1KIbMGbBprjxwQ89iAlXD+IAvlGY4vCFtql
- iMb/7WcIp3bpSXipN7GY2Ex9qkHJ2SXlMY51CpWW61OJbWOa1UcTNcSJ8TvaHl/2f07E
- q+lqbW/z1pxM8yXsNze2PxmqhbgYt/FAaYzbN5JslOIwNF1R+ghXS6L3AxwFYKxsAino
- 2smg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qB2SYCS1v55sYBnoh6a9A5+nyB8wI9x+IMkUjRVdEyU=;
+ b=ccMmR3vntuVwCLyqCesY4T0znkXgfHiXTnq0Gfqpmm9HTwG6ct0MAfHZMb2oDeCArn
+ 1nLK4Eu61t+NF96Gt0GPU7KyEBcyHU1FZ0ifBWS90HGCpl3nED5ZKBYU5kQOAlk7oNDZ
+ uR9o1QAz+c6cPiNc26TuGW7uoCI6+fgmbwmB536uos4WiP9CvNQ3lMgaK7xiLyvhPNtB
+ FnJXjPSSlKTYFmrhXPob9KQhIdISIvf3nam868Q9yq0UBc4aFgDcv2UUGLCCUxn4NEyW
+ E0o/6e6uxmZziWhlajv4l6fH8jplyKEMp7BwBcnF/HKLVvlMux6bCwt620d2m2mM+kTd
+ RB1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uFjKy1JMQGds6QCWv9HgfQo7basi56RFkixKbM89qBQ=;
- b=tLWg9+PWxST2WOwlZ6WMj/40TBOxCl9X9MQgTkTx+B71cEAlr0TpGMFF4RE4sC3Pua
- C1Z6DV100RPTNXeN456d5PUt8yNngOu86OPdp7qHabSbiuz4Yym7NNIHz6Z8pZ4zaUdH
- wvSLhUU5LGCV6h5odDwB9QiGRgwY7GbzC5Oxh2GETLcNosJl+AT94lDhFq3h6BMd69W1
- RT6hD19wcWuZGZlo1JOtCJEBY1szLssTmQ4lvAcs8Jfl3ej9h49QXUuFklozNrMQK5tw
- 2GdhKcw7XtAbW72262AOYB0VeEr64slm77EEjl08EAELZVenz/aYPCqciZE3WJXZC/TT
- CObw==
-X-Gm-Message-State: AOAM530NYRmd0CwCpCktCnY0enTjWj/si0MKTIYHtRhyKiC5etIq0mzE
- 4Vn1zfXXCy7hsm/Vm4BpRQe4GQ==
-X-Google-Smtp-Source: ABdhPJykB+eU1y7MuAmsKGB/sLYnbS2V5dqlJBOTpU3F9+1gTVE8TYjBwDFd8NbGB5pAHfOHTslnWA==
-X-Received: by 2002:a5d:634c:: with SMTP id b12mr3477924wrw.130.1607069998193; 
- Fri, 04 Dec 2020 00:19:58 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qB2SYCS1v55sYBnoh6a9A5+nyB8wI9x+IMkUjRVdEyU=;
+ b=Lju2wgd3maPKUfA4uJrwvMvWkUxvL1gRa3gKC/9POaO6RnN6/vpfUA9qxe2U2ehtXg
+ WqWOI2beiYZSX9gNFxQ1vo4Knt9/Wqf0IsNgjOAihBqI6vKJynu7fa2IQ1B6o6WwGAPJ
+ oud9HIrOe6/eljVpAuCI/9W8HJuOwlk1RVuJoYX6JWvLT7LQ8UuSZowxrbsnIIRwLopX
+ DQZRg3sWNpU99uwIMZnTRJ5jtLoeKDX2FDRXRkVqgv48u+5ACZeteuDWFidLDa9/lFna
+ S5GYQKYhO6Oj2KmFtRF5J3K7hJZPIAHZa+12dx++UjsBJXiU4c9QPFx2aU7nJCzDuSCO
+ FdAw==
+X-Gm-Message-State: AOAM532UZb3iNbFtJ51xBwaOy/wV45ypknWY+3gCe3kvRXuT9hNf9NAw
+ SPoNZDTc1ip+hxyEe/sO867aDg==
+X-Google-Smtp-Source: ABdhPJzrpFgeI141caO0N8Tzp+D9LOCP9wb+YCgmPCkrvEZHVVVGvZXPcNLDcIUBBkFD7Rirz4jVww==
+X-Received: by 2002:a1c:9949:: with SMTP id b70mr2852681wme.85.1607069999842; 
+ Fri, 04 Dec 2020 00:19:59 -0800 (PST)
 Received: from localhost.localdomain ([2a01:e35:2ec0:82b0:296a:40d9:d5a0:bbc5])
- by smtp.gmail.com with ESMTPSA id b17sm1691156wrv.10.2020.12.04.00.19.56
+ by smtp.gmail.com with ESMTPSA id b17sm1691156wrv.10.2020.12.04.00.19.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 00:19:57 -0800 (PST)
+ Fri, 04 Dec 2020 00:19:59 -0800 (PST)
 From: Neil Armstrong <narmstrong@baylibre.com>
-To: sam@ravnborg.org
-Subject: [PATCH v2 0/2] drm: panel: add support for the Khadas TS050 panel
-Date: Fri,  4 Dec 2020 09:19:47 +0100
-Message-Id: <20201204081949.38418-1-narmstrong@baylibre.com>
+To: sam@ravnborg.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: panel-simple-dsi: add Khadas TS050 panel
+ bindings
+Date: Fri,  4 Dec 2020 09:19:48 +0100
+Message-Id: <20201204081949.38418-2-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201204081949.38418-1-narmstrong@baylibre.com>
+References: <20201204081949.38418-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,41 +71,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Neil Armstrong <narmstrong@baylibre.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add support & bindings for the Khadas TS050 1080x1920 5" LCD DSI panel designed
-to work with the Khadas Edge-V, Captain, VIM3 and VIM3L Single Board Computers.
-It provides a MIPI DSI interface to the host, a built-in LED backlight
-and touch controller.
-
-Changes since v1:
-- removed drm_print include
-- added reset_gpio to 1 after prepare failure
-- now ignore regulator_disable() on prepare failure
-- mark prepared=false whatever the result of the unprepare function errors
-- also reset_gpio to 1 on unprepare
-- do not return on mipi_dsi_dcs_enter_sleep_mode error on unprepare
-- mark enabled=true unconditionnally
-- use dev_err_probe in probe()
-
-Neil Armstrong (2):
-  dt-bindings: panel-simple-dsi: add Khadas TS050 panel bindings
-  drm: panel: add Khadas TS050 panel driver
-
- .../display/panel/panel-simple-dsi.yaml       |   2 +
- drivers/gpu/drm/panel/Kconfig                 |  11 +
- drivers/gpu/drm/panel/Makefile                |   1 +
- drivers/gpu/drm/panel/panel-khadas-ts050.c    | 866 ++++++++++++++++++
- 4 files changed, 880 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-khadas-ts050.c
-
--- 
-2.25.1
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhpcyBhZGQgdGhlIGJpbmRpbmdzIGZvciB0aGUgS2hhZGFzIFRTMDUwIDEwODB4MTkyMCA1IiBM
+Q0QgRFNJIHBhbmVsIGRlc2lnbmVkIHRvIHdvcmsKd2l0aCB0aGUgS2hhZGFzIEVkZ2UtViwgQ2Fw
+dGFpbiwgVklNMyBhbmQgVklNM0wgU2luZ2xlIEJvYXJkIENvbXB1dGVycy4KClNpZ25lZC1vZmYt
+Ynk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KUmV2aWV3ZWQtYnk6
+IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KLS0tCiAuLi4vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLXNpbXBsZS1kc2kueWFtbCAgICAgfCAyICsrCiAxIGZp
+bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sIGIv
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFuZWwtc2lt
+cGxlLWRzaS55YW1sCmluZGV4IDcyZTRiNmQ0ZDVlMS4uZmJkNzE2NjkyNDhmIDEwMDY0NAotLS0g
+YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1z
+aW1wbGUtZHNpLnlhbWwKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
+c3BsYXkvcGFuZWwvcGFuZWwtc2ltcGxlLWRzaS55YW1sCkBAIC0zNSw2ICszNSw4IEBAIHByb3Bl
+cnRpZXM6CiAgICAgICAtIGJvZSx0djA4MHd1bS1ubDAKICAgICAgICAgIyBJbm5vbHV4IFAwNzla
+Q0EgNy44NSIgNzY4eDEwMjQgVEZUIExDRCBwYW5lbAogICAgICAgLSBpbm5vbHV4LHAwNzl6Y2EK
+KyAgICAgICAgIyBLaGFkYXMgVFMwNTAgNSIgMTA4MHgxOTIwIExDRCBwYW5lbAorICAgICAgLSBr
+aGFkYXMsdHMwNTAKICAgICAgICAgIyBLaW5nZGlzcGxheSBLRDA5N0QwNCA5LjciIDE1MzZ4MjA0
+OCBURlQgTENEIHBhbmVsCiAgICAgICAtIGtpbmdkaXNwbGF5LGtkMDk3ZDA0CiAgICAgICAgICMg
+TEcgQUNYNDY3QUtNLTcgNC45NSIgMTA4MMOXMTkyMCBMQ0QgUGFuZWwKLS0gCjIuMjUuMQoKX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1h
+aWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
