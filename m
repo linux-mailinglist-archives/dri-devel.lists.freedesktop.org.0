@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0A22D0C51
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AC52D0C39
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0FE6E5C3;
-	Mon,  7 Dec 2020 08:57:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BA5C89FF7;
+	Mon,  7 Dec 2020 08:56:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 476 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Dec 2020 17:12:06 UTC
 Received: from latitanza.investici.org (latitanza.investici.org
- [IPv6:2001:888:2000:56::19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D59E6E198
+ [82.94.249.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A85F6E17F
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 17:12:06 +0000 (UTC)
 Received: from mx3.investici.org (unknown [127.0.0.1])
- by latitanza.investici.org (Postfix) with ESMTP id 4CnfFR4tBCz8shv;
- Fri,  4 Dec 2020 17:04:27 +0000 (UTC)
+ by latitanza.investici.org (Postfix) with ESMTP id 4CnfFV5fzTz8sj0;
+ Fri,  4 Dec 2020 17:04:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=privacyrequired.com;
- s=stigmate; t=1607101467;
- bh=2zSLREyUq7ZQ7biojEerXIWmpTslB1rfxKxJGm0Yl/U=;
+ s=stigmate; t=1607101470;
+ bh=jj3P5WJKhBjJXjhj2nHnA+LqEglKEW8VWsBVAqfeHU0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Xa72QKp0aZec20MikUqt2PG25vYmAO/CK7Ss6PIuxp8TZtHa1bxXlMh1e4Lg1yWEk
- SMGdq6KJMiSdwbQ6bGzHHHjfTCiEYEMDSwfqdWZdn1U1zZzp2fV/wHe9WeQKkZMLsb
- cX3iPRGT5WZxXDH3Hkdz5gYScMYd1g3hEPwOHEuk=
+ b=CVBq28eY5y/E2J5T940HENRNiWellXmut36E2S7zrKL3j1znsGIp/BvXNEmGDtTA8
+ BBIbiUr9fi11xUOSnuleSemZEzRk+l2xTEit9mXUZf9hNK5mR+D1xlcM+e3Fn3az40
+ BBx2JHh8BXcMlP0aiMZbc+2/vBoU6tLXV/of2Fgg=
 Received: from [82.94.249.234] (mx3.investici.org [82.94.249.234])
  (Authenticated sender: laniel_francis@privacyrequired.com) by localhost
- (Postfix) with ESMTPSA id 4CnfFQ6VHJz8sfb; 
- Fri,  4 Dec 2020 17:04:26 +0000 (UTC)
+ (Postfix) with ESMTPSA id 4CnfFV0sRNz8sfb; 
+ Fri,  4 Dec 2020 17:04:30 +0000 (UTC)
 From: laniel_francis@privacyrequired.com
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [RFC PATCH v1 05/12] renesas: Replace strstarts() by str_has_prefix().
-Date: Fri,  4 Dec 2020 18:03:11 +0100
-Message-Id: <20201204170319.20383-6-laniel_francis@privacyrequired.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [RFC PATCH v1 06/12] omap: Replace strstarts() by str_has_prefix().
+Date: Fri,  4 Dec 2020 18:03:12 +0100
+Message-Id: <20201204170319.20383-7-laniel_francis@privacyrequired.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201204170319.20383-1-laniel_francis@privacyrequired.com>
 References: <20201204170319.20383-1-laniel_francis@privacyrequired.com>
@@ -51,8 +52,7 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Francis Laniel <laniel_francis@privacyrequired.com>,
+Cc: Francis Laniel <laniel_francis@privacyrequired.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -67,22 +67,22 @@ returns the length of the prefix if the string begins with it or 0 otherwise.
 
 Signed-off-by: Francis Laniel <laniel_francis@privacyrequired.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 2 +-
+ drivers/gpu/drm/omapdrm/dss/base.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index fe86a3e67757..3f9972165afa 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -1016,7 +1016,7 @@ static int rcar_du_crtc_parse_crc_source(struct rcar_du_crtc *rcrtc,
- 	} else if (!strcmp(source_name, "auto")) {
- 		*source = VSP1_DU_CRC_OUTPUT;
- 		return 0;
--	} else if (strstarts(source_name, "plane")) {
-+	} else if (str_has_prefix(source_name, "plane")) {
- 		unsigned int i;
- 
- 		*source = VSP1_DU_CRC_PLANE;
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index c7650a7c155d..dd3d466293d1 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -350,7 +350,7 @@ static bool omapdss_component_is_loaded(struct omapdss_comp_node *comp)
+ {
+ 	if (comp->dss_core_component)
+ 		return true;
+-	if (!strstarts(comp->compat, "omapdss,"))
++	if (!str_has_prefix(comp->compat, "omapdss,"))
+ 		return true;
+ 	if (omapdss_device_is_registered(comp->node))
+ 		return true;
 -- 
 2.20.1
 
