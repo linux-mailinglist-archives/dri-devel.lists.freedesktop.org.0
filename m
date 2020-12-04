@@ -1,41 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969DA2D0C5B
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7391F2D0C55
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9E306E823;
-	Mon,  7 Dec 2020 08:57:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A19286E81A;
+	Mon,  7 Dec 2020 08:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 540 seconds by postgrey-1.36 at gabe;
- Fri, 04 Dec 2020 13:21:28 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47D006E17B
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 13:21:28 +0000 (UTC)
-Received: from orion.localdomain ([95.114.158.118]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MYcy3-1kgWBh3Gol-00Veyn; Fri, 04 Dec 2020 14:12:22 +0100
-From: "Enrico Weigelt, metux IT consult" <info@metux.net>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] drivers: gpu: drm: virtio: fix dependency of DRM_VIRTIO_GPU
- on VIRTIO
-Date: Fri,  4 Dec 2020 14:12:21 +0100
-Message-Id: <20201204131221.2827-1-info@metux.net>
-X-Mailer: git-send-email 2.11.0
-X-Provags-ID: V03:K1:3Im9AR8enAhEZ521drYds2y30UO6XrMQxF7XSNeRaHzWJtu0806
- nomRdpnhyqV9yq3cBgTAy9GY7ZuqnPpXvXM4RYvkgZ6VZwhypBYgx9OZ6LbDbl+uL1ivihl
- c3jNOwd4B09o3DTB1Je5/4NeVyCGFGPxXeU2Lio/C8KpRElAOpzJTx8oDvGpOKEOwx3JZS+
- zRV38mFeCRPfFCwMuz+jw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8UJG8JyP2co=:H6gfRpp0gBQiq8eHCJKPS3
- +K+kT0fYezS+dcwg7B4Nun2dkvHFKAgG9sL1vdCJYABPsxbw82IuDdkm/fDBJNpcR2CFnHmC0
- dSkOXeDy2MFMsYizVnVJhvkAtGPqA1vjqy0JiZ6vXflo6z/hf+8OwTBlfZ5p4NK27R6FHYSPH
- +7y5C6YYUf/HYqtIQchF/lwwM2rpsMmXCVnE2v8coKvyJvgFn2qNmk+J3+gIYiMHz9jqfcric
- /MxSW6RuVaqHYsNX2I/vUSA3qLT/hBIhCRNU0NvW96oMcLorOKDtNGtuQa6X7vRzHOlbNlyGH
- eNuythkRNLgd5Wdp9E+L7pRYLhtQMscVcPwvgnvKCu5Z0vAu0/2hTaDDkshNnCV4e/YA6xYLB
- lBDmQOdr6yNsvQwz7GNo3OxPTVEChpVsd1HHMTrKw3LdFBwZR4xVyJrDjd/Sn
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6316E17F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 15:11:45 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 404C4580146;
+ Fri,  4 Dec 2020 10:11:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute3.internal (MEProxy); Fri, 04 Dec 2020 10:11:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=qZIeITZCCeO2FBytN2Glg/L3iF
+ hw1qYWc7AxJW2/6xg=; b=U+dGlXefvdkajgvQHYWZTEil/+dN8HUlH3q9zlH1td
+ rV625lld9WWn2j3JKm2H32nvBE4YxU7uIsWQxjtyp0iiCiNK/0//3jt5RbQqOZqc
+ g07hVJ8VKI+DRMUIDWT0HLutHsBD+PghpHv2GsKz2IaVvMpvLbsWVxKMfkKP+eeE
+ FZOOExBmDU+5gmltCJSi0s83Q67AJXCySPZEpBzxFVzd12LMUyx34lOGggQGbz+X
+ DdRAdcQsoDlCB1Ylq59TqS6A019Pxb5NmXgUID05+jtW9jVAKZoj0aFu0WtA8Gnc
+ AjeS3FrAnVcOAdIrEVrYSPlgPMJP8a5+0RX9kbMjgAIw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=qZIeIT
+ ZCCeO2FBytN2Glg/L3iFhw1qYWc7AxJW2/6xg=; b=HgBEKbtkcGf+k9wP/6922r
+ Jr/pi7uTeg7FzDFgk9PTUiLdvNEt2+xYtdMa6CJzyK2Trehwn/6/1WsCrH0QPRIX
+ GmFEucb8ukdnKJVsILE0Wq+ekU7W3ABYd3O9W7+9XWx7cj8RFISKRE9xrTsHvydx
+ VEoCg7UaNPYCqKDNkjdJGOxrWr0FZfOdxNCbsQxulKyFKWmio0/fkVOIgLX2NV3X
+ F8sqT4oVSwkLe4mZ/0l+PquoQWL4+O9TvvO3rrVLi4osBu6H54JGzR5k8tVjsBlq
+ B9D95nPyTvQZIXjWgEs6Gbtmhy/c3polX/Ywj+nqNyrqtY2soHht+QFyDZ3xopPQ
+ ==
+X-ME-Sender: <xms:rVHKX8SME748Q34z6SgCCeCZyjMN2ItndOfLdJnYIWNleB4pZ2aFDg>
+ <xme:rVHKXythdz8_EN0-8YLTtITOWztOwRSgUe_BJJjQ1r21FKYlOBWatctJCmuHRCk9d
+ mDhmLvMr9uyVhSX3WA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeikedgjeegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:rVHKX1ZJ_nq2K8BQpzjdUeewvFPNHa67Yzqi2Q4FbMs1KtP8xLiCwA>
+ <xmx:rVHKXwG_4fpwojfAkoPrc-aG6YFZwWGu6leegwOxSNiQg2uKt08g6A>
+ <xmx:rVHKXxyUaN9wQmCyA4HmmZ-N3Ss1fgnMWjYWhZnQu0owE0qEvZyMgA>
+ <xmx:r1HKX8VJsgRgK6-rRph0eN25D4NteNOBPYOIiuI3hWeFHrKBaULjKw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id C7F4D1080068;
+ Fri,  4 Dec 2020 10:11:40 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>
+Subject: [PATCH v2 0/7] vc4: Convert to drm_atomic_helper_commit
+Date: Fri,  4 Dec 2020 16:11:31 +0100
+Message-Id: <20201204151138.1739736-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,63 +81,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
- virtualization@lists.linux-foundation.org
-MIME-Version: 1.0
+Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VIRTIO itself has no dependencies and therefore can easily be just
-select'ed, instead of depending on it. The current depends on causes
-any others trying to select VIRTIO to fail like this:
+Hi,
 
-   drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
-   drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by DRM_VIRTIO_GPU
-   drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
-   drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
-   drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
-   drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
-   drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
-   drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
-   drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
-   drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
-   drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
+Here's a conversion of vc4 to remove the hand-rolled atomic_commit helper from
+vc4 in favour of the generic one.
 
-It seems that having both 'depends on' as well as 'select' on the same symbol
-sends us into big trouble, and Kconfig can't break up the circular dependency
-(note that in the tested configuration, neither I2C, FB or DRM are enabled at
-all). Perhaps we could consider this a bug in Kconfig, but the trouble can
-easily be circumvented by changing 'depends on' into 'select'.
+This requires some rework of vc4, but also a new hook and some documentation
+for corner-cases in the DRM core that have been reported and explained by
+Daniel recently.
 
-DRM_VIRTIO_GPU also depends on VIRTIO_MENU, so even after this change, that
-option will only show up if the user already enabled virtio in the config.
+Let me know what you think,
+Maxime
 
-This change didn't cause any changes in the .config after menuconfig run,
-so we should be completely safe here.
+Changes from v1:
+  - Addressed the comments from Dave and Thomas on the documentation
+  - s/last_user/pending_commit/
+  - Check that the commit is not NULL before waiting on it
+  - Fixed a compilation error on an intermediate patch
+  - Drop the assigned_channels variable redundant with the in_use variable
 
-Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
----
- drivers/gpu/drm/virtio/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Maxime Ripard (7):
+  drm: Introduce an atomic_commit_setup function
+  drm: Document use-after-free gotcha with private objects
+  drm/vc4: Simplify a bit the global atomic_check
+  drm/vc4: kms: Wait on previous FIFO users before a commit
+  drm/vc4: kms: Remove unassigned_channels from the HVS state
+  drm/vc4: kms: Remove async modeset semaphore
+  drm/vc4: kms: Convert to atomic helpers
 
-diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
-index b925b8b1da16..51ec7c3240c9 100644
---- a/drivers/gpu/drm/virtio/Kconfig
-+++ b/drivers/gpu/drm/virtio/Kconfig
-@@ -1,7 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config DRM_VIRTIO_GPU
- 	tristate "Virtio GPU driver"
--	depends on DRM && VIRTIO && VIRTIO_MENU && MMU
-+	depends on DRM && VIRTIO_MENU && MMU
-+	select VIRTIO
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_SHMEM_HELPER
- 	select VIRTIO_DMA_SHARED_BUFFER
+ drivers/gpu/drm/drm_atomic_helper.c      |   9 +
+ drivers/gpu/drm/vc4/vc4_crtc.c           |  13 --
+ drivers/gpu/drm/vc4/vc4_drv.h            |   2 -
+ drivers/gpu/drm/vc4/vc4_kms.c            | 248 +++++++++++------------
+ include/drm/drm_atomic.h                 |  20 ++
+ include/drm/drm_modeset_helper_vtables.h |  21 ++
+ 6 files changed, 172 insertions(+), 141 deletions(-)
+
 -- 
-2.11.0
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
