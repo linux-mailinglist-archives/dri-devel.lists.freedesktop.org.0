@@ -1,28 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1A942CF245
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 17:52:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2EE2CF321
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 18:31:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28D6A6E1B1;
-	Fri,  4 Dec 2020 16:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C2A6E1A8;
+	Fri,  4 Dec 2020 17:31:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7596F6E1B1
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 16:52:03 +0000 (UTC)
-From: Arnd Bergmann <arnd@kernel.org>
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Madhav Chauhan <madhav.chauhan@amd.com>
-Subject: [PATCH] drm/ttm: fix unused function warning
-Date: Fri,  4 Dec 2020 17:51:52 +0100
-Message-Id: <20201204165158.3748141-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F33F96E1A8
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 17:31:41 +0000 (UTC)
+Subject: Re: [git pull] drm fixes for 5.10-rc7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607103101;
+ bh=kdIV6qg0v0kiZPoBanSMJB+t0VBdncQDDFz02bw9yK8=;
+ h=From:In-Reply-To:References:Date:To:Cc:From;
+ b=JSFb9xWqy01RN7dA8kaAN3HFhqAPi3zNGSICcVJ/bifokveYcv6fib3PJDmEsTEv1
+ MGilnBByafrBp+o3c/C7tpWsjLqrKhLRdaQoJHy0DRYgQgpOQutMmjDpBURgCQE6WC
+ Jare1SBF9wcMctg6hQICGPyX+WWN4+2A/lGPt+yDIIkwb5FPmhTtN5pQbCT3u9y37k
+ hQ/HgjYH1gZmIYsw6Y4iyHytwB2wKOSluUZ2fIP0ZzZpDxHn4vjcgO181/dVw+Dttq
+ zgODtaACfUADboSpuaS4d+gjzNhj+IZsb8H9onDh0QHKNpAb69f+03RHtlH3oVfiBq
+ aYHbsZiO45AMA==
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9twdEoUbczSb9v0vAFD7w1qfB8-89tP-xjAEq5P=uBezCw@mail.gmail.com>
+References: <CAPM=9twdEoUbczSb9v0vAFD7w1qfB8-89tP-xjAEq5P=uBezCw@mail.gmail.com>
+X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
+ <dri-devel.lists.freedesktop.org>
+X-PR-Tracked-Message-Id: <CAPM=9twdEoUbczSb9v0vAFD7w1qfB8-89tP-xjAEq5P=uBezCw@mail.gmail.com>
+X-PR-Tracked-Remote: git://anongit.freedesktop.org/drm/drm
+ tags/drm-fixes-2020-12-04
+X-PR-Tracked-Commit-Id: de9b485d1dc993f1fb579b5d15a8176284627f4a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e87297fa080a7ed6b431873c771b3801cab573f5
+Message-Id: <160710310160.1431.7995360012238947510.pr-tracker-bot@kernel.org>
+Date: Fri, 04 Dec 2020 17:31:41 +0000
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -35,79 +50,28 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alex Deucher <alexander.deucher@amd.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Arnd Bergmann <arnd@arndb.de>,
- Martin Peres <martin.peres@mupuf.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+The pull request you sent on Fri, 4 Dec 2020 12:25:35 +1000:
 
-ttm_pool_type_count() is not used when debugfs is disabled:
+> git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-12-04
 
-drivers/gpu/drm/ttm/ttm_pool.c:243:21: error: unused function 'ttm_pool_type_count' [-Werror,-Wunused-function]
-static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e87297fa080a7ed6b431873c771b3801cab573f5
 
-Move the definition into the #ifdef block.
+Thank you!
 
-Fixes: d099fc8f540a ("drm/ttm: new TT backend allocation pool v3")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/gpu/drm/ttm/ttm_pool.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index 5455b2044759..7b2f60616750 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -239,21 +239,6 @@ static struct page *ttm_pool_type_take(struct ttm_pool_type *pt)
- 	return p;
- }
- 
--/* Count the number of pages available in a pool_type */
--static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
--{
--	unsigned int count = 0;
--	struct page *p;
--
--	spin_lock(&pt->lock);
--	/* Only used for debugfs, the overhead doesn't matter */
--	list_for_each_entry(p, &pt->pages, lru)
--		++count;
--	spin_unlock(&pt->lock);
--
--	return count;
--}
--
- /* Initialize and add a pool type to the global shrinker list */
- static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
- 			       enum ttm_caching caching, unsigned int order)
-@@ -543,6 +528,20 @@ void ttm_pool_fini(struct ttm_pool *pool)
- EXPORT_SYMBOL(ttm_pool_fini);
- 
- #ifdef CONFIG_DEBUG_FS
-+/* Count the number of pages available in a pool_type */
-+static unsigned int ttm_pool_type_count(struct ttm_pool_type *pt)
-+{
-+	unsigned int count = 0;
-+	struct page *p;
-+
-+	spin_lock(&pt->lock);
-+	/* Only used for debugfs, the overhead doesn't matter */
-+	list_for_each_entry(p, &pt->pages, lru)
-+		++count;
-+	spin_unlock(&pt->lock);
-+
-+	return count;
-+}
- 
- /* Dump information about the different pool types */
- static void ttm_pool_debugfs_orders(struct ttm_pool_type *pt,
 -- 
-2.27.0
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
