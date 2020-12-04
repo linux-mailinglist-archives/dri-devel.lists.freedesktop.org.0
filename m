@@ -2,32 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E152CEC46
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 11:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A8F2CEC47
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 11:34:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D867D6E139;
-	Fri,  4 Dec 2020 10:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D786D6E13A;
+	Fri,  4 Dec 2020 10:33:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC3D86E139
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 10:32:55 +0000 (UTC)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A61D6E13A
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 10:33:59 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 452921F45F59;
- Fri,  4 Dec 2020 10:32:54 +0000 (GMT)
-Date: Fri, 4 Dec 2020 11:32:51 +0100
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id EDED41F45F59;
+ Fri,  4 Dec 2020 10:33:57 +0000 (GMT)
+Date: Fri, 4 Dec 2020 11:33:47 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Nikhil Devshatwar <nikhil.nd@ti.com>
-Subject: Re: [PATCH v4 4/7] drm/bridge: mhdp8546: Set input_bus_flags from
- atomic_check
-Message-ID: <20201204113251.5a8c5023@collabora.com>
-In-Reply-To: <20201201121830.29704-5-nikhil.nd@ti.com>
+Subject: Re: [PATCH v4 3/7] drm/bridge: mhdp8546: Add minimal format
+ negotiation
+Message-ID: <20201204113347.3db9ee1e@collabora.com>
+In-Reply-To: <20201201121830.29704-4-nikhil.nd@ti.com>
 References: <20201201121830.29704-1-nikhil.nd@ti.com>
- <20201201121830.29704-5-nikhil.nd@ti.com>
+ <20201201121830.29704-4-nikhil.nd@ti.com>
 Organization: Collabora
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -52,53 +51,80 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 1 Dec 2020 17:48:27 +0530
+On Tue, 1 Dec 2020 17:48:26 +0530
 Nikhil Devshatwar <nikhil.nd@ti.com> wrote:
 
-> input_bus_flags are specified in drm_bridge_timings (legacy) as well
-> as drm_bridge_state->input_bus_cfg.flags
+> With new connector model, mhdp bridge will not create the connector and
+> SoC driver will rely on format negotiation to setup the encoder format.
 > 
-> The flags from the timings will be deprecated. Bridges are supposed
-> to validate and set the bridge state flags from atomic_check.
+> Support minimal format negotiations hooks in the drm_bridge_funcs.
+> Complete format negotiation can be added based on EDID data.
+> This patch adds the minimal required support to avoid failure
+> after moving to new connector model.
 > 
 > Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 ++++++
->  drivers/gpu/drm/bridge/ti-tfp410.c                  | 1 +
->  2 files changed, 7 insertions(+)
+> 
+> Notes:
+>     changes from v1:
+>     * cosmetic fixes, commit message update
+> 
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index 2cd809eed827..9c17e4bb517e 100644
+> index d0c65610ebb5..2cd809eed827 100644
 > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -2121,6 +2121,12 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->  		return -EINVAL;
->  	}
+> @@ -2078,6 +2078,30 @@ cdns_mhdp_bridge_atomic_reset(struct drm_bridge *bridge)
+>  	return &cdns_mhdp_state->base;
+>  }
 >  
-> +	/*
-> +	 * There might be flags negotiation supported in future
-> +	 * Set the bus flags in atomic_check statically for now
-> +	 */
-> +	bridge_state->input_bus_cfg.flags = bridge->timings->input_bus_flags;
+> +static u32 *cdns_mhdp_get_input_bus_fmts(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state *bridge_state,
+> +				      struct drm_crtc_state *crtc_state,
+> +				      struct drm_connector_state *conn_state,
+> +				      u32 output_fmt,
+> +				      unsigned int *num_input_fmts)
+> +{
+> +	u32 *input_fmts;
+> +	u32 default_bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
 > +
->  	mutex_unlock(&mhdp->link_mutex);
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index 4c536df003c8..9035d2145a28 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -245,6 +245,7 @@ int tfp410_atomic_check(struct drm_bridge *bridge,
->  	 * Set the bus flags in atomic_check statically for now
->  	 */
->  	bridge_state->input_bus_cfg.flags = dvi->timings.input_bus_flags;
-> +	return 0;
+> +	*num_input_fmts = 0;
+> +
+> +	if (output_fmt != MEDIA_BUS_FMT_FIXED)
+> +		return NULL;
+> +
+> +	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	*num_input_fmts = 1;
+> +	input_fmts[0] = default_bus_format;
 
-And here is the return statement that was missing in patch 2 :-).
+Why not 
 
->  }
->  
->  static const struct drm_bridge_funcs tfp410_bridge_funcs = {
+	input_fmts[0] = MEDIA_BUS_FMT_RGB121212_1X36;
+
+?
+
+This way you could get rid of the default_bus_format variable.
+
+> +	return input_fmts;
+> +}
+> +
+>  static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>  				  struct drm_bridge_state *bridge_state,
+>  				  struct drm_crtc_state *crtc_state,
+> @@ -2142,6 +2166,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
+>  	.atomic_duplicate_state = cdns_mhdp_bridge_atomic_duplicate_state,
+>  	.atomic_destroy_state = cdns_mhdp_bridge_atomic_destroy_state,
+>  	.atomic_reset = cdns_mhdp_bridge_atomic_reset,
+> +	.atomic_get_input_bus_fmts = cdns_mhdp_get_input_bus_fmts,
+>  	.detect = cdns_mhdp_bridge_detect,
+>  	.get_edid = cdns_mhdp_bridge_get_edid,
+>  	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
 
 _______________________________________________
 dri-devel mailing list
