@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEC4D2CE80D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 07:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CB22CE80F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 07:23:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF3D6E12C;
-	Fri,  4 Dec 2020 06:21:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 432A76E12C;
+	Fri,  4 Dec 2020 06:23:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FAB56E12C
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 06:21:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9950A6E12C
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 06:23:14 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210479] amdgpu: Monitor connected to RX 6800XT loses signal
  when module is loaded
-Date: Fri, 04 Dec 2020 06:21:52 +0000
+Date: Fri, 04 Dec 2020 06:23:14 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -28,13 +28,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: alapshin@fastmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: INVALID
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210479-2300-oLyxqGulGm@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-210479-2300-dcxKFYVWZm@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210479-2300@https.bugzilla.kernel.org/>
 References: <bug-210479-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,11 +59,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210479
 
---- Comment #2 from alapshin@fastmail.com ---
-Alex, thank you very much.
+alapshin@fastmail.com changed:
 
-This was exactly it. I had CONFIG_DRM_AMD_DC_DCN3_0 unset. After enabling it
-everything seems to work fine, including XServer.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
 
 -- 
 You are receiving this mail because:
