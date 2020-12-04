@@ -1,54 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A512CE95A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:18:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3042CE965
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 09:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC636E138;
-	Fri,  4 Dec 2020 08:18:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 757976E138;
+	Fri,  4 Dec 2020 08:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com
- [209.85.218.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBAF36E138
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 08:18:23 +0000 (UTC)
-Received: by mail-ej1-f65.google.com with SMTP id lt17so7456884ejb.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 00:18:23 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42076E134
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 08:19:59 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id 23so4423017wrc.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 00:19:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uFjKy1JMQGds6QCWv9HgfQo7basi56RFkixKbM89qBQ=;
+ b=iLmFK7YliCdlWPtPemg20hSOC9+X0t97zFpxwojlugyjm5Ntx5rhE2aymcQjZFsI7A
+ FcAkMDcv4bJ4q7Wv/C9JK60TLmp0sRkQFNE1k8Qk8lt2bSoIoKCak+UH5vbtlcXeBdRz
+ m73MSfm60b/c4NPBoAaarCInCaV2yx1Wh1KIbMGbBprjxwQ89iAlXD+IAvlGY4vCFtql
+ iMb/7WcIp3bpSXipN7GY2Ex9qkHJ2SXlMY51CpWW61OJbWOa1UcTNcSJ8TvaHl/2f07E
+ q+lqbW/z1pxM8yXsNze2PxmqhbgYt/FAaYzbN5JslOIwNF1R+ghXS6L3AxwFYKxsAino
+ 2smg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=VemDQ6EGsBsmNy3s9ek1G18QMI3vy92u8aJPDPxveeg=;
- b=nUhLwAJ0c281mgUVHk7nSnOOkuIiGP4tvl46ikqh7uUS0zbXHKuA3wDI3yreyXkzFS
- 9T+qWTbQWDepgXkeXFTGA16f1PQmQAD2nk0HxwRke/ni7LeRL45pLBpvuHik7JZkOxgp
- 2SUPYUWEotE+CTFopMuWGxm70xA3WzAw7QeUZ+6BAqk423WAqnSttcD4PtlZizfgHEjG
- I/3YG7mm76gbOWu7YkCzEWDq6mpA4BHKseIwmSaEdiGs5/+SDhxWTXYhxO2NKJtQDkWu
- e/vPfWYMQuW0WCwRbMSpqgBbFN1eY5qntzj1eUJCZgVbIVUGYiYgl5UCIAZ+qvxh/sff
- PXGg==
-X-Gm-Message-State: AOAM533TuhErlwOxE4gzAX5ceNeOwxOVqMtYjKjDRFxjWHBQP95nqfBd
- /pEGUPtwGotEGArLDvRaTFA=
-X-Google-Smtp-Source: ABdhPJwL0al19RhXuOfgb8PeQPspdUlFB4mwc2b7uxWixr+3jMaX8oS7lNdpsirID5U93f3GAg7S4A==
-X-Received: by 2002:a17:906:c046:: with SMTP id
- bm6mr5770776ejb.436.1607069902146; 
- Fri, 04 Dec 2020 00:18:22 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
- by smtp.googlemail.com with ESMTPSA id z22sm2504364eji.91.2020.12.04.00.18.20
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uFjKy1JMQGds6QCWv9HgfQo7basi56RFkixKbM89qBQ=;
+ b=tLWg9+PWxST2WOwlZ6WMj/40TBOxCl9X9MQgTkTx+B71cEAlr0TpGMFF4RE4sC3Pua
+ C1Z6DV100RPTNXeN456d5PUt8yNngOu86OPdp7qHabSbiuz4Yym7NNIHz6Z8pZ4zaUdH
+ wvSLhUU5LGCV6h5odDwB9QiGRgwY7GbzC5Oxh2GETLcNosJl+AT94lDhFq3h6BMd69W1
+ RT6hD19wcWuZGZlo1JOtCJEBY1szLssTmQ4lvAcs8Jfl3ej9h49QXUuFklozNrMQK5tw
+ 2GdhKcw7XtAbW72262AOYB0VeEr64slm77EEjl08EAELZVenz/aYPCqciZE3WJXZC/TT
+ CObw==
+X-Gm-Message-State: AOAM530NYRmd0CwCpCktCnY0enTjWj/si0MKTIYHtRhyKiC5etIq0mzE
+ 4Vn1zfXXCy7hsm/Vm4BpRQe4GQ==
+X-Google-Smtp-Source: ABdhPJykB+eU1y7MuAmsKGB/sLYnbS2V5dqlJBOTpU3F9+1gTVE8TYjBwDFd8NbGB5pAHfOHTslnWA==
+X-Received: by 2002:a5d:634c:: with SMTP id b12mr3477924wrw.130.1607069998193; 
+ Fri, 04 Dec 2020 00:19:58 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e35:2ec0:82b0:296a:40d9:d5a0:bbc5])
+ by smtp.gmail.com with ESMTPSA id b17sm1691156wrv.10.2020.12.04.00.19.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 00:18:20 -0800 (PST)
-Date: Fri, 4 Dec 2020 10:18:19 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/2] drm/ingenic: depend on COMMON_CLK to fix compile tests
-Message-ID: <20201204081819.GA3891@kozik-lap>
-References: <20201116175301.402787-1-krzk@kernel.org>
- <20201116175301.402787-2-krzk@kernel.org>
- <3ANWJQ.LV5B6V47KTYS2@crapouillou.net>
+ Fri, 04 Dec 2020 00:19:57 -0800 (PST)
+From: Neil Armstrong <narmstrong@baylibre.com>
+To: sam@ravnborg.org
+Subject: [PATCH v2 0/2] drm: panel: add support for the Khadas TS050 panel
+Date: Fri,  4 Dec 2020 09:19:47 +0100
+Message-Id: <20201204081949.38418-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <3ANWJQ.LV5B6V47KTYS2@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,32 +65,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-samsung-soc@vger.kernel.org, Joonyoung Shim <jy0922.shim@samsung.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kyungmin Park <kyungmin.park@samsung.com>,
- linux-arm-kernel@lists.infradead.org, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Neil Armstrong <narmstrong@baylibre.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBOb3YgMTYsIDIwMjAgYXQgMDc6NTQ6MDNQTSArMDAwMCwgUGF1bCBDZXJjdWVpbCB3
-cm90ZToKPiBIaSBLcnp5c3p0b2YsCj4gCj4gTGUgbHVuLiAxNiBub3YuIDIwMjAgw6AgMTg6NTMs
-IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4gYSDDqWNyaXQKPiA6Cj4gPiBU
-aGUgSW5nZW5pYyBEUk0gdXNlcyBDb21tb24gQ2xvY2sgRnJhbWV3b3JrIHRodXMgaXQgY2Fubm90
-IGJlIGJ1aWx0IG9uCj4gPiBwbGF0Zm9ybXMgd2l0aG91dCBpdCAoZS5nLiBjb21waWxlIHRlc3Qg
-b24gTUlQUyB3aXRoIFJBTElOSyBhbmQKPiA+IFNPQ19SVDMwNVgpOgo+ID4gCj4gPiAgICAgL3Vz
-ci9iaW4vbWlwcy1saW51eC1nbnUtbGQ6Cj4gPiBkcml2ZXJzL2dwdS9kcm0vaW5nZW5pYy9pbmdl
-bmljLWRybS1kcnYubzogaW4gZnVuY3Rpb24KPiA+IGBpbmdlbmljX2RybV9iaW5kLmlzcmEuMCc6
-Cj4gPiAgICAgaW5nZW5pYy1kcm0tZHJ2LmM6KC50ZXh0KzB4MTYwMCk6IHVuZGVmaW5lZCByZWZl
-cmVuY2UgdG8KPiA+IGBjbGtfZ2V0X3BhcmVudCcKPiA+ICAgICAvdXNyL2Jpbi9taXBzLWxpbnV4
-LWdudS1sZDogaW5nZW5pYy1kcm0tZHJ2LmM6KC50ZXh0KzB4MTZiMCk6Cj4gPiB1bmRlZmluZWQg
-cmVmZXJlbmNlIHRvIGBjbGtfZ2V0X3BhcmVudCcKPiA+IAo+ID4gUmVwb3J0ZWQtYnk6IGtlcm5l
-bCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTogS3J6eXN6dG9m
-IEtvemxvd3NraSA8a3J6a0BrZXJuZWwub3JnPgo+IAo+IEFja2VkLWJ5OiBQYXVsIENlcmN1ZWls
-IDxwYXVsQGNyYXBvdWlsbG91Lm5ldD4KClRoYW5rcyBmb3IgdGhlIGFjay4KCkRhdmlkIGFuZCBE
-YW5pZWwsCkkgdGhpbmsgdGhlcmUgaXMgbm8gZGVkaWNhdGVkIG1haW50YWluZXIgZm9yIEluZ2Vu
-aWMgRFJNLCBzbyBjYW4geW91CnBpY2sgaXQgdXAgZGlyZWN0bHk/CgpCZXN0IHJlZ2FyZHMsCkty
-enlzenRvZgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpk
-cmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0
-cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+This add support & bindings for the Khadas TS050 1080x1920 5" LCD DSI panel designed
+to work with the Khadas Edge-V, Captain, VIM3 and VIM3L Single Board Computers.
+It provides a MIPI DSI interface to the host, a built-in LED backlight
+and touch controller.
+
+Changes since v1:
+- removed drm_print include
+- added reset_gpio to 1 after prepare failure
+- now ignore regulator_disable() on prepare failure
+- mark prepared=false whatever the result of the unprepare function errors
+- also reset_gpio to 1 on unprepare
+- do not return on mipi_dsi_dcs_enter_sleep_mode error on unprepare
+- mark enabled=true unconditionnally
+- use dev_err_probe in probe()
+
+Neil Armstrong (2):
+  dt-bindings: panel-simple-dsi: add Khadas TS050 panel bindings
+  drm: panel: add Khadas TS050 panel driver
+
+ .../display/panel/panel-simple-dsi.yaml       |   2 +
+ drivers/gpu/drm/panel/Kconfig                 |  11 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ drivers/gpu/drm/panel/panel-khadas-ts050.c    | 866 ++++++++++++++++++
+ 4 files changed, 880 insertions(+)
+ create mode 100644 drivers/gpu/drm/panel/panel-khadas-ts050.c
+
+-- 
+2.25.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
