@@ -2,57 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2E362D0C49
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969DA2D0C5B
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A637D6E7D4;
-	Mon,  7 Dec 2020 08:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9E306E823;
+	Mon,  7 Dec 2020 08:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
- [IPv6:2607:f8b0:4864:20::e42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1771A6E138
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 10:09:14 +0000 (UTC)
-Received: by mail-vs1-xe42.google.com with SMTP id x26so2958876vsq.1
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Dec 2020 02:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CjgiGPtp7rrNRYAzI1DnO4zsvAGzYxQzoeoz02OGn+w=;
- b=BvybJ3+Yvp0OnG/9CwuviI87kRnQV1MfamE5B+RH8pARE7JRLekwbDtqEHocK1+bAB
- G5IzzlhsSYrslBPGfC96h6tDQCfUo6V12EJx9GsqrR0U+n/UvdWHJ1MGyJWT4UAGTeqG
- 3H7p5/kAXwBFlvytF3cF/uOJdC2UQZvCrLXCtXjuYTyNAfRffB89n+1LdhTVbSCLgcwA
- Ndjhm8t2Nsk24EzrW+jMy5xeZqyWKZ6wyKCW5Z4bfZTgMB3Cp08ug3W3X6Yg6BDoIjL+
- FPWMX/YMD7SWOju9jPeYeE309GhADZl0xTNVdc2HzpYW/ljT2UW8IDuzvkFfw4zY2mGl
- WpbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CjgiGPtp7rrNRYAzI1DnO4zsvAGzYxQzoeoz02OGn+w=;
- b=PiuU8n5Ut+mXy9KZN6XpxjXvuu6d+3fv/czfNZFxpfptVKl+2WN8gUcJh0sx4MqbMY
- KDDXALjopVrvBU8jkwzhpvrTPGqeCBY8uwDez7fsGolVlKIwSH47KqnT4G08xVDZj40H
- b6arC37usuKi5SybPFn/zDxGNDdQ20yCCTe2Tlc/kO/oFPKDV53LDmOuDHif1q2r2Jpn
- PD357KYJHx3djHXmGLeN2MmKv08cd472hHOrnSfTwkEZY17jQQZykABW6wuwevcciJVm
- 7NKC1DOTsZ8Uc7/TN2IdwI/jBKhHunYytermkJwuAEP9TOa0Rpgvpzb/nAHFkyFFA7ab
- GDMg==
-X-Gm-Message-State: AOAM532J9tLcvmqKuNfYEA5pWlVm6X5CPQLBZ4jsJam/vKtfdMeRuS9P
- oEHqPjgfnM31LoRTQLe8BCyqZR0q9lajCYwLHPyJgw==
-X-Google-Smtp-Source: ABdhPJxETeRM2ihYgYs+VqcMy0CcxsRfBy15uWSHdBh/N67v7tLGu0+T22OZ+o5BBaiti9W4HKnBtyCmOQ4UYzxDOf0=
-X-Received: by 2002:a67:7902:: with SMTP id u2mr2168763vsc.41.1607076553211;
- Fri, 04 Dec 2020 02:09:13 -0800 (PST)
-MIME-Version: 1.0
-References: <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
- <1607057617-145-1-git-send-email-jpark37@lagfreegames.com>
- <1607057617-145-2-git-send-email-jpark37@lagfreegames.com>
- <kg-gEiynWjY827eEdQ93-QfPdC-z3Odes93NaWXaEts4z4kNu8I5xffAec3LDWfjN5_iUGYrL2ZOP8t597Y8pkEKdxgmC0c8OGzGHuTAgPM=@emersion.fr>
- <CABjik9cos_qa-jS2MO0iYPmf7qhuwKRKaKSqeGdhNZoHoQtOkQ@mail.gmail.com>
-In-Reply-To: <CABjik9cos_qa-jS2MO0iYPmf7qhuwKRKaKSqeGdhNZoHoQtOkQ@mail.gmail.com>
-From: James Park <james.park@lagfreegames.com>
-Date: Fri, 4 Dec 2020 02:08:24 -0800
-Message-ID: <CABjik9cWPVFXG6ctb=j3L296fB9xXYQK9JiN29wWLTVmvDsYFw@mail.gmail.com>
-Subject: Re: [PATCH] drm: Allow drm_fourcc.h without including drm.h
-To: Simon Ser <contact@emersion.fr>
+X-Greylist: delayed 540 seconds by postgrey-1.36 at gabe;
+ Fri, 04 Dec 2020 13:21:28 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D006E17B
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 13:21:28 +0000 (UTC)
+Received: from orion.localdomain ([95.114.158.118]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MYcy3-1kgWBh3Gol-00Veyn; Fri, 04 Dec 2020 14:12:22 +0100
+From: "Enrico Weigelt, metux IT consult" <info@metux.net>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers: gpu: drm: virtio: fix dependency of DRM_VIRTIO_GPU
+ on VIRTIO
+Date: Fri,  4 Dec 2020 14:12:21 +0100
+Message-Id: <20201204131221.2827-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:3Im9AR8enAhEZ521drYds2y30UO6XrMQxF7XSNeRaHzWJtu0806
+ nomRdpnhyqV9yq3cBgTAy9GY7ZuqnPpXvXM4RYvkgZ6VZwhypBYgx9OZ6LbDbl+uL1ivihl
+ c3jNOwd4B09o3DTB1Je5/4NeVyCGFGPxXeU2Lio/C8KpRElAOpzJTx8oDvGpOKEOwx3JZS+
+ zRV38mFeCRPfFCwMuz+jw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8UJG8JyP2co=:H6gfRpp0gBQiq8eHCJKPS3
+ +K+kT0fYezS+dcwg7B4Nun2dkvHFKAgG9sL1vdCJYABPsxbw82IuDdkm/fDBJNpcR2CFnHmC0
+ dSkOXeDy2MFMsYizVnVJhvkAtGPqA1vjqy0JiZ6vXflo6z/hf+8OwTBlfZ5p4NK27R6FHYSPH
+ +7y5C6YYUf/HYqtIQchF/lwwM2rpsMmXCVnE2v8coKvyJvgFn2qNmk+J3+gIYiMHz9jqfcric
+ /MxSW6RuVaqHYsNX2I/vUSA3qLT/hBIhCRNU0NvW96oMcLorOKDtNGtuQa6X7vRzHOlbNlyGH
+ eNuythkRNLgd5Wdp9E+L7pRYLhtQMscVcPwvgnvKCu5Z0vAu0/2hTaDDkshNnCV4e/YA6xYLB
+ lBDmQOdr6yNsvQwz7GNo3OxPTVEChpVsd1HHMTrKw3LdFBwZR4xVyJrDjd/Sn
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,122 +49,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- James Park <jpark37@lagfreegames.com>
-Content-Type: multipart/mixed; boundary="===============1761229225=="
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ virtualization@lists.linux-foundation.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1761229225==
-Content-Type: multipart/alternative; boundary="00000000000014cbd105b5a0ab8e"
+VIRTIO itself has no dependencies and therefore can easily be just
+select'ed, instead of depending on it. The current depends on causes
+any others trying to select VIRTIO to fail like this:
 
---00000000000014cbd105b5a0ab8e
-Content-Type: text/plain; charset="UTF-8"
+   drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+   drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by DRM_VIRTIO_GPU
+   drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
+   drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
+   drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
+   drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
+   drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
+   drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
+   drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
+   drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
+   drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
 
-I suppose I should do this to avoid fighting with <linux/types.h>
+It seems that having both 'depends on' as well as 'select' on the same symbol
+sends us into big trouble, and Kconfig can't break up the circular dependency
+(note that in the tested configuration, neither I2C, FB or DRM are enabled at
+all). Perhaps we could consider this a bug in Kconfig, but the trouble can
+easily be circumvented by changing 'depends on' into 'select'.
 
-#ifdef DRM_FOURCC_STANDALONE
-#if defined(__linux__)
-#include <linux/types.h>
-#else
-#include <stdint.h>
-typedef uint32_t __u32;
-typedef uint64_t __u64;
-#endif
-#else
-#include "drm.h"
-#endif
+DRM_VIRTIO_GPU also depends on VIRTIO_MENU, so even after this change, that
+option will only show up if the user already enabled virtio in the config.
 
-I'll wait for more feedback before updating the patch though.
+This change didn't cause any changes in the .config after menuconfig run,
+so we should be completely safe here.
 
-On Fri, Dec 4, 2020 at 1:47 AM James Park <james.park@lagfreegames.com>
-wrote:
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+---
+ drivers/gpu/drm/virtio/Kconfig | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> The typedefs might also conflict on Linux if DRM_FOURCC_STANDALONE is
-> enabled with whatever LInux declared __u32/__u64 as, but I think the
-> implication is that once DRM_FOURCC_STANDALONE has been declared, that's
-> kind of a promise not to include drm.h.
->
-> I'm fine with this, but I'm not married to it if someone has a problem
-> where they want to define DRM_FOURCC_STANDALONE, but also can't avoid
-> including drm.h for some reason.
->
-> On Fri, Dec 4, 2020 at 12:53 AM Simon Ser <contact@emersion.fr> wrote:
->
->> On Friday, December 4, 2020 5:53 AM, James Park <jpark37@lagfreegames.com>
->> wrote:
->>
->> > +#ifdef DRM_FOURCC_STANDALONE
->> > +#include <stdint.h>
->> >
->> > +typedef uint32_t __u32;
->> > +typedef uint64_t __u64;
->> > +#else
->> > #include "drm.h"
->> > +#endif
->>
->> C11 allows duplicate typedefs, but older versions of the standard
->> don't AFAIK. If this is a concern, a solution would be to guard the
->> typedefs.
->>
->
-
---00000000000014cbd105b5a0ab8e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I suppose I should do this to avoid fighting with &lt;linu=
-x/types.h&gt;<div><br></div><div>#ifdef DRM_FOURCC_STANDALONE<br>#if define=
-d(__linux__)</div><div>#include &lt;linux/types.h&gt;<br></div><div>#else<b=
-r>#include &lt;stdint.h&gt;<br>typedef uint32_t __u32;<br>typedef uint64_t =
-__u64;</div><div>#endif<br>#else<br>#include &quot;drm.h&quot;<br>#endif<br=
-></div><div><br></div><div>I&#39;ll wait for more feedback before updating =
-the patch though.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Fri, Dec 4, 2020 at 1:47 AM James Park &lt;<a hre=
-f=3D"mailto:james.park@lagfreegames.com">james.park@lagfreegames.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr">The typedefs might also conflict on Linux if DRM_FOURCC_STANDALON=
-E is enabled with whatever LInux declared __u32/__u64 as, but I think the i=
-mplication is that once DRM_FOURCC_STANDALONE has been declared, that&#39;s=
- kind of a promise not to include drm.h.<br><div><br></div><div>I&#39;m fin=
-e with=C2=A0this, but I&#39;m not married to it if someone has a problem wh=
-ere they want to define DRM_FOURCC_STANDALONE, but also can&#39;t avoid inc=
-luding drm.h for some reason.</div></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 4, 2020 at 12:53 AM Simon Se=
-r &lt;<a href=3D"mailto:contact@emersion.fr" target=3D"_blank">contact@emer=
-sion.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">On Friday, December 4, 2020 5:53 AM, James Park &lt;<a href=3D"mailt=
-o:jpark37@lagfreegames.com" target=3D"_blank">jpark37@lagfreegames.com</a>&=
-gt; wrote:<br>
-<br>
-&gt; +#ifdef DRM_FOURCC_STANDALONE<br>
-&gt; +#include &lt;stdint.h&gt;<br>
-&gt;<br>
-&gt; +typedef uint32_t __u32;<br>
-&gt; +typedef uint64_t __u64;<br>
-&gt; +#else<br>
-&gt; #include &quot;drm.h&quot;<br>
-&gt; +#endif<br>
-<br>
-C11 allows duplicate typedefs, but older versions of the standard<br>
-don&#39;t AFAIK. If this is a concern, a solution would be to guard the<br>
-typedefs.<br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000014cbd105b5a0ab8e--
-
---===============1761229225==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
+index b925b8b1da16..51ec7c3240c9 100644
+--- a/drivers/gpu/drm/virtio/Kconfig
++++ b/drivers/gpu/drm/virtio/Kconfig
+@@ -1,7 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config DRM_VIRTIO_GPU
+ 	tristate "Virtio GPU driver"
+-	depends on DRM && VIRTIO && VIRTIO_MENU && MMU
++	depends on DRM && VIRTIO_MENU && MMU
++	select VIRTIO
+ 	select DRM_KMS_HELPER
+ 	select DRM_GEM_SHMEM_HELPER
+ 	select VIRTIO_DMA_SHARED_BUFFER
+-- 
+2.11.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1761229225==--
