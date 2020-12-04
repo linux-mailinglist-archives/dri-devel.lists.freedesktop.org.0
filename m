@@ -2,33 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 333EC2CF684
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 292682CF683
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:02:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB3EC6EC78;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D27C6E23F;
 	Fri,  4 Dec 2020 22:01:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7CC6E0BA
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 615D66E23F
  for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:01:54 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C59A1A4E;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95EDB1A80;
  Fri,  4 Dec 2020 23:01:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1607119309;
- bh=HOnaX6KfpKoC/W74ZpcKUcAVLIntcsiKk6xTRXkEC0s=;
+ bh=DhAKNOE0UZN2oEqKd8blw01MGj/95HAG/fZjobT0FkM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TZaKIk56ogLnNzp23WV/F0Z0Wk9vJc4ean3IhqQTxvGuyb06hW4otVoPJRWf98mtM
- 7RhhM2bwIe40ajMiqrzWRKzBUiB79AQmonCsY7OmwTGfzW61i9igGTipg7IVDHdoMQ
- hIkJsGvCpAhOSspr8MTIYsEiTGp94w5xxVXBWlGU=
+ b=lZ5YaRQD20tlTvkaaMeIeun4y+c+ah8IiXeOC592XjhPFKnpQEp0jDY0wZyQzCo72
+ cs+/llH9ACZuYMlTngNen+6Y22sI7zq57tk8+oAs4bRgPtEClorf/PViQbWducJfxN
+ obkGAe20lZItDaoEcRGzPA+Hv5EbaMJIn7Nj1t9s=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 8/9] drm: rcar-du: Skip encoder allocation for LVDS1 in
- dual-link mode
-Date: Sat,  5 Dec 2020 00:01:38 +0200
-Message-Id: <20201204220139.15272-9-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH 9/9] drm: rcar-du: Drop local encoder variable
+Date: Sat,  5 Dec 2020 00:01:39 +0200
+Message-Id: <20201204220139.15272-10-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -53,102 +52,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The rcar-du driver skips registration of the encoder for the LVDS1
-output when LVDS is used in dual-link mode, as the LVDS0 and LVDS1 links
-are bundled and handled through the LVDS0 output. It however still
-allocates the encoder and immediately destroys it, which is pointless.
-Skip allocation of the encoder altogether in that case.
+The local encoder variable is an alias for &renc->base, and is only use
+twice. It doesn't help much, drop it, along with the
+rcar_encoder_to_drm_encoder() macro that is then unused.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 51 ++++++++++-------------
- 1 file changed, 22 insertions(+), 29 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 6 ++----
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.h | 2 --
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index e4f35a88d00f..49c0b27e2f5a 100644
+index 49c0b27e2f5a..9a565bd3380d 100644
 --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
 +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -65,17 +65,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+@@ -61,7 +61,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 			 struct device_node *enc_node)
+ {
+ 	struct rcar_du_encoder *renc;
+-	struct drm_encoder *encoder;
  	struct drm_bridge *bridge;
  	int ret;
  
--	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
--	if (renc == NULL)
--		return -ENOMEM;
--
--	rcdu->encoders[output] = renc;
--	renc->output = output;
+@@ -108,12 +107,11 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 
+ 	rcdu->encoders[output] = renc;
+ 	renc->output = output;
 -	encoder = rcar_encoder_to_drm_encoder(renc);
--
--	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
--		enc_node, output);
--
- 	/*
- 	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
- 	 * DT node has a single port, assume that it describes a panel and
-@@ -86,23 +75,17 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 	    rcar_du_encoder_count_ports(enc_node) == 1) {
- 		struct drm_panel *panel = of_drm_find_panel(enc_node);
  
--		if (IS_ERR(panel)) {
--			ret = PTR_ERR(panel);
--			goto error;
--		}
-+		if (IS_ERR(panel))
-+			return PTR_ERR(panel);
+ 	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+ 		enc_node, output);
  
- 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
- 							 DRM_MODE_CONNECTOR_DPI);
--		if (IS_ERR(bridge)) {
--			ret = PTR_ERR(bridge);
--			goto error;
--		}
-+		if (IS_ERR(bridge))
-+			return PTR_ERR(bridge);
- 	} else {
- 		bridge = of_drm_find_bridge(enc_node);
--		if (!bridge) {
--			ret = -EPROBE_DEFER;
--			goto error;
--		}
-+		if (!bridge)
-+			return -EPROBE_DEFER;
- 
- 		if (output == RCAR_DU_OUTPUT_LVDS0 ||
- 		    output == RCAR_DU_OUTPUT_LVDS1)
-@@ -110,16 +93,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 	}
- 
- 	/*
--	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
--	 * companion for LVDS0 in dual-link mode.
-+	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
-+	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
-+	 * mode.
- 	 */
- 	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
--		if (rcar_lvds_dual_link(bridge)) {
--			ret = -ENOLINK;
--			goto error;
--		}
-+		if (rcar_lvds_dual_link(bridge))
-+			return -ENOLINK;
- 	}
- 
-+	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
-+	if (renc == NULL)
-+		return -ENOMEM;
-+
-+	rcdu->encoders[output] = renc;
-+	renc->output = output;
-+	encoder = rcar_encoder_to_drm_encoder(renc);
-+
-+	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
-+		enc_node, output);
-+
- 	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
+-	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
++	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
  			       DRM_MODE_ENCODER_NONE, NULL);
  	if (ret < 0)
+ 		goto error;
+@@ -127,7 +125,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	 * Attach the bridge to the encoder. The bridge will create the
+ 	 * connector.
+ 	 */
+-	return drm_bridge_attach(encoder, bridge, NULL, 0);
++	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+ 
+ error:
+ 	kfree(renc);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+index df9be4524301..73560563fb31 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+@@ -22,8 +22,6 @@ struct rcar_du_encoder {
+ #define to_rcar_encoder(e) \
+ 	container_of(e, struct rcar_du_encoder, base)
+ 
+-#define rcar_encoder_to_drm_encoder(e)	(&(e)->base)
+-
+ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 			 enum rcar_du_output output,
+ 			 struct device_node *enc_node);
 -- 
 Regards,
 
