@@ -1,39 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E5A2CF6CD
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:35:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 271672CF6D1
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Dec 2020 23:36:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BA3C6EC7F;
-	Fri,  4 Dec 2020 22:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 496F36E220;
+	Fri,  4 Dec 2020 22:36:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56E646EC7F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:35:28 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72AB099A;
- Fri,  4 Dec 2020 23:35:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607121326;
- bh=FHDbG/7LBf8MO8jzePDFNh0nvzuU1jsEA+D582NnGXU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=V3mM5YKJAPFGtkeMZYWxkbgX6THbAJw38pCpO9Vjd0SCkoi+L6tzY93yu/E7GtDSU
- LkHwtWktYmd1pct3VyLl5rAqXRmXtjHRjlqFyH7NtAd+X2ZT3N2YmhSqvjRbonR73r
- Ly5ihDF8xG7TAJHI/SWk1GbGS74E0G+CWMy1S66o=
-Date: Sat, 5 Dec 2020 00:35:25 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 1/2] drm: add legacy support for using degamma for gamma
-Message-ID: <20201204223525.GJ4109@pendragon.ideasonboard.com>
-References: <20201203114845.232911-1-tomi.valkeinen@ti.com>
- <20201203114845.232911-2-tomi.valkeinen@ti.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51716EC7F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Dec 2020 22:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1607121378;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=aNsxtvDeEpU2rFFWxdOTmdRSlc01cOdQavk/G3A+TNI=;
+ b=QQ1VsNdckKzJOw095ui8Zzsm1CfHaL2yOPk3f1qs6DKBH7hNCn+0glK6fNOFNoRihGgNuz
+ F1ct2/sj6gbxxboYRb6Za/dk8i/1XpCNZpYyUkO8BW9wnO3RGT93liCq8xdf/eZPp7WG04
+ qoATjKbEttkA508tiYvF0OpdbOHVm+Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45-gHBnbpupN9Sg-a-RVhcEKw-1; Fri, 04 Dec 2020 17:36:13 -0500
+X-MC-Unique: gHBnbpupN9Sg-a-RVhcEKw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55E9C3FD4;
+ Fri,  4 Dec 2020 22:36:12 +0000 (UTC)
+Received: from Whitewolf.redhat.com (ovpn-112-159.rdu2.redhat.com
+ [10.10.112.159])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81FA063BA7;
+ Fri,  4 Dec 2020 22:36:11 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v3 0/9] drm/i915: Add support for Intel's eDP backlight
+ controls
+Date: Fri,  4 Dec 2020 17:35:54 -0500
+Message-Id: <20201204223603.249878-1-lyude@redhat.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201203114845.232911-2-tomi.valkeinen@ti.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,147 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick Fertre <yannick.fertre@st.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
- Russell King <linux@armlinux.org.uk>, Sandy Huang <hjc@rock-chips.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Alexandre Torgue <alexandre.torgue@st.com>, dri-devel@lists.freedesktop.org,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+A while ago we ran into issues while trying to enable the eDP backlight
+control interface as defined by VESA, in order to make the DPCD
+backlight controls on newer laptop panels work. The issue ended up being
+much more complicated however, as we also apparently needed to add
+support for an Intel-specific DPCD backlight control interface as the
+VESA interface is broken on many laptop panels. For lack of a better
+name, we just call this the Intel HDR backlight interface.
 
-Thank you for the patch.
+While this only adds support for the SDR backlight mode (I think), this
+will fix a lot of user's laptop panels that we weren't able to properly
+automatically detect DPCD backlight controls on previously.
 
-On Thu, Dec 03, 2020 at 01:48:44PM +0200, Tomi Valkeinen wrote:
-> We currently have drm_atomic_helper_legacy_gamma_set() helper which can
-> be used to handle legacy gamma-set ioctl.
-> drm_atomic_helper_legacy_gamma_set() sets GAMMA_LUT, and clears
-> CTM and DEGAMMA_LUT. This works fine on HW where we have either:
-> 
-> degamma -> ctm -> gamma -> out
-> 
-> or
-> 
-> ctm -> gamma -> out
-> 
-> However, if the HW has gamma table before ctm, the atomic property
-> should be DEGAMMA_LUT, and thus we have:
-> 
-> degamma -> ctm -> out
-> 
-> This is fine for userspace which sets gamma table using the properties,
-> as the userspace can check for the existence of gamma & degamma, but the
-> legacy gamma-set ioctl does not work.
-> 
-> This patch fixes the issue by changing
-> drm_atomic_helper_legacy_gamma_set() so that GAMMA_LUT will be used if
-> it exists, and DEGAMMA_LUT will be used as a fallback.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 18 +++++++++++++++---
->  drivers/gpu/drm/drm_color_mgmt.c    |  4 ++++
->  include/drm/drm_crtc.h              |  3 +++
->  3 files changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index ba1507036f26..fe59c8ea42a9 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -3512,6 +3512,10 @@ EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
->   * that support color management through the DEGAMMA_LUT/GAMMA_LUT
->   * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
->   * how the atomic color management and gamma tables work.
-> + *
-> + * This function uses the GAMMA_LUT or DEGAMMA_LUT property for the gamma table.
-> + * GAMMA_LUT property is used if it exists, and DEGAMMA_LUT property is used as
-> + * a fallback.
->   */
->  int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
->  				       u16 *red, u16 *green, u16 *blue,
-> @@ -3525,6 +3529,12 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
->  	struct drm_color_lut *blob_data;
->  	int i, ret = 0;
->  	bool replaced;
-> +	bool use_degamma;
-> +
-> +	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
-> +		return -ENODEV;
-> +
-> +	use_degamma = !crtc->has_gamma_prop;
->  
->  	state = drm_atomic_state_alloc(crtc->dev);
->  	if (!state)
-> @@ -3554,10 +3564,12 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
->  		goto fail;
->  	}
->  
-> -	/* Reset DEGAMMA_LUT and CTM properties. */
-> -	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
-> +	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
-> +	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
-> +					      use_degamma ? blob : NULL);
->  	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
-> -	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
-> +	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
-> +					      use_degamma ? NULL : blob);
->  	crtc_state->color_mgmt_changed |= replaced;
->  
->  	ret = drm_atomic_commit(state);
-> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-> index 3bcabc2f6e0e..956e59d5f6a7 100644
-> --- a/drivers/gpu/drm/drm_color_mgmt.c
-> +++ b/drivers/gpu/drm/drm_color_mgmt.c
-> @@ -176,6 +176,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
->  					   degamma_lut_size);
->  	}
->  
-> +	crtc->has_degamma_prop = !!degamma_lut_size;
-> +
->  	if (has_ctm)
->  		drm_object_attach_property(&crtc->base,
->  					   config->ctm_property, 0);
-> @@ -187,6 +189,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
->  					   config->gamma_lut_size_property,
->  					   gamma_lut_size);
->  	}
-> +
-> +	crtc->has_gamma_prop = !!gamma_lut_size;
->  }
->  EXPORT_SYMBOL(drm_crtc_enable_color_mgmt);
->  
-> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
-> index ba839e5e357d..9e1f06047e3d 100644
-> --- a/include/drm/drm_crtc.h
-> +++ b/include/drm/drm_crtc.h
-> @@ -1084,6 +1084,9 @@ struct drm_crtc {
->  	 */
->  	uint16_t *gamma_store;
->  
-> +	bool has_gamma_prop;
-> +	bool has_degamma_prop;
+Series-wide changes in v3:
+* Pass down brightness values to enable/disable backlight callbacks in a
+  separate patch
+* Rebase
 
-We could use a bitfield to save a bit of memory. Apart from that, the
-patch looks good to me.
+Lyude Paul (9):
+  drm/i915/dp: Program source OUI on eDP panels
+  drm/i915: Rename pwm_* backlight callbacks to ext_pwm_*
+  drm/i915: Pass down brightness values to enable/disable backlight
+    callbacks
+  drm/i915: Keep track of pwm-related backlight hooks separately
+  drm/i915/dp: Rename eDP VESA backlight interface functions
+  drm/i915/dp: Add register definitions for Intel HDR backlight
+    interface
+  drm/i915/dp: Enable Intel's HDR backlight interface (only SDR for now)
+  drm/i915/dp: Allow forcing specific interfaces through
+    enable_dpcd_backlight
+  drm/dp: Revert "drm/dp: Introduce EDID-based quirks"
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +
->  	/** @helper_private: mid-layer private data */
->  	const struct drm_crtc_helper_funcs *helper_private;
->  
+ drivers/gpu/drm/drm_dp_helper.c               |  83 +---
+ drivers/gpu/drm/drm_dp_mst_topology.c         |   3 +-
+ .../drm/i915/display/intel_display_types.h    |  18 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  42 +-
+ .../drm/i915/display/intel_dp_aux_backlight.c | 394 +++++++++++++---
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   3 +-
+ .../i915/display/intel_dsi_dcs_backlight.c    |   7 +-
+ drivers/gpu/drm/i915/display/intel_panel.c    | 435 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_panel.h    |   4 +
+ drivers/gpu/drm/i915/display/intel_psr.c      |   2 +-
+ drivers/gpu/drm/i915/i915_params.c            |   2 +-
+ include/drm/drm_dp_helper.h                   |  21 +-
+ 12 files changed, 655 insertions(+), 359 deletions(-)
 
 -- 
-Regards,
+2.28.0
 
-Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
