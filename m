@@ -1,37 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FE62CFB6D
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Dec 2020 14:27:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACC62CFB7B
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Dec 2020 14:52:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BEB6E41D;
-	Sat,  5 Dec 2020 13:26:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA7546E41D;
+	Sat,  5 Dec 2020 13:52:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk3.altibox.net (asavdk3.altibox.net [109.247.116.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7196E41D
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 13:26:55 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk3.altibox.net (Postfix) with ESMTPS id 9125420026;
- Sat,  5 Dec 2020 14:26:51 +0100 (CET)
-Date: Sat, 5 Dec 2020 14:26:50 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] drm/panel: s6e63m0: Fix init sequence again
-Message-ID: <20201205132650.GA301178@ravnborg.org>
-References: <20201205122229.1952980-1-linus.walleij@linaro.org>
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com
+ [209.85.218.68])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 192DC6E41D
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 13:52:48 +0000 (UTC)
+Received: by mail-ej1-f68.google.com with SMTP id m19so12815215ejj.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Dec 2020 05:52:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uKWCtmFWH2D6PgdPDqZ6SwqxYHLfJimrQ5ADIJZYjvM=;
+ b=ZspXYHew9bAX2Z+GlfyWnyphTag4LhTtBoldrFiDLiggHHBfcn0d+7WidecFy0WmfY
+ SE/VAL7TvOLWkilH4zs01fWi8OUzNXJCikA04goP3d9OFw3zDbnf3hfUHX+n6QD1xKop
+ HYlfGvt5prse0d+fHUk4iSPk1okgTmaIlhvAR8sjHr7F90eiigz6UMLCfNasiaC8A5zf
+ nFNGo5Smwk+eFYEBEP4eUv2C5ARhMCYU3hKZW+CcYTFEyAkfMIUMf2HeuyeugyqQJkmX
+ hpIQ6UmM5alfZjrW6V6nt/1lM+aLlwVP0fVGhF09t9uPGHxc+FYpDMIoeMzxyWLiRqGy
+ /ftQ==
+X-Gm-Message-State: AOAM530xKHHMS+clcwdVM61A6DtLGCoDD6iHut/g9m/G3zIxslOkLksd
+ I7UqI8UoY0aJjaB2ihDR9Mw=
+X-Google-Smtp-Source: ABdhPJxIyKieWZJ9VxW5tLvdRrottnwtiJyqsBd6MJRYZ1ZeKbA2NYxoVKNProO+IDV8ruhVa4XFdw==
+X-Received: by 2002:a17:906:4a47:: with SMTP id
+ a7mr11831799ejv.345.1607176366602; 
+ Sat, 05 Dec 2020 05:52:46 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+ by smtp.googlemail.com with ESMTPSA id l19sm5584565edq.14.2020.12.05.05.52.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 05 Dec 2020 05:52:44 -0800 (PST)
+Date: Sat, 5 Dec 2020 14:52:42 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [PATCH v10 17/19] ARM: tegra: Add EMC OPP properties to Tegra20
+ device-trees
+Message-ID: <20201205135242.GA1978@kozik-lap>
+References: <20201123002723.28463-1-digetx@gmail.com>
+ <20201123002723.28463-18-digetx@gmail.com>
+ <60657f5e-bd30-094e-f8df-6ba69e0d6a3e@nvidia.com>
+ <1ed05baf-3a01-3a2b-cd79-98b356c846cf@gmail.com>
+ <X8pbz2FsuJ5XGXCi@ulmo>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201205122229.1952980-1-linus.walleij@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Ibmpp1ia c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=j8Cu_9a8AAAA:8 a=KKAkSRfTAAAA:8 a=7gkXJVJtAAAA:8
- a=yPNgNHY9eFfn3e6HJCwA:9 a=CjuIK1q_8ugA:10 a=A2jcf3dkIZPIRbEE90CI:22
- a=cvBusfyB2V15izCimMoJ:22 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <X8pbz2FsuJ5XGXCi@ulmo>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,37 +63,109 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Stephan Gerhold <stephan@gerhold.net>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <cyndis@kapsi.fi>, Nicolas Chauvet <kwizart@gmail.com>,
+ Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Jon Hunter <jonathanh@nvidia.com>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+ Georgi Djakov <georgi.djakov@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus
-
-On Sat, Dec 05, 2020 at 01:22:29PM +0100, Linus Walleij wrote:
-> The DSI version of the panel behaved instable and close
-> scrutiny of the vendor driver from the Samsung
-> GT-S8190 shows a different initialization sequence for
-> the DSI mode panel than the DPI mode panel.
-> 
-> Make the initialization depend on whether we are in
-> DSI or DPI mode and handle the differences.
-> 
-> After this the panel on the GT-I8190 becomes much more
-> stable.
-> 
-> Also spell out some more custom DCS commands found in
-> the vendor source code to cut down a bit on magic
-> where we can.
-> 
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Fixes: f0aee45ffc8b ("drm/panel: s6e63m0: Fix init sequence")
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Looks good - the extra defines reduces the magic a little which is good.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gRnJpLCBEZWMgMDQsIDIwMjAgYXQgMDQ6NTQ6NTVQTSArMDEwMCwgVGhpZXJyeSBSZWRpbmcg
+d3JvdGU6Cj4gT24gVHVlLCBEZWMgMDEsIDIwMjAgYXQgMDE6NTc6NDRBTSArMDMwMCwgRG1pdHJ5
+IE9zaXBlbmtvIHdyb3RlOgo+ID4gMDEuMTIuMjAyMCAwMDoxNywgSm9uIEh1bnRlciDQv9C40YjQ
+tdGCOgo+ID4gPiBIaSBEbWl0cnksCj4gPiA+IAo+ID4gPiBPbiAyMy8xMS8yMDIwIDAwOjI3LCBE
+bWl0cnkgT3NpcGVua28gd3JvdGU6Cj4gPiA+PiBBZGQgRU1DIE9QUCBEVkZTIHRhYmxlcyBhbmQg
+dXBkYXRlIGJvYXJkIGRldmljZS10cmVlcyBieSByZW1vdmluZwo+ID4gPj4gdW5zdXBwb3J0ZWQg
+T1BQcy4KPiA+ID4+Cj4gPiA+PiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0
+eEBnbWFpbC5jb20+Cj4gPiA+IFRoaXMgY2hhbmdlIGlzIGdlbmVyYXRpbmcgdGhlIGZvbGxvd2lu
+ZyB3YXJuaW5nIG9uIFRlZ3JhMjAgVmVudGFuYQo+ID4gPiBhbmQgcHJldmVudHMgdGhlIEVNQyBm
+cm9tIHByb2JpbmcgLi4uCj4gPiA+IAo+ID4gPiBbICAgIDIuNDg1NzExXSB0ZWdyYTIwLWVtYyA3
+MDAwZjQwMC5tZW1vcnktY29udHJvbGxlcjogZGV2aWNlLXRyZWUgZG9lc24ndCBoYXZlIG1lbW9y
+eSB0aW1pbmdzCj4gPiA+IFsgICAgMi40OTkzODZdIHRlZ3JhMjAtZW1jIDcwMDBmNDAwLm1lbW9y
+eS1jb250cm9sbGVyOiAzMmJpdCBEUkFNIGJ1cwo+ID4gPiBbICAgIDIuNTA1ODEwXSAtLS0tLS0t
+LS0tLS1bIGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0KPiA+ID4gWyAgICAyLjUxMDUxMV0gV0FSTklO
+RzogQ1BVOiAwIFBJRDogMSBhdCAvbG9jYWwvd29ya2Rpci90ZWdyYS9tbHQtbGludXhfbmV4dC9r
+ZXJuZWwvZHJpdmVycy9vcHAvb2YuYzo4NzUgX29mX2FkZF9vcHBfdGFibGVfdjIrMHg1OTgvMHg2
+MWMKPiA+ID4gWyAgICAyLjUyOTc0Nl0gTW9kdWxlcyBsaW5rZWQgaW46Cj4gPiA+IFsgICAgMi41
+NDAxNDBdIENQVTogMCBQSUQ6IDEgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVkIDUuMTAuMC1y
+YzUtbmV4dC0yMDIwMTEzMCAjMQo+ID4gPiBbICAgIDIuNTU0NjA2XSBIYXJkd2FyZSBuYW1lOiBO
+VklESUEgVGVncmEgU29DIChGbGF0dGVuZWQgRGV2aWNlIFRyZWUpCj4gPiA+IFsgICAgMi41NjA4
+OTJdIFs8YzAxMTEzNmM+XSAodW53aW5kX2JhY2t0cmFjZSkgZnJvbSBbPGMwMTBiYjYwPl0gKHNo
+b3dfc3RhY2srMHgxMC8weDE0KQo+ID4gPiBbICAgIDIuNTY4NjQwXSBbPGMwMTBiYjYwPl0gKHNo
+b3dfc3RhY2spIGZyb20gWzxjMGJjZWU1ND5dIChkdW1wX3N0YWNrKzB4YzgvMHhkYykKPiA+ID4g
+WyAgICAyLjU3NTg2Nl0gWzxjMGJjZWU1ND5dIChkdW1wX3N0YWNrKSBmcm9tIFs8YzAxMjM1ZGM+
+XSAoX193YXJuKzB4MTA0LzB4MTA4KQo+ID4gPiBbICAgIDIuNTgyOTEyXSBbPGMwMTIzNWRjPl0g
+KF9fd2FybikgZnJvbSBbPGMwMTIzNjkwPl0gKHdhcm5fc2xvd3BhdGhfZm10KzB4YjAvMHhiOCkK
+PiA+ID4gWyAgICAyLjU5MDM5N10gWzxjMDEyMzY5MD5dICh3YXJuX3Nsb3dwYXRoX2ZtdCkgZnJv
+bSBbPGMwODI1YWQwPl0gKF9vZl9hZGRfb3BwX3RhYmxlX3YyKzB4NTk4LzB4NjFjKQo+ID4gPiBb
+ICAgIDIuNTk5MjY5XSBbPGMwODI1YWQwPl0gKF9vZl9hZGRfb3BwX3RhYmxlX3YyKSBmcm9tIFs8
+YzA4MjViOTA+XSAoZGV2X3BtX29wcF9vZl9hZGRfdGFibGUrMHgzYy8weDFhMCkKPiA+ID4gWyAg
+ICAyLjYwODU4Ml0gWzxjMDgyNWI5MD5dIChkZXZfcG1fb3BwX29mX2FkZF90YWJsZSkgZnJvbSBb
+PGMwODdiNzc0Pl0gKHRlZ3JhX2VtY19wcm9iZSsweDQ3OC8weDk0MCkKPiA+ID4gWyAgICAyLjYx
+NzU0OF0gWzxjMDg3Yjc3ND5dICh0ZWdyYV9lbWNfcHJvYmUpIGZyb20gWzxjMDY1NDM5OD5dIChw
+bGF0Zm9ybV9kcnZfcHJvYmUrMHg0OC8weDk4KQo+ID4gPiBbICAgIDIuNjI1ODk5XSBbPGMwNjU0
+Mzk4Pl0gKHBsYXRmb3JtX2Rydl9wcm9iZSkgZnJvbSBbPGMwNjUyMjM4Pl0gKHJlYWxseV9wcm9i
+ZSsweDIxOC8weDNiOCkKPiA+ID4gWyAgICAyLjYzNDE2Ml0gWzxjMDY1MjIzOD5dIChyZWFsbHlf
+cHJvYmUpIGZyb20gWzxjMDY1MjU0MD5dIChkcml2ZXJfcHJvYmVfZGV2aWNlKzB4NWMvMHhiNCkK
+PiA+ID4gWyAgICAyLjY0MjMzOF0gWzxjMDY1MjU0MD5dIChkcml2ZXJfcHJvYmVfZGV2aWNlKSBm
+cm9tIFs8YzA2NTI3NDA+XSAoZGV2aWNlX2RyaXZlcl9hdHRhY2grMHg1OC8weDYwKQo+ID4gPiBb
+ICAgIDIuNjUxMjA4XSBbPGMwNjUyNzQwPl0gKGRldmljZV9kcml2ZXJfYXR0YWNoKSBmcm9tIFs8
+YzA2NTI3Yzg+XSAoX19kcml2ZXJfYXR0YWNoKzB4ODAvMHhiYykKPiA+ID4gWyAgICAyLjY1OTcz
+MF0gWzxjMDY1MjdjOD5dIChfX2RyaXZlcl9hdHRhY2gpIGZyb20gWzxjMDY1MDYxMD5dIChidXNf
+Zm9yX2VhY2hfZGV2KzB4NzQvMHhiNCkKPiA+ID4gWyAgICAyLjY2NzkwNV0gWzxjMDY1MDYxMD5d
+IChidXNfZm9yX2VhY2hfZGV2KSBmcm9tIFs8YzA2NTE1Zjg+XSAoYnVzX2FkZF9kcml2ZXIrMHgx
+NjQvMHgxZTgpCj4gPiA+IFsgICAgMi42NzYxNjhdIFs8YzA2NTE1Zjg+XSAoYnVzX2FkZF9kcml2
+ZXIpIGZyb20gWzxjMDY1MzJhOD5dIChkcml2ZXJfcmVnaXN0ZXIrMHg3Yy8weDExNCkKPiA+ID4g
+WyAgICAyLjY4NDI1OV0gWzxjMDY1MzJhOD5dIChkcml2ZXJfcmVnaXN0ZXIpIGZyb20gWzxjMDEw
+MjIwOD5dIChkb19vbmVfaW5pdGNhbGwrMHg1NC8weDJiMCkKPiA+ID4gWyAgICAyLjY5MjQ0MV0g
+WzxjMDEwMjIwOD5dIChkb19vbmVfaW5pdGNhbGwpIGZyb20gWzxjMTAwMTBjYz5dIChrZXJuZWxf
+aW5pdF9mcmVlYWJsZSsweDFhNC8weDFmNCkKPiA+ID4gWyAgICAyLjcwMTE0NV0gWzxjMTAwMTBj
+Yz5dIChrZXJuZWxfaW5pdF9mcmVlYWJsZSkgZnJvbSBbPGMwYmQ0NTEwPl0gKGtlcm5lbF9pbml0
+KzB4OC8weDExOCkKPiA+ID4gWyAgICAyLjcwOTMyMV0gWzxjMGJkNDUxMD5dIChrZXJuZWxfaW5p
+dCkgZnJvbSBbPGMwMTAwMWIwPl0gKHJldF9mcm9tX2ZvcmsrMHgxNC8weDI0KQo+ID4gPiBbICAg
+IDIuNzE2ODg1XSBFeGNlcHRpb24gc3RhY2soMHhjMTUwMWZiMCB0byAweGMxNTAxZmY4KQo+ID4g
+PiBbICAgIDIuNzIxOTMzXSAxZmEwOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMAo+ID4gPiBbICAgIDIuNzMwMTA2
+XSAxZmMwOiAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMAo+ID4gPiBbICAgIDIuNzM4Mjc4XSAxZmUwOiAwMDAwMDAw
+MCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAxMyAwMDAwMDAwMAo+ID4gPiBbICAg
+IDIuNzUxOTQwXSAtLS1bIGVuZCB0cmFjZSA2MWUzYjc2ZGVjYTI3ZWYzIF0tLS0KPiA+ID4gCj4g
+PiA+IAo+ID4gPiBDaGVlcnMKPiA+ID4gSm9uCj4gPiA+IAo+ID4gCj4gPiBIZWxsbyBKb24sCj4g
+PiAKPiA+IFRoYXQgaXMgaGFybWxlc3MgYW5kIGV4cGVjdGVkIHRvIGhhcHBlbiBiZWNhdXNlIHRo
+ZSBwYXRjaCAibWVtb3J5Ogo+ID4gdGVncmEyMDogU3VwcG9ydCBoYXJkd2FyZSB2ZXJzaW9uaW5n
+IGFuZCBjbGVhbiB1cCBPUFAgdGFibGUKPiA+IGluaXRpYWxpemF0aW9uIiBpc24ndCBhcHBsaWVk
+IHlldCwgd2hpbGUgVGhpZXJyeSBhbHJlYWR5IGFwcGxpZWQgdGhlIERUCj4gPiBwYXRjaGVzIGZy
+b20gdGhpcyB2MTAuCj4gCj4gSG1tLi4uIHRoYXQncyBuZXcuIFNpbmNlIHdoZW4gYXJlIGRldmlj
+ZSB0cmVlIGFkZGl0aW9ucyBleHBlY3RlZCB0bwo+IGNhdXNlIHRoZXNlIGtpbmRzIG9mIHNwbGF0
+cz8KCkl0IGxvb2tzIHJhdGhlciBhcyBpbmFjY3VyYXRlIG1lc3NhZ2UsIGJ1dCBleGNlcHQgdGhl
+IG1lc3NhZ2UgaXRzZWxmLApubyBmdW5jdGlvbmFsaXR5IHdhcyBsb3N0LgoKPiBBbnl3YXksIEkg
+ZGlkIGFwcGx5IHRoZXNlIGJlY2F1c2UgSSBoYWQgc2VlbiBhdCBsZWFzdCBzb21lIG9mIHRoZSBt
+ZW1vcnkKPiBjb250cm9sbGVyIGRyaXZlciBwYXRjaGVzIGFwcGVhciBpbiBsaW51eC1uZXh0IGFu
+ZCBoZW5jZSBoYWQgYXNzdW1lZAo+IHRoYXQgdGhlIHdob2xlIHNlcmllcyBoYWQgZ29uZSBpbiwg
+bm90IHJlYWxpemluZyB0aGVyZSB3YXMgYW55dGhpbmcgbGVmdAo+IHRvIGRvLgo+IAo+IEtyenlz
+enRvZiwgd2hhdCdzIHlvdXIgc2NoZWR1bGUgZm9yIHRoZSBtZW1vcnkgY29udHJvbGxlciB0cmVl
+PyBNeQo+IHJlY29sbGVjdGlvbiBpcyB0aGF0IHRoaXMgd2lsbCBmZWVkIGludG8gQVJNIFNvQywg
+c28gaWYgdGhlIC1yYzYgZGVhZC0KPiBsaW5lIGFwcGxpZXMgbGlrZSBpdCBkb2VzIGZvciBwbGF0
+Zm9ybXMsIHRoZW4gSSBtYXkgbmVlZCB0byByZXZlcnQgdGhlCj4gRFQgcGF0Y2ggdGhhdCBjYXVz
+ZXMgdGhpcyBzbyB0aGF0IHdlIGRvbid0IGhhdmUgdG8gZHJhZyB0aGlzIGFsb25nCj4gdGhyb3Vn
+aCBhbGwgb2YgdGhlIHJlbGVhc2UgY3ljbGUuIElmIHRoZXJlJ3Mgc3RpbGwgdGltZSBmb3IgeW91
+IHRvIHNlbmQKPiB0aGF0IFBSLCBwZXJoYXBzIHdlIGNhbiBnZXQgdGhlIHJlbWFpbmRlciBvZiB0
+aGUgVGVncmEgaW50ZXJjb25uZWN0Cj4gc2VyaWVzIG1lcmdlZCBmb3IgdjUuMTEgYXMgd2VsbD8K
+Ckkgd2FzIHdhaXRpbmcgZm9yIGxhc3QgYWNrcyBmcm9tIFJvYiBhbmQgeW91IGFuZCBhY3R1YWxs
+eSBwbGFubmVkIHRvCm1lcmdlIGV2ZXJ5dGhpbmcgdGhpcyB3ZWVrICh3ZWVrZW5kIGF0IHRoZSBs
+YXRlc3QpLiBJbmRlZWQgaXQgc2xpZ2h0bHkKc2xpcHBlZCBhd2F5Li4uIHRoZSB2MTEgd2FzIHJl
+cG9zdGVkIGxhdGUuCgpJdCBjb3VsZCBzdGlsbCBtYWtlIHRpbGwgdjUuMTEsIGlmIEkgc2VuZCB0
+aGUgUFIgbm93IChzdGlsbCBhcm91bmQgMwp3ZWVrcyBiZWZvcmUgbWVyZ2Ugd2luZG93KS4KCkhv
+d2V2ZXIgSSBzYXcgbm93IHlvdXIgY29tbWVudHMgZm9yIHRoZSBwYXRjaCA0LzEwIGZyb20gdjEx
+LiBJJ2xsIHRha2UKcGF0Y2hlcyAxLTMgZm9yIG5vdy4KCkJlc3QgcmVnYXJkcywKS3J6eXN6dG9m
+CgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
