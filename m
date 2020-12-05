@@ -1,38 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE6C2CFE78
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Dec 2020 20:36:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4662CFE9B
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Dec 2020 20:55:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB80E6E446;
-	Sat,  5 Dec 2020 19:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB0436E446;
+	Sat,  5 Dec 2020 19:55:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF0476E446
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 19:36:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C42636E446
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 19:55:28 +0000 (UTC)
 Received: from ravnborg.org (unknown [188.228.123.71])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 88E3C804C8;
- Sat,  5 Dec 2020 20:36:40 +0100 (CET)
-Date: Sat, 5 Dec 2020 20:36:39 +0100
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 7BB35804C8;
+ Sat,  5 Dec 2020 20:55:26 +0100 (CET)
+Date: Sat, 5 Dec 2020 20:55:25 +0100
 From: Sam Ravnborg <sam@ravnborg.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Subject: Re: [PATCH v6 3/8] dt-bindings: display: simple: Add Kyocera
- tcg070wvlq panel
-Message-ID: <20201205193639.GH332836@ravnborg.org>
-References: <20201202081826.29512-1-o.rempel@pengutronix.de>
- <20201202081826.29512-4-o.rempel@pengutronix.de>
+To: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 2/4] dt-bindings: display: Add ABT Y030XX067A panel
+ bindings
+Message-ID: <20201205195525.GI332836@ravnborg.org>
+References: <20201101093150.8071-1-paul@crapouillou.net>
+ <20201101093150.8071-3-paul@crapouillou.net>
+ <20201101122900.GB1269759@ravnborg.org>
+ <9CZ5JQ.CWYPSJ8EDOW4@crapouillou.net>
+ <CAL_JsqLSGMFibm8tVKqNe1SFBzXTU2=M2jZmpfrHeGUqS3foRg@mail.gmail.com>
+ <1XJMKQ.YER47WG3D7R41@crapouillou.net>
+ <CAL_JsqJDQMzHjtYa6ZCOxXW_U5nWrS+DhBj-w2myn-SkGB+KCA@mail.gmail.com>
+ <MXPMKQ.PSU8COVVM0IV2@crapouillou.net>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201202081826.29512-4-o.rempel@pengutronix.de>
+In-Reply-To: <MXPMKQ.PSU8COVVM0IV2@crapouillou.net>
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
  a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=e5mUnYsNAAAA:8 a=j6nJQESatMUz3IOQuDcA:9
- a=CjuIK1q_8ugA:10 a=Vxmtnl_E_bksehYqCbjh:22
+ a=kj9zAlcOel0A:10 a=ER_8r6IbAAAA:8 a=aP72JqY-3imoCIW2L10A:9
+ a=CjuIK1q_8ugA:10 a=9LHmKk7ezEChjTCyhBa9:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,50 +51,87 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, dri-devel@lists.freedesktop.org,
- David Jander <david@protonic.nl>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org, NXP Linux Team <linux-imx@nxp.com>
+Cc: devicetree@vger.kernel.org, od@zcrc.me, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Christophe Branchereau <cbranchereau@gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 02, 2020 at 09:18:21AM +0100, Oleksij Rempel wrote:
-> So far, this panel seems to be compatible with "lg,lb070wv8", on other
-> hand it is better to set this compatible in the devicetree. So, let's
-> add it for now only to the dt-binding documentation to fix the
-> checkpatch warnings.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  .../devicetree/bindings/display/panel/panel-simple.yaml          | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> index 0bb3e67fb58c..8f7a0e409eee 100644
-> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> @@ -172,6 +172,7 @@ properties:
->        - koe,tx26d202vm0bwa
->          # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
->        - koe,tx31d200vm0baa
-> +      - kyo,tcg070wvlq
-Can you provine a comment here about what panel it is?
+Hi Paul
 
->          # Kyocera Corporation 12.1" XGA (1024x768) TFT LCD panel
->        - kyo,tcg121xglp
->          # LeMaker BL035-RGB-002 3.5" QVGA TFT LCD panel
-> -- 
-> 2.29.2
+> > >  >>  >>  +
+> > >  >>  >>  +maintainers:
+> > >  >>  >>  +  - Paul Cercueil <paul@crapouillou.net>
+> > >  >>  >>  +
+> > >  >>  >>  +allOf:
+> > >  >>  >>  +  - $ref: panel-common.yaml#
+> > >  >>  >>  +
+> > >  >>  >>  +properties:
+> > >  >>  >>  +  compatible:
+> > >  >>  >>  +    const: abt,y030xx067a
+> > >  >>  >>  +
+> > >  >>  >>  +  backlight: true
+> > >  >>  >>  +  port: true
+> > >  >>  >>  +  power-supply: true
+> > >  >>  >>  +  reg: true
+> > >  >>  >>  +  reset-gpios: true
+> > >  >>  >
+> > >  >>  > The binding is missing:
+> > >  >>  > required:
+> > >  >>  >   - compatible
+> > >  >>  >   - reg
+> > >  >>  >   - power-supply
+> > >  >>  >   - reset-gpios
+> > >  >>  >   - ...
+> > >  >>  >
+> > >  >>  > additionalProperties: false
+> > >  >>  >
+> > >  >>  > So r-b only with these added.
+> > >  >>
+> > >  >>  Stupid mistake, sorry about that.
+> > >  >>
+> > >  >>  I'll V2.
+> > >  >
+> > >  > I don't have any V2 in my inbox, but looks like it is in
+> > > linux-next
+> > >  > now:
+> > > 
+> > >  Yes, Sam told me on IRC I could fix it while applying and avoid the
+> > > V2.
+> > > 
+> > >  > /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.example.dt.yaml:
+> > >  > panel@0: 'spi-max-frequency' does not match any of the regexes:
+> > >  > 'pinctrl-[0-9]+'
+> > >  >  From schema:
+> > >  > /builds/robherring/linux-dt-bindings/Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml
+> > > 
+> > >  "make dt_binding_check
+> > > DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml"
+> > >  doesn't complain here :(
+> > 
+> > Even if you do 'touch
+> > Documentation/devicetree/bindings/display/panel/abt,y030xx067a.yaml'
+> > or do a clean build?
+> > 
+> > I can't think of any kernel or dt-schema changes which would explain
+> > the difference. This is purely related to 'additionalProperties:
+> > false'.
 > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Ok, I see it now.
+> Should I use 'unevaluatedProperties: false' instead?
+
+Yes, the issue here is that you add a number of spi properties to the
+binding. And you cannot or at least shall not, list them all in this
+binding.
+So when evaluating the binding the spi-max-frequency should be allowed,
+and when a full DT file is checked the tools will catch it there is a
+binding that is not known - as you tell it with "unevaluatedProperties:
+false" that all prperties must be known.
+
+	Sam
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
