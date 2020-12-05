@@ -1,55 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8972D0C58
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D06D2D0C3E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16266E7F1;
-	Mon,  7 Dec 2020 08:57:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1C56E5A9;
+	Mon,  7 Dec 2020 08:56:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
- [IPv6:2a00:1450:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB3B6E431
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 15:23:48 +0000 (UTC)
-Received: by mail-ej1-x644.google.com with SMTP id g20so13118768ejb.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Dec 2020 07:23:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o6oFhKK6E9ulOA/HQLGC/Cvl0EWnQ7WoWB+KajzZU9M=;
- b=L3nCZcKcPKem4zPyoXK/6Aw/NP2RW0RuNWRGwAPVrPYRmI4GyRwL07kkbt2hNJRJCS
- cyJrrAIjEBqUGqq2pDd81l9uWvA1zqWkYJjV+xxNtNSqwxbFyGuU61XDPHDHV5C/s/lz
- DL7S064GR8r3KZAYLjgzJ65tHbUNcT+Y6izXenEkniSbJ4aQBpsb+bOhA2Xp1UnKLVLJ
- KzdJYBgP3hPilhgpatxFQ5hDU8rCqkPO0WWqtf406oo3sDvO7xoUkIj6NE6CZb41r93Y
- IJNg+7dTI90Dm5XhQX8lBM+6emnNmkMvJzHX1ikWOPD/zpc1B3mnnEsQEcGtARfONiAL
- 7ecw==
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD2566E446
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 19:52:41 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s9so10516920ljo.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Dec 2020 11:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bBF57HirJUWNF1QYKQCv5cFAIUWWtnZdZjsBsF1FLJE=;
+ b=IdysiPjmnPVweioFPBqM2j0kXFOrazfcFWyxe+MuLYeOEAC2vr1O37U8hUDQcLe8C5
+ xxd+KyrAq4eW4uYdJ69QH+WpDKc1Dhg1DCO0Iey/XGIdIydoRgvfFbdoalfIsJWZq2Z3
+ iMIgHy8nTthhfK6rf+aL8juA5ZMNuw7tVT+DeZbOcQcb+dyKG69/HmAjUD4ynpgbAqX/
+ uR3sJlzTwaCm9CDD7IP5d1l5VJZ3pMesUY3XUJj+wr2zZa1kQwiYbkkFR9JrMiADJFqy
+ j3koh2M3FZ5JzRfwgDddQORHcQCV+tUDVOUggU4P0PK6r4Tug67HItzMaZr5sx1jLQ82
+ GBkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o6oFhKK6E9ulOA/HQLGC/Cvl0EWnQ7WoWB+KajzZU9M=;
- b=mCaczGZAhk+3H6tPReoShqgNc0GXZ1iKa/4nbgebR21QlUxQozjUaVZSaQB5cgA68J
- vvvv0RaX72j+qgx8JjIkG+nqIa1ufMsIFTGWnbiZoK2nwdrj8v2IQvu0jytzBF0Dj6RZ
- ilx8k80NmoAuI8XxeAye+xsOsMDo8/1EuigRsH4LmP1u4BO18ttZReD5x9aFZSkW2n5K
- FSmutSbTdjFy+QqG9Yi6BQiRy8EwjkbKtNVJzUpCturoO8xvVeqywucJgcPciNGUwwgM
- oG3wa8qxYJ4lPrpfN9vvX+4X+Iawj5XmOHW8MJqdynD8pkXPg6Hp2kx98OaNAgepiCRW
- wWkg==
-X-Gm-Message-State: AOAM533szyyK5vlA5XRFG0fadNASCr6bHfHp4fwWrML01Ens13idcFzS
- OxvcGfhJgpIUegKJ5lKwyiQ/AQYWLCnMoV2SNOD6Cw==
-X-Google-Smtp-Source: ABdhPJyzknKZdsiDAAQV4EoRT04aryQWvBfxjjm7spiAdyN2wKXOvto8Yw/lV2QTqPfmNXDuCsx4Gz7Omewa3Br0/LM=
-X-Received: by 2002:a17:906:4482:: with SMTP id
- y2mr11916052ejo.342.1607181827131; 
- Sat, 05 Dec 2020 07:23:47 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bBF57HirJUWNF1QYKQCv5cFAIUWWtnZdZjsBsF1FLJE=;
+ b=K48VRd96xTXyQ97mKq6+32PefyItHgjpHwgq7d+JfAuZccpmU+L44jtnaXx5ikKcaI
+ dKamPbnLlJlTkju2ahgJYpy6vNJviTEOcmav4LNjJBzE+cS2fBhN5ZmDKkVeSVerxPYg
+ 36DmktRfaHYpQ15YUJolZZklM+XnWihOVlFT4x7ryOIGnt7VCNoUlyEjnCtOTIGNO7H+
+ gjWnVd5SQaRr76ov1c7Bx+jnb/YsbWBD6VxbUwNiK8K16shcLM/B0qEIJT5eB5/Rn26v
+ /IfSi1303ZJU6gvZd7qdaoCvAWhJAeKyjhu76uEQQR2lD0WznrcOHI4eXEGHkNZp0cTs
+ P/qw==
+X-Gm-Message-State: AOAM531szPa1kCeaSkqDRY6Bvc2zqP9bJILV0NYzGGy0h92UFY5FcU9Z
+ 4O5BHtvnZ+XoJd8dNmhyO8M=
+X-Google-Smtp-Source: ABdhPJzGAM8dSVUfPrR/U+Sun2Ezu5zVBu5XVo94j8F7KWeaq9PoGepIjjXZVKrnnHP9DQTWYaRB2Q==
+X-Received: by 2002:a2e:8053:: with SMTP id p19mr5590859ljg.321.1607197960096; 
+ Sat, 05 Dec 2020 11:52:40 -0800 (PST)
+Received: from [192.168.2.145] (109-252-192-53.dynamic.spd-mgts.ru.
+ [109.252.192.53])
+ by smtp.googlemail.com with ESMTPSA id p28sm2465992ljn.22.2020.12.05.11.52.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 05 Dec 2020 11:52:39 -0800 (PST)
+Subject: Re: [PATCH v11 04/10] memory: tegra124-emc: Make driver modular
+To: Thierry Reding <thierry.reding@gmail.com>
+References: <20201203192439.16177-1-digetx@gmail.com>
+ <20201203192439.16177-5-digetx@gmail.com> <X8pmqVRFaBtkwDtr@ulmo>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <76eb57bf-feaf-ad86-a2d6-152897af7f2f@gmail.com>
+Date: Sat, 5 Dec 2020 22:52:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <20201103052102.1465314-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20201103052102.1465314-1-dmitry.baryshkov@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 5 Dec 2020 18:23:36 +0300
-Message-ID: <CAA8EJpor_oizNfYaQydQdNVgROGTGpKJnoHhqXx9O9XcyYWe3g@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dpu: enable DSPP support on SM8[12]50
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Jonathan Marek <jonathan@marek.ca>
+In-Reply-To: <X8pmqVRFaBtkwDtr@ulmo>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,119 +72,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
- Harigovindan P <harigovi@codeaurora.org>,
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
- David Airlie <airlied@linux.ie>, freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: devicetree@vger.kernel.org, Mikko Perttunen <cyndis@kapsi.fi>,
+ dri-devel@lists.freedesktop.org, Nicolas Chauvet <kwizart@gmail.com>,
+ Stephen Boyd <sboyd@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+ Georgi Djakov <georgi.djakov@linaro.org>, Chanwoo Choi <cw00.choi@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Rob Herring <robh+dt@kernel.org>,
+ MyungJoo Ham <myungjoo.ham@samsung.com>, Peter Geis <pgwipeout@gmail.com>,
+ linux-tegra@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 3 Nov 2020 at 08:21, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Add support for color correction sub block on SM8150 and SM8250.
-
-Gracious ping for this patch
-
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  .../gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c    | 26 +++++++++++++++----
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c   |  3 +--
->  2 files changed, 22 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> index bb1add2e49dd..240a21c5e5fe 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> @@ -466,9 +466,9 @@ static const struct dpu_lm_cfg sc7180_lm[] = {
->
->  static const struct dpu_lm_cfg sm8150_lm[] = {
->         LM_BLK("lm_0", LM_0, 0x44000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_0, LM_1, 0),
-> +               &sdm845_lm_sblk, PINGPONG_0, LM_1, DSPP_0),
->         LM_BLK("lm_1", LM_1, 0x45000, MIXER_SDM845_MASK,
-> -               &sdm845_lm_sblk, PINGPONG_1, LM_0, 0),
-> +               &sdm845_lm_sblk, PINGPONG_1, LM_0, DSPP_1),
->         LM_BLK("lm_2", LM_2, 0x46000, MIXER_SDM845_MASK,
->                 &sdm845_lm_sblk, PINGPONG_2, LM_3, 0),
->         LM_BLK("lm_3", LM_3, 0x47000, MIXER_SDM845_MASK,
-> @@ -487,16 +487,28 @@ static const struct dpu_dspp_sub_blks sc7180_dspp_sblk = {
->                 .len = 0x90, .version = 0x10000},
->  };
->
-> -#define DSPP_BLK(_name, _id, _base) \
-> +static const struct dpu_dspp_sub_blks sm8150_dspp_sblk = {
-> +       .pcc = {.id = DPU_DSPP_PCC, .base = 0x1700,
-> +               .len = 0x90, .version = 0x40000},
-> +};
-> +
-> +#define DSPP_BLK(_name, _id, _base, _sblk) \
->                 {\
->                 .name = _name, .id = _id, \
->                 .base = _base, .len = 0x1800, \
->                 .features = DSPP_SC7180_MASK, \
-> -               .sblk = &sc7180_dspp_sblk \
-> +               .sblk = _sblk \
->                 }
->
->  static const struct dpu_dspp_cfg sc7180_dspp[] = {
-> -       DSPP_BLK("dspp_0", DSPP_0, 0x54000),
-> +       DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sc7180_dspp_sblk),
-> +};
-> +
-> +static const struct dpu_dspp_cfg sm8150_dspp[] = {
-> +       DSPP_BLK("dspp_0", DSPP_0, 0x54000, &sm8150_dspp_sblk),
-> +       DSPP_BLK("dspp_1", DSPP_1, 0x56000, &sm8150_dspp_sblk),
-> +       DSPP_BLK("dspp_2", DSPP_2, 0x58000, &sm8150_dspp_sblk),
-> +       DSPP_BLK("dspp_3", DSPP_3, 0x5a000, &sm8150_dspp_sblk),
->  };
->
->  /*************************************************************
-> @@ -888,6 +900,8 @@ static void sm8150_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
->                 .sspp = sdm845_sspp,
->                 .mixer_count = ARRAY_SIZE(sm8150_lm),
->                 .mixer = sm8150_lm,
-> +               .dspp_count = ARRAY_SIZE(sm8150_dspp),
-> +               .dspp = sm8150_dspp,
->                 .pingpong_count = ARRAY_SIZE(sm8150_pp),
->                 .pingpong = sm8150_pp,
->                 .merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-> @@ -919,6 +933,8 @@ static void sm8250_cfg_init(struct dpu_mdss_cfg *dpu_cfg)
->                 .sspp = sm8250_sspp,
->                 .mixer_count = ARRAY_SIZE(sm8150_lm),
->                 .mixer = sm8150_lm,
-> +               .dspp_count = ARRAY_SIZE(sm8150_dspp),
-> +               .dspp = sm8150_dspp,
->                 .pingpong_count = ARRAY_SIZE(sm8150_pp),
->                 .pingpong = sm8150_pp,
->                 .merge_3d_count = ARRAY_SIZE(sm8150_merge_3d),
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> index a7a24539921f..e42f901a7de5 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-> @@ -57,8 +57,7 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
->  static void _setup_dspp_ops(struct dpu_hw_dspp *c,
->                 unsigned long features)
->  {
-> -       if (test_bit(DPU_DSPP_PCC, &features) &&
-> -               IS_SC7180_TARGET(c->hw.hwversion))
-> +       if (test_bit(DPU_DSPP_PCC, &features))
->                 c->ops.setup_pcc = dpu_setup_dspp_pcc;
->  }
->
-> --
-> 2.28.0
->
-
-
--- 
-With best wishes
-Dmitry
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+MDQuMTIuMjAyMCAxOTo0MSwgVGhpZXJyeSBSZWRpbmcg0L/QuNGI0LXRgjoKLi4uCj4+ICtib29s
+IHRlZ3JhMTI0X2Nsa19lbWNfZHJpdmVyX2F2YWlsYWJsZShzdHJ1Y3QgY2xrX2h3ICpodykKPj4g
+K3sKPj4gKwlzdHJ1Y3QgdGVncmFfY2xrX2VtYyAqdGVncmEgPSBjb250YWluZXJfb2YoaHcsIHN0
+cnVjdCB0ZWdyYV9jbGtfZW1jLCBodyk7Cj4+ICsKPj4gKwlyZXR1cm4gdGVncmEtPnByZXBhcmVf
+dGltaW5nX2NoYW5nZSAmJiB0ZWdyYS0+Y29tcGxldGVfdGltaW5nX2NoYW5nZTsKPj4gK30KPiAK
+PiBUaGlzIGxvb2tzIGEgYml0IGhhY2tpc2ggYW5kIEkgcHJlZmVyIHRoZSB3YXkgdGhpcyB3YXMg
+ZG9uZSBmb3IKPiBUZWdyYTIxMC4KCkkgbWF5IGhhdmUgYW4gb3Bwb3NpdGUgb3BpbmlvbiA6KQoK
+PiBCdXQgdGhhdCdzIG1vc3RseSBhbiBpbXBsZW1lbnRhdGlvbiBkZXRhaWwgYW5kIHdlIGNhbiBh
+bHdheXMKPiByZXN0cnVjdHVyZSB0aGlzIGlmIHdlIHdhbnQgdG8uCgpUaGlzIGlzIHRydWUuIEkn
+bSBub3Qgc2F5aW5nIHRoYXQgdGhlIGN1cnJlbnQgdjExIHZhcmlhbnQgaXMgYWJzb2x1dGVseQpp
+ZGVhbCwgYnV0IGl0IHNob3VsZCBiZSBnb29kIGVub3VnaCBmb3IgdGhlIHN0YXJ0ZXIgKElNTykg
+YW5kIGFjdHVhbGx5IEkKZG9uJ3QgaGF2ZSBhbnkgaWRlYXMgcmlnaHQgYWJvdXQgd2hhdCBjb3Vs
+ZCBiZSBkb25lIGJldHRlci4KCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2Nsay90ZWdyYS9jbGst
+dGVncmExMjQuYyBiL2RyaXZlcnMvY2xrL3RlZ3JhL2Nsay10ZWdyYTEyNC5jCj4+IGluZGV4IGU5
+MzEzMTlkY2M5ZC4uOTM0NTIwYWFiNmUzIDEwMDY0NAo+PiAtLS0gYS9kcml2ZXJzL2Nsay90ZWdy
+YS9jbGstdGVncmExMjQuYwo+PiArKysgYi9kcml2ZXJzL2Nsay90ZWdyYS9jbGstdGVncmExMjQu
+Ywo+PiBAQCAtMTUwMCw2ICsxNTAwLDI2IEBAIHN0YXRpYyB2b2lkIF9faW5pdCB0ZWdyYTEyNF8x
+MzJfY2xvY2tfaW5pdF9wcmUoc3RydWN0IGRldmljZV9ub2RlICpucCkKPj4gIAl3cml0ZWwocGxs
+ZF9iYXNlLCBjbGtfYmFzZSArIFBMTERfQkFTRSk7Cj4+ICB9Cj4+ICAKPj4gK3N0YXRpYyBzdHJ1
+Y3QgY2xrICp0ZWdyYTEyNF9jbGtfc3JjX29uZWNlbGxfZ2V0KHN0cnVjdCBvZl9waGFuZGxlX2Fy
+Z3MgKmNsa3NwZWMsCj4+ICsJCQkJCQl2b2lkICpkYXRhKQo+PiArewo+PiArCXN0cnVjdCBjbGtf
+aHcgKmh3Owo+PiArCXN0cnVjdCBjbGsgKmNsazsKPj4gKwo+PiArCWNsayA9IG9mX2Nsa19zcmNf
+b25lY2VsbF9nZXQoY2xrc3BlYywgZGF0YSk7Cj4+ICsJaWYgKElTX0VSUihjbGspKQo+PiArCQly
+ZXR1cm4gY2xrOwo+PiArCj4+ICsJaHcgPSBfX2Nsa19nZXRfaHcoY2xrKTsKPj4gKwo+PiArCWlm
+IChjbGtzcGVjLT5hcmdzWzBdID09IFRFR1JBMTI0X0NMS19FTUMpIHsKPj4gKwkJaWYgKCF0ZWdy
+YTEyNF9jbGtfZW1jX2RyaXZlcl9hdmFpbGFibGUoaHcpKQo+PiArCQkJcmV0dXJuIEVSUl9QVFIo
+LUVQUk9CRV9ERUZFUik7Cj4+ICsJfQo+PiArCj4+ICsJcmV0dXJuIGNsazsKPj4gK30KPiAKPiBI
+bS4uLiB3aHkgZXhhY3RseSBkbyB3ZSBuZWVkIHRoaXM/IE9uIFRlZ3JhMjEwIGFuZCBsYXRlciwg
+dGhlIEVNQyBkcml2ZXIKPiBpcyB0aGUgb25seSBjb25zdW1lciBvZiB0aGUgRU1DIGNsb2NrIGFu
+ZCBzaW5jZSBpdCBhbHNvIHByb3ZpZGVzIHNvbWUgb2YKPiB0aGUgbmVjZXNzYXJ5IHBhcnRzIHRv
+IHNjYWxlIHRoZSBFTUMgY2xvY2ssIHRoYXQncyBhIGNoaWNrZW4gYW5kIGVnZwo+IHByb2JsZW0u
+CgpUaGUgVDEyNCBFTUMgZHJpdmVyIGhhcyBhbiBleGlzdGluZyBhY3RpdmUgdXNlciBmb3IgdGhl
+IEVNQyBjbG9jaywgdGhlCmRldmZyZXEvYWN0bW9uIGRyaXZlciB3aGljaCB3YXRjaGVzIGFuZCBk
+cml2ZXMgdGhlIEVNQyBjbG9jayByYXRlLiBUaGUKRU1DIGNsb2NrIHNoYW4ndCBiZSByZXF1ZXN0
+ZWQgYnkgdGhlIGRldmZyZXEgZHJpdmVyIHVudGlsIEVNQyBkcml2ZXIgaXMKcmVhZHksIHRoZSBv
+bmx5IHNlbnNpYmxlIHdheSB0byBhY2hpZXZlIHRoaXMgaXMgaW1wbGVtZW50ZWQgYnkgdGhpcyBw
+YXRjaC4KClRoZSBkZXZmcmVxIGRyaXZlciBkb2Vzbid0IHN1cHBvcnQgVDIxMCAoeWV0PykgYW5k
+IHlvdSBzaG91bGQgd2l0bmVzcwp0aGUgcHJvYmxlbSBpZiB5b3UnbGwgdHJ5IHRvIGltcGxlbWVu
+dCB0aGUgVDIxMCBzdXBwb3J0LgoKPiBJJ20gbm90IHN1cmUgSSBmdWxseSB1bmRlcnN0YW5kIGhv
+dyB0aGlzIGlzIHN1cHBvc2VkIHRvIHdvcmsKPiBoZXJlIGFuZCB3aHkgd2UgY2FuJ3QgZG8gdGhp
+cyBpbiBhIHNpbWlsYXIgd2F5IHRoYW4gVGVncmEyMTAuCgpUaGUgQ0NGIHJldHVybnMgLUVQUk9C
+RV9ERUZFUiBmb3IgY2xrX2dldCgpIG9ubHkgdW50aWwgY2xvY2sgcHJvdmlkZXIgaXMKcmVnaXN0
+ZXJlZCwgb3RoZXJ3aXNlIGl0IHJldHVybnMgYSBkdW1teS9zdHViIGNsb2NrIG9uY2UgcHJvdmlk
+ZXIgaXMKYXZhaWxhYmxlIGFuZCBjbGsgKG9mIHRoZSBwcm92aWRlcikgaXNuJ3QgcmVnaXN0ZXJl
+ZC4gVGhlIENDRiBwcm92aWRlcgpmb3IgdGhlIEVNQyBjbG9jayBpcyB0aGUgdGVncmEtY2xrIGRy
+aXZlciwgbm90IHRoZSBFTUMgZHJpdmVyLgoKT25jZSBjbGtfZ2V0KCkgaXMgaW52b2tlZCBieSBh
+IGNsayB1c2VyLCB0aGUgQ0NGIHBlcmZvcm1zIHRoZSBjbGsgbG9va3VwCnVzaW5nIHRoZSBEVCBz
+cGVjaWZpZXIgYW5kIHRoaXMgbG9va3VwIGlzIGFib3J0ZWQgd2l0aCBhIC1FUFJPQkVfREVGRVIK
+ZnJvbSB0aGUgY2xrX3NyY19vbmVjZWxsX2dldCgpIGNhbGxiYWNrIGlmIEVNQyBkcml2ZXIgaXNu
+J3QgbG9hZGVkIHlldC4KSSBkb24ndCB0aGluayB0aGF0IHRoZXJlIGFyZSBhbnkgb3RoZXIgdmFy
+aWFudHMgdG8gYWNoaWV2ZSB0aGlzIGJlaGF2aW91ci4KCkkgYWxzbyBwcmVmZXIgdG8gaGF2ZSBh
+IGNsZWFuIHNlcGFyYXRpb24gb2YgdGhlIGNsayBhbmQgRU1DIGRyaXZlcnMKYmVjYXVzZSB0aGlz
+IGlzIGEgbXVjaCBtb3JlIGV4cHJlc3NpdmUgdmFyaWFudCB0aGFuIG1peGluZyBkcml2ZXJzCnRv
+Z2V0aGVyIGluIG9ic2N1cmUgd2F5LiBUaGUgcHJlLVQyMTAgRU1DIGRyaXZlcnMgZG9uJ3QgbmVl
+ZCB0byB0b3VjaApjbGsgcmVnaXN0ZXJzIGZvciBwcm9ncmFtbWluZyBvZiB0aGUgbWVtb3J5IHRp
+bWluZ3MsIGhlbmNlIHRob3NlIEVNQwpkcml2ZXJzIGFyZSBpbiBhIGJpdCBiZXR0ZXIgcG9zaXRp
+b24gdGhhbiB0aGUgVDIxMCBkcml2ZXIuCgpUaGUgVDIxMCBFTUMgZHJpdmVyIGFsc28gY291bGQg
+aGF2ZSBhIGNsZWFuZXIgc2VwYXJhdGlvbiBieSB1c2luZyBhCnNwZWNpYWwgdGVncmEtY2xrIEFQ
+SSBmb3IgdGhlIGNsay9FTUMgZnVuY3Rpb25zLCBpbnN0ZWFkIG9mIHNob3ZpbmcgYQpyYXcgY2xr
+IElPIHBvaW50ZXIgdG8gdGhlIEVNQyBkcml2ZXIuIEl0IGZlZWxzIGxpa2UgSSB3YXMgYWxyZWFk
+eQpzdWdnZXN0aW5nIHRoaXMgYWJvdXQgYSBoYWxmLXllYXIgYWdvLCBiZWZvcmUgdGhlIFQyMTAg
+ZHJpdmVyIHdhcyBtZXJnZWQuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNr
+dG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2Ry
+aS1kZXZlbAo=
