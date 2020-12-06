@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7DE2D06BD
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BF72D06BF
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04E736E4E6;
-	Sun,  6 Dec 2020 19:03:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 451326E4F1;
+	Sun,  6 Dec 2020 19:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA8A6E4E6
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:11 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id s9so12635249ljo.11
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:11 -0800 (PST)
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
+ [IPv6:2a00:1450:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8966E4E8
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:12 +0000 (UTC)
+Received: by mail-lj1-x242.google.com with SMTP id s9so12635283ljo.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q2c8TosX3R/8fyI6+6hbgfajIYltmGAIh3MuAuO3wgI=;
- b=U8MIJ/hnXOrYJTIg5Ty/f9FVT3L8hXf/9YHCObVYWGeyhdDQDyxfUUfBTi+qMkjNEI
- OMTiD6lSuOFYPNUnRzv6kA7UjQTaO5R1tVf6tctjhXhObK4IjjAtiEGPkrtqtNGah3nx
- nit27kclFdW4q+r77Bc9rijfIQBZtU5/yCmxzGAgRBcPA3t3+UWy66kO9NBJ5Q9rom9c
- F+4stSsq2cJzJbR0dNnOEg9WjpJaFvIHHjP3HnUYTVhyHN/D3V/IfR+HiQx9MvNzhWo0
- 0QT235RW3/8/oKvO+K8TPKJ7Mrf0FvPUvccFrTjNsdZrFNBYUR+L5iTkIBrehcYMBsgv
- 8JNw==
+ bh=9YJ8hNiC7fcBnhr6W4yRKfHMapnKQoLUJY6svzs3To0=;
+ b=LaLHUm1Z4gGqnGZ3KZ7SHqaALYkoq/yZxYDzkQbZYV0PMY0w52MBCPt//V8+5dKQSB
+ g+UgMgIcXOB/tO/E/S/ZOeqmDZyduyPkSz6vCyBp1j0j0R/blDyXa5ncboNUSyWNMmMF
+ 7z4bu82pAwrOMfKemks/fqOWwajOskvq7e+ffV9CjCxa+f0cR7uOpNMx1E+RO/dH8/pA
+ 8ku81TvvuYNVjpeSAv5GkdkAwNrotvjHD2EbOid95GXlW7DZFpHvs5+mNU86MN3GadvI
+ RKAzjz2ik6cq7BN/9mn2RHD6G9PdUsn7mATzpH4xmVpu2xIiZ3Uf98S7duMImpKVvfVl
+ +15g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q2c8TosX3R/8fyI6+6hbgfajIYltmGAIh3MuAuO3wgI=;
- b=W/BwY7ohR4XZBKXiNROZZjwK5A+vWFMJy7DNrAG07xQPkyj/I2eVeQqkFc17fmNVED
- sM0iIc7RsQL4+r14OL3hXBQzCgUbeEDQ5C4j3TeN8irf0ZHqyQhO08Kns99AnQNDTFYC
- Dp4UuoR5zxoBm+AzcURcCupbuKypKjOJE63PE8VFlqLOejPCdQ3lZQLdEMBuVPtXMlaZ
- s+Z5w+opeGs2HZhdxAp23MMIcVNh4qJvmBFVQUuSDKXFiWoPay+uamlnjwsssPbXH4Tc
- hQPk8wEHOwFtPFPIVZH4gqyRcFZNqEo+ILe1pRyLDSYqnRIrk5GTE+//M9zKXUni16TZ
- etrw==
-X-Gm-Message-State: AOAM531EBty1MJNtlJ2HhXbrFHIKJHq0Un2hWZZtbyRJZv41VEk3vEcR
- 6nqRqzTh1PrzSmD8u0vGqzo=
-X-Google-Smtp-Source: ABdhPJwh2HgCsQBPCpyq5dqu0dPDQ9AeMbjlOSyw3cv3zGiXAtMUTvcVRxOeuj+jvb/oXUKuQwIJMw==
-X-Received: by 2002:a2e:3c15:: with SMTP id j21mr7596976lja.440.1607281389929; 
- Sun, 06 Dec 2020 11:03:09 -0800 (PST)
+ bh=9YJ8hNiC7fcBnhr6W4yRKfHMapnKQoLUJY6svzs3To0=;
+ b=r8FmQiL+dKIexsT3ZCMuLenFGe+85Xw1ALPQjf1zSr7J41st7EXn30hK7qX4vkh/Gh
+ lAOWUU/kEh7idcJiwnWjXseJRTO57DYygQnuViU+j9XHSlWLsxDL5QDQadXdL92BRM/+
+ GUN3Sy+YQQ5c4iutPgfrEezIc2xfXpHY3LIrCVIOpBMc2yiPmRqi5RnoIvVSUPpfeThN
+ kdyN1mNQKooHDk2dMbg6e79nEbxDgULAHfuYq/Ex3vL+j9Kw1y8/ey0hGEsYeBv681di
+ okmhDIcgLUiYgJNbTB5GDJ/hpu0semNf+h4DSENIgGfRmlL8Z8dxLRKmH76BWbvdodjv
+ cM8g==
+X-Gm-Message-State: AOAM531TaHYaJfjF8YealYJf10mSAk+Puac+Fxr8zVvhjO1MUTqxmtLo
+ 9Ic6I1x8WKqANr1KfzHVQdo=
+X-Google-Smtp-Source: ABdhPJziPsnplTe7NiMrRGdNc3o7SXo2FpWEV9XqodakF7dSDg151GPsQjMackM7Ag3jGTKj591jlg==
+X-Received: by 2002:a2e:894b:: with SMTP id b11mr7761708ljk.439.1607281391398; 
+ Sun, 06 Dec 2020 11:03:11 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:c1c3:bbc6:3ac5:732d])
  by smtp.gmail.com with ESMTPSA id
- v28sm2483865ljv.29.2020.12.06.11.03.08
+ v28sm2483865ljv.29.2020.12.06.11.03.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 11:03:09 -0800 (PST)
+ Sun, 06 Dec 2020 11:03:10 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v3 07/13] video: fbdev: mmp: Fix kernel-doc warning for
- lcd_spi_write
-Date: Sun,  6 Dec 2020 20:02:41 +0100
-Message-Id: <20201206190247.1861316-8-sam@ravnborg.org>
+Subject: [PATCH v3 08/13] video: fbdev: wmt_ge_rops: Fix function not declared
+ warnings
+Date: Sun,  6 Dec 2020 20:02:42 +0100
+Message-Id: <20201206190247.1861316-9-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206190247.1861316-1-sam@ravnborg.org>
 References: <20201206190247.1861316-1-sam@ravnborg.org>
@@ -90,30 +90,27 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add missing parameter and drop parameter that is not present
+Include own header to fix "function not declared" warnings.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: Tony Prisk <linux@prisktech.co.nz>
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/video/fbdev/mmp/hw/mmp_spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/wmt_ge_rops.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev/mmp/hw/mmp_spi.c
-index 1911a47769b6..16401eb95c6c 100644
---- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
-+++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
-@@ -17,8 +17,8 @@
+diff --git a/drivers/video/fbdev/wmt_ge_rops.c b/drivers/video/fbdev/wmt_ge_rops.c
+index 2445cfe617a9..42255d27a1db 100644
+--- a/drivers/video/fbdev/wmt_ge_rops.c
++++ b/drivers/video/fbdev/wmt_ge_rops.c
+@@ -11,6 +11,7 @@
+ #include <linux/fb.h>
+ #include <linux/platform_device.h>
+ #include "core/fb_draw.h"
++#include "wmt_ge_rops.h"
  
- /**
-  * spi_write - write command to the SPI port
-+ * @spi:  the SPI device.
-  * @data: can be 8/16/32-bit, MSB justified data to write.
-- * @len:  data length.
-  *
-  * Wait bus transfer complete IRQ.
-  * The caller is expected to perform the necessary locking.
+ #define GE_COMMAND_OFF		0x00
+ #define GE_DEPTH_OFF		0x04
 -- 
 2.27.0
 
