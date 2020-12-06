@@ -1,58 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA2D2D06BE
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE7DE2D06BD
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFCB56E4EA;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E736E4E6;
 	Sun,  6 Dec 2020 19:03:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
  [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 041E36E4DD
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:10 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id f11so789465ljn.2
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:09 -0800 (PST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DA8A6E4E6
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:11 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id s9so12635249ljo.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A4gGS7Km1zSYBw+OXt/rDintJ7WruXibpnRy/u4JXrI=;
- b=fBHDvYnIKyIRCluPZ7LsGvsmKUja4Il5k9Lf5O94usbRxBlR9tUbQ/bj7xs4Y55UDC
- PvZeuekZWwvbTIMp7AawS+pSAp+ZlvIcgscgg/WgcNch+3jmT4atQ1sTtGh6eV//VdQB
- ziLw++ePlEDVRPd8H0hEwR7irC/O2fqf7kXXXWFZvuuQnY2bzSnOaVyUfNwpUyOj8Iqm
- nJ8z2q2Zuhmvpjd6gL6oWRhwHsGqYN87Ci/JK4r1qXZ+TSl8JyNdJhiZWkeMLxKzGFla
- OtxWhtPzX1VbXj5zHIYjAkGYtm6WPHDpzB7BWdPo73FcGGw52BdocCqVRBON+ZHBAwhM
- PDzA==
+ bh=Q2c8TosX3R/8fyI6+6hbgfajIYltmGAIh3MuAuO3wgI=;
+ b=U8MIJ/hnXOrYJTIg5Ty/f9FVT3L8hXf/9YHCObVYWGeyhdDQDyxfUUfBTi+qMkjNEI
+ OMTiD6lSuOFYPNUnRzv6kA7UjQTaO5R1tVf6tctjhXhObK4IjjAtiEGPkrtqtNGah3nx
+ nit27kclFdW4q+r77Bc9rijfIQBZtU5/yCmxzGAgRBcPA3t3+UWy66kO9NBJ5Q9rom9c
+ F+4stSsq2cJzJbR0dNnOEg9WjpJaFvIHHjP3HnUYTVhyHN/D3V/IfR+HiQx9MvNzhWo0
+ 0QT235RW3/8/oKvO+K8TPKJ7Mrf0FvPUvccFrTjNsdZrFNBYUR+L5iTkIBrehcYMBsgv
+ 8JNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A4gGS7Km1zSYBw+OXt/rDintJ7WruXibpnRy/u4JXrI=;
- b=Q4NxTfruabyTKy0TdHb5ql50eDDpsjqdM/PrIIypl9xViy46v5ZRJdLm9rdtoGqZ/K
- NzABDIzxHj/7VEZT0JT7DZ6us0y+kXcFyNOY3jBj751QqyxEilFz8n0W0nXbjIxihmKB
- FmodEFCxmOxxuTMEEMuvPNY/m6+kB0Mmij7JWo9yK1PB7wWApzXPiZNt8VV6i33FXE5T
- UHvRkH+zRid0d+LBIZx7euz2HgezTAqstAzSYrtwOeg/0ibDdSy6jFYlN0DkT7KNse1u
- 9hOLQbdK/Jfnt1CgxU4PN9cMtjN+UdF1EtLqJqrrIkXpyspd5Wsmhg3HcJh5vpwEPG2S
- Dziw==
-X-Gm-Message-State: AOAM5339GR6Z+aPak+yFQ1RV6l2899zm7G/G7CK7mwLX5oNw4Ymhd0t2
- FAudILhfsBPNe3DY0nLE66s=
-X-Google-Smtp-Source: ABdhPJwCMgEC3zvaWm+zhlV8Koc6bx4J+FYHGrzJzPNlmyIbiTwpIPLsURBYMA9deDpFJaDtgElnrw==
-X-Received: by 2002:a2e:9710:: with SMTP id r16mr6994169lji.462.1607281388344; 
- Sun, 06 Dec 2020 11:03:08 -0800 (PST)
+ bh=Q2c8TosX3R/8fyI6+6hbgfajIYltmGAIh3MuAuO3wgI=;
+ b=W/BwY7ohR4XZBKXiNROZZjwK5A+vWFMJy7DNrAG07xQPkyj/I2eVeQqkFc17fmNVED
+ sM0iIc7RsQL4+r14OL3hXBQzCgUbeEDQ5C4j3TeN8irf0ZHqyQhO08Kns99AnQNDTFYC
+ Dp4UuoR5zxoBm+AzcURcCupbuKypKjOJE63PE8VFlqLOejPCdQ3lZQLdEMBuVPtXMlaZ
+ s+Z5w+opeGs2HZhdxAp23MMIcVNh4qJvmBFVQUuSDKXFiWoPay+uamlnjwsssPbXH4Tc
+ hQPk8wEHOwFtPFPIVZH4gqyRcFZNqEo+ILe1pRyLDSYqnRIrk5GTE+//M9zKXUni16TZ
+ etrw==
+X-Gm-Message-State: AOAM531EBty1MJNtlJ2HhXbrFHIKJHq0Un2hWZZtbyRJZv41VEk3vEcR
+ 6nqRqzTh1PrzSmD8u0vGqzo=
+X-Google-Smtp-Source: ABdhPJwh2HgCsQBPCpyq5dqu0dPDQ9AeMbjlOSyw3cv3zGiXAtMUTvcVRxOeuj+jvb/oXUKuQwIJMw==
+X-Received: by 2002:a2e:3c15:: with SMTP id j21mr7596976lja.440.1607281389929; 
+ Sun, 06 Dec 2020 11:03:09 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:c1c3:bbc6:3ac5:732d])
  by smtp.gmail.com with ESMTPSA id
- v28sm2483865ljv.29.2020.12.06.11.03.06
+ v28sm2483865ljv.29.2020.12.06.11.03.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 11:03:07 -0800 (PST)
+ Sun, 06 Dec 2020 11:03:09 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v3 06/13] video: fbdev: sparc drivers: fix kernel-doc warnings
- for blank_mode
-Date: Sun,  6 Dec 2020 20:02:40 +0100
-Message-Id: <20201206190247.1861316-7-sam@ravnborg.org>
+Subject: [PATCH v3 07/13] video: fbdev: mmp: Fix kernel-doc warning for
+ lcd_spi_write
+Date: Sun,  6 Dec 2020 20:02:41 +0100
+Message-Id: <20201206190247.1861316-8-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206190247.1861316-1-sam@ravnborg.org>
 References: <20201206190247.1861316-1-sam@ravnborg.org>
@@ -90,112 +90,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix kernel-doc warnings caused by a wrong parameter name
-blank_mode => blank
+Add missing parameter and drop parameter that is not present
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 ---
- drivers/video/fbdev/bw2.c   | 2 +-
- drivers/video/fbdev/cg3.c   | 2 +-
- drivers/video/fbdev/cg6.c   | 2 +-
- drivers/video/fbdev/ffb.c   | 2 +-
- drivers/video/fbdev/leo.c   | 2 +-
- drivers/video/fbdev/p9100.c | 2 +-
- drivers/video/fbdev/tcx.c   | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/video/fbdev/mmp/hw/mmp_spi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/bw2.c b/drivers/video/fbdev/bw2.c
-index 0d9a6bb57a09..e7702fe1fe7d 100644
---- a/drivers/video/fbdev/bw2.c
-+++ b/drivers/video/fbdev/bw2.c
-@@ -116,7 +116,7 @@ struct bw2_par {
+diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+index 1911a47769b6..16401eb95c6c 100644
+--- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
++++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+@@ -17,8 +17,8 @@
  
  /**
-  *      bw2_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
-  */
- static int
-diff --git a/drivers/video/fbdev/cg3.c b/drivers/video/fbdev/cg3.c
-index 77f6470ce665..bdcc3f6ab666 100644
---- a/drivers/video/fbdev/cg3.c
-+++ b/drivers/video/fbdev/cg3.c
-@@ -179,7 +179,7 @@ static int cg3_setcolreg(unsigned regno,
- 
- /**
-  *      cg3_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
-  */
- static int cg3_blank(int blank, struct fb_info *info)
-diff --git a/drivers/video/fbdev/cg6.c b/drivers/video/fbdev/cg6.c
-index a1c68cd48d7e..97ef43c25974 100644
---- a/drivers/video/fbdev/cg6.c
-+++ b/drivers/video/fbdev/cg6.c
-@@ -511,7 +511,7 @@ static int cg6_setcolreg(unsigned regno,
- /**
-  *	cg6_blank - Blanks the display.
+  * spi_write - write command to the SPI port
++ * @spi:  the SPI device.
+  * @data: can be 8/16/32-bit, MSB justified data to write.
+- * @len:  data length.
   *
-- *	@blank_mode: the blank mode we want.
-+ *	@blank: the blank mode we want.
-  *	@info: frame buffer structure that represents a single frame buffer
-  */
- static int cg6_blank(int blank, struct fb_info *info)
-diff --git a/drivers/video/fbdev/ffb.c b/drivers/video/fbdev/ffb.c
-index 948b73184433..b3d580e57221 100644
---- a/drivers/video/fbdev/ffb.c
-+++ b/drivers/video/fbdev/ffb.c
-@@ -667,7 +667,7 @@ static int ffb_setcolreg(unsigned regno,
- 
- /**
-  *	ffb_blank - Optional function.  Blanks the display.
-- *	@blank_mode: the blank mode we want.
-+ *	@blank: the blank mode we want.
-  *	@info: frame buffer structure that represents a single frame buffer
-  */
- static int ffb_blank(int blank, struct fb_info *info)
-diff --git a/drivers/video/fbdev/leo.c b/drivers/video/fbdev/leo.c
-index 40b11cce0ad6..3eb0f3583f4f 100644
---- a/drivers/video/fbdev/leo.c
-+++ b/drivers/video/fbdev/leo.c
-@@ -308,7 +308,7 @@ static int leo_setcolreg(unsigned regno,
- 
- /**
-  *      leo_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
-  */
- static int leo_blank(int blank, struct fb_info *info)
-diff --git a/drivers/video/fbdev/p9100.c b/drivers/video/fbdev/p9100.c
-index 6da672e92643..4e88a0a195ad 100644
---- a/drivers/video/fbdev/p9100.c
-+++ b/drivers/video/fbdev/p9100.c
-@@ -175,7 +175,7 @@ static int p9100_setcolreg(unsigned regno,
- 
- /**
-  *      p9100_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
-  */
- static int
-diff --git a/drivers/video/fbdev/tcx.c b/drivers/video/fbdev/tcx.c
-index 34b2e5b6e84a..1638a40fed22 100644
---- a/drivers/video/fbdev/tcx.c
-+++ b/drivers/video/fbdev/tcx.c
-@@ -196,7 +196,7 @@ static int tcx_setcolreg(unsigned regno,
- 
- /**
-  *      tcx_blank - Optional function.  Blanks the display.
-- *      @blank_mode: the blank mode we want.
-+ *      @blank: the blank mode we want.
-  *      @info: frame buffer structure that represents a single frame buffer
-  */
- static int
+  * Wait bus transfer complete IRQ.
+  * The caller is expected to perform the necessary locking.
 -- 
 2.27.0
 
