@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3032D0573
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 15:19:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14EC82D0575
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 15:20:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C08546E0B7;
-	Sun,  6 Dec 2020 14:19:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 218196E203;
+	Sun,  6 Dec 2020 14:20:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F3CCF6E0B7
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 14:19:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E0DA6E3D6
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 14:20:04 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210517] nouveau: DRM: failed to map fb: -28 (GeForce 6600 LE,
  ppc64)
-Date: Sun, 06 Dec 2020 14:19:04 +0000
+Date: Sun, 06 Dec 2020 14:20:03 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210517-2300-CLxhKN3Ssw@https.bugzilla.kernel.org/>
+Message-ID: <bug-210517-2300-QNnpj7E9Nu@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210517-2300@https.bugzilla.kernel.org/>
 References: <bug-210517-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210517
 
---- Comment #2 from Erhard F. (erhard_f@mailbox.org) ---
-Created attachment 293967
-  --> https://bugzilla.kernel.org/attachment.cgi?id=293967&action=edit
-kernel .config (kernel 5.10-rc6, PowerMac G5 11,2)
+--- Comment #3 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 293969
+  --> https://bugzilla.kernel.org/attachment.cgi?id=293969&action=edit
+kernel .config (kernel 5.9.12, PowerMac G5 11,2)
 
 -- 
 You are receiving this mail because:
