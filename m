@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FB42D0C46
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 127D92D0C54
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 671516E5A1;
-	Mon,  7 Dec 2020 08:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF9C16E819;
+	Mon,  7 Dec 2020 08:57:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917826E462;
- Sun,  6 Dec 2020 19:29:02 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607282941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9ZQJBUKdSm7qhXiIkkwFWbNpcU0Xq1O8cNhq+2evmiE=;
- b=IbGHUp/1hMNV93l5vjljjSUWY75j8BVopqgHCyrUaU185k7KWM2oqvogUhsKQlq6ctYwVy
- Zpzir1n+Pcrh6Xlj13FVXn8OHQ+UDR3AUkVXD3DuqqpWqsspTyizJFyZSwx1eWPDXLq49i
- xwKLOSZLwYK+NOVJuCL4GLJCGozpo+KjTuuO1m/jExShNJM9SwXmHz7wGR8mPXxu9sgFV8
- 16A2O2rB+s+zLHPz77paylJX5nGRPdiOWIt38YJ7hc2aODTCguBd6cZ/aBE8uiU/w5P7CA
- 0LFQ0Xf4sfqfJrZpelzGVF2aJ3P+Q6G6gKWM/123hl6I6tcK6pHeM25OMNUTrQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607282941;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9ZQJBUKdSm7qhXiIkkwFWbNpcU0Xq1O8cNhq+2evmiE=;
- b=AegeveRBXMBfxnkThNlcHmQFhlF4eBAmdAOQ8DJt7ZQI2Nnpi8XL+HHu0QV/JPYt9gegON
- TUMDS1B6Vtwr7bCw==
-To: James Bottomley <James.Bottomley@HansenPartnership.com>,
- Jarkko Sakkinen <jarkko@kernel.org>, Jerry Snitselaar <jsnitsel@redhat.com>
-Subject: Re: [PATCH v3 1/4] irq: export kstat_irqs
-In-Reply-To: <7fe2d70b5daca57d9cd50d3877376e420658ed71.camel@HansenPartnership.com>
-References: <20201205014340.148235-1-jsnitsel@redhat.com>
- <20201205014340.148235-2-jsnitsel@redhat.com>
- <20201205103954.GA17088@kernel.org> <87360i99ck.fsf@nanos.tec.linutronix.de>
- <7fe2d70b5daca57d9cd50d3877376e420658ed71.camel@HansenPartnership.com>
-Date: Sun, 06 Dec 2020 20:29:00 +0100
-Message-ID: <87r1o27myr.fsf@nanos.tec.linutronix.de>
+Received: from merlin.infradead.org (merlin.infradead.org
+ [IPv6:2001:8b0:10b:1231::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84BEF6E462
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=uaJjx5MBG5/1n7wKwNZRjc2vRPxVE5bY074S204GE54=; b=vhUZ83k2KpTRvt5r5yBKPDHD5N
+ 7ERZf9DIWzHsx3KNdK5sOYxnEgLqoPnmAkEZNidZhhMYkBgYIv+LssD9GNoD1JJAuhWMz6rvH/nIA
+ J5z8kjJYPt9T2Ykaj8a8wy6ZZz0fvZKBVkuRyt3RtUmuynadwZDuakc9+ybJMyINayAftLrf0fzIw
+ ehYyGfLwZP3Bs893E2SgrTFvU8GM+VGeh2jcPOl7NNnOjkEzUFz+SebdEVKwaGq2OzZcoaCU8QEsC
+ hwFrcj90NkVEsRoFhnsCy4RVtQms8NRTYxWRHSvxHxAScVa0SVt/1jEPfoBB+c14FPKz3nAtqMRHd
+ JKXs482g==;
+Received: from [2601:1c0:6280:3f0::1494]
+ by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1klzng-0000jY-CU; Sun, 06 Dec 2020 19:34:28 +0000
+Subject: Re: [PATCH v3 01/13] video: fbdev: hgafb: Fix kernel-doc warnings
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201206190247.1861316-1-sam@ravnborg.org>
+ <20201206190247.1861316-2-sam@ravnborg.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <c0c465e0-035a-956a-f8d6-18976bfb813b@infradead.org>
+Date: Sun, 6 Dec 2020 11:34:18 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20201206190247.1861316-2-sam@ravnborg.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,47 +52,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>, Hans de Goede <hdegoede@redhat.com>,
- David Airlie <airlied@linux.ie>, Jiri Kosina <jkosina@suse.cz>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Jason Gunthorpe <jgg@ziepe.ca>,
- Matthew Garrett <mjg59@google.com>, linux-integrity@vger.kernel.org,
- Peter Huewe <peterhuewe@gmx.de>, Yunfeng Ye <yeyunfeng@huawei.com>
+Cc: Rich Felker <dalias@libc.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Gustavo A R Silva <gustavoars@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Peter Jones <pjones@redhat.com>, linux-nvidia@lists.surfsouth.com,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Alexander Klimov <grandmaster@al2klimov.de>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ linux-arm-kernel@lists.infradead.org, Qilong Zhang <zhangqilong3@huawei.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Ferenc Bakonyi <fero@drama.obuda.kando.hu>, Tony Prisk <linux@prisktech.co.nz>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Colin Ian King <colin.king@canonical.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Dec 06 2020 at 09:40, James Bottomley wrote:
-> On Sun, 2020-12-06 at 17:40 +0100, Thomas Gleixner wrote:
->> On Sat, Dec 05 2020 at 12:39, Jarkko Sakkinen wrote:
->> > On Fri, Dec 04, 2020 at 06:43:37PM -0700, Jerry Snitselaar wrote:
->> > > To try and detect potential interrupt storms that
->> > > have been occurring with tpm_tis devices it was suggested
->> > > to use kstat_irqs() to get the number of interrupts.
->> > > Since tpm_tis can be built as a module it needs kstat_irqs
->> > > exported.
->> > 
->> > I think you should also have a paragraph explicitly stating that
->> > i915_pmu.c contains a duplicate of kstat_irqs() because it is not
->> > exported as of today. It adds a lot more weight to this given that
->> > there is already existing mainline usage (kind of).
->> 
->> It's abusage and just the fact that it exists is not an argument by
->> itself.
->
-> What we want is a count of the interrupts to see if we're having an
-> interrupt storm from the TPM device (some seem to be wired to fire the
-> interrupt even when there's no event to warrant it).  Since
-> kstat_irqs_user() does the correct RCU locking, should we be using that
-> instead?
+On 12/6/20 11:02 AM, Sam Ravnborg wrote:
+> Fix kernel-doc comments.
+> 
+> v2:
+>   - Updated subject (Lee)
+> 
+> v3:
+>   - Add space after ':' (Randy)
+>   - Fix name of function in comment
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Ferenc Bakonyi <fero@drama.obuda.kando.hu>
+> Cc: linux-nvidia@lists.surfsouth.com
+> Cc: Lee Jones <lee.jones@linaro.org>
+> ---
+>  drivers/video/fbdev/hgafb.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/video/fbdev/hgafb.c b/drivers/video/fbdev/hgafb.c
+> index a45fcff1461f..8bbac7182ad3 100644
+> --- a/drivers/video/fbdev/hgafb.c
+> +++ b/drivers/video/fbdev/hgafb.c
+> @@ -357,8 +357,8 @@ static int hga_card_detect(void)
+>  
+>  /**
+>   *	hgafb_open - open the framebuffer device
+> - *	@info:pointer to fb_info object containing info for current hga board
+> - *	@int:open by console system or userland.
+> + *	@info: pointer to fb_info object containing info for current hga board
+> + *	@init: open by console system or userland.
+>   */
+>  
+>  static int hgafb_open(struct fb_info *info, int init)
+> @@ -370,9 +370,9 @@ static int hgafb_open(struct fb_info *info, int init)
+>  }
+>  
+>  /**
+> - *	hgafb_open - open the framebuffer device
+> - *	@info:pointer to fb_info object containing info for current hga board
+> - *	@int:open by console system or userland.
+> + *	hgafb_release - open the framebuffer device
+> + *	@info: pointer to fb_info object containing info for current hga board
+> + *	@init: open by console system or userland.
+>   */
+>  
+>  static int hgafb_release(struct fb_info *info, int init)
+> 
 
-If we need to export it, yes. But I still have to understand the
-value. See my other reply.
+LGTM. Thanks.
 
-Thanks,
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-        tglx
+-- 
+~Randy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
