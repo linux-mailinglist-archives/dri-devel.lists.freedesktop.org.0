@@ -1,58 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B652D06C1
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E28C2D06C3
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 20:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E13C6E4EC;
-	Sun,  6 Dec 2020 19:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39C3F6E4E8;
+	Sun,  6 Dec 2020 19:03:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9189A6E4FB
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:17 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id u18so14859730lfd.9
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:17 -0800 (PST)
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
+ [IPv6:2a00:1450:4864:20::241])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E3C46E4FB
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 19:03:19 +0000 (UTC)
+Received: by mail-lj1-x241.google.com with SMTP id e7so2430242ljg.10
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 11:03:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/SfLL6p8Oi2QG40QnuZputxs/YKRkVGSLvwvUqAWetc=;
- b=dzhegX2f5Ql3PjQBuil9z4sEYgr3337KW2qQckQ6pQGqbvHHs3CVckmYm5Un20ZhkN
- wdkTRTeoGd4YUyQFFb9U0U8n93rtfAEylUq//N9tgc51Uj0heyF4pNIBSnYX3+NsBMg3
- VlU4KJFbgS+nYglZ1sGrjauXI4h68vGNSOgCJRgtnTxfmkIhYAinfPZNDvHX3dZZVEpJ
- D8Uhz593GGEn0bnW/ZX+fvM/7cLfUcJ5KPkfia0Y4F+7Jzk8Drd3lORKZBfzTHoV+FZS
- vBppZ4WLbjFRLdfxltCmYT0j7Y1+AMNgraJP+91Ox1B9CubxR0yjYf9zDFUhIyR8iYzU
- sulA==
+ bh=sXUs3Mthn2WNxe9bljzB5KJJxtMgTykEfGBU86F6xiE=;
+ b=Q4dR21nP1jZzsA/PsBN5qV0FqAKg4TkCjUyfsDCiyitQByJY5pO5fmgCAt3HViK+Vu
+ XRUL2l0cD9wsZRjDwcbB0ZkNdr2Ir8Z7fcIEcrCiLQ53YeGHkSqqOUbj4eNSOg27SQ2e
+ VuiJFCYExB03CZXF1PU6lkLv//+TmUU088Jb20M90SzVM9CX147uj+6nsdoHGclTz2ug
+ h7Enp9lKWI4SeKqcS7nXNJbi6m28/YpB2nLY/XwFy9XMEryms6GgsPuePANX6hSoCvmW
+ db092ppYA0YCdY9Z8mQQsgWKkITED7TNoaGGzceIxon6WPvVxvSHD/htfnVZo8eKukOP
+ QYaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/SfLL6p8Oi2QG40QnuZputxs/YKRkVGSLvwvUqAWetc=;
- b=tFhrgRYeI8taR2OQMK7Upo0TAoUlVwVxWCcol074npDqgH8G/LgUQlhr/oiTeCZy6K
- veTJpoP6mt640btmQZGDgLeogiO1L6WRFjEMxMxNBMLgAT07IWJ0kJxQhvn+SDxugmn8
- 4GB++z5UyAIfTNAozlpEY8Ii8Wp4HSvOdzjZUCt3WM0cfDefwlVY/12cN4IEsEpdDFwm
- 4TltDZ5Jtkfqf7kTiXasQwUI5XoZ9pgXBScsDPU5/LIY7wmSbhBqfPLaDgxHN2xOlmCR
- NSedgiXkCOlPhzP/EwcD0HRk0oXSE0OxavPH5TgUKJiWWavxncl2ZvXaGCOhyaSJuChB
- RhGw==
-X-Gm-Message-State: AOAM532RZofkMo9OqCqD2JCHep7Z9aXfegWp98be0+2wQR0yE07JThW/
- er5Dp3L6LyJGwtgqc7bTqN8=
-X-Google-Smtp-Source: ABdhPJwxko1cTuuCkRnEsGsx7KovNmq7vPKRcW8CEJXVJu5saQZRJ120DnppqSpeigQFs93cZ9Bi5g==
-X-Received: by 2002:ac2:46f3:: with SMTP id q19mr7197990lfo.76.1607281396030; 
- Sun, 06 Dec 2020 11:03:16 -0800 (PST)
+ bh=sXUs3Mthn2WNxe9bljzB5KJJxtMgTykEfGBU86F6xiE=;
+ b=sXmnYKcv7MzwV25wyzCMq2jZGWvW1EN9xb7YjmIqzcSc13drIOaBkOVTCmEM7zzU8q
+ o6lzKXO9q9fMutnlOCZ0n0sDjzEdy1m1LRRDWWnkk4x5J9/d/9SW+NpF+FzAaBHRh7xk
+ f7/LL2K8KbcmGgJrPEtg7q2MmdYHGG/TQh2I2gWZGAz04oM22BJ2YTTmcgoZGxl6ahY/
+ 351aKR7x9EH2YXCL8ncrb77mdeaT2NnfXp0qJlt6EqphY48LfV9Ug8JVbr1PyvCRWzZm
+ ZpQxnAOrMNQXoUP+o4YPHAOF0EoTa5DjZivHxJxxwASISEsT4CZyIGLaw2sfoyt33Ndd
+ 1LcQ==
+X-Gm-Message-State: AOAM531NAIZFN/Q+zFmHmwIMnF6VsOG0Wfio+poxAa5OQHOOB11kCv9s
+ jGZHNFwBQhoxMq/3/eQWr7U=
+X-Google-Smtp-Source: ABdhPJzb0KQuWgqAs1QxpFLIbzjo0hp3iVTcDNFOfPyUb7EI83W2N6g7hHXWSCKUuYPdd+iJRhnYvw==
+X-Received: by 2002:a05:651c:10d4:: with SMTP id
+ l20mr6957942ljn.389.1607281397682; 
+ Sun, 06 Dec 2020 11:03:17 -0800 (PST)
 Received: from saturn.localdomain ([2a00:fd00:8060:1c00:c1c3:bbc6:3ac5:732d])
  by smtp.gmail.com with ESMTPSA id
- v28sm2483865ljv.29.2020.12.06.11.03.14
+ v28sm2483865ljv.29.2020.12.06.11.03.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 11:03:15 -0800 (PST)
+ Sun, 06 Dec 2020 11:03:17 -0800 (PST)
 From: Sam Ravnborg <sam@ravnborg.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v3 11/13] video: fbdev: efifb: Fix set but not used warning
- for screen_pitch
-Date: Sun,  6 Dec 2020 20:02:45 +0100
-Message-Id: <20201206190247.1861316-12-sam@ravnborg.org>
+Subject: [PATCH v3 12/13] video: fbdev: controlfb: Fix set but not used
+ warnings
+Date: Sun,  6 Dec 2020 20:02:46 +0100
+Message-Id: <20201206190247.1861316-13-sam@ravnborg.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206190247.1861316-1-sam@ravnborg.org>
 References: <20201206190247.1861316-1-sam@ravnborg.org>
@@ -90,37 +91,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-screen_pitch was asssigned a value which was never used.
-Drop it to fix the warning
+The controlfb driver has a number of dummy defines for IO operations.
+They were introduced in commit a07a63b0e24d
+("video: fbdev: controlfb: add COMPILE_TEST support").
+
+The write variants did not use their value parameter in the
+dummy versions, resulting in set but not used warnings.
+Fix this by adding "(void)val" to silence the compiler.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Peter Jones <pjones@redhat.com>
-Cc: linux-fbdev@vger.kernel.org
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
 ---
- drivers/video/fbdev/efifb.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/video/fbdev/controlfb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index e57c00824965..b80ba3d2a9b8 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -139,7 +139,7 @@ static bool efifb_bgrt_sanity_check(struct screen_info *si, u32 bmp_width)
- 
- static void efifb_show_boot_graphics(struct fb_info *info)
- {
--	u32 bmp_width, bmp_height, bmp_pitch, screen_pitch, dst_x, y, src_y;
-+	u32 bmp_width, bmp_height, bmp_pitch, dst_x, y, src_y;
- 	struct screen_info *si = &screen_info;
- 	struct bmp_file_header *file_header;
- 	struct bmp_dib_header *dib_header;
-@@ -193,7 +193,6 @@ static void efifb_show_boot_graphics(struct fb_info *info)
- 	bmp_width = dib_header->width;
- 	bmp_height = abs(dib_header->height);
- 	bmp_pitch = round_up(3 * bmp_width, 4);
--	screen_pitch = si->lfb_linelength;
- 
- 	if ((file_header->bitmap_offset + bmp_pitch * bmp_height) >
- 				bgrt_image_size)
+diff --git a/drivers/video/fbdev/controlfb.c b/drivers/video/fbdev/controlfb.c
+index 2df56bd303d2..509311471d51 100644
+--- a/drivers/video/fbdev/controlfb.c
++++ b/drivers/video/fbdev/controlfb.c
+@@ -64,9 +64,9 @@
+ #undef in_le32
+ #undef out_le32
+ #define in_8(addr)		0
+-#define out_8(addr, val)
++#define out_8(addr, val)	(void)(val)
+ #define in_le32(addr)		0
+-#define out_le32(addr, val)
++#define out_le32(addr, val)	(void)(val)
+ #define pgprot_cached_wthru(prot) (prot)
+ #else
+ static void invalid_vram_cache(void __force *addr)
 -- 
 2.27.0
 
