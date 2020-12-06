@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECD52D0C29
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:57:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7B02D0C56
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:58:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10EC789D89;
-	Mon,  7 Dec 2020 08:56:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E0BC6E81D;
+	Mon,  7 Dec 2020 08:57:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9552E6E030
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 05:18:46 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CpZTZ5M3qz78Jf;
- Sun,  6 Dec 2020 13:18:10 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.9) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.487.0; Sun, 6 Dec 2020
- 13:18:34 +0800
-Subject: Re: [PATCH 1/1] dt-bindings: eliminate yamllint warnings
-To: Mark Brown <broonie@kernel.org>
-References: <20201204024226.1222-1-thunder.leizhen@huawei.com>
- <20201204024226.1222-2-thunder.leizhen@huawei.com>
- <20201204174135.GC4558@sirena.org.uk>
-From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <323edb53-71a7-ba81-17b9-704ae3e7a7a1@huawei.com>
-Date: Sun, 6 Dec 2020 13:18:31 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20201204174135.GC4558@sirena.org.uk>
-Content-Language: en-US
-X-Originating-IP: [10.174.177.9]
-X-CFilter-Loop: Reflected
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D2806E0B7
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 13:34:07 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id c7so10801142edv.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 05:34:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=ClADTS0QuKL62E36tFTJGwg2N6O3ikpA70hf73VQQnA=;
+ b=CfD7avGjj9/HgOdFJm+Jgte+0mkMn+vGKFsqCQBDCZ50PATgRCsdgmcytM62CytxJC
+ rvoAvmj62E3Fr8aYb3+wz3KU0pQ5tky/PGHGKhwth6triY4yAZRF9ayyBvVmA5HAp09P
+ GW63o62egMZJHFzOX8EFlLGGbIj9FbCeI/fC99/r3EUs7hnZDLRqHi3fHe3NaYBUvi/L
+ nq+BPdt0JUKhyhaUFbnmjY7niejby0WuKHKarxrQiTeI2BEEl1KFyw9cAXSb3CBRKOx8
+ yPXMonW2DgspzsUmWeu0dsKjV4AokqjBVObeHzytEsmZF0vAqySZm5Hz0fyTciWeK2TC
+ 6Uyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=ClADTS0QuKL62E36tFTJGwg2N6O3ikpA70hf73VQQnA=;
+ b=muK8tmI3DS9Lp4vwYNxGIclAu95i+C26d6ydC/p5VNakzHeZ5zajovW8XqoHHQx4EE
+ qc34BHg+IfxTjfKi6woKvAtEWYqaI70CKVRNqYWckmb1VFqTfjVMqNTK4Ra3J7xHp/3K
+ HmotCDY4dQMc1pX6/7a0aECKw1ntKIo0MyLmwytuyz4sDsvqZpl+5dqVBPjo2mWY2nCK
+ R0dHK+0CtZFWyyZJZePz5BCfuCWE3R/FbWo02sErXypkLjuVQsVVP2TWm1DSfS2XrhQJ
+ LZ0mBVIMJ+0aJ7uRtIFrAmRsHLAZ1kbcJwPndjZEpxro3jq+EUo9FvbrcoXdzujaOTTO
+ jacg==
+X-Gm-Message-State: AOAM533ixFnhg61w0DqWT9r8jsReV4atjlMX3e8xrw+obhfs2NHueLXg
+ 0S8CQP7c6fYrHmL38fyGe2A=
+X-Google-Smtp-Source: ABdhPJwPC3fbAsKPZT91sG3R8CMEf4NtuXxEwAQprJeqKkicBpn3851hCBqQkQzBx3hOuH58dimu0A==
+X-Received: by 2002:aa7:db59:: with SMTP id n25mr14352860edt.203.1607261645894; 
+ Sun, 06 Dec 2020 05:34:05 -0800 (PST)
+Received: from debian.home (81-204-249-205.fixed.kpn.net. [81.204.249.205])
+ by smtp.gmail.com with ESMTPSA id qh23sm7770129ejb.71.2020.12.06.05.34.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 06 Dec 2020 05:34:05 -0800 (PST)
+From: Johan Jonker <jbx6244@gmail.com>
+To: heiko@sntech.de
+Subject: [PATCH v6 0/5] Enable rk3066a HDMI sound
+Date: Sun,  6 Dec 2020 14:33:50 +0100
+Message-Id: <20201206133355.16007-1-jbx6244@gmail.com>
+X-Mailer: git-send-email 2.11.0
 X-Mailman-Approved-At: Mon, 07 Dec 2020 08:56:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -46,46 +62,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Ricardo
- Ribalda <ribalda@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Michael Turquette <mturquette@baylibre.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- linux-clk <linux-clk@vger.kernel.org>, NXP Linux Team <linux-imx@nxp.com>,
- linux-media <linux-media@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, alsa-devel <alsa-devel@alsa-project.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- linux-mediatek <linux-mediatek@lists.infradead.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Stephen Boyd <sboyd@kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Shawn Guo <shawnguo@kernel.org>
+Cc: devicetree@vger.kernel.org, alsa-devel@alsa-project.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, broonie@kernel.org, hjc@rock-chips.com,
+ dri-devel@lists.freedesktop.org, lgirdwood@gmail.com,
+ linux-rockchip@lists.infradead.org, robh+dt@kernel.org,
+ linux-arm-kernel@lists.infradead.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Update the rk3066a HDMI documents with a #sound-dai-cells property.
+Include the code for sound in the HDMI driver.
+Add a simple-sound-card compatible node to rk3066a.dtsi,
+because I2S0 and HDMI TX are connected internally.
+And as last enable rk3066a HDMI sound in the rk3066a-mk808.dts file.
 
+make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi- -j4
+cp ./arch/arm/boot/zImage ../zImage-dtb
+cat ./arch/arm/boot/dts/rk3066a-mk808.dtb >> ../zImage-dtb
+../tools/rkcrc -k ../zImage-dtb ../mk808.img
+sudo ../tools/rkflashtool w 0x4000 0x8000 < ../mk808.img
+sudo ../tools/rkflashtool b
 
-On 2020/12/5 1:41, Mark Brown wrote:
-> On Fri, Dec 04, 2020 at 10:42:26AM +0800, Zhen Lei wrote:
->> All warnings are related only to "wrong indentation", except one:
->> Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:4:1: \
->> [error] missing document start "---" (document-start)
-> 
-> It would make life easier (and be more normal practice) to split this up
-> by driver/subsystem and send a bunch of separate patches to the relevant
-> maintainers, this makes it much easier to review and handle things.
+Changed v6:
+  remove patches that are applied to linux-next
+  add platform_device_unregister()
+  restyle
 
-Okay, I'll split this patch and send them separately. I'm not going to mark
-the new patches as v2 to save trouble.
+Changed v5:
+  removed unused variable
+  fill frame structure
 
-> 
+Johan Jonker (4):
+  dt-bindings: display: add #sound-dai-cells property to rockchip rk3066
+    hdmi
+  ARM: dts: rockchip: rk3066a: add #sound-dai-cells to hdmi node
+  ARM: dts: rockchip: add hdmi-sound node to rk3066a.dtsi
+  ARM: dts: rockchip: enable hdmi_sound and i2s0 for rk3066a-mk808
+
+Zheng Yang (1):
+  drm: rockchip: add sound support to rk3066 hdmi driver
+
+ .../display/rockchip/rockchip,rk3066-hdmi.yaml     |   4 +
+ arch/arm/boot/dts/rk3066a-mk808.dts                |   8 +
+ arch/arm/boot/dts/rk3066a.dtsi                     |  17 ++
+ drivers/gpu/drm/rockchip/Kconfig                   |   2 +
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c             | 277 ++++++++++++++++++++-
+ 5 files changed, 307 insertions(+), 1 deletion(-)
+
+-- 
+2.11.0
 
 _______________________________________________
 dri-devel mailing list
