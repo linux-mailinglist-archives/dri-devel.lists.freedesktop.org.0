@@ -1,71 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314AF2D0774
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 22:47:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBB42D0776
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 22:48:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69BD289D4B;
-	Sun,  6 Dec 2020 21:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB1D89D6C;
+	Sun,  6 Dec 2020 21:48:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [63.128.21.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8770189D6C
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 21:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607291271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OTK3a2EpgqcMFsmrPHPH78wqX4JkIQW5zqkRG3GIknw=;
- b=FlZ0wNS/ycKBLEokaQYLOlmCnB3shNHP4xpWZ5n7P+reeoT7MAjiK/axVVJT6hQFcxO1RB
- E2nFQGH4Ee0ftXq+xeVSB2haUpLTcmgHBlwn9upx6ty5os1Qp3R/WKJdYEDswi+40BD/VP
- uB32SfucfJlwtyKJBborXBm46+o1wcg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-RM0_1cf_OuSIh5x7GYK4Xg-1; Sun, 06 Dec 2020 16:47:47 -0500
-X-MC-Unique: RM0_1cf_OuSIh5x7GYK4Xg-1
-Received: by mail-qk1-f199.google.com with SMTP id q25so10703097qkm.17
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Dec 2020 13:47:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=OTK3a2EpgqcMFsmrPHPH78wqX4JkIQW5zqkRG3GIknw=;
- b=UdgRedRyV7NrCfyG6D+5U6p/kJ7vvSmg8fhE5LGNrAEq95dQr3T8tzYt89ZG3KjtJb
- lpU4sb0pnLA948lJn73dWbgEhcr6OOagHWYyAJPCYbtCGSWqv2s32TLLeDooa3YhPskY
- wbq8nh1yA6uv0oWNRX0Pkn35ubsaFk+u23n9ogfrGB3+5NOAKmyJe2S6WLBryMsD0/do
- 9Gatpd/n8xaBnBID4rAuU/JdYEGQ21+0U/bNyEzgtxM/X8W3k6qn0NTWWp3NVvAb1LcY
- 81qlnkNCvM2Vie0PlPoUka1cffVuuCZNywUY5mZo0RZAlIG8Y6KDQaCTfg6mh4Gq2URS
- 88GA==
-X-Gm-Message-State: AOAM530a9nnFPEKbbST0UtpvSbWUnPaB6cN4pu4uPSeQjPDSLhvEYueo
- Mht5RuBvOfm5tg63O6pkd71sytx9JwUCPKyZ0JyLjPHgsgOI4saBx1HjZZKnAgX9W9PJ7qJWnON
- 0woJH5bXLxl01txrtbrJ0yxDlWNoh
-X-Received: by 2002:a37:9301:: with SMTP id v1mr20962174qkd.419.1607291267447; 
- Sun, 06 Dec 2020 13:47:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxTSYUz8GprH7ZZQl7rfRTzOkUrvIm8134juk0lMfV/+12SIrmCKNfTzdhZMT6UYl2b500iiQ==
-X-Received: by 2002:a37:9301:: with SMTP id v1mr20962158qkd.419.1607291267253; 
- Sun, 06 Dec 2020 13:47:47 -0800 (PST)
-Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
- by smtp.gmail.com with ESMTPSA id o5sm565190qti.47.2020.12.06.13.47.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Dec 2020 13:47:46 -0800 (PST)
-References: <20201205014340.148235-1-jsnitsel@redhat.com>
- <20201205014340.148235-3-jsnitsel@redhat.com>
- <875z5e99ez.fsf@nanos.tec.linutronix.de>
-User-agent: mu4e 1.4.10; emacs 27.1
-From: Jerry Snitselaar <jsnitsel@redhat.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v3 2/4] drm/i915/pmu: Use kstat_irqs to get interrupt count
-In-reply-to: <875z5e99ez.fsf@nanos.tec.linutronix.de>
-Date: Sun, 06 Dec 2020 14:47:45 -0700
-Message-ID: <87im9ehaim.fsf@redhat.com>
+Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A905F89D6C
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Dec 2020 21:48:19 +0000 (UTC)
+Received: from ravnborg.org (unknown [188.228.123.71])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by asavdk4.altibox.net (Postfix) with ESMTPS id 0BE65804EF;
+ Sun,  6 Dec 2020 22:48:15 +0100 (CET)
+Date: Sun, 6 Dec 2020 22:48:14 +0100
+From: Sam Ravnborg <sam@ravnborg.org>
+To: kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 05/13] sh: Fix set but not used warnings with
+ !CONFIG_MMU
+Message-ID: <20201206214814.GA1884161@ravnborg.org>
+References: <20201206190247.1861316-6-sam@ravnborg.org>
+ <202012070518.yJA9Vbbo-lkp@intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnitsel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Disposition: inline
+In-Reply-To: <202012070518.yJA9Vbbo-lkp@intel.com>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
+ a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+ a=IkcTkHD0fZMA:10 a=7gkXJVJtAAAA:8 a=QyXUC8HyAAAA:8 a=KKAkSRfTAAAA:8
+ a=hAG5_4vcAAAA:8 a=VwQbUJbxAAAA:8 a=yC-0_ovQAAAA:8 a=JfrnYn6hAAAA:8
+ a=Z4Rwk6OoAAAA:8 a=kDhuXSaoqpb3RoiJoOIA:9 a=QEXdDO2ut3YA:10
+ a=E9Po1WZjFZOl8hwRPBS3:22 a=cvBusfyB2V15izCimMoJ:22
+ a=8Bh8Pg2EFav9IBZ9i9Tn:22 a=AjGcO6oz07-iQ99wixmX:22
+ a=1CNFftbPRP8L7MoqJWF3:22 a=HkZW87K1Qel5hWWM3VKY:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,68 +49,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Peter Zijlstra <peterz@infradead.org>, Hans de Goede <hdegoede@redhat.com>,
- David Airlie <airlied@linux.ie>, Matthew Garrett <mjg59@google.com>,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jarkko Sakkinen <jarkko@kernel.org>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- linux-integrity@vger.kernel.org, Peter Huewe <peterhuewe@gmx.de>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: linux-fbdev@vger.kernel.org, Rich Felker <dalias@libc.org>,
+ kbuild-all@lists.01.org, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Gustavo A R Silva <gustavoars@kernel.org>, dri-devel@lists.freedesktop.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Peter Jones <pjones@redhat.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-Thomas Gleixner @ 2020-12-06 09:38 MST:
-
-> On Fri, Dec 04 2020 at 18:43, Jerry Snitselaar wrote:
->
->> Now that kstat_irqs is exported, get rid of count_interrupts in
->> i915_pmu.c
->> --- a/drivers/gpu/drm/i915/i915_pmu.c
->> +++ b/drivers/gpu/drm/i915/i915_pmu.c
->> @@ -423,22 +423,6 @@ static enum hrtimer_restart i915_sample(struct hrtimer *hrtimer)
->>  	return HRTIMER_RESTART;
->>  }
->>  
->> -static u64 count_interrupts(struct drm_i915_private *i915)
->> -{
->> -	/* open-coded kstat_irqs() */
->> -	struct irq_desc *desc = irq_to_desc(i915->drm.pdev->irq);
->> -	u64 sum = 0;
->> -	int cpu;
->> -
->> -	if (!desc || !desc->kstat_irqs)
->> -		return 0;
->> -
->> -	for_each_possible_cpu(cpu)
->> -		sum += *per_cpu_ptr(desc->kstat_irqs, cpu);
->> -
->> -	return sum;
->> -}
->
-> May I ask why this has been merged in the first place?
->
-> Nothing in a driver has ever to fiddle with the internals of an irq
-> descriptor. We have functions for properly accessing them. Just because
-> C allows to fiddle with everything is not a justification. If the
-> required function is not exported then adding the export with a proper
-> explanation is not asked too much.
->
-> Also this lacks protection or at least a comment why this can be called
-> safely and is not subject to a concurrent removal of the irq descriptor.
-> The same problem exists when calling kstat_irqs(). It's even documented
-> at the top of the function.
->
-> Thanks,
->
->         tglx
-
-I don't know the history behind this bit. I stumbled across it in cscope
-when looking for places using kstat_irqs.
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Y29tbWl0IGFhMWY0MzQ1YjU0ODA1MDJhNGU2MWFkZGY1YzU5ZDYwNmZkYmNlOGYKQXV0aG9yOiBT
+YW0gUmF2bmJvcmcgPHNhbUByYXZuYm9yZy5vcmc+CkRhdGU6ICAgTW9uIE5vdiAzMCAyMjowOToy
+OSAyMDIwICswMTAwCgogICAgc2g6IEZpeCBzZXQgYnV0IG5vdCB1c2VkIHdhcm5pbmdzIHdpdGgg
+IUNPTkZJR19NTVUKICAgIAogICAgQnVpbGRpbmcgZmJkZXYgZHJpdmVycyBmb3Igc2ggd2l0aCBX
+PTEgcHJvZHVjZXMgdGhlIGZvbGxvd2luZyB3YXJuaW5nOgogICAgCiAgICAgICAgdG1pb2ZiLmM6
+IEluIGZ1bmN0aW9uIOKAmHRtaW9mYl9yZW1vdmXigJk6CiAgICAgICAgdG1pb2ZiLmM6ODA1OjIx
+OiB3YXJuaW5nOiB2YXJpYWJsZSDigJhwYXLigJkgc2V0IGJ1dCBub3QgdXNlZAogICAgCiAgICBU
+aGlzIGlzIHdpdGggYWxsbW9kY29uZmlnIGFuZCBBUkNIPXNoCiAgICAKICAgIFRoaXMgYm9pbGVk
+IGRvd24gdG8gaW91bm1hcCgpIGRlZmluZWQgYXMgZW1wdHkgZm9yICFDT05GSUdfTU1VLgogICAg
+Rml4IHRoaXMgYnkgYnkgYWRkaW5nICIodm9pZClhZGRyOyIgdG8gdGVsbCB0aGUgY29tcGlsZXIg
+dGhlCiAgICBhcmd1bWVudCB0byBpb3VubWFwKCkgc2hvdWxkIGJlIGNvbnNpZGVyZWQgdXNlZC4K
+ICAgIAogICAgdjQ6CiAgICAgIC0gRml4IGJ1aWxkIGVycm9yIG9mIGV0aGVybmV0IGRyaXZlciAo
+a2VybmVsIHRlc3Qgcm9ib3QpCiAgICAgICAgQWRkZWQgbWlzc2luZyAoKSBhcm91bmQgbWFjcm8g
+cGFyYW1ldGVyCiAgICAKICAgIFNpZ25lZC1vZmYtYnk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5i
+b3JnLm9yZz4KICAgIENjOiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KICAgIENj
+OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KICAgIENjOiBMZWUgSm9u
+ZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgogICAgQ2M6IFJpY2ggRmVsa2VyIDxkYWxpYXNAbGli
+Yy5vcmc+CiAgICBDYzogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KICAgIENjOiBHZWVy
+dCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPgogICAgQ2M6IE1pa2UgUmFw
+b3BvcnQgPHJwcHRAa2VybmVsLm9yZz4KICAgIENjOiBLdW5pbm9yaSBNb3JpbW90byA8a3VuaW5v
+cmkubW9yaW1vdG8uZ3hAcmVuZXNhcy5jb20+CiAgICBDYzogUGV0ZXIgWmlqbHN0cmEgPHBldGVy
+ekBpbmZyYWRlYWQub3JnPgogICAgQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4K
+ICAgIENjOiBBbmRyZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPgoKZGlmZiAt
+LWdpdCBhL2FyY2gvc2gvaW5jbHVkZS9hc20vaW8uaCBiL2FyY2gvc2gvaW5jbHVkZS9hc20vaW8u
+aAppbmRleCA2ZDVjNjQ2M2JjMDcuLjQ1MDgyYmNiZDlhYSAxMDA2NDQKLS0tIGEvYXJjaC9zaC9p
+bmNsdWRlL2FzbS9pby5oCisrKyBiL2FyY2gvc2gvaW5jbHVkZS9hc20vaW8uaApAQCAtMjcxLDcg
+KzI3MSw3IEBAIHN0YXRpYyBpbmxpbmUgdm9pZCBfX2lvbWVtICppb3JlbWFwX3Byb3QocGh5c19h
+ZGRyX3Qgb2Zmc2V0LCB1bnNpZ25lZCBsb25nIHNpemUsCiAjZW5kaWYgLyogQ09ORklHX0hBVkVf
+SU9SRU1BUF9QUk9UICovCiAKICNlbHNlIC8qIENPTkZJR19NTVUgKi8KLSNkZWZpbmUgaW91bm1h
+cChhZGRyKQkJZG8geyB9IHdoaWxlICgwKQorI2RlZmluZSBpb3VubWFwKGFkZHIpCQlkbyB7ICh2
+b2lkKShhZGRyKTsgfSB3aGlsZSAoMCkKICNkZWZpbmUgaW9yZW1hcChvZmZzZXQsIHNpemUpCSgo
+dm9pZCBfX2lvbWVtICopKHVuc2lnbmVkIGxvbmcpKG9mZnNldCkpCiAjZW5kaWYgLyogQ09ORklH
+X01NVSAqLwogCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+CmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpo
+dHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
