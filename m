@@ -2,39 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9F1B2CFEFB
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Dec 2020 21:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 121672D023C
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Dec 2020 10:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6AE6E446;
-	Sat,  5 Dec 2020 20:59:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 811A76E094;
+	Sun,  6 Dec 2020 09:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from asavdk4.altibox.net (asavdk4.altibox.net [109.247.116.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9771A6E446
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Dec 2020 20:58:59 +0000 (UTC)
-Received: from ravnborg.org (unknown [188.228.123.71])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by asavdk4.altibox.net (Postfix) with ESMTPS id 27823804D5;
- Sat,  5 Dec 2020 21:58:55 +0100 (CET)
-Date: Sat, 5 Dec 2020 21:58:53 +0100
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 23/28] video: fbdev: omapfb: Fix set but not used
- warnings in hdmi*_core
-Message-ID: <20201205205853.GA1045000@ravnborg.org>
-References: <20201128224114.1033617-1-sam@ravnborg.org>
- <20201128224114.1033617-24-sam@ravnborg.org>
- <e6664921-cc89-6814-8d63-33f43df63ed4@suse.de>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 093746E062;
+ Sun,  6 Dec 2020 09:22:23 +0000 (UTC)
+IronPort-SDR: secZH/3dxZE9CqxAl5efFyCT4F6QGIlCpHiMrGpEH0HhF28U0GLvvJZnpvSBhQOsimBiLU3YBd
+ Q3Ab25hhEblA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9826"; a="171001254"
+X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; d="scan'208";a="171001254"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2020 01:22:22 -0800
+IronPort-SDR: GLMFGOP4zkEd4JJAi2cUEp7+Dfyksrlz5wNrGdnBQOlB9PEzGOdgSX3LCnTkh7w1mCk5aAaowv
+ UOAC6i02QpXQ==
+X-IronPort-AV: E=Sophos;i="5.78,397,1599548400"; d="scan'208";a="362704480"
+Received: from bmaguire-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.87.137])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Dec 2020 01:22:19 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ dim-tools@lists.freedesktop.org
+Subject: Re: [ANNOUNCE] upcoming mandated dim upgrade due to drm-intel branch
+ change
+In-Reply-To: <87sg8qkgge.fsf@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <87sg8qkgge.fsf@intel.com>
+Date: Sun, 06 Dec 2020 11:22:15 +0200
+Message-ID: <87czznb86w.fsf@intel.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <e6664921-cc89-6814-8d63-33f43df63ed4@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
- a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
- a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=i0EeH86SAAAA:8 a=KKAkSRfTAAAA:8
- a=_u4_8sTnNstuJUXPl18A:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
- a=cvBusfyB2V15izCimMoJ:22
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,83 +49,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-fbdev@vger.kernel.org, Vaibhav Gupta <vaibhavgupta40@gmail.com>,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
- Evgeny Novikov <novikov@ispras.ru>, Lee Jones <lee.jones@linaro.org>,
- Jani Nikula <jani.nikula@intel.com>, Aditya Pakki <pakki001@umn.edu>,
- Arnd Bergmann <arnd@arndb.de>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
- Thomas Winischhofer <thomas@winischhofer.net>,
- Xiaofei Tan <tanxiaofei@huawei.com>,
- Nathan Chancellor <natechancellor@gmail.com>,
- Alex Dewar <alex.dewar90@gmail.com>, Jason Yan <yanaijie@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Qilong Zhang <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
- Gustavo Silva <gustavoars@kernel.org>, Peilin Ye <yepeilin.cs@gmail.com>,
- George Kennedy <george.kennedy@oracle.com>,
- Kristoffer Ericson <kristoffer.ericson@gmail.com>,
- Alexander Klimov <grandmaster@al2klimov.de>, Jingoo Han <jingoohan1@gmail.com>,
- Joe Perches <joe@perches.com>, Peter Rosin <peda@axentia.se>,
- Mike Rapoport <rppt@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 01, 2020 at 11:06:15AM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 28.11.20 um 23:41 schrieb Sam Ravnborg:
-> > Fix a few W=1 warnings about unused assignments.
-> > Drop the unused error code.
-> > 
-> > v2:
-> >    - Subject updated (Lee)
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Qilong Zhang <zhangqilong3@huawei.com>
-> > Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Cc: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >   drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c | 4 ++--
-> >   drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 4 ++--
-> >   2 files changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-> > index 726c190862d4..e6363a420933 100644
-> > --- a/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-> > +++ b/drivers/video/fbdev/omap2/omapfb/dss/hdmi4_core.c
-> > @@ -679,7 +679,7 @@ int hdmi4_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
-> >   	struct hdmi_audio_format audio_format;
-> >   	struct hdmi_audio_dma audio_dma;
-> >   	struct hdmi_core_audio_config acore;
-> > -	int err, n, cts, channel_count;
-> > +	int n, cts, channel_count;
-> >   	unsigned int fs_nr;
-> >   	bool word_length_16b = false;
-> > @@ -741,7 +741,7 @@ int hdmi4_audio_config(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
-> >   		return -EINVAL;
-> >   	}
-> > -	err = hdmi_compute_acr(pclk, fs_nr, &n, &cts);
-> > +	hdmi_compute_acr(pclk, fs_nr, &n, &cts);
-> 
-> I'd rather return the error reported by hdmi_compute_acr()
+On Mon, 30 Nov 2020, Jani Nikula <jani.nikula@intel.com> wrote:
+> TL;DR:
+> - On 2020-12-05, drm-intel-next-queued will be decommissioned
+> - drm-intel committers need to start using drm-intel-next instead
+> - Everyone needs to upgrade dim *after* the change
 
-The DRM version of the same driver does not bother, so I think we should
-avoid it here too.
+This has now been done. Please update dim, and start using
+drm-intel-next for applying i915 patches. Thank you.
 
-The better fix would be to sunset the omapfb driver - dunno how far we
-are from that. There is still a lot of patch chrunch on the omapdrm
-driver.
+BR,
+Jani.
 
-	Sam
+
+> Full story:
+>
+> For historical reasons, we've had separate drm-intel-next-queued
+> ("dinq") and drm-intel-next ("din") branches for development and pull
+> requests, respectively. This split has not been necessary for a while
+> now, so we'll finally remove dinq, and start applying patches directly
+> to drm-intel-next.
+>
+> We'll make the switch on 2020-12-05.
+>
+> This change requires a flag-day change in dim, i.e. everyone will need
+> to upgrade dim *after* the switch. (The details of the flag-day change
+> are covered in [1].)
+>
+> All the current dinq related commands and aliases (such as 'dim conq',
+> 'dim aq', and 'dim pq') will continue to work, except they'll operate on
+> drm-intel-next.
+>
+>
+> BR,
+> Jani.
+>
+>
+> [1] http://marc.info/?i=20201113095658.16655-1-jani.nikula@intel.com
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
