@@ -2,59 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07752D125E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 14:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106E32D1279
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 14:48:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 809686E852;
-	Mon,  7 Dec 2020 13:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10F466E573;
+	Mon,  7 Dec 2020 13:48:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C60489C14
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 13:43:09 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id t4so12778918wrr.12
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 05:43:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=arySWwJV+wO1szqOHqwMbGv0IrMvh0BzvNxFIFd0Iq8=;
- b=PuUjctRg0ix4IPPKWWOU5i27u4IN6AFGs95HRx35oh6qJgGxL86tNka1vVtamv5MH4
- m2Q9y+LFvWF2Yn/I8l1EgLWGbjrLQIQ/n3BwToBkrLzlRwUYPBaQVFDmJCWa2LwZSH7Y
- ds2dv91E01AQCa1LStgI0bC7wrrfdiECO9d18DqHiNyG+xiq+PLcwnoppYO4AZvGUqaM
- UV0jjJ2EHDrpjp4jsN/iEieuBkcciQ1sNhKoMfh8c3S0UkRNojpsxs6GiU1I3mRVOKgJ
- +avcHsgX0/Ug6kIY6UN4tF6h8bDAv01TElWDSOOu67V4K6LowZuwEVknZhXJoHraFL4n
- O+XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=arySWwJV+wO1szqOHqwMbGv0IrMvh0BzvNxFIFd0Iq8=;
- b=Y7mFwuFZ3qDuZkSyx8HerAeY0lLhsPGziDUKBr2ziS5ytGQsgI+hmFcH3x8HIEAjy5
- Olg+XL6vrqYZp8OBjv2yuYDFx2wsgLGZ74pzio69E3rfosjcrb6/tHGVDwwGLvOOSLtc
- YNlXI1H/bw1G88SN2qkDL0nyoVXFCOpZxEDzq6r+Eu1eVaVzD7feDBvMvmvr0RHRgll7
- 72AsG5+AgyfDvYB82KNDRNJRnbX2EnCY2hcRofB59IxcnId2loiXpSV8EMLyfv390+R9
- OlGmMpjljxLXBZ6Fo/5D6pM9SgWDDX6kTRBKh9yRn/4FbHGXe4nlA6h6rK+28rgUQkY9
- h87w==
-X-Gm-Message-State: AOAM532/6sbzdzQXAMiCZh2SnFEvIyACMrGoRglawDYprrKB1ZMQmsY7
- ZkGsKN5IrQz/xIhGfAVfep4=
-X-Google-Smtp-Source: ABdhPJyoTg/V90+LHTxb3YBKe82TO9MDYzH9Peuzi2Dp/ZFeZHVxK8/RCjhcNEv753ZPVf/C/crxMg==
-X-Received: by 2002:a5d:4ece:: with SMTP id s14mr7371197wrv.427.1607348588187; 
- Mon, 07 Dec 2020 05:43:08 -0800 (PST)
-Received: from gmail.com ([2a01:e35:2fb2:a0d0:3697:f6ff:fe76:2bcd])
- by smtp.gmail.com with ESMTPSA id w5sm16347678wrm.29.2020.12.07.05.43.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 05:43:07 -0800 (PST)
-Date: Mon, 7 Dec 2020 14:43:02 +0100
-From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
-To: "Enrico Weigelt, metux IT consult" <info@metux.net>
-Subject: Re: [PATCH] drivers: gpu: drm: virtio: fix dependency of
- DRM_VIRTIO_GPU on VIRTIO
-Message-ID: <20201207134302.GA8339@gmail.com>
-References: <20201204131221.2827-1-info@metux.net>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 130486E573
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 13:48:28 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 85EA6AC90;
+ Mon,  7 Dec 2020 13:48:26 +0000 (UTC)
+Subject: Re: [PATCH v3 07/13] video: fbdev: mmp: Fix kernel-doc warning for
+ lcd_spi_write
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+References: <20201206190247.1861316-1-sam@ravnborg.org>
+ <20201206190247.1861316-8-sam@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <60d3548a-833b-6247-f1f2-20f9b0fc0098@suse.de>
+Date: Mon, 7 Dec 2020 14:48:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201204131221.2827-1-info@metux.net>
+In-Reply-To: <20201206190247.1861316-8-sam@ravnborg.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,72 +41,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Cc: Rich Felker <dalias@libc.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Gustavo A R Silva <gustavoars@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Peter Jones <pjones@redhat.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Ellerman <mpe@ellerman.id.au>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ linux-arm-kernel@lists.infradead.org, Qilong Zhang <zhangqilong3@huawei.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Douglas Anderson <dianders@chromium.org>,
+ Tony Prisk <linux@prisktech.co.nz>, Thierry Reding <thierry.reding@gmail.com>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Colin Ian King <colin.king@canonical.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
+Content-Type: multipart/mixed; boundary="===============0102706491=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 04, 2020 at 02:12:21PM +0100, Enrico Weigelt, metux IT consult wrote:
->VIRTIO itself has no dependencies and therefore can easily be just
->select'ed, instead of depending on it. The current depends on causes
->any others trying to select VIRTIO to fail like this:
->
->   drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
->   drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by DRM_VIRTIO_GPU
->   drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
->   drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
->   drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
->   drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
->   drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
->   drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
->   drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
->   drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
->   drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
->
->It seems that having both 'depends on' as well as 'select' on the same symbol
->sends us into big trouble, and Kconfig can't break up the circular dependency
->(note that in the tested configuration, neither I2C, FB or DRM are enabled at
->all). Perhaps we could consider this a bug in Kconfig, but the trouble can
->easily be circumvented by changing 'depends on' into 'select'.
->
->DRM_VIRTIO_GPU also depends on VIRTIO_MENU, so even after this change, that
->option will only show up if the user already enabled virtio in the config.
->
->This change didn't cause any changes in the .config after menuconfig run,
->so we should be completely safe here.
->
->Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0102706491==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="keDAahjnpMjF6lOwy0GHcGQHD76owIQba"
 
-Ok for me. Thank you.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--keDAahjnpMjF6lOwy0GHcGQHD76owIQba
+Content-Type: multipart/mixed; boundary="E6Czz1MS3FrkSrCKsvH3iR0CySa7tPFs1";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Lee Jones <lee.jones@linaro.org>
+Cc: Alexander Klimov <grandmaster@al2klimov.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Colin Ian King <colin.king@canonical.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Douglas Anderson <dianders@chromium.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Gustavo A R Silva <gustavoars@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ linux-arm-kernel@lists.infradead.org, Michael Ellerman <mpe@ellerman.id.au>,
+ Mike Rapoport <rppt@kernel.org>, Peter Jones <pjones@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Qilong Zhang
+ <zhangqilong3@huawei.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Rich Felker <dalias@libc.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Tony Prisk <linux@prisktech.co.nz>
+Message-ID: <60d3548a-833b-6247-f1f2-20f9b0fc0098@suse.de>
+Subject: Re: [PATCH v3 07/13] video: fbdev: mmp: Fix kernel-doc warning for
+ lcd_spi_write
+References: <20201206190247.1861316-1-sam@ravnborg.org>
+ <20201206190247.1861316-8-sam@ravnborg.org>
+In-Reply-To: <20201206190247.1861316-8-sam@ravnborg.org>
 
-Reviewed-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
->---
-> drivers/gpu/drm/virtio/Kconfig | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
->
->diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
->index b925b8b1da16..51ec7c3240c9 100644
->--- a/drivers/gpu/drm/virtio/Kconfig
->+++ b/drivers/gpu/drm/virtio/Kconfig
->@@ -1,7 +1,8 @@
-> # SPDX-License-Identifier: GPL-2.0-only
-> config DRM_VIRTIO_GPU
-> 	tristate "Virtio GPU driver"
->-	depends on DRM && VIRTIO && VIRTIO_MENU && MMU
->+	depends on DRM && VIRTIO_MENU && MMU
->+	select VIRTIO
-> 	select DRM_KMS_HELPER
-> 	select DRM_GEM_SHMEM_HELPER
-> 	select VIRTIO_DMA_SHARED_BUFFER
->-- 
->2.11.0
->
->_______________________________________________
->dri-devel mailing list
->dri-devel@lists.freedesktop.org
->https://lists.freedesktop.org/mailman/listinfo/dri-devel
+--E6Czz1MS3FrkSrCKsvH3iR0CySa7tPFs1
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+
+
+Am 06.12.20 um 20:02 schrieb Sam Ravnborg:
+> Add missing parameter and drop parameter that is not present
+>=20
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+> ---
+>   drivers/video/fbdev/mmp/hw/mmp_spi.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/video/fbdev/mmp/hw/mmp_spi.c b/drivers/video/fbdev=
+/mmp/hw/mmp_spi.c
+> index 1911a47769b6..16401eb95c6c 100644
+> --- a/drivers/video/fbdev/mmp/hw/mmp_spi.c
+> +++ b/drivers/video/fbdev/mmp/hw/mmp_spi.c
+> @@ -17,8 +17,8 @@
+>  =20
+>   /**
+>    * spi_write - write command to the SPI port
+> + * @spi:  the SPI device.
+>    * @data: can be 8/16/32-bit, MSB justified data to write.
+> - * @len:  data length.
+>    *
+>    * Wait bus transfer complete IRQ.
+>    * The caller is expected to perform the necessary locking.
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--E6Czz1MS3FrkSrCKsvH3iR0CySa7tPFs1--
+
+--keDAahjnpMjF6lOwy0GHcGQHD76owIQba
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/OMqcFAwAAAAAACgkQlh/E3EQov+Dr
+KhAAut37TrgGrSl2E2r7ye2J6mVmlvjRdFRmgZEuxOUksxxVWHqCHv7hEs0uvzUqAYv3l8nwiuY6
+FX2FiXsYGfySie4tzo92F9IivjN4k5oU54SHO9GwXDn8BuBxG/dQC7NTX99YF7dQQx/kPxsHA+Nz
+dqMowEU5ImakEEXnB330xGlvT+KrSSVOX6EVjMboFtqGpGlgbgf+W+ypV8LX8Iv/Vkk7lLgAz+7G
+w1SqvkAO/7TrC3F4qtJylfvoMxg9M+/k8yOWyRhrVSRWOFYPFvm7gx1hsZsxVma9yQzib0zEJPx8
+lHFE9nEOrMJIxAqLBiina4/dLQlLdFVf+0p3tvbayCoGwUvpziE9tBLUSwkncdDCaiDAqex2MHro
+gpUzOlU3w6NMMny26PxTGcAAXGugjXxnZLpXN5GDfg//6lIhRwIqcKjwro5K+dqTqf+QnNcvPJ0g
+yux1SqFZpzPXhpKGJTZY29/UkM0CWykfKkosR8gdphXr9Clhkj9eRYjd9aklVQ/i9fxWXDesDHlT
+B/FQ25AGoRblJ0eoVzG8NAhqKukZRPARV7im5wG4InxQD23o3gXgkKDxg6jg4957VOyFNnITOfNd
+D0oxn5e9Zy+d8E9s1iK6UxTKVbb4RT45Ltsmu5yRlcCAsNgGjdI9hzw8/r5kkN6rvnnRKth0FS4O
+zWM=
+=AnqY
+-----END PGP SIGNATURE-----
+
+--keDAahjnpMjF6lOwy0GHcGQHD76owIQba--
+
+--===============0102706491==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0102706491==--
