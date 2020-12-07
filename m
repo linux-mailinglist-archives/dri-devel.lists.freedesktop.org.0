@@ -2,45 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4B02D0CA8
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 10:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A16E2D0CE8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 10:22:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C45C6E58B;
-	Mon,  7 Dec 2020 09:10:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5906389DC2;
+	Mon,  7 Dec 2020 09:22:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
- [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7A3C6E58B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:10:04 +0000 (UTC)
-Date: Mon, 07 Dec 2020 09:10:00 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607332201;
- bh=/s2xL7og4/556oyJgJ2pkZj/ZhGQv76sTGCpI2skijQ=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=KBmVtTK78ijhLIGpk/Ubbt8CxxKwjC9hCGf7x+av3zJ9ZhrcpZSqMYvoUWRCB814D
- ZvBkQqR6LA46vAJ51YapXjVnyZOfaLv52GDzkddZkX2aC26s8+GsvKWobkFdzisqtd
- umXjR/cMKi1T1gZFoTZAzBrbkV4xF1SPcHoJD+IyOfst0Cz+lV0B9uYFeo0c93jBmI
- vIRNPZB2zy4OWVU7SEvV+JuP74Cd/KuPT09Bfig72ZBXQta917aI3Lj9/cEGESIGIk
- aDsCT5mLAFKIY37pbbux2x6H8YnoKB8T5gCyytlMuZDVYulr97LinYA5A1UF4zgWpJ
- kWLSuVa1jvm6w==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: drivers may provide multiple primary planes per CRTC
-Message-ID: <i1OlhCAio_JRSK_q7z7mpkyiPlrIO1Nszlav03n1LDGZKoEO3lybu-tdg7taxbtnOst4TdpJYCW-S1FAq3t5SEaDcul02W1mil5_sFySrSI=@emersion.fr>
-In-Reply-To: <20201207104542.10657acd@eldfell>
-References: <TJAyvL7GM0cZ61sbzYMZ7IbVow2d32QQntnAB5_zpBOdcKVIAy8qhZg4En6C8Ka-mUXV-goV21ExVsA8Q3N_lJV4jf6g6llQBQSDs602jgs=@emersion.fr>
- <20200807090706.GA2352366@phenom.ffwll.local>
- <20200807123802.6058baca@eldfell>
- <20200807130636.GD2352366@phenom.ffwll.local>
- <1A6pssulTBjmoPioJfGenq9NdbnGjw2dhBoivqmrgraY67Gac7BoUHupkvqc7UBF_q2P5RwEcXP-m-5Jd00vC2hg-QMkGj2Ms_Jh5nLz-os=@emersion.fr>
- <20201207104542.10657acd@eldfell>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C01689DC2
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:22:48 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A9307AD6B;
+ Mon,  7 Dec 2020 09:22:46 +0000 (UTC)
+Subject: Re: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed
+ mode-config init
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <1607331906-19005-1-git-send-email-tiantao6@hisilicon.com>
+ <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
+Date: Mon, 7 Dec 2020 10:22:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+In-Reply-To: <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,81 +43,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============1929577180=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uZGF5LCBEZWNlbWJlciA3dGgsIDIwMjAgYXQgOTo0NSBBTSwgUGVra2EgUGFhbGFuZW4g
-PHBwYWFsYW5lbkBnbWFpbC5jb20+IHdyb3RlOgoKPiA+ID4gPiA+ID4gLSAqIEN1cnNvciBhbmQg
-b3ZlcmxheSBwbGFuZXMgYXJlIG9wdGlvbmFsLiBBbGwgZHJpdmVycyBzaG91bGQgcHJvdmlkZSBv
-bmUKPiA+ID4gPiA+ID4gLSAqIHByaW1hcnkgcGxhbmUgcGVyIENSVEMgdG8gYXZvaWQgc3VycHJp
-c2luZyB1c2Vyc3BhY2UgdG9vIG11Y2guIFNlZSBlbnVtCj4gPiA+ID4gPiA+ICsgKiBDdXJzb3Ig
-YW5kIG92ZXJsYXkgcGxhbmVzIGFyZSBvcHRpb25hbC4gQWxsIGRyaXZlcnMgc2hvdWxkIHByb3Zp
-ZGUgYXQgbGVhc3QKPiA+ID4gPiA+ID4gKyAqIG9uZSBwcmltYXJ5IHBsYW5lIHBlciBDUlRDIHRv
-IGF2b2lkIHN1cnByaXNpbmcgdXNlcnNwYWNlIHRvbyBtdWNoLiBTZWUgZW51bQo+ID4gPiA+ID4K
-PiA+ID4gPiA+IEkgdGhpbmsgdGhhdCdzIGV2ZW4gbW9yZSBjb25mdXNpbmcsIHNpbmNlIHRoaXMg
-cmVhZHMgbGlrZSB0aGVyZSBjb3VsZCBiZQo+ID4gPiA+ID4gbXVsdGlwbGUgcHJpbWFyeSBwbGFu
-ZXMgZm9yIGEgc3BlY2lmaWMgQ1JUQy4gVGhhdCdzIG5vdCB0aGUgY2FzZSwgdGhlcmUnCj4gPiA+
-ID4gPiBvbmx5IG9uZSBwb2ludGVyIGdvaW5nIGZyb20gZHJtX2NydGMtPnByaW1hcnkgdG8gYSBk
-cm1fcGxhbmUgaW4gdGhlCj4gPiA+ID4gPiBrZXJuZWwuCj4gPiA+ID4KPiA+ID4gPiBUaGVyZSBj
-b3VsZCBiZSBtdWx0aXBsZSBwcmltYXJ5IHBsYW5lcyAqdXNhYmxlKiBmb3IgYSBzcGVjaWZpYyBD
-UlRDIGJ1dAo+ID4gPiA+IGp1c3Qgb25lIHVzZWQgYXQgYSB0aW1lLCByaWdodD8KPiA+ID4KPiA+
-ID4gSSdtIG5vdCBzdXJlIHdoYXQgeW91IG1lYW4gaGVyZSwgdGhlIGNydGMtPnByaW1hcnkgbGlu
-ayBpcyBpbnZhcmlhbnQgb3Zlcgo+ID4gPiB0aGUgbGlmZXRpbWUgb2YgYSBkcml2ZXIgbG9hZC4g
-WW91IGNhbid0IHBpY2sgYSBkaWZmZXJlbnQgb25lLCB0aGF0J3Mgc2V0Cj4gPiA+IGF0IGRyaXZl
-ciBpbml0IGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyIChhbmQgaGVuY2UgYmVmb3JlIHVzZXJzcGFj
-ZSBldmVyCj4gPiA+IHNlZXMgYW55dGhpbmcpLgo+ID4KPiA+IE9LLiBJJ20gcGVyc29uYWxseSBu
-b3QgdmVyeSBpbnRlcmVzdGVkIGluIGRvY3VtZW50aW5nIGxlZ2FjeSBiaXRzLCBzbyBJJ2xsIHNr
-aXAKPiA+IHRoYXQuIEknbSBtYWlubHkgaW50ZXJlc3RlZCBoZXJlIGluIG1ha2luZyBpdCBjbGVh
-ciBwb3NzaWJsZV9jcnRjcyBmb3IgYQo+ID4gcHJpbWFyeSBwbGFuZSBjYW4gaGF2ZSBtb3JlIHRo
-YW4gb25lIGJpdCBzZXQuIEJlY2F1c2Ugb2YgdGhlIHBhcmFncmFwaCBpbiB0aGUKPiA+IGN1cnJl
-bnQgZG9jcywgc29tZSB1c2VyLXNwYWNlIGRldmVsb3BlcnMgaGF2ZSB1bmRlcnN0b29kICJtb3Jl
-IHRoYW4gb25lIGJpdCBzZXQKPiA+IGluIHBvc3NpYmxlX2NydGNzIGZvciBhIHByaW1hcnkgcGxh
-bmUgaXMgYSBrZXJuZWwgYnVnIi4KPiA+Cj4gPiBJJ2xsIHNlbmQgYSB2MiB0aGF0IG1ha2VzIGl0
-IGNsZWFyIHRoZXNlIHBvaW50ZXJzIGFyZSBmb3IgbGVnYWN5IHVBUEkuCj4KPiBSaWdodCwgc28g
-dGhpcyBhbmQgd2hhdCBkYW52ZXQgc2FpZCBzZWVtIHRvIGJlIGluIGRpcmVjdCBjb25mbGljdCBp
-bgo+IGF0b21pYyB1QVBJLCByZXBlYXRpbmcgYWJvdmU6Cj4KPiA+ID4gSSdtIG5vdCBzdXJlIHdo
-YXQgeW91IG1lYW4gaGVyZSwgdGhlIGNydGMtPnByaW1hcnkgbGluayBpcyBpbnZhcmlhbnQgb3Zl
-cgo+ID4gPiB0aGUgbGlmZXRpbWUgb2YgYSBkcml2ZXIgbG9hZC4gWW91IGNhbid0IHBpY2sgYSBk
-aWZmZXJlbnQgb25lLCB0aGF0J3Mgc2V0Cj4gPiA+IGF0IGRyaXZlciBpbml0IGJlZm9yZSBkcm1f
-ZGV2X3JlZ2lzdGVyIChhbmQgaGVuY2UgYmVmb3JlIHVzZXJzcGFjZSBldmVyCj4gPiA+IHNlZXMg
-YW55dGhpbmcpLgo+Cj4gQnV0IHN0aWxsLCBpdCBpcyBjb25zaWRlcmVkIG5vdCBhIGtlcm5lbCBi
-dWcgdGhhdCBhIHByaW1hcnkgcGxhbmUgaGFzCj4gbW9yZSB0aGFuIG9uZSBiaXQgc2V0IGluIGl0
-cyBwb3NzaWJsZV9jcnRjcy4KPgo+IElmIGEgcHJpbWFyeSBwbGFuZSBoYXMgbW9yZSB0aGFuIG9u
-ZSBiaXQgc2V0IGluIHBvc3NpYmxlX2NydGNzLCBhbmQgaXQKPiBpcyBub3QgYSBrZXJuZWwgYnVn
-LCB0aGVuIHVzZXJzcGFjZSBleHBlY3RzIHRvIGJlIGFibGUgdG8gY2hvb3NlIGFueQo+IG9mIHRo
-ZSBtdWx0aXBsZSBpbmRpY2F0ZWQgcG9zc2libGUgQ1JUQ3MgZm9yIHRoaXMgcHJpbWFyeSBwbGFu
-ZS4KPgo+IFdoaWNoIHdheSBpcyBpdD8KPgo+IE9yLCBpcyB0aGVyZSBhIGRpZmZlcmVudCBsaW1p
-dGF0aW9uIHRoYXQgZm9yIGVhY2ggQ1JUQywgdGhlcmUgbXVzdCBiZQo+IGV4YWN0bHkgb25lIHBy
-aW1hcnkgcGxhbmUgd2l0aCB0aGF0IENSVENzIGJpdCBzZXQgaW4gaXRzIHBvc3NpYmxlX2NydGNz
-Pwo+Cj4gSU9XLCB5b3UgY2FuIGhhdmUgbW9yZSBDUlRDcyB0aGFuIHByaW1hcnkgcGxhbmVzIGlu
-IHRvdGFsLCBhbmQgeW91IGNhbgo+IGFjdGl2YXRlIGVhY2ggQ1JUQyBhbG9uZSwgYnV0IHlvdSBj
-YW5ub3QgYWN0aXZhdGUgYWxsIENSVENzCj4gc2ltdWx0YW5lb3VzbHkgYmVjYXVzZSB0aGVyZSBh
-cmUgbm90IGVub3VnaCBwcmltYXJ5IHBsYW5lcyBmb3IgdGhlbT8KPgo+IFJlcHJlc2VudGluZyBp
-dCBtYXRoZW1hdGljYWxseSwgdGhlIHBvc3NpYmxlIGFzc2lnbm1lbnRzIGFjY29yZGluZyB0bwo+
-IHBvc3NpYmxlX2NydGNzIHdoaWxlIGlnbm9yaW5nIGFsbCBvdGhlciBsaW1pdGF0aW9ucyBhcmU6
-Cj4gTiBDUlRDcyA8LT4gTSBwcmltYXJ5IHBsYW5lcwo+Cj4gLSBJcyBOIG9uZSBvciBncmVhdGVy
-IHRoYW4gb25lPwo+IC0gSXMgTSBvbmUgb3IgZ3JlYXRlciB0aGFuIG9uZT8KCkkgdGhpbmsgdGhl
-IGN1cnJlbnQgc2l0dWF0aW9uIGlzIHRoYXQ6CgotIEl0J3MgcGVyZmVjdGx5IGZpbmUgZm9yIGEg
-ZHJpdmVyIHRvIGV4cG9zZSBtdWx0aXBsZSBiaXRzIGluIHBvc3NpYmxlX2NydGNzLgogIFVzZXIt
-c3BhY2UgY2FuIGF0dGFjaCB0aGUgcHJpbWFyeSBwbGFuZSB0byBhbnkgb2YgdGhlc2UgQ1JUQ3Mg
-KG9mIGNvdXJzZSwgYQogIHByaW1hcnkgcGxhbmUgc3RpbGwgY2FuIG9ubHkgYmUgYXR0YWNoZWQg
-dG8gYSBzaW5nbGUgQ1JUQyBhdCBhIHRpbWUpLiBEcml2ZXJzCiAgc2hvdWxkIHByb3ZpZGUgYXMg
-bWFueSBwcmltYXJ5IHBsYW5lcyBhcyB0aGVyZSBhcmUgQ1JUQ3MuCi0gVGhlIGxlZ2FjeSBBUEkg
-ZG9lc24ndCBleHBvc2UgcHJpbWFyeSBwbGFuZXMuIFNvbWUgbGVnYWN5IElPQ1RMcyBsaWtlCiAg
-ZHJtTW9kZVNldENydGMgYWxsb3cgdXNlci1zcGFjZSB0byBhdHRhY2ggYSBGQiBkaXJlY3RseSB0
-byBhIENSVEMuIFRoZSBkcml2ZXIKICBuZWVkcyB0byBpbXBsaWNpdGx5IHNlbGVjdCBhIHByaW1h
-cnkgcGxhbmUgZm9yIHRoaXMgb3BlcmF0aW9uLiBUaGF0J3MgdGhlCiAgb25seSBjYXNlIHdoZXJl
-IHRoZSBpbnRlcm5hbCBDUlRDIOKGkiBwcmltYXJ5IHBsYW5lIGxpbmsgaXMgdXNlZCBpbiB0aGUg
-a2VybmVsLgoKSXMgdGhpcyBjb3JyZWN0LCBEYW5pZWw/CgpTbyBJIGJlbGlldmUgTSA+IDEgYW5k
-IE4gPiAxIGlzIHBvc3NpYmxlIGFuZCBpc24ndCBhIGtlcm5lbCBidWcuIEZvciBpbnN0YW5jZQpz
-b21lIGRyaXZlcnMgaGFyZGNvZGUgcG9zc2libGVfY3J0Y3MgdG8gMHhGRiAoYWx0aG91Z2ggaXQg
-bWlnaHQgYmUgbmljZXIgdG8KdXNlci1zcGFjZSB0byBzZXQgdGhlIGJpdG1hc2sgZGVwZW5kaW5n
-IG9uIHRoZSBudW1iZXIgb2YgQ1JUQ3MsIHRvIGF2b2lkCnNldHRpbmcgYml0cyBmb3Igbm9uLWV4
-aXN0aW5nIENSVENzKS4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1929577180==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7w5Q9hFsGTX4HT2ZGrujcHkTr1U0WxU24"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7w5Q9hFsGTX4HT2ZGrujcHkTr1U0WxU24
+Content-Type: multipart/mixed; boundary="44arVvp8gUngPeOglD8Juq6qtBgxbQMZH";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Tian Tao <tiantao6@hisilicon.com>, airlied@linux.ie, daniel@ffwll.ch,
+ kraxel@redhat.com, alexander.deucher@amd.com, tglx@linutronix.de,
+ dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
+Subject: Re: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed
+ mode-config init
+References: <1607331906-19005-1-git-send-email-tiantao6@hisilicon.com>
+ <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
+
+--44arVvp8gUngPeOglD8Juq6qtBgxbQMZH
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 07.12.20 um 10:05 schrieb Tian Tao:
+> Using drmm_mode_config_init() sets up managed release of modesetting
+> resources.
+>=20
+
+Individual patches usually contain a changelog to highlight the=20
+difference to previous versions. Please add one before committing the=20
+patch.  Your cover letter for the series already does this correctly.
+
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks for all these updates.
+
+> ---
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 14 +++-----------
+>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  1 -
+>   2 files changed, 3 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> index 3687753..7f01213 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+> @@ -96,8 +96,9 @@ static int hibmc_kms_init(struct hibmc_drm_private *p=
+riv)
+>   	struct drm_device *dev =3D &priv->dev;
+>   	int ret;
+>  =20
+> -	drm_mode_config_init(dev);
+> -	priv->mode_config_initialized =3D true;
+> +	ret =3D drmm_mode_config_init(dev);
+> +	if (ret)
+> +		return ret;
+>  =20
+>   	dev->mode_config.min_width =3D 0;
+>   	dev->mode_config.min_height =3D 0;
+> @@ -125,14 +126,6 @@ static int hibmc_kms_init(struct hibmc_drm_private=
+ *priv)
+>   	return 0;
+>   }
+>  =20
+> -static void hibmc_kms_fini(struct hibmc_drm_private *priv)
+> -{
+> -	if (priv->mode_config_initialized) {
+> -		drm_mode_config_cleanup(&priv->dev);
+> -		priv->mode_config_initialized =3D false;
+> -	}
+> -}
+> -
+>   /*
+>    * It can operate in one of three modes: 0, 1 or Sleep.
+>    */
+> @@ -262,7 +255,6 @@ static int hibmc_unload(struct drm_device *dev)
+>   	drm_atomic_helper_shutdown(dev);
+>  =20
+>   	pci_disable_msi(dev->pdev);
+> -	hibmc_kms_fini(priv);
+>   	dev->dev_private =3D NULL;
+>   	return 0;
+>   }
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/=
+gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> index a49c10e..7d263f4 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
+> @@ -42,7 +42,6 @@ struct hibmc_drm_private {
+>   	struct drm_crtc crtc;
+>   	struct drm_encoder encoder;
+>   	struct hibmc_connector connector;
+> -	bool mode_config_initialized;
+>   };
+>  =20
+>   static inline struct hibmc_connector *to_hibmc_connector(struct drm_c=
+onnector *connector)
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--44arVvp8gUngPeOglD8Juq6qtBgxbQMZH--
+
+--7w5Q9hFsGTX4HT2ZGrujcHkTr1U0WxU24
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/N9GUFAwAAAAAACgkQlh/E3EQov+Ao
+ERAAgq96FjDmWVLRtFp9mW4xu4kfjY5qDuDZ9ptonUpKwqIUB1GgKp1vfc0Ng2Ll315Uqzv+EM9h
+U6SUWqn6fETsnhCGr3MiciUT18wXMR7z32lDPn3RRyy5r67JEaZpQ+ZSxkfQHkDdVAM+i537Ns87
+5qRpqWTN4p4N2htMritSRHWTH7sFM69kzs6AFozfitEswNayA1+FQAvhGJ3sEGVSnGZ8xq3DqqB4
+PM3YO7saPrmBQFUCU44ATS31MDsN59nDAEFOQhwTaj910A4O+bQFWjM3yScXYVssy7cabzzEkLvT
+tFDYUFpacdusCtrwMoUgXcP+1I41y8PCpVPIcRuHF15kJeNimVACiNvrmW3drCoG177EqgHGgFFD
+CLo557YUrbHLOyLhXV+uwp5/UEryDCEuQjcYGlDwM1MfpMKh0cYCuAPc35SsYdav1bWu9ld00nvm
+tXVmHn32+0p8pJsHhOTfyd5h/PffcJFe7gLKXtznOUZIQr4BMQGRna7yXVwTIPM5JNhtQlszWaPu
+JE3vMCZnNc9pOPsoWjZplIuwdaXaz6o5L2BkRfXiZlugJolebwpWco/AYdG4ePU1ZR+4A2S33IJJ
+nDLc3tZJiB6rlTUNoDB+dMbVxJd11g0k+Dk2W0J8a0BF18xlPiTPNAIKzYDazPNfd+IOBFq8jzsb
+fPA=
+=G8lq
+-----END PGP SIGNATURE-----
+
+--7w5Q9hFsGTX4HT2ZGrujcHkTr1U0WxU24--
+
+--===============1929577180==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1929577180==--
