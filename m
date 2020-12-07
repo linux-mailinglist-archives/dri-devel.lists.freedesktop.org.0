@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6295B2D16FE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 17:59:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 557722D1701
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 18:02:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 914BC89487;
-	Mon,  7 Dec 2020 16:59:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63FB689A67;
+	Mon,  7 Dec 2020 17:02:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
- [209.85.167.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FA3D89487
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 16:59:48 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id o25so16127144oie.5
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 08:59:48 -0800 (PST)
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+ [209.85.167.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28C3789A67
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 17:02:09 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id d27so8590341oic.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 09:02:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=/SkJ+y4JbdE9Xwej35tShvVwA0lpKmxCFraHeH0nWHU=;
- b=naKXsTMAopOTrGSlsYXHdfs10/c7+XIwSpfj7w95X+6wYwvNgUK9kHFTCLJHHHg9EE
- 3q8adLkTnckaupPwOLQxeozOshWoeN0o50WCnapr9qAboAX+2N8o8diwkMyAeFhdNzi7
- ZPCC/iF4O3Hvscod8o+xVFWpkTsp5XCyFTmvDOW3i4yG1bvH+eW+Zg9Obnl80aQyzln5
- jmPC8xASzANWoh1gxfbHIA3uFP7orXbYqLeq3KcboHUIKglYyJfKwr7OYdTHtkqKsH/o
- uXqS0uWR/GO2WkU2GJU60saskPcLTXfRrcZ39MT8D+58OhUGqymrpPkriI/xZf5Qnseh
- y7Gw==
-X-Gm-Message-State: AOAM531IfSerIquqkHwXN2B3O0CeKXA378aUCGwkgywy2f5W7Dac6GAa
- 9md5rS86BcW+GfJfELQs0A==
-X-Google-Smtp-Source: ABdhPJw/vjdojTgl/o7v8d/67obyPy8N0PY1fH5WpiG2P28+XiZRLIfp/vBt4qFEzO6Ba3m9FScZNg==
-X-Received: by 2002:aca:6087:: with SMTP id
- u129mr13372577oib.173.1607360387662; 
- Mon, 07 Dec 2020 08:59:47 -0800 (PST)
+ bh=WhUIrDtbx95VVaLpPCnUUxF3hbxbXkZibqs0hBKgFBI=;
+ b=C3owMo6CTjuWE6g/6P8/C1lWNJU3XCs+mOUy3awKuabWnlSHell4EE9++aYkS6AA9q
+ Y5s3dvR+u838iFeimga/Lm8NKWzBMLhPkX3WzXmIr9UQI+8A4pRDIy4atLfv/XY6goC2
+ unEN34YWcgqI8clH1zcdCCQdA4eFTuuyDgC6SDWdGswGaauC6GdHWvLb6z5h5BImrQic
+ mEkJua1pBtzWcgzxvPTOBr5aUxbfeA73nNzx2fEHwWQi379N5uU3LNHffdtH8b/jSlOz
+ tF/YqYALHwh48TtLvfnTf0WUBJQfRYZvBqbXLccPaF+U4xpD8YOF/drdgBCOPfU8F3RV
+ Oyzw==
+X-Gm-Message-State: AOAM532UHVc0Hir/+Xo0j0K2orcY4Vqv6Ju4V2xDRpbDvn2hs38Dzvui
+ veCjJyq8vRAs9epGceJtuwndHaNDyw==
+X-Google-Smtp-Source: ABdhPJwoMHlcpltnFQNrr+DMIIKPVZojsPWQGzZZCZM4H/mZ7zsCV2lm7aLdzZNGLecptEp8zSgcjQ==
+X-Received: by 2002:aca:f289:: with SMTP id
+ q131mr12905613oih.159.1607360528354; 
+ Mon, 07 Dec 2020 09:02:08 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id s9sm2749031otb.6.2020.12.07.08.59.45
+ by smtp.gmail.com with ESMTPSA id j126sm3045161oib.13.2020.12.07.09.02.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 08:59:46 -0800 (PST)
-Received: (nullmailer pid 434629 invoked by uid 1000);
- Mon, 07 Dec 2020 16:59:45 -0000
-Date: Mon, 7 Dec 2020 10:59:45 -0600
+ Mon, 07 Dec 2020 09:02:07 -0800 (PST)
+Received: (nullmailer pid 437794 invoked by uid 1000);
+ Mon, 07 Dec 2020 17:02:06 -0000
+Date: Mon, 7 Dec 2020 11:02:06 -0600
 From: Rob Herring <robh@kernel.org>
 To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v3 2/6] dt-bindings: display: imx: Add i.MX8qxp/qm PRG
- binding
-Message-ID: <20201207165945.GA430214@robh.at.kernel.org>
+Subject: Re: [PATCH v3 3/6] dt-bindings: display: imx: Add i.MX8qxp/qm DPR
+ channel binding
+Message-ID: <20201207170206.GA434964@robh.at.kernel.org>
 References: <1607311260-13983-1-git-send-email-victor.liu@nxp.com>
- <1607311260-13983-3-git-send-email-victor.liu@nxp.com>
+ <1607311260-13983-4-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1607311260-13983-3-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1607311260-13983-4-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,8 +71,8 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 07, 2020 at 11:20:56AM +0800, Liu Ying wrote:
-> This patch adds bindings for i.MX8qxp/qm Display Prefetch Resolve Gasket.
+On Mon, Dec 07, 2020 at 11:20:57AM +0800, Liu Ying wrote:
+> This patch adds bindings for i.MX8qxp/qm Display Prefetch Resolve Channel.
 > 
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
@@ -86,40 +86,44 @@ On Mon, Dec 07, 2020 at 11:20:56AM +0800, Liu Ying wrote:
 > v1->v2:
 > * Use new dt binding way to add clocks in the example.
 > 
->  .../bindings/display/imx/fsl,imx8qxp-prg.yaml      | 60 ++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+>  .../bindings/display/imx/fsl,imx8qxp-dprc.yaml     | 87 ++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
+> diff --git a/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
 > new file mode 100644
-> index 00000000..d59e2db
+> index 00000000..91e9472
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-prg.yaml
-> @@ -0,0 +1,60 @@
+> +++ b/Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dprc.yaml
+> @@ -0,0 +1,87 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-prg.yaml#
+> +$id: http://devicetree.org/schemas/display/imx/fsl,imx8qxp-dprc.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Freescale i.MX8qm/qxp Display Prefetch Resolve Gasket
+> +title: Freescale i.MX8qm/qxp Display Prefetch Resolve Channel
 > +
 > +maintainers:
 > +  - Liu Ying <victor.liu@nxp.com>
 > +
 > +description: |
-> +  The i.MX8qm/qxp Prefetch Resolve Gasket (PRG) is a gasket interface between
-> +  RTRAM controller and Display Controller.  The main function is to convert
-> +  the AXI interface to the RTRAM interface, which includes re-mapping the
-> +  ARADDR to a RTRAM address.
+> +  The i.MX8qm/qxp Display Prefetch Resolve Channel(DPRC) is an engine which
+> +  fetches display data before the display pipeline needs the data to drive
+> +  pixels in the active display region.  This data is transformed, or resolved,
+> +  from a variety of tiled buffer formats into linear format, if needed.
+> +  The DPR works with a double bank memory structure.  This memory structure is
+> +  implemented in the Resolve Tile Memory(RTRAM) and the banks are referred to
+> +  as A and B.  Each bank is either 4 or 8 lines high depending on the source
+> +  frame buffer format.
 > +
 > +properties:
 > +  compatible:
 > +    oneOf:
-> +      - const: fsl,imx8qxp-prg
-> +      - const: fsl,imx8qm-prg
+> +      - const: fsl,imx8qxp-dpr-channel
+> +      - const: fsl,imx8qm-dpr-channel
 
-Use enum instead of oneOf+const.
+enum instead of oneOf+const.
 
 With that,
 
@@ -129,15 +133,30 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 > +  reg:
 > +    maxItems: 1
 > +
+> +  interrupts:
+> +    maxItems: 1
+> +
 > +  clocks:
 > +    items:
-> +      - description: rtram clock
 > +      - description: apb clock
+> +      - description: b clock
+> +      - description: rtram clock
 > +
 > +  clock-names:
 > +    items:
-> +      - const: rtram
 > +      - const: apb
+> +      - const: b
+> +      - const: rtram
+> +
+> +  fsl,sc-resource:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: The SCU resource ID associated with this DPRC instance.
+> +
+> +  fsl,prgs:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    description: |
+> +      List of phandle which points to Prefetch Resolve Gaskets(PRGs)
+> +      associated with this DPRC instance.
 > +
 > +  power-domains:
 > +    maxItems: 1
@@ -145,8 +164,11 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 > +required:
 > +  - compatible
 > +  - reg
+> +  - interrupts
 > +  - clocks
 > +  - clock-names
+> +  - fsl,sc-resource
+> +  - fsl,prgs
 > +  - power-domains
 > +
 > +additionalProperties: false
@@ -155,12 +177,17 @@ Reviewed-by: Rob Herring <robh@kernel.org>
 > +  - |
 > +    #include <dt-bindings/clock/imx8-lpcg.h>
 > +    #include <dt-bindings/firmware/imx/rsrc.h>
-> +    prg@56040000 {
-> +        compatible = "fsl,imx8qxp-prg";
-> +        reg = <0x56040000 0x10000>;
-> +        clocks = <&dc0_prg0_lpcg IMX_LPCG_CLK_0>,
-> +                 <&dc0_prg0_lpcg IMX_LPCG_CLK_4>;
-> +        clock-names = "rtram", "apb";
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    dpr-channel@56100000 {
+> +        compatible = "fsl,imx8qxp-dpr-channel";
+> +        reg = <0x56100000 0x10000>;
+> +        interrupts = <GIC_SPI 51 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&dc0_dpr1_lpcg IMX_LPCG_CLK_4>,
+> +                 <&dc0_dpr1_lpcg IMX_LPCG_CLK_5>,
+> +                 <&dc0_rtram1_lpcg IMX_LPCG_CLK_0>;
+> +        clock-names = "apb", "b", "rtram";
+> +        fsl,sc-resource = <IMX_SC_R_DC_0_VIDEO0>;
+> +        fsl,prgs = <&dc0_prg4>, <&dc0_prg5>;
 > +        power-domains = <&pd IMX_SC_R_DC_0>;
 > +    };
 > -- 
