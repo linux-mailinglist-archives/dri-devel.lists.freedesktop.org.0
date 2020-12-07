@@ -2,38 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26E52D0D6F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 10:53:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F572D0D96
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 10:59:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F00E189E5F;
-	Mon,  7 Dec 2020 09:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414D189E65;
+	Mon,  7 Dec 2020 09:59:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0EC989E5F
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:53:49 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F3BAFAD21;
- Mon,  7 Dec 2020 09:53:47 +0000 (UTC)
-Subject: Re: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed
- mode-config init
-To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-References: <1607331906-19005-1-git-send-email-tiantao6@hisilicon.com>
- <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
- <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
- <0d60eccc-907d-6fc2-e1c2-c7fe0facd21e@huawei.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <dac52155-b9bb-6a01-7e18-d4dd48f58844@suse.de>
-Date: Mon, 7 Dec 2020 10:53:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
+ [185.70.40.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2100A89E65
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:59:12 +0000 (UTC)
+Date: Mon, 07 Dec 2020 09:59:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1607335150;
+ bh=EXd7Qmwbo9g9EM1n7UVmsL222pW21FRsz/VlS1Qa0lQ=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=dDxmRwP4PPhSUUxgORM/7MWrvoZxOskjZ4eeiOTDjgy8PispNEq+zL2KfucYtLmt4
+ baF4kUWLw2TIklyYrzOp0y+FaC/97hhaUevcqzQw2qt1H8UhRzUAI4Kn9//HsUQJXL
+ 36TTtVrqWFJAyUIy/CsMmJTRTN166+TGAZCvrLMXF4JLQXkBIP8XpUszFlIQ5JEs+6
+ vV6GJs+cA6i1XeI9DmkPymWG8yZksvXM1ctrVF66ni7AKsCDImEKJVSmVBC7o0zcWa
+ xsawy0dbAXwq88IQf5hs8/dX3SvCBIcxDHFsFu9v0oePlF/UvdQBtlThSZ/GNeHolu
+ FQxcsC/108GEw==
+To: James Park <james.park@lagfreegames.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
+Message-ID: <C1hn9atmhrsfGrdxpjMd9sURb7AK2mpm0YkULfT-i160BF6miRFym6dmoBbzXK_bRi0j2L1lf8jbYw2b30yUYQRqaBaS5pxSKkCxxaK_y7g=@emersion.fr>
+In-Reply-To: <CABjik9dC26tm0KzOc4SqWm-f-LW=+JbzZQuOR1fZJdZXowHaVw@mail.gmail.com>
+References: <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
+ <1607215171-36-1-git-send-email-jpark37@lagfreegames.com>
+ <1607215171-36-2-git-send-email-jpark37@lagfreegames.com>
+ <V01BVRDu5ULkPDHO-WKC98pTaPlU3acbwd99o01-R6bWW0sO9SVlKjTo8l-bvUd6C1BwJafiZGBQ5XeWMFPteVDoc0bURCtVCu2A8IVau3w=@emersion.fr>
+ <CABjik9dC26tm0KzOc4SqWm-f-LW=+JbzZQuOR1fZJdZXowHaVw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <0d60eccc-907d-6fc2-e1c2-c7fe0facd21e@huawei.com>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -46,191 +52,31 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============1941644890=="
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1941644890==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="0I72f04CKrbtKB6WYrp3kjWuNdq7hQS1M"
+On Monday, December 7th, 2020 at 10:55 AM, James Park <james.park@lagfreegames.com> wrote:
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---0I72f04CKrbtKB6WYrp3kjWuNdq7hQS1M
-Content-Type: multipart/mixed; boundary="iXbnfvtIHw4JjkM1Kf9QTPJwDkogkIii1";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: "tiantao (H)" <tiantao6@huawei.com>, Tian Tao <tiantao6@hisilicon.com>,
- airlied@linux.ie, daniel@ffwll.ch, kraxel@redhat.com,
- alexander.deucher@amd.com, tglx@linutronix.de,
- dri-devel@lists.freedesktop.org, xinliang.liu@linaro.org,
- linux-kernel@vger.kernel.org
-Message-ID: <dac52155-b9bb-6a01-7e18-d4dd48f58844@suse.de>
-Subject: Re: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed
- mode-config init
-References: <1607331906-19005-1-git-send-email-tiantao6@hisilicon.com>
- <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
- <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
- <0d60eccc-907d-6fc2-e1c2-c7fe0facd21e@huawei.com>
-In-Reply-To: <0d60eccc-907d-6fc2-e1c2-c7fe0facd21e@huawei.com>
+> I'd noticed the #if could be combined, but they weren't in drm,h when
+> they could have been, so I didn't want to depart from the existing
+> pattern.
 
---iXbnfvtIHw4JjkM1Kf9QTPJwDkogkIii1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I see. The original code really needed the two branches and
+drm_basic_types.h doesn't. But let's see what others think.
 
-Hi
+> I think "One of the BSDs" is more informative than "Not Linux" if
+> that statement is still true. Given the aversion to making drm.h
+> robust to Windows, I don't think we want to imply compatibility that
+> isn't there.
 
-Am 07.12.20 um 10:29 schrieb tiantao (H):
->=20
->=20
-> =E5=9C=A8 2020/12/7 17:22, Thomas Zimmermann =E5=86=99=E9=81=93:
->> Hi
->>
->> Am 07.12.20 um 10:05 schrieb Tian Tao:
->>> Using drmm_mode_config_init() sets up managed release of modesetting
->>> resources.
->>>
->>
->> Individual patches usually contain a changelog to highlight the=20
->> difference to previous versions. Please add one before committing the =
-
->=20
-> Just to be sure: I don't need to add a changlog to this individual=20
-> patch, right?
-
-You should. It's supposed to be good style to add a changelog for each=20
-patch and also highlight the series' overall changes in the cover letter.=
-
-
-Best regards
-Thomas
-
->=20
->> patch.=C2=A0 Your cover letter for the series already does this correc=
-tly.
->>
->>> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
->>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> Thanks for all these updates.
->=20
-> Thank you for your constant help with the review code and your careful =
-
-> guidance!
->=20
->>
->>> ---
->>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 14 +++------=
------
->>> =C2=A0 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |=C2=A0 1 -
->>> =C2=A0 2 files changed, 3 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c=20
->>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>> index 3687753..7f01213 100644
->>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>> @@ -96,8 +96,9 @@ static int hibmc_kms_init(struct hibmc_drm_private =
-
->>> *priv)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_device *dev =3D &priv->dev;=
-
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int ret;
->>> -=C2=A0=C2=A0=C2=A0 drm_mode_config_init(dev);
->>> -=C2=A0=C2=A0=C2=A0 priv->mode_config_initialized =3D true;
->>> +=C2=A0=C2=A0=C2=A0 ret =3D drmm_mode_config_init(dev);
->>> +=C2=A0=C2=A0=C2=A0 if (ret)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.min_width =3D 0;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->mode_config.min_height =3D 0;
->>> @@ -125,14 +126,6 @@ static int hibmc_kms_init(struct=20
->>> hibmc_drm_private *priv)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> =C2=A0 }
->>> -static void hibmc_kms_fini(struct hibmc_drm_private *priv)
->>> -{
->>> -=C2=A0=C2=A0=C2=A0 if (priv->mode_config_initialized) {
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mode_config_cleanup(&=
-priv->dev);
->>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 priv->mode_config_initial=
-ized =3D false;
->>> -=C2=A0=C2=A0=C2=A0 }
->>> -}
->>> -
->>> =C2=A0 /*
->>> =C2=A0=C2=A0 * It can operate in one of three modes: 0, 1 or Sleep.
->>> =C2=A0=C2=A0 */
->>> @@ -262,7 +255,6 @@ static int hibmc_unload(struct drm_device *dev)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_atomic_helper_shutdown(dev);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pci_disable_msi(dev->pdev);
->>> -=C2=A0=C2=A0=C2=A0 hibmc_kms_fini(priv);
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->dev_private =3D NULL;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> =C2=A0 }
->>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h=20
->>> b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>> index a49c10e..7d263f4 100644
->>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>> @@ -42,7 +42,6 @@ struct hibmc_drm_private {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_crtc crtc;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_encoder encoder;
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct hibmc_connector connector;
->>> -=C2=A0=C2=A0=C2=A0 bool mode_config_initialized;
->>> =C2=A0 };
->>> =C2=A0 static inline struct hibmc_connector *to_hibmc_connector(struc=
-t=20
->>> drm_connector *connector)
->>>
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---iXbnfvtIHw4JjkM1Kf9QTPJwDkogkIii1--
-
---0I72f04CKrbtKB6WYrp3kjWuNdq7hQS1M
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/N+6oFAwAAAAAACgkQlh/E3EQov+Cp
-sQ/+KZGgJvYtL7bhwCJr8ENheu7nGVIe02n+kekMBJntRRmA+7/gLQsebp9F06zrefVcDj+Kv7Qc
-s1F73YPr2SLwH1FgkzDCLd1IeVwgSVq/Eeprar3xziWrXC91d3ak3KavYMjQqHRszEbRMbK/oSqS
-W3HW3LYSkVkhwtuDcfODYjWWlMLn2et7H0eNCam2tA8F34rydGrZA09E4q/OfYuUr7KAQfG9P97d
-iCpl1pz/Z1yzg6/Dnpoxvv7o6oL9rHzo7/b2FJpaznXPEf56I/btGK01POrpXHzIEcFO+fMVbDdb
-CzshuvEKHUMNhFzY0eFmk+ov9tpUv7fq6k4/87rwTOYT07cJ5kAx9mXHwAmW6auf+DS2bS657bT6
-9YIJavqSiGW3GWQ1fztQeLi1QOQfehzGoJz5vBkYN7iLHj0V/hiS1GLUmTtTkJQ7g8jxzHxTyiRX
-QteAS7hCfaHDasEtbq4ijhiEIMENOCF5uuyaYw1CaXilbxrlg3WtyQLG5jVwffEI3CkD1C+foujN
-qHP3RewE+M5U6wn6gC6PX6YnaFRcM49YnyXf7G3GwD4hQAV15gUrWffZ8sxSqo75DVIJq6iE7PAP
-ZuM0l6vJUUSr7DGqWcivcQfTxNJitMYfXcm1JyZZyFTMHiYY/EWOWF62DXNGdbwJsPlIH32SAK/h
-ENM=
-=qLU2
------END PGP SIGNATURE-----
-
---0I72f04CKrbtKB6WYrp3kjWuNdq7hQS1M--
-
---===============1941644890==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Well, drm_basic_types.h would be included on Windows as well from
+drm_fourcc.h, right?
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1941644890==--
