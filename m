@@ -1,70 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D82D2D0C18
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:51:22 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC4B02D0CA8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 10:10:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D035E89D43;
-	Mon,  7 Dec 2020 08:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C45C6E58B;
+	Mon,  7 Dec 2020 09:10:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
- [IPv6:2a00:1450:4864:20::144])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6006489D43
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 08:51:15 +0000 (UTC)
-Received: by mail-lf1-x144.google.com with SMTP id s30so16902736lfc.4
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 00:51:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=4Escz8OZJ9uQkwstW6gXeQKEZpva1KmLBfoE27HZji0=;
- b=km9kxQLA0wB9wG7PXUDoI8flM6wIlY7uF1WYz7o67vnucRjEr4AUdvCbqavo+aptnq
- a7SD6sSv6EPmwu92o2K7sU/tYt6pOiZlJHiED5pmqVn6vGTTfMQvH0Opzr+ixGEs70iK
- Cl+zvJDZeq/pTTybHh7nSZKbz0ECXM1oFtb9cRZhq3lTLzU7QQX5FHyKCie2i9hhGVaL
- TqGsc/veo8ptST503CvKos2PwrZlIOfxuol6BEo1AXqWUnr2FdzUVI/507dgDyBKH99p
- vH8HopxfJpHFEHUPQrr8Azk/fP/feeJnjQSZafctaGZdpA8Mrmh6b2TLn3y8aqlI/7jo
- VW3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=4Escz8OZJ9uQkwstW6gXeQKEZpva1KmLBfoE27HZji0=;
- b=SQpayzjeK5lxr9lyGtAllmCCh7y84X2qno/cjv8GA5ro5SuEkbJ93zUTT1BNJ/6IEu
- qcmWokQUhInheixnqwZBWsp5qWQMi4Iqrb4ZCpJxXoamJTnBN6WsD6cZCPsIPo1SbtzT
- lV93RYOrbgPcEFoWGvOCI9zehI1fjoMZBuz0e9FPkwhP5ykOLq87LJIUxEWuroWc/1yW
- BWC7qFjMVEWTkqA3yPRhpFgFZer10NPwJlazM+Z46TT5KOGwVTjcYpBtjAH8tCvn6iYX
- 8OmaZ3RdUnrKHhnKbPZPZtFIh+706LS5nsvARPV5iChq2yXerh9U9fEKs6xl9yF+HBR2
- Mhvw==
-X-Gm-Message-State: AOAM532Wj1OJb9mFbt6nbAwBOcsegAmALXblPzFjb8RIuBleoCFRaYgX
- /l6Rj7+B6oLdzbo5clxIW08=
-X-Google-Smtp-Source: ABdhPJy92Z1k2jZdZb43UUU7GuyERjb4m4n91/4Vo9X6Kvm2bH4lMfvU/RpBoP8FdznKc6zR47kWrg==
-X-Received: by 2002:ac2:5f72:: with SMTP id c18mr7802902lfc.452.1607331073663; 
- Mon, 07 Dec 2020 00:51:13 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v63sm531746lfa.89.2020.12.07.00.51.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 00:51:13 -0800 (PST)
-Date: Mon, 7 Dec 2020 10:51:09 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: James Park <james.park@lagfreegames.com>
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
-Message-ID: <20201207105109.599273be@eldfell>
-In-Reply-To: <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
- <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
- <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
- <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
- <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
- <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
- <c68d121c-ead2-dbe9-cb26-8b18ccb86011@daenzer.net>
- <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
- <CABjik9dFoGSaxOouXsMdNgeFK57-RP28dhrPi4EXX81OswgeSw@mail.gmail.com>
- <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
- <20201204101151.55f487b8@eldfell>
- <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
- <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mail-40136.protonmail.ch (mail-40136.protonmail.ch
+ [185.70.40.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A3C6E58B
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:10:04 +0000 (UTC)
+Date: Mon, 07 Dec 2020 09:10:00 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1607332201;
+ bh=/s2xL7og4/556oyJgJ2pkZj/ZhGQv76sTGCpI2skijQ=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=KBmVtTK78ijhLIGpk/Ubbt8CxxKwjC9hCGf7x+av3zJ9ZhrcpZSqMYvoUWRCB814D
+ ZvBkQqR6LA46vAJ51YapXjVnyZOfaLv52GDzkddZkX2aC26s8+GsvKWobkFdzisqtd
+ umXjR/cMKi1T1gZFoTZAzBrbkV4xF1SPcHoJD+IyOfst0Cz+lV0B9uYFeo0c93jBmI
+ vIRNPZB2zy4OWVU7SEvV+JuP74Cd/KuPT09Bfig72ZBXQta917aI3Lj9/cEGESIGIk
+ aDsCT5mLAFKIY37pbbux2x6H8YnoKB8T5gCyytlMuZDVYulr97LinYA5A1UF4zgWpJ
+ kWLSuVa1jvm6w==
+To: Pekka Paalanen <ppaalanen@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: drivers may provide multiple primary planes per CRTC
+Message-ID: <i1OlhCAio_JRSK_q7z7mpkyiPlrIO1Nszlav03n1LDGZKoEO3lybu-tdg7taxbtnOst4TdpJYCW-S1FAq3t5SEaDcul02W1mil5_sFySrSI=@emersion.fr>
+In-Reply-To: <20201207104542.10657acd@eldfell>
+References: <TJAyvL7GM0cZ61sbzYMZ7IbVow2d32QQntnAB5_zpBOdcKVIAy8qhZg4En6C8Ka-mUXV-goV21ExVsA8Q3N_lJV4jf6g6llQBQSDs602jgs=@emersion.fr>
+ <20200807090706.GA2352366@phenom.ffwll.local>
+ <20200807123802.6058baca@eldfell>
+ <20200807130636.GD2352366@phenom.ffwll.local>
+ <1A6pssulTBjmoPioJfGenq9NdbnGjw2dhBoivqmrgraY67Gac7BoUHupkvqc7UBF_q2P5RwEcXP-m-5Jd00vC2hg-QMkGj2Ms_Jh5nLz-os=@emersion.fr>
+ <20201207104542.10657acd@eldfell>
 MIME-Version: 1.0
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,138 +53,81 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- James Park <jpark37@lagfreegames.com>
-Content-Type: multipart/mixed; boundary="===============1879329094=="
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1879329094==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/GJE+ATgd1yTgJU/6Epw.5ZC"; protocol="application/pgp-signature"
-
---Sig_/GJE+ATgd1yTgJU/6Epw.5ZC
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 4 Dec 2020 11:07:41 -0800
-James Park <james.park@lagfreegames.com> wrote:
-
-> I could adjust the block to look like this:
->=20
-> #ifdef DRM_FOURCC_STANDALONE
-> #if defined(__linux__)
-> #include <linux/types.h>
-> #else
-> #include <stdint.h>
-> typedef uint32_t __u32;
-> typedef uint64_t __u64;
-> #endif
-> #else
-> #include "drm.h"
-> #endif
->=20
-> Alternatively, I could create a new common header to be included from both
-> drm.h and drm_fourcc.h, drm_base_types.h or something like that:
->=20
-> #ifdef DRM_FOURCC_STANDALONE
-> #include "drm_base_types.h"
-> #else
-> #include "drm.h"
-> #endif
-
-Hi,
-
-my point is, any solution relying on DRM_FOURCC_STANDALONE will fail
-sometimes, because there is no reason why userspace would *not* #define
-DRM_FOURCC_STANDALONE. Hence, #ifdef DRM_FOURCC_STANDALONE is
-completely moot, you have to make the headers work in any include
-order when DRM_FOURCC_STANDALONE is defined anyway.
-
-
-Thanks.
-pq
-
-> On Fri, Dec 4, 2020 at 7:58 AM Daniel Vetter <daniel@ffwll.ch> wrote:
->=20
-> > On Fri, Dec 4, 2020 at 9:12 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
-te: =20
-> > >
-> > > On Thu, 3 Dec 2020 21:45:14 +0100
-> > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > =20
-> > > > On Thu, Dec 3, 2020 at 7:55 PM James Park <james.park@lagfreegames.=
-com> =20
-> > wrote: =20
-> > > > >
-> > > > > The trailing underscore for  DRM_FOURCC_STANDALONE_ isn't
-> > > > > intentional, right? Should I put all the integer types, or just t=
-he
-> > > > > ones that are used in that file? =20
-> > > >
-> > > > Yeah that trailing _ just slipped in. And I'd just do the types
-> > > > already used. I don't think anything else than __u32 (for drm fourc=
-c)
-> > > > and __u64 (for drm modifier) is needed. =20
-> > >
-> > > Hi,
-> > >
-> > > can that create conflicts if userspace first includes drm_fourcc.h and
-> > > then drm.h?
-> > >
-> > > I would find it natural to userspace have generic headers including
-> > > drm_fourcc.h and then DRM-specific C-files including drm.h as well
-> > > (through libdrm headers). I think Weston might already do this.
-> > >
-> > > The generic userspace (weston) header would obviously #define
-> > > DRM_FOURCC_STANDALONE, because it is used by non-DRM C-files as well.=
- =20
-> >
-> > Hm yes that would break. I guess we could just include the linux types
-> > header for this. And I guess on windows you'd need to have that from
-> > somewhere. Or we just require that users of the standalone header pull
-> > the right header or defines in first?
-> > -Daniel
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
-> > =20
-
-
---Sig_/GJE+ATgd1yTgJU/6Epw.5ZC
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/N7P0ACgkQI1/ltBGq
-qqcXfA//d5YFsMV0r7oS1fL9p0q45Q73aGEtiMxBXuuDov4ORZ73c+1ySRbLrmWx
-DTFvpko1VMM8AnmSbsgNKypAV0gVC6ayc+6QnJ2Pi+o+6GLSECkbRRKxGf4I3/g5
-tK7DRc2BPVFzUN2wyu+op7TR1G2KEChznyETFaiD5ysQCUS9IVGX9tLUfCPBsEmT
-DsPIu6sRigDzTfrdY/nHHtRpPYJfDLFwnCCaBUtYlRLYAjwJ23FSHBeOK39Rdspv
-7S8ghzIF8GRRE9lO0P8sxnGTBp+BBvOsrxhfPABWGLWcz1S3JGYn50KVqpgWqkG4
-tAC5TqZhNkTHT69y3hnc9N7T6IB0oNoOKP2Mpof21L3RMsoRL/+hY0AsMLE7bs8+
-oHXhxHDbxTRjFRoPXrEQmP9i/ryRaOVJdCfhx+ZaHYBJPAh3ERwhLi6cg//DeV5K
-Wr7BVSkO7c0zeQNU3fIAAoQGoKQ6SCB71QnPalE2buEAY9imBzHrJ+1o+Vq/58QU
-Y+RbsLSXprARevoMe/r2E9G7NtmElEKWT0OIyK6sVs9BYJb0AyjMW5qnRYj3faUl
-Gkz1+aMDdH3gRwxmF8b/S86jnFpt6vT9egMAanqk5eW0Yk41J0d+GHc/xmUEkCly
-YbWyBgxjgPgTDi91aRfT4ctA2QSWZmSIpmH5+gAJLowzXbL0EEs=
-=RKOP
------END PGP SIGNATURE-----
-
---Sig_/GJE+ATgd1yTgJU/6Epw.5ZC--
-
---===============1879329094==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1879329094==--
+T24gTW9uZGF5LCBEZWNlbWJlciA3dGgsIDIwMjAgYXQgOTo0NSBBTSwgUGVra2EgUGFhbGFuZW4g
+PHBwYWFsYW5lbkBnbWFpbC5jb20+IHdyb3RlOgoKPiA+ID4gPiA+ID4gLSAqIEN1cnNvciBhbmQg
+b3ZlcmxheSBwbGFuZXMgYXJlIG9wdGlvbmFsLiBBbGwgZHJpdmVycyBzaG91bGQgcHJvdmlkZSBv
+bmUKPiA+ID4gPiA+ID4gLSAqIHByaW1hcnkgcGxhbmUgcGVyIENSVEMgdG8gYXZvaWQgc3VycHJp
+c2luZyB1c2Vyc3BhY2UgdG9vIG11Y2guIFNlZSBlbnVtCj4gPiA+ID4gPiA+ICsgKiBDdXJzb3Ig
+YW5kIG92ZXJsYXkgcGxhbmVzIGFyZSBvcHRpb25hbC4gQWxsIGRyaXZlcnMgc2hvdWxkIHByb3Zp
+ZGUgYXQgbGVhc3QKPiA+ID4gPiA+ID4gKyAqIG9uZSBwcmltYXJ5IHBsYW5lIHBlciBDUlRDIHRv
+IGF2b2lkIHN1cnByaXNpbmcgdXNlcnNwYWNlIHRvbyBtdWNoLiBTZWUgZW51bQo+ID4gPiA+ID4K
+PiA+ID4gPiA+IEkgdGhpbmsgdGhhdCdzIGV2ZW4gbW9yZSBjb25mdXNpbmcsIHNpbmNlIHRoaXMg
+cmVhZHMgbGlrZSB0aGVyZSBjb3VsZCBiZQo+ID4gPiA+ID4gbXVsdGlwbGUgcHJpbWFyeSBwbGFu
+ZXMgZm9yIGEgc3BlY2lmaWMgQ1JUQy4gVGhhdCdzIG5vdCB0aGUgY2FzZSwgdGhlcmUnCj4gPiA+
+ID4gPiBvbmx5IG9uZSBwb2ludGVyIGdvaW5nIGZyb20gZHJtX2NydGMtPnByaW1hcnkgdG8gYSBk
+cm1fcGxhbmUgaW4gdGhlCj4gPiA+ID4gPiBrZXJuZWwuCj4gPiA+ID4KPiA+ID4gPiBUaGVyZSBj
+b3VsZCBiZSBtdWx0aXBsZSBwcmltYXJ5IHBsYW5lcyAqdXNhYmxlKiBmb3IgYSBzcGVjaWZpYyBD
+UlRDIGJ1dAo+ID4gPiA+IGp1c3Qgb25lIHVzZWQgYXQgYSB0aW1lLCByaWdodD8KPiA+ID4KPiA+
+ID4gSSdtIG5vdCBzdXJlIHdoYXQgeW91IG1lYW4gaGVyZSwgdGhlIGNydGMtPnByaW1hcnkgbGlu
+ayBpcyBpbnZhcmlhbnQgb3Zlcgo+ID4gPiB0aGUgbGlmZXRpbWUgb2YgYSBkcml2ZXIgbG9hZC4g
+WW91IGNhbid0IHBpY2sgYSBkaWZmZXJlbnQgb25lLCB0aGF0J3Mgc2V0Cj4gPiA+IGF0IGRyaXZl
+ciBpbml0IGJlZm9yZSBkcm1fZGV2X3JlZ2lzdGVyIChhbmQgaGVuY2UgYmVmb3JlIHVzZXJzcGFj
+ZSBldmVyCj4gPiA+IHNlZXMgYW55dGhpbmcpLgo+ID4KPiA+IE9LLiBJJ20gcGVyc29uYWxseSBu
+b3QgdmVyeSBpbnRlcmVzdGVkIGluIGRvY3VtZW50aW5nIGxlZ2FjeSBiaXRzLCBzbyBJJ2xsIHNr
+aXAKPiA+IHRoYXQuIEknbSBtYWlubHkgaW50ZXJlc3RlZCBoZXJlIGluIG1ha2luZyBpdCBjbGVh
+ciBwb3NzaWJsZV9jcnRjcyBmb3IgYQo+ID4gcHJpbWFyeSBwbGFuZSBjYW4gaGF2ZSBtb3JlIHRo
+YW4gb25lIGJpdCBzZXQuIEJlY2F1c2Ugb2YgdGhlIHBhcmFncmFwaCBpbiB0aGUKPiA+IGN1cnJl
+bnQgZG9jcywgc29tZSB1c2VyLXNwYWNlIGRldmVsb3BlcnMgaGF2ZSB1bmRlcnN0b29kICJtb3Jl
+IHRoYW4gb25lIGJpdCBzZXQKPiA+IGluIHBvc3NpYmxlX2NydGNzIGZvciBhIHByaW1hcnkgcGxh
+bmUgaXMgYSBrZXJuZWwgYnVnIi4KPiA+Cj4gPiBJJ2xsIHNlbmQgYSB2MiB0aGF0IG1ha2VzIGl0
+IGNsZWFyIHRoZXNlIHBvaW50ZXJzIGFyZSBmb3IgbGVnYWN5IHVBUEkuCj4KPiBSaWdodCwgc28g
+dGhpcyBhbmQgd2hhdCBkYW52ZXQgc2FpZCBzZWVtIHRvIGJlIGluIGRpcmVjdCBjb25mbGljdCBp
+bgo+IGF0b21pYyB1QVBJLCByZXBlYXRpbmcgYWJvdmU6Cj4KPiA+ID4gSSdtIG5vdCBzdXJlIHdo
+YXQgeW91IG1lYW4gaGVyZSwgdGhlIGNydGMtPnByaW1hcnkgbGluayBpcyBpbnZhcmlhbnQgb3Zl
+cgo+ID4gPiB0aGUgbGlmZXRpbWUgb2YgYSBkcml2ZXIgbG9hZC4gWW91IGNhbid0IHBpY2sgYSBk
+aWZmZXJlbnQgb25lLCB0aGF0J3Mgc2V0Cj4gPiA+IGF0IGRyaXZlciBpbml0IGJlZm9yZSBkcm1f
+ZGV2X3JlZ2lzdGVyIChhbmQgaGVuY2UgYmVmb3JlIHVzZXJzcGFjZSBldmVyCj4gPiA+IHNlZXMg
+YW55dGhpbmcpLgo+Cj4gQnV0IHN0aWxsLCBpdCBpcyBjb25zaWRlcmVkIG5vdCBhIGtlcm5lbCBi
+dWcgdGhhdCBhIHByaW1hcnkgcGxhbmUgaGFzCj4gbW9yZSB0aGFuIG9uZSBiaXQgc2V0IGluIGl0
+cyBwb3NzaWJsZV9jcnRjcy4KPgo+IElmIGEgcHJpbWFyeSBwbGFuZSBoYXMgbW9yZSB0aGFuIG9u
+ZSBiaXQgc2V0IGluIHBvc3NpYmxlX2NydGNzLCBhbmQgaXQKPiBpcyBub3QgYSBrZXJuZWwgYnVn
+LCB0aGVuIHVzZXJzcGFjZSBleHBlY3RzIHRvIGJlIGFibGUgdG8gY2hvb3NlIGFueQo+IG9mIHRo
+ZSBtdWx0aXBsZSBpbmRpY2F0ZWQgcG9zc2libGUgQ1JUQ3MgZm9yIHRoaXMgcHJpbWFyeSBwbGFu
+ZS4KPgo+IFdoaWNoIHdheSBpcyBpdD8KPgo+IE9yLCBpcyB0aGVyZSBhIGRpZmZlcmVudCBsaW1p
+dGF0aW9uIHRoYXQgZm9yIGVhY2ggQ1JUQywgdGhlcmUgbXVzdCBiZQo+IGV4YWN0bHkgb25lIHBy
+aW1hcnkgcGxhbmUgd2l0aCB0aGF0IENSVENzIGJpdCBzZXQgaW4gaXRzIHBvc3NpYmxlX2NydGNz
+Pwo+Cj4gSU9XLCB5b3UgY2FuIGhhdmUgbW9yZSBDUlRDcyB0aGFuIHByaW1hcnkgcGxhbmVzIGlu
+IHRvdGFsLCBhbmQgeW91IGNhbgo+IGFjdGl2YXRlIGVhY2ggQ1JUQyBhbG9uZSwgYnV0IHlvdSBj
+YW5ub3QgYWN0aXZhdGUgYWxsIENSVENzCj4gc2ltdWx0YW5lb3VzbHkgYmVjYXVzZSB0aGVyZSBh
+cmUgbm90IGVub3VnaCBwcmltYXJ5IHBsYW5lcyBmb3IgdGhlbT8KPgo+IFJlcHJlc2VudGluZyBp
+dCBtYXRoZW1hdGljYWxseSwgdGhlIHBvc3NpYmxlIGFzc2lnbm1lbnRzIGFjY29yZGluZyB0bwo+
+IHBvc3NpYmxlX2NydGNzIHdoaWxlIGlnbm9yaW5nIGFsbCBvdGhlciBsaW1pdGF0aW9ucyBhcmU6
+Cj4gTiBDUlRDcyA8LT4gTSBwcmltYXJ5IHBsYW5lcwo+Cj4gLSBJcyBOIG9uZSBvciBncmVhdGVy
+IHRoYW4gb25lPwo+IC0gSXMgTSBvbmUgb3IgZ3JlYXRlciB0aGFuIG9uZT8KCkkgdGhpbmsgdGhl
+IGN1cnJlbnQgc2l0dWF0aW9uIGlzIHRoYXQ6CgotIEl0J3MgcGVyZmVjdGx5IGZpbmUgZm9yIGEg
+ZHJpdmVyIHRvIGV4cG9zZSBtdWx0aXBsZSBiaXRzIGluIHBvc3NpYmxlX2NydGNzLgogIFVzZXIt
+c3BhY2UgY2FuIGF0dGFjaCB0aGUgcHJpbWFyeSBwbGFuZSB0byBhbnkgb2YgdGhlc2UgQ1JUQ3Mg
+KG9mIGNvdXJzZSwgYQogIHByaW1hcnkgcGxhbmUgc3RpbGwgY2FuIG9ubHkgYmUgYXR0YWNoZWQg
+dG8gYSBzaW5nbGUgQ1JUQyBhdCBhIHRpbWUpLiBEcml2ZXJzCiAgc2hvdWxkIHByb3ZpZGUgYXMg
+bWFueSBwcmltYXJ5IHBsYW5lcyBhcyB0aGVyZSBhcmUgQ1JUQ3MuCi0gVGhlIGxlZ2FjeSBBUEkg
+ZG9lc24ndCBleHBvc2UgcHJpbWFyeSBwbGFuZXMuIFNvbWUgbGVnYWN5IElPQ1RMcyBsaWtlCiAg
+ZHJtTW9kZVNldENydGMgYWxsb3cgdXNlci1zcGFjZSB0byBhdHRhY2ggYSBGQiBkaXJlY3RseSB0
+byBhIENSVEMuIFRoZSBkcml2ZXIKICBuZWVkcyB0byBpbXBsaWNpdGx5IHNlbGVjdCBhIHByaW1h
+cnkgcGxhbmUgZm9yIHRoaXMgb3BlcmF0aW9uLiBUaGF0J3MgdGhlCiAgb25seSBjYXNlIHdoZXJl
+IHRoZSBpbnRlcm5hbCBDUlRDIOKGkiBwcmltYXJ5IHBsYW5lIGxpbmsgaXMgdXNlZCBpbiB0aGUg
+a2VybmVsLgoKSXMgdGhpcyBjb3JyZWN0LCBEYW5pZWw/CgpTbyBJIGJlbGlldmUgTSA+IDEgYW5k
+IE4gPiAxIGlzIHBvc3NpYmxlIGFuZCBpc24ndCBhIGtlcm5lbCBidWcuIEZvciBpbnN0YW5jZQpz
+b21lIGRyaXZlcnMgaGFyZGNvZGUgcG9zc2libGVfY3J0Y3MgdG8gMHhGRiAoYWx0aG91Z2ggaXQg
+bWlnaHQgYmUgbmljZXIgdG8KdXNlci1zcGFjZSB0byBzZXQgdGhlIGJpdG1hc2sgZGVwZW5kaW5n
+IG9uIHRoZSBudW1iZXIgb2YgQ1JUQ3MsIHRvIGF2b2lkCnNldHRpbmcgYml0cyBmb3Igbm9uLWV4
+aXN0aW5nIENSVENzKS4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
