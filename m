@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F482D1A8E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 21:32:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB472D1ACB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 21:46:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAAC989AC0;
-	Mon,  7 Dec 2020 20:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEDF989CBC;
+	Mon,  7 Dec 2020 20:46:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCFD489AC0
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 20:32:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FD7B89CBC
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 20:46:27 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 210467] amdgpu Vega 3 lock MCLK on 1200mhz
-Date: Mon, 07 Dec 2020 20:32:49 +0000
+Date: Mon, 07 Dec 2020 20:46:27 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -33,7 +33,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210467-2300-Xu4ECtwx0h@https.bugzilla.kernel.org/>
+Message-ID: <bug-210467-2300-LU3Q2mGrE4@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210467-2300@https.bugzilla.kernel.org/>
 References: <bug-210467-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -58,18 +58,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210467
 
---- Comment #9 from Alexey (intervionly@gmail.com) ---
-Created attachment 294027
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294027&action=edit
-modinfo amdgpu (workly)
-
-(In reply to Alex Deucher from comment #8)
-> Can you narrow down which specific firmware?  Also what what versions did
-> you try?
-
-workly: linux-firmware 20201023.dae4b4c-1
-All new versions is bugged. Cant do build per single commits (expensive
-traffic).
+--- Comment #10 from Alexey (intervionly@gmail.com) ---
+Created attachment 294029
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294029&action=edit
+modules info (workly)
 
 -- 
 You are receiving this mail because:
