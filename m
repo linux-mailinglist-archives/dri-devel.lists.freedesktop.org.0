@@ -1,122 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25D072D08C2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 02:18:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A70652D0A3A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 06:35:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF2F889FAD;
-	Mon,  7 Dec 2020 01:18:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 254246E566;
+	Mon,  7 Dec 2020 05:35:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F2F589FAD
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 01:18:23 +0000 (UTC)
-Received: from epcas1p4.samsung.com (unknown [182.195.41.48])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20201207011821epoutp04ccc566cd5fee7e44c35e7772094ab9db~OSmH10Rxk2477924779epoutp048
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 01:18:21 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20201207011821epoutp04ccc566cd5fee7e44c35e7772094ab9db~OSmH10Rxk2477924779epoutp048
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1607303901;
- bh=7TfmjyBFgY4gjttvRWrYSs8USIfhnAid8/rgKdYtyDg=;
- h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
- b=YE3Ivck3wshTTTeYXVSiXoomipJDZm/R/hGge/VqzcA8c7//bVv3jwi7fB8+qcedM
- V4cNcy+fbNhLG5fpMNpjHEazW/G1YMgmf4tkzWNdhLIb1KjgU2lw0RE9O8VResCSII
- QgXK4a8zYAVBT5v0GmQuXIM8bMXF9UEbvp/HruJo=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
- epcas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20201207011821epcas1p1dccd83976be412bbf79f5c64ac2a0eb6~OSmHU-Yf-3249132491epcas1p1W;
- Mon,  7 Dec 2020 01:18:21 +0000 (GMT)
-Received: from epsmges1p5.samsung.com (unknown [182.195.40.157]) by
- epsnrtp4.localdomain (Postfix) with ESMTP id 4Cq56L04wdzMqYkl; Mon,  7 Dec
- 2020 01:18:18 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
- epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
- F6.DE.09577.9D28DCF5; Mon,  7 Dec 2020 10:18:17 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20201207011817epcas1p294a176e9b21c1536b54c26b38ca8ba30~OSmD-HOBz2471324713epcas1p2F;
- Mon,  7 Dec 2020 01:18:17 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20201207011817epsmtrp28c08e29263a94ebbe6cec7968e5ee1a0~OSmD_DjLb0055400554epsmtrp2f;
- Mon,  7 Dec 2020 01:18:17 +0000 (GMT)
-X-AuditID: b6c32a39-bfdff70000002569-5a-5fcd82d9a43c
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
- AE.02.13470.9D28DCF5; Mon,  7 Dec 2020 10:18:17 +0900 (KST)
-Received: from [10.113.221.102] (unknown [10.113.221.102]) by
- epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20201207011817epsmtip27d4c4edb43284ecee29be7d2bdafb10b~OSmDmdWiE0365303653epsmtip2Q;
- Mon,  7 Dec 2020 01:18:17 +0000 (GMT)
-Subject: Re: [PATCH v11 10/10] PM / devfreq: tegra30: Separate
- configurations per-SoC generation
-To: Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, Georgi
- Djakov <georgi.djakov@linaro.org>, Rob Herring <robh+dt@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Peter
- De Schrijver <pdeschrijver@nvidia.com>, MyungJoo Ham
- <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, Mikko
- Perttunen <cyndis@kapsi.fi>, Viresh Kumar <vireshk@kernel.org>, Peter Geis
- <pgwipeout@gmail.com>, Nicolas Chauvet <kwizart@gmail.com>, Krzysztof
- Kozlowski <krzk@kernel.org>
-From: Chanwoo Choi <cw00.choi@samsung.com>
-Organization: Samsung Electronics
-Message-ID: <1c4f7c6f-7fff-60c1-a7b1-a099a88df1c6@samsung.com>
-Date: Mon, 7 Dec 2020 10:33:06 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
- Thunderbird/59.0
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CE4F6E566
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 05:35:39 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1607319337; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SlqEwKkshET0nQ8kpRs2olYJF5K/bt1gdgtQI5Gp+F4=;
+ b=nqYBqpXfgqRr+33q10Krux50tmOacjuAucpK22uUjYS0RL+dB6isCfmKuww+SPDYdXwD8C
+ 0of14QowTzPaWvK2t210QzCVEpfAEcfqwTBEDab27UQyEVxF2WhSKaqmqybhiHBmsnmBs8
+ cEmS2KOsG7t94BJqwz/aN2wIPLrZ2zM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 6B325AC9A;
+ Mon,  7 Dec 2020 05:35:37 +0000 (UTC)
+Subject: Re: [PATCH] Revert "xen: add helpers to allocate unpopulated memory"
+To: =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
+ <marmarek@invisiblethingslab.com>, xen-devel@lists.xenproject.org
+References: <20201206172242.1249689-1-marmarek@invisiblethingslab.com>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <e04a91c2-3e2e-7052-14fc-9915f9cf6589@suse.com>
+Date: Mon, 7 Dec 2020 06:35:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201203192439.16177-11-digetx@gmail.com>
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Te0xTVxz29F5uW0L1rgIea6J4mYggjwLVgxNiAsNGjSMjOrOHtZS7llHa
- 2gtmk2WhIhvlYeaDoaXIZGNUBlM6HsLkEew04EorDkQHDqYypqNokcUHmlGuy/jv+33n953v
- 950HDxP+RYh46ZosWq+RqynCG2++tC4i7OYhuyzSaYtCLvc9L1Rp6/NC3z+6A9CvM1MEKmu3
- EuiwqQpHDsd5Lmq6V8dB9kN/c9H1NjOBpktsABkfmwh0rfdN9JvBQqBj9aUA2ce3o/x2Gxe9
- HGzA0dO20zj6cfQyscVXOjWUz5W2mka40v6+WUxqrTUS0uHBi4T096IrHGlJnouQHmmsBdJp
- 68pk/rsZm1W0PI3WB9AahTYtXaOMo7anyBJkkg2R4jBxLNpIBWjkmXQclbgjOSwpXT2XjAo4
- IFdnz1HJcoahIuI367XZWXSASstkxVG0Lk2ti9WFM/JMJlujDFdoMzeJIyOjJHON+zJUR/Ie
- Y7rb4R/biobwXFC/phDweZCMgf2OCaIQePOE5AUAK17UvCrcAD5zm7zY4h8Aneeu4YWANy/J
- Ox3N8u0A3sirB2wxBaDbfAx4mpaSqfC4VeHhfcmbOKyxvCQ8fhh5EsDhi4EeTJAhsHNiaJ5f
- Qq6GA0/uzGsFZDx87trroXHydThwtJfjwX7kbtjTfBh4sIB8Dfacujs/D5/cCE0PROzuy+Ct
- u5UcFq+CLZNmzDMCJCv5sL//W8BGToS33J0cFi+F9680clksgtOudoLFOfBsj41gxQUANnY6
- vdiFaNhZfZzjMcbIdfBcWwRLr4atzysAa7wYumaKvdizEsCCz4VsSyC8PjryynY5/OYLI/El
- oEwL0pgWRDAtiGD63+xrgNcCf1rHZCppRqyTLLxrK5h/8yGxF0DZ5MPwbsDhgW4AeRjlKwgS
- 2WVCQZr8k4O0XivTZ6tpphtI5s73KCbyU2jnPo0mSyaWREVHR6MY8QaJWEwtE8yGFsiEpFKe
- RWfQtI7W/6fj8PiiXM75IPL+rM94XdWnBW9/tyhouLxa+WFwYfGl0VRnfJXD0NzyojqpXjk+
- ae5R0uO5w++5GJVPiGUkIqEiZttg0Ngv/pI3rhoNm/6sCmzZlVAS9kC/4v13muxtVxuGSqmu
- gt5t+Qbujb71avuBjsyuCdBiKefldlWfka1NLU16FpeSetmmtZQczJF81XvSMbb/9hKfGmGZ
- UYRjZ3dt7Qhds9hZ1JyD7S3a7f5gEdEUbLRG9s5ErRyzrJ/dF/FZX6JhT+UPK07Fmbf+0XNi
- v87vqXX5o2I1rO/Q+O/8KeVheY1OUVdMD7y1dtWJYmNo18zPPsozii390r6Pnhip4D0NVdVm
- 71YKZ1RycQimZ+T/AhF2dn98BAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrCIsWRmVeSWpSXmKPExsWy7bCSvO7NprPxBlfWClm8+/SU1WL+kXOs
- Fqs/Pma0uPL1PZvF9L2b2CxaZi1isTh/fgO7xdana5gszja9Ybe4vGsOm8Xn3iOMFp1fZrFZ
- XDzlanG7cQWbxaS1Uxktzj7ztmjde4Td4t+1jSwWP3fNY7HY/OAYm4OIx/sbreweO2fdZfe4
- dO4Ps8emVZ1sHneu7WHzuN99nMmjt/kdm0ffllWMHp83yQVwRnHZpKTmZJalFunbJXBl9DV/
- YS64p1dxpPsGSwPjWtUuRg4OCQETieZ5xl2MXBxCArsZJR58u8HaxcgJFJeUmHbxKDNEjbDE
- 4cPFIGEhgbeMEs3HPEFsYYEkiX2/l7CA9IoI3GWRmPTjFhuIwywwg1Hiz4aN7BBTtwF1TG5n
- B2lhE9CS2P/iBhuIzS+gKHH1x2NGkA28AnYSv9/FgYRZBFQkrk48xQRiiwqESexc8hjM5hUQ
- lDg58wkLSDmngLnErNdSIGFmAXWJP/MuMUPY4hK3nsxngrDlJba/ncM8gVF4FpLuWUhaZiFp
- mYWkZQEjyypGydSC4tz03GLDAsO81HK94sTc4tK8dL3k/NxNjOCI19Lcwbh91Qe9Q4xMHIyH
- GCU4mJVEeNWkzsYL8aYkVlalFuXHF5XmpBYfYpTmYFES573QdTJeSCA9sSQ1OzW1ILUIJsvE
- wSnVwNQY/m+hj5TPjYQT9Yq6LL0uZza9unr6huIyy0M+d/bO5NwSnZ92I1t/yzJnxtbTR1w9
- e74sYyuI/h+vYmzO7+Ya8SfrtVbUeuuUzX/FKqcpzO5/lr+rrvO/e4pCmkLrksOqBYdlPeVd
- cq/M1nnJPO97TmTPpN1hZ5IELG/ecfmeHjdv+rRZ+8UZGRbzPRH4H1l8d80NQeOjQXkz5zz8
- yW2X6Bmo8PrzoWf6HVnlDH/W8ZTFXZJMOhbi9YdPJr5ILeDv9Rqp4OhH92cUb7ead/fXa64C
- iwsPzmw0T7oknV+4J+0i/+eim4ffMFxQ/BT8lqMqJ+9V/mdB1R0ml6p23Yz/+8XuSO7Rp3vT
- Vt/NVlBiKc5INNRiLipOBAArhXXnZwMAAA==
-X-CMS-MailID: 20201207011817epcas1p294a176e9b21c1536b54c26b38ca8ba30
-X-Msg-Generator: CA
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201203192730epcas1p1005aa9bcd60748dd9ecc0374349aac8b
-References: <20201203192439.16177-1-digetx@gmail.com>
- <CGME20201203192730epcas1p1005aa9bcd60748dd9ecc0374349aac8b@epcas1p1.samsung.com>
- <20201203192439.16177-11-digetx@gmail.com>
+In-Reply-To: <20201206172242.1249689-1-marmarek@invisiblethingslab.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,187 +47,287 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:DRM DRIVERS FOR XEN" <dri-devel@lists.freedesktop.org>,
+ Yan Yankovskyi <yyankovskyi@gmail.com>,
+ open list <linux-kernel@vger.kernel.org>, stable@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, Simon Leiner <simon@leiner.me>,
+ Roger Pau Monne <roger.pau@citrix.com>
+Content-Type: multipart/mixed; boundary="===============1942258228=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/20 4:24 AM, Dmitry Osipenko wrote:
-> Previously we were using count-weight of the T124 for T30 in order to
-> get EMC clock rate that was reasonable for T30. In fact the count-weight
-> should be x2 times smaller on T30, but then devfreq was producing a bit
-> too low EMC clock rate for ISO memory clients, like display controller
-> for example.
-> 
-> Now both Tegra ACTMON and Tegra DRM display drivers support interconnect
-> framework and display driver tells to ICC what a minimum memory bandwidth
-> is needed, preventing FIFO underflows. Thus, now we can use a proper
-> count-weight value for Tegra30 and MC_ALL device config needs a bit more
-> aggressive boosting.
-> 
-> Add a separate ACTMON driver configuration that is specific to Tegra30.
-> 
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/devfreq/tegra30-devfreq.c | 68 ++++++++++++++++++++++++-------
->  1 file changed, 54 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/devfreq/tegra30-devfreq.c b/drivers/devfreq/tegra30-devfreq.c
-> index 145ef91ae092..117cad7968ab 100644
-> --- a/drivers/devfreq/tegra30-devfreq.c
-> +++ b/drivers/devfreq/tegra30-devfreq.c
-> @@ -57,13 +57,6 @@
->  #define ACTMON_BELOW_WMARK_WINDOW				3
->  #define ACTMON_BOOST_FREQ_STEP					16000
->  
-> -/*
-> - * Activity counter is incremented every 256 memory transactions, and each
-> - * transaction takes 4 EMC clocks for Tegra124; So the COUNT_WEIGHT is
-> - * 4 * 256 = 1024.
-> - */
-> -#define ACTMON_COUNT_WEIGHT					0x400
-> -
->  /*
->   * ACTMON_AVERAGE_WINDOW_LOG2: default value for @DEV_CTRL_K_VAL, which
->   * translates to 2 ^ (K_VAL + 1). ex: 2 ^ (6 + 1) = 128
-> @@ -111,7 +104,7 @@ enum tegra_actmon_device {
->  	MCCPU,
->  };
->  
-> -static const struct tegra_devfreq_device_config actmon_device_configs[] = {
-> +static const struct tegra_devfreq_device_config tegra124_device_configs[] = {
->  	{
->  		/* MCALL: All memory accesses (including from the CPUs) */
->  		.offset = 0x1c0,
-> @@ -133,6 +126,28 @@ static const struct tegra_devfreq_device_config actmon_device_configs[] = {
->  	},
->  };
->  
-> +static const struct tegra_devfreq_device_config tegra30_device_configs[] = {
-> +	{
-> +		/* MCALL: All memory accesses (including from the CPUs) */
-> +		.offset = 0x1c0,
-> +		.irq_mask = 1 << 26,
-> +		.boost_up_coeff = 200,
-> +		.boost_down_coeff = 50,
-> +		.boost_up_threshold = 20,
-> +		.boost_down_threshold = 10,
-> +	},
-> +	{
-> +		/* MCCPU: memory accesses from the CPUs */
-> +		.offset = 0x200,
-> +		.irq_mask = 1 << 25,
-> +		.boost_up_coeff = 800,
-> +		.boost_down_coeff = 40,
-> +		.boost_up_threshold = 27,
-> +		.boost_down_threshold = 10,
-> +		.avg_dependency_threshold = 16000, /* 16MHz in kHz units */
-> +	},
-> +};
-> +
->  /**
->   * struct tegra_devfreq_device - state specific to an ACTMON device
->   *
-> @@ -155,6 +170,12 @@ struct tegra_devfreq_device {
->  	unsigned long target_freq;
->  };
->  
-> +struct tegra_devfreq_soc_data {
-> +	const struct tegra_devfreq_device_config *configs;
-> +	/* Weight value for count measurements */
-> +	unsigned int count_weight;
-> +};
-> +
->  struct tegra_devfreq {
->  	struct devfreq		*devfreq;
->  	struct opp_table	*opp_table;
-> @@ -171,11 +192,13 @@ struct tegra_devfreq {
->  	struct delayed_work	cpufreq_update_work;
->  	struct notifier_block	cpu_rate_change_nb;
->  
-> -	struct tegra_devfreq_device devices[ARRAY_SIZE(actmon_device_configs)];
-> +	struct tegra_devfreq_device devices[2];
->  
->  	unsigned int		irq;
->  
->  	bool			started;
-> +
-> +	const struct tegra_devfreq_soc_data *soc;
->  };
->  
->  struct tegra_actmon_emc_ratio {
-> @@ -488,7 +511,7 @@ static void tegra_actmon_configure_device(struct tegra_devfreq *tegra,
->  	tegra_devfreq_update_avg_wmark(tegra, dev);
->  	tegra_devfreq_update_wmark(tegra, dev);
->  
-> -	device_writel(dev, ACTMON_COUNT_WEIGHT, ACTMON_DEV_COUNT_WEIGHT);
-> +	device_writel(dev, tegra->soc->count_weight, ACTMON_DEV_COUNT_WEIGHT);
->  	device_writel(dev, ACTMON_INTR_STATUS_CLEAR, ACTMON_DEV_INTR_STATUS);
->  
->  	val |= ACTMON_DEV_CTRL_ENB_PERIODIC;
-> @@ -779,6 +802,8 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  	if (!tegra)
->  		return -ENOMEM;
->  
-> +	tegra->soc = of_device_get_match_data(&pdev->dev);
-> +
->  	tegra->regs = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(tegra->regs))
->  		return PTR_ERR(tegra->regs);
-> @@ -852,9 +877,9 @@ static int tegra_devfreq_probe(struct platform_device *pdev)
->  
->  	tegra->max_freq = rate / KHZ;
->  
-> -	for (i = 0; i < ARRAY_SIZE(actmon_device_configs); i++) {
-> +	for (i = 0; i < ARRAY_SIZE(tegra->devices); i++) {
->  		dev = tegra->devices + i;
-> -		dev->config = actmon_device_configs + i;
-> +		dev->config = tegra->soc->configs + i;
->  		dev->regs = tegra->regs + dev->config->offset;
->  	}
->  
-> @@ -916,9 +941,24 @@ static int tegra_devfreq_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const struct tegra_devfreq_soc_data tegra124_soc = {
-> +	.configs = tegra124_device_configs,
-> +
-> +	/*
-> +	 * Activity counter is incremented every 256 memory transactions,
-> +	 * and each transaction takes 4 EMC clocks.
-> +	 */
-> +	.count_weight = 4 * 256,
-> +};
-> +
-> +static const struct tegra_devfreq_soc_data tegra30_soc = {
-> +	.configs = tegra30_device_configs,
-> +	.count_weight = 2 * 256,
-> +};
-> +
->  static const struct of_device_id tegra_devfreq_of_match[] = {
-> -	{ .compatible = "nvidia,tegra30-actmon" },
-> -	{ .compatible = "nvidia,tegra124-actmon" },
-> +	{ .compatible = "nvidia,tegra30-actmon",  .data = &tegra30_soc, },
-> +	{ .compatible = "nvidia,tegra124-actmon", .data = &tegra124_soc, },
->  	{ },
->  };
->  
-> 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1942258228==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="6ekrWC7Imvf7QM0ISrUV82GBc9sxpxUVx"
 
-Applied it. Thanks.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6ekrWC7Imvf7QM0ISrUV82GBc9sxpxUVx
+Content-Type: multipart/mixed; boundary="eZcwrVuZPjphx6y9vxccT9GtWokI6VlsT";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?=
+ <marmarek@invisiblethingslab.com>, xen-devel@lists.xenproject.org
+Cc: stable@vger.kernel.org,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Simon Leiner <simon@leiner.me>,
+ Yan Yankovskyi <yyankovskyi@gmail.com>,
+ Roger Pau Monne <roger.pau@citrix.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DRM DRIVERS FOR XEN" <dri-devel@lists.freedesktop.org>
+Message-ID: <e04a91c2-3e2e-7052-14fc-9915f9cf6589@suse.com>
+Subject: Re: [PATCH] Revert "xen: add helpers to allocate unpopulated memory"
+References: <20201206172242.1249689-1-marmarek@invisiblethingslab.com>
+In-Reply-To: <20201206172242.1249689-1-marmarek@invisiblethingslab.com>
 
--- 
-Best Regards,
-Chanwoo Choi
-Samsung Electronics
+--eZcwrVuZPjphx6y9vxccT9GtWokI6VlsT
+Content-Type: multipart/mixed;
+ boundary="------------162D6435A12428CB18F39909"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------162D6435A12428CB18F39909
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+On 06.12.20 18:22, Marek Marczykowski-G=C3=B3recki wrote:
+> This reverts commit 9e2369c06c8a181478039258a4598c1ddd2cadfa.
+>=20
+> On a Xen PV dom0, with NVME disk, this makes the dom0 crash when starti=
+ng
+> a domain. This looks like some bad interaction between xen-blkback and
+
+xen-scsiback has the same use pattern.
+
+> NVME driver, both using ZONE_DEVICE. Since the author is on leave now,
+> revert the change until proper solution is developed.
+>=20
+> The specific crash message is:
+>=20
+>      general protection fault, probably for non-canonical address 0xdea=
+d000000000100: 0000 [#1] SMP NOPTI
+>      CPU: 1 PID: 134 Comm: kworker/u12:2 Not tainted 5.9.9-1.qubes.x86_=
+64 #1
+>      Hardware name: LENOVO 20M9CTO1WW/20M9CTO1WW, BIOS N2CET50W (1.33 )=
+ 01/15/2020
+>      Workqueue: dm-thin do_worker [dm_thin_pool]
+>      RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
+>      Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 =
+8b 02 48 c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8=
+ d0 00 00 00 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
+>      RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
+>      RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
+>      RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
+>      RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
+>      R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
+>      R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
+>      FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:000000=
+0000000000
+>      CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
+>      CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
+>      Call Trace:
+>       nvme_queue_rq+0xa7/0x1a0 [nvme]
+>       __blk_mq_try_issue_directly+0x11d/0x1e0
+>       ? add_wait_queue_exclusive+0x70/0x70
+>       blk_mq_try_issue_directly+0x35/0xc0l[
+>       blk_mq_submit_bio+0x58f/0x660
+>       __submit_bio_noacct+0x300/0x330
+>       process_shared_bio+0x126/0x1b0 [dm_thin_pool]
+>       process_cell+0x226/0x280 [dm_thin_pool]
+>       process_thin_deferred_cells+0x185/0x320 [dm_thin_pool]
+>       process_deferred_bios+0xa4/0x2a0 [dm_thin_pool]UX
+>       do_worker+0xcc/0x130 [dm_thin_pool]
+>       process_one_work+0x1b4/0x370
+>       worker_thread+0x4c/0x310
+>       ? process_one_work+0x370/0x370
+>       kthread+0x11b/0x140
+>       ? __kthread_bind_mask+0x60/0x60<
+>       ret_from_fork+0x22/0x30
+>      Modules linked in: loop snd_seq_dummy snd_hrtimer nf_tables nfnetl=
+ink vfat fat snd_sof_pci snd_sof_intel_byt snd_sof_intel_ipc snd_sof_inte=
+l_hda_common snd_soc_hdac_hda snd_sof_xtensa_dsp snd_sof_intel_hda snd_so=
+f snd_soc_skl snd_soc_sst_
+>      ipc snd_soc_sst_dsp snd_hda_ext_core snd_soc_acpi_intel_match snd_=
+soc_acpi snd_soc_core snd_compress ac97_bus snd_pcm_dmaengine elan_i2c sn=
+d_hda_codec_hdmi mei_hdcp iTCO_wdt intel_powerclamp intel_pmc_bxt ee1004 =
+intel_rapl_msr iTCO_vendor
+>      _support joydev pcspkr intel_wmi_thunderbolt wmi_bmof thunderbolt =
+ucsi_acpi idma64 typec_ucsi snd_hda_codec_realtek typec snd_hda_codec_gen=
+eric snd_hda_intel snd_intel_dspcfg snd_hda_codec thinkpad_acpi snd_hda_c=
+ore ledtrig_audio int3403_
+>      thermal snd_hwdep snd_seq snd_seq_device snd_pcm iwlwifi snd_timer=
+ processor_thermal_device mei_me cfg80211 intel_rapl_common snd e1000e me=
+i int3400_thermal int340x_thermal_zone i2c_i801 acpi_thermal_rel soundcor=
+e intel_soc_dts_iosf i2c_s
+>      mbus rfkill intel_pch_thermal xenfs
+>       ip_tables dm_thin_pool dm_persistent_data dm_bio_prison dm_crypt =
+nouveau rtsx_pci_sdmmc mmc_core mxm_wmi crct10dif_pclmul ttm crc32_pclmul=
+ crc32c_intel i915 ghash_clmulni_intel i2c_algo_bit serio_raw nvme drm_km=
+s_helper cec xhci_pci nvme
+>      _core rtsx_pci xhci_pci_renesas drm xhci_hcd wmi video pinctrl_can=
+nonlake pinctrl_intel xen_privcmd xen_pciback xen_blkback xen_gntalloc xe=
+n_gntdev xen_evtchn uinput
+>      ---[ end trace f8d47e4aa6724df4 ]---
+>      RIP: e030:nvme_map_data+0x300/0x3a0 [nvme]
+>      Code: b8 fe ff ff e9 a8 fe ff ff 4c 8b 56 68 8b 5e 70 8b 76 74 49 =
+8b 02 48 c1 e8 33 83 e0 07 83 f8 04 0f 85 f2 fe ff ff 49 8b 42 08 <83> b8=
+ d0 00 00 00 04 0f 85 e1 fe ff ff e9 38 fd ff ff 8b 55 70 be
+>      RSP: e02b:ffffc900010e7ad8 EFLAGS: 00010246
+>      RAX: dead000000000100 RBX: 0000000000001000 RCX: ffff8881a58f5000
+>      RDX: 0000000000001000 RSI: 0000000000000000 RDI: ffff8881a679e000
+>      RBP: ffff8881a5ef4c80 R08: ffff8881a5ef4c80 R09: 0000000000000002
+>      R10: ffffea0003dfff40 R11: 0000000000000008 R12: ffff8881a679e000
+>      R13: ffffc900010e7b20 R14: ffff8881a70b5980 R15: ffff8881a679e000
+>      FS:  0000000000000000(0000) GS:ffff8881b5440000(0000) knlGS:000000=
+0000000000
+>      CS:  e030 DS: 0000 ES: 0000 CR0: 0000000080050033
+>      CR2: 0000000001d64408 CR3: 00000001aa2c0000 CR4: 0000000000050660
+>      Kernel panic - not syncing: Fatal exception
+>      Kernel Offset: disabled
+>=20
+> Discussion at https://lore.kernel.org/xen-devel/20201205082839.ts3ju6yt=
+a46cgwjn@Air-de-Roger/T
+>=20
+> Cc: stable@vger.kernel.org #v5.9+
+> (for 5.9 it's easier to revert the original commit directly)
+> Signed-off-by: Marek Marczykowski-G=C3=B3recki <marmarek@invisiblething=
+slab.com>
+
+Acked-by: Juergen Gross <jgross@suse.com>
+
+
+Juergen
+
+--------------162D6435A12428CB18F39909
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------162D6435A12428CB18F39909--
+
+--eZcwrVuZPjphx6y9vxccT9GtWokI6VlsT--
+
+--6ekrWC7Imvf7QM0ISrUV82GBc9sxpxUVx
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAl/NvycFAwAAAAAACgkQsN6d1ii/Ey+X
+DAf/Ug6PNIYgDFG7iWJnhxhdd9LQ1RRJqgiZKsTVO8zvyU3Bt113hUMmM3CnYFrcGEdP1jS4pu2r
+9vuhfJpOAHpnwezPBJEBjlF0MlQzuxPTSUgVdOOwkjaTJU4lElMJ83DA41IZ5Iw7U0lm9W1mhs6p
+hYVD5AV+m9h1WUtkKRt5ph0RTItPkbrIkOZOToKkPjKbtnyWuw9T/1NL1sKSObjX6axqyryiaW8R
+Hki59QtT/AKoyNJWQETeOcrOiy8E+tR9JZI4q4E7xsXLuyztnXHUobdKJwyib/64yyjey5Dz2bf0
+2uxCzz3vqy2OcDOzL2SWKFxZYvXhFHGGdIazbcW6Kw==
+=xfxw
+-----END PGP SIGNATURE-----
+
+--6ekrWC7Imvf7QM0ISrUV82GBc9sxpxUVx--
+
+--===============1942258228==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1942258228==--
