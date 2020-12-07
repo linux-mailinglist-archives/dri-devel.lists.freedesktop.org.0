@@ -2,73 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A842D2612
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A8F02D2633
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:34:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE50D6E99E;
-	Tue,  8 Dec 2020 08:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E602B6E9CB;
+	Tue,  8 Dec 2020 08:32:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E3E06E89D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 15:57:34 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id BE958580343;
- Mon,  7 Dec 2020 10:57:33 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 07 Dec 2020 10:57:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=/P9jcyS5yRxpr
- gR5rvFm1u5yanyi/AVPh2xxmQDXFp0=; b=IWkEq9xwWMTl6VL+cOp98D2VXQ2Sc
- UM7Gh2euyrC/gzOrkSDVRv4qlplxRzNhcaR9aEEs2UM6rlK5kiVEG99sw56gwRne
- GR7hlx6g1w8k9yURWpsiiom6tAYtt6J0lInO3kZRnZpLT2RnA3Sxwc9pf9ou7gz2
- nYNh4Yr7SUb6p5sseFbjhPF1JYzvqdik+jLOFDYcmCl46LAZChKb2P6qjH/C4pDD
- kp9eBigTbdT4aLXtH89xqZifLVbS0BfxIxYvoH+4QIYnZweDzSkFKFwN0slYssgc
- gmZLjs6YcgtueUNfqVvHsta832jV+ByjVbwKPNz3i5w/JQirorVoLw9UQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=/P9jcyS5yRxprgR5rvFm1u5yanyi/AVPh2xxmQDXFp0=; b=SW+9Buzb
- c1AAlDqpApslSyA17n6vvp9W+BUDL2hCwAE3eYQZNxAOT4kELWmE6psOqeUKkBJG
- 9kbpeH1PlOmdxe+mB2A+75DYoKDscTI4AAX20d/e74NeYb54K0wXV9cjRavKtoMs
- knOfZZSxCghZsbPf55OmpPykoOdg+obiwGmGy5O+1SZgT0pbSvxb3Sl8TwOf6kYU
- z968pd4DDo2t1rW9whp4BTi5SwMlrDjqKM5fNMdzJef9/jjkMoPgRY3blWtpWcgm
- 3gzzstG9kNjVOSigjf1FfT5i9Dv0/Xb/WVbfhT5XqLGaLteTRvY4fDP/hcUSrxaK
- hVByNabSqCM1hw==
-X-ME-Sender: <xms:7VDOXxppUXECrBM4jENT5qykyL0-bw934J8-xWqchvTBUcrSdy6kUA>
- <xme:7VDOXzo4BRyUJFc0jyZ4BYl1XJokJ9jIg52ZuGGlc3_cY4oomJIBTUvZGefByvf6o
- 1WRIxK8tlke1clSVLI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgkedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepvdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:7VDOX-Nklbfc6MErcSxhIUIfRqzIME9eNokaR13dLmjqwhKXLeOGxw>
- <xmx:7VDOX85SZ4MJ5erp482LtWu2xbVuXBrkCqDcyMvRU5CUjhZKa06SYA>
- <xmx:7VDOXw4aj_0P3NvTT25BpFMtjIK-7UPyRTfi5q6fg6X1mRa1yW6u6g>
- <xmx:7VDOXytMQ9a7hJeEqBisa-Tcn0H8V02CUPZ_On1O3Arpr6Mxya8PmA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3B9DF1080063;
- Mon,  7 Dec 2020 10:57:33 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v5 9/9] drm/vc4: hdmi: Enable 10/12 bpc output
-Date: Mon,  7 Dec 2020 16:57:19 +0100
-Message-Id: <20201207155719.17149-10-maxime@cerno.tech>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201207155719.17149-1-maxime@cerno.tech>
-References: <20201207155719.17149-1-maxime@cerno.tech>
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31A4D6E854
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 16:44:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=hWgEFWxtA5vHvY/cTLZIg3kHkIKYysgYUsDBGEkeogk=; b=vs6tHrh4pKe3hJSYy5Xe3Ww+0a
+ HSwtec2B3U9FmlLXWwJocucnGcLp9KhCe0sXThZ2CWB+W2FoPPL4jgPZ2mZKkPUlS6UPZoU9YHHUV
+ Lxo1HVMefaxyzIxFMqts04Z90zwT6dVEuN+VrgXWyHz8+nZQS/9H1n8bosuAlYXFHIqmE/EQuKvCc
+ uUgihOZi7rGoTtkXqjxaSfH6i0mITrt6pOIquJmISGSTv4e1y0nRLz5wGDKJPnUEJ7u7xk97DzV+w
+ c0Yg1nBfBk2tk51ET0AK0RMkRMFDFsu/Zu56iVo7PFeTH2bYydYYq7qf2wqSUiFmyz0imHE2RQ+kC
+ u65ItD1g==;
+Received: from [2601:1c0:6280:3f0::1494]
+ by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+ id 1kmJbj-00031f-GG; Mon, 07 Dec 2020 16:43:28 +0000
+Subject: Re: [PATCH v3 02/13] video: fbdev: core: Fix kernel-doc warnings in
+ fbmon + fb_notify
+To: Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>, 
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Lee Jones <lee.jones@linaro.org>
+References: <20201206190247.1861316-1-sam@ravnborg.org>
+ <20201206190247.1861316-3-sam@ravnborg.org>
+ <0fb6ff8b-bea3-c5bc-0d37-8a5fdab41abc@infradead.org>
+ <dd81dd0e-9701-8332-63eb-2f159c535d02@suse.de>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <d144fe12-8f05-464e-3c1f-272999b39311@infradead.org>
+Date: Mon, 7 Dec 2020 08:43:17 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <dd81dd0e-9701-8332-63eb-2f159c535d02@suse.de>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,222 +56,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rpi-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Rich Felker <dalias@libc.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+ Peter Zijlstra <peterz@infradead.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Qilong Zhang <zhangqilong3@huawei.com>,
+ Thomas Winischhofer <thomas@winischhofer.net>,
+ Douglas Anderson <dianders@chromium.org>,
+ Gustavo A R Silva <gustavoars@kernel.org>, Tony Prisk <linux@prisktech.co.nz>,
+ Andrzej Hajda <a.hajda@samsung.com>, Peter Jones <pjones@redhat.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Mike Rapoport <rppt@kernel.org>,
+ Alexander Klimov <grandmaster@al2klimov.de>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Colin Ian King <colin.king@canonical.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 supports higher bpc count than just 8, so let's support it in
-our driver.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c      | 71 ++++++++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_hdmi.h      |  1 +
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  9 ++++
- 3 files changed, 80 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index f4ff6b5db484..fb30ddd842b1 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -76,6 +76,17 @@
- #define VC5_HDMI_VERTB_VSPO_SHIFT		16
- #define VC5_HDMI_VERTB_VSPO_MASK		VC4_MASK(29, 16)
- 
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_SHIFT	8
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK	VC4_MASK(10, 8)
-+
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_SHIFT		0
-+#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK		VC4_MASK(3, 0)
-+
-+#define VC5_HDMI_GCP_CONFIG_GCP_ENABLE		BIT(31)
-+
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_SHIFT	8
-+#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK	VC4_MASK(15, 8)
-+
- # define VC4_HD_M_SW_RST			BIT(2)
- # define VC4_HD_M_ENABLE			BIT(0)
- 
-@@ -179,6 +190,9 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
- 
- 	kfree(connector->state);
- 
-+	conn_state->base.max_bpc = 8;
-+	conn_state->base.max_requested_bpc = 8;
-+
- 	__drm_atomic_helper_connector_reset(connector, &conn_state->base);
- 
- 	if (connector->state)
-@@ -228,12 +242,20 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
- 				    vc4_hdmi->ddc);
- 	drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
- 
-+	/*
-+	 * Some of the properties below require access to state, like bpc.
-+	 * Allocate some default initial connector state with our reset helper.
-+	 */
-+	if (connector->funcs->reset)
-+		connector->funcs->reset(connector);
-+
- 	/* Create and attach TV margin props to this connector. */
- 	ret = drm_mode_create_tv_margin_properties(dev);
- 	if (ret)
- 		return ret;
- 
- 	drm_connector_attach_tv_margin_properties(connector);
-+	drm_connector_attach_max_bpc_property(connector, 8, 12);
- 
- 	connector->polled = (DRM_CONNECTOR_POLL_CONNECT |
- 			     DRM_CONNECTOR_POLL_DISCONNECT);
-@@ -499,6 +521,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
- }
- 
- static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
-+				 struct drm_connector_state *state,
- 				 struct drm_display_mode *mode)
- {
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -542,7 +565,9 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
- 	HDMI_WRITE(HDMI_VERTB1, vertb);
- }
-+
- static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
-+				 struct drm_connector_state *state,
- 				 struct drm_display_mode *mode)
- {
- 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
-@@ -562,6 +587,9 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 					mode->crtc_vsync_end -
- 					interlaced,
- 					VC4_HDMI_VERTB_VBP));
-+	unsigned char gcp;
-+	bool gcp_en;
-+	u32 reg;
- 
- 	HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
- 	HDMI_WRITE(HDMI_HORZA,
-@@ -587,6 +615,39 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
- 	HDMI_WRITE(HDMI_VERTB0, vertb_even);
- 	HDMI_WRITE(HDMI_VERTB1, vertb);
- 
-+	switch (state->max_bpc) {
-+	case 12:
-+		gcp = 6;
-+		gcp_en = true;
-+		break;
-+	case 10:
-+		gcp = 5;
-+		gcp_en = true;
-+		break;
-+	case 8:
-+	default:
-+		gcp = 4;
-+		gcp_en = false;
-+		break;
-+	}
-+
-+	reg = HDMI_READ(HDMI_DEEP_COLOR_CONFIG_1);
-+	reg &= ~(VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK |
-+		 VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK);
-+	reg |= VC4_SET_FIELD(2, VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE) |
-+	       VC4_SET_FIELD(gcp, VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH);
-+	HDMI_WRITE(HDMI_DEEP_COLOR_CONFIG_1, reg);
-+
-+	reg = HDMI_READ(HDMI_GCP_WORD_1);
-+	reg &= ~VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK;
-+	reg |= VC4_SET_FIELD(gcp, VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1);
-+	HDMI_WRITE(HDMI_GCP_WORD_1, reg);
-+
-+	reg = HDMI_READ(HDMI_GCP_CONFIG);
-+	reg &= ~VC5_HDMI_GCP_CONFIG_GCP_ENABLE;
-+	reg |= gcp_en ? VC5_HDMI_GCP_CONFIG_GCP_ENABLE : 0;
-+	HDMI_WRITE(HDMI_GCP_CONFIG, reg);
-+
- 	HDMI_WRITE(HDMI_CLOCK_STOP, 0);
- }
- 
-@@ -724,7 +785,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 		   VC4_HDMI_SCHEDULER_CONTROL_IGNORE_VSYNC_PREDICTS);
- 
- 	if (vc4_hdmi->variant->set_timings)
--		vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
-+		vc4_hdmi->variant->set_timings(vc4_hdmi, conn_state, mode);
- }
- 
- static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
-@@ -845,6 +906,14 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 		pixel_rate = mode->clock * 1000;
- 	}
- 
-+	if (conn_state->max_bpc == 12) {
-+		pixel_rate = pixel_rate * 150;
-+		do_div(pixel_rate, 100);
-+	} else if (conn_state->max_bpc == 10) {
-+		pixel_rate = pixel_rate * 125;
-+		do_div(pixel_rate, 100);
-+	}
-+
- 	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
- 		pixel_rate = pixel_rate * 2;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 60c53d7c9bad..4c8994cfd932 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -77,6 +77,7 @@ struct vc4_hdmi_variant {
- 
- 	/* Callback to configure the video timings in the HDMI block */
- 	void (*set_timings)(struct vc4_hdmi *vc4_hdmi,
-+			    struct drm_connector_state *state,
- 			    struct drm_display_mode *mode);
- 
- 	/* Callback to initialize the PHY according to the connector state */
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-index 7c6b4818f245..013fd57febd8 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
-@@ -59,9 +59,12 @@ enum vc4_hdmi_field {
- 	 */
- 	HDMI_CTS_0,
- 	HDMI_CTS_1,
-+	HDMI_DEEP_COLOR_CONFIG_1,
- 	HDMI_DVP_CTL,
- 	HDMI_FIFO_CTL,
- 	HDMI_FRAME_COUNT,
-+	HDMI_GCP_CONFIG,
-+	HDMI_GCP_WORD_1,
- 	HDMI_HORZA,
- 	HDMI_HORZB,
- 	HDMI_HOTPLUG,
-@@ -229,6 +232,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi0_fields[] = {
- 	VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
-+	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
-+	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
-@@ -305,6 +311,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi1_fields[] = {
- 	VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
- 	VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
- 	VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
-+	VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
-+	VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
-+	VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
- 	VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
- 
- 	VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
--- 
-2.28.0
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTIvNy8yMCAxMjoxNiBBTSwgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6Cj4gSGkKPiAKPiBB
+bSAwNi4xMi4yMCB1bSAyMDozNyBzY2hyaWViIFJhbmR5IER1bmxhcDoKPj4gT24gMTIvNi8yMCAx
+MTowMiBBTSwgU2FtIFJhdm5ib3JnIHdyb3RlOgo+Pj4gRml4IGtlcm5lbC1kb2Mgd2FybmluZ3Mg
+cmVwb3J0ZWQgd2hlbiB1c2luZyBXPTEKPj4+Cj4+PiB2MjoKPj4+IMKgwqAgLSBJbXByb3ZlIHN1
+YmplY3QgKExlZSkKPj4+Cj4+PiB2MzoKPj4+IMKgwqAgLSBBZGQgUkVUVVJOUyBkb2N1bWVudGF0
+aW9uIChUaG9tYXMpCj4+Cj4+IEhpIFNhbSwKPj4KPj4gWWVzLCBSRVRVUk5TOiB3aWxsIHdvcmsu
+IEl0IGp1c3QgbG9va3MgbGlrZSBhbnkga2VybmVsLWRvYyBzZWN0aW9uIG5hbWUsCj4+IHN1Y2gg
+YXMgQ29udGV4dDogb3IgTm90ZTouCj4+IEhvd2V2ZXIsIHRoZSBkb2N1bWVudGVkIGZvcm1hdCBm
+b3IgcmV0dXJuIGluZm8gaXMgIlJldHVybjoiLgo+PiAoc2VlIERvY3VtZW50YXRpb24vZG9jLWd1
+aWRlL2tlcm5lbC1kb2MucnN0KQo+IAo+IFRoYW5rcyBmb3IgdGhlIG5vdGUuIEkgYXNrZWQgZm9y
+IFJFVFVSTlM6IGJlY2F1c2UgdGhlIHJlc3Qgb2YgdGhlIGZpbGUgYXBwZWFycyB0byBiZSB1c2lu
+ZyBpdC4gUmV0dXJuczogaXMgY2VydGFpbmx5IHRoZSBiZXR0ZXIgYWx0ZXJuYXRpdmUuIEkgZGlk
+bid0IGtub3cgdGhlcmUgd2FzIGEgZGlmZmVyZW5jZS4KPiAKPiBCZXN0IHJlZ2FyZHMKPiBUaG9t
+YXMKPiAKCkknbSBub3QgaW5zaXN0aW5nIG9uIHVzaW5nIFJldHVybjoKSXQgY2FuIHN0YXkgdGhl
+IHNhbWUgYXMgdGhlIHJlc3Qgb2YgdGhlIGZpbGUgSU1PLgoKPj4KPj4KPj4+IFNpZ25lZC1vZmYt
+Ynk6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9yZz4KPj4+IENjOiBMZWUgSm9uZXMgPGxl
+ZS5qb25lc0BsaW5hcm8ub3JnPgo+Pj4gQ2M6IFNhbSBSYXZuYm9yZyA8c2FtQHJhdm5ib3JnLm9y
+Zz4KPj4+IENjOiBSYW5keSBEdW5sYXAgPHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KPj4+IENjOiBC
+YXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+Cj4+PiBD
+YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsLnZldHRlckBmZndsbC5jaD4KPj4+IENjOiAiQWxleGFu
+ZGVyIEEuIEtsaW1vdiIgPGdyYW5kbWFzdGVyQGFsMmtsaW1vdi5kZT4KPj4+IC0tLQo+Pj4gwqAg
+ZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX25vdGlmeS5jIHwgMTAgKysrKysrKysrKwo+Pj4g
+wqAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZibW9uLmPCoMKgwqDCoCB8wqAgMiArLQo+Pj4g
+wqAgMiBmaWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgoKLS0g
+Cn5SYW5keQoKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
+ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
