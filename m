@@ -1,72 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0ED2D261E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:33 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EFF2D25F1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D796E997;
-	Tue,  8 Dec 2020 08:32:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 285DF6E94A;
+	Tue,  8 Dec 2020 08:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3607A89933
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 15:56:16 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 969EE5C012E;
- Mon,  7 Dec 2020 10:56:15 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 07 Dec 2020 10:56:15 -0500
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1108F89933
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 15:57:23 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 606A0580237;
+ Mon,  7 Dec 2020 10:57:22 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 07 Dec 2020 10:57:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=+bNT2iEDtXhxlbg2H3Dg5gfon7s
- YjPMSJtgn7TZKtWw=; b=NgkSvHJA2tIq3OXHTa/UXizK6ZB7w66rQxBp3e4L7ps
- 9jW8Z7IDiDPejAYv8UbfXcCm8xPtX7PC8VraIJ3qVAMM/HA2MwVRKNVo2GWI+Oq5
- a8mwYkzsl++t1QIBB92SO53hwYBX4Xla2OOLSgsfLlkVMvZaMkZE1HRwLmsYHZs2
- c5rEI/lrtpYT2hMoBhy9J9s9r4Bw9T667KvEISt15eOj7JKK3QL3udtixuHKRzVI
- YsK3qS7cl+I9nI3OLoQhBWCA7V634J6mWSW1VagD1ZmQeyngmsQaYYKNy0Zl4KQ0
- u/sJlTsCbEoSfEH7Ic/ehx0c8NU9n4FYUWayaISyEGg==
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=TtGQA1h6fp+ZI8YL2Jf+o7p869
+ HAvITYSWkhrx1Th78=; b=kppA39ZUbBzIf6so0mmK/FcoZZHlUUZRk9LJQOWyhM
+ SwthP/ml3mo5IptZIeF0eJU74aokzQ7HEuxyYA61b4XX5S/TEBdSM8c4CsVLzOLW
+ Kmbqh7pUDtu/vZWefWsZPYsQhbWwsz+S+baEilpU6c2BHgvzCHQQjRTWWqbVdXE0
+ HGq0zEeoNqE0iBpXze9fo984waCOCqE5e969JrgyCLqRCubW49Mbni79SxpvefTJ
+ kljadZvBD5KZuOBGLkfnx57f9q5TLyPLXVazzStQFIyeccfgShhLWTXQL1y0LfV9
+ KAhvd2KpjBcse/L9HO7IN8ecvlw9Yu50p+pjOkFv0sZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+bNT2i
- EDtXhxlbg2H3Dg5gfon7sYjPMSJtgn7TZKtWw=; b=clcLGP27DV41FJAuHafVSk
- m8EVH92XLL85NzMsefCNtYchy5wwMD53KE1xB0Uyp9hqAQ20AxeuYe1dJMmM2geS
- j5p4AEZuP1i4OV+q5fkvd+k1LaON6vsNi+cDKIRA+BVZ35fInLLj3GWVP0F9UZTP
- iD9MS4zWR2yDemefx63kcZsk7I668Kryk6dmXf21+AVQ3AeihpfXmqs5p69Ae7X6
- qj2qKBD/8qpWY9LOjsnaRlx18zbx8s4EmN+R4vZJdVrSqDy/jO/GMawiDC1g/pqW
- F81N3jvtm55kidNV1eXPHLmOUldr8903Jw96QL9Uoyc0u1I+iA0sIixtdnlSNm/w
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TtGQA1
+ h6fp+ZI8YL2Jf+o7p869HAvITYSWkhrx1Th78=; b=aV3cn64Xwn+kXxDcsEfJUv
+ IF2xM31yAz0uUQCaP10eWoHCNneqWy6OvWq6uUCp3TMffqa1tXuLGI2Zkna82Mft
+ 9iu7R0Rmf+6tiYcKO6LYiuizdRucKXjjP0u+Sjx+173LkSTQ2f4BTZjCU+37gs/L
+ x5ni19C8Gp8Mewkt3XSSTVHpgUVvUxGinIKeTwKVP8a4S76A5DIEzhObqY+xx+tk
+ I3h3aOAw8e9AD0AIJc2KiYUPTnpwnP8eoeTfmFFHe5k3JaB5uQfrQsT9olSyncEJ
+ tYr9BezNAN1cpw6NOfflf5jvbtRdaDcaG08ddSytWVTlWj/E7zJ3CuJKNBAy/BCw
  ==
-X-ME-Sender: <xms:nlDOXwvL9LSn8x3p6bd6xkunts85f5-eTtCuar1N_5j1v6PnI1FO2Q>
- <xme:nlDOX9bWPxuGJW4RsNRTMaM3IvE8QC5pNRhe1N7x88_ztJ-p9y9vlGAvKTWc71vd8
- W72dMFNqhQ0QHj8GeU>
+X-ME-Sender: <xms:4FDOX4pX5-g1W20rNogClefXlX8M4I8Ct1UYaXLaLzJIAlX_EP9Oew>
+ <xme:4FDOX-pdVKr3eJBuKVOAZLO2JV7sWSJmpmxyFJuzUEMF3_qwEVc7kuTvw35lE18FA
+ qKXO6hwUOX5S_216Pc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgkedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:nlDOX4qynzcy1bpuVVXQz81B9TarzK3wdNPpEr9pq9SmTsESrISomg>
- <xmx:nlDOX6_tSS6GgzS7_WmwAmHcTzyojfEn6n302Beyb54vIPN2AQEd8g>
- <xmx:nlDOX_92WA9Zp61VNpC7J-j2XrGvHO6o11As4-PwZO7DdoswcnkeZA>
- <xmx:n1DOX8iHz2WNw0pUNf3vkb61wSDK2s078IQw1oRv-x58OIvCuSJ6aA>
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:4VDOX9OQZMlCMUHC_xhIN9x9b-Iwx7sYPommc2MBdimBhtSTkXZo3Q>
+ <xmx:4VDOX_6nVtuyjFDj9IomRg6GIAiyCzh-M-IztxV_w7HY11poFdquZw>
+ <xmx:4VDOX35_P5242ILWPaZb8hbA9GmiSe3SZ1RzgEfO2rLHBZ5AJXwxUA>
+ <xmx:4lDOXxtU9eJmxuMKi7yh_z1tij8n5M3zfeOxs4RmPYGsnjXhPtUZIA>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0A59B240064;
- Mon,  7 Dec 2020 10:56:13 -0500 (EST)
-Date: Mon, 7 Dec 2020 16:56:12 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id BCE631080063;
+ Mon,  7 Dec 2020 10:57:20 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v4 2/8] drm/vc4: Pass the atomic state to encoder hooks
-Message-ID: <20201207155612.3tshmsh46qdsuwha@gilmour>
-References: <20201207133948.2109194-1-maxime@cerno.tech>
- <20201207133948.2109194-3-maxime@cerno.tech>
- <69f099da-fa12-c370-2a9b-44b1d6afc6df@suse.de>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Eric Anholt <eric@anholt.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH v5 0/9] drm/vc4: hdmi: Support the 10/12 bit output
+Date: Mon,  7 Dec 2020 16:57:10 +0100
+Message-Id: <20201207155719.17149-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <69f099da-fa12-c370-2a9b-44b1d6afc6df@suse.de>
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,69 +80,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============1953735565=="
+Cc: linux-rpi-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============1953735565==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="v5xkit52ygg7bted"
-Content-Disposition: inline
+Here's some patches to enable the HDR output in the RPi4/BCM2711 HDMI
+controller.
 
-
---v5xkit52ygg7bted
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 07, 2020 at 03:16:40PM +0100, Thomas Zimmermann wrote:
->=20
->=20
-> Am 07.12.20 um 14:39 schrieb Maxime Ripard:
-> > We'll need to access the connector state in our encoder setup, so let's
-> > just pass the whole DRM state to our private encoder hooks.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> This becomes relevant in patch 5, I guess?
-
-Yep, we can't access the connector state from the crtc state alone,
-hence why the change is needed.
-
-> If so
->=20
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Thanks!
+Let me know what you think,
 Maxime
 
---v5xkit52ygg7bted
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes from v4:
+  - Added the tags from Thomas
+  - Fixed an issue with the clock doubling
+  - Changed a comment to match the code being introduced
 
------BEGIN PGP SIGNATURE-----
+Changes from v3:
+  - Don't dereference the connector->state pointer if kzalloc failed
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX85QnAAKCRDj7w1vZxhR
-xR3lAP9tgPWUlNS5HKiBVYGCdyASgvKMeQJByYuTKzo2rjMLEQD/S4C0JB63xY8U
-X44YbflIxB5WtXpLU//6fjLrOLGgdgE=
-=5Ru9
------END PGP SIGNATURE-----
+Changes from v2:
+  - Rebased on current drm-misc-next
+  - Fixed a bug that was dropping the refresh rate when the bpc count
+    was increased
 
---v5xkit52ygg7bted--
+Changes from v1:
+  - Added the coccinelle script to the first patch
+  - Fixed the pixel_rate ramp up
 
---===============1953735565==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Maxime Ripard (9):
+  drm/vc4: hvs: Align the HVS atomic hooks to the new API
+  drm/vc4: Pass the atomic state to encoder hooks
+  drm/vc4: hdmi: Take into account the clock doubling flag in
+    atomic_check
+  drm/vc4: hdmi: Don't access the connector state in reset if kmalloc
+    fails
+  drm/vc4: hdmi: Create a custom connector state
+  drm/vc4: hdmi: Store pixel frequency in the connector state
+  drm/vc4: hdmi: Use the connector state pixel rate for the PHY
+  drm/vc4: hdmi: Limit the BCM2711 to the max without scrambling
+  drm/vc4: hdmi: Enable 10/12 bpc output
+
+ drivers/gpu/drm/vc4/vc4_crtc.c      |  22 ++--
+ drivers/gpu/drm/vc4/vc4_drv.h       |  14 +--
+ drivers/gpu/drm/vc4/vc4_hdmi.c      | 154 +++++++++++++++++++++++++---
+ drivers/gpu/drm/vc4/vc4_hdmi.h      |  23 +++--
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c  |   8 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   9 ++
+ drivers/gpu/drm/vc4/vc4_hvs.c       |   8 +-
+ drivers/gpu/drm/vc4/vc4_txp.c       |   8 +-
+ 8 files changed, 197 insertions(+), 49 deletions(-)
+
+-- 
+2.28.0
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1953735565==--
