@@ -2,41 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85DD2D25EF
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C2A02D2628
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE93389F5F;
-	Tue,  8 Dec 2020 08:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4DC46E990;
+	Tue,  8 Dec 2020 08:32:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FEEC89C96
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:30:12 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CqJ145c80zkmXL;
- Mon,  7 Dec 2020 17:29:28 +0800 (CST)
-Received: from [127.0.0.1] (10.57.60.129) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Mon, 7 Dec 2020
- 17:29:56 +0800
-Subject: Re: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed
- mode-config init
-To: Thomas Zimmermann <tzimmermann@suse.de>, Tian Tao
- <tiantao6@hisilicon.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-References: <1607331906-19005-1-git-send-email-tiantao6@hisilicon.com>
- <1607331906-19005-2-git-send-email-tiantao6@hisilicon.com>
- <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
-From: "tiantao (H)" <tiantao6@huawei.com>
-Message-ID: <0d60eccc-907d-6fc2-e1c2-c7fe0facd21e@huawei.com>
-Date: Mon, 7 Dec 2020 17:29:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0987689CA1
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:31:03 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 9A24A258;
+ Mon,  7 Dec 2020 04:31:02 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 07 Dec 2020 04:31:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=z5ZyPZ0sB07jM21O/6os818wwZU
+ Z1qpCuRD3IUXSP40=; b=nddmxVTpZ1TXIEj7wFWN5R6qIatkbh5woUS+hhUg9MI
+ 8YX9+/jJXscGhFtFDsbItkxLwDO2DF4PTfEVQdg5cGrvqgy89iBgRmkdz64DKo6M
+ IPKe7VOodhlOYwTv25JiR8eAWvq1l8YAlKVCZO0u4o+6Ryw2xIwtD9vjr5p/4huX
+ qv1GXHQzqw1s2m0MEJyyUrHtL8+t7vNeXlRTcs1TuJnof2FeRbOy2HdSGjf/ZHN1
+ b0fN8kdTM5gUxUW77o33TNCjWIHaZjzEoOI9H+N2bbIbXtLyjLmyooTf7qIJCH72
+ Q9TSbUOhGTdWK6/SQrxxXd6CAO/TNZSp9rCoGG2KFjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=z5ZyPZ
+ 0sB07jM21O/6os818wwZUZ1qpCuRD3IUXSP40=; b=D8fMjLsKGhwcyUqwuzjDGn
+ Udnk8AVCFxib1mmwqM7CtpRcoBCynn2/4R1sfFIuF5OMt/DYe9oCGTijNsdsBLsz
+ vMaw0YAApXbQGNUVPESHiEEvKgkKb6saUZR1cS/B4MkpE3MNmHwruzELCZYWd8sy
+ 9/UPjuxvp9OBRT72HdABo7yn4GRyT6b6lXf1n57WDoC1enrhwlHCSRDcEmQahcj+
+ 01LpGf1XQuejVo45W5kgMKhaETKzbx10OnGsugAtEX7XGi3OGSwghBzhtnteap/1
+ BljFynV8mLHYff+oP6KgL8eGCHluL3wzygJkDMh6r0chalN+SGvF8aK3WPVEIhjA
+ ==
+X-ME-Sender: <xms:VfbNX25uPNFTMQu4bwncBfkwrPFEkZA2iq2xyXEQsCfT0LR469daLA>
+ <xme:VfbNX_70T9swZV6GnQ1CSFGX58fuqMtjIpNXQDI08CJtWCIjxD5w4QalxvJLht7Qx
+ CGkeMeYH5Q4YhBbqbo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgtdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:VfbNX1fcr0zd2rVLPC7Y_af6idJI-xHX96JbdITlexio_SqSIuAkWA>
+ <xmx:VfbNXzJn7n3UW86UjyLSTxA3HOE82C1g9xbAUDevESCYNK2H3iUXoQ>
+ <xmx:VfbNX6KglIn8CqsF9anRszs8C4MuZ6UsdY4S0MoqNAE5-KyoQZAcWg>
+ <xmx:VvbNX7q6uITapv0vABPk-sX4nVJI8ciU50wPMCO6BIcunEU-AQa4tA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 30B251080057;
+ Mon,  7 Dec 2020 04:31:01 -0500 (EST)
+Date: Mon, 7 Dec 2020 10:31:00 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2] drm/vc4: hdmi: Don't poll for the infoframes status
+ on setup
+Message-ID: <20201207093100.6yllqslkih2cvz3t@gilmour>
+References: <20201203074624.721559-1-maxime@cerno.tech>
+ <CAPY8ntAo+nDY=aJy+5TCiJ_xUWZhkDtXtXxu6_9Mj5hvgmHfaQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cf28147b-a506-3d72-fb71-bb30a801fd8d@suse.de>
-X-Originating-IP: [10.57.60.129]
-X-CFilter-Loop: Reflected
+In-Reply-To: <CAPY8ntAo+nDY=aJy+5TCiJ_xUWZhkDtXtXxu6_9Mj5hvgmHfaQ@mail.gmail.com>
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,63 +80,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============0099907335=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgrlnKggMjAyMC8xMi83IDE3OjIyLCBUaG9tYXMgWmltbWVybWFubiDlhpnpgZM6Cj4gSGkKPiAK
-PiBBbSAwNy4xMi4yMCB1bSAxMDowNSBzY2hyaWViIFRpYW4gVGFvOgo+PiBVc2luZyBkcm1tX21v
-ZGVfY29uZmlnX2luaXQoKSBzZXRzIHVwIG1hbmFnZWQgcmVsZWFzZSBvZiBtb2Rlc2V0dGluZwo+
-PiByZXNvdXJjZXMuCj4+Cj4gCj4gSW5kaXZpZHVhbCBwYXRjaGVzIHVzdWFsbHkgY29udGFpbiBh
-IGNoYW5nZWxvZyB0byBoaWdobGlnaHQgdGhlIAo+IGRpZmZlcmVuY2UgdG8gcHJldmlvdXMgdmVy
-c2lvbnMuIFBsZWFzZSBhZGQgb25lIGJlZm9yZSBjb21taXR0aW5nIHRoZSAKCkp1c3QgdG8gYmUg
-c3VyZTogSSBkb24ndCBuZWVkIHRvIGFkZCBhIGNoYW5nbG9nIHRvIHRoaXMgaW5kaXZpZHVhbCAK
-cGF0Y2gsIHJpZ2h0PwoKPiBwYXRjaC7CoCBZb3VyIGNvdmVyIGxldHRlciBmb3IgdGhlIHNlcmll
-cyBhbHJlYWR5IGRvZXMgdGhpcyBjb3JyZWN0bHkuCj4gCj4+IFNpZ25lZC1vZmYtYnk6IFRpYW4g
-VGFvIDx0aWFudGFvNkBoaXNpbGljb24uY29tPgo+IAo+IFJldmlld2VkLWJ5OiBUaG9tYXMgWmlt
-bWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4KPiAKPiBUaGFua3MgZm9yIGFsbCB0aGVzZSB1
-cGRhdGVzLgoKVGhhbmsgeW91IGZvciB5b3VyIGNvbnN0YW50IGhlbHAgd2l0aCB0aGUgcmV2aWV3
-IGNvZGUgYW5kIHlvdXIgY2FyZWZ1bCAKZ3VpZGFuY2UhCgo+IAo+PiAtLS0KPj4gwqAgZHJpdmVy
-cy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMgfCAxNCArKystLS0tLS0t
-LS0tLQo+PiDCoCBkcml2ZXJzL2dwdS9kcm0vaGlzaWxpY29uL2hpYm1jL2hpYm1jX2RybV9kcnYu
-aCB8wqAgMSAtCj4+IMKgIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxMiBkZWxl
-dGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGli
-bWMvaGlibWNfZHJtX2Rydi5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMv
-aGlibWNfZHJtX2Rydi5jCj4+IGluZGV4IDM2ODc3NTMuLjdmMDEyMTMgMTAwNjQ0Cj4+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4+ICsrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jCj4+IEBAIC05
-Niw4ICs5Niw5IEBAIHN0YXRpYyBpbnQgaGlibWNfa21zX2luaXQoc3RydWN0IGhpYm1jX2RybV9w
-cml2YXRlIAo+PiAqcHJpdikKPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2RldmljZSAqZGV2ID0g
-JnByaXYtPmRldjsKPj4gwqDCoMKgwqDCoCBpbnQgcmV0Owo+PiAtwqDCoMKgIGRybV9tb2RlX2Nv
-bmZpZ19pbml0KGRldik7Cj4+IC3CoMKgwqAgcHJpdi0+bW9kZV9jb25maWdfaW5pdGlhbGl6ZWQg
-PSB0cnVlOwo+PiArwqDCoMKgIHJldCA9IGRybW1fbW9kZV9jb25maWdfaW5pdChkZXYpOwo+PiAr
-wqDCoMKgIGlmIChyZXQpCj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gcmV0Owo+PiDCoMKgwqDC
-oMKgIGRldi0+bW9kZV9jb25maWcubWluX3dpZHRoID0gMDsKPj4gwqDCoMKgwqDCoCBkZXYtPm1v
-ZGVfY29uZmlnLm1pbl9oZWlnaHQgPSAwOwo+PiBAQCAtMTI1LDE0ICsxMjYsNiBAQCBzdGF0aWMg
-aW50IGhpYm1jX2ttc19pbml0KHN0cnVjdCAKPj4gaGlibWNfZHJtX3ByaXZhdGUgKnByaXYpCj4+
-IMKgwqDCoMKgwqAgcmV0dXJuIDA7Cj4+IMKgIH0KPj4gLXN0YXRpYyB2b2lkIGhpYm1jX2ttc19m
-aW5pKHN0cnVjdCBoaWJtY19kcm1fcHJpdmF0ZSAqcHJpdikKPj4gLXsKPj4gLcKgwqDCoCBpZiAo
-cHJpdi0+bW9kZV9jb25maWdfaW5pdGlhbGl6ZWQpIHsKPj4gLcKgwqDCoMKgwqDCoMKgIGRybV9t
-b2RlX2NvbmZpZ19jbGVhbnVwKCZwcml2LT5kZXYpOwo+PiAtwqDCoMKgwqDCoMKgwqAgcHJpdi0+
-bW9kZV9jb25maWdfaW5pdGlhbGl6ZWQgPSBmYWxzZTsKPj4gLcKgwqDCoCB9Cj4+IC19Cj4+IC0K
-Pj4gwqAgLyoKPj4gwqDCoCAqIEl0IGNhbiBvcGVyYXRlIGluIG9uZSBvZiB0aHJlZSBtb2Rlczog
-MCwgMSBvciBTbGVlcC4KPj4gwqDCoCAqLwo+PiBAQCAtMjYyLDcgKzI1NSw2IEBAIHN0YXRpYyBp
-bnQgaGlibWNfdW5sb2FkKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYpCj4+IMKgwqDCoMKgwqAgZHJt
-X2F0b21pY19oZWxwZXJfc2h1dGRvd24oZGV2KTsKPj4gwqDCoMKgwqDCoCBwY2lfZGlzYWJsZV9t
-c2koZGV2LT5wZGV2KTsKPj4gLcKgwqDCoCBoaWJtY19rbXNfZmluaShwcml2KTsKPj4gwqDCoMKg
-wqDCoCBkZXYtPmRldl9wcml2YXRlID0gTlVMTDsKPj4gwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4g
-wqAgfQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJt
-Y19kcm1fZHJ2LmggCj4+IGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19k
-cm1fZHJ2LmgKPj4gaW5kZXggYTQ5YzEwZS4uN2QyNjNmNCAxMDA2NDQKPj4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmgKPj4gKysrIGIvZHJpdmVy
-cy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmgKPj4gQEAgLTQyLDcgKzQy
-LDYgQEAgc3RydWN0IGhpYm1jX2RybV9wcml2YXRlIHsKPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJt
-X2NydGMgY3J0YzsKPj4gwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2VuY29kZXIgZW5jb2RlcjsKPj4g
-wqDCoMKgwqDCoCBzdHJ1Y3QgaGlibWNfY29ubmVjdG9yIGNvbm5lY3RvcjsKPj4gLcKgwqDCoCBi
-b29sIG1vZGVfY29uZmlnX2luaXRpYWxpemVkOwo+PiDCoCB9Owo+PiDCoCBzdGF0aWMgaW5saW5l
-IHN0cnVjdCBoaWJtY19jb25uZWN0b3IgKnRvX2hpYm1jX2Nvbm5lY3RvcihzdHJ1Y3QgCj4+IGRy
-bV9jb25uZWN0b3IgKmNvbm5lY3RvcikKPj4KPiAKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFu
-L2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============0099907335==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3z4qyihwdqkje5gn"
+Content-Disposition: inline
+
+
+--3z4qyihwdqkje5gn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Dec 04, 2020 at 03:36:11PM +0000, Dave Stevenson wrote:
+> Hi Maxime
+>=20
+> On Thu, 3 Dec 2020 at 07:46, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The infoframes are sent at a regular interval as a data island packet,
+> > so we don't need to wait for them to be sent when we're setting them up.
+> >
+> > However, we do need to poll when we're enabling since the we can't
+> > update the packet RAM until it has been sent.
+> >
+> > Let's add a boolean flag to tell whether we want to poll or not to
+> > support both cases.
+> >
+> > Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> That looks like it should do what was intended - thanks.
+>=20
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Applied, thanks!
+Maxime
+
+--3z4qyihwdqkje5gn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX832UwAKCRDj7w1vZxhR
+xfFYAQDlKP9Rc8Cbh5nu3dOGwLLbX7IxgbNuCrZk/1+HDezGOQEA1qSasZH3P6g0
+KPA2XoqE6jnhgfe1Iq1vPQDL/98pEwU=
+=spUr
+-----END PGP SIGNATURE-----
+
+--3z4qyihwdqkje5gn--
+
+--===============0099907335==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0099907335==--
