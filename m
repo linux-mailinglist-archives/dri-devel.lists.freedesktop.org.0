@@ -1,42 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4FB2D1241
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 14:39:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07752D125E
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 14:43:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F006E849;
-	Mon,  7 Dec 2020 13:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 809686E852;
+	Mon,  7 Dec 2020 13:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E9F816E849;
- Mon,  7 Dec 2020 13:39:08 +0000 (UTC)
-IronPort-SDR: LuuMQ/ErM/W1J+tI7Fe3q6RTrkCLu6OzZ/78qcN3Jyiujz/xbwAEAvwcL8LQIA1bkaXcH3HmKV
- xzDmQJtwGm5w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9827"; a="152940408"
-X-IronPort-AV: E=Sophos;i="5.78,399,1599548400"; d="scan'208";a="152940408"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2020 05:39:08 -0800
-IronPort-SDR: vQW5Mc6jzMIJ8zvITpyplq5RekpHS5LQQ0c2VffRAtpgv8eONyH4XYgLKlp1rcJHsaluvDsEMr
- TE4oHasjiI+Q==
-X-IronPort-AV: E=Sophos;i="5.78,399,1599548400"; d="scan'208";a="363146419"
-Received: from srudgex-mobl.amr.corp.intel.com (HELO localhost)
- ([10.213.214.54])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Dec 2020 05:39:05 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [RFC PATCH 113/162] drm/i915: Create stolen memory
- region from local memory
-In-Reply-To: <20201127120718.454037-114-matthew.auld@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201127120718.454037-1-matthew.auld@intel.com>
- <20201127120718.454037-114-matthew.auld@intel.com>
-Date: Mon, 07 Dec 2020 15:39:02 +0200
-Message-ID: <87y2i9ag7d.fsf@intel.com>
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C60489C14
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 13:43:09 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id t4so12778918wrr.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 05:43:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=arySWwJV+wO1szqOHqwMbGv0IrMvh0BzvNxFIFd0Iq8=;
+ b=PuUjctRg0ix4IPPKWWOU5i27u4IN6AFGs95HRx35oh6qJgGxL86tNka1vVtamv5MH4
+ m2Q9y+LFvWF2Yn/I8l1EgLWGbjrLQIQ/n3BwToBkrLzlRwUYPBaQVFDmJCWa2LwZSH7Y
+ ds2dv91E01AQCa1LStgI0bC7wrrfdiECO9d18DqHiNyG+xiq+PLcwnoppYO4AZvGUqaM
+ UV0jjJ2EHDrpjp4jsN/iEieuBkcciQ1sNhKoMfh8c3S0UkRNojpsxs6GiU1I3mRVOKgJ
+ +avcHsgX0/Ug6kIY6UN4tF6h8bDAv01TElWDSOOu67V4K6LowZuwEVknZhXJoHraFL4n
+ O+XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=arySWwJV+wO1szqOHqwMbGv0IrMvh0BzvNxFIFd0Iq8=;
+ b=Y7mFwuFZ3qDuZkSyx8HerAeY0lLhsPGziDUKBr2ziS5ytGQsgI+hmFcH3x8HIEAjy5
+ Olg+XL6vrqYZp8OBjv2yuYDFx2wsgLGZ74pzio69E3rfosjcrb6/tHGVDwwGLvOOSLtc
+ YNlXI1H/bw1G88SN2qkDL0nyoVXFCOpZxEDzq6r+Eu1eVaVzD7feDBvMvmvr0RHRgll7
+ 72AsG5+AgyfDvYB82KNDRNJRnbX2EnCY2hcRofB59IxcnId2loiXpSV8EMLyfv390+R9
+ OlGmMpjljxLXBZ6Fo/5D6pM9SgWDDX6kTRBKh9yRn/4FbHGXe4nlA6h6rK+28rgUQkY9
+ h87w==
+X-Gm-Message-State: AOAM532/6sbzdzQXAMiCZh2SnFEvIyACMrGoRglawDYprrKB1ZMQmsY7
+ ZkGsKN5IrQz/xIhGfAVfep4=
+X-Google-Smtp-Source: ABdhPJyoTg/V90+LHTxb3YBKe82TO9MDYzH9Peuzi2Dp/ZFeZHVxK8/RCjhcNEv753ZPVf/C/crxMg==
+X-Received: by 2002:a5d:4ece:: with SMTP id s14mr7371197wrv.427.1607348588187; 
+ Mon, 07 Dec 2020 05:43:08 -0800 (PST)
+Received: from gmail.com ([2a01:e35:2fb2:a0d0:3697:f6ff:fe76:2bcd])
+ by smtp.gmail.com with ESMTPSA id w5sm16347678wrm.29.2020.12.07.05.43.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Dec 2020 05:43:07 -0800 (PST)
+Date: Mon, 7 Dec 2020 14:43:02 +0100
+From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+To: "Enrico Weigelt, metux IT consult" <info@metux.net>
+Subject: Re: [PATCH] drivers: gpu: drm: virtio: fix dependency of
+ DRM_VIRTIO_GPU on VIRTIO
+Message-ID: <20201207134302.GA8339@gmail.com>
+References: <20201204131221.2827-1-info@metux.net>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201204131221.2827-1-info@metux.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,252 +67,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- Chris P Wilson <chris.p.wilson@intel.com>, Neel Desai <neel.desai@intel.com>,
- Balestrieri@freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
+Cc: dri-devel@lists.freedesktop.org
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Nov 2020, Matthew Auld <matthew.auld@intel.com> wrote:
-> From: CQ Tang <cq.tang@intel.com>
+On Fri, Dec 04, 2020 at 02:12:21PM +0100, Enrico Weigelt, metux IT consult wrote:
+>VIRTIO itself has no dependencies and therefore can easily be just
+>select'ed, instead of depending on it. The current depends on causes
+>any others trying to select VIRTIO to fail like this:
 >
-> Add "REGION_STOLEN" device info to dg1, create stolen memory
-> region from upper portion of local device memory, starting
-> from DSMBASE.
+>   drivers/gpu/drm/Kconfig:74:error: recursive dependency detected!
+>   drivers/gpu/drm/Kconfig:74:	symbol DRM_KMS_HELPER is selected by DRM_VIRTIO_GPU
+>   drivers/gpu/drm/virtio/Kconfig:2:	symbol DRM_VIRTIO_GPU depends on VIRTIO
+>   drivers/virtio/Kconfig:2:	symbol VIRTIO is selected by GPIO_VIRTIO
+>   drivers/gpio/Kconfig:1618:	symbol GPIO_VIRTIO depends on GPIOLIB
+>   drivers/gpio/Kconfig:14:	symbol GPIOLIB is selected by I2C_MUX_LTC4306
+>   drivers/i2c/muxes/Kconfig:47:	symbol I2C_MUX_LTC4306 depends on I2C
+>   drivers/i2c/Kconfig:8:	symbol I2C is selected by FB_DDC
+>   drivers/video/fbdev/Kconfig:63:	symbol FB_DDC depends on FB
+>   drivers/video/fbdev/Kconfig:12:	symbol FB is selected by DRM_KMS_FB_HELPER
+>   drivers/gpu/drm/Kconfig:80:	symbol DRM_KMS_FB_HELPER depends on DRM_KMS_HELPER
 >
-> The memory region is marked with "is_devmem=true".
+>It seems that having both 'depends on' as well as 'select' on the same symbol
+>sends us into big trouble, and Kconfig can't break up the circular dependency
+>(note that in the tested configuration, neither I2C, FB or DRM are enabled at
+>all). Perhaps we could consider this a bug in Kconfig, but the trouble can
+>easily be circumvented by changing 'depends on' into 'select'.
 >
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Abdiel Janulgue <abdiel.janulgue@linux.intel.com>
-> Cc: Chris P Wilson <chris.p.wilson@intel.com>
-> Cc: Balestrieri, Francesco <francesco.balestrieri@intel.com>
-> Cc: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
-> Cc: Venkata S Dhanalakota <venkata.s.dhanalakota@intel.com>
-> Cc: Neel Desai <neel.desai@intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Sudeep Dutt <sudeep.dutt@intel.com>
-> Signed-off-by: CQ Tang <cq.tang@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_lmem.c   |  4 +-
->  drivers/gpu/drm/i915/gem/i915_gem_lmem.h   |  7 +++
->  drivers/gpu/drm/i915/gem/i915_gem_stolen.c | 56 +++++++++++++++++++++-
->  drivers/gpu/drm/i915/i915_pci.c            |  2 +-
->  drivers/gpu/drm/i915/i915_reg.h            |  1 +
->  drivers/gpu/drm/i915/intel_memory_region.c |  5 ++
->  drivers/gpu/drm/i915/intel_memory_region.h |  2 +-
->  7 files changed, 71 insertions(+), 6 deletions(-)
+>DRM_VIRTIO_GPU also depends on VIRTIO_MENU, so even after this change, that
+>option will only show up if the user already enabled virtio in the config.
 >
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-> index 71c07e1f6f26..b2fd2bc862c0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.c
-> @@ -111,8 +111,8 @@ int i915_gem_object_lmem_pread(struct drm_i915_gem_object *obj,
->  	return ret;
->  }
->  
-> -static int i915_gem_object_lmem_pwrite(struct drm_i915_gem_object *obj,
-> -				       const struct drm_i915_gem_pwrite *arg)
-> +int i915_gem_object_lmem_pwrite(struct drm_i915_gem_object *obj,
-> +				const struct drm_i915_gem_pwrite *arg)
->  {
->  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
->  	struct intel_runtime_pm *rpm = &i915->runtime_pm;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> index e11e0545e39c..c59aa6c014c7 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_lmem.h
-> @@ -11,9 +11,16 @@
->  struct drm_i915_private;
->  struct drm_i915_gem_object;
->  struct intel_memory_region;
-> +struct drm_i915_gem_pread;
-> +struct drm_i915_gem_pwrite;
->  
->  extern const struct drm_i915_gem_object_ops i915_gem_lmem_obj_ops;
->  
-> +int i915_gem_object_lmem_pread(struct drm_i915_gem_object *obj,
-> +			       const struct drm_i915_gem_pread *args);
-> +int i915_gem_object_lmem_pwrite(struct drm_i915_gem_object *obj,
-> +				const struct drm_i915_gem_pwrite *args);
-> +
->  void __iomem *
->  i915_gem_object_lmem_io_map(struct drm_i915_gem_object *obj,
->  			    unsigned long n,
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> index 0ddf48e472a0..633745336f40 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_stolen.c
-> @@ -10,6 +10,7 @@
->  #include <drm/drm_mm.h>
->  #include <drm/i915_drm.h>
->  
-> +#include "gem/i915_gem_lmem.h"
->  #include "gem/i915_gem_region.h"
->  #include "i915_drv.h"
->  #include "i915_gem_stolen.h"
-> @@ -121,6 +122,14 @@ static int i915_adjust_stolen(struct drm_i915_private *i915,
->  		}
->  	}
->  
-> +	/*
-> +	 * With device local memory, we don't need to check the address range,
-> +	 * this is device memory physical address, could overlap with system
-> +	 * memory.
-> +	 */
-> +	if (HAS_LMEM(i915))
-> +		return 0;
-> +
->  	/*
->  	 * Verify that nothing else uses this physical address. Stolen
->  	 * memory should be reserved by the BIOS and hidden from the
-> @@ -607,7 +616,7 @@ static void i915_gem_object_put_pages_stolen(struct drm_i915_gem_object *obj,
->  	kfree(pages);
->  }
->  
-> -static const struct drm_i915_gem_object_ops i915_gem_object_stolen_ops = {
-> +static struct drm_i915_gem_object_ops i915_gem_object_stolen_ops = {
+>This change didn't cause any changes in the .config after menuconfig run,
+>so we should be completely safe here.
+>
+>Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 
-Making driver specific ops non-const seems suspicious...
+Ok for me. Thank you.
 
->  	.name = "i915_gem_object_stolen",
->  	.get_pages = i915_gem_object_get_pages_stolen,
->  	.put_pages = i915_gem_object_put_pages_stolen,
-> @@ -716,7 +725,19 @@ i915_gem_object_create_stolen(struct drm_i915_private *i915,
->  
->  static int init_stolen(struct intel_memory_region *mem)
->  {
-> -	intel_memory_region_set_name(mem, "stolen");
-> +	if (mem->type == INTEL_MEMORY_STOLEN_SYSTEM)
-> +		intel_memory_region_set_name(mem, "stolen-system");
-> +	else
-> +		intel_memory_region_set_name(mem, "stolen-local");
-> +
-> +	if (HAS_LMEM(mem->i915)) {
-> +		i915_gem_object_stolen_ops.pread = i915_gem_object_lmem_pread;
-> +		i915_gem_object_stolen_ops.pwrite = i915_gem_object_lmem_pwrite;
-
-...and AFAICT this modifies the ops for all devices, including the
-integrated GPU, if any of the devices HAS_LMEM().
-
-BR,
-Jani.
-
-> +		if (!io_mapping_init_wc(&mem->iomap,
-> +					mem->io_start,
-> +					resource_size(&mem->region)))
-> +			return -EIO;
-> +	}
->  
->  	/*
->  	 * Initialise stolen early so that we may reserve preallocated
-> @@ -736,8 +757,39 @@ static const struct intel_memory_region_ops i915_region_stolen_ops = {
->  	.create_object = i915_gem_object_create_stolen_region,
->  };
->  
-> +static
-> +struct intel_memory_region *setup_lmem_stolen(struct drm_i915_private *i915)
-> +{
-> +	struct intel_uncore *uncore = &i915->uncore;
-> +	struct pci_dev *pdev = i915->drm.pdev;
-> +	struct intel_memory_region *mem;
-> +	resource_size_t io_start;
-> +	resource_size_t lmem_size;
-> +	u64 lmem_base;
-> +
-> +	lmem_base = intel_uncore_read64(uncore, GEN12_DSMBASE);
-> +	lmem_size = pci_resource_len(pdev, 2) - lmem_base;
-> +	io_start = pci_resource_start(pdev, 2) + lmem_base;
-> +
-> +	mem = intel_memory_region_create(i915, lmem_base, lmem_size,
-> +					 I915_GTT_PAGE_SIZE_4K, io_start,
-> +					 &i915_region_stolen_ops);
-> +	if (!IS_ERR(mem)) {
-> +		DRM_INFO("Intel graphics stolen LMEM: %pR\n", &mem->region);
-> +		DRM_INFO("Intel graphics stolen LMEM IO start: %llx\n",
-> +			 (u64)mem->io_start);
-> +		/* this is real device memory */
-> +		mem->is_devmem = true;
-> +	}
-> +
-> +	return mem;
-> +}
-> +
->  struct intel_memory_region *i915_gem_stolen_setup(struct drm_i915_private *i915)
->  {
-> +	if (HAS_LMEM(i915))
-> +		return setup_lmem_stolen(i915);
-> +
->  	return intel_memory_region_create(i915,
->  					  intel_graphics_stolen_res.start,
->  					  resource_size(&intel_graphics_stolen_res),
-> diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> index 8243178a56f9..c3d9b36ef651 100644
-> --- a/drivers/gpu/drm/i915/i915_pci.c
-> +++ b/drivers/gpu/drm/i915/i915_pci.c
-> @@ -907,7 +907,7 @@ static const struct intel_device_info rkl_info = {
->  
->  #define GEN12_DGFX_FEATURES \
->  	GEN12_FEATURES, \
-> -	.memory_regions = REGION_SMEM | REGION_LMEM, \
-> +	.memory_regions = REGION_SMEM | REGION_LMEM | REGION_STOLEN_LMEM, \
->  	.has_master_unit_irq = 1, \
->  	.has_llc = 0, \
->  	.has_snoop = 1, \
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 0e01ea0cb0a4..3c8350f108e4 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -12067,6 +12067,7 @@ enum skl_power_gate {
->  #define   LMEM_ENABLE			(1 << 31)
->  
->  #define GEN12_GSMBASE			_MMIO(0x108100)
-> +#define GEN12_DSMBASE			_MMIO(0x1080C0)
->  
->  /* gamt regs */
->  #define GEN8_L3_LRA_1_GPGPU _MMIO(0x4dd4)
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-> index 043541d409bd..c7a1d84e7ee8 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.c
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
-> @@ -19,6 +19,10 @@ const struct intel_memory_region_info intel_region_map[] = {
->                 .class = INTEL_MEMORY_STOLEN_SYSTEM,
->                 .instance = 0,
->         },
-> +       [INTEL_REGION_STOLEN_LMEM] = {
-> +	       .class = INTEL_MEMORY_STOLEN_LOCAL,
-> +	       .instance = 0,
-> +       },
->  };
->  
->  struct intel_memory_region *
-> @@ -311,6 +315,7 @@ int intel_memory_regions_hw_probe(struct drm_i915_private *i915)
->  		case INTEL_MEMORY_SYSTEM:
->  			mem = i915_gem_shmem_setup(i915);
->  			break;
-> +		case INTEL_MEMORY_STOLEN_LOCAL: /* fallthrough */
->  		case INTEL_MEMORY_STOLEN_SYSTEM:
->  			mem = i915_gem_stolen_setup(i915);
->  			break;
-> diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-> index b7a9e34faaf1..8da82cb2afe3 100644
-> --- a/drivers/gpu/drm/i915/intel_memory_region.h
-> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
-> @@ -93,7 +93,7 @@ struct intel_memory_region {
->  	u16 type;
->  	u16 instance;
->  	enum intel_region_id id;
-> -	char name[8];
-> +	char name[16];
->  	struct intel_gt *gt; /* GT closest to this region. */
->  	bool is_devmem;	/* true for device memory */
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Reviewed-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
+>---
+> drivers/gpu/drm/virtio/Kconfig | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/gpu/drm/virtio/Kconfig b/drivers/gpu/drm/virtio/Kconfig
+>index b925b8b1da16..51ec7c3240c9 100644
+>--- a/drivers/gpu/drm/virtio/Kconfig
+>+++ b/drivers/gpu/drm/virtio/Kconfig
+>@@ -1,7 +1,8 @@
+> # SPDX-License-Identifier: GPL-2.0-only
+> config DRM_VIRTIO_GPU
+> 	tristate "Virtio GPU driver"
+>-	depends on DRM && VIRTIO && VIRTIO_MENU && MMU
+>+	depends on DRM && VIRTIO_MENU && MMU
+>+	select VIRTIO
+> 	select DRM_KMS_HELPER
+> 	select DRM_GEM_SHMEM_HELPER
+> 	select VIRTIO_DMA_SHARED_BUFFER
+>-- 
+>2.11.0
+>
+>_______________________________________________
+>dri-devel mailing list
+>dri-devel@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
