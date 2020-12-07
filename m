@@ -2,61 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D6B2D2600
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247EB2D2604
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35F686E973;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6976E977;
 	Tue,  8 Dec 2020 08:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
- [IPv6:2a00:1450:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45CB689E69
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 10:00:47 +0000 (UTC)
-Received: by mail-ed1-x542.google.com with SMTP id q16so13020225edv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 02:00:47 -0800 (PST)
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com
+ [IPv6:2a00:1450:4864:20::544])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF02D89D66
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 10:05:23 +0000 (UTC)
+Received: by mail-ed1-x544.google.com with SMTP id cw27so13063501edb.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 02:05:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=lagfreegames.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zO7Ax1jgHZYaDs2E69N0Y7MBi62MDVos43cVVQ3OWZc=;
- b=X6mT0Tiq8rN9MmKmzC/L9NiUtBlEbaQl+/pktaCIH9nccXpYrpBIPiDgoyXDHGRVni
- WZFnuNwRj71DzE0CerY+EPg7o5aA4iPfJbYsPAahcMo5Pq482XGzRNsLpqYVFqFOctJ2
- NrIo9TdaNJeu8Zwqe7MEdoXDkDgRql/s184//xLd0/DSY45R97kdJEV8jg47GnWW5K+U
- GyNd15PO0MkKyF5PVPllj4oAjAk1WlyKtip9R4Wq3CNWm0hAvLPwHRPHxQXhR8oVtvmO
- /PONjSFq5yIPg3Yl0akHAZY1NOIsTbsC+ZvoeTZiKBB9oY9xofBuPX0jO8O60ReE2BvI
- 6iDw==
+ :cc; bh=bDqs8unLqUQBle12hG2fZgMAnT4IQ2t1ZL0W4qAaIjU=;
+ b=DjNlwraTdrC6aMTyoaa+aDktjNVBYbzEFa+X7FOVTwJNrgEW8p7AsEN5NuyiTa942e
+ Ra6EG350cnKAfWF2J+wvv0/C0Rr41JfcWllIwa003oyGMzJ54+m6hDpglSILmxmxQku8
+ +K2Ga/v+gjs18x8zBL+9+4JxbixyycYTlqLH6wyb4yQwGW0q/Xc8CZ0uPQ72yl1sRxeP
+ JUQm3DsCuoA6rdbtzUeUIsBJE4dzTg4YN7KDuxS7gtdBFCpaYObPubnM8oXO4FwEYSdr
+ bTmra2uZ1hsQ8m0DnkpWVqKpncPtadyBwJsuyNrovQOdw1CJwinGbD9iE/TW3uzsfDvg
+ Z3UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zO7Ax1jgHZYaDs2E69N0Y7MBi62MDVos43cVVQ3OWZc=;
- b=mcx4eX6HKRAMYt0dVQQXhWY52fdgEw45deN+6/YwUe2Gm1rY5LAMycgrE+u9O8tvbI
- e0wTexIFm9DXP396Qcvv1An+CNCHqfCdmdP55UX79DxOElk6tfXjJO3NONa6ZyqN7ZNS
- VaN41CxMY6admeiuVwSoFDXmyrqdRp0bqF10uucMUtWwzSEry8K0ct5bU3ZE9ismoHyL
- zJ/cnDEx1KGs/ymg4EWj31c9+b8EUiwSEy6oCCpMsNOZheYKQvTFqYvdYNds48AMTvh9
- wkuD31EOrh5bB+1kGMYg2SfZLm9Ooqu79BtfGeJW6gweTf6YsP/Otp31ZHQUK5ktPMDB
- UOBw==
-X-Gm-Message-State: AOAM532EC651yOgsfJlxDlCaXSZs/Lm/SbCkz3SlBMAIsmgdtR1azJBV
- AE1EjMzkR5CmA56EZSyxHFkVFa4T329uR5RRkzQKcw==
-X-Google-Smtp-Source: ABdhPJy7RFjqxvUPmHhLOAuKHkiHH/2rwqmBQdE2i1He9R00g6KB4aao4TogpZ6X6hFRJRpWZK2BXbSipzELj0tW0Gs=
-X-Received: by 2002:a50:d2c8:: with SMTP id q8mr18282665edg.375.1607335245974; 
- Mon, 07 Dec 2020 02:00:45 -0800 (PST)
+ bh=bDqs8unLqUQBle12hG2fZgMAnT4IQ2t1ZL0W4qAaIjU=;
+ b=EVGMZOBWdEAmRGQd2OrYM97uWU77Ahb3n03cbb+GPGOhO2EgoJSodXqJDW4ccIm0rj
+ AevtcKKDHlInAx/HK13XLM5nhV+VdZ1b4Stz/WhxiadXQYvDMQJ+Um6TK7/I2lYAnyyR
+ iImFrzqe+npyVPC5dyTdo/n/xbo2yiRkQ2VU6w/3KG8cdbagG2hzSb5Y87vkjMZz6d44
+ AFaijiBf1ID7dSIyBnlcestG0SoL2PyOfly5SrdXhxi4SrGzklltbFa46+CP/SDV7e1q
+ xISNkc3CrgesJE15n4tS7JPxh9cs7d0Kfj1MBUNamjGlGob+cNsum+uyw3Shlgo11IxE
+ nPhw==
+X-Gm-Message-State: AOAM532DO3pzxNAj8Y5x012h9KIL+GCslLSSQh0oKwPlGaAg167yruSe
+ Olm+N0czS/WG3sXQCQmrmg3bkIjmYN6DMGu10ImESA==
+X-Google-Smtp-Source: ABdhPJybOjWcZFuQlJoclrltcHsYjSinmSYknKyo7h23Zu5W3WV9FwBY9ILLRWlaG6hrdJM7hxLmjSG7tU5ZBJu/gYY=
+X-Received: by 2002:a50:d2c8:: with SMTP id q8mr18303584edg.375.1607335522608; 
+ Mon, 07 Dec 2020 02:05:22 -0800 (PST)
 MIME-Version: 1.0
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
- <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
- <c68d121c-ead2-dbe9-cb26-8b18ccb86011@daenzer.net>
- <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
- <CABjik9dFoGSaxOouXsMdNgeFK57-RP28dhrPi4EXX81OswgeSw@mail.gmail.com>
- <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
- <20201204101151.55f487b8@eldfell>
- <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
- <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
- <AycyJAPt8CKsoAYi4sBlgIeDydMx1kGHulk0qEtAG7WbEfqkdYuc8FCmn5a7qu8YFjG3MfEYn-SZaA52PBy-75aBFZOcAkP1ld5V6LVD7GI=@emersion.fr>
-In-Reply-To: <AycyJAPt8CKsoAYi4sBlgIeDydMx1kGHulk0qEtAG7WbEfqkdYuc8FCmn5a7qu8YFjG3MfEYn-SZaA52PBy-75aBFZOcAkP1ld5V6LVD7GI=@emersion.fr>
+References: <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
+ <1607215171-36-1-git-send-email-jpark37@lagfreegames.com>
+ <1607215171-36-2-git-send-email-jpark37@lagfreegames.com>
+ <V01BVRDu5ULkPDHO-WKC98pTaPlU3acbwd99o01-R6bWW0sO9SVlKjTo8l-bvUd6C1BwJafiZGBQ5XeWMFPteVDoc0bURCtVCu2A8IVau3w=@emersion.fr>
+ <CABjik9dC26tm0KzOc4SqWm-f-LW=+JbzZQuOR1fZJdZXowHaVw@mail.gmail.com>
+ <C1hn9atmhrsfGrdxpjMd9sURb7AK2mpm0YkULfT-i160BF6miRFym6dmoBbzXK_bRi0j2L1lf8jbYw2b30yUYQRqaBaS5pxSKkCxxaK_y7g=@emersion.fr>
+In-Reply-To: <C1hn9atmhrsfGrdxpjMd9sURb7AK2mpm0YkULfT-i160BF6miRFym6dmoBbzXK_bRi0j2L1lf8jbYw2b30yUYQRqaBaS5pxSKkCxxaK_y7g=@emersion.fr>
 From: James Park <james.park@lagfreegames.com>
-Date: Mon, 7 Dec 2020 02:00:32 -0800
-Message-ID: <CABjik9ctkMs4b5M+EaAFnr7byqn_UvRUpgh8-ZbCGHO58pE0aA@mail.gmail.com>
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+Date: Mon, 7 Dec 2020 02:05:09 -0800
+Message-ID: <CABjik9dQUk48nUGmfnbQcK26U+Gtw2oqpyC44myEYU-Dgt5Lwg@mail.gmail.com>
+Subject: Re: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
 To: Simon Ser <contact@emersion.fr>
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,93 +67,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- James Park <jpark37@lagfreegames.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: multipart/mixed; boundary="===============1394977299=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: multipart/mixed; boundary="===============0822469974=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1394977299==
-Content-Type: multipart/alternative; boundary="0000000000005f23fc05b5dce6da"
+--===============0822469974==
+Content-Type: multipart/alternative; boundary="000000000000dc33c305b5dcf67a"
 
---0000000000005f23fc05b5dce6da
+--000000000000dc33c305b5dcf67a
 Content-Type: text/plain; charset="UTF-8"
 
-Not to make too big a deal of it, but the idea was that if you went out of
-your way to define DRM_FOURCC_STANDALONE in your code base, that you would
-also go through the pain of removing drm.h includes elsewhere. It's too
-annoying of an implication to document/communicate, so I'm happier with the
-other DRM_FOURCC_STANDALONE solution that pulls the basic types into a
-common header.
+The original code blocks in drm.h look identical to me. I see:
+
+#include <linux/types.h>
+#include <asm/ioctl.h>
+typedef unsigned int drm_handle_t;
+
+Good point about drm_basic_types.h. I'll change it to say "Not Linux" after
+waiting a bit for more feedback.
 
 Thanks,
 James
 
-On Mon, Dec 7, 2020 at 1:49 AM Simon Ser <contact@emersion.fr> wrote:
+On Mon, Dec 7, 2020 at 1:59 AM Simon Ser <contact@emersion.fr> wrote:
 
-> On Monday, December 7th, 2020 at 9:57 AM, James Park <
+> On Monday, December 7th, 2020 at 10:55 AM, James Park <
 > james.park@lagfreegames.com> wrote:
 >
-> > I could adjust the block to look like this:
-> >
-> > #ifdef DRM_FOURCC_STANDALONE
-> > #if defined(__linux__)
-> > #include <linux/types.h>
-> > #else
-> > #include <stdint.h>
-> > typedef uint32_t __u32;
-> > typedef uint64_t __u64;
-> > #endif
-> > #else
-> > #include "drm.h"
-> > #endif
+> > I'd noticed the #if could be combined, but they weren't in drm,h when
+> > they could have been, so I didn't want to depart from the existing
+> > pattern.
 >
-> This approach still breaks on BSDs when DRM_FOURCC_STANDALONE is defined
-> and
-> drm.h is included afterwards.
+> I see. The original code really needed the two branches and
+> drm_basic_types.h doesn't. But let's see what others think.
+>
+> > I think "One of the BSDs" is more informative than "Not Linux" if
+> > that statement is still true. Given the aversion to making drm.h
+> > robust to Windows, I don't think we want to imply compatibility that
+> > isn't there.
+>
+> Well, drm_basic_types.h would be included on Windows as well from
+> drm_fourcc.h, right?
 >
 
---0000000000005f23fc05b5dce6da
+--000000000000dc33c305b5dcf67a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Not to make too big a deal of it, but the idea was that if=
- you went out of your way to define DRM_FOURCC_STANDALONE in your code base=
-, that you would also go through the pain of removing drm.h includes elsewh=
-ere. It&#39;s too annoying of an implication to document/communicate, so I&=
-#39;m happier with the other=C2=A0DRM_FOURCC_STANDALONE solution that pulls=
- the basic types into a common header.<div><br></div><div>Thanks,</div><div=
->James</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, Dec 7, 2020 at 1:49 AM Simon Ser &lt;<a href=3D"mailto:=
-contact@emersion.fr">contact@emersion.fr</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">On Monday, December 7th, 2020 at 9:=
-57 AM, James Park &lt;<a href=3D"mailto:james.park@lagfreegames.com" target=
-=3D"_blank">james.park@lagfreegames.com</a>&gt; wrote:<br>
+<div dir=3D"ltr"><div>The original code blocks in drm.h look identical to m=
+e. I see:</div><div><br></div><div>#include &lt;linux/types.h&gt;<br>#inclu=
+de &lt;asm/ioctl.h&gt;<br>typedef unsigned int drm_handle_t;<br></div><div>=
+<br></div>Good point about drm_basic_types.h. I&#39;ll change it to say &qu=
+ot;Not Linux&quot; after waiting a bit for more feedback.<div><br></div><di=
+v>Thanks,</div><div>James</div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Mon, Dec 7, 2020 at 1:59 AM Simon Ser &lt=
+;<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Monday, Decem=
+ber 7th, 2020 at 10:55 AM, James Park &lt;<a href=3D"mailto:james.park@lagf=
+reegames.com" target=3D"_blank">james.park@lagfreegames.com</a>&gt; wrote:<=
+br>
 <br>
-&gt; I could adjust the block to look like this:<br>
-&gt;<br>
-&gt; #ifdef DRM_FOURCC_STANDALONE<br>
-&gt; #if defined(__linux__)<br>
-&gt; #include &lt;linux/types.h&gt;<br>
-&gt; #else<br>
-&gt; #include &lt;stdint.h&gt;<br>
-&gt; typedef uint32_t __u32;<br>
-&gt; typedef uint64_t __u64;<br>
-&gt; #endif<br>
-&gt; #else<br>
-&gt; #include &quot;drm.h&quot;<br>
-&gt; #endif<br>
+&gt; I&#39;d noticed the #if could be combined, but they weren&#39;t in drm=
+,h when<br>
+&gt; they could have been, so I didn&#39;t want to depart from the existing=
 <br>
-This approach still breaks on BSDs when DRM_FOURCC_STANDALONE is defined an=
-d<br>
-drm.h is included afterwards.<br>
+&gt; pattern.<br>
+<br>
+I see. The original code really needed the two branches and<br>
+drm_basic_types.h doesn&#39;t. But let&#39;s see what others think.<br>
+<br>
+&gt; I think &quot;One of the BSDs&quot; is more informative than &quot;Not=
+ Linux&quot; if<br>
+&gt; that statement is still true. Given the aversion to making drm.h<br>
+&gt; robust to Windows, I don&#39;t think we want to imply compatibility th=
+at<br>
+&gt; isn&#39;t there.<br>
+<br>
+Well, drm_basic_types.h would be included on Windows as well from<br>
+drm_fourcc.h, right?<br>
 </blockquote></div>
 
---0000000000005f23fc05b5dce6da--
+--000000000000dc33c305b5dcf67a--
 
---===============1394977299==
+--===============0822469974==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -168,4 +163,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1394977299==--
+--===============0822469974==--
