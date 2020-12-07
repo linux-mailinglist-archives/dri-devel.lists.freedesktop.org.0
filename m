@@ -1,19 +1,19 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 000B72D2610
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 783282D25FD
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9926E9A0;
-	Tue,  8 Dec 2020 08:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76C4A6E95E;
+	Tue,  8 Dec 2020 08:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F7AB89D5C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 11:16:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A82D589F4F
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 11:16:15 +0000 (UTC)
 Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqLMP285YzM1qP;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CqLMP2QLXzM1qQ;
  Mon,  7 Dec 2020 19:15:29 +0800 (CST)
 Received: from localhost.localdomain (10.69.192.56) by
  DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
@@ -23,10 +23,10 @@ To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
  <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
  <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH drm/hisilicon v2 1/2] drm/hisilicon: Use managed mode-config
- init
-Date: Mon, 7 Dec 2020 19:16:17 +0800
-Message-ID: <1607339778-20460-2-git-send-email-tiantao6@hisilicon.com>
+Subject: [PATCH drm/hisilicon v2 2/2] drm/hisilicon: Delete unused local
+ parameters
+Date: Mon, 7 Dec 2020 19:16:18 +0800
+Message-ID: <1607339778-20460-3-git-send-email-tiantao6@hisilicon.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607339778-20460-1-git-send-email-tiantao6@hisilicon.com>
 References: <1607339778-20460-1-git-send-email-tiantao6@hisilicon.com>
@@ -46,79 +46,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using drmm_mode_config_init() sets up managed release of modesetting
-resources.
-
-v2:
-Remove the unused structure member variable mode_config_initialized.
-
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 14 +++-----------
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h |  1 -
- 2 files changed, 3 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 3687753..7f01213 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -96,8 +96,9 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 	struct drm_device *dev = &priv->dev;
- 	int ret;
- 
--	drm_mode_config_init(dev);
--	priv->mode_config_initialized = true;
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
- 
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
-@@ -125,14 +126,6 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
- 	return 0;
- }
- 
--static void hibmc_kms_fini(struct hibmc_drm_private *priv)
--{
--	if (priv->mode_config_initialized) {
--		drm_mode_config_cleanup(&priv->dev);
--		priv->mode_config_initialized = false;
--	}
--}
--
- /*
-  * It can operate in one of three modes: 0, 1 or Sleep.
-  */
-@@ -262,7 +255,6 @@ static int hibmc_unload(struct drm_device *dev)
- 	drm_atomic_helper_shutdown(dev);
- 
- 	pci_disable_msi(dev->pdev);
--	hibmc_kms_fini(priv);
- 	dev->dev_private = NULL;
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-index a49c10e..7d263f4 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
-@@ -42,7 +42,6 @@ struct hibmc_drm_private {
- 	struct drm_crtc crtc;
- 	struct drm_encoder encoder;
- 	struct hibmc_connector connector;
--	bool mode_config_initialized;
- };
- 
- static inline struct hibmc_connector *to_hibmc_connector(struct drm_connector *connector)
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+ZGVsZXRlIHVudXNlZCB2YXJpYWJsZSDigJhwcml24oCZIHRvIGF2b2lkIHdhcm5pbmcuCgpTaWdu
+ZWQtb2ZmLWJ5OiBUaWFuIFRhbyA8dGlhbnRhbzZAaGlzaWxpY29uLmNvbT4KUmV2aWV3ZWQtYnk6
+IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgotLS0KIGRyaXZlcnMvZ3B1
+L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jIHwgNSArLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9oaXNpbGljb24vaGlibWMvaGlibWNfZHJtX2Rydi5jIGIvZHJpdmVycy9ncHUv
+ZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2LmMKaW5kZXggN2YwMTIxMy4uN2U5MWVm
+MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1f
+ZHJ2LmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2hpc2lsaWNvbi9oaWJtYy9oaWJtY19kcm1fZHJ2
+LmMKQEAgLTI1MCwxMiArMjUwLDkgQEAgc3RhdGljIGludCBoaWJtY19od19pbml0KHN0cnVjdCBo
+aWJtY19kcm1fcHJpdmF0ZSAqcHJpdikKIAogc3RhdGljIGludCBoaWJtY191bmxvYWQoc3RydWN0
+IGRybV9kZXZpY2UgKmRldikKIHsKLQlzdHJ1Y3QgaGlibWNfZHJtX3ByaXZhdGUgKnByaXYgPSB0
+b19oaWJtY19kcm1fcHJpdmF0ZShkZXYpOwotCiAJZHJtX2F0b21pY19oZWxwZXJfc2h1dGRvd24o
+ZGV2KTsKLQogCXBjaV9kaXNhYmxlX21zaShkZXYtPnBkZXYpOwotCWRldi0+ZGV2X3ByaXZhdGUg
+PSBOVUxMOworCiAJcmV0dXJuIDA7CiB9CiAKLS0gCjIuNy40CgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
+ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
+bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
