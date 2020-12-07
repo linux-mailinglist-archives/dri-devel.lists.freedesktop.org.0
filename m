@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE3D2D0BF0
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D82D2D0C18
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 09:51:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85E1989A5E;
-	Mon,  7 Dec 2020 08:45:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D035E89D43;
+	Mon,  7 Dec 2020 08:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B18189A5E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 08:45:54 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id y16so14125463ljk.1
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 00:45:54 -0800 (PST)
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com
+ [IPv6:2a00:1450:4864:20::144])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6006489D43
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 08:51:15 +0000 (UTC)
+Received: by mail-lf1-x144.google.com with SMTP id s30so16902736lfc.4
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 00:51:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=jabt6z36o8UmqeFaOCtY57uA0InrrV3PXL5Iq00P0Hw=;
- b=TQK97MwrgEUD10/PaoLQCtwlYhvM7UhUh47OlFZoUUtBBj/efICda1NjUJOlIAcBXF
- btREnCpnnYSjB/drb5xU0cnBY/vG7acYam8rPu7eGlt1DvpZHkif3qH6ZF101O96hJl3
- 2093dyYzzRY/MVCqV9R6OtDAnYawtfoq5pL3fbjxlWN9IQuSFmiYN4BeCtYDiNYpQSAH
- laMwUZWJc67/gT8AElGC/068UDbY953hIJ1VB0KQwqic4uvT1diKIg0bPpMWimt8uMIe
- +ttO1zQgyeTnOKcW8zUQRUI++TUs1/8mEfjvLYotA13Vmrw3aHKT3HsXLChz3mmv7nDx
- 2zDg==
+ :mime-version; bh=4Escz8OZJ9uQkwstW6gXeQKEZpva1KmLBfoE27HZji0=;
+ b=km9kxQLA0wB9wG7PXUDoI8flM6wIlY7uF1WYz7o67vnucRjEr4AUdvCbqavo+aptnq
+ a7SD6sSv6EPmwu92o2K7sU/tYt6pOiZlJHiED5pmqVn6vGTTfMQvH0Opzr+ixGEs70iK
+ Cl+zvJDZeq/pTTybHh7nSZKbz0ECXM1oFtb9cRZhq3lTLzU7QQX5FHyKCie2i9hhGVaL
+ TqGsc/veo8ptST503CvKos2PwrZlIOfxuol6BEo1AXqWUnr2FdzUVI/507dgDyBKH99p
+ vH8HopxfJpHFEHUPQrr8Azk/fP/feeJnjQSZafctaGZdpA8Mrmh6b2TLn3y8aqlI/7jo
+ VW3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=jabt6z36o8UmqeFaOCtY57uA0InrrV3PXL5Iq00P0Hw=;
- b=WprOXSSzwrN25cXrwfuWSDBUXtyemb5l2xF4gDWDrqxelYmV9J+zes40ZGeYdvqEa1
- 9YN6jpGtGw0f7DmlBZ8BCPaLHK1urpP2dm2kQI6jtEUl+zt3A1ekmzOq3g6TewrEe0to
- 9MeOeK3hrmOFu759ERL7n4ptw4PFzrkDh58egmexmHHO+bPZwD+bHQifR/lhEcM+nPSg
- YhY5KxtV2ZZihOQtauANi9mxCRZNVR4WQDDT9iJCR59hTXgFOZKtvkAaBnr5iLQIxQZa
- Pko7iwOdtaItii9skE6TOwF4XKDbvoH9nc0r8AkH5/bNChyp+yRqImakGSgmFqjIaj0V
- oYCg==
-X-Gm-Message-State: AOAM5306krcA6zP3FX385OJVbvof/WuvwQvYMk/9xIn4xMaDlfiQvbb9
- rbA6krmuWwDw+qXwd375kEA=
-X-Google-Smtp-Source: ABdhPJxMrdtfjqT3Z2DpvFKlqvNyoCUblI9i0pcUPilhYouNMt6UjHJBpr9dOvSf2GGszQM157ohjQ==
-X-Received: by 2002:a2e:b16a:: with SMTP id a10mr8349900ljm.446.1607330753328; 
- Mon, 07 Dec 2020 00:45:53 -0800 (PST)
+ bh=4Escz8OZJ9uQkwstW6gXeQKEZpva1KmLBfoE27HZji0=;
+ b=SQpayzjeK5lxr9lyGtAllmCCh7y84X2qno/cjv8GA5ro5SuEkbJ93zUTT1BNJ/6IEu
+ qcmWokQUhInheixnqwZBWsp5qWQMi4Iqrb4ZCpJxXoamJTnBN6WsD6cZCPsIPo1SbtzT
+ lV93RYOrbgPcEFoWGvOCI9zehI1fjoMZBuz0e9FPkwhP5ykOLq87LJIUxEWuroWc/1yW
+ BWC7qFjMVEWTkqA3yPRhpFgFZer10NPwJlazM+Z46TT5KOGwVTjcYpBtjAH8tCvn6iYX
+ 8OmaZ3RdUnrKHhnKbPZPZtFIh+706LS5nsvARPV5iChq2yXerh9U9fEKs6xl9yF+HBR2
+ Mhvw==
+X-Gm-Message-State: AOAM532Wj1OJb9mFbt6nbAwBOcsegAmALXblPzFjb8RIuBleoCFRaYgX
+ /l6Rj7+B6oLdzbo5clxIW08=
+X-Google-Smtp-Source: ABdhPJy92Z1k2jZdZb43UUU7GuyERjb4m4n91/4Vo9X6Kvm2bH4lMfvU/RpBoP8FdznKc6zR47kWrg==
+X-Received: by 2002:ac2:5f72:: with SMTP id c18mr7802902lfc.452.1607331073663; 
+ Mon, 07 Dec 2020 00:51:13 -0800 (PST)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id x69sm790549lfa.113.2020.12.07.00.45.52
+ by smtp.gmail.com with ESMTPSA id v63sm531746lfa.89.2020.12.07.00.51.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 00:45:53 -0800 (PST)
-Date: Mon, 7 Dec 2020 10:45:42 +0200
+ Mon, 07 Dec 2020 00:51:13 -0800 (PST)
+Date: Mon, 7 Dec 2020 10:51:09 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: drivers may provide multiple primary planes per CRTC
-Message-ID: <20201207104542.10657acd@eldfell>
-In-Reply-To: <1A6pssulTBjmoPioJfGenq9NdbnGjw2dhBoivqmrgraY67Gac7BoUHupkvqc7UBF_q2P5RwEcXP-m-5Jd00vC2hg-QMkGj2Ms_Jh5nLz-os=@emersion.fr>
-References: <TJAyvL7GM0cZ61sbzYMZ7IbVow2d32QQntnAB5_zpBOdcKVIAy8qhZg4En6C8Ka-mUXV-goV21ExVsA8Q3N_lJV4jf6g6llQBQSDs602jgs=@emersion.fr>
- <20200807090706.GA2352366@phenom.ffwll.local>
- <20200807123802.6058baca@eldfell>
- <20200807130636.GD2352366@phenom.ffwll.local>
- <1A6pssulTBjmoPioJfGenq9NdbnGjw2dhBoivqmrgraY67Gac7BoUHupkvqc7UBF_q2P5RwEcXP-m-5Jd00vC2hg-QMkGj2Ms_Jh5nLz-os=@emersion.fr>
+To: James Park <james.park@lagfreegames.com>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+Message-ID: <20201207105109.599273be@eldfell>
+In-Reply-To: <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
+ <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
+ <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
+ <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
+ <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
+ <c68d121c-ead2-dbe9-cb26-8b18ccb86011@daenzer.net>
+ <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
+ <CABjik9dFoGSaxOouXsMdNgeFK57-RP28dhrPi4EXX81OswgeSw@mail.gmail.com>
+ <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
+ <20201204101151.55f487b8@eldfell>
+ <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
+ <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,154 +77,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1357242525=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: multipart/mixed; boundary="===============1879329094=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1357242525==
+--===============1879329094==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/AwT3xLyQ_/OQO=YxadgPWuk"; protocol="application/pgp-signature"
+ boundary="Sig_/GJE+ATgd1yTgJU/6Epw.5ZC"; protocol="application/pgp-signature"
 
---Sig_/AwT3xLyQ_/OQO=YxadgPWuk
-Content-Type: text/plain; charset=UTF-8
+--Sig_/GJE+ATgd1yTgJU/6Epw.5ZC
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 06 Dec 2020 15:24:29 +0000
-Simon Ser <contact@emersion.fr> wrote:
+On Fri, 4 Dec 2020 11:07:41 -0800
+James Park <james.park@lagfreegames.com> wrote:
 
-> Sorry, I think I lost track of this thread at some point and forgot
-> about it. That said=E2=80=A6
+> I could adjust the block to look like this:
 >=20
-> On Friday, August 7th, 2020 at 3:06 PM, Daniel Vetter <daniel@ffwll.ch> w=
-rote:
+> #ifdef DRM_FOURCC_STANDALONE
+> #if defined(__linux__)
+> #include <linux/types.h>
+> #else
+> #include <stdint.h>
+> typedef uint32_t __u32;
+> typedef uint64_t __u64;
+> #endif
+> #else
+> #include "drm.h"
+> #endif
 >=20
-> > On Fri, Aug 07, 2020 at 12:38:02PM +0300, Pekka Paalanen wrote: =20
-> > > On Fri, 7 Aug 2020 11:07:06 +0200
-> > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > =20
-> > > > On Thu, Aug 06, 2020 at 10:33:31AM +0000, Simon Ser wrote: =20
-> > > > > Some drivers may expose primary planes compatible with multiple C=
-RTCs.
-> > > > > Make this clear in the docs: the current wording may be misunders=
-tood as
-> > > > > "exactly one primary plane per CRTC".
-> > > > >
-> > > > > Signed-off-by: Simon Ser <contact@emersion.fr>
-> > > > > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > > > > ---
-> > > > >  drivers/gpu/drm/drm_plane.c | 4 ++--
-> > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_pl=
-ane.c
-> > > > > index b7b90b3a2e38..108a922e8c23 100644
-> > > > > --- a/drivers/gpu/drm/drm_plane.c
-> > > > > +++ b/drivers/gpu/drm/drm_plane.c
-> > > > > @@ -49,8 +49,8 @@
-> > > > >   * &struct drm_plane (possibly as part of a larger structure) an=
-d registers it
-> > > > >   * with a call to drm_universal_plane_init().
-> > > > >   *
-> > > > > - * Cursor and overlay planes are optional. All drivers should pr=
-ovide one
-> > > > > - * primary plane per CRTC to avoid surprising userspace too much=
-. See enum
-> > > > > + * Cursor and overlay planes are optional. All drivers should pr=
-ovide at least
-> > > > > + * one primary plane per CRTC to avoid surprising userspace too =
-much. See enum =20
-> > > >
-> > > > I think that's even more confusing, since this reads like there cou=
-ld be
-> > > > multiple primary planes for a specific CRTC. That's not the case, t=
-here'
-> > > > only one pointer going from drm_crtc->primary to a drm_plane in the
-> > > > kernel. =20
-> > >
-> > > There could be multiple primary planes *usable* for a specific CRTC b=
-ut
-> > > just one used at a time, right? =20
-> >
-> > I'm not sure what you mean here, the crtc->primary link is invariant ov=
-er
-> > the lifetime of a driver load. You can't pick a different one, that's s=
-et
-> > at driver init before drm_dev_register (and hence before userspace ever
-> > sees anything). =20
+> Alternatively, I could create a new common header to be included from both
+> drm.h and drm_fourcc.h, drm_base_types.h or something like that:
 >=20
-> OK. I'm personally not very interested in documenting legacy bits, so I'l=
-l skip
-> that. I'm mainly interested here in making it clear possible_crtcs for a
-> primary plane can have more than one bit set. Because of the paragraph in=
- the
-> current docs, some user-space developers have understood "more than one b=
-it set
-> in possible_crtcs for a primary plane is a kernel bug".
->=20
-> I'll send a v2 that makes it clear these pointers are for legacy uAPI.
+> #ifdef DRM_FOURCC_STANDALONE
+> #include "drm_base_types.h"
+> #else
+> #include "drm.h"
+> #endif
 
-Right, so this and what danvet said seem to be in direct conflict in
-atomic uAPI, repeating above:
+Hi,
 
-> > I'm not sure what you mean here, the crtc->primary link is invariant ov=
-er
-> > the lifetime of a driver load. You can't pick a different one, that's s=
-et
-> > at driver init before drm_dev_register (and hence before userspace ever
-> > sees anything). =20
-
-But still, it is considered not a kernel bug that a primary plane has
-more than one bit set in its possible_crtcs.
-
-If a primary plane has more than one bit set in possible_crtcs, and it
-is not a kernel bug, then userspace expects to be able to choose any
-of the multiple indicated possible CRTCs for this primary plane.
-
-Which way is it?
-
-Or, is there a different limitation that for each CRTC, there must be
-exactly one primary plane with that CRTCs bit set in its possible_crtcs?
-
-IOW, you can have more CRTCs than primary planes in total, and you can
-activate each CRTC alone, but you cannot activate all CRTCs
-simultaneously because there are not enough primary planes for them?
-
-Representing it mathematically, the possible assignments according to
-possible_crtcs while ignoring all other limitations are:
-N CRTCs <-> M primary planes
-
-- Is N one or greater than one?
-- Is M one or greater than one?
+my point is, any solution relying on DRM_FOURCC_STANDALONE will fail
+sometimes, because there is no reason why userspace would *not* #define
+DRM_FOURCC_STANDALONE. Hence, #ifdef DRM_FOURCC_STANDALONE is
+completely moot, you have to make the headers work in any include
+order when DRM_FOURCC_STANDALONE is defined anyway.
 
 
-Thanks,
+Thanks.
 pq
 
---Sig_/AwT3xLyQ_/OQO=YxadgPWuk
+> On Fri, Dec 4, 2020 at 7:58 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>=20
+> > On Fri, Dec 4, 2020 at 9:12 AM Pekka Paalanen <ppaalanen@gmail.com> wro=
+te: =20
+> > >
+> > > On Thu, 3 Dec 2020 21:45:14 +0100
+> > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > =20
+> > > > On Thu, Dec 3, 2020 at 7:55 PM James Park <james.park@lagfreegames.=
+com> =20
+> > wrote: =20
+> > > > >
+> > > > > The trailing underscore for  DRM_FOURCC_STANDALONE_ isn't
+> > > > > intentional, right? Should I put all the integer types, or just t=
+he
+> > > > > ones that are used in that file? =20
+> > > >
+> > > > Yeah that trailing _ just slipped in. And I'd just do the types
+> > > > already used. I don't think anything else than __u32 (for drm fourc=
+c)
+> > > > and __u64 (for drm modifier) is needed. =20
+> > >
+> > > Hi,
+> > >
+> > > can that create conflicts if userspace first includes drm_fourcc.h and
+> > > then drm.h?
+> > >
+> > > I would find it natural to userspace have generic headers including
+> > > drm_fourcc.h and then DRM-specific C-files including drm.h as well
+> > > (through libdrm headers). I think Weston might already do this.
+> > >
+> > > The generic userspace (weston) header would obviously #define
+> > > DRM_FOURCC_STANDALONE, because it is used by non-DRM C-files as well.=
+ =20
+> >
+> > Hm yes that would break. I guess we could just include the linux types
+> > header for this. And I guess on windows you'd need to have that from
+> > somewhere. Or we just require that users of the standalone header pull
+> > the right header or defines in first?
+> > -Daniel
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+> > =20
+
+
+--Sig_/GJE+ATgd1yTgJU/6Epw.5ZC
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/N67YACgkQI1/ltBGq
-qqdpXw/+Ng3Ub1lePo5gsxhRFYtQQhp/g5DqSLDhGP1WapNoEppjR7flUGVTgOo+
-5utyasY3q4Dt79uSwtJqUMih5b0qVvHqjMviKqKd3we25YikDZNFzAI0wOZBOoVP
-Esxq7vh5UpoXDV5dfNHSJU+BGh2MiNobrXsbFHtLvoZrAN4RfeY8C9gHYve9YtnY
-5RiD64I1eqCHy2Fn9iUJHSqqBRTzivOpDSpNAGUazzkT1AOGqDq+oZ37q9ijU6th
-w0y3ELfMdPIGhTtGwR8KEwGmR+dDQWUkM4R4op+dLxEjGoSluDILE6hWOi9Lli6q
-no4/jHggoNE5hxXsMk/EpjnCwgnavFPWrw2ljMl9EZubU0nyE6CMwzKpEYKKxPoD
-pf1OYev48uGeOMVV9S+MyI+6h5j/zr3BIKLOlPEbkc91PxsMXW+2+ODl+ykRmTul
-lsroEuW+KAFWEz+ccOg5KUc6PHV1y0TVEmY+3bZeIbxqF2dQocYia+PqA09umDBI
-M0tofpiMIwT0jT/m3/tkeRjw2maEpAbezT8Sv3XTYisLyRXBdzz+G0KKaAK+ZSUt
-GPQpyZ7uINNgeHDcJNZnmqad3y+QGSk+VJK6ii7UgPboUQ9oSK5mWVxmkeXjmipd
-ZP/s0a5kj3X0F7aRaGjOORbSxcZQh7LQL4WOQO2NZ3uz5LxhqXo=
-=pNoT
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/N7P0ACgkQI1/ltBGq
+qqcXfA//d5YFsMV0r7oS1fL9p0q45Q73aGEtiMxBXuuDov4ORZ73c+1ySRbLrmWx
+DTFvpko1VMM8AnmSbsgNKypAV0gVC6ayc+6QnJ2Pi+o+6GLSECkbRRKxGf4I3/g5
+tK7DRc2BPVFzUN2wyu+op7TR1G2KEChznyETFaiD5ysQCUS9IVGX9tLUfCPBsEmT
+DsPIu6sRigDzTfrdY/nHHtRpPYJfDLFwnCCaBUtYlRLYAjwJ23FSHBeOK39Rdspv
+7S8ghzIF8GRRE9lO0P8sxnGTBp+BBvOsrxhfPABWGLWcz1S3JGYn50KVqpgWqkG4
+tAC5TqZhNkTHT69y3hnc9N7T6IB0oNoOKP2Mpof21L3RMsoRL/+hY0AsMLE7bs8+
+oHXhxHDbxTRjFRoPXrEQmP9i/ryRaOVJdCfhx+ZaHYBJPAh3ERwhLi6cg//DeV5K
+Wr7BVSkO7c0zeQNU3fIAAoQGoKQ6SCB71QnPalE2buEAY9imBzHrJ+1o+Vq/58QU
+Y+RbsLSXprARevoMe/r2E9G7NtmElEKWT0OIyK6sVs9BYJb0AyjMW5qnRYj3faUl
+Gkz1+aMDdH3gRwxmF8b/S86jnFpt6vT9egMAanqk5eW0Yk41J0d+GHc/xmUEkCly
+YbWyBgxjgPgTDi91aRfT4ctA2QSWZmSIpmH5+gAJLowzXbL0EEs=
+=RKOP
 -----END PGP SIGNATURE-----
 
---Sig_/AwT3xLyQ_/OQO=YxadgPWuk--
+--Sig_/GJE+ATgd1yTgJU/6Epw.5ZC--
 
---===============1357242525==
+--===============1879329094==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -227,4 +211,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1357242525==--
+--===============1879329094==--
