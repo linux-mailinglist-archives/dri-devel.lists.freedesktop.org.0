@@ -1,74 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAA42D2603
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F3E2D25F3
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B04A6E968;
-	Tue,  8 Dec 2020 08:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7AE16E952;
+	Tue,  8 Dec 2020 08:32:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
- [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86386E598
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 10:42:38 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id EDF26C85;
- Mon,  7 Dec 2020 05:42:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 07 Dec 2020 05:42:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=4Jwhw2Ic55x6RIMZNlBc3yosIWX
- o+ErXu4UtPYIfWFQ=; b=toAerI7+j78OPoYkKIEoNUVGn5IQz2SVmmmUGRIW6zp
- mxj4AA++dILUPK8q5kaGwJOPzJkLuky3MudzLzE9X/ccHE5IElxA/zfZmQj1QVLb
- 0I/pCgjsg9XUccizopowW8N0ZT2pS6AZ7SI+EelyAQWow0PgrVl875kVmDrapEMN
- 0TcJ9J7YJ7hW+uk6ne9bXjm4WrVg+1YVcRm8IG/wn1y/a8jn8+W1HIGGX/+cWNOU
- Ugkunbaj2tMRZKCna4Ve9dlfMlr8FR3pRsEGhNloI0HDZqc6bfHrUNuY52xJhrPb
- EHXtz9RyHiHlRsWGEoWnSu52l0IgG+RqCi/PTT+41eQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4Jwhw2
- Ic55x6RIMZNlBc3yosIWXo+ErXu4UtPYIfWFQ=; b=duIvpOaMo2pUgTWKFcRLSP
- EQUYf28+4RgyZboq2sbWQBXRpT7bDvRwKYTyVoA54Bn79iTLbL8i1Xg1A0h334tY
- CnqEgOIgofqhxwrdvdfzFsFlehJij2wkSulxa4lQGKDYGmlLq4oLmx8x5HPefFUe
- NbnNLSWz8/catzV3Z3uatCQn7b7f//OqbEIA4nv+e9oVxZY9+VfBuYPbReCmRXcx
- /lNxuqo/OF5rI23CU+VXNJC9pos98pIvL2DmYr/Fu1aA6keTCc6B3AwTvtopXdpP
- OA4v1m198i/yqtQXn3it8s/4wlZOQTsBIKUvkNx1oSbyr2KnYLMHQPrQVfhcbc2g
- ==
-X-ME-Sender: <xms:GQfOX4N7upqicD_OmawZyJAMhN1bgm53Rccc_Hty52JjL6mDzFDeIA>
- <xme:GQfOX-9kGCu1QjPeJlI9nfWRn1eIwyUPEXjtM77wPfkHUzCTaubl6Ga9YOoVvxsyl
- RuGp1jOpYact8Z1YIU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:GQfOX_QLxokXfRd_K7gNkXjramwIl8ftBkpGCTZcF5VEceZwbi0VIw>
- <xmx:GQfOXwu743nieHiI2mxuqC6opkLXzJqMaGbVOjZ2lxkoAJeTMTDX_A>
- <xmx:GQfOXwdKarRCALzNtG4DjtBN1jAL9Y7DIxafX7WJa-B73Pvuw0ke-Q>
- <xmx:GgfOX-sIsXD8FUGYDB_2z8EmJYxN4aTUXHge2-ewdreRZF3isCSsDA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id D53A51080057;
- Mon,  7 Dec 2020 05:42:32 -0500 (EST)
-Date: Mon, 7 Dec 2020 11:42:31 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel@ffwll.ch>,
- Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v7 2/3] drm: Add support for the LogiCVC display controller
-Message-ID: <20201207104231.ipa5dccnxxro3xxc@gilmour>
-References: <20201102155308.142691-1-paul.kocialkowski@bootlin.com>
- <20201102155308.142691-3-paul.kocialkowski@bootlin.com>
- <20201103094659.56sdcerwwzqu2gdy@gilmour.lan>
- <X8e7kBx/OYpN2HqB@aptenodytes>
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589316E5B9
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 10:49:19 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id x16so18790721ejj.7
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 02:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8GZqro5vfaSdFxUvxODTiXniaK4i00z0hUv+aKlaD8A=;
+ b=W2jUDlYJT64XSwfjUsfGLbGXWWV7QqkjogZ0KzUz08xQsaT94TO8X1b4Po/T1KHQey
+ O0Nbvt8YKcK6ErTOnEbPhasLMri2FlC4z64JgxR+jiSEKJaE8xdT7jQKws4CoXvnp72c
+ udRIzsUZMZOp2tLouzNRv1zs/BpLcqXRc2uhhsi+AH5np4+8zsJraP+WcbITQ0Ar4jF5
+ lOL8MKn76+GFp+ert3LNtdxsU4wlXDl/eGfrdWZOdRL692kkb/3ITqLjvpeceAFLgkh4
+ 647n7g1B7C+CUPkHJoEZL2hqPLl8rR6uVBRYCmf0YnAUH5xVy0ab1mETCg1JpBG7GNS4
+ 5eug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8GZqro5vfaSdFxUvxODTiXniaK4i00z0hUv+aKlaD8A=;
+ b=sYcoNewQZhjced7kgUoabh9JG4sfzxuJ7UFj08AYvLLeAq/nNI76kMAL8AwvcDTgri
+ 5MnZ09Ex3NcgysW6pz5TvmdXyBZsUt7XxjNHrdAAvl0uGGiwa4o6B+DW82/rNUoDvXFY
+ NGPA2yWmYDzPoX34hRzZgvfDN+G/nKI9EOb0uAqwI2yR3mXQeKi+5uuINEZ5qLUA0GPp
+ nRJ++BgiqlOPYztF+T+x7vNT/alvq4ilkDJ2a4WnW0IaNQ40i7mP/LOX0LI4lsqf8P/c
+ 50zUSEvgWnoEi/Ab3cVPMUhiJT8oNbIhMzAYAA2H66NCng706vx78/lRz8buHqP647f7
+ n2MQ==
+X-Gm-Message-State: AOAM533UyP1uJPq+WKgwWOQHGZuX4AEdbxBt0DtO16f1alG54mvLLzFN
+ A4XI8DxjVD1e0VWEZqRwqc/217ppunT6z/IaLmKHlQ==
+X-Google-Smtp-Source: ABdhPJzfeAG4Lvi1QjmG49EF8mehIdtt/bhsgtMe3EdH8NFoDJqn5WOAXsD2q/Tujl7Tp7dCGPZQ4NB1i+vW3uD89Bg=
+X-Received: by 2002:a17:906:d93c:: with SMTP id
+ rn28mr18243556ejb.50.1607338157995; 
+ Mon, 07 Dec 2020 02:49:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <X8e7kBx/OYpN2HqB@aptenodytes>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
+ <20201204101151.55f487b8@eldfell>
+ <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
+ <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
+ <20201207105109.599273be@eldfell>
+ <CABjik9c+TVMK3685bkYp43PbqxoAosTxXEeQvH6hmfBD0YSz6A@mail.gmail.com>
+ <20201207123514.65e4b868@eldfell> <20201207124454.42b87186@eldfell>
+ <EdWYHKD3WXh4_hWSW633I_O9leJ7ib3vLux7KuDhdcl-3vhSphWQnDALaATh_HVU97nzVuDWf5j4pp1d9tnHCelC7ogUjBcqxzW7Z_erfIs=@emersion.fr>
+In-Reply-To: <EdWYHKD3WXh4_hWSW633I_O9leJ7ib3vLux7KuDhdcl-3vhSphWQnDALaATh_HVU97nzVuDWf5j4pp1d9tnHCelC7ogUjBcqxzW7Z_erfIs=@emersion.fr>
+From: James Park <james.park@lagfreegames.com>
+Date: Mon, 7 Dec 2020 02:49:04 -0800
+Message-ID: <CABjik9cd_NWOSH79Y1x7Hj5iW6nqoP44XrNSDr+o5am07Suzbg@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+To: Simon Ser <contact@emersion.fr>
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,165 +71,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============2134331034=="
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <jpark37@lagfreegames.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>
+Content-Type: multipart/mixed; boundary="===============0339321793=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--===============0339321793==
+Content-Type: multipart/alternative; boundary="000000000000f10d9a05b5dd93ce"
 
---===============2134331034==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4dept5ksr44ncocz"
-Content-Disposition: inline
+--000000000000f10d9a05b5dd93ce
+Content-Type: text/plain; charset="UTF-8"
 
+That would work, but that's kind of an annoying requirement. I would prefer
+the header to be self-sufficient.
 
---4dept5ksr44ncocz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks,
+James
+
+On Mon, Dec 7, 2020 at 2:47 AM Simon Ser <contact@emersion.fr> wrote:
+
+> On Monday, December 7th, 2020 at 11:44 AM, Pekka Paalanen <
+> ppaalanen@gmail.com> wrote:
+>
+> > But then, the code in the header should be literally
+> >
+> > #ifndef DRM_FOURCC_STANDALONE
+> > #include "drm.h"
+> > #endif
+> >
+> > without an #else branch.
+>
+> As long as there is a #include "drm_basic_types.h" right before
+> (drm_fourcc.h needs __u32 and __u64), I believe this can work too
+> indeed.
+>
+
+--000000000000f10d9a05b5dd93ce
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 02, 2020 at 05:06:40PM +0100, Paul Kocialkowski wrote:
-> > > +static void logicvc_crtc_atomic_begin(struct drm_crtc *drm_crtc,
-> > > +				      struct drm_atomic_state *state)
-> > > +{
-> > > +	struct logicvc_crtc *crtc =3D logicvc_crtc(drm_crtc);
-> > > +	struct drm_crtc_state *crtc_state =3D
-> > > +		drm_atomic_get_old_crtc_state(state, drm_crtc);
-> > > +	struct drm_device *drm_dev =3D drm_crtc->dev;
-> > > +	unsigned long flags;
-> > > +
-> > > +	/* Register pending event, only if vblank is already on. */
-> > > +	if (drm_crtc->state->event && crtc_state->active) {
-> > > +		spin_lock_irqsave(&drm_dev->event_lock, flags);
-> > > +		WARN_ON(drm_crtc_vblank_get(drm_crtc) !=3D 0);
-> > > +
-> > > +		crtc->event =3D drm_crtc->state->event;
-> > > +		drm_crtc->state->event =3D NULL;
-> > > +
-> > > +		spin_unlock_irqrestore(&drm_dev->event_lock, flags);
-> > > +	}
-> > > +}
-> >=20
-> > That's unusual to do it in atomic_begin, why do you need it?
->=20
-> This is to cover the case where we need to send a page flip event but the
-> crtc is already on. In that case, neither atomic_enable nor atomic_disable
-> will be called so we need to rely on atomic_begin to grab that event.
-> This happens for example when a single plane is updated.
->=20
-> The same thing is done in e.g. sun4i-drm.
+<div dir=3D"ltr">That would work, but that&#39;s kind of an annoying requir=
+ement. I would prefer the header to be self-sufficient.<div><br></div><div>=
+Thanks,</div><div>James</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Dec 7, 2020 at 2:47 AM Simon Ser &lt;=
+<a href=3D"mailto:contact@emersion.fr">contact@emersion.fr</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Monday, Decemb=
+er 7th, 2020 at 11:44 AM, Pekka Paalanen &lt;<a href=3D"mailto:ppaalanen@gm=
+ail.com" target=3D"_blank">ppaalanen@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; But then, the code in the header should be literally<br>
+&gt;<br>
+&gt; #ifndef DRM_FOURCC_STANDALONE<br>
+&gt; #include &quot;drm.h&quot;<br>
+&gt; #endif<br>
+&gt;<br>
+&gt; without an #else branch.<br>
+<br>
+As long as there is a #include &quot;drm_basic_types.h&quot; right before<b=
+r>
+(drm_fourcc.h needs __u32 and __u64), I believe this can work too<br>
+indeed.<br>
+</blockquote></div>
 
-Yeah, but I'm not sure why that's needed in the first place on sun4i-drm
-either. This looks to me as either something that should be handled by
-the helpers, or isn't needed at all. Just like the other times you
-fiddle with the vblank in your driver.
+--000000000000f10d9a05b5dd93ce--
 
-I looked around and the only drivers that have that logic seem to be ARM
-HDLCD, Atmel HCLDC, Meson, Tegra. This looks like it might be some cargo
-cult.
-
-Daniel, do you know why that would be needed?
-
-> > > +static void logicvc_version_print(struct logicvc_drm *logicvc)
-> > > +{
-> > > +	u32 version;
-> > > +
-> > > +	regmap_read(logicvc->regmap, LOGICVC_IP_VERSION_REG, &version);
-> > > +
-> > > +	DRM_INFO("LogiCVC version %d.%02d.%c\n",
-> > > +		 (int)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_MAJOR, version),
-> > > +		 (int)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_MINOR, version),
-> > > +		 (char)LOGICVC_FIELD_GET(LOGICVC_IP_VERSION_LEVEL, version) +
-> > > +		 'a');
-> >=20
-> > DRM_DEV_INFO?
->=20
-> Okay but now according to Sam, "DRM_DEV_ERROR() and friends are deprecate=
-d"
-> so I wonder which is the right one to use at this point.
-
-AFAIU, it's drm_info / drm_err
-
-> > > +static void logicvc_encoder_enable(struct drm_encoder *drm_encoder)
-> > > +{
-> > > +	struct logicvc_drm *logicvc =3D logicvc_drm(drm_encoder->dev);
-> > > +	struct logicvc_interface *interface =3D
-> > > +		logicvc_interface_from_drm_encoder(drm_encoder);
-> > > +
-> > > +	regmap_update_bits(logicvc->regmap, LOGICVC_POWER_CTRL_REG,
-> > > +			   LOGICVC_POWER_CTRL_VIDEO_ENABLE,
-> > > +			   LOGICVC_POWER_CTRL_VIDEO_ENABLE);
-> > > +
-> > > +	if (interface->drm_panel) {
-> > > +		drm_panel_prepare(interface->drm_panel);
-> > > +
-> > > +		/* Encoder enable is too early to enable the panel and a white
-> > > +		 * screen will be seen if the panel gets enabled before the
-> > > +		 * first page flip is done (and no other framebuffer
-> > > +		 * configuration remains from the boot software). */
-> > > +		interface->drm_panel_enabled =3D false;
-> > > +	}
-> > > +}
-> >=20
-> > That's fishy (and the similar stuff in commit_tail). Is it because you
-> > need to have the CRTC powered before the encoder?
-> >=20
-> > If so, you should try the commit_tail_rpm variant, it makes sure the
-> > CRTC is powered on before making a commit.
->=20
-> No, this is unrelated to CRTC vs encoder enable order. Instead, it's about
-> panel enable order: I don't want to enable the panel before a buffer was
-> flipped on the CRTC otherwise a blank/white/garbage screen will be shown.
-
-Well, since the encoder will enable the panel, it's kind of related
-though?
-
-> This is why this drm_panel_enabled variable is used to make sure we don't
-> enable the panel before.
->=20
-> This is nothing specific to my hardware, but a general concern that proba=
-bly
-> exists in every DRM driver. Nobody really seems to care about it but I've
-> decided that I would in this driver. Now if you think this is too exotic,
-> I don't mind removing it.
-
-If this is a concern of yours and affects multiple drivers, then it
-should be fixed in the core, not in one particular driver.
-
-> > > +static void logicvc_connector_destroy(struct drm_connector *drm_conn=
-ector)
-> > > +{
-> > > +	drm_connector_cleanup(drm_connector);
-> > > +}
-> >=20
-> > I guess you don't need that intermediate function?
->=20
-> I would need to check if that call is necessary or if some implied mechan=
-ism
-> calls it for me already.
-
-What I meant is that you don't need logicvc_connector_destroy, you can
-directly set the atomic_destroy_state to drm_connector_cleanup.
-
-Maximey
-
---4dept5ksr44ncocz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX84HFwAKCRDj7w1vZxhR
-xbMiAP9dLZJOM3DGmzAPkfzmg8Zd6tJamUGV8IiSAS3VKmzdMgD/YEHQimvZh/De
-Xbwz1yPzxtmWpE79V4vFdE30Mlrz2QA=
-=WXG0
------END PGP SIGNATURE-----
-
---4dept5ksr44ncocz--
-
---===============2134331034==
+--===============0339321793==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -251,4 +149,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============2134331034==--
+--===============0339321793==--
