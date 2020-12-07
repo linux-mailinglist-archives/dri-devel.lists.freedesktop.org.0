@@ -2,38 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5AD2D2607
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9462D261D
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5CB6E972;
-	Tue,  8 Dec 2020 08:32:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D394E6E9A8;
+	Tue,  8 Dec 2020 08:32:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2515C89E38
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 12:41:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 420C31042;
- Mon,  7 Dec 2020 04:41:09 -0800 (PST)
-Received: from [10.57.29.223] (unknown [10.57.29.223])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 842E63F718;
- Mon,  7 Dec 2020 04:41:06 -0800 (PST)
-Subject: Re: [PATCH v2 2/5] thermal: devfreq_cooling: get a copy of device
- status
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-References: <20201118120358.17150-1-lukasz.luba@arm.com>
- <20201118120358.17150-3-lukasz.luba@arm.com>
- <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
- <d9906ed8-e3bf-5e42-2e43-09071848ae48@arm.com>
- <224c6b9b-977a-d553-f22b-2056223a84bc@linaro.org>
-From: Lukasz Luba <lukasz.luba@arm.com>
-Message-ID: <947a3afc-5dd6-892b-6987-ad81a5a96197@arm.com>
-Date: Mon, 7 Dec 2020 12:41:04 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F0689BA5
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 13:39:54 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BEA82580363;
+ Mon,  7 Dec 2020 08:39:51 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 07 Dec 2020 08:39:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=TzrIZIDDLs6j6hdJRZtOUdOhji
+ Fbus5VsgWdAOip2YQ=; b=WAzYVXPnOxTpBDESAlRJL/B71zHIAVVjyCVg5zyX9b
+ V9QMByU+OCAnnMbNVctX5gtqKy5zStoLM15Nqn6EWwMgzIHgKDi31sv22VS/7C+o
+ CVmakP08hlnJpBp/vnHDtgZgN2HV+7aQF+TNlhhAkfVA/s06bzO/l/kC88tSnmrI
+ KkeWUIOq31RpnvI+M+ndPBD7io+E/nDPQ97podcPbF9xwSGCbOJeNXLrq2ulN4zf
+ 4UYoK1LQF6EmyAdkRuMKB43mIMEYGUBi7VF755nv+Udk5kO+ZRYanjQsJ1rZnnJ3
+ S8jnirT2HEIYmMQZfZk/FYIGqIOIuXA4oa+pR+vOloUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TzrIZI
+ DDLs6j6hdJRZtOUdOhjiFbus5VsgWdAOip2YQ=; b=cjVdhpYt3gEVy3r01bTbjN
+ XY91kzjwk76m3ua8gJHe9p9y1vOzGYc9fZxEsCH/Zx9C9oLaPpT3QBMKcvIUZcex
+ TbLKMUg4Mo1T9dqxhiREkcau9jNLR2BrIp/2u++gQlXJeLp0cibSJIJ/v0zx3Lqr
+ SROMly/DjRcwC61slHJkMh8IfsA+tQ+4ze9Xgx4MNfeUOLwzL501SyUMWQHuV5FX
+ dWCb9s2ZN2XPqIVfE56FJm4jFqrcOCOTOYQURC5rFSk3Uoc8eNX6NAQWXnjOc3wV
+ xE0YMr47dgNPJ4NyeczYaYXPGeBgNBj9P+g+Bjlr56fbSgwV7simxQLk5KGJY4fA
+ ==
+X-ME-Sender: <xms:pjDOX1YIOdHhpS-QWqowlzbmGLBTA2c5Y8OuxipuvlGbriVZurf-Gg>
+ <xme:pjDOX8bsA952i1tGV0KGOgDB3gGf3jhuDeykeUzWvr_I7YfrYNZPwKFSC8-eipGck
+ OODCN21bu9jCmzIdxg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgheehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:pjDOX38MTgDvubkmKu-AvtE768GTXJbAD1wjykhF8ELl7XOSbfMbdA>
+ <xmx:pjDOXzrYbCw9_mLOmbQtXOngLbUT53y5dJp8746jYYwFJuK1zeKGpQ>
+ <xmx:pjDOXwrxV5La6o7mQxKsiK8iTCmho57k6dvbvbRCPrplK9Gwc65u-g>
+ <xmx:pzDOX8cSJTF2IvB8-RLC7J_wiv0G-KU7x73WSaZPym-HcomMmnxLuA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 114D4240064;
+ Mon,  7 Dec 2020 08:39:49 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Eric Anholt <eric@anholt.net>
+Subject: [PATCH v4 0/8] drm/vc4: hdmi: Support the 10/12 bit output
+Date: Mon,  7 Dec 2020 14:39:40 +0100
+Message-Id: <20201207133948.2109194-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <224c6b9b-977a-d553-f22b-2056223a84bc@linaro.org>
-Content-Language: en-US
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,94 +80,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
- ionela.voinescu@arm.com, orjan.eide@arm.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpPbiAxMi8zLzIwIDQ6MDkgUE0sIERhbmllbCBMZXpjYW5vIHdyb3RlOgo+IE9uIDAzLzEyLzIw
-MjAgMTY6MzgsIEx1a2FzeiBMdWJhIHdyb3RlOgo+Pgo+Pgo+PiBPbiAxMi8zLzIwIDE6MDkgUE0s
-IERhbmllbCBMZXpjYW5vIHdyb3RlOgo+Pj4gT24gMTgvMTEvMjAyMCAxMzowMywgTHVrYXN6IEx1
-YmEgd3JvdGU6Cj4+Pj4gRGV2ZnJlcSBjb29saW5nIG5lZWRzIHRvIG5vdyB0aGUgY29ycmVjdCBz
-dGF0dXMgb2YgdGhlIGRldmljZSBpbiBvcmRlcgo+Pj4+IHRvIG9wZXJhdGUuIERvIG5vdCByZWx5
-IG9uIERldmZyZXEgbGFzdF9zdGF0dXMgd2hpY2ggbWlnaHQgYmUgYSBzdGFsZQo+Pj4+IGRhdGEK
-Pj4+PiBhbmQgZ2V0IG1vcmUgdXAtdG8tZGF0ZSB2YWx1ZXMgb2YgdGhlIGxvYWQuCj4+Pj4KPj4+
-PiBEZXZmcmVxIGZyYW1ld29yayBjYW4gY2hhbmdlIHRoZSBkZXZpY2Ugc3RhdHVzIGluIHRoZSBi
-YWNrZ3JvdW5kLiBUbwo+Pj4+IG1pdGlnYXRlIHRoaXMgc2l0dWF0aW9uIG1ha2UgYSBjb3B5IG9m
-IHRoZSBzdGF0dXMgc3RydWN0dXJlIGFuZCB1c2UgaXQKPj4+PiBmb3IgaW50ZXJuYWwgY2FsY3Vs
-YXRpb25zLgo+Pj4+Cj4+Pj4gSW4gYWRkaXRpb24gdGhpcyBwYXRjaCBhZGRzIG5vcm1hbGl6YXRp
-b24gZnVuY3Rpb24sIHdoaWNoIGFsc28gbWFrZXMKPj4+PiBzdXJlCj4+Pj4gdGhhdCB3aGF0ZXZl
-ciBkYXRhIGNvbWVzIGZyb20gdGhlIGRldmljZSwgaXQgaXMgaW4gYSBzYW5lIHJhbmdlLgo+Pj4+
-Cj4+Pj4gU2lnbmVkLW9mZi1ieTogTHVrYXN6IEx1YmEgPGx1a2Fzei5sdWJhQGFybS5jb20+Cj4+
-Pj4gLS0tCj4+Pj4gIMKgIGRyaXZlcnMvdGhlcm1hbC9kZXZmcmVxX2Nvb2xpbmcuYyB8IDUyICsr
-KysrKysrKysrKysrKysrKysrKysrKystLS0tLS0KPj4+PiAgwqAgMSBmaWxlIGNoYW5nZWQsIDQz
-IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4+Pj4gYi9kcml2ZXJzL3RoZXJtYWwvZGV2
-ZnJlcV9jb29saW5nLmMKPj4+PiBpbmRleCA2NTljMDE0M2M5ZjAuLjkyNTUyMzY5NDQ2MiAxMDA2
-NDQKPj4+PiAtLS0gYS9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPj4+PiArKysg
-Yi9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPj4+PiBAQCAtMjI3LDIwICsyMjcs
-NDYgQEAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nCj4+Pj4gZ2V0X3RvdGFsX3Bvd2VyKHN0
-cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlICpkZmMsCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2
-b2x0YWdlKTsKPj4+PiAgwqAgfQo+Pj4+ICDCoCArc3RhdGljIHZvaWQgX25vcm1hbGl6ZV9sb2Fk
-KHN0cnVjdCBkZXZmcmVxX2Rldl9zdGF0dXMgKnN0YXR1cykKPj4+PiArewo+Pj4+ICvCoMKgwqAg
-LyogTWFrZSBzb21lIHNwYWNlIGlmIG5lZWRlZCAqLwo+Pj4+ICvCoMKgwqAgaWYgKHN0YXR1cy0+
-YnVzeV90aW1lID4gMHhmZmZmKSB7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0YXR1cy0+YnVzeV90
-aW1lID4+PSAxMDsKPj4+PiArwqDCoMKgwqDCoMKgwqAgc3RhdHVzLT50b3RhbF90aW1lID4+PSAx
-MDsKPj4+PiArwqDCoMKgIH0KPj4+PiArCj4+Pj4gK8KgwqDCoCBpZiAoc3RhdHVzLT5idXN5X3Rp
-bWUgPiBzdGF0dXMtPnRvdGFsX3RpbWUpCj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0YXR1cy0+YnVz
-eV90aW1lID0gc3RhdHVzLT50b3RhbF90aW1lOwo+Pj4KPj4+IEhvdyB0aGUgY29uZGl0aW9uIGFi
-b3ZlIGlzIHBvc3NpYmxlPwo+Pgo+PiBUaGV5IHNob3VsZCwgYmUgY2hlY2tlZCBieSB0aGUgZHJp
-dmVyLCBidXQgSSBjYW5ub3QgdHJ1c3QKPj4gYW5kIGhhdmUgdG8gY2hlY2sgZm9yIGFsbCBjb3Ju
-ZXIgY2FzZXM6IChkaXYgYnkgMCwgb3ZlcmZsb3cKPj4gb25lIG9mIHRoZW0sIGV0YykuIFRoZSBi
-dXN5X3RpbWUgYW5kIHRvdGFsX3RpbWUgYXJlIHVuc2lnbmVkIGxvbmcsCj4+IHdoaWNoIG1lYW5z
-IDRCIG9uIDMyYml0IG1hY2hpbmVzLgo+PiBJZiB0aGVzZSB2YWx1ZXMgYXJlIGNvbWluZyBmcm9t
-IGRldmljZSBjb3VudGVycywgd2hpY2ggY291bnQgZXZlcnkKPj4gYnVzeSBjeWNsZSBhbmQgdG90
-YWwgY3ljbGVzIG9mIGEgY2xvY2sgb2YgYSBkZXZpY2UgcnVubmluZyBhdCBlLmcuCj4+IDFHSHog
-dGhleSB3b3VsZCBvdmVyZmxvdyBldmVyeSB+NHMuCj4gCj4gSSBkb24ndCB0aGluayBpdCBpcyB1
-cCB0byB0aGlzIHJvdXRpbmUgdG8gY2hlY2sgdGhlIGRyaXZlciBpcyBjb3JyZWN0bHkKPiBpbXBs
-ZW1lbnRlZCwgZXNwZWNpYWxseSBhdCBldmVyeSBjYWxsIHRvIGdldF9yZXF1ZXN0ZWRfcG93ZXIu
-Cj4gCj4gSWYgdGhlIG5vcm1hbGl6YXRpb24gZW5kcyB1cCBieSBkb2luZyB0aGlzIGtpbmQgb2Yg
-dGhpbmcsIHRoZXJlIGlzCj4gY2VydGFpbmx5IHNvbWV0aGluZyB3cm9uZyBpbiB0aGUgJ3N0YXR1
-cycgY29tcHV0YXRpb24gdG8gYmUgZml4ZWQgYmVmb3JlCj4gc3VibWl0dGluZyB0aGlzIHNlcmll
-cy4KPiAKPiAKPj4gTm9ybWFsbHkgSVBBIHBvbGxpbmcgYXJlIDFzIGFuZCAxMDBtcywgaXQncyBw
-bGF0Zm9ybSBzcGVjaWZpYy4gQnV0IHRoZXJlCj4+IGFyZSBhbHNvICdlbXB0eScgcGVyaW9kcyB3
-aGVuIElQQSBzZWVzIHRlbXBlcmF0dXJlIHZlcnkgbG93IGFuZCBkb2VzIG5vdAo+PiBldmVuIGNh
-bGwgdGhlIC5nZXRfcmVxdWVzdGVkX3Bvd2VyKCkgY2FsbGJhY2tzIGZvciB0aGUgY29vbGluZyBk
-ZXZpY2VzLAo+PiBqdXN0IGdyYW50cyBtYXggZnJlcSB0byBhbGwuIFRoaXMgaXMgcHJvYmxlbWF0
-aWMuIEkgYW0gaW52ZXN0aWdhdGluZyBpdAo+PiBhbmQgd2lsbCBwcm9wb3NlIGEgc29sdXRpb24g
-Zm9yIElQQSBzb29uLgo+Pgo+PiBJIHdvdWxkIGF2b2lkIGFsbCBvZiB0aGlzIGlmIGRldmZyZXEg
-Y29yZSB3b3VsZCBoYXZlIGRlZmF1bHQgZm9yIGFsbAo+PiBkZXZpY2VzIGEgcmVsaWFibGUgcG9s
-bGluZyB0aW1lci4uLiBMZXQgbWUgY2hlY2sgc29tZSBwb3NzaWJpbGl0aWVzIGFsc28KPj4gZm9y
-IHRoaXMgY2FzZS4KPiAKPiBPaywgbWF5IGJlIGNyZWF0ZSBhbiBBUEkgdG8gY29tcHV0ZSB0aGUg
-J2lkbGUsYnVzeSx0b3RhbCB0aW1lcycgdG8gYmUKPiB1c2VkIGJ5IHRoZSBkaWZmZXJlbnQgdGhl
-IGRldmZyZXEgZHJpdmVycyBhbmQgdGhlbiBmaXggdGhlIG92ZXJmbG93IGluCj4gdGhpcyBjb21t
-b24gcGxhY2UuCgpZZXMsIEkgaGF2ZSB0aGlzIHBsYW4sIGJ1dCBJIGhhdmUgdG8gY2xvc2UgdGhp
-cyBwYXRjaCBzZXJpZXMuIFRvIGdvCmZvcndhcmQgd2l0aCB0aGlzLCBJIHdpbGwgZHJvcCB0aGUg
-bm9ybWFsaXphdGlvbiBmdW5jdGlvbiBhbmQgd2lsbCBrZWVwCm9ubHkgdGhlIGNvZGUgb2Ygc2Fm
-ZSBjb3B5IG9mIHRoZSAnc3RhdHVzJywgc28gdXNpbmcgYnVzeV90aW1lIGFuZAp0b3RhbF90aW1l
-IHdpbGwgYmUgc2FmZS4KCkkgd2lsbCBhZGRyZXNzIHRoaXMgY29tcHV0YXRpb24gYW5kIG5vcm1h
-bGl6YXRpb24gaW4gZGlmZmVyZW50IHBhdGNoCnNlcmllcy4gVGhlcmUgbWlnaHQgYmUgYSBuZWVk
-IG9mIGEgbmV3IEFQSSBhcyB5b3UgcG9pbnRlZCBvdXQsIHdoaWNoCmlzIG91dC1vZi1zY29wZSBv
-ZiB0aGlzIHBhdGNoIHNldC4KCj4gCj4+Pj4gK8KgwqDCoCBzdGF0dXMtPmJ1c3lfdGltZSAqPSAx
-MDA7Cj4+Pj4gK8KgwqDCoCBzdGF0dXMtPmJ1c3lfdGltZSAvPSBzdGF0dXMtPnRvdGFsX3RpbWUg
-PyA6IDE7Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgLyogQXZvaWQgZGl2aXNpb24gYnkgMCAqLwo+Pj4+
-ICvCoMKgwqAgc3RhdHVzLT5idXN5X3RpbWUgPSBzdGF0dXMtPmJ1c3lfdGltZSA/IDogMTsKPj4+
-PiArwqDCoMKgIHN0YXR1cy0+dG90YWxfdGltZSA9IDEwMDsKPj4+Cj4+PiBXaHkgbm90IGJhc2Ug
-dGhlIG5vcm1hbGl6YXRpb24gb24gMTAyND8gYW5kIHVzZSBhbiBpbnRlcm1lZGlhdGUgdTY0Lgo+
-Pgo+PiBZb3UgYXJlIHRoZSAybmQgcmV2aWV3ZXIgd2hvIGlzIGFza2luZyB0aGlzLiBJIHRyaWVk
-IHRvIGtlZXAgJ2xvYWQnIGFzCj4+IGluIHJhbmdlIFswLCAxMDBdIHNpbmNlIHdlIGFsc28gaGF2
-ZSAnbG9hZCcgaW4gY3B1ZnJlcSBjb29saW5nIGluIHRoaXMKPj4gcmFuZ2UuIE1heWJlIEkgc2hv
-dWxkIHN3aXRjaCB0byAxMDI0IChJb25lbGEgd2FzIGFsc28gYXNraW5nIGZvciB0aGlzKS4KPiAK
-PiBXZWxsIGl0IGlzIGNvbW1vbiBwcmFjdGljZSB0byBjb21wdXRlIG5vcm1hbGl6YXRpb24gd2l0
-aCAxMDI0IGJlY2F1c2UKPiB0aGUgZGl2aXNpb24gaXMgYSBiaXQgc2hpZnQgYW5kIHRoZSBjb21w
-aWxlciBvcHRpbWl6ZSB0aGUgY29kZSB2ZXJ5IHdlbGwKPiB3aXRoIHRoYXQgdmFsdWUuCj4gCgpJ
-IHdpbGwga2VlcCB0aGlzIDEwMjQgaW4gbWluZCBmb3IgdGhlIG5leHQgdG9waWMgc2VyaWVzLgoK
-UmVnYXJkcywKTHVrYXN6Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
-Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
-ZXZlbAo=
+Hi,
+
+Here's some patches to enable the HDR output in the RPi4/BCM2711 HDMI
+controller.
+
+Let me know what you think,
+Maxime
+
+Changes from v3:
+  - Don't dereference the connector->state pointer if kzalloc failed
+
+Changes from v2:
+  - Rebased on current drm-misc-next
+  - Fixed a bug that was dropping the refresh rate when the bpc count
+    was increased
+
+Changes from v1:
+  - Added the coccinelle script to the first patch
+  - Fixed the pixel_rate ramp up
+
+Maxime Ripard (8):
+  drm/vc4: hvs: Align the HVS atomic hooks to the new API
+  drm/vc4: Pass the atomic state to encoder hooks
+  drm/vc4: hdmi: Don't access the connector state in reset if kmalloc
+    fails
+  drm/vc4: hdmi: Create a custom connector state
+  drm/vc4: hdmi: Store pixel frequency in the connector state
+  drm/vc4: hdmi: Use the connector state pixel rate for the PHY
+  drm/vc4: hdmi: Limit the BCM2711 to the max without scrambling
+  drm/vc4: hdmi: Enable 10/12 bpc output
+
+ drivers/gpu/drm/vc4/vc4_crtc.c      |  22 ++--
+ drivers/gpu/drm/vc4/vc4_drv.h       |  14 +--
+ drivers/gpu/drm/vc4/vc4_hdmi.c      | 151 +++++++++++++++++++++++++---
+ drivers/gpu/drm/vc4/vc4_hdmi.h      |  21 +++-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c  |   8 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h |   9 ++
+ drivers/gpu/drm/vc4/vc4_hvs.c       |   8 +-
+ drivers/gpu/drm/vc4/vc4_txp.c       |   8 +-
+ 8 files changed, 193 insertions(+), 48 deletions(-)
+
+-- 
+2.28.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
