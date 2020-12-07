@@ -1,50 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E2872D2608
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5AD2D2607
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21E6D6E971;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5CB6E972;
 	Tue,  8 Dec 2020 08:32:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CB2489D5C
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 11:16:52 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1kmEVa-0000F1-96; Mon, 07 Dec 2020 12:16:46 +0100
-Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
- (envelope-from <ore@pengutronix.de>)
- id 1kmEVZ-0004Al-68; Mon, 07 Dec 2020 12:16:45 +0100
-Date: Mon, 7 Dec 2020 12:16:45 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v6 3/8] dt-bindings: display: simple: Add Kyocera
- tcg070wvlq panel
-Message-ID: <20201207111645.htb56uqxf6mp7qcq@pengutronix.de>
-References: <20201202081826.29512-1-o.rempel@pengutronix.de>
- <20201202081826.29512-4-o.rempel@pengutronix.de>
- <20201205193639.GH332836@ravnborg.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2515C89E38
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 12:41:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 420C31042;
+ Mon,  7 Dec 2020 04:41:09 -0800 (PST)
+Received: from [10.57.29.223] (unknown [10.57.29.223])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 842E63F718;
+ Mon,  7 Dec 2020 04:41:06 -0800 (PST)
+Subject: Re: [PATCH v2 2/5] thermal: devfreq_cooling: get a copy of device
+ status
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+References: <20201118120358.17150-1-lukasz.luba@arm.com>
+ <20201118120358.17150-3-lukasz.luba@arm.com>
+ <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
+ <d9906ed8-e3bf-5e42-2e43-09071848ae48@arm.com>
+ <224c6b9b-977a-d553-f22b-2056223a84bc@linaro.org>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <947a3afc-5dd6-892b-6987-ad81a5a96197@arm.com>
+Date: Mon, 7 Dec 2020 12:41:04 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201205193639.GH332836@ravnborg.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:10:44 up 5 days, 1:17, 24 users, load average: 0.37, 0.10, 0.06
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <224c6b9b-977a-d553-f22b-2056223a84bc@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,54 +47,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
- David Airlie <airlied@linux.ie>, Sascha Hauer <s.hauer@pengutronix.de>,
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- David Jander <david@protonic.nl>, Shawn Guo <shawnguo@kernel.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
+ ionela.voinescu@arm.com, orjan.eide@arm.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 05, 2020 at 08:36:39PM +0100, Sam Ravnborg wrote:
-> On Wed, Dec 02, 2020 at 09:18:21AM +0100, Oleksij Rempel wrote:
-> > So far, this panel seems to be compatible with "lg,lb070wv8", on other
-> > hand it is better to set this compatible in the devicetree. So, let's
-> > add it for now only to the dt-binding documentation to fix the
-> > checkpatch warnings.
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > ---
-> >  .../devicetree/bindings/display/panel/panel-simple.yaml          | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > index 0bb3e67fb58c..8f7a0e409eee 100644
-> > --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
-> > @@ -172,6 +172,7 @@ properties:
-> >        - koe,tx26d202vm0bwa
-> >          # Kaohsiung Opto-Electronics. TX31D200VM0BAA 12.3" HSXGA LVDS panel
-> >        - koe,tx31d200vm0baa
-> > +      - kyo,tcg070wvlq
-> Can you provine a comment here about what panel it is?
-
-By searching for this part I can't find any unified name. Each re-seller seems
-to use something own, and inventing one seems to make no real sense as
-well.
-
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+CgpPbiAxMi8zLzIwIDQ6MDkgUE0sIERhbmllbCBMZXpjYW5vIHdyb3RlOgo+IE9uIDAzLzEyLzIw
+MjAgMTY6MzgsIEx1a2FzeiBMdWJhIHdyb3RlOgo+Pgo+Pgo+PiBPbiAxMi8zLzIwIDE6MDkgUE0s
+IERhbmllbCBMZXpjYW5vIHdyb3RlOgo+Pj4gT24gMTgvMTEvMjAyMCAxMzowMywgTHVrYXN6IEx1
+YmEgd3JvdGU6Cj4+Pj4gRGV2ZnJlcSBjb29saW5nIG5lZWRzIHRvIG5vdyB0aGUgY29ycmVjdCBz
+dGF0dXMgb2YgdGhlIGRldmljZSBpbiBvcmRlcgo+Pj4+IHRvIG9wZXJhdGUuIERvIG5vdCByZWx5
+IG9uIERldmZyZXEgbGFzdF9zdGF0dXMgd2hpY2ggbWlnaHQgYmUgYSBzdGFsZQo+Pj4+IGRhdGEK
+Pj4+PiBhbmQgZ2V0IG1vcmUgdXAtdG8tZGF0ZSB2YWx1ZXMgb2YgdGhlIGxvYWQuCj4+Pj4KPj4+
+PiBEZXZmcmVxIGZyYW1ld29yayBjYW4gY2hhbmdlIHRoZSBkZXZpY2Ugc3RhdHVzIGluIHRoZSBi
+YWNrZ3JvdW5kLiBUbwo+Pj4+IG1pdGlnYXRlIHRoaXMgc2l0dWF0aW9uIG1ha2UgYSBjb3B5IG9m
+IHRoZSBzdGF0dXMgc3RydWN0dXJlIGFuZCB1c2UgaXQKPj4+PiBmb3IgaW50ZXJuYWwgY2FsY3Vs
+YXRpb25zLgo+Pj4+Cj4+Pj4gSW4gYWRkaXRpb24gdGhpcyBwYXRjaCBhZGRzIG5vcm1hbGl6YXRp
+b24gZnVuY3Rpb24sIHdoaWNoIGFsc28gbWFrZXMKPj4+PiBzdXJlCj4+Pj4gdGhhdCB3aGF0ZXZl
+ciBkYXRhIGNvbWVzIGZyb20gdGhlIGRldmljZSwgaXQgaXMgaW4gYSBzYW5lIHJhbmdlLgo+Pj4+
+Cj4+Pj4gU2lnbmVkLW9mZi1ieTogTHVrYXN6IEx1YmEgPGx1a2Fzei5sdWJhQGFybS5jb20+Cj4+
+Pj4gLS0tCj4+Pj4gIMKgIGRyaXZlcnMvdGhlcm1hbC9kZXZmcmVxX2Nvb2xpbmcuYyB8IDUyICsr
+KysrKysrKysrKysrKysrKysrKysrKystLS0tLS0KPj4+PiAgwqAgMSBmaWxlIGNoYW5nZWQsIDQz
+IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4+Pj4gYi9kcml2ZXJzL3RoZXJtYWwvZGV2
+ZnJlcV9jb29saW5nLmMKPj4+PiBpbmRleCA2NTljMDE0M2M5ZjAuLjkyNTUyMzY5NDQ2MiAxMDA2
+NDQKPj4+PiAtLS0gYS9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPj4+PiArKysg
+Yi9kcml2ZXJzL3RoZXJtYWwvZGV2ZnJlcV9jb29saW5nLmMKPj4+PiBAQCAtMjI3LDIwICsyMjcs
+NDYgQEAgc3RhdGljIGlubGluZSB1bnNpZ25lZCBsb25nCj4+Pj4gZ2V0X3RvdGFsX3Bvd2VyKHN0
+cnVjdCBkZXZmcmVxX2Nvb2xpbmdfZGV2aWNlICpkZmMsCj4+Pj4gIMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2
+b2x0YWdlKTsKPj4+PiAgwqAgfQo+Pj4+ICDCoCArc3RhdGljIHZvaWQgX25vcm1hbGl6ZV9sb2Fk
+KHN0cnVjdCBkZXZmcmVxX2Rldl9zdGF0dXMgKnN0YXR1cykKPj4+PiArewo+Pj4+ICvCoMKgwqAg
+LyogTWFrZSBzb21lIHNwYWNlIGlmIG5lZWRlZCAqLwo+Pj4+ICvCoMKgwqAgaWYgKHN0YXR1cy0+
+YnVzeV90aW1lID4gMHhmZmZmKSB7Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0YXR1cy0+YnVzeV90
+aW1lID4+PSAxMDsKPj4+PiArwqDCoMKgwqDCoMKgwqAgc3RhdHVzLT50b3RhbF90aW1lID4+PSAx
+MDsKPj4+PiArwqDCoMKgIH0KPj4+PiArCj4+Pj4gK8KgwqDCoCBpZiAoc3RhdHVzLT5idXN5X3Rp
+bWUgPiBzdGF0dXMtPnRvdGFsX3RpbWUpCj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0YXR1cy0+YnVz
+eV90aW1lID0gc3RhdHVzLT50b3RhbF90aW1lOwo+Pj4KPj4+IEhvdyB0aGUgY29uZGl0aW9uIGFi
+b3ZlIGlzIHBvc3NpYmxlPwo+Pgo+PiBUaGV5IHNob3VsZCwgYmUgY2hlY2tlZCBieSB0aGUgZHJp
+dmVyLCBidXQgSSBjYW5ub3QgdHJ1c3QKPj4gYW5kIGhhdmUgdG8gY2hlY2sgZm9yIGFsbCBjb3Ju
+ZXIgY2FzZXM6IChkaXYgYnkgMCwgb3ZlcmZsb3cKPj4gb25lIG9mIHRoZW0sIGV0YykuIFRoZSBi
+dXN5X3RpbWUgYW5kIHRvdGFsX3RpbWUgYXJlIHVuc2lnbmVkIGxvbmcsCj4+IHdoaWNoIG1lYW5z
+IDRCIG9uIDMyYml0IG1hY2hpbmVzLgo+PiBJZiB0aGVzZSB2YWx1ZXMgYXJlIGNvbWluZyBmcm9t
+IGRldmljZSBjb3VudGVycywgd2hpY2ggY291bnQgZXZlcnkKPj4gYnVzeSBjeWNsZSBhbmQgdG90
+YWwgY3ljbGVzIG9mIGEgY2xvY2sgb2YgYSBkZXZpY2UgcnVubmluZyBhdCBlLmcuCj4+IDFHSHog
+dGhleSB3b3VsZCBvdmVyZmxvdyBldmVyeSB+NHMuCj4gCj4gSSBkb24ndCB0aGluayBpdCBpcyB1
+cCB0byB0aGlzIHJvdXRpbmUgdG8gY2hlY2sgdGhlIGRyaXZlciBpcyBjb3JyZWN0bHkKPiBpbXBs
+ZW1lbnRlZCwgZXNwZWNpYWxseSBhdCBldmVyeSBjYWxsIHRvIGdldF9yZXF1ZXN0ZWRfcG93ZXIu
+Cj4gCj4gSWYgdGhlIG5vcm1hbGl6YXRpb24gZW5kcyB1cCBieSBkb2luZyB0aGlzIGtpbmQgb2Yg
+dGhpbmcsIHRoZXJlIGlzCj4gY2VydGFpbmx5IHNvbWV0aGluZyB3cm9uZyBpbiB0aGUgJ3N0YXR1
+cycgY29tcHV0YXRpb24gdG8gYmUgZml4ZWQgYmVmb3JlCj4gc3VibWl0dGluZyB0aGlzIHNlcmll
+cy4KPiAKPiAKPj4gTm9ybWFsbHkgSVBBIHBvbGxpbmcgYXJlIDFzIGFuZCAxMDBtcywgaXQncyBw
+bGF0Zm9ybSBzcGVjaWZpYy4gQnV0IHRoZXJlCj4+IGFyZSBhbHNvICdlbXB0eScgcGVyaW9kcyB3
+aGVuIElQQSBzZWVzIHRlbXBlcmF0dXJlIHZlcnkgbG93IGFuZCBkb2VzIG5vdAo+PiBldmVuIGNh
+bGwgdGhlIC5nZXRfcmVxdWVzdGVkX3Bvd2VyKCkgY2FsbGJhY2tzIGZvciB0aGUgY29vbGluZyBk
+ZXZpY2VzLAo+PiBqdXN0IGdyYW50cyBtYXggZnJlcSB0byBhbGwuIFRoaXMgaXMgcHJvYmxlbWF0
+aWMuIEkgYW0gaW52ZXN0aWdhdGluZyBpdAo+PiBhbmQgd2lsbCBwcm9wb3NlIGEgc29sdXRpb24g
+Zm9yIElQQSBzb29uLgo+Pgo+PiBJIHdvdWxkIGF2b2lkIGFsbCBvZiB0aGlzIGlmIGRldmZyZXEg
+Y29yZSB3b3VsZCBoYXZlIGRlZmF1bHQgZm9yIGFsbAo+PiBkZXZpY2VzIGEgcmVsaWFibGUgcG9s
+bGluZyB0aW1lci4uLiBMZXQgbWUgY2hlY2sgc29tZSBwb3NzaWJpbGl0aWVzIGFsc28KPj4gZm9y
+IHRoaXMgY2FzZS4KPiAKPiBPaywgbWF5IGJlIGNyZWF0ZSBhbiBBUEkgdG8gY29tcHV0ZSB0aGUg
+J2lkbGUsYnVzeSx0b3RhbCB0aW1lcycgdG8gYmUKPiB1c2VkIGJ5IHRoZSBkaWZmZXJlbnQgdGhl
+IGRldmZyZXEgZHJpdmVycyBhbmQgdGhlbiBmaXggdGhlIG92ZXJmbG93IGluCj4gdGhpcyBjb21t
+b24gcGxhY2UuCgpZZXMsIEkgaGF2ZSB0aGlzIHBsYW4sIGJ1dCBJIGhhdmUgdG8gY2xvc2UgdGhp
+cyBwYXRjaCBzZXJpZXMuIFRvIGdvCmZvcndhcmQgd2l0aCB0aGlzLCBJIHdpbGwgZHJvcCB0aGUg
+bm9ybWFsaXphdGlvbiBmdW5jdGlvbiBhbmQgd2lsbCBrZWVwCm9ubHkgdGhlIGNvZGUgb2Ygc2Fm
+ZSBjb3B5IG9mIHRoZSAnc3RhdHVzJywgc28gdXNpbmcgYnVzeV90aW1lIGFuZAp0b3RhbF90aW1l
+IHdpbGwgYmUgc2FmZS4KCkkgd2lsbCBhZGRyZXNzIHRoaXMgY29tcHV0YXRpb24gYW5kIG5vcm1h
+bGl6YXRpb24gaW4gZGlmZmVyZW50IHBhdGNoCnNlcmllcy4gVGhlcmUgbWlnaHQgYmUgYSBuZWVk
+IG9mIGEgbmV3IEFQSSBhcyB5b3UgcG9pbnRlZCBvdXQsIHdoaWNoCmlzIG91dC1vZi1zY29wZSBv
+ZiB0aGlzIHBhdGNoIHNldC4KCj4gCj4+Pj4gK8KgwqDCoCBzdGF0dXMtPmJ1c3lfdGltZSAqPSAx
+MDA7Cj4+Pj4gK8KgwqDCoCBzdGF0dXMtPmJ1c3lfdGltZSAvPSBzdGF0dXMtPnRvdGFsX3RpbWUg
+PyA6IDE7Cj4+Pj4gKwo+Pj4+ICvCoMKgwqAgLyogQXZvaWQgZGl2aXNpb24gYnkgMCAqLwo+Pj4+
+ICvCoMKgwqAgc3RhdHVzLT5idXN5X3RpbWUgPSBzdGF0dXMtPmJ1c3lfdGltZSA/IDogMTsKPj4+
+PiArwqDCoMKgIHN0YXR1cy0+dG90YWxfdGltZSA9IDEwMDsKPj4+Cj4+PiBXaHkgbm90IGJhc2Ug
+dGhlIG5vcm1hbGl6YXRpb24gb24gMTAyND8gYW5kIHVzZSBhbiBpbnRlcm1lZGlhdGUgdTY0Lgo+
+Pgo+PiBZb3UgYXJlIHRoZSAybmQgcmV2aWV3ZXIgd2hvIGlzIGFza2luZyB0aGlzLiBJIHRyaWVk
+IHRvIGtlZXAgJ2xvYWQnIGFzCj4+IGluIHJhbmdlIFswLCAxMDBdIHNpbmNlIHdlIGFsc28gaGF2
+ZSAnbG9hZCcgaW4gY3B1ZnJlcSBjb29saW5nIGluIHRoaXMKPj4gcmFuZ2UuIE1heWJlIEkgc2hv
+dWxkIHN3aXRjaCB0byAxMDI0IChJb25lbGEgd2FzIGFsc28gYXNraW5nIGZvciB0aGlzKS4KPiAK
+PiBXZWxsIGl0IGlzIGNvbW1vbiBwcmFjdGljZSB0byBjb21wdXRlIG5vcm1hbGl6YXRpb24gd2l0
+aCAxMDI0IGJlY2F1c2UKPiB0aGUgZGl2aXNpb24gaXMgYSBiaXQgc2hpZnQgYW5kIHRoZSBjb21w
+aWxlciBvcHRpbWl6ZSB0aGUgY29kZSB2ZXJ5IHdlbGwKPiB3aXRoIHRoYXQgdmFsdWUuCj4gCgpJ
+IHdpbGwga2VlcCB0aGlzIDEwMjQgaW4gbWluZCBmb3IgdGhlIG5leHQgdG9waWMgc2VyaWVzLgoK
+UmVnYXJkcywKTHVrYXN6Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9w
+Lm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1k
+ZXZlbAo=
