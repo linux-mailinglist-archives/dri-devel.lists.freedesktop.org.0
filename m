@@ -1,71 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAD22D25F4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFBA2D25FB
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7B36E94E;
-	Tue,  8 Dec 2020 08:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C4F16E95F;
+	Tue,  8 Dec 2020 08:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
- [64.147.123.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F157889CAD
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:34:24 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 2515A5FA;
- Mon,  7 Dec 2020 04:34:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 07 Dec 2020 04:34:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=/Emj3v2SVPVn3V/pAVdsQ5PGHCL
- Dfqei2+CsZThbjz8=; b=Js86pzprB07u7VlEKXWn6/AuX3irAOiyfUq07PJN3Gp
- rsF7aSbALMb3okjL+g1Ii8fzTFOh5MXV0rLDnpGjnYoJZgQf5b7LeQ6EDSMORPYA
- /sYemIb/Q6I9Z84WHMceU6ATX3ivYWh3MIVZExjMhkCKvPXFSE0FKxcVTp0SOUU4
- UEo+3pKVG2WaoPQ7V/MNdFNAXhLjjJfYY64lxg2sEuhefs3P2NHu3L5nHQ7vKZXz
- bTMglYG+/L7uqHjKAaqcoHe5VDjkfbMCZzLOrniNwIBkWwO2BJhDnhkltlaTVl0Y
- q3IhTgYbDW6j7IQoSunfoiSBVYcMww7SEr87q+LsnLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/Emj3v
- 2SVPVn3V/pAVdsQ5PGHCLDfqei2+CsZThbjz8=; b=qfvzHxQhFccBSesNP2pScF
- eK+ZHDNOCh8T0D2GGLy/IU8Z4iEdQWEjEtv0BuyYSI/wOepsGVIUIKVZp8jKDCl1
- B9ydniyESyqTLCCybiRAsCybySYcTvPQYX1J2gmpgLEJXAaVcVCJVdVOGDx9lvZG
- CtX3LtPS3ciZSHqmBEq67jiHjj3D+T2Qpd24b3VLk+3sWDpUuzUhpEH1dhUl/ljq
- 5yhy+CnOKCaSkrjLt5V79YeSONlqVqBRTQwhVrlCxmQZ4bhk7PL3f1YhA2bbw9cp
- 1qcf/JCjKWzoh117JGp6FwSLz0WzhYJuY5IO7JriCLh4YB4gSICsefEjVSwqJfgA
- ==
-X-ME-Sender: <xms:HffNX4o_dBGn6WQd8SNREOzuwkDFlc7XxUaNfpCxXAz0Ra57746PiA>
- <xme:HffNX-olw2ZvmWuYKlGqldGgQyeArhsOlHiDV_CU-_fifKEBxJ1WvSoEvT4yxrYYV
- Ix9MoEOz0gzT9VGGPo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejgedgtdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:HffNX9O4P-wcd2O15oX2Y9oE2lpbn80HuKCdWFIAw7K5iuscE80I3A>
- <xmx:HffNX_6vlnjnRtw9vvjUD8LpvZK1ad3Qx-X3cLeRX9ebwG14LYdFHg>
- <xmx:HffNX37nsnjuBQNgG_PzBctn3fiDulFkLkvKt_3ehRuYUTaRFmWN6Q>
- <xmx:HvfNX6b-SX4rBvocHjn1kC9o2dIR7Ltuh5rndaPZxH1rKJ6a4FjtxA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 677D0108005C;
- Mon,  7 Dec 2020 04:34:21 -0500 (EST)
-Date: Mon, 7 Dec 2020 10:34:20 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 0/8] drm/vc4: DSI improvements and BCM2711 support
-Message-ID: <20201207093420.snodt2wxevwswgpf@gilmour>
-References: <20201203132543.861591-1-maxime@cerno.tech>
- <CAPY8ntBF8fDiOXRexkd_BkscuifBO7T0+_iVJ3S7B030gOBceQ@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A91F089E59
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 09:46:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DABE31042;
+ Mon,  7 Dec 2020 01:46:41 -0800 (PST)
+Received: from [10.57.29.223] (unknown [10.57.29.223])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1968F3F66B;
+ Mon,  7 Dec 2020 01:46:38 -0800 (PST)
+Subject: Re: [PATCH v2 3/5] thermal: devfreq_cooling: add new registration
+ functions with Energy Model
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+References: <20201118120358.17150-1-lukasz.luba@arm.com>
+ <20201118120358.17150-4-lukasz.luba@arm.com>
+ <2eb16ccf-f635-af2d-616f-9cd0cec88ca0@linaro.org>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <103109c4-f7fd-7f53-e336-241b8a2c080e@arm.com>
+Date: Mon, 7 Dec 2020 09:46:37 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntBF8fDiOXRexkd_BkscuifBO7T0+_iVJ3S7B030gOBceQ@mail.gmail.com>
+In-Reply-To: <2eb16ccf-f635-af2d-616f-9cd0cec88ca0@linaro.org>
+Content-Language: en-US
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,74 +45,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0954485903=="
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
+ ionela.voinescu@arm.com, orjan.eide@arm.com
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============0954485903==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lb7o6dlthwxvopq5"
-Content-Disposition: inline
 
+On 12/3/20 3:40 PM, Daniel Lezcano wrote:
+> On 18/11/2020 13:03, Lukasz Luba wrote:
+>> The Energy Model (EM) framework supports devices such as Devfreq. Create
+>> new registration functions which automatically register EM for the thermal
+>> devfreq_cooling devices. This patch prepares the code for coming changes
+>> which are going to replace old power model with the new EM.
+>>
+>> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
+>> ---
+>>   drivers/thermal/devfreq_cooling.c | 99 ++++++++++++++++++++++++++++++-
+>>   include/linux/devfreq_cooling.h   | 22 +++++++
+>>   2 files changed, 120 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/thermal/devfreq_cooling.c b/drivers/thermal/devfreq_cooling.c
+>> index 925523694462..b354271742c5 100644
+>> --- a/drivers/thermal/devfreq_cooling.c
+>> +++ b/drivers/thermal/devfreq_cooling.c
+>> @@ -50,6 +50,8 @@ static DEFINE_IDA(devfreq_ida);
+>>    * @capped_state:	index to cooling state with in dynamic power budget
+>>    * @req_max_freq:	PM QoS request for limiting the maximum frequency
+>>    *			of the devfreq device.
+>> + * @em:		Energy Model for the associated Devfreq device
+>> + * @em_registered:	Devfreq cooling registered the EM and should free it.
+>>    */
+>>   struct devfreq_cooling_device {
+>>   	int id;
+>> @@ -63,6 +65,8 @@ struct devfreq_cooling_device {
+>>   	u32 res_util;
+>>   	int capped_state;
+>>   	struct dev_pm_qos_request req_max_freq;
+>> +	struct em_perf_domain *em;
+> 
+> This pointer is not needed, it is in the struct device.
 
---lb7o6dlthwxvopq5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is just a helper pointer, to make the code simpler and avoid nested
+pointers:
 
-On Thu, Dec 03, 2020 at 03:19:15PM +0000, Dave Stevenson wrote:
-> Hi Maxime
->=20
-> On Thu, 3 Dec 2020 at 13:25, Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > Hi,
-> >
-> > Here's a series adding support for the DSI0 controller in the BCM2835 a=
-nd the
-> > DSI1 controller found in the BCM2711.
-> >
-> > Let me know what you think,
-> > Maxime
->=20
-> Thanks for that series - your using a variant structure is much
-> cleaner than the hack I had.
->=20
-> For those that I didn't author (ie 1, 3, and 4)
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+struct device *dev = dfc->devfreq->dev.parent
+and then using dev->em
 
-Applied 1-7 to drm-misc-next
+The code is cleaner with dfc->em, but let me have a look if I can
+remove it and still have a clean code.
 
-Thanks!
-Maxime
+> 
+>> +	bool em_registered;
+> 
+> The boolean em_registered is not needed because of the test in the
+> function em_dev_unregister_perf_domain():
+> 
+> if (IS_ERR_OR_NULL(dev) || !dev->em_pd)
+>                  return;
+> 
+> Logically if the 'em' was not initialized, it must be NULL, the
+> corresponding struct device was zero-allocated.
 
---lb7o6dlthwxvopq5
-Content-Type: application/pgp-signature; name="signature.asc"
+It was needed for devfreq cooling to know who registered the EM.
+If there is 2 frameworks and driver and all could register EM,
+this code cannot blindly unregister EM in it's code. The EM might
+be used still by PowerCap DTM, so the unregister might be called
+explicitly by the driver.
 
------BEGIN PGP SIGNATURE-----
+But I will rewrite the register function and make it way simpler,
+just registration of EM (stopping when it failed) and then cooling
+device. Also unregister will be simpler.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX833HAAKCRDj7w1vZxhR
-xYRhAQC1d7zcIP2wKeMfkOxxokkSgUl65PpDt7AAF1ge0XfD1QD+ISZn/tTaJNa2
-mbSqkbfGidispMHs6Rc3xDzqjU1/8wU=
-=BmyJ
------END PGP SIGNATURE-----
+Driver will have to keep the order of unregister functions for two
+frameworks and call unregister devfreq cooling device as last one,
+because it will remove the EM.
 
---lb7o6dlthwxvopq5--
+> 
+> 
+>>   };
+>>   
+>>   static int devfreq_cooling_get_max_state(struct thermal_cooling_device *cdev,
+>> @@ -583,22 +587,115 @@ struct thermal_cooling_device *devfreq_cooling_register(struct devfreq *df)
+>>   }
+>>   EXPORT_SYMBOL_GPL(devfreq_cooling_register);
+>>   
+>> +/**
+>> + * devfreq_cooling_em_register_power() - Register devfreq cooling device with
+>> + *		power information and attempt to register Energy Model (EM)
+>> + * @df:		Pointer to devfreq device.
+>> + * @dfc_power:	Pointer to devfreq_cooling_power.
+>> + * @em_cb:	Callback functions providing the data of the EM
+>> + *
+>> + * Register a devfreq cooling device and attempt to register Energy Model. The
+>> + * available OPPs must be registered for the device.
+>> + *
+>> + * If @dfc_power is provided, the cooling device is registered with the
+>> + * power extensions. If @em_cb is provided it will be called for each OPP to
+>> + * calculate power value and cost. If @em_cb is not provided then simple Energy
+>> + * Model is going to be used, which requires "dynamic-power-coefficient" a
+>> + * devicetree property.
+>> + */
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register_power(struct devfreq *df,
+>> +				  struct devfreq_cooling_power *dfc_power,
+>> +				  struct em_data_callback *em_cb)
+>> +{
+>> +	struct thermal_cooling_device *cdev;
+>> +	struct devfreq_cooling_device *dfc;
+>> +	struct device_node *np = NULL;
+>> +	struct device *dev;
+>> +	int nr_opp, ret;
+>> +
+>> +	if (IS_ERR_OR_NULL(df))
+>> +		return ERR_PTR(-EINVAL);
+>> +
+>> +	dev = df->dev.parent;
+> 
+> Why the parent ?
 
---===============0954485903==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+The parent has OPPs and we are calling em_perf_domain_register() or
+dev_pm_opp_of_register_em() (which in addition needs DT node) for that
+device.
 
+The old devfreq cooling code also had dev parent, to enable/disenable
+OPPs.
+
+> 
+>> +
+>> +	if (em_cb) {
+>> +		nr_opp = dev_pm_opp_get_opp_count(dev);
+>> +		if (nr_opp <= 0) {
+>> +			dev_err(dev, "No valid OPPs found\n");
+>> +			return ERR_PTR(-EINVAL);
+>> +		}
+>> +
+>> +		ret = em_dev_register_perf_domain(dev, nr_opp, em_cb, NULL, false);
+>> +	} else {
+>> +		ret = dev_pm_opp_of_register_em(dev, NULL);
+>> +	}
+>> +
+>> +	if (ret)
+>> +		dev_warn(dev, "Unable to register EM for devfreq cooling device (%d)\n",
+>> +			 ret);
+>> +
+>> +	if (dev->of_node)
+>> +		np = of_node_get(dev->of_node);
+>> +
+>> +	cdev = of_devfreq_cooling_register_power(np, df, dfc_power);
+>> +
+>> +	if (np)
+>> +		of_node_put(np);> +
+>> +	if (IS_ERR_OR_NULL(cdev)) {
+>> +		if (!ret)
+>> +			em_dev_unregister_perf_domain(dev);
+>> +	} else {
+>> +		dfc = cdev->devdata;
+>> +		dfc->em_registered = !ret;
+>> +	}
+>> +
+>> +	return cdev;
+>> +}
+>> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register_power);
+>> +
+>> +/**
+>> + * devfreq_cooling_em_register() - Register devfreq cooling device together
+>> + *				with Energy Model.
+>> + * @df:		Pointer to devfreq device.
+>> + * @em_cb:	Callback functions providing the data of the Energy Model
+>> + *
+>> + * This function attempts to register Energy Model for devfreq device and then
+>> + * register the devfreq cooling device.
+>> + */
+>> +struct thermal_cooling_device *
+>> +devfreq_cooling_em_register(struct devfreq *df, struct em_data_callback *em_cb)
+>> +{
+>> +	return devfreq_cooling_em_register_power(df, NULL, em_cb);
+>> +}
+>> +EXPORT_SYMBOL_GPL(devfreq_cooling_em_register);
+>> +
+>>   /**
+>>    * devfreq_cooling_unregister() - Unregister devfreq cooling device.
+>>    * @cdev: Pointer to devfreq cooling device to unregister.
+>> + *
+>> + * Unregisters devfreq cooling device and related Energy Model if it was
+>> + * present.
+>>    */
+>>   void devfreq_cooling_unregister(struct thermal_cooling_device *cdev)
+>>   {
+>>   	struct devfreq_cooling_device *dfc;
+>> +	struct device *dev;
+>>   
+>> -	if (!cdev)
+>> +	if (IS_ERR_OR_NULL(cdev))
+> 
+> Why this additional IS_ERR check ?
+
+Not needed too much, but helps if driver doesn't check the
+result of registration function and then just calls unregister
+function, i.e.
+
+	if (pfdev->devfreq.cooling)
+		devfreq_cooling_unregister(pfdev->devfreq.cooling);
+
+> 
+>>   		return;
+>>   
+>>   	dfc = cdev->devdata;
+>> +	dev = dfc->devfreq->dev.parent;
+>>   
+>>   	thermal_cooling_device_unregister(dfc->cdev);
+>>   	ida_simple_remove(&devfreq_ida, dfc->id);
+>>   	dev_pm_qos_remove_request(&dfc->req_max_freq);
+>> +
+>> +	if (dfc->em_registered)
+>> +		em_dev_unregister_perf_domain(dev);
+>> +
+> 
+> As stated before it can be called unconditionally
+
+OK, I will rewrite it. The goal was to be able handle many situations
+in register/unregister function, but I will make them simpler.
+
+Thank you Daniel for review comments. I will address them in next
+version.
+
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0954485903==--
