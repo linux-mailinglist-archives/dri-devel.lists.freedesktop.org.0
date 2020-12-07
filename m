@@ -2,71 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 411E82D0E16
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 11:35:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8241D2D0E34
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Dec 2020 11:42:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F7DA89B22;
-	Mon,  7 Dec 2020 10:35:20 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com
- [IPv6:2a00:1450:4864:20::241])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B823B89B22
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 10:35:19 +0000 (UTC)
-Received: by mail-lj1-x241.google.com with SMTP id f11so2193809ljm.8
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 02:35:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=pPsBW1dC2cEs03ZvicTFQzi1yezdChQEsgY7SF8sHf4=;
- b=J5eTkFfS/9ceF6E7N5X0Ue9l65UR70n9XpezH2VpurzfqBmyjUXSOG8IU/Gx8h5LaT
- QNAGYKwuObVXwgt6B3w1xxRQ8BSrQUzREUEXoc/lbAYlugrB7MNK15or+ShE0+RVtiY6
- L5zGu3b0i68YHgNwSW+G5djvR0czSKDeYCJO0k5CGJoZaWxswJuPEotLmj52psD7KETZ
- FhB5mBwj9P9uyQFYun4GlNOqxtqbUWNkQd5HzQpzC16lJNbadLEPXL0syyAmbDC++kxO
- D2qrDaiwiI1JspTWZCH9JFw3rap/6X6cK3cLQnogF66vBoy2gP3srwiunnVOzqTWeWH4
- sKvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=pPsBW1dC2cEs03ZvicTFQzi1yezdChQEsgY7SF8sHf4=;
- b=jSzf4RbZNoSLgRovCHPthKECtt8rLOnJiuKfDGoL4eHD0XIV+LSPDbqGJjV3n9jlYJ
- Omq0xlp+q3MvfdEDFcBUOnXxXxswgjBNjWxV+R/5m0uRv3Br77F/IEoknB1GjiM6c9h0
- bq8dzQ7X06mJV4QW4p0aJGE8izZ+8nSN0uMRFGHWmgYrgwCUjwKfmVbwq1UcutyUuS2F
- 9e6akrkrOGF5+Iimx5+ifQCDIU9X/ee17lu/282LnnJ3yAP5Cw2nvjLMzQ/O3LN+fU90
- FjWH3HCmv1zy7LxNbHFzGdMtTcJYl7QG4I39ifH32A4uMC6HeT8qTaYIvrbdqr7p6RUy
- iTtA==
-X-Gm-Message-State: AOAM531MUsMmu0k1EAOl3Sn1YIkDIhzX5Mi6eFwGZFzplWKNmu1XOyhB
- 5OQtmI4xSLHZ27HNjYqVIJE=
-X-Google-Smtp-Source: ABdhPJynnesLWBplmPFHGjDnZ/01X6KXbOP6Lx2GxGnpaGvQ8UUXH+ksm0FENBTypvAU5KhgpFfdOg==
-X-Received: by 2002:a2e:8e76:: with SMTP id t22mr8523609ljk.10.1607337318066; 
- Mon, 07 Dec 2020 02:35:18 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id v4sm2862391lfg.200.2020.12.07.02.35.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Dec 2020 02:35:17 -0800 (PST)
-Date: Mon, 7 Dec 2020 12:35:14 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: James Park <james.park@lagfreegames.com>
-Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
-Message-ID: <20201207123514.65e4b868@eldfell>
-In-Reply-To: <CABjik9c+TVMK3685bkYp43PbqxoAosTxXEeQvH6hmfBD0YSz6A@mail.gmail.com>
-References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
- <1606816916-3724-2-git-send-email-jpark37@lagfreegames.com>
- <f1432016-4a83-8cc6-a5cd-6e0d74b9e156@daenzer.net>
- <CAKMK7uF=St1Uf_smL3HLi458cKfyOYM27FUX5+vjG5qSSD3Jnw@mail.gmail.com>
- <2dbbc3dc-4df8-9ca4-4dce-808df0b24950@daenzer.net>
- <CABjik9dprmMzvmiu8XDPL+x9a7mbbOfPVAfbtAd1Sv74HxVSdg@mail.gmail.com>
- <c68d121c-ead2-dbe9-cb26-8b18ccb86011@daenzer.net>
- <CAKMK7uHZGAT6qUc1AbOHar0h=q0uJKOHuNL_HdiOgLx+iiy-kg@mail.gmail.com>
- <CABjik9dFoGSaxOouXsMdNgeFK57-RP28dhrPi4EXX81OswgeSw@mail.gmail.com>
- <CAKMK7uG3JbUuaJ3UUTHgeYCKnD9+n_bbeX=xka9o+TLJHwHJZQ@mail.gmail.com>
- <20201204101151.55f487b8@eldfell>
- <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
- <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
- <20201207105109.599273be@eldfell>
- <CABjik9c+TVMK3685bkYp43PbqxoAosTxXEeQvH6hmfBD0YSz6A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F45E6E573;
+	Mon,  7 Dec 2020 10:42:38 +0000 (UTC)
+X-Original-To: dri-devel@freedesktop.org
+Delivered-To: dri-devel@freedesktop.org
+Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3A5E6E573
+ for <dri-devel@freedesktop.org>; Mon,  7 Dec 2020 10:42:34 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1607337756; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=BGNdc2vD2EMhLU2qHKPdKYLk6stKVPG2SBXK5CBPJB4=;
+ b=Qzn2W4H0dMyiKprKl/nDz+vm12qUuABJbh6gEE50u3fPh0eLV6ZD0vVIkMDuiszcv6xtMAY9
+ GcChxjxVK9Z2zhJEBNIPtQprDdBC309YO6tSGLqojlI8pIhSDtN++QdCeWiFBBcKHyL2o7Yh
+ DMKowA0rj1v1dN58IDRJuf0/AT0=
+X-Mailgun-Sending-Ip: 69.72.43.15
+X-Mailgun-Sid: WyIxOTRiMSIsICJkcmktZGV2ZWxAZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5fce070aae7b105766e3384b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 07 Dec 2020 10:42:18
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id A6411C43461; Mon,  7 Dec 2020 10:42:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
+ SPF_FAIL, 
+ URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from akhilpo-linux.qualcomm.com (unknown [202.46.22.19])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 2D6F4C433CA;
+ Mon,  7 Dec 2020 10:42:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2D6F4C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=akhilpo@codeaurora.org
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+To: freedreno@lists.freedesktop.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 1/2] drm/msm: Add speed-bin support to a618 gpu
+Date: Mon,  7 Dec 2020 16:12:07 +0530
+Message-Id: <1607337728-11398-1-git-send-email-akhilpo@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,188 +64,158 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Michel =?UTF-8?B?RMOkbnplcg==?= <michel@daenzer.net>,
- James Park <jpark37@lagfreegames.com>
-Content-Type: multipart/mixed; boundary="===============0572469116=="
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dianders@chromium.org, mka@chromium.org, dri-devel@freedesktop.org
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0572469116==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/KNmryKX_xyPyTLMpJxfSHtN"; protocol="application/pgp-signature"
+Some GPUs support different max frequencies depending on the platform.
+To identify the correct variant, we should check the gpu speedbin
+fuse value. Add support for this speedbin detection to a6xx family
+along with the required fuse details for a618 gpu.
 
---Sig_/KNmryKX_xyPyTLMpJxfSHtN
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+---
+Changes from v2:
+	1. Made the changes a6xx specific to save space.
+Changes from v1:
+	1. Added the changes to support a618 sku to the series.
+	2. Avoid failing probe in case of an unsupported sku. (Rob)
 
-On Mon, 7 Dec 2020 01:08:58 -0800
-James Park <james.park@lagfreegames.com> wrote:
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 74 +++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h |  2 +
+ 2 files changed, 76 insertions(+)
 
-> I'm not completely sure what you're saying, but doesn't drm_base_types.h
-> (now drm_basic_types.h) make things robust to header order? The patch is =
-in
-> another email. You can also see it here:
-> https://github.com/jpark37/linux/commit/0cc8ae750bfd9eab7e31c7de6aa84f246=
-82f4f18
-
-If that is robust (I don't know if it is, I haven't checked), then why
-do you have #ifdef DRM_FOURCC_STANDALONE in it at all?
-
-Like Simon said:
-
-On Mon, 07 Dec 2020 10:02:36 +0000
-Simon Ser <contact@emersion.fr> wrote:
-
-> In my compositors I'd like to globally define DRM_FOURCC_STANDALONE
-> (to make sure I don't miss any #define) but I still may include drm.h
-> in the same files as well.
-
-If any project #defines it globally, then what good does checking for
-it do? Why not assume that everyone will always want what
-DRM_FOURCC_STANDALONE would bring?
-
-
-Thanks,
-pq
-
->=20
-> Thanks,
-> James
->=20
-> On Mon, Dec 7, 2020 at 12:51 AM Pekka Paalanen <ppaalanen@gmail.com> wrot=
-e:
->=20
-> > On Fri, 4 Dec 2020 11:07:41 -0800
-> > James Park <james.park@lagfreegames.com> wrote:
-> > =20
-> > > I could adjust the block to look like this:
-> > >
-> > > #ifdef DRM_FOURCC_STANDALONE
-> > > #if defined(__linux__)
-> > > #include <linux/types.h>
-> > > #else
-> > > #include <stdint.h>
-> > > typedef uint32_t __u32;
-> > > typedef uint64_t __u64;
-> > > #endif
-> > > #else
-> > > #include "drm.h"
-> > > #endif
-> > >
-> > > Alternatively, I could create a new common header to be included from=
- =20
-> > both =20
-> > > drm.h and drm_fourcc.h, drm_base_types.h or something like that:
-> > >
-> > > #ifdef DRM_FOURCC_STANDALONE
-> > > #include "drm_base_types.h"
-> > > #else
-> > > #include "drm.h"
-> > > #endif =20
-> >
-> > Hi,
-> >
-> > my point is, any solution relying on DRM_FOURCC_STANDALONE will fail
-> > sometimes, because there is no reason why userspace would *not* #define
-> > DRM_FOURCC_STANDALONE. Hence, #ifdef DRM_FOURCC_STANDALONE is
-> > completely moot, you have to make the headers work in any include
-> > order when DRM_FOURCC_STANDALONE is defined anyway.
-> >
-> >
-> > Thanks.
-> > pq
-> > =20
-> > > On Fri, Dec 4, 2020 at 7:58 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > =20
-> > > > On Fri, Dec 4, 2020 at 9:12 AM Pekka Paalanen <ppaalanen@gmail.com>=
- =20
-> > wrote: =20
-> > > > >
-> > > > > On Thu, 3 Dec 2020 21:45:14 +0100
-> > > > > Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > > =20
-> > > > > > On Thu, Dec 3, 2020 at 7:55 PM James Park < =20
-> > james.park@lagfreegames.com> =20
-> > > > wrote: =20
-> > > > > > >
-> > > > > > > The trailing underscore for  DRM_FOURCC_STANDALONE_ isn't
-> > > > > > > intentional, right? Should I put all the integer types, or ju=
-st =20
-> > the =20
-> > > > > > > ones that are used in that file? =20
-> > > > > >
-> > > > > > Yeah that trailing _ just slipped in. And I'd just do the types
-> > > > > > already used. I don't think anything else than __u32 (for drm =
-=20
-> > fourcc) =20
-> > > > > > and __u64 (for drm modifier) is needed. =20
-> > > > >
-> > > > > Hi,
-> > > > >
-> > > > > can that create conflicts if userspace first includes drm_fourcc.=
-h =20
-> > and =20
-> > > > > then drm.h?
-> > > > >
-> > > > > I would find it natural to userspace have generic headers includi=
-ng
-> > > > > drm_fourcc.h and then DRM-specific C-files including drm.h as well
-> > > > > (through libdrm headers). I think Weston might already do this.
-> > > > >
-> > > > > The generic userspace (weston) header would obviously #define
-> > > > > DRM_FOURCC_STANDALONE, because it is used by non-DRM C-files as =
-=20
-> > well. =20
-> > > >
-> > > > Hm yes that would break. I guess we could just include the linux ty=
-pes
-> > > > header for this. And I guess on windows you'd need to have that from
-> > > > somewhere. Or we just require that users of the standalone header p=
-ull
-> > > > the right header or defines in first?
-> > > > -Daniel
-> > > > --
-> > > > Daniel Vetter
-> > > > Software Engineer, Intel Corporation
-> > > > http://blog.ffwll.ch
-> > > > =20
-> >
-> > =20
-
-
---Sig_/KNmryKX_xyPyTLMpJxfSHtN
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/OBWIACgkQI1/ltBGq
-qqewLw/8D+a/ipCJ0v+AcEqnh0NmjvdG03JOBVCcj+b18fC9RY7d05sO5MhUyHPD
-Z4HzU3jVnoM5givNjegUB3Rbz3fYTad1XRIPXoV/YUP0pQfWgJQbxPdL/f0ko9XH
-nL3uvH+RLnYWAocHw9iO1Y5aHATpbxuKFkbtPiakLqDUsU04Ek4/TsOWJnSv/N11
-2D7/nkjq4EGGrMflf9tSJw4BdN+FVTckvsPkAGF5DLB+Ck0ZCL/8+6maPTBYqbBo
-hteJDnLUEx2aBNOX3x2dXisfDeQF4JeApCw7xKRagTyhdvUybt281okc4HegUUG7
-CCBCGHtOrLPa1mt64uvWOxAUwgasdeegBrKiL+MV6ispgfM3u+n1soTXExPCM3DD
-BoLgZF0YY6BsoJpiMnu9dFBSv7qXx1BgP1wzSgj8f4Z17ZewcUP2w15RbsmtMrlV
-MMemsIcWblkkey7/8Oz6YAVFDMb0HhpZv8uHzFN+ffA/pU5RWEHNmrmZ3NapTBVY
-I0GyCk81KQaoEcAaDgDX+Af/oULn3d3didi4MxoYiKo9ztMcps6zkMBke5WDvIFK
-CUYJLc/Kkakqf7LSYt8FNzOqSpxgZcZiigskfT4gzfNFohBycnjnla+AeImn4dQX
-Hv2vp81wFhTNOw5S3fAdnDvXihE4PZb97RLTOW1isg/ggHwsWQI=
-=ymvX
------END PGP SIGNATURE-----
-
---Sig_/KNmryKX_xyPyTLMpJxfSHtN--
-
---===============0572469116==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 1306618..6304578 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -10,10 +10,13 @@
+ 
+ #include <linux/bitfield.h>
+ #include <linux/devfreq.h>
++#include <linux/nvmem-consumer.h>
+ #include <linux/soc/qcom/llcc-qcom.h>
+ 
+ #define GPU_PAS_ID 13
+ 
++const u32 a618_speedbins[] = {0, 169, 174};
++
+ static inline bool _a6xx_check_idle(struct msm_gpu *gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -1208,6 +1211,10 @@ static void a6xx_destroy(struct msm_gpu *gpu)
+ 	a6xx_gmu_remove(a6xx_gpu);
+ 
+ 	adreno_gpu_cleanup(adreno_gpu);
++
++	if (a6xx_gpu->opp_table)
++		dev_pm_opp_put_supported_hw(a6xx_gpu->opp_table);
++
+ 	kfree(a6xx_gpu);
+ }
+ 
+@@ -1264,6 +1271,67 @@ static uint32_t a6xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return ring->memptrs->rptr = gpu_read(gpu, REG_A6XX_CP_RB_RPTR);
+ }
+ 
++static u32 fuse_to_supp_hw(struct device *dev, u32 revn, u32 fuse)
++{
++	int i;
++
++	if (revn == 618) {
++		for (i = 0; i < ARRAY_SIZE(a618_speedbins); i++) {
++			if (fuse == a618_speedbins[i])
++				return  (1 << i);
++		}
++	}
++
++	DRM_DEV_ERROR(dev,
++			"missing support for speed-bin: %u. Some OPPs may not be supported by hardware",
++			fuse);
++	return ~0U;
++}
++
++static int a6xx_set_supported_hw(struct device *dev, struct a6xx_gpu *a6xx_gpu,
++		u32 revn)
++{
++
++	struct opp_table *opp_table;
++	struct nvmem_cell *cell;
++	u32 supp_hw = ~0U;
++	void *buf;
++
++	cell = nvmem_cell_get(dev, "speed_bin");
++	/*
++	 * -ENOENT means that the platform doesn't support speedbin which is
++	 * fine
++	 */
++	if (PTR_ERR(cell) == -ENOENT)
++		return 0;
++	else if (IS_ERR(cell)) {
++		DRM_DEV_ERROR(dev,
++				"failed to read speed-bin. Some OPPs may not be supported by hardware");
++		goto done;
++	}
++
++	buf = nvmem_cell_read(cell, NULL);
++	if (IS_ERR(buf)) {
++		nvmem_cell_put(cell);
++		DRM_DEV_ERROR(dev,
++				"failed to read speed-bin. Some OPPs may not be supported by hardware");
++		goto done;
++	}
++
++	supp_hw = fuse_to_supp_hw(dev, revn, *((u32 *) buf));
++
++	kfree(buf);
++	nvmem_cell_put(cell);
++
++done:
++	opp_table = dev_pm_opp_set_supported_hw(dev, &supp_hw, 1);
++	if (IS_ERR(opp_table))
++		return PTR_ERR(opp_table);
++
++	a6xx_gpu->opp_table = opp_table;
++	return 0;
++}
++
+ static const struct adreno_gpu_funcs funcs = {
+ 	.base = {
+ 		.get_param = adreno_get_param,
+@@ -1325,6 +1393,12 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 
+ 	a6xx_llc_slices_init(pdev, a6xx_gpu);
+ 
++	ret = a6xx_set_supported_hw(&pdev->dev, a6xx_gpu, info->revn);
++	if (ret) {
++		a6xx_destroy(&(a6xx_gpu->base.base));
++		return ERR_PTR(ret);
++	}
++
+ 	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
+ 	if (ret) {
+ 		a6xx_destroy(&(a6xx_gpu->base.base));
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+index e793d32..ce0610c 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+@@ -33,6 +33,8 @@ struct a6xx_gpu {
+ 	void *llc_slice;
+ 	void *htw_llc_slice;
+ 	bool have_mmu500;
++
++	struct opp_table *opp_table;
+ };
+ 
+ #define to_a6xx_gpu(x) container_of(x, struct a6xx_gpu, base)
+-- 
+2.7.4
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0572469116==--
