@@ -1,36 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1752D2506
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 08:55:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3BE2D252E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 08:58:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 215016E06E;
-	Tue,  8 Dec 2020 07:55:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCF56E96D;
+	Tue,  8 Dec 2020 07:58:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658D96E06E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 07:55:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA1276E96D
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 07:58:41 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 002FFAB63;
- Tue,  8 Dec 2020 07:55:25 +0000 (UTC)
-Subject: Re: [PATCH v5 6/9] drm/vc4: hdmi: Store pixel frequency in the
- connector state
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-References: <20201207155719.17149-1-maxime@cerno.tech>
- <20201207155719.17149-7-maxime@cerno.tech>
+ by mx2.suse.de (Postfix) with ESMTP id 875CEAD6B;
+ Tue,  8 Dec 2020 07:58:40 +0000 (UTC)
+Subject: Re: [PATCH] drm/drv: switch to using devm_add_action_or_reset()
+To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+References: <1607303055-5199-1-git-send-email-tiantao6@hisilicon.com>
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b60ffb0e-9979-aad1-50e7-4d68fdc0a915@suse.de>
-Date: Tue, 8 Dec 2020 08:55:24 +0100
+Message-ID: <84176f0f-56e2-c8dd-2f4d-651ec4abe435@suse.de>
+Date: Tue, 8 Dec 2020 08:58:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201207155719.17149-7-maxime@cerno.tech>
+In-Reply-To: <1607303055-5199-1-git-send-email-tiantao6@hisilicon.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,155 +39,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rpi-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Content-Type: multipart/mixed; boundary="===============1083487399=="
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="===============1530415313=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1083487399==
+--===============1530415313==
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="PsXHK89KT8MBiy17Vukk9CfwczsgHJYzt"
+ boundary="OBOk2NzH9KUjppU08qVTZvjsi2x5bTcac"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---PsXHK89KT8MBiy17Vukk9CfwczsgHJYzt
-Content-Type: multipart/mixed; boundary="AkmXZ4e6NUgz1bxNkvTKAEKrVeqflhd9A";
+--OBOk2NzH9KUjppU08qVTZvjsi2x5bTcac
+Content-Type: multipart/mixed; boundary="swqm5MMhWIed7od01E2Dqsm0Nt5PbPvnu";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Maxime Ripard <maxime@cerno.tech>, Daniel Vetter
- <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org
-Message-ID: <b60ffb0e-9979-aad1-50e7-4d68fdc0a915@suse.de>
-Subject: Re: [PATCH v5 6/9] drm/vc4: hdmi: Store pixel frequency in the
- connector state
-References: <20201207155719.17149-1-maxime@cerno.tech>
- <20201207155719.17149-7-maxime@cerno.tech>
-In-Reply-To: <20201207155719.17149-7-maxime@cerno.tech>
+To: Tian Tao <tiantao6@hisilicon.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Message-ID: <84176f0f-56e2-c8dd-2f4d-651ec4abe435@suse.de>
+Subject: Re: [PATCH] drm/drv: switch to using devm_add_action_or_reset()
+References: <1607303055-5199-1-git-send-email-tiantao6@hisilicon.com>
+In-Reply-To: <1607303055-5199-1-git-send-email-tiantao6@hisilicon.com>
 
---AkmXZ4e6NUgz1bxNkvTKAEKrVeqflhd9A
+--swqm5MMhWIed7od01E2Dqsm0Nt5PbPvnu
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-Am 07.12.20 um 16:57 schrieb Maxime Ripard:
-> The pixel rate is for now quite simple to compute, but with more featur=
-es
-> (30 and 36 bits output, YUV output, etc.) will depend on a bunch of
-> connectors properties.
+Am 07.12.20 um 02:04 schrieb Tian Tao:
+> switch to using devm_add_action_or_reset() instead of devm_add_action.
 >=20
-> Let's store the rate we have to run the pixel clock at in our custom
-> connector state, and compute it in atomic_check.
->=20
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+
+I'm surprised that devm_drm_dev_init() didn't already use=20
+devm_add_action_or_reset(). But it doesn't look special, so
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/vc4/vc4_hdmi.c | 26 +++++++++++++++++++++++++-
->   drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
->   2 files changed, 26 insertions(+), 1 deletion(-)
+>   drivers/gpu/drm/drm_drv.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> index 744396c8dcb9..83699105c7a5 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -194,6 +194,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_conne=
-ctor *connector)
->   	if (!new_state)
->   		return NULL;
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 7343038..b92f7fd 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -675,11 +675,8 @@ static int devm_drm_dev_init(struct device *parent=
+,
+>   	if (ret)
+>   		return ret;
 >  =20
-> +	new_state->pixel_rate =3D vc4_state->pixel_rate;
->   	__drm_atomic_helper_connector_duplicate_state(connector, &new_state-=
->base);
->  =20
->   	return &new_state->base;
-> @@ -611,9 +612,29 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi=
- *vc4_hdmi)
->   		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
+> -	ret =3D devm_add_action(parent, devm_drm_dev_init_release, dev);
+> -	if (ret)
+> -		devm_drm_dev_init_release(dev);
+> -
+> -	return ret;
+> +	return devm_add_action_or_reset(parent,
+> +					devm_drm_dev_init_release, dev);
 >   }
 >  =20
-> +static struct drm_connector_state *
-> +vc4_hdmi_encoder_get_connector_state(struct drm_encoder *encoder,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_connector *connector;
-> +	unsigned int i;
-> +
-> +	for_each_new_connector_in_state(state, connector, conn_state, i) {
-> +		if (conn_state->best_encoder =3D=3D encoder)
-> +			return conn_state;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->   static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *e=
-ncoder,
->   						struct drm_atomic_state *state)
->   {
-> +	struct drm_connector_state *conn_state =3D
-> +		vc4_hdmi_encoder_get_connector_state(encoder, state);
-> +	struct vc4_hdmi_connector_state *vc4_conn_state =3D
-> +		conn_state_to_vc4_hdmi_conn_state(conn_state);
->   	struct drm_display_mode *mode =3D &encoder->crtc->state->adjusted_mo=
-de;
->   	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
->   	unsigned long pixel_rate, hsm_rate;
-> @@ -625,7 +646,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(str=
-uct drm_encoder *encoder,
->   		return;
->   	}
->  =20
-> -	pixel_rate =3D mode->clock * 1000 * ((mode->flags & DRM_MODE_FLAG_DBL=
-CLK) ? 2 : 1);
-> +	pixel_rate =3D vc4_conn_state->pixel_rate;
->   	ret =3D clk_set_rate(vc4_hdmi->pixel_clock, pixel_rate);
->   	if (ret) {
->   		DRM_ERROR("Failed to set pixel clock rate: %d\n", ret);
-> @@ -797,6 +818,7 @@ static int vc4_hdmi_encoder_atomic_check(struct drm=
-_encoder *encoder,
->   					 struct drm_crtc_state *crtc_state,
->   					 struct drm_connector_state *conn_state)
->   {
-> +	struct vc4_hdmi_connector_state *vc4_state =3D conn_state_to_vc4_hdmi=
-_conn_state(conn_state);
->   	struct drm_display_mode *mode =3D &crtc_state->adjusted_mode;
->   	struct vc4_hdmi *vc4_hdmi =3D encoder_to_vc4_hdmi(encoder);
->   	unsigned long long pixel_rate =3D mode->clock * 1000;
-> @@ -827,6 +849,8 @@ static int vc4_hdmi_encoder_atomic_check(struct drm=
-_encoder *encoder,
->   	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
->   		return -EINVAL;
->  =20
-> +	vc4_state->pixel_rate =3D pixel_rate;
-> +
->   	return 0;
->   }
->  =20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_h=
-dmi.h
-> index 2cf5362052e2..bca6943de884 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -182,6 +182,7 @@ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
->  =20
->   struct vc4_hdmi_connector_state {
->   	struct drm_connector_state	base;
-> +	unsigned long long		pixel_rate;
->   };
->  =20
->   static inline struct vc4_hdmi_connector_state *
+>   void *__devm_drm_dev_alloc(struct device *parent,
 >=20
 
 --=20
@@ -203,32 +114,32 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---AkmXZ4e6NUgz1bxNkvTKAEKrVeqflhd9A--
+--swqm5MMhWIed7od01E2Dqsm0Nt5PbPvnu--
 
---PsXHK89KT8MBiy17Vukk9CfwczsgHJYzt
+--OBOk2NzH9KUjppU08qVTZvjsi2x5bTcac
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/PMWwFAwAAAAAACgkQlh/E3EQov+BJ
-SQ//U+C+z8CfP5Pca5Oz7429W7x16HWdFwJQb2pDofsum40de+XBsoTZQAKKC3Hs/3L5RWgEoINN
-PV927HwQeXgz99DYN5u6++VkOvUvSag4JQ2PauEBBnZWND1BRyjSLFi8lOSs36eV5WwvdumLu1uo
-K48pFVC+neQV2J+KYtg0XFkZuPB2LZ/MDsGR14ovjFoh8OZlyHTQDux034VxWLoUu9PFUPQgnw2s
-wmTTaFjFCahq5EHUS9V17b7NnL8HIRdNib3nMuFXV2tSVbPfY53jXoAdXxDBUed6eoQVuKQbUIKu
-aLpYF1Bq5X86nMh4DlAK5UNxaqF7ql7BL3QmXM+2QlnQ2K10V3oMukklyxcJdWb1bKJ8XpU+98UA
-w4UeNx7ae1e+3aWmPvBtXrrxy7SyDjhCCruNi907M+2tI5ylsT6fmVqPozDCT+9y0XrqfdkL6JIk
-LEeBOrf0vH6bY/aVl/2hCMsvGZ+LRfUa67KULnCgWVoNfT82YdHcJS+HVkbXtBPSzQSGEt7RKGzb
-nA92kxAY7gk8ZS/E5Ydb99IGeXyqk/Vq9jW6smwNej2BTG7SrT5iX/AGlpRVrn/3uPI3haap8IPE
-6nlFK5+NtHEeWJ5NnVAk5tiiLwAuH/v9ixkPIKDhvWs7K9lvdmw3LS4AQDbtWgqNDtGwlnjVQMZl
-7jk=
-=nVxt
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/PMi8FAwAAAAAACgkQlh/E3EQov+BE
+9BAAmMZPjUjeeWxDYuc6FgJrELz9Ip1vR9sOpN9vVRc6Gb6oeZQrAUHQZER8dfHuNJyBez10q6G9
+FlyX/WMc3p4viih51xU826TEWomOChZyzrNG325VjKH1wpXdJv5h36EOPzu+VjDrI5SG+obwPsBY
+XnPNO+JWey7Q3l59g9hfcGhKahKVwdyAb0ymasP1o8eD1YeOgFENP0fz2+q8IdY4YpsamuSMixKY
+TxEt6VqTxKBJXrTzgHMIM/VBtCSACg3SwWj40RKgo1vvTR4IPzd33ys7Q/OJ8tqVKslWU/X7J8ij
+vwsv/2IzvoK+eam3deWVVyhqc3fu2xW76xgJbSch2i1sjuiecLhl9aFlVkvzirHy0MMSwoj7Hi5S
+6r+QA9PhUsL8eHcziNzTt7wa1g4v/wyVzqY7HzAQywKPRCsA350ePbUebvrQbELI5kb8SKxfFs27
+/oTOyxuAcT/6KQIuzPQts4KDo406TcHOTTJmB6u4ZqUVYHfZ4oao7ROciq0ib85JlLVYHK6Ihnyl
+RX8KBZQp11jwZKxNTt+U8Mrk/SQpSoWd/fNyLZe6HCdF6o5fVy/HIKdr4DjY0GPd5DFdgsaA7CHO
+C8nvRS/ymdIUm4QkhNPmkTovoG2ElyhKUcrMUCAKMRJ6hij+Voe/8RNgYWmTDH8xd8QD+veJZfHQ
+8V0=
+=+YfB
 -----END PGP SIGNATURE-----
 
---PsXHK89KT8MBiy17Vukk9CfwczsgHJYzt--
+--OBOk2NzH9KUjppU08qVTZvjsi2x5bTcac--
 
---===============1083487399==
+--===============1530415313==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -239,4 +150,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1083487399==--
+--===============1530415313==--
