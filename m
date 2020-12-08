@@ -2,36 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006DA2D2EBD
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E884B2D2EAE
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2578D6E979;
-	Tue,  8 Dec 2020 15:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5645D6E960;
+	Tue,  8 Dec 2020 15:55:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D293F6E96C
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4D86E953
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 15:55:16 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
- helo=dude02.pengutronix.de.)
- by metis.ext.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1kmfKc-0007AN-Ph; Tue, 08 Dec 2020 16:55:14 +0100
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 19/19] drm/imx: ipuv3-crtc: use drm managed resources
-Date: Tue,  8 Dec 2020 16:54:51 +0100
-Message-Id: <20201208155451.8421-20-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201208155451.8421-1-p.zabel@pengutronix.de>
-References: <20201208155451.8421-1-p.zabel@pengutronix.de>
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 694E1335;
+ Tue,  8 Dec 2020 16:55:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607442914;
+ bh=v+u0Mof65rGqTkFXBj61yKTVJz2WHlV53k1W1W0IWgI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=N5fdhd0Q5Zdc55DR/o9rjwaTpW1dQLEZRijaePKFyUs+fNei+AjxNHfSd41h+t16P
+ uI07iVMfdKM1T5QRghLV8luRNAhTxlU9r1oOM0RXFnVA2hstOgRQn8UAomeTYH5r25
+ UXDfOOSV4ECyNp71nFJXUZtdVEnFYun7DuR4VXZE=
+Date: Tue, 8 Dec 2020 17:55:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 1/2] drm: add legacy support for using degamma for gamma
+Message-ID: <X8+h37/GM6K7q1mk@pendragon.ideasonboard.com>
+References: <20201208135759.451772-1-tomi.valkeinen@ti.com>
+ <20201208135759.451772-2-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Disposition: inline
+In-Reply-To: <20201208135759.451772-2-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,224 +46,171 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel@pengutronix.de, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Yannick Fertre <yannick.fertre@st.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, Paul Cercueil <paul@crapouillou.net>,
+ Alexandre Torgue <alexandre.torgue@st.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Vincent Abriou <vincent.abriou@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use use drmm_crtc_alloc_with_planes() to align crtc memory lifetime
-with the drm device. drm_crtc_cleanup() is called automatically before
-the memory is freed.
-Also use drmm_add_action_or_reset() to make sure IPU resources are
-released automatically.
+Hi Tomi,
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-Changes since v3:
- - use drmm_crtc_alloc_with_planes()
- - merge ipu_crtc_init into ipu_drm_bind
----
- drivers/gpu/drm/imx/ipuv3-crtc.c | 114 ++++++++++++-------------------
- 1 file changed, 43 insertions(+), 71 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-index 6ce8fa4348c9..e6431a227feb 100644
---- a/drivers/gpu/drm/imx/ipuv3-crtc.c
-+++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-@@ -20,6 +20,7 @@
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_gem_cma_helper.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-@@ -163,7 +164,6 @@ static void ipu_disable_vblank(struct drm_crtc *crtc)
- 
- static const struct drm_crtc_funcs ipu_crtc_funcs = {
- 	.set_config = drm_atomic_helper_set_config,
--	.destroy = drm_crtc_cleanup,
- 	.page_flip = drm_atomic_helper_page_flip,
- 	.reset = imx_drm_crtc_reset,
- 	.atomic_duplicate_state = imx_drm_crtc_duplicate_state,
-@@ -322,67 +322,74 @@ static const struct drm_crtc_helper_funcs ipu_helper_funcs = {
- 	.atomic_enable = ipu_crtc_atomic_enable,
- };
- 
--static void ipu_put_resources(struct ipu_crtc *ipu_crtc)
-+static void ipu_put_resources(struct drm_device *dev, void *ptr)
- {
-+	struct ipu_crtc *ipu_crtc = ptr;
-+
- 	if (!IS_ERR_OR_NULL(ipu_crtc->dc))
- 		ipu_dc_put(ipu_crtc->dc);
- 	if (!IS_ERR_OR_NULL(ipu_crtc->di))
- 		ipu_di_put(ipu_crtc->di);
- }
- 
--static int ipu_get_resources(struct ipu_crtc *ipu_crtc,
--		struct ipu_client_platformdata *pdata)
-+static int ipu_get_resources(struct drm_device *dev, struct ipu_crtc *ipu_crtc,
-+			     struct ipu_client_platformdata *pdata)
- {
- 	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
- 	int ret;
- 
- 	ipu_crtc->dc = ipu_dc_get(ipu, pdata->dc);
--	if (IS_ERR(ipu_crtc->dc)) {
--		ret = PTR_ERR(ipu_crtc->dc);
--		goto err_out;
--	}
-+	if (IS_ERR(ipu_crtc->dc))
-+		return PTR_ERR(ipu_crtc->dc);
-+
-+	ret = drmm_add_action_or_reset(dev, ipu_put_resources, ipu_crtc);
-+	if (ret)
-+		return ret;
- 
- 	ipu_crtc->di = ipu_di_get(ipu, pdata->di);
--	if (IS_ERR(ipu_crtc->di)) {
--		ret = PTR_ERR(ipu_crtc->di);
--		goto err_out;
--	}
-+	if (IS_ERR(ipu_crtc->di))
-+		return PTR_ERR(ipu_crtc->di);
- 
- 	return 0;
--err_out:
--	ipu_put_resources(ipu_crtc);
--
--	return ret;
- }
- 
--static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
--	struct ipu_client_platformdata *pdata, struct drm_device *drm)
-+static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
- {
--	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
--	struct drm_crtc *crtc = &ipu_crtc->base;
-+	struct ipu_client_platformdata *pdata = dev->platform_data;
-+	struct ipu_soc *ipu = dev_get_drvdata(dev->parent);
-+	struct drm_device *drm = data;
-+	struct ipu_plane *primary_plane;
-+	struct ipu_crtc *ipu_crtc;
-+	struct drm_crtc *crtc;
- 	int dp = -EINVAL;
- 	int ret;
- 
--	ret = ipu_get_resources(ipu_crtc, pdata);
--	if (ret) {
--		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
--				ret);
--		return ret;
--	}
--
- 	if (pdata->dp >= 0)
- 		dp = IPU_DP_FLOW_SYNC_BG;
--	ipu_crtc->plane[0] = ipu_plane_init(drm, ipu, pdata->dma[0], dp, 0,
--					    DRM_PLANE_TYPE_PRIMARY);
--	if (IS_ERR(ipu_crtc->plane[0])) {
--		ret = PTR_ERR(ipu_crtc->plane[0]);
--		goto err_put_resources;
--	}
-+	primary_plane = ipu_plane_init(drm, ipu, pdata->dma[0], dp, 0,
-+				       DRM_PLANE_TYPE_PRIMARY);
-+	if (IS_ERR(primary_plane))
-+		return PTR_ERR(primary_plane);
-+
-+	ipu_crtc = drmm_crtc_alloc_with_planes(drm, struct ipu_crtc, base,
-+					       &primary_plane->base, NULL,
-+					       &ipu_crtc_funcs, NULL);
-+	if (IS_ERR(ipu_crtc))
-+		return PTR_ERR(ipu_crtc);
-+
-+	ipu_crtc->dev = dev;
-+	ipu_crtc->plane[0] = primary_plane;
- 
-+	crtc = &ipu_crtc->base;
- 	crtc->port = pdata->of_node;
- 	drm_crtc_helper_add(crtc, &ipu_helper_funcs);
--	drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base, NULL,
--				  &ipu_crtc_funcs, NULL);
-+
-+	ret = ipu_get_resources(drm, ipu_crtc, pdata);
-+	if (ret) {
-+		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
-+			ret);
-+		return ret;
-+	}
- 
- 	/* If this crtc is using the DP, add an overlay plane */
- 	if (pdata->dp >= 0 && pdata->dma[1] > 0) {
-@@ -399,50 +406,21 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
- 			"imx_drm", ipu_crtc);
- 	if (ret < 0) {
- 		dev_err(ipu_crtc->dev, "irq request failed with %d.\n", ret);
--		goto err_put_resources;
-+		return ret;
- 	}
- 	/* Only enable IRQ when we actually need it to trigger work. */
- 	disable_irq(ipu_crtc->irq);
- 
- 	return 0;
--
--err_put_resources:
--	ipu_put_resources(ipu_crtc);
--
--	return ret;
--}
--
--static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
--{
--	struct ipu_client_platformdata *pdata = dev->platform_data;
--	struct drm_device *drm = data;
--	struct ipu_crtc *ipu_crtc;
--
--	ipu_crtc = dev_get_drvdata(dev);
--	memset(ipu_crtc, 0, sizeof(*ipu_crtc));
--
--	ipu_crtc->dev = dev;
--
--	return ipu_crtc_init(ipu_crtc, pdata, drm);
--}
--
--static void ipu_drm_unbind(struct device *dev, struct device *master,
--	void *data)
--{
--	struct ipu_crtc *ipu_crtc = dev_get_drvdata(dev);
--
--	ipu_put_resources(ipu_crtc);
- }
- 
- static const struct component_ops ipu_crtc_ops = {
- 	.bind = ipu_drm_bind,
--	.unbind = ipu_drm_unbind,
- };
- 
- static int ipu_drm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
--	struct ipu_crtc *ipu_crtc;
- 	int ret;
- 
- 	if (!dev->platform_data)
-@@ -452,12 +430,6 @@ static int ipu_drm_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
--	if (!ipu_crtc)
--		return -ENOMEM;
--
--	dev_set_drvdata(dev, ipu_crtc);
--
- 	return component_add(dev, &ipu_crtc_ops);
- }
- 
+On Tue, Dec 08, 2020 at 03:57:58PM +0200, Tomi Valkeinen wrote:
+> We currently have drm_atomic_helper_legacy_gamma_set() helper which can
+> be used to handle legacy gamma-set ioctl.
+> drm_atomic_helper_legacy_gamma_set() sets GAMMA_LUT, and clears
+> CTM and DEGAMMA_LUT. This works fine on HW where we have either:
+> 
+> degamma -> ctm -> gamma -> out
+> 
+> or
+> 
+> ctm -> gamma -> out
+> 
+> However, if the HW has gamma table before ctm, the atomic property
+> should be DEGAMMA_LUT, and thus we have:
+> 
+> degamma -> ctm -> out
+> 
+> This is fine for userspace which sets gamma table using the properties,
+> as the userspace can check for the existence of gamma & degamma, but the
+> legacy gamma-set ioctl does not work.
+> 
+> This patch fixes the issue by changing
+> drm_atomic_helper_legacy_gamma_set() so that GAMMA_LUT will be used if
+> it exists, and DEGAMMA_LUT will be used as a fallback.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 15 ++++++++++++---
+>  drivers/gpu/drm/drm_color_mgmt.c    |  4 ++++
+>  drivers/gpu/drm/drm_fb_helper.c     |  8 ++++++--
+>  include/drm/drm_crtc.h              |  3 +++
+>  4 files changed, 25 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index ba1507036f26..117b186fe646 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -3512,6 +3512,10 @@ EXPORT_SYMBOL(drm_atomic_helper_page_flip_target);
+>   * that support color management through the DEGAMMA_LUT/GAMMA_LUT
+>   * properties. See drm_crtc_enable_color_mgmt() and the containing chapter for
+>   * how the atomic color management and gamma tables work.
+> + *
+> + * This function uses the GAMMA_LUT or DEGAMMA_LUT property for the gamma table.
+> + * GAMMA_LUT property is used if it exists, and DEGAMMA_LUT property is used as
+> + * a fallback.
+>   */
+>  int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  				       u16 *red, u16 *green, u16 *blue,
+> @@ -3526,6 +3530,9 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  	int i, ret = 0;
+>  	bool replaced;
+>  
+> +	if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
+> +		return -ENODEV;
+> +
+>  	state = drm_atomic_state_alloc(crtc->dev);
+>  	if (!state)
+>  		return -ENOMEM;
+> @@ -3554,10 +3561,12 @@ int drm_atomic_helper_legacy_gamma_set(struct drm_crtc *crtc,
+>  		goto fail;
+>  	}
+>  
+> -	/* Reset DEGAMMA_LUT and CTM properties. */
+> -	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut, NULL);
+> +	/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
+> +	replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+> +					      crtc->has_gamma_prop ? NULL : blob);
+>  	replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+> -	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut, blob);
+> +	replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+> +					      crtc->has_gamma_prop ? blob : NULL);
+>  	crtc_state->color_mgmt_changed |= replaced;
+>  
+>  	ret = drm_atomic_commit(state);
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index 3bcabc2f6e0e..956e59d5f6a7 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -176,6 +176,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+>  					   degamma_lut_size);
+>  	}
+>  
+> +	crtc->has_degamma_prop = !!degamma_lut_size;
+> +
+>  	if (has_ctm)
+>  		drm_object_attach_property(&crtc->base,
+>  					   config->ctm_property, 0);
+> @@ -187,6 +189,8 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+>  					   config->gamma_lut_size_property,
+>  					   gamma_lut_size);
+>  	}
+> +
+> +	crtc->has_gamma_prop = !!gamma_lut_size;
+>  }
+>  EXPORT_SYMBOL(drm_crtc_enable_color_mgmt);
+>  
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index 25edf670867c..b0906ef97617 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -1001,6 +1001,9 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
+>  	drm_client_for_each_modeset(modeset, &fb_helper->client) {
+>  		crtc = modeset->crtc;
+>  
+> +		if (!crtc->has_gamma_prop && !crtc->has_degamma_prop)
+> +			continue;
+> +
+>  		if (!gamma_lut)
+>  			gamma_lut = setcmap_new_gamma_lut(crtc, cmap);
+>  		if (IS_ERR(gamma_lut)) {
+> @@ -1015,11 +1018,12 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
+>  			goto out_state;
+>  		}
+>  
+> +		/* Set GAMMA/DEGAMMA_LUT and reset DEGAMMA/GAMMA_LUT and CTM */
+>  		replaced  = drm_property_replace_blob(&crtc_state->degamma_lut,
+> -						      NULL);
+> +						      crtc->has_gamma_prop ? NULL : gamma_lut);
+>  		replaced |= drm_property_replace_blob(&crtc_state->ctm, NULL);
+>  		replaced |= drm_property_replace_blob(&crtc_state->gamma_lut,
+> -						      gamma_lut);
+> +						      crtc->has_gamma_prop ? gamma_lut : NULL);
+>  		crtc_state->color_mgmt_changed |= replaced;
+>  	}
+>  
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index ba839e5e357d..4d9e217e5040 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -1084,6 +1084,9 @@ struct drm_crtc {
+>  	 */
+>  	uint16_t *gamma_store;
+>  
+> +	bool has_gamma_prop : 1;
+> +	bool has_degamma_prop : 1;
+> +
+>  	/** @helper_private: mid-layer private data */
+>  	const struct drm_crtc_helper_funcs *helper_private;
+>  
+
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
