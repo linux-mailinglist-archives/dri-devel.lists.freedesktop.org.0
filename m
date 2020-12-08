@@ -1,131 +1,114 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCF22D31DA
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 19:13:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 669112D321E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 19:26:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34A06E998;
-	Tue,  8 Dec 2020 18:13:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFD996E99E;
+	Tue,  8 Dec 2020 18:26:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59A1B6E998
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 18:13:53 +0000 (UTC)
-IronPort-SDR: dhieKbJo/ZazlbFCcUSDSKzCuSPI0bUZ732nKV59wLYhKbQ7TDsRXv51PGt3/3clN28ls6ewTW
- 5NRUqH40tzqg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="170434087"
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; d="scan'208";a="170434087"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2020 10:13:52 -0800
-IronPort-SDR: LPjPxyfDptVueB+PIjRURjp5QOP+9wMiQQ3RHupOqtfPHFRDXvVKwzBMGFy3k/sSRW88hFkvRa
- 7XxS0O3tf7jA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,403,1599548400"; d="scan'208";a="337693066"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga006.jf.intel.com with ESMTP; 08 Dec 2020 10:13:52 -0800
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 8 Dec 2020 10:13:51 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Tue, 8 Dec 2020 10:13:51 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 8 Dec 2020 10:13:51 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2080.outbound.protection.outlook.com [40.107.236.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FDD26E99F;
+ Tue,  8 Dec 2020 18:26:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EH95WbaJR6RtzsCWQn6mO3Zjv+t4LXtN1fCuokilqgTUjIQM6PxYAFi+QxtMPPCAECtzKf1Leeo3w5qvL7GNSaT4AjyUw52+4lQAba05B8/jBWb8yscMMsLRfLiJEzHqNHZlDKH+bEsiWulLuwIyDDXVsnVYAikjV/4owNSWxwo3g8M0AFshQ8XnYVcgI6KWPe8AV51pnW/wZU0oliz5I1ynotSn4oXUTZsEAB5pN7//aWeBuEM4wsH+F6KqaFcMg51Ay452XF8jAhtVqwl/n7KHsd9CSN2v9lO+/WEi6tFmwY56N0GOE/s5SuRJwx3bBzmlIz1XvA4wvw1SbUMFQg==
+ b=DI9EIhpqwdRKoj1HKWhq2YcxQle98lg66WUlkfqgjUmWY/XHF6CKcOHgXCm3CJlL1eWN5LlLC+jWEuIh3IPy0xkdxTc91+kYu3aIw/W+L1Poie9dlyQ4irkJecxsodY8f3McekBsyCXCjd9PB8rIQSatO1dFgMUAW893Nl3gRE5nY2fMxqyqnlBBmCxt14TkQUHi1/nIpVu6++hIOygDBesfcksRcPnT4bEKlJXbH8kagtz5YckoubY72bf2BPSV5HcbL7DxPnBFfKZ8LFrfk8394muYxJ5zgoik8u7qSi/7f6seaiBWcCPrjrh5mVFitVD5V4LJAgC5/RFb8v+pog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y4JU0qdV9eugGEmq6d/YIvJ4Ixa6Py48VSCGyB9Eao0=;
- b=mJT5DpnOb4ScDb2AgiVAxX7M3GTcFQ+Crf3igh4VUK7YON4VBnE4I/7dQTb0kkfaC6XF2xMPEgfNrGkaOvTp62KfHGzAWusG8gDzTAOVofHZtJY/D19gwhygEWxyKtpDsmWcE/W/9a8pV/sVEb0cKzdMRnWImZMqV1qUh8gVwbbD86X86EL9DrhNj2OqzgpvkK1NBz8aZDXTuZFZrNkd8x2IeO7lcwgFwVyRpebNPmIgdqWYyI/siOkND65fRqhF0Ejil9DeB8TAA36epxrVScuJA/raP5OLkA7Ase8YFIdT48fOqK8xRUoCipAnixsjipcYiMmf9gJLbJvgJ9SJmA==
+ bh=aWfbWbBGpXeewmRuBdAl2xPMAOqfZWdkT+1ncHbroCY=;
+ b=DP8FiGr1IIdQYIgfUoxm+pXTNbMhU4AXNOzX08hP1TaI4cgd3JbIOnBC1W061CrFg4clCH4w0K+Jer2pI3Je4PS5VVwNbASGPfsHbU4KRTGB3CalZwjZrLMRZ08SVaM6QtQN99khtdQvcPraInehfQHTQsQTbEY/CmSQOT+QIYXWRto8iC3DrGD4kTUYmdUPiqJOzSfUH3lw20vfnGBHALD5MCm99gy8jqCucH5sJ6x9Pq5jhFA4pZLArTmaeR1jFH4xVOJ7glLcTpHlklFHdpcfI3d7SutWxjYJAjDOlH7CUvHxDcxStmr7lQJ1/WU9Jgh+y96YKGtdHWGWkdAYtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y4JU0qdV9eugGEmq6d/YIvJ4Ixa6Py48VSCGyB9Eao0=;
- b=QiMXI4D568Kkk99jFI1GNIDYUmuuMOe1XlBYzlY9srLHEpEEZ9d3boWWmGWNnmPIYtvZAbtOPCG2sIeG4v6TJ/4943W0MmcvuRSmJfyyOilD4dLePqX49UxU6xI2JpHEZL4/iqQTMomprWmTN0ehc1JhuzVrn7PPT5y/SO0ed1A=
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
- by MWHPR11MB1440.namprd11.prod.outlook.com (2603:10b6:301:7::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 8 Dec
- 2020 18:13:20 +0000
-Received: from MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::7510:71a5:3cfe:ab94]) by MW3PR11MB4555.namprd11.prod.outlook.com
- ([fe80::7510:71a5:3cfe:ab94%9]) with mapi id 15.20.3654.012; Tue, 8 Dec 2020
- 18:13:20 +0000
-From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
-To: Leon Romanovsky <leon@kernel.org>
-Subject: RE: [PATCH v13 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Thread-Topic: [PATCH v13 1/4] RDMA/umem: Support importing dma-buf as user
- memory region
-Thread-Index: AQHWzORzAl0zVkuiI06perwGejvid6nsx0AAgACvZRA=
-Date: Tue, 8 Dec 2020 18:13:20 +0000
-Message-ID: <MW3PR11MB45554A727DA7940D81FE1C14E5CD0@MW3PR11MB4555.namprd11.prod.outlook.com>
-References: <1607379353-116215-1-git-send-email-jianxin.xiong@intel.com>
- <1607379353-116215-2-git-send-email-jianxin.xiong@intel.com>
- <20201208070532.GE4430@unreal>
-In-Reply-To: <20201208070532.GE4430@unreal>
-Accept-Language: en-US
+ bh=aWfbWbBGpXeewmRuBdAl2xPMAOqfZWdkT+1ncHbroCY=;
+ b=MW9P4u3hhVVbog0zxF4YttrzxUV3P8uMy1Qy15h8jJikUqNvE+z+Bmzb1RaiVJgmwtjarNosr9IE55JX6G9ZgOEpgAa/OAK9tnJz0KZzOrZ/Y40oIeAClriLfSbuj07JCbrHapZJ/j2SyUsjak9XRAi0Rgt8hchwKTUDA7Iw5VE=
+Authentication-Results: suse.de; dkim=none (message not signed)
+ header.d=none;suse.de; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com (2603:10b6:5:2a8::7) by
+ DM6PR12MB4137.namprd12.prod.outlook.com (2603:10b6:5:218::21) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17; Tue, 8 Dec 2020 18:26:19 +0000
+Received: from DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435]) by DM6PR12MB4340.namprd12.prod.outlook.com
+ ([fe80::a881:155d:45db:b435%9]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
+ 18:26:19 +0000
+Subject: Re: [PATCH] drm/amdgpu: Initialise drm_gem_object_funcs for imported
+ BOs
+To: christian.koenig@amd.com, dri-devel@lists.freedesktop.org
+References: <1607447432-28982-1-git-send-email-andrey.grodzovsky@amd.com>
+ <76baebc8-6fd3-6b28-8c62-bd049875a8c5@gmail.com>
+From: Andrey Grodzovsky <Andrey.Grodzovsky@amd.com>
+Message-ID: <dde83a65-07ae-2285-9999-a5c0f09dc1d3@amd.com>
+Date: Tue, 8 Dec 2020 13:26:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
+In-Reply-To: <76baebc8-6fd3-6b28-8c62-bd049875a8c5@gmail.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [73.53.14.45]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0afe62f6-8b95-48c2-1476-08d89ba4f1f4
-x-ms-traffictypediagnostic: MWHPR11MB1440:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MWHPR11MB144039EB4056F76D2E8A318DE5CD0@MWHPR11MB1440.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1775;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JSfciRr3/y4tbfOebIbY335QLzCXon6DMmOl7quzHPFa7V0YakPa6ZdGnM9/xQd8f3nGCXJ4VDVpXt58CiG3hBqcGkZCSOCpLaf9Wytta8AFqVs7A2C0KPaawHAcHSzl6qEHuj2E1ff2NNlTXUwoMhNS6b2ciQYZL3c2OLbE5n2AIYe2dGxlDAjDjzDh+fgYWIGbFfT6TTU75s/+f6/lY8e4EHDmQsyaYCRj1YZHHsZHIvxyPELztwomaU2IHOKIJMvNJSBOAe9bfa0S6TnMiPeyC1Z8jU5/hTMXP9ki3yRdJEn4Y4zsR5W7XIEitFByUPtGsGEH0BfnHABbfs0QFA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(136003)(346002)(66446008)(107886003)(66946007)(66556008)(66476007)(52536014)(508600001)(5660300002)(4326008)(71200400001)(64756008)(26005)(186003)(33656002)(83380400001)(2906002)(30864003)(86362001)(6506007)(7696005)(53546011)(8676002)(76116006)(9686003)(55016002)(54906003)(8936002)(6916009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?vkUVLutq6pkY5A8JKZTOwJMIsVeATA61aiERc2gxlrX7ED0bywnN3sbQ7Atl?=
- =?us-ascii?Q?uY04ppvNR/scX3T9lqsDsa/myL/myMCrW0ipUdadodCZ0XY+ZJ5JBz8a0BDa?=
- =?us-ascii?Q?NOjOhLIqADDnahBVa4Zhm3tO+ze04un/DRX38IrIngureuF7KlZxICPYRpNF?=
- =?us-ascii?Q?iBBLTOpSqi+8+kXm4n9nx5ndHW4UjaaVzxncI6NAxYleBLypTs++yzsc98Eh?=
- =?us-ascii?Q?kLTKkisecuY7CAdn7QD2h9TupgLhx2F0YEtYLHYcJMF4sro9dKIxgtrfcVPh?=
- =?us-ascii?Q?dEizIJlWJo+iPqKVuB0M36PHrxu+NyuIC4zyf5qsrWLjUw7QlhE3RxoA7+7V?=
- =?us-ascii?Q?7+XEX5bQFjbNls57jt96j3zC3QIbo8iPSx42eCprt+EQqt1+UZ4lg1OD6J1b?=
- =?us-ascii?Q?SAq0wmCClX35mchebsg5ieBeKmi+/XxTvEC7OBzVEvtTImv/nALBQ+9VoSsG?=
- =?us-ascii?Q?3fm2iZa5/tigvHGeCDCIYklMEHvGVjzta0X3eB8/Ax87OJCEaupdWvZ/ibQo?=
- =?us-ascii?Q?eZFGmbD5n5fs9w4YoU4qmH4hwidnSmzjJNIItMt2sfsIjepIeLOMwHNq8gaj?=
- =?us-ascii?Q?9kMLgu2YHfg4aiVOIvDCJSb9Ww32QsXCbnC+pY9+tC51JuvKhP2R1Od17jdI?=
- =?us-ascii?Q?Y6JfTBDKJcS/eibSCQVT4Jq6d8zj412PHpStg+6L2AnYlCI8gk0JuHL7mhjM?=
- =?us-ascii?Q?uf/mzopAs0frYjXUZAX3UdrmtbMOOy47bjGXjcoke4mevoQehE/owwrHRCIM?=
- =?us-ascii?Q?YGp36EqhKxk3E5mEpEi0rvchB/40tpjuZM6ezVD0KVAXYvlpvcpsoTbf3WhB?=
- =?us-ascii?Q?yODUtYqvXtYrX9wk3QQ0HfRzA30r9zCOIiU0ZHcge0hQmygLoR5iuvQB2dmy?=
- =?us-ascii?Q?TRXwKi0VfA9nno39hxwdJx6RGoAYrld+5tbYM2UayMDe9sgGhWDD8pkzKUwn?=
- =?us-ascii?Q?s7EyYaURB3RMMIF+JCps7bQ/j1JZZ34eCMVDBh2Ra1I=3D?=
+X-Originating-IP: [165.204.55.251]
+X-ClientProxiedBy: YTXPR0101CA0070.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::47) To DM6PR12MB4340.namprd12.prod.outlook.com
+ (2603:10b6:5:2a8::7)
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.27.231.243] (165.204.55.251) by
+ YTXPR0101CA0070.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
+ Transport; Tue, 8 Dec 2020 18:26:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 467b26df-a2cc-446a-4d5d-08d89ba6c247
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4137:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB41376368D3C7EDF89821820DEACD0@DM6PR12MB4137.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: L3hNTd+wVsj8Yt91i5aH41YpgKDYcOomvPffG6AAaGTDIkLG7Wtz8cjmHDmp0u3P037BA9AKrdqFQoegMF75iwcu90nv4sw2ji4tLG7d7kKqpgLrGsstP/7fXYL3Y91OALOHeTDizeDtUlY389fhYWxKtk3SpAddJL/Mm8RjkQAt8vp6P/UOCbYHea+Ej16RcxRJGDPT8eKJ+JUDb7j/HjSMRQ+YLIKrTAq1nVNFDPBfgFU8MH+Scq9d/xw0suc7194W2h2ur3CxecRLhV4dWYSQ3Rkrfzl7c4lUJMY5ZjkzP5JEtn+LIIGIDOaRorcICmyMxEVRA5F5ZAQkoPPt7I+A3Coa0MLNBdsaoD2OvHcsLRG//w7C1RYycxbgzZ4oKqlklFqbW/c5hTkk1cYc5BMG+/DByF4vEZZUUK6+eML+cFRvEBuy14PF307GBacB
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4340.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(366004)(186003)(53546011)(52116002)(31686004)(508600001)(6486002)(2906002)(956004)(4326008)(16576012)(8936002)(26005)(2616005)(16526019)(34490700003)(31696002)(8676002)(5660300002)(66556008)(66946007)(83380400001)(36756003)(66574015)(86362001)(66476007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ampEOWQzVHJNV0NNWDVabEhOTE1vQnF3bWFVT3ZqTFFoZGY5UkYvQUl4bW5C?=
+ =?utf-8?B?VnBpTlZld2JCdHVISGx2dkE4SkR6UEpJVVBCNkxZckhZemczK2xVUm5QY2sv?=
+ =?utf-8?B?QU90L1N4VzVmV3RqeUpkZlZMVXNyZDY0b2F2b0Y2dWdXb3RFTHJYT3lEaUpP?=
+ =?utf-8?B?dGh5MzdYZTZFTnR6OEh5REswK3N3YWw4SlM1Um5hVS9WeUJGelJzdXEyb05k?=
+ =?utf-8?B?c2ZROHgrS3MvakZqSnRJUGFmaCtxSlRrWUtreXVMc3VlM3pZQk1HdFlIUHJu?=
+ =?utf-8?B?VHBPSnE3dDAvMnN6TWtVQ2xxeUdhQWVHZysybmdxNURqQkVyNGxxQjhXd01a?=
+ =?utf-8?B?amlqSEJ0QnRuN3lrL05VZ211UUxrSWtNLzVjYkZFdFBTVTZ2TThuZWVIcTRZ?=
+ =?utf-8?B?ZzFWdExNVDRGbXQ4cjBpSEpVcXNtSis0S2FxYkJaK1E2VEJRODdqRzlSUHBU?=
+ =?utf-8?B?RCtoRW5KQmRvWUMveHhuMi9IUkMzTldMeGp1WW5RVzBZLzU2UUR5SGFnVTI1?=
+ =?utf-8?B?ZXdrVkxjZ2k5cmRkenBNcldTNStPS1kwRVY5V094b1kwQnhOc1ZrWVZjeXZi?=
+ =?utf-8?B?SXA2TVJNSmJ3ZXhqWkk1WlYzVW9aQjJzamZ3NlE1dVlRQ2J5OVlWNW5tZFh2?=
+ =?utf-8?B?bHcwbWdzMWZaMEUvcXhTTWMzR3hzSCtCSlpRRGVqQjJRQ0hHTlNiQkFUeFdK?=
+ =?utf-8?B?SnJtV2JCTFJTbzJqUVpUZm05WDZSTEI0bk1QelY0dDl2bUtqcGp5SzhEVWdn?=
+ =?utf-8?B?dmxXYmxDK2hBdlBxRXFCNndId3hXN3BWdXFFck5FU2dpL1FWTzl1eDUwWG8x?=
+ =?utf-8?B?L3dhTnVXVXJBY2tzbnpIM1NzcFZYUXBwZmZqZnZ4MUJDaVd2M09YK0N2UXFW?=
+ =?utf-8?B?WGZtRXB6NXpXbnpLdC9pc2t6YkxmVzRzcTdBRUhVMEF2bXhzaDBBNHNxRG9T?=
+ =?utf-8?B?SWpXazFyMkh6bmVPMFg1c2Jub2xYcVJhL2QwWkQrSXZxaXUzeXc2WFRWQlhu?=
+ =?utf-8?B?MFdXdVU4SFp6bkJwbVh4TDh4UWRyeElHTVNSYXJJVi9oMW1tbVhJMHVaVWRw?=
+ =?utf-8?B?azhDTXppdWlYMWd6OU4xdEl4Q0lVaVUzQ0NPMytBRUE4RklsUUV5YWlQbVc5?=
+ =?utf-8?B?Q1UvYjFUUWE3WC9zT1FLeGlVZjVkVmh0UkZlTnI2NGlYaXFzSDdnVWFGRlJ0?=
+ =?utf-8?B?d2NUN3lVQlJEcGFCWUt2M2tJMmpYZFg1b0I5bGZ2Yml6Y1pHRXNaU3ZXSWdp?=
+ =?utf-8?B?QXhFNk5jdFZGNnBabkxvNFB1NVhBcitHUldYeWYxR0JlNW83R0JDSFJkU0dn?=
+ =?utf-8?Q?0gfomeRew8aU4dNOXfHjkFqV/gTT7GhgLQ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4340.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0afe62f6-8b95-48c2-1476-08d89ba4f1f4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Dec 2020 18:13:20.7967 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pzisujAiD2H1G/dOwIAfZpgSIeM9AblgeEMWkljCjAD2s4qMZVEZ3gKC48omszm7jSB74Rbo8zme5ju978eOKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1440
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 18:26:19.8736 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 467b26df-a2cc-446a-4d5d-08d89ba6c247
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xHeEIcNKyE+oDNbJKGxBjfbfyLtoSgzonfSAnitD2dCrExUn8QBp/XrsUq1wJye9vz1yG/kyb+dMH5Dr9gEIkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4137
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,410 +121,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Christian Koenig <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Doug
- Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Alexander.Deucher@amd.com, tzimmermann@suse.de,
+ amd-gfx@lists.freedesktop.org
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> -----Original Message-----
-> From: Leon Romanovsky <leon@kernel.org>
-> Sent: Monday, December 07, 2020 11:06 PM
-> To: Xiong, Jianxin <jianxin.xiong@intel.com>
-> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Jason Gunthorpe <jgg@ziepe.ca>;
-> Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel <daniel.vetter@intel.com>
-> Subject: Re: [PATCH v13 1/4] RDMA/umem: Support importing dma-buf as user memory region
-> 
-> On Mon, Dec 07, 2020 at 02:15:50PM -0800, Jianxin Xiong wrote:
-> > Dma-buf is a standard cross-driver buffer sharing mechanism that can
-> > be used to support peer-to-peer access from RDMA devices.
-> >
-> > Device memory exported via dma-buf is associated with a file descriptor.
-> > This is passed to the user space as a property associated with the
-> > buffer allocation. When the buffer is registered as a memory region,
-> > the file descriptor is passed to the RDMA driver along with other
-> > parameters.
-> >
-> > Implement the common code for importing dma-buf object and mapping
-> > dma-buf pages.
-> >
-> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
-> > Reviewed-by: Sean Hefty <sean.hefty@intel.com>
-> > Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
-> > Acked-by: Christian Koenig <christian.koenig@amd.com>
-> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > Conflicts:
-> > 	include/rdma/ib_umem.h
-> 
-> This probably leftover from rebase, am I right?
-> 
-> > ---
-> >  drivers/infiniband/core/Makefile      |   2 +-
-> >  drivers/infiniband/core/umem.c        |   3 +
-> >  drivers/infiniband/core/umem_dmabuf.c | 173 ++++++++++++++++++++++++++++++++++
-> >  include/rdma/ib_umem.h                |  43 ++++++++-
-> >  4 files changed, 219 insertions(+), 2 deletions(-)  create mode
-> > 100644 drivers/infiniband/core/umem_dmabuf.c
-> >
-> > diff --git a/drivers/infiniband/core/Makefile
-> > b/drivers/infiniband/core/Makefile
-> > index ccf2670..8ab4eea 100644
-> > --- a/drivers/infiniband/core/Makefile
-> > +++ b/drivers/infiniband/core/Makefile
-> > @@ -40,5 +40,5 @@ ib_uverbs-y :=			uverbs_main.o uverbs_cmd.o uverbs_marshall.o \
-> >  				uverbs_std_types_srq.o \
-> >  				uverbs_std_types_wq.o \
-> >  				uverbs_std_types_qp.o
-> > -ib_uverbs-$(CONFIG_INFINIBAND_USER_MEM) += umem.o
-> > +ib_uverbs-$(CONFIG_INFINIBAND_USER_MEM) += umem.o umem_dmabuf.o
-> >  ib_uverbs-$(CONFIG_INFINIBAND_ON_DEMAND_PAGING) += umem_odp.o diff
-> > --git a/drivers/infiniband/core/umem.c
-> > b/drivers/infiniband/core/umem.c index 7ca4112..cc131f8 100644
-> > --- a/drivers/infiniband/core/umem.c
-> > +++ b/drivers/infiniband/core/umem.c
-> > @@ -2,6 +2,7 @@
-> >   * Copyright (c) 2005 Topspin Communications.  All rights reserved.
-> >   * Copyright (c) 2005 Cisco Systems.  All rights reserved.
-> >   * Copyright (c) 2005 Mellanox Technologies. All rights reserved.
-> > + * Copyright (c) 2020 Intel Corporation. All rights reserved.
-> >   *
-> >   * This software is available to you under a choice of one of two
-> >   * licenses.  You may choose to be licensed under the terms of the
-> > GNU @@ -278,6 +279,8 @@ void ib_umem_release(struct ib_umem *umem)  {
-> >  	if (!umem)
-> >  		return;
-> > +	if (umem->is_dmabuf)
-> > +		return ib_umem_dmabuf_release(to_ib_umem_dmabuf(umem));
-> >  	if (umem->is_odp)
-> >  		return ib_umem_odp_release(to_ib_umem_odp(umem));
-> >
-> > diff --git a/drivers/infiniband/core/umem_dmabuf.c
-> > b/drivers/infiniband/core/umem_dmabuf.c
-> > new file mode 100644
-> > index 0000000..e50b955
-> > --- /dev/null
-> > +++ b/drivers/infiniband/core/umem_dmabuf.c
-> > @@ -0,0 +1,173 @@
-> > +// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
-> > +/*
-> > + * Copyright (c) 2020 Intel Corporation. All rights reserved.
-> > + */
-> > +
-> > +#include <linux/dma-buf.h>
-> > +#include <linux/dma-resv.h>
-> > +#include <linux/dma-mapping.h>
-> > +
-> > +#include "uverbs.h"
-> > +
-> > +int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf) {
-> > +	struct sg_table *sgt;
-> > +	struct scatterlist *sg;
-> > +	struct dma_fence *fence;
-> > +	unsigned long start, end, cur;
-> > +	unsigned int nmap;
-> > +	int i;
-> > +
-> > +	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
-> > +
-> > +	if (umem_dmabuf->sgt)
-> > +		return 0;
-> > +
-> > +	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
-> > +	if (IS_ERR(sgt))
-> > +		return PTR_ERR(sgt);
-> > +
-> > +	/* modify the sg list in-place to match umem address and length */
-> > +
-> > +	start = ALIGN_DOWN(umem_dmabuf->umem.address, PAGE_SIZE);
-> > +	end = ALIGN(umem_dmabuf->umem.address + umem_dmabuf->umem.length,
-> > +		    PAGE_SIZE);
-> > +	cur = 0;
-> > +	nmap = 0;
-> 
-> Better to put as part of variable initialization.
-
-Sure, can change that way.
-
-> 
-> > +	for_each_sgtable_dma_sg(sgt, sg, i) {
-> > +		if (start < cur + sg_dma_len(sg) && cur < end)
-> > +			nmap++;
-> > +		if (cur <= start && start < cur + sg_dma_len(sg)) {
-> > +			unsigned long offset = start - cur;
-> > +
-> > +			umem_dmabuf->first_sg = sg;
-> > +			umem_dmabuf->first_sg_offset = offset;
-> > +			sg_dma_address(sg) += offset;
-> > +			sg_dma_len(sg) -= offset;
-> > +			cur += offset;
-> > +		}
-> > +		if (cur < end && end <= cur + sg_dma_len(sg)) {
-> > +			unsigned long trim = cur + sg_dma_len(sg) - end;
-> > +
-> > +			umem_dmabuf->last_sg = sg;
-> > +			umem_dmabuf->last_sg_trim = trim;
-> > +			sg_dma_len(sg) -= trim;
-> > +			break;
-> > +		}
-> > +		cur += sg_dma_len(sg);
-> > +	}
-> > +
-> > +	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
-> > +	umem_dmabuf->umem.sg_head.nents = nmap;
-> > +	umem_dmabuf->umem.nmap = nmap;
-> > +	umem_dmabuf->sgt = sgt;
-> > +
-> > +	/*
-> > +	 * Although the sg list is valid now, the content of the pages
-> > +	 * may be not up-to-date. Wait for the exporter to finish
-> > +	 * the migration.
-> > +	 */
-> > +	fence = dma_resv_get_excl(umem_dmabuf->attach->dmabuf->resv);
-> > +	if (fence)
-> > +		dma_fence_wait(fence, false);
-> 
-> Any reason do not check return result from dma_fence_wait()?
-
-This is called with interruptible flag set to false and normally should only return 0.
-I do see similar usage cases that check the result and don't check the result. Maybe
-we can add a WARN_ON here?   
-
-> 
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL(ib_umem_dmabuf_map_pages);
-> > +
-> > +void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf) {
-> > +	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
-> > +
-> > +	if (!umem_dmabuf->sgt)
-> > +		return;
-> > +
-> > +	/* retore the original sg list */
-> > +	if (umem_dmabuf->first_sg) {
-> > +		sg_dma_address(umem_dmabuf->first_sg) -=
-> > +			umem_dmabuf->first_sg_offset;
-> > +		sg_dma_len(umem_dmabuf->first_sg) +=
-> > +			umem_dmabuf->first_sg_offset;
-> > +		umem_dmabuf->first_sg = NULL;
-> > +		umem_dmabuf->first_sg_offset = 0;
-> > +	}
-> > +	if (umem_dmabuf->last_sg) {
-> > +		sg_dma_len(umem_dmabuf->last_sg) +=
-> > +			umem_dmabuf->last_sg_trim;
-> > +		umem_dmabuf->last_sg = NULL;
-> > +		umem_dmabuf->last_sg_trim = 0;
-> > +	}
-> > +
-> > +	dma_buf_unmap_attachment(umem_dmabuf->attach, umem_dmabuf->sgt,
-> > +				 DMA_BIDIRECTIONAL);
-> > +
-> > +	umem_dmabuf->sgt = NULL;
-> > +}
-> > +EXPORT_SYMBOL(ib_umem_dmabuf_unmap_pages);
-> > +
-> > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > +				   unsigned long offset, size_t size,
-> > +				   int fd, int access,
-> > +				   const struct dma_buf_attach_ops *ops) {
-> > +	struct dma_buf *dmabuf;
-> > +	struct ib_umem_dmabuf *umem_dmabuf;
-> > +	struct ib_umem *umem;
-> > +	unsigned long end;
-> > +	long ret = -EINVAL;
-> 
-> It is wrong type for the returned value. One of the possible options is to declare "struct ib_umem *ret;" and set ret = ERR_PTR(-EINVAL) or
-> ret = ERR_CAST(dmabuf);
-
-At the actual point the value is returned, ERR_PTR(ret) is used. I think we can change the 
-variable name to "err" instead to avoid confusion.
-
-> 
-> > +
-> > +	if (check_add_overflow(offset, (unsigned long)size, &end))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (unlikely(!ops || !ops->move_notify))
-> 
-> Let's not put likely/unlikely in control paths.
-> 
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	dmabuf = dma_buf_get(fd);
-> > +	if (IS_ERR(dmabuf))
-> > +		return (void *)dmabuf;
-> 
-> return ERR_CAST(dmabuf);
-
-Will fix.
-
-> 
-> > +
-> > +	if (dmabuf->size < end)
-> > +		goto out_release_dmabuf;
-> > +
-> > +	umem_dmabuf = kzalloc(sizeof(*umem_dmabuf), GFP_KERNEL);
-> > +	if (!umem_dmabuf)
-> > +		return ERR_PTR(-ENOMEM);
-> 
-> You are leaking dmabuf here, forgot to call to dma_buf_put();
-
-Will fix.
-
-> 
-> > +
-> > +	umem = &umem_dmabuf->umem;
-> > +	umem->ibdev = device;
-> > +	umem->length = size;
-> > +	umem->address = offset;
-> > +	umem->writable = ib_access_writable(access);
-> > +	umem->is_dmabuf = 1;
-> > +
-> > +	if (unlikely(!ib_umem_num_pages(umem)))
-> 
-> There is no advantage in "unlikely" here.
-
-Ok.
-
-> 
-> > +		goto out_free_umem;
-> > +
-> > +	umem_dmabuf->attach = dma_buf_dynamic_attach(
-> > +					dmabuf,
-> > +					device->dma_device,
-> > +					ops,
-> > +					umem_dmabuf);
-> > +	if (IS_ERR(umem_dmabuf->attach)) {
-> > +		ret = PTR_ERR(umem_dmabuf->attach);
-> > +		goto out_free_umem;
-> > +	}
-> > +	return umem;
-> > +
-> > +out_free_umem:
-> > +	kfree(umem_dmabuf);
-> > +
-> > +out_release_dmabuf:
-> > +	dma_buf_put(dmabuf);
-> > +	return ERR_PTR(ret);
-> > +}
-> > +EXPORT_SYMBOL(ib_umem_dmabuf_get);
-> > +
-> > +void ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf) {
-> > +	struct dma_buf *dmabuf = umem_dmabuf->attach->dmabuf;
-> > +
-> > +	dma_buf_detach(dmabuf, umem_dmabuf->attach);
-> > +	dma_buf_put(dmabuf);
-> > +	kfree(umem_dmabuf);
-> > +}
-> > diff --git a/include/rdma/ib_umem.h b/include/rdma/ib_umem.h index
-> > 7752211..b49a96d 100644
-> > --- a/include/rdma/ib_umem.h
-> > +++ b/include/rdma/ib_umem.h
-> > @@ -1,6 +1,7 @@
-> >  /* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-> >  /*
-> >   * Copyright (c) 2007 Cisco Systems.  All rights reserved.
-> > + * Copyright (c) 2020 Intel Corporation.  All rights reserved.
-> >   */
-> >
-> >  #ifndef IB_UMEM_H
-> > @@ -13,6 +14,7 @@
-> >
-> >  struct ib_ucontext;
-> >  struct ib_umem_odp;
-> > +struct dma_buf_attach_ops;
-> >
-> >  struct ib_umem {
-> >  	struct ib_device       *ibdev;
-> > @@ -22,12 +24,29 @@ struct ib_umem {
-> >  	unsigned long		address;
-> >  	u32 writable : 1;
-> >  	u32 is_odp : 1;
-> > +	u32 is_dmabuf : 1;
-> >  	struct work_struct	work;
-> >  	struct sg_table sg_head;
-> >  	int             nmap;
-> >  	unsigned int    sg_nents;
-> >  };
-> >
-> > +struct ib_umem_dmabuf {
-> > +	struct ib_umem umem;
-> > +	struct dma_buf_attachment *attach;
-> > +	struct sg_table *sgt;
-> > +	struct scatterlist *first_sg;
-> > +	struct scatterlist *last_sg;
-> > +	unsigned long first_sg_offset;
-> > +	unsigned long last_sg_trim;
-> > +	void *private;
-> > +};
-> > +
-> > +static inline struct ib_umem_dmabuf *to_ib_umem_dmabuf(struct ib_umem
-> > +*umem) {
-> > +	return container_of(umem, struct ib_umem_dmabuf, umem); }
-> > +
-> >  /* Returns the offset of the umem start relative to the first page.
-> > */  static inline int ib_umem_offset(struct ib_umem *umem)  { @@ -86,6
-> > +105,7 @@ int ib_umem_copy_from(void *dst, struct ib_umem *umem,
-> > size_t offset,  unsigned long ib_umem_find_best_pgsz(struct ib_umem *umem,
-> >  				     unsigned long pgsz_bitmap,
-> >  				     unsigned long virt);
-> > +
-> >  /**
-> >   * ib_umem_find_best_pgoff - Find best HW page size
-> >   *
-> > @@ -116,6 +136,14 @@ static inline unsigned long ib_umem_find_best_pgoff(struct ib_umem *umem,
-> >  				      dma_addr & pgoff_bitmask);
-> >  }
-> >
-> > +struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > +				   unsigned long offset, size_t size,
-> > +				   int fd, int access,
-> > +				   const struct dma_buf_attach_ops *ops); int
-> > +ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf); void
-> > +ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf *umem_dmabuf); void
-> > +ib_umem_dmabuf_release(struct ib_umem_dmabuf *umem_dmabuf);
-> > +
-> >  #else /* CONFIG_INFINIBAND_USER_MEM */
-> >
-> >  #include <linux/err.h>
-> > @@ -143,7 +171,20 @@ static inline unsigned long
-> > ib_umem_find_best_pgoff(struct ib_umem *umem,  {
-> >  	return 0;
-> >  }
-> > +static inline struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
-> > +						 unsigned long offset,
-> > +						 size_t size, int fd,
-> > +						 int access,
-> > +						 struct dma_buf_attach_ops *ops) {
-> > +	return ERR_PTR(-EINVAL);
-> 
-> Probably, It should be EOPNOTSUPP and not EINVAL.
-
-EINVAL is used here to be consistent with existing definitions in the same file.
-
-> 
-> > +}
-> > +static inline int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf
-> > +*umem_dmabuf) {
-> > +	return -EINVAL;
-> > +}
-> > +static inline void ib_umem_dmabuf_unmap_pages(struct ib_umem_dmabuf
-> > +*umem_dmabuf) { } static inline void ib_umem_dmabuf_release(struct
-> > +ib_umem_dmabuf *umem_dmabuf) { }
-> >
-> >  #endif /* CONFIG_INFINIBAND_USER_MEM */
-> > -
-> >  #endif /* IB_UMEM_H */
-> > --
-> > 1.8.3.1
-> >
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDEyLzgvMjAgMTI6MzYgUE0sIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gQW0gMDguMTIu
+MjAgdW0gMTg6MTAgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPj4gRm9yIEJPcyBpbXBvcnRl
+ZCBmcm9tIG91dHNpZGUgb2YgYW1kZ3B1LCBzZXR0aW5nIG9mIGFtZGdwdV9nZW1fb2JqZWN0X2Z1
+bmNzCj4+IHdhcyBtaXNzaW5nIGluIGFtZGdwdV9kbWFfYnVmX2NyZWF0ZV9vYmouIEZpeCBieSBy
+ZWZhY3RvcmluZyBCTyBjcmVhdGlvbgo+PiBhbmQgYW1kZ3B1X2dlbV9vYmplY3RfZnVuY3Mgc2V0
+dGluZyBpbnRvIHNpbmdsZSBmdW5jdGlvbiBjYWxsZWQKPj4gZnJvbSBib3RoIGNvZGUgcGF0aHMu
+Cj4KPiBDYW4geW91IG91dGxpbmUgd2h5IHdlIGNhbid0IHVzZSBhbWRncHVfZ2VtX29iamVjdF9j
+cmVhdGUoKSBkaXJlY3RseT8KPgo+IEkgbWVhbiB3ZSBoYXZlIGEgYml0IG9mIGV4dHJhIGVycm9y
+IGhhbmRsaW5nIGluIHRoZXJlIGFuZCB3ZSBuZWVkIHRvIGdyYWIgdGhlIAo+IHJlc3YgbG9jayBh
+bmQgc2V0IHRoZSBkb21haW5zIGFmdGVyIGNyZWF0aW9uLCBidXQgdGhhdCBzaG91bGRuJ3QgbWF0
+dGVyIGFuZCBJIAo+IGRvbid0IHNlZSB3aHkgdGhhdCBzaG91bGQgbm90IHdvcmsuCgoKT24gdG9w
+IG9mIHdoYXQgeW91IG1lbnRpb25lZCB5b3UgYWxzbyBoYXZlIGJwLmRvbWFpbi9icC5wcmVmZXJy
+ZWRfZG9tYWluIGJlaW5nIApzZXQgZGlmZmVyZW50bHkgc28geW91IG5lZWQgdG8gYWRkIGFub3Ro
+ZXIKYXJndW1lbnQgdG8gYW1kZ3B1X2dlbV9vYmplY3RfY3JlYXRlIHRvIHJlZmxlY3QgdGhpcyBk
+aWZmZXJlbmNlIHdoaWNoIGNsdXR0ZXJzIApldmVuIG1vcmUgdGhlIGFscmVhZHkgY2x1dHRlcmVk
+IGFyZ3VtZW50IGxpc3QuClJlZ2FyZGluZyB0aGUgZXh0cmEgZXJyb3IgaGFuZGxpbmcgLcKgIHlv
+dSBoYXZlIHRoZSAncmV0cnknIGRhbmNlIGluIAphbWRncHVfZ2VtX29iamVjdF9jcmVhdGUgd2hp
+Y2gganVtcHMgYmFjayB0byB0aGUgbWlkZGxlIG9mIGFtZGdwdV9ib19wYXJhbQppbml0aWFsaXph
+dGlvbiBidXQgeW91IGRvbid0IGhhdmUgaXQgaW4gYW1kZ3B1X2RtYV9idWZfY3JlYXRlX29iaiB3
+aGljaCBhbHNvIApjb21wbGljYXRlcyB0aGUgcmV1c2Ugb2YgYW1kZ3B1X2dlbV9vYmplY3RfY3Jl
+YXRlIGFzIGlzLgoKQW5kcmV5CgoKPgo+IFRoYW5rcywKPiBDaHJpc3RpYW4uCj4KPj4KPj4gVGhp
+cyBmaXhlcyBudWxsIHB0ciByZWdyZXNzaW9uIGNhc3VlZCBieSBjb21taXQKPj4gZDY5M2RlZiBk
+cm06IFJlbW92ZSBvYnNvbGV0ZSBHRU0gYW5kIFBSSU1FIGNhbGxiYWNrcyBmcm9tIHN0cnVjdCBk
+cm1fZHJpdmVyCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXku
+Z3JvZHpvdnNreUBhbWQuY29tPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRn
+cHUvYW1kZ3B1X2RtYV9idWYuYyB8IDEzICsrKysrKy0tLS0tLS0KPj4gwqAgZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jwqDCoMKgwqAgfCAyMiArKysrKysrKysrKysrKysr
+Ky0tLS0tCj4+IMKgIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uaMKgwqDC
+oMKgIHzCoCA1ICsrKysrCj4+IMKgIDMgZmlsZXMgY2hhbmdlZCwgMjggaW5zZXJ0aW9ucygrKSwg
+MTIgZGVsZXRpb25zKC0pCj4+Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
+ZGdwdS9hbWRncHVfZG1hX2J1Zi5jIAo+PiBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2Ft
+ZGdwdV9kbWFfYnVmLmMKPj4gaW5kZXggZTU5MTllZi4uZGE0ZDBhYiAxMDA2NDQKPj4gLS0tIGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RtYV9idWYuYwo+PiArKysgYi9kcml2
+ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jCj4+IEBAIC00MDUsNiArNDA1
+LDcgQEAgc3RydWN0IGRtYV9idWYgKmFtZGdwdV9nZW1fcHJpbWVfZXhwb3J0KHN0cnVjdCAKPj4g
+ZHJtX2dlbV9vYmplY3QgKmdvYmosCj4+IMKgwqDCoMKgwqAgcmV0dXJuIGJ1ZjsKPj4gwqAgfQo+
+PiDCoCArCj4+IMKgIC8qKgo+PiDCoMKgICogYW1kZ3B1X2RtYV9idWZfY3JlYXRlX29iaiAtIGNy
+ZWF0ZSBCTyBmb3IgRE1BLWJ1ZiBpbXBvcnQKPj4gwqDCoCAqCj4+IEBAIC00MjQsNyArNDI1LDcg
+QEAgYW1kZ3B1X2RtYV9idWZfY3JlYXRlX29iaihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1
+Y3QgCj4+IGRtYV9idWYgKmRtYV9idWYpCj4+IMKgwqDCoMKgwqAgc3RydWN0IGFtZGdwdV9kZXZp
+Y2UgKmFkZXYgPSBkcm1fdG9fYWRldihkZXYpOwo+PiDCoMKgwqDCoMKgIHN0cnVjdCBhbWRncHVf
+Ym8gKmJvOwo+PiDCoMKgwqDCoMKgIHN0cnVjdCBhbWRncHVfYm9fcGFyYW0gYnA7Cj4+IC3CoMKg
+wqAgaW50IHJldDsKPj4gK8KgwqDCoCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3QgKm9iajsKPj4gwqAg
+wqDCoMKgwqDCoCBtZW1zZXQoJmJwLCAwLCBzaXplb2YoYnApKTsKPj4gwqDCoMKgwqDCoCBicC5z
+aXplID0gZG1hX2J1Zi0+c2l6ZTsKPj4gQEAgLTQzNCwyMSArNDM1LDE5IEBAIGFtZGdwdV9kbWFf
+YnVmX2NyZWF0ZV9vYmooc3RydWN0IGRybV9kZXZpY2UgKmRldiwgCj4+IHN0cnVjdCBkbWFfYnVm
+ICpkbWFfYnVmKQo+PiDCoMKgwqDCoMKgIGJwLnR5cGUgPSB0dG1fYm9fdHlwZV9zZzsKPj4gwqDC
+oMKgwqDCoCBicC5yZXN2ID0gcmVzdjsKPj4gwqDCoMKgwqDCoCBkbWFfcmVzdl9sb2NrKHJlc3Ys
+IE5VTEwpOwo+PiAtwqDCoMKgIHJldCA9IGFtZGdwdV9ib19jcmVhdGUoYWRldiwgJmJwLCAmYm8p
+Owo+PiAtwqDCoMKgIGlmIChyZXQpCj4+ICvCoMKgwqAgb2JqID0gYW1kZ3B1X2dlbV9vYmplY3Rf
+Y3JlYXRlX3JhdyhhZGV2LCAmYnApOwo+PiArwqDCoMKgIGlmIChJU19FUlIob2JqKSkKPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgIGdvdG8gZXJyb3I7Cj4+IMKgICvCoMKgwqAgYm8gPSBnZW1fdG9fYW1k
+Z3B1X2JvKG9iaik7Cj4+IMKgwqDCoMKgwqAgYm8tPmFsbG93ZWRfZG9tYWlucyA9IEFNREdQVV9H
+RU1fRE9NQUlOX0dUVDsKPj4gwqDCoMKgwqDCoCBiby0+cHJlZmVycmVkX2RvbWFpbnMgPSBBTURH
+UFVfR0VNX0RPTUFJTl9HVFQ7Cj4+IMKgwqDCoMKgwqAgaWYgKGRtYV9idWYtPm9wcyAhPSAmYW1k
+Z3B1X2RtYWJ1Zl9vcHMpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBiby0+cHJpbWVfc2hhcmVkX2Nv
+dW50ID0gMTsKPj4gwqAgLcKgwqDCoCBkbWFfcmVzdl91bmxvY2socmVzdik7Cj4+IC3CoMKgwqAg
+cmV0dXJuICZiby0+dGJvLmJhc2U7Cj4+IC0KPj4gwqAgZXJyb3I6Cj4+IMKgwqDCoMKgwqAgZG1h
+X3Jlc3ZfdW5sb2NrKHJlc3YpOwo+PiAtwqDCoMKgIHJldHVybiBFUlJfUFRSKHJldCk7Cj4+ICvC
+oMKgwqAgcmV0dXJuIG9iajsKPj4gwqAgfQo+PiDCoCDCoCAvKioKPj4gZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYyAKPj4gYi9kcml2ZXJzL2dwdS9k
+cm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMKPj4gaW5kZXggYzlmOTRmYi4uNWYyMmNlNiAxMDA2
+NDQKPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCj4+ICsr
+KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYwo+PiBAQCAtNTIsMTMg
+KzUyLDI2IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9nZW1fb2JqZWN0X2ZyZWUoc3RydWN0IGRybV9n
+ZW1fb2JqZWN0IAo+PiAqZ29iaikKPj4gwqDCoMKgwqDCoCB9Cj4+IMKgIH0KPj4gwqAgK3N0cnVj
+dCBkcm1fZ2VtX29iamVjdCAqYW1kZ3B1X2dlbV9vYmplY3RfY3JlYXRlX3JhdyhzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAKPj4gKmFkZXYsCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGFtZGdwdV9ib19wYXJhbSAqYnApCj4+ICt7
+Cj4+ICvCoMKgwqAgc3RydWN0IGFtZGdwdV9ibyAqYm87Cj4+ICvCoMKgwqAgaW50IHI7Cj4+ICsK
+Pj4gK8KgwqDCoCByID0gYW1kZ3B1X2JvX2NyZWF0ZShhZGV2LCBicCwgJmJvKTsKPj4gK8KgwqDC
+oCBpZiAocikKPj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKHIpOwo+PiArCj4+ICvC
+oMKgwqAgYm8tPnRiby5iYXNlLmZ1bmNzID0gJmFtZGdwdV9nZW1fb2JqZWN0X2Z1bmNzOwo+PiAr
+wqDCoMKgIHJldHVybiAmYm8tPnRiby5iYXNlOwo+PiArfQo+PiArCj4+IMKgIGludCBhbWRncHVf
+Z2VtX29iamVjdF9jcmVhdGUoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHVuc2lnbmVkIGxv
+bmcgc2l6ZSwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGludCBhbGln
+bm1lbnQsIHUzMiBpbml0aWFsX2RvbWFpbiwKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIHU2NCBmbGFncywgZW51bSB0dG1fYm9fdHlwZSB0eXBlLAo+PiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRtYV9yZXN2ICpyZXN2LAo+PiDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3RydWN0IGRybV9nZW1fb2JqZWN0ICoq
+b2JqKQo+PiDCoCB7Cj4+IC3CoMKgwqAgc3RydWN0IGFtZGdwdV9ibyAqYm87Cj4+IMKgwqDCoMKg
+wqAgc3RydWN0IGFtZGdwdV9ib19wYXJhbSBicDsKPj4gwqDCoMKgwqDCoCBpbnQgcjsKPj4gwqAg
+QEAgLTczLDggKzg2LDkgQEAgaW50IGFtZGdwdV9nZW1fb2JqZWN0X2NyZWF0ZShzdHJ1Y3QgYW1k
+Z3B1X2RldmljZSAqYWRldiwgCj4+IHVuc2lnbmVkIGxvbmcgc2l6ZSwKPj4gwqAgcmV0cnk6Cj4+
+IMKgwqDCoMKgwqAgYnAuZmxhZ3MgPSBmbGFnczsKPj4gwqDCoMKgwqDCoCBicC5kb21haW4gPSBp
+bml0aWFsX2RvbWFpbjsKPj4gLcKgwqDCoCByID0gYW1kZ3B1X2JvX2NyZWF0ZShhZGV2LCAmYnAs
+ICZibyk7Cj4+IC3CoMKgwqAgaWYgKHIpIHsKPj4gK8KgwqDCoCAqb2JqID0gYW1kZ3B1X2dlbV9v
+YmplY3RfY3JlYXRlX3JhdyhhZGV2LCAmYnApOwo+PiArwqDCoMKgIGlmIChJU19FUlIoKm9iaikp
+IHsKPj4gK8KgwqDCoMKgwqDCoMKgIHIgPSBQVFJfRVJSKCpvYmopOwo+PiDCoMKgwqDCoMKgwqDC
+oMKgwqAgaWYgKHIgIT0gLUVSRVNUQVJUU1lTKSB7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGlmIChmbGFncyAmIEFNREdQVV9HRU1fQ1JFQVRFX0NQVV9BQ0NFU1NfUkVRVUlSRUQpIHsK
+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmbGFncyAmPSB+QU1ER1BVX0dF
+TV9DUkVBVEVfQ1BVX0FDQ0VTU19SRVFVSVJFRDsKPj4gQEAgLTkwLDggKzEwNCw2IEBAIGludCBh
+bWRncHVfZ2VtX29iamVjdF9jcmVhdGUoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIAo+PiB1
+bnNpZ25lZCBsb25nIHNpemUsCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9Cj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoCByZXR1cm4gcjsKPj4gwqDCoMKgwqDCoCB9Cj4+IC3CoMKgwqAgKm9iaiA9ICZiby0+
+dGJvLmJhc2U7Cj4+IC3CoMKgwqAgKCpvYmopLT5mdW5jcyA9ICZhbWRncHVfZ2VtX29iamVjdF9m
+dW5jczsKPj4gwqAgwqDCoMKgwqDCoCByZXR1cm4gMDsKPj4gwqAgfQo+PiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5oIAo+PiBiL2RyaXZlcnMvZ3B1
+L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uaAo+PiBpbmRleCA2MzdiZjUxLi5hNmI5MGQzIDEw
+MDY0NAo+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmgKPj4g
+KysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5oCj4+IEBAIC0zOCwx
+MiArMzgsMTcgQEAgdW5zaWduZWQgbG9uZyBhbWRncHVfZ2VtX3RpbWVvdXQodWludDY0X3QgdGlt
+ZW91dF9ucyk7Cj4+IMKgIC8qCj4+IMKgwqAgKiBHRU0gb2JqZWN0cy4KPj4gwqDCoCAqLwo+PiAr
+Cj4+ICtzdHJ1Y3QgYW1kZ3B1X2JvX3BhcmFtOwo+PiArCj4+IMKgIHZvaWQgYW1kZ3B1X2dlbV9m
+b3JjZV9yZWxlYXNlKHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2KTsKPj4gwqAgaW50IGFtZGdw
+dV9nZW1fb2JqZWN0X2NyZWF0ZShzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiwgdW5zaWduZWQg
+bG9uZyBzaXplLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IGFs
+aWdubWVudCwgdTMyIGluaXRpYWxfZG9tYWluLAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgdTY0IGZsYWdzLCBlbnVtIHR0bV9ib190eXBlIHR5cGUsCj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZG1hX3Jlc3YgKnJlc3YsCj4+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2dlbV9vYmplY3Qg
+KipvYmopOwo+PiArc3RydWN0IGRybV9nZW1fb2JqZWN0ICphbWRncHVfZ2VtX29iamVjdF9jcmVh
+dGVfcmF3KHN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2LAo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCBhbWRncHVfYm9fcGFy
+YW0gKmJwKTsKPj4gwqAgwqAgaW50IGFtZGdwdV9tb2RlX2R1bWJfY3JlYXRlKHN0cnVjdCBkcm1f
+ZmlsZSAqZmlsZV9wcml2LAo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0
+cnVjdCBkcm1fZGV2aWNlICpkZXYsCj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
