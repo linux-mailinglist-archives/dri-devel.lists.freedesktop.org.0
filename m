@@ -2,58 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8BC2D2637
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44682D262C
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7779E6E9D6;
-	Tue,  8 Dec 2020 08:32:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 832CB6E9AB;
+	Tue,  8 Dec 2020 08:32:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com
- [IPv6:2607:f8b0:4864:20::541])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FB7F6E8F5
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Dec 2020 22:28:54 +0000 (UTC)
-Received: by mail-pg1-x541.google.com with SMTP id n7so10283817pgg.2
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 14:28:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com
+ [IPv6:2a00:1450:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95766E93B
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 01:08:37 +0000 (UTC)
+Received: by mail-ed1-x542.google.com with SMTP id b73so15794641edf.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Dec 2020 17:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lagfreegames.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EWXoV2CMUKwuuJ9IGyn1rKyPqeDvcvXFpNW+D3PeZwc=;
- b=kdu710mWZmTmZmTippRswW3tNYS61Hyt5bfuXqwbc5QE25E3c+yvVvbeGQ6TqFEqgv
- 3C+T9eGEchPhr7810GzQMYpyW0pfwBZiSQ1noHFBdceEU+6Y5WoVfe229HyXKeEpf2Gv
- 4D8IlCK2FTh0VfqN4CJAE6yOZovksKJnnH3Z27ZSTvJeRD5DTnxCFy6Uf52DpFawOfyN
- EdZLPi4zpALMCG5G5DL+0sZ3aoNXyAzskwh4ceJQGcItrZuoFIRSZUbYZSnav4dNeSRi
- /dlborW2be3RN5R3tJsHMpb+Y1Al9qqt+Y2K0ekSmFV1spS6crIvHyLQZ700qoIu37NX
- nqLg==
+ :cc; bh=KWGzXnUvtPLZa2NT52BD9/ZoMYu2Cd8Chbn51HuZ19A=;
+ b=JVCA5R8hFiNupjUpiuACFwWqNjlJnPwAJjDcVrTFW8LrQ2bAX1oyyOEgDJwvvRww7q
+ 8yWi1oMyIulD4Lq6YYeaIHl624jrHkoA7LjC1rNy2lM5m8Km0bgLvSxMaU9afL9jy5rD
+ lqaEz9UiM/Hc/ZG20i0MLsJV2rxWb+amjdvjlIzgHgKAvJzNumedJEScSVmKNIk9cCgd
+ BhkajA+fOpmCSxBQcs71ATzy4UIsCW055RkfHDAtOPoolZQUS/MKhFzdNpJzRRcAJ1sq
+ GFpk9rTKC0+AfxRsQCHq7lQHxdorM9NyDJeXGntsZ5Xzc5OAyZSSS47tRqcrcIPqrefE
+ Me1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EWXoV2CMUKwuuJ9IGyn1rKyPqeDvcvXFpNW+D3PeZwc=;
- b=jp9CcdX13+ubYviKxBxM5znm9D605nMFmK22n1MvvatAQxFwVVDXEdunnbMq0PtHPj
- 8jLaFJ1Q3vD9I2nsE/e1KFpxwI8UOemDiDu2b72d5o1NSCGgMQzvyJPZmVqCBqA7ULvG
- VlcEMHwU/xZZaqnGsxo4AJ62DNDHzlh/VejZ8mtxt3tuyKIAP9Mwz7ReXqYul1Z0dOzi
- OV3i++n1OBw9xEI7Sq9YQpq08PYrLt7hfryRswL4IOT0uqJaaIeG/Lriz28X1buRFB6g
- Qf+1CvQzOVT949sLmZQbQSgkAKiQFOyfLLp+MKxJv2nU1/ytAsJFEVaZ6xF+aUTbMjo/
- cIXQ==
-X-Gm-Message-State: AOAM530AdVOsynrgzNPye9+LRYzcg9VixeqUQyOArtuJbl5xVtBb4MA8
- 7T9LFjcLBM1wR8deFWmgGdRaa2NCL6peFVKgfflhIg==
-X-Google-Smtp-Source: ABdhPJzH235ZBy2+HtgSTmZfucYCnB2ALLUQMf094BhLSCBeBGevRQx+U8bJiscjIYvbi5B1I9kNRlXmGrr1BhXaY5I=
-X-Received: by 2002:a17:90b:1b05:: with SMTP id
- nu5mr898064pjb.101.1607380133527; 
- Mon, 07 Dec 2020 14:28:53 -0800 (PST)
+ bh=KWGzXnUvtPLZa2NT52BD9/ZoMYu2Cd8Chbn51HuZ19A=;
+ b=Oxf91dceWmdFxjqjbIvov+HTuUw/oaOvIPwhoaqK7hulwxJVWDiI+W0ft/3inBzqFh
+ F0S0WQAlt9qARTSmHSQKHnfiYW1zM68V/WlwMLPVj/biaeiSELXySh/80F8q8vBPbFnD
+ EP2oo4tHydBN8qYaj2YcP07iyxp/4mTVXBhzCSfl+bpUbwBvcTeU9UIJeVqLM+ZejCI4
+ eu5JQy71tI6nFSRaNAn2rtbGNIA3UzZSWSsZYL/F4NszqfvTXpJibqZftChwZivfjB8w
+ T6k247bzoHK2+rbdb/Blx60SzDCuzbVKp/w6KL0+xkRv3EQ3Oo1V0gvmU1ZknXv1CPMQ
+ tiLw==
+X-Gm-Message-State: AOAM532YgVAKsJbHLAuQLcgEo0hqXo49tqYWHwlQsImgzlARwy/5LO3C
+ iageI9pRLN9RNvwTVYmt3KBGxN1L6Z8U1XLU22QWUQ==
+X-Google-Smtp-Source: ABdhPJw4OAeU9lKQ5z8QJBRa4uLgYvqpCEw6VufPlb+pkR4grx/b45Z+44ObEA107prcMtiq3nYA4E2uqsf9aV60GEo=
+X-Received: by 2002:a05:6402:143a:: with SMTP id
+ c26mr21803286edx.131.1607389716360; 
+ Mon, 07 Dec 2020 17:08:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20201204081349.1182302-1-arnd@kernel.org>
- <CADnq5_OmAVZGuz=xHRyST4hE4w1g10wNBQ6iMgfpQD16-9QSiQ@mail.gmail.com>
- <b9d7e33c-4dcd-0075-d0ca-d22b2488c354@amd.com>
- <CAK8P3a09KQS7S5-vJU7ECJh0HXUhwZW9zOOp4c32mtvM5XcU1g@mail.gmail.com>
- <CAKwvOd=-2zoc06EY4R9ZJ0M874bQv3NuT8a0q9=RoYeMMtnXVQ@mail.gmail.com>
- <CAK8P3a0gjPWiRX0yg=i6Qxgyo02AtQVVsw+=w-OvF956Tn=jDw@mail.gmail.com>
-In-Reply-To: <CAK8P3a0gjPWiRX0yg=i6Qxgyo02AtQVVsw+=w-OvF956Tn=jDw@mail.gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Mon, 7 Dec 2020 14:28:42 -0800
-Message-ID: <CAKwvOd=+w6vJvvq9Pwnv1EHHzwCx=o_=PbSozXpqryN6P1yxVQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: make DRM_AMD_DC x86-only again
-To: Arnd Bergmann <arnd@kernel.org>
+References: <1606816916-3724-1-git-send-email-jpark37@lagfreegames.com>
+ <CAKMK7uHi+y-=4BeVxt6362Fu79mBsB7LzmVqCqax_-JO0rUQCg@mail.gmail.com>
+ <CABjik9dirbf13ZiVBvufitGJXja6Xvn=EqTG_VtvBHjaAwJATg@mail.gmail.com>
+ <20201207105109.599273be@eldfell>
+ <CABjik9c+TVMK3685bkYp43PbqxoAosTxXEeQvH6hmfBD0YSz6A@mail.gmail.com>
+ <20201207123514.65e4b868@eldfell> <20201207124454.42b87186@eldfell>
+ <EdWYHKD3WXh4_hWSW633I_O9leJ7ib3vLux7KuDhdcl-3vhSphWQnDALaATh_HVU97nzVuDWf5j4pp1d9tnHCelC7ogUjBcqxzW7Z_erfIs=@emersion.fr>
+ <CABjik9cd_NWOSH79Y1x7Hj5iW6nqoP44XrNSDr+o5am07Suzbg@mail.gmail.com>
+ <CE57r-xvcKbKT0LCtCjasef7m8hy4jgYOsQ5_ntH16VGrzEFksPwVs2wL-gBdWHAhYrIDhXF2WmNIHvGd3bWhkqtUJvAakLI7vcgForuxM4=@emersion.fr>
+ <20201207131401.3cf41501@eldfell>
+In-Reply-To: <20201207131401.3cf41501@eldfell>
+From: James Park <james.park@lagfreegames.com>
+Date: Mon, 7 Dec 2020 17:08:23 -0800
+Message-ID: <CABjik9fzC1gapjz7usrBM0jR0KDq_7wpMxMAvEm1OtmpjYO93g@mail.gmail.com>
+Subject: Re: [PATCH] drm: Fix drm.h uapi header for Windows
+To: Pekka Paalanen <ppaalanen@gmail.com>
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,51 +72,217 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Timothy Pearson <tpearson@raptorengineering.com>,
- Arnd Bergmann <arnd@arndb.de>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Leo Li <sunpeng.li@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>,
- David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- Roman Li <Roman.Li@amd.com>, amd-gfx list <amd-gfx@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- Mauro Rossi <issor.oruam@gmail.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- Daniel Kolesa <daniel@octaforge.org>,
- Nathan Chancellor <natechancellor@gmail.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: multipart/mixed; boundary="===============0483722413=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 7, 2020 at 2:17 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> On Mon, Dec 7, 2020 at 11:08 PM 'Nick Desaulniers' via Clang Built
-> Linux <clang-built-linux@googlegroups.com> wrote:
-> >
-> > On Mon, Dec 7, 2020 at 1:57 PM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> > >
-> > > Right, looking at my latest randconfig logs, I see the same problem on x86
-> > > builds with clang as well, though I'm not entirely sure which other
-> > > configuration
-> > > options are needed to trigger it.
-> > >
-> > > So my patch can be disregarded, but I agree this needs a better fix,
-> > > either in clang or in the dcn driver.
-> >
-> > If you could give https://github.com/ClangBuiltLinux/frame-larger-than
-> > a spin again, I would appreciate any feedback.
->
-> I've already tried it, but the tool doesn't seem to like me, I never
-> get the information out of it that I want. This time it failed because
-> it could not parse the .o file correctly.
+--===============0483722413==
+Content-Type: multipart/alternative; boundary="0000000000000f4cee05b5e99567"
 
-Can you send me a config to reproduce the .o file?
--- 
-Thanks,
-~Nick Desaulniers
+--0000000000000f4cee05b5e99567
+Content-Type: text/plain; charset="UTF-8"
+
+I updated the patch earlier today incorporating the suggestions. I also had
+to bring back "#include <linux/types.h>" to drm.h because there's some
+sanity check that fails, as if it doesn't scan past the first level of
+#includes..
+
+- James
+
+On Mon, Dec 7, 2020 at 3:14 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+
+> On Mon, 07 Dec 2020 10:53:49 +0000
+> Simon Ser <contact@emersion.fr> wrote:
+>
+> > On Monday, December 7th, 2020 at 11:49 AM, James Park <
+> james.park@lagfreegames.com> wrote:
+> >
+> > > That would work, but that's kind of an annoying requirement. I would
+> > > prefer the header to be self-sufficient.
+> >
+> > I don't want to make it more confusing than before, but here Pekka (I
+> > think) suggests to replace this:
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h
+> b/include/uapi/drm/drm_fourcc.h
+> > index 82f3278..5eb07a5 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -24,7 +24,11 @@
+> >  #ifndef DRM_FOURCC_H
+> >  #define DRM_FOURCC_H
+> >
+> > +#ifdef DRM_FOURCC_STANDALONE
+> > +#include "drm_basic_types.h"
+> > +#else
+> >  #include "drm.h"
+> > +#endif
+> >
+> >  #if defined(__cplusplus)
+> >  extern "C" {
+> >
+> > With this:
+> >
+> > diff --git a/include/uapi/drm/drm_fourcc.h
+> b/include/uapi/drm/drm_fourcc.h
+> > index 82f3278..5eb07a5 100644
+> > --- a/include/uapi/drm/drm_fourcc.h
+> > +++ b/include/uapi/drm/drm_fourcc.h
+> > @@ -24,7 +24,11 @@
+> >  #ifndef DRM_FOURCC_H
+> >  #define DRM_FOURCC_H
+> >
+> > +#include "drm_basic_types.h"
+> > +
+> > +#ifndef DRM_FOURCC_STANDALONE
+> >  #include "drm.h"
+> > +#endif
+> >
+> >  #if defined(__cplusplus)
+> >  extern "C" {
+> >
+> > That wouldn't change whether the header is self-sufficient or not,
+> > would it?
+>
+> Exactly this.
+>
+> This communicates properly that DRM_FOURCC_STANDALONE only affects
+> whether drm.h gets pulled in or not, and there are no other effects.
+>
+> This also makes testing better: when you unconditionally include
+> drm_basic_types.h, you are more likely to catch breakage there.
+>
+> For functionality, it makes no difference. Whether userspace does
+>
+> #include "drm.h"
+> #define DRM_FOURCC_STANDALONE
+> #include "drm_fourcc.h"
+>
+> or
+>
+> #define DRM_FOURCC_STANDALONE
+> #include "drm_fourcc.h"
+> #include "drm.h"
+>
+> the result must always be good.
+>
+>
+> Thanks,
+> pq
+>
+
+--0000000000000f4cee05b5e99567
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I updated the patch=C2=A0earlier today incorporating the s=
+uggestions. I also had to bring back &quot;#include &lt;linux/types.h&gt;&q=
+uot; to drm.h because there&#39;s some sanity check that fails,=C2=A0as if =
+it doesn&#39;t=C2=A0scan past the first level of #includes..<div><br></div>=
+<div>- James</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Mon, Dec 7, 2020 at 3:14 AM Pekka Paalanen &lt;<a href=
+=3D"mailto:ppaalanen@gmail.com">ppaalanen@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 07 Dec 2020 10:5=
+3:49 +0000<br>
+Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr" target=3D"_blank">cont=
+act@emersion.fr</a>&gt; wrote:<br>
+<br>
+&gt; On Monday, December 7th, 2020 at 11:49 AM, James Park &lt;<a href=3D"m=
+ailto:james.park@lagfreegames.com" target=3D"_blank">james.park@lagfreegame=
+s.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; That would work, but that&#39;s kind of an annoying requirement. =
+I would<br>
+&gt; &gt; prefer the header to be self-sufficient.=C2=A0 <br>
+&gt; <br>
+&gt; I don&#39;t want to make it more confusing than before, but here Pekka=
+ (I<br>
+&gt; think) suggests to replace this:<br>
+&gt; <br>
+&gt; diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_four=
+cc.h<br>
+&gt; index 82f3278..5eb07a5 100644<br>
+&gt; --- a/include/uapi/drm/drm_fourcc.h<br>
+&gt; +++ b/include/uapi/drm/drm_fourcc.h<br>
+&gt; @@ -24,7 +24,11 @@<br>
+&gt;=C2=A0 #ifndef DRM_FOURCC_H<br>
+&gt;=C2=A0 #define DRM_FOURCC_H<br>
+&gt; <br>
+&gt; +#ifdef DRM_FOURCC_STANDALONE<br>
+&gt; +#include &quot;drm_basic_types.h&quot;<br>
+&gt; +#else<br>
+&gt;=C2=A0 #include &quot;drm.h&quot;<br>
+&gt; +#endif<br>
+&gt; <br>
+&gt;=C2=A0 #if defined(__cplusplus)<br>
+&gt;=C2=A0 extern &quot;C&quot; {<br>
+&gt; <br>
+&gt; With this:<br>
+&gt; <br>
+&gt; diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_four=
+cc.h<br>
+&gt; index 82f3278..5eb07a5 100644<br>
+&gt; --- a/include/uapi/drm/drm_fourcc.h<br>
+&gt; +++ b/include/uapi/drm/drm_fourcc.h<br>
+&gt; @@ -24,7 +24,11 @@<br>
+&gt;=C2=A0 #ifndef DRM_FOURCC_H<br>
+&gt;=C2=A0 #define DRM_FOURCC_H<br>
+&gt; <br>
+&gt; +#include &quot;drm_basic_types.h&quot;<br>
+&gt; +<br>
+&gt; +#ifndef DRM_FOURCC_STANDALONE<br>
+&gt;=C2=A0 #include &quot;drm.h&quot;<br>
+&gt; +#endif<br>
+&gt; <br>
+&gt;=C2=A0 #if defined(__cplusplus)<br>
+&gt;=C2=A0 extern &quot;C&quot; {<br>
+&gt; <br>
+&gt; That wouldn&#39;t change whether the header is self-sufficient or not,=
+<br>
+&gt; would it?<br>
+<br>
+Exactly this.<br>
+<br>
+This communicates properly that DRM_FOURCC_STANDALONE only affects<br>
+whether drm.h gets pulled in or not, and there are no other effects.<br>
+<br>
+This also makes testing better: when you unconditionally include<br>
+drm_basic_types.h, you are more likely to catch breakage there.<br>
+<br>
+For functionality, it makes no difference. Whether userspace does<br>
+<br>
+#include &quot;drm.h&quot;<br>
+#define DRM_FOURCC_STANDALONE<br>
+#include &quot;drm_fourcc.h&quot;<br>
+<br>
+or<br>
+<br>
+#define DRM_FOURCC_STANDALONE<br>
+#include &quot;drm_fourcc.h&quot;<br>
+#include &quot;drm.h&quot;<br>
+<br>
+the result must always be good.<br>
+<br>
+<br>
+Thanks,<br>
+pq<br>
+</blockquote></div>
+
+--0000000000000f4cee05b5e99567--
+
+--===============0483722413==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0483722413==--
