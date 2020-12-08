@@ -1,29 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25B92D2EBC
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B3A2D2EB9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3856E975;
-	Tue,  8 Dec 2020 15:55:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44B746E970;
+	Tue,  8 Dec 2020 15:55:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBB196E96A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC5866E968
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 15:55:16 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kmfKc-0007AN-DA; Tue, 08 Dec 2020 16:55:14 +0100
+ id 1kmfKc-0007AN-E3; Tue, 08 Dec 2020 16:55:14 +0100
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 09/19] drm/imx: imx-tve: use local encoder and connector
- variables
-Date: Tue,  8 Dec 2020 16:54:41 +0100
-Message-Id: <20201208155451.8421-10-p.zabel@pengutronix.de>
+Subject: [PATCH v4 10/19] drm/imx: imx-tve: move initialization into probe
+Date: Tue,  8 Dec 2020 16:54:42 +0100
+Message-Id: <20201208155451.8421-11-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201208155451.8421-1-p.zabel@pengutronix.de>
 References: <20201208155451.8421-1-p.zabel@pengutronix.de>
@@ -51,54 +50,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce local variables for encoder and connector.
-This simplifies the following commits.
+Parts of the initialization that do not require the drm device can be
+done once during probe instead of possibly multiple times during bind.
+The bind function only creates the encoder.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/imx/imx-tve.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/imx/imx-tve.c | 42 ++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
-index 2a8d2e32e7b4..37771073a525 100644
+index 37771073a525..649e2f56a5da 100644
 --- a/drivers/gpu/drm/imx/imx-tve.c
 +++ b/drivers/gpu/drm/imx/imx-tve.c
-@@ -430,27 +430,28 @@ static int tve_clk_init(struct imx_tve *tve, void __iomem *base)
- 
- static int imx_tve_register(struct drm_device *drm, struct imx_tve *tve)
- {
-+	struct drm_encoder *encoder = &tve->encoder;
-+	struct drm_connector *connector = &tve->connector;
- 	int encoder_type;
- 	int ret;
- 
+@@ -438,6 +438,9 @@ static int imx_tve_register(struct drm_device *drm, struct imx_tve *tve)
  	encoder_type = tve->mode == TVE_MODE_VGA ?
  				DRM_MODE_ENCODER_DAC : DRM_MODE_ENCODER_TVDAC;
  
--	ret = imx_drm_encoder_parse_of(drm, &tve->encoder, tve->dev->of_node);
-+	ret = imx_drm_encoder_parse_of(drm, encoder, tve->dev->of_node);
++	memset(connector, 0, sizeof(*connector));
++	memset(encoder, 0, sizeof(*encoder));
++
+ 	ret = imx_drm_encoder_parse_of(drm, encoder, tve->dev->of_node);
+ 	if (ret)
+ 		return ret;
+@@ -503,8 +506,19 @@ static int of_get_tve_mode(struct device_node *np)
+ 
+ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+ {
+-	struct platform_device *pdev = to_platform_device(dev);
+ 	struct drm_device *drm = data;
++	struct imx_tve *tve = dev_get_drvdata(dev);
++
++	return imx_tve_register(drm, tve);
++}
++
++static const struct component_ops imx_tve_ops = {
++	.bind	= imx_tve_bind,
++};
++
++static int imx_tve_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+ 	struct device_node *ddc_node;
+ 	struct imx_tve *tve;
+@@ -514,8 +528,9 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+ 	int irq;
+ 	int ret;
+ 
+-	tve = dev_get_drvdata(dev);
+-	memset(tve, 0, sizeof(*tve));
++	tve = devm_kzalloc(dev, sizeof(*tve), GFP_KERNEL);
++	if (!tve)
++		return -ENOMEM;
+ 
+ 	tve->dev = dev;
+ 
+@@ -622,28 +637,9 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
  	if (ret)
  		return ret;
  
--	drm_encoder_helper_add(&tve->encoder, &imx_tve_encoder_helper_funcs);
--	drm_simple_encoder_init(drm, &tve->encoder, encoder_type);
-+	drm_encoder_helper_add(encoder, &imx_tve_encoder_helper_funcs);
-+	drm_simple_encoder_init(drm, encoder, encoder_type);
+-	ret = imx_tve_register(drm, tve);
+-	if (ret)
+-		return ret;
+-
+-	return 0;
+-}
+-
+-static const struct component_ops imx_tve_ops = {
+-	.bind	= imx_tve_bind,
+-};
+-
+-static int imx_tve_probe(struct platform_device *pdev)
+-{
+-	struct imx_tve *tve;
+-
+-	tve = devm_kzalloc(&pdev->dev, sizeof(*tve), GFP_KERNEL);
+-	if (!tve)
+-		return -ENOMEM;
+-
+ 	platform_set_drvdata(pdev, tve);
  
--	drm_connector_helper_add(&tve->connector,
--			&imx_tve_connector_helper_funcs);
--	drm_connector_init_with_ddc(drm, &tve->connector,
-+	drm_connector_helper_add(connector, &imx_tve_connector_helper_funcs);
-+	drm_connector_init_with_ddc(drm, connector,
- 				    &imx_tve_connector_funcs,
- 				    DRM_MODE_CONNECTOR_VGA,
- 				    tve->ddc);
- 
--	drm_connector_attach_encoder(&tve->connector, &tve->encoder);
-+	drm_connector_attach_encoder(connector, encoder);
- 
- 	return 0;
+-	return component_add(&pdev->dev, &imx_tve_ops);
++	return component_add(dev, &imx_tve_ops);
  }
+ 
+ static int imx_tve_remove(struct platform_device *pdev)
 -- 
 2.20.1
 
