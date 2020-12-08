@@ -2,32 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A46F2D2541
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:00:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D9512D2554
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:04:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F6006E979;
-	Tue,  8 Dec 2020 08:00:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A63316E09A;
+	Tue,  8 Dec 2020 08:04:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D298B6E97F;
- Tue,  8 Dec 2020 08:00:05 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5310FAE12;
- Tue,  8 Dec 2020 08:00:04 +0000 (UTC)
-Subject: Re: [PATCH v2 13/20] drm/nouveau: Remove references to struct
- drm_device.pdev
-To: airlied@linux.ie, daniel@ffwll.ch
-References: <20201201103542.2182-1-tzimmermann@suse.de>
- <20201201103542.2182-14-tzimmermann@suse.de>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b3b30b2f-d633-b6c2-93f5-26a4989a4d91@suse.de>
-Date: Tue, 8 Dec 2020 09:00:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6A4E6E09A
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 08:04:45 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1kmXz9-0001CZ-Ua; Tue, 08 Dec 2020 09:04:35 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1kmXz7-00047B-Bt; Tue, 08 Dec 2020 09:04:33 +0100
+Date: Tue, 8 Dec 2020 09:04:33 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
+Message-ID: <20201208080433.szy7dek2qvn3d4vb@pengutronix.de>
+References: <20201208044022.972872-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201201103542.2182-14-tzimmermann@suse.de>
+In-Reply-To: <20201208044022.972872-1-bjorn.andersson@linaro.org>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -40,507 +46,294 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
- amd-gfx@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
-Content-Type: multipart/mixed; boundary="===============1332082891=="
+Cc: linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: multipart/mixed; boundary="===============1432507929=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1332082891==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="pbnTfPZAEC7VgKVpwIh5fcgd6TIECckLk"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pbnTfPZAEC7VgKVpwIh5fcgd6TIECckLk
-Content-Type: multipart/mixed; boundary="hIe2AHYR2zK6YPXw6Wr6jURzdtcXh5CCB";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@linux.ie, daniel@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>
-Message-ID: <b3b30b2f-d633-b6c2-93f5-26a4989a4d91@suse.de>
-Subject: Re: [PATCH v2 13/20] drm/nouveau: Remove references to struct
- drm_device.pdev
-References: <20201201103542.2182-1-tzimmermann@suse.de>
- <20201201103542.2182-14-tzimmermann@suse.de>
-In-Reply-To: <20201201103542.2182-14-tzimmermann@suse.de>
+--===============1432507929==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4uvrfzmltgxuhkh5"
+Content-Disposition: inline
 
---hIe2AHYR2zK6YPXw6Wr6jURzdtcXh5CCB
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+
+--4uvrfzmltgxuhkh5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-ping for a review of the nouveau patch
+Hello,
 
-Am 01.12.20 um 11:35 schrieb Thomas Zimmermann:
-> Using struct drm_device.pdev is deprecated. Convert nouveau to struct
-> drm_device.dev. No functional changes.
+On Mon, Dec 07, 2020 at 10:40:22PM -0600, Bjorn Andersson wrote:
+> The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
+> with the primary purpose of controlling the backlight of the attached
+> panel. Add an implementation that exposes this using the standard PWM
+> framework, to allow e.g. pwm-backlight to expose this to the user.
 >=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> ---
->   drivers/gpu/drm/nouveau/dispnv04/arb.c      | 12 +++++++-----
->   drivers/gpu/drm/nouveau/dispnv04/disp.h     | 14 ++++++++------
->   drivers/gpu/drm/nouveau/dispnv04/hw.c       | 10 ++++++----
->   drivers/gpu/drm/nouveau/nouveau_abi16.c     |  7 ++++---
->   drivers/gpu/drm/nouveau/nouveau_acpi.c      |  2 +-
->   drivers/gpu/drm/nouveau/nouveau_bios.c      | 11 ++++++++---
->   drivers/gpu/drm/nouveau/nouveau_connector.c | 10 ++++++----
->   drivers/gpu/drm/nouveau/nouveau_drm.c       |  5 ++---
->   drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  6 ++++--
->   drivers/gpu/drm/nouveau/nouveau_vga.c       | 20 ++++++++++++--------=
+> Special thanks to Doug Anderson for suggestions related to the involved
+> math.
 
->   10 files changed, 58 insertions(+), 39 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/arb.c b/drivers/gpu/drm/n=
-ouveau/dispnv04/arb.c
-> index 9d4a2d97507e..1d3542d6006b 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/arb.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-> @@ -200,16 +200,17 @@ nv04_update_arb(struct drm_device *dev, int VClk,=
- int bpp,
->   	int MClk =3D nouveau_hw_get_clock(dev, PLL_MEMORY);
->   	int NVClk =3D nouveau_hw_get_clock(dev, PLL_CORE);
->   	uint32_t cfg1 =3D nvif_rd32(device, NV04_PFB_CFG1);
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->  =20
->   	sim_data.pclk_khz =3D VClk;
->   	sim_data.mclk_khz =3D MClk;
->   	sim_data.nvclk_khz =3D NVClk;
->   	sim_data.bpp =3D bpp;
->   	sim_data.two_heads =3D nv_two_heads(dev);
-> -	if ((dev->pdev->device & 0xffff) =3D=3D 0x01a0 /*CHIPSET_NFORCE*/ ||
-> -	    (dev->pdev->device & 0xffff) =3D=3D 0x01f0 /*CHIPSET_NFORCE2*/) {=
+Did you test this with CONFIG_PWM_DEBUG? (I think you didn't, because
+otherwise there would be a .get_state callback.)
 
-> +	if ((pdev->device & 0xffff) =3D=3D 0x01a0 /*CHIPSET_NFORCE*/ ||
-> +	    (pdev->device & 0xffff) =3D=3D 0x01f0 /*CHIPSET_NFORCE2*/) {
->   		uint32_t type;
-> -		int domain =3D pci_domain_nr(dev->pdev->bus);
-> +		int domain =3D pci_domain_nr(pdev->bus);
->  =20
->   		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 1),
->   				      0x7c, &type);
-> @@ -251,11 +252,12 @@ void
->   nouveau_calc_arb(struct drm_device *dev, int vclk, int bpp, int *burs=
-t, int *lwm)
->   {
->   	struct nouveau_drm *drm =3D nouveau_drm(dev);
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->  =20
->   	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_KELVIN)
->   		nv04_update_arb(dev, vclk, bpp, burst, lwm);
-> -	else if ((dev->pdev->device & 0xfff0) =3D=3D 0x0240 /*CHIPSET_C51*/ |=
-|
-> -		 (dev->pdev->device & 0xfff0) =3D=3D 0x03d0 /*CHIPSET_C512*/) {
-> +	else if ((pdev->device & 0xfff0) =3D=3D 0x0240 /*CHIPSET_C51*/ ||
-> +		 (pdev->device & 0xfff0) =3D=3D 0x03d0 /*CHIPSET_C512*/) {
->   		*burst =3D 128;
->   		*lwm =3D 0x0480;
->   	} else
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.h b/drivers/gpu/drm/=
-nouveau/dispnv04/disp.h
-> index 5ace5e906949..f0a24126641a 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/disp.h
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-> @@ -130,7 +130,7 @@ static inline bool
->   nv_two_heads(struct drm_device *dev)
->   {
->   	struct nouveau_drm *drm =3D nouveau_drm(dev);
-> -	const int impl =3D dev->pdev->device & 0x0ff0;
-> +	const int impl =3D to_pci_dev(dev->dev)->device & 0x0ff0;
->  =20
->   	if (drm->client.device.info.family >=3D NV_DEVICE_INFO_V0_CELSIUS &&=
- impl !=3D 0x0100 &&
->   	    impl !=3D 0x0150 && impl !=3D 0x01a0 && impl !=3D 0x0200)
-> @@ -142,14 +142,14 @@ nv_two_heads(struct drm_device *dev)
->   static inline bool
->   nv_gf4_disp_arch(struct drm_device *dev)
->   {
-> -	return nv_two_heads(dev) && (dev->pdev->device & 0x0ff0) !=3D 0x0110;=
+> @@ -162,6 +171,12 @@ struct ti_sn_bridge {
+>  	struct gpio_chip		gchip;
+>  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
+> +#if defined(CONFIG_PWM)
 
-> +	return nv_two_heads(dev) && (to_pci_dev(dev->dev)->device & 0x0ff0) !=
-=3D 0x0110;
->   }
->  =20
->   static inline bool
->   nv_two_reg_pll(struct drm_device *dev)
->   {
->   	struct nouveau_drm *drm =3D nouveau_drm(dev);
-> -	const int impl =3D dev->pdev->device & 0x0ff0;
-> +	const int impl =3D to_pci_dev(dev->dev)->device & 0x0ff0;
->  =20
->   	if (impl =3D=3D 0x0310 || impl =3D=3D 0x0340 || drm->client.device.i=
-nfo.family >=3D NV_DEVICE_INFO_V0_CURIE)
->   		return true;
-> @@ -160,9 +160,11 @@ static inline bool
->   nv_match_device(struct drm_device *dev, unsigned device,
->   		unsigned sub_vendor, unsigned sub_device)
->   {
-> -	return dev->pdev->device =3D=3D device &&
-> -		dev->pdev->subsystem_vendor =3D=3D sub_vendor &&
-> -		dev->pdev->subsystem_device =3D=3D sub_device;
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
-> +
-> +	return pdev->device =3D=3D device &&
-> +		pdev->subsystem_vendor =3D=3D sub_vendor &&
-> +		pdev->subsystem_device =3D=3D sub_device;
->   }
->  =20
->   #include <subdev/bios/init.h>
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/hw.c b/drivers/gpu/drm/no=
-uveau/dispnv04/hw.c
-> index b674d68ef28a..f7d35657aa64 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/hw.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-> @@ -214,14 +214,15 @@ nouveau_hw_pllvals_to_clk(struct nvkm_pll_vals *p=
-v)
->   int
->   nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type pll=
-type)
->   {
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->   	struct nvkm_pll_vals pllvals;
->   	int ret;
->   	int domain;
->  =20
-> -	domain =3D pci_domain_nr(dev->pdev->bus);
-> +	domain =3D pci_domain_nr(pdev->bus);
->  =20
->   	if (plltype =3D=3D PLL_MEMORY &&
-> -	    (dev->pdev->device & 0x0ff0) =3D=3D CHIPSET_NFORCE) {
-> +	    (pdev->device & 0x0ff0) =3D=3D CHIPSET_NFORCE) {
->   		uint32_t mpllP;
->   		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 3),
->   				      0x6c, &mpllP);
-> @@ -232,7 +233,7 @@ nouveau_hw_get_clock(struct drm_device *dev, enum n=
-vbios_pll_type plltype)
->   		return 400000 / mpllP;
->   	} else
->   	if (plltype =3D=3D PLL_MEMORY &&
-> -	    (dev->pdev->device & 0xff0) =3D=3D CHIPSET_NFORCE2) {
-> +	    (pdev->device & 0xff0) =3D=3D CHIPSET_NFORCE2) {
->   		uint32_t clock;
->  =20
->   		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 5),
-> @@ -309,6 +310,7 @@ void
->   nouveau_hw_save_vga_fonts(struct drm_device *dev, bool save)
->   {
->   	struct nouveau_drm *drm =3D nouveau_drm(dev);
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->   	uint8_t misc, gr4, gr5, gr6, seq2, seq4;
->   	bool graphicsmode;
->   	unsigned plane;
-> @@ -327,7 +329,7 @@ nouveau_hw_save_vga_fonts(struct drm_device *dev, b=
-ool save)
->   	NV_INFO(drm, "%sing VGA fonts\n", save ? "Sav" : "Restor");
->  =20
->   	/* map first 64KiB of VRAM, holds VGA fonts etc */
-> -	iovram =3D ioremap(pci_resource_start(dev->pdev, 1), 65536);
-> +	iovram =3D ioremap(pci_resource_start(pdev, 1), 65536);
->   	if (!iovram) {
->   		NV_ERROR(drm, "Failed to map VRAM, "
->   					"cannot save/restore VGA fonts.\n");
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/=
-nouveau/nouveau_abi16.c
-> index 9a5be6f32424..f08b31d84d4d 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-> @@ -181,6 +181,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->   	struct nvif_device *device =3D &drm->client.device;
->   	struct nvkm_gr *gr =3D nvxx_gr(device);
->   	struct drm_nouveau_getparam *getparam =3D data;
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->  =20
->   	switch (getparam->param) {
->   	case NOUVEAU_GETPARAM_CHIPSET_ID:
-> @@ -188,13 +189,13 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->   		break;
->   	case NOUVEAU_GETPARAM_PCI_VENDOR:
->   		if (device->info.platform !=3D NV_DEVICE_INFO_V0_SOC)
-> -			getparam->value =3D dev->pdev->vendor;
-> +			getparam->value =3D pdev->vendor;
->   		else
->   			getparam->value =3D 0;
->   		break;
->   	case NOUVEAU_GETPARAM_PCI_DEVICE:
->   		if (device->info.platform !=3D NV_DEVICE_INFO_V0_SOC)
-> -			getparam->value =3D dev->pdev->device;
-> +			getparam->value =3D pdev->device;
->   		else
->   			getparam->value =3D 0;
->   		break;
-> @@ -205,7 +206,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->   		case NV_DEVICE_INFO_V0_PCIE: getparam->value =3D 2; break;
->   		case NV_DEVICE_INFO_V0_SOC : getparam->value =3D 3; break;
->   		case NV_DEVICE_INFO_V0_IGP :
-> -			if (!pci_is_pcie(dev->pdev))
-> +			if (!pci_is_pcie(pdev))
->   				getparam->value =3D 1;
->   			else
->   				getparam->value =3D 2;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_acpi.c b/drivers/gpu/drm/n=
-ouveau/nouveau_acpi.c
-> index 69a84d0197d0..7c15f6448428 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_acpi.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_acpi.c
-> @@ -377,7 +377,7 @@ nouveau_acpi_edid(struct drm_device *dev, struct dr=
-m_connector *connector)
->   		return NULL;
->   	}
->  =20
-> -	handle =3D ACPI_HANDLE(&dev->pdev->dev);
-> +	handle =3D ACPI_HANDLE(dev->dev);
->   	if (!handle)
->   		return NULL;
->  =20
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/n=
-ouveau/nouveau_bios.c
-> index d204ea8a5618..7cc683b8dc7a 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bios.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
-> @@ -110,6 +110,9 @@ static int call_lvds_manufacturer_script(struct drm=
-_device *dev, struct dcb_outp
->   	struct nvbios *bios =3D &drm->vbios;
->   	uint8_t sub =3D bios->data[bios->fp.xlated_entry + script] + (bios->=
-fp.link_c_increment && dcbent->or & DCB_OUTPUT_C ? 1 : 0);
->   	uint16_t scriptofs =3D ROM16(bios->data[bios->init_script_tbls_ptr +=
- sub * 2]);
-> +#ifdef __powerpc__
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
+Would it make sense to introduce a separate config symbol for this?
+Something like CONFIG_PWM_SN65DSI87?
+
+> +	struct pwm_chip			pchip;
+> +	bool				pwm_enabled;
+> +	unsigned int			pwm_refclk;
+> +	atomic_t			pwm_pin_busy;
+
+struct ti_sn_bridge has a kernel doc comment describing all members,
+please add a description of the members you introduced here. Please also
+point out that you use pwm_pin_busy to protect against concurrent use of
+the pin as PWM and GPIO.
+
 > +#endif
->  =20
->   	if (!bios->fp.xlated_entry || !sub || !scriptofs)
->   		return -EINVAL;
-> @@ -123,8 +126,8 @@ static int call_lvds_manufacturer_script(struct drm=
-_device *dev, struct dcb_outp
->   #ifdef __powerpc__
->   	/* Powerbook specific quirks */
->   	if (script =3D=3D LVDS_RESET &&
-> -	    (dev->pdev->device =3D=3D 0x0179 || dev->pdev->device =3D=3D 0x01=
-89 ||
-> -	     dev->pdev->device =3D=3D 0x0329))
-> +	    (pdev->device =3D=3D 0x0179 || pdev->device =3D=3D 0x0189 ||
-> +	     pdev->device =3D=3D 0x0329))
->   		nv_write_tmds(dev, dcbent->or, 0, 0x02, 0x72);
->   #endif
->  =20
-> @@ -2080,11 +2083,13 @@ nouveau_bios_init(struct drm_device *dev)
->   {
->   	struct nouveau_drm *drm =3D nouveau_drm(dev);
->   	struct nvbios *bios =3D &drm->vbios;
-> +	struct pci_dev *pdev;
->   	int ret;
->  =20
->   	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->   		return 0;
-> +	pdev =3D to_pci_dev(dev->dev);
->  =20
->   	if (!NVInitVBIOS(dev))
->   		return -ENODEV;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/=
-drm/nouveau/nouveau_connector.c
-> index 8b4b3688c7ae..14c29e68db8f 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -411,6 +411,7 @@ static struct nouveau_encoder *
->   nouveau_connector_ddc_detect(struct drm_connector *connector)
->   {
->   	struct drm_device *dev =3D connector->dev;
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->   	struct nouveau_encoder *nv_encoder =3D NULL, *found =3D NULL;
->   	struct drm_encoder *encoder;
->   	int ret;
-> @@ -438,11 +439,11 @@ nouveau_connector_ddc_detect(struct drm_connector=
- *connector)
->   				break;
->  =20
->   			if (switcheroo_ddc)
-> -				vga_switcheroo_lock_ddc(dev->pdev);
-> +				vga_switcheroo_lock_ddc(pdev);
->   			if (nvkm_probe_i2c(nv_encoder->i2c, 0x50))
->   				found =3D nv_encoder;
->   			if (switcheroo_ddc)
-> -				vga_switcheroo_unlock_ddc(dev->pdev);
-> +				vga_switcheroo_unlock_ddc(pdev);
->  =20
->   			break;
->   		}
-> @@ -490,6 +491,7 @@ nouveau_connector_set_encoder(struct drm_connector =
-*connector,
->   	struct nouveau_connector *nv_connector =3D nouveau_connector(connect=
-or);
->   	struct nouveau_drm *drm =3D nouveau_drm(connector->dev);
->   	struct drm_device *dev =3D connector->dev;
-> +	struct pci_dev *pdev =3D to_pci_dev(dev->dev);
->  =20
->   	if (nv_connector->detected_encoder =3D=3D nv_encoder)
->   		return;
-> @@ -511,8 +513,8 @@ nouveau_connector_set_encoder(struct drm_connector =
-*connector,
->   		connector->doublescan_allowed =3D true;
->   		if (drm->client.device.info.family =3D=3D NV_DEVICE_INFO_V0_KELVIN =
-||
->   		    (drm->client.device.info.family =3D=3D NV_DEVICE_INFO_V0_CELSIU=
-S &&
-> -		     (dev->pdev->device & 0x0ff0) !=3D 0x0100 &&
-> -		     (dev->pdev->device & 0x0ff0) !=3D 0x0150))
-> +		     (pdev->device & 0x0ff0) !=3D 0x0100 &&
-> +		     (pdev->device & 0x0ff0) !=3D 0x0150))
->   			/* HW is broken */
->   			connector->interlace_allowed =3D false;
->   		else
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/no=
-uveau/nouveau_drm.c
-> index d141a5f004af..1b2169e9c295 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -115,8 +115,8 @@ nouveau_platform_name(struct platform_device *platf=
-ormdev)
->   static u64
->   nouveau_name(struct drm_device *dev)
->   {
-> -	if (dev->pdev)
-> -		return nouveau_pci_name(dev->pdev);
-> +	if (dev_is_pci(dev->dev))
-> +		return nouveau_pci_name(to_pci_dev(dev->dev));
->   	else
->   		return nouveau_platform_name(to_platform_device(dev->dev));
->   }
-> @@ -760,7 +760,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
->   	if (ret)
->   		goto fail_drm;
->  =20
-> -	drm_dev->pdev =3D pdev;
->   	pci_set_drvdata(pdev, drm_dev);
->  =20
->   	ret =3D nouveau_drm_device_init(drm_dev);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/=
-nouveau/nouveau_fbcon.c
-> index 24ec5339efb4..4fc0fa696461 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-> @@ -396,7 +396,9 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
->   	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
->   		fb->width, fb->height, nvbo->offset, nvbo);
->  =20
-> -	vga_switcheroo_client_fb_set(dev->pdev, info);
-> +	if (dev_is_pci(dev->dev))
-> +		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), info);
+>  };
+> =20
+>  static const struct regmap_range ti_sn_bridge_volatile_ranges[] =3D {
+> @@ -499,6 +514,14 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_s=
+n_bridge *pdata)
+> =20
+>  	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
+>  			   REFCLK_FREQ(i));
 > +
->   	return 0;
->  =20
->   out_unlock:
-> @@ -548,7 +550,7 @@ nouveau_fbcon_init(struct drm_device *dev)
->   	int ret;
->  =20
->   	if (!dev->mode_config.num_crtc ||
-> -	    (dev->pdev->class >> 8) !=3D PCI_CLASS_DISPLAY_VGA)
-> +	    (to_pci_dev(dev->dev)->class >> 8) !=3D PCI_CLASS_DISPLAY_VGA)
->   		return 0;
->  =20
->   	fbcon =3D kzalloc(sizeof(struct nouveau_fbdev), GFP_KERNEL);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/no=
-uveau/nouveau_vga.c
-> index c85dd8afa3c3..7c4b374b3eca 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-> @@ -87,18 +87,20 @@ nouveau_vga_init(struct nouveau_drm *drm)
->   {
->   	struct drm_device *dev =3D drm->dev;
->   	bool runtime =3D nouveau_pmops_runtime();
-> +	struct pci_dev *pdev;
->  =20
->   	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->   		return;
-> +	pdev =3D to_pci_dev(dev->dev);
->  =20
-> -	vga_client_register(dev->pdev, dev, NULL, nouveau_vga_set_decode);
-> +	vga_client_register(pdev, dev, NULL, nouveau_vga_set_decode);
->  =20
->   	/* don't register Thunderbolt eGPU with vga_switcheroo */
-> -	if (pci_is_thunderbolt_attached(dev->pdev))
-> +	if (pci_is_thunderbolt_attached(pdev))
->   		return;
->  =20
-> -	vga_switcheroo_register_client(dev->pdev, &nouveau_switcheroo_ops, ru=
-ntime);
-> +	vga_switcheroo_register_client(pdev, &nouveau_switcheroo_ops, runtime=
-);
->  =20
->   	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
->   		vga_switcheroo_init_domain_pm_ops(drm->dev->dev, &drm->vga_pm_domai=
-n);
-> @@ -109,17 +111,19 @@ nouveau_vga_fini(struct nouveau_drm *drm)
->   {
->   	struct drm_device *dev =3D drm->dev;
->   	bool runtime =3D nouveau_pmops_runtime();
-> +	struct pci_dev *pdev;
->  =20
->   	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->   		return;
-> +	pdev =3D to_pci_dev(dev->dev);
->  =20
-> -	vga_client_register(dev->pdev, NULL, NULL, NULL);
-> +	vga_client_register(pdev, NULL, NULL, NULL);
->  =20
-> -	if (pci_is_thunderbolt_attached(dev->pdev))
-> +	if (pci_is_thunderbolt_attached(pdev))
->   		return;
->  =20
-> -	vga_switcheroo_unregister_client(dev->pdev);
-> +	vga_switcheroo_unregister_client(pdev);
->   	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
->   		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
->   }
->=20
+> +#if defined(CONFIG_PWM)
+> +	/*
+> +	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
+> +	 * regardless of its actual sourcing.
+> +	 */
+> +	pdata->pwm_refclk =3D ti_sn_bridge_refclk_lut[i];
+> +#endif
+
+I don't understand this code. 'i' seems to be something more special
+than a counter variable, so I wonder if it should have a better name.
+(This is however an issue separate from this patch, but it would be
+great to first make the code a bit better understandable. Or is this
+only me?)
+
+>  }
+> =20
+>  static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
+> @@ -981,6 +1004,161 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_s=
+n_bridge *pdata)
+>  	return 0;
+>  }
+> =20
+> +#if defined(CONFIG_PWM)
+> +static int ti_sn_pwm_pin_request(struct ti_sn_bridge *pdata)
+> +{
+> +	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
+> +}
+> +
+> +static void ti_sn_pwm_pin_release(struct ti_sn_bridge *pdata)
+> +{
+> +	atomic_set(&pdata->pwm_pin_busy, 0);
+> +}
+> +
+> +static struct ti_sn_bridge *
+> +pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
+
+All your functions share the same function prefix (which is fine), but
+this one doesn't.
+
+> +{
+> +	return container_of(chip, struct ti_sn_bridge, pchip);
+> +}
+> [...]
+> +	if (state->enabled) {
+> +		/*
+> +		 * Per the datasheet the PWM frequency is given by:
+> +		 *
+> +		 * PWM_FREQ =3D REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
+> +		 *
+> +		 * In order to find the PWM_FREQ that best suits the requested
+> +		 * state->period, the PWM_PRE_DIV is calculated with the
+> +		 * maximum possible number of steps (BACKLIGHT_SCALE_MAX). The
+> +		 * actual BACKLIGHT_SCALE is then adjusted down to match the
+> +		 * requested period.
+> +		 *
+> +		 * The BACKLIGHT value is then calculated against the
+> +		 * BACKLIGHT_SCALE, based on the requested duty_cycle and
+> +		 * period.
+> +		 */
+> +		pwm_freq =3D NSEC_PER_SEC / state->period;
+
+Here you should better have some range checking. Consider for example
+state->period being > NSEC_PER_SEC. (Hint: This makes pwm_freq =3D 0 and
+in the next line you divide by pwm_freq.)
+
+> +		pre_div =3D DIV_ROUND_UP(pdata->pwm_refclk / pwm_freq - 1, BACKLIGHT_S=
+CALE_MAX);
+> +		scale =3D (pdata->pwm_refclk / pwm_freq - 1) / pre_div;
+
+I'm still trying to wrap my head around this calculation, but dividing
+by the result of a division is always loosing precision. This is really
+involved and I'm willing to bet this can be done easier and with more
+precision.
+
+=2E.. some time later ...
+
+You wrote "PWM_FREQ =3D REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)",
+so (I think) that means you have:
+
+	period =3D (PWM_PRE_DIV * BACKLIGHT_SCALE + 1) / refclk
+
+right? I deduce from your formula how the duty_cycle is defined and I
+think it's:
+
+	duty_cycle =3D (PWM_PRE_DIV * BACKLIGHT + 1) / refclk
+
+is this right? And now your idea to "best suite the requested period" is
+to select a small divider such that you can still use a big value in
+SCALE to define the period and so have a fine separation for the
+duty_cycle, right?
+
+I will stop doing maths here now until you confirm my steps up to now
+are right.
+
+> +		backlight =3D scale * state->duty_cycle / state->period;
+
+This is an u64 division, you must use do_div for that. Also you're
+losing precision here.
+
+> +		ret =3D regmap_write(pdata->regmap, SN_PWM_PRE_DIV_REG, pre_div);
+> +		if (ret) {
+> +			dev_err(pdata->dev, "failed to update PWM_PRE_DIV\n");
+> +			goto out;
+> +		}
+> +
+> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
+> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
+
+How does the PWM behave in between these writes? Are the register values
+shadowed until the third write happens (which would be the optimum), or
+does this result in (maybe) emitting an output wave that doesn't
+correspond to the requested setting (assuming the PWM is already enabled
+of course)?
+
+What happens if the value written to SN_BACKLIGHT_SCALE_REG is less than
+the previous value in SN_BACKLIGHT_REG? ti_sn_bridge_write_u16 wraps two
+regmap writes, is there a race, too?
+
+> +	}
+> +
+> +	pwm_en_inv =3D FIELD_PREP(BIT(1), !!state->enabled) |
+> +		     FIELD_PREP(BIT(0), state->polarity =3D=3D PWM_POLARITY_INVERSED);
+
+Please introduce symbolic names for BIT(1) and BIT(0) here.
+
+How does the hardware behave with the enable bit unset? Does it emit the
+inactive level according to the polarity bit?
+
+> +	ret =3D regmap_write(pdata->regmap, SN_PWM_EN_INV_REG, pwm_en_inv);
+> +	if (ret) {
+> +		dev_err(pdata->dev, "failed to update PWM_EN/PWM_INV\n");
+> +		goto out;
+> +	}
+> +
+> +	pdata->pwm_enabled =3D !!state->enabled;
+> +out:
+> +
+> +	if (!pdata->pwm_enabled)
+> +		pm_runtime_put_sync(pdata->dev);
+> +
+> +	return ret;
+> +}
+> +
+> [...]
+> +static struct pwm_device *ti_sn_pwm_of_xlate(struct pwm_chip *pc,
+> +					     const struct of_phandle_args *args)
+> +{
+> +	struct pwm_device *pwm;
+> +
+> +	if (args->args_count !=3D 1)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	pwm =3D pwm_request_from_chip(pc, 0, NULL);
+> +	if (IS_ERR(pwm))
+> +		return pwm;
+> +
+> +	pwm->args.period =3D args->args[0];
+> +
+> +	return pwm;
+> +}
+
+This is done to optimise away the 0 needed in each phandle to implement
+the "usual" pwm binding. IMHO this function should either move into the
+pwm core, or you should stick to the usual binding.
+
+Apropos binding: Is there already a binding document for the hardware?
+You should expand it to describe your additions.
+
+> @@ -1282,6 +1476,12 @@ static int ti_sn_bridge_probe(struct i2c_client *c=
+lient,
+>  		return ret;
+>  	}
+> =20
+> +	ret =3D ti_sn_setup_pwmchip(pdata);
+> +	if (ret)  {
+> +		pm_runtime_disable(pdata->dev);
+> +		return ret;
+> +	}
+
+I'm not sure about the purpose of the containing hardware, but I wonder
+if it would be saner to not break probing of the device if adding the
+PWM functionality fails. Ideally the driver would provide an mfd driver
+that allows its components to be probed independently.
+
+>  	i2c_set_clientdata(client, pdata);
+> =20
+>  	pdata->aux.name =3D "ti-sn65dsi86-aux";
+> @@ -1320,6 +1520,8 @@ static int ti_sn_bridge_remove(struct i2c_client *c=
+lient)
+> =20
+>  	drm_bridge_remove(&pdata->bridge);
+> =20
+> +	ti_sn_remove_pwmchip(pdata);
+> +
+>  	return 0;
+
+Best regards
+Uwe
 
 --=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-
---hIe2AHYR2zK6YPXw6Wr6jURzdtcXh5CCB--
-
---pbnTfPZAEC7VgKVpwIh5fcgd6TIECckLk
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+--4uvrfzmltgxuhkh5
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/PMoMFAwAAAAAACgkQlh/E3EQov+AH
-Bw//SvWeEKGh+x8iIhsOXEWO6ExEg+6BmGV3spn6msMYU1pGOpKMgaBNEKh2b0d+UT1WLN8gDULg
-wd6PrbLt+28d9/fY5sdtvvgL2PWbQNLRY1jLxH2YvqfZX0VVFGiEhKS5osW7WnbdX8WntxIAa8oj
-L0d/es2YaKr20z4umjfztxkir/cCGWgigkod6E9GzsfZC4HaXJe+rYbR87IfiADdWwYlSQhJMLcg
-4MSEwvJ3PU+2U2eA5fwcNpT3a5vf+gKbOTja5E5PM7t0vMrwss8l/jVMuKXXq+6Demr6uoegHihX
-JjQ+8Uk/vpQ1WC8D+agcgHnEjeP/Lfbn05AJGN2mjnDdf4YwZ5aaOqWmh3pV9DxKjcAQxgwkjv3q
-6YLJaw/YrHUt4XmEalubxgr2wZin1klJzMKmYecyo3ZfzYaksdRqqpcmwshwaSULshVeAKi3wu2u
-gL5fVXDU66KTq6LJVONZ2QeSWcYUqQHeelGKqVaVxWe6jtw6ABOiXbYpIF27kgIW8PbuRIgUxdoT
-M3KBooXJdn4/RhbT5Sj2EjeC6o2rFYSjQj2qSaYcalFI52xKZIhCQOgTx/rd9mG3Ex+vNUiTc9Hq
-al4n0b02KcZ9NIvMV7Rml+T3pp3FNYXkE+i9LtstjaQ1EP+6AE/ApGPuNVE+3eQTK1B3bnEJq3eO
-aTk=
-=NT0r
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/PM44ACgkQwfwUeK3K
+7Ak/Pgf+Ipt5/DvWkzrssAOU7xprddf4muXBxkoYz10o7JzCGWZM1fqHoRli0Ntr
+sky7x0riw2EMVjWiOwVQsNdRdQuPqBqSTXL7UstjgPa5tSFV4jzu8HrHv+hpIE4K
+K4R71AeaTfLTQKrQEkvf4Ob/R4/9qnBnhgLVMfPFNHMuBRFsaGmOInE9mgTWMyIC
+OIPLoX7xYvzB/6T7gE/ZsUOIr7ZR9TKkCQaWNAT7ngXgQXl23abirY+ZXeARubJX
+Vsz3BIX50Hd6NAkbl+TcOQjhE+L3K+mmWcjN/cZ2zN+/5F+e3HfxHqAT+sjz5uIn
+FIUufFqHxCbr5oKHStsT2tMvrY3SxQ==
+=rExz
 -----END PGP SIGNATURE-----
 
---pbnTfPZAEC7VgKVpwIh5fcgd6TIECckLk--
+--4uvrfzmltgxuhkh5--
 
---===============1332082891==
+--===============1432507929==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -551,4 +344,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1332082891==--
+--===============1432507929==--
