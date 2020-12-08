@@ -1,33 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5192D3D5F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 217762D3D76
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E47686E2BC;
-	Wed,  9 Dec 2020 08:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF4116E9D5;
+	Wed,  9 Dec 2020 08:32:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C6426E161
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 12:36:04 +0000 (UTC)
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cr05C2mlXz15YQC;
- Tue,  8 Dec 2020 20:35:27 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 8 Dec 2020 20:35:55 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <jsarha@ti.com>, <tomi.valkeinen@ti.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/tidss: Use the new api devm_drm_irq_install
-Date: Tue, 8 Dec 2020 20:36:09 +0800
-Message-ID: <1607430969-1663-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC6836E954
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 14:00:38 +0000 (UTC)
+Date: Tue, 08 Dec 2020 14:00:22 +0000
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH 3/5] drm: Add and export =?UTF-8?Q?function=0D=0A?=
+ drm_gem_cma_mmap_noncoherent
+To: Christoph Hellwig <hch@infradead.org>
+Message-Id: <MKX0LQ.WS1HU920R7ZP2@crapouillou.net>
+In-Reply-To: <FQI8JQ.KNVZ9XZ67ZV41@crapouillou.net>
+References: <20201102220651.22069-1-paul@crapouillou.net>
+ <20201102220651.22069-4-paul@crapouillou.net>
+ <20201103185058.GA20134@infradead.org>
+ <FQI8JQ.KNVZ9XZ67ZV41@crapouillou.net>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Wed, 09 Dec 2020 08:32:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,44 +37,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org, od@zcrc.me,
+ dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_drm_irq_install to register interrupts so that
-drm_irq_uninstall is not needed to be called.
+Hi Christoph,
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/tidss/tidss_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Le mar. 3 nov. 2020 =E0 19:13, Paul Cercueil <paul@crapouillou.net> a =
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 66e3c86e..e68f2de 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -173,7 +173,7 @@ static int tidss_probe(struct platform_device *pdev)
- 		goto err_runtime_suspend;
- 	}
- 
--	ret = drm_irq_install(ddev, irq);
-+	ret = devm_drm_irq_install(ddev, irq);
- 	if (ret) {
- 		dev_err(dev, "drm_irq_install failed: %d\n", ret);
- 		goto err_runtime_suspend;
-@@ -219,8 +219,6 @@ static int tidss_remove(struct platform_device *pdev)
- 
- 	drm_atomic_helper_shutdown(ddev);
- 
--	drm_irq_uninstall(ddev);
--
- #ifndef CONFIG_PM
- 	/* If we don't have PM, we need to call suspend manually */
- 	dispc_runtime_suspend(tidss->dispc);
--- 
-2.7.4
+=E9crit :
+> Hi Christoph,
+> =
+
+> Le mar. 3 nov. 2020 =E0 18:50, Christoph Hellwig <hch@infradead.org> a =
+
+> =E9crit :
+>> On Mon, Nov 02, 2020 at 10:06:49PM +0000, Paul Cercueil wrote:
+>>>  This function can be used by drivers that need to mmap dumb buffers
+>>>  created with non-coherent backing memory.
+>>> =
+
+>>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>>  ---
+>>>   drivers/gpu/drm/drm_gem_cma_helper.c | 39 =
+
+>>> =7F=7F++++++++++++++++++++++++++++
+>>>   include/drm/drm_gem_cma_helper.h     |  2 ++
+>>>   2 files changed, 41 insertions(+)
+>>> =
+
+>>>  diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c =
+
+>>> =7F=7Fb/drivers/gpu/drm/drm_gem_cma_helper.c
+>>>  index 3bdd67795e20..4ed63f4896bd 100644
+>>>  --- a/drivers/gpu/drm/drm_gem_cma_helper.c
+>>>  +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+>>>  @@ -387,6 +387,45 @@ int drm_gem_cma_mmap(struct file *filp, =
+
+>>> struct =7F=7Fvm_area_struct *vma)
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
+>>> =
+
+>>>  +/**
+>>>  + * drm_gem_cma_mmap_noncoherent - memory-map a CMA GEM object with
+>>>  + *     non-coherent cache attribute
+>>>  + * @filp: file object
+>>>  + * @vma: VMA for the area to be mapped
+>>>  + *
+>>>  + * Just like drm_gem_cma_mmap, but for a GEM object backed by =
+
+>>> =7F=7Fnon-coherent
+>>>  + * memory.
+>>>  + *
+>>>  + * Returns:
+>>>  + * 0 on success or a negative error code on failure.
+>>>  + */
+>>>  +int drm_gem_cma_mmap_noncoherent(struct file *filp, struct =
+
+>>> =7F=7Fvm_area_struct *vma)
+>>>  +{
+>>>  +	struct drm_gem_cma_object *cma_obj;
+>>>  +	int ret;
+>>>  +
+>>>  +	ret =3D drm_gem_mmap(filp, vma);
+>>>  +	if (ret)
+>>>  +		return ret;
+>>>  +
+>>>  +	cma_obj =3D to_drm_gem_cma_obj(vma->vm_private_data);
+>>>  +
+>>>  +	/*
+>>>  +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and =
+
+>>> =7F=7Fset the
+>>>  +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we =
+
+>>> want =7F=7Fto map
+>>>  +	 * the whole buffer.
+>>>  +	 */
+>>>  +	vma->vm_flags &=3D ~VM_PFNMAP;
+>>>  +	vma->vm_pgoff =3D 0;
+>>>  +	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
+>>>  +
+>>>  +	return remap_pfn_range(vma, vma->vm_start,
+>>>  +			       cma_obj->paddr >> PAGE_SHIFT,
+>>>  +			       vma->vm_end - vma->vm_start,
+>>>  +			       vma->vm_page_prot);
+>> =
+
+>> Per patch 1 cma_obj->paddr is the dma address, while remap_pfn_range
+>> expects a physical address.  This does not work.
+> =
+
+> Ok, what would be the correct way to mmap_noncoherent?
+
+Waiting for your input here :)
+
+Cheers,
+-Paul
+
 
 _______________________________________________
 dri-devel mailing list
