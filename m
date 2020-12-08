@@ -2,47 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D002D262B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877272D2639
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:34:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 697556E989;
-	Tue,  8 Dec 2020 08:32:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6476E965;
+	Tue,  8 Dec 2020 08:32:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [1.203.163.78])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1A4F26E8C7
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 02:05:56 +0000 (UTC)
-X-UUID: 8a664c262b164f2bb78d63554f53e19a-20201208
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=AnfMsxCsqIaWPXAofU2Qh3nt/yEpA1Nncyh3grmr2Hs=; 
- b=a2h/GOb3tMmj4tVWWW0Z8TUR3FBZ3HuPCXErjJgQio5LqJUJMEZR1tVd2u1BuMDPlmDLv2O+NDJZ8PcqVt24FAPKEqv1uNg6UFJa56TTUYvo2315Fqbm9h8UgU9F6hHw+HODvloC9Xj/ab+g8IgGqFF1/2dzNy25Nb0tHM+TMbc=;
-X-UUID: 8a664c262b164f2bb78d63554f53e19a-20201208
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
- (envelope-from <chunfeng.yun@mediatek.com>)
- (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1168966895; Tue, 08 Dec 2020 10:00:35 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 8 Dec 2020 10:00:23 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 8 Dec 2020 10:00:26 +0800
-Message-ID: <1607392825.23328.5.camel@mhfsdcap03>
-Subject: Re: [PATCH v3 07/11] dt-bindings: phy: convert MIP DSI PHY binding
- to YAML schema
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com
+ (mail-eopbgr150073.outbound.protection.outlook.com [40.107.15.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5EF6E942
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 03:09:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CyPemiPEWuZNMOpmVUb5s9OssoTGYMICB/TLwR5ZENsDvy/KxffYMF4zmxwuCLTbu4XWf4+wvzhTMe/1yN5mWVWDosxY16dTp5zyFDMZtSKMrilVSQ++/tEbxWndHz1957HF14duWScKr6UHx3GXk3WgPG17+xTXJJJdrggacDidbHua8YI4eiS4NIbjTW0m2UdT22fV++KEhUF26r7nWs2rFtXm6AfxR5muj8TYypfSV/qXcNkoh0xg3uqVPAnauiIUyHEJcR6J1e5V5Wv1uu8vypCwVZ58Y1q1emn5RYbZY4taNBajVvoNbs2NNMIKIlj/FukWTR0eNE6pbGi/pA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v2vpuQamVqr9hWJlt1AwV6i9vetJreOc/tOwxBykfjs=;
+ b=R4v0RFGxai6Zc45zpfIm3aEB3CJNRZpVoeVdampigJTXCCkKDtq7btJ6zGy/L/axY5OX/K7d4+KKsSwrf1IcrkqpkyU3PFCN0Nc7eQ2swt/a97yIpV+xC2N45WPEzPjSDDRGemnZaOwuJ7O78er5PVUp9nzrQRIEWlctQhyK6Kpv9PVwwC53bjjvezV6jVi5XgJ4hMo0ZqIYmtGYfC7rnUKXPHt90fiyBfZc9o0ag5Q2MynL3TM2S9etW0hGnvklrEdZEI0B8me/kFuS3C2Q1JyVMtsbc329NS4zdXDtpfQptwFQ74Pr3Yb3UF1ouyc0JfbXsCXzD8ZQv9bHXM31vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v2vpuQamVqr9hWJlt1AwV6i9vetJreOc/tOwxBykfjs=;
+ b=Bh6vXFVipEHVw0QHRaIxKb98NI5B8RChh+Q++41K+NY+iwlCxm4EAtZ0tmQjR0IpsQEuC9C5+FHw+YRcsMUtaopdPTmAjeYF8IhkNUqqRxQX3Zzk1lr12ipyAJPvzUotx09awFM3pB4ca6a1KwB2xhuF0lqYtcCKV+Vd3vO3ypo=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (10.171.182.16) by
+ VI1PR0402MB3424.eurprd04.prod.outlook.com (52.134.7.30) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.21; Tue, 8 Dec 2020 03:09:07 +0000
+Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
+ ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3632.023; Tue, 8 Dec 2020
+ 03:09:07 +0000
+Message-ID: <cd19cc3a260ff5b98e5f49d66fbb601668d618a4.camel@nxp.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: imx: Add i.MX8qxp/qm DPU
+ binding
+From: Liu Ying <victor.liu@nxp.com>
 To: Rob Herring <robh@kernel.org>
-Date: Tue, 8 Dec 2020 10:00:25 +0800
-In-Reply-To: <20201207211920.GA841059@robh.at.kernel.org>
-References: <20201118082126.42701-1-chunfeng.yun@mediatek.com>
- <20201118082126.42701-7-chunfeng.yun@mediatek.com>
- <20201207211920.GA841059@robh.at.kernel.org>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+Date: Tue, 08 Dec 2020 11:07:19 +0800
+In-Reply-To: <20201207165610.GA429808@robh.at.kernel.org>
+References: <1607311260-13983-1-git-send-email-victor.liu@nxp.com>
+ <1607311260-13983-2-git-send-email-victor.liu@nxp.com>
+ <20201207165610.GA429808@robh.at.kernel.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+X-Originating-IP: [119.31.174.66]
+X-ClientProxiedBy: SG2PR06CA0207.apcprd06.prod.outlook.com
+ (2603:1096:4:68::15) To VI1PR04MB3983.eurprd04.prod.outlook.com
+ (2603:10a6:803:4c::16)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: BA25879DABC571C822341F4AC2ABA120CA9AACE0D97F7DEA60AC1AC6A1D432792000:8
-X-MTK: N
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from blueberry.ap.freescale.net (119.31.174.66) by
+ SG2PR06CA0207.apcprd06.prod.outlook.com (2603:1096:4:68::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 03:09:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 9d48b5c5-2dad-45c4-5c9e-08d89b26a06b
+X-MS-TrafficTypeDiagnostic: VI1PR0402MB3424:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0402MB34241AB240C22E2F06953F5398CD0@VI1PR0402MB3424.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rAOf0m2DbMaFjFUYsVaHh8L+1v3qX1IhwSl/8gvO50j+mammdp1OnyW08tAS+kmgtnQwGVugMPP2Lf9GfN39V2KT2DxVQn2NnMpM+2gFMQAN8RwtalbC+k0r5MitbkJKUgjAT9FVOL5Ipc5GBorLq9Soudviudq1cgPBuZ8PMm+NPITs5u9zIYxJTNwUiC99N3qRdbP3giemW7kX7tVUpVOQDmkuQSm1URjo/sXFXyupTFcrLoNp9sLqZhDajbL+f2Y70pqhIqkoMYIHEAuQNjQ/qRImJl39SiFG8yZz3ueNoZK8gA58oF0gl9J60XOpc7Bil794+vuN7ANtrZ9vwaa8O3KXq7RPoNIesWLO23+KVpKLKyBiZZ7q5WSQAyBZ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(346002)(26005)(4326008)(34490700003)(2616005)(86362001)(956004)(6506007)(36756003)(7416002)(8676002)(5660300002)(6916009)(8936002)(52116002)(83380400001)(508600001)(6486002)(66556008)(66476007)(6666004)(2906002)(186003)(16526019)(66946007)(6512007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?czZEWWtRSnZMVWkrVnBoS24yNTc5VlZUYkw2eUZMa2t1bU5zM01Ga3ZZZmk5?=
+ =?utf-8?B?Umk4Tk05b1dIekpOeEphL1dvMzFzQ1FWWWtJOVJrVUY2WFVFVUkvWVJ3Sm43?=
+ =?utf-8?B?TUM2akx0WmFnbjUzd3JTVlRhdkpqczNSZUtJWGIwQmM4emR5Rkt1QndHc0My?=
+ =?utf-8?B?YzRMWTVud0FON0RsdGhWellFeW9LY1lmdlZsZVlUN1BNa1ZZVE13UEZiRm5O?=
+ =?utf-8?B?cUtxU05vSjdjUVBWK0dPSHRrVXVaa2dKdGFzTE5XQit1QXczR3ZhbkZ2NGt6?=
+ =?utf-8?B?K1BjM1ZDckpJbkY4N2U2MUVaQWFDSVp2WVRRMFdQT0RVU1NRdU5McVVLaDZZ?=
+ =?utf-8?B?ck4xRys0d0FrTG1xTDRXWTVzSTJFSlF0aEZtR3Fwa0pPUTEyREY4VG5tQWNH?=
+ =?utf-8?B?UUphdlk0Q1p4OXBRa3JKMVVBc2F3VlFQL3YwYUJPZXJ3R0xXZTFscFpaL290?=
+ =?utf-8?B?NGZ6ZXY1SEJmZkxYT3hWNHJZcXR0d1cwUUQvZzQ2RTA5Zk8xMkM3b3o1dzRF?=
+ =?utf-8?B?NmgwdDJNcWMrTnpocDFNOGp3UTBTZW43cFR6N3U1dVljaDRIeS9tc3k3RmJP?=
+ =?utf-8?B?bTkxQUF0OEd3ZlNRMlFWRDh2M3RCL2dDemdaVFBLVkpZRzQvMnpNMXozK2V5?=
+ =?utf-8?B?WDEzNFJkUkp1cmZtaitPelRhTmNHNFQ4cGRHK2E2SmNHZmhGZ1FMY0p5NTZi?=
+ =?utf-8?B?dGdnR2I2N3Zadnhwbnd1ZmtQYjZsRkQ1My9haFRkUlFTQzJFcnlLdjV1RnYz?=
+ =?utf-8?B?T2hlZXlWQS9YMS9lRXFjb0lhbll3VHd5TjlJWXhkVjBaTHk1TVdCK0hXbHFL?=
+ =?utf-8?B?NGxjbHRuU2toVU90bm9zckc0RTcxUmJoMno2eVFnYWh1WUNGR1Nmdk1aRGpm?=
+ =?utf-8?B?RTZ5cU5tU2ZXTXArMEV0bjZBcys1aEVEajlWdEpVb2EyZVpvUUtkMERQbUdZ?=
+ =?utf-8?B?ZHk5dzFTUTdabWc5Tm1YeHE2OFNtOU5Sam9KVE9kYUk4YnpyWkl2S3c3dWhh?=
+ =?utf-8?B?eStIWjArS2MxbnB6YkxybHNUL3lNUTh3SnhWVncwVDV4TUZNcEZQNlhuNjU5?=
+ =?utf-8?B?SDN3eXQ5VTE3aWZBaHlHaW9uMyttY3BzZElGbXpqb1ArTE9ObStiZ0pETkpa?=
+ =?utf-8?B?dUM1RnozVWcyczFhcG5laStqQXhxdWEwMFNocm04K2FUb21GQXRoczZQVEd6?=
+ =?utf-8?B?YnVNaWtTc2sxZ0p5UDlqREtWUHFuZ1RuWWFQLzJobm40R0poY25VcjNvMFhG?=
+ =?utf-8?B?VUpUdkVVTmdCai9NWENPTnJtSUpnRE1yWERxeDE5cEIzMm1LdTROSXFqSDVP?=
+ =?utf-8?Q?d/lSmOUvB3nPRCR/eEAyWY7Kx1IrvT0Bwd?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d48b5c5-2dad-45c4-5c9e-08d89b26a06b
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 03:09:07.8046 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Svp6jROuGsTqNge8tkniwrUb8K3dsJcccCaK4RM06KosZiPRrWVA3TCLocbAEWtDq573lIvyOvj980BuUUW2hQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3424
 X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,165 +118,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Min
- Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org, David
- Airlie <airlied@linux.ie>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kishon Vijay Abraham I <kishon@ti.com>,
- Serge Semin <Sergey.Semin@baikalelectronics.ru>, Vinod Koul <vkoul@kernel.org>,
- linux-mediatek@lists.infradead.org, netdev@vger.kernel.org, Matthias
- Brugger <matthias.bgg@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
- Stanley Chu <stanley.chu@mediatek.com>, "David S .
- Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org
+Cc: devicetree@vger.kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ s.hauer@pengutronix.de, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, robh+dt@kernel.org, linux-imx@nxp.com,
+ kernel@pengutronix.de, laurentiu.palcu@oss.nxp.com, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2020-12-07 at 15:19 -0600, Rob Herring wrote:
-> On Wed, Nov 18, 2020 at 04:21:22PM +0800, Chunfeng Yun wrote:
-> > Convert MIPI DSI PHY binding to YAML schema mediatek,dsi-phy.yaml
+On Mon, 2020-12-07 at 10:56 -0600, Rob Herring wrote:
+> On Mon, 07 Dec 2020 11:20:55 +0800, Liu Ying wrote:
+> > This patch adds bindings for i.MX8qxp/qm Display Processing Unit.
 > > 
-> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > > ---
-> > v3: new patch
-> > ---
-> >  .../display/mediatek/mediatek,dsi.txt         | 18 +---
-> >  .../bindings/phy/mediatek,dsi-phy.yaml        | 83 +++++++++++++++++++
-> >  2 files changed, 84 insertions(+), 17 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
+> > Note that this depends on the 'two cell binding' clock patch set which has
+> > already landed in Shawn's i.MX clk/imx git branch.  Otherwise, imx8-lpcg.h
+> > won't be found.
 > > 
-> > diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > index f06f24d405a5..8238a86686be 100644
-> > --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dsi.txt
-> > @@ -22,23 +22,7 @@ Required properties:
-> >  MIPI TX Configuration Module
-> >  ============================
-> >  
-> > -The MIPI TX configuration module controls the MIPI D-PHY.
-> > -
-> > -Required properties:
-> > -- compatible: "mediatek,<chip>-mipi-tx"
-> > -- the supported chips are mt2701, 7623, mt8173 and mt8183.
-> > -- reg: Physical base address and length of the controller's registers
-> > -- clocks: PLL reference clock
-> > -- clock-output-names: name of the output clock line to the DSI encoder
-> > -- #clock-cells: must be <0>;
-> > -- #phy-cells: must be <0>.
-> > -
-> > -Optional properties:
-> > -- drive-strength-microamp: adjust driving current, should be 3000 ~ 6000. And
-> > -						   the step is 200.
-> > -- nvmem-cells: A phandle to the calibration data provided by a nvmem device. If
-> > -               unspecified default values shall be used.
-> > -- nvmem-cell-names: Should be "calibration-data"
-> > +See phy/mediatek,dsi-phy.yaml
-> >  
-> >  Example:
-> >  
-> > diff --git a/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> > new file mode 100644
-> > index 000000000000..87f8df251ab0
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/phy/mediatek,dsi-phy.yaml
-> > @@ -0,0 +1,83 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +# Copyright (c) 2020 MediaTek
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/phy/mediatek,dsi-phy.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: MediaTek MIPI Display Serial Interface (DSI) PHY binding
-> > +
-> > +maintainers:
-> > +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > +  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-> > +
-> > +description: The MIPI DSI PHY supports up to 4-lane output.
-> > +
-> > +properties:
-> > +  $nodename:
-> > +    pattern: "^dsi-phy@[0-9a-f]+$"
-> > +
-> > +  compatible:
-> > +    enum:
-> > +      - mediatek,mt2701-mipi-tx
-> > +      - mediatek,mt7623-mipi-tx
-> > +      - mediatek,mt8173-mipi-tx
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: PLL reference clock
-> > +
-> > +  clock-output-names:
-> > +    maxItems: 1
-> > +
-> > +  "#phy-cells":
-> > +    const: 0
-> > +
-> > +  "#clock-cells":
-> > +    const: 0
-> > +
-> > +  nvmem-cells:
-> > +    maxItems: 1
-> > +    description: A phandle to the calibration data provided by a nvmem device,
-> > +      if unspecified, default values shall be used.
-> > +
-> > +  nvmem-cell-names:
-> > +    items:
-> > +      - const: calibration-data
-> > +
-> > +  drive-strength-microamp:
-> > +    description: adjust driving current, the step is 200.
+> > v2->v3:
+> > * No change.
+> > 
+> > v1->v2:
+> > * Fix yamllint warnings.
+> > * Require bypass0 and bypass1 clocks for both i.MX8qxp and i.MX8qm, as the
+> >   display controller subsystem spec does say that they exist.
+> > * Use new dt binding way to add clocks in the example.
+> > * Trivial tweaks for the example.
+> > 
+> >  .../bindings/display/imx/fsl,imx8qxp-dpu.yaml      | 416 +++++++++++++++++++++
+> >  1 file changed, 416 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/imx/fsl,imx8qxp-dpu.yaml
+> > 
 > 
-> multipleOf: 200
-Got it.
-> 
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> Can drop. Standard unit suffixes have a type already.
-Ok, thanks a lot
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-> 
-> > +    minimum: 2000
-> > +    maximum: 6000
-> > +    default: 4600
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - clock-output-names
-> > +  - "#phy-cells"
-> > +  - "#clock-cells"
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/mt8173-clk.h>
-> > +    dsi-phy@10215000 {
-> > +        compatible = "mediatek,mt8173-mipi-tx";
-> > +        reg = <0x10215000 0x1000>;
-> > +        clocks = <&clk26m>;
-> > +        clock-output-names = "mipi_tx0_pll";
-> > +        drive-strength-microamp = <4000>;
-> > +        nvmem-cells= <&mipi_tx_calibration>;
-> > +        nvmem-cell-names = "calibration-data";
-> > +        #clock-cells = <0>;
-> > +        #phy-cells = <0>;
-> > +    };
-> > +
-> > +...
-> > -- 
-> > 2.18.0
-> > 
+Same to 2/6 and 3/6, will also use enum instead of oneOf+const for this
+one in the next version, if no objections.
+
+Thanks,
+Liu Ying
 
 _______________________________________________
 dri-devel mailing list
