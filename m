@@ -1,29 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446F62D2EAB
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:18 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 241A32D2EB2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45CBB6E962;
-	Tue,  8 Dec 2020 15:55:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D3446E964;
+	Tue,  8 Dec 2020 15:55:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3E96E953
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD706E959
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 15:55:15 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kmfKc-0007AN-5m; Tue, 08 Dec 2020 16:55:14 +0100
+ id 1kmfKc-0007AN-6c; Tue, 08 Dec 2020 16:55:14 +0100
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 00/19] drm: managed encoder/plane/crtc allocation
-Date: Tue,  8 Dec 2020 16:54:32 +0100
-Message-Id: <20201208155451.8421-1-p.zabel@pengutronix.de>
+Subject: [PATCH v4 01/19] drm/encoder: make encoder control functions optional
+Date: Tue,  8 Dec 2020 16:54:33 +0100
+Message-Id: <20201208155451.8421-2-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201208155451.8421-1-p.zabel@pengutronix.de>
+References: <20201208155451.8421-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
 X-SA-Exim-Mail-From: p.zabel@pengutronix.de
@@ -48,68 +50,77 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Simple managed encoders do not require the .destroy callback,
+make the whole funcs structure optional.
 
-this is an update of the drmm_(simple_)encoder_alloc(),
-drmm_universal_plane_alloc(), and drmm_crtc_alloc_with_plane()
-functions in v3 [1] together with the imx-drm managed allocation
-conversion from [2] as an example usage.
-a bit.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+New in v4.
+---
+ drivers/gpu/drm/drm_encoder.c     | 4 ++--
+ drivers/gpu/drm/drm_mode_config.c | 5 +++--
+ include/drm/drm_encoder.h         | 2 +-
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-Changes since v3:
- - Allow encoder_funcs to be NULL and let drmm_encoder_alloc() accept a
-   NULL value for the funcs parameter. This allows to
- - drop the now useless drmm_simple_encoder_funcs_empty structure.
- - Reorder and squash the imx-drm managed allocation conversion patches
-   to use the new functions directly.
- - Fold functions into bind callbacks where they are the only remaining
-   call.
-
-[1] https://lore.kernel.org/dri-devel/20200911135724.25833-1-p.zabel@pengutronix.de/
-[2] https://lore.kernel.org/dri-devel/20200911133855.29801-1-p.zabel@pengutronix.de/
-
-regards
-Philipp
-
-Philipp Zabel (19):
-  drm/encoder: make encoder control functions optional
-  drm: add drmm_encoder_alloc()
-  drm/simple_kms_helper: add drmm_simple_encoder_alloc()
-  drm/plane: add drmm_universal_plane_alloc()
-  drm/crtc: add drmm_crtc_alloc_with_planes()
-  drm/imx: dw_hdmi-imx: move initialization into probe
-  drm/imx: imx-ldb: use local connector variable
-  drm/imx: imx-ldb: move initialization into probe
-  drm/imx: imx-tve: use local encoder and connector variables
-  drm/imx: imx-tve: move initialization into probe
-  drm/imx: imx-tve: use devm_clk_register
-  drm/imx: parallel-display: use local bridge and connector variables
-  drm/imx: parallel-display: move initialization into probe
-  drm/imx: dw_hdmi-imx: use drm managed resources
-  drm/imx: imx-ldb: use drm managed resources
-  drm/imx: imx-tve: use drm managed resources
-  drm/imx: parallel-display: use drm managed resources
-  drm/imx: ipuv3-plane: use drm managed resources
-  drm/imx: ipuv3-crtc: use drm managed resources
-
- drivers/gpu/drm/drm_crtc.c              | 116 ++++++++++++++++-----
- drivers/gpu/drm/drm_encoder.c           | 105 ++++++++++++++-----
- drivers/gpu/drm/drm_mode_config.c       |   5 +-
- drivers/gpu/drm/drm_plane.c             | 126 +++++++++++++++++------
- drivers/gpu/drm/drm_simple_kms_helper.c |   9 ++
- drivers/gpu/drm/imx/dw_hdmi-imx.c       |  95 ++++++++---------
- drivers/gpu/drm/imx/imx-ldb.c           | 109 +++++++++++---------
- drivers/gpu/drm/imx/imx-tve.c           | 109 ++++++++++----------
- drivers/gpu/drm/imx/ipuv3-crtc.c        | 131 ++++++++----------------
- drivers/gpu/drm/imx/ipuv3-plane.c       |  69 ++++++-------
- drivers/gpu/drm/imx/ipuv3-plane.h       |   3 -
- drivers/gpu/drm/imx/parallel-display.c  |  91 ++++++++--------
- include/drm/drm_crtc.h                  |  33 ++++++
- include/drm/drm_encoder.h               |  32 +++++-
- include/drm/drm_plane.h                 |  42 ++++++++
- include/drm/drm_simple_kms_helper.h     |  24 +++++
- 16 files changed, 684 insertions(+), 415 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+index e555281f43d4..b0b86a3c08f5 100644
+--- a/drivers/gpu/drm/drm_encoder.c
++++ b/drivers/gpu/drm/drm_encoder.c
+@@ -72,7 +72,7 @@ int drm_encoder_register_all(struct drm_device *dev)
+ 	int ret = 0;
+ 
+ 	drm_for_each_encoder(encoder, dev) {
+-		if (encoder->funcs->late_register)
++		if (encoder->funcs && encoder->funcs->late_register)
+ 			ret = encoder->funcs->late_register(encoder);
+ 		if (ret)
+ 			return ret;
+@@ -86,7 +86,7 @@ void drm_encoder_unregister_all(struct drm_device *dev)
+ 	struct drm_encoder *encoder;
+ 
+ 	drm_for_each_encoder(encoder, dev) {
+-		if (encoder->funcs->early_unregister)
++		if (encoder->funcs && encoder->funcs->early_unregister)
+ 			encoder->funcs->early_unregister(encoder);
+ 	}
+ }
+diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+index f1affc1bb679..87e144155456 100644
+--- a/drivers/gpu/drm/drm_mode_config.c
++++ b/drivers/gpu/drm/drm_mode_config.c
+@@ -195,7 +195,7 @@ void drm_mode_config_reset(struct drm_device *dev)
+ 			crtc->funcs->reset(crtc);
+ 
+ 	drm_for_each_encoder(encoder, dev)
+-		if (encoder->funcs->reset)
++		if (encoder->funcs && encoder->funcs->reset)
+ 			encoder->funcs->reset(encoder);
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+@@ -487,7 +487,8 @@ void drm_mode_config_cleanup(struct drm_device *dev)
+ 
+ 	list_for_each_entry_safe(encoder, enct, &dev->mode_config.encoder_list,
+ 				 head) {
+-		encoder->funcs->destroy(encoder);
++		if (encoder->funcs)
++			encoder->funcs->destroy(encoder);
+ 	}
+ 
+ 	drm_connector_list_iter_begin(dev, &conn_iter);
+diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+index 5dfa5f7a80a7..833123637fbf 100644
+--- a/include/drm/drm_encoder.h
++++ b/include/drm/drm_encoder.h
+@@ -89,7 +89,7 @@ struct drm_encoder_funcs {
+  * @head: list management
+  * @base: base KMS object
+  * @name: human readable name, can be overwritten by the driver
+- * @funcs: control functions
++ * @funcs: control functions, can be NULL for simple managed encoders
+  * @helper_private: mid-layer private data
+  *
+  * CRTCs drive pixels to encoders, which convert them into signals
 -- 
 2.20.1
 
