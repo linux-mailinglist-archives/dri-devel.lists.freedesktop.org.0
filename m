@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 919662D2EB4
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B28C2D2EC0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 16:55:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2569B6E96E;
-	Tue,  8 Dec 2020 15:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D87DF6E97B;
+	Tue,  8 Dec 2020 15:55:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C645C6E960
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 014306E959
  for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 15:55:16 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1kmfKc-0007AN-K1; Tue, 08 Dec 2020 16:55:14 +0100
+ id 1kmfKc-0007AN-LM; Tue, 08 Dec 2020 16:55:14 +0100
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 15/19] drm/imx: imx-ldb: use drm managed resources
-Date: Tue,  8 Dec 2020 16:54:47 +0100
-Message-Id: <20201208155451.8421-16-p.zabel@pengutronix.de>
+Subject: [PATCH v4 16/19] drm/imx: imx-tve: use drm managed resources
+Date: Tue,  8 Dec 2020 16:54:48 +0100
+Message-Id: <20201208155451.8421-17-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201208155451.8421-1-p.zabel@pengutronix.de>
 References: <20201208155451.8421-1-p.zabel@pengutronix.de>
@@ -53,95 +53,137 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use drmm_simple_encoder_alloc() to align encoder memory lifetime with
 the drm device. drm_encoder_cleanup() is called automatically before
 the memory is freed.
+Also fold imx_tve_register() into imx_tve_bind().
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
 Changes since v3:
  - use drmm_simple_encoder_alloc()
+ - fold imx_tve_register() into imx_tve_bind()
 ---
- drivers/gpu/drm/imx/imx-ldb.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/imx/imx-tve.c | 74 ++++++++++++++++++-----------------
+ 1 file changed, 39 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index c3639cc32ddf..dbfe39e2f7f6 100644
---- a/drivers/gpu/drm/imx/imx-ldb.c
-+++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -22,6 +22,7 @@
+diff --git a/drivers/gpu/drm/imx/imx-tve.c b/drivers/gpu/drm/imx/imx-tve.c
+index 3ef71f688f79..bc8c3f802a15 100644
+--- a/drivers/gpu/drm/imx/imx-tve.c
++++ b/drivers/gpu/drm/imx/imx-tve.c
+@@ -19,6 +19,7 @@
+ 
  #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
  #include <drm/drm_fb_helper.h>
 +#include <drm/drm_managed.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
-@@ -47,12 +48,18 @@
- #define LDB_DI1_VS_POL_ACT_LOW		(1 << 10)
- #define LDB_BGREF_RMODE_INT		(1 << 15)
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
  
-+struct imx_ldb_channel;
-+
-+struct imx_ldb_encoder {
-+	struct drm_connector connector;
-+	struct drm_encoder encoder;
-+	struct imx_ldb_channel *channel;
+@@ -99,9 +100,13 @@ enum {
+ 	TVE_MODE_VGA,
+ };
+ 
+-struct imx_tve {
++struct imx_tve_encoder {
+ 	struct drm_connector connector;
+ 	struct drm_encoder encoder;
++	struct imx_tve *tve;
 +};
 +
- struct imx_ldb;
++struct imx_tve {
+ 	struct device *dev;
+ 	int mode;
+ 	int di_hsync_pin;
+@@ -118,12 +123,12 @@ struct imx_tve {
  
- struct imx_ldb_channel {
- 	struct imx_ldb *ldb;
--	struct drm_connector connector;
--	struct drm_encoder encoder;
- 
- 	/* Defines what is connected to the ldb, only one at a time */
- 	struct drm_panel *panel;
-@@ -70,12 +77,12 @@ struct imx_ldb_channel {
- 
- static inline struct imx_ldb_channel *con_to_imx_ldb_ch(struct drm_connector *c)
+ static inline struct imx_tve *con_to_tve(struct drm_connector *c)
  {
--	return container_of(c, struct imx_ldb_channel, connector);
-+	return container_of(c, struct imx_ldb_encoder, connector)->channel;
+-	return container_of(c, struct imx_tve, connector);
++	return container_of(c, struct imx_tve_encoder, connector)->tve;
  }
  
- static inline struct imx_ldb_channel *enc_to_imx_ldb_ch(struct drm_encoder *e)
+ static inline struct imx_tve *enc_to_tve(struct drm_encoder *e)
  {
--	return container_of(e, struct imx_ldb_channel, encoder);
-+	return container_of(e, struct imx_ldb_encoder, encoder)->channel;
+-	return container_of(e, struct imx_tve, encoder);
++	return container_of(e, struct imx_tve_encoder, encoder)->tve;
  }
  
- struct bus_mux {
-@@ -411,12 +418,19 @@ static int imx_ldb_register(struct drm_device *drm,
- 	struct imx_ldb_channel *imx_ldb_ch)
- {
- 	struct imx_ldb *ldb = imx_ldb_ch->ldb;
--	struct drm_connector *connector = &imx_ldb_ch->connector;
--	struct drm_encoder *encoder = &imx_ldb_ch->encoder;
-+	struct imx_ldb_encoder *ldb_encoder;
-+	struct drm_connector *connector;
-+	struct drm_encoder *encoder;
- 	int ret;
+ static void tve_enable(struct imx_tve *tve)
+@@ -428,37 +433,6 @@ static int tve_clk_init(struct imx_tve *tve, void __iomem *base)
+ 	return 0;
+ }
  
+-static int imx_tve_register(struct drm_device *drm, struct imx_tve *tve)
+-{
+-	struct drm_encoder *encoder = &tve->encoder;
+-	struct drm_connector *connector = &tve->connector;
+-	int encoder_type;
+-	int ret;
+-
+-	encoder_type = tve->mode == TVE_MODE_VGA ?
+-				DRM_MODE_ENCODER_DAC : DRM_MODE_ENCODER_TVDAC;
+-
 -	memset(connector, 0, sizeof(*connector));
 -	memset(encoder, 0, sizeof(*encoder));
-+	ldb_encoder = drmm_simple_encoder_alloc(drm, struct imx_ldb_encoder,
-+						encoder, DRM_MODE_ENCODER_LVDS);
-+	if (IS_ERR(ldb_encoder))
-+		return PTR_ERR(ldb_encoder);
+-
+-	ret = imx_drm_encoder_parse_of(drm, encoder, tve->dev->of_node);
+-	if (ret)
+-		return ret;
+-
+-	drm_encoder_helper_add(encoder, &imx_tve_encoder_helper_funcs);
+-	drm_simple_encoder_init(drm, encoder, encoder_type);
+-
+-	drm_connector_helper_add(connector, &imx_tve_connector_helper_funcs);
+-	drm_connector_init_with_ddc(drm, connector,
+-				    &imx_tve_connector_funcs,
+-				    DRM_MODE_CONNECTOR_VGA,
+-				    tve->ddc);
+-
+-	drm_connector_attach_encoder(connector, encoder);
+-
+-	return 0;
+-}
+-
+ static void imx_tve_disable_regulator(void *data)
+ {
+ 	struct imx_tve *tve = data;
+@@ -508,8 +482,38 @@ static int imx_tve_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct drm_device *drm = data;
+ 	struct imx_tve *tve = dev_get_drvdata(dev);
++	struct imx_tve_encoder *tvee;
++	struct drm_encoder *encoder;
++	struct drm_connector *connector;
++	int encoder_type;
++	int ret;
 +
-+	ldb_encoder->channel = imx_ldb_ch;
-+	connector = &ldb_encoder->connector;
-+	encoder = &ldb_encoder->encoder;
++	encoder_type = tve->mode == TVE_MODE_VGA ?
++		       DRM_MODE_ENCODER_DAC : DRM_MODE_ENCODER_TVDAC;
++
++	tvee = drmm_simple_encoder_alloc(drm, struct imx_tve_encoder, encoder,
++					 encoder_type);
++	if (IS_ERR(tvee))
++		return PTR_ERR(tvee);
++
++	tvee->tve = tve;
++	encoder = &tvee->encoder;
++	connector = &tvee->connector;
++
++	ret = imx_drm_encoder_parse_of(drm, encoder, tve->dev->of_node);
++	if (ret)
++		return ret;
++
++	drm_encoder_helper_add(encoder, &imx_tve_encoder_helper_funcs);
++
++	drm_connector_helper_add(connector, &imx_tve_connector_helper_funcs);
++	ret = drm_connector_init_with_ddc(drm, connector,
++					  &imx_tve_connector_funcs,
++					  DRM_MODE_CONNECTOR_VGA, tve->ddc);
++	if (ret)
++		return ret;
  
- 	ret = imx_drm_encoder_parse_of(drm, encoder, imx_ldb_ch->child);
- 	if (ret)
-@@ -433,7 +447,6 @@ static int imx_ldb_register(struct drm_device *drm,
- 	}
+-	return imx_tve_register(drm, tve);
++	return drm_connector_attach_encoder(connector, encoder);
+ }
  
- 	drm_encoder_helper_add(encoder, &imx_ldb_encoder_helper_funcs);
--	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_LVDS);
- 
- 	if (imx_ldb_ch->bridge) {
- 		ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL, 0);
+ static const struct component_ops imx_tve_ops = {
 -- 
 2.20.1
 
