@@ -2,28 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217762D3D76
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5E02D3D5C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4116E9D5;
-	Wed,  9 Dec 2020 08:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF5716E22F;
+	Wed,  9 Dec 2020 08:32:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC6836E954
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 14:00:38 +0000 (UTC)
-Date: Tue, 08 Dec 2020 14:00:22 +0000
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 3/5] drm: Add and export =?UTF-8?Q?function=0D=0A?=
- drm_gem_cma_mmap_noncoherent
-To: Christoph Hellwig <hch@infradead.org>
-Message-Id: <MKX0LQ.WS1HU920R7ZP2@crapouillou.net>
-In-Reply-To: <FQI8JQ.KNVZ9XZ67ZV41@crapouillou.net>
-References: <20201102220651.22069-1-paul@crapouillou.net>
- <20201102220651.22069-4-paul@crapouillou.net>
- <20201103185058.GA20134@infradead.org>
- <FQI8JQ.KNVZ9XZ67ZV41@crapouillou.net>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 40D796E952
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 14:20:37 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFA9613D5;
+ Tue,  8 Dec 2020 06:20:35 -0800 (PST)
+Received: from [10.57.23.55] (unknown [10.57.23.55])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A96B3F718;
+ Tue,  8 Dec 2020 06:20:33 -0800 (PST)
+Subject: Re: [PATCH v2 2/5] thermal: devfreq_cooling: get a copy of device
+ status
+From: Lukasz Luba <lukasz.luba@arm.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>
+References: <20201118120358.17150-1-lukasz.luba@arm.com>
+ <20201118120358.17150-3-lukasz.luba@arm.com>
+ <5d4743b9-5b2f-8494-8d10-6a5fd2c0fdfd@linaro.org>
+ <d9906ed8-e3bf-5e42-2e43-09071848ae48@arm.com>
+ <224c6b9b-977a-d553-f22b-2056223a84bc@linaro.org>
+ <947a3afc-5dd6-892b-6987-ad81a5a96197@arm.com>
+Message-ID: <9b19373f-2dd9-368c-6d38-cd885fcde5e1@arm.com>
+Date: Tue, 8 Dec 2020 14:20:31 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <947a3afc-5dd6-892b-6987-ad81a5a96197@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Wed, 09 Dec 2020 08:32:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -37,110 +48,92 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org, od@zcrc.me,
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; Format="flowed"
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
+ ionela.voinescu@arm.com, orjan.eide@arm.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christoph,
-
-Le mar. 3 nov. 2020 =E0 19:13, Paul Cercueil <paul@crapouillou.net> a =
-
-=E9crit :
-> Hi Christoph,
-> =
-
-> Le mar. 3 nov. 2020 =E0 18:50, Christoph Hellwig <hch@infradead.org> a =
-
-> =E9crit :
->> On Mon, Nov 02, 2020 at 10:06:49PM +0000, Paul Cercueil wrote:
->>>  This function can be used by drivers that need to mmap dumb buffers
->>>  created with non-coherent backing memory.
->>> =
-
->>>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>>  ---
->>>   drivers/gpu/drm/drm_gem_cma_helper.c | 39 =
-
->>> =7F=7F++++++++++++++++++++++++++++
->>>   include/drm/drm_gem_cma_helper.h     |  2 ++
->>>   2 files changed, 41 insertions(+)
->>> =
-
->>>  diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c =
-
->>> =7F=7Fb/drivers/gpu/drm/drm_gem_cma_helper.c
->>>  index 3bdd67795e20..4ed63f4896bd 100644
->>>  --- a/drivers/gpu/drm/drm_gem_cma_helper.c
->>>  +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
->>>  @@ -387,6 +387,45 @@ int drm_gem_cma_mmap(struct file *filp, =
-
->>> struct =7F=7Fvm_area_struct *vma)
->>>   }
->>>   EXPORT_SYMBOL_GPL(drm_gem_cma_mmap);
->>> =
-
->>>  +/**
->>>  + * drm_gem_cma_mmap_noncoherent - memory-map a CMA GEM object with
->>>  + *     non-coherent cache attribute
->>>  + * @filp: file object
->>>  + * @vma: VMA for the area to be mapped
->>>  + *
->>>  + * Just like drm_gem_cma_mmap, but for a GEM object backed by =
-
->>> =7F=7Fnon-coherent
->>>  + * memory.
->>>  + *
->>>  + * Returns:
->>>  + * 0 on success or a negative error code on failure.
->>>  + */
->>>  +int drm_gem_cma_mmap_noncoherent(struct file *filp, struct =
-
->>> =7F=7Fvm_area_struct *vma)
->>>  +{
->>>  +	struct drm_gem_cma_object *cma_obj;
->>>  +	int ret;
->>>  +
->>>  +	ret =3D drm_gem_mmap(filp, vma);
->>>  +	if (ret)
->>>  +		return ret;
->>>  +
->>>  +	cma_obj =3D to_drm_gem_cma_obj(vma->vm_private_data);
->>>  +
->>>  +	/*
->>>  +	 * Clear the VM_PFNMAP flag that was set by drm_gem_mmap(), and =
-
->>> =7F=7Fset the
->>>  +	 * vm_pgoff (used as a fake buffer offset by DRM) to 0 as we =
-
->>> want =7F=7Fto map
->>>  +	 * the whole buffer.
->>>  +	 */
->>>  +	vma->vm_flags &=3D ~VM_PFNMAP;
->>>  +	vma->vm_pgoff =3D 0;
->>>  +	vma->vm_page_prot =3D vm_get_page_prot(vma->vm_flags);
->>>  +
->>>  +	return remap_pfn_range(vma, vma->vm_start,
->>>  +			       cma_obj->paddr >> PAGE_SHIFT,
->>>  +			       vma->vm_end - vma->vm_start,
->>>  +			       vma->vm_page_prot);
->> =
-
->> Per patch 1 cma_obj->paddr is the dma address, while remap_pfn_range
->> expects a physical address.  This does not work.
-> =
-
-> Ok, what would be the correct way to mmap_noncoherent?
-
-Waiting for your input here :)
-
-Cheers,
--Paul
-
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGkgRGFuaWVsLAoKT24gMTIvNy8yMCAxMjo0MSBQTSwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4gCj4g
+Cj4gT24gMTIvMy8yMCA0OjA5IFBNLCBEYW5pZWwgTGV6Y2FubyB3cm90ZToKPj4gT24gMDMvMTIv
+MjAyMCAxNjozOCwgTHVrYXN6IEx1YmEgd3JvdGU6Cj4+Pgo+Pj4KPj4+IE9uIDEyLzMvMjAgMTow
+OSBQTSwgRGFuaWVsIExlemNhbm8gd3JvdGU6Cj4+Pj4gT24gMTgvMTEvMjAyMCAxMzowMywgTHVr
+YXN6IEx1YmEgd3JvdGU6Cj4+Pj4+IERldmZyZXEgY29vbGluZyBuZWVkcyB0byBub3cgdGhlIGNv
+cnJlY3Qgc3RhdHVzIG9mIHRoZSBkZXZpY2UgaW4gb3JkZXIKPj4+Pj4gdG8gb3BlcmF0ZS4gRG8g
+bm90IHJlbHkgb24gRGV2ZnJlcSBsYXN0X3N0YXR1cyB3aGljaCBtaWdodCBiZSBhIHN0YWxlCj4+
+Pj4+IGRhdGEKPj4+Pj4gYW5kIGdldCBtb3JlIHVwLXRvLWRhdGUgdmFsdWVzIG9mIHRoZSBsb2Fk
+Lgo+Pj4+Pgo+Pj4+PiBEZXZmcmVxIGZyYW1ld29yayBjYW4gY2hhbmdlIHRoZSBkZXZpY2Ugc3Rh
+dHVzIGluIHRoZSBiYWNrZ3JvdW5kLiBUbwo+Pj4+PiBtaXRpZ2F0ZSB0aGlzIHNpdHVhdGlvbiBt
+YWtlIGEgY29weSBvZiB0aGUgc3RhdHVzIHN0cnVjdHVyZSBhbmQgdXNlIGl0Cj4+Pj4+IGZvciBp
+bnRlcm5hbCBjYWxjdWxhdGlvbnMuCj4+Pj4+Cj4+Pj4+IEluIGFkZGl0aW9uIHRoaXMgcGF0Y2gg
+YWRkcyBub3JtYWxpemF0aW9uIGZ1bmN0aW9uLCB3aGljaCBhbHNvIG1ha2VzCj4+Pj4+IHN1cmUK
+Pj4+Pj4gdGhhdCB3aGF0ZXZlciBkYXRhIGNvbWVzIGZyb20gdGhlIGRldmljZSwgaXQgaXMgaW4g
+YSBzYW5lIHJhbmdlLgo+Pj4+Pgo+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBMdWthc3ogTHViYSA8bHVr
+YXN6Lmx1YmFAYXJtLmNvbT4KPj4+Pj4gLS0tCj4+Pj4+IMKgwqAgZHJpdmVycy90aGVybWFsL2Rl
+dmZyZXFfY29vbGluZy5jIHwgNTIgCj4+Pj4+ICsrKysrKysrKysrKysrKysrKysrKysrKystLS0t
+LS0KPj4+Pj4gwqDCoCAxIGZpbGUgY2hhbmdlZCwgNDMgaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlv
+bnMoLSkKPj4+Pj4KPj4+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdGhlcm1hbC9kZXZmcmVxX2Nv
+b2xpbmcuYwo+Pj4+PiBiL2RyaXZlcnMvdGhlcm1hbC9kZXZmcmVxX2Nvb2xpbmcuYwo+Pj4+PiBp
+bmRleCA2NTljMDE0M2M5ZjAuLjkyNTUyMzY5NDQ2MiAxMDA2NDQKPj4+Pj4gLS0tIGEvZHJpdmVy
+cy90aGVybWFsL2RldmZyZXFfY29vbGluZy5jCj4+Pj4+ICsrKyBiL2RyaXZlcnMvdGhlcm1hbC9k
+ZXZmcmVxX2Nvb2xpbmcuYwo+Pj4+PiBAQCAtMjI3LDIwICsyMjcsNDYgQEAgc3RhdGljIGlubGlu
+ZSB1bnNpZ25lZCBsb25nCj4+Pj4+IGdldF90b3RhbF9wb3dlcihzdHJ1Y3QgZGV2ZnJlcV9jb29s
+aW5nX2RldmljZSAqZGZjLAo+Pj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB2b2x0YWdlKTsKPj4+Pj4g
+wqDCoCB9Cj4+Pj4+IMKgwqAgK3N0YXRpYyB2b2lkIF9ub3JtYWxpemVfbG9hZChzdHJ1Y3QgZGV2
+ZnJlcV9kZXZfc3RhdHVzICpzdGF0dXMpCj4+Pj4+ICt7Cj4+Pj4+ICvCoMKgwqAgLyogTWFrZSBz
+b21lIHNwYWNlIGlmIG5lZWRlZCAqLwo+Pj4+PiArwqDCoMKgIGlmIChzdGF0dXMtPmJ1c3lfdGlt
+ZSA+IDB4ZmZmZikgewo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgc3RhdHVzLT5idXN5X3RpbWUgPj49
+IDEwOwo+Pj4+PiArwqDCoMKgwqDCoMKgwqAgc3RhdHVzLT50b3RhbF90aW1lID4+PSAxMDsKPj4+
+Pj4gK8KgwqDCoCB9Cj4+Pj4+ICsKPj4+Pj4gK8KgwqDCoCBpZiAoc3RhdHVzLT5idXN5X3RpbWUg
+PiBzdGF0dXMtPnRvdGFsX3RpbWUpCj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBzdGF0dXMtPmJ1c3lf
+dGltZSA9IHN0YXR1cy0+dG90YWxfdGltZTsKPj4+Pgo+Pj4+IEhvdyB0aGUgY29uZGl0aW9uIGFi
+b3ZlIGlzIHBvc3NpYmxlPwo+Pj4KPj4+IFRoZXkgc2hvdWxkLCBiZSBjaGVja2VkIGJ5IHRoZSBk
+cml2ZXIsIGJ1dCBJIGNhbm5vdCB0cnVzdAo+Pj4gYW5kIGhhdmUgdG8gY2hlY2sgZm9yIGFsbCBj
+b3JuZXIgY2FzZXM6IChkaXYgYnkgMCwgb3ZlcmZsb3cKPj4+IG9uZSBvZiB0aGVtLCBldGMpLiBU
+aGUgYnVzeV90aW1lIGFuZCB0b3RhbF90aW1lIGFyZSB1bnNpZ25lZCBsb25nLAo+Pj4gd2hpY2gg
+bWVhbnMgNEIgb24gMzJiaXQgbWFjaGluZXMuCj4+PiBJZiB0aGVzZSB2YWx1ZXMgYXJlIGNvbWlu
+ZyBmcm9tIGRldmljZSBjb3VudGVycywgd2hpY2ggY291bnQgZXZlcnkKPj4+IGJ1c3kgY3ljbGUg
+YW5kIHRvdGFsIGN5Y2xlcyBvZiBhIGNsb2NrIG9mIGEgZGV2aWNlIHJ1bm5pbmcgYXQgZS5nLgo+
+Pj4gMUdIeiB0aGV5IHdvdWxkIG92ZXJmbG93IGV2ZXJ5IH40cy4KPj4KPj4gSSBkb24ndCB0aGlu
+ayBpdCBpcyB1cCB0byB0aGlzIHJvdXRpbmUgdG8gY2hlY2sgdGhlIGRyaXZlciBpcyBjb3JyZWN0
+bHkKPj4gaW1wbGVtZW50ZWQsIGVzcGVjaWFsbHkgYXQgZXZlcnkgY2FsbCB0byBnZXRfcmVxdWVz
+dGVkX3Bvd2VyLgo+Pgo+PiBJZiB0aGUgbm9ybWFsaXphdGlvbiBlbmRzIHVwIGJ5IGRvaW5nIHRo
+aXMga2luZCBvZiB0aGluZywgdGhlcmUgaXMKPj4gY2VydGFpbmx5IHNvbWV0aGluZyB3cm9uZyBp
+biB0aGUgJ3N0YXR1cycgY29tcHV0YXRpb24gdG8gYmUgZml4ZWQgYmVmb3JlCj4+IHN1Ym1pdHRp
+bmcgdGhpcyBzZXJpZXMuCj4+Cj4+Cj4+PiBOb3JtYWxseSBJUEEgcG9sbGluZyBhcmUgMXMgYW5k
+IDEwMG1zLCBpdCdzIHBsYXRmb3JtIHNwZWNpZmljLiBCdXQgdGhlcmUKPj4+IGFyZSBhbHNvICdl
+bXB0eScgcGVyaW9kcyB3aGVuIElQQSBzZWVzIHRlbXBlcmF0dXJlIHZlcnkgbG93IGFuZCBkb2Vz
+IG5vdAo+Pj4gZXZlbiBjYWxsIHRoZSAuZ2V0X3JlcXVlc3RlZF9wb3dlcigpIGNhbGxiYWNrcyBm
+b3IgdGhlIGNvb2xpbmcgZGV2aWNlcywKPj4+IGp1c3QgZ3JhbnRzIG1heCBmcmVxIHRvIGFsbC4g
+VGhpcyBpcyBwcm9ibGVtYXRpYy4gSSBhbSBpbnZlc3RpZ2F0aW5nIGl0Cj4+PiBhbmQgd2lsbCBw
+cm9wb3NlIGEgc29sdXRpb24gZm9yIElQQSBzb29uLgo+Pj4KPj4+IEkgd291bGQgYXZvaWQgYWxs
+IG9mIHRoaXMgaWYgZGV2ZnJlcSBjb3JlIHdvdWxkIGhhdmUgZGVmYXVsdCBmb3IgYWxsCj4+PiBk
+ZXZpY2VzIGEgcmVsaWFibGUgcG9sbGluZyB0aW1lci4uLiBMZXQgbWUgY2hlY2sgc29tZSBwb3Nz
+aWJpbGl0aWVzIGFsc28KPj4+IGZvciB0aGlzIGNhc2UuCj4+Cj4+IE9rLCBtYXkgYmUgY3JlYXRl
+IGFuIEFQSSB0byBjb21wdXRlIHRoZSAnaWRsZSxidXN5LHRvdGFsIHRpbWVzJyB0byBiZQo+PiB1
+c2VkIGJ5IHRoZSBkaWZmZXJlbnQgdGhlIGRldmZyZXEgZHJpdmVycyBhbmQgdGhlbiBmaXggdGhl
+IG92ZXJmbG93IGluCj4+IHRoaXMgY29tbW9uIHBsYWNlLgo+IAo+IFllcywgSSBoYXZlIHRoaXMg
+cGxhbiwgYnV0IEkgaGF2ZSB0byBjbG9zZSB0aGlzIHBhdGNoIHNlcmllcy4gVG8gZ28KPiBmb3J3
+YXJkIHdpdGggdGhpcywgSSB3aWxsIGRyb3AgdGhlIG5vcm1hbGl6YXRpb24gZnVuY3Rpb24gYW5k
+IHdpbGwga2VlcAo+IG9ubHkgdGhlIGNvZGUgb2Ygc2FmZSBjb3B5IG9mIHRoZSAnc3RhdHVzJywg
+c28gdXNpbmcgYnVzeV90aW1lIGFuZAo+IHRvdGFsX3RpbWUgd2lsbCBiZSBzYWZlLgoKSSBkaWQg
+ZXhwZXJpbWVudHMgYW5kIGFjdHVhbGx5IEkgY2Fubm90IGRyb3AgdGhpcyBmdW5jdGlvbi4gRHJp
+dmVycyBjYW4KZmVlZCB0b3RhbF90aW1lIGFuZCBidXN5X3RpbWUgd2hpY2ggYXJlIGluIG5hbm9z
+ZWNvbmRzLCBlLmcuIFsxXSA1MG1zID0+CjUwLjAwMC4wMDBucyB3aGljaCBpcyB0aGVuIHdoZW4g
+bXVsdGlwbGllZCBieSAxMDI0ICBhbmQgZXhjZWVkIHRoZSB1MzIuCkkgd2FudCB0byBhdm9pZCA2
+NGJpdCB2YXJpYWJsZXMgYW5kIGRpdmlzaW9ucywgc28gc2hpZnRpbmcgdGhlbSBlYXJsaWVyCndv
+dWxkIGhlbHAuIElNSE8gaXQgZG9lcyBub3QgaGFybSB0aGlzIGRldmZyZXEgY29vbGluZyB0byBt
+YWtlIHRoYXQKY2hlY2sgYW5kIGhhbmRsZSBucyB2YWx1ZXMuCgpJIGFtIGdvaW5nIHRvIHVzZSB0
+aGUgbm9ybWFsaXphdGlvbiBpbnRvIDAuLjEwMjQgYXMgeW91IGFuZCBJb25lbGEKc3VnZ2VzdGVk
+LgpJIHdpbGwgYWxzbyBkcm9wIHRoZSBkaXJlY3QgZGV2aWNlIHN0YXR1cyBjaGVjay4gVGhhdCB3
+b3VsZCBiZSBhCmRpZmZlcmVudCBwYXRjaCBzZXJpZXMuIEluIHRoYXQgcGF0Y2ggc2V0IEkgd2ls
+bCB0cnkgdG8gY29tZSB3aXRoIGEKZ2VuZXJpYyBzb2x1dGlvbiBhbmQgc29tZSBBUEkuCgpSZWdh
+cmRzLApMdWthc3oKClsxXSAKaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjUuMTAt
+cmM1L3NvdXJjZS9kcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3RfZGV2ZnJlcS5jI0w2
+NgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
+ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
+aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
