@@ -1,45 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947972D1F24
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 01:41:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0192D1F2F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 01:43:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6EAA6E8A7;
-	Tue,  8 Dec 2020 00:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C873D6E8B5;
+	Tue,  8 Dec 2020 00:43:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A748B6E8A7
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 00:41:22 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: =?UTF-8?B?W0J1ZyAyMTA1NDNdIE5ldzogYW1kZ3B1IEtlcm5lbCBwYW5pYw==?=
- =?UTF-8?B?77yaX190dG1fZG1hX2ZyZWVfcGFnZS5pc3JhLjArMHhhYy8weGU4IFt0dG1d?=
-Date: Tue, 08 Dec 2020 00:41:22 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: acyellow@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression
-Message-ID: <bug-210543-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1F26E8B5
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 00:43:02 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C5ADDD;
+ Tue,  8 Dec 2020 01:43:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607388180;
+ bh=sXJJQ3Ales9snSM+M951qVfwVZH4bo1xYMrGw8Lpq9Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=FQSetC4HXvcy/ljFLmrhL7T9XbUuMZSSBPTz78w2qxhWVLqXotEyYaZBLTVy3I7IP
+ fLS+PoCfAbo9W1c63ChXr1sqWBzUZlDh6t7XlRvXXXY17KWXb1eks/VBu03Zy5a4D0
+ Euw6t6DVm6SBO4Hg3qSmbNm6q1M8c8V1qqxZpbiU=
+Date: Tue, 8 Dec 2020 02:42:57 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 1/9] drm: rcar-du: Fix crash when using LVDS1 clock for
+ CRTC
+Message-ID: <X87MEVMhOgcFxKwj@pendragon.ideasonboard.com>
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-2-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdXrEpnQNT=QZRrgQ-jzBvRumUHgqfBrgCHcELpxg7VnQA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXrEpnQNT=QZRrgQ-jzBvRumUHgqfBrgCHcELpxg7VnQA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,70 +48,44 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-aHR0cHM6Ly9idWd6aWxsYS5rZXJuZWwub3JnL3Nob3dfYnVnLmNnaT9pZD0yMTA1NDMKCiAgICAg
-ICAgICAgIEJ1ZyBJRDogMjEwNTQzCiAgICAgICAgICAgU3VtbWFyeTogYW1kZ3B1IEtlcm5lbAog
-ICAgICAgICAgICAgICAgICAgIHBhbmlj77yaX190dG1fZG1hX2ZyZWVfcGFnZS5pc3JhLjArMHhh
-Yy8weGU4IFt0dG1dCiAgICAgICAgICAgUHJvZHVjdDogRHJpdmVycwogICAgICAgICAgIFZlcnNp
-b246IDIuNQogICAgS2VybmVsIFZlcnNpb246IDQuMTkKICAgICAgICAgIEhhcmR3YXJlOiBBUk0K
-ICAgICAgICAgICAgICAgIE9TOiBMaW51eAogICAgICAgICAgICAgIFRyZWU6IE1haW5saW5lCiAg
-ICAgICAgICAgIFN0YXR1czogTkVXCiAgICAgICAgICBTZXZlcml0eTogYmxvY2tpbmcKICAgICAg
-ICAgIFByaW9yaXR5OiBQMQogICAgICAgICBDb21wb25lbnQ6IFZpZGVvKERSSSAtIG5vbiBJbnRl
-bCkKICAgICAgICAgIEFzc2lnbmVlOiBkcml2ZXJzX3ZpZGVvLWRyaUBrZXJuZWwtYnVncy5vc2Rs
-Lm9yZwogICAgICAgICAgUmVwb3J0ZXI6IGFjeWVsbG93QGdtYWlsLmNvbQogICAgICAgIFJlZ3Jl
-c3Npb246IE5vCgpXaGVuIHN0YXJ0IDE2IEFuZHJvaWQgVk0gdG8gZG8gQW5kcm9pZCBBcHAgTW9u
-a2V5IHRlc3QsIExpbnV4IGtlcm5lbCBwYW5pYwpoYXBwZW5zIHdoaWNoIGNhdXNlcyB0aGUgY29t
-cHV0ZXIgcmVzdGFydC4KSXQgc2VlbXMgQU1ER1BVIHJlbGF0ZWQgaXNzdWUuCgpHUFUgZGV2aWNl
-77yaIDAwMDc6MDE6MDAuMCBWR0EgY29tcGF0aWJsZSBjb250cm9sbGVyOiBBZHZhbmNlZCBNaWNy
-byBEZXZpY2VzLApJbmMuIFtBTUQvQVRJXSBEZXZpY2UgNjdjNwoKCgoyMDIwLTExLTE5IDE3OjIz
-OjM1IFsgMTQ4My40OTY2ODBdIHBzdGF0ZTogNDA0MDAwMDkgKG5aY3YgZGFpZiArUEFOIC1VQU8p
-CjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjY4N10gcGMgOiBrZnJlZSsweDc4LzB4MWE4
-CjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjY5N10gbHIgOiBfX3R0bV9kbWFfZnJlZV9w
-YWdlLmlzcmEuMCsweGFjLzB4ZTgKW3R0bV0KMjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2
-Njk3XSBzcCA6IGZmZmYwMDAwMWY5MTM4ZDAKMjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2
-Njk4XSB4Mjk6IGZmZmYwMDAwMWY5MTM4ZDAgeDI4OiAwMDAwMDAwMDAwMDAwMDA4CjIwMjAtMTEt
-MTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjY5OV0geDI3OiAwMDAwMDAwMDAwMDAwMDAwIHgyNjogZmZm
-ZmMwMDNlMWQ2OWQ0OAoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My40OTY3MDBdIHgyNTogMDAw
-MDAwMDAwMDAwMDAwMSB4MjQ6IDAwMDAwMDAwMDAwMDEwMDAKMjAyMC0xMS0xOSAxNzoyMzozNSBb
-IDE0ODMuNDk2NzAxXSB4MjM6IGZmZmY4MDAwMzk4MzQwYjAgeDIyOiAwMDAwMDAwMDYzNWY4MDAw
-CjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjcwMl0geDIxOiBmZmZmMDAwMDAyNmM5Yzk0
-IHgyMDogZmZmZjAwMDE1NjA4NTAwMAoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My40OTY3MDNd
-IHgxOTogZmZmZjg3ZmY4NDMzZmI4MCB4MTg6IDAwMDAwMDAwMDAwMDAwMDAKMjAyMC0xMS0xOSAx
-NzoyMzozNSBbIDE0ODMuNDk2NzAzXSB4MTc6IDAwMDAwMDAwMDAwMDAwMDAgeDE2OiAwMDAwMDAw
-MDAwMDAwMDAwCjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjcwNF0geDE1OiAwMDAwMDAw
-MDAwMDAwMDAwIHgxNDogMDAwMDAwMDAwMDAwMDAwMAoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4
-My40OTY3MDRdIHgxMzogMDAwMDAwMDAwMDAwMDAwMCB4MTI6IDAwMDAwMDAwMDAwMDAwMDAKMjAy
-MC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2NzA1XSB4MTE6IDAwMDAwMDAwMDAwMDAwNDAgeDEw
-OiBmZmZmYzAwMzU5NDcwNjM4CjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjcwNV0geDkg
-OiBmZmZmMDAwMDAyNmM5Yzk0IHg4IDogMDAwMDAwMDAwMDIxMGQwMAoyMDIwLTExLTE5IDE3OjIz
-OjM1IFsgMTQ4My40OTY3MDZdIHg3IDogZmZmZmMwMDRlMjhkNGZlMCB4NiA6IGZmZmY3ZTFmZmUx
-MGNmYzAKMjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2NzA3XSB4NSA6IDAwMDAwMDAwMDAw
-MDAwMTkgeDQgOiBmZmZmN2UyMDAyOTcwM2MwCjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5
-NjcwOF0geDMgOiBmZmZmODgwNDZiNWY4ZDc4IHgyIDogZmZmZjAwMDAxZjkxMzhkMAoyMDIwLTEx
-LTE5IDE3OjIzOjM1IFsgMTQ4My40OTY3MDldIHgxIDogMDAwMDg4MDQ2Mjg2YjAwMCB4MCA6IGZm
-ZmZjMDA0ZTI4ZDRlNzgKMjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2NzEwXSBDYWxsIHRy
-YWNlOgoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My40OTY3MTJdICBrZnJlZSsweDc4LzB4MWE4
-CjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjQ5NjcxNV0gIF9fdHRtX2RtYV9mcmVlX3BhZ2Uu
-aXNyYS4wKzB4YWMvMHhlOCBbdHRtXQoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My40OTY3MTld
-ICB0dG1fZG1hX3BhZ2VfcHV0KzB4NWMvMHg2OCBbdHRtXQoyMDIwLTExLTE5IDE3OjIzOjM1IFsg
-MTQ4My40OTY3MjJdICB0dG1fZG1hX3VucG9wdWxhdGUrMHgxZjgvMHg0MDAgW3R0bV0KMjAyMC0x
-MS0xOSAxNzoyMzozNSBbIDE0ODMuNDk2ODA0XSAgYW1kZ3B1X3R0bV90dF91bnBvcHVsYXRlKzB4
-NzAvMHhhMCBbYW1kZ3B1XQoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My40OTY4MTRdICB0dG1f
-dHRfdW5wb3B1bGF0ZSsweDZjLzB4ODggW3R0bV0KMjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMu
-OTA5MjYyXSAgdHRtX3R0X2Rlc3Ryb3kucGFydC4wKzB4NjQvMHg2OCBbdHRtXQoyMDIwLTExLTE5
-IDE3OjIzOjM1IFsgMTQ4My45MDkyNjZdICB0dG1fdHRfZGVzdHJveSsweDE4LzB4MjggW3R0bV0K
-MjAyMC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuOTA5MjY5XSAgdHRtX2JvX2NsZWFudXBfbWVtdHlw
-ZV91c2UrMHgzYy8weDkwIFt0dG1dCjIwMjAtMTEtMTkgMTc6MjM6MzUgWyAxNDgzLjkwOTI3Ml0g
-IHR0bV9ib19jbGVhbnVwX3JlZnNfb3JfcXVldWUrMHgxYzgvMHgyMDAKW3R0bV0KMjAyMC0xMS0x
-OSAxNzoyMzozNSBbIDE0ODMuOTA5Mjc1XSAgdHRtX2JvX3B1dCsweDgwLzB4YjggW3R0bV0KMjAy
-MC0xMS0xOSAxNzoyMzozNSBbIDE0ODMuOTA5MzQ1XSAgYW1kZ3B1X2JvX3VucmVmKzB4MjgvMHgz
-OCBbYW1kZ3B1XQoyMDIwLTExLTE5IDE3OjIzOjM1IFsgMTQ4My45MDk0MDZdICBhbWRncHVfZ2Vt
-X29iamVjdF9mcmVlKzB4M2MvMHg2MCBbYW1kZ3B1XQoKLS0gCllvdSBhcmUgcmVjZWl2aW5nIHRo
-aXMgbWFpbCBiZWNhdXNlOgpZb3UgYXJlIHdhdGNoaW5nIHRoZSBhc3NpZ25lZSBvZiB0aGUgYnVn
-LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2
-ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9s
-aXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+Geert,
+
+On Mon, Dec 07, 2020 at 09:15:11AM +0100, Geert Uytterhoeven wrote:
+> On Fri, Dec 4, 2020 at 11:02 PM Laurent Pinchart wrote:
+> > On D3 and E3 platforms, the LVDS encoder includes a PLL that can
+> > generate a clock for the corresponding CRTC, used even when the CRTC
+> > output to a non-LVDS port. This mechanism is supported by the driver,
+> > but the implementation is broken in dual-link LVDS mode. In that case,
+> > the LVDS1 drm_encoder is skipped, which causes a crash when trying to
+> > access its bridge later on.
+> >
+> > Fix this by storing bridge pointers internally instead of retrieving
+> > them from the encoder.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> Thanks for your patch!
+> 
+> I think this warrants a Fixes tag, to assist the stable team in backporting
+> this fix.
+
+I'll add one.
+
+-- 
+Regards,
+
+Laurent Pinchart
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
