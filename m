@@ -1,58 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C6C2D3D7A
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B740F2D3D58
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2D26E7FA;
-	Wed,  9 Dec 2020 08:32:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB9BC6E131;
+	Wed,  9 Dec 2020 08:32:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B01B26E999
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 18:33:13 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id a16so26035433ejj.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 10:33:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LbUzoXSmraRsXb/HlPMw5PQ5JJu5VptRDmle82sQsYM=;
- b=Gv0vyIus0i2Ht68M58bsN54P6D/KugieN6WEFyV7rebJ9qi4aF0d55CgZSq17nSNwL
- PTaS2ZldVXvI9UsiflbVDFynGR1tnnN+wTiW+ggujXK1RN4OjgZYMScNDzbd2u464nWm
- q00IuZWOVvrPCqt25YoebkjnejsfTwXXUsT/MpRAxKlrjQ3e76wwPe64cUQjqUTn6ikI
- 64UhY1A2lQNYS0LePmnCHKwaltxs4qpoSUhBZCaTBZ1TV6C1kXFZLNmSZU63QQnOtr0o
- Y8qtOo85YxhxSwGB0I/C0TvsEu4d63Gndp8mmk/guw9KTSFRRzs5Jg1RSHrudtWerUny
- AraA==
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com
+ [IPv6:2607:f8b0:4864:20::843])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C83A6E03C
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 18:59:18 +0000 (UTC)
+Received: by mail-qt1-x843.google.com with SMTP id f14so4155602qto.12
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 10:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=9sSR/G0iajxP79sAMRXtsqqOVlTG6SJFKBgyvVDhRlA=;
+ b=d24RgsZ2dY3yg2s9gT27ixnsxarcSd8idMtkqjVGsflu8OKBdmx+R2xZpdEfehi5h1
+ wsWoyB7TEyVi0tMQrziIh9wqoEV4CHrqwMVa9ZzvVQrI7+S1uhaXDE+wZ6KBnDbu2j07
+ 0eVL4TO4ad0n/ffatp+MiRMFysqbMeTJAGXQ/cIkQn99iZinfNub6qPBjSQCvuQ7hghk
+ eSrNrOXSKSZfu2K49CvR/viUdI9Bh2mtwJKAmk2xc9g2YQfnLv1LlMmdHR0ZB3qR3XRe
+ ltHttZkYOJVdAsKDGsgnW5q1CG4jEOoBQpDftata+QUZOQWi0RhDdXNnhQbca7rY9Jbv
+ GqwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LbUzoXSmraRsXb/HlPMw5PQ5JJu5VptRDmle82sQsYM=;
- b=CNX6ImAapHpKJEPliQI3UCCA0ubUywmCA7BzZUeQdbJ7k3jdx+EnLqgZ3F6JHN0MVI
- ibmia/VmCjpMAvcmhy6h9skXHCOlxxvrbJzFxFQRmugyCbE0s+3TGN69WEWkqUUDHm1g
- BhDLkhImyvL+koVqg97173h/ubEzdU3l9Ho7TBaNmowFwYGwQPj/h5tddYg0MQ34JSCC
- LHzZ2zVo3LvPK2myCQ1almMYlP89TMtHGmQDx6PPmWg/0jjSwKwf7s1vuwdA8rmBVvXk
- nnaQupSW4Bek5U+ndBsJTlw0OieBC0MJZggkhoTB7MXJqRdsTUtspLXENnSYDxFWtpdt
- yX1A==
-X-Gm-Message-State: AOAM530YE8PbjuldbJEGwCksCEKg4pDy6ktwwmRarJ6f2qnTXrNRYPP5
- qOHNmaxnqE/qD2dr7RZjNvLezh8SG+LfKEnIyqIuw7ssPUDbSfJC
-X-Google-Smtp-Source: ABdhPJzwxWHZ5TTp/fknB/UdJvM5hBhRXoHjUvHv1YnzjaTTvcClaV0DtY7JSjp3c+Rt61bZd/o0zs8nxCGjMEECwEI=
-X-Received: by 2002:a17:906:43c5:: with SMTP id
- j5mr7066318ejn.530.1607452392263; 
- Tue, 08 Dec 2020 10:33:12 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9sSR/G0iajxP79sAMRXtsqqOVlTG6SJFKBgyvVDhRlA=;
+ b=C4rlbevJy60Zb0iFsol3xI6WfjQceCCXll3iYmFVTwK/HvGIxd2jn7yD77W7vqWUAg
+ bziSLVBLPhKY0jK6cBILygdUJD8+3McozeL4GkKuGecvF7nKmr6JDuqHXwJWetzDCrxC
+ JssbI2Pbcm6JSdKGWE/BaMt/v143gZnn9u8ywftl/RGlxIgCB9DkrjnSG/vyvAryjy60
+ +czWa+EVWPYDdaNFj5g/L0al+0Q3CH0Yy1bzvpCykWAP/Z5cJD4j7MHrx/K8+9RgNIBb
+ W0aBWziCJ8dF3yWwtEDb7ZhAmIYcwXH2TpY7HWYL0sz7Z+7Yw3OaVVm1RaaiMZ+Wzt34
+ FPxQ==
+X-Gm-Message-State: AOAM530KnjALbSHHyWGNCIe/SlVOJcXNXLxktGBlY5UzW/R02QGDMacV
+ UE01KmUfrV9S+RSco3mw7p327Q==
+X-Google-Smtp-Source: ABdhPJxsADdJkiPwe0Gy1hcj7gLbSLG1LhGiy5Oa+UIfzViYvRxyacUzGMGBsmHeM/l+3idH436LOg==
+X-Received: by 2002:ac8:7192:: with SMTP id w18mr31968213qto.149.1607453957166; 
+ Tue, 08 Dec 2020 10:59:17 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.162.115.133])
+ by smtp.gmail.com with ESMTPSA id q194sm5807666qka.102.2020.12.08.10.59.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Dec 2020 10:59:16 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
+ id 1kmiCh-007zxe-Ue; Tue, 08 Dec 2020 14:59:15 -0400
+Date: Tue, 8 Dec 2020 14:59:15 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+Subject: Re: [PATCH v13 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Message-ID: <20201208185915.GO5487@ziepe.ca>
+References: <1607379353-116215-1-git-send-email-jianxin.xiong@intel.com>
+ <1607379353-116215-2-git-send-email-jianxin.xiong@intel.com>
+ <20201208070532.GE4430@unreal>
+ <MW3PR11MB45554A727DA7940D81FE1C14E5CD0@MW3PR11MB4555.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <202012080129.qAoCOovN-lkp@intel.com>
- <1607364939-640-1-git-send-email-jpark37@lagfreegames.com>
- <1607364939-640-2-git-send-email-jpark37@lagfreegames.com>
- <8GcCcwMpk0Rz_34xReIOuuL2JZBQ2P71fYo4-G8ZMcxdqu2GE7NVnsxUHIxbo7xOylM_lIO2sA6yIgI9W3MoSvErpLWFTRFJR1Om6dtN9wE=@emersion.fr>
-In-Reply-To: <8GcCcwMpk0Rz_34xReIOuuL2JZBQ2P71fYo4-G8ZMcxdqu2GE7NVnsxUHIxbo7xOylM_lIO2sA6yIgI9W3MoSvErpLWFTRFJR1Om6dtN9wE=@emersion.fr>
-From: James Park <james.park@lagfreegames.com>
-Date: Tue, 8 Dec 2020 10:32:16 -0800
-Message-ID: <CABjik9dKMGkuZXpMbdSjz9aPxn=_mQoU4kGAd6jdBKju82e1jw@mail.gmail.com>
-Subject: Re: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
-To: Simon Ser <contact@emersion.fr>
+Content-Disposition: inline
+In-Reply-To: <MW3PR11MB45554A727DA7940D81FE1C14E5CD0@MW3PR11MB4555.namprd11.prod.outlook.com>
 X-Mailman-Approved-At: Wed, 09 Dec 2020 08:32:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,56 +75,33 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- James Park <jpark37@lagfreegames.com>
-Content-Type: multipart/mixed; boundary="===============2080769956=="
+Cc: Leon Romanovsky <leon@kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Doug Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============2080769956==
-Content-Type: multipart/alternative; boundary="000000000000d5af6105b5f82c21"
+On Tue, Dec 08, 2020 at 06:13:20PM +0000, Xiong, Jianxin wrote:
 
---000000000000d5af6105b5f82c21
-Content-Type: text/plain; charset="UTF-8"
+> > > +static inline struct ib_umem *ib_umem_dmabuf_get(struct ib_device *device,
+> > > +						 unsigned long offset,
+> > > +						 size_t size, int fd,
+> > > +						 int access,
+> > > +						 struct dma_buf_attach_ops *ops) {
+> > > +	return ERR_PTR(-EINVAL);
+> > 
+> > Probably, It should be EOPNOTSUPP and not EINVAL.
+> 
+> EINVAL is used here to be consistent with existing definitions in the same file.
 
-This was the message from kernel test robot.
+They may be wrong, EOPNOTSUPP is right for this situation
 
->> usr/include/linux/kfd_ioctl.h:37: found __[us]{8,16,32,64} type without
-#include <linux/types.h>
-
-On Tue, Dec 8, 2020 at 4:31 AM Simon Ser <contact@emersion.fr> wrote:
-
-> May I ask what exactly fails when you drop #include <linux/types.h>
-> from drm.h?
->
-
---000000000000d5af6105b5f82c21
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>This was the message from kernel test robot.</div><di=
-v><br></div>&gt;&gt; usr/include/linux/kfd_ioctl.h:37: found __[us]{8,16,32=
-,64} type without #include &lt;linux/types.h&gt;<br></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 8, 2020 at =
-4:31 AM Simon Ser &lt;<a href=3D"mailto:contact@emersion.fr">contact@emersi=
-on.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">May I ask what exactly fails when you drop #include &lt;linux/types.h&=
-gt;<br>
-from drm.h?<br>
-</blockquote></div>
-
---000000000000d5af6105b5f82c21--
-
---===============2080769956==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Jason
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============2080769956==--
