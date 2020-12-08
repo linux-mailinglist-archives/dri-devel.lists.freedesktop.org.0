@@ -1,34 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA4DC2D25FF
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 09:32:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3052D26C7
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 10:02:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3EB86E96F;
-	Tue,  8 Dec 2020 08:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68D7F6E951;
+	Tue,  8 Dec 2020 09:02:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDC5F6E06E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 07:50:51 +0000 (UTC)
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Cqsm85g5Vz7BCm;
- Tue,  8 Dec 2020 15:50:16 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 8 Dec 2020 15:50:45 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <jsarha@ti.com>, <tomi.valkeinen@ti.com>, <airlied@linux.ie>,
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/tidss: Use the new api devm_drm_irq_install
-Date: Tue, 8 Dec 2020 15:50:59 +0800
-Message-ID: <1607413859-63365-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B653F6E09F
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 09:02:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id 32A11FB03;
+ Tue,  8 Dec 2020 10:02:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RGlDGe6CXV_f; Tue,  8 Dec 2020 10:02:44 +0100 (CET)
+Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
+ id 5EA9D4068D; Tue,  8 Dec 2020 10:02:44 +0100 (CET)
+Date: Tue, 8 Dec 2020 10:02:44 +0100
+From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
+To: Liu Ying <victor.liu@nxp.com>
+Subject: Re: [PATCH 0/4] phy: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY
+ mode support
+Message-ID: <20201208090244.GA20575@bogon.m.sigxcpu.org>
+References: <1607067224-15616-1-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 08 Dec 2020 08:32:06 +0000
+Content-Disposition: inline
+In-Reply-To: <1607067224-15616-1-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,45 +43,77 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, kernel@pengutronix.de,
+ narmstrong@baylibre.com, airlied@linux.ie, s.hauer@pengutronix.de,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org, robh+dt@kernel.org,
+ Laurent.pinchart@ideasonboard.com, robert.chiras@nxp.com,
+ martin.kepplinger@puri.sm, shawnguo@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use devm_drm_irq_install to register interrupts so that
-drm_irq_uninstall is not needed to be called.
+Hi Liu,
+On Fri, Dec 04, 2020 at 03:33:40PM +0800, Liu Ying wrote:
+> Hi,
+> 
+> This series adds i.MX8qxp LVDS PHY mode support for the Mixel PHY in the
+> Freescale i.MX8qxp SoC.
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/gpu/drm/tidss/tidss_drv.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This looks good to me from the NWL and actual phy driver part. I'll
+comment in the individual patches but leave comments on the extension
+of the generic phy struct to someone knowledgeable with that part.
 
-diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-index 66e3c86e..48e1f9d 100644
---- a/drivers/gpu/drm/tidss/tidss_drv.c
-+++ b/drivers/gpu/drm/tidss/tidss_drv.c
-@@ -173,7 +173,7 @@ static int tidss_probe(struct platform_device *pdev)
- 		goto err_runtime_suspend;
- 	}
- 
--	ret = drm_irq_install(ddev, irq);
-+	ret = devm_irq_install(ddev, irq);
- 	if (ret) {
- 		dev_err(dev, "drm_irq_install failed: %d\n", ret);
- 		goto err_runtime_suspend;
-@@ -219,8 +219,6 @@ static int tidss_remove(struct platform_device *pdev)
- 
- 	drm_atomic_helper_shutdown(ddev);
- 
--	drm_irq_uninstall(ddev);
--
- #ifndef CONFIG_PM
- 	/* If we don't have PM, we need to call suspend manually */
- 	dispc_runtime_suspend(tidss->dispc);
--- 
-2.7.4
+What display controllers do you intend to drive that with?
+Cheers,
+ -- Guido
 
+> 
+> The Mixel PHY is MIPI DPHY + LVDS PHY combo, which can works in either
+> MIPI DPHY mode or LVDS PHY mode.  The PHY mode is controlled by i.MX8qxp
+> SCU firmware.  The PHY driver would call a SCU function to configure the
+> mode.
+> 
+> The PHY driver is already supporting the Mixel MIPI DPHY in i.MX8mq SoC,
+> where it appears to be a single MIPI DPHY.
+> 
+> 
+> Patch 1/4 sets PHY mode in the Northwest Logic MIPI DSI host controller
+> bridge driver, since i.MX8qxp SoC embeds this controller IP to support
+> MIPI DSI displays together with the Mixel PHY.
+> 
+> Patch 2/4 allows LVDS PHYs to be configured through the generic PHY functions
+> and through a custom structure added to the generic PHY configuration union.
+> 
+> Patch 3/4 adds dt binding support for the Mixel combo PHY in i.MX8qxp SoC.
+> 
+> Patch 4/4 adds the i.MX8qxp LVDS PHY mode support in the Mixel PHY driver.
+> 
+> 
+> Welcome comments, thanks.
+> 
+> 
+> Liu Ying (4):
+>   drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_enable()
+>   phy: Add LVDS configuration options
+>   dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel combo PHY support for
+>     i.MX8qxp
+>   phy: freescale: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY mode
+>     support
+> 
+>  .../devicetree/bindings/phy/mixel,mipi-dsi-phy.txt |   8 +-
+>  drivers/gpu/drm/bridge/nwl-dsi.c                   |   6 +
+>  drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c     | 266 ++++++++++++++++++++-
+>  include/linux/phy/phy-lvds.h                       |  48 ++++
+>  include/linux/phy/phy.h                            |   4 +
+>  5 files changed, 320 insertions(+), 12 deletions(-)
+>  create mode 100644 include/linux/phy/phy-lvds.h
+> 
+> -- 
+> 2.7.4
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
