@@ -1,36 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEA72D26D8
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 10:05:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27422D2724
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Dec 2020 10:07:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CAD189C46;
-	Tue,  8 Dec 2020 09:05:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93D056E096;
+	Tue,  8 Dec 2020 09:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA59689C46
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 09:05:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E0446E096
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Dec 2020 09:07:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id DA323FB03;
- Tue,  8 Dec 2020 10:04:58 +0100 (CET)
+ by honk.sigxcpu.org (Postfix) with ESMTP id 6A30FFB03;
+ Tue,  8 Dec 2020 10:07:12 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eamRw-rT4nRv; Tue,  8 Dec 2020 10:04:57 +0100 (CET)
+ with ESMTP id oKdTZMLSUwOv; Tue,  8 Dec 2020 10:07:11 +0100 (CET)
 Received: by bogon.sigxcpu.org (Postfix, from userid 1000)
- id 4480C4068D; Tue,  8 Dec 2020 10:04:57 +0100 (CET)
-Date: Tue, 8 Dec 2020 10:04:57 +0100
+ id BBC234068D; Tue,  8 Dec 2020 10:07:10 +0100 (CET)
+Date: Tue, 8 Dec 2020 10:07:10 +0100
 From: Guido =?iso-8859-1?Q?G=FCnther?= <guido.gunther@puri.sm>
 To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH 1/4] drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_enable()
-Message-ID: <20201208090457.GB20575@bogon.m.sigxcpu.org>
+Subject: Re: [PATCH 3/4] dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel
+ combo PHY support for i.MX8qxp
+Message-ID: <20201208090710.GC20575@bogon.m.sigxcpu.org>
 References: <1607067224-15616-1-git-send-email-victor.liu@nxp.com>
- <1607067224-15616-2-git-send-email-victor.liu@nxp.com>
+ <1607067224-15616-4-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1607067224-15616-2-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1607067224-15616-4-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,62 +56,66 @@ Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Fri, Dec 04, 2020 at 03:33:41PM +0800, Liu Ying wrote:
-> The Northwest Logic MIPI DSI host controller embedded in i.MX8qxp
-> works with a Mixel MIPI DPHY + LVDS PHY combo to support either
-> a MIPI DSI display or a LVDS display.  So, this patch calls
-> phy_set_mode() from nwl_dsi_enable() to set PHY mode to MIPI DPHY
-> explicitly.
+Hi Liu,
+Since we now gain optional properties validation would become even more
+useful. Could you look into converting to YAML before adding more
+values?
+Cheers,
+ -- Guido
+
+On Fri, Dec 04, 2020 at 03:33:43PM +0800, Liu Ying wrote:
+> Add support for Mixel MIPI DPHY + LVDS PHY combo IP
+> as found on Freescale i.MX8qxp SoC.
 > =
 
 > Cc: Guido G=FCnther <agx@sigxcpu.org>
-> Cc: Robert Chiras <robert.chiras@nxp.com>
-> Cc: Martin Kepplinger <martin.kepplinger@puri.sm>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
 > Cc: NXP Linux Team <linux-imx@nxp.com>
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
->  drivers/gpu/drm/bridge/nwl-dsi.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > =
 
-> diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nw=
-l-dsi.c
-> index 66b6740..be6bfc5 100644
-> --- a/drivers/gpu/drm/bridge/nwl-dsi.c
-> +++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-> @@ -678,6 +678,12 @@ static int nwl_dsi_enable(struct nwl_dsi *dsi)
->  		return ret;
->  	}
+> diff --git a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt=
+ b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+> index 9b23407..0afce99 100644
+> --- a/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+> +++ b/Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
+> @@ -4,9 +4,13 @@ The Mixel MIPI-DSI PHY IP block is e.g. found on i.MX8 p=
+latforms (along the
+>  MIPI-DSI IP from Northwest Logic). It represents the physical layer for =
+the
+>  electrical signals for DSI.
 >  =
 
-> +	ret =3D phy_set_mode(dsi->phy, PHY_MODE_MIPI_DPHY);
-> +	if (ret < 0) {
-> +		DRM_DEV_ERROR(dev, "Failed to set DSI phy mode: %d\n", ret);
-> +		goto uninit_phy;
-> +	}
+> +The Mixel PHY IP block found on i.MX8qxp is a combo PHY that can work
+> +in either MIPI-DSI PHY mode or LVDS PHY mode.
 > +
->  	ret =3D phy_configure(dsi->phy, phy_cfg);
->  	if (ret < 0) {
->  		DRM_DEV_ERROR(dev, "Failed to configure DSI phy: %d\n", ret);
+>  Required properties:
+> -- compatible: Must be:
+> +- compatible: Should be one of:
+>    - "fsl,imx8mq-mipi-dphy"
+> +  - "fsl,imx8qxp-mipi-dphy"
+>  - clocks: Must contain an entry for each entry in clock-names.
+>  - clock-names: Must contain the following entries:
+>    - "phy_ref": phandle and specifier referring to the DPHY ref clock
+> @@ -14,6 +18,8 @@ Required properties:
+>  - #phy-cells: number of cells in PHY, as defined in
+>    Documentation/devicetree/bindings/phy/phy-bindings.txt
+>    this must be <0>
+> +- fsl,syscon: Phandle to a system controller, as required by the PHY
+> +  in i.MX8qxp SoC.
+>  =
 
-Reviewed-by: Guido G=FCnther <agx@sigxcpu.org> =
-
- -- Guido
-
+>  Optional properties:
+>  - power-domains: phandle to power domain
 > -- =
 
 > 2.7.4
 > =
-
-
 
 _______________________________________________
 dri-devel mailing list
