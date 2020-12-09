@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853902D3B73
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 07:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A002D3B9F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 07:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680FE6E10A;
-	Wed,  9 Dec 2020 06:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58DBA89AC9;
+	Wed,  9 Dec 2020 06:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3AE6E10A
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 06:30:42 +0000 (UTC)
-Date: Wed, 9 Dec 2020 08:30:38 +0200
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B6B8981D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 06:44:34 +0000 (UTC)
+Date: Wed, 9 Dec 2020 08:44:30 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607495442;
- bh=FCsXHnNBphQDu3Pwh35xnOWUUwZUXkHuwg7GMeSSsC8=;
+ s=k20201202; t=1607496274;
+ bh=nm1XpRO8wEjXGxSoNUUKePlW/cwmjJV9G1vreS0Qhz8=;
  h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=hzoWDHMVS2zLSVQHe1Xe5JCFfO02oyBK3+pUWT3hMKF47u2CTTVIpp0BETkNlhFlS
- 90q1j6VIRrc2f3pF7T9Rb23Dd67dohHs1FV2XFxcmqDJEv1eI4DOHvRbJOiimz9Euv
- LTT7EJqmBVc4lzC08ldQ+3Nyp/OV5n3wtndaf/8dAfpxtXa3UvRCrEVrThvT19a3mU
- 97AKuABAgi9ejrtu/27ikjVB7+/TDA6BZUj2X5w75ZVo02GPrBOWTv91JVyqJcaH4r
- hMBytzvP+I+fsjsJ0NffNFwWweMhj36PUeJAoKN3YRD09h+6xY9COpcpJP+fbES5M4
- tkkjOVTmuiwGA==
+ b=jhkZfbI482puH4s+5IT32A+6rw8/PHQwRZ/pD/pLX7QAKFjPkZrTd8rgOwzxhCB+n
+ +Yxg0N0J7PW1QzqxJhbbiBvj5pkm6/pZZGMlBQzhGuTJuAnYbf12lYMYQ9Sxg/g8as
+ fq+k89Wv27l96EoVjs+6QxD9mN+Dl52Iu783x5Wb+IDQUc9aUOCp7oXsTu2UDk5YOo
+ SDKv5ZijirApwyP3iMpB3kppHGqhi9C9PO45QMhusthXtxkBk5Ek9RYCEgvZ/8pXMc
+ IDZ0ME7t4NwnOVRBtTibulBHCh+BkJZLOfDMjUUjWpuJgT/kQZ6OhWJTBMlfogH6cj
+ 9aLGdDMHd9DWQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Jianxin Xiong <jianxin.xiong@intel.com>
-Subject: Re: [PATCH v14 1/4] RDMA/umem: Support importing dma-buf as user
+Subject: Re: [PATCH v14 4/4] RDMA/mlx5: Support dma-buf based userspace
  memory region
-Message-ID: <20201209063038.GL4430@unreal>
+Message-ID: <20201209064430.GM4430@unreal>
 References: <1607467155-92725-1-git-send-email-jianxin.xiong@intel.com>
- <1607467155-92725-2-git-send-email-jianxin.xiong@intel.com>
+ <1607467155-92725-5-git-send-email-jianxin.xiong@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1607467155-92725-2-git-send-email-jianxin.xiong@intel.com>
+In-Reply-To: <1607467155-92725-5-git-send-email-jianxin.xiong@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,18 +53,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 08, 2020 at 02:39:12PM -0800, Jianxin Xiong wrote:
-> Dma-buf is a standard cross-driver buffer sharing mechanism that can be
-> used to support peer-to-peer access from RDMA devices.
+On Tue, Dec 08, 2020 at 02:39:15PM -0800, Jianxin Xiong wrote:
+> Implement the new driver method 'reg_user_mr_dmabuf'.  Utilize the core
+> functions to import dma-buf based memory region and update the mappings.
 >
-> Device memory exported via dma-buf is associated with a file descriptor.
-> This is passed to the user space as a property associated with the
-> buffer allocation. When the buffer is registered as a memory region,
-> the file descriptor is passed to the RDMA driver along with other
-> parameters.
->
-> Implement the common code for importing dma-buf object and mapping
-> dma-buf pages.
+> Add code to handle dma-buf related page fault.
 >
 > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
 > Reviewed-by: Sean Hefty <sean.hefty@intel.com>
@@ -72,78 +65,52 @@ On Tue, Dec 08, 2020 at 02:39:12PM -0800, Jianxin Xiong wrote:
 > Acked-by: Christian Koenig <christian.koenig@amd.com>
 > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  drivers/infiniband/core/Makefile      |   2 +-
->  drivers/infiniband/core/umem.c        |   3 +
->  drivers/infiniband/core/umem_dmabuf.c | 174 ++++++++++++++++++++++++++++++++++
->  include/rdma/ib_umem.h                |  47 ++++++++-
->  4 files changed, 222 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/infiniband/core/umem_dmabuf.c
+>  drivers/infiniband/hw/mlx5/main.c    |   2 +
+>  drivers/infiniband/hw/mlx5/mlx5_ib.h |  18 +++++
+>  drivers/infiniband/hw/mlx5/mr.c      | 128 +++++++++++++++++++++++++++++++++--
+>  drivers/infiniband/hw/mlx5/odp.c     |  86 +++++++++++++++++++++--
+>  4 files changed, 225 insertions(+), 9 deletions(-)
 
 <...>
 
-> +int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
-> +{
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	struct dma_fence *fence;
-> +	unsigned long start, end, cur = 0;
-> +	unsigned int nmap = 0;
-> +	int i;
+>
 > +
-> +	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
-> +
-> +	if (umem_dmabuf->sgt)
-> +		goto wait_fence;
-> +
-> +	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
-> +	if (IS_ERR(sgt))
-> +		return PTR_ERR(sgt);
-> +
-> +	/* modify the sg list in-place to match umem address and length */
-> +
-> +	start = ALIGN_DOWN(umem_dmabuf->umem.address, PAGE_SIZE);
-> +	end = ALIGN(umem_dmabuf->umem.address + umem_dmabuf->umem.length,
-> +		    PAGE_SIZE);
-> +	for_each_sgtable_dma_sg(sgt, sg, i) {
-> +		if (start < cur + sg_dma_len(sg) && cur < end)
-> +			nmap++;
-> +		if (cur <= start && start < cur + sg_dma_len(sg)) {
-> +			unsigned long offset = start - cur;
-> +
-> +			umem_dmabuf->first_sg = sg;
-> +			umem_dmabuf->first_sg_offset = offset;
-> +			sg_dma_address(sg) += offset;
-> +			sg_dma_len(sg) -= offset;
-> +			cur += offset;
-> +		}
-> +		if (cur < end && end <= cur + sg_dma_len(sg)) {
-> +			unsigned long trim = cur + sg_dma_len(sg) - end;
-> +
-> +			umem_dmabuf->last_sg = sg;
-> +			umem_dmabuf->last_sg_trim = trim;
-> +			sg_dma_len(sg) -= trim;
-> +			break;
-> +		}
-> +		cur += sg_dma_len(sg);
-> +	}
-> +
-> +	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
-> +	umem_dmabuf->umem.sg_head.nents = nmap;
-> +	umem_dmabuf->umem.nmap = nmap;
-> +	umem_dmabuf->sgt = sgt;
-> +
-> +wait_fence:
-> +	/*
-> +	 * Although the sg list is valid now, the content of the pages
-> +	 * may be not up-to-date. Wait for the exporter to finish
-> +	 * the migration.
-> +	 */
-> +	fence = dma_resv_get_excl(umem_dmabuf->attach->dmabuf->resv);
-> +	if (fence)
-> +		return dma_fence_wait(fence, false);
+> +	umem = ib_umem_dmabuf_get(&dev->ib_dev, offset, length, fd, access_flags,
+> +				  &mlx5_ib_dmabuf_attach_ops);
+> +	if (IS_ERR(umem)) {
+> +		mlx5_ib_dbg(dev, "umem get failed (%ld)\n", PTR_ERR(umem));
+> +		return ERR_PTR(PTR_ERR(umem));
 
-You called to dma_buf_map_attachment() earlier in this function, so if
-you return an error here, the dma_buf won't be unmapped in pagefault_dmabuf_mr()
+return ERR_CAST(umem);
+
+> +	}
+
+<...>
+
+> +	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
+> +	err = ib_umem_dmabuf_map_pages(umem_dmabuf);
+> +	if (!err) {
+> +		page_size = mlx5_umem_find_best_pgsz(&umem_dmabuf->umem, mkc,
+> +						     log_page_size, 0,
+> +						     umem_dmabuf->umem.iova);
+> +		if (unlikely(page_size < PAGE_SIZE)) {
+> +			ib_umem_dmabuf_unmap_pages(umem_dmabuf);
+> +			err = -EINVAL;
+> +		} else {
+> +			err = mlx5_ib_update_mr_pas(mr, xlt_flags);
+> +		}
+> +	}
+> +	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
+
+Let's write this section in kernel coding style, please
+
+dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
+err = ib_umem_dmabuf_map_pages(umem_dmabuf);
+if (err) {
+      dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
+      return err;
+}
+.....
 
 Thanks
 _______________________________________________
