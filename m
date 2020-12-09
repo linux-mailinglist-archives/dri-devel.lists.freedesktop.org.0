@@ -1,58 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3712D4640
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 17:02:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 122492D4649
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 17:05:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8A696EAAF;
-	Wed,  9 Dec 2020 16:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361416EAA4;
+	Wed,  9 Dec 2020 16:05:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF326EAAF
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 16:02:27 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r3so2318585wrt.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 08:02:27 -0800 (PST)
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB3C36EAA4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 16:05:12 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id y23so2233666wmi.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 08:05:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=ZKOe4AxfqejHccFNm4tLx3gKa6m89ZjEB1i4VwqxF4s=;
- b=hoGXoljlW/rLYRzkS991gVHj3AveO35nPMM6OR9UITeE6MRF6Iucg/XhH0/763HTEC
- c4e+3FIo+PRHugahPtn3W+7Vb/xV/ZzK09HPRyF31sane9nU1TDrd77Y8t+EOjlbe4WN
- POz9YamO+/Y0h2yUDh9PRyfDSkmnWLJ32SvwQ=
+ bh=UJCnqOqqdmrMiStfwR6XMqq4UZci2YVNv0pWf7hs+Zg=;
+ b=LfGSNSNh7DdXFg9jVApugpI7UoMgUUKjK0rH3YGNjCvFksw4S0mjA1JQVRgYe/8Sfx
+ MFv0xRVegCOtDOWNalYFoHAK7Oe2hv2S6fD56F8fICBrPfukpqOoP58N1VyMMO31ilB3
+ Cxe1HQE+eQBiZ3ewdpMZVC3TAL8ei1FyizfbA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZKOe4AxfqejHccFNm4tLx3gKa6m89ZjEB1i4VwqxF4s=;
- b=oAjh0ZE5unBi6jU/Z5mvGFkvg8TAgnkG6dXQ1VjRV5cuofS7PCRNFQUECIBELOIHsY
- 78/zEMmNnwJdGSJEUHUcpuLY26YlSMqXsUg2TilyTDVHLtxCtnvPFhP18TSaoyphnAtt
- jWCXlG4wNCo/StOAgXidvba23Z3Zsrx/JFN9YwkTlGkovbBGQU/hBWrWR52Vouwo+L4S
- 5+IoXo4I+2ONY0IfRpCscpnXvjY+e17eLRxzE7c4S3UEHIO8bflkkKANtd4Z7B1EF7Eq
- oFjDkD5qUCoeo7A2A/PZX33nL9RB7q6nk3vzoVB4o2cR/MlskD93DOpx3DbmrrSrXpkw
- PLiw==
-X-Gm-Message-State: AOAM530RgGi9Bhv9dPPkXqOx89RfYVIk3c/2G9sJa53SR4qpf1spwalC
- 6eU7njkQPVqGb5FsdCrP3C5eApMcecm0Fg==
-X-Google-Smtp-Source: ABdhPJyC2PxoenSSNG4DBLyAtOVYkhmypizreMw+9v42t7Wxq04IIlYuYRa9dq6fyVCXmbCael7FXA==
-X-Received: by 2002:adf:9144:: with SMTP id j62mr3451218wrj.419.1607529745992; 
- Wed, 09 Dec 2020 08:02:25 -0800 (PST)
+ bh=UJCnqOqqdmrMiStfwR6XMqq4UZci2YVNv0pWf7hs+Zg=;
+ b=gLNFZgkifeAfIBiZGONvH3YHXa4z+kbAq3ka/xHeY6MrSsfWAFBnAsYfgXjnNFY6m6
+ g6N6A0TIcZqlnw67yhKrxo8r2RSHcJdixo+7KPWeERtY3GoWZlspOZV8oQdOFo9YhHMw
+ mrJkyxHKmeqy4bdqJN7387vApfnD+5Dqp0DoQSO0URIw3wRVHrbSZFdwWHSN5MWreobd
+ K80W1nLU6zwLg2CAf8IejHpj3gjRHUmAguLqIxZfR7mk7ERrmflLWxdyz2i3UGAS/bd2
+ zKgUF33NlQzSpODTI/fImGf5oH7YJTLu70qLfQWdA/Lc2XHcU71Q34K+z7JayoDgcpi7
+ XZuQ==
+X-Gm-Message-State: AOAM533HC9jDv9s+We2LoikbxXWcTeiR3PJZexfknHTz90T911fhMPou
+ Ofp5xq7SAeR5LILEsSSe0o8SqQ==
+X-Google-Smtp-Source: ABdhPJz5GiABN75Mmza4W9tRwIEXYAnrUuodHQgAGPiuE3d4Hf+YYIAKHjU+pLxhAfkz3pQiKIQWNA==
+X-Received: by 2002:a1c:2ec6:: with SMTP id u189mr3586535wmu.31.1607529911338; 
+ Wed, 09 Dec 2020 08:05:11 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id c9sm4592073wrn.65.2020.12.09.08.02.24
+ by smtp.gmail.com with ESMTPSA id f9sm4645159wrw.81.2020.12.09.08.05.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 08:02:25 -0800 (PST)
-Date: Wed, 9 Dec 2020 17:02:23 +0100
+ Wed, 09 Dec 2020 08:05:10 -0800 (PST)
+Date: Wed, 9 Dec 2020 17:05:08 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: rework description of primary and cursor planes
-Message-ID: <20201209160223.GT401619@phenom.ffwll.local>
-References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
- <20201209004223.GL401619@phenom.ffwll.local>
- <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
+To: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v4 02/19] drm: add drmm_encoder_alloc()
+Message-ID: <20201209160508.GU401619@phenom.ffwll.local>
+References: <20201208155451.8421-1-p.zabel@pengutronix.de>
+ <20201208155451.8421-3-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
+In-Reply-To: <20201208155451.8421-3-p.zabel@pengutronix.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,63 +65,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 09, 2020 at 03:58:17PM +0000, Simon Ser wrote:
-> Thanks for the review!
+On Tue, Dec 08, 2020 at 04:54:34PM +0100, Philipp Zabel wrote:
+> Add an alternative to drm_encoder_init() that allocates and initializes
+> an encoder and registers drm_encoder_cleanup() with
+> drmm_add_action_or_reset().
 > 
-> On Wednesday, December 9th, 2020 at 1:42 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Changes since v3:
+>  - allow the funcs parameter to __drmm_encoder_alloc() to be NULL
+> ---
+>  drivers/gpu/drm/drm_encoder.c | 101 ++++++++++++++++++++++++++--------
+>  include/drm/drm_encoder.h     |  30 ++++++++++
+>  2 files changed, 108 insertions(+), 23 deletions(-)
 > 
-> > I think maybe a follow up patch should document how userspace should
-> > figure out how to line up the primary planes with the right crtcs (if it
-> > wishes to know that information, it's not super useful aside from probably
-> > good choice for a fullscreen fallback plane). See my reply on the old
-> > thread.
+> diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
+> index b0b86a3c08f5..cc0edb8361e8 100644
+> --- a/drivers/gpu/drm/drm_encoder.c
+> +++ b/drivers/gpu/drm/drm_encoder.c
+> @@ -26,6 +26,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_managed.h>
+>  
+>  #include "drm_crtc_internal.h"
+>  
+> @@ -91,25 +92,11 @@ void drm_encoder_unregister_all(struct drm_device *dev)
+>  	}
+>  }
+>  
+> -/**
+> - * drm_encoder_init - Init a preallocated encoder
+> - * @dev: drm device
+> - * @encoder: the encoder to init
+> - * @funcs: callbacks for this encoder
+> - * @encoder_type: user visible type of the encoder
+> - * @name: printf style format string for the encoder name, or NULL for default name
+> - *
+> - * Initialises a preallocated encoder. Encoder should be subclassed as part of
+> - * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
+> - * called from the driver's &drm_encoder_funcs.destroy hook.
+> - *
+> - * Returns:
+> - * Zero on success, error code on failure.
+> - */
+> -int drm_encoder_init(struct drm_device *dev,
+> -		     struct drm_encoder *encoder,
+> -		     const struct drm_encoder_funcs *funcs,
+> -		     int encoder_type, const char *name, ...)
+> +__printf(5, 0)
+> +static int __drm_encoder_init(struct drm_device *dev,
+> +			      struct drm_encoder *encoder,
+> +			      const struct drm_encoder_funcs *funcs,
+> +			      int encoder_type, const char *name, va_list ap)
+>  {
+>  	int ret;
+>  
+> @@ -125,11 +112,7 @@ int drm_encoder_init(struct drm_device *dev,
+>  	encoder->encoder_type = encoder_type;
+>  	encoder->funcs = funcs;
+>  	if (name) {
+> -		va_list ap;
+> -
+> -		va_start(ap, name);
+>  		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
+> -		va_end(ap);
+>  	} else {
+>  		encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
+>  					  drm_encoder_enum_list[encoder_type].name,
+> @@ -150,6 +133,36 @@ int drm_encoder_init(struct drm_device *dev,
+>  
+>  	return ret;
+>  }
+> +
+> +/**
+> + * drm_encoder_init - Init a preallocated encoder
+> + * @dev: drm device
+> + * @encoder: the encoder to init
+> + * @funcs: callbacks for this encoder
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL for default name
+> + *
+> + * Initializes a preallocated encoder. Encoder should be subclassed as part of
+> + * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
+> + * called from the driver's &drm_encoder_funcs.destroy hook.
+
+I think this should also mention that ->destroy should kfree() the encoder
+structure, and it should not be allocated with devm_kzalloc.
+
+Also a hint to use drmm_encoder_alloc instead would be good to point
+people in the right direction.
+
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_encoder_init(struct drm_device *dev,
+> +		     struct drm_encoder *encoder,
+> +		     const struct drm_encoder_funcs *funcs,
+> +		     int encoder_type, const char *name, ...)
+> +{
+> +	va_list ap;
+> +	int ret;
+
+WARN_ON(!funcs->destroy);
+
+WARN_ON(!funcs->destroy);
+
+
+> +
+> +	va_start(ap, name);
+> +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+> +	va_end(ap);
+> +
+> +	return ret;
+> +}
+>  EXPORT_SYMBOL(drm_encoder_init);
+>  
+>  /**
+> @@ -181,6 +194,48 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
+>  }
+>  EXPORT_SYMBOL(drm_encoder_cleanup);
+>  
+> +static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
+> +{
+> +	struct drm_encoder *encoder = ptr;
+> +
+> +	if (WARN_ON(!encoder->dev))
+> +		return;
+> +
+> +	drm_encoder_cleanup(encoder);
+> +}
+> +
+> +void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
+> +			   const struct drm_encoder_funcs *funcs,
+> +			   int encoder_type, const char *name, ...)
+> +{
+> +	void *container;
+> +	struct drm_encoder *encoder;
+> +	va_list ap;
+> +	int ret;
+> +
+> +	if (WARN_ON(funcs && funcs->destroy))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	container = drmm_kzalloc(dev, size, GFP_KERNEL);
+> +	if (!container)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	encoder = container + offset;
+> +
+> +	va_start(ap, name);
+> +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+> +	va_end(ap);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return container;
+> +}
+> +EXPORT_SYMBOL(__drmm_encoder_alloc);
+> +
+>  static struct drm_crtc *drm_encoder_get_crtc(struct drm_encoder *encoder)
+>  {
+>  	struct drm_connector *connector;
+> diff --git a/include/drm/drm_encoder.h b/include/drm/drm_encoder.h
+> index 833123637fbf..fb2f56c006db 100644
+> --- a/include/drm/drm_encoder.h
+> +++ b/include/drm/drm_encoder.h
+> @@ -194,6 +194,36 @@ int drm_encoder_init(struct drm_device *dev,
+>  		     const struct drm_encoder_funcs *funcs,
+>  		     int encoder_type, const char *name, ...);
+>  
+> +__printf(6, 7)
+> +void *__drmm_encoder_alloc(struct drm_device *dev,
+> +			   size_t size, size_t offset,
+> +			   const struct drm_encoder_funcs *funcs,
+> +			   int encoder_type,
+> +			   const char *name, ...);
+> +
+> +/**
+> + * drmm_encoder_alloc - Allocate and initialize an encoder
+> + * @dev: drm device
+> + * @type: the type of the struct which contains struct &drm_encoder
+> + * @member: the name of the &drm_encoder within @type.
+> + * @funcs: callbacks for this encoder
+
+@funcsw are optional in this variant.
+
+> + * @encoder_type: user visible type of the encoder
+> + * @name: printf style format string for the encoder name, or NULL for default name
+> + *
+> + * Allocates and initializes an encoder. Encoder should be subclassed as part of
+> + * driver encoder objects. Cleanup is automatically handled through registering
+> + * drm_encoder_cleanup() with drmm_add_action().
+> + *
+> + * The @drm_encoder_funcs.destroy hook must be NULL.
+> + *
+> + * Returns:
+> + * Pointer to new encoder, or ERR_PTR on failure.
+> + */
+> +#define drmm_encoder_alloc(dev, type, member, funcs, encoder_type, name, ...) \
+> +	((type *)__drmm_encoder_alloc(dev, sizeof(type), \
+
+Need to upcast with container_of or this breaks if the base class is in
+the wrong spot.
+
+> +				      offsetof(type, member), funcs, \
+> +				      encoder_type, name, ##__VA_ARGS__))
+> +
+>  /**
+>   * drm_encoder_index - find the index of a registered encoder
+>   * @encoder: encoder to find index for
+
+With the nits addressed:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> -- 
+> 2.20.1
 > 
-> Yeah, as I've already replied, I won't volunteer to document legacy bits,
-> documenting atomic is already enough. :P
 
-This is also somewhat useful as a hint for atomic userspace.
-
-> > And that patch should also add the code to drm_mode_config_validate() to
-> > validate the possible_crtc masks for these. Something like
-> >
-> > 	num_primary = 0; num_cursor = 0;
-> >
-> > 	for_each_plane(plane) {
-> > 		if (plane->type == primary) {
-> > 			WARN_ON(!(plane->possible_crtcs & BIT(num_primary)));
-> > 			num_primary++;
-> > 		}
-> >
-> > 		/* same for cursor */
-> > 	}
-> >
-> > 	WARN_ON(num_primary != dev->mode_config.num_crtcs);
-> > }
-> 
-> Thanks for the suggestion. However I don't see why a driver should ensure
-> this. Isn't it perfectly fine for a driver to use primary plane 2 for CRTC 1,
-> and primary plane 1 for CRTC 2, for the purposes of legacy uAPI?
-
-Yeah but it's a mess. Messes don't make good uapi.
-
-> If we're trying here to invent a new uAPI to let user-space discover the
-> internal legacy primary/cursor pointers, I'm not signing up for this. The
-> requirement you're describing seems like something current drivers ensure
-> "by chance", not an established uAPI. In other words, writing a new driver
-> that doesn't do the same wouldn't break uAPI contracts.
-
-I'm more seeing this as general uapi lock-down. "Everything goes" doesn't
-work great. And it's all the same topic really. Like if your userspace
-really doesn't care about what the primary plane is (like you seem to
-imply), then ofc none of this matters to you, but then also your doc patch
-here doesn't matter.
--Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
