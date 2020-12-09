@@ -1,71 +1,115 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FE02D4887
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 19:04:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 702312D489C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 19:08:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3ABF6EB22;
-	Wed,  9 Dec 2020 18:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 899786EA8E;
+	Wed,  9 Dec 2020 18:08:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559436E19C
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 18:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607537075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3PbwsGxDvfW0LbCU0yoVuxlXMfsh/ZypY1/qMHX8YuQ=;
- b=FYfE9gdMfAlA8PsNZKPddoNIcxHKl/SpOm2LLAStoIR/AQnEDz8sOCXenDX1VwrpOAgVzk
- K1HGWNGuCUB+Eg2zEWBZi5N5Ilvy02F+QO1To1B8aEa5sFKRmn1e9FNxMYCqXvz/7Z9l4R
- 8xL5QCl7/FRzm2y2WxDxXTUCHdvy0AM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-98T2vVr3OpOW4XTFOEsZHw-1; Wed, 09 Dec 2020 13:04:30 -0500
-X-MC-Unique: 98T2vVr3OpOW4XTFOEsZHw-1
-Received: by mail-qv1-f69.google.com with SMTP id 102so1750822qva.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 10:04:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3PbwsGxDvfW0LbCU0yoVuxlXMfsh/ZypY1/qMHX8YuQ=;
- b=j/FPZmFk6DMZZ6l4kRXg2j995KFCjmukGn95hIBWXz/F5EvFIu2ihOLghhjMEOohxH
- 3Q63O637lbswZRjfVhPMrQblOos0GE4J3DnOMGRf/OtPgCPtav/xy1enA7UpRdyzydvO
- R1aA6rYaZkdXwF0VE4CNbqE0ork/5rkswRTPkVjOGlu4jpaYp1VZC7YqxjcRqOmbzdh8
- 6bfZPPS5jW3o5A5cKPyrtYpgOoTCLnwe1hYqtAyZR/Ycg4AGEmbQ+R1OnFYVTXO7GuzX
- L/CnCpBTuZWzOXp0Vk9TCHGiBpjczExuDAUCd5YqOt3osmqbZXk0Upygv2tK16ytzHFu
- 7YKQ==
-X-Gm-Message-State: AOAM531vElPkrRquZyGkyJbHp6kbM1D3SxyHyDLU1dPlYLHdqKbPBlQ0
- zaWtGW0MioXbD0IJRE7434bEE6zxDCmN0stRkWRGKwnH6giO+pFKMN/p5E1C83lCO6uisqI7hlm
- AVa7Ds58B8MnABzyRILRhZ9i43peQ
-X-Received: by 2002:a37:9c4a:: with SMTP id f71mr4368372qke.495.1607537069362; 
- Wed, 09 Dec 2020 10:04:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyr/1apxVN5Ij7nu5yhZTtXAiXkdKr8Jhpe0b4Wi6t0LUh7XItYafvrRFOt9NxrpZpRzu4ibw==
-X-Received: by 2002:a37:9c4a:: with SMTP id f71mr4368335qke.495.1607537068982; 
- Wed, 09 Dec 2020 10:04:28 -0800 (PST)
-Received: from xps13 ([2605:a601:a63a:4d01:c3c1:7008:ba35:96])
- by smtp.gmail.com with ESMTPSA id q73sm1597131qke.16.2020.12.09.10.04.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 10:04:28 -0800 (PST)
-Date: Wed, 9 Dec 2020 13:04:26 -0500
-From: Jeremy Cline <jcline@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 13/20] drm/nouveau: Remove references to struct
- drm_device.pdev
-Message-ID: <20201209180426.GA8635@xps13>
-References: <20201201103542.2182-1-tzimmermann@suse.de>
- <20201201103542.2182-14-tzimmermann@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD7CC6EA8E
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 18:08:35 +0000 (UTC)
+IronPort-SDR: WJzwcqAI4w0zjs+EhQys3hSHh4r+ZhERk/vqpYXOqCSJdrQRkM0cLvq54abfiOIlGzlE1fXYPV
+ ua4e+B/PcTPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="258836387"
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; d="scan'208";a="258836387"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2020 10:08:35 -0800
+IronPort-SDR: WtlN1aHi8NF4cLzvXXhCXmwMjuMSh25Sqvm03zH61uE2FDPwITBaL5syG97YaqoCQKxzSRJIXt
+ MHzVQLa5w5Qw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; d="scan'208";a="348424559"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga002.jf.intel.com with ESMTP; 09 Dec 2020 10:08:34 -0800
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 9 Dec 2020 10:08:34 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Wed, 9 Dec 2020 10:08:34 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Wed, 9 Dec 2020 10:08:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fvxYQikVvw2ilC3EOfPpeK3ldjkW/bA29F/uUwmHnAJwVMBWZLXKL/PYjNj345uSisQTX0SA3GwOdvcDt+oktEqc9Metwpa2ElLcd41kjv11BQ9q18tl0rmZLsDgyxyF+8L+KXwHBLHeBCq5dPLDb1RGEYHtIiZzbzy7cBpCuliQ/Z0yZHLl4TsDJfz2FFIl9+Z/0RSAtQVLMX9D8wWGOnThyWNytzwQTcZ1eJOGlJyFo8aNiCpvv5JoLaEVr9tjrIpICmA6N+lVc9PVwD9yw7h4odxpPvyawroZs1B45jDb3AMfcKxJl2DDmxIpJeI83wrPO2k6IOERlBdomPQmgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HENYitteGSuT4tOe2C9EyWYuE1fRWFGrtic/ZszZ3ME=;
+ b=FID9jLnxW3BicDimtrRgVl+ZeucrhHMWILVIx4ukSOFo/BcifsSnNM8L9+JUe8gFyw5pK3JDmt94SKfezKEgTGiANuERScRj43yzwg4CESfgzHxA5a9VrJw2MuNvtx5A4tFnDQudUJg3l4+ZoC8gMT1hpGfFZLb8AceBlX30uBFKF/MJcl7IABrffDqYBaAlj5KzwCA91WBscBVG+1EEheuhzWCXfeXFyl5lPpI489VkHZYZNBGvXAl50K3pNe+QQRHG4lo0zPP47GAM55K9zipd3yUXktsI6vvCsPtEGnTlPp+AOC+UWghiRkAxLeF0N/Z7iL7qRNh0uLzDDT8cJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HENYitteGSuT4tOe2C9EyWYuE1fRWFGrtic/ZszZ3ME=;
+ b=Lu7F9qKIYjPJS5M+cr6UATPyhBELhPDqIeoi6/D6pF2sny0g3ngFUwA+k4HvXMcvk3+KPKiK+Lv113MjYwy287HDMDLauGtrXFCU7oCEhiIaaWwNhTEAX9/lnmGo09LcdrJEkfGA4VRrBUcw6hPasWnGHQS8YSKOhChfmEsvO1w=
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com (2603:10b6:303:2e::24)
+ by CO1PR11MB4945.namprd11.prod.outlook.com (2603:10b6:303:9c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Wed, 9 Dec
+ 2020 18:08:00 +0000
+Received: from MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7510:71a5:3cfe:ab94]) by MW3PR11MB4555.namprd11.prod.outlook.com
+ ([fe80::7510:71a5:3cfe:ab94%9]) with mapi id 15.20.3654.012; Wed, 9 Dec 2020
+ 18:07:59 +0000
+From: "Xiong, Jianxin" <jianxin.xiong@intel.com>
+To: Leon Romanovsky <leon@kernel.org>
+Subject: RE: [PATCH v14 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Thread-Topic: [PATCH v14 1/4] RDMA/umem: Support importing dma-buf as user
+ memory region
+Thread-Index: AQHWzbDRIGL8UuxXakeT3neb1dqioKnuTjwAgADB0tA=
+Date: Wed, 9 Dec 2020 18:07:59 +0000
+Message-ID: <MW3PR11MB4555499044DA7D47BCD04719E5CC0@MW3PR11MB4555.namprd11.prod.outlook.com>
+References: <1607467155-92725-1-git-send-email-jianxin.xiong@intel.com>
+ <1607467155-92725-2-git-send-email-jianxin.xiong@intel.com>
+ <20201209063038.GL4430@unreal>
+In-Reply-To: <20201209063038.GL4430@unreal>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.53.14.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9c9f0321-e006-446b-17d7-08d89c6d5cf0
+x-ms-traffictypediagnostic: CO1PR11MB4945:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CO1PR11MB4945D389D8B072BC8E47285AE5CC0@CO1PR11MB4945.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2733;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sOZ8FLT7Kj6Uw5XPbQfmnlq16t68vS8RT4bRkNaQ0RYNA5/dxZkUjVXlJxmKerl0aZvmVELMMXsyydH1R57Y1a15Dp/9AR6jPR+Oij3VGXE012pUvaNJa3v/j7iDRuOHf7UwQblbNk1sPtotOYbS7qFIMhiCo/fCUYvUr+O8OvNQtTSpMycf01/aWa/NaJYU8zp6hEFw7ceIyQv4jr9tQDlOMyxhXMDNkR9q1RXXTuaAf0M1PnYwODEy4/1Yuv1ECQrLOHcDZ0d18PzDI8T3FgmdfJ/bunO1QgTPkA7KddUtAdWC+HgQhZQ8ioEXC+3kF2xM5syY5MXbl5mFyiuE2A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR11MB4555.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(376002)(136003)(186003)(6916009)(52536014)(26005)(6506007)(8936002)(66556008)(76116006)(66446008)(55016002)(86362001)(66476007)(54906003)(7696005)(9686003)(66946007)(64756008)(2906002)(107886003)(8676002)(4326008)(71200400001)(5660300002)(508600001)(53546011)(33656002)(83380400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: +ujUctfarHA5yDEuKTSkADk8oBG1hPo7RTV48ad9jnEKYxP1wSQJqUUoAXpGfqF1r5U+h9J6rAT1qjqWhGltjymsbSZYAi3CS7e1clwUbvqyGDjOSEyklNtjAUPKYWmp4fdvWgKN74dgAUPHuIQac127nKMrnH8tP8IgJLf44oIjFv5qv+9wTClHjNIsjRXBOhA7BwbLpOaa0tcbG99M1gEGiAJHuJ+qPrDp2HiKZWY39+2wnqxZs/oWGMtq4h0CIwDtRRsdJT4mtPE6pO4V6yQtKtt+4sw/MIe7O/ZkPTpV/ZBHkk4YLCt+67LuxUbR4H2ZGtBR6wAnoS4I9bPoqe7hszidt2uKwD2p8mB6yxwaAH2VBQNRQWBqEWMjsgpbajnUD53Pdafjx+sEdgFo6FbCTJWINjQPKIIweuc5XvcMK06MfXyrYgspukFi9mFJ7aDnijj/dgYP07KppLPAOD1b6EcSJL5ESnOqZcUpjUqaE1Ljbs9B4Gxh5AKDiMhTA/6XO81zwzbLZ4Nk+DAETclXwOLvFWpx6mgIV8LdEXf1kHJsFTTgpz0sQVzztvaKmPUl2BGCXGUeERVxQhsUyAdblYRW26JqshHFlMDiYwhmucxPj1qBU4vazUdQgoVDOm9XYdvMD373uravdDunNFsBNu4stbp4X7lLMmnIlAN3Sw/Qzw00YzhMDv17DCThu1sBW/VE4JhYOfgrxe28S4NVL5W6QD9ykSWqtf+r17k=
 MIME-Version: 1.0
-In-Reply-To: <20201201103542.2182-14-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jcline@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR11MB4555.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c9f0321-e006-446b-17d7-08d89c6d5cf0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Dec 2020 18:07:59.6207 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NOBtfvRocwOTYbo/wa+dqFXL6+WVSndFTt/aDzRGy3PtF5pFXWA5bO4FFTfK9qqdI4xn7a/07PXywVyct/4yMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4945
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,421 +122,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, amd-gfx@lists.freedesktop.org,
- spice-devel@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- Ben Skeggs <bskeggs@redhat.com>
+Cc: "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Christian Koenig <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Doug
+ Ledford <dledford@redhat.com>, "Vetter, Daniel" <daniel.vetter@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Dec 01, 2020 at 11:35:35AM +0100, Thomas Zimmermann wrote:
-> Using struct drm_device.pdev is deprecated. Convert nouveau to struct
-> drm_device.dev. No functional changes.
+> -----Original Message-----
+> From: Leon Romanovsky <leon@kernel.org>
+> Sent: Tuesday, December 08, 2020 10:31 PM
+> To: Xiong, Jianxin <jianxin.xiong@intel.com>
+> Cc: linux-rdma@vger.kernel.org; dri-devel@lists.freedesktop.org; Doug Ledford <dledford@redhat.com>; Jason Gunthorpe <jgg@ziepe.ca>;
+> Sumit Semwal <sumit.semwal@linaro.org>; Christian Koenig <christian.koenig@amd.com>; Vetter, Daniel <daniel.vetter@intel.com>
+> Subject: Re: [PATCH v14 1/4] RDMA/umem: Support importing dma-buf as user memory region
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Ben Skeggs <bskeggs@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/dispnv04/arb.c      | 12 +++++++-----
->  drivers/gpu/drm/nouveau/dispnv04/disp.h     | 14 ++++++++------
->  drivers/gpu/drm/nouveau/dispnv04/hw.c       | 10 ++++++----
->  drivers/gpu/drm/nouveau/nouveau_abi16.c     |  7 ++++---
->  drivers/gpu/drm/nouveau/nouveau_acpi.c      |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_bios.c      | 11 ++++++++---
->  drivers/gpu/drm/nouveau/nouveau_connector.c | 10 ++++++----
->  drivers/gpu/drm/nouveau/nouveau_drm.c       |  5 ++---
->  drivers/gpu/drm/nouveau/nouveau_fbcon.c     |  6 ++++--
->  drivers/gpu/drm/nouveau/nouveau_vga.c       | 20 ++++++++++++--------
->  10 files changed, 58 insertions(+), 39 deletions(-)
+> On Tue, Dec 08, 2020 at 02:39:12PM -0800, Jianxin Xiong wrote:
+> > Dma-buf is a standard cross-driver buffer sharing mechanism that can
+> > be used to support peer-to-peer access from RDMA devices.
+> >
+> > Device memory exported via dma-buf is associated with a file descriptor.
+> > This is passed to the user space as a property associated with the
+> > buffer allocation. When the buffer is registered as a memory region,
+> > the file descriptor is passed to the RDMA driver along with other
+> > parameters.
+> >
+> > Implement the common code for importing dma-buf object and mapping
+> > dma-buf pages.
+> >
+> > Signed-off-by: Jianxin Xiong <jianxin.xiong@intel.com>
+> > Reviewed-by: Sean Hefty <sean.hefty@intel.com>
+> > Acked-by: Michael J. Ruhl <michael.j.ruhl@intel.com>
+> > Acked-by: Christian Koenig <christian.koenig@amd.com>
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > ---
+> >  drivers/infiniband/core/Makefile      |   2 +-
+> >  drivers/infiniband/core/umem.c        |   3 +
+> >  drivers/infiniband/core/umem_dmabuf.c | 174 ++++++++++++++++++++++++++++++++++
+> >  include/rdma/ib_umem.h                |  47 ++++++++-
+> >  4 files changed, 222 insertions(+), 4 deletions(-)  create mode
+> > 100644 drivers/infiniband/core/umem_dmabuf.c
 > 
-
-I believe there's a use of drm_device.pdev in
-drivers/gpu/drm/nouveau/dispnv04/dfp.c in the
-nv04_dfp_update_backlight() function.
-
-Other than that, this looks good to me.
-
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/arb.c b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-> index 9d4a2d97507e..1d3542d6006b 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/arb.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/arb.c
-> @@ -200,16 +200,17 @@ nv04_update_arb(struct drm_device *dev, int VClk, int bpp,
->  	int MClk = nouveau_hw_get_clock(dev, PLL_MEMORY);
->  	int NVClk = nouveau_hw_get_clock(dev, PLL_CORE);
->  	uint32_t cfg1 = nvif_rd32(device, NV04_PFB_CFG1);
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
->  	sim_data.pclk_khz = VClk;
->  	sim_data.mclk_khz = MClk;
->  	sim_data.nvclk_khz = NVClk;
->  	sim_data.bpp = bpp;
->  	sim_data.two_heads = nv_two_heads(dev);
-> -	if ((dev->pdev->device & 0xffff) == 0x01a0 /*CHIPSET_NFORCE*/ ||
-> -	    (dev->pdev->device & 0xffff) == 0x01f0 /*CHIPSET_NFORCE2*/) {
-> +	if ((pdev->device & 0xffff) == 0x01a0 /*CHIPSET_NFORCE*/ ||
-> +	    (pdev->device & 0xffff) == 0x01f0 /*CHIPSET_NFORCE2*/) {
->  		uint32_t type;
-> -		int domain = pci_domain_nr(dev->pdev->bus);
-> +		int domain = pci_domain_nr(pdev->bus);
->  
->  		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 1),
->  				      0x7c, &type);
-> @@ -251,11 +252,12 @@ void
->  nouveau_calc_arb(struct drm_device *dev, int vclk, int bpp, int *burst, int *lwm)
->  {
->  	struct nouveau_drm *drm = nouveau_drm(dev);
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
->  	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_KELVIN)
->  		nv04_update_arb(dev, vclk, bpp, burst, lwm);
-> -	else if ((dev->pdev->device & 0xfff0) == 0x0240 /*CHIPSET_C51*/ ||
-> -		 (dev->pdev->device & 0xfff0) == 0x03d0 /*CHIPSET_C512*/) {
-> +	else if ((pdev->device & 0xfff0) == 0x0240 /*CHIPSET_C51*/ ||
-> +		 (pdev->device & 0xfff0) == 0x03d0 /*CHIPSET_C512*/) {
->  		*burst = 128;
->  		*lwm = 0x0480;
->  	} else
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/disp.h b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-> index 5ace5e906949..f0a24126641a 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/disp.h
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/disp.h
-> @@ -130,7 +130,7 @@ static inline bool
->  nv_two_heads(struct drm_device *dev)
->  {
->  	struct nouveau_drm *drm = nouveau_drm(dev);
-> -	const int impl = dev->pdev->device & 0x0ff0;
-> +	const int impl = to_pci_dev(dev->dev)->device & 0x0ff0;
->  
->  	if (drm->client.device.info.family >= NV_DEVICE_INFO_V0_CELSIUS && impl != 0x0100 &&
->  	    impl != 0x0150 && impl != 0x01a0 && impl != 0x0200)
-> @@ -142,14 +142,14 @@ nv_two_heads(struct drm_device *dev)
->  static inline bool
->  nv_gf4_disp_arch(struct drm_device *dev)
->  {
-> -	return nv_two_heads(dev) && (dev->pdev->device & 0x0ff0) != 0x0110;
-> +	return nv_two_heads(dev) && (to_pci_dev(dev->dev)->device & 0x0ff0) != 0x0110;
->  }
->  
->  static inline bool
->  nv_two_reg_pll(struct drm_device *dev)
->  {
->  	struct nouveau_drm *drm = nouveau_drm(dev);
-> -	const int impl = dev->pdev->device & 0x0ff0;
-> +	const int impl = to_pci_dev(dev->dev)->device & 0x0ff0;
->  
->  	if (impl == 0x0310 || impl == 0x0340 || drm->client.device.info.family >= NV_DEVICE_INFO_V0_CURIE)
->  		return true;
-> @@ -160,9 +160,11 @@ static inline bool
->  nv_match_device(struct drm_device *dev, unsigned device,
->  		unsigned sub_vendor, unsigned sub_device)
->  {
-> -	return dev->pdev->device == device &&
-> -		dev->pdev->subsystem_vendor == sub_vendor &&
-> -		dev->pdev->subsystem_device == sub_device;
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +
-> +	return pdev->device == device &&
-> +		pdev->subsystem_vendor == sub_vendor &&
-> +		pdev->subsystem_device == sub_device;
->  }
->  
->  #include <subdev/bios/init.h>
-> diff --git a/drivers/gpu/drm/nouveau/dispnv04/hw.c b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-> index b674d68ef28a..f7d35657aa64 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv04/hw.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv04/hw.c
-> @@ -214,14 +214,15 @@ nouveau_hw_pllvals_to_clk(struct nvkm_pll_vals *pv)
->  int
->  nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type plltype)
->  {
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  	struct nvkm_pll_vals pllvals;
->  	int ret;
->  	int domain;
->  
-> -	domain = pci_domain_nr(dev->pdev->bus);
-> +	domain = pci_domain_nr(pdev->bus);
->  
->  	if (plltype == PLL_MEMORY &&
-> -	    (dev->pdev->device & 0x0ff0) == CHIPSET_NFORCE) {
-> +	    (pdev->device & 0x0ff0) == CHIPSET_NFORCE) {
->  		uint32_t mpllP;
->  		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 3),
->  				      0x6c, &mpllP);
-> @@ -232,7 +233,7 @@ nouveau_hw_get_clock(struct drm_device *dev, enum nvbios_pll_type plltype)
->  		return 400000 / mpllP;
->  	} else
->  	if (plltype == PLL_MEMORY &&
-> -	    (dev->pdev->device & 0xff0) == CHIPSET_NFORCE2) {
-> +	    (pdev->device & 0xff0) == CHIPSET_NFORCE2) {
->  		uint32_t clock;
->  
->  		pci_read_config_dword(pci_get_domain_bus_and_slot(domain, 0, 5),
-> @@ -309,6 +310,7 @@ void
->  nouveau_hw_save_vga_fonts(struct drm_device *dev, bool save)
->  {
->  	struct nouveau_drm *drm = nouveau_drm(dev);
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  	uint8_t misc, gr4, gr5, gr6, seq2, seq4;
->  	bool graphicsmode;
->  	unsigned plane;
-> @@ -327,7 +329,7 @@ nouveau_hw_save_vga_fonts(struct drm_device *dev, bool save)
->  	NV_INFO(drm, "%sing VGA fonts\n", save ? "Sav" : "Restor");
->  
->  	/* map first 64KiB of VRAM, holds VGA fonts etc */
-> -	iovram = ioremap(pci_resource_start(dev->pdev, 1), 65536);
-> +	iovram = ioremap(pci_resource_start(pdev, 1), 65536);
->  	if (!iovram) {
->  		NV_ERROR(drm, "Failed to map VRAM, "
->  					"cannot save/restore VGA fonts.\n");
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_abi16.c b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-> index 9a5be6f32424..f08b31d84d4d 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_abi16.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_abi16.c
-> @@ -181,6 +181,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->  	struct nvif_device *device = &drm->client.device;
->  	struct nvkm_gr *gr = nvxx_gr(device);
->  	struct drm_nouveau_getparam *getparam = data;
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
->  	switch (getparam->param) {
->  	case NOUVEAU_GETPARAM_CHIPSET_ID:
-> @@ -188,13 +189,13 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->  		break;
->  	case NOUVEAU_GETPARAM_PCI_VENDOR:
->  		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
-> -			getparam->value = dev->pdev->vendor;
-> +			getparam->value = pdev->vendor;
->  		else
->  			getparam->value = 0;
->  		break;
->  	case NOUVEAU_GETPARAM_PCI_DEVICE:
->  		if (device->info.platform != NV_DEVICE_INFO_V0_SOC)
-> -			getparam->value = dev->pdev->device;
-> +			getparam->value = pdev->device;
->  		else
->  			getparam->value = 0;
->  		break;
-> @@ -205,7 +206,7 @@ nouveau_abi16_ioctl_getparam(ABI16_IOCTL_ARGS)
->  		case NV_DEVICE_INFO_V0_PCIE: getparam->value = 2; break;
->  		case NV_DEVICE_INFO_V0_SOC : getparam->value = 3; break;
->  		case NV_DEVICE_INFO_V0_IGP :
-> -			if (!pci_is_pcie(dev->pdev))
-> +			if (!pci_is_pcie(pdev))
->  				getparam->value = 1;
->  			else
->  				getparam->value = 2;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_acpi.c b/drivers/gpu/drm/nouveau/nouveau_acpi.c
-> index 69a84d0197d0..7c15f6448428 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_acpi.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_acpi.c
-> @@ -377,7 +377,7 @@ nouveau_acpi_edid(struct drm_device *dev, struct drm_connector *connector)
->  		return NULL;
->  	}
->  
-> -	handle = ACPI_HANDLE(&dev->pdev->dev);
-> +	handle = ACPI_HANDLE(dev->dev);
->  	if (!handle)
->  		return NULL;
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bios.c b/drivers/gpu/drm/nouveau/nouveau_bios.c
-> index d204ea8a5618..7cc683b8dc7a 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bios.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bios.c
-> @@ -110,6 +110,9 @@ static int call_lvds_manufacturer_script(struct drm_device *dev, struct dcb_outp
->  	struct nvbios *bios = &drm->vbios;
->  	uint8_t sub = bios->data[bios->fp.xlated_entry + script] + (bios->fp.link_c_increment && dcbent->or & DCB_OUTPUT_C ? 1 : 0);
->  	uint16_t scriptofs = ROM16(bios->data[bios->init_script_tbls_ptr + sub * 2]);
-> +#ifdef __powerpc__
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +#endif
->  
->  	if (!bios->fp.xlated_entry || !sub || !scriptofs)
->  		return -EINVAL;
-> @@ -123,8 +126,8 @@ static int call_lvds_manufacturer_script(struct drm_device *dev, struct dcb_outp
->  #ifdef __powerpc__
->  	/* Powerbook specific quirks */
->  	if (script == LVDS_RESET &&
-> -	    (dev->pdev->device == 0x0179 || dev->pdev->device == 0x0189 ||
-> -	     dev->pdev->device == 0x0329))
-> +	    (pdev->device == 0x0179 || pdev->device == 0x0189 ||
-> +	     pdev->device == 0x0329))
->  		nv_write_tmds(dev, dcbent->or, 0, 0x02, 0x72);
->  #endif
->  
-> @@ -2080,11 +2083,13 @@ nouveau_bios_init(struct drm_device *dev)
->  {
->  	struct nouveau_drm *drm = nouveau_drm(dev);
->  	struct nvbios *bios = &drm->vbios;
-> +	struct pci_dev *pdev;
->  	int ret;
->  
->  	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->  		return 0;
-> +	pdev = to_pci_dev(dev->dev);
->  
->  	if (!NVInitVBIOS(dev))
->  		return -ENODEV;
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 8b4b3688c7ae..14c29e68db8f 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -411,6 +411,7 @@ static struct nouveau_encoder *
->  nouveau_connector_ddc_detect(struct drm_connector *connector)
->  {
->  	struct drm_device *dev = connector->dev;
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  	struct nouveau_encoder *nv_encoder = NULL, *found = NULL;
->  	struct drm_encoder *encoder;
->  	int ret;
-> @@ -438,11 +439,11 @@ nouveau_connector_ddc_detect(struct drm_connector *connector)
->  				break;
->  
->  			if (switcheroo_ddc)
-> -				vga_switcheroo_lock_ddc(dev->pdev);
-> +				vga_switcheroo_lock_ddc(pdev);
->  			if (nvkm_probe_i2c(nv_encoder->i2c, 0x50))
->  				found = nv_encoder;
->  			if (switcheroo_ddc)
-> -				vga_switcheroo_unlock_ddc(dev->pdev);
-> +				vga_switcheroo_unlock_ddc(pdev);
->  
->  			break;
->  		}
-> @@ -490,6 +491,7 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
->  	struct nouveau_connector *nv_connector = nouveau_connector(connector);
->  	struct nouveau_drm *drm = nouveau_drm(connector->dev);
->  	struct drm_device *dev = connector->dev;
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
->  	if (nv_connector->detected_encoder == nv_encoder)
->  		return;
-> @@ -511,8 +513,8 @@ nouveau_connector_set_encoder(struct drm_connector *connector,
->  		connector->doublescan_allowed = true;
->  		if (drm->client.device.info.family == NV_DEVICE_INFO_V0_KELVIN ||
->  		    (drm->client.device.info.family == NV_DEVICE_INFO_V0_CELSIUS &&
-> -		     (dev->pdev->device & 0x0ff0) != 0x0100 &&
-> -		     (dev->pdev->device & 0x0ff0) != 0x0150))
-> +		     (pdev->device & 0x0ff0) != 0x0100 &&
-> +		     (pdev->device & 0x0ff0) != 0x0150))
->  			/* HW is broken */
->  			connector->interlace_allowed = false;
->  		else
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> index d141a5f004af..1b2169e9c295 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-> @@ -115,8 +115,8 @@ nouveau_platform_name(struct platform_device *platformdev)
->  static u64
->  nouveau_name(struct drm_device *dev)
->  {
-> -	if (dev->pdev)
-> -		return nouveau_pci_name(dev->pdev);
-> +	if (dev_is_pci(dev->dev))
-> +		return nouveau_pci_name(to_pci_dev(dev->dev));
->  	else
->  		return nouveau_platform_name(to_platform_device(dev->dev));
->  }
-> @@ -760,7 +760,6 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
->  	if (ret)
->  		goto fail_drm;
->  
-> -	drm_dev->pdev = pdev;
->  	pci_set_drvdata(pdev, drm_dev);
->  
->  	ret = nouveau_drm_device_init(drm_dev);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fbcon.c b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-> index 24ec5339efb4..4fc0fa696461 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fbcon.c
-> @@ -396,7 +396,9 @@ nouveau_fbcon_create(struct drm_fb_helper *helper,
->  	NV_INFO(drm, "allocated %dx%d fb: 0x%llx, bo %p\n",
->  		fb->width, fb->height, nvbo->offset, nvbo);
->  
-> -	vga_switcheroo_client_fb_set(dev->pdev, info);
-> +	if (dev_is_pci(dev->dev))
-> +		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), info);
-> +
->  	return 0;
->  
->  out_unlock:
-> @@ -548,7 +550,7 @@ nouveau_fbcon_init(struct drm_device *dev)
->  	int ret;
->  
->  	if (!dev->mode_config.num_crtc ||
-> -	    (dev->pdev->class >> 8) != PCI_CLASS_DISPLAY_VGA)
-> +	    (to_pci_dev(dev->dev)->class >> 8) != PCI_CLASS_DISPLAY_VGA)
->  		return 0;
->  
->  	fbcon = kzalloc(sizeof(struct nouveau_fbdev), GFP_KERNEL);
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_vga.c b/drivers/gpu/drm/nouveau/nouveau_vga.c
-> index c85dd8afa3c3..7c4b374b3eca 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_vga.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_vga.c
-> @@ -87,18 +87,20 @@ nouveau_vga_init(struct nouveau_drm *drm)
->  {
->  	struct drm_device *dev = drm->dev;
->  	bool runtime = nouveau_pmops_runtime();
-> +	struct pci_dev *pdev;
->  
->  	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->  		return;
-> +	pdev = to_pci_dev(dev->dev);
->  
-> -	vga_client_register(dev->pdev, dev, NULL, nouveau_vga_set_decode);
-> +	vga_client_register(pdev, dev, NULL, nouveau_vga_set_decode);
->  
->  	/* don't register Thunderbolt eGPU with vga_switcheroo */
-> -	if (pci_is_thunderbolt_attached(dev->pdev))
-> +	if (pci_is_thunderbolt_attached(pdev))
->  		return;
->  
-> -	vga_switcheroo_register_client(dev->pdev, &nouveau_switcheroo_ops, runtime);
-> +	vga_switcheroo_register_client(pdev, &nouveau_switcheroo_ops, runtime);
->  
->  	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
->  		vga_switcheroo_init_domain_pm_ops(drm->dev->dev, &drm->vga_pm_domain);
-> @@ -109,17 +111,19 @@ nouveau_vga_fini(struct nouveau_drm *drm)
->  {
->  	struct drm_device *dev = drm->dev;
->  	bool runtime = nouveau_pmops_runtime();
-> +	struct pci_dev *pdev;
->  
->  	/* only relevant for PCI devices */
-> -	if (!dev->pdev)
-> +	if (!dev_is_pci(dev->dev))
->  		return;
-> +	pdev = to_pci_dev(dev->dev);
->  
-> -	vga_client_register(dev->pdev, NULL, NULL, NULL);
-> +	vga_client_register(pdev, NULL, NULL, NULL);
->  
-> -	if (pci_is_thunderbolt_attached(dev->pdev))
-> +	if (pci_is_thunderbolt_attached(pdev))
->  		return;
->  
-> -	vga_switcheroo_unregister_client(dev->pdev);
-> +	vga_switcheroo_unregister_client(pdev);
->  	if (runtime && nouveau_is_v1_dsm() && !nouveau_is_optimus())
->  		vga_switcheroo_fini_domain_pm_ops(drm->dev->dev);
->  }
-> -- 
-> 2.29.2
+> <...>
 > 
-> _______________________________________________
-> intel-gvt-dev mailing list
-> intel-gvt-dev@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+> > +int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf) {
+> > +	struct sg_table *sgt;
+> > +	struct scatterlist *sg;
+> > +	struct dma_fence *fence;
+> > +	unsigned long start, end, cur = 0;
+> > +	unsigned int nmap = 0;
+> > +	int i;
+> > +
+> > +	dma_resv_assert_held(umem_dmabuf->attach->dmabuf->resv);
+> > +
+> > +	if (umem_dmabuf->sgt)
+> > +		goto wait_fence;
+> > +
+> > +	sgt = dma_buf_map_attachment(umem_dmabuf->attach, DMA_BIDIRECTIONAL);
+> > +	if (IS_ERR(sgt))
+> > +		return PTR_ERR(sgt);
+> > +
+> > +	/* modify the sg list in-place to match umem address and length */
+> > +
+> > +	start = ALIGN_DOWN(umem_dmabuf->umem.address, PAGE_SIZE);
+> > +	end = ALIGN(umem_dmabuf->umem.address + umem_dmabuf->umem.length,
+> > +		    PAGE_SIZE);
+> > +	for_each_sgtable_dma_sg(sgt, sg, i) {
+> > +		if (start < cur + sg_dma_len(sg) && cur < end)
+> > +			nmap++;
+> > +		if (cur <= start && start < cur + sg_dma_len(sg)) {
+> > +			unsigned long offset = start - cur;
+> > +
+> > +			umem_dmabuf->first_sg = sg;
+> > +			umem_dmabuf->first_sg_offset = offset;
+> > +			sg_dma_address(sg) += offset;
+> > +			sg_dma_len(sg) -= offset;
+> > +			cur += offset;
+> > +		}
+> > +		if (cur < end && end <= cur + sg_dma_len(sg)) {
+> > +			unsigned long trim = cur + sg_dma_len(sg) - end;
+> > +
+> > +			umem_dmabuf->last_sg = sg;
+> > +			umem_dmabuf->last_sg_trim = trim;
+> > +			sg_dma_len(sg) -= trim;
+> > +			break;
+> > +		}
+> > +		cur += sg_dma_len(sg);
+> > +	}
+> > +
+> > +	umem_dmabuf->umem.sg_head.sgl = umem_dmabuf->first_sg;
+> > +	umem_dmabuf->umem.sg_head.nents = nmap;
+> > +	umem_dmabuf->umem.nmap = nmap;
+> > +	umem_dmabuf->sgt = sgt;
+> > +
+> > +wait_fence:
+> > +	/*
+> > +	 * Although the sg list is valid now, the content of the pages
+> > +	 * may be not up-to-date. Wait for the exporter to finish
+> > +	 * the migration.
+> > +	 */
+> > +	fence = dma_resv_get_excl(umem_dmabuf->attach->dmabuf->resv);
+> > +	if (fence)
+> > +		return dma_fence_wait(fence, false);
 > 
+> You called to dma_buf_map_attachment() earlier in this function, so if you return an error here, the dma_buf won't be unmapped in
+> pagefault_dmabuf_mr()
 
+Yes, that's by design. Next time ib_unen_dmabuf_map_pages() is called, dma_buf_map_attachment() will be skipped and dma_fence_wait() is retried.
+
+> 
+> Thanks
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
