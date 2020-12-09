@@ -2,62 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438B82D37E0
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 01:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B342E2D37E7
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 01:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFCB6E207;
-	Wed,  9 Dec 2020 00:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7B1E6E0D4;
+	Wed,  9 Dec 2020 00:42:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41F5B6E207
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 00:36:41 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a3so4157wmb.5
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 16:36:41 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1F56E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 00:42:26 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id a12so150080wrv.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 16:42:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=KX3QwHJgdKN+hhic1XPU1VcL2PhYcRCZPQbGlwqmg2g=;
- b=aE+jQQxD9FBms1zFQ1peNSlbJvIYh8cq99sayf+Mf+N5IKzJNdQvu+EvHusqDdV1+1
- hEqvAzkAZ0YBdiIddtqHo4vFNOorM1aLsUumRVaKx8L0IUZoiaRrCRG8j5NUETgBymfx
- thpEAopLz8eYxII270t3ytWwKuXqH6lDATSvs=
+ :content-disposition:in-reply-to;
+ bh=Nsb/Wg9UpFAZ7Jm/nzZfro+2Ntvaqt95xxlPjhSib98=;
+ b=dgwUTRq84Qg7LOS/5ed33qBqfsMw60pFgtFIpkj6oSY9NfapP61FaIu2UMYG5As5+Q
+ M4QG892XgWg/AcSGfWtyXRonlkc1u5s/IyaNO8Ezc8r5BBqRTMktCh+HBjsRfQMmWO7w
+ qHj8+yQiX2hcMRTp1MUKpyNtC5i15CWbA9Org=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KX3QwHJgdKN+hhic1XPU1VcL2PhYcRCZPQbGlwqmg2g=;
- b=dIkx1qV/5GhYkyqt8Eoq7BtaOOxGK3QT+4+WdDKFgzc787iRP6rV6a1xxDiocd1KuJ
- xrnISFubgkK4EQNIaTbLVA3YQxHKXg7KoB6SSav/7/eHnJGpjJ2QdQ5vcj/VpaYOTIDQ
- KPgu3mkL0Dy9uOCFhtG6FP/M4y02jwzfT09H3VvXWIhHM5CrWC7fNIyt6Lfz8K5sxf+F
- wwQZFyHFvx5xVdnGmSh901c99JExK3oM7ygZehMmUw71ZmbNAK+1jQjRQSa3sMpfaH3Y
- URLoOG6DkITzRGeVbeOKEcd08FTOL9+vESf09TTHOjH1smzO4onlHW2xWQ1ieGJqxNq+
- tjMw==
-X-Gm-Message-State: AOAM532y4y0WtikI11rF6UwGkI7c8Poysuqwwkiqs31OdRGjsCyLYVcc
- tcyDEvzfhudE8efxwWDP37sbSw==
-X-Google-Smtp-Source: ABdhPJzNaBw2G2PGxsxGkqUMApi84Kmd2dJaWVJg6MU/uMhb7ST5Mvq/+jUxkapvbGPjX0gLPfhTXg==
-X-Received: by 2002:a7b:c1d7:: with SMTP id a23mr29898wmj.62.1607474199938;
- Tue, 08 Dec 2020 16:36:39 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=Nsb/Wg9UpFAZ7Jm/nzZfro+2Ntvaqt95xxlPjhSib98=;
+ b=hkQxCXcZ3PvOP2V+4Ohd0eKrVY85fFiMQdjsNHLVMwIfuGmXC22wmWfce1S1bqLfra
+ LtHzSqc4082GOkDyCBrDH9naW6cUN54hS+WjK9hN7GNnTiG6QodXNH7V/RNQKnDXtgul
+ fgHgP4UbBvwoRYgKdGs3+6HT6cY0FaKNP0dLlUO0N1eztsg83cBlc5uVS2o5Hf34wORa
+ d8VDZZHC5/rFLsGL9cr9JPRXBlFK7TDSIKgDbUbA9gam2uOYvui0fTo5lEaRDNB6VcbX
+ BzhMPt2g/az/OwiUDcqcQ4DtLPVVx4OvmUWFBoN/LSKiaCmGITGDxcVDT+xqcC2jx4e1
+ G+eg==
+X-Gm-Message-State: AOAM530OobWshbL/7PQrOVuAAURBqJzloz4C7R6OH3xeAyKYU/MKbCKo
+ F+02KHY5ClrmyFRU8dMd1HfS4Q==
+X-Google-Smtp-Source: ABdhPJwZeWmpPYFThdFppy35AmZnWUptUUEN6/5+GuMb3OfVfu0rfx8qSWV32ICvMc2qj+wY+e+Yvw==
+X-Received: by 2002:a5d:630b:: with SMTP id i11mr720830wru.404.1607474545655; 
+ Tue, 08 Dec 2020 16:42:25 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z22sm210wml.1.2020.12.08.16.36.38
+ by smtp.gmail.com with ESMTPSA id d8sm955708wrp.44.2020.12.08.16.42.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 16:36:39 -0800 (PST)
-Date: Wed, 9 Dec 2020 01:36:37 +0100
+ Tue, 08 Dec 2020 16:42:24 -0800 (PST)
+Date: Wed, 9 Dec 2020 01:42:23 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: drivers may provide multiple primary planes per CRTC
-Message-ID: <20201209003637.GK401619@phenom.ffwll.local>
-References: <TJAyvL7GM0cZ61sbzYMZ7IbVow2d32QQntnAB5_zpBOdcKVIAy8qhZg4En6C8Ka-mUXV-goV21ExVsA8Q3N_lJV4jf6g6llQBQSDs602jgs=@emersion.fr>
- <20200807090706.GA2352366@phenom.ffwll.local>
- <20200807123802.6058baca@eldfell>
- <20200807130636.GD2352366@phenom.ffwll.local>
- <1A6pssulTBjmoPioJfGenq9NdbnGjw2dhBoivqmrgraY67Gac7BoUHupkvqc7UBF_q2P5RwEcXP-m-5Jd00vC2hg-QMkGj2Ms_Jh5nLz-os=@emersion.fr>
- <20201207104542.10657acd@eldfell>
- <i1OlhCAio_JRSK_q7z7mpkyiPlrIO1Nszlav03n1LDGZKoEO3lybu-tdg7taxbtnOst4TdpJYCW-S1FAq3t5SEaDcul02W1mil5_sFySrSI=@emersion.fr>
+Subject: Re: [PATCH] drm: rework description of primary and cursor planes
+Message-ID: <20201209004223.GL401619@phenom.ffwll.local>
+References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <i1OlhCAio_JRSK_q7z7mpkyiPlrIO1Nszlav03n1LDGZKoEO3lybu-tdg7taxbtnOst4TdpJYCW-S1FAq3t5SEaDcul02W1mil5_sFySrSI=@emersion.fr>
+In-Reply-To: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,100 +65,108 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gTW9uLCBEZWMgMDcsIDIwMjAgYXQgMDk6MTA6MDBBTSArMDAwMCwgU2ltb24gU2VyIHdyb3Rl
-Ogo+IE9uIE1vbmRheSwgRGVjZW1iZXIgN3RoLCAyMDIwIGF0IDk6NDUgQU0sIFBla2thIFBhYWxh
-bmVuIDxwcGFhbGFuZW5AZ21haWwuY29tPiB3cm90ZToKPiAKPiA+ID4gPiA+ID4gPiAtICogQ3Vy
-c29yIGFuZCBvdmVybGF5IHBsYW5lcyBhcmUgb3B0aW9uYWwuIEFsbCBkcml2ZXJzIHNob3VsZCBw
-cm92aWRlIG9uZQo+ID4gPiA+ID4gPiA+IC0gKiBwcmltYXJ5IHBsYW5lIHBlciBDUlRDIHRvIGF2
-b2lkIHN1cnByaXNpbmcgdXNlcnNwYWNlIHRvbyBtdWNoLiBTZWUgZW51bQo+ID4gPiA+ID4gPiA+
-ICsgKiBDdXJzb3IgYW5kIG92ZXJsYXkgcGxhbmVzIGFyZSBvcHRpb25hbC4gQWxsIGRyaXZlcnMg
-c2hvdWxkIHByb3ZpZGUgYXQgbGVhc3QKPiA+ID4gPiA+ID4gPiArICogb25lIHByaW1hcnkgcGxh
-bmUgcGVyIENSVEMgdG8gYXZvaWQgc3VycHJpc2luZyB1c2Vyc3BhY2UgdG9vIG11Y2guIFNlZSBl
-bnVtCj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEkgdGhpbmsgdGhhdCdzIGV2ZW4gbW9yZSBjb25m
-dXNpbmcsIHNpbmNlIHRoaXMgcmVhZHMgbGlrZSB0aGVyZSBjb3VsZCBiZQo+ID4gPiA+ID4gPiBt
-dWx0aXBsZSBwcmltYXJ5IHBsYW5lcyBmb3IgYSBzcGVjaWZpYyBDUlRDLiBUaGF0J3Mgbm90IHRo
-ZSBjYXNlLCB0aGVyZScKPiA+ID4gPiA+ID4gb25seSBvbmUgcG9pbnRlciBnb2luZyBmcm9tIGRy
-bV9jcnRjLT5wcmltYXJ5IHRvIGEgZHJtX3BsYW5lIGluIHRoZQo+ID4gPiA+ID4gPiBrZXJuZWwu
-Cj4gPiA+ID4gPgo+ID4gPiA+ID4gVGhlcmUgY291bGQgYmUgbXVsdGlwbGUgcHJpbWFyeSBwbGFu
-ZXMgKnVzYWJsZSogZm9yIGEgc3BlY2lmaWMgQ1JUQyBidXQKPiA+ID4gPiA+IGp1c3Qgb25lIHVz
-ZWQgYXQgYSB0aW1lLCByaWdodD8KPiA+ID4gPgo+ID4gPiA+IEknbSBub3Qgc3VyZSB3aGF0IHlv
-dSBtZWFuIGhlcmUsIHRoZSBjcnRjLT5wcmltYXJ5IGxpbmsgaXMgaW52YXJpYW50IG92ZXIKPiA+
-ID4gPiB0aGUgbGlmZXRpbWUgb2YgYSBkcml2ZXIgbG9hZC4gWW91IGNhbid0IHBpY2sgYSBkaWZm
-ZXJlbnQgb25lLCB0aGF0J3Mgc2V0Cj4gPiA+ID4gYXQgZHJpdmVyIGluaXQgYmVmb3JlIGRybV9k
-ZXZfcmVnaXN0ZXIgKGFuZCBoZW5jZSBiZWZvcmUgdXNlcnNwYWNlIGV2ZXIKPiA+ID4gPiBzZWVz
-IGFueXRoaW5nKS4KPiA+ID4KPiA+ID4gT0suIEknbSBwZXJzb25hbGx5IG5vdCB2ZXJ5IGludGVy
-ZXN0ZWQgaW4gZG9jdW1lbnRpbmcgbGVnYWN5IGJpdHMsIHNvIEknbGwgc2tpcAo+ID4gPiB0aGF0
-LiBJJ20gbWFpbmx5IGludGVyZXN0ZWQgaGVyZSBpbiBtYWtpbmcgaXQgY2xlYXIgcG9zc2libGVf
-Y3J0Y3MgZm9yIGEKPiA+ID4gcHJpbWFyeSBwbGFuZSBjYW4gaGF2ZSBtb3JlIHRoYW4gb25lIGJp
-dCBzZXQuIEJlY2F1c2Ugb2YgdGhlIHBhcmFncmFwaCBpbiB0aGUKPiA+ID4gY3VycmVudCBkb2Nz
-LCBzb21lIHVzZXItc3BhY2UgZGV2ZWxvcGVycyBoYXZlIHVuZGVyc3Rvb2QgIm1vcmUgdGhhbiBv
-bmUgYml0IHNldAo+ID4gPiBpbiBwb3NzaWJsZV9jcnRjcyBmb3IgYSBwcmltYXJ5IHBsYW5lIGlz
-IGEga2VybmVsIGJ1ZyIuCj4gPiA+Cj4gPiA+IEknbGwgc2VuZCBhIHYyIHRoYXQgbWFrZXMgaXQg
-Y2xlYXIgdGhlc2UgcG9pbnRlcnMgYXJlIGZvciBsZWdhY3kgdUFQSS4KPiA+Cj4gPiBSaWdodCwg
-c28gdGhpcyBhbmQgd2hhdCBkYW52ZXQgc2FpZCBzZWVtIHRvIGJlIGluIGRpcmVjdCBjb25mbGlj
-dCBpbgo+ID4gYXRvbWljIHVBUEksIHJlcGVhdGluZyBhYm92ZToKPiA+Cj4gPiA+ID4gSSdtIG5v
-dCBzdXJlIHdoYXQgeW91IG1lYW4gaGVyZSwgdGhlIGNydGMtPnByaW1hcnkgbGluayBpcyBpbnZh
-cmlhbnQgb3Zlcgo+ID4gPiA+IHRoZSBsaWZldGltZSBvZiBhIGRyaXZlciBsb2FkLiBZb3UgY2Fu
-J3QgcGljayBhIGRpZmZlcmVudCBvbmUsIHRoYXQncyBzZXQKPiA+ID4gPiBhdCBkcml2ZXIgaW5p
-dCBiZWZvcmUgZHJtX2Rldl9yZWdpc3RlciAoYW5kIGhlbmNlIGJlZm9yZSB1c2Vyc3BhY2UgZXZl
-cgo+ID4gPiA+IHNlZXMgYW55dGhpbmcpLgo+ID4KPiA+IEJ1dCBzdGlsbCwgaXQgaXMgY29uc2lk
-ZXJlZCBub3QgYSBrZXJuZWwgYnVnIHRoYXQgYSBwcmltYXJ5IHBsYW5lIGhhcwo+ID4gbW9yZSB0
-aGFuIG9uZSBiaXQgc2V0IGluIGl0cyBwb3NzaWJsZV9jcnRjcy4KPiA+Cj4gPiBJZiBhIHByaW1h
-cnkgcGxhbmUgaGFzIG1vcmUgdGhhbiBvbmUgYml0IHNldCBpbiBwb3NzaWJsZV9jcnRjcywgYW5k
-IGl0Cj4gPiBpcyBub3QgYSBrZXJuZWwgYnVnLCB0aGVuIHVzZXJzcGFjZSBleHBlY3RzIHRvIGJl
-IGFibGUgdG8gY2hvb3NlIGFueQo+ID4gb2YgdGhlIG11bHRpcGxlIGluZGljYXRlZCBwb3NzaWJs
-ZSBDUlRDcyBmb3IgdGhpcyBwcmltYXJ5IHBsYW5lLgo+ID4KPiA+IFdoaWNoIHdheSBpcyBpdD8K
-PiA+Cj4gPiBPciwgaXMgdGhlcmUgYSBkaWZmZXJlbnQgbGltaXRhdGlvbiB0aGF0IGZvciBlYWNo
-IENSVEMsIHRoZXJlIG11c3QgYmUKPiA+IGV4YWN0bHkgb25lIHByaW1hcnkgcGxhbmUgd2l0aCB0
-aGF0IENSVENzIGJpdCBzZXQgaW4gaXRzIHBvc3NpYmxlX2NydGNzPwo+ID4KPiA+IElPVywgeW91
-IGNhbiBoYXZlIG1vcmUgQ1JUQ3MgdGhhbiBwcmltYXJ5IHBsYW5lcyBpbiB0b3RhbCwgYW5kIHlv
-dSBjYW4KPiA+IGFjdGl2YXRlIGVhY2ggQ1JUQyBhbG9uZSwgYnV0IHlvdSBjYW5ub3QgYWN0aXZh
-dGUgYWxsIENSVENzCj4gPiBzaW11bHRhbmVvdXNseSBiZWNhdXNlIHRoZXJlIGFyZSBub3QgZW5v
-dWdoIHByaW1hcnkgcGxhbmVzIGZvciB0aGVtPwo+ID4KPiA+IFJlcHJlc2VudGluZyBpdCBtYXRo
-ZW1hdGljYWxseSwgdGhlIHBvc3NpYmxlIGFzc2lnbm1lbnRzIGFjY29yZGluZyB0bwo+ID4gcG9z
-c2libGVfY3J0Y3Mgd2hpbGUgaWdub3JpbmcgYWxsIG90aGVyIGxpbWl0YXRpb25zIGFyZToKPiA+
-IE4gQ1JUQ3MgPC0+IE0gcHJpbWFyeSBwbGFuZXMKPiA+Cj4gPiAtIElzIE4gb25lIG9yIGdyZWF0
-ZXIgdGhhbiBvbmU/Cj4gPiAtIElzIE0gb25lIG9yIGdyZWF0ZXIgdGhhbiBvbmU/Cj4gCj4gSSB0
-aGluayB0aGUgY3VycmVudCBzaXR1YXRpb24gaXMgdGhhdDoKPiAKPiAtIEl0J3MgcGVyZmVjdGx5
-IGZpbmUgZm9yIGEgZHJpdmVyIHRvIGV4cG9zZSBtdWx0aXBsZSBiaXRzIGluIHBvc3NpYmxlX2Ny
-dGNzLgo+ICAgVXNlci1zcGFjZSBjYW4gYXR0YWNoIHRoZSBwcmltYXJ5IHBsYW5lIHRvIGFueSBv
-ZiB0aGVzZSBDUlRDcyAob2YgY291cnNlLCBhCj4gICBwcmltYXJ5IHBsYW5lIHN0aWxsIGNhbiBv
-bmx5IGJlIGF0dGFjaGVkIHRvIGEgc2luZ2xlIENSVEMgYXQgYSB0aW1lKS4gRHJpdmVycwo+ICAg
-c2hvdWxkIHByb3ZpZGUgYXMgbWFueSBwcmltYXJ5IHBsYW5lcyBhcyB0aGVyZSBhcmUgQ1JUQ3Mu
-Cj4gLSBUaGUgbGVnYWN5IEFQSSBkb2Vzbid0IGV4cG9zZSBwcmltYXJ5IHBsYW5lcy4gU29tZSBs
-ZWdhY3kgSU9DVExzIGxpa2UKPiAgIGRybU1vZGVTZXRDcnRjIGFsbG93IHVzZXItc3BhY2UgdG8g
-YXR0YWNoIGEgRkIgZGlyZWN0bHkgdG8gYSBDUlRDLiBUaGUgZHJpdmVyCj4gICBuZWVkcyB0byBp
-bXBsaWNpdGx5IHNlbGVjdCBhIHByaW1hcnkgcGxhbmUgZm9yIHRoaXMgb3BlcmF0aW9uLiBUaGF0
-J3MgdGhlCj4gICBvbmx5IGNhc2Ugd2hlcmUgdGhlIGludGVybmFsIENSVEMg4oaSIHByaW1hcnkg
-cGxhbmUgbGluayBpcyB1c2VkIGluIHRoZSBrZXJuZWwuCj4gCj4gSXMgdGhpcyBjb3JyZWN0LCBE
-YW5pZWw/CgpZdXAuIGF0b21pYyBkb2Vzbid0IHVzZSBjcnRjLT5wcmltYXJ5IGxpbmsgYXQgYWxs
-LgoKUGVra2EsIHdoZXJlIGRpZCB5b3Ugc2VlIGFuIGluZGljYXRpb24gdGhhdCB0aGlzIGNydGMt
-PnByaW1hcnkgbGluayBpcwp1c2VkIGZvciBhdG9taWM/IE15IHN0YXRlbWVudCB3YXMgb25seSBh
-Ym91dCBsZWdhY3kgaW9jdGwgaW1wYWN0IG9mCi0+cHJpbWFyeS4gQXRvbWljIHVzZXJzcGFjZSBj
-YW4gcGljayBhbnkgcGxhbmUgaXQgd2FudHMgYW5kIGNvbnNpZGVyIHRoYXQKdGhlICJwcmltYXJ5
-IiBvbmUgKHRoZSBody9kcml2ZXIgbWlnaHQgcmVqZWN0IHRoYXQsIGJ1dCB0aGF0J3MgYSBkaWZm
-ZXJlbnQKaXNzdWUpLgoKPiBTbyBJIGJlbGlldmUgTSA+IDEgYW5kIE4gPiAxIGlzIHBvc3NpYmxl
-IGFuZCBpc24ndCBhIGtlcm5lbCBidWcuIEZvciBpbnN0YW5jZQo+IHNvbWUgZHJpdmVycyBoYXJk
-Y29kZSBwb3NzaWJsZV9jcnRjcyB0byAweEZGIChhbHRob3VnaCBpdCBtaWdodCBiZSBuaWNlciB0
-bwo+IHVzZXItc3BhY2UgdG8gc2V0IHRoZSBiaXRtYXNrIGRlcGVuZGluZyBvbiB0aGUgbnVtYmVy
-IG9mIENSVENzLCB0byBhdm9pZAo+IHNldHRpbmcgYml0cyBmb3Igbm9uLWV4aXN0aW5nIENSVENz
-KS4KCnBvc3NpYmxlX2NydGNzIGZvciBhIHByaW1hcnkgcGxhbmUgaGFzIGV4YWN0bHkgdGhlIHNh
-bWUgY29uc3RyYWludHMgYXMKcG9zc2libGVfY3J0Y3MgZm9yIGFueSBvdGhlciBwbGFuZS4gVGhl
-IG9ubHkgYWRkaXRpb25hbCBjb25zdHJhaW50IHRoZXJlCmlzIHRoYXQ6Ci0gZmlyc3QgcHJpbWFy
-eSBwbGFuZSB5b3UgaXRlcmF0ZSBtdXN0IGhhdmUgdGhlIGZpcnN0IGJpdCBzZXQgaW4KICBwb3Nz
-aWJsZV9jcnRjcywgYW5kIGl0IGlzIHRoZSBwcmltYXJ5IHBsYW5lIGZvciB0aGF0IGNydGMKLSAy
-bmQgcHJpbWFyeSBwbGFuZSBoYXMgdGhlIDJuZCBiaXQgc2V0IGluIHBvc3NpYmxlX2NydGNzLCBh
-bmQgaXQgaXMgdGhlCiAgcHJpbWFyeSBwbGFuZSBmb3IgdGhhdCBjcnRjCgphbmQgc28gb24uIFRo
-YXQncyBhbGwuIEknbSBub3Qgc3VyZSBhbGwgZHJpdmVycyBnZXQgdGhpcyByaWdodCwgc28gSSB0
-aGluawppdCdkIGJlIGdvb2QgdG8gY2hlY2sgdGhhdCBhdCBkcm1fZGV2X3JlZ2lzdGVyIHRpbWUg
-KHdlIGNoZWNrIGEgZmV3IG90aGVyCnRoaW5ncyBhYm91dCB0aGVzZSBwb3NzaWJsZV9jcnRjcyBt
-YXNrcyBhbHJlYWR5LCBzbyBpdCdzIGEgZ29vZCBmaXQpLgotRGFuaWVsCi0tIApEYW5pZWwgVmV0
-dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZnds
-bC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmkt
-ZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6
-Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Sun, Dec 06, 2020 at 04:34:15PM +0000, Simon Ser wrote:
+> The previous wording could be understood by user-space evelopers as "a
+> primary/cursor plane is only compatible with a single CRTC" [1].
+> 
+> Reword the planes description to make it clear the DRM-internal
+> drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
+> 
+> [1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> ---
+>  drivers/gpu/drm/drm_crtc.c  |  3 +++
+>  drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
+>  2 files changed, 12 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> index 74090fc3aa55..c71b134d663a 100644
+> --- a/drivers/gpu/drm/drm_crtc.c
+> +++ b/drivers/gpu/drm/drm_crtc.c
+> @@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+>   * planes). For really simple hardware which has only 1 plane look at
+>   * drm_simple_display_pipe_init() instead.
+>   *
+> + * The @primary and @cursor planes are only relevant for legacy uAPI, see
+> + * &drm_crtc.primary and &drm_crtc.cursor.
+> + *
+>   * Returns:
+>   * Zero on success, error code on failure.
+>   */
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index e6231947f987..7a5697bc9e04 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -49,14 +49,16 @@
+>   * &struct drm_plane (possibly as part of a larger structure) and registers it
+>   * with a call to drm_universal_plane_init().
+>   *
+> - * Cursor and overlay planes are optional. All drivers should provide one
+> - * primary plane per CRTC to avoid surprising userspace too much. See enum
+> - * drm_plane_type for a more in-depth discussion of these special uapi-relevant
+> - * plane types. Special planes are associated with their CRTC by calling
+> - * drm_crtc_init_with_planes().
+> - *
+>   * The type of a plane is exposed in the immutable "type" enumeration property,
+> - * which has one of the following values: "Overlay", "Primary", "Cursor".
+> + * which has one of the following values: "Overlay", "Primary", "Cursor" (see
+> + * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
+> + * &drm_plane.possible_crtcs.
+> + *
+> + * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
+> + * relies on the driver to set the primary and optionally the cursor plane used
+> + * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
+> + * drivers should provide one primary plane per CRTC to avoid surprising legacy
+> + * userspace too much.
+>   */
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+I think maybe a follow up patch should document how userspace should
+figure out how to line up the primary planes with the right crtcs (if it
+wishes to know that information, it's not super useful aside from probably
+good choice for a fullscreen fallback plane). See my reply on the old
+thread.
+
+And that patch should also add the code to drm_mode_config_validate() to
+validate the possible_crtc masks for these. Something like
+
+	num_primary = 0; num_cursor = 0;
+
+	for_each_plane(plane) {
+		if (plane->type == primary) {
+			WARN_ON(!(plane->possible_crtcs & BIT(num_primary)));
+			num_primary++;
+		}
+
+		/* same for cursor */
+	}
+
+	WARN_ON(num_primary != dev->mode_config.num_crtcs);
+}
+
+Cheers, Daniel
+
+>  
+>  static unsigned int drm_num_planes(struct drm_device *dev)
+> -- 
+> 2.29.2
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
