@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDD5F2D3D97
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:38:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B689E2D3ED1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 10:32:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 592836E15F;
-	Wed,  9 Dec 2020 08:38:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 556F96E133;
+	Wed,  9 Dec 2020 09:32:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808716E15F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 08:38:43 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id o24so1292494ljj.6
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 00:38:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=W1NsxesLTr/NP16oc9nynt9eszu760mpALJXJrA3f0o=;
- b=TqJkFNbZN3Nn2vGnERxBLMthSxxihV0fQkGme9WgVPznY15LDdfEUkLcG+oymAWQrW
- +HZtjkW7eoblrzMdR3/DJ+APtTEywK2hi5Ox0sjqpYR0hBbUnpVKu8payMHsWBJvHjoe
- MC20sZfT8a/LudeOS0r+9aDUo4GoYo3z0hXTddjAoBNQXYVRGFm+CTsfz85z7xBwZ9Td
- yXbkznQEcLgLPDkJU6L0/8tzEtPdI/xS29ZMTaKr0GUQqtpDWtGp0Kcss1lxsOGBN6Rj
- qi7Gr7AlRhOcMIf1cAQjh3l6PcOWugTkoWAWgEV4dE0JfvUzAN9wddM7NXbCDlZAF1f3
- zKcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=W1NsxesLTr/NP16oc9nynt9eszu760mpALJXJrA3f0o=;
- b=nxdvstWGhDUbCnG9AwlyO5C/sQ0Ycwc4/ZRWcOc/h6w4IFkaL9IuzWwfU7c0aSZuM3
- dA+sHqHi6pCYB1Ox4mYq1PbdkN9XbKHr4d2mAk8hRZ7z6jExFXroSltIVD6oC/jQ1zYE
- tYNMVXBRS3syjchd/CZn95MGl81hCZJQZztGad3xMQhMXZTGxuWFyQWvJoifRM3X0HZM
- NnOjOcJ+uPiKbdBvH7QMRXX/koF7OrEoyfMMJ2Q+lGxsnf/GH2aJr9jDTY2mkI/ONtRB
- RxuERrrCztghiQ7gpRNYiun8R+XvFPHxpUDl3JtWbDK/8IL2IrAce4ijRKYBHQTn3Z7I
- n68g==
-X-Gm-Message-State: AOAM533qRX9YFxyYY76Spfzy7PtLpypCaSi1+yBJAOnsaJcmFNxFHO22
- Kel0uu7Digl+jLkyiOfIO4I=
-X-Google-Smtp-Source: ABdhPJw9zawAPJIz1+hMR+tNv8VRx+wKMX9BDxw3q9m9M7lt4pWe7RLFvzjVqucUWRHGf+4Lk+bvTA==
-X-Received: by 2002:a2e:914c:: with SMTP id q12mr654197ljg.102.1607503121701; 
- Wed, 09 Dec 2020 00:38:41 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id d19sm96252lfi.64.2020.12.09.00.38.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 00:38:41 -0800 (PST)
-Date: Wed, 9 Dec 2020 10:38:36 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: rework description of primary and cursor planes
-Message-ID: <20201209103836.1858c920@eldfell>
-In-Reply-To: <20201209004223.GL401619@phenom.ffwll.local>
-References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
- <20201209004223.GL401619@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 512B56E133
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 09:32:39 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 7BB1DAC94;
+ Wed,  9 Dec 2020 09:32:37 +0000 (UTC)
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20201203140259.26580-1-tzimmermann@suse.de>
+ <20201203140259.26580-8-tzimmermann@suse.de>
+ <20201203152601.GB401619@phenom.ffwll.local>
+ <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
+ <20201203204129.GC401619@phenom.ffwll.local>
+ <a253129d-c0e3-c864-fa0c-111338d25e25@suse.de>
+ <4fc93de9-cd26-58b0-d398-ac97577ffa92@amd.com>
+ <20201209001321.GF401619@phenom.ffwll.local>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
+Message-ID: <8ef5d69a-b5b3-31d0-b011-8860b60f35eb@suse.de>
+Date: Wed, 9 Dec 2020 10:32:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201209001321.GF401619@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,184 +46,465 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1361731888=="
+Cc: linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ airlied@redhat.com
+Content-Type: multipart/mixed; boundary="===============1581344504=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1361731888==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============1581344504==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/nSs90aY/duuOfZRJNL2RsB_"; protocol="application/pgp-signature"
+ protocol="application/pgp-signature";
+ boundary="bKxtXe23WBn7W6bDLD0sAcr6ipZTz5iZk"
 
---Sig_/nSs90aY/duuOfZRJNL2RsB_
-Content-Type: text/plain; charset=US-ASCII
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--bKxtXe23WBn7W6bDLD0sAcr6ipZTz5iZk
+Content-Type: multipart/mixed; boundary="La2DN66lFLV4lealZBpFx55x3kQJCiryS";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ hdegoede@redhat.com, airlied@redhat.com, linux-media@vger.kernel.org
+Message-ID: <8ef5d69a-b5b3-31d0-b011-8860b60f35eb@suse.de>
+Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
+References: <20201203140259.26580-1-tzimmermann@suse.de>
+ <20201203140259.26580-8-tzimmermann@suse.de>
+ <20201203152601.GB401619@phenom.ffwll.local>
+ <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
+ <20201203204129.GC401619@phenom.ffwll.local>
+ <a253129d-c0e3-c864-fa0c-111338d25e25@suse.de>
+ <4fc93de9-cd26-58b0-d398-ac97577ffa92@amd.com>
+ <20201209001321.GF401619@phenom.ffwll.local>
+In-Reply-To: <20201209001321.GF401619@phenom.ffwll.local>
+
+--La2DN66lFLV4lealZBpFx55x3kQJCiryS
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 9 Dec 2020 01:42:23 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi
 
-> On Sun, Dec 06, 2020 at 04:34:15PM +0000, Simon Ser wrote:
-> > The previous wording could be understood by user-space evelopers as "a
-> > primary/cursor plane is only compatible with a single CRTC" [1].
-> >=20
-> > Reword the planes description to make it clear the DRM-internal
-> > drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
-> >=20
-> > [1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
-> >=20
-> > Signed-off-by: Simon Ser <contact@emersion.fr>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_crtc.c  |  3 +++
-> >  drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
-> >  2 files changed, 12 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> > index 74090fc3aa55..c71b134d663a 100644
-> > --- a/drivers/gpu/drm/drm_crtc.c
-> > +++ b/drivers/gpu/drm/drm_crtc.c
-> > @@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_=
-crtc *crtc)
-> >   * planes). For really simple hardware which has only 1 plane look at
-> >   * drm_simple_display_pipe_init() instead.
-> >   *
-> > + * The @primary and @cursor planes are only relevant for legacy uAPI, =
-see
-> > + * &drm_crtc.primary and &drm_crtc.cursor.
-> > + *
-> >   * Returns:
-> >   * Zero on success, error code on failure.
-> >   */
-> > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> > index e6231947f987..7a5697bc9e04 100644
-> > --- a/drivers/gpu/drm/drm_plane.c
-> > +++ b/drivers/gpu/drm/drm_plane.c
-> > @@ -49,14 +49,16 @@
-> >   * &struct drm_plane (possibly as part of a larger structure) and regi=
-sters it
-> >   * with a call to drm_universal_plane_init().
-> >   *
-> > - * Cursor and overlay planes are optional. All drivers should provide =
-one
-> > - * primary plane per CRTC to avoid surprising userspace too much. See =
-enum
-> > - * drm_plane_type for a more in-depth discussion of these special uapi=
--relevant
-> > - * plane types. Special planes are associated with their CRTC by calli=
+Am 09.12.20 um 01:13 schrieb Daniel Vetter:
+> On Fri, Dec 04, 2020 at 09:47:08AM +0100, Christian K=C3=B6nig wrote:
+>> Am 04.12.20 um 09:32 schrieb Thomas Zimmermann:
+>>> Hi
+>>>
+>>> Am 03.12.20 um 21:41 schrieb Daniel Vetter:
+>>>> On Thu, Dec 03, 2020 at 07:59:04PM +0100, Thomas Zimmermann wrote:
+>>>>> Hi
+>>>>>
+>>>>> Am 03.12.20 um 16:26 schrieb Daniel Vetter:
+>>>>>> On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:=
+
+>>>>>>> Dma-buf's vmap and vunmap callbacks are undocumented and various
+>>>>>>> exporters currently have slightly different semantics for them. A=
+dd
+>>>>>>> documentation on how to implement and use these interfaces correc=
+tly.
+>>>>>>>
+>>>>>>> v2:
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0* document vmap semantics in struct dma_=
+buf_ops
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0* add TODO item for reviewing and maybe =
+fixing dma-buf exporters
+>>>>>>>
+>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>>
+>>>>>> I still don't think this works, we're breaking dma_buf_vmap
+>>>>>> for everyone
+>>>>>> else here.
+>>>>>
+>>>>> I removed the text on the importer. These notes for callers in
+>>>>> the docs are
+>>>>> more or less a consequence of the exporter semantics.
+>>>>
+>>>> Callers are importers, so I'm not seeing how that fixes anything.
+>>>>
+>>>>> I thought we at least agreed on the exporter semantics in the
+>>>>> other thread,
+>>>>> didn't we?
+>>>>>
+>>>>> What I'm trying to do is to write dome some rules for exporters,
+>>>>> even if not
+>>>>> all exporters follow them.
+>>>>
+>>>> This is a standard interface, everyone needs to follow the same
+>>>> rules. And
+>>>> if they change, we need to make sure nothing breaks and we're not
+>>>> creating
+>>>> issues.
+>>>>
+>>>> In the past the rule was the dma_buf_vmap was allowed to take the
+>>>> dma_resv_lock, and that the buffer should be pinned. Now some ttm
+>>>> drivers
+>>>> didn't ever bother with the pinning, and mostly got away with that
+>>>> because
+>>>> drm_prime helpers do the pinning by default at attach time, and most=
+
+>>>> users
+>>>> do call dma_buf_attach.
+>>>>
+>>>> But if you look through dma-buf docs nothing ever said you have to d=
+o a
+>>>> dummy attachment before you call dma_buf_vmap, that's just slightly
+>>>> crappy
+>>>> implementations that didn't blow up yet.
+>>>
+>>> I had a patch for adding pin to radeon's implementation of vmap. [1]
+>>> Christian told me to not do this; instead just get the lock in the fb=
+dev
+>>> code. His advise almost seems the opposite of what you're telling me
+>>> here.
+>>
+>> I think what Daniel suggests here is that we need to smoothly transiti=
+on the
+>> code from making assumptions to having a straight interface where impo=
+rters
+>> explicitly say when stuff is locked and when stuff is pinned.
+>>
+>> I've started this with the attach interface by adding a new dynamic ap=
+proach
+>> to that, but you probably need to carry on here with that for vmap as =
+well.
+>>
+>> When that is done we can migrate every exporter over to the new dynami=
+c
+>> approach.
+>>
+>>>
+>>> For the GEM VRAM helpers, that implicit pin in vmap gave me headaches=
+=2E
+>>> Because scanouts can only be done from VRAM, which is badly suited fo=
+r
+>>> exporting. So I ended up with an implicit pin that pins the buffer to=
+
+>>> whatever domain it currently is. I got away with it because GEM VRAM =
+BOs
+>>> are not sharable among devices; fbdev is the only user of that
+>>> functionality and only pins for short periods of time.
+>>>
+>>> I suspect that fixing TTM-based drivers by adding an implicit pin wou=
+ld
+>>> result in a similar situation. Whatever domain it ends up pinning, so=
+me
+>>> functionality might not be compatible with that.
+>>
+>> Correct, exactly that's the problem.
+>>
+>>>
+>>>>
+>>>>> Given the circumstances, we should leave out this patch from the
+>>>>> patchset.
+>>>>
+>>>> So the defacto rules are already a big mess, but that's not a good
+>>>> excuse
+>>>> to make it worse.
+>>>>
+>>>> What I had in mind is that we split dma_buf_vmap up into two variant=
+s:
+>>>>
+>>>> - The current one, which should guarantee that the buffer is pinned.=
+
+>>>>  =C2=A0=C2=A0 Because that's what all current callers wanted, before=
+ the fbdev code
+>>>>  =C2=A0=C2=A0 started allowing non-pinned buffers.
+>>>
+>>> Can we add an explicit pin operation to dma_buf_vmap() to enforce the=
+
+>>> semantics?
+>>
+>> At least I would be fine with that. For now amdgpu is the only exporte=
+r who
+>> implements the explicit pin/unpin semantics anyway.
+>=20
+> Yup, I think that makes sense (if it works). Maybe we could use somethi=
 ng
-> > - * drm_crtc_init_with_planes().
-> > - *
-> >   * The type of a plane is exposed in the immutable "type" enumeration =
-property,
-> > - * which has one of the following values: "Overlay", "Primary", "Curso=
-r".
-> > + * which has one of the following values: "Overlay", "Primary", "Curso=
-r" (see
-> > + * enum drm_plane_type). A plane can be compatible with multiple CRTCs=
-, see
-> > + * &drm_plane.possible_crtcs.
-> > + *
-> > + * Legacy uAPI doesn't expose the primary and cursor planes directly. =
-DRM core
-> > + * relies on the driver to set the primary and optionally the cursor p=
-lane used
-> > + * for legacy IOCTLs. This is done by calling drm_crtc_init_with_plane=
-s(). All
-> > + * drivers should provide one primary plane per CRTC to avoid surprisi=
-ng legacy
+> like:
+>=20
+> a) dma_buf pin exists, driver is dynamic. This means dma_buf_vmap needs=
+ to
+> first pin, then call ->vmap. dma_buf_vmap_local otoh can directly call
+> ->vmap since the exporter relies on either a pin or dma_resv_lock.
+>=20
+> b) dma_buf pin not implement, driver is a legacy pile. dma_buf_vmap wil=
+l
+> pin (somewhere at least, or rely on some implicit pin), dma_buf_vmap_lo=
+cal
+> doesn't work and should fail.
 
-s/should/must/?
+I think I read in the dma-buf documentation that pin is supposed to put=20
+the BO in a domain that is suitable for scanout. Now I don't really=20
+trust this to work. Amdgpu, radeon and nouveau put it into the GTT=20
+region. Qxl appears to put it wherever it is.
 
-> > + * userspace too much.
+>=20
+> I think for less transition work fbdev helpers could first try
+> dma_resv_lock + dma_buf_vmap_local, if that fails, drop the dma_resv_lo=
+ck
+> and do the pinning dma_buf_vmap. That way we don't have to convert shme=
+m
+> helpers over to dma_resv locking, which should help.
 
-I think it would also be useful for atomic userspace. Sure, atomic
-userspace can be expected handle failures, but if there is not at least
-one primary type KMS plane available for a CRTC, then userspace
-probably never uses that CRTC which means the end user could be left
-without an output they wanted.
+I have meanwhile made a patchset that updates helpers for cma, shmem and =
 
-Besides, in the other email thread Daniel said:
+vram with vmap_local; and converts fbdev emulation as well. It needs a=20
+bit more testing before being posted.
 
-On Wed, 9 Dec 2020 01:36:37 +0100
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Best regards
+Thomas
 
-> possible_crtcs for a primary plane has exactly the same constraints as
-> possible_crtcs for any other plane. The only additional constraint there
-> is that:
-> - first primary plane you iterate must have the first bit set in
->   possible_crtcs, and it is the primary plane for that crtc
-> - 2nd primary plane has the 2nd bit set in possible_crtcs, and it is the
->   primary plane for that crtc
+>=20
+> And ttm drivers would do the new clean interface, so at least everyone
+> using dma_resv today is all fine. Intel's conversion to dma_resv lock i=
+s
+> in-flight, but that needs a conversion to the dynamic interface anyway,=
+
+> the current code splats. And dynamic brings means explicit pin/unpin
+> callbacks, so should be good too.
+> -Daniel
+>=20
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> Best regards
+>>> Thomas
+>>>
+>>> [1] https://patchwork.freedesktop.org/patch/400054/?series=3D83765&re=
+v=3D1
+>>>
+>>>>
+>>>> - The new one, which allows vmapping with just dma_resv locked, and
+>>>> should
+>>>>  =C2=A0=C2=A0 have some caching in exporters.
+>>>>
+>>>> Breaking code and then adding todos about that is kinda not so cool
+>>>> approach here imo.
+>>>>
+>>>> Also I guess ttm_bo_vmap should have a check that either the buffer =
+is
+>>>> pinned, or dma_resv_lock is held.
+>>>>
+>>>> Cheers, Daniel
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>> Best regards
+>>>>> Thomas
+>>>>>
+>>>>>>
+>>>>>>> ---
+>>>>>>>  =C2=A0=C2=A0 Documentation/gpu/todo.rst | 15 +++++++++++++
+>>>>>>>  =C2=A0=C2=A0 include/drm/drm_gem.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 4 ++++
+>>>>>>>  =C2=A0=C2=A0 include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0 | 45
+>>>>>>> ++++++++++++++++++++++++++++++++++++++
+>>>>>>>  =C2=A0=C2=A0 3 files changed, 64 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.=
+rst
+>>>>>>> index 009d8e6c7e3c..32bb797a84fc 100644
+>>>>>>> --- a/Documentation/gpu/todo.rst
+>>>>>>> +++ b/Documentation/gpu/todo.rst
+>>>>>>> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann
+>>>>>>> <tzimmermann@suse.de>, Christian K=C3=B6nig, Daniel Vette
+>>>>>>>  =C2=A0=C2=A0 Level: Intermediate
+>>>>>>> +Enforce rules for dma-buf vmap and pin ops
+>>>>>>> +------------------------------------------
+>>>>>>> +
+>>>>>>> +Exporter implementations of vmap and pin in struct
+>>>>>>> dma_buf_ops (and consequently
+>>>>>>> +struct drm_gem_object_funcs) use a variety of locking
+>>>>>>> semantics. Some rely on
+>>>>>>> +the caller holding the dma-buf's reservation lock, some
+>>>>>>> do their own locking,
+>>>>>>> +some don't require any locking. VRAM helpers even used
+>>>>>>> to pin as part of vmap.
+>>>>>>> +
+>>>>>>> +We need to review each exporter and enforce the documented rules=
+=2E
+>>>>>>> +
+>>>>>>> +Contact: Christian K=C3=B6nig, Daniel Vetter, Thomas
+>>>>>>> Zimmermann <tzimmermann@suse.de>
+>>>>>>> +
+>>>>>>> +Level: Advanced
+>>>>>>> +
+>>>>>>> +
+>>>>>>>  =C2=A0=C2=A0 Core refactorings
+>>>>>>>  =C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+
+>>>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>>>>>>> index 5e6daa1c982f..1864c6a721b1 100644
+>>>>>>> --- a/include/drm/drm_gem.h
+>>>>>>> +++ b/include/drm/drm_gem.h
+>>>>>>> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * drm_gem_dmabuf_vmap=
+() helper.
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This callback is op=
+tional.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * See also struct dma_buf_ops.vmap
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int (*vmap)(struct drm_gem_=
+object *obj, struct
+>>>>>>> dma_buf_map *map);
+>>>>>>> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * drm_gem_dmabuf_vunm=
+ap() helper.
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * This callback is op=
+tional.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * See also struct dma_buf_ops.vunmap
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*vunmap)(struct drm_g=
+em_object *obj, struct
+>>>>>>> dma_buf_map *map);
+>>>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>>>>>> index cf72699cb2bc..dc81fdc01dda 100644
+>>>>>>> --- a/include/linux/dma-buf.h
+>>>>>>> +++ b/include/linux/dma-buf.h
+>>>>>>> @@ -267,7 +267,52 @@ struct dma_buf_ops {
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int (*mmap)(struct dma_buf =
+*, struct vm_area_struct *vma);
+>>>>>>> +=C2=A0=C2=A0=C2=A0 /**
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * @vmap:
+>>>>>>
+>>>>>> There's already a @vmap and @vunamp kerneldoc at the top comment, =
+that
+>>>>>> needs to be removed.
+>>>>>> -Daniel
+>>>>>>
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Returns a virtual address for the buf=
+fer.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Notes to callers:
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Callers must hold the struct dma_bu=
+f.resv lock
+>>>>>>> before calling
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 this interface.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Callers must provide means to preve=
+nt the
+>>>>>>> mappings from going
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 stale, such as holding th=
+e reservation lock or providing a
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 move-notify callback to t=
+he exporter.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Notes to implementors:
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations must expect pairs o=
+f @vmap and
+>>>>>>> @vunmap to be
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 called frequently and sho=
+uld optimize for this case.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations should avoid additi=
+onal operations, such as
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 pinning.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations may expect the call=
+er to hold the dma-buf's
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 reservation lock to prote=
+ct against concurrent calls and
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 relocation.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * - Implementations may provide additio=
+nal
+>>>>>>> guarantees, such as working
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0 without holding the reser=
+vation lock.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * This callback is optional.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Returns:
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * 0 on success or a negative error code=
+ on failure.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int (*vmap)(struct dma_buf =
+*dmabuf, struct dma_buf_map *map);
+>>>>>>> +
+>>>>>>> +=C2=A0=C2=A0=C2=A0 /**
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * @vunmap:
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Releases the address previously retur=
+ned by @vmap.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * This callback is optional.
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * See also @vmap()
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*vunmap)(struct dma_b=
+uf *dmabuf, struct
+>>>>>>> dma_buf_map *map);
+>>>>>>>  =C2=A0=C2=A0 };
+>>>>>>> --=20
+>>>>>>> 2.29.2
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>> --=20
+>>>>> Thomas Zimmermann
+>>>>> Graphics Driver Developer
+>>>>> SUSE Software Solutions Germany GmbH
+>>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+>>>>> (HRB 36809, AG N=C3=BCrnberg)
+>>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>>>>>
+>>>>
+>>>>
+>>>>
+>>>>
+>>>
+>>
 >=20
 
-This implies the "must" I suggest above.
-
-Note, that I have no context for this patch here, so I cannot know if
-this is documenting a legacy-only KMS struct or legacy+atomic struct.
-If the context here is legacy-only, then my comments above need to be
-addressed somewhere else that has legacy+atomic context.
-
-Likewise, I have no idea if any certain member or variable in the
-kernel is legacy, atomic, or both.
-
-> >   */ =20
->=20
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
-> I think maybe a follow up patch should document how userspace should
-> figure out how to line up the primary planes with the right crtcs (if it
-> wishes to know that information, it's not super useful aside from probably
-> good choice for a fullscreen fallback plane). See my reply on the old
-> thread.
->=20
-> And that patch should also add the code to drm_mode_config_validate() to
-> validate the possible_crtc masks for these. Something like
->=20
-> 	num_primary =3D 0; num_cursor =3D 0;
->=20
-> 	for_each_plane(plane) {
-> 		if (plane->type =3D=3D primary) {
-> 			WARN_ON(!(plane->possible_crtcs & BIT(num_primary)));
-> 			num_primary++;
-> 		}
->=20
-> 		/* same for cursor */
-> 	}
->=20
-> 	WARN_ON(num_primary !=3D dev->mode_config.num_crtcs);
-> }
-
-A good idea.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-Thanks,
-pq
+--La2DN66lFLV4lealZBpFx55x3kQJCiryS--
 
---Sig_/nSs90aY/duuOfZRJNL2RsB_
-Content-Type: application/pgp-signature
+--bKxtXe23WBn7W6bDLD0sAcr6ipZTz5iZk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/QjQwACgkQI1/ltBGq
-qqcsHA//Sx/akSXpQeKNvVRhvYjpNt3gr51LSuN5Wz0YAFEkqXAQq9g6cf8wgHqw
-ScwNHdTPp6FUUBG/h6lxMyhFc8kGHZb0mrzq0e6Mj+HUHfBLULX/EDgnr+hdMUWB
-2YkmVCpdIhKQOxy0eqeQ6L0m+o36HYp+ArUYWRrn4AdehzzC3uryad4hR7pYuIYQ
-vH4t65HvgQoGbPImTspRKkF/4CVmP9m+x7SAqHQM89N7jd4xGwdHJvaDExJ4ofeG
-o9/H5hYwdYWhtNjyHHdywVAPqySmPSkCxQyvdwyhlpaQ4sVimmQG0T5N+HwO+Aj3
-nbbpcKioHQOLazyzLUE20VkLxRkP2fvn8gneyJ8Dd3td/DJ2uVvp3OSwarqFO3ig
-vlVVwJXLGFA9M5bcV/eaPLDyHJL9FcjbCe4HtgKR6g6TDr5722Irq0RU2c1fyATN
-cBGhj3Wu7CvinDHRBpxdUjDrA0R0IdiJYAhQrPm7xdL4kRba4RYpOrs8K9nIcsUV
-kR8zETVlxjdVR9TI2cTcVoYo/Jds6mxEgkQ8105Bzm97KGwJ+ho7Xtmi8lpLN6F6
-F9HG+RtUg/bUTtiH3jQABds1t/MnloNZ7Ymz66tU2qkkDyY3da+lY0yCT9rBsBRJ
-qeuHTcOGptXLDFUW+mPKN/OSFa08lG4p7Lwr3h3j42GjOy6zjZg=
-=1WsJ
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/QmbQFAwAAAAAACgkQlh/E3EQov+Bo
+URAAmUc1ARG25ekIz7kVIVmppbSL/mYdv+NPCDgzGresfyNlJm9WUHGpFbCcls9ov67gz2IqpKIR
+8IAOaP/51f56FnOAsQyDA+XLbu7C7DK2Varb0q1m58QeFePai0WO2PvQk7ZxDWr6SleHs10YeVKq
+8t3MLX2jroJ8Ms3MsEDqJLNEJcA5jU3SlKKgukcDs8dg30XURsagL9oZopUzHQfZ0SKhtQ5210Ld
+Ohjz9hGWROxl404vusByLtxxobqeWYvyrb60wwJZBUC1NJO30SZra++LfAwRkCASDdSfmWMli0yd
+wCo7FIrV35daCmbefwNJUam4GQ4wtGZ3GDI2oYWU6YY4r1MmueDCqt4SSNXtwO9yUzz+VPgJTUWW
+OMCPosyJGuwxuRyw3wFS6hy6SIJ8rD5s9bF9OksVDS+A9hTm05Fq/yLLUpxmC/s6D856b0vYUgHc
+id5Y2B4yglH/fpJQYizF5JTTZaoQzRzzBDIZ0oj1pxvbmHmC0sW6btsRvrjIWinL/1y1HNbeRjmz
+o91VOyQKU1FWA6RpaSw4qJTqVnTRRBT4SUB1MUl+FtGcQLbheCIE1LPzKiCXO5TR6QYOhVbQOgUi
+G2El7mzcwPV+OmF96XQrEqbTJE7WKB0LckUzTYnSBJYMc3n/CQHUMFZdsQ58QwYmemOogzRKumUt
+OK0=
+=8Xgm
 -----END PGP SIGNATURE-----
 
---Sig_/nSs90aY/duuOfZRJNL2RsB_--
+--bKxtXe23WBn7W6bDLD0sAcr6ipZTz5iZk--
 
---===============1361731888==
+--===============1581344504==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -254,4 +515,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1361731888==--
+--===============1581344504==--
