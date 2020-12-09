@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDB102D3783
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 01:22:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C6682D3799
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 01:28:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50CB76E201;
-	Wed,  9 Dec 2020 00:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 733226E0D4;
+	Wed,  9 Dec 2020 00:28:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 792766E201
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 00:22:10 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id r14so146793wrn.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 16:22:10 -0800 (PST)
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9075C6E0D4
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 00:28:04 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a3so27009wmb.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Dec 2020 16:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=9AbzWMVF0TQe43o+4JA3HBhzZyrZ4Zx10fqPAAZZby4=;
- b=ivlqg5cSAm9CsQ11qbBwxnXNgQyC8KyQyIMyLJDd2STly3mw/6GG+IknjWY5fOjsfI
- HLTUACeXAyxqJ8snhKtFvs3s5arMZk+oLiWBvL3aKJgh/BuutwGu4OZfA+wtExuPOhDQ
- CmVSXEvvNLI+kV26YeQL/gIcjHGM01vD4S9zU=
+ bh=bDyHyRcQlk9KBAG5ZAuNjIGs5SUAqYhYe3CqVjRl+bM=;
+ b=ZoYP7fZ9j5o9mFjf4f2WG4Zcw4ze2E1JwCt+zMwsdp0+L8m/3xy9WsIvBowGhQh1lb
+ KSWMVhULLKiBMK/0yZOfpBjR92I8U5rQbCwPzSYO6qnCQuoT4dxZe8XdCTPGbW+nFXwJ
+ AvXNVemQm8y6Gox6sDlqC3JmCeCTptG54ZXdQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=9AbzWMVF0TQe43o+4JA3HBhzZyrZ4Zx10fqPAAZZby4=;
- b=uBBHslwAc422O0+CS+ibIyQJ+QG45+HsSp1ejbRHzc+fxmaLI5M0wTbRvsp43fC/PY
- xlMdk50cs0qwdt/Vj9ecCu1zZbgHLGobEoI5IRZw4fo6Bv3KTvQ5vvaNmYwomwi7HFzQ
- V++D8n+0LE61eB6lTCIswNqVLQEeMEef9EJMNSRzCBYlHOe1F7V4w4jbd9mvA/mbMW89
- sQTduS7aC9oVaqpj6MR4nNY+3ZVPA8Ye74HYAeVaS16vsoaWaMAFyTEc6PmKoFZv1pSR
- t86K2lqxahG9HeyEx6mkX1FXko1uMGVYp2z6canrV8ncle3qP599E3DfmQDqy1V3Secg
- RHRw==
-X-Gm-Message-State: AOAM5336hREGYqBOtR5LF3rGfSDmMkc6R0e0QdnCJma4bkVU5R3x2/3o
- 383/qJDSZc/edIfo/B8RPbIEH2xsLr+C+w==
-X-Google-Smtp-Source: ABdhPJw2aAt5HnF+1aTO3iz/FBOcn1Sd93OK1RKqHxVl4qI3PGSlnhPA9Vw9kTxFNp1NkCuNR++9LA==
-X-Received: by 2002:adf:e8c9:: with SMTP id k9mr608734wrn.107.1607473329088;
- Tue, 08 Dec 2020 16:22:09 -0800 (PST)
+ bh=bDyHyRcQlk9KBAG5ZAuNjIGs5SUAqYhYe3CqVjRl+bM=;
+ b=GxLegIQhfRmShukD3FVs6JvY0lSoJkScvQrdFEd2F7ebkyF6j0vBCUvoMWvQBEJiF5
+ p24QKr1V8MyMgMcq/HQ4gxwnMMtrSK6M55QsMk0Kvn0PMVzgNRrRcZ31R0SQpdEXO53V
+ CVkneXMK1YW8pccQa2WAHfCTF1/CbpjGdiMfa7Wpyr7wiE7gz4ZUcKXuerfTD4l2mxwS
+ /N0bgg6eczfW26c4RBhjj4piHYf/o/hqMlsy8WHGcy5R+5xNeINLwC12BJtZElsApass
+ DEHFl0JxxlU40kgYzueyGQ2cRYBpPB6t/vOWxsD0i0IBm7AmW/OfttEhhf+zGzQrtj6E
+ n6zg==
+X-Gm-Message-State: AOAM531y2ZmjOJVzFrdSEzslyDzQSIctbJyafDtoofMBHnTEHZoYD6oS
+ KbKF7egnvpOVQXwD+G6DExeP0g==
+X-Google-Smtp-Source: ABdhPJyWnJD+71j6PerYSoRsSEKr4/lvD59D1BfIC5fKjEvdGmdxL9GtZEAmypPMcREd7PaVUh1GZA==
+X-Received: by 2002:a1c:7c09:: with SMTP id x9mr4301wmc.98.1607473682962;
+ Tue, 08 Dec 2020 16:28:02 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q15sm870300wrw.75.2020.12.08.16.22.07
+ by smtp.gmail.com with ESMTPSA id 35sm1111052wrf.9.2020.12.08.16.28.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Dec 2020 16:22:08 -0800 (PST)
-Date: Wed, 9 Dec 2020 01:22:06 +0100
+ Tue, 08 Dec 2020 16:28:02 -0800 (PST)
+Date: Wed, 9 Dec 2020 01:28:00 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 1/7] drm: add drmm_encoder_alloc()
-Message-ID: <20201209002206.GH401619@phenom.ffwll.local>
-References: <20200911135724.25833-1-p.zabel@pengutronix.de>
- <20201204091732.GD4109@pendragon.ideasonboard.com>
- <ad437c826a6c4c578c99858da8dc64bfcce7410f.camel@pengutronix.de>
- <X8vYIvgcyuMSC+7y@pendragon.ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v2 4/7] drm/vc4: kms: Wait on previous FIFO users before
+ a commit
+Message-ID: <20201209002800.GI401619@phenom.ffwll.local>
+References: <20201204151138.1739736-1-maxime@cerno.tech>
+ <20201204151138.1739736-5-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <X8vYIvgcyuMSC+7y@pendragon.ideasonboard.com>
+In-Reply-To: <20201204151138.1739736-5-maxime@cerno.tech>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,211 +66,267 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ Tim Gover <tim.gover@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, Frank Rowand <frowand.list@gmail.com>,
+ Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Dec 05, 2020 at 08:57:38PM +0200, Laurent Pinchart wrote:
-> Hi Philipp,
+On Fri, Dec 04, 2020 at 04:11:35PM +0100, Maxime Ripard wrote:
+> If we're having two subsequent, non-blocking, commits on two different
+> CRTCs that share no resources, there's no guarantee on the order of
+> execution of both commits.
 > 
-> On Fri, Dec 04, 2020 at 11:12:20AM +0100, Philipp Zabel wrote:
-> > On Fri, 2020-12-04 at 11:17 +0200, Laurent Pinchart wrote:
-> > > On Fri, Sep 11, 2020 at 03:57:18PM +0200, Philipp Zabel wrote:
-> > > > Add an alternative to drm_encoder_init() that allocates and initializes
-> > > > an encoder and registers drm_encoder_cleanup() with
-> > > > drmm_add_action_or_reset().
-> > > > 
-> > > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > ---
-> > > > Changes since v2:
-> > > >  - call va_start() / va_end() unconditionally
-> > > > ---
-> > > >  drivers/gpu/drm/drm_encoder.c | 101 ++++++++++++++++++++++++++--------
-> > > >  include/drm/drm_encoder.h     |  30 ++++++++++
-> > > >  2 files changed, 108 insertions(+), 23 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/drm_encoder.c b/drivers/gpu/drm/drm_encoder.c
-> > > > index e555281f43d4..f5414705f9ad 100644
-> > > > --- a/drivers/gpu/drm/drm_encoder.c
-> > > > +++ b/drivers/gpu/drm/drm_encoder.c
-> > > > @@ -26,6 +26,7 @@
-> > > >  #include <drm/drm_device.h>
-> > > >  #include <drm/drm_drv.h>
-> > > >  #include <drm/drm_encoder.h>
-> > > > +#include <drm/drm_managed.h>
-> > > >  
-> > > >  #include "drm_crtc_internal.h"
-> > > >  
-> > > > @@ -91,25 +92,11 @@ void drm_encoder_unregister_all(struct drm_device *dev)
-> > > >  	}
-> > > >  }
-> > > >  
-> > > > -/**
-> > > > - * drm_encoder_init - Init a preallocated encoder
-> > > > - * @dev: drm device
-> > > > - * @encoder: the encoder to init
-> > > > - * @funcs: callbacks for this encoder
-> > > > - * @encoder_type: user visible type of the encoder
-> > > > - * @name: printf style format string for the encoder name, or NULL for default name
-> > > > - *
-> > > > - * Initialises a preallocated encoder. Encoder should be subclassed as part of
-> > > > - * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > > > - * called from the driver's &drm_encoder_funcs.destroy hook.
-> > > > - *
-> > > > - * Returns:
-> > > > - * Zero on success, error code on failure.
-> > > > - */
-> > > > -int drm_encoder_init(struct drm_device *dev,
-> > > > -		     struct drm_encoder *encoder,
-> > > > -		     const struct drm_encoder_funcs *funcs,
-> > > > -		     int encoder_type, const char *name, ...)
-> > > > +__printf(5, 0)
-> > > > +static int __drm_encoder_init(struct drm_device *dev,
-> > > > +			      struct drm_encoder *encoder,
-> > > > +			      const struct drm_encoder_funcs *funcs,
-> > > > +			      int encoder_type, const char *name, va_list ap)
-> > > >  {
-> > > >  	int ret;
-> > > >  
-> > > > @@ -125,11 +112,7 @@ int drm_encoder_init(struct drm_device *dev,
-> > > >  	encoder->encoder_type = encoder_type;
-> > > >  	encoder->funcs = funcs;
-> > > >  	if (name) {
-> > > > -		va_list ap;
-> > > > -
-> > > > -		va_start(ap, name);
-> > > >  		encoder->name = kvasprintf(GFP_KERNEL, name, ap);
-> > > > -		va_end(ap);
-> > > >  	} else {
-> > > >  		encoder->name = kasprintf(GFP_KERNEL, "%s-%d",
-> > > >  					  drm_encoder_enum_list[encoder_type].name,
-> > > > @@ -150,6 +133,36 @@ int drm_encoder_init(struct drm_device *dev,
-> > > >  
-> > > >  	return ret;
-> > > >  }
-> > > > +
-> > > > +/**
-> > > > + * drm_encoder_init - Init a preallocated encoder
-> > > > + * @dev: drm device
-> > > > + * @encoder: the encoder to init
-> > > > + * @funcs: callbacks for this encoder
-> > > > + * @encoder_type: user visible type of the encoder
-> > > > + * @name: printf style format string for the encoder name, or NULL for default name
-> > > > + *
-> > > > + * Initializes a preallocated encoder. Encoder should be subclassed as part of
-> > > > + * driver encoder objects. At driver unload time drm_encoder_cleanup() should be
-> > > > + * called from the driver's &drm_encoder_funcs.destroy hook.
-> > > > + *
-> > > > + * Returns:
-> > > > + * Zero on success, error code on failure.
-> > > > + */
-> > > > +int drm_encoder_init(struct drm_device *dev,
-> > > > +		     struct drm_encoder *encoder,
-> > > > +		     const struct drm_encoder_funcs *funcs,
-> > > > +		     int encoder_type, const char *name, ...)
-> > > > +{
-> > > > +	va_list ap;
-> > > > +	int ret;
-> > > > +
-> > > > +	va_start(ap, name);
-> > > > +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > > > +	va_end(ap);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > >  EXPORT_SYMBOL(drm_encoder_init);
-> > > >  
-> > > >  /**
-> > > > @@ -181,6 +194,48 @@ void drm_encoder_cleanup(struct drm_encoder *encoder)
-> > > >  }
-> > > >  EXPORT_SYMBOL(drm_encoder_cleanup);
-> > > >  
-> > > > +static void drmm_encoder_alloc_release(struct drm_device *dev, void *ptr)
-> > > > +{
-> > > > +	struct drm_encoder *encoder = ptr;
-> > > > +
-> > > > +	if (WARN_ON(!encoder->dev))
-> > > > +		return;
-> > > > +
-> > > > +	drm_encoder_cleanup(encoder);
-> > > > +}
-> > > > +
-> > > > +void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
-> > > > +			   const struct drm_encoder_funcs *funcs,
-> > > > +			   int encoder_type, const char *name, ...)
-> > > > +{
-> > > > +	void *container;
-> > > > +	struct drm_encoder *encoder;
-> > > > +	va_list ap;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (WARN_ON(!funcs || funcs->destroy))
-> > > > +		return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +	container = drmm_kzalloc(dev, size, GFP_KERNEL);
-> > > > +	if (!container)
-> > > > +		return ERR_PTR(-EINVAL);
-> > > > +
-> > > > +	encoder = container + offset;
-> > > > +
-> > > > +	va_start(ap, name);
-> > > > +	ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
-> > > > +	va_end(ap);
-> > > > +	if (ret)
-> > > > +		return ERR_PTR(ret);
-> > > > +
-> > > > +	ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
-> > > > +	if (ret)
-> > > > +		return ERR_PTR(ret);
-> > > 
-> > > Given that drmm_encoder_alloc_release() will be called right before the
-> > > kfree related to the above drmm_kzalloc(), wouldn't it be more efficient
-> > > to replace drmm_kzalloc() with kzalloc() and add a kfree() in
-> > > drmm_encoder_alloc_release() ? That will save one context allocation.
-> > 
-> > That is not quite as trivial: drmm_encoder_alloc_release() doesn't know
-> > the container pointer that must be passed to kfree(), nor the offset
-> > between container and encoder.
+> However, the second one will consider the first one as the old state,
+> and will be in charge of freeing it once that second commit is done.
 > 
-> Indeed :-S Adding more context to the drmres when creating it with
-> drmm_add_action_or_reset() would solve this, but it's probably overkill
-> (although I think this would definitely be useful if/when we turn the
-> DRM resource manager to a more generic component usable by other
-> subsystems).
-
-Internally it's even funnier, because the drmm_kzalloc doesn't even have a
-callback - the allocation is freed as part of the drmm tracking structure.
-Which means that drmm_kzalloc has a "free" release callback already.
-
-This irked me to no end, but I couldn't come up with an interface to stuff
-the release callback into the allocation which I deemed safe enough for
-drmm, which is supposed to make life easy and bugs disappear, not greate
-new surprises.
-
-What I just realized is that drmm_add_action_or_reset could look at the
-drmm cleanup action stack, and if the topmost one doesn't have a hook set
-already, use that one instead of allocating a new tracker structure. This
-way ordering is always guaranteed (e.g. if you mix up drmm_kzalloc calls
-with add_action for different objects in strange orders) and there's no
-problem ever, we just avoid a few small allocations.
-
-Still needs a few special cases, so not sure it's actually a win.
--Daniel
-
+> If the first commit happens after that second commit, it might access
+> some resources related to its state that has been freed, resulting in a
+> use-after-free bug.
 > 
-> > > With this addressed,
-> > > 
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> The standard DRM objects are protected against this, but our HVS private
+> state isn't so let's make sure we wait for all the previous FIFO users
+> to finish their commit before going with our own.
 > 
-> You can add my tag to this patch and the other ones in the series where
-> I've made the same comment.
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> ---
+>  drivers/gpu/drm/vc4/vc4_kms.c | 123 +++++++++++++++++++++++++++++++++-
+>  1 file changed, 122 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+> index 8937eb0b751d..fdd698df5fbe 100644
+> --- a/drivers/gpu/drm/vc4/vc4_kms.c
+> +++ b/drivers/gpu/drm/vc4/vc4_kms.c
+> @@ -40,6 +40,11 @@ static struct vc4_ctm_state *to_vc4_ctm_state(struct drm_private_state *priv)
+>  struct vc4_hvs_state {
+>  	struct drm_private_state base;
+>  	unsigned int unassigned_channels;
+> +
+> +	struct {
+> +		unsigned in_use: 1;
+> +		struct drm_crtc_commit *pending_commit;
+> +	} fifo_state[HVS_NUM_CHANNELS];
+>  };
+>  
+>  static struct vc4_hvs_state *
+> @@ -182,6 +187,32 @@ vc4_ctm_commit(struct vc4_dev *vc4, struct drm_atomic_state *state)
+>  		  VC4_SET_FIELD(ctm_state->fifo, SCALER_OLEDOFFS_DISPFIFO));
+>  }
+>  
+> +static struct vc4_hvs_state *
+> +vc4_hvs_get_new_global_state(struct drm_atomic_state *state)
+> +{
+> +	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
+> +	struct drm_private_state *priv_state;
+> +
+> +	priv_state = drm_atomic_get_new_private_obj_state(state, &vc4->hvs_channels);
+> +	if (IS_ERR(priv_state))
+> +		return ERR_CAST(priv_state);
+> +
+> +	return to_vc4_hvs_state(priv_state);
+> +}
+> +
+> +static struct vc4_hvs_state *
+> +vc4_hvs_get_old_global_state(struct drm_atomic_state *state)
+> +{
+> +	struct vc4_dev *vc4 = to_vc4_dev(state->dev);
+> +	struct drm_private_state *priv_state;
+> +
+> +	priv_state = drm_atomic_get_old_private_obj_state(state, &vc4->hvs_channels);
+> +	if (IS_ERR(priv_state))
+> +		return ERR_CAST(priv_state);
+> +
+> +	return to_vc4_hvs_state(priv_state);
+> +}
+> +
+>  static struct vc4_hvs_state *
+>  vc4_hvs_get_global_state(struct drm_atomic_state *state)
+>  {
+> @@ -308,8 +339,10 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
+>  	struct drm_device *dev = state->dev;
+>  	struct vc4_dev *vc4 = to_vc4_dev(dev);
+>  	struct vc4_hvs *hvs = vc4->hvs;
+> +	struct drm_crtc_state *old_crtc_state;
+>  	struct drm_crtc_state *new_crtc_state;
+>  	struct drm_crtc *crtc;
+> +	struct vc4_hvs_state *old_hvs_state;
+>  	int i;
+>  
+>  	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+> @@ -329,6 +362,36 @@ vc4_atomic_complete_commit(struct drm_atomic_state *state)
+>  
+>  	drm_atomic_helper_wait_for_dependencies(state);
+>  
+> +	old_hvs_state = vc4_hvs_get_old_global_state(state);
+> +	if (!old_hvs_state)
+> +		return;
+> +
+> +	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
+> +		struct vc4_crtc_state *vc4_crtc_state =
+> +			to_vc4_crtc_state(old_crtc_state);
+> +		struct drm_crtc_commit *commit;
+> +		unsigned int channel = vc4_crtc_state->assigned_channel;
+> +		unsigned long done;
+> +
+> +		if (channel == VC4_HVS_CHANNEL_DISABLED)
+> +			continue;
+> +
+> +		if (!old_hvs_state->fifo_state[channel].in_use)
+> +			continue;
+> +
+> +		commit = old_hvs_state->fifo_state[i].pending_commit;
+> +		if (!commit)
+> +			continue;
+> +
+> +		done = wait_for_completion_timeout(&commit->hw_done, 10 * HZ);
+> +		if (!done)
+> +			drm_err(dev, "Timed out waiting for hw_done\n");
+> +
+> +		done = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
+> +		if (!done)
+> +			drm_err(dev, "Timed out waiting for flip_done\n");
+
+Idea for a follow-up patch: Add something like drm_crtc_commit_wait which
+skips on a NULL commit and does the two waits here. And use it here and in
+drm_atomic_helper_wait_for_dependencies, we have four copies of the same
+code by now :-)
+
+> +	}
+> +
+>  	drm_atomic_helper_commit_modeset_disables(dev, state);
+>  
+>  	vc4_ctm_commit(vc4, state);
+> @@ -368,6 +431,36 @@ static void commit_work(struct work_struct *work)
+>  	vc4_atomic_complete_commit(state);
+>  }
+>  
+> +static int vc4_atomic_commit_setup(struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state;
+> +	struct vc4_hvs_state *hvs_state;
+> +	struct drm_crtc *crtc;
+> +	unsigned int i;
+> +
+> +	hvs_state = vc4_hvs_get_new_global_state(state);
+> +	if (!hvs_state)
+> +		return -EINVAL;
+> +
+> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+> +		struct vc4_crtc_state *vc4_crtc_state =
+> +			to_vc4_crtc_state(crtc_state);
+> +		unsigned int channel =
+> +			vc4_crtc_state->assigned_channel;
+> +
+> +		if (channel == VC4_HVS_CHANNEL_DISABLED)
+> +			continue;
+> +
+> +		if (!hvs_state->fifo_state[channel].in_use)
+> +			continue;
+> +
+> +		hvs_state->fifo_state[channel].pending_commit =
+> +			drm_crtc_commit_get(crtc_state->commit);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * vc4_atomic_commit - commit validated state object
+>   * @dev: DRM device
+> @@ -697,6 +790,7 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
+>  {
+>  	struct vc4_hvs_state *old_state = to_vc4_hvs_state(obj->state);
+>  	struct vc4_hvs_state *state;
+> +	unsigned int i;
+>  
+>  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+>  	if (!state)
+> @@ -706,6 +800,16 @@ vc4_hvs_channels_duplicate_state(struct drm_private_obj *obj)
+>  
+>  	state->unassigned_channels = old_state->unassigned_channels;
+>  
+> +	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
+> +		state->fifo_state[i].in_use = old_state->fifo_state[i].in_use;
+> +
+> +		if (!old_state->fifo_state[i].pending_commit)
+> +			continue;
+> +
+> +		state->fifo_state[i].pending_commit =
+> +			drm_crtc_commit_get(old_state->fifo_state[i].pending_commit);
+> +	}
+> +
+>  	return &state->base;
+>  }
+>  
+> @@ -713,6 +817,14 @@ static void vc4_hvs_channels_destroy_state(struct drm_private_obj *obj,
+>  					   struct drm_private_state *state)
+>  {
+>  	struct vc4_hvs_state *hvs_state = to_vc4_hvs_state(state);
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < HVS_NUM_CHANNELS; i++) {
+> +		if (!hvs_state->fifo_state[i].pending_commit)
+> +			continue;
+> +
+> +		drm_crtc_commit_put(hvs_state->fifo_state[i].pending_commit);
+> +	}
+>  
+>  	kfree(hvs_state);
+>  }
+> @@ -805,7 +917,10 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+>  
+>  		/* If we're disabling our CRTC, we put back our channel */
+>  		if (!new_crtc_state->enable) {
+> -			hvs_new_state->unassigned_channels |= BIT(old_vc4_crtc_state->assigned_channel);
+> +			channel = old_vc4_crtc_state->assigned_channel;
+> +
+> +			hvs_new_state->unassigned_channels |= BIT(channel);
+> +			hvs_new_state->fifo_state[channel].in_use = false;
+>  			new_vc4_crtc_state->assigned_channel = VC4_HVS_CHANNEL_DISABLED;
+>  			continue;
+>  		}
+> @@ -841,6 +956,7 @@ static int vc4_pv_muxing_atomic_check(struct drm_device *dev,
+>  		channel = ffs(matching_channels) - 1;
+>  		new_vc4_crtc_state->assigned_channel = channel;
+>  		hvs_new_state->unassigned_channels &= ~BIT(channel);
+> +		hvs_new_state->fifo_state[channel].in_use = true;
+>  	}
+>  
+>  	return 0;
+> @@ -866,6 +982,10 @@ vc4_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
+>  	return vc4_load_tracker_atomic_check(state);
+>  }
+>  
+> +static struct drm_mode_config_helper_funcs vc4_mode_config_helpers = {
+> +	.atomic_commit_setup	= vc4_atomic_commit_setup,
+> +};
+> +
+>  static const struct drm_mode_config_funcs vc4_mode_funcs = {
+>  	.atomic_check = vc4_atomic_check,
+>  	.atomic_commit = vc4_atomic_commit,
+> @@ -909,6 +1029,7 @@ int vc4_kms_load(struct drm_device *dev)
+>  	}
+>  
+>  	dev->mode_config.funcs = &vc4_mode_funcs;
+> +	dev->mode_config.helper_private = &vc4_mode_config_helpers;
+>  	dev->mode_config.preferred_depth = 24;
+>  	dev->mode_config.async_page_flip = true;
+>  	dev->mode_config.allow_fb_modifiers = true;
+
+Since I suggested this entire thing kinda:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > -- 
-> Regards,
+> 2.28.0
 > 
-> Laurent Pinchart
 > _______________________________________________
 > dri-devel mailing list
 > dri-devel@lists.freedesktop.org
