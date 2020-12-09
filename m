@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98402D49B9
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 20:05:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 312162D4A9A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 20:40:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C6676E1BC;
-	Wed,  9 Dec 2020 19:05:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 001316E133;
+	Wed,  9 Dec 2020 19:40:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA2836E188
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 19:05:00 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id g20so612053plo.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 11:05:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=/UsojO3YT4ojgGWZWe9AgdTF40UliX8euFAjdhHI+5E=;
- b=D548r6tfjRjuqddyZqi6fpDGFfJXK5WSIO8Ho5JrZxdYuYRITJ+sRRWwNqN3IUalMq
- rmtgctzQ3zUpEv7Wc38JbJfD9xNy64wqd6UkGHOa0nJ8qu4Nanz6oAllOcvWjOJ5/e1z
- p8tRiEuqY6EGV+1AZaT78ZX/AHDess2iD6mo0PJa6wb36pcA5Zv2/gNZvLKxJYf5lHnn
- c1Q+VZGJtercgP3c2Sl3bWSSzfwCEOExRjDsEXoHUqtmxhGQcbGcmYxXCa3LhxxJ117u
- VUUmBiiOaCZUTdO29sNKlzdHIayKqtdIgd/i+txlYmADMT8RzpcwtYjtjstnyjzwdcOt
- mbWA==
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78CE36E133
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 19:40:34 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id t4so3018497wrr.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 11:40:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=/ndpcZIffHkvfeSgAOYs1vW51rxZGrcNbwAm7hSNScc=;
+ b=hj60k+bdAJAHTayGpQo5A/WANJK7zJxOZuSHrM3D5hspTsbvO+mDcreuzZEx2vz6Rq
+ L0wYtBJYCJU0Mwa/jjDRd3ZqCGL+FurglW5CbbNVgeWb0RLxIot/qawbM2QdICf7Z2Kv
+ 79DVlXE0d+2a1m07HadmPfBzen8QPjmEmw7nc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=/UsojO3YT4ojgGWZWe9AgdTF40UliX8euFAjdhHI+5E=;
- b=mdZwR/d0MK6ZnkJJZrCH7JpMrJFi1CikOE1b0UDTyJ/xm/sn+DifucYbdmuCHm3JgQ
- X0ekMwI0/B54izfmOaaw2iWBDpW0VrCSprGEpf7P4Vk21S0rhvf18sJlH2xDBuoosMO4
- 4Z15HCu1pJXkKqpHYbb9g8aEUNTMXAEXCtykTvkYMEEpX9c5AfUYD+bVSt59UF6HDryz
- pMxmrDmBFPA7BlhRCBuRrnDSozdN69/XTUQk4yjXeMWwhk/8RnJMP4iJxKVXRV/CNFoy
- kJBYf9Fmk6np0BQ7NcgxPhpG+4kyzeuipxRFySz5Lxl7b8vp1zz2bn4SDb0tRRvsuj0D
- vZeA==
-X-Gm-Message-State: AOAM532pGKWAdT+fFlVa3XDW8ih9VURavpOXlGFCkYaTqY0eQdISmKWv
- znQlf7Czy5eVoa7KxSAK2wg=
-X-Google-Smtp-Source: ABdhPJynKIt47cLvQOMnEdiyWNtUNdbLfIaDC7GfpGEwNNwF7mRz6z1XwWljvTc8ahnUQTGmtPnFjw==
-X-Received: by 2002:a17:902:b582:b029:d6:6008:264d with SMTP id
- a2-20020a170902b582b02900d66008264dmr3494207pls.80.1607540700315; 
- Wed, 09 Dec 2020 11:05:00 -0800 (PST)
-Received: from adolin ([49.207.194.238])
- by smtp.gmail.com with ESMTPSA id g16sm3177829pfb.201.2020.12.09.11.04.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=/ndpcZIffHkvfeSgAOYs1vW51rxZGrcNbwAm7hSNScc=;
+ b=Xmon+wLM9L3e+F/JzNOQ2OgZM49ED7wm1qmDoGbOMZqasfEkzRXdZGlqORbAvN/9GV
+ JO2aVwNkX5DJlYt6qoCRikNcjXawVWu1Vez8u7V70fKK8xfjroHIYS1wEg6uF65iUXJ1
+ NvzhGtEU5l5y9J/R4ZXePB/vQNUns2OaCDQHxS7hiq5XIqlpl1FLDWv0N/0KBBvQ1rp7
+ W9crZ3N6PL4cA05qJsFVa53D7wiiei95klTc1SvBy8PwlJhPU/n6A4UCgxqnlKXSwoQ0
+ 06BSAv3MvpTnEDZffLZLVyDLO0OttUcmSbLHJZJC8mwi+RJjYLyCh8mheAmsB9+WQQTe
+ twBA==
+X-Gm-Message-State: AOAM531xvmOfpoctgVDK5XzBENCJIIgkP9QCAasQGiAJnxxsDRCith5m
+ TiAw5Xm3B5mhkIzS7KM/0T+CkiXUwR0n+Q==
+X-Google-Smtp-Source: ABdhPJwsjIRBbh+DJDhcdwEFjSt8E6GCTLLGxcK4ylpHg5g7pgrm3lY1a05W0WpJTpgvQYGTkev3MA==
+X-Received: by 2002:adf:8b09:: with SMTP id n9mr4266037wra.180.1607542833096; 
+ Wed, 09 Dec 2020 11:40:33 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id h14sm5507883wrx.37.2020.12.09.11.40.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 11:04:59 -0800 (PST)
-Date: Thu, 10 Dec 2020 00:34:53 +0530
-From: Sumera Priyadarsini <sylphrenadin@gmail.com>
-To: melissa.srw@gmail.com
-Subject: [PATCH v3] drm/vkms: Add setup and testing information
-Message-ID: <20201209190453.c6kp5winikr55n3i@adolin>
+ Wed, 09 Dec 2020 11:40:32 -0800 (PST)
+Date: Wed, 9 Dec 2020 20:40:30 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: rework description of primary and cursor planes
+Message-ID: <20201209194030.GV401619@phenom.ffwll.local>
+References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
+ <20201209004223.GL401619@phenom.ffwll.local>
+ <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
+ <20201209160223.GT401619@phenom.ffwll.local>
+ <W7ZhvStaUaGjlhYSldWxC93V0-tjSEwm-ldyPBpmvkJ9xRw1krfB1TNd5X4hEjkamaEhH1ASD0yiFzMCh72oG8vCeg-HeOt5dRN5U5v_q34=@emersion.fr>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <W7ZhvStaUaGjlhYSldWxC93V0-tjSEwm-ldyPBpmvkJ9xRw1krfB1TNd5X4hEjkamaEhH1ASD0yiFzMCh72oG8vCeg-HeOt5dRN5U5v_q34=@emersion.fr>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,116 +68,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: hamohammed.sa@gmail.com, tzimmermann@suse.de, rodrigosiqueiramelo@gmail.com,
- corbet@lwn.net, airlied@linux.ie, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the vkms documentation to contain steps to:
+On Wed, Dec 09, 2020 at 04:35:31PM +0000, Simon Ser wrote:
+> On Wednesday, December 9th, 2020 at 5:02 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Wed, 9 Dec 2020 01:42:23 +0100
+> > Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > > On Sun, Dec 06, 2020 at 04:34:15PM +0000, Simon Ser wrote:
+> > > > The previous wording could be understood by user-space evelopers as "a
+> > > > primary/cursor plane is only compatible with a single CRTC" [1].
+> > > >
+> > > > Reword the planes description to make it clear the DRM-internal
+> > > > drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
+> > > >
+> > > > [1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
+> > > >
+> > > > Signed-off-by: Simon Ser <contact@emersion.fr>
+> > > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > > Cc: Pekka Paalanen <ppaalanen@gmail.com>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_crtc.c  |  3 +++
+> > > >  drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
+> > > >  2 files changed, 12 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+> > > > index 74090fc3aa55..c71b134d663a 100644
+> > > > --- a/drivers/gpu/drm/drm_crtc.c
+> > > > +++ b/drivers/gpu/drm/drm_crtc.c
+> > > > @@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+> > > >   * planes). For really simple hardware which has only 1 plane look at
+> > > >   * drm_simple_display_pipe_init() instead.
+> > > >   *
+> > > > + * The @primary and @cursor planes are only relevant for legacy uAPI, see
+> > > > + * &drm_crtc.primary and &drm_crtc.cursor.
+> > > > + *
+> > > >   * Returns:
+> > > >   * Zero on success, error code on failure.
+> > > >   */
+> > > > diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> > > > index e6231947f987..7a5697bc9e04 100644
+> > > > --- a/drivers/gpu/drm/drm_plane.c
+> > > > +++ b/drivers/gpu/drm/drm_plane.c
+> > > > @@ -49,14 +49,16 @@
+> > > >   * &struct drm_plane (possibly as part of a larger structure) and registers it
+> > > >   * with a call to drm_universal_plane_init().
+> > > >   *
+> > > > - * Cursor and overlay planes are optional. All drivers should provide one
+> > > > - * primary plane per CRTC to avoid surprising userspace too much. See enum
+> > > > - * drm_plane_type for a more in-depth discussion of these special uapi-relevant
+> > > > - * plane types. Special planes are associated with their CRTC by calling
+> > > > - * drm_crtc_init_with_planes().
+> > > > - *
+> > > >   * The type of a plane is exposed in the immutable "type" enumeration property,
+> > > > - * which has one of the following values: "Overlay", "Primary", "Cursor".
+> > > > + * which has one of the following values: "Overlay", "Primary", "Cursor" (see
+> > > > + * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
+> > > > + * &drm_plane.possible_crtcs.
+> > > > + *
+> > > > + * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
+> > > > + * relies on the driver to set the primary and optionally the cursor plane used
+> > > > + * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
+> > > > + * drivers should provide one primary plane per CRTC to avoid surprising legacy
+> >
+> > s/should/must/?
+> 
+> Unsure about this. Do we really want to WARN_ON(!crtc->primary)?
 
- - setup the vkms driver
- - run tests using igt
+Lack of crtc->primary breaks the world: fbdev stops working, most boot
+splashes and simplistic userspace stops working, the entire legacy uapi
+stops working.
 
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-___
-Changes in v2:
- - Change heading to title case (Daniel)
- - Add examples to run tests directly (Daniel)
- - Add examples to run subtests (Melissa)
+If the hw can at all do it, we'll require it. So I really think we should
+require the MUST here (and the warning on top perhaps, or the more
+elaborate validation I proposed).
 
-Changes in v3:
- - Add example using run-tests.sh script(Daniel)
----
- Documentation/gpu/vkms.rst | 70 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+> > > > + * userspace too much.
+> >
+> > I think it would also be useful for atomic userspace. Sure, atomic
+> > userspace can be expected handle failures, but if there is not at least
+> > one primary type KMS plane available for a CRTC, then userspace
+> > probably never uses that CRTC which means the end user could be left
+> > without an output they wanted.
+> 
+> The reason why I explicitly mentionned legacy user-space here is that the whole
+> paragraph is about the internal legacy primary/cursor pointers. I don't want to
+> mix in requirements for atomic user-space in here.
+> 
+> But yes some atomic user-space will misbehave if it finds a CRTC without any
+> candidate primary plane. I guess we could add a new paragraph among those
+> lines:
+> 
+>     Each CRTC should be compatible with at least one primary plane to avoid
+>     surprising userspace too much.
+> 
+> But it's not enough, can't have a single primary plane for two CRTCs.
+> 
+>     Each CRTC should be compatible with at least one primary plane, and there
+>     should be as many primary planes as there are CRTCs to avoid suprising
+>     userspace too much.
+> 
+> But it's not enough, can't have two CRTCs with the same primary plane. Well,
+> I give up, it's just simpler to use Daniel's criteria.
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 13bab1d93bb3..9e030c74a82e 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -7,6 +7,76 @@
- .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
-    :doc: vkms (Virtual Kernel Modesetting)
- 
-+Setup
-+=====
-+
-+The VKMS driver can be setup with the following steps:
-+
-+To check if VKMS is loaded, run::
-+
-+  lsmod | grep vkms
-+
-+This should list the VKMS driver. If no output is obtained, then
-+you need to enable and/or load the VKMS driver.
-+Ensure that the VKMS driver has been set as a loadable module in your
-+kernel config file. Do::
-+
-+  make nconfig
-+
-+  Go to `Device Drivers> Graphics support`
-+
-+  Enable `Virtual KMS (EXPERIMENTAL)`
-+
-+Compile and build the kernel for the changes to get reflected.
-+Now, to load the driver, use::
-+
-+  sudo modprobe vkms
-+
-+On running the lsmod command now, the VKMS driver will appear listed.
-+You can also observe the driver being loaded in the dmesg logs.
-+
-+To disable the driver, use ::
-+
-+  sudo modprobe -r vkms
-+
-+Testing With IGT
-+================
-+
-+The IGT GPU Tools is a test suite used specifically for debugging and
-+development of the DRM drivers.
-+The IGT Tools can be installed from
-+`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
-+
-+The tests need to be run without a compositor, so you need to switch to text
-+only mode. You can do this by::
-+
-+  sudo systemctl isolate multi-user.target
-+
-+To return to graphical mode, do::
-+
-+  sudo systemctl isolate graphical.target
-+
-+Once you are in text only mode, you can run tests using the --device switch
-+or IGT_DEVICE variable to specify the device filter for the driver we want
-+to test. IGT_DEVICE can also be used with the run-test.sh script to run the
-+tests for a specific driver::
-+
-+  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
-+  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
-+  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
-+
-+For example, to test the functionality of the writeback library,
-+we can run the kms_writeback test::
-+
-+  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
-+  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
-+  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
-+
-+You can also run subtests if you do not want to run the entire test::
-+
-+  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-+  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
-+
- TODO
- ====
- 
+Yeah, also with the validation check we'll now real quick if any driver
+gets it wrong. Then I think we can have a useful discussion about why, and
+what to do with that case. As-is we're kinda drafting specs in the void,
+which is always a bit tough ...
+
+That's kinda another reason for doing the stricter check I proposed, it's
+easier to check and guarantee (on both the driver and compositor side
+hopefully).
+-Daniel
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
