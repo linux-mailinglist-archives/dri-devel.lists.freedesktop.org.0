@@ -1,66 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 913E82D3FA7
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 11:13:02 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0D62D3FB4
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 11:16:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEDF089C6E;
-	Wed,  9 Dec 2020 10:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6CE46E303;
+	Wed,  9 Dec 2020 10:16:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com
- [IPv6:2a00:1450:4864:20::642])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF2F89C6E;
- Wed,  9 Dec 2020 10:12:57 +0000 (UTC)
-Received: by mail-ej1-x642.google.com with SMTP id x16so1278451ejj.7;
- Wed, 09 Dec 2020 02:12:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=2TgTgg/zXDQtwR/4fEwrhfAWTfIv4oNJAdegyhxF/8E=;
- b=uwuL0z/1J7PHIyoeSnDkVCvAoFDki073TXp2VbHUSD/UGQ5I+7CGSKjR8YpEvDnTQr
- 6utIsIluv2zaGRoeK0Svzh6V0QuueWZe7I3aTF/n77J8OLakFbdbatGog9MYLuKIeEX4
- zzHS6LMjLjpgiC5aduJnbCsjuVUDrynxEb6U14fyamt7gz/wEDKyw5scZl+nEHkjZGoD
- oXjcnPjVbaYZjFNud/eQ9+fv+3RIIzuLzRQxlotaWL4U3/CqJCtQDnzDKORORrzhnQsz
- v5v45W3QLTMbjPJK1z/i5WWqjDriYaZe1PxHe3G1Ladj2DI8BFYDtImsNDoPOJSH33bj
- 08rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=2TgTgg/zXDQtwR/4fEwrhfAWTfIv4oNJAdegyhxF/8E=;
- b=eMjHM5ObeBKAktNaTMphMRVyE0VvXyXWFh4InO757AufNY98BHw62CjPlC7b+DNJda
- XTgch2TURcSN0MOoH+qp7ZZmsBIWGrEZ6m5MUxlK33DQqJ/xqMVOU2fWaSbcu9wN4LJ7
- RT5PKiY/W2EvNHwE2Wzsj6Cr7eBCZb8PqarFlVROXLJj5q2QTSZAHDCd71qjnqWa4B3y
- wXCk/5iWR1lDU0Ximfj7KaFRAY1nLazdT/HixG98/BZobSKtN1a0FsLG2ccDOzqF6RfM
- v3Suotkmu6L/G0Ip3J8NZrPvdgI0V5c7kZJh5IKw08Elqrfvxk6I/iTi6A7AQLEzL4Uz
- tuog==
-X-Gm-Message-State: AOAM530xF3rxZKihIuoXRVECX2U0gsQQZhhYM02cGxqb0bOYv6lPaAQH
- s9PmiPZ4Z0aEIQvCWjPEsSESTGRpG9k=
-X-Google-Smtp-Source: ABdhPJz38SgP2L3r9/Kus6e4AWNxj51N0w78vXFUR0Ddj8BBplU42kBGjAqFKzEd9e7gdnhDll188g==
-X-Received: by 2002:a17:907:2108:: with SMTP id
- qn8mr1414621ejb.127.1607508775752; 
- Wed, 09 Dec 2020 02:12:55 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
- ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
- by smtp.gmail.com with ESMTPSA id da9sm1126456edb.84.2020.12.09.02.12.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Dec 2020 02:12:55 -0800 (PST)
-Subject: Re: [PATCH v2] [PATCH] drm/amdgpu: Initialise drm_gem_object_funcs
- for imported BOs
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- dri-devel@lists.freedesktop.org
-References: <1607458575-15197-1-git-send-email-andrey.grodzovsky@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <03401421-72c5-c202-de62-a211514da9b8@gmail.com>
-Date: Wed, 9 Dec 2020 11:12:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch
+ [185.70.40.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 009946E303
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 10:16:00 +0000 (UTC)
+Date: Wed, 09 Dec 2020 10:15:54 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1607508958;
+ bh=OE4vQLwD/6hJcxYjp7uPZqn5sCecKyeR6NjvbcfeBa0=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=GeashfkicEkpIm550Zii2F8TIePGzORBCSTrYqVFPhdCBDakr5YTUnivklaMrOihy
+ 5c5trEq+EpvOg5Ms29+Ygx7l+jCibSLBfAj3s2i2rxhNygd9/2uoF7S6I5vNpdkJR2
+ 0CSAQ3Ab/xwqG5iI/6X6VrxQBPl3M0dmT1xplxZ74P+B1EF4xAc9vTVeJKdNMif9v7
+ d3qHzATo/xxL1Kwm+uzOWzPu1rv6jlX3jDWS8JgxIZVzww86Nh1NLqQNwKSCpt0Daf
+ 3P4Gtr5T4p24L49ZgmpJCNEe2afdzDOtuD8g8h+A8J+ts1sCzRQfYvkGRmTFmBqo3F
+ qSGkDoCnNeWVw==
+To: James Park <james.park@lagfreegames.com>
+From: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
+Message-ID: <XspbLN5snOHL6Tx2ucz_uV7yb1AckJjXqAm7bOJk_2mO-1ttjhZFY0KFMf5V_5Xle0J2HEeGYnA3_KlN-73_caBSI5mLUPKoIVnpQQG01ys=@emersion.fr>
+In-Reply-To: <CABjik9dKMGkuZXpMbdSjz9aPxn=_mQoU4kGAd6jdBKju82e1jw@mail.gmail.com>
+References: <202012080129.qAoCOovN-lkp@intel.com>
+ <1607364939-640-1-git-send-email-jpark37@lagfreegames.com>
+ <1607364939-640-2-git-send-email-jpark37@lagfreegames.com>
+ <8GcCcwMpk0Rz_34xReIOuuL2JZBQ2P71fYo4-G8ZMcxdqu2GE7NVnsxUHIxbo7xOylM_lIO2sA6yIgI9W3MoSvErpLWFTRFJR1Om6dtN9wE=@emersion.fr>
+ <CABjik9dKMGkuZXpMbdSjz9aPxn=_mQoU4kGAd6jdBKju82e1jw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1607458575-15197-1-git-send-email-andrey.grodzovsky@amd.com>
-Content-Language: en-US
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,92 +52,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: christian.koenig@amd.com
-Cc: Alexander.Deucher@amd.com, tzimmermann@suse.de,
- amd-gfx@lists.freedesktop.org
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ James Park <jpark37@lagfreegames.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QW0gMDguMTIuMjAgdW0gMjE6MTYgc2NocmllYiBBbmRyZXkgR3JvZHpvdnNreToKPiBGb3IgQk9z
-IGltcG9ydGVkIGZyb20gb3V0c2lkZSBvZiBhbWRncHUsIHNldHRpbmcgb2YgYW1kZ3B1X2dlbV9v
-YmplY3RfZnVuY3MKPiB3YXMgbWlzc2luZyBpbiBhbWRncHVfZG1hX2J1Zl9jcmVhdGVfb2JqLiBG
-aXggYnkgcmVmYWN0b3JpbmcgQk8gY3JlYXRpb24KPiBhbmQgYW1kZ3B1X2dlbV9vYmplY3RfZnVu
-Y3Mgc2V0dGluZyBpbnRvIHNpbmdsZSBmdW5jdGlvbiBjYWxsZWQKPiBmcm9tIGJvdGggY29kZSBw
-YXRocy4KPgo+IEZpeGVzOiBkNjkzZGVmNGZkMWMgKCJkcm06IFJlbW92ZSBvYnNvbGV0ZSBHRU0g
-YW5kIFBSSU1FIGNhbGxiYWNrcwo+IGZyb20gc3RydWN0IGRybV9kcml2ZXIiKQo+Cj4gdjI6IFVz
-ZSB1c2UgYW1kZ3B1X2dlbV9vYmplY3RfY3JlYXRlKCkgZGlyZWN0bHkKPgo+IFNpZ25lZC1vZmYt
-Ynk6IEFuZHJleSBHcm9kem92c2t5IDxhbmRyZXkuZ3JvZHpvdnNreUBhbWQuY29tPgoKUmV2aWV3
-ZWQtYnk6IENocmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KCj4gLS0t
-Cj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jIHwgIDggKysr
-Ky0tCj4gICBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZ2VtLmMgICAgIHwgNDEg
-KysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tLS0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMjkgaW5z
-ZXJ0aW9ucygrKSwgMjAgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
-ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2RtYV9idWYuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
-Z3B1L2FtZGdwdV9kbWFfYnVmLmMKPiBpbmRleCBlNTkxOWVmLi5lNDIxNzVlIDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kbWFfYnVmLmMKPiArKysgYi9k
-cml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfZG1hX2J1Zi5jCj4gQEAgLTQyNCw2ICs0
-MjQsNyBAQCBhbWRncHVfZG1hX2J1Zl9jcmVhdGVfb2JqKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYs
-IHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmKQo+ICAgCXN0cnVjdCBhbWRncHVfZGV2aWNlICphZGV2
-ID0gZHJtX3RvX2FkZXYoZGV2KTsKPiAgIAlzdHJ1Y3QgYW1kZ3B1X2JvICpibzsKPiAgIAlzdHJ1
-Y3QgYW1kZ3B1X2JvX3BhcmFtIGJwOwo+ICsJc3RydWN0IGRybV9nZW1fb2JqZWN0ICpnb2JqOwo+
-ICAgCWludCByZXQ7Cj4gICAKPiAgIAltZW1zZXQoJmJwLCAwLCBzaXplb2YoYnApKTsKPiBAQCAt
-NDM0LDE3ICs0MzUsMjAgQEAgYW1kZ3B1X2RtYV9idWZfY3JlYXRlX29iaihzdHJ1Y3QgZHJtX2Rl
-dmljZSAqZGV2LCBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1ZikKPiAgIAlicC50eXBlID0gdHRtX2Jv
-X3R5cGVfc2c7Cj4gICAJYnAucmVzdiA9IHJlc3Y7Cj4gICAJZG1hX3Jlc3ZfbG9jayhyZXN2LCBO
-VUxMKTsKPiAtCXJldCA9IGFtZGdwdV9ib19jcmVhdGUoYWRldiwgJmJwLCAmYm8pOwo+ICsJcmV0
-ID0gYW1kZ3B1X2dlbV9vYmplY3RfY3JlYXRlKGFkZXYsIGRtYV9idWYtPnNpemUsIFBBR0VfU0la
-RSwKPiArCQkJQU1ER1BVX0dFTV9ET01BSU5fQ1BVLAo+ICsJCQkwLCB0dG1fYm9fdHlwZV9zZywg
-cmVzdiwgJmdvYmopOwo+ICAgCWlmIChyZXQpCj4gICAJCWdvdG8gZXJyb3I7Cj4gICAKPiArCWJv
-ID0gZ2VtX3RvX2FtZGdwdV9ibyhnb2JqKTsKPiAgIAliby0+YWxsb3dlZF9kb21haW5zID0gQU1E
-R1BVX0dFTV9ET01BSU5fR1RUOwo+ICAgCWJvLT5wcmVmZXJyZWRfZG9tYWlucyA9IEFNREdQVV9H
-RU1fRE9NQUlOX0dUVDsKPiAgIAlpZiAoZG1hX2J1Zi0+b3BzICE9ICZhbWRncHVfZG1hYnVmX29w
-cykKPiAgIAkJYm8tPnByaW1lX3NoYXJlZF9jb3VudCA9IDE7Cj4gICAKPiAgIAlkbWFfcmVzdl91
-bmxvY2socmVzdik7Cj4gLQlyZXR1cm4gJmJvLT50Ym8uYmFzZTsKPiArCXJldHVybiBnb2JqOwo+
-ICAgCj4gICBlcnJvcjoKPiAgIAlkbWFfcmVzdl91bmxvY2socmVzdik7Cj4gZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYyBiL2RyaXZlcnMvZ3B1L2Ry
-bS9hbWQvYW1kZ3B1L2FtZGdwdV9nZW0uYwo+IGluZGV4IGM5Zjk0ZmIuLmNjZjRkODAgMTAwNjQ0
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCj4gKysrIGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2dlbS5jCj4gQEAgLTcwLDI2ICs3MCwx
-MiBAQCBpbnQgYW1kZ3B1X2dlbV9vYmplY3RfY3JlYXRlKHN0cnVjdCBhbWRncHVfZGV2aWNlICph
-ZGV2LCB1bnNpZ25lZCBsb25nIHNpemUsCj4gICAJYnAudHlwZSA9IHR5cGU7Cj4gICAJYnAucmVz
-diA9IHJlc3Y7Cj4gICAJYnAucHJlZmVycmVkX2RvbWFpbiA9IGluaXRpYWxfZG9tYWluOwo+IC1y
-ZXRyeToKPiAgIAlicC5mbGFncyA9IGZsYWdzOwo+ICAgCWJwLmRvbWFpbiA9IGluaXRpYWxfZG9t
-YWluOwo+ICAgCXIgPSBhbWRncHVfYm9fY3JlYXRlKGFkZXYsICZicCwgJmJvKTsKPiAtCWlmIChy
-KSB7Cj4gLQkJaWYgKHIgIT0gLUVSRVNUQVJUU1lTKSB7Cj4gLQkJCWlmIChmbGFncyAmIEFNREdQ
-VV9HRU1fQ1JFQVRFX0NQVV9BQ0NFU1NfUkVRVUlSRUQpIHsKPiAtCQkJCWZsYWdzICY9IH5BTURH
-UFVfR0VNX0NSRUFURV9DUFVfQUNDRVNTX1JFUVVJUkVEOwo+IC0JCQkJZ290byByZXRyeTsKPiAt
-CQkJfQo+IC0KPiAtCQkJaWYgKGluaXRpYWxfZG9tYWluID09IEFNREdQVV9HRU1fRE9NQUlOX1ZS
-QU0pIHsKPiAtCQkJCWluaXRpYWxfZG9tYWluIHw9IEFNREdQVV9HRU1fRE9NQUlOX0dUVDsKPiAt
-CQkJCWdvdG8gcmV0cnk7Cj4gLQkJCX0KPiAtCQkJRFJNX0RFQlVHKCJGYWlsZWQgdG8gYWxsb2Nh
-dGUgR0VNIG9iamVjdCAoJWxkLCAlZCwgJXUsICVkKVxuIiwKPiAtCQkJCSAgc2l6ZSwgaW5pdGlh
-bF9kb21haW4sIGFsaWdubWVudCwgcik7Cj4gLQkJfQo+ICsJaWYgKHIpCj4gICAJCXJldHVybiBy
-Owo+IC0JfQo+ICsKPiAgIAkqb2JqID0gJmJvLT50Ym8uYmFzZTsKPiAgIAkoKm9iaiktPmZ1bmNz
-ID0gJmFtZGdwdV9nZW1fb2JqZWN0X2Z1bmNzOwo+ICAgCj4gQEAgLTIzOSw3ICsyMjUsNyBAQCBp
-bnQgYW1kZ3B1X2dlbV9jcmVhdGVfaW9jdGwoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgdm9pZCAq
-ZGF0YSwKPiAgIAl1aW50NjRfdCBzaXplID0gYXJncy0+aW4uYm9fc2l6ZTsKPiAgIAlzdHJ1Y3Qg
-ZG1hX3Jlc3YgKnJlc3YgPSBOVUxMOwo+ICAgCXN0cnVjdCBkcm1fZ2VtX29iamVjdCAqZ29iajsK
-PiAtCXVpbnQzMl90IGhhbmRsZTsKPiArCXVpbnQzMl90IGhhbmRsZSwgaW5pdGlhbF9kb21haW47
-Cj4gICAJaW50IHI7Cj4gICAKPiAgIAkvKiByZWplY3QgaW52YWxpZCBnZW0gZmxhZ3MgKi8KPiBA
-QCAtMjgzLDkgKzI2OSwyOCBAQCBpbnQgYW1kZ3B1X2dlbV9jcmVhdGVfaW9jdGwoc3RydWN0IGRy
-bV9kZXZpY2UgKmRldiwgdm9pZCAqZGF0YSwKPiAgIAkJcmVzdiA9IHZtLT5yb290LmJhc2UuYm8t
-PnRiby5iYXNlLnJlc3Y7Cj4gICAJfQo+ICAgCj4gK3JldHJ5Ogo+ICsJaW5pdGlhbF9kb21haW4g
-PSAodTMyKSgweGZmZmZmZmZmICYgYXJncy0+aW4uZG9tYWlucyk7Cj4gICAJciA9IGFtZGdwdV9n
-ZW1fb2JqZWN0X2NyZWF0ZShhZGV2LCBzaXplLCBhcmdzLT5pbi5hbGlnbm1lbnQsCj4gLQkJCQkg
-ICAgICh1MzIpKDB4ZmZmZmZmZmYgJiBhcmdzLT5pbi5kb21haW5zKSwKPiArCQkJCSAgICAgaW5p
-dGlhbF9kb21haW4sCj4gICAJCQkJICAgICBmbGFncywgdHRtX2JvX3R5cGVfZGV2aWNlLCByZXN2
-LCAmZ29iaik7Cj4gKwlpZiAocikgewo+ICsJCWlmIChyICE9IC1FUkVTVEFSVFNZUykgewo+ICsJ
-CQlpZiAoZmxhZ3MgJiBBTURHUFVfR0VNX0NSRUFURV9DUFVfQUNDRVNTX1JFUVVJUkVEKSB7Cj4g
-KwkJCQlmbGFncyAmPSB+QU1ER1BVX0dFTV9DUkVBVEVfQ1BVX0FDQ0VTU19SRVFVSVJFRDsKPiAr
-CQkJCWdvdG8gcmV0cnk7Cj4gKwkJCX0KPiArCj4gKwkJCWlmIChpbml0aWFsX2RvbWFpbiA9PSBB
-TURHUFVfR0VNX0RPTUFJTl9WUkFNKSB7Cj4gKwkJCQlpbml0aWFsX2RvbWFpbiB8PSBBTURHUFVf
-R0VNX0RPTUFJTl9HVFQ7Cj4gKwkJCQlnb3RvIHJldHJ5Owo+ICsJCQl9Cj4gKwkJCURSTV9ERUJV
-RygiRmFpbGVkIHRvIGFsbG9jYXRlIEdFTSBvYmplY3QgKCVsZCwgJWQsICV1LCAlZClcbiIsCj4g
-KwkJCQkgIHNpemUsIGluaXRpYWxfZG9tYWluLCBhcmdzLT5pbi5hbGlnbm1lbnQsIHIpOwo+ICsJ
-CX0KPiArCQlyZXR1cm4gcjsKPiArCX0KPiArCj4gICAJaWYgKGZsYWdzICYgQU1ER1BVX0dFTV9D
-UkVBVEVfVk1fQUxXQVlTX1ZBTElEKSB7Cj4gICAJCWlmICghcikgewo+ICAgCQkJc3RydWN0IGFt
-ZGdwdV9ibyAqYWJvID0gZ2VtX3RvX2FtZGdwdV9ibyhnb2JqKTsKCl9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJp
-LWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tuesday, December 8th, 2020 at 7:32 PM, James Park <james.park@lagfreegames.com> wrote:
+
+> This was the message from kernel test robot.
+>
+> >> usr/include/linux/kfd_ioctl.h:37: found __[us]{8,16,32,64} type without #include <linux/types.h>
+
+Interesting that the warning comes from linux/kfd_ioctl.h. I guess
+keeping the linux/types.h isn't that of a big deal anyways.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
