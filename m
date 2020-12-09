@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15E42D4424
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 15:25:45 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACC82D4428
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 15:25:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9F956EA58;
-	Wed,  9 Dec 2020 14:25:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 211CA6EA54;
+	Wed,  9 Dec 2020 14:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B17B6EA28
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 14:25:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B086EA28
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 14:25:34 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id F0EA6ACE1;
- Wed,  9 Dec 2020 14:25:31 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id AE327ACEB;
+ Wed,  9 Dec 2020 14:25:32 +0000 (UTC)
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch, christian.koenig@amd.com, airlied@linux.ie,
  sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
  sean@poorly.run, eric@anholt.net, sam@ravnborg.org
-Subject: [PATCH v3 2/8] drm/ast: Only map cursor BOs during updates
-Date: Wed,  9 Dec 2020 15:25:21 +0100
-Message-Id: <20201209142527.26415-3-tzimmermann@suse.de>
+Subject: [PATCH v3 3/8] dma-buf: Add vmap_local and vnumap_local operations
+Date: Wed,  9 Dec 2020 15:25:22 +0100
+Message-Id: <20201209142527.26415-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201209142527.26415-1-tzimmermann@suse.de>
 References: <20201209142527.26415-1-tzimmermann@suse.de>
@@ -43,106 +43,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org,
  Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhlIEhXIGN1cnNvcidzIEJPIHVzZWQgdG8gYmUgbWFwcGVkIHBlcm1hbmVudGx5IGludG8gdGhl
-IGtlcm5lbCdzCmFkZHJlc3Mgc3BhY2UuIEdFTSdzIHZtYXAgb3BlcmF0aW9uIHdpbGwgYmUgcHJv
-dGVjdGVkIGJ5IGxvY2tzLCBhbmQKd2UgZG9uJ3Qgd2FudCB0byBsb2NrIHRoZSBCTydzIGZvciBh
-biBpbmRlZmluYXRlIHBlcmlvZCBvZiB0aW1lLgoKQ2hhbmdlIHRoZSBjdXJzb3IgY29kZSB0byBt
-YXAgdGhlIEhXIEJPcyBvbmx5IGR1cmluZyB1cGRhdGVzLiBUaGUKdm1hcCBvcGVyYXRpb24gaW4g
-VlJBTSBoZWxwZXJzIGlzIGNoZWFwLCBhcyBhIG9uY2UgZXN0YWJpc2hlZCBtYXBwaW5nCmlzIGJl
-aW5nIHJldXNlZCB1bnRpbCB0aGUgQk8gYWN0dWFsbHkgbW92ZXMuIEFzIHRoZSBIVyBjdXJzb3Ig
-Qk9zIGFyZQpwZXJtYW5lbnRseSBwaW5uZWQsIHRoZXkgbmV2ZXIgbW92ZSBhdCBhbGwuCgp2MjoK
-CSogZml4IHR5cG9zIGluIGNvbW1pdCBkZXNjcmlwdGlvbgoKU2lnbmVkLW9mZi1ieTogVGhvbWFz
-IFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+CkFja2VkLWJ5OiBDaHJpc3RpYW4gS8O2
-bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FzdC9h
-c3RfY3Vyc29yLmMgfCA1MSArKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLQogZHJpdmVy
-cy9ncHUvZHJtL2FzdC9hc3RfZHJ2LmggICAgfCAgMiAtLQogMiBmaWxlcyBjaGFuZ2VkLCAyOCBp
-bnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vYXN0L2FzdF9jdXJzb3IuYyBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2N1cnNvci5jCmlu
-ZGV4IDY4YmYzZDMzZjFlZC4uZmFjMWVlNzljMzcyIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9k
-cm0vYXN0L2FzdF9jdXJzb3IuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9jdXJzb3Iu
-YwpAQCAtMzksNyArMzksNiBAQCBzdGF0aWMgdm9pZCBhc3RfY3Vyc29yX2Zpbmkoc3RydWN0IGFz
-dF9wcml2YXRlICphc3QpCiAKIAlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShhc3QtPmN1cnNv
-ci5nYm8pOyArK2kpIHsKIAkJZ2JvID0gYXN0LT5jdXJzb3IuZ2JvW2ldOwotCQlkcm1fZ2VtX3Zy
-YW1fdnVubWFwKGdibywgJmFzdC0+Y3Vyc29yLm1hcFtpXSk7CiAJCWRybV9nZW1fdnJhbV91bnBp
-bihnYm8pOwogCQlkcm1fZ2VtX3ZyYW1fcHV0KGdibyk7CiAJfQpAQCAtNTMsMTQgKzUyLDEzIEBA
-IHN0YXRpYyB2b2lkIGFzdF9jdXJzb3JfcmVsZWFzZShzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCB2
-b2lkICpwdHIpCiB9CiAKIC8qCi0gKiBBbGxvY2F0ZSBjdXJzb3IgQk9zIGFuZCBwaW5zIHRoZW0g
-YXQgdGhlIGVuZCBvZiBWUkFNLgorICogQWxsb2NhdGUgY3Vyc29yIEJPcyBhbmQgcGluIHRoZW0g
-YXQgdGhlIGVuZCBvZiBWUkFNLgogICovCiBpbnQgYXN0X2N1cnNvcl9pbml0KHN0cnVjdCBhc3Rf
-cHJpdmF0ZSAqYXN0KQogewogCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmYXN0LT5iYXNlOwog
-CXNpemVfdCBzaXplLCBpOwogCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm87Ci0Jc3Ry
-dWN0IGRtYV9idWZfbWFwIG1hcDsKIAlpbnQgcmV0OwogCiAJc2l6ZSA9IHJvdW5kdXAoQVNUX0hX
-Q19TSVpFICsgQVNUX0hXQ19TSUdOQVRVUkVfU0laRSwgUEFHRV9TSVpFKTsKQEAgLTc3LDE1ICs3
-NSw3IEBAIGludCBhc3RfY3Vyc29yX2luaXQoc3RydWN0IGFzdF9wcml2YXRlICphc3QpCiAJCQlk
-cm1fZ2VtX3ZyYW1fcHV0KGdibyk7CiAJCQlnb3RvIGVycl9kcm1fZ2VtX3ZyYW1fcHV0OwogCQl9
-Ci0JCXJldCA9IGRybV9nZW1fdnJhbV92bWFwKGdibywgJm1hcCk7Ci0JCWlmIChyZXQpIHsKLQkJ
-CWRybV9nZW1fdnJhbV91bnBpbihnYm8pOwotCQkJZHJtX2dlbV92cmFtX3B1dChnYm8pOwotCQkJ
-Z290byBlcnJfZHJtX2dlbV92cmFtX3B1dDsKLQkJfQotCiAJCWFzdC0+Y3Vyc29yLmdib1tpXSA9
-IGdibzsKLQkJYXN0LT5jdXJzb3IubWFwW2ldID0gbWFwOwogCX0KIAogCXJldHVybiBkcm1tX2Fk
-ZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBhc3RfY3Vyc29yX3JlbGVhc2UsIE5VTEwpOwpAQCAtOTQs
-NyArODQsNiBAQCBpbnQgYXN0X2N1cnNvcl9pbml0KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0KQog
-CXdoaWxlIChpKSB7CiAJCS0taTsKIAkJZ2JvID0gYXN0LT5jdXJzb3IuZ2JvW2ldOwotCQlkcm1f
-Z2VtX3ZyYW1fdnVubWFwKGdibywgJmFzdC0+Y3Vyc29yLm1hcFtpXSk7CiAJCWRybV9nZW1fdnJh
-bV91bnBpbihnYm8pOwogCQlkcm1fZ2VtX3ZyYW1fcHV0KGdibyk7CiAJfQpAQCAtMTY4LDMxICsx
-NTcsMzggQEAgc3RhdGljIHZvaWQgdXBkYXRlX2N1cnNvcl9pbWFnZSh1OCBfX2lvbWVtICpkc3Qs
-IGNvbnN0IHU4ICpzcmMsIGludCB3aWR0aCwgaW50IGgKIGludCBhc3RfY3Vyc29yX2JsaXQoc3Ry
-dWN0IGFzdF9wcml2YXRlICphc3QsIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKmZiKQogewogCXN0
-cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmYXN0LT5iYXNlOwotCXN0cnVjdCBkcm1fZ2VtX3ZyYW1f
-b2JqZWN0ICpnYm87Ci0Jc3RydWN0IGRtYV9idWZfbWFwIG1hcDsKLQlpbnQgcmV0OwotCXZvaWQg
-KnNyYzsKKwlzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVjdCAqZHN0X2dibyA9IGFzdC0+Y3Vyc29y
-Lmdib1thc3QtPmN1cnNvci5uZXh0X2luZGV4XTsKKwlzdHJ1Y3QgZHJtX2dlbV92cmFtX29iamVj
-dCAqc3JjX2dibyA9IGRybV9nZW1fdnJhbV9vZl9nZW0oZmItPm9ialswXSk7CisJc3RydWN0IGRt
-YV9idWZfbWFwIHNyY19tYXAsIGRzdF9tYXA7CiAJdm9pZCBfX2lvbWVtICpkc3Q7CisJdm9pZCAq
-c3JjOworCWludCByZXQ7CiAKIAlpZiAoZHJtX1dBUk5fT05fT05DRShkZXYsIGZiLT53aWR0aCA+
-IEFTVF9NQVhfSFdDX1dJRFRIKSB8fAogCSAgICBkcm1fV0FSTl9PTl9PTkNFKGRldiwgZmItPmhl
-aWdodCA+IEFTVF9NQVhfSFdDX0hFSUdIVCkpCiAJCXJldHVybiAtRUlOVkFMOwogCi0JZ2JvID0g
-ZHJtX2dlbV92cmFtX29mX2dlbShmYi0+b2JqWzBdKTsKLQotCXJldCA9IGRybV9nZW1fdnJhbV92
-bWFwKGdibywgJm1hcCk7CisJcmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoc3JjX2dibywgJnNyY19t
-YXApOwogCWlmIChyZXQpCiAJCXJldHVybiByZXQ7Ci0Jc3JjID0gbWFwLnZhZGRyOyAvKiBUT0RP
-OiBVc2UgbWFwcGluZyBhYnN0cmFjdGlvbiBwcm9wZXJseSAqLworCXNyYyA9IHNyY19tYXAudmFk
-ZHI7IC8qIFRPRE86IFVzZSBtYXBwaW5nIGFic3RyYWN0aW9uIHByb3Blcmx5ICovCiAKLQlkc3Qg
-PSBhc3QtPmN1cnNvci5tYXBbYXN0LT5jdXJzb3IubmV4dF9pbmRleF0udmFkZHJfaW9tZW07CisJ
-cmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoZHN0X2dibywgJmRzdF9tYXApOworCWlmIChyZXQpCisJ
-CWdvdG8gZXJyX2RybV9nZW1fdnJhbV92dW5tYXA7CisJZHN0ID0gZHN0X21hcC52YWRkcl9pb21l
-bTsgLyogVE9ETzogVXNlIG1hcHBpbmcgYWJzdHJhY3Rpb24gcHJvcGVybHkgKi8KIAogCS8qIGRv
-IGRhdGEgdHJhbnNmZXIgdG8gY3Vyc29yIEJPICovCiAJdXBkYXRlX2N1cnNvcl9pbWFnZShkc3Qs
-IHNyYywgZmItPndpZHRoLCBmYi0+aGVpZ2h0KTsKIAotCWRybV9nZW1fdnJhbV92dW5tYXAoZ2Jv
-LCAmbWFwKTsKKwlkcm1fZ2VtX3ZyYW1fdnVubWFwKGRzdF9nYm8sICZkc3RfbWFwKTsKKwlkcm1f
-Z2VtX3ZyYW1fdnVubWFwKHNyY19nYm8sICZzcmNfbWFwKTsKIAogCXJldHVybiAwOworCitlcnJf
-ZHJtX2dlbV92cmFtX3Z1bm1hcDoKKwlkcm1fZ2VtX3ZyYW1fdnVubWFwKHNyY19nYm8sICZzcmNf
-bWFwKTsKKwlyZXR1cm4gcmV0OwogfQogCiBzdGF0aWMgdm9pZCBhc3RfY3Vyc29yX3NldF9iYXNl
-KHN0cnVjdCBhc3RfcHJpdmF0ZSAqYXN0LCB1NjQgYWRkcmVzcykKQEAgLTI0MywxNyArMjM5LDI2
-IEBAIHN0YXRpYyB2b2lkIGFzdF9jdXJzb3Jfc2V0X2xvY2F0aW9uKHN0cnVjdCBhc3RfcHJpdmF0
-ZSAqYXN0LCB1MTYgeCwgdTE2IHksCiB2b2lkIGFzdF9jdXJzb3Jfc2hvdyhzdHJ1Y3QgYXN0X3By
-aXZhdGUgKmFzdCwgaW50IHgsIGludCB5LAogCQkgICAgIHVuc2lnbmVkIGludCBvZmZzZXRfeCwg
-dW5zaWduZWQgaW50IG9mZnNldF95KQogeworCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSAmYXN0
-LT5iYXNlOworCXN0cnVjdCBkcm1fZ2VtX3ZyYW1fb2JqZWN0ICpnYm8gPSBhc3QtPmN1cnNvci5n
-Ym9bYXN0LT5jdXJzb3IubmV4dF9pbmRleF07CisJc3RydWN0IGRtYV9idWZfbWFwIG1hcDsKIAl1
-OCB4X29mZnNldCwgeV9vZmZzZXQ7CiAJdTggX19pb21lbSAqZHN0OwogCXU4IF9faW9tZW0gKnNp
-ZzsKIAl1OCBqcmVnOworCWludCByZXQ7CiAKLQlkc3QgPSBhc3QtPmN1cnNvci5tYXBbYXN0LT5j
-dXJzb3IubmV4dF9pbmRleF0udmFkZHI7CisJcmV0ID0gZHJtX2dlbV92cmFtX3ZtYXAoZ2JvLCAm
-bWFwKTsKKwlpZiAoZHJtX1dBUk5fT05DRShkZXYsIHJldCwgImRybV9nZW1fdnJhbV92bWFwKCkg
-ZmFpbGVkLCByZXQ9JWRcbiIsIHJldCkpCisJCXJldHVybjsKKwlkc3QgPSBtYXAudmFkZHJfaW9t
-ZW07IC8qIFRPRE86IFVzZSBtYXBwaW5nIGFic3RyYWN0aW9uIHByb3Blcmx5ICovCiAKIAlzaWcg
-PSBkc3QgKyBBU1RfSFdDX1NJWkU7CiAJd3JpdGVsKHgsIHNpZyArIEFTVF9IV0NfU0lHTkFUVVJF
-X1gpOwogCXdyaXRlbCh5LCBzaWcgKyBBU1RfSFdDX1NJR05BVFVSRV9ZKTsKIAorCWRybV9nZW1f
-dnJhbV92dW5tYXAoZ2JvLCAmbWFwKTsKKwogCWlmICh4IDwgMCkgewogCQl4X29mZnNldCA9ICgt
-eCkgKyBvZmZzZXRfeDsKIAkJeCA9IDA7CmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYXN0
-L2FzdF9kcnYuaCBiL2RyaXZlcnMvZ3B1L2RybS9hc3QvYXN0X2Rydi5oCmluZGV4IGNjYWZmODE5
-MjRlZS4uZjg3MWZjMzZjMmY3IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9k
-cnYuaAorKysgYi9kcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9kcnYuaApAQCAtMjgsNyArMjgsNiBA
-QAogI2lmbmRlZiBfX0FTVF9EUlZfSF9fCiAjZGVmaW5lIF9fQVNUX0RSVl9IX18KIAotI2luY2x1
-ZGUgPGxpbnV4L2RtYS1idWYtbWFwLmg+CiAjaW5jbHVkZSA8bGludXgvaTJjLmg+CiAjaW5jbHVk
-ZSA8bGludXgvaTJjLWFsZ28tYml0Lmg+CiAjaW5jbHVkZSA8bGludXgvaW8uaD4KQEAgLTEzMyw3
-ICsxMzIsNiBAQCBzdHJ1Y3QgYXN0X3ByaXZhdGUgewogCiAJc3RydWN0IHsKIAkJc3RydWN0IGRy
-bV9nZW1fdnJhbV9vYmplY3QgKmdib1tBU1RfREVGQVVMVF9IV0NfTlVNXTsKLQkJc3RydWN0IGRt
-YV9idWZfbWFwIG1hcFtBU1RfREVGQVVMVF9IV0NfTlVNXTsKIAkJdW5zaWduZWQgaW50IG5leHRf
-aW5kZXg7CiAJfSBjdXJzb3I7CiAKLS0gCjIuMjkuMgoKX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
-bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
-YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+allowed to pin the buffer or acquire the buffer's reservation object
+lock.
+
+This is a problem for callers that only require a short-term mapping
+of the buffer without the pinning, or callers that have special locking
+requirements. These may suffer from unnecessary overhead or interfere
+with regular pin operations.
+
+The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+their rsp callbacks in struct dma_buf_ops provide an alternative without
+pinning or reservation locking. Callers are responsible for these
+operations.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/dma-buf/dma-buf.c | 80 +++++++++++++++++++++++++++++++++++++++
+ include/linux/dma-buf.h   | 34 +++++++++++++++++
+ 2 files changed, 114 insertions(+)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index e63684d4cd90..be9f80190a66 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1265,6 +1265,86 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map)
+ }
+ EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+ 
++/**
++ * dma_buf_vmap_local - Create virtual mapping for the buffer object into kernel
++ * address space.
++ * @dmabuf:	[in]	buffer to vmap
++ * @map:	[out]	returns the vmap pointer
++ *
++ * This call may fail due to lack of virtual mapping address space.
++ * These calls are optional in drivers. The intended use for them
++ * is for mapping objects linear in kernel space for high use objects.
++ * Please attempt to use kmap/kunmap before thinking about these interfaces.
++ *
++ * Returns:
++ * 0 on success, or a negative errno code otherwise.
++ */
++int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map)
++{
++	struct dma_buf_map ptr;
++	int ret = 0;
++
++	dma_buf_map_clear(map);
++
++	if (WARN_ON(!dmabuf))
++		return -EINVAL;
++
++	dma_resv_assert_held(dmabuf->resv);
++
++	if (!dmabuf->ops->vmap_local)
++		return -EINVAL;
++
++	mutex_lock(&dmabuf->lock);
++	if (dmabuf->vmapping_counter) {
++		dmabuf->vmapping_counter++;
++		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
++		*map = dmabuf->vmap_ptr;
++		goto out_unlock;
++	}
++
++	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
++
++	ret = dmabuf->ops->vmap_local(dmabuf, &ptr);
++	if (WARN_ON_ONCE(ret))
++		goto out_unlock;
++
++	dmabuf->vmap_ptr = ptr;
++	dmabuf->vmapping_counter = 1;
++
++	*map = dmabuf->vmap_ptr;
++
++out_unlock:
++	mutex_unlock(&dmabuf->lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
++
++/**
++ * dma_buf_vunmap_local - Unmap a vmap obtained by dma_buf_vmap_local.
++ * @dmabuf:	[in]	buffer to vunmap
++ * @map:	[in]	vmap pointer to vunmap
++ */
++void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map)
++{
++	if (WARN_ON(!dmabuf))
++		return;
++
++	dma_resv_assert_held(dmabuf->resv);
++
++	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
++	BUG_ON(dmabuf->vmapping_counter == 0);
++	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
++
++	mutex_lock(&dmabuf->lock);
++	if (--dmabuf->vmapping_counter == 0) {
++		if (dmabuf->ops->vunmap_local)
++			dmabuf->ops->vunmap_local(dmabuf, map);
++		dma_buf_map_clear(&dmabuf->vmap_ptr);
++	}
++	mutex_unlock(&dmabuf->lock);
++}
++EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
++
+ #ifdef CONFIG_DEBUG_FS
+ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+ {
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index cf72699cb2bc..f66580d23a9b 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -269,6 +269,38 @@ struct dma_buf_ops {
+ 
+ 	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ 	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
++
++	/**
++	 * @vmap_local:
++	 *
++	 * Creates a virtual mapping for the buffer into kernel address space.
++	 *
++	 * This callback establishes short-term mappings for situations where
++	 * callers only use the buffer for a bounded amount of time; such as
++	 * updates to the framebuffer or reading back contained information.
++	 * In contrast to the regular @vmap callback, vmap_local does never pin
++	 * the buffer to a specific domain or acquire the buffer's reservation
++	 * lock.
++	 *
++	 * This is called with the dmabuf->resv object locked. Callers must hold
++	 * the lock until after removing the mapping with @vunmap_local.
++	 *
++	 * This callback is optional.
++	 *
++	 * Returns:
++	 *
++	 * 0 on success or a negative error code on failure.
++	 */
++	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map);
++
++	/**
++	 * @vunmap_local:
++	 *
++	 * Removes a virtual mapping that wa sestablished by @vmap_local.
++	 *
++	 * This callback is optional.
++	 */
++	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ };
+ 
+ /**
+@@ -506,4 +538,6 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
+ 		 unsigned long);
+ int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
++int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map);
++void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map);
+ #endif /* __DMA_BUF_H__ */
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
