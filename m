@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CD32D3ED5
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 10:34:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602602D3F6F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 11:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B76989B83;
-	Wed,  9 Dec 2020 09:34:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253926E22F;
+	Wed,  9 Dec 2020 10:02:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E3089B27;
- Wed,  9 Dec 2020 09:34:51 +0000 (UTC)
-IronPort-SDR: cuifdcYw8CWs53sCNG45E7fIbC6E6mgdycIoc3+xXxCAfPalKlQIIrMUJcQmCi291b0X52sVW+
- 40MQvNj2qXJA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="235646498"
-X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; d="scan'208";a="235646498"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2020 01:34:50 -0800
-IronPort-SDR: SlfBbmyl/JrvJg1nZtRgV8ahojN7+ZJRIEi5Ziwcyq+8lsSgHukOpHMJlLRn43+P8gATDTowPc
- Rx04X08oOUOQ==
-X-IronPort-AV: E=Sophos;i="5.78,405,1599548400"; d="scan'208";a="332870199"
-Received: from mmarkowi-mobl.ger.corp.intel.com (HELO localhost)
- ([10.213.20.177])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2020 01:34:47 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 0/6] drm/dsc, drm/dp, and /drm/i915: rc model size updates
-In-Reply-To: <cover.1607429866.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1607429866.git.jani.nikula@intel.com>
-Date: Wed, 09 Dec 2020 11:34:44 +0200
-Message-ID: <87im9b9vbf.fsf@intel.com>
+Received: from ozlabs.org (ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E560E6E22F;
+ Wed,  9 Dec 2020 10:02:17 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4CrXdy61tfz9sW9;
+ Wed,  9 Dec 2020 21:02:12 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1607508135;
+ bh=8SjBJC3enLh3C+xvok+MiLcCtIZVyD81LmzuiIuJ3cA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=hidnZwe9EELIeCt7sTHpZVUWam7dglNl6ATyqnkcFjbChIofmY8o54kv81Nr31j+o
+ 0YKJ8zBxEBNMF88rdNcHIt+ENjrKgbpfNR4BeTuh9rPypw5KrVn8OLPwZgbOTYV6wa
+ 3KNH0hwy6PQ3vlw5Kio3XLxXolrqqUQK1oFj5Nw2OYdd+IrGSfwsaS8g1Qb9JtAgIV
+ L2vNe2SQUE7QgovX+dRiq9PAfyQqQ702PrUtD1Ub57t6CfjVw/od/quJ4IJc6zuu/P
+ 8+oFgueGS0c7eMSm4N4stwvhEJPmwjzeole1T/qQzTXmOohfSLdEMNYLalacklsExb
+ vS1s7L6iSOpNw==
+Date: Wed, 9 Dec 2020 21:02:11 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Subject: linux-next: build warning after merge of the drm-misc tree
+Message-ID: <20201209210211.306f3c61@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,48 +47,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: manasi.d.navare@intel.com, Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Luben Tuikov <luben.tuikov@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="===============2116651651=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 08 Dec 2020, Jani Nikula <jani.nikula@intel.com> wrote:
-> For whatever reason this old series was never merged. Please let's get
-> this done.
+--===============2116651651==
+Content-Type: multipart/signed; boundary="Sig_/0lxQX6ywS7+eQSbvvKXaRXv";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Daniel, Maarten, may I have an ack to merge patches 1 and 4 via
-drm-intel?
+--Sig_/0lxQX6ywS7+eQSbvvKXaRXv
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-BR,
-Jani.
+Hi all,
 
+After merging the drm-misc tree, today's linux-next build (htmldocs)
+produced this warning:
 
->
-> For i915 DP this still needs a patch to start using the model size from
-> DPCD.
->
-> BR,
-> Jani.
->
-> Jani Nikula (6):
->   drm/dsc: use rc_model_size from DSC config for PPS
->   drm/i915/dsc: configure hardware using specified rc_model_size
->   drm/i915/dsc: make rc_model_size an encoder defined value
->   drm/dsc: add helper for calculating rc buffer size from DPCD
->   drm/i915/bios: fill in DSC rc_model_size from VBT
->   drm/i915/dsi: use VBT data for rc_model_size
->
->  drivers/gpu/drm/drm_dsc.c                 | 30 +++++++++++++++++++++--
->  drivers/gpu/drm/i915/display/intel_bios.c | 11 +++------
->  drivers/gpu/drm/i915/display/intel_dp.c   |  8 ++++++
->  drivers/gpu/drm/i915/display/intel_vdsc.c |  4 +--
->  include/drm/drm_dsc.h                     |  1 +
->  5 files changed, 41 insertions(+), 13 deletions(-)
+include/drm/gpu_scheduler.h:201: warning: Function parameter or member 'lis=
+t' not described in 'drm_sched_job'
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Introduced by commit
+
+  8935ff00e3b1 ("drm/scheduler: "node" --> "list"")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/0lxQX6ywS7+eQSbvvKXaRXv
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/QoKQACgkQAVBC80lX
+0Gzo3wf/b98Htxe7h38fl2KCe5idJnjdkTJOApijxO/rukHJqw7tFyErFM5OlrIc
+NtweqOSbmE6w2BJySSVEnMf/mPtrNym8DlvnnhTJeQgVtRcudz3BWSAMr2E9seK9
+j4isxTieAFM7Qv3Nd8dG9gE8siL9d1EhnohQxoMLUDUSoagBthOTWKbhxUWRGWpi
+JQ/s1BZlKO9zMPglBtqkW1l+olJvkOMcAN3e9o6SL8y+jTJdlQEZrBWbD+2FrmAt
+nB1dGl1Q92XrVmlnQ2w2cvf3QuONCeFG/RCAHGUdBiSenRwS3KOGtQIf9too44j5
+tywpkaatKs6FvIfE3pFGb2GovxwR0A==
+=29MF
+-----END PGP SIGNATURE-----
+
+--Sig_/0lxQX6ywS7+eQSbvvKXaRXv--
+
+--===============2116651651==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============2116651651==--
