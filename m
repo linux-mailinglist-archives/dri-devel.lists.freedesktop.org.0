@@ -1,61 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D722D461E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 16:59:37 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3712D4640
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 17:02:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AD026EAB9;
-	Wed,  9 Dec 2020 15:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8A696EAAF;
+	Wed,  9 Dec 2020 16:02:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
- [IPv6:2a00:1450:4864:20::443])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B59E6EAB9
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 15:59:34 +0000 (UTC)
-Received: by mail-wr1-x443.google.com with SMTP id x6so2281980wro.11
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 07:59:34 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
+ [IPv6:2a00:1450:4864:20::444])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF326EAAF
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 16:02:27 +0000 (UTC)
+Received: by mail-wr1-x444.google.com with SMTP id r3so2318585wrt.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 08:02:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=noIjpgFZ4TNGJR6uK4occrJLHMBwP6ZdvlY4xXXBcuw=;
- b=Gc0w7J0qu1L9+zp8QWs9bW02CA04HQ1hAyClN66zkHx/LIhZjMgR2bnFiaou7gsR1n
- uaD1CFFjUd9nK2FEIz/LprWDCmdVjiOZNp/15mDge+gPbFSAt0J7X6gmpPAbhPf/l5hf
- PN1HE2E+6ndWNoio66uR68UWDre5DaLLWrzUk=
+ bh=ZKOe4AxfqejHccFNm4tLx3gKa6m89ZjEB1i4VwqxF4s=;
+ b=hoGXoljlW/rLYRzkS991gVHj3AveO35nPMM6OR9UITeE6MRF6Iucg/XhH0/763HTEC
+ c4e+3FIo+PRHugahPtn3W+7Vb/xV/ZzK09HPRyF31sane9nU1TDrd77Y8t+EOjlbe4WN
+ POz9YamO+/Y0h2yUDh9PRyfDSkmnWLJ32SvwQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=noIjpgFZ4TNGJR6uK4occrJLHMBwP6ZdvlY4xXXBcuw=;
- b=IoQE2uMdBuQ94x9EHDhgWo059s3SJBSHOP38wJZT+6JJE/13kR8fZ18AYyLqpGGl/M
- airXurgBrbs8QeEXMNai4Zar9wur6ftOHTxPqqchzpqRE8+0Ess/4IZP8+JLuHOwMGry
- ADZECdwJmwvHIIlbxKxrfDYJ1t1EgxSw5N3S62Ek6pUsQDjx0wRDN2drjUBFNrTuhYQM
- JOJBbYT2dcO88aMx5bhBSTjpLW0ckp41vnDGtF0nYJwKUsi4EkO3c2UBVFF/7TvhAn0U
- xJVJQb1fJxFBpSQ9/goX04k1EoE+OE/WW0P0ALwm2Uid8zYRRsCLxM5+vTTvKCafjOXy
- Ck0Q==
-X-Gm-Message-State: AOAM532cCgeMH0S8qxG7K9/k4PpdgQ/M5BWr4P2vZlrnmzU5hG4qxDYq
- O+c846UXHySTnfS47tUE4k0cieJHGjwQDg==
-X-Google-Smtp-Source: ABdhPJyMkDhURrSFbZEMr3RbCalnCc7NwKmIC3m9nixvCX18pw04/fLna0OAFghSaTDGpG46W1xXNA==
-X-Received: by 2002:adf:b343:: with SMTP id k3mr3395222wrd.202.1607529573296; 
- Wed, 09 Dec 2020 07:59:33 -0800 (PST)
+ bh=ZKOe4AxfqejHccFNm4tLx3gKa6m89ZjEB1i4VwqxF4s=;
+ b=oAjh0ZE5unBi6jU/Z5mvGFkvg8TAgnkG6dXQ1VjRV5cuofS7PCRNFQUECIBELOIHsY
+ 78/zEMmNnwJdGSJEUHUcpuLY26YlSMqXsUg2TilyTDVHLtxCtnvPFhP18TSaoyphnAtt
+ jWCXlG4wNCo/StOAgXidvba23Z3Zsrx/JFN9YwkTlGkovbBGQU/hBWrWR52Vouwo+L4S
+ 5+IoXo4I+2ONY0IfRpCscpnXvjY+e17eLRxzE7c4S3UEHIO8bflkkKANtd4Z7B1EF7Eq
+ oFjDkD5qUCoeo7A2A/PZX33nL9RB7q6nk3vzoVB4o2cR/MlskD93DOpx3DbmrrSrXpkw
+ PLiw==
+X-Gm-Message-State: AOAM530RgGi9Bhv9dPPkXqOx89RfYVIk3c/2G9sJa53SR4qpf1spwalC
+ 6eU7njkQPVqGb5FsdCrP3C5eApMcecm0Fg==
+X-Google-Smtp-Source: ABdhPJyC2PxoenSSNG4DBLyAtOVYkhmypizreMw+9v42t7Wxq04IIlYuYRa9dq6fyVCXmbCael7FXA==
+X-Received: by 2002:adf:9144:: with SMTP id j62mr3451218wrj.419.1607529745992; 
+ Wed, 09 Dec 2020 08:02:25 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y2sm4025224wma.6.2020.12.09.07.59.32
+ by smtp.gmail.com with ESMTPSA id c9sm4592073wrn.65.2020.12.09.08.02.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Dec 2020 07:59:32 -0800 (PST)
-Date: Wed, 9 Dec 2020 16:59:30 +0100
+ Wed, 09 Dec 2020 08:02:25 -0800 (PST)
+Date: Wed, 9 Dec 2020 17:02:23 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v4 01/19] drm/encoder: make encoder control functions
- optional
-Message-ID: <20201209155930.GS401619@phenom.ffwll.local>
-References: <20201208155451.8421-1-p.zabel@pengutronix.de>
- <20201208155451.8421-2-p.zabel@pengutronix.de>
- <20201208184836.GA165851@ravnborg.org>
- <86e710fc042b883292d8c433c65474afed0be940.camel@pengutronix.de>
- <20201209155805.GR401619@phenom.ffwll.local>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH] drm: rework description of primary and cursor planes
+Message-ID: <20201209160223.GT401619@phenom.ffwll.local>
+References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
+ <20201209004223.GL401619@phenom.ffwll.local>
+ <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201209155805.GR401619@phenom.ffwll.local>
+In-Reply-To: <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,89 +66,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 09, 2020 at 04:58:05PM +0100, Daniel Vetter wrote:
-> On Wed, Dec 09, 2020 at 11:58:44AM +0100, Philipp Zabel wrote:
-> > Hi Sam,
-> > 
-> > On Tue, 2020-12-08 at 19:48 +0100, Sam Ravnborg wrote:
-> > > Hi Philipp,
-> > > On Tue, Dec 08, 2020 at 04:54:33PM +0100, Philipp Zabel wrote:
-> > > > Simple managed encoders do not require the .destroy callback,
-> > > > make the whole funcs structure optional.
-> > > > 
-> > > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > > New in v4.
-> > > > ---
-> > > >  drivers/gpu/drm/drm_encoder.c     | 4 ++--
-> > > >  drivers/gpu/drm/drm_mode_config.c | 5 +++--
-> > > >  include/drm/drm_encoder.h         | 2 +-
-> > > >  3 files changed, 6 insertions(+), 5 deletions(-)
-> > > > 
-> > [...]
-> > > > diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> > > > index f1affc1bb679..87e144155456 100644
-> > > > --- a/drivers/gpu/drm/drm_mode_config.c
-> > > > +++ b/drivers/gpu/drm/drm_mode_config.c
-> > [...]
-> > > > @@ -487,7 +487,8 @@ void drm_mode_config_cleanup(struct drm_device *dev)
-> > > >  
-> > > >  	list_for_each_entry_safe(encoder, enct, &dev->mode_config.encoder_list,
-> > > >  				 head) {
-> > > > -		encoder->funcs->destroy(encoder);
-> > > > +		if (encoder->funcs)
-> > > > +			encoder->funcs->destroy(encoder);
-> > > 
-> > > So late_register and early_unregister are both optional.
-> > > But if encoder->funcs is set then the destroy callback is mandatory.
-> > 
-> > For encoders that are kept on the mode_config.encoder_list until
-> > drm_mode_config_cleanup() is called, the destroy callback is still
-> > mandatory.
-> > 
-> > Encoders allocated with drmm_encoder_alloc() on the other hand should
-> > have the destroy callback set to NULL, if encoder->funcs is set.
-> > These encoders are removed from the mode_config.encoder_list by the drmm
-> > cleanup code, before drm_mode_config_cleanup is called.
-> > 
-> > > I am just wondering if this is intended.
-> > > Reding the documnetation of drm_encoder_funcs thist matches the
-> > > documentation but anyway..
-> > >
-> > > With this comment considered,
-> > > Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> > 
-> > Thank you for bringing this up, should we just leave
-> > drm_mode_config_cleanup() as-is?
+On Wed, Dec 09, 2020 at 03:58:17PM +0000, Simon Ser wrote:
+> Thanks for the review!
 > 
-> Yup, not having a funcs->destroy there is a bug. Maybe should even warn
-> about the lack of that in the traditional non-drmm_ encoder init function.
-
-Forgot to add: With that Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
-> -Daniel
+> On Wednesday, December 9th, 2020 at 1:42 AM, Daniel Vetter <daniel@ffwll.ch> wrote:
 > 
-> > 
-> > regards
-> > Philipp
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > I think maybe a follow up patch should document how userspace should
+> > figure out how to line up the primary planes with the right crtcs (if it
+> > wishes to know that information, it's not super useful aside from probably
+> > good choice for a fullscreen fallback plane). See my reply on the old
+> > thread.
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> Yeah, as I've already replied, I won't volunteer to document legacy bits,
+> documenting atomic is already enough. :P
 
+This is also somewhat useful as a hint for atomic userspace.
+
+> > And that patch should also add the code to drm_mode_config_validate() to
+> > validate the possible_crtc masks for these. Something like
+> >
+> > 	num_primary = 0; num_cursor = 0;
+> >
+> > 	for_each_plane(plane) {
+> > 		if (plane->type == primary) {
+> > 			WARN_ON(!(plane->possible_crtcs & BIT(num_primary)));
+> > 			num_primary++;
+> > 		}
+> >
+> > 		/* same for cursor */
+> > 	}
+> >
+> > 	WARN_ON(num_primary != dev->mode_config.num_crtcs);
+> > }
+> 
+> Thanks for the suggestion. However I don't see why a driver should ensure
+> this. Isn't it perfectly fine for a driver to use primary plane 2 for CRTC 1,
+> and primary plane 1 for CRTC 2, for the purposes of legacy uAPI?
+
+Yeah but it's a mess. Messes don't make good uapi.
+
+> If we're trying here to invent a new uAPI to let user-space discover the
+> internal legacy primary/cursor pointers, I'm not signing up for this. The
+> requirement you're describing seems like something current drivers ensure
+> "by chance", not an established uAPI. In other words, writing a new driver
+> that doesn't do the same wouldn't break uAPI contracts.
+
+I'm more seeing this as general uapi lock-down. "Everything goes" doesn't
+work great. And it's all the same topic really. Like if your userspace
+really doesn't care about what the primary plane is (like you seem to
+imply), then ofc none of this matters to you, but then also your doc patch
+here doesn't matter.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
