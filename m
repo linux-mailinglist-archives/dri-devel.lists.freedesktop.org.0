@@ -2,35 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8949E2D5552
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 09:25:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A902D554F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 09:25:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F216EA33;
-	Thu, 10 Dec 2020 08:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C98686E811;
+	Thu, 10 Dec 2020 08:25:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Dec 2020 09:38:09 UTC
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTP id B9BC16E145
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 09:38:10 +0000 (UTC)
-X-UUID: ac61d07259bb402d9ef07066a0f6717f-20201209
-X-UUID: ac61d07259bb402d9ef07066a0f6717f-20201209
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTP id C57336E145
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 09:38:09 +0000 (UTC)
+X-UUID: 9222e3d7d6eb4a019183e4f35036699a-20201209
+X-UUID: 9222e3d7d6eb4a019183e4f35036699a-20201209
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 863062102; Wed, 09 Dec 2020 17:33:04 +0800
+ with ESMTP id 1574658356; Wed, 09 Dec 2020 17:33:05 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
  15.0.1497.2; Wed, 9 Dec 2020 17:33:03 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 9 Dec 2020 17:33:03 +0800
+ Transport; Wed, 9 Dec 2020 17:33:04 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2, 1/2] soc: mediatek: mmsys: create mmsys folder
-Date: Wed, 9 Dec 2020 17:32:58 +0800
-Message-ID: <1607506379-10998-2-git-send-email-yongqiang.niu@mediatek.com>
+Subject: [PATCH v2,
+ 2/2] soc: mediatek: mmsys: Use function call for setting the routing
+ registers
+Date: Wed, 9 Dec 2020 17:32:59 +0800
+Message-ID: <1607506379-10998-3-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1607506379-10998-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1607506379-10998-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -58,50 +62,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-the mmsys will more and more complicated after support
-more and more SoCs, add an independent folder will be
-more clear
+Actually, setting the registers for routing, use multiple 'if-else' for different
+routes, but this code would be more and more complicated while we
+support more and more SoCs. Change that and use a function call per SoC so the
+code will be more portable and clear.
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/soc/mediatek/Makefile          |   2 +-
- drivers/soc/mediatek/mmsys/Makefile    |   2 +
- drivers/soc/mediatek/mmsys/mtk-mmsys.c | 380 +++++++++++++++++++++++++++++++++
- drivers/soc/mediatek/mtk-mmsys.c       | 380 ---------------------------------
- 4 files changed, 383 insertions(+), 381 deletions(-)
- create mode 100644 drivers/soc/mediatek/mmsys/Makefile
- create mode 100644 drivers/soc/mediatek/mmsys/mtk-mmsys.c
- delete mode 100644 drivers/soc/mediatek/mtk-mmsys.c
+ drivers/soc/mediatek/mmsys/Makefile       |   3 +-
+ drivers/soc/mediatek/mmsys/mt2701-mmsys.c | 233 +++++++++++++++++++++++++++++
+ drivers/soc/mediatek/mmsys/mtk-mmsys.c    | 241 +++---------------------------
+ include/linux/soc/mediatek/mtk-mmsys.h    |  14 ++
+ 4 files changed, 268 insertions(+), 223 deletions(-)
+ create mode 100644 drivers/soc/mediatek/mmsys/mt2701-mmsys.c
 
-diff --git a/drivers/soc/mediatek/Makefile b/drivers/soc/mediatek/Makefile
-index 01f9f87..b5987ca 100644
---- a/drivers/soc/mediatek/Makefile
-+++ b/drivers/soc/mediatek/Makefile
-@@ -3,4 +3,4 @@ obj-$(CONFIG_MTK_CMDQ) += mtk-cmdq-helper.o
- obj-$(CONFIG_MTK_INFRACFG) += mtk-infracfg.o
- obj-$(CONFIG_MTK_PMIC_WRAP) += mtk-pmic-wrap.o
- obj-$(CONFIG_MTK_SCPSYS) += mtk-scpsys.o
--obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
-+obj-$(CONFIG_MTK_MMSYS) += mmsys/
 diff --git a/drivers/soc/mediatek/mmsys/Makefile b/drivers/soc/mediatek/mmsys/Makefile
-new file mode 100644
-index 0000000..5d976d7
---- /dev/null
+index 5d976d7..ac03025 100644
+--- a/drivers/soc/mediatek/mmsys/Makefile
 +++ b/drivers/soc/mediatek/mmsys/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+@@ -1,2 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
 \ No newline at end of file
-diff --git a/drivers/soc/mediatek/mmsys/mtk-mmsys.c b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
++obj-$(CONFIG_MTK_MMSYS) += mt2701-mmsys.o
++obj-$(CONFIG_MTK_MMSYS) += mtk-mmsys.o
+diff --git a/drivers/soc/mediatek/mmsys/mt2701-mmsys.c b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
 new file mode 100644
-index 0000000..da2de8f
+index 0000000..40576d3
 --- /dev/null
-+++ b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
-@@ -0,0 +1,380 @@
++++ b/drivers/soc/mediatek/mmsys/mt2701-mmsys.c
+@@ -0,0 +1,233 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright (c) 2014 MediaTek Inc.
-+ * Author: James Liao <jamesjj.liao@mediatek.com>
++ * Copyright (c) 2020 MediaTek Inc.
 + */
 +
 +#include <linux/device.h>
@@ -172,39 +165,6 @@ index 0000000..da2de8f
 +#define DSI_SEL_IN_BLS				0x0
 +#define DPI_SEL_IN_BLS				0x0
 +#define DSI_SEL_IN_RDMA				0x1
-+
-+struct mtk_mmsys_driver_data {
-+	const char *clk_driver;
-+};
-+
-+static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
-+	.clk_driver = "clk-mt2701-mm",
-+};
-+
-+static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
-+	.clk_driver = "clk-mt2712-mm",
-+};
-+
-+static const struct mtk_mmsys_driver_data mt6779_mmsys_driver_data = {
-+	.clk_driver = "clk-mt6779-mm",
-+};
-+
-+static const struct mtk_mmsys_driver_data mt6797_mmsys_driver_data = {
-+	.clk_driver = "clk-mt6797-mm",
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
-+	.clk_driver = "clk-mt8173-mm",
-+};
-+
-+static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
-+	.clk_driver = "clk-mt8183-mm",
-+};
-+
-+struct mtk_mmsys {
-+	void __iomem *regs;
-+	const struct mtk_mmsys_driver_data *data;
-+};
 +
 +static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
 +					  enum mtk_ddp_comp_id next,
@@ -360,142 +320,19 @@ index 0000000..da2de8f
 +	}
 +}
 +
-+void mtk_mmsys_ddp_connect(struct device *dev,
-+			   enum mtk_ddp_comp_id cur,
-+			   enum mtk_ddp_comp_id next)
-+{
-+	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
-+	unsigned int addr, value, reg;
-+
-+	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
-+	if (value) {
-+		reg = readl_relaxed(mmsys->regs + addr) | value;
-+		writel_relaxed(reg, mmsys->regs + addr);
-+	}
-+
-+	mtk_mmsys_ddp_sout_sel(mmsys->regs, cur, next);
-+
-+	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
-+	if (value) {
-+		reg = readl_relaxed(mmsys->regs + addr) | value;
-+		writel_relaxed(reg, mmsys->regs + addr);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
-+
-+void mtk_mmsys_ddp_disconnect(struct device *dev,
-+			      enum mtk_ddp_comp_id cur,
-+			      enum mtk_ddp_comp_id next)
-+{
-+	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
-+	unsigned int addr, value, reg;
-+
-+	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
-+	if (value) {
-+		reg = readl_relaxed(mmsys->regs + addr) & ~value;
-+		writel_relaxed(reg, mmsys->regs + addr);
-+	}
-+
-+	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
-+	if (value) {
-+		reg = readl_relaxed(mmsys->regs + addr) & ~value;
-+		writel_relaxed(reg, mmsys->regs + addr);
-+	}
-+}
-+EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_disconnect);
-+
-+static int mtk_mmsys_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct platform_device *clks;
-+	struct platform_device *drm;
-+	struct mtk_mmsys *mmsys;
-+	int ret;
-+
-+	mmsys = devm_kzalloc(dev, sizeof(*mmsys), GFP_KERNEL);
-+	if (!mmsys)
-+		return -ENOMEM;
-+
-+	mmsys->regs = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(mmsys->regs)) {
-+		ret = PTR_ERR(mmsys->regs);
-+		dev_err(dev, "Failed to ioremap mmsys registers: %d\n", ret);
-+		return ret;
-+	}
-+
-+	mmsys->data = of_device_get_match_data(&pdev->dev);
-+	platform_set_drvdata(pdev, mmsys);
-+
-+	clks = platform_device_register_data(&pdev->dev, mmsys->data->clk_driver,
-+					     PLATFORM_DEVID_AUTO, NULL, 0);
-+	if (IS_ERR(clks))
-+		return PTR_ERR(clks);
-+
-+	drm = platform_device_register_data(&pdev->dev, "mediatek-drm",
-+					    PLATFORM_DEVID_AUTO, NULL, 0);
-+	if (IS_ERR(drm)) {
-+		platform_device_unregister(clks);
-+		return PTR_ERR(drm);
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id of_match_mtk_mmsys[] = {
-+	{
-+		.compatible = "mediatek,mt2701-mmsys",
-+		.data = &mt2701_mmsys_driver_data,
-+	},
-+	{
-+		.compatible = "mediatek,mt2712-mmsys",
-+		.data = &mt2712_mmsys_driver_data,
-+	},
-+	{
-+		.compatible = "mediatek,mt6779-mmsys",
-+		.data = &mt6779_mmsys_driver_data,
-+	},
-+	{
-+		.compatible = "mediatek,mt6797-mmsys",
-+		.data = &mt6797_mmsys_driver_data,
-+	},
-+	{
-+		.compatible = "mediatek,mt8173-mmsys",
-+		.data = &mt8173_mmsys_driver_data,
-+	},
-+	{
-+		.compatible = "mediatek,mt8183-mmsys",
-+		.data = &mt8183_mmsys_driver_data,
-+	},
-+	{ }
++struct mtk_mmsys_conn_funcs mt2701_mmsys_funcs = {
++	.mout_en = mtk_mmsys_ddp_mout_en,
++	.sel_in = mtk_mmsys_ddp_sel_in,
++	.sout_sel = mtk_mmsys_ddp_sout_sel,
 +};
-+
-+static struct platform_driver mtk_mmsys_drv = {
-+	.driver = {
-+		.name = "mtk-mmsys",
-+		.of_match_table = of_match_mtk_mmsys,
-+	},
-+	.probe = mtk_mmsys_probe,
-+};
-+
-+builtin_platform_driver(mtk_mmsys_drv);
-diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-deleted file mode 100644
-index da2de8f..0000000
---- a/drivers/soc/mediatek/mtk-mmsys.c
-+++ /dev/null
-@@ -1,380 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Copyright (c) 2014 MediaTek Inc.
-- * Author: James Liao <jamesjj.liao@mediatek.com>
-- */
--
--#include <linux/device.h>
--#include <linux/io.h>
--#include <linux/of_device.h>
--#include <linux/platform_device.h>
--#include <linux/soc/mediatek/mtk-mmsys.h>
--
+diff --git a/drivers/soc/mediatek/mmsys/mtk-mmsys.c b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+index da2de8f..9d6a3e9 100644
+--- a/drivers/soc/mediatek/mmsys/mtk-mmsys.c
++++ b/drivers/soc/mediatek/mmsys/mtk-mmsys.c
+@@ -10,91 +10,34 @@
+ #include <linux/platform_device.h>
+ #include <linux/soc/mediatek/mtk-mmsys.h>
+ 
 -#define DISP_REG_CONFIG_DISP_OVL0_MOUT_EN	0x040
 -#define DISP_REG_CONFIG_DISP_OVL1_MOUT_EN	0x044
 -#define DISP_REG_CONFIG_DISP_OD_MOUT_EN		0x048
@@ -559,39 +396,41 @@ index da2de8f..0000000
 -#define DPI_SEL_IN_BLS				0x0
 -#define DSI_SEL_IN_RDMA				0x1
 -
--struct mtk_mmsys_driver_data {
--	const char *clk_driver;
--};
--
--static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
--	.clk_driver = "clk-mt2701-mm",
--};
--
--static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
--	.clk_driver = "clk-mt2712-mm",
--};
--
--static const struct mtk_mmsys_driver_data mt6779_mmsys_driver_data = {
--	.clk_driver = "clk-mt6779-mm",
--};
--
--static const struct mtk_mmsys_driver_data mt6797_mmsys_driver_data = {
--	.clk_driver = "clk-mt6797-mm",
--};
--
--static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
--	.clk_driver = "clk-mt8173-mm",
--};
--
--static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
--	.clk_driver = "clk-mt8183-mm",
--};
--
--struct mtk_mmsys {
--	void __iomem *regs;
--	const struct mtk_mmsys_driver_data *data;
--};
--
+ struct mtk_mmsys_driver_data {
+ 	const char *clk_driver;
++	const struct mtk_mmsys_conn_funcs *funcs;
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt2701-mm",
++	.funcs = &mt2701_mmsys_funcs,
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt2712-mm",
++	.funcs = &mt2701_mmsys_funcs,
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt6779_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt6779-mm",
++	.funcs = &mt2701_mmsys_funcs,
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt6797_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt6797-mm",
++	.funcs = &mt2701_mmsys_funcs,
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
+ 	.clk_driver = "clk-mt8173-mm",
++	.funcs = &mt2701_mmsys_funcs,
+ };
+ 
+ static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data = {
+@@ -106,176 +49,26 @@ struct mtk_mmsys {
+ 	const struct mtk_mmsys_driver_data *data;
+ };
+ 
 -static unsigned int mtk_mmsys_ddp_mout_en(enum mtk_ddp_comp_id cur,
 -					  enum mtk_ddp_comp_id next,
 -					  unsigned int *addr)
@@ -746,124 +585,78 @@ index da2de8f..0000000
 -	}
 -}
 -
--void mtk_mmsys_ddp_connect(struct device *dev,
--			   enum mtk_ddp_comp_id cur,
--			   enum mtk_ddp_comp_id next)
--{
--	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
--	unsigned int addr, value, reg;
--
+ void mtk_mmsys_ddp_connect(struct device *dev,
+ 			   enum mtk_ddp_comp_id cur,
+ 			   enum mtk_ddp_comp_id next)
+ {
+ 	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+ 	unsigned int addr, value, reg;
++	struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
+ 
 -	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
--	if (value) {
--		reg = readl_relaxed(mmsys->regs + addr) | value;
--		writel_relaxed(reg, mmsys->regs + addr);
--	}
--
++	if (!funcs)
++		return;
++
++	value = funcs->mout_en(cur, next, &addr);
+ 	if (value) {
+ 		reg = readl_relaxed(mmsys->regs + addr) | value;
+ 		writel_relaxed(reg, mmsys->regs + addr);
+ 	}
+ 
 -	mtk_mmsys_ddp_sout_sel(mmsys->regs, cur, next);
--
++	funcs->sout_sel(mmsys->regs, cur, next);
+ 
 -	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
--	if (value) {
--		reg = readl_relaxed(mmsys->regs + addr) | value;
--		writel_relaxed(reg, mmsys->regs + addr);
--	}
--}
--EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_connect);
--
--void mtk_mmsys_ddp_disconnect(struct device *dev,
--			      enum mtk_ddp_comp_id cur,
--			      enum mtk_ddp_comp_id next)
--{
--	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
--	unsigned int addr, value, reg;
--
++	value = funcs->sel_in(cur, next, &addr);
+ 	if (value) {
+ 		reg = readl_relaxed(mmsys->regs + addr) | value;
+ 		writel_relaxed(reg, mmsys->regs + addr);
+@@ -289,14 +82,18 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+ {
+ 	struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+ 	unsigned int addr, value, reg;
++	struct mtk_mmsys_conn_funcs *funcs = mmsys->data->funcs;
++
++	if (!funcs)
++		return;
+ 
 -	value = mtk_mmsys_ddp_mout_en(cur, next, &addr);
--	if (value) {
--		reg = readl_relaxed(mmsys->regs + addr) & ~value;
--		writel_relaxed(reg, mmsys->regs + addr);
--	}
--
++	value = funcs->mout_en(cur, next, &addr);
+ 	if (value) {
+ 		reg = readl_relaxed(mmsys->regs + addr) & ~value;
+ 		writel_relaxed(reg, mmsys->regs + addr);
+ 	}
+ 
 -	value = mtk_mmsys_ddp_sel_in(cur, next, &addr);
--	if (value) {
--		reg = readl_relaxed(mmsys->regs + addr) & ~value;
--		writel_relaxed(reg, mmsys->regs + addr);
--	}
--}
--EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_disconnect);
--
--static int mtk_mmsys_probe(struct platform_device *pdev)
--{
--	struct device *dev = &pdev->dev;
--	struct platform_device *clks;
--	struct platform_device *drm;
--	struct mtk_mmsys *mmsys;
--	int ret;
--
--	mmsys = devm_kzalloc(dev, sizeof(*mmsys), GFP_KERNEL);
--	if (!mmsys)
--		return -ENOMEM;
--
--	mmsys->regs = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(mmsys->regs)) {
--		ret = PTR_ERR(mmsys->regs);
--		dev_err(dev, "Failed to ioremap mmsys registers: %d\n", ret);
--		return ret;
--	}
--
--	mmsys->data = of_device_get_match_data(&pdev->dev);
--	platform_set_drvdata(pdev, mmsys);
--
--	clks = platform_device_register_data(&pdev->dev, mmsys->data->clk_driver,
--					     PLATFORM_DEVID_AUTO, NULL, 0);
--	if (IS_ERR(clks))
--		return PTR_ERR(clks);
--
--	drm = platform_device_register_data(&pdev->dev, "mediatek-drm",
--					    PLATFORM_DEVID_AUTO, NULL, 0);
--	if (IS_ERR(drm)) {
--		platform_device_unregister(clks);
--		return PTR_ERR(drm);
--	}
--
--	return 0;
--}
--
--static const struct of_device_id of_match_mtk_mmsys[] = {
--	{
--		.compatible = "mediatek,mt2701-mmsys",
--		.data = &mt2701_mmsys_driver_data,
--	},
--	{
--		.compatible = "mediatek,mt2712-mmsys",
--		.data = &mt2712_mmsys_driver_data,
--	},
--	{
--		.compatible = "mediatek,mt6779-mmsys",
--		.data = &mt6779_mmsys_driver_data,
--	},
--	{
--		.compatible = "mediatek,mt6797-mmsys",
--		.data = &mt6797_mmsys_driver_data,
--	},
--	{
--		.compatible = "mediatek,mt8173-mmsys",
--		.data = &mt8173_mmsys_driver_data,
--	},
--	{
--		.compatible = "mediatek,mt8183-mmsys",
--		.data = &mt8183_mmsys_driver_data,
--	},
--	{ }
--};
--
--static struct platform_driver mtk_mmsys_drv = {
--	.driver = {
--		.name = "mtk-mmsys",
--		.of_match_table = of_match_mtk_mmsys,
--	},
--	.probe = mtk_mmsys_probe,
--};
--
--builtin_platform_driver(mtk_mmsys_drv);
++	value = funcs->sel_in(cur, next, &addr);
+ 	if (value) {
+ 		reg = readl_relaxed(mmsys->regs + addr) & ~value;
+ 		writel_relaxed(reg, mmsys->regs + addr);
+diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/mediatek/mtk-mmsys.h
+index 2228bf6..17e8b91 100644
+--- a/include/linux/soc/mediatek/mtk-mmsys.h
++++ b/include/linux/soc/mediatek/mtk-mmsys.h
+@@ -42,6 +42,20 @@ enum mtk_ddp_comp_id {
+ 	DDP_COMPONENT_ID_MAX,
+ };
+ 
++struct mtk_mmsys_conn_funcs {
++	u32 (*mout_en)(enum mtk_ddp_comp_id cur,
++		       enum mtk_ddp_comp_id next,
++		       unsigned int *addr);
++	u32 (*sel_in)(enum mtk_ddp_comp_id cur,
++		      enum mtk_ddp_comp_id next,
++		      unsigned int *addr);
++	void (*sout_sel)(void __iomem *config_regs,
++			 enum mtk_ddp_comp_id cur,
++			 enum mtk_ddp_comp_id next);
++};
++
++extern struct mtk_mmsys_conn_funcs mt2701_mmsys_funcs;
++
+ void mtk_mmsys_ddp_connect(struct device *dev,
+ 			   enum mtk_ddp_comp_id cur,
+ 			   enum mtk_ddp_comp_id next);
 -- 
 1.8.1.1.dirty
 
