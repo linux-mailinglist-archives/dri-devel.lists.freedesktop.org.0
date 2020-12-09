@@ -2,37 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB21F2D4EFD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 00:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB5D2D4F1F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 00:56:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB80D6E2D5;
-	Wed,  9 Dec 2020 23:50:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497226E3D2;
+	Wed,  9 Dec 2020 23:56:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 321106E2D5;
- Wed,  9 Dec 2020 23:50:12 +0000 (UTC)
-IronPort-SDR: 5TGmVq/FoBYiZKF4w0/yNX9SnhB3yhdrKm6D0/34omwMj1KkBwaXIG4EdC8esODj+x5uwts9mU
- Ij8LSoljU3Lw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="258884914"
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; d="scan'208";a="258884914"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2020 15:50:11 -0800
-IronPort-SDR: Emk3oZMBurRUZFqJd1zPE8jcLyLQdGHioOXEjM+7IAPjlJM3vNahPdy8p+GKa6/YIvSG273isi
- yJwmyjl7gnVw==
-X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; d="scan'208";a="371140734"
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 957CF6E301;
+ Wed,  9 Dec 2020 23:56:16 +0000 (UTC)
+IronPort-SDR: GYRF5oNvGwUMfxjQP6GuqmGkTuwHFPgwi5NhHeoghj5YhVinpnxXgmxuYf7KGXLvW1fXNEfAZq
+ TFdITYgY8O7g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="161928036"
+X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; d="scan'208";a="161928036"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2020 15:56:15 -0800
+IronPort-SDR: YFbs6hlI8KMSgq8hsw74iX0qG1la7x2UcV8T6RGL5cIpA4+MLPqvzO/sZ6WdDnYzf8o6IkVvCN
+ 3T765zQ+6Z4w==
+X-IronPort-AV: E=Sophos;i="5.78,407,1599548400"; d="scan'208";a="348555846"
 Received: from dannie-mobl1.amr.corp.intel.com (HELO intel.com)
  ([10.209.50.82])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2020 15:50:11 -0800
-Date: Wed, 9 Dec 2020 15:50:10 -0800
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2020 15:56:15 -0800
+Date: Wed, 9 Dec 2020 15:56:15 -0800
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PULL] drm-intel-fixes
-Message-ID: <20201209235010.GA10554@intel.com>
+To: Sean Paul <sean@poorly.run>
+Subject: Re: [PATCH] drm/i915/display/tc: Only WARN once for bogus tc port flag
+Message-ID: <20201209235615.GA3636@intel.com>
+References: <20201209211828.53193-1-sean@poorly.run>
 MIME-Version: 1.0
 Content-Disposition: inline
+In-Reply-To: <20201209211828.53193-1-sean@poorly.run>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,82 +47,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- intel-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>,
+ dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave and Daniel,
+On Wed, Dec 09, 2020 at 04:16:36PM -0500, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
+> 
+> No need to spam syslog/console when we can ignore/fix the flag.
 
-The commit 7c5c15dffe1e ("drm/i915/gt: Declare gen9 has 64 mocs entries!")
-should actually be sent last week along with the commit
-777a7717d60c ("drm/i915/gt: Program mocs:63 for cache eviction on gen9"),
-but I had missed that and dim didn't cope with fixes for fixes.
+besides that we are calling from multiple places anyway..
 
-Here goes drm-intel-fixes-2020-12-09:
+> 
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
 
-Fixes for VDSC/DP, selftests, shmem_utils, preemption, submission, and gt reset:
 
-- Check the correct variable in selftest (Dan)
-- Propagate error from canceled submit due to context closure (Chris)
-- Ignore repeated attempts to suspend request flow across reset (Chris)
-- Cancel the preemption timeout on responding to it (Chris)
-- Fix unsigned compared against 0 (Colin)
-- Compute the correct slice count for VDSC on DP (Manasi)
-- Declar gen9 has 64 mocs entries (Chris)
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Thanks,
-Rodrigo.
 
-The following changes since commit 0477e92881850d44910a7e94fc2c46f96faa131f:
 
-  Linux 5.10-rc7 (2020-12-06 14:25:12 -0800)
-
-are available in the Git repository at:
-
-  git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2020-12-09
-
-for you to fetch changes up to 7c5c15dffe1e3c42f44735ce9552afb7207f1584:
-
-  drm/i915/gt: Declare gen9 has 64 mocs entries! (2020-12-08 07:09:58 -0800)
-
-----------------------------------------------------------------
-Fixes for VDSC/DP, selftests, shmem_utils, preemption, submission, and gt reset:
-
-- Check the correct variable in selftest (Dan)
-- Propagate error from canceled submit due to context closure (Chris)
-- Ignore repeated attempts to suspend request flow across reset (Chris)
-- Cancel the preemption timeout on responding to it (Chris)
-- Fix unsigned compared against 0 (Colin)
-- Compute the correct slice count for VDSC on DP (Manasi)
-- Declar gen9 has 64 mocs entries (Chris)
-
-----------------------------------------------------------------
-Chris Wilson (4):
-      drm/i915/gem: Propagate error from cancelled submit due to context closure
-      drm/i915/gt: Ignore repeated attempts to suspend request flow across reset
-      drm/i915/gt: Cancel the preemption timeout on responding to it
-      drm/i915/gt: Declare gen9 has 64 mocs entries!
-
-Colin Ian King (1):
-      drm/i915: fix size_t greater or equal to zero comparison
-
-Dan Carpenter (1):
-      drm/i915/gem: Check the correct variable in selftest
-
-Manasi Navare (1):
-      drm/i915/display/dp: Compute the correct slice count for VDSC on DP
-
- drivers/gpu/drm/i915/display/intel_dp.c        | 2 +-
- drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c | 7 +++++--
- drivers/gpu/drm/i915/gt/intel_lrc.c            | 7 ++++++-
- drivers/gpu/drm/i915/gt/intel_mocs.c           | 7 +++----
- drivers/gpu/drm/i915/gt/shmem_utils.c          | 2 +-
- drivers/gpu/drm/i915/selftests/i915_gem.c      | 4 ++--
- 6 files changed, 18 insertions(+), 11 deletions(-)
+> ---
+>  drivers/gpu/drm/i915/display/intel_tc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_tc.c b/drivers/gpu/drm/i915/display/intel_tc.c
+> index 4346bc1a747a..27dc2dad6809 100644
+> --- a/drivers/gpu/drm/i915/display/intel_tc.c
+> +++ b/drivers/gpu/drm/i915/display/intel_tc.c
+> @@ -262,7 +262,7 @@ static u32 tc_port_live_status_mask(struct intel_digital_port *dig_port)
+>  		mask |= BIT(TC_PORT_LEGACY);
+>  
+>  	/* The sink can be connected only in a single mode. */
+> -	if (!drm_WARN_ON(&i915->drm, hweight32(mask) > 1))
+> +	if (!drm_WARN_ON_ONCE(&i915->drm, hweight32(mask) > 1))
+>  		tc_port_fixup_legacy_flag(dig_port, mask);
+>  
+>  	return mask;
+> -- 
+> Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
