@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E3B32D3D7B
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 131612D3D61
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 09:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7086B6E9DB;
-	Wed,  9 Dec 2020 08:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB2826E22C;
+	Wed,  9 Dec 2020 08:32:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05on2089.outbound.protection.outlook.com [40.107.21.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF606E10B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 06:32:55 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2043.outbound.protection.outlook.com [40.107.20.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DC626E10C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 06:33:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WDNBLvDonkBn3IH2LIq9sMMtr/bkcmXgv1tap417PsjaQRWCaZVDRaz15boTkjD1tn30F7IXZb5oJSZIo30Qm41B0TxPy5MszapmROlygulodJ5og9lyV92ftLD+YNIIJzAX9qlqZus2h9ero+xWvrOZBFg7NqQpI8VNojnxpke/z/dZkqbvyEu8/4SNG7K0WEJq8axLlYmBDDjBAemT572VSwrGert81rXHgKcf72xtQ4+yXZTR07/2z3cOqi28+kxaOkaV0n4TKH0Vo89MsSACFnW7rg/DElhRmM1e78rnl//0kLHHpRSyZXB+dN88K3OBvnWC88M/+KwA6zu+rQ==
+ b=XwQO1CKPzb7TuDFr6kt6z2WI7orcNRKOLxmQQ8aths1IxZDGkl2nkUDmXPMq6IelS0CobEDOEaydk4Ye2m8I/1YDxKU/IPdGiEqjhGoiJ5UW+J1DbZlvBpSr2y9BcAq5huzwLtQ4/D161LNZbEv4y7NeYde0U2dgFlgppspHkMoQUxegruKI11e832eSn9ir5ZGFWxFQO9XiXuIkxJZLfkUaPrPqvmx4prJPnDRIT4k9xfYPbaRn3g48DAGdpTO8cim927FgWNwhAtwX1E3Fly5awQmPP06rPzRI+T+almhIdXJg+Z5TX8D82fgJ/BmFzP94UqRuAKh3dOmxUWSPRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/7O3+KhmuH2kWVMAMyJRwr8GizujQDJOVwQgT9EQdM=;
- b=SmwTeyeqC/FZ/2OqyqrxMpFgRoF45c4BhS28i/87vMtCWzZ8hlbl7EbBp3VwKPYQDUrXKGpKlcbMeCFKtXko+Jp2VoU6OsfHmlB0vqCD16ut+hxndsTb7dQqyfD+QUxKof8QQEiYjgQPgv2fJGGHcT1e3esSHTHtGLp4o03/coFDOnPPBgyfJVaJiXAIcc6Qd+OO8rKzR4/UDBf0OtZNmmiN8xMRa2iV5qCIR6P7TyUtPeYI8z50l3rscB48I7HnM6oh5OxGwSKt24Zu4Y5wPqDL5phF+kg4IMxtvBenShSGxyQJ1b7PjSZlVBdtJyj6B5cnHpOfBo7RsoxzLiY3YA==
+ bh=lG1zJgoDHOPeXa0tD82qWzRQ8c/TDnK/mnh4zsxzewo=;
+ b=A5b7x6Hnjm43eXc7HI3oAg4zuX1umLhgKvlkV3w2fpXB5s2b5fEn6o5/8/GrHXutn3qPTIy7Q/hRJaKs3ZTtMjP5z2ZuMMTdFCUkwMjo8VviIE9nTSooGgctaFoafOJ2v1GZb8TmpHSE1t0c/bUJwxTRojy8hKdsRXZ3MDqLFHxfq6S8BbkuyU3J68IYXrAaG1rx/ntzeqh8Z34SkgS8fo8Y66GGXoz2gc1CVNtFnN7PujKwDJkfAdfwuLAc2jus2AYuaIjYe5XdT60i5xPOV1nyXT3NE1YFODXs+oPt6ArnKujewA95DmEqP/mDYdwxO1MZe5DbFVzmVNDcDX9eTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E/7O3+KhmuH2kWVMAMyJRwr8GizujQDJOVwQgT9EQdM=;
- b=mbksD7RdYtOSjC6wYApp2JeFedL3M25o0TvwrUmluKSdTcUPdvOmQjAPiGVnq5FoghOAx9jHql7k47Pi0V9G+iE8JCH26Q5lbpQPu1/ckPnG3L+YfIQJoeCveZwCI16/PKtk7dGIgFtci0E9YdF0DkdS+Lh57Y+DW03N5kDkoHo=
+ bh=lG1zJgoDHOPeXa0tD82qWzRQ8c/TDnK/mnh4zsxzewo=;
+ b=G8ysRQNhUPf5jZQD61MUEmiyW02ryZNOEodYL03KhKC4elQTLOmhw37y15+TvNHVTxR+H7ntJhyNdMgljmNqbckWnBmF5XdTh9GpHH6NUq7dOjT83MVA2Cdf1tk1JX8BDAJRovDZ+9VOti1/nSvQDvOTfX73/XYONcS8bkWUVpo=
 Authentication-Results: vger.kernel.org; dkim=none (message not signed)
  header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com (2603:10a6:803:4c::16)
- by VI1PR04MB4238.eurprd04.prod.outlook.com (2603:10a6:803:4e::31)
+ by VI1PR04MB6144.eurprd04.prod.outlook.com (2603:10a6:803:fd::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Wed, 9 Dec
- 2020 06:32:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Wed, 9 Dec
+ 2020 06:32:59 +0000
 Received: from VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685]) by VI1PR04MB3983.eurprd04.prod.outlook.com
  ([fe80::dcb7:6117:3def:2685%7]) with mapi id 15.20.3632.023; Wed, 9 Dec 2020
- 06:32:52 +0000
+ 06:32:59 +0000
 From: Liu Ying <victor.liu@nxp.com>
 To: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 0/5] phy: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY
- mode support
-Date: Wed,  9 Dec 2020 14:24:23 +0800
-Message-Id: <1607495069-10946-1-git-send-email-victor.liu@nxp.com>
+Subject: [PATCH v2 1/5] drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_enable()
+Date: Wed,  9 Dec 2020 14:24:24 +0800
+Message-Id: <1607495069-10946-2-git-send-email-victor.liu@nxp.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1607495069-10946-1-git-send-email-victor.liu@nxp.com>
+References: <1607495069-10946-1-git-send-email-victor.liu@nxp.com>
 X-Originating-IP: [119.31.174.66]
 X-ClientProxiedBy: SG2PR06CA0148.apcprd06.prod.outlook.com
  (2603:1096:1:1f::26) To VI1PR04MB3983.eurprd04.prod.outlook.com
@@ -55,49 +56,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (119.31.174.66) by
  SG2PR06CA0148.apcprd06.prod.outlook.com (2603:1096:1:1f::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.20.3654.12 via Frontend Transport; Wed, 9 Dec 2020 06:32:45 +0000
+ 15.20.3654.12 via Frontend Transport; Wed, 9 Dec 2020 06:32:52 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 34811096-2015-443d-0d71-08d89c0c416e
-X-MS-TrafficTypeDiagnostic: VI1PR04MB4238:
+X-MS-Office365-Filtering-Correlation-Id: 791e4ddb-fc67-4224-9422-08d89c0c457c
+X-MS-TrafficTypeDiagnostic: VI1PR04MB6144:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR04MB42380C970D641C28D38340EF98CC0@VI1PR04MB4238.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <VI1PR04MB6144E4885C286FB9678D657498CC0@VI1PR04MB6144.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FBtYDsaQHdZX6nF6kEOesxpfC5OXw5lX4dUe+32FsG2S0MHpCekXFq/Kc6XJBK3LAtBamPZNCzx6GyOHkjTeN3/QfF4Cecyq2ugI36erL8/28Rr/SaEihnM3cbAm56S22F4jrvLJQ+AAJuRYyYkeB9LC0haPhdBgpscwEvXRVJcrSa4q/g51fdc1sS0a1G1qGhLr7DTMHNPiYdP5F/J7c/OiGPVn2BcyysDVhkHXvDE75ZlxMCW0mRKCiskF76SILlgv+kx1f7jTBr5kxbfLJZTWISAmDndUbn7lWQ/SOzkvkdFXggN02cng6EQ8zAtS0Cm7nrHRf5mLhE5c49fO/8Pa7GAGjLxx6twV953mh8KVG/mCJkzvgpslO3H0gj/lPaZO5SdgewYoxzozkV9VoEEgueofpgKoqs5XkC/k+mw=
+X-Microsoft-Antispam-Message-Info: KZFgGssoxvMYJwGnrUmeYGO/HtvlTK6lZyMzcJKp+yD50ZyUXZ0ZydPZW3WDuhnuyjug/0Ej2fXxvINO0yhdb8m+rW3T1esraWtjpkU+nGnueaWizWTkU0+a+wrnAQMDpjkP0O9LUT9MR7b5nKx964/lGLv6RCZ5bVV7MqXgkoqMRapYkUrMBOYqhkxfZyAq9racUGmz9Hjw7z4sWvjt/mOGvMPlLSHoCU3azXUZ3VII/LYkeRcWA6aFKI8Hh8U7NHoRh7XmM3vVxpQU3smuv5ZiZhyyCpiee+HDS5eitecCBeFC6WLmCMTy1nBZlo+sRGDtpEcWiIrwLE3eJBLdaludY541ozSGG5Ni1kRLPNE4DOX2XqkNQL3iuqZJV/B9
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:VI1PR04MB3983.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(376002)(346002)(83380400001)(66476007)(52116002)(7416002)(6506007)(4326008)(2906002)(186003)(66556008)(26005)(66946007)(16526019)(36756003)(5660300002)(8676002)(508600001)(6666004)(34490700003)(956004)(6486002)(2616005)(69590400008)(6512007)(8936002)(86362001);
+ SFS:(4636009)(366004)(346002)(136003)(376002)(2616005)(26005)(52116002)(5660300002)(186003)(16526019)(34490700003)(8936002)(8676002)(6486002)(6666004)(66476007)(2906002)(7416002)(956004)(36756003)(6512007)(508600001)(66946007)(4326008)(6506007)(86362001)(66556008);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?spMFe4pWpDVHj0bDsEfj58yiG3CORYyd4dDV+MQCe+K3vOddM5wyv+wAaW47?=
- =?us-ascii?Q?7gl92AunFBWq0pFOC+Y5G9Gl9e8ua9wqt0PIGs26IrcsC2p7CeAeU9jXdmxy?=
- =?us-ascii?Q?vPxmNw73YoZF0uBWbp11E3GNPJEdGT3laItXWQAwREn8vf/pGDmS9aMOVDxB?=
- =?us-ascii?Q?VZ50OFP+ryyCy2zF1GC7hj6+ia3cocW/N3zfNShLXrla9rG0eSBNVSAGgtp1?=
- =?us-ascii?Q?UfbzKuflop26hql3vTvXDF97vgug/NmhIcRvxzcuRUroEeG5j56B7GVtT5bX?=
- =?us-ascii?Q?AdvIZZFxiz52AQTzn19NjDzRs/6aX8kyj1BVd7+nSIG1oEQzM0hAGX4aH91B?=
- =?us-ascii?Q?Eliedz5TxcGJ7DhGAsR4GH370mmFnsGuu2c8LDV5SUp3Pg7FO2p7mg1Q5RIJ?=
- =?us-ascii?Q?S04Vet8RJXZXSZV9z4gopMwr5T+Jf1WZoU6gj8tU1zrt+FlA6CUM689Uuiw4?=
- =?us-ascii?Q?BhI0kT166hnzYLtsca7+CQkb+LgLRTzADc7/eg3p3T5IN7lIbsq0Dwvy4CaT?=
- =?us-ascii?Q?U3at+ZzYsyMeIuipYWpOZ3WHjZFDcQ1EUIcS+kYTBcaUZEvPjD6SkGnzYHfD?=
- =?us-ascii?Q?wmE1cqk3Eo4t8a6hFQX9aBt25xx/xiyfBOl6IDiNw+nzzS3lVJTvtVpjya8Q?=
- =?us-ascii?Q?IPONc04F03OiA/J5VUa7s0mebX7JQ00JbjdibazIAgzxj5s335xTLTWr2Os2?=
- =?us-ascii?Q?2JKhyh0MzxYeLFWzSpvvicNav4q8TDH3pl2T6MTK5lbWdpTSFUrgYhzHZEBj?=
- =?us-ascii?Q?2UM+Xs93fhmEXbEWOQim6hsRnL9T+oQ/flEkVWlS58OW97VfQPwwal1XJP6Q?=
- =?us-ascii?Q?dbQTgHgIFmmGInHzBhJ3bAdBZr8Qeh3sUNi+SBCrl5gN4i40n2EEMMqXxsHS?=
- =?us-ascii?Q?53paGQa6cw/Ac44LdRVjeKsxbKvjOQyN54d9TprxS7Wmbmp1578cUm6gjjVZ?=
- =?us-ascii?Q?LOPkrPVjRrbasX95lKi8j3fIcltCtMXkJlPN6BZzbvGbnnFEbZ55H42AXohK?=
- =?us-ascii?Q?kqus?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?YTAyVGdhc1dVYUVKT05jVFY1YzhJMjRPSjN2allhTkNVZGluVEQ5QTY1UkJt?=
+ =?utf-8?B?UE82cXdVQmt1WitFL0xNNS9RRnBCUW81SHowM1NlUWJqSTB1NXpsajdSZ0lx?=
+ =?utf-8?B?cVFBR3hpT2M0blJDejR2OTBReFhrTDNVUW5pclZvNTRwVGtHcmErRzZRQ0JZ?=
+ =?utf-8?B?VGpoWlVkYnBFdGQ5dVVDOGl4djdjWTBycjdVZElRV1RNaW9LMk0zUmoxZ042?=
+ =?utf-8?B?VDgrNGw5MytNSjIrUU9MUlUyK1JTS3FramFWT2EyMFhGNzNZMUlXK0RFWFk1?=
+ =?utf-8?B?WENUdlZuK3pRamtBOUhPbjZWZzgyd3FKelZUb2VHODJoSm9tOW40T0F5bUs5?=
+ =?utf-8?B?M21tTGFNWitlYkRkYjJVRzEyaDZrUjZzSHBqaWVpV0dJdGNGVUNUY0h6TzlB?=
+ =?utf-8?B?bG50dXkyNkgrU2RhemdmZXV6Nm42M04zam5ITHZOaWpUZ3Zvc1ZXekVFOEtj?=
+ =?utf-8?B?NzBNTjNxdWg2V1FlMlREZnc1ME1qNlI3eFczemdhWmhzZWtYU3hreVJlVXBY?=
+ =?utf-8?B?UHo4UDhuNGF2dFNocE1XQWxmNTk3eXpNM3YrVzFIRWRQcjc0b1hxTTBQOGdy?=
+ =?utf-8?B?MXRIWXJqSjV6ZlVjemszeTY5NnNjQUwvZXlzZ3c1dHNtZDNJMVorWFdValdH?=
+ =?utf-8?B?UEtvWEhtQXpyTWp0c0lVbzlwOWxhQUs3L0x3ZTNDdDlpVXJXWkFlZE1VQ245?=
+ =?utf-8?B?cGxYeFJzYlZKcnVlVXpUSjgwYlpjdXJHK3BoWS9aYllmUzByNUE5cjNDWHk1?=
+ =?utf-8?B?bEpLYk1VR25zSU5mcUlsR0tzdmU5N2s5NHBEYnlWUGoyWnFINitNTmlpN2dv?=
+ =?utf-8?B?S0ZqV2RpQ1lzRUF3VnBDbEFhMWdRQWc5YloxMXZFQUxsUFJkbTk1ZkdscVNj?=
+ =?utf-8?B?Q2tmZFJmV0tVRVM2bUx5Wk15NENzWE91NlZ0MkVmZHJ3S05DTi9hSWpHa0h2?=
+ =?utf-8?B?K0VXRmJtZGV6c21DTDZzNkkxSEhjMy91YnVyVEpmak1IUkVuTEdHdjYvL3oz?=
+ =?utf-8?B?aVZJb2Y2L01iYVIvWGxLanAyRVN4YnFWaGhOQkpQekxIcTJCaldWOWRSejdk?=
+ =?utf-8?B?cmdZNEFWZ0ZaWFo0c2tTZW1UWEcwOEs4aFR4ZzRtbnpUalo3TjFFUnVVNDQ0?=
+ =?utf-8?B?SzZqSHVvQ0lMRE9ONXoxSkRNU3lGNHAvNzRnMlNKazdRWnhQWmN4S2h5MnVV?=
+ =?utf-8?B?R0oxSUtZQzBTTVNzSk9NNFdUS1FJZWtZVzJjSkdMbFlyV1kwcXNyL3I2N3R1?=
+ =?utf-8?B?SGtkeHFkM0RRS1dPckYyYTExRW43OEwvSHEvZFg5SEgyRDIrbDZmNXdCUVh2?=
+ =?utf-8?Q?SvAeUQESHl+GmkRak9ts4ZA+9V6Pd5gaxC?=
 X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: VI1PR04MB3983.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2020 06:32:52.2668 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2020 06:32:59.0499 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34811096-2015-443d-0d71-08d89c0c416e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 791e4ddb-fc67-4224-9422-08d89c0c457c
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z/9MtDliGye6UIZrrYJumUKpy4kYKkczAg/E2ZppWY65yTVX7vzSRGKsKxtiBrvUnZ4zuiJXt/6Ff6XOg0VnoA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4238
+X-MS-Exchange-CrossTenant-UserPrincipalName: L8Rx8kTRN613DoWxiiy7aIadLWU+pf3rxCm3DD7sO0Kzrz3iVgM7zMuMqxGUU0/etJNZdsfzEY0QziJDnK2Qdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6144
 X-Mailman-Approved-At: Wed, 09 Dec 2020 08:32:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -116,70 +122,38 @@ Cc: martin.kepplinger@puri.sm, jernej.skrabec@siol.net, kernel@pengutronix.de,
  jonas@kwiboo.se, kishon@ti.com, a.hajda@samsung.com, vkoul@kernel.org,
  robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, robert.chiras@nxp.com,
  shawnguo@kernel.org, agx@sigxcpu.org, linux-imx@nxp.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-This series adds i.MX8qxp LVDS PHY mode support for the Mixel PHY in the
-Freescale i.MX8qxp SoC.
-
-The Mixel PHY is MIPI DPHY + LVDS PHY combo, which can works in either
-MIPI DPHY mode or LVDS PHY mode.  The PHY mode is controlled by i.MX8qxp
-SCU firmware.  The PHY driver would call a SCU function to configure the
-mode.
-
-The PHY driver is already supporting the Mixel MIPI DPHY in i.MX8mq SoC,
-where it appears to be a single MIPI DPHY.
-
-
-Patch 1/5 sets PHY mode in the Northwest Logic MIPI DSI host controller
-bridge driver, since i.MX8qxp SoC embeds this controller IP to support
-MIPI DSI displays together with the Mixel PHY.
-
-Patch 2/5 allows LVDS PHYs to be configured through the generic PHY functions
-and through a custom structure added to the generic PHY configuration union.
-
-Patch 3/5 converts mixel,mipi-dsi-phy plain text dt binding to json-schema.
-
-Patch 4/5 adds dt binding support for the Mixel combo PHY in i.MX8qxp SoC.
-
-Patch 5/5 adds the i.MX8qxp LVDS PHY mode support in the Mixel PHY driver.
-
-
-Welcome comments, thanks.
-
-v1->v2:
-* Convert mixel,mipi-dsi-phy plain text dt binding to json-schema. (Guido)
-* Print invalid PHY mode in dmesg from the Mixel PHY driver. (Guido)
-* Add Guido's R-b tag on the patch for the nwl-dsi drm bridge driver.
-
-Liu Ying (5):
-  drm/bridge: nwl-dsi: Set PHY mode in nwl_dsi_enable()
-  phy: Add LVDS configuration options
-  dt-bindings: phy: Convert mixel,mipi-dsi-phy to json-schema
-  dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel combo PHY support for
-    i.MX8qxp
-  phy: freescale: phy-fsl-imx8-mipi-dphy: Add i.MX8qxp LVDS PHY mode
-    support
-
- .../devicetree/bindings/phy/mixel,mipi-dsi-phy.txt |  29 ---
- .../bindings/phy/mixel,mipi-dsi-phy.yaml           | 108 +++++++++
- drivers/gpu/drm/bridge/nwl-dsi.c                   |   6 +
- drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.c     | 270 ++++++++++++++++++++-
- include/linux/phy/phy-lvds.h                       |  48 ++++
- include/linux/phy/phy.h                            |   4 +
- 6 files changed, 425 insertions(+), 40 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.txt
- create mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-phy.yaml
- create mode 100644 include/linux/phy/phy-lvds.h
-
--- 
-2.7.4
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+VGhlIE5vcnRod2VzdCBMb2dpYyBNSVBJIERTSSBob3N0IGNvbnRyb2xsZXIgZW1iZWRkZWQgaW4g
+aS5NWDhxeHAKd29ya3Mgd2l0aCBhIE1peGVsIE1JUEkgRFBIWSArIExWRFMgUEhZIGNvbWJvIHRv
+IHN1cHBvcnQgZWl0aGVyCmEgTUlQSSBEU0kgZGlzcGxheSBvciBhIExWRFMgZGlzcGxheS4gIFNv
+LCB0aGlzIHBhdGNoIGNhbGxzCnBoeV9zZXRfbW9kZSgpIGZyb20gbndsX2RzaV9lbmFibGUoKSB0
+byBzZXQgUEhZIG1vZGUgdG8gTUlQSSBEUEhZCmV4cGxpY2l0bHkuCgpDYzogR3VpZG8gR8O8bnRo
+ZXIgPGFneEBzaWd4Y3B1Lm9yZz4KQ2M6IFJvYmVydCBDaGlyYXMgPHJvYmVydC5jaGlyYXNAbnhw
+LmNvbT4KQ2M6IE1hcnRpbiBLZXBwbGluZ2VyIDxtYXJ0aW4ua2VwcGxpbmdlckBwdXJpLnNtPgpD
+YzogQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KQ2M6IE5laWwgQXJtc3Ryb25n
+IDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KQ2M6IExhdXJlbnQgUGluY2hhcnQgPExhdXJlbnQu
+cGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4KQ2M6IEpvbmFzIEthcmxtYW4gPGpvbmFzQGt3aWJv
+by5zZT4KQ2M6IEplcm5laiBTa3JhYmVjIDxqZXJuZWouc2tyYWJlY0BzaW9sLm5ldD4KQ2M6IERh
+dmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT4KQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBm
+ZndsbC5jaD4KQ2M6IE5YUCBMaW51eCBUZWFtIDxsaW51eC1pbXhAbnhwLmNvbT4KUmV2aWV3ZWQt
+Ynk6IEd1aWRvIEfDvG50aGVyIDxhZ3hAc2lneGNwdS5vcmc+ClNpZ25lZC1vZmYtYnk6IExpdSBZ
+aW5nIDx2aWN0b3IubGl1QG54cC5jb20+Ci0tLQp2MS0+djI6CiogQWRkIEd1aWRvJ3MgUi1iIHRh
+Zy4KCiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kuYyB8IDYgKysrKysrCiAxIGZpbGUg
+Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2Jy
+aWRnZS9ud2wtZHNpLmMgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kuYwppbmRleCA2
+NmI2NzQwLi5iZTZiZmM1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1k
+c2kuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vYnJpZGdlL253bC1kc2kuYwpAQCAtNjc4LDYgKzY3
+OCwxMiBAQCBzdGF0aWMgaW50IG53bF9kc2lfZW5hYmxlKHN0cnVjdCBud2xfZHNpICpkc2kpCiAJ
+CXJldHVybiByZXQ7CiAJfQogCisJcmV0ID0gcGh5X3NldF9tb2RlKGRzaS0+cGh5LCBQSFlfTU9E
+RV9NSVBJX0RQSFkpOworCWlmIChyZXQgPCAwKSB7CisJCURSTV9ERVZfRVJST1IoZGV2LCAiRmFp
+bGVkIHRvIHNldCBEU0kgcGh5IG1vZGU6ICVkXG4iLCByZXQpOworCQlnb3RvIHVuaW5pdF9waHk7
+CisJfQorCiAJcmV0ID0gcGh5X2NvbmZpZ3VyZShkc2ktPnBoeSwgcGh5X2NmZyk7CiAJaWYgKHJl
+dCA8IDApIHsKIAkJRFJNX0RFVl9FUlJPUihkZXYsICJGYWlsZWQgdG8gY29uZmlndXJlIERTSSBw
+aHk6ICVkXG4iLCByZXQpOwotLSAKMi43LjQKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3Rz
+LmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2RyaS1kZXZlbAo=
