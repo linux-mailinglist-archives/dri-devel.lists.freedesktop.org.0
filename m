@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40E3B2D44EC
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 15:58:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3986A2D4532
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 16:20:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A01496EA76;
-	Wed,  9 Dec 2020 14:58:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5F5A6EA75;
+	Wed,  9 Dec 2020 15:20:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com
- [IPv6:2607:f8b0:4864:20::e43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42A7D6EA48;
- Wed,  9 Dec 2020 14:58:46 +0000 (UTC)
-Received: by mail-vs1-xe43.google.com with SMTP id x26so1041387vsq.1;
- Wed, 09 Dec 2020 06:58:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
+ [IPv6:2a00:1450:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EAA26EA75
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 15:20:46 +0000 (UTC)
+Received: by mail-wm1-x343.google.com with SMTP id q75so2054556wme.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 07:20:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8Np9UgJRycvQwpQGNE2yYpgVDH1Z3o7mevwsErmtfEs=;
- b=kyEtl18OU+cr117sFVa/EilbHkKsswbLn4VFsz3jvY/cCo48yHobIJ+fNunDlAT7xS
- LdWXV+hMurfVaS3f1sosYnY1V/UpCv6rh/hXvzm5ERKmtBjQf2k1qZG2DZMPtnexTxH9
- rG1mNQDdQNiw1514B0alZjzvAZy/hhJ6HXC6k3KH7sUNj4Lwnc0UJuoGdmdxQLQHUM2b
- akgEZtB52yjGJEBHut5HNMZiuIPQA7G6e73r/tIdGVeGhlZdQxW24Qi0wGQTiQSn2jj/
- bR4QyttrMtjaIdK1ECx8HtOkNK2R/sJ0isAmjEROZd7bhNn211R/sx4F8mpUGrUiJLFw
- JPAw==
+ :cc; bh=yLHTUEMqEsVymCbbRW/m8T5XORY7zfjPXDgyznTVKGI=;
+ b=kkwxoSzZLnObQaaJ6ZtIF6nZLt9ou1obeU4e4nI/i7ieJNdC0tM39AsQnd8N2N4JgD
+ FR4dV1EpctJC3tMIaH2NmfHNBgHi3flK2c9IedEItq1ksma3Pomgf9MpNnqGeSgATLkW
+ mHvO5cNDi1YPiIGUhBYjt4DoBK9y82dYCOosluTNaEU5yRetKNPl2/gnhn30Itup2VyS
+ CanRWQ3iXJYsxik6Js5naHO4QBlZEgQXqJwERoKuo1cz/ivfX61zri+87QP4MKwCSyCz
+ LeS74DH+7MpiRSxXN8QF7xfv8m0sSSk412AzpCJIauIhhHBxm+0ySW19ikBGyyEWYp6s
+ 3ZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8Np9UgJRycvQwpQGNE2yYpgVDH1Z3o7mevwsErmtfEs=;
- b=kqPLQPZ0cHeqccaT3Gi9zyROzq3yKbJsFC3RuCPbAARygwi2r7DmFHReRTJF6BEBQA
- hx4XIlJ0YrZzh2rPw4DL0bSY/aAnhaU0cbearmYRzWoJma2NPBKRWdutDIap+3PcEzac
- AHVa0WPyFJ4XJvwuwHxYFe9xrY3iG9yKZj/a+zkWQLDgv2hWc1br8dsbRjJzJ9xXuLm2
- kZ5zbfLGfG9f4SxBFcxNSmYwVVGkTU8NTkHiyS66Fexv446xIGLJsX8r5sfFys8jN5T3
- EPpkyfXS3vpV0zQNCBlG1SK/7U3j0LOCsSUdq/5voaEePjfVTxN+BbxVwCtdfzVceIMD
- Texg==
-X-Gm-Message-State: AOAM533nWMg0xP/j5iZZ0NmDmaNWx+fdvKL0qv7snVpa4KU8u16Qrszh
- ufZJ/JD+0jBruXDZVDyaI+UKIZkVldOX7ih0MYU5aK6cqfdDUA==
-X-Google-Smtp-Source: ABdhPJy7pSqKkqt/hf1ZO6X2l4SErP7qwfrcBZHndcDaWTpJLRgglMaho7bnVStgayTtdb7l3teE4B4+hPYD5OJ11G8=
-X-Received: by 2002:a67:30c1:: with SMTP id w184mr2114251vsw.13.1607525925484; 
- Wed, 09 Dec 2020 06:58:45 -0800 (PST)
+ bh=yLHTUEMqEsVymCbbRW/m8T5XORY7zfjPXDgyznTVKGI=;
+ b=DIADO0M5fIBLhM7cjMTddFllLaWWwAnYCiZnlnV133TbWcg9EzEqkI8/JGvUoSbrQ9
+ qgNJgisyQHmk8k1F/ZAnbLRgWD78kXqJzZ6DBjXSKGBzWG2m1WN1v81yBqccFpn5h3l3
+ hbf5V8Ne2jCEB9UaScibh1SnatvqKGrhA4RqPgwW3X2N1yQrfyY0qfbfSLhWrg1D1xRO
+ CX0InFWvcKs+6AjiByPSvOxM7B5+xVF95uSKrU8ptat4Lf8EKJYMCOCL18xARs4Jf3BR
+ ow86Dmcwkiv7T3x9uf4ySvutaxjIAZl8FQV+4bTalh2VI3GLjvVEtCO+xQ3GthoyLU+f
+ yahA==
+X-Gm-Message-State: AOAM5324we0QnvL0WfGuzlIvVlKCnURyS9SUdPapEQ8Kmg/+L3CUGwJN
+ SCkETNqOPV3Q9vDyoqvtQHRdl6SxqVVI/1ZvnLdQxA==
+X-Google-Smtp-Source: ABdhPJyFylqdqvCa3yVhz9mJjfIn5+E/OMvvFWfhhgBYtXS6iJLHCpEL7J4F7jPiFKRu0GLvJ0jAskosi3rrtuOym44=
+X-Received: by 2002:a1c:5447:: with SMTP id p7mr3325491wmi.116.1607527245156; 
+ Wed, 09 Dec 2020 07:20:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201203829.1735559-1-lkundrak@v3.sk>
- <20201201203829.1735559-4-lkundrak@v3.sk>
-In-Reply-To: <20201201203829.1735559-4-lkundrak@v3.sk>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Wed, 9 Dec 2020 15:58:34 +0100
-Message-ID: <CAH9NwWfhzYjJYBctvPbDEr+hBBYMeUYQda9dvnyyXL_6g+vm0g@mail.gmail.com>
-Subject: Re: [PATCH libdrm 3/3] tests/etnaviv_2d_test: check whether the
- rendering is correct
-To: Lubomir Rintel <lkundrak@v3.sk>
+References: <20201207155719.17149-1-maxime@cerno.tech>
+ <20201207155719.17149-5-maxime@cerno.tech>
+In-Reply-To: <20201207155719.17149-5-maxime@cerno.tech>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 9 Dec 2020 15:20:30 +0000
+Message-ID: <CAPY8ntC5VPc8Ctcxdp9vyrt1de2Y3dAO9fpqKJCMNe2gjTAc2A@mail.gmail.com>
+Subject: Re: [PATCH v5 4/9] drm/vc4: hdmi: Don't access the connector state in
+ reset if kmalloc fails
+To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,101 +63,56 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: The etnaviv authors <etnaviv@lists.freedesktop.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Di., 1. Dez. 2020 um 21:38 Uhr schrieb Lubomir Rintel <lkundrak@v3.sk>:
->
-> Instead of always dumping the rendered picture, check whether it matches
-> the expectations. This makes more sense for automated testing.
->
-> Retain the ability to dump the picture instead of checking it when a
-> file name is given as an argument. This also removes use of a hardcoded
-> file name in a world writable directory, which is an unsafe thing to
-> do anyway.
->
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+Hi Maxime
 
-Reviewed-by: Christian Gmeiner <christian.gmeiner@gmail.com>
+On Mon, 7 Dec 2020 at 15:57, Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> drm_atomic_helper_connector_reset uses kmalloc which, from an API
+> standpoint, can fail, and thus setting connector->state to NULL.
+> However, our reset hook then calls drm_atomic_helper_connector_tv_reset
+> that will access connector->state without checking if it's a valid
+> pointer or not.
+>
+> Make sure we don't end up accessing a NULL pointer.
+>
+> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
 > ---
->  tests/etnaviv/etnaviv_2d_test.c | 29 +++++++++++++++++++++++++++--
->  1 file changed, 27 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/tests/etnaviv/etnaviv_2d_test.c b/tests/etnaviv/etnaviv_2d_test.c
-> index a75a4a89..9fcdae18 100644
-> --- a/tests/etnaviv/etnaviv_2d_test.c
-> +++ b/tests/etnaviv/etnaviv_2d_test.c
-> @@ -147,6 +147,27 @@ static void gen_cmd_stream(struct etna_cmd_stream *stream, struct etna_bo *bmp,
->         etna_set_state(stream, VIVS_GL_FLUSH_CACHE, VIVS_GL_FLUSH_CACHE_PE2D);
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index a88aa20beeb6..61039cc89d9d 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -171,7 +171,9 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+>  static void vc4_hdmi_connector_reset(struct drm_connector *connector)
+>  {
+>         drm_atomic_helper_connector_reset(connector);
+> -       drm_atomic_helper_connector_tv_reset(connector);
+> +
+> +       if (connector->state)
+> +               drm_atomic_helper_connector_tv_reset(connector);
 >  }
 >
-> +int etna_check_image(uint32_t *p, int width, int height)
-> +{
-> +       int i;
-> +       uint32_t expected;
-> +
-> +       for (i = 0; i < width * height; i++) {
-> +               if (i%8 < 4 && i%(width*8) < width*4 && i%width < 8*16 && i < width*8*16)
-> +                       expected = 0xff40ff40;
-> +               else
-> +                       expected = 0x00000000;
-> +
-> +               if (p[i] != expected) {
-> +                       fprintf(stderr, "Offset %d: expected: 0x%08x, got: 0x%08x\n",
-> +                               i, expected, p[i]);
-> +                       return -1;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->         const int width = 256;
-> @@ -165,7 +186,7 @@ int main(int argc, char *argv[])
->         int core = 0;
->
->         if (argc < 2) {
-> -               fprintf(stderr, "Usage: %s /dev/dri/<device>\n", argv[0]);
-> +               fprintf(stderr, "Usage: %s /dev/dri/<device> [<etna.bmp>]\n", argv[0]);
->                 return 1;
->         }
->
-> @@ -242,7 +263,11 @@ int main(int argc, char *argv[])
->
->         etna_cmd_stream_finish(stream);
->
-> -       bmp_dump32(etna_bo_map(bmp), width, height, false, "/tmp/etna.bmp");
-> +       if (argc > 2)
-> +               bmp_dump32(etna_bo_map(bmp), width, height, false, argv[2]);
-> +
-> +       if (etna_check_image(etna_bo_map(bmp), width, height))
-> +               ret = 7;
->
->         etna_cmd_stream_del(stream);
->
+>  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
 > --
 > 2.28.0
 >
-> _______________________________________________
-> etnaviv mailing list
-> etnaviv@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/etnaviv
-
-
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
