@@ -2,33 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61492D4429
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 15:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237912D4442
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Dec 2020 15:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D3AE6EA59;
-	Wed,  9 Dec 2020 14:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DAB96EA65;
+	Wed,  9 Dec 2020 14:27:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E38256EA59
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 14:25:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C592A6EA65
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Dec 2020 14:27:41 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7F5E5AD38;
- Wed,  9 Dec 2020 14:25:36 +0000 (UTC)
-From: Thomas Zimmermann <tzimmermann@suse.de>
+ by mx2.suse.de (Postfix) with ESMTP id 5D5AEAD29;
+ Wed,  9 Dec 2020 14:27:40 +0000 (UTC)
+Subject: Re: [PATCH v3 3/8] dma-buf: Add vmap_local and vnumap_local operations
 To: daniel@ffwll.ch, christian.koenig@amd.com, airlied@linux.ie,
  sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
- sean@poorly.run, eric@anholt.net, sam@ravnborg.org
-Subject: [PATCH v3 8/8] drm/fb-helper: Move BO locking from DRM client to
- fbdev damage worker
-Date: Wed,  9 Dec 2020 15:25:27 +0100
-Message-Id: <20201209142527.26415-9-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201209142527.26415-1-tzimmermann@suse.de>
+ mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com, sean@poorly.run,
+ eric@anholt.net, sam@ravnborg.org
 References: <20201209142527.26415-1-tzimmermann@suse.de>
+ <20201209142527.26415-4-tzimmermann@suse.de>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <fab0fe22-45dc-4420-66b4-3a566b816c79@suse.de>
+Date: Wed, 9 Dec 2020 15:27:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20201209142527.26415-4-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,238 +43,276 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0426253201=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fbdev emulation has to lock the BO into place while flushing the shadow
-buffer into the BO's memory. Remove any interference with pinning by
-using vmap_local functionality (instead of full vmap). This requires
-BO reservation locking in fbdev's damage worker.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0426253201==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v"
 
-The new DRM client functions for locking and vmap_local functionality
-are added for consistency with the existing style.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v
+Content-Type: multipart/mixed; boundary="aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch, christian.koenig@amd.com, airlied@linux.ie,
+ sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com, sean@poorly.run,
+ eric@anholt.net, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org
+Message-ID: <fab0fe22-45dc-4420-66b4-3a566b816c79@suse.de>
+Subject: Re: [PATCH v3 3/8] dma-buf: Add vmap_local and vnumap_local
+ operations
+References: <20201209142527.26415-1-tzimmermann@suse.de>
+ <20201209142527.26415-4-tzimmermann@suse.de>
+In-Reply-To: <20201209142527.26415-4-tzimmermann@suse.de>
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/drm_client.c    | 91 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_fb_helper.c | 41 +++++++--------
- include/drm/drm_client.h        |  4 ++
- 3 files changed, 116 insertions(+), 20 deletions(-)
+--aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client.c
-index ce45e380f4a2..795f5cb052ba 100644
---- a/drivers/gpu/drm/drm_client.c
-+++ b/drivers/gpu/drm/drm_client.c
-@@ -288,6 +288,37 @@ drm_client_buffer_create(struct drm_client_dev *client, u32 width, u32 height, u
- 	return ERR_PTR(ret);
- }
- 
-+/**
-+ * drm_client_buffer_lock - Locks the DRM client buffer
-+ * @buffer: DRM client buffer
-+ *
-+ * This function locks the client buffer by acquiring the buffer
-+ * object's reservation lock.
-+ *
-+ * Unlock the buffer with drm_client_buffer_unlock().
-+ *
-+ * Returns:
-+ *	0 on success, or a negative errno code otherwise.
-+ */
-+int
-+drm_client_buffer_lock(struct drm_client_buffer *buffer)
-+{
-+	return dma_resv_lock(buffer->gem->resv, NULL);
-+}
-+EXPORT_SYMBOL(drm_client_buffer_lock);
+Hi
+
+Am 09.12.20 um 15:25 schrieb Thomas Zimmermann:
+> The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
+> allowed to pin the buffer or acquire the buffer's reservation object
+> lock.
+>=20
+> This is a problem for callers that only require a short-term mapping
+> of the buffer without the pinning, or callers that have special locking=
+
+> requirements. These may suffer from unnecessary overhead or interfere
+> with regular pin operations.
+>=20
+> The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
+> their rsp callbacks in struct dma_buf_ops provide an alternative withou=
+t
+> pinning or reservation locking. Callers are responsible for these
+> operations.
+>=20
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Before merging, this patch would get a Suggested-by tag to give Daniel=20
+credit. I only notices after hitting the send button.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/dma-buf/dma-buf.c | 80 ++++++++++++++++++++++++++++++++++++++=
 +
-+/**
-+ * drm_client_buffer_unlock - Unlock DRM client buffer
-+ * @buffer: DRM client buffer
-+ *
-+ * Unlocks a client buffer. See drm_client_buffer_lock().
-+ */
-+void drm_client_buffer_unlock(struct drm_client_buffer *buffer)
-+{
-+	dma_resv_unlock(buffer->gem->resv);
-+}
-+EXPORT_SYMBOL(drm_client_buffer_unlock);
-+
- /**
-  * drm_client_buffer_vmap - Map DRM client buffer into address space
-  * @buffer: DRM client buffer
-@@ -348,6 +379,66 @@ void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
- }
- EXPORT_SYMBOL(drm_client_buffer_vunmap);
- 
-+/**
-+ * drm_client_buffer_vmap_local - Map DRM client buffer into address space
-+ * @buffer: DRM client buffer
-+ * @map_copy: Returns the mapped memory's address
-+ *
-+ * This function maps a client buffer into kernel address space. If the
-+ * buffer is already mapped, it returns the existing mapping's address.
-+ *
-+ * Client buffer mappings are not ref'counted. Each call to
-+ * drm_client_buffer_vmap_local() should be followed by a call to
-+ * drm_client_buffer_vunmap_local(); or the client buffer should be mapped
-+ * throughout its lifetime.
-+ *
-+ * The returned address is a copy of the internal value. In contrast to
-+ * other vmap interfaces, you don't need it for the client's vunmap
-+ * function. So you can modify it at will during blit and draw operations.
-+ *
-+ * Returns:
-+ *	0 on success, or a negative errno code otherwise.
-+ */
-+int
-+drm_client_buffer_vmap_local(struct drm_client_buffer *buffer, struct dma_buf_map *map_copy)
-+{
-+	struct dma_buf_map *map = &buffer->map;
-+	int ret;
-+
-+	/*
-+	 * FIXME: The dependency on GEM here isn't required, we could
-+	 * convert the driver handle to a dma-buf instead and use the
-+	 * backend-agnostic dma-buf vmap_local support instead. This would
-+	 * require that the handle2fd prime ioctl is reworked to pull the
-+	 * fd_install step out of the driver backend hooks, to make that
-+	 * final step optional for internal users.
-+	 */
-+	ret = drm_gem_vmap_local(buffer->gem, map);
-+	if (ret)
-+		return ret;
-+
-+	*map_copy = *map;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_client_buffer_vmap_local);
-+
-+/**
-+ * drm_client_buffer_vunmap_local - Unmap DRM client buffer
-+ * @buffer: DRM client buffer
-+ *
-+ * This function removes a client buffer's memory mapping. Calling this
-+ * function is only required by clients that manage their buffer mappings
-+ * by themselves.
-+ */
-+void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer)
-+{
-+	struct dma_buf_map *map = &buffer->map;
-+
-+	drm_gem_vunmap_local(buffer->gem, map);
-+}
-+EXPORT_SYMBOL(drm_client_buffer_vunmap_local);
-+
- static void drm_client_buffer_rmfb(struct drm_client_buffer *buffer)
- {
- 	int ret;
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index e82db0f4e771..a56a7d9f7e35 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -399,28 +399,34 @@ static int drm_fb_helper_damage_blit(struct drm_fb_helper *fb_helper,
- 	int ret;
- 
- 	/*
--	 * We have to pin the client buffer to its current location while
--	 * flushing the shadow buffer. In the general case, concurrent
--	 * modesetting operations could try to move the buffer and would
--	 * fail. The modeset has to be serialized by acquiring the reservation
--	 * object of the underlying BO here.
--	 *
- 	 * For fbdev emulation, we only have to protect against fbdev modeset
- 	 * operations. Nothing else will involve the client buffer's BO. So it
- 	 * is sufficient to acquire struct drm_fb_helper.lock here.
- 	 */
- 	mutex_lock(&fb_helper->lock);
- 
--	ret = drm_client_buffer_vmap(buffer, &map);
-+	/*
-+	 * We have to keep the client buffer at its current location while
-+	 * flushing the shadow buffer. Concurrent operations could otherwise
-+	 * try to move the buffer. Therefore acquiring the reservation
-+	 * object of the underlying BO here.
-+	 */
-+	ret = drm_client_buffer_lock(buffer);
-+	if (ret)
-+		goto out_mutex_unlock;
-+
-+	ret = drm_client_buffer_vmap_local(buffer, &map);
- 	if (ret)
--		goto out;
-+		goto out_drm_client_buffer_unlock;
- 
- 	dst = map;
- 	drm_fb_helper_damage_blit_real(fb_helper, clip, &dst);
- 
--	drm_client_buffer_vunmap(buffer);
-+	drm_client_buffer_vunmap_local(buffer);
- 
--out:
-+out_drm_client_buffer_unlock:
-+	drm_client_buffer_unlock(buffer);
-+out_mutex_unlock:
- 	mutex_unlock(&fb_helper->lock);
- 
- 	return ret;
-@@ -946,15 +952,11 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
- 	drm_modeset_lock_all(fb_helper->dev);
- 	drm_client_for_each_modeset(modeset, &fb_helper->client) {
- 		crtc = modeset->crtc;
--		if (!crtc->funcs->gamma_set || !crtc->gamma_size) {
--			ret = -EINVAL;
--			goto out;
--		}
-+		if (!crtc->funcs->gamma_set || !crtc->gamma_size)
-+			return -EINVAL;
- 
--		if (cmap->start + cmap->len > crtc->gamma_size) {
--			ret = -EINVAL;
--			goto out;
--		}
-+		if (cmap->start + cmap->len > crtc->gamma_size)
-+			return -EINVAL;
- 
- 		r = crtc->gamma_store;
- 		g = r + crtc->gamma_size;
-@@ -967,9 +969,8 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
- 		ret = crtc->funcs->gamma_set(crtc, r, g, b,
- 					     crtc->gamma_size, NULL);
- 		if (ret)
--			goto out;
-+			return ret;
- 	}
--out:
- 	drm_modeset_unlock_all(fb_helper->dev);
- 
- 	return ret;
-diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-index f07f2fb02e75..df61e339a11c 100644
---- a/include/drm/drm_client.h
-+++ b/include/drm/drm_client.h
-@@ -156,8 +156,12 @@ struct drm_client_buffer *
- drm_client_framebuffer_create(struct drm_client_dev *client, u32 width, u32 height, u32 format);
- void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
- int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, struct drm_rect *rect);
-+int drm_client_buffer_lock(struct drm_client_buffer *buffer);
-+void drm_client_buffer_unlock(struct drm_client_buffer *buffer);
- int drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct dma_buf_map *map);
- void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
-+int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer, struct dma_buf_map *map);
-+void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer);
- 
- int drm_client_modeset_create(struct drm_client_dev *client);
- void drm_client_modeset_free(struct drm_client_dev *client);
--- 
-2.29.2
+>   include/linux/dma-buf.h   | 34 +++++++++++++++++
+>   2 files changed, 114 insertions(+)
+>=20
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index e63684d4cd90..be9f80190a66 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1265,6 +1265,86 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, stru=
+ct dma_buf_map *map)
+>   }
+>   EXPORT_SYMBOL_GPL(dma_buf_vunmap);
+>  =20
+> +/**
+> + * dma_buf_vmap_local - Create virtual mapping for the buffer object i=
+nto kernel
+> + * address space.
+> + * @dmabuf:	[in]	buffer to vmap
+> + * @map:	[out]	returns the vmap pointer
+> + *
+> + * This call may fail due to lack of virtual mapping address space.
+> + * These calls are optional in drivers. The intended use for them
+> + * is for mapping objects linear in kernel space for high use objects.=
+
+> + * Please attempt to use kmap/kunmap before thinking about these inter=
+faces.
+> + *
+> + * Returns:
+> + * 0 on success, or a negative errno code otherwise.
+> + */
+> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map=
+)
+> +{
+> +	struct dma_buf_map ptr;
+> +	int ret =3D 0;
+> +
+> +	dma_buf_map_clear(map);
+> +
+> +	if (WARN_ON(!dmabuf))
+> +		return -EINVAL;
+> +
+> +	dma_resv_assert_held(dmabuf->resv);
+> +
+> +	if (!dmabuf->ops->vmap_local)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&dmabuf->lock);
+> +	if (dmabuf->vmapping_counter) {
+> +		dmabuf->vmapping_counter++;
+> +		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+> +		*map =3D dmabuf->vmap_ptr;
+> +		goto out_unlock;
+> +	}
+> +
+> +	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
+> +
+> +	ret =3D dmabuf->ops->vmap_local(dmabuf, &ptr);
+> +	if (WARN_ON_ONCE(ret))
+> +		goto out_unlock;
+> +
+> +	dmabuf->vmap_ptr =3D ptr;
+> +	dmabuf->vmapping_counter =3D 1;
+> +
+> +	*map =3D dmabuf->vmap_ptr;
+> +
+> +out_unlock:
+> +	mutex_unlock(&dmabuf->lock);
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
+> +
+> +/**
+> + * dma_buf_vunmap_local - Unmap a vmap obtained by dma_buf_vmap_local.=
+
+> + * @dmabuf:	[in]	buffer to vunmap
+> + * @map:	[in]	vmap pointer to vunmap
+> + */
+> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *=
+map)
+> +{
+> +	if (WARN_ON(!dmabuf))
+> +		return;
+> +
+> +	dma_resv_assert_held(dmabuf->resv);
+> +
+> +	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
+> +	BUG_ON(dmabuf->vmapping_counter =3D=3D 0);
+> +	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
+> +
+> +	mutex_lock(&dmabuf->lock);
+> +	if (--dmabuf->vmapping_counter =3D=3D 0) {
+> +		if (dmabuf->ops->vunmap_local)
+> +			dmabuf->ops->vunmap_local(dmabuf, map);
+> +		dma_buf_map_clear(&dmabuf->vmap_ptr);
+> +	}
+> +	mutex_unlock(&dmabuf->lock);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
+> +
+>   #ifdef CONFIG_DEBUG_FS
+>   static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>   {
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index cf72699cb2bc..f66580d23a9b 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -269,6 +269,38 @@ struct dma_buf_ops {
+>  =20
+>   	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>   	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> +
+> +	/**
+> +	 * @vmap_local:
+> +	 *
+> +	 * Creates a virtual mapping for the buffer into kernel address space=
+=2E
+> +	 *
+> +	 * This callback establishes short-term mappings for situations where=
+
+> +	 * callers only use the buffer for a bounded amount of time; such as
+> +	 * updates to the framebuffer or reading back contained information.
+> +	 * In contrast to the regular @vmap callback, vmap_local does never p=
+in
+> +	 * the buffer to a specific domain or acquire the buffer's reservatio=
+n
+> +	 * lock.
+> +	 *
+> +	 * This is called with the dmabuf->resv object locked. Callers must h=
+old
+> +	 * the lock until after removing the mapping with @vunmap_local.
+> +	 *
+> +	 * This callback is optional.
+> +	 *
+> +	 * Returns:
+> +	 *
+> +	 * 0 on success or a negative error code on failure.
+> +	 */
+> +	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+> +
+> +	/**
+> +	 * @vunmap_local:
+> +	 *
+> +	 * Removes a virtual mapping that wa sestablished by @vmap_local.
+> +	 *
+> +	 * This callback is optional.
+> +	 */
+> +	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map)=
+;
+>   };
+>  =20
+>   /**
+> @@ -506,4 +538,6 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_s=
+truct *,
+>   		 unsigned long);
+>   int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>   void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);=
+
+> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map=
+);
+> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *=
+map);
+>   #endif /* __DMA_BUF_H__ */
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn--
+
+--OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/Q3toFAwAAAAAACgkQlh/E3EQov+DI
+uxAAhx4iJU/FHPsmAupxKsb/vMp8tSvFIXnVLMYth6sFzmQQDwdaJEHeF0meLcdyZmJyxPUCoIhy
+ZddFxjFfThu5tY3JssNtxDd2vkOy7CDpLnsyho/LZwXJ0MgKhl19DlDSvywtJz4gHq56d3S7J3U2
+Wtud6Ie54Q7xapck9gp45g67g4/9nVbsRCeMkCLlnslG6VfzQ7MoPVk223NIL5wUDKL7kdIFuOLX
+ubpj9LWlciUyhmEjqS0lznSgxyrhpBV7uCk2Jb9NGGM9BmdWLwwr+OSjBQhrLFEc1/uygvZVWEGn
+gjpA6u76uQaC2WIXuf1nuvg6kjN6h4c6irq5NtFxQ6uUmUFRNz47UlRQCqYFUuo5xEf4rfws7x2K
+0xduAmzjZ6nRoHO1mxjAOKrHhHuE0OpGru03zTSeV0As9dPmC/vDhyEnwGCelWgXLwIsfslcLIDf
+tG4ZUVLS3YXlROsRAKh84k4Bvm+0nv6qjk03AJJcCt3lSscWUTYYLAo14/Y/I4DbujSjdzjqjSD2
+GHYk9pnHjD7bZvb0ui6K0PME/6RSzoAmTl+Haec/e+6e8qgactS2vSQ69Aq9y1qryoctQpAhqYWu
+OGU/GoFn6X45SG5VmQjqR6YCvUfWLm6dgnaFr/00aiLRU+V6ov0wJU9TasQsWktM91ToVSFqba4d
+X+U=
+=G2uP
+-----END PGP SIGNATURE-----
+
+--OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v--
+
+--===============0426253201==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0426253201==--
