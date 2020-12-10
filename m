@@ -1,40 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FBC2D603E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:45:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8032D604E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:47:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF876EABB;
-	Thu, 10 Dec 2020 15:45:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2BB56EABA;
+	Thu, 10 Dec 2020 15:47:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08A616EABB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:45:28 +0000 (UTC)
-Date: Thu, 10 Dec 2020 15:45:18 +0000
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC8F16EABA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:47:36 +0000 (UTC)
+Date: Thu, 10 Dec 2020 15:47:27 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607615126;
- bh=V4wiblAC/RLDIgZUbJZgTYIWzS4QfV/UUVHYK9XV8fQ=;
+ s=protonmail2; t=1607615254;
+ bh=0NcXHMVGlYF9ZZ5Q6Qv5F8sN5CW4QQqoW6q8FWdhrtk=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=Ah4iYPzvgL2E7PkVNcL2YVsjcd+dfCi4K4+WwvoHFJD0HWcI5lFpSTC89ByxBCE+F
- d3VS1mh5b8pDvQUeFsIPAmzyOnYeOpko5svFzlcsgGnRcjdsKz+09q+6oV4UR73jYc
- TZs8JXC+l0ZvDUdxPkRp9pZErNcpAgRLJVbbRErAuG2rHYTzw2Mu5R2FMLe8fxVul3
- pVK4vKfv7+wdpx1jhIpNPA7oL6pwFYUf1v8yAUxG56rhmrd63y3C8F/no2T0YZb8/0
- gr2mRznaWUnOZ9r8+v4Tci0wSqxiLl9Lu4mlVkLta5x+f0ok83p9qar3KCSmWCBTvW
- nAvvD+eTvIVQQ==
+ b=lMTiehm6eGQOsEvmQGA0ijGP6eDLS8MYctfnk9/xLS38ZzsBxhehutNsjxoEDhNBj
+ HpcPGsTpalVEJYYMO+O84Dr54SMNBn9VfcJdedij8plEfIf88h8/YGTn7KMO4qiW6q
+ VXzRJnhoNXFqUx8moj2SM8Td+btshcd2R6ERmuvYDQPgP61vZWMa8+vIlGIi3en2fj
+ tNKkdrp+FfULLp7rmWhdloy5OZaOw+KSNM2xiTCr8p0vBeogC1fZvM9ED6HfvyoX4y
+ WQrXUAiYG0tpi2JRHz/gb/67kaHDDMZDWQtZ93WWsXo4uAntDw2BM1G2rUSI/6MErI
+ b1/Rz/efVumSA==
 To: Daniel Vetter <daniel@ffwll.ch>
 From: Simon Ser <contact@emersion.fr>
 Subject: Re: [PATCH] drm: rework description of primary and cursor planes
-Message-ID: <iId0AQqxwalIhTMk-efVSEskNIuLA_pP5h4loD4Mbu17dJF83zbUXu5HZnSekjM73tghP2kE5MNXdMT3D5lus2e-s66PX4V0a_mDka695FY=@emersion.fr>
-In-Reply-To: <20201209194030.GV401619@phenom.ffwll.local>
+Message-ID: <JKb2cbQDVUXFFXnJGgJ1dh5vr_UhsEnBKIn7f3C3e8ekU_z3rzatSwFMbWQTWDU8VLnnIsTVPcgce5_F5_ocDz3sIPvEDGPDPhGxiGzwUws=@emersion.fr>
+In-Reply-To: <iId0AQqxwalIhTMk-efVSEskNIuLA_pP5h4loD4Mbu17dJF83zbUXu5HZnSekjM73tghP2kE5MNXdMT3D5lus2e-s66PX4V0a_mDka695FY=@emersion.fr>
 References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
  <20201209004223.GL401619@phenom.ffwll.local>
  <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
  <20201209160223.GT401619@phenom.ffwll.local>
  <W7ZhvStaUaGjlhYSldWxC93V0-tjSEwm-ldyPBpmvkJ9xRw1krfB1TNd5X4hEjkamaEhH1ASD0yiFzMCh72oG8vCeg-HeOt5dRN5U5v_q34=@emersion.fr>
  <20201209194030.GV401619@phenom.ffwll.local>
+ <iId0AQqxwalIhTMk-efVSEskNIuLA_pP5h4loD4Mbu17dJF83zbUXu5HZnSekjM73tghP2kE5MNXdMT3D5lus2e-s66PX4V0a_mDka695FY=@emersion.fr>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -60,25 +61,11 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, December 9th, 2020 at 8:40 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
-
-> > But it's not enough, can't have two CRTCs with the same primary plane. Well,
-> > I give up, it's just simpler to use Daniel's criteria.
->
-> Yeah, also with the validation check we'll now real quick if any driver
-> gets it wrong. Then I think we can have a useful discussion about why, and
-> what to do with that case. As-is we're kinda drafting specs in the void,
-> which is always a bit tough ...
->
-> That's kinda another reason for doing the stricter check I proposed, it's
-> easier to check and guarantee (on both the driver and compositor side
-> hopefully).
-
-Hmm, actually, I'm already hitting a driver which doesn't guarantee that.
-amdgpu with my hardware [1] has the first primary plane linked to the the last
-CRTC, the second primary plane linked to the second-to-last CRTC, and so on.
-
-[1]: https://drmdb.emersion.fr/devices/129e158a4d9f
+Additional note, I don't really want to add the same check for cursor
+planes, because I don't want to forbid a driver from having the CRTC
+without a cursor plane and the second CRTC with a cursor plane. I don't
+know if such heterogeneous hardware exists, but it sounds like
+something we should be able to support.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
