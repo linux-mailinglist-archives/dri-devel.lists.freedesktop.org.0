@@ -1,45 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95AEA2D7184
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:59 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86EF82D7174
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F19A6ECB1;
-	Fri, 11 Dec 2020 08:17:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC8256ECCF;
+	Fri, 11 Dec 2020 08:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517476EB1C;
- Thu, 10 Dec 2020 19:42:22 +0000 (UTC)
-Message-Id: <20201210194043.067097663@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D17EC6EB23;
+ Thu, 10 Dec 2020 19:42:23 +0000 (UTC)
+Message-Id: <20201210194043.172893840@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629341;
+ s=2020; t=1607629342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=an/0SlT10gC/rfGB9cofMBAbBc2y8gDRMVN0GHlSQuQ=;
- b=4P4kE5RTAFQxk4E9p2NZ5tVZaT/fVdqT6FUBVR+n0VlRr8uKLCY6ouByJWK/y9MigmPqnb
- tesyONzFlkjZdJe1WWdFvx3h+r+GXjLB7sIlmHBZwN8ZTN8764SDWmNv/29J0LI/juCzrG
- 5AR2DIz8iI4y5+WrS2Gk+rZPh543USYMAHoeudVHDJ9Wges2zOPIJ3rC2brtEkqswFGEBV
- qoEKpCAHt2vMMptUuKRYjL5+zlSE91zw5P4yyaAjNJTKm8BCJhUlMmWxn/QqILbbs/4fJM
- zRFVwll3IxpXJvkmkahKFPnuLZWACJTleFizSON231iYySZCGseiBRgkWQqHew==
+ bh=H6DxzomRopFmkit4/4R6NYU2nMIU3VEhxNUq8xSIzZg=;
+ b=Mmus8yMHzmRoOuv6OrtKQYqVrIXFlyNqamgESIcbo+FOsqNCh4jNhMrhvtgIbG1dHFvJC+
+ BN8Q2AXY7eE0VbmyhcLPklodEgxwCZ8ZVxoetzzzrQMxxhJeOuw6ycJopu9ZM+HbvHrHyd
+ IWP7LrT/B7MAbb8pT190VoO7MTJuA1obD8dhEINtYVE4KCpqtRWqxMcR/CBUrG9TYUjwDi
+ +msxVmLhS+JWVhN88RJHPjmRnkz1vSg1hhvl2W0fsWBOq4djR+BrSPhFkw8uZNfFkc9Wy1
+ kP6KYk7n5zZjtKAaOxpoGToDh/v/xpae6+owBkHebtH5vIi8texeMaL2QUYeaQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629341;
+ s=2020e; t=1607629342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=an/0SlT10gC/rfGB9cofMBAbBc2y8gDRMVN0GHlSQuQ=;
- b=0D9iZlJLFfBnhtOaF8MIaZu0T6LGBg7Mhm2UH/Vr6qq568TJA8295HDu2RHkjE+w+f0eVZ
- +xYpdmSgjdKynXCQ==
-Date: Thu, 10 Dec 2020 20:25:41 +0100
+ bh=H6DxzomRopFmkit4/4R6NYU2nMIU3VEhxNUq8xSIzZg=;
+ b=rqJf3IS+tp6Aq+14lO31OpHLTmQ/963wA224eQ6BXLp/Y3RncaPXYeQ/h9yfO2+idiLTk2
+ qfa93PzKze1vcODg==
+Date: Thu, 10 Dec 2020 20:25:42 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 05/30] genirq: Annotate irq stats data races
+Subject: [patch 06/30] parisc/irq: Simplify irq count output for
+ /proc/interrupts
 References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
+X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,46 +85,33 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both the per cpu stats and the accumulated count are accessed lockless and
-can be concurrently modified. That's intentional and the stats are a rough
-estimate anyway. Annotate them with data_race().
+The SMP variant works perfectly fine on UP as well.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: afzal mohammed <afzal.mohd.ma@gmail.com>
+Cc: linux-parisc@vger.kernel.org
 ---
- kernel/irq/irqdesc.c |    4 ++--
- kernel/irq/proc.c    |    5 +++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ arch/parisc/kernel/irq.c |    5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
---- a/kernel/irq/irqdesc.c
-+++ b/kernel/irq/irqdesc.c
-@@ -943,10 +943,10 @@ unsigned int kstat_irqs(unsigned int irq
- 	if (!irq_settings_is_per_cpu_devid(desc) &&
- 	    !irq_settings_is_per_cpu(desc) &&
- 	    !irq_is_nmi(desc))
--	    return desc->tot_count;
-+		return data_race(desc->tot_count);
- 
- 	for_each_possible_cpu(cpu)
--		sum += *per_cpu_ptr(desc->kstat_irqs, cpu);
-+		sum += data_race(*per_cpu_ptr(desc->kstat_irqs, cpu));
- 	return sum;
- }
- 
---- a/kernel/irq/proc.c
-+++ b/kernel/irq/proc.c
-@@ -488,9 +488,10 @@ int show_interrupts(struct seq_file *p,
- 	if (!desc || irq_settings_is_hidden(desc))
- 		goto outsparse;
- 
--	if (desc->kstat_irqs)
-+	if (desc->kstat_irqs) {
+--- a/arch/parisc/kernel/irq.c
++++ b/arch/parisc/kernel/irq.c
+@@ -216,12 +216,9 @@ int show_interrupts(struct seq_file *p,
+ 		if (!action)
+ 			goto skip;
+ 		seq_printf(p, "%3d: ", i);
+-#ifdef CONFIG_SMP
++
  		for_each_online_cpu(j)
--			any_count |= *per_cpu_ptr(desc->kstat_irqs, j);
-+			any_count |= data_race(*per_cpu_ptr(desc->kstat_irqs, j));
-+	}
+ 			seq_printf(p, "%10u ", kstat_irqs_cpu(i, j));
+-#else
+-		seq_printf(p, "%10u ", kstat_irqs(i));
+-#endif
  
- 	if ((!desc->action || irq_desc_is_chained(desc)) && !any_count)
- 		goto outsparse;
+ 		seq_printf(p, " %14s", irq_desc_get_chip(desc)->name);
+ #ifndef PARISC_IRQ_CR16_COUNTS
 
 _______________________________________________
 dri-devel mailing list
