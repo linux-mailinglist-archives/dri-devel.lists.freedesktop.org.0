@@ -1,33 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3002D6062
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:50:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F7232D6063
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:50:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CB036E3F5;
-	Thu, 10 Dec 2020 15:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AA306EA90;
+	Thu, 10 Dec 2020 15:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40134.protonmail.ch (mail-40134.protonmail.ch
- [185.70.40.134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79D3D6E3F5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:50:41 +0000 (UTC)
-Date: Thu, 10 Dec 2020 15:50:31 +0000
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch
+ [185.70.40.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03B1E6EA90
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:50:43 +0000 (UTC)
+Date: Thu, 10 Dec 2020 15:50:35 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607615439;
- bh=y+0dg4WXnd7ljhZe0I2fblcXDIe0tyImGeiQ1ppGIBc=;
+ s=protonmail2; t=1607615441;
+ bh=B1+xPAuBDsXYb2x/z69Z6BTcE5TGOXAA7b1lkaQgV6Q=;
  h=Date:To:From:Cc:Reply-To:Subject:From;
- b=LmKCF48ND2zZ16o9AJQfQo5kCgwKPhZpgdsVI5wReiJmG4z0//lXQBM0cNa6cmO1x
- FyThT17SA+1infnQggb4NvctKxijowfspT9t8S4BVgug/z2YHiEzVdOsZpP8mqC1oI
- g5vu33WvKvTFWhkl+ertHRPOybZpkJQjJcLoeOFzaqMwj+2Thwm4SGTpUIKpQVOIxD
- nlD1tSyJJqnbNvmaC2rCth46EcBse+06AYoxsgFsM4N2P93iS4x4PcI7rpEb1XvPxC
- Ghyl84FVLeTw02ihke8Zez2o1e0pTOoxRh/t+5/ABN4c07F2tWqi8/didxniZUafZy
- sqqqZ3d+f2lYg==
+ b=WRB7WVeqprJnySXmeJh8yXcC7ASJy5DAzKyFNk4nWxzghHBraAex1VT9XVSYFNrX7
+ MP0Qtvck6L89Ec5V+u9CIV81WQMChmqP9AOKAYz+2hsdyTlJrpzj4QUrGFyZEhdhIE
+ x1eL859Xe54YNLEpOrytcL95YfkHyJgNMwUalOUSAFJ+ckeU2eXIgQ3/3/nE8f2f5u
+ GiQ3kqulozCE5Fz3HCB1AzRl2IjzQHwOmmDZnIukYPwyzWtK3VLeo47gu8gbitS1cZ
+ iQ2VBj6DAbgOilTVfQH/oHKOUApd4ab3dDLuTfDrUA+8Ctfkg2AX6w4BXjIybv5W4Z
+ ur0U+LoccKdRQ==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH 2/3] drm: validate possible_crtcs for primary and cursor planes
-Message-ID: <9YgBvQ4vfzhtRAXphq8hsw4alh2IZQ3Jh3aQztBFk@cp7-web-042.plabs.ch>
+Subject: [PATCH 3/3] drm: require a non_NULL drm_crtc.primary
+Message-ID: <kW7vylF0J6Nbh0g1bvYEuG1DgaYRFH0ovsnD0c0SeU@cp3-web-024.plabs.ch>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -52,49 +52,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a primary or cursor plane is not compatible with a CRTC it's attached
-to via the legacy primary/cursor field, things will be broken for legacy
-user-space.
+If a CRTC is missing a legacy primary plane pointer, a lot of things
+will be broken for user-space: fbdev stops working and the entire legacy
+uAPI stops working.
+
+Require all drivers to populate drm_crtc.primary to prevent these
+issues. Warn if it's NULL.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Pekka Paalanen <ppaalanen@gmail.com>
 ---
- drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/drm_mode_config.c | 3 +++
+ drivers/gpu/drm/drm_plane.c       | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index f1affc1bb679..2c73a60e8765 100644
+index 2c73a60e8765..fbe680035129 100644
 --- a/drivers/gpu/drm/drm_mode_config.c
 +++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -625,6 +625,7 @@ static void validate_encoder_possible_crtcs(struct drm_encoder *encoder)
- void drm_mode_config_validate(struct drm_device *dev)
- {
- 	struct drm_encoder *encoder;
-+	struct drm_crtc *crtc;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return;
-@@ -636,4 +637,19 @@ void drm_mode_config_validate(struct drm_device *dev)
- 		validate_encoder_possible_clones(encoder);
- 		validate_encoder_possible_crtcs(encoder);
+@@ -639,6 +639,9 @@ void drm_mode_config_validate(struct drm_device *dev)
  	}
+ 
+ 	drm_for_each_crtc(crtc, dev) {
++		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
++		     crtc->base.id, crtc->name);
 +
-+	drm_for_each_crtc(crtc, dev) {
-+		if (crtc->primary) {
-+			WARN(!(crtc->primary->possible_crtcs & BIT(crtc->index)),
-+			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
-+			     crtc->primary->base.id, crtc->primary->name,
-+			     crtc->base.id, crtc->name);
-+		}
-+		if (crtc->cursor) {
-+			WARN(!(crtc->cursor->possible_crtcs & BIT(crtc->index)),
-+			     "Bogus cursor plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
-+			     crtc->cursor->base.id, crtc->cursor->name,
-+			     crtc->base.id, crtc->name);
-+		}
-+	}
- }
+ 		if (crtc->primary) {
+ 			WARN(!(crtc->primary->possible_crtcs & BIT(crtc->index)),
+ 			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 5d33ca9f0032..49b0a8b9ac02 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -57,7 +57,7 @@
+  * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
+  * relies on the driver to set the primary and optionally the cursor plane used
+  * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
+- * drivers should provide one primary plane per CRTC to avoid surprising legacy
++ * drivers must provide one primary plane per CRTC to avoid surprising legacy
+  * userspace too much.
+  */
+ 
 -- 
 2.29.2
 
