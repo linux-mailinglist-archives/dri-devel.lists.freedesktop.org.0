@@ -1,42 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D272D63D7
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 18:43:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A4B32D640C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 18:51:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B10DF6EAB4;
-	Thu, 10 Dec 2020 17:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A60826E435;
+	Thu, 10 Dec 2020 17:51:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 330536E435
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 17:43:51 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1knPyh-0001XP-Vu; Thu, 10 Dec 2020 18:43:43 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1knPyg-0007GO-0n; Thu, 10 Dec 2020 18:43:42 +0100
-Date: Thu, 10 Dec 2020 18:43:38 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Shawn Guo <shawn.guo@linaro.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Message-ID: <20201210174338.kecryijwptzc2mi7@pengutronix.de>
-References: <20201208044022.972872-1-bjorn.andersson@linaro.org>
- <20201210015136.GA18407@dragon>
- <20201210130453.regjkemfneqbelsi@pengutronix.de>
- <CAAQ0ZWQEhitxNCKBjTNGcv5E+yqwjfbb5GCLoctpJM7u4Zpp=A@mail.gmail.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D95B6E435;
+ Thu, 10 Dec 2020 17:51:17 +0000 (UTC)
+IronPort-SDR: /jlUou1kIhg+luXYOyYTOniu+4yKbVpj5ND+8OSh/+pFD9ETszrDbj9g2xg3H5T1euMrbO75rp
+ nJslFUHmrGpQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="235894941"
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="235894941"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 09:51:15 -0800
+IronPort-SDR: O9xj5AStRn1R/+n9qHsHejcuXQqjPe2N7zBcihmXhLps93EdZZo2Vwdx+lzK7LvWiIO3KGBQ+L
+ xuouzydGXi3A==
+X-IronPort-AV: E=Sophos;i="5.78,409,1599548400"; d="scan'208";a="320190821"
+Received: from nabuhijl-mobl.ger.corp.intel.com (HELO [10.251.185.230])
+ ([10.251.185.230])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 09:51:10 -0800
+Subject: Re: [Intel-gfx] [PATCH v3 2/4] drm/i915/pmu: Use kstat_irqs to get
+ interrupt count
+To: Thomas Gleixner <tglx@linutronix.de>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+References: <20201205014340.148235-1-jsnitsel@redhat.com>
+ <20201205014340.148235-3-jsnitsel@redhat.com>
+ <875z5e99ez.fsf@nanos.tec.linutronix.de>
+ <160758677957.5062.15497765500689083558@jlahtine-mobl.ger.corp.intel.com>
+ <e9892cc4-6344-be07-66b5-236b8576100e@linux.intel.com>
+ <87v9d9k49q.fsf@nanos.tec.linutronix.de>
+ <e01e321d-d4ea-fcec-a3dc-16e641e49056@linux.intel.com>
+ <87pn3hk12r.fsf@nanos.tec.linutronix.de>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <118a2e24-12f8-8a5c-193e-67e5ac37cac1@linux.intel.com>
+Date: Thu, 10 Dec 2020 17:51:07 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAAQ0ZWQEhitxNCKBjTNGcv5E+yqwjfbb5GCLoctpJM7u4Zpp=A@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <87pn3hk12r.fsf@nanos.tec.linutronix.de>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,113 +62,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="===============1492337511=="
+Cc: David Airlie <airlied@linux.ie>, Peter Zijlstra <peterz@infradead.org>,
+ intel-gfx@lists.freedesktop.org, Matthew Garrett <mjg59@google.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jarkko Sakkinen <jarkko@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-integrity@vger.kernel.org,
+ Peter Huewe <peterhuewe@gmx.de>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1492337511==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ps2gwrvyhmcv56vu"
-Content-Disposition: inline
+On 10/12/2020 17:44, Thomas Gleixner wrote:
+> On Thu, Dec 10 2020 at 17:09, Tvrtko Ursulin wrote:
+>> On 10/12/2020 16:35, Thomas Gleixner wrote:
+>>> I'll send out a series addressing irq_to_desc() (ab)use all over the
+>>> place shortly. i915 is in there...
+>>
+>> Yep we don't need atomic, my bad. And we would care about the shared
+>> interrupt line. And without atomic the extra accounting falls way below
+>> noise.
+> 
+> You have to be careful though. If you make the accumulated counter 64
+> bit wide then you need to be careful vs. 32bit machines.
 
+Yep, thanks, I am bad jumping from one thing to another. Forgot about 
+the read side atomicity completely..
 
---ps2gwrvyhmcv56vu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> So in the light of it all, it sounds best I just quickly replace our
+>> abuse with private counting and then you don't have to deal with it in
+>> your series.
+> 
+> I mostly have it. Still chewing on the 32bit vs. 64bit thing. And
+> keeping it in my series allows me to remove the export of irq_to_desc()
+> at the end without waiting for your tree to be merged.
+> 
+> Give me a few.
 
-On Thu, Dec 10, 2020 at 10:40:36PM +0800, Shawn Guo wrote:
-> Hi Uwe,
->=20
-> On Thu, Dec 10, 2020 at 9:05 PM Uwe Kleine-K=F6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
-> > > > @@ -111,6 +118,8 @@
-> > > >
-> > > >  #define SN_LINK_TRAINING_TRIES             10
-> > > >
-> > > > +#define SN_PWM_GPIO                        3
-> > >
-> > > So this maps to the GPIO4 described in sn65dsi86 datasheet.  I'm
-> > > wondering if it's more readable to define the following SHIFT constan=
-ts
-> > > (your code), and use GPIO_MUX_GPIO4_SHIFT >> 2 where you need GPIO
-> > > offset?
-> > >
-> > > #define  GPIO_MUX_GPIO1_SHIFT 0
-> > > #define  GPIO_MUX_GPIO2_SHIFT 2
-> > > #define  GPIO_MUX_GPIO3_SHIFT 4
-> > > #define  GPIO_MUX_GPIO4_SHIFT 6
-> > >
-> > > If you agree, you may consider to integrate this patch beforehand:
-> > >
-> > > https://github.com/shawnguo2/linux/commit/7cde887ffb3b27a36e77a08bee3=
-666d14968b586
-> >
-> > My preferred way here would be to add a prefix for the other constants.
-> > It (IMHO) looks nicer and
-> >
-> >         GPIO_INPUT_SHIFT
-> >
-> > looks like a quite generic name for a hardware specific definition.
->=20
-> While this looks like a reasonable argument, I also like the naming
-> choice for these constants in the beginning for that distinction
-> between registers and bits.  And changing the names the other way
-> around means there will be a much bigger diffstat, which I would like
-> to avoid.  I suggest let's just focus on what really matters here -
-> keep the naming consistent, so that people do not get confused when
-> they want to add more constants in there.
+Ok.
 
-In my eyes the bigger diffstat is justified. As I wrote,
-GPIO_INPUT_SHIFT isn't used in other files, but please look how many
-definitions there are for RESET. The usefulness of ctags/cscope is quite
-reduced if generic terms are used this way.
+Regards,
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ps2gwrvyhmcv56vu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/SXkcACgkQwfwUeK3K
-7AmI/Qf+O2t7kLzcKzhBBKQiEXpzva2VVJ1Sdqx+3IFglDVCks7FCR5ezU0dO09T
-72uH2a7cWTHDIo1DcVVCtefbVVClwIeXYdGbDr4FKRzkGjf54Veao3Ow+bRIS5DM
-6R+6d3oUuXHt+Ta51eGT/BoSL81iHQuyFhxUPGXlKBnPMdEy3/ZNa7jRj3LDgP0+
-/InQbERlpSTU2x5OAgXbczDYsH/ZnzrTorCVdpmRSOYMci5HU/o8DU7Lu3YR8PJp
-0QUai3CczxpUi0ZYF5dvPF9ED1Hctn0AeNuMM4hnErSg3EN6TrZsblLPnxSEh5bd
-ZgcHNcVUveLXFUdAcMmzB5YercKscg==
-=EgCO
------END PGP SIGNATURE-----
-
---ps2gwrvyhmcv56vu--
-
---===============1492337511==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Tvrtko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1492337511==--
