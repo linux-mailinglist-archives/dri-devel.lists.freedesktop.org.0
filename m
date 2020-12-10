@@ -2,25 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19F82D6141
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:11:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F062D6143
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:11:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 316CD6E430;
-	Thu, 10 Dec 2020 16:11:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 877116EA9B;
+	Thu, 10 Dec 2020 16:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7A826E430
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:10:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87CB26EA84
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:11:00 +0000 (UTC)
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH v2 00/12] Decouple Mediatek DRM sub driver
-Date: Fri, 11 Dec 2020 00:10:38 +0800
-Message-Id: <20201210161050.8460-1-chunkuang.hu@kernel.org>
+Subject: [PATCH v2 01/12] drm/mediatek: Get CMDQ client register for all ddp
+ component
+Date: Fri, 11 Dec 2020 00:10:39 +0800
+Message-Id: <20201210161050.8460-2-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201210161050.8460-1-chunkuang.hu@kernel.org>
+References: <20201210161050.8460-1-chunkuang.hu@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,51 +44,62 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mtk ccorr is controlled by DRM and MDP [1]. In order to share
-mtk_ccorr driver for DRM and MDP, decouple Mediatek DRM sub driver
-which include mtk_ccorr, so MDP could use this decoupled mtk_ccorr.
+Only OVL, RDMA,and WDMA get CMDQ client register information,
+but all ddp component should work with CMDQ, so get this
+information for all ddp component.
 
-Changes in v2:
-1. Fix iommu larb problem.
-2. Based on mediatek-drm-next-5.11-2 [2].
+Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 29 +++++++++++----------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
-[1] https://patchwork.kernel.org/patch/11140751/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next-5.11-2
-
-CK Hu (10):
-  drm/mediatek: Separate getting larb device to a function
-  drm/mediatek: Move clk info from struct mtk_ddp_comp to sub driver
-    private data
-  drm/mediatek: Move regs info from struct mtk_ddp_comp to sub driver
-    private data
-  drm/mediatek: Remove irq in struct mtk_ddp_comp
-  drm/mediatek: Use struct cmdq_client_reg to gather cmdq variable
-  drm/mediatek: Move cmdq_reg info from struct mtk_ddp_comp to sub
-    driver private data
-  drm/mediatek: Change sub driver interface from mtk_ddp_comp to device
-  drm/mediatek: Register vblank callback function
-  drm/mediatek: DRM driver directly refer to sub driver's function
-  drm/mediatek: Move mtk_ddp_comp_init() from sub driver to DRM driver
-
-Chun-Kuang Hu (2):
-  drm/mediatek: Get CMDQ client register for all ddp component
-  drm/mediatek: Use correct device pointer to get CMDQ client register
-
- drivers/gpu/drm/mediatek/mtk_disp_color.c   |  89 ++--
- drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  69 ++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 217 +++++-----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 169 ++++----
- drivers/gpu/drm/mediatek/mtk_dpi.c          |  44 +-
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  75 ++--
- drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 429 ++++++++++++--------
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 100 +++--
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  30 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   2 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c          |  47 +--
- 12 files changed, 676 insertions(+), 596 deletions(-)
- create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_drv.h
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+index 3064eac1a750..cab53431ceec 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
+@@ -506,6 +506,21 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
+ 	if (IS_ERR(comp->clk))
+ 		return PTR_ERR(comp->clk);
+ 
++#if IS_REACHABLE(CONFIG_MTK_CMDQ)
++	if (of_address_to_resource(node, 0, &res) != 0) {
++		dev_err(dev, "Missing reg in %s node\n", node->full_name);
++		put_device(&larb_pdev->dev);
++		return -EINVAL;
++	}
++	comp->regs_pa = res.start;
++
++	ret = cmdq_dev_get_client_reg(dev, &cmdq_reg, 0);
++	if (ret)
++		dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
++	else
++		comp->subsys = cmdq_reg.subsys;
++#endif
++
+ 	/* Only DMA capable components need the LARB property */
+ 	comp->larb_dev = NULL;
+ 	if (type != MTK_DISP_OVL &&
+@@ -531,20 +546,6 @@ int mtk_ddp_comp_init(struct device *dev, struct device_node *node,
+ 
+ 	comp->larb_dev = &larb_pdev->dev;
+ 
+-#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+-	if (of_address_to_resource(node, 0, &res) != 0) {
+-		dev_err(dev, "Missing reg in %s node\n", node->full_name);
+-		put_device(&larb_pdev->dev);
+-		return -EINVAL;
+-	}
+-	comp->regs_pa = res.start;
+-
+-	ret = cmdq_dev_get_client_reg(dev, &cmdq_reg, 0);
+-	if (ret)
+-		dev_dbg(dev, "get mediatek,gce-client-reg fail!\n");
+-	else
+-		comp->subsys = cmdq_reg.subsys;
+-#endif
+ 	return 0;
+ }
+ 
 -- 
 2.17.1
 
