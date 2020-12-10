@@ -1,43 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255142D7147
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B602D7175
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6A7E6EC91;
-	Fri, 11 Dec 2020 08:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAEBC6ECC9;
+	Fri, 11 Dec 2020 08:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1716EB2A;
- Thu, 10 Dec 2020 19:42:31 +0000 (UTC)
-Message-Id: <20201210194043.769108348@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FF26EB3A;
+ Thu, 10 Dec 2020 19:42:32 +0000 (UTC)
+Message-Id: <20201210194043.862572239@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629349;
+ s=2020; t=1607629351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=RkpDEDsz36bMGIvl/YLs0noKGbsbwyBTWfWGyYCIvwI=;
- b=FjXt0gBZbmoGEhW+JUNun0TgRlpWk5UHUbF8b/SYgA73R5qt2FK9Tl9JCUAhz1x+5ISxmb
- 8V7v08WHaUsVznntzV+P4bCrHHh6loow5ZaaQC5qCuEudPhwVHK22AOQesI0Ecsqkh8veP
- Qwn4/oD2Zv3hZttfcTXroXZBKsSviSPS/hfZ0fieRb3ZsJsiILx4Kdfz9zR7w+K2srUSyp
- sVcjXZizv2IhQYS+ESc7LfjgqYgvOCII1d3ugOhi6vPvk7jAG3wwmOOag6qx9YOR3B1IuO
- KQi2Ohrd/6vH+kL/8yvl1XW4GpaahKbPHYgPc32mGshR05m6gXPFbQzdssR1DQ==
+ bh=JhTeD+U5tH7aZNj19fhxsRS/YgkGW74hooJZTJtUYG8=;
+ b=kakkmibZTWswSOf57jMSc/btXnxa6RB0Oxv9VvloZSQtIG4WkM/MftbHazL1ObfAX1q6u6
+ v9EgNe5gwBKYjRSGkjE0PSwHQU5J90KEPnfCKLss4hKXmA7Bkc/E+T/2WPZaHEkFR4i+UO
+ QdX6JJ+VHkGH1egGtgEd0+oJvfTVSCCs6O0nmczsu900db4+znQu/4DZ0ZqIrtnAutI7sP
+ lL8sGEqmceEeKou2jRcjeSLimqt3xaebgyRNSKG8cou2Ox4v3oxNWhwx9YCjoUSMJE+bd8
+ k+CDY3uhTourxMY6j19wud6jiqrZu7xtNFwliIMKmsBQdSHoUGcZxQdzt+oYyw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629349;
+ s=2020e; t=1607629351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=RkpDEDsz36bMGIvl/YLs0noKGbsbwyBTWfWGyYCIvwI=;
- b=tNp+xNMz1hLFIiRaZEJhoV6X6hTrUYtKO/6Uex9oEhysEt44+COqeNeDA5dBz+L1+ts6Sq
- 70KNBmuAKx0cHoAw==
-Date: Thu, 10 Dec 2020 20:25:48 +0100
+ bh=JhTeD+U5tH7aZNj19fhxsRS/YgkGW74hooJZTJtUYG8=;
+ b=plOxIMbVY4CH/4Uw1Dak+ev4LYX0asa/YH9Oe3KWiQVB69dEiGhbzcOFTb0+Om9wD47q90
+ EKL6tVW8YPmeHADg==
+Date: Thu, 10 Dec 2020 20:25:49 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 12/30] s390/irq: Use irq_desc_kstat_cpu() in
- show_msi_interrupt()
+Subject: [patch 13/30] drm/i915/lpe_audio: Remove pointless irq_to_desc() usage
 References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
@@ -68,11 +67,11 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
  Russell King <linux@armlinux.org.uk>,
  Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Jakub Kicinski <kuba@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
  Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
  Juergen Gross <jgross@suse.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Heiko Carstens <hca@linux.ibm.com>, linux-gpio@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-gpio@vger.kernel.org,
  Stefano Stabellini <sstabellini@kernel.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
  Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
@@ -87,27 +86,39 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The irq descriptor is already there, no need to look it up again.
+Nothing uses the result and nothing should ever use it in driver code.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: linux-s390@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Wambui Karuga <wambui.karugax@gmail.com>
+Cc: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 ---
- arch/s390/kernel/irq.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_lpe_audio.c |    4 ----
+ 1 file changed, 4 deletions(-)
 
---- a/arch/s390/kernel/irq.c
-+++ b/arch/s390/kernel/irq.c
-@@ -124,7 +124,7 @@ static void show_msi_interrupt(struct se
- 	raw_spin_lock_irqsave(&desc->lock, flags);
- 	seq_printf(p, "%3d: ", irq);
- 	for_each_online_cpu(cpu)
--		seq_printf(p, "%10u ", kstat_irqs_cpu(irq, cpu));
-+		seq_printf(p, "%10u ", irq_desc_kstat_irq(desc, cpu));
+--- a/drivers/gpu/drm/i915/display/intel_lpe_audio.c
++++ b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
+@@ -297,13 +297,9 @@ int intel_lpe_audio_init(struct drm_i915
+  */
+ void intel_lpe_audio_teardown(struct drm_i915_private *dev_priv)
+ {
+-	struct irq_desc *desc;
+-
+ 	if (!HAS_LPE_AUDIO(dev_priv))
+ 		return;
  
- 	if (desc->irq_data.chip)
- 		seq_printf(p, " %8s", desc->irq_data.chip->name);
+-	desc = irq_to_desc(dev_priv->lpe_audio.irq);
+-
+ 	lpe_audio_platdev_destroy(dev_priv);
+ 
+ 	irq_free_desc(dev_priv->lpe_audio.irq);
 
 _______________________________________________
 dri-devel mailing list
