@@ -1,40 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42152D5B2B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 14:05:07 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AA52D5B27
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 14:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3E996E0C6;
-	Thu, 10 Dec 2020 13:05:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2299889F2D;
+	Thu, 10 Dec 2020 13:04:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 895906E0C6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:05:04 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1knLcu-0006tP-Kd; Thu, 10 Dec 2020 14:04:56 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1knLcr-0005uN-JF; Thu, 10 Dec 2020 14:04:53 +0100
-Date: Thu, 10 Dec 2020 14:04:53 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Shawn Guo <shawn.guo@linaro.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Message-ID: <20201210130453.regjkemfneqbelsi@pengutronix.de>
-References: <20201208044022.972872-1-bjorn.andersson@linaro.org>
- <20201210015136.GA18407@dragon>
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com
+ [IPv6:2607:f8b0:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E73689F2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:04:14 +0000 (UTC)
+Received: by mail-pf1-x442.google.com with SMTP id c79so4008792pfc.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 05:04:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=92Wh2LQtBXzTX4NkNdCAHhIqaKi2BFUPf+cbDuzZ2dM=;
+ b=FBMPE2JaoBmrOk3y40Mrmo8b1Mvkmv7ogxXi/Fxml/kMrLZjoWb3g6V1eeHeaSuBf6
+ lpP6yv9RhhduV0xpST+COmF6of3lXMi9gdBpiz16bzy7tscOk2EdY8Oa5EJll5qrMII7
+ rMGmNJmTsIg+86qlY0EF9tEuPhIopz0sTxiYSrPJFA6wQi510LFJQxKGBH90CVlOjT6T
+ 8wisBOIVM8xpVLOUpvDc7PeJTu5hKYlpznhQVb0wdXzBuzeI9ZnTyEII/X+zoEuZTOmy
+ e0q+nZlanVaFzW9lBFv9yM/QNrG+7Fhf+HYGlM59T7cJlFye0iospfsZZ+1JLXWmD0Sp
+ t2IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=92Wh2LQtBXzTX4NkNdCAHhIqaKi2BFUPf+cbDuzZ2dM=;
+ b=AvTUFPIcyuluGNiCG7vhBS8Cm1Otw7pSGQ2oGnGeE430PC9I7Fe+pR4LkhMmNdY+2X
+ PsAbJCgCGargiNTf5pGtZJkPyFp5WHC5krHP3TzpMkhMCYRO3Q8qfx0uK74oTvlC+xgR
+ HOiWUyaf1mRLgSEvgYBDzlhCLwQuA5Sw86yxxq4YBTl0TPWXYu4pLZ+YRJH2wctB90zN
+ Df+swp9Q3axXqXJBh1FFhfhN7cH8aECv54MzpDVnoPpmHz3mPrJoX3ZPMc9fv2MSzJ2i
+ Fat4sfqy1cmWhbv9J/PKKuqfr3fs1uxiU9yAzhEF1KhWJPoPtM5z1YTPQSrIkuZGWzgB
+ F1Rg==
+X-Gm-Message-State: AOAM532VHtkcu05dqzFTkNcoUl2MHsVy2Fqb+jJVoI1iK/SDcgQEEcVq
+ g8ltwBvCeeQQMzrCqTNtEdn4obgONqd5cxecGgw=
+X-Google-Smtp-Source: ABdhPJx6pQh8UTUI6wTm+2am3BYMKhPGQWSY4Ulu5ZwL6w0nVgmYWZh7f4gx79f7WBvYQAFphvYasrY2UUg54Dkc8U8=
+X-Received: by 2002:a17:90a:34cb:: with SMTP id
+ m11mr7555981pjf.181.1607605454205; 
+ Thu, 10 Dec 2020 05:04:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201210015136.GA18407@dragon>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
+ <X9Hdg3lJm+TZAQGX@alley>
+In-Reply-To: <X9Hdg3lJm+TZAQGX@alley>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 10 Dec 2020 15:05:02 +0200
+Message-ID: <CAHp75VcY_b7uaGWoEa1Y6YDk0MmmzC4hV2yx8zVT7J-fD67Hyg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+To: Petr Mladek <pmladek@suse.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,142 +63,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Lee Jones <lee.jones@linaro.org>, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============1593656513=="
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Joe Perches <joe@perches.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 10, 2020 at 2:16 PM Petr Mladek <pmladek@suse.com> wrote:
+> On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
+> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > so the same implementation can be used.
+> >
+> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> Andy, Rasmus,
+>
+> the last version looks fine to me. I am going to push it.
+> Please, speak up if you are against it.
 
---===============1593656513==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vktqqj3foceazlog"
-Content-Disposition: inline
+My concerns are:
+- not so standard format of representation (why not to use
+string_escape_mem() helper?) or is it?
+- no compatibility with generic 4cc
+  (I would rather have an additional specifier here for v4l2 cases.
+OTOH generic %p4cc to me sounds like an equivalent to %4pEh (but we
+have similar cases with MAC where %6ph is the same as %pM).
 
+But I'm not insisting on them, consider it like just my 2 cents to the
+discussion.
 
---vktqqj3foceazlog
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Shawn,
-
-On Thu, Dec 10, 2020 at 09:51:37AM +0800, Shawn Guo wrote:
-> On Mon, Dec 07, 2020 at 10:40:22PM -0600, Bjorn Andersson wrote:
-> > The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
-> > with the primary purpose of controlling the backlight of the attached
-> > panel. Add an implementation that exposes this using the standard PWM
-> > framework, to allow e.g. pwm-backlight to expose this to the user.
-> >=20
-> > Special thanks to Doug Anderson for suggestions related to the involved
-> > math.
-> >=20
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 202 ++++++++++++++++++++++++++
-> >  1 file changed, 202 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/br=
-idge/ti-sn65dsi86.c
-> > index f27306c51e4d..43c0acba57ab 100644
-> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > @@ -4,6 +4,7 @@
-> >   * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
-> >   */
-> > =20
-> > +#include <linux/atomic.h>
-> >  #include <linux/bits.h>
-> >  #include <linux/clk.h>
-> >  #include <linux/debugfs.h>
-> > @@ -14,6 +15,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/of_graph.h>
-> >  #include <linux/pm_runtime.h>
-> > +#include <linux/pwm.h>
-> >  #include <linux/regmap.h>
-> >  #include <linux/regulator/consumer.h>
-> > =20
-> > @@ -89,6 +91,11 @@
-> >  #define SN_ML_TX_MODE_REG			0x96
-> >  #define  ML_TX_MAIN_LINK_OFF			0
-> >  #define  ML_TX_NORMAL_MODE			BIT(0)
-> > +#define SN_PWM_PRE_DIV_REG			0xA0
-> > +#define SN_BACKLIGHT_SCALE_REG			0xA1
-> > +#define  BACKLIGHT_SCALE_MAX			0xFFFF
-> > +#define SN_BACKLIGHT_REG			0xA3
-> > +#define SN_PWM_EN_INV_REG			0xA5
-> >  #define SN_AUX_CMD_STATUS_REG			0xF4
-> >  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
-> >  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
-> > @@ -111,6 +118,8 @@
-> > =20
-> >  #define SN_LINK_TRAINING_TRIES		10
-> > =20
-> > +#define SN_PWM_GPIO			3
->=20
-> So this maps to the GPIO4 described in sn65dsi86 datasheet.  I'm
-> wondering if it's more readable to define the following SHIFT constants
-> (your code), and use GPIO_MUX_GPIO4_SHIFT >> 2 where you need GPIO
-> offset?
->=20
-> #define  GPIO_MUX_GPIO1_SHIFT	0
-> #define  GPIO_MUX_GPIO2_SHIFT	2
-> #define  GPIO_MUX_GPIO3_SHIFT	4
-> #define  GPIO_MUX_GPIO4_SHIFT	6
->=20
-> If you agree, you may consider to integrate this patch beforehand:
->=20
-> https://github.com/shawnguo2/linux/commit/7cde887ffb3b27a36e77a08bee3666d=
-14968b586
-
-My preferred way here would be to add a prefix for the other constants.
-It (IMHO) looks nicer and
-
-	GPIO_INPUT_SHIFT
-
-looks like a quite generic name for a hardware specific definition.
-(Even if up to now there is no other code location using this name.)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---vktqqj3foceazlog
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/SHPIACgkQwfwUeK3K
-7An3bQf/TCV+GnguaD1LSJ2A9tlvNZtUZ1IR8zRMd7UYYoC4/txvHst8M6WSS3Kv
-L5TymKzYqZuFIl9a9k6IGFaO1ZoraRkubVqAgDUMJLmMDQcDfZpRzU5YAs7jEc3M
-KIjjwa5VJ2ibXJMUfKYOZOYsXt0kq+O8Y+8AMoBFU5khnB2gJgcTfhkymZ7O0K6Y
-SQl0MOYVTpRPWVEQXrYNO3W9MQ9PnRIPD9hHm/HXOwTAEavYrAOTlIIELwc+6rzQ
-qEjqaMfLq7zB/FC4m4CKjgWr9dP3gwdkTeIkKlqb8MPCbkmZU1gI+xcUTxjSUJgq
-KADf+PlmwtCR7QRLlFVWKOyWICFxVw==
-=Gpcn
------END PGP SIGNATURE-----
-
---vktqqj3foceazlog--
-
---===============1593656513==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1593656513==--
