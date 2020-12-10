@@ -2,46 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE142D5CDE
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33E82D5D2D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:09:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6656E53C;
-	Thu, 10 Dec 2020 14:07:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B1726E5CA;
+	Thu, 10 Dec 2020 14:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F0E6E53C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:07:09 +0000 (UTC)
-IronPort-SDR: 7eY4mSd2SlT2QcPfSvvH65C56fcP0Qee19RVwcRAzJeRws5j/wZr2XdQC3ZQ/QlL4+hofRNUVy
- dwh/Vt3Xtj3g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="154067881"
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="154067881"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 06:07:08 -0800
-IronPort-SDR: EoDdnLpI+SqnpnRvYnVV7QWUxkweGYOsEBD78Q4+q9L3qi7LLueBvmqYxBZEz3AzFl+ps4cJza
- lVT8w83o2SFA==
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="348822288"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 06:07:04 -0800
-Received: from andy by smile with local (Exim 4.94)
- (envelope-from <andy.shevchenko@gmail.com>)
- id 1knMc1-00DR1Y-Ma; Thu, 10 Dec 2020 16:08:05 +0200
-Date: Thu, 10 Dec 2020 16:08:05 +0200
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20201210140805.GI4077@smile.fi.intel.com>
-References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
- <X9Hdg3lJm+TZAQGX@alley>
- <CAHp75VcY_b7uaGWoEa1Y6YDk0MmmzC4hV2yx8zVT7J-fD67Hyg@mail.gmail.com>
- <20201210135526.GH25763@paasikivi.fi.intel.com>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1199C6E5B9
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:09:27 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BAE9520076524;
+ Thu, 10 Dec 2020 08:09:05 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1607609345;
+ bh=JRiy+LdtqsdKArVFNr0hcziIHZyTgUVjAK3byBNXKzk=;
+ h=From:To:CC:Subject:Date;
+ b=aQNTsSM7Zh/8UOArdwOHoIMlYLBAL1epyt16S8vtUIf7o0CSE9bAOV2njMdsetrUd
+ SXMAsT3lYqhnSp5ZKxENy4/yqyfCt5tyuSw00hn0B7aWKiow6c7iBtZ11630qXSlvb
+ DjtPC8ceCK48ngC4f95wLSpsL1sjQVKGTm+4oxrk=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BAE95ei011140
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 08:09:05 -0600
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 10
+ Dec 2020 08:09:05 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 10 Dec 2020 08:09:05 -0600
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BAE90cA086731;
+ Thu, 10 Dec 2020 08:09:01 -0600
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 0/2] drm: automatic legacy gamma support
+Date: Thu, 10 Dec 2020 16:08:50 +0200
+Message-ID: <20201210140852.1040054-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201210135526.GH25763@paasikivi.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,67 +59,63 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Petr Mladek <pmladek@suse.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Joe Perches <joe@perches.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
+ Russell King <linux@armlinux.org.uk>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Cercueil <paul@crapouillou.net>, Tomi Valkeinen <tomi.valkeinen@ti.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 10, 2020 at 03:55:27PM +0200, Sakari Ailus wrote:
-> On Thu, Dec 10, 2020 at 03:05:02PM +0200, Andy Shevchenko wrote:
-> > On Thu, Dec 10, 2020 at 2:16 PM Petr Mladek <pmladek@suse.com> wrote:
-> > > On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
-> > > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > > > so the same implementation can be used.
-> > > >
-> > > > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >
-> > > Andy, Rasmus,
-> > >
-> > > the last version looks fine to me. I am going to push it.
-> > > Please, speak up if you are against it.
-> > 
-> > My concerns are:
-> > - not so standard format of representation (why not to use
-> > string_escape_mem() helper?) or is it?
-> 
-> The format string may contain spaces that are not meant to be printed.
-> Other unprintable chacaters should not be present (at least not in V4L2
-> pixelformats). The hexadecimal representation is there to convey the
-> numerical value and that originally came from DRM, not V4L2.
+Hi,
 
-Yes, but I mean that we usually anticipate the escaped characters in a form of
-'\xNN' (hex) or '\NNN' (octal). The format '(NN)' is quite unusual to me.
+Another try.
 
-> > - no compatibility with generic 4cc
-> >   (I would rather have an additional specifier here for v4l2 cases.
-> 
-> What do you mean by "generic 4cc"? There are two users of 4cc codes in the
-> kernel that I know of: V4L2 and DRM. Something that does not refer to
-> in-memory pixel formats?
+I dropped the has_gamma_prop and has_degamma_prop variables and use
+drm_mode_obj_find_prop_id() instead.
 
-Of course. Everything else. 4cc is a generic term to describe something which
-is of 4 characters long [1]. It's not limited by media file formats. And
-moreover some (chip) vendors are using it as well (Synopsys).
-Microsoft uses 4cc in CSRT ACPI table for vendor field and so on...
+I also changed the order of the patches, and added a new helper for
+setting the gamma ramp to the properties.
 
-[1]: https://en.wikipedia.org/wiki/FourCC
+ Tomi
+
+Tomi Valkeinen (2):
+  drm: automatic legacy gamma support
+  drm: add legacy support for using degamma for gamma
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |   1 -
+ .../gpu/drm/arm/display/komeda/komeda_crtc.c  |   1 -
+ drivers/gpu/drm/arm/malidp_crtc.c             |   1 -
+ drivers/gpu/drm/armada/armada_crtc.c          |   1 -
+ drivers/gpu/drm/ast/ast_mode.c                |   1 -
+ .../gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c    |   1 -
+ drivers/gpu/drm/drm_atomic_helper.c           |  70 --------
+ drivers/gpu/drm/drm_color_mgmt.c              | 150 ++++++++++++++++--
+ drivers/gpu/drm/drm_crtc_internal.h           |  10 ++
+ drivers/gpu/drm/drm_fb_helper.c               |  28 ++--
+ drivers/gpu/drm/i915/display/intel_display.c  |   1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |   2 -
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |   1 -
+ drivers/gpu/drm/nouveau/dispnv50/head.c       |   2 -
+ drivers/gpu/drm/omapdrm/omap_crtc.c           |   1 -
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |   1 -
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c   |   1 -
+ drivers/gpu/drm/stm/ltdc.c                    |   1 -
+ drivers/gpu/drm/vc4/vc4_crtc.c                |   1 -
+ drivers/gpu/drm/vc4/vc4_txp.c                 |   1 -
+ include/drm/drm_atomic_helper.h               |   4 -
+ include/drm/drm_color_mgmt.h                  |   1 -
+ 22 files changed, 160 insertions(+), 121 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
