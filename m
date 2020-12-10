@@ -1,74 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFBD32D7162
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:06 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A7F2D7151
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5B4F6ECB3;
-	Fri, 11 Dec 2020 08:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 749A96ECAB;
+	Fri, 11 Dec 2020 08:16:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1811 seconds by postgrey-1.36 at gabe;
- Thu, 10 Dec 2020 21:04:21 UTC
-Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE4DF6EB57;
- Thu, 10 Dec 2020 21:04:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=deltatee.com; s=20200525; h=Subject:In-Reply-To:MIME-Version:Date:
- Message-ID:From:References:Cc:To:content-disposition;
- bh=noa+454Phd4GD+cflUApEkbCBzQWdQM9xVdZ/BdtqiE=; b=ommLdATmScZCO3Nr0B0IKtaBD0
- EKrjnXBUtbfueazgUtm6VU6b3S0wYy6KVx4WAtwNJ/AqnjHK72Gy9Jsmxppzw/gnUhc4xUowZeQ7A
- VcHLuqMKttCxw8ez7I7uwmRr5QxGnTAmGxi8uXmfqMPsZhh7JjrJm5C+6KJYTWYREg/IlUxXKnLyU
- oiYCxI5xB8TP98NfY73pg38uPmgt4JkWMiii1mD9wV9ZT2fBKdzZ4FLSmo62RegEoh6XSnUbSd6AH
- TQacvQpLTj7RMyXxinaZaJU5rRKy+bJdREoJnd68m2upWyg2kGwzuZR1wf8InfiqQYZmWP3SPWvYA
- gjpGnwDw==;
-Received: from s01060023bee90a7d.cg.shawcable.net ([24.64.145.4]
- helo=[192.168.0.10])
- by ale.deltatee.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <logang@deltatee.com>)
- id 1knSdJ-0002Fm-25; Thu, 10 Dec 2020 13:33:50 -0700
-To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194044.255887860@linutronix.de>
-From: Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <3526d997-a629-9843-7060-78d9e0a487c5@deltatee.com>
-Date: Thu, 10 Dec 2020 13:33:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com
+ [IPv6:2607:f8b0:4864:20::d44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 735596EB54
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 21:00:26 +0000 (UTC)
+Received: by mail-io1-xd44.google.com with SMTP id 81so7076938ioc.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:00:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=26Vm4s06JnMVOl9zkroZalqQJYVX3pZvEC5YiT4DGro=;
+ b=bePoVgoZkT130rTZGLCOVgoYm8XZaqW8Woj+N4R6vowh7e/+3K7mvFceJ7tUDc23I3
+ 79awfxjusxoStgE5o129NbFBY8mcaIqCfapdan1OnCr+DJ0vhkZraIb68YUkrDAGD9hv
+ 9rgShmTq9kQb7z6ds9lLLt88SYadgYWjKrr8ZfgAIJIBfaRwSJ1ZzZdQEakgUQR1+Cm4
+ JRDf8p8e1joY1358W7XspiYV5GATWZScWxgDyGz4FpBovsSDZqTnJnGIitu+gb8pDbwH
+ VMZ2dh00eXlf0+/7Bz1nt4/Fhxa/jt6pEGNXo1TRWWxUNoArgXMZ0J68Jgw3vF4GroRs
+ tw/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=26Vm4s06JnMVOl9zkroZalqQJYVX3pZvEC5YiT4DGro=;
+ b=Mj8btQHfUbGq5dLQ/t5GuY8wP6ANAtMNbzxl4+ulk/AXdM4bN6bZBwa/Qw5u3sEHs7
+ Xk5H5Gda1R3aD2waux19gd55OAzEuheVQrKNTEhutDzNAqF7u5OeJ4On0wCzVjxrPBJY
+ INOutWz06Xn0dXNO/lMUPMpMnslJbgAKZN2ppcE7rGetUto8RB7RcaiTR3gCI12BzIQn
+ npcq+LieUlpvQWAteNYlxWkAiGC6KA5HCe21Dk07oAmEVPim7GfnHOvXlixI+MjCluPR
+ 8VwAUNcL0tOvTLQkhR7p4v45ACzzUQ7xCThJgYVXMX2sGBzqFBwmYeZDNPbpgefJagli
+ Ui2Q==
+X-Gm-Message-State: AOAM531tOAFP6jd6m6k7rZyebXm4AjTUBQjtsee/nxL0Bm1sUiaTz4SN
+ CwqwxS8kqwN25Y3O0O+jr7VH9r5KUbi7iFApMjcmZw==
+X-Google-Smtp-Source: ABdhPJxVTTC6jf6Rca6pGj/4VGpBcmnmfKJQSRWgYGp5zzAjBBSxgIgZtYJdOgIiHV6IOPYUdwwP97+bX6EwXIfd6J4=
+X-Received: by 2002:a05:6638:ecd:: with SMTP id
+ q13mr9100887jas.62.1607634024741; 
+ Thu, 10 Dec 2020 13:00:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201210194044.255887860@linutronix.de>
-Content-Language: en-US
-X-SA-Exim-Connect-IP: 24.64.145.4
-X-SA-Exim-Rcpt-To: xen-devel@lists.xenproject.org, sstabellini@kernel.org,
- jgross@suse.com, boris.ostrovsky@oracle.com, leon@kernel.org,
- saeedm@nvidia.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- kuba@kernel.org, davem@davemloft.net, tariqt@nvidia.com, Zhiqiang.Hou@nxp.com,
- m.karthikeyan@mobiveil.co.in, linux-pci@vger.kernel.org,
- michal.simek@xilinx.com, bhelgaas@google.com, robh@kernel.org,
- lorenzo.pieralisi@arm.com, lee.jones@linaro.org, linux-gpio@vger.kernel.org,
- linus.walleij@linaro.org, tvrtko.ursulin@linux.intel.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- wambui.karugax@gmail.com, chris@chris-wilson.co.uk,
- pankaj.laxminarayan.bharadiya@intel.com, daniel@ffwll.ch, airlied@linux.ie,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- jani.nikula@linux.intel.com, linux-s390@vger.kernel.org, hca@linux.ibm.com,
- borntraeger@de.ibm.com, will@kernel.org, catalin.marinas@arm.com,
- mark.rutland@arm.com, linux-arm-kernel@lists.infradead.org,
- linux@armlinux.org.uk, linux-parisc@vger.kernel.org, afzal.mohd.ma@gmail.com,
- deller@gmx.de, James.Bottomley@HansenPartnership.com,
- linux-ntb@googlegroups.com, allenbh@gmail.com, dave.jiang@intel.com,
- jdmason@kudzu.us, maz@kernel.org, peterz@infradead.org,
- linux-kernel@vger.kernel.org, tglx@linutronix.de
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
- GREYLIST_ISWHITE,NICE_REPLY_A autolearn=ham autolearn_force=no
- version=3.4.2
-Subject: Re: [patch 17/30] NTB/msi: Use irq_has_action()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+References: <20201123104616.1412688-1-robert.foss@linaro.org>
+In-Reply-To: <20201123104616.1412688-1-robert.foss@linaro.org>
+From: Peter Collingbourne <pcc@google.com>
+Date: Thu, 10 Dec 2020 13:00:13 -0800
+Message-ID: <CAMn1gO6AQvyJO0s2k1POAVn4JxuOKLoKpj_UvvW3TnLTtv6_bw@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/bridge: lt9611: Fix handling of 4k panels
+To: Robert Foss <robert.foss@linaro.org>
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -82,77 +62,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
- Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- linux-s390@vger.kernel.org, afzal mohammed <afzal.mohd.ma@gmail.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Juergen Gross <jgross@suse.com>, David Airlie <airlied@linux.ie>,
- linux-gpio@vger.kernel.org, Stefano Stabellini <sstabellini@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+Cc: Alistair Delva <adelva@google.com>, jernej.skrabec@siol.net,
+ Vinod Koul <vinod.koul@linaro.org>, jonas@kwiboo.se, airlied@linux.ie,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Anibal Limon <anibal.limon@linaro.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ ML dri-devel <dri-devel@lists.freedesktop.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, a.hajda@samsung.com,
+ Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Thanks. Confirmed that this fixes display output for me on a 4K monitor.
 
+On Mon, Nov 23, 2020 at 2:46 AM Robert Foss <robert.foss@linaro.org> wrote:
+>
+> 4k requires two dsi pipes, so don't report MODE_OK when only a
+> single pipe is configured. But rather report MODE_PANEL to
+> signal that requirements of the panel are not being met.
+>
+> Reported-by: Peter Collingbourne <pcc@google.com>
+> Suggested-by: Peter Collingbourne <pcc@google.com>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> Tested-by: John Stultz <john.stultz@linaro.org>
 
-On 2020-12-10 12:25 p.m., Thomas Gleixner wrote:
-> Use the proper core function.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Jon Mason <jdmason@kudzu.us>
-> Cc: Dave Jiang <dave.jiang@intel.com>
-> Cc: Allen Hubbe <allenbh@gmail.com>
-> Cc: linux-ntb@googlegroups.com
-
-Looks good to me.
-
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+Tested-by: Peter Collingbourne <pcc@google.com>
 
 > ---
->  drivers/ntb/msi.c |    4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> --- a/drivers/ntb/msi.c
-> +++ b/drivers/ntb/msi.c
-> @@ -282,15 +282,13 @@ int ntbm_msi_request_threaded_irq(struct
->  				  struct ntb_msi_desc *msi_desc)
+>  drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> index d734d9402c35..e8eb8deb444b 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
+>                                                      const struct drm_display_mode *mode)
 >  {
->  	struct msi_desc *entry;
-> -	struct irq_desc *desc;
->  	int ret;
->  
->  	if (!ntb->msi)
->  		return -EINVAL;
->  
->  	for_each_pci_msi_entry(entry, ntb->pdev) {
-> -		desc = irq_to_desc(entry->irq);
-> -		if (desc->action)
-> +		if (irq_has_action(entry->irq))
->  			continue;
->  
->  		ret = devm_request_threaded_irq(&ntb->dev, entry->irq, handler,
-> 
+>         struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
+> +       struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
+>
+> -       return lt9611_mode ? MODE_OK : MODE_BAD;
+> +       if (!lt9611_mode)
+> +               return MODE_BAD;
+> +       else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
+> +               return MODE_PANEL;
+> +       else
+> +               return MODE_OK;
+>  }
+>
+>  static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
+> --
+> 2.27.0
+>
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
