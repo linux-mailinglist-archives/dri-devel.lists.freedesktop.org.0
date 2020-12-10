@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA7F42D58FB
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 12:12:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 693712D592A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 12:26:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A98AB6EA61;
-	Thu, 10 Dec 2020 11:12:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 350C26EA7B;
+	Thu, 10 Dec 2020 11:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com
- [IPv6:2a00:1450:4864:20::444])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 861206EA61
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 11:12:29 +0000 (UTC)
-Received: by mail-wr1-x444.google.com with SMTP id 91so5033173wrj.7
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 03:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=SFeiWCONYDarnfPLxLW1GxMdDbdLJCJ6938SVXgGsFI=;
- b=Wow/eRHQYpgpieT0j7r5lB7tKLAF3Tt+hJrpqcDSjFfJYz20LQ+diyhM0ZVnoAV9Nz
- svMA/XHdPDg8QxFV7PEhxcfGReeiEUgPmb6pU1I1ghxf8TC4oO9RX5bxUeyUT62VV2g0
- MeA7PgP7E8mVqaNtxIkF0buWLHLP6fzp+U5bmL1E9RpYX20V4VyXERi5UtldErmgtGvV
- dA8ejSMjV7XL1am3sNk9btBuXWkGKGBKSiji43Y1XMqmrNGgndSZPFyvJjgcfgasHHWL
- Rlb/zOfsBBsnfG0VU6XfAmWkLV/oUt4TmMgNJtZuBTJ0Rdqro8xMF7XQV3L0YuCIe/yu
- 7I1g==
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com
+ [IPv6:2607:f8b0:4864:20::242])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABD5A6EA7B
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 11:26:13 +0000 (UTC)
+Received: by mail-oi1-x242.google.com with SMTP id 15so5331532oix.8
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 03:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=26Ds+xjLYxlyiDrAw+q/Gft3jO8RNSIH1EaBVr3YRWw=;
+ b=lSdOxFmO/wAApZldtzGe+fP9ge2caZIKfgzOJZKuezeQuMaShUSlqonQqUJiHUnUuQ
+ 4Kx9jXT1bYcD9HXyMyArkkW5rvBsAkOjIxoS/4sQzEt4lvQk9ORQMeRMN1UK9q7/z1RV
+ TlzumT2ceJkyprsJiui9j3FjdAk8Igcu+zSPQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SFeiWCONYDarnfPLxLW1GxMdDbdLJCJ6938SVXgGsFI=;
- b=Xb9ANYv57tP9cMudK2BdpV7RJxk70SLr1lm/UuuR/vFVfCdrDmSVQRunlKz47mE/Mc
- NYJ6t3F1BgQEgY+W0XnKAFx7rnFwJfGeUboqNAxmIgAVM0paPyRnKe1EtIn2/axusx2i
- vwfzDOKNyh/KnE+cEbKuxJyu7JdDqsowV80rgzudWmJF6wGAqiMB6ffLTz3lyTVE8THo
- CHNLf3C10+kQUoLjylk3OGsNKdpfNaXiUCBfo0JGZnPIWjsje91q7WCH72/CzeGPj+Wo
- iNXw5WXDhC8C835rWr7Gt4fTSLheLO7gbbMWrOp6AgjA2TkX5dS4u+KwmDOzevHtniox
- IP9Q==
-X-Gm-Message-State: AOAM530ReENUPrOb2pAECeshI2MFfmDy4Fxo32E38BYbXv+8mhTA9Irb
- QiU5E8ZAdT39yImIPzObM0g=
-X-Google-Smtp-Source: ABdhPJzmUHxiHT9O8COe36dsoLI4lCjNl/sTysqpXIA40FtgJDXGCipLSbimOGA6HLH+fnpPFq/+6A==
-X-Received: by 2002:adf:f146:: with SMTP id y6mr7778814wro.298.1607598748151; 
- Thu, 10 Dec 2020 03:12:28 -0800 (PST)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id r2sm8799281wrn.83.2020.12.10.03.12.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 03:12:27 -0800 (PST)
-Date: Thu, 10 Dec 2020 08:12:21 -0300
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Sumera Priyadarsini <sylphrenadin@gmail.com>, hamohammed.sa@gmail.com,
- rodrigosiqueiramelo@gmail.com, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
- corbet@lwn.net, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] drm/vkms: Add setup and testing information
-Message-ID: <20201210111221.evhku6xjhgxmu4ys@smtp.gmail.com>
-References: <20201209190453.c6kp5winikr55n3i@adolin>
- <20201209221711.GC401619@phenom.ffwll.local>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=26Ds+xjLYxlyiDrAw+q/Gft3jO8RNSIH1EaBVr3YRWw=;
+ b=nVopo/YlQehaTt3mVk5fotjixYJS9KSdLKE/lX/oFnn7V2sG16FXWrpSRHwDtx8k6U
+ mn8nPZ2LYSiVsk1NBwuvRuwyucQslzfQ9/Z27MFPOHZWQtxdaMpiMkx9392FXiV1UX+N
+ roQwpXqHjDFYon5vndP93IM4mREVWGTWdUdvDgjpG9JUtEa/Q+Aa1eY/aIZXzKsVmEpj
+ nKvauTCQc7NIbwDTPMoWfO1sJhRaSQAvAMi5jRn5xDcXJBfoLZlTW1d3uwE36VXUO+xC
+ gbOi5eZWOyZNTwlVbWtURvVUcQPIZ3uNe+IjXmgbv4seYef8hKteGgNx8fB8TtVW9OLB
+ EdqA==
+X-Gm-Message-State: AOAM531d7bRCkEQ6UBGyR/SZGBZlZqpTYMQrLIDZBIOGKoU4nIvO8Yk7
+ nbYw4x5aRteNeZudiDGzxn6cjd+Ch5L7LXPtvniIlg==
+X-Google-Smtp-Source: ABdhPJwbfyYDyl38Hj6hY63Lt/8OMxO1ziTnn78ExJw8HG0XQ5S0YP1OIT0YrNdt1q0dNRR7Pcbp1BfkD8VJOBGCCmQ=
+X-Received: by 2002:aca:4d08:: with SMTP id a8mr5091494oib.128.1607599572945; 
+ Thu, 10 Dec 2020 03:26:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201209221711.GC401619@phenom.ffwll.local>
+References: <20201210044400.1080308-1-hridya@google.com>
+ <b5adfe46-8615-5821-d092-2b93feed5b79@amd.com>
+ <X9H0JREcdxDsMtLX@kroah.com> <20201210102727.GE401619@phenom.ffwll.local>
+ <X9H+3AP1q39aMxeb@kroah.com>
+In-Reply-To: <X9H+3AP1q39aMxeb@kroah.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 10 Dec 2020 12:26:01 +0100
+Message-ID: <CAKMK7uFD3fE01Li3JOpHpzP7313OT3xpcjBwzSVjrCGAmab2Zg@mail.gmail.com>
+Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in
+ sysfs
+To: Greg KH <gregkh@linuxfoundation.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,129 +62,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Android Kernel Team <kernel-team@android.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/09, Daniel Vetter wrote:
-> On Thu, Dec 10, 2020 at 12:34:53AM +0530, Sumera Priyadarsini wrote:
-> > Update the vkms documentation to contain steps to:
-> > 
-> >  - setup the vkms driver
-> >  - run tests using igt
-> > 
-> > Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
-> > ___
-> > Changes in v2:
-> >  - Change heading to title case (Daniel)
-> >  - Add examples to run tests directly (Daniel)
-> >  - Add examples to run subtests (Melissa)
-> > 
-> > Changes in v3:
-> >  - Add example using run-tests.sh script(Daniel)
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-Applied to drm-misc-next.
-
-Thanks for these improvements,
-
-Melissa
-> > ---
-> >  Documentation/gpu/vkms.rst | 70 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 70 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> > index 13bab1d93bb3..9e030c74a82e 100644
-> > --- a/Documentation/gpu/vkms.rst
-> > +++ b/Documentation/gpu/vkms.rst
-> > @@ -7,6 +7,76 @@
-> >  .. kernel-doc:: drivers/gpu/drm/vkms/vkms_drv.c
-> >     :doc: vkms (Virtual Kernel Modesetting)
-> >  
-> > +Setup
-> > +=====
-> > +
-> > +The VKMS driver can be setup with the following steps:
-> > +
-> > +To check if VKMS is loaded, run::
-> > +
-> > +  lsmod | grep vkms
-> > +
-> > +This should list the VKMS driver. If no output is obtained, then
-> > +you need to enable and/or load the VKMS driver.
-> > +Ensure that the VKMS driver has been set as a loadable module in your
-> > +kernel config file. Do::
-> > +
-> > +  make nconfig
-> > +
-> > +  Go to `Device Drivers> Graphics support`
-> > +
-> > +  Enable `Virtual KMS (EXPERIMENTAL)`
-> > +
-> > +Compile and build the kernel for the changes to get reflected.
-> > +Now, to load the driver, use::
-> > +
-> > +  sudo modprobe vkms
-> > +
-> > +On running the lsmod command now, the VKMS driver will appear listed.
-> > +You can also observe the driver being loaded in the dmesg logs.
-> > +
-> > +To disable the driver, use ::
-> > +
-> > +  sudo modprobe -r vkms
-> > +
-> > +Testing With IGT
-> > +================
-> > +
-> > +The IGT GPU Tools is a test suite used specifically for debugging and
-> > +development of the DRM drivers.
-> > +The IGT Tools can be installed from
-> > +`here <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_ .
-> > +
-> > +The tests need to be run without a compositor, so you need to switch to text
-> > +only mode. You can do this by::
-> > +
-> > +  sudo systemctl isolate multi-user.target
-> > +
-> > +To return to graphical mode, do::
-> > +
-> > +  sudo systemctl isolate graphical.target
-> > +
-> > +Once you are in text only mode, you can run tests using the --device switch
-> > +or IGT_DEVICE variable to specify the device filter for the driver we want
-> > +to test. IGT_DEVICE can also be used with the run-test.sh script to run the
-> > +tests for a specific driver::
-> > +
-> > +  sudo ./build/tests/<name of test> --device "sys:/sys/devices/platform/vkms"
-> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/<name of test>
-> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t <name of test>
-> > +
-> > +For example, to test the functionality of the writeback library,
-> > +we can run the kms_writeback test::
-> > +
-> > +  sudo ./build/tests/kms_writeback --device "sys:/sys/devices/platform/vkms"
-> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_writeback
-> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./scripts/run-tests.sh -t kms_writeback
-> > +
-> > +You can also run subtests if you do not want to run the entire test::
-> > +
-> > +  sudo ./build/tests/kms_flip --run-subtest basic-plain-flip --device "sys:/sys/devices/platform/vkms"
-> > +  sudo IGT_DEVICE="sys:/sys/devices/platform/vkms" ./build/tests/kms_flip --run-subtest basic-plain-flip
-> > +
-> >  TODO
-> >  ====
-> >  
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCBEZWMgMTAsIDIwMjAgYXQgMTE6NTUgQU0gR3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+IHdyb3RlOgo+Cj4gT24gVGh1LCBEZWMgMTAsIDIwMjAgYXQgMTE6Mjc6MjdB
+TSArMDEwMCwgRGFuaWVsIFZldHRlciB3cm90ZToKPiA+IE9uIFRodSwgRGVjIDEwLCAyMDIwIGF0
+IDExOjEwOjQ1QU0gKzAxMDAsIEdyZWcgS0ggd3JvdGU6Cj4gPiA+IE9uIFRodSwgRGVjIDEwLCAy
+MDIwIGF0IDEwOjU4OjUwQU0gKzAxMDAsIENocmlzdGlhbiBLw7ZuaWcgd3JvdGU6Cj4gPiA+ID4g
+SW4gZ2VuZXJhbCBhIGdvb2QgaWRlYSwgYnV0IEkgaGF2ZSBhIGZldyBjb25jZXJuL2NvbW1lbnRz
+IGhlcmUuCj4gPiA+ID4KPiA+ID4gPiBBbSAxMC4xMi4yMCB1bSAwNTo0MyBzY2hyaWViIEhyaWR5
+YSBWYWxzYXJhanU6Cj4gPiA+ID4gPiBUaGlzIHBhdGNoIGFsbG93cyBzdGF0aXN0aWNzIHRvIGJl
+IGVuYWJsZWQgZm9yIGVhY2ggRE1BLUJVRiBpbgo+ID4gPiA+ID4gc3lzZnMgYnkgZW5hYmxpbmcg
+dGhlIGNvbmZpZyBDT05GSUdfRE1BQlVGX1NZU0ZTX1NUQVRTLgo+ID4gPiA+ID4KPiA+ID4gPiA+
+IFRoZSBmb2xsb3dpbmcgc3RhdHMgd2lsbCBiZSBleHBvc2VkIGJ5IHRoZSBpbnRlcmZhY2U6Cj4g
+PiA+ID4gPgo+ID4gPiA+ID4gL3N5cy9rZXJuZWwvZG1hYnVmLzxpbm9kZV9udW1iZXI+L2V4cG9y
+dGVyX25hbWUKPiA+ID4gPiA+IC9zeXMva2VybmVsL2RtYWJ1Zi88aW5vZGVfbnVtYmVyPi9zaXpl
+Cj4gPiA+ID4gPiAvc3lzL2tlcm5lbC9kbWFidWYvPGlub2RlX251bWJlcj4vZGV2X21hcF9pbmZv
+Cj4gPiA+ID4gPgo+ID4gPiA+ID4gVGhlIGlub2RlX251bWJlciBpcyB1bmlxdWUgZm9yIGVhY2gg
+RE1BLUJVRiBhbmQgd2FzIGFkZGVkIGVhcmxpZXIgWzFdCj4gPiA+ID4gPiBpbiBvcmRlciB0byBh
+bGxvdyB1c2Vyc3BhY2UgdG8gdHJhY2sgRE1BLUJVRiB1c2FnZSBhY3Jvc3MgZGlmZmVyZW50Cj4g
+PiA+ID4gPiBwcm9jZXNzZXMuCj4gPiA+ID4gPgo+ID4gPiA+ID4gQ3VycmVudGx5LCB0aGlzIGlu
+Zm9ybWF0aW9uIGlzIGV4cG9zZWQgaW4KPiA+ID4gPiA+IC9zeXMva2VybmVsL2RlYnVnL2RtYV9i
+dWYvYnVmaW5mby4KPiA+ID4gPiA+IEhvd2V2ZXIsIHNpbmNlIGRlYnVnZnMgaXMgY29uc2lkZXJl
+ZCB1bnNhZmUgdG8gYmUgbW91bnRlZCBpbiBwcm9kdWN0aW9uLAo+ID4gPiA+ID4gaXQgaXMgYmVp
+bmcgZHVwbGljYXRlZCBpbiBzeXNmcy4KPiA+ID4gPgo+ID4gPiA+IE1obSwgdGhpcyBtYWtlcyBp
+dCBwYXJ0IG9mIHRoZSBVQVBJLiBXaGF0IGlzIHRoZSBqdXN0aWZpY2F0aW9uIGZvciB0aGlzPwo+
+ID4gPiA+Cj4gPiA+ID4gSW4gb3RoZXIgd29yZHMgZG8gd2UgcmVhbGx5IG5lZWQgdGhvc2UgZGVi
+dWcgaW5mb3JtYXRpb24gaW4gYSBwcm9kdWN0aW9uCj4gPiA+ID4gZW52aXJvbm1lbnQ/Cj4gPiA+
+Cj4gPiA+IFByb2R1Y3Rpb24gZW52aXJvbm1lbnRzIHNlZW0gdG8gd2FudCB0byBrbm93IHdobyBp
+cyB1c2luZyB1cCBtZW1vcnkgOikKPiA+Cj4gPiBUaGlzIG9ubHkgc2hvd3Mgc2hhcmVkIG1lbW9y
+eSwgc28gaXQgZG9lcyBzbWVsbCBhIGxvdCBsaWtlICRzcGVjaWZpY19pc3N1ZQo+ID4gYW5kIHdl
+J3JlIGRlc2lnbmluZyBhIG5hcnJvdyBzb2x1dGlvbiBmb3IgdGhhdCBhbmQgdGhlbiBoYXZlIHRv
+IGNhcnJ5IGl0Cj4gPiBmb3JldmVyLgo+Cj4gSSB0aGluayB0aGUgImlzc3VlIiBpcyB0aGF0IHRo
+aXMgd2FzIGEgZmVhdHVyZSBmcm9tIGlvbiB0aGF0IHBlb3BsZQo+ICJtaXNzZWQiIGluIHRoZSBk
+bWFidWYgbW92ZS4gIFRha2luZyBhd2F5IHRoZSBhYmlsaXR5IHRvIHNlZSB3aGF0IGtpbmQKPiBv
+ZiBhbGxvY2F0aW9ucyB3ZXJlIGJlaW5nIG1hZGUgZGlkbid0IG1ha2UgYSBsb3Qgb2YgZGVidWdn
+aW5nIHRvb2xzCj4gaGFwcHkgOigKCklmIHRoaXMgaXMganVzdCBmb3IgZG1hLWhlYXBzIHRoZW4g
+d2h5IGRvbid0IHdlIGFkZCB0aGUgc3R1ZmYgYmFjawpvdmVyIHRoZXJlPyBJdCByZWluZm9yY2Vz
+IG1vcmUgdGhhdCB0aGUgYW5kcm9pZCBncHUgc3RhY2sgYW5kIHRoZQpub24tYW5kcm9pZCBncHUg
+c3RhY2sgb24gbGludXggYXJlIGZhaXJseSBkaWZmZXJlbnQgaW4gZnVuZGFtZW50YWwKd2F5cywg
+YnV0IHRoYXQncyBub3QgcmVhbGx5IG5ldy4KLURhbmllbAoKPiBCdXQgSHJpZHlhIGtub3dzIG1v
+cmUsIHNoZSdzIGJlZW4gZGVhbGluZyB3aXRoIHRoZSB0cmFuc2l0aW9uIGZvciBhIGxvbmcKPiB0
+aW1lIG5vdy4KPgo+ID4gRS5nLiB3aHkgaXMgdGhlIGxpc3Qgb2YgYXR0YWNobWVudHMgbm90IGEg
+c3lzZnMgbGluaz8gVGhhdCdzIGhvdyB3ZQo+ID4gdXN1YWxseSBleHBvc2Ugc3RydWN0IGRldmlj
+ZSAqIHBvaW50ZXJzIGluIHN5c2ZzIHRvIHVzZXJzcGFjZSwgbm90IGFzIGEKPiA+IGxpc3Qgb2Yg
+dGhpbmdzLgo+Cj4gVGhlc2UgYXJlbid0IHN0cnVjdCBkZXZpY2VzLCBzbyBJIGRvbid0IHVuZGVy
+c3RhbmQgdGhlIG9iamVjdGlvbiBoZXJlLgo+IFdoZXJlIGVsc2UgY291bGQgdGhlc2UgZ28gaW4g
+c3lzZnM/Cj4KPiA+IEZ1cnRoZXJtb3JlIHdlIGRvbid0IGhhdmUgdGhlIGV4cG9ydGVyIGRldmlj
+ZSBjb3ZlcmVkIGFueXdoZXJlLCBob3cgaXMKPiA+IHRoYXQgdHJhY2tlZD8gWWVzIEFuZHJvaWQg
+anVzdCB1c2VzIGlvbiBmb3IgYWxsIHNoYXJlZCBidWZmZXJzLCBidXQgdGhhdCdzCj4gPiBub3Qg
+aG93IGFsbCBvZiBsaW51eCB1c2Vyc3BhY2Ugd29ya3MuCj4KPiBEbyB3ZSBoYXZlIHRoZSBleHBv
+cnRlciBkZXZpY2UgbGluayBpbiB0aGUgZG1hYnVmIGludGVyZmFjZT8gIElmIHNvLAo+IGdyZWF0
+LCBsZXQncyB1c2UgdGhhdCwgYnV0IGZvciBzb21lIHJlYXNvbiBJIGRpZG4ndCB0aGluayBpdCB3
+YXMgdGhlcmUuCj4KPiA+IFRoZW4gSSBndWVzcyB0aGVyZSdzIHRoZSBtbWFwcywgeW91IGNhbiBm
+aXNoIHRoZW0gb3V0IG9mIHByb2Nmcy4gQSB0b29sCj4gPiB3aGljaCBjb2xsZWN0cyBhbGwgdGhh
+dCBpbmZvcm1hdGlvbiBtaWdodCBiZSB1c2VmdWwsIGp1c3QgYXMgZGVtb25zdHJhdGlvbgo+ID4g
+b2YgaG93IHRoaXMgaXMgYWxsIHN1cHBvc2VkIHRvIGJlIHVzZWQuCj4KPiBUaGVyZSdzIGEgc2Ny
+aXB0IHNvbWV3aGVyZSB0aGF0IGRvZXMgdGhpcyB0b2RheSwgYWdhaW4sIEhyaWR5YSBrbm93cwo+
+IG1vcmUuCj4KPiA+IFRoZXJlJ3MgYWxzbyBzb21lIHRoaW5ncyB0byBtYWtlIHN1cmUgd2UncmUg
+YXQgbGVhc3QgaGF2aW5nIHRob3VnaHQgYWJvdXQKPiA+IGhvdyBvdGhlciB0aGluZ3MgZml0IGlu
+IGhlcmUuIEUuZC4gZG1hX3Jlc3YgYXR0YWNoZWQgdG8gdGhlIGRtYS1idWYKPiA+IG1hdHRlcnMg
+aW4gZ2VuZXJhbCBhIGxvdC4gSXQgZG9lc24ndCBtYXR0ZXIgb24gQW5kcm9pZCBiZWNhdXNlCj4g
+PiBldmVyeXRoaW5nJ3MgcGlubmVkIGFsbCB0aGUgdGltZSBhbnl3YXkuCj4gPgo+ID4gQWxzbyBJ
+IHRob3VnaHQgc3lzZnMgd2FzIG9uZSB2YWx1ZSBvbmUgZmlsZSwgZHVtcGluZyBhbiBlbnRpcmUg
+bGlzdCBpbnRvCj4gPiBkZXZfaW5mb19tYXAgd2l0aCBwcm9wZXJ0aWVzIHdlJ2xsIG5lZWQgdG8g
+ZXh0ZW5kIChvbmNlIHlvdSBjYXJlIGFib3V0Cj4gPiBkbWFfcmVzdiB5b3UgYWxzbyB3YW50IHRv
+IGtub3cgd2hpY2ggYXR0YWNobWVudHMgYXJlIGR5bmFtaWMpIGRvZXMgbm90Cj4gPiBzbWVsbCBs
+aWtlIHN5c2ZzIGRlc2lnbiBhdCBhbGwuCj4KPiBzeXNmcyBpcyBvbmUgdmFsdWUgcGVyIGZpbGUs
+IHdoYXQgaXMgYmVpbmcgZXhwb3J0ZWQgdGhhdCBpcyBsYXJnZXIgdGhhbgo+IHRoYXQgaGVyZT8g
+IERpZCBJIG1pc3Mgc29tZXRoaW5nIG9uIHJldmlldz8KPgo+IHRoYW5rcywKPgo+IGdyZWcgay1o
+Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBkcmkt
+ZGV2ZWwgbWFpbGluZyBsaXN0Cj4gZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+IGh0
+dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCgoK
+Ci0tIApEYW5pZWwgVmV0dGVyClNvZnR3YXJlIEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpo
+dHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
+a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
+cmktZGV2ZWwK
