@@ -1,47 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9422D60C8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:01:48 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C19F82D6141
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:11:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5B36EA90;
-	Thu, 10 Dec 2020 16:01:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 316CD6E430;
+	Thu, 10 Dec 2020 16:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D12F16E3F5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:01:43 +0000 (UTC)
-Date: Thu, 10 Dec 2020 16:01:38 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607616102;
- bh=qtOM3E/kXoCe3ja09Lpz/w9hk2IhuaiBbAzwEq/fF6I=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=GUKlYKvKfcwPXhjL5qKch5OIPr+2pI1LTO4ZrzG9FIOlk9RIwh2LsGgR0w4McKOr3
- zCe9w9etVVv2Ti7GrYDUA954ymCf214t5/tM+4EqyRREFqDUiANCPj4d4tHSjM8XfN
- IcDBtHtlrOmQBTWaznntIyxZOorsf4Wu80OhK6IRo4vyylw4SlXNEE9P9g8Qo3Yu6s
- NwiwlncX2iSDHMk3oFCvanqSYZWTIaIu+wz5gH6dqSNIhChXBwaOD+5iExuYxXIndb
- eZyRndFdkIRPOVcyU9O0rXXpUfiY1Nx3B9SffYwxanF6rqKsMMKTb5gSKBZtEVeIUL
- rHNEl1yrsNaxw==
-To: Daniel Vetter <daniel@ffwll.ch>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH] drm: rework description of primary and cursor planes
-Message-ID: <a1cgjxn5FymwxdC5i0QvhamqzSBWY1Sf0_1m8u8NciKXiWaaZOqCit3OOxd9gqrHrGofFraBoIPBhL8pNueHKsIr4xE0SvKJNf2XtCQysQ0=@emersion.fr>
-In-Reply-To: <CAKMK7uFywgzd3JvACQLFupX6C9Cz_+XVHDV34XvNJHXv3TfXdQ@mail.gmail.com>
-References: <wrDqxEGdxtotWKrfQH8W8tl2Z8JgdHzUs3wuTth4@cp4-web-027.plabs.ch>
- <20201209004223.GL401619@phenom.ffwll.local>
- <0zedd9O9Bp0DfEH26xBTGvZtqA5bdE2EJDN3z5TXiDIyiwfTnRapgDy69MjAlhMWrzqKTzoYwovpGANNhp1PmneSCrm-xzw9DIeauv1SkgM=@emersion.fr>
- <20201209160223.GT401619@phenom.ffwll.local>
- <W7ZhvStaUaGjlhYSldWxC93V0-tjSEwm-ldyPBpmvkJ9xRw1krfB1TNd5X4hEjkamaEhH1ASD0yiFzMCh72oG8vCeg-HeOt5dRN5U5v_q34=@emersion.fr>
- <20201209194030.GV401619@phenom.ffwll.local>
- <iId0AQqxwalIhTMk-efVSEskNIuLA_pP5h4loD4Mbu17dJF83zbUXu5HZnSekjM73tghP2kE5MNXdMT3D5lus2e-s66PX4V0a_mDka695FY=@emersion.fr>
- <CAKMK7uFywgzd3JvACQLFupX6C9Cz_+XVHDV34XvNJHXv3TfXdQ@mail.gmail.com>
-MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7A826E430
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:10:58 +0000 (UTC)
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v2 00/12] Decouple Mediatek DRM sub driver
+Date: Fri, 11 Dec 2020 00:10:38 +0800
+Message-Id: <20201210161050.8460-1-chunkuang.hu@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,30 +33,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, December 10th, 2020 at 4:56 PM, Daniel Vetter <daniel@ffwll.ch> wrote:
+mtk ccorr is controlled by DRM and MDP [1]. In order to share
+mtk_ccorr driver for DRM and MDP, decouple Mediatek DRM sub driver
+which include mtk_ccorr, so MDP could use this decoupled mtk_ccorr.
 
-> Huh so crtc are registered forward and planes backward? I guess adding
-> amd people. And yeah sounds like defacto you can't figure out which
-> primary plane goes to which crtc, and we just take whatever goes.
-> Maybe that stricter approach with more guarantees just doesn't work,
-> ship sailed already :-/
+Changes in v2:
+1. Fix iommu larb problem.
+2. Based on mediatek-drm-next-5.11-2 [2].
 
-Yeah. Even if we fixed the amdgpu driver and added the check, user-space still
-couldn't have the guarantee that it can associate the n-th primary plane with
-the n-th CRTC, because it might run with an old kernel.
+[1] https://patchwork.kernel.org/patch/11140751/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log/?h=mediatek-drm-next-5.11-2
 
-If we really wanted to allow user-space to discover the internal
-->{primary,cursor} pointers, I think we should just expose a new property. That
-way, the uAPI would be a lot more explicit and a lot less guessing. The cost is
-that it wouldn't work on older kernels, but with amdgpu user-space can't rely
-on the implicit rule you've suggested anyways.
+CK Hu (10):
+  drm/mediatek: Separate getting larb device to a function
+  drm/mediatek: Move clk info from struct mtk_ddp_comp to sub driver
+    private data
+  drm/mediatek: Move regs info from struct mtk_ddp_comp to sub driver
+    private data
+  drm/mediatek: Remove irq in struct mtk_ddp_comp
+  drm/mediatek: Use struct cmdq_client_reg to gather cmdq variable
+  drm/mediatek: Move cmdq_reg info from struct mtk_ddp_comp to sub
+    driver private data
+  drm/mediatek: Change sub driver interface from mtk_ddp_comp to device
+  drm/mediatek: Register vblank callback function
+  drm/mediatek: DRM driver directly refer to sub driver's function
+  drm/mediatek: Move mtk_ddp_comp_init() from sub driver to DRM driver
+
+Chun-Kuang Hu (2):
+  drm/mediatek: Get CMDQ client register for all ddp component
+  drm/mediatek: Use correct device pointer to get CMDQ client register
+
+ drivers/gpu/drm/mediatek/mtk_disp_color.c   |  89 ++--
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h     |  69 ++++
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c     | 217 +++++-----
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c    | 169 ++++----
+ drivers/gpu/drm/mediatek/mtk_dpi.c          |  44 +-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c     |  75 ++--
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.h     |   1 -
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 429 ++++++++++++--------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h | 100 +++--
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c      |  30 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h      |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c          |  47 +--
+ 12 files changed, 676 insertions(+), 596 deletions(-)
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_drv.h
+
+-- 
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
