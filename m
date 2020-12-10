@@ -2,67 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B273D2D716B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9CC2D714B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7226ECCE;
-	Fri, 11 Dec 2020 08:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 243876EC89;
+	Fri, 11 Dec 2020 08:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
- [IPv6:2607:f8b0:4864:20::641])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B79B6E430
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 17:42:17 +0000 (UTC)
-Received: by mail-pl1-x641.google.com with SMTP id t18so3155217plo.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 09:42:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
- b=ZJ2ObQpYtkzEbRFv40oN+F65lAU6Ej9gKrE5tQPiv7ix/LuBkcvUf+qMUh+Yzoxr0g
- CyVLZ1mG/UZfuxW/V3MMPsaTBSe2CWI0mDNMfEr7mKEWwiKc4c3ZI8/xXiy/OOpRRB/j
- 2IZpMCpurtGq6tzatn7TAJI7V3OuMaXrfCFpdbKTT1pfnFN4C5I4tNdDjJ+tPlKhyxqi
- przoNGt/m24R6bKMKywSL6UEGQQjXmxvANoK31VrYtoQFG7CIFwswmQLapaXt4wK37sA
- xHQJydZjUT4lKZk5SMNC/6y1kHtTG0Wl7+At0IEZBHpFHOPwp1+ijx3ZwuhElpY/pmj7
- 20Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
- b=WMztnN2SYRapg+oh4ey/WCSxRwSWkaZfeEhvmfNzXe8vDGppMEvMMyVCHzqdj/HfcI
- PDNnU/Gbu12WEG7zqB0cQYK+kdsBYpL3h8pu/HTYJjIAnSC+CHqacUnXhWR9olDea7i3
- NR9FK32Gn/XQjXJ2J7QkZuceT8i3/8yf3Dr3gC4UYH+I4HXNpc7YnWZm6+MWuKNh0l6p
- xJRZhaRqRjvApjTRDpnxzPclSuGN9fvWSlSoZIJmAfY37qjhkk2yuHRUPCD2ezaImRBp
- xOxf79M1cLdfg6XsWI8j4bHJx1OtJBBUK58HwX6xOgqEW1/z4G+xALfUVmusLgrXZCBI
- Tfrw==
-X-Gm-Message-State: AOAM532iLZB5QoRj19k+PMyhjFl4BI1mM7PRx04Q40uqi3VYbuWR8Pi5
- Y4s/qXy+4MfhEfzD5GpwaETYV57K5zU=
-X-Google-Smtp-Source: ABdhPJzIx+7sRPBlNWy2an1r0b10BKDTDvE4FtqZry01Hi8E5wwZE9KecaPEs1U2F02OehoELDCOeA==
-X-Received: by 2002:a17:902:8b8c:b029:d8:de6f:ed35 with SMTP id
- ay12-20020a1709028b8cb02900d8de6fed35mr7278561plb.36.1607622136734; 
- Thu, 10 Dec 2020 09:42:16 -0800 (PST)
-Received: from [10.230.29.166] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id x188sm6704941pfd.43.2020.12.10.09.42.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 09:42:16 -0800 (PST)
-Subject: Re: [PATCH 15/15] ARM: dts: bcm2711: Add the CEC interrupt controller
-To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-16-maxime@cerno.tech>
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <bd2c5b93-2ee3-23ff-5852-e3537619e0ae@gmail.com>
-Date: Thu, 10 Dec 2020 09:42:12 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.5.1
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4755589CDE;
+ Thu, 10 Dec 2020 17:44:46 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1607622284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oeioyqpxNmG6CK8lLuYIEgegZmVE7BiOpQp+xJs/g5M=;
+ b=nFpOge/3DK/YrVphh+ZKWZYuF1Z9nOGge7xU97iWnUyzPbaEFKCmHRLc8uXkq/UajGCT5N
+ OncAX1nMt1jLZ9Zpu2A3eiw5nnrk2Wc6fPLw8c8bJAQ/WAxLUszBEbdn8OLNplLWrI/2Gb
+ F7KcieQGQ4eBqcsJV7BUSYwmoMRFFvGtOLAVBkDpMemGux1f0WYLqf210QcCp3hX34VjmK
+ PPuojzqSecXQCIRBtQb4VSB46fptypIDq6BQrST9YDHc1v+XDLurqAo59LaSQrHrh8+CB4
+ +Dmw0dMvmpPZC/70Y48xr5qEpr5O4MomnWtOqao1KuNEg06CM0OceEHjHLpO7Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1607622284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oeioyqpxNmG6CK8lLuYIEgegZmVE7BiOpQp+xJs/g5M=;
+ b=rWL5Y9Xn9fN7dzBlg88tnUbJnatJ/mJ8Nef3j1Bgh0vv4WhDAu4D4F9E4/waF+d2Zh+v12
+ EW4+HqySJVUXLIBA==
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+Subject: Re: [Intel-gfx] [PATCH v3 2/4] drm/i915/pmu: Use kstat_irqs to get
+ interrupt count
+In-Reply-To: <e01e321d-d4ea-fcec-a3dc-16e641e49056@linux.intel.com>
+References: <20201205014340.148235-1-jsnitsel@redhat.com>
+ <20201205014340.148235-3-jsnitsel@redhat.com>
+ <875z5e99ez.fsf@nanos.tec.linutronix.de>
+ <160758677957.5062.15497765500689083558@jlahtine-mobl.ger.corp.intel.com>
+ <e9892cc4-6344-be07-66b5-236b8576100e@linux.intel.com>
+ <87v9d9k49q.fsf@nanos.tec.linutronix.de>
+ <e01e321d-d4ea-fcec-a3dc-16e641e49056@linux.intel.com>
+Date: Thu, 10 Dec 2020 18:44:44 +0100
+Message-ID: <87pn3hk12r.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20201210134648.272857-16-maxime@cerno.tech>
-Content-Language: en-US
-X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
+X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,32 +63,42 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jason Cooper <jason@lakedaemon.net>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, Marc Zyngier <maz@kernel.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Thomas Gleixner <tglx@linutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Peter Zijlstra <peterz@infradead.org>,
+ intel-gfx@lists.freedesktop.org, Matthew Garrett <mjg59@google.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jarkko Sakkinen <jarkko@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-integrity@vger.kernel.org,
+ Peter Huewe <peterhuewe@gmx.de>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Dec 10 2020 at 17:09, Tvrtko Ursulin wrote:
+> On 10/12/2020 16:35, Thomas Gleixner wrote:
+>> I'll send out a series addressing irq_to_desc() (ab)use all over the
+>> place shortly. i915 is in there...
+>
+> Yep we don't need atomic, my bad. And we would care about the shared 
+> interrupt line. And without atomic the extra accounting falls way below 
+> noise.
 
+You have to be careful though. If you make the accumulated counter 64
+bit wide then you need to be careful vs. 32bit machines.
 
-On 12/10/2020 5:46 AM, Maxime Ripard wrote:
-> The CEC and hotplug interrupts go through an interrupt controller shared
-> between the two HDMI controllers.
-> 
-> Let's add that interrupt controller and the interrupts for both HDMI
-> controllers
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> So in the light of it all, it sounds best I just quickly replace our 
+> abuse with private counting and then you don't have to deal with it in 
+> your series.
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
--- 
-Florian
+I mostly have it. Still chewing on the 32bit vs. 64bit thing. And
+keeping it in my series allows me to remove the export of irq_to_desc()
+at the end without waiting for your tree to be merged.
+
+Give me a few.
+
+Thanks,
+
+        tglx
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
