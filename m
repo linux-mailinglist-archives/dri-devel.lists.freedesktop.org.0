@@ -2,56 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334D42D6256
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9842D626C
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 17:50:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1D836EA70;
-	Thu, 10 Dec 2020 16:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 439C66EAAE;
+	Thu, 10 Dec 2020 16:50:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B626EA70
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:46:35 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BAGkIOA017148;
- Thu, 10 Dec 2020 10:46:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1607618778;
- bh=/yAAdf85hn76uTV5lnEj6b5CiO5rePxLyL0RgRt4KGA=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=SOnp7lsWrepQafvuMba3Wn6GeEnG20/XEkblzUwnjn62h1hogOca4BLbtrsS36pUo
- 0gSF8lqLlStKp0QBt3ij7MVThdfmkEQ+6JO7pstGims0QYvtdvz04DuQHESOI1maRb
- M1RXWAqPNC5C668+stJa0IFkK9+YFkap3PqvLfTo=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BAGkIEs065368
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 10 Dec 2020 10:46:18 -0600
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 10
- Dec 2020 10:45:31 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 10 Dec 2020 10:45:30 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BAGjRIS108810;
- Thu, 10 Dec 2020 10:45:27 -0600
-Subject: Re: [PATCH v3 1/2] drm: automatic legacy gamma support
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Daniel
- Vetter <daniel@ffwll.ch>
-References: <20201210140852.1040054-1-tomi.valkeinen@ti.com>
- <20201210140852.1040054-2-tomi.valkeinen@ti.com>
- <20201210152739.GF401619@phenom.ffwll.local> <X9JNn4AZaaG4YOIR@intel.com>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <360878f4-5779-ea77-3039-ab6c28935508@ti.com>
-Date: Thu, 10 Dec 2020 18:45:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com
+ [IPv6:2607:f8b0:4864:20::343])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 263906EA70
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:50:12 +0000 (UTC)
+Received: by mail-ot1-x343.google.com with SMTP id o11so5487542ote.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 08:50:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UBLaL7YZ1GGECPgOBT1EJ5LhKuRi5V9cp7gn+yeFOUQ=;
+ b=P+uvOS9+LWsyGj+Wq3aGAouUojcU+dMLpTEvls3nCRHYK1Tuv3ZAkcvpXT/uMW8LUb
+ jk8bV/PA0c3iZZWdfTICdTr72D0JsAi9UVuXSckNlemsQ6/ZL9R+sBSwUlQXn5g/1jRg
+ DgBl4R+/kdP4/zoj4k+42Q9IPFRT2qvqguJX4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UBLaL7YZ1GGECPgOBT1EJ5LhKuRi5V9cp7gn+yeFOUQ=;
+ b=F6DmoZtG/tYlCh6xMdBCbuiq74kEzE0T0RaMUGDgv042WqC6YiHS0duSyx4T2szJtA
+ Q5H+u5eLdS9eG2UFdXMorPQ6vNsLxGM46dD4c8Xflo/FmlpG3HxPc+JMALlIjQ4txC2V
+ aKdXCjYvURXIiD+UJaKtcNhR/uXx38/09zJ7ypJBdz1OjArYBlD8qCG070+ZmpdllF2l
+ wgSjxXEjgWqOnN1TrkM4/yz5wb9/IGtUBqgLCou7uT1PRDIxjBgLz//CIN7TSpRfDMBj
+ wnRoyumxYPUOaEECPzRlyXuOcZhPWLmsVIx8SFBmwB9Agm7w7PR8Jokr7ABrymTrCPX8
+ Pntg==
+X-Gm-Message-State: AOAM531VwN778MKzxDwQJiUFKZX41wxRlYMuagZF28N0dQIAOzHiuLJM
+ u+Kg4JqDQCdQK8ee0w/+552jiofpJQvtrx1ICLWNbw==
+X-Google-Smtp-Source: ABdhPJwrnnHRRE6j2JA6cxdDRMX5rfza9+UwCzUpuWTkRvvPfxu3RJBlliAH2d+LUdiOjMEq4L7zuzPKY4ehrd1qF/k=
+X-Received: by 2002:a9d:4e08:: with SMTP id p8mr6463548otf.188.1607619011364; 
+ Thu, 10 Dec 2020 08:50:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <X9JNn4AZaaG4YOIR@intel.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20201208044446.973238-1-bjorn.andersson@linaro.org>
+ <X891/LvEJT1bLtjH@ulmo> <X8/36HXL1IYPXA0J@builder.lan>
+ <20201208235249.GD401619@phenom.ffwll.local>
+ <X9EzYtuR+EwliYrv@builder.lan> <20201210101538.GD401619@phenom.ffwll.local>
+ <X9JQeYim6TQIPD1P@ulmo>
+In-Reply-To: <X9JQeYim6TQIPD1P@ulmo>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 10 Dec 2020 17:50:00 +0100
+Message-ID: <CAKMK7uGGnt6A89OohW8mi4pSvjvemW-=_oAOFUVye+qxnO5W=g@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/panel: Make backlight attachment lazy
+To: Thierry Reding <thierry.reding@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,41 +61,185 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Yannick Fertre <yannick.fertre@st.com>,
- Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Russell King <linux@armlinux.org.uk>,
- Sandy Huang <hjc@rock-chips.com>, Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Vincent Abriou <vincent.abriou@st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@st.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMTIvMjAyMCAxODozMiwgVmlsbGUgU3lyasOkbMOkIHdyb3RlOgoKPj4+IEBAIC0xMDUz
-LDE4ICsxMDUyLDkgQEAgc3RhdGljIGludCBzZXRjbWFwX2F0b21pYyhzdHJ1Y3QgZmJfY21hcCAq
-Y21hcCwgc3RydWN0IGZiX2luZm8gKmluZm8pCj4+PiAgCQkJZ290byBvdXRfc3RhdGU7Cj4+PiAg
-CQl9Cj4+PiAgCj4+PiAtCQljcnRjX3N0YXRlID0gZHJtX2F0b21pY19nZXRfY3J0Y19zdGF0ZShz
-dGF0ZSwgY3J0Yyk7Cj4+PiAtCQlpZiAoSVNfRVJSKGNydGNfc3RhdGUpKSB7Cj4+PiAtCQkJcmV0
-ID0gUFRSX0VSUihjcnRjX3N0YXRlKTsKPj4+ICsJCXJldCA9IGRybV9jcnRjX2dhbW1hX3JhbXBf
-c2V0KHN0YXRlLCBjcnRjLCBnYW1tYV9sdXQpOwo+Pj4gKwkJaWYgKHJldCkKPj4KPj4gWW91J3Jl
-IG5lc3RpbmcgYW4gYXRvbWljIGNvbW1pdCBpbiBhbiBhdG9taWMgY29tbWl0IGhlcmUsIHRoYXQg
-d2lsbCBnbwo+PiBib29tLiBJIGd1ZXNzIGlkZWFsbHkgd2UnZCBtb3ZlIHRoaXMgaW50byBkcm1f
-Y2xpZW50X21vZGVzZXQgc28gaXQKPj4gcmVtZW1iZXJzIHRoZSBmYmRldiBnYW1tYSByYW1wIGFu
-ZCBkb2VzIGl0IGFsbCBpbiBvbmUgZ28uCj4gCj4gSUlSQyB0aGF0J3MgcHJldHR5IG11Y2ggd2hh
-dCdzIGluIG15IGJyYW5jaCB0aGF0IEkgbWVudGlvbmVkIGVhcmxpZXIuCj4gTWVudGlvbmluZyBp
-dCBhZ2FpbiBpbiBjYXNlIHNvbWVvbmUgd2FudHMgYSBsZWcgdXAgZm9yIGltcGxlbWVudGluZwo+
-IHRoaXMgaWRlYSA7KQoKWWVwLCBJIHRoaW5rIHlvdXIgYnJhbmNoIGxvb2tzIGdvb2QsIGFuZCBJ
-IGFsbW9zdCBzdGFydGVkIHdvcmtpbmcgb24gaXQsIGJ1dCBJIGRvbid0IHRoaW5rIEkgaGF2ZQp0
-aGUgdGltZSBmb3IgaXQuIEkgaGF2ZSB0byBmaW5pc2ggdGhpcyBieSBlYXJseSBuZXh0IHdlZWss
-IGFmdGVyIHdoaWNoIEkgZG9uJ3Qga25vdyB3aGVuIEkgY291bGQKY29udGludWUgd2l0aCBpdCAo
-aWYgZXZlciwgam9iIGNoYW5nZS4uLikuCgogVG9taQoKLS0gClRleGFzIEluc3RydW1lbnRzIEZp
-bmxhbmQgT3ksIFBvcmtrYWxhbmthdHUgMjIsIDAwMTgwIEhlbHNpbmtpLgpZLXR1bm51cy9CdXNp
-bmVzcyBJRDogMDYxNTUyMS00LiBLb3RpcGFpa2thL0RvbWljaWxlOiBIZWxzaW5raQpfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Dec 10, 2020 at 5:44 PM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Thu, Dec 10, 2020 at 11:15:38AM +0100, Daniel Vetter wrote:
+> > On Wed, Dec 09, 2020 at 02:28:18PM -0600, Bjorn Andersson wrote:
+> > > On Tue 08 Dec 17:52 CST 2020, Daniel Vetter wrote:
+> > >
+> > > > On Tue, Dec 08, 2020 at 04:02:16PM -0600, Bjorn Andersson wrote:
+> > > > > On Tue 08 Dec 06:47 CST 2020, Thierry Reding wrote:
+> > > > >
+> > > > > > On Mon, Dec 07, 2020 at 10:44:46PM -0600, Bjorn Andersson wrote:
+> > > > > > > Some bridge chips, such as the TI SN65DSI86 DSI/eDP bridge, provides
+> > > > > > > means of generating a PWM signal for backlight control of the attached
+> > > > > > > panel. The provided PWM chip is typically controlled by the
+> > > > > > > pwm-backlight driver, which if tied to the panel will provide DPMS.
+> > > > > > >
+> > > > > > > But with the current implementation the panel will refuse to probe
+> > > > > > > because the bridge driver has yet to probe and register the PWM chip,
+> > > > > > > and the bridge driver will refuse to probe because it's unable to find
+> > > > > > > the panel.
+> > > > > >
+> > > > > > What you're describing is basically a circular dependency. Can't we get
+> > > > > > rid of that in some other way? Why exactly does the bridge driver refuse
+> > > > > > to probe if the panel can't be found?
+> > > > > >
+> > > > > > In other words, I see how the bridge would /use/ the panel in that it
+> > > > > > forward a video stream to it. But how does the panel /use/ the bridge?
+> > > > > >
+> > > > >
+> > > > > Yes, this is indeed a circular dependency between the components.
+> > > > >
+> > > > > The involved parts are:
+> > > > > * the bridge driver that implements the PWM chip probe defers on
+> > > > >   drm_of_find_panel_or_bridge() failing to find the panel.
+> > > > > * the pwm-backlight driver that consumes the PWM channel probe defer
+> > > > >   because the pwm_chip was not registered by the bridge.
+> > > > > * the panel that uses the backlight for DPMS purposes probe defer
+> > > > >   because drm_panel_of_backlight() fails to find the pwm-backlight.
+> > > > >
+> > > > > I looked at means of postponing drm_of_find_panel_or_bridge() to
+> > > > > drm_bridge_funcs->attach(), but at that time "deferral" would be fatal.
+> > > > > I looked at registering the pwm_chip earlier, but that would depend on a
+> > > > > guarantee of the pwm-backlight and panel driver to probe concurrently.
+> > > > > And the current solution of not tying the backlight to the panel means
+> > > > > that when userspace decides to DPMS the display the backlight stays on.
+> > > > >
+> > > > >
+> > > > > The proposed solution (hack?) means that DPMS operations happening
+> > > > > before the pwm-backlight has probed will be missed, so it's not perfect.
+> > > > > It does however allow the backlight on my laptop to turn off, which is a
+> > > > > big improvement.
+> > > > >
+> > > > > But I'm certainly welcome to suggestions.
+> > > >
+> > > > Entirely hand-waving, why doesn't the following work:
+> > > >
+> > > > 1. driver for the platform device which is the bridge loads
+> > > > 2. that platform driver registers the pwm
+> > > > 3. it registers some magic for later on (more below)
+> > > > 4. panel driver has deferred loading until step 2 happened
+> > > > 5. panel driver registers drm_panel
+> > > > 6. the magic from step 3 picks up (after having been deferred for a few
+> > > > times probably) grabs the panel, and sets up the actual drm_bridge driver
+> > > >
+> > > > Everyone happy, or not? From the description it looks like the problem
+> > > > that the pwm that we need for the backlight is tied to the same driver as
+> > > > the drm_bridge, and always torn down too if the drm_bridge setup fails
+> > > > somehow for a reason. And that reason is the circular dependency this
+> > > > creates.
+> > > >
+> > > > Now for the magic in step 3, there's options:
+> > > > - change DT to split out that pwm as a separate platform_device, that way
+> > > >   bridge and panel can load indepedently (hopefully)
+> > > >
+> > >
+> > > This is an i2c device, so describing it multiple times would mean we
+> > > have multiple devices with the same address...
+> > >
+> > > > - convert bridge to a multi-function device (mfd), essentially a way to
+> > > >   instantiate more devices with their drivers at runtime. Then the actual
+> > > >   pwm and drm_bridge parts of your bridge driver bind against those
+> > > >   sub-functions, and can defer indepedently
+> > > >
+> > >
+> > > But, this sounds reasonable and would rely on the existing probe
+> > > deferral logic and if there's ever any improvements in this area we
+> > > would directly benefit from it.
+> > >
+> > > > - we could create a callback/wait function for "pls wait for any panel to
+> > > >   show up". Then your bridge driver could launch a work_struct with that
+> > > >   wait function, which will do the bridge setup once the panel has shown
+> > > >   up. The pwm will be registered right away. It's essentially hand-rolling
+> > > >   EPROBE_DEFERRED for work_struct in drm/panel. Maybe we might even have
+> > > >   that exported from the driver core, e.g.
+> > > >
+> > > > register_bridge_fn(struct work *)
+> > > > {
+> > > >   do_wait_probe_defer();
+> > > >   panel = drm_of_find_panel_or_bridge();
+> > > >   if (!panel) {
+> > > >           schedule_work(); /* want to restart the work so it can be stopped on driver unload */
+> > > >           return;
+> > > >   }
+> > > >
+> > > >   /* we have the panel now, register drm_bridge */
+> > > > }
+> > > >
+> > > > - cobble something together with component.c, but that's more for
+> > > >   collecting unrelated struct device into a logical one than splitting it
+> > > >   up more.
+> > > >
+> > > > tldr; I think you can split this loop here at the bridge by untangling the
+> > > > pwm from the drm_bridge part sufficiently.
+> > >
+> > > Yes, it seems like a reasonable path forward. But I wanted some input
+> > > before refactoring the whole thing.
+> >
+> > Yeah it's unfortunately a bit of work. But I think it's the proper
+> > approach since EPROBE_DEFERRED is fundamentally linked to struct device
+> > and bound drivers. So we do need a struct device for every part in our
+> > dependency graph to make sure we can resolve the dependencies all
+> > correctly with reprobing.
+>
+> Can we not turn things around and make the bridge driver independent of
+> the panel? To me it sounds like these loosely follow a hierarchy where
+> it makes sense to probe the bridge first, without any dependency on the
+> panel that's being used. I think this makes sense because this example
+> shows that panels may depend on resources provided by the bridge. In
+> this case it's a backlight, but I could also imagine the bridge
+> providing some sort of I2C bus that the panel driver may need to use in
+> order to query the panel's EDID.
+>
+> The way I imagine that this would work is that the panel would probe
+> separately from the bridge driver but use the OF graph to look up the
+> bridge that has the resources (backlight, I2C bus, ...) that it needs to
+> proceed. As long as that bridge has not been probed, the panel would
+> need to defer, which is the standard way that provider/consumer pairs
+> work. Once the bridge has probed, the panel can also proceed to probe
+> because it can now find the necessary resources.
+
+Yeah that might be the other option, treat the panel as a bridge (we
+have the panel bridge already), then build up the entire thing as a
+bridge chain. Not sure how much this is "just works" territory or not.
+
+> The only missing thing that I don't think we have right now is a way for
+> the panel to then register with its parent bridge, but that should be
+> fairly easy to add. I suspect this might get a bit tricky around the
+> connector state paths because we can now get into a situation where the
+> connector can have a complete bridge path set up but may be missing the
+> panel (which I think in the current model can't happen because the
+> bridge always relies on the panel being there, although it sounds like
+> it could happen with Daniel's proposal as well). But that ultimately is
+> not very different from how we deal with monitors on more standard
+> interfaces like HDMI or DP where we emit a hotplug event when the
+> monitor becomes available, so perhaps that infrastructure could be
+> reused for this.
+
+Generally we try really hard to make sure panels are always there and
+never hotplug in/out. Not sure whether there's even userspace/desktops
+relying on this. So hotplugging the panel later on does not sound
+good. Bjorn's patch here does a light version of that with the
+backlight, and we're having this sprawling thread because that's bit
+suboptimal - userspace could boot real fast, see there's no backlight,
+and then not expose backlight adjusters if we're unlucky.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
