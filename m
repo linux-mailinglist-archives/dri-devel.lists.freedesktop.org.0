@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2F92D7177
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02EC72D717F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9CBC6ECC7;
-	Fri, 11 Dec 2020 08:16:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6575D6ECDA;
+	Fri, 11 Dec 2020 08:16:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74F436EB26;
- Thu, 10 Dec 2020 19:42:51 +0000 (UTC)
-Message-Id: <20201210194045.360198201@linutronix.de>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 890626EB2C;
+ Thu, 10 Dec 2020 19:42:52 +0000 (UTC)
+Message-Id: <20201210194045.457218278@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629369;
+ s=2020; t=1607629371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=ZlPg9sxtWavWNstOnduWAE0LJ88d0safrspZWU+Bxkw=;
- b=K1DERQLLdTNr2zHRckKSlzdGpOu3K2YNmRf/Fd+Me9xL7e1+z/WEZj2/ktZthj5jq1hRc5
- H3K05V2lxe1VMwzID4A3YLY85G8CYSpDrmB064IUNRFZIZdMGhdgfMMXJmC2dwy27hx5dv
- +8AXgD/DGykOcBz1Xa8j76SRM06+jkTJXOvxx9wVIyXxp695f6gHDGbeeV9JlTl+CV+qJz
- iigE2xdn6yZ1PRpeA5+aMqV0fQZ1NATjbH3H6LTr2G8vwxub7OglAIb7biMKHi/AyccluD
- JT3nn4CWSg161dQ9jAMQEsqATs9zRWVAVD7sNovXx4fL9L9H47Prx2LPtWUjvw==
+ bh=DeAXpsHXHZePk9yJlBEnvP07GAeQwVu3hbsEAC1KvV4=;
+ b=1ftX1NujPl+Xx3UaWEfCXjp+Nmg07+hPgK1Itu5O9SNBHoe9yl+RQXJ/2O1zp6IsfiLibV
+ HNI3oNJClnToZKNFBhedsy/3BepLS3TXsVRVkXB5G9+wE4lEck2qZ5nIFKfa87g0ab144q
+ Y8XYj/VugkwqMCvECW/TpEV1x4HCWrFdBzkevGfKqOFN0SaDM1/ov3Gwx/TBks3pXmGNrv
+ 6QLKNAZhpAG6K+WVzFwjUhr3/uI//AlEz6mL833Dkg8c8/wOmAQ4fMPk7JfBTna6uA13Ka
+ n+R9468jt6R90wHee6UQ35MxaJ9NecvbD7sk9TpDtngv50OniDJk+BnWh4ozJQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629369;
+ s=2020e; t=1607629371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=ZlPg9sxtWavWNstOnduWAE0LJ88d0safrspZWU+Bxkw=;
- b=5OkxueAP7qHY2hZdC3q6dEaDkreK0XDmJgigYgkjGtvPF1gC/y/J1hb+Pc7lUaZciQOAo7
- alJrfrmEbNVTr+Cw==
-Date: Thu, 10 Dec 2020 20:26:04 +0100
+ bh=DeAXpsHXHZePk9yJlBEnvP07GAeQwVu3hbsEAC1KvV4=;
+ b=RL8ukeyN4bqd9Ll57DRL2wfv9LwNl4AYd7GzKiPBhSvQTs7EEhPh2RseLXs/41XjAQfiFB
+ 9Mcn1n8WsG2pJ9Ag==
+Date: Thu, 10 Dec 2020 20:26:05 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 28/30] xen/events: Reduce irq_info::spurious_cnt storage size
+Subject: [patch 29/30] xen/events: Implement irq distribution
 References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
@@ -84,11 +85,9 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To prepare for interrupt spreading reduce the storage size of
-irq_info::spurious_cnt to u8 so the required flag for the spreading logic
-will not increase the storage size.
-
-Protect the usage site against overruns.
+Keep track of the assignments of event channels to CPUs and select the
+online CPU with the least assigned channels in the affinity mask which is
+handed to irq_chip::irq_set_affinity() from the core code.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
@@ -96,33 +95,143 @@ Cc: Juergen Gross <jgross@suse.com>
 Cc: Stefano Stabellini <sstabellini@kernel.org>
 Cc: xen-devel@lists.xenproject.org
 ---
- drivers/xen/events/events_base.c |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/xen/events/events_base.c |   72 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 64 insertions(+), 8 deletions(-)
 
 --- a/drivers/xen/events/events_base.c
 +++ b/drivers/xen/events/events_base.c
-@@ -95,7 +95,7 @@ struct irq_info {
- 	struct list_head list;
+@@ -96,6 +96,7 @@ struct irq_info {
  	struct list_head eoi_list;
  	short refcnt;
--	short spurious_cnt;
-+	u8 spurious_cnt;
+ 	u8 spurious_cnt;
++	u8 is_accounted;
  	enum xen_irq_type type; /* type */
  	unsigned irq;
  	evtchn_port_t evtchn;   /* event channel */
-@@ -528,8 +528,10 @@ static void xen_irq_lateeoi_locked(struc
- 		return;
+@@ -161,6 +162,9 @@ static DEFINE_PER_CPU(int [NR_VIRQS], vi
+ /* IRQ <-> IPI mapping */
+ static DEFINE_PER_CPU(int [XEN_NR_IPIS], ipi_to_irq) = {[0 ... XEN_NR_IPIS-1] = -1};
  
- 	if (spurious) {
--		if ((1 << info->spurious_cnt) < (HZ << 2))
--			info->spurious_cnt++;
-+		if ((1 << info->spurious_cnt) < (HZ << 2)) {
-+			if (info->spurious_cnt != 0xFF)
-+				info->spurious_cnt++;
++/* Event channel distribution data */
++static atomic_t channels_on_cpu[NR_CPUS];
++
+ static int **evtchn_to_irq;
+ #ifdef CONFIG_X86
+ static unsigned long *pirq_eoi_map;
+@@ -257,6 +261,32 @@ static void set_info_for_irq(unsigned in
+ 		irq_set_chip_data(irq, info);
+ }
+ 
++/* Per CPU channel accounting */
++static void channels_on_cpu_dec(struct irq_info *info)
++{
++	if (!info->is_accounted)
++		return;
++
++	info->is_accounted = 0;
++
++	if (WARN_ON_ONCE(info->cpu >= nr_cpu_ids))
++		return;
++
++	WARN_ON_ONCE(!atomic_add_unless(&channels_on_cpu[info->cpu], -1 , 0));
++}
++
++static void channels_on_cpu_inc(struct irq_info *info)
++{
++	if (WARN_ON_ONCE(info->cpu >= nr_cpu_ids))
++		return;
++
++	if (WARN_ON_ONCE(!atomic_add_unless(&channels_on_cpu[info->cpu], 1,
++					    INT_MAX)))
++		return;
++
++	info->is_accounted = 1;
++}
++
+ /* Constructors for packed IRQ information. */
+ static int xen_irq_info_common_setup(struct irq_info *info,
+ 				     unsigned irq,
+@@ -339,6 +369,7 @@ static void xen_irq_info_cleanup(struct
+ {
+ 	set_evtchn_to_irq(info->evtchn, -1);
+ 	info->evtchn = 0;
++	channels_on_cpu_dec(info);
+ }
+ 
+ /*
+@@ -449,7 +480,9 @@ static void bind_evtchn_to_cpu(evtchn_po
+ 
+ 	xen_evtchn_port_bind_to_cpu(evtchn, cpu, info->cpu);
+ 
++	channels_on_cpu_dec(info);
+ 	info->cpu = cpu;
++	channels_on_cpu_inc(info);
+ }
+ 
+ /**
+@@ -622,11 +655,6 @@ static void xen_irq_init(unsigned irq)
+ {
+ 	struct irq_info *info;
+ 
+-#ifdef CONFIG_SMP
+-	/* By default all event channels notify CPU#0. */
+-	cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(0));
+-#endif
+-
+ 	info = kzalloc(sizeof(*info), GFP_KERNEL);
+ 	if (info == NULL)
+ 		panic("Unable to allocate metadata for IRQ%d\n", irq);
+@@ -1691,10 +1719,34 @@ static int xen_rebind_evtchn_to_cpu(evtc
+ 	return 0;
+ }
+ 
++/*
++ * Find the CPU within @dest mask which has the least number of channels
++ * assigned. This is not precise as the per cpu counts can be modified
++ * concurrently.
++ */
++static unsigned int select_target_cpu(const struct cpumask *dest)
++{
++	unsigned int cpu, best_cpu = UINT_MAX, minch = UINT_MAX;
++
++	for_each_cpu_and(cpu, dest, cpu_online_mask) {
++		unsigned int curch = atomic_read(&channels_on_cpu[cpu]);
++
++		if (curch < minch) {
++			minch = curch;
++			best_cpu = cpu;
 +		}
- 		if (info->spurious_cnt > 1) {
- 			delay = 1 << (info->spurious_cnt - 2);
- 			if (delay > HZ)
++	}
++
++	/* If this happens accounting is screwed up */
++	if (WARN_ON_ONCE(best_cpu == UINT_MAX))
++		best_cpu = cpumask_first(dest);
++	return best_cpu;
++}
++
+ static int set_affinity_irq(struct irq_data *data, const struct cpumask *dest,
+ 			    bool force)
+ {
+-	unsigned tcpu = cpumask_first_and(dest, cpu_online_mask);
++	unsigned int tcpu = select_target_cpu(dest);
+ 	int ret;
+ 
+ 	ret = xen_rebind_evtchn_to_cpu(evtchn_from_irq(data->irq), tcpu);
+@@ -1922,8 +1974,12 @@ void xen_irq_resume(void)
+ 	xen_evtchn_resume();
+ 
+ 	/* No IRQ <-> event-channel mappings. */
+-	list_for_each_entry(info, &xen_irq_list_head, list)
+-		info->evtchn = 0; /* zap event-channel binding */
++	list_for_each_entry(info, &xen_irq_list_head, list) {
++		/* Zap event-channel binding */
++		info->evtchn = 0;
++		/* Adjust accounting */
++		channels_on_cpu_dec(info);
++	}
+ 
+ 	clear_evtchn_to_irq_all();
+ 
 
 _______________________________________________
 dri-devel mailing list
