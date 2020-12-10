@@ -1,68 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1D22D7149
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:34 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B273D2D716B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C8416EC8B;
-	Fri, 11 Dec 2020 08:16:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A7226ECCE;
+	Fri, 11 Dec 2020 08:16:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com
- [IPv6:2607:f8b0:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED5F26E430
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 17:41:04 +0000 (UTC)
-Received: by mail-pl1-x643.google.com with SMTP id p6so3136632plo.6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 09:41:04 -0800 (PST)
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com
+ [IPv6:2607:f8b0:4864:20::641])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B79B6E430
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 17:42:17 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id t18so3155217plo.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 09:42:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wg76jedNfKc/TU9UzquktTGoQhYb+6rN7M9SWX71cGQ=;
- b=U7xYP0DnAGJ++RJDicbYFohdbSw6+4dEKbL51GuDiOEwWCZ0sGYVcyfWyA7DPDyXch
- fc4vCdHmT2NtlE+Qvg/EFIw279PSUtxpDLsQ5CuCXmWrGsd8jlB18i9ODl3dGSRkRLCD
- 184DyMd70p7xoWHzIdSrmEq5CBjpn6Hs9mgdfZTHpUdcS6MYj1yxqNS2jCciljxd7T/9
- sxBnbXUCV+k3qicWrYFZCKtSUrKemak5JorceOLmJ6A+C8Qkv1LFd96fsoRNfBGR+2pV
- 4xXbbJ+6/vfv/zzldGFWywDgN3k5Etc2mDqMKeWOu3X8asj9O+CO9JcvuIZ/QpeiU3+g
- Ptqg==
+ bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
+ b=ZJ2ObQpYtkzEbRFv40oN+F65lAU6Ej9gKrE5tQPiv7ix/LuBkcvUf+qMUh+Yzoxr0g
+ CyVLZ1mG/UZfuxW/V3MMPsaTBSe2CWI0mDNMfEr7mKEWwiKc4c3ZI8/xXiy/OOpRRB/j
+ 2IZpMCpurtGq6tzatn7TAJI7V3OuMaXrfCFpdbKTT1pfnFN4C5I4tNdDjJ+tPlKhyxqi
+ przoNGt/m24R6bKMKywSL6UEGQQjXmxvANoK31VrYtoQFG7CIFwswmQLapaXt4wK37sA
+ xHQJydZjUT4lKZk5SMNC/6y1kHtTG0Wl7+At0IEZBHpFHOPwp1+ijx3ZwuhElpY/pmj7
+ 20Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wg76jedNfKc/TU9UzquktTGoQhYb+6rN7M9SWX71cGQ=;
- b=TcqE4X19Xe92adU+ev0eF+N5bYpDtpRdMVKRFrhov9G16BcbRaDW8gAvFxxGKXmvet
- mthOQK7nKJWEZEWtTEZ04tMwzDekiKiWns7Nf/Jhj4IEXZAygDwWyEb/mmzjlIdjVUha
- hahaAPV5qgf0h5BmcwGSx7ZUSe/KprXORxKjNI3/eADsngnobIf3vdHJZjZ6GjpRm6bZ
- HepaRWFMMdS1iFgJ5lad3ysHP1iJsAacB5UB7UYWCjsBCg9001HHISX/1kiZciTC8Pxf
- AGEJkydDgbqaEyQ33/oDUb3sXYeRmygTfi6UbzWK1lJDuKzV09S5P8wWIdLDl/wSZrc3
- ceOQ==
-X-Gm-Message-State: AOAM532XGCwpX9rlgo8mQ4zNOia+oBCxPFQNcf2fRih6uUkhhbudiT18
- YBgJEAeR2A97jgdzhpA2e/zAWvn+X6s=
-X-Google-Smtp-Source: ABdhPJy7sT9hqz16lIdJ9LTYu1ADeOZPUOYqL5kRiMhi+q82kvjQrH7ZjNig1UfhjJlmQh3ETeYDbQ==
-X-Received: by 2002:a17:902:10e:b029:d8:d11d:9613 with SMTP id
- 14-20020a170902010eb02900d8d11d9613mr1407576plb.26.1607622064190; 
- Thu, 10 Dec 2020 09:41:04 -0800 (PST)
+ bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
+ b=WMztnN2SYRapg+oh4ey/WCSxRwSWkaZfeEhvmfNzXe8vDGppMEvMMyVCHzqdj/HfcI
+ PDNnU/Gbu12WEG7zqB0cQYK+kdsBYpL3h8pu/HTYJjIAnSC+CHqacUnXhWR9olDea7i3
+ NR9FK32Gn/XQjXJ2J7QkZuceT8i3/8yf3Dr3gC4UYH+I4HXNpc7YnWZm6+MWuKNh0l6p
+ xJRZhaRqRjvApjTRDpnxzPclSuGN9fvWSlSoZIJmAfY37qjhkk2yuHRUPCD2ezaImRBp
+ xOxf79M1cLdfg6XsWI8j4bHJx1OtJBBUK58HwX6xOgqEW1/z4G+xALfUVmusLgrXZCBI
+ Tfrw==
+X-Gm-Message-State: AOAM532iLZB5QoRj19k+PMyhjFl4BI1mM7PRx04Q40uqi3VYbuWR8Pi5
+ Y4s/qXy+4MfhEfzD5GpwaETYV57K5zU=
+X-Google-Smtp-Source: ABdhPJzIx+7sRPBlNWy2an1r0b10BKDTDvE4FtqZry01Hi8E5wwZE9KecaPEs1U2F02OehoELDCOeA==
+X-Received: by 2002:a17:902:8b8c:b029:d8:de6f:ed35 with SMTP id
+ ay12-20020a1709028b8cb02900d8de6fed35mr7278561plb.36.1607622136734; 
+ Thu, 10 Dec 2020 09:42:16 -0800 (PST)
 Received: from [10.230.29.166] ([192.19.223.252])
- by smtp.gmail.com with ESMTPSA id g85sm6912510pfb.4.2020.12.10.09.41.01
+ by smtp.gmail.com with ESMTPSA id x188sm6704941pfd.43.2020.12.10.09.42.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Dec 2020 09:41:03 -0800 (PST)
-Subject: Re: [PATCH 14/15] ARM: dts: bcm2711: Add the BSC interrupt controller
+ Thu, 10 Dec 2020 09:42:16 -0800 (PST)
+Subject: Re: [PATCH 15/15] ARM: dts: bcm2711: Add the CEC interrupt controller
 To: Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
 References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-15-maxime@cerno.tech>
+ <20201210134648.272857-16-maxime@cerno.tech>
 From: Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <46411f3a-9b0b-9bf6-8795-77fc11988f79@gmail.com>
-Date: Thu, 10 Dec 2020 09:41:00 -0800
+Message-ID: <bd2c5b93-2ee3-23ff-5852-e3537619e0ae@gmail.com>
+Date: Thu, 10 Dec 2020 09:42:12 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201210134648.272857-15-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-16-maxime@cerno.tech>
 Content-Language: en-US
-X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
+X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,8 +90,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 12/10/2020 5:46 AM, Maxime Ripard wrote:
-> The BSC controllers used for the HDMI DDC have an interrupt controller
-> shared between both instances. Let's add it to avoid polling.
+> The CEC and hotplug interrupts go through an interrupt controller shared
+> between the two HDMI controllers.
+> 
+> Let's add that interrupt controller and the interrupts for both HDMI
+> controllers
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
