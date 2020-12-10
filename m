@@ -1,53 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646242D5042
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 02:22:30 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4050C2D507D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 02:51:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B275E6E4F3;
-	Thu, 10 Dec 2020 01:22:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D79286E516;
+	Thu, 10 Dec 2020 01:51:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB626E4F3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 01:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1607563344;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dVSsMl3Gx6sx/IqQ4DCXh5N4GHEOpfaK40vOasDL6Vw=;
- b=KIGuH1lW4SWOeUC6+rZI+nrFhkmvnUBDFAjNrYFIb/RKhw/nis4QiJnkjldh/Tzzr0TP0J
- CJ1RQYUyYBD30Whi5oFqwOc9dZC3zjozplBNDLvV1QdnZyxgon2MnaKvD/zY9onh7bDMzB
- PPO6PSzGtpRB6sOm6dypg66dYyDC2eI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-537-lppnNiRyNR-TZ2eamkpNaQ-1; Wed, 09 Dec 2020 20:22:20 -0500
-X-MC-Unique: lppnNiRyNR-TZ2eamkpNaQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E29E1180A086;
- Thu, 10 Dec 2020 01:22:17 +0000 (UTC)
-Received: from Whitewolf.redhat.com (ovpn-113-246.rdu2.redhat.com
- [10.10.113.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 380891007625;
- Thu, 10 Dec 2020 01:22:16 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Subject: [RFC 5/5] drm/nouveau/kms/nv50-: Add basic DPCD backlight support for
- nouveau
-Date: Wed,  9 Dec 2020 20:21:43 -0500
-Message-Id: <20201210012143.729402-6-lyude@redhat.com>
-In-Reply-To: <20201210012143.729402-1-lyude@redhat.com>
-References: <20201210012143.729402-1-lyude@redhat.com>
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBFC6E516
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 01:51:46 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id v29so2679622pgk.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 17:51:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GqSDAgHKmBSSSDBPuxfcpZpLppjcHRC0OOR6fYwtWzA=;
+ b=JzBGiXKNsodJlLYKw4fRA2GAbu2s/1/BZm0ba23CDK9uVKecD9MM4xxfEq6sBZooGN
+ bcCJ72I3RbCzt/Aw627wYSX70atH1ZtjJDH5Z9yQXb++BYjs7Rr+piwHDjj1lUcr80Xa
+ Lpa+wbjkFWGx/qPcW/z5qKbw8aQ9Rmpmj6cLSwPVOQDOhoJVV2KUKsGzolylkdkiMnYd
+ SctMWkOe42PocLqU5GN2UIjc0vBusg97+wiG0xW1jHS0ilnasJT96R6XgZek8IrfLCnD
+ KQQ9NO/lc2nRZitUoXYC6R9Ms44qQkYnNNk+euq0HaXGmD0J1xst3bhDE4k5AntWgdP7
+ fPjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GqSDAgHKmBSSSDBPuxfcpZpLppjcHRC0OOR6fYwtWzA=;
+ b=pEM8+Gy50ZPLg8cjqymCFa3dOJOMULNt+wAA5USxI7iiH9Ooy44JY2oyhwFehEGYka
+ KaC+sh+P2rm2BiTvd9joyQBxeo2g7N4i4CcXiooxjj6kMWQe6QxBUuKEldRP9u8ysIVq
+ /LtleQF1YfTzj++J/5yJgNPFSHbZ+Nub3ooeyZJfn9PUPbLgAP/yDBkONIFkhZDXv7kH
+ se/UlGLxlck3k/r1Q6YmHL94AnFV4IoIIZW0+vG9rvPnzHqopJtfB0cqUikcaer1efic
+ ZlFD+WVe8A2MSYV3gQQ7EMK12hcCl520wlLopSlAIWplPKwA4UmdTW/67KuLi8Is1Wo1
+ 3Lsg==
+X-Gm-Message-State: AOAM533T7VuchyyRKtEIexgdUwBcX59O7yMBE6RsdZ4dU4P+tPMEBQfi
+ t61vrhD7DawSDBI0PmqsbBZKLg==
+X-Google-Smtp-Source: ABdhPJzS6uIxKbgnue11HAiHltLb/Txj7dtDQWM5/ir8DRiWJxnMVqL8zNlFR/peMRgXDDH6haVJHg==
+X-Received: by 2002:a17:90b:4c51:: with SMTP id
+ np17mr4895316pjb.180.1607565105994; 
+ Wed, 09 Dec 2020 17:51:45 -0800 (PST)
+Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id c62sm347865pfa.116.2020.12.09.17.51.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 09 Dec 2020 17:51:45 -0800 (PST)
+Date: Thu, 10 Dec 2020 09:51:37 +0800
+From: Shawn Guo <shawn.guo@linaro.org>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
+Message-ID: <20201210015136.GA18407@dragon>
+References: <20201208044022.972872-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Disposition: inline
+In-Reply-To: <20201208044022.972872-1-bjorn.andersson@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,223 +68,343 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Jani Nikula <jani.nikula@intel.com>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- David Airlie <airlied@linux.ie>, open list <linux-kernel@vger.kernel.org>,
- greg.depoire@gmail.com, Ben Skeggs <bskeggs@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, Dave Airlie <airlied@redhat.com>,
- James Jones <jajones@nvidia.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
+ Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
+ linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
+ Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Lee Jones <lee.jones@linaro.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VGhpcyBhZGRzIHN1cHBvcnQgZm9yIGNvbnRyb2xsaW5nIHBhbmVsIGJhY2tsaWdodHMgb3ZlciBl
-RFAgdXNpbmcgVkVTQSdzCnN0YW5kYXJkIGJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZS4gTHVj
-a2lseSwgTnZpZGlhIHdhcyBjb29sIGVub3VnaCB0bwpuZXZlciBjb21lIHVwIHdpdGggdGhlaXIg
-b3duIHByb3ByaWV0YXJ5IGJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZSAoYXQKbGVhc3QsIG5v
-dCBhbnkgdGhhdCBJIG9yIHRoZSBsYXB0b3AgbWFudWZhY3R1cmVycyBJJ3ZlIHRhbGtlZCB0byBh
-cmUgYXdhcmUKb2YpLCBzbyB0aGlzIHNob3VsZCB3b3JrIGZvciBhbnkgbGFwdG9wIHBhbmVscyB3
-aGljaCBzdXBwb3J0IHRoZSBWRVNBCmJhY2tsaWdodCBjb250cm9sIGludGVyZmFjZS4KCk5vdGUg
-dGhhdCB3ZSBkb24ndCB5ZXQgcHJvdmlkZSB0aGUgcGFuZWwgYmFja2xpZ2h0IGZyZXF1ZW5jeSB0
-byB0aGUgRFJNIERQCmJhY2tsaWdodCBoZWxwZXJzLiBUaGlzIHNob3VsZCBiZSBmaW5lIGZvciB0
-aGUgdGltZSBiZWluZywgc2luY2UgaXQncyBub3QKcmVxdWlyZWQgdG8gZ2V0IGJhc2ljIGJhY2ts
-aWdodCBjb250cm9scyB3b3JraW5nLgoKRm9yIHJlZmVyZW5jZTogdGhlcmUncyBzb21lIG1lbnRp
-b25zIG9mIFBXTSBiYWNrbGlnaHQgdmFsdWVzIGluCm5vdXZlYXVfcmVnLmgsIGJ1dCBJJ20gbm90
-IHN1cmUgdGhlc2UgYXJlIHRoZSB2YWx1ZXMgd2Ugd291bGQgd2FudCB0byB1c2UuCklmIHdlIGZp
-Z3VyZSBvdXQgaG93IHRvIGdldCB0aGlzIGluZm9ybWF0aW9uIGluIHRoZSBmdXR1cmUsIHdlJ2xs
-IGhhdmUgdGhlCmJlbmVmaXQgb2YgbW9yZSBncmFudWxhciBiYWNrbGlnaHQgY29udHJvbC4KClNp
-Z25lZC1vZmYtYnk6IEx5dWRlIFBhdWwgPGx5dWRlQHJlZGhhdC5jb20+CkNjOiBKYW5pIE5pa3Vs
-YSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgpDYzogRGF2ZSBBaXJsaWUgPGFpcmxpZWRAZ21haWwu
-Y29tPgpDYzogZ3JlZy5kZXBvaXJlQGdtYWlsLmNvbQotLS0KIGRyaXZlcnMvZ3B1L2RybS9ub3V2
-ZWF1L2Rpc3BudjUwL2Rpc3AuYyAgICAgfCAgMzAgKysrLQogZHJpdmVycy9ncHUvZHJtL25vdXZl
-YXUvbm91dmVhdV9iYWNrbGlnaHQuYyB8IDE2NiArKysrKysrKysrKysrKysrKystLQogZHJpdmVy
-cy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9jb25uZWN0b3IuaCB8ICAgOSArLQogZHJpdmVycy9n
-cHUvZHJtL25vdXZlYXUvbm91dmVhdV9lbmNvZGVyLmggICB8ICAgMSArCiA0IGZpbGVzIGNoYW5n
-ZWQsIDE4NyBpbnNlcnRpb25zKCspLCAxOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91
-dmVhdS9kaXNwbnY1MC9kaXNwLmMKaW5kZXggMzNmZmYzODhkZDgzLi5mYmMxNjY1YWZjNjggMTAw
-NjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L2Rpc3BudjUwL2Rpc3AuYworKysgYi9k
-cml2ZXJzL2dwdS9kcm0vbm91dmVhdS9kaXNwbnY1MC9kaXNwLmMKQEAgLTMxLDYgKzMxLDcgQEAK
-ICNpbmNsdWRlIDxsaW51eC9kbWEtbWFwcGluZy5oPgogI2luY2x1ZGUgPGxpbnV4L2hkbWkuaD4K
-ICNpbmNsdWRlIDxsaW51eC9jb21wb25lbnQuaD4KKyNpbmNsdWRlIDxsaW51eC9pb3BvbGwuaD4K
-IAogI2luY2x1ZGUgPGRybS9kcm1fYXRvbWljLmg+CiAjaW5jbHVkZSA8ZHJtL2RybV9hdG9taWNf
-aGVscGVyLmg+CkBAIC0xNjE1LDIzICsxNjE2LDM4IEBAIG52NTBfc29yX3VwZGF0ZShzdHJ1Y3Qg
-bm91dmVhdV9lbmNvZGVyICpudl9lbmNvZGVyLCB1OCBoZWFkLAogCWNvcmUtPmZ1bmMtPnNvci0+
-Y3RybChjb3JlLCBudl9lbmNvZGVyLT5vciwgbnZfZW5jb2Rlci0+Y3RybCwgYXN5aCk7CiB9CiAK
-Ky8qIFRPRE86IFNob3VsZCB3ZSBleHRlbmQgdGhpcyB0byBQV00tb25seSBiYWNrbGlnaHRzPwor
-ICogQXMgd2VsbCwgc2hvdWxkIHdlIGFkZCBhIERSTSBoZWxwZXIgZm9yIHdhaXRpbmcgZm9yIHRo
-ZSBiYWNrbGlnaHQgdG8gYWNrbm93bGVkZ2UKKyAqIHRoZSBwYW5lbCBiYWNrbGlnaHQgaGFzIGJl
-ZW4gc2h1dCBvZmY/IEludGVsIGRvZXNuJ3Qgc2VlbSB0byBkbyB0aGlzLCBhbmQgdXNlcyBhCisg
-KiBmaXhlZCB0aW1lIGRlbGF5IGZyb20gdGhlIHZiaW9z4oCmCisgKi8KIHN0YXRpYyB2b2lkCiBu
-djUwX3Nvcl9kaXNhYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlciwKIAkJIHN0cnVjdCBk
-cm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIHsKIAlzdHJ1Y3Qgbm91dmVhdV9lbmNvZGVyICpudl9l
-bmNvZGVyID0gbm91dmVhdV9lbmNvZGVyKGVuY29kZXIpOworCXN0cnVjdCBub3V2ZWF1X2RybSAq
-ZHJtID0gbm91dmVhdV9kcm0obnZfZW5jb2Rlci0+YmFzZS5iYXNlLmRldik7CiAJc3RydWN0IG5v
-dXZlYXVfY3J0YyAqbnZfY3J0YyA9IG5vdXZlYXVfY3J0Yyhudl9lbmNvZGVyLT5jcnRjKTsKIAlz
-dHJ1Y3Qgbm91dmVhdV9jb25uZWN0b3IgKm52X2Nvbm5lY3RvciA9CiAJCW52NTBfb3V0cF9nZXRf
-b2xkX2Nvbm5lY3Rvcihudl9lbmNvZGVyLCBzdGF0ZSk7CisJaW50IHJldDsKIAogCW52X2VuY29k
-ZXItPmNydGMgPSBOVUxMOwogCiAJaWYgKG52X2NydGMpIHsKIAkJc3RydWN0IGRybV9kcF9hdXgg
-KmF1eCA9ICZudl9jb25uZWN0b3ItPmF1eDsKKwkJc3RydWN0IG5vdXZlYXVfYmFja2xpZ2h0ICpi
-YWNrbGlnaHQgPSBudl9jb25uZWN0b3ItPmJhY2tsaWdodDsKIAkJdTggcHdyOwogCisJCWlmIChi
-YWNrbGlnaHQgJiYgYmFja2xpZ2h0LT51c2VzX2RwY2QpIHsKKwkJCXJldCA9IGRybV9lZHBfYmFj
-a2xpZ2h0X2Rpc2FibGUoYXV4LCAmYmFja2xpZ2h0LT5lZHBfaW5mbyk7CisJCQlpZiAocmV0IDwg
-MCkKKwkJCQlOVl9FUlJPUihkcm0sICJGYWlsZWQgdG8gZGlzYWJsZSBiYWNrbGlnaHQgb24gW0NP
-Tk5FQ1RPUjolZDolc106ICVkXG4iLAorCQkJCQkgbnZfY29ubmVjdG9yLT5iYXNlLmJhc2UuaWQs
-IG52X2Nvbm5lY3Rvci0+YmFzZS5uYW1lLCByZXQpOworCQl9CisKIAkJaWYgKG52X2VuY29kZXIt
-PmRjYi0+dHlwZSA9PSBEQ0JfT1VUUFVUX0RQKSB7Ci0JCQlpbnQgcmV0ID0gZHJtX2RwX2RwY2Rf
-cmVhZGIoYXV4LCBEUF9TRVRfUE9XRVIsICZwd3IpOworCQkJcmV0ID0gZHJtX2RwX2RwY2RfcmVh
-ZGIoYXV4LCBEUF9TRVRfUE9XRVIsICZwd3IpOwogCiAJCQlpZiAocmV0ID09IDApIHsKIAkJCQlw
-d3IgJj0gfkRQX1NFVF9QT1dFUl9NQVNLOwpAQCAtMTY2Nyw2ICsxNjgzLDkgQEAgbnY1MF9zb3Jf
-ZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rlciwgc3RydWN0IGRybV9hdG9taWNfc3Rh
-dGUgKnN0YXRlKQogCXN0cnVjdCBkcm1fZGV2aWNlICpkZXYgPSBlbmNvZGVyLT5kZXY7CiAJc3Ry
-dWN0IG5vdXZlYXVfZHJtICpkcm0gPSBub3V2ZWF1X2RybShkZXYpOwogCXN0cnVjdCBub3V2ZWF1
-X2Nvbm5lY3RvciAqbnZfY29ubmVjdG9yOworI2lmZGVmIENPTkZJR19EUk1fTk9VVkVBVV9CQUNL
-TElHSFQKKwlzdHJ1Y3Qgbm91dmVhdV9iYWNrbGlnaHQgKmJhY2tsaWdodDsKKyNlbmRpZgogCXN0
-cnVjdCBudmJpb3MgKmJpb3MgPSAmZHJtLT52YmlvczsKIAlib29sIGhkYSA9IGZhbHNlOwogCXU4
-IHByb3RvID0gTlY1MDdEX1NPUl9TRVRfQ09OVFJPTF9QUk9UT0NPTF9DVVNUT007CkBAIC0xNzQx
-LDYgKzE3NjAsMTQgQEAgbnY1MF9zb3JfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rl
-ciwgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlKQogCQkJcHJvdG8gPSBOVjg4N0RfU09S
-X1NFVF9DT05UUk9MX1BST1RPQ09MX0RQX0I7CiAKIAkJbnY1MF9hdWRpb19lbmFibGUoZW5jb2Rl
-ciwgc3RhdGUsIG1vZGUpOworCisjaWZkZWYgQ09ORklHX0RSTV9OT1VWRUFVX0JBQ0tMSUdIVAor
-CQliYWNrbGlnaHQgPSBudl9jb25uZWN0b3ItPmJhY2tsaWdodDsKKwkJaWYgKGJhY2tsaWdodCAm
-JiBiYWNrbGlnaHQtPnVzZXNfZHBjZCkKKwkJCWRybV9lZHBfYmFja2xpZ2h0X2VuYWJsZSgmbnZf
-Y29ubmVjdG9yLT5hdXgsICZiYWNrbGlnaHQtPmVkcF9pbmZvLAorCQkJCQkJICh1MTYpYmFja2xp
-Z2h0LT5kZXYtPnByb3BzLmJyaWdodG5lc3MpOworI2VuZGlmCisKIAkJYnJlYWs7CiAJZGVmYXVs
-dDoKIAkJQlVHKCk7CkBAIC0yMjYzLDYgKzIyOTAsNyBAQCBudjUwX2Rpc3BfYXRvbWljX2NvbW1p
-dF90YWlsKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSkKIAludjUwX2NyY19hdG9taWNf
-c3RhcnRfcmVwb3J0aW5nKHN0YXRlKTsKIAlpZiAoIWZsdXNoZWQpCiAJCW52NTBfY3JjX2F0b21p
-Y19yZWxlYXNlX25vdGlmaWVyX2NvbnRleHRzKHN0YXRlKTsKKwogCWRybV9hdG9taWNfaGVscGVy
-X2NvbW1pdF9od19kb25lKHN0YXRlKTsKIAlkcm1fYXRvbWljX2hlbHBlcl9jbGVhbnVwX3BsYW5l
-cyhkZXYsIHN0YXRlKTsKIAlkcm1fYXRvbWljX2hlbHBlcl9jb21taXRfY2xlYW51cF9kb25lKHN0
-YXRlKTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYmFja2xp
-Z2h0LmMgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JhY2tsaWdodC5jCmluZGV4
-IDRhY2M1YmU1ZTlhYS4uYmUxNjY5ZTYwOWYwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2JhY2tsaWdodC5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
-L25vdXZlYXVfYmFja2xpZ2h0LmMKQEAgLTQyLDExICs0Miw2IEBACiBzdGF0aWMgc3RydWN0IGlk
-YSBibF9pZGE7CiAjZGVmaW5lIEJMX05BTUVfU0laRSAxNSAvLyAxMiBmb3IgbmFtZSArIDIgZm9y
-IGRpZ2l0cyArIDEgZm9yICdcMCcKIAotc3RydWN0IG5vdXZlYXVfYmFja2xpZ2h0IHsKLQlzdHJ1
-Y3QgYmFja2xpZ2h0X2RldmljZSAqZGV2OwotCWludCBpZDsKLX07Ci0KIHN0YXRpYyBib29sCiBu
-b3V2ZWF1X2dldF9iYWNrbGlnaHRfbmFtZShjaGFyIGJhY2tsaWdodF9uYW1lW0JMX05BTUVfU0la
-RV0sCiAJCQkgICBzdHJ1Y3Qgbm91dmVhdV9iYWNrbGlnaHQgKmJsKQpAQCAtMTQ3LDYgKzE0Miw5
-OCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGJhY2tsaWdodF9vcHMgbnY1MF9ibF9vcHMgPSB7CiAJ
-LnVwZGF0ZV9zdGF0dXMgPSBudjUwX3NldF9pbnRlbnNpdHksCiB9OwogCisvKgorICogZURQIGJy
-aWdodG5lc3MgY2FsbGJhY2tzIG5lZWQgdG8gaGFwcGVuIHVuZGVyIGxvY2ssIHNpbmNlIHdlIG5l
-ZWQgdG8KKyAqIGVuYWJsZS9kaXNhYmxlIHRoZSBiYWNrbGlnaHQgb3Vyc2VsdmVzIGZvciBtb2Rl
-c2V0cworICovCitzdGF0aWMgaW50CitudjUwX2VkcF9nZXRfYnJpZ2h0bmVzcyhzdHJ1Y3QgYmFj
-a2xpZ2h0X2RldmljZSAqYmQpCit7CisJc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvciA9
-IGRldl9nZXRfZHJ2ZGF0YShiZC0+ZGV2LnBhcmVudCk7CisJc3RydWN0IGRybV9kZXZpY2UgKmRl
-diA9IGNvbm5lY3Rvci0+ZGV2OworCXN0cnVjdCBkcm1fY3J0YyAqY3J0YzsKKwlzdHJ1Y3QgZHJt
-X21vZGVzZXRfYWNxdWlyZV9jdHggY3R4OworCWludCByZXQgPSAwOworCisJZHJtX21vZGVzZXRf
-YWNxdWlyZV9pbml0KCZjdHgsIDApOworCityZXRyeToKKwlyZXQgPSBkcm1fbW9kZXNldF9sb2Nr
-KCZkZXYtPm1vZGVfY29uZmlnLmNvbm5lY3Rpb25fbXV0ZXgsICZjdHgpOworCWlmIChyZXQgPT0g
-LUVERUFETEspCisJCWdvdG8gZGVhZGxvY2s7CisJZWxzZSBpZiAocmV0IDwgMCkKKwkJZ290byBv
-dXQ7CisKKwljcnRjID0gY29ubmVjdG9yLT5zdGF0ZS0+Y3J0YzsKKwlpZiAoIWNydGMpCisJCWdv
-dG8gb3V0OworCisJcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmY3J0Yy0+bXV0ZXgsICZjdHgpOwor
-CWlmIChyZXQgPT0gLUVERUFETEspCisJCWdvdG8gZGVhZGxvY2s7CisJZWxzZSBpZiAocmV0IDwg
-MCkKKwkJZ290byBvdXQ7CisKKwlpZiAoIWNydGMtPnN0YXRlLT5hY3RpdmUpCisJCWdvdG8gb3V0
-OworCisJcmV0ID0gYmQtPnByb3BzLmJyaWdodG5lc3M7CitvdXQ6CisJZHJtX21vZGVzZXRfZHJv
-cF9sb2NrcygmY3R4KTsKKwlkcm1fbW9kZXNldF9hY3F1aXJlX2ZpbmkoJmN0eCk7CisJcmV0dXJu
-IHJldDsKK2RlYWRsb2NrOgorCWRybV9tb2Rlc2V0X2JhY2tvZmYoJmN0eCk7CisJZ290byByZXRy
-eTsKK30KKworc3RhdGljIGludAorbnY1MF9lZHBfc2V0X2JyaWdodG5lc3Moc3RydWN0IGJhY2ts
-aWdodF9kZXZpY2UgKmJkKQoreworCXN0cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IgPSBk
-ZXZfZ2V0X2RydmRhdGEoYmQtPmRldi5wYXJlbnQpOworCXN0cnVjdCBub3V2ZWF1X2Nvbm5lY3Rv
-ciAqbnZfY29ubmVjdG9yID0gbm91dmVhdV9jb25uZWN0b3IoY29ubmVjdG9yKTsKKwlzdHJ1Y3Qg
-ZHJtX2RldmljZSAqZGV2ID0gY29ubmVjdG9yLT5kZXY7CisJc3RydWN0IGRybV9jcnRjICpjcnRj
-OworCXN0cnVjdCBkcm1fZHBfYXV4ICphdXggPSAmbnZfY29ubmVjdG9yLT5hdXg7CisJc3RydWN0
-IG5vdXZlYXVfYmFja2xpZ2h0ICpudl9ibCA9IG52X2Nvbm5lY3Rvci0+YmFja2xpZ2h0OworCXN0
-cnVjdCBkcm1fbW9kZXNldF9hY3F1aXJlX2N0eCBjdHg7CisJaW50IHJldCA9IDA7CisKKwlkcm1f
-bW9kZXNldF9hY3F1aXJlX2luaXQoJmN0eCwgMCk7CityZXRyeToKKwlyZXQgPSBkcm1fbW9kZXNl
-dF9sb2NrKCZkZXYtPm1vZGVfY29uZmlnLmNvbm5lY3Rpb25fbXV0ZXgsICZjdHgpOworCWlmIChy
-ZXQgPT0gLUVERUFETEspCisJCWdvdG8gZGVhZGxvY2s7CisJZWxzZSBpZiAocmV0IDwgMCkKKwkJ
-Z290byBvdXQ7CisKKwljcnRjID0gY29ubmVjdG9yLT5zdGF0ZS0+Y3J0YzsKKwlpZiAoIWNydGMp
-CisJCWdvdG8gb3V0OworCisJcmV0ID0gZHJtX21vZGVzZXRfbG9jaygmY3J0Yy0+bXV0ZXgsICZj
-dHgpOworCWlmIChyZXQgPT0gLUVERUFETEspCisJCWdvdG8gZGVhZGxvY2s7CisJZWxzZSBpZiAo
-cmV0IDwgMCkKKwkJZ290byBvdXQ7CisKKwlpZiAoY3J0Yy0+c3RhdGUtPmFjdGl2ZSkKKwkJcmV0
-ID0gZHJtX2VkcF9iYWNrbGlnaHRfc2V0X2xldmVsKGF1eCwgJm52X2JsLT5lZHBfaW5mbywgYmQt
-PnByb3BzLmJyaWdodG5lc3MpOworCitvdXQ6CisJZHJtX21vZGVzZXRfZHJvcF9sb2NrcygmY3R4
-KTsKKwlkcm1fbW9kZXNldF9hY3F1aXJlX2ZpbmkoJmN0eCk7CisJcmV0dXJuIHJldDsKK2RlYWRs
-b2NrOgorCWRybV9tb2Rlc2V0X2JhY2tvZmYoJmN0eCk7CisJZ290byByZXRyeTsKK30KKworc3Rh
-dGljIGNvbnN0IHN0cnVjdCBiYWNrbGlnaHRfb3BzIG52NTBfZWRwX2JsX29wcyA9IHsKKwkuZ2V0
-X2JyaWdodG5lc3MgPSBudjUwX2VkcF9nZXRfYnJpZ2h0bmVzcywKKwkudXBkYXRlX3N0YXR1cyA9
-IG52NTBfZWRwX3NldF9icmlnaHRuZXNzLAorfTsKKwogc3RhdGljIGludAogbnZhM19nZXRfaW50
-ZW5zaXR5KHN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpiZCkKIHsKQEAgLTE5Myw4ICsyODAsMTMg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCBiYWNrbGlnaHRfb3BzIG52YTNfYmxfb3BzID0gewogCS51
-cGRhdGVfc3RhdHVzID0gbnZhM19zZXRfaW50ZW5zaXR5LAogfTsKIAorLyogRklYTUU6IHBlcmZv
-cm0gYmFja2xpZ2h0IHByb2JpbmcgZm9yIGVEUCBfYmVmb3JlXyB0aGlzLCB0aGlzIG9ubHkgZ2V0
-cyBjYWxsZWQgYWZ0ZXIgY29ubmVjdG9yCisgKiByZWdpc3RyYXRpb24gd2hpY2ggaGFwcGVucyBh
-ZnRlciB0aGUgaW5pdGlhbCBtb2Rlc2V0CisgKi8KIHN0YXRpYyBpbnQKLW52NTBfYmFja2xpZ2h0
-X2luaXQoc3RydWN0IG5vdXZlYXVfZW5jb2RlciAqbnZfZW5jb2RlciwKK252NTBfYmFja2xpZ2h0
-X2luaXQoc3RydWN0IG5vdXZlYXVfYmFja2xpZ2h0ICpibCwKKwkJICAgIHN0cnVjdCBub3V2ZWF1
-X2Nvbm5lY3RvciAqbnZfY29ubiwKKwkJICAgIHN0cnVjdCBub3V2ZWF1X2VuY29kZXIgKm52X2Vu
-Y29kZXIsCiAJCSAgICBzdHJ1Y3QgYmFja2xpZ2h0X3Byb3BlcnRpZXMgKnByb3BzLAogCQkgICAg
-Y29uc3Qgc3RydWN0IGJhY2tsaWdodF9vcHMgKipvcHMpCiB7CkBAIC0yMDQsNiArMjk2LDQxIEBA
-IG52NTBfYmFja2xpZ2h0X2luaXQoc3RydWN0IG5vdXZlYXVfZW5jb2RlciAqbnZfZW5jb2RlciwK
-IAlpZiAoIW52aWZfcmQzMihkZXZpY2UsIE5WNTBfUERJU1BfU09SX1BXTV9DVEwoZmZzKG52X2Vu
-Y29kZXItPmRjYi0+b3IpIC0gMSkpKQogCQlyZXR1cm4gLUVOT0RFVjsKIAorCWlmIChudl9jb25u
-LT50eXBlID09IERDQl9DT05ORUNUT1JfZURQKSB7CisJCWludCByZXQ7CisJCXUxNiBjdXJyZW50
-X2xldmVsOworCQl1OCBlZHBfZHBjZFtFRFBfRElTUExBWV9DVExfQ0FQX1NJWkVdOworCQl1OCBj
-dXJyZW50X21vZGU7CisKKwkJcmV0ID0gZHJtX2RwX2RwY2RfcmVhZCgmbnZfY29ubi0+YXV4LCBE
-UF9FRFBfRFBDRF9SRVYsIGVkcF9kcGNkLAorCQkJCSAgICAgICBFRFBfRElTUExBWV9DVExfQ0FQ
-X1NJWkUpOworCQlpZiAocmV0IDwgMCkKKwkJCXJldHVybiByZXQ7CisKKwkJaWYgKGRybV9lZHBf
-YmFja2xpZ2h0X3N1cHBvcnRlZChlZHBfZHBjZCkpIHsKKwkJCU5WX0RFQlVHKGRybSwgIkRQQ0Qg
-YmFja2xpZ2h0IGNvbnRyb2xzIHN1cHBvcnRlZCBvbiAlc1xuIiwKKwkJCQkgbnZfY29ubi0+YmFz
-ZS5uYW1lKTsKKworCQkJcmV0ID0gZHJtX2VkcF9iYWNrbGlnaHRfaW5pdCgmbnZfY29ubi0+YXV4
-LCAmYmwtPmVkcF9pbmZvLCAwLCBlZHBfZHBjZCwKKwkJCQkJCSAgICAgJmN1cnJlbnRfbGV2ZWws
-ICZjdXJyZW50X21vZGUpOworCQkJaWYgKHJldCA8IDApCisJCQkJcmV0dXJuIHJldDsKKworCQkJ
-cmV0ID0gZHJtX2VkcF9iYWNrbGlnaHRfZW5hYmxlKCZudl9jb25uLT5hdXgsICZibC0+ZWRwX2lu
-Zm8sIGN1cnJlbnRfbGV2ZWwpOworCQkJaWYgKHJldCA8IDApIHsKKwkJCQlOVl9FUlJPUihkcm0s
-ICJGYWlsZWQgdG8gZW5hYmxlIGJhY2tsaWdodCBvbiAlczogJWRcbiIsCisJCQkJCSBudl9jb25u
-LT5iYXNlLm5hbWUsIHJldCk7CisJCQkJcmV0dXJuIHJldDsKKwkJCX0KKworCQkJKm9wcyA9ICZu
-djUwX2VkcF9ibF9vcHM7CisJCQlwcm9wcy0+YnJpZ2h0bmVzcyA9IGN1cnJlbnRfbGV2ZWw7CisJ
-CQlwcm9wcy0+bWF4X2JyaWdodG5lc3MgPSBibC0+ZWRwX2luZm8ubWF4OworCQkJYmwtPnVzZXNf
-ZHBjZCA9IHRydWU7CisJCQlyZXR1cm4gMDsKKwkJfQorCX0KKwogCWlmIChkcm0tPmNsaWVudC5k
-ZXZpY2UuaW5mby5jaGlwc2V0IDw9IDB4YTAgfHwKIAkgICAgZHJtLT5jbGllbnQuZGV2aWNlLmlu
-Zm8uY2hpcHNldCA9PSAweGFhIHx8CiAJICAgIGRybS0+Y2xpZW50LmRldmljZS5pbmZvLmNoaXBz
-ZXQgPT0gMHhhYykKQEAgLTI0Myw2ICszNzAsMTAgQEAgbm91dmVhdV9iYWNrbGlnaHRfaW5pdChz
-dHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogCWlmICghbnZfZW5jb2RlcikKIAkJcmV0
-dXJuIDA7CiAKKwlibCA9IGt6YWxsb2Moc2l6ZW9mKCpibCksIEdGUF9LRVJORUwpOworCWlmICgh
-YmwpCisJCXJldHVybiAtRU5PTUVNOworCiAJc3dpdGNoIChkZXZpY2UtPmluZm8uZmFtaWx5KSB7
-CiAJY2FzZSBOVl9ERVZJQ0VfSU5GT19WMF9DVVJJRToKIAkJcmV0ID0gbnY0MF9iYWNrbGlnaHRf
-aW5pdChudl9lbmNvZGVyLCAmcHJvcHMsICZvcHMpOwpAQCAtMjU0LDIwICszODUsMTkgQEAgbm91
-dmVhdV9iYWNrbGlnaHRfaW5pdChzdHJ1Y3QgZHJtX2Nvbm5lY3RvciAqY29ubmVjdG9yKQogCWNh
-c2UgTlZfREVWSUNFX0lORk9fVjBfUEFTQ0FMOgogCWNhc2UgTlZfREVWSUNFX0lORk9fVjBfVk9M
-VEE6CiAJY2FzZSBOVl9ERVZJQ0VfSU5GT19WMF9UVVJJTkc6Ci0JCXJldCA9IG52NTBfYmFja2xp
-Z2h0X2luaXQobnZfZW5jb2RlciwgJnByb3BzLCAmb3BzKTsKKwkJcmV0ID0gbnY1MF9iYWNrbGln
-aHRfaW5pdChibCwgbm91dmVhdV9jb25uZWN0b3IoY29ubmVjdG9yKSwKKwkJCQkJICBudl9lbmNv
-ZGVyLCAmcHJvcHMsICZvcHMpOwogCQlicmVhazsKIAlkZWZhdWx0OgotCQlyZXR1cm4gMDsKKwkJ
-cmV0ID0gMDsKKwkJZ290byBmYWlsX2FsbG9jOwogCX0KIAotCWlmIChyZXQgPT0gLUVOT0RFVikK
-LQkJcmV0dXJuIDA7Ci0JZWxzZSBpZiAocmV0KQotCQlyZXR1cm4gcmV0OwotCi0JYmwgPSBremFs
-bG9jKHNpemVvZigqYmwpLCBHRlBfS0VSTkVMKTsKLQlpZiAoIWJsKQotCQlyZXR1cm4gLUVOT01F
-TTsKKwlpZiAocmV0KSB7CisJCWlmIChyZXQgPT0gLUVOT0RFVikKKwkJCXJldCA9IDA7CisJCWdv
-dG8gZmFpbF9hbGxvYzsKKwl9CiAKIAlpZiAoIW5vdXZlYXVfZ2V0X2JhY2tsaWdodF9uYW1lKGJh
-Y2tsaWdodF9uYW1lLCBibCkpIHsKIAkJTlZfRVJST1IoZHJtLCAiRmFpbGVkIHRvIHJldHJpZXZl
-IGEgdW5pcXVlIG5hbWUgZm9yIHRoZSBiYWNrbGlnaHQgaW50ZXJmYWNlXG4iKTsKQEAgLTI4NCw3
-ICs0MTQsOSBAQCBub3V2ZWF1X2JhY2tsaWdodF9pbml0KHN0cnVjdCBkcm1fY29ubmVjdG9yICpj
-b25uZWN0b3IpCiAJfQogCiAJbm91dmVhdV9jb25uZWN0b3IoY29ubmVjdG9yKS0+YmFja2xpZ2h0
-ID0gYmw7Ci0JYmwtPmRldi0+cHJvcHMuYnJpZ2h0bmVzcyA9IGJsLT5kZXYtPm9wcy0+Z2V0X2Jy
-aWdodG5lc3MoYmwtPmRldik7CisJaWYgKCFibC0+ZGV2LT5wcm9wcy5icmlnaHRuZXNzKQorCQli
-bC0+ZGV2LT5wcm9wcy5icmlnaHRuZXNzID0KKwkJCWJsLT5kZXYtPm9wcy0+Z2V0X2JyaWdodG5l
-c3MoYmwtPmRldik7CiAJYmFja2xpZ2h0X3VwZGF0ZV9zdGF0dXMoYmwtPmRldik7CiAKIAlyZXR1
-cm4gMDsKZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfY29ubmVj
-dG9yLmggYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5oCmluZGV4
-IGQwYjg1OWM0YTgwZS4uNDBmOTBlMzUzNTQwIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-bm91dmVhdS9ub3V2ZWF1X2Nvbm5lY3Rvci5oCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1
-L25vdXZlYXVfY29ubmVjdG9yLmgKQEAgLTQ2LDcgKzQ2LDE0IEBAIHN0cnVjdCBudmttX2kyY19w
-b3J0Owogc3RydWN0IGRjYl9vdXRwdXQ7CiAKICNpZmRlZiBDT05GSUdfRFJNX05PVVZFQVVfQkFD
-S0xJR0hUCi1zdHJ1Y3Qgbm91dmVhdV9iYWNrbGlnaHQ7CitzdHJ1Y3Qgbm91dmVhdV9iYWNrbGln
-aHQgeworCXN0cnVjdCBiYWNrbGlnaHRfZGV2aWNlICpkZXY7CisKKwlzdHJ1Y3QgZHJtX2VkcF9i
-YWNrbGlnaHRfaW5mbyBlZHBfaW5mbzsKKwlib29sIHVzZXNfZHBjZCA6IDE7CisKKwlpbnQgaWQ7
-Cit9OwogI2VuZGlmCiAKICNkZWZpbmUgbm91dmVhdV9jb25uX2F0b20ocCkgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBcCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2VuY29kZXIuaCBiL2RyaXZlcnMvZ3B1L2RybS9u
-b3V2ZWF1L25vdXZlYXVfZW5jb2Rlci5oCmluZGV4IDIxOTM3ZjFjN2RkOS4uOGJlNGIwMTRiNDcx
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2VuY29kZXIuaAor
-KysgYi9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2VuY29kZXIuaApAQCAtMzAsNiAr
-MzAsNyBAQAogI2luY2x1ZGUgPHN1YmRldi9iaW9zL2RjYi5oPgogCiAjaW5jbHVkZSA8ZHJtL2Ry
-bV9lbmNvZGVyX3NsYXZlLmg+CisjaW5jbHVkZSA8ZHJtL2RybV9kcF9oZWxwZXIuaD4KICNpbmNs
-dWRlIDxkcm0vZHJtX2RwX21zdF9oZWxwZXIuaD4KICNpbmNsdWRlICJkaXNwbnYwNC9kaXNwLmgi
-CiBzdHJ1Y3QgbnY1MF9oZWFkX2F0b207Ci0tIAoyLjI4LjAKCl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Mon, Dec 07, 2020 at 10:40:22PM -0600, Bjorn Andersson wrote:
+> The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
+> with the primary purpose of controlling the backlight of the attached
+> panel. Add an implementation that exposes this using the standard PWM
+> framework, to allow e.g. pwm-backlight to expose this to the user.
+> 
+> Special thanks to Doug Anderson for suggestions related to the involved
+> math.
+> 
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 202 ++++++++++++++++++++++++++
+>  1 file changed, 202 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index f27306c51e4d..43c0acba57ab 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -4,6 +4,7 @@
+>   * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
+>   */
+>  
+> +#include <linux/atomic.h>
+>  #include <linux/bits.h>
+>  #include <linux/clk.h>
+>  #include <linux/debugfs.h>
+> @@ -14,6 +15,7 @@
+>  #include <linux/module.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/pwm.h>
+>  #include <linux/regmap.h>
+>  #include <linux/regulator/consumer.h>
+>  
+> @@ -89,6 +91,11 @@
+>  #define SN_ML_TX_MODE_REG			0x96
+>  #define  ML_TX_MAIN_LINK_OFF			0
+>  #define  ML_TX_NORMAL_MODE			BIT(0)
+> +#define SN_PWM_PRE_DIV_REG			0xA0
+> +#define SN_BACKLIGHT_SCALE_REG			0xA1
+> +#define  BACKLIGHT_SCALE_MAX			0xFFFF
+> +#define SN_BACKLIGHT_REG			0xA3
+> +#define SN_PWM_EN_INV_REG			0xA5
+>  #define SN_AUX_CMD_STATUS_REG			0xF4
+>  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
+>  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
+> @@ -111,6 +118,8 @@
+>  
+>  #define SN_LINK_TRAINING_TRIES		10
+>  
+> +#define SN_PWM_GPIO			3
+
+So this maps to the GPIO4 described in sn65dsi86 datasheet.  I'm
+wondering if it's more readable to define the following SHIFT constants
+(your code), and use GPIO_MUX_GPIO4_SHIFT >> 2 where you need GPIO
+offset?
+
+#define  GPIO_MUX_GPIO1_SHIFT	0
+#define  GPIO_MUX_GPIO2_SHIFT	2
+#define  GPIO_MUX_GPIO3_SHIFT	4
+#define  GPIO_MUX_GPIO4_SHIFT	6
+
+If you agree, you may consider to integrate this patch beforehand:
+
+https://github.com/shawnguo2/linux/commit/7cde887ffb3b27a36e77a08bee3666d14968b586
+
+
+Shawn
+
+> +
+>  /**
+>   * struct ti_sn_bridge - Platform data for ti-sn65dsi86 driver.
+>   * @dev:          Pointer to our device.
+> @@ -162,6 +171,12 @@ struct ti_sn_bridge {
+>  	struct gpio_chip		gchip;
+>  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
+>  #endif
+> +#if defined(CONFIG_PWM)
+> +	struct pwm_chip			pchip;
+> +	bool				pwm_enabled;
+> +	unsigned int			pwm_refclk;
+> +	atomic_t			pwm_pin_busy;
+> +#endif
+>  };
+>  
+>  static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
+> @@ -499,6 +514,14 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn_bridge *pdata)
+>  
+>  	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
+>  			   REFCLK_FREQ(i));
+> +
+> +#if defined(CONFIG_PWM)
+> +	/*
+> +	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
+> +	 * regardless of its actual sourcing.
+> +	 */
+> +	pdata->pwm_refclk = ti_sn_bridge_refclk_lut[i];
+> +#endif
+>  }
+>  
+>  static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
+> @@ -981,6 +1004,161 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn_bridge *pdata)
+>  	return 0;
+>  }
+>  
+> +#if defined(CONFIG_PWM)
+> +static int ti_sn_pwm_pin_request(struct ti_sn_bridge *pdata)
+> +{
+> +	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
+> +}
+> +
+> +static void ti_sn_pwm_pin_release(struct ti_sn_bridge *pdata)
+> +{
+> +	atomic_set(&pdata->pwm_pin_busy, 0);
+> +}
+> +
+> +static struct ti_sn_bridge *
+> +pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
+> +{
+> +	return container_of(chip, struct ti_sn_bridge, pchip);
+> +}
+> +
+> +static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
+> +{
+> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> +
+> +	return ti_sn_pwm_pin_request(pdata);
+> +}
+> +
+> +static void ti_sn_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
+> +{
+> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> +
+> +	ti_sn_pwm_pin_release(pdata);
+> +}
+> +
+> +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			   const struct pwm_state *state)
+> +{
+> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
+> +	unsigned int pwm_en_inv;
+> +	unsigned int backlight;
+> +	unsigned int pwm_freq;
+> +	unsigned int pre_div;
+> +	unsigned int scale;
+> +	int ret;
+> +
+> +	if (!pdata->pwm_enabled) {
+> +		ret = pm_runtime_get_sync(pdata->dev);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
+> +					 SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO),
+> +					 SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO));
+> +		if (ret) {
+> +			dev_err(pdata->dev, "failed to mux in PWM function\n");
+> +			goto out;
+> +		}
+> +	}
+> +
+> +	if (state->enabled) {
+> +		/*
+> +		 * Per the datasheet the PWM frequency is given by:
+> +		 *
+> +		 * PWM_FREQ = REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
+> +		 *
+> +		 * In order to find the PWM_FREQ that best suits the requested
+> +		 * state->period, the PWM_PRE_DIV is calculated with the
+> +		 * maximum possible number of steps (BACKLIGHT_SCALE_MAX). The
+> +		 * actual BACKLIGHT_SCALE is then adjusted down to match the
+> +		 * requested period.
+> +		 *
+> +		 * The BACKLIGHT value is then calculated against the
+> +		 * BACKLIGHT_SCALE, based on the requested duty_cycle and
+> +		 * period.
+> +		 */
+> +		pwm_freq = NSEC_PER_SEC / state->period;
+> +		pre_div = DIV_ROUND_UP(pdata->pwm_refclk / pwm_freq - 1, BACKLIGHT_SCALE_MAX);
+> +		scale = (pdata->pwm_refclk / pwm_freq - 1) / pre_div;
+> +
+> +		backlight = scale * state->duty_cycle / state->period;
+> +
+> +		ret = regmap_write(pdata->regmap, SN_PWM_PRE_DIV_REG, pre_div);
+> +		if (ret) {
+> +			dev_err(pdata->dev, "failed to update PWM_PRE_DIV\n");
+> +			goto out;
+> +		}
+> +
+> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
+> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
+> +	}
+> +
+> +	pwm_en_inv = FIELD_PREP(BIT(1), !!state->enabled) |
+> +		     FIELD_PREP(BIT(0), state->polarity == PWM_POLARITY_INVERSED);
+> +	ret = regmap_write(pdata->regmap, SN_PWM_EN_INV_REG, pwm_en_inv);
+> +	if (ret) {
+> +		dev_err(pdata->dev, "failed to update PWM_EN/PWM_INV\n");
+> +		goto out;
+> +	}
+> +
+> +	pdata->pwm_enabled = !!state->enabled;
+> +out:
+> +
+> +	if (!pdata->pwm_enabled)
+> +		pm_runtime_put_sync(pdata->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct pwm_ops ti_sn_pwm_ops = {
+> +	.request = ti_sn_pwm_request,
+> +	.free = ti_sn_pwm_free,
+> +	.apply = ti_sn_pwm_apply,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static struct pwm_device *ti_sn_pwm_of_xlate(struct pwm_chip *pc,
+> +					     const struct of_phandle_args *args)
+> +{
+> +	struct pwm_device *pwm;
+> +
+> +	if (args->args_count != 1)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	pwm = pwm_request_from_chip(pc, 0, NULL);
+> +	if (IS_ERR(pwm))
+> +		return pwm;
+> +
+> +	pwm->args.period = args->args[0];
+> +
+> +	return pwm;
+> +}
+> +
+> +static int ti_sn_setup_pwmchip(struct ti_sn_bridge *pdata)
+> +{
+> +	pdata->pchip.dev = pdata->dev;
+> +	pdata->pchip.ops = &ti_sn_pwm_ops;
+> +	pdata->pchip.base = -1;
+> +	pdata->pchip.npwm = 1;
+> +	pdata->pchip.of_xlate = ti_sn_pwm_of_xlate;
+> +	pdata->pchip.of_pwm_n_cells = 1;
+> +
+> +	return pwmchip_add(&pdata->pchip);
+> +}
+> +
+> +static void ti_sn_remove_pwmchip(struct ti_sn_bridge *pdata)
+> +{
+> +	pwmchip_remove(&pdata->pchip);
+> +
+> +	if (pdata->pwm_enabled)
+> +		pm_runtime_put_sync(pdata->dev);
+> +}
+> +#else
+> +static int ti_sn_pwm_pin_request(struct ti_sn_bridge *pdata) { return 0; }
+> +static void ti_sn_pwm_pin_release(struct ti_sn_bridge *pdata) {}
+> +static int ti_sn_setup_pwmchip(struct ti_sn_bridge *pdata) { return 0; }
+> +static void ti_sn_remove_pwmchip(struct ti_sn_bridge *pdata) {}
+> +#endif
+> +
+>  #if defined(CONFIG_OF_GPIO)
+>  
+>  static int tn_sn_bridge_of_xlate(struct gpio_chip *chip,
+> @@ -1113,10 +1291,25 @@ static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
+>  	return ret;
+>  }
+>  
+> +static int ti_sn_bridge_gpio_request(struct gpio_chip *chip, unsigned int offset)
+> +{
+> +	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +
+> +	if (offset == SN_PWM_GPIO)
+> +		return ti_sn_pwm_pin_request(pdata);
+> +
+> +	return 0;
+> +}
+> +
+>  static void ti_sn_bridge_gpio_free(struct gpio_chip *chip, unsigned int offset)
+>  {
+> +	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
+> +
+>  	/* We won't keep pm_runtime if we're input, so switch there on free */
+>  	ti_sn_bridge_gpio_direction_input(chip, offset);
+> +
+> +	if (offset == SN_PWM_GPIO)
+> +		ti_sn_pwm_pin_release(pdata);
+>  }
+>  
+>  static const char * const ti_sn_bridge_gpio_names[SN_NUM_GPIOS] = {
+> @@ -1136,6 +1329,7 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
+>  	pdata->gchip.owner = THIS_MODULE;
+>  	pdata->gchip.of_xlate = tn_sn_bridge_of_xlate;
+>  	pdata->gchip.of_gpio_n_cells = 2;
+> +	pdata->gchip.request = ti_sn_bridge_gpio_request;
+>  	pdata->gchip.free = ti_sn_bridge_gpio_free;
+>  	pdata->gchip.get_direction = ti_sn_bridge_gpio_get_direction;
+>  	pdata->gchip.direction_input = ti_sn_bridge_gpio_direction_input;
+> @@ -1282,6 +1476,12 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
+>  		return ret;
+>  	}
+>  
+> +	ret = ti_sn_setup_pwmchip(pdata);
+> +	if (ret)  {
+> +		pm_runtime_disable(pdata->dev);
+> +		return ret;
+> +	}
+> +
+>  	i2c_set_clientdata(client, pdata);
+>  
+>  	pdata->aux.name = "ti-sn65dsi86-aux";
+> @@ -1320,6 +1520,8 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
+>  
+>  	drm_bridge_remove(&pdata->bridge);
+>  
+> +	ti_sn_remove_pwmchip(pdata);
+> +
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.29.2
+> 
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
