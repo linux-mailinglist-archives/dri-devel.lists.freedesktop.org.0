@@ -1,61 +1,109 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4050C2D507D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 02:51:52 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E0E2D50B1
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 03:15:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D79286E516;
-	Thu, 10 Dec 2020 01:51:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5874E89B11;
+	Thu, 10 Dec 2020 02:14:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
- [IPv6:2607:f8b0:4864:20::542])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FBFC6E516
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 01:51:46 +0000 (UTC)
-Received: by mail-pg1-x542.google.com with SMTP id v29so2679622pgk.12
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Dec 2020 17:51:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=GqSDAgHKmBSSSDBPuxfcpZpLppjcHRC0OOR6fYwtWzA=;
- b=JzBGiXKNsodJlLYKw4fRA2GAbu2s/1/BZm0ba23CDK9uVKecD9MM4xxfEq6sBZooGN
- bcCJ72I3RbCzt/Aw627wYSX70atH1ZtjJDH5Z9yQXb++BYjs7Rr+piwHDjj1lUcr80Xa
- Lpa+wbjkFWGx/qPcW/z5qKbw8aQ9Rmpmj6cLSwPVOQDOhoJVV2KUKsGzolylkdkiMnYd
- SctMWkOe42PocLqU5GN2UIjc0vBusg97+wiG0xW1jHS0ilnasJT96R6XgZek8IrfLCnD
- KQQ9NO/lc2nRZitUoXYC6R9Ms44qQkYnNNk+euq0HaXGmD0J1xst3bhDE4k5AntWgdP7
- fPjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=GqSDAgHKmBSSSDBPuxfcpZpLppjcHRC0OOR6fYwtWzA=;
- b=pEM8+Gy50ZPLg8cjqymCFa3dOJOMULNt+wAA5USxI7iiH9Ooy44JY2oyhwFehEGYka
- KaC+sh+P2rm2BiTvd9joyQBxeo2g7N4i4CcXiooxjj6kMWQe6QxBUuKEldRP9u8ysIVq
- /LtleQF1YfTzj++J/5yJgNPFSHbZ+Nub3ooeyZJfn9PUPbLgAP/yDBkONIFkhZDXv7kH
- se/UlGLxlck3k/r1Q6YmHL94AnFV4IoIIZW0+vG9rvPnzHqopJtfB0cqUikcaer1efic
- ZlFD+WVe8A2MSYV3gQQ7EMK12hcCl520wlLopSlAIWplPKwA4UmdTW/67KuLi8Is1Wo1
- 3Lsg==
-X-Gm-Message-State: AOAM533T7VuchyyRKtEIexgdUwBcX59O7yMBE6RsdZ4dU4P+tPMEBQfi
- t61vrhD7DawSDBI0PmqsbBZKLg==
-X-Google-Smtp-Source: ABdhPJzS6uIxKbgnue11HAiHltLb/Txj7dtDQWM5/ir8DRiWJxnMVqL8zNlFR/peMRgXDDH6haVJHg==
-X-Received: by 2002:a17:90b:4c51:: with SMTP id
- np17mr4895316pjb.180.1607565105994; 
- Wed, 09 Dec 2020 17:51:45 -0800 (PST)
-Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
- by smtp.gmail.com with ESMTPSA id c62sm347865pfa.116.2020.12.09.17.51.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 09 Dec 2020 17:51:45 -0800 (PST)
-Date: Thu, 10 Dec 2020 09:51:37 +0800
-From: Shawn Guo <shawn.guo@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-Message-ID: <20201210015136.GA18407@dragon>
-References: <20201208044022.972872-1-bjorn.andersson@linaro.org>
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com
+ (mail-eopbgr700072.outbound.protection.outlook.com [40.107.70.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C94D89A08;
+ Thu, 10 Dec 2020 02:14:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CN4YobxiuJpV+z5MrYctzXcLRcwTXhlxqVWCzDsssBLYmlP7+RAdR7RNFve/N+o+ZQgueD75rrbqIxALSq4n9HXCVksd3vRS6Np/o6wx/eKxqsKUQ0RPg+2DV8hx91TSzLBB4RjubGHjKsI3YBm3sqALM/JnWAYBbUL31sMJwuIFtvr5La27Zgx+dii8ddH6VD0C8kXEQlhvRWXTWT/gQkeB0dZn5QgEd32cPg1iZjKX820RlcaL6GiF4yeSX85kVfBbjnRDrk3xlGZXuFM+ylbhugZ3zQ3kmn6a7EFzhITtQ65Qhs5fMK6mec3sDE7J1eeD/e8/zMemIdy2rmjqcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F7+A+G+w7VJKtZhSl1xZodym/Tku10zV2CRkjB9BzEQ=;
+ b=PphzNTvFeMleKgMyqsYrTyDtAWBjrNfF/hvj6B/+uS7P3zqPGvhxLLk2PD4dIKFoZQYfxM6hpCzQTA4dTvC6r/9M7VahEndnG38cszsrbMEyO0frT2UALtEY4sJdIheEhYWlubdRdhJc7KaTpd2Y+rZltr2doqJvUEqNtoDNv6Kb/mX7v+6O1OK30xzjDesz4OjJlEyvGgG5Zk41zlmau/wzGr1nVJ1ZGTmcopUfw9yA/9sXXlc97jwxd/lJGn9AwalrUjMi+6CdmNefWiLbzxD+uohDNuPGyy15JYA1GxbEPyZSNcyO5Mp4qxmcyrnSAO4EryhuZEuIVZ+6pLAjDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F7+A+G+w7VJKtZhSl1xZodym/Tku10zV2CRkjB9BzEQ=;
+ b=KJmlww5pMhcXiAtNrehC4DZLfcJyWwy9qCYT9EVNUB1xaZoeFRW4Dlfz5T1h1hqfwaThLrQX9/inA2zG+tmgl0GKZQH9B4szomedLW9502UGo+uvsr9UskRO7OlyCdlET4FXYZLPwe9btACrLabgLm6fo7xhetbzn9IMzwfL/7Y=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com (2603:10b6:5:1ce::21)
+ by DM5PR1201MB0217.namprd12.prod.outlook.com (2603:10b6:4:54::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.13; Thu, 10 Dec
+ 2020 02:14:52 +0000
+Received: from DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::d055:19dc:5b0f:ed56]) by DM6PR12MB3962.namprd12.prod.outlook.com
+ ([fe80::d055:19dc:5b0f:ed56%6]) with mapi id 15.20.3654.012; Thu, 10 Dec 2020
+ 02:14:52 +0000
+From: Luben Tuikov <luben.tuikov@amd.com>
+To: dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [PATCH 0/1] Timeout handler now returns a value
+Date: Wed,  9 Dec 2020 21:14:37 -0500
+Message-Id: <20201210021438.9190-1-luben.tuikov@amd.com>
+X-Mailer: git-send-email 2.29.2.404.ge67fbf927d
+X-Originating-IP: [165.204.55.250]
+X-ClientProxiedBy: YT1PR01CA0136.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::15) To DM6PR12MB3962.namprd12.prod.outlook.com
+ (2603:10b6:5:1ce::21)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201208044022.972872-1-bjorn.andersson@linaro.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain.amd.com (165.204.55.250) by
+ YT1PR01CA0136.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2f::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3654.12 via Frontend Transport; Thu, 10 Dec 2020 02:14:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b219ada4-ea9d-4dca-fc00-08d89cb160d1
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0217:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB0217F66C863ED3EF4AAC66E799CB0@DM5PR1201MB0217.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2sDLup11V8gktvXVxYAzWDfd08cDCjJjyX6Hg7R1dlaReAMRcaCP0m3Vtgpr9HfO7i7A24UFVSC4q6/E4QLpkFt/X3rtBM0GzE0mMEeCc614ri3K2I28WlmPcOozF7tH50+BBEn9loQ0MV+lc6b7kQ3dyDqz2wQE3K6mHQIJQuUuwTqLDGxRhxdkL3g7DUbcHArGLO+Xn648jooNy2/a+KxRlM6WYHgHxYnLZjWssXNha7g7NbOfpodqWMr+1uu0uc1p1k07pZt1lzOigrkrVg8kBNlho0xFiegB/pBWkapQwQ9GgDpxOX98hiNYzWIVK49UFhjnD7YwMFodaPmBNo+kewKsHuylr3cPCKbp9dQm274QA7DcqjeBXDbBriJT
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB3962.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(376002)(366004)(7416002)(26005)(8676002)(52116002)(66556008)(66946007)(956004)(8936002)(83380400001)(7696005)(2616005)(36756003)(86362001)(4744005)(16526019)(6666004)(4326008)(1076003)(508600001)(54906003)(6486002)(186003)(44832011)(34490700003)(5660300002)(2906002)(66476007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?TEhMOERNdkVIYXhvV3J5UDN4YXJDOU5ZMHBKVHhzR0dYeG9QTUdDbms3QnpT?=
+ =?utf-8?B?V1hBSnN0VjlNRTllRVdLS1VpT1ZrZkZ6SFdjeUF2NHVENkEvSy9sQ0s0M05B?=
+ =?utf-8?B?V0pBdDFXc1NOSC9SS2JFRDF6cDJsQSswbGMraU9YcGxHQUJ2cnJySmk4eWhw?=
+ =?utf-8?B?NTBEdmtlcHVMTU11SldqYWx2MjZucEZLdFJGTXpPdE5tbzdIV3QxM1VNa1lF?=
+ =?utf-8?B?M0JHTVhBZTEyQzdyeGwyT2hFVFRGSERweGRuV1hYSnBZaHNpV1lTMS9FM0tP?=
+ =?utf-8?B?bHdBNW9Velp2c0lwVmJTdGtPNi9sd2VXbVNrUjJ2N3ZoS3Y3UjdTZCtVT2hK?=
+ =?utf-8?B?eGltdDhVdDJZaldCdGhYeTR0UlhSY2s4R3d1bmJ1U1RKUFJwVkRZbzdiTWRq?=
+ =?utf-8?B?VWs1a3A1YXBPWGdLVnZYNVcrOFIrRkZmMVZQdUVjdndRQ1hYVDEzdlVaZ2Vy?=
+ =?utf-8?B?SUVVTVNlY1oxNHFNeXN6RGJ4aWFBSDZ4dVJGN2NJVFV0TDhxVFFkMG5YZ0hR?=
+ =?utf-8?B?bXQ4Q1krVG05dkJDVldnbmdEdTY2QjlqeFFaQW1XM1A2NmJRaVlSaWdpbnJ0?=
+ =?utf-8?B?dXExTEZ1aFdNSmxBNVBJMGI5S2tpTGYrdFRFVlIxN2ppTytkeDFmU3lSNU16?=
+ =?utf-8?B?Sml6TXphUXlyQzkxdE5VUWdMT1V5YzVscENhUE9rN2d1L00zdkk0QU5weFVi?=
+ =?utf-8?B?cThXSXRnMWtISjRPMzZ6Zk5oNXdGbmV2TlVFUkFEcWNQazFUdG8zMlZMTjVj?=
+ =?utf-8?B?NWJZRzJtN1lzajdqUkJ3U0xEdlNRMXpZZDZzK0V1bGhpVjRBVHBsRXZLd2hp?=
+ =?utf-8?B?MWNlc0VtNzdUbGpzOGtHay9XSHpwb0puQWVJQmFENUx2NEhoeFF3QUVNOUZX?=
+ =?utf-8?B?UUhTQlA1aG1GM2VtUEN3cVRtb3QrNXhyajdoNUNPS05wZjdma2JUTnZpV3JW?=
+ =?utf-8?B?R3NSSHJiMjNwSWxBUWsxMStDZGxpcmZtd1pjeXZnYjkzQ0l0RmRuNFBBK3d6?=
+ =?utf-8?B?bXFiNkVSSTFndCtJdlU4anZFOVYydVhnYW43UkEvSnE0SzVRdFRBMzExencr?=
+ =?utf-8?B?N3hMcmNjbEdQZ3JZNy9YNkdpZCtQejR5NGRIeFU4TmpjZ0FxZXdJckhpRVJp?=
+ =?utf-8?B?eFVaenhXWEwyTW1PTXUrTm5KL0RuRVRhTXNiYXcrejhGWmZxcHFneThmc2lW?=
+ =?utf-8?B?VkIwVzkwdXBMd1pjRGNKQzJLMXRlVmlMMWZkaFdUOGw5K3dXdmYzVzVNV2Vq?=
+ =?utf-8?B?RDFaNWh0R00rbUNGWHMvbTFVdjU2ZDhiVVV6RFZxL2NVa3FTU0JHZUNkcExK?=
+ =?utf-8?Q?2ZZFQlaqh77Zcb15yUSymWPAMSLcnBFXVG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3962.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2020 02:14:51.9664 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: b219ada4-ea9d-4dca-fc00-08d89cb160d1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CDA41J5BtvK2Lgm2jetKEYuBAMKoCXyKJWDE8ykQayUCrTd0AgDJniJzv6quCW8R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0217
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,342 +116,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-pwm@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>,
- Jonas Karlman <jonas@kwiboo.se>, David Airlie <airlied@linux.ie>,
- linux-arm-msm@vger.kernel.org, Neil Armstrong <narmstrong@baylibre.com>,
- Doug Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>
+Cc: Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Steven Price <steven.price@arm.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ Qiang Yu <yuq825@gmail.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alexander Deucher <Alexander.Deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 07, 2020 at 10:40:22PM -0600, Bjorn Andersson wrote:
-> The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
-> with the primary purpose of controlling the backlight of the attached
-> panel. Add an implementation that exposes this using the standard PWM
-> framework, to allow e.g. pwm-backlight to expose this to the user.
-> 
-> Special thanks to Doug Anderson for suggestions related to the involved
-> math.
-> 
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 202 ++++++++++++++++++++++++++
->  1 file changed, 202 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index f27306c51e4d..43c0acba57ab 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -4,6 +4,7 @@
->   * datasheet: https://www.ti.com/lit/ds/symlink/sn65dsi86.pdf
->   */
->  
-> +#include <linux/atomic.h>
->  #include <linux/bits.h>
->  #include <linux/clk.h>
->  #include <linux/debugfs.h>
-> @@ -14,6 +15,7 @@
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/pwm.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->  
-> @@ -89,6 +91,11 @@
->  #define SN_ML_TX_MODE_REG			0x96
->  #define  ML_TX_MAIN_LINK_OFF			0
->  #define  ML_TX_NORMAL_MODE			BIT(0)
-> +#define SN_PWM_PRE_DIV_REG			0xA0
-> +#define SN_BACKLIGHT_SCALE_REG			0xA1
-> +#define  BACKLIGHT_SCALE_MAX			0xFFFF
-> +#define SN_BACKLIGHT_REG			0xA3
-> +#define SN_PWM_EN_INV_REG			0xA5
->  #define SN_AUX_CMD_STATUS_REG			0xF4
->  #define  AUX_IRQ_STATUS_AUX_RPLY_TOUT		BIT(3)
->  #define  AUX_IRQ_STATUS_AUX_SHORT		BIT(5)
-> @@ -111,6 +118,8 @@
->  
->  #define SN_LINK_TRAINING_TRIES		10
->  
-> +#define SN_PWM_GPIO			3
+The driver's timeout handler now returns a value back up to DRM.
 
-So this maps to the GPIO4 described in sn65dsi86 datasheet.  I'm
-wondering if it's more readable to define the following SHIFT constants
-(your code), and use GPIO_MUX_GPIO4_SHIFT >> 2 where you need GPIO
-offset?
+This patch doesn't change current behaviour. I request it'd be applied
+so that Andrey G. can take advantage of the value sent back up to DRM
+from the GPU driver.
 
-#define  GPIO_MUX_GPIO1_SHIFT	0
-#define  GPIO_MUX_GPIO2_SHIFT	2
-#define  GPIO_MUX_GPIO3_SHIFT	4
-#define  GPIO_MUX_GPIO4_SHIFT	6
+I'm still working on the last patch which takes advantage of this
+patch, and as such they are separate works.
 
-If you agree, you may consider to integrate this patch beforehand:
+This patch can be applied safely without changing the current DRM
+behaviour.
 
-https://github.com/shawnguo2/linux/commit/7cde887ffb3b27a36e77a08bee3666d14968b586
+Luben Tuikov (1):
+  drm/scheduler: Job timeout handler returns status (v2)
 
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c |  6 +++--
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 10 +++++++-
+ drivers/gpu/drm/lima/lima_sched.c       |  4 +++-
+ drivers/gpu/drm/panfrost/panfrost_job.c |  9 ++++---
+ drivers/gpu/drm/scheduler/sched_main.c  |  4 +---
+ drivers/gpu/drm/v3d/v3d_sched.c         | 32 +++++++++++++------------
+ include/drm/gpu_scheduler.h             | 20 +++++++++++++---
+ 7 files changed, 57 insertions(+), 28 deletions(-)
 
-Shawn
+-- 
+2.29.2.404.ge67fbf927d
 
-> +
->  /**
->   * struct ti_sn_bridge - Platform data for ti-sn65dsi86 driver.
->   * @dev:          Pointer to our device.
-> @@ -162,6 +171,12 @@ struct ti_sn_bridge {
->  	struct gpio_chip		gchip;
->  	DECLARE_BITMAP(gchip_output, SN_NUM_GPIOS);
->  #endif
-> +#if defined(CONFIG_PWM)
-> +	struct pwm_chip			pchip;
-> +	bool				pwm_enabled;
-> +	unsigned int			pwm_refclk;
-> +	atomic_t			pwm_pin_busy;
-> +#endif
->  };
->  
->  static const struct regmap_range ti_sn_bridge_volatile_ranges[] = {
-> @@ -499,6 +514,14 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn_bridge *pdata)
->  
->  	regmap_update_bits(pdata->regmap, SN_DPPLL_SRC_REG, REFCLK_FREQ_MASK,
->  			   REFCLK_FREQ(i));
-> +
-> +#if defined(CONFIG_PWM)
-> +	/*
-> +	 * The PWM refclk is based on the value written to SN_DPPLL_SRC_REG,
-> +	 * regardless of its actual sourcing.
-> +	 */
-> +	pdata->pwm_refclk = ti_sn_bridge_refclk_lut[i];
-> +#endif
->  }
->  
->  static void ti_sn_bridge_set_dsi_rate(struct ti_sn_bridge *pdata)
-> @@ -981,6 +1004,161 @@ static int ti_sn_bridge_parse_dsi_host(struct ti_sn_bridge *pdata)
->  	return 0;
->  }
->  
-> +#if defined(CONFIG_PWM)
-> +static int ti_sn_pwm_pin_request(struct ti_sn_bridge *pdata)
-> +{
-> +	return atomic_xchg(&pdata->pwm_pin_busy, 1) ? -EBUSY : 0;
-> +}
-> +
-> +static void ti_sn_pwm_pin_release(struct ti_sn_bridge *pdata)
-> +{
-> +	atomic_set(&pdata->pwm_pin_busy, 0);
-> +}
-> +
-> +static struct ti_sn_bridge *
-> +pwm_chip_to_ti_sn_bridge(struct pwm_chip *chip)
-> +{
-> +	return container_of(chip, struct ti_sn_bridge, pchip);
-> +}
-> +
-> +static int ti_sn_pwm_request(struct pwm_chip *chip, struct pwm_device *pwm)
-> +{
-> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
-> +
-> +	return ti_sn_pwm_pin_request(pdata);
-> +}
-> +
-> +static void ti_sn_pwm_free(struct pwm_chip *chip, struct pwm_device *pwm)
-> +{
-> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
-> +
-> +	ti_sn_pwm_pin_release(pdata);
-> +}
-> +
-> +static int ti_sn_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			   const struct pwm_state *state)
-> +{
-> +	struct ti_sn_bridge *pdata = pwm_chip_to_ti_sn_bridge(chip);
-> +	unsigned int pwm_en_inv;
-> +	unsigned int backlight;
-> +	unsigned int pwm_freq;
-> +	unsigned int pre_div;
-> +	unsigned int scale;
-> +	int ret;
-> +
-> +	if (!pdata->pwm_enabled) {
-> +		ret = pm_runtime_get_sync(pdata->dev);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
-> +					 SN_GPIO_MUX_MASK << (2 * SN_PWM_GPIO),
-> +					 SN_GPIO_MUX_SPECIAL << (2 * SN_PWM_GPIO));
-> +		if (ret) {
-> +			dev_err(pdata->dev, "failed to mux in PWM function\n");
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	if (state->enabled) {
-> +		/*
-> +		 * Per the datasheet the PWM frequency is given by:
-> +		 *
-> +		 * PWM_FREQ = REFCLK_FREQ / (PWM_PRE_DIV * BACKLIGHT_SCALE + 1)
-> +		 *
-> +		 * In order to find the PWM_FREQ that best suits the requested
-> +		 * state->period, the PWM_PRE_DIV is calculated with the
-> +		 * maximum possible number of steps (BACKLIGHT_SCALE_MAX). The
-> +		 * actual BACKLIGHT_SCALE is then adjusted down to match the
-> +		 * requested period.
-> +		 *
-> +		 * The BACKLIGHT value is then calculated against the
-> +		 * BACKLIGHT_SCALE, based on the requested duty_cycle and
-> +		 * period.
-> +		 */
-> +		pwm_freq = NSEC_PER_SEC / state->period;
-> +		pre_div = DIV_ROUND_UP(pdata->pwm_refclk / pwm_freq - 1, BACKLIGHT_SCALE_MAX);
-> +		scale = (pdata->pwm_refclk / pwm_freq - 1) / pre_div;
-> +
-> +		backlight = scale * state->duty_cycle / state->period;
-> +
-> +		ret = regmap_write(pdata->regmap, SN_PWM_PRE_DIV_REG, pre_div);
-> +		if (ret) {
-> +			dev_err(pdata->dev, "failed to update PWM_PRE_DIV\n");
-> +			goto out;
-> +		}
-> +
-> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_SCALE_REG, scale);
-> +		ti_sn_bridge_write_u16(pdata, SN_BACKLIGHT_REG, backlight);
-> +	}
-> +
-> +	pwm_en_inv = FIELD_PREP(BIT(1), !!state->enabled) |
-> +		     FIELD_PREP(BIT(0), state->polarity == PWM_POLARITY_INVERSED);
-> +	ret = regmap_write(pdata->regmap, SN_PWM_EN_INV_REG, pwm_en_inv);
-> +	if (ret) {
-> +		dev_err(pdata->dev, "failed to update PWM_EN/PWM_INV\n");
-> +		goto out;
-> +	}
-> +
-> +	pdata->pwm_enabled = !!state->enabled;
-> +out:
-> +
-> +	if (!pdata->pwm_enabled)
-> +		pm_runtime_put_sync(pdata->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct pwm_ops ti_sn_pwm_ops = {
-> +	.request = ti_sn_pwm_request,
-> +	.free = ti_sn_pwm_free,
-> +	.apply = ti_sn_pwm_apply,
-> +	.owner = THIS_MODULE,
-> +};
-> +
-> +static struct pwm_device *ti_sn_pwm_of_xlate(struct pwm_chip *pc,
-> +					     const struct of_phandle_args *args)
-> +{
-> +	struct pwm_device *pwm;
-> +
-> +	if (args->args_count != 1)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	pwm = pwm_request_from_chip(pc, 0, NULL);
-> +	if (IS_ERR(pwm))
-> +		return pwm;
-> +
-> +	pwm->args.period = args->args[0];
-> +
-> +	return pwm;
-> +}
-> +
-> +static int ti_sn_setup_pwmchip(struct ti_sn_bridge *pdata)
-> +{
-> +	pdata->pchip.dev = pdata->dev;
-> +	pdata->pchip.ops = &ti_sn_pwm_ops;
-> +	pdata->pchip.base = -1;
-> +	pdata->pchip.npwm = 1;
-> +	pdata->pchip.of_xlate = ti_sn_pwm_of_xlate;
-> +	pdata->pchip.of_pwm_n_cells = 1;
-> +
-> +	return pwmchip_add(&pdata->pchip);
-> +}
-> +
-> +static void ti_sn_remove_pwmchip(struct ti_sn_bridge *pdata)
-> +{
-> +	pwmchip_remove(&pdata->pchip);
-> +
-> +	if (pdata->pwm_enabled)
-> +		pm_runtime_put_sync(pdata->dev);
-> +}
-> +#else
-> +static int ti_sn_pwm_pin_request(struct ti_sn_bridge *pdata) { return 0; }
-> +static void ti_sn_pwm_pin_release(struct ti_sn_bridge *pdata) {}
-> +static int ti_sn_setup_pwmchip(struct ti_sn_bridge *pdata) { return 0; }
-> +static void ti_sn_remove_pwmchip(struct ti_sn_bridge *pdata) {}
-> +#endif
-> +
->  #if defined(CONFIG_OF_GPIO)
->  
->  static int tn_sn_bridge_of_xlate(struct gpio_chip *chip,
-> @@ -1113,10 +1291,25 @@ static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
->  	return ret;
->  }
->  
-> +static int ti_sn_bridge_gpio_request(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
-> +
-> +	if (offset == SN_PWM_GPIO)
-> +		return ti_sn_pwm_pin_request(pdata);
-> +
-> +	return 0;
-> +}
-> +
->  static void ti_sn_bridge_gpio_free(struct gpio_chip *chip, unsigned int offset)
->  {
-> +	struct ti_sn_bridge *pdata = gpiochip_get_data(chip);
-> +
->  	/* We won't keep pm_runtime if we're input, so switch there on free */
->  	ti_sn_bridge_gpio_direction_input(chip, offset);
-> +
-> +	if (offset == SN_PWM_GPIO)
-> +		ti_sn_pwm_pin_release(pdata);
->  }
->  
->  static const char * const ti_sn_bridge_gpio_names[SN_NUM_GPIOS] = {
-> @@ -1136,6 +1329,7 @@ static int ti_sn_setup_gpio_controller(struct ti_sn_bridge *pdata)
->  	pdata->gchip.owner = THIS_MODULE;
->  	pdata->gchip.of_xlate = tn_sn_bridge_of_xlate;
->  	pdata->gchip.of_gpio_n_cells = 2;
-> +	pdata->gchip.request = ti_sn_bridge_gpio_request;
->  	pdata->gchip.free = ti_sn_bridge_gpio_free;
->  	pdata->gchip.get_direction = ti_sn_bridge_gpio_get_direction;
->  	pdata->gchip.direction_input = ti_sn_bridge_gpio_direction_input;
-> @@ -1282,6 +1476,12 @@ static int ti_sn_bridge_probe(struct i2c_client *client,
->  		return ret;
->  	}
->  
-> +	ret = ti_sn_setup_pwmchip(pdata);
-> +	if (ret)  {
-> +		pm_runtime_disable(pdata->dev);
-> +		return ret;
-> +	}
-> +
->  	i2c_set_clientdata(client, pdata);
->  
->  	pdata->aux.name = "ti-sn65dsi86-aux";
-> @@ -1320,6 +1520,8 @@ static int ti_sn_bridge_remove(struct i2c_client *client)
->  
->  	drm_bridge_remove(&pdata->bridge);
->  
-> +	ti_sn_remove_pwmchip(pdata);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.29.2
-> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
