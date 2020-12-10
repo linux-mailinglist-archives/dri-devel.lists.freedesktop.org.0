@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C662D5771
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 10:43:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47572D577D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 10:46:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 864166EA59;
-	Thu, 10 Dec 2020 09:43:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 125556EA5A;
+	Thu, 10 Dec 2020 09:46:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8916EA59
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 09:43:46 +0000 (UTC)
-Date: Thu, 10 Dec 2020 10:45:00 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1607593426;
- bh=tW8e+ZIMytQ67f0yQ5yA8t6EHe8cmb+Lh+QmxW6LBx8=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=M6/TTmEAydmbO5m1IjQqVv5WTsGFBBIl97FuFODGzM248Dw7oVpUk6nmSAWTU6tYP
- NVSG/WaqVlDa7iE1wG48Q2CyVbSAgAcVpkbZ5GNI/iLMEcyOD1ZExlJm23OHd+9SxF
- plDcqLf34ZbytFkCxi/KkkKgG9s8TXB+9y39JBh0=
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Hridya Valsaraju <hridya@google.com>
-Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-Message-ID: <X9HuHFQntOEUNpst@kroah.com>
-References: <20201210044400.1080308-1-hridya@google.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 44A6E6EA59;
+ Thu, 10 Dec 2020 09:46:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A39591FB;
+ Thu, 10 Dec 2020 01:46:33 -0800 (PST)
+Received: from [192.168.1.179] (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F9263F718;
+ Thu, 10 Dec 2020 01:46:31 -0800 (PST)
+Subject: Re: [PATCH 1/1] drm/scheduler: Job timeout handler returns status (v2)
+To: Luben Tuikov <luben.tuikov@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+References: <20201210021438.9190-1-luben.tuikov@amd.com>
+ <20201210021438.9190-2-luben.tuikov@amd.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <5adf573f-8b56-9f85-96c4-727cc6fcadfc@arm.com>
+Date: Thu, 10 Dec 2020 09:46:22 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201210044400.1080308-1-hridya@google.com>
+In-Reply-To: <20201210021438.9190-2-luben.tuikov@amd.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,49 +43,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: surenb@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linaro-mm-sig@lists.linaro.org, kernel-team@android.com,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: kernel test robot <lkp@intel.com>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Qiang Yu <yuq825@gmail.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Alexander Deucher <Alexander.Deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 09, 2020 at 08:43:57PM -0800, Hridya Valsaraju wrote:
-> This patch allows statistics to be enabled for each DMA-BUF in
-> sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
-> 
-> The following stats will be exposed by the interface:
-> 
-> /sys/kernel/dmabuf/<inode_number>/exporter_name
-> /sys/kernel/dmabuf/<inode_number>/size
-> /sys/kernel/dmabuf/<inode_number>/dev_map_info
-> 
-> The inode_number is unique for each DMA-BUF and was added earlier [1]
-> in order to allow userspace to track DMA-BUF usage across different
-> processes.
-> 
-> Currently, this information is exposed in
-> /sys/kernel/debug/dma_buf/bufinfo.
-> However, since debugfs is considered unsafe to be mounted in production,
-> it is being duplicated in sysfs.
-> 
-> This information is intended to help with root-causing
-> low-memory kills and the debugging/analysis of other memory-related issues.
-> 
-> It will also be used to derive DMA-BUF
-> per-exporter stats and per-device usage stats for Android Bug reports.
-> 
-> [1]: https://lore.kernel.org/patchwork/patch/1088791/
-> 
-> Signed-off-by: Hridya Valsaraju <hridya@google.com>
-
-Thanks for adding all of this, nice work!
-
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gMTAvMTIvMjAyMCAwMjoxNCwgTHViZW4gVHVpa292IHdyb3RlOgo+IFRoaXMgcGF0Y2ggZG9l
+cyBub3QgY2hhbmdlIGN1cnJlbnQgYmVoYXZpb3VyLgo+IAo+IFRoZSBkcml2ZXIncyBqb2IgdGlt
+ZW91dCBoYW5kbGVyIG5vdyByZXR1cm5zCj4gc3RhdHVzIGluZGljYXRpbmcgYmFjayB0byB0aGUg
+RFJNIGxheWVyIHdoZXRoZXIKPiB0aGUgdGFzayAoam9iKSB3YXMgc3VjY2Vzc2Z1bGx5IGFib3J0
+ZWQgb3Igd2hldGhlcgo+IG1vcmUgdGltZSBzaG91bGQgYmUgZ2l2ZW4gdG8gdGhlIHRhc2sgdG8g
+Y29tcGxldGUuCgpJIGZpbmQgdGhlIGRlZmluaXRpb25zIGdpdmVuIGEgbGl0dGxlIGNvbmZ1c2lu
+Zywgc2VlIGJlbG93LgoKPiBEZWZhdWx0IGJlaGF2aW91ciBhcyBvZiB0aGlzIHBhdGNoLCBpcyBw
+cmVzZXJ2ZWQsCj4gZXhjZXB0IGluIG9idmlvdXMtYnktY29tbWVudCBjYXNlIGluIHRoZSBQYW5m
+cm9zdAo+IGRyaXZlciwgYXMgZG9jdW1lbnRlZCBiZWxvdy4KPiAKPiBBbGwgZHJpdmVycyB3aGlj
+aCBtYWtlIHVzZSBvZiB0aGUKPiBkcm1fc2NoZWRfYmFja2VuZF9vcHMnIC50aW1lZG91dF9qb2Io
+KSBjYWxsYmFjawo+IGhhdmUgYmVlbiBhY2NvcmRpbmdseSByZW5hbWVkIGFuZCByZXR1cm4gdGhl
+Cj4gd291bGQndmUtYmVlbiBkZWZhdWx0IHZhbHVlIG9mCj4gRFJNX1RBU0tfU1RBVFVTX0FMSVZF
+IHRvIHJlc3RhcnQgdGhlIHRhc2sncwo+IHRpbWVvdXQgdGltZXItLXRoaXMgaXMgdGhlIG9sZCBi
+ZWhhdmlvdXIsIGFuZAo+IGlzIHByZXNlcnZlZCBieSB0aGlzIHBhdGNoLgo+IAo+IEluIHRoZSBj
+YXNlIG9mIHRoZSBQYW5mcm9zdCBkcml2ZXIsIGl0cyB0aW1lZG91dAo+IGNhbGxiYWNrIGNvcnJl
+Y3RseSBmaXJzdCBjaGVja3MgaWYgdGhlIGpvYiBoYWQKPiBjb21wbGV0ZWQgaW4gZHVlIHRpbWUg
+YW5kIGlmIHNvLCBpdCBub3cgcmV0dXJucwo+IERSTV9UQVNLX1NUQVRVU19DT01QTEVURSB0byBu
+b3RpZnkgdGhlIERSTSBsYXllcgo+IHRoYXQgdGhlIHRhc2sgY2FuIGJlIG1vdmVkIHRvIHRoZSBk
+b25lIGxpc3QsIHRvIGJlCj4gZnJlZWQgbGF0ZXIuIEluIHRoZSBvdGhlciB0d28gc3Vic2VxdWVu
+dCBjaGVja3MsCj4gdGhlIHZhbHVlIG9mIERSTV9UQVNLX1NUQVRVU19BTElWRSBpcyByZXR1cm5l
+ZCwgYXMKPiBwZXIgdGhlIGRlZmF1bHQgYmVoYXZpb3VyLgo+IAo+IEEgbW9yZSBpbnZvbHZlZCBk
+cml2ZXIncyBzb2x1dGlvbnMgY2FuIGJlIGhhZAo+IGluIHN1YmVxdWVudCBwYXRjaGVzLgoKTklU
+OiBeXl5eXl5eXl4gc3Vic2VxdWVudAoKPiAKPiB2MjogVXNlIGVudW0gYXMgdGhlIHN0YXR1cyBv
+ZiBhIGRyaXZlcidzIGpvYgo+ICAgICAgdGltZW91dCBjYWxsYmFjayBtZXRob2QuCj4gCj4gQ2M6
+IEFsZXhhbmRlciBEZXVjaGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPgo+IENjOiBBbmRy
+ZXkgR3JvZHpvdnNreSA8QW5kcmV5Lkdyb2R6b3Zza3lAYW1kLmNvbT4KPiBDYzogQ2hyaXN0aWFu
+IEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxk
+YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRy
+b25peC5kZT4KPiBDYzogUnVzc2VsbCBLaW5nIDxsaW51eCtldG5hdml2QGFybWxpbnV4Lm9yZy51
+az4KPiBDYzogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4K
+PiBDYzogUWlhbmcgWXUgPHl1cTgyNUBnbWFpbC5jb20+Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2Jo
+QGtlcm5lbC5vcmc+Cj4gQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5j
+b20+Cj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNz
+YSBSb3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBFcmlj
+IEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0Pgo+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2Jv
+dCA8bGtwQGludGVsLmNvbT4KClRoaXMgcmVwb3J0ZWQtYnkgc2VlbXMgYSBsaXR0bGUgb2RkIGZv
+ciB0aGlzIHBhdGNoLgoKPiBTaWduZWQtb2ZmLWJ5OiBMdWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtv
+dkBhbWQuY29tPgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2pv
+Yi5jIHwgIDYgKysrLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQu
+YyB8IDEwICsrKysrKystCj4gICBkcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX3NjaGVkLmMgICAg
+ICAgfCAgNCArKystCj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMg
+fCAgOSArKysrLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAg
+fCAgNCArLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5jICAgICAgICAgfCAz
+MiArKysrKysrKysrKysrLS0tLS0tLS0tLS0tCj4gICBpbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVy
+LmggICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrLS0tCj4gICA3IGZpbGVzIGNoYW5nZWQs
+IDU3IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQo+IAoKWy4uLi5dCgo+IGRpZmYgLS1n
+aXQgYS9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmggYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1
+bGVyLmgKPiBpbmRleCAyZTBjMzY4ZTE5ZjYuLmNlZGZjNTM5NGU1MiAxMDA2NDQKPiAtLS0gYS9p
+bmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKPiArKysgYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1
+bGVyLmgKPiBAQCAtMjA2LDYgKzIwNiwxMSBAQCBzdGF0aWMgaW5saW5lIGJvb2wgZHJtX3NjaGVk
+X2ludmFsaWRhdGVfam9iKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzX2pvYiwKPiAgIAlyZXR1cm4g
+c19qb2IgJiYgYXRvbWljX2luY19yZXR1cm4oJnNfam9iLT5rYXJtYSkgPiB0aHJlc2hvbGQ7Cj4g
+ICB9Cj4gICAKPiArZW51bSBkcm1fdGFza19zdGF0dXMgewo+ICsJRFJNX1RBU0tfU1RBVFVTX0NP
+TVBMRVRFLAo+ICsJRFJNX1RBU0tfU1RBVFVTX0FMSVZFCj4gK307Cj4gKwo+ICAgLyoqCj4gICAg
+KiBzdHJ1Y3QgZHJtX3NjaGVkX2JhY2tlbmRfb3BzCj4gICAgKgo+IEBAIC0yMzAsMTAgKzIzNSwx
+OSBAQCBzdHJ1Y3QgZHJtX3NjaGVkX2JhY2tlbmRfb3BzIHsKPiAgIAlzdHJ1Y3QgZG1hX2ZlbmNl
+ICooKnJ1bl9qb2IpKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpOwo+ICAgCj4gICAJ
+LyoqCj4gLSAgICAgICAgICogQHRpbWVkb3V0X2pvYjogQ2FsbGVkIHdoZW4gYSBqb2IgaGFzIHRh
+a2VuIHRvbyBsb25nIHRvIGV4ZWN1dGUsCj4gLSAgICAgICAgICogdG8gdHJpZ2dlciBHUFUgcmVj
+b3ZlcnkuCj4gKwkgKiBAdGltZWRvdXRfam9iOiBDYWxsZWQgd2hlbiBhIGpvYiBoYXMgdGFrZW4g
+dG9vIGxvbmcgdG8gZXhlY3V0ZSwKPiArCSAqIHRvIHRyaWdnZXIgR1BVIHJlY292ZXJ5Lgo+ICsJ
+ICoKPiArCSAqIFJldHVybiBEUk1fVEFTS19TVEFUVVNfQUxJVkUsIGlmIHRoZSB0YXNrIChqb2Ip
+IGlzIGhlYWx0aHkKPiArCSAqIGFuZCBleGVjdXRpbmcgaW4gdGhlIGhhcmR3YXJlLCBpLmUuIGl0
+IG5lZWRzIG1vcmUgdGltZS4KClNvICdhbGl2ZScgbWVhbnMgdGhlIGpvYiAod2FzKSBhbGl2ZSwg
+YW5kIEdQVSByZWNvdmVyeSBpcyBoYXBwZW5pbmcuIApJLmUuIGl0J3MgdGhlIGpvYiBqdXN0IHRh
+a2VzIHRvbyBsb25nLiBQYW5mcm9zdCB3aWxsIHRyaWdnZXIgYSBHUFUgcmVzZXQgCihraWxsaW5n
+IHRoZSBqb2IpIGluIHRoaXMgY2FzZSB3aGlsZSByZXR1cm5pbmcgRFJNX1RBU0tfU1RBVFVTX0FM
+SVZFLgoKPiArCSAqCj4gKwkgKiBSZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0NPTVBMRVRFLCBpZiB0
+aGUgdGFzayAoam9iKSBoYXMKPiArCSAqIGJlZW4gYWJvcnRlZCBvciBpcyB1bmtub3duIHRvIHRo
+ZSBoYXJkd2FyZSwgaS5lLiBpZgo+ICsJICogdGhlIHRhc2sgaXMgb3V0IG9mIHRoZSBoYXJkd2Fy
+ZSwgYW5kIG1heWJlIGl0IGlzIG5vdwo+ICsJICogaW4gdGhlIGRvbmUgbGlzdCwgb3IgaXQgd2Fz
+IGNvbXBsZXRlZCBsb25nIGFnbywgb3IKPiArCSAqIGlmIGl0IGlzIHVua25vd24gdG8gdGhlIGhh
+cmR3YXJlLgoKV2hlcmUgJ2NvbXBsZXRlJyBzZWVtcyB0byBtZWFuIGEgdmFyaWV0eSBvZiB0aGlu
+Z3M6CgogICogVGhlIGpvYiBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IChpLmUuIHRoZSB0aW1lb3V0
+IHJhY2VkKSwgdGhpcyBpcyB0aGUgCnNpdHVhdGlvbiB0aGF0IFBhbmZyb3N0IGRldGVjdHMuIElu
+IHRoaXMgY2FzZSAoYW5kIG9ubHkgdGhpcyBjYXNlKSB0aGUgCkdQVSByZXNldCB3aWxsICpub3Qq
+IGhhcHBlbi4KCiAgKiBUaGUgam9iIGZhaWxlZCAoYWJvcnRlZCkgYW5kIGlzIG5vIGxvbmdlciBv
+biB0aGUgaGFyZHdhcmUuIFBhbmZyb3N0IApjdXJyZW50bHkgaGFuZGxlcyBhIGpvYiBmYWlsdXJl
+IGJ5IHRyaWdnZXJpbmcgZHJtX3NjaGVkX2ZhdWx0KCkgdG8gCnRyaWdnZXIgdGhlIHRpbWVvdXQg
+aGFuZGxlci4gQnV0IHRoZSB0aW1lb3V0IGhhbmRsZXIgZG9lc24ndCBoYW5kbGUgdGhpcyAKZGlm
+ZmVyZW50bHkgc28gd2lsbCByZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0FMSVZFLgoKICAqIFRoZSBq
+b2IgaXMgInVua25vd24gdG8gaGFyZHdhcmUiLiBUaGVyZSBhcmUgc29tZSBjb3JuZXIgY2FzZXMg
+aW4gClBhbmZyb3N0IChzcGVjaWZpY2FsbHkgdHdvIGVhcmx5IHJldHVybnMgZnJvbSBwYW5mcm9z
+dF9qb2JfaHdfc3VibWl0KCkpIAp3aGVyZSB0aGUgam9iIG5ldmVyIGFjdHVhbGx5IGxhbmRzIG9u
+IHRoZSBoYXJkd2FyZSwgYnV0IHRoZSBzY2hlZHVsZXIgCmlzbid0IGluZm9ybWVkLiBXZSBjdXJy
+ZW50bHkgcmVseSBvbiB0aGUgdGltZW91dCBoYW5kbGluZyB0byByZWNvdmVyIApmcm9tIHRoYXQu
+IEhvd2V2ZXIsIGFnYWluLCB0aGUgdGltZW91dCBoYW5kbGVyIGRvZXNuJ3Qga25vdyBhYm91dCB0
+aGlzIApzb28gd2lsbCByZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0FMSVZFLgoKU28gb2YgdGhlIGZv
+dXIgY2FzZXMgbGlzdGVkIGluIHRoZXNlIGNvbW1lbnRzLCBQYW5mcm9zdCBpcyBvbmx5IGdldHRp
+bmcgCjIgJ2NvcnJlY3QnIGFmdGVyIHRoaXMgY2hhbmdlLgoKQnV0IHdoYXQgSSByZWFsbHkgd2Fu
+dCB0byBrbm93IGlzIHdoYXQgdGhlIHNjaGVkdWxlciBpcyBwbGFubmluZyB0byBkbyAKaW4gdGhl
+c2Ugc2l0dWF0aW9ucz8gVGhlIFBhbmZyb3N0IHJldHVybiB2YWx1ZSBpbiB0aGlzIHBhdGNoIGlz
+IHJlYWxseSBhIAoiZGlkIHdlIHRyaWdnZXIgYSBHUFUgcmVzZXQiIC0gYW5kIGRvZXNuJ3Qgc2Vl
+bSB0byBtYXRjaCB0aGUgCmRlc2NyaXB0aW9ucyBhYm92ZS4KClN0ZXZlCgo+ICAgCSAqLwo+IC0J
+dm9pZCAoKnRpbWVkb3V0X2pvYikoc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYik7Cj4g
+KwllbnVtIGRybV90YXNrX3N0YXR1cyAoKnRpbWVkb3V0X2pvYikoc3RydWN0IGRybV9zY2hlZF9q
+b2IgKnNjaGVkX2pvYik7Cj4gICAKPiAgIAkvKioKPiAgICAgICAgICAgICogQGZyZWVfam9iOiBD
+YWxsZWQgb25jZSB0aGUgam9iJ3MgZmluaXNoZWQgZmVuY2UgaGFzIGJlZW4gc2lnbmFsZWQKPiAK
+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
+bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
+c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
