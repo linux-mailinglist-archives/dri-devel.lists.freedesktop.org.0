@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D7A2D5E73
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:58 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C262D5E60
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 384656EA90;
-	Thu, 10 Dec 2020 14:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA6BE6E952;
+	Thu, 10 Dec 2020 14:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 782016E4FE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC066E530
  for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:46:57 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 0E8A7EB0;
- Thu, 10 Dec 2020 08:46:53 -0500 (EST)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailnew.west.internal (Postfix) with ESMTP id 037C7EC0;
+ Thu, 10 Dec 2020 08:46:54 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Thu, 10 Dec 2020 08:46:55 -0500
+ by compute7.internal (MEProxy); Thu, 10 Dec 2020 08:46:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=4uSLGMOTN/kuy
- PBLvbfMTLZ21B8ll+2AEDI/gh8lioE=; b=HD1EvQAL3sVyckXCOBViLnMFTJCag
- cIoMV6nCDN0ADH6TM+bOYn2NrX755sJxB6dHnyM3WRRlWGw3Mf75CZH483AyrBCT
- 5pVLgY9DXdWIWYtYKkmplwxCdeVir6yqWNbhi75sl+b1thX5cQOQHvFEwNSbE+h8
- 22jb/JLKG9aWbyIdqmlyxOyYMS37bVEyLlorwnkhEgWs9MQ+r0yisvzAE36Dz0QR
- bHocyAP+Ea6UK6oTXD/KJI65wS7AJxYQ5mAdWWjsObPdHsxFGHuGmX7efer3imGS
- S8mHlfPAqRHz6DA2XqVdc7cboOw5JMzePrYUQ4F1R81xahA8HIuL1H21w==
+ :mime-version:content-transfer-encoding; s=fm1; bh=+8Peq+aA0pf7+
+ XBnW4o9oio5mhtAYTcXdLqVFsQqfiA=; b=fQvsria5XvwY+V4dl+JNKr3FZX9M6
+ d+1O5uIqXC51gdbrNsO/7qhAHl0BvNPDgBf8sZYVJMJIY7/HC4M6IhIeQDZ4ZOuc
+ JODf1wp9bPHvZ3wtT6DaFEw/uZBQ42XZQlIFPgz2SnpoXNScxChtMOlwaPBiSh9+
+ /hgLnxei4WImhKzj2wydujo20VRRLTlwciz+31jsgebDLLTkNScrqFGQH+z7VOym
+ R6IIqolSr5WvVWpa9eJ6uTF7/BstxOQdfU07+LnIn/nJmrhg9PUjzYUWb9SS6J6Y
+ ZJqwIN8gW71fc7TttEBQJTi3uEM2wT+7aCucikUFs1s6eSHGyZ1lI8PFw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=4uSLGMOTN/kuyPBLvbfMTLZ21B8ll+2AEDI/gh8lioE=; b=WNXf2lxU
- 3NBnjibPGKXYVhaJtm+bl8+avMoo3FRNI+ETqctqw+6XTsqC0rgaqSQxKJzCwlit
- CehR81o1LCk4vHlOOfzRJqYQw8uaer5ojtV255JqaUr9ju7yLVmnIJ20JFc8+n9B
- 8/0Mq+6ALPSxKHItNvDEQJ1zUK0ZKwNSI1dGEXOZVy1OGo6L1JRmw0YqM5thvOt0
- Y0weLavKkHsfdH6YnDyqFqbvguV35jrTyvoTDIvMfGqJO4ZQOVH6RcjFxfSIJSZ5
- u01DyyDo9o4Xw2oYTOaszUMvakl6439Wn983G9KCCLAGDIYdldM7FhljIJYr3D7N
- bnfwtA8bntooJQ==
-X-ME-Sender: <xms:zCbSXyYyFp6zH6Q_4lTzaRyw1LUauGB2m4WaO1RLYoPNzUJR9Y8ylw>
- <xme:zCbSX1aaf7eYCVujKirHzeN1_43gKfno8p_ctTrN1XdZyT47-6WFtuq9WIhjds6rE
- EMO4Disl6ZeKxKfadM>
+ fm1; bh=+8Peq+aA0pf7+XBnW4o9oio5mhtAYTcXdLqVFsQqfiA=; b=NzYOiw8y
+ g//hMBaNu/MNPxcjNtWSBOyj3+gvUGSfqvfrnVHy7OHQufOARZp4zweXON+vjRGw
+ iJdWF92hhuO8Ir++YTZlV93jDZfso8vOpCGLFjKYdcXz+4njSTAsJvnA5JZfPAvJ
+ d0c+k8tVrUQ45ZY0izCOs3TrrZ4o6NXNk9ziBc5NukQCqSVsCC5xEIuNsIFcT33P
+ 2aiqTA1uS8DBNPOYXlfIOz8Qqa2oXq6LmUurjGjvH+/jeisogugAXjr/G5h1ytM5
+ M7lULzE6c1Du6zrTKcuSOKkDN6k31Fj8LVhIWFGrXencgDJZ3qp3KiMgX2zMpPDf
+ xXqJDPOLihuTqA==
+X-ME-Sender: <xms:zibSX72Xu7MRAPT1h0jQYRGpRbcqPC2oxKJRGfQgd3RjJlcn-lsRag>
+ <xme:zibSX6Dq5EEcEvoQ8a6sy6ZUdkGurvM2JSwOFmml_KnKNzZ1z_TMRWVWxsDalcG3j
+ m-L-n6urcOx9rN7ZcA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,22 +49,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:zCbSX89SppgnOqe3IcJHIQA9y2pM3q5qBXbipU32rLtceijz_hEzcw>
- <xmx:zCbSX0qo7ook0jv7aTZ8WucJ0CvpEHiFz8HLRTll2YuEZEeisg0BDA>
- <xmx:zCbSX9rnSx-8QwkHKzYlNyxPRBnFkYyJ5bm6cZR_05o8_GkhlFDQFA>
- <xmx:zSbSXzbjZ-P0snDgu2aGq6OZJTWlbSWVFoAAoayMLL_l5G4Tg8T7z44w6SE>
+X-ME-Proxy: <xmx:zibSX4yb6GVJgVXMpnekNydSd-PYarmCh4eIZ9X-Uz3P66KprZJE1g>
+ <xmx:zibSX4nvhO4ZnDGOhzrMZ9_b9fM-6wcMkJWKzWNTR5PNRDMMoZtngQ>
+ <xmx:zibSX9EcGq272ZiwpwUsQvWwyt85a4lmH7HutKsMqZZWoRVKogZsjw>
+ <xmx:zibSX2TQBNT5ZVUzNMIXOobpBIbhl6GwY7-nD_eYrlLzvbFnKh3vb-eMTsc>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 78850108005F;
- Thu, 10 Dec 2020 08:46:52 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id DBDBA108005C;
+ Thu, 10 Dec 2020 08:46:53 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 02/15] drm/vc4: hdmi: Move hdmi reset to bind
-Date: Thu, 10 Dec 2020 14:46:35 +0100
-Message-Id: <20201210134648.272857-3-maxime@cerno.tech>
+Subject: [PATCH 03/15] drm/vc4: hdmi: Fix register offset with longer CEC
+ messages
+Date: Thu, 10 Dec 2020 14:46:36 +0100
+Message-Id: <20201210134648.272857-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
 References: <20201210134648.272857-1-maxime@cerno.tech>
@@ -97,46 +98,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dom Cobley <popcornmix@gmail.com>
 
-The hdmi reset got moved to a later point in the commit 9045e91a476b
-("drm/vc4: hdmi: Add reset callback").
+The code prior to 311e305fdb4e ("drm/vc4: hdmi: Implement a register
+layout abstraction") was relying on the fact that the register offset
+was incremented by 4 for each readl call. That worked since the register
+width is 4 bytes.
 
-However, the reset now occurs after vc4_hdmi_cec_init and so tramples
-the setup of registers like HDMI_CEC_CNTRL_1
+However, since that commit the HDMI_READ macro is now taking an enum,
+and the offset doesn't increment by 4 but 1 now. Divide the index by 4
+to fix this.
 
-This only affects pi0-3 as on pi4 the cec registers are in a separate
-block
-
-Fixes: 9045e91a476b ("drm/vc4: hdmi: Add reset callback")
+Fixes: 311e305fdb4e ("drm/vc4: hdmi: Implement a register layout abstraction")
 Signed-off-by: Dom Cobley <popcornmix@gmail.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8006bddc8fbb..3df1747dd917 100644
+index 3df1747dd917..28b78ea885ea 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -773,9 +773,6 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 		return;
- 	}
+@@ -1434,13 +1434,20 @@ static irqreturn_t vc4_cec_irq_handler_thread(int irq, void *priv)
  
--	if (vc4_hdmi->variant->reset)
--		vc4_hdmi->variant->reset(vc4_hdmi);
--
- 	if (vc4_hdmi->variant->phy_init)
- 		vc4_hdmi->variant->phy_init(vc4_hdmi, vc4_conn_state);
+ static void vc4_cec_read_msg(struct vc4_hdmi *vc4_hdmi, u32 cntrl1)
+ {
++	struct drm_device *dev = vc4_hdmi->connector.dev;
+ 	struct cec_msg *msg = &vc4_hdmi->cec_rx_msg;
+ 	unsigned int i;
  
-@@ -1865,6 +1862,9 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	vc4_hdmi->disable_wifi_frequencies =
- 		of_property_read_bool(dev->of_node, "wifi-2.4ghz-coexistence");
- 
-+	if (vc4_hdmi->variant->reset)
-+		vc4_hdmi->variant->reset(vc4_hdmi);
+ 	msg->len = 1 + ((cntrl1 & VC4_HDMI_CEC_REC_WRD_CNT_MASK) >>
+ 					VC4_HDMI_CEC_REC_WRD_CNT_SHIFT);
 +
- 	pm_runtime_enable(dev);
++	if (msg->len > 16) {
++		drm_err(dev, "Attempting to read too much data (%d)\n", msg->len);
++		return;
++	}
++
+ 	for (i = 0; i < msg->len; i += 4) {
+-		u32 val = HDMI_READ(HDMI_CEC_RX_DATA_1 + i);
++		u32 val = HDMI_READ(HDMI_CEC_RX_DATA_1 + (i >> 2));
  
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 		msg->msg[i] = val & 0xff;
+ 		msg->msg[i + 1] = (val >> 8) & 0xff;
+@@ -1533,11 +1540,17 @@ static int vc4_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+ 				      u32 signal_free_time, struct cec_msg *msg)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
++	struct drm_device *dev = vc4_hdmi->connector.dev;
+ 	u32 val;
+ 	unsigned int i;
+ 
++	if (msg->len > 16) {
++		drm_err(dev, "Attempting to transmit too much data (%d)\n", msg->len);
++		return -ENOMEM;
++	}
++
+ 	for (i = 0; i < msg->len; i += 4)
+-		HDMI_WRITE(HDMI_CEC_TX_DATA_1 + i,
++		HDMI_WRITE(HDMI_CEC_TX_DATA_1 + (i >> 2),
+ 			   (msg->msg[i]) |
+ 			   (msg->msg[i + 1] << 8) |
+ 			   (msg->msg[i + 2] << 16) |
 -- 
 2.28.0
 
