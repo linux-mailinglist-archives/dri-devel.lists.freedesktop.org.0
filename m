@@ -2,60 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948422D5E75
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40AC52D5E5F
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDDC86EAA2;
-	Thu, 10 Dec 2020 14:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7E6A6EA88;
+	Thu, 10 Dec 2020 14:48:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc63.google.com (mail-oo1-xc63.google.com
- [IPv6:2607:f8b0:4864:20::c63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF37C6EA4A
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 09:13:12 +0000 (UTC)
-Received: by mail-oo1-xc63.google.com with SMTP id i18so1106588ooh.5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 01:13:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lagfreegames.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=OZPmxxw56UZy44SeTXd+0TVQh79ExqhpLRdJnf0ou/A=;
- b=ObF7DS7rvsKT5BEJG00hmY+/FlqMU0pJ8Fdk+4wBZEOeZ3SoO2RqnV1WyFzyJdcVjV
- aAh5/leY1nDp1PSNMc9wTIrBdusjS5YHHr+Xun8qxyIWL9j4HGsgmzv8u+/87fymwAZZ
- 9R06ptBSV4TrjIAh23EZD7VLpHofs6VWLacueREtDXXcQ7oReCzomD4ck2fQK4gZsvI1
- A7IZjjIqOib750u+ywnkS1bOAJPuINcSK99oKWk22MHs8FhppEKYLrRZhU2pW6WqwQTX
- 0+hPL0N6SoAkLu5ruwz2tkYzzPcnZt/a9dziEuX48VTmRpYudl/MqtG4yDw25hEaGNab
- A2kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=OZPmxxw56UZy44SeTXd+0TVQh79ExqhpLRdJnf0ou/A=;
- b=pMXyR0e53E3Cl8njYYEapsjnRn+vPg4Vx0KaoTZ7+fpsMBV0R6FyGABfIIXEvEYSgt
- D0m08crBbITWAwYvBdPj26n0YWq8uNj/Mo+U8zU2x/lV7iIjBQax/vNCM/5R0SYs/Qos
- uxaEaZFLUz4Wea5lIpauO19GA+7O5v6Xgz61MXuV+5NoE/c6lO9+rLSGHlKFz5TU+eQu
- ua9E2PJSmVOSTlCBkFMqxxemOQTw8uRCwtMrgDkt7A2wGOrYvcDiX+tmt7LoAJ1J8UhX
- gmWiOY/HiX1Ec73uM7VtJ3/CwsSixRKA2FzBVH7Arw4WEcXI+/qH4reY8bvIghy3wMfd
- iSJw==
-X-Gm-Message-State: AOAM530gfD8aKYh2n5583qxpGwvCCu10iKUhBKJVBjWz8mVz53IZvS99
- kFrE/B/JBwh8FaKcluyNs58oFuuyBo7n/brnkGgxl5+KgE0yiA==
-X-Google-Smtp-Source: ABdhPJyz4bimv05r0XNECsgajax6G5DopcomoBYbv8LiXzGqAP+xP64bpM9ojfGJduWZWrGa5MBuGyHuIVQp
-X-Received: by 2002:a4a:be81:: with SMTP id o1mr5222453oop.25.1607591592234;
- Thu, 10 Dec 2020 01:13:12 -0800 (PST)
-Received: from DESKTOP-G3VVM7A.localdomain (c-24-5-176-39.hsd1.ca.comcast.net.
- [24.5.176.39])
- by smtp-relay.gmail.com with ESMTPS id q24sm744353oov.1.2020.12.10.01.13.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 10 Dec 2020 01:13:12 -0800 (PST)
-X-Relaying-Domain: lagfreegames.com
-From: James Park <jpark37@lagfreegames.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm: drm_basic_types.h, DRM_FOURCC_STANDALONE
-Date: Thu, 10 Dec 2020 01:12:54 -0800
-Message-Id: <1607591574-949-2-git-send-email-jpark37@lagfreegames.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1607591574-949-1-git-send-email-jpark37@lagfreegames.com>
-References: <20201210103553.1ae238d2@eldfell>
- <1607591574-949-1-git-send-email-jpark37@lagfreegames.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 51CE16E52C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:22:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CDC41FB;
+ Thu, 10 Dec 2020 05:22:23 -0800 (PST)
+Received: from [10.57.1.60] (unknown [10.57.1.60])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 97B5D3F718;
+ Thu, 10 Dec 2020 05:22:20 -0800 (PST)
+From: Lukasz Luba <lukasz.luba@arm.com>
+Subject: Re: [PATCH v3 0/5] Thermal devfreq cooling improvements with Energy
+ Model
+To: daniel.lezcano@linaro.org
+References: <20201209103016.10442-1-lukasz.luba@arm.com>
+Message-ID: <383b757b-63b0-ca81-c74c-bf2f31172bc3@arm.com>
+Date: Thu, 10 Dec 2020 13:22:18 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20201209103016.10442-1-lukasz.luba@arm.com>
+Content-Language: en-US
 X-Mailman-Approved-At: Thu, 10 Dec 2020 14:48:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -69,138 +43,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: James Park <jpark37@lagfreegames.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
+ ionela.voinescu@arm.com, orjan.eide@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Create drm_basic_types.h to define types previously defined by drm.h.
+Hi Daniel,
 
-Use DRM_FOURCC_STANDALONE to include drm_fourcc.h without drm.h.
+On 12/9/20 10:30 AM, Lukasz Luba wrote:
+> Hi all,
+> 
+> This patch set is a continuation of my previous work, which aimed
+> to add Energy Model to all devices [1]. This series is a follow up
+> for the patches which got merged to v5.9-rc1. It aims to change
+> the thermal devfreq cooling and use the Energy Model instead of
+> private power table and structures. The power model is now simplified,
+> static power and dynamic power are removed. The new registration interface
+> in the patch 3/5 helps to register devfreq cooling and the EM in one call.
+> There is also small improvement, patch 2/5 is changing the way how
+> thermal gets the device status (now uses a copy) and normalize the values.
+> The last patch is here for consistency and will probably go through drm tree.
+> 
+> The patch set is based on current next-20201208, because it depends on EM
+> API change which is queued in the pm/linux-next tree as v5.11 material.
+> 
+> changes:
+> v3:
+> - dropped direct check of device status and used just a copy of 'status';
+>    a separate patch set will be proposed to address this issue
+> - modified _normalize_load() and used 1024 scale to handle ms, us, ns
+> - removed 'em_registered' and called em_dev_unregister_perf_domain()
+>    unconditionally, so the drivers will have to make sure the right order of
+>    all unregister calls to frameworks which might use EM; this call must be last
+>    one; a proper comment added
+> - removed 'em' pointer from struct devfreq_cooling_device, 'dev->em_pd' is used
+> - removed of_node_get/put(), since the code can handle it
+> - removed dfc_em_get_requested_power() (as missed to do it in v2)
+> - collected all Reviewed-by tags
+> v2 [3]:
+> - renamed freq_get_state() and related to perf_idx pattern as
+>    suggested by Ionela
+> v1 [2]
+> 
+> Regards,
+> Lukasz Luba
+> 
+> [1] https://lkml.org/lkml/2020/5/11/326
+> [2] https://lore.kernel.org/linux-pm/20200921122007.29610-1-lukasz.luba@arm.com/
+> [3] https://lore.kernel.org/linux-pm/20201118120358.17150-1-lukasz.luba@arm.com/
+> 
+> Lukasz Luba (5):
+>    thermal: devfreq_cooling: change tracing function and arguments
+>    thermal: devfreq_cooling: use a copy of device status
+>    thermal: devfreq_cooling: add new registration functions with Energy
+>      Model
+>    thermal: devfreq_cooling: remove old power model and use EM
+>    drm/panfrost: Register devfreq cooling and attempt to add Energy Model
+> 
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.c |   2 +-
+>   drivers/thermal/devfreq_cooling.c           | 420 ++++++++++----------
+>   include/linux/devfreq_cooling.h             |  40 +-
+>   include/trace/events/thermal.h              |  19 +-
+>   4 files changed, 240 insertions(+), 241 deletions(-)
+> 
 
-This will allow Mesa to port code to Windows more easily.
+If you consider to take it, please don't. I am going to send a v4 which
+does not have this em_dev_register_perf_domain() dependency due to API
+change. Then it could go via your thermal tree without issues.
 
-Signed-off-by: James Park <jpark37@lagfreegames.com>
-Acked-by: Simon Ser <contact@emersion.fr>
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
----
- include/uapi/drm/drm.h             | 12 ++-------
- include/uapi/drm/drm_basic_types.h | 52 ++++++++++++++++++++++++++++++++++++++
- include/uapi/drm/drm_fourcc.h      |  4 +++
- 3 files changed, 58 insertions(+), 10 deletions(-)
- create mode 100644 include/uapi/drm/drm_basic_types.h
+It will be a small change in the patch 3/5, which will simplify
+registration function (use only dev_pm_opp_of_register_em()) and also
+instead of two registration function, have only one (which was also
+suggested by Ionela during review).
 
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 808b48a..d9ba922 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -36,6 +36,8 @@
- #ifndef _DRM_H_
- #define _DRM_H_
- 
-+#include "drm_basic_types.h"
-+
- #if defined(__KERNEL__)
- 
- #include <linux/types.h>
-@@ -50,18 +52,8 @@ typedef unsigned int drm_handle_t;
- 
- #else /* One of the BSDs */
- 
--#include <stdint.h>
- #include <sys/ioccom.h>
- #include <sys/types.h>
--typedef int8_t   __s8;
--typedef uint8_t  __u8;
--typedef int16_t  __s16;
--typedef uint16_t __u16;
--typedef int32_t  __s32;
--typedef uint32_t __u32;
--typedef int64_t  __s64;
--typedef uint64_t __u64;
--typedef size_t   __kernel_size_t;
- typedef unsigned long drm_handle_t;
- 
- #endif
-diff --git a/include/uapi/drm/drm_basic_types.h b/include/uapi/drm/drm_basic_types.h
-new file mode 100644
-index 0000000..da1f2c0
---- /dev/null
-+++ b/include/uapi/drm/drm_basic_types.h
-@@ -0,0 +1,52 @@
-+/*
-+ * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
-+ * Copyright 2000 VA Linux Systems, Inc., Sunnyvale, California.
-+ * All rights reserved.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a
-+ * copy of this software and associated documentation files (the "Software"),
-+ * to deal in the Software without restriction, including without limitation
-+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-+ * and/or sell copies of the Software, and to permit persons to whom the
-+ * Software is furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice (including the next
-+ * paragraph) shall be included in all copies or substantial portions of the
-+ * Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-+ * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-+ * OTHER DEALINGS IN THE SOFTWARE.
-+ */
-+
-+#ifndef _DRM_BASIC_TYPES_H_
-+#define _DRM_BASIC_TYPES_H_
-+
-+#if defined(__KERNEL__)
-+
-+#include <linux/types.h>
-+
-+#elif defined(__linux__)
-+
-+#include <linux/types.h>
-+
-+#else /* Not Linux */
-+
-+#include <stdint.h>
-+typedef int8_t   __s8;
-+typedef uint8_t  __u8;
-+typedef int16_t  __s16;
-+typedef uint16_t __u16;
-+typedef int32_t  __s32;
-+typedef uint32_t __u32;
-+typedef int64_t  __s64;
-+typedef uint64_t __u64;
-+typedef size_t   __kernel_size_t;
-+
-+#endif
-+
-+#endif
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 82f3278..539870f 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -24,7 +24,11 @@
- #ifndef DRM_FOURCC_H
- #define DRM_FOURCC_H
- 
-+#include "drm_basic_types.h"
-+
-+#ifndef DRM_FOURCC_STANDALONE
- #include "drm.h"
-+#endif
- 
- #if defined(__cplusplus)
- extern "C" {
--- 
-2.7.4
-
+Regards,
+Lukasz
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
