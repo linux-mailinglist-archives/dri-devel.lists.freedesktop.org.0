@@ -1,28 +1,28 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A442D5FF8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:39:42 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75DB12D5FED
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:39:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 148D46EAC8;
-	Thu, 10 Dec 2020 15:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 005E56EAAC;
+	Thu, 10 Dec 2020 15:39:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDBB46EAA4
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 930EF6E3F5
  for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:39:06 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1knO24-00020b-T0; Thu, 10 Dec 2020 16:39:04 +0100
+ id 1knO24-00020b-UO; Thu, 10 Dec 2020 16:39:04 +0100
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 18/19] drm/imx: ipuv3-plane: use drm managed resources
-Date: Thu, 10 Dec 2020 16:38:44 +0100
-Message-Id: <20201210153845.12176-19-p.zabel@pengutronix.de>
+Subject: [PATCH v5 19/19] drm/imx: ipuv3-crtc: use drm managed resources
+Date: Thu, 10 Dec 2020 16:38:45 +0100
+Message-Id: <20201210153845.12176-20-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210153845.12176-1-p.zabel@pengutronix.de>
 References: <20201210153845.12176-1-p.zabel@pengutronix.de>
@@ -50,253 +50,212 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drmm_universal_plane_alloc() to align plane memory lifetime with
-the drm device. drm_plane_cleanup() is called automatically before the
-memory is freed.
-Also move the call to ipu_plane_get_resources() into ipu_plane_init()
-and use drm managed resources to put IPU resources automatically when
-required. Handle error return values of the plane property creation
-functions.
+Use use drmm_crtc_alloc_with_planes() to align crtc memory lifetime
+with the drm device. drm_crtc_cleanup() is called automatically before
+the memory is freed.
+Also use drmm_add_action_or_reset() to make sure IPU resources are
+released automatically.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/imx/ipuv3-crtc.c  | 27 +-----------
- drivers/gpu/drm/imx/ipuv3-plane.c | 69 +++++++++++++++----------------
- drivers/gpu/drm/imx/ipuv3-plane.h |  3 --
- 3 files changed, 36 insertions(+), 63 deletions(-)
+ drivers/gpu/drm/imx/ipuv3-crtc.c | 114 ++++++++++++-------------------
+ 1 file changed, 43 insertions(+), 71 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/ipuv3-crtc.c b/drivers/gpu/drm/imx/ipuv3-crtc.c
-index 7ebd99ee3240..6ce8fa4348c9 100644
+index 6ce8fa4348c9..e6431a227feb 100644
 --- a/drivers/gpu/drm/imx/ipuv3-crtc.c
 +++ b/drivers/gpu/drm/imx/ipuv3-crtc.c
-@@ -384,29 +384,14 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
- 	drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base, NULL,
- 				  &ipu_crtc_funcs, NULL);
+@@ -20,6 +20,7 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_fb_cma_helper.h>
+ #include <drm/drm_gem_cma_helper.h>
++#include <drm/drm_managed.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_vblank.h>
  
--	ret = ipu_plane_get_resources(ipu_crtc->plane[0]);
+@@ -163,7 +164,6 @@ static void ipu_disable_vblank(struct drm_crtc *crtc)
+ 
+ static const struct drm_crtc_funcs ipu_crtc_funcs = {
+ 	.set_config = drm_atomic_helper_set_config,
+-	.destroy = drm_crtc_cleanup,
+ 	.page_flip = drm_atomic_helper_page_flip,
+ 	.reset = imx_drm_crtc_reset,
+ 	.atomic_duplicate_state = imx_drm_crtc_duplicate_state,
+@@ -322,67 +322,74 @@ static const struct drm_crtc_helper_funcs ipu_helper_funcs = {
+ 	.atomic_enable = ipu_crtc_atomic_enable,
+ };
+ 
+-static void ipu_put_resources(struct ipu_crtc *ipu_crtc)
++static void ipu_put_resources(struct drm_device *dev, void *ptr)
+ {
++	struct ipu_crtc *ipu_crtc = ptr;
++
+ 	if (!IS_ERR_OR_NULL(ipu_crtc->dc))
+ 		ipu_dc_put(ipu_crtc->dc);
+ 	if (!IS_ERR_OR_NULL(ipu_crtc->di))
+ 		ipu_di_put(ipu_crtc->di);
+ }
+ 
+-static int ipu_get_resources(struct ipu_crtc *ipu_crtc,
+-		struct ipu_client_platformdata *pdata)
++static int ipu_get_resources(struct drm_device *dev, struct ipu_crtc *ipu_crtc,
++			     struct ipu_client_platformdata *pdata)
+ {
+ 	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
+ 	int ret;
+ 
+ 	ipu_crtc->dc = ipu_dc_get(ipu, pdata->dc);
+-	if (IS_ERR(ipu_crtc->dc)) {
+-		ret = PTR_ERR(ipu_crtc->dc);
+-		goto err_out;
+-	}
++	if (IS_ERR(ipu_crtc->dc))
++		return PTR_ERR(ipu_crtc->dc);
++
++	ret = drmm_add_action_or_reset(dev, ipu_put_resources, ipu_crtc);
++	if (ret)
++		return ret;
+ 
+ 	ipu_crtc->di = ipu_di_get(ipu, pdata->di);
+-	if (IS_ERR(ipu_crtc->di)) {
+-		ret = PTR_ERR(ipu_crtc->di);
+-		goto err_out;
+-	}
++	if (IS_ERR(ipu_crtc->di))
++		return PTR_ERR(ipu_crtc->di);
+ 
+ 	return 0;
+-err_out:
+-	ipu_put_resources(ipu_crtc);
+-
+-	return ret;
+ }
+ 
+-static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
+-	struct ipu_client_platformdata *pdata, struct drm_device *drm)
++static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+ {
+-	struct ipu_soc *ipu = dev_get_drvdata(ipu_crtc->dev->parent);
+-	struct drm_crtc *crtc = &ipu_crtc->base;
++	struct ipu_client_platformdata *pdata = dev->platform_data;
++	struct ipu_soc *ipu = dev_get_drvdata(dev->parent);
++	struct drm_device *drm = data;
++	struct ipu_plane *primary_plane;
++	struct ipu_crtc *ipu_crtc;
++	struct drm_crtc *crtc;
+ 	int dp = -EINVAL;
+ 	int ret;
+ 
+-	ret = ipu_get_resources(ipu_crtc, pdata);
 -	if (ret) {
--		dev_err(ipu_crtc->dev, "getting plane 0 resources failed with %d.\n",
--			ret);
--		goto err_put_resources;
+-		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
+-				ret);
+-		return ret;
 -	}
 -
+ 	if (pdata->dp >= 0)
+ 		dp = IPU_DP_FLOW_SYNC_BG;
+-	ipu_crtc->plane[0] = ipu_plane_init(drm, ipu, pdata->dma[0], dp, 0,
+-					    DRM_PLANE_TYPE_PRIMARY);
+-	if (IS_ERR(ipu_crtc->plane[0])) {
+-		ret = PTR_ERR(ipu_crtc->plane[0]);
+-		goto err_put_resources;
+-	}
++	primary_plane = ipu_plane_init(drm, ipu, pdata->dma[0], dp, 0,
++				       DRM_PLANE_TYPE_PRIMARY);
++	if (IS_ERR(primary_plane))
++		return PTR_ERR(primary_plane);
++
++	ipu_crtc = drmm_crtc_alloc_with_planes(drm, struct ipu_crtc, base,
++					       &primary_plane->base, NULL,
++					       &ipu_crtc_funcs, NULL);
++	if (IS_ERR(ipu_crtc))
++		return PTR_ERR(ipu_crtc);
++
++	ipu_crtc->dev = dev;
++	ipu_crtc->plane[0] = primary_plane;
+ 
++	crtc = &ipu_crtc->base;
+ 	crtc->port = pdata->of_node;
+ 	drm_crtc_helper_add(crtc, &ipu_helper_funcs);
+-	drm_crtc_init_with_planes(drm, crtc, &ipu_crtc->plane[0]->base, NULL,
+-				  &ipu_crtc_funcs, NULL);
++
++	ret = ipu_get_resources(drm, ipu_crtc, pdata);
++	if (ret) {
++		dev_err(ipu_crtc->dev, "getting resources failed with %d.\n",
++			ret);
++		return ret;
++	}
+ 
  	/* If this crtc is using the DP, add an overlay plane */
  	if (pdata->dp >= 0 && pdata->dma[1] > 0) {
- 		ipu_crtc->plane[1] = ipu_plane_init(drm, ipu, pdata->dma[1],
- 						IPU_DP_FLOW_SYNC_FG,
- 						drm_crtc_mask(&ipu_crtc->base),
- 						DRM_PLANE_TYPE_OVERLAY);
--		if (IS_ERR(ipu_crtc->plane[1])) {
-+		if (IS_ERR(ipu_crtc->plane[1]))
- 			ipu_crtc->plane[1] = NULL;
--		} else {
--			ret = ipu_plane_get_resources(ipu_crtc->plane[1]);
--			if (ret) {
--				dev_err(ipu_crtc->dev, "getting plane 1 "
--					"resources failed with %d.\n", ret);
--				goto err_put_plane0_res;
--			}
--		}
- 	}
- 
- 	ipu_crtc->irq = ipu_plane_irq(ipu_crtc->plane[0]);
-@@ -414,18 +399,13 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
+@@ -399,50 +406,21 @@ static int ipu_crtc_init(struct ipu_crtc *ipu_crtc,
  			"imx_drm", ipu_crtc);
  	if (ret < 0) {
  		dev_err(ipu_crtc->dev, "irq request failed with %d.\n", ret);
--		goto err_put_plane1_res;
-+		goto err_put_resources;
+-		goto err_put_resources;
++		return ret;
  	}
  	/* Only enable IRQ when we actually need it to trigger work. */
  	disable_irq(ipu_crtc->irq);
  
  	return 0;
- 
--err_put_plane1_res:
--	if (ipu_crtc->plane[1])
--		ipu_plane_put_resources(ipu_crtc->plane[1]);
--err_put_plane0_res:
--	ipu_plane_put_resources(ipu_crtc->plane[0]);
- err_put_resources:
- 	ipu_put_resources(ipu_crtc);
- 
-@@ -452,9 +432,6 @@ static void ipu_drm_unbind(struct device *dev, struct device *master,
- 	struct ipu_crtc *ipu_crtc = dev_get_drvdata(dev);
- 
- 	ipu_put_resources(ipu_crtc);
--	if (ipu_crtc->plane[1])
--		ipu_plane_put_resources(ipu_crtc->plane[1]);
--	ipu_plane_put_resources(ipu_crtc->plane[0]);
+-
+-err_put_resources:
+-	ipu_put_resources(ipu_crtc);
+-
+-	return ret;
+-}
+-
+-static int ipu_drm_bind(struct device *dev, struct device *master, void *data)
+-{
+-	struct ipu_client_platformdata *pdata = dev->platform_data;
+-	struct drm_device *drm = data;
+-	struct ipu_crtc *ipu_crtc;
+-
+-	ipu_crtc = dev_get_drvdata(dev);
+-	memset(ipu_crtc, 0, sizeof(*ipu_crtc));
+-
+-	ipu_crtc->dev = dev;
+-
+-	return ipu_crtc_init(ipu_crtc, pdata, drm);
+-}
+-
+-static void ipu_drm_unbind(struct device *dev, struct device *master,
+-	void *data)
+-{
+-	struct ipu_crtc *ipu_crtc = dev_get_drvdata(dev);
+-
+-	ipu_put_resources(ipu_crtc);
  }
  
  static const struct component_ops ipu_crtc_ops = {
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 8a4235d9d9f1..075508051b5f 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -11,6 +11,7 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_managed.h>
- #include <drm/drm_plane_helper.h>
+ 	.bind = ipu_drm_bind,
+-	.unbind = ipu_drm_unbind,
+ };
  
- #include <video/imx-ipu-v3.h>
-@@ -142,8 +143,10 @@ drm_plane_state_to_vbo(struct drm_plane_state *state)
- 	       fb->format->cpp[2] * x - eba;
- }
- 
--void ipu_plane_put_resources(struct ipu_plane *ipu_plane)
-+static void ipu_plane_put_resources(struct drm_device *dev, void *ptr)
+ static int ipu_drm_probe(struct platform_device *pdev)
  {
-+	struct ipu_plane *ipu_plane = ptr;
-+
- 	if (!IS_ERR_OR_NULL(ipu_plane->dp))
- 		ipu_dp_put(ipu_plane->dp);
- 	if (!IS_ERR_OR_NULL(ipu_plane->dmfc))
-@@ -154,7 +157,8 @@ void ipu_plane_put_resources(struct ipu_plane *ipu_plane)
- 		ipu_idmac_put(ipu_plane->alpha_ch);
- }
- 
--int ipu_plane_get_resources(struct ipu_plane *ipu_plane)
-+static int ipu_plane_get_resources(struct drm_device *dev,
-+				   struct ipu_plane *ipu_plane)
- {
+ 	struct device *dev = &pdev->dev;
+-	struct ipu_crtc *ipu_crtc;
  	int ret;
- 	int alpha_ch;
-@@ -166,6 +170,10 @@ int ipu_plane_get_resources(struct ipu_plane *ipu_plane)
+ 
+ 	if (!dev->platform_data)
+@@ -452,12 +430,6 @@ static int ipu_drm_probe(struct platform_device *pdev)
+ 	if (ret)
  		return ret;
- 	}
  
-+	ret = drmm_add_action_or_reset(dev, ipu_plane_put_resources, ipu_plane);
-+	if (ret)
-+		return ret;
-+
- 	alpha_ch = ipu_channel_alpha_channel(ipu_plane->dma);
- 	if (alpha_ch >= 0) {
- 		ipu_plane->alpha_ch = ipu_idmac_get(ipu_plane->ipu, alpha_ch);
-@@ -181,7 +189,7 @@ int ipu_plane_get_resources(struct ipu_plane *ipu_plane)
- 	if (IS_ERR(ipu_plane->dmfc)) {
- 		ret = PTR_ERR(ipu_plane->dmfc);
- 		DRM_ERROR("failed to get dmfc: ret %d\n", ret);
--		goto err_out;
-+		return ret;
- 	}
- 
- 	if (ipu_plane->dp_flow >= 0) {
-@@ -189,15 +197,11 @@ int ipu_plane_get_resources(struct ipu_plane *ipu_plane)
- 		if (IS_ERR(ipu_plane->dp)) {
- 			ret = PTR_ERR(ipu_plane->dp);
- 			DRM_ERROR("failed to get dp flow: %d\n", ret);
--			goto err_out;
-+			return ret;
- 		}
- 	}
- 
- 	return 0;
--err_out:
--	ipu_plane_put_resources(ipu_plane);
+-	ipu_crtc = devm_kzalloc(dev, sizeof(*ipu_crtc), GFP_KERNEL);
+-	if (!ipu_crtc)
+-		return -ENOMEM;
 -
--	return ret;
+-	dev_set_drvdata(dev, ipu_crtc);
+-
+ 	return component_add(dev, &ipu_crtc_ops);
  }
  
- static bool ipu_plane_separate_alpha(struct ipu_plane *ipu_plane)
-@@ -262,16 +266,6 @@ void ipu_plane_disable_deferred(struct drm_plane *plane)
- }
- EXPORT_SYMBOL_GPL(ipu_plane_disable_deferred);
- 
--static void ipu_plane_destroy(struct drm_plane *plane)
--{
--	struct ipu_plane *ipu_plane = to_ipu_plane(plane);
--
--	DRM_DEBUG_KMS("[%d] %s\n", __LINE__, __func__);
--
--	drm_plane_cleanup(plane);
--	kfree(ipu_plane);
--}
--
- static void ipu_plane_state_reset(struct drm_plane *plane)
- {
- 	unsigned int zpos = (plane->type == DRM_PLANE_TYPE_PRIMARY) ? 0 : 1;
-@@ -336,7 +330,6 @@ static bool ipu_plane_format_mod_supported(struct drm_plane *plane,
- static const struct drm_plane_funcs ipu_plane_funcs = {
- 	.update_plane	= drm_atomic_helper_update_plane,
- 	.disable_plane	= drm_atomic_helper_disable_plane,
--	.destroy	= ipu_plane_destroy,
- 	.reset		= ipu_plane_state_reset,
- 	.atomic_duplicate_state	= ipu_plane_duplicate_state,
- 	.atomic_destroy_state	= ipu_plane_destroy_state,
-@@ -834,10 +827,15 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	DRM_DEBUG_KMS("channel %d, dp flow %d, possible_crtcs=0x%x\n",
- 		      dma, dp, possible_crtcs);
- 
--	ipu_plane = kzalloc(sizeof(*ipu_plane), GFP_KERNEL);
--	if (!ipu_plane) {
--		DRM_ERROR("failed to allocate plane\n");
--		return ERR_PTR(-ENOMEM);
-+	ipu_plane = drmm_universal_plane_alloc(dev, struct ipu_plane, base,
-+					       possible_crtcs, &ipu_plane_funcs,
-+					       ipu_plane_formats,
-+					       ARRAY_SIZE(ipu_plane_formats),
-+					       modifiers, type, NULL);
-+	if (IS_ERR(ipu_plane)) {
-+		DRM_ERROR("failed to allocate and initialize %s plane\n",
-+			  zpos ? "overlay" : "primary");
-+		return ipu_plane;
- 	}
- 
- 	ipu_plane->ipu = ipu;
-@@ -847,22 +845,23 @@ struct ipu_plane *ipu_plane_init(struct drm_device *dev, struct ipu_soc *ipu,
- 	if (ipu_prg_present(ipu))
- 		modifiers = pre_format_modifiers;
- 
--	ret = drm_universal_plane_init(dev, &ipu_plane->base, possible_crtcs,
--				       &ipu_plane_funcs, ipu_plane_formats,
--				       ARRAY_SIZE(ipu_plane_formats),
--				       modifiers, type, NULL);
--	if (ret) {
--		DRM_ERROR("failed to initialize plane\n");
--		kfree(ipu_plane);
--		return ERR_PTR(ret);
--	}
--
- 	drm_plane_helper_add(&ipu_plane->base, &ipu_plane_helper_funcs);
- 
- 	if (dp == IPU_DP_FLOW_SYNC_BG || dp == IPU_DP_FLOW_SYNC_FG)
--		drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0, 1);
-+		ret = drm_plane_create_zpos_property(&ipu_plane->base, zpos, 0,
-+						     1);
- 	else
--		drm_plane_create_zpos_immutable_property(&ipu_plane->base, 0);
-+		ret = drm_plane_create_zpos_immutable_property(&ipu_plane->base,
-+							       0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = ipu_plane_get_resources(dev, ipu_plane);
-+	if (ret) {
-+		DRM_ERROR("failed to get %s plane resources: %pe\n",
-+			  zpos ? "overlay" : "primary", &ret);
-+		return ERR_PTR(ret);
-+	}
- 
- 	return ipu_plane;
- }
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.h b/drivers/gpu/drm/imx/ipuv3-plane.h
-index ffacbcdd2f98..6d544e6ce63f 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.h
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.h
-@@ -41,9 +41,6 @@ int ipu_plane_mode_set(struct ipu_plane *plane, struct drm_crtc *crtc,
- 		       uint32_t src_x, uint32_t src_y, uint32_t src_w,
- 		       uint32_t src_h, bool interlaced);
- 
--int ipu_plane_get_resources(struct ipu_plane *plane);
--void ipu_plane_put_resources(struct ipu_plane *plane);
--
- int ipu_plane_irq(struct ipu_plane *plane);
- 
- void ipu_plane_disable(struct ipu_plane *ipu_plane, bool disable_dp_channel);
 -- 
 2.20.1
 
