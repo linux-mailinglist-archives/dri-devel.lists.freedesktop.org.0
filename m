@@ -1,70 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9442B2D5E88
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:49:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBEC2D5E7E
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:49:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25B546EACE;
-	Thu, 10 Dec 2020 14:49:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43D0B6EAC6;
+	Thu, 10 Dec 2020 14:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79DEB6E580
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:47:04 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
- by mailnew.west.internal (Postfix) with ESMTP id 0C93CEC8;
- Thu, 10 Dec 2020 08:47:02 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE316E580
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:47:05 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 5FD093DB;
+ Thu, 10 Dec 2020 08:47:04 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute7.internal (MEProxy); Thu, 10 Dec 2020 08:47:04 -0500
+ by compute4.internal (MEProxy); Thu, 10 Dec 2020 08:47:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=3l25+3vkvIlo3
- zdTOZj26wgphPMfgkDcOOj5Y5/Rn7E=; b=LamlBIu/5hNVwgjfRRnkhX899sXT7
- QtJksW123ywwkkfHr+Bk5i2rq3Q/2GUZJ3A+3Ar4SDTvNL+FewfnV+BCDaCIUsIG
- oNitV6kgJP20/4GKANbzBAfCw5WLTRyzr7VbmjWUmoYW1x4BWqnc+cyf9L7frf2d
- CMZyifqOHu/NjLePjlSwHEpMCAl3SxmA1imuVLxjREunDQwkcT6sYkz8EF9M9mBl
- cQwWLyQ8cKJf0YN3vvtkPx1njkHOvONP3N2Wr6n3dN27idNhEljkTXz0lCgoVltA
- UQh17EMveFf0LAQvcClvh3HDF9umLr0STst3Vspir3Zi2QyIMWne4KrcA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=U1K9CT6BAj2yS
+ ZWLXy5gbPJsyoT3Q5gJl2rqRfiHtgY=; b=CXygC3Nk3R1wTsazEChyXKFfzl6r4
+ /Gw8fvPx7Rey/VLw8QvfTLvLcBf5v9CjZfptriGTassqsZeILVNnx4RwJiQxZnmM
+ ibuvPeDWn2WPGiVMuK4L4mLK6nDmMIG6wRBdPV61NzK33j9VoxIIHKKqailcUG0L
+ OejVvaAw0agFChyMkHKnr6MC+hmCVCaPTbyDu5hEKQZUpKWHZWRIeHuo8PHXFQBB
+ /T3mpxLyTCyw+TxlFIhuGcQEN3F9FeXHtU2J/M/JNdp1H8MPpzA7aOnFs0Whe24y
+ H+9Salq9XdHfnADGYGF0gj5yRrTloglHMBNr33XNaJGw+G3kwQAPChIpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=3l25+3vkvIlo3zdTOZj26wgphPMfgkDcOOj5Y5/Rn7E=; b=M8275zfY
- Tppp2r2eE7oDoA+65vqvb0YpslV51TqC0gKuQ482ydTNFol+Fja8t542xA36lnvX
- E7uA5rGdcZhAta8/s2czL2jtMPfhvzGg3cJf0vln/E+gvSqnv7c+/HtejT3hzn5h
- X5pD0o/vCwLpSrDsc/Gk4aFCRa3MXG63H9ibWo1nCVPP9HPfnIaiBr8azyUM7SFu
- 54SIAKbYHzDWI1BdxLnB+pFRL/P+toNzorEgiZ+UR9F9+T4EXhmAzOuAXhgy9Wl8
- m5k/tV3L+IwvsU/1yIpaIkoIaXZFRiVqfm0h979ifMZjhXwS8n5GSEK+Kb+/xWoI
- u3ubYFhDKRD9rA==
-X-ME-Sender: <xms:1ibSX4doEY7tXruJEjWNX1nXFSPQI343L4gzL7Ouy7mfhdbO2RRwjQ>
- <xme:1ibSX0zZsP0VyzN4RJ3GWrBwdT3b6lePEd0TrhxvUJGUCGFcngWiv7IBpcYLywR9y
- MDsve7OdsWpeGQzDqM>
+ fm1; bh=U1K9CT6BAj2ySZWLXy5gbPJsyoT3Q5gJl2rqRfiHtgY=; b=ASeCylp9
+ Ipzj0CJC3HVU1MCeqY19Jt0rvVI5UA4lPdopEKffCDtoRxdSOiw8KO8s7iihwxf7
+ TBw6DhgkjXMPefSnwKvppf+xGcK5S7SdGYFvePtk84RaMC3Tz2KKT/4+6OBen48U
+ S4wMOiENXPAmvLjKtOyjYWIJg2GcPtPfQNB4HB0VB+yduTQSRNEXgYFPo0vL+Ifz
+ 7vyzb12avB5Mp7ucTMmbPnB4AHhHWy5jG4N+aQ3MFfaQfneogmOr8aTl56KTtw84
+ tUVRIszdl98mwzFcqNDpAves5XSB9eyJdAJ28owzfZ1pCr7KhJ5Iis9tmb4FhQLj
+ Ku2XwladxFdsKA==
+X-ME-Sender: <xms:1ybSXwnzm4Sd-vu4IPoyI3tXYGa4NeJnR7XixyVi_6C57uk4IyncVQ>
+ <xme:1ybSX7tj8WNer9V6x-GJOl1GFIHZgIE0zRtdG2AOgrPoYQ-q6zp4xtCpwQ_46OYVF
+ EmPUscBe3jLZa5-8NM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:1ibSX2HbtvqMAuBJIt5iC1VPo5A1byHiUTdMnJTjMljnan6tRAOR1A>
- <xmx:1ibSXwzEoRHz9BmrU4XwLZqbKvHI-DszNGtWFgKYEYQV2qaM6v_Zsw>
- <xmx:1ibSX_uOqUkkXUA8sL6sS7I477R2rvsv-Rx0wjjZk4hAKRwvm39wsg>
- <xmx:1ibSX4dE1o11qlAGfZAStSACy1A4fCWo22MbWCEAnRz3I4n2IdLBC6TNlYE>
+X-ME-Proxy: <xmx:1ybSX7qTkFdSp2fuozu2UQb0Sc61kSsX9t_AK7qBUGHUkWn5vzSYcg>
+ <xmx:1ybSXxdt8WVfeMFXHMbkX2tDAxt_FsofNRLGZrvFYfzrvuLTqmyzzA>
+ <xmx:1ybSXzlWU5tdRsuDzv3qbyNIsEeOJJJoXagY1ztNZbJly-ulAe1_3A>
+ <xmx:1ybSX-KtMjX8fdGE5pLzLu8Ktvrrh7JvHbVwwGhywPfj03B5jXsyll_TeWw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4C82D1080067;
- Thu, 10 Dec 2020 08:47:02 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id ACC16108005B;
+ Thu, 10 Dec 2020 08:47:03 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 09/15] drm/vc4: hdmi: Split the interrupt handlers
-Date: Thu, 10 Dec 2020 14:46:42 +0100
-Message-Id: <20201210134648.272857-10-maxime@cerno.tech>
+Subject: [PATCH 10/15] drm/vc4: hdmi: Support BCM2711 CEC interrupt setup
+Date: Thu, 10 Dec 2020 14:46:43 +0100
+Message-Id: <20201210134648.272857-11-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
 References: <20201210134648.272857-1-maxime@cerno.tech>
@@ -94,143 +94,120 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The BCM2711 has two different interrupt sources to transmit and receive
-CEC messages, provided through an external interrupt chip shared between
-the two HDMI interrupt controllers.
+The HDMI controller found in the BCM2711 has an external interrupt
+controller for the CEC and hotplug interrupt shared between the two
+instances.
 
-The rest of the CEC controller is identical though so we need to change
-a bit the code organisation to share the code as much as possible, yet
-still allowing to register independant handlers.
+Let's add a variant flag to register a single interrupt handler and
+deals with the interrupt handler setup, or two interrupt handlers
+relying on an external irqchip.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 86 +++++++++++++++++++++++++---------
- 1 file changed, 65 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 42 ++++++++++++++++++++++++++--------
+ drivers/gpu/drm/vc4/vc4_hdmi.h |  7 ++++++
+ 2 files changed, 39 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 0debd22bc992..80a81fcea315 100644
+index 80a81fcea315..d208b7d1d937 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1442,15 +1442,22 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- }
+@@ -1593,9 +1593,11 @@ static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ 			   ((3600 / usecs) << VC4_HDMI_CEC_CNT_TO_3600_US_SHIFT) |
+ 			   ((3500 / usecs) << VC4_HDMI_CEC_CNT_TO_3500_US_SHIFT));
  
- #ifdef CONFIG_DRM_VC4_HDMI_CEC
--static irqreturn_t vc4_cec_irq_handler_thread(int irq, void *priv)
-+static irqreturn_t vc4_cec_irq_handler_rx_thread(int irq, void *priv)
- {
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 
--	if (vc4_hdmi->cec_irq_was_rx) {
--		if (vc4_hdmi->cec_rx_msg.len)
--			cec_received_msg(vc4_hdmi->cec_adap,
--					 &vc4_hdmi->cec_rx_msg);
--	} else if (vc4_hdmi->cec_tx_ok) {
-+	if (vc4_hdmi->cec_rx_msg.len)
-+		cec_received_msg(vc4_hdmi->cec_adap,
-+				 &vc4_hdmi->cec_rx_msg);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static irqreturn_t vc4_cec_irq_handler_tx_thread(int irq, void *priv)
-+{
-+	struct vc4_hdmi *vc4_hdmi = priv;
-+
-+	if (vc4_hdmi->cec_tx_ok) {
- 		cec_transmit_done(vc4_hdmi->cec_adap, CEC_TX_STATUS_OK,
- 				  0, 0, 0, 0);
+-		HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
++		if (!vc4_hdmi->variant->external_irq_controller)
++			HDMI_WRITE(HDMI_CEC_CPU_MASK_CLEAR, VC4_HDMI_CPU_CEC);
  	} else {
-@@ -1464,6 +1471,19 @@ static irqreturn_t vc4_cec_irq_handler_thread(int irq, void *priv)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t vc4_cec_irq_handler_thread(int irq, void *priv)
-+{
-+	struct vc4_hdmi *vc4_hdmi = priv;
-+	irqreturn_t ret;
-+
-+	if (vc4_hdmi->cec_irq_was_rx)
-+		ret = vc4_cec_irq_handler_rx_thread(irq, priv);
-+	else
-+		ret = vc4_cec_irq_handler_tx_thread(irq, priv);
-+
-+	return ret;
-+}
-+
- static void vc4_cec_read_msg(struct vc4_hdmi *vc4_hdmi, u32 cntrl1)
- {
- 	struct drm_device *dev = vc4_hdmi->connector.dev;
-@@ -1488,31 +1508,55 @@ static void vc4_cec_read_msg(struct vc4_hdmi *vc4_hdmi, u32 cntrl1)
+-		HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
++		if (!vc4_hdmi->variant->external_irq_controller)
++			HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, VC4_HDMI_CPU_CEC);
+ 		HDMI_WRITE(HDMI_CEC_CNTRL_5, val |
+ 			   VC4_HDMI_CEC_TX_SW_RESET | VC4_HDMI_CEC_RX_SW_RESET);
  	}
- }
+@@ -1670,8 +1672,6 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+ 	cec_fill_conn_info_from_drm(&conn_info, &vc4_hdmi->connector);
+ 	cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
  
-+static irqreturn_t vc4_cec_irq_handler_tx_bare(int irq, void *priv)
-+{
-+	struct vc4_hdmi *vc4_hdmi = priv;
-+	u32 cntrl1;
-+
-+	cntrl1 = HDMI_READ(HDMI_CEC_CNTRL_1);
-+	vc4_hdmi->cec_tx_ok = cntrl1 & VC4_HDMI_CEC_TX_STATUS_GOOD;
-+	cntrl1 &= ~VC4_HDMI_CEC_START_XMIT_BEGIN;
-+	HDMI_WRITE(HDMI_CEC_CNTRL_1, cntrl1);
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static irqreturn_t vc4_cec_irq_handler_rx_bare(int irq, void *priv)
-+{
-+	struct vc4_hdmi *vc4_hdmi = priv;
-+	u32 cntrl1;
-+
-+	vc4_hdmi->cec_rx_msg.len = 0;
-+	cntrl1 = HDMI_READ(HDMI_CEC_CNTRL_1);
-+	vc4_cec_read_msg(vc4_hdmi, cntrl1);
-+	cntrl1 |= VC4_HDMI_CEC_CLEAR_RECEIVE_OFF;
-+	HDMI_WRITE(HDMI_CEC_CNTRL_1, cntrl1);
-+	cntrl1 &= ~VC4_HDMI_CEC_CLEAR_RECEIVE_OFF;
-+
-+	HDMI_WRITE(HDMI_CEC_CNTRL_1, cntrl1);
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
- static irqreturn_t vc4_cec_irq_handler(int irq, void *priv)
- {
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 	u32 stat = HDMI_READ(HDMI_CEC_CPU_STATUS);
--	u32 cntrl1, cntrl5;
-+	irqreturn_t ret;
-+	u32 cntrl5;
- 
- 	if (!(stat & VC4_HDMI_CPU_CEC))
- 		return IRQ_NONE;
--	vc4_hdmi->cec_rx_msg.len = 0;
--	cntrl1 = HDMI_READ(HDMI_CEC_CNTRL_1);
-+
- 	cntrl5 = HDMI_READ(HDMI_CEC_CNTRL_5);
- 	vc4_hdmi->cec_irq_was_rx = cntrl5 & VC4_HDMI_CEC_RX_CEC_INT;
--	if (vc4_hdmi->cec_irq_was_rx) {
--		vc4_cec_read_msg(vc4_hdmi, cntrl1);
--		cntrl1 |= VC4_HDMI_CEC_CLEAR_RECEIVE_OFF;
--		HDMI_WRITE(HDMI_CEC_CNTRL_1, cntrl1);
--		cntrl1 &= ~VC4_HDMI_CEC_CLEAR_RECEIVE_OFF;
--	} else {
--		vc4_hdmi->cec_tx_ok = cntrl1 & VC4_HDMI_CEC_TX_STATUS_GOOD;
--		cntrl1 &= ~VC4_HDMI_CEC_START_XMIT_BEGIN;
--	}
--	HDMI_WRITE(HDMI_CEC_CNTRL_1, cntrl1);
-+	if (vc4_hdmi->cec_irq_was_rx)
-+		ret = vc4_cec_irq_handler_rx_bare(irq, priv);
-+	else
-+		ret = vc4_cec_irq_handler_tx_bare(irq, priv);
-+
- 	HDMI_WRITE(HDMI_CEC_CPU_CLEAR, VC4_HDMI_CPU_CEC);
+-	HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
 -
--	return IRQ_WAKE_THREAD;
-+	return ret;
- }
+ 	value = HDMI_READ(HDMI_CEC_CNTRL_1);
+ 	/* Set the logical address to Unregistered */
+ 	value |= VC4_HDMI_CEC_ADDR_MASK;
+@@ -1679,12 +1679,32 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
  
- static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
+ 	vc4_hdmi_cec_update_clk_div(vc4_hdmi);
+ 
+-	ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
+-					vc4_cec_irq_handler,
+-					vc4_cec_irq_handler_thread, 0,
+-					"vc4 hdmi cec", vc4_hdmi);
+-	if (ret)
+-		goto err_delete_cec_adap;
++	if (vc4_hdmi->variant->external_irq_controller) {
++		ret = devm_request_threaded_irq(&pdev->dev,
++						platform_get_irq_byname(pdev, "cec-rx"),
++						vc4_cec_irq_handler_rx_bare,
++						vc4_cec_irq_handler_rx_thread, 0,
++						"vc4 hdmi cec rx", vc4_hdmi);
++		if (ret)
++			goto err_delete_cec_adap;
++
++		ret = devm_request_threaded_irq(&pdev->dev,
++						platform_get_irq_byname(pdev, "cec-tx"),
++						vc4_cec_irq_handler_tx_bare,
++						vc4_cec_irq_handler_tx_thread, 0,
++						"vc4 hdmi cec tx", vc4_hdmi);
++		if (ret)
++			goto err_delete_cec_adap;
++	} else {
++		HDMI_WRITE(HDMI_CEC_CPU_MASK_SET, 0xffffffff);
++
++		ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
++						vc4_cec_irq_handler,
++						vc4_cec_irq_handler_thread, 0,
++						"vc4 hdmi cec", vc4_hdmi);
++		if (ret)
++			goto err_delete_cec_adap;
++	}
+ 
+ 	ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
+ 	if (ret < 0)
+@@ -2083,6 +2103,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+ 		PHY_LANE_CK,
+ 	},
+ 	.unsupported_odd_h_timings	= true,
++	.external_irq_controller	= true,
+ 
+ 	.init_resources		= vc5_hdmi_init_resources,
+ 	.csc_setup		= vc5_hdmi_csc_setup,
+@@ -2109,6 +2130,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+ 		PHY_LANE_2,
+ 	},
+ 	.unsupported_odd_h_timings	= true,
++	.external_irq_controller	= true,
+ 
+ 	.init_resources		= vc5_hdmi_init_resources,
+ 	.csc_setup		= vc5_hdmi_csc_setup,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
+index adc4bf33ff15..27352827f70c 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.h
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
+@@ -64,6 +64,13 @@ struct vc4_hdmi_variant {
+ 	/* The BCM2711 cannot deal with odd horizontal pixel timings */
+ 	bool unsupported_odd_h_timings;
+ 
++	/*
++	 * The BCM2711 CEC/hotplug IRQ controller is shared between the
++	 * two HDMI controllers, and we have a proper irqchip driver for
++	 * it.
++	 */
++	bool external_irq_controller;
++
+ 	/* Callback to get the resources (memory region, interrupts,
+ 	 * clocks, etc) for that variant.
+ 	 */
 -- 
 2.28.0
 
