@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29EC2D7166
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C337B2D7164
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C714C6ECBC;
-	Fri, 11 Dec 2020 08:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B92496ECA7;
+	Fri, 11 Dec 2020 08:16:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1425A6EB17;
- Thu, 10 Dec 2020 19:42:17 +0000 (UTC)
-Message-Id: <20201210192536.118432146@linutronix.de>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6876EB17;
+ Thu, 10 Dec 2020 19:42:18 +0000 (UTC)
+Message-Id: <20201210194042.548936472@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629334;
+ s=2020; t=1607629336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dqmaBUU1aX3t41xhFMZZXhwmlvXhIHW8LZkxAL3qIuw=;
- b=h/TAwStAiTk4XvWiKPBPyDEOx218hZJC1vmF2rxVMRIvmco9q+UXf8EllPz4AjaFdOly7G
- LH+a53gOb/6x23hHUexy7zt6RJrXCLvlfH0RT7UmulMioZYuYNOHYckgeF+NjT2uTUeh+Y
- x4QOtIuHWxwLs6LKhedv+5hufAepZeedXGgORll6jDA+oynwB+JjiqXx/tgkxTCP8dbJ6L
- eWUOoe8IS6Z7h2dgCBQQBehNHm1Tfe56GXWt3TBc5qz2bsl6Xo6wT+1/DTPysSy3XD7/6K
- p0j9T2Hw/f1US+iZCI2FQmyJpu2ijKWYz9OMLgGwEfvXwTDnGAF9V1bHZmS/0A==
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=wCqGjbHBcSlcHWGOV/dAhxvR97JcFGNX9psmcROoCq0=;
+ b=2Z0Q8lbqw2d3iK0lyMTfu6GGSIFMkE/mgVP/hAGnWOqxBRMxf5MtZTpRPSPBXz/boYfgYn
+ ST6oe0NetpTwhOSarLLIdAuYLS1gydE77MQVYVcY3FouLrWnl5si1eWOJ4F95yCk0G9X60
+ 1VL1Pvt1tpdt2jzvXhHk1B3J4gqT2I16payytnnsVM1ae0GkKHVOkzm3mG/NvUjNMZDZ8b
+ Y9sC2WWQtJSCM32DjS16A3YMAUHnAI48PATHpxuESAMuGdCfbbEW6ICvvlfOLWvLQ9S/jh
+ Z+QD95xpqockzbshrRUV6G0e1FqEFRsR9IAhKZG5jK6CihEBgYA5K4ONks8gvw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629334;
+ s=2020e; t=1607629336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=dqmaBUU1aX3t41xhFMZZXhwmlvXhIHW8LZkxAL3qIuw=;
- b=njYD6xBoyWobXQbQRXgtO58qqL+V8jLaqaWB6hUvHzVko4O9Y0w527+7oT5RC78ucYDSLL
- sPAJGjvbV9zCgIAw==
-Date: Thu, 10 Dec 2020 20:25:36 +0100
+ content-transfer-encoding:content-transfer-encoding:  references:references;
+ bh=wCqGjbHBcSlcHWGOV/dAhxvR97JcFGNX9psmcROoCq0=;
+ b=7JxYxk/ThtDXDjNM4lO0Kv6ZI0VZ4wL2ccu9YMROMO3FB+Dn8roKKZsGAALM1EdgllUWzl
+ ydzvbEXlvqdXI/CQ==
+Date: Thu, 10 Dec 2020 20:25:37 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 00/30] genirq: Treewide hunt for irq descriptor abuse and
- assorted fixes
+Subject: [patch 01/30] genirq: Move irq_has_action() into core code
+References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,73 +84,92 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A recent request to export kstat_irqs() pointed to a copy of the same in
-the i915 code, which made me look for further usage of irq descriptors in
-drivers.
+This function uses irq_to_desc() and is going to be used by modules to
+replace the open coded irq_to_desc() (ab)usage. The final goal is to remove
+the export of irq_to_desc() so driver cannot fiddle with it anymore.
 
-The usage in drivers ranges from creative to broken in all colours.
+Move it into the core code and fixup the usage sites to include the proper
+header.
 
-irqdesc.h clearly says that this is core functionality and the fact C does
-not allow full encapsulation is not a justification to fiddle with it just
-because. It took us a lot of effort to make the core functionality provide
-what drivers need.
-
-If there is a shortcoming, it's not asked too much to talk to the relevant
-maintainers instead of going off and fiddling with the guts of interrupt
-descriptors and often enough without understanding lifetime and locking
-rules.
-
-As people insist on not respecting boundaries, this series cleans up the
-(ab)use and at the end removes the export of irq_to_desc() to make it at
-least harder. All legitimate users of this are built in.
-
-While at it I stumbled over some other oddities related to interrupt
-counting and cleaned them up as well.
-
-The series applies on top of
-
-   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-
-and is also available from git:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git genirq
-
-Thanks,
-
-	tglx
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 ---
- arch/alpha/kernel/sys_jensen.c                       |    2 
- arch/arm/kernel/smp.c                                |    2 
- arch/parisc/kernel/irq.c                             |    7 
- arch/s390/kernel/irq.c                               |    2 
- arch/x86/kernel/topology.c                           |    1 
- arch/arm64/kernel/smp.c                              |    2 
- drivers/gpu/drm/i915/display/intel_lpe_audio.c       |    4 
- drivers/gpu/drm/i915/i915_irq.c                      |   34 +++
- drivers/gpu/drm/i915/i915_pmu.c                      |   18 -
- drivers/gpu/drm/i915/i915_pmu.h                      |    8 
- drivers/mfd/ab8500-debugfs.c                         |   16 -
- drivers/net/ethernet/mellanox/mlx4/en_cq.c           |    8 
- drivers/net/ethernet/mellanox/mlx4/en_rx.c           |    6 
- drivers/net/ethernet/mellanox/mlx4/mlx4_en.h         |    3 
- drivers/net/ethernet/mellanox/mlx5/core/en.h         |    2 
- drivers/net/ethernet/mellanox/mlx5/core/en_main.c    |    2 
- drivers/net/ethernet/mellanox/mlx5/core/en_txrx.c    |    6 
- drivers/ntb/msi.c                                    |    4 
- drivers/pci/controller/mobiveil/pcie-mobiveil-host.c |    8 
- drivers/pci/controller/pcie-xilinx-nwl.c             |    8 
- drivers/pinctrl/nomadik/pinctrl-nomadik.c            |    3 
- drivers/xen/events/events_base.c                     |  172 +++++++++++--------
- drivers/xen/evtchn.c                                 |   34 ---
- include/linux/interrupt.h                            |    1 
- include/linux/irq.h                                  |    7 
- include/linux/irqdesc.h                              |   40 +---
- include/linux/kernel_stat.h                          |    1 
- kernel/irq/irqdesc.c                                 |   42 ++--
- kernel/irq/manage.c                                  |   37 ++++
- kernel/irq/proc.c                                    |    5 
- 30 files changed, 263 insertions(+), 222 deletions(-)
+ arch/alpha/kernel/sys_jensen.c |    2 +-
+ arch/x86/kernel/topology.c     |    1 +
+ include/linux/interrupt.h      |    1 +
+ include/linux/irqdesc.h        |    7 +------
+ kernel/irq/manage.c            |   17 +++++++++++++++++
+ 5 files changed, 21 insertions(+), 7 deletions(-)
 
+--- a/arch/alpha/kernel/sys_jensen.c
++++ b/arch/alpha/kernel/sys_jensen.c
+@@ -7,7 +7,7 @@
+  *
+  * Code supporting the Jensen.
+  */
+-
++#include <linux/interrupt.h>
+ #include <linux/kernel.h>
+ #include <linux/types.h>
+ #include <linux/mm.h>
+--- a/arch/x86/kernel/topology.c
++++ b/arch/x86/kernel/topology.c
+@@ -25,6 +25,7 @@
+  *
+  * Send feedback to <colpatch@us.ibm.com>
+  */
++#include <linux/interrupt.h>
+ #include <linux/nodemask.h>
+ #include <linux/export.h>
+ #include <linux/mmzone.h>
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -232,6 +232,7 @@ extern void devm_free_irq(struct device
+ # define local_irq_enable_in_hardirq()	local_irq_enable()
+ #endif
+ 
++bool irq_has_action(unsigned int irq);
+ extern void disable_irq_nosync(unsigned int irq);
+ extern bool disable_hardirq(unsigned int irq);
+ extern void disable_irq(unsigned int irq);
+--- a/include/linux/irqdesc.h
++++ b/include/linux/irqdesc.h
+@@ -179,12 +179,7 @@ int handle_domain_nmi(struct irq_domain
+ /* Test to see if a driver has successfully requested an irq */
+ static inline int irq_desc_has_action(struct irq_desc *desc)
+ {
+-	return desc->action != NULL;
+-}
+-
+-static inline int irq_has_action(unsigned int irq)
+-{
+-	return irq_desc_has_action(irq_to_desc(irq));
++	return desc && desc->action != NULL;
+ }
+ 
+ /**
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -2752,3 +2752,20 @@ int irq_set_irqchip_state(unsigned int i
+ 	return err;
+ }
+ EXPORT_SYMBOL_GPL(irq_set_irqchip_state);
++
++/**
++ * irq_has_action - Check whether an interrupt is requested
++ * @irq:	The linux irq number
++ *
++ * Returns: A snapshot of the current state
++ */
++bool irq_has_action(unsigned int irq)
++{
++	bool res;
++
++	rcu_read_lock();
++	res = irq_desc_has_action(irq_to_desc(irq));
++	rcu_read_unlock();
++	return res;
++}
++EXPORT_SYMBOL_GPL(irq_has_action);
 
 _______________________________________________
 dri-devel mailing list
