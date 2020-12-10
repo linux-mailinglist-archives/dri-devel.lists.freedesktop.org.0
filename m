@@ -1,36 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47572D577D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 10:46:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4742D5791
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 10:53:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125556EA5A;
-	Thu, 10 Dec 2020 09:46:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 245576EA4E;
+	Thu, 10 Dec 2020 09:53:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 44A6E6EA59;
- Thu, 10 Dec 2020 09:46:34 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A39591FB;
- Thu, 10 Dec 2020 01:46:33 -0800 (PST)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F9263F718;
- Thu, 10 Dec 2020 01:46:31 -0800 (PST)
-Subject: Re: [PATCH 1/1] drm/scheduler: Job timeout handler returns status (v2)
-To: Luben Tuikov <luben.tuikov@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-References: <20201210021438.9190-1-luben.tuikov@amd.com>
- <20201210021438.9190-2-luben.tuikov@amd.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <5adf573f-8b56-9f85-96c4-727cc6fcadfc@arm.com>
-Date: Thu, 10 Dec 2020 09:46:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD9D26E415;
+ Thu, 10 Dec 2020 09:53:32 +0000 (UTC)
+IronPort-SDR: oIOrslPf6jXwwVDGgSkQ6nVZv0mMA3MF3p3VOSjVJ4xdcDmv0HCqxpivXO8CD/6NzXkqnA2lOn
+ 6Kb8WNtzuyow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="235822211"
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="235822211"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 01:53:31 -0800
+IronPort-SDR: kRAPUN+BIxOSpYDWTwSl8/02jvKIfPo9YFwnf9M00usxv6Uf+qpuzBNchJnWZh1Q//Pj1QPENx
+ LZhRvdlot/+Q==
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="318989169"
+Received: from yechielg-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.249.81.29])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 01:53:29 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Navare\, Manasi" <manasi.d.navare@intel.com>
+Subject: Re: [PATCH 5/6] drm/i915/bios: fill in DSC rc_model_size from VBT
+In-Reply-To: <20201208202659.GD474@labuser-Z97X-UD5H>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1607429866.git.jani.nikula@intel.com>
+ <43fba75d89525413aed0bdbb082c26b09458bd46.1607429866.git.jani.nikula@intel.com>
+ <20201208202659.GD474@labuser-Z97X-UD5H>
+Date: Thu, 10 Dec 2020 11:53:25 +0200
+Message-ID: <87zh2m7zsa.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201210021438.9190-2-luben.tuikov@amd.com>
-Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,116 +49,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel test robot <lkp@intel.com>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Qiang Yu <yuq825@gmail.com>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Alexander Deucher <Alexander.Deucher@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Vandita Kulkarni <vandita.kulkarni@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTAvMTIvMjAyMCAwMjoxNCwgTHViZW4gVHVpa292IHdyb3RlOgo+IFRoaXMgcGF0Y2ggZG9l
-cyBub3QgY2hhbmdlIGN1cnJlbnQgYmVoYXZpb3VyLgo+IAo+IFRoZSBkcml2ZXIncyBqb2IgdGlt
-ZW91dCBoYW5kbGVyIG5vdyByZXR1cm5zCj4gc3RhdHVzIGluZGljYXRpbmcgYmFjayB0byB0aGUg
-RFJNIGxheWVyIHdoZXRoZXIKPiB0aGUgdGFzayAoam9iKSB3YXMgc3VjY2Vzc2Z1bGx5IGFib3J0
-ZWQgb3Igd2hldGhlcgo+IG1vcmUgdGltZSBzaG91bGQgYmUgZ2l2ZW4gdG8gdGhlIHRhc2sgdG8g
-Y29tcGxldGUuCgpJIGZpbmQgdGhlIGRlZmluaXRpb25zIGdpdmVuIGEgbGl0dGxlIGNvbmZ1c2lu
-Zywgc2VlIGJlbG93LgoKPiBEZWZhdWx0IGJlaGF2aW91ciBhcyBvZiB0aGlzIHBhdGNoLCBpcyBw
-cmVzZXJ2ZWQsCj4gZXhjZXB0IGluIG9idmlvdXMtYnktY29tbWVudCBjYXNlIGluIHRoZSBQYW5m
-cm9zdAo+IGRyaXZlciwgYXMgZG9jdW1lbnRlZCBiZWxvdy4KPiAKPiBBbGwgZHJpdmVycyB3aGlj
-aCBtYWtlIHVzZSBvZiB0aGUKPiBkcm1fc2NoZWRfYmFja2VuZF9vcHMnIC50aW1lZG91dF9qb2Io
-KSBjYWxsYmFjawo+IGhhdmUgYmVlbiBhY2NvcmRpbmdseSByZW5hbWVkIGFuZCByZXR1cm4gdGhl
-Cj4gd291bGQndmUtYmVlbiBkZWZhdWx0IHZhbHVlIG9mCj4gRFJNX1RBU0tfU1RBVFVTX0FMSVZF
-IHRvIHJlc3RhcnQgdGhlIHRhc2sncwo+IHRpbWVvdXQgdGltZXItLXRoaXMgaXMgdGhlIG9sZCBi
-ZWhhdmlvdXIsIGFuZAo+IGlzIHByZXNlcnZlZCBieSB0aGlzIHBhdGNoLgo+IAo+IEluIHRoZSBj
-YXNlIG9mIHRoZSBQYW5mcm9zdCBkcml2ZXIsIGl0cyB0aW1lZG91dAo+IGNhbGxiYWNrIGNvcnJl
-Y3RseSBmaXJzdCBjaGVja3MgaWYgdGhlIGpvYiBoYWQKPiBjb21wbGV0ZWQgaW4gZHVlIHRpbWUg
-YW5kIGlmIHNvLCBpdCBub3cgcmV0dXJucwo+IERSTV9UQVNLX1NUQVRVU19DT01QTEVURSB0byBu
-b3RpZnkgdGhlIERSTSBsYXllcgo+IHRoYXQgdGhlIHRhc2sgY2FuIGJlIG1vdmVkIHRvIHRoZSBk
-b25lIGxpc3QsIHRvIGJlCj4gZnJlZWQgbGF0ZXIuIEluIHRoZSBvdGhlciB0d28gc3Vic2VxdWVu
-dCBjaGVja3MsCj4gdGhlIHZhbHVlIG9mIERSTV9UQVNLX1NUQVRVU19BTElWRSBpcyByZXR1cm5l
-ZCwgYXMKPiBwZXIgdGhlIGRlZmF1bHQgYmVoYXZpb3VyLgo+IAo+IEEgbW9yZSBpbnZvbHZlZCBk
-cml2ZXIncyBzb2x1dGlvbnMgY2FuIGJlIGhhZAo+IGluIHN1YmVxdWVudCBwYXRjaGVzLgoKTklU
-OiBeXl5eXl5eXl4gc3Vic2VxdWVudAoKPiAKPiB2MjogVXNlIGVudW0gYXMgdGhlIHN0YXR1cyBv
-ZiBhIGRyaXZlcidzIGpvYgo+ICAgICAgdGltZW91dCBjYWxsYmFjayBtZXRob2QuCj4gCj4gQ2M6
-IEFsZXhhbmRlciBEZXVjaGVyIDxBbGV4YW5kZXIuRGV1Y2hlckBhbWQuY29tPgo+IENjOiBBbmRy
-ZXkgR3JvZHpvdnNreSA8QW5kcmV5Lkdyb2R6b3Zza3lAYW1kLmNvbT4KPiBDYzogQ2hyaXN0aWFu
-IEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgo+IENjOiBEYW5pZWwgVmV0dGVyIDxk
-YW5pZWwudmV0dGVyQGZmd2xsLmNoPgo+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRy
-b25peC5kZT4KPiBDYzogUnVzc2VsbCBLaW5nIDxsaW51eCtldG5hdml2QGFybWxpbnV4Lm9yZy51
-az4KPiBDYzogQ2hyaXN0aWFuIEdtZWluZXIgPGNocmlzdGlhbi5nbWVpbmVyQGdtYWlsLmNvbT4K
-PiBDYzogUWlhbmcgWXUgPHl1cTgyNUBnbWFpbC5jb20+Cj4gQ2M6IFJvYiBIZXJyaW5nIDxyb2Jo
-QGtlcm5lbC5vcmc+Cj4gQ2M6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNvbGxhYm9yYS5j
-b20+Cj4gQ2M6IFN0ZXZlbiBQcmljZSA8c3RldmVuLnByaWNlQGFybS5jb20+Cj4gQ2M6IEFseXNz
-YSBSb3Nlbnp3ZWlnIDxhbHlzc2Eucm9zZW56d2VpZ0Bjb2xsYWJvcmEuY29tPgo+IENjOiBFcmlj
-IEFuaG9sdCA8ZXJpY0BhbmhvbHQubmV0Pgo+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2Jv
-dCA8bGtwQGludGVsLmNvbT4KClRoaXMgcmVwb3J0ZWQtYnkgc2VlbXMgYSBsaXR0bGUgb2RkIGZv
-ciB0aGlzIHBhdGNoLgoKPiBTaWduZWQtb2ZmLWJ5OiBMdWJlbiBUdWlrb3YgPGx1YmVuLnR1aWtv
-dkBhbWQuY29tPgo+IC0tLQo+ICAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2pv
-Yi5jIHwgIDYgKysrLS0KPiAgIGRyaXZlcnMvZ3B1L2RybS9ldG5hdml2L2V0bmF2aXZfc2NoZWQu
-YyB8IDEwICsrKysrKystCj4gICBkcml2ZXJzL2dwdS9kcm0vbGltYS9saW1hX3NjaGVkLmMgICAg
-ICAgfCAgNCArKystCj4gICBkcml2ZXJzL2dwdS9kcm0vcGFuZnJvc3QvcGFuZnJvc3Rfam9iLmMg
-fCAgOSArKysrLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vc2NoZWR1bGVyL3NjaGVkX21haW4uYyAg
-fCAgNCArLS0tCj4gICBkcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5jICAgICAgICAgfCAz
-MiArKysrKysrKysrKysrLS0tLS0tLS0tLS0tCj4gICBpbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVy
-LmggICAgICAgICAgICAgfCAyMCArKysrKysrKysrKysrLS0tCj4gICA3IGZpbGVzIGNoYW5nZWQs
-IDU3IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQo+IAoKWy4uLi5dCgo+IGRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmggYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1
-bGVyLmgKPiBpbmRleCAyZTBjMzY4ZTE5ZjYuLmNlZGZjNTM5NGU1MiAxMDA2NDQKPiAtLS0gYS9p
-bmNsdWRlL2RybS9ncHVfc2NoZWR1bGVyLmgKPiArKysgYi9pbmNsdWRlL2RybS9ncHVfc2NoZWR1
-bGVyLmgKPiBAQCAtMjA2LDYgKzIwNiwxMSBAQCBzdGF0aWMgaW5saW5lIGJvb2wgZHJtX3NjaGVk
-X2ludmFsaWRhdGVfam9iKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzX2pvYiwKPiAgIAlyZXR1cm4g
-c19qb2IgJiYgYXRvbWljX2luY19yZXR1cm4oJnNfam9iLT5rYXJtYSkgPiB0aHJlc2hvbGQ7Cj4g
-ICB9Cj4gICAKPiArZW51bSBkcm1fdGFza19zdGF0dXMgewo+ICsJRFJNX1RBU0tfU1RBVFVTX0NP
-TVBMRVRFLAo+ICsJRFJNX1RBU0tfU1RBVFVTX0FMSVZFCj4gK307Cj4gKwo+ICAgLyoqCj4gICAg
-KiBzdHJ1Y3QgZHJtX3NjaGVkX2JhY2tlbmRfb3BzCj4gICAgKgo+IEBAIC0yMzAsMTAgKzIzNSwx
-OSBAQCBzdHJ1Y3QgZHJtX3NjaGVkX2JhY2tlbmRfb3BzIHsKPiAgIAlzdHJ1Y3QgZG1hX2ZlbmNl
-ICooKnJ1bl9qb2IpKHN0cnVjdCBkcm1fc2NoZWRfam9iICpzY2hlZF9qb2IpOwo+ICAgCj4gICAJ
-LyoqCj4gLSAgICAgICAgICogQHRpbWVkb3V0X2pvYjogQ2FsbGVkIHdoZW4gYSBqb2IgaGFzIHRh
-a2VuIHRvbyBsb25nIHRvIGV4ZWN1dGUsCj4gLSAgICAgICAgICogdG8gdHJpZ2dlciBHUFUgcmVj
-b3ZlcnkuCj4gKwkgKiBAdGltZWRvdXRfam9iOiBDYWxsZWQgd2hlbiBhIGpvYiBoYXMgdGFrZW4g
-dG9vIGxvbmcgdG8gZXhlY3V0ZSwKPiArCSAqIHRvIHRyaWdnZXIgR1BVIHJlY292ZXJ5Lgo+ICsJ
-ICoKPiArCSAqIFJldHVybiBEUk1fVEFTS19TVEFUVVNfQUxJVkUsIGlmIHRoZSB0YXNrIChqb2Ip
-IGlzIGhlYWx0aHkKPiArCSAqIGFuZCBleGVjdXRpbmcgaW4gdGhlIGhhcmR3YXJlLCBpLmUuIGl0
-IG5lZWRzIG1vcmUgdGltZS4KClNvICdhbGl2ZScgbWVhbnMgdGhlIGpvYiAod2FzKSBhbGl2ZSwg
-YW5kIEdQVSByZWNvdmVyeSBpcyBoYXBwZW5pbmcuIApJLmUuIGl0J3MgdGhlIGpvYiBqdXN0IHRh
-a2VzIHRvbyBsb25nLiBQYW5mcm9zdCB3aWxsIHRyaWdnZXIgYSBHUFUgcmVzZXQgCihraWxsaW5n
-IHRoZSBqb2IpIGluIHRoaXMgY2FzZSB3aGlsZSByZXR1cm5pbmcgRFJNX1RBU0tfU1RBVFVTX0FM
-SVZFLgoKPiArCSAqCj4gKwkgKiBSZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0NPTVBMRVRFLCBpZiB0
-aGUgdGFzayAoam9iKSBoYXMKPiArCSAqIGJlZW4gYWJvcnRlZCBvciBpcyB1bmtub3duIHRvIHRo
-ZSBoYXJkd2FyZSwgaS5lLiBpZgo+ICsJICogdGhlIHRhc2sgaXMgb3V0IG9mIHRoZSBoYXJkd2Fy
-ZSwgYW5kIG1heWJlIGl0IGlzIG5vdwo+ICsJICogaW4gdGhlIGRvbmUgbGlzdCwgb3IgaXQgd2Fz
-IGNvbXBsZXRlZCBsb25nIGFnbywgb3IKPiArCSAqIGlmIGl0IGlzIHVua25vd24gdG8gdGhlIGhh
-cmR3YXJlLgoKV2hlcmUgJ2NvbXBsZXRlJyBzZWVtcyB0byBtZWFuIGEgdmFyaWV0eSBvZiB0aGlu
-Z3M6CgogICogVGhlIGpvYiBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IChpLmUuIHRoZSB0aW1lb3V0
-IHJhY2VkKSwgdGhpcyBpcyB0aGUgCnNpdHVhdGlvbiB0aGF0IFBhbmZyb3N0IGRldGVjdHMuIElu
-IHRoaXMgY2FzZSAoYW5kIG9ubHkgdGhpcyBjYXNlKSB0aGUgCkdQVSByZXNldCB3aWxsICpub3Qq
-IGhhcHBlbi4KCiAgKiBUaGUgam9iIGZhaWxlZCAoYWJvcnRlZCkgYW5kIGlzIG5vIGxvbmdlciBv
-biB0aGUgaGFyZHdhcmUuIFBhbmZyb3N0IApjdXJyZW50bHkgaGFuZGxlcyBhIGpvYiBmYWlsdXJl
-IGJ5IHRyaWdnZXJpbmcgZHJtX3NjaGVkX2ZhdWx0KCkgdG8gCnRyaWdnZXIgdGhlIHRpbWVvdXQg
-aGFuZGxlci4gQnV0IHRoZSB0aW1lb3V0IGhhbmRsZXIgZG9lc24ndCBoYW5kbGUgdGhpcyAKZGlm
-ZmVyZW50bHkgc28gd2lsbCByZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0FMSVZFLgoKICAqIFRoZSBq
-b2IgaXMgInVua25vd24gdG8gaGFyZHdhcmUiLiBUaGVyZSBhcmUgc29tZSBjb3JuZXIgY2FzZXMg
-aW4gClBhbmZyb3N0IChzcGVjaWZpY2FsbHkgdHdvIGVhcmx5IHJldHVybnMgZnJvbSBwYW5mcm9z
-dF9qb2JfaHdfc3VibWl0KCkpIAp3aGVyZSB0aGUgam9iIG5ldmVyIGFjdHVhbGx5IGxhbmRzIG9u
-IHRoZSBoYXJkd2FyZSwgYnV0IHRoZSBzY2hlZHVsZXIgCmlzbid0IGluZm9ybWVkLiBXZSBjdXJy
-ZW50bHkgcmVseSBvbiB0aGUgdGltZW91dCBoYW5kbGluZyB0byByZWNvdmVyIApmcm9tIHRoYXQu
-IEhvd2V2ZXIsIGFnYWluLCB0aGUgdGltZW91dCBoYW5kbGVyIGRvZXNuJ3Qga25vdyBhYm91dCB0
-aGlzIApzb28gd2lsbCByZXR1cm4gRFJNX1RBU0tfU1RBVFVTX0FMSVZFLgoKU28gb2YgdGhlIGZv
-dXIgY2FzZXMgbGlzdGVkIGluIHRoZXNlIGNvbW1lbnRzLCBQYW5mcm9zdCBpcyBvbmx5IGdldHRp
-bmcgCjIgJ2NvcnJlY3QnIGFmdGVyIHRoaXMgY2hhbmdlLgoKQnV0IHdoYXQgSSByZWFsbHkgd2Fu
-dCB0byBrbm93IGlzIHdoYXQgdGhlIHNjaGVkdWxlciBpcyBwbGFubmluZyB0byBkbyAKaW4gdGhl
-c2Ugc2l0dWF0aW9ucz8gVGhlIFBhbmZyb3N0IHJldHVybiB2YWx1ZSBpbiB0aGlzIHBhdGNoIGlz
-IHJlYWxseSBhIAoiZGlkIHdlIHRyaWdnZXIgYSBHUFUgcmVzZXQiIC0gYW5kIGRvZXNuJ3Qgc2Vl
-bSB0byBtYXRjaCB0aGUgCmRlc2NyaXB0aW9ucyBhYm92ZS4KClN0ZXZlCgo+ICAgCSAqLwo+IC0J
-dm9pZCAoKnRpbWVkb3V0X2pvYikoc3RydWN0IGRybV9zY2hlZF9qb2IgKnNjaGVkX2pvYik7Cj4g
-KwllbnVtIGRybV90YXNrX3N0YXR1cyAoKnRpbWVkb3V0X2pvYikoc3RydWN0IGRybV9zY2hlZF9q
-b2IgKnNjaGVkX2pvYik7Cj4gICAKPiAgIAkvKioKPiAgICAgICAgICAgICogQGZyZWVfam9iOiBD
-YWxsZWQgb25jZSB0aGUgam9iJ3MgZmluaXNoZWQgZmVuY2UgaGFzIGJlZW4gc2lnbmFsZWQKPiAK
-Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZl
-bCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xp
-c3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Tue, 08 Dec 2020, "Navare, Manasi" <manasi.d.navare@intel.com> wrote:
+> On Tue, Dec 08, 2020 at 02:33:54PM +0200, Jani Nikula wrote:
+>> The VBT fields match the DPCD data, so use the same helper.
+>> 
+>> Cc: Manasi Navare <manasi.d.navare@intel.com>
+>> Cc: Vandita Kulkarni <vandita.kulkarni@intel.com>
+>> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>
+> Only for DSI so far right?
+
+Yes. We'll still need a patch to start using the rc_model_size from DPCD
+for DP.
+
+> In that case looks good
+>
+> Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
+
+Thanks for the reviews. Pushed up to and including this one to
+drm-intel-next. The last patch in the series still to be reviewed.
+
+BR,
+Jani.
+
+
+>
+> Manasi
+>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_bios.c | 11 +++--------
+>>  1 file changed, 3 insertions(+), 8 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+>> index 4cc949b228f2..06c3310446a2 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+>> @@ -2555,16 +2555,11 @@ static void fill_dsc(struct intel_crtc_state *crtc_state,
+>>  			      crtc_state->dsc.slice_count);
+>>  
+>>  	/*
+>> -	 * FIXME: Use VBT rc_buffer_block_size and rc_buffer_size for the
+>> -	 * implementation specific physical rate buffer size. Currently we use
+>> -	 * the required rate buffer model size calculated in
+>> -	 * drm_dsc_compute_rc_parameters() according to VESA DSC Annex E.
+>> -	 *
+>>  	 * The VBT rc_buffer_block_size and rc_buffer_size definitions
+>> -	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63. The DP DSC
+>> -	 * implementation should also use the DPCD (or perhaps VBT for eDP)
+>> -	 * provided value for the buffer size.
+>> +	 * correspond to DP 1.4 DPCD offsets 0x62 and 0x63.
+>>  	 */
+>> +	vdsc_cfg->rc_model_size = drm_dsc_dp_rc_buffer_size(dsc->rc_buffer_block_size,
+>> +							    dsc->rc_buffer_size);
+>>  
+>>  	/* FIXME: DSI spec says bpc + 1 for this one */
+>>  	vdsc_cfg->line_buf_depth = VBT_DSC_LINE_BUFFER_DEPTH(dsc->line_buffer_depth);
+>> -- 
+>> 2.20.1
+>> 
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
