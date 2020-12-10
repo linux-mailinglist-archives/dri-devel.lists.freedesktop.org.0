@@ -1,44 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D572D600A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:41:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7FD2D6028
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:43:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B38C06EA94;
-	Thu, 10 Dec 2020 15:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54CC06EA95;
+	Thu, 10 Dec 2020 15:43:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5557A6EA94
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:40:57 +0000 (UTC)
-X-Gm-Message-State: AOAM531B2doi4RM9WHVPPKWmKP5O1iYznByKV/gW5xMdLAm8Ab4TMQ1t
- Ey9tZjdD5/FCCl828mdDIfk7XkhCFGFliussaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607614857;
- bh=kLtdmt4oMcr69ZeEaGpqsEmfBzPYipCBB3bI8s06kKQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=GVcosNOtUN4j/bxX47UVlveHVCGqW8i9QaQZ6HkPlxWC3uYI0yv+Gz8C/CmsFnuUh
- VHH6yRauv30XoxLjQP5qjpc9eNzgSOp8wiOZEFUefda4NKkf4zSwZUnhmpq04/8qxC
- 32fwTWovPXPS9Zl/un6zRImWeQV8nhGgzN3F5iIYbeGf1eXyg6AGD8bzI0PSh1xxtT
- 9pvdLYb2YwC3PrITFjio+/qf16+/CeVjxca6hB5cvpEs7nUm2sAyern7NBYbJbdmYr
- ITHCpGuWGMKHJQ91R/TmXQHkCPjo0M+0pbylEP5aNu4c0HmGWu90CNCtWfpWtSUrDu
- wYrkLofnlRiIg==
-X-Google-Smtp-Source: ABdhPJx0j+Lqm6Jk4mCnuNpLmDuRmlHsWfRP57mzErtMeTRrN6xR9D9GsxcZ0189bugqUjaw7RdnSXryhX8yUPqWXoM=
-X-Received: by 2002:a17:906:a106:: with SMTP id
- t6mr7055105ejy.63.1607614855174; 
- Thu, 10 Dec 2020 07:40:55 -0800 (PST)
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31D666EA95
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:43:46 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BAFhRu1114554;
+ Thu, 10 Dec 2020 09:43:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1607615007;
+ bh=Q9Lgho0lfcaose0GI5VwBEyUsFB+PhHHAi7cp3XSzlA=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=wZ8cMM6TET8ZBxFYn71KAoeaHWTFsxw7SI3Xn6gnOcJu5cbI5gLVC+1N8062n4XC8
+ CGOQr3VReHKcwwZwdLv5D28EXdr6jNHW0JZJyLUnw36sWzZAKE0ahr6G4V2GL/gSR7
+ LivWgdNi0/YMF/mFc7pxVrZXZjLXxyVqiukW/7TE=
+Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BAFhRUT084241
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 09:43:27 -0600
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 10
+ Dec 2020 09:43:26 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 10 Dec 2020 09:43:26 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BAFhNDM048884;
+ Thu, 10 Dec 2020 09:43:23 -0600
+Subject: Re: [PATCH v3 1/2] drm: automatic legacy gamma support
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20201210140852.1040054-1-tomi.valkeinen@ti.com>
+ <20201210140852.1040054-2-tomi.valkeinen@ti.com>
+ <20201210152739.GF401619@phenom.ffwll.local>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <39cc67d5-1977-df56-0fbb-1b8531398e81@ti.com>
+Date: Thu, 10 Dec 2020 17:43:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1607591262-21736-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607591262-21736-2-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1607591262-21736-2-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 10 Dec 2020 23:40:44 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-oL+NyzDKssCjyP=E8Py3oyEK6a6s=XoYvTFymZE9-zQ@mail.gmail.com>
-Message-ID: <CAAOTY_-oL+NyzDKssCjyP=E8Py3oyEK6a6s=XoYvTFymZE9-zQ@mail.gmail.com>
-Subject: Re: [PATCH v8, 1/6] dt-bindings: mediatek: add rdma_fifo_size
- description for mt8183 display
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+In-Reply-To: <20201210152739.GF401619@phenom.ffwll.local>
+Content-Language: en-US
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,57 +63,140 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, dri-devel@lists.freedesktop.org,
+ Sandy Huang <hjc@rock-chips.com>, Paul Cercueil <paul@crapouillou.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
-PiDmlrwgMjAyMOW5tDEy5pyIMTDml6Ug6YCx5ZubIOS4i+WNiDU6MjLlr6vpgZPvvJoKPgo+IHJk
-bWEgZmlmbyBzaXplIG1heSBiZSBkaWZmZXJlbnQgZXZlbiBpbiBzYW1lIFNPQywgYWRkIHRoaXMK
-PiBwcm9wZXJ0eSB0byB0aGUgY29ycmVzcG9uZGluZyByZG1hCj4KPiBTaWduZWQtb2ZmLWJ5OiBZ
-b25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgLi4uL2Jp
-bmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgICAgICAgICAgfCAxNiAr
-KysrKysrKysrKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNlcnRpb25zKCspCj4KPiBk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVk
-aWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+IGluZGV4IDEyMTIyMDcuLjY0
-YzY0ZWUgMTAwNjQ0Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rp
-c3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQKPiArKysgYi9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+IEBA
-IC02Niw2ICs2NiwxMyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzIChETUEgZnVuY3Rpb24gYmxvY2tz
-KToKPiAgICBhcmd1bWVudCwgc2VlIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9p
-b21tdS9tZWRpYXRlayxpb21tdS50eHQKPiAgICBmb3IgZGV0YWlscy4KPgo+ICtPcHRpb25hbCBw
-cm9wZXJ0aWVzIChSRE1BIGZ1bmN0aW9uIGJsb2Nrcyk6Cj4gKy0gbWVkaWF0ZWsscmRtYV9maWZv
-X3NpemU6IHJkbWEgZmlmbyBzaXplIG1heSBiZSBkaWZmZXJlbnQgZXZlbiBpbiBzYW1lIFNPQywg
-YWRkIHRoaXMKPiArICBwcm9wZXJ0eSB0byB0aGUgY29ycmVzcG9uZGluZyByZG1hCj4gKyAgdGhl
-IHZhbHVlIGlzIHRoZSBNYXggdmFsdWUgd2hpY2ggZGVmaW5lZCBpbiBoYXJkd2FyZSBkYXRhIHNo
-ZWV0Lgo+ICsgIHJkbWFfZmlmb19zaXplIG9mIHJkbWEwIGluIG10ODE4MyBpcyA1MTIwCj4gKyAg
-cmRtYV9maWZvX3NpemUgb2YgcmRtYTEgaW4gbXQ4MTgzIGlzIDIwNDgKPiArCj4gIEV4YW1wbGVz
-Ogo+Cj4gIG1tc3lzOiBjbG9jay1jb250cm9sbGVyQDE0MDAwMDAwIHsKPiBAQCAtMjA3LDMgKzIx
-NCwxMiBAQCBvZEAxNDAyMzAwMCB7Cj4gICAgICAgICBwb3dlci1kb21haW5zID0gPCZzY3BzeXMg
-TVQ4MTczX1BPV0VSX0RPTUFJTl9NTT47Cj4gICAgICAgICBjbG9ja3MgPSA8Jm1tc3lzIENMS19N
-TV9ESVNQX09EPjsKPiAgfTsKPiArCj4gK3JkbWExOiByZG1hQDE0MDBjMDAwIHsKPiArICAgICAg
-IGNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4MTgzLWRpc3AtcmRtYSI7Cj4gKyAgICAgICByZWcg
-PSA8MCAweDE0MDBjMDAwIDAgMHgxMDAwPjsKPiArICAgICAgIGludGVycnVwdHMgPSA8R0lDX1NQ
-SSAyMjkgSVJRX1RZUEVfTEVWRUxfTE9XPjsKPiArICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnNj
-cHN5cyBNVDgxODNfUE9XRVJfRE9NQUlOX0RJU1A+Owo+ICsgICAgICAgY2xvY2tzID0gPCZtbXN5
-cyBDTEtfTU1fRElTUF9SRE1BMT47Cj4gKyAgICAgICBtZWRpYXRlayxyZG1hX2ZpZm9fc2l6ZSA9
-IDwyMDQ4PjsKPiArfTsKCkluIFsxXSwgUm9iIGhhcyBzdWdnZXN0IHRoYXQgbm90IGFkZCBleGFt
-cGxlIG9mIHJkbWExLCBpdCdzIGJldHRlciB0bwphZGQgbWVkaWF0ZWsscmRtYV9maWZvX3NpemUg
-aW4gcmRtYTAgZm9yIGV4YW1wbGUuCgpbMV0gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9w
-cm9qZWN0L2xpbnV4LW1lZGlhdGVrL3BhdGNoLzE1OTY4NTUyMzEtNTc4Mi0yLWdpdC1zZW5kLWVt
-YWlsLXlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tLwoKUmVnYXJkcywKQ2h1bi1LdWFuZy4KCj4g
-LS0KPiAxLjguMS4xLmRpcnR5Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRpYXRl
-a0BsaXN0cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5m
-cmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9kcmktZGV2ZWwK
+On 10/12/2020 17:27, Daniel Vetter wrote:
+
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+>> index e82db0f4e771..80e3797f0f01 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -46,6 +46,7 @@
+>>  #include <drm/drm_print.h>
+>>  #include <drm/drm_vblank.h>
+>>  
+>> +#include "drm_crtc_internal.h"
+> 
+> So this is a bit annoying, because thus far we managed to have a very
+> clear split between core and helpers. And I think we can keep that.
+> 
+>>  #include "drm_crtc_helper_internal.h"
+>>  #include "drm_internal.h"
+>>  
+>> @@ -136,15 +137,15 @@ static void drm_fb_helper_restore_lut_atomic(struct drm_crtc *crtc)
+>>  {
+>>  	uint16_t *r_base, *g_base, *b_base;
+>>  
+>> -	if (crtc->funcs->gamma_set == NULL)
+>> +	if (!drm_crtc_supports_legacy_gamma(crtc))
+>>  		return;
+>>  
+>>  	r_base = crtc->gamma_store;
+>>  	g_base = r_base + crtc->gamma_size;
+>>  	b_base = g_base + crtc->gamma_size;
+>>  
+>> -	crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+>> -			       crtc->gamma_size, NULL);
+>> +	drm_crtc_legacy_gamma_set(crtc, r_base, g_base, b_base,
+>> +				  crtc->gamma_size, NULL);
+> 
+> This is only used by legacy non-atomic drivers. It's pretty much
+> impossible to make kgdb work with atomic drivers, so really let's just not
+> bother and keep the code as-is.
+
+You're right.
+
+>>  }
+>>  
+>>  /**
+>> @@ -946,7 +947,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+>>  	drm_modeset_lock_all(fb_helper->dev);
+>>  	drm_client_for_each_modeset(modeset, &fb_helper->client) {
+>>  		crtc = modeset->crtc;
+>> -		if (!crtc->funcs->gamma_set || !crtc->gamma_size) {
+>> +		if (!drm_crtc_supports_legacy_gamma(crtc)) {
+>>  			ret = -EINVAL;
+>>  			goto out;
+>>  		}
+>> @@ -964,8 +965,8 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
+>>  		memcpy(g + cmap->start, cmap->green, cmap->len * sizeof(*g));
+>>  		memcpy(b + cmap->start, cmap->blue, cmap->len * sizeof(*b));
+>>  
+>> -		ret = crtc->funcs->gamma_set(crtc, r, g, b,
+>> -					     crtc->gamma_size, NULL);
+>> +		ret = drm_crtc_legacy_gamma_set(crtc, r, g, b, crtc->gamma_size,
+>> +						NULL);
+>>  		if (ret)
+>>  			goto out;
+> 
+> Same here.
+
+Yep.
+
+>>  	}
+>> @@ -1024,12 +1025,10 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
+>>  	struct drm_device *dev = fb_helper->dev;
+>>  	struct drm_property_blob *gamma_lut = NULL;
+>>  	struct drm_modeset_acquire_ctx ctx;
+>> -	struct drm_crtc_state *crtc_state;
+>>  	struct drm_atomic_state *state;
+>>  	struct drm_mode_set *modeset;
+>>  	struct drm_crtc *crtc;
+>>  	u16 *r, *g, *b;
+>> -	bool replaced;
+>>  	int ret = 0;
+>>  
+>>  	drm_modeset_acquire_init(&ctx, 0);
+>> @@ -1053,18 +1052,9 @@ static int setcmap_atomic(struct fb_cmap *cmap, struct fb_info *info)
+>>  			goto out_state;
+>>  		}
+>>  
+>> -		crtc_state = drm_atomic_get_crtc_state(state, crtc);
+>> -		if (IS_ERR(crtc_state)) {
+>> -			ret = PTR_ERR(crtc_state);
+>> +		ret = drm_crtc_gamma_ramp_set(state, crtc, gamma_lut);
+>> +		if (ret)
+> 
+> You're nesting an atomic commit in an atomic commit here, that will go
+> boom. I guess ideally we'd move this into drm_client_modeset so it
+> remembers the fbdev gamma ramp and does it all in one go. Otherwise I
+> guess you need some kind of different helper, not sure what.
+
+What do you mean? Are you mixing drm_crtc_legacy_gamma_set with drm_crtc_gamma_ramp_set (yeah, I
+didn't quite know how to name the latter one...)? drm_crtc_gamma_ramp_set does the same thing as the
+removed code, it sets the gamma_lut in to the state. It doesn't commit.
+
+drm_crtc_gamma_ramp_set does a "setup the state so that this gamma ramp will be on screen", which
+means setting/clearing GAMMA_LUT, DEGAMMA_LUT and CTM. I wanted to have that logic in one place,
+which means we need to export it from drm.ko.
+
+I could just inline drm_crtc_gamma_ramp_set, but then I need drm_mode_obj_find_prop_id, which is
+again not exported. I could also inline drm_mode_obj_find_prop_id as it's trivial enough loop. But
+this sounds uglier than exporting a function.
+
+Personally, I don't remember when I have used fbdev the last time (other than simple tests), and I
+could as well just leave the code here as it is. I have no idea if this fbdev setcmap is a big
+feature that has to function also with HW that only has a pre-gamma table.
+
+ Tomi
+
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
