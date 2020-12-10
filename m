@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A42332D716F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E5C02D714D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A53D56ECD4;
-	Fri, 11 Dec 2020 08:16:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43D166EC9C;
+	Fri, 11 Dec 2020 08:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from galois.linutronix.de (Galois.linutronix.de
  [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEDAE6EB37;
- Thu, 10 Dec 2020 19:42:38 +0000 (UTC)
-Message-Id: <20201210194044.364211860@linutronix.de>
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11E8D6EB3B;
+ Thu, 10 Dec 2020 19:42:40 +0000 (UTC)
+Message-Id: <20201210194044.473308721@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629357;
+ s=2020; t=1607629358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=KHY7zLB5K6l5lfek87988opcUU+hIDNSDHLcEFMtdbE=;
- b=n90PZIqvfSG+SCpScanG1Bc3HG4388BY/dyhI0EaH1D5VR7ALSrd8Di/XFloXi9hIrAe0N
- 2w3FtiOOS83MM1ENKBnmKIYjMGlFGK+8CqwAWA+3cn+4JTZrOFNQqz1w6/1pfc9dn229g5
- RxyxMUVWrnZNU+m4ITHF184nuNhmqfYSIV87jZv/HzJ2V1oJQzYeMWo1OTElMpaTWpCUk8
- uJoofHd7ipNCSNBQWtvCPnJySQsMZYd1ezWjVgB5vtUTP93BsKFGqlD/7O6EwVQkeOfVvC
- 5nN2twyUqXClogpFmRmB9lY9+05jwyoSoCoyIBMb5KsyzJun61fUTTAt7Pca7g==
+ bh=hb66G/YKxZssYUpIlaqnSR4ZW1k+vqs7JSWYZ8olni4=;
+ b=JDGcEIf6xGhVDkvwWeMQLx9FUu/IsKss78ihAlKadMjAIf3dHANCzucDD5C2rHnEBhKkDC
+ fs0LpWbG65iC+gn0dqp5B//hOUr0DzpNnSBFKb88Vue5ngozd1tGLn7CtzLKEI29imO25z
+ joiUdDjr1d2lfyigu/UfV0ehuoSmHFo9AhA/FqDn1vazpBLlgf2ND1DS3dxniHAdDnilk3
+ 1qIkGuqztzebcid1bBRJTHx9CoWTI1/9XLZXX10DwpIeYbsmtua3l8q5FWiIGABqtq0mdG
+ +jGGNyapUz+w2HLUzMDsdOexP4c9y0H7CnIR6EVRiH9/1y/HRKjopWTfNI7hPQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629357;
+ s=2020e; t=1607629358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=KHY7zLB5K6l5lfek87988opcUU+hIDNSDHLcEFMtdbE=;
- b=z1bwpMRZ9X4kcUp+yA6PiwjKs/Xplaj9Bs6jEJYC/xJl+CtwyGu1dX/ChX9QURLpfQuyav
- KbgY/emP2bdsj/AQ==
-Date: Thu, 10 Dec 2020 20:25:54 +0100
+ bh=hb66G/YKxZssYUpIlaqnSR4ZW1k+vqs7JSWYZ8olni4=;
+ b=Fyn3b5Uer8Bt9xBrcUD7/wbs4Zq09nDfu7V/W/qeQGG6ZMTLCbkszqx6GueqYSkgtweAWi
+ EEbLWcn1hOF4e1Aw==
+Date: Thu, 10 Dec 2020 20:25:55 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 18/30] PCI: xilinx-nwl: Use irq_data_get_irq_chip_data()
+Subject: [patch 19/30] PCI: mobiveil: Use irq_data_get_irq_chip_data()
 References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
@@ -56,30 +56,31 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Russell King <linux@armlinux.org.uk>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- netdev@vger.kernel.org, Will Deacon <will@kernel.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
+ Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
  afzal mohammed <afzal.mohd.ma@gmail.com>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
  Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
  Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Michal Simek <michal.simek@xilinx.com>,
+ Russell King <linux@armlinux.org.uk>,
  Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Jakub Kicinski <kuba@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
  Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- linux-s390@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+ Juergen Gross <jgross@suse.com>, linux-s390@vger.kernel.org,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-gpio@vger.kernel.org,
  Stefano Stabellini <sstabellini@kernel.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, Chris Wilson <chris@chris-wilson.co.uk>,
- linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- David Airlie <airlied@linux.ie>, linux-parisc@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, David Airlie <airlied@linux.ie>,
+ linux-parisc@vger.kernel.org,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- Saeed Mahameed <saeedm@nvidia.com>, "David S. Miller" <davem@davemloft.net>
+ Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
+ linux-ntb@googlegroups.com, intel-gfx@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -95,48 +96,48 @@ matter in this case because the chip is the top level chip, but that
 doesn't make it more correct.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
+Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
 Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 Cc: Rob Herring <robh@kernel.org>
 Cc: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
 Cc: linux-pci@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/pci/controller/pcie-xilinx-nwl.c |    8 ++------
+ drivers/pci/controller/mobiveil/pcie-mobiveil-host.c |    8 ++------
  1 file changed, 2 insertions(+), 6 deletions(-)
 
---- a/drivers/pci/controller/pcie-xilinx-nwl.c
-+++ b/drivers/pci/controller/pcie-xilinx-nwl.c
-@@ -379,13 +379,11 @@ static void nwl_pcie_msi_handler_low(str
+--- a/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c
++++ b/drivers/pci/controller/mobiveil/pcie-mobiveil-host.c
+@@ -306,13 +306,11 @@ int mobiveil_host_init(struct mobiveil_p
  
- static void nwl_mask_leg_irq(struct irq_data *data)
+ static void mobiveil_mask_intx_irq(struct irq_data *data)
  {
 -	struct irq_desc *desc = irq_to_desc(data->irq);
--	struct nwl_pcie *pcie;
-+	struct nwl_pcie *pcie = irq_data_get_irq_chip_data(data);
+-	struct mobiveil_pcie *pcie;
++	struct mobiveil_pcie *pcie = irq_data_get_irq_chip_data(data);
+ 	struct mobiveil_root_port *rp;
  	unsigned long flags;
- 	u32 mask;
- 	u32 val;
+ 	u32 mask, shifted_val;
  
 -	pcie = irq_desc_get_chip_data(desc);
- 	mask = 1 << (data->hwirq - 1);
- 	raw_spin_lock_irqsave(&pcie->leg_mask_lock, flags);
- 	val = nwl_bridge_readl(pcie, MSGF_LEG_MASK);
-@@ -395,13 +393,11 @@ static void nwl_mask_leg_irq(struct irq_
+ 	rp = &pcie->rp;
+ 	mask = 1 << ((data->hwirq + PAB_INTX_START) - 1);
+ 	raw_spin_lock_irqsave(&rp->intx_mask_lock, flags);
+@@ -324,13 +322,11 @@ static void mobiveil_mask_intx_irq(struc
  
- static void nwl_unmask_leg_irq(struct irq_data *data)
+ static void mobiveil_unmask_intx_irq(struct irq_data *data)
  {
 -	struct irq_desc *desc = irq_to_desc(data->irq);
--	struct nwl_pcie *pcie;
-+	struct nwl_pcie *pcie = irq_data_get_irq_chip_data(data);
+-	struct mobiveil_pcie *pcie;
++	struct mobiveil_pcie *pcie = irq_data_get_irq_chip_data(data);
+ 	struct mobiveil_root_port *rp;
  	unsigned long flags;
- 	u32 mask;
- 	u32 val;
+ 	u32 shifted_val, mask;
  
 -	pcie = irq_desc_get_chip_data(desc);
- 	mask = 1 << (data->hwirq - 1);
- 	raw_spin_lock_irqsave(&pcie->leg_mask_lock, flags);
- 	val = nwl_bridge_readl(pcie, MSGF_LEG_MASK);
+ 	rp = &pcie->rp;
+ 	mask = 1 << ((data->hwirq + PAB_INTX_START) - 1);
+ 	raw_spin_lock_irqsave(&rp->intx_mask_lock, flags);
 
 _______________________________________________
 dri-devel mailing list
