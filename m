@@ -1,44 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF5E2D7145
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:23 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E702D717A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2C296EC88;
-	Fri, 11 Dec 2020 08:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D5B16ECD3;
+	Fri, 11 Dec 2020 08:16:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C28CC6EB26;
- Thu, 10 Dec 2020 19:42:48 +0000 (UTC)
-Message-Id: <20201210194045.157601122@linutronix.de>
+Received: from galois.linutronix.de (Galois.linutronix.de
+ [IPv6:2a0a:51c0:0:12e:550::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E36AE6EB26;
+ Thu, 10 Dec 2020 19:42:49 +0000 (UTC)
+Message-Id: <20201210194045.250321315@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607629367;
+ s=2020; t=1607629368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=RU1bu/2cEIaQZD4XBTa1ORm36AT2+9xoAT9okJ4RH1c=;
- b=AhYGZMH5Lll3k86M+Mw+u/CMXrFP+z5OweedDSPLrQC7zMl71ejfF6LXNXRZTGD8kmOuJe
- qS19XHZYRwS6BqhVuvnoRC1T4ttKWNuaoSyT3BgYYN1BzFtZlPcOz+YQKy/43th5Y90u/R
- X6B6cmkRFkndNRXwbx2PLjfkgaDXN0K9HLJvSEGYF2Mwu+bniCBmPPPJ7kblKM0absRSol
- Xu6RJgcDTReN71V4H+Nn1MY4+vbA65bMSFOyl/jldJBTen7poJfNR1wRX6XEMJPR917pl1
- k5XFjcYwY2tULG78ylPnHOTKCe4dKJGK7v6roca6SRSYcgOrtkVCsvBrRQWZhw==
+ bh=h+/J8p7baJr0DOpzZw5pWLEFMQkgQKdthJegqn8/Z3Y=;
+ b=ViQ26TbnUeY8qEjEzYulRVnhFAoB9EDH9YUPDvEiFg//dnXloI1oen9eNgmVDH3RmZaBn0
+ 0l0hb/eh9AtQOqQOiBnzJtoucvR/Mgcwm3gjLtIH7WkV3WksbFVdOMHzNi5Zj6EnqfiQBo
+ j3AWozoE82ZIwe2qbFS8RFleThcs9Bt3OInvffx5HlfgL9KUZRRlg7kyEJZxqWJqWBqEXh
+ aZpEesZBBg55CfasJSjlzL/0bXPLxp/DGSRYtaZAfSC1smsroPfxhOGgzqx3F6MyhNadS8
+ HUk9gvp8N0w4LGaQVpf17rVe2GplhulXqQJFiAihQg9NPYrVAz0L2MOk4uIbBw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607629367;
+ s=2020e; t=1607629368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:  references:references;
- bh=RU1bu/2cEIaQZD4XBTa1ORm36AT2+9xoAT9okJ4RH1c=;
- b=XdjqOHU/CtrxmjSRt3J35g254e3xJTlyAPxkG/hnQfineDJae9yPVorBnqLmfzdojIT+AV
- RtH7kedwWF+OweDQ==
-Date: Thu, 10 Dec 2020 20:26:02 +0100
+ bh=h+/J8p7baJr0DOpzZw5pWLEFMQkgQKdthJegqn8/Z3Y=;
+ b=VbJwfVLRzH/9JhiMalVLwKmOuULPqzvXaWNQJQDqIexhTGvkL8AL9yE+2ch4ltaw7RfVm0
+ CZcollJCruWADiAA==
+Date: Thu, 10 Dec 2020 20:26:03 +0100
 From: Thomas Gleixner <tglx@linutronix.de>
 To: LKML <linux-kernel@vger.kernel.org>
-Subject: [patch 26/30] xen/events: Use immediate affinity setting
+Subject: [patch 27/30] xen/events: Only force affinity mask for percpu
+ interrupts
 References: <20201210192536.118432146@linutronix.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
+X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,21 +86,25 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is absolutely no reason to mimic the x86 deferred affinity
-setting. This mechanism is required to handle the hardware induced issues
-of IO/APIC and MSI and is not in use when the interrupts are remapped.
+All event channel setups bind the interrupt on CPU0 or the target CPU for
+percpu interrupts and overwrite the affinity mask with the corresponding
+cpumask. That does not make sense.
 
-XEN does not need this and can simply change the affinity from the calling
-context. The core code invokes this with the interrupt descriptor lock held
-so it is fully serialized against any other operation.
+The XEN implementation of irqchip::irq_set_affinity() already picks a
+single target CPU out of the affinity mask and the actual target is stored
+in the effective CPU mask, so destroying the user chosen affinity mask
+which might contain more than one CPU is wrong.
 
-Mark the interrupts with IRQ_MOVE_PCNTXT to disable the deferred affinity
-setting. The conditional mask/unmask operation is already handled in
-xen_rebind_evtchn_to_cpu().
+Change the implementation so that the channel is bound to CPU0 at the XEN
+level and leave the affinity mask alone. At startup of the interrupt
+affinity will be assigned out of the affinity mask and the XEN binding will
+be updated. Only keep the enforcement for real percpu interrupts.
 
-This makes XEN on x86 use the same mechanics as on e.g. ARM64 where
-deferred affinity setting is not required and not implemented and the code
-path in the ack functions is compiled out.
+On resume the overwrite is not required either because info->cpu and the
+affinity mask are still the same as at the time of suspend. Same for
+rebind_evtchn_irq().
+
+This also prepares for proper interrupt spreading.
 
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
@@ -106,82 +112,121 @@ Cc: Juergen Gross <jgross@suse.com>
 Cc: Stefano Stabellini <sstabellini@kernel.org>
 Cc: xen-devel@lists.xenproject.org
 ---
- drivers/xen/events/events_base.c |   35 +++++++++--------------------------
- 1 file changed, 9 insertions(+), 26 deletions(-)
+ drivers/xen/events/events_base.c |   42 ++++++++++++++++++++++++++-------------
+ 1 file changed, 28 insertions(+), 14 deletions(-)
 
 --- a/drivers/xen/events/events_base.c
 +++ b/drivers/xen/events/events_base.c
-@@ -628,6 +628,11 @@ static void xen_irq_init(unsigned irq)
- 	info->refcnt = -1;
- 
- 	set_info_for_irq(irq, info);
-+	/*
-+	 * Interrupt affinity setting can be immediate. No point
-+	 * in delaying it until an interrupt is handled.
-+	 */
-+	irq_set_status_flags(irq, IRQ_MOVE_PCNTXT);
- 
- 	INIT_LIST_HEAD(&info->eoi_list);
- 	list_add_tail(&info->list, &xen_irq_list_head);
-@@ -739,18 +744,7 @@ static void eoi_pirq(struct irq_data *da
- 	if (!VALID_EVTCHN(evtchn))
- 		return;
- 
--	if (unlikely(irqd_is_setaffinity_pending(data)) &&
--	    likely(!irqd_irq_disabled(data))) {
--		int masked = test_and_set_mask(evtchn);
--
--		clear_evtchn(evtchn);
--
--		irq_move_masked_irq(data);
--
--		if (!masked)
--			unmask_evtchn(evtchn);
--	} else
--		clear_evtchn(evtchn);
-+	clear_evtchn(evtchn);
- 
- 	if (pirq_needs_eoi(data->irq)) {
- 		rc = HYPERVISOR_physdev_op(PHYSDEVOP_eoi, &eoi);
-@@ -1641,7 +1635,6 @@ void rebind_evtchn_irq(evtchn_port_t evt
- 	mutex_unlock(&irq_mapping_update_lock);
- 
-         bind_evtchn_to_cpu(evtchn, info->cpu);
--	/* This will be deferred until interrupt is processed */
- 	irq_set_affinity(irq, cpumask_of(info->cpu));
- 
- 	/* Unmask the event channel. */
-@@ -1688,8 +1681,9 @@ static int set_affinity_irq(struct irq_d
- 			    bool force)
- {
- 	unsigned tcpu = cpumask_first_and(dest, cpu_online_mask);
--	int ret = xen_rebind_evtchn_to_cpu(evtchn_from_irq(data->irq), tcpu);
-+	int ret;
- 
-+	ret = xen_rebind_evtchn_to_cpu(evtchn_from_irq(data->irq), tcpu);
- 	if (!ret)
- 		irq_data_update_effective_affinity(data, cpumask_of(tcpu));
- 
-@@ -1719,18 +1713,7 @@ static void ack_dynirq(struct irq_data *
- 	if (!VALID_EVTCHN(evtchn))
- 		return;
- 
--	if (unlikely(irqd_is_setaffinity_pending(data)) &&
--	    likely(!irqd_irq_disabled(data))) {
--		int masked = test_and_set_mask(evtchn);
--
--		clear_evtchn(evtchn);
--
--		irq_move_masked_irq(data);
--
--		if (!masked)
--			unmask_evtchn(evtchn);
--	} else
--		clear_evtchn(evtchn);
-+	clear_evtchn(evtchn);
+@@ -433,15 +433,20 @@ static bool pirq_needs_eoi_flag(unsigned
+ 	return info->u.pirq.flags & PIRQ_NEEDS_EOI;
  }
  
- static void mask_ack_dynirq(struct irq_data *data)
+-static void bind_evtchn_to_cpu(evtchn_port_t evtchn, unsigned int cpu)
++static void bind_evtchn_to_cpu(evtchn_port_t evtchn, unsigned int cpu,
++			       bool force_affinity)
+ {
+ 	int irq = get_evtchn_to_irq(evtchn);
+ 	struct irq_info *info = info_for_irq(irq);
+ 
+ 	BUG_ON(irq == -1);
+-#ifdef CONFIG_SMP
+-	cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(cpu));
+-#endif
++
++	if (IS_ENABLED(CONFIG_SMP) && force_affinity) {
++		cpumask_copy(irq_get_affinity_mask(irq), cpumask_of(cpu));
++		cpumask_copy(irq_get_effective_affinity_mask(irq),
++			     cpumask_of(cpu));
++	}
++
+ 	xen_evtchn_port_bind_to_cpu(evtchn, cpu, info->cpu);
+ 
+ 	info->cpu = cpu;
+@@ -788,7 +793,7 @@ static unsigned int __startup_pirq(unsig
+ 		goto err;
+ 
+ 	info->evtchn = evtchn;
+-	bind_evtchn_to_cpu(evtchn, 0);
++	bind_evtchn_to_cpu(evtchn, 0, false);
+ 
+ 	rc = xen_evtchn_port_setup(evtchn);
+ 	if (rc)
+@@ -1107,8 +1112,8 @@ static int bind_evtchn_to_irq_chip(evtch
+ 			irq = ret;
+ 			goto out;
+ 		}
+-		/* New interdomain events are bound to VCPU 0. */
+-		bind_evtchn_to_cpu(evtchn, 0);
++		/* New interdomain events are initially bound to VCPU 0. */
++		bind_evtchn_to_cpu(evtchn, 0, false);
+ 	} else {
+ 		struct irq_info *info = info_for_irq(irq);
+ 		WARN_ON(info == NULL || info->type != IRQT_EVTCHN);
+@@ -1156,7 +1161,11 @@ static int bind_ipi_to_irq(unsigned int
+ 			irq = ret;
+ 			goto out;
+ 		}
+-		bind_evtchn_to_cpu(evtchn, cpu);
++		/*
++		 * Force the affinity mask to the target CPU so proc shows
++		 * the correct target.
++		 */
++		bind_evtchn_to_cpu(evtchn, cpu, true);
+ 	} else {
+ 		struct irq_info *info = info_for_irq(irq);
+ 		WARN_ON(info == NULL || info->type != IRQT_IPI);
+@@ -1269,7 +1278,11 @@ int bind_virq_to_irq(unsigned int virq,
+ 			goto out;
+ 		}
+ 
+-		bind_evtchn_to_cpu(evtchn, cpu);
++		/*
++		 * Force the affinity mask for percpu interrupts so proc
++		 * shows the correct target.
++		 */
++		bind_evtchn_to_cpu(evtchn, cpu, percpu);
+ 	} else {
+ 		struct irq_info *info = info_for_irq(irq);
+ 		WARN_ON(info == NULL || info->type != IRQT_VIRQ);
+@@ -1634,8 +1647,7 @@ void rebind_evtchn_irq(evtchn_port_t evt
+ 
+ 	mutex_unlock(&irq_mapping_update_lock);
+ 
+-        bind_evtchn_to_cpu(evtchn, info->cpu);
+-	irq_set_affinity(irq, cpumask_of(info->cpu));
++	bind_evtchn_to_cpu(evtchn, info->cpu, false);
+ 
+ 	/* Unmask the event channel. */
+ 	enable_irq(irq);
+@@ -1669,7 +1681,7 @@ static int xen_rebind_evtchn_to_cpu(evtc
+ 	 * it, but don't do the xenlinux-level rebind in that case.
+ 	 */
+ 	if (HYPERVISOR_event_channel_op(EVTCHNOP_bind_vcpu, &bind_vcpu) >= 0)
+-		bind_evtchn_to_cpu(evtchn, tcpu);
++		bind_evtchn_to_cpu(evtchn, tcpu, false);
+ 
+ 	if (!masked)
+ 		unmask_evtchn(evtchn);
+@@ -1798,7 +1810,8 @@ static void restore_cpu_virqs(unsigned i
+ 
+ 		/* Record the new mapping. */
+ 		(void)xen_irq_info_virq_setup(cpu, irq, evtchn, virq);
+-		bind_evtchn_to_cpu(evtchn, cpu);
++		/* The affinity mask is still valid */
++		bind_evtchn_to_cpu(evtchn, cpu, false);
+ 	}
+ }
+ 
+@@ -1823,7 +1836,8 @@ static void restore_cpu_ipis(unsigned in
+ 
+ 		/* Record the new mapping. */
+ 		(void)xen_irq_info_ipi_setup(cpu, irq, evtchn, ipi);
+-		bind_evtchn_to_cpu(evtchn, cpu);
++		/* The affinity mask is still valid */
++		bind_evtchn_to_cpu(evtchn, cpu, false);
+ 	}
+ }
+ 
 
 _______________________________________________
 dri-devel mailing list
