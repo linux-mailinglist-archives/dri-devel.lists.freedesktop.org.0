@@ -2,27 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEEB32D5FEC
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CAE82D5FE8
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:39:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28C536EAAE;
-	Thu, 10 Dec 2020 15:39:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC33E6EA90;
+	Thu, 10 Dec 2020 15:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5749E6EA84
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA7F6E3F5
  for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:39:06 +0000 (UTC)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
  helo=dude02.pengutronix.de.)
  by metis.ext.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1knO24-00020b-JU; Thu, 10 Dec 2020 16:39:04 +0100
+ id 1knO24-00020b-KF; Thu, 10 Dec 2020 16:39:04 +0100
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 07/19] drm/imx: imx-ldb: use local connector variable
-Date: Thu, 10 Dec 2020 16:38:33 +0100
-Message-Id: <20201210153845.12176-8-p.zabel@pengutronix.de>
+Subject: [PATCH v5 08/19] drm/imx: imx-ldb: move initialization into probe
+Date: Thu, 10 Dec 2020 16:38:34 +0100
+Message-Id: <20201210153845.12176-9-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201210153845.12176-1-p.zabel@pengutronix.de>
 References: <20201210153845.12176-1-p.zabel@pengutronix.de>
@@ -50,55 +50,137 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use a local variable for the connector.
-This simplifies the following commits.
+Parts of the initialization that do not require the drm device can be
+done once during probe instead of possibly multiple times during bind.
+The bind function only creates the encoders.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/imx/imx-ldb.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/imx/imx-ldb.c | 72 ++++++++++++++++++-----------------
+ 1 file changed, 37 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/gpu/drm/imx/imx-ldb.c b/drivers/gpu/drm/imx/imx-ldb.c
-index 41e2978cb1eb..288a81f134fe 100644
+index 288a81f134fe..c3639cc32ddf 100644
 --- a/drivers/gpu/drm/imx/imx-ldb.c
 +++ b/drivers/gpu/drm/imx/imx-ldb.c
-@@ -411,6 +411,7 @@ static int imx_ldb_register(struct drm_device *drm,
- 	struct imx_ldb_channel *imx_ldb_ch)
- {
- 	struct imx_ldb *ldb = imx_ldb_ch->ldb;
-+	struct drm_connector *connector = &imx_ldb_ch->connector;
+@@ -415,6 +415,9 @@ static int imx_ldb_register(struct drm_device *drm,
  	struct drm_encoder *encoder = &imx_ldb_ch->encoder;
  	int ret;
  
-@@ -432,8 +433,7 @@ static int imx_ldb_register(struct drm_device *drm,
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_LVDS);
++	memset(connector, 0, sizeof(*connector));
++	memset(encoder, 0, sizeof(*encoder));
++
+ 	ret = imx_drm_encoder_parse_of(drm, encoder, imx_ldb_ch->child);
+ 	if (ret)
+ 		return ret;
+@@ -559,17 +562,42 @@ static int imx_ldb_panel_ddc(struct device *dev,
+ static int imx_ldb_bind(struct device *dev, struct device *master, void *data)
+ {
+ 	struct drm_device *drm = data;
++	struct imx_ldb *imx_ldb = dev_get_drvdata(dev);
++	int ret;
++	int i;
++
++	for (i = 0; i < 2; i++) {
++		struct imx_ldb_channel *channel = &imx_ldb->channel[i];
++
++		if (!channel->ldb)
++			break;
++
++		ret = imx_ldb_register(drm, channel);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static const struct component_ops imx_ldb_ops = {
++	.bind	= imx_ldb_bind,
++};
++
++static int imx_ldb_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
+ 	struct device_node *np = dev->of_node;
+-	const struct of_device_id *of_id =
+-			of_match_device(imx_ldb_dt_ids, dev);
++	const struct of_device_id *of_id = of_match_device(imx_ldb_dt_ids, dev);
+ 	struct device_node *child;
+ 	struct imx_ldb *imx_ldb;
+ 	int dual;
+ 	int ret;
+ 	int i;
  
- 	if (imx_ldb_ch->bridge) {
--		ret = drm_bridge_attach(&imx_ldb_ch->encoder,
--					imx_ldb_ch->bridge, NULL, 0);
-+		ret = drm_bridge_attach(encoder, imx_ldb_ch->bridge, NULL, 0);
- 		if (ret) {
- 			DRM_ERROR("Failed to initialize bridge with drm\n");
- 			return ret;
-@@ -445,13 +445,13 @@ static int imx_ldb_register(struct drm_device *drm,
- 		 * historical reasons, the ldb driver can also work without
- 		 * a panel.
- 		 */
--		drm_connector_helper_add(&imx_ldb_ch->connector,
--				&imx_ldb_connector_helper_funcs);
--		drm_connector_init_with_ddc(drm, &imx_ldb_ch->connector,
-+		drm_connector_helper_add(connector,
-+					 &imx_ldb_connector_helper_funcs);
-+		drm_connector_init_with_ddc(drm, connector,
- 					    &imx_ldb_connector_funcs,
- 					    DRM_MODE_CONNECTOR_LVDS,
- 					    imx_ldb_ch->ddc);
--		drm_connector_attach_encoder(&imx_ldb_ch->connector, encoder);
-+		drm_connector_attach_encoder(connector, encoder);
+-	imx_ldb = dev_get_drvdata(dev);
+-	memset(imx_ldb, 0, sizeof(*imx_ldb));
++	imx_ldb = devm_kzalloc(dev, sizeof(*imx_ldb), GFP_KERNEL);
++	if (!imx_ldb)
++		return -ENOMEM;
+ 
+ 	imx_ldb->regmap = syscon_regmap_lookup_by_phandle(np, "gpr");
+ 	if (IS_ERR(imx_ldb->regmap)) {
+@@ -669,25 +697,20 @@ static int imx_ldb_bind(struct device *dev, struct device *master, void *data)
+ 		}
+ 		channel->bus_format = bus_format;
+ 		channel->child = child;
+-
+-		ret = imx_ldb_register(drm, channel);
+-		if (ret) {
+-			channel->child = NULL;
+-			goto free_child;
+-		}
  	}
  
+-	return 0;
++	platform_set_drvdata(pdev, imx_ldb);
++
++	return component_add(&pdev->dev, &imx_ldb_ops);
+ 
+ free_child:
+ 	of_node_put(child);
+ 	return ret;
+ }
+ 
+-static void imx_ldb_unbind(struct device *dev, struct device *master,
+-	void *data)
++static int imx_ldb_remove(struct platform_device *pdev)
+ {
+-	struct imx_ldb *imx_ldb = dev_get_drvdata(dev);
++	struct imx_ldb *imx_ldb = platform_get_drvdata(pdev);
+ 	int i;
+ 
+ 	for (i = 0; i < 2; i++) {
+@@ -696,28 +719,7 @@ static void imx_ldb_unbind(struct device *dev, struct device *master,
+ 		kfree(channel->edid);
+ 		i2c_put_adapter(channel->ddc);
+ 	}
+-}
+-
+-static const struct component_ops imx_ldb_ops = {
+-	.bind	= imx_ldb_bind,
+-	.unbind	= imx_ldb_unbind,
+-};
+ 
+-static int imx_ldb_probe(struct platform_device *pdev)
+-{
+-	struct imx_ldb *imx_ldb;
+-
+-	imx_ldb = devm_kzalloc(&pdev->dev, sizeof(*imx_ldb), GFP_KERNEL);
+-	if (!imx_ldb)
+-		return -ENOMEM;
+-
+-	platform_set_drvdata(pdev, imx_ldb);
+-
+-	return component_add(&pdev->dev, &imx_ldb_ops);
+-}
+-
+-static int imx_ldb_remove(struct platform_device *pdev)
+-{
+ 	component_del(&pdev->dev, &imx_ldb_ops);
  	return 0;
+ }
 -- 
 2.20.1
 
