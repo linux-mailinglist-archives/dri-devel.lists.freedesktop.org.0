@@ -1,43 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5382D5FD5
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:36:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D0A72D5FE6
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:39:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ED106E3BB;
-	Thu, 10 Dec 2020 15:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56126EAA6;
+	Thu, 10 Dec 2020 15:39:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D64E6E3BB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:36:42 +0000 (UTC)
-X-Gm-Message-State: AOAM531VYMVMFSLBFgGbwkUBpebCQuwz6uaaDNyhOHsZyjPmHXYhmcZp
- OrtQxdQpvLe1TAH9aZyBqeQgriO64LoK7zLpXQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607614602;
- bh=gfjKDkgsUzlSXkLKgAEbUS/Mv1PVZmFwSXCS39LAV6E=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=RPP7Y3MYJM2iQesQl1tK8TgtLyQQ6J9Ev+RMitEYdSKe8iLqjuQnttGueriC7nRs1
- yuACw7ty0/BdVxriEJmAeQZxm712jHoB5tYWv/KSHXEv4rcE49/Ht5N3Kt5rg9yVz7
- Nxn8EgiIObUWH6Dyk5R1pJ7yMf2qsJaPF5h6B9dVEKMCMzMNoAO8DBVxlKy0g7YzWT
- KIozGCXi7YygbAmetK3gVGRuJo30f8EGOVUKqY4HcNLb2pKVBDYTiw3AuhW3hT9egn
- 7l620dqQkOgWD1ZQmafHhDQCJzMM9KW/3/7kX4xnuBV9Oq99W71s5inSsJy3mfEWAb
- mB7F5FWrPmGaQ==
-X-Google-Smtp-Source: ABdhPJxSRwBGAkP+9mfLM02WdsbbFX5lBks02URQV937lg/PC5OBCOeM7kRWkYp0bnV7bJe0ZjiglASvX2KGwpziqho=
-X-Received: by 2002:a50:c3c5:: with SMTP id i5mr7382571edf.166.1607614600133; 
- Thu, 10 Dec 2020 07:36:40 -0800 (PST)
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C685D6E3F5
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:39:05 +0000 (UTC)
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
+ helo=dude02.pengutronix.de.)
+ by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1knO24-00020b-BM; Thu, 10 Dec 2020 16:39:04 +0100
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 00/19] drm: managed encoder/plane/crtc allocation
+Date: Thu, 10 Dec 2020 16:38:26 +0100
+Message-Id: <20201210153845.12176-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1607591262-21736-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607591262-21736-3-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1607591262-21736-3-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 10 Dec 2020 23:36:29 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_90gcnGFiV2uZ-y2TrQYSowhvoM5k36+0zG6+tG9bj3Mw@mail.gmail.com>
-Message-ID: <CAAOTY_90gcnGFiV2uZ-y2TrQYSowhvoM5k36+0zG6+tG9bj3Mw@mail.gmail.com>
-Subject: Re: [PATCH v8,
- 2/6] dt-bindings: mediatek: add description for mt8183 display
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,45 +42,84 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: kernel@pengutronix.de, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
-PiDmlrwgMjAyMOW5tDEy5pyIMTDml6Ug6YCx5ZubIOS4i+WNiDU6MjLlr6vpgZPvvJoKPgo+IGFk
-ZCBkZXNjcmlwdGlvbiBmb3IgbXQ4MTgzIGRpc3BsYXkKClJldmlld2VkLWJ5OiBDaHVuLUt1YW5n
-IEh1IDxjaHVua3VhbmcuaHVAa2VybmVsLm9yZz4KCj4KPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlh
-bmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbT4KPiAtLS0KPiAgRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQg
-fCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+
-Cj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5
-L21lZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQKPiBpbmRleCA2NGM2NGVl
-Li41Y2E2OTNhIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0Cj4gKysrIGIvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVkaWF0ZWssZGlzcC50eHQK
-PiBAQCAtNDMsNyArNDMsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzIChhbGwgZnVuY3Rpb24gYmxv
-Y2tzKToKPiAgICAgICAgICJtZWRpYXRlayw8Y2hpcD4tZHBpIiAgICAgICAgICAgICAgICAgICAt
-IERQSSBjb250cm9sbGVyLCBzZWUgbWVkaWF0ZWssZHBpLnR4dAo+ICAgICAgICAgIm1lZGlhdGVr
-LDxjaGlwPi1kaXNwLW11dGV4IiAgICAgICAgICAgIC0gZGlzcGxheSBtdXRleAo+ICAgICAgICAg
-Im1lZGlhdGVrLDxjaGlwPi1kaXNwLW9kIiAgICAgICAgICAgICAgIC0gb3ZlcmRyaXZlCj4gLSAg
-dGhlIHN1cHBvcnRlZCBjaGlwcyBhcmUgbXQyNzAxLCBtdDc2MjMsIG10MjcxMiBhbmQgbXQ4MTcz
-Lgo+ICsgIHRoZSBzdXBwb3J0ZWQgY2hpcHMgYXJlIG10MjcwMSwgbXQ3NjIzLCBtdDI3MTIsIG10
-ODE3MyBhbmQgbXQ4MTgzLgo+ICAtIHJlZzogUGh5c2ljYWwgYmFzZSBhZGRyZXNzIGFuZCBsZW5n
-dGggb2YgdGhlIGZ1bmN0aW9uIGJsb2NrIHJlZ2lzdGVyIHNwYWNlCj4gIC0gaW50ZXJydXB0czog
-VGhlIGludGVycnVwdCBzaWduYWwgZnJvbSB0aGUgZnVuY3Rpb24gYmxvY2sgKHJlcXVpcmVkLCBl
-eGNlcHQgZm9yCj4gICAgbWVyZ2UgYW5kIHNwbGl0IGZ1bmN0aW9uIGJsb2NrcykuCj4gLS0KPiAx
-LjguMS4xLmRpcnR5Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiBMaW51eC1tZWRpYXRla0BsaXN0
-cy5pbmZyYWRlYWQub3JnCj4gaHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0
-aW5mby9saW51eC1tZWRpYXRlawpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVz
-a3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9k
-cmktZGV2ZWwK
+Hi,
+
+update of v4 [1] with review feedback integrated.
+
+Changes since v4:
+ - Roll back drm_mode_config_cleanup() change, any encoders that are
+   kept on the mode_config.encoder_list until then are still required
+   to have funcs set.
+ - Mention that {encoder,plane,crtc}_funcs.destroy should cleanup and
+   kfree() the structure, and that it should not be allocated with
+   devm_kzalloc().
+ - Point out drmm_encoder_alloc in the drm_encoder_init() documentation,
+   drmm_universal_plane_alloc() in the drm_universal_plane_init()
+   documentation, and drmm_crtc_alloc_with_planes() in the
+   drm_crtc_alloc_with_planes() documentation.
+ - WARN_ON(!funcs->destroy) in drm_{encoder,universal_plane}_init() and
+   in drm_crtc_init_with_planes().
+ - WARN_ON(!funcs || funcs->destroy) in drmm_universal_plane_alloc()
+   and in drmm_crtc_allow_with_planes().
+ - Mark funcs parameter as optional in drmm_encoder_alloc()
+   documentation.
+ - Address FIXME in drm_simple_encoder_init() documentation by pointing
+   out drmm_simple_encoder_alloc().
+
+[1] https://lore.kernel.org/dri-devel/20201208155451.8421-1-p.zabel@pengutronix.de/
+
+regards
+Philipp
+
+Philipp Zabel (19):
+  drm/encoder: make encoder control functions optional
+  drm: add drmm_encoder_alloc()
+  drm/simple_kms_helper: add drmm_simple_encoder_alloc()
+  drm/plane: add drmm_universal_plane_alloc()
+  drm/crtc: add drmm_crtc_alloc_with_planes()
+  drm/imx: dw_hdmi-imx: move initialization into probe
+  drm/imx: imx-ldb: use local connector variable
+  drm/imx: imx-ldb: move initialization into probe
+  drm/imx: imx-tve: use local encoder and connector variables
+  drm/imx: imx-tve: move initialization into probe
+  drm/imx: imx-tve: use devm_clk_register
+  drm/imx: parallel-display: use local bridge and connector variables
+  drm/imx: parallel-display: move initialization into probe
+  drm/imx: dw_hdmi-imx: use drm managed resources
+  drm/imx: imx-ldb: use drm managed resources
+  drm/imx: imx-tve: use drm managed resources
+  drm/imx: parallel-display: use drm managed resources
+  drm/imx: ipuv3-plane: use drm managed resources
+  drm/imx: ipuv3-crtc: use drm managed resources
+
+ drivers/gpu/drm/drm_crtc.c              | 125 +++++++++++++++++-----
+ drivers/gpu/drm/drm_encoder.c           | 113 +++++++++++++++-----
+ drivers/gpu/drm/drm_mode_config.c       |   2 +-
+ drivers/gpu/drm/drm_plane.c             | 134 +++++++++++++++++++-----
+ drivers/gpu/drm/drm_simple_kms_helper.c |  14 ++-
+ drivers/gpu/drm/imx/dw_hdmi-imx.c       |  95 ++++++++---------
+ drivers/gpu/drm/imx/imx-ldb.c           | 109 ++++++++++---------
+ drivers/gpu/drm/imx/imx-tve.c           | 109 +++++++++----------
+ drivers/gpu/drm/imx/ipuv3-crtc.c        | 131 +++++++----------------
+ drivers/gpu/drm/imx/ipuv3-plane.c       |  69 ++++++------
+ drivers/gpu/drm/imx/ipuv3-plane.h       |   3 -
+ drivers/gpu/drm/imx/parallel-display.c  |  91 ++++++++--------
+ include/drm/drm_crtc.h                  |  33 ++++++
+ include/drm/drm_encoder.h               |  32 +++++-
+ include/drm/drm_plane.h                 |  42 ++++++++
+ include/drm/drm_simple_kms_helper.h     |  24 +++++
+ 16 files changed, 710 insertions(+), 416 deletions(-)
+
+-- 
+2.20.1
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
