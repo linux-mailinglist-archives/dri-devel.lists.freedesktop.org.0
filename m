@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5962D6AD5
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 23:56:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6C82D6ADA
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 23:57:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A83626E4E3;
-	Thu, 10 Dec 2020 22:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCC36EB91;
+	Thu, 10 Dec 2020 22:57:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7613E6E4E3;
- Thu, 10 Dec 2020 22:56:35 +0000 (UTC)
-X-Gm-Message-State: AOAM533WuQgWtuuWt4RhF9ADZRFHVPsx3PfNKDh65zoMcMiNIXol36IE
- mC1TSr47CY6xE+/EtYAi1dQHgCPAWqmny8msNg==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB2246EB8E;
+ Thu, 10 Dec 2020 22:57:09 +0000 (UTC)
+X-Gm-Message-State: AOAM531wzZ1XhmfyVP9RsfOK4frUz8Ig55UIGYOQJhKwL/8QJg4MvRCC
+ xsg3o+aE3+CUkbSiS/5FZOsyO5ohFWFelICDcg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607640995;
- bh=HILNalL3GlPRV+ztE2WnCsMQWzjgnQh5F8d+VjxfhHA=;
+ s=k20201202; t=1607641029;
+ bh=CumYBB9xVU4mI+ysFQ9GC3xvipGC4R7OnFI2Gfa5FNQ=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=DkCyyeuvJy4iU5hGrhY5rvXdNF/XDEltkcaXCK6XvpomHZn/eMfi17cIpcRiI5UTN
- kSgVM0+4jjhPCNQ75+n/cgaon9liXs7woUDnE8yttzk1aQDmv4io7aucoYzyAtdNG0
- I2wUawkxulB5pG6A0oOdXuJ1alyYKqoFx6TvAWl9grEpRA2evfntb2Y6XvyL5UXgjx
- TzZURk/yteTpMNwsMgcPKMcKwqol/ljrllpmoEMc4onPQTbPEpHiroGdwkcCe99aWN
- MqaDFHEFOoTW4rWfDNURprjhGlC5XlkkOBsq9Gva6ntmAVZmR6ksXaR9lV2TA1APi2
- jOgUDjBhrO9bg==
-X-Google-Smtp-Source: ABdhPJxCdEkGcUPgqgCmU+hGdc9mjJz2mo+m7nRBlZJj4NBRvD8ZfcoTXioyfo8/Gn48VrKyiwGC/1HmZUK4DbzvCWk=
-X-Received: by 2002:a17:906:d784:: with SMTP id
- pj4mr8261525ejb.360.1607640993261; 
- Thu, 10 Dec 2020 14:56:33 -0800 (PST)
+ b=NX100t6gCQytNa7OiazwnNywlnnE3MGA+EwIsG1KwPo3g9YIMvMkZenkX6DPjonLX
+ LgiB+WhmPpHDqq68su5+am2qlFC3dPRt63g4quEmvydBolDCLPaFApKatvOjZ8QpSh
+ t8DP63zX380Hmbe21aY/TXXZZVUGRRb9HCRBFVBeJscvK+q7L14Fm/b/rqKNPyMDp7
+ LGbf/bPcWcrfMi1ra6Q9AGb5RMSUk/KMDinLe6YXNtA4nslj1hondib08OcOsoqaUl
+ R8VDvstTAeLsboQByXDyHliDd1PrRisKjrGFVbj5XTLtWTbNK+FOWwSfjLDaWtlE1h
+ FDGHWjLjPHW1g==
+X-Google-Smtp-Source: ABdhPJyKMB0fAO5ccR1ON7eKp3wop/g844H0Em6KIAw65vcwOioEZudsqFxyo2xMX2ascC0HxcRxz5ivmcQz5wtwB24=
+X-Received: by 2002:a17:906:c20f:: with SMTP id
+ d15mr8477099ejz.341.1607641026526; 
+ Thu, 10 Dec 2020 14:57:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20201210192536.118432146@linutronix.de>
- <20201210194044.364211860@linutronix.de>
-In-Reply-To: <20201210194044.364211860@linutronix.de>
+ <20201210194044.473308721@linutronix.de>
+In-Reply-To: <20201210194044.473308721@linutronix.de>
 From: Rob Herring <robh@kernel.org>
-Date: Thu, 10 Dec 2020 16:56:21 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKCGkyk9whiGQ0hPyWjSYXnC-TSbot85k7=bwVd0rwC=A@mail.gmail.com>
-Message-ID: <CAL_JsqKCGkyk9whiGQ0hPyWjSYXnC-TSbot85k7=bwVd0rwC=A@mail.gmail.com>
-Subject: Re: [patch 18/30] PCI: xilinx-nwl: Use irq_data_get_irq_chip_data()
+Date: Thu, 10 Dec 2020 16:56:55 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK4bVyqyT9ip9A5P7gQQwDt1HMksjkCe6bwHrBCGrZYug@mail.gmail.com>
+Message-ID: <CAL_JsqK4bVyqyT9ip9A5P7gQQwDt1HMksjkCe6bwHrBCGrZYug@mail.gmail.com>
+Subject: Re: [patch 19/30] PCI: mobiveil: Use irq_data_get_irq_chip_data()
 To: Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -55,33 +55,33 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
  Peter Zijlstra <peterz@infradead.org>,
  Catalin Marinas <catalin.marinas@arm.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
- Russell King <linux@armlinux.org.uk>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
  "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- netdev <netdev@vger.kernel.org>, Will Deacon <will@kernel.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, linux-s390@vger.kernel.org,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev <netdev@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ linux-s390@vger.kernel.org, afzal mohammed <afzal.mohd.ma@gmail.com>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
  Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
  Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Michal Simek <michal.simek@xilinx.com>,
+ Russell King <linux@armlinux.org.uk>,
  Christian Borntraeger <borntraeger@de.ibm.com>,
  PCI <linux-pci@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Wambui Karuga <wambui.karugax@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>, Juergen Gross <jgross@suse.com>,
  Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Heiko Carstens <hca@linux.ibm.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Stefano Stabellini <sstabellini@kernel.org>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Lee Jones <lee.jones@linaro.org>,
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Juergen Gross <jgross@suse.com>, David Airlie <airlied@linux.ie>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>, David Airlie <airlied@linux.ie>,
  linux-parisc@vger.kernel.org,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, LKML <linux-kernel@vger.kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
- linux-ntb@googlegroups.com, Saeed Mahameed <saeedm@nvidia.com>,
+ LKML <linux-kernel@vger.kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>,
  "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
@@ -100,14 +100,14 @@ On Thu, Dec 10, 2020 at 1:42 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 > doesn't make it more correct.
 >
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
+> Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
 > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 > Cc: Rob Herring <robh@kernel.org>
 > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Michal Simek <michal.simek@xilinx.com>
 > Cc: linux-pci@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
 > ---
->  drivers/pci/controller/pcie-xilinx-nwl.c |    8 ++------
+>  drivers/pci/controller/mobiveil/pcie-mobiveil-host.c |    8 ++------
 >  1 file changed, 2 insertions(+), 6 deletions(-)
 
 Reviewed-by: Rob Herring <robh@kernel.org>
