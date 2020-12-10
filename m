@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F34F2D715D
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:00 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 249DB2D7146
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD4A6ECA8;
-	Fri, 11 Dec 2020 08:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACD76EC8D;
+	Fri, 11 Dec 2020 08:16:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr
  [80.12.242.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 126836EAC8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:48:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDDC96E5CA
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:50:12 +0000 (UTC)
 Received: from localhost.localdomain ([92.131.12.169]) by mwinf5d15 with ME
- id 2eoj2400H3eqQsk03eokPw; Thu, 10 Dec 2020 15:48:48 +0100
+ id 2eq8240093eqQsk03eq8ax; Thu, 10 Dec 2020 15:50:09 +0100
 X-ME-Helo: localhost.localdomain
 X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 10 Dec 2020 15:48:48 +0100
+X-ME-Date: Thu, 10 Dec 2020 15:50:09 +0100
 X-ME-IP: 92.131.12.169
 From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 To: daniel.vetter@ffwll.ch,
 	grandmaster@al2klimov.de
-Subject: [PATCH 1/2] video: fbdev: Use framebuffer_release instead of kfree to
- free a frame buffer
-Date: Thu, 10 Dec 2020 15:48:08 +0100
-Message-Id: <20201210144808.64384-1-christophe.jaillet@wanadoo.fr>
+Subject: [PATCH 2/2] video: fbdev: Fix a dev_err format specifier
+Date: Thu, 10 Dec 2020 15:49:32 +0100
+Message-Id: <20201210144932.64436-1-christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:08 +0000
@@ -49,37 +48,30 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use 'framebuffer_release()' instead of 'kfree()' to undo a
-'framebuffer_alloc()' call, both in the error handling path of the probe
-function and in remove function.
+'phys_addr' is of type 'dma_addr_t'.
+Use '%pad' instead of '%x' to print this variable in an error message.
 
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/video/fbdev/ep93xx-fb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/fbdev/ep93xx-fb.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/video/fbdev/ep93xx-fb.c b/drivers/video/fbdev/ep93xx-fb.c
-index ba33b4dce0df..80a70e5796b8 100644
+index 80a70e5796b8..6b5a63b80ffa 100644
 --- a/drivers/video/fbdev/ep93xx-fb.c
 +++ b/drivers/video/fbdev/ep93xx-fb.c
-@@ -566,7 +566,7 @@ static int ep93xxfb_probe(struct platform_device *pdev)
- failed_videomem:
- 	fb_dealloc_cmap(&info->cmap);
- failed_cmap:
--	kfree(info);
-+	framebuffer_release(info);
+@@ -436,9 +436,8 @@ static int ep93xxfb_alloc_videomem(struct fb_info *info)
+ 	 * least.
+ 	 */
+ 	if (check_screenpage_bug && phys_addr & (1 << 27)) {
+-		dev_err(info->dev, "ep93xx framebuffer bug. phys addr (0x%x) "
+-			"has bit 27 set: cannot init framebuffer\n",
+-			phys_addr);
++		dev_err(info->dev, "ep93xx framebuffer bug. phys addr (%pad) has bit 27 set: cannot init framebuffer\n",
++			&phys_addr);
  
- 	return err;
- }
-@@ -584,7 +584,7 @@ static int ep93xxfb_remove(struct platform_device *pdev)
- 	if (fbi->mach_info->teardown)
- 		fbi->mach_info->teardown(pdev);
- 
--	kfree(info);
-+	framebuffer_release(info);
- 
- 	return 0;
- }
+ 		dma_free_coherent(info->dev, fb_size, virt_addr, phys_addr);
+ 		return -ENOMEM;
 -- 
 2.27.0
 
