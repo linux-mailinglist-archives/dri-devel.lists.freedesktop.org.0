@@ -1,43 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6C82D6ADA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 23:57:13 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C842D6AEA
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 00:21:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DCC36EB91;
-	Thu, 10 Dec 2020 22:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7B16E506;
+	Thu, 10 Dec 2020 23:21:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB2246EB8E;
- Thu, 10 Dec 2020 22:57:09 +0000 (UTC)
-X-Gm-Message-State: AOAM531wzZ1XhmfyVP9RsfOK4frUz8Ig55UIGYOQJhKwL/8QJg4MvRCC
- xsg3o+aE3+CUkbSiS/5FZOsyO5ohFWFelICDcg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607641029;
- bh=CumYBB9xVU4mI+ysFQ9GC3xvipGC4R7OnFI2Gfa5FNQ=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=NX100t6gCQytNa7OiazwnNywlnnE3MGA+EwIsG1KwPo3g9YIMvMkZenkX6DPjonLX
- LgiB+WhmPpHDqq68su5+am2qlFC3dPRt63g4quEmvydBolDCLPaFApKatvOjZ8QpSh
- t8DP63zX380Hmbe21aY/TXXZZVUGRRb9HCRBFVBeJscvK+q7L14Fm/b/rqKNPyMDp7
- LGbf/bPcWcrfMi1ra6Q9AGb5RMSUk/KMDinLe6YXNtA4nslj1hondib08OcOsoqaUl
- R8VDvstTAeLsboQByXDyHliDd1PrRisKjrGFVbj5XTLtWTbNK+FOWwSfjLDaWtlE1h
- FDGHWjLjPHW1g==
-X-Google-Smtp-Source: ABdhPJyKMB0fAO5ccR1ON7eKp3wop/g844H0Em6KIAw65vcwOioEZudsqFxyo2xMX2ascC0HxcRxz5ivmcQz5wtwB24=
-X-Received: by 2002:a17:906:c20f:: with SMTP id
- d15mr8477099ejz.341.1607641026526; 
- Thu, 10 Dec 2020 14:57:06 -0800 (PST)
-MIME-Version: 1.0
+Received: from aserp2130.oracle.com (aserp2130.oracle.com [141.146.126.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43CCA6E506;
+ Thu, 10 Dec 2020 23:21:44 +0000 (UTC)
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BANJcXS003074;
+ Thu, 10 Dec 2020 23:19:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=+7Mm8NoMJp9j52xNSSS3U0SBEUJij5+TbHj/sEGWvTc=;
+ b=u+3l3VwFE77ZdGsGjRddFE+dCehz5qrVKsbBnhGV+nhEsQXQr4wsZggjHTDzlgab5HWW
+ W5egKIrrmhPu4ceJfalySBs8+I9FL0posNnaW9CbqbQrGVA0xg9R6RUkmEkz2s2No81L
+ nPNXJeIgpYDvFxFB/WQZYYVQRZ8i2VKbURSVU2FxkTzOHIYKNUfXXIo5pBMOc10Am1by
+ BIehnBSdx++jQOQE0Sqhoje+VUsTyicTJHRPdgx7QaW/te4Rwue+wm7tniYwBY8WiOcJ
+ un2QEN6snEEYNGv5arjms4I4Cg54F0bI7f25KRnMCWmobnf82SR6SJhov103IcOkf0u5 8g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 357yqc85cd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 10 Dec 2020 23:19:38 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BAMxr2o074450;
+ Thu, 10 Dec 2020 23:19:32 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 358m52xf7m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 10 Dec 2020 23:19:32 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BANJPdu022291;
+ Thu, 10 Dec 2020 23:19:25 GMT
+Received: from [10.39.227.125] (/10.39.227.125)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 10 Dec 2020 15:19:24 -0800
+Subject: Re: [patch 24/30] xen/events: Remove unused
+ bind_evtchn_to_irq_lateeoi()
+To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
 References: <20201210192536.118432146@linutronix.de>
- <20201210194044.473308721@linutronix.de>
-In-Reply-To: <20201210194044.473308721@linutronix.de>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 10 Dec 2020 16:56:55 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqK4bVyqyT9ip9A5P7gQQwDt1HMksjkCe6bwHrBCGrZYug@mail.gmail.com>
-Message-ID: <CAL_JsqK4bVyqyT9ip9A5P7gQQwDt1HMksjkCe6bwHrBCGrZYug@mail.gmail.com>
-Subject: Re: [patch 19/30] PCI: mobiveil: Use irq_data_get_irq_chip_data()
-To: Thomas Gleixner <tglx@linutronix.de>
+ <20201210194044.972064156@linutronix.de>
+From: boris.ostrovsky@oracle.com
+Organization: Oracle Corporation
+Message-ID: <748d8d81-ac0f-aee2-1a56-ba9c40fee52f@oracle.com>
+Date: Thu, 10 Dec 2020 18:19:19 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
+MIME-Version: 1.0
+In-Reply-To: <20201210194044.972064156@linutronix.de>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012100148
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1011 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012100149
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,64 +86,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: Mark Rutland <mark.rutland@arm.com>,
  Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
  Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
  Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Saeed Mahameed <saeedm@nvidia.com>, netdev <netdev@vger.kernel.org>,
- Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- linux-s390@vger.kernel.org, afzal mohammed <afzal.mohd.ma@gmail.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
+ afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
  Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
  Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
  Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- PCI <linux-pci@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Heiko Carstens <hca@linux.ibm.com>, Wambui Karuga <wambui.karugax@gmail.com>,
- Allen Hubbe <allenbh@gmail.com>, Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, David Airlie <airlied@linux.ie>,
- linux-parisc@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ Juergen Gross <jgross@suse.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
  Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- LKML <linux-kernel@vger.kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
  Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- "David S. Miller" <davem@davemloft.net>
+ intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 10, 2020 at 1:42 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Going through a full irq descriptor lookup instead of just using the proper
-> helper function which provides direct access is suboptimal.
->
-> In fact it _is_ wrong because the chip callback needs to get the chip data
-> which is relevant for the chip while using the irq descriptor variant
-> returns the irq chip data of the top level chip of a hierarchy. It does not
-> matter in this case because the chip is the top level chip, but that
-> doesn't make it more correct.
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
-> Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: linux-pci@vger.kernel.org
-> ---
->  drivers/pci/controller/mobiveil/pcie-mobiveil-host.c |    8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 12/10/20 2:26 PM, Thomas Gleixner wrote:
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Boris Ostrovsky <boris.ostrovsky@oracle.com>
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: xen-devel@lists.xenproject.org
+> ---
+>  drivers/xen/events/events_base.c |    6 ------
+>  1 file changed, 6 deletions(-)
+>
+> --- a/drivers/xen/events/events_base.c
+> +++ b/drivers/xen/events/events_base.c
+> @@ -1132,12 +1132,6 @@ int bind_evtchn_to_irq(evtchn_port_t evt
+>  }
+>  EXPORT_SYMBOL_GPL(bind_evtchn_to_irq);
+>  
+> -int bind_evtchn_to_irq_lateeoi(evtchn_port_t evtchn)
+> -{
+> -	return bind_evtchn_to_irq_chip(evtchn, &xen_lateeoi_chip);
+> -}
+> -EXPORT_SYMBOL_GPL(bind_evtchn_to_irq_lateeoi);
+
+
+
+include/xen/events.h also needs to be updated (and in the next patch for xen_set_affinity_evtchn() as well).
+
+
+-boris
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
