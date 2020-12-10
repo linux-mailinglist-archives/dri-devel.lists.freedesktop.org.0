@@ -2,66 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D16A82D582D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 11:27:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08522D587B
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 11:45:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FADA6EA61;
-	Thu, 10 Dec 2020 10:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 709946E40F;
+	Thu, 10 Dec 2020 10:45:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
- [IPv6:2a00:1450:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 743186EA61
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 10:27:31 +0000 (UTC)
-Received: by mail-wm1-x341.google.com with SMTP id g25so2493264wmh.1
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 02:27:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=l92zaKGCsUqQ/gxEstrfL6NDn1q+kjEay4OgM6ksKek=;
- b=lZnohFRO2aVOHIRtc3z7i6lGYCNLnPZdXaB3qWvhukrz58enBHe7EHIJSqX/nuzAHW
- yCJOYIELLDkG00HMP/i9sB90hTKotuEEX6XtZ6vbPgpiCE8od//LiE17cKbqsGFu6+WI
- k8DYSm7F76nBrjKCaWmwkM3P9FtvSoRRTYJ2w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=l92zaKGCsUqQ/gxEstrfL6NDn1q+kjEay4OgM6ksKek=;
- b=k8EhpEdLz0rHApdsBEU4kVKLLhNJ9Tfa2U3SdsdmMxulpO/dWTbRw+mOAT2JxH9zRM
- cI+S7F/cTmGyrzrBp0XQzE2ZVXzXTbYk/N8Vo8d/BRwIuAHnAgBobRqj/gtI5loRGPKw
- 4P8qjxxZ1rw4TEP0xJCkTo6JI8kQfv3DE+tTiyXCpBymZCaiAIFo9aHQna7J3JiDIARa
- zhCIgxQuY/omYBKd5PpXuJzxyur5q+4vPgpbPz1ql6a7DR1MYKm0h0XgVI1PoAr81veG
- wZdfpt2iyxuBNsCGsuaSb9w9Dj0P2NJgNl+/GnqBG0TPVDDQSBJAinSaqZmJENLQIai6
- phIg==
-X-Gm-Message-State: AOAM530ON1PSYYH/PODMSHSpmq5vpkWtcMTqx4N/hs6/5fjmgCsCBZt6
- +m+78Vc7bzFSA5wNZMu9knY9eg==
-X-Google-Smtp-Source: ABdhPJy6LrEU5I4bHa6NTCpIKzGWxUmYOzrDc8WN0RwYWzeap6wdM7DkzQUMvCNV9lfiw29hflZUpw==
-X-Received: by 2002:a1c:f405:: with SMTP id z5mr7288798wma.93.1607596050214;
- Thu, 10 Dec 2020 02:27:30 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z64sm8259746wme.10.2020.12.10.02.27.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 02:27:29 -0800 (PST)
-Date: Thu, 10 Dec 2020 11:27:27 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-Message-ID: <20201210102727.GE401619@phenom.ffwll.local>
-Mail-Followup-To: Greg KH <gregkh@linuxfoundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- surenb@google.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Hridya Valsaraju <hridya@google.com>, kernel-team@android.com,
- linux-media@vger.kernel.org
-References: <20201210044400.1080308-1-hridya@google.com>
- <b5adfe46-8615-5821-d092-2b93feed5b79@amd.com>
- <X9H0JREcdxDsMtLX@kroah.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDE966E40A;
+ Thu, 10 Dec 2020 10:45:43 +0000 (UTC)
+IronPort-SDR: i8QLw6wSmbyutX+z1x7pe/a5f3hdlkGwF9dSPgZZkMBIMF5mZB04QkslSmcy0143I/YNft831W
+ kpoRjfcB23kA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="235827967"
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="235827967"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 02:45:42 -0800
+IronPort-SDR: 8B5JILFNwgpLoTaLek6lDBxucy5SOqjmME7GMXrefffU9h3aOhRW/kkWr7tMkBT7Ul/eo4ThxS
+ Po3iPyr1yLcg==
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; d="scan'208";a="319007397"
+Received: from nabuhijl-mobl.ger.corp.intel.com (HELO [10.251.185.230])
+ ([10.251.185.230])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 02:45:37 -0800
+Subject: Re: [Intel-gfx] [PATCH v3 2/4] drm/i915/pmu: Use kstat_irqs to get
+ interrupt count
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, Thomas Gleixner
+ <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>
+References: <20201205014340.148235-1-jsnitsel@redhat.com>
+ <20201205014340.148235-3-jsnitsel@redhat.com>
+ <875z5e99ez.fsf@nanos.tec.linutronix.de>
+ <160758677957.5062.15497765500689083558@jlahtine-mobl.ger.corp.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <e9892cc4-6344-be07-66b5-236b8576100e@linux.intel.com>
+Date: Thu, 10 Dec 2020 10:45:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X9H0JREcdxDsMtLX@kroah.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <160758677957.5062.15497765500689083558@jlahtine-mobl.ger.corp.intel.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,92 +58,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: kernel-team@android.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Hridya Valsaraju <hridya@google.com>, surenb@google.com,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>, Peter Zijlstra <peterz@infradead.org>,
+ intel-gfx@lists.freedesktop.org, Matthew Garrett <mjg59@google.com>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jarkko Sakkinen <jarkko@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-integrity@vger.kernel.org,
+ Peter Huewe <peterhuewe@gmx.de>
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 10, 2020 at 11:10:45AM +0100, Greg KH wrote:
-> On Thu, Dec 10, 2020 at 10:58:50AM +0100, Christian K=F6nig wrote:
-> > In general a good idea, but I have a few concern/comments here.
-> > =
 
-> > Am 10.12.20 um 05:43 schrieb Hridya Valsaraju:
-> > > This patch allows statistics to be enabled for each DMA-BUF in
-> > > sysfs by enabling the config CONFIG_DMABUF_SYSFS_STATS.
-> > > =
+On 10/12/2020 07:53, Joonas Lahtinen wrote:
+> + Tvrtko and Chris for comments
+> 
+> Code seems to be added in:
+> 
+> commit 0cd4684d6ea9a4ffec33fc19de4dd667bb90d0a5
+> Author: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Date:   Tue Nov 21 18:18:50 2017 +0000
+> 
+>      drm/i915/pmu: Add interrupt count metric
+> 
+> I think later in the thread there was a suggestion to replace this with
+> simple counter increment in IRQ handler.
 
-> > > The following stats will be exposed by the interface:
-> > > =
+It was indeed unsafe until recent b00bccb3f0bb ("drm/i915/pmu: Handle 
+PCI unbind") but now should be fine.
 
-> > > /sys/kernel/dmabuf/<inode_number>/exporter_name
-> > > /sys/kernel/dmabuf/<inode_number>/size
-> > > /sys/kernel/dmabuf/<inode_number>/dev_map_info
-> > > =
+If kstat_irqs does not get exported it is easy enough for i915 to keep a 
+local counter. Reasoning was very infrequent per cpu summation is much 
+cheaper than very frequent atomic add. Up to thousands of interrupts per 
+second vs "once per second" PMU read kind of thing.
 
-> > > The inode_number is unique for each DMA-BUF and was added earlier [1]
-> > > in order to allow userspace to track DMA-BUF usage across different
-> > > processes.
-> > > =
+Regards,
 
-> > > Currently, this information is exposed in
-> > > /sys/kernel/debug/dma_buf/bufinfo.
-> > > However, since debugfs is considered unsafe to be mounted in producti=
-on,
-> > > it is being duplicated in sysfs.
-> > =
+Tvrtko
 
-> > Mhm, this makes it part of the UAPI. What is the justification for this?
-> > =
-
-> > In other words do we really need those debug information in a production
-> > environment?
-> =
-
-> Production environments seem to want to know who is using up memory :)
-
-This only shows shared memory, so it does smell a lot like $specific_issue
-and we're designing a narrow solution for that and then have to carry it
-forever.
-
-E.g. why is the list of attachments not a sysfs link? That's how we
-usually expose struct device * pointers in sysfs to userspace, not as a
-list of things.
-
-Furthermore we don't have the exporter device covered anywhere, how is
-that tracked? Yes Android just uses ion for all shared buffers, but that's
-not how all of linux userspace works.
-
-Then I guess there's the mmaps, you can fish them out of procfs. A tool
-which collects all that information might be useful, just as demonstration
-of how this is all supposed to be used.
-
-Finally we have kernel internal mappings too. Not tracked.
-
-There's also some things to make sure we're at least having thought about
-how other things fit in here. E.d. dma_resv attached to the dma-buf
-matters in general a lot. It doesn't matter on Android because
-everything's pinned all the time anyway.
-
-Also I thought sysfs was one value one file, dumping an entire list into
-dev_info_map with properties we'll need to extend (once you care about
-dma_resv you also want to know which attachments are dynamic) does not
-smell like sysfs design at all.
-
-So yeah, why? worksformeonandroidweneeditthere not good enough for uapi of
-something this core to how the gpu stack works on linux in general, at
-least imo.
--Daniel
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> Quoting Thomas Gleixner (2020-12-06 18:38:44)
+>> On Fri, Dec 04 2020 at 18:43, Jerry Snitselaar wrote:
+>>
+>>> Now that kstat_irqs is exported, get rid of count_interrupts in
+>>> i915_pmu.c
+>>> --- a/drivers/gpu/drm/i915/i915_pmu.c
+>>> +++ b/drivers/gpu/drm/i915/i915_pmu.c
+>>> @@ -423,22 +423,6 @@ static enum hrtimer_restart i915_sample(struct hrtimer *hrtimer)
+>>>        return HRTIMER_RESTART;
+>>>   }
+>>>   
+>>> -static u64 count_interrupts(struct drm_i915_private *i915)
+>>> -{
+>>> -     /* open-coded kstat_irqs() */
+>>> -     struct irq_desc *desc = irq_to_desc(i915->drm.pdev->irq);
+>>> -     u64 sum = 0;
+>>> -     int cpu;
+>>> -
+>>> -     if (!desc || !desc->kstat_irqs)
+>>> -             return 0;
+>>> -
+>>> -     for_each_possible_cpu(cpu)
+>>> -             sum += *per_cpu_ptr(desc->kstat_irqs, cpu);
+>>> -
+>>> -     return sum;
+>>> -}
+>>
+>> May I ask why this has been merged in the first place?
+>>
+>> Nothing in a driver has ever to fiddle with the internals of an irq
+>> descriptor. We have functions for properly accessing them. Just because
+>> C allows to fiddle with everything is not a justification. If the
+>> required function is not exported then adding the export with a proper
+>> explanation is not asked too much.
+>>
+>> Also this lacks protection or at least a comment why this can be called
+>> safely and is not subject to a concurrent removal of the irq descriptor.
+>> The same problem exists when calling kstat_irqs(). It's even documented
+>> at the top of the function.
+>>
+>> Thanks,
+>>
+>>          tglx
+>>
+>>
+>> _______________________________________________
+>> Intel-gfx mailing list
+>> Intel-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> _______________________________________________
+> Intel-gfx mailing list
+> Intel-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/intel-gfx
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
