@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD38C2D5E79
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:49:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E9A2D5E69
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7996EAA4;
-	Thu, 10 Dec 2020 14:48:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73C346EAAE;
+	Thu, 10 Dec 2020 14:48:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FBE06E95F
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:23:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 518CD6DA;
- Thu, 10 Dec 2020 09:23:39 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 908C06EA00
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 14:23:43 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 84A27C44;
+ Thu, 10 Dec 2020 09:23:42 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Thu, 10 Dec 2020 09:23:40 -0500
+ by compute1.internal (MEProxy); Thu, 10 Dec 2020 09:23:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=xtO8EABYuPSD4
- jdJZtx5oLPeW1mD5jPHmkLZsFDjMYY=; b=AM1JQpW2bxFizrMicxdZX+Fv20HL9
- jPF50BPvulprgGZzkR3aXq6zGe+BZ50rnGwplHjle+qzE4Z8bQ5KosJE4mVwLT8x
- uV2L+V1qlBZ1gXM0Ahudxq8QyUbmR/0Xrl+5J4tL97rfYXsuJ2m53cA+HENlPdtk
- U9qbS5loiS0EhAjjQioW0nX1hAbeWXd7mnb1K970UQ7ppDAyNE9YIi/zoB8AS6nx
- YUXnjywbbUV4lHYN94/pQ3tSxjsVH5EluTBSTHN2MCCQn3sB9qUNMEgic2AEA8cu
- prwdxfKwPMSKnf/waS+c33Z1T9veA3goLfeeNpYBUe4POIa3rwXXnjokg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=/4Y+9bC9FNNxF
+ 6lXHaX+bfJNqcEt61/XPn4O5YFYRCM=; b=G87Ty2gT9BY1DnE04Fz69v9hKqbGs
+ QMDFGvO9dCh+ZDfTk9v+7EtRM/TfE17JdG11BHEq0ZftKw4XE9TWQclahgMb+zgt
+ l0OX4eZwVxsY/+1dl0cIxnU8l5cPV68xhYdnwJ0wUnTs38rvv05YGbVcSFPPRMwg
+ sopdwbT4GKnTjGEdk/evzyenGZDuH+8RHFosuLj56lRxPmpkRMR8kwp5AB0We9Zt
+ wjCK4CPJvyMOXVry16EkHybSD9D7glcYJvux0Q40v3E/n0CNtqn82Rlf/3syTzjp
+ LRlnyz12wzutjivR5lKnA7rZtJ1RWPTlKJYXazfNFXLyoHZzfGifwlz0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=xtO8EABYuPSD4jdJZtx5oLPeW1mD5jPHmkLZsFDjMYY=; b=aE4yvDhz
- zA2n3dwNggeBZR9JSzYMBo9xVT0I/GNEHcmDCkeWk4Kyf4j1ZvvmBLirJnrKGsfq
- Y4fln9XO3mo8K4Q5AyHAdAnOcRXtK5FbnGuRjACUQXGXiNXoqL0yickDdOhNH9N3
- /Byeilr0KaIr3hANvnOJ0qF/a8yn+LMgbXM/pIbI2xRZK2HauwYe5hzQ8UoTtE/H
- x6UC3ijWwRgWS2d+5tPorK+qybIBL6mI/n3kru0Q+zcKGoSoLCUUGs/BNRfJ/nXA
- 7lY3fPoEA8hZss0Uz1mEnqPg4v/J14gj7mIlRb88WB3ESkOqNsLXby0a800p8PZW
- 7RJb6NGRjV2QOQ==
-X-ME-Sender: <xms:ai_SX7KcPKLVKxgxR3rvEBw4ne7ZAnOTJGG4437iSVoFhedGGsBUQg>
- <xme:ai_SX6HC3uciN8vuKxIg0E2BEDRoHTdaKq0cM7zg6HQJfUQVmMcLKlESInao420NA
- 0tJ5dTNAje56kOc7S4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgieefucetufdoteggodetrfdotf
+ fm1; bh=/4Y+9bC9FNNxF6lXHaX+bfJNqcEt61/XPn4O5YFYRCM=; b=msN8McLV
+ U3ZYK1oVuymrPZpX0E7FlaS3cv9T/rfmQhYB8zpLsRDbRb8zkIsyDY1qcXvaObVV
+ EPXhprYmxGkddGFceBi4Am0w5qD3Hd5e5m+DEjsImbiFiC9lEBrr4Hg7sY9s0LDh
+ Wyu8HjlcrwtvBoc+neoFBJPHz6ijRhzgsqvjMWEaceEegcve1V1Zfb2E17oBmf9O
+ Hn1BiGN8ZQp8MJyNM5ckEDX1Cz+E+Qt52MSwaKpcEbt9QWwMXze3NMTZvTzqOl1L
+ LR8xLeRY/eaRtRwDyD40T99rdWz3wigITeOvASyCpJrOLWN9w81XeW2GSr80I5yz
+ TTSybTX1o8/90A==
+X-ME-Sender: <xms:bC_SX28Yr6gBH2sPAdEkahU3Dsod-wtnf8KFprWIroesqbVx9HGBDw>
+ <xme:bC_SX2qiSlO89Bxymy1l75VK1BkgNrXftxCzjm276rYzP3DHolhBYY7asrumm_jRI
+ czABKK5hUjXfoNYW_s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgieegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ai_SXyv7KfXpNXqIlqNFvO21JDqtOvtaNnPJNrJARbFTL-l3cBL_pA>
- <xmx:ai_SX5uX-u6WbTS3Clo4MeZNB2ZI_BD04GFQpdgc71nKXpzcghEmFA>
- <xmx:ai_SXwCrD_3IDClcLPOrGRugAinh4Ltw3YypcSbDKMD29dUlwGW7RA>
- <xmx:ai_SXzZ-TpVqYdi_uS9mMlBeJSmV-bVEzTyD6ncGSb61wLGN0ytaUNhFgBY>
+X-ME-Proxy: <xmx:bC_SX45Yj8v2kyb1lmxBfyR0QEc0mP2uk3_MMYYzdmT9PL-7J-FvbQ>
+ <xmx:bC_SX2M1K_57tpFLhIq1WTOBWPwAp-Cr-kkDNeQLLtjAaegz3HTPlw>
+ <xmx:bC_SX6O2nyr55csuFE8Wk3pJLhRVQ5UA9yAGZCSWHZV3Td3RrQzgbA>
+ <xmx:bi_SX_28mQAEy6MaOrwT4K_9EU0m8eQUcpa-9sdD7iL6UcVg6sm7xta5oRw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A0B4A240057;
- Thu, 10 Dec 2020 09:23:38 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id EFCB6240066;
+ Thu, 10 Dec 2020 09:23:39 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  Eric Anholt <eric@anholt.net>
-Subject: [PATCH v6 6/9] drm/vc4: hdmi: Store pixel frequency in the connector
- state
-Date: Thu, 10 Dec 2020 15:23:26 +0100
-Message-Id: <20201210142329.10640-7-maxime@cerno.tech>
+Subject: [PATCH v6 7/9] drm/vc4: hdmi: Use the connector state pixel rate for
+ the PHY
+Date: Thu, 10 Dec 2020 15:23:27 +0100
+Message-Id: <20201210142329.10640-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201210142329.10640-1-maxime@cerno.tech>
 References: <20201210142329.10640-1-maxime@cerno.tech>
@@ -91,101 +91,108 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pixel rate is for now quite simple to compute, but with more features
-(30 and 36 bits output, YUV output, etc.) will depend on a bunch of
-connectors properties.
+The PHY initialisation parameters are not based on the pixel clock but
+the TMDS clock rate which can be the pixel clock in the standard case,
+but could be adjusted based on some parameters like the bits per color.
 
-Let's store the rate we have to run the pixel clock at in our custom
-connector state, and compute it in atomic_check.
+Since the TMDS clock rate is stored in our custom connector state
+already, let's reuse it from there instead of computing it again.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 26 +++++++++++++++++++++++++-
- drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c     |  2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.h     | 11 +++++------
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c |  8 +++++---
+ 3 files changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8978df3f0ca4..682b3aca2c35 100644
+index 682b3aca2c35..553176f9e28d 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -198,6 +198,7 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
- 	if (!new_state)
- 		return NULL;
+@@ -718,7 +718,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+ 		vc4_hdmi->variant->reset(vc4_hdmi);
  
-+	new_state->pixel_rate = vc4_state->pixel_rate;
- 	__drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
+ 	if (vc4_hdmi->variant->phy_init)
+-		vc4_hdmi->variant->phy_init(vc4_hdmi, mode);
++		vc4_hdmi->variant->phy_init(vc4_hdmi, vc4_conn_state);
  
- 	return &new_state->base;
-@@ -615,9 +616,29 @@ static void vc4_hdmi_recenter_fifo(struct vc4_hdmi *vc4_hdmi)
- 		  "VC4_HDMI_FIFO_CTL_RECENTER_DONE");
- }
- 
-+static struct drm_connector_state *
-+vc4_hdmi_encoder_get_connector_state(struct drm_encoder *encoder,
-+				     struct drm_atomic_state *state)
-+{
-+	struct drm_connector_state *conn_state;
-+	struct drm_connector *connector;
-+	unsigned int i;
-+
-+	for_each_new_connector_in_state(state, connector, conn_state, i) {
-+		if (conn_state->best_encoder == encoder)
-+			return conn_state;
-+	}
-+
-+	return NULL;
-+}
-+
- static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 						struct drm_atomic_state *state)
- {
-+	struct drm_connector_state *conn_state =
-+		vc4_hdmi_encoder_get_connector_state(encoder, state);
-+	struct vc4_hdmi_connector_state *vc4_conn_state =
-+		conn_state_to_vc4_hdmi_conn_state(conn_state);
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	unsigned long pixel_rate, hsm_rate;
-@@ -629,7 +650,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
- 		return;
- 	}
- 
--	pixel_rate = mode->clock * 1000 * ((mode->flags & DRM_MODE_FLAG_DBLCLK) ? 2 : 1);
-+	pixel_rate = vc4_conn_state->pixel_rate;
- 	ret = clk_set_rate(vc4_hdmi->pixel_clock, pixel_rate);
- 	if (ret) {
- 		DRM_ERROR("Failed to set pixel clock rate: %d\n", ret);
-@@ -801,6 +822,7 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 					 struct drm_crtc_state *crtc_state,
- 					 struct drm_connector_state *conn_state)
- {
-+	struct vc4_hdmi_connector_state *vc4_state = conn_state_to_vc4_hdmi_conn_state(conn_state);
- 	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
- 	struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
- 	unsigned long long pixel_rate = mode->clock * 1000;
-@@ -831,6 +853,8 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
- 		return -EINVAL;
- 
-+	vc4_state->pixel_rate = pixel_rate;
-+
- 	return 0;
- }
- 
+ 	HDMI_WRITE(HDMI_SCHEDULER_CONTROL,
+ 		   HDMI_READ(HDMI_SCHEDULER_CONTROL) |
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 2cf5362052e2..bca6943de884 100644
+index bca6943de884..60c53d7c9bad 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -182,6 +182,7 @@ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
+@@ -21,10 +21,9 @@ to_vc4_hdmi_encoder(struct drm_encoder *encoder)
+ 	return container_of(encoder, struct vc4_hdmi_encoder, base.base);
+ }
  
- struct vc4_hdmi_connector_state {
- 	struct drm_connector_state	base;
-+	unsigned long long		pixel_rate;
- };
+-struct drm_display_mode;
+-
+ struct vc4_hdmi;
+ struct vc4_hdmi_register;
++struct vc4_hdmi_connector_state;
  
- static inline struct vc4_hdmi_connector_state *
+ enum vc4_hdmi_phy_channel {
+ 	PHY_LANE_0 = 0,
+@@ -80,9 +79,9 @@ struct vc4_hdmi_variant {
+ 	void (*set_timings)(struct vc4_hdmi *vc4_hdmi,
+ 			    struct drm_display_mode *mode);
+ 
+-	/* Callback to initialize the PHY according to the mode */
++	/* Callback to initialize the PHY according to the connector state */
+ 	void (*phy_init)(struct vc4_hdmi *vc4_hdmi,
+-			 struct drm_display_mode *mode);
++			 struct vc4_hdmi_connector_state *vc4_conn_state);
+ 
+ 	/* Callback to disable the PHY */
+ 	void (*phy_disable)(struct vc4_hdmi *vc4_hdmi);
+@@ -192,13 +191,13 @@ conn_state_to_vc4_hdmi_conn_state(struct drm_connector_state *conn_state)
+ }
+ 
+ void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
+-		       struct drm_display_mode *mode);
++		       struct vc4_hdmi_connector_state *vc4_conn_state);
+ void vc4_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi);
+ void vc4_hdmi_phy_rng_enable(struct vc4_hdmi *vc4_hdmi);
+ void vc4_hdmi_phy_rng_disable(struct vc4_hdmi *vc4_hdmi);
+ 
+ void vc5_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
+-		       struct drm_display_mode *mode);
++		       struct vc4_hdmi_connector_state *vc4_conn_state);
+ void vc5_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi);
+ void vc5_hdmi_phy_rng_enable(struct vc4_hdmi *vc4_hdmi);
+ void vc5_hdmi_phy_rng_disable(struct vc4_hdmi *vc4_hdmi);
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_phy.c b/drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+index 057796b54c51..36535480f8e2 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi_phy.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi_phy.c
+@@ -127,7 +127,8 @@
+ 
+ #define OSCILLATOR_FREQUENCY	54000000
+ 
+-void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi, struct drm_display_mode *mode)
++void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
++		       struct vc4_hdmi_connector_state *conn_state)
+ {
+ 	/* PHY should be in reset, like
+ 	 * vc4_hdmi_encoder_disable() does.
+@@ -339,11 +340,12 @@ static void vc5_hdmi_reset_phy(struct vc4_hdmi *vc4_hdmi)
+ 	HDMI_WRITE(HDMI_TX_PHY_POWERDOWN_CTL, BIT(10));
+ }
+ 
+-void vc5_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi, struct drm_display_mode *mode)
++void vc5_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
++		       struct vc4_hdmi_connector_state *conn_state)
+ {
+ 	const struct phy_lane_settings *chan0_settings, *chan1_settings, *chan2_settings, *clock_settings;
+ 	const struct vc4_hdmi_variant *variant = vc4_hdmi->variant;
+-	unsigned long long pixel_freq = mode->clock * 1000;
++	unsigned long long pixel_freq = conn_state->pixel_rate;
+ 	unsigned long long vco_freq;
+ 	unsigned char word_sel;
+ 	u8 vco_sel, vco_div;
 -- 
 2.28.0
 
