@@ -1,57 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7346C2D5B4D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 14:10:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F442D5B67
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 14:14:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A185C6E500;
-	Thu, 10 Dec 2020 13:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 703AB6E52C;
+	Thu, 10 Dec 2020 13:13:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBE3D6E51A
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:10:22 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id x13so4763924oto.8
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 05:10:22 -0800 (PST)
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com
+ [IPv6:2607:f8b0:4864:20::c44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17CA36E52C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:13:57 +0000 (UTC)
+Received: by mail-oo1-xc44.google.com with SMTP id s1so1257580oon.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 05:13:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=5SZx0SF1+bmdIPGDx8XS9Yvh6cMFc1HMujYWwx4oFXo=;
- b=ljmsD/nZGyo/+nDuS0o0wS7bR94cQDN8VGl9oI3x9gF6FY1HbovjAwtbwEL91ATJtm
- 1xTzwHF+H8teshZzyQ3IR9ZGQiWUlsBu2AfAUddntFcJyQQeHRNrIFzGacznjrhKTKvg
- zGEZhXmHkuly95lHRKyzmo3PZkbgX74s/29oM=
+ :cc; bh=L5sfm6EnshXORkWdPVxI8hiVvmkfGtjORedBYlOnVwQ=;
+ b=Fhwrz5PM2WSNDwvRtJbNtQAIdTgj15TDLlkAlKNp2twWxn3v6agx8jzyKSb7/7Jxlb
+ krFqOTPA2VXPr0h88ILJxB+8pT5gUfhTRxtRKNv6jJbBz3XUtKEvUak5JFE4zfxNreRB
+ pW6ccQJbGdX1kfoLxxYrANnjv/HkPtvnM3Ga8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=5SZx0SF1+bmdIPGDx8XS9Yvh6cMFc1HMujYWwx4oFXo=;
- b=FR5dAW2J3SJEY69RnYojBCBVKUjX/eTJdo0TCAesgz7Mlw14sR5HzLwgja2LywYVpq
- Ocd0I6+LFoYEBMmj/5n3pZyzfaf4hSZxWSNUvukITGocyPWEANVxpxr5h7TSupDs9PMu
- W8soSJalcW3e+nEjK/D82RbS6g1XA3ylCfMdwjfbg3SK1StbrzxlDg0UgLhMrPicPXr7
- 0HTtJqfWan2oKZFSRLFLJPOVqmdjCxHK4YxzpH5DNECffgn6BC6PQTl7eyWq1jUfC9Y5
- A7mU9jduHKMZTaT/1UI9iZrJnoczfiPr5sRoWCPz7orVKnz7oa2p69dkanvFwV5EB2M/
- 6xJg==
-X-Gm-Message-State: AOAM530LGTzGjRt/p8feW5M6dg3V57TerDnLNNyqI7TILR9Wswodxj+p
- 9+g6OvlfvkI4jVzIjLHmWio5lG2o+cR4z72Brhu8Fg==
-X-Google-Smtp-Source: ABdhPJwe0G/fIm4wrIEbslkY/Xrvlb1182PcLJFrYAgq3Tmq7oxccHPXXb0WkMQH6isTqYmJy19qnmcJPRyIsmZ6nTE=
-X-Received: by 2002:a9d:23ca:: with SMTP id t68mr5751241otb.281.1607605822145; 
- Thu, 10 Dec 2020 05:10:22 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=L5sfm6EnshXORkWdPVxI8hiVvmkfGtjORedBYlOnVwQ=;
+ b=aQGWjypqlbjOmAn5e//vPA4BF00Tuta6WaiUF4KP9ikDzenvX95pEcnhDYGJsazl6C
+ 2wzXUry1kAIatA+bBiQXHICioejnGoRyTFT25sIXMaOYVooYFAwEeTc7O1y5LZke33RJ
+ jc8uDdo/7I2vsq8BlBTuOLaSHlhd3qrqiqPlvHc98w4+J9B+/dbKgaiEB1rHhPwXUGCc
+ WXuMB93OkBmT2qvjakMqeZ7FDngjXgRVPA9asQLjJcvCRHU/V9vIWqUU+dWbNnI3lrAU
+ cdFmeu7OpXwbDf1/DDJh7o7h2db+2Is01wacclXgIE8HGTW0HnS83JlOuydqUxho/DDC
+ fC2A==
+X-Gm-Message-State: AOAM533+O1kWSLhHgW0HLBsGH6gCMEBDn/puDKY/dRi6Ex/9kkQy1MJD
+ NeZtuV1FXI2/SnjL7zlqDJ5FqFIGQGTkJfI9uXvIiWQgIzY=
+X-Google-Smtp-Source: ABdhPJwkXsq23hP3NsswdZFHYSs0gV4viorUFM5Rey8WOTXvrQffrI863frgjTSDQ15TzQPixQDGZFrfDtIRoNPHUh4=
+X-Received: by 2002:a4a:c387:: with SMTP id u7mr946133oop.89.1607606036371;
+ Thu, 10 Dec 2020 05:13:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20201210044400.1080308-1-hridya@google.com>
- <b5adfe46-8615-5821-d092-2b93feed5b79@amd.com>
- <X9H0JREcdxDsMtLX@kroah.com> <20201210102727.GE401619@phenom.ffwll.local>
- <X9H+3AP1q39aMxeb@kroah.com>
- <CAKMK7uFD3fE01Li3JOpHpzP7313OT3xpcjBwzSVjrCGAmab2Zg@mail.gmail.com>
- <X9IPhEkcZO+Ut5RH@kroah.com>
-In-Reply-To: <X9IPhEkcZO+Ut5RH@kroah.com>
+References: <20201208155451.8421-1-p.zabel@pengutronix.de>
+ <20201208155451.8421-3-p.zabel@pengutronix.de>
+ <20201209160508.GU401619@phenom.ffwll.local>
+ <162b2aedea8790df6b7a06adcfaa3898bed03212.camel@pengutronix.de>
+In-Reply-To: <162b2aedea8790df6b7a06adcfaa3898bed03212.camel@pengutronix.de>
 From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 10 Dec 2020 14:10:10 +0100
-Message-ID: <CAKMK7uEM636NjEcxLfsKJa9H71i0mkQ3dsT3yWwHTcVFk4r+Sg@mail.gmail.com>
-Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-To: Greg KH <gregkh@linuxfoundation.org>
+Date: Thu, 10 Dec 2020 14:13:45 +0100
+Message-ID: <CAKMK7uH8pBVvcjNfUPPOkikrYQXv3gdSTS2C=Wo=6_LEonW2aQ@mail.gmail.com>
+Subject: Re: [PATCH v4 02/19] drm: add drmm_encoder_alloc()
+To: Philipp Zabel <p.zabel@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,79 +60,88 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Android Kernel Team <kernel-team@android.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sascha Hauer <kernel@pengutronix.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCBEZWMgMTAsIDIwMjAgYXQgMTowNiBQTSBHcmVnIEtIIDxncmVna2hAbGludXhmb3Vu
-ZGF0aW9uLm9yZz4gd3JvdGU6Cj4KPiBPbiBUaHUsIERlYyAxMCwgMjAyMCBhdCAxMjoyNjowMVBN
-ICswMTAwLCBEYW5pZWwgVmV0dGVyIHdyb3RlOgo+ID4gT24gVGh1LCBEZWMgMTAsIDIwMjAgYXQg
-MTE6NTUgQU0gR3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+ID4g
-Pgo+ID4gPiBPbiBUaHUsIERlYyAxMCwgMjAyMCBhdCAxMToyNzoyN0FNICswMTAwLCBEYW5pZWwg
-VmV0dGVyIHdyb3RlOgo+ID4gPiA+IE9uIFRodSwgRGVjIDEwLCAyMDIwIGF0IDExOjEwOjQ1QU0g
-KzAxMDAsIEdyZWcgS0ggd3JvdGU6Cj4gPiA+ID4gPiBPbiBUaHUsIERlYyAxMCwgMjAyMCBhdCAx
-MDo1ODo1MEFNICswMTAwLCBDaHJpc3RpYW4gS8O2bmlnIHdyb3RlOgo+ID4gPiA+ID4gPiBJbiBn
-ZW5lcmFsIGEgZ29vZCBpZGVhLCBidXQgSSBoYXZlIGEgZmV3IGNvbmNlcm4vY29tbWVudHMgaGVy
-ZS4KPiA+ID4gPiA+ID4KPiA+ID4gPiA+ID4gQW0gMTAuMTIuMjAgdW0gMDU6NDMgc2NocmllYiBI
-cmlkeWEgVmFsc2FyYWp1Ogo+ID4gPiA+ID4gPiA+IFRoaXMgcGF0Y2ggYWxsb3dzIHN0YXRpc3Rp
-Y3MgdG8gYmUgZW5hYmxlZCBmb3IgZWFjaCBETUEtQlVGIGluCj4gPiA+ID4gPiA+ID4gc3lzZnMg
-YnkgZW5hYmxpbmcgdGhlIGNvbmZpZyBDT05GSUdfRE1BQlVGX1NZU0ZTX1NUQVRTLgo+ID4gPiA+
-ID4gPiA+Cj4gPiA+ID4gPiA+ID4gVGhlIGZvbGxvd2luZyBzdGF0cyB3aWxsIGJlIGV4cG9zZWQg
-YnkgdGhlIGludGVyZmFjZToKPiA+ID4gPiA+ID4gPgo+ID4gPiA+ID4gPiA+IC9zeXMva2VybmVs
-L2RtYWJ1Zi88aW5vZGVfbnVtYmVyPi9leHBvcnRlcl9uYW1lCj4gPiA+ID4gPiA+ID4gL3N5cy9r
-ZXJuZWwvZG1hYnVmLzxpbm9kZV9udW1iZXI+L3NpemUKPiA+ID4gPiA+ID4gPiAvc3lzL2tlcm5l
-bC9kbWFidWYvPGlub2RlX251bWJlcj4vZGV2X21hcF9pbmZvCj4gPiA+ID4gPiA+ID4KPiA+ID4g
-PiA+ID4gPiBUaGUgaW5vZGVfbnVtYmVyIGlzIHVuaXF1ZSBmb3IgZWFjaCBETUEtQlVGIGFuZCB3
-YXMgYWRkZWQgZWFybGllciBbMV0KPiA+ID4gPiA+ID4gPiBpbiBvcmRlciB0byBhbGxvdyB1c2Vy
-c3BhY2UgdG8gdHJhY2sgRE1BLUJVRiB1c2FnZSBhY3Jvc3MgZGlmZmVyZW50Cj4gPiA+ID4gPiA+
-ID4gcHJvY2Vzc2VzLgo+ID4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+ID4gQ3VycmVudGx5LCB0aGlz
-IGluZm9ybWF0aW9uIGlzIGV4cG9zZWQgaW4KPiA+ID4gPiA+ID4gPiAvc3lzL2tlcm5lbC9kZWJ1
-Zy9kbWFfYnVmL2J1ZmluZm8uCj4gPiA+ID4gPiA+ID4gSG93ZXZlciwgc2luY2UgZGVidWdmcyBp
-cyBjb25zaWRlcmVkIHVuc2FmZSB0byBiZSBtb3VudGVkIGluIHByb2R1Y3Rpb24sCj4gPiA+ID4g
-PiA+ID4gaXQgaXMgYmVpbmcgZHVwbGljYXRlZCBpbiBzeXNmcy4KPiA+ID4gPiA+ID4KPiA+ID4g
-PiA+ID4gTWhtLCB0aGlzIG1ha2VzIGl0IHBhcnQgb2YgdGhlIFVBUEkuIFdoYXQgaXMgdGhlIGp1
-c3RpZmljYXRpb24gZm9yIHRoaXM/Cj4gPiA+ID4gPiA+Cj4gPiA+ID4gPiA+IEluIG90aGVyIHdv
-cmRzIGRvIHdlIHJlYWxseSBuZWVkIHRob3NlIGRlYnVnIGluZm9ybWF0aW9uIGluIGEgcHJvZHVj
-dGlvbgo+ID4gPiA+ID4gPiBlbnZpcm9ubWVudD8KPiA+ID4gPiA+Cj4gPiA+ID4gPiBQcm9kdWN0
-aW9uIGVudmlyb25tZW50cyBzZWVtIHRvIHdhbnQgdG8ga25vdyB3aG8gaXMgdXNpbmcgdXAgbWVt
-b3J5IDopCj4gPiA+ID4KPiA+ID4gPiBUaGlzIG9ubHkgc2hvd3Mgc2hhcmVkIG1lbW9yeSwgc28g
-aXQgZG9lcyBzbWVsbCBhIGxvdCBsaWtlICRzcGVjaWZpY19pc3N1ZQo+ID4gPiA+IGFuZCB3ZSdy
-ZSBkZXNpZ25pbmcgYSBuYXJyb3cgc29sdXRpb24gZm9yIHRoYXQgYW5kIHRoZW4gaGF2ZSB0byBj
-YXJyeSBpdAo+ID4gPiA+IGZvcmV2ZXIuCj4gPiA+Cj4gPiA+IEkgdGhpbmsgdGhlICJpc3N1ZSIg
-aXMgdGhhdCB0aGlzIHdhcyBhIGZlYXR1cmUgZnJvbSBpb24gdGhhdCBwZW9wbGUKPiA+ID4gIm1p
-c3NlZCIgaW4gdGhlIGRtYWJ1ZiBtb3ZlLiAgVGFraW5nIGF3YXkgdGhlIGFiaWxpdHkgdG8gc2Vl
-IHdoYXQga2luZAo+ID4gPiBvZiBhbGxvY2F0aW9ucyB3ZXJlIGJlaW5nIG1hZGUgZGlkbid0IG1h
-a2UgYSBsb3Qgb2YgZGVidWdnaW5nIHRvb2xzCj4gPiA+IGhhcHB5IDooCj4gPgo+ID4gSWYgdGhp
-cyBpcyBqdXN0IGZvciBkbWEtaGVhcHMgdGhlbiB3aHkgZG9uJ3Qgd2UgYWRkIHRoZSBzdHVmZiBi
-YWNrCj4gPiBvdmVyIHRoZXJlPyBJdCByZWluZm9yY2VzIG1vcmUgdGhhdCB0aGUgYW5kcm9pZCBn
-cHUgc3RhY2sgYW5kIHRoZQo+ID4gbm9uLWFuZHJvaWQgZ3B1IHN0YWNrIG9uIGxpbnV4IGFyZSBm
-YWlybHkgZGlmZmVyZW50IGluIGZ1bmRhbWVudGFsCj4gPiB3YXlzLCBidXQgdGhhdCdzIG5vdCBy
-ZWFsbHkgbmV3Lgo+Cj4gQmFjayAib3ZlciB3aGVyZSI/Cj4KPiBkbWEtYnVmcyBhcmUgbm90IG9u
-bHkgdXNlZCBmb3IgdGhlIGdyYXBoaWNzIHN0YWNrIG9uIGFuZHJvaWQgZnJvbSB3aGF0IEkKPiBj
-YW4gdGVsbCwgc28gdGhpcyBzaG91bGRuJ3QgYmUgYSBncHUtc3BlY2lmaWMgaXNzdWUuCgpkbWEt
-YnVmIGhlYXBzIGV4aXN0IGJlY2F1c2UgYW5kcm9pZCwgbW9zdGx5IGJlY2F1c2UgZ29vZ2xlIG1h
-bmRhdGVzCml0LiBUaGVyZSdzIG5vdCBhIHdob2xlIGxvdCAobWVhbmluZyB6ZXJvKSBvZiBhY3R1
-YWxseSBvcGVuIGdwdSBzdGFja3MKYXJvdW5kIHRoYXQgcnVuIG9uIGFuZHJvaWQgYW5kIHVzZSBk
-bWEtYnVmIGhlYXBzIGxpa2UgYXBwcm92ZWQgZ29vZ2xlCnN5c3RlbXMsIGxhcmdlbHkgYmVjYXVz
-ZSB0aGUgZ3JhbGxvYyBpbXBsZW1lbnRhdGlvbiBpbiBtZXNhIGp1c3QKZG9lc250LgoKU28gaWYg
-YW5kcm9pZCBuZWVkcyBzb21lIHF1aWNrIGRlYnVnIG91dHB1dCBpbiBzeXNmcywgd2UgY2FuIGp1
-c3QgYWRkCnRoYXQgaW4gZG1hLWJ1ZiBoZWFwcywgZm9yIGFuZHJvaWQgb25seSwgcHJvYmxlbSBz
-b2x2ZWQuIEFuZCBtdWNoIGxlc3MKYW5ub3lpbmcgcmV2aWV3IHRvIG1ha2Ugc3VyZSBpdCBhY3R1
-YWxseSBmaXRzIGludG8gdGhlIHdpZGVyIGVjb3N5c3RlbQpiZWNhdXNlIGFzLWlzIChhbmQgSSdt
-IG5vdCBzZWVpbmcgdGhhdCBjaGFuY2UgYW55dGltZSBzb29uKSwgZG1hLWJ1ZgpoZWFwcyBpcyBm
-b3IgYW5kcm9pZCBvbmx5LiBkbWEtYnVmIGF0IGxhcmdlIGlzbid0LCBzbyBtZXJnaW5nIGEgZGVi
-dWcKb3V0cHV0IHN5c2ZzIGFwaSB0aGF0J3MganVzdCBmb3IgYW5kcm9pZCBidXQgbWlzc2VzIGEg
-dG9uIG9mIHRoZSBtb3JlCmdlbmVyaWMgZmVhdHVyZXMgYW5kIHNlbWFudGljcyBvZiBkbWEtYnVm
-IGlzIG5vdCBncmVhdC4KLURhbmllbAoKLURhbmllbAotLQpEYW5pZWwgVmV0dGVyClNvZnR3YXJl
-IEVuZ2luZWVyLCBJbnRlbCBDb3Jwb3JhdGlvbgpodHRwOi8vYmxvZy5mZndsbC5jaApfX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGlu
-ZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVl
-ZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+On Thu, Dec 10, 2020 at 12:59 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+>
+> Hi Daniel,
+>
+> thank you for the review. I'll work in all your other comments, there's
+> just one I'm not sure what to do about:
+>
+> On Wed, 2020-12-09 at 17:05 +0100, Daniel Vetter wrote:
+> [...]
+> > > +void *__drmm_encoder_alloc(struct drm_device *dev, size_t size, size_t offset,
+> > > +                      const struct drm_encoder_funcs *funcs,
+> > > +                      int encoder_type, const char *name, ...)
+> > > +{
+> > > +   void *container;
+> > > +   struct drm_encoder *encoder;
+> > > +   va_list ap;
+> > > +   int ret;
+> > > +
+> > > +   if (WARN_ON(funcs && funcs->destroy))
+> > > +           return ERR_PTR(-EINVAL);
+> > > +
+> > > +   container = drmm_kzalloc(dev, size, GFP_KERNEL);
+> > > +   if (!container)
+> > > +           return ERR_PTR(-EINVAL);
+> > > +
+> > > +   encoder = container + offset;
+> > > +
+> > > +   va_start(ap, name);
+> > > +   ret = __drm_encoder_init(dev, encoder, funcs, encoder_type, name, ap);
+> > > +   va_end(ap);
+> > > +   if (ret)
+> > > +           return ERR_PTR(ret);
+> > > +
+> > > +   ret = drmm_add_action_or_reset(dev, drmm_encoder_alloc_release, encoder);
+> > > +   if (ret)
+> > > +           return ERR_PTR(ret);
+> > > +
+> > > +   return container;
+> > > +}
+> > > +EXPORT_SYMBOL(__drmm_encoder_alloc);
+> > > +
+> [...]
+> > > + * @encoder_type: user visible type of the encoder
+> > > + * @name: printf style format string for the encoder name, or NULL for default name
+> > > + *
+> > > + * Allocates and initializes an encoder. Encoder should be subclassed as part of
+> > > + * driver encoder objects. Cleanup is automatically handled through registering
+> > > + * drm_encoder_cleanup() with drmm_add_action().
+> > > + *
+> > > + * The @drm_encoder_funcs.destroy hook must be NULL.
+> > > + *
+> > > + * Returns:
+> > > + * Pointer to new encoder, or ERR_PTR on failure.
+> > > + */
+> > > +#define drmm_encoder_alloc(dev, type, member, funcs, encoder_type, name, ...) \
+> > > +   ((type *)__drmm_encoder_alloc(dev, sizeof(type), \
+> >
+> > Need to upcast with container_of or this breaks if the base class is in
+> > the wrong spot.
+>
+> This is modeled after devm_drm_dev_alloc(). Like __devm_drm_dev_alloc(),
+> __drmm_encoder_alloc() returns a pointer to the allocated container
+> structure, not a pointer to the embedded struct drm_encoder. I think
+> this direct cast is correct, unless you suggest that
+> __drmm_encoder_alloc should return encoder instead of container?
+
+Uh sorry, I misread and forgot how __devm_drm_dev_alloc works too.
+Looks all correct.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
