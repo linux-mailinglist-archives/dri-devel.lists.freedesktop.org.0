@@ -2,42 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B432D605F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4055F2D6061
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 16:50:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDD36E3BB;
-	Thu, 10 Dec 2020 15:50:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326426EA84;
+	Thu, 10 Dec 2020 15:50:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF336E3BB
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:50:29 +0000 (UTC)
-X-Gm-Message-State: AOAM531W2UVQuxosvVaS4LnXfQ3me5MFmxuPcMki+Jc6da+y81PdXH2Y
- WkDFud/DHDFLXRAK2S9roI1bqdOZbH3iEeikhw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607615429;
- bh=JswAsdHWyxMnvC+dTai6TVtWwh9Dj+cpwNchJF8bnPo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=u4vlNxk5gZO0CNj3V9ovmXkU8Ld269fUM1zfcIXmVogxFNzaTn9yG8x2ztsLM4Ur/
- nX/gR+bkNweRpLwlcut21M19lVWWwrfkh1vGwtO2bKy/3JiUpCjly809+gbZObR/i6
- bdvDXyP0hgjzNMFuoM00bgq01lVMolh2pfLtrFRer6SHq7pe+7GGnXwp5n+UgjfHT7
- RNgu4aVuPlOt+dY4LDm9YpFmOO00MANM3AtkfXeX8FuQXiTBsWsjjBp0JylYmQ5Xz/
- iZ79sr3Lm6Cjo2aNOk9vPt9jtNfUgpFyqotyViLCrK+WWr2x+sLy4vwOdWido36iUy
- sQPjnfa0mc9jQ==
-X-Google-Smtp-Source: ABdhPJwtcxVDc6Q2bu5uvq6r1O0IW7GMG0SyjPcCWYbsaNRsfJcxcmQwSG/LXBiPJ0zdfQUzcOkO6cQLrj6rQ7eo7AI=
-X-Received: by 2002:a05:6402:845:: with SMTP id
- b5mr7518636edz.38.1607615427120; 
- Thu, 10 Dec 2020 07:50:27 -0800 (PST)
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0F356EA84
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 15:50:34 +0000 (UTC)
+Date: Thu, 10 Dec 2020 15:50:26 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1607615432;
+ bh=dd1uKUE/I9vhhZdufmVMrR2Fh4xgpBw+W/jGQNNb3mo=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=LkZyhspL4Z2lRNMCbfKb2KoLzZ6bzkh2oVvR1RWBpE9woev6ilN7ir6TU4aeQt6qZ
+ n5iWq8s56mUnrJkP5modRA2ogbZzfJJVRof33ELKMCUOURy6Y74L9VpQTqyokwGHTX
+ 2C87TNE82BZrqJsfBRJGpdSbRV9ZbiPNvMpsxCg/ZRE1FB2WfBgaipC9PX5Rx8wXfe
+ 5F6Uo6X8dfSxFA6zG0WsvHnXvO5MvzMehH+Wc6vAjotCe03zs71WNiP6AWHWdR3LF8
+ DOxQlnVh96/OYrmCSyDLxHon6pmZ+4F9+X+UndWJkdOrKBzb+pp7Py8xTUU8WYbFeV
+ qBPLsIZ425iUA==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Subject: [PATCH 1/3] drm: rework description of primary and cursor planes
+Message-ID: <oKHENpuy7e0BPRjuqkyTnVQ363bZ0aHoNJ6eoSonlHw@cp3-web-020.plabs.ch>
 MIME-Version: 1.0
-References: <1607591262-21736-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607591262-21736-6-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1607591262-21736-6-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 10 Dec 2020 23:50:16 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-aYFz1Xg6r2ur+BF_k_35F3qNLLb16_2c0MaMsYre-+w@mail.gmail.com>
-Message-ID: <CAAOTY_-aYFz1Xg6r2ur+BF_k_35F3qNLLb16_2c0MaMsYre-+w@mail.gmail.com>
-Subject: Re: [PATCH v8, 5/6] drm/mediatek: add RDMA fifo size error handle
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,43 +45,76 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: Simon Ser <contact@emersion.fr>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
-PiDmlrwgMjAyMOW5tDEy5pyIMTDml6Ug6YCx5ZubIOS4i+WNiDU6MDjlr6vpgZPvvJoKPgo+IFRo
-aXMgcGF0Y2ggYWRkIFJETUEgZmlmbyBzaXplIGVycm9yIGhhbmRsZQo+IHJkbWEgZmlmbyBzaXpl
-IHdpbGwgbm90IGFsd2F5cyBiaWdnZXIgdGhhbiB0aGUgY2FsY3VsYXRlZCB0aHJlc2hvbGQKPiBp
-ZiB0aGF0IGNhc2UgaGFwcGVuZWQsIHdlIG5lZWQgc2V0IGZpZm8gc2l6ZSBhcyB0aGUgdGhyZXNo
-b2xkCj4KPiBTaWduZWQtb2ZmLWJ5OiBZb25ncWlhbmcgTml1IDx5b25ncWlhbmcubml1QG1lZGlh
-dGVrLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEu
-YyB8IDQgKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCj4KPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kaXNwX3JkbWEuYyBiL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMKPiBpbmRleCA3OTRhY2M1Li4wNTA4Mzky
-IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZGlzcF9yZG1hLmMK
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rpc3BfcmRtYS5jCj4gQEAgLTE1
-MSw2ICsxNTEsMTAgQEAgc3RhdGljIHZvaWQgbXRrX3JkbWFfY29uZmlnKHN0cnVjdCBtdGtfZGRw
-X2NvbXAgKmNvbXAsIHVuc2lnbmVkIGludCB3aWR0aCwKPiAgICAgICAgICAqIGFjY291bnQgZm9y
-IGJsYW5raW5nLCBhbmQgd2l0aCBhIHBpeGVsIGRlcHRoIG9mIDQgYnl0ZXM6Cj4gICAgICAgICAg
-Ki8KPiAgICAgICAgIHRocmVzaG9sZCA9IHdpZHRoICogaGVpZ2h0ICogdnJlZnJlc2ggKiA0ICog
-NyAvIDEwMDAwMDA7Cj4gKwo+ICsgICAgICAgaWYgKHRocmVzaG9sZCA+IHJkbWFfZmlmb19zaXpl
-KQo+ICsgICAgICAgICAgICAgICB0aHJlc2hvbGQgPSByZG1hX2ZpZm9fc2l6ZTsKCklmIHRoZSBm
-b3JtdWxhIGlzIG5vdCBjb3JyZWN0LCB5b3Ugc2hvdWxkIGZpeCB0aGUgZm9ybXVsYSBub3Qgd29y
-ayBhcm91bmQuCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPiArCj4gICAgICAgICByZWcgPSBSRE1B
-X0ZJRk9fVU5ERVJGTE9XX0VOIHwKPiAgICAgICAgICAgICAgIFJETUFfRklGT19QU0VVRE9fU0la
-RShyZG1hX2ZpZm9fc2l6ZSkgfAo+ICAgICAgICAgICAgICAgUkRNQV9PVVRQVVRfVkFMSURfRklG
-T19USFJFU0hPTEQodGhyZXNob2xkKTsKPiAtLQo+IDEuOC4xLjEuZGlydHkKPiBfX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+IExpbnV4LW1lZGlhdGVrIG1h
-aWxpbmcgbGlzdAo+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcKPiBodHRwOi8v
-bGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWls
-aW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZy
-ZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+The previous wording could be understood by user-space evelopers as "a
+primary/cursor plane is only compatible with a single CRTC" [1].
+
+Reword the planes description to make it clear the DRM-internal
+drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
+
+[1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
+
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+ drivers/gpu/drm/drm_crtc.c  |  3 +++
+ drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
+ 2 files changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 8d19d258547f..a6336c7154d6 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+  * planes). For really simple hardware which has only 1 plane look at
+  * drm_simple_display_pipe_init() instead.
+  *
++ * The @primary and @cursor planes are only relevant for legacy uAPI, see
++ * &drm_crtc.primary and &drm_crtc.cursor.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 385801dd21f9..5d33ca9f0032 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -49,14 +49,16 @@
+  * &struct drm_plane (possibly as part of a larger structure) and registers it
+  * with a call to drm_universal_plane_init().
+  *
+- * Cursor and overlay planes are optional. All drivers should provide one
+- * primary plane per CRTC to avoid surprising userspace too much. See enum
+- * drm_plane_type for a more in-depth discussion of these special uapi-relevant
+- * plane types. Special planes are associated with their CRTC by calling
+- * drm_crtc_init_with_planes().
+- *
+  * The type of a plane is exposed in the immutable "type" enumeration property,
+- * which has one of the following values: "Overlay", "Primary", "Cursor".
++ * which has one of the following values: "Overlay", "Primary", "Cursor" (see
++ * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
++ * &drm_plane.possible_crtcs.
++ *
++ * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
++ * relies on the driver to set the primary and optionally the cursor plane used
++ * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
++ * drivers should provide one primary plane per CRTC to avoid surprising legacy
++ * userspace too much.
+  */
+ 
+ static unsigned int drm_num_planes(struct drm_device *dev)
+-- 
+2.29.2
+
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
