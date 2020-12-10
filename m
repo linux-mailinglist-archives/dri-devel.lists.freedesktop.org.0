@@ -2,57 +2,24 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606572D552B
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 09:17:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9792D5532
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 09:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AF9C6E182;
-	Thu, 10 Dec 2020 08:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 178566E2C7;
+	Thu, 10 Dec 2020 08:19:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7006E182
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 08:17:33 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BA8HJ3g090088;
- Thu, 10 Dec 2020 02:17:19 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1607588239;
- bh=aq30/Nsk4XW/atnB6va78QseWw7cJP4bpMBbViEyW2Y=;
- h=Subject:From:To:CC:References:Date:In-Reply-To;
- b=whAFRW1IfqUovpGNCsxflfJiZdnRCfK3E9oVUZLSN9HH29opk7L4lLcXYkpx+UYvx
- lU+b6x1TltJQZOgjKIGZYQ/uHrU6ojgVxPhByE+4j30/fGpalbWd13li5iHkYWnA1d
- L3WqWTDm0Vg3/hUFy3HxlTP0OZQSMyQx1Vp/Uud4=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BA8HJhv053315
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 10 Dec 2020 02:17:19 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 10
- Dec 2020 02:17:19 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 10 Dec 2020 02:17:19 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BA8HG0F095817;
- Thu, 10 Dec 2020 02:17:17 -0600
-Subject: Re: [PATCH v5 29/29] drm/omap: dsi: allow DSI commands to be sent
- early
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
- <20201208122855.254819-30-tomi.valkeinen@ti.com>
- <X8+gXWBwLItZA7gA@pendragon.ideasonboard.com>
- <c5139c54-78c1-fe16-7f50-c60efd1f447b@ti.com>
-Message-ID: <64bbe541-53fb-2bd0-0069-c0a28a064a17@ti.com>
-Date: Thu, 10 Dec 2020 10:17:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <c5139c54-78c1-fe16-7f50-c60efd1f447b@ti.com>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E45086E2C7
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 08:19:05 +0000 (UTC)
+From: Shawn Guo <shawnguo@kernel.org>
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/bridge: ti-sn65dsi86: rename GPIO register bits
+Date: Thu, 10 Dec 2020 16:18:53 +0800
+Message-Id: <20201210081853.17060-1-shawnguo@kernel.org>
+X-Mailer: git-send-email 2.17.1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,34 +32,94 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
- Sekhar Nori <nsekhar@ti.com>, Sebastian Reichel <sre@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Douglas Anderson <dianders@chromium.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2020 09:34, Tomi Valkeinen wrote:
+From: Shawn Guo <shawn.guo@linaro.org>
 
-> But we don't have anything stopping omap_dsi_host_transfer being called after the whole bridge has
-> been detached (or called before attach). So, if we have a guarantee that the panels won't be doing
-> dsi transfers before/during bridge attach or after/during bridge detach, we have no issue. If we
-> don't have such a guarantee, it's broken.
-> 
-> I'll try to figure out if there's such a guarantee, but maybe it's safer to add a flag to indicate
-> if the bridge is available, and check that during omap_dsi_host_transfer.
+It renames GPIO register bits to drop 'SN_' prefix, so that they are
+consistent to other definitions - prefixing register name with 'SN_' but
+not for bit fields.
 
-I don't think this can happen. I mixed up the bridge attach/detach and the dsi host attach/detach.
-The cancel_delayed_work_sync happens in omap_dsi_host_detach, and I think it's a sensible
-expectation that the panel won't first do mipi_dsi_detach(), and then try to do DSI transfers.
+Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
- Tomi
-
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index f27306c51e4d..8eac9d77eba1 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -63,13 +63,13 @@
+ #define SN_HPD_DISABLE_REG			0x5C
+ #define  HPD_DISABLE				BIT(0)
+ #define SN_GPIO_IO_REG				0x5E
+-#define  SN_GPIO_INPUT_SHIFT			4
+-#define  SN_GPIO_OUTPUT_SHIFT			0
++#define  GPIO_INPUT_SHIFT			4
++#define  GPIO_OUTPUT_SHIFT			0
+ #define SN_GPIO_CTRL_REG			0x5F
+-#define  SN_GPIO_MUX_INPUT			0
+-#define  SN_GPIO_MUX_OUTPUT			1
+-#define  SN_GPIO_MUX_SPECIAL			2
+-#define  SN_GPIO_MUX_MASK			0x3
++#define  GPIO_MUX_INPUT				0
++#define  GPIO_MUX_OUTPUT			1
++#define  GPIO_MUX_SPECIAL			2
++#define  GPIO_MUX_MASK				0x3
+ #define SN_AUX_WDATA_REG(x)			(0x64 + (x))
+ #define SN_AUX_ADDR_19_16_REG			0x74
+ #define SN_AUX_ADDR_15_8_REG			0x75
+@@ -1035,7 +1035,7 @@ static int ti_sn_bridge_gpio_get(struct gpio_chip *chip, unsigned int offset)
+ 	if (ret)
+ 		return ret;
+ 
+-	return !!(val & BIT(SN_GPIO_INPUT_SHIFT + offset));
++	return !!(val & BIT(GPIO_INPUT_SHIFT + offset));
+ }
+ 
+ static void ti_sn_bridge_gpio_set(struct gpio_chip *chip, unsigned int offset,
+@@ -1051,8 +1051,8 @@ static void ti_sn_bridge_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 
+ 	val &= 1;
+ 	ret = regmap_update_bits(pdata->regmap, SN_GPIO_IO_REG,
+-				 BIT(SN_GPIO_OUTPUT_SHIFT + offset),
+-				 val << (SN_GPIO_OUTPUT_SHIFT + offset));
++				 BIT(GPIO_OUTPUT_SHIFT + offset),
++				 val << (GPIO_OUTPUT_SHIFT + offset));
+ 	if (ret)
+ 		dev_warn(pdata->dev,
+ 			 "Failed to set bridge GPIO %u: %d\n", offset, ret);
+@@ -1069,8 +1069,8 @@ static int ti_sn_bridge_gpio_direction_input(struct gpio_chip *chip,
+ 		return 0;
+ 
+ 	ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
+-				 SN_GPIO_MUX_MASK << shift,
+-				 SN_GPIO_MUX_INPUT << shift);
++				 GPIO_MUX_MASK << shift,
++				 GPIO_MUX_INPUT << shift);
+ 	if (ret) {
+ 		set_bit(offset, pdata->gchip_output);
+ 		return ret;
+@@ -1103,8 +1103,8 @@ static int ti_sn_bridge_gpio_direction_output(struct gpio_chip *chip,
+ 
+ 	/* Set direction */
+ 	ret = regmap_update_bits(pdata->regmap, SN_GPIO_CTRL_REG,
+-				 SN_GPIO_MUX_MASK << shift,
+-				 SN_GPIO_MUX_OUTPUT << shift);
++				 GPIO_MUX_MASK << shift,
++				 GPIO_MUX_OUTPUT << shift);
+ 	if (ret) {
+ 		clear_bit(offset, pdata->gchip_output);
+ 		pm_runtime_put(pdata->dev);
 -- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
