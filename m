@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA722D5E5A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177E52D5E64
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Dec 2020 15:48:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35CD66E5CA;
-	Thu, 10 Dec 2020 14:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C51F36EA96;
+	Thu, 10 Dec 2020 14:48:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6BF6E5CA
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:47:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 13008F3E;
- Thu, 10 Dec 2020 08:47:07 -0500 (EST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2AF56E89E
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 13:47:09 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 936D6EC2;
+ Thu, 10 Dec 2020 08:47:08 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 10 Dec 2020 08:47:08 -0500
+ by compute6.internal (MEProxy); Thu, 10 Dec 2020 08:47:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=fklFVIL4Y1AJE
- O4W9nFqNlVOvqBIEiPSfsqHHscTIBE=; b=nNO2RIx/astgzAlXENxsKURrTJJSI
- UHXJnswJvUqviJv1BEOPeVTq3+uU0ymAP96TDRugvCTVE4YHFqj73fSPr3T+MGyB
- lNWYQ3kXMnjIFHOEylnZP7FvBFx9BrCHSUWV0u0trgPJR8eNu+Loo6pbNBpkZCUj
- WnchPKPM7ou8mN6/7dm33q47hJdXN2UbdgmtlzgUDyazt3pQ81OT4cHLXFE/rthJ
- w1QMZ5KL6xXfVZSiJrsY0t52dJhVp+8MiVT0fe9/CxNnCn6Z8QRZjg+UNeKGK1QR
- HmAgeLKe3pc8MH7FZlctlxJccshFC1oyA6fn6El2jTqz4NqBuk0bn0PlA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=SPgf1wB/xw4Mk
+ wQeco+JJrimkNY1S+AA9QXTDWr3NYU=; b=Vr+cxwk4GU9qz5Hwjg5+H7js7ZpnG
+ QcxQdpyzQnv7kPybp8rIdCVDFv3r4JSOfmKrNM0kDK6hLV+Vjc0/qdgEJvUybOsV
+ Pjagw34YWo4rix2c+6sFtEZwRHwtuxqW7yJB7GjjzvVIU/FQO16zmfFyeh6ysuay
+ gb1cCO1Z2onlFNu43mElZCLaYEtIRlNBQ/5uX+DnKFcpo7nJ7AgAgRb2FSPy5I4M
+ 8ayS7oP4qYPkXTc5B4eZ4PZiNMF/ISh6qG66uoNSX4uXm7zba6bk7mC4cjQqq8Zf
+ b+jz9vvgIQobetFKQGXRgPkdUnBHs2RPsNdo5yEMr0tg+97FXOIM27UJA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=fklFVIL4Y1AJEO4W9nFqNlVOvqBIEiPSfsqHHscTIBE=; b=mRPoa3CL
- DaxFOvTVB6EdXe2MJe/edKYP9BDX7tzRiiK9uQSq//RMTH2TYdZQRLZ/jpXaayqx
- TgDyUEf5hOqmM3hN4iSUEbSkqCcg+bytIBHuXoTROEssM4jx3fULZy915qwLGDIs
- e/8TvPv+2Ly3ntSgWscW8zizBNJ8FJdUvTX8Ch/XAxfzAYrILzh+0sm4KAzgbhlm
- orPCL2H7lHdHkpi8l1CsCgHjaOpnZpnFE/MIJRmTtwvXFU/YFj6sLEBndTMwBeyv
- CxTR+gJiI55nRDmql4fZQm5H52fPu4KnxetReOUHPIUvd3MVRWLVRhGph/n0+kDz
- uYQAHnb4jsJWjw==
-X-ME-Sender: <xms:2ibSX9mH94HI6WwMkHJ1GchPuosLfHB3xQe59PjAoflQzfN9IEQeyg>
- <xme:2ibSXxlppsHHlVlGXg3MW8KcmejKnG9ei_izcDU8vLCTQWB2wySKMf04eJHI_eFeA
- ZdcVlM8UmYfgvjxzBM>
+ fm1; bh=SPgf1wB/xw4MkwQeco+JJrimkNY1S+AA9QXTDWr3NYU=; b=QDtDMaHb
+ ngds5FELYivTTnNubg1egHZjEmCCkA6RqGAe9PTnRZE4wardt+/ohMjwwWWkyuc0
+ KzY4zwCfNCAR5sCVkB+xPMGZkjB6Re30Rzujt2N3c7VLPFWlC+yaonrcwi5kZ4yD
+ sKZ2gNoA2Q0Y7d5GSRNOIlDiEuXjbLtTQ3Cii0yeIi46a7Bd+yZGR82i62QkVvbU
+ 62vV8OVsX9N6SZWfTZEK3+RPSLQnLf29BFZZqfqmTpWBSdSEvUXPy7D8cTgdmiGy
+ o4vms68TWI5ciDQXLrQtfbu4H39pJwOhCk1oztVKjwnsOB1MTvgrtFDIKvajY2YY
+ uMLE4joIJOmlFw==
+X-ME-Sender: <xms:3CbSX4EI-qiUgahO5hFoCbNgc6h5SDzRv14i1ZNVbwZbGdl5Mxev5Q>
+ <xme:3CbSX4HVyM1GDkDLOMj3HWbsP7GC7_7CaNjqPdHj_jzccbqxVBXh1r7DAuKpDGyAY
+ eRbzIdJfDhP8KlI2lE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -49,23 +49,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2ibSXyVV8tFiVZ37_xZ_eNy4hLtkebRoLuW5j-fGUgKIg8INQvECqw>
- <xmx:2ibSX_8V5BKgBklSGzpJOHbBLinD3L8GLx2_f-Yvi7TgCkO2e_0nYw>
- <xmx:2ibSX_o2q_v30l___fIGEZ3JzWJcEume39X23uiig5fBRmJWlIpDhQ>
- <xmx:2ibSX2vWFJECfjf8Qq-LJFjJ4jKm01wj0L7gs5DERdcXUie8fwHUl_eVODM>
+X-ME-Proxy: <xmx:3CbSXz6u9PHO3OmJUZL04D_0MGRTZU_WEk7a46x0RkI6tjCBK55MVw>
+ <xmx:3CbSX1y5_8U5y180D3lSj-ZQ7KThMoF3ywvhFEDiRbETu_Q1lW_OIw>
+ <xmx:3CbSX6NJx8RxsbkAl2ZDRww-xluhKhuL-AORM_XFrxTlXCX7ugYQuw>
+ <xmx:3CbSX_Qav9lnlrBQQ5Rr2S_MDCrBLauB9Z9WJA3c5VW-IwqCabi4QIgkQg4>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 73253108006B;
- Thu, 10 Dec 2020 08:47:06 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id CF73C108005C;
+ Thu, 10 Dec 2020 08:47:07 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH 12/15] drm/vc4: hdmi: Don't register the CEC adapter if
- there's no interrupts
-Date: Thu, 10 Dec 2020 14:46:45 +0100
-Message-Id: <20201210134648.272857-13-maxime@cerno.tech>
+Subject: [PATCH 13/15] dt-binding: display: bcm2711-hdmi: Add CEC and hotplug
+ interrupts
+Date: Thu, 10 Dec 2020 14:46:46 +0100
+Message-Id: <20201210134648.272857-14-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
 References: <20201210134648.272857-1-maxime@cerno.tech>
@@ -95,38 +95,52 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We introduced the BCM2711 support to the vc4 HDMI controller with 5.10,
-but this was lacking any of the interrupts of the CEC controller so we
-have to deal with the backward compatibility.
-
-Do so by simply ignoring the CEC setup if the DT doesn't have the
-interrupts property.
+The CEC and hotplug interrupts were missing when that binding was
+introduced, let's add them in now that we've figured out how it works.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../bindings/display/brcm,bcm2711-hdmi.yaml   | 20 ++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 327638d93032..69217c68d3a4 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1655,9 +1655,15 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- {
- 	struct cec_connector_info conn_info;
- 	struct platform_device *pdev = vc4_hdmi->pdev;
-+	struct device *dev = &pdev->dev;
- 	u32 value;
- 	int ret;
+diff --git a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+index 7ce06f9f9f8e..6e8ac910bdd8 100644
+--- a/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/brcm,bcm2711-hdmi.yaml
+@@ -53,6 +53,24 @@ properties:
+       - const: audio
+       - const: cec
  
-+	if (!of_find_property(dev->of_node, "interrupts", NULL)) {
-+		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
-+		return 0;
-+	}
++  interrupts:
++    items:
++      - description: CEC TX interrupt
++      - description: CEC RX interrupt
++      - description: CEC stuck at low interrupt
++      - description: Wake-up interrupt
++      - description: Hotplug connected interrupt
++      - description: Hotplug removed interrupt
 +
- 	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
- 						  vc4_hdmi, "vc4",
- 						  CEC_CAP_DEFAULTS |
++  interrupt-names:
++    items:
++      - const: cec-tx
++      - const: cec-rx
++      - const: cec-low
++      - const: wakeup
++      - const: hpd-connected
++      - const: hpd-removed
++
+   ddc:
+     allOf:
+       - $ref: /schemas/types.yaml#/definitions/phandle
+@@ -90,7 +108,7 @@ required:
+   - resets
+   - ddc
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 -- 
 2.28.0
 
