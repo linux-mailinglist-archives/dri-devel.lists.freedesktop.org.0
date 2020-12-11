@@ -2,72 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302962D7587
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 13:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157E52D7551
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 13:10:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 675306EDD4;
-	Fri, 11 Dec 2020 12:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 512396EDBC;
+	Fri, 11 Dec 2020 12:10:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 278146ED64
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:17:43 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 9330E580362;
- Fri, 11 Dec 2020 05:17:41 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 11 Dec 2020 05:17:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=9D32wugrFLgB0uzOVmA2pDi0jWc
- mCQtUeBJzPKrDHYM=; b=ByVUoK3fRT3tb07JwT9XmYoNtq15eZieoPhShBCML1k
- X4ZLGnVGRHNuw3C3xNBC0NwSubLs/svgq3fR+RMOJJPYBeQ3r2XltdgLvP8PL8gr
- WP0TXLK83zlL9rd2xQYP+cc6vRd8z7m3F7G2jwk1TFido5B6YvmMPZK7BqHHAuNl
- K5+SZR7e5dsNw2eUtOtRD6auO1tEXaBrCMdzq2rVjbktdI59WE+LIqL6X6/Y/5CR
- ctR8cE+lTQJSgnixNe5E5S84KAD4mJ94GL8jDTKR7qgDnDi5q8VEFiBkSJDJDun6
- Lqu6kk1fjongGGObA3g2sX3KTZxMmnIRClkk9Eb/NaA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=9D32wu
- grFLgB0uzOVmA2pDi0jWcmCQtUeBJzPKrDHYM=; b=FDj0vVCNSb69YWjNMN0PRj
- k+buNJfo0f0nuXg9mjVtw0D3Cp90weNY9oX6IK2cAdqcJwwHj6jIvEizTa3C702G
- 7+Eop0hjEnqm6uewaBDIhET9ZfjEQGSkyDEk1ssTXBZCXE/KDhHRSNrN9pA7aESI
- 7I4O0g4wDtniQuEizUjTspYo+DIoQgmiKfvf7PPzGz6rLwokNoaS6rCu4utuJgN1
- 339N5SXmhPdtToIr0w9MpmNk3xVX8hitWuQa0DoEGnXwqJ9DNVfqNllHJh//Y+tB
- 0Vhu6fMEfYg/cnvsKUYtflYkkeoRMF8EK4hej7vNlyCo0q0d3LZAae9He6zunJcg
- ==
-X-ME-Sender: <xms:QkfTX6tOQ-vauCcK2EJy9MA3LS01U9kkRhbjj2CbbiQoUScxDzaFig>
- <xme:QkfTX_c88LtxIg_jLzKRhe27MUpsot4vZw61lFXhJndqCNJIOQeFZSC7960QjhRzx
- FtE5vvJQWxdjxR4EO4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekvddgudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:QkfTX1w3JDnILaqyCCCON2EugZ09cVfa5yoQVba-2zCAaax-Ra0bug>
- <xmx:QkfTX1Om2_OocKQ4YeofTC6UphmHecj1lwCqaRONkFIOX6UGEjiY6w>
- <xmx:QkfTX68nvLYc0FQuJzaV4p3dI-ZfNmIzorHO8SjAuKZPuW1N8PmR5w>
- <xmx:RUfTX-Su_5csZZPyXgC_i0i5ksZGYK9BGZsGTlftqHIlI-L-myx0UQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 32E4424005A;
- Fri, 11 Dec 2020 05:17:38 -0500 (EST)
-Date: Fri, 11 Dec 2020 11:17:36 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Frieder Schrempf <frieder.schrempf@kontron.de>
-Subject: Re: [PATCH 2/8] drm/vc4: dsi: Correct DSI register definition
-Message-ID: <20201211101736.e26kyrbdaq4qhk7p@gilmour>
-References: <20201203132543.861591-1-maxime@cerno.tech>
- <20201203132543.861591-3-maxime@cerno.tech>
- <cfcfd349-e0fc-8bd0-4c9e-6cc33bf5f056@kontron.de>
+Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C806EDBC;
+ Fri, 11 Dec 2020 12:10:47 +0000 (UTC)
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+ t=1607688646; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aJZQMJEqjqCeKHnTDA0IPhE5vARBQoDmh6z4taBza3s=;
+ b=P1ENv6ghYnMSOzdKwSZDHOniw7i+gHM9SWvjsPS+nXcpf4uhfjZJjCfiznixdHS7UHUGUl
+ a34b0cvwxyIOGXHl1JLWLzB64bZDoXsOpneHkxjbVOOIAwHRwzjzh7nkMxX9MEEiCvDvNr
+ htx20xTSyXpVilz7Cd7mz1QsfdAQFf8=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 41E96AE87;
+ Fri, 11 Dec 2020 12:10:46 +0000 (UTC)
+Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
+ interrupts
+To: boris.ostrovsky@oracle.com, Thomas Gleixner <tglx@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194045.250321315@linutronix.de>
+ <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <2164a0ce-0e0d-c7dc-ac97-87c8f384ad82@suse.com>
+Date: Fri, 11 Dec 2020 13:10:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <cfcfd349-e0fc-8bd0-4c9e-6cc33bf5f056@kontron.de>
-X-Mailman-Approved-At: Fri, 11 Dec 2020 12:26:42 +0000
+In-Reply-To: <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,69 +50,245 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0764760911=="
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
+ afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
+ intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+Content-Type: multipart/mixed; boundary="===============0394476437=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---===============0764760911==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--===============0394476437==
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lxvzogg4gx63k4ta"
-Content-Disposition: inline
+ protocol="application/pgp-signature";
+ boundary="qMVMfsvlAyIOVuhurM0AhbsuX1abhQOZS"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qMVMfsvlAyIOVuhurM0AhbsuX1abhQOZS
+Content-Type: multipart/mixed; boundary="1SKmisPo0wwQx0jet3HDKXRMk6SQ4aMth";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: boris.ostrovsky@oracle.com, Thomas Gleixner <tglx@linutronix.de>,
+ LKML <linux-kernel@vger.kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Marc Zyngier <maz@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, afzal mohammed <afzal.mohd.ma@gmail.com>,
+ linux-parisc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ linux-arm-kernel@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-s390@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Wambui Karuga <wambui.karugax@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
+ Lee Jones <lee.jones@linaro.org>, Jon Mason <jdmason@kudzu.us>,
+ Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+ linux-ntb@googlegroups.com, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Michal Simek <michal.simek@xilinx.com>, linux-pci@vger.kernel.org,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>
+Message-ID: <2164a0ce-0e0d-c7dc-ac97-87c8f384ad82@suse.com>
+Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
+ interrupts
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194045.250321315@linutronix.de>
+ <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
+In-Reply-To: <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
 
---lxvzogg4gx63k4ta
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--1SKmisPo0wwQx0jet3HDKXRMk6SQ4aMth
+Content-Type: multipart/mixed;
+ boundary="------------8ECAEB8E864B85BAB060713C"
+Content-Language: en-US
+
+This is a multi-part message in MIME format.
+--------------8ECAEB8E864B85BAB060713C
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Tue, Dec 08, 2020 at 09:34:05AM +0100, Frieder Schrempf wrote:
-> On 03.12.20 14:25, Maxime Ripard wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> >=20
-> > The DSI1_PHY_AFEC0_PD_DLANE1 and DSI1_PHY_AFEC0_PD_DLANE3 register
-> > definitions were swapped, so trying to use more than a single data
-> > lane failed as lane 1 would get powered down.
-> > (In theory a 4 lane device would work as all lanes would remain
-> > powered).
-> >=20
-> > Correct the definitions.
-> >=20
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+On 11.12.20 00:20, boris.ostrovsky@oracle.com wrote:
 >=20
-> Wouldn't this deserve a "Fixes: ..." and "Cc: stable@vger.kernel.org" tag,
-> as this bug is present in all stable releases since this driver was
-> introduced? I think it would be really helpful to have it backported.
+> On 12/10/20 2:26 PM, Thomas Gleixner wrote:
+>> All event channel setups bind the interrupt on CPU0 or the target CPU =
+for
+>> percpu interrupts and overwrite the affinity mask with the correspondi=
+ng
+>> cpumask. That does not make sense.
+>>
+>> The XEN implementation of irqchip::irq_set_affinity() already picks a
+>> single target CPU out of the affinity mask and the actual target is st=
+ored
+>> in the effective CPU mask, so destroying the user chosen affinity mask=
 
-Sorry I forgot it. The patch is applied however and drm-misc-next
-doesn't get rebased, so I can't add it now.
+>> which might contain more than one CPU is wrong.
+>>
+>> Change the implementation so that the channel is bound to CPU0 at the =
+XEN
+>> level and leave the affinity mask alone. At startup of the interrupt
+>> affinity will be assigned out of the affinity mask and the XEN binding=
+ will
+>> be updated.
+>=20
+>=20
+> If that's the case then I wonder whether we need this call at all and i=
+nstead bind at startup time.
 
-We can always send it for stable by hand though once it's in Linus' tree
+After some discussion with Thomas on IRC and xen-devel archaeology the
+result is: this will be needed especially for systems running on a
+single vcpu (e.g. small guests), as the .irq_set_affinity() callback
+won't be called in this case when starting the irq.
 
-Maxime
 
---lxvzogg4gx63k4ta
-Content-Type: application/pgp-signature; name="signature.asc"
+Juergen
+
+--------------8ECAEB8E864B85BAB060713C
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------8ECAEB8E864B85BAB060713C--
+
+--1SKmisPo0wwQx0jet3HDKXRMk6SQ4aMth--
+
+--qMVMfsvlAyIOVuhurM0AhbsuX1abhQOZS
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9NHQAAKCRDj7w1vZxhR
-xZ66AQC+kdfoj94MYjL0EAGhh5ZK8eE3izsoekSwCQIaKQ4KCgD/U/A2aw/+be6t
-Z5CUwHPldU8WqMhLMaPGuZyCpZlujwI=
-=J2vg
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAl/TYcMFAwAAAAAACgkQsN6d1ii/Ey+q
+kwgAhqGwSjkPCHuD6iXs+izA0i+SRbhYcA5DS/prsjTsYrIr31Nv0iAWAuq87gH+Uo5StBRXaRlR
+Vh9HiOFFv8ScTgdoiZDUycGN07TFuj9NJGJp/TvD+OZN17OQt2w1Pw1JeRI5RNsVTm22OMUH4Om8
+D5t0xrU0zymXmndnx8OZEQ/j0W+hCRjIoNpmjegRa1p8q12pzI9FJByuAhVVTqmcfucWD2sIXlFk
+ZYAwwiA5sMnSj7UYTiR6lkIWMPv4D0FJYC1GwAMI6EONFeO6SBjMqZsWhymL1P1AU1WoSAe19C/e
+DRzPDV1x+jKSYVArD4THJwjqoa7QDXngm7UxnYCYdg==
+=Bajp
 -----END PGP SIGNATURE-----
 
---lxvzogg4gx63k4ta--
+--qMVMfsvlAyIOVuhurM0AhbsuX1abhQOZS--
 
---===============0764760911==
+--===============0394476437==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -153,4 +299,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0764760911==--
+--===============0394476437==--
