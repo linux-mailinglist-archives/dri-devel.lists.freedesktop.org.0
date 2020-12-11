@@ -2,40 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9632D70C5
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603292D7117
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C849F6EC65;
-	Fri, 11 Dec 2020 07:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 034A46EC6F;
+	Fri, 11 Dec 2020 07:51:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15A3789ED3;
- Fri, 11 Dec 2020 07:24:37 +0000 (UTC)
-IronPort-SDR: ncdA5nfqfAMvQBfW7Sn8t8jYV1DXF0FNkgkDHg82NHZguOIZukiwND5Wn7ZOChzJdO3Z81n5sR
- pgCJT4C1r5aA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="171827815"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="171827815"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 23:24:36 -0800
-IronPort-SDR: pZgPJk+elSFw+5OggAoWq/5PVtW3FOloDS8m9M+3kWtISGZBG7/apLpGAbsnBdtrH4VqFGGQRv
- vRcU82ArElhg==
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="484962849"
-Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 23:24:33 -0800
-Date: Fri, 11 Dec 2020 12:54:21 +0530
-From: Ramalingam C <ramalingam.c@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v7 18/18] drm/i915/hdcp: Enable HDCP 2.2 MST support
-Message-ID: <20201211072421.GF1297@intel.com>
-References: <20201210062640.11783-1-anshuman.gupta@intel.com>
- <20201210062640.11783-19-anshuman.gupta@intel.com>
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A0366EC6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 07:50:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id D95B43F4C5;
+ Fri, 11 Dec 2020 08:50:56 +0100 (CET)
+Authentication-Results: pio-pvt-msa3.bahnhof.se; dkim=pass (1024-bit key;
+ unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=PIHLSTtD; 
+ dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jpi_L901FfAT; Fri, 11 Dec 2020 08:50:56 +0100 (CET)
+Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 9E0793F439;
+ Fri, 11 Dec 2020 08:50:54 +0100 (CET)
+Received: from [192.168.0.110] (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 14826360070;
+ Fri, 11 Dec 2020 08:50:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1607673054; bh=U3qKQa/7MGG5lGrXKjgSbYXjQ6fpweq8MGu5ZXjVx2Y=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=PIHLSTtDDZ6edwGEwwUo3gS2RuiPOayJemXVEMZqPA1ooXp0oMK4ZQVvBXye9/uKg
+ kEsrHihfWQKmuHo9A3nW3Ay96FQageIVNQLKpGDaWqvnoRmhoRGTDW/0JPpexqbDWX
+ jxBLAfC0j1vS/LAFEexrIaZRK8daBKirB00zkYQ4=
+Subject: Re: Fence wait in mmu_interval_notifier_ops::invalidate
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <912c29f1-4e17-8b66-419b-1854d03845fd@shipmail.org>
+ <20201209163731.GU552508@nvidia.com>
+ <b4018af1-998f-dc79-c83a-8eac95cb1ceb@shipmail.org>
+ <1b52322f-569e-f523-3baa-ffb822cb72c2@amd.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+Message-ID: <7be4d61e-c82f-6acf-a618-9db29d05094a@shipmail.org>
+Date: Fri, 11 Dec 2020 08:50:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201210062640.11783-19-anshuman.gupta@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1b52322f-569e-f523-3baa-ffb822cb72c2@amd.com>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,160 +67,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
- uma.shankar@intel.com, seanpaul@chromium.org, juston.li@intel.com
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: DRI Development <dri-devel@lists.freedesktop.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-12-10 at 11:56:40 +0530, Anshuman Gupta wrote:
-> Enable HDCP 2.2 over DP MST.
-> Authenticate and enable port encryption only once for
-> an active HDCP 2.2 session, once port is authenticated
-> and encrypted enable encryption for each stream that
-> requires encryption on this port.
-> 
-> Similarly disable the stream encryption for each encrypted
-> stream, once all encrypted stream encryption is disabled,
-> disable the port HDCP encryption and deauthenticate the port.
-> 
-Like in the previous patch (for 1.4 MST?) split this patch into 2. one
-for configuring the stream encryptions status for 2.2 another one for
-enabling the HDCP2.2 MST support.
-
-Ram
-> v2:
-> - Add connector details in drm_err. [Ram]
-> - 's/port_auth/hdcp_auth_status'. [Ram]
-> - Added a debug print for stream enc.
-> v3:
-> - uniformity for connector detail in DMESG. [Ram]
-> 
-> Cc: Ramalingam C <ramalingam.c@intel.com>
-> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> Tested-by: Karthik B S <karthik.b.s@intel.com>
-> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> ---
->  drivers/gpu/drm/i915/display/intel_hdcp.c | 53 ++++++++++++++++++++++-
->  1 file changed, 51 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> index 65dd39b44688..4b221c298835 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
-> @@ -1700,6 +1700,36 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
->  	return ret;
->  }
->  
-> +static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
-> +{
-> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> +	struct intel_hdcp *hdcp = &connector->hdcp;
-> +	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
-> +	enum port port = dig_port->base.port;
-> +	int ret = 0;
-> +
-> +	if (!(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
-> +			    LINK_ENCRYPTION_STATUS)) {
-> +		drm_err(&dev_priv->drm, "[%s:%d] HDCP 2.2 Link is not encrypted\n",
-> +			connector->base.name, connector->base.base.id);
-> +		return -EPERM;
-> +	}
-> +
-> +	if (hdcp->shim->stream_2_2_encryption) {
-> +		ret = hdcp->shim->stream_2_2_encryption(connector, true);
-> +		if (ret) {
-> +			drm_err(&dev_priv->drm, "[%s:%d] Failed to enable HDCP 2.2 stream enc\n",
-> +				connector->base.name, connector->base.base.id);
-> +			return ret;
-> +		}
-> +		drm_dbg_kms(&dev_priv->drm, "HDCP 2.2 transcoder: %s stream encrypted\n",
-> +			    transcoder_name(hdcp->stream_transcoder));
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  static int hdcp2_enable_encryption(struct intel_connector *connector)
->  {
->  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> @@ -1838,7 +1868,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  			drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
->  	}
->  
-> -	if (!ret) {
-> +	if (!ret && !dig_port->hdcp_auth_status) {
->  		/*
->  		 * Ensuring the required 200mSec min time interval between
->  		 * Session Key Exchange and encryption.
-> @@ -1853,6 +1883,8 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
->  		}
->  	}
->  
-> +	ret = hdcp2_enable_stream_encryption(connector);
-> +
->  	return ret;
->  }
->  
-> @@ -1898,11 +1930,26 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
->  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
->  	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
-> +	struct intel_hdcp *hdcp = &connector->hdcp;
->  	int ret;
->  
->  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
->  		    connector->base.name, connector->base.base.id);
->  
-> +	if (hdcp->shim->stream_2_2_encryption) {
-> +		ret = hdcp->shim->stream_2_2_encryption(connector, false);
-> +		if (ret) {
-> +			drm_err(&i915->drm, "[%s:%d] Failed to disable HDCP 2.2 stream enc\n",
-> +				connector->base.name, connector->base.base.id);
-> +			return ret;
-> +		}
-> +		drm_dbg_kms(&i915->drm, "HDCP 2.2 transcoder: %s stream encryption disabled\n",
-> +			    transcoder_name(hdcp->stream_transcoder));
-> +	}
-> +
-> +	if (dig_port->num_hdcp_streams > 0)
-> +		return ret;
-> +
->  	ret = hdcp2_disable_encryption(connector);
->  
->  	if (hdcp2_deauthenticate_port(connector) < 0)
-> @@ -1926,6 +1973,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
->  	int ret = 0;
->  
->  	mutex_lock(&hdcp->mutex);
-> +	mutex_lock(&dig_port->hdcp_mutex);
->  	cpu_transcoder = hdcp->cpu_transcoder;
->  
->  	/* hdcp2_check_link is expected only when HDCP2.2 is Enabled */
-> @@ -2003,6 +2051,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
->  	}
->  
->  out:
-> +	mutex_unlock(&dig_port->hdcp_mutex);
->  	mutex_unlock(&hdcp->mutex);
->  	return ret;
->  }
-> @@ -2184,7 +2233,7 @@ int intel_hdcp_init(struct intel_connector *connector,
->  	if (!shim)
->  		return -EINVAL;
->  
-> -	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
-> +	if (is_hdcp2_supported(dev_priv))
->  		intel_hdcp2_init(connector, dig_port, shim);
->  
->  	ret =
-> -- 
-> 2.26.2
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIENocmlzdGlhbgoKVGhhbmtzIGZvciB0aGUgcmVwbHkuCgpPbiAxMi8xMC8yMCAxMTo1MyBB
+TSwgQ2hyaXN0aWFuIEvDtm5pZyB3cm90ZToKPiBBbSAwOS4xMi4yMCB1bSAxNzo0NiBzY2hyaWVi
+IFRob21hcyBIZWxsc3Ryw7ZtIChJbnRlbCk6Cj4+Cj4+IE9uIDEyLzkvMjAgNTozNyBQTSwgSmFz
+b24gR3VudGhvcnBlIHdyb3RlOgo+Pj4gT24gV2VkLCBEZWMgMDksIDIwMjAgYXQgMDU6MzY6MTZQ
+TSArMDEwMCwgVGhvbWFzIEhlbGxzdHLDtm0gKEludGVsKSAKPj4+IHdyb3RlOgo+Pj4+IEphc29u
+LCBDaHJpc3RpYW4KPj4+Pgo+Pj4+IEluIG1vc3QgaW1wbGVtZW50YXRpb25zIG9mIHRoZSBjYWxs
+YmFjayBtZW50aW9uZWQgaW4gdGhlIHN1YmplY3QgCj4+Pj4gdGhlcmUncyBhCj4+Pj4gZmVuY2Ug
+d2FpdC4KPj4+PiBXaGF0IGV4YWN0bHkgaXMgaXQgbmVlZGVkIGZvcj8KPj4+IEludmFsaWRhdGUg
+bXVzdCBzdG9wIERNQSBiZWZvcmUgcmV0dXJuaW5nLCBzbyBwcmVzdW1hYmx5IGRyaXZlcnMgdXNp
+bmcKPj4+IGEgZG1hIGZlbmNlIGFyZSByZWx5aW5nIG9uIGEgZG1hIGZlbmNlIG1lY2hhbmlzbSB0
+byBzdG9wIERNQS4KPj4KPj4gWWVzLCBzbyBmYXIgSSBmb2xsb3csIGJ1dCB3aGF0J3MgdGhlIHJl
+YXNvbiBkcml2ZXJzIG5lZWQgdG8gc3RvcCBETUE/Cj4KPiBXZWxsIGluIGdlbmVyYWwgYW4gaW52
+YWxpZGF0aW9uIG1lYW5zIHRoYXQgdGhlIHNwZWNpZmllZCBwYXJ0IG9mIHRoZSAKPiBwYWdlIHRh
+YmxlcyBhcmUgdXBkYXRlZCwgZWl0aGVyIHdpdGggbmV3IGFkZHJlc3NlcyBvciBuZXcgYWNjZXNz
+IGZsYWdzLgo+Cj4gSW4gYm90aCBjYXNlcyB5b3UgbmVlZCB0byBzdG9wIHRoZSBETUEgYmVjYXVz
+ZSB5b3UgY291bGQgb3RoZXJ3aXNlIAo+IHdvcmsgd2l0aCBzdGFsZSBkYXRhLCBlLmcuIHJlYWQv
+d3JpdGUgd2l0aCB0aGUgd3JvbmcgYWRkcmVzc2VzIG9yIAo+IHdyaXRlIHRvIGEgcmVhZCBvbmx5
+IHJlZ2lvbiBldGMuLi4KClllcy4gVGhhdCdzIGNsZWFyLiBJJ20ganVzdCB0cnlpbmcgdG8gdW5k
+ZXJzdGFuZCB0aGUgY29tcGxldGUgCmltcGxpY2F0aW9ucyBvZiBkb2luZyB0aGF0LgoKPgo+PiBJ
+cyBpdCBmb3IgaW52bGlkYXRpb24gYmVmb3JlIGJyZWFraW5nIENPVyBhZnRlciBmb3JrIG9yIHNv
+bWV0aGluZyAKPj4gcmVsYXRlZD8KPgo+IFRoaXMgaXMganVzdCBvbmUgb2YgbWFueSB1c2UgY2Fz
+ZXMgd2hpY2ggY291bGQgaW52YWxpZGF0ZSBhIHJhbmdlLiBCdXQgCj4gdGhlcmUgYXJlIG1hbnkg
+bW9yZSwgYm90aCBmcm9tIHRoZSBrZXJuZWwgYXMgd2VsbCBhcyB1c2Vyc3BhY2UuCj4KPiBKdXN0
+IGltYWdpbmcgdGhhdCB1c2Vyc3BhY2UgZmlyc3QgbW1hcHMoKSBzb21lIGFub255bW91cyBtZW1v
+cnkgci93LCAKPiBzdGFydHMgYSBETUEgdG8gaXQgYW5kIHdoaWxlIHRoZSBETUEgaXMgb25nb2lu
+ZyBkb2VzIGEgcmVhZG9ubHkgbW1hcCgpIAo+IG9mIGxpYmMgdG8gdGhlIHNhbWUgbG9jYXRpb24u
+CgpNeSB1bmRlcnN0YW5kaW5nIG9mIHRoaXMgcGFydGljdWxhciBjYXNlIGlzIHRoYXQgaGFyZHdh
+cmUgd291bGQgY29udGludWUgCnRvIERNQSB0byBvcnBoYW5lZCBwYWdlcyB0aGF0IGFyZSBwaW5u
+ZWQgdW50aWwgdGhlIGRyaXZlciBpcyBkb25lIHdpdGggCkRNQSwgdW5sZXNzIGhhcmR3YXJlIHdv
+dWxkIHNvbWVob3cgaW4tZmxpZ2h0IHBpY2sgdXAgdGhlIG5ldyBQVEUgCmFkZHJlc3NlcyBwb2lu
+dGluZyB0byBsaWJjIGJ1dCBub3QgdGhlIHByb3RlY3Rpb24/CgpUaGFua3MsCgpUaG9tYXMKCgo+
+Cj4gU2luY2UgbW9zdCBoYXJkd2FyZSBkb2Vzbid0IGhhdmUgcmVjb3ZlcmFibGUgcGFnZSBmYXVs
+dHMgZ3Vlc3Mgd2hhdCAKPiB3b3VsZCBoYXBwZW4gaWYgd2UgZG9uJ3Qgd2FpdCBmb3IgdGhlIERN
+QSB0byBmaW5pc2g/IFRoYXQgd291bGQgYmUgYSAKPiBzZWN1cml0eSBob2xlIHlvdSBjYW4gcHVz
+aCBhbiBlbGVwaGFudCB0aHJvdWdoIDopCj4KPiBDaGVlcnMsCj4gQ2hyaXN0aWFuLgo+Cj4+Cj4+
+IFRoYW5rcywKPj4KPj4gVGhvbWFzCj4+Cj4+Pgo+Pj4gSmFzb24KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
