@@ -1,53 +1,84 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD382D93F5
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:17 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E03A92D93F2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD886E0F6;
-	Mon, 14 Dec 2020 08:17:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA3CA6E098;
+	Mon, 14 Dec 2020 08:17:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F4D06EDCC;
- Fri, 11 Dec 2020 12:37:12 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1607690230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xeKMIUUY7UN7nseclqb6capkWQKCLYLlFPvEsM/avAA=;
- b=3520JJ+cuub+0iUSOK2WXjhkvCbFqeJNnWTo2fJ47aLTUyErKzNfEkULJPsX3Qa7RkBVwA
- 4q6jw5fcFuYyZr/ciqFHaAnQVfC1Alp3kCIzCyANWRIH5wkikSXOxsM9LH0a3lH+xiAa45
- f0/UcyAfqGDvjb7eJDdGBHj9hJNdTg1RDGpqvbSImr23oJWz9hqAB7upD/U8t27689mDeg
- F/Tz1FEjoqnkk1C0t4mKGVaykVWwH0Pu53ShxAoYAYxl3sBd5Q86Au5G3wKiLThho8mDJo
- PrspxrgGCxFQ2+rt5HHBAUWr3eImu1NL/lsNiVCRl0iT/SNo3u6jwsn7CYROBw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1607690230;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xeKMIUUY7UN7nseclqb6capkWQKCLYLlFPvEsM/avAA=;
- b=BclOyliY9++BXeKdFZCu5z1BEMLnNc8fqr8CcstXRZSRH4lrLjensrS/wg9nxh2q1FTvD5
- HDIGPJaNNIgQp/DQ==
-To: =?utf-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
- boris.ostrovsky@oracle.com, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
- interrupts
-In-Reply-To: <2164a0ce-0e0d-c7dc-ac97-87c8f384ad82@suse.com>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194045.250321315@linutronix.de>
- <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
- <2164a0ce-0e0d-c7dc-ac97-87c8f384ad82@suse.com>
-Date: Fri, 11 Dec 2020 13:37:10 +0100
-Message-ID: <871rfwiknd.fsf@nanos.tec.linutronix.de>
+Received: from hqnvemgate26.nvidia.com (hqnvemgate26.nvidia.com
+ [216.228.121.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569066EDDA
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 12:46:25 +0000 (UTC)
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fd36a200000>; Fri, 11 Dec 2020 04:46:24 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
+ 2020 12:46:23 +0000
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.103)
+ by HQMAIL101.nvidia.com (172.20.187.10) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Fri, 11 Dec 2020 12:46:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ivPyWlQd99r1UrgnSqm6xLgsheC/nra+/7OZjMmKcX3nOaxS8gcLIlUkh6skY596Y9JJzSExzX22EksbUceI88uzkJJRGYBIUfO2pCBm7ElXrwrSfT4aTPaNYsrvvrs/2V0BFMBDdxpBMvIrb6tii87pBlHcnv8KIhnsWN4SbNhwITksms3LV9NibxG2/UkHLmdnVQsaCIAt94MLu4RzTc0cdh4SytcOBMLwcRyXIhnYevFVr4yC7jgLE4boT7D80KIg6aKyo84v++YObG8WVwwVYIkQSvIqlbyskjWd8zTaX89HKrJp97Cmd8aCF5+9mDViYF5jMoImUT6Zd/Q9kA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RlTOcJjy+tb/vvRXYZ/i4R+Jr2FUjwvOEgszhdE10ps=;
+ b=Ao7oDYly1JU36y8hcl87O0zuf2Fa4T6xAwVLAiOmPfVsAbAKOFdg5VK0js6K3vWHjUUkTrp2HIpf2ch9ZlbpfrkeEwHEcKi5tN+fy4JcZD7RjdNKhDLEqhFGYWX2/DP12m3whyt6o583KeCL4MpEQaq9bYbhfJK2LnVWVNSrQ1Fn93E2UXHKEPzbmELSqN9fwigB3gdT+Fm91cDsxrTAmeYtklyJDptbIw+kOU5kc6XonC6cM22oPY//JDMpxDsISMq2BCgF9X6oMCSwb8aH1q72wNv6BK4njj5YMYT7LWtcEGNZNssaY30Ww7i8uhXLuR+qF1aGydN3ouOlmOKSJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3737.namprd12.prod.outlook.com (2603:10b6:5:1c5::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 11 Dec
+ 2020 12:46:21 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1ce9:3434:90fe:3433]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1ce9:3434:90fe:3433%3]) with mapi id 15.20.3654.018; Fri, 11 Dec 2020
+ 12:46:21 +0000
+Date: Fri, 11 Dec 2020 08:46:18 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= <thomas_os@shipmail.org>
+Subject: Re: Fence wait in mmu_interval_notifier_ops::invalidate
+Message-ID: <20201211124618.GC552508@nvidia.com>
+References: <912c29f1-4e17-8b66-419b-1854d03845fd@shipmail.org>
+ <20201209163731.GU552508@nvidia.com>
+ <b4018af1-998f-dc79-c83a-8eac95cb1ceb@shipmail.org>
+ <1b52322f-569e-f523-3baa-ffb822cb72c2@amd.com>
+ <7be4d61e-c82f-6acf-a618-9db29d05094a@shipmail.org>
+Content-Disposition: inline
+In-Reply-To: <7be4d61e-c82f-6acf-a618-9db29d05094a@shipmail.org>
+X-ClientProxiedBy: MN2PR05CA0062.namprd05.prod.outlook.com
+ (2603:10b6:208:236::31) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by
+ MN2PR05CA0062.namprd05.prod.outlook.com (2603:10b6:208:236::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.9 via Frontend
+ Transport; Fri, 11 Dec 2020 12:46:20 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1knhoQ-009CDo-S2; Fri, 11 Dec 2020 08:46:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1607690784; bh=5nFZPrsQVooOQ+jIxwW0lHiaHYng3UX1KZ13Tenf0do=;
+ h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+ From:To:CC:Subject:Message-ID:References:Content-Type:
+ Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+ X-ClientProxiedBy:MIME-Version:
+ X-MS-Exchange-MessageSentRepresentingType;
+ b=OILxA1t8t07/iobARPyHh4/JWbOpwIC+Dp1YslQAUshPXKtX2LlM+vu20qVwg2At0
+ LRXx1aCGJY3o/YKNNOzfd9raX3teTrXYi9lLRZh58jydNbWShyyx0uks5Y87j/6g1f
+ 58llLWgr6MlAEQn+E8svmP3mLN48qOMAQbWG3AKFx8ympOAIyy+nVgpwqpxr6diU1K
+ SHQCvKIxKnGQ0spISNBm0wR1MlQ7Qwd1Xmecoj6DcVBuSKl9EN9+P1f//pzXkNRqem
+ xPnIOLZpu4G7AzSYnkpxxELy3NBee3/nTcyzE1k1pKGDMJOBg+wobLmHjCytVKDZs1
+ jJjaSRjQKyCfA==
+X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,63 +91,23 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCBEZWMgMTEgMjAyMCBhdCAxMzoxMCwgSsO8cmdlbiBHcm/DnyB3cm90ZToKPiBPbiAx
-MS4xMi4yMCAwMDoyMCwgYm9yaXMub3N0cm92c2t5QG9yYWNsZS5jb20gd3JvdGU6Cj4+IAo+PiBP
-biAxMi8xMC8yMCAyOjI2IFBNLCBUaG9tYXMgR2xlaXhuZXIgd3JvdGU6Cj4+PiBBbGwgZXZlbnQg
-Y2hhbm5lbCBzZXR1cHMgYmluZCB0aGUgaW50ZXJydXB0IG9uIENQVTAgb3IgdGhlIHRhcmdldCBD
-UFUgZm9yCj4+PiBwZXJjcHUgaW50ZXJydXB0cyBhbmQgb3ZlcndyaXRlIHRoZSBhZmZpbml0eSBt
-YXNrIHdpdGggdGhlIGNvcnJlc3BvbmRpbmcKPj4+IGNwdW1hc2suIFRoYXQgZG9lcyBub3QgbWFr
-ZSBzZW5zZS4KPj4+Cj4+PiBUaGUgWEVOIGltcGxlbWVudGF0aW9uIG9mIGlycWNoaXA6OmlycV9z
-ZXRfYWZmaW5pdHkoKSBhbHJlYWR5IHBpY2tzIGEKPj4+IHNpbmdsZSB0YXJnZXQgQ1BVIG91dCBv
-ZiB0aGUgYWZmaW5pdHkgbWFzayBhbmQgdGhlIGFjdHVhbCB0YXJnZXQgaXMgc3RvcmVkCj4+PiBp
-biB0aGUgZWZmZWN0aXZlIENQVSBtYXNrLCBzbyBkZXN0cm95aW5nIHRoZSB1c2VyIGNob3NlbiBh
-ZmZpbml0eSBtYXNrCj4+PiB3aGljaCBtaWdodCBjb250YWluIG1vcmUgdGhhbiBvbmUgQ1BVIGlz
-IHdyb25nLgo+Pj4KPj4+IENoYW5nZSB0aGUgaW1wbGVtZW50YXRpb24gc28gdGhhdCB0aGUgY2hh
-bm5lbCBpcyBib3VuZCB0byBDUFUwIGF0IHRoZSBYRU4KPj4+IGxldmVsIGFuZCBsZWF2ZSB0aGUg
-YWZmaW5pdHkgbWFzayBhbG9uZS4gQXQgc3RhcnR1cCBvZiB0aGUgaW50ZXJydXB0Cj4+PiBhZmZp
-bml0eSB3aWxsIGJlIGFzc2lnbmVkIG91dCBvZiB0aGUgYWZmaW5pdHkgbWFzayBhbmQgdGhlIFhF
-TiBiaW5kaW5nIHdpbGwKPj4+IGJlIHVwZGF0ZWQuCj4+IAo+PiAKPj4gSWYgdGhhdCdzIHRoZSBj
-YXNlIHRoZW4gSSB3b25kZXIgd2hldGhlciB3ZSBuZWVkIHRoaXMgY2FsbCBhdCBhbGwgYW5kIGlu
-c3RlYWQgYmluZCBhdCBzdGFydHVwIHRpbWUuCj4KPiBBZnRlciBzb21lIGRpc2N1c3Npb24gd2l0
-aCBUaG9tYXMgb24gSVJDIGFuZCB4ZW4tZGV2ZWwgYXJjaGFlb2xvZ3kgdGhlCj4gcmVzdWx0IGlz
-OiB0aGlzIHdpbGwgYmUgbmVlZGVkIGVzcGVjaWFsbHkgZm9yIHN5c3RlbXMgcnVubmluZyBvbiBh
-Cj4gc2luZ2xlIHZjcHUgKGUuZy4gc21hbGwgZ3Vlc3RzKSwgYXMgdGhlIC5pcnFfc2V0X2FmZmlu
-aXR5KCkgY2FsbGJhY2sKPiB3b24ndCBiZSBjYWxsZWQgaW4gdGhpcyBjYXNlIHdoZW4gc3RhcnRp
-bmcgdGhlIGlycS4KClRoYXQncyByaWdodCwgYnV0IG5vdCBsaW1pdGVkIHRvIEFSTS4gVGhlIHNh
-bWUgcHJvYmxlbSBleGlzdHMgb24geDg2IFVQLgpTbyB5ZXMsIHRoZSBjYWxsIG1ha2VzIHNlbnNl
-LCBidXQgdGhlIGNoYW5nZWxvZyBpcyBub3QgcmVhbGx5IHVzZWZ1bC4KTGV0IG1lIGFkZCBhIGNv
-bW1lbnQgdG8gdGhpcy4KClRoYW5rcywKCiAgICAgICAgdGdseApfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1k
-ZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+T24gRnJpLCBEZWMgMTEsIDIwMjAgYXQgMDg6NTA6NTNBTSArMDEwMCwgVGhvbWFzIEhlbGxzdHLD
+tm0gKEludGVsKSB3cm90ZToKCj4gTXkgdW5kZXJzdGFuZGluZyBvZiB0aGlzIHBhcnRpY3VsYXIg
+Y2FzZSBpcyB0aGF0IGhhcmR3YXJlIHdvdWxkIGNvbnRpbnVlIHRvCj4gRE1BIHRvIG9ycGhhbmVk
+IHBhZ2VzIHRoYXQgYXJlIHBpbm5lZCB1bnRpbCB0aGUgZHJpdmVyIGlzIGRvbmUgd2l0aAo+IERN
+QSwKCm1tdSBub3RpZmllciByZXBsYWNlcyBwaW5uaW5nIGFzIHRoZSBsb2NraW5nIG1lY2hhbmlz
+bS4gRHJpdmVycyB1c2luZwptbXUgbm90aWZpZXIgc2hvdWxkIG5vdCBiZSB0YWtpbmcgcGlucy4K
+CktlZXAgaW4gbWluZCB0aGlzIHdhcyBhbGwgYnVpbHQgZm9yIEhXIHdpdGggcmVhbCBzaGFkb3cg
+cGFnZSB0YWJsZXMKdGhhdCBjYW4gZG8gZmluZSBncmFpbmVkIG1hbmlwdWxhdGlvbi4KClRoZSBH
+UFUgdmVyc2lvbiBvZiB0aGlzIHRvIGluc3RlYWQgbWFuaXB1bGF0ZSBhIGNvbW1hbmQgcXVldWUg
+aXMgYSBiaWcKYWJlcnJhdGlvbiBmcm9tIHdoYXQgd2FzIGludGVuZGVkLgoKSmFzb24KX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxp
+bmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
