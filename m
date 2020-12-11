@@ -1,44 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A5A2D7966
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 16:33:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE7D2D7A16
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 16:58:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C99BD6E842;
-	Fri, 11 Dec 2020 15:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F6C66E40C;
+	Fri, 11 Dec 2020 15:58:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC4276E842
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 15:33:21 +0000 (UTC)
-IronPort-SDR: Cadv96qsRxd/sFIFfeZN6ocwhqrHzyPdTEUtmxGBYxImHEKlZ1rnX9Mguxz/9v9mkkQnzzPnD4
- jXknc7K6mkuA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9832"; a="174594065"
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="174594065"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 07:30:31 -0800
-IronPort-SDR: sud/gx2DkmOYPu6zNeA/cfbA3SsUZTOq1vp4hJ00ByPeHNZVu1jsq+YCvkirxSYJelySQL7UEo
- h2bEcDxcCDLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="409282889"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by orsmga001.jf.intel.com with SMTP; 11 Dec 2020 07:30:28 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 11 Dec 2020 17:30:27 +0200
-Date: Fri, 11 Dec 2020 17:30:27 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Subject: Re: [RFC PATCH 1/2] drm: RFC add choice to use dynamic debug in
- drm-debug
-Message-ID: <X9OQkyWYBpBb+PDC@intel.com>
-References: <20201204035318.332419-1-jim.cromie@gmail.com>
- <20201204035318.332419-2-jim.cromie@gmail.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC8176E323
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 15:58:50 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id a3so9050206wmb.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 07:58:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MaHCZAdgD/UD/VQUsOk2P9+31rgrVdxvdPUjva6U0D0=;
+ b=dBiIfNYv+sMwwUJpozHRM5Ij3tA0ayCxirzqnF22PWNj+NAgWx2+A30gj3+An9jk8l
+ K62Ha4GLOamQH54m1DNhnJr9j9kadnh/Vhy0XC4OsT49MhrZo68UfgdDrXb239AjwCuy
+ NNm7q83o+jzUmSfkAxRiZuuBXUlVBT3HX5R5w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MaHCZAdgD/UD/VQUsOk2P9+31rgrVdxvdPUjva6U0D0=;
+ b=QycLAMwcZugTXDsMqqOzZLtX+s55NIF8o/wcW5HVkXXH7Q2zQ8cm6ecO/9Nkbp3fiZ
+ q5uli06yB7E5VflwaL76UIpteIs34MHle9iJuiK9fgmZN/58BDgV5hGSevNAPLOyekGd
+ 8mThHsOJX5LsJW9Oyjs2nQWwSdheQb7ijSeh6MTPIGvpy5L48dOBptahwFvQep6BJ364
+ PYi1PZqxm3oaxwj0KNhfbuPbK+Fsjt/ZZYrCkltWIxKK8l0aYPffCcRnJsD+ZZH7NsHg
+ 0p/3tNZM2iIKG3BX+QEiza8Vxrl4iy+mmaxp4wMBWBQsy/8WlalLH7+EIE/EACp6Vx6a
+ LX5Q==
+X-Gm-Message-State: AOAM533JqE2dzTO+7jNGMksMogHD30nY7bzbhkAwjOCH1k1MYrTOtDc3
+ JL+o80QYqc5IO+VdNqedsR5JQ8a8MyxmZQ==
+X-Google-Smtp-Source: ABdhPJzp6riLVmKPkMw3+mlDUkh18/Y4i0QR8rA3Sfj5Yv5uXpu0DO9HIJGbDkZWtipf8LC0u1OFZw==
+X-Received: by 2002:a7b:c091:: with SMTP id r17mr10687617wmh.129.1607702329299; 
+ Fri, 11 Dec 2020 07:58:49 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id z21sm14828241wmk.20.2020.12.11.07.58.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 07:58:48 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH 1/4] dma-buf: Remove kmap kerneldoc vestiges
+Date: Fri, 11 Dec 2020 16:58:40 +0100
+Message-Id: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201204035318.332419-2-jim.cromie@gmail.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,471 +61,112 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Thomas Zimmermann <tzimmermann@suse.de>,
- jbaron@akamai.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 03, 2020 at 08:53:17PM -0700, Jim Cromie wrote:
-> drm's debug system uses distinct categories of debug messages, mapped
-> to bits in drm.debug.  Currently, code does a lot of unlikely bit-mask
-> checks on drm.debug (in drm_debug_enabled), we can use dynamic debug
-> instead, and get all that jump_label goodness.
-> =
-
-> RFC: dynamic debug has no concept of category, but we can do without
-> one if we can prepend a class-prefix to each printk format.  Then we
-> can use "format ^prefix" to select the whole category with one query.
-> This is a log-facing and user visible change, but it seems unlikely to
-> cause trouble for log watchers; they're not relying on the absence of
-> class prefix strings.
-> =
-
-> This conversion yields ~2100 new callsites on my i7 laptop:
-> =
-
->   dyndbg: 195 debug prints in module drm_kms_helper
->   dyndbg: 298 debug prints in module drm
->   dyndbg: 1630 debug prints in module i915
-> =
-
-> Since this change has wide-ranging effects (many drm drivers, with
-> many callsites, and kernel image growth), and most vendors don't
-> enable DYNAMIC_DEBUG, we supplement the existing mechanism, adding
-> CONFIG_DRM_USE_DYNAMIC_DEBUG to enable the new one.
-> =
-
-> The indirection/switchover has a few parts:
-> =
-
-> 1 a new callback on drm.debug which calls dynamic_debug_exec_queries
->   to map those bits to specific query/commands
->   dynamic_debug_exec_queries("format ^drm:kms: +p", "drm*");
-> =
-
-> 2 a "converted" or "classy" DRM_UT_* map
->   similar to DRM_UT_* ( symbol =3D> bit-mask )
->   named it  cDRM_UT_* ( symbol =3D> format-class-prefix-string )
-> =
-
->   cDRM_UT_* is either ( CONFIG_DRM_USE_DYNAMIC_DEBUG )
->   legacy: cDRM_UT_* <-- DRM_UT_*
->   enabled:
->   +#define cDRM_UT_KMS    "drm:kms: "
->   +#define cDRM_UT_PRIME  "drm:prime: "
->   +#define cDRM_UT_ATOMIC "drm:atomic: "
-> =
-
->   these are similar to "gvt: cmd:" in i915/gvt
->   and effectively a replacement for DRM_NAME
->   please bikeshed on keys, values. latter are log-facing.
-> =
-
-> 3 drm_dev_dbg & drm_debug are renamed (prefixed with '_')
->   old names are now macros, which are ifdefd
->   legacy:  -> to renamed fn
->   enabled: -> dev_dbg & pr_debug, after prepending prefix to format.
-> =
-
-> 4 names in (2) are called from DRM_DEBUG_<Category> and drm_dbg_<Category=
->.
->   all these get "converted" to use cDRM_UT_*, to get right token type.
-> =
-
-> RFC: for dynamic debug, category is a source-facing addition;
-> something like pr_debug_cat(cat, ...) would do it, iff cat is a
-> compile-time const.  Note that cat isn't needed in the printing, it
-> would be saved into a new field in struct _ddebug, and used only for
-> callsite selection, activation and control.
-> =
-
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> ---
->  drivers/gpu/drm/Kconfig     | 13 ++++++
->  drivers/gpu/drm/drm_print.c | 75 ++++++++++++++++++++++++++++--
->  include/drm/drm_print.h     | 92 +++++++++++++++++++++++++++----------
->  3 files changed, 153 insertions(+), 27 deletions(-)
-> =
-
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 147d61b9674e..854bc1ad21fb 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -54,6 +54,19 @@ config DRM_DEBUG_MM
->  =
-
->  	  If in doubt, say "N".
->  =
-
-> +config DRM_USE_DYNAMIC_DEBUG
-> +	bool "use dynamic debug to implement drm.debug"
-> +	default n
-> +	depends on DRM
-> +	depends on DYNAMIC_DEBUG
-> +	depends on JUMP_LABEL
-> +	help
-> +	  The drm debug category facility does a lot of unlikely bit-field
-> +	  tests at runtime; while cheap individually, the cost accumulates.
-> +	  This option uses dynamic debug facility (if configured and
-> +	  using jump_label) to avoid those runtime checks, patching
-> +	  the kernel when those debugs are desired.
-> +
->  config DRM_DEBUG_SELFTEST
->  	tristate "kselftests for DRM"
->  	depends on DRM
-> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> index 111b932cf2a9..e2acdfc7088b 100644
-> --- a/drivers/gpu/drm/drm_print.c
-> +++ b/drivers/gpu/drm/drm_print.c
-> @@ -52,8 +52,75 @@ MODULE_PARM_DESC(debug, "Enable debug output, where ea=
-ch bit enables a debug cat
->  "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
->  "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
->  "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-> +
-> +#ifndef CONFIG_DRM_USE_DYNAMIC_DEBUG
->  module_param_named(debug, __drm_debug, int, 0600);
->  =
-
-> +#else
-> +static char *format_class_prefixes[] =3D {
-> +	cDRM_UT_CORE,
-> +	cDRM_UT_DRIVER,
-> +	cDRM_UT_KMS,
-> +	cDRM_UT_PRIME,
-> +	cDRM_UT_ATOMIC,
-> +	cDRM_UT_VBL,
-> +	cDRM_UT_STATE,
-> +	cDRM_UT_LEASE,
-> +	cDRM_UT_DP,
-> +	cDRM_UT_DRMRES
-> +};
-> +
-> +#define OUR_QUERY_SIZE 64 /* > strlen "format '^%s' %cp" + longest prefi=
-x */
-> +
-> +static int param_set_dyndbg(const char *instr, const struct kernel_param=
- *kp)
-> +{
-> +	unsigned int val;
-> +	unsigned long changes, result;
-> +	int rc, chgct =3D 0, totct =3D 0, bitpos;
-> +	char query[OUR_QUERY_SIZE];
-> +
-> +	rc =3D kstrtouint(instr, 0, &val);
-> +	if (rc) {
-> +		pr_err("%s: failed\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +	result =3D val;
-> +	changes =3D result ^ __drm_debug;
-> +
-> +	pr_debug("changes:0x%lx from result:0x%lx\n", changes, result);
-> +
-> +	for_each_set_bit(bitpos, &changes, ARRAY_SIZE(format_class_prefixes)) {
-> +
-> +		sprintf(query, "format '^%s' %cp", format_class_prefixes[bitpos],
-> +			test_bit(bitpos, &result) ? '+' : '-');
-> +
-> +		chgct =3D dynamic_debug_exec_queries(query, "drm*");
-> +		if (chgct < 0) {
-> +			pr_err("%s: exec err:%d on: %s\n", __func__, chgct, query);
-> +			continue;
-> +		}
-> +		pr_debug("change ct:%d on %s\n", chgct, query);
-> +		totct +=3D chgct;
-> +	}
-> +	pr_debug("total changes: %d\n", totct);
-> +	__drm_debug =3D result;
-> +	return 0;
-> +}
-
-Is there an actual need to go through dyndbg and do all this stringy
-stuff, or would just eg. a static keys array for the debug categories
-get us the benefits of jump_label?
-
-> +
-> +static int param_get_dyndbg(char *buffer, const struct kernel_param *kp)
-> +{
-> +	pr_debug("debug-val:0x%x %u\n", __drm_debug, *((unsigned int *)kp->arg)=
-);
-> +	return scnprintf(buffer, PAGE_SIZE, "%u\n",
-> +			 *((unsigned int *)kp->arg));
-> +}
-> +static const struct kernel_param_ops param_ops_debug =3D {
-> +	.set =3D param_set_dyndbg,
-> +	.get =3D param_get_dyndbg,
-> +};
-> +module_param_cb(debug, &param_ops_debug, &__drm_debug, 0644);
-> +
-> +#endif /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
-> +
->  void __drm_puts_coredump(struct drm_printer *p, const char *str)
->  {
->  	struct drm_print_iterator *iterator =3D p->arg;
-> @@ -256,7 +323,7 @@ void drm_dev_printk(const struct device *dev, const c=
-har *level,
->  }
->  EXPORT_SYMBOL(drm_dev_printk);
->  =
-
-> -void drm_dev_dbg(const struct device *dev, enum drm_debug_category categ=
-ory,
-> +void _drm_dev_dbg(const struct device *dev, enum drm_debug_category cate=
-gory,
->  		 const char *format, ...)
->  {
->  	struct va_format vaf;
-> @@ -278,9 +345,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
-ebug_category category,
->  =
-
->  	va_end(args);
->  }
-> -EXPORT_SYMBOL(drm_dev_dbg);
-> +EXPORT_SYMBOL(_drm_dev_dbg);
->  =
-
-> -void __drm_dbg(enum drm_debug_category category, const char *format, ...)
-> +void ___drm_dbg(enum drm_debug_category category, const char *format, ..=
-.)
->  {
->  	struct va_format vaf;
->  	va_list args;
-> @@ -297,7 +364,7 @@ void __drm_dbg(enum drm_debug_category category, cons=
-t char *format, ...)
->  =
-
->  	va_end(args);
->  }
-> -EXPORT_SYMBOL(__drm_dbg);
-> +EXPORT_SYMBOL(___drm_dbg);
->  =
-
->  void __drm_err(const char *format, ...)
->  {
-> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> index f32d179e139d..2bd5c38aa100 100644
-> --- a/include/drm/drm_print.h
-> +++ b/include/drm/drm_print.h
-> @@ -319,6 +319,51 @@ enum drm_debug_category {
->  	DRM_UT_DRMRES		=3D 0x200,
->  };
->  =
-
-> +#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-> +
-> +/* Use legacy drm-debug functions, implying drm_debug_enabled().
-> + * For cDRM_UT_* (converted category), identity map to DRM_UT_*
-> + */
-> +#define __drm_dbg(cls, fmt, ...)					\
-> +	___drm_dbg(cls, fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg(dev, cls, fmt, ...)					\
-> +	_drm_dev_dbg(dev, cls, fmt, ##__VA_ARGS__)
-> +
-> +#define cDRM_UT_CORE	DRM_UT_CORE
-> +#define cDRM_UT_DRIVER	DRM_UT_DRIVER
-> +#define cDRM_UT_KMS	DRM_UT_KMS
-> +#define cDRM_UT_PRIME	DRM_UT_PRIME
-> +#define cDRM_UT_ATOMIC	DRM_UT_ATOMIC
-> +#define cDRM_UT_VBL	DRM_UT_VBL
-> +#define cDRM_UT_STATE	DRM_UT_STATE
-> +#define cDRM_UT_LEASE	DRM_UT_LEASE
-> +#define cDRM_UT_DP	DRM_UT_DP
-> +#define cDRM_UT_DRMRES	DRM_UT_DRMRES
-> +
-> +#else /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
-> +
-> +/* use dynamic_debug to avoid drm_debug_enabled.
-> + * dyndbg has no category, so we prefix format with a class-string,
-> + * and alter cDRM_UT_* to provide those class strings
-> + */
-> +#define __drm_dbg(cls, fmt, ...)					\
-> +	pr_debug(cls # fmt, ##__VA_ARGS__)
-> +#define drm_dev_dbg(dev, cls, fmt, ...)					\
-> +	dev_dbg(dev, cls fmt, ##__VA_ARGS__)
-> +
-> +#define cDRM_UT_CORE	"drm:core: "
-> +#define cDRM_UT_DRIVER	"drm:drvr: "
-> +#define cDRM_UT_KMS	"drm:kms: "
-> +#define cDRM_UT_PRIME	"drm:prime: "
-> +#define cDRM_UT_ATOMIC	"drm:atomic: "
-> +#define cDRM_UT_VBL	"drm:vbl: "
-> +#define cDRM_UT_STATE	"drm:state: "
-> +#define cDRM_UT_LEASE	"drm:lease: "
-> +#define cDRM_UT_DP	"drm:dp: "
-> +#define cDRM_UT_DRMRES	"drm:res "
-> +
-> +#endif /* !CONFIG_DRM_USE_DYNAMIC_DEBUG */
-> +
->  static inline bool drm_debug_enabled(enum drm_debug_category category)
->  {
->  	return unlikely(__drm_debug & category);
-> @@ -334,7 +379,7 @@ __printf(3, 4)
->  void drm_dev_printk(const struct device *dev, const char *level,
->  		    const char *format, ...);
->  __printf(3, 4)
-> -void drm_dev_dbg(const struct device *dev, enum drm_debug_category categ=
-ory,
-> +void _drm_dev_dbg(const struct device *dev, enum drm_debug_category cate=
-gory,
->  		 const char *format, ...);
->  =
-
->  /**
-> @@ -383,7 +428,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
-ebug_category category,
->   * @fmt: printf() like format string.
->   */
->  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
-> -	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg(dev, cDRM_UT_CORE, fmt, ##__VA_ARGS__)
->  /**
->   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the=
- driver
->   *
-> @@ -391,7 +436,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
-ebug_category category,
->   * @fmt: printf() like format string.
->   */
->  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
-> -	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg(dev, cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
->  /**
->   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
->   *
-> @@ -443,25 +488,25 @@ void drm_dev_dbg(const struct device *dev, enum drm=
-_debug_category category,
->  =
-
->  =
-
->  #define drm_dbg_core(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_CORE, fmt, ##__VA_ARGS__)
->  #define drm_dbg(drm, fmt, ...)						\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
->  #define drm_dbg_kms(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_KMS, fmt, ##__VA_ARGS__)
->  #define drm_dbg_prime(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_PRIME, fmt, ##__VA_ARGS__)
->  #define drm_dbg_atomic(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
->  #define drm_dbg_vbl(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_VBL, fmt, ##__VA_ARGS__)
->  #define drm_dbg_state(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_STATE, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_STATE, fmt, ##__VA_ARGS__)
->  #define drm_dbg_lease(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_LEASE, fmt, ##__VA_ARGS__)
->  #define drm_dbg_dp(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_DP, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_DP, fmt, ##__VA_ARGS__)
->  #define drm_dbg_drmres(drm, fmt, ...)					\
-> -	drm_dev_dbg((drm)->dev, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-> +	drm_dev_dbg((drm)->dev, cDRM_UT_DRMRES, fmt, ##__VA_ARGS__)
->  =
-
->  =
-
->  /*
-> @@ -471,7 +516,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_d=
-ebug_category category,
->   */
->  =
-
->  __printf(2, 3)
-> -void __drm_dbg(enum drm_debug_category category, const char *format, ...=
-);
-> +void ___drm_dbg(enum drm_debug_category category, const char *format, ..=
-.);
->  __printf(1, 2)
->  void __drm_err(const char *format, ...);
->  =
-
-> @@ -500,29 +545,30 @@ void __drm_err(const char *format, ...);
->  #define DRM_ERROR_RATELIMITED(fmt, ...)					\
->  	DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
->  =
-
-> +
->  #define DRM_DEBUG(fmt, ...)						\
-> -	__drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_CORE, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_DRIVER(fmt, ...)					\
-> -	__drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_DRIVER, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_KMS(fmt, ...)						\
-> -	__drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_KMS, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_PRIME(fmt, ...)					\
-> -	__drm_dbg(DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_PRIME, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_ATOMIC(fmt, ...)					\
-> -	__drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_VBL(fmt, ...)						\
-> -	__drm_dbg(DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_VBL, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_LEASE(fmt, ...)					\
-> -	__drm_dbg(DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_LEASE, fmt, ##__VA_ARGS__)
->  =
-
->  #define DRM_DEBUG_DP(fmt, ...)						\
-> -	__drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
-> +	__drm_dbg(cDRM_UT_DP, fmt, ## __VA_ARGS__)
->  =
-
->  =
-
->  #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)				\
-> @@ -531,7 +577,7 @@ void __drm_err(const char *format, ...);
->  				      DEFAULT_RATELIMIT_INTERVAL,       \
->  				      DEFAULT_RATELIMIT_BURST);         \
->  	if (__ratelimit(&_rs))						\
-> -		drm_dev_dbg(NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__);	\
-> +		drm_dev_dbg(NULL, cDRM_UT_KMS, fmt, ##__VA_ARGS__);	\
->  })
->  =
-
->  /*
-> -- =
-
-> 2.28.0
-> =
-
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+QWxzbyB0cnkgdG8gY2xhcmlmeSBhIGJpdCB3aGVuIGRtYV9idWZfYmVnaW4vZW5kX2NwdV9hY2Nl
+c3Mgc2hvdWxkCmJlIGNhbGxlZC4KClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0ZXIgPGRhbmll
+bC52ZXR0ZXJAaW50ZWwuY29tPgpDYzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1
+c2UuZGU+CkNjOiBTdW1pdCBTZW13YWwgPHN1bWl0LnNlbXdhbEBsaW5hcm8ub3JnPgpDYzogIkNo
+cmlzdGlhbiBLw7ZuaWciIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+CkNjOiBsaW51eC1tZWRp
+YUB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbmFyby1tbS1zaWdAbGlzdHMubGluYXJvLm9yZwotLS0K
+IGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAyMCArKysrKysrKysrKysrKy0tLS0tLQogaW5j
+bHVkZS9saW51eC9kbWEtYnVmLmggICB8IDI1ICsrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0KIDIg
+ZmlsZXMgY2hhbmdlZCwgMjMgaW5zZXJ0aW9ucygrKSwgMjIgZGVsZXRpb25zKC0pCgpkaWZmIC0t
+Z2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVm
+LmMKaW5kZXggZTYzNjg0ZDRjZDkwLi5hMTJmZGZmYTEzMGYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
+ZG1hLWJ1Zi9kbWEtYnVmLmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAtMTAw
+MSwxNSArMTAwMSwxNSBAQCBFWFBPUlRfU1lNQk9MX0dQTChkbWFfYnVmX21vdmVfbm90aWZ5KTsK
+ICAqICAgdm1hbGxvYyBzcGFjZSBtaWdodCBiZSBsaW1pdGVkIGFuZCByZXN1bHQgaW4gdm1hcCBj
+YWxscyBmYWlsaW5nLgogICoKICAqICAgSW50ZXJmYWNlczo6CisgKgogICogICAgICB2b2lkIFwq
+ZG1hX2J1Zl92bWFwKHN0cnVjdCBkbWFfYnVmIFwqZG1hYnVmKQogICogICAgICB2b2lkIGRtYV9i
+dWZfdnVubWFwKHN0cnVjdCBkbWFfYnVmIFwqZG1hYnVmLCB2b2lkIFwqdmFkZHIpCiAgKgogICog
+ICBUaGUgdm1hcCBjYWxsIGNhbiBmYWlsIGlmIHRoZXJlIGlzIG5vIHZtYXAgc3VwcG9ydCBpbiB0
+aGUgZXhwb3J0ZXIsIG9yIGlmCi0gKiAgIGl0IHJ1bnMgb3V0IG9mIHZtYWxsb2Mgc3BhY2UuIEZh
+bGxiYWNrIHRvIGttYXAgc2hvdWxkIGJlIGltcGxlbWVudGVkLiBOb3RlCi0gKiAgIHRoYXQgdGhl
+IGRtYS1idWYgbGF5ZXIga2VlcHMgYSByZWZlcmVuY2UgY291bnQgZm9yIGFsbCB2bWFwIGFjY2Vz
+cyBhbmQKLSAqICAgY2FsbHMgZG93biBpbnRvIHRoZSBleHBvcnRlcidzIHZtYXAgZnVuY3Rpb24g
+b25seSB3aGVuIG5vIHZtYXBwaW5nIGV4aXN0cywKLSAqICAgYW5kIG9ubHkgdW5tYXBzIGl0IG9u
+Y2UuIFByb3RlY3Rpb24gYWdhaW5zdCBjb25jdXJyZW50IHZtYXAvdnVubWFwIGNhbGxzIGlzCi0g
+KiAgIHByb3ZpZGVkIGJ5IHRha2luZyB0aGUgZG1hX2J1Zi0+bG9jayBtdXRleC4KKyAqICAgaXQg
+cnVucyBvdXQgb2Ygdm1hbGxvYyBzcGFjZS4gTm90ZSB0aGF0IHRoZSBkbWEtYnVmIGxheWVyIGtl
+ZXBzIGEgcmVmZXJlbmNlCisgKiAgIGNvdW50IGZvciBhbGwgdm1hcCBhY2Nlc3MgYW5kIGNhbGxz
+IGRvd24gaW50byB0aGUgZXhwb3J0ZXIncyB2bWFwIGZ1bmN0aW9uCisgKiAgIG9ubHkgd2hlbiBu
+byB2bWFwcGluZyBleGlzdHMsIGFuZCBvbmx5IHVubWFwcyBpdCBvbmNlLiBQcm90ZWN0aW9uIGFn
+YWluc3QKKyAqICAgY29uY3VycmVudCB2bWFwL3Z1bm1hcCBjYWxscyBpcyBwcm92aWRlZCBieSB0
+YWtpbmcgdGhlICZkbWFfYnVmLmxvY2sgbXV0ZXguCiAgKgogICogLSBGb3IgZnVsbCBjb21wYXRp
+YmlsaXR5IG9uIHRoZSBpbXBvcnRlciBzaWRlIHdpdGggZXhpc3RpbmcgdXNlcnNwYWNlCiAgKiAg
+IGludGVyZmFjZXMsIHdoaWNoIG1pZ2h0IGFscmVhZHkgc3VwcG9ydCBtbWFwJ2luZyBidWZmZXJz
+LiBUaGlzIGlzIG5lZWRlZCBpbgpAQCAtMTA5OCw2ICsxMDk4LDExIEBAIHN0YXRpYyBpbnQgX19k
+bWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3Moc3RydWN0IGRtYV9idWYgKmRtYWJ1ZiwKICAqIGRtYV9i
+dWZfZW5kX2NwdV9hY2Nlc3MoKS4gT25seSB3aGVuIGNwdSBhY2Nlc3MgaXMgYnJha2V0ZWQgYnkg
+Ym90aCBjYWxscyBpcwogICogaXQgZ3VhcmFudGVlZCB0byBiZSBjb2hlcmVudCB3aXRoIG90aGVy
+IERNQSBhY2Nlc3MuCiAgKgorICogVGhpcyBmdW5jdGlvbiB3aWxsIGFsc28gd2FpdCBmb3IgYW55
+IERNQSB0cmFuc2FjdGlvbnMgdHJhY2tlZCB0aHJvdWdoCisgKiBpbXBsaWNpdCBzeW5jaHJvbml6
+YXRpb24gaW4gJmRtYV9idWYucmVzdi4gRm9yIERNQSB0cmFuc2FjdGlvbnMgd2l0aCBleHBsaWNp
+dAorICogc3luY2hyb25pemF0aW9uIHRoaXMgZnVuY3Rpb24gd2lsbCBvbmx5IGVuc3VyZSBjYWNo
+ZSBjb2hlcmVuY3ksIGNhbGxlcnMgbXVzdAorICogZW5zdXJlIHN5bmNocm9uaXphdGlvbiB3aXRo
+IHN1Y2ggRE1BIHRyYW5zYWN0aW9ucyBvbiB0aGVpciBvd24uCisgKgogICogQ2FuIHJldHVybiBu
+ZWdhdGl2ZSBlcnJvciB2YWx1ZXMsIHJldHVybnMgMCBvbiBzdWNjZXNzLgogICovCiBpbnQgZG1h
+X2J1Zl9iZWdpbl9jcHVfYWNjZXNzKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsCkBAIC0xMTk5LDcg
+KzEyMDQsMTAgQEAgRVhQT1JUX1NZTUJPTF9HUEwoZG1hX2J1Zl9tbWFwKTsKICAqIFRoaXMgY2Fs
+bCBtYXkgZmFpbCBkdWUgdG8gbGFjayBvZiB2aXJ0dWFsIG1hcHBpbmcgYWRkcmVzcyBzcGFjZS4K
+ICAqIFRoZXNlIGNhbGxzIGFyZSBvcHRpb25hbCBpbiBkcml2ZXJzLiBUaGUgaW50ZW5kZWQgdXNl
+IGZvciB0aGVtCiAgKiBpcyBmb3IgbWFwcGluZyBvYmplY3RzIGxpbmVhciBpbiBrZXJuZWwgc3Bh
+Y2UgZm9yIGhpZ2ggdXNlIG9iamVjdHMuCi0gKiBQbGVhc2UgYXR0ZW1wdCB0byB1c2Uga21hcC9r
+dW5tYXAgYmVmb3JlIHRoaW5raW5nIGFib3V0IHRoZXNlIGludGVyZmFjZXMuCisgKgorICogVG8g
+ZW5zdXJlIGNvaGVyZW5jeSB1c2VycyBtdXN0IGNhbGwgZG1hX2J1Zl9iZWdpbl9jcHVfYWNjZXNz
+KCkgYW5kCisgKiBkbWFfYnVmX2VuZF9jcHVfYWNjZXNzKCkgYXJvdW5kIGFueSBjcHUgYWNjZXNz
+IHBlcmZvcm1lZCB0aHJvdWdoIHRoaXMKKyAqIG1hcHBpbmcuCiAgKgogICogUmV0dXJucyAwIG9u
+IHN1Y2Nlc3MsIG9yIGEgbmVnYXRpdmUgZXJybm8gY29kZSBvdGhlcndpc2UuCiAgKi8KZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgK
+aW5kZXggY2Y3MjY5OWNiMmJjLi43ZWNhMzdjOGIxMGMgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGlu
+dXgvZG1hLWJ1Zi5oCisrKyBiL2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oCkBAIC0xODMsMjQgKzE4
+MywxOSBAQCBzdHJ1Y3QgZG1hX2J1Zl9vcHMgewogCSAqIEBiZWdpbl9jcHVfYWNjZXNzOgogCSAq
+CiAJICogVGhpcyBpcyBjYWxsZWQgZnJvbSBkbWFfYnVmX2JlZ2luX2NwdV9hY2Nlc3MoKSBhbmQg
+YWxsb3dzIHRoZQotCSAqIGV4cG9ydGVyIHRvIGVuc3VyZSB0aGF0IHRoZSBtZW1vcnkgaXMgYWN0
+dWFsbHkgYXZhaWxhYmxlIGZvciBjcHUKLQkgKiBhY2Nlc3MgLSB0aGUgZXhwb3J0ZXIgbWlnaHQg
+bmVlZCB0byBhbGxvY2F0ZSBvciBzd2FwLWluIGFuZCBwaW4gdGhlCi0JICogYmFja2luZyBzdG9y
+YWdlLiBUaGUgZXhwb3J0ZXIgYWxzbyBuZWVkcyB0byBlbnN1cmUgdGhhdCBjcHUgYWNjZXNzIGlz
+Ci0JICogY29oZXJlbnQgZm9yIHRoZSBhY2Nlc3MgZGlyZWN0aW9uLiBUaGUgZGlyZWN0aW9uIGNh
+biBiZSB1c2VkIGJ5IHRoZQotCSAqIGV4cG9ydGVyIHRvIG9wdGltaXplIHRoZSBjYWNoZSBmbHVz
+aGluZywgaS5lLiBhY2Nlc3Mgd2l0aCBhIGRpZmZlcmVudAorCSAqIGV4cG9ydGVyIHRvIGVuc3Vy
+ZSB0aGF0IHRoZSBtZW1vcnkgaXMgYWN0dWFsbHkgY29oZXJlbnQgZm9yIGNwdQorCSAqIGFjY2Vz
+cy4gVGhlIGV4cG9ydGVyIGFsc28gbmVlZHMgdG8gZW5zdXJlIHRoYXQgY3B1IGFjY2VzcyBpcyBj
+b2hlcmVudAorCSAqIGZvciB0aGUgYWNjZXNzIGRpcmVjdGlvbi4gVGhlIGRpcmVjdGlvbiBjYW4g
+YmUgdXNlZCBieSB0aGUgZXhwb3J0ZXIKKwkgKiB0byBvcHRpbWl6ZSB0aGUgY2FjaGUgZmx1c2hp
+bmcsIGkuZS4gYWNjZXNzIHdpdGggYSBkaWZmZXJlbnQKIAkgKiBkaXJlY3Rpb24gKHJlYWQgaW5z
+dGVhZCBvZiB3cml0ZSkgbWlnaHQgcmV0dXJuIHN0YWxlIG9yIGV2ZW4gYm9ndXMKIAkgKiBkYXRh
+IChlLmcuIHdoZW4gdGhlIGV4cG9ydGVyIG5lZWRzIHRvIGNvcHkgdGhlIGRhdGEgdG8gdGVtcG9y
+YXJ5CiAJICogc3RvcmFnZSkuCiAJICoKLQkgKiBUaGlzIGNhbGxiYWNrIGlzIG9wdGlvbmFsLgor
+CSAqIE5vdGUgdGhhdCB0aGlzIGlzIGJvdGggY2FsbGVkIHRocm91Z2ggdGhlIERNQV9CVUZfSU9D
+VExfU1lOQyBJT0NUTAorCSAqIGNvbW1hbmQgZm9yIHVzZXJzcGFjZSBtYXBwaW5ncyBlc3RhYmxp
+c2hlZCB0aHJvdWdoIEBtbWFwLCBhbmQgYWxzbworCSAqIGZvciBrZXJuZWwgbWFwcGluZ3MgZXN0
+YWJsaXNoZWQgd2l0aCBAdm1hcC4KIAkgKgotCSAqIEZJWE1FOiBUaGlzIGlzIGJvdGggY2FsbGVk
+IHRocm91Z2ggdGhlIERNQV9CVUZfSU9DVExfU1lOQyBjb21tYW5kCi0JICogZnJvbSB1c2Vyc3Bh
+Y2UgKHdoZXJlIHN0b3JhZ2Ugc2hvdWxkbid0IGJlIHBpbm5lZCB0byBhdm9pZCBoYW5kaW5nCi0J
+ICogZGUtZmFjdG9yIG1sb2NrIHJpZ2h0cyB0byB1c2Vyc3BhY2UpIGFuZCBmb3IgdGhlIGtlcm5l
+bC1pbnRlcm5hbAotCSAqIHVzZXJzIG9mIHRoZSB2YXJpb3VzIGttYXAgaW50ZXJmYWNlcywgd2hl
+cmUgdGhlIGJhY2tpbmcgc3RvcmFnZSBtdXN0Ci0JICogYmUgcGlubmVkIHRvIGd1YXJhbnRlZSB0
+aGF0IHRoZSBhdG9taWMga21hcCBjYWxscyBjYW4gc3VjY2VlZC4gU2luY2UKLQkgKiB0aGVyZSdz
+IG5vIGluLWtlcm5lbCB1c2VycyBvZiB0aGUga21hcCBpbnRlcmZhY2VzIHlldCB0aGlzIGlzbid0
+IGEKLQkgKiByZWFsIHByb2JsZW0uCisJICogVGhpcyBjYWxsYmFjayBpcyBvcHRpb25hbC4KIAkg
+KgogCSAqIFJldHVybnM6CiAJICoKQEAgLTIxNiw5ICsyMTEsNyBAQCBzdHJ1Y3QgZG1hX2J1Zl9v
+cHMgewogCSAqCiAJICogVGhpcyBpcyBjYWxsZWQgZnJvbSBkbWFfYnVmX2VuZF9jcHVfYWNjZXNz
+KCkgd2hlbiB0aGUgaW1wb3J0ZXIgaXMKIAkgKiBkb25lIGFjY2Vzc2luZyB0aGUgQ1BVLiBUaGUg
+ZXhwb3J0ZXIgY2FuIHVzZSB0aGlzIHRvIGZsdXNoIGNhY2hlcyBhbmQKLQkgKiB1bnBpbiBhbnkg
+cmVzb3VyY2VzIHBpbm5lZCBpbiBAYmVnaW5fY3B1X2FjY2Vzcy4KLQkgKiBUaGUgcmVzdWx0IG9m
+IGFueSBkbWFfYnVmIGttYXAgY2FsbHMgYWZ0ZXIgZW5kX2NwdV9hY2Nlc3MgaXMKLQkgKiB1bmRl
+ZmluZWQuCisJICogdW5kbyBhbnl0aGluZyBlbHNlIGRvbmUgaW4gQGJlZ2luX2NwdV9hY2Nlc3Mu
+CiAJICoKIAkgKiBUaGlzIGNhbGxiYWNrIGlzIG9wdGlvbmFsLgogCSAqCi0tIAoyLjI5LjIKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBt
+YWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3Rz
+LmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
