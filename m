@@ -1,54 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E692D807F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 22:11:12 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 596152D8080
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 22:11:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8F256ECA0;
-	Fri, 11 Dec 2020 21:11:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 823826ECA3;
+	Fri, 11 Dec 2020 21:11:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com
- [209.85.161.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 703EE6ECA0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 21:11:08 +0000 (UTC)
-Received: by mail-oo1-f68.google.com with SMTP id x203so2492485ooa.9
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 13:11:08 -0800 (PST)
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+ [209.85.167.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAAEE6ECA3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 21:11:41 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id d189so11389061oig.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 13:11:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=4NTTHHr7mOEfXkNGuntp7FwEGD1KvufY8eCqfkNsfa0=;
- b=TmCRWfah0gH9zj0HhAdrqdyr0Tr+SwSbAZYGUXCXxWDxK0a+bPHK+i9kiQXJ0m7B5O
- rLqFx9sNf1kHbam5n7mXZjOXxo+4bjV+mjozT3KnjT83mKS1EEBtUVToZz10+rvIo3uy
- gtMz6vRXhTs7qTrpelQwwe4qF+Mx6mLWbn4MRrn+TjlGwPhoFKUmo1zf85Ydm8LnQ3zz
- mlJHlcNMlHllTwT5HmlT6/7BdXPEY31oAWk3EoHUOWPnLUqpJqJWpMRXj1BaWgnJAz3l
- Qt3QOyIk78Oxws9DNuBtQolM/gx2tnJBoGVjiNrEQ8FIPa8Y2fKvxUcV3gBcTW6P9JNg
- 4vig==
-X-Gm-Message-State: AOAM531PtjzcVplEB9EqOCsIFQFmtTh5Y0+Yh1IPm3kJY4fGrCq1EdIY
- qyaMEqg40BV6NtAWmJLvLw==
-X-Google-Smtp-Source: ABdhPJwphA/KS8Koyk+lG6TgLm2qa0Xhv6kCYJOy86qcVxZjNNgyYmG8jsym2vhi/WQbA/2+Hm/s0A==
-X-Received: by 2002:a4a:6f01:: with SMTP id h1mr9883394ooc.88.1607721067665;
- Fri, 11 Dec 2020 13:11:07 -0800 (PST)
+ bh=+QcwYARcq+TOO4C9gXJwXmDec1Cs70baMFzxTjYLSAY=;
+ b=nYvUQi11OAzOChCRhjOjN+8NwPUpH6TRTMvMEIoCmT0kM0QadGmmcZW3+7bQicGd80
+ vpmNxBmDh/kYcrY4Rza2ZsXM5KQLCSPhALXjst/llO14uCj/uPeKEC+XTzLHyngoyXYi
+ CwNrK3mF2YKM2FEJkJJr78hwA6jBPxU0w6/Gvf9xtK2t0b/SkDTQ51+adjNfx1AJHmZ1
+ xgMl58dbdApSXESWKXqaVKOjShKjxZGVQbRH5e+fxEHxq8fHxJJf0u/iyPUkoKEvIawI
+ TiJrWjamX2b083g25p6fkxOUpNrX0FIXgmoHz2bOj30F7op99BGdpyIayi6aTLqB0wkC
+ 8XCg==
+X-Gm-Message-State: AOAM532bBbPcXVqdmkoibWB06EwJXkF495b1fOiGtgsYeH2OiZVrHUzG
+ 2IIJsQ4vj2Lhd8uL8COAAg==
+X-Google-Smtp-Source: ABdhPJwsNO3Sd0i4xG8R+1DDF1vPbIPz9yVwmkoU/5YeM2BQv7rSfZvpzd/Fdc8BXMhpv+Jn0EGnCQ==
+X-Received: by 2002:a05:6808:3bc:: with SMTP id
+ n28mr10918843oie.118.1607721101287; 
+ Fri, 11 Dec 2020 13:11:41 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
- by smtp.gmail.com with ESMTPSA id f201sm1888766oig.21.2020.12.11.13.11.05
+ by smtp.gmail.com with ESMTPSA id w40sm1636821ooi.41.2020.12.11.13.11.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 13:11:06 -0800 (PST)
-Received: (nullmailer pid 942618 invoked by uid 1000);
- Fri, 11 Dec 2020 21:11:05 -0000
-Date: Fri, 11 Dec 2020 15:11:05 -0600
+ Fri, 11 Dec 2020 13:11:38 -0800 (PST)
+Received: (nullmailer pid 947560 invoked by uid 1000);
+ Fri, 11 Dec 2020 21:11:37 -0000
+Date: Fri, 11 Dec 2020 15:11:37 -0600
 From: Rob Herring <robh@kernel.org>
 To: Liu Ying <victor.liu@nxp.com>
-Subject: Re: [PATCH v3 3/5] dt-bindings: phy: Convert mixel, mipi-dsi-phy to
- json-schema
-Message-ID: <20201211211105.GA942315@robh.at.kernel.org>
+Subject: Re: [PATCH v3 4/5] dt-bindings: phy: mixel: mipi-dsi-phy: Add Mixel
+ combo PHY support for i.MX8qxp
+Message-ID: <20201211211137.GA946445@robh.at.kernel.org>
 References: <1607651182-12307-1-git-send-email-victor.liu@nxp.com>
- <1607651182-12307-4-git-send-email-victor.liu@nxp.com>
+ <1607651182-12307-5-git-send-email-victor.liu@nxp.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <1607651182-12307-4-git-send-email-victor.liu@nxp.com>
+In-Reply-To: <1607651182-12307-5-git-send-email-victor.liu@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,32 +62,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- airlied@linux.ie, martin.kepplinger@puri.sm, agx@sigxcpu.org,
- narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kishon@ti.com, a.hajda@samsung.com,
- vkoul@kernel.org, robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com,
- kernel@pengutronix.de, robert.chiras@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- linux-imx@nxp.com
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+ martin.kepplinger@puri.sm, airlied@linux.ie, s.hauer@pengutronix.de,
+ jonas@kwiboo.se, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kishon@ti.com, narmstrong@baylibre.com, a.hajda@samsung.com, vkoul@kernel.org,
+ robh+dt@kernel.org, Laurent.pinchart@ideasonboard.com, kernel@pengutronix.de,
+ robert.chiras@nxp.com, shawnguo@kernel.org, agx@sigxcpu.org,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Dec 2020 09:46:20 +0800, Liu Ying wrote:
-> This patch converts the mixel,mipi-dsi-phy binding to
-> DT schema format using json-schema.
-> =
-
-> Comparing to the plain text version, the new binding adds
-> the 'assigned-clocks', 'assigned-clock-parents' and
-> 'assigned-clock-rates' properites, otherwise 'make dtbs_check'
-> would complain that there are mis-matches.  Also, the new
-> binding requires the 'power-domains' property since all potential
-> SoCs that embed this PHY would provide a power domain for it.
-> The example of the new binding takes reference to the latest
-> dphy node in imx8mq.dtsi.
+On Fri, 11 Dec 2020 09:46:21 +0800, Liu Ying wrote:
+> Add support for Mixel MIPI DPHY + LVDS PHY combo IP
+> as found on Freescale i.MX8qxp SoC.
 > =
 
 > Cc: Guido G=FCnther <agx@sigxcpu.org>
@@ -97,21 +87,18 @@ On Fri, 11 Dec 2020 09:46:20 +0800, Liu Ying wrote:
 > Signed-off-by: Liu Ying <victor.liu@nxp.com>
 > ---
 > v2->v3:
-> * Improve the 'clock-names' property by dropping 'items:'.
+> * No change.
 > =
 
 > v1->v2:
-> * Newly introduced in v2.  (Guido)
+> * Add the binding for i.MX8qxp Mixel combo PHY based on the converted bin=
+ding.
+>   (Guido)
 > =
 
->  .../devicetree/bindings/phy/mixel,mipi-dsi-phy.txt | 29 ---------
->  .../bindings/phy/mixel,mipi-dsi-phy.yaml           | 72 ++++++++++++++++=
-++++++
->  2 files changed, 72 insertions(+), 29 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-=
-phy.txt
->  create mode 100644 Documentation/devicetree/bindings/phy/mixel,mipi-dsi-=
-phy.yaml
+>  .../bindings/phy/mixel,mipi-dsi-phy.yaml           | 41 ++++++++++++++++=
+++++--
+>  1 file changed, 38 insertions(+), 3 deletions(-)
 > =
 
 
