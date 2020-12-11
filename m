@@ -1,43 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031492D7825
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:46:10 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEFE2D783F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:53:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0C226E12D;
-	Fri, 11 Dec 2020 14:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56C16E3FC;
+	Fri, 11 Dec 2020 14:53:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3DA6E0AF;
- Fri, 11 Dec 2020 14:46:03 +0000 (UTC)
-IronPort-SDR: gUzMJ1LnKN8ssKYWx+83LYxJefduWlPr+GVSoQDIIxLCtriqJsYVnHXOnNobsYDOYQxTjkJE/V
- ymI5YdR3giiQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="153671941"
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="153671941"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 06:45:52 -0800
-IronPort-SDR: /ngbSrQ1+06qBTxvwHX9Thh+w4yDJG/z1kiOeT2okMe9ZBLH0GEj1D6wvmfD0IQxVHIA+423xX
- GiKwfX8YMVJw==
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="349481698"
-Received: from dkreft-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.158.206])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 06:45:45 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: Re: [RFC 3/5] drm/i915/dp: Remove redundant AUX backlight frequency
- calculations
-In-Reply-To: <20201210012143.729402-4-lyude@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20201210012143.729402-1-lyude@redhat.com>
- <20201210012143.729402-4-lyude@redhat.com>
-Date: Fri, 11 Dec 2020 16:45:41 +0200
-Message-ID: <87eejw765m.fsf@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1716E3BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:53:47 +0000 (UTC)
+X-Gm-Message-State: AOAM533TpWLgf4uG8cYDjOm4SoTxAGGorJJkfAXFbVpFAgrF/xYESZ3C
+ 0NpJwTE5N7SGMug7U1ZiQFfZFrK5LpYHtI0Iyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607698012;
+ bh=kMGlC86uydZtd+hqrVgic6SM+HBSXPFoclUBLRZV+W0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=oIyQEnHRnQVqjF3lPXkM2jdJZPuJrBRV4mjDmkyC7D2YkMytrKxvnLYtY/MuZ8U/Z
+ W2OUDIdIl5P5nA+Grcj7irhjVn0ALUSpEaB9xq3sTtFco4Ioc5EaORLgi+/Fx1x1B1
+ xuTzcH5vpNBd8jobFSsDlhuU/N6m6vTAlNmwOCa52uoTl+L+OKQeUIZBQMMDrnbCbl
+ aWGhg7987Lki9Xe3xfn+ju4MxOO01qIDqA7zvZYo8oun/gimaAkwCOmj43NF6l0pID
+ NrBJeFA4dAUjrbCc1WRzn31ZiyySttmX0+rmnlXaoevbPEZszXOPWO4MHLzSftdiW2
+ VV7HliYYfHt3g==
+X-Google-Smtp-Source: ABdhPJwAF2z+4ptZLYQgJaLTwt2m+q4kzvOhtU1ax7sWHg9DZiTR/rIDy9PKQk1Nfa6Qmwufx6w8ViJve1ZjDZ/qZUQ=
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr14035794wrw.422.1607698005242; 
+ Fri, 11 Dec 2020 06:46:45 -0800 (PST)
 MIME-Version: 1.0
+References: <1607591262-21736-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607591262-21736-2-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_-oL+NyzDKssCjyP=E8Py3oyEK6a6s=XoYvTFymZE9-zQ@mail.gmail.com>
+ <1607647416.12750.3.camel@mhfsdcap03>
+In-Reply-To: <1607647416.12750.3.camel@mhfsdcap03>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 11 Dec 2020 22:46:34 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__y70tF2ORQDgZfk7RfeQm4fKraPnOQWMDnWsBb7HmZnQ@mail.gmail.com>
+Message-ID: <CAAOTY__y70tF2ORQDgZfk7RfeQm4fKraPnOQWMDnWsBb7HmZnQ@mail.gmail.com>
+Subject: Re: [PATCH v8, 1/6] dt-bindings: mediatek: add rdma_fifo_size
+ description for mt8183 display
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,172 +52,75 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>, greg.depoire@gmail.com,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- open list <linux-kernel@vger.kernel.org>,
- =?utf-8?Q?Jos=C3=A9?= Roberto de Souza <jose.souza@intel.com>,
- Manasi Navare <manasi.d.navare@intel.com>, David Airlie <airlied@linux.ie>,
- Sean Paul <seanpaul@chromium.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Dave Airlie <airlied@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 09 Dec 2020, Lyude Paul <lyude@redhat.com> wrote:
-> Noticed this while moving all of the VESA backlight code in i915 over to
-> DRM helpers: it would appear that we calculate the frequency value we want
-> to write to DP_EDP_BACKLIGHT_FREQ_SET twice even though this value never
-> actually changes during runtime. So, let's simplify things by just caching
-> this value in intel_panel.backlight, and re-writing it as-needed.
-
-This isn't a full review, just something I spotted so far. Please see
-inline.
-
-BR,
-Jani.
-
-
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
-> Cc: Jani Nikula <jani.nikula@intel.com>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Cc: greg.depoire@gmail.com
-> ---
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  .../drm/i915/display/intel_dp_aux_backlight.c | 64 ++++++-------------
->  2 files changed, 19 insertions(+), 46 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 5bc5bfbc4551..133c9cb742a7 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -259,6 +259,7 @@ struct intel_panel {
->  
->  		/* DPCD backlight */
->  		u8 pwmgen_bit_count;
-> +		u8 pwm_freq_pre_divider;
->  
->  		struct backlight_device *device;
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> index 4fd536801b14..94ce5ca1affa 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> @@ -129,50 +129,6 @@ intel_dp_aux_set_backlight(const struct drm_connector_state *conn_state, u32 lev
->  	}
->  }
->  
-> -/*
-> - * Set PWM Frequency divider to match desired frequency in vbt.
-> - * The PWM Frequency is calculated as 27Mhz / (F x P).
-> - * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
-> - *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
-> - * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
-> - *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
-> - */
-> -static bool intel_dp_aux_set_pwm_freq(struct intel_connector *connector)
-> -{
-> -	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
-> -	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> -	const u8 pn = connector->panel.backlight.pwmgen_bit_count;
-> -	int freq, fxp, f, fxp_actual, fxp_min, fxp_max;
-> -
-> -	freq = dev_priv->vbt.backlight.pwm_freq_hz;
-> -	if (!freq) {
-> -		drm_dbg_kms(&dev_priv->drm,
-> -			    "Use panel default backlight frequency\n");
-> -		return false;
-> -	}
-> -
-> -	fxp = DIV_ROUND_CLOSEST(KHz(DP_EDP_BACKLIGHT_FREQ_BASE_KHZ), freq);
-> -	f = clamp(DIV_ROUND_CLOSEST(fxp, 1 << pn), 1, 255);
-> -	fxp_actual = f << pn;
-> -
-> -	/* Ensure frequency is within 25% of desired value */
-> -	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
-> -	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
-> -
-> -	if (fxp_min > fxp_actual || fxp_actual > fxp_max) {
-> -		drm_dbg_kms(&dev_priv->drm, "Actual frequency out of range\n");
-> -		return false;
-> -	}
-> -
-> -	if (drm_dp_dpcd_writeb(&intel_dp->aux,
-> -			       DP_EDP_BACKLIGHT_FREQ_SET, (u8) f) < 0) {
-> -		drm_dbg_kms(&dev_priv->drm,
-> -			    "Failed to write aux backlight freq\n");
-> -		return false;
-> -	}
-> -	return true;
-> -}
-> -
->  static void intel_dp_aux_enable_backlight(const struct intel_crtc_state *crtc_state,
->  					  const struct drm_connector_state *conn_state)
->  {
-> @@ -213,9 +169,13 @@ static void intel_dp_aux_enable_backlight(const struct intel_crtc_state *crtc_st
->  		break;
->  	}
->  
-> -	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
-> -		if (intel_dp_aux_set_pwm_freq(connector))
-> +	if (panel->backlight.pwm_freq_pre_divider) {
-> +		if (drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_FREQ_SET,
-> +				       panel->backlight.pwm_freq_pre_divider) == 1)
->  			new_dpcd_buf |= DP_EDP_BACKLIGHT_FREQ_AUX_SET_ENABLE;
-> +		else
-> +			drm_dbg_kms(&i915->drm, "Failed to write aux backlight frequency\n");
-> +	}
->  
->  	if (new_dpcd_buf != dpcd_buf) {
->  		if (drm_dp_dpcd_writeb(&intel_dp->aux,
-> @@ -236,6 +196,14 @@ static void intel_dp_aux_disable_backlight(const struct drm_connector_state *old
->  				 false);
->  }
->  
-> +/*
-> + * Compute PWM frequency divider value based off the frequency provided to us by the vbt.
-> + * The PWM Frequency is calculated as 27Mhz / (F x P).
-> + * - Where F = PWM Frequency Pre-Divider value programmed by field 7:0 of the
-> + *             EDP_BACKLIGHT_FREQ_SET register (DPCD Address 00728h)
-> + * - Where P = 2^Pn, where Pn is the value programmed by field 4:0 of the
-> + *             EDP_PWMGEN_BIT_COUNT register (DPCD Address 00724h)
-> + */
->  static u32 intel_dp_aux_calc_max_backlight(struct intel_connector *connector)
->  {
->  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> @@ -287,8 +255,10 @@ static u32 intel_dp_aux_calc_max_backlight(struct intel_connector *connector)
->  	pn_min &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
->  	pn_max &= DP_EDP_PWMGEN_BIT_COUNT_MASK;
->  
-> +	/* Ensure frequency is within 25% of desired value */
->  	fxp_min = DIV_ROUND_CLOSEST(fxp * 3, 4);
->  	fxp_max = DIV_ROUND_CLOSEST(fxp * 5, 4);
-> +
->  	if (fxp_min < (1 << pn_min) || (255 << pn_max) < fxp_max) {
->  		drm_dbg_kms(&i915->drm,
->  			    "VBT defined backlight frequency out of range\n");
-> @@ -309,7 +279,9 @@ static u32 intel_dp_aux_calc_max_backlight(struct intel_connector *connector)
->  			    "Failed to write aux pwmgen bit count\n");
->  		return max_backlight;
->  	}
-> +
->  	panel->backlight.pwmgen_bit_count = pn;
-> +	panel->backlight.pwm_freq_pre_divider = f;
-
-This should be wrapped in
-
-	if (intel_dp->edp_dpcd[2] & DP_EDP_BACKLIGHT_FREQ_AUX_SET_CAP)
-
-but you do it in the next patch, so this patch is a bit broken.
-
-
->  
->  	max_backlight = (1 << pn) - 1;
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
+PiDmlrwgMjAyMOW5tDEy5pyIMTHml6Ug6YCx5LqUIOS4iuWNiDg6NDPlr6vpgZPvvJoKPgo+IE9u
+IFRodSwgMjAyMC0xMi0xMCBhdCAyMzo0MCArMDgwMCwgQ2h1bi1LdWFuZyBIdSB3cm90ZToKPiA+
+IEhpLCBZb25ncWlhbmc6Cj4gPgo+ID4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
+YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgxMOaXpSDpgLHlm5sg5LiL5Y2INToyMuWvq+mBk++8
+mgo+ID4gPgo+ID4gPiByZG1hIGZpZm8gc2l6ZSBtYXkgYmUgZGlmZmVyZW50IGV2ZW4gaW4gc2Ft
+ZSBTT0MsIGFkZCB0aGlzCj4gPiA+IHByb3BlcnR5IHRvIHRoZSBjb3JyZXNwb25kaW5nIHJkbWEK
+PiA+ID4KPiA+ID4gU2lnbmVkLW9mZi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBt
+ZWRpYXRlay5jb20+Cj4gPiA+IC0tLQo+ID4gPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0
+ZWsvbWVkaWF0ZWssZGlzcC50eHQgICAgICAgICAgfCAxNiArKysrKysrKysrKysrKysrCj4gPiA+
+ICAxIGZpbGUgY2hhbmdlZCwgMTYgaW5zZXJ0aW9ucygrKQo+ID4gPgo+ID4gPiBkaWZmIC0tZ2l0
+IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvbWVkaWF0ZWsvbWVk
+aWF0ZWssZGlzcC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxh
+eS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+ID4gPiBpbmRleCAxMjEyMjA3Li42NGM2NGVl
+IDEwMDY0NAo+ID4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+ID4gPiArKysgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNwLnR4dAo+
+ID4gPiBAQCAtNjYsNiArNjYsMTMgQEAgUmVxdWlyZWQgcHJvcGVydGllcyAoRE1BIGZ1bmN0aW9u
+IGJsb2Nrcyk6Cj4gPiA+ICAgIGFyZ3VtZW50LCBzZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL2lvbW11L21lZGlhdGVrLGlvbW11LnR4dAo+ID4gPiAgICBmb3IgZGV0YWlscy4K
+PiA+ID4KPiA+ID4gK09wdGlvbmFsIHByb3BlcnRpZXMgKFJETUEgZnVuY3Rpb24gYmxvY2tzKToK
+PiA+ID4gKy0gbWVkaWF0ZWsscmRtYV9maWZvX3NpemU6IHJkbWEgZmlmbyBzaXplIG1heSBiZSBk
+aWZmZXJlbnQgZXZlbiBpbiBzYW1lIFNPQywgYWRkIHRoaXMKPiA+ID4gKyAgcHJvcGVydHkgdG8g
+dGhlIGNvcnJlc3BvbmRpbmcgcmRtYQo+ID4gPiArICB0aGUgdmFsdWUgaXMgdGhlIE1heCB2YWx1
+ZSB3aGljaCBkZWZpbmVkIGluIGhhcmR3YXJlIGRhdGEgc2hlZXQuCj4gPiA+ICsgIHJkbWFfZmlm
+b19zaXplIG9mIHJkbWEwIGluIG10ODE4MyBpcyA1MTIwCj4gPiA+ICsgIHJkbWFfZmlmb19zaXpl
+IG9mIHJkbWExIGluIG10ODE4MyBpcyAyMDQ4Cj4gPiA+ICsKPiA+ID4gIEV4YW1wbGVzOgo+ID4g
+Pgo+ID4gPiAgbW1zeXM6IGNsb2NrLWNvbnRyb2xsZXJAMTQwMDAwMDAgewo+ID4gPiBAQCAtMjA3
+LDMgKzIxNCwxMiBAQCBvZEAxNDAyMzAwMCB7Cj4gPiA+ICAgICAgICAgcG93ZXItZG9tYWlucyA9
+IDwmc2Nwc3lzIE1UODE3M19QT1dFUl9ET01BSU5fTU0+Owo+ID4gPiAgICAgICAgIGNsb2NrcyA9
+IDwmbW1zeXMgQ0xLX01NX0RJU1BfT0Q+Owo+ID4gPiAgfTsKPiA+ID4gKwo+ID4gPiArcmRtYTE6
+IHJkbWFAMTQwMGMwMDAgewo+ID4gPiArICAgICAgIGNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXQ4
+MTgzLWRpc3AtcmRtYSI7Cj4gPiA+ICsgICAgICAgcmVnID0gPDAgMHgxNDAwYzAwMCAwIDB4MTAw
+MD47Cj4gPiA+ICsgICAgICAgaW50ZXJydXB0cyA9IDxHSUNfU1BJIDIyOSBJUlFfVFlQRV9MRVZF
+TF9MT1c+Owo+ID4gPiArICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnNjcHN5cyBNVDgxODNfUE9X
+RVJfRE9NQUlOX0RJU1A+Owo+ID4gPiArICAgICAgIGNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJ
+U1BfUkRNQTE+Owo+ID4gPiArICAgICAgIG1lZGlhdGVrLHJkbWFfZmlmb19zaXplID0gPDIwNDg+
+Owo+ID4gPiArfTsKPiA+Cj4gPiBJbiBbMV0sIFJvYiBoYXMgc3VnZ2VzdCB0aGF0IG5vdCBhZGQg
+ZXhhbXBsZSBvZiByZG1hMSwgaXQncyBiZXR0ZXIgdG8KPiA+IGFkZCBtZWRpYXRlayxyZG1hX2Zp
+Zm9fc2l6ZSBpbiByZG1hMCBmb3IgZXhhbXBsZS4KPiA+Cj4gPiBbMV0gaHR0cHM6Ly9wYXRjaHdv
+cmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL3BhdGNoLzE1OTY4NTUyMzEtNTc4
+Mi0yLWdpdC1zZW5kLWVtYWlsLXlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tLwo+ID4KPiA+IFJl
+Z2FyZHMsCj4gPiBDaHVuLUt1YW5nLgo+Cj4gdGhlIGRlc2NyaXB0aW9uIG9mIHJkbWEwIGlzIG10
+ODE3MywgYW5kIG10ODE3MyByZG1hIGRyaXZlciBzZXQgdGhlCj4gY29ycmVzcG9uZCBmaWZvIHNp
+emUgYWxyZWFkeSBvayBsaWtlIHRoaXM6Cj4gc3RhdGljIGNvbnN0IHN0cnVjdCBtdGtfZGlzcF9y
+ZG1hX2RhdGEgbXQ4MTczX3JkbWFfZHJpdmVyX2RhdGEgPSB7Cj4gICAgICAgICAuZmlmb19zaXpl
+ID0gU1pfOEssCj4gfTsKPgo+IHBsZWFzZSBkb3VibGUgY29uZmlybSBzaGFsbCB3ZSBhZGQgdGhp
+cyBpbmZvcm1hdGlvbiBpbnRvIHJkbWEwCj4gZGVzY3JpcHRpb24uCj4KCkRldmljZSB0cmVlIGlz
+IHVzZWQgdG8gZGVzY3JpYmUgaGFyZHdhcmUuIFRoYXQgbWVhbnMgZGV2aWNlIHRyZWUKZGVzY3Jp
+cHRpb24gc2hvdWxkIG5vdCBjb25zaWRlciB5b3VyIGRyaXZlcidzIGltcGxlbWVudGF0aW9uLgpt
+ZWRpYXRlayxyZG1hLWZpZm8tc2l6ZSBvZiBtdDgxNzMtcmRtYTAgaXMgOEssIHNvIEkgY291bGQg
+d3JpdGUgdGhpcwppbmZvcm1hdGlvbiBpbiBkZXZpY2Ugbm9kZSBiZWNhdXNlIHRoaXMgaGFyZHdh
+cmUgaXMuCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPgo+ID4KPiA+ID4gLS0KPiA+ID4gMS44LjEu
+MS5kaXJ0eQo+ID4gPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fXwo+ID4gPiBMaW51eC1tZWRpYXRlayBtYWlsaW5nIGxpc3QKPiA+ID4gTGludXgtbWVkaWF0
+ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZwo+ID4gPiBodHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVrCj4KX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxA
+bGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxt
+YW4vbGlzdGluZm8vZHJpLWRldmVsCg==
