@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645EC2D7708
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:56:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E75302D770A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:56:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DCFE6EA87;
-	Fri, 11 Dec 2020 13:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CDA6EDF8;
+	Fri, 11 Dec 2020 13:56:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A963C6EA87;
- Fri, 11 Dec 2020 13:56:34 +0000 (UTC)
-IronPort-SDR: Xm9Ce08JqZ104QEwD2HRPro/MOSlOCY22JJTUpir76wR0BgmslNDIL/mB5DTNhtUqUBHo1gD+j
- h9lLyzGaCZ5A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="162187678"
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="162187678"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB2EE6EDF9;
+ Fri, 11 Dec 2020 13:56:37 +0000 (UTC)
+IronPort-SDR: K4C3GvdnXLjGv1gFn0tGCp148JjWzWxC2Qzu1pTq6ipYKKEIyjlNnCGg6I4UDATQHjRdngpAT+
+ UeVqo7tOwYyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="162187686"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="162187686"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 05:56:34 -0800
-IronPort-SDR: YeiOezlMbuJGFLoygMi5j7nR7O9AnD9qdkMW4/cv36HZlPuKNTq9pdSSODj72sLEumS1dnuhAF
- f72f4UvjQVtg==
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="409228305"
+ 11 Dec 2020 05:56:37 -0800
+IronPort-SDR: gZoc+Juv5LSpRlHuZ0spk571mvq8rdRJNjNIptejEqwhxLVmeFqs4AsjsmsksmEfKsi/5qa9FR
+ fN+LW+Y/i1hg==
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="409228324"
 Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 05:56:31 -0800
+ 11 Dec 2020 05:56:34 -0800
 From: Anshuman Gupta <anshuman.gupta@intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH v8 03/19] drm/i915/hotplug: Handle CP_IRQ for DP-MST
-Date: Fri, 11 Dec 2020 19:12:28 +0530
-Message-Id: <20201211134244.14588-4-anshuman.gupta@intel.com>
+Subject: [PATCH v8 04/19] drm/i915/hdcp: No HDCP when encoder is't initialized
+Date: Fri, 11 Dec 2020 19:12:29 +0530
+Message-Id: <20201211134244.14588-5-anshuman.gupta@intel.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201211134244.14588-1-anshuman.gupta@intel.com>
 References: <20201211134244.14588-1-anshuman.gupta@intel.com>
@@ -50,40 +50,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Cc: jani.nikula@intel.com, Karthik B S <karthik.b.s@intel.com>,
  uma.shankar@intel.com, seanpaul@chromium.org,
  Anshuman Gupta <anshuman.gupta@intel.com>, juston.li@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGFuZGxlIENQX0lSUSBpbiBERVZJQ0VfU0VSVklDRV9JUlFfVkVDVE9SX0VTSTAKSXQgcmVxdWly
-ZXMgdG8gY2FsbCBpbnRlbF9oZGNwX2hhbmRsZV9jcF9pcnEoKSBpbiBjYXNlCm9mIENQX0lSUSBp
-cyB0cmlnZ2VyZWQgYnkgYSBzaW5rIGluIERQLU1TVCB0b3BvbG9neS4KCkNjOiAiVmlsbGUgU3ly
-asOkbMOkIiA8dmlsbGUuc3lyamFsYUBsaW51eC5pbnRlbC5jb20+CkNjOiBSYW1hbGluZ2FtIEMg
-PHJhbWFsaW5nYW0uY0BpbnRlbC5jb20+ClJldmlld2VkLWJ5OiBVbWEgU2hhbmthciA8dW1hLnNo
-YW5rYXJAaW50ZWwuY29tPgpSZXZpZXdlZC1ieTogUmFtYWxpbmdhbSBDIDxyYW1hbGluZ2FtLmNA
-aW50ZWwuY29tPgpUZXN0ZWQtYnk6IEthcnRoaWsgQiBTIDxrYXJ0aGlrLmIuc0BpbnRlbC5jb20+
-ClNpZ25lZC1vZmYtYnk6IEFuc2h1bWFuIEd1cHRhIDxhbnNodW1hbi5ndXB0YUBpbnRlbC5jb20+
-Ci0tLQogZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIHwgMTQgKysrKysr
-KysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jIGIv
-ZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5jCmluZGV4IGIyYmMwYzhjMzlj
-Ny4uNTAxYjlhOGEyZjQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
-L2ludGVsX2RwLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kcC5j
-CkBAIC01NzgzLDYgKzU3ODMsMTcgQEAgc3RhdGljIHZvaWQgaW50ZWxfZHBfaGFuZGxlX3Rlc3Rf
-cmVxdWVzdChzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQogCQkJICAgICJDb3VsZCBub3Qgd3Jp
-dGUgdGVzdCByZXNwb25zZSB0byBzaW5rXG4iKTsKIH0KIAorc3RhdGljIHZvaWQKK2ludGVsX2Rw
-X21zdF9ocGRfaXJxKHN0cnVjdCBpbnRlbF9kcCAqaW50ZWxfZHAsIHU4ICplc2ksIGJvb2wgKmhh
-bmRsZWQpCit7CisJCWRybV9kcF9tc3RfaHBkX2lycSgmaW50ZWxfZHAtPm1zdF9tZ3IsIGVzaSwg
-aGFuZGxlZCk7CisKKwkJaWYgKGVzaVsxXSAmIERQX0NQX0lSUSkgeworCQkJaW50ZWxfaGRjcF9o
-YW5kbGVfY3BfaXJxKGludGVsX2RwLT5hdHRhY2hlZF9jb25uZWN0b3IpOworCQkJKmhhbmRsZWQg
-PSB0cnVlOworCQl9Cit9CisKIC8qKgogICogaW50ZWxfZHBfY2hlY2tfbXN0X3N0YXR1cyAtIHNl
-cnZpY2UgYW55IHBlbmRpbmcgTVNUIGludGVycnVwdHMsIGNoZWNrIGxpbmsgc3RhdHVzCiAgKiBA
-aW50ZWxfZHA6IEludGVsIERQIHN0cnVjdApAQCAtNTgyNyw3ICs1ODM4LDggQEAgaW50ZWxfZHBf
-Y2hlY2tfbXN0X3N0YXR1cyhzdHJ1Y3QgaW50ZWxfZHAgKmludGVsX2RwKQogCiAJCWRybV9kYmdf
-a21zKCZpOTE1LT5kcm0sICJnb3QgZXNpICUzcGhcbiIsIGVzaSk7CiAKLQkJZHJtX2RwX21zdF9o
-cGRfaXJxKCZpbnRlbF9kcC0+bXN0X21nciwgZXNpLCAmaGFuZGxlZCk7CisJCWludGVsX2RwX21z
-dF9ocGRfaXJxKGludGVsX2RwLCBlc2ksICZoYW5kbGVkKTsKKwogCQlpZiAoIWhhbmRsZWQpCiAJ
-CQlicmVhazsKIAotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVl
-ZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9kcmktZGV2ZWwK
+There can be situation when DP MST connector is created without
+mst modeset being done, in those cases connector->encoder will be
+NULL. MST connector->encoder initializes after modeset.
+Don't enable HDCP in such cases to prevent any crash.
+
+Cc: Ramalingam C <ramalingam.c@intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Tested-by: Karthik B S <karthik.b.s@intel.com>
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+---
+ drivers/gpu/drm/i915/display/intel_hdcp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+index b9d8825e2bb1..7d63e9495956 100644
+--- a/drivers/gpu/drm/i915/display/intel_hdcp.c
++++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+@@ -2106,6 +2106,12 @@ int intel_hdcp_enable(struct intel_connector *connector,
+ 	if (!hdcp->shim)
+ 		return -ENOENT;
+ 
++	if (!connector->encoder) {
++		drm_err(&dev_priv->drm, "[%s:%d] encoder is not initialized\n",
++			connector->base.name, connector->base.base.id);
++		return -ENODEV;
++	}
++
+ 	mutex_lock(&hdcp->mutex);
+ 	mutex_lock(&dig_port->hdcp_mutex);
+ 	drm_WARN_ON(&dev_priv->drm,
+-- 
+2.26.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
