@@ -2,67 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021832D7083
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DCD2D70BC
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:20:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89E446EC5B;
-	Fri, 11 Dec 2020 07:04:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 007E36EC62;
+	Fri, 11 Dec 2020 07:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06E776EC5A;
- Fri, 11 Dec 2020 07:04:04 +0000 (UTC)
-IronPort-SDR: B4NblOUizxeNO8wq+RFUgOMZv3OuJWW/ywMunGgpQMK4qf/WzE4jK2HohICa42fwVzlObGJQYo
- yYXkVVpFfzeA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="238491736"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="238491736"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 23:04:04 -0800
-IronPort-SDR: JSD6S42YD6Xw12Vp0JmZmMGwe+JcPMuxwWfy+hGTFrXFO27tQb3fAB+4oJXY04wqwIU/Kn1tqB
- s/b0rQKPJTAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="322002936"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga007.fm.intel.com with ESMTP; 10 Dec 2020 23:04:04 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 10 Dec 2020 23:04:03 -0800
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 10 Dec 2020 23:04:03 -0800
-Received: from fmsmsx611.amr.corp.intel.com ([10.18.126.91]) by
- fmsmsx611.amr.corp.intel.com ([10.18.126.91]) with mapi id 15.01.1713.004;
- Thu, 10 Dec 2020 23:04:03 -0800
-From: "Chery, Nanley G" <nanley.g.chery@intel.com>
-To: "Deak, Imre" <imre.deak@intel.com>, Chris Wilson
- <chris@chris-wilson.co.uk>, =?iso-8859-1?Q?Ville_Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>
-Subject: RE: [Intel-gfx] [PATCH 1/2] drm/framebuffer: Format modifier for
- Intel Gen 12 render compression with Clear Color
-Thread-Topic: [Intel-gfx] [PATCH 1/2] drm/framebuffer: Format modifier for
- Intel Gen 12 render compression with Clear Color
-Thread-Index: AQHWwcYtZb75ND2biUmoOqzlC5CxF6nclmoAgAANgQCAAC6VAIAEj3BwgAFU/gCADmTBsA==
-Date: Fri, 11 Dec 2020 07:04:02 +0000
-Message-ID: <ac393a9d1b774766a35c299915f0cca5@intel.com>
-References: <20201123182631.1740781-1-imre.deak@intel.com>
- <20201127143100.GB2144692@ideak-desk.fi.intel.com>
- <20201127151920.GI401619@phenom.ffwll.local>
- <20201127180604.GA2169344@ideak-desk.fi.intel.com>
- <0048c10f7b8047b18934e730ae57386c@intel.com>
- <20201201120456.GC2849269@ideak-desk.fi.intel.com>
-In-Reply-To: <20201201120456.GC2849269@ideak-desk.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.22.254.132]
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 959346EC62;
+ Fri, 11 Dec 2020 07:19:59 +0000 (UTC)
+IronPort-SDR: zNggKS2Vav7BeUlv+ds0tPh6VN6VJAqCZdK1daFb83p/i8mcGXePlBcdGJ1F7ta7x4UWT2bIjW
+ xL4RiOoKwI/A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="154199639"
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="154199639"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 23:19:50 -0800
+IronPort-SDR: 7V0TucJgDOhBet049Qx4dBGp3Q+i5cyHk5CXLpANfxt+r7g+FCBg0doeqc93i6dqYX/psH8xky
+ hHlNYboTdEgQ==
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="379411077"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 23:19:47 -0800
+Date: Fri, 11 Dec 2020 12:49:35 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v7 17/18] drm/i915/hdcp: Support for HDCP 2.2 MST shim
+ callbacks
+Message-ID: <20201211071934.GE1297@intel.com>
+References: <20201210062640.11783-1-anshuman.gupta@intel.com>
+ <20201210062640.11783-18-anshuman.gupta@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201210062640.11783-18-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,118 +49,179 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "Nikula, Jani" <jani.nikula@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Pandiyan,
- Dhinakaran" <dhinakaran.pandiyan@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
+ uma.shankar@intel.com, seanpaul@chromium.org, juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-> -----Original Message-----
-> From: Imre Deak <imre.deak@intel.com>
-> Sent: Tuesday, December 1, 2020 4:05 AM
-> To: Chery, Nanley G <nanley.g.chery@intel.com>; Chris Wilson <chris@chris-
-> wilson.co.uk>; Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>; intel-gfx@lists.freedesktop.org; Nik=
-ula,
-> Jani <jani.nikula@intel.com>; Daniel Vetter <daniel.vetter@ffwll.ch>;
-> Kondapally, Kalyan <kalyan.kondapally@intel.com>; Pandiyan, Dhinakaran
-> <dhinakaran.pandiyan@intel.com>; dri-devel@lists.freedesktop.org
-> Subject: Re: [Intel-gfx] [PATCH 1/2] drm/framebuffer: Format modifier for
-> Intel Gen 12 render compression with Clear Color
-> =
-
-> Hi Nanley,
-> =
-
-> thanks for the review.
-> =
-
-> +Ville, Chris.
-> =
-
-> On Tue, Dec 01, 2020 at 02:18:26AM +0200, Chery, Nanley G wrote:
-> > Hi Imre,
-> >
-> > I have a question and a couple comments:
-> >
-> > Is the map of the clear color address creating a new synchronization
-> > point between the GPU and CPU? If so, I wonder how this will impact
-> > performance.
-> =
-
-> The kmap to read the clear value is not adding any sync overhead if
-> that's what you mean. But the clear value must be in place before we
-> read it out and that should be guaranteed by the flush we do anyway to wa=
-it
-> for the render result (even considering the explicit L3/RT flush, depth
-> stall the spec requires for fast clears).
-> =
-
-> However now that you mention: atm the kmap/readout happens after the
-> explicit but before the implicit fence-wait. I think it should happen
-> after the implicit fence-wait.
-> =
-
-> Ville, Chris, could you confirm the above and also that the above flush
-> is enough to ensure the CPU read is coherent?
-> =
-
-> > There was some talk of asynchronously updating the clear color
-> > register a while back.
-> =
-
-> Couldn't find anything with a quick search, do you have a pointer? Just
-> before the flip we must wait for the render results anyway, as we do
-> now, so not sure how it could be optimized.
-> =
-
- =
-
-There were some offline discussions, so I don't have a reference unfortunat=
-ely.
-Though, given what you shared above it seems like it's actually not an issu=
-e.
-
-> > We probably don't have to update the header, but we noticed in our
-> > testing that the clear color prefers an alignment greater than 64B.
-> > Unfortunately, I can't find any bspec note about this. As long as the
-> > buffer creators are aware though, I think we should be fine. I don't
-> > know if this is the best forum to bring it up, but I thought I'd
-> > share.
-> =
-
-> Yes, would be good to clarify this and get it also to the spec. Then the
-> driver should also check the alignment of the 3rd FB plane.
-> =
-
-
-I plan to run some more tests and file a bug in the spec.
-
-I see that the IGT test only clears the fb once. Just to confirm, is the =
-
-clear color offset read from on every frame? Userspace would like to be =
-
-able to pass different clear colors for an fb. =
-
-
--Nanley
-
-> > Seems like the upper converted clear color is untested due to the lack
-> > of RGBX16 support. I suppose that if there are any issues there, they
-> > can be fixed later...
-> =
-
-> Yes, a 64bpp RC-CC subtest in IGT is missing, should be easy to add
-> that.
-> =
-
-> --Imre
+On 2020-12-10 at 11:56:39 +0530, Anshuman Gupta wrote:
+> Add support for HDCP 2.2 DP MST shim callback.
+> This adds existing DP HDCP shim callback for Link Authentication
+> and Encryption and HDCP 2.2 stream encryption
+> callback.
+> 
+> v2:
+> - Added a WARN_ON() instead of drm_err. [Uma]
+> - Cosmetic changes. [Uma]
+> v3:
+> - 's/port_data/hdcp_port_data' [Ram]
+> - skip redundant link check. [Ram]
+> v4:
+> - use pipe instead of port to access HDCP2_STREAM_STATUS
+How this missed the functional test till now?
+Always true because port's stream status was referred?
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
+> Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+> Tested-by: Karthik B S <karthik.b.s@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  .../drm/i915/display/intel_display_types.h    |  4 +
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 89 +++++++++++++++++--
+>  2 files changed, 85 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+> index 63de25b40eff..da91e3f4ff27 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
+> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+> @@ -378,6 +378,10 @@ struct intel_hdcp_shim {
+>  	int (*config_stream_type)(struct intel_digital_port *dig_port,
+>  				  bool is_repeater, u8 type);
+>  
+> +	/* Enable/Disable HDCP 2.2 stream encryption on DP MST Transport Link */
+> +	int (*stream_2_2_encryption)(struct intel_connector *connector,
+> +				     bool enable);
+> +
+>  	/* HDCP2.2 Link Integrity Check */
+>  	int (*check_2_2_link)(struct intel_digital_port *dig_port,
+>  			      struct intel_connector *connector);
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> index 9ade1ad3a80c..f372e25edab4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
+> @@ -698,18 +698,14 @@ intel_dp_mst_hdcp_stream_encryption(struct intel_connector *connector,
+>  	return 0;
+>  }
+>  
+> -static
+> -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+> -				  struct intel_connector *connector)
+> +static bool intel_dp_mst_get_qses_status(struct intel_digital_port *dig_port,
+> +					 struct intel_connector *connector)
+>  {
+>  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
+> -	struct intel_dp *intel_dp = &dig_port->dp;
+>  	struct drm_dp_query_stream_enc_status_ack_reply reply;
+> +	struct intel_dp *intel_dp = &dig_port->dp;
+>  	int ret;
+>  
+> -	if (!intel_dp_hdcp_check_link(dig_port, connector))
+> -		return false;
+> -
+>  	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
+>  						  connector->port, &reply);
+>  	if (ret) {
+> @@ -726,6 +722,78 @@ bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+>  	return reply.auth_completed && reply.encryption_enabled;
+>  }
+>  
+> +static
+> +bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
+> +				  struct intel_connector *connector)
+> +{
+> +	if (!intel_dp_hdcp_check_link(dig_port, connector))
+> +		return false;
+this also could be optimised for the connector with port authentication
+only?
+> +
+> +	return intel_dp_mst_get_qses_status(dig_port, connector);
+> +}
+> +
+> +static int
+> +intel_dp_mst_hdcp2_stream_encryption(struct intel_connector *connector,
+> +				     bool enable)
+> +{
+> +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+> +	struct intel_hdcp *hdcp = &connector->hdcp;
+> +	enum transcoder cpu_transcoder = hdcp->stream_transcoder;
+> +	enum pipe pipe = (enum pipe)cpu_transcoder;
+> +	enum port port = dig_port->base.port;
+> +	int ret;
+> +
+> +	drm_WARN_ON(&i915->drm, enable &&
+> +		    !!(intel_de_read(i915, HDCP2_AUTH_STREAM(i915, cpu_transcoder, port))
+> +		    & AUTH_STREAM_TYPE) != data->streams[0].stream_type);
+> +
+> +	ret = intel_dp_mst_toggle_hdcp_stream_select(connector, enable);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Wait for encryption confirmation */
+> +	if (intel_de_wait_for_register(i915,
+> +				       HDCP2_STREAM_STATUS(i915, cpu_transcoder, pipe),
+> +				       STREAM_ENCRYPTION_STATUS,
+> +				       enable ? STREAM_ENCRYPTION_STATUS : 0,
+> +				       HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
+> +		drm_err(&i915->drm, "Timed out waiting for transcoder: %s stream encryption %s\n",
+> +			transcoder_name(cpu_transcoder), enable ? "enabled" : "disabled");
+> +		return -ETIMEDOUT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * DP v2.0 I.3.3 ignore the stream signature L' in QSES reply msg reply.
+> + * I.3.5 MST source device may use a QSES msg to query downstream status
+> + * for a particular stream.
+> + */
+> +static
+> +int intel_dp_mst_hdcp2_check_link(struct intel_digital_port *dig_port,
+> +				  struct intel_connector *connector)
+> +{
+> +	struct intel_hdcp *hdcp = &connector->hdcp;
+> +	int ret;
+> +
+> +	/*
+> +	 * We do need to do the Link Check only for the connector involved with
+> +	 * HDCP port authentication and encryption.
+> +	 * We can re-use the hdcp->is_repeater flag to know that the connector
+> +	 * involved with HDCP port authentication and encryption.
+> +	 */
+> +	if (hdcp->is_repeater) {
+> +		ret = intel_dp_hdcp2_check_link(dig_port, connector);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return intel_dp_mst_get_qses_status(dig_port, connector) ? 0 : -EINVAL;
+> +}
+> +
+>  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+>  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
+>  	.read_bksv = intel_dp_hdcp_read_bksv,
+> @@ -739,7 +807,12 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
+>  	.stream_encryption = intel_dp_mst_hdcp_stream_encryption,
+>  	.check_link = intel_dp_mst_hdcp_check_link,
+>  	.hdcp_capable = intel_dp_hdcp_capable,
+> -
+> +	.write_2_2_msg = intel_dp_hdcp2_write_msg,
+> +	.read_2_2_msg = intel_dp_hdcp2_read_msg,
+> +	.config_stream_type = intel_dp_hdcp2_config_stream_type,
+> +	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
+> +	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
+> +	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
+>  	.protocol = HDCP_PROTOCOL_DP,
+>  };
+>  
+> -- 
+> 2.26.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
