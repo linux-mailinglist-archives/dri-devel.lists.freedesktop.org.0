@@ -1,34 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100D52D73AB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:16:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B052D73C6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:18:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BAA6ED42;
-	Fri, 11 Dec 2020 10:16:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3238E6ED7C;
+	Fri, 11 Dec 2020 10:18:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22C0D6ED64
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:16:28 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B2738AC10;
- Fri, 11 Dec 2020 10:16:26 +0000 (UTC)
-Subject: Re: [PATCH v3 8/8] drm/fb-helper: Move BO locking from DRM client to
- fbdev damage worker
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF5426ED7C
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:18:37 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t16so8440278wra.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 02:18:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=WTgIBhdbimoRqEKAqfy9UxFMlho1PbiR1/VTSg638fk=;
+ b=ApyqeucfRJrWGD1YXoJ1Es24YE3AVFRoe66fne88FW9C9LRUCF0a9SfX2u2KGPu/1f
+ ZQFx4Gs4ephPIZuY8cpQxk24991ywDfrCOwll3oYJEDvdIH1whCTela8yn8SqqpF4Wjn
+ 7+yY8UmfvTlC6Xv0qh2h684H0AKjTpmcKg0ug=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=WTgIBhdbimoRqEKAqfy9UxFMlho1PbiR1/VTSg638fk=;
+ b=a83sYOFLBJwdPTyI3tAO3r1pe/MLV3YaM/v9mdba4+JIqj0loEQBsjTaAjCUKzK2s3
+ JeqB4O3svWSRTEjREIS/sa13YvJQF2wfeilbCTTxQqNPVm18CakkqG8BAPSPEfno2kD5
+ vkvUXkzzcGgOLzEjG0c01u3CUA3V/Srl0/fveGQdyQ9Hb9wiERbFhhj2vYB//F1EPvdF
+ /+Kfyvi+VylP+hudCqncoVJo7ABwHAlrXNYCARNhRxm33V2vIZ9mtFU3csC4Motz63wx
+ K906iz5nAfRFMyngorLYLFEEwdRj+HD+c2Vm7OrwfeA6g5VHajEnKzPNTV3EZrjDQ15h
+ 9igA==
+X-Gm-Message-State: AOAM530GUq+mlb3f46YqmT07VGX7j+o4VbI/xNdWftGhp/257xBDheAu
+ SYJTnANvSSnsxBuG5yBp1GNXAg==
+X-Google-Smtp-Source: ABdhPJydCLTNSaiC4iyGoBNXTHc3OTs5jbw1npF1wAAkwnCOql4XTGDxa6tugRdwv1xQiazY+EKuNg==
+X-Received: by 2002:adf:9167:: with SMTP id j94mr13144979wrj.249.1607681916638; 
+ Fri, 11 Dec 2020 02:18:36 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k7sm16338003wrn.63.2020.12.11.02.18.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 02:18:35 -0800 (PST)
+Date: Fri, 11 Dec 2020 11:18:33 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v3 2/8] drm/ast: Only map cursor BOs during updates
+Message-ID: <20201211101833.GQ401619@phenom.ffwll.local>
 References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-9-tzimmermann@suse.de>
- <20201211100134.GN401619@phenom.ffwll.local>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e1b4d35a-f624-bca2-cd12-ca6dbaf860d1@suse.de>
-Date: Fri, 11 Dec 2020 11:16:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ <20201209142527.26415-3-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20201211100134.GN401619@phenom.ffwll.local>
+Content-Disposition: inline
+In-Reply-To: <20201209142527.26415-3-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -41,363 +66,239 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sean@poorly.run, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux-foundation.org, linaro-mm-sig@lists.linaro.org,
- hdegoede@redhat.com, kraxel@redhat.com, sam@ravnborg.org,
- christian.koenig@amd.com, linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="===============0505478568=="
-Errors-To: dri-devel-bounces@lists.freedesktop.org
-Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============0505478568==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SjVwQ8ymHuMOUUVTrEN95juI6Y70IsD7Q"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SjVwQ8ymHuMOUUVTrEN95juI6Y70IsD7Q
-Content-Type: multipart/mixed; boundary="9O3Hm3aaHpTi0E7OCX3m926eejB6HYYq9";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
 Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com, kraxel@redhat.com,
  virtualization@lists.linux-foundation.org, sean@poorly.run,
  christian.koenig@amd.com, linux-media@vger.kernel.org
-Message-ID: <e1b4d35a-f624-bca2-cd12-ca6dbaf860d1@suse.de>
-Subject: Re: [PATCH v3 8/8] drm/fb-helper: Move BO locking from DRM client to
- fbdev damage worker
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-9-tzimmermann@suse.de>
- <20201211100134.GN401619@phenom.ffwll.local>
-In-Reply-To: <20201211100134.GN401619@phenom.ffwll.local>
-
---9O3Hm3aaHpTi0E7OCX3m926eejB6HYYq9
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+Errors-To: dri-devel-bounces@lists.freedesktop.org
+Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Wed, Dec 09, 2020 at 03:25:21PM +0100, Thomas Zimmermann wrote:
+> The HW cursor's BO used to be mapped permanently into the kernel's
+> address space. GEM's vmap operation will be protected by locks, and
+> we don't want to lock the BO's for an indefinate period of time.
+> =
 
-Am 11.12.20 um 11:01 schrieb Daniel Vetter:
-> On Wed, Dec 09, 2020 at 03:25:27PM +0100, Thomas Zimmermann wrote:
->> Fbdev emulation has to lock the BO into place while flushing the shado=
-w
->> buffer into the BO's memory. Remove any interference with pinning by
->> using vmap_local functionality (instead of full vmap). This requires
->> BO reservation locking in fbdev's damage worker.
->>
->> The new DRM client functions for locking and vmap_local functionality
->> are added for consistency with the existing style.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> The old vmap/vunmap in the client library aren't used anymore, please
-> delete. That will also make it clearer in the diff what's going on and
-> that it makes sense to have the client and fb-helper part in one patch.=
+> Change the cursor code to map the HW BOs only during updates. The
+> vmap operation in VRAM helpers is cheap, as a once estabished mapping
+> is being reused until the BO actually moves. As the HW cursor BOs are
+> permanently pinned, they never move at all.
+> =
 
+> v2:
+> 	* fix typos in commit description
+> =
 
-They are still around for perma-mapped BOs where HW supports it (really=20
-only CMA-based drivers). See drm_fb_helper_generic_probe() and=20
-drm_fbdev_cleanup().
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Acked-by: Christian K=F6nig <christian.koenig@amd.com>
 
-Best regards
-Thomas
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
->=20
-> With that: Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->> ---
->>   drivers/gpu/drm/drm_client.c    | 91 +++++++++++++++++++++++++++++++=
-++
->>   drivers/gpu/drm/drm_fb_helper.c | 41 +++++++--------
->>   include/drm/drm_client.h        |  4 ++
->>   3 files changed, 116 insertions(+), 20 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client=
-=2Ec
->> index ce45e380f4a2..795f5cb052ba 100644
->> --- a/drivers/gpu/drm/drm_client.c
->> +++ b/drivers/gpu/drm/drm_client.c
->> @@ -288,6 +288,37 @@ drm_client_buffer_create(struct drm_client_dev *c=
-lient, u32 width, u32 height, u
->>   	return ERR_PTR(ret);
->>   }
->>  =20
->> +/**
->> + * drm_client_buffer_lock - Locks the DRM client buffer
->> + * @buffer: DRM client buffer
->> + *
->> + * This function locks the client buffer by acquiring the buffer
->> + * object's reservation lock.
->> + *
->> + * Unlock the buffer with drm_client_buffer_unlock().
->> + *
->> + * Returns:
->> + *	0 on success, or a negative errno code otherwise.
->> + */
->> +int
->> +drm_client_buffer_lock(struct drm_client_buffer *buffer)
->> +{
->> +	return dma_resv_lock(buffer->gem->resv, NULL);
->> +}
->> +EXPORT_SYMBOL(drm_client_buffer_lock);
->> +
->> +/**
->> + * drm_client_buffer_unlock - Unlock DRM client buffer
->> + * @buffer: DRM client buffer
->> + *
->> + * Unlocks a client buffer. See drm_client_buffer_lock().
->> + */
->> +void drm_client_buffer_unlock(struct drm_client_buffer *buffer)
->> +{
->> +	dma_resv_unlock(buffer->gem->resv);
->> +}
->> +EXPORT_SYMBOL(drm_client_buffer_unlock);
->> +
->>   /**
->>    * drm_client_buffer_vmap - Map DRM client buffer into address space=
+Now there's a pretty big issue here though: We can't take dma_resv_lock in
+commit_tail, because of possible deadlocks on at least gpus that do real
+async rendering because of the dma_fences. Unfortunately my annotations
+patches got stuck a bit, I need to refresh them.
 
->>    * @buffer: DRM client buffer
->> @@ -348,6 +379,66 @@ void drm_client_buffer_vunmap(struct drm_client_b=
-uffer *buffer)
->>   }
->>   EXPORT_SYMBOL(drm_client_buffer_vunmap);
->>  =20
->> +/**
->> + * drm_client_buffer_vmap_local - Map DRM client buffer into address =
-space
->> + * @buffer: DRM client buffer
->> + * @map_copy: Returns the mapped memory's address
->> + *
->> + * This function maps a client buffer into kernel address space. If t=
-he
->> + * buffer is already mapped, it returns the existing mapping's addres=
-s.
->> + *
->> + * Client buffer mappings are not ref'counted. Each call to
->> + * drm_client_buffer_vmap_local() should be followed by a call to
->> + * drm_client_buffer_vunmap_local(); or the client buffer should be m=
-apped
->> + * throughout its lifetime.
->> + *
->> + * The returned address is a copy of the internal value. In contrast =
-to
->> + * other vmap interfaces, you don't need it for the client's vunmap
->> + * function. So you can modify it at will during blit and draw operat=
-ions.
->> + *
->> + * Returns:
->> + *	0 on success, or a negative errno code otherwise.
->> + */
->> +int
->> +drm_client_buffer_vmap_local(struct drm_client_buffer *buffer, struct=
- dma_buf_map *map_copy)
->> +{
->> +	struct dma_buf_map *map =3D &buffer->map;
->> +	int ret;
->> +
->> +	/*
->> +	 * FIXME: The dependency on GEM here isn't required, we could
->> +	 * convert the driver handle to a dma-buf instead and use the
->> +	 * backend-agnostic dma-buf vmap_local support instead. This would
->> +	 * require that the handle2fd prime ioctl is reworked to pull the
->> +	 * fd_install step out of the driver backend hooks, to make that
->> +	 * final step optional for internal users.
->> +	 */
->> +	ret =3D drm_gem_vmap_local(buffer->gem, map);
->> +	if (ret)
->> +		return ret;
->> +
->> +	*map_copy =3D *map;
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_client_buffer_vmap_local);
->> +
->> +/**
->> + * drm_client_buffer_vunmap_local - Unmap DRM client buffer
->> + * @buffer: DRM client buffer
->> + *
->> + * This function removes a client buffer's memory mapping. Calling th=
-is
->> + * function is only required by clients that manage their buffer mapp=
-ings
->> + * by themselves.
->> + */
->> +void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer)=
+Rules are you can pin and unpin stuff in prepare/cleanup_plane, and also
+take dma_resv_lock there, but not in commit_tail in-between. So I think
+our vmap_local needs to loose the unconditional assert_locked and require
+either that or a pin count.
+-Daniel
 
->> +{
->> +	struct dma_buf_map *map =3D &buffer->map;
->> +
->> +	drm_gem_vunmap_local(buffer->gem, map);
->> +}
->> +EXPORT_SYMBOL(drm_client_buffer_vunmap_local);
->> +
->>   static void drm_client_buffer_rmfb(struct drm_client_buffer *buffer)=
+> ---
+>  drivers/gpu/drm/ast/ast_cursor.c | 51 ++++++++++++++++++--------------
+>  drivers/gpu/drm/ast/ast_drv.h    |  2 --
+>  2 files changed, 28 insertions(+), 25 deletions(-)
+> =
 
->>   {
->>   	int ret;
->> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
-helper.c
->> index e82db0f4e771..a56a7d9f7e35 100644
->> --- a/drivers/gpu/drm/drm_fb_helper.c
->> +++ b/drivers/gpu/drm/drm_fb_helper.c
->> @@ -399,28 +399,34 @@ static int drm_fb_helper_damage_blit(struct drm_=
-fb_helper *fb_helper,
->>   	int ret;
->>  =20
->>   	/*
->> -	 * We have to pin the client buffer to its current location while
->> -	 * flushing the shadow buffer. In the general case, concurrent
->> -	 * modesetting operations could try to move the buffer and would
->> -	 * fail. The modeset has to be serialized by acquiring the reservati=
-on
->> -	 * object of the underlying BO here.
->> -	 *
->>   	 * For fbdev emulation, we only have to protect against fbdev modes=
-et
->>   	 * operations. Nothing else will involve the client buffer's BO. So=
- it
->>   	 * is sufficient to acquire struct drm_fb_helper.lock here.
->>   	 */
->>   	mutex_lock(&fb_helper->lock);
->>  =20
->> -	ret =3D drm_client_buffer_vmap(buffer, &map);
->> +	/*
->> +	 * We have to keep the client buffer at its current location while
->> +	 * flushing the shadow buffer. Concurrent operations could otherwise=
+> diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_c=
+ursor.c
+> index 68bf3d33f1ed..fac1ee79c372 100644
+> --- a/drivers/gpu/drm/ast/ast_cursor.c
+> +++ b/drivers/gpu/drm/ast/ast_cursor.c
+> @@ -39,7 +39,6 @@ static void ast_cursor_fini(struct ast_private *ast)
+>  =
 
->> +	 * try to move the buffer. Therefore acquiring the reservation
->> +	 * object of the underlying BO here.
->> +	 */
->> +	ret =3D drm_client_buffer_lock(buffer);
->> +	if (ret)
->> +		goto out_mutex_unlock;
->> +
->> +	ret =3D drm_client_buffer_vmap_local(buffer, &map);
->>   	if (ret)
->> -		goto out;
->> +		goto out_drm_client_buffer_unlock;
->>  =20
->>   	dst =3D map;
->>   	drm_fb_helper_damage_blit_real(fb_helper, clip, &dst);
->>  =20
->> -	drm_client_buffer_vunmap(buffer);
->> +	drm_client_buffer_vunmap_local(buffer);
->>  =20
->> -out:
->> +out_drm_client_buffer_unlock:
->> +	drm_client_buffer_unlock(buffer);
->> +out_mutex_unlock:
->>   	mutex_unlock(&fb_helper->lock);
->>  =20
->>   	return ret;
->> @@ -946,15 +952,11 @@ static int setcmap_legacy(struct fb_cmap *cmap, =
-struct fb_info *info)
->>   	drm_modeset_lock_all(fb_helper->dev);
->>   	drm_client_for_each_modeset(modeset, &fb_helper->client) {
->>   		crtc =3D modeset->crtc;
->> -		if (!crtc->funcs->gamma_set || !crtc->gamma_size) {
->> -			ret =3D -EINVAL;
->> -			goto out;
->> -		}
->> +		if (!crtc->funcs->gamma_set || !crtc->gamma_size)
->> +			return -EINVAL;
->>  =20
->> -		if (cmap->start + cmap->len > crtc->gamma_size) {
->> -			ret =3D -EINVAL;
->> -			goto out;
->> -		}
->> +		if (cmap->start + cmap->len > crtc->gamma_size)
->> +			return -EINVAL;
->>  =20
->>   		r =3D crtc->gamma_store;
->>   		g =3D r + crtc->gamma_size;
->> @@ -967,9 +969,8 @@ static int setcmap_legacy(struct fb_cmap *cmap, st=
-ruct fb_info *info)
->>   		ret =3D crtc->funcs->gamma_set(crtc, r, g, b,
->>   					     crtc->gamma_size, NULL);
->>   		if (ret)
->> -			goto out;
->> +			return ret;
->>   	}
->> -out:
->>   	drm_modeset_unlock_all(fb_helper->dev);
->>  =20
->>   	return ret;
->> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
->> index f07f2fb02e75..df61e339a11c 100644
->> --- a/include/drm/drm_client.h
->> +++ b/include/drm/drm_client.h
->> @@ -156,8 +156,12 @@ struct drm_client_buffer *
->>   drm_client_framebuffer_create(struct drm_client_dev *client, u32 wid=
-th, u32 height, u32 format);
->>   void drm_client_framebuffer_delete(struct drm_client_buffer *buffer)=
-;
->>   int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, s=
-truct drm_rect *rect);
->> +int drm_client_buffer_lock(struct drm_client_buffer *buffer);
->> +void drm_client_buffer_unlock(struct drm_client_buffer *buffer);
->>   int drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct =
-dma_buf_map *map);
->>   void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
->> +int drm_client_buffer_vmap_local(struct drm_client_buffer *buffer, st=
-ruct dma_buf_map *map);
->> +void drm_client_buffer_vunmap_local(struct drm_client_buffer *buffer)=
-;
->>  =20
->>   int drm_client_modeset_create(struct drm_client_dev *client);
->>   void drm_client_modeset_free(struct drm_client_dev *client);
->> --=20
->> 2.29.2
->>
->=20
+>  	for (i =3D 0; i < ARRAY_SIZE(ast->cursor.gbo); ++i) {
+>  		gbo =3D ast->cursor.gbo[i];
+> -		drm_gem_vram_vunmap(gbo, &ast->cursor.map[i]);
+>  		drm_gem_vram_unpin(gbo);
+>  		drm_gem_vram_put(gbo);
+>  	}
+> @@ -53,14 +52,13 @@ static void ast_cursor_release(struct drm_device *dev=
+, void *ptr)
+>  }
+>  =
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+>  /*
+> - * Allocate cursor BOs and pins them at the end of VRAM.
+> + * Allocate cursor BOs and pin them at the end of VRAM.
+>   */
+>  int ast_cursor_init(struct ast_private *ast)
+>  {
+>  	struct drm_device *dev =3D &ast->base;
+>  	size_t size, i;
+>  	struct drm_gem_vram_object *gbo;
+> -	struct dma_buf_map map;
+>  	int ret;
+>  =
+
+>  	size =3D roundup(AST_HWC_SIZE + AST_HWC_SIGNATURE_SIZE, PAGE_SIZE);
+> @@ -77,15 +75,7 @@ int ast_cursor_init(struct ast_private *ast)
+>  			drm_gem_vram_put(gbo);
+>  			goto err_drm_gem_vram_put;
+>  		}
+> -		ret =3D drm_gem_vram_vmap(gbo, &map);
+> -		if (ret) {
+> -			drm_gem_vram_unpin(gbo);
+> -			drm_gem_vram_put(gbo);
+> -			goto err_drm_gem_vram_put;
+> -		}
+> -
+>  		ast->cursor.gbo[i] =3D gbo;
+> -		ast->cursor.map[i] =3D map;
+>  	}
+>  =
+
+>  	return drmm_add_action_or_reset(dev, ast_cursor_release, NULL);
+> @@ -94,7 +84,6 @@ int ast_cursor_init(struct ast_private *ast)
+>  	while (i) {
+>  		--i;
+>  		gbo =3D ast->cursor.gbo[i];
+> -		drm_gem_vram_vunmap(gbo, &ast->cursor.map[i]);
+>  		drm_gem_vram_unpin(gbo);
+>  		drm_gem_vram_put(gbo);
+>  	}
+> @@ -168,31 +157,38 @@ static void update_cursor_image(u8 __iomem *dst, co=
+nst u8 *src, int width, int h
+>  int ast_cursor_blit(struct ast_private *ast, struct drm_framebuffer *fb)
+>  {
+>  	struct drm_device *dev =3D &ast->base;
+> -	struct drm_gem_vram_object *gbo;
+> -	struct dma_buf_map map;
+> -	int ret;
+> -	void *src;
+> +	struct drm_gem_vram_object *dst_gbo =3D ast->cursor.gbo[ast->cursor.nex=
+t_index];
+> +	struct drm_gem_vram_object *src_gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+> +	struct dma_buf_map src_map, dst_map;
+>  	void __iomem *dst;
+> +	void *src;
+> +	int ret;
+>  =
+
+>  	if (drm_WARN_ON_ONCE(dev, fb->width > AST_MAX_HWC_WIDTH) ||
+>  	    drm_WARN_ON_ONCE(dev, fb->height > AST_MAX_HWC_HEIGHT))
+>  		return -EINVAL;
+>  =
+
+> -	gbo =3D drm_gem_vram_of_gem(fb->obj[0]);
+> -
+> -	ret =3D drm_gem_vram_vmap(gbo, &map);
+> +	ret =3D drm_gem_vram_vmap(src_gbo, &src_map);
+>  	if (ret)
+>  		return ret;
+> -	src =3D map.vaddr; /* TODO: Use mapping abstraction properly */
+> +	src =3D src_map.vaddr; /* TODO: Use mapping abstraction properly */
+>  =
+
+> -	dst =3D ast->cursor.map[ast->cursor.next_index].vaddr_iomem;
+> +	ret =3D drm_gem_vram_vmap(dst_gbo, &dst_map);
+> +	if (ret)
+> +		goto err_drm_gem_vram_vunmap;
+> +	dst =3D dst_map.vaddr_iomem; /* TODO: Use mapping abstraction properly =
+*/
+>  =
+
+>  	/* do data transfer to cursor BO */
+>  	update_cursor_image(dst, src, fb->width, fb->height);
+>  =
+
+> -	drm_gem_vram_vunmap(gbo, &map);
+> +	drm_gem_vram_vunmap(dst_gbo, &dst_map);
+> +	drm_gem_vram_vunmap(src_gbo, &src_map);
+>  =
+
+>  	return 0;
+> +
+> +err_drm_gem_vram_vunmap:
+> +	drm_gem_vram_vunmap(src_gbo, &src_map);
+> +	return ret;
+>  }
+>  =
+
+>  static void ast_cursor_set_base(struct ast_private *ast, u64 address)
+> @@ -243,17 +239,26 @@ static void ast_cursor_set_location(struct ast_priv=
+ate *ast, u16 x, u16 y,
+>  void ast_cursor_show(struct ast_private *ast, int x, int y,
+>  		     unsigned int offset_x, unsigned int offset_y)
+>  {
+> +	struct drm_device *dev =3D &ast->base;
+> +	struct drm_gem_vram_object *gbo =3D ast->cursor.gbo[ast->cursor.next_in=
+dex];
+> +	struct dma_buf_map map;
+>  	u8 x_offset, y_offset;
+>  	u8 __iomem *dst;
+>  	u8 __iomem *sig;
+>  	u8 jreg;
+> +	int ret;
+>  =
+
+> -	dst =3D ast->cursor.map[ast->cursor.next_index].vaddr;
+> +	ret =3D drm_gem_vram_vmap(gbo, &map);
+> +	if (drm_WARN_ONCE(dev, ret, "drm_gem_vram_vmap() failed, ret=3D%d\n", r=
+et))
+> +		return;
+> +	dst =3D map.vaddr_iomem; /* TODO: Use mapping abstraction properly */
+>  =
+
+>  	sig =3D dst + AST_HWC_SIZE;
+>  	writel(x, sig + AST_HWC_SIGNATURE_X);
+>  	writel(y, sig + AST_HWC_SIGNATURE_Y);
+>  =
+
+> +	drm_gem_vram_vunmap(gbo, &map);
+> +
+>  	if (x < 0) {
+>  		x_offset =3D (-x) + offset_x;
+>  		x =3D 0;
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index ccaff81924ee..f871fc36c2f7 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -28,7 +28,6 @@
+>  #ifndef __AST_DRV_H__
+>  #define __AST_DRV_H__
+>  =
+
+> -#include <linux/dma-buf-map.h>
+>  #include <linux/i2c.h>
+>  #include <linux/i2c-algo-bit.h>
+>  #include <linux/io.h>
+> @@ -133,7 +132,6 @@ struct ast_private {
+>  =
+
+>  	struct {
+>  		struct drm_gem_vram_object *gbo[AST_DEFAULT_HWC_NUM];
+> -		struct dma_buf_map map[AST_DEFAULT_HWC_NUM];
+>  		unsigned int next_index;
+>  	} cursor;
+>  =
+
+> -- =
+
+> 2.29.2
+> =
 
 
---9O3Hm3aaHpTi0E7OCX3m926eejB6HYYq9--
+-- =
 
---SjVwQ8ymHuMOUUVTrEN95juI6Y70IsD7Q
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/TRvkFAwAAAAAACgkQlh/E3EQov+CG
-sA/9FVMu9RPjSQpSfEPDiUY0df7CxRtqEaWtw7ct1jUvSZ7AMmrq4YJqplpiPfLeSn5Z2atgPeoK
-ys1KO5ykMW2kJBaflstv7Xq/fSuE+b+OkvdeMc3wzJ/d63If4LVd5ZOYI7rr9e9L9DE/YqD1Kj2e
-OK3M09enS1m7Ax9KsquyE+WD9th5m3QlJWVLUMEVn0qh8M/aJvuEsvectm+EVF5QdMQimqz21KjJ
-cYtRZ7guTn/NZz3ScUfgY85WirZUr4/jXRe+Y0Gc3hwewmFt8VbGqZvejuq1ANDbpGTxpcRgi5hT
-pnL1WslT0dRWsz6mWIz1HtLDzlSmqOprXToTDArv0PGtlnjYO+H7ueoGZy44ZVSNqBA1/6j93kXJ
-5jkyFwrKld0yxfMXZ3HgVxeLOExbytKT/UQ4lSv/r1XrGjeJrWzOphoWfdUAenZOT4S05G544X19
-I5YSla1GPoqm0OtmpE5uhv+mKi5by7w3tHqHiFlKpkkkUG1bWjUsjMHsHPdqiJlh+ifO0fTH7CTR
-HrKMJe+1SPMwdx2a1RrnS16/kYM5ssruBunM+oZpK2YiyICetCr2MGd+n/OjfpTPxN/WK0cDFbLI
-cNYfWe91OrlTJImLOvwntRyR8Pi0DtKcY+vPws3ASTmMYp3UpaaqX+zCowo6grlT88L6c8TKPR0T
-AaE=
-=vs4B
------END PGP SIGNATURE-----
-
---SjVwQ8ymHuMOUUVTrEN95juI6Y70IsD7Q--
-
---===============0505478568==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0505478568==--
