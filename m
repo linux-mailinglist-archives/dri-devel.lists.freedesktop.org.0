@@ -1,63 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23052D7AF2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 17:31:03 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018142D7D55
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 18:53:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EACE66E49A;
-	Fri, 11 Dec 2020 16:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF026E479;
+	Fri, 11 Dec 2020 17:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com
- [IPv6:2a00:1450:4864:20::343])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 383D36E49A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 16:31:01 +0000 (UTC)
-Received: by mail-wm1-x343.google.com with SMTP id a3so9148819wmb.5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 08:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=0aJqlMpxFQBrfFCs6sqCkMfuxmLBNkaqvClkNn2UQPQ=;
- b=Wdk9JBjvocAi2dqwxuNPHHzpObpiB5liK/Gt7nIdSSwgn8qupo+XFa1OazZwJKJa4U
- VZfqYNe8Jfpo+Ns7PYIu7VWm4ebDD02sKaaePLlSEhbL/H0VfL1iz3j3UvgJWsnblXbA
- lb7DvAhCSlr5SDMealgKnNRjYpenbWHN3U+VU=
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3F936E43D;
+ Fri, 11 Dec 2020 17:53:35 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id h7so2118300pjk.1;
+ Fri, 11 Dec 2020 09:53:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qJMuReBBloytY5lBy9ILiGRjMb37kF5Bm1u/sykMtGI=;
+ b=pbcP9ZyMd8cecm/Ac29HxHof8LYE8oIxJsfNxtiP4g+O1ufaXL9wqRka/RSo4Tovrl
+ 0+y5AKL9oCVabUsoTOFqz/Yq9QfdTj0Typ4F+2X8XEQKxDDPDKl8NptHh9zo30qru18d
+ QGlaxM7GEPdID0olwlCiRofo+G16Jl5uy1wTEIGaTXATmtYB0SKJ7RfAvwDsjDcWrkzF
+ kKjuZM4tWxnD1BBGBwlxpereCqs+GnyIsKzQ1aCY79/NwQxDiafuQ2m4U5xGO28vG9vA
+ fsrh/72iZb6gHAJp4ifwj1MfQl9QfYGQYjUntoAEcq5P8hce+uphA5O/Y7Ku0HiAUL7i
+ H9Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=0aJqlMpxFQBrfFCs6sqCkMfuxmLBNkaqvClkNn2UQPQ=;
- b=gtQBRzLUbwlmL+SMe1UxF1CghuYuUfZvA1UtD+ZR/wSOc+d4LuzYB27pbIIpBSutm4
- d+PT65rLdkBPmlDI84TQc2ZZ8ZqeZEqmwJX+CAe2LjHTMh39GkSvJlvPGQmHakj9q3l0
- OEP96gUjamBIXRua6HjXaq/efqTWsdimqCI14XnqmmwR31DkNAd1p8jbDr3tTnT/O7Bo
- HjbDMrEokFxYe7M7+EcBpMWl7OcJfYpJvvknnM2lqggt4/psdn9he+3qu37pkJ+Y55ZX
- D/pwv1ca5PSLvya/PenJBYxwvOMGMcnpDDP93yO2lmaCclGK4FlDgANqMmeRUagI3Oul
- QjkQ==
-X-Gm-Message-State: AOAM531DnomgYuevV3kt06dUf3RGitqGpcwC6lVfxLYUysM8jy4BbbT/
- rPN37zMCYmPYwPAfUaic7FYkzg==
-X-Google-Smtp-Source: ABdhPJwCeliXqsUkATdMzf50vwlfwEpDxoeyZlOwFYPOnTq38VjuEBG3mJIwlRjrNQ9giVdEVHiYXw==
-X-Received: by 2002:a1c:234d:: with SMTP id j74mr14346222wmj.18.1607704259920; 
- Fri, 11 Dec 2020 08:30:59 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id b9sm15633467wmd.32.2020.12.11.08.30.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 08:30:58 -0800 (PST)
-Date: Fri, 11 Dec 2020 17:30:56 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 28/65] drm/ttm: WARN_ON non-empty lru when disabling a
- resource manager
-Message-ID: <20201211163056.GV401619@phenom.ffwll.local>
-References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
- <20201023122216.2373294-1-daniel.vetter@ffwll.ch>
- <20201023122216.2373294-28-daniel.vetter@ffwll.ch>
- <18e78a2d-6ede-97b8-3c8c-e85354a573f8@amd.com>
- <CAKMK7uGG0B+NfBFO7j7E9FnxY4ET+bCgTHp5vKKXEYDX_1aR+Q@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qJMuReBBloytY5lBy9ILiGRjMb37kF5Bm1u/sykMtGI=;
+ b=Hy6hZAaYbCpxiOBfwrR1mn4+sRnXUvEYKvesCwP6Eck4VHungsPmROvSP9jHVVS3zA
+ VLelf04bD+/BAyOyO+v2MwryP/dl3VNVKfQh+D8ksvrxfF4o/o4/DUz6S54jfxMUqZa3
+ LpG4+Z1+YKV1l4OksZI0r4HmWqh4Qw90Wlvzt3+u/YtdsTM0h2wU1bBUDxaaLwKndgC0
+ u6CwuRgtnu2F9iP3tSySnuqFQ3v/9sgO+TJPzWN8DyxHocaR62fMyD98ABhmgPXmXzrv
+ uZIzUkxMG7He1gOe4d9oXFp049F+3sKdpJiaI3rUfkgirYCKruv/9WQQUNfr3ODKEnYf
+ dYtQ==
+X-Gm-Message-State: AOAM533F/tEAughAcQACC3zjn5HL4uilgChv9SMcpq+SJUzg1kYbNf7S
+ YbTOMfDxZB8gqpmdKW28Bjpq2A/GevSQiAVcK0o=
+X-Google-Smtp-Source: ABdhPJzHUDKz30vqqKYAobJsngcYE8DjK4RijmUtwtDAm93E/clqz0VBoWDrwvzZzwrJPWtEJfA5ahq579HFtI6a1+g=
+X-Received: by 2002:a17:90a:34cb:: with SMTP id
+ m11mr14313128pjf.181.1607709215341; 
+ Fri, 11 Dec 2020 09:53:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uGG0B+NfBFO7j7E9FnxY4ET+bCgTHp5vKKXEYDX_1aR+Q@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194042.860029489@linutronix.de>
+In-Reply-To: <20201210194042.860029489@linutronix.de>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 11 Dec 2020 19:53:07 +0200
+Message-ID: <CAHp75Vc-2OjE2uwvNRiyLMQ8GSN3P7SehKD-yf229_7ocaktiw@mail.gmail.com>
+Subject: Re: [patch 03/30] genirq: Move irq_set_lockdep_class() to core
+To: Thomas Gleixner <tglx@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,95 +62,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Huang Rui <ray.huang@amd.com>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev <netdev@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ linux-s390@vger.kernel.org, afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
+ Leon Romanovsky <leon@kernel.org>,
+ "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ linux-pci <linux-pci@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Wambui Karuga <wambui.karugax@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>, Juergen Gross <jgross@suse.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, LKML <linux-kernel@vger.kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
+ linux-ntb@googlegroups.com, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 23, 2020 at 04:56:20PM +0200, Daniel Vetter wrote:
-> On Fri, Oct 23, 2020 at 4:54 PM Christian K=F6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 23.10.20 um 14:21 schrieb Daniel Vetter:
-> > > ttm_resource_manager->use_type is only used for runtime changes by
-> > > vmwgfx. I think ideally we'd push this functionality into drivers -
-> > > ttm itself does not provide any locking to guarantee this is safe, so
-> > > the only way this can work at runtime is if the driver does provide
-> > > additional guarantees. vwmgfx does that through the
-> > > vmw_private->reservation_sem. Therefore supporting this feature in
-> > > shared code feels a bit misplaced.
-> > >
-> > > As a first step add a WARN_ON to make sure the resource manager is
-> > > empty. This is just to make sure I actually understand correctly what
-> > > vmwgfx is doing, and to make sure an eventual subsequent refactor
-> > > doesn't break anything.
-> > >
-> > > This check should also be useful for other drivers, to make sure they
-> > > haven't leaked anything.
-> > >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Christian Koenig <christian.koenig@amd.com>
-> > > Cc: Huang Rui <ray.huang@amd.com>
-> >
-> > I'm pretty sure that this will trigger for vmwgfx. But that's what it is
-> > supposed to do, isn't it?
-> =
+On Thu, Dec 10, 2020 at 10:14 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> irq_set_lockdep_class() is used from modules and requires irq_to_desc() to
+> be exported. Move it into the core code which lifts another requirement for
+> the export.
 
-> Yeah, this is an accidental dump of my wip pile, and it's not done yet
-> at all. Please disregard (at least for now).
-> -Daniel
-> =
+...
 
-> > Reviewed-by: Christian K=F6nig <christian.koenig@amd.com>
+> +       if (IS_ENABLED(CONFIG_LOCKDEP))
+> +               __irq_set_lockdep_class(irq, lock_class, request_class);
 
-Ok decided to submit these 3 patches finally, including the 2 vmwgfx fixes
-which should avoid the splat. I included your r-b, pls complain if that's
-not ok anymore.
+Maybe I missed something, but even if the compiler does not warn the
+use of if IS_ENABLED() with complimentary #ifdef seems inconsistent.
 
-Thanks, Daniel
+> +#ifdef CONFIG_LOCKDEP
+...
+> +EXPORT_SYMBOL_GPL(irq_set_lockdep_class);
+> +#endif
 
-> >
-> > > ---
-> > >   include/drm/ttm/ttm_resource.h | 4 ++++
-> > >   1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_res=
-ource.h
-> > > index f48a70d39ac5..789ec477b607 100644
-> > > --- a/include/drm/ttm/ttm_resource.h
-> > > +++ b/include/drm/ttm/ttm_resource.h
-> > > @@ -191,6 +191,10 @@ struct ttm_resource {
-> > >   static inline void
-> > >   ttm_resource_manager_set_used(struct ttm_resource_manager *man, boo=
-l used)
-> > >   {
-> > > +     int i;
-> > > +
-> > > +     for (i =3D 0; i < TTM_MAX_BO_PRIORITY; i++)
-> > > +             WARN_ON(!list_empty(&man->lru[i]));
-> > >       man->use_type =3D used;
-> > >   }
-> > >
-> >
-> =
 
-> =
-
-> -- =
-
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-- 
+With Best Regards,
+Andy Shevchenko
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
