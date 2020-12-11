@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA872D72CF
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 10:29:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF1E2D72B6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 10:17:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19856ECFD;
-	Fri, 11 Dec 2020 09:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F4226ECF7;
+	Fri, 11 Dec 2020 09:17:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B852C6ECFD;
- Fri, 11 Dec 2020 09:29:50 +0000 (UTC)
-IronPort-SDR: QXmqMpCJcm3SoQQQVG0bwsjgTJPmStvINc20+uls6l42WHvbOqfQ0r8KrDgD9P1+yrxQG4ZoCo
- HIH0j2bBL6jA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="153638851"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="153638851"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 01:29:50 -0800
-IronPort-SDR: AznPK7LTfIq19DO+g6qqqBMvGD8DPDv+VeMxEMkE0Hbb9ISyttYZrL6xOwtxaPCug7xRMqH1XU
- e5xMlCBA6jOw==
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="440798548"
-Received: from genxfsim-desktop.iind.intel.com (HELO intel.com)
- ([10.223.74.178])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2020 01:29:47 -0800
-Date: Fri, 11 Dec 2020 14:46:24 +0530
-From: Anshuman Gupta <anshuman.gupta@intel.com>
-To: Ramalingam C <ramalingam.c@intel.com>
-Subject: Re: [PATCH v7 17/18] drm/i915/hdcp: Support for HDCP 2.2 MST shim
- callbacks
-Message-ID: <20201211091621.GD9309@intel.com>
-References: <20201210062640.11783-1-anshuman.gupta@intel.com>
- <20201210062640.11783-18-anshuman.gupta@intel.com>
- <20201211071934.GE1297@intel.com>
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com
+ [IPv6:2a00:1450:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95CC36ECF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 09:17:35 +0000 (UTC)
+Received: by mail-wm1-x341.google.com with SMTP id k10so6926825wmi.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 01:17:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nHRfY59QhkfMEXZ7CuK5jky9K2Cwi3YsJSJRMFWT6No=;
+ b=hO8cVwjqsKkSxW9Jc2m7rLR4b04EHbViBLZ7UoDa7i6jOGhcSdsHcFqZ3sQA9/9R5R
+ 6A9EtRGI6naTKPxLm5yuxCURVFz+BKH7vTiTMFdLsE/MgtVcZS7xXWjwwZg7dSSZI8V+
+ 7YZ639LylNoQTOyzv+dIO6hA2EeRkBPC/ABzY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nHRfY59QhkfMEXZ7CuK5jky9K2Cwi3YsJSJRMFWT6No=;
+ b=Vd13pAuJS00tufxNwjbJiKV2J0Iy4rbOj69ioxXDXN8bOvjwOc9e2ODBV5L4w9R//E
+ nsKhaZysqNmflasqkrVxvGFK0TvbqIyD/OFXaZn7R1OQVHEQ+bFooSYWxYPJomJeK9ol
+ seNRdB1NVHScmaKdzuPNt+rgMrJQuglqVLhqsSSKM1CxlYMLLSrvqqUxKRGjPbZD3fFA
+ B1Vt4SKpq4s/DpcyAIdmsxZw/HRnmu6qKMbgDeRiKYSO3DEOocriAgZOlHkB/D4BFrYA
+ NyGGkUq9htD0LO0gGO4NF5xYvq5C5YCM+LpLyw1tuCanQI6Jh5ArYuK8riDOXlWCARoo
+ yRhA==
+X-Gm-Message-State: AOAM532Mvs6BuDvM+RA4vagCKZGQmhoswERBC/SmoYfLoMoaFZdcrRwY
+ wF/jpIgn7PtV+upPQhYXQjophg==
+X-Google-Smtp-Source: ABdhPJwhqZnjuDxU8ELTuggdLj8b1ktQf2rn/kBMD6lri7loryTXWBLqguaqBTmBBSL+8CX1w2WUVw==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr12920664wml.31.1607678254267; 
+ Fri, 11 Dec 2020 01:17:34 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id m17sm15349777wrn.0.2020.12.11.01.17.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Dec 2020 01:17:33 -0800 (PST)
+Date: Fri, 11 Dec 2020 10:17:31 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Simon Ser <contact@emersion.fr>
+Subject: Re: [PATCH 2/3] drm: validate possible_crtcs for primary and cursor
+ planes
+Message-ID: <20201211091731.GG401619@phenom.ffwll.local>
+References: <9YgBvQ4vfzhtRAXphq8hsw4alh2IZQ3Jh3aQztBFk@cp7-web-042.plabs.ch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201211071934.GE1297@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <9YgBvQ4vfzhtRAXphq8hsw4alh2IZQ3Jh3aQztBFk@cp7-web-042.plabs.ch>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,188 +65,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
- Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
- uma.shankar@intel.com, seanpaul@chromium.org, juston.li@intel.com
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-12-11 at 12:49:35 +0530, Ramalingam C wrote:
-> On 2020-12-10 at 11:56:39 +0530, Anshuman Gupta wrote:
-> > Add support for HDCP 2.2 DP MST shim callback.
-> > This adds existing DP HDCP shim callback for Link Authentication
-> > and Encryption and HDCP 2.2 stream encryption
-> > callback.
-> > 
-> > v2:
-> > - Added a WARN_ON() instead of drm_err. [Uma]
-> > - Cosmetic changes. [Uma]
-> > v3:
-> > - 's/port_data/hdcp_port_data' [Ram]
-> > - skip redundant link check. [Ram]
-> > v4:
-> > - use pipe instead of port to access HDCP2_STREAM_STATUS
-> How this missed the functional test till now?
-Earlier it was tested on ICL with exisitng content protection igt tests
-becuase DP-MST modeset were failing due to MST bandwidht related issue.
-> Always true because port's stream status was referred?
-It was passing when DDI_A being passed as port instead Pipe A (Used only MST panels)
-but when we connected an eDP panel, it uses DDI_A for eDP and DP_MST
-connectors uses DDI_B. So this time it fails as issue surfaced
-out becuase we have passed DDI_B as port instead of Pipe A.
-Thanks,
-Anshuman Gupta.
-> > 
-> > Cc: Ramalingam C <ramalingam.c@intel.com>
-> > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-> > Tested-by: Karthik B S <karthik.b.s@intel.com>
-> > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> > ---
-> >  .../drm/i915/display/intel_display_types.h    |  4 +
-> >  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 89 +++++++++++++++++--
-> >  2 files changed, 85 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > index 63de25b40eff..da91e3f4ff27 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> > +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> > @@ -378,6 +378,10 @@ struct intel_hdcp_shim {
-> >  	int (*config_stream_type)(struct intel_digital_port *dig_port,
-> >  				  bool is_repeater, u8 type);
-> >  
-> > +	/* Enable/Disable HDCP 2.2 stream encryption on DP MST Transport Link */
-> > +	int (*stream_2_2_encryption)(struct intel_connector *connector,
-> > +				     bool enable);
-> > +
-> >  	/* HDCP2.2 Link Integrity Check */
-> >  	int (*check_2_2_link)(struct intel_digital_port *dig_port,
-> >  			      struct intel_connector *connector);
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > index 9ade1ad3a80c..f372e25edab4 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> > @@ -698,18 +698,14 @@ intel_dp_mst_hdcp_stream_encryption(struct intel_connector *connector,
-> >  	return 0;
-> >  }
-> >  
-> > -static
-> > -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> > -				  struct intel_connector *connector)
-> > +static bool intel_dp_mst_get_qses_status(struct intel_digital_port *dig_port,
-> > +					 struct intel_connector *connector)
-> >  {
-> >  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> > -	struct intel_dp *intel_dp = &dig_port->dp;
-> >  	struct drm_dp_query_stream_enc_status_ack_reply reply;
-> > +	struct intel_dp *intel_dp = &dig_port->dp;
-> >  	int ret;
-> >  
-> > -	if (!intel_dp_hdcp_check_link(dig_port, connector))
-> > -		return false;
-> > -
-> >  	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
-> >  						  connector->port, &reply);
-> >  	if (ret) {
-> > @@ -726,6 +722,78 @@ bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> >  	return reply.auth_completed && reply.encryption_enabled;
-> >  }
-> >  
-> > +static
-> > +bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> > +				  struct intel_connector *connector)
-> > +{
-> > +	if (!intel_dp_hdcp_check_link(dig_port, connector))
-> > +		return false;
-> this also could be optimised for the connector with port authentication
-> only?
-> > +
-> > +	return intel_dp_mst_get_qses_status(dig_port, connector);
-> > +}
-> > +
-> > +static int
-> > +intel_dp_mst_hdcp2_stream_encryption(struct intel_connector *connector,
-> > +				     bool enable)
-> > +{
-> > +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> > +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> > +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
-> > +	struct intel_hdcp *hdcp = &connector->hdcp;
-> > +	enum transcoder cpu_transcoder = hdcp->stream_transcoder;
-> > +	enum pipe pipe = (enum pipe)cpu_transcoder;
-> > +	enum port port = dig_port->base.port;
-> > +	int ret;
-> > +
-> > +	drm_WARN_ON(&i915->drm, enable &&
-> > +		    !!(intel_de_read(i915, HDCP2_AUTH_STREAM(i915, cpu_transcoder, port))
-> > +		    & AUTH_STREAM_TYPE) != data->streams[0].stream_type);
-> > +
-> > +	ret = intel_dp_mst_toggle_hdcp_stream_select(connector, enable);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/* Wait for encryption confirmation */
-> > +	if (intel_de_wait_for_register(i915,
-> > +				       HDCP2_STREAM_STATUS(i915, cpu_transcoder, pipe),
-> > +				       STREAM_ENCRYPTION_STATUS,
-> > +				       enable ? STREAM_ENCRYPTION_STATUS : 0,
-> > +				       HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> > +		drm_err(&i915->drm, "Timed out waiting for transcoder: %s stream encryption %s\n",
-> > +			transcoder_name(cpu_transcoder), enable ? "enabled" : "disabled");
-> > +		return -ETIMEDOUT;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * DP v2.0 I.3.3 ignore the stream signature L' in QSES reply msg reply.
-> > + * I.3.5 MST source device may use a QSES msg to query downstream status
-> > + * for a particular stream.
-> > + */
-> > +static
-> > +int intel_dp_mst_hdcp2_check_link(struct intel_digital_port *dig_port,
-> > +				  struct intel_connector *connector)
-> > +{
-> > +	struct intel_hdcp *hdcp = &connector->hdcp;
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * We do need to do the Link Check only for the connector involved with
-> > +	 * HDCP port authentication and encryption.
-> > +	 * We can re-use the hdcp->is_repeater flag to know that the connector
-> > +	 * involved with HDCP port authentication and encryption.
-> > +	 */
-> > +	if (hdcp->is_repeater) {
-> > +		ret = intel_dp_hdcp2_check_link(dig_port, connector);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > +
-> > +	return intel_dp_mst_get_qses_status(dig_port, connector) ? 0 : -EINVAL;
-> > +}
-> > +
-> >  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> >  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
-> >  	.read_bksv = intel_dp_hdcp_read_bksv,
-> > @@ -739,7 +807,12 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
-> >  	.stream_encryption = intel_dp_mst_hdcp_stream_encryption,
-> >  	.check_link = intel_dp_mst_hdcp_check_link,
-> >  	.hdcp_capable = intel_dp_hdcp_capable,
-> > -
-> > +	.write_2_2_msg = intel_dp_hdcp2_write_msg,
-> > +	.read_2_2_msg = intel_dp_hdcp2_read_msg,
-> > +	.config_stream_type = intel_dp_hdcp2_config_stream_type,
-> > +	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
-> > +	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
-> > +	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
-> >  	.protocol = HDCP_PROTOCOL_DP,
-> >  };
-> >  
-> > -- 
-> > 2.26.2
-> > 
+On Thu, Dec 10, 2020 at 03:50:31PM +0000, Simon Ser wrote:
+> If a primary or cursor plane is not compatible with a CRTC it's attached
+> to via the legacy primary/cursor field, things will be broken for legacy
+> user-space.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+
+Yup, that's something we can validate.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index f1affc1bb679..2c73a60e8765 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -625,6 +625,7 @@ static void validate_encoder_possible_crtcs(struct drm_encoder *encoder)
+>  void drm_mode_config_validate(struct drm_device *dev)
+>  {
+>  	struct drm_encoder *encoder;
+> +	struct drm_crtc *crtc;
+>  
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return;
+> @@ -636,4 +637,19 @@ void drm_mode_config_validate(struct drm_device *dev)
+>  		validate_encoder_possible_clones(encoder);
+>  		validate_encoder_possible_crtcs(encoder);
+>  	}
+> +
+> +	drm_for_each_crtc(crtc, dev) {
+> +		if (crtc->primary) {
+> +			WARN(!(crtc->primary->possible_crtcs & BIT(crtc->index)),
+> +			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
+> +			     crtc->primary->base.id, crtc->primary->name,
+> +			     crtc->base.id, crtc->name);
+> +		}
+> +		if (crtc->cursor) {
+> +			WARN(!(crtc->cursor->possible_crtcs & BIT(crtc->index)),
+> +			     "Bogus cursor plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
+> +			     crtc->cursor->base.id, crtc->cursor->name,
+> +			     crtc->base.id, crtc->name);
+> +		}
+> +	}
+>  }
+> -- 
+> 2.29.2
+> 
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
