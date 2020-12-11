@@ -2,39 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6146A2D93E9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A3D2D9402
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 695816E07F;
-	Mon, 14 Dec 2020 08:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C52B6E0BA;
+	Mon, 14 Dec 2020 08:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from merlin.infradead.org (merlin.infradead.org
- [IPv6:2001:8b0:10b:1231::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978566E203
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 19:47:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:In-Reply-To:References;
- bh=HBfnftZnbBrqQ2L8AVQLmkUI6WPMZLgfMtK+X7BxoY8=; b=HhzXululOSOrfvp/5YAOmPtSYq
- Kknf7NDUIJ8zqpvoHdy/Sj9Qsqc6FB0Kzf9iV9JR+K72F2AuOAVD2FzdsSzP/0rZxWImjIFDbY9YD
- EZYIe8VF0oTe/fPNAzMvQShkoFkY7kGDl8sAl2q6A4WWSS2VsE/JMijPnamd030yjtG5Ecr+ii4Of
- WQ8mfaiiYZ3ZptXiLmYi9BHV4Ymno7gPWn6n+FqeRTMIvJS/UVZKqjuY6CceaOtD8iG9TzTrULsgA
- ibXM0NsfbXMgqMWvaDqZbnFZfPUN5JAvny0SyF3khm2I10p6gDDNwl6HjJEbY02KcM7JBvKLVRZuN
- 0B/t38Xg==;
-Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1knoOD-0008PD-Te; Fri, 11 Dec 2020 19:47:42 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH -next] drm/rockchip: cdn-dp-core: fix function not used when
- not PM_SLEEP
-Date: Fri, 11 Dec 2020 11:47:36 -0800
-Message-Id: <20201211194736.7908-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10C916E4E8;
+ Fri, 11 Dec 2020 21:08:11 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1607720888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HhSZk3JoDjyQOLMPOFgRgzwUyrTACu0UGSGM/7NvY6I=;
+ b=ODjND6hv3nPITeDJOTxlIhVMHSqc6z+V97F+ULhmNWUDUg4MeWWcc8/RjfBSpJ+3E7KGvI
+ 7u3oIQ1T0blXK7tiZjRPA+EmHIW9gpYRAbWAbVY6gfKBefi2hgLwHuva9Pr5DzcIfb4zGY
+ SuyetRvP8eIvO7dEK0SnW5NkAhYPqinzrr4Dc4PuL6rLfSElkjk6Dm5HgGKkZSl8lMyVVb
+ GCj6eMo+nj1M3TWtminM7NXFXEDFn7q5iOiTlBNVs+z2wkgYrK9LnDALIH7BFq1ID6L7rE
+ ud/rYvRghXbFi0znwvlxBBbwl+qtg9iLqpnrT1m9/JCtlXDnnHPHRcYj9dijAA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1607720888;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HhSZk3JoDjyQOLMPOFgRgzwUyrTACu0UGSGM/7NvY6I=;
+ b=jd0RTQztrN1EtCKge/4M0pzHQ/MU02TRkL1ocrE3lvW4v9ht90/z6O6t5eEalNoD9uJ0/m
+ DmETqLTaJjhHPNAQ==
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [patch 03/30] genirq: Move irq_set_lockdep_class() to core
+In-Reply-To: <CAHp75Vc-2OjE2uwvNRiyLMQ8GSN3P7SehKD-yf229_7ocaktiw@mail.gmail.com>
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194042.860029489@linutronix.de>
+ <CAHp75Vc-2OjE2uwvNRiyLMQ8GSN3P7SehKD-yf229_7ocaktiw@mail.gmail.com>
+Date: Fri, 11 Dec 2020 22:08:07 +0100
+Message-ID: <87h7osgifc.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:41 +0000
+X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,33 +54,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: David Airlie <airlied@linux.ie>, Randy Dunlap <rdunlap@infradead.org>,
- Sandy Huang <hjc@rock-chips.com>, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>, "James E.J.
+ Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev <netdev@vger.kernel.org>,
+ Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
+ linux-s390@vger.kernel.org, afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
+ Leon Romanovsky <leon@kernel.org>, "open
+ list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Helge Deller <deller@gmx.de>, Russell King <linux@armlinux.org.uk>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ linux-pci <linux-pci@vger.kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Heiko Carstens <hca@linux.ibm.com>, Wambui Karuga <wambui.karugax@gmail.com>,
+ Allen Hubbe <allenbh@gmail.com>, Juergen Gross <jgross@suse.com>,
+ David Airlie <airlied@linux.ie>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, LKML <linux-kernel@vger.kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
+ linux-ntb@googlegroups.com, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rml4IGJ1aWxkIHdhcm5pbmcgd2hlbiBDT05GSUdfUE1fU0xFRVAgaXMgbm90IGVuYWJsZWQuCgou
-Li9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYzoxMTI0OjEyOiB3YXJuaW5n
-OiDigJhjZG5fZHBfcmVzdW1l4oCZIGRlZmluZWQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1mdW5j
-dGlvbl0KIHN0YXRpYyBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpkZXYpCgpGaXhl
-czogN2M0OWFiYjRjMmY4ICgiZHJtL3JvY2tjaGlwOiBjZG4tZHAtY29yZTogTWFrZSBjZG5fZHBf
-Y29yZV9zdXNwZW5kL3Jlc3VtZSBzdGF0aWMiKQpTaWduZWQtb2ZmLWJ5OiBSYW5keSBEdW5sYXAg
-PHJkdW5sYXBAaW5mcmFkZWFkLm9yZz4KQ2M6IFNhbmR5IEh1YW5nIDxoamNAcm9jay1jaGlwcy5j
-b20+CkNjOiBIZWlrbyBTdMO8Ym5lciA8aGVpa29Ac250ZWNoLmRlPgpDYzogZHJpLWRldmVsQGxp
-c3RzLmZyZWVkZXNrdG9wLm9yZwpDYzogRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4LmllPgpD
-YzogRGFuaWVsIFZldHRlciA8ZGFuaWVsQGZmd2xsLmNoPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9y
-b2NrY2hpcC9jZG4tZHAtY29yZS5jIHwgICAgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKQoKLS0tIGxpbnV4LW5leHQtMjAyMDEyMTAub3JpZy9kcml2ZXJzL2dwdS9kcm0vcm9j
-a2NoaXAvY2RuLWRwLWNvcmUuYworKysgbGludXgtbmV4dC0yMDIwMTIxMC9kcml2ZXJzL2dwdS9k
-cm0vcm9ja2NoaXAvY2RuLWRwLWNvcmUuYwpAQCAtMTEyMSw2ICsxMTIxLDcgQEAgc3RhdGljIGlu
-dCBjZG5fZHBfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlCiAJcmV0dXJuIHJldDsKIH0KIAorI2lmZGVm
-IENPTkZJR19QTV9TTEVFUAogc3RhdGljIGludCBjZG5fZHBfcmVzdW1lKHN0cnVjdCBkZXZpY2Ug
-KmRldikKIHsKIAlzdHJ1Y3QgY2RuX2RwX2RldmljZSAqZHAgPSBkZXZfZ2V0X2RydmRhdGEoZGV2
-KTsKQEAgLTExMzMsNiArMTEzNCw3IEBAIHN0YXRpYyBpbnQgY2RuX2RwX3Jlc3VtZShzdHJ1Y3Qg
-ZGV2aWNlICoKIAogCXJldHVybiAwOwogfQorI2VuZGlmCiAKIHN0YXRpYyBpbnQgY2RuX2RwX3By
-b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiB7Cl9fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Fri, Dec 11 2020 at 19:53, Andy Shevchenko wrote:
+
+> On Thu, Dec 10, 2020 at 10:14 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+>>
+>> irq_set_lockdep_class() is used from modules and requires irq_to_desc() to
+>> be exported. Move it into the core code which lifts another requirement for
+>> the export.
+>
+> ...
+>
+>> +       if (IS_ENABLED(CONFIG_LOCKDEP))
+>> +               __irq_set_lockdep_class(irq, lock_class, request_class);
+
+You are right. Let me fix that.
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
