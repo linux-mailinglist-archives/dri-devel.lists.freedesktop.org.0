@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CB72D6FF7
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 07:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049702D6FF8
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 07:06:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 645996EC4A;
-	Fri, 11 Dec 2020 06:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3428A6EC4B;
+	Fri, 11 Dec 2020 06:06:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80C976EC4A
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 06:06:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11CA06EC4B
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 06:06:38 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: =?UTF-8?B?W0J1ZyAyMTA1NDNdIGFtZGdwdSBLZXJuZWwgcGFuaWPvvJpfX3R0?=
  =?UTF-8?B?bV9kbWFfZnJlZV9wYWdlLmlzcmEuMCsweGFjLzB4ZTggW3R0bV0=?=
-Date: Fri, 11 Dec 2020 06:06:13 +0000
+Date: Fri, 11 Dec 2020 06:06:37 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -34,7 +34,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-210543-2300-WPClRLJ6Ha@https.bugzilla.kernel.org/>
+Message-ID: <bug-210543-2300-rqMCfQCrJS@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-210543-2300@https.bugzilla.kernel.org/>
 References: <bug-210543-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,10 +59,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=210543
 
---- Comment #2 from Ancheng (acyellow@gmail.com) ---
-Created attachment 294093
-  --> https://bugzilla.kernel.org/attachment.cgi?id=294093&action=edit
-dmesg file
+--- Comment #3 from Ancheng (acyellow@gmail.com) ---
+Created attachment 294095
+  --> https://bugzilla.kernel.org/attachment.cgi?id=294095&action=edit
+dmesg file1
 
 -- 
 You are receiving this mail because:
