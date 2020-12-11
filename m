@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6DCD2D70BC
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9632D70C5
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 08:24:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 007E36EC62;
-	Fri, 11 Dec 2020 07:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C849F6EC65;
+	Fri, 11 Dec 2020 07:24:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959346EC62;
- Fri, 11 Dec 2020 07:19:59 +0000 (UTC)
-IronPort-SDR: zNggKS2Vav7BeUlv+ds0tPh6VN6VJAqCZdK1daFb83p/i8mcGXePlBcdGJ1F7ta7x4UWT2bIjW
- xL4RiOoKwI/A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="154199639"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="154199639"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 23:19:50 -0800
-IronPort-SDR: 7V0TucJgDOhBet049Qx4dBGp3Q+i5cyHk5CXLpANfxt+r7g+FCBg0doeqc93i6dqYX/psH8xky
- hHlNYboTdEgQ==
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="379411077"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15A3789ED3;
+ Fri, 11 Dec 2020 07:24:37 +0000 (UTC)
+IronPort-SDR: ncdA5nfqfAMvQBfW7Sn8t8jYV1DXF0FNkgkDHg82NHZguOIZukiwND5Wn7ZOChzJdO3Z81n5sR
+ pgCJT4C1r5aA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="171827815"
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="171827815"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 23:24:36 -0800
+IronPort-SDR: pZgPJk+elSFw+5OggAoWq/5PVtW3FOloDS8m9M+3kWtISGZBG7/apLpGAbsnBdtrH4VqFGGQRv
+ vRcU82ArElhg==
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; d="scan'208";a="484962849"
 Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Dec 2020 23:19:47 -0800
-Date: Fri, 11 Dec 2020 12:49:35 +0530
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Dec 2020 23:24:33 -0800
+Date: Fri, 11 Dec 2020 12:54:21 +0530
 From: Ramalingam C <ramalingam.c@intel.com>
 To: Anshuman Gupta <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v7 17/18] drm/i915/hdcp: Support for HDCP 2.2 MST shim
- callbacks
-Message-ID: <20201211071934.GE1297@intel.com>
+Subject: Re: [PATCH v7 18/18] drm/i915/hdcp: Enable HDCP 2.2 MST support
+Message-ID: <20201211072421.GF1297@intel.com>
 References: <20201210062640.11783-1-anshuman.gupta@intel.com>
- <20201210062640.11783-18-anshuman.gupta@intel.com>
+ <20201210062640.11783-19-anshuman.gupta@intel.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201210062640.11783-18-anshuman.gupta@intel.com>
+In-Reply-To: <20201210062640.11783-19-anshuman.gupta@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,168 +56,148 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2020-12-10 at 11:56:39 +0530, Anshuman Gupta wrote:
-> Add support for HDCP 2.2 DP MST shim callback.
-> This adds existing DP HDCP shim callback for Link Authentication
-> and Encryption and HDCP 2.2 stream encryption
-> callback.
+On 2020-12-10 at 11:56:40 +0530, Anshuman Gupta wrote:
+> Enable HDCP 2.2 over DP MST.
+> Authenticate and enable port encryption only once for
+> an active HDCP 2.2 session, once port is authenticated
+> and encrypted enable encryption for each stream that
+> requires encryption on this port.
 > 
+> Similarly disable the stream encryption for each encrypted
+> stream, once all encrypted stream encryption is disabled,
+> disable the port HDCP encryption and deauthenticate the port.
+> 
+Like in the previous patch (for 1.4 MST?) split this patch into 2. one
+for configuring the stream encryptions status for 2.2 another one for
+enabling the HDCP2.2 MST support.
+
+Ram
 > v2:
-> - Added a WARN_ON() instead of drm_err. [Uma]
-> - Cosmetic changes. [Uma]
+> - Add connector details in drm_err. [Ram]
+> - 's/port_auth/hdcp_auth_status'. [Ram]
+> - Added a debug print for stream enc.
 > v3:
-> - 's/port_data/hdcp_port_data' [Ram]
-> - skip redundant link check. [Ram]
-> v4:
-> - use pipe instead of port to access HDCP2_STREAM_STATUS
-How this missed the functional test till now?
-Always true because port's stream status was referred?
+> - uniformity for connector detail in DMESG. [Ram]
 > 
 > Cc: Ramalingam C <ramalingam.c@intel.com>
 > Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 > Tested-by: Karthik B S <karthik.b.s@intel.com>
 > Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 > ---
->  .../drm/i915/display/intel_display_types.h    |  4 +
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 89 +++++++++++++++++--
->  2 files changed, 85 insertions(+), 8 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 53 ++++++++++++++++++++++-
+>  1 file changed, 51 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index 63de25b40eff..da91e3f4ff27 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -378,6 +378,10 @@ struct intel_hdcp_shim {
->  	int (*config_stream_type)(struct intel_digital_port *dig_port,
->  				  bool is_repeater, u8 type);
->  
-> +	/* Enable/Disable HDCP 2.2 stream encryption on DP MST Transport Link */
-> +	int (*stream_2_2_encryption)(struct intel_connector *connector,
-> +				     bool enable);
-> +
->  	/* HDCP2.2 Link Integrity Check */
->  	int (*check_2_2_link)(struct intel_digital_port *dig_port,
->  			      struct intel_connector *connector);
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> index 9ade1ad3a80c..f372e25edab4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_hdcp.c
-> @@ -698,18 +698,14 @@ intel_dp_mst_hdcp_stream_encryption(struct intel_connector *connector,
->  	return 0;
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 65dd39b44688..4b221c298835 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -1700,6 +1700,36 @@ static int hdcp2_authenticate_sink(struct intel_connector *connector)
+>  	return ret;
 >  }
 >  
-> -static
-> -bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> -				  struct intel_connector *connector)
-> +static bool intel_dp_mst_get_qses_status(struct intel_digital_port *dig_port,
-> +					 struct intel_connector *connector)
->  {
->  	struct drm_i915_private *i915 = to_i915(dig_port->base.base.dev);
-> -	struct intel_dp *intel_dp = &dig_port->dp;
->  	struct drm_dp_query_stream_enc_status_ack_reply reply;
-> +	struct intel_dp *intel_dp = &dig_port->dp;
->  	int ret;
->  
-> -	if (!intel_dp_hdcp_check_link(dig_port, connector))
-> -		return false;
-> -
->  	ret = drm_dp_send_query_stream_enc_status(&intel_dp->mst_mgr,
->  						  connector->port, &reply);
->  	if (ret) {
-> @@ -726,6 +722,78 @@ bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
->  	return reply.auth_completed && reply.encryption_enabled;
->  }
->  
-> +static
-> +bool intel_dp_mst_hdcp_check_link(struct intel_digital_port *dig_port,
-> +				  struct intel_connector *connector)
-> +{
-> +	if (!intel_dp_hdcp_check_link(dig_port, connector))
-> +		return false;
-this also could be optimised for the connector with port authentication
-only?
-> +
-> +	return intel_dp_mst_get_qses_status(dig_port, connector);
-> +}
-> +
-> +static int
-> +intel_dp_mst_hdcp2_stream_encryption(struct intel_connector *connector,
-> +				     bool enable)
+> +static int hdcp2_enable_stream_encryption(struct intel_connector *connector)
 > +{
 > +	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
-> +	struct drm_i915_private *i915 = to_i915(connector->base.dev);
-> +	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+> +	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
 > +	struct intel_hdcp *hdcp = &connector->hdcp;
-> +	enum transcoder cpu_transcoder = hdcp->stream_transcoder;
-> +	enum pipe pipe = (enum pipe)cpu_transcoder;
+> +	enum transcoder cpu_transcoder = hdcp->cpu_transcoder;
 > +	enum port port = dig_port->base.port;
-> +	int ret;
+> +	int ret = 0;
 > +
-> +	drm_WARN_ON(&i915->drm, enable &&
-> +		    !!(intel_de_read(i915, HDCP2_AUTH_STREAM(i915, cpu_transcoder, port))
-> +		    & AUTH_STREAM_TYPE) != data->streams[0].stream_type);
+> +	if (!(intel_de_read(dev_priv, HDCP2_STATUS(dev_priv, cpu_transcoder, port)) &
+> +			    LINK_ENCRYPTION_STATUS)) {
+> +		drm_err(&dev_priv->drm, "[%s:%d] HDCP 2.2 Link is not encrypted\n",
+> +			connector->base.name, connector->base.base.id);
+> +		return -EPERM;
+> +	}
 > +
-> +	ret = intel_dp_mst_toggle_hdcp_stream_select(connector, enable);
-> +	if (ret)
+> +	if (hdcp->shim->stream_2_2_encryption) {
+> +		ret = hdcp->shim->stream_2_2_encryption(connector, true);
+> +		if (ret) {
+> +			drm_err(&dev_priv->drm, "[%s:%d] Failed to enable HDCP 2.2 stream enc\n",
+> +				connector->base.name, connector->base.base.id);
+> +			return ret;
+> +		}
+> +		drm_dbg_kms(&dev_priv->drm, "HDCP 2.2 transcoder: %s stream encrypted\n",
+> +			    transcoder_name(hdcp->stream_transcoder));
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  static int hdcp2_enable_encryption(struct intel_connector *connector)
+>  {
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+> @@ -1838,7 +1868,7 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  			drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
+>  	}
+>  
+> -	if (!ret) {
+> +	if (!ret && !dig_port->hdcp_auth_status) {
+>  		/*
+>  		 * Ensuring the required 200mSec min time interval between
+>  		 * Session Key Exchange and encryption.
+> @@ -1853,6 +1883,8 @@ static int hdcp2_authenticate_and_encrypt(struct intel_connector *connector)
+>  		}
+>  	}
+>  
+> +	ret = hdcp2_enable_stream_encryption(connector);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1898,11 +1930,26 @@ static int _intel_hdcp2_disable(struct intel_connector *connector)
+>  	struct intel_digital_port *dig_port = intel_attached_dig_port(connector);
+>  	struct drm_i915_private *i915 = to_i915(connector->base.dev);
+>  	struct hdcp_port_data *data = &dig_port->hdcp_port_data;
+> +	struct intel_hdcp *hdcp = &connector->hdcp;
+>  	int ret;
+>  
+>  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\n",
+>  		    connector->base.name, connector->base.base.id);
+>  
+> +	if (hdcp->shim->stream_2_2_encryption) {
+> +		ret = hdcp->shim->stream_2_2_encryption(connector, false);
+> +		if (ret) {
+> +			drm_err(&i915->drm, "[%s:%d] Failed to disable HDCP 2.2 stream enc\n",
+> +				connector->base.name, connector->base.base.id);
+> +			return ret;
+> +		}
+> +		drm_dbg_kms(&i915->drm, "HDCP 2.2 transcoder: %s stream encryption disabled\n",
+> +			    transcoder_name(hdcp->stream_transcoder));
+> +	}
+> +
+> +	if (dig_port->num_hdcp_streams > 0)
 > +		return ret;
 > +
-> +	/* Wait for encryption confirmation */
-> +	if (intel_de_wait_for_register(i915,
-> +				       HDCP2_STREAM_STATUS(i915, cpu_transcoder, pipe),
-> +				       STREAM_ENCRYPTION_STATUS,
-> +				       enable ? STREAM_ENCRYPTION_STATUS : 0,
-> +				       HDCP_ENCRYPT_STATUS_CHANGE_TIMEOUT_MS)) {
-> +		drm_err(&i915->drm, "Timed out waiting for transcoder: %s stream encryption %s\n",
-> +			transcoder_name(cpu_transcoder), enable ? "enabled" : "disabled");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * DP v2.0 I.3.3 ignore the stream signature L' in QSES reply msg reply.
-> + * I.3.5 MST source device may use a QSES msg to query downstream status
-> + * for a particular stream.
-> + */
-> +static
-> +int intel_dp_mst_hdcp2_check_link(struct intel_digital_port *dig_port,
-> +				  struct intel_connector *connector)
-> +{
-> +	struct intel_hdcp *hdcp = &connector->hdcp;
-> +	int ret;
-> +
-> +	/*
-> +	 * We do need to do the Link Check only for the connector involved with
-> +	 * HDCP port authentication and encryption.
-> +	 * We can re-use the hdcp->is_repeater flag to know that the connector
-> +	 * involved with HDCP port authentication and encryption.
-> +	 */
-> +	if (hdcp->is_repeater) {
-> +		ret = intel_dp_hdcp2_check_link(dig_port, connector);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return intel_dp_mst_get_qses_status(dig_port, connector) ? 0 : -EINVAL;
-> +}
-> +
->  static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.write_an_aksv = intel_dp_hdcp_write_an_aksv,
->  	.read_bksv = intel_dp_hdcp_read_bksv,
-> @@ -739,7 +807,12 @@ static const struct intel_hdcp_shim intel_dp_mst_hdcp_shim = {
->  	.stream_encryption = intel_dp_mst_hdcp_stream_encryption,
->  	.check_link = intel_dp_mst_hdcp_check_link,
->  	.hdcp_capable = intel_dp_hdcp_capable,
-> -
-> +	.write_2_2_msg = intel_dp_hdcp2_write_msg,
-> +	.read_2_2_msg = intel_dp_hdcp2_read_msg,
-> +	.config_stream_type = intel_dp_hdcp2_config_stream_type,
-> +	.stream_2_2_encryption = intel_dp_mst_hdcp2_stream_encryption,
-> +	.check_2_2_link = intel_dp_mst_hdcp2_check_link,
-> +	.hdcp_2_2_capable = intel_dp_hdcp2_capable,
->  	.protocol = HDCP_PROTOCOL_DP,
->  };
+>  	ret = hdcp2_disable_encryption(connector);
 >  
+>  	if (hdcp2_deauthenticate_port(connector) < 0)
+> @@ -1926,6 +1973,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+>  	int ret = 0;
+>  
+>  	mutex_lock(&hdcp->mutex);
+> +	mutex_lock(&dig_port->hdcp_mutex);
+>  	cpu_transcoder = hdcp->cpu_transcoder;
+>  
+>  	/* hdcp2_check_link is expected only when HDCP2.2 is Enabled */
+> @@ -2003,6 +2051,7 @@ static int intel_hdcp2_check_link(struct intel_connector *connector)
+>  	}
+>  
+>  out:
+> +	mutex_unlock(&dig_port->hdcp_mutex);
+>  	mutex_unlock(&hdcp->mutex);
+>  	return ret;
+>  }
+> @@ -2184,7 +2233,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+>  	if (!shim)
+>  		return -EINVAL;
+>  
+> -	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
+> +	if (is_hdcp2_supported(dev_priv))
+>  		intel_hdcp2_init(connector, dig_port, shim);
+>  
+>  	ret =
 > -- 
 > 2.26.2
 > 
