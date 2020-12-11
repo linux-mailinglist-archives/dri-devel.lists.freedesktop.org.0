@@ -1,60 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EC8B2D733E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:02:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A652D734C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA5D6ED17;
-	Fri, 11 Dec 2020 10:02:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0DDE6ED16;
+	Fri, 11 Dec 2020 10:04:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A346ED17
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:02:51 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id a6so7035086wmc.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 02:02:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D794D6ED16
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:04:41 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id r7so8400685wrc.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 02:04:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=mTuKBk3C/3X76hOG0w8lx61nUDvWBKEJ69TOQ0mlXgA=;
- b=JR/zLRsPiH3O0tRuMUpzppzVpIGdPGfvPucgH2LkrZ5XtZGXvsKVwN576oM5s2qPhQ
- TJX+wLuZXM+Qo0Cqosk7Pf2krN/zHK2QeEK+aBtDcxWs6uAM1MxFdFTxK1j22wNwLYHA
- UIHBLVWVYe0VZHXcFMzZCpNzWbPDL4eyBWn58=
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=1m1097L8Z65yNEwPVsqCFAhMTO7JcIQztqm0XMNCEPQ=;
+ b=QxFc8GC7E8T+U1gL6XJZvjeXxiWbuXfRqv6+3/ZJOEoQYn8YiRuOLDZAWueGTraddr
+ xPqz2bb/8UoAjcvd5vsoN8LW5Iq1Lp0AqSabcEPsXCi+l/VkgtRG+OzcSz2lDjE/Pdix
+ jshzcxstN+qosX02zQCGS+/I2FYEYzEAEBcOtJSJ1mr8h1MxoB17ALXOASyS2RwWORLD
+ sYyHzWywWpvht4yy3yfrgCqZgrWTC9ga2KkmmQ+oI2PP2v+Qn9n0ORXRDwcKBkqiCMKf
+ N0XznwYuSkPJfUeKcTzGZ2pjw4N1X+j5jdnHapfeS7fwZVeyxQTBUj+e7/XfSTgXR3Ap
+ ykzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=mTuKBk3C/3X76hOG0w8lx61nUDvWBKEJ69TOQ0mlXgA=;
- b=rpqXMAxvnWYQ/Q8myTmomSoTVC0QXFpu2yxfqFzbcHEtLGVi4rfcGGDx+HE2zFFkGO
- ZMrmfrv6/wkJ8mP/nuqI0rli98YnlvAou6UPB/qKuwpRoafbvFltsX2sMnEGjb7Mcf9Z
- YVzLPmeRaMQiNEPEHpE76J/qhKaiFfZbQg87SFpLRIQSO0Dp0bwdW2mOHl7xB/4j9qm8
- Nq2YR6LDzd/19KR6OqnhlTAIyNHXNvn4qkn0OEU1tJTCqyNIwkU/ocwM5SwOBeokHkr5
- KwrCyZcESAlFsa0yJmEmr27LOJlpoyljPgMROpgj9cDgiFi/QFXYGL4aMUHLrNmdrFpr
- 5mYw==
-X-Gm-Message-State: AOAM531LV8EXayeNwr5qd/6YuihLtP/0Byhb/He0p6F2kXNiPPxeYITN
- W0QwW1ChwMrSNMRzyFoS5lR0zg==
-X-Google-Smtp-Source: ABdhPJyTBf0iwScHXvSJGXt8CW6VWiYLkdsBFn4324eyY+JcNiRT9NAicuQZ0tAxgT35YR0E16K1dA==
-X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr12459778wmf.95.1607680970334; 
- Fri, 11 Dec 2020 02:02:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m21sm13711303wml.13.2020.12.11.02.02.49
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=1m1097L8Z65yNEwPVsqCFAhMTO7JcIQztqm0XMNCEPQ=;
+ b=sT5ckUzexYE/X+b04wT7DbMSPvcnczSJDKoTRo8bqqlL54NQUDrY5Nbzyz3+HlIHdB
+ v+yTk9KHkfmNzNCAOf8natl/goohCqmbwePAYW9JSnxLE7EvR8Ucx7yd1mBXyAgJnoDP
+ bUOfOT55MEQjUyOoKciwKWr2lGn6qEu8Tu4GwCqeBngUXj4xvzP/spYxrBIRPm3imlOM
+ 1MF3SBWBGqFXV30sntbtnvOqll57w5aoBOW1KglXH0ODQQRcQrPV8Vq+XxyEbLwlhrAA
+ E4wjR9QIO+/kDc4l0xUALThT4rzzaOYOht10kmeC7S+w9mlT7nNAd0H8wdObAD9hOIjy
+ 7YnQ==
+X-Gm-Message-State: AOAM530z5e7/67pyyJj3QGefmZMPpkc1fZZBlzV1PqXlrFppe2jQslIq
+ Q/3UwYVHeshozGbLjMEQxeGhcg==
+X-Google-Smtp-Source: ABdhPJwPXfTZPDeiEu60EOOVLfjPDebdQDfkcu30zCcF3k07tbHpbRDSiAPsDeGxO9u3bWjkQ8cNJw==
+X-Received: by 2002:a5d:6ccc:: with SMTP id c12mr13142414wrc.4.1607681080467; 
+ Fri, 11 Dec 2020 02:04:40 -0800 (PST)
+Received: from dell ([91.110.221.240])
+ by smtp.gmail.com with ESMTPSA id 125sm14307876wmc.27.2020.12.11.02.04.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 02:02:49 -0800 (PST)
-Date: Fri, 11 Dec 2020 11:02:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 5/8] drm/cma-helper: Provide a vmap function for
- short-term mappings
-Message-ID: <20201211100247.GO401619@phenom.ffwll.local>
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-6-tzimmermann@suse.de>
- <20201211094000.GK401619@phenom.ffwll.local>
+ Fri, 11 Dec 2020 02:04:39 -0800 (PST)
+Date: Fri, 11 Dec 2020 10:04:36 +0000
+From: Lee Jones <lee.jones@linaro.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [patch 16/30] mfd: ab8500-debugfs: Remove the racy fiddling with
+ irq_desc
+Message-ID: <20201211100436.GC5029@dell>
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194044.157283633@linutronix.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201211094000.GK401619@phenom.ffwll.local>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201210194044.157283633@linutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,187 +69,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: airlied@linux.ie, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com, kraxel@redhat.com,
- virtualization@lists.linux-foundation.org, sean@poorly.run,
- christian.koenig@amd.com, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ netdev@vger.kernel.org, Will Deacon <will@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
+ afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Heiko Carstens <hca@linux.ibm.com>, linux-gpio@vger.kernel.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+ linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
+ David Airlie <airlied@linux.ie>, linux-parisc@vger.kernel.org,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, LKML <linux-kernel@vger.kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
+ linux-ntb@googlegroups.com, Saeed Mahameed <saeedm@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 11, 2020 at 10:40:00AM +0100, Daniel Vetter wrote:
-> On Wed, Dec 09, 2020 at 03:25:24PM +0100, Thomas Zimmermann wrote:
-> > Implementations of the vmap/vunmap GEM callbacks may perform pinning
-> > of the BO and may acquire the associated reservation object's lock.
-> > Callers that only require a mapping of the contained memory can thus
-> > interfere with other tasks that require exact pinning, such as scanout.
-> > This is less of an issue with private CMA buffers, but may happen
-> > with imported ones.
-> > 
-> > Therefore provide the new interface drm_gem_cma_vmap_local(), which only
-> > performs the vmap operations. Callers have to hold the reservation lock
-> > while the mapping persists.
-> > 
-> > This patch also connects GEM CMA helpers to the GEM object function with
-> > equivalent functionality.
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > ---
-> >  drivers/gpu/drm/drm_gem_cma_helper.c | 35 ++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/vc4/vc4_bo.c         | 13 +++++++++++
-> >  drivers/gpu/drm/vc4/vc4_drv.h        |  1 +
-> >  include/drm/drm_gem_cma_helper.h     |  1 +
-> >  4 files changed, 50 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> > index 7942cf05cd93..40b3e8e3fc42 100644
-> > --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> > +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> > @@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
-> >  	.print_info = drm_gem_cma_print_info,
-> >  	.get_sg_table = drm_gem_cma_get_sg_table,
-> >  	.vmap = drm_gem_cma_vmap,
-> > +	.vmap_local = drm_gem_cma_vmap_local,
-> >  	.mmap = drm_gem_cma_mmap,
-> >  	.vm_ops = &drm_gem_cma_vm_ops,
-> >  };
-> > @@ -471,6 +472,40 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-> >  }
-> >  EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
-> >  
-> > +/**
-> > + * drm_gem_cma_vmap_local - map a CMA GEM object into the kernel's virtual
-> > + *     address space
-> > + * @obj: GEM object
-> > + * @map: Returns the kernel virtual address of the CMA GEM object's backing
-> > + *       store.
-> > + *
-> > + * This function maps a buffer into the kernel's
-> > + * virtual address space. Since the CMA buffers are already mapped into the
-> > + * kernel virtual address space this simply returns the cached virtual
-> > + * address. Drivers using the CMA helpers should set this as their DRM
-> > + * driver's &drm_gem_object_funcs.vmap_local callback.
-> > + *
-> > + * Returns:
-> > + * 0 on success, or a negative error code otherwise.
-> > + */
-> > +int drm_gem_cma_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
-> > +{
-> > +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
-> > +
-> > +	/*
-> > +	 * TODO: The code in drm_gem_cma_prime_import_sg_table_vmap()
-> > +	 *       establishes this mapping. The correct solution would
-> > +	 *       be to call dma_buf_vmap_local() here.
-> > +	 *
-> > +	 *       If we find a case where we absolutely have to call
-> > +	 *       dma_buf_vmap_local(), the code needs to be restructured.
-> 
-> dma_buf_vmap_local is only relevant for dynamic importers, pinning at
-> import time is actually what you get anyway. That's what Christian meant
-> with his comments for the ->pin hook. So the TODO here doesn't make sense
-> imo, just delete it. We're very far away from making cma dynamic :-)
-> 
-> > +	 */
-> > +	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(drm_gem_cma_vmap_local);
-> > +
-> >  /**
-> >   * drm_gem_cma_mmap - memory-map an exported CMA GEM object
-> >   * @obj: GEM object
-> > diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> > index dc316cb79e00..ec57326c69c4 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> > @@ -387,6 +387,7 @@ static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
-> >  	.export = vc4_prime_export,
-> >  	.get_sg_table = drm_gem_cma_get_sg_table,
-> >  	.vmap = vc4_prime_vmap,
-> > +	.vmap_local = vc4_prime_vmap_local,
-> >  	.vm_ops = &vc4_vm_ops,
-> >  };
-> >  
-> > @@ -797,6 +798,18 @@ int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
-> >  	return drm_gem_cma_vmap(obj, map);
-> >  }
-> >  
-> > +int vc4_prime_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
-> > +{
-> > +	struct vc4_bo *bo = to_vc4_bo(obj);
-> > +
-> > +	if (bo->validated_shader) {
-> 
-> This freaks me out. It should be impossible to export a validated shader
-> as a dma-buf, and indeed the check exists already.
-> 
-> All the wrapper functions here are imo pointless. Either we should remove
-> them, or replace the if with a BUG_ON here since if that ever happens we
-> have a security bug already. I'd go with removing, less code. Maybe throw
-> a patch on top?
-
-On 2nd thought, since I asked for the driver parts to be split out in all
-the follow-up patches. Maybe best if you do the removal of these wrappers
-here first, that gets rid of the vc4 changes in this patch here too.
--Daniel
-
-> 
-> Anyway this patch looks good, with the todo deleted:
-> 
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> 
-> 
-> > +		DRM_DEBUG("mmaping of shader BOs not allowed.\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return drm_gem_cma_vmap_local(obj, map);
-> > +}
-> > +
-> >  struct drm_gem_object *
-> >  vc4_prime_import_sg_table(struct drm_device *dev,
-> >  			  struct dma_buf_attachment *attach,
-> > diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> > index 43a1af110b3e..efb6c47d318f 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> > +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> > @@ -812,6 +812,7 @@ struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
-> >  						 struct dma_buf_attachment *attach,
-> >  						 struct sg_table *sgt);
-> >  int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> > +int vc4_prime_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
-> >  int vc4_bo_cache_init(struct drm_device *dev);
-> >  int vc4_bo_inc_usecnt(struct vc4_bo *bo);
-> >  void vc4_bo_dec_usecnt(struct vc4_bo *bo);
-> > diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-> > index 0a9711caa3e8..05122e71bc6d 100644
-> > --- a/include/drm/drm_gem_cma_helper.h
-> > +++ b/include/drm/drm_gem_cma_helper.h
-> > @@ -99,6 +99,7 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
-> >  				  struct dma_buf_attachment *attach,
-> >  				  struct sg_table *sgt);
-> >  int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> > +int drm_gem_cma_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
-> >  int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
-> >  
-> >  /**
-> > -- 
-> > 2.29.2
-> > 
-> 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAxMCBEZWMgMjAyMCwgVGhvbWFzIEdsZWl4bmVyIHdyb3RlOgoKPiBGaXJzdCBvZiBh
+bGwgZHJpdmVycyBoYXZlIGFic29sdXRlbHkgbm8gYnVzaW5lc3MgdG8gZGlnIGludG8gdGhlIGlu
+dGVybmFscwo+IG9mIGFuIGlycSBkZXNjcmlwdG9yLiBUaGF0J3MgY29yZSBjb2RlIGFuZCBzdWJq
+ZWN0IHRvIGNoYW5nZS4gQWxsIG9mIHRoaXMKPiBpbmZvcm1hdGlvbiBpcyByZWFkaWx5IGF2YWls
+YWJsZSB0byAvcHJvYy9pbnRlcnJ1cHRzIGluIGEgc2FmZSBhbmQgcmFjZQo+IGZyZWUgd2F5Lgo+
+IAo+IFJlbW92ZSB0aGUgaW5zcGVjdGlvbiBjb2RlIHdoaWNoIGlzIGEgYmxhdGFudCB2aW9sYXRp
+b24gb2Ygc3Vic3lzdGVtCj4gYm91bmRhcmllcyBhbmQgcmFjeSBhZ2FpbnN0IGNvbmN1cnJlbnQg
+bW9kaWZpY2F0aW9ucyBvZiB0aGUgaW50ZXJydXB0Cj4gZGVzY3JpcHRvci4KPiAKPiBQcmludCB0
+aGUgaXJxIGxpbmUgaW5zdGVhZCBzbyB0aGUgaW5mb3JtYXRpb24gY2FuIGJlIGxvb2tlZCB1cCBp
+biBhIHNhbmUKPiB3YXkgaW4gL3Byb2MvaW50ZXJydXB0cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBU
+aG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4KPiBDYzogTGludXMgV2FsbGVpaiA8
+bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
+cm8ub3JnPgo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiAtLS0K
+PiAgZHJpdmVycy9tZmQvYWI4NTAwLWRlYnVnZnMuYyB8ICAgMTYgKysrLS0tLS0tLS0tLS0tLQo+
+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKCkFja2Vk
+LWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgoKLS0gCkxlZSBKb25lcyBb5p2O
+55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJv
+Lm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86
+IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
+ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
+dGluZm8vZHJpLWRldmVsCg==
