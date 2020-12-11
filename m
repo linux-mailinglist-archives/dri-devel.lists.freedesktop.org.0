@@ -1,61 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961D52D7FDD
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 21:22:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6D72D8011
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 21:36:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336786E9FE;
-	Fri, 11 Dec 2020 20:21:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3556E6E462;
+	Fri, 11 Dec 2020 20:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com
- [IPv6:2a00:1450:4864:20::244])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 884246E9FE
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 20:21:56 +0000 (UTC)
-Received: by mail-lj1-x244.google.com with SMTP id x23so12361098lji.7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 12:21:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lMZxDCK3EHPV415eTfAWmt24gOYNu8m5s7i1OWUhO90=;
- b=zZbDT1KGkvTMeQKEnAfTOSZjzsYrkD4Tgz8brLNeq6Lh4awBtr+xmRlRiafzhVoJIR
- rqZvyx3xlXzyBSSyeI8F5oswzPW8NDb/y8mCdCiO+2PVQmZ1VYdPdg9ovC+UpKmBL3b2
- 2APVlSMD+d0xwnH0u4wSXvQUH52WMhUtGXxFcyJ/ULZoBF0Bma5GMAbrADaEHVKdC+vs
- yuYscH4GMdsTvkz8FK+ogTr6Cvov9VDoJ8KnU6qqK+4jvwheJG61Rjb45YA5Kdeoq61A
- mE+xnJEqqQ/d1F9pCzWkPAJmQaI8EDY71YJp4QmUKzSAz+va4cy/SYHk1S1JqX08YyIZ
- lebA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lMZxDCK3EHPV415eTfAWmt24gOYNu8m5s7i1OWUhO90=;
- b=R1rnn2bvhYHL2c8Xa0sIZtHLmoVrA3roxhFaAsxHEoJapdiVRv70A+keoowsRo7C2k
- IhPifR1TGwuG6HDLW7E+z7WqoTo7yzh2SRib12+tFO7TH2kkDDHuTRDGeGTForWnZnsJ
- JjzVLKDHXwe5szc5jxxTFqARmYXaHjxfQrvY0HXOgrjlJ4AWN6+S3tFbLsow1oLSEnUJ
- rCvnpZ42RHavx63JRN0FLmfoNLahrlRz4HdLgrxLp0UVu1X/IXbmJTUdMBQR/9FcU6Bt
- ILq4/UrDULgSZ9U6Y/IMdkO+0J69TCpTpWtqfEOw5pDSW+y7HXpMNVDP44b6RRVB0ih7
- iRHw==
-X-Gm-Message-State: AOAM532FdYjhrUEMC7G8J5BaR/VLEZLI5jHtVza/Tc9UGqgCRZB90Wu1
- atM2sFoVGmoScW2O4dATNdXE9/M4C+jMHmndJF28hw==
-X-Google-Smtp-Source: ABdhPJxICfsPv5gZgl9FHRPwfpWkwc/udxsFzWzWt2wOYhJdXcGUw9M3QJjshG3dpf6olNAdPGyY3xr3ppjhjL1s6XM=
-X-Received: by 2002:a05:651c:286:: with SMTP id
- b6mr5684677ljo.232.1607718114626; 
- Fri, 11 Dec 2020 12:21:54 -0800 (PST)
+X-Greylist: delayed 21906 seconds by postgrey-1.36 at gabe;
+ Fri, 11 Dec 2020 20:36:36 UTC
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 687936E462;
+ Fri, 11 Dec 2020 20:36:36 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBEK3q4153543;
+ Fri, 11 Dec 2020 14:29:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=XwmNJXsce0biO7XLe+zGaIsjtrmRfK/vTz0mYn6nQBU=;
+ b=bR7yH4+1kTFS/uaRb9qwsHTyFm2EoNVmWnQB/6uOrO708u+eqNtBobFpmn1ttrRdH1ys
+ eWZmcv+9rBDGS0S9dxVH7WJEjVIq3kan/8A2J+2JEfl4cmi6SdTHDxhFZ9FOjgghK0i/
+ gSlqjyBs3FtwP3+ZAOMx//Xrh2s4GGZVNmZZvw8Dg7A8ucgqyFuZ1jZz6HYR0R/QX3KB
+ jq1go8jZfLC3JdZILS9AqGFwicAYPALMmwsEwRd+5bZO9goG03a6o19lTH5pgGTEdXEs
+ I4ECgSmCCiTYqeMDSavCaEpGT9QkWsYwEp7lVPsTzWiLDfHkK38lg3Q5ATAnYCJ8Q3TZ zQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 3581mratkd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 11 Dec 2020 14:29:21 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBEPIII069767;
+ Fri, 11 Dec 2020 14:29:20 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 358kstfcjw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Dec 2020 14:29:20 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BBETD7i006093;
+ Fri, 11 Dec 2020 14:29:13 GMT
+Received: from [10.39.222.144] (/10.39.222.144)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 11 Dec 2020 06:29:13 -0800
+Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
+ interrupts
+To: Thomas Gleixner <tglx@linutronix.de>, =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?=
+ <jgross@suse.com>, LKML <linux-kernel@vger.kernel.org>
+References: <20201210192536.118432146@linutronix.de>
+ <20201210194045.250321315@linutronix.de>
+ <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
+ <2164a0ce-0e0d-c7dc-ac97-87c8f384ad82@suse.com>
+ <871rfwiknd.fsf@nanos.tec.linutronix.de>
+From: boris.ostrovsky@oracle.com
+Organization: Oracle Corporation
+Message-ID: <9806692f-24a3-4b6f-ae55-86bd66481271@oracle.com>
+Date: Fri, 11 Dec 2020 09:29:09 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <20201210044400.1080308-1-hridya@google.com>
- <b5adfe46-8615-5821-d092-2b93feed5b79@amd.com>
- <X9H0JREcdxDsMtLX@kroah.com> <20201210102727.GE401619@phenom.ffwll.local>
- <X9H+3AP1q39aMxeb@kroah.com>
- <CAKMK7uFD3fE01Li3JOpHpzP7313OT3xpcjBwzSVjrCGAmab2Zg@mail.gmail.com>
- <X9IPhEkcZO+Ut5RH@kroah.com>
- <CAKMK7uEM636NjEcxLfsKJa9H71i0mkQ3dsT3yWwHTcVFk4r+Sg@mail.gmail.com>
-In-Reply-To: <CAKMK7uEM636NjEcxLfsKJa9H71i0mkQ3dsT3yWwHTcVFk4r+Sg@mail.gmail.com>
-From: John Stultz <john.stultz@linaro.org>
-Date: Fri, 11 Dec 2020 12:21:43 -0800
-Message-ID: <CALAqxLWr7NgVszBMxTV=_LXKC3a24YzwXKjSdXuLdP5xKGue1w@mail.gmail.com>
-Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in
- sysfs
-To: Daniel Vetter <daniel@ffwll.ch>
+In-Reply-To: <871rfwiknd.fsf@nanos.tec.linutronix.de>
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ suspectscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012110094
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1015 malwarescore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012110093
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,124 +89,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Hridya Valsaraju <hridya@google.com>,
- Android Kernel Team <kernel-team@android.com>,
- Suren Baghdasaryan <surenb@google.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
+ afzal mohammed <afzal.mohd.ma@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+ Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
+ Russell King <linux@armlinux.org.uk>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
+ xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
+ Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
+ David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
+ Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
+ Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
+ intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 10, 2020 at 5:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Thu, Dec 10, 2020 at 1:06 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > On Thu, Dec 10, 2020 at 12:26:01PM +0100, Daniel Vetter wrote:
-> > > On Thu, Dec 10, 2020 at 11:55 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > On Thu, Dec 10, 2020 at 11:27:27AM +0100, Daniel Vetter wrote:
-> > > > > This only shows shared memory, so it does smell a lot like $specific_issue
-> > > > > and we're designing a narrow solution for that and then have to carry it
-> > > > > forever.
-> > > >
-> > > > I think the "issue" is that this was a feature from ion that people
-> > > > "missed" in the dmabuf move.  Taking away the ability to see what kind
-> > > > of allocations were being made didn't make a lot of debugging tools
-> > > > happy :(
-> > >
-> > > If this is just for dma-heaps then why don't we add the stuff back
-> > > over there? It reinforces more that the android gpu stack and the
-> > > non-android gpu stack on linux are fairly different in fundamental
-> > > ways, but that's not really new.
-> >
-> > Back "over where"?
-> >
-> > dma-bufs are not only used for the graphics stack on android from what I
-> > can tell, so this shouldn't be a gpu-specific issue.
->
-> dma-buf heaps exist because android, mostly because google mandates
-> it.
-
-So, I don't think that's fair.
-
-dma-buf heaps and ION before exist because it solves a problem they
-have for allocating shared buffers for multiple complicated
-multi-device pipelines where the various devices have constraints.
-It's not strictly required[1], as your next point makes clear (along
-with ChromeOS's Android not using it).
-
-> There's not a whole lot (meaning zero) of actually open gpu stacks
-> around that run on android and use dma-buf heaps like approved google
-> systems, largely because the gralloc implementation in mesa just
-> doesnt.
-
-So yes, db845c currently uses the gbm_gralloc, which doesn't use
-dmabuf heaps or ION.
-
-That said, the resulting system still uses quite a number of dmabufs,
-as Hridya's patch shows:
-==> /sys/kernel/dmabuf/28435/exporter_name <==
-drm
-==> /sys/kernel/dmabuf/28435/dev_map_info <==
-==> /sys/kernel/dmabuf/28435/size <==
-16384
-==> /sys/kernel/dmabuf/28161/exporter_name <==
-drm
-==> /sys/kernel/dmabuf/28161/dev_map_info <==
-==> /sys/kernel/dmabuf/28161/size <==
-524288
-==> /sys/kernel/dmabuf/30924/exporter_name <==
-drm
-==> /sys/kernel/dmabuf/30924/dev_map_info <==
-==> /sys/kernel/dmabuf/30924/size <==
-8192
-==> /sys/kernel/dmabuf/26880/exporter_name <==
-drm
-==> /sys/kernel/dmabuf/26880/dev_map_info <==
-==> /sys/kernel/dmabuf/26880/size <==
-262144
-...
-
-So even when devices are not using dma-buf heaps (which I get, you
-have an axe to grind with :), having some way to collect useful stats
-for dmabufs in use can be valuable.
-
-(Also one might note, the db845c also doesn't have many constrained
-devices, and we've not yet enabled hw codec support or camera
-pipelines, so it avoids much of the complexity that ION/dma-buf heaps
-was created to solve)
-
-> So if android needs some quick debug output in sysfs, we can just add
-> that in dma-buf heaps, for android only, problem solved. And much less
-> annoying review to make sure it actually fits into the wider ecosystem
-> because as-is (and I'm not seeing that chance anytime soon), dma-buf
-> heaps is for android only. dma-buf at large isn't, so merging a debug
-> output sysfs api that's just for android but misses a ton of the more
-> generic features and semantics of dma-buf is not great.
-
-The intent behind this patch is *not* to create more Android-specific
-logic, but to provide useful information generically.  Indeed, Android
-does use dmabufs heavily for passing buffers around, and your point
-that not all systems handle graphics buffers that way is valid, and
-it's important we don't bake any Android-isms into the interface. But
-being able to collect data about the active dmabufs in a system is
-useful, regardless of how regardless of how the dma-buf was allocated.
-
-So I'd much rather see your feedback on how we expose other aspects of
-dmabufs (dma_resv, exporter devices, attachment links) integrated,
-rather then trying to ghettoize it as android-only and limit it to the
-dmabuf heaps, where I don't think it makes as much sense to add.
-
-thanks
--john
-
-[1] Out of the box, the codec2 code added a few years back does
-directly call to ION (and now dmabuf heaps) for system buffers, but it
-can be configured differently as it's used in ChromeOS's Android too.
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+Ck9uIDEyLzExLzIwIDc6MzcgQU0sIFRob21hcyBHbGVpeG5lciB3cm90ZToKPiBPbiBGcmksIERl
+YyAxMSAyMDIwIGF0IDEzOjEwLCBKw7xyZ2VuIEdyb8OfIHdyb3RlOgo+PiBPbiAxMS4xMi4yMCAw
+MDoyMCwgYm9yaXMub3N0cm92c2t5QG9yYWNsZS5jb20gd3JvdGU6Cj4+PiBPbiAxMi8xMC8yMCAy
+OjI2IFBNLCBUaG9tYXMgR2xlaXhuZXIgd3JvdGU6Cj4+Pj4gQWxsIGV2ZW50IGNoYW5uZWwgc2V0
+dXBzIGJpbmQgdGhlIGludGVycnVwdCBvbiBDUFUwIG9yIHRoZSB0YXJnZXQgQ1BVIGZvcgo+Pj4+
+IHBlcmNwdSBpbnRlcnJ1cHRzIGFuZCBvdmVyd3JpdGUgdGhlIGFmZmluaXR5IG1hc2sgd2l0aCB0
+aGUgY29ycmVzcG9uZGluZwo+Pj4+IGNwdW1hc2suIFRoYXQgZG9lcyBub3QgbWFrZSBzZW5zZS4K
+Pj4+Pgo+Pj4+IFRoZSBYRU4gaW1wbGVtZW50YXRpb24gb2YgaXJxY2hpcDo6aXJxX3NldF9hZmZp
+bml0eSgpIGFscmVhZHkgcGlja3MgYQo+Pj4+IHNpbmdsZSB0YXJnZXQgQ1BVIG91dCBvZiB0aGUg
+YWZmaW5pdHkgbWFzayBhbmQgdGhlIGFjdHVhbCB0YXJnZXQgaXMgc3RvcmVkCj4+Pj4gaW4gdGhl
+IGVmZmVjdGl2ZSBDUFUgbWFzaywgc28gZGVzdHJveWluZyB0aGUgdXNlciBjaG9zZW4gYWZmaW5p
+dHkgbWFzawo+Pj4+IHdoaWNoIG1pZ2h0IGNvbnRhaW4gbW9yZSB0aGFuIG9uZSBDUFUgaXMgd3Jv
+bmcuCj4+Pj4KPj4+PiBDaGFuZ2UgdGhlIGltcGxlbWVudGF0aW9uIHNvIHRoYXQgdGhlIGNoYW5u
+ZWwgaXMgYm91bmQgdG8gQ1BVMCBhdCB0aGUgWEVOCj4+Pj4gbGV2ZWwgYW5kIGxlYXZlIHRoZSBh
+ZmZpbml0eSBtYXNrIGFsb25lLiBBdCBzdGFydHVwIG9mIHRoZSBpbnRlcnJ1cHQKPj4+PiBhZmZp
+bml0eSB3aWxsIGJlIGFzc2lnbmVkIG91dCBvZiB0aGUgYWZmaW5pdHkgbWFzayBhbmQgdGhlIFhF
+TiBiaW5kaW5nIHdpbGwKPj4+PiBiZSB1cGRhdGVkLgo+Pj4KPj4+IElmIHRoYXQncyB0aGUgY2Fz
+ZSB0aGVuIEkgd29uZGVyIHdoZXRoZXIgd2UgbmVlZCB0aGlzIGNhbGwgYXQgYWxsIGFuZCBpbnN0
+ZWFkIGJpbmQgYXQgc3RhcnR1cCB0aW1lLgo+PiBBZnRlciBzb21lIGRpc2N1c3Npb24gd2l0aCBU
+aG9tYXMgb24gSVJDIGFuZCB4ZW4tZGV2ZWwgYXJjaGFlb2xvZ3kgdGhlCj4+IHJlc3VsdCBpczog
+dGhpcyB3aWxsIGJlIG5lZWRlZCBlc3BlY2lhbGx5IGZvciBzeXN0ZW1zIHJ1bm5pbmcgb24gYQo+
+PiBzaW5nbGUgdmNwdSAoZS5nLiBzbWFsbCBndWVzdHMpLCBhcyB0aGUgLmlycV9zZXRfYWZmaW5p
+dHkoKSBjYWxsYmFjawo+PiB3b24ndCBiZSBjYWxsZWQgaW4gdGhpcyBjYXNlIHdoZW4gc3RhcnRp
+bmcgdGhlIGlycS4KCgpPbiBVUCBhcmUgd2Ugbm90IHRoZW4gZ29pbmcgdG8gZW5kIHVwIHdpdGgg
+YW4gZW1wdHkgYWZmaW5pdHkgbWFzaz8gT3IgYXJlIHdlIGd1YXJhbnRlZWQgdG8gaGF2ZSBpdCBz
+ZXQgdG8gMSBieSBpbnRlcnJ1cHQgZ2VuZXJpYyBjb2RlPwoKClRoaXMgaXMgYWN0dWFsbHkgd2h5
+IEkgYnJvdWdodCB0aGlzIHVwIGluIHRoZSBmaXJzdCBwbGFjZSAtLS0gYSBwb3RlbnRpYWwgbWlz
+bWF0Y2ggYmV0d2VlbiB0aGUgYWZmaW5pdHkgbWFzayBhbmQgWGVuLXNwZWNpZmljIGRhdGEgKGUu
+Zy4gaW5mby0+Y3B1IGFuZCB0aGVuIHByb3RvY29sLXNwZWNpZmljIGRhdGEgaW4gZXZlbnQgY2hh
+bm5lbCBjb2RlKS4gRXZlbiBpZiB0aGV5IGFyZSByZS1zeW5jaHJvbml6ZWQgbGF0ZXIsIGF0IHN0
+YXJ0dXAgdGltZSAoZm9yIFNNUCkuCgoKSSBkb24ndCBzZWUgYW55dGhpbmcgdGhhdCB3b3VsZCBj
+YXVzZSBhIHByb2JsZW0gcmlnaHQgbm93IGJ1dCBJIHdvcnJ5IHRoYXQgdGhpcyBpbmNvbnNpc3Rl
+bmN5IG1heSBjb21lIHVwIGF0IHNvbWUgcG9pbnQuCgoKLWJvcmlzCgoKPiBUaGF0J3MgcmlnaHQs
+IGJ1dCBub3QgbGltaXRlZCB0byBBUk0uIFRoZSBzYW1lIHByb2JsZW0gZXhpc3RzIG9uIHg4NiBV
+UC4KPiBTbyB5ZXMsIHRoZSBjYWxsIG1ha2VzIHNlbnNlLCBidXQgdGhlIGNoYW5nZWxvZyBpcyBu
+b3QgcmVhbGx5IHVzZWZ1bC4KPiBMZXQgbWUgYWRkIGEgY29tbWVudCB0byB0aGlzLgo+Cj4gVGhh
+bmtzLAo+Cj4gICAgICAgICB0Z2x4Cj4KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJl
+ZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGlu
+Zm8vZHJpLWRldmVsCg==
