@@ -1,42 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56EF42D780A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:39:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CABF72D7810
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C636B6EE28;
-	Fri, 11 Dec 2020 14:39:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 753AB6E1F8;
+	Fri, 11 Dec 2020 14:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A61626E8EE
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:39:42 +0000 (UTC)
-Date: Fri, 11 Dec 2020 14:39:35 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607697580;
- bh=Newu9QDoujmKtx+yK37Z5goafDkQAw5SWPKAWnqoBgk=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=HaVNaAi+BSQX9+G1bKjEXZg3Vaqq4vntQSk8ZJw1PofvJ0/aG9RHp2/7SJOLEyyr0
- WZN8kjk8U99bIS6FN7mHjMOiBRSnr7VNlF4fj9ciRA0gChm2+jnjgNnSNS9I87SHfm
- d2uHz9PJz23gfljQHwutkalGWYUx6MECws6AylksoSC8XP4g8MHD8WWL5ndvkjLlwF
- rDmOP/qIg0sYpWQQz3NPnJCjuAFyLAjEogZ9O/tgbAwdcq7GY8PRA/UL1tW3El1sNo
- 8NLVwhwZilKBMWlfqHOJBUU2gT1F5+miCvKO7hjNf/REC+Ix9gm5puAj91PpZsLq00
- otEyXTI8cyfrA==
-To: Pekka Paalanen <ppaalanen@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 4/4] drm: require each CRTC to have a unique primary
- plane
-Message-ID: <K0Ezu_ZjJ0PpN07HHog8QTOfwsHGxmowZgYxSCV7QLlr1pGFKU06x-8PDxSJd0vShRCjjASXpoFd2D5NhJdUhN1ltsLD6cJLjfr_pKzudpc=@emersion.fr>
-In-Reply-To: <20201211155024.5ea63a88@eldfell>
-References: <diZcSZPAu0GrvVEqzkkXk1LYv1pDkE536hsLoYTUoUw@cp3-web-016.plabs.ch>
- <20201211155024.5ea63a88@eldfell>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E64F96E0AF
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:42:05 +0000 (UTC)
+IronPort-SDR: 4S7nvjIjHkXAPE3tHV5PeqFlf2qDz2Blb8xLtFAPgKQGL35/hXXIi+ILN9vXm2mvCGtL3w7EM+
+ qF9wmAGW9SfA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="171874062"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="171874062"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2020 06:42:05 -0800
+IronPort-SDR: 6vEAv0yhQPbXAvtPm9YL/3seFyQ9FvIJ9nqjtV98gpHIAbrYfZE2UmHxQe0WcpYtXwEk5ttVzF
+ rdZF7UNM8c2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="376559567"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+ by orsmga007.jf.intel.com with SMTP; 11 Dec 2020 06:42:01 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 11 Dec 2020 16:42:00 +0200
+Date: Fri, 11 Dec 2020 16:42:00 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 2/2] drm: automatic legacy gamma support
+Message-ID: <X9OFODh+xRWrFTcf@intel.com>
+References: <20201208135759.451772-3-tomi.valkeinen@ti.com>
+ <202012110104.ZPkkhoVT-lkp@intel.com>
+ <8c0fa5f2-9751-ca11-686d-8876a3a9d633@ti.com>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Disposition: inline
+In-Reply-To: <8c0fa5f2-9751-ca11-686d-8876a3a9d633@ti.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,44 +51,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Paul Cercueil <paul@crapouillou.net>, kbuild-all@lists.01.org,
+ kernel test robot <lkp@intel.com>, David Airlie <airlied@linux.ie>,
+ Philippe Cornu <philippe.cornu@st.com>, dri-devel@lists.freedesktop.org,
+ Russell King <linux@armlinux.org.uk>, Yannick Fertre <yannick.fertre@st.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, December 11th, 2020 at 2:50 PM, Pekka Paalanen <ppaalanen@gmail.com> wrote:
+On Fri, Dec 11, 2020 at 01:24:49PM +0200, Tomi Valkeinen wrote:
+> On 10/12/2020 20:06, kernel test robot wrote:
+> > Hi Tomi,
+> > =
 
-> is there a reason why one cannot have more primary planes than CRTCs in
-> existence?
->
-> Daniel implied that in <20201209003637.GK401619@phenom.ffwll.local>,
-> but I didn't get the reason for it yet.
->
-> E.g. if all your planes are interchangeable in the sense that you can
-> turn on a CRTC with any one of them, would one not then expose all the
-> planes as "Primary"?
+> > I love your patch! Perhaps something to improve:
+> > =
 
-I'm thinking of primary as a hint for simple user-space: "you can likely
-light up a CRTC if you attach this plane and don't do anything crazy".
-For anything more complicated, user-space uses atomic commits and can
-completely ignore whether a plane is primary, cursor or overlay.
+> > [auto build test WARNING on drm-intel/for-linux-next]
+> > [also build test WARNING on linus/master v5.10-rc7]
+> > [cannot apply to drm-tip/drm-tip anholt/for-next next-20201210]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch]
+> > =
 
-> If the planes have other differences, like supported formats or
-> scaling, then marking them all "Primary" would let userspace know that
-> it can pick any plane with the suitable properties and expect to turn
-> on the CRTC with it.
+> > url:    https://github.com/0day-ci/linux/commits/Tomi-Valkeinen/drm-fix=
+-and-cleanup-legacy-gamma-support/20201208-215917
+> > base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+> > config: i386-randconfig-m021-20201209 (attached as .config)
+> > compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+> > =
 
-That's interesting, but I'd bet no user-space does that. If new user-space
-wants to, it's better to rely on test-only commits instead.
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > =
 
-> Or does marking a plane as "Primary" imply something else too, like
-> "cannot scale"? I think Weston does make this assumption in an attempt
-> to hit fewer causes for failure.
+> > New smatch warnings:
+> > drivers/gpu/drm/drm_color_mgmt.c:307 drm_crtc_legacy_gamma_set() error:=
+ potential null dereference 'blob'.  (drm_property_create_blob returns null)
+> =
 
-No, AFAIK "Primary" doesn't imply something else, e.g. on amdgpu you can do
-scaling on the primary plane.
+> I don't see how this could happen. There's no code path I see where drm_p=
+roperty_create_blob could
+> return null...
+
+IIRC we've received multiple similar nonsense reports from lkp, but
+no explanation why it thinks it could ever be null. Hmm, maybe there
+is a codepath somewhere that has a null check on the return value?
+
+-- =
+
+Ville Syrj=E4l=E4
+Intel
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
