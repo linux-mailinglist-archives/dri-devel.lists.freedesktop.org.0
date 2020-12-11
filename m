@@ -2,50 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975712D93EE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59FAC2D93E8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:17:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA016E090;
-	Mon, 14 Dec 2020 08:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 418816E079;
+	Mon, 14 Dec 2020 08:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A67C6EE28
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:19:14 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-53-s0AncPC_O7qxZEyLU7X13A-1; Fri, 11 Dec 2020 14:19:07 +0000
-X-MC-Unique: s0AncPC_O7qxZEyLU7X13A-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Fri, 11 Dec 2020 14:19:05 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Fri, 11 Dec 2020 14:19:05 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Thomas Gleixner' <tglx@linutronix.de>, Tvrtko Ursulin
- <tvrtko.ursulin@linux.intel.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: RE: [patch 14/30] drm/i915/pmu: Replace open coded kstat_irqs() copy
-Thread-Topic: [patch 14/30] drm/i915/pmu: Replace open coded kstat_irqs() copy
-Thread-Index: AQHWz72qwjNpP0n0UkWT70W8RrLS8qnx7xrw
-Date: Fri, 11 Dec 2020 14:19:05 +0000
-Message-ID: <d6cbfa118490459bb0671394f00323fc@AcuMS.aculab.com>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194043.957046529@linutronix.de>
- <ad05af1a-5463-2a80-0887-7629721d6863@linux.intel.com>
- <87y2i4h54i.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87y2i4h54i.fsf@nanos.tec.linutronix.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 076616E488
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 15:12:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35BA931B;
+ Fri, 11 Dec 2020 07:12:03 -0800 (PST)
+Received: from [10.57.25.185] (unknown [10.57.25.185])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81A923F66B;
+ Fri, 11 Dec 2020 07:12:00 -0800 (PST)
+Subject: Re: [PATCH v4 0/5] Thermal devfreq cooling improvements with Energy
+ Model
+To: daniel.lezcano@linaro.org
+References: <20201210143014.24685-1-lukasz.luba@arm.com>
+From: Lukasz Luba <lukasz.luba@arm.com>
+Message-ID: <04bdcc7a-c264-ffd2-89a2-5606e59ff786@arm.com>
+Date: Fri, 11 Dec 2020 15:11:58 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
+In-Reply-To: <20201210143014.24685-1-lukasz.luba@arm.com>
 Content-Language: en-US
 X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,96 +43,86 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Chris Wilson <chris@chris-wilson.co.uk>, "James
- E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- Will Deacon <will@kernel.org>, Michal Simek <michal.simek@xilinx.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Dave Jiang <dave.jiang@intel.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, Leon
- Romanovsky <leon@kernel.org>,
- "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, Jakub
- Kicinski <kuba@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Juergen Gross <jgross@suse.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, David Airlie <airlied@linux.ie>,
- "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq
- Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
- "linux-ntb@googlegroups.com" <linux-ntb@googlegroups.com>,
- Saeed Mahameed <saeedm@nvidia.com>, "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="us-ascii"
+Cc: amit.kucheria@verdurent.com, linux-pm@vger.kernel.org, airlied@linux.ie,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ steven.price@arm.com, alyssa.rosenzweig@collabora.com, rui.zhang@intel.com,
+ ionela.voinescu@arm.com, orjan.eide@arm.com
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Gleixner
-> Sent: 11 December 2020 12:58
-..
-> > After my failed hasty sketch from last night I had a different one which
-> > was kind of heuristics based (re-reading the upper dword and retrying if
-> > it changed on 32-bit).
+Hi Daniel,
+
+Do you think it has chance to go to as material for v5.11?
+
+Regards,
+Lukasz
+
+
+On 12/10/20 2:30 PM, Lukasz Luba wrote:
+> Hi all,
 > 
-> The problem is that there will be two seperate modifications for the low
-> and high word. Several ways how the compiler can translate this, but the
-> problem is the same for all of them:
+> This patch set is a continuation of my previous work, which aimed
+> to add Energy Model to all devices [1]. This series is a follow up
+> for the patches which got merged to v5.9-rc1. It aims to change
+> the thermal devfreq cooling and use the Energy Model instead of
+> private power table and structures. The power model is now simplified,
+> static power and dynamic power are removed. The new registration interface
+> in the patch 3/5 helps to register devfreq cooling and the EM in one call.
+> There is also small improvement, patch 2/5 is changing the way how
+> thermal gets the device status (now uses a copy) and normalize the values.
+> The last patch is here for consistency and will probably go through drm tree.
 > 
-> CPU 0                           CPU 1
->         load low
->         load high
->         add  low, 1
->         addc high, 0
->         store low               load high
-> --> NMI                         load low
->                                 load high and compare
->         store high
+> The patch set should apply on top of thermal/testing. It does not depend on
+> new EM API change which is queued in the pm/linux-next tree as v5.11 material.
+> Thus, could go in parallel. That was the main motiviation for this v4.
 > 
-> You can't catch that. If this really becomes an issue you need a
-> sequence counter around it.
-
-Or just two copies of the high word.
-Provided the accesses are sequenced:
-writer:
-	load high:low
-	add small_value,high:low
-	store high
-	store low
-	store high_copy
-reader:
-	load high_copy
-	load low
-	load high
-	if (high != high_copy)
-		low = 0;
-
-The read value is always stale, so it probably doesn't
-matter that the value you have is one that is between the
-value when you started and that when you finished.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+> changes:
+> v4:
+> - patch 3/5 - removed dependency on the EM API change
+> -- removed em_dev_register_perf_domain() and just use
+>     dev_pm_opp_of_register_em() which API has not changed
+> -- removed a helper registration function and renamed
+>     devfreq_cooling_em_register_power() to devfreq_cooling_em_register()
+>     (was actually suggested by Ionela during review)
+> -- moved energy_model.h to include in devfreq_cooling.c not .h, since
+>     there is no EM structure in there anymore
+> - adjusted comments and commit messages
+> v3 [4]:
+> - dropped direct check of device status and used just a copy of 'status';
+>    a separate patch set will be proposed to address this issue
+> - modified _normalize_load() and used 1024 scale to handle ms, us, ns
+> - removed 'em_registered' and called em_dev_unregister_perf_domain()
+>    unconditionally, so the drivers will have to make sure the right order of
+>    all unregister calls to frameworks which might use EM; this call must be last
+>    one; a proper comment added
+> - removed 'em' pointer from struct devfreq_cooling_device, 'dev->em_pd' is used
+> - removed of_node_get/put(), since the code can handle it
+> - removed dfc_em_get_requested_power() (as missed to do it in v2)
+> - collected all Reviewed-by tags
+> v2 [3]:
+> - renamed freq_get_state() and related to perf_idx pattern as
+>    suggested by Ionela
+> v1 [2]
+> 
+> Regards,
+> Lukasz Luba
+> 
+> Lukasz Luba (5):
+>    thermal: devfreq_cooling: change tracing function and arguments
+>    thermal: devfreq_cooling: use a copy of device status
+>    thermal: devfreq_cooling: add new registration functions with Energy
+>      Model
+>    thermal: devfreq_cooling: remove old power model and use EM
+>    drm/panfrost: Register devfreq cooling and attempt to add Energy Model
+> 
+>   drivers/gpu/drm/panfrost/panfrost_devfreq.c |   2 +-
+>   drivers/thermal/devfreq_cooling.c           | 391 +++++++++-----------
+>   include/linux/devfreq_cooling.h             |  27 +-
+>   include/trace/events/thermal.h              |  19 +-
+>   4 files changed, 198 insertions(+), 241 deletions(-)
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
