@@ -1,56 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9733C2D7178
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDFE2D7167
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B7EF6ECCB;
-	Fri, 11 Dec 2020 08:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 699956ECBF;
+	Fri, 11 Dec 2020 08:16:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DD7F6E506
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 00:46:15 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id f24so8863660ljk.13
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:46:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
- b=WWqd4F0EGETgFArsXDAFcxPg0XMQ+HOwpv7O40kc3nluV/bF9mIIBiW8+Eu0GMg+lo
- n8PSOfLmU3eZ3MsB4yUyMeT7S58MsYUDqfsVOWIUZGb3FE5EQGp7tZzcG20WDd0UCH2E
- DE8dURg+HXSDD430Z0yyeoNQ5LcKrgq19v+oKN4pjpei7j8MspKtF6iEs+i80Ieqtx2o
- ZJ9jPMhO7BwPvPN8kjSLYIkfKSlN7Pm9sMVGFklzKGdHRaCzUU4/ijBYSVOViyqR4Iu6
- yNFdw/q9aUN2T6X5D0I2I2+Pq9MxP82riNs0/u1CpDQTZfb8E2JbTpJI4KFlDCsw2olI
- MG/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=TgFRl4hY2jVegpQsEVcSi759bqYrRdxorewfve1OEAM=;
- b=Qwe7tntAfsZ/+2Xnm1eiFmqqkwnT16PcK6FVc33LBjKI5HdawpMIlYyiCfEz3zZ7ld
- wpMQQjYq4ogMt+ZHQeQkYqytJE6GDGpXnNYwqlpCrYFaitncS43SkormsOOdCAvOAK98
- 0Gh0iV/1E3BTF77YIW2SMfmauD8IL/Grz6U0g56vz/zFRuj7BOprZNQRvfzPDBa23abs
- PsZXJI7Wm12lP/i2b1+/1sRrEYiOJtRcGwriTjnarJyFJPtJMHObLvbcTn5CuJGOECTa
- URI0mn1d5GHEZhFGsBCYvSU1SqMlJqjNkfgfd1m9CAbmEV11ArJ8U1jACcZ3i39Ng2dC
- 70jg==
-X-Gm-Message-State: AOAM532vBpD7BclaccGY+kAbHUUD9xZXWr8JO77hwiAMHz9ZpvVl4+M0
- +3BtnF68vaEC+/HcrJeQRFNTug==
-X-Google-Smtp-Source: ABdhPJyfGzITQ3mb+eij+usHJPbNHtfUfmXccmO08xQzZQht6KMEH+jL6qM5c5dp4ugrWMhfPQcZ9w==
-X-Received: by 2002:a2e:681a:: with SMTP id c26mr4091377lja.412.1607647574097; 
- Thu, 10 Dec 2020 16:46:14 -0800 (PST)
-Received: from eriador.lumag.spb.ru ([94.25.228.52])
- by smtp.gmail.com with ESMTPSA id u11sm694953lfq.142.2020.12.10.16.46.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 16:46:13 -0800 (PST)
-Date: Fri, 11 Dec 2020 03:46:10 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: linux-firmware@kernel.org
-Subject: linux-firmware: add firmware for Lontium lt9611uxc DSI to HDMI bridge
-Message-ID: <X9LBUn5KIKVKQGlI@eriador.lumag.spb.ru>
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 232306E5CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 01:32:24 +0000 (UTC)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CsYDB5McLzhqPJ;
+ Fri, 11 Dec 2020 09:31:54 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 11 Dec 2020 09:32:17 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@redhat.com>, <kraxel@redhat.com>, <airlied@linux.ie>,
+ <daniel@ffwll.ch>
+Subject: [PATCH] drm/qxl: use flexible-array member instead of zero-length
+ array
+Date: Fri, 11 Dec 2020 09:32:29 +0800
+Message-ID: <1607650349-28513-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Disposition: inline
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,36 +42,99 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello linux-firmware maintainers,
+Use flexible-array member introduced in C99 instead of zero-length
+array. Most of zero-length array was already taken care in previous
+patch [1]. Now modified few more cases which were not handled earlier.
 
-The following changes since commit 7455a36066741a6e52fba65e04f6451b4cdfd9c4:
+[1]. https://patchwork.kernel.org/patch/11394197/
 
-  Merge branch 'guc_v49' of git://anongit.freedesktop.org/drm/drm-firmware into main (2020-11-30 09:26:11 -0500)
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
+---
+ drivers/gpu/drm/qxl/qxl_dev.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/gpu/drm/qxl/qxl_dev.h b/drivers/gpu/drm/qxl/qxl_dev.h
+index a7bc31f..06caa61 100644
+--- a/drivers/gpu/drm/qxl/qxl_dev.h
++++ b/drivers/gpu/drm/qxl/qxl_dev.h
+@@ -271,7 +271,7 @@ struct qxl_mode {
+ /* qxl-1 compat: fixed */
+ struct qxl_modes {
+ 	uint32_t n_modes;
+-	struct qxl_mode modes[0];
++	struct qxl_mode modes[];
+ };
+ 
+ /* qxl-1 compat: append only */
+@@ -382,12 +382,12 @@ struct qxl_data_chunk {
+ 	uint32_t data_size;
+ 	QXLPHYSICAL prev_chunk;
+ 	QXLPHYSICAL next_chunk;
+-	uint8_t data[0];
++	uint8_t data[];
+ };
+ 
+ struct qxl_message {
+ 	union qxl_release_info release_info;
+-	uint8_t data[0];
++	uint8_t data[];
+ };
+ 
+ struct qxl_compat_update_cmd {
+@@ -469,7 +469,7 @@ struct qxl_raster_glyph {
+ 	struct qxl_point glyph_origin;
+ 	uint16_t width;
+ 	uint16_t height;
+-	uint8_t data[0];
++	uint8_t data[];
+ };
+ 
+ struct qxl_string {
+@@ -768,7 +768,7 @@ enum {
+ struct qxl_path_seg {
+ 	uint32_t flags;
+ 	uint32_t count;
+-	struct qxl_point_fix points[0];
++	struct qxl_point_fix points[];
+ };
+ 
+ struct qxl_path {
+@@ -819,7 +819,7 @@ struct qxl_image_descriptor {
+ struct qxl_palette {
+ 	uint64_t unique;
+ 	uint16_t num_ents;
+-	uint32_t ents[0];
++	uint32_t ents[];
+ };
+ 
+ struct qxl_bitmap {
+@@ -838,7 +838,7 @@ struct qxl_surface_id {
+ 
+ struct qxl_encoder_data {
+ 	uint32_t data_size;
+-	uint8_t data[0];
++	uint8_t data[];
+ };
+ 
+ struct qxl_image {
+@@ -868,7 +868,7 @@ struct qxl_monitors_config {
+ 	uint16_t count;
+ 	uint16_t max_allowed; /* If it is 0 no fixed limit is given by the
+ 				 driver */
+-	struct qxl_head heads[0];
++	struct qxl_head heads[];
+ };
+ 
+ #pragma pack(pop)
+-- 
+2.7.4
 
-  https://github.com/lumag/linux-firmware lt9611uxc
-
-for you to fetch changes up to 63ab3db8399a504048716eb3feed2867da58876a:
-
-  linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge (2020-12-11 03:27:38 +0300)
-
-----------------------------------------------------------------
-Dmitry Baryshkov (1):
-      linux-firmware: add firmware for Lontium LT9611UXC DSI to HDMI bridge
-
- LICENSE.Lontium  |   2 ++
- WHENCE           |   8 ++++++++
- lt9611uxc_fw.bin | Bin 0 -> 17932 bytes
- 3 files changed, 10 insertions(+)
- create mode 100644 LICENSE.Lontium
- create mode 100644 lt9611uxc_fw.bin
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
