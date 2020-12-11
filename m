@@ -1,76 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31CC2D6AEB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 00:21:54 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 902252D6CD0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 02:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 870EE6EB9B;
-	Thu, 10 Dec 2020 23:21:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 567776E5BF;
+	Fri, 11 Dec 2020 01:03:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E97F6EB9B;
- Thu, 10 Dec 2020 23:21:51 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BANJcxD076282;
- Thu, 10 Dec 2020 23:21:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=g9HQMgG8/lH1Xl7UdSJNvDAMRQCo3FWW7Bk60ydYMFM=;
- b=yiiSqUT1ul8LHgAfKjBlIB4yYYSpi+fGANCSKFFlOWkOUouS3Dv2O9HSPvMZHyva2HLa
- t2URiRpBCtd04nx9Lq/bUlqBSfAvdgny9AZ7r99NqQl+3SLxNcNacBmNDpvbnkmq+RJf
- tkHuWp0PFf1OqSZUrQZdo1op9pLE6PCegbVRzlACJRrfsJakcoaM7H+sCwUihUEMr2fQ
- dVrKn7O2B0uCiKt4l0ihiQonSCwdjdrSogLQz8qpbD6/3t1pwKq6cTqj0HVlsjBYL0mf
- j+yxZxQYgeFZOyVTmAVytFe3f0zAIJgGCpXDL4UlTLva10Xtrln9de8y9hZfow66cFAT Dg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 35825mg2bs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 10 Dec 2020 23:21:08 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BANKtw7149340;
- Thu, 10 Dec 2020 23:21:07 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 358m42f5be-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 10 Dec 2020 23:21:07 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BANKp8g025210;
- Thu, 10 Dec 2020 23:20:51 GMT
-Received: from [10.39.227.125] (/10.39.227.125)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 10 Dec 2020 15:20:51 -0800
-Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
- interrupts
-To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194045.250321315@linutronix.de>
-From: boris.ostrovsky@oracle.com
-Organization: Oracle Corporation
-Message-ID: <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
-Date: Thu, 10 Dec 2020 18:20:46 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6D7E6E5BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 01:03:14 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id p22so7565308edu.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 17:03:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=JqZruslsHjpa4eJlIAlthpxG4wQdLwUtXP9Ew+6KXH0=;
+ b=Lw19MdtvQu2zmLAzMsJvesNgy6J7GAP53BleHH76EKDjvmE+azlg8AaN+C5ySc3vS5
+ uLfBASKzMDthhSUvd3nE6oMYBBZiaX80KOYqLOEdwP66xnGj6XeqtKof9DA46wLGo2Z0
+ lwlThQLdpnDksS2w9lb1VnaYBu1nyPkhgva6qMDSkBPnl+TrqnRnzLbytTWSsRTfijiH
+ xShM1ddMazQ6l/9RtpWp2Qc/ptNMxm8DBJ3zn2zYkglFSWlc+WQYDUBJUb46jAoZtM6A
+ tO0hlzhGpYgq0Ex9McCvIvsOWXl5RBRt4KAGZ0SlJ0rXNrQOPbtvs4FdPoWZwz0xm/6l
+ mpfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=JqZruslsHjpa4eJlIAlthpxG4wQdLwUtXP9Ew+6KXH0=;
+ b=pfwAJfVSgctGYf4ryu42kZ3ZQMqOe4GWeXabZCZQh20kFhZF8jvP76BzeP8eUnbaJs
+ sTDHO5tCPew2xGmD0b9nyvzAMbEGUhODjkCY+0Tu7k8QB+WTGNkA24pKmgM3kjds1qGg
+ OTZNLpyHqhhks167p+YVVfF4YgM8P8bOVdGIy8uiNNyJ9W7T0wJbpNVCNmH2Jj1MZt/Z
+ TKdeQR4WKbR1g4I3Y8lv9dkLX7EG3fAthS4XcfAKYgx6xEZTEta1bhBbdn3TOuTNYexj
+ G+JNsgxV2hofL6UfzYzvGApFmE8mts/iX29os/1o3i5wzBAdtBfVB6cHu0iTSEYVm+z7
+ TWgw==
+X-Gm-Message-State: AOAM532FxawvPhgt5WKkkNKuPzDbhgd2xOKKPamqKRKg0RXcWS6vfvSm
+ 6N/GcBNKWZj/VfL9gyFfx29HKGIibBEfsxYvEb4b7oJc1QbQiQ==
+X-Google-Smtp-Source: ABdhPJxZUB5LIsBWgjwwzSyo2a9ZiQaWfhgHHGiGFRFIbzlBb9AAwaX0oz46/wTMvjv1RjuWns2t6mDjoqFJ7TT89uM=
+X-Received: by 2002:a05:6402:20a:: with SMTP id
+ t10mr9277445edv.119.1607648593056; 
+ Thu, 10 Dec 2020 17:03:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201210194045.250321315@linutronix.de>
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- malwarescore=0 adultscore=0
- bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012100149
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012100149
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 11 Dec 2020 11:03:01 +1000
+Message-ID: <CAPM=9txOVY0jehFoHQwb=4PCr+a9Bg_x9u_7484uPYg62UsLog@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.10 final
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,62 +59,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
- Juergen Gross <jgross@suse.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Linus,
 
-On 12/10/20 2:26 PM, Thomas Gleixner wrote:
-> All event channel setups bind the interrupt on CPU0 or the target CPU for
-> percpu interrupts and overwrite the affinity mask with the corresponding
-> cpumask. That does not make sense.
->
-> The XEN implementation of irqchip::irq_set_affinity() already picks a
-> single target CPU out of the affinity mask and the actual target is stored
-> in the effective CPU mask, so destroying the user chosen affinity mask
-> which might contain more than one CPU is wrong.
->
-> Change the implementation so that the channel is bound to CPU0 at the XEN
-> level and leave the affinity mask alone. At startup of the interrupt
-> affinity will be assigned out of the affinity mask and the XEN binding will
-> be updated. 
+Last week of fixes, just amdgpu and i915 collections. We had a i915
+regression reported by HJ Lu reported this morning, and this contains
+a fix for that he has tested.
 
+There are a fair few other fixes, but they are spread across the two
+drivers, and all fairly self contained.
 
-If that's the case then I wonder whether we need this call at all and instead bind at startup time.
+I'm going to send you out drm-next for next week in a few hours as I'm
+going on holidays until next Friday, I likely won't be checking email
+too closely, but Daniel should be available for any emergency.
 
+Dave.
 
--boris
+drm-fixes-2020-12-11:
+drm fixes for 5.10 final
 
+amdgpu:
+- Fan fix for CI asics
+- Fix a warning in possible_crtcs
+- Build fix for when debugfs is disabled
+- Display overflow fix
+- Display watermark fixes for Renoir
+- SDMA 5.2 fix
+- Stolen vga memory regression fix
+- Power profile fixes
+- Fix a regression from removal of GEM and PRIME callbacks
 
-> Only keep the enforcement for real percpu interrupts.
+amdkfd:
+- Fix a memory leak in dmabuf import
+
+i915:
+- rc7 regression fix for modesetting
+- vdsc/dp slice fixes
+- gen9 mocs entries fix
+- preemption timeout fix
+- unsigned compare against 0 fix
+- selftest fix
+- submission error propogating fix
+- request flow suspend fix
+The following changes since commit 0477e92881850d44910a7e94fc2c46f96faa131f:
+
+  Linux 5.10-rc7 (2020-12-06 14:25:12 -0800)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2020-12-11
+
+for you to fetch changes up to b1f195fc49812359296a901e26cc7c0b761d8a70:
+
+  drm/i915/display: Go softly softly on initial modeset failure
+(2020-12-11 09:54:30 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.10 final
+
+amdgpu:
+- Fan fix for CI asics
+- Fix a warning in possible_crtcs
+- Build fix for when debugfs is disabled
+- Display overflow fix
+- Display watermark fixes for Renoir
+- SDMA 5.2 fix
+- Stolen vga memory regression fix
+- Power profile fixes
+- Fix a regression from removal of GEM and PRIME callbacks
+
+amdkfd:
+- Fix a memory leak in dmabuf import
+
+i915:
+- rc7 regression fix for modesetting
+- vdsc/dp slice fixes
+- gen9 mocs entries fix
+- preemption timeout fix
+- unsigned compare against 0 fix
+- selftest fix
+- submission error propogatig fix
+- request flow suspend fix
+
+----------------------------------------------------------------
+Alex Deucher (3):
+      drm/amdgpu/powerplay: parse fan table for CI asics
+      drm/amdgpu/disply: set num_crtc earlier
+      drm/amdgpu: fix size calculation with stolen vga memory
+
+Andrey Grodzovsky (1):
+      drm/amdgpu: Initialise drm_gem_object_funcs for imported BOs
+
+Arnd Bergmann (1):
+      drm/amdgpu: fix debugfs creation/removal, again
+
+Changfeng (1):
+      drm/amd/pm: update smu10.h WORKLOAD_PPLIB setting for raven
+
+Chris Park (1):
+      drm/amd/display: Prevent bandwidth overflow
+
+Chris Wilson (5):
+      drm/i915/gem: Propagate error from cancelled submit due to context closure
+      drm/i915/gt: Ignore repeated attempts to suspend request flow across reset
+      drm/i915/gt: Cancel the preemption timeout on responding to it
+      drm/i915/gt: Declare gen9 has 64 mocs entries!
+      drm/i915/display: Go softly softly on initial modeset failure
+
+Colin Ian King (1):
+      drm/i915: fix size_t greater or equal to zero comparison
+
+Dan Carpenter (1):
+      drm/i915/gem: Check the correct variable in selftest
+
+Dave Airlie (2):
+      Merge tag 'amd-drm-fixes-5.10-2020-12-09' of
+git://people.freedesktop.org/~agd5f/linux into drm-fixes
+      Merge tag 'drm-intel-fixes-2020-12-09' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+
+Evan Quan (1):
+      drm/amd/pm: typo fix (CUSTOM -> COMPUTE)
+
+Felix Kuehling (1):
+      drm/amdkfd: Fix leak in dmabuf import
+
+Manasi Navare (1):
+      drm/i915/display/dp: Compute the correct slice count for VDSC on DP
+
+Stanley.Yang (1):
+      drm/amdgpu: fix sdma instance fw version and feature version init
+
+Sung Lee (1):
+      drm/amd/display: Add wm table for Renoir
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c            |  41 ++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  13 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.h            |   6 --
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c             |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c           |   2 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   9 +-
+ .../drm/amd/display/dc/clk_mgr/dcn21/rn_clk_mgr.c  |  93 ++++++++++++++++++-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |   7 +-
+ drivers/gpu/drm/amd/pm/inc/smu10.h                 |  14 ++-
+ .../drm/amd/pm/powerplay/hwmgr/processpptables.c   | 103 ++++++++++++++++++++-
+ .../gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c   |   9 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |   2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c     |   7 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c                |   7 +-
+ drivers/gpu/drm/i915/gt/intel_mocs.c               |   7 +-
+ drivers/gpu/drm/i915/gt/shmem_utils.c              |   2 +-
+ drivers/gpu/drm/i915/selftests/i915_gem.c          |   4 +-
+ 21 files changed, 269 insertions(+), 74 deletions(-)
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
