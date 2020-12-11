@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA712D73D8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA482D73ED
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:28:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5CDA6ED7E;
-	Fri, 11 Dec 2020 10:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84EE56ED85;
+	Fri, 11 Dec 2020 10:28:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A2E6ED74;
- Fri, 11 Dec 2020 10:23:17 +0000 (UTC)
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
- t=1607682195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ylj5Ou5EGxXoY8HzgwHM13TBu2785E6dSVq65gzanwU=;
- b=JX3YEGDayzn/l2cWmgQW18vQXaGMPfebAVghI4mXIKoPFWr46I+1iXrHo1/89wbKgnsUQw
- fJfjpQHih3nDIAzyPuBktA46WbSRZFyDOHCZ4ClWbuCsmJrqvPgr1yruvflf2j4L0wRo2h
- gXPAph/J2UIJAu9VFo9bE4J63Z3Pprg=
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 86CDFADA2;
- Fri, 11 Dec 2020 10:23:15 +0000 (UTC)
-Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
- interrupts
-To: Thomas Gleixner <tglx@linutronix.de>, boris.ostrovsky@oracle.com,
- LKML <linux-kernel@vger.kernel.org>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194045.250321315@linutronix.de>
- <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
- <a4bce428-4420-6064-c7cc-7136a7544a52@suse.com>
- <874kksiras.fsf@nanos.tec.linutronix.de>
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <83b596c7-453b-34b5-a6a5-6c04d20e818a@suse.com>
-Date: Fri, 11 Dec 2020 11:23:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
+ [IPv6:2a00:1450:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4DCB6ED85;
+ Fri, 11 Dec 2020 10:28:40 +0000 (UTC)
+Received: by mail-ed1-x52a.google.com with SMTP id b73so8771325edf.13;
+ Fri, 11 Dec 2020 02:28:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=F/owxLzE2PZQ78sXM58LscfIGvWvo6S0TJeSHHmmBj0=;
+ b=N5hz4xtIY/AE02gAI7AW6xybL0Wvg40sNhYCAD++yREJrhl4D0/JyZPI4sivIAzCxe
+ 7XzwiSLkxOgJQvy/Hv/fu44f1D3kGe/WLQYmv+8HlpzX50EsSLLbwprNE8gtk944V/r3
+ 6fJWWHRlvpx1U5hJ34FbIKNea+1l1mUAI5fuw7h7eAs+FB4ePuucrlrE6hn1O9zYn9d1
+ fw8Ytiu/8MDDJk3ocgaasiP2SXyW8xU2knKIOJs/M50enqYACuwXcMcoijJOeUfysWaf
+ RcRVAgImJnOcnb2c1jng8BW3oO0HXQmLEciSDgOxwbWJVdArw1J7O1H7s+fBSFAB6WJz
+ wSRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language;
+ bh=F/owxLzE2PZQ78sXM58LscfIGvWvo6S0TJeSHHmmBj0=;
+ b=awzbL2RAbtx95DHmNeALo/WgilWJ7RISN+Ka/M+thXeZgLVs9CbRgAYu+YaXBJY98X
+ CaSjuUqB5o/VzXhFJa0apiBFzCVBNnVeNA2CqO8D0HMG28e1Q/CYwfeea8942jaP9T8N
+ spbk0OZXs5TVBO+bRjebEEpjBTa4dlKxLSb0vpfmMnSpXr/KsQa3j8ImVpsSUlIfqVJs
+ P4VH1HKR/70zuN+8RvIelYV8KztjFlPvcXlitX5zXU+sT8K2ti9X554x3iNOAJJafnMy
+ pXzU3Wv2QYBsjUI4SOvDLuUPQ1rYceKRZarH5Gnh0GgWwIIX/frvHh9iwlZ9tVsciY0U
+ ELEA==
+X-Gm-Message-State: AOAM533sGFwHarYxWZ7iOWksQe3f8tJ3sTmPHDEnTcUFeEvijPnOJGmG
+ z12Q/fS1XntXKwi3Dgcr7pw=
+X-Google-Smtp-Source: ABdhPJwFp+52hU4Sau8I+cVyTleemh2198k9q61APOazokRtq4JSKXi/2WYN0l6VMqayH7QrpE4poQ==
+X-Received: by 2002:a50:ee97:: with SMTP id f23mr10667050edr.311.1607682519585; 
+ Fri, 11 Dec 2020 02:28:39 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7?
+ ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+ by smtp.gmail.com with ESMTPSA id t19sm6465250eje.86.2020.12.11.02.28.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Dec 2020 02:28:38 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] Experimental freesync video mode optimization
+To: Pekka Paalanen <ppaalanen@gmail.com>,
+ Shashank Sharma <shashank.sharma@amd.com>
+References: <20201210184823.285415-1-aurabindo.pillai@amd.com>
+ <MC46k2jDYAeDTZaSlv6T5iIq5ibkh2yYwW3KZ-XLXLwoRByjkWsEr6-6eQM4iZqmkiLoleyh84S290ytAub0bK-esJje1OGKIEilcz_iikY=@emersion.fr>
+ <0b7132b8-a890-b4f0-0a0c-260015fa0bbb@amd.com>
+ <20201211115549.32ade81b@eldfell>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <53f5b48c-c2b5-ed66-0c0e-bba0b22dba03@gmail.com>
+Date: Fri, 11 Dec 2020 11:28:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <874kksiras.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <20201211115549.32ade81b@eldfell>
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,281 +74,481 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Saeed Mahameed <saeedm@nvidia.com>, netdev@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, Will Deacon <will@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Dave Jiang <dave.jiang@intel.com>,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- xen-devel@lists.xenproject.org, Heiko Carstens <hca@linux.ibm.com>,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-gpio@vger.kernel.org,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-parisc@vger.kernel.org,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- Jon Mason <jdmason@kudzu.us>, linux-ntb@googlegroups.com,
- intel-gfx@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>
-Content-Type: multipart/mixed; boundary="===============1411712878=="
+Reply-To: christian.koenig@amd.com
+Cc: stylon.wang@amd.com, thong.thai@amd.com, amd-gfx@lists.freedesktop.org,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, wayne.lin@amd.com,
+ alexander.deucher@amd.com, nicholas.kazlauskas@amd.com
+Content-Type: multipart/mixed; boundary="===============1850382201=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---===============1411712878==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="JLZob3e3TcGZaffU2V6GYg9zw25iTy30k"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JLZob3e3TcGZaffU2V6GYg9zw25iTy30k
-Content-Type: multipart/mixed; boundary="W7MOwpcHMEZDHVpnNeRdRpRviypq0k3b2";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: Thomas Gleixner <tglx@linutronix.de>, boris.ostrovsky@oracle.com,
- LKML <linux-kernel@vger.kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Marc Zyngier <maz@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, afzal mohammed <afzal.mohd.ma@gmail.com>,
- linux-parisc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, linux-s390@vger.kernel.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Wambui Karuga <wambui.karugax@gmail.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Linus Walleij <linus.walleij@linaro.org>, linux-gpio@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>, Jon Mason <jdmason@kudzu.us>,
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- linux-ntb@googlegroups.com, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Michal Simek <michal.simek@xilinx.com>, linux-pci@vger.kernel.org,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, Tariq Toukan <tariqt@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>
-Message-ID: <83b596c7-453b-34b5-a6a5-6c04d20e818a@suse.com>
-Subject: Re: [patch 27/30] xen/events: Only force affinity mask for percpu
- interrupts
-References: <20201210192536.118432146@linutronix.de>
- <20201210194045.250321315@linutronix.de>
- <7f7af60f-567f-cdef-f8db-8062a44758ce@oracle.com>
- <a4bce428-4420-6064-c7cc-7136a7544a52@suse.com>
- <874kksiras.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <874kksiras.fsf@nanos.tec.linutronix.de>
-
---W7MOwpcHMEZDHVpnNeRdRpRviypq0k3b2
-Content-Type: multipart/mixed;
- boundary="------------C0A97F76D1E2DDEBCBB7C379"
+This is a multi-part message in MIME format.
+--===============1850382201==
+Content-Type: multipart/alternative;
+ boundary="------------FC82B3FD5A4781A0AEC371BD"
 Content-Language: en-US
 
 This is a multi-part message in MIME format.
---------------C0A97F76D1E2DDEBCBB7C379
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+--------------FC82B3FD5A4781A0AEC371BD
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 11.12.20 11:13, Thomas Gleixner wrote:
-> On Fri, Dec 11 2020 at 07:17, J=C3=BCrgen Gro=C3=9F wrote:
->> On 11.12.20 00:20, boris.ostrovsky@oracle.com wrote:
->>>
->>> On 12/10/20 2:26 PM, Thomas Gleixner wrote:
->>>> All event channel setups bind the interrupt on CPU0 or the target CP=
-U for
->>>> percpu interrupts and overwrite the affinity mask with the correspon=
-ding
->>>> cpumask. That does not make sense.
->>>>
->>>> The XEN implementation of irqchip::irq_set_affinity() already picks =
-a
->>>> single target CPU out of the affinity mask and the actual target is =
-stored
->>>> in the effective CPU mask, so destroying the user chosen affinity ma=
-sk
->>>> which might contain more than one CPU is wrong.
->>>>
->>>> Change the implementation so that the channel is bound to CPU0 at th=
-e XEN
->>>> level and leave the affinity mask alone. At startup of the interrupt=
-
->>>> affinity will be assigned out of the affinity mask and the XEN bindi=
-ng will
->>>> be updated.
->>>
->>>
->>> If that's the case then I wonder whether we need this call at all and=
- instead bind at startup time.
+Am 11.12.20 um 10:55 schrieb Pekka Paalanen:
+> On Fri, 11 Dec 2020 09:56:07 +0530
+> Shashank Sharma <shashank.sharma@amd.com> wrote:
+>
+>> Hello Simon,
 >>
->> This binding to cpu0 was introduced with commit 97253eeeb792d61ed2
->> and I have no reason to believe the underlying problem has been
->> eliminated.
->=20
->      "The kernel-side VCPU binding was not being correctly set for newl=
-y
->       allocated or bound interdomain events.  In ARM guests where 2-lev=
-el
->       events were used, this would result in no interdomain events bein=
-g
->       handled because the kernel-side VCPU masks would all be clear.
->=20
->       x86 guests would work because the irq affinity was set during irq=
+>> Hope you are doing well,
+>>
+>> I was helping out Aurabindo and the team with the design, so I have
+>> taken the liberty of adding some comments on behalf of the team,
+>> Inline.
+>>
+>> On 11/12/20 3:31 am, Simon Ser wrote:
+>>> Hi,
+>>>
+>>> (CC dri-devel, Pekka and Martin who might be interested in this as
+>>> well.)
+> Thanks for the Cc! This is very interesting to me, and because it was
+> not Cc'd to dri-devel@ originally, I would have missed this otherwise.
+>
+>>> On Thursday, December 10th, 2020 at 7:48 PM, Aurabindo Pillai <aurabindo.pillai@amd.com> wrote:
+>>>   
+>>>> This patchset enables freesync video mode usecase where the userspace
+>>>> can request a freesync compatible video mode such that switching to this
+>>>> mode does not trigger blanking.
+>>>>
+>>>> This feature is guarded by a module parameter which is disabled by
+>>>> default. Enabling this paramters adds additional modes to the driver
+>>>> modelist, and also enables the optimization to skip modeset when using
+>>>> one of these modes.
+>>> Thanks for working on this, it's an interesting feature! However I'd like to
+>>> take some time to think about the user-space API for this.
+>>>
+>>> As I understand it, some new synthetic modes are added, and user-space can
+>>> perform a test-only atomic *without* ALLOW_MODESET to figure out whether it can
+>>> switch to a mode without blanking the screen.
+>> The implementation is in those lines, but a bit different. The idea
+>> is to:
+>>
+>> - check if the monitor supports VRR,
+>>
+>> - If it does, add some new modes which are in the VRR tolerance
+>> range, as new video modes in the list (with driver flag).
+>>
+>> - when you get modeset on any of these modes, skip the full modeset,
+>> and just adjust the front_porch timing
+>>
+>> so they are not test-only as such, for any user-space these modes
+>> will be as real as any other probed modes of the list.
+> But is it worth to allow a modeset to be glitch-free if the userspace
+> does not know they are glitch-free? I think if this is going in, it
+> would be really useful to give the guarantees to userspace explicitly,
+> and not leave this feature at an "accidentally no glitch sometimes"
+> level.
+>
+>
+> I have been expecting and hoping for the ability to change video mode
+> timings without a modeset ever since I learnt that VRR is about
+> front-porch adjustment, quite a while ago.
+>
+> This is how I envision userspace making use of it:
+>
+> Let us have a Wayland compositor, which uses fixed-frequency video
+> modes, because it wants predictable vblank cycles. IOW, it will not
+> enable VRR as such.
 
->       setup and this would set the correct kernel-side VCPU binding."
->=20
-> I'm not convinced that this is really correctly analyzed because affini=
-ty
-> setting is done at irq startup.
->=20
->                  switch (__irq_startup_managed(desc, aff, force)) {
-> 	        case IRQ_STARTUP_NORMAL:
-> 	                ret =3D __irq_startup(desc);
->                          irq_setup_affinity(desc);
-> 			break;
->=20
-> which is completely architecture agnostic. So why should this magically=
+Well in general please keep in mind that this is just a short term 
+solution for X11 applications.
 
-> work on x86 and not on ARM if both are using the same XEN irqchip with
-> the same irqchip callbacks.
+For things like Wayland we probably want to approach this from a 
+completely different vector.
 
-I think this might be related to _initial_ cpu binding of events and
-changing the binding later. This might be handled differently in the
-hypervisor.
+> When the Wayland compositor starts, it will choose *some* video mode
+> for an output. It may or may not be what a KMS driver calls "preferred
+> mode", because it depends on things like user preferences. The
+> compositor makes the initial modeset to this mode.
+
+I think the general idea we settled on is that we specify an earliest 
+display time for each frame and give feedback to the application when a 
+frame was actually displayed.
+
+This approach should also be able to handle multiple applications with 
+different refresh rates. E.g. just think of a video playback with 25 and 
+another one with 30 Hz in two windows when the max refresh rate is 
+something like 120Hz.
+
+Regards,
+Christian.
+
+>
+> Use case 1:
+>
+> A Wayland client comes up and determines that its window would really
+> like a refresh rate of, say, 47.5 Hz. Yes, it's not a traditional video
+> player rate, but let's assume the application has its reasons. The
+> client tells the compositor this (Wayland protocol still to be designed
+> to be able to do that). (Hey, this could be how future games should
+> implement refresh rate controls in cooperation with the window system.)
+>
+> The compositor sees the wish, and according to its complex policy
+> rules, determines that yes, it shall try to honor that wish by changing
+> the whole output temporarily to 47.5 Hz if possible.
+>
+> The compositor takes the original video mode it modeset on the output,
+> and adjusts the front-porch to create a new custom 47.5 Hz mode. Using
+> this mode, the compositor does a TEST_ONLY atomic commit *without*
+> ALLOW_MODESET.
+>
+> If the test commit succeeds, the compositor knows that changing timings
+> will not cause any kind of glitch, flicker, blanking, or freeze, and
+> proceeds to commit this video mode without ALLOW_MODESET. The whole
+> output becomes 47.5 Hz until the compositor policy again determines
+> that it is time to change, e.g. to go back to the original mode. Going
+> back to the original mode also needs to work without ALLOW_MODESET -
+> but a compositor cannot test for this with atomic TEST_ONLY commits.
+>
+> If the test commit fails, the compositor knows that it cannot change
+> the timings like this without risking a visible glitch. Therefore the
+> compositor does not change the video mode timings, and the client's
+> wish is not granted.
+>
+> The client adapts to whatever the refresh rate is in any case.
+>
+> Use case 2:
+>
+> A client comes up, and starts presenting frames with a target timestamp
+> (Wayland protocol for this still to be designed). The compositor
+> analyzes the target timestamp, and according to the complex compositor
+> policy, determines that it should try to adjust video mode timings to
+> better meet the target timestamps.
+>
+> Like in use case 1, the compositor creates a new custom video mode and
+> tests if it can be applied without any glitch. If yes, it is used. If
+> not, it is not used.
+>
+> This use case is more complicated, because the video mode timing
+> changes may happen refresh by refresh, which means they need to
+> apply for the very next front-porch in the scanout cycle in
+> hardware. Hence, I'm not sure this use case is realistic. It can also
+> be argued that this is better implemented by just enabling VRR and
+> handling the flip timing in userspace, in the compositor: issue an
+> atomic flip at the exact time it needs to be executed instead of
+> issuing it well in advance and letting the driver wait for vblank.
+>
+>
+> Worth to note: neither case needs the kernel to expose new manufactured
+> video modes. Whether the feature is available or not is detected by an
+> atomic TEST_ONLY commit without ALLOW_MODESET.
+>
+>>> However the exact modes amdgpu adds are just some guesses. I think it would be
+>>> great if user-space could control the min/max refresh rate values directly.
+> Setting min==max could be used to achieve the fixed refresh rate
+> proposed here, but it would also allow setting custom min < max limits.
+> This would be more flexible, but I'm not sure what the use case for it
+> could look like... oh, there are the use cases mentioned below: user
+> preferences. :-)
+>
+> Maybe the min/max setting is better than fiddling with custom video
+> modes. If we have min/max to control, then there is no problem with
+> going back to the "original" video mode like in my example use case 1.
+>
+>>> Not only this would remove the need for the kernel to hard-code "well-known
+>>> video refresh rates", but this would also enable more use-cases. For instance
+>>> some users might want to mitigate flickering on their screen by reducing the
+>>> VRR range. Some users might want to lower their screen refresh rate for power
+>>> savings.
+>>>
+>>> What do you think? Would you be fine with adding min/max VRR range properties?
+>>>
+>>> If you're scared about the user-space code requirement, I can
+>>> provide that.
+>> This sounds like a reasonable approach, and there is no reason why we
+>> can't do this if we have the proper userspace support as you
+>> mentioned.
+> Maybe the min/max controls are the way to go, considering that
+> the seamless refresh rate change feature in general cannot be
+> implemented without VRR. Or can it?
+>
+> But if it can be implemented while not supporting VRR on some hardware,
+> then the video mode fiddling without ALLOW_MODESET is still a usable
+> approach. Or maybe such a driver could special-case VRR=enabled &&
+> min==max.
+>
+> Yeah, min/max controls seems like the best idea to me so far.
+>
+>
+> Thanks,
+> pq
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
 
 
-Juergen
+--------------FC82B3FD5A4781A0AEC371BD
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
---------------C0A97F76D1E2DDEBCBB7C379
-Content-Type: application/pgp-keys;
- name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Am 11.12.20 um 10:55 schrieb Pekka
+      Paalanen:<br>
+    </div>
+    <blockquote type="cite" cite="mid:20201211115549.32ade81b@eldfell">
+      <pre class="moz-quote-pre" wrap="">On Fri, 11 Dec 2020 09:56:07 +0530
+Shashank Sharma <a class="moz-txt-link-rfc2396E" href="mailto:shashank.sharma@amd.com">&lt;shashank.sharma@amd.com&gt;</a> wrote:
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Hello Simon,
 
-xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
-cWx
-w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
-f8Z
-d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
-9bf
-IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
-G7/
-377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
-3Jv
-c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
-QIe
-AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
-hpw
-dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
-MbD
-1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
-oPH
-Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
-5QL
-+qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
-2Vu
-IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
-QoL
-BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
-Wf0
-teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
-/nu
-AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
-ITT
-d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
-XBK
-7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
-80h
-SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
-AcD
-AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
-FOX
-gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
-jnD
-kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
-N51
-N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
-otu
-fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
-tqS
-EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
-hsD
-BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
-g3O
-ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
-dM7
-wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
-D+j
-LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
-V2x
-AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
-Eaw
-QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
-nHI
-s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
-wgn
-BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
-bVF
-LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
-pEd
-IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
-QAB
-wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
-Tbe
-8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
-vJz
-Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
-VGi
-wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
-svi
-uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
-zXs
-ZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
+Hope you are doing well,
 
---------------C0A97F76D1E2DDEBCBB7C379--
+I was helping out Aurabindo and the team with the design, so I have
+taken the liberty of adding some comments on behalf of the team,
+Inline.
 
---W7MOwpcHMEZDHVpnNeRdRpRviypq0k3b2--
+On 11/12/20 3:31 am, Simon Ser wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Hi,
 
---JLZob3e3TcGZaffU2V6GYg9zw25iTy30k
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+(CC dri-devel, Pekka and Martin who might be interested in this as
+well.)
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Thanks for the Cc! This is very interesting to me, and because it was
+not Cc'd to dri-devel@ originally, I would have missed this otherwise.
 
------BEGIN PGP SIGNATURE-----
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+On Thursday, December 10th, 2020 at 7:48 PM, Aurabindo Pillai <a class="moz-txt-link-rfc2396E" href="mailto:aurabindo.pillai@amd.com">&lt;aurabindo.pillai@amd.com&gt;</a> wrote:
+ 
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">This patchset enables freesync video mode usecase where the userspace
+can request a freesync compatible video mode such that switching to this
+mode does not trigger blanking.
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAl/TSJEFAwAAAAAACgkQsN6d1ii/Ey+l
-mgf/d2+/6FRTlqTIKtgTaI9zWYXHFZUVv6aYW6iBE6VxANXvSWq9HMk6KnsreMEFtZ6/gFqr/hEu
-oLKI4zId8FjcveupY8yiEXvBkWDXXQHXm2vw2fO6Fe2D0RCcR0QLeFpvolQBAp0s4pGQNCWixekr
-Q6YyAWOKOmAjWmLsSsyend9GfjL+BFR6pObB4CLRdm5rvQHbPW6pNHBTTX2bxeszchEibXqmy+eX
-K7jbAijkr/Vq+9h84FBdAOZQRgXCIrWI14ae2O+8CGs9w5v/Yczedv+z4knUyDtXHly4+zuhkPSW
-tmVXo5DD0Oh4PaNITuXRo6Y9sSrWG1w22F+SVn8vKg==
-=c494
------END PGP SIGNATURE-----
+This feature is guarded by a module parameter which is disabled by
+default. Enabling this paramters adds additional modes to the driver
+modelist, and also enables the optimization to skip modeset when using
+one of these modes.  
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">Thanks for working on this, it's an interesting feature! However I'd like to
+take some time to think about the user-space API for this.
 
---JLZob3e3TcGZaffU2V6GYg9zw25iTy30k--
+As I understand it, some new synthetic modes are added, and user-space can
+perform a test-only atomic *without* ALLOW_MODESET to figure out whether it can
+switch to a mode without blanking the screen.  
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+The implementation is in those lines, but a bit different. The idea
+is to:
 
---===============1411712878==
+- check if the monitor supports VRR,
+
+- If it does, add some new modes which are in the VRR tolerance
+range, as new video modes in the list (with driver flag).
+
+- when you get modeset on any of these modes, skip the full modeset,
+and just adjust the front_porch timing
+
+so they are not test-only as such, for any user-space these modes
+will be as real as any other probed modes of the list.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+But is it worth to allow a modeset to be glitch-free if the userspace
+does not know they are glitch-free? I think if this is going in, it
+would be really useful to give the guarantees to userspace explicitly,
+and not leave this feature at an "accidentally no glitch sometimes"
+level.
+
+
+I have been expecting and hoping for the ability to change video mode
+timings without a modeset ever since I learnt that VRR is about
+front-porch adjustment, quite a while ago.
+
+This is how I envision userspace making use of it:
+
+Let us have a Wayland compositor, which uses fixed-frequency video
+modes, because it wants predictable vblank cycles. IOW, it will not
+enable VRR as such.</pre>
+    </blockquote>
+    <br>
+    Well in general please keep in mind that this is just a short term
+    solution for X11 applications.<br>
+    <br>
+    For things like Wayland we probably want to approach this from a
+    completely different vector.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20201211115549.32ade81b@eldfell">
+      <pre class="moz-quote-pre" wrap="">When the Wayland compositor starts, it will choose *some* video mode
+for an output. It may or may not be what a KMS driver calls "preferred
+mode", because it depends on things like user preferences. The
+compositor makes the initial modeset to this mode.</pre>
+    </blockquote>
+    <br>
+    I think the general idea we settled on is that we specify an
+    earliest display time for each frame and give feedback to the
+    application when a frame was actually displayed.<br>
+    <br>
+    This approach should also be able to handle multiple applications
+    with different refresh rates. E.g. just think of a video playback
+    with 25 and another one with 30 Hz in two windows when the max
+    refresh rate is something like 120Hz.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20201211115549.32ade81b@eldfell">
+      <pre class="moz-quote-pre" wrap="">
+
+Use case 1:
+
+A Wayland client comes up and determines that its window would really
+like a refresh rate of, say, 47.5 Hz. Yes, it's not a traditional video
+player rate, but let's assume the application has its reasons. The
+client tells the compositor this (Wayland protocol still to be designed
+to be able to do that). (Hey, this could be how future games should
+implement refresh rate controls in cooperation with the window system.)
+
+The compositor sees the wish, and according to its complex policy
+rules, determines that yes, it shall try to honor that wish by changing
+the whole output temporarily to 47.5 Hz if possible.
+
+The compositor takes the original video mode it modeset on the output,
+and adjusts the front-porch to create a new custom 47.5 Hz mode. Using
+this mode, the compositor does a TEST_ONLY atomic commit *without*
+ALLOW_MODESET.
+
+If the test commit succeeds, the compositor knows that changing timings
+will not cause any kind of glitch, flicker, blanking, or freeze, and
+proceeds to commit this video mode without ALLOW_MODESET. The whole
+output becomes 47.5 Hz until the compositor policy again determines
+that it is time to change, e.g. to go back to the original mode. Going
+back to the original mode also needs to work without ALLOW_MODESET -
+but a compositor cannot test for this with atomic TEST_ONLY commits.
+
+If the test commit fails, the compositor knows that it cannot change
+the timings like this without risking a visible glitch. Therefore the
+compositor does not change the video mode timings, and the client's
+wish is not granted.
+
+The client adapts to whatever the refresh rate is in any case.
+
+Use case 2:
+
+A client comes up, and starts presenting frames with a target timestamp
+(Wayland protocol for this still to be designed). The compositor
+analyzes the target timestamp, and according to the complex compositor
+policy, determines that it should try to adjust video mode timings to
+better meet the target timestamps.
+
+Like in use case 1, the compositor creates a new custom video mode and
+tests if it can be applied without any glitch. If yes, it is used. If
+not, it is not used.
+
+This use case is more complicated, because the video mode timing
+changes may happen refresh by refresh, which means they need to
+apply for the very next front-porch in the scanout cycle in
+hardware. Hence, I'm not sure this use case is realistic. It can also
+be argued that this is better implemented by just enabling VRR and
+handling the flip timing in userspace, in the compositor: issue an
+atomic flip at the exact time it needs to be executed instead of
+issuing it well in advance and letting the driver wait for vblank.
+
+
+Worth to note: neither case needs the kernel to expose new manufactured
+video modes. Whether the feature is available or not is detected by an
+atomic TEST_ONLY commit without ALLOW_MODESET.
+
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">However the exact modes amdgpu adds are just some guesses. I think it would be
+great if user-space could control the min/max refresh rate values directly.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Setting min==max could be used to achieve the fixed refresh rate
+proposed here, but it would also allow setting custom min &lt; max limits.
+This would be more flexible, but I'm not sure what the use case for it
+could look like... oh, there are the use cases mentioned below: user
+preferences. :-)
+
+Maybe the min/max setting is better than fiddling with custom video
+modes. If we have min/max to control, then there is no problem with
+going back to the "original" video mode like in my example use case 1.
+
+</pre>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Not only this would remove the need for the kernel to hard-code "well-known
+video refresh rates", but this would also enable more use-cases. For instance
+some users might want to mitigate flickering on their screen by reducing the
+VRR range. Some users might want to lower their screen refresh rate for power
+savings.
+
+What do you think? Would you be fine with adding min/max VRR range properties?
+
+If you're scared about the user-space code requirement, I can
+provide that.  
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+This sounds like a reasonable approach, and there is no reason why we
+can't do this if we have the proper userspace support as you
+mentioned.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Maybe the min/max controls are the way to go, considering that
+the seamless refresh rate change feature in general cannot be
+implemented without VRR. Or can it?
+
+But if it can be implemented while not supporting VRR on some hardware,
+then the video mode fiddling without ALLOW_MODESET is still a usable
+approach. Or maybe such a driver could special-case VRR=enabled &amp;&amp;
+min==max.
+
+Yeah, min/max controls seems like the best idea to me so far.
+
+
+Thanks,
+pq
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">_______________________________________________
+amd-gfx mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
+<a class="moz-txt-link-freetext" href="https://lists.freedesktop.org/mailman/listinfo/amd-gfx">https://lists.freedesktop.org/mailman/listinfo/amd-gfx</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------FC82B3FD5A4781A0AEC371BD--
+
+--===============1850382201==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -337,4 +559,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1411712878==--
+--===============1850382201==--
