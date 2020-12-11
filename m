@@ -2,61 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A652D734C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:04:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E952D735B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:06:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0DDE6ED16;
-	Fri, 11 Dec 2020 10:04:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFF296ED1E;
+	Fri, 11 Dec 2020 10:06:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D794D6ED16
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:04:41 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id r7so8400685wrc.5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 02:04:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=1m1097L8Z65yNEwPVsqCFAhMTO7JcIQztqm0XMNCEPQ=;
- b=QxFc8GC7E8T+U1gL6XJZvjeXxiWbuXfRqv6+3/ZJOEoQYn8YiRuOLDZAWueGTraddr
- xPqz2bb/8UoAjcvd5vsoN8LW5Iq1Lp0AqSabcEPsXCi+l/VkgtRG+OzcSz2lDjE/Pdix
- jshzcxstN+qosX02zQCGS+/I2FYEYzEAEBcOtJSJ1mr8h1MxoB17ALXOASyS2RwWORLD
- sYyHzWywWpvht4yy3yfrgCqZgrWTC9ga2KkmmQ+oI2PP2v+Qn9n0ORXRDwcKBkqiCMKf
- N0XznwYuSkPJfUeKcTzGZ2pjw4N1X+j5jdnHapfeS7fwZVeyxQTBUj+e7/XfSTgXR3Ap
- ykzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=1m1097L8Z65yNEwPVsqCFAhMTO7JcIQztqm0XMNCEPQ=;
- b=sT5ckUzexYE/X+b04wT7DbMSPvcnczSJDKoTRo8bqqlL54NQUDrY5Nbzyz3+HlIHdB
- v+yTk9KHkfmNzNCAOf8natl/goohCqmbwePAYW9JSnxLE7EvR8Ucx7yd1mBXyAgJnoDP
- bUOfOT55MEQjUyOoKciwKWr2lGn6qEu8Tu4GwCqeBngUXj4xvzP/spYxrBIRPm3imlOM
- 1MF3SBWBGqFXV30sntbtnvOqll57w5aoBOW1KglXH0ODQQRcQrPV8Vq+XxyEbLwlhrAA
- E4wjR9QIO+/kDc4l0xUALThT4rzzaOYOht10kmeC7S+w9mlT7nNAd0H8wdObAD9hOIjy
- 7YnQ==
-X-Gm-Message-State: AOAM530z5e7/67pyyJj3QGefmZMPpkc1fZZBlzV1PqXlrFppe2jQslIq
- Q/3UwYVHeshozGbLjMEQxeGhcg==
-X-Google-Smtp-Source: ABdhPJwPXfTZPDeiEu60EOOVLfjPDebdQDfkcu30zCcF3k07tbHpbRDSiAPsDeGxO9u3bWjkQ8cNJw==
-X-Received: by 2002:a5d:6ccc:: with SMTP id c12mr13142414wrc.4.1607681080467; 
- Fri, 11 Dec 2020 02:04:40 -0800 (PST)
-Received: from dell ([91.110.221.240])
- by smtp.gmail.com with ESMTPSA id 125sm14307876wmc.27.2020.12.11.02.04.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 02:04:39 -0800 (PST)
-Date: Fri, 11 Dec 2020 10:04:36 +0000
-From: Lee Jones <lee.jones@linaro.org>
-To: Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [patch 16/30] mfd: ab8500-debugfs: Remove the racy fiddling with
- irq_desc
-Message-ID: <20201211100436.GC5029@dell>
-References: <20201210192536.118432146@linutronix.de>
- <20201210194044.157283633@linutronix.de>
+Received: from userp2130.oracle.com (userp2130.oracle.com [156.151.31.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 782B66ED1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:06:11 +0000 (UTC)
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBA03lF145224;
+ Fri, 11 Dec 2020 10:06:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=W1eNTHQxgdyXsKgTBImbofhNLh70lNcnXYCvQhl4jvI=;
+ b=Kzlz/MVOfKGJQ/ms+XdQrcjgISw4gcjJVE8J6wP0SZcMeao/bFfI+9j4JZxfFvUO5TJB
+ OS5oun9KEaOGGULDDLOj/HnlWT08NDBHdUOMzijg5Gp6GtkfQ1kpmSWEN56r8CO6tHgY
+ bpW+J+TWRi3zWdz02Tr3SjJA/sNOvkYGF1t54Cj3KZGr5TI1V6s9pl68ukbT3OOy7mAh
+ PGo97OR2uVoxeRejczqy3NKgC8Hz5BVuJXohFfOqbH9Sh6Q2UEcGKm9qSQivPTpe2vkb
+ LzdX9H+iP9gzIhf/VfDwblmaJWo5G6l3YywhJ1uuHNXhJ36E5gKN1wrBHu+uJ2sEJuGm Iw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3581mr9up9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 11 Dec 2020 10:06:03 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBA0fMV022932;
+ Fri, 11 Dec 2020 10:06:02 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 358m437x07-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Dec 2020 10:06:02 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BBA5vaA009524;
+ Fri, 11 Dec 2020 10:05:58 GMT
+Received: from mwanda (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 11 Dec 2020 02:05:57 -0800
+Date: Fri, 11 Dec 2020 13:05:50 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH] drm/panel: khadas: Fix error code in khadas_ts050_panel_add()
+Message-ID: <X9NEfmgGilaXJs2R@mwanda>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201210194044.157283633@linutronix.de>
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012110061
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ mlxlogscore=999
+ clxscore=1011 malwarescore=0 priorityscore=1501 adultscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 impostorscore=0 mlxscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012110061
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,59 +76,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
- Peter Zijlstra <peterz@infradead.org>,
- Catalin Marinas <catalin.marinas@arm.com>, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- netdev@vger.kernel.org, Will Deacon <will@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, linux-s390@vger.kernel.org,
- afzal mohammed <afzal.mohd.ma@gmail.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Dave Jiang <dave.jiang@intel.com>, xen-devel@lists.xenproject.org,
- Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
- Marc Zyngier <maz@kernel.org>, Helge Deller <deller@gmx.de>,
- Russell King <linux@armlinux.org.uk>,
- Christian Borntraeger <borntraeger@de.ibm.com>, linux-pci@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>, intel-gfx@lists.freedesktop.org,
- Wambui Karuga <wambui.karugax@gmail.com>, Allen Hubbe <allenbh@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Heiko Carstens <hca@linux.ibm.com>, linux-gpio@vger.kernel.org,
- Stefano Stabellini <sstabellini@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>,
- linux-arm-kernel@lists.infradead.org, Juergen Gross <jgross@suse.com>,
- David Airlie <airlied@linux.ie>, linux-parisc@vger.kernel.org,
- Pankaj Bharadiya <pankaj.laxminarayan.bharadiya@intel.com>,
- Hou Zhiqiang <Zhiqiang.Hou@nxp.com>, LKML <linux-kernel@vger.kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Jon Mason <jdmason@kudzu.us>,
- linux-ntb@googlegroups.com, Saeed Mahameed <saeedm@nvidia.com>,
- "David S. Miller" <davem@davemloft.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: David Airlie <airlied@linux.ie>, kernel-janitors@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAxMCBEZWMgMjAyMCwgVGhvbWFzIEdsZWl4bmVyIHdyb3RlOgoKPiBGaXJzdCBvZiBh
-bGwgZHJpdmVycyBoYXZlIGFic29sdXRlbHkgbm8gYnVzaW5lc3MgdG8gZGlnIGludG8gdGhlIGlu
-dGVybmFscwo+IG9mIGFuIGlycSBkZXNjcmlwdG9yLiBUaGF0J3MgY29yZSBjb2RlIGFuZCBzdWJq
-ZWN0IHRvIGNoYW5nZS4gQWxsIG9mIHRoaXMKPiBpbmZvcm1hdGlvbiBpcyByZWFkaWx5IGF2YWls
-YWJsZSB0byAvcHJvYy9pbnRlcnJ1cHRzIGluIGEgc2FmZSBhbmQgcmFjZQo+IGZyZWUgd2F5Lgo+
-IAo+IFJlbW92ZSB0aGUgaW5zcGVjdGlvbiBjb2RlIHdoaWNoIGlzIGEgYmxhdGFudCB2aW9sYXRp
-b24gb2Ygc3Vic3lzdGVtCj4gYm91bmRhcmllcyBhbmQgcmFjeSBhZ2FpbnN0IGNvbmN1cnJlbnQg
-bW9kaWZpY2F0aW9ucyBvZiB0aGUgaW50ZXJydXB0Cj4gZGVzY3JpcHRvci4KPiAKPiBQcmludCB0
-aGUgaXJxIGxpbmUgaW5zdGVhZCBzbyB0aGUgaW5mb3JtYXRpb24gY2FuIGJlIGxvb2tlZCB1cCBp
-biBhIHNhbmUKPiB3YXkgaW4gL3Byb2MvaW50ZXJydXB0cy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBU
-aG9tYXMgR2xlaXhuZXIgPHRnbHhAbGludXRyb25peC5kZT4KPiBDYzogTGludXMgV2FsbGVpaiA8
-bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgo+IENjOiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5h
-cm8ub3JnPgo+IENjOiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcKPiAtLS0K
-PiAgZHJpdmVycy9tZmQvYWI4NTAwLWRlYnVnZnMuYyB8ICAgMTYgKysrLS0tLS0tLS0tLS0tLQo+
-ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxMyBkZWxldGlvbnMoLSkKCkFja2Vk
-LWJ5OiBMZWUgSm9uZXMgPGxlZS5qb25lc0BsaW5hcm8ub3JnPgoKLS0gCkxlZSBKb25lcyBb5p2O
-55C85pavXQpTZW5pb3IgVGVjaG5pY2FsIExlYWQgLSBEZXZlbG9wZXIgU2VydmljZXMKTGluYXJv
-Lm9yZyDilIIgT3BlbiBzb3VyY2Ugc29mdHdhcmUgZm9yIEFybSBTb0NzCkZvbGxvdyBMaW5hcm86
-IEZhY2Vib29rIHwgVHdpdHRlciB8IEJsb2cKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMu
-ZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlz
-dGluZm8vZHJpLWRldmVsCg==
+There is a copy and paste bug so it didn't return the correct error
+code.
+
+Fixes: b215212117f7 ("drm: panel: add Khadas TS050 panel driver")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/panel/panel-khadas-ts050.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-khadas-ts050.c b/drivers/gpu/drm/panel/panel-khadas-ts050.c
+index 87aa2cc8ec2a..8f6ac1a40c31 100644
+--- a/drivers/gpu/drm/panel/panel-khadas-ts050.c
++++ b/drivers/gpu/drm/panel/panel-khadas-ts050.c
+@@ -786,7 +786,7 @@ static int khadas_ts050_panel_add(struct khadas_ts050_panel *khadas_ts050)
+ 	khadas_ts050->enable_gpio = devm_gpiod_get(dev, "enable",
+ 						   GPIOD_OUT_HIGH);
+ 	if (IS_ERR(khadas_ts050->enable_gpio))
+-		return dev_err_probe(dev, PTR_ERR(khadas_ts050->reset_gpio),
++		return dev_err_probe(dev, PTR_ERR(khadas_ts050->enable_gpio),
+ 				     "failed to get enable gpio");
+ 
+ 	drm_panel_init(&khadas_ts050->base, &khadas_ts050->link->dev,
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
