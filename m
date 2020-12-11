@@ -1,31 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27AD2D7EE4
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 19:56:25 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 401A42D7EE6
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 19:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22B1B6E8A2;
-	Fri, 11 Dec 2020 18:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08766EA0C;
+	Fri, 11 Dec 2020 18:56:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AC286E8A2
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F12CA6E1F8
  for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 18:56:18 +0000 (UTC)
 Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
- by mslow2.mail.gandi.net (Postfix) with ESMTP id D78853A7D8C
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 18:46:58 +0000 (UTC)
+ by mslow2.mail.gandi.net (Postfix) with ESMTP id 7101C3B4AF3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 18:46:59 +0000 (UTC)
 X-Originating-IP: 86.247.11.12
 Received: from haruko.lan (lfbn-idf2-1-654-12.w86-247.abo.wanadoo.fr
  [86.247.11.12]) (Authenticated sender: schroder@emersion.fr)
- by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 4531BE000C;
- Fri, 11 Dec 2020 18:46:36 +0000 (UTC)
+ by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 4B30DE000D;
+ Fri, 11 Dec 2020 18:46:37 +0000 (UTC)
 From: Simon Ser <contact@emersion.fr>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/4] drm: validate possible_crtcs for primary and cursor
- planes
-Date: Fri, 11 Dec 2020 19:46:32 +0100
-Message-Id: <20201211184634.74534-2-contact@emersion.fr>
+Subject: [PATCH v4 3/4] drm: require a non_NULL drm_crtc.primary
+Date: Fri, 11 Dec 2020 19:46:33 +0100
+Message-Id: <20201211184634.74534-3-contact@emersion.fr>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201211184634.74534-1-contact@emersion.fr>
 References: <20201211184634.74534-1-contact@emersion.fr>
@@ -49,52 +48,48 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a primary or cursor plane is not compatible with a CRTC it's attached
-to via the legacy primary/cursor field, things will be broken for legacy
-user-space.
+If a CRTC is missing a legacy primary plane pointer, a lot of things
+will be broken for user-space: fbdev stops working and the entire legacy
+uAPI stops working.
 
-v4: use drm_crtc_mask instead of BIT (Ville)
+Require all drivers to populate drm_crtc.primary to prevent these
+issues. Warn if it's NULL.
 
 Signed-off-by: Simon Ser <contact@emersion.fr>
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/drm_mode_config.c | 3 +++
+ drivers/gpu/drm/drm_plane.c       | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-index f1affc1bb679..1628c8b60d9a 100644
+index 1628c8b60d9a..1e5da83fd2a8 100644
 --- a/drivers/gpu/drm/drm_mode_config.c
 +++ b/drivers/gpu/drm/drm_mode_config.c
-@@ -625,6 +625,7 @@ static void validate_encoder_possible_crtcs(struct drm_encoder *encoder)
- void drm_mode_config_validate(struct drm_device *dev)
- {
- 	struct drm_encoder *encoder;
-+	struct drm_crtc *crtc;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return;
-@@ -636,4 +637,19 @@ void drm_mode_config_validate(struct drm_device *dev)
- 		validate_encoder_possible_clones(encoder);
- 		validate_encoder_possible_crtcs(encoder);
+@@ -639,6 +639,9 @@ void drm_mode_config_validate(struct drm_device *dev)
  	}
+ 
+ 	drm_for_each_crtc(crtc, dev) {
++		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
++		     crtc->base.id, crtc->name);
 +
-+	drm_for_each_crtc(crtc, dev) {
-+		if (crtc->primary) {
-+			WARN(!(crtc->primary->possible_crtcs & drm_crtc_mask(crtc)),
-+			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
-+			     crtc->primary->base.id, crtc->primary->name,
-+			     crtc->base.id, crtc->name);
-+		}
-+		if (crtc->cursor) {
-+			WARN(!(crtc->cursor->possible_crtcs & drm_crtc_mask(crtc)),
-+			     "Bogus cursor plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
-+			     crtc->cursor->base.id, crtc->cursor->name,
-+			     crtc->base.id, crtc->name);
-+		}
-+	}
- }
+ 		if (crtc->primary) {
+ 			WARN(!(crtc->primary->possible_crtcs & drm_crtc_mask(crtc)),
+ 			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compatible with [CRTC:%d:%s]\n",
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 5d33ca9f0032..49b0a8b9ac02 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -57,7 +57,7 @@
+  * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
+  * relies on the driver to set the primary and optionally the cursor plane used
+  * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
+- * drivers should provide one primary plane per CRTC to avoid surprising legacy
++ * drivers must provide one primary plane per CRTC to avoid surprising legacy
+  * userspace too much.
+  */
+ 
 -- 
 2.29.2
 
