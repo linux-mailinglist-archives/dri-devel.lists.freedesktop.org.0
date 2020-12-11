@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 744FE2D72F8
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 10:40:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D8E2D730C
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 10:50:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94C356ED06;
-	Fri, 11 Dec 2020 09:40:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52AE26ED0D;
+	Fri, 11 Dec 2020 09:50:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C0BE6ED06
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 09:40:04 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y17so8301250wrr.10
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 01:40:04 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41A2A6ED08
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 09:50:21 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id r3so8373092wrt.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 01:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=BBMZYuvSnfgkVx6tBmK2Wiiqx5byRBrgyTEDwAs9l14=;
- b=aSB1BCyAvO7hF26iVhODkq39odRS+UoX+/oEfJ5VGJdVce5NUWDQckQodHcII5H1Hz
- 21DgrIg7JZjbvmg9AEnvWFbJ2s0R6C40bwZyPc3tCuaNuWdPdXdnjGKsbpJaapYM9/Po
- Vn/VZ6zoqNPYXLPahQWHebojD//y9HM+P1Tjs=
+ bh=w+JWRO8ZhnT6c+Wgx3im5IOcTQC2BDvk7Y32vjjjIno=;
+ b=K3+s9zmfv3t4dXh6DnqmhQepsj9JZqLEplAi//xB1NT4Sa36ipJQR4TyqU4FZPqMgt
+ RjOvmsXauvXQ6IN6xIktH52360sQh/UTNO9WrbMjkgdegzb1ltsNgxgAbEhWM1B1Zk2s
+ CqoOZ3aSTRiPmwcJa6wt/Qb4cNXDMo7v5sppo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BBMZYuvSnfgkVx6tBmK2Wiiqx5byRBrgyTEDwAs9l14=;
- b=MJOKRmmlnKBruikrI+EZvJabGXR2htC/MdlmEHlcM9rD/KVPexWAfQBYOGXYuW+TTB
- G1LmG1V+G98rxOXdRkOlFivhowPEwYkR/hqZOXhNCo+iAmeWm/hMF5lrA7gN1VS2kdrl
- MOcpwilgh0id0wwFW+5yNIkP5u7uRvtdQ1/F7T9vwr5Tn+fbLttszPHCO5du5wGUHLRE
- TYxLxOV5l0OvyxYA8b27wYZodBy0gC9dfMCl+aXFPkwPiHsbQQi4qO5cRuhj6dIv9JM7
- AWuWGMJih685Gf98X6br9QMwW+/kq+oMMRja94ZMDNKUfXw+dWrB1BRNelhIBp1EBiPq
- SE5Q==
-X-Gm-Message-State: AOAM530bTR1xDPe/gBkuOFigKKrrPRsRQQVi0591AWVsbLf/iNcjQ06U
- kVluSsXZV615SM572Axq9XNRQg==
-X-Google-Smtp-Source: ABdhPJz8bnteVuPWlqvUHmb5G+JjYIr75IXQFMqcJBKRq84zZqO9uSdVvytCN9HvAtL2Ocom3MmErQ==
-X-Received: by 2002:adf:97ce:: with SMTP id t14mr13035615wrb.368.1607679603133; 
- Fri, 11 Dec 2020 01:40:03 -0800 (PST)
+ bh=w+JWRO8ZhnT6c+Wgx3im5IOcTQC2BDvk7Y32vjjjIno=;
+ b=Ugged4ECYtXGaU3GXvB2ava+QrMZNd9/qNP21ib2u32nAGdi6SDlK7RzQImPj2nRTy
+ bKfRWRaf/glM7w+2rlcSWwlcdjvBsjtPCcB1rWBtyTLhqJBshBDQC5YtdxM1jLfP6HtY
+ oVezXe4clRN1A5v8MrIqoXznSsx0yc7me0v9aJv6soCSJ7z6u8vsmDMRJjzZS5kzGH01
+ IMH9HhX+soyINL8Pw+inQY7WjrzPmoxXx2/wMIEUGs8Ti338gy/yBOuNVs938oJ/U3CN
+ /HZhHZkRjX2ceHXziYZfBEoOHKFU+MTXpUoojUyzvzNYZG+N0mg+ywLEOUcOhd/ITxEi
+ 8ObA==
+X-Gm-Message-State: AOAM532oNl80BR2U6WwaVVlDIDvlxF+g1CwuwYW9310vtg6/KXuUxStX
+ 8SWaU0iE0GQpPJDrEX8fgWDRxoSk3GtFEw==
+X-Google-Smtp-Source: ABdhPJxybeH23tpoPpf6bor02VrwRPA0C8qLBNGyQAr5duE9sHQRzgCJVcNpz2LDYKCajJawgycEUQ==
+X-Received: by 2002:adf:dc8b:: with SMTP id r11mr13190509wrj.131.1607680219816; 
+ Fri, 11 Dec 2020 01:50:19 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h83sm15009761wmf.9.2020.12.11.01.40.01
+ by smtp.gmail.com with ESMTPSA id v20sm13434727wml.34.2020.12.11.01.50.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 01:40:02 -0800 (PST)
-Date: Fri, 11 Dec 2020 10:40:00 +0100
+ Fri, 11 Dec 2020 01:50:18 -0800 (PST)
+Date: Fri, 11 Dec 2020 10:50:16 +0100
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 5/8] drm/cma-helper: Provide a vmap function for
+Subject: Re: [PATCH v3 6/8] drm/shmem-helper: Provide a vmap function for
  short-term mappings
-Message-ID: <20201211094000.GK401619@phenom.ffwll.local>
+Message-ID: <20201211095016.GL401619@phenom.ffwll.local>
 References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-6-tzimmermann@suse.de>
+ <20201209142527.26415-7-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201209142527.26415-6-tzimmermann@suse.de>
+In-Reply-To: <20201209142527.26415-7-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,157 +75,356 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 09, 2020 at 03:25:24PM +0100, Thomas Zimmermann wrote:
+On Wed, Dec 09, 2020 at 03:25:25PM +0100, Thomas Zimmermann wrote:
 > Implementations of the vmap/vunmap GEM callbacks may perform pinning
 > of the BO and may acquire the associated reservation object's lock.
 > Callers that only require a mapping of the contained memory can thus
 > interfere with other tasks that require exact pinning, such as scanout.
-> This is less of an issue with private CMA buffers, but may happen
+> This is less of an issue with private SHMEM buffers, but may happen
 > with imported ones.
 > 
-> Therefore provide the new interface drm_gem_cma_vmap_local(), which only
-> performs the vmap operations. Callers have to hold the reservation lock
-> while the mapping persists.
+> Therefore provide the new interfaces drm_gem_shmem_vmap_local() and
+> drm_gem_shmem_vunmap_local(), which only perform the vmap/vunmap
+> operations. Callers have to hold the reservation lock while the mapping
+> persists.
 > 
-> This patch also connects GEM CMA helpers to the GEM object function with
+> The affected callers are display updates in cirrus, gm12u320, mgag200
+> and udl. All are being changed to the new interface.
+> 
+> This patch also connects GEM SHMEM helpers to GEM object functions with
 > equivalent functionality.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/drm_gem_cma_helper.c | 35 ++++++++++++++++++++++++++++
->  drivers/gpu/drm/vc4/vc4_bo.c         | 13 +++++++++++
->  drivers/gpu/drm/vc4/vc4_drv.h        |  1 +
->  include/drm/drm_gem_cma_helper.h     |  1 +
->  4 files changed, 50 insertions(+)
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 71 +++++++++++++++++++++++++-
+>  drivers/gpu/drm/mgag200/mgag200_mode.c | 16 ++++--
+>  drivers/gpu/drm/tiny/cirrus.c          | 10 +++-
+>  drivers/gpu/drm/tiny/gm12u320.c        | 14 +++--
+>  drivers/gpu/drm/udl/udl_modeset.c      | 18 ++++---
+
+I think that's a bit much driver conversion. I'd say in general split
+these out from the patch that adds the new functionality. More
+importantly, since vmap_local is optional, you can only start using it
+once all drivers have it. Especially with udl this will break use-cases
+otherwise, but also probably with gm12u320.
+
+
+>  include/drm/drm_gem_shmem_helper.h     |  2 +
+>  6 files changed, 115 insertions(+), 16 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
-> index 7942cf05cd93..40b3e8e3fc42 100644
-> --- a/drivers/gpu/drm/drm_gem_cma_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_cma_helper.c
-> @@ -38,6 +38,7 @@ static const struct drm_gem_object_funcs drm_gem_cma_default_funcs = {
->  	.print_info = drm_gem_cma_print_info,
->  	.get_sg_table = drm_gem_cma_get_sg_table,
->  	.vmap = drm_gem_cma_vmap,
-> +	.vmap_local = drm_gem_cma_vmap_local,
->  	.mmap = drm_gem_cma_mmap,
->  	.vm_ops = &drm_gem_cma_vm_ops,
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index 9825c378dfa6..41663f48d46a 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -32,6 +32,8 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>  	.get_sg_table = drm_gem_shmem_get_sg_table,
+>  	.vmap = drm_gem_shmem_vmap,
+>  	.vunmap = drm_gem_shmem_vunmap,
+> +	.vmap_local = drm_gem_shmem_vmap_local,
+> +	.vunmap_local = drm_gem_shmem_vunmap_local,
+>  	.mmap = drm_gem_shmem_mmap,
 >  };
-> @@ -471,6 +472,40 @@ int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  
+> @@ -313,7 +315,7 @@ static int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem, struct
+>  	return ret;
 >  }
->  EXPORT_SYMBOL_GPL(drm_gem_cma_vmap);
+>  
+> -/*
+> +/**
+>   * drm_gem_shmem_vmap - Create a virtual mapping for a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
+> @@ -346,6 +348,44 @@ int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vmap);
 >  
 > +/**
-> + * drm_gem_cma_vmap_local - map a CMA GEM object into the kernel's virtual
-> + *     address space
-> + * @obj: GEM object
-> + * @map: Returns the kernel virtual address of the CMA GEM object's backing
+> + * drm_gem_shmem_vmap_local - Create a virtual mapping for a shmem GEM object
+> + * @shmem: shmem GEM object
+> + * @map: Returns the kernel virtual address of the SHMEM GEM object's backing
 > + *       store.
 > + *
-> + * This function maps a buffer into the kernel's
-> + * virtual address space. Since the CMA buffers are already mapped into the
-> + * kernel virtual address space this simply returns the cached virtual
-> + * address. Drivers using the CMA helpers should set this as their DRM
-> + * driver's &drm_gem_object_funcs.vmap_local callback.
+> + * This function makes sure that a contiguous kernel virtual address mapping
+> + * exists for the buffer backing the shmem GEM object.
+> + *
+> + * The function is called with the BO's reservation object locked. Callers must
+> + * hold the lock until after unmapping the buffer.
+> + *
+> + * This function can be used to implement &drm_gem_object_funcs.vmap_local. But
+> + * it can also be called by drivers directly, in which case it will hide the
+> + * differences between dma-buf imported and natively allocated objects.
+> + *
+> + * Acquired mappings should be cleaned up by calling drm_gem_shmem_vunmap_local().
 > + *
 > + * Returns:
-> + * 0 on success, or a negative error code otherwise.
+> + * 0 on success or a negative error code on failure.
 > + */
-> +int drm_gem_cma_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
+> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
 > +{
-> +	struct drm_gem_cma_object *cma_obj = to_drm_gem_cma_obj(obj);
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +	int ret;
 > +
-> +	/*
-> +	 * TODO: The code in drm_gem_cma_prime_import_sg_table_vmap()
-> +	 *       establishes this mapping. The correct solution would
-> +	 *       be to call dma_buf_vmap_local() here.
-> +	 *
-> +	 *       If we find a case where we absolutely have to call
-> +	 *       dma_buf_vmap_local(), the code needs to be restructured.
-
-dma_buf_vmap_local is only relevant for dynamic importers, pinning at
-import time is actually what you get anyway. That's what Christian meant
-with his comments for the ->pin hook. So the TODO here doesn't make sense
-imo, just delete it. We're very far away from making cma dynamic :-)
-
-> +	 */
-> +	dma_buf_map_set_vaddr(map, cma_obj->vaddr);
+> +	dma_resv_assert_held(obj->resv);
 > +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_gem_cma_vmap_local);
-> +
->  /**
->   * drm_gem_cma_mmap - memory-map an exported CMA GEM object
->   * @obj: GEM object
-> diff --git a/drivers/gpu/drm/vc4/vc4_bo.c b/drivers/gpu/drm/vc4/vc4_bo.c
-> index dc316cb79e00..ec57326c69c4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_bo.c
-> +++ b/drivers/gpu/drm/vc4/vc4_bo.c
-> @@ -387,6 +387,7 @@ static const struct drm_gem_object_funcs vc4_gem_object_funcs = {
->  	.export = vc4_prime_export,
->  	.get_sg_table = drm_gem_cma_get_sg_table,
->  	.vmap = vc4_prime_vmap,
-> +	.vmap_local = vc4_prime_vmap_local,
->  	.vm_ops = &vc4_vm_ops,
->  };
->  
-> @@ -797,6 +798,18 @@ int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map)
->  	return drm_gem_cma_vmap(obj, map);
->  }
->  
-> +int vc4_prime_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
-> +{
-> +	struct vc4_bo *bo = to_vc4_bo(obj);
-> +
-> +	if (bo->validated_shader) {
+> +	ret = mutex_lock_interruptible(&shmem->vmap_lock);
 
-This freaks me out. It should be impossible to export a validated shader
-as a dma-buf, and indeed the check exists already.
+This bites. You need to check for shmem->import_attach and call
+dma_buf_vmap_local directly here before you take any shmem helper locks.
+Real fix would be to replace both vmap_lock and pages_lock with dma_resv
+lock, but that's more work. Same for vunmap_local
 
-All the wrapper functions here are imo pointless. Either we should remove
-them, or replace the if with a BUG_ON here since if that ever happens we
-have a security bug already. I'd go with removing, less code. Maybe throw
-a patch on top?
-
-Anyway this patch looks good, with the todo deleted:
+With that fixed on the helper part of this patch:
 
 Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 
-> +		DRM_DEBUG("mmaping of shader BOs not allowed.\n");
-> +		return -EINVAL;
-> +	}
+> +	if (ret)
+> +		return ret;
+> +	ret = drm_gem_shmem_vmap_locked(shmem, map);
+> +	mutex_unlock(&shmem->vmap_lock);
 > +
-> +	return drm_gem_cma_vmap_local(obj, map);
+> +	return ret;
 > +}
+> +EXPORT_SYMBOL(drm_gem_shmem_vmap_local);
 > +
->  struct drm_gem_object *
->  vc4_prime_import_sg_table(struct drm_device *dev,
->  			  struct dma_buf_attachment *attach,
-> diff --git a/drivers/gpu/drm/vc4/vc4_drv.h b/drivers/gpu/drm/vc4/vc4_drv.h
-> index 43a1af110b3e..efb6c47d318f 100644
-> --- a/drivers/gpu/drm/vc4/vc4_drv.h
-> +++ b/drivers/gpu/drm/vc4/vc4_drv.h
-> @@ -812,6 +812,7 @@ struct drm_gem_object *vc4_prime_import_sg_table(struct drm_device *dev,
->  						 struct dma_buf_attachment *attach,
->  						 struct sg_table *sgt);
->  int vc4_prime_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> +int vc4_prime_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
->  int vc4_bo_cache_init(struct drm_device *dev);
->  int vc4_bo_inc_usecnt(struct vc4_bo *bo);
->  void vc4_bo_dec_usecnt(struct vc4_bo *bo);
-> diff --git a/include/drm/drm_gem_cma_helper.h b/include/drm/drm_gem_cma_helper.h
-> index 0a9711caa3e8..05122e71bc6d 100644
-> --- a/include/drm/drm_gem_cma_helper.h
-> +++ b/include/drm/drm_gem_cma_helper.h
-> @@ -99,6 +99,7 @@ drm_gem_cma_prime_import_sg_table(struct drm_device *dev,
->  				  struct dma_buf_attachment *attach,
->  				  struct sg_table *sgt);
->  int drm_gem_cma_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
-> +int drm_gem_cma_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
->  int drm_gem_cma_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma);
+>  static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  					struct dma_buf_map *map)
+>  {
+> @@ -366,7 +406,7 @@ static void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+>  	drm_gem_shmem_put_pages(shmem);
+>  }
 >  
->  /**
+> -/*
+> +/**
+>   * drm_gem_shmem_vunmap - Unmap a virtual mapping fo a shmem GEM object
+>   * @shmem: shmem GEM object
+>   * @map: Kernel virtual address where the SHMEM GEM object was mapped
+> @@ -389,6 +429,33 @@ void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map)
+>  }
+>  EXPORT_SYMBOL(drm_gem_shmem_vunmap);
+>  
+> +/**
+> + * drm_gem_shmem_vunmap_local - Unmap a virtual mapping fo a shmem GEM object
+> + * @shmem: shmem GEM object
+> + * @map: Kernel virtual address where the SHMEM GEM object was mapped
+> + *
+> + * This function cleans up a kernel virtual address mapping acquired by
+> + * drm_gem_shmem_vmap_local(). The mapping is only removed when the use count
+> + * drops to zero.
+> + *
+> + * The function is called with the BO's reservation object locked.
+> + *
+> + * This function can be used to implement &drm_gem_object_funcs.vmap_local.
+> + * But it can also be called by drivers directly, in which case it will hide
+> + * the differences between dma-buf imported and natively allocated objects.
+> + */
+> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dma_buf_map *map)
+> +{
+> +	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+> +
+> +	dma_resv_assert_held(obj->resv);
+> +
+> +	mutex_lock(&shmem->vmap_lock);
+> +	drm_gem_shmem_vunmap_locked(shmem, map);
+> +	mutex_unlock(&shmem->vmap_lock);
+> +}
+> +EXPORT_SYMBOL(drm_gem_shmem_vunmap_local);
+> +
+>  struct drm_gem_shmem_object *
+>  drm_gem_shmem_create_with_handle(struct drm_file *file_priv,
+>  				 struct drm_device *dev, size_t size,
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index 1dfc42170059..a33e28d4c5e9 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -1552,22 +1552,32 @@ mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
+>  		      struct drm_rect *clip)
+>  {
+>  	struct drm_device *dev = &mdev->base;
+> +	struct drm_gem_object *obj = fb->obj[0];
+>  	struct dma_buf_map map;
+>  	void *vmap;
+>  	int ret;
+>  
+> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	ret = dma_resv_lock(obj->resv, NULL);
+>  	if (drm_WARN_ON(dev, ret))
+> -		return; /* BUG: SHMEM BO should always be vmapped */
+> +		return;
+> +	ret = drm_gem_shmem_vmap_local(obj, &map);
+> +	if (drm_WARN_ON(dev, ret))
+> +		goto err_dma_resv_unlock; /* BUG: SHMEM BO should always be vmapped */
+>  	vmap = map.vaddr; /* TODO: Use mapping abstraction properly */
+>  
+>  	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
+>  
+> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
+> +	drm_gem_shmem_vunmap_local(obj, &map);
+> +	dma_resv_unlock(obj->resv);
+>  
+>  	/* Always scanout image at VRAM offset 0 */
+>  	mgag200_set_startadd(mdev, (u32)0);
+>  	mgag200_set_offset(mdev, fb);
+> +
+> +	return;
+> +
+> +err_dma_resv_unlock:
+> +	dma_resv_unlock(obj->resv);
+>  }
+>  
+>  static void
+> diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+> index 561c49d8657a..58c694964148 100644
+> --- a/drivers/gpu/drm/tiny/cirrus.c
+> +++ b/drivers/gpu/drm/tiny/cirrus.c
+> @@ -315,6 +315,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  			       struct drm_rect *rect)
+>  {
+>  	struct cirrus_device *cirrus = to_cirrus(fb->dev);
+> +	struct drm_gem_object *obj = fb->obj[0];
+>  	struct dma_buf_map map;
+>  	void *vmap;
+>  	int idx, ret;
+> @@ -323,9 +324,12 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  	if (!drm_dev_enter(&cirrus->dev, &idx))
+>  		goto out;
+>  
+> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	ret = dma_resv_lock(obj->resv, NULL);
+>  	if (ret)
+>  		goto out_dev_exit;
+> +	ret = drm_gem_shmem_vmap_local(fb->obj[0], &map);
+> +	if (ret)
+> +		goto out_dma_resv_unlock;
+>  	vmap = map.vaddr; /* TODO: Use mapping abstraction properly */
+>  
+>  	if (cirrus->cpp == fb->format->cpp[0])
+> @@ -345,9 +349,11 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb,
+>  	else
+>  		WARN_ON_ONCE("cpp mismatch");
+>  
+> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
+>  	ret = 0;
+>  
+> +	drm_gem_shmem_vunmap_local(obj, &map);
+> +out_dma_resv_unlock:
+> +	dma_resv_unlock(obj->resv);
+>  out_dev_exit:
+>  	drm_dev_exit(idx);
+>  out:
+> diff --git a/drivers/gpu/drm/tiny/gm12u320.c b/drivers/gpu/drm/tiny/gm12u320.c
+> index 33f65f4626e5..b0c6e350f2b3 100644
+> --- a/drivers/gpu/drm/tiny/gm12u320.c
+> +++ b/drivers/gpu/drm/tiny/gm12u320.c
+> @@ -265,11 +265,16 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+>  	y1 = gm12u320->fb_update.rect.y1;
+>  	y2 = gm12u320->fb_update.rect.y2;
+>  
+> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	ret = dma_resv_lock(fb->obj[0]->resv, NULL);
+>  	if (ret) {
+> -		GM12U320_ERR("failed to vmap fb: %d\n", ret);
+> +		GM12U320_ERR("failed to reserve fb: %d\n", ret);
+>  		goto put_fb;
+>  	}
+> +	ret = drm_gem_shmem_vmap_local(fb->obj[0], &map);
+> +	if (ret) {
+> +		GM12U320_ERR("failed to vmap fb: %d\n", ret);
+> +		goto unlock_resv;
+> +	}
+>  	vaddr = map.vaddr; /* TODO: Use mapping abstraction properly */
+>  
+>  	if (fb->obj[0]->import_attach) {
+> @@ -321,8 +326,11 @@ static void gm12u320_copy_fb_to_blocks(struct gm12u320_device *gm12u320)
+>  		if (ret)
+>  			GM12U320_ERR("dma_buf_end_cpu_access err: %d\n", ret);
+>  	}
+> +
+> +unlock_resv:
+> +	dma_resv_unlock(fb->obj[0]->resv);
+>  vunmap:
+> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
+> +	drm_gem_shmem_vunmap_local(fb->obj[0], &map);
+>  put_fb:
+>  	drm_framebuffer_put(fb);
+>  	gm12u320->fb_update.fb = NULL;
+> diff --git a/drivers/gpu/drm/udl/udl_modeset.c b/drivers/gpu/drm/udl/udl_modeset.c
+> index 9d34ec9d03f6..46b55b4d03c2 100644
+> --- a/drivers/gpu/drm/udl/udl_modeset.c
+> +++ b/drivers/gpu/drm/udl/udl_modeset.c
+> @@ -290,14 +290,18 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  	else if ((clip.x2 > fb->width) || (clip.y2 > fb->height))
+>  		return -EINVAL;
+>  
+> +	ret = dma_resv_lock(fb->obj[0]->resv, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+>  	if (import_attach) {
+>  		ret = dma_buf_begin_cpu_access(import_attach->dmabuf,
+>  					       DMA_FROM_DEVICE);
+>  		if (ret)
+> -			return ret;
+> +			goto out_dma_resv_unlock;
+>  	}
+>  
+> -	ret = drm_gem_shmem_vmap(fb->obj[0], &map);
+> +	ret = drm_gem_shmem_vmap_local(fb->obj[0], &map);
+>  	if (ret) {
+>  		DRM_ERROR("failed to vmap fb\n");
+>  		goto out_dma_buf_end_cpu_access;
+> @@ -307,7 +311,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  	urb = udl_get_urb(dev);
+>  	if (!urb) {
+>  		ret = -ENOMEM;
+> -		goto out_drm_gem_shmem_vunmap;
+> +		goto out_drm_gem_shmem_vunmap_local;
+>  	}
+>  	cmd = urb->transfer_buffer;
+>  
+> @@ -320,7 +324,7 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  				       &cmd, byte_offset, dev_byte_offset,
+>  				       byte_width);
+>  		if (ret)
+> -			goto out_drm_gem_shmem_vunmap;
+> +			goto out_drm_gem_shmem_vunmap_local;
+>  	}
+>  
+>  	if (cmd > (char *)urb->transfer_buffer) {
+> @@ -336,8 +340,8 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  
+>  	ret = 0;
+>  
+> -out_drm_gem_shmem_vunmap:
+> -	drm_gem_shmem_vunmap(fb->obj[0], &map);
+> +out_drm_gem_shmem_vunmap_local:
+> +	drm_gem_shmem_vunmap_local(fb->obj[0], &map);
+>  out_dma_buf_end_cpu_access:
+>  	if (import_attach) {
+>  		tmp_ret = dma_buf_end_cpu_access(import_attach->dmabuf,
+> @@ -345,6 +349,8 @@ static int udl_handle_damage(struct drm_framebuffer *fb, int x, int y,
+>  		if (tmp_ret && !ret)
+>  			ret = tmp_ret; /* only update ret if not set yet */
+>  	}
+> +out_dma_resv_unlock:
+> +	dma_resv_unlock(fb->obj[0]->resv);
+>  
+>  	return ret;
+>  }
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 434328d8a0d9..3f59bdf749aa 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -114,7 +114,9 @@ void drm_gem_shmem_put_pages(struct drm_gem_shmem_object *shmem);
+>  int drm_gem_shmem_pin(struct drm_gem_object *obj);
+>  void drm_gem_shmem_unpin(struct drm_gem_object *obj);
+>  int drm_gem_shmem_vmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +int drm_gem_shmem_vmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  void drm_gem_shmem_vunmap(struct drm_gem_object *obj, struct dma_buf_map *map);
+> +void drm_gem_shmem_vunmap_local(struct drm_gem_object *obj, struct dma_buf_map *map);
+>  
+>  int drm_gem_shmem_madvise(struct drm_gem_object *obj, int madv);
+>  
 > -- 
 > 2.29.2
 > 
