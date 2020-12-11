@@ -1,57 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B93E82D76A2
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:34:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 597172D7703
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:56:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6DB76EDEE;
-	Fri, 11 Dec 2020 13:34:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F36096E947;
+	Fri, 11 Dec 2020 13:56:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FEA6EDEE
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 13:34:02 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id r24so13318365lfm.8
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 05:34:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=R90rH7EedmrNq5O63ECBK3Sn6WdFl+K2w2/MUuz1Tx8=;
- b=DiFam0s/V/t3eakUAXhh19E6EUqYx9F2Hhp8cdWIaNf/FiEFg9lJwdZEvZWhv347hs
- uPnvdxCWvDk5omprmh7Wx6UCOinjnPgtX8lpjivtvilWxAUbYTBpWndWRqnX0bekh5nT
- 8oJlciKANjmwwUBV5tZpSDmBAhl/8I5WY25VP0/vSkTawEQ3PfpTfLFHa3+U2Ug1r10/
- l2B29FWEDlZM3x+Y3GcMFiOdYu2a1HVajNaLxTbS+big+6F88yOBwq4W/EvG5XWbTQOP
- h/c+Exzhzr3z5AX1D4FybvJknuF9PbsB/riJ65E01wQmUJ0qUPPeMolo+nNcs3i6R6aV
- PruA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=R90rH7EedmrNq5O63ECBK3Sn6WdFl+K2w2/MUuz1Tx8=;
- b=d6+/ZJjJAMJ+c5UbPtNjMtclWY2q6bTe8wvTmWcpq0BqVdOS+M6B/5BnO6p6qjoMEB
- 24pXQbDswpki2ofTV5jn7BZFDAHG/43+GaYUspENLUTLnUP01IpDiwAED0/AOEO9NBiv
- ovNCcpcOX6ZRWGkEtvEVfZtldI46+wpFCmfGL/JxXLolbL1jfq+y6o1SaQKp8db1n2yi
- z7AqgdJwkxTAciBRvbrnwGl1zdBc9Lfw2jyAq6fGxq9QH6eDE6wqvh4vfy/VidySo0vs
- 8wpkl9tk8iysSELlC2GTVV//sgQPa1AMDTOqbfYAoPbjsY9QcKWSR5blSYHLoNXJ7sMi
- MCqg==
-X-Gm-Message-State: AOAM530VN6Ok+8keqiVopA4u1AMiR+ZZIwCH25/GeENzopyTygp7ppt9
- XIO2xv3Oe9sulWE3YayTgls=
-X-Google-Smtp-Source: ABdhPJza9w7ZEqwqu7iurPHF/I+OOiV1H1x36sJ1rzKANP+v4qdaP1jwxrhKsjkyYObseKm7gAtXeA==
-X-Received: by 2002:ac2:42d7:: with SMTP id n23mr2170159lfl.56.1607693640692; 
- Fri, 11 Dec 2020 05:34:00 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id n10sm1002379ljg.139.2020.12.11.05.34.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 05:34:00 -0800 (PST)
-Date: Fri, 11 Dec 2020 15:33:57 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 3/4] drm: require a non_NULL drm_crtc.primary
-Message-ID: <20201211153357.71cf9078@eldfell>
-In-Reply-To: <58PfXYcauKFOHng9tchsfVjjt4XptOkdImbAxKpDwD8@cp7-web-041.plabs.ch>
-References: <58PfXYcauKFOHng9tchsfVjjt4XptOkdImbAxKpDwD8@cp7-web-041.plabs.ch>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93C636E0AB;
+ Fri, 11 Dec 2020 13:56:25 +0000 (UTC)
+IronPort-SDR: yRsJj13hXreoWYDSD846sxtcbo3vvhoItsXDa8fSWm9hPBRVt5QXYGLAfHg4UVruCVeZknotoC
+ l/URQ8dfboZQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="162187659"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="162187659"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2020 05:56:24 -0800
+IronPort-SDR: FdVxyGLWMwB7Ly0p7e/SCpjS8YP4uexY78fx5BUGwpPjR7ncjOrPi1lZUKlTE+gyt7W8gtxQP1
+ JbxUVxtEP6hw==
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; d="scan'208";a="409228249"
+Received: from genxfsim-desktop.iind.intel.com ([10.223.74.178])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Dec 2020 05:56:21 -0800
+From: Anshuman Gupta <anshuman.gupta@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: [PATCH v8 00/19] HDCP 2.2 and HDCP 1.4 Gen12 DP MST support
+Date: Fri, 11 Dec 2020 19:12:25 +0530
+Message-Id: <20201211134244.14588-1-anshuman.gupta@intel.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,108 +45,66 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============1414450976=="
+Cc: jani.nikula@intel.com, uma.shankar@intel.com, seanpaul@chromium.org,
+ Anshuman Gupta <anshuman.gupta@intel.com>, juston.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1414450976==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/1UD_OYkw/3H96Fb/ZYb3nRA"; protocol="application/pgp-signature"
+This v8 version has fixed the cosmetics eview comment
+from ram. No functional change.
+ 
+It has been tested manually with below IGT series on TGL and ICL.
+https://patchwork.freedesktop.org/series/82987/
 
---Sig_/1UD_OYkw/3H96Fb/ZYb3nRA
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+[PATCH v8 12/19] misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+has an Ack from Tomas to merge it via drm-intel.
 
-On Fri, 11 Dec 2020 13:06:17 +0000
-Simon Ser <contact@emersion.fr> wrote:
+[PATCH v8 13/19] drm/hdcp: Max MST content streams
+has an Ack from drm-misc maintainer to merge it via drm-intel.
 
-> If a CRTC is missing a legacy primary plane pointer, a lot of things
-> will be broken for user-space: fbdev stops working and the entire legacy
-> uAPI stops working.
->=20
-> Require all drivers to populate drm_crtc.primary to prevent these
-> issues. Warn if it's NULL.
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Test-with: 20201126050320.2434-2-karthik.b.s@intel.com
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Anshuman Gupta (19):
+  drm/i915/hdcp: Update CP property in update_pipe
+  drm/i915/hdcp: Get conn while content_type changed
+  drm/i915/hotplug: Handle CP_IRQ for DP-MST
+  drm/i915/hdcp: No HDCP when encoder is't initialized
+  drm/i915/hdcp: DP MST transcoder for link and stream
+  drm/i915/hdcp: Move HDCP enc status timeout to header
+  drm/i915/hdcp: HDCP stream encryption support
+  drm/i915/hdcp: Configure HDCP1.4 MST steram encryption status
+  drm/i915/hdcp: Enable Gen12 HDCP 1.4 DP MST support
+  drm/i915/hdcp: Pass dig_port to intel_hdcp_init
+  drm/i915/hdcp: Encapsulate hdcp_port_data to dig_port
+  misc/mei/hdcp: Fix AUTH_STREAM_REQ cmd buffer len
+  drm/hdcp: Max MST content streams
+  drm/i915/hdcp: MST streams support in hdcp port_data
+  drm/i915/hdcp: Pass connector to check_2_2_link
+  drm/i915/hdcp: Add HDCP 2.2 stream register
+  drm/i915/hdcp: Support for HDCP 2.2 MST shim callbacks
+  drm/i915/hdcp: Configure HDCP2.2 MST steram encryption status
+  drm/i915/hdcp: Enable HDCP 2.2 MST support
 
-> ---
->  drivers/gpu/drm/drm_mode_config.c | 3 +++
->  drivers/gpu/drm/drm_plane.c       | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
-_config.c
-> index 2c73a60e8765..fbe680035129 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -639,6 +639,9 @@ void drm_mode_config_validate(struct drm_device *dev)
->  	}
-> =20
->  	drm_for_each_crtc(crtc, dev) {
-> +		WARN(!crtc->primary, "Missing primary plane on [CRTC:%d:%s]\n",
-> +		     crtc->base.id, crtc->name);
-> +
->  		if (crtc->primary) {
->  			WARN(!(crtc->primary->possible_crtcs & BIT(crtc->index)),
->  			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compa=
-tible with [CRTC:%d:%s]\n",
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 5d33ca9f0032..49b0a8b9ac02 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -57,7 +57,7 @@
->   * Legacy uAPI doesn't expose the primary and cursor planes directly. DR=
-M core
->   * relies on the driver to set the primary and optionally the cursor pla=
-ne used
->   * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(=
-). All
-> - * drivers should provide one primary plane per CRTC to avoid surprising=
- legacy
-> + * drivers must provide one primary plane per CRTC to avoid surprising l=
-egacy
->   * userspace too much.
->   */
-> =20
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  14 +-
+ drivers/gpu/drm/i915/display/intel_ddi.h      |   6 +-
+ .../drm/i915/display/intel_display_types.h    |  20 +-
+ drivers/gpu/drm/i915/display/intel_dp.c       |  14 +-
+ drivers/gpu/drm/i915/display/intel_dp_hdcp.c  | 186 +++++++++--
+ drivers/gpu/drm/i915/display/intel_dp_mst.c   |   9 +-
+ drivers/gpu/drm/i915/display/intel_hdcp.c     | 303 ++++++++++++++----
+ drivers/gpu/drm/i915/display/intel_hdcp.h     |   8 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c     |  19 +-
+ drivers/gpu/drm/i915/i915_reg.h               |  40 +++
+ drivers/misc/mei/hdcp/mei_hdcp.c              |   3 +-
+ include/drm/drm_hdcp.h                        |   8 +-
+ 12 files changed, 510 insertions(+), 120 deletions(-)
 
-
---Sig_/1UD_OYkw/3H96Fb/ZYb3nRA
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/TdUUACgkQI1/ltBGq
-qqc8KQ/9E/k5Uh5Yk0obC/j/77EBV2+zKw41g4vT1IpczReYMkea0bURdfwXZV/N
-jjUzFmWLsWP7+KD9VzcnsFQyCPexXWWefGgb7FhVLLdj0dNOyHkA/8wUH0sXCGZQ
-24ob1EqNPGERSoFpCt2xq+jttFs0+EW/JhNc1TEL7hWldQCr3ernvSlXRP45zN4W
-tRBSNUkHcN0eDGKTV6gIUvnZu/wq1sqa59fti+puas21aL/FSlgXAX/UgsnXpBKT
-7g+NI30kAJ+PQMFT6sIxt6c4X1ct9l/fwrcbLBrVQUhi3YAhQssR3iSPu+gRUCm3
-g59b9XIGgREqv0DqzvIz2xQIDO/kMEYQCc5PuOwp6GBIINg3UAKd/+ym6HKutFzs
-W/oLCnxJxWd9TBBcVRBZRdwnueIzfRzxpw1DxuW6MXlirET/zuAw3tMDb7r2hEMp
-meQkQJCMy2dyhUfVwUkuWhj7Qx+DgmnUM9yvf9yPtJt2X7cOROxwjEh0snPEOhZa
-w6ZhTQdFbTdjn24PsIiR5VSfWP5ql5BxLyZkU7KnJUikMley01Drwia4+ahpg4Ao
-oqE1Wnq/lPqja0cT5Xppcv0g/TZdB5Z5Jp+e59LdncUAG578Mj7NazjTTsbaDZZV
-uWqAmBnxnTKfPC6KDwyWTPgA3GUGXVN36VlYPhsC6byfCAUAMKg=
-=mDN5
------END PGP SIGNATURE-----
-
---Sig_/1UD_OYkw/3H96Fb/ZYb3nRA--
-
---===============1414450976==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.26.2
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1414450976==--
