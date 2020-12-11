@@ -1,60 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 036BC2D7158
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:16:53 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 767A62D7172
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 09:17:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DBE76EC99;
-	Fri, 11 Dec 2020 08:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 497316ECB9;
+	Fri, 11 Dec 2020 08:16:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
- [IPv6:2607:f8b0:4864:20::341])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 494946E5B0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 00:25:29 +0000 (UTC)
-Received: by mail-ot1-x341.google.com with SMTP id d8so6738030otq.6
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Dec 2020 16:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=nuQJ0wHKc4Xsa6OBJpnfoeLl9XbZSnvK52TPE16gHMU=;
- b=hJNzQiNA1fnW7DmxuvY+4J7zo3a/f2+YdaXw/Jzv0+WHBQPTB8fPEcYl/SzKsUVFHO
- NooC9/wHd9xjn03TPm+Zuq/RMfT18MUqS56wTEmz8czUCtBTeSvxMu7dZKn05B3GnSzC
- FwY8sy9jBJy6H8f17XNUHfPHZi5efyN9i5sYhU1SCuepPnh5Xj579O1gGFytp8OYeKFn
- VrbVghUqptC5snob5+7Klb5+DHK42mQLpLnF1OsgWfVL9K0rgLauLG/PITx+XHbvHRxh
- sa3u8yj9m/VHcp/2WGMei3VJbJq32pyWYQfceitcf4CzHwpgyvN25TCy+Jedo3lyilGh
- KXhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=nuQJ0wHKc4Xsa6OBJpnfoeLl9XbZSnvK52TPE16gHMU=;
- b=ClW2bzyML8qTS/U+Jp+O4dj8GfAxD/NuJKFRjLdTPHaHZ4qpZMBXbrj5Mg5aeSS/zy
- 51pPFKiiM5YSZGwzRqlPZhPVuoFnVrPPlJ+ino4PotDLzA4wpL/VBRoo6XUPMIqrIskl
- TzKi1XODQJfLMG/M83rafKTblp3CUZj3rzphq9iM8XDel2Kh5XX5PGeV2+U9F+JYKSxs
- eGTSvd3w5n73PYt7Ck3A94XxaG5gMFWCPW5h+ZBi8e3dP9pyA5KblklAYO92bSwBjYE7
- 1fLMObpaXpr5f4FRFGIqu2mtm93ENkOVR2U4bvBCAId/LJavhxqbB31TKSDuc0ZS11T6
- XS+Q==
-X-Gm-Message-State: AOAM532KvqIkDUPUM4wtf/dIRNHlqrD2chSCC4jy6MDO4oFDaHytHKnz
- 6N9QLkqdC11wCDp7+wi+EZ5a+Q==
-X-Google-Smtp-Source: ABdhPJwFAdTm0nWnNH04pOL3J6N+OUvCSzQq44RMZ3gLumTaldRKQ56B3UebIZlupj+Na0zQXBRwog==
-X-Received: by 2002:a9d:1d64:: with SMTP id m91mr7780740otm.290.1607646328495; 
- Thu, 10 Dec 2020 16:25:28 -0800 (PST)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id o21sm1473252otj.1.2020.12.10.16.25.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Dec 2020 16:25:27 -0800 (PST)
-Date: Thu, 10 Dec 2020 18:25:25 -0600
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Robert Foss <robert.foss@linaro.org>
-Subject: Re: [PATCH v1] drm/bridge: lt9611: Fix handling of 4k panels
-Message-ID: <X9K8daO5DrKC+Ama@builder.lan>
-References: <20201123104616.1412688-1-robert.foss@linaro.org>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2F76A6E506
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 00:43:46 +0000 (UTC)
+X-UUID: 64007bfe9bda4250a66bb62adb9df86a-20201211
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=9ay92vJHRsP0Lw8N1DrQDzyGcCnZb1dWhvfOIQHVeYI=; 
+ b=IkMqHI2pYD+qPjlbKdtw0d+jEEBW/58ll79jtKQKnv5zO4twN68xQJmHXhLeLliQTec6KO6yVaBFBghyJ+gguEhY4CxcydrBiIgqcHPEpq2699YNMpOwgHs4YN8v0KfKniHNUfWKcrv93nqsfqkczMnd5qHk4FpT4AOXdkqeh+s=;
+X-UUID: 64007bfe9bda4250a66bb62adb9df86a-20201211
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1712883575; Fri, 11 Dec 2020 08:43:38 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by mtkmbs05n1.mediatek.inc
+ (172.21.101.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 11 Dec 2020 08:43:36 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 11 Dec 2020 08:43:35 +0800
+Message-ID: <1607647416.12750.3.camel@mhfsdcap03>
+Subject: Re: [PATCH v8, 1/6] dt-bindings: mediatek: add rdma_fifo_size
+ description for mt8183 display
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Fri, 11 Dec 2020 08:43:36 +0800
+In-Reply-To: <CAAOTY_-oL+NyzDKssCjyP=E8Py3oyEK6a6s=XoYvTFymZE9-zQ@mail.gmail.com>
+References: <1607591262-21736-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607591262-21736-2-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_-oL+NyzDKssCjyP=E8Py3oyEK6a6s=XoYvTFymZE9-zQ@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201123104616.1412688-1-robert.foss@linaro.org>
+X-MTK: N
 X-Mailman-Approved-At: Fri, 11 Dec 2020 08:16:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,64 +56,68 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Alistair Delva <adelva@google.com>, jernej.skrabec@siol.net,
- Vinod Koul <vinod.koul@linaro.org>, jonas@kwiboo.se, airlied@linux.ie,
- narmstrong@baylibre.com, Anibal Limon <anibal.limon@linaro.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- a.hajda@samsung.com, Laurent.pinchart@ideasonboard.com,
- Peter Collingbourne <pcc@google.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, "moderated list:ARM/Mediatek
+ SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon 23 Nov 04:46 CST 2020, Robert Foss wrote:
-
-> 4k requires two dsi pipes, so don't report MODE_OK when only a
-> single pipe is configured. But rather report MODE_PANEL to
-> signal that requirements of the panel are not being met.
-> 
-> Reported-by: Peter Collingbourne <pcc@google.com>
-> Suggested-by: Peter Collingbourne <pcc@google.com>
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> Tested-by: John Stultz <john.stultz@linaro.org>
-
-This looks very similar to what I had in the early revisions of the
-driver.
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> index d734d9402c35..e8eb8deb444b 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-> @@ -867,8 +867,14 @@ static enum drm_mode_status lt9611_bridge_mode_valid(struct drm_bridge *bridge,
->  						     const struct drm_display_mode *mode)
->  {
->  	struct lt9611_mode *lt9611_mode = lt9611_find_mode(mode);
-> +	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
->  
-> -	return lt9611_mode ? MODE_OK : MODE_BAD;
-> +	if (!lt9611_mode)
-> +		return MODE_BAD;
-> +	else if (lt9611_mode->intfs > 1 && !lt9611->dsi1)
-> +		return MODE_PANEL;
-> +	else
-> +		return MODE_OK;
->  }
->  
->  static void lt9611_bridge_pre_enable(struct drm_bridge *bridge)
-> -- 
-> 2.27.0
-> 
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gVGh1LCAyMDIwLTEyLTEwIGF0IDIzOjQwICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
+PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
+YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgxMOaXpSDpgLHlm5sg5LiL5Y2INToyMuWvq+mBk++8
+mg0KPiA+DQo+ID4gcmRtYSBmaWZvIHNpemUgbWF5IGJlIGRpZmZlcmVudCBldmVuIGluIHNhbWUg
+U09DLCBhZGQgdGhpcw0KPiA+IHByb3BlcnR5IHRvIHRoZSBjb3JyZXNwb25kaW5nIHJkbWENCj4g
+Pg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0
+ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRp
+YXRlayxkaXNwLnR4dCAgICAgICAgICB8IDE2ICsrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxl
+IGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRlay9tZWRpYXRlayxkaXNw
+LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L21lZGlhdGVr
+L21lZGlhdGVrLGRpc3AudHh0DQo+ID4gaW5kZXggMTIxMjIwNy4uNjRjNjRlZSAxMDA2NDQNCj4g
+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9tZWRpYXRl
+ay9tZWRpYXRlayxkaXNwLnR4dA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9kaXNwbGF5L21lZGlhdGVrL21lZGlhdGVrLGRpc3AudHh0DQo+ID4gQEAgLTY2LDYg
+KzY2LDEzIEBAIFJlcXVpcmVkIHByb3BlcnRpZXMgKERNQSBmdW5jdGlvbiBibG9ja3MpOg0KPiA+
+ICAgIGFyZ3VtZW50LCBzZWUgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lvbW11
+L21lZGlhdGVrLGlvbW11LnR4dA0KPiA+ICAgIGZvciBkZXRhaWxzLg0KPiA+DQo+ID4gK09wdGlv
+bmFsIHByb3BlcnRpZXMgKFJETUEgZnVuY3Rpb24gYmxvY2tzKToNCj4gPiArLSBtZWRpYXRlayxy
+ZG1hX2ZpZm9fc2l6ZTogcmRtYSBmaWZvIHNpemUgbWF5IGJlIGRpZmZlcmVudCBldmVuIGluIHNh
+bWUgU09DLCBhZGQgdGhpcw0KPiA+ICsgIHByb3BlcnR5IHRvIHRoZSBjb3JyZXNwb25kaW5nIHJk
+bWENCj4gPiArICB0aGUgdmFsdWUgaXMgdGhlIE1heCB2YWx1ZSB3aGljaCBkZWZpbmVkIGluIGhh
+cmR3YXJlIGRhdGEgc2hlZXQuDQo+ID4gKyAgcmRtYV9maWZvX3NpemUgb2YgcmRtYTAgaW4gbXQ4
+MTgzIGlzIDUxMjANCj4gPiArICByZG1hX2ZpZm9fc2l6ZSBvZiByZG1hMSBpbiBtdDgxODMgaXMg
+MjA0OA0KPiA+ICsNCj4gPiAgRXhhbXBsZXM6DQo+ID4NCj4gPiAgbW1zeXM6IGNsb2NrLWNvbnRy
+b2xsZXJAMTQwMDAwMDAgew0KPiA+IEBAIC0yMDcsMyArMjE0LDEyIEBAIG9kQDE0MDIzMDAwIHsN
+Cj4gPiAgICAgICAgIHBvd2VyLWRvbWFpbnMgPSA8JnNjcHN5cyBNVDgxNzNfUE9XRVJfRE9NQUlO
+X01NPjsNCj4gPiAgICAgICAgIGNsb2NrcyA9IDwmbW1zeXMgQ0xLX01NX0RJU1BfT0Q+Ow0KPiA+
+ICB9Ow0KPiA+ICsNCj4gPiArcmRtYTE6IHJkbWFAMTQwMGMwMDAgew0KPiA+ICsgICAgICAgY29t
+cGF0aWJsZSA9ICJtZWRpYXRlayxtdDgxODMtZGlzcC1yZG1hIjsNCj4gPiArICAgICAgIHJlZyA9
+IDwwIDB4MTQwMGMwMDAgMCAweDEwMDA+Ow0KPiA+ICsgICAgICAgaW50ZXJydXB0cyA9IDxHSUNf
+U1BJIDIyOSBJUlFfVFlQRV9MRVZFTF9MT1c+Ow0KPiA+ICsgICAgICAgcG93ZXItZG9tYWlucyA9
+IDwmc2Nwc3lzIE1UODE4M19QT1dFUl9ET01BSU5fRElTUD47DQo+ID4gKyAgICAgICBjbG9ja3Mg
+PSA8Jm1tc3lzIENMS19NTV9ESVNQX1JETUExPjsNCj4gPiArICAgICAgIG1lZGlhdGVrLHJkbWFf
+Zmlmb19zaXplID0gPDIwNDg+Ow0KPiA+ICt9Ow0KPiANCj4gSW4gWzFdLCBSb2IgaGFzIHN1Z2dl
+c3QgdGhhdCBub3QgYWRkIGV4YW1wbGUgb2YgcmRtYTEsIGl0J3MgYmV0dGVyIHRvDQo+IGFkZCBt
+ZWRpYXRlayxyZG1hX2ZpZm9fc2l6ZSBpbiByZG1hMCBmb3IgZXhhbXBsZS4NCj4gDQo+IFsxXSBo
+dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtbWVkaWF0ZWsvcGF0Y2gv
+MTU5Njg1NTIzMS01NzgyLTItZ2l0LXNlbmQtZW1haWwteW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5j
+b20vDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHVuLUt1YW5nLg0KDQp0aGUgZGVzY3JpcHRpb24gb2Yg
+cmRtYTAgaXMgbXQ4MTczLCBhbmQgbXQ4MTczIHJkbWEgZHJpdmVyIHNldCB0aGUNCmNvcnJlc3Bv
+bmQgZmlmbyBzaXplIGFscmVhZHkgb2sgbGlrZSB0aGlzOg0Kc3RhdGljIGNvbnN0IHN0cnVjdCBt
+dGtfZGlzcF9yZG1hX2RhdGEgbXQ4MTczX3JkbWFfZHJpdmVyX2RhdGEgPSB7DQoJLmZpZm9fc2l6
+ZSA9IFNaXzhLLA0KfTsgDQoNCnBsZWFzZSBkb3VibGUgY29uZmlybSBzaGFsbCB3ZSBhZGQgdGhp
+cyBpbmZvcm1hdGlvbiBpbnRvIHJkbWEwDQpkZXNjcmlwdGlvbi4NCg0KDQo+IA0KPiA+IC0tDQo+
+ID4gMS44LjEuMS5kaXJ0eQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fDQo+ID4gTGludXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0DQo+ID4gTGludXgt
+bWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiA+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
+b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtbWVkaWF0ZWsNCg0KX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmkt
+ZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3Jn
+L21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
