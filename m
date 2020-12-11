@@ -1,42 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1A62D775B
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:04:55 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F392D7765
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 15:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFF36E44F;
-	Fri, 11 Dec 2020 14:04:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64B56EE0D;
+	Fri, 11 Dec 2020 14:05:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 654186E44F
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:04:51 +0000 (UTC)
-X-Gm-Message-State: AOAM5313XYJka7UfoGV8lGd6Lw2h7CxHJrmVXNHF6GLyGcn0cfTTcl/W
- vgQ46/+ZDEKaCgpeVOYOphrqxlJ42HiBSTek2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607695491;
- bh=es6fVWW1Xi0bIgwukRYW6eN8WCU8aY4WzaCmTH11tlM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Cmj8IDjnQExrgq6HqlljhAClfXwNIVIPq+rP2vQkvDiIsh3n0Ao/f79F3NUs3qjJv
- LQt7oPodOq18l0z7InPUWFBEe2dY3oAoF877KDkncLXExOC7ZzgfnPkhJNziHWDcbf
- d+g7AcJeaGVrjogmfWvOT6VQ99OYX52wvmFtlNi7Ui/9MNzlv8FE21f6i8CmH84OIt
- CG9GpTIpsYnxiUtp1ZIekfq0K8PfmgJKrO9lAyxr56DwYu4EjUiIXre3d5VZXxK+Q5
- h8fRXzk7i5W5D4C4EuFuIRhQIvz/dW5EyUfj9udChv9EJkPh4QmJAlPggMxamx7ARN
- 9QGeOAPTwp+EQ==
-X-Google-Smtp-Source: ABdhPJw5D3l7fxlDhHH3ICdRLnDzMkC5Nxb+eP5iE8M2onyZxtW9cChVThBS7p1VgDwSG8vMR0IP/s6Yg7dy61rQB1Y=
-X-Received: by 2002:a05:6402:845:: with SMTP id
- b5mr12134678edz.38.1607695489475; 
- Fri, 11 Dec 2020 06:04:49 -0800 (PST)
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 292DF6EE0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 14:05:25 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBDs8X4005083;
+ Fri, 11 Dec 2020 14:05:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=M6pFORZ33vQuSMmmHvuKYfGD6U+3RAeesD2mMi7SKF0=;
+ b=TerDr4e6DP7CPuqGfGeI7jdlmDocLqQgN5Q/IJeNdnp/CMJj1BTZdJXlFa/cCkCbVCzO
+ zV2Xo30/bNl9tVS81cgk/QGP2WZR2nIvEiBP/07LnC7CEPA/fiVOxuTgpi8dNbufaXhG
+ QjR4ZlUMJ2cAF9Z39FQj29Wd7h7hAQdIcxgSFIEl3cmtxvQrBGIiEyts7j46jfwXM8Mb
+ REJHZmPTEh56XQY4X8QOmIu6kVV0P5wb8V5jOTtq6eirz892Q7GAorD5ZtqTa73upgQH
+ 4YUvOVRflvEMxT8EK+xmzLL0S84IvPlvGY77f1FhDBG+oDx76nhLQxL0/8p709Fa96Ue XQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 35825mjrjs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 11 Dec 2020 14:05:17 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BBDtsAH072495;
+ Fri, 11 Dec 2020 14:05:16 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 358m53yedy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 11 Dec 2020 14:05:16 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0BBE59k5024821;
+ Fri, 11 Dec 2020 14:05:09 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 11 Dec 2020 06:05:09 -0800
+Date: Fri, 11 Dec 2020 17:04:59 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH] drm/panel: khadas: Fix error code in
+ khadas_ts050_panel_add()
+Message-ID: <20201211140459.GR2767@kadam>
+References: <X9NEfmgGilaXJs2R@mwanda>
+ <20201211110157.GA527186@ravnborg.org>
 MIME-Version: 1.0
-References: <20201203082445.1342763-1-hsinyi@chromium.org>
-In-Reply-To: <20201203082445.1342763-1-hsinyi@chromium.org>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 11 Dec 2020 22:04:38 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__+FHHd6Coa9HDvS_e7Q7dD3gZm7FBbhymOR2w2-i8i4w@mail.gmail.com>
-Message-ID: <CAAOTY__+FHHd6Coa9HDvS_e7Q7dD3gZm7FBbhymOR2w2-i8i4w@mail.gmail.com>
-Subject: Re: [PATCH] drm/mediatek: mtk_dpi: Create connector for bridges
-To: Hsin-Yi Wang <hsinyi@chromium.org>
+Content-Disposition: inline
+In-Reply-To: <20201211110157.GA527186@ravnborg.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=852
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012110090
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9831
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=882 clxscore=1015 priorityscore=1501 mlxscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012110090
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,63 +80,25 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Neil Armstrong <narmstrong@baylibre.com>, David Airlie <airlied@linux.ie>,
+ kernel-janitors@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Thierry Reding <thierry.reding@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIEhzaW4tWWk6CgpIc2luLVlpIFdhbmcgPGhzaW55aUBjaHJvbWl1bS5vcmc+IOaWvCAyMDIw
-5bm0MTLmnIgz5pelIOmAseWbmyDkuIvljYg0OjI05a+r6YGT77yaCj4KPiBTaW1pbGFyIHRvIGE5
-ZDlmZWE3NGJlMiAoImRybS9tZWRpYXRlazogbXRrX2RzaTogQ3JlYXRlIGNvbm5lY3RvciBmb3Ig
-YnJpZGdlcyIpOgo+Cj4gVXNlIHRoZSBkcm1fYnJpZGdlX2Nvbm5lY3RvciBoZWxwZXIgdG8gY3Jl
-YXRlIGEgY29ubmVjdG9yIGZvciBwaXBlbGluZXMKPiB0aGF0IHVzZSBkcm1fYnJpZGdlLiBUaGlz
-IGFsbG93cyBzcGxpdHRpbmcgY29ubmVjdG9yIG9wZXJhdGlvbnMgYWNyb3NzCj4gbXVsdGlwbGUg
-YnJpZGdlcyB3aGVuIG5lY2Vzc2FyeSwgaW5zdGVhZCBvZiBoYXZpbmcgdGhlIGxhc3QgYnJpZGdl
-IGluCj4gdGhlIGNoYWluIGNyZWF0aW5nIHRoZSBjb25uZWN0b3IgYW5kIGhhbmRsaW5nIGFsbCBj
-b25uZWN0b3Igb3BlcmF0aW9ucwo+IGludGVybmFsbHkuCgpSZXZpZXdlZC1ieTogQ2h1bi1LdWFu
-ZyBIdSA8Y2h1bmt1YW5nLmh1QGtlcm5lbC5vcmc+Cgo+Cj4gU2lnbmVkLW9mZi1ieTogSHNpbi1Z
-aSBXYW5nIDxoc2lueWlAY2hyb21pdW0ub3JnPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVk
-aWF0ZWsvbXRrX2RwaS5jIHwgMTMgKysrKysrKysrKysrLQo+ICAxIGZpbGUgY2hhbmdlZCwgMTIg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZHBpLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rw
-aS5jCj4gaW5kZXggNTJmMTFhNjNhMzMwLi4xODkzNzdlMzQyZmEgMTAwNjQ0Cj4gLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcGkuYwo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9t
-ZWRpYXRlay9tdGtfZHBpLmMKPiBAQCAtMjAsNiArMjAsNyBAQAo+Cj4gICNpbmNsdWRlIDxkcm0v
-ZHJtX2F0b21pY19oZWxwZXIuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1fYnJpZGdlLmg+Cj4gKyNp
-bmNsdWRlIDxkcm0vZHJtX2JyaWRnZV9jb25uZWN0b3IuaD4KPiAgI2luY2x1ZGUgPGRybS9kcm1f
-Y3J0Yy5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9vZi5oPgo+ICAjaW5jbHVkZSA8ZHJtL2RybV9z
-aW1wbGVfa21zX2hlbHBlci5oPgo+IEBAIC02Niw2ICs2Nyw3IEBAIHN0cnVjdCBtdGtfZHBpIHsK
-PiAgICAgICAgIHN0cnVjdCBkcm1fZW5jb2RlciBlbmNvZGVyOwo+ICAgICAgICAgc3RydWN0IGRy
-bV9icmlkZ2UgYnJpZGdlOwo+ICAgICAgICAgc3RydWN0IGRybV9icmlkZ2UgKm5leHRfYnJpZGdl
-Owo+ICsgICAgICAgc3RydWN0IGRybV9jb25uZWN0b3IgKmNvbm5lY3RvcjsKPiAgICAgICAgIHZv
-aWQgX19pb21lbSAqcmVnczsKPiAgICAgICAgIHN0cnVjdCBkZXZpY2UgKmRldjsKPiAgICAgICAg
-IHN0cnVjdCBjbGsgKmVuZ2luZV9jbGs7Cj4gQEAgLTYwMywxMiArNjA1LDIxIEBAIHN0YXRpYyBp
-bnQgbXRrX2RwaV9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVy
-LCB2b2lkICpkYXRhKQo+Cj4gICAgICAgICBkcGktPmVuY29kZXIucG9zc2libGVfY3J0Y3MgPSBt
-dGtfZHJtX2ZpbmRfcG9zc2libGVfY3J0Y19ieV9jb21wKGRybV9kZXYsIGRwaS0+ZGRwX2NvbXAp
-Owo+Cj4gLSAgICAgICByZXQgPSBkcm1fYnJpZGdlX2F0dGFjaCgmZHBpLT5lbmNvZGVyLCAmZHBp
-LT5icmlkZ2UsIE5VTEwsIDApOwo+ICsgICAgICAgcmV0ID0gZHJtX2JyaWRnZV9hdHRhY2goJmRw
-aS0+ZW5jb2RlciwgJmRwaS0+YnJpZGdlLCBOVUxMLAo+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgRFJNX0JSSURHRV9BVFRBQ0hfTk9fQ09OTkVDVE9SKTsKPiAgICAgICAgIGlmIChy
-ZXQpIHsKPiAgICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJGYWlsZWQgdG8gYXR0YWNoIGJy
-aWRnZTogJWRcbiIsIHJldCk7Cj4gICAgICAgICAgICAgICAgIGdvdG8gZXJyX2NsZWFudXA7Cj4g
-ICAgICAgICB9Cj4KPiArICAgICAgIGRwaS0+Y29ubmVjdG9yID0gZHJtX2JyaWRnZV9jb25uZWN0
-b3JfaW5pdChkcm1fZGV2LCAmZHBpLT5lbmNvZGVyKTsKPiArICAgICAgIGlmIChJU19FUlIoZHBp
-LT5jb25uZWN0b3IpKSB7Cj4gKyAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiVW5hYmxlIHRv
-IGNyZWF0ZSBicmlkZ2UgY29ubmVjdG9yXG4iKTsKPiArICAgICAgICAgICAgICAgcmV0ID0gUFRS
-X0VSUihkcGktPmNvbm5lY3Rvcik7Cj4gKyAgICAgICAgICAgICAgIGdvdG8gZXJyX2NsZWFudXA7
-Cj4gKyAgICAgICB9Cj4gKyAgICAgICBkcm1fY29ubmVjdG9yX2F0dGFjaF9lbmNvZGVyKGRwaS0+
-Y29ubmVjdG9yLCAmZHBpLT5lbmNvZGVyKTsKPiArCj4gICAgICAgICBkcGktPmJpdF9udW0gPSBN
-VEtfRFBJX09VVF9CSVRfTlVNXzhCSVRTOwo+ICAgICAgICAgZHBpLT5jaGFubmVsX3N3YXAgPSBN
-VEtfRFBJX09VVF9DSEFOTkVMX1NXQVBfUkdCOwo+ICAgICAgICAgZHBpLT55Y19tYXAgPSBNVEtf
-RFBJX09VVF9ZQ19NQVBfUkdCOwo+IC0tCj4gMi4yOS4yLjU3Ni5nYTNmYzQ0NmQ4NC1nb29nCj4K
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVs
-IG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlz
-dHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+On Fri, Dec 11, 2020 at 12:01:57PM +0100, Sam Ravnborg wrote:
+> Hi Dan,
+> 
+> I assume your nice tooling found this buggy.
+
+Yeah.  Passing a valid pointer to PTR_ERR().
+
+regards,
+dan carpenter
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
