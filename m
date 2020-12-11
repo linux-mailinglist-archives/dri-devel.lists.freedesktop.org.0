@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185352D7698
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:31:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B892D769F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 14:33:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58E4F6EDE7;
-	Fri, 11 Dec 2020 13:31:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44DB6EDED;
+	Fri, 11 Dec 2020 13:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com
- [IPv6:2a00:1450:4864:20::242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A01B36EDE7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 13:31:44 +0000 (UTC)
-Received: by mail-lj1-x242.google.com with SMTP id f11so10920633ljn.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 05:31:44 -0800 (PST)
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com
+ [IPv6:2a00:1450:4864:20::243])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C331D6EDED
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 13:32:59 +0000 (UTC)
+Received: by mail-lj1-x243.google.com with SMTP id b10so8565782ljp.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 05:32:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=75vn0eEtsRQLfZLivxJBJ6LpgeNXYhiuxNikraSdeHw=;
- b=s0SgDrz+uPLfe+TD7vLQ/WEkNjt5UJ9KJML+nCvUa5ZXSRNZ7QFxUAdMrn3yavyGbS
- 0jtsKHPhdfDfmV977ISxaICL6LEpFIHSgqiaJ3au0w1jMsqiwIaxHufZYgmRTDjvkTeW
- aouhbiyaaQSjk0fk5ihFlJwQg7xnNnXikfGd8UCVi6BBCB80BYV46OT/JLeiuEW2UQD7
- GQLz54I3sYoFkOn6qPK3u+KEg4PlYke0VmkJP9xxDdZEzCUBtAyswo+SJNro2Ek4RbQK
- 2x4iqOZHRcyaVx5K33N0138c1LQOsRSUQIXp6g2gLVH6f/sDy/gcZRzuDSyOlAN3skHg
- QTHw==
+ :mime-version; bh=5EtVoRMjoicKd1UcJfviB3iQms4POZajTyOufISo34Y=;
+ b=PWP1HTAK5MhaooPXNc5UItzCaxW8BeUATb4jnV/+X/1KZYWKP2E1af9VO71w8P9g0s
+ ID95XJPDF/NV4vUkquIFBffGojMe2l98jucGEIscSN5HUZ5xKxCZQvKu/wduWUK56oBB
+ 6tH8amfxT7v/NTp0sPhejlwBcMYxS/+S5jyE0SYtVr/X0mFpGxjnOdtEv5qNph0ydjvr
+ UjTdUQGZS/xvkziVkUdc+nzFpeXst2OedMD3xHRylwIuvMA+9+vc21FdXcgnlBt/tHEH
+ MIHbgdm719WYE8Wz5Gi2dHkpLqEpelHlfmmiYhiDvQTAyDgpbz898mTUhXK5SkrvcSvk
+ vwaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version;
- bh=75vn0eEtsRQLfZLivxJBJ6LpgeNXYhiuxNikraSdeHw=;
- b=BQdnDEVjSN2f/i3AmSK71aho2+3KKPm7oEOrD8vpUmb2Hz1G6ZbcH35mFsNKzF1LoH
- +zkhM8qKzhchzEW7zjmx6+kKv7LewuRVuOTWvOWnPyZRw/1j6ms8xJpgMSAAgpCenr0Y
- 4pj3nv+VPt1EMu3VfP3Uji0q+XT9FqA4XYDd6SgvxYDX1O/ordDBLyEoTK95FvsxdL5Q
- k4FGkVSvOlzZJWne6aVQEWkBg4sqsplUqP5+QXuFDEpcYqrIRGJ7G0O0t+4zQYEfMf7o
- 4FpgiBylqR+YPf8dmdi8uKVLBQQ/mo3L2jkkTkpjEvgYJ5g949Cgv+kdT+qFcrD6jj8u
- yIfg==
-X-Gm-Message-State: AOAM5328uVCNNxCNnPv8Nh0oIlxevGlbbEgF1IBXWWTxek2UALpXArhc
- 97G/MwJzmRjAz9VlFqAOOHg=
-X-Google-Smtp-Source: ABdhPJwPJ3adqqX5SuJ4+DfOIFV70/1pJaAgU1HeLQoWmjgSd6jMKqaK70jyqt5U2EuM5Y/X58OzlQ==
-X-Received: by 2002:a05:651c:10e:: with SMTP id
- a14mr5228979ljb.128.1607693503034; 
- Fri, 11 Dec 2020 05:31:43 -0800 (PST)
+ bh=5EtVoRMjoicKd1UcJfviB3iQms4POZajTyOufISo34Y=;
+ b=UwznJy/hmNRuip7HP1UvmhOrXmD5nCA5SitjIC6BwPGTiHPQl8KzawadVFQ9c5sPWY
+ 2L7MLFdPKumGUBmJvPBZVxSz8jdu1rOP6LRQyKs4OQENkrhPMOvp7y+BiIhC/DTlr15g
+ wsvySTE/NIreE/1DLrO2PnQvhYt20Zihz0Za4wgfNKm4QKVakUiAXyVOM4tHtlkl/zLa
+ NjBoOxlakf6EQXnzWNgNr0Ntdt2BJnda4dCJsx+PAlYCHw38YXqBVEipeRAJyVmASHuf
+ h9FgKT7ckhfBBlSHtq9/cG+hMuGUJVzhvyfJ4+78zhE9+yh0dR+pFMio8zWlhlc7PADJ
+ sFSA==
+X-Gm-Message-State: AOAM530Nq+8Obpvuybnsh1XmL6gD7RXGkbHPMn2okKyOXRqTVnKNUMB6
+ cC9AB6k4YYoAmoCwmkNNwO8=
+X-Google-Smtp-Source: ABdhPJwpcPggX6N8A8aWIFCQrsLCNSIuw50tOckPJbguFx5lxcHTn/2WOt7s9uczlP7OBqIkph6W5g==
+X-Received: by 2002:a2e:9951:: with SMTP id r17mr4905517ljj.113.1607693578193; 
+ Fri, 11 Dec 2020 05:32:58 -0800 (PST)
 Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id b29sm888538lfc.12.2020.12.11.05.31.42
+ by smtp.gmail.com with ESMTPSA id m17sm885472lfo.132.2020.12.11.05.32.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Dec 2020 05:31:42 -0800 (PST)
-Date: Fri, 11 Dec 2020 15:31:39 +0200
+ Fri, 11 Dec 2020 05:32:57 -0800 (PST)
+Date: Fri, 11 Dec 2020 15:32:55 +0200
 From: Pekka Paalanen <ppaalanen@gmail.com>
 To: Simon Ser <contact@emersion.fr>
-Subject: Re: [PATCH v3 1/4] drm: rework description of primary and cursor
- planes
-Message-ID: <20201211153139.5376f450@eldfell>
-In-Reply-To: <UhmKVQqbhh0wI7qwEAFiRxDcZqKRrmcoBTBF6rg@cp7-web-043.plabs.ch>
-References: <UhmKVQqbhh0wI7qwEAFiRxDcZqKRrmcoBTBF6rg@cp7-web-043.plabs.ch>
+Subject: Re: [PATCH v3 2/4] drm: validate possible_crtcs for primary and
+ cursor planes
+Message-ID: <20201211153255.30782d9e@eldfell>
+In-Reply-To: <s0P4QVy7rx7iX5jIPuPPPXwFdJrn1sMI1jgKUBLOsI@cp4-web-032.plabs.ch>
+References: <s0P4QVy7rx7iX5jIPuPPPXwFdJrn1sMI1jgKUBLOsI@cp4-web-032.plabs.ch>
 X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,28 +67,24 @@ List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
-Content-Type: multipart/mixed; boundary="===============0866149012=="
+Content-Type: multipart/mixed; boundary="===============0531395438=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============0866149012==
+--===============0531395438==
 Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/IsG3FqkVcuNbiM=hLnzM.Qh"; protocol="application/pgp-signature"
+ boundary="Sig_/BByGng01=+vY./bz.Mu0KCO"; protocol="application/pgp-signature"
 
---Sig_/IsG3FqkVcuNbiM=hLnzM.Qh
+--Sig_/BByGng01=+vY./bz.Mu0KCO
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 11 Dec 2020 13:06:10 +0000
+On Fri, 11 Dec 2020 13:06:14 +0000
 Simon Ser <contact@emersion.fr> wrote:
 
-> The previous wording could be understood by user-space evelopers as "a
-> primary/cursor plane is only compatible with a single CRTC" [1].
->=20
-> Reword the planes description to make it clear the DRM-internal
-> drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
->=20
-> [1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
+> If a primary or cursor plane is not compatible with a CRTC it's attached
+> to via the legacy primary/cursor field, things will be broken for legacy
+> user-space.
 >=20
 > Signed-off-by: Simon Ser <contact@emersion.fr>
 > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
@@ -97,91 +92,72 @@ Simon Ser <contact@emersion.fr> wrote:
 
 Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 
-
 > ---
->  drivers/gpu/drm/drm_crtc.c  |  3 +++
->  drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
->  2 files changed, 12 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/drm_mode_config.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index 8d19d258547f..a6336c7154d6 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_cr=
-tc *crtc)
->   * planes). For really simple hardware which has only 1 plane look at
->   * drm_simple_display_pipe_init() instead.
->   *
-> + * The @primary and @cursor planes are only relevant for legacy uAPI, see
-> + * &drm_crtc.primary and &drm_crtc.cursor.
-> + *
->   * Returns:
->   * Zero on success, error code on failure.
->   */
-> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
-> index 385801dd21f9..5d33ca9f0032 100644
-> --- a/drivers/gpu/drm/drm_plane.c
-> +++ b/drivers/gpu/drm/drm_plane.c
-> @@ -49,14 +49,16 @@
->   * &struct drm_plane (possibly as part of a larger structure) and regist=
-ers it
->   * with a call to drm_universal_plane_init().
->   *
-> - * Cursor and overlay planes are optional. All drivers should provide one
-> - * primary plane per CRTC to avoid surprising userspace too much. See en=
-um
-> - * drm_plane_type for a more in-depth discussion of these special uapi-r=
-elevant
-> - * plane types. Special planes are associated with their CRTC by calling
-> - * drm_crtc_init_with_planes().
-> - *
->   * The type of a plane is exposed in the immutable "type" enumeration pr=
-operty,
-> - * which has one of the following values: "Overlay", "Primary", "Cursor".
-> + * which has one of the following values: "Overlay", "Primary", "Cursor"=
- (see
-> + * enum drm_plane_type). A plane can be compatible with multiple CRTCs, =
-see
-> + * &drm_plane.possible_crtcs.
-> + *
-> + * Legacy uAPI doesn't expose the primary and cursor planes directly. DR=
-M core
-> + * relies on the driver to set the primary and optionally the cursor pla=
-ne used
-> + * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(=
-). All
-> + * drivers should provide one primary plane per CRTC to avoid surprising=
- legacy
-> + * userspace too much.
->   */
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode=
+_config.c
+> index f1affc1bb679..2c73a60e8765 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -625,6 +625,7 @@ static void validate_encoder_possible_crtcs(struct dr=
+m_encoder *encoder)
+>  void drm_mode_config_validate(struct drm_device *dev)
+>  {
+>  	struct drm_encoder *encoder;
+> +	struct drm_crtc *crtc;
 > =20
->  static unsigned int drm_num_planes(struct drm_device *dev)
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return;
+> @@ -636,4 +637,19 @@ void drm_mode_config_validate(struct drm_device *dev)
+>  		validate_encoder_possible_clones(encoder);
+>  		validate_encoder_possible_crtcs(encoder);
+>  	}
+> +
+> +	drm_for_each_crtc(crtc, dev) {
+> +		if (crtc->primary) {
+> +			WARN(!(crtc->primary->possible_crtcs & BIT(crtc->index)),
+> +			     "Bogus primary plane possible_crtcs: [PLANE:%d:%s] must be compa=
+tible with [CRTC:%d:%s]\n",
+> +			     crtc->primary->base.id, crtc->primary->name,
+> +			     crtc->base.id, crtc->name);
+> +		}
+> +		if (crtc->cursor) {
+> +			WARN(!(crtc->cursor->possible_crtcs & BIT(crtc->index)),
+> +			     "Bogus cursor plane possible_crtcs: [PLANE:%d:%s] must be compat=
+ible with [CRTC:%d:%s]\n",
+> +			     crtc->cursor->base.id, crtc->cursor->name,
+> +			     crtc->base.id, crtc->name);
+> +		}
+> +	}
+>  }
 
 
---Sig_/IsG3FqkVcuNbiM=hLnzM.Qh
+--Sig_/BByGng01=+vY./bz.Mu0KCO
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/TdLsACgkQI1/ltBGq
-qqfWaRAAoX27Cp4r2rMUQfjEK/V1YV2H4U53xlkOmDXhkDSvxniECoZ7gTT9PDdw
-e7xWakUF6MCRXgQ4E2uQufhFWtb4iLs/dnXhESp1pC8jM0Yy8nOqXTBe3MvZ+n2k
-R52xdPY9z1M7DFDmj7NOQws6nEcchmjrSWCDgpYI+K2Wx0cEQGxx/+YeHlpYqxke
-ReT6l4ZXYCAMDtshqRYKMbLCMY+Zr3xKNlfDJpp8qIgpVmwcEClKcPhsh7TJwzqU
-P/5cIqCCqkDe0+w0SsKLWZXu1CrS92mFnj/SVOSed/Ycjdxckt9PpyOLAchlOo1c
-4l5oFPwnv6Sk/2VgNPO+2+UjP8QNdoEKH4h4zlBA+3EOHycI1ObzgR/OzGoGUbyq
-xzmn5GleNl9SkvXuPCFP1VQBNlNzrTYtzTq0XL7cO71I1SV4XHvezQpTz+X4blPr
-PlU65eZJ+f9d5vLQvXJzZAcvYqEJgzx0wgQv+2xbkIwCX7Jiu8vTsc0791C67KKa
-YnNOalkEEyl2N2FFNRCPSNP4l0lcRKQHsITSMUi3y5sx/en1H2XyU3OPgSlSgt0h
-L4OOTd6eDpUngiXocQwUNw+UHEoqcUGhESxnK8obNJ3B3TYAIwsgpNV4hHcaXSKs
-M0D2ithoh6qQZZOFGaZBboawnmb78E8LSJ60yZ+04ut6ocKFWjA=
-=vAeb
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAl/TdQcACgkQI1/ltBGq
+qqe5fw/+LfoXKzmwFyJg6L0rtcsRF8xSKzo+Yhvz0PU48+LlBuuX75AUdNtSZEwO
+GoVzT2L5S3WIpueVf8qVyDFy7tK0hXgOj8fzwyFuClX/hTCAdNXvVTYrPb4nROmq
+ogos0ceCsRuLuu+tMZ3qgV+3LVnwSeme+QrIAL4dBwq7SYOdRn8rnqKxbQY/RUHj
+YkLZwxtY/XV0ZWNkIsclRAZ9NtGSk9usafJ1ojfzTGPqKjMUeiB2X5nXoK/Z6IoQ
+Gy2gxxaNGBDcHyRWv7scN5eCP53v/nkpe+e1OsCWriII2RWv+sWCPtRioBnBSYwO
+LuM2RpvqnHBfCRKvixKJBb5qUSXwSsoGaa9KC9h2ziRwy56D3iTzFHgNtNIY6jh1
+23mf6f4tpwg7yCre1CwJSxzRqBqdmuqkqQzgZNBOoT4OImKdFXvyYTM+tmTdcKFR
++jcDI7OgCIJJ2rnzS5M1uMDfop2JIsm1Hz/j/tjcrCq85AmfmuCbtVFKBMBW1cLj
+7nHmnNAxX6p4j7VDn5xn+ceBXBM3XzXfJQ75dooVvPUrFVFdl61jlnKvzZ9SM2kM
+ZFHZmJlpE6KSscK88BkzdtsD+FIyuRctkV3rQ3a3QOdPPNV2prMYNqn1n6yrmYJ+
+VEP8XfzB+2yvCS01tX6bksDdEvJZtTbixm1HSiDtJikM/TQYUCM=
+=+Dht
 -----END PGP SIGNATURE-----
 
---Sig_/IsG3FqkVcuNbiM=hLnzM.Qh--
+--Sig_/BByGng01=+vY./bz.Mu0KCO--
 
---===============0866149012==
+--===============0531395438==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -192,4 +168,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============0866149012==--
+--===============0531395438==--
