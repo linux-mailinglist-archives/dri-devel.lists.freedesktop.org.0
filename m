@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01AA2D740C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:39:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F01A2D740E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Dec 2020 11:39:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C656E06B;
-	Fri, 11 Dec 2020 10:39:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 643AA6ED88;
+	Fri, 11 Dec 2020 10:39:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail2.protonmail.ch (mail2.protonmail.ch [185.70.40.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A91B6E06B
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:39:03 +0000 (UTC)
-Date: Fri, 11 Dec 2020 10:38:59 +0000
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C0966ED88
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Dec 2020 10:39:22 +0000 (UTC)
+Date: Fri, 11 Dec 2020 10:39:08 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1607683141;
- bh=Bz+m0LA3efiYruNMshJsmt9IOFPisnU8BoNnfrqstZA=;
+ s=protonmail2; t=1607683160;
+ bh=dd1uKUE/I9vhhZdufmVMrR2Fh4xgpBw+W/jGQNNb3mo=;
  h=Date:To:From:Cc:Reply-To:Subject:From;
- b=Lyt11K1meZBJ7yknImr5toNje6XvruwAcQfvIco5VFR+7Mclk7yKdMDhf/ffTxvEy
- vWH99foDUhlYc5kdzvhIdBzgjAHJhZzFBHAsRbf1He3CWq7W2S3FF89NBcZ3xVy+mu
- z2IQWju8HfKjGXRtb2SJP134oFASxLCFmLhFaPljt/OSGr3Tl27MQ0rctZLvIqWKC1
- pDsCZPhBBMNGovRm4CR12YVcUlji7niX8EoP5xiimU4AuhleEP868kALElzUyp1It7
- n2k3Yf29rsu9mXD0/QVp74PY9uATmyWxiO+xF3CS5scAH1DMNK0iZjngYxNdkv7j9n
- 7id6yjFB6AppA==
+ b=CytfBJA6Cg22+zA28d0cq3gEXXL+/+pxr/SSTXXKRkO8iRJ6qUMpnNJXMa7beeE5C
+ 4K8Mtf7EnySh/UhOuUB7Uyh4WF4H2mzlBD3Y7EWJ9UIYOR/BXFmmiiZ9n1s+UhXWKN
+ e3oWnJf1Nfc0jrykqD6pHc1r8y1VnAGnQRS8llTPSAUVJ2xF+erJpFjU+Rwql6nIa+
+ aGW7kJXTx47pzQMwwZOS+DD2nSjED042XuCkgUQ22xHhtjk6EF8VWBx2nVTBXc+xUe
+ 3X9p2MG+kSG1U/HH3N0ytWfULtGCIetFoacBvfZ1J3oCGFKoOAHd3hXY4K5b4FSCye
+ DIA5WYEQp+4Vg==
 To: dri-devel@lists.freedesktop.org
 From: Simon Ser <contact@emersion.fr>
-Subject: [PATCH v2 0/4] drm: add more primary/cursor plane checks
-Message-ID: <Z7YI8UYS6vuol52vDpUtRsydjU0rXlIHobScCJuqTA@cp4-web-031.plabs.ch>
+Subject: [PATCH v2 1/4] drm: rework description of primary and cursor planes
+Message-ID: <7kr6Og878WfPa2c3ECg2WRrAXzzr4CLwBXk2In2Q8@cp4-web-027.plabs.ch>
 MIME-Version: 1.0
 X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
  DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
@@ -52,24 +52,64 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the same series as v1, but with a new patch appended. I've tried
-coming up with a wording that isn't too confusing, while still accepting
-configurations like amdgpu's.
+The previous wording could be understood by user-space evelopers as "a
+primary/cursor plane is only compatible with a single CRTC" [1].
 
-Each patch changes the docs and the drm_mode_config_validate at the same
-time, so that we can easily revert a patch if needed.
+Reword the planes description to make it clear the DRM-internal
+drm_crtc.primary and drm_crtc.cursor planes are for legacy uAPI.
 
-Simon Ser (4):
-  drm: rework description of primary and cursor planes
-  drm: validate possible_crtcs for primary and cursor planes
-  drm: require a non_NULL drm_crtc.primary
-  drm: require each CRTC to have a unique primary plane
+[1]: https://github.com/swaywm/wlroots/pull/2333#discussion_r456788057
 
- drivers/gpu/drm/drm_crtc.c        |  3 +++
- drivers/gpu/drm/drm_mode_config.c | 40 +++++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_plane.c       | 22 +++++++++++------
- 3 files changed, 58 insertions(+), 7 deletions(-)
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+---
+ drivers/gpu/drm/drm_crtc.c  |  3 +++
+ drivers/gpu/drm/drm_plane.c | 16 +++++++++-------
+ 2 files changed, 12 insertions(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
+index 8d19d258547f..a6336c7154d6 100644
+--- a/drivers/gpu/drm/drm_crtc.c
++++ b/drivers/gpu/drm/drm_crtc.c
+@@ -256,6 +256,9 @@ struct dma_fence *drm_crtc_create_fence(struct drm_crtc *crtc)
+  * planes). For really simple hardware which has only 1 plane look at
+  * drm_simple_display_pipe_init() instead.
+  *
++ * The @primary and @cursor planes are only relevant for legacy uAPI, see
++ * &drm_crtc.primary and &drm_crtc.cursor.
++ *
+  * Returns:
+  * Zero on success, error code on failure.
+  */
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 385801dd21f9..5d33ca9f0032 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -49,14 +49,16 @@
+  * &struct drm_plane (possibly as part of a larger structure) and registers it
+  * with a call to drm_universal_plane_init().
+  *
+- * Cursor and overlay planes are optional. All drivers should provide one
+- * primary plane per CRTC to avoid surprising userspace too much. See enum
+- * drm_plane_type for a more in-depth discussion of these special uapi-relevant
+- * plane types. Special planes are associated with their CRTC by calling
+- * drm_crtc_init_with_planes().
+- *
+  * The type of a plane is exposed in the immutable "type" enumeration property,
+- * which has one of the following values: "Overlay", "Primary", "Cursor".
++ * which has one of the following values: "Overlay", "Primary", "Cursor" (see
++ * enum drm_plane_type). A plane can be compatible with multiple CRTCs, see
++ * &drm_plane.possible_crtcs.
++ *
++ * Legacy uAPI doesn't expose the primary and cursor planes directly. DRM core
++ * relies on the driver to set the primary and optionally the cursor plane used
++ * for legacy IOCTLs. This is done by calling drm_crtc_init_with_planes(). All
++ * drivers should provide one primary plane per CRTC to avoid surprising legacy
++ * userspace too much.
+  */
+ 
+ static unsigned int drm_num_planes(struct drm_device *dev)
 -- 
 2.29.2
 
