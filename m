@@ -2,57 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E9C2D9400
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F39DC2D9408
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B526E088;
-	Mon, 14 Dec 2020 08:17:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 736B36E0E1;
+	Mon, 14 Dec 2020 08:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com
- [IPv6:2607:f8b0:4864:20::1043])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3FF26E850;
- Sat, 12 Dec 2020 14:56:36 +0000 (UTC)
-Received: by mail-pj1-x1043.google.com with SMTP id z12so3817191pjn.1;
- Sat, 12 Dec 2020 06:56:36 -0800 (PST)
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com
+ [IPv6:2607:f8b0:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCA83897B4
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 22:24:05 +0000 (UTC)
+Received: by mail-pf1-x441.google.com with SMTP id s21so9501155pfu.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 14:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=wWwJ669lTeCpssXldT+YJE4GyoQKhiRX94niReA0gzI=;
- b=o5dfbjaG8jXLrBxlQ6Ax9TfOP6nZDGA4umNMXsiyq2Oe3Q4ktKt3aWYU56ZgIpKnco
- IJM7Y6/4oaEdUOw9qrw+D57xQ+O8kFYcdsfOVQbyb3kU8QlWojp2Z1UDPPfjYUhnPkNR
- 0Z+C97P35JhJIMHm9BSCZR5Tq9y61KWKd4Ieyd69sy62qD5ahZRMXyVLHw3k55y9Hk+g
- 29sznuz45RJUuIu1lByXkMYGkY7o/fermueh6q6xyMCdlD4GO4ssvrTaHGHd2tksIWw/
- Nbovy8bPRinNr6wVLm81nrWd9CnJuha++let3QpuWo4ZbpMB8FfMKgRHrxFTYDO/wfHf
- quqQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QtJXBVt7gHI21bYFoZ1JoDV4VjhjgVIaaJDaUSnjM6k=;
+ b=pY6anJiq1VYF1jMzjF+dcOuysiwgKQDBjxl4pI8MvZXad/L5wQeiVvdBaxzIBH4eXF
+ I0u0mlSOK6Q1WgcgHP4nVk4j5+r9Fe7OHS/lRK5OMbfKq3aPDYcmkDpA2KR5OrRrdHJ5
+ kOMhOOGcT5JwrjmDUIutKsPkSxPFJdqC6jG22WHBKp34KLojdw+IeJ9eI2bOfk/NOenP
+ ckFJQvY6Nx+gkkerIPwjQn7qOmkWBz2Xpncl37I+ibqgkLWqhTTuA4Xznaikb0/Vs821
+ W+sq6zDvupwDluvrcNkKqZ8zrN6TrTapk3X6/IYF27VPMZaUCDKbH2C5j5WRaihImvDq
+ fLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=wWwJ669lTeCpssXldT+YJE4GyoQKhiRX94niReA0gzI=;
- b=C0BWQgNIR8DQnif7sTWAw/VRl/uf9YvX08W6aazjRxxxHruTzPwIgGklMesa3NeUWD
- XY6z19AlYFIAS95QFz+qE0xiAhDdUKaGB8oA7LxMfmJvwCymIQDeTL35GEF8sZuyUpF3
- iSlzps8zGuMQET0EZuWZlgxXKjhCptaySARQwAS+8FDs4XXSxUc1syN+5NFiszZTrrUS
- dx9dQuIxSKjJVt3G+j8fu2hQOBc0gokCbyf6DAlEl2a7STpN7GX60SFDdKnHLy4EawWo
- QOaT96aF64f6Y3ON1OvutEDrU3o7ykztTDQx7+FETe7YVuqbp6+6ABmjQHQJf7KGUd/y
- e8zw==
-X-Gm-Message-State: AOAM533c3FS2F/XTuxbhtEfWHrVUMsT6z8+P+Je/4SNzPmzlJgPR/6+1
- lnqq+49T0pWq+aP4QocHcKI=
-X-Google-Smtp-Source: ABdhPJwIQwJ4b2qAYQt5HsmV5nWvEGMjeR0Xl7sLwvLaQsHwazMfZrsMIRxw6+4ROB6RL+et6d1lrw==
-X-Received: by 2002:a17:902:b213:b029:db:3a3e:d8ad with SMTP id
- t19-20020a170902b213b02900db3a3ed8admr15632490plr.73.1607784996476; 
- Sat, 12 Dec 2020 06:56:36 -0800 (PST)
-Received: from jordon-HP-15-Notebook-PC.domain.name ([122.179.87.107])
- by smtp.gmail.com with ESMTPSA id b11sm13769005pjl.41.2020.12.12.06.56.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sat, 12 Dec 2020 06:56:35 -0800 (PST)
-From: Souptick Joarder <jrdr.linux@gmail.com>
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
- yongqiang.sun@amd.com, bindu.r@amd.com
-Subject: [PATCH linux-next] drm/amd/display: Adding prototype for
- dccg21_update_dpp_dto()
-Date: Sat, 12 Dec 2020 20:26:24 +0530
-Message-Id: <1607784984-4542-1-git-send-email-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 1.9.1
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QtJXBVt7gHI21bYFoZ1JoDV4VjhjgVIaaJDaUSnjM6k=;
+ b=dtZXwYqFeqoW/+h34xUYrOFyN5TwmNNIhIS/jiXC6lW3IoYmByt8xy5U/aYFFipt6D
+ fZmUF/zQomjYTE0aBn7o5HCq7pGblUnp+uZBqn3UQCtwV3X+3Hmv91IH1uiP2nKUI65e
+ jwxm45PzpnjESoYLM0wqqh1qX3mhrLyTnn0sP5NYiIyR7+oZuoWnVKvzeQCZsTWG1lEU
+ a8JoKce/b04lNgbn7ThtoCOQdodp2jSxm81dZZm3jwuRJqiK9guCY3L5YJYrjbiwaKuE
+ ppKu4Z+DWbG/xYfFFKJ4GXyuqXKOkjOCB3+C5kgaUpEuHrTUxP2AYfsZHie+HosniASl
+ nvQA==
+X-Gm-Message-State: AOAM530tyy2sE5qjS4sG5xXO56mM0VR7onoQxARYvrBcRojxQIFwWskb
+ n+5AFpjKMe4VTVXeJt17Zjg=
+X-Google-Smtp-Source: ABdhPJzLYLeOuMQKOWMGgFp4pj8D4j+yoysIS0L8UZ95aYc/Z8WmvA33yxJuB5XMv5grTtczBMPB2A==
+X-Received: by 2002:aa7:9738:0:b029:19d:dce0:d8e7 with SMTP id
+ k24-20020aa797380000b029019ddce0d8e7mr17276456pfg.14.1607811845359; 
+ Sat, 12 Dec 2020 14:24:05 -0800 (PST)
+Received: from glados.. ([2601:647:6000:3e5b::a27])
+ by smtp.gmail.com with ESMTPSA id na6sm13244256pjb.12.2020.12.12.14.24.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 12 Dec 2020 14:24:04 -0800 (PST)
+From: Thomas Hebb <tommyhebb@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [PATCH] drm/rockchip: dsi: remove extra component_del() call
+Date: Sat, 12 Dec 2020 14:23:55 -0800
+Message-Id: <b6fef187969c45c3153d90bfd1cba684b764a225.1607811826.git.tommyhebb@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,41 +67,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Souptick Joarder <jrdr.linux@gmail.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-MIME-Version: 1.0
+Cc: linux-rockchip@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thomas Hebb <tommyhebb@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel test robot throws below warning ->
+commit cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support") added
+this devcnt field and call to component_del(). However, these both
+appear to be erroneous changes left over from an earlier version of the
+patch. In the version merged, nothing ever modifies devcnt, meaning
+component_del() runs unconditionally and in addition to the
+component_del() calls in dw_mipi_dsi_rockchip_host_detach(). The second
+call fails to delete anything and produces a warning in dmesg.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_dccg.c:46:6:
-warning: no previous prototype for 'dccg21_update_dpp_dto'
-[-Wmissing-prototypes]
+If we look at the previous version of the patch[1], however, we see that
+it had logic to calculate devcnt and call component_add() in certain
+situations. This was removed in v6, and the fact that the deletion code
+was not appears to have been an oversight.
 
-Adding prototype for dccg21_update_dpp_dto().
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20180821140515.22246-8-heiko@sntech.de/
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
+Fixes: cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
 ---
- drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h
-index b7efa77..e44a374 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h
-+++ b/drivers/gpu/drm/amd/display/dc/dcn21/dcn21_dccg.h
-@@ -32,5 +32,6 @@ struct dccg *dccg21_create(
- 	const struct dccg_shift *dccg_shift,
- 	const struct dccg_mask *dccg_mask);
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 542dcf7eddd6..ce044db8c97e 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -243,7 +243,6 @@ struct dw_mipi_dsi_rockchip {
+ 	struct dw_mipi_dsi *dmd;
+ 	const struct rockchip_dw_dsi_chip_data *cdata;
+ 	struct dw_mipi_dsi_plat_data pdata;
+-	int devcnt;
+ };
  
-+void dccg21_update_dpp_dto(struct dccg *dccg, int dpp_inst, int req_dppclk);
+ struct dphy_pll_parameter_map {
+@@ -1121,9 +1120,6 @@ static int dw_mipi_dsi_rockchip_remove(struct platform_device *pdev)
+ {
+ 	struct dw_mipi_dsi_rockchip *dsi = platform_get_drvdata(pdev);
  
- #endif /* __DCN21_DCCG_H__ */
+-	if (dsi->devcnt == 0)
+-		component_del(dsi->dev, &dw_mipi_dsi_rockchip_ops);
+-
+ 	dw_mipi_dsi_remove(dsi->dmd);
+ 
+ 	return 0;
 -- 
-1.9.1
+2.29.2
 
 _______________________________________________
 dri-devel mailing list
