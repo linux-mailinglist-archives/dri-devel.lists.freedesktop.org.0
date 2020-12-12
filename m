@@ -1,26 +1,26 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19F72D878A
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Dec 2020 17:09:05 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEAFE2D878B
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Dec 2020 17:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB1036ED13;
-	Sat, 12 Dec 2020 16:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B1C6ED14;
+	Sat, 12 Dec 2020 16:09:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C65826ED13
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 16:09:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C954D6ED13
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 16:09:03 +0000 (UTC)
 From: Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 2/8] drm/nouveau: make sure ret is initialized in
- nouveau_ttm_io_mem_reserve
-Date: Sat, 12 Dec 2020 11:08:53 -0500
-Message-Id: <20201212160859.2335412-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 3/8] drm/tegra: sor: Disable clocks on error in
+ tegra_sor_init()
+Date: Sat, 12 Dec 2020 11:08:54 -0500
+Message-Id: <20201212160859.2335412-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201212160859.2335412-1-sashal@kernel.org>
 References: <20201212160859.2335412-1-sashal@kernel.org>
@@ -39,32 +39,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Hounschell <markh@compro.net>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Karol Herbst <kherbst@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Sasha Levin <sashal@kernel.org>, linux-tegra@vger.kernel.org,
+ Thierry Reding <treding@nvidia.com>, dri-devel@lists.freedesktop.org,
+ Qinglang Miao <miaoqinglang@huawei.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgoKWyBVcHN0
-cmVhbSBjb21taXQgYWVhNjU2YjBkMDVlYzViOGVkNWJlYjJmOTRjNGRkNDJlYTgzNGU5ZCBdCgpU
-aGlzIHdhc24ndCBpbml0aWFsaXplZCBmb3IgcHJlIE5WNTAgaGFyZHdhcmUuCgpTaWduZWQtb2Zm
-LWJ5OiBDaHJpc3RpYW4gS8O2bmlnIDxjaHJpc3RpYW4ua29lbmlnQGFtZC5jb20+ClJlcG9ydGVk
-LWFuZC1UZXN0ZWQtYnk6IE1hcmsgSG91bnNjaGVsbCA8bWFya2hAY29tcHJvLm5ldD4KUmV2aWV3
-ZWQtYnk6IEthcm9sIEhlcmJzdCA8a2hlcmJzdEByZWRoYXQuY29tPgpMaW5rOiBodHRwczovL3Bh
-dGNod29yay5mcmVlZGVza3RvcC5vcmcvc2VyaWVzLzg0Mjk4LwpTaWduZWQtb2ZmLWJ5OiBTYXNo
-YSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy9ncHUvZHJtL25vdXZlYXUv
-bm91dmVhdV9iby5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vbm91dmVhdS9ub3V2ZWF1X2JvLmMKaW5kZXggZTQyN2Y4MDM0NGM0ZC4uZmRkYmU2Njkz
-NTQ2NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iby5jCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZlYXVfYm8uYwpAQCAtMTM3NSw2ICsxMzc1
-LDcgQEAgbm91dmVhdV90dG1faW9fbWVtX3Jlc2VydmUoc3RydWN0IHR0bV9ib19kZXZpY2UgKmJk
-ZXYsIHN0cnVjdCB0dG1fbWVtX3JlZyAqcmVnKQogCQkJbnZrbV92bV9tYXAoJm1lbS0+YmFyX3Zt
-YSwgbWVtKTsKIAkJCXJlZy0+YnVzLm9mZnNldCA9IG1lbS0+YmFyX3ZtYS5vZmZzZXQ7CiAJCX0K
-KwkJcmV0ID0gMDsKIAkJYnJlYWs7CiAJZGVmYXVsdDoKIAkJcmV0dXJuIC1FSU5WQUw7Ci0tIAoy
-LjI3LjAKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRy
-aS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRw
-czovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+From: Qinglang Miao <miaoqinglang@huawei.com>
+
+[ Upstream commit bf3a3cdcad40e5928a22ea0fd200d17fd6d6308d ]
+
+Fix the missing clk_disable_unprepare() before return from
+tegra_sor_init() in the error handling case.
+
+Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
+Signed-off-by: Thierry Reding <treding@nvidia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/tegra/sor.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 7ab1d1dc7cd73..352ae52be3418 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2378,17 +2378,23 @@ static int tegra_sor_init(struct host1x_client *client)
+ 		if (err < 0) {
+ 			dev_err(sor->dev, "failed to deassert SOR reset: %d\n",
+ 				err);
++			clk_disable_unprepare(sor->clk);
+ 			return err;
+ 		}
+ 	}
+ 
+ 	err = clk_prepare_enable(sor->clk_safe);
+-	if (err < 0)
++	if (err < 0) {
++		clk_disable_unprepare(sor->clk);
+ 		return err;
++	}
+ 
+ 	err = clk_prepare_enable(sor->clk_dp);
+-	if (err < 0)
++	if (err < 0) {
++		clk_disable_unprepare(sor->clk_safe);
++		clk_disable_unprepare(sor->clk);
+ 		return err;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.27.0
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
