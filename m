@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBDC2D93F4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:16 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9A82D93FD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68B996E0C9;
-	Mon, 14 Dec 2020 08:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56A416E0F1;
+	Mon, 14 Dec 2020 08:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3ACC66E56A
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 04:12:10 +0000 (UTC)
-X-UUID: 0195c41cebdb482bae373340d2554fa6-20201212
-X-UUID: 0195c41cebdb482bae373340d2554fa6-20201212
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3AE586E56A
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 04:12:34 +0000 (UTC)
+X-UUID: 8242a6da6b3147f299e1f4b25b2fe4cd-20201212
+X-UUID: 8242a6da6b3147f299e1f4b25b2fe4cd-20201212
+Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
+ mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1800293703; Sat, 12 Dec 2020 12:12:07 +0800
+ with ESMTP id 1061068421; Sat, 12 Dec 2020 12:12:29 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 12 Dec 2020 12:12:06 +0800
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 12 Dec 2020 12:12:07 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 12 Dec 2020 12:12:05 +0800
+ Transport; Sat, 12 Dec 2020 12:12:06 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
 To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
  Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
 Subject: [PATCH v2,
- 07/17] drm/mediatek: add disp config and mm 26mhz clock into mutex
- device
-Date: Sat, 12 Dec 2020 12:11:47 +0800
-Message-ID: <1607746317-4696-8-git-send-email-yongqiang.niu@mediatek.com>
+ 08/17] drm/mediatek: enable OVL_LAYER_SMI_ID_EN for multi-layer
+ usecase
+Date: Sat, 12 Dec 2020 12:11:48 +0800
+Message-ID: <1607746317-4696-9-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
@@ -60,95 +60,51 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-there are 2 more clock need enable for display.
-parser these clock when mutex device probe,
-enable and disable when mutex on/off
+enable OVL_LAYER_SMI_ID_EN for multi-layer usecase
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 49 ++++++++++++++++++++++++++++------
- 1 file changed, 41 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-index 60788c1..de618a1 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-@@ -118,7 +118,7 @@ struct mtk_ddp_data {
+diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+index 8cf9f3b..97f8380 100644
+--- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
++++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
+@@ -23,6 +23,7 @@
+ #define DISP_REG_OVL_RST			0x0014
+ #define DISP_REG_OVL_ROI_SIZE			0x0020
+ #define DISP_REG_OVL_DATAPATH_CON		0x0024
++#define OVL_LAYER_SMI_ID_EN				BIT(0)
+ #define OVL_BGCLR_SEL_IN				BIT(2)
+ #define DISP_REG_OVL_ROI_BGCLR			0x0028
+ #define DISP_REG_OVL_SRC_CON			0x002c
+@@ -61,6 +62,7 @@ struct mtk_disp_ovl_data {
+ 	unsigned int gmc_bits;
+ 	unsigned int layer_nr;
+ 	bool fmt_rgb565_is_0;
++	bool smi_id_en;
+ };
  
- struct mtk_ddp {
- 	struct device			*dev;
--	struct clk			*clk;
-+	struct clk			*clk[3];
- 	void __iomem			*regs;
- 	struct mtk_disp_mutex		mutex[10];
- 	const struct mtk_ddp_data	*data;
-@@ -257,14 +257,39 @@ int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
- {
- 	struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
- 					   mutex[mutex->id]);
--	return clk_prepare_enable(ddp->clk);
-+	int ret;
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-+		if (IS_ERR(ddp->clk[i]))
-+			continue;
-+		ret = clk_prepare_enable(ddp->clk[i]);
-+		if (ret) {
-+			pr_err("failed to enable clock, err %d. i:%d\n",
-+				ret, i);
-+			goto err;
-+		}
-+	}
-+
-+	return 0;
-+
-+err:
-+	while (--i >= 0)
-+		clk_disable_unprepare(ddp->clk[i]);
-+	return ret;
- }
+ /**
+@@ -115,7 +117,17 @@ static void mtk_ovl_disable_vblank(struct mtk_ddp_comp *comp)
  
- void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
+ static void mtk_ovl_start(struct mtk_ddp_comp *comp)
  {
- 	struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
- 					   mutex[mutex->id]);
--	clk_disable_unprepare(ddp->clk);
-+	int i;
++	struct mtk_disp_ovl *ovl = comp_to_ovl(comp);
 +
-+	 for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-+		if (IS_ERR(ddp->clk[i]))
-+			continue;
-+		clk_disable_unprepare(ddp->clk[i]);
+ 	writel_relaxed(0x1, comp->regs + DISP_REG_OVL_EN);
++
++	if(ovl->data->smi_id_en) {
++		unsigned int reg;
++
++		reg = readl(comp->regs + DISP_REG_OVL_DATAPATH_CON);
++		reg = reg | OVL_LAYER_SMI_ID_EN;
++		writel_relaxed(reg, comp->regs + DISP_REG_OVL_DATAPATH_CON);
 +	}
  }
  
- void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
-@@ -415,11 +440,19 @@ static int mtk_ddp_probe(struct platform_device *pdev)
- 	ddp->data = of_device_get_match_data(dev);
- 
- 	if (!ddp->data->no_clk) {
--		ddp->clk = devm_clk_get(dev, NULL);
--		if (IS_ERR(ddp->clk)) {
--			if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
--				dev_err(dev, "Failed to get clock\n");
--			return PTR_ERR(ddp->clk);
-+		int ret;
-+
-+		for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
-+			ddp->clk[i] = of_clk_get(dev->of_node, i);
-+
-+			if (IS_ERR(ddp->clk[i])) {
-+				ret = PTR_ERR(ddp->clk[i]);
-+				if (ret != EPROBE_DEFER)
-+					dev_err(dev, "Failed to get clock %d\n",
-+						ret);
-+
-+				return ret;
-+			}
- 		}
- 	}
- 
+ static void mtk_ovl_stop(struct mtk_ddp_comp *comp)
 -- 
 1.8.1.1.dirty
 
