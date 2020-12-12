@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736AE2D93E7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:17:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5475B2D9409
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0946E07B;
-	Mon, 14 Dec 2020 08:17:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D8046E0E4;
+	Mon, 14 Dec 2020 08:17:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
- by gabe.freedesktop.org (Postfix) with ESMTP id C98A16E56A
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 04:12:34 +0000 (UTC)
-X-UUID: 937f0b08e2494a70a6b6c2a3b7eb4cdf-20201212
-X-UUID: 937f0b08e2494a70a6b6c2a3b7eb4cdf-20201212
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 25EB16E851
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 04:12:19 +0000 (UTC)
+X-UUID: f5e023bbe5a445a48e540c36e19cbfbd-20201212
+X-UUID: f5e023bbe5a445a48e540c36e19cbfbd-20201212
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <yongqiang.niu@mediatek.com>)
  (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
  ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1691283540; Sat, 12 Dec 2020 12:12:29 +0800
+ with ESMTP id 1917355464; Sat, 12 Dec 2020 12:12:15 +0800
 Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Sat, 12 Dec 2020 12:12:13 +0800
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 12 Dec 2020 12:12:14 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas11.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Sat, 12 Dec 2020 12:12:12 +0800
+ Transport; Sat, 12 Dec 2020 12:12:13 +0800
 From: Yongqiang Niu <yongqiang.niu@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, "Rob
- Herring" <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v2, 16/17] drm/mediatek: add support for mediatek SOC MT8192
-Date: Sat, 12 Dec 2020 12:11:56 +0800
-Message-ID: <1607746317-4696-17-git-send-email-yongqiang.niu@mediatek.com>
+To: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, Rob
+ Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: [PATCH v2, 17/17] arm64: dts: mt8192: add display node
+Date: Sat, 12 Dec 2020 12:11:57 +0800
+Message-ID: <1607746317-4696-18-git-send-email-yongqiang.niu@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
 References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 X-MTK: N
-X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
+X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,281 +58,164 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add support for mediatek SOC MT8192
+add display node
 
 Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
 ---
- drivers/gpu/drm/mediatek/mtk_disp_color.c |  6 ++++
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c   | 20 +++++++++++++
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c  |  6 ++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp.c    | 35 ++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c    | 48 +++++++++++++++++++++++++++++++
- 5 files changed, 115 insertions(+)
+ arch/arm64/boot/dts/mediatek/mt8192.dtsi | 130 +++++++++++++++++++++++++++++++
+ 1 file changed, 130 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_color.c b/drivers/gpu/drm/mediatek/mtk_disp_color.c
-index 3ae9c81..15389f8 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_color.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_color.c
-@@ -152,11 +152,17 @@ static int mtk_disp_color_remove(struct platform_device *pdev)
- 	.color_offset = DISP_COLOR_START_MT8173,
- };
+diff --git a/arch/arm64/boot/dts/mediatek/mt8192.dtsi b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+index 7c0c233..da681b0 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8192.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8192.dtsi
+@@ -17,6 +17,11 @@
+ 	#address-cells = <2>;
+ 	#size-cells = <2>;
  
-+static const struct mtk_disp_color_data mt8192_color_driver_data = {
-+	.color_offset = DISP_COLOR_START_MT8173,
-+};
++	aliases {
++		ovl_2l2 = &ovl_2l2;
++		rdma4 = &rdma4;
++	};
 +
- static const struct of_device_id mtk_disp_color_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-color",
- 	  .data = &mt2701_color_driver_data},
- 	{ .compatible = "mediatek,mt8173-disp-color",
- 	  .data = &mt8173_color_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-color",
-+	  .data = &mt8192_color_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_color_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-index 47ae98c..bcb455f 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_ovl.c
-@@ -456,6 +456,22 @@ static int mtk_disp_ovl_remove(struct platform_device *pdev)
- 	.fmt_rgb565_is_0 = true,
- };
+ 	clk26m: oscillator0 {
+ 		compatible = "fixed-clock";
+ 		#clock-cells = <0>;
+@@ -614,9 +619,134 @@
+ 		mmsys: syscon@14000000 {
+ 			compatible = "mediatek,mt8192-mmsys", "syscon";
+ 			reg = <0 0x14000000 0 0x1000>;
++			mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST 1>,
++				 <&gce 1 CMDQ_THR_PRIO_HIGHEST 1>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
+ 			#clock-cells = <1>;
+ 		};
  
-+static const struct mtk_disp_ovl_data mt8192_ovl_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 4,
-+	.fmt_rgb565_is_0 = true,
-+	.smi_id_en = true,
-+};
++		mutex: mutex@14001000 {
++			compatible = "mediatek,mt8192-disp-mutex";
++			reg = <0 0x14001000 0 0x1000>;
++			interrupts = <GIC_SPI 252 IRQ_TYPE_LEVEL_HIGH 0>;
++			clocks = <&mmsys CLK_MM_DISP_CONFIG>,
++			         <&mmsys CLK_MM_26MHZ>,
++			         <&mmsys CLK_MM_DISP_MUTEX0>;
++			mediatek,gce-events = <CMDQ_EVENT_DISP_STREAM_DONE_ENG_EVENT_0>,
++					      <CMDQ_EVENT_DISP_STREAM_DONE_ENG_EVENT_1>;
++		};
 +
-+static const struct mtk_disp_ovl_data mt8192_ovl_2l_driver_data = {
-+	.addr = DISP_REG_OVL_ADDR_MT8173,
-+	.gmc_bits = 10,
-+	.layer_nr = 2,
-+	.fmt_rgb565_is_0 = true,
-+	.smi_id_en = true,
-+};
++		ovl0: ovl@14005000 {
++			compatible = "mediatek,mt8192-disp-ovl";
++			reg = <0 0x14005000 0 0x1000>;
++			interrupts = <GIC_SPI 254 IRQ_TYPE_LEVEL_HIGH 0>;
++			clocks = <&mmsys CLK_MM_DISP_OVL0>;
++			//iommus = <&iommu0 M4U_PORT_L0_OVL_RDMA0>,
++			//	 <&iommu0 M4U_PORT_L0_OVL_RDMA0_HDR>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
++		};
 +
- static const struct of_device_id mtk_disp_ovl_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
- 	  .data = &mt2701_ovl_driver_data},
-@@ -465,6 +481,10 @@ static int mtk_disp_ovl_remove(struct platform_device *pdev)
- 	  .data = &mt8183_ovl_driver_data},
- 	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
- 	  .data = &mt8183_ovl_2l_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-ovl",
-+	  .data = &mt8192_ovl_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-+	  .data = &mt8192_ovl_2l_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_ovl_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index 86e77c2..2b79af0 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -363,6 +363,10 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- 	.fifo_size = 5 * SZ_1K,
- };
- 
-+static const struct mtk_disp_rdma_data mt8192_rdma_driver_data = {
-+	.fifo_size = 5 * SZ_1K,
-+};
++		ovl_2l0: ovl@14006000 {
++			compatible = "mediatek,mt8192-disp-ovl-2l";
++			reg = <0 0x14006000 0 0x1000>;
++			interrupts = <GIC_SPI 255 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_OVL0_2L>;
++			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA0>,
++			//	 <&iommu0 M4U_PORT_L1_OVL_2L_RDMA0_HDR>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
++		};
 +
- static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = &mt2701_rdma_driver_data},
-@@ -370,6 +374,8 @@ static int mtk_disp_rdma_remove(struct platform_device *pdev)
- 	  .data = &mt8173_rdma_driver_data},
- 	{ .compatible = "mediatek,mt8183-disp-rdma",
- 	  .data = &mt8183_rdma_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-rdma",
-+	  .data = &mt8192_rdma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-index de618a1..14105b3 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
-@@ -27,6 +27,18 @@
- 
- #define INT_MUTEX				BIT(1)
- 
-+#define MT8192_MUTEX_MOD_DISP_OVL0		0
-+#define MT8192_MUTEX_MOD_DISP_OVL0_2L		1
-+#define MT8192_MUTEX_MOD_DISP_RDMA0		2
-+#define MT8192_MUTEX_MOD_DISP_COLOR0		4
-+#define MT8192_MUTEX_MOD_DISP_CCORR0		5
-+#define MT8192_MUTEX_MOD_DISP_AAL0		6
-+#define MT8192_MUTEX_MOD_DISP_GAMMA0		7
-+#define MT8192_MUTEX_MOD_DISP_POSTMASK0		8
-+#define MT8192_MUTEX_MOD_DISP_DITHER0		9
-+#define MT8192_MUTEX_MOD_DISP_OVL2_2L		16
-+#define MT8192_MUTEX_MOD_DISP_RDMA4		17
++		rdma0: rdma@14007000 {
++			compatible = "mediatek,mt8192-disp-rdma";
++			reg = <0 0x14007000 0 0x1000>;
++			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH 0>;
++			clocks = <&mmsys CLK_MM_DISP_RDMA0>;
++			//iommus = <&iommu0 M4U_PORT_L0_DISP_RDMA0>;
++			mediatek,rdma_fifo_size = <5120>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x7000 0x1000>;
++		};
 +
- #define MT8183_MUTEX_MOD_DISP_RDMA0		0
- #define MT8183_MUTEX_MOD_DISP_RDMA1		1
- #define MT8183_MUTEX_MOD_DISP_OVL0		9
-@@ -185,6 +197,20 @@ struct mtk_ddp {
- 	[DDP_COMPONENT_WDMA0] = MT8183_MUTEX_MOD_DISP_WDMA0,
- };
- 
-+static const unsigned int mt8192_mutex_mod[DDP_COMPONENT_ID_MAX] = {
-+	[DDP_COMPONENT_AAL0] = MT8192_MUTEX_MOD_DISP_AAL0,
-+	[DDP_COMPONENT_CCORR] = MT8192_MUTEX_MOD_DISP_CCORR0,
-+	[DDP_COMPONENT_COLOR0] = MT8192_MUTEX_MOD_DISP_COLOR0,
-+	[DDP_COMPONENT_DITHER] = MT8192_MUTEX_MOD_DISP_DITHER0,
-+	[DDP_COMPONENT_GAMMA] = MT8192_MUTEX_MOD_DISP_GAMMA0,
-+	[DDP_COMPONENT_POSTMASK0] = MT8192_MUTEX_MOD_DISP_POSTMASK0,
-+	[DDP_COMPONENT_OVL0] = MT8192_MUTEX_MOD_DISP_OVL0,
-+	[DDP_COMPONENT_OVL_2L0] = MT8192_MUTEX_MOD_DISP_OVL0_2L,
-+	[DDP_COMPONENT_OVL_2L2] = MT8192_MUTEX_MOD_DISP_OVL2_2L,
-+	[DDP_COMPONENT_RDMA0] = MT8192_MUTEX_MOD_DISP_RDMA0,
-+	[DDP_COMPONENT_RDMA4] = MT8192_MUTEX_MOD_DISP_RDMA4,
-+};
++		color0: color@14009000 {
++			compatible = "mediatek,mt8192-disp-color",
++				     "mediatek,mt8173-disp-color";
++			reg = <0 0x14009000 0 0x1000>;
++			interrupts = <GIC_SPI 258 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_COLOR0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x9000 0x1000>;
++		};
 +
- static const unsigned int mt2712_mutex_sof[DDP_MUTEX_SOF_DSI3 + 1] = {
- 	[DDP_MUTEX_SOF_SINGLE_MODE] = MUTEX_SOF_SINGLE_MODE,
- 	[DDP_MUTEX_SOF_DSI0] = MUTEX_SOF_DSI0,
-@@ -229,6 +255,13 @@ struct mtk_ddp {
- 	.mutex_sof_reg = MT8183_DISP_MUTEX0_SOF0,
- };
- 
-+static const struct mtk_ddp_data mt8192_ddp_driver_data = {
-+	.mutex_mod = mt8192_mutex_mod,
-+	.mutex_sof = mt8183_mutex_sof,
-+	.mutex_mod_reg = MT8183_DISP_MUTEX0_MOD0,
-+	.mutex_sof_reg = MT8183_DISP_MUTEX0_SOF0,
-+};
++		ccorr0: ccorr@1400a000 {
++			compatible = "mediatek,mt8192-disp-ccorr";
++			reg = <0 0x1400a000 0 0x1000>;
++			interrupts = <GIC_SPI 259 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_CCORR0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xa000 0x1000>;
++		};
 +
- struct mtk_disp_mutex *mtk_disp_mutex_get(struct device *dev, unsigned int id)
- {
- 	struct mtk_ddp *ddp = dev_get_drvdata(dev);
-@@ -482,6 +515,8 @@ static int mtk_ddp_remove(struct platform_device *pdev)
- 	  .data = &mt8173_ddp_driver_data},
- 	{ .compatible = "mediatek,mt8183-disp-mutex",
- 	  .data = &mt8183_ddp_driver_data},
-+	{ .compatible = "mediatek,mt8192-disp-mutex",
-+	  .data = &mt8192_ddp_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, ddp_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index a7e9f88..d372446 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -149,6 +149,25 @@
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8192_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_OVL_2L0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_POSTMASK0,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSI0,
-+};
++		aal0: aal@1400b000 {
++			compatible = "mediatek,mt8192-disp-aal";
++			reg = <0 0x1400b000 0 0x1000>;
++			interrupts = <GIC_SPI 260 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_AAL0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xb000 0x1000>;
++		};
 +
-+static const enum mtk_ddp_comp_id mt8192_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_2L2,
-+	DDP_COMPONENT_RDMA4,
-+	DDP_COMPONENT_DPI0,
-+};
++		gamma0: gamma@1400c000 {
++			compatible = "mediatek,mt8192-disp-gamma";
++			reg = <0 0x1400c000 0 0x1000>;
++			interrupts = <GIC_SPI 261 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_GAMMA0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xc000 0x1000>;
++		};
 +
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -188,6 +207,13 @@
- 	.ext_len = ARRAY_SIZE(mt8183_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
-+	.main_path = mt8192_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8192_mtk_ddp_main),
-+	.ext_path = mt8192_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
-+};
++		postmask0: postmask@1400d000 {
++			compatible = "mediatek,mt8192-disp-postmask";
++			reg = <0 0x1400d000 0 0x1000>;
++			interrupts = <GIC_SPI 262 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_POSTMASK0>;
++			//iommus = <&iommu0 M4U_PORT_L0_DISP_POSTMASK0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xd000 0x1000>;
++		};
 +
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -432,26 +458,42 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
- 	  .data = (void *)MTK_DISP_OVL_2L },
-+	{ .compatible = "mediatek,mt8192-disp-ovl",
-+	  .data = (void *)MTK_DISP_OVL },
-+	{ .compatible = "mediatek,mt8192-disp-ovl-2l",
-+	  .data = (void *)MTK_DISP_OVL_2L },
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8183-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8192-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
- 	  .data = (void *)MTK_DISP_WDMA },
- 	{ .compatible = "mediatek,mt8183-disp-ccorr",
- 	  .data = (void *)MTK_DISP_CCORR },
-+	{ .compatible = "mediatek,mt8192-disp-ccorr",
-+	  .data = (void *)MTK_DISP_CCORR },
- 	{ .compatible = "mediatek,mt2701-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-color",
- 	  .data = (void *)MTK_DISP_COLOR },
-+	{ .compatible = "mediatek,mt8192-disp-color",
-+	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8173-disp-aal",
- 	  .data = (void *)MTK_DISP_AAL},
-+	{ .compatible = "mediatek,mt8192-disp-aal",
-+	  .data = (void *)MTK_DISP_AAL},
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8192-disp-gamma",
-+	  .data = (void *)MTK_DISP_GAMMA},
- 	{ .compatible = "mediatek,mt8183-disp-dither",
- 	  .data = (void *)MTK_DISP_DITHER },
-+	{ .compatible = "mediatek,mt8192-disp-dither",
-+	  .data = (void *)MTK_DISP_DITHER },
- 	{ .compatible = "mediatek,mt8173-disp-ufoe",
- 	  .data = (void *)MTK_DISP_UFOE },
- 	{ .compatible = "mediatek,mt2701-dsi",
-@@ -474,12 +516,16 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8183-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8192-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2701-disp-pwm",
- 	  .data = (void *)MTK_DISP_BLS },
- 	{ .compatible = "mediatek,mt8173-disp-pwm",
- 	  .data = (void *)MTK_DISP_PWM },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
-+	{ .compatible = "mediatek,mt8192-disp-postmask",
-+	  .data = (void *)MTK_DISP_POSTMASK },
- 	{ }
- };
- 
-@@ -494,6 +540,8 @@ static void mtk_drm_unbind(struct device *dev)
- 	  .data = &mt8173_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8183-mmsys",
- 	  .data = &mt8183_mmsys_driver_data},
-+	{ .compatible = "mediatek,mt8192-mmsys",
-+	 .data = &mt8192_mmsys_driver_data},
- 	{ }
- };
- 
++		dither0: dither@1400e000 {
++			compatible = "mediatek,mt8192-disp-dither";
++			reg = <0 0x1400e000 0 0x1000>;
++			interrupts = <GIC_SPI 263 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_DITHER0>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0xe000 0x1000>;
++		};
++
++		ovl_2l2: ovl@14014000 {
++			compatible = "mediatek,mt8192-disp-ovl-2l";
++			reg = <0 0x14014000 0 0x1000>;
++			interrupts = <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_OVL2_2L>;
++			//iommus = <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2>,
++			//	 <&iommu0 M4U_PORT_L1_OVL_2L_RDMA2_HDR>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x4000 0x1000>;
++		};
++
++		rdma4: rdma@14015000 {
++			compatible = "mediatek,mt8192-disp-rdma";
++			reg = <0 0x14015000 0 0x1000>;
++			interrupts = <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH 0>;
++			//power-domains = <&scpsys MT8192_POWER_DOMAIN_DISP>;
++			clocks = <&mmsys CLK_MM_DISP_RDMA4>;
++			//iommus = <&iommu0 M4U_PORT_L1_DISP_RDMA4>;
++			mediatek,rdma_fifo_size = <2048>;
++			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x5000 0x1000>;
++		};
++
+ 		imgsys: syscon@15020000 {
+ 			compatible = "mediatek,mt8192-imgsys", "syscon";
+ 			reg = <0 0x15020000 0 0x1000>;
 -- 
 1.8.1.1.dirty
 
