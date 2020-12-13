@@ -1,37 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3492D8F4B
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 19:39:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0A872D90AA
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 21:57:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F7889C59;
-	Sun, 13 Dec 2020 18:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FBD89C53;
+	Sun, 13 Dec 2020 20:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2BD389C59;
- Sun, 13 Dec 2020 18:39:20 +0000 (UTC)
-IronPort-SDR: 3Ncc2Apa2ouhtjQoxHvs7GMVpu/zTsBgHFyGWv6dG0rKEqj6Ea+dzOL/xE9YxanD8T/bKjI3f8
- rj+SR/WyI38g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="172054605"
-X-IronPort-AV: E=Sophos;i="5.78,416,1599548400"; d="scan'208";a="172054605"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2020 10:39:20 -0800
-IronPort-SDR: Wj21kFTfXDi8B5Vz1b8OBy0RKtdUCfLolIN1cFr8pvqF0T4aHbXCgaWFnQiapojtUSKENhW1Id
- aJVUp6b4no0g==
-X-IronPort-AV: E=Sophos;i="5.78,416,1599548400"; d="scan'208";a="410649972"
-Received: from ihazan-mobl1.ger.corp.intel.com (HELO josouza-mobl2.intel.com)
- ([10.255.70.79])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Dec 2020 10:39:16 -0800
-From: =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Subject: [PATCH v5 1/6] drm/damage_helper: Check if damage clips has valid
- values
-Date: Sun, 13 Dec 2020 10:39:25 -0800
-Message-Id: <20201213183930.349592-1-jose.souza@intel.com>
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
+ [IPv6:2607:f8b0:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C675C89C53
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 20:57:41 +0000 (UTC)
+Received: by mail-pl1-x644.google.com with SMTP id b8so1538097plx.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 12:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+C7df/JhpDNOhvRuvCv8MZFRD0LpPBGsO24mPtK2tQI=;
+ b=JAssQKBLdQSUpXX1qdsRhJs56Z8/S+6oAKAbc2F2UTnmO2I+q7uRH9uRh4kOH21iAu
+ /RyV5qbTL3/JHc4nWUw6rUycYHRekYUz26ozaJTKdun9or8Jn3ihWkW4HWXRirHD/RAm
+ Bbsa12k6y8jSu5N/XXdY4KEQINEtcq2Hhz6/gUW9AA0/zEtIA/9N6apB5ZLhh5oINcp6
+ J0s66SmiAsEB+r3QWzQw4NCzqABm2x/uWZN0/zWdfYMK3vHC4pDYVuZX3n4W04xHqH4a
+ jV3jwPifpbjlwWQrr0FHxTpwmXU1VBwzhzy21Hb9lY6JIQ6uNQ3lFXB7309yQV78olIj
+ jPYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+C7df/JhpDNOhvRuvCv8MZFRD0LpPBGsO24mPtK2tQI=;
+ b=so8doLKf9r+kVwRs/Qa/ePRaRCzSOMpMJIBkYpdI+TIX1GjoH5n9+weZEazAXKki9q
+ ygGmqwHqNYsfHJ+p/6uTSkMHsEldDZfeFRjhbuBsSXHfNb99E7qKI1oWXKuJFwLq2WRp
+ 9ZLVH3yN0RUROsiQNVPtiOOk5j5BXkJi6iznOjNXCkt7wiCXubwA9sq0jlzI7xa2+r+m
+ HC32gpYkxsyeN1tYJvqIZXc1WVw2v8tiG1LyGhHxEGfCiKOrOAlihsm9TzKS2whniGpY
+ xhXJ+TJgc0IKVBLDZz1+DrQymobscX8xU0J3Ji7k837dd+IdFAre/deVNq6Cf/7LffiX
+ TDTA==
+X-Gm-Message-State: AOAM531NsQlIgiBbLxcXpXASOYt0LGkluWtBKTrKaI4yA6YynUMQyBLW
+ t/OGCINF8jmYS31heDYsCsw=
+X-Google-Smtp-Source: ABdhPJxlNQ9tZOYsryjlZNee15dnRjN02bQG+zSlcPfd2KePaHUVhVXhFDGFhfxyCkac3knOhN+0fQ==
+X-Received: by 2002:a17:90b:3698:: with SMTP id
+ mj24mr21767123pjb.149.1607893061404; 
+ Sun, 13 Dec 2020 12:57:41 -0800 (PST)
+Received: from glados.. ([2601:647:6000:3e5b::a27])
+ by smtp.gmail.com with ESMTPSA id 37sm14173930pjz.41.2020.12.13.12.57.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Dec 2020 12:57:40 -0800 (PST)
+From: Thomas Hebb <tommyhebb@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: [RESEND PATCH] drm/rockchip: dsi: remove extra component_del() call
+Date: Sun, 13 Dec 2020 12:57:26 -0800
+Message-Id: <149477f8d5d5a76c624766cb8cbdfdb3fa416ee8.1607893019.git.tommyhebb@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -46,114 +66,65 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dri-devel@lists.freedesktop.org,
- Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>, Sean Paul <seanpaul@chromium.org>,
- =?UTF-8?q?Jos=C3=A9=20Roberto=20de=20Souza?= <jose.souza@intel.com>,
- Deepak Rawat <drawat@vmware.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: linux-rockchip@lists.infradead.org, David Airlie <airlied@linux.ie>,
+ Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
+ Andrzej Hajda <a.hajda@samsung.com>, Thomas Hebb <tommyhebb@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VXNlcnNwYWNlIGNhbiBzZXQgYSBkYW1hZ2UgY2xpcCB3aXRoIGEgbmVnYXRpdmUgY29vcmRpbmF0
-ZSwgbmVnYXRpdmUKd2lkdGggb3IgaGVpZ2h0IG9yIGxhcmdlciB0aGFuIHRoZSBwbGFuZS4KVGhp
-cyBpbnZhbGlkIHZhbHVlcyBjb3VsZCBjYXVzZSBpc3N1ZXMgaW4gc29tZSBIVyBvciBldmVuIHdv
-cnN0IGVuYWJsZQpzZWN1cml0eSBmbGF3cy4KCnYyOgotIGFkZCBkZWJ1ZyBtZXNzYWdlcyB0byBs
-ZXQgdXNlcnNwYWNlIGtub3cgd2h5IGF0b21pYyBjb21taXQgZmFpbGVkCmR1ZSBpbnZhbGlkIGRh
-bWFnZSBjbGlwcwoKQ2M6IFNpbW9uIFNlciA8Y29udGFjdEBlbWVyc2lvbi5mcj4KQ2M6IEd3YW4t
-Z3llb25nIE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4KQ2M6IFNlYW4gUGF1bCA8c2Vh
-bnBhdWxAY2hyb21pdW0ub3JnPgpDYzogRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29t
-PgpDYzogRGVlcGFrIFJhd2F0IDxkcmF3YXRAdm13YXJlLmNvbT4KQ2M6IGRyaS1kZXZlbEBsaXN0
-cy5mcmVlZGVza3RvcC5vcmcKU2lnbmVkLW9mZi1ieTogSm9zw6kgUm9iZXJ0byBkZSBTb3V6YSA8
-am9zZS5zb3V6YUBpbnRlbC5jb20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVs
-cGVyLmMgfCAgNCArLQogZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2VfaGVscGVyLmMgfCA1OSAr
-KysrKysrKysrKysrKysrKysrKysrKystLS0tLQogaW5jbHVkZS9kcm0vZHJtX2RhbWFnZV9oZWxw
-ZXIuaCAgICAgfCAgNCArLQogMyBmaWxlcyBjaGFuZ2VkLCA1NSBpbnNlcnRpb25zKCspLCAxMiBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxw
-ZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCmluZGV4IGJhMTUwNzAz
-NmYyNi4uYzZiMzQxZWNhZTJjIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21p
-Y19oZWxwZXIuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2F0b21pY19oZWxwZXIuYwpAQCAt
-ODk3LDcgKzg5Nyw5IEBAIGRybV9hdG9taWNfaGVscGVyX2NoZWNrX3BsYW5lcyhzdHJ1Y3QgZHJt
-X2RldmljZSAqZGV2LAogCiAJCWRybV9hdG9taWNfaGVscGVyX3BsYW5lX2NoYW5nZWQoc3RhdGUs
-IG9sZF9wbGFuZV9zdGF0ZSwgbmV3X3BsYW5lX3N0YXRlLCBwbGFuZSk7CiAKLQkJZHJtX2F0b21p
-Y19oZWxwZXJfY2hlY2tfcGxhbmVfZGFtYWdlKHN0YXRlLCBuZXdfcGxhbmVfc3RhdGUpOworCQly
-ZXQgPSBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZV9kYW1hZ2Uoc3RhdGUsIG5ld19wbGFu
-ZV9zdGF0ZSk7CisJCWlmIChyZXQpCisJCQlyZXR1cm4gcmV0OwogCiAJCWlmICghZnVuY3MgfHwg
-IWZ1bmNzLT5hdG9taWNfY2hlY2spCiAJCQljb250aW51ZTsKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-Z3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9kYW1hZ2Vf
-aGVscGVyLmMKaW5kZXggM2E0MTI2ZGMyNTIwLi42OWE1NTdhYWE4Y2YgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9kcm1fZGFtYWdlX2hlbHBlci5jCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZGFtYWdlX2hlbHBlci5jCkBAIC0zMyw2ICszMyw3IEBACiAjaW5jbHVkZSA8ZHJtL2RybV9h
-dG9taWMuaD4KICNpbmNsdWRlIDxkcm0vZHJtX2RhbWFnZV9oZWxwZXIuaD4KICNpbmNsdWRlIDxk
-cm0vZHJtX2RldmljZS5oPgorI2luY2x1ZGUgPGRybS9kcm1fcHJpbnQuaD4KIAogLyoqCiAgKiBE
-T0M6IG92ZXJ2aWV3CkBAIC0xMDQsMzYgKzEwNSw3NiBAQCB2b2lkIGRybV9wbGFuZV9lbmFibGVf
-ZmJfZGFtYWdlX2NsaXBzKHN0cnVjdCBkcm1fcGxhbmUgKnBsYW5lKQogRVhQT1JUX1NZTUJPTChk
-cm1fcGxhbmVfZW5hYmxlX2ZiX2RhbWFnZV9jbGlwcyk7CiAKIC8qKgotICogZHJtX2F0b21pY19o
-ZWxwZXJfY2hlY2tfcGxhbmVfZGFtYWdlIC0gVmVyaWZ5IHBsYW5lIGRhbWFnZSBvbiBhdG9taWNf
-Y2hlY2suCisgKiBkcm1fYXRvbWljX2hlbHBlcl9jaGVja19wbGFuZV9kYW1hZ2UgLSBWZXJpZnkg
-cGxhbmUgZGFtYWdlIGNsaXBzIG9uCisgKiBhdG9taWNfY2hlY2suCiAgKiBAc3RhdGU6IFRoZSBk
-cml2ZXIgc3RhdGUgb2JqZWN0LgotICogQHBsYW5lX3N0YXRlOiBQbGFuZSBzdGF0ZSBmb3Igd2hp
-Y2ggdG8gdmVyaWZ5IGRhbWFnZS4KKyAqIEBwbGFuZV9zdGF0ZTogUGxhbmUgc3RhdGUgZm9yIHdo
-aWNoIHRvIHZlcmlmeSBkYW1hZ2UgY2xpcHMuCiAgKgotICogVGhpcyBoZWxwZXIgZnVuY3Rpb24g
-bWFrZXMgc3VyZSB0aGF0IGRhbWFnZSBmcm9tIHBsYW5lIHN0YXRlIGlzIGRpc2NhcmRlZAotICog
-Zm9yIGZ1bGwgbW9kZXNldC4gSWYgdGhlcmUgYXJlIG1vcmUgcmVhc29ucyBhIGRyaXZlciB3b3Vs
-ZCB3YW50IHRvIGRvIGEgZnVsbAotICogcGxhbmUgdXBkYXRlIHJhdGhlciB0aGFuIHByb2Nlc3Np
-bmcgaW5kaXZpZHVhbCBkYW1hZ2UgcmVnaW9ucywgdGhlbiB0aG9zZQotICogY2FzZXMgc2hvdWxk
-IGJlIHRha2VuIGNhcmUgb2YgaGVyZS4KKyAqIFRoaXMgaGVscGVyIGNoZWNrcyBpZiBhbGwgZGFt
-YWdlIGNsaXBzIGhhcyB2YWxpZCB2YWx1ZXMgYW5kIG1ha2VzIHN1cmUgdGhhdAorICogZGFtYWdl
-IGNsaXBzIGZyb20gcGxhbmUgc3RhdGUgaXMgZGlzY2FyZGVkIGZvciBmdWxsIG1vZGVzZXQuIElm
-IHRoZXJlIGFyZQorICogbW9yZSByZWFzb25zIGEgZHJpdmVyIHdvdWxkIHdhbnQgdG8gZG8gYSBm
-dWxsIHBsYW5lIHVwZGF0ZSByYXRoZXIgdGhhbgorICogcHJvY2Vzc2luZyBpbmRpdmlkdWFsIGRh
-bWFnZSByZWdpb25zLCB0aGVuIHRob3NlIGNhc2VzIHNob3VsZCBiZSB0YWtlbiBjYXJlCisgKiBv
-ZiBoZXJlLgogICoKICAqIE5vdGUgdGhhdCAmZHJtX3BsYW5lX3N0YXRlLmZiX2RhbWFnZV9jbGlw
-cyA9PSBOVUxMIGluIHBsYW5lIHN0YXRlIG1lYW5zIHRoYXQKICAqIGZ1bGwgcGxhbmUgdXBkYXRl
-IHNob3VsZCBoYXBwZW4uIEl0IGFsc28gZW5zdXJlIGhlbHBlciBpdGVyYXRvciB3aWxsIHJldHVy
-bgogICogJmRybV9wbGFuZV9zdGF0ZS5zcmMgYXMgZGFtYWdlLgorICoKKyAqIFJldHVybjogWmVy
-byBvbiBzdWNjZXNzLCBuZWdhdGl2ZSBlcnJubyBvbiBmYWlsdXJlLgogICovCi12b2lkIGRybV9h
-dG9taWNfaGVscGVyX2NoZWNrX3BsYW5lX2RhbWFnZShzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAq
-c3RhdGUsCi0JCQkJCSAgc3RydWN0IGRybV9wbGFuZV9zdGF0ZSAqcGxhbmVfc3RhdGUpCitpbnQg
-ZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVfZGFtYWdlKHN0cnVjdCBkcm1fYXRvbWljX3N0
-YXRlICpzdGF0ZSwKKwkJCQkJIHN0cnVjdCBkcm1fcGxhbmVfc3RhdGUgKnBsYW5lX3N0YXRlKQog
-eworCXN0cnVjdCBkcm1fbW9kZV9yZWN0ICpkYW1hZ2VfY2xpcHM7CiAJc3RydWN0IGRybV9jcnRj
-X3N0YXRlICpjcnRjX3N0YXRlOworCXVuc2lnbmVkIGludCBudW1fY2xpcHMsIHcsIGg7CisKKwlu
-dW1fY2xpcHMgPSBkcm1fcGxhbmVfZ2V0X2RhbWFnZV9jbGlwc19jb3VudChwbGFuZV9zdGF0ZSk7
-CisJaWYgKCFudW1fY2xpcHMpCisJCXJldHVybiAwOwogCiAJaWYgKHBsYW5lX3N0YXRlLT5jcnRj
-KSB7CiAJCWNydGNfc3RhdGUgPSBkcm1fYXRvbWljX2dldF9uZXdfY3J0Y19zdGF0ZShzdGF0ZSwK
-IAkJCQkJCQkgICBwbGFuZV9zdGF0ZS0+Y3J0Yyk7CiAKIAkJaWYgKFdBUk5fT04oIWNydGNfc3Rh
-dGUpKQotCQkJcmV0dXJuOworCQkJcmV0dXJuIDA7CiAKIAkJaWYgKGRybV9hdG9taWNfY3J0Y19u
-ZWVkc19tb2Rlc2V0KGNydGNfc3RhdGUpKSB7CiAJCQlkcm1fcHJvcGVydHlfYmxvYl9wdXQocGxh
-bmVfc3RhdGUtPmZiX2RhbWFnZV9jbGlwcyk7CiAJCQlwbGFuZV9zdGF0ZS0+ZmJfZGFtYWdlX2Ns
-aXBzID0gTlVMTDsKKwkJCXJldHVybiAwOworCQl9CisJfQorCisJdyA9IGRybV9yZWN0X3dpZHRo
-KCZwbGFuZV9zdGF0ZS0+c3JjKSA+PiAxNjsKKwloID0gZHJtX3JlY3RfaGVpZ2h0KCZwbGFuZV9z
-dGF0ZS0+c3JjKSA+PiAxNjsKKwlkYW1hZ2VfY2xpcHMgPSBkcm1fcGxhbmVfZ2V0X2RhbWFnZV9j
-bGlwcyhwbGFuZV9zdGF0ZSk7CisKKwlmb3IgKDsgbnVtX2NsaXBzOyBudW1fY2xpcHMtLSwgZGFt
-YWdlX2NsaXBzKyspIHsKKwkJaWYgKGRhbWFnZV9jbGlwcy0+eDEgPCAwIHx8IGRhbWFnZV9jbGlw
-cy0+eDIgPCAwIHx8CisJCSAgICBkYW1hZ2VfY2xpcHMtPnkxIDwgMCB8fCBkYW1hZ2VfY2xpcHMt
-PnkyIDwgMCkgeworCQkJZHJtX2RiZ19hdG9taWMoc3RhdGUtPmRldiwKKwkJCQkgICAgICAgIklu
-dmFsaWQgZGFtYWdlIGNsaXAsIG5lZ2F0aXZlIGNvb3JkaW5hdGVcbiIpOworCQkJcmV0dXJuIC1F
-SU5WQUw7CisJCX0KKworCQlpZiAoZGFtYWdlX2NsaXBzLT54MiA8IGRhbWFnZV9jbGlwcy0+eDEg
-fHwKKwkJICAgIGRhbWFnZV9jbGlwcy0+eTIgPCBkYW1hZ2VfY2xpcHMtPnkxKSB7CisJCQlkcm1f
-ZGJnX2F0b21pYyhzdGF0ZS0+ZGV2LAorCQkJCSAgICAgICAiSW52YWxpZCBkYW1hZ2UgY2xpcCwg
-bmVnYXRpdmUgd2lkdGggb3IgaGVpZ2h0XG4iKTsKKwkJCXJldHVybiAtRUlOVkFMOworCQl9CisK
-KwkJaWYgKChkYW1hZ2VfY2xpcHMtPngyIC0gZGFtYWdlX2NsaXBzLT54MSkgPiB3IHx8CisJCSAg
-ICAoZGFtYWdlX2NsaXBzLT55MiAtIGRhbWFnZV9jbGlwcy0+eTEpID4gaCkgeworCQkJZHJtX2Ri
-Z19hdG9taWMoc3RhdGUtPmRldiwKKwkJCQkgICAgICAgIkludmFsaWQgZGFtYWdlIGNsaXAsIHdp
-ZHRoIG9yIGhlaWdodCBsYXJnZXIgdGhhbiBwbGFuZVxuIik7CisJCQlyZXR1cm4gLUVJTlZBTDsK
-IAkJfQogCX0KKworCXJldHVybiAwOwogfQogRVhQT1JUX1NZTUJPTChkcm1fYXRvbWljX2hlbHBl
-cl9jaGVja19wbGFuZV9kYW1hZ2UpOwogCmRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fZGFt
-YWdlX2hlbHBlci5oIGIvaW5jbHVkZS9kcm0vZHJtX2RhbWFnZV9oZWxwZXIuaAppbmRleCA0MGMz
-NGE1YmYxNDkuLjVlMzQ0ZDFhMmIyMiAxMDA2NDQKLS0tIGEvaW5jbHVkZS9kcm0vZHJtX2RhbWFn
-ZV9oZWxwZXIuaAorKysgYi9pbmNsdWRlL2RybS9kcm1fZGFtYWdlX2hlbHBlci5oCkBAIC02NSw4
-ICs2NSw4IEBAIHN0cnVjdCBkcm1fYXRvbWljX2hlbHBlcl9kYW1hZ2VfaXRlciB7CiB9OwogCiB2
-b2lkIGRybV9wbGFuZV9lbmFibGVfZmJfZGFtYWdlX2NsaXBzKHN0cnVjdCBkcm1fcGxhbmUgKnBs
-YW5lKTsKLXZvaWQgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVfZGFtYWdlKHN0cnVjdCBk
-cm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKLQkJCQkJICBzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpw
-bGFuZV9zdGF0ZSk7CitpbnQgZHJtX2F0b21pY19oZWxwZXJfY2hlY2tfcGxhbmVfZGFtYWdlKHN0
-cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKKwkJCQkJIHN0cnVjdCBkcm1fcGxhbmVfc3Rh
-dGUgKnBsYW5lX3N0YXRlKTsKIGludCBkcm1fYXRvbWljX2hlbHBlcl9kaXJ0eWZiKHN0cnVjdCBk
-cm1fZnJhbWVidWZmZXIgKmZiLAogCQkJICAgICAgc3RydWN0IGRybV9maWxlICpmaWxlX3ByaXYs
-IHVuc2lnbmVkIGludCBmbGFncywKIAkJCSAgICAgIHVuc2lnbmVkIGludCBjb2xvciwgc3RydWN0
-IGRybV9jbGlwX3JlY3QgKmNsaXBzLAotLSAKMi4yOS4yCgpfX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZl
-bEBsaXN0cy5mcmVlZGVza3RvcC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFp
-bG1hbi9saXN0aW5mby9kcmktZGV2ZWwK
+commit cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support") added
+this devcnt field and call to component_del(). However, these both
+appear to be erroneous changes left over from an earlier version of the
+patch. In the version merged, nothing ever modifies devcnt, meaning
+component_del() runs unconditionally and in addition to the
+component_del() calls in dw_mipi_dsi_rockchip_host_detach(). The second
+call fails to delete anything and produces a warning in dmesg.
+
+If we look at the previous version of the patch[1], however, we see that
+it had logic to calculate devcnt and call component_add() in certain
+situations. This was removed in v6, and the fact that the deletion code
+was not appears to have been an oversight.
+
+[1] https://patchwork.kernel.org/project/dri-devel/patch/20180821140515.22246-8-heiko@sntech.de/
+
+Fixes: cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
+---
+Resending since I wasn't subscribed to dri-devel
+
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 542dcf7eddd6..ce044db8c97e 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -243,7 +243,6 @@ struct dw_mipi_dsi_rockchip {
+ 	struct dw_mipi_dsi *dmd;
+ 	const struct rockchip_dw_dsi_chip_data *cdata;
+ 	struct dw_mipi_dsi_plat_data pdata;
+-	int devcnt;
+ };
+ 
+ struct dphy_pll_parameter_map {
+@@ -1121,9 +1120,6 @@ static int dw_mipi_dsi_rockchip_remove(struct platform_device *pdev)
+ {
+ 	struct dw_mipi_dsi_rockchip *dsi = platform_get_drvdata(pdev);
+ 
+-	if (dsi->devcnt == 0)
+-		component_del(dsi->dev, &dw_mipi_dsi_rockchip_ops);
+-
+ 	dw_mipi_dsi_remove(dsi->dmd);
+ 
+ 	return 0;
+-- 
+2.29.2
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
