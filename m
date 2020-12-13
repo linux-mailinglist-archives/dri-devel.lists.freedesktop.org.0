@@ -1,55 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30E42D8AE0
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 02:44:47 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2A42D8BFE
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 08:10:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFCCA89E38;
-	Sun, 13 Dec 2020 01:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29E216E0B8;
+	Sun, 13 Dec 2020 07:10:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
- [IPv6:2607:f8b0:4864:20::842])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B69C89E35
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 01:44:42 +0000 (UTC)
-Received: by mail-qt1-x842.google.com with SMTP id v5so253258qtv.7
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 17:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fireburn-co-uk.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EbKGOofZuukmi96AVVTAKNtSltGDXcNJvJuia5Wjs/g=;
- b=RRTU2JwC7OL/3VA66lXSduHKkFEcU2yInfsSIrWZ5K2WZnT+65yTpxlSU9yrOpujC3
- YTNrTnLiL6tkTw6x9leLR4+EZWawQryPo1koQlLcdLY2/NfVJFGzgNoMdLc+3hlE6ner
- WyJ3NHLhB1gFQIYb3ZT1SZzaAjPRwhDeBR8nT99Vx2jlbG4HezBjhuGuVKydRfOy7QOK
- +RTnFNDbPfJmIi7jyxB1z+YJUUT9lsTF8UgpMb6FcPnIIYUzAay13tbaUQlYF4XO5QpN
- SWTk2fY4aIgBod+IqFj9JEfpNObL7Vbd3tT5Xye5vSHW2nVXCl+LKGhcDIJCZ5MzOrhh
- r57w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EbKGOofZuukmi96AVVTAKNtSltGDXcNJvJuia5Wjs/g=;
- b=fw803CsIah6ufUE4FpM1VIocaLkN4FXz6U/i4QZa4yLNHdqG1yFGZXB+sGngxw7BqS
- pj6deoAa0Qx91Y7U9ii1/5WV+mK4vFX07nZrAthJl7yWqRT6SOSPew1JwGPFC1AkoYTj
- bPXQ6gFVHb8Zs9vYy1gBbplRTOL+MVhlQzOpiGx5LyOf9mOYlbWDB3D8akINgSYbzj0J
- nbZq2HgRvIcQsovWo59z8NVvUyunHlQJpgfmf111yJx6b6VobznmUBsHvLwIS3y03fYs
- EOEw+XTXOf/f9Di9cxm8b5NSCtK2Jhy4DX8owjZT4sAg19uehfuSAd2oTRUeqatyujmO
- 4tMQ==
-X-Gm-Message-State: AOAM532XiyCwXHqxXI8gY4//+XwBoJXLS9VhrLTzfzFggIDyiv82DrTq
- 4+PT2hs532HLEzPLdhBHJIEgD6qoBN7N3yE6Q5BInw==
-X-Google-Smtp-Source: ABdhPJzA/dp83M4doXqsQZSGLNpX8tFyYokDuiGat1Ud3bZroNh5lElssKoElEqvyH4/SWfH4FZzGzV0x/mZzG27pyQ=
-X-Received: by 2002:ac8:5990:: with SMTP id e16mr25065400qte.52.1607823880982; 
- Sat, 12 Dec 2020 17:44:40 -0800 (PST)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2ED6E0AF;
+ Sun, 13 Dec 2020 07:10:39 +0000 (UTC)
+IronPort-SDR: 1/FcgHr37nrlgjzmH2NdMHuT56wRE9E3XyMj1paijumAclKZrvyoTgnH7Un7O9Cqfn3nWB+XUL
+ KwpUgU/zzNMQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9833"; a="236182519"
+X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="236182519"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2020 23:10:37 -0800
+IronPort-SDR: rog/kyOgyUU1z9fW0u0fRDU5d0e1efC9zn8z1Pz8O8CBvSddNFvytTdGZpUph351Q/53kaKokV
+ +/64jwe/7j9Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="379166714"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2020 23:10:36 -0800
+Received: from bgsmsx601.gar.corp.intel.com (10.109.78.80) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sat, 12 Dec 2020 23:10:35 -0800
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ BGSMSX601.gar.corp.intel.com (10.109.78.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 13 Dec 2020 12:40:33 +0530
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
+ Sun, 13 Dec 2020 12:40:33 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: RE: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs
+ RGB-YCbCr Conversion
+Thread-Topic: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs
+ RGB-YCbCr Conversion
+Thread-Index: AQHWzTfnjYeyk30AfUC/Fs7RQhTAHqn0oHHw
+Date: Sun, 13 Dec 2020 07:10:33 +0000
+Message-ID: <84fd6863339d4737a67decd2a9787a23@intel.com>
+References: <20201208075145.17389-1-ankit.k.nautiyal@intel.com>
+ <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
 MIME-Version: 1.0
-References: <20201109005432.861936-1-airlied@gmail.com>
- <20201109005432.861936-3-airlied@gmail.com>
-In-Reply-To: <20201109005432.861936-3-airlied@gmail.com>
-From: Mike Lothian <mike@fireburn.co.uk>
-Date: Sun, 13 Dec 2020 01:44:30 +0000
-Message-ID: <CAHbf0-FRoNoTJuVfs_Ywx0Edie6opa6AKLtxjOkejwPCeE-f1A@mail.gmail.com>
-Subject: Re: [PATCH 2/4] drm/amdgpu/ttm: use multihop
-To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,209 +70,173 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Cc: "airlied@linux.ie" <airlied@linux.ie>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
+ Swati2" <swati2.sharma@intel.com>, "Kulkarni,
+ Vandita" <vandita.kulkarni@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-This patch is causing issues for me on both a Raven system and a Tonga
-(PRIME) system
 
-https://gitlab.freedesktop.org/drm/amd/-/issues/1405
-
-It's only recently been merged into agd5f's tree - which is why I'm
-only just noticing it
-
-I realise this has now been submitted for rc1 - please can someone take a look
-
-Thanks
-
-Mike
-
-On Mon, 9 Nov 2020 at 00:54, Dave Airlie <airlied@gmail.com> wrote:
->
-> From: Dave Airlie <airlied@redhat.com>
->
-> This removes the code to move resources directly between
-> SYSTEM and VRAM in favour of using the core ttm mulithop code.
->
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> -----Original Message-----
+> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
+> Sent: Tuesday, December 8, 2020 1:22 PM
+> To: intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
+> airlied@linux.ie; jani.nikula@linux.intel.com; ville.syrjala@linux.intel.com;
+> Kulkarni, Vandita <vandita.kulkarni@intel.com>; Sharma, Swati2
+> <swati2.sharma@intel.com>
+> Subject: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs RGB-
+> YCbCr Conversion
+> 
+> DP Specification for DP2.0 to HDMI2.1 Pcon specifies support for conversion of
+> colorspace from RGB to YCbCr.
+> https://groups.vesa.org/wg/DP/document/previewpdf/15651
+> 
+> This patch adds the relavant registers and helper functions to get the capability
+> and set the color conversion bits for rgb->ycbcr conversion through PCON.
+> 
+> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 136 +++---------------------
->  1 file changed, 13 insertions(+), 123 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index ce0d82802333..e1458d575aa9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -512,119 +512,6 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
->         return r;
->  }
->
-> -/**
-> - * amdgpu_move_vram_ram - Copy VRAM buffer to RAM buffer
-> - *
-> - * Called by amdgpu_bo_move().
-> - */
-> -static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
-> -                               struct ttm_operation_ctx *ctx,
-> -                               struct ttm_resource *new_mem)
-> -{
-> -       struct ttm_resource *old_mem = &bo->mem;
-> -       struct ttm_resource tmp_mem;
-> -       struct ttm_place placements;
-> -       struct ttm_placement placement;
-> -       int r;
-> -
-> -       /* create space/pages for new_mem in GTT space */
-> -       tmp_mem = *new_mem;
-> -       tmp_mem.mm_node = NULL;
-> -       placement.num_placement = 1;
-> -       placement.placement = &placements;
-> -       placement.num_busy_placement = 1;
-> -       placement.busy_placement = &placements;
-> -       placements.fpfn = 0;
-> -       placements.lpfn = 0;
-> -       placements.mem_type = TTM_PL_TT;
-> -       placements.flags = 0;
-> -       r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
-> -       if (unlikely(r)) {
-> -               pr_err("Failed to find GTT space for blit from VRAM\n");
-> -               return r;
-> -       }
-> -
-> -       r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
-> -       if (unlikely(r))
-> -               goto out_cleanup;
-> -
-> -       /* Bind the memory to the GTT space */
-> -       r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
-> -       if (unlikely(r)) {
-> -               goto out_cleanup;
-> -       }
-> -
-> -       /* blit VRAM to GTT */
-> -       r = amdgpu_move_blit(bo, evict, &tmp_mem, old_mem);
-> -       if (unlikely(r)) {
-> -               goto out_cleanup;
-> -       }
-> -
-> -       r = ttm_bo_wait_ctx(bo, ctx);
-> -       if (unlikely(r))
-> -               goto out_cleanup;
-> -
-> -       amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
-> -       ttm_resource_free(bo, &bo->mem);
-> -       ttm_bo_assign_mem(bo, new_mem);
-> -out_cleanup:
-> -       ttm_resource_free(bo, &tmp_mem);
-> -       return r;
-> -}
-> -
-> -/**
-> - * amdgpu_move_ram_vram - Copy buffer from RAM to VRAM
-> - *
-> - * Called by amdgpu_bo_move().
-> - */
-> -static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
-> -                               struct ttm_operation_ctx *ctx,
-> -                               struct ttm_resource *new_mem)
-> -{
-> -       struct ttm_resource *old_mem = &bo->mem;
-> -       struct ttm_resource tmp_mem;
-> -       struct ttm_placement placement;
-> -       struct ttm_place placements;
-> -       int r;
-> -
-> -       /* make space in GTT for old_mem buffer */
-> -       tmp_mem = *new_mem;
-> -       tmp_mem.mm_node = NULL;
-> -       placement.num_placement = 1;
-> -       placement.placement = &placements;
-> -       placement.num_busy_placement = 1;
-> -       placement.busy_placement = &placements;
-> -       placements.fpfn = 0;
-> -       placements.lpfn = 0;
-> -       placements.mem_type = TTM_PL_TT;
-> -       placements.flags = 0;
-> -       r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
-> -       if (unlikely(r)) {
-> -               pr_err("Failed to find GTT space for blit to VRAM\n");
-> -               return r;
-> -       }
-> -
-> -       /* move/bind old memory to GTT space */
-> -       r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
-> -       if (unlikely(r))
-> -               return r;
-> -
-> -       r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
-> -       if (unlikely(r)) {
-> -               goto out_cleanup;
-> -       }
-> -
-> -       ttm_bo_assign_mem(bo, &tmp_mem);
-> -       /* copy to VRAM */
-> -       r = amdgpu_move_blit(bo, evict, new_mem, old_mem);
-> -       if (unlikely(r)) {
-> -               goto out_cleanup;
-> -       }
-> -out_cleanup:
-> -       ttm_resource_free(bo, &tmp_mem);
-> -       return r;
-> -}
-> -
->  /**
->   * amdgpu_mem_visible - Check that memory can be accessed by ttm_bo_move_memcpy
->   *
-> @@ -664,6 +551,17 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->         struct ttm_resource *old_mem = &bo->mem;
->         int r;
->
-> +       if ((old_mem->mem_type == TTM_PL_SYSTEM &&
-> +            new_mem->mem_type == TTM_PL_VRAM) ||
-> +           (old_mem->mem_type == TTM_PL_VRAM &&
-> +            new_mem->mem_type == TTM_PL_SYSTEM)) {
-> +               hop->fpfn = 0;
-> +               hop->lpfn = 0;
-> +               hop->mem_type = TTM_PL_TT;
-> +               hop->flags = 0;
-> +               return -EMULTIHOP;
-> +       }
+>  drivers/gpu/drm/drm_dp_helper.c | 59 +++++++++++++++++++++++++++++++++
+>  include/drm/drm_dp_helper.h     | 10 +++++-
+>  2 files changed, 68 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_dp_helper.c
+> b/drivers/gpu/drm/drm_dp_helper.c index d0626f57f99c..344662d5c295 100644
+> --- a/drivers/gpu/drm/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/drm_dp_helper.c
+> @@ -949,6 +949,35 @@ bool
+> drm_dp_downstream_444_to_420_conversion(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE]  }
+> EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
+> 
+> +/**
+> + * drm_dp_downstream_rgb_to_ycbcr_conversion() - determine downstream
+> facing port
+> + *                                               RGB->YCbCr conversion capability
+> + * @dpcd: DisplayPort configuration data
+> + * @port_cap: downstream facing port capabilities
+> + *
+> + * Returns: whether the downstream facing port can convert RGB->YCbCr
+> +*/ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
+> +dpcd[DP_RECEIVER_CAP_SIZE],
+> +					       const u8 port_cap[4])
+> +{
+> +	if (!drm_dp_is_branch(dpcd))
+> +		return false;
 > +
->         if (new_mem->mem_type == TTM_PL_TT) {
->                 r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, new_mem);
->                 if (r)
-> @@ -717,16 +615,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
->                 goto memcpy;
->         }
->
-> -       if (old_mem->mem_type == TTM_PL_VRAM &&
-> -           new_mem->mem_type == TTM_PL_SYSTEM) {
-> -               r = amdgpu_move_vram_ram(bo, evict, ctx, new_mem);
-> -       } else if (old_mem->mem_type == TTM_PL_SYSTEM &&
-> -                  new_mem->mem_type == TTM_PL_VRAM) {
-> -               r = amdgpu_move_ram_vram(bo, evict, ctx, new_mem);
-> -       } else {
-> -               r = amdgpu_move_blit(bo, evict,
-> -                                    new_mem, old_mem);
-> -       }
-> +       r = amdgpu_move_blit(bo, evict,
-> +                            new_mem, old_mem);
->
->         if (r) {
->  memcpy:
+> +	if (dpcd[DP_DPCD_REV] < 0x13)
+> +		return false;
+> +
+> +	switch (port_cap[0] & DP_DS_PORT_TYPE_MASK) {
+> +	case DP_DS_PORT_TYPE_HDMI:
+> +		if ((dpcd[DP_DOWNSTREAMPORT_PRESENT] &
+> DP_DETAILED_CAP_INFO_AVAILABLE) == 0)
+> +			return false;
+> +
+> +		return port_cap[3] & DP_DS_HDMI_BT601_RGB_YCBCR_CONV;
+
+I guess there are other conversions also possible, like BT709 and 2020. Update those
+as well here.
+
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_dp_downstream_rgb_to_ycbcr_conversion);
+> +
+>  /**
+>   * drm_dp_downstream_mode() - return a mode for downstream facing port
+>   * @dev: DRM device
+> @@ -3140,3 +3169,33 @@ int drm_dp_pcon_pps_override_param(struct
+> drm_dp_aux *aux, u8 pps_param[6])
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
+> +
+> +/*
+> + * drm_dp_pcon_convert_rgb_to_ycbcr() - Configure the PCon to convert
+> +RGB to Ycbcr
+> + * @aux: displayPort AUX channel
+> + * @color_spc: Color space conversion type
+> + *
+> + * Returns 0 on success, else returns negative error code.
+> + */
+> +int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8
+> +color_spc) {
+> +	int ret;
+> +	u8 buf;
+> +
+> +	if (color_spc != DP_CONVERSION_BT601_RGB_YCBCR_ENABLE ||
+> +	    color_spc != DP_CONVERSION_BT709_RGB_YCBCR_ENABLE ||
+> +	    color_spc != DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE)
+> +		return -EINVAL;
+
+Yeah this is wrong, fix it.
+
+> +
+> +	ret = drm_dp_dpcd_readb(aux, DP_PROTOCOL_CONVERTER_CONTROL_2,
+> &buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	buf |= color_spc;
+> +	ret = drm_dp_dpcd_writeb(aux,
+> DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
+> 347b4e1a55b4..1b3d54ed7a78 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -431,6 +431,9 @@ struct drm_device;
+>  # define DP_DS_HDMI_YCBCR420_PASS_THROUGH   (1 << 2)
+>  # define DP_DS_HDMI_YCBCR444_TO_422_CONV    (1 << 3)
+>  # define DP_DS_HDMI_YCBCR444_TO_420_CONV    (1 << 4)
+> +# define DP_DS_HDMI_BT601_RGB_YCBCR_CONV    (1 << 5)
+> +# define DP_DS_HDMI_BT709_RGB_YCBCR_CONV    (1 << 6)
+> +# define DP_DS_HDMI_BT2020_RGB_YCBCR_CONV   (1 << 7)
+
+I think it would be good to mention the location in spec (section or table),
+will make it easier to understand/review by directly going to relevant sections in spec.
+
+> 
+>  #define DP_MAX_DOWNSTREAM_PORTS		    0x10
+> 
+> @@ -1217,7 +1220,9 @@ struct drm_device;
+>  # define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
+>  # define DP_PCON_ENC_PPS_OVERRIDE_EN_PARAMS     1
+>  # define DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER     2
+> -
+> +# define DP_CONVERSION_BT601_RGB_YCBCR_ENABLE  (1 << 4) # define
+> +DP_CONVERSION_BT709_RGB_YCBCR_ENABLE  (1 << 5) # define
+> +DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE (1 << 6)
+> 
+>  /* PCON Downstream HDMI ERROR Status per Lane */
+>  #define DP_PCON_HDMI_ERROR_STATUS_LN0          0x3037
+> @@ -2178,5 +2183,8 @@ int drm_dp_pcon_dsc_bpp_incr(const u8
+> pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE
+>  int drm_dp_pcon_pps_default(struct drm_dp_aux *aux);  int
+> drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8 pps_buf[128]);  int
+> drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8 pps_param[6]);
+> +bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
+> dpcd[DP_RECEIVER_CAP_SIZE],
+> +					       const u8 port_cap[4]);
+> +int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8
+> +color_spc);
+> 
+>  #endif /* _DRM_DP_HELPER_H_ */
 > --
-> 2.27.0
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 2.17.1
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
