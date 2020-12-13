@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F2E2D940A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F542D93F6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E9CD6E0E6;
-	Mon, 14 Dec 2020 08:17:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CABCA6E0E7;
+	Mon, 14 Dec 2020 08:17:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com
- [IPv6:2a00:1450:4864:20::643])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C5D89EBB;
- Sun, 13 Dec 2020 11:24:10 +0000 (UTC)
-Received: by mail-ej1-x643.google.com with SMTP id d17so18599254ejy.9;
- Sun, 13 Dec 2020 03:24:10 -0800 (PST)
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com
+ [IPv6:2a00:1450:4864:20::644])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A087E6E0BE;
+ Sun, 13 Dec 2020 11:31:33 +0000 (UTC)
+Received: by mail-ej1-x644.google.com with SMTP id q22so877199eja.2;
+ Sun, 13 Dec 2020 03:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IW66fMc7VTs1PtxS+22ry7ms1/9mizOXCdVTfKV5hpo=;
- b=bQn+oB1JoyeFOF0nG/mlAluMS+9oNaqRxA17ZBM9Oe3AOE8/JG6goH/EB1c4QkEda4
- T1lTzWqlfslNfkdjp202c07yMWPNGbIBbpqQZ+AzfJmqs+Kgj+dLxGZ+wWZGA5mc0NdB
- BijFlgEZnvzEJb3MGQPxQa2/dgeJuYhDvxuwz6QAxAIoRHfwl22d5quEoZXOhJp6a+qE
- ETivnglunAiRLTbK3ng7taHfwUqrNTJL3Mef8dDWPaAGgN2enm8bDppfomcBBDdM6fOw
- jt/C5/9LwS2YQBDgMwgsJ0z4C3ZaAE2+qiQJ4375nfTotPFrKA5zulfu7Q8I9D/Awk7+
- 1yaQ==
+ bh=TjWjwM1ceLhbF1IYJl3oWPHfyZ88hbVMXIeiKOfmwOM=;
+ b=vPvvh2iQ0r9ZbJoXMCDIftnNA4fETiNQFFFHNFtTvfww3hKWzjIscr3aHAUNvJNsBo
+ Ivf0d9Mvb99JMJV9ehcDPkg7swsKEMl7+Y/hUHya1SLUv75EVwMKcVXA4wQhFYugquwI
+ v+qVZoFUku+Z4S07otlNJUYYZFwuVftQM+5pKMuoRFtJsCSR2/FO/OAFm9dwXHUCnb0g
+ nyevY+rBPRTACXhZ931IzFg7Awoce5sQ06vu7Ya86N9A/av13YTjQRgaXCWsCWUM/pP3
+ fYNitfafK87nYGzSZSaCif4DP/TVC+LUGSPprBAe6V1QO0w7yMUKiZ5MZM5KRMECQCql
+ 1tPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IW66fMc7VTs1PtxS+22ry7ms1/9mizOXCdVTfKV5hpo=;
- b=VI6IP7jIA2WMmFtaLs+M1xo66x5vorYmtKZy01oO38MLJt9I1yKfAcZEPKnlVYY8US
- Gah5ohuzQHXYPTg9wizi3O+XadDUFtfw1vBZcvbCXyU4mij0FgPMgNZe7VkVGbGCd4LX
- mItg3u+95nE/jSh5y9eItZz3vD8cjbtFEgB2MxbR5/6woXlqlbqlLe0U1W1QXdWkbEV5
- sjAIDuOt1XwkOqIMJ+cwEnwEri3brTaSdCICtOdXU9yVpKyL/pOQg58N9G4ekkqWeHT4
- eeO/vjoSaBEJHy8nmU+NoTTRro42S71n2HtigMgfE19O1SY7t8+ChUwQ9526bEIyzMuW
- Kl3g==
-X-Gm-Message-State: AOAM531P1VPLj1qjn/u3k7w8Yl83OEezUwhORsEtYnWAiBVwEbqxuwq7
- tq9SKjyzDgXysu4XPoTesc4=
-X-Google-Smtp-Source: ABdhPJynlxi2QKNBVsllMFmw4nuD/o/QttB0CiO5OzyzZ7oeGscU5QYtBXumKqp3eM2r1PK4665luQ==
-X-Received: by 2002:a17:906:a2d0:: with SMTP id
- by16mr18015254ejb.207.1607858649230; 
- Sun, 13 Dec 2020 03:24:09 -0800 (PST)
+ bh=TjWjwM1ceLhbF1IYJl3oWPHfyZ88hbVMXIeiKOfmwOM=;
+ b=dn9iTBYrLO0ZFZmiD3WkVldPdSWXD+nrzZlSUwezcaQpxjXpEyvwotJTxSjuIKZ4Fk
+ XjqoCDbSeCtzzuEHRLvYdvWHS3BEzMN76JCY/3wHmKvbkx1LJiE4YnAzvMezVNAr0y0j
+ N7lNKgqJ/ZDSemUju6BtW6ALLWBSpxhv2w0sInPskWOLJeVptzGOPNoZd7N20h2qX+cd
+ KVJlX5FS/rDImCyFM31QtuGKcAtCAUlNL45w9hBXsG1pLMKqmtTxu9hNzgpd4nw9nGe4
+ PvdqdCk+/7jGYQCmaBFHoCWVYL17YngUj6K3ar7xRZoNDMrrF64woOIDgozfhyz/V0Xm
+ Zldw==
+X-Gm-Message-State: AOAM532DWFTVINPIzfCuU2HxSu9vnZmRJbPiBLMkp7I/cwk7y17P8ops
+ +BsdWb/zccGs7qXxDHDcyfA=
+X-Google-Smtp-Source: ABdhPJyEr8C9Ogdb1mA5xMC+43Vgspphph1JMIeMGN8re3oj2ZBqnM3siDmfQyHHB65lUudEMrQXmA==
+X-Received: by 2002:a17:906:4bc5:: with SMTP id
+ x5mr1966810ejv.55.1607859092305; 
+ Sun, 13 Dec 2020 03:31:32 -0800 (PST)
 Received: from [192.168.0.107] ([77.127.34.194])
- by smtp.gmail.com with ESMTPSA id de12sm12533753edb.82.2020.12.13.03.24.02
+ by smtp.gmail.com with ESMTPSA id d6sm11014971ejy.114.2020.12.13.03.31.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Dec 2020 03:24:08 -0800 (PST)
-Subject: Re: [patch 20/30] net/mlx4: Replace irq_to_desc() abuse
+ Sun, 13 Dec 2020 03:31:31 -0800 (PST)
+Subject: Re: [patch 21/30] net/mlx4: Use effective interrupt affinity
 To: Thomas Gleixner <tglx@linutronix.de>, LKML <linux-kernel@vger.kernel.org>
 References: <20201210192536.118432146@linutronix.de>
- <20201210194044.580936243@linutronix.de>
+ <20201210194044.672935978@linutronix.de>
 From: Tariq Toukan <ttoukan.linux@gmail.com>
-Message-ID: <01e427f9-7238-d6a8-25ec-8585914d32df@gmail.com>
-Date: Sun, 13 Dec 2020 13:24:00 +0200
+Message-ID: <57c3f9d3-7262-9916-626b-c2234de763f0@gmail.com>
+Date: Sun, 13 Dec 2020 13:31:24 +0200
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201210194044.580936243@linutronix.de>
+In-Reply-To: <20201210194044.672935978@linutronix.de>
 Content-Language: en-US
 X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,15 +108,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 12/10/2020 9:25 PM, Thomas Gleixner wrote:
-> No driver has any business with the internals of an interrupt
-> descriptor. Storing a pointer to it just to use yet another helper at the
-> actual usage site to retrieve the affinity mask is creative at best. Just
-> because C does not allow encapsulation does not mean that the kernel has no
-> limits.
+> Using the interrupt affinity mask for checking locality is not really
+> working well on architectures which support effective affinity masks.
 > 
-> Retrieve a pointer to the affinity mask itself and use that. It's still
-> using an interface which is usually not for random drivers, but definitely
-> less hideous than the previous hack.
+> The affinity mask is either the system wide default or set by user space,
+> but the architecture can or even must reduce the mask to the effective set,
+> which means that checking the affinity mask itself does not really tell
+> about the actual target CPUs.
 > 
 > Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 > Cc: Tariq Toukan <tariqt@nvidia.com>
@@ -125,15 +123,25 @@ On 12/10/2020 9:25 PM, Thomas Gleixner wrote:
 > Cc: netdev@vger.kernel.org
 > Cc: linux-rdma@vger.kernel.org
 > ---
->   drivers/net/ethernet/mellanox/mlx4/en_cq.c   |    8 +++-----
->   drivers/net/ethernet/mellanox/mlx4/en_rx.c   |    6 +-----
->   drivers/net/ethernet/mellanox/mlx4/mlx4_en.h |    3 ++-
->   3 files changed, 6 insertions(+), 11 deletions(-)
+>   drivers/net/ethernet/mellanox/mlx4/en_cq.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> --- a/drivers/net/ethernet/mellanox/mlx4/en_cq.c
+> +++ b/drivers/net/ethernet/mellanox/mlx4/en_cq.c
+> @@ -117,7 +117,7 @@ int mlx4_en_activate_cq(struct mlx4_en_p
+>   			assigned_eq = true;
+>   		}
+>   		irq = mlx4_eq_get_irq(mdev->dev, cq->vector);
+> -		cq->aff_mask = irq_get_affinity_mask(irq);
+> +		cq->aff_mask = irq_get_effective_affinity_mask(irq);
+>   	} else {
+>   		/* For TX we use the same irq per
+>   		ring we assigned for the RX    */
 > 
 
 Reviewed-by: Tariq Toukan <tariqt@nvidia.com>
 
-Thanks for your patch.
+Thanks.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
