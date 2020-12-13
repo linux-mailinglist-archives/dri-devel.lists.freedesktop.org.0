@@ -2,56 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A872D90AA
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 21:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F214E2D90AC
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 21:58:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FBD89C53;
-	Sun, 13 Dec 2020 20:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECEAE89D7C;
+	Sun, 13 Dec 2020 20:58:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com
- [IPv6:2607:f8b0:4864:20::644])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C675C89C53
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 20:57:41 +0000 (UTC)
-Received: by mail-pl1-x644.google.com with SMTP id b8so1538097plx.0
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 12:57:41 -0800 (PST)
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com
+ [IPv6:2607:f8b0:4864:20::542])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3258489D7C
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 20:58:49 +0000 (UTC)
+Received: by mail-pg1-x542.google.com with SMTP id t3so11082955pgi.11
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 12:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+C7df/JhpDNOhvRuvCv8MZFRD0LpPBGsO24mPtK2tQI=;
- b=JAssQKBLdQSUpXX1qdsRhJs56Z8/S+6oAKAbc2F2UTnmO2I+q7uRH9uRh4kOH21iAu
- /RyV5qbTL3/JHc4nWUw6rUycYHRekYUz26ozaJTKdun9or8Jn3ihWkW4HWXRirHD/RAm
- Bbsa12k6y8jSu5N/XXdY4KEQINEtcq2Hhz6/gUW9AA0/zEtIA/9N6apB5ZLhh5oINcp6
- J0s66SmiAsEB+r3QWzQw4NCzqABm2x/uWZN0/zWdfYMK3vHC4pDYVuZX3n4W04xHqH4a
- jV3jwPifpbjlwWQrr0FHxTpwmXU1VBwzhzy21Hb9lY6JIQ6uNQ3lFXB7309yQV78olIj
- jPYQ==
+ bh=cV5HriR1prutNnEWeEh019pGge7+13bd6D41C4Ekd5Q=;
+ b=OZcGbT8kwpS858URPvYH/hk8Cv8phVufS9o2lm7CkxBz1Cih9awW3p14u5teMd5ufj
+ 4hBi9+X5AP+KCZcHYl7IHZbKgzslSi+SmW0mihweJAPNsXt7x73YuA3APOTaYAsiILRA
+ YbEx54eVOjX4NG/IVJHRJIOOLiEHKOMm1GBcyUm8rzoqV36ylmM31QvkOTsUKQX4xk6n
+ fCjtHurago7mgqJaiBdLfnLLaaWVgOR7tcVgi1EoFjRuYBuLS/eE1VHTdawmJ8Qbk8JN
+ Rx+FfRAnMvvBLLbblas3Lq1M57VO+G5xXZH4NPwUh1kDp2UcbqlwX8HxS5kkHTG7/ZaE
+ VLMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+C7df/JhpDNOhvRuvCv8MZFRD0LpPBGsO24mPtK2tQI=;
- b=so8doLKf9r+kVwRs/Qa/ePRaRCzSOMpMJIBkYpdI+TIX1GjoH5n9+weZEazAXKki9q
- ygGmqwHqNYsfHJ+p/6uTSkMHsEldDZfeFRjhbuBsSXHfNb99E7qKI1oWXKuJFwLq2WRp
- 9ZLVH3yN0RUROsiQNVPtiOOk5j5BXkJi6iznOjNXCkt7wiCXubwA9sq0jlzI7xa2+r+m
- HC32gpYkxsyeN1tYJvqIZXc1WVw2v8tiG1LyGhHxEGfCiKOrOAlihsm9TzKS2whniGpY
- xhXJ+TJgc0IKVBLDZz1+DrQymobscX8xU0J3Ji7k837dd+IdFAre/deVNq6Cf/7LffiX
- TDTA==
-X-Gm-Message-State: AOAM531NsQlIgiBbLxcXpXASOYt0LGkluWtBKTrKaI4yA6YynUMQyBLW
- t/OGCINF8jmYS31heDYsCsw=
-X-Google-Smtp-Source: ABdhPJxlNQ9tZOYsryjlZNee15dnRjN02bQG+zSlcPfd2KePaHUVhVXhFDGFhfxyCkac3knOhN+0fQ==
-X-Received: by 2002:a17:90b:3698:: with SMTP id
- mj24mr21767123pjb.149.1607893061404; 
- Sun, 13 Dec 2020 12:57:41 -0800 (PST)
+ bh=cV5HriR1prutNnEWeEh019pGge7+13bd6D41C4Ekd5Q=;
+ b=COvxLXrWWcn6KwEk/uo6eBS5XAP3nbNHR09EPjFAovHm1qUvQaJSa1dR0L3pZEp85C
+ /Ep9c3n1KA4X10+mzq1z6Nq+VbZZLrAsCW/4130qRsdedsJf5JijtpaR0DSGYDScAeFe
+ tkuRSlLIF9BBbIWtrCKmIbyjcqrY9lqX2lHCwCWIc8USksKmG+nERMTpfJc58fLU2PXB
+ be9WbBQON7OEcgXY8BmzfvGabPJx+KmqkVPJkTSmueQbfecOSTi2Qwd0fPd31bjVqwHj
+ qMbX7B3qbPMR/sMybXcIGmt4VXlmPXZJo7lunWjNZTRvpvJW0beUoficOfyDd5yQKTut
+ A1kA==
+X-Gm-Message-State: AOAM530B+5F2KX7HG93QDigh+l84AnY6N2aOoJKZThgu4IaRLjyDm8Gm
+ rqwNgXiZk71r2KKaNuGVP98=
+X-Google-Smtp-Source: ABdhPJwxpMaX8CI0pTjsWTuCS+cpxcLlMYJe0TIdCEEetVT2dRtmQIxjBynqrcKzAEU/dAgYUDUb/g==
+X-Received: by 2002:a63:e:: with SMTP id 14mr21327818pga.253.1607893128792;
+ Sun, 13 Dec 2020 12:58:48 -0800 (PST)
 Received: from glados.. ([2601:647:6000:3e5b::a27])
- by smtp.gmail.com with ESMTPSA id 37sm14173930pjz.41.2020.12.13.12.57.40
+ by smtp.gmail.com with ESMTPSA id n5sm17720029pgm.29.2020.12.13.12.58.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 12:57:40 -0800 (PST)
+ Sun, 13 Dec 2020 12:58:48 -0800 (PST)
 From: Thomas Hebb <tommyhebb@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: [RESEND PATCH] drm/rockchip: dsi: remove extra component_del() call
-Date: Sun, 13 Dec 2020 12:57:26 -0800
-Message-Id: <149477f8d5d5a76c624766cb8cbdfdb3fa416ee8.1607893019.git.tommyhebb@gmail.com>
+To: linux-kernel@vger.kernel.org, Nickey Yang <nickey.yang@rock-chips.com>,
+ Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: [RESEND PATCH] drm/rockchip: dsi: move all lane config except LCDC
+ mux to bind()
+Date: Sun, 13 Dec 2020 12:58:45 -0800
+Message-Id: <b2cba542d148f9f955469f6ff7ae0514b825b646.1607893119.git.tommyhebb@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,61 +66,122 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-rockchip@lists.infradead.org, David Airlie <airlied@linux.ie>,
- Sandy Huang <hjc@rock-chips.com>, stable@vger.kernel.org,
- Andrzej Hajda <a.hajda@samsung.com>, Thomas Hebb <tommyhebb@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org
+Cc: Archit Taneja <architt@codeaurora.org>, David Airlie <airlied@linux.ie>,
+ Brian Norris <briannorris@chromium.org>, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ Thomas Hebb <tommyhebb@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support") added
-this devcnt field and call to component_del(). However, these both
-appear to be erroneous changes left over from an earlier version of the
-patch. In the version merged, nothing ever modifies devcnt, meaning
-component_del() runs unconditionally and in addition to the
-component_del() calls in dw_mipi_dsi_rockchip_host_detach(). The second
-call fails to delete anything and produces a warning in dmesg.
+When we first enable the DSI encoder, we currently program some per-chip
+configuration that we look up in rk3399_chip_data based on the device
+tree compatible we match. This data configures various parameters of the
+MIPI lanes, including on RK3399 whether DSI1 is slaved to DSI0 in a
+dual-mode configuration. It also selects which LCDC (i.e. VOP) to scan
+out from.
 
-If we look at the previous version of the patch[1], however, we see that
-it had logic to calculate devcnt and call component_add() in certain
-situations. This was removed in v6, and the fact that the deletion code
-was not appears to have been an oversight.
+This causes a problem in RK3399 dual-mode configurations, though: panel
+prepare() callbacks run before the encoder gets enabled and expect to be
+able to write commands to the DSI bus, but the bus isn't fully
+functional until the lane and master/slave configuration have been
+programmed. As a result, dual-mode panels (and possibly others too) fail
+to turn on when the rockchipdrm driver is initially loaded.
 
-[1] https://patchwork.kernel.org/project/dri-devel/patch/20180821140515.22246-8-heiko@sntech.de/
+Because the LCDC mux is the only thing we don't know until enable time
+(and is the only thing that can ever change), we can actually move most
+of the initialization to bind() and get it out of the way early. That's
+what this change does. (Rockchip's 4.4 BSP kernel does it in mode_set(),
+which also avoids the issue, but bind() seems like the more correct
+place to me.)
 
-Fixes: cf6d100dd238 ("drm/rockchip: dsi: add dual mipi support")
-Cc: stable@vger.kernel.org
+Tested on a Google Scarlet board (Acer Chromebook Tab 10), which has a
+Kingdisplay KD097D04 dual-mode panel. Prior to this change, the panel's
+backlight would turn on but no image would appear when initially loading
+rockchipdrm. If I kept rockchipdrm loaded and reloaded the panel driver,
+it would come on. With this change, the panel successfully turns on
+during initial rockchipdrm load as expected.
+
+Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi bridge driver")
 Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
 ---
 Resending since I wasn't subscribed to dri-devel
 
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 4 ----
- 1 file changed, 4 deletions(-)
+ .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 36 ++++++++++++++-----
+ 1 file changed, 28 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 542dcf7eddd6..ce044db8c97e 100644
+index ce044db8c97e..d0c9610ad220 100644
 --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
 +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -243,7 +243,6 @@ struct dw_mipi_dsi_rockchip {
- 	struct dw_mipi_dsi *dmd;
- 	const struct rockchip_dw_dsi_chip_data *cdata;
- 	struct dw_mipi_dsi_plat_data pdata;
--	int devcnt;
+@@ -691,13 +691,8 @@ static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_rockchip_phy_ops = {
+ 	.get_timing = dw_mipi_dsi_phy_get_timing,
  };
  
- struct dphy_pll_parameter_map {
-@@ -1121,9 +1120,6 @@ static int dw_mipi_dsi_rockchip_remove(struct platform_device *pdev)
+-static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi,
+-					int mux)
++static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi)
  {
- 	struct dw_mipi_dsi_rockchip *dsi = platform_get_drvdata(pdev);
- 
--	if (dsi->devcnt == 0)
--		component_del(dsi->dev, &dw_mipi_dsi_rockchip_ops);
+-	if (dsi->cdata->lcdsel_grf_reg)
+-		regmap_write(dsi->grf_regmap, dsi->cdata->lcdsel_grf_reg,
+-			mux ? dsi->cdata->lcdsel_lit : dsi->cdata->lcdsel_big);
 -
- 	dw_mipi_dsi_remove(dsi->dmd);
+ 	if (dsi->cdata->lanecfg1_grf_reg)
+ 		regmap_write(dsi->grf_regmap, dsi->cdata->lanecfg1_grf_reg,
+ 					      dsi->cdata->lanecfg1);
+@@ -711,6 +706,13 @@ static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi,
+ 					      dsi->cdata->enable);
+ }
  
- 	return 0;
++static void dw_mipi_dsi_rockchip_set_lcdsel(struct dw_mipi_dsi_rockchip *dsi,
++					    int mux)
++{
++	regmap_write(dsi->grf_regmap, dsi->cdata->lcdsel_grf_reg,
++		mux ? dsi->cdata->lcdsel_lit : dsi->cdata->lcdsel_big);
++}
++
+ static int
+ dw_mipi_dsi_encoder_atomic_check(struct drm_encoder *encoder,
+ 				 struct drm_crtc_state *crtc_state,
+@@ -766,9 +768,9 @@ static void dw_mipi_dsi_encoder_enable(struct drm_encoder *encoder)
+ 		return;
+ 	}
+ 
+-	dw_mipi_dsi_rockchip_config(dsi, mux);
++	dw_mipi_dsi_rockchip_set_lcdsel(dsi, mux);
+ 	if (dsi->slave)
+-		dw_mipi_dsi_rockchip_config(dsi->slave, mux);
++		dw_mipi_dsi_rockchip_set_lcdsel(dsi->slave, mux);
+ 
+ 	clk_disable_unprepare(dsi->grf_clk);
+ }
+@@ -922,6 +924,24 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
+ 		return ret;
+ 	}
+ 
++	/*
++	 * With the GRF clock running, write lane and dual-mode configurations
++	 * that won't change immediately. If we waited until enable() to do
++	 * this, things like panel preparation would not be able to send
++	 * commands over DSI.
++	 */
++	ret = clk_prepare_enable(dsi->grf_clk);
++	if (ret) {
++		DRM_DEV_ERROR(dsi->dev, "Failed to enable grf_clk: %d\n", ret);
++		return ret;
++	}
++
++	dw_mipi_dsi_rockchip_config(dsi);
++	if (dsi->slave)
++		dw_mipi_dsi_rockchip_config(dsi->slave);
++
++	clk_disable_unprepare(dsi->grf_clk);
++
+ 	ret = rockchip_dsi_drm_create_encoder(dsi, drm_dev);
+ 	if (ret) {
+ 		DRM_DEV_ERROR(dev, "Failed to create drm encoder\n");
 -- 
 2.29.2
 
