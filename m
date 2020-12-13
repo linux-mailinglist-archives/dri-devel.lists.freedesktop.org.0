@@ -1,43 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B382D8AC7
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 02:15:24 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F30E42D8AE0
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 02:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7497C89ACC;
-	Sun, 13 Dec 2020 01:15:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFCCA89E38;
+	Sun, 13 Dec 2020 01:44:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9F8989AA6
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 01:15:18 +0000 (UTC)
-X-Gm-Message-State: AOAM533PPNBAkIHh9T1eY11oexhBllrDC6BlYnEvuiB24MGcuMAOKiKK
- e9JWZnEygyPdmmqGxAqi17B3X451+Azlo1rmkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607822118;
- bh=DuuvSYAgKQaNskB+hKM10xoonyLBpgBKY3lVUg/jzKM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=mGfFiGHPZ+0K8oG5EitT1rP0Ln7RvsH4jvAjTD/RVWb71OgL+ZTr8BAXiI21Spjtg
- duuylj1rz9UqQjR3OJ+PXojw0hlVngPLz7cKAwS+YQGKYol99bj1NnYaWyF6bRdPqh
- oMJFtI1YvBDFzij0buLUhDhZQMQPcLu821pavPB//cyYkhoY25h0sYconPs7MadNiv
- TqySZQHNs2nxx3QOzCBpq/G9G2Lp2Dc5z8p2lgEYYge3m/bv6wyc6gkmKtZoa1wNtK
- FEuO4I+UZDyJr/vU9Xk539Ta9f7YLNrRYFVYZwiFCDvZzqFaNMuJa5mxIbETRGhxX3
- y9smBV9qObshA==
-X-Google-Smtp-Source: ABdhPJxwatlJb+8VRQZCMPRl8VIOjuxvSaZJuqeloLzJDD7QgR6XPq6bmpgZNV+0chJV9VkJ7Cdgd5MYWpjqub7z4kY=
-X-Received: by 2002:a17:907:414c:: with SMTP id
- od20mr16781511ejb.75.1607822116713; 
- Sat, 12 Dec 2020 17:15:16 -0800 (PST)
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com
+ [IPv6:2607:f8b0:4864:20::842])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B69C89E35
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 01:44:42 +0000 (UTC)
+Received: by mail-qt1-x842.google.com with SMTP id v5so253258qtv.7
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Dec 2020 17:44:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fireburn-co-uk.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EbKGOofZuukmi96AVVTAKNtSltGDXcNJvJuia5Wjs/g=;
+ b=RRTU2JwC7OL/3VA66lXSduHKkFEcU2yInfsSIrWZ5K2WZnT+65yTpxlSU9yrOpujC3
+ YTNrTnLiL6tkTw6x9leLR4+EZWawQryPo1koQlLcdLY2/NfVJFGzgNoMdLc+3hlE6ner
+ WyJ3NHLhB1gFQIYb3ZT1SZzaAjPRwhDeBR8nT99Vx2jlbG4HezBjhuGuVKydRfOy7QOK
+ +RTnFNDbPfJmIi7jyxB1z+YJUUT9lsTF8UgpMb6FcPnIIYUzAay13tbaUQlYF4XO5QpN
+ SWTk2fY4aIgBod+IqFj9JEfpNObL7Vbd3tT5Xye5vSHW2nVXCl+LKGhcDIJCZ5MzOrhh
+ r57w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EbKGOofZuukmi96AVVTAKNtSltGDXcNJvJuia5Wjs/g=;
+ b=fw803CsIah6ufUE4FpM1VIocaLkN4FXz6U/i4QZa4yLNHdqG1yFGZXB+sGngxw7BqS
+ pj6deoAa0Qx91Y7U9ii1/5WV+mK4vFX07nZrAthJl7yWqRT6SOSPew1JwGPFC1AkoYTj
+ bPXQ6gFVHb8Zs9vYy1gBbplRTOL+MVhlQzOpiGx5LyOf9mOYlbWDB3D8akINgSYbzj0J
+ nbZq2HgRvIcQsovWo59z8NVvUyunHlQJpgfmf111yJx6b6VobznmUBsHvLwIS3y03fYs
+ EOEw+XTXOf/f9Di9cxm8b5NSCtK2Jhy4DX8owjZT4sAg19uehfuSAd2oTRUeqatyujmO
+ 4tMQ==
+X-Gm-Message-State: AOAM532XiyCwXHqxXI8gY4//+XwBoJXLS9VhrLTzfzFggIDyiv82DrTq
+ 4+PT2hs532HLEzPLdhBHJIEgD6qoBN7N3yE6Q5BInw==
+X-Google-Smtp-Source: ABdhPJzA/dp83M4doXqsQZSGLNpX8tFyYokDuiGat1Ud3bZroNh5lElssKoElEqvyH4/SWfH4FZzGzV0x/mZzG27pyQ=
+X-Received: by 2002:ac8:5990:: with SMTP id e16mr25065400qte.52.1607823880982; 
+ Sat, 12 Dec 2020 17:44:40 -0800 (PST)
 MIME-Version: 1.0
-References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
- <1607746317-4696-5-git-send-email-yongqiang.niu@mediatek.com>
-In-Reply-To: <1607746317-4696-5-git-send-email-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sun, 13 Dec 2020 09:15:05 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8bsmRtt9Kpd1__iEuPJ3Ox7jbn_yXnUeUoj041AhjSkQ@mail.gmail.com>
-Message-ID: <CAAOTY_8bsmRtt9Kpd1__iEuPJ3Ox7jbn_yXnUeUoj041AhjSkQ@mail.gmail.com>
-Subject: Re: [PATCH v2, 04/17] drm/mediatek: add component OVL_2L2
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+References: <20201109005432.861936-1-airlied@gmail.com>
+ <20201109005432.861936-3-airlied@gmail.com>
+In-Reply-To: <20201109005432.861936-3-airlied@gmail.com>
+From: Mike Lothian <mike@fireburn.co.uk>
+Date: Sun, 13 Dec 2020 01:44:30 +0000
+Message-ID: <CAHbf0-FRoNoTJuVfs_Ywx0Edie6opa6AKLtxjOkejwPCeE-f1A@mail.gmail.com>
+Subject: Re: [PATCH 2/4] drm/amdgpu/ttm: use multihop
+To: Dave Airlie <airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,50 +62,210 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
- David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksIFlvbmdxaWFuZzoKCllvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29t
-PiDmlrwgMjAyMOW5tDEy5pyIMTLml6Ug6YCx5YWtIOS4i+WNiDEyOjEy5a+r6YGT77yaCj4KPiBU
-aGlzIHBhdGNoIGFkZCBjb21wb25lbnQgT1ZMXzJMMgoKQnJlYWsgZHJtIHBhcnQgYW5kIHNvYyBw
-YXJ0IGludG8gZGlmZmVyZW50IHBhdGNoZXMuCgpSZWdhcmRzLApDaHVuLUt1YW5nLgoKPgo+IFNp
-Z25lZC1vZmYtYnk6IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPgo+
-IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jIHwgMSAr
-Cj4gIGluY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oICAgICAgfCAxICsKPiAg
-MiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKPgo+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5jIGIvZHJpdmVycy9ncHUvZHJtL21l
-ZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYwo+IGluZGV4IDhlYmE0NGIuLjg5Mzg1NTQgMTAwNjQ0
-Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuYwo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMKPiBAQCAtNDAz
-LDYgKzQwMyw3IEBAIHN0cnVjdCBtdGtfZGRwX2NvbXBfbWF0Y2ggewo+ICAgICAgICAgW0REUF9D
-T01QT05FTlRfT1ZMMV0gICAgPSB7IE1US19ESVNQX09WTCwgICAgICAgMSwgTlVMTCB9LAo+ICAg
-ICAgICAgW0REUF9DT01QT05FTlRfT1ZMXzJMMF0gPSB7IE1US19ESVNQX09WTF8yTCwgICAgMCwg
-TlVMTCB9LAo+ICAgICAgICAgW0REUF9DT01QT05FTlRfT1ZMXzJMMV0gPSB7IE1US19ESVNQX09W
-TF8yTCwgICAgMSwgTlVMTCB9LAo+ICsgICAgICAgW0REUF9DT01QT05FTlRfT1ZMXzJMMl0gPSB7
-IE1US19ESVNQX09WTF8yTCwgICAgMiwgTlVMTCB9LAo+ICAgICAgICAgW0REUF9DT01QT05FTlRf
-UFdNMF0gICAgPSB7IE1US19ESVNQX1BXTSwgICAgICAgMCwgTlVMTCB9LAo+ICAgICAgICAgW0RE
-UF9DT01QT05FTlRfUFdNMV0gICAgPSB7IE1US19ESVNQX1BXTSwgICAgICAgMSwgTlVMTCB9LAo+
-ICAgICAgICAgW0REUF9DT01QT05FTlRfUFdNMl0gICAgPSB7IE1US19ESVNQX1BXTSwgICAgICAg
-MiwgTlVMTCB9LAo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRlay9tdGst
-bW1zeXMuaCBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oCj4gaW5kZXgg
-NGI2YzUxNC4uNDI0NzZjMiAxMDA2NDQKPiAtLS0gYS9pbmNsdWRlL2xpbnV4L3NvYy9tZWRpYXRl
-ay9tdGstbW1zeXMuaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5
-cy5oCj4gQEAgLTI5LDYgKzI5LDcgQEAgZW51bSBtdGtfZGRwX2NvbXBfaWQgewo+ICAgICAgICAg
-RERQX0NPTVBPTkVOVF9PVkwwLAo+ICAgICAgICAgRERQX0NPTVBPTkVOVF9PVkxfMkwwLAo+ICAg
-ICAgICAgRERQX0NPTVBPTkVOVF9PVkxfMkwxLAo+ICsgICAgICAgRERQX0NPTVBPTkVOVF9PVkxf
-MkwyLAo+ICAgICAgICAgRERQX0NPTVBPTkVOVF9PVkwxLAo+ICAgICAgICAgRERQX0NPTVBPTkVO
-VF9QV00wLAo+ICAgICAgICAgRERQX0NPTVBPTkVOVF9QV00xLAo+IC0tCj4gMS44LjEuMS5kaXJ0
-eQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gTGlu
-dXgtbWVkaWF0ZWsgbWFpbGluZyBsaXN0Cj4gTGludXgtbWVkaWF0ZWtAbGlzdHMuaW5mcmFkZWFk
-Lm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-bWVkaWF0ZWsKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-ZHJpLWRldmVsIG1haWxpbmcgbGlzdApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0
-dHBzOi8vbGlzdHMuZnJlZWRlc2t0b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi
+
+This patch is causing issues for me on both a Raven system and a Tonga
+(PRIME) system
+
+https://gitlab.freedesktop.org/drm/amd/-/issues/1405
+
+It's only recently been merged into agd5f's tree - which is why I'm
+only just noticing it
+
+I realise this has now been submitted for rc1 - please can someone take a look
+
+Thanks
+
+Mike
+
+On Mon, 9 Nov 2020 at 00:54, Dave Airlie <airlied@gmail.com> wrote:
+>
+> From: Dave Airlie <airlied@redhat.com>
+>
+> This removes the code to move resources directly between
+> SYSTEM and VRAM in favour of using the core ttm mulithop code.
+>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 136 +++---------------------
+>  1 file changed, 13 insertions(+), 123 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index ce0d82802333..e1458d575aa9 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -512,119 +512,6 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>         return r;
+>  }
+>
+> -/**
+> - * amdgpu_move_vram_ram - Copy VRAM buffer to RAM buffer
+> - *
+> - * Called by amdgpu_bo_move().
+> - */
+> -static int amdgpu_move_vram_ram(struct ttm_buffer_object *bo, bool evict,
+> -                               struct ttm_operation_ctx *ctx,
+> -                               struct ttm_resource *new_mem)
+> -{
+> -       struct ttm_resource *old_mem = &bo->mem;
+> -       struct ttm_resource tmp_mem;
+> -       struct ttm_place placements;
+> -       struct ttm_placement placement;
+> -       int r;
+> -
+> -       /* create space/pages for new_mem in GTT space */
+> -       tmp_mem = *new_mem;
+> -       tmp_mem.mm_node = NULL;
+> -       placement.num_placement = 1;
+> -       placement.placement = &placements;
+> -       placement.num_busy_placement = 1;
+> -       placement.busy_placement = &placements;
+> -       placements.fpfn = 0;
+> -       placements.lpfn = 0;
+> -       placements.mem_type = TTM_PL_TT;
+> -       placements.flags = 0;
+> -       r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -       if (unlikely(r)) {
+> -               pr_err("Failed to find GTT space for blit from VRAM\n");
+> -               return r;
+> -       }
+> -
+> -       r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -       if (unlikely(r))
+> -               goto out_cleanup;
+> -
+> -       /* Bind the memory to the GTT space */
+> -       r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -       if (unlikely(r)) {
+> -               goto out_cleanup;
+> -       }
+> -
+> -       /* blit VRAM to GTT */
+> -       r = amdgpu_move_blit(bo, evict, &tmp_mem, old_mem);
+> -       if (unlikely(r)) {
+> -               goto out_cleanup;
+> -       }
+> -
+> -       r = ttm_bo_wait_ctx(bo, ctx);
+> -       if (unlikely(r))
+> -               goto out_cleanup;
+> -
+> -       amdgpu_ttm_backend_unbind(bo->bdev, bo->ttm);
+> -       ttm_resource_free(bo, &bo->mem);
+> -       ttm_bo_assign_mem(bo, new_mem);
+> -out_cleanup:
+> -       ttm_resource_free(bo, &tmp_mem);
+> -       return r;
+> -}
+> -
+> -/**
+> - * amdgpu_move_ram_vram - Copy buffer from RAM to VRAM
+> - *
+> - * Called by amdgpu_bo_move().
+> - */
+> -static int amdgpu_move_ram_vram(struct ttm_buffer_object *bo, bool evict,
+> -                               struct ttm_operation_ctx *ctx,
+> -                               struct ttm_resource *new_mem)
+> -{
+> -       struct ttm_resource *old_mem = &bo->mem;
+> -       struct ttm_resource tmp_mem;
+> -       struct ttm_placement placement;
+> -       struct ttm_place placements;
+> -       int r;
+> -
+> -       /* make space in GTT for old_mem buffer */
+> -       tmp_mem = *new_mem;
+> -       tmp_mem.mm_node = NULL;
+> -       placement.num_placement = 1;
+> -       placement.placement = &placements;
+> -       placement.num_busy_placement = 1;
+> -       placement.busy_placement = &placements;
+> -       placements.fpfn = 0;
+> -       placements.lpfn = 0;
+> -       placements.mem_type = TTM_PL_TT;
+> -       placements.flags = 0;
+> -       r = ttm_bo_mem_space(bo, &placement, &tmp_mem, ctx);
+> -       if (unlikely(r)) {
+> -               pr_err("Failed to find GTT space for blit to VRAM\n");
+> -               return r;
+> -       }
+> -
+> -       /* move/bind old memory to GTT space */
+> -       r = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
+> -       if (unlikely(r))
+> -               return r;
+> -
+> -       r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, &tmp_mem);
+> -       if (unlikely(r)) {
+> -               goto out_cleanup;
+> -       }
+> -
+> -       ttm_bo_assign_mem(bo, &tmp_mem);
+> -       /* copy to VRAM */
+> -       r = amdgpu_move_blit(bo, evict, new_mem, old_mem);
+> -       if (unlikely(r)) {
+> -               goto out_cleanup;
+> -       }
+> -out_cleanup:
+> -       ttm_resource_free(bo, &tmp_mem);
+> -       return r;
+> -}
+> -
+>  /**
+>   * amdgpu_mem_visible - Check that memory can be accessed by ttm_bo_move_memcpy
+>   *
+> @@ -664,6 +551,17 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+>         struct ttm_resource *old_mem = &bo->mem;
+>         int r;
+>
+> +       if ((old_mem->mem_type == TTM_PL_SYSTEM &&
+> +            new_mem->mem_type == TTM_PL_VRAM) ||
+> +           (old_mem->mem_type == TTM_PL_VRAM &&
+> +            new_mem->mem_type == TTM_PL_SYSTEM)) {
+> +               hop->fpfn = 0;
+> +               hop->lpfn = 0;
+> +               hop->mem_type = TTM_PL_TT;
+> +               hop->flags = 0;
+> +               return -EMULTIHOP;
+> +       }
+> +
+>         if (new_mem->mem_type == TTM_PL_TT) {
+>                 r = amdgpu_ttm_backend_bind(bo->bdev, bo->ttm, new_mem);
+>                 if (r)
+> @@ -717,16 +615,8 @@ static int amdgpu_bo_move(struct ttm_buffer_object *bo, bool evict,
+>                 goto memcpy;
+>         }
+>
+> -       if (old_mem->mem_type == TTM_PL_VRAM &&
+> -           new_mem->mem_type == TTM_PL_SYSTEM) {
+> -               r = amdgpu_move_vram_ram(bo, evict, ctx, new_mem);
+> -       } else if (old_mem->mem_type == TTM_PL_SYSTEM &&
+> -                  new_mem->mem_type == TTM_PL_VRAM) {
+> -               r = amdgpu_move_ram_vram(bo, evict, ctx, new_mem);
+> -       } else {
+> -               r = amdgpu_move_blit(bo, evict,
+> -                                    new_mem, old_mem);
+> -       }
+> +       r = amdgpu_move_blit(bo, evict,
+> +                            new_mem, old_mem);
+>
+>         if (r) {
+>  memcpy:
+> --
+> 2.27.0
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
