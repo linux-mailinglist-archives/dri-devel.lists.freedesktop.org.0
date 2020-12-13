@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5F92D8C05
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 08:23:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A85E82D8C08
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Dec 2020 08:29:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EEEA6E0BA;
-	Sun, 13 Dec 2020 07:23:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FC3A6E0AF;
+	Sun, 13 Dec 2020 07:29:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 724716E0BA;
- Sun, 13 Dec 2020 07:23:30 +0000 (UTC)
-IronPort-SDR: H/VZ40ws3wURB29hMTha+2BvzG+OGt2r1xnwuEGr/IWqgxm9kxJslbgrK+Ldos2pnRu9h5jbPo
- Pd8L8jIChk3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9833"; a="153825889"
-X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="153825889"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Dec 2020 23:23:30 -0800
-IronPort-SDR: dv/eC4IhYkNDNIPmfeE7VPxWMiKsxHVPL2bqqZAsbfEyiTrAoMpHe/O4W/xMKL5zNJqDX9MRoG
- fS74vuQgwunw==
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 596296E0AF;
+ Sun, 13 Dec 2020 07:29:27 +0000 (UTC)
+IronPort-SDR: D92JLDl6DKDmnxiNzchP7YDJqwJDwfuS4bfaRTlHjd625W6/iu08PjYj02QdoDfKmhqQ8r4ozy
+ 0nHyFpYvwt1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9833"; a="172025194"
+X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="172025194"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Dec 2020 23:29:26 -0800
+IronPort-SDR: f4KCmZj01QdkQP0lnWwiHzj0MqCWkx8O/Nz1pVYIimOyNPliwqOnUpDYUalXqLBIlb2ANu5NxP
+ IKFxQvxY+y2Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="325771438"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga007.fm.intel.com with ESMTP; 12 Dec 2020 23:23:29 -0800
-Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.78,415,1599548400"; d="scan'208";a="377356944"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2020 23:29:26 -0800
+Received: from bgsmsx605.gar.corp.intel.com (10.67.234.7) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sat, 12 Dec 2020 23:23:28 -0800
+ 15.1.1713.5; Sat, 12 Dec 2020 23:29:25 -0800
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
+ BGSMSX605.gar.corp.intel.com (10.67.234.7) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Sun, 13 Dec 2020 12:53:26 +0530
+ 15.1.1713.5; Sun, 13 Dec 2020 12:59:23 +0530
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.1713.004;
- Sun, 13 Dec 2020 12:53:26 +0530
+ Sun, 13 Dec 2020 12:59:23 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>,
  "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: RE: [PATCH v4 15/16] drm/i915: Let PCON convert from RGB to YUV if it
- can
-Thread-Topic: [PATCH v4 15/16] drm/i915: Let PCON convert from RGB to YUV if
- it can
-Thread-Index: AQHWzTf4cOhIsbBVEEKUS/53zvTfJKn0phCg
-Date: Sun, 13 Dec 2020 07:23:26 +0000
-Message-ID: <3e75205fdf02455c98cad1fa81d60d71@intel.com>
+Subject: RE: [PATCH v4 16/16] drm/i915: Enable PCON configuration for Color
+ Conversion for TGL
+Thread-Topic: [PATCH v4 16/16] drm/i915: Enable PCON configuration for Color
+ Conversion for TGL
+Thread-Index: AQHWzTf9+2zfgg6nuUesSL0grB37D6n0p62Q
+Date: Sun, 13 Dec 2020 07:29:23 +0000
+Message-ID: <9bda98244dea4f578a372361d52c0a98@intel.com>
 References: <20201208075145.17389-1-ankit.k.nautiyal@intel.com>
- <20201208075145.17389-16-ankit.k.nautiyal@intel.com>
-In-Reply-To: <20201208075145.17389-16-ankit.k.nautiyal@intel.com>
+ <20201208075145.17389-17-ankit.k.nautiyal@intel.com>
+In-Reply-To: <20201208075145.17389-17-ankit.k.nautiyal@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -89,134 +89,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 > airlied@linux.ie; jani.nikula@linux.intel.com; ville.syrjala@linux.intel.com;
 > Kulkarni, Vandita <vandita.kulkarni@intel.com>; Sharma, Swati2
 > <swati2.sharma@intel.com>
-> Subject: [PATCH v4 15/16] drm/i915: Let PCON convert from RGB to YUV if it can
+> Subject: [PATCH v4 16/16] drm/i915: Enable PCON configuration for Color
+> Conversion for TGL
 
-Make it drm/i915/display:
-
-> If PCON has capability to convert RGB->YUV colorspace and also to 444->420
-> downsampling then for any YUV420 only mode, we can let the PCON do all the
+Append display here.
+> 
+> This patch enables PCON configuration for color space conversion for
+> TGL+ platfrom. This will help in supporting 8k@60 YUV420 modes common
+> in HDMI 8k panels, through a capable PCON.
+> Also allow 8k@60 YUV420 modes, only if PCON claims to support the color space
 > conversion.
 > 
 > Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
 > ---
->  .../drm/i915/display/intel_display_types.h    |  1 +
->  drivers/gpu/drm/i915/display/intel_dp.c       | 37 +++++++++++++------
->  2 files changed, 26 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_ddi.c | 1 +
+> drivers/gpu/drm/i915/display/intel_dp.c  | 5 +++++
+>  2 files changed, 6 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h
-> b/drivers/gpu/drm/i915/display/intel_display_types.h
-> index b41de41759a0..4150108bdc6d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_types.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-> @@ -1460,6 +1460,7 @@ struct intel_dp {
->  		int pcon_max_frl_bw, sink_max_frl_bw;
->  		u8 max_bpc;
->  		bool ycbcr_444_to_420;
-> +		bool rgb_to_ycbcr;
->  	} dfp;
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
+> b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 721a47bbc009..ed6b8ea85408 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -3644,6 +3644,7 @@ static void tgl_ddi_pre_enable_dp(struct
+> intel_atomic_state *state,
+>  	if (!is_mst)
+>  		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
 > 
->  	/* Display stream compression testing */ diff --git
-> a/drivers/gpu/drm/i915/display/intel_dp.c
+> +	intel_dp_configure_protocol_converter(intel_dp);
+
+Both the changes seems to be unrelated, it would be good to put configuration
+of protocol convertor in earlier patches and just pruning logic here.
+Also the description of patch needs to change to clearly call this out.
+
+>  	intel_dp_sink_set_decompression_state(intel_dp, crtc_state, true);
+>  	/*
+>  	 * DDI FEC: "anticipates enabling FEC encoding sets the FEC_READY bit
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
 > b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 30c76ba63232..b3f1190d8150 100644
+> index b3f1190d8150..86289c925612 100644
 > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -651,6 +651,10 @@ intel_dp_output_format(struct drm_connector
-> *connector,
->  	    !drm_mode_is_420_only(info, mode))
->  		return INTEL_OUTPUT_FORMAT_RGB;
+> @@ -720,6 +720,11 @@ intel_dp_mode_valid_downstream(struct
+> intel_connector *connector,
+>  	const struct drm_display_info *info = &connector->base.display_info;
+>  	int tmds_clock;
 > 
-> +	if (intel_dp->dfp.rgb_to_ycbcr &&
-> +	    intel_dp->dfp.ycbcr_444_to_420)
-> +		return INTEL_OUTPUT_FORMAT_RGB;
+> +	/* Allow 8k YUV420 modes, only if PCON supports RGB->YUV conversion
+> */
+> +	if (mode->hdisplay == 7680 && drm_mode_is_420_only(info, mode) &&
+> +	    !intel_dp->dfp.rgb_to_ycbcr)
+
+I think this will be a platform limitation, as there may be platforms which can
+do that on the SOC side as well. So would be good to limit to those platforms where
+pcon conversion is the only option in order to support this configuration, instead of doing
+it for all platforms.
+
+> +		return MODE_NO_420;
 > +
->  	if (intel_dp->dfp.ycbcr_444_to_420)
->  		return INTEL_OUTPUT_FORMAT_YCBCR444;
->  	else
-> @@ -4365,13 +4369,12 @@ void intel_dp_configure_protocol_converter(struct
-> intel_dp *intel_dp)
->  			    "Failed to set protocol converter YCbCr 4:2:0
-> conversion mode to %s\n",
->  			    enableddisabled(intel_dp->dfp.ycbcr_444_to_420));
-> 
-> -	tmp = 0;
-> -
-> -	if (drm_dp_dpcd_writeb(&intel_dp->aux,
-> -			       DP_PROTOCOL_CONVERTER_CONTROL_2, tmp) <= 0)
-> +	tmp = intel_dp->dfp.rgb_to_ycbcr ?
-> +		DP_CONVERSION_BT601_RGB_YCBCR_ENABLE : 0;
-
-There are other combinations also possible like BT709 and BT2020. Handle those as well here.
-If no colorspace data is provided we can make BT601 as default, but if user chooses a colorspace
-and pcon supports it, then we should go for that option. We can get that info from connector
-colorspace properties.
-
-
-> +	if (drm_dp_pcon_convert_rgb_to_ycbcr(&intel_dp->aux, tmp) <= 0)
->  		drm_dbg_kms(&i915->drm,
-> -			    "Failed to set protocol converter YCbCr 4:2:2
-> conversion mode to %s\n",
-> -			    enableddisabled(false));
-> +			    "Failed to set protocol converter RGB->YCbCr
-> conversion mode to %s\n",
-> +			    enableddisabled(intel_dp->dfp.rgb_to_ycbcr));
->  }
-> 
->  static void intel_enable_dp(struct intel_atomic_state *state, @@ -6897,7
-> +6900,7 @@ intel_dp_update_420(struct intel_dp *intel_dp)  {
->  	struct drm_i915_private *i915 = dp_to_i915(intel_dp);
->  	struct intel_connector *connector = intel_dp->attached_connector;
-> -	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420;
-> +	bool is_branch, ycbcr_420_passthrough, ycbcr_444_to_420, rgb_to_ycbcr;
-> 
->  	/* No YCbCr output support on gmch platforms */
->  	if (HAS_GMCH(i915))
-> @@ -6919,14 +6922,23 @@ intel_dp_update_420(struct intel_dp *intel_dp)
->  		dp_to_dig_port(intel_dp)->lspcon.active ||
->  		drm_dp_downstream_444_to_420_conversion(intel_dp->dpcd,
->  							intel_dp-
-> >downstream_ports);
-> +	rgb_to_ycbcr = drm_dp_downstream_rgb_to_ycbcr_conversion(intel_dp-
-> >dpcd,
-> +							intel_dp-
-> >downstream_ports);
-> 
->  	if (INTEL_GEN(i915) >= 11) {
-> +		/* Let PCON convert from RGB->YCbCr if possible */
-> +		if (is_branch && rgb_to_ycbcr && ycbcr_444_to_420) {
-> +			intel_dp->dfp.rgb_to_ycbcr = true;
-> +			intel_dp->dfp.ycbcr_444_to_420 = true;
-> +			connector->base.ycbcr_420_allowed = true;
-> +		} else {
->  		/* Prefer 4:2:0 passthrough over 4:4:4->4:2:0 conversion */
-> -		intel_dp->dfp.ycbcr_444_to_420 =
-> -			ycbcr_444_to_420 && !ycbcr_420_passthrough;
-> +			intel_dp->dfp.ycbcr_444_to_420 =
-> +				ycbcr_444_to_420 && !ycbcr_420_passthrough;
-> 
-> -		connector->base.ycbcr_420_allowed =
-> -			!is_branch || ycbcr_444_to_420 ||
-> ycbcr_420_passthrough;
-> +			connector->base.ycbcr_420_allowed =
-> +				!is_branch || ycbcr_444_to_420 ||
-> ycbcr_420_passthrough;
-> +		}
->  	} else {
->  		/* 4:4:4->4:2:0 conversion is the only way */
->  		intel_dp->dfp.ycbcr_444_to_420 = ycbcr_444_to_420; @@ -
-> 6935,8 +6947,9 @@ intel_dp_update_420(struct intel_dp *intel_dp)
->  	}
-> 
->  	drm_dbg_kms(&i915->drm,
-> -		    "[CONNECTOR:%d:%s] YCbCr 4:2:0 allowed? %s, YCbCr 4:4:4-
-> >4:2:0 conversion? %s\n",
-> +		    "[CONNECTOR:%d:%s] RGB->YcbCr conversion? %s, YCbCr 4:2:0
-> +allowed? %s, YCbCr 4:4:4->4:2:0 conversion? %s\n",
->  		    connector->base.base.id, connector->base.name,
-> +		    yesno(intel_dp->dfp.rgb_to_ycbcr),
->  		    yesno(connector->base.ycbcr_420_allowed),
->  		    yesno(intel_dp->dfp.ycbcr_444_to_420));
->  }
+>  	/*
+>  	 * If PCON and HDMI2.1 sink both support FRL MODE, check FRL
+>  	 * bandwidth constraints.
 > --
 > 2.17.1
 
