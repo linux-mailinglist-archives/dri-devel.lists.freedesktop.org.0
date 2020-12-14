@@ -1,56 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2FF2D9D62
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 18:16:35 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 531842D9D63
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 18:16:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A2AB6E086;
-	Mon, 14 Dec 2020 17:16:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B69A6E084;
+	Mon, 14 Dec 2020 17:16:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
- [IPv6:2a00:1450:4864:20::342])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 434CE6E081
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 17:16:30 +0000 (UTC)
-Received: by mail-wm1-x342.google.com with SMTP id y23so15993660wmi.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 09:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
- b=URqQYIJXeztX8BOCxtBMlauz1+Vynw9xFyndnNiXU0aLHkS9SuvL7+/CwyT17GWAIL
- d9ZYiNmkWt+rwFCve9O7Hyg8Pc4rT7DKTTmeVu/JJIQFC4pHDE2+BuZa9Dunn9W7JjVE
- +mOqu4hqxI8tbCzM5gJ3X8BJdllgPMez8y3GE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
- b=BDbuiwCPGOKOaa2TaXp2FD20Qp3s0bn5yJXEAgiidf6Lv1rlJ/gr43p+4fBN2Gq7Lx
- XOf5aSGWmlxbrfTslBG1pad2gxmITXj1DlUvH73JzlGGWt/SH6skj+Dnc1bUG3mJkWtW
- +kzdKgJgJd0JV+rkeuNzJsY6+MzoV25htXtQgBZziugMk7E4fL5bmr9EQB5kU8XI9PTZ
- vcajHZY66Fw+vYcc7GSE3joOylS8WXICrglwaegmw8REUh8QdHwWPl52aGLX7sm6TMd7
- BLbjUmljLeCBITkq1jw65v9lJM/vq54ugJ/t47YlIi8Ztx4RCymmX2KoSJf14hONY4Iq
- MF1A==
-X-Gm-Message-State: AOAM532Wk1B9kpAg7AsAT/+rBUTXrMFq5SqhXvvxryZfTuu0nPJw1x19
- OCaTnJWS7sjNF5rf6Pcdg7Ss7Xc28QLGTA==
-X-Google-Smtp-Source: ABdhPJyGfZtDmUmapTM+sOrlmOBNqPBbHYPIUUmXhWR281DX6bsCafZ7lmMKmmEBZoTwqyWsC5MzCg==
-X-Received: by 2002:a1c:e445:: with SMTP id b66mr29461172wmh.187.1607966188676; 
- Mon, 14 Dec 2020 09:16:28 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id q1sm31197005wrj.8.2020.12.14.09.16.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 09:16:27 -0800 (PST)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] dma-buf: begin/end_cpu might lock the dma_resv lock
-Date: Mon, 14 Dec 2020 18:16:22 +0100
-Message-Id: <20201214171622.3868883-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
-References: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A33116E0A8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 17:16:38 +0000 (UTC)
+Received: from [192.168.0.217]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17CFF96;
+ Mon, 14 Dec 2020 18:16:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607966197;
+ bh=/IhQb1BU2R42odsENhJbJTBjyKvuQz6/wfbVIpUIRng=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=UVJAxHOT5czt1tCQ4yC8JKyzWHRhpG4zOyHN9rS5NE0g+wF/U5T6F2pLoucgQkFqV
+ xk5vFgp36p8Vbk0sN8uSfZkmoDQNYO4I9uqTZuNqaIOormvW3ix5orXU0uXdazIsHQ
+ I9JX38SmkK9m8EBitVK/qXJJawGBknESomaXnmSo=
+Subject: Re: [PATCH 9/9] drm: rcar-du: Drop local encoder variable
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-10-laurent.pinchart+renesas@ideasonboard.com>
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <dc05fa55-a46b-e693-c58f-8c03ce28c185@ideasonboard.com>
+Date: Mon, 14 Dec 2020 17:16:34 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201204220139.15272-10-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,37 +94,90 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Reply-To: kieran.bingham@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-QXQgbGVhc3QgYW1kZ3B1IGFuZCBpOTE1IGRvLCBzbyBsZXRzIGp1c3QgZG9jdW1lbnQgdGhpcyBh
-cyB0aGUgcnVsZS4KCnYyOiBXb3JrcyBiZXR0ZXIgd2l0aCBsZXNzIHR5cG9zIChpbnRlbC1nZngt
-Y2kpCgpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVmV0dGVyIDxkYW5pZWwudmV0dGVyQGludGVsLmNv
-bT4KQ2M6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPgpDYzogU3VtaXQg
-U2Vtd2FsIDxzdW1pdC5zZW13YWxAbGluYXJvLm9yZz4KQ2M6ICJDaHJpc3RpYW4gS8O2bmlnIiA8
-Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPgpDYzogbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3Jn
-CkNjOiBsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmcKLS0tCiBkcml2ZXJzL2RtYS1idWYv
-ZG1hLWJ1Zi5jIHwgNCArKysrCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-YnVmLmMKaW5kZXggZTFmYTZjNmYwMmM0Li5hMGEwMmVmODg4ZGEgMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvZG1hLWJ1Zi9kbWEtYnVmLmMKKysrIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYwpAQCAt
-MTExOCw2ICsxMTE4LDggQEAgaW50IGRtYV9idWZfYmVnaW5fY3B1X2FjY2VzcyhzdHJ1Y3QgZG1h
-X2J1ZiAqZG1hYnVmLAogCWlmIChXQVJOX09OKCFkbWFidWYpKQogCQlyZXR1cm4gLUVJTlZBTDsK
-IAorCW1pZ2h0X2xvY2soJmRtYWJ1Zi0+cmVzdi0+bG9jay5iYXNlKTsKKwogCWlmIChkbWFidWYt
-Pm9wcy0+YmVnaW5fY3B1X2FjY2VzcykKIAkJcmV0ID0gZG1hYnVmLT5vcHMtPmJlZ2luX2NwdV9h
-Y2Nlc3MoZG1hYnVmLCBkaXJlY3Rpb24pOwogCkBAIC0xMTUxLDYgKzExNTMsOCBAQCBpbnQgZG1h
-X2J1Zl9lbmRfY3B1X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLAogCiAJV0FSTl9PTigh
-ZG1hYnVmKTsKIAorCW1pZ2h0X2xvY2soJmRtYWJ1Zi0+cmVzdi0+bG9jay5iYXNlKTsKKwogCWlm
-IChkbWFidWYtPm9wcy0+ZW5kX2NwdV9hY2Nlc3MpCiAJCXJldCA9IGRtYWJ1Zi0+b3BzLT5lbmRf
-Y3B1X2FjY2VzcyhkbWFidWYsIGRpcmVjdGlvbik7CiAKLS0gCjIuMjkuMgoKX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KZHJpLWRldmVsIG1haWxpbmcgbGlz
-dApkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnCmh0dHBzOi8vbGlzdHMuZnJlZWRlc2t0
-b3Aub3JnL21haWxtYW4vbGlzdGluZm8vZHJpLWRldmVsCg==
+Hi Laurent,
+
+On 04/12/2020 22:01, Laurent Pinchart wrote:
+> The local encoder variable is an alias for &renc->base, and is only use
+> twice. It doesn't help much, drop it, along with the
+> rcar_encoder_to_drm_encoder() macro that is then unused.
+
+It does seem overkill to have a macro for only a single (variable
+instantiation) usage, so this makes sense.
+
+And now there's 4 lines less code ... That's always a win :-D
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 6 ++----
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.h | 2 --
+>  2 files changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> index 49c0b27e2f5a..9a565bd3380d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> @@ -61,7 +61,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  			 struct device_node *enc_node)
+>  {
+>  	struct rcar_du_encoder *renc;
+> -	struct drm_encoder *encoder;
+>  	struct drm_bridge *bridge;
+>  	int ret;
+>  
+> @@ -108,12 +107,11 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  
+>  	rcdu->encoders[output] = renc;
+>  	renc->output = output;
+> -	encoder = rcar_encoder_to_drm_encoder(renc);
+>  
+>  	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+>  		enc_node, output);
+>  
+> -	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
+> +	ret = drm_encoder_init(&rcdu->ddev, &renc->base, &rcar_du_encoder_funcs,
+>  			       DRM_MODE_ENCODER_NONE, NULL);
+>  	if (ret < 0)
+>  		goto error;
+> @@ -127,7 +125,7 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	 * Attach the bridge to the encoder. The bridge will create the
+>  	 * connector.
+>  	 */
+> -	return drm_bridge_attach(encoder, bridge, NULL, 0);
+> +	return drm_bridge_attach(&renc->base, bridge, NULL, 0);
+>  
+>  error:
+>  	kfree(renc);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+> index df9be4524301..73560563fb31 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.h
+> @@ -22,8 +22,6 @@ struct rcar_du_encoder {
+>  #define to_rcar_encoder(e) \
+>  	container_of(e, struct rcar_du_encoder, base)
+>  
+> -#define rcar_encoder_to_drm_encoder(e)	(&(e)->base)
+> -
+>  int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  			 enum rcar_du_output output,
+>  			 struct device_node *enc_node);
+> 
+
+-- 
+Regards
+--
+Kieran
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
