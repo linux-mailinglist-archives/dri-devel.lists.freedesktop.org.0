@@ -1,41 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C9A2D98A2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:19:32 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBFE2D98A7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:22:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEF6B6E157;
-	Mon, 14 Dec 2020 13:19:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786136E1B5;
+	Mon, 14 Dec 2020 13:22:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51A8B6E157
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 13:19:29 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22BED96;
- Mon, 14 Dec 2020 14:19:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607951967;
- bh=7KGODU/vCu6ZBsxX/92OEQzceiYOciQSwaEJacIF6Xk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=DRVSg7meSKNqxrtkdm+IbXWPvyAmRnRhHgzirSvzzfUjm7p6UX8tA5/riUXt99SR+
- y4bSXSsdouHQDBOIZrUpEouKYmfCGS/6TpksXAKyC8/HRaWh17r9pZ/4JslDw4GT2p
- MnfDVPZT0EXJWFvPyEvPjFPcc1XFgK4KgoiNTyPE=
-Date: Mon, 14 Dec 2020 15:19:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error
- path
-Message-ID: <X9dmWYbVaHhf8VGZ@pendragon.ideasonboard.com>
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-4-laurent.pinchart+renesas@ideasonboard.com>
- <20201214101108.kgdxqmskgz24lfys@uno.localdomain>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 719FE6E1B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 13:22:24 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+Authentication-Results: mail.kernel.org;
+ dkim=permerror (bad message/signature format)
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 210683] Nasty amdgpu powersave regression Navi14
+Date: Mon, 14 Dec 2020 13:22:24 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: eutychios23@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210683-2300-Q3ykMZBrWn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210683-2300@https.bugzilla.kernel.org/>
+References: <bug-210683-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201214101108.kgdxqmskgz24lfys@uno.localdomain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,64 +51,20 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jacopo,
+https://bugzilla.kernel.org/show_bug.cgi?id=210683
 
-On Mon, Dec 14, 2020 at 11:11:08AM +0100, Jacopo Mondi wrote:
-> On Sat, Dec 05, 2020 at 12:01:33AM +0200, Laurent Pinchart wrote:
-> > The encoder->name field can never be non-null in the error path, as that
-> > can only be possible after a successful call to
-> > drm_simple_encoder_init(). Drop the cleanup.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
-> >  1 file changed, 1 insertion(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > index 2d40da98144b..0edce24f2053 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> > @@ -124,11 +124,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
-> >  	}
-> >
-> >  done:
-> > -	if (ret < 0) {
-> > -		if (encoder->name)
-> > -			encoder->funcs->destroy(encoder);
-> 
-> This is probably worth a Fixes tag, as accessing encoder->func if
-> drm_simple_encoder_init() has not completed might lead to a NULL
-> pointer dereference.
-
-But in that case encoder->name would be NULL, so encoder->funcs won't be
-dereferenced. And encoder->name can never be non-NULL here, as explained
-in the commit message, so this is dead code. I don't think it requires a
-Fixes: tag.
-
-> Apart from this, patch looks good
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> > +	if (ret < 0)
-> >  		devm_kfree(rcdu->dev, renc);
-> > -	}
-> >
-> >  	return ret;
-> >  }
+--- Comment #1 from siyia (eutychios23@gmail.com) ---
+Just tested kernel 5.10 stable and idle powersave is still broken on the gpu
+compared to kernel 5.9
 
 -- 
-Regards,
-
-Laurent Pinchart
+You are receiving this mail because:
+You are watching the assignee of the bug.
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
