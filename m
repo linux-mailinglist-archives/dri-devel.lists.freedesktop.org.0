@@ -2,45 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA8AF2D98A0
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C9A2D98A2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:19:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5C006E1A4;
-	Mon, 14 Dec 2020 13:18:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEF6B6E157;
+	Mon, 14 Dec 2020 13:19:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47AE56E157;
- Mon, 14 Dec 2020 13:18:06 +0000 (UTC)
-IronPort-SDR: KFb3uwr5BdpM2CUXSnTxoQ7RlU9AsJ/lHwPbHmRHD6XG/TbdlmC2X6OMBfunwsQUepvR4X34/P
- mGcJkVIhOgQQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="161753572"
-X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; d="scan'208";a="161753572"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 05:18:05 -0800
-IronPort-SDR: upzBDfuoLSVDJRaf/pFVdy9J3Rsr3gSu93DSaSkpJ+OzQSLQLuPvTxGqOF4z2Pq7hpO7+zbNkw
- gljHR9lWj5RQ==
-X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; d="scan'208";a="381654103"
-Received: from aknautiy-mobl.gar.corp.intel.com (HELO [10.213.98.131])
- ([10.213.98.131])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 05:18:02 -0800
-Subject: Re: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs
- RGB-YCbCr Conversion
-To: "Shankar, Uma" <uma.shankar@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20201208075145.17389-1-ankit.k.nautiyal@intel.com>
- <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
- <84fd6863339d4737a67decd2a9787a23@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Message-ID: <b2282934-25ed-e510-e38f-a1df2f59deb2@intel.com>
-Date: Mon, 14 Dec 2020 18:47:59 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51A8B6E157
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 13:19:29 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 22BED96;
+ Mon, 14 Dec 2020 14:19:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607951967;
+ bh=7KGODU/vCu6ZBsxX/92OEQzceiYOciQSwaEJacIF6Xk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=DRVSg7meSKNqxrtkdm+IbXWPvyAmRnRhHgzirSvzzfUjm7p6UX8tA5/riUXt99SR+
+ y4bSXSsdouHQDBOIZrUpEouKYmfCGS/6TpksXAKyC8/HRaWh17r9pZ/4JslDw4GT2p
+ MnfDVPZT0EXJWFvPyEvPjFPcc1XFgK4KgoiNTyPE=
+Date: Mon, 14 Dec 2020 15:19:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error
+ path
+Message-ID: <X9dmWYbVaHhf8VGZ@pendragon.ideasonboard.com>
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20201214101108.kgdxqmskgz24lfys@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <84fd6863339d4737a67decd2a9787a23@intel.com>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201214101108.kgdxqmskgz24lfys@uno.localdomain>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,196 +48,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
- Swati2" <swati2.sharma@intel.com>, "Kulkarni,
- Vandita" <vandita.kulkarni@intel.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma Shankar,
+Hi Jacopo,
 
-Thanks for the comments and suggestions.
+On Mon, Dec 14, 2020 at 11:11:08AM +0100, Jacopo Mondi wrote:
+> On Sat, Dec 05, 2020 at 12:01:33AM +0200, Laurent Pinchart wrote:
+> > The encoder->name field can never be non-null in the error path, as that
+> > can only be possible after a successful call to
+> > drm_simple_encoder_init(). Drop the cleanup.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > ---
+> >  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
+> >  1 file changed, 1 insertion(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> > index 2d40da98144b..0edce24f2053 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> > @@ -124,11 +124,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+> >  	}
+> >
+> >  done:
+> > -	if (ret < 0) {
+> > -		if (encoder->name)
+> > -			encoder->funcs->destroy(encoder);
+> 
+> This is probably worth a Fixes tag, as accessing encoder->func if
+> drm_simple_encoder_init() has not completed might lead to a NULL
+> pointer dereference.
 
-Please find my response inline.
+But in that case encoder->name would be NULL, so encoder->funcs won't be
+dereferenced. And encoder->name can never be non-NULL here, as explained
+in the commit message, so this is dead code. I don't think it requires a
+Fixes: tag.
 
-On 12/13/2020 12:40 PM, Shankar, Uma wrote:
->
->> -----Original Message-----
->> From: Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>
->> Sent: Tuesday, December 8, 2020 1:22 PM
->> To: intel-gfx@lists.freedesktop.org
->> Cc: dri-devel@lists.freedesktop.org; Shankar, Uma <uma.shankar@intel.com>;
->> airlied@linux.ie; jani.nikula@linux.intel.com; ville.syrjala@linux.intel.com;
->> Kulkarni, Vandita <vandita.kulkarni@intel.com>; Sharma, Swati2
->> <swati2.sharma@intel.com>
->> Subject: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs RGB-
->> YCbCr Conversion
->>
->> DP Specification for DP2.0 to HDMI2.1 Pcon specifies support for conversion of
->> colorspace from RGB to YCbCr.
->> https://groups.vesa.org/wg/DP/document/previewpdf/15651
->>
->> This patch adds the relavant registers and helper functions to get the capability
->> and set the color conversion bits for rgb->ycbcr conversion through PCON.
->>
->> Signed-off-by: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
->> ---
->>   drivers/gpu/drm/drm_dp_helper.c | 59 +++++++++++++++++++++++++++++++++
->>   include/drm/drm_dp_helper.h     | 10 +++++-
->>   2 files changed, 68 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_dp_helper.c
->> b/drivers/gpu/drm/drm_dp_helper.c index d0626f57f99c..344662d5c295 100644
->> --- a/drivers/gpu/drm/drm_dp_helper.c
->> +++ b/drivers/gpu/drm/drm_dp_helper.c
->> @@ -949,6 +949,35 @@ bool
->> drm_dp_downstream_444_to_420_conversion(const u8
->> dpcd[DP_RECEIVER_CAP_SIZE]  }
->> EXPORT_SYMBOL(drm_dp_downstream_444_to_420_conversion);
->>
->> +/**
->> + * drm_dp_downstream_rgb_to_ycbcr_conversion() - determine downstream
->> facing port
->> + *                                               RGB->YCbCr conversion capability
->> + * @dpcd: DisplayPort configuration data
->> + * @port_cap: downstream facing port capabilities
->> + *
->> + * Returns: whether the downstream facing port can convert RGB->YCbCr
->> +*/ bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
->> +dpcd[DP_RECEIVER_CAP_SIZE],
->> +					       const u8 port_cap[4])
->> +{
->> +	if (!drm_dp_is_branch(dpcd))
->> +		return false;
->> +
->> +	if (dpcd[DP_DPCD_REV] < 0x13)
->> +		return false;
->> +
->> +	switch (port_cap[0] & DP_DS_PORT_TYPE_MASK) {
->> +	case DP_DS_PORT_TYPE_HDMI:
->> +		if ((dpcd[DP_DOWNSTREAMPORT_PRESENT] &
->> DP_DETAILED_CAP_INFO_AVAILABLE) == 0)
->> +			return false;
->> +
->> +		return port_cap[3] & DP_DS_HDMI_BT601_RGB_YCBCR_CONV;
-> I guess there are other conversions also possible, like BT709 and 2020. Update those
-> as well here.
+> Apart from this, patch looks good
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> > +	if (ret < 0)
+> >  		devm_kfree(rcdu->dev, renc);
+> > -	}
+> >
+> >  	return ret;
+> >  }
 
+-- 
+Regards,
 
-Yes you are right. I will modify the function to take as input 
-colorspace, also and
-
-the function will be returning true, if the rgb->ycbcr conversion for 
-the given colorspace is supported.
-
-
->
->> +	default:
->> +		return false;
->> +	}
->> +}
->> +EXPORT_SYMBOL(drm_dp_downstream_rgb_to_ycbcr_conversion);
->> +
->>   /**
->>    * drm_dp_downstream_mode() - return a mode for downstream facing port
->>    * @dev: DRM device
->> @@ -3140,3 +3169,33 @@ int drm_dp_pcon_pps_override_param(struct
->> drm_dp_aux *aux, u8 pps_param[6])
->>   	return 0;
->>   }
->>   EXPORT_SYMBOL(drm_dp_pcon_pps_override_param);
->> +
->> +/*
->> + * drm_dp_pcon_convert_rgb_to_ycbcr() - Configure the PCon to convert
->> +RGB to Ycbcr
->> + * @aux: displayPort AUX channel
->> + * @color_spc: Color space conversion type
->> + *
->> + * Returns 0 on success, else returns negative error code.
->> + */
->> +int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8
->> +color_spc) {
->> +	int ret;
->> +	u8 buf;
->> +
->> +	if (color_spc != DP_CONVERSION_BT601_RGB_YCBCR_ENABLE ||
->> +	    color_spc != DP_CONVERSION_BT709_RGB_YCBCR_ENABLE ||
->> +	    color_spc != DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE)
->> +		return -EINVAL;
-> Yeah this is wrong, fix it.
-
-Agreed. Will fix this in next version of the patch.
-
->
->> +
->> +	ret = drm_dp_dpcd_readb(aux, DP_PROTOCOL_CONVERTER_CONTROL_2,
->> &buf);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	buf |= color_spc;
->> +	ret = drm_dp_dpcd_writeb(aux,
->> DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	return 0;
->> +}
->> +EXPORT_SYMBOL(drm_dp_pcon_convert_rgb_to_ycbcr);
->> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h index
->> 347b4e1a55b4..1b3d54ed7a78 100644
->> --- a/include/drm/drm_dp_helper.h
->> +++ b/include/drm/drm_dp_helper.h
->> @@ -431,6 +431,9 @@ struct drm_device;
->>   # define DP_DS_HDMI_YCBCR420_PASS_THROUGH   (1 << 2)
->>   # define DP_DS_HDMI_YCBCR444_TO_422_CONV    (1 << 3)
->>   # define DP_DS_HDMI_YCBCR444_TO_420_CONV    (1 << 4)
->> +# define DP_DS_HDMI_BT601_RGB_YCBCR_CONV    (1 << 5)
->> +# define DP_DS_HDMI_BT709_RGB_YCBCR_CONV    (1 << 6)
->> +# define DP_DS_HDMI_BT2020_RGB_YCBCR_CONV   (1 << 7)
-> I think it would be good to mention the location in spec (section or table),
-> will make it easier to understand/review by directly going to relevant sections in spec.
-
-This is still Draft 1 of the spec: VESA DP-to-HDMI PCON Specification 
-Standalone Document. Link in the commit message.
-
-I will mention the current Section and Table no. nevertheless in the 
-next version of the patch.
-
-Thanks & Regards,
-
-Ankit
-
->>   #define DP_MAX_DOWNSTREAM_PORTS		    0x10
->>
->> @@ -1217,7 +1220,9 @@ struct drm_device;
->>   # define DP_PCON_ENC_PPS_OVERRIDE_DISABLED      0
->>   # define DP_PCON_ENC_PPS_OVERRIDE_EN_PARAMS     1
->>   # define DP_PCON_ENC_PPS_OVERRIDE_EN_BUFFER     2
->> -
->> +# define DP_CONVERSION_BT601_RGB_YCBCR_ENABLE  (1 << 4) # define
->> +DP_CONVERSION_BT709_RGB_YCBCR_ENABLE  (1 << 5) # define
->> +DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE (1 << 6)
->>
->>   /* PCON Downstream HDMI ERROR Status per Lane */
->>   #define DP_PCON_HDMI_ERROR_STATUS_LN0          0x3037
->> @@ -2178,5 +2183,8 @@ int drm_dp_pcon_dsc_bpp_incr(const u8
->> pcon_dsc_dpcd[DP_PCON_DSC_ENCODER_CAP_SIZE
->>   int drm_dp_pcon_pps_default(struct drm_dp_aux *aux);  int
->> drm_dp_pcon_pps_override_buf(struct drm_dp_aux *aux, u8 pps_buf[128]);  int
->> drm_dp_pcon_pps_override_param(struct drm_dp_aux *aux, u8 pps_param[6]);
->> +bool drm_dp_downstream_rgb_to_ycbcr_conversion(const u8
->> dpcd[DP_RECEIVER_CAP_SIZE],
->> +					       const u8 port_cap[4]);
->> +int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8
->> +color_spc);
->>
->>   #endif /* _DRM_DP_HELPER_H_ */
->> --
->> 2.17.1
+Laurent Pinchart
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
