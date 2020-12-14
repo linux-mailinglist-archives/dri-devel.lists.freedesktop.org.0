@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E630B2D9FA8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 19:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1052DA01B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 20:17:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D00306E0ED;
-	Mon, 14 Dec 2020 18:55:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 65FC56E0F4;
+	Mon, 14 Dec 2020 19:17:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5C96E0ED
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 18:55:54 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BEItdZD048597;
- Mon, 14 Dec 2020 12:55:39 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1607972139;
- bh=FrIJvqvn/fA/8kubIsWWJdm8jUX2lnhkpHnCmH1asCI=;
- h=Subject:To:CC:References:From:Date:In-Reply-To;
- b=PghQRcfNLUiJ+Y7Kvyy0Fj28Uok+8cuhENIw+BU8VNraIZDxdLR3+sDQX82Z64Szm
- NK9VZQ3X+o9G6saMMKo7LD5ZQAh5CxfUr4rTWLPuJ26VOOocgsw5bw8/w62Yow9ysm
- nptTs9PvkThpKLyYeTjumMEJdovs2lC+NqUlAFp8=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BEItd10092362
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 14 Dec 2020 12:55:39 -0600
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 14
- Dec 2020 12:55:39 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Mon, 14 Dec 2020 12:55:38 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BEItbgI078662;
- Mon, 14 Dec 2020 12:55:37 -0600
-Subject: Re: [PATCH v5 27/29] drm/omap: dsi: remove ulps support
-To: Sebastian Reichel <sre@kernel.org>
-References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
- <20201208122855.254819-28-tomi.valkeinen@ti.com>
- <20201214173923.2plaloeowhxddbwe@earth.universe>
-From: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <0484822c-40e1-6738-aea8-c4a5d6609bb1@ti.com>
-Date: Mon, 14 Dec 2020 20:55:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
+ [IPv6:2a00:1450:4864:20::441])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33DAB6E0F4
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 19:17:33 +0000 (UTC)
+Received: by mail-wr1-x441.google.com with SMTP id m5so17535916wrx.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 11:17:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ufmOwKPgQFQAB4ql7EQmK6jhaZylxb/hsIu+JjUm62I=;
+ b=LjpuryWAed6pObwmf7bC7xMdnZSZEEOxYjaEvegHWOauiVjiQPN7l1c8To8AdluT/g
+ ijkF+SybBpfWOECo358ss/aLN8ys6vRccn3L1oGBaPkR9/rRg+HNsqZEmLxEl7kbgk53
+ uDfV7z6j96kNBZ4ti7QxFlGRDnF+AsJjTj63Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ufmOwKPgQFQAB4ql7EQmK6jhaZylxb/hsIu+JjUm62I=;
+ b=dhq5B25OUYzmFO8JSB/aaRS3KYOmiyXc9nofv3iplExttaLxHYvamS4hAfangcNqwJ
+ mSc6Sucho/aXviA/VYA32rgrg2xC3oy6Rq595x9xJ/S+mFnnwoI/cugiOCtmCiCWEgXz
+ oABJqhXbNgO2UQAiSfJXWU8uKUNoWsCQYCl0TipUgkMRdKr4y5GYf5Wi36z8etUNjvVu
+ L5NFrJeyOAAtpNOw11EkZPtwqLLkxXz+W+UBiJaMBfRuVkEqPL7dCvlGW8roa+6zWqRI
+ cGW432vZ/hraKhsxEDypI1LQany3j4lqEaiXDDaSB5Jt1KpQxM3w1bwkK3t2iGI8hfkT
+ oWBw==
+X-Gm-Message-State: AOAM530xqRxomSU/qgn4oHyG6NffHL70PD98CjlnT4D5a2UyY5I0THsv
+ kzuKXhOw03FKph25IvDjsTcvJtECHzvAXw==
+X-Google-Smtp-Source: ABdhPJwwR4xV9ozVPMY/L90foplvJ9uxsIv/2nhpOxme+jx4PdjnWbkNc/H77/Glz0HZVdCJLiPkIA==
+X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr21901875wrs.80.1607973451522; 
+ Mon, 14 Dec 2020 11:17:31 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id r15sm7491720wrq.1.2020.12.14.11.17.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 11:17:30 -0800 (PST)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Subject: [PATCH] drm/amdkfd: fix ttm size refactor fallout
+Date: Mon, 14 Dec 2020 20:17:25 +0100
+Message-Id: <20201214191725.3899147-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201214173923.2plaloeowhxddbwe@earth.universe>
-Content-Language: en-US
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +61,54 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
- Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, amd-gfx@lists.freedesktop.org,
+ Huang Rui <ray.huang@amd.com>, Daniel Vetter <daniel.vetter@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/12/2020 19:39, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Tue, Dec 08, 2020 at 02:28:53PM +0200, Tomi Valkeinen wrote:
->> ULPS doesn't work, and I have been unable to get it to work. As ULPS
->> is a minor power-saving feature which requires substantial amount of
->> non-trivial code, and we have trouble just getting and
->> keeping DSI working at all, remove ULPS support.
->>
->> When the DSI driver works reliably for command and video mode displays,
->> someone interested can add it back.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
-> 
-> Is it really 'minor power-saving'? If I search for DSI and ULPS among
-> the first results is a TI datasheet for SN65DSI84, which claims device
-> active current in the more than 100mA range and ULPS current in the
-> less than 10mA range.
-
-I don't have any numbers, just my guesses. For videomode displays or command mode displays in active
-use, I don't think ULPS matters much. The link is mostly not in ULPS. And if the display is blanked,
-things are off, so again not in ULPS.
-
-It's only for command mode displays, when updated rarely, where I think ULPS matters. Which, of
-course, is probably not unusual use case if you have a cmdmode display. But whether OMAP DSI power
-savings matches SN65DSI84, I have no clue.
-
-> Considering all known omapdrm DSI users are battery powered devices
-> caring for saving as much power as possible, it might be good to just
-> keep this until it is being fixed considering this is very close to
-> the end of the series anyways?
-
-I don't like to leave known to be broken code around, unless someone has plans to work on it. I
-wouldn't be surprised to see ULPS still broken two years from now =). It should be trivial to add
-the relevant bits back later.
-
-But I can leave it here if you think it's better, presuming it doesn't have bigger conflicts with
-the 29/29 or break anything. However, I have only a few days left in TI, which is why I'm rushing
-here a bit (*). If I hit problems, I either have to drop the whole series, or push it in its current
-form.
-
- Tomi
-
-(*) But I will fix possible issues caused by my push, of course.
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+SSBndWVzcyBDaHJpc3RpYW4gZGlkbid0IGNvbXBpbGUgdGVzdCBhbWRrZmQuCgpGaXhlczogZTEx
+YmZiOTlkNmVjICgiZHJtL3R0bTogY2xlYW51cCBCTyBzaXplIGhhbmRsaW5nIHYzIikKQ2M6IENo
+cmlzdGlhbiBLw7ZuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4KQ2M6IEh1YW5nIFJ1aSA8
+cmF5Lmh1YW5nQGFtZC5jb20+ICh2MSkKQ2M6IERhbmllbCBWZXR0ZXIgPGRhbmllbC52ZXR0ZXJA
+ZmZ3bGwuY2g+CkNjOiBGZWxpeCBLdWVobGluZyA8RmVsaXguS3VlaGxpbmdAYW1kLmNvbT4KQ2M6
+IGFtZC1nZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnClNpZ25lZC1vZmYtYnk6IERhbmllbCBWZXR0
+ZXIgPGRhbmllbC52ZXR0ZXJAaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvZ3B1L2RybS9hbWQvYW1k
+Z3B1L2FtZGdwdV9hbWRrZmRfZ3B1dm0uYyB8IDggKysrKy0tLS0KIDEgZmlsZSBjaGFuZ2VkLCA0
+IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
+ZC9hbWRncHUvYW1kZ3B1X2FtZGtmZF9ncHV2bS5jCmluZGV4IDc3OTFkMDc0YmQzMi4uYTk2NDdl
+N2Y5OGE4IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfYW1k
+a2ZkX2dwdXZtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2FtZGtm
+ZF9ncHV2bS5jCkBAIC00NTMsNyArNDUzLDcgQEAgc3RhdGljIGludCBhZGRfYm9fdG9fdm0oc3Ry
+dWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsIHN0cnVjdCBrZ2RfbWVtICptZW0sCiAJc3RydWN0IGFt
+ZGdwdV9ibyAqYm8gPSBtZW0tPmJvOwogCXVpbnQ2NF90IHZhID0gbWVtLT52YTsKIAlzdHJ1Y3Qg
+bGlzdF9oZWFkICpsaXN0X2JvX3ZhID0gJm1lbS0+Ym9fdmFfbGlzdDsKLQl1bnNpZ25lZCBsb25n
+IGJvX3NpemUgPSBiby0+dGJvLm1lbS5zaXplOworCXVuc2lnbmVkIGxvbmcgYm9fc2l6ZSA9IGJv
+LT50Ym8uYmFzZS5zaXplOwogCiAJaWYgKCF2YSkgewogCQlwcl9lcnIoIkludmFsaWQgVkEgd2hl
+biBhZGRpbmcgQk8gdG8gVk1cbiIpOwpAQCAtMTI4MSw3ICsxMjgxLDcgQEAgaW50IGFtZGdwdV9h
+bWRrZmRfZ3B1dm1fZnJlZV9tZW1vcnlfb2ZfZ3B1KAogCQlzdHJ1Y3Qga2dkX2RldiAqa2dkLCBz
+dHJ1Y3Qga2dkX21lbSAqbWVtLCB1aW50NjRfdCAqc2l6ZSkKIHsKIAlzdHJ1Y3QgYW1ka2ZkX3By
+b2Nlc3NfaW5mbyAqcHJvY2Vzc19pbmZvID0gbWVtLT5wcm9jZXNzX2luZm87Ci0JdW5zaWduZWQg
+bG9uZyBib19zaXplID0gbWVtLT5iby0+dGJvLm1lbS5zaXplOworCXVuc2lnbmVkIGxvbmcgYm9f
+c2l6ZSA9IG1lbS0+Ym8tPnRiby5iYXNlLnNpemU7CiAJc3RydWN0IGtmZF9ib192YV9saXN0ICpl
+bnRyeSwgKnRtcDsKIAlzdHJ1Y3QgYm9fdm1fcmVzZXJ2YXRpb25fY29udGV4dCBjdHg7CiAJc3Ry
+dWN0IHR0bV92YWxpZGF0ZV9idWZmZXIgKmJvX2xpc3RfZW50cnk7CkBAIC0xNDAyLDcgKzE0MDIs
+NyBAQCBpbnQgYW1kZ3B1X2FtZGtmZF9ncHV2bV9tYXBfbWVtb3J5X3RvX2dwdSgKIAltdXRleF9s
+b2NrKCZtZW0tPmxvY2spOwogCiAJZG9tYWluID0gbWVtLT5kb21haW47Ci0JYm9fc2l6ZSA9IGJv
+LT50Ym8ubWVtLnNpemU7CisJYm9fc2l6ZSA9IGJvLT50Ym8uYmFzZS5zaXplOwogCiAJcHJfZGVi
+dWcoIk1hcCBWQSAweCVsbHggLSAweCVsbHggdG8gdm0gJXAgZG9tYWluICVzXG4iLAogCQkJbWVt
+LT52YSwKQEAgLTE1MDYsNyArMTUwNiw3IEBAIGludCBhbWRncHVfYW1ka2ZkX2dwdXZtX3VubWFw
+X21lbW9yeV9mcm9tX2dwdSgKIAlzdHJ1Y3QgYW1kZ3B1X2RldmljZSAqYWRldiA9IGdldF9hbWRn
+cHVfZGV2aWNlKGtnZCk7CiAJc3RydWN0IGFtZGtmZF9wcm9jZXNzX2luZm8gKnByb2Nlc3NfaW5m
+byA9CiAJCSgoc3RydWN0IGFtZGdwdV92bSAqKXZtKS0+cHJvY2Vzc19pbmZvOwotCXVuc2lnbmVk
+IGxvbmcgYm9fc2l6ZSA9IG1lbS0+Ym8tPnRiby5tZW0uc2l6ZTsKKwl1bnNpZ25lZCBsb25nIGJv
+X3NpemUgPSBtZW0tPmJvLT50Ym8uYmFzZS5zaXplOwogCXN0cnVjdCBrZmRfYm9fdmFfbGlzdCAq
+ZW50cnk7CiAJc3RydWN0IGJvX3ZtX3Jlc2VydmF0aW9uX2NvbnRleHQgY3R4OwogCWludCByZXQ7
+Ci0tIAoyLjI5LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9y
+ZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZl
+bAo=
