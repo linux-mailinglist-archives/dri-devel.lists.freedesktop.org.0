@@ -1,111 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8570A2DA8F4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:31 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD332DA8F8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A23189C03;
-	Tue, 15 Dec 2020 08:06:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D136E18E;
+	Tue, 15 Dec 2020 08:06:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-eopbgr80129.outbound.protection.outlook.com [40.107.8.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC7B6E20B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 14:17:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nRiaPvXfal12IipH556lKWrTW0qDFp/HdUznbtMsUfvQo60eAiaoqlX2Oou+g/eH2dR20Pt7DaAtF6jx7hSszVb9vRTZ8YNP0BliGpXKoZrkoCRu5oG5DpV6RMioQDRw6+7Wck2oelUgeaTTRJm7ACBaG1qKffF331SiB0RByrbIGHS5sE54EfRj2vDB+ugms56fyOYtRjt/XO+zm1zIM8yVh+IizQKJ2RIFV7FUHW97afdbnQ3CsjHNFwB0aRiTJuS/zXiVLsYsqQhRWQLrXi2NAgN7qDgQLyStFWgiKS4tF7gkxrVWUybnLCkPBd1oRqxpEU7V2qsMb21n1h0FYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iknzuEnb3giGIHoXyhZ9kEGb+y0tJZ3bl6jlndVifhE=;
- b=DmFihtljJLRJIIPwry8tlAB7BCZWmL/VSUsDuk3WpNAOLj2HHhiRgJS6bdX60V3Or9oJIoAFykQ0k+QldbQq1iiquwQ/zV4OyuB+CCzq6A9KkkuyYOAVTtzd78Hewd7trh0jY6jW2yDavgzqdUK9wTMt+qlJ2MORVu6DwzK/zIzCoXjt8oa/ydGtGeppQM/hG0LqqAsqEGUyB/Sh8+71OtqrvhE51wWpLmZaueWCRFOeqz9BDg6kD+ddfpUQL80lnJX9Jy4mymlxSSvwvjGDz7w6lnWuOGe2E/vBBM2P3kpWW832VOu1JiUw8wJLkThDZ873SExb55qGH1jECiloWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
- s=selector2-mysnt-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iknzuEnb3giGIHoXyhZ9kEGb+y0tJZ3bl6jlndVifhE=;
- b=AadqqKtKfV0uXXsAqM9kMOWVS/FTvA/huK1KxA2Y2e/ddEaPFzDdi0qq+PyvwW8GZ8JwGZsprQ113ua6ANi4CKtlN6NiYhVXXU3u2etUE9SKCrw7/QAuifvNxHw5dmyt+6zcxGGNxUd4es0t8JVQzufITxTR7gIJTHn7o+Lm+dU=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=kontron.de;
-Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
- by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:157::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Mon, 14 Dec
- 2020 14:17:14 +0000
-Received: from AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9d5:953d:42a3:f862]) by AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9d5:953d:42a3:f862%7]) with mapi id 15.20.3654.025; Mon, 14 Dec 2020
- 14:17:14 +0000
-Subject: Re: Using Etnaviv with mxsfb-drm
-To: Lucas Stach <l.stach@pengutronix.de>, "marex@denx.de" <marex@denx.de>
-References: <339ba605-f0af-32d7-9678-877fd6b1fc58@kontron.de>
- <e66672b54d8940995b79bd07ac35d7f4f83b66ea.camel@pengutronix.de>
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-Message-ID: <251edc9d-6ff9-ed4e-a314-28bab755fd3e@kontron.de>
-Date: Mon, 14 Dec 2020 15:17:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <e66672b54d8940995b79bd07ac35d7f4f83b66ea.camel@pengutronix.de>
-Content-Language: en-US
-X-Originating-IP: [88.130.78.28]
-X-ClientProxiedBy: AM0PR06CA0115.eurprd06.prod.outlook.com
- (2603:10a6:208:ab::20) To AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:157::14)
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 605546E28A
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 15:27:42 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 141647BD;
+ Mon, 14 Dec 2020 10:27:38 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 14 Dec 2020 10:27:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ntJmrGCcAbQquVvbRfQicceFKNU
+ MSarHFqhD8v0/wxE=; b=PAELf08UrchWI/nqe6Gr4rBvBrMK9IeIszHQoK5oIEZ
+ bsZaoisXh7mjmUWFznWynkUZZvvlY2lFvBWKmu787Timhbe2KuVK8rHH1SxYKf52
+ XA3OBqEodCpYELSQYmFCPjqAKUBIxBOn1pJBtzQfWbWB71RGaljwZCZQ8PlgtiRZ
+ zhlbvgaPtsg+5idSo3TkaeX+yF5fUW8ugFZ/Z+MD5DNRlg/fNKsGy+Cis4ODfKZz
+ 7lcaOpsUrw2mYHWpER90yuwi3GtUT8ZohH6ViYhjgOrSmdAj/cYCJ626IOY4vV1j
+ YkaDn8fGRr8sdTd62V5BNZu4EdU71VJrL6MK1lqCngw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ntJmrG
+ CcAbQquVvbRfQicceFKNUMSarHFqhD8v0/wxE=; b=d+ljFMqQxFAuI3rRYc+7nO
+ Hq5jd85qB4R83rnfYOfw7VV1TgDOX3WEhSdZm8wLmuI7g+vfyU9QOHI0p2rMDgaL
+ LdPhty83TxbWu44q4CzOpjNKN4lfdth379+D49/JHw0bSlqSN3JZn582Hz97KA0S
+ qSnyRZqoE/gS8Quzbjcft9pmqp4TrU4yzBNxYJUQ9ivU4fq58i/j3pihEycoS317
+ fiYb0aT3d8gRqJisyzkS3mGRmI6cBoirH5eCha3OWURU0WaUDm+hOHXR2CAREMPZ
+ /YfNslYQH83gEXbmpzuugGKuxRS97/r3Arrq3w9c930rNQC+WoWwpEQ4DzzmAZhQ
+ ==
+X-ME-Sender: <xms:ZoTXX0oF7-4eVD8WVuPp5f6zuoxr4BxQGwx6fT3rhdBVUqjXiUg1Sw>
+ <xme:ZoTXX6rYs847KgWSjV8miZEkU_2XN9b3a5qYs9fXn1AS48OtnYbY33cckhr1_chXT
+ oKihsvPiqTUZ_fpfFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekkedgjeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:ZoTXX5NUVLegLe3lOJZzvLzo1uB0wkuxppo62sdmZPa-_RO5HGDM3w>
+ <xmx:ZoTXX76AS4nA1n5XIwSz6PSdSkwaaTUqt_B0vqGwdkZmTKS_6CcFgA>
+ <xmx:ZoTXXz5JPPqjPoRnCF60l9j4-OhZq8W2vyogWYqWGpKZu3Zot_s9uQ>
+ <xmx:aYTXX6IxlKBR1KIubJHXRVyPbRSlP9DE0bYwvrc6ww69d-V0YLVKCuU0juA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7B74E1080064;
+ Mon, 14 Dec 2020 10:27:33 -0500 (EST)
+Date: Mon, 14 Dec 2020 16:27:31 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marc Zyngier <maz@kernel.org>
+Subject: Re: [PATCH 01/15] irqchip: Allow to compile bcmstb on other platforms
+Message-ID: <20201214152731.mgoo2hvlu6uoi5md@gilmour>
+References: <20201210134648.272857-1-maxime@cerno.tech>
+ <20201210134648.272857-2-maxime@cerno.tech>
+ <e0f1aed2b0007eab6e9192ac73fd411f@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.10.17] (88.130.78.28) by
- AM0PR06CA0115.eurprd06.prod.outlook.com (2603:10a6:208:ab::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3654.12 via Frontend Transport; Mon, 14 Dec 2020 14:17:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 54f931d4-0989-4d51-3076-08d8a03af4d9
-X-MS-TrafficTypeDiagnostic: AM0PR10MB2963:
-X-Microsoft-Antispam-PRVS: <AM0PR10MB2963B5B99E6FFCBBA0D989ABE9C70@AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nzbWmsRG60+jJbUb6fvtEU6kfmk0qKNPu3PXrVx7LCKR1nElHm/LDNkOKTk42fCQSSAyfMFY9fPiSmqWfu3E6oZNWKZS/wJqya63U1fb7SlfWvqdvQDozjwWHWaQx0Cb96oxZH+tgztS9VRwMQxqPm5BSP7GAWpRIoH8eRn1GNuY1ubW1LtHO6v8mHOsR+l/Skx+3t9GZPeaSoqkMBsyxSFCCoeYC2rfC+wfS2gWAMgsOR0VCES1xiLELfRDsLASQNocacT/kWfp4OYtLf7eJEq6vJI/aeabRfHpWCAAHGhoHSK1EYxJlBwFYaYcLroWfw3boCG+he+J93e4W8oD8uNEeRBtiupQKoyKqV/FSunM/iDjbrliD5vZFU74qEHErmY8vrYDMWipGIEnWWv49bQMtsk33p85QGaNyaraBQA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(136003)(376002)(346002)(39860400002)(110136005)(5660300002)(186003)(31696002)(4326008)(16576012)(2906002)(8936002)(86362001)(8676002)(2616005)(44832011)(956004)(66946007)(316002)(66476007)(66556008)(16526019)(53546011)(26005)(6486002)(31686004)(52116002)(36756003)(478600001)(83380400001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QXROOVJOdDZZQjBZUUJ1cXZSbkFwZ1UyY3F1WkNRY1hSdHVybmZKZHNweVRP?=
- =?utf-8?B?Y2N5WjNIVE4xUlpCRGFxTUFFYjNtRTU2elhBM1laWXRoVW1Uck9LeklYTjZq?=
- =?utf-8?B?OWdIMkVwQnZ1RXNXL2w2VFZqdjhPN3lVdUE5NEc3NU5XRWFvekJtWDRzOWVz?=
- =?utf-8?B?NEJCRi9JRzdYVGxmZXlPV0JtTHNvWWNlNlBDaWRPc0pUODErd0NEV2E0U2tR?=
- =?utf-8?B?WitSdEFjTU0wWUtzNHNOUGFUVysxVGw4Q1VsNTJ2L3M3eFBJOGZ4N1kzUEU0?=
- =?utf-8?B?QlRpbjVUTmRiQVMvSGNBV1F1MkVDSUczc2NuSnFVWFlpOGdqRGVWWHVKN0Zi?=
- =?utf-8?B?Ylg3OGJaS011ZGZtVzBoTlJSZ01KT1RIMDVtNURyVjE0V0ZjMVBIazBERzBr?=
- =?utf-8?B?WmhLdHdvYktWKzUxbmU4Q2FTQ3JIdWRIWWQ0Nm5mK0dpdTA4ZmJnbzk3NXM2?=
- =?utf-8?B?YlBieTJ4VUdXSnNsemIzcm1HdjV5WFFXeGRKQ0wzUzJUMFFuemdvbWlSM3VJ?=
- =?utf-8?B?akFvNzV6MTd3aDZBNTlMeFh2WGtjM05kckVXWFd0dE5la2NzbmJ6V1k5cWtO?=
- =?utf-8?B?L1cySm02blgyUHRjR2ZPNm1hdnRKMTAvellZSmZpbVRhakxsaE1RWm1XTDZN?=
- =?utf-8?B?Z0dzUlVxNktnY1RWMDVia1pIRVRsNUtHZ09GbnRFOWs2YmNmdVVEeEVOYXJ5?=
- =?utf-8?B?ZzVKemtlNko3TUo4aTY3aytMT295eHl5VllOQWdxS1czZndRUElKWEhhelRy?=
- =?utf-8?B?QkExSXFicEF3ZGV0K3ZoMElYOEhuYlpOVU1QUWNCMVlXd2NVQ3ZnVkFRUUIw?=
- =?utf-8?B?ZGpNOCtwd0hzdWpZSVZ4L1VwaFJtRE0raEUvR1lhbE83VlhlUnFYUFNGNml2?=
- =?utf-8?B?cjgwZTVJcGlLYUVNU0h1Ukh1YjZ4dGdsc2lzeHozV3g2RDFwRFYzMjhqWmFq?=
- =?utf-8?B?eUV1aGlhYkVtaXB4WDJDdG5oQXBLZUdRanc5V3gxSzJ1cUo1R3VzMzlSdmk3?=
- =?utf-8?B?aVJKdWF6b2grWWZuK1VKaXZVZU1MQm50TW9raDU1WGs1bnVJUzJhT0gzc0Qz?=
- =?utf-8?B?NkpJWFdXYzErcjJSeXMrZXg3ckcwdzNxdnhwanVmeFBBZW1BbUlJNkNXd3NQ?=
- =?utf-8?B?MWRoOGJ2cGxLSExrWVdsY1BmSCt4blZNTzQwc3ZXbGtDOURIMlVsNWZhOEtl?=
- =?utf-8?B?Y0pXa3NjMXlFeTllRStwS3JXdTRLZGhuakJXZDd4Qmp2aUQxMkVaYlJLTGdn?=
- =?utf-8?B?TjJWTFRjVWhTQXpMbHI2Mys3MkNKMko5bW1TK2lUWHJLWHpTZ2FLTy82TVF4?=
- =?utf-8?Q?PEux7hv1VWfyw=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB2963.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2020 14:17:14.9117 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54f931d4-0989-4d51-3076-08d8a03af4d9
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fgaYUpdH/qyWFTzSj2M9hJg/zGXxCvq1uuf2wF2JRYd9TklR3jS6TZdm1lVJVs/jtEmJPVpZlMJWBAt/wXe/spY5+xjFirpMjc23j5qoLGY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2963
+In-Reply-To: <e0f1aed2b0007eab6e9192ac73fd411f@kernel.org>
 X-Mailman-Approved-At: Tue, 15 Dec 2020 08:06:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -119,40 +80,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
+ linux-rpi-kernel@lists.infradead.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Daniel Vetter <daniel.vetter@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: multipart/mixed; boundary="===============0989632653=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgTHVjYXMsCgpPbiAxNC4xMi4yMCAxNDowNiwgTHVjYXMgU3RhY2ggd3JvdGU6Cj4gSGkgRnJp
-ZWRlciwKPiAKPiBBbSBNb250YWcsIGRlbiAxNC4xMi4yMDIwLCAxMzozMyArMDEwMCBzY2hyaWVi
-IEZyaWVkZXIgU2NocmVtcGY6Cj4+IEhpIEx1Y2FzLCBoaSBNYXJlaywKPj4KPj4gd2hpbGUgZG9p
-bmcgc29tZSB0ZXN0cyBvbiBpLk1YOE1NIHdpdGggRXRuYXZpdiBhbmQgbXhzZmItZHJtICh1c2lu
-ZyB0aGUKPj4gcGF0Y2hlcyBmb3IgRFNJTSwgR1BDLCBCTEstQ1RMLCBldGMuLCBzZWUgYnJhbmNo
-IGF0IFsxXSksIEkgbm90aWNlZCB0aGF0Cj4+IEkgZG9uJ3Qgc2VlbSB0byBiZSBhYmxlIHRvIHJ1
-biBnbG1hcmsyOgo+Pgo+PiB+IyBnbG1hcmsyLWVzMi1kcm0KPj4gPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+PiAgwqDCoMKgwqDCoGdsbWFy
-azIgMjAxNy4wNwo+PiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09Cj4+ICDCoMKgwqDCoMKgT3BlbkdMIEluZm9ybWF0aW9uCj4+ICDCoMKgwqDC
-oMKgR0xfVkVORE9SOiAgICAgZXRuYXZpdgo+PiAgwqDCoMKgwqDCoEdMX1JFTkRFUkVSOiAgIFZp
-dmFudGUgR0M2MDAgcmV2IDQ2NTMKPj4gIMKgwqDCoMKgwqBHTF9WRVJTSU9OOiAgICBPcGVuR0wg
-RVMgMi4wIE1lc2EgMjAuMi40Cj4+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0KPj4gW2J1aWxkXSB1c2UtdmJvPWZhbHNlOkVycm9yOiBGYWls
-ZWQgdG8gY3JlYXRlIEZCOiAtMjIKPj4gU2VnbWVudGF0aW9uIGZhdWx0Cj4+Cj4+IFJ1bm5pbmcg
-YSBRdCBhcHBsaWNhdGlvbiB3aXRoIHRoZSBlZ2xmc19rbXMgYmFja2VuZCBwcm9kdWNlcyBhIHNp
-bWlsYXIKPj4gZXJyb3IsIHdoaWxlIHJ1bm5pbmcga21zY3ViZSBvciBhcHBsaWNhdGlvbnMgd2l0
-aG91dCBHUFUgcmVuZGVyaW5nIHdvcmtzCj4+IGZpbmUuCj4+Cj4+IFdoYXQgYW0gSSBtaXNzaW5n
-PyBXaGVuIEkgdXNlZCBpbXgtZHJtLCBJIGRpZG4ndCBoYXZlIGFueSBzdWNoIGlzc3Vlcy4KPj4g
-SG93IGlzIG14c2ZiLWRybSBkaWZmZXJlbnQ/Cj4gCj4gVGhpcyBjb3VsZCBoYXZlIG11bHRpcGxl
-IHJvdCBjYXVzZXMuIEZpcnN0LCBwbGVhc2UgbWFrZSBzdXJlIHRoYXQgeW91Cj4gaGF2ZSBzdWZm
-aWNpZW50IENNQSBtZW1vcnkuIEFsc28gdGhlIGVMQ0RJRiBoYXJkd2FyZSBoYXMgc29tZQo+IHVu
-Zm9ydHVuYXRlIHJlc3RyaWN0aW9ucyBvbiBidWZmZXIgc3RyaWRlLCB3aGljaCBzdXJmYWNlZCBh
-IGJ1ZyBpbiB0aGUKPiBldG5hdml2IGJ1ZmZlciBsYXlvdXQgY29kZSBhbHNvIG9uIHNvbWUgdmVy
-eSBjb21tb24gZGlzcGxheQo+IHJlc29sdXRpb25zLiBQbGVhc2UgbWFrZSBzdXJlIHlvdSBoYXZl
-IFsxXSBhcHBsaWVkIHRvIGdldCByaWQgb2YgdGhpcwo+IGJ1Zy4KCkdyZWF0LCB0aGFua3MgZm9y
-IHBvaW50aW5nIHRoYXQgb3V0LiBZb3VyIHBhdGNoIGluZGVlZCBzb2x2ZXMgdGhlIGlzc3VlIApm
-b3IgbWUgKGdsbWFyazIgZG9lc24ndCBjcmFzaCBhbnltb3JlKSEKClRoYW5rcyBhIGxvdApGcmll
-ZGVyCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
-ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
-L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+
+--===============0989632653==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jdibhl3czonwcpge"
+Content-Disposition: inline
+
+
+--jdibhl3czonwcpge
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Marc,
+
+On Thu, Dec 10, 2020 at 05:59:09PM +0000, Marc Zyngier wrote:
+> On 2020-12-10 13:46, Maxime Ripard wrote:
+> > The BCM2711 uses a number of instances of the bcmstb-l2 controller in
+> > its
+> > display engine. Let's allow the driver to be enabled through KConfig.
+> >=20
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > ---
+> >  drivers/irqchip/Kconfig | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+> > index c6098eee0c7c..f1e58de117dc 100644
+> > --- a/drivers/irqchip/Kconfig
+> > +++ b/drivers/irqchip/Kconfig
+> > @@ -131,7 +131,7 @@ config BCM7120_L2_IRQ
+> >  	select IRQ_DOMAIN
+> >=20
+> >  config BRCMSTB_L2_IRQ
+> > -	bool
+> > +	bool "Broadcom STB L2 Interrupt Controller"
+> >  	select GENERIC_IRQ_CHIP
+> >  	select IRQ_DOMAIN
+>=20
+> I'm always sceptical of making interrupt controllers user-selectable.
+> Who is going to know that they need to pick that one?
+>=20
+> I'd be much more in favour of directly selecting this symbol
+> from DRM_VC4_HDMI_CEC, since there is an obvious dependency.
+
+It's a bit weird to me that the HDMI CEC support selects it, since that
+interrupt controller is external and here no matter what. Would
+selecting it from the ARCH_* Kconfig option work for you?
+
+Thanks!
+Maxime
+
+--jdibhl3czonwcpge
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9eEYwAKCRDj7w1vZxhR
+xWdKAP9HIP+OMr/KnqPVosdzxr1LAk22AajNLnBMwtjovde35AD/QxAm/KxE2Ja3
+qr3tvsmhqVBZ1mRShJTfY0ZkqKT4ZgA=
+=199y
+-----END PGP SIGNATURE-----
+
+--jdibhl3czonwcpge--
+
+--===============0989632653==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============0989632653==--
