@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC132DA1F6
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 21:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BD92DA1F8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 21:52:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0016E154;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF626E159;
 	Mon, 14 Dec 2020 20:52:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E882A6E158
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 20:52:20 +0000 (UTC)
+ [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F0C6E15A
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 20:52:21 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C21D2CF;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id B94F75B0;
  Mon, 14 Dec 2020 21:52:18 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607979138;
- bh=YjL6GJirk1uFpKmT55hnAK9VmSpAtw6Wc2p19daOYwo=;
+ s=mail; t=1607979139;
+ bh=ujCcvKlCpMqXC8K7Q3mgZMbr2E0FMgilxJpQEi2J9hE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pt82U642FU7l4aPZ1l3tLfx9gJ+yZemjS8sKdlGUXtc0rcSWFtUpEaQmmLkTYOZUp
- 33a71B8s59kgeC2HWGSF25j1SW1FqXJw0R1N0ytBBJjL9BSyoiCf/cxGYNpTjU6G2E
- ZdecE7iKcMdlbMgz4nMAdDvhssjcu3xXdsg44Q4c=
+ b=vyiHBhjg8++K/OqC/D6F9AsjFP/YMeAF7SD7KtkN18uiH9Fq5TUST5flIVEcPY0TC
+ PCUzHd+q3rr1p/VhIT7ZVCoU9pmNKubuLMChm3gvhurQn//0Nldz1JWiNN0xqz9LR1
+ 54CTDBxbx08EUHb84sz414xvy36IBCnl1ql8n18k=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/9] drm: rcar-du: Release vsp device reference in all
- error paths
-Date: Mon, 14 Dec 2020 22:52:01 +0200
-Message-Id: <20201214205208.10248-3-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error
+ path
+Date: Mon, 14 Dec 2020 22:52:02 +0200
+Message-Id: <20201214205208.10248-4-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -52,29 +52,34 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use drmm_add_action_or_reset() instead of drmm_add_action() to ensure
-the vsp device reference is released in case the function call fails.
+The encoder->name field can never be non-null in the error path, as that
+can only be possible after a successful call to
+drm_simple_encoder_init(). Drop the cleanup.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index f6a69aa116e6..4dcb1bfbe201 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -364,7 +364,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+index 50fc14534fa4..e4bac47caf16 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+@@ -123,11 +123,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+ 	}
  
- 	vsp->vsp = &pdev->dev;
+ done:
+-	if (ret < 0) {
+-		if (encoder->name)
+-			encoder->funcs->destroy(encoder);
++	if (ret < 0)
+ 		devm_kfree(rcdu->dev, renc);
+-	}
  
--	ret = drmm_add_action(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
-+	ret = drmm_add_action_or_reset(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
- 	if (ret < 0)
- 		return ret;
- 
+ 	return ret;
+ }
 -- 
 Regards,
 
