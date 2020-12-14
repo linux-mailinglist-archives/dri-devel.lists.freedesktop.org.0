@@ -2,87 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0622D9B96
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 16:59:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD2C2D9BA0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 17:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A08B8857E;
-	Mon, 14 Dec 2020 15:59:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D50646E174;
+	Mon, 14 Dec 2020 16:01:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD4E6E301
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 15:59:32 +0000 (UTC)
-Received: from [192.168.0.217]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F13296;
- Mon, 14 Dec 2020 16:59:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607961570;
- bh=x2OX+vidYL11GJLASczWC9Q5fN2ikvKlJtHQwofJGnk=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=uKwS5kJGvEvVrI78qw0ht09Dy9pWM9k73tSO0qWH9JsG9jN4tbMI2WRV+OmwvHV1w
- bdPSEtu+Y+VjVt+OluxDkNoyABEhOQkPditnZ078drxNeERH2ZN87eUskMxEXFTBbj
- JP/CvjJtzL8upFR71aOvGnpOULPI2w/UM83PTltw=
-Subject: Re: [PATCH 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error
- path
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-4-laurent.pinchart+renesas@ideasonboard.com>
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <f696d0ce-cba4-6bf2-6af4-ebc6d69aff05@ideasonboard.com>
-Date: Mon, 14 Dec 2020 15:59:27 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
+ [IPv6:2a00:1450:4864:20::442])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CF8E6E301
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 16:01:48 +0000 (UTC)
+Received: by mail-wr1-x442.google.com with SMTP id t16so16952192wra.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 08:01:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=xuAn2AWLkCbySGbNYHgaFvTH1KUCkQGoqqARemhHXts=;
+ b=M5rqdhVemccRA4Ub1/bGlTFvIdgCI8kyDpzWUZrxheX9LPVPtFXOGokah3dktF4ank
+ UaZLZ36qQi0BQ8FvkTw05lxCLOyCeDBj9FucBI5VIbvjaEcii9R10J+iZN5AtuB0iENE
+ Xa7pWX104GmBzYTO1HFXg2Nu6+LhSNAA7W3BQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xuAn2AWLkCbySGbNYHgaFvTH1KUCkQGoqqARemhHXts=;
+ b=aJXOONp8/Bru66EqdnInTrKRa7X8b53xmR3w4TbYwuggSKhMhjxLFU8I7JyDorpgwq
+ 6Wu2O1iRX+WsMRp5ZHQ2CBe/tZZ1Tq8a17b4Qca/5o+zGJKQO0VLXg8YITdPXr9hRWUw
+ a3hO+BtSG8pX4cIZmrMiTI33/37CV9spZF70rNq3REJN6TWt64PykXxg1dXWs7LzOVth
+ 87y89gIJIx4QFHUkj6WIb28iyv3KN9oRws9fty47OCg9mn3rZn2On14qiK4wqWnaSG6S
+ GhewtJ1UfjrqQrsMBYlzHatQ7FJnOqyIyN5wrNBEOB8YoB/H3HOtxqIXvAUmPvHTNREp
+ fQoQ==
+X-Gm-Message-State: AOAM5317O2PIYlqhEHD9ea+i2Otie8m9afJBQdjppisBIb5SLGrX5URF
+ CbU3qzMQXGdx8QpNl9Y0x4SuCw==
+X-Google-Smtp-Source: ABdhPJxctEDGmgcO0tJRkf4x2MMbNwgGhzE9x1j21IqgC8EUS9EEyiRdDEZOiatQsWfdoTIT+lJboQ==
+X-Received: by 2002:adf:f88d:: with SMTP id u13mr30780291wrp.161.1607961706669; 
+ Mon, 14 Dec 2020 08:01:46 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id s13sm31174845wmj.28.2020.12.14.08.01.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 08:01:45 -0800 (PST)
+Date: Mon, 14 Dec 2020 17:01:43 +0100
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 1/4] dma-buf: Remove kmap kerneldoc vestiges
+Message-ID: <20201214160143.GZ401619@phenom.ffwll.local>
+References: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+ <9508713a-2a83-dd53-bddf-828a460e11cb@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20201204220139.15272-4-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-GB
+Content-Disposition: inline
+In-Reply-To: <9508713a-2a83-dd53-bddf-828a460e11cb@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,51 +66,186 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ linaro-mm-sig@lists.linaro.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+On Mon, Dec 14, 2020 at 11:33:10AM +0100, Christian K=F6nig wrote:
+> Am 11.12.20 um 16:58 schrieb Daniel Vetter:
+> > Also try to clarify a bit when dma_buf_begin/end_cpu_access should
+> > be called.
+> > =
 
-On 04/12/2020 22:01, Laurent Pinchart wrote:
-> The encoder->name field can never be non-null in the error path, as that
-> can only be possible after a successful call to
-> drm_simple_encoder_init(). Drop the cleanup.
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 20 ++++++++++++++------
+> >   include/linux/dma-buf.h   | 25 +++++++++----------------
+> >   2 files changed, 23 insertions(+), 22 deletions(-)
+> > =
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index e63684d4cd90..a12fdffa130f 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -1001,15 +1001,15 @@ EXPORT_SYMBOL_GPL(dma_buf_move_notify);
+> >    *   vmalloc space might be limited and result in vmap calls failing.
+> >    *
+> >    *   Interfaces::
+> > + *
+> >    *      void \*dma_buf_vmap(struct dma_buf \*dmabuf)
+> >    *      void dma_buf_vunmap(struct dma_buf \*dmabuf, void \*vaddr)
+> >    *
+> >    *   The vmap call can fail if there is no vmap support in the export=
+er, or if
+> > - *   it runs out of vmalloc space. Fallback to kmap should be implemen=
+ted. Note
+> > - *   that the dma-buf layer keeps a reference count for all vmap acces=
+s and
+> > - *   calls down into the exporter's vmap function only when no vmappin=
+g exists,
+> > - *   and only unmaps it once. Protection against concurrent vmap/vunma=
+p calls is
+> > - *   provided by taking the dma_buf->lock mutex.
+> > + *   it runs out of vmalloc space. Note that the dma-buf layer keeps a=
+ reference
+> > + *   count for all vmap access and calls down into the exporter's vmap=
+ function
+> > + *   only when no vmapping exists, and only unmaps it once. Protection=
+ against
+> > + *   concurrent vmap/vunmap calls is provided by taking the &dma_buf.l=
+ock mutex.
+> =
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> index 2d40da98144b..0edce24f2053 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-> @@ -124,11 +124,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
->  	}
->  
->  done:
-> -	if (ret < 0) {
-> -		if (encoder->name)
-> -			encoder->funcs->destroy(encoder);
-> +	if (ret < 0)
->  		devm_kfree(rcdu->dev, renc);
-> -	}
->  
->  	return ret;
->  }
-> 
+> Who is talking the lock? The caller of the dma_buf_vmap/vunmap() function=
+s,
+> the functions itself or the callback inside the exporter?
 
--- 
-Regards
---
-Kieran
+That's the part I didn't change at all here, just re-laid out the line
+breaking. I only removed the outdated kmap section here.
+
+Should I do another patch and remove this one sentence here (it's kinda
+pointless and generally we don't muse about implementation details that
+callers don't care about)?
+
+I did try and do a cursory review of the dma-buf docs, but this is kinda
+not meant as an all-out revamp. Just a few things I've noticed while
+reviewing Thomas' vmap_local stuff.
+-Daniel
+
+> =
+
+> Christian.
+> =
+
+> >    *
+> >    * - For full compatibility on the importer side with existing usersp=
+ace
+> >    *   interfaces, which might already support mmap'ing buffers. This i=
+s needed in
+> > @@ -1098,6 +1098,11 @@ static int __dma_buf_begin_cpu_access(struct dma=
+_buf *dmabuf,
+> >    * dma_buf_end_cpu_access(). Only when cpu access is braketed by both=
+ calls is
+> >    * it guaranteed to be coherent with other DMA access.
+> >    *
+> > + * This function will also wait for any DMA transactions tracked throu=
+gh
+> > + * implicit synchronization in &dma_buf.resv. For DMA transactions wit=
+h explicit
+> > + * synchronization this function will only ensure cache coherency, cal=
+lers must
+> > + * ensure synchronization with such DMA transactions on their own.
+> > + *
+> >    * Can return negative error values, returns 0 on success.
+> >    */
+> >   int dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+> > @@ -1199,7 +1204,10 @@ EXPORT_SYMBOL_GPL(dma_buf_mmap);
+> >    * This call may fail due to lack of virtual mapping address space.
+> >    * These calls are optional in drivers. The intended use for them
+> >    * is for mapping objects linear in kernel space for high use objects.
+> > - * Please attempt to use kmap/kunmap before thinking about these inter=
+faces.
+> > + *
+> > + * To ensure coherency users must call dma_buf_begin_cpu_access() and
+> > + * dma_buf_end_cpu_access() around any cpu access performed through th=
+is
+> > + * mapping.
+> >    *
+> >    * Returns 0 on success, or a negative errno code otherwise.
+> >    */
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index cf72699cb2bc..7eca37c8b10c 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -183,24 +183,19 @@ struct dma_buf_ops {
+> >   	 * @begin_cpu_access:
+> >   	 *
+> >   	 * This is called from dma_buf_begin_cpu_access() and allows the
+> > -	 * exporter to ensure that the memory is actually available for cpu
+> > -	 * access - the exporter might need to allocate or swap-in and pin the
+> > -	 * backing storage. The exporter also needs to ensure that cpu access=
+ is
+> > -	 * coherent for the access direction. The direction can be used by the
+> > -	 * exporter to optimize the cache flushing, i.e. access with a differ=
+ent
+> > +	 * exporter to ensure that the memory is actually coherent for cpu
+> > +	 * access. The exporter also needs to ensure that cpu access is coher=
+ent
+> > +	 * for the access direction. The direction can be used by the exporter
+> > +	 * to optimize the cache flushing, i.e. access with a different
+> >   	 * direction (read instead of write) might return stale or even bogus
+> >   	 * data (e.g. when the exporter needs to copy the data to temporary
+> >   	 * storage).
+> >   	 *
+> > -	 * This callback is optional.
+> > +	 * Note that this is both called through the DMA_BUF_IOCTL_SYNC IOCTL
+> > +	 * command for userspace mappings established through @mmap, and also
+> > +	 * for kernel mappings established with @vmap.
+> >   	 *
+> > -	 * FIXME: This is both called through the DMA_BUF_IOCTL_SYNC command
+> > -	 * from userspace (where storage shouldn't be pinned to avoid handing
+> > -	 * de-factor mlock rights to userspace) and for the kernel-internal
+> > -	 * users of the various kmap interfaces, where the backing storage mu=
+st
+> > -	 * be pinned to guarantee that the atomic kmap calls can succeed. Sin=
+ce
+> > -	 * there's no in-kernel users of the kmap interfaces yet this isn't a
+> > -	 * real problem.
+> > +	 * This callback is optional.
+> >   	 *
+> >   	 * Returns:
+> >   	 *
+> > @@ -216,9 +211,7 @@ struct dma_buf_ops {
+> >   	 *
+> >   	 * This is called from dma_buf_end_cpu_access() when the importer is
+> >   	 * done accessing the CPU. The exporter can use this to flush caches=
+ and
+> > -	 * unpin any resources pinned in @begin_cpu_access.
+> > -	 * The result of any dma_buf kmap calls after end_cpu_access is
+> > -	 * undefined.
+> > +	 * undo anything else done in @begin_cpu_access.
+> >   	 *
+> >   	 * This callback is optional.
+> >   	 *
+> =
+
+
+-- =
+
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
