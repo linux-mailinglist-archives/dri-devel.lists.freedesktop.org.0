@@ -1,45 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBFE2DA450
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 00:44:51 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0905F2DA464
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 00:50:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05DB689AB6;
-	Mon, 14 Dec 2020 23:44:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D52EA89F2A;
+	Mon, 14 Dec 2020 23:50:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 734F889AB6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 23:44:46 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
- 4.19/4.20/5.0
-Date: Mon, 14 Dec 2020 23:44:45 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mastercatz@hotmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201539-2300-s9krxNd1nO@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
-References: <bug-201539-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D95B89EB4;
+ Mon, 14 Dec 2020 23:50:30 +0000 (UTC)
+Date: Mon, 14 Dec 2020 23:50:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607989830;
+ bh=SJV+58ZVFlykR+8LRz85SA+mdMX5Zhf60lyRr0nr08Q=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=noYICguQ2NPaSUjL8UbaTSj/fY6r5/rKVdP3h/Al4d6IRimcNzEwCphdZ7W0hnMVJ
+ JbYUASrm8lG1k2c0p4w3Euoye4WedxrhjF6Mo7oS36wKTu49cqe50Eju+YVToOJsPD
+ 8JPpfKkmvyYeWnrhvNegQ4GBFpPdivp24+r9MhUiY2ogVuA30uL47yVMYeDwvqqgTd
+ szMVAuBqHFKc7f0ng+7AAVaSfC7qD4l1oA7Ewf/bdXDVapj9BzmlxjWZy1jctH0425
+ Ro/lNuCmbpco19I2MJbL4M2QigLTTX6sngbKyaLBLHe/HtxPlLfvwLl5UVJBa6SYoi
+ duhngK04mmI2Q==
+From: Will Deacon <will@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Subject: Re: [PATCH] drm/amd/display: Revert "add DCN support for aarch64"
+Message-ID: <20201214235024.GB14575@willie-the-truck>
+References: <20201214175225.38975-1-ardb@kernel.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201214175225.38975-1-ardb@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,37 +44,73 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Leo Li <sunpeng.li@amd.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ amd-gfx@lists.freedesktop.org,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Daniel Kolesa <daniel@octaforge.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Dave Martin <dave.martin@arm.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=201539
+On Mon, Dec 14, 2020 at 06:52:25PM +0100, Ard Biesheuvel wrote:
+> This reverts commit c38d444e44badc557cf29fdfdfb823604890ccfa.
+> =
 
---- Comment #74 from MasterCATZ (mastercatz@hotmail.com) ---
-GRUB_CMDLINE_LINUX_DEFAULT="usbcore.autosuspend=-1 amdgpu.dcfeaturemask=2
-apparmor=0 amdgpu.ppfeaturemask=0xfffd7fff amdgpu.ppfeaturemask=0xffffffff
-amdgpu.dc=1 amdgpu.cik_support=1 radeon.cik_support=0 radeon.si_support=0
-amdgpu.si_support=1"
+> Simply disabling -mgeneral-regs-only left and right is risky, given that
+> the standard AArch64 ABI permits the use of FP/SIMD registers anywhere,
+> and GCC is known to use SIMD registers for spilling, and may invent
+> other uses of the FP/SIMD register file that have nothing to do with the
+> floating point code in question. Note that putting kernel_neon_begin()
+> and kernel_neon_end() around the code that does use FP is not sufficient
+> here, the problem is in all the other code that may be emitted with
+> references to SIMD registers in it.
+> =
 
+> So the only way to do this properly is to put all floating point code in
+> a separate compilation unit, and only compile that unit with
+> -mgeneral-regs-only. But perhaps the use of floating point here is
+> something that should be reconsidered entirely.
+> =
 
-I am running amdgpu.dcfeaturemask=2 ?
-or are the other attempted featuremask's causing issues now ?
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Dave Martin <dave.martin@arm.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=F6nig" <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Daniel Kolesa <daniel@octaforge.org>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/display/Kconfig                   |  2 +-
+>  drivers/gpu/drm/amd/display/dc/calcs/Makefile         |  7 --
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/Makefile       |  7 --
+>  drivers/gpu/drm/amd/display/dc/dcn10/Makefile         |  7 --
+>  drivers/gpu/drm/amd/display/dc/dcn10/dcn10_resource.c | 81 ++++++++-----=
+-------
+>  drivers/gpu/drm/amd/display/dc/dcn20/Makefile         |  4 -
+>  drivers/gpu/drm/amd/display/dc/dcn21/Makefile         |  4 -
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile           | 13 ----
+>  drivers/gpu/drm/amd/display/dc/dsc/Makefile           |  5 --
+>  drivers/gpu/drm/amd/display/dc/os_types.h             |  4 -
+>  10 files changed, 32 insertions(+), 102 deletions(-)
 
+I didn't notice we'd enabled this for arm64, but I agree with the reasoning
+in the commit message, so:
 
-Kernel 5.10 is working perfectly 
+Acked-by: Will Deacon <will@kernel.org>
 
+The long and short of it is that it is not safe to compile kernel C code
+without -mgeneral-regs-only on arm64.
 
-I turned off fancontrol service and using "marazmista/radeon-profile"
-
-it is following my fan curve perfectly with out being locked out 
-
-it has been years since my R9 was not cooking from 20% fanspeed issue even with
-the core set @ 300mhz / 100 mhz memory
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Will
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
