@@ -1,46 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7772D993F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:51:20 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F3B2D99B8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 15:22:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72DF76E209;
-	Mon, 14 Dec 2020 13:51:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 495C56E20C;
+	Mon, 14 Dec 2020 14:22:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E2126E134;
- Mon, 14 Dec 2020 13:51:14 +0000 (UTC)
-IronPort-SDR: hsd+OYSMftx7oMceH66DCUcX0edFIVqhClh09XNRjsm0Q+9RCCV7bkKTXDK+gahKMcerR9oSIa
- qH+8V9gfO2qA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="172139863"
-X-IronPort-AV: E=Sophos;i="5.78,419,1599548400"; d="scan'208";a="172139863"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 05:51:11 -0800
-IronPort-SDR: pAp/gGRPEEFrEs2wvhwD9gBt/nSjOL3YMAs43dVWKpBnbRBwsCfr5Z0K1FGoZ98aWfIPgSIdPL
- Un/2hE4QkNeA==
-X-IronPort-AV: E=Sophos;i="5.78,419,1599548400"; d="scan'208";a="487078372"
-Received: from ssonth-mobl.gar.corp.intel.com (HELO [10.215.117.161])
- ([10.215.117.161])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Dec 2020 05:51:08 -0800
-Subject: Re: [PATCH v4 16/16] drm/i915: Enable PCON configuration for Color
- Conversion for TGL
-To: "Shankar, Uma" <uma.shankar@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-References: <20201208075145.17389-1-ankit.k.nautiyal@intel.com>
- <20201208075145.17389-17-ankit.k.nautiyal@intel.com>
- <9bda98244dea4f578a372361d52c0a98@intel.com>
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-Message-ID: <ab904612-3072-ba69-77e2-b2dbbad34a5c@intel.com>
-Date: Mon, 14 Dec 2020 19:21:05 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04DD36E20C
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 14:22:11 +0000 (UTC)
+Date: Mon, 14 Dec 2020 15:22:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607955730;
+ bh=a42FyKxT/hIQb1eguzTqD+Pb8aluOrnPe/aTVYbf7j4=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dl4CAQA9NVtqYkr7vtUNF+Urafl2nRCOZlzXXjBjSUiCVsm3h7wu1ct0BXcAKk0z0
+ r5mR7DZhZ/qLXb0mn7VfftRYSJp+kgKMllqdx3DD2aUAjsrrihz5/Y2AgSenIdmDx0
+ zgdoApS0j0B2Amgy5fYHPXwboX6nCgP5NSAqgVaRzBtBK8oioJXEOGXsLTGk4cN4OA
+ IA1Uylq1bDqHDeuu4yjqCq/H04kIdMBihdhrggySjJq6ewRx5AO9aPGPmQghPsnsFa
+ D83eIqU8o2IfPlcw1wM5GQM0A4hilWltqcAnqmyS2QvwTeMI60mOB0uMUgqYy9WH78
+ sj+iky6wMrcjg==
+From: Sebastian Reichel <sre@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v5 06/29] drm/omap: dsi: send nop instead of page & column
+Message-ID: <20201214142208.2x4yk6ucnhztqted@earth.universe>
+References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
+ <20201208122855.254819-7-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <9bda98244dea4f578a372361d52c0a98@intel.com>
-Content-Language: en-US
+In-Reply-To: <20201208122855.254819-7-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,79 +43,169 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "airlied@linux.ie" <airlied@linux.ie>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Sharma,
- Swati2" <swati2.sharma@intel.com>, "Kulkarni,
- Vandita" <vandita.kulkarni@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+ Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: multipart/mixed; boundary="===============1313874919=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ck9uIDEyLzEzLzIwMjAgMTI6NTkgUE0sIFNoYW5rYXIsIFVtYSB3cm90ZToKPgo+PiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQo+PiBGcm9tOiBOYXV0aXlhbCwgQW5raXQgSyA8YW5raXQuay5u
-YXV0aXlhbEBpbnRlbC5jb20+Cj4+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDgsIDIwMjAgMToy
-MiBQTQo+PiBUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwo+PiBDYzogZHJpLWRl
-dmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgU2hhbmthciwgVW1hIDx1bWEuc2hhbmthckBpbnRl
-bC5jb20+Owo+PiBhaXJsaWVkQGxpbnV4LmllOyBqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb207
-IHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tOwo+PiBLdWxrYXJuaSwgVmFuZGl0YSA8dmFu
-ZGl0YS5rdWxrYXJuaUBpbnRlbC5jb20+OyBTaGFybWEsIFN3YXRpMgo+PiA8c3dhdGkyLnNoYXJt
-YUBpbnRlbC5jb20+Cj4+IFN1YmplY3Q6IFtQQVRDSCB2NCAxNi8xNl0gZHJtL2k5MTU6IEVuYWJs
-ZSBQQ09OIGNvbmZpZ3VyYXRpb24gZm9yIENvbG9yCj4+IENvbnZlcnNpb24gZm9yIFRHTAo+IEFw
-cGVuZCBkaXNwbGF5IGhlcmUuCgoKTm90ZWQuIFdpbGwgY2hhbmdlIGluIHRoZSBuZXh0IHZlcnNp
-b24gb2YgdGhlIHBhdGNoLgoKPj4gVGhpcyBwYXRjaCBlbmFibGVzIFBDT04gY29uZmlndXJhdGlv
-biBmb3IgY29sb3Igc3BhY2UgY29udmVyc2lvbiBmb3IKPj4gVEdMKyBwbGF0ZnJvbS4gVGhpcyB3
-aWxsIGhlbHAgaW4gc3VwcG9ydGluZyA4a0A2MCBZVVY0MjAgbW9kZXMgY29tbW9uCj4+IGluIEhE
-TUkgOGsgcGFuZWxzLCB0aHJvdWdoIGEgY2FwYWJsZSBQQ09OLgo+PiBBbHNvIGFsbG93IDhrQDYw
-IFlVVjQyMCBtb2Rlcywgb25seSBpZiBQQ09OIGNsYWltcyB0byBzdXBwb3J0IHRoZSBjb2xvciBz
-cGFjZQo+PiBjb252ZXJzaW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBBbmtpdCBOYXV0aXlhbCA8
-YW5raXQuay5uYXV0aXlhbEBpbnRlbC5jb20+Cj4+IC0tLQo+PiAgIGRyaXZlcnMvZ3B1L2RybS9p
-OTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMgfCAxICsKPj4gZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9kcC5jICB8IDUgKysrKysKPj4gICAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0
-aW9ucygrKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9p
-bnRlbF9kZGkuYwo+PiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMK
-Pj4gaW5kZXggNzIxYTQ3YmJjMDA5Li5lZDZiOGVhODU0MDggMTAwNjQ0Cj4+IC0tLSBhL2RyaXZl
-cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZGRpLmMKPj4gKysrIGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9kZGkuYwo+PiBAQCAtMzY0NCw2ICszNjQ0LDcgQEAgc3Rh
-dGljIHZvaWQgdGdsX2RkaV9wcmVfZW5hYmxlX2RwKHN0cnVjdAo+PiBpbnRlbF9hdG9taWNfc3Rh
-dGUgKnN0YXRlLAo+PiAgIAlpZiAoIWlzX21zdCkKPj4gICAJCWludGVsX2RwX3NldF9wb3dlcihp
-bnRlbF9kcCwgRFBfU0VUX1BPV0VSX0QwKTsKPj4KPj4gKwlpbnRlbF9kcF9jb25maWd1cmVfcHJv
-dG9jb2xfY29udmVydGVyKGludGVsX2RwKTsKPiBCb3RoIHRoZSBjaGFuZ2VzIHNlZW1zIHRvIGJl
-IHVucmVsYXRlZCwgaXQgd291bGQgYmUgZ29vZCB0byBwdXQgY29uZmlndXJhdGlvbgo+IG9mIHBy
-b3RvY29sIGNvbnZlcnRvciBpbiBlYXJsaWVyIHBhdGNoZXMgYW5kIGp1c3QgcHJ1bmluZyBsb2dp
-YyBoZXJlLgo+IEFsc28gdGhlIGRlc2NyaXB0aW9uIG9mIHBhdGNoIG5lZWRzIHRvIGNoYW5nZSB0
-byBjbGVhcmx5IGNhbGwgdGhpcyBvdXQuCgoKQWxyaWdodC4gV2lsbCBzcGxpdCB0aGUgcHJ1bmlu
-ZyBsb2dpYyBpbnRvIGEgc2VwYXJhdGUgcGF0Y2guCgoKPgo+PiAgIAlpbnRlbF9kcF9zaW5rX3Nl
-dF9kZWNvbXByZXNzaW9uX3N0YXRlKGludGVsX2RwLCBjcnRjX3N0YXRlLCB0cnVlKTsKPj4gICAJ
-LyoKPj4gICAJICogRERJIEZFQzogImFudGljaXBhdGVzIGVuYWJsaW5nIEZFQyBlbmNvZGluZyBz
-ZXRzIHRoZSBGRUNfUkVBRFkgYml0Cj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vaTkx
-NS9kaXNwbGF5L2ludGVsX2RwLmMKPj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2lu
-dGVsX2RwLmMKPj4gaW5kZXggYjNmMTE5MGQ4MTUwLi44NjI4OWM5MjU2MTIgMTAwNjQ0Cj4+IC0t
-LSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfZHAuYwo+PiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2RwLmMKPj4gQEAgLTcyMCw2ICs3MjAsMTEg
-QEAgaW50ZWxfZHBfbW9kZV92YWxpZF9kb3duc3RyZWFtKHN0cnVjdAo+PiBpbnRlbF9jb25uZWN0
-b3IgKmNvbm5lY3RvciwKPj4gICAJY29uc3Qgc3RydWN0IGRybV9kaXNwbGF5X2luZm8gKmluZm8g
-PSAmY29ubmVjdG9yLT5iYXNlLmRpc3BsYXlfaW5mbzsKPj4gICAJaW50IHRtZHNfY2xvY2s7Cj4+
-Cj4+ICsJLyogQWxsb3cgOGsgWVVWNDIwIG1vZGVzLCBvbmx5IGlmIFBDT04gc3VwcG9ydHMgUkdC
-LT5ZVVYgY29udmVyc2lvbgo+PiAqLwo+PiArCWlmIChtb2RlLT5oZGlzcGxheSA9PSA3NjgwICYm
-IGRybV9tb2RlX2lzXzQyMF9vbmx5KGluZm8sIG1vZGUpICYmCj4+ICsJICAgICFpbnRlbF9kcC0+
-ZGZwLnJnYl90b195Y2JjcikKPiBJIHRoaW5rIHRoaXMgd2lsbCBiZSBhIHBsYXRmb3JtIGxpbWl0
-YXRpb24sIGFzIHRoZXJlIG1heSBiZSBwbGF0Zm9ybXMgd2hpY2ggY2FuCj4gZG8gdGhhdCBvbiB0
-aGUgU09DIHNpZGUgYXMgd2VsbC4gU28gd291bGQgYmUgZ29vZCB0byBsaW1pdCB0byB0aG9zZSBw
-bGF0Zm9ybXMgd2hlcmUKPiBwY29uIGNvbnZlcnNpb24gaXMgdGhlIG9ubHkgb3B0aW9uIGluIG9y
-ZGVyIHRvIHN1cHBvcnQgdGhpcyBjb25maWd1cmF0aW9uLCBpbnN0ZWFkIG9mIGRvaW5nCj4gaXQg
-Zm9yIGFsbCBwbGF0Zm9ybXMuCgpXZSBkbyBoYXZlIGEgZmxhZ8KgIHljYmNyXzQyMF9hbGxvd2Vk
-IHdoaWNoIGdldHMgc2V0IGZvciBHZW4gPiA1IGFuZCBhbHNvIAppZiBEUCBzaW5rIGhhcyB5Y2Jj
-cjQyMCBwYXNzdGhyb3VnaCBvciB5Y2JjcjQ0NC0+NDIwIGNvbnZlcnNpb24gc3VwcG9ydC4KClNv
-IHRoZW9yZXRpY2FsbHkgd2Ugc2hvdWxkIGJlIGFibGUgdG8gY29udmVydCBSR0ItPllDYkNSIGZv
-ciBHZW4gPiA1LgoKQnV0IEkgYW0gbm90IHN1cmUsIGlmIHdlIG5lZWQgc29tZSBjaGFuZ2VzIHdo
-ZW4gd2UgdXNlIGJpZyBqb2luZXIuCgpXaXRoIFJlYWx0ZWsgSERNSTIuMSBkb25nbGUsIEkgd2Fz
-IGFibGUgdG8gZ2V0IFJHQi0+WUNiQ3IgYW5kIDQ0NC0+NDIwIApjb252ZXJzaW9uIGZvciA4a0A2
-MCBZVVY0MjAgdGhyb3VnaCBQQ09OLgoKUHJvYmFibHkgbmVlZCB0byByZXZpc2l0IHRoaXMgYWdh
-aW4uCgpUaGFua3MgJiBSZWdhcmRzLAoKQW5raXQKCj4KPj4gKwkJcmV0dXJuIE1PREVfTk9fNDIw
-Owo+PiArCj4+ICAgCS8qCj4+ICAgCSAqIElmIFBDT04gYW5kIEhETUkyLjEgc2luayBib3RoIHN1
-cHBvcnQgRlJMIE1PREUsIGNoZWNrIEZSTAo+PiAgIAkgKiBiYW5kd2lkdGggY29uc3RyYWludHMu
-Cj4+IC0tCj4+IDIuMTcuMQpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpkcmktZGV2ZWwgbWFpbGluZyBsaXN0CmRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3Rv
-cC5vcmcKaHR0cHM6Ly9saXN0cy5mcmVlZGVza3RvcC5vcmcvbWFpbG1hbi9saXN0aW5mby9kcmkt
-ZGV2ZWwK
+
+--===============1313874919==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="urlkngycnuhra2ye"
+Content-Disposition: inline
+
+
+--urlkngycnuhra2ye
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Tue, Dec 08, 2020 at 02:28:32PM +0200, Tomi Valkeinen wrote:
+> The OMAP DSI command mode panel driver used to send page & column
+> address before each frame update, and this code was moved into the DSI
+> host driver when converting it to the DRM bridge model.
+>=20
+> However, it's not really required to send the page & column address
+> before each frame. It's also something that doesn't really belong to the
+> DSI host driver, so we should drop the code.
+>=20
+> That said, frame updates break if we don't send _something_ between the
+> frames. A NOP command does the trick.
+>=20
+> It is not clear if this behavior is as expected from a DSI command mode
+> frame transfer, or is it a feature/issue with OMAP DSI driver, or a
+> feature/issue in the command mode panel used.
+>=20
+> Most likely this is related to the following from the DSI spec:
+>=20
+> "To enable PHY synchronization the host processor should periodically
+> end HS transmission and drive the Data Lanes to the LP state. This
+> transition should take place at least once per frame."
+>=20
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+>  drivers/gpu/drm/omapdrm/dss/dsi.c | 46 ++++++++++++-------------------
+>  1 file changed, 17 insertions(+), 29 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/=
+dss/dsi.c
+> index 7fee9cf8782d..c6e044f8bece 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> @@ -3884,35 +3884,19 @@ static int _dsi_update(struct dsi_data *dsi)
+>  	return 0;
+>  }
+> =20
+> -static int _dsi_update_window(struct dsi_data *dsi, int channel,
+> -			      int x, int y, int w, int h)
+> -{
+> -	int x1 =3D x, x2 =3D (x + w - 1);
+> -	int y1 =3D y, y2 =3D (y + h - 1);
+> -	u8 payloadX[5] =3D { MIPI_DCS_SET_COLUMN_ADDRESS,
+> -			   x1 >> 8, x1 & 0xff, x2 >> 8, x2 & 0xff };
+> -	u8 payloadY[5] =3D { MIPI_DCS_SET_PAGE_ADDRESS,
+> -			   y1 >> 8, y1 & 0xff, y2 >> 8, y2 & 0xff };
+> -	struct mipi_dsi_msg msgX =3D { 0 }, msgY =3D { 0 };
+> -	int ret;
+> +static int _dsi_send_nop(struct dsi_data *dsi, int channel)
+> +{
+> +	const u8 payload[] =3D { MIPI_DCS_NOP };
+> +	const struct mipi_dsi_msg msg =3D {
+> +		.channel =3D channel,
+> +		.type =3D MIPI_DSI_DCS_SHORT_WRITE,
+> +		.tx_len =3D 1,
+> +		.tx_buf =3D payload,
+> +	};
+> =20
+>  	WARN_ON(!dsi_bus_is_locked(dsi));
+> =20
+> -	msgX.type =3D MIPI_DSI_DCS_LONG_WRITE;
+> -	msgX.channel =3D channel;
+> -	msgX.tx_buf =3D payloadX;
+> -	msgX.tx_len =3D sizeof(payloadX);
+> -
+> -	msgY.type =3D MIPI_DSI_DCS_LONG_WRITE;
+> -	msgY.channel =3D channel;
+> -	msgY.tx_buf =3D payloadY;
+> -	msgY.tx_len =3D sizeof(payloadY);
+> -
+> -	ret =3D _omap_dsi_host_transfer(dsi, &msgX);
+> -	if (ret !=3D 0)
+> -		return ret;
+> -
+> -	return _omap_dsi_host_transfer(dsi, &msgY);
+> +	return _omap_dsi_host_transfer(dsi, &msg);
+>  }
+> =20
+>  static int dsi_update_channel(struct omap_dss_device *dssdev, int channe=
+l)
+> @@ -3944,10 +3928,14 @@ static int dsi_update_channel(struct omap_dss_dev=
+ice *dssdev, int channel)
+> =20
+>  	dsi_set_ulps_auto(dsi, false);
+> =20
+> -	r =3D _dsi_update_window(dsi, channel, 0, 0, dsi->vm.hactive,
+> -			       dsi->vm.vactive);
+> +	/*
+> +	 * Send NOP between the frames. If we don't send something here, the
+> +	 * updates stop working. This is probably related to DSI spec stating
+> +	 * that the DSI host should transition to LP at least once per frame.
+> +	 */
+> +	r =3D _dsi_send_nop(dsi, channel);
+>  	if (r < 0) {
+> -		DSSWARN("window update error: %d\n", r);
+> +		DSSWARN("failed to send nop between frames: %d\n", r);
+>  		goto err;
+>  	}
+> =20
+> --=20
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>=20
+
+--urlkngycnuhra2ye
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XdQkACgkQ2O7X88g7
++ppgrA/+J0tgWBdDZ351BE02AgdH4fqjMbnkOaWXDkjUKe1jYaogW1Ma4tU87dxe
+fP4Ee5euKYhkYEf1LHOwJ1Hl+3nTCR67KzPiXs+jHtugtiqqotoyu7c4keQUgf+B
+J6djhd3Rs/OmDOxrhHqQITHHCM8GuZkI6BoOhwMV0mbvL0ipFYBKNeSx0tT2S4K+
+w5OipHLDH7IGtFvSRBGcqxGRGMJLuSPEGMGlKEMc4Ac2NoemgZNNvg8j0TEQb1un
+aGMkNu/tY2piWF5uv3eszqlC/mzuMFHr/gg+/L8J2HWEhq/wQHpiaKlCAEKR+ava
+Knq7lX0zyAoKqmKhLBdGUyDs8dyEMftKP/Ql50mvJoB1E0OF72cDle2zwADyy76I
+06xx+SS5xlcG8AQL4arbk87WNDl2xLMOcXC0D27YS0LD/Fr8QTU6KjEbWQAY1uc3
+PgKqSKSI7Ac4+Yr548lkeqg8qDXOPaK77gEox+TNYN9hRRNTIlf3q95Jqj8K0kTg
+z+a33vm6gOqADe2HAytwmFqhNT8qgNQF1PZ5BYrqcL+i4IOc06mSmb6kz2hNhGWa
+59xooZ8LPcmmlc+0SeXHLfEt0hGpb8rtaMB9jo0qsZWDU31SPPSDR2+CH3ipAQl6
+oxkVjXtyyyEnYBoP5YtuIWgumAd+6c4VX6fjpQ226uDeF8izXCA=
+=ow6b
+-----END PGP SIGNATURE-----
+
+--urlkngycnuhra2ye--
+
+--===============1313874919==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1313874919==--
