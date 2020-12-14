@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CBFE2D98A7
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF28F2D98B5
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 14:25:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 786136E1B5;
-	Mon, 14 Dec 2020 13:22:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C67836E176;
+	Mon, 14 Dec 2020 13:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 719FE6E1B5
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 13:22:24 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-Authentication-Results: mail.kernel.org;
- dkim=permerror (bad message/signature format)
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 210683] Nasty amdgpu powersave regression Navi14
-Date: Mon, 14 Dec 2020 13:22:24 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: eutychios23@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-210683-2300-Q3ykMZBrWn@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-210683-2300@https.bugzilla.kernel.org/>
-References: <bug-210683-2300@https.bugzilla.kernel.org/>
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D284E6E176;
+ Mon, 14 Dec 2020 13:25:38 +0000 (UTC)
+IronPort-SDR: xQyAK9+9nxC1WYBNmFux3vmvOoD+IE/P0eh5meE7Bo/zh5nDd0L+Eo9UfjlsnMFwegw39PMcPY
+ MKtb1G4G8SQA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="236288102"
+X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; d="scan'208";a="236288102"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2020 05:25:38 -0800
+IronPort-SDR: PyJIfVqCzWY11pfBVp6LJrv3h0HI9dghDvuSVHqDqbmth/yLmhP57Wje0Pdj2VaoV30hZH/Z+2
+ OENSyC0I608g==
+X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; d="scan'208";a="336083251"
+Received: from ramaling-i9x.iind.intel.com (HELO intel.com) ([10.99.66.154])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Dec 2020 05:25:35 -0800
+Date: Mon, 14 Dec 2020 18:55:25 +0530
+From: Ramalingam C <ramalingam.c@intel.com>
+To: Anshuman Gupta <anshuman.gupta@intel.com>
+Subject: Re: [PATCH v8 19/19] drm/i915/hdcp: Enable HDCP 2.2 MST support
+Message-ID: <20201214132525.GA22687@intel.com>
+References: <20201211134244.14588-1-anshuman.gupta@intel.com>
+ <20201211134244.14588-20-anshuman.gupta@intel.com>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201211134244.14588-20-anshuman.gupta@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,20 +48,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: jani.nikula@intel.com, intel-gfx@lists.freedesktop.org,
+ Karthik B S <karthik.b.s@intel.com>, dri-devel@lists.freedesktop.org,
+ uma.shankar@intel.com, seanpaul@chromium.org, juston.li@intel.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=210683
+On 2020-12-11 at 19:12:44 +0530, Anshuman Gupta wrote:
+> Enable HDCP 2.2 MST support till Gen12.
+> 
+> Cc: Ramalingam C <ramalingam.c@intel.com>
 
---- Comment #1 from siyia (eutychios23@gmail.com) ---
-Just tested kernel 5.10 stable and idle powersave is still broken on the gpu
-compared to kernel 5.9
+Reviewed-by: Ramalingam C <ramalingam.c@intel.com>
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+> Tested-by: Karthik B S <karthik.b.s@intel.com>
+> Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_hdcp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdcp.c b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> index 768a6218b9c4..20c8d8f63566 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdcp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdcp.c
+> @@ -2233,7 +2233,7 @@ int intel_hdcp_init(struct intel_connector *connector,
+>  	if (!shim)
+>  		return -EINVAL;
+>  
+> -	if (is_hdcp2_supported(dev_priv) && !connector->mst_port)
+> +	if (is_hdcp2_supported(dev_priv))
+>  		intel_hdcp2_init(connector, dig_port, shim);
+>  
+>  	ret =
+> -- 
+> 2.26.2
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
