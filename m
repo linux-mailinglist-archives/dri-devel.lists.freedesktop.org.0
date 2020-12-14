@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB6342D9863
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 13:56:36 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2018B2D9873
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 13:59:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA71C89D42;
-	Mon, 14 Dec 2020 12:56:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F42689BD5;
+	Mon, 14 Dec 2020 12:59:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA58789D42
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 12:56:33 +0000 (UTC)
-Date: Mon, 14 Dec 2020 13:56:31 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3EFE89BD5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 12:59:52 +0000 (UTC)
+Date: Mon, 14 Dec 2020 13:59:50 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607950593;
- bh=Y1NdELXCln4XaNZ26Buq5jG8PhDlTjRlzjtzQY7qQiM=;
+ s=k20201202; t=1607950792;
+ bh=kF6ePMidLoNHq5BFFMKVcAb4qOKFmkwiDdF/N7rPbKQ=;
  h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=YzCHcac8IbuTyNy4YmFpHmhPOb8joX1+fcgd4uYnLvG2UfEdEam0fsJhYdv7+3LLa
- /89Z7JLU+EGJaqatGFbyQbQstWpmSQSzPDiWJLe8ihupuw59gyAKUlBJdqae24Jqdk
- Yxl0q51pP0BXdZRE4j0gwxSO8XPOQQXCgUBkdYsgExcYhIpMfdi2iCbWrCprIeQHle
- 0cMBh2HhRiisp/kXLtpgbplFGRDnUs4PvF6ZsY7jqDzNhtK1q8tH/o0sG5KEu2nsJX
- RgMHqTUBtZcT7wqcErqxDr+RuCT9BCKtFXhuL96lsxczdDLCjcyz4gEPgZVM7tDdfv
- eHJgoEv2OamcA==
+ b=W8RHPvnQljWKQm32MD/ldEAhZDoPogaNiBL5fcGYywTlTyLTpChk6VcEDwvIa4G6f
+ m1RpgWzt0PLiMpFgZMEnGfedNFahpYe5PIM8pZdirx4W8j7Zr58S0VcO7J4/DzlJ7+
+ vxjvTgP7MIIjQaRcUrqC2vUe6aGf42HD3AafTHUIX6sQcOBoaSMwXo/UmP4IsaJlhg
+ fM90xwopK50XDWCsXMBRrn98q7jeACRPsZLS+CAjgPAh84wHaKJrAVuPx9PNwA3Xav
+ rdwqo4jw6lI3s2r2u26ekjjm+8KdwKW1YKqmoEgXCzPn/oQht0IKngRRMXEjkmj7na
+ N4MkT5DdvDlIg==
 From: Sebastian Reichel <sre@kernel.org>
 To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v4 59/80] drm/omap: dsi: set trans_mode according to
- client mode_flags
-Message-ID: <20201214125631.gzzfv3cq3t67ru5t@earth.universe>
+Subject: Re: [PATCH v4 60/80] drm/panel: panel-dsi-cm: set column & page at
+ setup
+Message-ID: <20201214125950.5jeaotj2eas3fxai@earth.universe>
 References: <20201124124538.660710-1-tomi.valkeinen@ti.com>
- <20201124124538.660710-60-tomi.valkeinen@ti.com>
+ <20201124124538.660710-61-tomi.valkeinen@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20201124124538.660710-60-tomi.valkeinen@ti.com>
+In-Reply-To: <20201124124538.660710-61-tomi.valkeinen@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,87 +48,113 @@ Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
  Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-omap@vger.kernel.org, Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: multipart/mixed; boundary="===============1226055971=="
+Content-Type: multipart/mixed; boundary="===============2086259274=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---===============1226055971==
+--===============2086259274==
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqywm7p7uria6k7v"
+	protocol="application/pgp-signature"; boundary="mbkxzyrfujxf7reg"
 Content-Disposition: inline
 
 
---tqywm7p7uria6k7v
+--mbkxzyrfujxf7reg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Tue, Nov 24, 2020 at 02:45:17PM +0200, Tomi Valkeinen wrote:
-> The DSI host driver currently ignores the video mode flags in
-> client->mode_flags. Add the code to take the transfer mode from client's
-> mode_flags.
+On Tue, Nov 24, 2020 at 02:45:18PM +0200, Tomi Valkeinen wrote:
+> Set the column & page address once during setup, instead of relying the
+> DSI host driver to set those.
 >=20
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
+
+I'm fine with or without removal of the variables:
 
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 -- Sebastian
 
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/gpu/drm/panel/panel-dsi-cm.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/=
-dss/dsi.c
-> index c3592c6db977..7fee9cf8782d 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -5140,6 +5140,13 @@ static int omap_dsi_host_attach(struct mipi_dsi_ho=
-st *host,
->  	dsi->config.lp_clk_min =3D 7000000; // TODO: get from client?
->  	dsi->config.lp_clk_max =3D client->lp_rate;
-> =20
-> +	if (client->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-> +		dsi->config.trans_mode =3D OMAP_DSS_DSI_BURST_MODE;
-> +	else if (client->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-> +		dsi->config.trans_mode =3D OMAP_DSS_DSI_PULSE_MODE;
-> +	else
-> +		dsi->config.trans_mode =3D OMAP_DSS_DSI_EVENT_MODE;
-> +
->  	dsi->ulps_auto_idle =3D false;
-> =20
+> diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel=
+/panel-dsi-cm.c
+> index 59e8e6b18e97..1e7f73340736 100644
+> --- a/drivers/gpu/drm/panel/panel-dsi-cm.c
+> +++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
+> @@ -171,6 +171,26 @@ static int dsicm_get_id(struct panel_drv_data *ddata=
+, u8 *id1, u8 *id2, u8 *id3)
 >  	return 0;
+>  }
+> =20
+> +static int dsicm_set_update_window(struct panel_drv_data *ddata)
+> +{
+> +	struct mipi_dsi_device *dsi =3D ddata->dsi;
+> +	int r;
+> +	u16 x1 =3D 0;
+> +	u16 x2 =3D ddata->mode.hdisplay - 1;
+> +	u16 y1 =3D 0;
+> +	u16 y2 =3D ddata->mode.vdisplay - 1;
+> +
+> +	r =3D mipi_dsi_dcs_set_column_address(dsi, x1, x2);
+> +	if (r < 0)
+> +		return r;
+> +
+> +	r =3D mipi_dsi_dcs_set_page_address(dsi, y1, y2);
+> +	if (r < 0)
+> +		return r;
+> +
+> +	return 0;
+> +}
+> +
+>  static int dsicm_bl_update_status(struct backlight_device *dev)
+>  {
+>  	struct panel_drv_data *ddata =3D dev_get_drvdata(&dev->dev);
+> @@ -308,6 +328,10 @@ static int dsicm_power_on(struct panel_drv_data *dda=
+ta)
+>  	if (r)
+>  		goto err;
+> =20
+> +	r =3D dsicm_set_update_window(ddata);
+> +	if (r)
+> +		goto err;
+> +
+>  	r =3D mipi_dsi_dcs_set_display_on(ddata->dsi);
+>  	if (r)
+>  		goto err;
 > --=20
 > Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 > Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 >=20
 
---tqywm7p7uria6k7v
+--mbkxzyrfujxf7reg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XYP8ACgkQ2O7X88g7
-+ppM4A//eAkGFogToRhdLzqcSHjV6hLxfxGBcnaOenjr0uO9rxDxba7xhZCY8Muo
-lDoYPrwYElAPVf5h/nGJCACu8jtN+YbnUCw/yjKgDBPVu3x0QjC+AnzidiIcB/sX
-sXRH8eSE0uWOvmhYJQhhL9AbMH+JffQAW3uYvuB8Ns3Df/DND3ArB2YbKknQ47Cb
-lskr7f0QaSutFxqI6z4WPfefAM8wZyXp/brVd+F/pam/I3Usy+DgySVDHtkNANo6
-IUue78K00QkGj5lN1WWywQQ/5jN7rab5MfXTpupXrGQTcMa8ir9GeqpAIlCDxRu+
-Bds8hcc4rV9Urbb40EH/kjagOcl4Ddx+O0FTDagNtg8nnBAya6XhJLzNd/LoM5UY
-qIvCnS6pYaSY3xGvC/iu00Ehd8B26myfxWRx0/oogH8gDdNVm6IyVyK+V07epqKJ
-dUMtsnS2Fj7Ht0g6SQNlps8HPe7DwfTH/EMt3/OsIjffmoTw9rxpncAXiQGjC5up
-mgxQegHthI93ctkTn8pYzFFfaHQjxAiV9BaUP5zYeKwRwdGR/kwwQwB7yYeBZ8Uu
-BQgtmcLd4oW//VWEihgQU8wc8+SHOpJgQjp5wiuHbRzJCWkcB5pZxF+4Ae6giwPs
-Kt2JOgYvN09KQl5MAp6mDULtmU9ou0Nj/9HKj9Gm/FpCt2UeR3E=
-=DsGt
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XYcYACgkQ2O7X88g7
++pqz5w//UCj40j0obj0IwXwcVS9Req9aeN0mx2slWTz829Vr1PM07x4KqwiYHqBC
+vOllsPxh+YYox18jIxSlmoHvtdkzyBXMMYqPWNIKRbEM97nW4mDXWpReEzJyuzRj
+qyDUuDFmuteoBLsAHAT3axJTkbhWuFvOnTYAc58Lss28f5zlqSC/Yr2jcmXnObZ9
+PMgmql/IMKfVzjTmitLXtuGVJV4wY7A5wghk3ni7piKkq/nwl6zmals2dlWx8Cwe
+XVEYDrhPq56OrZD2GXbjgpKfLq6RtNtYegJ3b4JBk7eerEX4uBgTpUNx0HzAJh0g
+/ZQmyErmS/iXDfgxguMDnTOsqSGRG/Km8mxMg/+d6wAJGnPKkQUTq4iDG5qDUWrP
+BlmWwiW2I6ZHLJivvHzrTN9i50QOMrLnG4jHY3X5V3oHyiTgF4rIoRpMGl7LiJOm
+FQwlms0AtCL8m59GeC/kn+u+ulFkYDssanR3ffh81MRVNFHf7na2NS8jzCQAm1s9
+STuZ8SpfqgfLYosrKtMyGfbqP96VbKkgjgYwS+H4ZjRTOMl1JqkVwkORI8zRh+MT
+a0GNCYNX+UolqK3VSnwYY457TZjP8FqIVzo7i6hcCiyj4Qz1F4N/1LjU5LdxFccZ
+pAXpSjQS0zH7gfUPHhmXjI3zM0rGAW6cmdkw734KvMIQg4hmJXM=
+=sH8E
 -----END PGP SIGNATURE-----
 
---tqywm7p7uria6k7v--
+--mbkxzyrfujxf7reg--
 
---===============1226055971==
+--===============2086259274==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -139,4 +165,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1226055971==--
+--===============2086259274==--
