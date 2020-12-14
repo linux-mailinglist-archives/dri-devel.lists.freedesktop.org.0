@@ -2,87 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A2E2D9B47
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 16:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF9F2D9B5F
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 16:48:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C97256E2BC;
-	Mon, 14 Dec 2020 15:42:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 640C06E2D7;
+	Mon, 14 Dec 2020 15:48:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13CDA6E2BC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 15:42:05 +0000 (UTC)
-Received: from [192.168.0.217]
- (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6B8EF96;
- Mon, 14 Dec 2020 16:42:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1607960523;
- bh=e/psw4x09A/nFNFP1JLVXFXgB+sw/G61ESnxvE9RevM=;
- h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=hZxt29LXuZRjTq3W/vTKNXs8Pe75w3DVBKDFM1T8UhFHH2fqqELrLto+NGCwfDiZW
- XuvW7UiIenyNkphEIayT2llAauDkxuEpPJSro4Rs60zGeWA0K5SXtMP3hP3q62uMe3
- 5dEWdCTLECw/qFOV5r2auUHp+ZCa1VQdwkoRhLYY=
-Subject: Re: [PATCH 2/9] drm: rcar-du: Release vsp device reference in all
- error paths
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org
-References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
- <20201204220139.15272-3-laurent.pinchart+renesas@ideasonboard.com>
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <27a73a66-e12b-924b-f055-f2fc20ced453@ideasonboard.com>
-Date: Mon, 14 Dec 2020 15:42:00 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABEC66E2C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 15:48:01 +0000 (UTC)
+Date: Mon, 14 Dec 2020 16:47:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1607960881;
+ bh=Mu/622fOHJOZIhN6LvV/8Bi8E7Bvy2jmbdrkiC43Lkg=;
+ h=From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZwBwEvmEWdDMvIsbNOwTSs9/OEEgW+0TAMKNvcIZQF79j9cTrJc18sh2sHMMuvRdB
+ ewb2K3LrVrC7mMrBg5qXLFpXchTU49qt7RS0rNv4ugV7HBdelKKUl4gdEF4IDELCBV
+ kJPnF2wMEozLreDIasqjzzDuj9nwqIunD/3T29A2AvHSsnD1OvrWB7sjK34V8IjRRC
+ yox7T4Jj225dmbUZVIAkGWGKSd+tegzxL6CXPYvVo8ffO63cNqBwrC8HjoE5lokA7t
+ FYUvsFxMf22Ax0H5pQAGFVarVmn88HtHtv2QD5DzPikJd1dw/CqEqZmNhqHxQaKGM1
+ lKGvCpOEP5zdQ==
+From: Sebastian Reichel <sre@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v5 12/29] drm/omap: dsi: untangle vc & channel
+Message-ID: <20201214154759.nbe2vrfduahkp7z2@earth.universe>
+References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
+ <20201208122855.254819-13-tomi.valkeinen@ti.com>
+ <X8+eo2qJwxZctAAd@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20201204220139.15272-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-GB
+In-Reply-To: <X8+eo2qJwxZctAAd@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,47 +44,281 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: kieran.bingham@ideasonboard.com
-Cc: linux-renesas-soc@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
+ Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
+ Tomi Valkeinen <tomi.valkeinen@ti.com>, linux-omap@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, Nikhil Devshatwar <nikhil.nd@ti.com>
+Content-Type: multipart/mixed; boundary="===============1361007672=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
 
-On 04/12/2020 22:01, Laurent Pinchart wrote:
-> Use drmm_add_action_or_reset() instead of drmm_add_action() to ensure
-> the vsp device reference is released in case the function call fails.
+--===============1361007672==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y4vambtgrohnuicd"
+Content-Disposition: inline
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index f6a69aa116e6..4dcb1bfbe201 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -364,7 +364,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->  
->  	vsp->vsp = &pdev->dev;
->  
-> -	ret = drmm_add_action(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
-> +	ret = drmm_add_action_or_reset(rcdu->ddev, rcar_du_vsp_cleanup, vsp);
->  	if (ret < 0)
->  		return ret;
->  
-> 
+--y4vambtgrohnuicd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Regards
---
-Kieran
+On Tue, Dec 08, 2020 at 05:41:23PM +0200, Laurent Pinchart wrote:
+> Hi Tomi,
+>=20
+> Thank you for the patch.
+>=20
+> On Tue, Dec 08, 2020 at 02:28:38PM +0200, Tomi Valkeinen wrote:
+> > DSI virtual channel and hardware VC blocks have gotten tangled as
+> > described in the previous commits. This has not caused any issues, as
+> > the value for both is 0, so it happens to work.
+> >=20
+> > To fix the issue, change the code to use the correct one of the two.
+> >=20
+> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> > ---
+> >  drivers/gpu/drm/omapdrm/dss/dsi.c | 43 +++++++++++++++----------------
+> >  1 file changed, 21 insertions(+), 22 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdr=
+m/dss/dsi.c
+> > index 8d8412199693..a1f3623f45b1 100644
+> > --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+> > @@ -2613,7 +2613,7 @@ static inline void dsi_vc_write_long_header(struc=
+t dsi_data *dsi, int vc,
+> > =20
+> >  	WARN_ON(!dsi_bus_is_locked(dsi));
+> > =20
+> > -	data_id =3D data_type | vc << 6;
+> > +	data_id =3D data_type | channel << 6;
+> > =20
+> >  	val =3D FLD_VAL(data_id, 7, 0) | FLD_VAL(len, 23, 8) |
+> >  		FLD_VAL(ecc, 31, 24);
+> > @@ -2647,12 +2647,12 @@ static int dsi_vc_send_long(struct dsi_data *ds=
+i, int vc,
+> >  		DSSDBG("dsi_vc_send_long, %d bytes\n", msg->tx_len);
+> > =20
+> >  	/* len + header */
+> > -	if (dsi->vc[msg->channel].tx_fifo_size * 32 * 4 < msg->tx_len + 4) {
+> > +	if (dsi->vc[vc].tx_fifo_size * 32 * 4 < msg->tx_len + 4) {
+> >  		DSSERR("unable to send long packet: packet too long.\n");
+> >  		return -EINVAL;
+> >  	}
+> > =20
+> > -	dsi_vc_config_source(dsi, msg->channel, DSI_VC_SOURCE_L4);
+> > +	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+> > =20
+> >  	dsi_vc_write_long_header(dsi, vc, msg->channel, msg->type, msg->tx_le=
+n, 0);
+> > =20
+> > @@ -2666,7 +2666,7 @@ static int dsi_vc_send_long(struct dsi_data *dsi,=
+ int vc,
+> >  		b3 =3D *p++;
+> >  		b4 =3D *p++;
+> > =20
+> > -		dsi_vc_write_long_payload(dsi, msg->channel, b1, b2, b3, b4);
+> > +		dsi_vc_write_long_payload(dsi, vc, b1, b2, b3, b4);
+> >  	}
+> > =20
+> >  	i =3D msg->tx_len % 4;
+> > @@ -2691,7 +2691,7 @@ static int dsi_vc_send_long(struct dsi_data *dsi,=
+ int vc,
+> >  			break;
+> >  		}
+> > =20
+> > -		dsi_vc_write_long_payload(dsi, msg->channel, b1, b2, b3, 0);
+> > +		dsi_vc_write_long_payload(dsi, vc, b1, b2, b3, 0);
+> >  	}
+> > =20
+> >  	return r;
+> > @@ -2711,11 +2711,11 @@ static int dsi_vc_send_short(struct dsi_data *d=
+si, int vc,
+> > =20
+> >  	if (dsi->debug_write)
+> >  		DSSDBG("dsi_vc_send_short(ch%d, dt %#x, b1 %#x, b2 %#x)\n",
+> > -		       msg->channel, msg->type, pkt.header[1], pkt.header[2]);
+> > +		       vc, msg->type, pkt.header[1], pkt.header[2]);
+
+There is another "ch%d" filled with vc. With this and Laurent
+findings fixed:
+
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+-- Sebastian
+
+> > =20
+> > -	dsi_vc_config_source(dsi, msg->channel, DSI_VC_SOURCE_L4);
+> > +	dsi_vc_config_source(dsi, vc, DSI_VC_SOURCE_L4);
+> > =20
+> > -	if (FLD_GET(dsi_read_reg(dsi, DSI_VC_CTRL(msg->channel)), 16, 16)) {
+> > +	if (FLD_GET(dsi_read_reg(dsi, DSI_VC_CTRL(vc)), 16, 16)) {
+> >  		DSSERR("ERROR FIFO FULL, aborting transfer\n");
+> >  		return -EINVAL;
+> >  	}
+> > @@ -2723,7 +2723,7 @@ static int dsi_vc_send_short(struct dsi_data *dsi=
+, int vc,
+> >  	r =3D pkt.header[3] << 24 | pkt.header[2] << 16 | pkt.header[1] << 8 |
+> >  	    pkt.header[0];
+> > =20
+> > -	dsi_write_reg(dsi, DSI_VC_SHORT_PACKET_HEADER(msg->channel), r);
+> > +	dsi_write_reg(dsi, DSI_VC_SHORT_PACKET_HEADER(vc), r);
+> > =20
+> >  	return 0;
+> >  }
+> > @@ -2731,7 +2731,7 @@ static int dsi_vc_send_short(struct dsi_data *dsi=
+, int vc,
+> >  static int dsi_vc_send_null(struct dsi_data *dsi, int vc, int channel)
+> >  {
+> >  	const struct mipi_dsi_msg msg =3D {
+> > -		.channel =3D vc,
+> > +		.channel =3D channel,
+> >  		.type =3D MIPI_DSI_NULL_PACKET,
+> >  	};
+> > =20
+> > @@ -2759,16 +2759,16 @@ static int dsi_vc_write_common(struct omap_dss_=
+device *dssdev, int vc,
+> >  	 * In that case we can return early.
+> >  	 */
+> > =20
+> > -	r =3D dsi_vc_send_bta_sync(dssdev, msg->channel);
+> > +	r =3D dsi_vc_send_bta_sync(dssdev, vc);
+> >  	if (r) {
+> >  		DSSERR("bta sync failed\n");
+> >  		return r;
+> >  	}
+> > =20
+> >  	/* RX_FIFO_NOT_EMPTY */
+> > -	if (REG_GET(dsi, DSI_VC_CTRL(msg->channel), 20, 20)) {
+> > +	if (REG_GET(dsi, DSI_VC_CTRL(vc), 20, 20)) {
+> >  		DSSERR("rx fifo not empty after write, dumping data:\n");
+> > -		dsi_vc_flush_receive_data(dsi, msg->channel);
+> > +		dsi_vc_flush_receive_data(dsi, vc);
+> >  		return -EIO;
+> >  	}
+> > =20
+> > @@ -2888,21 +2888,20 @@ static int dsi_vc_dcs_read(struct omap_dss_devi=
+ce *dssdev, int vc,
+> >  {
+> >  	struct dsi_data *dsi =3D to_dsi_data(dssdev);
+> >  	u8 cmd =3D ((u8 *)msg->tx_buf)[0];
+> > -	u8 channel =3D msg->channel;
+> >  	int r;
+> > =20
+> >  	if (dsi->debug_read)
+> > -		DSSDBG("%s(ch %d, cmd %x)\n", __func__, channel, cmd);
+> > +		DSSDBG("%s(ch %d, cmd %x)\n", __func__, vc, cmd);
+>=20
+> How about also renaming ch to vc in the message ?
+>=20
+> > =20
+> >  	r =3D dsi_vc_send_short(dsi, vc, msg);
+> >  	if (r)
+> >  		goto err;
+> > =20
+> > -	r =3D dsi_vc_send_bta_sync(dssdev, channel);
+> > +	r =3D dsi_vc_send_bta_sync(dssdev, vc);
+> >  	if (r)
+> >  		goto err;
+> > =20
+> > -	r =3D dsi_vc_read_rx_fifo(dsi, channel, msg->rx_buf, msg->rx_len,
+> > +	r =3D dsi_vc_read_rx_fifo(dsi, vc, msg->rx_buf, msg->rx_len,
+> >  		DSS_DSI_CONTENT_DCS);
+> >  	if (r < 0)
+> >  		goto err;
+> > @@ -2914,7 +2913,7 @@ static int dsi_vc_dcs_read(struct omap_dss_device=
+ *dssdev, int vc,
+> > =20
+> >  	return 0;
+> >  err:
+> > -	DSSERR("%s(ch %d, cmd 0x%02x) failed\n", __func__,  msg->channel, cmd=
+);
+> > +	DSSERR("%s(ch %d, cmd 0x%02x) failed\n", __func__,  vc, cmd);
+>=20
+> Same here.
+>=20
+> >  	return r;
+> >  }
+> > =20
+> > @@ -2928,11 +2927,11 @@ static int dsi_vc_generic_read(struct omap_dss_=
+device *dssdev, int vc,
+> >  	if (r)
+> >  		goto err;
+> > =20
+> > -	r =3D dsi_vc_send_bta_sync(dssdev, msg->channel);
+> > +	r =3D dsi_vc_send_bta_sync(dssdev, vc);
+> >  	if (r)
+> >  		goto err;
+> > =20
+> > -	r =3D dsi_vc_read_rx_fifo(dsi, msg->channel, msg->rx_buf, msg->rx_len,
+> > +	r =3D dsi_vc_read_rx_fifo(dsi, vc, msg->rx_buf, msg->rx_len,
+> >  		DSS_DSI_CONTENT_GENERIC);
+> >  	if (r < 0)
+> >  		goto err;
+> > @@ -2944,7 +2943,7 @@ static int dsi_vc_generic_read(struct omap_dss_de=
+vice *dssdev, int vc,
+> > =20
+> >  	return 0;
+> >  err:
+> > -	DSSERR("%s(ch %d, reqlen %d) failed\n", __func__,  msg->channel, msg-=
+>tx_len);
+> > +	DSSERR("%s(ch %d, reqlen %d) failed\n", __func__,  vc, msg->tx_len);
+>=20
+> And here.
+>=20
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>=20
+> >  	return r;
+> >  }
+> > =20
+> > @@ -4893,7 +4892,7 @@ static ssize_t _omap_dsi_host_transfer(struct dsi=
+_data *dsi, int vc,
+> >  	int r;
+> > =20
+> >  	if (!!(msg->flags & MIPI_DSI_MSG_USE_LPM) !=3D dsi->in_lp_mode)
+> > -		dsi_vc_enable_hs(dssdev, msg->channel,
+> > +		dsi_vc_enable_hs(dssdev, vc,
+> >  				 !(msg->flags & MIPI_DSI_MSG_USE_LPM));
+> > =20
+> >  	switch (msg->type) {
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--y4vambtgrohnuicd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XiSsACgkQ2O7X88g7
++pquBw//WyDcMRvsogUjmIDdn/TF0eUPd30+oF9S8COVFGLVCUs7bsLwcYuzVBbE
+yTuUyGz1XmDi/oboY9X2UmujokoRLrdryDxj6yY0X5muNzptiHMlXVeeXWyTyzo5
+s7psu2oaBWMI7hnkrTW0nKY7nrlNIfID86gOGX+E+sWRAUdswW+PAxEBx+LkSFfx
+pJsyXR8ifDNT4KzEZ+F2yJDrWP/33ZbAOHwH7IdBsGuuSIZmSjnENtuz12ItxMLx
+OsqqhNajvqMdnSoMdVDaCwyhJswJByiwbx/8hQmTGyGHz3lTNZDcKtq+MuOuxR2R
+iiGvy6l0bfFrVrOkkaf6PEXNKKX5xV0bLsfQEBULIWmWdtBswmFUJ3MlkFsdAA6S
+bxU/jKBeay2Fy151t80BUAbfsbCFXrS3OZGgA6aThFeJuUDVjRzE5+ScJ7hERB0N
+QWIjzveDj1We15aGwlwrc0JKsTSAkJ83JHT/zSEp0kYHX1mePJbShr9cNz13LIA1
+zVkmqfYp4mA4X9uyV+2xER24TBvYZ4wg1mdXSv3FiN11T4rPjTeCOZ0Rijyy7XC9
+mmdF1lifF8X5Tg7ZT2lMQYu9urH3oWj/gnwt9cx4K87BpBkZ8e5jOtZLWhBcehts
+d+6FAuQ34kua0TO+7mnLDJHg6Sd48Hx6YUUyJQc6yh9gLEx8qsY=
+=qvoe
+-----END PGP SIGNATURE-----
+
+--y4vambtgrohnuicd--
+
+--===============1361007672==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1361007672==--
