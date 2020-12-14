@@ -2,36 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4B12D9D6A
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 18:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB442D9D7A
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 18:21:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E6AC6E08C;
-	Mon, 14 Dec 2020 17:17:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4406189C19;
+	Mon, 14 Dec 2020 17:21:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E5536E08C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 17:17:05 +0000 (UTC)
-Date: Mon, 14 Dec 2020 18:17:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607966225;
- bh=UXqE8KDXEwGVgpN8odHRIJXGNCkcNp4f1pqgv3rMc+w=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=ahLKEyjy9zK5kS3KEWacgmZEEUE09Z8cw+n+rz0Lh6u6Ia+v/sBt1z9ApPjcNTHfK
- +xHTCLKXFFoY5llNVIcZ5wfHcL3r7SI2LA99jqyN7DU3jtD8qm7km35bLEEr2VT6Iw
- J2ZXLm+1utQ2pkH7AQjn+X4kLjLJHaGT7om/5ypXzksmM/F7U+b9LwguCwKJPB0mu2
- OYmBY2HrSHr3FK+IF6xH973WiKq5M/NkjWOpv6aNrTo4306pH3GMTkepmhu8Ou+8o4
- PNGrDhewDYAL0XEdOTcyBmzb3J5MCmn7xvnPt+d7HVilkzIaum53FLSL6HI+sa8Rja
- ccdjwN+iknnJw==
-From: Sebastian Reichel <sre@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v5 29/29] drm/omap: dsi: allow DSI commands to be sent
- early
-Message-ID: <20201214171703.aljagq444etuzdnx@earth.universe>
-References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
- <20201208122855.254819-30-tomi.valkeinen@ti.com>
+X-Greylist: delayed 3644 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Dec 2020 17:21:05 UTC
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C5C89C19
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 17:21:05 +0000 (UTC)
+Received: from [192.168.0.217]
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F5F296;
+ Mon, 14 Dec 2020 18:21:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1607966463;
+ bh=To6w7sMxRq2uR6JgWO87fqq2ukTxnmUqc85pHu7t0eU=;
+ h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=EghpsyH1j4vA/s892I/55yRfC6nGc3rafiFy8f08tf/raXQRixXdS628UDARfshtN
+ GuY/KArjAnLMxRPEu2GTFqpNn1Ung6DGk2CRvxRYnkvrUa9bz0xySAdT9ugDPt4BVG
+ iYonCaegop62OBiaOhKqFOc7lMQ8WNaoUCFOPOcQ=
+Subject: Re: [PATCH 8/9] drm: rcar-du: Skip encoder allocation for LVDS1 in
+ dual-link mode
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+References: <20201204220139.15272-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20201204220139.15272-9-laurent.pinchart+renesas@ideasonboard.com>
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <5f4d5bf8-44b0-7fe8-5833-e2a3ef1fc8cf@ideasonboard.com>
+Date: Mon, 14 Dec 2020 17:21:00 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201208122855.254819-30-tomi.valkeinen@ti.com>
+In-Reply-To: <20201204220139.15272-9-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-GB
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,245 +97,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
- Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: multipart/mixed; boundary="===============0090827376=="
+Reply-To: kieran.bingham@ideasonboard.com
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
---===============0090827376==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4o6apbwzibxmohte"
-Content-Disposition: inline
+On 04/12/2020 22:01, Laurent Pinchart wrote:
+> The rcar-du driver skips registration of the encoder for the LVDS1
+> output when LVDS is used in dual-link mode, as the LVDS0 and LVDS1 links
+> are bundled and handled through the LVDS0 output. It however still
+> allocates the encoder and immediately destroys it, which is pointless.
+> Skip allocation of the encoder altogether in that case.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
+I love it when re-ordering code simplifies all the error conditions.
 
---4o6apbwzibxmohte
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Hi,
-
-On Tue, Dec 08, 2020 at 02:28:55PM +0200, Tomi Valkeinen wrote:
-> Panel drivers can send DSI commands in panel's prepare(), which happens
-> before the bridge's enable() is called. The OMAP DSI driver currently
-> only sets up the DSI interface at bridge's enable(), so prepare() cannot
-> be used to send DSI commands.
->=20
-> This patch fixes the issue by making it possible to enable the DSI
-> interface any time a command is about to be sent. Disabling the
-> interface is be done via delayed work.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
+>  drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 51 ++++++++++-------------
+>  1 file changed, 22 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> index e4f35a88d00f..49c0b27e2f5a 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
+> @@ -65,17 +65,6 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	struct drm_bridge *bridge;
+>  	int ret;
+>  
+> -	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
+> -	if (renc == NULL)
+> -		return -ENOMEM;
+> -
+> -	rcdu->encoders[output] = renc;
+> -	renc->output = output;
+> -	encoder = rcar_encoder_to_drm_encoder(renc);
+> -
+> -	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+> -		enc_node, output);
+> -
+>  	/*
+>  	 * Locate the DRM bridge from the DT node. For the DPAD outputs, if the
+>  	 * DT node has a single port, assume that it describes a panel and
+> @@ -86,23 +75,17 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	    rcar_du_encoder_count_ports(enc_node) == 1) {
+>  		struct drm_panel *panel = of_drm_find_panel(enc_node);
+>  
+> -		if (IS_ERR(panel)) {
+> -			ret = PTR_ERR(panel);
+> -			goto error;
+> -		}
+> +		if (IS_ERR(panel))
+> +			return PTR_ERR(panel);
+>  
+>  		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+>  							 DRM_MODE_CONNECTOR_DPI);
+> -		if (IS_ERR(bridge)) {
+> -			ret = PTR_ERR(bridge);
+> -			goto error;
+> -		}
+> +		if (IS_ERR(bridge))
+> +			return PTR_ERR(bridge);
+>  	} else {
+>  		bridge = of_drm_find_bridge(enc_node);
+> -		if (!bridge) {
+> -			ret = -EPROBE_DEFER;
+> -			goto error;
+> -		}
+> +		if (!bridge)
+> +			return -EPROBE_DEFER;
+>  
+>  		if (output == RCAR_DU_OUTPUT_LVDS0 ||
+>  		    output == RCAR_DU_OUTPUT_LVDS1)
+> @@ -110,16 +93,26 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+>  	}
+>  
+>  	/*
+> -	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
+> -	 * companion for LVDS0 in dual-link mode.
+> +	 * Create and initialize the encoder. On Gen3 skip the LVDS1 output if
+> +	 * the LVDS1 encoder is used as a companion for LVDS0 in dual-link
+> +	 * mode.
+>  	 */
+>  	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
+> -		if (rcar_lvds_dual_link(bridge)) {
+> -			ret = -ENOLINK;
+> -			goto error;
+> -		}
+> +		if (rcar_lvds_dual_link(bridge))
+> +			return -ENOLINK;
+>  	}
+>  
+> +	renc = kzalloc(sizeof(*renc), GFP_KERNEL);
+> +	if (renc == NULL)
+> +		return -ENOMEM;
+> +
+> +	rcdu->encoders[output] = renc;
+> +	renc->output = output;
+> +	encoder = rcar_encoder_to_drm_encoder(renc);
+> +
+> +	dev_dbg(rcdu->dev, "initializing encoder %pOF for output %u\n",
+> +		enc_node, output);
+> +
+>  	ret = drm_encoder_init(&rcdu->ddev, encoder, &rcar_du_encoder_funcs,
+>  			       DRM_MODE_ENCODER_NONE, NULL);
+>  	if (ret < 0)
+> 
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
-Would be nice to include the information why locking is ok from your
-reply mails to the patch description. It was helpful for reviewing
-the patch :)
-
--- Sebastian
-
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 49 +++++++++++++++++++++++++++----
->  drivers/gpu/drm/omapdrm/dss/dsi.h |  3 ++
->  2 files changed, 47 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/=
-dss/dsi.c
-> index 53a64bc91867..34f665aa9a59 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -3503,6 +3503,9 @@ static void dsi_enable(struct dsi_data *dsi)
-> =20
->  	WARN_ON(!dsi_bus_is_locked(dsi));
-> =20
-> +	if (WARN_ON(dsi->iface_enabled))
-> +		return;
-> +
->  	mutex_lock(&dsi->lock);
-> =20
->  	r =3D dsi_runtime_get(dsi);
-> @@ -3515,6 +3518,8 @@ static void dsi_enable(struct dsi_data *dsi)
->  	if (r)
->  		goto err_init_dsi;
-> =20
-> +	dsi->iface_enabled =3D true;
-> +
->  	mutex_unlock(&dsi->lock);
-> =20
->  	return;
-> @@ -3530,6 +3535,9 @@ static void dsi_disable(struct dsi_data *dsi)
->  {
->  	WARN_ON(!dsi_bus_is_locked(dsi));
-> =20
-> +	if (WARN_ON(!dsi->iface_enabled))
-> +		return;
-> +
->  	mutex_lock(&dsi->lock);
-> =20
->  	dsi_sync_vc(dsi, 0);
-> @@ -3541,6 +3549,8 @@ static void dsi_disable(struct dsi_data *dsi)
-> =20
->  	dsi_runtime_put(dsi);
-> =20
-> +	dsi->iface_enabled =3D false;
-> +
->  	mutex_unlock(&dsi->lock);
->  }
-> =20
-> @@ -4229,10 +4239,12 @@ static ssize_t omap_dsi_host_transfer(struct mipi=
-_dsi_host *host,
-> =20
->  	dsi_bus_lock(dsi);
-> =20
-> -	if (dsi->video_enabled)
-> -		r =3D _omap_dsi_host_transfer(dsi, vc, msg);
-> -	else
-> -		r =3D -EIO;
-> +	if (!dsi->iface_enabled) {
-> +		dsi_enable(dsi);
-> +		schedule_delayed_work(&dsi->dsi_disable_work, msecs_to_jiffies(2000));
-> +	}
-> +
-> +	r =3D _omap_dsi_host_transfer(dsi, vc, msg);
-> =20
->  	dsi_bus_unlock(dsi);
-> =20
-> @@ -4397,6 +4409,14 @@ static int omap_dsi_host_detach(struct mipi_dsi_ho=
-st *host,
->  	if (WARN_ON(dsi->dsidev !=3D client))
->  		return -EINVAL;
-> =20
-> +	cancel_delayed_work_sync(&dsi->dsi_disable_work);
-> +
-> +	if (dsi->iface_enabled) {
-> +		dsi_bus_lock(dsi);
-> +		dsi_disable(dsi);
-> +		dsi_bus_unlock(dsi);
-> +	}
-> +
->  	omap_dsi_unregister_te_irq(dsi);
->  	dsi->dsidev =3D NULL;
->  	return 0;
-> @@ -4632,9 +4652,12 @@ static void dsi_bridge_enable(struct drm_bridge *b=
-ridge)
->  	struct dsi_data *dsi =3D drm_bridge_to_dsi(bridge);
->  	struct omap_dss_device *dssdev =3D &dsi->output;
-> =20
-> +	cancel_delayed_work_sync(&dsi->dsi_disable_work);
-> +
->  	dsi_bus_lock(dsi);
-> =20
-> -	dsi_enable(dsi);
-> +	if (!dsi->iface_enabled)
-> +		dsi_enable(dsi);
-> =20
->  	dsi_enable_video_output(dssdev, VC_VIDEO);
-> =20
-> @@ -4648,6 +4671,8 @@ static void dsi_bridge_disable(struct drm_bridge *b=
-ridge)
->  	struct dsi_data *dsi =3D drm_bridge_to_dsi(bridge);
->  	struct omap_dss_device *dssdev =3D &dsi->output;
-> =20
-> +	cancel_delayed_work_sync(&dsi->dsi_disable_work);
-> +
->  	dsi_bus_lock(dsi);
-> =20
->  	dsi->video_enabled =3D false;
-> @@ -4840,6 +4865,18 @@ static const struct soc_device_attribute dsi_soc_d=
-evices[] =3D {
->  	{ /* sentinel */ }
->  };
-> =20
-> +static void omap_dsi_disable_work_callback(struct work_struct *work)
-> +{
-> +	struct dsi_data *dsi =3D container_of(work, struct dsi_data, dsi_disabl=
-e_work.work);
-> +
-> +	dsi_bus_lock(dsi);
-> +
-> +	if (dsi->iface_enabled && !dsi->video_enabled)
-> +		dsi_disable(dsi);
-> +
-> +	dsi_bus_unlock(dsi);
-> +}
-> +
->  static int dsi_probe(struct platform_device *pdev)
->  {
->  	const struct soc_device_attribute *soc;
-> @@ -4873,6 +4910,8 @@ static int dsi_probe(struct platform_device *pdev)
->  	INIT_DEFERRABLE_WORK(&dsi->framedone_timeout_work,
->  			     dsi_framedone_timeout_work_callback);
-> =20
-> +	INIT_DEFERRABLE_WORK(&dsi->dsi_disable_work, omap_dsi_disable_work_call=
-back);
-> +
->  #ifdef DSI_CATCH_MISSING_TE
->  	timer_setup(&dsi->te_timer, dsi_te_timeout, 0);
->  #endif
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.h b/drivers/gpu/drm/omapdrm/=
-dss/dsi.h
-> index de9411067ba2..601707c0ecc4 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.h
-> @@ -394,6 +394,7 @@ struct dsi_data {
->  	atomic_t do_ext_te_update;
-> =20
->  	bool te_enabled;
-> +	bool iface_enabled;
->  	bool video_enabled;
-> =20
->  	struct delayed_work framedone_timeout_work;
-> @@ -443,6 +444,8 @@ struct dsi_data {
-> =20
->  	struct omap_dss_device output;
->  	struct drm_bridge bridge;
-> +
-> +	struct delayed_work dsi_disable_work;
->  };
-> =20
->  struct dsi_packet_sent_handler_data {
-> --=20
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
->=20
-
---4o6apbwzibxmohte
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XngcACgkQ2O7X88g7
-+ppm2g//VpktfO2DsUVoiXKxpHpreA6RFuh4bC3wyzTHCPVfj0/piT6GrvWTbTnm
-lZANuLUXizAT05io9fNlf03MgMr4sm8WUdwuIXvrJWa+F679VNR63l6OUMlcUGpo
-XIEZxgMFim6kDji4CdTcEORR8xbSmQPdBWi5Mx0hU4s2HSqXso8z+fxJDsw4SRhB
-pT6/Sw8PG9W29APSMBoydyrpE7F0HPQ9whAgHyPWjMZTmFgijpFY3zsKkbIiqvFR
-cfmKtSToNoQJk//+6bQSluDVmi2Rl0BLWBYRI8VitvCf0MgewVPGBr3Zj+bdbxiK
-fHT8fo8RqRyxmmbEkwhwZ45XM7DB95t1vYWL4anG5lMnxbiJg0Z1HJ750sy5PtLl
-bivSrxlzTGZsyIF9eL7R9lPDsQY9rSCYPOaWyNcuxYuinaY2p1PEls9PXUAxGfRc
-dBI9g0qBwdMfaXQzD9fUYc+sBwkEltwX7I11TSGgmhDljnw/IT5i3hhFWcIpiLnd
-x6swAeJt1pbHr9D5GVEmS0nhPU2zZ5a8X36vGo9StYABFn129u9RmTDEQ2fh/j5+
-ytqg8JIjgZoOI43Fe/+VyJQdOxwGKgvA3ABvDYEv8fW5MORtkG/dpU0ORGc46bII
-Yt2wfdXMUAhdhtXO+5X5AmaRIuf/apVYw5wJFedldv8f1xpKCUs=
-=mRD1
------END PGP SIGNATURE-----
-
---4o6apbwzibxmohte--
-
---===============0090827376==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Regards
+--
+Kieran
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0090827376==--
