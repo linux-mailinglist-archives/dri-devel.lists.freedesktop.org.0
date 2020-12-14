@@ -1,59 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475082D940F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:49 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C864F2D9415
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 09:18:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C0146E0E9;
-	Mon, 14 Dec 2020 08:17:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59DB96E0F7;
+	Mon, 14 Dec 2020 08:18:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com
- [IPv6:2607:f8b0:4864:20::544])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA9F989D5F
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 20:44:31 +0000 (UTC)
-Received: by mail-pg1-x544.google.com with SMTP id n7so11106207pgg.2
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Dec 2020 12:44:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jvKjXHeKYG4rw3Vizc9nWj33YjCQBp4adDcRZBt8deI=;
- b=WUd0JDQqJOsJbG8wM5hvHVXSPoqsnAIOkGX93riI/lYfTHBaTAcJK/ZY3Vq7Q2sxLa
- oLGgqrufgmKM7Bcw6IIa+IIqYtZzE3AEOqsI9LAHeN7HbUHYSBiGTT5unkmVNdaMRekn
- YbGi5E+2Nod4zDkfs8z1qTKlAHraPbXPeltiKC+G5ipwpm2+QLP+EXfWjn8TWQF1OHcB
- Y16QQiv+U7DFozk358ELVDMC9RPJsGpnvbWsiWl42DMPuBSs09MGdScLmNJ5C9QbeIZ1
- /gvPakpraO6zA6maHDgZU07t5Wz0NJCLNd95Af8Bsefv6NPg44SYGFj0GWiED9mjBdnV
- r0ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jvKjXHeKYG4rw3Vizc9nWj33YjCQBp4adDcRZBt8deI=;
- b=kM4eC5fbI82Uz+c3tQmzfusNScf75eEe/0QTQwlGoGEnRvLVjsJsTSRuLGiVEnxHvZ
- 2ChLGP9tIuL2LCpRmmJY/JKQTNCEPPMjcj6KLr4b5lRU3vGrZfB4JyrRgCaI5AiuZAgF
- XZXba+hpcRExpugCL4SKosXk/Yegq2uxHZyMQUt4JhLtwnJeOEnpJVttbDpQor2nl0E/
- TI8nmZfFjk9RyAULTJv2qgcj/E34P20OxaeUzgv9VxGnTrmW2KtfVfYqRPh9f31Lsqr6
- r+eawGPcotvA2hLOmskr6CbrJzqI3/psEKpfR8gQco1LMtGQhl6lAc7+34Ih485KxRUO
- CUqA==
-X-Gm-Message-State: AOAM530q0SjEWZt0mcKSUG3McCF1+lXUO488FVaoAnKaJy6VcDxdnMtz
- Sv4AYgsickpvXkNbMPE4NrE=
-X-Google-Smtp-Source: ABdhPJxvTRsrHmYoWmyfd3kX5Y2qoMmDWMOhj6rO8a5hfOgB6tWYVqVgfT99lYzhlqR2k5slYVIKoQ==
-X-Received: by 2002:a63:e246:: with SMTP id y6mr10695796pgj.412.1607892271435; 
- Sun, 13 Dec 2020 12:44:31 -0800 (PST)
-Received: from glados.. ([2601:647:6000:3e5b::a27])
- by smtp.gmail.com with ESMTPSA id h32sm18411821pgl.36.2020.12.13.12.44.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 12:44:31 -0800 (PST)
-From: Thomas Hebb <tommyhebb@gmail.com>
-To: linux-kernel@vger.kernel.org, Nickey Yang <nickey.yang@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <a.hajda@samsung.com>
-Subject: [PATCH] drm/rockchip: dsi: move all lane config except LCDC mux to
- bind()
-Date: Sun, 13 Dec 2020 12:44:26 -0800
-Message-Id: <95f16906d654057c912f089d286bd51856ee3bdf.1607892237.git.tommyhebb@gmail.com>
-X-Mailer: git-send-email 2.29.2
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 31B2F898C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 00:39:46 +0000 (UTC)
+X-UUID: 503347176dea40d7890ef66d253f531d-20201214
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:Reply-To:From:Subject:Message-ID;
+ bh=1yZEqxO2cnZFsAMkMD7O+YcfqSEG91GOKTLRptxYZvc=; 
+ b=nUn/03jfELkLrzSp8hRTEkem7omiq6Gc9exBRy84BDywy57AlR/M1Dp3UkfgbGr1mhf+RNgd2nep3EtHB+wNbBsHVqIeLznOIbAHnJz9FPefgO5tDHstKsOUxSiimAFYGMJFfLBgzZzSUYS1qXkd3R6C2gZIeI269nf3h3udjEo=;
+X-UUID: 503347176dea40d7890ef66d253f531d-20201214
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <yongqiang.niu@mediatek.com>)
+ (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2
+ ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 543559749; Mon, 14 Dec 2020 08:39:42 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by mtkmbs05n2.mediatek.inc
+ (172.21.101.140) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 14 Dec 2020 08:39:40 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 14 Dec 2020 08:39:39 +0800
+Message-ID: <1607906379.30306.2.camel@mhfsdcap03>
+Subject: Re: [PATCH v2, 15/17] soc: mediatek: mmsys: add mt8192 mmsys support
+From: Yongqiang Niu <yongqiang.niu@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 14 Dec 2020 08:39:39 +0800
+In-Reply-To: <CAAOTY_85qGGc3FhSBDYgNG79sNyJg+Nm1WUrCCuhraRQO_e96Q@mail.gmail.com>
+References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607746317-4696-16-git-send-email-yongqiang.niu@mediatek.com>
+ <CAAOTY_85qGGc3FhSBDYgNG79sNyJg+Nm1WUrCCuhraRQO_e96Q@mail.gmail.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
+X-MTK: N
 X-Mailman-Approved-At: Mon, 14 Dec 2020 08:17:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,125 +55,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Archit Taneja <architt@codeaurora.org>, David Airlie <airlied@linux.ie>,
- Brian Norris <briannorris@chromium.org>, Sandy Huang <hjc@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- Thomas Hebb <tommyhebb@gmail.com>, Sean Paul <seanpaul@chromium.org>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Reply-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, DTML <devicetree@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, linux-kernel <linux-kernel@vger.kernel.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, "moderated list:ARM/Mediatek
+ SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When we first enable the DSI encoder, we currently program some per-chip
-configuration that we look up in rk3399_chip_data based on the device
-tree compatible we match. This data configures various parameters of the
-MIPI lanes, including on RK3399 whether DSI1 is slaved to DSI0 in a
-dual-mode configuration. It also selects which LCDC (i.e. VOP) to scan
-out from.
-
-This causes a problem in RK3399 dual-mode configurations, though: panel
-prepare() callbacks run before the encoder gets enabled and expect to be
-able to write commands to the DSI bus, but the bus isn't fully
-functional until the lane and master/slave configuration have been
-programmed. As a result, dual-mode panels (and possibly others too) fail
-to turn on when the rockchipdrm driver is initially loaded.
-
-Because the LCDC mux is the only thing we don't know until enable time
-(and is the only thing that can ever change), we can actually move most
-of the initialization to bind() and get it out of the way early. That's
-what this change does. (Rockchip's 4.4 BSP kernel does it in mode_set(),
-which also avoids the issue, but bind() seems like the more correct
-place to me.)
-
-Tested on a Google Scarlet board (Acer Chromebook Tab 10), which has a
-Kingdisplay KD097D04 dual-mode panel. Prior to this change, the panel's
-backlight would turn on but no image would appear when initially loading
-rockchipdrm. If I kept rockchipdrm loaded and reloaded the panel driver,
-it would come on. With this change, the panel successfully turns on
-during initial rockchipdrm load as expected.
-
-Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi bridge driver")
-Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
----
-
- .../gpu/drm/rockchip/dw-mipi-dsi-rockchip.c   | 36 ++++++++++++++-----
- 1 file changed, 28 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index ce044db8c97e..d0c9610ad220 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -691,13 +691,8 @@ static const struct dw_mipi_dsi_phy_ops dw_mipi_dsi_rockchip_phy_ops = {
- 	.get_timing = dw_mipi_dsi_phy_get_timing,
- };
- 
--static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi,
--					int mux)
-+static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi)
- {
--	if (dsi->cdata->lcdsel_grf_reg)
--		regmap_write(dsi->grf_regmap, dsi->cdata->lcdsel_grf_reg,
--			mux ? dsi->cdata->lcdsel_lit : dsi->cdata->lcdsel_big);
--
- 	if (dsi->cdata->lanecfg1_grf_reg)
- 		regmap_write(dsi->grf_regmap, dsi->cdata->lanecfg1_grf_reg,
- 					      dsi->cdata->lanecfg1);
-@@ -711,6 +706,13 @@ static void dw_mipi_dsi_rockchip_config(struct dw_mipi_dsi_rockchip *dsi,
- 					      dsi->cdata->enable);
- }
- 
-+static void dw_mipi_dsi_rockchip_set_lcdsel(struct dw_mipi_dsi_rockchip *dsi,
-+					    int mux)
-+{
-+	regmap_write(dsi->grf_regmap, dsi->cdata->lcdsel_grf_reg,
-+		mux ? dsi->cdata->lcdsel_lit : dsi->cdata->lcdsel_big);
-+}
-+
- static int
- dw_mipi_dsi_encoder_atomic_check(struct drm_encoder *encoder,
- 				 struct drm_crtc_state *crtc_state,
-@@ -766,9 +768,9 @@ static void dw_mipi_dsi_encoder_enable(struct drm_encoder *encoder)
- 		return;
- 	}
- 
--	dw_mipi_dsi_rockchip_config(dsi, mux);
-+	dw_mipi_dsi_rockchip_set_lcdsel(dsi, mux);
- 	if (dsi->slave)
--		dw_mipi_dsi_rockchip_config(dsi->slave, mux);
-+		dw_mipi_dsi_rockchip_set_lcdsel(dsi->slave, mux);
- 
- 	clk_disable_unprepare(dsi->grf_clk);
- }
-@@ -922,6 +924,24 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
- 		return ret;
- 	}
- 
-+	/*
-+	 * With the GRF clock running, write lane and dual-mode configurations
-+	 * that won't change immediately. If we waited until enable() to do
-+	 * this, things like panel preparation would not be able to send
-+	 * commands over DSI.
-+	 */
-+	ret = clk_prepare_enable(dsi->grf_clk);
-+	if (ret) {
-+		DRM_DEV_ERROR(dsi->dev, "Failed to enable grf_clk: %d\n", ret);
-+		return ret;
-+	}
-+
-+	dw_mipi_dsi_rockchip_config(dsi);
-+	if (dsi->slave)
-+		dw_mipi_dsi_rockchip_config(dsi->slave);
-+
-+	clk_disable_unprepare(dsi->grf_clk);
-+
- 	ret = rockchip_dsi_drm_create_encoder(dsi, drm_dev);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "Failed to create drm encoder\n");
--- 
-2.29.2
-
-_______________________________________________
-dri-devel mailing list
-dri-devel@lists.freedesktop.org
-https://lists.freedesktop.org/mailman/listinfo/dri-devel
+T24gTW9uLCAyMDIwLTEyLTE0IGF0IDAwOjAyICswODAwLCBDaHVuLUt1YW5nIEh1IHdyb3RlOg0K
+PiBIaSwgWW9uZ3FpYW5nOg0KPiANCj4gWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRp
+YXRlay5jb20+IOaWvCAyMDIw5bm0MTLmnIgxMuaXpSDpgLHlha0g5LiL5Y2IMTI6MjLlr6vpgZPv
+vJoNCj4gPg0KPiA+IGFkZCBtdDgxOTIgbW1zeXMgc3VwcG9ydA0KPiA+DQo+ID4gU2lnbmVkLW9m
+Zi1ieTogWW9uZ3FpYW5nIE5pdSA8eW9uZ3FpYW5nLm5pdUBtZWRpYXRlay5jb20+DQo+ID4gLS0t
+DQo+ID4gIGRyaXZlcnMvc29jL21lZGlhdGVrL21tc3lzL01ha2VmaWxlICAgICAgIHwgICAxICsN
+Cj4gPiAgZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXQ4MTkyLW1tc3lzLmMgfCAxMTkgKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIGluY2x1ZGUvbGludXgvc29jL21lZGlh
+dGVrL210ay1tbXN5cy5oICAgIHwgICAxICsNCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCAxMjEgaW5z
+ZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9zb2MvbWVkaWF0ZWsv
+bW1zeXMvbXQ4MTkyLW1tc3lzLmMNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3NvYy9t
+ZWRpYXRlay9tbXN5cy9NYWtlZmlsZSBiL2RyaXZlcnMvc29jL21lZGlhdGVrL21tc3lzL01ha2Vm
+aWxlDQo+ID4gaW5kZXggMjVlZWI5ZTUuLjc1MDhjZDMgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVy
+cy9zb2MvbWVkaWF0ZWsvbW1zeXMvTWFrZWZpbGUNCj4gPiArKysgYi9kcml2ZXJzL3NvYy9tZWRp
+YXRlay9tbXN5cy9NYWtlZmlsZQ0KPiA+IEBAIC0xLDQgKzEsNSBAQA0KPiA+ICAjIFNQRFgtTGlj
+ZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wLW9ubHkNCj4gPiAgb2JqLSQoQ09ORklHX01US19NTVNZ
+UykgKz0gbXQyNzAxLW1tc3lzLm8NCj4gPiAgb2JqLSQoQ09ORklHX01US19NTVNZUykgKz0gbXQ4
+MTgzLW1tc3lzLm8NCj4gPiArb2JqLSQoQ09ORklHX01US19NTVNZUykgKz0gbXQ4MTkyLW1tc3lz
+Lm8NCj4gPiAgb2JqLSQoQ09ORklHX01US19NTVNZUykgKz0gbXRrLW1tc3lzLm8NCj4gPiBkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9zb2MvbWVkaWF0ZWsvbW1zeXMvbXQ4MTkyLW1tc3lzLmMgYi9kcml2
+ZXJzL3NvYy9tZWRpYXRlay9tbXN5cy9tdDgxOTItbW1zeXMuYw0KPiA+IG5ldyBmaWxlIG1vZGUg
+MTAwNjQ0DQo+ID4gaW5kZXggMDAwMDAwMC4uNzljYjMzZg0KPiA+IC0tLSAvZGV2L251bGwNCj4g
+PiArKysgYi9kcml2ZXJzL3NvYy9tZWRpYXRlay9tbXN5cy9tdDgxOTItbW1zeXMuYw0KPiA+IEBA
+IC0wLDAgKzEsMTE5IEBADQo+ID4gKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
+DQo+ID4gKy8vDQo+ID4gKy8vIENvcHlyaWdodCAoYykgMjAyMCBNZWRpYVRlayBJbmMuDQo+ID4g
+Kw0KPiA+ICsjaW5jbHVkZSA8bGludXgvZGV2aWNlLmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9p
+by5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+DQo+ID4gKyNpbmNsdWRlIDxs
+aW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L3NvYy9tZWRpYXRl
+ay9tdGstbW1zeXMuaD4NCj4gPiArDQo+ID4gKyNkZWZpbmUgTU1TWVNfT1ZMX01PVVRfRU4gICAg
+ICAgICAgICAgIDB4ZjA0DQo+ID4gKyNkZWZpbmUgRElTUF9PVkwwX0dPX0JMRU5EICAgICAgICAg
+ICAgICAgICAgICAgQklUKDApDQo+ID4gKyNkZWZpbmUgRElTUF9PVkwwX0dPX0JHICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBCSVQoMSkNCj4gPiArI2RlZmluZSBESVNQX09WTDBfMkxf
+R09fQkxFTkQgICAgICAgICAgICAgICAgICBCSVQoMikNCj4gPiArI2RlZmluZSBESVNQX09WTDBf
+MkxfR09fQkcgICAgICAgICAgICAgICAgICAgICBCSVQoMykNCj4gPiArI2RlZmluZSBESVNQX09W
+TDFfMkxfTU9VVF9FTiAgICAgICAgICAgMHhmMDgNCj4gPiArI2RlZmluZSBPVkwxXzJMX01PVVRf
+RU5fUkRNQTEgICAgICAgICAgICAgICAgICBCSVQoNCkNCj4gPiArI2RlZmluZSBESVNQX09WTDBf
+MkxfTU9VVF9FTiAgICAgICAgICAgMHhmMTgNCj4gPiArI2RlZmluZSBESVNQX09WTDBfTU9VVF9F
+TiAgICAgICAgICAgICAgMHhmMWMNCj4gPiArI2RlZmluZSBPVkwwX01PVVRfRU5fRElTUF9SRE1B
+MCAgICAgICAgICAgICAgICAgICAgICAgIEJJVCgwKQ0KPiA+ICsjZGVmaW5lIE9WTDBfTU9VVF9F
+Tl9PVkwwXzJMICAgICAgICAgICAgICAgICAgIEJJVCg0KQ0KPiA+ICsjZGVmaW5lIERJU1BfUkRN
+QTBfU0VMX0lOICAgICAgICAgICAgICAweGYyYw0KPiA+ICsjZGVmaW5lIFJETUEwX1NFTF9JTl9P
+VkwwXzJMICAgICAgICAgICAgICAgICAgIDB4Mw0KPiA+ICsjZGVmaW5lIERJU1BfUkRNQTBfU09V
+VF9TRUwgICAgICAgICAgICAweGYzMA0KPiA+ICsjZGVmaW5lIFJETUEwX1NPVVRfQ09MT1IwICAg
+ICAgICAgICAgICAgICAgICAgIDB4MQ0KPiA+ICsjZGVmaW5lIERJU1BfQ0NPUlIwX1NPVVRfU0VM
+ICAgICAgICAgICAweGYzNA0KPiA+ICsjZGVmaW5lIENDT1JSMF9TT1VUX0FBTDAgICAgICAgICAg
+ICAgICAgICAgICAgIDB4MQ0KPiA+ICsjZGVmaW5lIERJU1BfQUFMMF9TRUxfSU4gICAgICAgICAg
+ICAgICAweGYzOA0KPiA+ICsjZGVmaW5lIEFBTDBfU0VMX0lOX0NDT1JSMCAgICAgICAgICAgICAg
+ICAgICAgIDB4MQ0KPiA+ICsjZGVmaW5lIERJU1BfRElUSEVSMF9NT1VUX0VOICAgICAgICAgICAw
+eGYzYw0KPiA+ICsjZGVmaW5lIERJVEhFUjBfTU9VVF9EU0kwICAgICAgICAgICAgICAgICAgICAg
+IEJJVCgwKQ0KPiA+ICsjZGVmaW5lIERJU1BfRFNJMF9TRUxfSU4gICAgICAgICAgICAgICAweGY0
+MA0KPiA+ICsjZGVmaW5lIERTSTBfU0VMX0lOX0RJVEhFUjAgICAgICAgICAgICAgICAgICAgIDB4
+MQ0KPiA+ICsjZGVmaW5lIERJU1BfT1ZMMl8yTF9NT1VUX0VOICAgICAgICAgICAweGY0Yw0KPiA+
+ICsjZGVmaW5lIE9WTDJfMkxfTU9VVF9SRE1BNCAgICAgICAgICAgICAgICAgICAgIEJJVCgwKQ0K
+PiA+ICsNCj4gPiArc3RhdGljIHVuc2lnbmVkIGludCBtdGtfbW1zeXNfZGRwX21vdXRfZW4oZW51
+bSBtdGtfZGRwX2NvbXBfaWQgY3VyLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9jb21wX2lkIG5leHQsDQo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50ICphZGRyKQ0KPiA+ICt7
+DQo+ID4gKyAgICAgICB1bnNpZ25lZCBpbnQgdmFsdWU7DQo+ID4gKw0KPiA+ICsgICAgICAgaWYg
+KGN1ciA9PSBERFBfQ09NUE9ORU5UX09WTF8yTDAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX1JE
+TUEwKSB7DQo+ID4gKyAgICAgICAgICAgICAgICphZGRyID0gRElTUF9PVkwwXzJMX01PVVRfRU47
+DQo+ID4gKyAgICAgICAgICAgICAgIHZhbHVlID0gT1ZMMF9NT1VUX0VOX0RJU1BfUkRNQTA7DQo+
+ID4gKyAgICAgICB9IGVsc2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX09WTF8yTDIgJiYgbmV4
+dCA9PSBERFBfQ09NUE9ORU5UX1JETUE0KSB7DQo+ID4gKyAgICAgICAgICAgICAgICphZGRyID0g
+RElTUF9PVkwyXzJMX01PVVRfRU47DQo+ID4gKyAgICAgICAgICAgICAgIHZhbHVlID0gT1ZMMl8y
+TF9NT1VUX1JETUE0Ow0KPiA+ICsgICAgICAgfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVO
+VF9ESVRIRVIgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RTSTApIHsNCj4gPiArICAgICAgICAg
+ICAgICAgKmFkZHIgPSBESVNQX0RJVEhFUjBfTU9VVF9FTjsNCj4gPiArICAgICAgICAgICAgICAg
+dmFsdWUgPSBESVRIRVIwX01PVVRfRFNJMDsNCj4gPiArICAgICAgIH0gZWxzZSB7DQo+ID4gKyAg
+ICAgICAgICAgICAgIHZhbHVlID0gMDsNCj4gPiArICAgICAgIH0NCj4gPiArDQo+ID4gKyAgICAg
+ICByZXR1cm4gdmFsdWU7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyB1bnNpZ25lZCBpbnQg
+bXRrX21tc3lzX2RkcF9zZWxfaW4oZW51bSBtdGtfZGRwX2NvbXBfaWQgY3VyLA0KPiA+ICsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZW51bSBtdGtfZGRwX2NvbXBfaWQg
+bmV4dCwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2ln
+bmVkIGludCAqYWRkcikNCj4gPiArew0KPiA+ICsgICAgICAgdW5zaWduZWQgaW50IHZhbHVlOw0K
+PiA+ICsNCj4gPiArICAgICAgIGlmIChjdXIgPT0gRERQX0NPTVBPTkVOVF9PVkxfMkwwICYmIG5l
+eHQgPT0gRERQX0NPTVBPTkVOVF9SRE1BMCkgew0KPiA+ICsgICAgICAgICAgICAgICAqYWRkciA9
+IERJU1BfUkRNQTBfU0VMX0lOOw0KPiA+ICsgICAgICAgICAgICAgICB2YWx1ZSA9IFJETUEwX1NF
+TF9JTl9PVkwwXzJMOw0KPiA+ICsgICAgICAgfSBlbHNlIGlmIChjdXIgPT0gRERQX0NPTVBPTkVO
+VF9DQ09SUiAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfQUFMMCkgew0KPiA+ICsgICAgICAgICAg
+ICAgICAqYWRkciA9IERJU1BfQUFMMF9TRUxfSU47DQo+ID4gKyAgICAgICAgICAgICAgIHZhbHVl
+ID0gQUFMMF9TRUxfSU5fQ0NPUlIwOw0KPiA+ICsgICAgICAgfSBlbHNlIGlmIChjdXIgPT0gRERQ
+X0NPTVBPTkVOVF9ESVRIRVIgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0RTSTApIHsNCj4gPiAr
+ICAgICAgICAgICAgICAgKmFkZHIgPSBESVNQX0RTSTBfU0VMX0lOOw0KPiA+ICsgICAgICAgICAg
+ICAgICB2YWx1ZSA9IERTSTBfU0VMX0lOX0RJVEhFUjA7DQo+ID4gKyAgICAgICB9IGVsc2Ugew0K
+PiA+ICsgICAgICAgICAgICAgICB2YWx1ZSA9IDA7DQo+ID4gKyAgICAgICB9DQo+ID4gKw0KPiA+
+ICsgICAgICAgcmV0dXJuIHZhbHVlOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgdm9pZCBt
+dGtfbW1zeXNfZGRwX3NvdXRfc2VsKHZvaWQgX19pb21lbSAqY29uZmlnX3JlZ3MsDQo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29tcF9pZCBjdXIs
+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnVtIG10a19kZHBfY29t
+cF9pZCBuZXh0KQ0KPiA+ICt7DQo+ID4gKyAgICAgICBpZiAoY3VyID09IEREUF9DT01QT05FTlRf
+UkRNQTAgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0NPTE9SMCkgew0KPiA+ICsgICAgICAgICAg
+ICAgICB3cml0ZWxfcmVsYXhlZChSRE1BMF9TT1VUX0NPTE9SMCwgY29uZmlnX3JlZ3MgKyBESVNQ
+X1JETUEwX1NPVVRfU0VMKTsNCj4gPiArICAgICAgIH0gZWxzZSBpZiAoY3VyID09IEREUF9DT01Q
+T05FTlRfQ0NPUlIgJiYgbmV4dCA9PSBERFBfQ09NUE9ORU5UX0FBTDApIHsNCj4gPiArICAgICAg
+ICAgICAgICAgd3JpdGVsX3JlbGF4ZWQoQ0NPUlIwX1NPVVRfQUFMMCwgY29uZmlnX3JlZ3MgKyBE
+SVNQX0NDT1JSMF9TT1VUX1NFTCk7DQo+ID4gKyAgICAgICB9DQo+ID4gK30NCj4gPiArDQo+ID4g
+K3N0YXRpYyB1bnNpZ25lZCBpbnQgbXRrX21tc3lzX292bF9tb3V0X2VuKGVudW0gbXRrX2RkcF9j
+b21wX2lkIGN1ciwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBlbnVtIG10a19kZHBfY29tcF9pZCBuZXh0LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIGludCAqYWRkcikNCj4gPiArew0KPiA+ICsgICAg
+ICAgaW50IHZhbHVlID0gLTE7DQo+ID4gKw0KPiA+ICsgICAgICAgKmFkZHIgPSBNTVNZU19PVkxf
+TU9VVF9FTjsNCj4gPiArDQo+ID4gKyAgICAgICBpZiAoY3VyID09IEREUF9DT01QT05FTlRfT1ZM
+MCAmJiBuZXh0ID09IEREUF9DT01QT05FTlRfT1ZMXzJMMCkNCj4gPiArICAgICAgICAgICAgICAg
+dmFsdWUgPSBESVNQX09WTDBfR09fQkc7DQo+ID4gKyAgICAgICBlbHNlIGlmIChjdXIgPT0gRERQ
+X0NPTVBPTkVOVF9PVkxfMkwwICYmIG5leHQgPT0gRERQX0NPTVBPTkVOVF9PVkwwKQ0KPiA+ICsg
+ICAgICAgICAgICAgICB2YWx1ZSA9IERJU1BfT1ZMMF8yTF9HT19CRzsNCj4gPiArICAgICAgIGVs
+c2UgaWYgKGN1ciA9PSBERFBfQ09NUE9ORU5UX09WTDApDQo+ID4gKyAgICAgICAgICAgICAgIHZh
+bHVlID0gRElTUF9PVkwwX0dPX0JMRU5EOw0KPiA+ICsgICAgICAgZWxzZSBpZiAoY3VyID09IERE
+UF9DT01QT05FTlRfT1ZMXzJMMCkNCj4gPiArICAgICAgICAgICAgICAgdmFsdWUgPSBESVNQX09W
+TDBfMkxfR09fQkxFTkQ7DQo+ID4gKyAgICAgICBlbHNlDQo+ID4gKyAgICAgICAgICAgICAgIHZh
+bHVlID0gLTE7DQo+ID4gKw0KPiA+ICsgICAgICAgcmV0dXJuIHZhbHVlOw0KPiA+ICt9DQo+IA0K
+PiBJIHRoaW5rIHlvdSBzaG91bGQgc3F1YXNoIG10a19tbXN5c19vdmxfbW91dF9lbigpIHdpdGgg
+bXRrX21tc3lzX2RkcF9tb3V0X2VuKCkuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHVuLUt1YW5nLg0K
+DQpoaSANCg0KaW4gc29jIG10ODE5MiwgIG92bDBfMmwgLT4gcmRtYTAgdXNlY2FzZSBuZWVkIHNl
+dCAyIHJlZ2lzdGVyOg0KRElTUF9PVkwwXzJMX01PVVRfRU4gYW5kIE1NU1lTX09WTF9NT1VUX0VO
+LA0KJ2lmLWVsc2UnIGluIG10a19tbXN5c19kZHBfbW91dF9lbiBjYW4gbm90IGNvdmVyIHRoaXMg
+Y2FzZS4NCg0KPiANCj4gPiArDQo+ID4gK3N0cnVjdCBtdGtfbW1zeXNfY29ubl9mdW5jcyBtdDgx
+OTJfbW1zeXNfZnVuY3MgPSB7DQo+ID4gKyAgICAgICAubW91dF9lbiA9IG10a19tbXN5c19kZHBf
+bW91dF9lbiwNCj4gPiArICAgICAgIC5vdmxfbW91dF9lbiA9IG10a19tbXN5c19vdmxfbW91dF9l
+biwNCj4gPiArICAgICAgIC5zZWxfaW4gPSBtdGtfbW1zeXNfZGRwX3NlbF9pbiwNCj4gPiArICAg
+ICAgIC5zb3V0X3NlbCA9IG10a19tbXN5c19kZHBfc291dF9zZWwsDQo+ID4gK307DQo+ID4gZGlm
+ZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5cy5oIGIvaW5jbHVk
+ZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgNCj4gPiBpbmRleCAyMjAyMDNkLi5lZmEw
+N2I5IDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUvbGludXgvc29jL21lZGlhdGVrL210ay1tbXN5
+cy5oDQo+ID4gKysrIGIvaW5jbHVkZS9saW51eC9zb2MvbWVkaWF0ZWsvbXRrLW1tc3lzLmgNCj4g
+PiBAQCAtNjIsNiArNjIsNyBAQCBzdHJ1Y3QgbXRrX21tc3lzX2Nvbm5fZnVuY3Mgew0KPiA+DQo+
+ID4gIGV4dGVybiBzdHJ1Y3QgbXRrX21tc3lzX2Nvbm5fZnVuY3MgbXQyNzAxX21tc3lzX2Z1bmNz
+Ow0KPiA+ICBleHRlcm4gc3RydWN0IG10a19tbXN5c19jb25uX2Z1bmNzIG10ODE4M19tbXN5c19m
+dW5jczsNCj4gPiArZXh0ZXJuIHN0cnVjdCBtdGtfbW1zeXNfY29ubl9mdW5jcyBtdDgxOTJfbW1z
+eXNfZnVuY3M7DQo+ID4NCj4gPiAgdm9pZCBtdGtfbW1zeXNfZGRwX2Nvbm5lY3Qoc3RydWN0IGRl
+dmljZSAqZGV2LA0KPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGVudW0gbXRrX2RkcF9j
+b21wX2lkIGN1ciwNCj4gPiAtLQ0KPiA+IDEuOC4xLjEuZGlydHkNCj4gPiBfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IExpbnV4LW1lZGlhdGVrIG1h
+aWxpbmcgbGlzdA0KPiA+IExpbnV4LW1lZGlhdGVrQGxpc3RzLmluZnJhZGVhZC5vcmcNCj4gPiBo
+dHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LW1lZGlhdGVr
+DQoNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1k
+ZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczov
+L2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
