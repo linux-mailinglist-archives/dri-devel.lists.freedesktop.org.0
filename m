@@ -2,35 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA812D9A0D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 15:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2D42D9A12
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 15:36:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 757AD6E17B;
-	Mon, 14 Dec 2020 14:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05806E226;
+	Mon, 14 Dec 2020 14:36:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43056E17B
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 14:35:42 +0000 (UTC)
-Date: Mon, 14 Dec 2020 15:35:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1607956542;
- bh=PduyduJ87ItDILEPk7/W38JfCRlCsHM+uffWVaujy0Q=;
- h=From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cx7yJum3WsEDzK0IzokkpImFi0fq1fi+b2gQBRhRzo5E7/8VCTGo9mtGANM2ycgIw
- kR21sXJ1qm9tP//qtBW8ngOd6TvYlGxn0LiqftApiGwdH0gnfK/8X/Lh/OkE/f1ayx
- a55rCyISL2dDqvtIE2D1I3eCd99W8v9YQlFP/59eB/0KrfmVVD/0u3ZWrvoifXdveX
- F+k8Yo7H66OlxwAfMpLCgUJR4f5NbbOxnOaPWXSLucg2lKKdKTYLx0Qr7sjCn/e1V2
- Vedu9bU/3GXXKQvQSVOpaX6Q2RTUVMmrysf8pW3f+zsHhUD6UFWFA59kdfzoYxlM2c
- +PUFcJXv6Sihw==
-From: Sebastian Reichel <sre@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v5 09/29] drm/omap: dsi: cleanup dispc channel usage
-Message-ID: <20201214143540.t3ozpc2mipgniuin@earth.universe>
-References: <20201208122855.254819-1-tomi.valkeinen@ti.com>
- <20201208122855.254819-10-tomi.valkeinen@ti.com>
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com
+ [IPv6:2a00:1450:4864:20::342])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6BA26E226
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 14:36:36 +0000 (UTC)
+Received: by mail-wm1-x342.google.com with SMTP id x22so13919869wmc.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 06:36:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=8/m/yG9nmWATf2pwpEbnHeaYaYLTTFSZowBrAhqsvOw=;
+ b=NDcqoZd96wzFTaRwe+9H+XLXhCCJcYOv5EVsUhYk8m1j/nS/oVvP7qz4XCpnp4qD41
+ i7DlLOUDaoOzBc6o96g2UfD9MjlfuJJUHNAKzjO2xhe/Odg/q7Aj41nKXQmISvvUKny5
+ FWc/R+K1Jx/91m6Uxadrnjg6pitrNqb3/rwH+o7d7YST26CoJRSjiTS128/ZCGfl5ri2
+ a+YbW0NOvF9bvKzw/d+gBhaOrCX+VwjogxOc+VHEhSvRY6M4yiPIaXrJfAK384VNSuA+
+ CTB38q3FNFLC47BbxhAJCQHXre9jd65GZHKhv+DwMJ4tOaJRsbdd+u3umwxmgZQrhOqM
+ p5zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8/m/yG9nmWATf2pwpEbnHeaYaYLTTFSZowBrAhqsvOw=;
+ b=HIQ+93GX317Z/PGEoDYqj2UmAB0M7qYmVaRcgRcfejJvOHx4wxA4mZEokmHZFsRnCp
+ AFZpM03r9NuVHjhrvzOehFGIpUnPgI6oRuFI/Cel3gERN007mKtbr4b8dZWOu2KPCJVF
+ Vast/8EVhkTjlCamK8ZxRxsMI5eKgSQbLs6xilFhWRG31gOa+zirgWdI8mkIqY86u+VQ
+ lHGSEOHuAcyDDXCLPjNyCOsTxNzfks3ryDKFD19EBjJ372U8b5WD26XJgaNFDyHX+FsY
+ ZpFh8GoMgSBr4KqQ5/PqtN+1Yt9JHnNOnDR1eLnnAr68mBLERhr6ofsmuu85x2wnYTK8
+ vB4A==
+X-Gm-Message-State: AOAM532JT0eF+bqw6GjU7AuqIHQEsW+sflw38IzET0PGScyoRYQ76iA8
+ HrppIiwasEpn7TFupACM7htbbg==
+X-Google-Smtp-Source: ABdhPJwu+cElapZXFY4A8uSyJOR+TrTmuMMBMIKgd17hiIKGGfvZB23aZNn8UqcZ7iK9v1o9eV2+wA==
+X-Received: by 2002:a1c:4843:: with SMTP id v64mr28276897wma.186.1607956595296; 
+ Mon, 14 Dec 2020 06:36:35 -0800 (PST)
+Received: from holly.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id w189sm19701366wmg.31.2020.12.14.06.36.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Dec 2020 06:36:34 -0800 (PST)
+Date: Mon, 14 Dec 2020 14:36:32 +0000
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: Re: [PATCH -next] backlight: sky81452-backlight: convert comma to
+ semicolon
+Message-ID: <20201214143632.oiqmvpkai7kurc2d@holly.lan>
+References: <20201214133458.3729-1-zhengyongjun3@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201208122855.254819-10-tomi.valkeinen@ti.com>
+Content-Disposition: inline
+In-Reply-To: <20201214133458.3729-1-zhengyongjun3@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,149 +68,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tony Lindgren <tony@atomide.com>, hns@goldelico.com,
- Sekhar Nori <nsekhar@ti.com>, dri-devel@lists.freedesktop.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-omap@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
- Nikhil Devshatwar <nikhil.nd@ti.com>
-Content-Type: multipart/mixed; boundary="===============1422827257=="
+Cc: linux-fbdev@vger.kernel.org, b.zolnierkie@samsung.com, jingoohan1@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ lee.jones@linaro.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 14, 2020 at 09:34:58PM +0800, Zheng Yongjun wrote:
+> Replace a comma between expression statements by a semicolon.
+> 
+> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
 
---===============1422827257==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ur6oq4h5b3dgkdyk"
-Content-Disposition: inline
+Weird! I guess it was harmless but still seriously weird ;-)
+
+Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+Thanks!
 
 
---ur6oq4h5b3dgkdyk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Tue, Dec 08, 2020 at 02:28:35PM +0200, Tomi Valkeinen wrote:
-> The "channel" usage in omap dsi driver is confusing. As the first step,
-> change "channel" to "dispc_channel" when dealing with the dispc channel.
->=20
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 > ---
-
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-
--- Sebastian
-
->  drivers/gpu/drm/omapdrm/dss/dsi.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/=
-dss/dsi.c
-> index c78ae99c8742..cf0dc4872d14 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-> @@ -3978,10 +3978,10 @@ static int dsi_configure_dispc_clocks(struct dsi_=
-data *dsi)
-> =20
->  static int dsi_display_init_dispc(struct dsi_data *dsi)
->  {
-> -	enum omap_channel channel =3D dsi->output.dispc_channel;
-> +	enum omap_channel dispc_channel =3D dsi->output.dispc_channel;
->  	int r;
-> =20
-> -	dss_select_lcd_clk_source(dsi->dss, channel, dsi->module_id =3D=3D 0 ?
-> +	dss_select_lcd_clk_source(dsi->dss, dispc_channel, dsi->module_id =3D=
-=3D 0 ?
->  			DSS_CLK_SRC_PLL1_1 :
->  			DSS_CLK_SRC_PLL2_1);
-> =20
-> @@ -4017,19 +4017,19 @@ static int dsi_display_init_dispc(struct dsi_data=
- *dsi)
->  		dss_mgr_unregister_framedone_handler(&dsi->output,
->  				dsi_framedone_irq_callback, dsi);
->  err:
-> -	dss_select_lcd_clk_source(dsi->dss, channel, DSS_CLK_SRC_FCK);
-> +	dss_select_lcd_clk_source(dsi->dss, dispc_channel, DSS_CLK_SRC_FCK);
->  	return r;
->  }
-> =20
->  static void dsi_display_uninit_dispc(struct dsi_data *dsi)
->  {
-> -	enum omap_channel channel =3D dsi->output.dispc_channel;
-> +	enum omap_channel dispc_channel =3D dsi->output.dispc_channel;
-> =20
->  	if (dsi->mode =3D=3D OMAP_DSS_DSI_CMD_MODE)
->  		dss_mgr_unregister_framedone_handler(&dsi->output,
->  				dsi_framedone_irq_callback, dsi);
-> =20
-> -	dss_select_lcd_clk_source(dsi->dss, channel, DSS_CLK_SRC_FCK);
-> +	dss_select_lcd_clk_source(dsi->dss, dispc_channel, DSS_CLK_SRC_FCK);
->  }
-> =20
->  static int dsi_configure_dsi_clocks(struct dsi_data *dsi)
-> @@ -4846,12 +4846,12 @@ static int dsi_set_config(struct omap_dss_device =
-*dssdev,
->  }
-> =20
->  /*
-> - * Return a hardcoded channel for the DSI output. This should work for
-> + * Return a hardcoded dispc channel for the DSI output. This should work=
- for
->   * current use cases, but this can be later expanded to either resolve
->   * the channel in some more dynamic manner, or get the channel as a user
->   * parameter.
->   */
-> -static enum omap_channel dsi_get_channel(struct dsi_data *dsi)
-> +static enum omap_channel dsi_get_dispc_channel(struct dsi_data *dsi)
->  {
->  	switch (dsi->data->model) {
->  	case DSI_MODEL_OMAP3:
-> @@ -5403,7 +5403,7 @@ static int dsi_init_output(struct dsi_data *dsi)
-> =20
->  	out->type =3D OMAP_DISPLAY_TYPE_DSI;
->  	out->name =3D dsi->module_id =3D=3D 0 ? "dsi.0" : "dsi.1";
-> -	out->dispc_channel =3D dsi_get_channel(dsi);
-> +	out->dispc_channel =3D dsi_get_dispc_channel(dsi);
->  	out->dsi_ops =3D &dsi_ops;
->  	out->of_port =3D 0;
->  	out->bus_flags =3D DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE
-> --=20
-> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
->=20
-
---ur6oq4h5b3dgkdyk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/XeDwACgkQ2O7X88g7
-+pqOYw/+LOaXw7WWIwzdRo2u8ok5X6RPR8OzTXR9bV1XTZ8DCdOyOZwE4Vmdy09a
-Sy6j+3P4Nrnv7qUxKQvsMnjQa7ZCaS85eZJ7z0AramS7cjaGdoEqbMrbdegXTcHv
-vsrxDEh0bnOeDiveRIK2jrXobY6zU37FiJ+wJ5hOVlTq0X6jUat6FY4c37ppMIQ9
-AabxW7Bh6COkK5vPMPojBY8EebztM34eguJN0Hqj6D7D8KznxeGl42GptiApHlw4
-8wo3LokCNM16GvRzLdjlc/NLEnTd3obuWIvTCssgRX1fojnTitbpa/HN9Ok/Dq5u
-tZ1RrqgeyMd2NUcAa4mrKfDC30WykNskRdRXTZKxh3WgSpokXcvnS3g3Lyk/sKku
-qcXudzoL4SsVAiPAwM9k41SoSOFBl3pwFEIya60cndGC3jzzLW+e9FFMavvFA/Rt
-0NMkhUGPT5rLAbn6qCc1u7aMPd1CPhqjF8q5sXe3qLSaZ5rDXaV0rXw/sFNZ4Vw9
-Xu1Qy+3fcn1JtDdUc5AOA/OZzp3nzH0WMhg0ha4JiYx7TGcYwC8zM7CLL55YK/mY
-c24RpM3Psex8N9XeO1kzI0BGZrmIUXb+NVtRuH6dJX3H1ZoD1G2kANgkbyRKgDhT
-7NqPkoJ3ypCu3V3fxV9hh9bc22FlsqpRB3aj5DgzLne1AEZB9n8=
-=xFgR
------END PGP SIGNATURE-----
-
---ur6oq4h5b3dgkdyk--
-
---===============1422827257==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+>  drivers/video/backlight/sky81452-backlight.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/backlight/sky81452-backlight.c b/drivers/video/backlight/sky81452-backlight.c
+> index 8268ac43d54f..c95e0de7f4e7 100644
+> --- a/drivers/video/backlight/sky81452-backlight.c
+> +++ b/drivers/video/backlight/sky81452-backlight.c
+> @@ -291,7 +291,7 @@ static int sky81452_bl_probe(struct platform_device *pdev)
+>  	}
+>  
+>  	memset(&props, 0, sizeof(props));
+> -	props.max_brightness = SKY81452_MAX_BRIGHTNESS,
+> +	props.max_brightness = SKY81452_MAX_BRIGHTNESS;
+>  	name = pdata->name ? pdata->name : SKY81452_DEFAULT_NAME;
+>  	bd = devm_backlight_device_register(dev, name, dev, regmap,
+>  						&sky81452_bl_ops, &props);
+> -- 
+> 2.22.0
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============1422827257==--
