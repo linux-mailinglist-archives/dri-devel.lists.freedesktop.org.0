@@ -1,34 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BD92DA1F8
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 21:52:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 156B22DA1FD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Dec 2020 21:52:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF626E159;
-	Mon, 14 Dec 2020 20:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E886D6E174;
+	Mon, 14 Dec 2020 20:52:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30F0C6E15A
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 20:52:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 684E36E154
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 20:52:22 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id B94F75B0;
- Mon, 14 Dec 2020 21:52:18 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2EB829E7;
+ Mon, 14 Dec 2020 21:52:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
  s=mail; t=1607979139;
- bh=ujCcvKlCpMqXC8K7Q3mgZMbr2E0FMgilxJpQEi2J9hE=;
+ bh=obAQPA3rmsq2e3TuEwyuEfOxkYNnosTvwaQyFGtT7P0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vyiHBhjg8++K/OqC/D6F9AsjFP/YMeAF7SD7KtkN18uiH9Fq5TUST5flIVEcPY0TC
- PCUzHd+q3rr1p/VhIT7ZVCoU9pmNKubuLMChm3gvhurQn//0Nldz1JWiNN0xqz9LR1
- 54CTDBxbx08EUHb84sz414xvy36IBCnl1ql8n18k=
+ b=SKz+hAcOIQo4/P5lG3BElvagvCalLjk24vRjfVf0pABWeN1SZZ24997UXv1SFmo8I
+ 7klLpini8ZbbbRb8TeFiJJhtTTTuaMCjWAzJI9I3tNVEpz3+1TQ5zFuIDRbffl+WkS
+ vZmBz7AdRAAQyaqlMTwhngzFSF1tLHrDMeCW6jno=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 3/9] drm: rcar-du: Drop unneeded encoder cleanup in error
- path
-Date: Mon, 14 Dec 2020 22:52:02 +0200
-Message-Id: <20201214205208.10248-4-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 4/9] drm: rcar-du: Use DRM-managed allocation for VSP planes
+Date: Mon, 14 Dec 2020 22:52:03 +0200
+Message-Id: <20201214205208.10248-5-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201214205208.10248-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -52,34 +51,86 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The encoder->name field can never be non-null in the error path, as that
-can only be possible after a successful call to
-drm_simple_encoder_init(). Drop the cleanup.
+devm_kcalloc() is the wrong API to allocate planes, as the lifetime of
+the planes is tied to the DRM device, not the device to driver
+binding. drmm_kcalloc() isn't a good option either, as it would result
+in the planes being freed before being unregistered during the managed
+cleanup of the DRM objects. Use a plain kcalloc(), and cleanup the
+planes and free the memory in the existing rcar_du_vsp_cleanup()
+handler.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 50fc14534fa4..e4bac47caf16 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -123,11 +123,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 4dcb1bfbe201..78a886651d9f 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -21,6 +21,7 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/of_platform.h>
+ #include <linux/scatterlist.h>
++#include <linux/slab.h>
+ #include <linux/videodev2.h>
+ 
+ #include <media/vsp1.h>
+@@ -344,6 +345,15 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+ static void rcar_du_vsp_cleanup(struct drm_device *dev, void *res)
+ {
+ 	struct rcar_du_vsp *vsp = res;
++	unsigned int i;
++
++	for (i = 0; i < vsp->num_planes; ++i) {
++		struct rcar_du_vsp_plane *plane = &vsp->planes[i];
++
++		drm_plane_cleanup(&plane->plane);
++	}
++
++	kfree(vsp->planes);
+ 
+ 	put_device(vsp->vsp);
+ }
+@@ -354,6 +364,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 	struct rcar_du_device *rcdu = vsp->dev;
+ 	struct platform_device *pdev;
+ 	unsigned int num_crtcs = hweight32(crtcs);
++	unsigned int num_planes;
+ 	unsigned int i;
+ 	int ret;
+ 
+@@ -376,14 +387,13 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 	  * The VSP2D (Gen3) has 5 RPFs, but the VSP1D (Gen2) is limited to
+ 	  * 4 RPFs.
+ 	  */
+-	vsp->num_planes = rcdu->info->gen >= 3 ? 5 : 4;
++	num_planes = rcdu->info->gen >= 3 ? 5 : 4;
+ 
+-	vsp->planes = devm_kcalloc(rcdu->dev, vsp->num_planes,
+-				   sizeof(*vsp->planes), GFP_KERNEL);
++	vsp->planes = kcalloc(num_planes, sizeof(*vsp->planes), GFP_KERNEL);
+ 	if (!vsp->planes)
+ 		return -ENOMEM;
+ 
+-	for (i = 0; i < vsp->num_planes; ++i) {
++	for (i = 0; i < num_planes; ++i) {
+ 		enum drm_plane_type type = i < num_crtcs
+ 					 ? DRM_PLANE_TYPE_PRIMARY
+ 					 : DRM_PLANE_TYPE_OVERLAY;
+@@ -409,8 +419,10 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+ 		} else {
+ 			drm_plane_create_alpha_property(&plane->plane);
+ 			drm_plane_create_zpos_property(&plane->plane, 1, 1,
+-						       vsp->num_planes - 1);
++						       num_planes - 1);
+ 		}
++
++		vsp->num_planes++;
  	}
  
- done:
--	if (ret < 0) {
--		if (encoder->name)
--			encoder->funcs->destroy(encoder);
-+	if (ret < 0)
- 		devm_kfree(rcdu->dev, renc);
--	}
- 
- 	return ret;
- }
+ 	return 0;
 -- 
 Regards,
 
