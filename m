@@ -1,45 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A752DA8E5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:11 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A622DA8F3
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6809489B33;
-	Tue, 15 Dec 2020 08:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B897F89C69;
+	Tue, 15 Dec 2020 08:06:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4A86E112
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 09:13:12 +0000 (UTC)
-Received: by mail-il1-f199.google.com with SMTP id q2so12952952ilt.20
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 01:13:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=Xwq+h39/FNGcyxtgEq8iwiPV6bbaAoQGXtrZlx1lkEA=;
- b=L7feVYq2dSYb6sZSUMWCmSG1AjYWSzkw3vr4u+X/T4qsEutx6w8q7sX2bfSgKnDcJA
- jZzWQCdUPuAc/R6twBs5rBW2nO5SpMRYzgHqzw+YGlLZ7LqfNXA0kKVIt25s1UKT3cOP
- isN7SWmX3A6KWHq5urBLGP+rgFxJx0Vw0GTLWN6xwh7NJ4fJtl+dheEiiBbCLky+8AdE
- +hLl3mKuzG2OtmtoANe8i93ZORGN/xSdElGhuDzCT0YcUeiVSTLS9BLeWVpJAkJabiMg
- rnmnllJrEXTNWL0mh0O/HSX/lh5OQj5v/EBHYK1DItw21n6aTv5r2B+AdF1PK4anXbXz
- RnjQ==
-X-Gm-Message-State: AOAM5315XZTsHbdGMZpGlw5xrTUDbFnG/jwU4Mv/jfypSSJo3x4KYwYo
- R0dYD5OQrthb5BdN3w25rGPHJB4CcD46ah/zYWzESW2AhRQE
-X-Google-Smtp-Source: ABdhPJw8ZFAjwxvmwvqPi0SPPyyv9Z+QTUIXnzL62HLv85D0ycwzfSH4pN+2ewuQ8JhjdX086viZYubBgKBUbuHzI2tIbDYzaqrl
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34FA6E169
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 10:32:49 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cvd49519tz15dtT;
+ Mon, 14 Dec 2020 18:32:09 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.56) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 14 Dec 2020 18:32:43 +0800
+From: Tian Tao <tiantao6@hisilicon.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
+ <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
+ <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>
+Subject: [PATCH] drm/hisilicon: Fix use-after-free
+Date: Mon, 14 Dec 2020 18:32:53 +0800
+Message-ID: <1607941973-32287-1-git-send-email-tiantao6@hisilicon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Received: by 2002:a92:998c:: with SMTP id t12mr10118400ilk.140.1607937191228; 
- Mon, 14 Dec 2020 01:13:11 -0800 (PST)
-Date: Mon, 14 Dec 2020 01:13:11 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001aba8205b6690d78@google.com>
-Subject: memory leak in dlfb_usb_probe
-From: syzbot <syzbot+c9e365d7f450e8aa615d@syzkaller.appspotmail.com>
-To: b.zolnierkie@samsung.com, bernie@plugable.com, 
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+X-Originating-IP: [10.69.192.56]
+X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Tue, 15 Dec 2020 08:06:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,113 +47,100 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Fix the problem of dev being released twice.
+------------[ cut here ]------------
+refcount_t: underflow; use-after-free.
+WARNING: CPU: 75 PID: 15700 at lib/refcount.c:28 refcount_warn_saturate+0xd4/0x150
+CPU: 75 PID: 15700 Comm: rmmod Tainted: G            E     5.10.0-rc3+ #3
+Hardware name: Huawei TaiShan 200 (Model 2280)/BC82AMDDA, BIOS 0.88 07/24/2019
+pstate: 40400009 (nZcv daif +PAN -UAO -TCO BTYPE=--)
+pc : refcount_warn_saturate+0xd4/0x150
+lr : refcount_warn_saturate+0xd4/0x150
+sp : ffff2028150cbc00
+x29: ffff2028150cbc00 x28: ffff2028150121c0
+x27: 0000000000000000 x26: 0000000000000000
+x25: 0000000000000000 x24: 0000000000000003
+x23: 0000000000000000 x22: ffff2028150cbc90
+x21: ffff2020038a30a8 x20: ffff2028150cbc90
+x19: ffff0020cd938020 x18: 0000000000000010
+x17: 0000000000000000 x16: 0000000000000000
+x15: ffffffffffffffff x14: ffff2028950cb88f
+x13: ffff2028150cb89d x12: 0000000000000000
+x11: 0000000005f5e0ff x10: ffff2028150cb800
+x9 : 00000000ffffffd0 x8 : 75203b776f6c6672
+x7 : ffff800011a6f7c8 x6 : 0000000000000001
+x5 : 0000000000000000 x4 : 0000000000000000
+x3 : 0000000000000000 x2 : ffff202ffe2f9dc0
+x1 : ffffa02fecf40000 x0 : 0000000000000026
+Call trace:
+ refcount_warn_saturate+0xd4/0x150
+ devm_drm_dev_init_release+0x50/0x70
+ devm_action_release+0x20/0x30
+ release_nodes+0x13c/0x218
+ devres_release_all+0x80/0x170
+ device_release_driver_internal+0x128/0x1f0
+ driver_detach+0x6c/0xe0
+ bus_remove_driver+0x74/0x100
+ driver_unregister+0x34/0x60
+ pci_unregister_driver+0x24/0xd8
+ hibmc_pci_driver_exit+0x14/0xe858 [hibmc_drm]
+ __arm64_sys_delete_module+0x1fc/0x2d0
+ el0_svc_common.constprop.3+0xa8/0x188
+ do_el0_svc+0x80/0xa0
+ el0_sync_handler+0x8c/0xb0
+ el0_sync+0x15c/0x180
+CPU: 75 PID: 15700 Comm: rmmod Tainted: G            E     5.10.0-rc3+ #3
+Hardware name: Huawei TaiShan 200 (Model 2280)/BC82AMDDA, BIOS 0.88 07/24/2019
+Call trace:
+ dump_backtrace+0x0/0x208
+ show_stack+0x2c/0x40
+ dump_stack+0xd8/0x10c
+ __warn+0xac/0x128
+ report_bug+0xcc/0x180
+ bug_handler+0x24/0x78
+ call_break_hook+0x80/0xa0
+ brk_handler+0x28/0x68
+ do_debug_exception+0x9c/0x148
+ el1_sync_handler+0x7c/0x128
+ el1_sync+0x80/0x100
+ refcount_warn_saturate+0xd4/0x150
+ devm_drm_dev_init_release+0x50/0x70
+ devm_action_release+0x20/0x30
+ release_nodes+0x13c/0x218
+ devres_release_all+0x80/0x170
+ device_release_driver_internal+0x128/0x1f0
+ driver_detach+0x6c/0xe0
+ bus_remove_driver+0x74/0x100
+ driver_unregister+0x34/0x60
+ pci_unregister_driver+0x24/0xd8
+ hibmc_pci_driver_exit+0x14/0xe858 [hibmc_drm]
+ __arm64_sys_delete_module+0x1fc/0x2d0
+ el0_svc_common.constprop.3+0xa8/0x188
+ do_el0_svc+0x80/0xa0
+ el0_sync_handler+0x8c/0xb0
+ el0_sync+0x15c/0x180
+---[ end trace 00718630d6e5ff18 ]---
 
-syzbot found the following issue on:
-
-HEAD commit:    a68a0262 mm/madvise: remove racy mm ownership check
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=1538046b500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4305fa9ea70c7a9f
-dashboard link: https://syzkaller.appspot.com/bug?extid=c9e365d7f450e8aa615d
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1779cc13500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1173d00f500000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c9e365d7f450e8aa615d@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff88810adde100 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294947788 (age 19.520s)
-  hex dump (first 32 bytes):
-    10 30 c3 0d 81 88 ff ff c0 fa 63 12 81 88 ff ff  .0........c.....
-    00 30 c3 0d 81 88 ff ff 80 d1 3a 08 81 88 ff ff  .0........:.....
-  backtrace:
-    [<0000000019512953>] kmalloc include/linux/slab.h:552 [inline]
-    [<0000000019512953>] kzalloc include/linux/slab.h:664 [inline]
-    [<0000000019512953>] dlfb_alloc_urb_list drivers/video/fbdev/udlfb.c:1892 [inline]
-    [<0000000019512953>] dlfb_usb_probe.cold+0x289/0x988 drivers/video/fbdev/udlfb.c:1704
-    [<0000000072160152>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<00000000463fbcb4>] __device_attach+0x122/0x250 drivers/base/dd.c:912
-    [<00000000b881a711>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<00000000364bbda5>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
-    [<00000000eecca418>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
-    [<00000000edfeca2d>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<000000001830872b>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-
-BUG: memory leak
-unreferenced object 0xffff8881083ad180 (size 192):
-  comm "kworker/1:0", pid 17, jiffies 4294947788 (age 19.520s)
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 98 d1 3a 08 81 88 ff ff  ..........:.....
-  backtrace:
-    [<00000000a7783a78>] kmalloc include/linux/slab.h:557 [inline]
-    [<00000000a7783a78>] usb_alloc_urb+0x66/0xe0 drivers/usb/core/urb.c:74
-    [<0000000082822843>] dlfb_alloc_urb_list drivers/video/fbdev/udlfb.c:1897 [inline]
-    [<0000000082822843>] dlfb_usb_probe.cold+0x2aa/0x988 drivers/video/fbdev/udlfb.c:1704
-    [<0000000072160152>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<00000000463fbcb4>] __device_attach+0x122/0x250 drivers/base/dd.c:912
-    [<00000000b881a711>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<00000000364bbda5>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
-    [<00000000eecca418>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
-    [<00000000edfeca2d>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<000000001830872b>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-
-BUG: memory leak
-unreferenced object 0xffff88811263fb20 (size 32):
-  comm "kworker/1:0", pid 17, jiffies 4294947788 (age 19.530s)
-  hex dump (first 32 bytes):
-    00 fb 63 12 81 88 ff ff 10 30 c3 0d 81 88 ff ff  ..c......0......
-    00 30 c3 0d 81 88 ff ff c0 53 c8 0b 81 88 ff ff  .0.......S......
-  backtrace:
-    [<0000000019512953>] kmalloc include/linux/slab.h:552 [inline]
-    [<0000000019512953>] kzalloc include/linux/slab.h:664 [inline]
-    [<0000000019512953>] dlfb_alloc_urb_list drivers/video/fbdev/udlfb.c:1892 [inline]
-    [<0000000019512953>] dlfb_usb_probe.cold+0x289/0x988 drivers/video/fbdev/udlfb.c:1704
-    [<0000000072160152>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<00000000463fbcb4>] __device_attach+0x122/0x250 drivers/base/dd.c:912
-    [<00000000b881a711>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<00000000364bbda5>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
-    [<00000000eecca418>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
-    [<00000000edfeca2d>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<000000001830872b>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<00000000a8d6726f>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000c3ce4b0e>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<00000000e942e01c>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000de0a5a5c>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-
-
-
+Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index 7e91ef1..e3ab765b 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -364,7 +364,6 @@ static void hibmc_pci_remove(struct pci_dev *pdev)
+ 
+ 	drm_dev_unregister(dev);
+ 	hibmc_unload(dev);
+-	drm_dev_put(dev);
+ }
+ 
+ static const struct pci_device_id hibmc_pci_table[] = {
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
