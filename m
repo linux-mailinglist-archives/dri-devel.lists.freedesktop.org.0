@@ -2,23 +2,23 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E362D2DA3EE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 00:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 011D22DA419
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 00:26:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBD016E040;
-	Mon, 14 Dec 2020 23:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B03926E054;
+	Mon, 14 Dec 2020 23:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1A6C6E040
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 23:05:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EAFB6E054
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 23:26:05 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 Authentication-Results: mail.kernel.org;
  dkim=permerror (bad message/signature format)
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 201539] AMDGPU R9 390 automatic fan speed control in Linux
  4.19/4.20/5.0
-Date: Mon, 14 Dec 2020 23:05:24 +0000
+Date: Mon, 14 Dec 2020 23:26:04 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -27,14 +27,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mastercatz@hotmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-201539-2300-wAYG813bzw@https.bugzilla.kernel.org/>
+Message-ID: <bug-201539-2300-QXJbjEJeDg@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-201539-2300@https.bugzilla.kernel.org/>
 References: <bug-201539-2300@https.bugzilla.kernel.org/>
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -59,22 +59,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=201539
 
---- Comment #72 from MasterCATZ (mastercatz@hotmail.com) ---
-finally this summer the R9 290 GPU's will be manageable 
+--- Comment #73 from Alex Deucher (alexdeucher@gmail.com) ---
+(In reply to MasterCATZ from comment #72)
+> 
+> now if someone could solve the issue when it uses more power when running
+> multiple displays ( exactly the same monitors res / hz  )
+>  I can run the card single display under 10 watts plug in another display
+> and its over 50 watts idle
 
-seems to be working , now I just have to find the old settings I changed when
-trying to run it at higher rpm , @ 60deg and its doing 80%+ RPM
-possibly it is now following my BIOS settings from when I was trying to force
-higher RPM  when it kept trying to run under 20% 
-
-my manual settings seem to get overwritten a second after setting them 
-but at least I am not being locked out like before 
-
-
-now if someone could solve the issue when it uses more power when running
-multiple displays ( exactly the same monitors res / hz  )
- I can run the card single display under 10 watts plug in another display and
-its over 50 watts idle
+You can enable mclk switching with identical monitors by setting
+amdgpu.dcfeaturemask=2
+It's enabled by default in 5.11.
 
 -- 
 You are receiving this mail because:
