@@ -2,58 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B012DA8E3
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038DB2DA8E6
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC7889B03;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7A3C89B38;
 	Tue, 15 Dec 2020 08:06:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com
- [IPv6:2607:f8b0:4864:20::d43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95B1189D4D
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 11:03:38 +0000 (UTC)
-Received: by mail-io1-xd43.google.com with SMTP id q137so16449423iod.9
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Dec 2020 03:03:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=3evjQtuLZ++eIrou/VieOpcjEYW463jW8lrXR5dRrPw=;
- b=i8nJBVUXUlMnKzS/x21t1/IfwAlV5ib/ekh6mlooSwpa31JFgb5+HUBrpWHNAaSTj9
- vdZwLQ+mCOXfZegpX0aFi191TP1Td8yrM4knTrOkCB8a1wqrgYXjQYtU/v+oaU2ea87d
- 2Tmgl0AckjwDixKnc8pAJRsp1+DGxNdsQQ7Cxv7D6vGGx5Sk/blB7lApdYuVrLu0sz1i
- il3TCmnNV5nnnfriZIKYqPFQ6FpxA22Rjx3TuSypCiP6w1/lNnrbvh+V0G2jT+f31V8G
- hQ+J/URhSCEw6lylKgf3t4XTP2I6e667J73SjWaJVcFm+baR6TCnNPaEW6cYTry0v3+T
- PjrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=3evjQtuLZ++eIrou/VieOpcjEYW463jW8lrXR5dRrPw=;
- b=W2G009LN9D1eekViptTFN4Tl4FGoQA2Is93R1mdkeqRh7TYTBFbKj0iIjiBxRBrYwd
- 1Az1/4ziRlg6s3h5F2LWQdWP1UosGxLX72B8jCaoTqI/q+QX2grQWMgRx/32xet+TK/+
- slR0NqSl7Ak2CF/zxA2yKJGoE8kEKH+6J7NITGutTKWCagrpxGZ/OA/7DfIsP1znHklC
- pKFrwGWuQQIk0fSzFRvlsg8yHjjVYMR7autC026Um0pfxSVwSaXpWeJ6DLPR9Lk035mR
- kq2Db7DUFk0Iz73lNhJn3cY/aBMuBJCOBKbKA4p3Kt0xOIZCsLA+C37bl6aj5fKIy1VX
- 6MXA==
-X-Gm-Message-State: AOAM532/KGDjtHBw62/teqlLg45oV2vzQ406uPBsOz4ffPX+AZJk9Nha
- mBwbzmn3TfoO7ITncFfvn8CdwvA+8WRaVkdaJ+/yGxf4Uu5jfg==
-X-Google-Smtp-Source: ABdhPJyznmZxPQTTSSm6SdFlF//chuHdUeJvgNYUeg6cY24xt92set3t5SCNV6MHgMvIRqu6VgiWLvVnOM1QPVdpqPc=
-X-Received: by 2002:a6b:2c52:: with SMTP id s79mr31401596ios.53.1607943817885; 
- Mon, 14 Dec 2020 03:03:37 -0800 (PST)
-MIME-Version: 1.0
-References: <20201201160613.1419-1-vicencb@gmail.com>
-In-Reply-To: <20201201160613.1419-1-vicencb@gmail.com>
-From: Vicente Bergas <vicencb@gmail.com>
-Date: Mon, 14 Dec 2020 12:03:26 +0100
-Message-ID: <CAAMcf8B9HNkZie6nbkBugcteJOLUhWhHVhjKxkH1sPrTU4k+xw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm: rockchip: hdmi: enable higher resolutions than FHD
-To: Robin Murphy <robin.murphy@arm.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Douglas Anderson <dianders@chromium.org>, crj <algea.cao@rock-chips.com>, 
- Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1006E6E1B5;
+ Mon, 14 Dec 2020 11:41:44 +0000 (UTC)
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 14 Dec 2020 03:41:43 -0800
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 14 Dec 2020 03:41:41 -0800
+X-QCInternal: smtphost
+Received: from kalyant-linux.qualcomm.com ([10.204.66.210])
+ by ironmsg02-blr.qualcomm.com with ESMTP; 14 Dec 2020 17:11:13 +0530
+Received: by kalyant-linux.qualcomm.com (Postfix, from userid 94428)
+ id 297D23F37; Mon, 14 Dec 2020 03:41:12 -0800 (PST)
+From: Kalyan Thota <kalyan_t@codeaurora.org>
+To: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: [v1] drm/msm/disp/dpu1: turn off vblank irqs aggressively in dpu
+ driver
+Date: Mon, 14 Dec 2020 03:41:06 -0800
+Message-Id: <1607946066-16276-1-git-send-email-kalyan_t@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Tue, 15 Dec 2020 08:06:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,15 +44,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: mkrishn@codeaurora.org, dianders@chromium.org, abhinavk@codeaurora.org,
+ linux-kernel@vger.kernel.org, seanpaul@chromium.org,
+ Kalyan Thota <kalyan_t@codeaurora.org>, ddavenport@chromium.org,
+ hoegsberg@chromium.org, swboyd@chromium.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 1, 2020 at 5:06 PM Vicente Bergas <vicencb@gmail.com> wrote:
-> This patch enables a QHD HDMI monitor to work at native resolution.
+Turn off vblank irqs immediately as soon as drm_vblank_put is
+requested so that there are no irqs triggered during idle state.
 
-Please, anybody?
+This will reduce cpu wakeups and help in power saving. The change
+also enable driver timestamp for vblanks.
+
+Signed-off-by: Kalyan Thota <kalyan_t@codeaurora.org>
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 69 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 15 +++++++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  6 +++
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  4 ++
+ 4 files changed, 94 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index d4662e8..a4a5733 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -65,6 +65,73 @@ static void dpu_crtc_destroy(struct drm_crtc *crtc)
+ 	kfree(dpu_crtc);
+ }
+ 
++static struct drm_encoder *get_encoder_from_crtc(struct drm_crtc *crtc)
++{
++	struct drm_device *dev = crtc->dev;
++	struct drm_encoder *encoder;
++
++	drm_for_each_encoder(encoder, dev)
++		if (encoder->crtc == crtc)
++			return encoder;
++
++	return NULL;
++}
++
++static bool dpu_crtc_get_scanout_position(struct drm_crtc *crtc,
++					   bool in_vblank_irq,
++					   int *vpos, int *hpos,
++					   ktime_t *stime, ktime_t *etime,
++					   const struct drm_display_mode *mode)
++{
++	unsigned int pipe = crtc->index;
++	struct drm_encoder *encoder;
++	int line, vsw, vbp, vactive_start, vactive_end, vfp_end;
++
++
++	encoder = get_encoder_from_crtc(crtc);
++	if (!encoder) {
++		DRM_ERROR("no encoder found for crtc %d\n", pipe);
++		return false;
++	}
++
++	vsw = mode->crtc_vsync_end - mode->crtc_vsync_start;
++	vbp = mode->crtc_vtotal - mode->crtc_vsync_end;
++
++	/*
++	 * the line counter is 1 at the start of the VSYNC pulse and VTOTAL at
++	 * the end of VFP. Translate the porch values relative to the line
++	 * counter positions.
++	 */
++
++	vactive_start = vsw + vbp + 1;
++
++	vactive_end = vactive_start + mode->crtc_vdisplay;
++
++	/* last scan line before VSYNC */
++	vfp_end = mode->crtc_vtotal;
++
++	if (stime)
++		*stime = ktime_get();
++
++	line = dpu_encoder_get_linecount(encoder);
++
++	if (line < vactive_start)
++		line -= vactive_start;
++	else if (line > vactive_end)
++		line = line - vfp_end - vactive_start;
++	else
++		line -= vactive_start;
++
++	*vpos = line;
++	*hpos = 0;
++
++	if (etime)
++		*etime = ktime_get();
++
++	return true;
++}
++
++
+ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+ 		struct dpu_plane_state *pstate, struct dpu_format *format)
+ {
+@@ -1243,6 +1310,7 @@ static const struct drm_crtc_funcs dpu_crtc_funcs = {
+ 	.early_unregister = dpu_crtc_early_unregister,
+ 	.enable_vblank  = msm_crtc_enable_vblank,
+ 	.disable_vblank = msm_crtc_disable_vblank,
++	.get_vblank_timestamp = drm_crtc_vblank_helper_get_vblank_timestamp,
+ };
+ 
+ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+@@ -1251,6 +1319,7 @@ static const struct drm_crtc_helper_funcs dpu_crtc_helper_funcs = {
+ 	.atomic_check = dpu_crtc_atomic_check,
+ 	.atomic_begin = dpu_crtc_atomic_begin,
+ 	.atomic_flush = dpu_crtc_atomic_flush,
++	.get_scanout_position = dpu_crtc_get_scanout_position,
+ };
+ 
+ /* initialize crtc */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+index f7f5c25..6c7c7fd 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+@@ -425,6 +425,21 @@ int dpu_encoder_helper_unregister_irq(struct dpu_encoder_phys *phys_enc,
+ 	return 0;
+ }
+ 
++int dpu_encoder_get_linecount(struct drm_encoder *drm_enc)
++{
++	struct dpu_encoder_virt *dpu_enc = NULL;
++	struct dpu_encoder_phys *phys = NULL;
++	int linecount = 0;
++
++	dpu_enc = to_dpu_encoder_virt(drm_enc);
++	phys = dpu_enc ? dpu_enc->cur_master : NULL;
++
++	if (phys && phys->ops.get_line_count)
++		linecount = phys->ops.get_line_count(phys);
++
++	return linecount;
++}
++
+ void dpu_encoder_get_hw_resources(struct drm_encoder *drm_enc,
+ 				  struct dpu_encoder_hw_resources *hw_res)
+ {
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+index b491346..2c4804c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+@@ -156,5 +156,11 @@ void dpu_encoder_prepare_commit(struct drm_encoder *drm_enc);
+  */
+ void dpu_encoder_set_idle_timeout(struct drm_encoder *drm_enc,
+ 							u32 idle_timeout);
++/**
++ * dpu_encoder_get_linecount - get interface line count for the encoder.
++ * @drm_enc:    Pointer to previously created drm encoder structure
++ */
++
++int dpu_encoder_get_linecount(struct drm_encoder *drm_enc);
+ 
+ #endif /* __DPU_ENCODER_H__ */
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 374b0e8..49bd0729 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -14,6 +14,7 @@
+ 
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_file.h>
++#include <drm/drm_vblank.h>
+ 
+ #include "msm_drv.h"
+ #include "msm_mmu.h"
+@@ -1020,6 +1021,9 @@ static int dpu_kms_hw_init(struct msm_kms *kms)
+ 	 */
+ 	dev->mode_config.allow_fb_modifiers = true;
+ 
++	/* Disable vblank irqs aggressively for power-saving */
++	dev->vblank_disable_immediate = true;
++
+ 	/*
+ 	 * _dpu_kms_drm_obj_init should create the DRM related objects
+ 	 * i.e. CRTCs, planes, encoders, connectors and so forth
+-- 
+2.7.4
+
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
