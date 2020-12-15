@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90ED2DAB61
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:49:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0CF2DAB58
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:49:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC0B46E24E;
-	Tue, 15 Dec 2020 10:49:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F366E24D;
+	Tue, 15 Dec 2020 10:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 77C306E1F2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:48:24 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAmNBm124526
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:48:23 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69BC76E1D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:48:25 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAmOsV124531
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:48:24 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029303;
- bh=uyMh7V76ZCDa/j0vuYou1UKT9HtbZIcN8y1KkVkyzz8=;
+ s=ti-com-17Q1; t=1608029304;
+ bh=1TKyZiGoj79ea4NR0reb+0OIIaaCGpLt7RxklVIRCbc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=gLsv2WWGip+4D2QxyM1U2TiKpY23s0QwzLNQvuj+GgQBhKJ2BlupHgHdIE2hOErRR
- v/l2upOs4qBc4Bu451+0S3p+SMU9jbwICfmPwQEAYuCjKvEhuT8BurdJtcVDTIWENk
- a3iStikAB3Mu4S5JYPC7xyAh0WRpKnYLA80pmV1Q=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAmN6X001878
+ b=usb5dP9FDLrFuLPA9yw54wr291OLtrA7hTDmpLntHKGLnl72NCJKBZSU7SHtrL8Ch
+ hUNDe6aA0LROfdHBGAb6IDqSai12o4EzJgS86qNGel4Np1iD8X90uN0ZVGfBoC7vqC
+ HBtTVdeWVQlOp1D7YIRJKhsLXFkO7qu+6my+GKWY=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAmOHw024690
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:48:23 -0600
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:48:24 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:48:23 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:48:24 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:48:23 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:48:24 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwb7046467;
- Tue, 15 Dec 2020 04:48:22 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwb8046467;
+ Tue, 15 Dec 2020 04:48:23 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 81/84] drm/omap: dsi: fix and cleanup ddr_clk_always_on
-Date: Tue, 15 Dec 2020 12:46:54 +0200
-Message-ID: <20201215104657.802264-82-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 82/84] drm/omap: dsi: remove ulps support
+Date: Tue, 15 Dec 2020 12:46:55 +0200
+Message-ID: <20201215104657.802264-83-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -65,77 +65,494 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The driver ignores MIPI_DSI_CLOCK_NON_CONTINUOUS, and always uses
-non-continuous clock.
+ULPS is a niche power-saving feature which only really affects command
+mode panels showing a static picture. I know the ULPS code used to work
+very long time ago, but I could not get it working with the current
+driver. As the ULPS code is not trivial and includes delayed work (so
+lots of chances for race issues), and just keeping DSI video and command
+mode panels working has been challenging enough even without ULPS, lets
+remove ULPS support.
 
-Fix this by using MIPI_DSI_CLOCK_NON_CONTINUOUS and at the same time,
-drop ddr_clk_always_on field which seems pretty useless.
+When the DSI driver works reliably for command and video mode displays,
+someone interested can work on ULPS and add it back if the power saving
+is substantial enough.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c | 12 +++++-------
- drivers/gpu/drm/omapdrm/dss/dsi.h |  2 --
- 2 files changed, 5 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 297 +-----------------------------
+ drivers/gpu/drm/omapdrm/dss/dsi.h |   4 -
+ 2 files changed, 8 insertions(+), 293 deletions(-)
 
 diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index a17d7345fc9a..749f591a3d5e 100644
+index 749f591a3d5e..400d88b02cae 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dsi.c
 +++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -1736,11 +1736,10 @@ static int dsi_cio_init(struct dsi_data *dsi)
+@@ -53,8 +53,6 @@
+ #define REG_FLD_MOD(dsi, idx, val, start, end) \
+ 	dsi_write_reg(dsi, idx, FLD_MOD(dsi_read_reg(dsi, idx), val, start, end))
  
- 	dsi_cio_timings(dsi);
+-static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable);
+-
+ static int dsi_init_dispc(struct dsi_data *dsi);
+ static void dsi_uninit_dispc(struct dsi_data *dsi);
  
--	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE) {
--		/* DDR_CLK_ALWAYS_ON */
--		REG_FLD_MOD(dsi, DSI_CLK_CTRL,
--			dsi->vm_timings.ddr_clk_always_on, 13, 13);
--	}
-+	/* DDR_CLK_ALWAYS_ON */
-+	REG_FLD_MOD(dsi, DSI_CLK_CTRL,
-+		    !(dsi->dsidev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS),
-+		    13, 13);
- 
- 	dsi->ulps_enabled = false;
- 
-@@ -3643,7 +3642,7 @@ static void dsi_setup_dsi_vcs(struct dsi_data *dsi)
- 	dsi_force_tx_stop_mode_io(dsi);
- 
- 	/* start the DDR clock by sending a NULL packet */
--	if (dsi->vm_timings.ddr_clk_always_on)
-+	if (!(dsi->dsidev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
- 		dsi_vc_send_null(dsi, VC_CMD, dsi->dsidev->channel);
+@@ -688,44 +686,6 @@ static int dsi_unregister_isr_vc(struct dsi_data *dsi, int vc,
+ 	return r;
  }
  
-@@ -4152,7 +4151,6 @@ static bool dsi_vm_calc_blanking(struct dsi_clk_calc_ctx *ctx)
- 	dsi_vm->hfp_blanking_mode = 1;
- 	dsi_vm->hbp_blanking_mode = 1;
+-static int dsi_register_isr_cio(struct dsi_data *dsi, omap_dsi_isr_t isr,
+-				void *arg, u32 mask)
+-{
+-	unsigned long flags;
+-	int r;
+-
+-	spin_lock_irqsave(&dsi->irq_lock, flags);
+-
+-	r = _dsi_register_isr(isr, arg, mask, dsi->isr_tables.isr_table_cio,
+-			ARRAY_SIZE(dsi->isr_tables.isr_table_cio));
+-
+-	if (r == 0)
+-		_omap_dsi_set_irqs_cio(dsi);
+-
+-	spin_unlock_irqrestore(&dsi->irq_lock, flags);
+-
+-	return r;
+-}
+-
+-static int dsi_unregister_isr_cio(struct dsi_data *dsi, omap_dsi_isr_t isr,
+-				  void *arg, u32 mask)
+-{
+-	unsigned long flags;
+-	int r;
+-
+-	spin_lock_irqsave(&dsi->irq_lock, flags);
+-
+-	r = _dsi_unregister_isr(isr, arg, mask, dsi->isr_tables.isr_table_cio,
+-			ARRAY_SIZE(dsi->isr_tables.isr_table_cio));
+-
+-	if (r == 0)
+-		_omap_dsi_set_irqs_cio(dsi);
+-
+-	spin_unlock_irqrestore(&dsi->irq_lock, flags);
+-
+-	return r;
+-}
+-
+ static u32 dsi_get_errors(struct dsi_data *dsi)
+ {
+ 	unsigned long flags;
+@@ -1452,56 +1412,6 @@ static void dsi_cio_timings(struct dsi_data *dsi)
+ 	dsi_write_reg(dsi, DSI_DSIPHY_CFG2, r);
+ }
  
--	dsi_vm->ddr_clk_always_on = cfg->ddr_clk_always_on;
- 	dsi_vm->window_sync = 4;
+-/* lane masks have lane 0 at lsb. mask_p for positive lines, n for negative */
+-static void dsi_cio_enable_lane_override(struct dsi_data *dsi,
+-					 unsigned int mask_p,
+-					 unsigned int mask_n)
+-{
+-	int i;
+-	u32 l;
+-	u8 lptxscp_start = dsi->num_lanes_supported == 3 ? 22 : 26;
+-
+-	l = 0;
+-
+-	for (i = 0; i < dsi->num_lanes_supported; ++i) {
+-		unsigned int p = dsi->lanes[i].polarity;
+-
+-		if (mask_p & (1 << i))
+-			l |= 1 << (i * 2 + (p ? 0 : 1));
+-
+-		if (mask_n & (1 << i))
+-			l |= 1 << (i * 2 + (p ? 1 : 0));
+-	}
+-
+-	/*
+-	 * Bits in REGLPTXSCPDAT4TO0DXDY:
+-	 * 17: DY0 18: DX0
+-	 * 19: DY1 20: DX1
+-	 * 21: DY2 22: DX2
+-	 * 23: DY3 24: DX3
+-	 * 25: DY4 26: DX4
+-	 */
+-
+-	/* Set the lane override configuration */
+-
+-	/* REGLPTXSCPDAT4TO0DXDY */
+-	REG_FLD_MOD(dsi, DSI_DSIPHY_CFG10, l, lptxscp_start, 17);
+-
+-	/* Enable lane override */
+-
+-	/* ENLPTXSCPDAT */
+-	REG_FLD_MOD(dsi, DSI_DSIPHY_CFG10, 1, 27, 27);
+-}
+-
+-static void dsi_cio_disable_lane_override(struct dsi_data *dsi)
+-{
+-	/* Disable lane override */
+-	REG_FLD_MOD(dsi, DSI_DSIPHY_CFG10, 0, 27, 27); /* ENLPTXSCPDAT */
+-	/* Reset the lane override configuration */
+-	/* REGLPTXSCPDAT4TO0DXDY */
+-	REG_FLD_MOD(dsi, DSI_DSIPHY_CFG10, 0, 22, 17);
+-}
+-
+ static int dsi_cio_wait_tx_clk_esc_reset(struct dsi_data *dsi)
+ {
+ 	int t, i;
+@@ -1676,32 +1586,6 @@ static int dsi_cio_init(struct dsi_data *dsi)
+ 	l = FLD_MOD(l, 0x1fff, 12, 0);	/* STOP_STATE_COUNTER_IO */
+ 	dsi_write_reg(dsi, DSI_TIMING1, l);
  
- 	/* setup DISPC videomode */
+-	if (dsi->ulps_enabled) {
+-		unsigned int mask_p;
+-		int i;
+-
+-		DSSDBG("manual ulps exit\n");
+-
+-		/* ULPS is exited by Mark-1 state for 1ms, followed by
+-		 * stop state. DSS HW cannot do this via the normal
+-		 * ULPS exit sequence, as after reset the DSS HW thinks
+-		 * that we are not in ULPS mode, and refuses to send the
+-		 * sequence. So we need to send the ULPS exit sequence
+-		 * manually by setting positive lines high and negative lines
+-		 * low for 1ms.
+-		 */
+-
+-		mask_p = 0;
+-
+-		for (i = 0; i < dsi->num_lanes_supported; ++i) {
+-			if (dsi->lanes[i].function == DSI_LANE_UNUSED)
+-				continue;
+-			mask_p |= 1 << i;
+-		}
+-
+-		dsi_cio_enable_lane_override(dsi, mask_p, 0);
+-	}
+-
+ 	r = dsi_cio_power(dsi, DSI_COMPLEXIO_POWER_ON);
+ 	if (r)
+ 		goto err_cio_pwr;
+@@ -1720,17 +1604,6 @@ static int dsi_cio_init(struct dsi_data *dsi)
+ 	if (r)
+ 		goto err_tx_clk_esc_rst;
+ 
+-	if (dsi->ulps_enabled) {
+-		/* Keep Mark-1 state for 1ms (as per DSI spec) */
+-		ktime_t wait = ns_to_ktime(1000 * 1000);
+-		set_current_state(TASK_UNINTERRUPTIBLE);
+-		schedule_hrtimeout(&wait, HRTIMER_MODE_REL);
+-
+-		/* Disable the override. The lanes should be set to Mark-11
+-		 * state by the HW */
+-		dsi_cio_disable_lane_override(dsi);
+-	}
+-
+ 	/* FORCE_TX_STOP_MODE_IO */
+ 	REG_FLD_MOD(dsi, DSI_TIMING1, 0, 15, 15);
+ 
+@@ -1741,8 +1614,6 @@ static int dsi_cio_init(struct dsi_data *dsi)
+ 		    !(dsi->dsidev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS),
+ 		    13, 13);
+ 
+-	dsi->ulps_enabled = false;
+-
+ 	DSSDBG("CIO init done\n");
+ 
+ 	return 0;
+@@ -1752,8 +1623,6 @@ static int dsi_cio_init(struct dsi_data *dsi)
+ err_cio_pwr_dom:
+ 	dsi_cio_power(dsi, DSI_COMPLEXIO_POWER_OFF);
+ err_cio_pwr:
+-	if (dsi->ulps_enabled)
+-		dsi_cio_disable_lane_override(dsi);
+ err_scp_clk_dom:
+ 	dsi_disable_scp_clk(dsi);
+ 	dsi_disable_pads(dsi);
+@@ -2524,99 +2393,6 @@ static int dsi_vc_generic_read(struct omap_dss_device *dssdev, int vc,
+ 	return r;
+ }
+ 
+-static int dsi_enter_ulps(struct dsi_data *dsi)
+-{
+-	DECLARE_COMPLETION_ONSTACK(completion);
+-	int r, i;
+-	unsigned int mask;
+-
+-	DSSDBG("Entering ULPS");
+-
+-	WARN_ON(!dsi_bus_is_locked(dsi));
+-
+-	WARN_ON(dsi->ulps_enabled);
+-
+-	if (dsi->ulps_enabled)
+-		return 0;
+-
+-	/* DDR_CLK_ALWAYS_ON */
+-	if (REG_GET(dsi, DSI_CLK_CTRL, 13, 13)) {
+-		dsi_if_enable(dsi, 0);
+-		REG_FLD_MOD(dsi, DSI_CLK_CTRL, 0, 13, 13);
+-		dsi_if_enable(dsi, 1);
+-	}
+-
+-	dsi_sync_vc(dsi, 0);
+-	dsi_sync_vc(dsi, 1);
+-	dsi_sync_vc(dsi, 2);
+-	dsi_sync_vc(dsi, 3);
+-
+-	dsi_force_tx_stop_mode_io(dsi);
+-
+-	dsi_vc_enable(dsi, 0, false);
+-	dsi_vc_enable(dsi, 1, false);
+-	dsi_vc_enable(dsi, 2, false);
+-	dsi_vc_enable(dsi, 3, false);
+-
+-	if (REG_GET(dsi, DSI_COMPLEXIO_CFG2, 16, 16)) {	/* HS_BUSY */
+-		DSSERR("HS busy when enabling ULPS\n");
+-		return -EIO;
+-	}
+-
+-	if (REG_GET(dsi, DSI_COMPLEXIO_CFG2, 17, 17)) {	/* LP_BUSY */
+-		DSSERR("LP busy when enabling ULPS\n");
+-		return -EIO;
+-	}
+-
+-	r = dsi_register_isr_cio(dsi, dsi_completion_handler, &completion,
+-			DSI_CIO_IRQ_ULPSACTIVENOT_ALL0);
+-	if (r)
+-		return r;
+-
+-	mask = 0;
+-
+-	for (i = 0; i < dsi->num_lanes_supported; ++i) {
+-		if (dsi->lanes[i].function == DSI_LANE_UNUSED)
+-			continue;
+-		mask |= 1 << i;
+-	}
+-	/* Assert TxRequestEsc for data lanes and TxUlpsClk for clk lane */
+-	/* LANEx_ULPS_SIG2 */
+-	REG_FLD_MOD(dsi, DSI_COMPLEXIO_CFG2, mask, 9, 5);
+-
+-	/* flush posted write and wait for SCP interface to finish the write */
+-	dsi_read_reg(dsi, DSI_COMPLEXIO_CFG2);
+-
+-	if (wait_for_completion_timeout(&completion,
+-				msecs_to_jiffies(1000)) == 0) {
+-		DSSERR("ULPS enable timeout\n");
+-		r = -EIO;
+-		goto err;
+-	}
+-
+-	dsi_unregister_isr_cio(dsi, dsi_completion_handler, &completion,
+-			DSI_CIO_IRQ_ULPSACTIVENOT_ALL0);
+-
+-	/* Reset LANEx_ULPS_SIG2 */
+-	REG_FLD_MOD(dsi, DSI_COMPLEXIO_CFG2, 0, 9, 5);
+-
+-	/* flush posted write and wait for SCP interface to finish the write */
+-	dsi_read_reg(dsi, DSI_COMPLEXIO_CFG2);
+-
+-	dsi_cio_power(dsi, DSI_COMPLEXIO_POWER_ULPS);
+-
+-	dsi_if_enable(dsi, false);
+-
+-	dsi->ulps_enabled = true;
+-
+-	return 0;
+-
+-err:
+-	dsi_unregister_isr_cio(dsi, dsi_completion_handler, &completion,
+-			DSI_CIO_IRQ_ULPSACTIVENOT_ALL0);
+-	return r;
+-}
+-
+ static void dsi_set_lp_rx_timeout(struct dsi_data *dsi, unsigned int ticks,
+ 				  bool x4, bool x16)
+ {
+@@ -3399,7 +3175,6 @@ static void dsi_handle_framedone(struct dsi_data *dsi, int error)
+ 		REG_FLD_MOD(dsi, DSI_TIMING2, 1, 15, 15); /* LP_RX_TO */
+ 	}
+ 
+-	dsi_set_ulps_auto(dsi, true);
+ 	dsi_bus_unlock(dsi);
+ 
+ 	if (!error)
+@@ -3485,8 +3260,6 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int vc)
+ 
+ 	DSSDBG("dsi_update_channel: %d", vc);
+ 
+-	dsi_set_ulps_auto(dsi, false);
+-
+ 	/*
+ 	 * Send NOP between the frames. If we don't send something here, the
+ 	 * updates stop working. This is probably related to DSI spec stating
+@@ -3511,7 +3284,6 @@ static int dsi_update_channel(struct omap_dss_device *dssdev, int vc)
+ 	return 0;
+ 
+ err:
+-	dsi_set_ulps_auto(dsi, true);
+ 	dsi_bus_unlock(dsi);
+ 	return r;
+ }
+@@ -3704,12 +3476,8 @@ static int dsi_init_dsi(struct dsi_data *dsi)
+ 	return r;
+ }
+ 
+-static void dsi_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
+-				   bool enter_ulps)
++static void dsi_uninit_dsi(struct dsi_data *dsi)
+ {
+-	if (enter_ulps && !dsi->ulps_enabled)
+-		dsi_enter_ulps(dsi);
+-
+ 	/* disable interface */
+ 	dsi_if_enable(dsi, 0);
+ 	dsi_vc_enable(dsi, 0, 0);
+@@ -3721,10 +3489,8 @@ static void dsi_uninit_dsi(struct dsi_data *dsi, bool disconnect_lanes,
+ 	dsi_cio_uninit(dsi);
+ 	dss_pll_disable(&dsi->pll);
+ 
+-	if (disconnect_lanes) {
+-		regulator_disable(dsi->vdds_dsi_reg);
+-		dsi->vdds_dsi_enabled = false;
+-	}
++	regulator_disable(dsi->vdds_dsi_reg);
++	dsi->vdds_dsi_enabled = false;
+ }
+ 
+ static void dsi_enable(struct dsi_data *dsi)
+@@ -3756,8 +3522,7 @@ static void dsi_enable(struct dsi_data *dsi)
+ 	DSSDBG("dsi_enable FAILED\n");
+ }
+ 
+-static void dsi_disable(struct dsi_data *dsi,
+-		bool disconnect_lanes, bool enter_ulps)
++static void dsi_disable(struct dsi_data *dsi)
+ {
+ 	WARN_ON(!dsi_bus_is_locked(dsi));
+ 
+@@ -3768,7 +3533,7 @@ static void dsi_disable(struct dsi_data *dsi,
+ 	dsi_sync_vc(dsi, 2);
+ 	dsi_sync_vc(dsi, 3);
+ 
+-	dsi_uninit_dsi(dsi, disconnect_lanes, enter_ulps);
++	dsi_uninit_dsi(dsi);
+ 
+ 	dsi_runtime_put(dsi);
+ 
+@@ -3789,42 +3554,6 @@ static int dsi_enable_te(struct dsi_data *dsi, bool enable)
+ 	return 0;
+ }
+ 
+-static void omap_dsi_ulps_work_callback(struct work_struct *work)
+-{
+-	struct dsi_data *dsi = container_of(work, struct dsi_data,
+-					    ulps_work.work);
+-
+-	dsi_bus_lock(dsi);
+-
+-	dsi_enable_te(dsi, false);
+-
+-	dsi_disable(dsi, false, true);
+-
+-	dsi_bus_unlock(dsi);
+-}
+-
+-static void dsi_set_ulps_auto(struct dsi_data *dsi, bool enable)
+-{
+-	WARN_ON(!dsi_bus_is_locked(dsi));
+-
+-	if (!dsi->ulps_auto_idle)
+-		return;
+-
+-	if (enable) {
+-		schedule_delayed_work(&dsi->ulps_work, msecs_to_jiffies(250));
+-	} else {
+-		cancel_delayed_work_sync(&dsi->ulps_work);
+-
+-		if (!dsi->ulps_enabled)
+-			return;
+-
+-		dsi_bus_lock(dsi);
+-		dsi_enable(dsi);
+-		dsi_enable_te(dsi, true);
+-		dsi_bus_unlock(dsi);
+-	}
+-}
+-
+ #ifdef PRINT_VERBOSE_VM_TIMINGS
+ static void print_dsi_vm(const char *str,
+ 		const struct omap_dss_dsi_videomode_timings *t)
+@@ -4496,13 +4225,10 @@ static ssize_t omap_dsi_host_transfer(struct mipi_dsi_host *host,
+ 
+ 	dsi_bus_lock(dsi);
+ 
+-	if (dsi->video_enabled) {
+-		dsi_set_ulps_auto(dsi, false);
++	if (dsi->video_enabled)
+ 		r = _omap_dsi_host_transfer(dsi, vc, msg);
+-		dsi_set_ulps_auto(dsi, true);
+-	} else {
++	else
+ 		r = -EIO;
+-	}
+ 
+ 	dsi_bus_unlock(dsi);
+ 
+@@ -4644,9 +4370,6 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+ 	dsi->dsidev = client;
+ 	dsi->pix_fmt = client->format;
+ 
+-	INIT_DEFERRABLE_WORK(&dsi->ulps_work,
+-			     omap_dsi_ulps_work_callback);
+-
+ 	dsi->config.hs_clk_min = 150000000; // TODO: get from client?
+ 	dsi->config.hs_clk_max = client->hs_rate;
+ 	dsi->config.lp_clk_min = 7000000; // TODO: get from client?
+@@ -4659,8 +4382,6 @@ static int omap_dsi_host_attach(struct mipi_dsi_host *host,
+ 	else
+ 		dsi->config.trans_mode = OMAP_DSS_DSI_EVENT_MODE;
+ 
+-	dsi->ulps_auto_idle = false;
+-
+ 	return 0;
+ }
+ 
+@@ -4915,8 +4636,6 @@ static void dsi_bridge_enable(struct drm_bridge *bridge)
+ 
+ 	dsi->video_enabled = true;
+ 
+-	dsi_set_ulps_auto(dsi, true);
+-
+ 	dsi_bus_unlock(dsi);
+ }
+ 
+@@ -4931,7 +4650,7 @@ static void dsi_bridge_disable(struct drm_bridge *bridge)
+ 
+ 	dsi_disable_video_output(dssdev, VC_VIDEO);
+ 
+-	dsi_disable(dsi, true, false);
++	dsi_disable(dsi);
+ 
+ 	dsi_bus_unlock(dsi);
+ }
 diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.h b/drivers/gpu/drm/omapdrm/dss/dsi.h
-index 478fc10bd18d..476069fda082 100644
+index 476069fda082..de9411067ba2 100644
 --- a/drivers/gpu/drm/omapdrm/dss/dsi.h
 +++ b/drivers/gpu/drm/omapdrm/dss/dsi.h
-@@ -212,7 +212,6 @@ struct omap_dss_dsi_videomode_timings {
+@@ -394,12 +394,8 @@ struct dsi_data {
+ 	atomic_t do_ext_te_update;
  
- 	enum omap_dss_dsi_trans_mode trans_mode;
+ 	bool te_enabled;
+-	bool ulps_enabled;
+-	bool ulps_auto_idle;
+ 	bool video_enabled;
  
--	bool ddr_clk_always_on;
- 	int window_sync;
- };
+-	struct delayed_work ulps_work;
+-
+ 	struct delayed_work framedone_timeout_work;
  
-@@ -224,7 +223,6 @@ struct omap_dss_dsi_config {
- 	unsigned long hs_clk_min, hs_clk_max;
- 	unsigned long lp_clk_min, lp_clk_max;
- 
--	bool ddr_clk_always_on;
- 	enum omap_dss_dsi_trans_mode trans_mode;
- };
- 
+ #ifdef DSI_CATCH_MISSING_TE
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
