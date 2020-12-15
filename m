@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A87A2DAB91
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 12:02:50 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8C82DAB98
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 12:04:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 550086E1A7;
-	Tue, 15 Dec 2020 11:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93486E243;
+	Tue, 15 Dec 2020 11:04:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com
- [IPv6:2a00:1450:4864:20::442])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E976E1A7
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 11:02:46 +0000 (UTC)
-Received: by mail-wr1-x442.google.com with SMTP id y17so19389853wrr.10
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 03:02:45 -0800 (PST)
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com
+ [IPv6:2a00:1450:4864:20::443])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F7D76E243
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 11:04:37 +0000 (UTC)
+Received: by mail-wr1-x443.google.com with SMTP id w5so15679462wrm.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 03:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g8OiD2oVgl752irPXqrQDpekK2rivukbIEiJ5JnIADY=;
- b=R5y0LIxZe4MNJZDqhTONBJ1GaUq7eieWDKfVrO3i1k4QfMLGW22iLzmbxvjufSHL5A
- DGg/GhqQuRitslub+3yqDVwZ6WJZ4itOej1ZARgTjiwhFjghVrYOLZ8WSssMFclHUkg1
- 2NZ81F/7EEL1H0E6bxihrpsV39PocXHojo0ESr0UfRjzuruhMradLVbvdmEBEA9voGjJ
- ZW9R4EEw/9GT8ZxVx0Ngmzj4tpY2p0SLKHZKYpy/FDKpCN67A6hoTx/AUJyWAzWJDWxR
- vicb/SVNkQ0Fr5b7w+nkVAqjY7TpEZ/zmoN3fptDBcqtxGlyF//FBqzL4accbsdVK7II
- aZEg==
+ :cc; bh=9Hgb60pD+8zVH6/ANrH2zsqDB8OtUYMASTDZGOsQW90=;
+ b=WQUTq0ASwMKPXpSY4KYKZGXVZzL7Z+F7m02zT6Jvjh41s63qnX7XAAix18F8SLAhjV
+ qLEKTb67aulcyNnVTpJH+31HjaxQNJYJS8aPr/J3EFAp7L6Wm2C950kvJs01whwguJeG
+ +8SEO1faMEINTFHbYyufpX0Xe64pfa+p6YzECHzmipWjyBGhSaFak/Ttji9+jJmgFW8Z
+ 7mhJ/LDp51kBZPm5cIyjXUdlbX32K0fScBuyRaf2fN0i7431J5tfTSQiKqcdwfHQzpAV
+ WN57Sk5OrPLI3eV+UBHA9ru8WbeBDCt0YOxUxs4aZfhxq9uGYx3V2TvsFTN+2ZgEK0HZ
+ ps4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=g8OiD2oVgl752irPXqrQDpekK2rivukbIEiJ5JnIADY=;
- b=AwvluTCZRQpVopdT14SrhQkxI6dyRWLkeT+AR47zbOhhoOBPwbMKwETf1e8xJgzbsC
- mGnUH1/QbXQ9f1p7NXkUlvyYX+i3jEw9C0GWGUXnGe3wDhPvNdNJ03vSBsB9YVUw7/oh
- ZFPIqEnPrFMzJcCOFh/SVFo8A0pDv55+4czCszDQ/0rXvB+n6g4Wq7K6QeSV5uo8k3jM
- YNxTJlXZo0iC8dHeCtV/+I35kHJNdyY4JE3uoJozEIEra6xFbhtS43VSOfYGN+I1I0O0
- EpYVxHLNRhon3O0osKzER5TwS/Vk6UqRUhrwnOofW7UxbH+HNuqfgEUK8f/XlJrZaoPD
- 5liw==
-X-Gm-Message-State: AOAM5307aDMiySEwfuwfHNFqPUD0OqN9d0zCi4XW7Ewn1OVLb3fFR1MZ
- GXfSsNlfgN+XfkZlE393lihsw3Lg+b+pdGrRua26jA==
-X-Google-Smtp-Source: ABdhPJySaBSVh6y3AEsd2fDbJ39jQm7186om8mV/XYQW51MtOHvpo5t+dWJrqpneH6u+SxAeFDqH0pKK/s49FbU90jU=
-X-Received: by 2002:adf:8290:: with SMTP id 16mr32425767wrc.27.1608030164545; 
- Tue, 15 Dec 2020 03:02:44 -0800 (PST)
+ bh=9Hgb60pD+8zVH6/ANrH2zsqDB8OtUYMASTDZGOsQW90=;
+ b=Ej8GcZQfB3Fs9enr6P/NlnQ23lQj6eAIAuT+WwnMdCx2uUmXlERaHzQGLsKBG2UtLY
+ AtYz/RY9G49AOVv7O2juhetcd/K63umwgVyQUve1gLizl7rsqki1BMRyg0bUJAhQXfBb
+ cxpn4VQ//OgATqp+h50uFGAd+LdImYzLsfTtZFy1v5CiZlpvEyTxqmB0rcxO+B6JG5+x
+ cgLWb3wuMHKFyD7wd8MX5B7bxfQh2zLJIEuMDYKVAGTSDzPT4LT0zT1k9e5LkuHwU/63
+ JYqFrfNmpCq2D4AeGJ/pNxfubUYjsla5n828pOiODBz/XRPNvafcZ3lDQcZVT2nmCqH/
+ GziQ==
+X-Gm-Message-State: AOAM533tzVlnN+DGAflC4AK5ov48eM7roBxSoheykJ39DnbEWOL5jRsj
+ lwm+Pe9y75ZPUiiBP0Wesx7kIzaNlUJxd71Gqz+BWg==
+X-Google-Smtp-Source: ABdhPJzTxLkGVHZaBu/FblNW4qVuxmuG08YHhaYOJm2/SMgybdfZ8TsvkrT2/5WH9ENVH48RZ5IYyNVrVb/g8ubY39g=
+X-Received: by 2002:adf:8290:: with SMTP id 16mr32434092wrc.27.1608030275966; 
+ Tue, 15 Dec 2020 03:04:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20201210142329.10640-1-maxime@cerno.tech>
- <20201210142329.10640-6-maxime@cerno.tech>
-In-Reply-To: <20201210142329.10640-6-maxime@cerno.tech>
+ <20201210142329.10640-10-maxime@cerno.tech>
+In-Reply-To: <20201210142329.10640-10-maxime@cerno.tech>
 From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 15 Dec 2020 11:02:28 +0000
-Message-ID: <CAPY8ntAo0VOHRBh32-k5+v_E0E91pbhaC-An0Hhv+_nWFSkyYQ@mail.gmail.com>
-Subject: Re: [PATCH v6 5/9] drm/vc4: hdmi: Create a custom connector state
+Date: Tue, 15 Dec 2020 11:04:20 +0000
+Message-ID: <CAPY8ntA_uCy_DYsPcFF2MghU3B0gRGkaS+MgD8_dA=RSQXmBYQ@mail.gmail.com>
+Subject: Re: [PATCH v6 9/9] drm/vc4: hdmi: Enable 10/12 bpc output
 To: Maxime Ripard <maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,112 +76,216 @@ Hi Maxime
 
 On Thu, 10 Dec 2020 at 14:23, Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> When run with a higher bpc than 8, the clock of the HDMI controller needs
-> to be adjusted. Let's create a connector state that will be used at
-> atomic_check and atomic_enable to compute and store the clock rate
-> associated to the state.
+> The BCM2711 supports higher bpc count than just 8, so let's support it in
+> our driver.
 >
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 33 ++++++++++++++++++++++++++++++---
->  drivers/gpu/drm/vc4/vc4_hdmi.h | 10 ++++++++++
->  2 files changed, 40 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index 61039cc89d9d..8978df3f0ca4 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -170,10 +170,37 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->
->  static void vc4_hdmi_connector_reset(struct drm_connector *connector)
->  {
-> -       drm_atomic_helper_connector_reset(connector);
-> +       struct vc4_hdmi_connector_state *old_state =
-> +               conn_state_to_vc4_hdmi_conn_state(connector->state);
-> +       struct vc4_hdmi_connector_state *new_state =
-> +               kzalloc(sizeof(*conn_state), GFP_KERNEL);
->
->         if (connector->state)
-> -               drm_atomic_helper_connector_tv_reset(connector);
-> +               __drm_atomic_helper_connector_destroy_state(connector->state);
-> +
-> +       kfree(old_state);
-> +
-> +       if (!new_state)
-> +               return;
 
-This has changed since v5 that I added my R-B to.
-
-So we no longer call __drm_atomic_helper_connector_reset should the
-kzalloc fail. Doesn't that mean connector->state is still set to
-old_state? Except we've called kfree on that and it's therefore
-invalid.
-
-Calling __drm_atomic_helper_connector_reset unconditionally is fine as
-it checks for the new pointer being NULL before dereferencing, but
-always assigns it to connector->state.
-Calling drm_atomic_helper_connector_tv_reset when connector->state =
-NULL isn't safe.
-
-> +       __drm_atomic_helper_connector_reset(connector, &new_state->base);
-
-Put the if (!new_state) return; here?
-Patch 9/9 can set the max_bpc and max_bpc_requested field here too.
+Looks good to me, but is impacted by the comment I've just made on 5/9.
 
   Dave
 
-> +       drm_atomic_helper_connector_tv_reset(connector);
-> +}
+
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c      | 71 ++++++++++++++++++++++++++++-
+>  drivers/gpu/drm/vc4/vc4_hdmi.h      |  1 +
+>  drivers/gpu/drm/vc4/vc4_hdmi_regs.h |  9 ++++
+>  3 files changed, 80 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 996c727278fb..e9796120e991 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -76,6 +76,17 @@
+>  #define VC5_HDMI_VERTB_VSPO_SHIFT              16
+>  #define VC5_HDMI_VERTB_VSPO_MASK               VC4_MASK(29, 16)
+>
+> +#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_SHIFT     8
+> +#define VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK      VC4_MASK(10, 8)
 > +
-> +static struct drm_connector_state *
-> +vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
-> +{
-> +       struct drm_connector_state *conn_state = connector->state;
-> +       struct vc4_hdmi_connector_state *vc4_state = conn_state_to_vc4_hdmi_conn_state(conn_state);
-> +       struct vc4_hdmi_connector_state *new_state;
+> +#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_SHIFT         0
+> +#define VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK          VC4_MASK(3, 0)
 > +
-> +       new_state = kzalloc(sizeof(*new_state), GFP_KERNEL);
-> +       if (!new_state)
-> +               return NULL;
+> +#define VC5_HDMI_GCP_CONFIG_GCP_ENABLE         BIT(31)
 > +
-> +       __drm_atomic_helper_connector_duplicate_state(connector, &new_state->base);
+> +#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_SHIFT 8
+> +#define VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK  VC4_MASK(15, 8)
 > +
-> +       return &new_state->base;
+>  # define VC4_HD_M_SW_RST                       BIT(2)
+>  # define VC4_HD_M_ENABLE                       BIT(0)
+>
+> @@ -185,6 +196,9 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
+>         if (!new_state)
+>                 return;
+>
+> +       new_state->base.max_bpc = 8;
+> +       new_state->base.max_requested_bpc = 8;
+> +
+>         __drm_atomic_helper_connector_reset(connector, &new_state->base);
+>         drm_atomic_helper_connector_tv_reset(connector);
+>  }
+> @@ -232,12 +246,20 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+>                                     vc4_hdmi->ddc);
+>         drm_connector_helper_add(connector, &vc4_hdmi_connector_helper_funcs);
+>
+> +       /*
+> +        * Some of the properties below require access to state, like bpc.
+> +        * Allocate some default initial connector state with our reset helper.
+> +        */
+> +       if (connector->funcs->reset)
+> +               connector->funcs->reset(connector);
+> +
+>         /* Create and attach TV margin props to this connector. */
+>         ret = drm_mode_create_tv_margin_properties(dev);
+>         if (ret)
+>                 return ret;
+>
+>         drm_connector_attach_tv_margin_properties(connector);
+> +       drm_connector_attach_max_bpc_property(connector, 8, 12);
+>
+>         connector->polled = (DRM_CONNECTOR_POLL_CONNECT |
+>                              DRM_CONNECTOR_POLL_DISCONNECT);
+> @@ -503,6 +525,7 @@ static void vc5_hdmi_csc_setup(struct vc4_hdmi *vc4_hdmi, bool enable)
 >  }
 >
->  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
-> @@ -181,7 +208,7 @@ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
->         .fill_modes = drm_helper_probe_single_connector_modes,
->         .destroy = vc4_hdmi_connector_destroy,
->         .reset = vc4_hdmi_connector_reset,
-> -       .atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> +       .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
->         .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
->  };
+>  static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+> +                                struct drm_connector_state *state,
+>                                  struct drm_display_mode *mode)
+>  {
+>         bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
+> @@ -546,7 +569,9 @@ static void vc4_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+>         HDMI_WRITE(HDMI_VERTB0, vertb_even);
+>         HDMI_WRITE(HDMI_VERTB1, vertb);
+>  }
+> +
+>  static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+> +                                struct drm_connector_state *state,
+>                                  struct drm_display_mode *mode)
+>  {
+>         bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
+> @@ -566,6 +591,9 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+>                                         mode->crtc_vsync_end -
+>                                         interlaced,
+>                                         VC4_HDMI_VERTB_VBP));
+> +       unsigned char gcp;
+> +       bool gcp_en;
+> +       u32 reg;
+>
+>         HDMI_WRITE(HDMI_VEC_INTERFACE_XBAR, 0x354021);
+>         HDMI_WRITE(HDMI_HORZA,
+> @@ -591,6 +619,39 @@ static void vc5_hdmi_set_timings(struct vc4_hdmi *vc4_hdmi,
+>         HDMI_WRITE(HDMI_VERTB0, vertb_even);
+>         HDMI_WRITE(HDMI_VERTB1, vertb);
+>
+> +       switch (state->max_bpc) {
+> +       case 12:
+> +               gcp = 6;
+> +               gcp_en = true;
+> +               break;
+> +       case 10:
+> +               gcp = 5;
+> +               gcp_en = true;
+> +               break;
+> +       case 8:
+> +       default:
+> +               gcp = 4;
+> +               gcp_en = false;
+> +               break;
+> +       }
+> +
+> +       reg = HDMI_READ(HDMI_DEEP_COLOR_CONFIG_1);
+> +       reg &= ~(VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE_MASK |
+> +                VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH_MASK);
+> +       reg |= VC4_SET_FIELD(2, VC5_HDMI_DEEP_COLOR_CONFIG_1_INIT_PACK_PHASE) |
+> +              VC4_SET_FIELD(gcp, VC5_HDMI_DEEP_COLOR_CONFIG_1_COLOR_DEPTH);
+> +       HDMI_WRITE(HDMI_DEEP_COLOR_CONFIG_1, reg);
+> +
+> +       reg = HDMI_READ(HDMI_GCP_WORD_1);
+> +       reg &= ~VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1_MASK;
+> +       reg |= VC4_SET_FIELD(gcp, VC5_HDMI_GCP_WORD_1_GCP_SUBPACKET_BYTE_1);
+> +       HDMI_WRITE(HDMI_GCP_WORD_1, reg);
+> +
+> +       reg = HDMI_READ(HDMI_GCP_CONFIG);
+> +       reg &= ~VC5_HDMI_GCP_CONFIG_GCP_ENABLE;
+> +       reg |= gcp_en ? VC5_HDMI_GCP_CONFIG_GCP_ENABLE : 0;
+> +       HDMI_WRITE(HDMI_GCP_CONFIG, reg);
+> +
+>         HDMI_WRITE(HDMI_CLOCK_STOP, 0);
+>  }
+>
+> @@ -728,7 +789,7 @@ static void vc4_hdmi_encoder_pre_crtc_configure(struct drm_encoder *encoder,
+>                    VC4_HDMI_SCHEDULER_CONTROL_IGNORE_VSYNC_PREDICTS);
+>
+>         if (vc4_hdmi->variant->set_timings)
+> -               vc4_hdmi->variant->set_timings(vc4_hdmi, mode);
+> +               vc4_hdmi->variant->set_timings(vc4_hdmi, conn_state, mode);
+>  }
+>
+>  static void vc4_hdmi_encoder_pre_crtc_enable(struct drm_encoder *encoder,
+> @@ -849,6 +910,14 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>                 pixel_rate = mode->clock * 1000;
+>         }
+>
+> +       if (conn_state->max_bpc == 12) {
+> +               pixel_rate = pixel_rate * 150;
+> +               do_div(pixel_rate, 100);
+> +       } else if (conn_state->max_bpc == 10) {
+> +               pixel_rate = pixel_rate * 125;
+> +               do_div(pixel_rate, 100);
+> +       }
+> +
+>         if (mode->flags & DRM_MODE_FLAG_DBLCLK)
+>                 pixel_rate = pixel_rate * 2;
 >
 > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> index 0526a9cf608a..2cf5362052e2 100644
+> index 60c53d7c9bad..4c8994cfd932 100644
 > --- a/drivers/gpu/drm/vc4/vc4_hdmi.h
 > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-> @@ -180,6 +180,16 @@ encoder_to_vc4_hdmi(struct drm_encoder *encoder)
->         return container_of(_encoder, struct vc4_hdmi, encoder);
->  }
+> @@ -77,6 +77,7 @@ struct vc4_hdmi_variant {
 >
-> +struct vc4_hdmi_connector_state {
-> +       struct drm_connector_state      base;
-> +};
-> +
-> +static inline struct vc4_hdmi_connector_state *
-> +conn_state_to_vc4_hdmi_conn_state(struct drm_connector_state *conn_state)
-> +{
-> +       return container_of(conn_state, struct vc4_hdmi_connector_state, base);
-> +}
-> +
->  void vc4_hdmi_phy_init(struct vc4_hdmi *vc4_hdmi,
->                        struct drm_display_mode *mode);
->  void vc4_hdmi_phy_disable(struct vc4_hdmi *vc4_hdmi);
+>         /* Callback to configure the video timings in the HDMI block */
+>         void (*set_timings)(struct vc4_hdmi *vc4_hdmi,
+> +                           struct drm_connector_state *state,
+>                             struct drm_display_mode *mode);
+>
+>         /* Callback to initialize the PHY according to the connector state */
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> index 7c6b4818f245..013fd57febd8 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi_regs.h
+> @@ -59,9 +59,12 @@ enum vc4_hdmi_field {
+>          */
+>         HDMI_CTS_0,
+>         HDMI_CTS_1,
+> +       HDMI_DEEP_COLOR_CONFIG_1,
+>         HDMI_DVP_CTL,
+>         HDMI_FIFO_CTL,
+>         HDMI_FRAME_COUNT,
+> +       HDMI_GCP_CONFIG,
+> +       HDMI_GCP_WORD_1,
+>         HDMI_HORZA,
+>         HDMI_HORZB,
+>         HDMI_HOTPLUG,
+> @@ -229,6 +232,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi0_fields[] = {
+>         VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
+>         VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
+>         VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
+> +       VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
+> +       VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
+> +       VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
+>         VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
+>
+>         VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
+> @@ -305,6 +311,9 @@ static const struct vc4_hdmi_register vc5_hdmi_hdmi1_fields[] = {
+>         VC4_HDMI_REG(HDMI_VERTB1, 0x0f8),
+>         VC4_HDMI_REG(HDMI_MAI_CHANNEL_MAP, 0x09c),
+>         VC4_HDMI_REG(HDMI_MAI_CONFIG, 0x0a0),
+> +       VC4_HDMI_REG(HDMI_DEEP_COLOR_CONFIG_1, 0x170),
+> +       VC4_HDMI_REG(HDMI_GCP_CONFIG, 0x178),
+> +       VC4_HDMI_REG(HDMI_GCP_WORD_1, 0x17c),
+>         VC4_HDMI_REG(HDMI_HOTPLUG, 0x1a8),
+>
+>         VC5_DVP_REG(HDMI_CLOCK_STOP, 0x0bc),
 > --
 > 2.28.0
 >
