@@ -1,57 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F261D2DADF2
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 14:26:01 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A952DAE18
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 14:38:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D28A6E0E5;
-	Tue, 15 Dec 2020 13:25:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2763D89CA8;
+	Tue, 15 Dec 2020 13:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6131E6E039;
- Tue, 15 Dec 2020 13:25:55 +0000 (UTC)
-IronPort-SDR: lKOHcFTmhHcRF9scrMqJea9orGF5iVlQ6Fxdb24F/hokgOE2gD8KzYDgzZztkfMqkRrcKQdUNh
- i07ebzPb8S/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="162621455"
-X-IronPort-AV: E=Sophos;i="5.78,421,1599548400"; d="scan'208";a="162621455"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2020 05:25:52 -0800
-IronPort-SDR: EL8pT2ZjE0/UrmD6RA/cYSegwyQQ2OUhdYOCUQi/3hM5nQZ/bZvagRMX7O/GGktvWn7FcnS+Ww
- KWAO3uQ4bXfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,421,1599548400"; d="scan'208";a="385439018"
-Received: from irsmsx602.ger.corp.intel.com ([163.33.146.8])
- by fmsmga002.fm.intel.com with ESMTP; 15 Dec 2020 05:25:51 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 15 Dec 2020 13:25:50 +0000
-Received: from orsmsx610.amr.corp.intel.com ([10.22.229.23]) by
- ORSMSX610.amr.corp.intel.com ([10.22.229.23]) with mapi id 15.01.1713.004;
- Tue, 15 Dec 2020 05:25:48 -0800
-From: "Souza, Jose" <jose.souza@intel.com>
-To: "Mun, Gwan-gyeong" <gwan-gyeong.mun@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH v6 1/5] drm: Add function to convert rect in 16.16 fixed
- format to regular format
-Thread-Topic: [PATCH v6 1/5] drm: Add function to convert rect in 16.16 fixed
- format to regular format
-Thread-Index: AQHW0kFngQ/CzWTNIEm4x5s/JtNgt6n4pAEAgAAJVIA=
-Date: Tue, 15 Dec 2020 13:25:48 +0000
-Message-ID: <c8bcc42b753a75b4b70730fb19334ebf9c401553.camel@intel.com>
-References: <20201214174912.174065-1-jose.souza@intel.com>
- <49d845f03e5ada5462c130345ac4ba11e14c25c9.camel@intel.com>
-In-Reply-To: <49d845f03e5ada5462c130345ac4ba11e14c25c9.camel@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.100]
-Content-ID: <17532F155084D64FA93C916135638AF7@intel.com>
+Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com
+ [IPv6:2607:f8b0:4864:20::e42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80C0D89CA8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 13:38:07 +0000 (UTC)
+Received: by mail-vs1-xe42.google.com with SMTP id z16so10965280vsp.5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 05:38:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9FgvEA6LpRqaZRiWRCs1HzkpZ2wxH4J/Kj/S8yl9EX8=;
+ b=aMDDKyWXNebTeXg5FMLCK9txB+AXo41QnAw7eILkX0NTeyAdt7jEx4r62/kGLfIHLY
+ NTdTfInWItH7WmdFOmFWrs0hZxC8xA4+JavAwYl1jp8pksKKMo4VeyPHa4XewnixNL71
+ 5zM6Wgsl4rhnbDaXq2EpMe4o9FfwGh7clMUv4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9FgvEA6LpRqaZRiWRCs1HzkpZ2wxH4J/Kj/S8yl9EX8=;
+ b=SBDVDPke7rlu/C71rjdqxMWT5unFr03v94CnEgrsasy7UZlXe99sOm2yPFbA9FuMMD
+ c5Zh4WexNDjx3SsucQnDsAjr9Yjq7tf0Mztyq3doeVgCrA+6Ec3sQyAHsxJ54s1Y4BMf
+ aVWyUIpBXQL1AmaAyyUqd2KkKhL8HLcNrX0afdmoChxFcXFLXH+MtTBsGl0ePjYn3Ftt
+ O7KltulaLli8ZYO19qVLY1zj/PNv5bGe6pfIiJPcP2V2UufY2oxFftsO7a+JYanPdVya
+ IsGgaRh8g2Zs1iCrcZng7iZmnzJr3nrrHTZttlQw715knfL6XWKTA+hcUhdwyG/uVAYu
+ Z63w==
+X-Gm-Message-State: AOAM533IIj4v2fKcXFVRBOHglYH1zqdHGLAvW4WWnpVkXVGzl0VcjMZN
+ YK+YSTCuriXF9heb1Z7e88BAGsXKQu2q3E+Mv4QCGg==
+X-Google-Smtp-Source: ABdhPJw2pSaiM6ovuzcTeKxy3DP6Ku+SVy15pyfTwAwM3z1ikPI1R8D7O7JPHcMCx/NBwXhCbuTiLeGCivpmnPRuZRE=
+X-Received: by 2002:a67:5c03:: with SMTP id q3mr26997421vsb.47.1608039486303; 
+ Tue, 15 Dec 2020 05:38:06 -0800 (PST)
 MIME-Version: 1.0
+References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607746317-4696-8-git-send-email-yongqiang.niu@mediatek.com>
+In-Reply-To: <1607746317-4696-8-git-send-email-yongqiang.niu@mediatek.com>
+From: Nicolas Boichat <drinkcat@chromium.org>
+Date: Tue, 15 Dec 2020 21:37:55 +0800
+Message-ID: <CANMq1KCbmW4kbY5rbuogr9JJD5c5=-qatFs-EaWbuAxSzWmnLQ@mail.gmail.com>
+Subject: Re: [PATCH v2, 07/17] drm/mediatek: add disp config and mm 26mhz
+ clock into mutex device
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,59 +59,127 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Devicetree List <devicetree@vger.kernel.org>, David Airlie <airlied@linux.ie>,
+ lkml <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDIwLTEyLTE1IGF0IDEyOjUyICswMDAwLCBNdW4sIEd3YW4tZ3llb25nIHdyb3Rl
-Og0KPiBPbiBNb24sIDIwMjAtMTItMTQgYXQgMDk6NDkgLTA4MDAsIEpvc8OpIFJvYmVydG8gZGUg
-U291emEgd3JvdGU6DQo+ID4gTXVjaCBtb3JlIGNsZWFyIHRvIHJlYWQgb25lIGZ1bmN0aW9uIGNh
-bGwgdGhhbiBmb3VyIGxpbmVzIGRvaW5nIHRoaXMNCj4gPiBjb252ZXJzaW9uLg0KPiA+IA0KPiA+
-IENjOiBkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnDQo+ID4gQ2M6IEd3YW4tZ3llb25n
-IE11biA8Z3dhbi1neWVvbmcubXVuQGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBKb3PD
-qSBSb2JlcnRvIGRlIFNvdXphIDxqb3NlLnNvdXphQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiDC
-oGRyaXZlcnMvZ3B1L2RybS9kcm1fcmVjdC5jIHwgMTUgKysrKysrKysrKysrKysrDQo+ID4gwqBp
-bmNsdWRlL2RybS9kcm1fcmVjdC5oICAgICB8ICAyICsrDQo+ID4gwqAyIGZpbGVzIGNoYW5nZWQs
-IDE3IGluc2VydGlvbnMoKykNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
-L2RybV9yZWN0LmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX3JlY3QuYw0KPiA+IGluZGV4IDA0NjBl
-ODc0ODk2ZS4uMjQzNDU3MDRiMzUzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fcmVjdC5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9yZWN0LmMNCj4gPiBAQCAt
-MzczLDMgKzM3MywxOCBAQCB2b2lkIGRybV9yZWN0X3JvdGF0ZV9pbnYoc3RydWN0IGRybV9yZWN0
-ICpyLA0KPiA+IMKgCX0NCj4gPiDCoH0NCj4gPiDCoEVYUE9SVF9TWU1CT0woZHJtX3JlY3Rfcm90
-YXRlX2ludik7DQo+ID4gKw0KPiA+ICsvKioNCj4gPiArICogZHJtX3JlY3RfY29udmVydF8xNl8x
-Nl90b19yZWd1bGFyIC0gQ29udmVydCBhIHJlY3QgaW4gMTYuMTYgZml4ZWQNCj4gPiBwb2ludCBm
-b3JtDQo+ID4gKyAqIHRvIHJlZ3VsYXIgZm9ybS4NCj4gPiArICogQGluOiByZWN0IGluIDE2LjE2
-IGZpeGVkIHBvaW50IGZvcm0NCj4gPiArICogQG91dDogcmVjdCB0byBiZSBzdG9yZWQgdGhlIGNv
-bnZlcnRlZCB2YWx1ZQ0KPiA+ICsgKi8NCj4gPiArdm9pZCBkcm1fcmVjdF9jb252ZXJ0XzE2XzE2
-X3RvX3JlZ3VsYXIoc3RydWN0IGRybV9yZWN0ICppbiwgc3RydWN0DQo+ID4gZHJtX3JlY3QgKm91
-dCkNCj4gPiArew0KPiA+ICsJb3V0LT54MSA9IGluLT54MSA+PiAxNjsNCj4gPiArCW91dC0+eTEg
-PSBpbi0+eTEgPj4gMTY7DQo+ID4gKwlvdXQtPngyID0gaW4tPngyID4+IDE2Ow0KPiA+ICsJb3V0
-LT55MiA9IGluLT55MiA+PiAxNjsNCj4gPiArfQ0KPiA+ICtFWFBPUlRfU1lNQk9MKGRybV9yZWN0
-X2NvbnZlcnRfMTZfMTZfdG9fcmVndWxhcik7DQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvZHJt
-L2RybV9yZWN0LmggYi9pbmNsdWRlL2RybS9kcm1fcmVjdC5oDQo+ID4gaW5kZXggZTdmNGQyNGNk
-ZDAwLi4yZWY4MTgwNDE2Y2QgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3JlY3Qu
-aA0KPiA+ICsrKyBiL2luY2x1ZGUvZHJtL2RybV9yZWN0LmgNCj4gPiBAQCAtMjIzLDUgKzIyMyw3
-IEBAIHZvaWQgZHJtX3JlY3Rfcm90YXRlKHN0cnVjdCBkcm1fcmVjdCAqciwNCj4gPiDCoHZvaWQg
-ZHJtX3JlY3Rfcm90YXRlX2ludihzdHJ1Y3QgZHJtX3JlY3QgKnIsDQo+ID4gwqAJCQkgaW50IHdp
-ZHRoLCBpbnQgaGVpZ2h0LA0KPiA+IMKgCQkJIHVuc2lnbmVkIGludCByb3RhdGlvbik7DQo+ID4g
-K3ZvaWQgZHJtX3JlY3RfY29udmVydF8xNl8xNl90b19yZWd1bGFyKHN0cnVjdCBkcm1fcmVjdCAq
-aW4sDQo+ID4gKwkJCQkgICAgICAgc3RydWN0IGRybV9yZWN0ICpvdXQpOw0KPiA+IA0KPiBIaSwN
-Cj4gaWYgaXQncyBwdXJwb3NlIGlzIGp1c3QgY29udmVydGluZyAxNi4xNiBmcCB0byBpbnRlZ2Vy
-LCBob3cgYWJvdXQgeW91DQo+IGhhdmUgZnVuY3Rpb24gcHJvdG90eXBlIGxpa2UgdGhpcz8NCj4g
-ZXh0ZXJuIGlubGluZSBzdHJ1Y3QgZHJtX3JlY3QNCj4gZHJtX3JlY3RfY29udmVydF8xNl8xNl9m
-cF90b19pbnRlZ2VyKHN0cnVjdCBkcm1fcmVjdCBpbikNCg0KSSBwcmVmZXIgaGF2ZSBhIGZ1bmN0
-aW9uIGNhbGwgYXMgdGhpcyBjYW4gYmUgcmV1c2VkIGluIHNldmVyYWwgcGxhY2VzLCBzbyB0aGUg
-YmluYXJpZXMgc2l6ZSBjYW4gZGVjcmVhc2UgYSBiaXQuDQpBbHNvIHBvaW50ZXJzIGFyZSBiZXR0
-ZXIsIGNvbXBpbGVyIGNhbiBkZWNpZGUgdG8gbm90IGlubGluZSB0aGUgZnVuY3Rpb24gYWJvdmUg
-YW5kIGl0IHdvdWxkIG5lZWQgdG8gYWxsb2NhdGUgaW4gc3RhY2sgMiBkcm1fcmVjdHMgZm9yIGV2
-ZXJ5IGNhbGwuDQoNCj4gDQo+IEFuZCBpZiB0aGVyZSBhcmUgbm8gdXNlIGNhc2Ugb24gZHJtIGNv
-cmUgb3Igb3RoZXIgZHJpdmVycyBleGNlcHQgaTkxNQ0KPiBkaXNwbGF5IHlldCwNCj4gYmVmb3Jl
-IGFkZGluZyB0aGlzIGZ1bmN0aW9uIHRvIGRybSBjb3JlLCBob3cgYWJvdXQgeW91IGFkZCB0aGlz
-DQo+IGZ1bmN0aW9uIGNvZGUgdG8gaTkxNSBmaXJzdD8NCg0KVGhlcmUgaXMgcGxlbnR5IG9mIHVz
-ZXJzIGluIG90aGVyIGRyaXZlcnMsIGp1c3Qgbm90IGRvaW5nIGluIHRoaXMgc2VyaWVzLg0KDQo+
-IA0KPiBCciwNCj4gRy5HLg0KPiA+IMKgI2VuZGlmDQoNCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCmRyaS1kZXZlbCBtYWlsaW5nIGxpc3QKZHJpLWRldmVs
-QGxpc3RzLmZyZWVkZXNrdG9wLm9yZwpodHRwczovL2xpc3RzLmZyZWVkZXNrdG9wLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2RyaS1kZXZlbAo=
+On Sat, Dec 12, 2020 at 12:12 PM Yongqiang Niu
+<yongqiang.niu@mediatek.com> wrote:
+>
+> there are 2 more clock need enable for display.
+> parser these clock when mutex device probe,
+> enable and disable when mutex on/off
+>
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_ddp.c | 49 ++++++++++++++++++++++++++++------
+>  1 file changed, 41 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> index 60788c1..de618a1 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp.c
+> @@ -118,7 +118,7 @@ struct mtk_ddp_data {
+>
+>  struct mtk_ddp {
+>         struct device                   *dev;
+> -       struct clk                      *clk;
+> +       struct clk                      *clk[3];
+>         void __iomem                    *regs;
+>         struct mtk_disp_mutex           mutex[10];
+>         const struct mtk_ddp_data       *data;
+> @@ -257,14 +257,39 @@ int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
+>  {
+>         struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
+>                                            mutex[mutex->id]);
+> -       return clk_prepare_enable(ddp->clk);
+> +       int ret;
+> +       int i;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
+> +               if (IS_ERR(ddp->clk[i]))
+> +                       continue;
+> +               ret = clk_prepare_enable(ddp->clk[i]);
+> +               if (ret) {
+> +                       pr_err("failed to enable clock, err %d. i:%d\n",
+> +                               ret, i);
+> +                       goto err;
+> +               }
+> +       }
+> +
+> +       return 0;
+> +
+> +err:
+> +       while (--i >= 0)
+> +               clk_disable_unprepare(ddp->clk[i]);
+> +       return ret;
+>  }
+>
+>  void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
+>  {
+>         struct mtk_ddp *ddp = container_of(mutex, struct mtk_ddp,
+>                                            mutex[mutex->id]);
+> -       clk_disable_unprepare(ddp->clk);
+> +       int i;
+> +
+> +        for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
+> +               if (IS_ERR(ddp->clk[i]))
+> +                       continue;
+> +               clk_disable_unprepare(ddp->clk[i]);
+> +       }
+>  }
+>
+>  void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
+> @@ -415,11 +440,19 @@ static int mtk_ddp_probe(struct platform_device *pdev)
+>         ddp->data = of_device_get_match_data(dev);
+>
+>         if (!ddp->data->no_clk) {
+> -               ddp->clk = devm_clk_get(dev, NULL);
+> -               if (IS_ERR(ddp->clk)) {
+> -                       if (PTR_ERR(ddp->clk) != -EPROBE_DEFER)
+> -                               dev_err(dev, "Failed to get clock\n");
+> -                       return PTR_ERR(ddp->clk);
+> +               int ret;
+> +
+> +               for (i = 0; i < ARRAY_SIZE(ddp->clk); i++) {
+> +                       ddp->clk[i] = of_clk_get(dev->of_node, i);
+> +
+> +                       if (IS_ERR(ddp->clk[i])) {
+> +                               ret = PTR_ERR(ddp->clk[i]);
+> +                               if (ret != EPROBE_DEFER)
+> +                                       dev_err(dev, "Failed to get clock %d\n",
+> +                                               ret);
+> +
+> +                               return ret;
+> +                       }
+
+Use of_clk_bulk_get_all instead?
+
+ddp->num_clks = of_clk_bulk_get_all(dev->of_node, &ddp->clks);
+...
+
+Then the calls above can be clk_bulk_enable/clk_bulk_disable using
+num_clks and clks.
+
+
+>                 }
+>         }
+>
+> --
+> 1.8.1.1.dirty
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+_______________________________________________
+dri-devel mailing list
+dri-devel@lists.freedesktop.org
+https://lists.freedesktop.org/mailman/listinfo/dri-devel
