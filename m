@@ -1,58 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D841B2DB153
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 17:27:27 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CD72DBD0B
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFFB16E40A;
-	Tue, 15 Dec 2020 16:27:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B5F38914F;
+	Wed, 16 Dec 2020 08:55:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6396A6E40C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 16:27:25 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id t16so20473162wra.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=cXMpZeBf2WHykqV/RP3DcTupHWYnFveNyX5gq5+rJmw=;
- b=lwpF9VNyDzS2cH/okYlW6oljlrFlSiCZYua76mypHpLiwcd7gTIiaz8zGXNgTXaF0R
- 8obftUe5dTzLb9def/Vhvcnig52nWNSdjNq0v68jV2W6y/CNXDKr3T6fUpkMXNO7cdlv
- LKd5hz+ERCFRBTpNedM/SUh4GzZWdcLf9VD2g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cXMpZeBf2WHykqV/RP3DcTupHWYnFveNyX5gq5+rJmw=;
- b=TeO5gRPSmvHBmZptcCZahx+cXcKtsWQ7sMx0XPSl7l5HXcRsnE4RketV3ZAdqUFmmc
- hw7vTwDDLBmHzf1ayO5alJG2MGXMnE/k6etTCOvKRhw90T4wF5+BylUXU+mphR2Q7Fcg
- cH62Wr5qYs603WgiLVtZOWhXyj1nwxhJsg2Nlc1iX2mj49ZLLWgGdl77ZLFUeAQkGEBI
- H+laKoMdiaQi4/cjdpUFN/FjN+JoFZVZWUQo/yW1mnB65tWXHO7+y3Cf/sZHcAcOPfmT
- Tau8kUzEqIomdPU777JysNDDbpTjZfeTQijP3CW73szuqYPuhpca8MwWB3Eajio/kKje
- 8L/Q==
-X-Gm-Message-State: AOAM532LBk5xCWzf5oVU02NgfQXtw3tWx4PPj9KJdJnl3kwkOlb+JXsr
- mV+V5utfvPw/1I2U2MPXEncVZw==
-X-Google-Smtp-Source: ABdhPJzz6h7SfItFMxZGDgGwgN1c9EDjt0/+/7QyzjqENSJ6nLQ+gNb+CYHcv8slBPR11JcyFnue3g==
-X-Received: by 2002:adf:fa02:: with SMTP id m2mr15462718wrr.130.1608049643481; 
- Tue, 15 Dec 2020 08:27:23 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h98sm42379535wrh.69.2020.12.15.08.27.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 08:27:22 -0800 (PST)
-Date: Tue, 15 Dec 2020 17:27:20 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PULL] drm-misc-next-fixes
-Message-ID: <X9jj6BJi0p7sHoPU@phenom.ffwll.local>
-References: <X9i0X9mjHN9AZGD3@linux-uq9g>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C7889D56
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 17:22:13 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 5DFB6320;
+ Tue, 15 Dec 2020 12:22:12 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 15 Dec 2020 12:22:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=ku9wX9q6tm7JaDRiHiN8wxzpzoJ
+ 47xBLml4yqeHVfC0=; b=ZUVhAy2lxhFnDE3u/TRivizjHJVT2tqBL/gDHInh4+t
+ TwyWE+/3vjIMk3eX1GnKd+8QemdCFalT0PQxeAeceCAIQqARGd42N+slojFHASJo
+ jBc7gZIvZBJX53EkSIzuPwluwDlmuLFR561whRiMzLlPYJ1Xx7q/10rNC7n23Efv
+ qxO9G+K3frp5Ji3x5ccUgMXNxuBYNeY56bOHVE/ruAGuf8pIILyMjNFuemvXuFhU
+ 0sMAoFxrzBSKpvZF5oAbMy3qYTgTlLolF4g8InnKZXmoVM7vtW1dJllbaPAxL6zv
+ RR79L9lxD5X3WZpG+BB05gg5YNs0lMFIHSiKtrCviXg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ku9wX9
+ q6tm7JaDRiHiN8wxzpzoJ47xBLml4yqeHVfC0=; b=BihxfT4prAcu252LOk9NVt
+ 8J3XecFdw9jK6kjaKB70KV8A71i4D6ASt+34b0WFWWQmRXDYpbjslFtxhrTQFgT0
+ zOj0r3eJ1bvRU7+XA9esgcr/s/8Kjavmuy8Shm3U3sW0DIDysDsP95Kl2KaLGP4g
+ DHxsSXKgQHHL3dmZE6lIYMq6KymZTcOrnl2RFPQbfFmvfwYBUcYJgLaTd5At6uSZ
+ g69ooDl6FMKqBobHGuZVc3EqOcezGm/Nvstq0sbB0cL0gm8wLNAneZV8+fz+y1Vn
+ 5vTyFIhJIQHpMXDhKARZYYnkDuUR2PgSFe003c+S0TUbbTGRmLrEh+xBix5WtRyg
+ ==
+X-ME-Sender: <xms:wvDYX7gZF4xSojxi-tlOWT7GWqdEZsJShxupF4IIjS9xC3eTmkKLUA>
+ <xme:wvDYX4_ByeiHfBKjK97rCPIszpJPQn3pZUurALn_EJaO3bkH2AJMYq0G01TyLoYBc
+ afYwcegc3nKBG-9NDE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeltddguddtvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:wvDYX7bpTrI3ELhUYy9lDVopuBpJXFqf9AtxDUW39jCS8ST7xxei8A>
+ <xmx:wvDYX2vQ3Mb_EXY_vlx39GpOWyJSOrE5N6kPljQPjYyxBDhdwQn2OQ>
+ <xmx:wvDYX_mB3rU4fmjFyxb9wt6Pg2JxT1GUOWADzaeTjVRuciuZxpQriw>
+ <xmx:xPDYX7rK-mj8xwFNKGnX7AxsQpdXstaKj6lKRxoZzm9WwglnEiIQBg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
+ [90.89.68.76])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5B3C324005D;
+ Tue, 15 Dec 2020 12:22:10 -0500 (EST)
+Date: Tue, 15 Dec 2020 18:22:09 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v7 5/9] drm/vc4: hdmi: Create a custom connector state
+Message-ID: <20201215172209.2pvodheuz72qq3p2@gilmour>
+References: <20201215154243.540115-1-maxime@cerno.tech>
+ <20201215154243.540115-6-maxime@cerno.tech>
+ <CAPY8ntCP7O9GOrAo0qutHR8g3aJGY4a3ps-sa8LS5LjrN2D+Nw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <X9i0X9mjHN9AZGD3@linux-uq9g>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <CAPY8ntCP7O9GOrAo0qutHR8g3aJGY4a3ps-sa8LS5LjrN2D+Nw@mail.gmail.com>
+X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +80,74 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: dim-tools@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sean Paul <sean@poorly.run>, intel-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: David Airlie <airlied@linux.ie>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel.vetter@intel.com>, linux-arm-kernel@lists.infradead.org
+Content-Type: multipart/mixed; boundary="===============1790475552=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 15, 2020 at 02:04:31PM +0100, Thomas Zimmermann wrote:
-> Hi Dave and Daniel,
-> =
 
-> here's this week's PR for drm-misc-next-fixes. IIRC the radeon fix is
-> already in drm-misc-next.
+--===============1790475552==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="abzchchsmtva6so6"
+Content-Disposition: inline
 
-Pulled, and also your previous -next pull which got stuck somewhere.
 
-Thanks, Daniel
+--abzchchsmtva6so6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> =
+Hi Dave,
 
-> Best regards
-> Thomas
-> =
+On Tue, Dec 15, 2020 at 04:25:46PM +0000, Dave Stevenson wrote:
+> Hi Maxime
+>=20
+> On Tue, 15 Dec 2020 at 15:42, Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > When run with a higher bpc than 8, the clock of the HDMI controller nee=
+ds
+> > to be adjusted. Let's create a connector state that will be used at
+> > atomic_check and atomic_enable to compute and store the clock rate
+> > associated to the state.
+> >
+> > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> I'm happy again
+> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-> drm-misc-next-fixes-2020-12-15:
-> Short summary of fixes pull (less than what git shortlog provides):
-> =
+Thanks!
 
->  * dma-buf: Fix docs
->  * mxsfb: Silence invalid error message
->  * radeon: Fix TTM multihop
-> =
+Does that apply to patch 9 as well?
 
-> The following changes since commit 05faf1559de52465f1e753e31883aa294e6179=
-c1:
-> =
+Maxime
 
->   drm/imx/dcss: allow using nearest neighbor interpolation scaling (2020-=
-11-26 11:29:44 +0100)
-> =
+--abzchchsmtva6so6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> are available in the Git repository at:
-> =
+-----BEGIN PGP SIGNATURE-----
 
->   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-202=
-0-12-15
-> =
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9jwwQAKCRDj7w1vZxhR
+xbxPAP9LJtPgKeKM23wKaC8uA3m7UShzkjiXaH85fUE7cCKElAEAiyWcl/F/ixcg
+kvBl3w+hY3y1mL1uWYmMoDDVV4SfOgI=
+=ANzn
+-----END PGP SIGNATURE-----
 
-> for you to fetch changes up to ee46d16d2e40bebc2aa790fd7b6a056466ff895c:
-> =
+--abzchchsmtva6so6--
 
->   drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge (2020-12-15 =
-11:01:10 +0100)
-> =
+--===============1790475552==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-> ----------------------------------------------------------------
-> Short summary of fixes pull (less than what git shortlog provides):
-> =
-
->  * dma-buf: Fix docs
->  * mxsfb: Silence invalid error message
->  * radeon: Fix TTM multihop
-> =
-
-> ----------------------------------------------------------------
-> Christian K=F6nig (1):
->       drm/radeon: fix check order in radeon_bo_move
-> =
-
-> Daniel Vetter (1):
->       dma-buf: Fix kerneldoc formatting
-> =
-
-> Guido G=FCnther (1):
->       drm: mxsfb: Silence -EPROBE_DEFER while waiting for bridge
-> =
-
->  Documentation/driver-api/dma-buf.rst |  2 +-
->  drivers/gpu/drm/mxsfb/mxsfb_drv.c    | 10 +++----
->  drivers/gpu/drm/radeon/radeon_ttm.c  | 54 ++++++++++++++++--------------=
-------
->  include/linux/dma-buf-map.h          |  2 +-
->  4 files changed, 30 insertions(+), 38 deletions(-)
-> =
-
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-> (HRB 36809, AG N=FCrnberg)
-> Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
-
--- =
-
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1790475552==--
