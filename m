@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F482DAB3B
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94D42DAB35
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E7BA6E226;
-	Tue, 15 Dec 2020 10:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36CF36E20C;
+	Tue, 15 Dec 2020 10:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 655886E1FB
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:58 +0000 (UTC)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlvAt124242
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:57 -0600
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F02A6E1FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:59 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlwCe124247
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:58 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029277;
- bh=7R5vGYbk655mwgyP+cGF7OdDZbOevJrkEVylC3YXnqA=;
+ s=ti-com-17Q1; t=1608029278;
+ bh=OHmcpERZyOoYqao/RrpfsjiNy15O9pTNtG0oeoX8Fn4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=g4QxuWeEAOQFVF0+PmehEf6Q7+fdmI4O/LvyDT39El5XGuhdjqiP0l+ntwGwnoL1R
- fj062w46VM2PMWIWoOt+11M7huru62pc3DwIAaSGe+jblaVPYyfZH6nOPxb8y9x2RY
- CHcSb88xsl0RfFSiqJsJGlA4V7AZSe7y4fUO4WbA=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlvTE101820
+ b=t77iwQPpALHxrXAizyj4cg/gU4AQ7KYuUxPYwOgNM9cMPfONSRLHRGVHRi7BcEig+
+ AlT0OCQJ27cObHCZ/uhIKNkp4bn9olqGZAIRhnu8NTaE2+py/Mb95qba9lSHp5MRx0
+ Kxb1B7kTklMXm9vRHcksw8zi3Jk+BZaq2ujVmIFM=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlwWb023567
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:57 -0600
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:58 -0600
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:57 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:58 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:47:57 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:47:58 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwag046467;
- Tue, 15 Dec 2020 04:47:56 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwah046467;
+ Tue, 15 Dec 2020 04:47:57 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 56/84] drm/panel: panel-dsi-cm: cleanup tear enable
-Date: Tue, 15 Dec 2020 12:46:29 +0200
-Message-ID: <20201215104657.802264-57-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 57/84] ARM: dts: omap5: add address-cells & size-cells to
+ dsi
+Date: Tue, 15 Dec 2020 12:46:30 +0200
+Message-ID: <20201215104657.802264-58-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -65,68 +66,41 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify the code by moving code from _dsicm_enable_te() into
-dsicm_power_on().
+Add address-cells & size-cells to DSI nodes so that board files do not
+need to define them.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Acked-by: Tony Lindgren <tony@atomide.com>
 Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/gpu/drm/panel/panel-dsi-cm.c | 23 ++++-------------------
- 1 file changed, 4 insertions(+), 19 deletions(-)
+ arch/arm/boot/dts/omap5.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-index 5c28f08b2288..c2e702172df2 100644
---- a/drivers/gpu/drm/panel/panel-dsi-cm.c
-+++ b/drivers/gpu/drm/panel/panel-dsi-cm.c
-@@ -68,8 +68,6 @@ static inline struct panel_drv_data *panel_to_ddata(struct drm_panel *panel)
- 	return container_of(panel, struct panel_drv_data, panel);
- }
- 
--static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable);
--
- static void dsicm_bl_power(struct panel_drv_data *ddata, bool enable)
- {
- 	struct backlight_device *backlight;
-@@ -313,10 +311,13 @@ static int dsicm_power_on(struct panel_drv_data *ddata)
- 	if (r)
- 		goto err;
- 
--	r = _dsicm_enable_te(ddata, true);
-+	r = mipi_dsi_dcs_set_tear_on(ddata->dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 	if (r)
- 		goto err;
- 
-+	/* possible panel bug */
-+	msleep(100);
+diff --git a/arch/arm/boot/dts/omap5.dtsi b/arch/arm/boot/dts/omap5.dtsi
+index 2bf2e5839a7f..e6f6947965ef 100644
+--- a/arch/arm/boot/dts/omap5.dtsi
++++ b/arch/arm/boot/dts/omap5.dtsi
+@@ -517,6 +517,9 @@ dsi1: encoder@0 {
+ 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
+ 							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
+ 						clock-names = "fck", "sys_clk";
 +
- 	ddata->enabled = true;
++						#address-cells = <1>;
++						#size-cells = <0>;
+ 					};
+ 				};
  
- 	if (!ddata->intro_printed) {
-@@ -417,22 +418,6 @@ static int dsicm_disable(struct drm_panel *panel)
- 	return r;
- }
+@@ -549,6 +552,9 @@ dsi2: encoder@0 {
+ 						clocks = <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 8>,
+ 							 <&dss_clkctrl OMAP5_DSS_CORE_CLKCTRL 10>;
+ 						clock-names = "fck", "sys_clk";
++
++						#address-cells = <1>;
++						#size-cells = <0>;
+ 					};
+ 				};
  
--static int _dsicm_enable_te(struct panel_drv_data *ddata, bool enable)
--{
--	struct mipi_dsi_device *dsi = ddata->dsi;
--	int r;
--
--	if (enable)
--		r = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	else
--		r = mipi_dsi_dcs_set_tear_off(dsi);
--
--	/* possible panel bug */
--	msleep(100);
--
--	return r;
--}
--
- static int dsicm_get_modes(struct drm_panel *panel,
- 			   struct drm_connector *connector)
- {
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
