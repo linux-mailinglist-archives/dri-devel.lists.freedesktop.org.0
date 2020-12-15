@@ -2,34 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163312DB6E5
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 00:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F6942DBD13
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39951898BF;
-	Tue, 15 Dec 2020 23:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7011689E3B;
+	Wed, 16 Dec 2020 08:55:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EC1E898BF
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 23:06:15 +0000 (UTC)
-Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C46CD593;
- Wed, 16 Dec 2020 00:06:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608073573;
- bh=UZOVe2TdEa6j7SooiqQDfo3XI5Guvj07BFrUJmDiG6w=;
- h=From:To:Cc:Subject:Date:From;
- b=u0IbVfiFndM9SeT10NdrNcNmHtu9AZii/QRcCrlZyYo9TNUos2PIempQpOHc1O4uG
- HBQVSJTr3CmCdNk74QSBsPhaBQLlgvz7QUKjJVTxJa9XhGtSG2PqLk3Djl8BvZRywU
- PqHJho6ZzCHxqeGXT+ICh3/FEdsYpDoi/DIzWOOw=
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To: dri-devel@lists.freedesktop.org
-Subject: [PATCH] dt-bindings: display: renesas,du: Convert binding to YAML
-Date: Wed, 16 Dec 2020 01:06:03 +0200
-Message-Id: <20201215230603.7796-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com
+ [IPv6:2607:f8b0:4864:20::341])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0A7E89B0C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 23:53:40 +0000 (UTC)
+Received: by mail-ot1-x341.google.com with SMTP id w3so21173328otp.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 15:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=uqhKWB+COb7J4nLUa9kt0YMVg4NJwXlGmC+K/vo4ZfQ=;
+ b=ubLg8ItyDYFPqJktSEKH3nGYE65up5uazhqS9I+s76Pow5dZV4rnSLrN1JeAXG39kp
+ niJJUkenbf0JwWqINmjn5R8wVYzq2fREcUAHCMKOshqquWtZNwRxpZEbhSAoPSuCcJCg
+ nFpxoM9IRMIHtga+Nv4cq6vg4Cp1Qaj0qHhMY3g67IlQcC62nTi40daqk2WlfoJRCAxn
+ uCgreHkFRpNNOnfALpM3+EPJzo7p0H4ijvswxK/6RyoqkQXm7n3DkvMCY5yJEJC2+SIf
+ rzkBvBGV6zzhGw+j1iPrtOUOph7tG4GpukKA5GdzylKmV5Mv2IXwRKJrfBsyEsitJcAk
+ jenA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=uqhKWB+COb7J4nLUa9kt0YMVg4NJwXlGmC+K/vo4ZfQ=;
+ b=Mb7vn9KBBtEuHFvPfapnGNg9Jm0NPn5Vix3SOnK/njeUmE3mSo9Esmc9PVhTgpuqer
+ CP/Auva8mvBBnNk888O/q33MkCxBK2+f/RL4JqCdYIR6iYrNdijQ55zTUU1Vmd5LOhIv
+ 898CWMxZXagDYWpDPMXOvk/TFWpM89C9GBGp8k9VWQLzy4gaz5GaXrattyRLiwH6Bxuw
+ c35oNYcRB3DiwGAdzMMoC13ZqLeEeZ15yq5/nKbg8A//rNv7+f1l1XG/jbeD3/O/gkhj
+ gn1Hqw4n1osg5BO5RZsmy3B9sacSIFfdQxwRjfGBAmQOAYu3G6hzuDPA5LRc8K9ZjE+Z
+ B8bA==
+X-Gm-Message-State: AOAM531WJZKNGUJQUd3aLz59k2MfuralOEH+MwwT23PiL83LsMo3EMtt
+ joc8DTLj39YTnv3idiOTW5k=
+X-Google-Smtp-Source: ABdhPJw7yGtGW+iN1w6tchLENRNZtU87psOBq50NXtp7tKwu0+eM41EhXJj0K8bT+ZTjjymoAM0qww==
+X-Received: by 2002:a9d:6d08:: with SMTP id o8mr15786851otp.334.1608076416728; 
+ Tue, 15 Dec 2020 15:53:36 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id m81sm16202oib.37.2020.12.15.15.53.35
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 15 Dec 2020 15:53:35 -0800 (PST)
+Date: Tue, 15 Dec 2020 15:53:34 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH v7 2/5] dma-buf: heaps: Move heap-helper logic into the
+ cma_heap implementation
+Message-ID: <20201215235334.GA227480@roeck-us.net>
+References: <20201121235002.69945-1-john.stultz@linaro.org>
+ <20201121235002.69945-3-john.stultz@linaro.org>
 MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20201121235002.69945-3-john.stultz@linaro.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,1058 +70,71 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>
+Cc: Sandeep Patil <sspatil@google.com>, dri-devel@lists.freedesktop.org,
+ Ezequiel Garcia <ezequiel@collabora.com>, Robin Murphy <robin.murphy@arm.com>,
+ James Jones <jajones@nvidia.com>, lkml <linux-kernel@vger.kernel.org>,
+ Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+ Chris Goldsworthy <cgoldswo@codeaurora.org>,
+ Hridya Valsaraju <hridya@google.com>,
+ =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+ linux-media@vger.kernel.org, Suren Baghdasaryan <surenb@google.com>,
+ Daniel Mentz <danielmentz@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Renesas R-Car DU text binding to YAML.
+On Sat, Nov 21, 2020 at 11:49:59PM +0000, John Stultz wrote:
+> Since the heap-helpers logic ended up not being as generic as
+> hoped, move the heap-helpers dma_buf_ops implementations into
+> the cma_heap directly.
+> 
+> This will allow us to remove the heap_helpers code in a following
+> patch.
+> 
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+mips:allmodconfig:
+
+drivers/dma-buf/heaps/cma_heap.c: In function 'cma_heap_do_vmap':
+drivers/dma-buf/heaps/cma_heap.c:195:10: error: implicit declaration of function 'vmap'
+
+Bisect log attached.
+
+Guenter
+
 ---
-Changes since v1:
-
-- Use pattern instead of enum for dclkin
-- Update MAINTAINERS
----
- .../bindings/display/renesas,du.txt           | 145 ---
- .../bindings/display/renesas,du.yaml          | 854 ++++++++++++++++++
- MAINTAINERS                                   |   2 +-
- 3 files changed, 855 insertions(+), 146 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/renesas,du.txt
- create mode 100644 Documentation/devicetree/bindings/display/renesas,du.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-deleted file mode 100644
-index 7d65c24fcda8..000000000000
---- a/Documentation/devicetree/bindings/display/renesas,du.txt
-+++ /dev/null
-@@ -1,145 +0,0 @@
--* Renesas R-Car Display Unit (DU)
--
--Required Properties:
--
--  - compatible: must be one of the following.
--    - "renesas,du-r8a7742" for R8A7742 (RZ/G1H) compatible DU
--    - "renesas,du-r8a7743" for R8A7743 (RZ/G1M) compatible DU
--    - "renesas,du-r8a7744" for R8A7744 (RZ/G1N) compatible DU
--    - "renesas,du-r8a7745" for R8A7745 (RZ/G1E) compatible DU
--    - "renesas,du-r8a77470" for R8A77470 (RZ/G1C) compatible DU
--    - "renesas,du-r8a774a1" for R8A774A1 (RZ/G2M) compatible DU
--    - "renesas,du-r8a774b1" for R8A774B1 (RZ/G2N) compatible DU
--    - "renesas,du-r8a774c0" for R8A774C0 (RZ/G2E) compatible DU
--    - "renesas,du-r8a774e1" for R8A774E1 (RZ/G2H) compatible DU
--    - "renesas,du-r8a7779" for R8A7779 (R-Car H1) compatible DU
--    - "renesas,du-r8a7790" for R8A7790 (R-Car H2) compatible DU
--    - "renesas,du-r8a7791" for R8A7791 (R-Car M2-W) compatible DU
--    - "renesas,du-r8a7792" for R8A7792 (R-Car V2H) compatible DU
--    - "renesas,du-r8a7793" for R8A7793 (R-Car M2-N) compatible DU
--    - "renesas,du-r8a7794" for R8A7794 (R-Car E2) compatible DU
--    - "renesas,du-r8a7795" for R8A7795 (R-Car H3) compatible DU
--    - "renesas,du-r8a7796" for R8A7796 (R-Car M3-W) compatible DU
--    - "renesas,du-r8a77961" for R8A77961 (R-Car M3-W+) compatible DU
--    - "renesas,du-r8a77965" for R8A77965 (R-Car M3-N) compatible DU
--    - "renesas,du-r8a77970" for R8A77970 (R-Car V3M) compatible DU
--    - "renesas,du-r8a77980" for R8A77980 (R-Car V3H) compatible DU
--    - "renesas,du-r8a77990" for R8A77990 (R-Car E3) compatible DU
--    - "renesas,du-r8a77995" for R8A77995 (R-Car D3) compatible DU
--
--  - reg: the memory-mapped I/O registers base address and length
--
--  - interrupts: Interrupt specifiers for the DU interrupts.
--
--  - clocks: A list of phandles + clock-specifier pairs, one for each entry in
--    the clock-names property.
--  - clock-names: Name of the clocks. This property is model-dependent.
--    - R8A7779 uses a single functional clock. The clock doesn't need to be
--      named.
--    - All other DU instances use one functional clock per channel The
--      functional clocks must be named "du.x" with "x" being the channel
--      numerical index.
--    - In addition to the functional clocks, all DU versions also support
--      externally supplied pixel clocks. Those clocks are optional. When
--      supplied they must be named "dclkin.x" with "x" being the input clock
--      numerical index.
--
--  - renesas,cmms: A list of phandles to the CMM instances present in the SoC,
--    one for each available DU channel. The property shall not be specified for
--    SoCs that do not provide any CMM (such as V3M and V3H).
--
--  - renesas,vsps: A list of phandle and channel index tuples to the VSPs that
--    handle the memory interfaces for the DU channels. The phandle identifies the
--    VSP instance that serves the DU channel, and the channel index identifies
--    the LIF instance in that VSP.
--
--Optional properties:
--  - resets: A list of phandle + reset-specifier pairs, one for each entry in
--    the reset-names property.
--  - reset-names: Names of the resets. This property is model-dependent.
--    - All but R8A7779 use one reset for a group of one or more successive
--      channels. The resets must be named "du.x" with "x" being the numerical
--      index of the lowest channel in the group.
--
--Required nodes:
--
--The connections to the DU output video ports are modeled using the OF graph
--bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--The following table lists for each supported model the port number
--corresponding to each DU output.
--
--                        Port0          Port1          Port2          Port3
-------------------------------------------------------------------------------
-- R8A7742 (RZ/G1H)       DPAD 0         LVDS 0         LVDS 1         -
-- R8A7743 (RZ/G1M)       DPAD 0         LVDS 0         -              -
-- R8A7744 (RZ/G1N)       DPAD 0         LVDS 0         -              -
-- R8A7745 (RZ/G1E)       DPAD 0         DPAD 1         -              -
-- R8A77470 (RZ/G1C)      DPAD 0         DPAD 1         LVDS 0         -
-- R8A774A1 (RZ/G2M)      DPAD 0         HDMI 0         LVDS 0         -
-- R8A774B1 (RZ/G2N)      DPAD 0         HDMI 0         LVDS 0         -
-- R8A774C0 (RZ/G2E)      DPAD 0         LVDS 0         LVDS 1         -
-- R8A774E1 (RZ/G2H)      DPAD 0         HDMI 0         LVDS 0         -
-- R8A7779 (R-Car H1)     DPAD 0         DPAD 1         -              -
-- R8A7790 (R-Car H2)     DPAD 0         LVDS 0         LVDS 1         -
-- R8A7791 (R-Car M2-W)   DPAD 0         LVDS 0         -              -
-- R8A7792 (R-Car V2H)    DPAD 0         DPAD 1         -              -
-- R8A7793 (R-Car M2-N)   DPAD 0         LVDS 0         -              -
-- R8A7794 (R-Car E2)     DPAD 0         DPAD 1         -              -
-- R8A7795 (R-Car H3)     DPAD 0         HDMI 0         HDMI 1         LVDS 0
-- R8A7796 (R-Car M3-W)   DPAD 0         HDMI 0         LVDS 0         -
-- R8A77961 (R-Car M3-W+) DPAD 0         HDMI 0         LVDS 0         -
-- R8A77965 (R-Car M3-N)  DPAD 0         HDMI 0         LVDS 0         -
-- R8A77970 (R-Car V3M)   DPAD 0         LVDS 0         -              -
-- R8A77980 (R-Car V3H)   DPAD 0         LVDS 0         -              -
-- R8A77990 (R-Car E3)    DPAD 0         LVDS 0         LVDS 1         -
-- R8A77995 (R-Car D3)    DPAD 0         LVDS 0         LVDS 1         -
--
--
--Example: R8A7795 (R-Car H3) ES2.0 DU
--
--	du: display@feb00000 {
--		compatible = "renesas,du-r8a7795";
--		reg = <0 0xfeb00000 0 0x80000>;
--		interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
--			     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
--			     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
--			     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cpg CPG_MOD 724>,
--			 <&cpg CPG_MOD 723>,
--			 <&cpg CPG_MOD 722>,
--			 <&cpg CPG_MOD 721>;
--		clock-names = "du.0", "du.1", "du.2", "du.3";
--		resets = <&cpg 724>, <&cpg 722>;
--		reset-names = "du.0", "du.2";
--		renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
--		renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				du_out_rgb: endpoint {
--				};
--			};
--			port@1 {
--				reg = <1>;
--				du_out_hdmi0: endpoint {
--					remote-endpoint = <&dw_hdmi0_in>;
--				};
--			};
--			port@2 {
--				reg = <2>;
--				du_out_hdmi1: endpoint {
--					remote-endpoint = <&dw_hdmi1_in>;
--				};
--			};
--			port@3 {
--				reg = <3>;
--				du_out_lvds0: endpoint {
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
-new file mode 100644
-index 000000000000..f56ef3eed742
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
-@@ -0,0 +1,854 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/renesas,du.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car Display Unit (DU)
-+
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  These DT bindings describe the Display Unit embedded in the Renesas R-Car
-+  Gen1, R-Car Gen2, R-Car Gen3, RZ/G1 and RZ/G2 SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,du-r8a7742 # for RZ/G1H compatible DU
-+      - renesas,du-r8a7743 # for RZ/G1M compatible DU
-+      - renesas,du-r8a7744 # for RZ/G1N compatible DU
-+      - renesas,du-r8a7745 # for RZ/G1E compatible DU
-+      - renesas,du-r8a77470 # for RZ/G1C compatible DU
-+      - renesas,du-r8a774a1 # for RZ/G2M compatible DU
-+      - renesas,du-r8a774b1 # for RZ/G2N compatible DU
-+      - renesas,du-r8a774c0 # for RZ/G2E compatible DU
-+      - renesas,du-r8a774e1 # for RZ/G2H compatible DU
-+      - renesas,du-r8a7779 # for R-Car H1 compatible DU
-+      - renesas,du-r8a7790 # for R-Car H2 compatible DU
-+      - renesas,du-r8a7791 # for R-Car M2-W compatible DU
-+      - renesas,du-r8a7792 # for R-Car V2H compatible DU
-+      - renesas,du-r8a7793 # for R-Car M2-N compatible DU
-+      - renesas,du-r8a7794 # for R-Car E2 compatible DU
-+      - renesas,du-r8a7795 # for R-Car H3 compatible DU
-+      - renesas,du-r8a7796 # for R-Car M3-W compatible DU
-+      - renesas,du-r8a77961 # for R-Car M3-W+ compatible DU
-+      - renesas,du-r8a77965 # for R-Car M3-N compatible DU
-+      - renesas,du-r8a77970 # for R-Car V3M compatible DU
-+      - renesas,du-r8a77980 # for R-Car V3H compatible DU
-+      - renesas,du-r8a77990 # for R-Car E3 compatible DU
-+      - renesas,du-r8a77995 # for R-Car D3 compatible DU
-+
-+  reg:
-+    maxItems: 1
-+
-+  # See compatible-specific constraints below.
-+  clocks: true
-+  clock-names: true
-+  interrupts: true
-+  resets: true
-+  reset-names: true
-+
-+  ports:
-+    type: object
-+    description: |
-+      The connections to the DU output video ports are modeled using the OF
-+      graph bindings specified in Documentation/devicetree/bindings/graph.txt.
-+      The number of ports and their assignment are model-dependent. Each port
-+      shall have a single endpoint.
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      "^port@[0-3]$":
-+        type: object
-+
-+        properties:
-+          reg:
-+            maxItems: 1
-+
-+          endpoint:
-+            type: object
-+
-+            properties:
-+              remote-endpoint:
-+                $ref: /schemas/types.yaml#/definitions/phandle
-+
-+            required:
-+              - remote-endpoint
-+
-+            additionalProperties: false
-+
-+        additionalProperties: false
-+
-+    required:
-+      - port@0
-+      - port@1
-+
-+    additionalProperties: false
-+
-+  renesas,cmms:
-+    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+    description:
-+      A list of phandles to the CMM instances present in the SoC, one for each
-+      available DU channel.
-+
-+  renesas,vsps:
-+    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-+    description:
-+      A list of phandle and channel index tuples to the VSPs that handle the
-+      memory interfaces for the DU channels. The phandle identifies the VSP
-+      instance that serves the DU channel, and the channel index identifies
-+      the LIF instance in that VSP.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - interrupts
-+  - resets
-+  - ports
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: renesas,du-r8a7779
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 1
-+          maxItems: 3
-+          items:
-+            - description: Functional clock
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 1
-+          maxItems: 3
-+          items:
-+            - const: du.0
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 1
-+
-+        resets:
-+          maxItems: 1
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: DPAD 1
-+            # port@2 is TCON, not supported yet
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+      required:
-+        - interrupts
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a7743
-+              - renesas,du-r8a7744
-+              - renesas,du-r8a7791
-+              - renesas,du-r8a7793
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: LVDS 0
-+            # port@2 is TCON, not supported yet
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a7745
-+              - renesas,du-r8a7792
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: DPAD 1
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a7794
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: DPAD 1
-+            # port@2 is TCON, not supported yet
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a77470
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: DPAD 1
-+            port@2:
-+              description: LVDS 0
-+            # port@3 is DVENC, not supported yet
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a7742
-+              - renesas,du-r8a7790
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: Functional clock for DU2
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+            - description: DU_DOTCLKIN2 input clock
-+
-+        clock-names:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - const: du.2
-+            - pattern: "^dclkin\\.[012]$"
-+            - pattern: "^dclkin\\.[012]$"
-+            - pattern: "^dclkin\\.[012]$"
-+
-+        interrupts:
-+          maxItems: 3
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: LVDS 0
-+            port@2:
-+              description: LVDS 1
-+            # port@3 is TCON, not supported yet
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a7795
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 4
-+          maxItems: 8
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: Functional clock for DU2
-+            - description: Functional clock for DU4
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+            - description: DU_DOTCLKIN2 input clock
-+            - description: DU_DOTCLKIN3 input clock
-+
-+        clock-names:
-+          minItems: 4
-+          maxItems: 8
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - const: du.2
-+            - const: du.3
-+            - pattern: "^dclkin\\.[0123]$"
-+            - pattern: "^dclkin\\.[0123]$"
-+            - pattern: "^dclkin\\.[0123]$"
-+            - pattern: "^dclkin\\.[0123]$"
-+
-+        interrupts:
-+          maxItems: 4
-+
-+        resets:
-+          maxItems: 2
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+            - const: du.2
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: HDMI 0
-+            port@2:
-+              description: HDMI 1
-+            port@3:
-+              description: LVDS 0
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+            - port@3
-+
-+        renesas,cmms:
-+          minItems: 4
-+
-+        renesas,vsps:
-+          minItems: 4
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a774a1
-+              - renesas,du-r8a7796
-+              - renesas,du-r8a77961
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: Functional clock for DU2
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+            - description: DU_DOTCLKIN2 input clock
-+
-+        clock-names:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - const: du.2
-+            - pattern: "^dclkin\\.[012]$"
-+            - pattern: "^dclkin\\.[012]$"
-+            - pattern: "^dclkin\\.[012]$"
-+
-+        interrupts:
-+          maxItems: 3
-+
-+        resets:
-+          maxItems: 2
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+            - const: du.2
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: HDMI 0
-+            port@2:
-+              description: LVDS 0
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+        renesas,cmms:
-+          minItems: 3
-+
-+        renesas,vsps:
-+          minItems: 3
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a774b1
-+              - renesas,du-r8a774e1
-+              - renesas,du-r8a77965
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: Functional clock for DU3
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+            - description: DU_DOTCLKIN3 input clock
-+
-+        clock-names:
-+          minItems: 3
-+          maxItems: 6
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - const: du.3
-+            - pattern: "^dclkin\\.[013]$"
-+            - pattern: "^dclkin\\.[013]$"
-+            - pattern: "^dclkin\\.[013]$"
-+
-+        interrupts:
-+          maxItems: 3
-+
-+        resets:
-+          maxItems: 2
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+            - const: du.3
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: HDMI 0
-+            port@2:
-+              description: LVDS 0
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+        renesas,cmms:
-+          minItems: 3
-+
-+        renesas,vsps:
-+          minItems: 3
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a77970
-+              - renesas,du-r8a77980
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 1
-+          maxItems: 2
-+          items:
-+            - description: Functional clock for DU0
-+            - description: DU_DOTCLKIN0 input clock
-+
-+        clock-names:
-+          minItems: 1
-+          maxItems: 2
-+          items:
-+            - const: du.0
-+            - const: dclkin.0
-+
-+        interrupts:
-+          maxItems: 1
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: LVDS 0
-+            port@2: false
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+
-+        renesas,vsps:
-+          minItems: 1
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,du-r8a774c0
-+              - renesas,du-r8a77990
-+              - renesas,du-r8a77995
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - description: Functional clock for DU0
-+            - description: Functional clock for DU1
-+            - description: DU_DOTCLKIN0 input clock
-+            - description: DU_DOTCLKIN1 input clock
-+
-+        clock-names:
-+          minItems: 2
-+          maxItems: 4
-+          items:
-+            - const: du.0
-+            - const: du.1
-+            - pattern: "^dclkin\\.[01]$"
-+            - pattern: "^dclkin\\.[01]$"
-+
-+        interrupts:
-+          maxItems: 2
-+
-+        resets:
-+          maxItems: 1
-+
-+        reset-names:
-+          items:
-+            - const: du.0
-+
-+        ports:
-+          properties:
-+            port@0:
-+              description: DPAD 0
-+            port@1:
-+              description: LVDS 0
-+            port@2:
-+              description: LVDS 1
-+            # port@3 is TCON, not supported yet
-+            port@3: false
-+
-+          required:
-+            - port@0
-+            - port@1
-+            - port@2
-+
-+        renesas,cmms:
-+          minItems: 2
-+
-+        renesas,vsps:
-+          minItems: 2
-+
-+      required:
-+        - clock-names
-+        - interrupts
-+        - resets
-+        - reset-names
-+        - renesas,vsps
-+
-+additionalProperties: false
-+
-+examples:
-+  # R-Car H3 ES2.0 DU
-+  - |
-+    #include <dt-bindings/clock/renesas-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    display@feb00000 {
-+        compatible = "renesas,du-r8a7795";
-+        reg = <0xfeb00000 0x80000>;
-+        interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD 724>,
-+                 <&cpg CPG_MOD 723>,
-+                 <&cpg CPG_MOD 722>,
-+                 <&cpg CPG_MOD 721>;
-+        clock-names = "du.0", "du.1", "du.2", "du.3";
-+        resets = <&cpg 724>, <&cpg 722>;
-+        reset-names = "du.0", "du.2";
-+
-+        renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
-+        renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                endpoint {
-+                    remote-endpoint = <&adv7123_in>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+                endpoint {
-+                    remote-endpoint = <&dw_hdmi0_in>;
-+                };
-+            };
-+            port@2 {
-+                reg = <2>;
-+                endpoint {
-+                    remote-endpoint = <&dw_hdmi1_in>;
-+                };
-+            };
-+            port@3 {
-+                reg = <3>;
-+                endpoint {
-+                    remote-endpoint = <&lvds0_in>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7b073c41c3a0..22663c2cb3a8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5905,7 +5905,7 @@ S:	Supported
- T:	git git://linuxtv.org/pinchartl/media drm/du/next
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
- F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
--F:	Documentation/devicetree/bindings/display/renesas,du.txt
-+F:	Documentation/devicetree/bindings/display/renesas,du.yaml
- F:	drivers/gpu/drm/rcar-du/
- F:	drivers/gpu/drm/shmobile/
- F:	include/linux/platform_data/shmob_drm.h
--- 
-Regards,
-
-Laurent Pinchart
-
+# bad: [9317f948b0b188b8d2fded75957e6d42c460df1b] Add linux-next specific files for 20201215
+# good: [2c85ebc57b3e1817b6ce1a6b703928e113a90442] Linux 5.10
+git bisect start 'HEAD' 'v5.10'
+# good: [8357e709304f1791b390c34f63cd00cb434a9ea9] Merge remote-tracking branch 'pm/linux-next'
+git bisect good 8357e709304f1791b390c34f63cd00cb434a9ea9
+# bad: [e43c4376b37c58a054444fe2f512aebfc7362306] Merge remote-tracking branch 'tomoyo/master'
+git bisect bad e43c4376b37c58a054444fe2f512aebfc7362306
+# good: [6f2d5cf9756dab190e79edd4ec098c81dca6743c] net: stmmac: simplify the return dwmac5_rxp_disable()
+git bisect good 6f2d5cf9756dab190e79edd4ec098c81dca6743c
+# bad: [fef5fe5f601c5826083b81837800b8b99570bfb0] Merge remote-tracking branch 'drm-misc/for-linux-next'
+git bisect bad fef5fe5f601c5826083b81837800b8b99570bfb0
+# good: [5bb0c4b5eb61d939fed0b27d11fb91fb85769c9a] ice, xsk: Move Rx allocation out of while-loop
+git bisect good 5bb0c4b5eb61d939fed0b27d11fb91fb85769c9a
+# good: [b54139eb968d982bfd5f451a8d143f3f6cdd82cf] Merge remote-tracking branch 'mtd/mtd/next'
+git bisect good b54139eb968d982bfd5f451a8d143f3f6cdd82cf
+# good: [f42a3d780d2ff7a122b089460f4bfbe402b4e27e] Merge remote-tracking branch 'amdgpu/drm-next'
+git bisect good f42a3d780d2ff7a122b089460f4bfbe402b4e27e
+# good: [3a9ec563a4ff770ae647f6ee539810f1866866c9] drm/i915/icl: Fix initing the DSI DSC power refcount during HW readout
+git bisect good 3a9ec563a4ff770ae647f6ee539810f1866866c9
+# bad: [2c3a1e49696fd05b52ec5eeb7c006ac32724c915] video: fbdev: lxfb_ops: Fix fall-through warnings for Clang
+git bisect bad 2c3a1e49696fd05b52ec5eeb7c006ac32724c915
+# good: [2ac5ef3b23629e9740000948c48f4141bacb5abb] drm: document drm_mode_get_connector
+git bisect good 2ac5ef3b23629e9740000948c48f4141bacb5abb
+# good: [2b6cb81b95d1e8abfb6d32cf194a5bd2992c315c] drm/meson: dw-hdmi: Enable the iahb clock early enough
+git bisect good 2b6cb81b95d1e8abfb6d32cf194a5bd2992c315c
+# bad: [4c68e499bb9d6d9ec3e18fcb2f68641abb22464a] dma-buf: heaps: Skip sync if not mapped
+git bisect bad 4c68e499bb9d6d9ec3e18fcb2f68641abb22464a
+# bad: [a5d2d29e24be8967ef78a1b1fb2292413e3b3df9] dma-buf: heaps: Move heap-helper logic into the cma_heap implementation
+git bisect bad a5d2d29e24be8967ef78a1b1fb2292413e3b3df9
+# good: [3812957587923ca325308ed9c4a5be5ca935e903] dma-buf: system_heap: Rework system heap to use sgtables instead of pagelists
+git bisect good 3812957587923ca325308ed9c4a5be5ca935e903
+# first bad commit: [a5d2d29e24be8967ef78a1b1fb2292413e3b3df9] dma-buf: heaps: Move heap-helper logic into the cma_heap implementation
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
