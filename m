@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A8B2DAB26
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:47:56 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C71A22DAB29
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 135786E1E6;
-	Tue, 15 Dec 2020 10:47:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA42B6E219;
+	Tue, 15 Dec 2020 10:47:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D9A6E1DE
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:35 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlZF7124013
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BF66E1E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:36 +0000 (UTC)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlZgA010584
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:35 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
  s=ti-com-17Q1; t=1608029255;
- bh=Cv63faDEdVkO2f6r8McnemAgAJisBPXUVIw2N9aaU9I=;
+ bh=dpSZmK9T5l1cjqkmPwMNHIn2DIsxX+Iamy41M5+pBpo=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=I/F9kPOKax6FZk3EYrd3DSca5crUPNNKsBO2W50kBGwRqQpV/ZSOmgqkpNxY8WjkY
- Wc0ACLur2XQ6h/UlHSwqc7q9tJ/ai9744kzbpNuC3f97XW6ybEyEGrC9YBrZ2OS4lz
- EOh/e9MjIzMIXOpabvLWqNP4SyDmsbVnSPopfWkQ=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlZ9A023232
+ b=JoYdTzegMH+4sXexj/AHDMnRZQN3655sgHneYU2iIEuELRfjKk30CpJuvch8r7BRJ
+ MY6jLdtjI42tC9ujXKaoPB2P3Xapy1AszZkXsUlA2XC7VM3jhQua6Ob0tH8oz0nlX+
+ E6E8C0aBC7qHZpbmJU+U1MpsyDVw56VcrmJBZI4I=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlZ03000590
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:35 -0600
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:34 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:35 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:47:34 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:47:35 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaK046467;
- Tue, 15 Dec 2020 04:47:33 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaL046467;
+ Tue, 15 Dec 2020 04:47:34 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 34/84] drm/omap: dsi: implement check timings
-Date: Tue, 15 Dec 2020 12:46:07 +0200
-Message-ID: <20201215104657.802264-35-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 35/84] drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
+Date: Tue, 15 Dec 2020 12:46:08 +0200
+Message-ID: <20201215104657.802264-36-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -67,145 +67,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-Implement check timings, which will check if it's possible to
-configure the clocks for the provided mode using the same code
-as the set_config() hook.
+Use DEVICE_ATTR_RO helper instead of plain DEVICE_ATTR,
+which makes the code a bit shorter and easier to read.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c | 70 +++++++++++++++++++------------
- 1 file changed, 44 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index a609a602e5ae..6f66ef0be166 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -280,6 +280,11 @@ struct dsi_isr_tables {
- 	struct dsi_isr_data isr_table_cio[DSI_MAX_NR_ISRS];
+diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+index 72dce2fa8ced..95b0696436b0 100644
+--- a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
++++ b/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+@@ -214,7 +214,7 @@ static const struct backlight_ops dsicm_bl_ops = {
+ 	.update_status  = dsicm_bl_update_status,
  };
  
-+struct dsi_lp_clock_info {
-+	unsigned long lp_clk;
-+	u16 lp_clk_div;
-+};
-+
- struct dsi_clk_calc_ctx {
- 	struct dsi_data *dsi;
- 	struct dss_pll *pll;
-@@ -294,16 +299,12 @@ struct dsi_clk_calc_ctx {
- 
- 	struct dss_pll_clock_info dsi_cinfo;
- 	struct dispc_clock_info dispc_cinfo;
-+	struct dsi_lp_clock_info lp_cinfo;
- 
- 	struct videomode vm;
- 	struct omap_dss_dsi_videomode_timings dsi_vm;
- };
- 
--struct dsi_lp_clock_info {
--	unsigned long lp_clk;
--	u16 lp_clk_div;
--};
--
- struct dsi_module_id_data {
- 	u32 address;
- 	int id;
-@@ -4790,44 +4791,55 @@ static bool dsi_is_video_mode(struct omap_dss_device *dssdev)
- 	return dsi->mode == OMAP_DSS_DSI_VIDEO_MODE;
+-static ssize_t dsicm_num_errors_show(struct device *dev,
++static ssize_t num_dsi_errors_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
+ {
+ 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
+@@ -234,7 +234,7 @@ static ssize_t dsicm_num_errors_show(struct device *dev,
+ 	return snprintf(buf, PAGE_SIZE, "%d\n", errors);
  }
  
--static int dsi_set_config(struct omap_dss_device *dssdev,
--		const struct drm_display_mode *mode)
-+static int __dsi_calc_config(struct dsi_data *dsi,
-+		const struct drm_display_mode *mode,
-+		struct dsi_clk_calc_ctx *ctx)
+-static ssize_t dsicm_hw_revision_show(struct device *dev,
++static ssize_t hw_revision_show(struct device *dev,
+ 		struct device_attribute *attr, char *buf)
  {
--	struct dsi_data *dsi = to_dsi_data(dssdev);
--	struct dsi_clk_calc_ctx ctx;
--	struct videomode vm;
- 	struct omap_dss_dsi_config cfg = dsi->config;
-+	struct videomode vm;
- 	bool ok;
- 	int r;
- 
- 	drm_display_mode_to_videomode(mode, &vm);
--	cfg.vm = &vm;
--
--	mutex_lock(&dsi->lock);
- 
-+	cfg.vm = &vm;
- 	cfg.mode = dsi->mode;
- 	cfg.pixel_format = dsi->pix_fmt;
- 
- 	if (dsi->mode == OMAP_DSS_DSI_VIDEO_MODE)
--		ok = dsi_vm_calc(dsi, &cfg, &ctx);
-+		ok = dsi_vm_calc(dsi, &cfg, ctx);
- 	else
--		ok = dsi_cm_calc(dsi, &cfg, &ctx);
-+		ok = dsi_cm_calc(dsi, &cfg, ctx);
- 
--	if (!ok) {
--		DSSERR("failed to find suitable DSI clock settings\n");
--		r = -EINVAL;
--		goto err;
--	}
-+	if (!ok)
-+		return -EINVAL;
-+
-+	dsi_pll_calc_dsi_fck(dsi, &ctx->dsi_cinfo);
- 
--	dsi_pll_calc_dsi_fck(dsi, &ctx.dsi_cinfo);
-+	r = dsi_lp_clock_calc(ctx->dsi_cinfo.clkout[HSDIV_DSI],
-+		cfg.lp_clk_min, cfg.lp_clk_max, &ctx->lp_cinfo);
-+	if (r)
-+		return r;
-+
-+	return 0;
-+}
- 
--	r = dsi_lp_clock_calc(ctx.dsi_cinfo.clkout[HSDIV_DSI],
--		cfg.lp_clk_min, cfg.lp_clk_max, &dsi->user_lp_cinfo);
-+static int dsi_set_config(struct omap_dss_device *dssdev,
-+		const struct drm_display_mode *mode)
-+{
-+	struct dsi_data *dsi = to_dsi_data(dssdev);
-+	struct dsi_clk_calc_ctx ctx;
-+	int r;
-+
-+	mutex_lock(&dsi->lock);
-+
-+	r = __dsi_calc_config(dsi, mode, &ctx);
- 	if (r) {
--		DSSERR("failed to find suitable DSI LP clock settings\n");
-+		DSSERR("failed to find suitable DSI clock settings\n");
- 		goto err;
- 	}
- 
-+	dsi->user_lp_cinfo = ctx.lp_cinfo;
- 	dsi->user_dsi_cinfo = ctx.dsi_cinfo;
- 	dsi->user_dispc_cinfo = ctx.dispc_cinfo;
- 
-@@ -5004,11 +5016,17 @@ static void dsi_set_timings(struct omap_dss_device *dssdev,
- static int dsi_check_timings(struct omap_dss_device *dssdev,
- 			     struct drm_display_mode *mode)
- {
-+	struct dsi_data *dsi = to_dsi_data(dssdev);
-+	struct dsi_clk_calc_ctx ctx;
-+	int r;
-+
- 	DSSDBG("dsi_check_timings\n");
- 
--	/* TODO */
-+	mutex_lock(&dsi->lock);
-+	r = __dsi_calc_config(dsi, mode, &ctx);
-+	mutex_unlock(&dsi->lock);
- 
--	return 0;
-+	return r;
+ 	struct panel_drv_data *ddata = dev_get_drvdata(dev);
+@@ -254,8 +254,8 @@ static ssize_t dsicm_hw_revision_show(struct device *dev,
+ 	return snprintf(buf, PAGE_SIZE, "%02x.%02x.%02x\n", id1, id2, id3);
  }
  
- static int dsi_connect(struct omap_dss_device *src,
+-static DEVICE_ATTR(num_dsi_errors, S_IRUGO, dsicm_num_errors_show, NULL);
+-static DEVICE_ATTR(hw_revision, S_IRUGO, dsicm_hw_revision_show, NULL);
++static DEVICE_ATTR_RO(num_dsi_errors);
++static DEVICE_ATTR_RO(hw_revision);
+ 
+ static struct attribute *dsicm_attrs[] = {
+ 	&dev_attr_num_dsi_errors.attr,
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
