@@ -2,44 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DDE2DB079
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 16:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A376C2DB12B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 17:21:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1880D892B6;
-	Tue, 15 Dec 2020 15:50:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 531686E3FE;
+	Tue, 15 Dec 2020 16:20:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 545E6892AA;
- Tue, 15 Dec 2020 15:50:38 +0000 (UTC)
-IronPort-SDR: mcLALo+DnsJbDK4JFVF6D61yonQWQprrY+/MtuqPdnxPXm9FXqIsL431eYZ6obL1es+YABS6cn
- M6pCrYJHQIQw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="154703391"
-X-IronPort-AV: E=Sophos;i="5.78,421,1599548400"; d="scan'208";a="154703391"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Dec 2020 07:50:38 -0800
-IronPort-SDR: fzodTFNAaK2GO/0xhGrWFtf0kXzL6fl+snDTp44YGI91IqhZxmLV26W5r7+94W5vDJ3k174RZC
- 92wc3VPPm7yA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,421,1599548400"; d="scan'208";a="390767237"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
- by FMSMGA003.fm.intel.com with SMTP; 15 Dec 2020 07:50:35 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 15 Dec 2020 17:50:34 +0200
-Date: Tue, 15 Dec 2020 17:50:34 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: "Souza, Jose" <jose.souza@intel.com>
-Subject: Re: [PATCH v6 1/5] drm: Add function to convert rect in 16.16 fixed
- format to regular format
-Message-ID: <X9jbSgoMDsC904/M@intel.com>
-References: <20201214174912.174065-1-jose.souza@intel.com>
- <X9jLt5p62uJ38cE7@intel.com>
- <734d417a49858fd11d418a25831e76c8d6b566c1.camel@intel.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+ [209.85.210.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9309E6E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 16:20:57 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id 11so19902053oty.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 08:20:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=34KtQrwQPQdUruOS7IGSVnCyYoZ5bhkan6tsIdf2DjA=;
+ b=I8dQz1bw62hmuG85VfpZ9Uo1GfVQCC54lAiuvvc0OoN0q+8GdgD/pv1kfj7Zl3BS2O
+ FhCv2lAN0Fahhy0v4fyvAFY3r1NE6GDmYRHS8/M7BE/qrqK2HNwImRwbjNxwNj0EyKnH
+ q+Nw8vN7hz20WUQd1g8kJ7fqJSY5+/eYv1L5hREd3OKtNEYUvWlLe7AqDRxAE8OFtC7w
+ oSl+uXc6i24lehCmggiEh4T4cXqbMHrZfCVqeitbWDgYkYK9CBjx1SVGXIsOp2jPz/RD
+ +0n12co453kzyJKRgimeq930s3GCkAoHSGhFE1CXS1nh8BiOE8IvfuUFPRnDH/DkNwXG
+ keOA==
+X-Gm-Message-State: AOAM532YR1pQ0Aa1rVfDfWVCeJuPmrzUj4r6EAWGYPGdQ5kbkXK+QBMs
+ D45h7p2gFaAnFByFgQs1uQ==
+X-Google-Smtp-Source: ABdhPJyfBYjhmmyDBWsWA9jqIzDpzF3wFmtV6wV/5vM6bJ5lRmDO0ZaiwF6fL3eFbbxqacgg+LoBPw==
+X-Received: by 2002:a9d:2941:: with SMTP id d59mr16101017otb.232.1608049256919; 
+ Tue, 15 Dec 2020 08:20:56 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+ by smtp.gmail.com with ESMTPSA id i24sm4783779oot.42.2020.12.15.08.20.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Dec 2020 08:20:56 -0800 (PST)
+Received: (nullmailer pid 3962283 invoked by uid 1000);
+ Tue, 15 Dec 2020 16:20:55 -0000
+Date: Tue, 15 Dec 2020 10:20:55 -0600
+From: Rob Herring <robh@kernel.org>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Subject: Re: [PATCH v2, 01/17] dt-bindings: mediatek: add description for
+ postmask
+Message-ID: <20201215162055.GA3958446@robh.at.kernel.org>
+References: <1607746317-4696-1-git-send-email-yongqiang.niu@mediatek.com>
+ <1607746317-4696-2-git-send-email-yongqiang.niu@mediatek.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <734d417a49858fd11d418a25831e76c8d6b566c1.camel@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <1607746317-4696-2-git-send-email-yongqiang.niu@mediatek.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,88 +60,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Mun,
- Gwan-gyeong" <gwan-gyeong.mun@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Cc: Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 15, 2020 at 03:43:00PM +0000, Souza, Jose wrote:
-> On Tue, 2020-12-15 at 16:44 +0200, Ville Syrj=E4l=E4 wrote:
-> > On Mon, Dec 14, 2020 at 09:49:08AM -0800, Jos=E9 Roberto de Souza wrote:
-> > > Much more clear to read one function call than four lines doing this
-> > > conversion.
-> > > =
+On Sat, Dec 12, 2020 at 12:11:41PM +0800, Yongqiang Niu wrote:
+> add description for postmask
+> 
+> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
+> ---
+>  Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+> index 5ca693a..1972fa7 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+> @@ -37,6 +37,7 @@ Required properties (all function blocks):
+>  	"mediatek,<chip>-disp-aal"   		- adaptive ambient light controller
+>  	"mediatek,<chip>-disp-gamma" 		- gamma correction
+>  	"mediatek,<chip>-disp-merge" 		- merge streams from two RDMA sources
+> +	"mediatek,<chip>-disp-postmask" 	- post mask
 
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > Cc: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-> > > Signed-off-by: Jos=E9 Roberto de Souza <jose.souza@intel.com>
-> > > ---
-> > > =A0drivers/gpu/drm/drm_rect.c | 15 +++++++++++++++
-> > > =A0include/drm/drm_rect.h     |  2 ++
-> > > =A02 files changed, 17 insertions(+)
-> > > =
+Needs a better explanation. What's the type? Constraints on the values?
 
-> > > diff --git a/drivers/gpu/drm/drm_rect.c b/drivers/gpu/drm/drm_rect.c
-> > > index 0460e874896e..24345704b353 100644
-> > > --- a/drivers/gpu/drm/drm_rect.c
-> > > +++ b/drivers/gpu/drm/drm_rect.c
-> > > @@ -373,3 +373,18 @@ void drm_rect_rotate_inv(struct drm_rect *r,
-> > > =A0	}
-> > > =A0}
-> > > =A0EXPORT_SYMBOL(drm_rect_rotate_inv);
-> > > +
-> > > +/**
-> > > + * drm_rect_convert_16_16_to_regular - Convert a rect in 16.16 fixed=
- point form
-> > > + * to regular form.
-> > > + * @in: rect in 16.16 fixed point form
-> > > + * @out: rect to be stored the converted value
-> > > + */
-> > > +void drm_rect_convert_16_16_to_regular(struct drm_rect *in, struct d=
-rm_rect *out)
-> > > +{
-> > > +	out->x1 =3D in->x1 >> 16;
-> > > +	out->y1 =3D in->y1 >> 16;
-> > > +	out->x2 =3D in->x2 >> 16;
-> > > +	out->y2 =3D in->y2 >> 16;
-> > > +}
-> > =
-
-> > That's not the same as what we do in most places. We truncate
-> > the width/height, not x2/y2. Doing it on x2/y2 may increase
-> > the width/height.
-> > =
-
-> > So I suggest something more like:
-> > =
-
-> > static inline void drm_rect_fp_to_int(struct drm_rect *r)
-> > {
-> > 	drm_rect_init(r, r->x1 >> 16, r->y1 >> 16,
-> > 		      drm_rect_width(r) >> 16,
-> > 		      drm_rect_height(r) >> 16);
-> > }
-> > =
-
-> > to match the current way of doing things.
-> =
-
-> Okay, but most use cases takes drm_plane_state.src and converts and sets =
-it in another rect, so will modify it to have two parameters.
-
-Would seem a bit more generic by having the caller make the copy
-if needed. But I guess not big deal either way.
-
-At least make it follow the correct argument order as laid out
-by memcpy() ;) (+const for the input argument ofc).
-
--- =
-
-Ville Syrj=E4l=E4
-Intel
+>  	"mediatek,<chip>-disp-split" 		- split stream to two encoders
+>  	"mediatek,<chip>-disp-ufoe"  		- data compression engine
+>  	"mediatek,<chip>-dsi"        		- DSI controller, see mediatek,dsi.txt
+> -- 
+> 1.8.1.1.dirty
+> 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
