@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6FA2DAB49
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605D42DAB4A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4D76E22C;
-	Tue, 15 Dec 2020 10:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DBE76E1E9;
+	Tue, 15 Dec 2020 10:48:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C22EE6E20A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:46 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlk5r010639
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:46 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3F596E20A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:47 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAll85124100
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:47 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029266;
- bh=PM0a9GWvQQgjNlY8f7o4xV511nbFpJKJzqCsj/Gj1DU=;
+ s=ti-com-17Q1; t=1608029267;
+ bh=zdCE8nAxcuiXhEb2e/Qc2NMTUd8K4meu/VqPk56XLhc=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=UJ0hUmcBQsZ0FrVwopCn5Jq0xquJBBKAujaWhjhqrVVmWjiNnD7W3I1fZmeH7GXSe
- XgP33zZbjmMdJXrY0xKqs5iOqb+HL9EWOT8SK5qu06B5Q6tcBk4VOGCpObJCT1I3M6
- q+JowUemSEjFcC9i2cgFKZiQNY3yP31wWz3KZh20=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlkk6000727
+ b=vJjjz1B4gMoFAJBcae0CB4vAhNGsNvdRdS9BRpKgNhdwcRQ+A0pxvsgAqP7htfGfL
+ XdozZzpTdQ0qHVeBgTiuEu/33ov7I+gKTRAkwYi8CJduetZUHx9HxwDQgzjmOhmcf8
+ ra27r2Emh0GlyszHS27NjH9Dz+l0Qj4dM7OtmApY=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAllI4023405
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:46 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:47 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:45 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:46 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
  Frontend Transport; Tue, 15 Dec 2020 04:47:46 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaV046467;
- Tue, 15 Dec 2020 04:47:45 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaW046467;
+ Tue, 15 Dec 2020 04:47:46 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 45/84] drm/omap: drop DSS ops_flags
-Date: Tue, 15 Dec 2020 12:46:18 +0200
-Message-ID: <20201215104657.802264-46-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 46/84] drm/omap: drop dssdev display field
+Date: Tue, 15 Dec 2020 12:46:19 +0200
+Message-ID: <20201215104657.802264-47-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -67,56 +67,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-The omapdss device's ops_flags field is no longer
-used and can be dropped.
+All displays are now using a drm_panel or a drm_bridge that models the
+connector instead of dssdev, so this field is always 0 and can be
+dropped.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/omapdss.h | 9 ---------
- drivers/gpu/drm/omapdrm/dss/venc.c    | 1 -
- 2 files changed, 10 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/base.c    | 2 +-
+ drivers/gpu/drm/omapdrm/dss/omapdss.h | 6 ------
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index 332eb0d02c6d..f4a9fcf66b94 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -198,7 +198,7 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 	}
+ 
+ 	if (!dst->id && !omapdss_device_is_connected(dst)) {
+-		WARN_ON(!dst->display);
++		WARN_ON(1);
+ 		return;
+ 	}
+ 
 diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-index 0547c69a2c1b..c073efaed1b4 100644
+index c073efaed1b4..cc4b7d2629bd 100644
 --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
 +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-@@ -279,14 +279,6 @@ struct omap_dss_device_ops {
- 	const struct omapdss_dsi_ops dsi;
- };
+@@ -298,12 +298,6 @@ struct omap_dss_device {
+ 	 */
+ 	enum omap_display_type type;
  
--/**
-- * enum omap_dss_device_ops_flag - Indicates which device ops are supported
-- * @OMAP_DSS_DEVICE_OP_MODES: The device supports reading modes
-- */
--enum omap_dss_device_ops_flag {
--	OMAP_DSS_DEVICE_OP_MODES = BIT(3),
--};
+-	/*
+-	 * True if the device is a display (panel or connector) at the end of
+-	 * the pipeline, false otherwise.
+-	 */
+-	bool display;
 -
- struct omap_dss_device {
- 	struct device *dev;
- 
-@@ -315,7 +307,6 @@ struct omap_dss_device {
  	const char *name;
  
  	const struct omap_dss_device_ops *ops;
--	unsigned long ops_flags;
- 	u32 bus_flags;
- 
- 	/* OMAP DSS output specific fields */
-diff --git a/drivers/gpu/drm/omapdrm/dss/venc.c b/drivers/gpu/drm/omapdrm/dss/venc.c
-index 94cf50d837b0..d92df480180e 100644
---- a/drivers/gpu/drm/omapdrm/dss/venc.c
-+++ b/drivers/gpu/drm/omapdrm/dss/venc.c
-@@ -735,7 +735,6 @@ static int venc_init_output(struct venc_device *venc)
- 	out->dispc_channel = OMAP_DSS_CHANNEL_DIGIT;
- 	out->owner = THIS_MODULE;
- 	out->of_port = 0;
--	out->ops_flags = OMAP_DSS_DEVICE_OP_MODES;
- 
- 	r = omapdss_device_init_output(out, &venc->bridge);
- 	if (r < 0) {
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
