@@ -1,42 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8352DA666
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 03:47:15 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BEA2DA66D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 03:49:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20A4889F2A;
-	Tue, 15 Dec 2020 02:47:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9876B89FC5;
+	Tue, 15 Dec 2020 02:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2D289F2A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 02:47:11 +0000 (UTC)
+Received: from ozlabs.org (bilbo.ozlabs.org [203.11.71.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7FD489FC5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 02:49:22 +0000 (UTC)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
  SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Cw2j404Flz9s1l;
- Tue, 15 Dec 2020 13:47:03 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Cw2lh6R39z9s1l;
+ Tue, 15 Dec 2020 13:49:20 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
- s=201702; t=1608000428;
- bh=KZgrX3Svat5vQenpVlJt3m8LE64eIbU2SMKOm1f4eqw=;
+ s=201702; t=1608000561;
+ bh=8I3FxLXQ7qhVBbHNjn9cG+EGcaN4bW11ziSg4iW5eoI=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mgm/IBpG59UpDk+tbrszWnNzkj94drwh7QLU0axkmc6WEPr5D6ku3bhwseNxU6nmr
- 4n+VGLRdYj9N1XxfOGbVJlGB8RV5kStd0XD+y/xZ8L/LKUWjdtCwQ6YzePiaw58fja
- hTrydH0FRTrv0Vu+NnYFKZxvdcbQzp01g2LzBPR7G9YqZ3+QeXYnhTNQ7PuuLqkFx7
- WHp5Dfk9xgh0YOFGKVdp3k0MW/6RnHpMubdk/7kx6LewNsHWZFSPmpz5ohwhd2cm62
- xyNry6rdEVbdvJW4ovizoGfO2zCRdX9La/t/PXxjL7hEq1ahJbZgsgfdztbzlznn82
- JlIIqeE0K6dXg==
-Date: Tue, 15 Dec 2020 13:47:02 +1100
+ b=c8sqEosK2ygrrDFs+uXr/DpnDGeUC3IPwk0e1OSz+97OrpXMYF4e6+2TEAqL8i4gq
+ E4FeJ5uNieZBGTyFGAc6ufSpkWwqwM5+UJldUKdVbZOULmFR6yT1mWoh5NSUwEEPu3
+ HhSGxaVb3/JHh5iIhlOJwOJDbtvviKNuLNjtlLNmBZDhZWPcgL/6wZ4ZAhH72ttDwb
+ HjG6MDHrOwtZz5bp6hRmDX3DdCY9hmWwU2BWwFmYz2yTwns75TA2hgmtayZhzpOKOp
+ fk9y4O+qvazgUQDPeknP01nku/yGjkibSGuXec0P+K9/W35ZoJWQZe9ze28+q4tRgY
+ YLto6Cuj2ZmtA==
+Date: Tue, 15 Dec 2020 13:49:19 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
-Subject: Re: linux-next: build warnings after merge of the drm tree
-Message-ID: <20201215134702.37a12a03@canb.auug.org.au>
-In-Reply-To: <20201215065045.66421c34@canb.auug.org.au>
-References: <20201105175031.00e0b081@canb.auug.org.au>
- <20201116104444.044486ea@canb.auug.org.au>
- <20201215065045.66421c34@canb.auug.org.au>
+Subject: Re: linux-next: build warning after merge of the amdgpu tree
+Message-ID: <20201215134919.3ac58796@canb.auug.org.au>
+In-Reply-To: <20201215065608.2dab9183@canb.auug.org.au>
+References: <20201117154514.2c378d99@canb.auug.org.au>
+ <20201215065608.2dab9183@canb.auug.org.au>
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,51 +49,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Content-Type: multipart/mixed; boundary="===============1832297219=="
+ Wayne Lin <Wayne.Lin@amd.com>
+Content-Type: multipart/mixed; boundary="===============2093221560=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---===============1832297219==
-Content-Type: multipart/signed; boundary="Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ";
+--===============2093221560==
+Content-Type: multipart/signed; boundary="Sig_/c9im4qTPru9hrr7zn_VNE7g";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 
---Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ
+--Sig_/c9im4qTPru9hrr7zn_VNE7g
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
-On Tue, 15 Dec 2020 06:50:45 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+On Tue, 15 Dec 2020 06:56:08 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
 wrote:
 >
-> On Mon, 16 Nov 2020 10:44:44 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
+> On Tue, 17 Nov 2020 15:45:14 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
 > wrote:
 > >
-> > On Thu, 5 Nov 2020 17:50:31 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
-u> wrote: =20
-> > >
-> > > After merging the drm tree, today's linux-next build (htmldocs) produ=
-ced
-> > > these warnings:
-> > >=20
-> > > include/linux/dma-buf-map.h:106: warning: Excess function parameter '=
-vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
-> > > include/linux/dma-buf-map.h:106: warning: Function parameter or membe=
-r 'vaddr_' not described in 'DMA_BUF_MAP_INIT_VADDR'
-> > > include/linux/dma-buf-map.h:106: warning: Excess function parameter '=
-vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
-> > >=20
-> > > Introduced by commit
-> > >=20
-> > >   20e76f1a7059 ("dma-buf: Use struct dma_buf_map in dma_buf_vunmap() =
-interfaces")   =20
+> > After merging the amdgpu tree, today's linux-next build (htmldocs)
+> > produced this warning:
 > >=20
-> > I am still getting these warnings. =20
+> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:353: warning: Functio=
+n parameter or member 'crc_win_x_start_property' not described in 'amdgpu_d=
+isplay_manager'
+> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:353: warning: Functio=
+n parameter or member 'crc_win_y_start_property' not described in 'amdgpu_d=
+isplay_manager'
+> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:353: warning: Functio=
+n parameter or member 'crc_win_x_end_property' not described in 'amdgpu_dis=
+play_manager'
+> > drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:353: warning: Functio=
+n parameter or member 'crc_win_y_end_property' not described in 'amdgpu_dis=
+play_manager'
+> >=20
+> > Introduced by commit
+> >=20
+> >   c920888c604d ("drm/amd/display: Expose new CRC window property") =20
 >=20
-> I am still getting these warnings.
+> I am still getting those warnings.  That commit is now in the drm tree.
 
 These warnings are now from Linus' tree.
 
@@ -102,25 +101,25 @@ These warnings are now from Linus' tree.
 Cheers,
 Stephen Rothwell
 
---Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ
+--Sig_/c9im4qTPru9hrr7zn_VNE7g
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/YI6YACgkQAVBC80lX
-0Gzy9ggAo6DY0cMD+RSQKBQKQJibhAuPuHpnjBz2rRm5hbrs7EU5s2sq7KyWy9Ch
-Qsamkx4S0lcFNQI4JkMjq4Tc3okBiPwozew7KR08sldQzJTIsaf7w/JiTWb4Llbq
-wONTdWYKRwA34CusGe8QZytvLTtlKYef/xr+E4Oog3wKtO7k/QYK7+GCRXjmZMGF
-NGKZgZzzV7g1zPzvPx0ekCMGi6vHb2SsWa2QLEoRFHlUeUFa8bU9TCPu1cB47lSC
-NlSmdMjYT/kwsSDihlfX0sSjRUtVKS+BYNeqxDUcJlAihZxasCu7iukIUCWFbryo
-tJNjx5L4z3LlTTOZHYTHL00ad2iyQg==
-=+tga
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/YJDAACgkQAVBC80lX
+0GzqfQf/V+cejH0YOfBpCPjUFbZSFTyGj4Hd7ZdJv3QPuI1J5ELRBKZCGY+/cnQR
+qh+1WPHhACKlYYDKs9k2olkzSnGxJubQbkmPyLxQdyo7ZtEShgTVPYxoxA/FLxOp
+TGvy5FSJ9La7gynOhnur28gP+750wqcFi4Fjes3+3Hrt4Np9pvaItI0fKDCCsKM5
+jL40IuMpU8Ved8u+VqlnfAUzsPfTSoE74CYQEvgzq8TKXDhPdsoOk+11HPux4gTQ
+93LNsh5kB/paV2uXzMYLUKhgaN4QlikZTJ6MAOgT4JNOyKythTLQ7OCyro5edzSR
+JPy1LOlcbafKJ2FvyvjFPb7UIFDWSw==
+=YyMf
 -----END PGP SIGNATURE-----
 
---Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ--
+--Sig_/c9im4qTPru9hrr7zn_VNE7g--
 
---===============1832297219==
+--===============2093221560==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -131,4 +130,4 @@ dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
---===============1832297219==--
+--===============2093221560==--
