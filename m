@@ -2,32 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF712DB525
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 21:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B60C2DB524
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 21:31:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D5689C97;
-	Tue, 15 Dec 2020 20:31:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F9C89C8F;
+	Tue, 15 Dec 2020 20:31:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A1E89C8D
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51BAE89C8F
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 20:31:40 +0000 (UTC)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0657BD95;
- Tue, 15 Dec 2020 21:31:36 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A6AAB13C7;
+ Tue, 15 Dec 2020 21:31:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1608064297;
- bh=iwWlANrifaRjcAzFgqqgsE5+f0S81SZuC6a81T0vaF4=;
+ s=mail; t=1608064298;
+ bh=zQoI0CCyjClaii7cuYKjg+BvltdcQobuaAC8Ar015PM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C7dO9mWTV+WzRimGpBgtSa9QwWvWQ1Q0EfQRctk6/PPyV55lPjeUvM/AHAT/YNe0p
- Jvsec6XvmdlwVZYjklc+KMroJUznsP03Hskf5bOmzyzOaFll9iJEoVxwN4/8+SY/At
- JeDHkBAFpCbDNLcVj06y+nlO+bI6JyATEflsDw6g=
+ b=G/cwAfvblMv8tCq1Tf3eqOR3SeuDP5AnFOlhyWHpo+HgbMQlkeCj4n+Bwc88CWaGI
+ FUBU2s4QJCsC/wpUKSF63u2S2BtEKf+81/mRDAdfzeHN1rS91r7h/z9rgCAnDThwIe
+ c9ez8qgS1DM3BcjrrTGlxJXmghbTbqB7fJf0dKiE=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/3] drm: Use a const drm_driver for legacy PCI devices
-Date: Tue, 15 Dec 2020 22:31:25 +0200
-Message-Id: <20201215203126.10175-3-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 3/3] drm: Constify drm_driver in drivers that don't modify
+ it
+Date: Tue, 15 Dec 2020 22:31:26 +0200
+Message-Id: <20201215203126.10175-4-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201215203126.10175-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20201215203126.10175-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -52,117 +53,58 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the legacy PCI support code doesn't need to write to the
-drm_driver structure, it can be treated as const through the whole DRM
-core, unconditionally. This allows declaring the structure as const in
-all drivers, removing one possible attack vector.
+A non-const structure containing function pointers is a possible attack
+vector. The drm_driver structure is already const in most drivers, but
+there are a few exceptions. Constify the structure in the drivers that
+don't need to modify at, as a low-hanging fruit. The rest of the drivers
+will need a more complex fix.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/drm_drv.c |  4 ----
- drivers/gpu/drm/drm_pci.c |  8 +++++---
- include/drm/drm_device.h  |  4 ----
- include/drm/drm_legacy.h  | 10 ++++++----
- 4 files changed, 11 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/arc/arcpgu_drv.c | 2 +-
+ drivers/gpu/drm/kmb/kmb_drv.c    | 2 +-
+ drivers/gpu/drm/tdfx/tdfx_drv.c  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 734303802bc3..3f57e880685e 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -589,11 +589,7 @@ static int drm_dev_init(struct drm_device *dev,
- 
- 	kref_init(&dev->ref);
- 	dev->dev = get_device(parent);
--#ifdef CONFIG_DRM_LEGACY
--	dev->driver = (struct drm_driver *)driver;
--#else
- 	dev->driver = driver;
--#endif
- 
- 	INIT_LIST_HEAD(&dev->managed.resources);
- 	spin_lock_init(&dev->managed.lock);
-diff --git a/drivers/gpu/drm/drm_pci.c b/drivers/gpu/drm/drm_pci.c
-index dfb138aaccba..5370e6b492fd 100644
---- a/drivers/gpu/drm/drm_pci.c
-+++ b/drivers/gpu/drm/drm_pci.c
-@@ -201,7 +201,7 @@ static void drm_pci_agp_init(struct drm_device *dev)
- 
- static int drm_get_pci_dev(struct pci_dev *pdev,
- 			   const struct pci_device_id *ent,
--			   struct drm_driver *driver)
-+			   const struct drm_driver *driver)
- {
- 	struct drm_device *dev;
- 	int ret;
-@@ -255,7 +255,8 @@ static int drm_get_pci_dev(struct pci_dev *pdev,
-  *
-  * Return: 0 on success or a negative error code on failure.
-  */
--int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver)
-+int drm_legacy_pci_init(const struct drm_driver *driver,
-+			struct pci_driver *pdriver)
- {
- 	struct pci_dev *pdev = NULL;
- 	const struct pci_device_id *pid;
-@@ -300,7 +301,8 @@ EXPORT_SYMBOL(drm_legacy_pci_init);
-  * Unregister a DRM driver shadow-attached through drm_legacy_pci_init(). This
-  * is deprecated and only used by dri1 drivers.
-  */
--void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver)
-+void drm_legacy_pci_exit(const struct drm_driver *driver,
-+			 struct pci_driver *pdriver)
- {
- 	struct drm_device *dev, *tmp;
- 
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index bd5abe7cd48f..939904ae88fc 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -76,11 +76,7 @@ struct drm_device {
- 	} managed;
- 
- 	/** @driver: DRM driver managing the device */
--#ifdef CONFIG_DRM_LEGACY
--	struct drm_driver *driver;
--#else
- 	const struct drm_driver *driver;
--#endif
- 
- 	/**
- 	 * @dev_private:
-diff --git a/include/drm/drm_legacy.h b/include/drm/drm_legacy.h
-index 852d7451eeb1..8ed04e9be997 100644
---- a/include/drm/drm_legacy.h
-+++ b/include/drm/drm_legacy.h
-@@ -198,8 +198,10 @@ struct drm_dma_handle *drm_pci_alloc(struct drm_device *dev, size_t size,
- 				     size_t align);
- void drm_pci_free(struct drm_device *dev, struct drm_dma_handle *dmah);
- 
--int drm_legacy_pci_init(struct drm_driver *driver, struct pci_driver *pdriver);
--void drm_legacy_pci_exit(struct drm_driver *driver, struct pci_driver *pdriver);
-+int drm_legacy_pci_init(const struct drm_driver *driver,
-+			struct pci_driver *pdriver);
-+void drm_legacy_pci_exit(const struct drm_driver *driver,
-+			 struct pci_driver *pdriver);
- 
- #else
- 
-@@ -214,13 +216,13 @@ static inline void drm_pci_free(struct drm_device *dev,
- {
+diff --git a/drivers/gpu/drm/arc/arcpgu_drv.c b/drivers/gpu/drm/arc/arcpgu_drv.c
+index f164818ec477..077d006b1fbf 100644
+--- a/drivers/gpu/drm/arc/arcpgu_drv.c
++++ b/drivers/gpu/drm/arc/arcpgu_drv.c
+@@ -145,7 +145,7 @@ static void arcpgu_debugfs_init(struct drm_minor *minor)
  }
+ #endif
  
--static inline int drm_legacy_pci_init(struct drm_driver *driver,
-+static inline int drm_legacy_pci_init(const struct drm_driver *driver,
- 				      struct pci_driver *pdriver)
- {
- 	return -EINVAL;
- }
+-static struct drm_driver arcpgu_drm_driver = {
++static const struct drm_driver arcpgu_drm_driver = {
+ 	.driver_features = DRIVER_MODESET | DRIVER_GEM | DRIVER_ATOMIC,
+ 	.name = "arcpgu",
+ 	.desc = "ARC PGU Controller",
+diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
+index a31a840ce634..3c49668ec946 100644
+--- a/drivers/gpu/drm/kmb/kmb_drv.c
++++ b/drivers/gpu/drm/kmb/kmb_drv.c
+@@ -400,7 +400,7 @@ static void kmb_irq_reset(struct drm_device *drm)
  
--static inline void drm_legacy_pci_exit(struct drm_driver *driver,
-+static inline void drm_legacy_pci_exit(const struct drm_driver *driver,
- 				       struct pci_driver *pdriver)
- {
- }
+ DEFINE_DRM_GEM_CMA_FOPS(fops);
+ 
+-static struct drm_driver kmb_driver = {
++static const struct drm_driver kmb_driver = {
+ 	.driver_features = DRIVER_GEM |
+ 	    DRIVER_MODESET | DRIVER_ATOMIC,
+ 	.irq_handler = kmb_isr,
+diff --git a/drivers/gpu/drm/tdfx/tdfx_drv.c b/drivers/gpu/drm/tdfx/tdfx_drv.c
+index ab699bf0ac5c..58c185c299f4 100644
+--- a/drivers/gpu/drm/tdfx/tdfx_drv.c
++++ b/drivers/gpu/drm/tdfx/tdfx_drv.c
+@@ -56,7 +56,7 @@ static const struct file_operations tdfx_driver_fops = {
+ 	.llseek = noop_llseek,
+ };
+ 
+-static struct drm_driver driver = {
++static const struct drm_driver driver = {
+ 	.driver_features = DRIVER_LEGACY,
+ 	.fops = &tdfx_driver_fops,
+ 	.name = DRIVER_NAME,
 -- 
 Regards,
 
