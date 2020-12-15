@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA7C32DAB4C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23F4B2DAB33
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECF26E250;
-	Tue, 15 Dec 2020 10:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 169EC6E20A;
+	Tue, 15 Dec 2020 10:48:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24E1A6E20A
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B09896E20C
  for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:42 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlf1m124070
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:41 -0600
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlgIe124079
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:42 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029261;
- bh=IsFfBN9ohgkWfVIrWxWX3k3VirV8wMEg33FE88KJvG4=;
+ s=ti-com-17Q1; t=1608029262;
+ bh=pcxCR1PhvtYTkDafrhq5Vib2JRaAANWu8ANOxMDQfFI=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=a69DOYCST3w2nVFdJEYOTgdcKh125zroEKmGNeOH83vOKB/rvuTIeaHYx4w/2SetR
- 1ieJU7m4cjadqhJjV5QaV3qtbE4VEGbmYl/blf30EMvOb6rpszNn2+dHxxkjvESPfh
- imrbKO2jk77NsjfP4eWHRyXFXUI2DMhDej2w58dw=
+ b=QGblQQBgUvZHDnkCKeprHRdMO87XaS9AuapZC9Zw7afJeINFlsZJ057seOwVU01iS
+ K+4AgSG/L/4yBtWtYJUUk4ioYI0uzHbq97i4CA5MxvXGjnCUssL2RL4Up2BHW+ZTtE
+ KydFarx4BSQKYXzf0aQqXZscqU5zrmynXGrFBKj8=
 Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlfAf023334
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlg2x023313
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:41 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:42 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE104.ent.ti.com
  (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:40 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:41 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:47:40 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:47:41 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaQ046467;
- Tue, 15 Dec 2020 04:47:40 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaR046467;
+ Tue, 15 Dec 2020 04:47:41 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 40/84] drm/omap: dsi: Register a drm_bridge
-Date: Tue, 15 Dec 2020 12:46:13 +0200
-Message-ID: <20201215104657.802264-41-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 41/84] drm/omap: remove legacy DSS device operations
+Date: Tue, 15 Dec 2020 12:46:14 +0200
+Message-ID: <20201215104657.802264-42-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -67,214 +67,332 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-In order to integrate with a chain of drm_bridge, the internal DSI
-output has to expose its operations through the drm_bridge API.
-Register a bridge at initialisation time to do so and remove the
-omap_dss_device operations that are now unused.
+All DSS devices have been converted to bridge API, so
+the device operations are always NULL. This removes
+the device ops function pointers and all code using it.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/dss/dsi.c | 134 ++++++++++++++++++++----------
- 1 file changed, 89 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/omapdrm/dss/base.c       | 66 ------------------------
+ drivers/gpu/drm/omapdrm/dss/dss.c        |  8 ---
+ drivers/gpu/drm/omapdrm/dss/omapdss.h    | 34 ------------
+ drivers/gpu/drm/omapdrm/omap_connector.c | 29 -----------
+ drivers/gpu/drm/omapdrm/omap_encoder.c   | 56 --------------------
+ 5 files changed, 193 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
-index 6f66ef0be166..9eae61ddbda9 100644
---- a/drivers/gpu/drm/omapdrm/dss/dsi.c
-+++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
-@@ -35,6 +35,7 @@
- #include <linux/component.h>
- #include <linux/sys_soc.h>
- 
-+#include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_panel.h>
- #include <video/mipi_display.h>
-@@ -438,6 +439,7 @@ struct dsi_data {
- 	struct omap_dss_dsi_videomode_timings vm_timings;
- 
- 	struct omap_dss_device output;
-+	struct drm_bridge bridge;
- };
- 
- struct dsi_packet_sent_handler_data {
-@@ -450,6 +452,9 @@ static bool dsi_perf;
- module_param(dsi_perf, bool, 0644);
- #endif
- 
-+#define drm_bridge_to_dsi(bridge) \
-+	container_of(bridge, struct dsi_data, bridge)
-+
- static inline struct dsi_data *to_dsi_data(struct omap_dss_device *dssdev)
+diff --git a/drivers/gpu/drm/omapdrm/dss/base.c b/drivers/gpu/drm/omapdrm/dss/base.c
+index 68c5d058b2e9..fb8b6a6dca1c 100644
+--- a/drivers/gpu/drm/omapdrm/dss/base.c
++++ b/drivers/gpu/drm/omapdrm/dss/base.c
+@@ -161,8 +161,6 @@ int omapdss_device_connect(struct dss_device *dss,
+ 			   struct omap_dss_device *src,
+ 			   struct omap_dss_device *dst)
  {
- 	return dev_get_drvdata(dssdev->dev);
-@@ -5006,50 +5011,7 @@ static int dsi_get_clocks(struct dsi_data *dsi)
+-	int ret;
+-
+ 	dev_dbg(&dss->pdev->dev, "connect(%s, %s)\n",
+ 		src ? dev_name(src->dev) : "NULL",
+ 		dst ? dev_name(dst->dev) : "NULL");
+@@ -181,14 +179,6 @@ int omapdss_device_connect(struct dss_device *dss,
+ 
+ 	dst->dss = dss;
+ 
+-	if (dst->ops && dst->ops->connect) {
+-		ret = dst->ops->connect(src, dst);
+-		if (ret < 0) {
+-			dst->dss = NULL;
+-			return ret;
+-		}
+-	}
+-
  	return 0;
  }
+ EXPORT_SYMBOL_GPL(omapdss_device_connect);
+@@ -212,66 +202,10 @@ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 		return;
+ 	}
  
--static void dsi_set_timings(struct omap_dss_device *dssdev,
--			    const struct drm_display_mode *mode)
--{
--	DSSDBG("dsi_set_timings\n");
--	dsi_set_config(dssdev, mode);
--}
+-	WARN_ON(dst->state != OMAP_DSS_DISPLAY_DISABLED);
 -
--static int dsi_check_timings(struct omap_dss_device *dssdev,
--			     struct drm_display_mode *mode)
--{
--	struct dsi_data *dsi = to_dsi_data(dssdev);
--	struct dsi_clk_calc_ctx ctx;
--	int r;
--
--	DSSDBG("dsi_check_timings\n");
--
--	mutex_lock(&dsi->lock);
--	r = __dsi_calc_config(dsi, mode, &ctx);
--	mutex_unlock(&dsi->lock);
--
--	return r;
--}
--
--static int dsi_connect(struct omap_dss_device *src,
--		       struct omap_dss_device *dst)
--{
--	return omapdss_device_connect(dst->dss, dst, dst->next);
--}
--
--static void dsi_disconnect(struct omap_dss_device *src,
--			   struct omap_dss_device *dst)
--{
--	omapdss_device_disconnect(dst, dst->next);
--}
--
- static const struct omap_dss_device_ops dsi_ops = {
--	.connect = dsi_connect,
--	.disconnect = dsi_disconnect,
--	.enable = dsi_enable_video_outputs,
--	.disable = dsi_disable_video_outputs,
--
--	.check_timings = dsi_check_timings,
--	.set_timings = dsi_set_timings,
--
- 	.dsi = {
- 		.update = dsi_update_all,
- 		.is_video_mode = dsi_is_video_mode,
-@@ -5389,6 +5351,83 @@ static const struct component_ops dsi_component_ops = {
- 	.unbind	= dsi_unbind,
- };
+-	if (dst->ops && dst->ops->disconnect)
+-		dst->ops->disconnect(src, dst);
+ 	dst->dss = NULL;
+ }
+ EXPORT_SYMBOL_GPL(omapdss_device_disconnect);
  
-+/* -----------------------------------------------------------------------------
-+ * DRM Bridge Operations
-+ */
-+
-+static int dsi_bridge_attach(struct drm_bridge *bridge,
-+			     enum drm_bridge_attach_flags flags)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+
-+	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-+		return -EINVAL;
-+
-+	return drm_bridge_attach(bridge->encoder, dsi->output.next_bridge,
-+				 bridge, flags);
-+}
-+
-+static enum drm_mode_status
-+dsi_bridge_mode_valid(struct drm_bridge *bridge,
-+		      const struct drm_display_info *info,
-+		      const struct drm_display_mode *mode)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+	struct dsi_clk_calc_ctx ctx;
-+	int r;
-+
-+	mutex_lock(&dsi->lock);
-+	r = __dsi_calc_config(dsi, mode, &ctx);
-+	mutex_unlock(&dsi->lock);
-+
-+	return r ? MODE_CLOCK_RANGE : MODE_OK;
-+}
-+
-+static void dsi_bridge_mode_set(struct drm_bridge *bridge,
-+				const struct drm_display_mode *mode,
-+				const struct drm_display_mode *adjusted_mode)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+
-+	dsi_set_config(&dsi->output, adjusted_mode);
-+}
-+
-+static void dsi_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+
-+	dsi_enable_video_outputs(&dsi->output);
-+}
-+
-+static void dsi_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
-+
-+	dsi_disable_video_outputs(&dsi->output);
-+}
-+
-+static const struct drm_bridge_funcs dsi_bridge_funcs = {
-+	.attach = dsi_bridge_attach,
-+	.mode_valid = dsi_bridge_mode_valid,
-+	.mode_set = dsi_bridge_mode_set,
-+	.enable = dsi_bridge_enable,
-+	.disable = dsi_bridge_disable,
-+};
-+
-+static void dsi_bridge_init(struct dsi_data *dsi)
-+{
-+	dsi->bridge.funcs = &dsi_bridge_funcs;
-+	dsi->bridge.of_node = dsi->host.dev->of_node;
-+	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
-+
-+	drm_bridge_add(&dsi->bridge);
-+}
-+
-+static void dsi_bridge_cleanup(struct dsi_data *dsi)
-+{
-+	drm_bridge_remove(&dsi->bridge);
-+}
-+
+-void omapdss_device_pre_enable(struct omap_dss_device *dssdev)
+-{
+-	if (!dssdev)
+-		return;
+-
+-	omapdss_device_pre_enable(dssdev->next);
+-
+-	if (dssdev->ops && dssdev->ops->pre_enable)
+-		dssdev->ops->pre_enable(dssdev);
+-}
+-EXPORT_SYMBOL_GPL(omapdss_device_pre_enable);
+-
+-void omapdss_device_enable(struct omap_dss_device *dssdev)
+-{
+-	if (!dssdev)
+-		return;
+-
+-	if (dssdev->ops && dssdev->ops->enable)
+-		dssdev->ops->enable(dssdev);
+-
+-	omapdss_device_enable(dssdev->next);
+-
+-	dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
+-}
+-EXPORT_SYMBOL_GPL(omapdss_device_enable);
+-
+-void omapdss_device_disable(struct omap_dss_device *dssdev)
+-{
+-	if (!dssdev)
+-		return;
+-
+-	omapdss_device_disable(dssdev->next);
+-
+-	if (dssdev->ops && dssdev->ops->disable)
+-		dssdev->ops->disable(dssdev);
+-}
+-EXPORT_SYMBOL_GPL(omapdss_device_disable);
+-
+-void omapdss_device_post_disable(struct omap_dss_device *dssdev)
+-{
+-	if (!dssdev)
+-		return;
+-
+-	if (dssdev->ops && dssdev->ops->post_disable)
+-		dssdev->ops->post_disable(dssdev);
+-
+-	omapdss_device_post_disable(dssdev->next);
+-
+-	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
+-}
+-EXPORT_SYMBOL_GPL(omapdss_device_post_disable);
+-
  /* -----------------------------------------------------------------------------
-  * Probe & Remove, Suspend & Resume
+  * Components Handling
   */
-@@ -5398,6 +5437,8 @@ static int dsi_init_output(struct dsi_data *dsi)
- 	struct omap_dss_device *out = &dsi->output;
- 	int r;
+diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
+index 0556711f57cd..6dd40d746b37 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dss.c
++++ b/drivers/gpu/drm/omapdrm/dss/dss.c
+@@ -1568,15 +1568,7 @@ static int dss_remove(struct platform_device *pdev)
  
-+	dsi_bridge_init(dsi);
-+
- 	out->dev = dsi->dev;
- 	out->id = dsi->module_id == 0 ?
- 			OMAP_DSS_OUTPUT_DSI1 : OMAP_DSS_OUTPUT_DSI2;
-@@ -5412,9 +5453,11 @@ static int dsi_init_output(struct dsi_data *dsi)
- 		       | DRM_BUS_FLAG_DE_HIGH
- 		       | DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE;
- 
--	r = omapdss_device_init_output(out, NULL);
--	if (r < 0)
-+	r = omapdss_device_init_output(out, &dsi->bridge);
-+	if (r < 0) {
-+		dsi_bridge_cleanup(dsi);
- 		return r;
-+	}
- 
- 	omapdss_device_register(out);
- 
-@@ -5427,6 +5470,7 @@ static void dsi_uninit_output(struct dsi_data *dsi)
- 
- 	omapdss_device_unregister(out);
- 	omapdss_device_cleanup_output(out);
-+	dsi_bridge_cleanup(dsi);
+ static void dss_shutdown(struct platform_device *pdev)
+ {
+-	struct omap_dss_device *dssdev = NULL;
+-
+ 	DSSDBG("shutdown\n");
+-
+-	for_each_dss_output(dssdev) {
+-		if (dssdev->state == OMAP_DSS_DISPLAY_ACTIVE &&
+-		    dssdev->ops && dssdev->ops->disable)
+-			dssdev->ops->disable(dssdev);
+-	}
  }
  
- static int dsi_probe_of(struct dsi_data *dsi)
+ static int dss_runtime_suspend(struct device *dev)
+diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+index 2345caf7721c..c74b3c6164f5 100644
+--- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
++++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
+@@ -123,11 +123,6 @@ enum omap_dss_dsi_mode {
+ 	OMAP_DSS_DSI_VIDEO_MODE,
+ };
+ 
+-enum omap_dss_display_state {
+-	OMAP_DSS_DISPLAY_DISABLED = 0,
+-	OMAP_DSS_DISPLAY_ACTIVE,
+-};
+-
+ enum omap_dss_rotation_type {
+ 	OMAP_DSS_ROT_NONE	= 0,
+ 	OMAP_DSS_ROT_TILER	= 1 << 0,
+@@ -281,24 +276,6 @@ struct omapdss_dsi_ops {
+ };
+ 
+ struct omap_dss_device_ops {
+-	int (*connect)(struct omap_dss_device *dssdev,
+-			struct omap_dss_device *dst);
+-	void (*disconnect)(struct omap_dss_device *dssdev,
+-			struct omap_dss_device *dst);
+-
+-	void (*pre_enable)(struct omap_dss_device *dssdev);
+-	void (*enable)(struct omap_dss_device *dssdev);
+-	void (*disable)(struct omap_dss_device *dssdev);
+-	void (*post_disable)(struct omap_dss_device *dssdev);
+-
+-	int (*check_timings)(struct omap_dss_device *dssdev,
+-			     struct drm_display_mode *mode);
+-	void (*set_timings)(struct omap_dss_device *dssdev,
+-			    const struct drm_display_mode *mode);
+-
+-	int (*get_modes)(struct omap_dss_device *dssdev,
+-			 struct drm_connector *connector);
+-
+ 	const struct omapdss_dsi_ops dsi;
+ };
+ 
+@@ -342,8 +319,6 @@ struct omap_dss_device {
+ 	unsigned long ops_flags;
+ 	u32 bus_flags;
+ 
+-	enum omap_dss_display_state state;
+-
+ 	/* OMAP DSS output specific fields */
+ 
+ 	/* DISPC channel for this output */
+@@ -374,10 +349,6 @@ int omapdss_device_connect(struct dss_device *dss,
+ 			   struct omap_dss_device *dst);
+ void omapdss_device_disconnect(struct omap_dss_device *src,
+ 			       struct omap_dss_device *dst);
+-void omapdss_device_pre_enable(struct omap_dss_device *dssdev);
+-void omapdss_device_enable(struct omap_dss_device *dssdev);
+-void omapdss_device_disable(struct omap_dss_device *dssdev);
+-void omapdss_device_post_disable(struct omap_dss_device *dssdev);
+ 
+ int omap_dss_get_num_overlay_managers(void);
+ 
+@@ -397,11 +368,6 @@ int omap_dispc_unregister_isr(omap_dispc_isr_t isr, void *arg, u32 mask);
+ int omapdss_compat_init(void);
+ void omapdss_compat_uninit(void);
+ 
+-static inline bool omapdss_device_is_enabled(struct omap_dss_device *dssdev)
+-{
+-	return dssdev->state == OMAP_DSS_DISPLAY_ACTIVE;
+-}
+-
+ enum dss_writeback_channel {
+ 	DSS_WB_LCD1_MGR =	0,
+ 	DSS_WB_LCD2_MGR =	1,
+diff --git a/drivers/gpu/drm/omapdrm/omap_connector.c b/drivers/gpu/drm/omapdrm/omap_connector.c
+index 47719b92e22b..9d14a314e564 100644
+--- a/drivers/gpu/drm/omapdrm/omap_connector.c
++++ b/drivers/gpu/drm/omapdrm/omap_connector.c
+@@ -43,24 +43,8 @@ static void omap_connector_destroy(struct drm_connector *connector)
+ 
+ static int omap_connector_get_modes(struct drm_connector *connector)
+ {
+-	struct omap_connector *omap_connector = to_omap_connector(connector);
+-	struct omap_dss_device *dssdev = NULL;
+-	struct omap_dss_device *d;
+-
+ 	DBG("%s", connector->name);
+ 
+-	/*
+-	 * If the display pipeline reports modes (e.g. with a fixed resolution
+-	 * panel or an analog TV output), query it.
+-	 */
+-	for (d = omap_connector->output; d; d = d->next) {
+-		if (d->ops_flags & OMAP_DSS_DEVICE_OP_MODES)
+-			dssdev = d;
+-	}
+-
+-	if (dssdev)
+-		return dssdev->ops->get_modes(dssdev, connector);
+-
+ 	/* We can't retrieve modes. The KMS core will add the default modes. */
+ 	return 0;
+ }
+@@ -69,19 +53,6 @@ enum drm_mode_status omap_connector_mode_fixup(struct omap_dss_device *dssdev,
+ 					const struct drm_display_mode *mode,
+ 					struct drm_display_mode *adjusted_mode)
+ {
+-	int ret;
+-
+-	drm_mode_copy(adjusted_mode, mode);
+-
+-	for (; dssdev; dssdev = dssdev->next) {
+-		if (!dssdev->ops || !dssdev->ops->check_timings)
+-			continue;
+-
+-		ret = dssdev->ops->check_timings(dssdev, adjusted_mode);
+-		if (ret)
+-			return MODE_BAD;
+-	}
+-
+ 	return MODE_OK;
+ }
+ 
+diff --git a/drivers/gpu/drm/omapdrm/omap_encoder.c b/drivers/gpu/drm/omapdrm/omap_encoder.c
+index 8ec4206b8e3e..e378c8751e11 100644
+--- a/drivers/gpu/drm/omapdrm/omap_encoder.c
++++ b/drivers/gpu/drm/omapdrm/omap_encoder.c
+@@ -115,60 +115,6 @@ static void omap_encoder_mode_set(struct drm_encoder *encoder,
+ 
+ 	/* Set timings for all devices in the display pipeline. */
+ 	dss_mgr_set_timings(output, &vm);
+-
+-	for (dssdev = output; dssdev; dssdev = dssdev->next) {
+-		if (dssdev->ops && dssdev->ops->set_timings)
+-			dssdev->ops->set_timings(dssdev, adjusted_mode);
+-	}
+-}
+-
+-static void omap_encoder_disable(struct drm_encoder *encoder)
+-{
+-	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+-	struct omap_dss_device *dssdev = omap_encoder->output;
+-	struct drm_device *dev = encoder->dev;
+-
+-	dev_dbg(dev->dev, "disable(%s)\n", dssdev->name);
+-
+-	/*
+-	 * Disable the chain of external devices, starting at the one at the
+-	 * internal encoder's output.
+-	 */
+-	omapdss_device_disable(dssdev->next);
+-
+-	/* Disable the internal encoder. This will disable the DSS output. */
+-	if (dssdev->ops && dssdev->ops->disable)
+-		dssdev->ops->disable(dssdev);
+-	dssdev->state = OMAP_DSS_DISPLAY_DISABLED;
+-
+-	/*
+-	 * Perform the post-disable operations on the chain of external devices
+-	 * to complete the display pipeline disable.
+-	 */
+-	omapdss_device_post_disable(dssdev->next);
+-}
+-
+-static void omap_encoder_enable(struct drm_encoder *encoder)
+-{
+-	struct omap_encoder *omap_encoder = to_omap_encoder(encoder);
+-	struct omap_dss_device *dssdev = omap_encoder->output;
+-	struct drm_device *dev = encoder->dev;
+-
+-	dev_dbg(dev->dev, "enable(%s)\n", dssdev->name);
+-
+-	/* Prepare the chain of external devices for pipeline enable. */
+-	omapdss_device_pre_enable(dssdev->next);
+-
+-	/* Enable the internal encoder. This will enable the DSS output. */
+-	if (dssdev->ops && dssdev->ops->enable)
+-		dssdev->ops->enable(dssdev);
+-	dssdev->state = OMAP_DSS_DISPLAY_ACTIVE;
+-
+-	/*
+-	 * Enable the chain of external devices, starting at the one at the
+-	 * internal encoder's output.
+-	 */
+-	omapdss_device_enable(dssdev->next);
+ }
+ 
+ static int omap_encoder_atomic_check(struct drm_encoder *encoder,
+@@ -191,8 +137,6 @@ static int omap_encoder_atomic_check(struct drm_encoder *encoder,
+ 
+ static const struct drm_encoder_helper_funcs omap_encoder_helper_funcs = {
+ 	.mode_set = omap_encoder_mode_set,
+-	.disable = omap_encoder_disable,
+-	.enable = omap_encoder_enable,
+ 	.atomic_check = omap_encoder_atomic_check,
+ };
+ 
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
