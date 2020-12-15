@@ -2,34 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40002DA8EB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 09:07:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8352DA666
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 03:47:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF4F489B60;
-	Tue, 15 Dec 2020 08:06:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20A4889F2A;
+	Tue, 15 Dec 2020 02:47:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C618D89DBC
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 02:38:33 +0000 (UTC)
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cw2VT2Dh3zhrph;
- Tue, 15 Dec 2020 10:37:53 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 15 Dec 2020 10:38:25 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@linaro.org>,
- <lmark@codeaurora.org>, <labbott@redhat.com>, <Brian.Starkey@arm.com>,
- <john.stultz@linaro.org>, <christian.koenig@amd.com>
-Subject: [PATCH] dma-buf: system_heap: Use PTR_ERR_OR_ZERO() to simplify code
-Date: Tue, 15 Dec 2020 10:38:35 +0800
-Message-ID: <1607999915-53034-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2D289F2A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 02:47:11 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Cw2j404Flz9s1l;
+ Tue, 15 Dec 2020 13:47:03 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+ s=201702; t=1608000428;
+ bh=KZgrX3Svat5vQenpVlJt3m8LE64eIbU2SMKOm1f4eqw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mgm/IBpG59UpDk+tbrszWnNzkj94drwh7QLU0axkmc6WEPr5D6ku3bhwseNxU6nmr
+ 4n+VGLRdYj9N1XxfOGbVJlGB8RV5kStd0XD+y/xZ8L/LKUWjdtCwQ6YzePiaw58fja
+ hTrydH0FRTrv0Vu+NnYFKZxvdcbQzp01g2LzBPR7G9YqZ3+QeXYnhTNQ7PuuLqkFx7
+ WHp5Dfk9xgh0YOFGKVdp3k0MW/6RnHpMubdk/7kx6LewNsHWZFSPmpz5ohwhd2cm62
+ xyNry6rdEVbdvJW4ovizoGfO2zCRdX9La/t/PXxjL7hEq1ahJbZgsgfdztbzlznn82
+ JlIIqeE0K6dXg==
+Date: Tue, 15 Dec 2020 13:47:02 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: build warnings after merge of the drm tree
+Message-ID: <20201215134702.37a12a03@canb.auug.org.au>
+In-Reply-To: <20201215065045.66421c34@canb.auug.org.au>
+References: <20201105175031.00e0b081@canb.auug.org.au>
+ <20201116104444.044486ea@canb.auug.org.au>
+ <20201215065045.66421c34@canb.auug.org.au>
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Tue, 15 Dec 2020 08:06:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,42 +50,85 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Cc: Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Content-Type: multipart/mixed; boundary="===============1832297219=="
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes coccicheck warning:
-drivers/dma-buf/heaps/system_heap.c:437:1-3: WARNING: PTR_ERR_OR_ZERO
-can be used
+--===============1832297219==
+Content-Type: multipart/signed; boundary="Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
----
- drivers/dma-buf/heaps/system_heap.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+--Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 17e0e9a..c5d8a40 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -434,10 +434,8 @@ static int system_heap_create(void)
- 	exp_info.priv = NULL;
- 
- 	sys_heap = dma_heap_add(&exp_info);
--	if (IS_ERR(sys_heap))
--		return PTR_ERR(sys_heap);
- 
--	return 0;
-+	return PTR_ERR_OR_ZERO(sys_heap);
- }
- module_init(system_heap_create);
- MODULE_LICENSE("GPL v2");
--- 
-2.7.4
+Hi all,
+
+On Tue, 15 Dec 2020 06:50:45 +1100 Stephen Rothwell <sfr@canb.auug.org.au> =
+wrote:
+>
+> On Mon, 16 Nov 2020 10:44:44 +1100 Stephen Rothwell <sfr@canb.auug.org.au=
+> wrote:
+> >
+> > On Thu, 5 Nov 2020 17:50:31 +1100 Stephen Rothwell <sfr@canb.auug.org.a=
+u> wrote: =20
+> > >
+> > > After merging the drm tree, today's linux-next build (htmldocs) produ=
+ced
+> > > these warnings:
+> > >=20
+> > > include/linux/dma-buf-map.h:106: warning: Excess function parameter '=
+vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
+> > > include/linux/dma-buf-map.h:106: warning: Function parameter or membe=
+r 'vaddr_' not described in 'DMA_BUF_MAP_INIT_VADDR'
+> > > include/linux/dma-buf-map.h:106: warning: Excess function parameter '=
+vaddr' description in 'DMA_BUF_MAP_INIT_VADDR'
+> > >=20
+> > > Introduced by commit
+> > >=20
+> > >   20e76f1a7059 ("dma-buf: Use struct dma_buf_map in dma_buf_vunmap() =
+interfaces")   =20
+> >=20
+> > I am still getting these warnings. =20
+>=20
+> I am still getting these warnings.
+
+These warnings are now from Linus' tree.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl/YI6YACgkQAVBC80lX
+0Gzy9ggAo6DY0cMD+RSQKBQKQJibhAuPuHpnjBz2rRm5hbrs7EU5s2sq7KyWy9Ch
+Qsamkx4S0lcFNQI4JkMjq4Tc3okBiPwozew7KR08sldQzJTIsaf7w/JiTWb4Llbq
+wONTdWYKRwA34CusGe8QZytvLTtlKYef/xr+E4Oog3wKtO7k/QYK7+GCRXjmZMGF
+NGKZgZzzV7g1zPzvPx0ekCMGi6vHb2SsWa2QLEoRFHlUeUFa8bU9TCPu1cB47lSC
+NlSmdMjYT/kwsSDihlfX0sSjRUtVKS+BYNeqxDUcJlAihZxasCu7iukIUCWFbryo
+tJNjx5L4z3LlTTOZHYTHL00ad2iyQg==
+=+tga
+-----END PGP SIGNATURE-----
+
+--Sig_/6exDK=Qk6gCjsZQ=Od9rDCZ--
+
+--===============1832297219==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
+
+--===============1832297219==--
