@@ -1,36 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667EC2DBD26
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:39 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 472512DAD63
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 13:41:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFAA6E0D1;
-	Wed, 16 Dec 2020 08:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 484DE6E051;
+	Tue, 15 Dec 2020 12:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 540C46E314
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:18:55 +0000 (UTC)
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CwHMv5QLVzM5hT;
- Tue, 15 Dec 2020 20:18:03 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 15 Dec 2020 20:18:49 +0800
-From: Tian Tao <tiantao6@hisilicon.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <tzimmermann@suse.de>,
- <kraxel@redhat.com>, <alexander.deucher@amd.com>, <tglx@linutronix.de>,
- <dri-devel@lists.freedesktop.org>, <xinliang.liu@linaro.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/hisilicon: Fix rmmod hibmc_drm failed
-Date: Tue, 15 Dec 2020 20:18:59 +0800
-Message-ID: <1608034739-699-1-git-send-email-tiantao6@hisilicon.com>
-X-Mailer: git-send-email 2.7.4
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF76D6E051
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:41:39 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCfS2t045638;
+ Tue, 15 Dec 2020 06:41:28 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1608036088;
+ bh=LzfI5xS58ddpJd1dJCTni8TPFW8o/CWU0g/78oxWrVA=;
+ h=From:To:CC:Subject:Date;
+ b=bEN645C76AqczgrGW0AGdXf7+CtkF8ZoswpbFh4lnsIc2YQWal3ZzlUoK7e5PgAiO
+ k8gMctd6bXPfOUkm3bvgrCPtUS5qKmztowPi34DO8mMP3RHGOjevuYLBzx4TANUsSr
+ tORMRQTFB5QEo8br+fBtPBfcoBlbyc+eYbc/z+b0=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFCfSVF055830
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 15 Dec 2020 06:41:28 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
+ Dec 2020 06:41:27 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 15 Dec 2020 06:41:27 -0600
+Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCfP2I072404;
+ Tue, 15 Dec 2020 06:41:25 -0600
+From: Peter Ujfalusi <peter.ujfalusi@ti.com>
+To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
+ <a.hajda@samsung.com>, <narmstrong@baylibre.com>
+Subject: [PATCH] dt-bindings: display: bridge: tc358768: Remove maintainer
+ information
+Date: Tue, 15 Dec 2020 14:42:27 +0200
+Message-ID: <20201215124227.1872-1-peter.ujfalusi@ti.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Originating-IP: [10.69.192.56]
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -43,96 +59,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Laurent.pinchart@ideasonboard.com
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_irq_uninstall should be called before pci_disable_msi, if use
-devm_drm_irq_install to register the interrupt, the system will
-call pci_disable_msi first and then call drm_irq_uninstall, which
-will result in the following callstack.
+My employment with TI is coming to an end and I will not have access to
+the board where this bridge is connected to.
 
-This reverts commit e4401247070a37c2fce62b2773a4eb7757983938.
+It is better to remove a soon bouncing email address.
 
-kernel BUG at drivers/pci/msi.c:376!
-Internal error: Oops - BUG: 0 [#1] SMP
-CPU: 93 PID: 173814 Comm: rmmod Tainted:
-pstate: a0400009 (NzCv daif +PAN -UAO -TCO BTYPE=--)
-pc : free_msi_irqs+0x17c/0x1a0
-lr : free_msi_irqs+0x16c/0x1a0
-sp : ffff2028157f7bd0
-x29: ffff2028157f7bd0 x28: ffff202849edab00
-x27: 0000000000000000 x26: 0000000000000000
-x25: 0000000000000000 x24: 0000000000000000
-x23: ffff0020851da000 x22: ffff0020851da2d8
-x21: ffff0020cc829000 x20: 0000000000000000
-x19: ffff0020d6714800 x18: 0000000000000010
-x17: 0000000000000000 x16: 0000000000000000
-x15: ffffffffffffffff x14: ffff2028957f77df
-x13: ffff2028157f77ed x12: 0000000000000000
-x11: 0000000000000040 x10: ffff800011b2f8e0
-x9 : ffff800011b2f8d8 x8 : ffff2020203fc458
-x7 : 0000000000000000 x6 : 0000000000000000
-x5 : ffff2020203fc430 x4 : ffff2020203fc4a0
-x3 : 0000000000000000 x2 : 0000000000000000
-x1 : 00000000000002c9 x0 : ffff0020d6719500
-Call trace:
- free_msi_irqs+0x17c/0x1a0
- pci_disable_msi+0xe4/0x118
- hibmc_unload+0x44/0x80 [hibmc_drm]
- hibmc_pci_remove+0x2c/0x38 [hibmc_drm]
- pci_device_remove+0x48/0x108
- device_release_driver_internal+0x118/0x1f0
- driver_detach+0x6c/0xe0
- bus_remove_driver+0x74/0x100
- driver_unregister+0x34/0x60
- pci_unregister_driver+0x24/0xd8
- hibmc_pci_driver_exit+0x14/0xe768 [hibmc_drm]
- __arm64_sys_delete_module+0x1fc/0x2d0
- el0_svc_common.constprop.3+0xa8/0x188
- do_el0_svc+0x80/0xa0
- el0_sync_handler+0x8c/0xb0
- el0_sync+0x15c/0x180
-Code: f940b400 b4ffff00 a903e7b8 f90013b5 (d4210000)
----[ end trace 310d94ee8abef44f ]---
-Kernel panic - not syncing: Oops - BUG: Fatal exception
-
-v2:
-update the commit log to indicate the patch that needs to be revert.
-
-Signed-off-by: Tian Tao <tiantao6@hisilicon.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
 ---
- drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml   | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 7e91ef1..9b5f15c 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -251,6 +251,10 @@ static int hibmc_hw_init(struct hibmc_drm_private *priv)
- static int hibmc_unload(struct drm_device *dev)
- {
- 	drm_atomic_helper_shutdown(dev);
-+
-+	if (dev->irq_enabled)
-+		drm_irq_uninstall(dev);
-+
- 	pci_disable_msi(dev->pdev);
+diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+index c036a75db8f7..454ab8032b97 100644
+--- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
+@@ -6,9 +6,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 	return 0;
-@@ -286,7 +290,7 @@ static int hibmc_load(struct drm_device *dev)
- 	if (ret) {
- 		drm_warn(dev, "enabling MSI failed: %d\n", ret);
- 	} else {
--		ret = devm_drm_irq_install(dev, dev->pdev->irq);
-+		ret = drm_irq_install(dev, dev->pdev->irq);
- 		if (ret)
- 			drm_warn(dev, "install irq failed: %d\n", ret);
- 	}
+ title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
+ 
+-maintainers:
+-  - Peter Ujfalusi <peter.ujfalusi@ti.com>
+-
+ description: |
+   The TC358768/TC358778 is bridge device which converts RGB to DSI.
+ 
 -- 
-2.7.4
+Peter
+
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
