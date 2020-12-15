@@ -1,51 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 472512DAD63
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 13:41:44 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DCF2DAD6B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 13:45:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 484DE6E051;
-	Tue, 15 Dec 2020 12:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5973889A61;
+	Tue, 15 Dec 2020 12:45:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF76D6E051
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:41:39 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCfS2t045638;
- Tue, 15 Dec 2020 06:41:28 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376F889A61
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 12:45:29 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCjGfF028899;
+ Tue, 15 Dec 2020 06:45:16 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608036088;
- bh=LzfI5xS58ddpJd1dJCTni8TPFW8o/CWU0g/78oxWrVA=;
- h=From:To:CC:Subject:Date;
- b=bEN645C76AqczgrGW0AGdXf7+CtkF8ZoswpbFh4lnsIc2YQWal3ZzlUoK7e5PgAiO
- k8gMctd6bXPfOUkm3bvgrCPtUS5qKmztowPi34DO8mMP3RHGOjevuYLBzx4TANUsSr
- tORMRQTFB5QEo8br+fBtPBfcoBlbyc+eYbc/z+b0=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFCfSVF055830
+ s=ti-com-17Q1; t=1608036316;
+ bh=GH/UNHFI5cee5juakQ3Nr2pRWRzjEClTHI16gWXwz18=;
+ h=Subject:To:CC:References:From:Date:In-Reply-To;
+ b=pfOUMRMLVUAyZ/GDCYZkPVgKiKuiHJ3WSL/anDzFczybLl92iO6trtv0r4TfDDOtu
+ BONAN0KVd8DkeXhgZO/RNXheelgBNrrpKuWtjZacKO/3+XWjwL0JETboDf9YV7pBmd
+ PSiDK9fdaR+XPyOSmu3sOdyRG9RoA1eojxdPvYEs=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFCjFW6008544
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 15 Dec 2020 06:41:28 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 15 Dec 2020 06:45:16 -0600
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 06:41:27 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 06:45:15 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 06:41:27 -0600
-Received: from feketebors.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
- by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCfP2I072404;
- Tue, 15 Dec 2020 06:41:25 -0600
-From: Peter Ujfalusi <peter.ujfalusi@ti.com>
-To: <airlied@linux.ie>, <daniel@ffwll.ch>, <robh+dt@kernel.org>,
- <a.hajda@samsung.com>, <narmstrong@baylibre.com>
-Subject: [PATCH] dt-bindings: display: bridge: tc358768: Remove maintainer
- information
-Date: Tue, 15 Dec 2020 14:42:27 +0200
-Message-ID: <20201215124227.1872-1-peter.ujfalusi@ti.com>
-X-Mailer: git-send-email 2.29.2
+ Frontend Transport; Tue, 15 Dec 2020 06:45:15 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+ by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFCjBUN123400;
+ Tue, 15 Dec 2020 06:45:12 -0600
+Subject: Re: [PATCH v4 1/2] drm: automatic legacy gamma support
+To: <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20201211114237.213288-1-tomi.valkeinen@ti.com>
+ <20201211114237.213288-2-tomi.valkeinen@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <2cab4816-de84-cd75-54e5-9b773866cb04@ti.com>
+Date: Tue, 15 Dec 2020 14:45:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201211114237.213288-2-tomi.valkeinen@ti.com>
+Content-Language: en-US
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,44 +64,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="us-ascii"
+Cc: Yannick Fertre <yannick.fertre@st.com>,
+ Philippe Cornu <philippe.cornu@st.com>, David Airlie <airlied@linux.ie>,
+ Russell King <linux@armlinux.org.uk>, Sandy Huang <hjc@rock-chips.com>,
+ Paul Cercueil <paul@crapouillou.net>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Vincent Abriou <vincent.abriou@st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@st.com>
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My employment with TI is coming to an end and I will not have access to
-the board where this bridge is connected to.
+On 11/12/2020 13:42, Tomi Valkeinen wrote:
 
-It is better to remove a soon bouncing email address.
+> +/**
+> + * drm_crtc_supports_legacy_gamma - does the crtc support legacy gamma correction table
+> + * @crtc: CRTC object
+> + *
+> + * Returns true/false if the given crtc supports setting the legacy gamma
+> + * correction table.
+> + */
+> +static bool drm_crtc_supports_legacy_gamma(struct drm_crtc *crtc)
+> +{
+> +	uint32_t gamma_id = crtc->dev->mode_config.gamma_lut_property->base.id;
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
----
- .../devicetree/bindings/display/bridge/toshiba,tc358768.yaml   | 3 ---
- 1 file changed, 3 deletions(-)
+Userspace-mode strikes again... I'll change uint32_t's to u32 while applying. (But in my defense, 
+there were uint32_t uses already in the code touched by these patches, and drm seems to have lots of 
+uint32_t all around...)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-index c036a75db8f7..454ab8032b97 100644
---- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358768.yaml
-@@ -6,9 +6,6 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: Toschiba TC358768/TC358778 Parallel RGB to MIPI DSI bridge
- 
--maintainers:
--  - Peter Ujfalusi <peter.ujfalusi@ti.com>
--
- description: |
-   The TC358768/TC358778 is bridge device which converts RGB to DSI.
- 
+  Tomi
+
 -- 
-Peter
-
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
-
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
