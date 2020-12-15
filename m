@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CD22DAB37
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:26 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7C32DAB4C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:48:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64ED6E233;
-	Tue, 15 Dec 2020 10:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ECF26E250;
+	Tue, 15 Dec 2020 10:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702286E1F5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:40 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlemh010614
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:40 -0600
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24E1A6E20A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:42 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAlf1m124070
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:41 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1608029260;
- bh=sT0/jh8Pkl7D1XDGT+Kx2t+mCPPongzdKw2mpZYtAyw=;
+ s=ti-com-17Q1; t=1608029261;
+ bh=IsFfBN9ohgkWfVIrWxWX3k3VirV8wMEg33FE88KJvG4=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=HH+/oVhCzxkRYAQZJo7uHHf4evUbSCvI+IIXxRGcZLqacB0Y6+TBc1pqRiOau2l4U
- 99oUOu3aMAcvTibLTpR4afFd7zSG3ztP2blGk5kaJToAEArOrPez69RWKh2UyFmtfV
- 5UseWPAgiq3JKAbUftLveNQyQo1KVIthG6r38YMA=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlec7000670
+ b=a69DOYCST3w2nVFdJEYOTgdcKh125zroEKmGNeOH83vOKB/rvuTIeaHYx4w/2SetR
+ 1ieJU7m4cjadqhJjV5QaV3qtbE4VEGbmYl/blf30EMvOb6rpszNn2+dHxxkjvESPfh
+ imrbKO2jk77NsjfP4eWHRyXFXUI2DMhDej2w58dw=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAlfAf023334
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:40 -0600
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:41 -0600
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
- Dec 2020 04:47:39 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2020 04:47:40 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 15 Dec 2020 04:47:39 -0600
+ Frontend Transport; Tue, 15 Dec 2020 04:47:40 -0600
 Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaP046467;
- Tue, 15 Dec 2020 04:47:39 -0600
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwaQ046467;
+ Tue, 15 Dec 2020 04:47:40 -0600
 From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 To: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v6 39/84] drm/panel: Move OMAP's DSI command mode panel driver
-Date: Tue, 15 Dec 2020 12:46:12 +0200
-Message-ID: <20201215104657.802264-40-tomi.valkeinen@ti.com>
+Subject: [PATCH v6 40/84] drm/omap: dsi: Register a drm_bridge
+Date: Tue, 15 Dec 2020 12:46:13 +0200
+Message-ID: <20201215104657.802264-41-tomi.valkeinen@ti.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201215104657.802264-1-tomi.valkeinen@ti.com>
 References: <20201215104657.802264-1-tomi.valkeinen@ti.com>
@@ -67,111 +67,214 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-The panel driver is no longer using any OMAP specific APIs, so
-let's move it into the generic panel directory.
+In order to integrate with a chain of drm_bridge, the internal DSI
+output has to expose its operations through the drm_bridge API.
+Register a bridge at initialisation time to do so and remove the
+omap_dss_device operations that are now unused.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/omapdrm/Kconfig                        |  1 -
- drivers/gpu/drm/omapdrm/Makefile                       |  1 -
- drivers/gpu/drm/omapdrm/displays/Kconfig               | 10 ----------
- drivers/gpu/drm/omapdrm/displays/Makefile              |  2 --
- drivers/gpu/drm/panel/Kconfig                          |  9 +++++++++
- drivers/gpu/drm/panel/Makefile                         |  1 +
- .../gpu/drm/{omapdrm/displays => panel}/panel-dsi-cm.c |  0
- 7 files changed, 10 insertions(+), 14 deletions(-)
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/Kconfig
- delete mode 100644 drivers/gpu/drm/omapdrm/displays/Makefile
- rename drivers/gpu/drm/{omapdrm/displays => panel}/panel-dsi-cm.c (100%)
+ drivers/gpu/drm/omapdrm/dss/dsi.c | 134 ++++++++++++++++++++----------
+ 1 file changed, 89 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/gpu/drm/omapdrm/Kconfig b/drivers/gpu/drm/omapdrm/Kconfig
-index 5417e7a47072..cea3f44ea6d4 100644
---- a/drivers/gpu/drm/omapdrm/Kconfig
-+++ b/drivers/gpu/drm/omapdrm/Kconfig
-@@ -12,6 +12,5 @@ config DRM_OMAP
- if DRM_OMAP
+diff --git a/drivers/gpu/drm/omapdrm/dss/dsi.c b/drivers/gpu/drm/omapdrm/dss/dsi.c
+index 6f66ef0be166..9eae61ddbda9 100644
+--- a/drivers/gpu/drm/omapdrm/dss/dsi.c
++++ b/drivers/gpu/drm/omapdrm/dss/dsi.c
+@@ -35,6 +35,7 @@
+ #include <linux/component.h>
+ #include <linux/sys_soc.h>
  
- source "drivers/gpu/drm/omapdrm/dss/Kconfig"
--source "drivers/gpu/drm/omapdrm/displays/Kconfig"
++#include <drm/drm_bridge.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
+ #include <video/mipi_display.h>
+@@ -438,6 +439,7 @@ struct dsi_data {
+ 	struct omap_dss_dsi_videomode_timings vm_timings;
  
- endif
-diff --git a/drivers/gpu/drm/omapdrm/Makefile b/drivers/gpu/drm/omapdrm/Makefile
-index f115253115c5..66a73eae6f7c 100644
---- a/drivers/gpu/drm/omapdrm/Makefile
-+++ b/drivers/gpu/drm/omapdrm/Makefile
-@@ -5,7 +5,6 @@
- #
+ 	struct omap_dss_device output;
++	struct drm_bridge bridge;
+ };
  
- obj-y += dss/
--obj-y += displays/
+ struct dsi_packet_sent_handler_data {
+@@ -450,6 +452,9 @@ static bool dsi_perf;
+ module_param(dsi_perf, bool, 0644);
+ #endif
  
- omapdrm-y := omap_drv.o \
- 	omap_irq.o \
-diff --git a/drivers/gpu/drm/omapdrm/displays/Kconfig b/drivers/gpu/drm/omapdrm/displays/Kconfig
-deleted file mode 100644
-index f2be594c7eff..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/Kconfig
-+++ /dev/null
-@@ -1,10 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--menu "OMAPDRM External Display Device Drivers"
--
--config DRM_OMAP_PANEL_DSI_CM
--	tristate "Generic DSI Command Mode Panel"
--	depends on BACKLIGHT_CLASS_DEVICE
--	help
--	  Driver for generic DSI command mode panels.
--
--endmenu
-diff --git a/drivers/gpu/drm/omapdrm/displays/Makefile b/drivers/gpu/drm/omapdrm/displays/Makefile
-deleted file mode 100644
-index 488ddf153613..000000000000
---- a/drivers/gpu/drm/omapdrm/displays/Makefile
-+++ /dev/null
-@@ -1,2 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_DRM_OMAP_PANEL_DSI_CM) += panel-dsi-cm.o
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index 8fec45b2ce02..4894913936e9 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -57,6 +57,15 @@ config DRM_PANEL_BOE_TV101WUM_NL6
- 	  Say Y here if you want to support for BOE TV101WUM and AUO KD101N80
- 	  45NA WUXGA PANEL DSI Video Mode panel
- 
-+config DRM_PANEL_DSI_CM
-+	tristate "Generic DSI command mode panels"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  DRM panel driver for DSI command mode panels with support for
-+	  embedded and external backlights.
++#define drm_bridge_to_dsi(bridge) \
++	container_of(bridge, struct dsi_data, bridge)
 +
- config DRM_PANEL_LVDS
- 	tristate "Generic LVDS panel driver"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index 03496695e03f..cae4d976c069 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_PANEL_ARM_VERSATILE) += panel-arm-versatile.o
- obj-$(CONFIG_DRM_PANEL_ASUS_Z00T_TM5P5_NT35596) += panel-asus-z00t-tm5p5-n35596.o
- obj-$(CONFIG_DRM_PANEL_BOE_HIMAX8279D) += panel-boe-himax8279d.o
- obj-$(CONFIG_DRM_PANEL_BOE_TV101WUM_NL6) += panel-boe-tv101wum-nl6.o
-+obj-$(CONFIG_DRM_PANEL_DSI_CM) += panel-dsi-cm.o
- obj-$(CONFIG_DRM_PANEL_LVDS) += panel-lvds.o
- obj-$(CONFIG_DRM_PANEL_SIMPLE) += panel-simple.o
- obj-$(CONFIG_DRM_PANEL_ELIDA_KD35T133) += panel-elida-kd35t133.o
-diff --git a/drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c b/drivers/gpu/drm/panel/panel-dsi-cm.c
-similarity index 100%
-rename from drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
-rename to drivers/gpu/drm/panel/panel-dsi-cm.c
+ static inline struct dsi_data *to_dsi_data(struct omap_dss_device *dssdev)
+ {
+ 	return dev_get_drvdata(dssdev->dev);
+@@ -5006,50 +5011,7 @@ static int dsi_get_clocks(struct dsi_data *dsi)
+ 	return 0;
+ }
+ 
+-static void dsi_set_timings(struct omap_dss_device *dssdev,
+-			    const struct drm_display_mode *mode)
+-{
+-	DSSDBG("dsi_set_timings\n");
+-	dsi_set_config(dssdev, mode);
+-}
+-
+-static int dsi_check_timings(struct omap_dss_device *dssdev,
+-			     struct drm_display_mode *mode)
+-{
+-	struct dsi_data *dsi = to_dsi_data(dssdev);
+-	struct dsi_clk_calc_ctx ctx;
+-	int r;
+-
+-	DSSDBG("dsi_check_timings\n");
+-
+-	mutex_lock(&dsi->lock);
+-	r = __dsi_calc_config(dsi, mode, &ctx);
+-	mutex_unlock(&dsi->lock);
+-
+-	return r;
+-}
+-
+-static int dsi_connect(struct omap_dss_device *src,
+-		       struct omap_dss_device *dst)
+-{
+-	return omapdss_device_connect(dst->dss, dst, dst->next);
+-}
+-
+-static void dsi_disconnect(struct omap_dss_device *src,
+-			   struct omap_dss_device *dst)
+-{
+-	omapdss_device_disconnect(dst, dst->next);
+-}
+-
+ static const struct omap_dss_device_ops dsi_ops = {
+-	.connect = dsi_connect,
+-	.disconnect = dsi_disconnect,
+-	.enable = dsi_enable_video_outputs,
+-	.disable = dsi_disable_video_outputs,
+-
+-	.check_timings = dsi_check_timings,
+-	.set_timings = dsi_set_timings,
+-
+ 	.dsi = {
+ 		.update = dsi_update_all,
+ 		.is_video_mode = dsi_is_video_mode,
+@@ -5389,6 +5351,83 @@ static const struct component_ops dsi_component_ops = {
+ 	.unbind	= dsi_unbind,
+ };
+ 
++/* -----------------------------------------------------------------------------
++ * DRM Bridge Operations
++ */
++
++static int dsi_bridge_attach(struct drm_bridge *bridge,
++			     enum drm_bridge_attach_flags flags)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++
++	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
++		return -EINVAL;
++
++	return drm_bridge_attach(bridge->encoder, dsi->output.next_bridge,
++				 bridge, flags);
++}
++
++static enum drm_mode_status
++dsi_bridge_mode_valid(struct drm_bridge *bridge,
++		      const struct drm_display_info *info,
++		      const struct drm_display_mode *mode)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++	struct dsi_clk_calc_ctx ctx;
++	int r;
++
++	mutex_lock(&dsi->lock);
++	r = __dsi_calc_config(dsi, mode, &ctx);
++	mutex_unlock(&dsi->lock);
++
++	return r ? MODE_CLOCK_RANGE : MODE_OK;
++}
++
++static void dsi_bridge_mode_set(struct drm_bridge *bridge,
++				const struct drm_display_mode *mode,
++				const struct drm_display_mode *adjusted_mode)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++
++	dsi_set_config(&dsi->output, adjusted_mode);
++}
++
++static void dsi_bridge_enable(struct drm_bridge *bridge)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++
++	dsi_enable_video_outputs(&dsi->output);
++}
++
++static void dsi_bridge_disable(struct drm_bridge *bridge)
++{
++	struct dsi_data *dsi = drm_bridge_to_dsi(bridge);
++
++	dsi_disable_video_outputs(&dsi->output);
++}
++
++static const struct drm_bridge_funcs dsi_bridge_funcs = {
++	.attach = dsi_bridge_attach,
++	.mode_valid = dsi_bridge_mode_valid,
++	.mode_set = dsi_bridge_mode_set,
++	.enable = dsi_bridge_enable,
++	.disable = dsi_bridge_disable,
++};
++
++static void dsi_bridge_init(struct dsi_data *dsi)
++{
++	dsi->bridge.funcs = &dsi_bridge_funcs;
++	dsi->bridge.of_node = dsi->host.dev->of_node;
++	dsi->bridge.type = DRM_MODE_CONNECTOR_DSI;
++
++	drm_bridge_add(&dsi->bridge);
++}
++
++static void dsi_bridge_cleanup(struct dsi_data *dsi)
++{
++	drm_bridge_remove(&dsi->bridge);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Probe & Remove, Suspend & Resume
+  */
+@@ -5398,6 +5437,8 @@ static int dsi_init_output(struct dsi_data *dsi)
+ 	struct omap_dss_device *out = &dsi->output;
+ 	int r;
+ 
++	dsi_bridge_init(dsi);
++
+ 	out->dev = dsi->dev;
+ 	out->id = dsi->module_id == 0 ?
+ 			OMAP_DSS_OUTPUT_DSI1 : OMAP_DSS_OUTPUT_DSI2;
+@@ -5412,9 +5453,11 @@ static int dsi_init_output(struct dsi_data *dsi)
+ 		       | DRM_BUS_FLAG_DE_HIGH
+ 		       | DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE;
+ 
+-	r = omapdss_device_init_output(out, NULL);
+-	if (r < 0)
++	r = omapdss_device_init_output(out, &dsi->bridge);
++	if (r < 0) {
++		dsi_bridge_cleanup(dsi);
+ 		return r;
++	}
+ 
+ 	omapdss_device_register(out);
+ 
+@@ -5427,6 +5470,7 @@ static void dsi_uninit_output(struct dsi_data *dsi)
+ 
+ 	omapdss_device_unregister(out);
+ 	omapdss_device_cleanup_output(out);
++	dsi_bridge_cleanup(dsi);
+ }
+ 
+ static int dsi_probe_of(struct dsi_data *dsi)
 -- 
 Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
 Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
