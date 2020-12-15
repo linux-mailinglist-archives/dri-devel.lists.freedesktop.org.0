@@ -1,71 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619812DBD1F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:29 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D48FD2DBD1D
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BBE26E051;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A9466E042;
 	Wed, 16 Dec 2020 08:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54C086E3EE
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 15:42:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC2F6E3EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 15:42:52 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id 56FFFA92;
- Tue, 15 Dec 2020 10:42:50 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id B5C1FA57;
+ Tue, 15 Dec 2020 10:42:51 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 15 Dec 2020 10:42:51 -0500
+ by compute2.internal (MEProxy); Tue, 15 Dec 2020 10:42:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=pwp+c/LjbgeZT
- C4Eu8CoYE+i66M1vizsdP9IYHdPKFA=; b=IWW0HmZRNEu1QAvE4SojNBNy2NIy3
- IwVXxf+2WSV2agNZIxL4vDpJ1IKgzEwW4tp/TPi/qst7uM6FkOcKxy9y7siNKbak
- rzeHj1Ib8R24d6rrrZiTSpY0QXHBPA7pUKA6GFVCjxu4LkrTqHRG9P43CFZCYL1E
- BnqFWa686TBaRj4HdK5SenOlZGdeTRQVAZCt6JZUVdum8KhE5rqujui3pfsxNLfS
- z+CiknvF/mJvZ6FBDbIUFKgnvEugd7Nv8sFdEzpU+Ah8FCevdywpS1ZLANujArLq
- 0TiPwaduNkdi9cSRoILaATZO+fWMBpWNIbkcQDmkaSO45bEfhIw8vpP0A==
+ :mime-version:content-transfer-encoding; s=fm1; bh=K/2dJKjWuDlDD
+ +pbZkz3NemH5MUhnJv/7FProiUrI/w=; b=NLAAvq3GadkebKwc15xb7WJpize54
+ Z29SJh9wy7o6LFFqJx6L7Y8W9gQzNeriOf1Q5Trk2EaTIoc442/kJCb+o7wtJAvd
+ CcSgESM5fBVcqtbbWalmxe+VYeyUE3+Ji6u7PhG8nBn1XHDgvR6jZTfi7k4Z9aA4
+ 30XLFQ3bUO6TIe5IAZftdB0Zc9CYewLdCNijYLF8tguH1gSjegykVnllU62wAjNX
+ hvL3A/2gKiMGtM9t0gIhplqj754c9GBZxG5Fdkq3WcJ206lxugRnJI27C5mxLLpt
+ jVtDswLKIu/yHNhCM3+7o8wSzoaN+qmZG2b38PgGS1IgORdX60TrB2JaQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=pwp+c/LjbgeZTC4Eu8CoYE+i66M1vizsdP9IYHdPKFA=; b=GrmTtUH8
- cBb508UWjlgJS7B5cL7uXDUNzWvbQJLGLJXAaZwMY8fK6ay56aiamLp1sACOaVm3
- JKGebpYb8dNbJ0CPHE41xvWYtO+LmKDQr+mSzWUQWEcVJaO5w324+PK2awyoavr8
- NmcQl4QW3gzF54CmOfAdBELLRctmu21j3hVy8JAByI2uyWwXkNfnQOTD37VoWQFK
- UvnPAs/q4Y1AI4dq81iaCX8EyLDLjG7fDVmLo7/WS0Dhj8ls//0y+8Z1Jeu48uM+
- W0hBQRwojLMJqljUrzrQCBLVoOtckjuW9DmgEAulhu482AobSAQzXJqxbfwNb4F2
- gCPclf0hkdNQAA==
-X-ME-Sender: <xms:ednYX-0LGP4F9BrQ_72E8UIAngSjee7XtH7l3t3OMg1X7xZHoYwnfA>
- <xme:ednYXzFtkss494XuivYC3QaDylbMjNI-WU0zkT7hX_meDwWMOc7dRimOIBK8L9Zo8
- MzugE2UVGL3qkiY1Yo>
+ fm1; bh=K/2dJKjWuDlDD+pbZkz3NemH5MUhnJv/7FProiUrI/w=; b=RsvumrDW
+ hdimKniYZdEhCR+9O45w1VcozIfLU2jvAUsNqBIgltBIC13B1IGMOJOJoiKeSpAQ
+ K3XBuO1G3LVddJsEgVWheZHDFz5cSGr8vTwtJ9t35FcfnVOVVvvWo9xQMg0IZ//U
+ b2loAXB/Gz4Jb9oYpLPX1AnesRcaM5GMyucdcarrdtU2HgsCo6bkiTLIu6gcsx6D
+ IBfa+fzZINvymCKP93OCrEmyn/Juqo+yENlNojpjEv3U/AKIV7RqOFEWREZfTfn5
+ WNSwzvFtxbOAjLW+NbDyh+oUHx6RwD4X33zmbQ4FoijwznEyrNqh978h7SpkYi0f
+ PX8oFQClxlrejA==
+X-ME-Sender: <xms:e9nYXw8dFL6O2qGWzcSNXPhI-atwQP-nHzQ2msB-R-qPiVpoKJeBsA>
+ <xme:e9nYX2jnn6Xioo8ygspgFP-fk94vQnib74PmLejQLgoqt4vdiuHD7Mj2RRGbhFrv2
+ Z1XZ--EhPdMOlWLK3g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeltddgkeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+ hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
  frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ednYXwQFFMvsMPBLe38C91V7cnaVY4ic-DA06RNLsQnF2u8JwEbTtA>
- <xmx:ednYXyCw3Cy20j-lKs67-KYvAa5xotbzW6wWAy4wTZzB5zdsRkKedQ>
- <xmx:ednYX42qXj8C8F8VctXnbVpjc89cMe7HgRSU8zKP1dI-cpLbDFhgpw>
- <xmx:ednYX3ad498wbSgRmhjVG-h-bQ-yU_aHfJBTZ7RTRLNxxHXgx5jl7W76_ME>
+X-ME-Proxy: <xmx:e9nYXwctHmBlXeCRwO_bHRxGZ5DFiYK8NVWoxanGQ45jqazukDQ37w>
+ <xmx:e9nYX9rDV-yaW3r31Zf11DVlxNb51oYB2luxTvs790vtSuXGJH_y-Q>
+ <xmx:e9nYX1BTN5wo1hzG-bzRVSOKpS2NlmxEQq1jK03gE4m0Vkqq7bNZCQ>
+ <xmx:e9nYXzuK03TzaAjr69jc-Q_9XJBYEArumg_FhnTEMWLmTUH6VdF3td9qPaw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
  [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id A0EFF240065;
- Tue, 15 Dec 2020 10:42:49 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0B5C424005D;
+ Tue, 15 Dec 2020 10:42:50 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Eric Anholt <eric@anholt.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Subject: [PATCH v7 3/9] drm/vc4: hdmi: Take into account the clock doubling
- flag in atomic_check
-Date: Tue, 15 Dec 2020 16:42:37 +0100
-Message-Id: <20201215154243.540115-4-maxime@cerno.tech>
+Subject: [PATCH v7 4/9] drm/vc4: hdmi: Don't access the connector state in
+ reset if kmalloc fails
+Date: Tue, 15 Dec 2020 16:42:38 +0100
+Message-Id: <20201215154243.540115-5-maxime@cerno.tech>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201215154243.540115-1-maxime@cerno.tech>
 References: <20201215154243.540115-1-maxime@cerno.tech>
@@ -91,37 +91,37 @@ Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 63495f6b4aed ("drm/vc4: hdmi: Make sure our clock rate is within
-limits") was intended to compute the pixel rate to make sure we remain
-within the boundaries of what the hardware can provide.
+drm_atomic_helper_connector_reset uses kmalloc which, from an API
+standpoint, can fail, and thus setting connector->state to NULL.
+However, our reset hook then calls drm_atomic_helper_connector_tv_reset
+that will access connector->state without checking if it's a valid
+pointer or not.
 
-However, unlike what mode_valid was checking for, we forgot to take
-into account the clock doubling flag that can be set for modes. Let's
-honor that flag if it's there.
+Make sure we don't end up accessing a NULL pointer.
 
 Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Fixes: 63495f6b4aed ("drm/vc4: hdmi: Make sure our clock rate is within limits")
+Suggested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8ce5dd65f6e4..3dac839b0fa5 100644
+index 3dac839b0fa5..920895deb2e7 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -799,6 +799,9 @@ static int vc4_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 		pixel_rate = mode->clock * 1000;
- 	}
- 
-+	if (mode->flags & DRM_MODE_FLAG_DBLCLK)
-+		pixel_rate = pixel_rate * 2;
+@@ -171,7 +171,9 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
+ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
+ {
+ 	drm_atomic_helper_connector_reset(connector);
+-	drm_atomic_helper_connector_tv_reset(connector);
 +
- 	if (pixel_rate > vc4_hdmi->variant->max_pixel_clock)
- 		return -EINVAL;
++	if (connector->state)
++		drm_atomic_helper_connector_tv_reset(connector);
+ }
  
+ static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
 -- 
 2.29.2
 
