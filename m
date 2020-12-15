@@ -2,74 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BD72DBD1B
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Dec 2020 09:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08392DAB0D
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 11:47:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CACE289F38;
-	Wed, 16 Dec 2020 08:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D81E6E1A8;
+	Tue, 15 Dec 2020 10:47:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F64E6E19B
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:42:01 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id DD3065801CF;
- Tue, 15 Dec 2020 05:41:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Tue, 15 Dec 2020 05:41:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=IVHUcxd6jPfq0gERSuEaAzfSIsw
- xq6fdJuohmu/LEU0=; b=egPnR0Sqa+yTk4hK79/BaLtnZsh/hElYQOA4UzVraz+
- w8Uo0AKYJ9RhAedNbDpaOZOGMjFrQFGufEjWQV0K/aapRMgDW+Uj6GsQXOdXVQ2v
- e2gykxJRn924Qz9KakN/V7huDrG0YcuOrFO0GfG5S1Wj26FN2ZpO8INzFsTpBs2m
- /rLQWMPIGiU+XASCKx1O6YctquGpTs75pCVagTpmGTdXW2N6z+dhP+7cH7FN7PG1
- eS7rl2QOm1FqEk3vAX/PmB4gOu7L3k/ukKLOrcWeja6H3hX5k9ROOpmL1hox2y8Q
- CsG3gjk9FqHeD+GpXwiTDWmdEfz+sGitKmQb1hTj/HQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=IVHUcx
- d6jPfq0gERSuEaAzfSIswxq6fdJuohmu/LEU0=; b=fOL72VEhc0g9sJnVlYRO9R
- JClY06gdskAVrryVQQh9risA3JYZ4JsRLt6GzLN6Z+DRXNtkU4Jx1OheQr4FTX0+
- yMLyQQq3PNR4JLpLnI1rCT5GtX7VYaBmU1xnX9XPkgiiymzymwY0OaCLuQ+3GJlK
- E4MASRmD8c1mMW56ONpsbtYy2wZL9thYnmILaXzVy58eqI6KvKsmxpME+BjaHj+M
- M0XuYlTZB3Ejyp/wy6LGVZxCiSUvZWVNpa85Rxtt+UhDaCEJxquJEpEiH37ZDIE0
- 8gYCTjZ66AH6UrKTq36x/GhnmyNGWyZ6xez5npocTHJC2yuDc95SvNlBdFyfGpCg
- ==
-X-ME-Sender: <xms:85LYX_0b5RXgaNWmUxtl1uxuNGs8wms88RmR129AdGD6_ODBbxCQ2w>
- <xme:85LYXyUuE_7tO8WTa6V9ULX9iB17BD-bNxEX_BeT1A6nTvGszIobleCRRMKe-J1Gm
- WQmR2X10hbcduZrbD4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeltddgudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:85LYX67QZstiRlLYaFoqZlEgeFSjFnNAKLhFc-WBgXGYCcMUou0lqQ>
- <xmx:85LYX5I3qk1NAvL7cL-3ZR2lnmTanPSZRDsf4AczV526gvsMX6FLiw>
- <xmx:85LYX7J0kq4eC0hDEPXGXY_Rs-eTFkFEkQ1Jz2Q-zLtotJEXvMAyAw>
- <xmx:9pLYX6vXvS_WagMQA3Q9Wuzdp4qQ8s9CWk4Go8P2ssz7Zq3v7P_aMQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr
- [90.89.68.76])
- by mail.messagingengine.com (Postfix) with ESMTPA id 684E624005D;
- Tue, 15 Dec 2020 05:41:55 -0500 (EST)
-Date: Tue, 15 Dec 2020 11:41:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
- Frank Rowand <frowand.list@gmail.com>, Eric Anholt <eric@anholt.net>
-Subject: Re: [PATCH v2 0/7] vc4: Convert to drm_atomic_helper_commit
-Message-ID: <20201215104153.xdwrcvi7fr7etz2v@gilmour>
-References: <20201204151138.1739736-1-maxime@cerno.tech>
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E055A6E19B
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 10:47:00 +0000 (UTC)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+ by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAl02q123774
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:00 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1608029220;
+ bh=2hfIpuljLaUNZZGsYA+3Gv8DMZcC/H4ACUmtxzp+VDo=;
+ h=From:To:CC:Subject:Date;
+ b=v56U+a++prcmxddGdIUnfSaKEb7vAUXUPHZBUl2wpvDAtr4RPj6Mpzsiws6P/ZPlC
+ Lz59oQ7p8Q7yShJ0cFkfCKAyHXJqd5byRA2hmJaVPFDnuDRFnOpzwaDH9Hk4R6ZkP0
+ 6a+SyitJa+Y2v1zS53R95qbXVDMa4TIRg82V9qhc=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0BFAl0Nu100630
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 04:47:00 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 15
+ Dec 2020 04:46:59 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 15 Dec 2020 04:46:59 -0600
+Received: from deskari.lan (ileax41-snat.itg.ti.com [10.172.224.153])
+ by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0BFAkwZk046467;
+ Tue, 15 Dec 2020 04:46:58 -0600
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
+To: <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v6 00/84] Convert DSI code to use drm_mipi_dsi and drm_panel
+Date: Tue, 15 Dec 2020 12:45:33 +0200
+Message-ID: <20201215104657.802264-1-tomi.valkeinen@ti.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201204151138.1739736-1-maxime@cerno.tech>
-X-Mailman-Approved-At: Wed, 16 Dec 2020 08:55:47 +0000
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,67 +57,170 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: devicetree@vger.kernel.org, Tim Gover <tim.gover@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com,
- linux-rpi-kernel@lists.infradead.org, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Content-Type: multipart/mixed; boundary="===============0935502762=="
+Cc: tomi.valkeinen@ti.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---===============0935502762==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cwkuxl3gevsekw5l"
-Content-Disposition: inline
+This is the sixth and hopefully last version of the OMAP DSI conversion
+series. The previous version is here:
 
+https://www.spinics.net/lists/linux-omap/msg157795.html
 
---cwkuxl3gevsekw5l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This version has only cosmetic changes and added reviewed-bys, and I'm
+mainly sending this so that I'm able to dim apply it. because of that,
+and the amount of patches in the series, I'm not cc'ing anyone in this
+one to avoid needless spamming.
 
-On Fri, Dec 04, 2020 at 04:11:31PM +0100, Maxime Ripard wrote:
-> Hi,
->=20
-> Here's a conversion of vc4 to remove the hand-rolled atomic_commit helper=
- from
-> vc4 in favour of the generic one.
->=20
-> This requires some rework of vc4, but also a new hook and some documentat=
-ion
-> for corner-cases in the DRM core that have been reported and explained by
-> Daniel recently.
->=20
-> Let me know what you think,
-> Maxime
+ Tomi
 
-Applied, thanks!
-Maxime
+Sebastian Reichel (49):
+  Revert "drm/omap: dss: Remove unused omap_dss_device operations"
+  drm/omap: drop unused dsi.configure_pins
+  drm/omap: dsi: use MIPI_DSI_FMT_* instead of OMAP_DSS_DSI_FMT_*
+  drm/omap: constify write buffers
+  drm/omap: dsi: add generic transfer function
+  drm/omap: panel-dsi-cm: convert to transfer API
+  drm/omap: dsi: unexport specific data transfer functions
+  drm/omap: dsi: drop virtual channel logic
+  drm/omap: dsi: simplify write function
+  drm/omap: dsi: simplify read functions
+  drm/omap: dsi: switch dsi_vc_send_long/short to mipi_dsi_msg
+  drm/omap: dsi: introduce mipi_dsi_host
+  drm/omap: panel-dsi-cm: use DSI helpers
+  drm/omap: dsi: request VC via mipi_dsi_attach
+  drm/omap: panel-dsi-cm: drop hardcoded VC
+  drm/omap: panel-dsi-cm: use common MIPI DCS 1.3 defines
+  drm/omap: dsi: drop unused memory_read()
+  drm/omap: dsi: drop unused get_te()
+  drm/omap: dsi: drop unused enable_te()
+  drm/omap: dsi: drop useless sync()
+  drm/omap: dsi: use pixel-format and mode from attach
+  drm/omap: panel-dsi-cm: use bulk regulator API
+  drm/omap: dsi: lp/hs switching support for transfer()
+  drm/omap: dsi: move TE GPIO handling into core
+  drm/omap: dsi: drop custom enable_te() API
+  drm/omap: dsi: do bus locking in host driver
+  drm/omap: dsi: untangle ulps ops from enable/disable
+  drm/omap: dsi: do ULPS in host driver
+  drm/omap: dsi: move panel refresh function to host
+  drm/omap: dsi: Reverse direction of the DSS device enable/disable
+    operations
+  drm/omap: dsi: drop custom panel capability support
+  drm/omap: dsi: convert to drm_panel
+  drm/omap: drop omapdss-boot-init
+  drm/omap: dsi: implement check timings
+  drm/omap: panel-dsi-cm: use DEVICE_ATTR_RO
+  drm/omap: panel-dsi-cm: support unbinding
+  drm/omap: panel-dsi-cm: fix remove()
+  drm/omap: remove global dss_device variable
+  drm/panel: Move OMAP's DSI command mode panel driver
+  drm/omap: dsi: Register a drm_bridge
+  drm/omap: remove legacy DSS device operations
+  drm/omap: remove unused omap_connector
+  drm/omap: simplify omap_display_id
+  drm/omap: drop unused DSS next pointer
+  drm/omap: drop DSS ops_flags
+  drm/omap: drop dssdev display field
+  drm/omap: simplify DSI manual update code
+  drm/omap: dsi: simplify pin config
+  ARM: omap2plus_defconfig: Update for moved DSI command mode panel
 
---cwkuxl3gevsekw5l
-Content-Type: application/pgp-signature; name="signature.asc"
+Tomi Valkeinen (35):
+  drm/omap: squash omapdrm sub-modules into one
+  drm/omap: remove unused display.c
+  drm/omap: drop unused owner field
+  drm/omap: remove dispc_ops
+  drm/omap: remove dss_mgr_ops
+  drm/panel: panel-dsi-cm: use MIPI_DCS_GET_ERROR_COUNT_ON_DSI
+  drm/panel: panel-dsi-cm: cleanup tear enable
+  ARM: dts: omap5: add address-cells & size-cells to dsi
+  drm/omap: pll: fix iteration loop check
+  drm/omap: dsi: set trans_mode according to client mode_flags
+  drm/panel: panel-dsi-cm: set column & page at setup
+  drm/omap: dsi: send nop instead of page & column
+  drm/omap: dsi: simplify VC handling
+  drm/omap: dsi: drop useless channel checks
+  drm/omap: dsi: cleanup dispc channel usage
+  drm/omap: dsi: rename 'channel' to 'vc'
+  drm/omap: dsi: pass vc and channel to various functions
+  drm/omap: dsi: untangle vc & channel
+  drm/omap: dsi: skip dsi_vc_enable_hs when already in correct mode
+  drm/omap: dsi: enable HS before sending the frame
+  drm/omap: dsi: use separate VCs for cmd and video
+  drm/panel: panel-dsi-cm: remove extra 'if'
+  drm/panel: panel-dsi-cm: add panel database to driver
+  drm/panel: panel-dsi-cm: drop unneeded includes
+  drm/omap: dsi: move structs & defines to dsi.h
+  drm/omap: dsi: move enable/disable to bridge enable/disable
+  drm/omap: dsi: display_enable cleanup
+  drm/omap: dsi: display_disable cleanup
+  drm/omap: dsi: rename dsi_display_* functions
+  drm/omap: dsi: cleanup initial vc setup
+  drm/omap: dsi: split video mode enable/disable into separate func
+  drm/omap: dsi: fix and cleanup ddr_clk_always_on
+  drm/omap: dsi: remove ulps support
+  drm/omap: dsi: fix DCS_CMD_ENABLE
+  drm/omap: dsi: allow DSI commands to be sent early
 
------BEGIN PGP SIGNATURE-----
+ arch/arm/boot/dts/omap5.dtsi                  |    6 +
+ arch/arm/configs/omap2plus_defconfig          |    2 +-
+ drivers/gpu/drm/omapdrm/Kconfig               |  120 +-
+ drivers/gpu/drm/omapdrm/Makefile              |   19 +-
+ drivers/gpu/drm/omapdrm/displays/Kconfig      |   10 -
+ drivers/gpu/drm/omapdrm/displays/Makefile     |    2 -
+ .../gpu/drm/omapdrm/displays/panel-dsi-cm.c   | 1385 ------------
+ drivers/gpu/drm/omapdrm/dss/Kconfig           |  135 --
+ drivers/gpu/drm/omapdrm/dss/Makefile          |   20 -
+ drivers/gpu/drm/omapdrm/dss/base.c            |   87 +-
+ drivers/gpu/drm/omapdrm/dss/dispc.c           |  101 +-
+ drivers/gpu/drm/omapdrm/dss/display.c         |   60 -
+ drivers/gpu/drm/omapdrm/dss/dpi.c             |    1 -
+ drivers/gpu/drm/omapdrm/dss/dsi.c             | 1949 +++++++----------
+ drivers/gpu/drm/omapdrm/dss/dsi.h             |  456 ++++
+ drivers/gpu/drm/omapdrm/dss/dss.c             |   28 +-
+ drivers/gpu/drm/omapdrm/dss/dss.h             |   72 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c           |    1 -
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c           |    1 -
+ .../gpu/drm/omapdrm/dss/omapdss-boot-init.c   |  229 --
+ drivers/gpu/drm/omapdrm/dss/omapdss.h         |  338 +--
+ drivers/gpu/drm/omapdrm/dss/output.c          |   57 +-
+ drivers/gpu/drm/omapdrm/dss/pll.c             |    6 +
+ drivers/gpu/drm/omapdrm/dss/sdi.c             |    1 -
+ drivers/gpu/drm/omapdrm/dss/venc.c            |    2 -
+ drivers/gpu/drm/omapdrm/omap_connector.c      |  157 --
+ drivers/gpu/drm/omapdrm/omap_connector.h      |   28 -
+ drivers/gpu/drm/omapdrm/omap_crtc.c           |  103 +-
+ drivers/gpu/drm/omapdrm/omap_crtc.h           |    2 -
+ drivers/gpu/drm/omapdrm/omap_drv.c            |   73 +-
+ drivers/gpu/drm/omapdrm/omap_drv.h            |    3 +-
+ drivers/gpu/drm/omapdrm/omap_encoder.c        |   59 +-
+ drivers/gpu/drm/omapdrm/omap_irq.c            |   34 +-
+ drivers/gpu/drm/omapdrm/omap_plane.c          |   12 +-
+ drivers/gpu/drm/panel/Kconfig                 |    9 +
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-dsi-cm.c          |  665 ++++++
+ 37 files changed, 2294 insertions(+), 3940 deletions(-)
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/Kconfig
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/Makefile
+ delete mode 100644 drivers/gpu/drm/omapdrm/displays/panel-dsi-cm.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/Kconfig
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/Makefile
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/display.c
+ create mode 100644 drivers/gpu/drm/omapdrm/dss/dsi.h
+ delete mode 100644 drivers/gpu/drm/omapdrm/dss/omapdss-boot-init.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.c
+ delete mode 100644 drivers/gpu/drm/omapdrm/omap_connector.h
+ create mode 100644 drivers/gpu/drm/panel/panel-dsi-cm.c
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX9iS8QAKCRDj7w1vZxhR
-xehjAP9wOcR9qJcXi7naiRZnAejp0hlygHQ6DJWoGfUCMt3SZgD+N0zHvjYPWzcd
-4WJiwGq6z+Zxs0+webVjQO18NRL1wQY=
-=WbCd
------END PGP SIGNATURE-----
-
---cwkuxl3gevsekw5l--
-
---===============0935502762==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
 
 _______________________________________________
 dri-devel mailing list
 dri-devel@lists.freedesktop.org
 https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---===============0935502762==--
