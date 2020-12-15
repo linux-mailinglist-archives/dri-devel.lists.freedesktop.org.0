@@ -2,66 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364252DAF1A
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 15:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BCCB2DAF24
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Dec 2020 15:42:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3E76E3AE;
-	Tue, 15 Dec 2020 14:41:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BA16E3B7;
+	Tue, 15 Dec 2020 14:42:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551CD6E3B2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 14:41:13 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [63.128.21.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76926E3B2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 14:42:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1608043272;
+ s=mimecast20190719; t=1608043357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=F8joEElleXKdzZZoOlmFpnV8pMLwxW0aIioc9VmMinw=;
- b=flzRiILVnGaxD5mQwo3KADC7MyIiO5xJ5Q8ezWotrAr2xKd4RjAZAZuKe8QbVpI/9S62+M
- zWD9Bo4WAAEvURGTZ3Lm7IJguZCXBXr8qdd9CuuTreVZ402khFwPNJ8IGTcD0ZzwydM3b7
- jBeQ7zUEkhOsqvCNKreWxvaaluoV+xk=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-2D1vORs3O-aMcimJtyKZDw-1; Tue, 15 Dec 2020 09:41:08 -0500
-X-MC-Unique: 2D1vORs3O-aMcimJtyKZDw-1
-Received: by mail-qk1-f198.google.com with SMTP id g5so15109050qke.22
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 06:41:08 -0800 (PST)
+ bh=kaTetupLyuYrqzsX7UwEN39ZooQ2px2nX3T94IUgkoc=;
+ b=LzeVFd04XP1qMb0estjqQLy9UFsCf76tkkLTMplLX+MSgJlPaDUOwoSejGvXM55KDCBE9/
+ iYSeSlukHD48NpPx54M/DrOKpU+3RTWhxhKC/RS+p7Zd81eVwjDtmaEX37COw0qw3XY6AW
+ vBfrkB2X3PNONrAwgv4epXmcYUW0ITA=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-NPf-hpSKMWaqlfZcn6i51Q-1; Tue, 15 Dec 2020 09:42:35 -0500
+X-MC-Unique: NPf-hpSKMWaqlfZcn6i51Q-1
+Received: by mail-qv1-f72.google.com with SMTP id c17so12431065qvv.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Dec 2020 06:42:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=F8joEElleXKdzZZoOlmFpnV8pMLwxW0aIioc9VmMinw=;
- b=J1xZSCsYDN4yWdeHmd1b84q3Sqeadug6ObvWHO3Q5QH7VSHecfve5O4jSfmPU4osaN
- 3ugjZf21o/7Gq0FV5iOC1lAV87NKnsceoerRt2hYButSMSK70pVL+00/cMysY1X1zFeA
- gnRZHyCN7jExefr/yPBQOEgvDqqnq8Tlif6E9jV/MKFSBqdc8I7houlHh34E3IWP6jmA
- hUiwaulh0iR9QEtNkUIvJcSd7b5Acjj01u9M/t1hMYvPn5OQM43CVlhmYYzV4PyazZb2
- fFxPWkIF60cjqCduzj/8jG+LbmXK3+lIdERVREkH75py5tRCKROAdbcfiKo7JBMyDRWl
- eOZA==
-X-Gm-Message-State: AOAM533Qk5WGQZC0YoIqqkL2h+GmvzG6ILjp6ThgE7ehzP3cFiPNt1TS
- 8NCkI5HtHqDrmTusLtf2Z0dHEvxyWNX4ygNB1eGyZCbwxQRZZ6g3/n4BiIXt8zT6UCUnFIiprzP
- Gy5sk+xtpUQy3rCfIJFElmkh9c6ej
-X-Received: by 2002:ac8:588c:: with SMTP id t12mr35766789qta.184.1608043268254; 
- Tue, 15 Dec 2020 06:41:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0aOW3zgklpzEA6VS9bGbEduK40Txfz03DgS33CSsoQvHcRVw60dBnH0UPlARX48A3H9vH8Q==
-X-Received: by 2002:ac8:588c:: with SMTP id t12mr35766768qta.184.1608043268018; 
- Tue, 15 Dec 2020 06:41:08 -0800 (PST)
+ bh=kaTetupLyuYrqzsX7UwEN39ZooQ2px2nX3T94IUgkoc=;
+ b=ODtaVA7HnxpQg0MOZFbtphEdK+k/HdieooY6ZKPP4jLEdHhnkapieRgNPUM1YRJ4yR
+ cDLu5qx1YxHvl0e5DXrUG7Ai/R2kjurb/AtMgVTYXeVvqo7u4RdDU/kH0IFuhg/INaAu
+ 2DFdZkg7CD+RSrOKVCNn7a2ohVU5XV1taUvV5a6tw6G7FD2RS3ZvPRUV9JGuGMK+pTWw
+ 9HmXyurYciPjPlslB8DDfSyUU+WWJ+MItgm8ZDk+DIumkg0snOcKtpbJxcwHT8iECgV3
+ Yzx+xVE/EZKOgBnEZ+rSnc2Lm3y1zHt8JW5p+2FuRSJrp12MyFOORmpH3sCJElZ72T1C
+ ArKw==
+X-Gm-Message-State: AOAM533Uvyi0Ii3Ze5KXLV7Lt3S7DMWKmsknyiFQkTs5BP3L01yTEEpA
+ HoJJrBsqbOI5UuBQg1H+3zUxi73/dIPtl04Db+2A4ReyvaZfcdScNW32dlNXMqJqYt916WbNCV2
+ uIIjs0QfyXN3Q1nmdSBXVzynWvcbQ
+X-Received: by 2002:ac8:5c13:: with SMTP id i19mr38740573qti.250.1608043353976; 
+ Tue, 15 Dec 2020 06:42:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxfIuT11JaKaKkZRsbteafZAH9wJ/RUSSqFrn3oRILtxKd8WAilaGcx6jRbNvgnaQ2aFZrBFw==
+X-Received: by 2002:ac8:5c13:: with SMTP id i19mr38740349qti.250.1608043349158; 
+ Tue, 15 Dec 2020 06:42:29 -0800 (PST)
 Received: from trix.remote.csb (075-142-250-213.res.spectrum.com.
  [75.142.250.213])
- by smtp.gmail.com with ESMTPSA id b6sm16306599qkc.128.2020.12.15.06.41.05
+ by smtp.gmail.com with ESMTPSA id 193sm5726550qkj.105.2020.12.15.06.42.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Dec 2020 06:41:07 -0800 (PST)
+ Tue, 15 Dec 2020 06:42:28 -0800 (PST)
 From: trix@redhat.com
-To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
- chris@chris-wilson.co.uk, tvrtko.ursulin@intel.com,
- daniele.ceraolospurio@intel.com,
- tejaskumarx.surendrakumar.upadhyay@intel.com,
- lionel.g.landwerlin@intel.com, venkata.s.dhanalakota@intel.com
-Subject: [PATCH] drm/i915: remove h from printk format specifier
-Date: Tue, 15 Dec 2020 06:41:01 -0800
-Message-Id: <20201215144101.1878719-1-trix@redhat.com>
+To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch
+Subject: [PATCH] drm/radeon: remove h from printk format specifier
+Date: Tue, 15 Dec 2020 06:42:23 -0800
+Message-Id: <20201215144223.1881097-1-trix@redhat.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
@@ -80,8 +76,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Cc: Tom Rix <trix@redhat.com>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Tom Rix <trix@redhat.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: dri-devel-bounces@lists.freedesktop.org
@@ -94,22 +90,36 @@ h should no longer be used in the format specifier for printk.
 
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/gpu/drm/i915/gt/intel_sseu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_uvd.c | 2 +-
+ drivers/gpu/drm/radeon/radeon_vce.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_sseu.c b/drivers/gpu/drm/i915/gt/intel_sseu.c
-index 8a72e0fe34ca..80be9e818a6b 100644
---- a/drivers/gpu/drm/i915/gt/intel_sseu.c
-+++ b/drivers/gpu/drm/i915/gt/intel_sseu.c
-@@ -755,7 +755,7 @@ void intel_sseu_print_topology(const struct sseu_dev_info *sseu,
- 		for (ss = 0; ss < sseu->max_subslices; ss++) {
- 			u16 enabled_eus = sseu_get_eus(sseu, s, ss);
+diff --git a/drivers/gpu/drm/radeon/radeon_uvd.c b/drivers/gpu/drm/radeon/radeon_uvd.c
+index 57fb3eb3a4b4..39c1c339be7b 100644
+--- a/drivers/gpu/drm/radeon/radeon_uvd.c
++++ b/drivers/gpu/drm/radeon/radeon_uvd.c
+@@ -155,7 +155,7 @@ int radeon_uvd_init(struct radeon_device *rdev)
+ 			family_id = le32_to_cpu(hdr->ucode_version) & 0xff;
+ 			version_major = (le32_to_cpu(hdr->ucode_version) >> 24) & 0xff;
+ 			version_minor = (le32_to_cpu(hdr->ucode_version) >> 8) & 0xff;
+-			DRM_INFO("Found UVD firmware Version: %hu.%hu Family ID: %hu\n",
++			DRM_INFO("Found UVD firmware Version: %u.%u Family ID: %u\n",
+ 				 version_major, version_minor, family_id);
  
--			drm_printf(p, "\tsubslice%d: %u EUs (0x%hx)\n",
-+			drm_printf(p, "\tsubslice%d: %u EUs (0x%x)\n",
- 				   ss, hweight16(enabled_eus), enabled_eus);
- 		}
- 	}
+ 			/*
+diff --git a/drivers/gpu/drm/radeon/radeon_vce.c b/drivers/gpu/drm/radeon/radeon_vce.c
+index 5e8006444704..a450497368b2 100644
+--- a/drivers/gpu/drm/radeon/radeon_vce.c
++++ b/drivers/gpu/drm/radeon/radeon_vce.c
+@@ -122,7 +122,7 @@ int radeon_vce_init(struct radeon_device *rdev)
+ 	if (sscanf(c, "%2u]", &rdev->vce.fb_version) != 1)
+ 		return -EINVAL;
+ 
+-	DRM_INFO("Found VCE firmware/feedback version %hhd.%hhd.%hhd / %d!\n",
++	DRM_INFO("Found VCE firmware/feedback version %d.%d.%d / %d!\n",
+ 		 start, mid, end, rdev->vce.fb_version);
+ 
+ 	rdev->vce.fw_version = (start << 24) | (mid << 16) | (end << 8);
 -- 
 2.27.0
 
